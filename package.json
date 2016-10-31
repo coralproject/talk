@@ -10,8 +10,6 @@
   },
   "homepage": "https://github.com/jde/talk#readme",
 
-  "main": "src/server.js",
-
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jde/talk.git"
@@ -24,8 +22,8 @@
     "test": "npm run -s lint && npm run -s test:karma",
     "test:karma": "karma start test/karma.conf.js --single-run",
     "lint": "eslint {src,test}",
-    "server": "cd server; node index.js",
-    "start": "cd server; node index.js"
+    "server": "./server/bin/www",
+    "start": "./server/bin/www"
   },
 
   "keywords": [
