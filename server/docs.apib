@@ -1,0 +1,38 @@
+FORMAT: 1A
+HOST: http://talk.coral.com/api
+
+# Talk API
+Developers API.
+
+# Group Feed
+Retrieve information from different sources
+
+## Source identifiers
+A valid list of source identifiers
++ item 1
++ item 2
+
+## Comments [/comments{?id&q}]
+Retrieve comments from different sources
+
+
++ Parameters
+
+    + id: `id` (string, required) - Specify source
+    + number: `number` (string, optional) - Query string
+
+### Get users [GET]
+Get a list of users. Example:
+
+```no-highlight
+http://talk.coral.com/api/comment?id=user&q="tesla"
+```
+
++ Response 200 (application/json)
+
+    + Body
+
+            [
+                {
+                }
+            ]
