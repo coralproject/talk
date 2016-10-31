@@ -1,0 +1,12 @@
+{
+  "sourceMaps": true,
+  "presets": [
+    "stage-0",
+    "es2015-minimal"
+  ],
+  "plugins": [
+    ["transform-decorators-legacy"],
+    ["transform-react-jsx", { "pragma": "h" }],
+    ["transform-object-assign"]
+  ]
+}

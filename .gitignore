@@ -1,0 +1,8 @@
+/node_modules
+/npm-debug.log
+/build
+/server/widgets/*.js
+/server/widgets/*.html
+.DS_Store
+config.json
+*.iml
