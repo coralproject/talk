@@ -2,7 +2,7 @@
   "sourceMaps": true,
   "presets": [
     "stage-0",
-    "es2015-minimal"
+    "es2015"
   ],
   "plugins": [
     ["transform-decorators-legacy"],
