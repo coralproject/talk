@@ -10,4 +10,8 @@ if (enabled('talk:db')) {
   mongoose.set('debug', true);
 }
 
+mongoose.connection.on('error', (err) => {
+  throw err;
+});
+
 module.exports = mongoose;
