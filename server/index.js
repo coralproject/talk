@@ -2,6 +2,7 @@
 
 // Initialize application framework.
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
 
 // Load routes.
@@ -10,6 +11,7 @@ var commentRoutes = require('./comments/routes');
 
 // Initialize mongoose.
 var mongoose = require("mongoose");
+mongoose.Promise = require('bluebird');
 
 // Connect to the database
 mongoose.connect('mongodb://localhost/talk');
@@ -20,7 +22,7 @@ db.once('open', function() {
 });
 
 // Initialize Static Endpoints.
-var initializeStatic = function() {
+var initializeStatic = function () {
 	// TODO
 }
 
@@ -35,7 +37,12 @@ var ready = function () {
 
 	var port = 1618;
 
-	initializeStaticEndpoints();
+	// Parse requests bodies into json.
+	app.use(bodyParser.json());
+	app.use(bodyParser.raw());
+	app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+
+	initializeStatic();
 	initializeAPI();
 
 	// Listen for incoming requests.
