@@ -1,8 +1,5 @@
-/node_modules
-/npm-debug.log
-/build
-/server/widgets/*.js
-/server/widgets/*.html
+node_modules
+npm-debug.log
+dist
 .DS_Store
-config.json
 *.iml
