@@ -2,9 +2,9 @@
   "name": "talk",
   "version": "0.0.1",
   "description": "A commenting platform from The Coral Project. https://coralproject.net",
-  "main": "server/app.js",
+  "main": "./server/bin/www",
   "scripts": {
-    "test": "npm test"
+    "start": "./server/bin/www"
   },
   "repository": {
     "type": "git",
@@ -17,7 +17,7 @@
     "ask"
   ],
   "author": "",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/coralproject/talk/issues"
   },
