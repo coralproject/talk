@@ -1,0 +1,45 @@
+swagger: '2.0'
+info:
+  title: Talk API
+  description: A commenting platform from The Coral Project. https://coralproject.net
+  version: "0.0.1"
+host: api.talk-coralproject.net
+schemes:
+  - https
+basePath: /v1
+produces:
+  - application/json
+paths:
+  /comments:
+    get:
+      summary: Comment Types
+      description: |
+        This endpoint retrieves comments
+      parameters:
+        - name: id
+          in: query
+          description: Comment by id
+          required: false
+          type: string
+      tags:
+        - Products
+      responses:
+        200:
+          description: An array of comments
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Comment'
+definitions:
+  Comment:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Unique identifier
+      description:
+        type: string
+        description: Description of comment.
+      display_name:
+        type: string
+        description: Display name of comment.
