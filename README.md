@@ -1,23 +1,23 @@
 # Talk
 A commenting platform from The Coral Project. [https://coralproject.net](https://coralproject.net)
 
-## Getting Started
+### Getting Started
 `npm install`
 Run it once to install the dependencies.
 
 `npm start`
 Runs Talk.
 
-## Testing
+### Testing
 `npm test`
 
-## Lint
+### Lint
 `npm lint`
 
-## Docs
+### Docs
 `swagger.yaml`
 
-## Mantainers
+### Mantainers
 
 ### License
 **Apache-2.0**
