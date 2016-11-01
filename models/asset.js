@@ -20,4 +20,3 @@ const AssetSchema = new Schema({
 const Asset = mongoose.model('Asset', AssetSchema);
 
 module.exports = Asset;
-module.exports.Schema = AssetSchema;

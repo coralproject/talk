@@ -3,8 +3,6 @@
 const mongoose = require('../mongoose');
 const uuid = require('uuid');
 const Schema = mongoose.Schema;
-const UserSchema = require('./user').Schema;
-const AssetSchema = require('./asset').Schema;
 
 const CommentSchema = new Schema({
   id: {
@@ -17,18 +15,33 @@ const CommentSchema = new Schema({
     required: [true, 'The content is required.'],
     minlenght: 50
   },
-  asset: AssetSchema,
-  author: UserSchema,
+  asset: {
+    type: Schema.Types.ObjectId,
+    ref: 'Asset'
+  },
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
   actions: {
-    flags: [UserSchema],
-    likes: [UserSchema]
+    flags: [{
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    }],
+    likes: [{
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    }]
   },
   status: {
     type: String,
     enum: ['accepted', 'rejected', 'untouched'],
     default: 'untouched'
   },
-  parent: Comment,
+  parent: {
+    type: Schema.Types.ObjectId,
+    ref: 'Comment'
+  },
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now }
 },{
