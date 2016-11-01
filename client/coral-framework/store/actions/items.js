@@ -1,6 +1,7 @@
 /* Item Actions */
 
 import { fromJS } from 'immutable'
+import mocks from '../../mocks.json'
 
 /**
  * Action name constants
@@ -88,21 +89,26 @@ export const appendItemRelated = (item_id, property, value) => {
 * @dispatches
 *   A set of items to the item store
 */
-export function getItemsQuery (query, rootId) {
+export function getItemsQuery (rootId) {
   return (dispatch) => {
-    return fetch('/v1/exec/view/' + rootId)
-      .then(
-        response => {
-          return response.ok ? response.json() : Promise.reject(response.status + ' ' + response.statusText)
-        }
-      )
-      .then((json) => {
-        let items = json.results[0].Docs
-        for (var i = 0; i < items.length; i++) {
-          dispatch(addItem(items[i]))
-        }
-        return (items)
-      })
+    // return fetch('/v1/exec/view/' + rootId)
+    //   .then(
+    //     response => {
+    //       return response.ok ? response.json() : Promise.reject(response.status + ' ' + response.statusText)
+    //     }
+    //   )
+    //   .then((json) => {
+    //     let items = json.results[0].Docs
+    //     for (var i = 0; i < items.length; i++) {
+    //       dispatch(addItem(items[i]))
+    //     }
+    //     return (items)
+    //   })
+    console.log('Loading mock data', mocks);
+    let mockData = mocks.query
+    for (var i=0; i < mockData.length; i++ ) {
+      dispatch(addItem(mockData[i]))
+    }
   }
 }
 
