@@ -23,20 +23,8 @@ app.use(require('webpack-dev-middleware')(compiler, {
 
 app.use(require('webpack-hot-middleware')(compiler, {log: () => {}}))
 
-app.get('/talk.config.json', function (req, res) {
-  res.sendFile(path.join(__dirname, 'talk.config.json'))
-})
-
 app.get('/default.css', function (req, res) {
   res.sendFile(path.join(__dirname, '/style/default.css'))
-})
-
-app.get('/translations/en.json', function (req, res) {
-  res.sendFile(path.join(__dirname, '..', 'coral-framework', 'i18n', 'translations', 'en.json'))
-})
-
-app.get('/translations/es.json', function (req, res) {
-  res.sendFile(path.join(__dirname, '..', 'coral-framework', 'i18n', 'translations', 'es.json'))
 })
 
 app.get('*', function (req, res) {

@@ -1,6 +1,0 @@
-{
-  "coralHost": "http://localhost:16180",
-  "notifLength": 4500,
-  "view": "comment_stream",
-  "query": "all"
-}
