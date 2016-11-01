@@ -9,12 +9,12 @@ if (enabled('talk:db')) {
 }
 
 try {
-	mongoose.connect(process.env.TALK_MONGO_URL, (err, res) => {
-		if (err) throw err;
-		console.log('Connected to MongoDB!');
-	})
+  mongoose.connect(process.env.TALK_MONGO_URL, (err, res) => {
+    if (err) throw err;
+    console.log('Connected to MongoDB!');
+  })
 } catch (err) {
-	console.log('Cannot stablish a connection with MongoDB');
+  console.log('Cannot stablish a connection with MongoDB');
 }
 
 module.exports = mongoose;
