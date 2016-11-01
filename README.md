@@ -12,7 +12,7 @@ Runs Talk.
 `npm test`
 
 ### Lint
-`npm lint`
+`npm run lint`
 
 ### Docs
 `swagger.yaml`
