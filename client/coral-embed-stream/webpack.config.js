@@ -2,6 +2,8 @@ const path = require('path')
 const webpack = require('webpack')
 const Copy = require('copy-webpack-plugin')
 
+//Keeping this file for reference, it should move to a global webpack.
+
 module.exports = {
   devtool: 'source-map',
   entry: [
@@ -9,7 +11,7 @@ module.exports = {
     './src/app'
   ],
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, '..', '..','dist'),
     filename: 'bundle.js',
     publicPath: '/dist/'
   },

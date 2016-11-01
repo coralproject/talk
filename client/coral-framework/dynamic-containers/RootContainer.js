@@ -11,13 +11,12 @@ class RootContainer extends Component {
     rootId: PropTypes.string.isRequired,
     items: PropTypes.object.isRequired,
     type: PropTypes.string.isRequired,
-    query: PropTypes.string.isRequired,
     getItemsQuery: PropTypes.func.isRequired
   }
 
   componentDidMount () {
-    const {query, getItemsQuery, rootId, view} = this.props
-    getItemsQuery(query, rootId, view)
+    const {getItemsQuery, rootId} = this.props
+    getItemsQuery(rootId)
   }
 
   render () {

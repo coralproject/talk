@@ -17,7 +17,6 @@ import Flag from '../../coral-plugin-flags/FlagButton'
 import {ReplyBox, ReplyButton} from '../../coral-plugin-replies'
 import Pym from 'pym.js'
 
-console.log(authActions);
 const {addItem, updateItem, postItem, getItemsQuery, postAction, appendItemRelated} = itemActions
 const {addNotification, clearNotification} = notificationActions
 const {setLoggedInUser} = authActions
@@ -39,11 +38,11 @@ const {setLoggedInUser} = authActions
       updateItem: (id, property, value) => {
         return dispatch(updateItem(id, property, value))
       },
-      postItem: (host) => (data, type, id) => {
-        return dispatch(postItem(data, type, id, host))
+      postItem: (data, type, id) => {
+        return dispatch(postItem(data, type, id))
       },
-      getItemsQuery: (host) => (query, rootId, view) => {
-        return dispatch(getItemsQuery(query, rootId, view, host))
+      getItemsQuery: (rootId) => {
+        return dispatch(getItemsQuery(rootId))
       },
       addNotification: (type, text) => {
         return dispatch(addNotification(type, text))
@@ -54,8 +53,8 @@ const {setLoggedInUser} = authActions
       setLoggedInUser: (user_id) => {
         return dispatch(setLoggedInUser(user_id))
       },
-      postAction: (host) => (item, action, user) => {
-        return dispatch(postAction(item, action, user, host))
+      postAction: (item, action, user) => {
+        return dispatch(postAction(item, action, user))
       },
       appendItemRelated: (item, property, value) => {
         return dispatch(appendItemRelated(item, property, value))
@@ -79,17 +78,15 @@ class CommentStream extends Component {
   }
 
   render () {
-    if (this.props.config.coralHost) {
-      const host = this.props.config.coralHost
       if (Object.keys(this.props.items).length === 0) {
         // Loading mock asset
-        this.props.postItem(host)({
+        this.props.postItem({
           comments: [],
           url: 'http://coralproject.net'
         }, 'asset', 'assetTest')
 
         // Loading mock user
-        this.props.postItem(host)({name: 'Ban Ki-Moon'}, 'user', 'user_8989')
+        this.props.postItem({name: 'Ban Ki-Moon'}, 'user', 'user_8989')
         .then((id) => {
           this.props.setLoggedInUser(id)
         })
@@ -100,16 +97,14 @@ class CommentStream extends Component {
 
       return <RootContainer
         items={this.props.items}
-        view={this.props.config.view}
         rootId='assetTest'
         type='asset'
-        query={this.props.config.query}
-        getItemsQuery={this.props.getItemsQuery(host)}>
+        getItemsQuery={this.props.getItemsQuery}>
         <Container name="commentBox">
           <Count data="{item_id,comment(type:'comment'){item_id,child(type:'comment'){item_id}}}"/>
           <CommentBox
             addNotification={this.props.addNotification}
-            postItem={this.props.postItem(host)}
+            postItem={this.props.postItem}
             appendItemRelated={this.props.appendItemRelated}
             updateItem={this.props.updateItem}
             data="{item_id}"/>
@@ -123,7 +118,7 @@ class CommentStream extends Component {
               <Flag
                 addNotification={this.props.addNotification}
                 data="{item_id,flag}"
-                postAction={this.props.postAction(host)}
+                postAction={this.props.postAction}
                 currentUser={this.props.auth.user}/>
               <ReplyButton
                 updateItem={this.props.updateItem}
@@ -131,7 +126,7 @@ class CommentStream extends Component {
             </Container>
               <ReplyBox
                 addNotification={this.props.addNotification}
-                postItem={this.props.postItem(host)}
+                postItem={this.props.postItem}
                 appendItemRelated={this.props.appendItemRelated}
                 updateItem={this.props.updateItem}
                 data="{item_id,showReply}"/>
@@ -144,7 +139,7 @@ class CommentStream extends Component {
                     <Flag
                       addNotificiation={this.props.addNotification}
                       data="{item_id,flag}"
-                      postAction={this.props.postAction(host)}
+                      postAction={this.props.postAction}
                       currentUser={this.props.auth.user}/>
                     <ReplyButton
                       updateItem={this.props.updateItem}
@@ -159,9 +154,6 @@ class CommentStream extends Component {
           clearNotification={this.props.clearNotification}
           notification={this.props.notification}/>
       </RootContainer>
-    } else {
-      return <div>Loading</div>
-    }
   }
 }
 

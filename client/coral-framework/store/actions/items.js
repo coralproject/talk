@@ -88,9 +88,9 @@ export const appendItemRelated = (item_id, property, value) => {
 * @dispatches
 *   A set of items to the item store
 */
-export function getItemsQuery (query, rootId, view, host) {
+export function getItemsQuery (query, rootId) {
   return (dispatch) => {
-    return fetch(host + '/v1/exec/' + query + '/view/' + view + '/' + rootId)
+    return fetch('/v1/exec/view/' + rootId)
       .then(
         response => {
           return response.ok ? response.json() : Promise.reject(response.status + ' ' + response.statusText)
@@ -120,9 +120,9 @@ export function getItemsQuery (query, rootId, view, host) {
 *   A set of items to the item store
 */
 
-export function getItemsArray (ids, host) {
+export function getItemsArray (ids) {
   return (dispatch) => {
-    return fetch(host + '/v1/item/' + ids)
+    return fetch('/v1/item/' + ids)
       .then(
         response => {
           return response.ok ? response.json()
@@ -152,7 +152,7 @@ export function getItemsArray (ids, host) {
 *   The newly put item to the item store
 */
 
-export function postItem (data, type, id, host) {
+export function postItem (data, type, id) {
   return (dispatch) => {
     let item = {
       type,
@@ -166,7 +166,7 @@ export function postItem (data, type, id, host) {
       method: 'POST',
       body: JSON.stringify(item)
     }
-    return fetch(host + '/v1/item', options)
+    return fetch('/v1/item', options)
       .then(
         response => {
           return response.ok ? response.json()
@@ -198,13 +198,13 @@ export function postItem (data, type, id, host) {
 *
 */
 
-export function postAction (item, action, user, host) {
+export function postAction (item, action, user) {
   return (dispatch) => {
     let options = {
       method: 'POST'
     }
     dispatch(appendItemArray(item, action, user))
-    return fetch(host + '/v1/action/' + action + '/user/' + user + '/on/item/' + item, options)
+    return fetch('/v1/action/' + action + '/user/' + user + '/on/item/' + item, options)
       .then(
         response => {
           return response.ok ? response.text()

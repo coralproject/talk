@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "lint": "eslint .",
-    "start": "./bin/www"
+    "start": "./bin/www",
+    "embed-start":"node client/coral-embed-stream/dev-server.js"
   },
   "repository": {
     "type": "git",
