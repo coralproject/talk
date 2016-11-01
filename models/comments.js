@@ -1,11 +1,11 @@
 'use strict';
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var User = require('user');
-var Asset = require('asset');
+const mongoose = require('../mongoose');
+const Schema = mongoose.Schema;
+const User = require('user');
+const Asset = require('asset');
 
-var commentSchema = new Schema({
+const commentSchema = new Schema({
   content: {
     type: String,
     required: [true, 'The content is required.'],
@@ -27,6 +27,6 @@ var commentSchema = new Schema({
   updated_at: { type: Date, default: Date.now }
 });
 
-var Comment = mongoose.model('Comment', commentSchema);
+const Comment = mongoose.model('Comment', commentSchema);
 
 module.exports = Comment;
