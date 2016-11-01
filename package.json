@@ -4,7 +4,8 @@
   "description": "A commenting platform from The Coral Project. https://coralproject.net",
   "main": "./server/bin/www",
   "scripts": {
-    "start": "./server/bin/www"
+    "start": "./server/bin/www",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",

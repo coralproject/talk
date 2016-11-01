@@ -9,7 +9,7 @@ if (enabled('talk:db')) {
 }
 
 try {
-  mongoose.connect(process.env.TALK_MONGO_URL, (err, res) => {
+  mongoose.connect(process.env.TALK_MONGO_URL, (err) => {
     if (err) throw err;
     console.log('Connected to MongoDB!');
   });
