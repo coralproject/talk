@@ -75,6 +75,7 @@ class CommentStream extends Component {
     // Set up messaging between embedded Iframe an parent component
     // Using recommended Pym init code which violates .eslint standards
     new Pym.Child({ polling: 500 })
+    this.props.getItemsQuery('assetTest')
   }
 
   render () {
@@ -95,65 +96,87 @@ class CommentStream extends Component {
 
       // TODO: Replace teststream id with id from params
 
-      return <RootContainer
-        items={this.props.items}
-        rootId='assetTest'
-        type='asset'
-        getItemsQuery={this.props.getItemsQuery}>
-        <Container name="commentBox">
-          <Count data="{item_id,comment(type:'comment'){item_id,child(type:'comment'){item_id}}}"/>
-          <CommentBox
-            addNotification={this.props.addNotification}
-            postItem={this.props.postItem}
-            appendItemRelated={this.props.appendItemRelated}
-            updateItem={this.props.updateItem}
-            data="{item_id}"/>
-        </Container>
-        <MapContainer mapOver="comment" itemType="comment">
-          <Container name="comment">
-            <hr aria-hidden={true}/>
-            <PubDate data="{created_at}"/>
-            <Content data="{content}"/>
-            <Container name="commentActions">
-              <Flag
-                addNotification={this.props.addNotification}
-                data="{item_id,flag}"
-                postAction={this.props.postAction}
-                currentUser={this.props.auth.user}/>
-              <ReplyButton
-                updateItem={this.props.updateItem}
-                data="{item_id}"/>
-            </Container>
-              <ReplyBox
+
+
+      const rootItemId = 'assetTest'
+      const rootItem = this.props.items[rootItemId]
+      console.log(this.props.items);
+      return <div>
+        {
+          rootItem ?
+            <div>
+            <div id="commentBox">
+              <Count
+                item_id={rootItemId}
+                items={this.props.items}/>
+              <CommentBox
                 addNotification={this.props.addNotification}
                 postItem={this.props.postItem}
                 appendItemRelated={this.props.appendItemRelated}
                 updateItem={this.props.updateItem}
-                data="{item_id,showReply}"/>
-              <MapContainer mapOver="child" itemType="comment">
-                <Container name="reply">
+                item_id={rootItemId}/>
+            </div>
+            {
+              rootItem.related.comment.map((commentId) => {
+                const comment = this.props.items[commentId]
+                return <div className="comment">
                   <hr aria-hidden={true}/>
-                  <PubDate data="{created_at}"/>
-                  <Content data="{content}"/>
-                  <Container name="replyActions">
+                  <PubDate created_at={comment.created_at}/>
+                  <Content content={comment.data.content}/>
+                  <div className="commentActions">
                     <Flag
-                      addNotificiation={this.props.addNotification}
-                      data="{item_id,flag}"
+                      addNotification={this.props.addNotification}
+                      item_id={commentId}
+                      flag={comment.flag}
                       postAction={this.props.postAction}
                       currentUser={this.props.auth.user}/>
                     <ReplyButton
                       updateItem={this.props.updateItem}
-                      data="{parent_id}"/>
-                  </Container>
-                </Container>
-              </MapContainer>
-          </Container>
-        </MapContainer>
-        <Notification
-          notifLength={this.props.config.notifLength}
-          clearNotification={this.props.clearNotification}
-          notification={this.props.notification}/>
-      </RootContainer>
+                      item_id={commentId}/>
+                  </div>
+                    <ReplyBox
+                      addNotification={this.props.addNotification}
+                      postItem={this.props.postItem}
+                      appendItemRelated={this.props.appendItemRelated}
+                      updateItem={this.props.updateItem}
+                      item_id={commentId}
+                      showReply={comment.showReply}/>
+                    {
+                      comment.related &&
+                      comment.related.child &&
+                      comment.related.child.map((replyId) => {
+                      let reply = this.props.items[replyId]
+                      return <div className="reply">
+                        <hr aria-hidden={true}/>
+                        <PubDate created_at={reply.created_at}/>
+                        <Content content={reply.data.content}/>
+                        <div className="replyActions">
+                          <Flag
+                            addNotificiation={this.props.addNotification}
+                            item_id={replyId}
+                            flag={reply.flag}
+                            postAction={this.props.postAction}
+                            currentUser={this.props.auth.user}/>
+                          <ReplyButton
+                            updateItem={this.props.updateItem}
+                            parent_id={reply.parent_id}/>
+                        </div>
+                      </div>
+                    })
+                  }
+                </div>
+              })
+            }
+            <Notification
+              notifLength={this.props.config.notifLength}
+              clearNotification={this.props.clearNotification}
+              notification={this.props.notification}/>
+          </div>
+          :'Loading'
+        }
+      </div>
+
+
   }
 }
 
