@@ -1,6 +1,3 @@
-import RootContainer from './dynamic-containers/RootContainer'
-import MapContainer from './dynamic-containers/MapContainer'
-import Container from './dynamic-containers/DynamicContainer'
 import Notification from './notification/Notification'
 import store from './store/store'
 import {fetchConfig} from './store/actions/config'
@@ -10,9 +7,6 @@ import * as notificationActions from './store/actions/notification'
 import * as authActions from './store/actions/auth'
 
 export {
-  RootContainer,
-  MapContainer,
-  Container,
   Notification,
   store,
   fetchConfig,

@@ -9,7 +9,6 @@
     ["transform-react-jsx"],
     ["transform-object-assign"],
     ["transform-class-properties"],
-    ["transform-flow-strip-types"],
     ["transform-async-to-generator"],
     ["transform-object-rest-spread"],
     ["transform-class-properties"]

@@ -1,8 +1,5 @@
 import React, {Component, PropTypes} from 'react'
 import {
-  RootContainer,
-  Container,
-  MapContainer,
   itemActions,
   Notification,
   notificationActions,
