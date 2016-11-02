@@ -1,0 +1,113 @@
+body {
+  font-family: 'Lato', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  width: 100%;
+  font-size: 12px;
+  margin: 0;
+}
+
+button {
+  padding: 5px 10px;
+  margin: 5px;
+  background: none;
+  border: none;
+}
+
+button:hover {
+  border-radius: 2px;
+  color: #FFF;
+  background-color: rgb(155, 155, 155);
+}
+
+button i {
+  margin-right: 3px;
+}
+
+hr {
+  border: 0;
+  height: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.screen-reader-text {
+   clip: rect(1px, 1px, 1px, 1px);
+   height: 1px;
+   width: 1px;
+   overflow: hidden;
+   position: absolute !important;
+}
+
+/* Notification styles */
+#coral-notif {
+  position: fixed;
+  bottom: 0;
+  border: 0;
+  background: rgb(105,105,105);
+  color: white;
+  border-radius: 2px;
+  font-weight: bold;
+}
+
+/* Comment Box Styles */
+.coral-plugin-commentbox-container {
+  display: flex;
+}
+
+.coral-plugin-commentbox-textarea {
+  flex: 1;
+  padding: 10px;
+}
+
+.coral-plugin-commentbox-button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+#coralStream .coral-plugin-commentbox-button {
+  float: right;
+  margin-top: 10px;
+  padding: 5px 10px;
+  background: rgb(105, 105, 105);
+  color: #FFF;
+  border: none;
+  border-radius: 2px;
+}
+
+/* Comment styles */
+.comment {
+  margin-bottom: 10px;
+}
+
+.coral-plugin-commentcontent-text {
+  margin-bottom: 10px;
+}
+
+
+/* Reply styles */
+
+.comment .reply {
+  margin: 0px 0px 10px 20px;
+}
+
+/* Comment Action Styles */
+
+.commentActions, .replyActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.commentActions .material-icons, .replyActions .material-icons {
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+/* Comment count styles */
+.coral-plugin-comment-count-text {
+  margin-bottom: 15px;
+}
+
+.coral-plugin-pubdate-text {
+  color: #CCC;
+}
