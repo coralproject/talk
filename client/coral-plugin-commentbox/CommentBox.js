@@ -18,7 +18,7 @@ class CommentBox extends Component {
   }
 
   postComment = () => {
-    const {postItem, updateItem, item_id, reply, addNotification, appendItemRelated} = this.props
+    const {postItem, updateItem, item_id, reply, addNotification, appendItemArray} = this.props
     let comment = {
       content: this.state.content
     }
@@ -33,7 +33,7 @@ class CommentBox extends Component {
     updateItem(item_id, 'showReply', false)
     postItem(comment, 'comment')
     .then((id) => {
-      appendItemRelated(item_id, related, id)
+      appendItemArray(item_id, related, id)
       addNotification('success', 'Your comment has been posted.')
     }).catch((err) => console.error(err))
     this.setState({content: ''})
