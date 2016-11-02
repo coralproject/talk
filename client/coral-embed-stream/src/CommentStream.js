@@ -14,7 +14,7 @@ import Flag from '../../coral-plugin-flags/FlagButton'
 import {ReplyBox, ReplyButton} from '../../coral-plugin-replies'
 import Pym from 'pym.js'
 
-const {addItem, updateItem, postItem, getItemsQuery, postAction, appendItemRelated} = itemActions
+const {addItem, updateItem, postItem, getStream, postAction, appendItemArray} = itemActions
 const {addNotification, clearNotification} = notificationActions
 const {setLoggedInUser} = authActions
 
@@ -38,8 +38,8 @@ const {setLoggedInUser} = authActions
       postItem: (data, type, id) => {
         return dispatch(postItem(data, type, id))
       },
-      getItemsQuery: (rootId) => {
-        return dispatch(getItemsQuery(rootId))
+      getStream: (rootId) => {
+        return dispatch(getStream(rootId))
       },
       addNotification: (type, text) => {
         return dispatch(addNotification(type, text))
@@ -53,8 +53,8 @@ const {setLoggedInUser} = authActions
       postAction: (item, action, user) => {
         return dispatch(postAction(item, action, user))
       },
-      appendItemRelated: (item, property, value) => {
-        return dispatch(appendItemRelated(item, property, value))
+      appendItemArray: (item, property, value) => {
+        return dispatch(appendItemArray(item, property, value))
       }
     }
   }
@@ -72,7 +72,7 @@ class CommentStream extends Component {
     // Set up messaging between embedded Iframe an parent component
     // Using recommended Pym init code which violates .eslint standards
     new Pym.Child({ polling: 500 })
-    this.props.getItemsQuery('assetTest')
+    this.props.getStream('assetTest')
   }
 
   render () {
@@ -104,53 +104,52 @@ class CommentStream extends Component {
             <div>
             <div id="commentBox">
               <Count
-                item_id={rootItemId}
+                id={rootItemId}
                 items={this.props.items}/>
               <CommentBox
                 addNotification={this.props.addNotification}
                 postItem={this.props.postItem}
-                appendItemRelated={this.props.appendItemRelated}
+                appendItemArray={this.props.appendItemArray}
                 updateItem={this.props.updateItem}
-                item_id={rootItemId}/>
+                id={rootItemId}/>
             </div>
             {
-              rootItem.related.comment.map((commentId) => {
+              rootItem.comments.map((commentId) => {
                 const comment = this.props.items[commentId]
                 return <div className="comment">
                   <hr aria-hidden={true}/>
                   <PubDate created_at={comment.created_at}/>
-                  <Content content={comment.data.content}/>
+                  <Content content={comment.body}/>
                   <div className="commentActions">
                     <Flag
                       addNotification={this.props.addNotification}
-                      item_id={commentId}
+                      id={commentId}
                       flag={comment.flag}
                       postAction={this.props.postAction}
                       currentUser={this.props.auth.user}/>
                     <ReplyButton
                       updateItem={this.props.updateItem}
-                      item_id={commentId}/>
+                      id={commentId}/>
                   </div>
                     <ReplyBox
                       addNotification={this.props.addNotification}
                       postItem={this.props.postItem}
-                      appendItemRelated={this.props.appendItemRelated}
+                      appendItemArray={this.props.appendItemArray}
                       updateItem={this.props.updateItem}
-                      item_id={commentId}
+                      id={commentId}
                       showReply={comment.showReply}/>
                     {
-                      comment.related &&
-                      comment.related.child &&
-                      comment.related.child.map((replyId) => {
+                      comment.children &&
+                      comment.children.map((replyId) => {
                       let reply = this.props.items[replyId]
                       return <div className="reply">
                         <hr aria-hidden={true}/>
                         <PubDate created_at={reply.created_at}/>
-                        <Content content={reply.data.content}/>
+                        <Content content={reply.body}/>
                         <div className="replyActions">
                           <Flag
                             addNotificiation={this.props.addNotification}
-                            item_id={replyId}
+                            id={replyId}
                             flag={reply.flag}
                             postAction={this.props.postAction}
                             currentUser={this.props.auth.user}/>
