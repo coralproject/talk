@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  console.log('asset_id, should be assetTest', req.query.asset_id)
+  console.log('Stream endpoint has been hit with asset_id ', req.query.asset_id)
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify([
     {

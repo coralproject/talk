@@ -6,6 +6,7 @@
   "scripts": {
     "lint": "eslint .",
     "start": "./bin/www",
+    "build": "webpack --config ./client/coral-embed-stream/webpack.config.js",
     "embed-start": "node client/coral-embed-stream/dev-server.js"
   },
   "repository": {
