@@ -49,8 +49,8 @@ const CommentSchema = new Schema({
 });
 
 /**
- * Finds a user by the id.
- * @param {String} id  identifier of the user (uuid)
+ * Finds a comment by the id.
+ * @param {String} id  identifier of the comment (uuid)
 */
 CommentSchema.methods.findById = function(id, done) {
   Comment.findOne({
