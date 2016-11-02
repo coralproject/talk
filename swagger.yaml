@@ -42,8 +42,10 @@ paths:
           schema:
             $ref: '#/definitions/Comment'
       responses:
-        200:
+        201:
           description: "OK: Comment Added"
+          schema:
+              $ref: '#/definitions/Comment'
         500:
           description: "Error"
   /comments/{comment_id}/actions:
@@ -64,7 +66,7 @@ paths:
           schema:
             $ref: '#/definitions/Action'
       responses:
-        200:
+        201:
           description: Action Added
           schema:
             type: array
@@ -88,12 +90,8 @@ paths:
           schema:
             $ref: '#/definitions/ModerationAction'
       responses:
-        200:
+        204:
           description: ModerationAction Added
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/ModerationAction'
   /queue:
     get:
       tags:
@@ -106,6 +104,10 @@ paths:
             "pending: no status | flagged: flagged action + no status | rejected: rejected status"
           required: true
           type: string
+          enum:
+            - pending
+            - flagged
+            - rejected
         - name: limit
           in: query
           description: Queue limit
@@ -154,14 +156,14 @@ paths:
         - Settings
       description: Settings
       responses:
-        200:
+        204:
           description: OK
 
 
 
 definitions:
   Item:
-    type: string
+    type: object
   ModerationAction:
     type: string
   Comment:
@@ -177,6 +179,10 @@ definitions:
         type: string
         format: date-time
         description: Display name of comment
+      updated_at:
+        type: string
+        format: date-time
+        description: Display name of comment
       user_id:
         type: string
         description: Display name of comment
@@ -186,19 +192,19 @@ definitions:
       asset_id:
         type: string
         description: Display name of comment
-  # Actions:
-  #   type: object
-  #   properties:
-  #     item_id:
-  #       type: string
-  #     item_type:
-  #       type: string # comment, user...
-  #     type:
-  #       type: string # flagged, likes, upvotes...
-  #     count:
-  #       type: integer
-  #     current_user:
-  #       type: boolean
+  Actions:
+    type: object
+    properties:
+      item_id:
+        type: string
+      item_type:
+        type: string # comment, user...
+      type:
+        type: string # flagged, likes, upvotes...
+      count:
+        type: integer
+      current_user:
+        type: boolean
   Action:
     type: object
     properties:
