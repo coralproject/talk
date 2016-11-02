@@ -2,9 +2,9 @@
   "name": "talk",
   "version": "0.0.1",
   "description": "A commenting platform from The Coral Project. https://coralproject.net",
-  "main": "./server/bin/www",
+  "main": "app.js",
   "scripts": {
-    "start": "./server/bin/www",
+    "start": "./bin/www",
     "lint": "eslint .",
     "test": "mocha"
   },
