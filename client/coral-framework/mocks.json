@@ -1,0 +1,43 @@
+{
+  "query": [
+    {
+      "item_id": "assetTest",
+      "type": "asset",
+      "data": {
+        "url": "http://coralproject.net"
+      },
+      "related": {
+        "comment": [
+          "abc",
+          "def"
+        ]
+      }
+    },
+    {
+      "item_id": "abc",
+      "type": "comment",
+      "data": {
+        "content": "Sample comment"
+      },
+      "related":{
+        "child": [
+          "xyz"
+        ]
+      }
+    },
+    {
+      "item_id": "xyz",
+      "type": "comment",
+      "data": {
+        "content": "Sample reply"
+      }
+    },
+    {
+      "item_id": "def",
+      "type": "comment",
+      "data": {
+        "content": "Another reply"
+      }
+    }
+  ]
+}
