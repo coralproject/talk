@@ -97,7 +97,6 @@ class CommentStream extends Component {
 
       const rootItemId = 'assetTest'
       const rootItem = this.props.items[rootItemId]
-      console.log(this.props.items);
       return <div>
         {
           rootItem ?
