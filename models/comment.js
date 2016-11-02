@@ -10,61 +10,33 @@ const CommentSchema = new Schema({
     default: uuid.v4,
     unique: true
   },
-  content: {
+  body: {
     type: String,
-    required: [true, 'The content is required.'],
-    minlenght: 50
+    required: [true, 'The body is required.'],
+    minlength: 50
   },
-  asset: {
-    type: Schema.Types.ObjectId,
-    ref: 'Asset'
-  },
-  author: {
-    type: Schema.Types.ObjectId,
-    ref: 'User'
-  },
-  actions: {
-    flags: [{
-      type: Schema.Types.ObjectId,
-      ref: 'User'
-    }],
-    likes: [{
-      type: Schema.Types.ObjectId,
-      ref: 'User'
-    }]
-  },
+  asset_id: String,
+  author_id: String,
   status: {
     type: String,
-    enum: ['accepted', 'rejected', 'untouched'],
-    default: 'untouched'
+    enum: ['accepted', 'rejected', ''],
+    default: ''
   },
-  parent: {
-    type: Schema.Types.ObjectId,
-    ref: 'Comment'
-  },
-  created_at: { type: Date, default: Date.now },
-  updated_at: { type: Date, default: Date.now }
+  parent_id: String
 },{
-  _id: false
+  _id: false,
+  timestamps: {
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+  }
 });
 
 /**
  * Finds a comment by the id.
  * @param {String} id  identifier of the comment (uuid)
 */
-CommentSchema.methods.findById = function(id, done) {
-  Comment.findOne({
-    id : id
-  }, (err, comment) => {
-    if (err) {
-      return done(err);
-    }
-
-    if (!comment) {
-      return done(null, false);
-    }
-    return done(null, comment);
-  });
+CommentSchema.statics.findById = function(id) {
+  return Comment.findOne({id});
 };
 
 const Comment = mongoose.model('Comment', CommentSchema);
