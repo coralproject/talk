@@ -11,35 +11,204 @@ produces:
   - application/json
 paths:
   /comments:
-    get:
-      summary: Comment Types
-      description: |
-        This endpoint retrieves comments
+    # get:
+    #   tags:
+    #     - Comments
+    #   produces:
+    #   - application/json
+    #   summary: Comment Types
+    #   description: |
+    #     This endpoint retrieves comments
+    #   parameters:
+    #     - name: id
+    #       in: query
+    #       description: Comment by id
+    #       required: false
+    #       type: string
+    #   responses:
+    #     200:
+    #       description: An array of comments
+    #       schema:
+    #         type: array
+    #         items:
+    #           $ref: '#/definitions/Comment'
+    post:
+      description: Add a new comment
       parameters:
-        - name: id
-          in: query
-          description: Comment by id
-          required: false
-          type: string
-      tags:
-        - Products
+        - name: body
+          in: body
+          description: Body
+          required: true
+          schema:
+            $ref: '#/definitions/Comment'
       responses:
-        200:
-          description: An array of comments
+        201:
+          description: "OK: Comment Added"
+          schema:
+              $ref: '#/definitions/Comment'
+        500:
+          description: "Error"
+  /comments/{comment_id}/actions:
+    post:
+      tags:
+        - Comments
+      description: Add a action
+      parameters:
+        - name: comment_id
+          in: path
+          description: Comment ID
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: comment
+          required: true
+          schema:
+            $ref: '#/definitions/Action'
+      responses:
+        201:
+          description: Action Added
           schema:
             type: array
             items:
               $ref: '#/definitions/Comment'
+  /comments/{comment_id}/status:
+    post:
+      tags:
+        - Comments
+      description: Add a new status
+      parameters:
+        - name: comment_id
+          in: path
+          description: Comment ID
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: comment
+          required: true
+          schema:
+            $ref: '#/definitions/ModerationAction'
+      responses:
+        204:
+          description: ModerationAction Added
+  /queue:
+    get:
+      tags:
+        - Queue
+      description: Queue
+      parameters:
+        - name: type
+          in: query
+          description:
+            "pending: no status | flagged: flagged action + no status | rejected: rejected status"
+          required: true
+          type: string
+          enum:
+            - pending
+            - flagged
+            - rejected
+        - name: limit
+          in: query
+          description: Queue limit
+          required: false
+          type: integer
+        - name: skip
+          in: query
+          description: Skip
+          required: false
+          type: integer
+      responses:
+        200:
+          description: ModerationAction Added
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ModerationAction'
+  /stream:
+    get:
+      tags:
+        - Stream
+      description: Stream
+      parameters:
+        - name: asset_id
+          in: query
+          description: Description
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Item'
+  /settings:
+    get:
+      tags:
+        - Settings
+      description: Settings
+      responses:
+        200:
+          description: OK
+    put:
+      tags:
+        - Settings
+      description: Settings
+      responses:
+        204:
+          description: OK
+
+
+
 definitions:
+  Item:
+    type: object
+  ModerationAction:
+    type: string
   Comment:
     type: object
     properties:
       id:
         type: string
         description: Unique identifier
-      description:
+      body:
         type: string
-        description: Description of comment.
-      display_name:
+        description: Description of comment
+      created_at:
         type: string
-        description: Display name of comment.
+        format: date-time
+        description: Display name of comment
+      updated_at:
+        type: string
+        format: date-time
+        description: Display name of comment
+      user_id:
+        type: string
+        description: Display name of comment
+      parent_id:
+        type: string
+        description: Display name of comment
+      asset_id:
+        type: string
+        description: Display name of comment
+  Actions:
+    type: object
+    properties:
+      item_id:
+        type: string
+      item_type:
+        type: string # comment, user...
+      type:
+        type: string # flagged, likes, upvotes...
+      count:
+        type: integer
+      current_user:
+        type: boolean
+  Action:
+    type: object
+    properties:
+      type:
+        type: string
+      user_id:
+        type: string
