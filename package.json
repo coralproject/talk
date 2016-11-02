@@ -4,9 +4,24 @@
   "description": "A commenting platform from The Coral Project. https://coralproject.net",
   "main": "app.js",
   "scripts": {
-    "lint": "eslint .",
     "start": "./bin/www",
+    "lint": "eslint .",
+    "pretest": "npm install",
+    "test": "mocha tests",
     "embed-start": "node client/coral-embed-stream/dev-server.js"
+  },
+  "config": {
+    "pre-git": {
+      "commit-msg": [],
+      "pre-commit": [
+        "npm run lint"
+      ],
+      "pre-push": [
+        "npm test"
+      ],
+      "post-commit": [],
+      "post-merge": []
+    }
   },
   "repository": {
     "type": "git",
@@ -41,11 +56,15 @@
     "babel-preset-es2015": "6.13.0",
     "babel-preset-es2015-minimal": "^2.1.0",
     "babel-preset-stage-0": "^6.16.0",
+    "chai": "^3.5.0",
     "copy-webpack-plugin": "^3.0.1",
+    "eslint": "^3.9.1",
     "exports-loader": "^0.6.3",
     "immutable": "^3.8.1",
     "imports-loader": "^0.6.5",
     "json-loader": "^0.5.4",
+    "mocha": "^3.1.2",
+    "pre-git": "^3.10.0",
     "pym.js": "^1.1.1",
     "react": "15.3.2",
     "react-dom": "15.3.2",
@@ -53,6 +72,7 @@
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
     "regenerator": "^0.8.46",
+    "supertest": "^2.0.1",
     "timeago.js": "^2.0.3",
     "webpack": "^1.13.2",
     "webpack-dashboard": "^0.2.0",
