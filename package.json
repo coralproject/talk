@@ -6,7 +6,8 @@
   "scripts": {
     "start": "./bin/www",
     "lint": "eslint .",
-    "test": "mocha"
+    "pretest": "npm install",
+    "test": "mocha tests"
   },
   "config": {
     "pre-git": {
@@ -14,7 +15,9 @@
       "pre-commit": [
         "npm run lint"
       ],
-      "pre-push": [],
+      "pre-push": [
+        "npm test"
+      ],
       "post-commit": [],
       "post-merge": []
     }
