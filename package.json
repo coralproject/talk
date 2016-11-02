@@ -5,7 +5,8 @@
   "main": "./server/bin/www",
   "scripts": {
     "start": "./server/bin/www",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "mocha"
   },
   "config": {
     "pre-git": {
