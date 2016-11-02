@@ -26,7 +26,7 @@ const ActionSchema = new Schema({
  * Finds an action by the id.
  * @param {String} id  identifier of the action (uuid)
 */
-ActionSchema.methods.findById = function(id) {
+ActionSchema.statics.findById = function(id) {
   return Action.findOne({id});
 };
 
