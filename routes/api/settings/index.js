@@ -3,11 +3,11 @@ const router = express.Router();
 const Setting = require('../../../models/setting');
 
 router.get('/', (req, res, next) => {
-  Setting.getSettings().then(res.json.bind(res)).catch(next);
+  Setting.getSettings().then(settings => res.json(settings)).catch(next);
 });
 
 router.put('/', (req, res, next) => {
-  Setting.updateSettings(req.body).then(res.json.bind(res)).catch(next);
+  Setting.updateSettings(req.body).then(settings => res.json(settings)).catch(next);
 });
 
 module.exports = router;
