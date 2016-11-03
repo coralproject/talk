@@ -2,10 +2,9 @@ const express = require('express');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  console.log('Stream endpoint has been hit with asset_id ', req.query.asset_id)
-  res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify([
+router.get('/', (req, res, next) => {
+  console.log('Stream endpoint has been hit with asset_id ', req.query.asset_id);
+  res.json([
     {
       'id': 'abc',
       'type': 'comment',
@@ -28,7 +27,7 @@ router.get('/', (req, res) => {
       'created_at': new Date().getTime() - 400000,
       'asset_id': 'assetTest'
     }
-  ]));
+  ]).catch(next);
 });
 
 module.exports = router;
