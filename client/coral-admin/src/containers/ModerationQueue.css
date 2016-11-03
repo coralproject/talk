@@ -1,0 +1,17 @@
+
+@custom-media --big-viewport (min-width: 780px);
+
+.listContainer {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.tab {
+  flex: 1;
+}
+
+@media (--big-viewport) {
+  .tab {
+    flex: none;
+  }
+}
