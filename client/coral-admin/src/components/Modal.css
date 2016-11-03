@@ -1,0 +1,43 @@
+
+@custom-media --big-viewport (min-width: 780px);
+
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, .4);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.inner {
+  width: 100vw;
+  height: 100vh;
+  background-color: #fff;
+  box-shadow: 2px 2px 5px 0px rgba(153,153,153,1);
+  padding: 20px;
+}
+
+.close {
+  float: right;
+}
+
+.hide {
+  display: none;
+}
+
+
+@media (--big-viewport) {
+  .inner {
+    width: 600px;
+    height: 50vh;
+    border-radius: 4px;
+  }
+}
