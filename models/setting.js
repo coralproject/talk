@@ -1,11 +1,17 @@
 const mongoose = require('../mongoose');
-const uuid = require('uuid');
 const Schema = mongoose.Schema;
 
 const SettingSchema = new Schema({
+  id: {type: String, default: '1'},
   moderation: {type: String, enum: ['pre', 'post'], default: 'pre'},
 
-}, {timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'}});
+}, {
+  _id: false,
+  timestamps: {
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+  }
+});
 
 SettingSchema.statics.getSettings = function () {
   return this.findOne();

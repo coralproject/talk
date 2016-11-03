@@ -4,19 +4,11 @@ const path = require('path');
 const Setting = require(path.resolve(__dirname, 'models/setting'));
 
 router.get('/settings', (req, res, next) => {
-  Setting.getSettings().then(settings => {
-    res.json(settings);
-  }).catch(error => {
-    next(error);
-  });
+  Setting.getSettings().then(res.json).catch(next);
 });
 
 router.put('/settings', (req, res, next) => {
-  Setting.updateSettings(req.body).then(updatedSettings => {
-    res.json(updatedSettings);
-  }).catch(error => {
-    next(error);
-  });
+  Setting.updateSettings(req.body).then(res.json).catch(next);
 });
 
 module.exports = router;
