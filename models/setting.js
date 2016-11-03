@@ -27,7 +27,6 @@ SettingSchema.statics.getSettings = function () {
  */
 SettingSchema.statics.updateSettings = function (setting) {
   // there should only ever be one record unless something has gone wrong.
-  console.log('new setting', setting);
   return this.findOneAndUpdate({id: '1'}, {$set: setting}, {new: true});
 };
 
