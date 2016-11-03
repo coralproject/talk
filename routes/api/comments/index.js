@@ -22,4 +22,12 @@ router.delete('/:comment_id', (req, res) => {
   res.send('Delete a comment');
 });
 
+router.post('/:comment_id/status', (req, res) => {
+  res.send('Update a comment status');
+});
+
+router.post('/:comment_id/actions', (req, res) => {
+  res.send('Add a comment action');
+});
+
 module.exports = router;
