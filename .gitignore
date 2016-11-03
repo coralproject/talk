@@ -3,3 +3,4 @@ npm-debug.log
 dist
 .DS_Store
 *.iml
+.env

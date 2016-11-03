@@ -1,0 +1,20 @@
+
+.container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.shortcut {
+  padding: 8px;
+}
+
+.key {
+  background: #eee;
+  padding: 3px;
+  min-width: 15px;
+  min-height: 8px;
+  text-align: center;
+  display: inline-block;
+  border-radius: 4px;
+  border: 1px solid #999;
+}
