@@ -3,8 +3,7 @@ const Schema = mongoose.Schema;
 
 const SettingSchema = new Schema({
   id: {type: String, default: '1'},
-  moderation: {type: String, enum: ['pre', 'post'], default: 'pre'},
-
+  moderation: {type: String, enum: ['pre', 'post'], default: 'pre'}
 }, {
   _id: false,
   timestamps: {
@@ -18,7 +17,8 @@ SettingSchema.statics.getSettings = function () {
 };
 
 SettingSchema.statics.updateSettings = function (setting) {
-  return this.findOneAndUpdate({}, {$set: setting}, {new: true});
+  // there should only ever be one record unless something has gone wrong.
+  return this.findOneAndUpdate({id: '1'}, {$set: setting}, {new: true});
 };
 
 const Setting = mongoose.model('Setting', SettingSchema);

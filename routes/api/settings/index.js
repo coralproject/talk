@@ -1,13 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path');
-const Setting = require(path.resolve(__dirname, 'models/setting'));
+const Setting = require('../../../models/setting');
 
-router.get('/settings', (req, res, next) => {
+router.get('/', (req, res, next) => {
   Setting.getSettings().then(res.json).catch(next);
 });
 
-router.put('/settings', (req, res, next) => {
+router.put('/', (req, res, next) => {
   Setting.updateSettings(req.body).then(res.json).catch(next);
 });
 
