@@ -6,4 +6,4 @@
 - view the cat
 - see the cat meow
 
-@coralproject/frontend
+@coralproject/tech
