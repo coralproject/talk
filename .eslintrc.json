@@ -36,7 +36,6 @@
         "yoda": [1],
         "no-path-concat": [2],
         "no-process-exit": [2],
-        "camelcase": [1],
         "eol-last": [1],
         "no-continue": [1],
         "no-nested-ternary": [1],
