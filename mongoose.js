@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const enabled = require('debug').enabled;
-const url = process.env.TALK_MONGO_URL || 'mongodb://localhost/talk';
+const url = process.env.TALK_MONGO_URL || 'mongodb://localhost';
 
 // Use native promises
 mongoose.Promise = global.Promise;
