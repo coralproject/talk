@@ -31,7 +31,7 @@ class CommentBox extends Component {
       related = 'comments'
     }
     updateItem(item_id, 'showReply', false)
-    postItem(comment, 'comment')
+    postItem(comment, 'comments')
     .then((id) => {
       appendItemArray(item_id, related, id)
       addNotification('success', 'Your comment has been posted.')

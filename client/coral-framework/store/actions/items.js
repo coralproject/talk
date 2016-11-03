@@ -115,9 +115,11 @@ export function getStream (assetId) {
           comments: rootComments
         }))
 
-        Object.keys(childComments).reduce((prev, key) => {
-          dispatch(updateItem(key, 'children', childComments[key]))
-        },{})
+        const keys = Object.keys(childComments)
+        for (var i=0; i < keys.length; i++ ) {
+          dispatch(updateItem(keys[i], 'children', childComments[keys[i]]))
+        }
+
         return (json)
       })
   }
@@ -169,13 +171,8 @@ export function getItemsArray (ids) {
 *   The newly put item to the item store
 */
 
-export function postItem (data, type, id) {
+export function postItem (item, type, id) {
   return (dispatch) => {
-    let item = {
-      type,
-      data,
-      version: 1
-    }
     if (id) {
       item.id = id
     }
@@ -214,13 +211,19 @@ export function postItem (data, type, id) {
 *
 */
 
-export function postAction (item, action, user) {
+export function postAction (id, type, user_id) {
   return (dispatch) => {
-    let options = {
-      method: 'POST'
+    const action = {
+      type,
+      user_id
     }
-    dispatch(appendItemArray(item, action, user))
-    return fetch('/v1/action/' + action + '/user/' + user + '/on/item/' + item, options)
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(action)
+    }
+
+    dispatch(appendItemArray(id, type, user_id))
+    return fetch('api/v1/comments/' + id + '/actions', options)
       .then(
         response => {
           return response.ok ? response.text()
