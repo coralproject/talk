@@ -1,0 +1,13 @@
+{
+  "modqueue": {
+    "pending": "pendiente",
+    "rejected": "rechazado",
+    "flagged": "marcado",
+    "shortcuts": "Atajos de teclado",
+    "close": "Cerrar"
+  },
+  "comment": {
+    "flagged": "marcado",
+    "anon": "Anónimo"
+  }
+}

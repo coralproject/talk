@@ -1,0 +1,13 @@
+
+@custom-media --big-viewport (min-width: 780px);
+
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+@media (--big-viewport) {
+  .tab {
+    flex: none;
+  }
+}

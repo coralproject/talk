@@ -1,0 +1,42 @@
+.container {
+  padding: 10px;
+  display: flex;
+}
+
+.leftColumn {
+  width: 300px;
+}
+
+.mainContent {
+  width: calc(70% - 300px)
+}
+
+.settingOption {
+  cursor: pointer;
+}
+
+.configSetting {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 90px;
+  margin-bottom: 10px;
+}
+
+.configSettingEmbed {
+  composes: configSetting;
+  display: block;
+  height: 170px;
+}
+
+.embedInput {
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  display: block;
+  width: 90%;
+  vertical-align: middle;
+  margin-bottom: 10px;
+  color: #555;
+  padding: 14px;
+  font-size: 16px;
+  letter-spacing: 0.03em;
+}
