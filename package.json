@@ -40,6 +40,7 @@
   },
   "homepage": "https://github.com/coralproject/talk#readme",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "debug": "^2.2.0",
     "express": "^4.14.0",
     "mongoose": "^4.6.5"
