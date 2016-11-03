@@ -64,7 +64,6 @@
     "imports-loader": "^0.6.5",
     "json-loader": "^0.5.4",
     "mocha": "^3.1.2",
-    "mongodb": "^2.2.11",
     "pre-git": "^3.10.0",
     "pym.js": "^1.1.1",
     "react": "15.3.2",
