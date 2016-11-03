@@ -25,10 +25,10 @@ class CommentBox extends Component {
     let related
     if (reply) {
       comment.parent_id = item_id
-      related = 'child'
+      related = 'children'
     } else {
       comment.asset_id = item_id
-      related = 'comment'
+      related = 'comments'
     }
     updateItem(item_id, 'showReply', false)
     postItem(comment, 'comment')

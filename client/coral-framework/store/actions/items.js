@@ -183,7 +183,7 @@ export function postItem (data, type, id) {
       method: 'POST',
       body: JSON.stringify(item)
     }
-    return fetch('/v1/item', options)
+    return fetch('api/v1/' + type, options)
       .then(
         response => {
           return response.ok ? response.json()
@@ -191,7 +191,6 @@ export function postItem (data, type, id) {
         }
       )
       .then((json) => {
-        // Patch until ID is returned from backend
         dispatch(addItem(json))
         return json.id
       })
