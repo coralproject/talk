@@ -13,7 +13,7 @@ router.get('/', (req, res, next) => {
   const actions = Action.findByItemIdArray(comments.map((comment) => comment.id));
 
   Promise.all([comments, users, actions]).then(([comments, users, actions]) => {
-    res.json(comments.concat(users).concat(actions));
+    res.json(...comments,...users,...actions);
   }).catch(error => {
     next(error);
   });
