@@ -5,6 +5,6 @@
     },
     "extends": "eslint:recommended",
     "rules": {
-        no-undef: [1]
+        "no-undef": [0]
     }
 }

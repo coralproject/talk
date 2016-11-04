@@ -1,10 +1,7 @@
-//  Modified from https://github.com/elliotf/mocha-mongoose
-
 var mongoose = require('mongoose');
 
-
-// ensure the NODE_ENV is set to 'test'
-// this is helpful when you would like to change behavior when testing
+// Ensure the NODE_ENV is set to 'test',
+// this is helpful when you would like to change behavior when testing.
 process.env.NODE_ENV = 'test';
 
 beforeEach(function (done) {
