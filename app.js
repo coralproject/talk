@@ -1,11 +1,16 @@
-/* This is the entrypoint for the Talk Platform server. */
-
-// Initialize application framework.
 const express = require('express');
+const morgan = require('morgan');
+const path = require('path');
 
 const app = express();
 
+// Middleware declarations.
+app.use(morgan('dev'));
+
+// API Routes.
 app.use('/api/v1', require('./routes/api'));
-app.use('/client/', express.static('./dist'));
+
+// Static Routes.
+app.use('/client/', express.static(path.join(__dirname, 'dist')));
 
 module.exports = app;

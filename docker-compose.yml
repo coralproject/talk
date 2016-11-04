@@ -1,0 +1,24 @@
+version: '2'
+services:
+
+  talk:
+    image: coralproject/talk:latest
+    build: .
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - "TALK_PORT=5000"
+      - "TALK_MONGO_URL=mongodb://mongo"
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:3.2
+    restart: always
+    volumes:
+      - mongo:/data/db
+
+volumes:
+  mongo:
+    external: false
