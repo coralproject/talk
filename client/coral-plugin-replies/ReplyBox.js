@@ -11,7 +11,7 @@ const ReplyBox = (props) => <div
          item_id = {props.item_id}
          postItem = {props.postItem}
          addNotification = {props.addNotification}
-         appendItemRelated = {props.appendItemRelated}
+         appendItemArray = {props.appendItemArray}
          updateItem = {props.updateItem}
          comments = {props.child}
          reply = {true}/>
