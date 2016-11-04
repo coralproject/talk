@@ -84,5 +84,8 @@
     "webpack-hot-middleware": "^2.12.2",
     "webpack-module-hot-accept": "^1.0.4",
     "whatwg-fetch": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=7.0.0"
   }
 }
