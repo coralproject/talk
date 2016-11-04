@@ -1,6 +1,22 @@
 const express = require('express');
+const Comment = require('../../../models/comment');
 
 const router = express.Router();
+
+//==============================================================================
+// Validations on parameters
+//==============================================================================
+
+router.param('comment_id', function(res, req, next, comment_id) {
+  console.log('validations on comment id ');
+  req.comment_id = comment_id;
+  next();
+});
+
+//==============================================================================
+// Routes
+//==============================================================================
+
 
 router.get('/', (req, res) => {
   res.send('Read all of the comments ever');
@@ -10,8 +26,23 @@ router.get('/:comment_id', (req, res) => {
   res.send('Read a comment');
 });
 
-router.post('/', (req, res) => {
-  res.send('Write a comment');
+router.post('/', (req, res, next) => {
+  let comment  = new Comment({
+    body: req.query.comment,
+    author_id: req.query.author_id,
+    asset_id: req.query.asset_id,
+    parent_id: req.query.parent_id,
+    status: req.query.status
+  });
+  comment.save(function(err, comment) {
+    if(err) {
+      res.status(500);
+      return next(err);
+    }
+    res.status(201);
+    res.send(comment.id);
+    next();
+  });
 });
 
 router.put('/:comment_id', (req, res) => {

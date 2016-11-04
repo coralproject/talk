@@ -1,5 +1,3 @@
-'use strict';
-
 const mongoose = require('../mongoose');
 const uuid = require('uuid');
 const Schema = mongoose.Schema;
@@ -13,7 +11,7 @@ const CommentSchema = new Schema({
   body: {
     type: String,
     required: [true, 'The body is required.'],
-    minlength: 50
+    minlength: 10
   },
   asset_id: String,
   author_id: String,
@@ -24,7 +22,6 @@ const CommentSchema = new Schema({
   },
   parent_id: String
 },{
-  _id: false,
   timestamps: {
     createdAt: 'created_at',
     updatedAt: 'updated_at'
