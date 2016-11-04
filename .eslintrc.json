@@ -35,7 +35,7 @@
         "no-throw-literal": [2],
         "yoda": [1],
         "no-path-concat": [2],
-        "no-process-exit": [2],
+        "no-process-exit": [0],
         "eol-last": [1],
         "no-continue": [1],
         "no-nested-ternary": [1],
