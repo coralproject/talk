@@ -10,7 +10,6 @@ import mocks from '../../mocks.json'
 export const ADD_ITEM = 'ADD_ITEM'
 export const UPDATE_ITEM = 'UPDATE_ITEM'
 export const APPEND_ITEM_ARRAY = 'APPEND_ITEM_ARRAY'
-export const APPEND_ITEM_RELATED = 'APPEND_ITEM_RELATED'
 
 /**
  * Action creators
@@ -26,13 +25,13 @@ export const APPEND_ITEM_RELATED = 'APPEND_ITEM_RELATED'
  */
 
 export const addItem = (item) => {
-  if (!item.item_id) {
+  if (!item.id) {
     console.warn('addItem called without an item id.')
   }
   return {
     type: ADD_ITEM,
     item: item,
-    item_id: item.item_id
+    id: item.id
   }
 }
 
@@ -41,36 +40,26 @@ export const addItem = (item) => {
 * Useful for item-level toggles, etc.
 *
 * @params
-*  item_id - the id of the item to be posted
+*  id - the id of the item to be posted
 *  property - the property to be updated
 *  value - the value that the property should be set to
 *
 */
 
 
-export const updateItem = (item_id, property, value) => {
+export const updateItem = (id, property, value) => {
   return {
     type: UPDATE_ITEM,
-    item_id,
+    id,
     property,
     value
   }
 }
 
-export const appendItemArray = (item_id, property, value) => {
+export const appendItemArray = (id, property, value) => {
   return {
     type: APPEND_ITEM_ARRAY,
-    item_id,
-    property,
-    value
-  }
-}
-
-
-export const appendItemRelated = (item_id, property, value) => {
-  return {
-    type: APPEND_ITEM_RELATED,
-    item_id,
+    id,
     property,
     value
   }
@@ -89,26 +78,50 @@ export const appendItemRelated = (item_id, property, value) => {
 * @dispatches
 *   A set of items to the item store
 */
-export function getItemsQuery (rootId) {
+export function getStream (assetId) {
   return (dispatch) => {
-    // return fetch('/v1/exec/view/' + rootId)
-    //   .then(
-    //     response => {
-    //       return response.ok ? response.json() : Promise.reject(response.status + ' ' + response.statusText)
-    //     }
-    //   )
-    //   .then((json) => {
-    //     let items = json.results[0].Docs
-    //     for (var i = 0; i < items.length; i++) {
-    //       dispatch(addItem(items[i]))
-    //     }
-    //     return (items)
-    //   })
-    console.log('Loading mock data', mocks);
-    let mockData = mocks.query
-    for (var i=0; i < mockData.length; i++ ) {
-      dispatch(addItem(mockData[i]))
-    }
+    return fetch('/api/v1/stream?asset_id='+assetId)
+      .then(
+        response => {
+          return response.ok ? response.json() : Promise.reject(response.status + ' ' + response.statusText)
+        }
+      )
+      .then((json) => {
+
+        /* Sort comments by date*/
+        let rootComments = []
+        let childComments = {}
+        const sorted = json.sort((a,b) => b.created_at - a.created_at)
+        sorted.reduce((prev, item) => {
+          dispatch(addItem(item))
+
+          /* Check for root and child comments. */
+          if (
+            item.type === 'comment' &&
+            item.asset_id === assetId &&
+            !item.parent_id) {
+            rootComments.push(item.id)
+          } else if (
+            item.type === 'comment' &&
+            item.asset_id === assetId
+          ) {
+            let children = childComments[item.parent_id] || []
+            childComments[item.parent_id] = children.concat(item.id)
+          }
+        }, {})
+
+        dispatch(addItem({
+          id: assetId,
+          comments: rootComments
+        }))
+
+        const keys = Object.keys(childComments)
+        for (var i=0; i < keys.length; i++ ) {
+          dispatch(updateItem(keys[i], 'children', childComments[keys[i]]))
+        }
+
+        return (json)
+      })
   }
 }
 
@@ -158,21 +171,16 @@ export function getItemsArray (ids) {
 *   The newly put item to the item store
 */
 
-export function postItem (data, type, id) {
+export function postItem (item, type, id) {
   return (dispatch) => {
-    let item = {
-      type,
-      data,
-      version: 1
-    }
     if (id) {
-      item.item_id = id
+      item.id = id
     }
     let options = {
       method: 'POST',
       body: JSON.stringify(item)
     }
-    return fetch('/v1/item', options)
+    return fetch('api/v1/' + type, options)
       .then(
         response => {
           return response.ok ? response.json()
@@ -180,9 +188,8 @@ export function postItem (data, type, id) {
         }
       )
       .then((json) => {
-        // Patch until ID is returned from backend
         dispatch(addItem(json))
-        return json.item_id
+        return json.id
       })
   }
 }
@@ -194,7 +201,7 @@ export function postItem (data, type, id) {
 * Posts an action to an item
 *
 * @params
-*   item_id - the id of the item on which the action is taking place
+*   id - the id of the item on which the action is taking place
 *   action - the name of the action
 *   user - the user performing the action
 *   host - the coral host
@@ -204,13 +211,19 @@ export function postItem (data, type, id) {
 *
 */
 
-export function postAction (item, action, user) {
+export function postAction (id, type, user_id) {
   return (dispatch) => {
-    let options = {
-      method: 'POST'
+    const action = {
+      type,
+      user_id
     }
-    dispatch(appendItemArray(item, action, user))
-    return fetch('/v1/action/' + action + '/user/' + user + '/on/item/' + item, options)
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(action)
+    }
+
+    dispatch(appendItemArray(id, type, user_id))
+    return fetch('api/v1/comments/' + id + '/actions', options)
       .then(
         response => {
           return response.ok ? response.text()

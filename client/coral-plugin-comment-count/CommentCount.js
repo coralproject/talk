@@ -2,16 +2,16 @@ import React from 'react'
 
 const name = 'coral-plugin-comment-count'
 
-const CommentCount = ({items, item_id}) => {
+const CommentCount = ({items, id}) => {
   let count = 0
-  if (items[item_id]) {
-    count += items[item_id].related.comment.length
+  if (items[id]) {
+    count += items[id].comments.length
   }
   const itemKeys = Object.keys(items)
   for (var i=0; i < itemKeys.length; i++) {
     const item = items[itemKeys[i]]
-    if (item.type === 'comment' && item.related && item.related.child) {
-      count += item.related.child.length
+    if (item.type === 'comment' && item.children) {
+      count += item.children.length
     }
   }
 

@@ -18,22 +18,22 @@ class CommentBox extends Component {
   }
 
   postComment = () => {
-    const {postItem, updateItem, item_id, reply, addNotification, appendItemRelated} = this.props
+    const {postItem, updateItem, item_id, reply, addNotification, appendItemArray} = this.props
     let comment = {
       content: this.state.content
     }
     let related
     if (reply) {
       comment.parent_id = item_id
-      related = 'child'
+      related = 'children'
     } else {
       comment.asset_id = item_id
-      related = 'comment'
+      related = 'comments'
     }
     updateItem(item_id, 'showReply', false)
-    postItem(comment, 'comment')
+    postItem(comment, 'comments')
     .then((id) => {
-      appendItemRelated(item_id, related, id)
+      appendItemArray(item_id, related, id)
       addNotification('success', 'Your comment has been posted.')
     }).catch((err) => console.error(err))
     this.setState({content: ''})

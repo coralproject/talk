@@ -1,0 +1,16 @@
+<html>
+  <head>
+  </head>
+  <body>
+  <div style="margin-left:auto; margin-right:auto; width:500px">
+    <h1>Lorem ipsum</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut lobortis sollicitudin eros a ornare. Curabitur dignissim vestibulum massa non rhoncus. Cras laoreet ante vel nunc hendrerit, ac imperdiet neque egestas. Suspendisse aliquet iaculis fermentum. Pellentesque interdum nec elit sed tincidunt. Donec volutpat, tellus posuere laoreet consequat, mi lacus laoreet massa, sed vehicula mauris velit non lectus. Integer non enim nec neque congue faucibus porttitor sit amet dui.</p>
+<p>Nunc pharetra orci id diam feugiat, vitae rutrum magna efficitur. Morbi porttitor blandit lorem, et facilisis tellus luctus at. Morbi tincidunt eget nisl id placerat. Nullam consectetur quam vel mauris lacinia, non consectetur est faucibus. Duis cursus auctor nulla nec sagittis. Aenean sem erat, ultrices a hendrerit consectetur, accumsan non lorem. Integer ac neque sed magna sodales vulputate at quis neque. Praesent eget ornare lacus. Donec ultricies, dolor eget commodo faucibus, arcu velit ullamcorper tellus, in cursus tellus elit sed urna. Suspendisse in consequat magna. Duis vel ullamcorper tortor, vel cursus libero. Proin et nisi luctus ligula faucibus luctus. Morbi pulvinar, justo ac feugiat elementum, libero tellus congue justo, pharetra ultrices felis felis id leo. Integer mattis quam tempus libero porta, ac pretium ligula elementum.</p>
+<div id='coralStreamEmbed'></div>
+<script type='text/javascript' src='http://pym.nprapps.org/pym.v1.min.js'></script>
+<script>
+var pymParent = new pym.Parent('coralStreamEmbed', 'index.html', {});
+pymParent.onMessage('height', function(height) {document.querySelector('#coralStreamEmbed iframe').height = height + 'px'})</script>
+</div>
+  </body>
+</html>
