@@ -8,8 +8,12 @@ const router = express.Router();
 //==============================================================================
 
 
-router.get('/', (req, res) => {
-  res.send('Read all of the comments ever');
+router.get('/', (req, res, next) => {
+  Comment.find({}).then((comments) => {
+    res.status(200).json(comments);
+  }).catch(error => {
+    next(error);
+  });
 });
 
 router.get('/:comment_id', (req, res, next) => {
