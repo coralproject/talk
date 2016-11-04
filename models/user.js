@@ -11,12 +11,11 @@ const UserProfileSchema = new Schema({
   },
   display_name: String,
   auth_user_id: String
-// },{
-//   _id: false,
-//   timestamps: {
-//     createdAt: 'created_at',
-//     updatedAt: 'updated_at'
-//   }
+},{
+  timestamps: {
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+  }
 });
 
 /**
