@@ -162,12 +162,6 @@ paths:
       responses:
         204:
           description: Updated Setting
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Setting'
-
-
 
 definitions:
   Item:

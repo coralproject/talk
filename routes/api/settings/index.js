@@ -7,7 +7,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.put('/', (req, res, next) => {
-  Setting.updateSettings(req.body).then(settings => res.json(settings)).catch(next);
+  Setting.updateSettings(req.body).then(() => res.status(204).end()).catch(next);
 });
 
 module.exports = router;
