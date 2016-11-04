@@ -8,7 +8,6 @@ const router = express.Router();
 //==============================================================================
 
 router.param('comment_id', function(res, req, next, comment_id) {
-  console.log('validations on comment id ');
   req.comment_id = comment_id;
   next();
 });
@@ -22,8 +21,16 @@ router.get('/', (req, res) => {
   res.send('Read all of the comments ever');
 });
 
-router.get('/:comment_id', (req, res) => {
-  res.send('Read a comment');
+router.get('/:comment_id', (req, res, next) => {
+  Comment.findById(req.params.comment_id, function(err, comment) {
+    if(err) {
+      res.status(500);
+      return next(err);
+    }
+    res.status(200);
+    res.send(comment);
+    next();
+  });
 });
 
 router.post('/', (req, res, next) => {
