@@ -1,5 +1,3 @@
-'use strict';
-
 const mongoose = require('../mongoose');
 const uuid = require('uuid');
 const Schema = mongoose.Schema;
@@ -15,7 +13,6 @@ const ActionSchema = new Schema({
   item_id: String,
   user_id: String
 },{
-  _id: false,
   timestamps: {
     createdAt: 'created_at',
     updatedAt: 'updated_at'
@@ -28,6 +25,16 @@ const ActionSchema = new Schema({
 */
 ActionSchema.statics.findById = function(id) {
   return Action.findOne({id});
+};
+
+/**
+ * Finds users in an array of ids.
+ * @param {String} ids array of user identifiers (uuid)
+*/
+ActionSchema.statics.findByItemIdArray = function(item_ids) {
+  return Action.find({
+    'item_id': {$in: item_ids}
+  });
 };
 
 const Action = mongoose.model('Action', ActionSchema);

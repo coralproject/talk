@@ -1,4 +1,3 @@
-'use strict';
 
 const mongoose = require('../mongoose');
 const uuid = require('uuid');
@@ -13,7 +12,6 @@ const UserProfileSchema = new Schema({
   display_name: String,
   auth_user_id: String
 },{
-  _id: false,
   timestamps: {
     createdAt: 'created_at',
     updatedAt: 'updated_at'
@@ -26,6 +24,16 @@ const UserProfileSchema = new Schema({
 */
 UserProfileSchema.statics.findById = function(id) {
   return UserProfile.findOne({id});
+};
+
+/**
+ * Finds users in an array of idd.
+ * @param {String} idd  array of user identifiers (uuid)
+*/
+UserProfileSchema.statics.findByIdArray = function(ids) {
+  return UserProfile.find({
+    'id': {$in: ids}
+  });
 };
 
 // TO DO: methods
