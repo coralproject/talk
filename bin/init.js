@@ -8,6 +8,5 @@ Setting.update({id: '1'}, {$setOnInsert: defaults}, {upsert: true})
     mongoose.disconnect();
   }).catch((err) => {
     console.error(`failed to create the settings object ${JSON.stringify(err)}`);
-    mongoose.disconnect();
     throw new Error(err); // just to be safe
   });
