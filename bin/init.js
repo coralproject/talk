@@ -1,6 +1,12 @@
+const mongoose = require('../mongoose');
 const Setting = require('../models/setting');
 const defaults = {id: '1', moderation: 'pre'};
 
-Setting.update({id: '1'}, {$setOnInsert: defaults}, {upsert: true}).then(() => {
-  throw new Error('It was not able to update settings.');
-}).catch(console.error);
+Setting.update({id: '1'}, {$setOnInsert: defaults}, {upsert: true})
+  .then(() => {
+    console.log('Created settings object.');
+    mongoose.disconnect();
+  }).catch((err) => {
+    console.error(`failed to create the settings object ${JSON.stringify(err)}`);
+    throw new Error(err); // just to be safe
+  });
