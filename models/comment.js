@@ -11,7 +11,7 @@ const CommentSchema = new Schema({
   body: {
     type: String,
     required: [true, 'The body is required.'],
-    minlength: 10
+    minlength: 2
   },
   asset_id: String,
   author_id: String,

@@ -2,23 +2,21 @@ require('../../../utils/mongoose');
 const Action = require('../../../../models/action');
 const User = require('../../../../models/user');
 const Comment = require('../../../../models/comment');
-const expect = require('chai').expect;
-const streamRoutes = require('../../../../routes/api/stream');
 
 describe('api/stream: routes', () => {
   const comments = [{
     id: 'abc',
-    body: 'comment 1',
+    body: 'comment 10',
     asset_id: 'asset',
     author_id: '123'
   },{
     id: 'def',
-    body: 'comment 2',
+    body: 'comment 20',
     asset_id: 'asset',
     author_id: '456'
   },{
     id: 'hij',
-    body: 'comment 3',
+    body: 'comment 30',
     asset_id: '456'
   }]
 
@@ -46,15 +44,5 @@ describe('api/stream: routes', () => {
     })
   })
 
-  it('should return a stream with comments, users and actions', () => {
-    streamRoutes('./')({
-        query: {
-          asset_id: 'asset'
-      }
-    }, {
-      json: (data) => {
-        expect(data).to.equal(1);
-      }
-    })
-  })
+  it('should return a stream with comments, users and actions')
 })
