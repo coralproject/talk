@@ -9,5 +9,5 @@ try {
       if (err) throw err;
     });
 } catch (err) {
-  console.log('Cannot create settings object.');
+  console.error('Cannot create settings object. ', err);
 }
