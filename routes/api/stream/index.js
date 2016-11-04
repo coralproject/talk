@@ -1,33 +1,17 @@
 const express = require('express');
 
+const Comment = require('../../../models/comment');
+const User = require('../../../models/user');
+const Action = require('../../../models/action');
+
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  console.log('Stream endpoint has been hit with asset_id ', req.query.asset_id);
-  res.json([
-    {
-      'id': 'abc',
-      'type': 'comment',
-      'body': 'Sample comment',
-      'created_at': new Date().getTime(),
-      'asset_id': 'assetTest'
-    },
-    {
-      'id': 'xyz',
-      'type': 'comment',
-      'body': 'Sample reply',
-      'created_at': new Date().getTime() - 600000,
-      'parent_id': 'abc',
-      'asset_id': 'assetTest'
-    },
-    {
-      'id': 'def',
-      'type': 'comment',
-      'body': 'Another comment',
-      'created_at': new Date().getTime() - 400000,
-      'asset_id': 'assetTest'
-    }
-  ]);
+router.get('/', (req, res, next) => {
+  const comments = Comment.findByAssetId(req.query.asset_id) || [];
+  const users = User.findByIdArray(comments.map((comment) => comment.author_id));
+  const actions = Action.findByItemIdArray(comments.map((comment) => comment.id));
+
+  res.json(comments.concat(users).concat(actions)).catch(next);
 });
 
 module.exports = router;
