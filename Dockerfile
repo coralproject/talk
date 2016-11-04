@@ -6,6 +6,7 @@ WORKDIR /usr/src/app
 
 # Setup the environment
 ENV PATH /usr/src/app/bin:$PATH
+ENV TALK_PORT 5000
 EXPOSE 5000
 
 # Install app dependencies
