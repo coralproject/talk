@@ -19,7 +19,6 @@ router.get('/', (req, res, next) => {
   }).then(([comments, users, actions]) => {
     res.json([...comments,...users,...actions]);
   }).catch(error => {
-    console.log(error);
     next(error);
   });
 });
