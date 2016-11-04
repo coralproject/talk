@@ -1,4 +1,11 @@
 require('../../../utils/mongoose');
+
+const app = require('../../../../app');
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+chai.use(chaiHttp);
+var expect = chai.expect;
+
 const Action = require('../../../../models/action');
 const User = require('../../../../models/user');
 const Comment = require('../../../../models/comment');
@@ -44,5 +51,15 @@ describe('api/stream: routes', () => {
     })
   })
 
-  it('should return a stream with comments, users and actions')
+  it('should return a stream with comments, users and actions', function(done){
+    chai.request(app)
+      .get('/api/v1/stream')
+      .query({'asset_id': 'asset'})
+      .end(function(err, res){
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        if (err) return done(err);
+        done();
+      });
+  })
 })
