@@ -22,34 +22,28 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:comment_id', (req, res, next) => {
-  Comment.findById(req.params.comment_id, function(err, comment) {
-    if(err) {
-      res.status(500);
-      return next(err);
-    }
-    res.status(200);
-    res.send(comment);
-    next();
+  Comment.findById(req.params.comment_id).then((comment) => {
+    res.status(200).json(comment);
+  }).catch(error => {
+    next(error);
   });
 });
 
 router.post('/', (req, res, next) => {
   let comment  = new Comment({
-    body: req.query.comment,
+    body: req.query.body,
     author_id: req.query.author_id,
     asset_id: req.query.asset_id,
     parent_id: req.query.parent_id,
     status: req.query.status
   });
-  comment.save(function(err, comment) {
-    if(err) {
-      res.status(500);
-      return next(err);
-    }
-    res.status(201);
-    res.send(comment.id);
-    next();
+  comment.save().then(({id}) => {
+    res.status(201).send(id);
+  }).catch(error => {
+    console.log(error);
+    next(error);
   });
+
 });
 
 router.put('/:comment_id', (req, res) => {
