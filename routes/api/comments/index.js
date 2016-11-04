@@ -31,7 +31,6 @@ router.post('/', (req, res, next) => {
   comment.save().then(({id}) => {
     res.status(201).send(id);
   }).catch(error => {
-    console.log(error);
     next(error);
   });
 
