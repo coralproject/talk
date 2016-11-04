@@ -5,7 +5,7 @@ const Comment = require('../../models/comment');
 const expect = require('chai').expect;
 
 describe('Comment: models', () => {
-  var mockComments
+  var mockComments;
   beforeEach(() => {
     return Comment.create([{
       body: 'comment 1',
@@ -17,7 +17,7 @@ describe('Comment: models', () => {
       body: 'comment 3',
       asset_id: '456'
     }]).then((comments) => {
-      mockComments = comments
+      mockComments = comments;
     });
   });
 

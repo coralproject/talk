@@ -8,8 +8,6 @@ var mongoose = require('mongoose');
 process.env.NODE_ENV = 'test';
 
 beforeEach(function (done) {
-
-
   function clearDB() {
     for (var i in mongoose.connection.collections) {
       mongoose.connection.collections[i].remove(function() {});
@@ -29,7 +27,6 @@ beforeEach(function (done) {
     return clearDB();
   }
 });
-
 
 after(function (done) {
   mongoose.disconnect();
