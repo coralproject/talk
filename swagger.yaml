@@ -150,14 +150,22 @@ paths:
       description: Settings
       responses:
         200:
-          description: OK
+          description: Get Setting
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Setting'
     put:
       tags:
         - Settings
       description: Settings
       responses:
         204:
-          description: OK
+          description: Updated Setting
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Setting'
 
 
 
@@ -212,3 +220,21 @@ definitions:
         type: string
       user_id:
         type: string
+  Setting:
+    type: object
+    properties:
+      id:
+        type: string
+      moderation:
+        type: string
+        enum:
+            - pre
+            - post
+      created_at:
+        type: string
+        format: date-time
+        description: Creation Date-Time
+      updated_at:
+        type: string
+        format: date-time
+        description: Updated Date-Time
