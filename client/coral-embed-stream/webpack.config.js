@@ -8,7 +8,7 @@ module.exports = {
   devtool: 'source-map',
   entry: [
     'babel-polyfill',
-    './src/app'
+    path.join(__dirname, 'src', 'app')
   ],
   output: {
     path: path.join(__dirname, '..', '..','dist', 'coral-embed-stream'),
@@ -23,13 +23,13 @@ module.exports = {
   },
   plugins: [
     new Copy([{
-      from: './index.html'
+      from: path.join(__dirname, 'index.html')
     },
     {
-      from: './style/default.css'
+      from: path.join(__dirname, 'style', 'default.css')
     },
     {
-      from: './public/',
+      from: path.join(__dirname, 'public'),
       to: './'
     },
     {

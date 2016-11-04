@@ -30,11 +30,20 @@ const CommentSchema = new Schema({
 
 /**
  * Finds a comment by the id.
- * @param {String} id  identifier of the comment (uuid)
+ * @param {String} asset_id  identifier of comment (uuid)
 */
 CommentSchema.statics.findById = function(id) {
   return Comment.findOne({id});
 };
+
+/**
+ * Finds a comment by the asset_id.
+ * @param {String} asset_id  identifier of the asset which owns this comment (uuid)
+*/
+CommentSchema.statics.findByAssetId = function(asset_id) {
+  return Comment.find({asset_id});
+};
+
 
 const Comment = mongoose.model('Comment', CommentSchema);
 
