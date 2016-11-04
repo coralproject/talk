@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "./bin/www",
+    "build": "webpack --config ./client/coral-embed-stream/webpack.config.js",
     "lint": "eslint .",
     "pretest": "npm install",
     "test": "mocha tests",
