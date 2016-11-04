@@ -1,8 +1,9 @@
 const express = require('express');
-
+const Setting = require('../../../models/comment');
 const router = express.Router();
 
 router.get('/', (req, res, next) => {
+  
   console.log('Stream endpoint has been hit with asset_id ', req.query.asset_id);
   res.json([
     {

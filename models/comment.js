@@ -1,5 +1,3 @@
-'use strict';
-
 const mongoose = require('../mongoose');
 const uuid = require('uuid');
 const Schema = mongoose.Schema;
@@ -13,7 +11,7 @@ const CommentSchema = new Schema({
   body: {
     type: String,
     required: [true, 'The body is required.'],
-    minlength: 50
+    minlength: 1
   },
   asset_id: String,
   author_id: String,
@@ -23,21 +21,30 @@ const CommentSchema = new Schema({
     default: ''
   },
   parent_id: String
-},{
-  _id: false,
-  timestamps: {
-    createdAt: 'created_at',
-    updatedAt: 'updated_at'
-  }
+// },{
+//   _id: false,
+//   timestamps: {
+//     createdAt: 'created_at',
+//     updatedAt: 'updated_at'
+//   }
 });
 
 /**
  * Finds a comment by the id.
- * @param {String} id  identifier of the comment (uuid)
+ * @param {String} asset_id  identifier of comment (uuid)
 */
 CommentSchema.statics.findById = function(id) {
   return Comment.findOne({id});
 };
+
+/**
+ * Finds a comment by the asset_id.
+ * @param {String} asset_id  identifier of the asset which owns this comment (uuid)
+*/
+CommentSchema.statics.findByAssetId = function(asset_id) {
+  return Comment.find({asset_id});
+};
+
 
 const Comment = mongoose.model('Comment', CommentSchema);
 
