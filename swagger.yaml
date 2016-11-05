@@ -179,6 +179,11 @@ paths:
     get:
       tags:
         - Asset
+      parameters:
+        - name: url
+          in: query
+          description: The url of the asset.
+          required: true
       description: Get an asset by its url.
       responses:
         200:
