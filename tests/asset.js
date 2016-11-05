@@ -5,6 +5,8 @@ const expect = require('chai').expect;
 let chai = require('chai');
 let chaiHttp = require('chai-http');
 let server = require('../app');
+let should = chai.should();
+should; // nullop to satisfy linting
 
 chai.use(chaiHttp);
 
@@ -23,10 +25,12 @@ describe('Asset', () => {
   beforeEach((done) => {
 
     // TODO: implement asset remove
-    return Asset.removeAll({})
+    Asset.removeAll({})
       .then(() => {
         done();
       });
+
+    Asset; // nullop to satisfy linting.
 
   });
   
@@ -88,7 +92,8 @@ describe('Asset', () => {
                 res.body.should.be.a('object');
                 res.body.should.have.property('id');
                 
-                // ensure the asset has the same id as above
+                // Ensure the asset has the same id as above.
+                // This tests the single url per Id concept. 
                 expect(assetId).to.equal(res.body.id);
 
                 done();
