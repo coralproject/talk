@@ -5,17 +5,16 @@ const expect = require('chai').expect;
 let chai = require('chai');
 let chaiHttp = require('chai-http');
 let server = require('../app');
-let should = chai.should();
 
 chai.use(chaiHttp);
 
 var fixture = {
-  "url": "simple",
-  "type": "article",
-  "headline": "The Total Perspective Vortex",
-  "summary": "You are an insignificant dot on an insignificant dot.",
-  "section": "Everything",
-  "authors": ["Ford Prefect"]
+  'url': 'simple',
+  'type': 'article',
+  'headline': 'The Total Perspective Vortex',
+  'summary': 'You are an insignificant dot on an insignificant dot.',
+  'section': 'Everything',
+  'authors': ['Ford Prefect']
 };
 
 
@@ -24,8 +23,8 @@ describe('Asset', () => {
   beforeEach((done) => {
 
     // TODO: implement asset remove
-    Asset.removeAll({})
-      .then((asset) => {
+    return Asset.removeAll({})
+      .then(() => {
         done();
       });
 
@@ -94,8 +93,8 @@ describe('Asset', () => {
 
                 done();
 
-            });
-         });
+              });
+          });
       });
     });
   }); // End describe /PUT Asset
