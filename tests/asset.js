@@ -11,7 +11,7 @@ should; // nullop to satisfy linting
 chai.use(chaiHttp);
 
 var fixture = {
-  'url': 'simple',
+  'url': 'http://hhgg.com/total-perspective-vortex',
   'type': 'article',
   'headline': 'The Total Perspective Vortex',
   'summary': 'You are an insignificant dot on an insignificant dot.',
@@ -81,7 +81,7 @@ describe('Asset', () => {
 
             // Load the asset to make sure it's really there.
             chai.request(server)
-              .get('/api/v1/asset/url/' + fixture.url)
+              .get('/api/v1/asset?url=' + fixture.url)
               .end((err, res) => {
 
                 if (err) {
@@ -89,12 +89,15 @@ describe('Asset', () => {
                 }
 
                 res.should.have.status(200);
-                res.body.should.be.a('object');
-                res.body.should.have.property('id');
+                res.body.should.be.an('array');
+
+                let asset = res.body[0];
+
+                expect(asset).to.have.property('id');
                 
                 // Ensure the asset has the same id as above.
                 // This tests the single url per Id concept. 
-                expect(assetId).to.equal(res.body.id);
+                expect(assetId).to.equal(asset.id);
 
                 done();
 

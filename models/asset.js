@@ -38,9 +38,9 @@ const AssetSchema = new Schema({
 /**
  * Search for assets. Currently only returns all.
 */
-AssetSchema.statics.search = function() {
+AssetSchema.statics.search = function(query) {
 
-  return Asset.find({});
+  return Asset.find(query);
 
 };
 

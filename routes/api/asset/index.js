@@ -2,10 +2,16 @@ const express = require('express');
 const router = express.Router();
 const Asset = require('../../../models/asset');
 
-// Get many assets
+// Search assets.
 router.get('/', (req, res) => {
 
-  Asset.search(req.params.id)
+  let query = {};
+
+  if (typeof req.query.url !== 'undefined') {
+    query.url = req.query.url;
+  }
+
+  Asset.search(query)
     .then((asset) => {
       res.json(asset);
     });
@@ -16,16 +22,6 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
 
   Asset.findById(req.params.id)
-    .then((asset) => {
-      res.json(asset);
-    });
-
-});
-
-// Get an asset by url
-router.get('/url/:url', (req, res) => {
-
-  Asset.findByUrl(req.params.url)
     .then((asset) => {
       res.json(asset);
     });
