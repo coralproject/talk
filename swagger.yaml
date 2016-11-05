@@ -3,7 +3,7 @@ info:
   title: Talk API
   description: A commenting platform from The Coral Project. https://coralproject.net
   version: "0.0.1"
-host: api.talk-coralproject.net
+host: talk-stg.coralproject.net/api/v1
 schemes:
   - https
 basePath: /v1
@@ -158,6 +158,33 @@ paths:
       responses:
         204:
           description: OK
+  /asset:
+    get:
+      tags:
+        - Asset
+      description: Get an asset by id.
+      responses:
+        200:
+          description: OK
+        404:
+          description: Not Found
+    put:
+      tags:
+        - Asset
+      description: Upsert an asset.
+      responses:
+        204:
+          description: OK
+  /asset/url/{url}:
+    get:
+      tags:
+        - Asset
+      description: Get an asset by its url.
+      responses:
+        200:
+          description: OK
+        404:
+          description: Not Found
 
 
 
@@ -212,3 +239,43 @@ definitions:
         type: string
       user_id:
         type: string
+  Asset:
+    type: object
+    properties:
+      id:
+        type: string
+        description: The uuid.v4 id of the asset.
+      url:
+        type: string
+        description: The url where the asset is found.
+      type:
+        type: string
+        description: What kind of asset it is.
+        default: article
+      headline:
+        type: string
+        description: The headline of the asset, inferred on initial load.
+      summary:
+        type: string
+        description: A summary of the asset, inferred on initial load.
+      section:
+        type: string
+        description: The section the asset is in. 
+      subsection:
+        type: string
+        description: The subsection that the asset is in.
+      authors:
+        type: string
+        description: An array of the authors for this asset.
+      publication_date:
+        type: date
+        desctipion: When this asset was published.
+
+
+
+
+
+
+
+
+
