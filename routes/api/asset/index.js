@@ -2,6 +2,16 @@ const express = require('express');
 const router = express.Router();
 const Asset = require('../../../models/asset');
 
+// Get many assets
+router.get('/', (req, res) => {
+
+  Asset.search(req.params.id)
+    .then((asset) => {
+      res.json(asset);
+    });
+
+});
+
 // Get an asset by id
 router.get('/:id', (req, res) => {
 
@@ -22,12 +32,14 @@ router.get('/url/:url', (req, res) => {
 
 });
 
-// Upsert an asset
+// Upsert an asset and return the affected document.
 router.put('/', (req, res) => {
 
   Asset.upsert(req.body)
     .then((asset) => {
+
       res.json(asset);
+
     })
     .catch((err) => {
       console.error(err);

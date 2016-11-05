@@ -27,6 +27,7 @@ const AssetSchema = new Schema({
   publication_date: Date
 },{
   _id: false,
+  versionKey: false,
   timestamps: {
     createdAt: 'created_at',
     updatedAt: 'updated_at'
@@ -35,8 +36,17 @@ const AssetSchema = new Schema({
 
 
 /**
+ * Search for assets. Currently only returns all.
+*/
+AssetSchema.statics.search = function() {
+
+  return Asset.find({});
+
+};
+
+/**
  * Finds an asset by its id.
- * @param {String} id  identifier of the asset (uuid)
+ * @param {String} id  identifier of the asset (uuid).
 */
 AssetSchema.statics.findById = function(id) {
 
@@ -46,11 +56,11 @@ AssetSchema.statics.findById = function(id) {
 
 /**
  * Finds a asset by its url.
- * @param {String} url  identifier of the asset (uuid)
+ * @param {String} url  identifier of the asset (uuid).
 */
 AssetSchema.statics.findByUrl = function(url) {
  
-  return Asset.findOne({url: url});
+  return Asset.findOne({'url': url});
 
 };
 
@@ -65,9 +75,35 @@ AssetSchema.statics.upsert = function(data) {
     data.id = uuid.v4();
   }
 
-  return Asset.update({id: data.id}, data, {upsert: true});
+  // Perform the upsert against the id field.
+  let updatePromise = Asset.update({id: data.id}, data, {upsert: true})
+    .then((updateRes) => {
+
+      // Pull the freshly minted asset out and return.
+      return Asset.findById(data.id);
+
+    })
+    .catch((err) => {
+
+      console.error('Error upserting asset.', err);
+      //return new Promise(); // ??? what do we return on error?
+
+    });
   
+  return updatePromise;
+
 };
+
+/**
+ * Remove assets from the db.
+ * @param {String} query  bson query to identify assets to be removed.
+*/
+AssetSchema.statics.removeAll = function(query) {
+ 
+  return Asset.remove(query);
+
+};
+
 
 const Asset = mongoose.model('Asset', AssetSchema);
 
