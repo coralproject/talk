@@ -111,7 +111,8 @@ class CommentStream extends Component {
                 postItem={this.props.postItem}
                 appendItemArray={this.props.appendItemArray}
                 updateItem={this.props.updateItem}
-                id={rootItemId}/>
+                id={rootItemId}
+                reply={false}/>
             </div>
             {
               rootItem.comments.map((commentId) => {
@@ -137,7 +138,8 @@ class CommentStream extends Component {
                       postItem={this.props.postItem}
                       appendItemArray={this.props.appendItemArray}
                       updateItem={this.props.updateItem}
-                      id={commentId}
+                      id={rootItemId}
+                      parent_id={commentId}
                       showReply={comment.showReply}/>
                     {
                       comment.children &&

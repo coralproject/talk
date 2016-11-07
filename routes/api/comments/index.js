@@ -46,6 +46,7 @@ router.post('/:comment_id', (req, res, next) => {
     comment.asset_id = req.body.asset_id;
     comment.parent_id = req.body.parent_id;
     comment.status = req.body.status;
+    comment.username = req.body.username;
 
     comment.save().then((comment) => {
       res.status(200).send(comment);

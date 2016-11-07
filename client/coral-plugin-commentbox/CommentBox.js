@@ -19,26 +19,26 @@ class CommentBox extends Component {
   }
 
   postComment = () => {
-    const {postItem, updateItem, id, reply, addNotification, appendItemArray} = this.props
+    const {postItem, updateItem, id, parent_id, addNotification, appendItemArray} = this.props
     let comment = {
       body: this.state.body,
       asset_id: id,
       username: this.state.username
     }
     let related
-    if (reply) {
-      comment.parent_id = id
+    if (parent_id) {
+      comment.parent_id = parent_id
       related = 'children'
     } else {
       related = 'comments'
     }
-    updateItem(id, 'showReply', false)
+    updateItem(parent_id, 'showReply', false)
     postItem(comment, 'comments')
     .then((comment_id) => {
-      appendItemArray(id, related, comment_id)
+      appendItemArray(parent_id || id, related, comment_id)
       addNotification('success', 'Your comment has been posted.')
     }).catch((err) => console.error(err))
-    this.setState({content: ''})
+    this.setState({body: ''})
   }
 
   render () {
@@ -49,7 +49,7 @@ class CommentBox extends Component {
         <input type='text'
           className={name + '-username'}
           style={styles && styles.textarea}
-          value={this.state.content}
+          value={this.state.username}
           id={reply ? 'replyUser' : 'commentUser'}
           placeholder='Name'
           onChange={(e) => this.setState({username: e.target.value})}/>
@@ -65,7 +65,7 @@ class CommentBox extends Component {
           <textarea
             className={name + '-textarea'}
             style={styles && styles.textarea}
-            value={this.state.content}
+            value={this.state.body}
             placeholder='Comment'
             id={reply ? 'replyText' : 'commentText'}
             onChange={(e) => this.setState({body: e.target.value})}
