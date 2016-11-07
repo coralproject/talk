@@ -20,7 +20,7 @@ module.exports = {
     'bundle': path.join(__dirname, 'src', 'index')
   },
   output: {
-    path: path.join(__dirname, 'public'),
+    path: path.join(__dirname, '..', '..', 'dist', 'coral-admin'),
     filename: '[name].js'
   },
   module: {
@@ -41,6 +41,7 @@ module.exports = {
   resolve: {
     modules: [
       path.resolve('./src'),
+      path.resolve('../'),
       'node_modules'
     ]
   },
