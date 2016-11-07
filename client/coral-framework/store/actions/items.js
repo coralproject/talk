@@ -91,8 +91,8 @@ export function getStream (assetId) {
         /* Sort comments by date*/
         let rootComments = []
         let childComments = {}
-        const sorted = json.sort((a,b) => b.created_at - a.created_at)
-        sorted.reduce((prev, item) => {
+        json.sort((a,b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+        json.reduce((prev, item) => {
           dispatch(addItem(item))
 
           /* Check for root and child comments. */
