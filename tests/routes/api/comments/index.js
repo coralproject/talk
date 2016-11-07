@@ -33,10 +33,10 @@ describe('Get /:comment_id', () => {
 
   const users = [{
     id: '123',
-    display_name: 'John',
+    display_name: 'Ana',
   },{
     id: '456',
-    display_name: 'Paul',
+    display_name: 'Maria',
   }]
 
   const actions = [{
@@ -71,10 +71,10 @@ describe('Get /:comment_id', () => {
 describe('Post /comments', () => {
   const users = [{
     id: '123',
-    display_name: 'John',
+    display_name: 'Ana',
   },{
     id: '456',
-    display_name: 'Paul',
+    display_name: 'Maria',
   }]
 
   const actions = [{
@@ -121,10 +121,10 @@ describe('Get /:comment_id', () => {
 
   const users = [{
     id: '123',
-    display_name: 'John',
+    display_name: 'Ana',
   },{
     id: '456',
-    display_name: 'Paul',
+    display_name: 'Maria',
   }]
 
   const actions = [{
@@ -176,10 +176,10 @@ describe('Put /:comment_id', () => {
 
   const users = [{
     id: '123',
-    display_name: 'John',
+    display_name: 'Ana',
   },{
     id: '456',
-    display_name: 'Paul',
+    display_name: 'Maria',
   }]
 
   const actions = [{
@@ -229,10 +229,10 @@ describe('Delete /:comment_id', () => {
 
   const users = [{
     id: '123',
-    display_name: 'John',
+    display_name: 'Ana',
   },{
     id: '456',
-    display_name: 'Paul',
+    display_name: 'Maria',
   }]
 
   const actions = [{
@@ -256,6 +256,121 @@ describe('Delete /:comment_id', () => {
       .delete('/api/v1/comments/abc')
       .end(function(err, res){
         expect(res).to.have.status(201)
+        done()
+      })
+  })
+})
+
+
+describe('Post /:comment_id/status', () => {
+
+  const comments = [{
+    id: 'abc',
+    body: 'comment 10',
+    asset_id: 'asset',
+    author_id: '123',
+    status: ''
+  },{
+    id: 'def',
+    body: 'comment 20',
+    asset_id: 'asset',
+    author_id: '456',
+    status: 'rejected'
+  },{
+    id: 'hij',
+    body: 'comment 30',
+    asset_id: '456',
+    status: 'accepted'
+  }]
+
+  const users = [{
+    id: '123',
+    display_name: 'Ana',
+  },{
+    id: '456',
+    display_name: 'Maria',
+  }]
+
+  const actions = [{
+    action_type: 'flag',
+    item_id: 'abc'
+  },{
+    action_type: 'like',
+    item_id: 'hij'
+  }]
+
+  beforeEach(() => {
+    return Comment.create(comments).then(() => {
+      return User.create(users)
+    }).then(() => {
+      return Action.create(actions)
+    })
+  })
+
+  it('it should update status', function(done) {
+    chai.request(app)
+      .post('/api/v1/comments/abc/status')
+      .send({'status': 'accepted'})
+      .end(function(res){
+        expect(res).to.have.status(200)
+        done()
+      })
+  })
+})
+
+
+
+describe('Post /:comment_id/actions', () => {
+
+  const comments = [{
+    id: 'abc',
+    body: 'comment 10',
+    asset_id: 'asset',
+    author_id: '123',
+    status: ''
+  },{
+    id: 'def',
+    body: 'comment 20',
+    asset_id: 'asset',
+    author_id: '456',
+    status: 'rejected'
+  },{
+    id: 'hij',
+    body: 'comment 30',
+    asset_id: '456',
+    status: 'accepted'
+  }]
+
+  const users = [{
+    id: '123',
+    display_name: 'Ana',
+  },{
+    id: '456',
+    display_name: 'Maria',
+  }]
+
+  const actions = [{
+    action_type: 'flag',
+    item_id: 'abc'
+  },{
+    action_type: 'like',
+    item_id: 'hij'
+  }]
+
+  beforeEach(() => {
+    return Comment.create(comments).then(() => {
+      return User.create(users)
+    }).then(() => {
+      return Action.create(actions)
+    })
+  })
+
+  it('it should update status', function(done) {
+    chai.request(app)
+      .post('/api/v1/comments/abc/actions')
+      .send({'user_id': '456', 'action_type': 'flag'})
+      .end(function(res){
+        expect(res).to.have.status(200)
         done()
       })
   })

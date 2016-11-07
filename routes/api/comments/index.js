@@ -66,15 +66,19 @@ router.delete('/:comment_id', (req, res, next) => {
 });
 
 router.post('/:comment_id/status', (req, res, next) => {
-  Comment.changeStatus(req.params.comment_id, req.query.status).then((comment) => {
+  Comment.changeStatus(req.params.comment_id, req.body.status).then((comment) => {
     res.status(200).send(comment);
   }).catch(error => {
     next(error);
   });
 });
 
-router.post('/:comment_id/actions', (req, res) => {
-  res.send('Add a comment action');
+router.post('/:comment_id/actions', (req, res, next) => {
+  Comment.addAction(req.params.comment_id, req.body.user_id, req.body.action_type).then((action) => {
+    res.status(200).send(action);
+  }).catch(error => {
+    next(error);
+  });
 });
 
 module.exports = router;
