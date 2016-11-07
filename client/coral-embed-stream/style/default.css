@@ -91,7 +91,9 @@ hr {
 }
 
 .coral-plugin-author-name-text {
-  font-weight: bold;
+  display: inline-block;
+  margin-right: 10px;
+  font-weight: bolder;
 }
 
 
