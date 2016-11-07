@@ -7,7 +7,6 @@ const router = express.Router();
 // Routes
 //==============================================================================
 
-
 router.get('/', (req, res, next) => {
   Comment.find({}).then((comments) => {
     res.status(200).json(comments);
@@ -25,16 +24,10 @@ router.get('/:comment_id', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  let comment  = new Comment({
-    body: req.body.body,
-    author_id: req.body.author_id,
-    asset_id: req.body.asset_id,
-    parent_id: req.body.parent_id,
-    status: req.body.status,
-    username: req.body.username
-  });
+  const {body, author_id, asset_id, parent_id, status, username} = req.body;
+  let comment  = new Comment({body, author_id, asset_id, parent_id, status, username});
   comment.save().then(({id}) => {
-    res.status(200).send(id);
+    res.status(200).send({'id': id});
   }).catch(error => {
     next(error);
   });
@@ -47,20 +40,17 @@ router.post('/:comment_id', (req, res, next) => {
     comment.asset_id = req.body.asset_id;
     comment.parent_id = req.body.parent_id;
     comment.status = req.body.status;
-
-    comment.save().then((comment) => {
-      res.status(200).send(comment);
-    });
+    return comment.save();
+  }).then((comment) => {
+    res.status(200).send(comment);
   }).catch(error => {
     next(error);
   });
 });
 
 router.delete('/:comment_id', (req, res, next) => {
-  Comment.findById(req.params.comment_id).then((comment) => {
-    comment.remove().then(() => {
-      res.status(201).send('OK. Deleted');
-    });
+  Comment.remove(req.params.comment_id).then(() => {
+    res.status(201).send('OK. Deleted');
   }).catch(error => {
     next(error);
   });

@@ -45,6 +45,19 @@
         "space-infix-ops": ["error"],
         "no-const-assign": [2],
         "no-duplicate-imports": [2],
-        "prefer-template": [1]
+        "prefer-template": [1],
+        "comma-spacing": [
+          "error",
+          {
+            "after": true
+          }
+        ],
+        "no-var": [2],
+        "no-lonely-if": [2],
+        "curly": [2],
+        "no-multiple-empty-lines": [
+          "error",
+          {"max": 1}
+        ]
     }
 }
