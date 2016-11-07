@@ -54,8 +54,8 @@ const {setLoggedInUser} = authActions
       postAction: (item, action, user) => {
         return dispatch(postAction(item, action, user))
       },
-      appendItemArray: (item, property, value) => {
-        return dispatch(appendItemArray(item, property, value))
+      appendItemArray: (item, property, value, addToFront) => {
+        return dispatch(appendItemArray(item, property, value, addToFront))
       }
     }
   }
