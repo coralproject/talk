@@ -11,7 +11,7 @@ if (enabled('talk:db')) {
 
 try {
   mongoose.connect(url, (err) => {
-    if (err) throw err;
+    if (err) {throw err;}
     console.log('Connected to MongoDB!');
   });
 } catch (err) {
