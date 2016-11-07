@@ -1,5 +1,7 @@
 const mongoose = require('../mongoose');
 const uuid = require('uuid');
+const Action = require('./action');
+
 const Schema = mongoose.Schema;
 
 const CommentSchema = new Schema({
@@ -30,10 +32,10 @@ const CommentSchema = new Schema({
 
 /**
  * Finds a comment by the id.
- * @param {String} asset_id  identifier of comment (uuid)
+ * @param {String} id  identifier of comment (uuid)
 */
 CommentSchema.statics.findById = function(id) {
-  return Comment.findOne({id});
+  return Comment.findOne({'id': id});
 };
 
 /**
@@ -44,6 +46,38 @@ CommentSchema.statics.findByAssetId = function(asset_id) {
   return Comment.find({asset_id});
 };
 
+/**
+ * Change the status of a comment.
+ * @param {String} id  identifier of the comment  (uuid)
+ * @param {String} status the new status of the comment
+*/
+CommentSchema.statics.changeStatus = function(id, status) {
+  return Comment.update({'id': id}, {$set: {'status': status}}, {upsert: false}).then(() => {
+    Comment.findById(id).then((comment) => {
+      return comment;
+    }).catch((err) => {
+      console.log('Error updating status for the comment.', err);
+    });
+  }).catch((err) => {
+    console.log('Error updating status for the comment.', err);
+  });
+};
+
+/**
+ * Add an action to the comment.
+ * @param {String} id  identifier of the comment  (uuid)
+ * @param {String} action the new action to the comment
+*/
+CommentSchema.statics.addAction = function(id, user_id, action_type) {
+  // check that the comment exist
+  var action  = new Action({
+    action_type: action_type,
+    item_type: 'comment',
+    item_id: id,
+    user_id: user_id
+  });
+  return action.save();
+};
 
 const Comment = mongoose.model('Comment', CommentSchema);
 
