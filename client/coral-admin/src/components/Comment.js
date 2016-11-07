@@ -12,14 +12,14 @@ export default props => (
     <div className={styles.itemHeader}>
       <div className={styles.author}>
         <i className={`material-icons ${styles.avatar}`}>person</i>
-        <span>{props.comment.get('data').get('name') || lang.t('comment.anon')}</span>
-        <span className={styles.created}>{timeago().format(props.comment.get('data').get('createdAt') || (Date.now() - props.index * 60 * 1000), lang.getLocale().replace('-', '_'))}</span>
-        {props.comment.get('data').get('flagged') ? <p className={styles.flagged}>{lang.t('comment.flagged')}</p> : null}
+        <span>{props.comment.get('name') || lang.t('comment.anon')}</span>
+        <span className={styles.created}>{timeago().format(props.comment.get('createdAt') || (Date.now() - props.index * 60 * 1000), lang.getLocale().replace('-', '_'))}</span>
+        {props.comment.get('flagged') ? <p className={styles.flagged}>{lang.t('comment.flagged')}</p> : null}
       </div>
       <div className={styles.actions}>
         {props.actions.map(action => canShowAction(action, props.comment) ? (
           <Button className={styles.actionButton}
-            onClick={() => props.onClickAction(props.actionsMap[action].status, props.comment.get('item_id'))}
+            onClick={() => props.onClickAction(props.actionsMap[action].status, props.comment.get('_id'))}
             fab colored>
             <Icon name={props.actionsMap[action].icon} />
           </Button>
@@ -27,16 +27,17 @@ export default props => (
       </div>
     </div>
     <div className={styles.itemBody}>
-      <span className={styles.body}>{props.comment.get('data').get('body')}</span>
+      <span className={styles.body}>{props.comment.get('body')}</span>
     </div>
   </li>
 )
 
 // Check if an action can be performed over a comment
 const canShowAction = (action, comment) => {
-  const status = comment.get('data').get('status')
-  const flagged = comment.get('data').get('flagged')
-  if (action === 'flag' && (status !== 'Untouched' || flagged === true)) {
+  const status = comment.get('status')
+  const flagged = comment.get('flagged')
+
+  if (action === 'flag' && (status || flagged === true)) {
     return false
   }
   return true

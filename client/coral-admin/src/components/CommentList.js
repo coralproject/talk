@@ -112,8 +112,9 @@ export default class CommentList extends React.Component {
   }
 
   render () {
-    const {singleView, actions, commentIds, comments, hideActive} = this.props
+    const {singleView, commentIds, comments, hideActive} = this.props
     const {active} = this.state
+
     return (
       <ul className={`${styles.list} ${singleView ? styles.singleView : ''}`}>
         {commentIds.map((commentId, index) => (
@@ -122,7 +123,7 @@ export default class CommentList extends React.Component {
             key={index}
             index={index}
             onClickAction={this.onClickAction}
-            actions={actions}
+            actions={this.props.actions}
             actionsMap={actions}
             isActive={commentId === active}
             hideActive={hideActive} />
