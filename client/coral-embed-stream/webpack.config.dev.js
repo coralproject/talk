@@ -9,13 +9,14 @@ module.exports = {
     path.join(__dirname, 'src', 'app')
   ],
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, '..', '..','dist', 'coral-embed-stream'),
     filename: 'bundle.js',
     publicPath: '/'
   },
   resolve: {
     root: [
-      path.resolve(__dirname, 'src')
+      path.resolve(__dirname, 'src'),
+      path.resolve(__dirname, '..')
     ],
     extensions: ['', '.js', '.jsx']
   },

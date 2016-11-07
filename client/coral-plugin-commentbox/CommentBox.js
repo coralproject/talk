@@ -8,56 +8,67 @@ class CommentBox extends Component {
   static propTypes = {
     postItem: PropTypes.func,
     updateItem: PropTypes.func,
-    item_id: PropTypes.string,
+    id: PropTypes.string,
     comments: PropTypes.array,
     reply: PropTypes.bool
   }
 
   state = {
-    content: ''
+    body: '',
+    username: ''
   }
 
   postComment = () => {
-    const {postItem, updateItem, item_id, reply, addNotification, appendItemArray} = this.props
+    const {postItem, updateItem, id, parent_id, addNotification, appendItemArray} = this.props
     let comment = {
-      content: this.state.content
+      body: this.state.body,
+      asset_id: id,
+      username: this.state.username
     }
     let related
-    if (reply) {
-      comment.parent_id = item_id
+    if (parent_id) {
+      comment.parent_id = parent_id
       related = 'children'
     } else {
-      comment.asset_id = item_id
       related = 'comments'
     }
-    updateItem(item_id, 'showReply', false)
+    updateItem(parent_id, 'showReply', false)
     postItem(comment, 'comments')
-    .then((id) => {
-      appendItemArray(item_id, related, id)
+    .then((comment_id) => {
+      appendItemArray(parent_id || id, related, comment_id)
       addNotification('success', 'Your comment has been posted.')
     }).catch((err) => console.error(err))
-    this.setState({content: ''})
+    this.setState({body: ''})
   }
 
   render () {
     const {styles, reply} = this.props
     // How to handle language in plugins? Should we have a dependency on our central translation file?
     return <div>
+        <div className={name + '-container'}>
+        <input type='text'
+          className={name + '-username'}
+          style={styles && styles.textarea}
+          value={this.state.username}
+          id={reply ? 'replyUser' : 'commentUser'}
+          placeholder='Name'
+          onChange={(e) => this.setState({username: e.target.value})}/>
+      </div>
       <div
-        className={name + '-container'}
-        style={styles && styles.container}>
+        className={name + '-container'}>
           <label
             htmlFor={ reply ? 'replyText' : 'commentText'}
             className="screen-reader-text"
             aria-hidden={true}>
-            {reply ? 'Reply': 'Comment'}
+            {reply ? lang.t('reply'): lang.t('comment')}
           </label>
           <textarea
             className={name + '-textarea'}
             style={styles && styles.textarea}
-            value={this.state.content}
+            value={this.state.body}
+            placeholder='Comment'
             id={reply ? 'replyText' : 'commentText'}
-            onChange={(e) => this.setState({content: e.target.value})}
+            onChange={(e) => this.setState({body: e.target.value})}
             rows={3}/>
         </div>
         <div className={name + '-button-container'}>
@@ -76,9 +87,13 @@ export default CommentBox
 
 const lang = new I18n({
   en: {
-    post: 'Post'
+    post: 'Post',
+    reply: 'Reply',
+    comment: 'Comment',
   },
   es: {
-    post: 'Publicar'
+    post: 'Publicar',
+    reply: 'Respuesta',
+    comment: 'Comentario'
   }
 })

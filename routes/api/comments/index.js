@@ -59,8 +59,8 @@ router.get('/status/pending', (req, res, next) => {
 //==============================================================================
 
 router.post('/', (req, res, next) => {
-  const {body, author_id, asset_id, parent_id, status} = req.body;
-  let comment  = new Comment({body, author_id, asset_id, parent_id, status});
+  const {body, author_id, asset_id, parent_id, status, username} = req.body;
+  let comment  = new Comment({body, author_id, asset_id, parent_id, status, username});
   comment.save().then(({id}) => {
     res.status(200).send({'id': id});
   }).catch(error => {

@@ -17,6 +17,7 @@ const CommentSchema = new Schema({
   },
   asset_id: String,
   author_id: String,
+  username: String,
   status: {
     type: String,
     enum: ['accepted', 'rejected', ''],
