@@ -26,8 +26,8 @@
   },
   "devDependencies": {
     "autoprefixer": "6.5.0",
-    "buble": "0.13.0",
-    "buble-loader": "0.3.0",
+    "babel-core": "^6.18.2",
+    "babel-loader": "^6.2.7",
     "copy-webpack-plugin": "3.0.1",
     "css-loader": "0.25.0",
     "json-loader": "0.5.4",
@@ -36,7 +36,7 @@
     "precss": "1.4.0",
     "standard": "8.2.0",
     "style-loader": "0.13.1",
-    "webpack": "2.1.0-beta.25",
+    "webpack": "^1.13.3",
     "webpack-dev-server": "1.16.1"
   }
 }

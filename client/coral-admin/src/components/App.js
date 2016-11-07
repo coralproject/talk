@@ -20,10 +20,10 @@ export default class App extends React.Component {
           <Header>
             <div>
               <Router history={browserHistory}>
-                <Route path={config.base} component={ModerationQueue} />
-                <Route path={`${config.base}/embed`} component={CommentStream} />
-                <Route path={`${config.base}/embedlink`} component={EmbedLink} />
-                <Route path={`${config.base}/configure`} component={Configure} />
+                <Route path={config.basePath} component={ModerationQueue} />
+                <Route path={`${config.basePath}/embed`} component={CommentStream} />
+                <Route path={`${config.basePath}/embedlink`} component={EmbedLink} />
+                <Route path={`${config.basePath}/configure`} component={Configure} />
               </Router>
             </div>
           </Header>

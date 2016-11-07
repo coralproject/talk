@@ -9,14 +9,14 @@ export default (props) => (
   <Layout fixedDrawer>
     <Header title='Talk'>
       <Navigation>
-        <Link className={styles.navLink} href={`/${config.base}/`}>Moderate</Link>
-        <Link className={styles.navLink} href={`/${config.base}/configure`}>Configure</Link>
+        <Link className={styles.navLink} href={`/${config.basePath}/`}>Moderate</Link>
+        <Link className={styles.navLink} href={`/${config.basePath}/configure`}>Configure</Link>
       </Navigation>
     </Header>
     <Drawer>
       <Navigation>
-        <Link className={styles.navLink} href={`/${config.base}/`}>Moderate</Link>
-        <Link className={styles.navLink} href={`/${config.base}/configure`}>Configure</Link>
+        <Link className={styles.navLink} href={`/${config.basePath}/`}>Moderate</Link>
+        <Link className={styles.navLink} href={`/${config.basePath}/configure`}>Configure</Link>
       </Navigation>
     </Drawer>
     {props.children}

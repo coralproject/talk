@@ -16,10 +16,11 @@ fs.writeFileSync(path.join(__dirname, 'public/index.html'), templateString)
 
 module.exports = Object.assign({}, devConfig, {
   module: {
-    loader: [
-      { test: /\.js$/, loaders: 'buble', include: [path.join(__dirname, 'src'), path.join(__dirname, '../', 'coral-framework')] },
-      { test: /\.json$/, loaders: 'json', include: __dirname, exclude: /node_modules/ },
-      { test: /\.css$/, loader: 'style-loader!css-loader?modules&importLoaders=1!postcss-loader' }
+    context: __dirname,
+    loaders: [
+      { test: /.js$/, loader: 'babel', include: [path.join(__dirname, 'src'), path.join(__dirname, '../', 'coral-framework')], exclude: /node_modules/ },
+      { test: /.json$/, loader: 'json', include: __dirname, exclude: /node_modules/ },
+      { test: /.css$/, loaders: ['style-loader', 'css-loader?importLoaders=1', 'postcss-loader'] }
     ]
   },
   plugins: [
@@ -27,14 +28,6 @@ module.exports = Object.assign({}, devConfig, {
       from: path.join(__dirname, '..', 'coral-embed-stream', 'dist'),
       to: './embed/comment-stream'
     }]),
-    new webpack.LoaderOptionsPlugin({
-      options: {
-        context: __dirname,
-        postcss: [autoprefixer, precss],
-        minimize: true,
-        debug: false
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin()
+    autoprefixer, precss
   ]
 })

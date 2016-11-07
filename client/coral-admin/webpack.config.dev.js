@@ -24,25 +24,17 @@ module.exports = {
     filename: '[name].js'
   },
   module: {
-    loader: [
-      { test: /\.js$/, loaders: 'buble', include: path.join(__dirname, 'src') },
+    loaders: [
+      { test: /.js$/, loader: 'babel', include: path.join(__dirname, 'src'), exclude: /node_modules/ },
       { test: /\.json$/, loaders: 'json', include: __dirname, exclude: /node_modules/ },
-      { test: /\.css$/, loader: 'style-loader!css-loader?modules&importLoaders=1!postcss-loader' }
+      { test: /\.css$/, loaders: ['style-loader', 'css-loader?importLoaders=1', 'postcss-loader'] }
     ]
   },
-  plugins: [
-    new webpack.LoaderOptionsPlugin({
-      options: {
-        context: __dirname,
-        postcss: [autoprefixer, precss]
-      }
-    })
-  ],
+  plugins: [ autoprefixer, precss ],
   resolve: {
-    modules: [
+    root: [
       path.resolve('./src'),
-      path.resolve('../'),
-      'node_modules'
+      path.resolve('../')
     ]
   },
   devServer: {
