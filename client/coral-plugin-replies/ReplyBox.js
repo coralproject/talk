@@ -8,7 +8,8 @@ const ReplyBox = (props) => <div
    style={props.styles && props.styles.container}>
      {
        props.showReply && <CommentBox
-         item_id = {props.item_id}
+         id = {props.id}
+         parent_id = {props.parent_id}
          postItem = {props.postItem}
          addNotification = {props.addNotification}
          appendItemArray = {props.appendItemArray}

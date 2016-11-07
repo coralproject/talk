@@ -4,7 +4,6 @@ const devConfig = require('./webpack.config.dev')
 const autoprefixer = require('autoprefixer')
 const precss = require('precss')
 const Copy = require('copy-webpack-plugin')
-const webpack = require('webpack')
 const config = require('./config.json')
 
 // doing a string replace here because I spent a day trying to do it the "webpack" way

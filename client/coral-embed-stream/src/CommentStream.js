@@ -11,6 +11,7 @@ import Content from '../../coral-plugin-commentcontent/CommentContent'
 import PubDate from '../../coral-plugin-pubdate/PubDate'
 import Count from '../../coral-plugin-comment-count/CommentCount'
 import Flag from '../../coral-plugin-flags/FlagButton'
+import AuthorName from '../../coral-plugin-author-name/AuthorName'
 import {ReplyBox, ReplyButton} from '../../coral-plugin-replies'
 import Pym from 'pym.js'
 
@@ -110,13 +111,15 @@ class CommentStream extends Component {
                 postItem={this.props.postItem}
                 appendItemArray={this.props.appendItemArray}
                 updateItem={this.props.updateItem}
-                id={rootItemId}/>
+                id={rootItemId}
+                reply={false}/>
             </div>
             {
               rootItem.comments.map((commentId) => {
                 const comment = this.props.items[commentId]
-                return <div className="comment">
+                return <div className="comment" key={commentId}>
                   <hr aria-hidden={true}/>
+                  <AuthorName name={comment.username}/>
                   <PubDate created_at={comment.created_at}/>
                   <Content content={comment.body}/>
                   <div className="commentActions">
@@ -135,14 +138,16 @@ class CommentStream extends Component {
                       postItem={this.props.postItem}
                       appendItemArray={this.props.appendItemArray}
                       updateItem={this.props.updateItem}
-                      id={commentId}
+                      id={rootItemId}
+                      parent_id={commentId}
                       showReply={comment.showReply}/>
                     {
                       comment.children &&
                       comment.children.map((replyId) => {
                       let reply = this.props.items[replyId]
-                      return <div className="reply">
+                      return <div className="reply" key={replyId}>
                         <hr aria-hidden={true}/>
+                        <AuthorName name={reply.username}/>
                         <PubDate created_at={reply.created_at}/>
                         <Content content={reply.body}/>
                         <div className="replyActions">

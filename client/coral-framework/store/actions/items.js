@@ -97,12 +97,10 @@ export function getStream (assetId) {
 
           /* Check for root and child comments. */
           if (
-            item.type === 'comment' &&
             item.asset_id === assetId &&
             !item.parent_id) {
             rootComments.push(item.id)
           } else if (
-            item.type === 'comment' &&
             item.asset_id === assetId
           ) {
             let children = childComments[item.parent_id] || []
@@ -178,18 +176,22 @@ export function postItem (item, type, id) {
     }
     let options = {
       method: 'POST',
-      body: JSON.stringify(item)
+      body: JSON.stringify(item),
+      headers: {
+        'Content-Type':'application/json'
+      }
     }
-    return fetch('api/v1/' + type, options)
+    console.log('postItem', options);
+    return fetch('/api/v1/' + type, options)
       .then(
         response => {
-          return response.ok ? response.json()
+          return response.ok ? response.text()
           : Promise.reject(response.status + ' ' + response.statusText)
         }
       )
-      .then((json) => {
-        dispatch(addItem(json))
-        return json.id
+      .then((id) => {
+        dispatch(addItem({...item, id}))
+        return id
       })
   }
 }
@@ -223,7 +225,7 @@ export function postAction (id, type, user_id) {
     }
 
     dispatch(appendItemArray(id, type, user_id))
-    return fetch('api/v1/comments/' + id + '/actions', options)
+    return fetch('/api/v1/comments/' + id + '/actions', options)
       .then(
         response => {
           return response.ok ? response.text()

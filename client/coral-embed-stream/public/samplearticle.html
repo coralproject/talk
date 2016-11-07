@@ -9,7 +9,7 @@
 <div id='coralStreamEmbed'></div>
 <script type='text/javascript' src='http://pym.nprapps.org/pym.v1.min.js'></script>
 <script>
-var pymParent = new pym.Parent('coralStreamEmbed', 'index.html', {});
+var pymParent = new pym.Parent('coralStreamEmbed', 'index.html', {title: 'comments'});
 pymParent.onMessage('height', function(height) {document.querySelector('#coralStreamEmbed iframe').height = height + 'px'})</script>
 </div>
   </body>
