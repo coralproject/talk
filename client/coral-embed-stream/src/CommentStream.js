@@ -121,7 +121,7 @@ class CommentStream extends Component {
                   <hr aria-hidden={true}/>
                   <AuthorName name={comment.username}/>
                   <PubDate created_at={comment.created_at}/>
-                  <Content content={comment.body}/>
+                  <Content body={comment.body}/>
                   <div className="commentActions">
                     {
                     // <Flag
@@ -151,7 +151,7 @@ class CommentStream extends Component {
                         <hr aria-hidden={true}/>
                         <AuthorName name={reply.username}/>
                         <PubDate created_at={reply.created_at}/>
-                        <Content content={reply.body}/>
+                        <Content body={reply.body}/>
                         <div className="replyActions">
                           {
                             // <Flag
