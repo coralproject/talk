@@ -30,7 +30,8 @@ router.post('/', (req, res, next) => {
     author_id: req.body.author_id,
     asset_id: req.body.asset_id,
     parent_id: req.body.parent_id,
-    status: req.body.status
+    status: req.body.status,
+    username: req.body.username
   });
   comment.save().then(({id}) => {
     res.status(200).send(id);
@@ -46,7 +47,6 @@ router.post('/:comment_id', (req, res, next) => {
     comment.asset_id = req.body.asset_id;
     comment.parent_id = req.body.parent_id;
     comment.status = req.body.status;
-    comment.username = req.body.username;
 
     comment.save().then((comment) => {
       res.status(200).send(comment);
