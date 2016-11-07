@@ -186,13 +186,13 @@ export function postItem (item, type, id) {
     return fetch('/api/v1/' + type, options)
       .then(
         response => {
-          return response.ok ? response.text()
+          return response.ok ? response.json()
           : Promise.reject(response.status + ' ' + response.statusText)
         }
       )
-      .then((id) => {
-        dispatch(addItem({...item, id}))
-        return id
+      .then((json) => {
+        dispatch(addItem({...item, id:json.id}))
+        return json.id
       })
   }
 }

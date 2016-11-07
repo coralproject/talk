@@ -35,7 +35,7 @@ class CommentBox extends Component {
     updateItem(parent_id, 'showReply', false)
     postItem(comment, 'comments')
     .then((comment_id) => {
-      appendItemArray(parent_id || id, related, comment_id, parent_id ? true : false)
+      appendItemArray(parent_id || id, related, comment_id, parent_id ? false : true)
       addNotification('success', 'Your comment has been posted.')
     }).catch((err) => console.error(err))
     this.setState({body: ''})
