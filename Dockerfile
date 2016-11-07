@@ -17,7 +17,7 @@ RUN npm install
 COPY . /usr/src/app
 
 # Compile static assets
-# RUN npm run build
+RUN npm run build
 
 # Prune development dependancies
 RUN npm prune --production
