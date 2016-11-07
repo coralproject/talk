@@ -308,7 +308,8 @@ describe('Post /:comment_id/status', () => {
     chai.request(app)
       .post('/api/v1/comments/abc/status')
       .send({'status': 'accepted'})
-      .end(function(res){
+      .end(function(err, res){
+        expect(err).to.be.null;
         expect(res).to.have.status(200);
         expect(res).to.have.body;
         done();
@@ -365,7 +366,8 @@ describe('Post /:comment_id/actions', () => {
     chai.request(app)
       .post('/api/v1/comments/abc/actions')
       .send({'user_id': '456', 'action_type': 'flag'})
-      .end(function(res){
+      .end(function(err, res){
+        expect(err).to.be.null;
         expect(res).to.have.status(200);
         done();
       });
