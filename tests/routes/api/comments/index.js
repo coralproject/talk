@@ -66,6 +66,74 @@ describe('Get /comments', () => {
   });
 });
 
+describe('Get moderation queues rejected, pending', () => {
+  const comments = [{
+    id: 'abc',
+    body: 'comment 10',
+    asset_id: 'asset',
+    author_id: '123',
+    status: 'rejected'
+  }, {
+    id: 'def',
+    body: 'comment 20',
+    asset_id: 'asset',
+    author_id: '456'
+  }, {
+    id: 'hij',
+    body: 'comment 30',
+    asset_id: '456',
+    status: 'accepted'
+  }];
+
+  const users = [{
+    id: '123',
+    display_name: 'Ana',
+  }, {
+    id: '456',
+    display_name: 'Maria',
+  }];
+
+  const actions = [{
+    action_type: 'flag',
+    item_id: 'abc'
+  }, {
+    action_type: 'like',
+    item_id: 'hij'
+  }];
+
+  beforeEach(() => {
+    return Comment.create(comments).then(() => {
+      return User.create(users);
+    }).then(() => {
+      return Action.create(actions);
+    });
+  });
+
+  it('should return all the rejected comments', function(done){
+    chai.request(app)
+      .get('/api/v1/comments/status/rejected')
+      .end(function(err, res){
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res.body[0]).to.have.property('id');
+        expect(res.body[0].id).to.equal('abc');
+        done();
+      });
+  });
+
+  it('should return all the pending comments', function(done){
+    chai.request(app)
+      .get('/api/v1/comments/status/pending')
+      .end(function(err, res){
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res.body[0]).to.have.property('id');
+        expect(res.body[0].id).to.equal('def');
+        done();
+      });
+  });
+});
+
 describe('Post /comments', () => {
   const users = [{
     id: '123',
