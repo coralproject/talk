@@ -27,7 +27,7 @@ describe('GET /settings', () => {
         expect(res.body).to.have.property('moderation');
         expect(res.body.moderation).to.equal('pre');
         done(err);
-      })
+      });
   });
 });
 

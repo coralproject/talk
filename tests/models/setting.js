@@ -9,8 +9,8 @@ describe('Setting: model', () => {
 
   beforeEach(() => {
     const defaults = {id: 1, moderation: 'pre'};
-    return Setting.update({id: '1'}, {$setOnInsert: defaults}, {upsert: true})
-  })
+    return Setting.update({id: '1'}, {$setOnInsert: defaults}, {upsert: true});
+  });
 
   describe('#getSettings()', () => {
     it('should have a moderation field defined', () => {
