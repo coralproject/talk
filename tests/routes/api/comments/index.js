@@ -313,6 +313,7 @@ describe('Post /:comment_id/status', () => {
       .send({'status': 'accepted'})
       .end(function(res){
         expect(res).to.have.status(200)
+        expect(res).to.have.body
         done()
       })
   })
