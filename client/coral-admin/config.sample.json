@@ -1,5 +1,3 @@
 {
-  "basePath": "http://localhost:3142",
-  "talkHost": "http://localhost:16180",
-  "xeniaHost": "http://localhost:16180"
+  "base": "client/coral-admin"
 }

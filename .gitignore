@@ -1,6 +1,8 @@
 node_modules
 npm-debug.log
 dist
+!dist/coral-admin
+dist/coral-admin/bundle.js
 .DS_Store
 *.iml
 .env

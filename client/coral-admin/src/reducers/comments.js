@@ -46,7 +46,7 @@ const flag = (state, action) => {
 
 // Replace the comment list with a new one
 const replaceComments = (action, state) => {
-  const comments = fromJS(action.comments.reduce((prev, curr) => { prev[curr.item_id] = curr; return prev }, {}))
+  const comments = fromJS(action.comments.reduce((prev, curr) => { prev[curr._id] = curr; return prev }, {}))
   return state.set('byId', comments).set('loading', false)
   .set('ids', List(comments.keys()))
 }
