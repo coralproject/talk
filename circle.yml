@@ -1,0 +1,21 @@
+machine:
+  node:
+    version: 7
+  services:
+    - docker
+
+test:
+  override:
+    - MOCHA_FILE=$CIRCLE_TEST_REPORTS/junit/test-results.xml ./node_modules/.bin/mocha tests --reporter mocha-junit-reporter
+    - npm run lint
+
+deployment:
+  release:
+    tag: /[0-9]+(\.[0-9]+)*/
+    commands:
+      - bash ./scripts/deploy.sh
+
+  latest:
+    branch: master
+    commands:
+      - bash ./scripts/deploy.sh

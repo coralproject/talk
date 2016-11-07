@@ -150,7 +150,11 @@ paths:
       description: Settings
       responses:
         200:
-          description: OK
+          description: Get Setting
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Setting'
     put:
       tags:
         - Settings
@@ -190,7 +194,6 @@ paths:
           description: OK
         404:
           description: Not Found
-
 
 
 definitions:
@@ -244,6 +247,19 @@ definitions:
         type: string
       user_id:
         type: string
+      moderation:
+        type: string
+        enum:
+            - pre
+            - post
+      created_at:
+        type: string
+        format: date-time
+        description: Creation Date-Time
+      updated_at:
+        type: string
+        format: date-time
+        description: Updated Date-Time
   Asset:
     type: object
     properties:
@@ -275,12 +291,3 @@ definitions:
       publication_date:
         type: date
         desctipion: When this asset was published.
-
-
-
-
-
-
-
-
-
