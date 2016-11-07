@@ -1,5 +1,7 @@
 const mongoose = require('../mongoose');
 const uuid = require('uuid');
+const Action = require('./action');
+
 const Schema = mongoose.Schema;
 
 const CommentSchema = new Schema({
@@ -44,6 +46,33 @@ CommentSchema.statics.findByAssetId = function(asset_id) {
   return Comment.find({asset_id});
 };
 
+/**
+ * Change the status of a comment.
+ * @param {String} comment_id  identifier of the comment  (uuid)
+ * @param {String} status the new status of the comment
+*/
+CommentSchema.statics.changeStatus = function(id, status) {
+  var comment = Comment.findOne({id});
+  comment.status = status;
+  return comment.save();
+};
+
+/**
+ * Add an action to the comment.
+ * @param {String} id  identifier of the comment  (uuid)
+ * @param {String} action the new action to the comment
+*/
+CommentSchema.statics.addAction = function(id, user_id, action_type) {
+  // check that the comment exist
+  var item_type = 'comment';
+  let action  = new Action({
+    action_type: action_type,
+    item_type: item_type,
+    item_id: id,
+    user_id: user_id
+  });
+  return action.save();
+};
 
 const Comment = mongoose.model('Comment', CommentSchema);
 

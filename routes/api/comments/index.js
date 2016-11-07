@@ -33,23 +33,44 @@ router.post('/', (req, res, next) => {
     status: req.query.status
   });
   comment.save().then(({id}) => {
-    res.status(201).send(id);
+    res.status(200).send(id);
   }).catch(error => {
     next(error);
   });
-
 });
 
-router.put('/:comment_id', (req, res) => {
-  res.send('Update a comment');
+router.put('/:comment_id', (req, res, next) => {
+  Comment.findById(req.params.comment_id).then((comment) => {
+    comment.body = req.query.body;
+    comment.author_id = req.query.author_id;
+    comment.asset_id = req.query.asset_id;
+    comment.parent_id = req.query.parent_id;
+    comment.status = req.query.status;
+
+    comment.save().then((comment) => {
+      res.status(200).send(comment);
+    });
+  }).catch(error => {
+    next(error);
+  });
 });
 
-router.delete('/:comment_id', (req, res) => {
-  res.send('Delete a comment');
+router.delete('/:comment_id', (req, res, next) => {
+  Comment.findById(req.params.comment_id).then((comment) => {
+    comment.remove().then(() => {
+      res.status(201).send('OK. Deleted');
+    });
+  }).catch(error => {
+    next(error);
+  });
 });
 
-router.post('/:comment_id/status', (req, res) => {
-  res.send('Update a comment status');
+router.post('/:comment_id/status', (req, res, next) => {
+  Comment.changeStatus(req.params.comment_id, req.query.status).then((comment) => {
+    res.status(200).send(comment);
+  }).catch(error => {
+    next(error);
+  });
 });
 
 router.post('/:comment_id/actions', (req, res) => {

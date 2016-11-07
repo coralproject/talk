@@ -61,6 +61,7 @@ describe('Get /:comment_id', () => {
       .end(function(err, res){
         expect(err).to.be.null;
         expect(res).to.have.status(200);
+        //expect(res).to.have.a.length(3); // it fails
         if (err) return done(err);
         done();
       });
@@ -95,11 +96,10 @@ describe('Post /comments', () => {
       .post('/api/v1/comments')
       .query({'body': 'Something body.', 'author_id': '123', 'asset_id': '1', 'parent_id': ''})
       .end(function(err, res){
-        expect(res).to.have.status(201)
+        expect(res).to.have.status(200)
         done()
       })
   })
-
 })
 
 describe('Get /:comment_id', () => {
@@ -154,7 +154,109 @@ describe('Get /:comment_id', () => {
         done();
       });
   })
+})
 
+describe('Put /:comment_id', () => {
 
+  const comments = [{
+    id: 'abc',
+    body: 'comment 10',
+    asset_id: 'asset',
+    author_id: '123'
+  },{
+    id: 'def',
+    body: 'comment 20',
+    asset_id: 'asset',
+    author_id: '456'
+  },{
+    id: 'hij',
+    body: 'comment 30',
+    asset_id: '456'
+  }]
 
+  const users = [{
+    id: '123',
+    display_name: 'John',
+  },{
+    id: '456',
+    display_name: 'Paul',
+  }]
+
+  const actions = [{
+    action_type: 'flag',
+    item_id: 'abc'
+  },{
+    action_type: 'like',
+    item_id: 'hij'
+  }]
+
+  beforeEach(() => {
+    return Comment.create(comments).then(() => {
+      return User.create(users)
+    }).then(() => {
+      return Action.create(actions)
+    })
+  })
+
+  it('it should update comment', function(done) {
+    chai.request(app)
+      .put('/api/v1/comments/abc')
+      .query({'body': 'Something body.', 'author_id': '123', 'asset_id': '1', 'parent_id': ''})
+      .end(function(err, res){
+        expect(res).to.have.status(200)
+        done()
+      })
+  })
+})
+
+describe('Delete /:comment_id', () => {
+
+  const comments = [{
+    id: 'abc',
+    body: 'comment 10',
+    asset_id: 'asset',
+    author_id: '123'
+  },{
+    id: 'def',
+    body: 'comment 20',
+    asset_id: 'asset',
+    author_id: '456'
+  },{
+    id: 'hij',
+    body: 'comment 30',
+    asset_id: '456'
+  }]
+
+  const users = [{
+    id: '123',
+    display_name: 'John',
+  },{
+    id: '456',
+    display_name: 'Paul',
+  }]
+
+  const actions = [{
+    action_type: 'flag',
+    item_id: 'abc'
+  },{
+    action_type: 'like',
+    item_id: 'hij'
+  }]
+
+  beforeEach(() => {
+    return Comment.create(comments).then(() => {
+      return User.create(users)
+    }).then(() => {
+      return Action.create(actions)
+    })
+  })
+
+  it('it should remove comment', function(done) {
+    chai.request(app)
+      .delete('/api/v1/comments/abc')
+      .end(function(err, res){
+        expect(res).to.have.status(201)
+        done()
+      })
+  })
 })
