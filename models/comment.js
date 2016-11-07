@@ -23,7 +23,7 @@ const CommentSchema = new Schema({
     default: ''
   },
   parent_id: String
-},{
+}, {
   timestamps: {
     createdAt: 'created_at',
     updatedAt: 'updated_at'
@@ -52,15 +52,7 @@ CommentSchema.statics.findByAssetId = function(asset_id) {
  * @param {String} status the new status of the comment
 */
 CommentSchema.statics.changeStatus = function(id, status) {
-  return Comment.update({'id': id}, {$set: {'status': status}}, {upsert: false}).then(() => {
-    Comment.findById(id).then((comment) => {
-      return comment;
-    }).catch((err) => {
-      console.log('Error updating status for the comment.', err);
-    });
-  }).catch((err) => {
-    console.log('Error updating status for the comment.', err);
-  });
+  return Comment.findOneAndUpdate({'id': id}, {$set: {'status': status}}, {upsert: false, new: true});
 };
 
 /**
@@ -70,7 +62,7 @@ CommentSchema.statics.changeStatus = function(id, status) {
 */
 CommentSchema.statics.addAction = function(id, user_id, action_type) {
   // check that the comment exist
-  var action  = new Action({
+  let action  = new Action({
     action_type: action_type,
     item_type: 'comment',
     item_id: id,

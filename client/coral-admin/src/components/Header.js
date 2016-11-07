@@ -1,20 +1,22 @@
 import React from 'react'
 import { Layout, Navigation, Drawer, Header } from 'react-mdl'
+import { Link } from 'react-router'
 import styles from './Header.css'
+import config from 'services/config'
 
 // App header. If we add a navbar it should be here
 export default (props) => (
   <Layout fixedDrawer>
     <Header title='Talk'>
       <Navigation>
-        <a className={styles.navLink} href='/'>Moderate</a>
-        <a className={styles.navLink} href='/configure'>Configure</a>
+        <Link className={styles.navLink} href={`/${config.base}/`}>Moderate</Link>
+        <Link className={styles.navLink} href={`/${config.base}/configure`}>Configure</Link>
       </Navigation>
     </Header>
     <Drawer>
       <Navigation>
-        <a className={styles.navLink} href='/'>Moderate</a>
-        <a className={styles.navLink} href='/configure'>Configure</a>
+        <Link className={styles.navLink} href={`/${config.base}/`}>Moderate</Link>
+        <Link className={styles.navLink} href={`/${config.base}/configure`}>Configure</Link>
       </Navigation>
     </Drawer>
     {props.children}

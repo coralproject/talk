@@ -11,7 +11,7 @@ const UserProfileSchema = new Schema({
   },
   display_name: String,
   auth_user_id: String
-},{
+}, {
   timestamps: {
     createdAt: 'created_at',
     updatedAt: 'updated_at'

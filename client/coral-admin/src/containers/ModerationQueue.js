@@ -74,7 +74,7 @@ class ModerationQueue extends React.Component {
           <CommentList
             isActive={activeTab === 'pending'}
             singleView={singleView}
-            commentIds={comments.get('ids').filter(id => comments.get('byId').get(id).get('data').get('status') === 'Untouched')}
+            commentIds={comments.get('ids').filter(id => !comments.get('byId').get(id).get('status'))}
             comments={comments.get('byId')}
             onClickAction={(action, id) => this.onCommentAction(action, id)}
             actions={['reject', 'approve']}
@@ -84,7 +84,7 @@ class ModerationQueue extends React.Component {
           <CommentList
             isActive={activeTab === 'rejected'}
             singleView={singleView}
-            commentIds={comments.get('ids').filter(id => comments.get('byId').get(id).get('data').get('status') === 'Rejected')}
+            commentIds={comments.get('ids').filter(id => comments.get('byId').get(id).get('status') === 'rejected')}
             comments={comments.get('byId')}
             onClickAction={(action, id) => this.onCommentAction(action, id)}
             actions={['approve']}
@@ -95,8 +95,8 @@ class ModerationQueue extends React.Component {
             isActive={activeTab === 'rejected'}
             singleView={singleView}
             commentIds={comments.get('ids').filter(id => {
-              const data = comments.get('byId').get(id).get('data')
-              return data.get('status') === 'Untouched' && data.get('flagged') === true
+              const data = comments.get('byId').get(id)
+              return !data.get('status') && data.get('flagged') === true
             })}
             comments={comments.get('byId')}
             onClickAction={(action, id) => this.onCommentAction(action, id)}
