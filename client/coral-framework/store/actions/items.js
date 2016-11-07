@@ -180,7 +180,8 @@ export function postItem (item, type, id) {
       method: 'POST',
       body: JSON.stringify(item)
     }
-    return fetch('api/v1/' + type, options)
+    console.log('postItem', options);
+    return fetch('/api/v1/' + type, options)
       .then(
         response => {
           return response.ok ? response.json()
@@ -223,7 +224,7 @@ export function postAction (id, type, user_id) {
     }
 
     dispatch(appendItemArray(id, type, user_id))
-    return fetch('api/v1/comments/' + id + '/actions', options)
+    return fetch('/api/v1/comments/' + id + '/actions', options)
       .then(
         response => {
           return response.ok ? response.text()
