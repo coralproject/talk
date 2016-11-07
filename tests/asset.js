@@ -2,10 +2,10 @@
 const Asset = require('../models/asset');
 
 const expect = require('chai').expect;
-let chai = require('chai');
-let chaiHttp = require('chai-http');
-let server = require('../app');
-let should = chai.should();
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const server = require('../app');
+const should = chai.should();
 should; // nullop to satisfy linting
 
 chai.use(chaiHttp);
