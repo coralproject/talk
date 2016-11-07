@@ -75,7 +75,7 @@ AssetSchema.statics.upsert = function(data) {
   }
 
   // Perform the upsert against the id field.
-  let updatePromise = Asset.update({id: data.id}, data, {upsert: true})
+  let updatePromise = Asset.update({id: data.id}, data, {upsert: true}).exec()
     .then(() => {
 
       // Pull the freshly minted asset out and return.

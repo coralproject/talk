@@ -3,10 +3,10 @@ info:
   title: Talk API
   description: A commenting platform from The Coral Project. https://coralproject.net
   version: "0.0.1"
-host: talk-stg.coralproject.net/api/v1
+host: talk-stg.coralproject.net
 schemes:
   - https
-basePath: /v1
+basePath: /api/v1
 produces:
   - application/json
 paths:
@@ -170,8 +170,6 @@ paths:
       responses:
         200:
           description: OK
-        404:
-          description: Not Found
     put:
       tags:
         - Asset
