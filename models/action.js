@@ -12,7 +12,7 @@ const ActionSchema = new Schema({
   item_type: String,
   item_id: String,
   user_id: String
-},{
+}, {
   timestamps: {
     createdAt: 'created_at',
     updatedAt: 'updated_at'

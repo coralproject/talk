@@ -1,9 +1,4 @@
-/* eslint-env node, mocha */
-'use strict';
-
-// require('./utils/mongoose')
 const expect = require('chai').expect;
-
 
 describe('Comment', () => {
   describe('#add', () => {

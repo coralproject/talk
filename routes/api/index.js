@@ -2,9 +2,10 @@ const express = require('express');
 
 const router = express.Router();
 
+router.use('/asset', require('./asset'));
 router.use('/comments', require('./comments'));
-router.use('/stream', require('./stream'));
-router.use('/settings', require('./settings'));
 router.use('/queue', require('./queue'));
+router.use('/settings', require('./settings'));
+router.use('/stream', require('./stream'));
 
 module.exports = router;
