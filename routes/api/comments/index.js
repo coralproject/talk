@@ -26,11 +26,11 @@ router.get('/:comment_id', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   let comment  = new Comment({
-    body: req.query.body,
-    author_id: req.query.author_id,
-    asset_id: req.query.asset_id,
-    parent_id: req.query.parent_id,
-    status: req.query.status
+    body: req.body.body,
+    author_id: req.body.author_id,
+    asset_id: req.body.asset_id,
+    parent_id: req.body.parent_id,
+    status: req.body.status
   });
   comment.save().then(({id}) => {
     res.status(200).send(id);
@@ -39,13 +39,13 @@ router.post('/', (req, res, next) => {
   });
 });
 
-router.put('/:comment_id', (req, res, next) => {
+router.post('/:comment_id', (req, res, next) => {
   Comment.findById(req.params.comment_id).then((comment) => {
-    comment.body = req.query.body;
-    comment.author_id = req.query.author_id;
-    comment.asset_id = req.query.asset_id;
-    comment.parent_id = req.query.parent_id;
-    comment.status = req.query.status;
+    comment.body = req.body.body;
+    comment.author_id = req.body.author_id;
+    comment.asset_id = req.body.asset_id;
+    comment.parent_id = req.body.parent_id;
+    comment.status = req.body.status;
 
     comment.save().then((comment) => {
       res.status(200).send(comment);

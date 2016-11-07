@@ -94,7 +94,7 @@ describe('Post /comments', () => {
   it('it should create a comment', function(done) {
     chai.request(app)
       .post('/api/v1/comments')
-      .query({'body': 'Something body.', 'author_id': '123', 'asset_id': '1', 'parent_id': ''})
+      .send({'body': 'Something body.', 'author_id': '123', 'asset_id': '1', 'parent_id': ''})
       .end(function(err, res){
         expect(res).to.have.status(200)
         done()
@@ -200,8 +200,8 @@ describe('Put /:comment_id', () => {
 
   it('it should update comment', function(done) {
     chai.request(app)
-      .put('/api/v1/comments/abc')
-      .query({'body': 'Something body.', 'author_id': '123', 'asset_id': '1', 'parent_id': ''})
+      .post('/api/v1/comments/abc')
+      .send({'body': 'Something body.', 'author_id': '123', 'asset_id': '1', 'parent_id': ''})
       .end(function(err, res){
         expect(res).to.have.status(200)
         done()
