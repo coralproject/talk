@@ -15,7 +15,7 @@ export default (state = initialState, action) => {
       )
     case actions.APPEND_ITEM_ARRAY:
       return state.updateIn([action.id, action.property], (prop) => {
-        return prop ? prop.push(action.value) : fromJS([action.value])
+        return prop ? prop.unshift(action.value) : fromJS([action.value])
       }
     )
     default:
