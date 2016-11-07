@@ -30,9 +30,9 @@ router.get('/:comment_id', (req, res, next) => {
 
 router.get('/action/:action_type', (req, res, next) => {
   Action.find({'action_type': req.params.action_type, 'item_type': 'comment'}).then((actions) => {
-    // search all the comments that are in actions by id: item_id
-    // populate user by user_id
-    res.status(200).json(actions);
+    Comment.find({'id': {'$in': actions.map(function(a){return a.item_id;})}}).exec(function(err, comments){
+      res.status(200).json(comments);
+    });
   }).catch(error => {
     next(error);
   });

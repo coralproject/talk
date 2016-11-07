@@ -66,7 +66,7 @@ describe('Get /comments', () => {
   });
 });
 
-describe('Get moderation queues rejected, pending', () => {
+describe('Get moderation queues rejected, pending, flags', () => {
   const comments = [{
     id: 'abc',
     body: 'comment 10',
@@ -95,10 +95,12 @@ describe('Get moderation queues rejected, pending', () => {
 
   const actions = [{
     action_type: 'flag',
-    item_id: 'abc'
+    item_id: 'abc',
+    item_type: 'comment'
   }, {
     action_type: 'like',
-    item_id: 'hij'
+    item_id: 'hij',
+    item_type: 'comment'
   }];
 
   beforeEach(() => {
@@ -129,6 +131,19 @@ describe('Get moderation queues rejected, pending', () => {
         expect(res).to.have.status(200);
         expect(res.body[0]).to.have.property('id');
         expect(res.body[0].id).to.equal('def');
+        done();
+      });
+  });
+
+  it('should return all the flagged comments', function(done){
+    chai.request(app)
+      .get('/api/v1/comments/action/flag')
+      .end(function(err, res){
+        expect(res).to.have.status(200);
+        expect(err).to.be.null;
+        expect(res.body.length).to.equal(1);
+        expect(res.body[0]).to.have.property('id');
+        expect(res.body[0].id).to.equal('abc');
         done();
       });
   });
@@ -196,10 +211,12 @@ describe('Get /:comment_id', () => {
 
   const actions = [{
     action_type: 'flag',
-    item_id: 'abc'
+    item_id: 'abc',
+    item_type: 'comment'
   }, {
     action_type: 'like',
-    item_id: 'hij'
+    item_id: 'hij',
+    item_type: 'comment'
   }];
 
   beforeEach(() => {
