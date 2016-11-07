@@ -97,12 +97,10 @@ export function getStream (assetId) {
 
           /* Check for root and child comments. */
           if (
-            item.type === 'comment' &&
             item.asset_id === assetId &&
             !item.parent_id) {
             rootComments.push(item.id)
           } else if (
-            item.type === 'comment' &&
             item.asset_id === assetId
           ) {
             let children = childComments[item.parent_id] || []
