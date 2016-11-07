@@ -27,7 +27,7 @@ router.post('/', (req, res, next) => {
   const {body, author_id, asset_id, parent_id, status} = req.body;
   let comment  = new Comment({body, author_id, asset_id, parent_id, status});
   comment.save().then(({id}) => {
-    res.status(200).send(id);
+    res.status(200).send({'id': id});
   }).catch(error => {
     next(error);
   });
