@@ -179,7 +179,7 @@ paths:
       responses:
         204:
           description: OK
-  /asset/url/{url}:
+  /asset?url={url}:
     get:
       tags:
         - Asset
@@ -192,9 +192,6 @@ paths:
       responses:
         200:
           description: OK
-        404:
-          description: Not Found
-
 
 definitions:
   Item:

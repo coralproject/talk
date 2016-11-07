@@ -26,7 +26,6 @@ const AssetSchema = new Schema({
   authors: [String],
   publication_date: Date
 },{
-  _id: false,
   versionKey: false,
   timestamps: {
     createdAt: 'created_at',
@@ -40,7 +39,7 @@ const AssetSchema = new Schema({
 */
 AssetSchema.statics.search = function(query) {
 
-  return Asset.find(query);
+  return Asset.find(query).exec();
 
 };
 
@@ -50,7 +49,7 @@ AssetSchema.statics.search = function(query) {
 */
 AssetSchema.statics.findById = function(id) {
 
-  return Asset.findOne({id});
+  return Asset.findOne({id}).exec();
 
 };
 
@@ -60,7 +59,7 @@ AssetSchema.statics.findById = function(id) {
 */
 AssetSchema.statics.findByUrl = function(url) {
  
-  return Asset.findOne({'url': url});
+  return Asset.findOne({'url': url}).exec();
 
 };
 
@@ -100,7 +99,7 @@ AssetSchema.statics.upsert = function(data) {
 */
 AssetSchema.statics.removeAll = function(query) {
  
-  return Asset.remove(query);
+  return Asset.remove(query).exec();
 
 };
 
