@@ -259,6 +259,9 @@ describe('Delete /:comment_id', () => {
       .delete('/api/v1/comments/abc')
       .end(function(err, res){
         expect(res).to.have.status(201);
+        Comment.findById({'id': 'abc'}).then((comment) => {
+          expect(comment).to.be.null;
+        });
         done();
       });
   });
