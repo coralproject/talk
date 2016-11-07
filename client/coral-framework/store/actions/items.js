@@ -178,19 +178,22 @@ export function postItem (item, type, id) {
     }
     let options = {
       method: 'POST',
-      body: JSON.stringify(item)
+      body: JSON.stringify(item),
+      headers: {
+        'Content-Type':'application/json'
+      }
     }
     console.log('postItem', options);
     return fetch('/api/v1/' + type, options)
       .then(
         response => {
-          return response.ok ? response.json()
+          return response.ok ? response.text()
           : Promise.reject(response.status + ' ' + response.statusText)
         }
       )
-      .then((json) => {
-        dispatch(addItem(json))
-        return json.id
+      .then((id) => {
+        dispatch(addItem({...item, id}))
+        return id
       })
   }
 }
