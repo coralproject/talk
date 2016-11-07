@@ -25,14 +25,13 @@ const AssetSchema = new Schema({
   subsection: String,
   authors: [String],
   publication_date: Date
-},{
+}, {
   versionKey: false,
   timestamps: {
     createdAt: 'created_at',
     updatedAt: 'updated_at'
   }
 });
-
 
 /**
  * Search for assets. Currently only returns all.
@@ -58,11 +57,10 @@ AssetSchema.statics.findById = function(id) {
  * @param {String} url  identifier of the asset (uuid).
 */
 AssetSchema.statics.findByUrl = function(url) {
- 
+
   return Asset.findOne({'url': url}).exec();
 
 };
-
 
 /**
  * Upserts an asset.
@@ -88,7 +86,7 @@ AssetSchema.statics.upsert = function(data) {
       //return new Promise(); // ??? what do we return on error?
 
     });
-  
+
   return updatePromise;
 
 };
@@ -98,11 +96,10 @@ AssetSchema.statics.upsert = function(data) {
  * @param {String} query  bson query to identify assets to be removed.
 */
 AssetSchema.statics.removeAll = function(query) {
- 
+
   return Asset.remove(query).exec();
 
 };
-
 
 const Asset = mongoose.model('Asset', AssetSchema);
 

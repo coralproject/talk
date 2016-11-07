@@ -21,7 +21,7 @@ const CommentSchema = new Schema({
     default: ''
   },
   parent_id: String
-},{
+}, {
   timestamps: {
     createdAt: 'created_at',
     updatedAt: 'updated_at'
@@ -43,7 +43,6 @@ CommentSchema.statics.findById = function(id) {
 CommentSchema.statics.findByAssetId = function(asset_id) {
   return Comment.find({asset_id});
 };
-
 
 const Comment = mongoose.model('Comment', CommentSchema);
 

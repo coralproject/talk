@@ -7,7 +7,6 @@ const router = express.Router();
 // Routes
 //==============================================================================
 
-
 router.get('/', (req, res) => {
   res.send('Read all of the comments ever');
 });

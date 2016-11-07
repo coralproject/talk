@@ -1,16 +1,14 @@
-/* eslint-env node, mocha */
-const Asset = require('../models/asset');
+require('../utils/mongoose');
 
-const expect = require('chai').expect;
 const chai = require('chai');
-const chaiHttp = require('chai-http');
-const server = require('../app');
-const should = chai.should();
-should; // nullop to satisfy linting
+const expect = chai.expect;
+const server = require('../../app');
 
-chai.use(chaiHttp);
+// Setup chai.
+chai.should();
+chai.use(require('chai-http'));
 
-var fixture = {
+let fixture = {
   'url': 'http://hhgg.com/total-perspective-vortex',
   'type': 'article',
   'headline': 'The Total Perspective Vortex',
@@ -19,23 +17,10 @@ var fixture = {
   'authors': ['Ford Prefect']
 };
 
+describe('Asset: models', () => {
 
-describe('Asset', () => {
-  
-  beforeEach((done) => {
-
-    // TODO: implement asset remove
-    Asset.removeAll({})
-      .then(() => {
-        done();
-      });
-
-    Asset; // nullop to satisfy linting.
-
-  });
-  
   describe('/GET Asset', () => {
-    describe.only('#get', () => {
+    describe('#get', () => {
       it('It should get an empty array when there are no assets.', (done) => {
 
         chai.request(server)
@@ -58,7 +43,7 @@ describe('Asset', () => {
 
   // This test checks PUT and read
   describe('/PUT Asset', () => {
-    describe.only('#put', () => {
+    describe('#put', () => {
       it('It should save an asset and load it again.', (done) => {
 
         chai.request(server)
@@ -81,7 +66,7 @@ describe('Asset', () => {
 
             // Load the asset to make sure it's really there.
             chai.request(server)
-              .get('/api/v1/asset?url=' + fixture.url)
+              .get(`/api/v1/asset?url=${encodeURIComponent(fixture.url)}`)
               .end((err, res) => {
 
                 if (err) {
@@ -94,9 +79,9 @@ describe('Asset', () => {
                 let asset = res.body[0];
 
                 expect(asset).to.have.property('id');
-                
+
                 // Ensure the asset has the same id as above.
-                // This tests the single url per Id concept. 
+                // This tests the single url per Id concept.
                 expect(assetId).to.equal(asset.id);
 
                 done();
