@@ -1,0 +1,5 @@
+{
+  "basePath": "admin",
+  "talkHost": "http://localhost:16180",
+  "xeniaHost": "http://localhost:16180"
+}
