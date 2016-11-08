@@ -10,14 +10,10 @@ module.exports = Object.assign({}, devConfig, {
     loaders: [
       { test: /.js$/, loader: 'babel', include: [path.join(__dirname, 'src'), path.join(__dirname, '../', 'coral-framework')], exclude: /node_modules/ },
       { test: /.json$/, loader: 'json', include: __dirname, exclude: /node_modules/ },
-      { test: /.css$/, loaders: ['style-loader', 'css-loader?importLoaders=1', 'postcss-loader'] }
+      { test: /.css$/, loaders: ['style-loader', 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]', 'postcss-loader'] }
     ]
   },
   plugins: [
-    new Copy([{
-      from: path.join(__dirname, '..', 'coral-embed-stream', 'dist'),
-      to: './embed/comment-stream'
-    }]),
     autoprefixer, precss
   ]
 })

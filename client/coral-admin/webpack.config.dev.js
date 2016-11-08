@@ -14,7 +14,7 @@ module.exports = {
     loaders: [
       { test: /.js$/, loader: 'babel', include: path.join(__dirname, 'src'), exclude: /node_modules/ },
       { test: /\.json$/, loaders: 'json', include: __dirname, exclude: /node_modules/ },
-      { test: /.css$/, loaders: ['style-loader', 'css-loader?importLoaders=1', 'postcss-loader'] }
+      { test: /.css$/, loaders: ['style-loader', 'css-loader?modules&localIdentName=[name]__[local]___[hash:base64:5]', 'postcss-loader'] }
     ]
   },
   plugins: [ autoprefixer, precss ],
