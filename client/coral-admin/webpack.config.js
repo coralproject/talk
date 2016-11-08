@@ -19,8 +19,8 @@ module.exports = Object.assign({}, devConfig, {
     precss,
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': JSON.stringify('production'),
-        'VERSION': JSON.stringify(require("./package.json").version)
+        'NODE_ENV': `"${`production`}"`,
+        'VERSION': `"${require("./package.json").version})"`
       }
     })
   ]
