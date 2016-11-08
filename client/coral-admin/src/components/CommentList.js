@@ -120,7 +120,7 @@ export default class CommentList extends React.Component {
         {commentIds.map((commentId, index) => (
           <Comment comment={comments.get(commentId)}
             ref={el => { if (el && commentId === active) { this._active = el } }}
-            key={index}
+            key={index + 'comment'}
             index={index}
             onClickAction={this.onClickAction}
             actions={this.props.actions}

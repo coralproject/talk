@@ -1,7 +1,6 @@
 
 const path = require('path')
 const fs = require('fs')
-const webpack = require('webpack')
 const autoprefixer = require('autoprefixer')
 const precss = require('precss')
 const config = require('./config.json')
@@ -9,11 +8,9 @@ const config = require('./config.json')
 // doing a string replace here because I spent a day trying to do it the "webpack" way
 // ond nothing works. just trying to replace a string in an index.html file is
 // apparently something no one has ever done in the js community.
-let templateString = fs.readFileSync('./index.ejs').toString()
+let templateString = fs.readFileSync(path.join(__dirname, 'index.ejs')).toString()
 templateString = templateString.replace('<%= basePath %>', config.basePath)
-fs.writeFileSync('./public/index.html', templateString)
-
-console.log(templateString)
+fs.writeFileSync(path.join(__dirname, 'public/index.html'), templateString)
 
 module.exports = {
   entry: {
@@ -25,24 +22,16 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /.js$/, loaders: 'buble', include: path.join(__dirname, 'src') },
-      { test: /.json$/, loaders: 'json', include: __dirname, exclude: /node_modules/ },
-      { test: /\.css$/, loader: 'style-loader!css-loader?modules&importLoaders=1!postcss-loader' }
+      { test: /.js$/, loader: 'babel', include: path.join(__dirname, 'src'), exclude: /node_modules/ },
+      { test: /\.json$/, loaders: 'json', include: __dirname, exclude: /node_modules/ },
+      { test: /.css$/, loaders: ['style-loader', 'css-loader?importLoaders=1', 'postcss-loader'] }
     ]
   },
-  plugins: [
-    new webpack.LoaderOptionsPlugin({
-      options: {
-        context: __dirname,
-        postcss: [autoprefixer, precss]
-      }
-    })
-  ],
+  plugins: [ autoprefixer, precss ],
   resolve: {
-    modules: [
+    root: [
       path.resolve('./src'),
-      path.resolve('../'),
-      'node_modules'
+      path.resolve('../')
     ]
   },
   devServer: {

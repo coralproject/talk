@@ -23,7 +23,10 @@
 }
 
 .configSettingEmbed {
-  composes: configSetting;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 90px;
+  margin-bottom: 10px;
   display: block;
   height: 170px;
 }

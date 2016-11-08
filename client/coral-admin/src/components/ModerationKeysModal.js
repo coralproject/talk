@@ -28,8 +28,8 @@ export default ({ open, onClose }) => (
   <Modal open={open} onClose={onClose}>
     <h3>{lang.t('modqueue.shortcuts')}</h3>
     <div className={styles.container}>
-      {shortcuts.map(shortcut => (
-        <table className={styles.table}>
+      {shortcuts.map((shortcut, i) => (
+        <table className={styles.table} key={i}>
           <thead>
             <tr>
               <th>{lang.t(shortcut.title)}</th>
@@ -37,7 +37,7 @@ export default ({ open, onClose }) => (
           </thead>
           <tbody>
             {Object.keys(shortcut.shortcuts).map(key => (
-              <tr>
+              <tr key={key + 'tr'}>
                 <td className={styles.shortcut}><span className={styles.key}>{key}</span></td>
                 <td>{lang.t(shortcut.shortcuts[key])}</td>
               </tr>

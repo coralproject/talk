@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { createComment, flagComment } from 'actions/comments'
 import CommentList from 'components/CommentList'
 import CommentBox from 'components/CommentBox'
+import Page from 'components/Page'
 
 /**
  * Renders a comment stream using a CommentList component
@@ -43,17 +44,19 @@ class CommentStream extends React.Component {
   // Render the comment box along with the CommentList
   render ({ comments }, { snackbar, snackbarMsg }) {
     return (
-      <div className={styles.container}>
-        <CommentBox onSubmit={this.onSubmit} />
-        <CommentList isActive hideActive
-          singleView={false}
-          commentIds={comments.get('ids')}
-          comments={comments.get('byId')}
-          onClickAction={this.onClickAction}
-          actions={['flag']}
-          loading={comments.loading} />
-        <Snackbar active={snackbar}>{snackbarMsg}</Snackbar>
-      </div>
+      <Page>
+        <div className={styles.container}>
+          <CommentBox onSubmit={this.onSubmit} />
+          <CommentList isActive hideActive
+            singleView={false}
+            commentIds={comments.get('ids')}
+            comments={comments.get('byId')}
+            onClickAction={this.onClickAction}
+            actions={['flag']}
+            loading={comments.loading} />
+          <Snackbar active={snackbar}>{snackbarMsg}</Snackbar>
+        </div>
+      </Page>
     )
   }
 }

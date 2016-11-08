@@ -56,12 +56,13 @@ export const updateItem = (id, property, value) => {
   }
 }
 
-export const appendItemArray = (id, property, value) => {
+export const appendItemArray = (id, property, value, addToFront) => {
   return {
     type: APPEND_ITEM_ARRAY,
     id,
     property,
-    value
+    value,
+    addToFront
   }
 }
 
@@ -115,7 +116,7 @@ export function getStream (assetId) {
 
         const keys = Object.keys(childComments)
         for (var i=0; i < keys.length; i++ ) {
-          dispatch(updateItem(keys[i], 'children', childComments[keys[i]]))
+          dispatch(updateItem(keys[i], 'children', childComments[keys[i]].reverse()))
         }
 
         return (json)
@@ -185,13 +186,13 @@ export function postItem (item, type, id) {
     return fetch('/api/v1/' + type, options)
       .then(
         response => {
-          return response.ok ? response.text()
+          return response.ok ? response.json()
           : Promise.reject(response.status + ' ' + response.statusText)
         }
       )
-      .then((id) => {
-        dispatch(addItem({...item, id}))
-        return id
+      .then((json) => {
+        dispatch(addItem({...item, id:json.id}))
+        return json.id
       })
   }
 }
