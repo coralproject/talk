@@ -12,9 +12,9 @@ const initialState = Map({
 export default (state = initialState, action) => {
   switch (action.type) {
     case types.SETTINGS_LOADING: return state.set('fetchingSettings', true).set('fetchSettingsError', null)
-    case types.SETTINGS_RECEIVED: return receivedSettings(state, action)
+    case types.SETTINGS_RECEIVED: return updateSettings(state, action)
     case types.SETTINGS_FETCH_ERROR: return settingsFetchFailed(state, action)
-    case types.SETTINGS_UPDAETD: return state.get('settings').merge(action.settings)
+    case types.SETTINGS_UPDATED: return updateSettings(state, action)
     case types.SAVE_SETTINGS_LOADING: return state.set('fetchingSettings', true).set('saveSettingsError', null)
     case types.SAVE_SETTINGS_SUCCESS: return saveComplete(state, action)
     case types.SAVE_SETTINGS_FAILED: return settingsSaveFailed(state, action)
@@ -22,15 +22,16 @@ export default (state = initialState, action) => {
   }
 }
 
-const receivedSettings = (state, action) => {
-  state.set('fetchingSettings', false).set('fetchSettingsError', null)
-  return state.get('settings').merge(action.settings)
+const updateSettings = (state, action) => {
+  const s = state.set('fetchingSettings', false).set('fetchSettingsError', null)
+  const settings = s.get('settings').merge(action.settings)
+  return s.set('settings', settings)
 }
 
 const saveComplete = (state, action) => {
-  state.set('fetchingSettings', false).set('saveSettingsError', null)
-  console.log('saveComplete', action.settings)
-  return state.get('settings').merge(action.settings)
+  const s = state.set('fetchingSettings', false).set('saveSettingsError', null)
+  const settings = s.get('settings').merge(action.settings)
+  return s.set('settings', settings)
 }
 
 const settingsFetchFailed = (state, action) => {

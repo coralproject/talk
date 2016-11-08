@@ -49,12 +49,11 @@ export const fetchSettings = () => dispatch => {
 }
 
 export const updateSettings = settings => {
-  console.log('updated settings', settings)
   return {type: SETTINGS_UPDATED, settings}
 }
 
-export const saveSettingsToServer = (dispatch, getState) => {
-  const settings = getState().settings.settings
+export const saveSettingsToServer = () => (dispatch, getState) => {
+  const settings = getState().settings.toJS().settings
   dispatch({type: SAVE_SETTINGS_LOADING})
   fetch(`${base}/settings`, getInit('PUT', settings))
     .then(handleResp)
