@@ -5,6 +5,10 @@ import translations from '../translations'
 
 export default class CommunityContainer extends Component {
   render() {
-    return <div>Hello</div>
+    return (
+      <div>
+      <h1>Community</h1>
+      </div>
+    )
   }
 }

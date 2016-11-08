@@ -13,6 +13,7 @@ const routes = (
     <IndexRoute component={ModerationQueue} />
     <Route path='embed' component={CommentStream} />
     <Route path='embedlink' component={EmbedLink} />
+    <Route path='community' component={CommunityContainer} />
     <Route path='configure' component={Configure} />
   </Route>
 );
