@@ -75,9 +75,11 @@ class Configure extends React.Component {
   }
 
   render () {
-    const pageTitle = this.state.activeSection === 'comments'
+    let pageTitle = this.state.activeSection === 'comments'
       ? 'Comment Settings'
       : 'Embed Comment Stream'
+
+    if (this.props.fetchingSettings) pageTitle += ' - Loading...'
 
     return (
       <Page>
@@ -101,6 +103,8 @@ class Configure extends React.Component {
           </div>
           <div className={styles.mainContent}>
             <h1>{pageTitle}</h1>
+            { this.props.saveFetchingError }
+            { this.props.fetchSettingsError }
             {
               this.state.activeSection === 'comments'
               ? this.getCommentSettings()
