@@ -18,7 +18,7 @@ class ModerationQueue extends React.Component {
 
   constructor (props) {
     super(props)
-    
+
     this.state = { activeTab: 'pending', singleView: false, modalOpen: false }
   }
 
