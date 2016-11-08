@@ -9,9 +9,9 @@ export default (props) => (
   <Layout fixedDrawer>
     <Header title='Talk'>
       <Navigation>
-        <Link className={styles.navLink} to={`/${config.basePath}/`}>Moderate</Link>
-        <Link className={styles.navLink} to={`/${config.basePath}/`}>Community</Link>
-        <Link className={styles.navLink} to={`/${config.basePath}/configure`}>Configure</Link>
+        <Link className={styles.navLink} to="/">Moderate</Link>
+        <Link className={styles.navLink} to="community">Community</Link>
+        <Link className={styles.navLink} to="configure">Configure</Link>
       </Navigation>
     </Header>
     <Drawer>

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "./node_modules/.bin/webpack --config webpack.config.js",
-    "watch": "./node_modules/.bin/webpack --config webpack.config.js --watch",
+    "watch": "./node_modules/.bin/webpack --config webpack.config.dev.js --watch",
     "start": "./node_modules/.bin/webpack-dev-server --config webpack.config.dev.js --inline --hot --content-base public --port 3142"
   },
   "keywords": [],
