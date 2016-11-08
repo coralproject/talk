@@ -17,7 +17,7 @@ app.use('/api/v1', require('./routes/api'));
 // Static Routes.
 app.use('/client/', express.static(path.join(__dirname, 'dist')));
 
-app.get('/admin/*', (req, res) => {
+app.get('/admin*', (req, res) => {
   res.render('admin', {basePath: '/client/coral-admin'});
 });
 
