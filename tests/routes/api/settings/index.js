@@ -24,8 +24,7 @@ describe('GET /settings', () => {
         expect(err).to.be.null;
         expect(res).to.have.status(200);
         expect(res).to.be.json;
-        expect(res.body).to.have.property('moderation');
-        expect(res.body.moderation).to.equal('pre');
+        expect(res.body).to.have.property('moderation', 'pre');
         done(err);
       });
   });
@@ -55,8 +54,7 @@ describe('update settings', () => {
       expect(err).to.be.null;
       expect(res).to.have.status(200);
       expect(res).to.be.json;
-      expect(res.body).to.have.property('moderation');
-      expect(res.body.moderation).to.equal('post');
+      expect(res.body).to.have.property('moderation', 'post');
     });
   });
 });
