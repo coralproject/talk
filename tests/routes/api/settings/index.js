@@ -24,8 +24,7 @@ describe('GET /settings', () => {
         expect(err).to.be.null;
         expect(res).to.have.status(200);
         expect(res).to.be.json;
-        expect(res.body).to.have.property('moderation');
-        expect(res.body.moderation).to.equal('pre');
+        expect(res.body).to.have.property('moderation', 'pre');
         done(err);
       });
   });
@@ -33,7 +32,6 @@ describe('GET /settings', () => {
 
 // update the settings.
 describe('update settings', () => {
-
   it('should respond ok to a PUT', () => {
     return Setting.update({id: '1'}, {$setOnInsert: defaults}, {upsert: true})
     .then(() => {
