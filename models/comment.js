@@ -31,6 +31,23 @@ const CommentSchema = new Schema({
   }
 });
 
+//==============================================================================
+// New Statics
+//==============================================================================
+
+/**
+ * Create a comment.
+ * @param {String} body  content of comment
+*/
+CommentSchema.statics.new = function(body, author_id, asset_id, parent_id, status, username) {
+  let comment  = new Comment({body, author_id, asset_id, parent_id, status, username});
+  return comment.save();
+};
+
+//==============================================================================
+// Find Statics
+//==============================================================================
+
 /**
  * Finds a comment by the id.
  * @param {String} id  identifier of comment (uuid)
@@ -46,6 +63,28 @@ CommentSchema.statics.findById = function(id) {
 CommentSchema.statics.findByAssetId = function(asset_id) {
   return Comment.find({asset_id});
 };
+
+/**
+ * Find comments by an action that was performed on them.
+ * @param {String} action_type the type of action that was performed on the comment
+*/
+CommentSchema.statics.findByActionType = function(action_type) {
+  return Action.findCommentsIdByActionType(action_type, 'comment').then((actions) => {
+    return Comment.find({'id': {'$in': actions.map(function(a){return a.item_id;})}});
+  });
+};
+
+/**
+ * Find comments by their status.
+ * @param {String} status the status to search for
+*/
+CommentSchema.statics.findByStatus = function(status) {
+  return Comment.find({'status': status});
+};
+
+//==============================================================================
+// Update Statics
+//==============================================================================
 
 /**
  * Change the status of a comment.
@@ -70,6 +109,19 @@ CommentSchema.statics.addAction = function(id, user_id, action_type) {
     user_id: user_id
   });
   return action.save();
+};
+
+//==============================================================================
+// Remove Statics
+//==============================================================================
+
+/**
+ * Change the status of a comment.
+ * @param {String} id  identifier of the comment  (uuid)
+ * @param {String} status the new status of the comment
+*/
+CommentSchema.statics.removeById = function(id) {
+  return Comment.remove({'id': id});
 };
 
 const Comment = mongoose.model('Comment', CommentSchema);

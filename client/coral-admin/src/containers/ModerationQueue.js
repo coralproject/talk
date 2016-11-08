@@ -59,52 +59,55 @@ class ModerationQueue extends React.Component {
   render () {
     const { comments } = this.props
     const { activeTab, singleView, modalOpen } = this.state
+    console.log('moderation queue', styles)
 
     return (
-      <div className='mdl-tabs mdl-js-tabs mdl-js-ripple-effect'>
-        <div className='mdl-tabs__tab-bar'>
-          <a href='#pending' onClick={() => this.onTabClick('pending')}
-            className={`mdl-tabs__tab is-active ${styles.tab}`}>{lang.t('modqueue.pending')}</a>
-          <a href='#rejected' onClick={() => this.onTabClick('rejected')}
-            className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.rejected')}</a>
-          <a href='#flagged' onClick={() => this.onTabClick('flagged')}
-            className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.flagged')}</a>
+      <div>
+        <div className='mdl-tabs mdl-js-tabs mdl-js-ripple-effect'>
+          <div className='mdl-tabs__tab-bar'>
+            <a href='#pending' onClick={() => this.onTabClick('pending')}
+              className={`mdl-tabs__tab is-active ${styles.tab}`}>{lang.t('modqueue.pending')}</a>
+            <a href='#rejected' onClick={() => this.onTabClick('rejected')}
+              className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.rejected')}</a>
+            <a href='#flagged' onClick={() => this.onTabClick('flagged')}
+              className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.flagged')}</a>
+          </div>
+          <div className={`mdl-tabs__panel is-active ${styles.listContainer}`} id='pending'>
+            <CommentList
+              isActive={activeTab === 'pending'}
+              singleView={singleView}
+              commentIds={comments.get('ids').filter(id => !comments.get('byId').get(id).get('status'))}
+              comments={comments.get('byId')}
+              onClickAction={(action, id) => this.onCommentAction(action, id)}
+              actions={['reject', 'approve']}
+              loading={comments.loading} />
+          </div>
+          <div className={`mdl-tabs__panel ${styles.listContainer}`} id='rejected'>
+            <CommentList
+              isActive={activeTab === 'rejected'}
+              singleView={singleView}
+              commentIds={comments.get('ids').filter(id => comments.get('byId').get(id).get('status') === 'rejected')}
+              comments={comments.get('byId')}
+              onClickAction={(action, id) => this.onCommentAction(action, id)}
+              actions={['approve']}
+              loading={comments.loading} />
+          </div>
+          <div className={`mdl-tabs__panel ${styles.listContainer}`} id='flagged'>
+            <CommentList
+              isActive={activeTab === 'rejected'}
+              singleView={singleView}
+              commentIds={comments.get('ids').filter(id => {
+                const data = comments.get('byId').get(id)
+                return !data.get('status') && data.get('flagged') === true
+              })}
+              comments={comments.get('byId')}
+              onClickAction={(action, id) => this.onCommentAction(action, id)}
+              actions={['reject', 'approve']}
+              loading={comments.loading} />
+          </div>
+          <ModerationKeysModal open={modalOpen}
+            onClose={() => this.setState({ modalOpen: false })} />
         </div>
-        <div className={`mdl-tabs__panel is-active ${styles.listContainer}`} id='pending'>
-          <CommentList
-            isActive={activeTab === 'pending'}
-            singleView={singleView}
-            commentIds={comments.get('ids').filter(id => !comments.get('byId').get(id).get('status'))}
-            comments={comments.get('byId')}
-            onClickAction={(action, id) => this.onCommentAction(action, id)}
-            actions={['reject', 'approve']}
-            loading={comments.loading} />
-        </div>
-        <div className={`mdl-tabs__panel ${styles.listContainer}`} id='rejected'>
-          <CommentList
-            isActive={activeTab === 'rejected'}
-            singleView={singleView}
-            commentIds={comments.get('ids').filter(id => comments.get('byId').get(id).get('status') === 'rejected')}
-            comments={comments.get('byId')}
-            onClickAction={(action, id) => this.onCommentAction(action, id)}
-            actions={['approve']}
-            loading={comments.loading} />
-        </div>
-        <div className={`mdl-tabs__panel ${styles.listContainer}`} id='flagged'>
-          <CommentList
-            isActive={activeTab === 'rejected'}
-            singleView={singleView}
-            commentIds={comments.get('ids').filter(id => {
-              const data = comments.get('byId').get(id)
-              return !data.get('status') && data.get('flagged') === true
-            })}
-            comments={comments.get('byId')}
-            onClickAction={(action, id) => this.onCommentAction(action, id)}
-            actions={['reject', 'approve']}
-            loading={comments.loading} />
-        </div>
-        <ModerationKeysModal open={modalOpen}
-          onClose={() => this.setState({ modalOpen: false })} />
       </div>
     )
   }

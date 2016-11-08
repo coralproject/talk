@@ -60,7 +60,6 @@ describe('api/stream: routes', () => {
       .end(function(err, res){
         expect(err).to.be.null;
         expect(res).to.have.status(200);
-        if (err) {return done(err);}
         done();
       });
   });
