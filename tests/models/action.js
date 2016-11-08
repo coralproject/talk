@@ -15,6 +15,9 @@ describe('Action: models', () => {
     }, {
       action_type: 'flag',
       item_id: '456'
+    }, {
+      action_type: 'flag',
+      item_id: '123'
     }]).then((actions) => {
       mockActions = actions;
     });
@@ -32,7 +35,28 @@ describe('Action: models', () => {
   describe('#findByItemIdArray()', () => {
     it('should find an array of actions from an array of item_ids', () => {
       return Action.findByItemIdArray(['123', '456']).then((result) => {
+        expect(result).to.have.length(3);
+      });
+    });
+  });
+
+  describe('#getActionSummaries()', () => {
+    it('should return properly formatted summaries from an array of item_ids', () => {
+      return Action.getActionSummaries(['123', '789']).then((result) => {
         expect(result).to.have.length(2);
+        const sorted = result.sort((a, b) => a.count - b.count);
+        expect(sorted[0]).to.deep.equal({
+          type: 'like',
+          count: 1,
+          item_id: '789',
+          current_user: false
+        });
+        expect(sorted[1]).to.deep.equal({
+          type: 'flag',
+          count: 2,
+          item_id: '123',
+          current_user: false
+        });
       });
     });
   });

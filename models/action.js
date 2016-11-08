@@ -28,12 +28,42 @@ ActionSchema.statics.findById = function(id) {
 };
 
 /**
- * Finds users in an array of ids.
+ * Finds actions in an array of ids.
  * @param {String} ids array of user identifiers (uuid)
 */
 ActionSchema.statics.findByItemIdArray = function(item_ids) {
   return Action.find({
     'item_id': {$in: item_ids}
+  });
+};
+
+/**
+ * Returns summaries of actions for an array of ids
+ * @param {String} ids array of user identifiers (uuid)
+*/
+ActionSchema.statics.getActionSummaries = function(item_ids) {
+  return ActionSchema.statics.findByItemIdArray(item_ids).then((rawActions) => {
+    // Create an object with a count of each action type for each item
+    const actionSummaries = rawActions.reduce((actionObj, action) => {
+      if (!actionObj[action.item_id]) {
+        actionObj[action.item_id] = {
+          type: action.action_type,
+          count: 1,
+          current_user: false //Corrent this later when we have authentication
+        };
+      } else {
+        actionObj[action.item_id].count ++;
+      }
+      return actionObj;
+    }, {});
+
+    // Return an array extracted from the actionSummaries object
+    return Object.keys(actionSummaries).reduce((actions, key) => {
+      let actionSummary = actionSummaries[key];
+      actionSummary.item_id = key;
+      actions.push(actionSummary);
+      return actions;
+    }, []);
   });
 };
 
