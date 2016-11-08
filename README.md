@@ -26,6 +26,7 @@ Make sure you have Docker running first and then run `docker-compose up -d`
 ### Helpful URLs
 Bare comment stream: http://localhost:5000/client/coral-embed-stream/
 Comment stream embedded on sample article: http://localhost:5000/client/coral-embed-stream/samplearticle.html
+Moderator view: http://localhost:5000/client/coral-admin/
 
 ### Docs
 `swagger.yaml`
