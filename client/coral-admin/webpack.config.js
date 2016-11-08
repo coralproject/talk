@@ -14,10 +14,6 @@ module.exports = Object.assign({}, devConfig, {
     ]
   },
   plugins: [
-    new Copy([{
-      from: path.join(__dirname, '..', 'coral-embed-stream', 'dist'),
-      to: './embed/comment-stream'
-    }]),
     autoprefixer, precss
   ]
 })
