@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const path = require('path');
 
-const adminConfig = require('./client/coral-admin/config');
 const app = express();
 
 // Middleware declarations.
