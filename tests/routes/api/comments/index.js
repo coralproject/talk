@@ -147,10 +147,11 @@ describe('Get /:comment_id', () => {
       .get('/api/v1/comments')
       .query({'comment_id': 'abc'})
       .end(function(err, res){
+        const sorted = res.body.sort((a, b) => a.body - b.body);
         expect(err).to.be.null;
         expect(res).to.have.status(200);
-        expect(res.body[0]).to.have.property('body');
-        expect(res.body[0].body).to.equal('comment 10');
+        expect(sorted[0]).to.have.property('body')
+          .and.to.equal('comment 10');
         done();
       });
   });
