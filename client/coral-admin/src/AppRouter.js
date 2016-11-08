@@ -11,12 +11,11 @@ import CommunityContainer from 'containers/CommunityContainer'
 import LayoutContainer from 'containers/LayoutContainer'
 
 const routes = (
-  <Route path={config.base} component={LayoutContainer}>
-    <IndexRoute component={ModerationQueue} />
-    <Route path="embed" component={CommentStream} />
-    <Route path="embedlink" component={EmbedLink} />
-    <Route path="configure" component={Configure} />
-    <Route path="community" component={CommunityContainer} />
+  <Route component={LayoutContainer}>
+    <Route path='admin' component={ModerationQueue} />
+    <Route path='admin/embed' component={CommentStream} />
+    <Route path='admin/embedlink' component={EmbedLink} />
+    <Route path='admin/configure' component={Configure} />
   </Route>
 );
 
