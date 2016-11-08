@@ -10,7 +10,7 @@
     "pretest": "npm install",
     "test": "mocha tests --recursive",
     "test-watch": "mocha tests --recursive -w",
-    "embed-start": "./node_modules/webpack/bin/webpack.js --config ./client/coral-embed-stream/webpack.config.dev.js && ./bin/www"
+    "embed-start": "npm run build && ./bin/www"
   },
   "config": {
     "pre-git": {
