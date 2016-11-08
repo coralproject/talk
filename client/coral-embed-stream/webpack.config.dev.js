@@ -1,5 +1,6 @@
 var path = require('path')
 var webpack = require('webpack')
+const Copy = require('copy-webpack-plugin')
 
 module.exports = {
   devtool: 'eval',
@@ -21,6 +22,16 @@ module.exports = {
     extensions: ['', '.js', '.jsx']
   },
   plugins: [
+    new Copy([{
+      from: path.join(__dirname, 'index.html')
+    },
+    {
+      from: path.join(__dirname, 'style', 'default.css')
+    },
+    {
+      from: path.join(__dirname, 'public'),
+      to: './'
+    }]),
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('development')

@@ -10,7 +10,7 @@ const CommentCount = ({items, id}) => {
   const itemKeys = Object.keys(items)
   for (var i=0; i < itemKeys.length; i++) {
     const item = items[itemKeys[i]]
-    if (item.type === 'comment' && item.children) {
+    if (item.children) {
       count += item.children.length
     }
   }

@@ -122,4 +122,5 @@ hr {
 
 .coral-plugin-pubdate-text {
   color: #CCC;
+  display: inline-block;
 }
