@@ -38,25 +38,30 @@ describe('update settings', () => {
     return Setting.update({id: '1'}, {$setOnInsert: defaults}, {upsert: true});
   });
 
-  it('should respond to a PUT with new settings', () => {
+  it('should respond ok to a PUT', () => {
     chai.request(app)
     .put('/api/v1/settings')
     .send({moderation: 'post'}, (err, res) => {
       expect(err).to.be.null;
       expect(res).to.have.status(204);
-      done(err);
+
+      if (err) {
+        return done(err);
+      }
+
+      // confirm have updated settings
+      chai.request(app)
+        .get('/api/v1/settings')
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.be.json;
+          expect(res.body).to.have.property('moderation');
+          expect(res.body.moderation).to.equal('post');
+
+          done(err);
+        });
     });
   });
 
-  it('should have updates settings', () => {
-    chai.request(app)
-    .get('/api/v1/settings')
-    .end((err, res) => {
-      expect(err).to.be.null;
-      expect(res).to.have.status(200);
-      expect(res).to.be.json;
-      expect(res.body).to.have.property('moderation');
-      expect(res.body.moderation).to.equal('post');
-    });
-  });
 });
