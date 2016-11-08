@@ -89,12 +89,19 @@ export function getStream (assetId) {
       )
       .then((json) => {
 
+        /* Add items to the store */
+        const itemTypes = Object.keys(json);
+        for (let i=0; i < itemTypes.length; i++ ) {
+          for (var j=0; j < json[itemTypes[i]].length; j++ ) {
+              dispatch(addItem(json[itemTypes[i]][j]));
+          }
+        }
+
         /* Sort comments by date*/
         let rootComments = []
         let childComments = {}
-        json.sort((a,b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
-        json.reduce((prev, item) => {
-          dispatch(addItem(item))
+        json.comments.sort((a,b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+        json.comments.reduce((prev, item) => {
 
           /* Check for root and child comments. */
           if (

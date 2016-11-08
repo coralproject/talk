@@ -45,6 +45,8 @@ describe('Action: models', () => {
       return Action.getActionSummaries(['123', '789']).then((result) => {
         expect(result).to.have.length(2);
         const sorted = result.sort((a, b) => a.count - b.count);
+        delete sorted[0].id;
+        delete sorted[1].id;
         expect(sorted[0]).to.deep.equal({
           type: 'like',
           count: 1,
