@@ -14,7 +14,7 @@ router.get('/', (req, res, next) => {
     return Promise.all([
       comments,
       User.findByIdArray(comments.map((comment) => comment.author_id)),
-      Action.findByItemIdArray(comments.map((comment) => comment.id))
+      Action.getActionSummaries(comments.map((comment) => comment.id))
     ]);
   }).then(([comments, users, actions]) => {
     res.json([...comments, ...users, ...actions]);
