@@ -27,7 +27,7 @@ describe('Comment: models', () => {
   }, {
     body: 'comment 30',
     asset_id: '456',
-    status: 'rejected',
+    status: '',
     parent_id: '',
     author_id: '456',
     id: '3'
@@ -43,12 +43,12 @@ describe('Comment: models', () => {
 
   const actions = [{
     action_type: 'flag',
-    item_id: comments[0].id,
+    item_id: '3',
     item_type: 'comment',
     user_id: '123'
   }, {
     action_type: 'like',
-    item_id: comments[1].id,
+    item_id: '1',
     item_type: 'comment',
     user_id: '456'
   }];
@@ -87,10 +87,37 @@ describe('Comment: models', () => {
   });
 
   describe('#moderationQueue()', () => {
-    it('should find an array of new comments to moderate when pre-moderation');
-    it('should find an array of new comments to moderate when post-moderation');
-    it('should find an array of new comments to moderate when pre-moderation in settings');
-    it('should find an array of new comments to moderate when post-moderation in settings');
-    it('should fail when the moderation is not pre or post');
+    it('should find an array of new comments to moderate when pre-moderation', () => {
+      return Comment.moderationQueue('pre').then((result) => {
+        expect(result).to.not.be.null;
+        expect(result).to.have.lengthOf(2);
+      });
+    });
+    it('should find an array of new comments to moderate when post-moderation', () => {
+      return Comment.moderationQueue('post').then((result) => {
+        expect(result).to.not.be.null;
+        expect(result).to.have.lengthOf(1);
+        expect(result[0]).to.have.property('body', 'comment 30');
+      });
+    });
+    it('should find an array of new comments to moderate when pre-moderation in settings', () => {
+      return Comment.moderationQueue().then((result) => {
+        expect(result).to.not.be.null;
+        expect(result).to.have.lengthOf(2);
+      });
+    });
+    it('should find an array of new comments to moderate when post-moderation in settings', () => {
+      return Comment.moderationQueue('post').then((result) => {
+        expect(result).to.not.be.null;
+        expect(result).to.have.lengthOf(1);
+        expect(result[0]).to.have.property('body', 'comment 30');
+      });
+    });
+    it('should fail when the moderation is not pre or post', () => {
+      return Comment.moderationQueue('any').then((error, result) => {
+        expect(error).to.not.be.null;
+        expect(result).to.be.null;
+      });
+    });
   });
 });

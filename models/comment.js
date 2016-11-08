@@ -116,7 +116,7 @@ CommentSchema.statics.moderationQueue = function(moderationValue) {
         return comments;
       });
     default:
-      throw new Error('Moderation setting not found.');
+      return Error('Moderation setting not found.') ;
     }
   });
 };
