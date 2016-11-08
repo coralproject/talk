@@ -39,5 +39,14 @@
     "style-loader": "0.13.1",
     "webpack": "2.1.0-beta.25",
     "webpack-dev-server": "1.16.1"
+  },
+  "config": {
+    "pre-git": {
+      "commit-msg": [],
+      "pre-commit": [],
+      "pre-push": [],
+      "post-commit": [],
+      "post-merge": []
+    }
   }
 }
