@@ -3,6 +3,7 @@ const devConfig = require('./webpack.config.dev')
 const autoprefixer = require('autoprefixer')
 const precss = require('precss')
 const Copy = require('copy-webpack-plugin')
+const webpack = require('webpack')
 
 module.exports = Object.assign({}, devConfig, {
   module: {
