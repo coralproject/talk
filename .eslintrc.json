@@ -55,6 +55,7 @@
         "no-var": [2],
         "no-lonely-if": [2],
         "curly": [2],
+        "no-unused-vars": ["error", { "argsIgnorePattern": "next" }],
         "no-multiple-empty-lines": [
           "error",
           {"max": 1}
