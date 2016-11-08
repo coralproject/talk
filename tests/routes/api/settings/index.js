@@ -34,34 +34,24 @@ describe('GET /settings', () => {
 // update the settings.
 describe('update settings', () => {
 
-  before(() => {
-    return Setting.update({id: '1'}, {$setOnInsert: defaults}, {upsert: true});
-  });
-
   it('should respond ok to a PUT', () => {
-    chai.request(app)
-    .put('/api/v1/settings')
-    .send({moderation: 'post'}, (err, res) => {
-      expect(err).to.be.null;
-      expect(res).to.have.status(204);
+    return Setting.update({id: '1'}, {$setOnInsert: defaults}, {upsert: true})
+    .then(() => {
+      return chai.request(app)
+        .put('/api/v1/settings')
+        .send({moderation: 'post'})
+        .then(res => {
+          expect(res).to.have.status(204);
 
-      if (err) {
-        return done(err);
-      }
+          return Setting.getSettings();
 
-      // confirm have updated settings
-      chai.request(app)
-        .get('/api/v1/settings')
-        .end((err, res) => {
-          expect(err).to.be.null;
-          expect(res).to.have.status(200);
-          expect(res).to.be.json;
-          expect(res.body).to.have.property('moderation');
-          expect(res.body.moderation).to.equal('post');
-
-          done(err);
+        }).then(settings => {
+          // confirm updated settings in db
+          expect(settings).to.have.property('moderation');
+          expect(settings.moderation).to.equal('post');
+        }).catch(err => {
+          throw err;
         });
     });
   });
-
 });
