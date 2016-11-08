@@ -18,14 +18,13 @@ export default class App extends React.Component {
       <Provider store={store}>
         <Layout>
           <Header>
-            <div>
               <Router history={browserHistory}>
-                <Route path={config.base} component={ModerationQueue} />
-                <Route path={`${config.base}/embed`} component={CommentStream} />
-                <Route path={`${config.base}/embedlink`} component={EmbedLink} />
-                <Route path={`${config.base}/configure`} component={Configure} />
+                <Route path={config.base} component={ModerationQueue}>
+                  <Route path="embed" component={CommentStream} />
+                  <Route path="embedlink" component={EmbedLink} />
+                  <Route path="configure" component={Configure} />
+                </Route>
               </Router>
-            </div>
           </Header>
         </Layout>
       </Provider>

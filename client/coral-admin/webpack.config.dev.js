@@ -36,6 +36,12 @@ module.exports = {
         context: __dirname,
         postcss: [autoprefixer, precss]
       }
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('development'),
+        'VERSION': JSON.stringify(require("./package.json").version)
+      }
     })
   ],
   resolve: {

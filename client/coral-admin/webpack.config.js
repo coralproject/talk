@@ -35,6 +35,12 @@ module.exports = Object.assign({}, devConfig, {
         debug: false
       }
     }),
-    new webpack.optimize.UglifyJsPlugin()
+    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production'),
+        'VERSION': JSON.stringify(require("./package.json").version)
+      }
+    })
   ]
 })
