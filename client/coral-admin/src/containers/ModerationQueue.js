@@ -57,7 +57,6 @@ class ModerationQueue extends React.Component {
   render () {
     const { comments } = this.props
     const { activeTab, singleView, modalOpen } = this.state
-    console.log('moderation queue', styles)
 
     return (
       <div>
