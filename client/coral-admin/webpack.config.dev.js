@@ -1,16 +1,6 @@
-
 const path = require('path')
-const fs = require('fs')
 const autoprefixer = require('autoprefixer')
 const precss = require('precss')
-const config = require('./config.json')
-
-// doing a string replace here because I spent a day trying to do it the "webpack" way
-// ond nothing works. just trying to replace a string in an index.html file is
-// apparently something no one has ever done in the js community.
-let templateString = fs.readFileSync(path.join(__dirname, 'index.ejs')).toString()
-templateString = templateString.replace('<%= basePath %>', config.basePath)
-fs.writeFileSync(path.join(__dirname, 'public/index.html'), templateString)
 
 module.exports = {
   entry: {
