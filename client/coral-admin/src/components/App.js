@@ -8,17 +8,16 @@ import store from 'services/store'
 import CommentStream from 'containers/CommentStream'
 import EmbedLink from 'components/EmbedLink'
 import Configure from 'containers/Configure'
-import config from 'services/config'
 
 export default class App extends React.Component {
   render (props) {
     return (
       <Provider store={store}>
         <Router history={browserHistory}>
-          <Route path={config.basePath} component={ModerationQueue} />
-          <Route path={`${config.basePath}/embed`} component={CommentStream} />
-          <Route path={`${config.basePath}/embedlink`} component={EmbedLink} />
-          <Route path={`${config.basePath}/configure`} component={Configure} />
+          <Route path='admin' component={ModerationQueue} />
+          <Route path='admin/embed' component={CommentStream} />
+          <Route path='admin/embedlink' component={EmbedLink} />
+          <Route path='admin/configure' component={Configure} />
         </Router>
       </Provider>
     )
