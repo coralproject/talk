@@ -1,6 +1,5 @@
 const express = require('express');
 const Comment = require('../../../models/comment');
-const Action = require('../../../models/action');
 
 const router = express.Router();
 
@@ -29,17 +28,15 @@ router.get('/:comment_id', (req, res, next) => {
 //==============================================================================
 
 router.get('/action/:action_type', (req, res, next) => {
-  Action.find({'action_type': req.params.action_type, 'item_type': 'comment'}).then((actions) => {
-    Comment.find({'id': {'$in': actions.map(function(a){return a.item_id;})}}).exec(function(err, comments){
-      res.status(200).json(comments);
-    });
+  Comment.findByActionType(req.params.action_type).then((comments) => {
+    res.status(200).json(comments);
   }).catch(error => {
     next(error);
   });
 });
 
 router.get('/status/rejected', (req, res, next) => {
-  Comment.find({'status': 'rejected'}).then((comments) => {
+  Comment.findByStatus('rejected').then((comments) => {
     res.status(200).json(comments);
   }).catch(error => {
     next(error);
@@ -47,7 +44,7 @@ router.get('/status/rejected', (req, res, next) => {
 });
 
 router.get('/status/pending', (req, res, next) => {
-  Comment.find({'status': ''}).then((comments) => {
+  Comment.findByStatus('').then((comments) => {
     res.status(200).json(comments);
   }).catch(error => {
     next(error);
@@ -60,12 +57,18 @@ router.get('/status/pending', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   const {body, author_id, asset_id, parent_id, status, username} = req.body;
-  let comment  = new Comment({body, author_id, asset_id, parent_id, status, username});
-  comment.save().then(({id}) => {
-    res.status(200).send({'id': id});
+  Comment.new(body, author_id, asset_id, parent_id, status, username).then((comment) => {
+    res.status(200).send({'id': comment.id});
   }).catch(error => {
     next(error);
   });
+
+  // let comment  = new Comment({body, author_id, asset_id, parent_id, status, username});
+  // comment.save().then(({id}) => {
+  //   res.status(200).send({'id': id});
+  // }).catch(error => {
+  //   next(error);
+  // });
 });
 
 router.post('/:comment_id', (req, res, next) => {
@@ -104,8 +107,8 @@ router.post('/:comment_id/actions', (req, res, next) => {
 //==============================================================================
 
 router.delete('/:comment_id', (req, res, next) => {
-  Comment.remove(req.params.comment_id).then(() => {
-    res.status(201).send('OK. Deleted');
+  Comment.removeById(req.params.comment_id).then(() => {
+    res.status(201).send('OK. Removed');
   }).catch(error => {
     next(error);
   });

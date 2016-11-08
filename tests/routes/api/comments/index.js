@@ -297,7 +297,7 @@ describe('Put /:comment_id', () => {
   });
 });
 
-describe('Delete /:comment_id', () => {
+describe('Remove /:comment_id', () => {
 
   const comments = [{
     id: 'abc',
@@ -343,9 +343,10 @@ describe('Delete /:comment_id', () => {
     chai.request(app)
       .delete('/api/v1/comments/abc')
       .end(function(err, res){
+        expect(err).to.be.null;
         expect(res).to.have.status(201);
-        Comment.findById({'id': 'abc'}).then((comment) => {
-          expect(comment).to.be.null;
+        Comment.findById('abc').then((comment) => {
+          expect(comment).to.be.empty;
         });
         done();
       });
@@ -405,8 +406,7 @@ describe('Post /:comment_id/status', () => {
         expect(err).to.be.null;
         expect(res).to.have.status(200);
         expect(res).to.have.body;
-        expect(res.body).to.have.property('status');
-        expect(res.body.status).to.equal('accepted');
+        expect(res.body).to.have.property('status', 'accepted');
         done();
       });
   });
@@ -465,14 +465,10 @@ describe('Post /:comment_id/actions', () => {
         expect(err).to.be.null;
         expect(res).to.have.status(200);
         expect(res).to.have.body;
-        expect(res.body).to.have.property('item_type');
-        expect(res.body.item_type).to.equal('comment');
-        expect(res.body).to.have.property('action_type');
-        expect(res.body.action_type).to.equal('flag');
-        expect(res.body).to.have.property('item_id');
-        expect(res.body.item_id).to.equal('abc');
-        expect(res.body).to.have.property('user_id');
-        expect(res.body.user_id).to.equal('456');
+        expect(res.body).to.have.property('item_type', 'comment');
+        expect(res.body).to.have.property('action_type', 'flag');
+        expect(res.body).to.have.property('item_id', 'abc');
+        expect(res.body).to.have.property('user_id', '456');
         done();
       });
   });
