@@ -1,7 +1,7 @@
 import React, { Component }from 'react'
 import { connect } from 'react-redux'
 
-import Layout from '../components/ui/Layout'
+import { Layout } from '../components/ui/Layout'
 
 class LayoutContainer extends Component {
   render () {

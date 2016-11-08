@@ -8,6 +8,7 @@ import CommentStream from 'containers/CommentStream'
 import EmbedLink from 'components/EmbedLink'
 import Configure from 'containers/Configure'
 import CommunityContainer from 'containers/CommunityContainer'
+import LayoutContainer from 'containers/LayoutContainer'
 
 const routes = (
   <Route path={config.base} component={LayoutContainer}>
