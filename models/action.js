@@ -47,9 +47,10 @@ ActionSchema.statics.getActionSummaries = function(item_ids) {
     const actionSummaries = rawActions.reduce((actionObj, action) => {
       if (!actionObj[action.item_id]) {
         actionObj[action.item_id] = {
+          id: action.id,
           type: action.action_type,
           count: 1,
-          current_user: false //Corrent this later when we have authentication
+          current_user: false //Update this later when we have authentication
         };
       } else {
         actionObj[action.item_id].count ++;

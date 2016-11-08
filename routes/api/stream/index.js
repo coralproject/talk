@@ -17,7 +17,11 @@ router.get('/', (req, res, next) => {
       Action.getActionSummaries(comments.map((comment) => comment.id))
     ]);
   }).then(([comments, users, actions]) => {
-    res.json([...comments, ...users, ...actions]);
+    res.json({
+      comments,
+      users,
+      actions
+    });
   }).catch(error => {
     next(error);
   });
