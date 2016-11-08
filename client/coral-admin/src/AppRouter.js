@@ -1,7 +1,5 @@
 import React from 'react';
-import { Router, Route, Redirect, IndexRoute, IndexRedirect, browserHistory } from 'react-router';
-
-import config from 'services/config'
+import { Router, Route, Redirect, IndexRoute, browserHistory } from 'react-router';
 
 import ModerationQueue from 'containers/ModerationQueue'
 import CommentStream from 'containers/CommentStream'
@@ -11,11 +9,11 @@ import CommunityContainer from 'containers/CommunityContainer'
 import LayoutContainer from 'containers/LayoutContainer'
 
 const routes = (
-  <Route component={LayoutContainer}>
-    <Route path='admin' component={ModerationQueue} />
-    <Route path='admin/embed' component={CommentStream} />
-    <Route path='admin/embedlink' component={EmbedLink} />
-    <Route path='admin/configure' component={Configure} />
+  <Route path='admin' component={LayoutContainer}>
+    <IndexRoute component={ModerationQueue} />
+    <Route path='embed' component={CommentStream} />
+    <Route path='embedlink' component={EmbedLink} />
+    <Route path='configure' component={Configure} />
   </Route>
 );
 
