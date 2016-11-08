@@ -117,8 +117,7 @@ describe('Get moderation queues rejected, pending, flags', () => {
       .end(function(err, res){
         expect(err).to.be.null;
         expect(res).to.have.status(200);
-        expect(res.body[0]).to.have.property('id');
-        expect(res.body[0].id).to.equal('abc');
+        expect(res.body[0]).to.have.property('id', 'abc');
         done();
       });
   });
@@ -129,8 +128,7 @@ describe('Get moderation queues rejected, pending, flags', () => {
       .end(function(err, res){
         expect(err).to.be.null;
         expect(res).to.have.status(200);
-        expect(res.body[0]).to.have.property('id');
-        expect(res.body[0].id).to.equal('def');
+        expect(res.body[0]).to.have.property('id', 'def');
         done();
       });
   });
@@ -142,8 +140,7 @@ describe('Get moderation queues rejected, pending, flags', () => {
         expect(res).to.have.status(200);
         expect(err).to.be.null;
         expect(res.body.length).to.equal(1);
-        expect(res.body[0]).to.have.property('id');
-        expect(res.body[0].id).to.equal('abc');
+        expect(res.body[0]).to.have.property('id', 'abc');
         done();
       });
   });
@@ -229,13 +226,12 @@ describe('Get /:comment_id', () => {
 
   it('should return the right comment for the comment_id', function(done){
     chai.request(app)
-      .get('/api/v1/comments')
-      .query({'comment_id': 'abc'})
+      .get('/api/v1/comments/abc')
       .end(function(err, res){
         expect(err).to.be.null;
         expect(res).to.have.status(200);
-        expect(res.body[0]).to.have.property('body');
-        expect(res.body[0].body).to.equal('comment 10');
+        expect(res).to.have.property('body');
+        expect(res.body).to.have.property('body', 'comment 10');
         done();
       });
   });
@@ -290,8 +286,7 @@ describe('Put /:comment_id', () => {
       .end(function(err, res){
         expect(err).to.be.null;
         expect(res).to.have.status(200);
-        expect(res.body).to.have.property('body');
-        expect(res.body.body).to.equal('Something body.');
+        expect(res.body).to.have.property('body', 'Something body.');
         done();
       });
   });
