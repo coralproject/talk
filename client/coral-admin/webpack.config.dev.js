@@ -1,7 +1,6 @@
 
 const path = require('path')
 const fs = require('fs')
-const webpack = require('webpack')
 const autoprefixer = require('autoprefixer')
 const precss = require('precss')
 const config = require('./config.json')
@@ -12,8 +11,6 @@ const config = require('./config.json')
 let templateString = fs.readFileSync(path.join(__dirname, 'index.ejs')).toString()
 templateString = templateString.replace('<%= basePath %>', config.basePath)
 fs.writeFileSync(path.join(__dirname, 'public/index.html'), templateString)
-
-console.log(templateString)
 
 module.exports = {
   entry: {
@@ -27,7 +24,7 @@ module.exports = {
     loaders: [
       { test: /.js$/, loader: 'babel', include: path.join(__dirname, 'src'), exclude: /node_modules/ },
       { test: /\.json$/, loaders: 'json', include: __dirname, exclude: /node_modules/ },
-      { test: /\.css$/, loaders: ['style-loader', 'css-loader?importLoaders=1', 'postcss-loader'] }
+      { test: /.css$/, loaders: ['style-loader', 'css-loader?importLoaders=1', 'postcss-loader'] }
     ]
   },
   plugins: [ autoprefixer, precss ],

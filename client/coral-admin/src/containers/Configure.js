@@ -10,6 +10,7 @@ import {
   Button,
   Icon
 } from 'react-mdl'
+import Page from 'components/Page'
 import styles from './Configure.css'
 
 class Configure extends React.Component {
@@ -59,33 +60,35 @@ class Configure extends React.Component {
       : 'Embed Comment Stream'
 
     return (
-      <div className={styles.container}>
-        <div className={styles.leftColumn}>
-          <List>
-            <ListItem className={styles.settingOption}>
-              <ListItemContent
-                onClick={this.changeSection.bind(this, 'comments')}
-                icon='settings'>Comment Settings</ListItemContent>
-            </ListItem>
-            <ListItem className={styles.settingOption}>
-              <ListItemContent
-                onClick={this.changeSection.bind(this, 'embed')}
-                icon='code'>Embed Comment Stream</ListItemContent>
-            </ListItem>
-          </List>
-          <Button raised colored>
-            <Icon name='save' /> Save Changes
-          </Button>
+      <Page>
+        <div className={styles.container}>
+          <div className={styles.leftColumn}>
+            <List>
+              <ListItem className={styles.settingOption}>
+                <ListItemContent
+                  onClick={this.changeSection.bind(this, 'comments')}
+                  icon='settings'>Comment Settings</ListItemContent>
+              </ListItem>
+              <ListItem className={styles.settingOption}>
+                <ListItemContent
+                  onClick={this.changeSection.bind(this, 'embed')}
+                  icon='code'>Embed Comment Stream</ListItemContent>
+              </ListItem>
+            </List>
+            <Button raised colored>
+              <Icon name='save' /> Save Changes
+            </Button>
+          </div>
+          <div className={styles.mainContent}>
+            <h1>{pageTitle}</h1>
+            {
+              this.state.activeSection === 'comments'
+              ? this.getCommentSettings()
+              : this.getEmbed()
+            }
+          </div>
         </div>
-        <div className={styles.mainContent}>
-          <h1>{pageTitle}</h1>
-          {
-            this.state.activeSection === 'comments'
-            ? this.getCommentSettings()
-            : this.getEmbed()
-          }
-        </div>
-      </div>
+      </Page>
     )
   }
 }
