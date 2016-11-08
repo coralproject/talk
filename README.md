@@ -24,9 +24,9 @@ Make sure you have Docker running first and then run `docker-compose up -d`
 `npm run lint`
 
 ### Helpful URLs
-Bare comment stream: http://localhost:5000/client/coral-embed-stream/
+Bare comment stream: http://localhost:5000/client/coral-embed-stream
 Comment stream embedded on sample article: http://localhost:5000/client/coral-embed-stream/samplearticle.html
-Moderator view: http://localhost:5000/client/coral-admin/
+Moderator view: http://localhost:5000/admin
 
 ### Docs
 `swagger.yaml`
