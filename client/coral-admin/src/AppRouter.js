@@ -1,5 +1,5 @@
-import React from 'react';
-import { Router, Route, Redirect, IndexRoute, browserHistory } from 'react-router';
+import React from 'react'
+import { Router, Route, Redirect, IndexRoute, browserHistory } from 'react-router'
 
 import ModerationQueue from 'containers/ModerationQueue'
 import CommentStream from 'containers/CommentStream'
@@ -16,8 +16,8 @@ const routes = (
     <Route path='community' component={CommunityContainer} />
     <Route path='configure' component={Configure} />
   </Route>
-);
+)
 
-const AppRouter = () => <Router history={browserHistory} routes={routes} />;
+const AppRouter = () => <Router history={browserHistory} routes={routes} />
 
-export default AppRouter;
+export default AppRouter

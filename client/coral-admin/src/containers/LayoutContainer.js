@@ -9,17 +9,11 @@ class LayoutContainer extends Component {
   }
 }
 
-LayoutContainer.propTypes = {};
+LayoutContainer.propTypes = {}
 
-const mapStateToProps = state => {
-  return {
-    data: {}
-  };
-};
+const mapStateToProps = state => ({ data: {} })
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  dispatch
-});
+const mapDispatchToProps = (dispatch, ownProps) => ({ dispatch })
 
-export default connect(mapStateToProps, mapDispatchToProps, null)(LayoutContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(LayoutContainer)
 
