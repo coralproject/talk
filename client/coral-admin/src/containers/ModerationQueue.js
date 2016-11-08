@@ -20,8 +20,6 @@ class ModerationQueue extends React.Component {
   constructor (props) {
     super(props)
 
-    console.log('ModerationQueue', props)
-
     this.state = { activeTab: 'pending', singleView: false, modalOpen: false }
   }
 
@@ -60,7 +58,6 @@ class ModerationQueue extends React.Component {
   render () {
     const { comments } = this.props
     const { activeTab, singleView, modalOpen } = this.state
-    console.log('moderation queue', styles)
 
     return (
       <Page>

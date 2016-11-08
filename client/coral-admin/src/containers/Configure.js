@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {fetchSettings, updateSettings, saveSettingsToServer} from '../actions/settings'
 import {
   List,
   ListItem,
@@ -17,12 +18,31 @@ class Configure extends React.Component {
   constructor (props) {
     super(props)
     this.state = {activeSection: 'comments'}
+    this.updateModeration = this.updateModeration.bind(this)
+    this.saveSettings = this.saveSettings.bind(this)
+  }
+
+  componentWillMount () {
+    this.props.dispatch(fetchSettings())
+  }
+
+  updateModeration () {
+    const moderation = this.props.settings.moderation === 'pre' ? 'post' : 'pre'
+    this.props.dispatch(updateSettings({moderation}))
+  }
+
+  saveSettings () {
+    this.props.dispatch(saveSettingsToServer())
   }
 
   getCommentSettings () {
     return <List>
       <ListItem className={styles.configSetting}>
-        <ListItemAction><Checkbox /></ListItemAction>
+        <ListItemAction>
+          <Checkbox
+            onClick={this.updateModeration}
+            checked={this.props.settings.moderation === 'pre'} />
+        </ListItemAction>
         Enable pre-moderation
       </ListItem>
       <ListItem className={styles.configSetting}>
@@ -75,7 +95,7 @@ class Configure extends React.Component {
                   icon='code'>Embed Comment Stream</ListItemContent>
               </ListItem>
             </List>
-            <Button raised colored>
+            <Button raised colored onClick={this.saveSettings}>
               <Icon name='save' /> Save Changes
             </Button>
           </div>
@@ -93,4 +113,10 @@ class Configure extends React.Component {
   }
 }
 
-export default connect(x => x)(Configure)
+const mapStateToProps = state => {
+  return {
+    settings: state.settings.toJS()
+  }
+}
+
+export default connect(mapStateToProps)(Configure)

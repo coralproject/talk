@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "./node_modules/.bin/webpack --config webpack.config.js",
-    "start": "./node_modules/.bin/webpack-dev-server --config webpack.config.dev.js --inline --hot --content-base public --port 3142"
+    "start": "./node_modules/.bin/webpack-dev-server --config webpack.config.dev.js --inline --hot --content-base public --port 3142",
+    "dev": "./node_modules/.bin/webpack -w"
   },
   "keywords": [],
   "author": "",

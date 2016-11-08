@@ -1,4 +1,8 @@
 {
+    "globals": {
+        "fetch": true,
+        "Headers": true
+    },
     "env": {
         "es6": true,
         "node": true

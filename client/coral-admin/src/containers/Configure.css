@@ -20,6 +20,7 @@
   border-radius: 4px;
   height: 90px;
   margin-bottom: 10px;
+  cursor: pointer;
 }
 
 .configSettingEmbed {
