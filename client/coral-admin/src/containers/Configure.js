@@ -10,8 +10,9 @@ import {
   Button,
   Icon
 } from 'react-mdl'
-import Page from 'components/Page'
 import styles from './Configure.css'
+import I18n from 'coral-framework/i18n/i18n'
+import translations from '../translations'
 
 class Configure extends React.Component {
   constructor (props) {
@@ -40,12 +41,28 @@ class Configure extends React.Component {
     </List>
   }
 
+  copyToClipBoard (event) {
+    const copyTextarea = document.querySelector('.' + styles.embedInput)
+    copyTextarea.select()
+
+    try {
+      document.execCommand('copy')
+    } catch (err) {
+      console.error('Unable to copy')
+    }
+  }
+
   getEmbed () {
+    const embedText =
+    `<div id='coralStreamEmbed'></div><script type='text/javascript' src='https://pym.nprapps.org/pym.v1.min.js'></script><script>var pymParent = new pym.Parent('coralStreamEmbed', '${window.location.protocol}//${window.location.host}/client/coral-embed-stream/', {title: 'comments'});</script>`
+
     return <List>
       <ListItem className={styles.configSettingEmbed}>
         <p>Copy and paste code below into your CMS to embed your comment box in your articles</p>
-        <input type='text' className={styles.embedInput} />
-        <Button raised colored>Copy</Button>
+        <textarea type='text' className={styles.embedInput}>
+          {embedText}
+        </textarea>
+        <Button raised colored>{lang.t('embedlink.copy')}</Button>
       </ListItem>
     </List>
   }
@@ -60,7 +77,6 @@ class Configure extends React.Component {
       : 'Embed Comment Stream'
 
     return (
-      <Page>
         <div className={styles.container}>
           <div className={styles.leftColumn}>
             <List>
@@ -88,9 +104,10 @@ class Configure extends React.Component {
             }
           </div>
         </div>
-      </Page>
     )
   }
 }
 
 export default connect(x => x)(Configure)
+
+const lang = new I18n(translations)

@@ -68,6 +68,32 @@ ActionSchema.statics.getActionSummaries = function(item_ids) {
   });
 };
 
+/*
+ * Finds all comments for a specific action.
+ * @param {String} action_type type of action
+ * @param {String} item_type type of item the action is on
+*/
+ActionSchema.statics.findByType = function(action_type, item_type) {
+  return Action.find({
+    'action_type': action_type,
+    'item_type': item_type
+  });
+};
+
+/**
+ * Finds all comments ids for a specific action.
+ * @param {String} action_type type of action
+ * @param {String} item_type type of item the action is on
+*/
+ActionSchema.statics.findCommentsIdByActionType = function(action_type, item_type) {
+  return Action.find({
+    'action_type': action_type,
+    'item_type': item_type
+  },
+  'item_id'
+  );
+};
+
 const Action = mongoose.model('Action', ActionSchema);
 
 module.exports = Action;

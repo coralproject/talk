@@ -1,7 +1,0 @@
-node_modules
-public/bundle.js
-public/embed/comment-stream
-.DS_Store
-npm-debug.log
-config.json
-yarn.lock
