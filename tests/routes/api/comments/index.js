@@ -14,6 +14,13 @@ const Comment = require('../../../../models/comment');
 const Action = require('../../../../models/action');
 const User = require('../../../../models/user');
 
+const Setting = require('../../../../models/setting');
+const settings = {id: '1', moderation: 'pre'};
+
+beforeEach(() => {
+  return Setting.create(settings);
+});
+
 describe('Get /comments', () => {
   const comments = [{
     id: 'abc',

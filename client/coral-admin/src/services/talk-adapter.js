@@ -29,15 +29,20 @@ export default store => next => action => {
 
 // Get comments to fill each of the three lists on the mod queue
 const fetchModerationQueueComments = store =>
-fetch('/api/v1/queue')
-.then(res => res.json())
+
+Promise.all([fetch('/api/v1/comments/status/pending'), fetch('/api/v1/comments/status/rejected'), fetch('/api/v1/comments/action/flag')])
+.then(res => Promise.all(res.map(r => r.json())))
+.then(res => {
+  res[2] = res[2].map(comment => { comment.flagged = true; return comment; });
+  return res.reduce((prev, curr) => prev.concat(curr), []);
+})
 .then(res => store.dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH_SUCCESS',
   comments: res}))
 .catch(error => store.dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH_FAILED', error}));
 
 // Update a comment. Now to update a comment we need to send back the whole object
 const updateComment = (store, comment) =>
-fetch(`/api/v1/comments/${comment._id}/status`, {
+fetch('/api/v1/comments/${comment._id}/status', {
   method: 'POST',
   body: JSON.stringify({status: comment.status})
 })

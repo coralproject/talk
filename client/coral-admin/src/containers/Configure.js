@@ -1,11 +1,13 @@
+
 import React from 'react';
 import {connect} from 'react-redux';
+import {fetchSettings, updateSettings, saveSettingsToServer} from '../actions/settings';
 import {
   List,
   ListItem,
   ListItemContent,
   ListItemAction,
-  Textfield,
+  //Textfield,
   Checkbox,
   Button,
   Icon
@@ -17,16 +19,38 @@ import translations from '../translations';
 class Configure extends React.Component {
   constructor (props) {
     super(props);
+
     this.state = {activeSection: 'comments', copied: false};
+
     this.copyToClipBoard = this.copyToClipBoard.bind(this);
+    this.updateModeration = this.updateModeration.bind(this);
+    this.saveSettings = this.saveSettings.bind(this);
+  }
+
+  componentWillMount () {
+    this.props.dispatch(fetchSettings());
+  }
+
+  updateModeration () {
+    const moderation = this.props.settings.moderation === 'pre' ? 'post' : 'pre';
+    this.props.dispatch(updateSettings({moderation}));
+  }
+
+  saveSettings () {
+    this.props.dispatch(saveSettingsToServer());
   }
 
   getCommentSettings () {
     return <List>
       <ListItem className={styles.configSetting}>
-        <ListItemAction><Checkbox /></ListItemAction>
+        <ListItemAction>
+          <Checkbox
+            onClick={this.updateModeration}
+            checked={this.props.settings.moderation === 'pre'} />
+        </ListItemAction>
         Enable pre-moderation
       </ListItem>
+      {/*
       <ListItem className={styles.configSetting}>
         <ListItemAction><Checkbox /></ListItemAction>
         Include Comment Stream Description for Readers
@@ -39,6 +63,7 @@ class Configure extends React.Component {
           error='Input is not a number!'
           label='Maximum Characters' />
       </ListItem>
+    */}
     </List>;
   }
 
@@ -75,9 +100,13 @@ class Configure extends React.Component {
   }
 
   render () {
-    const pageTitle = this.state.activeSection === 'comments'
+    let pageTitle = this.state.activeSection === 'comments'
       ? 'Comment Settings'
       : 'Embed Comment Stream';
+
+    if (this.props.fetchingSettings) {
+      pageTitle += ' - Loading...';
+    }
 
     return (
         <div className={styles.container}>
@@ -94,12 +123,14 @@ class Configure extends React.Component {
                   icon='code'>Embed Comment Stream</ListItemContent>
               </ListItem>
             </List>
-            <Button raised colored>
+            <Button raised colored onClick={this.saveSettings}>
               <Icon name='save' /> Save Changes
             </Button>
           </div>
           <div className={styles.mainContent}>
             <h1>{pageTitle}</h1>
+            { this.props.saveFetchingError }
+            { this.props.fetchSettingsError }
             {
               this.state.activeSection === 'comments'
               ? this.getCommentSettings()
@@ -111,6 +142,7 @@ class Configure extends React.Component {
   }
 }
 
-export default connect(x => x)(Configure);
+const mapStateToProps = state => state.settings.toJS();
+export default connect(mapStateToProps)(Configure);
 
 const lang = new I18n(translations);
