@@ -52,7 +52,11 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        loaders: ['style-loader', 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]', 'postcss-loader'],
+        loaders: [
+          'style-loader',
+          'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+          'postcss-loader'
+        ],
         test: /.css$/,
       },
       {
@@ -86,5 +90,6 @@ module.exports = {
       ...buildTargets.map(target => path.join(__dirname, 'client', target, 'src')),
       ...buildEmbeds.map(embed => path.join(__dirname, 'client', `coral-embed-${embed}`, 'src'))
     ]
-  }
+  },
+  postcss: require('./postcss.config.js')
 };
