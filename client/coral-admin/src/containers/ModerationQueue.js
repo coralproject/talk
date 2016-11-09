@@ -1,8 +1,6 @@
-
 import React from 'react';
 import {connect} from 'react-redux';
 import ModerationKeysModal from 'components/ModerationKeysModal';
-import Page from 'components/Page';
 import CommentList from 'components/CommentList';
 import {updateStatus} from 'actions/comments';
 import styles from './ModerationQueue.css';
@@ -19,8 +17,6 @@ class ModerationQueue extends React.Component {
 
   constructor (props) {
     super(props);
-
-    console.log('ModerationQueue', props);
 
     this.state = {activeTab: 'pending', singleView: false, modalOpen: false};
   }
@@ -61,10 +57,9 @@ class ModerationQueue extends React.Component {
   render () {
     const {comments} = this.props;
     const {activeTab, singleView, modalOpen} = this.state;
-    console.log('moderation queue', styles);
 
     return (
-      <Page>
+      <div>
         <div className='mdl-tabs mdl-js-tabs mdl-js-ripple-effect'>
           <div className='mdl-tabs__tab-bar'>
             <a href='#pending' onClick={() => this.onTabClick('pending')}
@@ -110,7 +105,7 @@ class ModerationQueue extends React.Component {
           <ModerationKeysModal open={modalOpen}
             onClose={() => this.setState({modalOpen: false})} />
         </div>
-      </Page>
+      </div>
     );
   }
 }
