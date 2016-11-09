@@ -30,11 +30,11 @@ const {setLoggedInUser} = authActions
   },
   (dispatch) => {
     return {
-      addItem: (item) => {
-        return dispatch(addItem(item))
+      addItem: (item, itemType) => {
+        return dispatch(addItem(item, itemType))
       },
-      updateItem: (id, property, value) => {
-        return dispatch(updateItem(id, property, value))
+      updateItem: (id, property, value, itemType) => {
+        return dispatch(updateItem(id, property, value, itemType))
       },
       postItem: (data, type, id) => {
         return dispatch(postItem(data, type, id))
@@ -54,8 +54,8 @@ const {setLoggedInUser} = authActions
       postAction: (item, action, user) => {
         return dispatch(postAction(item, action, user))
       },
-      appendItemArray: (item, property, value, addToFront) => {
-        return dispatch(appendItemArray(item, property, value, addToFront))
+      appendItemArray: (item, property, value, addToFront, itemType) => {
+        return dispatch(appendItemArray(item, property, value, addToFront, itemType))
       }
     }
   }
@@ -97,7 +97,7 @@ class CommentStream extends Component {
 
 
       const rootItemId = 'assetTest'
-      const rootItem = this.props.items[rootItemId]
+      const rootItem = this.props.items.assets && this.props.items.assets[rootItemId]
       return <div>
         {
           rootItem ?
@@ -116,7 +116,7 @@ class CommentStream extends Component {
             </div>
             {
               rootItem.comments.map((commentId) => {
-                const comment = this.props.items[commentId]
+                const comment = this.props.items.comments[commentId]
                 return <div className="comment" key={commentId}>
                   <hr aria-hidden={true}/>
                   <AuthorName name={comment.username}/>
@@ -144,7 +144,7 @@ class CommentStream extends Component {
                     {
                       comment.children &&
                       comment.children.map((replyId) => {
-                      let reply = this.props.items[replyId]
+                      let reply = this.props.items.comments[replyId]
                       return <div className="reply" key={replyId}>
                         <hr aria-hidden={true}/>
                         <AuthorName name={reply.username}/>

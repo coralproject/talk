@@ -25,17 +25,20 @@ class CommentBox extends Component {
       asset_id: id,
       username: this.state.username
     }
-    let related
+    let related;
+    let parent_type;
     if (parent_id) {
       comment.parent_id = parent_id
       related = 'children'
+      parent_type = 'comments'
     } else {
       related = 'comments'
+      parent_type = 'assets'
     }
-    updateItem(parent_id, 'showReply', false)
+    updateItem(parent_id, 'showReply', false, 'comments')
     postItem(comment, 'comments')
     .then((comment_id) => {
-      appendItemArray(parent_id || id, related, comment_id, parent_id ? false : true)
+      appendItemArray(parent_id || id, related, comment_id, parent_id ? false : true, parent_type)
       addNotification('success', 'Your comment has been posted.')
     }).catch((err) => console.error(err))
     this.setState({body: ''})
