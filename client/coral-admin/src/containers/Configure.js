@@ -10,7 +10,6 @@ import {
   Button,
   Icon
 } from 'react-mdl'
-import Page from 'components/Page'
 import styles from './Configure.css'
 import I18n from 'coral-framework/i18n/i18n'
 import translations from '../translations'
@@ -78,7 +77,6 @@ class Configure extends React.Component {
       : 'Embed Comment Stream'
 
     return (
-      <Page>
         <div className={styles.container}>
           <div className={styles.leftColumn}>
             <List>
@@ -106,7 +104,6 @@ class Configure extends React.Component {
             }
           </div>
         </div>
-      </Page>
     )
   }
 }

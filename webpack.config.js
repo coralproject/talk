@@ -7,7 +7,8 @@ devConfig.devtool = null;
 devConfig.plugins = devConfig.plugins.concat([
   new webpack.DefinePlugin({
     'process.env': {
-      'NODE_ENV': JSON.stringify('production')
+      'NODE_ENV': `"${'production'}"`,
+      'VERSION': `"${require('./package.json')}"`
     }
   }),
   new webpack.optimize.UglifyJsPlugin({
