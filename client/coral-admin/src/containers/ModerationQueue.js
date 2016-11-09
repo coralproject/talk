@@ -1,13 +1,12 @@
-
-import React from 'react'
-import { connect } from 'react-redux'
-import ModerationKeysModal from 'components/ModerationKeysModal'
-import CommentList from 'components/CommentList'
-import { updateStatus } from 'actions/comments'
-import styles from './ModerationQueue.css'
-import key from 'keymaster'
-import I18n from 'coral-framework/i18n/i18n'
-import translations from '../translations'
+import React from 'react';
+import {connect} from 'react-redux';
+import ModerationKeysModal from 'components/ModerationKeysModal';
+import CommentList from 'components/CommentList';
+import {updateStatus} from 'actions/comments';
+import styles from './ModerationQueue.css';
+import key from 'keymaster';
+import I18n from 'coral-framework/i18n/i18n';
+import translations from '../translations';
 
 /*
  * Renders the moderation queue as a tabbed layout with 3 moderation
@@ -17,46 +16,47 @@ import translations from '../translations'
 class ModerationQueue extends React.Component {
 
   constructor (props) {
-    super(props)
+    super(props);
 
-    this.state = { activeTab: 'pending', singleView: false, modalOpen: false }
+    this.state = {activeTab: 'pending', singleView: false, modalOpen: false};
   }
 
   // Fetch comments and bind singleView key before render
   componentWillMount () {
-    this.props.dispatch({ type: 'COMMENTS_MODERATION_QUEUE_FETCH' })
-    key('s', () => this.setState({ singleView: !this.state.singleView }))
-    key('shift+/', () => this.setState({ modalOpen: true }))
-    key('esc', () => this.setState({ modalOpen: false }))
+    this.props.dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH'});
+    key('s', () => this.setState({singleView: !this.state.singleView}));
+    key('shift+/', () => this.setState({modalOpen: true}));
+    key('esc', () => this.setState({modalOpen: false}));
   }
 
   // Unbind singleView key before unmount
   componentWillUnmount () {
-    key.unbind('s')
-    key.unbind('shift+/')
-    key.unbind('esc')
+    key.unbind('s');
+    key.unbind('shift+/');
+    key.unbind('esc');
   }
 
   // Hack for dynamic mdl tabs
   componentDidMount () {
     if (typeof componentHandler !== 'undefined') {
-      componentHandler.upgradeAllRegistered()
+      // FIXME: fix this hack
+      componentHandler.upgradeAllRegistered(); // eslint-disable-line no-undef
     }
   }
 
   // Dispatch the update status action
   onCommentAction (status, id) {
-    this.props.dispatch(updateStatus(status, id))
+    this.props.dispatch(updateStatus(status, id));
   }
 
   onTabClick (activeTab) {
-    this.setState({ activeTab })
+    this.setState({activeTab});
   }
 
   // Render the tabbed lists moderation queues
   render () {
-    const { comments } = this.props
-    const { activeTab, singleView, modalOpen } = this.state
+    const {comments} = this.props;
+    const {activeTab, singleView, modalOpen} = this.state;
 
     return (
       <div>
@@ -94,8 +94,8 @@ class ModerationQueue extends React.Component {
               isActive={activeTab === 'rejected'}
               singleView={singleView}
               commentIds={comments.get('ids').filter(id => {
-                const data = comments.get('byId').get(id)
-                return !data.get('status') && data.get('flagged') === true
+                const data = comments.get('byId').get(id);
+                return !data.get('status') && data.get('flagged') === true;
               })}
               comments={comments.get('byId')}
               onClickAction={(action, id) => this.onCommentAction(action, id)}
@@ -103,13 +103,13 @@ class ModerationQueue extends React.Component {
               loading={comments.loading} />
           </div>
           <ModerationKeysModal open={modalOpen}
-            onClose={() => this.setState({ modalOpen: false })} />
+            onClose={() => this.setState({modalOpen: false})} />
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default connect(({ comments }) => ({ comments }))(ModerationQueue)
+export default connect(({comments}) => ({comments}))(ModerationQueue);
 
-const lang = new I18n(translations)
+const lang = new I18n(translations);
