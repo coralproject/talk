@@ -1,6 +1,7 @@
 const mongoose = require('../mongoose');
 const uuid = require('uuid');
 const Action = require('./action');
+const Setting = require('./setting');
 
 const Schema = mongoose.Schema;
 
@@ -75,11 +76,49 @@ CommentSchema.statics.findByActionType = function(action_type) {
 };
 
 /**
+ * Find not moderated comments by an action that was performed on them.
+ * @param {String} action_type the type of action that was performed on the comment
+ * @param {String} status the status of the comment to search for
+*/
+CommentSchema.statics.findByStatusByActionType = function(status, action_type) {
+  return Action.findCommentsIdByActionType(action_type, 'comment').then((actions) => {
+    return Comment.find({'status': status, 'id': {'$in': actions.map(function(a){return a.item_id;})}});
+  });
+};
+
+/**
  * Find comments by their status.
- * @param {String} status the status to search for
+ * @param {String} status the status of the comment to search for
 */
 CommentSchema.statics.findByStatus = function(status) {
   return Comment.find({'status': status});
+};
+
+/**
+ * Find comments that need to be moderated (aka moderation queue).
+ * @param {String} moderationValue pre or post moderation setting. If it is undefined then look at the settings.
+*/
+CommentSchema.statics.moderationQueue = function(moderationValue) {
+
+  return Setting.getModerationSetting().then(function({moderation}){
+    if (typeof moderationValue === 'undefined' || moderationValue === undefined) {
+      moderationValue = moderation;
+    }
+    switch(moderationValue){
+    // Pre-moderation:  New comments are shown in the moderator queues immediately.
+    case 'pre':
+      return Comment.findByStatus('').then((comments) => {
+        return comments;
+      });
+    // Post-moderation: New comments do not appear in moderation queues unless they are flagged by other users.
+    case 'post':
+      return Comment.findByStatusByActionType('', 'flag').then((comments) => {
+        return comments;
+      });
+    default:
+      throw new Error('Moderation setting not found.');
+    }
+  });
 };
 
 //==============================================================================

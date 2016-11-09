@@ -46,6 +46,7 @@
     "body-parser": "^1.15.2",
     "debug": "^2.2.0",
     "ejs": "^2.5.2",
+    "eslint-config-postcss": "^2.0.2",
     "express": "^4.14.0",
     "mongoose": "^4.6.5",
     "morgan": "^1.7.0",
