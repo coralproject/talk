@@ -39,7 +39,7 @@ const updateStatus = (state, action) => {
 // Flag a comment
 const flag = (state, action) => {
   const byId = state.get('byId');
-  const data = byId.get(action.id).get('data').set('flagged', true);
+  const data = byId.get(action.id).set('flagged', true);
   const comment = byId.get(action.id).set('data', data);
   return state.set('byId', byId.set(action.id, comment));
 };
