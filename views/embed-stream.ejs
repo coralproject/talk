@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <title>Talk - Coral Admin</title>
-    <base href="/client/coral-admin/" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="<%= basePath %>/default.css">
     <style media="screen">
       body, #root {
         width: 100%;
@@ -17,7 +17,7 @@
     </style>
   </head>
   <body>
-    <div id="root"></div>
-    <script src="bundle.js" charset="utf-8"></script>
+    <div id="coralStream"></div>
+    <script src="<%= basePath %>/bundle.js" charset="utf-8"></script>
   </body>
 </html>

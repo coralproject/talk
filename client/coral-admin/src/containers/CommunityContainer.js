@@ -1,39 +1,51 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import I18n from 'coral-framework/i18n/i18n'
-import translations from '../translations'
-import { Grid, Cell, Button } from 'react-mdl'
+
+import Community from '../components/Community'
 
 export default class CommunityContainer extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      searchValue: '',
+      results: []
+    }
+
+    this.onKeyDownHandler = this.onKeyDownHandler.bind(this)
+    this.onChangeHandler = this.onChangeHandler.bind(this)
+    this.search = this.search.bind(this)
+  }
+
+  onKeyDownHandler(e) {
+    if (e.key === "Enter") {
+      this.search()
+    }
+  }
+
+  onChangeHandler(e) {
+    this.setState({
+      searchValue: e.target.value
+    })
+  }
+
+  search() {
+    console.log('search')
+  }
+
+  componentDidMount() {
+    // Bring results
+  }
+
   render() {
+    const {searchValue} = this.state;
     return (
-      <div>
-        <Grid className="demo-grid-ruler">
-          <Cell col={4}>
-            <input />
-            <Button raised colored>Button</Button>
-          </Cell>
-          <Cell col={8}>
-            <table className="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-              <thead>
-                <tr>
-                  <th class="mdl-data-table__cell--non-numeric">Username and Email</th>
-                  <th>Account Creation Date</th>
-                </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <td class="mdl-data-table__cell--non-numeric">
-                  Belen Curcio
-                  <span>curciobelen@gmail.com</span>
-                </td>
-                <td>11/07/2016</td>
-              </tr>
-              </tbody>
-            </table>
-          </Cell>
-        </Grid>
-      </div>
+      <Community
+        searchValue={searchValue}
+        onKeyDownHandler={this.onKeyDownHandler}
+        onChangeHandler={this.onChangeHandler}
+        search={this.search}
+      />
     )
   }
 }

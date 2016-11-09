@@ -7,5 +7,6 @@ router.use('/comments', require('./comments'));
 router.use('/queue', require('./queue'));
 router.use('/settings', require('./settings'));
 router.use('/stream', require('./stream'));
+router.use('/user', require('./user'));
 
 module.exports = router;
