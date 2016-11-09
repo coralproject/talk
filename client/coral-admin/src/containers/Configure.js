@@ -1,6 +1,7 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import {fetchSettings, updateSettings, saveSettingsToServer} from '../actions/settings'
+
+import React from 'react';
+import {connect} from 'react-redux';
+import {fetchSettings, updateSettings, saveSettingsToServer} from '../actions/settings';
 import {
   List,
   ListItem,
@@ -10,31 +11,33 @@ import {
   Checkbox,
   Button,
   Icon
-} from 'react-mdl'
-import Page from 'components/Page'
-import styles from './Configure.css'
-import I18n from 'coral-framework/i18n/i18n'
-import translations from '../translations'
+} from 'react-mdl';
+import styles from './Configure.css';
+import I18n from 'coral-framework/i18n/i18n';
+import translations from '../translations';
 
 class Configure extends React.Component {
   constructor (props) {
-    super(props)
-    this.state = {activeSection: 'comments'}
-    this.updateModeration = this.updateModeration.bind(this)
-    this.saveSettings = this.saveSettings.bind(this)
+    super(props);
+
+    this.state = {activeSection: 'comments', copied: false};
+
+    this.copyToClipBoard = this.copyToClipBoard.bind(this);
+    this.updateModeration = this.updateModeration.bind(this);
+    this.saveSettings = this.saveSettings.bind(this);
   }
 
   componentWillMount () {
-    this.props.dispatch(fetchSettings())
+    this.props.dispatch(fetchSettings());
   }
 
   updateModeration () {
-    const moderation = this.props.settings.moderation === 'pre' ? 'post' : 'pre'
-    this.props.dispatch(updateSettings({moderation}))
+    const moderation = this.props.settings.moderation === 'pre' ? 'post' : 'pre';
+    this.props.dispatch(updateSettings({moderation}));
   }
 
   saveSettings () {
-    this.props.dispatch(saveSettingsToServer())
+    this.props.dispatch(saveSettingsToServer());
   }
 
   getCommentSettings () {
@@ -59,48 +62,51 @@ class Configure extends React.Component {
           error='Input is not a number!'
           label='Maximum Characters' />
       </ListItem>
-    </List>
+    </List>;
   }
 
-  copyToClipBoard (event) {
-    const copyTextarea = document.querySelector('.' + styles.embedInput)
-    copyTextarea.select()
+  copyToClipBoard () {
+    const copyTextarea = document.querySelector(`.${  styles.embedInput}`);
+    copyTextarea.select();
 
     try {
-      document.execCommand('copy')
+      document.execCommand('copy');
+      this.setState({copied: true});
     } catch (err) {
-      console.error('Unable to copy')
+      console.error('Unable to copy', err);
     }
   }
 
   getEmbed () {
     const embedText =
-    `<div id='coralStreamEmbed'></div><script type='text/javascript' src='https://pym.nprapps.org/pym.v1.min.js'></script><script>var pymParent = new pym.Parent('coralStreamEmbed', '${window.location.protocol}//${window.location.host}/client/coral-embed-stream/', {title: 'comments'});</script>`
+    `<div id='coralStreamEmbed'></div><script type='text/javascript' src='https://pym.nprapps.org/pym.v1.min.js'></script><script>var pymParent = new pym.Parent('coralStreamEmbed', '${window.location.protocol}//${window.location.host}/client/embed/stream/bundle.js', {title: 'comments'});</script>`;
 
     return <List>
       <ListItem className={styles.configSettingEmbed}>
         <p>Copy and paste code below into your CMS to embed your comment box in your articles</p>
-        <textarea type='text' className={styles.embedInput}>
-          {embedText}
-        </textarea>
-        <Button raised colored>{lang.t('embedlink.copy')}</Button>
+        <textarea rows={5} type='text' className={styles.embedInput} value={embedText} readOnly={true}/>
+        <Button raised colored className={styles.copyButton} onClick={this.copyToClipBoard}>
+          {lang.t('embedlink.copy')}
+        </Button>
+        <div className={styles.copiedText}>{this.state.copied && 'Copied!'}</div>
       </ListItem>
-    </List>
+    </List>;
   }
 
   changeSection (activeSection) {
-    this.setState({activeSection})
+    this.setState({activeSection});
   }
 
   render () {
     let pageTitle = this.state.activeSection === 'comments'
       ? 'Comment Settings'
-      : 'Embed Comment Stream'
+      : 'Embed Comment Stream';
 
-    if (this.props.fetchingSettings) pageTitle += ' - Loading...'
+    if (this.props.fetchingSettings) {
+      pageTitle += ' - Loading...';
+    }
 
     return (
-      <Page>
         <div className={styles.container}>
           <div className={styles.leftColumn}>
             <List>
@@ -130,13 +136,11 @@ class Configure extends React.Component {
             }
           </div>
         </div>
-      </Page>
-    )
+    );
   }
 }
 
-const mapStateToProps = state => state.settings.toJS()
+const mapStateToProps = state => state.settings.toJS();
+export default connect(mapStateToProps)(Configure);
 
-export default connect(mapStateToProps)(Configure)
-
-const lang = new I18n(translations)
+const lang = new I18n(translations);

@@ -1,63 +1,62 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component, PropTypes} from 'react';
 import {
   itemActions,
   Notification,
   notificationActions,
   authActions
-} from '../../coral-framework'
-import {connect} from 'react-redux'
-import CommentBox from '../../coral-plugin-commentbox/CommentBox'
-import Content from '../../coral-plugin-commentcontent/CommentContent'
-import PubDate from '../../coral-plugin-pubdate/PubDate'
-import Count from '../../coral-plugin-comment-count/CommentCount'
-import Flag from '../../coral-plugin-flags/FlagButton'
-import AuthorName from '../../coral-plugin-author-name/AuthorName'
-import {ReplyBox, ReplyButton} from '../../coral-plugin-replies'
-import Pym from 'pym.js'
+} from '../../coral-framework';
+import {connect} from 'react-redux';
+import CommentBox from '../../coral-plugin-commentbox/CommentBox';
+import Content from '../../coral-plugin-commentcontent/CommentContent';
+import PubDate from '../../coral-plugin-pubdate/PubDate';
+import Count from '../../coral-plugin-comment-count/CommentCount';
+import AuthorName from '../../coral-plugin-author-name/AuthorName';
+import {ReplyBox, ReplyButton} from '../../coral-plugin-replies';
+import Pym from 'pym.js';
 
-const {addItem, updateItem, postItem, getStream, postAction, appendItemArray} = itemActions
-const {addNotification, clearNotification} = notificationActions
-const {setLoggedInUser} = authActions
+const {addItem, updateItem, postItem, getStream, postAction, appendItemArray} = itemActions;
+const {addNotification, clearNotification} = notificationActions;
+const {setLoggedInUser} = authActions;
 
 @connect(
   (state) => {
-      return {
+    return {
       config: state.config.toJS(),
       items: state.items.toJS(),
       notification: state.notification.toJS(),
       auth: state.auth.toJS()
-    }
+    };
   },
   (dispatch) => {
     return {
       addItem: (item) => {
-        return dispatch(addItem(item))
+        return dispatch(addItem(item));
       },
       updateItem: (id, property, value) => {
-        return dispatch(updateItem(id, property, value))
+        return dispatch(updateItem(id, property, value));
       },
       postItem: (data, type, id) => {
-        return dispatch(postItem(data, type, id))
+        return dispatch(postItem(data, type, id));
       },
       getStream: (rootId) => {
-        return dispatch(getStream(rootId))
+        return dispatch(getStream(rootId));
       },
       addNotification: (type, text) => {
-        return dispatch(addNotification(type, text))
+        return dispatch(addNotification(type, text));
       },
       clearNotification: () => {
-        return dispatch(clearNotification())
+        return dispatch(clearNotification());
       },
       setLoggedInUser: (user_id) => {
-        return dispatch(setLoggedInUser(user_id))
+        return dispatch(setLoggedInUser(user_id));
       },
       postAction: (item, action, user) => {
-        return dispatch(postAction(item, action, user))
+        return dispatch(postAction(item, action, user));
       },
       appendItemArray: (item, property, value, addToFront) => {
-        return dispatch(appendItemArray(item, property, value, addToFront))
+        return dispatch(appendItemArray(item, property, value, addToFront));
       }
-    }
+    };
   }
 )
 
@@ -72,33 +71,30 @@ class CommentStream extends Component {
   componentDidMount () {
     // Set up messaging between embedded Iframe an parent component
     // Using recommended Pym init code which violates .eslint standards
-    new Pym.Child({ polling: 500 })
-    this.props.getStream('assetTest')
+    new Pym.Child({polling: 500});
+    this.props.getStream('assetTest');
   }
 
   render () {
-      if (Object.keys(this.props.items).length === 0) {
+    if (Object.keys(this.props.items).length === 0) {
         // Loading mock asset
-        this.props.postItem({
-          comments: [],
-          url: 'http://coralproject.net'
-        }, 'asset', 'assetTest')
+      this.props.postItem({
+        comments: [],
+        url: 'http://coralproject.net'
+      }, 'asset', 'assetTest');
 
         // Loading mock user
-        this.props.postItem({name: 'Ban Ki-Moon'}, 'user', 'user_8989')
+      this.props.postItem({name: 'Ban Ki-Moon'}, 'user', 'user_8989')
         .then((id) => {
-          this.props.setLoggedInUser(id)
-        })
-      }
-
+          this.props.setLoggedInUser(id);
+        });
+    }
 
       // TODO: Replace teststream id with id from params
 
-
-
-      const rootItemId = 'assetTest'
-      const rootItem = this.props.items[rootItemId]
-      return <div>
+    const rootItemId = 'assetTest';
+    const rootItem = this.props.items[rootItemId];
+    return <div>
         {
           rootItem ?
             <div>
@@ -116,7 +112,7 @@ class CommentStream extends Component {
             </div>
             {
               rootItem.comments.map((commentId) => {
-                const comment = this.props.items[commentId]
+                const comment = this.props.items[commentId];
                 return <div className="comment" key={commentId}>
                   <hr aria-hidden={true}/>
                   <AuthorName name={comment.username}/>
@@ -146,8 +142,8 @@ class CommentStream extends Component {
                     {
                       comment.children &&
                       comment.children.map((replyId) => {
-                      let reply = this.props.items[replyId]
-                      return <div className="reply" key={replyId}>
+                        let reply = this.props.items[replyId];
+                        return <div className="reply" key={replyId}>
                         <hr aria-hidden={true}/>
                         <AuthorName name={reply.username}/>
                         <PubDate created_at={reply.created_at}/>
@@ -165,10 +161,10 @@ class CommentStream extends Component {
                             updateItem={this.props.updateItem}
                             parent_id={reply.parent_id}/>
                         </div>
-                      </div>
-                    })
+                      </div>;
+                      })
                   }
-                </div>
+                </div>;
               })
             }
             <Notification
@@ -176,12 +172,11 @@ class CommentStream extends Component {
               clearNotification={this.props.clearNotification}
               notification={this.props.notification}/>
           </div>
-          :'Loading'
+          : 'Loading'
         }
-      </div>
-
+      </div>;
 
   }
 }
 
-export default CommentStream
+export default CommentStream;

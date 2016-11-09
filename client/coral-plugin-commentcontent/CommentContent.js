@@ -1,17 +1,17 @@
-import React from 'react'
-const name = 'coral-plugin-replies'
+import React from 'react';
+const name = 'coral-plugin-replies';
 
 const Content = ({body, styles}) => {
-  const textbreaks = body.split('\n')
+  const textbreaks = body.split('\n');
   return <div
-    className={name + '-text'}
+    className={`${name  }-text`}
     style={styles && styles.text}>
     {
-      textbreaks.map((line, i) => <span key={i} className={name+'-line'}>
-        {line} <br className={name+'-linebreak'}/>
+      textbreaks.map((line, i) => <span key={i} className={`${name}-line`}>
+        {line} <br className={`${name}-linebreak`}/>
       </span>)
     }
-  </div>
-}
+  </div>;
+};
 
-export default Content
+export default Content;
