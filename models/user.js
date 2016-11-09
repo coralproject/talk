@@ -8,14 +8,21 @@ const UserSchema = new mongoose.Schema({
   id: {
     type: String,
     default: uuid.v4,
-    unique: true
+    unique: true,
+    required: true
   },
   displayName: String,
   disabled: Boolean,
   password: String,
   profiles: [{
-    id: String,
-    provider: String
+    id: {
+      type: String,
+      required: true
+    },
+    provider: {
+      type: String,
+      required: true
+    }
   }],
   roles: [String]
 });
@@ -164,6 +171,18 @@ UserSchema.statics.changePassword = function(id, password) {
 };
 
 /**
+ * Creates local users.
+ * @param  {Array} users Users to create
+ * @return {Promise}     Resolves with the users that were created
+ */
+UserSchema.statics.createLocalUsers = function(users) {
+  return Promise.all(users.map((user) => {
+    return User
+      .createLocalUser(user.email, user.password, user.displayName);
+  }));
+};
+
+/**
  * Creates the local user with a given email, password, and name.
  * @param  {String}   email       email of the new user
  * @param  {String}   password    plaintext password of the new user
@@ -171,6 +190,18 @@ UserSchema.statics.changePassword = function(id, password) {
  * @param  {Function} done        callback
  */
 UserSchema.statics.createLocalUser = function(email, password, displayName) {
+  if (!email) {
+    return Promise.reject('email is required');
+  }
+
+  if (!password) {
+    return Promise.reject('password is required');
+  }
+
+  if (!displayName) {
+    return Promise.reject('displayName is required');
+  }
+
   return new Promise((resolve, reject) => {
     bcrypt.hash(password, SALT_ROUNDS, (err, hashedPassword) => {
       if (err) {
@@ -263,8 +294,16 @@ UserSchema.statics.removeRoleFromUser = function(id, role) {
 };
 
 /**
+ * Finds a user with the id.
+ * @param {String} id  user id (uuid)
+*/
+UserSchema.statics.findById = function(id) {
+  return User.findOne({id});
+};
+
+/**
  * Finds users in an array of idd.
- * @param {String} idd  array of user identifiers (uuid)
+ * @param {Array} ids  array of user identifiers (uuid)
 */
 UserSchema.statics.findByIdArray = function(ids) {
   return User.find({

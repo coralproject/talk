@@ -30,11 +30,13 @@ describe('api/stream: routes', () => {
   }];
 
   const users = [{
-    id: '123',
-    display_name: 'John',
+    displayName: 'Ana',
+    email: 'ana@gmail.com',
+    password: '123'
   }, {
-    id: '456',
-    display_name: 'Paul',
+    displayName: 'Maria',
+    email: 'maria@gmail.com',
+    password: '123'
   }];
 
   const actions = [{
@@ -46,11 +48,11 @@ describe('api/stream: routes', () => {
   }];
 
   beforeEach(() => {
-    return Comment.create(comments).then(() => {
-      return User.create(users);
-    }).then(() => {
-      return Action.create(actions);
-    });
+    return Promise.all([
+      Comment.create(comments),
+      User.createLocalUsers(users),
+      Action.create(actions)
+    ]);
   });
 
   it('should return a stream with comments, users and actions', function(done){

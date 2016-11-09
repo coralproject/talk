@@ -32,11 +32,13 @@ describe('Get /comments', () => {
   }];
 
   const users = [{
-    id: '123',
-    display_name: 'Ana',
+    displayName: 'Ana',
+    email: 'ana@gmail.com',
+    password: '123'
   }, {
-    id: '456',
-    display_name: 'Maria',
+    displayName: 'Maria',
+    email: 'maria@gmail.com',
+    password: '123'
   }];
 
   const actions = [{
@@ -48,11 +50,11 @@ describe('Get /comments', () => {
   }];
 
   beforeEach(() => {
-    return Comment.create(comments).then(() => {
-      return User.create(users);
-    }).then(() => {
-      return Action.create(actions);
-    });
+    return Promise.all([
+      Comment.create(comments),
+      User.createLocalUsers(users),
+      Action.create(actions)
+    ]);
   });
 
   it('should return all the comments', function(done){
@@ -86,11 +88,13 @@ describe('Get moderation queues rejected, pending, flags', () => {
   }];
 
   const users = [{
-    id: '123',
-    display_name: 'Ana',
+    displayName: 'Ana',
+    email: 'ana@gmail.com',
+    password: '123'
   }, {
-    id: '456',
-    display_name: 'Maria',
+    displayName: 'Maria',
+    email: 'maria@gmail.com',
+    password: '123'
   }];
 
   const actions = [{
@@ -104,11 +108,11 @@ describe('Get moderation queues rejected, pending, flags', () => {
   }];
 
   beforeEach(() => {
-    return Comment.create(comments).then(() => {
-      return User.create(users);
-    }).then(() => {
-      return Action.create(actions);
-    });
+    return Promise.all([
+      Comment.create(comments),
+      User.createLocalUsers(users),
+      Action.create(actions)
+    ]);
   });
 
   it('should return all the rejected comments', function(done){
@@ -148,11 +152,13 @@ describe('Get moderation queues rejected, pending, flags', () => {
 
 describe('Post /comments', () => {
   const users = [{
-    id: '123',
-    display_name: 'Ana',
+    displayName: 'Ana',
+    email: 'ana@gmail.com',
+    password: '123'
   }, {
-    id: '456',
-    display_name: 'Maria',
+    displayName: 'Maria',
+    email: 'maria@gmail.com',
+    password: '123'
   }];
 
   const actions = [{
@@ -164,9 +170,10 @@ describe('Post /comments', () => {
   }];
 
   beforeEach(() => {
-    return User.create(users).then(() => {
-      return Action.create(actions);
-    });
+    return Promise.all([
+      User.createLocalUsers(users),
+      Action.create(actions)
+    ]);
   });
 
   it('it should create a comment', function(done) {
@@ -199,11 +206,13 @@ describe('Get /:comment_id', () => {
   }];
 
   const users = [{
-    id: '123',
-    display_name: 'Ana',
+    displayName: 'Ana',
+    email: 'ana@gmail.com',
+    password: '123'
   }, {
-    id: '456',
-    display_name: 'Maria',
+    displayName: 'Maria',
+    email: 'maria@gmail.com',
+    password: '123'
   }];
 
   const actions = [{
@@ -217,11 +226,11 @@ describe('Get /:comment_id', () => {
   }];
 
   beforeEach(() => {
-    return Comment.create(comments).then(() => {
-      return User.create(users);
-    }).then(() => {
-      return Action.create(actions);
-    });
+    return Promise.all([
+      Comment.create(comments),
+      User.createLocalUsers(users),
+      Action.create(actions)
+    ]);
   });
 
   it('should return the right comment for the comment_id', function(done){
@@ -256,11 +265,13 @@ describe('Put /:comment_id', () => {
   }];
 
   const users = [{
-    id: '123',
-    display_name: 'Ana',
+    displayName: 'Ana',
+    email: 'ana@gmail.com',
+    password: '123'
   }, {
-    id: '456',
-    display_name: 'Maria',
+    displayName: 'Maria',
+    email: 'maria@gmail.com',
+    password: '123'
   }];
 
   const actions = [{
@@ -272,11 +283,11 @@ describe('Put /:comment_id', () => {
   }];
 
   beforeEach(() => {
-    return Comment.create(comments).then(() => {
-      return User.create(users);
-    }).then(() => {
-      return Action.create(actions);
-    });
+    return Promise.all([
+      Comment.create(comments),
+      User.createLocalUsers(users),
+      Action.create(actions)
+    ]);
   });
 
   it('it should update comment', function(done) {
@@ -311,11 +322,13 @@ describe('Remove /:comment_id', () => {
   }];
 
   const users = [{
-    id: '123',
-    display_name: 'Ana',
+    displayName: 'Ana',
+    email: 'ana@gmail.com',
+    password: '123'
   }, {
-    id: '456',
-    display_name: 'Maria',
+    displayName: 'Maria',
+    email: 'maria@gmail.com',
+    password: '123'
   }];
 
   const actions = [{
@@ -327,25 +340,30 @@ describe('Remove /:comment_id', () => {
   }];
 
   beforeEach(() => {
-    return Comment.create(comments).then(() => {
-      return User.create(users);
-    }).then(() => {
-      return Action.create(actions);
-    });
+    return Promise.all([
+      Comment.create(comments),
+      User.createLocalUsers(users),
+      Action.create(actions)
+    ]);
   });
 
-  it('it should remove comment', function(done) {
-    chai.request(app)
+  it('it should remove comment', () => {
+    return chai.request(app)
       .delete('/api/v1/comments/abc')
-      .end(function(err, res){
-        expect(err).to.be.null;
+      .then((res) => {
         expect(res).to.have.status(201);
-        Comment.findById('abc').then((comment) => {
-          expect(comment).to.be.empty;
-        });
-        done();
+
+        return Comment.findById('abc');
+      })
+      .then((comment) => {
+        expect(comment).to.be.null;
       });
   });
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error('Reason: ');
+  console.error(reason);
 });
 
 describe('Post /:comment_id/status', () => {
@@ -370,11 +388,13 @@ describe('Post /:comment_id/status', () => {
   }];
 
   const users = [{
-    id: '123',
-    display_name: 'Ana',
+    displayName: 'Ana',
+    email: 'ana@gmail.com',
+    password: '123'
   }, {
-    id: '456',
-    display_name: 'Maria',
+    displayName: 'Maria',
+    email: 'maria@gmail.com',
+    password: '123'
   }];
 
   const actions = [{
@@ -386,23 +406,21 @@ describe('Post /:comment_id/status', () => {
   }];
 
   beforeEach(() => {
-    return Comment.create(comments).then(() => {
-      return User.create(users);
-    }).then(() => {
-      return Action.create(actions);
-    });
+    return Promise.all([
+      Comment.create(comments),
+      User.createLocalUsers(users),
+      Action.create(actions)
+    ]);
   });
 
-  it('it should update status', function(done) {
-    chai.request(app)
+  it('it should update status', function() {
+    return chai.request(app)
       .post('/api/v1/comments/abc/status')
-      .send({'status': 'accepted'})
-      .end(function(err, res){
-        expect(err).to.be.null;
+      .send({status: 'accepted'})
+      .then((res) => {
         expect(res).to.have.status(200);
         expect(res).to.have.body;
         expect(res.body).to.have.property('status', 'accepted');
-        done();
       });
   });
 });
@@ -429,11 +447,13 @@ describe('Post /:comment_id/actions', () => {
   }];
 
   const users = [{
-    id: '123',
-    display_name: 'Ana',
+    displayName: 'Ana',
+    email: 'ana@gmail.com',
+    password: '123'
   }, {
-    id: '456',
-    display_name: 'Maria',
+    displayName: 'Maria',
+    email: 'maria@gmail.com',
+    password: '123'
   }];
 
   const actions = [{
@@ -445,26 +465,24 @@ describe('Post /:comment_id/actions', () => {
   }];
 
   beforeEach(() => {
-    return Comment.create(comments).then(() => {
-      return User.create(users);
-    }).then(() => {
-      return Action.create(actions);
-    });
+    return Promise.all([
+      Comment.create(comments),
+      User.createLocalUsers(users),
+      Action.create(actions)
+    ]);
   });
 
-  it('it should update actions', function(done) {
-    chai.request(app)
+  it('it should update actions', () => {
+    return chai.request(app)
       .post('/api/v1/comments/abc/actions')
       .send({'user_id': '456', 'action_type': 'flag'})
-      .end(function(err, res){
-        expect(err).to.be.null;
+      .then((res) => {
         expect(res).to.have.status(200);
         expect(res).to.have.body;
         expect(res.body).to.have.property('item_type', 'comment');
         expect(res.body).to.have.property('action_type', 'flag');
         expect(res.body).to.have.property('item_id', 'abc');
         expect(res.body).to.have.property('user_id', '456');
-        done();
       });
   });
 });

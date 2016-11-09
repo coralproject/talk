@@ -17,7 +17,8 @@
     "pre-git": {
       "commit-msg": [],
       "pre-commit": [
-        "npm run lint"
+        "npm run lint",
+        "npm test"
       ],
       "pre-push": [
         "npm test"
