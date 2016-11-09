@@ -1,10 +1,10 @@
 
-import React from 'react'
-import { Button, Icon } from 'react-mdl'
-import timeago from 'timeago.js'
-import styles from './CommentList.css'
-import I18n from 'coral-framework/i18n/i18n'
-import translations from '../translations'
+import React from 'react';
+import {Button, Icon} from 'react-mdl';
+import timeago from 'timeago.js';
+import styles from './CommentList.css';
+import I18n from 'coral-framework/i18n/i18n';
+import translations from '../translations';
 
 // Render a single comment for the list
 export default props => (
@@ -30,17 +30,17 @@ export default props => (
       <span className={styles.body}>{props.comment.get('body')}</span>
     </div>
   </li>
-)
+);
 
 // Check if an action can be performed over a comment
 const canShowAction = (action, comment) => {
-  const status = comment.get('status')
-  const flagged = comment.get('flagged')
+  const status = comment.get('status');
+  const flagged = comment.get('flagged');
 
   if (action === 'flag' && (status || flagged === true)) {
-    return false
+    return false;
   }
-  return true
-}
+  return true;
+};
 
-const lang = new I18n(translations)
+const lang = new I18n(translations);
