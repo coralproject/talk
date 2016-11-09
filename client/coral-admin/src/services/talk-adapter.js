@@ -10,44 +10,44 @@
 // Intercept redux actions and act over the ones we are interested
 export default store => next => action => {
   switch (action.type) {
-    case 'COMMENTS_MODERATION_QUEUE_FETCH':
-      fetchModerationQueueComments(store)
-      break
-    case 'COMMENT_STREAM_FETCH':
-      fetchCommentStream(store)
-      break
-    case 'COMMENT_UPDATE':
-      updateComment(store, action.comment)
-      break
-    case 'COMMENT_CREATE':
-      createComment(store, action.name, action.body)
-      break
+  case 'COMMENTS_MODERATION_QUEUE_FETCH':
+    fetchModerationQueueComments(store);
+    break;
+  // case 'COMMENT_STREAM_FETCH':
+  //   fetchCommentStream(store);
+  //   break;
+  case 'COMMENT_UPDATE':
+    updateComment(store, action.comment);
+    break;
+  case 'COMMENT_CREATE':
+    createComment(store, action.name, action.body);
+    break;
   }
 
-  next(action)
-}
+  next(action);
+};
 
 // Get comments to fill each of the three lists on the mod queue
 const fetchModerationQueueComments = store =>
-fetch(`/api/v1/queue`)
+fetch('/api/v1/queue')
 .then(res => res.json())
-.then(res => store.dispatch({ type: 'COMMENTS_MODERATION_QUEUE_FETCH_SUCCESS',
-  comments: res }))
-.catch(error => store.dispatch({ type: 'COMMENTS_MODERATION_QUEUE_FETCH_FAILED', error }))
+.then(res => store.dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH_SUCCESS',
+  comments: res}))
+.catch(error => store.dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH_FAILED', error}));
 
 // Update a comment. Now to update a comment we need to send back the whole object
 const updateComment = (store, comment) =>
 fetch(`/api/v1/comments/${comment._id}/status`, {
   method: 'POST',
-  body: JSON.stringify({ status: comment.status })
+  body: JSON.stringify({status: comment.status})
 })
 .then(res => res.json())
-.then(res => store.dispatch({ type: 'COMMENT_UPDATE_SUCCESS', res }))
-.catch(error => store.dispatch({ type: 'COMMENT_UPDATE_FAILED', error }))
+.then(res => store.dispatch({type: 'COMMENT_UPDATE_SUCCESS', res}))
+.catch(error => store.dispatch({type: 'COMMENT_UPDATE_FAILED', error}));
 
 // Create a new comment
 const createComment = (store, name, comment) =>
-fetch(`/api/v1/comments`, {
+fetch('/api/v1/comments', {
   method: 'POST',
   body: JSON.stringify({
     status: 'Untouched',
@@ -56,5 +56,5 @@ fetch(`/api/v1/comments`, {
     createdAt: Date.now()
   })
 }).then(res => res.json())
-.then(res => store.dispatch({ type: 'COMMENT_CREATE_SUCCESS', comment: res }))
-.catch(error => store.dispatch({ type: 'COMMENT_CREATE_FAILED', error }))
+.then(res => store.dispatch({type: 'COMMENT_CREATE_SUCCESS', comment: res}))
+.catch(error => store.dispatch({type: 'COMMENT_CREATE_FAILED', error}));

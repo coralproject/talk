@@ -1,7 +1,7 @@
-import React from 'react'
-import {Layout} from 'react-mdl'
-import 'material-design-lite'
-import Header from 'components/Header'
+import React from 'react';
+import {Layout} from 'react-mdl';
+import 'material-design-lite';
+import Header from 'components/Header';
 
 export default (props) => (
   <Layout>
@@ -9,4 +9,4 @@ export default (props) => (
       {props.children}
     </Header>
   </Layout>
-)
+);

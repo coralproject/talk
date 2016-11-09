@@ -1,10 +1,10 @@
-import React from 'react'
-import CommentBox from '../coral-plugin-commentbox/CommentBox'
+import React from 'react';
+import CommentBox from '../coral-plugin-commentbox/CommentBox';
 
-const name = 'coral-plugin-replies'
+const name = 'coral-plugin-replies';
 
 const ReplyBox = (props) => <div
-   className={name + '-textarea'}
+   className={`${name  }-textarea`}
    style={props.styles && props.styles.container}>
      {
        props.showReply && <CommentBox
@@ -17,6 +17,6 @@ const ReplyBox = (props) => <div
          comments = {props.child}
          reply = {true}/>
      }
-   </div>
+   </div>;
 
-export default ReplyBox
+export default ReplyBox;

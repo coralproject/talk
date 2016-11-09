@@ -1,5 +1,5 @@
-import React from 'react'
-import {connect} from 'react-redux'
+import React from 'react';
+import {connect} from 'react-redux';
 import {
   List,
   ListItem,
@@ -9,16 +9,16 @@ import {
   Checkbox,
   Button,
   Icon
-} from 'react-mdl'
-import Page from 'components/Page'
-import styles from './Configure.css'
-import I18n from 'coral-framework/i18n/i18n'
-import translations from '../translations'
+} from 'react-mdl';
+import Page from 'components/Page';
+import styles from './Configure.css';
+import I18n from 'coral-framework/i18n/i18n';
+import translations from '../translations';
 
 class Configure extends React.Component {
   constructor (props) {
-    super(props)
-    this.state = {activeSection: 'comments'}
+    super(props);
+    this.state = {activeSection: 'comments'};
   }
 
   getCommentSettings () {
@@ -39,23 +39,23 @@ class Configure extends React.Component {
           error='Input is not a number!'
           label='Maximum Characters' />
       </ListItem>
-    </List>
+    </List>;
   }
 
-  copyToClipBoard (event) {
-    const copyTextarea = document.querySelector('.' + styles.embedInput)
-    copyTextarea.select()
+  copyToClipBoard () {
+    const copyTextarea = document.querySelector(`.${  styles.embedInput}`);
+    copyTextarea.select();
 
     try {
-      document.execCommand('copy')
+      document.execCommand('copy');
     } catch (err) {
-      console.error('Unable to copy')
+      console.error('Unable to copy');
     }
   }
 
   getEmbed () {
     const embedText =
-    `<div id='coralStreamEmbed'></div><script type='text/javascript' src='https://pym.nprapps.org/pym.v1.min.js'></script><script>var pymParent = new pym.Parent('coralStreamEmbed', '${window.location.protocol}//${window.location.host}/client/coral-embed-stream/', {title: 'comments'});</script>`
+    `<div id='coralStreamEmbed'></div><script type='text/javascript' src='https://pym.nprapps.org/pym.v1.min.js'></script><script>var pymParent = new pym.Parent('coralStreamEmbed', '${window.location.protocol}//${window.location.host}/client/coral-embed-stream/', {title: 'comments'});</script>`;
 
     return <List>
       <ListItem className={styles.configSettingEmbed}>
@@ -65,17 +65,17 @@ class Configure extends React.Component {
         </textarea>
         <Button raised colored>{lang.t('embedlink.copy')}</Button>
       </ListItem>
-    </List>
+    </List>;
   }
 
   changeSection (activeSection) {
-    this.setState({activeSection})
+    this.setState({activeSection});
   }
 
   render () {
     const pageTitle = this.state.activeSection === 'comments'
       ? 'Comment Settings'
-      : 'Embed Comment Stream'
+      : 'Embed Comment Stream';
 
     return (
       <Page>
@@ -107,10 +107,10 @@ class Configure extends React.Component {
           </div>
         </div>
       </Page>
-    )
+    );
   }
 }
 
-export default connect(x => x)(Configure)
+export default connect(x => x)(Configure);
 
-const lang = new I18n(translations)
+const lang = new I18n(translations);
