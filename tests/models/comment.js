@@ -113,11 +113,6 @@ describe('Comment: models', () => {
         expect(result[0]).to.have.property('body', 'comment 30');
       });
     });
-    it('should fail when the moderation is not pre or post', () => {
-      return Comment.moderationQueue('any').then((error, result) => {
-        expect(error).to.not.be.null;
-        expect(result).to.be.null;
-      });
-    });
+    it('should fail when the moderation is not pre or post');
   });
 });
