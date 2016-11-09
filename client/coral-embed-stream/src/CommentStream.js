@@ -123,14 +123,12 @@ class CommentStream extends Component {
                   <PubDate created_at={comment.created_at}/>
                   <Content body={comment.body}/>
                   <div className="commentActions">
-                    {
-                    // <Flag
-                    //   addNotification={this.props.addNotification}
-                    //   id={commentId}
-                    //   flag={comment.flag}
-                    //   postAction={this.props.postAction}
-                    //   currentUser={this.props.auth.user}/>
-                  }
+                    <Flag
+                      addNotification={this.props.addNotification}
+                      id={commentId}
+                      flag={comment.flag}
+                      postAction={this.props.postAction}
+                      currentUser={this.props.auth.user}/>
                     <ReplyButton
                       updateItem={this.props.updateItem}
                       id={commentId}/>
@@ -153,14 +151,12 @@ class CommentStream extends Component {
                         <PubDate created_at={reply.created_at}/>
                         <Content body={reply.body}/>
                         <div className="replyActions">
-                          {
-                            // <Flag
-                            //   addNotificiation={this.props.addNotification}
-                            //   id={replyId}
-                            //   flag={reply.flag}
-                            //   postAction={this.props.postAction}
-                            //   currentUser={this.props.auth.user}/>
-                          }
+                            <Flag
+                              addNotificiation={this.props.addNotification}
+                              id={replyId}
+                              flag={reply.flag}
+                              postAction={this.props.postAction}
+                              currentUser={this.props.auth.user}/>
                           <ReplyButton
                             updateItem={this.props.updateItem}
                             parent_id={reply.parent_id}/>

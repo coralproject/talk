@@ -121,9 +121,15 @@ export function getStream (assetId) {
           comments: rootComments
         }))
 
-        const keys = Object.keys(childComments)
-        for (var i=0; i < keys.length; i++ ) {
-          dispatch(updateItem(keys[i], 'children', childComments[keys[i]].reverse()))
+        const childKeys = Object.keys(childComments)
+        for (var i=0; i < childKeys.length; i++ ) {
+          dispatch(updateItem(childKeys[i], 'children', childComments[childKeys[i]].reverse()))
+        }
+
+        /* Hydrate actions on comments */
+        const actions = Object.keys(json.actions)
+        for (var i=0; i < actions.length; i++ ) {
+          dispatch(updateItem(actions[i].item_id, actions[i].type, actions[i].id))
         }
 
         return (json)
