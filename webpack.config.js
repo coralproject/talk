@@ -8,7 +8,7 @@ devConfig.plugins = devConfig.plugins.concat([
   new webpack.DefinePlugin({
     'process.env': {
       'NODE_ENV': `"${'production'}"`,
-      'VERSION': `"${require('./package.json').version}"`,
+      'VERSION': `"${require('./package.json').version}"`
     }
   }),
   new webpack.optimize.UglifyJsPlugin({
@@ -19,5 +19,5 @@ devConfig.plugins = devConfig.plugins.concat([
   new webpack.optimize.OccurrenceOrderPlugin(),
   new webpack.optimize.DedupePlugin()
 ]);
-console.log(devConfig)
+
 module.exports = devConfig;

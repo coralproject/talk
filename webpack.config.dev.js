@@ -86,7 +86,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': `"${'development'}"`,
-        'VERSION': `"${require('./package.json').version}"`,
+        'VERSION': `"${require('./package.json').version}"`
       }
     })
   ],
