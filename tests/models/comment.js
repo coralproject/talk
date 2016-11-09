@@ -34,11 +34,13 @@ describe('Comment: models', () => {
   }];
 
   const users = [{
-    id: '123',
-    display_name: 'Ana',
+    email: 'stampi@gmail.com',
+    displayName: 'Stampi',
+    password: '1Coral!'
   }, {
-    id: '456',
-    display_name: 'Maria',
+    email: 'sockmonster@gmail.com',
+    displayName: 'Sockmonster',
+    password: '2Coral!'
   }];
 
   const actions = [{
@@ -54,13 +56,12 @@ describe('Comment: models', () => {
   }];
 
   beforeEach(() => {
-    return Setting.create(settings).then(() => {
-      return Comment.create(comments);
-    }).then(() => {
-      return User.create(users);
-    }).then(() => {
-      return Action.create(actions);
-    });
+    return Promise.all([
+      Setting.create(settings),
+      Comment.create(comments),
+      User.createLocalUsers(users),
+      Action.create(actions)
+    ]);
   });
 
   describe('#findById()', () => {
@@ -74,15 +75,17 @@ describe('Comment: models', () => {
 
   describe('#findByAssetId()', () => {
     it('should find an array of comments by asset id', () => {
-      return Comment.findByAssetId('123').then((result) => {
-        expect(result).to.have.length(2);
-        result.sort((a, b) => {
-          if (a.body < b.body) {return -1;}
-          else {return 1;}
+      return Comment
+        .findByAssetId('123')
+        .then((result) => {
+          expect(result).to.have.length(2);
+          result.sort((a, b) => {
+            if (a.body < b.body) {return -1;}
+            else {return 1;}
+          });
+          expect(result[0]).to.have.property('body', 'comment 10');
+          expect(result[1]).to.have.property('body', 'comment 20');
         });
-        expect(result[0]).to.have.property('body', 'comment 10');
-        expect(result[1]).to.have.property('body', 'comment 20');
-      });
     });
   });
   describe('#moderationQueue()', () => {
