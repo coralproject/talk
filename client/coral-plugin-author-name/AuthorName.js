@@ -1,9 +1,9 @@
-import React from 'react'
-const packagename = 'coral-plugin-author-name'
+import React from 'react';
+const packagename = 'coral-plugin-author-name';
 
 const AuthorName = ({name}) =>
-<div className={packagename + '-text'}>
+<div className={`${packagename  }-text`}>
   {name}
-</div>
+</div>;
 
-export default AuthorName
+export default AuthorName;

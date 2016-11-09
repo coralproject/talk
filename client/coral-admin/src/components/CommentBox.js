@@ -1,23 +1,23 @@
 
-import React from 'react'
-import styles from './CommentBox.css'
-import { Button } from 'react-mdl'
+import React from 'react';
+import styles from './CommentBox.css';
+import {Button} from 'react-mdl';
 
 // Renders a comment box for creating a new comment
 export default class CommentBox extends React.Component {
   constructor (props) {
-    super(props)
-    this.state = { name: '', body: '' }
-    this.onSubmit = this.onSubmit.bind(this)
+    super(props);
+    this.state = {name: '', body: ''};
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   onSubmit () {
-    const { name, body } = this.state
-    this.props.onSubmit({ name, body })
-    this.setState({ body: '', name: '' })
+    const {name, body} = this.state;
+    this.props.onSubmit({name, body});
+    this.setState({body: '', name: ''});
   }
 
-  render (props, { name, body }) {
+  render (props, {name, body}) {
     return (
       <div>
         <div class={`${styles.textareaContainer} mdl-textfield mdl-js-textfield`}>
@@ -30,6 +30,6 @@ export default class CommentBox extends React.Component {
         </div>
         <Button onClick={this.onSubmit} raised>Post</Button>
       </div>
-    )
+    );
   }
 }

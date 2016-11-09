@@ -1,7 +1,6 @@
-import { Map, fromJS } from 'immutable'
-import {expect} from 'chai'
-import itemsReducer from '../../store/reducers/items'
-import * as actions from '../../store/actions/items'
+import {Map, fromJS} from 'immutable';
+import {expect} from 'chai';
+import itemsReducer from '../../store/reducers/items';
 
 describe ('itemsReducer', () => {
   describe('ADD_ITEM', () => {
@@ -16,18 +15,18 @@ describe ('itemsReducer', () => {
           item_id: '123'
         },
         item_id: '123'
-      }
-      const store = new Map({})
-      const result = itemsReducer(store, action)
+      };
+      const store = new Map({});
+      const result = itemsReducer(store, action);
       expect(result.get('123').toJS()).to.deep.equal({
         type: 'comment',
         data: {
           content: 'stuff'
         },
         item_id: '123'
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe ('UPDATE_ITEM', () => {
     it ('should update an item', () => {
@@ -36,7 +35,7 @@ describe ('itemsReducer', () => {
         property: 'stuff',
         value: 'things',
         item_id: '123'
-      }
+      };
       const store = fromJS({
         '123': {
           item_id: '123',
@@ -44,20 +43,20 @@ describe ('itemsReducer', () => {
             stuff: 'morestuff'
           }
         }
-      })
-      const result = itemsReducer(store, action)
+      });
+      const result = itemsReducer(store, action);
       expect(result.get('123').toJS()).to.deep.equal({
         item_id: '123',
         data: {
           stuff: 'things'
         }
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('APPEND_ITEM_ARRAY', () => {
-    let action
-    let store
+    let action;
+    let store;
 
     beforeEach (() => {
       action = {
@@ -65,7 +64,7 @@ describe ('itemsReducer', () => {
         property: 'stuff',
         value: 'things',
         item_id: '123'
-      }
+      };
       store = fromJS({
         '123': {
           item_id: '123',
@@ -73,37 +72,37 @@ describe ('itemsReducer', () => {
             stuff: ['morestuff']
           }
         }
-      })
-    })
+      });
+    });
     it ('should append to an existing array', () => {
-      const result = itemsReducer(store, action)
+      const result = itemsReducer(store, action);
       expect(result.get('123').toJS()).to.deep.equal({
         item_id: '123',
         data: {
           stuff: ['morestuff', 'things']
         }
-      })
-    })
+      });
+    });
     it ('should create a new array', () => {
       store = fromJS({
         '123': {
           item_id: '123',
           data: {}
         }
-      })
-      const result = itemsReducer(store, action)
+      });
+      const result = itemsReducer(store, action);
       expect(result.get('123').toJS()).to.deep.equal({
         item_id: '123',
         data: {
           stuff: ['things']
         }
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('APPEND_ITEM_RELATED', () => {
-    let action
-    let store
+    let action;
+    let store;
 
     beforeEach (() => {
       action = {
@@ -111,7 +110,7 @@ describe ('itemsReducer', () => {
         property: 'stuff',
         value: 'things',
         item_id: '123'
-      }
+      };
       store = fromJS({
         '123': {
           item_id: '123',
@@ -119,31 +118,31 @@ describe ('itemsReducer', () => {
             stuff: ['morestuff']
           }
         }
-      })
-    })
+      });
+    });
     it ('should append to an existing array', () => {
-      const result = itemsReducer(store, action)
+      const result = itemsReducer(store, action);
       expect(result.get('123').toJS()).to.deep.equal({
         item_id: '123',
         related: {
           stuff: ['morestuff', 'things']
         }
-      })
-    })
+      });
+    });
     it ('should create a new array', () => {
       store = fromJS({
         '123': {
           item_id: '123',
           related: {}
         }
-      })
-      const result = itemsReducer(store, action)
+      });
+      const result = itemsReducer(store, action);
       expect(result.get('123').toJS()).to.deep.equal({
         item_id: '123',
         related: {
           stuff: ['things']
         }
-      })
-    })
-  })
-})
+      });
+    });
+  });
+});
