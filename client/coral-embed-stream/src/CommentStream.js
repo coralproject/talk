@@ -151,12 +151,12 @@ class CommentStream extends Component {
                         <PubDate created_at={reply.created_at}/>
                         <Content body={reply.body}/>
                         <div className="replyActions">
-                            <Flag
-                              addNotificiation={this.props.addNotification}
-                              id={replyId}
-                              flag={reply.flag}
-                              postAction={this.props.postAction}
-                              currentUser={this.props.auth.user}/>
+                          <Flag
+                            addNotificiation={this.props.addNotification}
+                            id={replyId}
+                            flag={reply.flag}
+                            postAction={this.props.postAction}
+                            currentUser={this.props.auth.user}/>
                           <ReplyButton
                             updateItem={this.props.updateItem}
                             parent_id={reply.parent_id}/>

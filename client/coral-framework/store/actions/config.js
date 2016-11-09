@@ -21,7 +21,9 @@ export const fetchConfig = () => async (dispatch) => {
     //TODO: Replace with fetching config from backend
     // const response = await fetch(`./talk.config.json`)
     // const json = await response.json()
-    dispatch({ type: FETCH_CONFIG_SUCCESS, config: fromJS({}) })
+    dispatch({ type: FETCH_CONFIG_SUCCESS, config: fromJS({
+      notifLength: 4500
+    }) })
   } catch (error) {
     dispatch({ type: FETCH_CONFIG_FAILED })
   }
