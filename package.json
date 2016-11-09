@@ -52,6 +52,8 @@
     "uuid": "^2.0.3"
   },
   "devDependencies": {
+    "babel-eslint": "^7.1.0",
+    "babel-jest": "^15.0.0",
     "autoprefixer": "^6.5.0",
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.7",
@@ -68,6 +70,7 @@
     "copy-webpack-plugin": "^4.0.0",
     "css-loader": "^0.25.0",
     "eslint": "^3.9.1",
+    "eslint-plugin-react": "^6.6.0",
     "exports-loader": "^0.6.3",
     "hammerjs": "^2.0.8",
     "immutable": "^3.8.1",

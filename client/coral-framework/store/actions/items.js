@@ -1,15 +1,12 @@
 /* Item Actions */
 
-import { fromJS } from 'immutable'
-import mocks from '../../mocks.json'
-
 /**
  * Action name constants
  */
 
-export const ADD_ITEM = 'ADD_ITEM'
-export const UPDATE_ITEM = 'UPDATE_ITEM'
-export const APPEND_ITEM_ARRAY = 'APPEND_ITEM_ARRAY'
+export const ADD_ITEM = 'ADD_ITEM';
+export const UPDATE_ITEM = 'UPDATE_ITEM';
+export const APPEND_ITEM_ARRAY = 'APPEND_ITEM_ARRAY';
 
 /**
  * Action creators
@@ -26,14 +23,14 @@ export const APPEND_ITEM_ARRAY = 'APPEND_ITEM_ARRAY'
 
 export const addItem = (item) => {
   if (!item.id) {
-    console.warn('addItem called without an item id.')
+    console.warn('addItem called without an item id.');
   }
   return {
     type: ADD_ITEM,
     item: item,
     id: item.id
-  }
-}
+  };
+};
 
 /*
 * Updates an item in the local store without posting it to the server
@@ -46,15 +43,14 @@ export const addItem = (item) => {
 *
 */
 
-
 export const updateItem = (id, property, value) => {
   return {
     type: UPDATE_ITEM,
     id,
     property,
     value
-  }
-}
+  };
+};
 
 export const appendItemArray = (id, property, value, addToFront) => {
   return {
@@ -63,8 +59,8 @@ export const appendItemArray = (id, property, value, addToFront) => {
     property,
     value,
     addToFront
-  }
-}
+  };
+};
 
 /*
 * Get Items from Query
@@ -81,47 +77,47 @@ export const appendItemArray = (id, property, value, addToFront) => {
 */
 export function getStream (assetId) {
   return (dispatch) => {
-    return fetch('/api/v1/stream?asset_id='+assetId)
+    return fetch(`/api/v1/stream?asset_id=${assetId}`)
       .then(
         response => {
-          return response.ok ? response.json() : Promise.reject(response.status + ' ' + response.statusText)
+          return response.ok ? response.json() : Promise.reject(`${response.status  } ${  response.statusText}`);
         }
       )
       .then((json) => {
 
         /* Sort comments by date*/
-        let rootComments = []
-        let childComments = {}
-        json.sort((a,b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
-        json.reduce((prev, item) => {
-          dispatch(addItem(item))
+        let rootComments = [];
+        let childComments = {};
+        json.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+        json.forEach(item => {
+          dispatch(addItem(item));
 
           /* Check for root and child comments. */
           if (
             item.asset_id === assetId &&
             !item.parent_id) {
-            rootComments.push(item.id)
+            rootComments.push(item.id);
           } else if (
             item.asset_id === assetId
           ) {
-            let children = childComments[item.parent_id] || []
-            childComments[item.parent_id] = children.concat(item.id)
+            let children = childComments[item.parent_id] || [];
+            childComments[item.parent_id] = children.concat(item.id);
           }
-        }, {})
+        }, {});
 
         dispatch(addItem({
           id: assetId,
           comments: rootComments
-        }))
+        }));
 
-        const keys = Object.keys(childComments)
-        for (var i=0; i < keys.length; i++ ) {
-          dispatch(updateItem(keys[i], 'children', childComments[keys[i]].reverse()))
+        const keys = Object.keys(childComments);
+        for (let i = 0; i < keys.length; i++ ) {
+          dispatch(updateItem(keys[i], 'children', childComments[keys[i]].reverse()));
         }
 
-        return (json)
-      })
-  }
+        return (json);
+      });
+  };
 }
 
 /*
@@ -140,20 +136,20 @@ export function getStream (assetId) {
 
 export function getItemsArray (ids) {
   return (dispatch) => {
-    return fetch('/v1/item/' + ids)
+    return fetch(`/v1/item/${  ids}`)
       .then(
         response => {
           return response.ok ? response.json()
-          : Promise.reject(response.status + ' ' + response.statusText)
+          : Promise.reject(`${response.status  } ${  response.statusText}`);
         }
       )
       .then((json) => {
-        for (var i = 0; i < json.items.length; i++) {
-          dispatch(addItem(json.items[i]))
+        for (let i = 0; i < json.items.length; i++) {
+          dispatch(addItem(json.items[i]));
         }
-        return json.items
-      })
-  }
+        return json.items;
+      });
+  };
 }
 
 /*
@@ -173,7 +169,7 @@ export function getItemsArray (ids) {
 export function postItem (item, type, id) {
   return (dispatch) => {
     if (id) {
-      item.id = id
+      item.id = id;
     }
     let options = {
       method: 'POST',
@@ -181,20 +177,20 @@ export function postItem (item, type, id) {
       headers: {
         'Content-Type':'application/json'
       }
-    }
+    };
     console.log('postItem', options);
-    return fetch('/api/v1/' + type, options)
+    return fetch(`/api/v1/${  type}`, options)
       .then(
         response => {
           return response.ok ? response.json()
-          : Promise.reject(response.status + ' ' + response.statusText)
+          : Promise.reject(`${response.status  } ${  response.statusText}`);
         }
       )
       .then((json) => {
-        dispatch(addItem({...item, id:json.id}))
-        return json.id
-      })
-  }
+        dispatch(addItem({...item, id:json.id}));
+        return json.id;
+      });
+  };
 }
 
 //http://localhost:16180/v1/action/flag/user/user_89654/on/item/87e418c5-aafb-4eb7-9ce4-78f28793782a
@@ -219,19 +215,19 @@ export function postAction (id, type, user_id) {
     const action = {
       type,
       user_id
-    }
+    };
     const options = {
       method: 'POST',
       body: JSON.stringify(action)
-    }
+    };
 
-    dispatch(appendItemArray(id, type, user_id))
-    return fetch('/api/v1/comments/' + id + '/actions', options)
+    dispatch(appendItemArray(id, type, user_id));
+    return fetch(`/api/v1/comments/${  id  }/actions`, options)
       .then(
         response => {
           return response.ok ? response.text()
-          : Promise.reject(response.status + ' ' + response.statusText)
+          : Promise.reject(`${response.status  } ${  response.statusText}`);
         }
-      )
-  }
+      );
+  };
 }
