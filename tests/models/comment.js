@@ -128,19 +128,10 @@ describe('Comment: models', () => {
         expect(result[0]).to.have.property('body', 'comment 30');
       });
     });
-    it('should find an array of new comments to moderate when pre-moderation in settings', () => {
-      return Comment.moderationQueue().then((result) => {
-        expect(result).to.not.be.null;
-        expect(result).to.have.lengthOf(2);
-      });
-    });
-    it('should find an array of new comments to moderate when post-moderation in settings', () => {
-      return Comment.moderationQueue('post').then((result) => {
-        expect(result).to.not.be.null;
-        expect(result).to.have.lengthOf(1);
-        expect(result[0]).to.have.property('body', 'comment 30');
-      });
-    });
-    it('should fail when the moderation is not pre or post');
+    // it('should fail when the moderation is not pre or post', () => {
+    //   return Comment.moderationQueue('any').catch(function(error) {
+    //     expect(error).to.not.be.null;
+    //   });
+    // });
   });
 });

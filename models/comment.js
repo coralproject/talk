@@ -1,7 +1,6 @@
 const mongoose = require('../mongoose');
 const uuid = require('uuid');
 const Action = require('./action');
-const Setting = require('./setting');
 
 const Schema = mongoose.Schema;
 
@@ -115,27 +114,21 @@ CommentSchema.statics.findByStatus = function(status) {
  * Find comments that need to be moderated (aka moderation queue).
  * @param {String} moderationValue pre or post moderation setting. If it is undefined then look at the settings.
 */
-CommentSchema.statics.moderationQueue = function(moderationValue) {
-
-  return Setting.getModerationSetting().then(function({moderation}){
-    if (typeof moderationValue === 'undefined' || moderationValue === undefined) {
-      moderationValue = moderation;
-    }
-    switch(moderationValue){
-    // Pre-moderation:  New comments are shown in the moderator queues immediately.
-    case 'pre':
-      return Comment.findByStatus('').then((comments) => {
-        return comments;
-      });
-    // Post-moderation: New comments do not appear in moderation queues unless they are flagged by other users.
-    case 'post':
-      return Comment.findByStatusByActionType('', 'flag').then((comments) => {
-        return comments;
-      });
-    default:
-      throw new Error('Moderation setting not found.');
-    }
-  });
+CommentSchema.statics.moderationQueue = function(moderation) {
+  switch(moderation){
+  // Pre-moderation:  New comments are shown in the moderator queues immediately.
+  case 'pre':
+    return Comment.findByStatus('').then((comments) => {
+      return comments;
+    });
+  // Post-moderation: New comments do not appear in moderation queues unless they are flagged by other users.
+  case 'post':
+    return Comment.findByStatusByActionType('', 'flag').then((comments) => {
+      return comments;
+    });
+  default:
+    throw new Error('Moderation setting not found.');
+  }
 };
 
 //==============================================================================
