@@ -1,7 +1,7 @@
 import { Map, fromJS } from 'immutable'
 import {expect} from 'chai'
-import itemsReducer from '../../store/reducers/items'
-import * as actions from '../../store/actions/items'
+import itemsReducer from '../../../../client/coral-framework/store/reducers/items'
+import * as actions from '../../../../client/coral-framework/store/actions/items'
 
 describe ('itemsReducer', () => {
   describe('ADD_ITEM', () => {

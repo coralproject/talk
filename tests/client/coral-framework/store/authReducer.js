@@ -1,7 +1,7 @@
 import { Map } from 'immutable'
 import {expect} from 'chai'
-import authReducer from '../../store/reducers/auth'
-import * as actions from '../../store/actions/auth'
+import authReducer from '../../../../client/coral-framework/store/reducers/auth'
+import * as actions from '../../../../client/coral-framework/store/actions/auth'
 
 describe ('authReducer', () => {
   describe('SET_LOGGED_IN_USER', () => {

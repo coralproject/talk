@@ -9,8 +9,8 @@
     "build-watch": "webpack --config webpack.config.dev.js --watch",
     "lint": "eslint .",
     "pretest": "npm install",
-    "test": "mocha tests --recursive",
-    "test-watch": "mocha tests --recursive -w",
+    "test": "mocha --compilers js:babel-core/register --recursive tests",
+    "test-watch": "mocha --compilers js:babel-core/register --recursive -w tests",
     "embed-start": "npm run build && ./bin/www"
   },
   "config": {
@@ -69,6 +69,7 @@
     "css-loader": "^0.25.0",
     "eslint": "^3.9.1",
     "exports-loader": "^0.6.3",
+    "fetch-mock": "^5.5.0",
     "hammerjs": "^2.0.8",
     "immutable": "^3.8.1",
     "imports-loader": "^0.6.5",
@@ -89,6 +90,7 @@
     "react-redux": "^4.4.5",
     "react-router": "^3.0.0",
     "redux": "^3.6.0",
+    "redux-mock-store": "^1.2.1",
     "redux-thunk": "^2.1.0",
     "regenerator": "^0.8.46",
     "style-loader": "^0.13.1",

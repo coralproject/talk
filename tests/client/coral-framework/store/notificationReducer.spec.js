@@ -1,7 +1,7 @@
 import { Map } from 'immutable'
 import {expect} from 'chai'
-import notificationReducer from '../../store/reducers/notification'
-import * as actions from '../../store/actions/notification'
+import notificationReducer from '../../../../client/coral-framework/store/reducers/notification'
+import * as actions from '../../../../client/coral-framework/store/actions/notification'
 
 describe ('notificationsReducer', () => {
   describe('ADD_NOTIFICATION', () => {
