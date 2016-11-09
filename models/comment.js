@@ -61,18 +61,25 @@ CommentSchema.statics.findById = function(id) {
  * Finds ALL the comments by the asset_id.
  * @param {String} asset_id  identifier of the asset which owns this comment (uuid)
 */
-CommentSchema.statics.findAllByAssetId = function(asset_id) {
+CommentSchema.statics.findByAssetId = function(asset_id) {
   return Comment.find({asset_id});
 };
 
 /**
- * Finds the comments by the asset_id.
- *  get the comments that are approved.
- *  if post: get the comments that new and not flagged.
+ * Finds the accepted comments by the asset_id.
+ *  get the comments that are accepted.
  * @param {String} asset_id  identifier of the asset which owns the comments (uuid)
 */
-CommentSchema.statics.findByAssetId = function(asset_id) {
+CommentSchema.statics.findAcceptedByAssetId = function(asset_id) {
   return Comment.find({asset_id: asset_id, status:'accepted'});
+};
+
+/**
+ * Finds the new and accepted comments by the asset_id.
+ * @param {String} asset_id  identifier of the asset which owns the comments (uuid)
+*/
+CommentSchema.statics.findNewByAssetId = function(asset_id) {
+  return Comment.find({asset_id: asset_id, status: {'$in': ['accepted', '']}});
 };
 
 /**
@@ -126,7 +133,7 @@ CommentSchema.statics.moderationQueue = function(moderationValue) {
         return comments;
       });
     default:
-      return Error('Moderation setting not found.') ;
+      throw new Error('Moderation setting not found.');
     }
   });
 };
