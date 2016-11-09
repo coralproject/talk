@@ -7,7 +7,7 @@ import {
   ListItem,
   ListItemContent,
   ListItemAction,
-  Textfield,
+  //Textfield,
   Checkbox,
   Button,
   Icon
@@ -50,6 +50,7 @@ class Configure extends React.Component {
         </ListItemAction>
         Enable pre-moderation
       </ListItem>
+      {/*
       <ListItem className={styles.configSetting}>
         <ListItemAction><Checkbox /></ListItemAction>
         Include Comment Stream Description for Readers
@@ -62,6 +63,7 @@ class Configure extends React.Component {
           error='Input is not a number!'
           label='Maximum Characters' />
       </ListItem>
+    */}
     </List>;
   }
 
