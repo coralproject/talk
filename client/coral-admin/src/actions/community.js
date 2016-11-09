@@ -4,4 +4,11 @@ import {
   FETCHING_COMMENTERS_SUCCESS
 } from '../constants/community'
 
-export const startFetchCommenters = () => ({ type: FETCHING_COMMENTERS })
+export const fetchCommenters = ({ value = "", skip = 0, limit = 0 }) => ({
+  type: FETCHING_COMMENTERS,
+  payload: {
+    value,
+    skip,
+    limit
+  }
+})

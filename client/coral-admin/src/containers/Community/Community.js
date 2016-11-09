@@ -6,10 +6,11 @@ import { Grid, Cell, Button } from 'react-mdl'
 
 import styles from './Community.css'
 import Table from './Table'
+import Loading from './Loading'
 
 export default class Community extends Component {
   render() {
-    const {searchValue, onKeyDownHandler, onChangeHandler, commenters} = this.props;
+    const {searchValue, onKeyDownHandler, onChangeHandler, commenters, isFetching} = this.props;
     return (
         <Grid>
           <Cell col={4}>
@@ -25,10 +26,16 @@ export default class Community extends Component {
             </button>
           </Cell>
           <Cell col={8}>
-            <Table
-              headers={['Username and Email', 'Account Creation Date']}
-              data={commenters}
-            />
+            {
+              (isFetching)
+              ?
+                <Loading />
+              :
+                <Table
+                headers={['Username and Email', 'Account Creation Date']}
+                data={commenters}
+              />
+            }
           </Cell>
         </Grid>
     )
