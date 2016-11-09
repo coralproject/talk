@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import Community from '../components/Community'
+import Community from './Community'
 
 export default class CommunityContainer extends Component {
   constructor(props) {
