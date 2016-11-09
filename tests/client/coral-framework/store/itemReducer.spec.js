@@ -9,22 +9,17 @@ describe ('itemsReducer', () => {
       const action = {
         type: 'ADD_ITEM',
         item: {
-          type: 'comment',
-          data: {
-            content: 'stuff'
-          },
-          item_id: '123'
+          body: 'stuff',
+          id: '123'
         },
-        item_id: '123'
+        item_type: 'comments',
+        id: '123'
       }
       const store = new Map({})
       const result = itemsReducer(store, action)
-      expect(result.get('123').toJS()).to.deep.equal({
-        type: 'comment',
-        data: {
-          content: 'stuff'
-        },
-        item_id: '123'
+      expect(result.getIn(['comments','123']).toJS()).to.deep.equal({
+        body: 'stuff',
+        id: '123'
       })
     })
   })
@@ -35,22 +30,21 @@ describe ('itemsReducer', () => {
         type: 'UPDATE_ITEM',
         property: 'stuff',
         value: 'things',
-        item_id: '123'
+        item_type: 'comments',
+        id: '123'
       }
       const store = fromJS({
-        '123': {
-          item_id: '123',
-          data: {
+        'comments': {
+          '123': {
+            id: '123',
             stuff: 'morestuff'
           }
         }
-      })
+      });
       const result = itemsReducer(store, action)
-      expect(result.get('123').toJS()).to.deep.equal({
-        item_id: '123',
-        data: {
-          stuff: 'things'
-        }
+      expect(result.getIn(['comments','123']).toJS()).to.deep.equal({
+        id: '123',
+        stuff: 'things'
       })
     })
   })
@@ -64,12 +58,13 @@ describe ('itemsReducer', () => {
         type: 'APPEND_ITEM_ARRAY',
         property: 'stuff',
         value: 'things',
-        item_id: '123'
+        id: '123',
+        item_type: 'comments'
       }
       store = fromJS({
-        '123': {
-          item_id: '123',
-          data: {
+        'comments': {
+          '123': {
+            id: '123',
             stuff: ['morestuff']
           }
         }
@@ -77,73 +72,25 @@ describe ('itemsReducer', () => {
     })
     it ('should append to an existing array', () => {
       const result = itemsReducer(store, action)
-      expect(result.get('123').toJS()).to.deep.equal({
-        item_id: '123',
-        data: {
-          stuff: ['morestuff', 'things']
-        }
+      expect(result.getIn(['comments','123']).toJS()).to.deep.equal({
+        id: '123',
+        stuff: ['morestuff', 'things']
       })
     })
     it ('should create a new array', () => {
       store = fromJS({
-        '123': {
-          item_id: '123',
-          data: {}
-        }
-      })
-      const result = itemsReducer(store, action)
-      expect(result.get('123').toJS()).to.deep.equal({
-        item_id: '123',
-        data: {
-          stuff: ['things']
-        }
-      })
-    })
-  })
-
-  describe('APPEND_ITEM_RELATED', () => {
-    let action
-    let store
-
-    beforeEach (() => {
-      action = {
-        type: 'APPEND_ITEM_RELATED',
-        property: 'stuff',
-        value: 'things',
-        item_id: '123'
-      }
-      store = fromJS({
-        '123': {
-          item_id: '123',
-          related: {
-            stuff: ['morestuff']
+        'comments': {
+          '123': {
+            id: '123'
           }
         }
       })
-    })
-    it ('should append to an existing array', () => {
       const result = itemsReducer(store, action)
-      expect(result.get('123').toJS()).to.deep.equal({
-        item_id: '123',
-        related: {
-          stuff: ['morestuff', 'things']
-        }
-      })
-    })
-    it ('should create a new array', () => {
-      store = fromJS({
-        '123': {
-          item_id: '123',
-          related: {}
-        }
-      })
-      const result = itemsReducer(store, action)
-      expect(result.get('123').toJS()).to.deep.equal({
-        item_id: '123',
-        related: {
-          stuff: ['things']
-        }
+      expect(result.getIn(['comments','123']).toJS()).to.deep.equal({
+        id: '123',
+        stuff: ['things']
       })
     })
   })
+
 })

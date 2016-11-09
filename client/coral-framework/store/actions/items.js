@@ -24,13 +24,14 @@ export const APPEND_ITEM_ARRAY = 'APPEND_ITEM_ARRAY'
  *
  */
 
-export const addItem = (item) => {
+export const addItem = (item, item_type) => {
   if (!item.id) {
     console.warn('addItem called without an item id.')
   }
   return {
     type: ADD_ITEM,
-    item: item,
+    item,
+    item_type,
     id: item.id
   }
 }
@@ -47,22 +48,24 @@ export const addItem = (item) => {
 */
 
 
-export const updateItem = (id, property, value) => {
+export const updateItem = (id, property, value, item_type) => {
   return {
     type: UPDATE_ITEM,
     id,
     property,
-    value
+    value,
+    item_type
   }
 }
 
-export const appendItemArray = (id, property, value, addToFront) => {
+export const appendItemArray = (id, property, value, add_to_front, item_type) => {
   return {
     type: APPEND_ITEM_ARRAY,
     id,
     property,
     value,
-    addToFront
+    add_to_front,
+    item_type
   }
 }
 
@@ -93,7 +96,7 @@ export function getStream (assetId) {
         const itemTypes = Object.keys(json);
         for (let i=0; i < itemTypes.length; i++ ) {
           for (var j=0; j < json[itemTypes[i]].length; j++ ) {
-              dispatch(addItem(json[itemTypes[i]][j]));
+            dispatch(addItem(json[itemTypes[i]][j], itemTypes[i]));
           }
         }
 
@@ -118,18 +121,18 @@ export function getStream (assetId) {
 
         dispatch(addItem({
           id: assetId,
-          comments: rootComments
-        }))
+          comments: rootComments,
+        }, 'assets'))
 
         const childKeys = Object.keys(childComments)
         for (var i=0; i < childKeys.length; i++ ) {
-          dispatch(updateItem(childKeys[i], 'children', childComments[childKeys[i]].reverse()))
+          dispatch(updateItem(childKeys[i], 'children', childComments[childKeys[i]].reverse(), 'comments'))
         }
 
         /* Hydrate actions on comments */
         const actions = Object.keys(json.actions)
         for (var i=0; i < actions.length; i++ ) {
-          dispatch(updateItem(actions[i].item_id, actions[i].type, actions[i].id))
+          dispatch(updateItem(actions[i].item_id, actions[i].type, actions[i].id, 'actions'))
         }
 
         return (json)
@@ -195,7 +198,6 @@ export function postItem (item, type, id) {
         'Content-Type':'application/json'
       }
     }
-    console.log('postItem', options);
     return fetch('/api/v1/' + type, options)
       .then(
         response => {
@@ -204,7 +206,7 @@ export function postItem (item, type, id) {
         }
       )
       .then((json) => {
-        dispatch(addItem({...item, id:json.id}))
+        dispatch(addItem({...item, id:json.id}, type))
         return json.id
       })
   }
@@ -227,7 +229,7 @@ export function postItem (item, type, id) {
 *
 */
 
-export function postAction (id, type, user_id) {
+export function postAction (item_id, type, user_id) {
   return (dispatch) => {
     const action = {
       type,
@@ -238,13 +240,14 @@ export function postAction (id, type, user_id) {
       body: JSON.stringify(action)
     }
 
-    dispatch(appendItemArray(id, type, user_id))
-    return fetch('/api/v1/comments/' + id + '/actions', options)
+    return fetch('/api/v1/comments/' + item_id + '/actions', options)
       .then(
         response => {
-          return response.ok ? response.text()
+          return response.ok ? response.json()
           : Promise.reject(response.status + ' ' + response.statusText)
         }
-      )
+      ).then((json)=>{
+        return json.id
+      })
   }
 }

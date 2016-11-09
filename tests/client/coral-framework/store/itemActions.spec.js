@@ -11,74 +11,88 @@ const mockStore = configureStore()
 
 describe('itemActions', () => {
   let store
-  const host = 'http://test.host'
 
   beforeEach(() => {
     store = mockStore(new Map({}))
     fetchMock.restore()
   })
 
-  describe('getItemsQuery', () => {
-    const query = 'all'
-    const rootId = '1234'
-    const view = 'testView'
-    const response = {results: [
-      {Docs: [
-        {type: 'comment', data: {content: 'stuff'}, item_id: '123'},
-        {type: 'comment', data: {content: 'morestuff'}, item_id: '456'}
-      ]}
-    ]}
+  describe('getStream', () => {
+    const rootId = '1234';
+    const response = {
+      comments: [
+        { body: 'stuff', id: '123'},
+        { body: 'morestuff', id: '456'}
+      ],
+      actions: [
+        {
+          type: 'like',
+          id: '123',
+          count: 1,
+          current_user: false
+        },
+        {
+          type: 'flag',
+          id: '456',
+          count: 5,
+          current_user: true
+        }
+      ]
+    };
 
-    it('should get an item from a query and send the appropriate dispatches', () => {
-      fetchMock.get('*', JSON.stringify(response))
-      return actions.getItemsQuery(query, rootId, view, host)(store.dispatch)
+    it('should get an stream from an asset_id and send the appropriate dispatches', () => {
+      fetchMock.get('*', JSON.stringify(response));
+      return actions.getStream(rootId)(store.dispatch)
         .then((res) => {
-          expect(fetchMock.calls().matched[0][0]).to.equal('http://test.host/v1/exec/all/view/testView/1234')
-          expect(res).to.deep.equal(response.results[0].Docs)
+          expect(fetchMock.calls().matched[0][0]).to.equal('/api/v1/stream?asset_id=1234')
+          expect(res).to.deep.equal(response);
           expect(store.getActions()[0]).to.deep.equal({
             type: actions.ADD_ITEM,
-            item: response.results[0].Docs[0],
-            item_id: '123'
-          })
+            item: response.comments[0],
+            item_type: 'comments',
+            id: '123'
+          });
           expect(store.getActions()[1]).to.deep.equal({
             type: actions.ADD_ITEM,
-            item: response.results[0].Docs[1],
-            item_id: '456'
-          })
-        })
+            item: response.comments[1],
+            item_type: 'comments',
+            id: '456'
+          });
+        });
     })
     it('should handle an error', () => {
       fetchMock.get('*', 404)
-      return actions.getItemsQuery(query, rootId, view, host)(store.dispatch)
+      return actions.getStream(rootId)(store.dispatch)
         .catch((err) => {
-          expect(err).to.be.truthy
-        })
-    })
-  })
+          expect(err).to.be.truthy;
+        });
+    });
+  });
 
-  describe('getItemsArray', () => {
-    const response = {items: [{type: 'comment', item_id: '123'}, {type: 'comment', item_id: '456'}]}
+  //Disabling tests for this function until is is used again.
+  xdescribe('getItemsArray', () => {
+    const response = {items: [{type: 'comment', id: '123'}, {type: 'comment', id: '456'}]}
     const ids = [1, 2]
 
     it('should get an item from an array of ids and send the appropriate dispatches', () => {
       fetchMock.get('*', JSON.stringify(response))
-      return actions.getItemsArray(ids, host)(store.dispatch)
+      return actions.getItemsArray(ids)(store.dispatch)
         .then((res) => {
           expect(res).to.deep.equal(response.items)
           expect(store.getActions()[0]).to.deep.equal({
             type: actions.ADD_ITEM,
             item: {
               type: 'comment',
-              item_id: '123'
+              id: '123'
             },
-            item_id: '123'
+            id: '123'
           })
           expect(store.getActions()[1]).to.deep.equal({
             type: actions.ADD_ITEM,
             item: {
-              type: 'comment', item_id: '456'
+              type: 'comment', id: '456'
             },
-            item_id: '456'
+            id: '456'
           })
         })
     })
@@ -93,37 +107,38 @@ describe('itemActions', () => {
 
   describe('postItem', () => {
     const item = {
-      type: 'comment',
-      data:{content: 'stuff'}
+      type: 'comments',
+      data: {body: 'stuff'}
     }
 
     it ('should post an item, return an id, then dispatch that item to the store', () => {
-      fetchMock.post('*', {item_id: '123', type: 'comment', data: {content: 'stuff'}})
-      return actions.postItem(item.data, item.type, undefined, host)(store.dispatch)
+      fetchMock.post('*', {id: '123'})
+      return actions.postItem(item.data, item.type, undefined)(store.dispatch)
         .then((id) => {
           expect(fetchMock.calls().matched[0][1]).to.deep.equal(
             {
               method: 'POST',
-              body: JSON.stringify({...item, version: 1})
+              headers: {
+                'Content-Type':'application/json'
+              },
+              body: JSON.stringify(item.data)
             }
           )
           expect(id).to.equal('123')
           expect(store.getActions()[0]).to.deep.equal({
             type: actions.ADD_ITEM,
             item: {
-              type: 'comment',
-              data: {
-                content: 'stuff'
-              },
-              item_id: '123'
+              body: 'stuff',
+              id: '123'
             },
-            item_id: '123'
+            item_type: 'comments',
+            id: '123'
           })
         })
     })
     it('should handle an error', () => {
       fetchMock.post('*', 404)
-      return actions.postItem(item, host)(store.dispatch)
+      return actions.postItem(item)(store.dispatch)
         .catch((err) => {
           expect(err).to.be.truthy
         })
@@ -132,17 +147,26 @@ describe('itemActions', () => {
 
   describe('postAction', () => {
     it ('should post an action', () => {
-      fetchMock.post('*', 200)
-      return actions.postAction('abc', 'flag', '123', host)(store.dispatch)
+      fetchMock.post('*', {id: '456'})
+      return actions.postAction('abc', 'flag', '123')(store.dispatch)
         .then(response => {
-          expect(fetchMock.calls().matched[0][0]).to.equal('http://test.host/v1/action/flag/user/123/on/item/abc')
-          expect(response).to.equal('')
+          expect(fetchMock.calls().matched[0][0]).to.equal('/api/v1/comments/abc/actions')
+          expect(response).to.equal('456')
+          // expect(store.getActions()[0]).to.deep.equal({
+          //   type: actions.ADD_ITEM,
+          //   item: {
+          //     type: 'flag',
+          //     item_id: 'abc',
+          //     id: '123'
+          //   },
+          //   id: '123'
+          // })
         })
     })
 
     it('should handle an error', () => {
       fetchMock.post('*', 404)
-      return actions.postItem('abc', 'flag', '123', host)(store.dispatch)
+      return actions.postAction('abc', 'flag', '123')(store.dispatch)
         .catch((err) => {
           expect(err).to.be.truthy
         })
