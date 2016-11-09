@@ -44,6 +44,4 @@ describe('Comment: models', () => {
       });
     });
   });
-
-  // });
 });

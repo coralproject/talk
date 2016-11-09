@@ -28,7 +28,7 @@ const handleResp = res => {
   if (res.status === 401) {
     throw new Error('Not Authorized to make this request');
   } else if (res.status > 399) {
-    throw new Error('Error! Status ' + res.status);
+    throw new Error('Error! Status ', res.status);
   } else if (res.status === 204) {
     return res.text();
   } else {
