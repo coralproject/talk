@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import * as communityActionCreators from '../../actions/community'
 
 import Community from './Community'
 
-export default class CommunityContainer extends Component {
+class CommunityContainer extends Component {
   constructor(props) {
     super(props)
 
@@ -14,7 +16,6 @@ export default class CommunityContainer extends Component {
 
     this.onKeyDownHandler = this.onKeyDownHandler.bind(this)
     this.onChangeHandler = this.onChangeHandler.bind(this)
-    this.search = this.search.bind(this)
   }
 
   onKeyDownHandler(e) {
@@ -30,17 +31,19 @@ export default class CommunityContainer extends Component {
   }
 
   search() {
-    console.log('search')
+    this.props.startFetchCommenters()
   }
 
   componentDidMount() {
-    // Bring results
+    this.props.startFetchCommenters()
   }
 
   render() {
     const {searchValue} = this.state;
+    const {commenters} = this.props;
     return (
       <Community
+        commenters={commenters}
         searchValue={searchValue}
         onKeyDownHandler={this.onKeyDownHandler}
         onChangeHandler={this.onChangeHandler}
@@ -49,3 +52,8 @@ export default class CommunityContainer extends Component {
     )
   }
 }
+
+export default connect(
+  ({ community }) => community,
+  dispatch => bindActionCreators(communityActionCreators, dispatch)
+)(CommunityContainer)

@@ -9,7 +9,7 @@ import Table from './Table'
 
 export default class Community extends Component {
   render() {
-    const {searchValue, onKeyDownHandler, onChangeHandler} = this.props;
+    const {searchValue, onKeyDownHandler, onChangeHandler, commenters} = this.props;
     return (
         <Grid>
           <Cell col={4}>
@@ -27,13 +27,7 @@ export default class Community extends Component {
           <Cell col={8}>
             <Table
               headers={['Username and Email', 'Account Creation Date']}
-              data={[
-                {
-                  name: 'Belen Curcio',
-                  email: 'curciobelen@gmail.com',
-                  date: '21/12/2010'
-                }
-              ]}
+              data={commenters}
             />
           </Cell>
         </Grid>
