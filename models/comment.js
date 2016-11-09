@@ -58,11 +58,21 @@ CommentSchema.statics.findById = function(id) {
 };
 
 /**
- * Finds a comment by the asset_id.
+ * Finds ALL the comments by the asset_id.
  * @param {String} asset_id  identifier of the asset which owns this comment (uuid)
 */
-CommentSchema.statics.findByAssetId = function(asset_id) {
+CommentSchema.statics.findAllByAssetId = function(asset_id) {
   return Comment.find({asset_id});
+};
+
+/**
+ * Finds the comments by the asset_id.
+ *  get the comments that are approved.
+ *  if post: get the comments that new and not flagged.
+ * @param {String} asset_id  identifier of the asset which owns the comments (uuid)
+*/
+CommentSchema.statics.findByAssetId = function(asset_id) {
+  return Comment.find({asset_id: asset_id, status:'accepted'});
 };
 
 /**

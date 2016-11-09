@@ -73,8 +73,8 @@ describe('Comment: models', () => {
   });
 
   describe('#findByAssetId()', () => {
-    it('should find an array of comments by asset id', () => {
-      return Comment.findByAssetId('123').then((result) => {
+    it('should find an array of all comments by asset id', () => {
+      return Comment.findAllByAssetId('123').then((result) => {
         expect(result).to.have.length(2);
         result.sort((a, b) => {
           if (a.body < b.body) {return -1;}
@@ -82,6 +82,16 @@ describe('Comment: models', () => {
         });
         expect(result[0]).to.have.property('body', 'comment 10');
         expect(result[1]).to.have.property('body', 'comment 20');
+      });
+    });
+    it('should find an array of approved comments by asset id', () => {
+      return Comment.findByAssetId('123').then((result) => {
+        expect(result).to.have.length(1);
+        result.sort((a, b) => {
+          if (a.body < b.body) {return -1;}
+          else {return 1;}
+        });
+        expect(result[0]).to.have.property('body', 'comment 20');
       });
     });
   });
