@@ -1,7 +1,4 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import I18n from 'coral-framework/i18n/i18n'
-import translations from '../translations'
+import React, {Component} from 'react';
 
 export default class CommunityContainer extends Component {
   render() {
@@ -9,6 +6,6 @@ export default class CommunityContainer extends Component {
       <div>
         <h1>Community</h1>
       </div>
-    )
+    );
   }
 }

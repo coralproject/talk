@@ -1,5 +1,5 @@
-import timeago from 'timeago.js'
-import esTA from 'timeago.js/locales/es'
+import timeago from 'timeago.js';
+import esTA from 'timeago.js/locales/es';
 
 /**
  * Default locales, this should be overriden by config file
@@ -11,32 +11,34 @@ class i18n {
      * Register locales
      */
 
-    this.locales = {'en': 'en', 'es': 'es'}
-    timeago.register('es_ES', esTA)
-    this.timeagoInstance = new timeago()
+    this.locales = {'en': 'en', 'es': 'es'};
+    timeago.register('es_ES', esTA);
+    this.timeagoInstance = new timeago();
     /**
      * Load translations
      */
-    let trans = translations || { en: {} }
+    let trans = translations || {en: {}};
 
     try {
-      const locale = localStorage.getItem('locale') || navigator.language
-      localStorage.setItem('locale', locale)
-      const lang = this.locales[locale.split('-')[0]] || 'en'
-      this.translations = trans[lang]
+      const locale = localStorage.getItem('locale') || navigator.language;
+      localStorage.setItem('locale', locale);
+      const lang = this.locales[locale.split('-')[0]] || 'en';
+      this.translations = trans[lang];
     } catch (err) {
-      this.translations = trans['en']
+      this.translations = trans['en'];
     }
 
     this.setLocale = (locale) => {
       try {
-        localStorage.setItem('locale', locale)
-      } catch (err) {}
-    }
+        localStorage.setItem('locale', locale);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
     this.getLocale = () => (
       localStorage.getItem('locale') || navigator.locale || 'en-US'
-    )
+    );
 
       /**
        * Expose the translation function
@@ -47,28 +49,28 @@ class i18n {
        */
 
     this.t = (key) => {
-      const arr = key.split('.')
-      let translation = this.translations
+      const arr = key.split('.');
+      let translation = this.translations;
       try {
-        for (var i = 0; i < arr.length; i++) translation = translation[arr[i]]
+        for (let i = 0; i < arr.length; i++) {translation = translation[arr[i]];}
       } catch (error) {
-        console.warn(`${key} language key not set`)
-        return key
+        console.warn(`${key} language key not set`);
+        return key;
       }
 
-      const val = String(translation)
+      const val = String(translation);
       if (val) {
-        return val
+        return val;
       } else {
-        console.warn(`${key} language key not set`)
-        return key
+        console.warn(`${key} language key not set`);
+        return key;
       }
-    }
+    };
 
     this.timeago = (time) => {
-      return this.timeagoInstance.format(time)
-    }
+      return this.timeagoInstance.format(time);
+    };
   }
 }
 
-export default i18n
+export default i18n;

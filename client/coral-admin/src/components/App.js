@@ -1,17 +1,16 @@
-import React from 'react'
-import { Provider } from 'react-redux'
-import 'material-design-lite'
-import { Layout } from 'react-mdl'
-import store from 'services/store'
+import React from 'react';
+import {Provider} from 'react-redux';
+import 'material-design-lite';
+import store from 'services/store';
 
-import AppRouter from '../AppRouter'
+import AppRouter from '../AppRouter';
 
 export default class App extends React.Component {
-  render (props) {
+  render () {
     return (
       <Provider store={store}>
         <AppRouter store={store} />
       </Provider>
-    )
+    );
   }
 }

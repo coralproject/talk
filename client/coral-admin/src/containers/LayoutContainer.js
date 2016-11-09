@@ -1,19 +1,18 @@
-import React, { Component }from 'react'
-import { connect } from 'react-redux'
+import React, {Component}from 'react';
+import {connect} from 'react-redux';
 
-import { Layout } from '../components/ui/Layout'
+import {Layout} from '../components/ui/Layout';
 
 class LayoutContainer extends Component {
   render () {
-    return <Layout { ...this.props } />
+    return <Layout { ...this.props } />;
   }
 }
 
-LayoutContainer.propTypes = {}
+LayoutContainer.propTypes = {};
 
-const mapStateToProps = state => ({ data: {} })
+const mapStateToProps = () => ({data: {}});
 
-const mapDispatchToProps = (dispatch, ownProps) => ({ dispatch })
+const mapDispatchToProps = (dispatch) => ({dispatch});
 
-export default connect(mapStateToProps, mapDispatchToProps)(LayoutContainer)
-
+export default connect(mapStateToProps, mapDispatchToProps)(LayoutContainer);
