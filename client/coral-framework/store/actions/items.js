@@ -130,9 +130,8 @@ export function getStream (assetId) {
         }
 
         /* Hydrate actions on comments */
-        const actions = Object.keys(json.actions)
-        for (var i=0; i < actions.length; i++ ) {
-          dispatch(updateItem(actions[i].item_id, actions[i].type, actions[i].id, 'actions'))
+        for (var i=0; i < json.actions.length; i++ ) {
+          dispatch(updateItem(json.actions[i].item_id, json.actions[i].action_type, json.actions[i].id, 'comments'))
         }
 
         return (json)
@@ -229,25 +228,28 @@ export function postItem (item, type, id) {
 *
 */
 
-export function postAction (item_id, type, user_id) {
+export function postAction (item_id, action_type, user_id, item_type) {
   return (dispatch) => {
     const action = {
-      type,
+      action_type,
       user_id
     }
     const options = {
       method: 'POST',
+      headers: {
+        'Content-Type':'application/json'
+      },
       body: JSON.stringify(action)
     }
 
-    return fetch('/api/v1/comments/' + item_id + '/actions', options)
+    return fetch('/api/v1/' + item_type + '/' + item_id + '/actions', options)
       .then(
         response => {
           return response.ok ? response.json()
           : Promise.reject(response.status + ' ' + response.statusText)
         }
       ).then((json)=>{
-        return json.id
+        return json
       })
   }
 }

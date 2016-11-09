@@ -51,8 +51,8 @@ const {setLoggedInUser} = authActions
       setLoggedInUser: (user_id) => {
         return dispatch(setLoggedInUser(user_id))
       },
-      postAction: (item, action, user) => {
-        return dispatch(postAction(item, action, user))
+      postAction: (item, action, user, item_type) => {
+        return dispatch(postAction(item, action, user, item_type))
       },
       appendItemArray: (item, property, value, addToFront, itemType) => {
         return dispatch(appendItemArray(item, property, value, addToFront, itemType))
@@ -126,8 +126,10 @@ class CommentStream extends Component {
                     <Flag
                       addNotification={this.props.addNotification}
                       id={commentId}
-                      flag={comment.flag}
+                      flag={this.props.items.actions[comment.flag]}
                       postAction={this.props.postAction}
+                      addItem={this.props.addItem}
+                      updateItem={this.props.updateItem}
                       currentUser={this.props.auth.user}/>
                     <ReplyButton
                       updateItem={this.props.updateItem}
@@ -152,10 +154,12 @@ class CommentStream extends Component {
                         <Content body={reply.body}/>
                         <div className="replyActions">
                           <Flag
-                            addNotificiation={this.props.addNotification}
+                            addNotification={this.props.addNotification}
                             id={replyId}
-                            flag={reply.flag}
+                            flag={this.props.items.actions[reply.flag]}
                             postAction={this.props.postAction}
+                            addItem={this.props.addItem}
+                            updateItem={this.props.updateItem}
                             currentUser={this.props.auth.user}/>
                           <ReplyButton
                             updateItem={this.props.updateItem}
