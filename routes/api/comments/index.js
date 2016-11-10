@@ -65,7 +65,7 @@ router.get('/status/pending', (req, res, next) => {
   
   Setting
     .getModerationSetting()
-    .then(function({moderation}){
+    .then(({moderation}) => {
       let moderationValue = req.query.moderation;
       if (typeof moderationValue === 'undefined' || moderationValue === undefined) {
         moderationValue = moderation;
