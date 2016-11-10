@@ -7,6 +7,9 @@
  * for the coral but also for wordpress comments, disqus and many more.
  */
 
+// Default headers for json payloads.
+const jsonHeader = new Headers({'Content-Type': 'application/json'});
+
 // Intercept redux actions and act over the ones we are interested
 export default store => next => action => {
 
@@ -18,7 +21,6 @@ export default store => next => action => {
   //   fetchCommentStream(store);
   //   break;
   case 'COMMENT_UPDATE':
-  console.log('asdadasd')
     updateComment(store, action.comment);
     break;
   case 'COMMENT_CREATE':
@@ -44,14 +46,16 @@ Promise.all([fetch('/api/v1/comments/status/pending'), fetch('/api/v1/comments/s
 
 // Update a comment. Now to update a comment we need to send back the whole object
 const updateComment = (store, comment) => {
-fetch(`/api/v1/comments/${comment.get('id')}/status`, {
-  method: 'POST',
-  body: JSON.stringify({status: comment.get('status')})
-})
+  fetch(`/api/v1/comments/${comment.get('id')}/status`, {
+    method: 'POST',
+    headers: jsonHeader,
+    body: JSON.stringify({status: comment.get('status')})
+  })
 .then(res => res.json())
 .then(res => store.dispatch({type: 'COMMENT_UPDATE_SUCCESS', res}))
 .catch(error => store.dispatch({type: 'COMMENT_UPDATE_FAILED', error}));
-}
+};
+
 // Create a new comment
 const createComment = (store, name, comment) =>
 fetch('/api/v1/comments', {
