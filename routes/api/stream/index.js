@@ -28,10 +28,14 @@ router.get('/', (req, res, next) => {
     return Promise.all([
       comments,
       User.findByIdArray(comments.map((comment) => comment.author_id)),
-      Action.findByItemIdArray(comments.map((comment) => comment.id))
+      Action.getActionSummaries(comments.map((comment) => comment.id))
     ]);
   }).then(([comments, users, actions]) => {
-    res.status(200).json([...comments, ...users, ...actions]);
+    res.json({
+      comments,
+      users,
+      actions
+    });
   }).catch(error => {
     next(error);
   });
