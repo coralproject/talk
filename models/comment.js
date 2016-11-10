@@ -107,9 +107,11 @@ CommentSchema.statics.findByStatusByActionType = function(status, action_type) {
       
       return Comment.find({
         'status': status, 
-        'id': {'$in': actions.map(a => {
-          return a.item_id;}
-        )}        
+        'id': {
+          '$in': actions.map(a => {
+            return a.item_id;
+          })
+        }     
       });
 
     });
