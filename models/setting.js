@@ -12,6 +12,14 @@ const SettingSchema = new Schema({
 });
 
 /**
+ * this is run once when the app starts to ensure settings are populated
+ * @return {Promise} null initialize the global settings object
+ */
+SettingSchema.statics.init = function (defaults) {
+  return this.update({id: '1'}, {$setOnInsert: defaults}, {upsert: true});
+};
+
+/**
  * Gets the entire settings record and sends it back
  * @return {Promise} settings the whole settings record
  */
