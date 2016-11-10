@@ -31,7 +31,9 @@ class CommunityContainer extends Component {
   }
 
   search() {
-    this.props.dispath(fetchCommenters())
+    this.props.dispatch(fetchCommenters({
+      value: this.state.searchValue
+    }))
   }
 
   componentDidMount() {

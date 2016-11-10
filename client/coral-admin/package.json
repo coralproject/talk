@@ -15,6 +15,7 @@
     "immutable": "3.8.1",
     "keymaster": "1.6.2",
     "material-design-lite": "1.2.1",
+    "qs": "^6.3.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-mdl": "^1.7.2",

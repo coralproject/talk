@@ -13,7 +13,7 @@ const Table = ({ headers, data }) => (
         <tr key={i}>
           <td className="mdl-data-table__cell--non-numeric">
             {row.display_name}
-            <span>{row.email}</span>
+            <span>{row.id}</span>
           </td>
           <td className="mdl-data-table__cell--non-numeric">
             {row.created_at}
