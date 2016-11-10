@@ -148,7 +148,7 @@ export function getStream (assetId) {
 
 export function getItemsArray (ids) {
   return (dispatch) => {
-    return fetch(`/v1/item/${  ids}`)
+    return fetch(`/v1/item/${ids}`)
       .then(
         response => {
           return response.ok ? response.json()
