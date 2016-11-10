@@ -112,7 +112,8 @@ UserSchema.statics.mergeUsers = function(dstUserID, srcUserID) {
     });
 
     return srcUser.remove();
-  }).then(() => dstUser.save());
+  })
+  .then(() => dstUser.save());
 };
 
 /**
