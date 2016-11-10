@@ -77,7 +77,7 @@ CommentSchema.statics.findAcceptedByAssetId = function(asset_id) {
  * Finds the new and accepted comments by the asset_id.
  * @param {String} asset_id  identifier of the asset which owns the comments (uuid)
 */
-CommentSchema.statics.findNewByAssetId = function(asset_id) {
+CommentSchema.statics.findAcceptedAndNewByAssetId = function(asset_id) {
   return Comment.find({asset_id: asset_id, status: {'$in': ['accepted', '']}});
 };
 

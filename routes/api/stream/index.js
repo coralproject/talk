@@ -17,7 +17,7 @@ router.get('/', (req, res, next) => {
     case 'pre':
       return Comment.findAcceptedByAssetId(req.query.asset_id);
     case 'post':
-      return  Comment.findNewByAssetId(req.query.asset_id);
+      return  Comment.findAcceptedAndNewByAssetId(req.query.asset_id);
     default:
       throw new Error('Moderation setting not found.');
     }

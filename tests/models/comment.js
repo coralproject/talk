@@ -103,7 +103,7 @@ describe('Comment: models', () => {
       });
     });
     it('should find an array of new and accepted comments by asset id', () => {
-      return Comment.findNewByAssetId('123').then((result) => {
+      return Comment.findAcceptedAndNewByAssetId('123').then((result) => {
         expect(result).to.have.length(2);
         result.sort((a, b) => {
           if (a.body < b.body) {return -1;}
