@@ -7,8 +7,9 @@ import styles from './Community.css';
 import Table from './Table';
 import Loading from './Loading';
 import NoResults from './NoResults';
+import Pager from './Pager';
 
-const Community = ({searchValue, onKeyDownHandler, onChangeHandler, commenters, isFetching, onHeaderClickHandler}) => (
+const Community = ({searchValue, onKeyDownHandler, onChangeHandler, commenters, isFetching, onHeaderClickHandler, totalPages, currentPage, onNext, onPrev}) => (
   <Grid>
     <Cell col={4}>
       <form action="">
@@ -56,6 +57,12 @@ const Community = ({searchValue, onKeyDownHandler, onChangeHandler, commenters, 
               <NoResults />
           )
       }
+      <Pager
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onNext={onNext}
+        onPrev={onPrev}
+      />
     </Cell>
   </Grid>
 );

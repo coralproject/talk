@@ -3,7 +3,14 @@ const router = express.Router();
 const User = require('../../../models/user');
 
 router.get('/', (req, res, next) => {
-  const {value = '', offset = 0, limit = 50, field = 'created_at', asc = 'false'} = req.query;
+  const {
+    value = '',
+    limit = 50,
+    offset = 0,
+    field = 'created_at',
+    asc = 'false'
+    } = req.query;
+
   let q = {
     $or: [
       {
@@ -29,7 +36,10 @@ router.get('/', (req, res, next) => {
   });
 
   Promise.all([
-    User.find(q).sort(buildSort()),
+    User.find(q)
+      .sort(buildSort())
+      .skip(offset)
+      .limit(limit),
     User.count()
   ])
   .then(([data, count]) => {

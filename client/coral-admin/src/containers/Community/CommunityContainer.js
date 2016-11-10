@@ -59,6 +59,9 @@ class CommunityContainer extends Component {
         commenters={community.get('commenters')}
         isFetching={community.get('isFetching')}
         error={community.get('error')}
+        count={community.get('count')}
+        offset={community.get('offset')}
+        limit={community.get('limit')}
         {...this}
       />
     );

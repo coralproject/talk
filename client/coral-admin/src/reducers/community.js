@@ -29,7 +29,10 @@ export default function community (state = initialState, action) {
     return state
       .set('isFetching', false)
       .set('error', '')
-      .set('commenters', action.commenters);
+      .set('commenters', action.commenters)
+      .set('count', action.count)
+      .set('limit', action.limit)
+      .set('offset', action.offset);
   case SORT_UPDATE :
     return state
       .set('field', action.sort.field)

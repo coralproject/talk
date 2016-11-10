@@ -4,7 +4,7 @@ import styles from './Pager.css';
 const Rows = (curr, total) => {
   let items = [];
   for (let i = 0; i <= total; i++) {
-    items[i] = <li className={`mdl-button mdl-js-button ${styles.li} ${curr ? 'current' : ''}`} key={i}>{i}</li>;
+    items[i] = <li className={`mdl-button mdl-js-button ${styles.li} ${curr === i ? styles.current : ''}`} key={i}>{i}</li>;
   }
   return items;
 };
