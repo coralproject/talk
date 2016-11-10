@@ -5,7 +5,6 @@ const SettingSchema = new Schema({
   id: {type: String, default: '1'},
   moderation: {type: String, enum: ['pre', 'post'], default: 'pre'}
 }, {
-  _id: false,
   timestamps: {
     createdAt: 'created_at',
     updatedAt: 'updated_at'
@@ -18,6 +17,14 @@ const SettingSchema = new Schema({
  */
 SettingSchema.statics.getSettings = function () {
   return this.findOne({id: '1'});
+};
+
+/**
+ * gets the moderation settings and sends it back
+ * @return {Promise} moderation the settings for how to moderate comments
+ */
+SettingSchema.statics.getModerationSetting = function () {
+  return this.findOne({id: '1'}).select('moderation');
 };
 
 /**

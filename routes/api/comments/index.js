@@ -1,6 +1,8 @@
 const express = require('express');
 const Comment = require('../../../models/comment');
 
+const Setting = require('../../../models/setting');
+
 const router = express.Router();
 
 //==============================================================================
@@ -27,6 +29,7 @@ router.get('/:comment_id', (req, res, next) => {
 // Moderation Queues Routes
 //==============================================================================
 
+// Get all the comments that have that action_type over them.
 router.get('/action/:action_type', (req, res, next) => {
   Comment.findByActionType(req.params.action_type).then((comments) => {
     res.status(200).json(comments);
@@ -35,6 +38,7 @@ router.get('/action/:action_type', (req, res, next) => {
   });
 });
 
+// Get all the comments that were rejected.
 router.get('/status/rejected', (req, res, next) => {
   Comment.findByStatus('rejected').then((comments) => {
     res.status(200).json(comments);
@@ -43,9 +47,19 @@ router.get('/status/rejected', (req, res, next) => {
   });
 });
 
+// Returns back all the comments that are in the moderation queue. The moderation queue is pre or post moderated,
+// depending on the settings. The :moderation overwrites this settings.
+// Pre-moderation:  New comments are shown in the moderator queues immediately.
+// Post-moderation: New comments do not appear in moderation queues unless they are flagged by other users.
 router.get('/status/pending', (req, res, next) => {
-  Comment.findByStatus('').then((comments) => {
-    res.status(200).json(comments);
+  Setting.getModerationSetting().then(function({moderation}){
+    let moderationValue = req.query.moderation;
+    if (typeof moderationValue === 'undefined' || moderationValue === undefined) {
+      moderationValue = moderation;
+    }
+    Comment.moderationQueue(moderationValue).then((comments) => {
+      res.status(200).json(comments);
+    });
   }).catch(error => {
     next(error);
   });
@@ -62,13 +76,6 @@ router.post('/', (req, res, next) => {
   }).catch(error => {
     next(error);
   });
-
-  // let comment  = new Comment({body, author_id, asset_id, parent_id, status, username});
-  // comment.save().then(({id}) => {
-  //   res.status(200).send({'id': id});
-  // }).catch(error => {
-  //   next(error);
-  // });
 });
 
 router.post('/:comment_id', (req, res, next) => {
