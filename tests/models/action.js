@@ -8,16 +8,20 @@ describe('Action: models', () => {
   beforeEach(() => {
     return Action.create([{
       action_type: 'flag',
-      item_id: '123'
+      item_id: '123',
+      item_type: 'comments'
     }, {
       action_type: 'like',
-      item_id: '789'
+      item_id: '789',
+      item_type: 'comments'
     }, {
       action_type: 'flag',
-      item_id: '456'
+      item_id: '456',
+      item_type: 'comments'
     }, {
       action_type: 'flag',
-      item_id: '123'
+      item_id: '123',
+      item_type: 'comments'
     }]).then((actions) => {
       mockActions = actions;
     });
@@ -48,15 +52,17 @@ describe('Action: models', () => {
         delete sorted[0].id;
         delete sorted[1].id;
         expect(sorted[0]).to.deep.equal({
-          type: 'like',
+          action_type: 'like',
           count: 1,
           item_id: '789',
+          item_type: 'comments',
           current_user: false
         });
         expect(sorted[1]).to.deep.equal({
-          type: 'flag',
+          action_type: 'flag',
           count: 2,
           item_id: '123',
+          item_type: 'comments',
           current_user: false
         });
       });

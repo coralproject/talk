@@ -1,9 +1,8 @@
-import I18n from 'coral-framework/i18n/i18n'
-import translations from '../translations'
-import React from 'react'
-import Modal from 'components/Modal'
-import styles from './ModerationKeysModal.css'
-import { Map } from 'immutable'
+import I18n from 'coral-framework/i18n/i18n';
+import translations from '../translations';
+import React from 'react';
+import Modal from 'components/Modal';
+import styles from './ModerationKeysModal.css';
 
 const shortcuts = [
   {
@@ -22,9 +21,9 @@ const shortcuts = [
       'r': 'modqueue.reject'
     }
   }
-]
+];
 
-export default ({ open, onClose }) => (
+export default ({open, onClose}) => (
   <Modal open={open} onClose={onClose}>
     <h3>{lang.t('modqueue.shortcuts')}</h3>
     <div className={styles.container}>
@@ -37,7 +36,7 @@ export default ({ open, onClose }) => (
           </thead>
           <tbody>
             {Object.keys(shortcut.shortcuts).map(key => (
-              <tr key={key + 'tr'}>
+              <tr key={`${key  }tr`}>
                 <td className={styles.shortcut}><span className={styles.key}>{key}</span></td>
                 <td>{lang.t(shortcut.shortcuts[key])}</td>
               </tr>
@@ -47,6 +46,6 @@ export default ({ open, onClose }) => (
       ))}
     </div>
   </Modal>
-)
+);
 
-const lang = new I18n(translations)
+const lang = new I18n(translations);

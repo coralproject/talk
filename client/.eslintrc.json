@@ -1,0 +1,23 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "mocha": true
+    },
+    "extends": "../.eslintrc.json",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true,
+            "jsx": true
+        },
+        "sourceType": "module"
+    },
+    "parser": "babel-eslint",
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+      "react/jsx-uses-react": "error",
+      "react/jsx-uses-vars": "error"
+    }
+}

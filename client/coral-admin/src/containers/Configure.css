@@ -20,15 +20,25 @@
   border-radius: 4px;
   height: 90px;
   margin-bottom: 10px;
+  cursor: pointer;
 }
 
 .configSettingEmbed {
   border: 1px solid #ccc;
   border-radius: 4px;
-  height: 90px;
   margin-bottom: 10px;
   display: block;
-  height: 170px;
+}
+
+.copiedText {
+  color: #008000;
+  float: right;
+  padding: 12px;
+  font-size: 14px;
+}
+
+.copyButton {
+  float: right;
 }
 
 .embedInput {
@@ -40,6 +50,6 @@
   margin-bottom: 10px;
   color: #555;
   padding: 14px;
-  font-size: 16px;
+  font-size: 14px;
   letter-spacing: 0.03em;
 }
