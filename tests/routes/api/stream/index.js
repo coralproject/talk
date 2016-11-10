@@ -12,21 +12,38 @@ const Action = require('../../../../models/action');
 const User = require('../../../../models/user');
 const Comment = require('../../../../models/comment');
 
+const Setting = require('../../../../models/setting');
+
 describe('api/stream: routes', () => {
+
+  const settings = {id: '1', moderation: 'pre'};
+
   const comments = [{
     id: 'abc',
     body: 'comment 10',
     asset_id: 'asset',
-    author_id: '123'
+    author_id: '123',
+    parent_id: '',
+    status: 'accepted'
   }, {
     id: 'def',
     body: 'comment 20',
     asset_id: 'asset',
-    author_id: '456'
+    author_id: '456',
+    parent_id: '',
+    status: ''
+  }, {
+    id: 'uio',
+    body: 'comment 30',
+    asset_id: 'asset',
+    author_id: '456',
+    parent_id: '',
+    status: ''
   }, {
     id: 'hij',
-    body: 'comment 30',
-    asset_id: '456'
+    body: 'comment 40',
+    asset_id: '456',
+    status: 'rejected'
   }];
 
   const users = [{
@@ -46,10 +63,12 @@ describe('api/stream: routes', () => {
   }];
 
   beforeEach(() => {
-    return Comment.create(comments).then(() => {
-      return User.create(users);
-    }).then(() => {
-      return Action.create(actions);
+    return Setting.create(settings).then(() => {
+      return Comment.create(comments).then(() => {
+        return User.create(users);
+      }).then(() => {
+        return Action.create(actions);
+      });
     });
   });
 
@@ -60,6 +79,7 @@ describe('api/stream: routes', () => {
       .end(function(err, res){
         expect(err).to.be.null;
         expect(res).to.have.status(200);
+        expect(res.body.length).to.equal(3);
         done();
       });
   });

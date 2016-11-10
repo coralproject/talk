@@ -1,6 +1,8 @@
 const express = require('express');
 const Comment = require('../../../models/comment');
 
+const Setting = require('../../../models/setting');
+
 const router = express.Router();
 
 //==============================================================================
@@ -50,8 +52,14 @@ router.get('/status/rejected', (req, res, next) => {
 // Pre-moderation:  New comments are shown in the moderator queues immediately.
 // Post-moderation: New comments do not appear in moderation queues unless they are flagged by other users.
 router.get('/status/pending', (req, res, next) => {
-  Comment.moderationQueue(req.query.moderation).then((comments) => {
-    res.status(200).json(comments);
+  Setting.getModerationSetting().then(function({moderation}){
+    let moderationValue = req.query.moderation;
+    if (typeof moderationValue === 'undefined' || moderationValue === undefined) {
+      moderationValue = moderation;
+    }
+    Comment.moderationQueue(moderationValue).then((comments) => {
+      res.status(200).json(comments);
+    });
   }).catch(error => {
     next(error);
   });
@@ -68,13 +76,6 @@ router.post('/', (req, res, next) => {
   }).catch(error => {
     next(error);
   });
-
-  // let comment  = new Comment({body, author_id, asset_id, parent_id, status, username});
-  // comment.save().then(({id}) => {
-  //   res.status(200).send({'id': id});
-  // }).catch(error => {
-  //   next(error);
-  // });
 });
 
 router.post('/:comment_id', (req, res, next) => {
@@ -93,11 +94,12 @@ router.post('/:comment_id', (req, res, next) => {
 });
 
 router.post('/:comment_id/status', (req, res, next) => {
-  Comment.changeStatus(req.params.comment_id, req.body.status).then((comment) => {
-    res.status(200).send(comment);
-  }).catch(error => {
-    next(error);
-  });
+  
+  Comment
+    .changeStatus(req.params.comment_id, req.body.status)
+    .then(comment => res.status(200).send(comment))
+    .catch(error => next(error));
+
 });
 
 router.post('/:comment_id/actions', (req, res, next) => {

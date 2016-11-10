@@ -29,4 +29,11 @@ describe('Setting: model', () => {
     });
   });
 
+  describe('#getModerationSetting', () => {
+    it('should return the moderation settings', () => {
+      return Setting.getModerationSetting().then(({moderation}) => {
+        expect(moderation).not.to.be.null;
+      });
+    });
+  });
 });
