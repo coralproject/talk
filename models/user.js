@@ -58,6 +58,22 @@ UserSchema.options.toJSON.transform = (doc, ret, options) => {
 };
 
 /**
+ * toObject overrides to remove the password field from the toObject
+ * output.
+ */
+UserSchema.options.toObject = {};
+UserSchema.options.toObject.hide = 'password';
+UserSchema.options.toObject.transform = (doc, ret, options) => {
+  if (options.hide) {
+    options.hide.split(' ').forEach((prop) => {
+      delete ret[prop];
+    });
+  }
+
+  return ret;
+};
+
+/**
  * Finds a user given their email address that we have for them in the system
  * and ensures that the retuned user matches the password passed in as well.
  * @param  {string}   email     - email to look up the user by

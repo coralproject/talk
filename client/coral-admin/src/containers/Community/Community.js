@@ -8,10 +8,10 @@ import Table from './Table';
 import Loading from './Loading';
 import NoResults from './NoResults';
 
-const Community = ({searchValue, onKeyDownHandler, onChangeHandler, commenters, isFetching}) => (
+const Community = ({searchValue, onKeyDownHandler, onChangeHandler, commenters, isFetching, onHeaderClickHandler}) => (
   <Grid>
     <Cell col={4}>
-      <form>
+      <form action="">
         <div className={`mdl-textfield ${styles.searchBox}`}>
           <label className="mdl-button mdl-js-button mdl-button--icon" htmlFor="commenters-search">
             <i className="material-icons">search</i>
@@ -20,7 +20,7 @@ const Community = ({searchValue, onKeyDownHandler, onChangeHandler, commenters, 
             <input
               id="commenters-search"
               className={`mdl-textfield__input ${styles.searchInput}`}
-              type="search"
+              type="text"
               value={searchValue}
               onKeyDown={onKeyDownHandler}
               onChange={onChangeHandler}
@@ -39,8 +39,18 @@ const Community = ({searchValue, onKeyDownHandler, onChangeHandler, commenters, 
             (commenters.length)
               ?
               <Table
-                headers={[lang.t('community.username_and_email'), lang.t('community.account_creation_date')]}
+                headers={[
+                  {
+                    title: lang.t('community.username_and_email'),
+                    field: 'displayName'
+                  },
+                  {
+                    title: lang.t('community.account_creation_date'),
+                    field: 'created_at'
+                  }
+                ]}
                 data={commenters}
+                onHeaderClickHandler={onHeaderClickHandler}
               />
               :
               <NoResults />

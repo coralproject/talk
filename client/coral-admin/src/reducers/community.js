@@ -3,14 +3,17 @@ import {Map} from 'immutable';
 import {
   FETCH_COMMENTERS_REQUEST,
   FETCH_COMMENTERS_FAILURE,
-  FETCH_COMMENTERS_SUCCESS
+  FETCH_COMMENTERS_SUCCESS,
+  SORT_UPDATE
 } from '../constants/community';
 
 const initialState = Map({
   community: Map(),
   isFetching: false,
   error: '',
-  commenters: []
+  commenters: [],
+  field: 'created_at',
+  asc: false
 });
 
 export default function community (state = initialState, action) {
@@ -27,6 +30,10 @@ export default function community (state = initialState, action) {
       .set('isFetching', false)
       .set('error', '')
       .set('commenters', action.commenters);
+  case SORT_UPDATE :
+    return state
+      .set('field', action.sort.field)
+      .set('asc', !state.get('asc'));
   default :
     return state;
   }

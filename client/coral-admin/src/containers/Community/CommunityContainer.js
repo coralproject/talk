@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {fetchCommenters} from '../../actions/community';
+import {fetchCommenters, updateSorting} from '../../actions/community';
 
 import Community from './Community';
 
@@ -10,15 +10,16 @@ class CommunityContainer extends Component {
 
     this.state = {
       searchValue: '',
-      results: []
     };
 
     this.onKeyDownHandler = this.onKeyDownHandler.bind(this);
     this.onChangeHandler = this.onChangeHandler.bind(this);
+    this.onHeaderClickHandler = this.onHeaderClickHandler.bind(this);
   }
 
   onKeyDownHandler(e) {
     if (e.key === 'Enter') {
+      e.preventDefault();
       this.search();
     }
   }
@@ -29,14 +30,24 @@ class CommunityContainer extends Component {
     });
   }
 
-  search() {
+  search(query = {}) {
+    const {community} = this.props;
+
     this.props.dispatch(fetchCommenters({
-      value: this.state.searchValue
+      value: this.state.searchValue,
+      field: community.get('field'),
+      asc: community.get('asc'),
+      ...query
     }));
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchCommenters());
+    this.search();
+  }
+
+  onHeaderClickHandler(sort) {
+    this.props.dispatch(updateSorting(sort));
+    this.search();
   }
 
   render() {

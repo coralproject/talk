@@ -3,41 +3,53 @@ const router = express.Router();
 const User = require('../../../models/user');
 
 router.get('/', (req, res, next) => {
-  const {value = '', limit = 50, sort = '-createdAt'} = req.query;
-  let q = new RegExp(`^${value}`);
-
-  User
-    .find({
-      $or: [
-        {
-          'displayName': {
-            $regex: q,
-            $options: 'i'
-          },
-          'profiles': {
-            $elemMatch: {
-              id: {
-                $regex: q,
-                $options: 'i'
-              },
-              provider: 'local'
-            }
+  const {value = '', offset = 0, limit = 50, field = 'created_at', asc = false} = req.query;
+  let q = {
+    $or: [
+      {
+        'displayName': {
+          $regex: new RegExp(`^${value}`),
+          $options: 'i'
+        },
+        'profiles': {
+          $elemMatch: {
+            id: {
+              $regex: new RegExp(`^${value}`),
+              $options: 'i'
+            },
+            provider: 'local'
           }
         }
-      ]
-    })
-    .limit(limit)
-    .sort(sort)
-    .then((users) => {
-      res.json(
-        users.map((user) => ({
-          displayName: user.displayName,
-          createdAt: user.created_at,
-          email: user.toObject().profiles[0].id
-        }))
-      );
-    })
-    .catch(next);
+      }
+    ]
+  };
+
+  const buildSort = () => ({
+    [`${field}`]: (asc === 'true') ? 1 : -1
+  });
+
+  Promise.all([
+    User.find(q).sort(buildSort()),
+    User.count()
+  ])
+  .then(([data, count]) => {
+    const users = data.map((user) => {
+      const {displayName, created_at} = user;
+      return {
+        displayName,
+        created_at,
+        profiles: user.toObject().profiles
+      };
+    });
+
+    res.json({
+      result: users,
+      count,
+      limit,
+      offset
+    });
+  })
+  .catch(next);
 });
 
 module.exports = router;
