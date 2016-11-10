@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {I18n} from '../coral-framework';
-import translations from './translations.json'
+import translations from './translations.json';
 
 const name = 'coral-plugin-commentbox';
 

@@ -22,8 +22,8 @@ const FlagButton = ({flag, id, postAction, addItem, updateItem, addNotification}
         aria-hidden={true}>flag</i>
       {
         flagged
-        ? <span className={`${name}-button-text`}>lang.t('flag')</span>
-      : <span className={`${name}-button-text`}>lang.t('flagged')</span>
+        ? <span className={`${name}-button-text`}>{lang.t('flag')}</span>
+      : <span className={`${name}-button-text`}>{lang.t('flagged')}</span>
       }
     </button>
   </div>;
