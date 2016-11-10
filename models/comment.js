@@ -1,7 +1,6 @@
 const mongoose = require('../mongoose');
 const uuid = require('uuid');
 const Action = require('./action');
-const Setting = require('./setting');
 
 const Schema = mongoose.Schema;
 
@@ -58,11 +57,28 @@ CommentSchema.statics.findById = function(id) {
 };
 
 /**
- * Finds a comment by the asset_id.
+ * Finds ALL the comments by the asset_id.
  * @param {String} asset_id  identifier of the asset which owns this comment (uuid)
 */
 CommentSchema.statics.findByAssetId = function(asset_id) {
   return Comment.find({asset_id});
+};
+
+/**
+ * Finds the accepted comments by the asset_id.
+ *  get the comments that are accepted.
+ * @param {String} asset_id  identifier of the asset which owns the comments (uuid)
+*/
+CommentSchema.statics.findAcceptedByAssetId = function(asset_id) {
+  return Comment.find({asset_id: asset_id, status:'accepted'});
+};
+
+/**
+ * Finds the new and accepted comments by the asset_id.
+ * @param {String} asset_id  identifier of the asset which owns the comments (uuid)
+*/
+CommentSchema.statics.findAcceptedAndNewByAssetId = function(asset_id) {
+  return Comment.find({asset_id: asset_id, status: {'$in': ['accepted', '']}});
 };
 
 /**
@@ -98,27 +114,21 @@ CommentSchema.statics.findByStatus = function(status) {
  * Find comments that need to be moderated (aka moderation queue).
  * @param {String} moderationValue pre or post moderation setting. If it is undefined then look at the settings.
 */
-CommentSchema.statics.moderationQueue = function(moderationValue) {
-
-  return Setting.getModerationSetting().then(function({moderation}){
-    if (typeof moderationValue === 'undefined' || moderationValue === undefined) {
-      moderationValue = moderation;
-    }
-    switch(moderationValue){
-    // Pre-moderation:  New comments are shown in the moderator queues immediately.
-    case 'pre':
-      return Comment.findByStatus('').then((comments) => {
-        return comments;
-      });
-    // Post-moderation: New comments do not appear in moderation queues unless they are flagged by other users.
-    case 'post':
-      return Comment.findByStatusByActionType('', 'flag').then((comments) => {
-        return comments;
-      });
-    default:
-      throw new Error('Moderation setting not found.');
-    }
-  });
+CommentSchema.statics.moderationQueue = function(moderation) {
+  switch(moderation){
+  // Pre-moderation:  New comments are shown in the moderator queues immediately.
+  case 'pre':
+    return Comment.findByStatus('').then((comments) => {
+      return comments;
+    });
+  // Post-moderation: New comments do not appear in moderation queues unless they are flagged by other users.
+  case 'post':
+    return Comment.findByStatusByActionType('', 'flag').then((comments) => {
+      return comments;
+    });
+  default:
+    throw new Error('Moderation setting not found.');
+  }
 };
 
 //==============================================================================

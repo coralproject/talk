@@ -7,8 +7,8 @@ import Comment from 'components/Comment';
 
 // Each action has different meaning and configuration
 const actions = {
-  'reject': {status: 'Rejected', icon: 'close', key: 'r'},
-  'approve': {status: 'Approved', icon: 'done', key: 't'},
+  'reject': {status: 'rejected', icon: 'close', key: 'r'},
+  'approve': {status: 'accepted', icon: 'done', key: 't'},
   'flag': {status: 'flagged', icon: 'flag', filter: 'Untouched'}
 };
 
