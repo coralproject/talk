@@ -21,13 +21,14 @@ export const APPEND_ITEM_ARRAY = 'APPEND_ITEM_ARRAY';
  *
  */
 
-export const addItem = (item) => {
+export const addItem = (item, item_type) => {
   if (!item.id) {
     console.warn('addItem called without an item id.');
   }
   return {
     type: ADD_ITEM,
-    item: item,
+    item,
+    item_type,
     id: item.id
   };
 };
@@ -42,23 +43,24 @@ export const addItem = (item) => {
 *  value - the value that the property should be set to
 *
 */
-
-export const updateItem = (id, property, value) => {
+export const updateItem = (id, property, value, item_type) => {
   return {
     type: UPDATE_ITEM,
     id,
     property,
-    value
+    value,
+    item_type
   };
 };
 
-export const appendItemArray = (id, property, value, addToFront) => {
+export const appendItemArray = (id, property, value, add_to_front, item_type) => {
   return {
     type: APPEND_ITEM_ARRAY,
     id,
     property,
     value,
-    addToFront
+    add_to_front,
+    item_type
   };
 };
 
@@ -80,39 +82,49 @@ export function getStream (assetId) {
     return fetch(`/api/v1/stream?asset_id=${assetId}`)
       .then(
         response => {
-          return response.ok ? response.json() : Promise.reject(`${response.status  } ${  response.statusText}`);
+          return response.ok ? response.json() : Promise.reject(`${response.status} ${response.statusText}`);
         }
       )
       .then((json) => {
 
-        /* Sort comments by date*/
-        let rootComments = [];
-        let childComments = {};
-        json.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-        json.forEach(item => {
-          dispatch(addItem(item));
+        /* Add items to the store */
+        const itemTypes = Object.keys(json);
+        for (let i = 0; i < itemTypes.length; i++ ) {
+          for (let j = 0; j < json[itemTypes[i]].length; j++ ) {
+            dispatch(addItem(json[itemTypes[i]][j], itemTypes[i]));
+          }
+        }
 
+        /* Sort comments by date*/
+        json.comments.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+        const rels = json.comments.reduce((h, item) => {
           /* Check for root and child comments. */
           if (
             item.asset_id === assetId &&
             !item.parent_id) {
-            rootComments.push(item.id);
+            h.rootComments.push(item.id);
           } else if (
             item.asset_id === assetId
           ) {
-            let children = childComments[item.parent_id] || [];
-            childComments[item.parent_id] = children.concat(item.id);
+            let children = h.childComments[item.parent_id] || [];
+            h.childComments[item.parent_id] = children.concat(item.id);
           }
-        }, {});
+          return h;
+        }, {rootComments: [], childComments: {}});
 
         dispatch(addItem({
           id: assetId,
-          comments: rootComments
-        }));
+          comments: rels.rootComments,
+        }, 'assets'));
 
-        const keys = Object.keys(childComments);
-        for (let i = 0; i < keys.length; i++ ) {
-          dispatch(updateItem(keys[i], 'children', childComments[keys[i]].reverse()));
+        const childKeys = Object.keys(rels.childComments);
+        for (let i = 0; i < childKeys.length; i++ ) {
+          dispatch(updateItem(childKeys[i], 'children', rels.childComments[childKeys[i]].reverse(), 'comments'));
+        }
+
+        /* Hydrate actions on comments */
+        for (let i = 0; i < json.actions.length; i++ ) {
+          dispatch(updateItem(json.actions[i].item_id, json.actions[i].action_type, json.actions[i].id, 'comments'));
         }
 
         return (json);
@@ -178,16 +190,15 @@ export function postItem (item, type, id) {
         'Content-Type':'application/json'
       }
     };
-    console.log('postItem', options);
-    return fetch(`/api/v1/${  type}`, options)
+    return fetch(`/api/v1/${type}`, options)
       .then(
         response => {
           return response.ok ? response.json()
-          : Promise.reject(`${response.status  } ${  response.statusText}`);
+          : Promise.reject(`${response.status} ${response.statusText}`);
         }
       )
       .then((json) => {
-        dispatch(addItem({...item, id:json.id}));
+        dispatch(addItem({...item, id:json.id}, type));
         return json.id;
       });
   };
@@ -210,24 +221,28 @@ export function postItem (item, type, id) {
 *
 */
 
-export function postAction (id, type, user_id) {
-  return (dispatch) => {
+export function postAction (item_id, action_type, user_id, item_type) {
+  return () => {
     const action = {
-      type,
+      action_type,
       user_id
     };
     const options = {
       method: 'POST',
+      headers: {
+        'Content-Type':'application/json'
+      },
       body: JSON.stringify(action)
     };
 
-    dispatch(appendItemArray(id, type, user_id));
-    return fetch(`/api/v1/comments/${  id  }/actions`, options)
+    return fetch(`/api/v1/${item_type}/${item_id}/actions`, options)
       .then(
         response => {
-          return response.ok ? response.text()
-          : Promise.reject(`${response.status  } ${  response.statusText}`);
+          return response.ok ? response.json()
+          : Promise.reject(`${response.status} ${response.statusText}`);
         }
-      );
+      ).then((json)=>{
+        return json;
+      });
   };
 }

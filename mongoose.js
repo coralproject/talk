@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const debug = require('debug')('talk:db');
 const enabled = require('debug').enabled;
 const url = process.env.TALK_MONGO_URL || 'mongodb://localhost';
 
@@ -11,11 +12,14 @@ if (enabled('talk:db')) {
 
 try {
   mongoose.connect(url, (err) => {
-    if (err) {throw err;}
-    console.log('Connected to MongoDB!');
+    if (err) {
+      throw err;
+    }
+
+    debug('Connected to MongoDB!');
   });
 } catch (err) {
-  console.log('Cannot stablish a connection with MongoDB');
+  console.error('Cannot stablish a connection with MongoDB', err);
 }
 
 module.exports = mongoose;

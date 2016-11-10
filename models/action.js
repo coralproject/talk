@@ -38,6 +38,38 @@ ActionSchema.statics.findByItemIdArray = function(item_ids) {
 };
 
 /**
+ * Returns summaries of actions for an array of ids
+ * @param {String} ids array of user identifiers (uuid)
+*/
+ActionSchema.statics.getActionSummaries = function(item_ids) {
+  return ActionSchema.statics.findByItemIdArray(item_ids).then((rawActions) => {
+    // Create an object with a count of each action type for each item
+    const actionSummaries = rawActions.reduce((actionObj, action) => {
+      if (!actionObj[action.item_id]) {
+        actionObj[action.item_id] = {
+          id: action.id,
+          item_type: action.item_type,
+          action_type: action.action_type,
+          count: 1,
+          current_user: false //Update this later when we have authentication
+        };
+      } else {
+        actionObj[action.item_id].count ++;
+      }
+      return actionObj;
+    }, {});
+
+    // Return an array extracted from the actionSummaries object
+    return Object.keys(actionSummaries).reduce((actions, key) => {
+      let actionSummary = actionSummaries[key];
+      actionSummary.item_id = key;
+      actions.push(actionSummary);
+      return actions;
+    }, []);
+  });
+};
+
+/*
  * Finds all comments for a specific action.
  * @param {String} action_type type of action
  * @param {String} item_type type of item the action is on
