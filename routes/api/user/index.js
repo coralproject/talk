@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require('../../../models/user');
 
 router.get('/', (req, res, next) => {
-  const {value = '', offset = 0, limit = 50, field = 'created_at', asc = false} = req.query;
+  const {value = '', offset = 0, limit = 50, field = 'created_at', asc = 'false'} = req.query;
   let q = {
     $or: [
       {
