@@ -1,7 +1,7 @@
-import React from 'react'
-import styles from './Community.css'
+import React from 'react';
+import styles from './Community.css';
 
-const Table = ({ headers, data }) => (
+const Table = ({headers, data}) => (
   <table className={`mdl-data-table ${styles.dataTable}`}>
     <thead>
       <tr>
@@ -12,16 +12,16 @@ const Table = ({ headers, data }) => (
       {data.map((row, i)=> (
         <tr key={i}>
           <td className="mdl-data-table__cell--non-numeric">
-            {row.display_name}
-            <span>{row.id}</span>
+            {row.displayName}
+            <span className={styles.email}>{row.email}</span>
           </td>
           <td className="mdl-data-table__cell--non-numeric">
-            {row.created_at}
+            {row.createdAt}
           </td>
         </tr>
       ))}
     </tbody>
   </table>
-)
+);
 
-export default Table
+export default Table;

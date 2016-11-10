@@ -1,43 +1,55 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import I18n from 'coral-framework/i18n/i18n'
-import translations from '../../translations'
-import { Grid, Cell, Button } from 'react-mdl'
+import React from 'react';
+import I18n from 'coral-framework/i18n/i18n';
+import translations from '../../translations';
+import {Grid, Cell} from 'react-mdl';
 
-import styles from './Community.css'
-import Table from './Table'
-import Loading from './Loading'
+import styles from './Community.css';
+import Table from './Table';
+import Loading from './Loading';
+import NoResults from './NoResults';
 
-export default class Community extends Component {
-  render() {
-    const {searchValue, onKeyDownHandler, onChangeHandler, commenters, isFetching} = this.props;
-    return (
-        <Grid>
-          <Cell col={4}>
+const Community = ({searchValue, onKeyDownHandler, onChangeHandler, commenters, isFetching}) => (
+  <Grid>
+    <Cell col={4}>
+      <form>
+        <div className={`mdl-textfield ${styles.searchBox}`}>
+          <label className="mdl-button mdl-js-button mdl-button--icon" htmlFor="commenters-search">
+            <i className="material-icons">search</i>
+          </label>
+          <div className="">
             <input
-              className={styles.searchInput}
-              type="text"
+              id="commenters-search"
+              className={`mdl-textfield__input ${styles.searchInput}`}
+              type="search"
               value={searchValue}
               onKeyDown={onKeyDownHandler}
               onChange={onChangeHandler}
             />
-            <button className={styles.roleButton}>
-              All Users
-            </button>
-          </Cell>
-          <Cell col={8}>
-            {
-              (isFetching)
+          </div>
+        </div>
+      </form>
+    </Cell>
+    <Cell col={8}>
+      {
+        (isFetching)
+          ?
+          <Loading />
+          :
+          (
+            (commenters.length)
               ?
-                <Loading />
-              :
-                <Table
-                headers={['Username and Email', 'Account Creation Date']}
+              <Table
+                headers={[lang.t('community.username_and_email'), lang.t('community.account_creation_date')]}
                 data={commenters}
               />
-            }
-          </Cell>
-        </Grid>
-    )
-  }
-}
+              :
+              <NoResults />
+          )
+      }
+    </Cell>
+  </Grid>
+);
+
+export default Community;
+
+const lang = new I18n(translations);

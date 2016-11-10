@@ -8,4 +8,15 @@
 
 .searchInput {
     display: block;
+    padding-left: 40px;
+    /*border: none;*/
+}
+
+.searchBox {
+    /*border: 1px solid rgba(0,0,0,.12);*/
+    background: white;
+}
+
+.email {
+    display: block;
 }

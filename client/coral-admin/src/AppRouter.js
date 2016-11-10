@@ -1,12 +1,12 @@
-import React from 'react'
-import { Router, Route, Redirect, IndexRoute, browserHistory } from 'react-router'
+import React from 'react';
+import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 
-import ModerationQueue from 'containers/ModerationQueue'
-import CommentStream from 'containers/CommentStream'
-import EmbedLink from 'components/EmbedLink'
-import Configure from 'containers/Configure'
-import CommunityContainer from 'containers/Community/CommunityContainer'
-import LayoutContainer from 'containers/LayoutContainer'
+import ModerationQueue from 'containers/ModerationQueue';
+import CommentStream from 'containers/CommentStream';
+import EmbedLink from 'components/EmbedLink';
+import Configure from 'containers/Configure';
+import CommunityContainer from 'containers/Community/CommunityContainer';
+import LayoutContainer from 'containers/LayoutContainer';
 
 const routes = (
   <Route path='admin' component={LayoutContainer}>
@@ -16,8 +16,8 @@ const routes = (
     <Route path='community' component={CommunityContainer} />
     <Route path='configure' component={Configure} />
   </Route>
-)
+);
 
-const AppRouter = () => <Router history={browserHistory} routes={routes} />
+const AppRouter = () => <Router history={browserHistory} routes={routes} />;
 
-export default AppRouter
+export default AppRouter;

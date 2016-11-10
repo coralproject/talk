@@ -1,0 +1,6 @@
+.li {
+    display: inline-block;
+    margin-right: 5px;
+    padding: 0;
+    min-width: 30px;
+}

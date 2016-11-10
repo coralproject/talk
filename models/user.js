@@ -25,6 +25,11 @@ const UserSchema = new mongoose.Schema({
     }
   }],
   roles: [String]
+}, {
+  timestamps: {
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+  }
 });
 
 // Add the indixies on the user profile data.
