@@ -41,11 +41,13 @@ describe('Comment: models', () => {
   }];
 
   const users = [{
-    id: '123',
-    display_name: 'Ana',
+    email: 'stampi@gmail.com',
+    displayName: 'Stampi',
+    password: '1Coral!'
   }, {
-    id: '456',
-    display_name: 'Maria',
+    email: 'sockmonster@gmail.com',
+    displayName: 'Sockmonster',
+    password: '2Coral!'
   }];
 
   const actions = [{
@@ -61,13 +63,12 @@ describe('Comment: models', () => {
   }];
 
   beforeEach(() => {
-    return Setting.create(settings).then(() => {
-      return Comment.create(comments);
-    }).then(() => {
-      return User.create(users);
-    }).then(() => {
-      return Action.create(actions);
-    });
+    return Promise.all([
+      Setting.create(settings),
+      Comment.create(comments),
+      User.createLocalUsers(users),
+      Action.create(actions)
+    ]);
   });
 
   describe('#findById()', () => {
