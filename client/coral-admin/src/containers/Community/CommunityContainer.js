@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import * as communityActionCreators from '../../actions/community'
+import { fetchCommenters } from '../../actions/community'
 
 import Community from './Community'
 
@@ -31,27 +31,26 @@ class CommunityContainer extends Component {
   }
 
   search() {
-    this.props.fetchCommenters({})
+    this.props.dispath(fetchCommenters())
   }
 
   componentDidMount() {
-    this.props.fetchCommenters()
+    this.props.dispatch(fetchCommenters())
   }
 
   render() {
     const {searchValue} = this.state;
-    const {commenters} = this.props;
+    const {community} = this.props;
     return (
       <Community
         searchValue={searchValue}
+        commenters={community.get('commenters')}
+        isFetching={community.get('isFetching')}
+        error={community.get('error')}
         {...this}
-        {...this.props}
       />
     )
   }
 }
 
-export default connect(
-  ({ community }) => community,
-  (dispatch) => bindActionCreators(communityActionCreators, dispatch)
-)(CommunityContainer)
+export default connect(({community}) => ({community}))(CommunityContainer)

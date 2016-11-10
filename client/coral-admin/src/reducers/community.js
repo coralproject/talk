@@ -6,14 +6,14 @@ import {
   FETCH_COMMENTERS_SUCCESS
 } from '../constants/community'
 
-const initialCommunityState = Map({
+const initialState = Map({
   community: Map(),
   isFetching: false,
   error: '',
   commenters: []
 })
 
-export default function community (state = initialCommunityState, action) {
+export default function community (state = initialState, action) {
   switch (action.type) {
     case FETCH_COMMENTERS_REQUEST :
       return state

@@ -12,11 +12,11 @@ const Table = ({ headers, data }) => (
       {data.map((row, i)=> (
         <tr key={i}>
           <td className="mdl-data-table__cell--non-numeric">
-            {row.name}
+            {row.display_name}
             <span>{row.email}</span>
           </td>
           <td className="mdl-data-table__cell--non-numeric">
-            {row.date}
+            {row.created_at}
           </td>
         </tr>
       ))}

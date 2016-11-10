@@ -4,7 +4,20 @@ import {
   FETCH_COMMENTERS_FAILURE
 } from '../constants/community'
 
-export const fetchCommenters = (query = {}) => ({
-  type: FETCH_COMMENTERS_REQUEST,
-  query
+import { base, getInit, handleResp } from '../helpers/response'
+
+export const fetchCommenters = (query = {}) => (dispatch, getState) => {
+  dispatch(requestFetchCommenters())
+  fetch(`${base}/user`)
+    .then(handleResp)
+    .then((commenters) => {
+      dispatch({type: FETCH_COMMENTERS_SUCCESS, commenters})
+    })
+    .catch((error) => {
+      dispatch({type: FETCH_COMMENTERS_FAILURE, error})
+    })
+}
+
+const requestFetchCommenters = () => ({
+  type: FETCH_COMMENTERS_REQUEST
 })
