@@ -10,7 +10,8 @@ class CommunityContainer extends Component {
     super(props)
 
     this.state = {
-      searchValue: ''
+      searchValue: '',
+      results: []
     }
 
     this.onKeyDownHandler = this.onKeyDownHandler.bind(this)
@@ -30,13 +31,11 @@ class CommunityContainer extends Component {
   }
 
   search() {
-    this.props.fetchCommenters({
-      value: this.state.searchValue
-    })
+    this.props.fetchCommenters({})
   }
 
   componentDidMount() {
-    this.props.fetchCommenters({})
+    this.props.fetchCommenters()
   }
 
   render() {
@@ -54,5 +53,5 @@ class CommunityContainer extends Component {
 
 export default connect(
   ({ community }) => community,
-  dispatch => bindActionCreators(communityActionCreators, dispatch)
+  (dispatch) => bindActionCreators(communityActionCreators, dispatch)
 )(CommunityContainer)

@@ -1,7 +1,7 @@
 import {
-  FETCHING_COMMENTERS,
-  FETCHING_COMMENTERS_FAILURE,
-  FETCHING_COMMENTERS_SUCCESS
+  FETCH_COMMENTERS_REQUEST,
+  FETCH_COMMENTERS_FAILURE,
+  FETCH_COMMENTERS_SUCCESS
 } from '../constants/community'
 
 const initialCommunityState = {
@@ -12,18 +12,18 @@ const initialCommunityState = {
 
 export default function community (state = initialCommunityState, action) {
   switch (action.type) {
-    case FETCHING_COMMENTERS :
+    case FETCH_COMMENTERS_REQUEST :
       return {
         ...state,
         isFetching: true
       }
-    case FETCHING_COMMENTERS_FAILURE :
+    case FETCH_COMMENTERS_FAILURE :
       return {
         ...state,
         isFetching: false,
-        error: action.payload.error
+        error: action.error
       }
-    case FETCHING_COMMENTERS_SUCCESS :
+    case FETCH_COMMENTERS_SUCCESS :
       return {
         ...state,
         isFetching: false,
