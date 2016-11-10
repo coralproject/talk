@@ -113,7 +113,6 @@ describe('Comment: models', () => {
       });
     });
   });
-
   describe('#moderationQueue()', () => {
     it('should find an array of new comments to moderate when pre-moderation', () => {
       return Comment.moderationQueue('pre').then((result) => {
