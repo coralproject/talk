@@ -1,7 +1,7 @@
-import React from 'react'
-import { Navigation, Header } from 'react-mdl'
-import { Link } from 'react-router'
-import styles from './Header.css'
+import React from 'react';
+import {Navigation, Header} from 'react-mdl';
+import {Link} from 'react-router';
+import styles from './Header.css';
 
 export default () => (
   <Header title='Talk'>
@@ -14,4 +14,4 @@ export default () => (
       </span>
     </Navigation>
   </Header>
-)
+);
