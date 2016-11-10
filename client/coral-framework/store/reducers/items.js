@@ -3,7 +3,11 @@
 import {fromJS} from 'immutable';
 import * as actions from '../actions/items';
 
-const initialState = fromJS({});
+const initialState = fromJS({
+  comments: {},
+  users: {},
+  actions: {} 
+});
 
 export default (state = initialState, action) => {
   switch (action.type) {

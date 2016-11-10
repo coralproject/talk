@@ -13,6 +13,7 @@ import Count from '../../coral-plugin-comment-count/CommentCount';
 import AuthorName from '../../coral-plugin-author-name/AuthorName';
 import {ReplyBox, ReplyButton} from '../../coral-plugin-replies';
 import Pym from 'pym.js';
+import FlagButton from '../../coral-plugin-flags/FlagButton';
 
 const {addItem, updateItem, postItem, getStream, postAction, appendItemArray} = itemActions;
 const {addNotification, clearNotification} = notificationActions;
@@ -118,7 +119,7 @@ class CommentStream extends Component {
                 <PubDate created_at={comment.created_at}/>
                 <Content body={comment.body}/>
                 <div className="commentActions">
-                  <Flag
+                  <FlagButton
                     addNotification={this.props.addNotification}
                     id={commentId}
                     flag={this.props.items.actions[comment.flag]}
@@ -148,7 +149,7 @@ class CommentStream extends Component {
                         <PubDate created_at={reply.created_at}/>
                         <Content body={reply.body}/>
                         <div className="replyActions">
-                          <Flag
+                          <FlagButton
                             addNotification={this.props.addNotification}
                             id={replyId}
                             flag={this.props.items.actions[reply.flag]}
