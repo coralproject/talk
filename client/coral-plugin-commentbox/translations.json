@@ -1,0 +1,12 @@
+{
+  "en": {
+    "post": "Post",
+    "reply": "Reply",
+    "comment": "Comment",
+  },
+  "es": {
+    "post": "Publicar",
+    "reply": "Respuesta",
+    "comment": "Comentario"
+  }
+}

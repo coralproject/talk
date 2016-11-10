@@ -1,4 +1,6 @@
 import React from 'react';
+import {I18n} from '../coral-framework';
+import translations from './translations.json';
 
 const name = 'coral-plugin-flags';
 
@@ -20,8 +22,8 @@ const FlagButton = ({flag, id, postAction, addItem, updateItem, addNotification}
         aria-hidden={true}>flag</i>
       {
         flagged
-        ? <span className={`${name  }-button-text`}>Flagged</span>
-        : <span className={`${name  }-button-text`}>Flag</span>
+        ? <span className={`${name}-button-text`}>lang.t('flag')</span>
+      : <span className={`${name}-button-text`}>lang.t('flagged')</span>
       }
     </button>
   </div>;
@@ -37,3 +39,5 @@ const styles = {
     color: 'inherit'
   }
 };
+
+const lang = new I18n(translations);

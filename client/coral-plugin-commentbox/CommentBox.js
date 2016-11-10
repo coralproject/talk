@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {I18n} from '../coral-framework';
+import translations from './translations.json'
 
 const name = 'coral-plugin-commentbox';
 
@@ -88,15 +89,4 @@ class CommentBox extends Component {
 
 export default CommentBox;
 
-const lang = new I18n({
-  en: {
-    post: 'Post',
-    reply: 'Reply',
-    comment: 'Comment',
-  },
-  es: {
-    post: 'Publicar',
-    reply: 'Respuesta',
-    comment: 'Comentario'
-  }
-});
+const lang = new I18n(translations);
