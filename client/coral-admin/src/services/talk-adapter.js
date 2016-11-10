@@ -42,7 +42,7 @@ Promise.all([fetch('/api/v1/comments/status/pending'), fetch('/api/v1/comments/s
 
 // Update a comment. Now to update a comment we need to send back the whole object
 const updateComment = (store, comment) =>
-fetch('/api/v1/comments/${comment._id}/status', {
+fetch(`/api/v1/comments/${comment._id}/status`, {
   method: 'POST',
   body: JSON.stringify({status: comment.status})
 })
