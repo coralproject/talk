@@ -7,7 +7,7 @@
     "start": "./bin/www",
     "build": "webpack --config webpack.config.js --bail",
     "build-watch": "webpack --config webpack.config.dev.js --watch",
-    "lint": "eslint .",
+    "lint": "eslint bin/* .",
     "pretest": "npm install",
     "test": "mocha tests --recursive",
     "test-watch": "mocha tests --recursive -w",
@@ -17,7 +17,8 @@
     "pre-git": {
       "commit-msg": [],
       "pre-commit": [
-        "npm run lint"
+        "npm run lint",
+        "npm test"
       ],
       "pre-push": [
         "npm test"
@@ -43,13 +44,16 @@
   },
   "homepage": "https://github.com/coralproject/talk#readme",
   "dependencies": {
+    "bcrypt": "^0.8.7",
     "body-parser": "^1.15.2",
+    "commander": "^2.9.0",
     "debug": "^2.2.0",
     "ejs": "^2.5.2",
     "eslint-config-postcss": "^2.0.2",
     "express": "^4.14.0",
     "mongoose": "^4.6.5",
     "morgan": "^1.7.0",
+    "prompt": "^1.0.0",
     "uuid": "^2.0.3"
   },
   "devDependencies": {

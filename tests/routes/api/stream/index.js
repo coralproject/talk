@@ -47,11 +47,13 @@ describe('api/stream: routes', () => {
   }];
 
   const users = [{
-    id: '123',
-    display_name: 'John',
+    displayName: 'Ana',
+    email: 'ana@gmail.com',
+    password: '123'
   }, {
-    id: '456',
-    display_name: 'Paul',
+    displayName: 'Maria',
+    email: 'maria@gmail.com',
+    password: '123'
   }];
 
   const actions = [{
@@ -63,24 +65,31 @@ describe('api/stream: routes', () => {
   }];
 
   beforeEach(() => {
-    return Setting.create(settings).then(() => {
-      return Comment.create(comments).then(() => {
-        return User.create(users);
-      }).then(() => {
-        return Action.create(actions);
+
+    return User
+      .createLocalUsers(users)
+      .then(users => {
+
+        comments[0].author_id = users[0].id;
+        comments[1].author_id = users[1].id;
+        
+        return Promise.all([
+          Comment.create(comments),
+          Action.create(actions),
+          Setting.create(settings)
+        ]);
+
       });
-    });
+
   });
 
-  it('should return a stream with comments, users and actions', function(done){
-    chai.request(app)
+  it('should return a stream with comments, users and actions', () => {
+    return chai.request(app)
       .get('/api/v1/stream')
       .query({'asset_id': 'asset'})
-      .end(function(err, res){
-        expect(err).to.be.null;
+      .then(res => {
         expect(res).to.have.status(200);
         expect(res.body.length).to.equal(3);
-        done();
       });
   });
 });

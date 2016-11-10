@@ -6,12 +6,18 @@ const expect = require('chai').expect;
 describe('User: models', () => {
   let mockUsers;
   beforeEach(() => {
-    return User.create([{
-      display_name: 'Stampi',
+    return User.createLocalUsers([{
+      email: 'stampi@gmail.com',
+      displayName: 'Stampi',
+      password: '1Coral!'
     }, {
-      display_name: 'Sockmonster',
+      email: 'sockmonster@gmail.com',
+      displayName: 'Sockmonster',
+      password: '2Coral!'
     }, {
-      display_name: 'Marvel',
+      email: 'marvel@gmail.com',
+      displayName: 'Marvel',
+      password: '3Coral!'
     }]).then((users) => {
       mockUsers = users;
     });
@@ -19,10 +25,12 @@ describe('User: models', () => {
 
   describe('#findById()', () => {
     it('should find a user by id', () => {
-      return User.findById(mockUsers[0].id).then((result) => {
-        expect(result).to.have.property('display_name')
-          .and.to.equal('Stampi');
-      });
+      return User
+        .findById(mockUsers[0].id)
+        .then((user) => {
+          expect(user).to.have.property('displayName')
+            .and.to.equal('Stampi');
+        });
     });
   });
 
@@ -33,5 +41,26 @@ describe('User: models', () => {
         expect(result).to.have.length(3);
       });
     });
+  });
+
+  describe('#findLocalUser', () => {
+
+    it('should find a user when we give the right credentials', () => {
+      return User
+        .findLocalUser(mockUsers[0].profiles[0].id, '1Coral!')
+        .then((user) => {
+          expect(user).to.have.property('displayName')
+            .and.to.equal(mockUsers[0].displayName);
+        });
+    });
+
+    it('should not find the user when we give the wrong credentials', () => {
+      return User
+        .findLocalUser(mockUsers[0].profiles[0].id, '1Coral!<nope>')
+        .then((user) => {
+          expect(user).to.equal(false);
+        });
+    });
+
   });
 });

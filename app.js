@@ -6,7 +6,12 @@ const path = require('path');
 const app = express();
 
 // Middleware declarations.
-app.use(morgan('dev'));
+
+// Add the logging middleware only if we aren't testing.
+if (app.get('env') !== 'test') {
+  app.use(morgan('dev'));
+}
+
 app.use(bodyParser.json());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

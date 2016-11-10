@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+
+/**
+ * Setup the debug paramater.
+ */
+
+process.env.DEBUG = process.env.TALK_DEBUG;
+
+/**
+ * Module dependencies.
+ */
+
+const program = require('commander');
+const pkg = require('../package.json');
+
+//==============================================================================
+// Setting up the program command line arguments.
+//==============================================================================
+
+program
+  .version(pkg.version)
+  .command('settings', 'work with the application settings')
+  .command('users', 'work with the application auth')
+  .parse(process.argv);
+
+// If there is no command listed, output help.
+if (!process.argv.slice(2).length) {
+  program.outputHelp();
+}
