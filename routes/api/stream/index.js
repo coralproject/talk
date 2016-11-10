@@ -7,7 +7,6 @@ const User = require('../../../models/user');
 const Action = require('../../../models/action');
 const Setting = require('../../../models/setting');
 
-
 // Find all the comments, users, actions by a specific asset_id + settings.
 //  . if pre: get the comments that are accepted.
 //  . if post: get the comments that are new and accepted.
