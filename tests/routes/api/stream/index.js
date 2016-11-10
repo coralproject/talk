@@ -83,7 +83,7 @@ describe('api/stream: routes', () => {
 
   });
 
-  it('should return a stream with comments, users and actions', () => {
+  it('should return a stream with comments, users, actions and settings', () => {
     return chai.request(app)
       .get('/api/v1/stream')
       .query({'asset_id': 'asset'})
@@ -92,6 +92,7 @@ describe('api/stream: routes', () => {
         expect(res.body.comments.length).to.equal(1);
         expect(res.body.users.length).to.equal(1);
         expect(res.body.actions.length).to.equal(1);
+        expect(res.body.settings.moderation).to.equal('pre');
       });
   });
 });
