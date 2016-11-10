@@ -16,7 +16,8 @@ const http = require('http');
 const initPromise = require('../init');
 let server;
 
-initPromise.then(() => {
+initPromise
+.then(() => {
   /**
   * Get port from environment and store in Express.
   */
