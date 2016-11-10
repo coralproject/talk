@@ -4,7 +4,6 @@ const router = express.Router();
 
 router.use('/asset', require('./asset'));
 router.use('/comments', require('./comments'));
-router.use('/queue', require('./queue'));
 router.use('/settings', require('./settings'));
 router.use('/stream', require('./stream'));
 
