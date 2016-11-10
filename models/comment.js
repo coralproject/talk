@@ -86,9 +86,13 @@ CommentSchema.statics.findAcceptedAndNewByAssetId = function(asset_id) {
  * @param {String} action_type the type of action that was performed on the comment
 */
 CommentSchema.statics.findByActionType = function(action_type) {
-  return Action.findCommentsIdByActionType(action_type, 'comment').then((actions) => {
-    return Comment.find({'id': {'$in': actions.map(function(a){return a.item_id;})}});
-  });
+  return Action
+    .findCommentsIdByActionType(action_type, 'comment')
+    .then((actions) => {
+      return Comment.find({'id': {'$in': actions.map(function(a){
+        return a.item_id;})}
+      });
+    });
 };
 
 /**
@@ -97,9 +101,18 @@ CommentSchema.statics.findByActionType = function(action_type) {
  * @param {String} status the status of the comment to search for
 */
 CommentSchema.statics.findByStatusByActionType = function(status, action_type) {
-  return Action.findCommentsIdByActionType(action_type, 'comment').then((actions) => {
-    return Comment.find({'status': status, 'id': {'$in': actions.map(function(a){return a.item_id;})}});
-  });
+  return Action
+    .findCommentsIdByActionType(action_type, 'comment')
+    .then((actions) => {
+      
+      return Comment.find({
+        'status': status, 
+        'id': {'$in': actions.map(a => {
+          return a.item_id;}
+        )}        
+      });
+
+    });
 };
 
 /**

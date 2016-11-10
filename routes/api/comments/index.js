@@ -13,9 +13,7 @@ router.get('/', (req, res, next) => {
   Comment.find({}).then((comments) => {
     res.status(200).json(comments);
   })
-  .catch(error => {
-    next(error);
-  });
+  .catch(next);
 });
 
 router.get('/:comment_id', (req, res, next) => {
@@ -24,9 +22,7 @@ router.get('/:comment_id', (req, res, next) => {
     .then(comment => {
       res.status(200).json(comment);
     })
-    .catch(error => {
-      next(error);
-    });
+    .catch(next);
 });
 
 //==============================================================================
@@ -40,9 +36,7 @@ router.get('/action/:action_type', (req, res, next) => {
     .then((comments) => {
       res.status(200).json(comments);
     })
-    .catch(error => {
-      next(error);
-    });
+    .catch(next);
 });
 
 // Get all the comments that were rejected.
@@ -52,9 +46,7 @@ router.get('/status/rejected', (req, res, next) => {
     .then(comments => {
       res.status(200).json(comments);
     })
-    .catch(error => {
-      next(error);
-    });
+    .catch(next);
 });
 
 // Returns back all the comments that are in the moderation queue. The moderation queue is pre or post moderated,
@@ -76,9 +68,7 @@ router.get('/status/pending', (req, res, next) => {
           res.status(200).json(comments);
         });
     })
-    .catch(error => {
-      next(error);
-    });
+    .catch(next);
 });
 
 //==============================================================================
