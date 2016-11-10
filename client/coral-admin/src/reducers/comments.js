@@ -31,9 +31,8 @@ export default (state = initialState, action) => {
 // Update a comment status
 const updateStatus = (state, action) => {
   const byId = state.get('byId');
-  const data = byId.get(action.id).get('data').set('status', action.status);
-  const comment = byId.get(action.id).set('data', data);
-  return state.set('byId', byId.set(action.id, comment));
+  const data = byId.get(action.id).set('status', action.status.toLowerCase());
+  return state.set('byId', byId.set(action.id, data));
 };
 
 // Flag a comment
@@ -46,7 +45,7 @@ const flag = (state, action) => {
 
 // Replace the comment list with a new one
 const replaceComments = (action, state) => {
-  const comments = fromJS(action.comments.reduce((prev, curr) => { prev[curr._id] = curr; return prev; }, {}));
+  const comments = fromJS(action.comments.reduce((prev, curr) => { prev[curr.id] = curr; return prev; }, {}));
   return state.set('byId', comments).set('loading', false)
   .set('ids', List(comments.keys()));
 };

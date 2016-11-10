@@ -12,21 +12,38 @@ const Action = require('../../../../models/action');
 const User = require('../../../../models/user');
 const Comment = require('../../../../models/comment');
 
+const Setting = require('../../../../models/setting');
+
 describe('api/stream: routes', () => {
+
+  const settings = {id: '1', moderation: 'pre'};
+
   const comments = [{
     id: 'abc',
     body: 'comment 10',
     asset_id: 'asset',
-    author_id: '123'
+    author_id: '123',
+    parent_id: '',
+    status: 'accepted'
   }, {
     id: 'def',
     body: 'comment 20',
     asset_id: 'asset',
-    author_id: '456'
+    author_id: '456',
+    parent_id: '',
+    status: ''
+  }, {
+    id: 'uio',
+    body: 'comment 30',
+    asset_id: 'asset',
+    author_id: '456',
+    parent_id: '',
+    status: ''
   }, {
     id: 'hij',
-    body: 'comment 30',
-    asset_id: '456'
+    body: 'comment 40',
+    asset_id: '456',
+    status: 'rejected'
   }];
 
   const users = [{
@@ -48,21 +65,31 @@ describe('api/stream: routes', () => {
   }];
 
   beforeEach(() => {
-    return Promise.all([
-      Comment.create(comments),
-      User.createLocalUsers(users),
-      Action.create(actions)
-    ]);
+
+    return User
+      .createLocalUsers(users)
+      .then(users => {
+
+        comments[0].author_id = users[0].id;
+        comments[1].author_id = users[1].id;
+        
+        return Promise.all([
+          Comment.create(comments),
+          Action.create(actions),
+          Setting.create(settings)
+        ]);
+
+      });
+
   });
 
-  it('should return a stream with comments, users and actions', function(done){
-    chai.request(app)
+  it('should return a stream with comments, users and actions', () => {
+    return chai.request(app)
       .get('/api/v1/stream')
       .query({'asset_id': 'asset'})
-      .end(function(err, res){
-        expect(err).to.be.null;
+      .then(res => {
         expect(res).to.have.status(200);
-        done();
+        expect(res.body.length).to.equal(3);
       });
   });
 });

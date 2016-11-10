@@ -19,7 +19,7 @@ export default props => (
       <div className={styles.actions}>
         {props.actions.map(action => canShowAction(action, props.comment) ? (
           <Button className={styles.actionButton}
-            onClick={() => props.onClickAction(props.actionsMap[action].status, props.comment.get('_id'))}
+            onClick={() => props.onClickAction(props.actionsMap[action].status, props.comment.get('id'))}
             fab colored>
             <Icon name={props.actionsMap[action].icon} />
           </Button>
