@@ -12,7 +12,7 @@ const FlagButton = ({flag, id, postAction, addItem, updateItem, addNotification}
         addItem({...action, current_user:true}, 'actions');
         updateItem(action.item_id, action.action_type, action.id, 'comments');
       });
-    addNotification('success', 'Thank you for reporting this comment. Our moderation team has been notified and will review it shortly.');
+    addNotification('success', lang.t('flag-notif'));
   };
 
   return <div className={`${name  }-container`}>
