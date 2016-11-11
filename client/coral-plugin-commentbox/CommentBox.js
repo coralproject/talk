@@ -44,7 +44,8 @@ class CommentBox extends Component {
         appendItemArray(parent_id || id, related, comment_id, !parent_id, parent_type);
         addNotification('success', 'Your comment has been posted.');
       }
-    }).catch((err) => console.error(err));
+    })
+    .catch((err) => console.error(err));
     this.setState({body: ''});
   }
 
