@@ -7,8 +7,8 @@
   },
   "es": {
     "post": "Publicar",
-    "reply": "Respuesta",
+    "reply": "Responder",
     "comment": "Comentario",
-    "comment-post-notif": "¡traduceme!"
+    "comment-post-notif": "Tu comentario fue publicado."
   }
 }
