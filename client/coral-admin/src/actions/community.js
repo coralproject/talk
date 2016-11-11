@@ -24,10 +24,7 @@ export const fetchCommenters = (query = {}) => dispatch => {
         totalPages
       })
     )
-    .catch(error => {
-      console.log(error);
-      dispatch({type: FETCH_COMMENTERS_FAILURE, error});
-    });
+    .catch(error => dispatch({type: FETCH_COMMENTERS_FAILURE, error}));
 };
 
 const requestFetchCommenters = () => ({
