@@ -16,8 +16,9 @@ export const FETCH_CONFIG_SUCCESS = 'FETCH_CONFIG_SUCCESS';
 
 export function fetchConfig () {
   return (dispatch) => {
+    
     dispatch({type: FETCH_CONFIG_REQUEST});
-    console.log('Fetching settings');
+
     return fetch('/api/v1/settings')
       .then(
         response => {
@@ -26,11 +27,11 @@ export function fetchConfig () {
         }
       )
       .then((json) => {
-        console.log(json);
         return dispatch({type: FETCH_CONFIG_SUCCESS, config: fromJS(json)});
-      }).catch((error) => {
-        console.log(error);
+      })
+      .catch((error) => {
         dispatch({type: FETCH_CONFIG_FAILED, error});
       });
+
   };
 }
