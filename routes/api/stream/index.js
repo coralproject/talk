@@ -36,7 +36,8 @@ router.get('/', (req, res, next) => {
       users,
       actions
     });
-  }).catch(error => {
+  })
+  .catch(error => {
     next(error);
   });
 });

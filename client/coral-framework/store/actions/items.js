@@ -148,7 +148,7 @@ export function getStream (assetId) {
 
 export function getItemsArray (ids) {
   return (dispatch) => {
-    return fetch(`/v1/item/${  ids}`)
+    return fetch(`/v1/item/${ids}`)
       .then(
         response => {
           return response.ok ? response.json()
@@ -241,7 +241,8 @@ export function postAction (item_id, action_type, user_id, item_type) {
           return response.ok ? response.json()
           : Promise.reject(`${response.status} ${response.statusText}`);
         }
-      ).then((json)=>{
+      )
+      .then((json)=>{
         return json;
       });
   };

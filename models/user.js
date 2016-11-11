@@ -25,6 +25,11 @@ const UserSchema = new mongoose.Schema({
     }
   }],
   roles: [String]
+}, {
+  timestamps: {
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+  }
 });
 
 // Add the indixies on the user profile data.
@@ -43,6 +48,22 @@ UserSchema.index({
 UserSchema.options.toJSON = {};
 UserSchema.options.toJSON.hide = 'password profiles roles disabled';
 UserSchema.options.toJSON.transform = (doc, ret, options) => {
+  if (options.hide) {
+    options.hide.split(' ').forEach((prop) => {
+      delete ret[prop];
+    });
+  }
+
+  return ret;
+};
+
+/**
+ * toObject overrides to remove the password field from the toObject
+ * output.
+ */
+UserSchema.options.toObject = {};
+UserSchema.options.toObject.hide = 'password';
+UserSchema.options.toObject.transform = (doc, ret, options) => {
   if (options.hide) {
     options.hide.split(' ').forEach((prop) => {
       delete ret[prop];
@@ -100,19 +121,22 @@ UserSchema.statics.findLocalUser = function(email, password) {
 UserSchema.statics.mergeUsers = function(dstUserID, srcUserID) {
   let srcUser, dstUser;
 
-  return Promise.all([
-    User.findOne({id: dstUserID}).exec(),
-    User.findOne({id: srcUserID}).exec()
-  ]).then((users) => {
-    dstUser = users[0];
-    srcUser = users[1];
+  return Promise
+    .all([
+      User.findOne({id: dstUserID}).exec(),
+      User.findOne({id: srcUserID}).exec()
+    ])
+    .then((users) => {
+      dstUser = users[0];
+      srcUser = users[1];
 
-    srcUser.profiles.forEach((profile) => {
-      dstUser.profiles.push(profile);
-    });
+      srcUser.profiles.forEach((profile) => {
+        dstUser.profiles.push(profile);
+      });
 
-    return srcUser.remove();
-  }).then(() => dstUser.save());
+      return srcUser.remove();
+    })
+    .then(() => dstUser.save());
 };
 
 /**
@@ -122,33 +146,34 @@ UserSchema.statics.mergeUsers = function(dstUserID, srcUserID) {
  * @param  {Function} done    [description]
  */
 UserSchema.statics.findOrCreateExternalUser = function(profile) {
-  return User.findOne({
-    profiles: {
-      $elemMatch: {
-        id: profile.id,
-        provider: profile.provider
-      }
-    }
-  })
-  .then((user) => {
-    if (user) {
-      return user;
-    }
-
-    // The user was not found, lets create them!
-    user = new User({
-      displayName: profile.displayName,
-      roles: [],
-      profiles: [
-        {
+  return User
+    .findOne({
+      profiles: {
+        $elemMatch: {
           id: profile.id,
           provider: profile.provider
         }
-      ]
-    });
+      }
+    })
+    .then((user) => {
+      if (user) {
+        return user;
+      }
 
-    return user.save();
-  });
+      // The user was not found, lets create them!
+      user = new User({
+        displayName: profile.displayName,
+        roles: [],
+        profiles: [
+          {
+            id: profile.id,
+            provider: profile.provider
+          }
+        ]
+      });
+
+      return user.save();
+    });
 };
 
 UserSchema.statics.changePassword = function(id, password) {
