@@ -1,0 +1,18 @@
+{
+  "en": {
+    "post": "Post",
+    "reply": "Reply",
+    "comment": "Comment",
+    "name": "Name",
+    "comment-post-notif": "Your comment has been posted.",
+    "comment-post-notif-premod": "Thank you for reporting this comment. Our moderation team has been notified and will review it shortly."
+  },
+  "es": {
+    "post": "Publicar",
+    "reply": "Respuesta",
+    "comment": "Comentario",
+    "name": "Nombre",
+    "comment-post-notif": "¡traduceme!",
+    "comment-post-notif-premod": "¡traduceme!"
+  }
+}
