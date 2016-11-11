@@ -15,14 +15,11 @@ const router = express.Router();
 // Post-moderation: New comments do not appear in moderation queues unless they are flagged by other users.
 router.get('/comments/pending', (req, res, next) => {
   Setting.getModerationSetting().then(function({moderation}){
-    let moderationValue = req.query.moderation;
-    if (typeof moderationValue === 'undefined' || !moderationValue) {
-      moderationValue = moderation;
-    }
-    Comment.moderationQueue(moderationValue).then((comments) => {
+    Comment.moderationQueue(moderation).then((comments) => {
       res.status(200).json(comments);
     });
-  }).catch(error => {
+  })
+  .catch(error => {
     next(error);
   });
 });

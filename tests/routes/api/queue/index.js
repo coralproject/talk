@@ -78,28 +78,4 @@ describe('Get moderation queues rejected, pending, flags', () => {
         done();
       });
   });
-
-  it('should return all the pending comments as pre moderated', function(done){
-    chai.request(app)
-      .get('/api/v1/queue/comments/pending')
-      .query({'moderation': 'pre'})
-      .end(function(err, res){
-        expect(err).to.be.null;
-        expect(res).to.have.status(200);
-        expect(res.body[0]).to.have.property('id', 'def');
-        done();
-      });
-  });
-
-  it('should return all the pending comments as post moderated', function(done){
-    chai.request(app)
-      .get('/api/v1/queue/comments/pending')
-      .query({'moderation': 'post'})
-      .end(function(err, res){
-        expect(err).to.be.null;
-        expect(res).to.have.status(200);
-        expect(res.body).to.have.lengthOf(0);
-        done();
-      });
-  });
 });

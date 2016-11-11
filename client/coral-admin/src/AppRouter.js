@@ -4,7 +4,7 @@ import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 import ModerationQueue from 'containers/ModerationQueue';
 import CommentStream from 'containers/CommentStream';
 import Configure from 'containers/Configure';
-import CommunityContainer from 'containers/CommunityContainer';
+import CommunityContainer from 'containers/Community/CommunityContainer';
 import LayoutContainer from 'containers/LayoutContainer';
 
 const routes = (
