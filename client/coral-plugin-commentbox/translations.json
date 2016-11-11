@@ -2,11 +2,13 @@
   "en": {
     "post": "Post",
     "reply": "Reply",
-    "comment": "Comment"
+    "comment": "Comment",
+    "comment-post-notif": "Your comment has been posted."
   },
   "es": {
     "post": "Publicar",
     "reply": "Respuesta",
-    "comment": "Comentario"
+    "comment": "Comentario",
+    "comment-post-notif": "¡traduceme!"
   }
 }

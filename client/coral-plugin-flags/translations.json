@@ -1,10 +1,12 @@
 {
   "en": {
     "flag": "Flag",
-    "flagged": "Flagged"
+    "flagged": "Flagged",
+    "flag-notif": "Thank you for reporting this comment. Our moderation team has been notified and will review it shortly."
   },
   "es": {
     "flag": "¡traduceme!",
-    "flagged": "¡traduceme!"
+    "flagged": "¡traduceme!",
+    "flag-notif": "¡traduceme!"
   }
 }
