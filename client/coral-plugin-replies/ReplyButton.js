@@ -1,5 +1,6 @@
 import React from 'react';
 import {I18n} from '../coral-framework';
+import translations from './translations.json';
 
 const name = 'coral-plugin-replies';
 
@@ -13,11 +14,4 @@ const ReplyButton = (props) => <button
 
 export default ReplyButton;
 
-const lang = new I18n({
-  en: {
-    'reply': 'Reply'
-  },
-  es: {
-    'reply': '¡traduceme!'
-  }
-});
+const lang = new I18n(translations);

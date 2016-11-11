@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {I18n} from '../coral-framework';
+import translations from './translations.json';
 
 const name = 'coral-plugin-commentbox';
 
@@ -39,7 +40,7 @@ class CommentBox extends Component {
     postItem(comment, 'comments')
     .then((comment_id) => {
       if (premod === 'pre') {
-        addNotification('success', 'Your comment has been posted and is being reviewed by our moderation team.');
+        addNotification('success', lang.t('comment-post-notif-premod'));
       } else {
         appendItemArray(parent_id || id, related, comment_id, !parent_id, parent_type);
         addNotification('success', 'Your comment has been posted.');
@@ -59,7 +60,7 @@ class CommentBox extends Component {
           style={styles && styles.textarea}
           value={this.state.username}
           id={reply ? 'replyUser' : 'commentUser'}
-          placeholder='Name'
+          placeholder={lang.t('name')}
           onChange={(e) => this.setState({username: e.target.value})}/>
       </div>
       <div
@@ -74,7 +75,7 @@ class CommentBox extends Component {
             className={`${name}-textarea`}
             style={styles && styles.textarea}
             value={this.state.body}
-            placeholder='Comment'
+            placeholder={lang.t('comment')}
             id={reply ? 'replyText' : 'commentText'}
             onChange={(e) => this.setState({body: e.target.value})}
             rows={3}/>
@@ -93,15 +94,4 @@ class CommentBox extends Component {
 
 export default CommentBox;
 
-const lang = new I18n({
-  en: {
-    post: 'Post',
-    reply: 'Reply',
-    comment: 'Comment',
-  },
-  es: {
-    post: 'Publicar',
-    reply: 'Respuesta',
-    comment: 'Comentario'
-  }
-});
+const lang = new I18n(translations);
