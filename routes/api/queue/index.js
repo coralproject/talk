@@ -16,7 +16,7 @@ const router = express.Router();
 router.get('/comments/pending', (req, res, next) => {
   Setting.getModerationSetting().then(function({moderation}){
     let moderationValue = req.query.moderation;
-    if (typeof moderationValue === 'undefined' || moderationValue === undefined) {
+    if (typeof moderationValue === 'undefined' || !moderationValue) {
       moderationValue = moderation;
     }
     Comment.moderationQueue(moderationValue).then((comments) => {
