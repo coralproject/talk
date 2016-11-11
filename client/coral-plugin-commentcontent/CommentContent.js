@@ -4,7 +4,7 @@ const name = 'coral-plugin-replies';
 const Content = ({body, styles}) => {
   const textbreaks = body.split('\n');
   return <div
-    className={`${name  }-text`}
+    className={`${name}-text`}
     style={styles && styles.text}>
     {
       textbreaks.map((line, i) => <span key={i} className={`${name}-line`}>

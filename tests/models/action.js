@@ -8,13 +8,20 @@ describe('Action: models', () => {
   beforeEach(() => {
     return Action.create([{
       action_type: 'flag',
-      item_id: '123'
+      item_id: '123',
+      item_type: 'comments'
     }, {
       action_type: 'like',
-      item_id: '789'
+      item_id: '789',
+      item_type: 'comments'
     }, {
       action_type: 'flag',
-      item_id: '456'
+      item_id: '456',
+      item_type: 'comments'
+    }, {
+      action_type: 'flag',
+      item_id: '123',
+      item_type: 'comments'
     }]).then((actions) => {
       mockActions = actions;
     });
@@ -32,7 +39,32 @@ describe('Action: models', () => {
   describe('#findByItemIdArray()', () => {
     it('should find an array of actions from an array of item_ids', () => {
       return Action.findByItemIdArray(['123', '456']).then((result) => {
+        expect(result).to.have.length(3);
+      });
+    });
+  });
+
+  describe('#getActionSummaries()', () => {
+    it('should return properly formatted summaries from an array of item_ids', () => {
+      return Action.getActionSummaries(['123', '789']).then((result) => {
         expect(result).to.have.length(2);
+        const sorted = result.sort((a, b) => a.count - b.count);
+        delete sorted[0].id;
+        delete sorted[1].id;
+        expect(sorted[0]).to.deep.equal({
+          action_type: 'like',
+          count: 1,
+          item_id: '789',
+          item_type: 'comments',
+          current_user: false
+        });
+        expect(sorted[1]).to.deep.equal({
+          action_type: 'flag',
+          count: 2,
+          item_id: '123',
+          item_type: 'comments',
+          current_user: false
+        });
       });
     });
   });

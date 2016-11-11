@@ -22,14 +22,14 @@ describe('api/stream: routes', () => {
     id: 'abc',
     body: 'comment 10',
     asset_id: 'asset',
-    author_id: '123',
+    author_id: '',
     parent_id: '',
     status: 'accepted'
   }, {
     id: 'def',
     body: 'comment 20',
     asset_id: 'asset',
-    author_id: '456',
+    author_id: '',
     parent_id: '',
     status: ''
   }, {
@@ -89,7 +89,9 @@ describe('api/stream: routes', () => {
       .query({'asset_id': 'asset'})
       .then(res => {
         expect(res).to.have.status(200);
-        expect(res.body.length).to.equal(3);
+        expect(res.body.comments.length).to.equal(1);
+        expect(res.body.users.length).to.equal(1);
+        expect(res.body.actions.length).to.equal(1);
       });
   });
 });
