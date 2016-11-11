@@ -14,6 +14,16 @@ Run it once to install the dependencies.
 `npm start`
 Runs Talk.
 
+### Configuration
+
+The Talk application requires specific configuration options to be available
+inside the environment in order to run, those variables are listed here:
+
+- `TALK_SESSION_SECRET` (*required*) -
+- `TALK_FACEBOOK_APP_ID` (*required*) -
+- `TALK_FACEBOOK_APP_SECRET` (*required*) -
+- `TALK_ROOT_URL` (*required*) - Root url of the installed application externally available in the format: `<scheme>://<host>` without the path.
+
 ### Running with Docker
 Make sure you have Docker running first and then run `docker-compose up -d`
 

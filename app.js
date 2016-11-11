@@ -2,6 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const path = require('path');
+const helmet = require('helmet');
+const passport = require('./passport');
+const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
+const redis = require('./redis');
 
 const app = express();
 
@@ -12,12 +17,57 @@ if (app.get('env') !== 'test') {
   app.use(morgan('dev'));
 }
 
+//==============================================================================
+// APP MIDDLEWARE
+//==============================================================================
+
+app.set('trust proxy', 'loopback');
+app.use(helmet());
 app.use(bodyParser.json());
+app.use('/client', express.static(path.join(__dirname, 'dist')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// Routes.
-app.use('/client', express.static(path.join(__dirname, 'dist')));
+//==============================================================================
+// SESSION MIDDLEWARE
+//==============================================================================
+
+const session_opts = {
+  secret: process.env.TALK_SESSION_SECRET,
+  httpOnly: true,
+  rolling: true,
+  saveUninitialized: false,
+  resave: false,
+  cookie: {
+    secure: false,
+    maxAge: 18000000, // 30 minutes for expiry.
+  },
+  store: new RedisStore({
+    ttl: 1800,
+    client: redis,
+  })
+};
+
+if (app.get('env') === 'production') {
+
+  // Enable the secure cookie when we are in production mode.
+  session_opts.cookie.secure = true;
+}
+
+app.use(session(session_opts));
+
+//==============================================================================
+// PASSPORT MIDDLEWARE
+//==============================================================================
+
+// Setup the PassportJS Middleware.
+app.use(passport.initialize());
+app.use(passport.session());
+
+//==============================================================================
+// ROUTES
+//==============================================================================
+
 app.use('/', require('./routes'));
 
 //==============================================================================

@@ -6,7 +6,7 @@ router.use('/admin', require('./admin'));
 router.use('/embed', require('./embed'));
 
 router.get('/', (req, res) => {
-  return res.render('home', {});
+  res.render('home', {});
 });
 
 module.exports = router;

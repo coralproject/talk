@@ -10,16 +10,12 @@ if (enabled('talk:db')) {
   mongoose.set('debug', true);
 }
 
-try {
-  mongoose.connect(url, (err) => {
-    if (err) {
-      throw err;
-    }
+mongoose.connect(url, (err) => {
+  if (err) {
+    throw err;
+  }
 
-    debug('Connected to MongoDB!');
-  });
-} catch (err) {
-  console.error('Cannot stablish a connection with MongoDB', err);
-}
+  debug('connection established');
+});
 
 module.exports = mongoose;
