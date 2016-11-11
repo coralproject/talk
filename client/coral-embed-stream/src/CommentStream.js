@@ -15,6 +15,7 @@ import {ReplyBox, ReplyButton} from '../../coral-plugin-replies';
 import Pym from 'pym.js';
 import FlagButton from '../../coral-plugin-flags/FlagButton';
 import PermalinkButton from '../../coral-plugin-permalinks/PermalinkButton';
+import SignInContainer from '../../coral-sign-in/containers/SignInContainer';
 
 const {addItem, updateItem, postItem, getStream, postAction, appendItemArray} = itemActions;
 const {addNotification, clearNotification} = notificationActions;
@@ -111,6 +112,7 @@ class CommentStream extends Component {
               id={rootItemId}
               premod={this.props.config.moderation}
               reply={false}/>
+            <SignInContainer />
           </div>
           {
             rootItem.comments.map((commentId) => {

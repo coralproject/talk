@@ -1,5 +1,5 @@
 import timeago from 'timeago.js';
-import esTA from 'timeago.js/locales/es';
+import esTA from '../../../../node_modules/timeago.js/locales/es';
 
 /**
  * Default locales, this should be overriden by config file

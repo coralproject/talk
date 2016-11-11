@@ -1,0 +1,43 @@
+.button {
+    background: 0 0;
+    border: none;
+    border-radius: 2px;
+    color: #000;
+    display: block;
+    position: relative;
+    height: 36px;
+    min-width: 64px;
+    padding: 0 8px;
+    display: inline-block;
+    font-family: 'Roboto','Helvetica','Arial',sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0;
+    overflow: hidden;
+    will-change: box-shadow,transform;
+    -webkit-transition: box-shadow .2s cubic-bezier(.4,0,1,1),background-color .2s cubic-bezier(.4,0,.2,1),color .2s cubic-bezier(.4,0,.2,1);
+    transition: box-shadow .2s cubic-bezier(.4,0,1,1),background-color .2s cubic-bezier(.4,0,.2,1),color .2s cubic-bezier(.4,0,.2,1);
+    outline: none;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    line-height: 36px;
+    vertical-align: middle;
+}
+
+.local {
+    background: #E0E0E0;
+    color: #212121;
+}
+
+.facebook {
+    background-color: #4267b2;
+    border-color: #4267b2;
+    color: rgb(255, 255, 255);
+}
+
+.facebook:hover {
+    background-color: #365899;
+    border-color: #365899;
+}
