@@ -65,7 +65,7 @@ if (process.env.TALK_FACEBOOK_APP_ID && process.env.TALK_FACEBOOK_APP_SECRET && 
   passport.use(new FacebookStrategy({
     clientID: process.env.TALK_FACEBOOK_APP_ID,
     clientSecret: process.env.TALK_FACEBOOK_APP_SECRET,
-    callbackURL: `${process.env.TALK_ROOT_URL}/connect/facebook/callback`
+    callbackURL: `${process.env.TALK_ROOT_URL}/api/v1/auth/facebook/callback`
   }, (accessToken, refreshToken, profile, done) => {
     User
       .findOrCreateExternalUser(profile)

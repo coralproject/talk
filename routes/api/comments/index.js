@@ -94,7 +94,7 @@ router.post('/:comment_id', (req, res, next) => {
 });
 
 router.post('/:comment_id/status', (req, res, next) => {
-  
+
   Comment
     .changeStatus(req.params.comment_id, req.body.status)
     .then(comment => res.status(200).send(comment))
