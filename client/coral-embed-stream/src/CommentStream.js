@@ -14,6 +14,7 @@ import AuthorName from '../../coral-plugin-author-name/AuthorName';
 import {ReplyBox, ReplyButton} from '../../coral-plugin-replies';
 import Pym from 'pym.js';
 import FlagButton from '../../coral-plugin-flags/FlagButton';
+import LikeButton from '../../coral-plugin-likes/LikeButton';
 
 const {addItem, updateItem, postItem, getStream, postAction, appendItemArray} = itemActions;
 const {addNotification, clearNotification} = notificationActions;
@@ -119,7 +120,20 @@ class CommentStream extends Component {
                 <AuthorName name={comment.username}/>
                 <PubDate created_at={comment.created_at}/>
                 <Content body={comment.body}/>
-                <div className="commentActions">
+                <div className="commentActionsLeft">
+                  <ReplyButton
+                    updateItem={this.props.updateItem}
+                    id={commentId}/>
+                  <LikeButton
+                    addNotification={this.props.addNotification}
+                    id={commentId}
+                    like={this.props.items.actions[comment.like]}
+                    postAction={this.props.postAction}
+                    addItem={this.props.addItem}
+                    updateItem={this.props.updateItem}
+                    currentUser={this.props.auth.user}/>
+                </div>
+                <div className="commentActionsRight">
                   <FlagButton
                     addNotification={this.props.addNotification}
                     id={commentId}
@@ -128,9 +142,6 @@ class CommentStream extends Component {
                     addItem={this.props.addItem}
                     updateItem={this.props.updateItem}
                     currentUser={this.props.auth.user}/>
-                  <ReplyButton
-                    updateItem={this.props.updateItem}
-                    id={commentId}/>
                 </div>
                   <ReplyBox
                     addNotification={this.props.addNotification}
@@ -150,19 +161,29 @@ class CommentStream extends Component {
                         <AuthorName name={reply.username}/>
                         <PubDate created_at={reply.created_at}/>
                         <Content body={reply.body}/>
-                        <div className="replyActions">
-                          <FlagButton
-                            addNotification={this.props.addNotification}
-                            id={replyId}
-                            flag={this.props.items.actions[reply.flag]}
-                            postAction={this.props.postAction}
-                            addItem={this.props.addItem}
-                            updateItem={this.props.updateItem}
-                            currentUser={this.props.auth.user}/>
-                          <ReplyButton
-                            updateItem={this.props.updateItem}
-                            parent_id={reply.parent_id}/>
-                        </div>
+                        <div className="replyActionsLeft">
+                            <ReplyButton
+                              updateItem={this.props.updateItem}
+                              id={replyId}/>
+                            <LikeButton
+                              addNotification={this.props.addNotification}
+                              id={replyId}
+                              like={this.props.items.actions[reply.like]}
+                              postAction={this.props.postAction}
+                              addItem={this.props.addItem}
+                              updateItem={this.props.updateItem}
+                              currentUser={this.props.auth.user}/>
+                          </div>
+                          <div className="replyActionsRight">
+                            <FlagButton
+                              addNotification={this.props.addNotification}
+                              id={replyId}
+                              flag={this.props.items.actions[reply.flag]}
+                              postAction={this.props.postAction}
+                              addItem={this.props.addItem}
+                              updateItem={this.props.updateItem}
+                              currentUser={this.props.auth.user}/>
+                          </div>
                       </div>;
                     })
                 }
