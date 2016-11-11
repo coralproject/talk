@@ -19,7 +19,7 @@ class CommentBox extends Component {
   }
 
   postComment = () => {
-    const {postItem, updateItem, id, parent_id, addNotification, appendItemArray} = this.props;
+    const {postItem, updateItem, id, parent_id, addNotification, appendItemArray, premod} = this.props;
     let comment = {
       body: this.state.body,
       asset_id: id,
@@ -38,8 +38,12 @@ class CommentBox extends Component {
     updateItem(parent_id, 'showReply', false, 'comments');
     postItem(comment, 'comments')
     .then((comment_id) => {
-      appendItemArray(parent_id || id, related, comment_id, !parent_id, parent_type);
-      addNotification('success', 'Your comment has been posted.');
+      if (premod === 'pre') {
+        addNotification('success', 'Your comment has been posted and is being reviewed by our moderation team.');
+      } else {
+        appendItemArray(parent_id || id, related, comment_id, !parent_id, parent_type);
+        addNotification('success', 'Your comment has been posted.');
+      }
     })
     .catch((err) => console.error(err));
     this.setState({body: ''});
