@@ -1,6 +1,10 @@
 import React, {PropTypes} from 'react';
+import I18n from 'coral-framework/i18n/i18n';
+import translations from './translations';
 import onClickOutside from 'react-onclickoutside';
 const name = 'coral-plugin-permalinks';
+
+const lang = new I18n(translations);
 
 class PermalinkButton extends React.Component {
 
@@ -39,13 +43,13 @@ class PermalinkButton extends React.Component {
   }
 
   render () {
-    const publisherUrl = 'http://nytimes.com/';
+    const publisherUrl = `${location.protocol}//${location.host}/`;
 
     return (
       <div className={`${name}-container`} style={styles}>
         <button onClick={this.toggle} className={`${name}-button`}>
           <i className={`${name}-icon material-icons`} aria-hidden={true}>link</i>
-          Permalink
+          {lang.t('permalink.permalink')}
         </button>
         <div
           style={styles.popover(this.state.popoverOpen)}

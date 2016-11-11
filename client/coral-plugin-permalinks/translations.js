@@ -1,0 +1,12 @@
+export default {
+  en: {
+    permalink: {
+      permalink: 'Permalink'
+    }
+  },
+  es: {
+    permalink: {
+      permalink: 'Enlace permanente'
+    }
+  }
+};
