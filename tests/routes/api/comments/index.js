@@ -168,15 +168,13 @@ describe('Get moderation queues rejected, pending, flags', () => {
       });
   });
 
-  it('should return all the flagged comments', function(done){
-    chai.request(app)
+  it('should return all the flagged comments', () => {
+    return chai.request(app)
       .get('/api/v1/comments/action/flag')
-      .end(function(err, res){
+      .then((res) => {
         expect(res).to.have.status(200);
-        expect(err).to.be.null;
         expect(res.body.length).to.equal(1);
         expect(res.body[0]).to.have.property('id', 'abc');
-        done();
       });
   });
 });
@@ -390,11 +388,6 @@ describe('Remove /:comment_id', () => {
         expect(comment).to.be.null;
       });
   });
-});
-
-process.on('unhandledRejection', (reason) => {
-  console.error('Reason: ');
-  console.error(reason);
 });
 
 describe('Post /:comment_id/status', () => {

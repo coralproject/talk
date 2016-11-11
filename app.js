@@ -52,6 +52,10 @@ if (app.get('env') === 'production') {
 
   // Enable the secure cookie when we are in production mode.
   session_opts.cookie.secure = true;
+} else if (app.get('env') === 'test') {
+
+  // Add in the secret during tests.
+  session_opts.secret = 'keyboard cat';
 }
 
 app.use(session(session_opts));
