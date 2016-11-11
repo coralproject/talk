@@ -1,8 +1,6 @@
 const express = require('express');
 const Comment = require('../../../models/comment');
 
-const Setting = require('../../../models/setting');
-
 const router = express.Router();
 
 //==============================================================================
@@ -25,11 +23,7 @@ router.get('/:comment_id', (req, res, next) => {
     .catch(next);
 });
 
-//==============================================================================
-// Moderation Queues Routes
-//==============================================================================
-
-// Get all the comments that have that action_type over them.
+// Get all the comments that have an action_type over them.
 router.get('/action/:action_type', (req, res, next) => {
   Comment
     .findByActionType(req.params.action_type)
@@ -41,34 +35,30 @@ router.get('/action/:action_type', (req, res, next) => {
 
 // Get all the comments that were rejected.
 router.get('/status/rejected', (req, res, next) => {
-  Comment
-    .findByStatus('rejected')
-    .then(comments => {
-      res.status(200).json(comments);
-    })
-    .catch(next);
+  Comment.findByStatus('rejected').then(comments => {
+    res.status(200).json(comments);
+  })
+  .catch(next);
 });
 
-// Returns back all the comments that are in the moderation queue. The moderation queue is pre or post moderated,
-// depending on the settings. The :moderation overwrites this settings.
-// Pre-moderation:  New comments are shown in the moderator queues immediately.
-// Post-moderation: New comments do not appear in moderation queues unless they are flagged by other users.
-router.get('/status/pending', (req, res, next) => {
-  
-  Setting
-    .getModerationSetting()
-    .then(({moderation}) => {
-      let moderationValue = req.query.moderation;
-      if (typeof moderationValue === 'undefined' || moderationValue === undefined) {
-        moderationValue = moderation;
-      }
-      Comment
-        .moderationQueue(moderationValue)
-        .then((comments) => {
-          res.status(200).json(comments);
-        });
-    })
-    .catch(next);
+// Get all the comments that were accepted.
+router.get('/status/accepted', (req, res, next) => {
+  Comment.findByStatus('accepted').then((comments) => {
+    res.status(200).json(comments);
+  })
+  .catch(error => {
+    next(error);
+  });
+});
+
+// Get all the not moderated comments.
+router.get('/status/new', (req, res, next) => {
+  Comment.findByStatus('').then((comments) => {
+    res.status(200).json(comments);
+  })
+  .catch(error => {
+    next(error);
+  });
 });
 
 //==============================================================================
@@ -76,9 +66,9 @@ router.get('/status/pending', (req, res, next) => {
 //==============================================================================
 
 router.post('/', (req, res, next) => {
-  
+
   const {body, author_id, asset_id, parent_id, status, username} = req.body;
-  
+
   Comment
     .new(body, author_id, asset_id, parent_id, status, username)
     .then((comment) => {

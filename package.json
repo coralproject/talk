@@ -99,6 +99,7 @@
     "react": "15.3.2",
     "react-dom": "15.3.2",
     "react-mdl": "^1.7.2",
+    "react-onclickoutside": "^5.7.1",
     "react-redux": "^4.4.5",
     "react-router": "^3.0.0",
     "redux": "^3.6.0",
