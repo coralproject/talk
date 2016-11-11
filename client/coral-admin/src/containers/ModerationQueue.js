@@ -73,7 +73,12 @@ class ModerationQueue extends React.Component {
             <CommentList
               isActive={activeTab === 'pending'}
               singleView={singleView}
-              commentIds={comments.get('ids').filter(id => !comments.get('byId').get(id).get('status'))}
+              commentIds={
+                comments.get('ids')
+                  .filter(id => !comments.get('byId')
+                  .get(id)
+                  .get('status'))
+              }
               comments={comments.get('byId')}
               onClickAction={(action, id) => this.onCommentAction(action, id)}
               actions={['reject', 'approve']}
@@ -83,7 +88,15 @@ class ModerationQueue extends React.Component {
             <CommentList
               isActive={activeTab === 'rejected'}
               singleView={singleView}
-              commentIds={comments.get('ids').filter(id => comments.get('byId').get(id).get('status') === 'rejected')}
+              commentIds={
+                comments
+                  .get('ids')
+                  .filter(id => 
+                    comments
+                      .get('byId')
+                      .get(id)
+                      .get('status') === 'rejected')
+              }
               comments={comments.get('byId')}
               onClickAction={(action, id) => this.onCommentAction(action, id)}
               actions={['approve']}
