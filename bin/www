@@ -13,27 +13,33 @@ process.env.DEBUG = process.env.TALK_DEBUG;
 const app = require('../app');
 const debug = require('debug')('talk:server');
 const http = require('http');
-
-/**
- * Get port from environment and store in Express.
- */
-
+const initPromise = require('../init');
 const port = normalizePort(process.env.TALK_PORT || '3000');
-app.set('port', port);
 
-/**
- * Create HTTP server.
- */
+let server;
 
-const server = http.createServer(app);
+initPromise
+  .then(() => {
+    /**
+    * Get port from environment and store in Express.
+    */
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+    app.set('port', port);
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+    /**
+    * Create HTTP server.
+    */
+
+    server = http.createServer(app);
+
+    /**
+    * Listen on provided port, on all network interfaces.
+    */
+
+    server.listen(port);
+    server.on('error', onError);
+    server.on('listening', onListening);
+  });
 
 /**
  * Normalize a port into a number, string, or false.

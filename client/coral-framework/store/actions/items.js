@@ -241,7 +241,8 @@ export function postAction (item_id, action_type, user_id, item_type) {
           return response.ok ? response.json()
           : Promise.reject(`${response.status} ${response.statusText}`);
         }
-      ).then((json)=>{
+      )
+      .then((json)=>{
         return json;
       });
   };

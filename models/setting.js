@@ -12,7 +12,15 @@ const SettingSchema = new Schema({
 });
 
 /**
- * gets the entire settings record and sends it back
+ * this is run once when the app starts to ensure settings are populated
+ * @return {Promise} null initialize the global settings object
+ */
+SettingSchema.statics.init = function (defaults) {
+  return this.update({id: '1'}, {$setOnInsert: defaults}, {upsert: true});
+};
+
+/**
+ * Gets the entire settings record and sends it back
  * @return {Promise} settings the whole settings record
  */
 SettingSchema.statics.getSettings = function () {
@@ -20,7 +28,7 @@ SettingSchema.statics.getSettings = function () {
 };
 
 /**
- * gets the moderation settings and sends it back
+ * Gets the moderation settings and sends it back
  * @return {Promise} moderation the settings for how to moderate comments
  */
 SettingSchema.statics.getModerationSetting = function () {
@@ -28,12 +36,13 @@ SettingSchema.statics.getModerationSetting = function () {
 };
 
 /**
- * this will update the settings object with whatever you pass in
+ * This will update the settings object with whatever you pass in
  * @param  {object} setting a hash of whatever settings you want to update
  * @return {Promise} settings Promise that resolves to the entire (updated) settings object.
  */
 SettingSchema.statics.updateSettings = function (setting) {
-  // there should only ever be one record unless something has gone wrong.
+  // There should only ever be one record unless something has gone wrong.
+  // In the future we may have multiple records for custom settings for objects/users.
   return this.findOneAndUpdate({id: '1'}, {$set: setting}, {new: true});
 };
 
