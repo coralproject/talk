@@ -5,10 +5,10 @@ const User = require('../../../models/user');
 router.get('/', (req, res, next) => {
   const {
     value = '',
-    limit = 50,
-    offset = 0,
     field = 'created_at',
-    asc = 'false'
+    page = 1,
+    asc = 'false',
+    limit = 50 // Total Per Page
     } = req.query;
 
   let q = {
@@ -31,14 +31,10 @@ router.get('/', (req, res, next) => {
     ]
   };
 
-  const buildSort = () => ({
-    [`${field}`]: (asc === 'true') ? 1 : -1
-  });
-
   Promise.all([
     User.find(q)
-      .sort(buildSort())
-      .skip(offset)
+      .sort({[`${field}`]: (asc === 'true') ? 1 : -1})
+      .skip((page - 1) * limit)
       .limit(limit),
     User.count()
   ])
@@ -54,10 +50,12 @@ router.get('/', (req, res, next) => {
 
     res.json({
       result: users,
+      limit: Number(limit),
       count,
-      limit,
-      offset
+      page: Number(page),
+      totalPages: Math.ceil(count / limit)
     });
+
   })
   .catch(next);
 });

@@ -13,7 +13,9 @@ const initialState = Map({
   error: '',
   commenters: [],
   field: 'created_at',
-  asc: false
+  asc: false,
+  totalPages: 0,
+  page: 0
 });
 
 export default function community (state = initialState, action) {
@@ -30,9 +32,10 @@ export default function community (state = initialState, action) {
       .set('isFetching', false)
       .set('error', '')
       .set('commenters', action.commenters)
-      .set('count', action.count)
       .set('limit', action.limit)
-      .set('offset', action.offset);
+      .set('page', action.page)
+      .set('totalPages', action.totalPages)
+      .set('count', action.count);
   case SORT_UPDATE :
     return state
       .set('field', action.sort.field)

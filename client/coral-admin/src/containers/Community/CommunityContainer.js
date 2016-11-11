@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {fetchCommenters, updateSorting} from '../../actions/community';
+import {
+  fetchCommenters,
+  updateSorting,
+  newPage,
+} from '../../actions/community';
 
 import Community from './Community';
 
@@ -15,6 +19,7 @@ class CommunityContainer extends Component {
     this.onKeyDownHandler = this.onKeyDownHandler.bind(this);
     this.onChangeHandler = this.onChangeHandler.bind(this);
     this.onHeaderClickHandler = this.onHeaderClickHandler.bind(this);
+    this.onNewPageHandler = this.onNewPageHandler.bind(this);
   }
 
   onKeyDownHandler(e) {
@@ -50,6 +55,11 @@ class CommunityContainer extends Component {
     this.search();
   }
 
+  onNewPageHandler(page) {
+    this.props.dispatch(newPage(page));
+    this.search({page});
+  }
+
   render() {
     const {searchValue} = this.state;
     const {community} = this.props;
@@ -59,9 +69,8 @@ class CommunityContainer extends Component {
         commenters={community.get('commenters')}
         isFetching={community.get('isFetching')}
         error={community.get('error')}
-        count={community.get('count')}
-        offset={community.get('offset')}
-        limit={community.get('limit')}
+        totalPages={community.get('totalPages')}
+        page={community.get('page')}
         {...this}
       />
     );
