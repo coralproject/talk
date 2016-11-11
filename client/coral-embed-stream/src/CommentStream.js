@@ -108,6 +108,7 @@ class CommentStream extends Component {
               appendItemArray={this.props.appendItemArray}
               updateItem={this.props.updateItem}
               id={rootItemId}
+              premod={this.props.config.moderation}
               reply={false}/>
           </div>
           {
@@ -138,6 +139,7 @@ class CommentStream extends Component {
                     updateItem={this.props.updateItem}
                     id={rootItemId}
                     parent_id={commentId}
+                    premod={this.props.config.moderation}
                     showReply={comment.showReply}/>
                   {
                     comment.children &&
@@ -168,7 +170,7 @@ class CommentStream extends Component {
             })
           }
           <Notification
-            notifLength={this.props.config.notifLength}
+            notifLength={4500}
             clearNotification={this.props.clearNotification}
             notification={this.props.notification}/>
         </div>

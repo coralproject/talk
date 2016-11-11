@@ -14,17 +14,24 @@ export const FETCH_CONFIG_SUCCESS = 'FETCH_CONFIG_SUCCESS';
  * Action creators
  */
 
-export const fetchConfig = () => async (dispatch) => {
-  dispatch({type: FETCH_CONFIG_REQUEST});
+export function fetchConfig () {
+  return (dispatch) => {
+    
+    dispatch({type: FETCH_CONFIG_REQUEST});
 
-  try {
-    //TODO: Replace with fetching config from backend
-    // const response = await fetch(`./talk.config.json`)
-    // const json = await response.json()
-    dispatch({type: FETCH_CONFIG_SUCCESS, config: fromJS({
-      notifLength: 4500
-    })});
-  } catch (error) {
-    dispatch({type: FETCH_CONFIG_FAILED});
-  }
-};
+    return fetch('/api/v1/settings')
+      .then(
+        response => {
+          return response.ok ? response.json()
+          : Promise.reject(`${response.status} ${response.statusText}`);
+        }
+      )
+      .then((json) => {
+        return dispatch({type: FETCH_CONFIG_SUCCESS, config: fromJS(json)});
+      })
+      .catch((error) => {
+        dispatch({type: FETCH_CONFIG_FAILED, error});
+      });
+
+  };
+}

@@ -43,11 +43,13 @@ describe('update settings', () => {
 
           return Setting.getSettings();
 
-        }).then(settings => {
+        })
+        .then(settings => {
           // confirm updated settings in db
           expect(settings).to.have.property('moderation');
           expect(settings.moderation).to.equal('post');
-        }).catch(err => {
+        })
+        .catch(err => {
           throw err;
         });
     });

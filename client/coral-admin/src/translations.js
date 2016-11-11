@@ -1,5 +1,9 @@
 export default {
   en: {
+    'community': {
+      username_and_email: 'Username and Email',
+      account_creation_date: 'Account Creation Date'
+    },
     'modqueue': {
       'pending': 'pending',
       'rejected': 'rejected',
@@ -24,6 +28,10 @@ export default {
     }
   },
   es: {
+    'community': {
+      username_and_email: 'Usuario y E-mail',
+      account_creation_date: 'Fecha de creación de la cuenta'
+    },
     'modqueue': {
       'pending': 'pendiente',
       'rejected': 'rechazado',

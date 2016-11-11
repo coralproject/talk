@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {I18n} from '../coral-framework';
+import translations from './translations.json';
 
 const name = 'coral-plugin-commentbox';
 
@@ -19,7 +20,7 @@ class CommentBox extends Component {
   }
 
   postComment = () => {
-    const {postItem, updateItem, id, parent_id, addNotification, appendItemArray} = this.props;
+    const {postItem, updateItem, id, parent_id, addNotification, appendItemArray, premod} = this.props;
     let comment = {
       body: this.state.body,
       asset_id: id,
@@ -38,9 +39,14 @@ class CommentBox extends Component {
     updateItem(parent_id, 'showReply', false, 'comments');
     postItem(comment, 'comments')
     .then((comment_id) => {
-      appendItemArray(parent_id || id, related, comment_id, !parent_id, parent_type);
-      addNotification('success', 'Your comment has been posted.');
-    }).catch((err) => console.error(err));
+      if (premod === 'pre') {
+        addNotification('success', lang.t('comment-post-notif-premod'));
+      } else {
+        appendItemArray(parent_id || id, related, comment_id, !parent_id, parent_type);
+        addNotification('success', 'Your comment has been posted.');
+      }
+    })
+    .catch((err) => console.error(err));
     this.setState({body: ''});
   }
 
@@ -54,7 +60,7 @@ class CommentBox extends Component {
           style={styles && styles.textarea}
           value={this.state.username}
           id={reply ? 'replyUser' : 'commentUser'}
-          placeholder='Name'
+          placeholder={lang.t('name')}
           onChange={(e) => this.setState({username: e.target.value})}/>
       </div>
       <div
@@ -69,7 +75,7 @@ class CommentBox extends Component {
             className={`${name}-textarea`}
             style={styles && styles.textarea}
             value={this.state.body}
-            placeholder='Comment'
+            placeholder={lang.t('comment')}
             id={reply ? 'replyText' : 'commentText'}
             onChange={(e) => this.setState({body: e.target.value})}
             rows={3}/>
@@ -88,15 +94,4 @@ class CommentBox extends Component {
 
 export default CommentBox;
 
-const lang = new I18n({
-  en: {
-    post: 'Post',
-    reply: 'Reply',
-    comment: 'Comment',
-  },
-  es: {
-    post: 'Publicar',
-    reply: 'Respuesta',
-    comment: 'Comentario'
-  }
-});
+const lang = new I18n(translations);
