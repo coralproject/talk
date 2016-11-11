@@ -25,6 +25,11 @@ const UserSchema = new mongoose.Schema({
     }
   }],
   roles: [String]
+}, {
+  timestamps: {
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+  }
 });
 
 // Add the indixies on the user profile data.
@@ -43,6 +48,22 @@ UserSchema.index({
 UserSchema.options.toJSON = {};
 UserSchema.options.toJSON.hide = 'password profiles roles disabled';
 UserSchema.options.toJSON.transform = (doc, ret, options) => {
+  if (options.hide) {
+    options.hide.split(' ').forEach((prop) => {
+      delete ret[prop];
+    });
+  }
+
+  return ret;
+};
+
+/**
+ * toObject overrides to remove the password field from the toObject
+ * output.
+ */
+UserSchema.options.toObject = {};
+UserSchema.options.toObject.hide = 'password';
+UserSchema.options.toObject.transform = (doc, ret, options) => {
   if (options.hide) {
     options.hide.split(' ').forEach((prop) => {
       delete ret[prop];
