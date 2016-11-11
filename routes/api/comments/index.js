@@ -54,7 +54,7 @@ router.get('/status/rejected', (req, res, next) => {
 // Pre-moderation:  New comments are shown in the moderator queues immediately.
 // Post-moderation: New comments do not appear in moderation queues unless they are flagged by other users.
 router.get('/status/pending', (req, res, next) => {
-  
+
   Setting
     .getModerationSetting()
     .then(({moderation}) => {
@@ -76,9 +76,9 @@ router.get('/status/pending', (req, res, next) => {
 //==============================================================================
 
 router.post('/', (req, res, next) => {
-  
+
   const {body, author_id, asset_id, parent_id, status, username} = req.body;
-  
+
   Comment
     .new(body, author_id, asset_id, parent_id, status, username)
     .then((comment) => {
@@ -109,7 +109,7 @@ router.post('/:comment_id', (req, res, next) => {
 });
 
 router.post('/:comment_id/status', (req, res, next) => {
-  
+
   Comment
     .changeStatus(req.params.comment_id, req.body.status)
     .then(comment => res.status(200).send(comment))
@@ -135,6 +135,17 @@ router.post('/:comment_id/actions', (req, res, next) => {
 router.delete('/:comment_id', (req, res, next) => {
   Comment
     .removeById(req.params.comment_id)
+    .then(() => {
+      res.status(201).send('OK. Removed');
+    })
+    .catch(error => {
+      next(error);
+    });
+});
+
+router.delete('/:comment_id/actions', (req, res, next) => {
+  Comment
+    .removeAction(req.params.comment_id, req.body.user_id, req.body.action_type)
     .then(() => {
       res.status(201).send('OK. Removed');
     })

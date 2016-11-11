@@ -104,14 +104,14 @@ CommentSchema.statics.findByStatusByActionType = function(status, action_type) {
   return Action
     .findCommentsIdByActionType(action_type, 'comment')
     .then((actions) => {
-      
+
       return Comment.find({
-        'status': status, 
+        'status': status,
         'id': {
           '$in': actions.map(a => {
             return a.item_id;
           })
-        }     
+        }
       });
 
     });
@@ -186,6 +186,21 @@ CommentSchema.statics.addAction = function(id, user_id, action_type) {
 */
 CommentSchema.statics.removeById = function(id) {
   return Comment.remove({'id': id});
+};
+
+/**
+ * Remove an action from the comment.
+ * @param {String} id  identifier of the comment  (uuid)
+ * @param {String} action_type the type of the action to be removed
+ * @param {String} user_id the id of the user performing the action
+*/
+CommentSchema.statics.removeAction = function(id, user_id, action_type) {
+  return Action.remove({
+    action_type: action_type,
+    item_type: 'comment',
+    item_id: id,
+    user_id: user_id
+  });
 };
 
 const Comment = mongoose.model('Comment', CommentSchema);
