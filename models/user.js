@@ -12,6 +12,7 @@ const UserSchema = new mongoose.Schema({
     required: true
   },
   displayName: String,
+  photo: String,
   disabled: Boolean,
   password: String,
   profiles: [{
@@ -139,6 +140,7 @@ UserSchema.statics.findOrCreateExternalUser = function(profile) {
     user = new User({
       displayName: profile.displayName,
       roles: [],
+      photo: Array.isArray(profile.photos) && profile.photos.length > 0 ? profile.photos[0].value : null,
       profiles: [
         {
           id: profile.id,

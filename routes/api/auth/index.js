@@ -14,7 +14,7 @@ router.get('/', authorization.needed(), (req, res) => {
 /**
  * This destroys the session of a user, if they have one.
  */
-router.delete('/', authorization.needed(), (req, res) => {
+router.delete('/', (req, res) => {
   req.session.destroy(() => {
     res.status(204).end();
   });
@@ -79,7 +79,7 @@ router.post('/local', (req, res, next) => {
  * Facebook auth endpoint, this will redirect the user immediatly to facebook
  * for authorization.
  */
-router.get('/facebook', passport.authenticate('facebook', {display: 'popup'}));
+router.get('/facebook', passport.authenticate('facebook', {display: 'popup', authType: 'rerequest', scope: ['public_profile']}));
 
 /**
  * Facebook callback endpoint, this will send the user a html page designed to
