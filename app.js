@@ -38,6 +38,7 @@ const session_opts = {
   rolling: true,
   saveUninitialized: false,
   resave: false,
+  name: 'talk.sid',
   cookie: {
     secure: false,
     maxAge: 18000000, // 30 minutes for expiry.
