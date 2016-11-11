@@ -10,11 +10,11 @@ import {
 
 import {base, getInit, handleResp} from '../helpers/response';
 
-export const fetchCommenters = (query = {}) => (dispatch) => {
+export const fetchCommenters = (query = {}) => dispatch => {
   dispatch(requestFetchCommenters());
   fetch(`${base}/user?${qs.stringify(query)}`, getInit('GET'))
     .then(handleResp)
-    .then(({result, page, count, limit, totalPages}) => {
+    .then(({result, page, count, limit, totalPages}) =>
       dispatch({
         type: FETCH_COMMENTERS_SUCCESS,
         commenters: result,
@@ -22,9 +22,10 @@ export const fetchCommenters = (query = {}) => (dispatch) => {
         count,
         limit,
         totalPages
-      });
-    })
-    .catch((error) => {
+      })
+    )
+    .catch(error => {
+      console.log(error);
       dispatch({type: FETCH_COMMENTERS_FAILURE, error});
     });
 };
@@ -33,7 +34,7 @@ const requestFetchCommenters = () => ({
   type: FETCH_COMMENTERS_REQUEST
 });
 
-export const updateSorting = (sort) => ({
+export const updateSorting = sort => ({
   type: SORT_UPDATE,
   sort
 });

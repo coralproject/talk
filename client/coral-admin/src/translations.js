@@ -29,7 +29,7 @@ export default {
   },
   es: {
     'community': {
-      username_and_email: 'Usuario e E-Mail',
+      username_and_email: 'Usuario y E-mail',
       account_creation_date: 'Fecha de creación de la cuenta'
     },
     'modqueue': {

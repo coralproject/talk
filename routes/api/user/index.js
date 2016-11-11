@@ -33,7 +33,7 @@ router.get('/', (req, res, next) => {
 
   Promise.all([
     User.find(q)
-      .sort({[`${field}`]: (asc === 'true') ? 1 : -1})
+      .sort({[field]: (asc === 'true') ? 1 : -1})
       .skip((page - 1) * limit)
       .limit(limit),
     User.count()

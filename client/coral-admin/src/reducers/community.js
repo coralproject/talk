@@ -27,15 +27,16 @@ export default function community (state = initialState, action) {
     return state
       .set('isFetching', false)
       .set('error', action.error);
-  case FETCH_COMMENTERS_SUCCESS :
+  case FETCH_COMMENTERS_SUCCESS : {
+    const {commenters, type, ...rest} = action; // eslint-disable-line
     return state
-      .set('isFetching', false)
-      .set('error', '')
-      .set('commenters', action.commenters)
-      .set('limit', action.limit)
-      .set('page', action.page)
-      .set('totalPages', action.totalPages)
-      .set('count', action.count);
+      .merge({
+        isFetching: false,
+        error: '',
+        ...rest
+      })
+      .set('commenters', commenters); // Sets to normal array
+  }
   case SORT_UPDATE :
     return state
       .set('field', action.sort.field)

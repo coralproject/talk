@@ -1,19 +1,12 @@
 import React, {PropTypes} from 'react';
 import styles from './Pager.css';
 
-const Rows = (curr, total, onClickHandler) => {
-  let items = [];
-  for (let i = 1; i <= total; i++) {
-    items[i] = <li
-      className={`mdl-button mdl-js-button ${styles.li} ${curr === i ? styles.current : ''}`}
-      key={i}
-      onClick={() => onClickHandler(i)}
-    >
-      {i}
-    </li>;
-  }
-  return items;
-};
+const Rows = (curr, total, onClickHandler) => Array.from(Array(total)).map((e, i) =>
+  <li className={`mdl-button mdl-js-button ${styles.li} ${curr === i ? styles.current : ''}`}
+      key={i} onClick={() => onClickHandler(i + 1)}>
+    {i + 1}
+  </li>
+);
 
 const Pager = ({totalPages, page, onNewPageHandler}) => (
   <div className="pager">

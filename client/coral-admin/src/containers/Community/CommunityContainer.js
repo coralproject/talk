@@ -13,7 +13,7 @@ class CommunityContainer extends Component {
     super(props);
 
     this.state = {
-      searchValue: '',
+      searchValue: ''
     };
 
     this.onKeyDownHandler = this.onKeyDownHandler.bind(this);
