@@ -71,10 +71,12 @@ function createUser(options) {
   })
   .then((result) => {
     return User.createLocalUser(result.email.trim(), result.password.trim(), result.displayName.trim());
-  }).then((user) => {
+  })
+  .then((user) => {
     console.log(`Created user ${user.id}.`);
     mongoose.disconnect();
-  }).catch((err) => {
+  })
+  .catch((err) => {
     console.error(err);
     mongoose.disconnect();
   });
@@ -249,7 +251,8 @@ function mergeUsers(dstUserID, srcUserID) {
     .then(() => {
       console.log(`User ${srcUserID} was merged into user ${dstUserID}.`);
       mongoose.disconnect();
-    }).catch((err) => {
+    })
+    .catch((err) => {
       console.error(err);
       mongoose.disconnect();
     });

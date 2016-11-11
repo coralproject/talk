@@ -17,9 +17,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // Routes.
-app.use('/api/v1', require('./routes/api'));
 app.use('/client', express.static(path.join(__dirname, 'dist')));
-app.use('/admin', require('./routes/admin'));
+app.use('/', require('./routes'));
 
 //==============================================================================
 // ERROR HANDLING
