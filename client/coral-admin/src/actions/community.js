@@ -38,8 +38,7 @@ export const updateSorting = (sort) => ({
   sort
 });
 
-export const newPage = (page) => ({
-  type: COMMENTERS_NEW_PAGE,
-  page
+export const newPage = () => ({
+  type: COMMENTERS_NEW_PAGE
 });
 
