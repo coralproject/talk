@@ -79,7 +79,7 @@ router.post('/local', (req, res, next) => {
  * Facebook auth endpoint, this will redirect the user immediatly to facebook
  * for authorization.
  */
-router.get('/facebook', passport.authenticate('facebook'));
+router.get('/facebook', passport.authenticate('facebook', {display: 'popup'}));
 
 /**
  * Facebook callback endpoint, this will send the user a html page designed to
