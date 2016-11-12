@@ -4,7 +4,7 @@ import translations from './translations.json';
 
 const name = 'coral-plugin-flags';
 
-const FlagButton = ({flag, id, postAction, addItem, updateItem, addNotification}) => {
+const FlagButton = ({flag, id, postAction, deleteAction, addItem, updateItem, addNotification}) => {
   const flagged = flag && flag.current_user;
   const onFlagClick = () => {
     if (!flagged) {
@@ -14,17 +14,23 @@ const FlagButton = ({flag, id, postAction, addItem, updateItem, addNotification}
           updateItem(action.item_id, action.action_type, action.id, 'comments');
         });
       addNotification('success', lang.t('flag-notif'));
+    } else {
+      deleteAction(id, 'flag', '123', 'comments')
+        .then(() => {
+          updateItem(id, 'flag', '', 'comments');
+        });
+      addNotification('success', lang.t('flag-notif-remove'));
     }
   };
 
-  return <div className={`${name  }-container`}>
-    <button onClick={onFlagClick} className={`${name  }-button`}>
+  return <div className={`${name}-container`}>
+    <button onClick={onFlagClick} className={`${name}-button`}>
       {
         flagged
         ? <span className={`${name}-button-text`}>{lang.t('flagged')}</span>
       : <span className={`${name}-button-text`}>{lang.t('flag')}</span>
       }
-      <i className={`${name  }-icon material-icons ${flagged && 'flaggedIcon'}`}
+      <i className={`${name}-icon material-icons ${flagged && 'flaggedIcon'}`}
         style={flagged && styles.flaggedIcon}
         aria-hidden={true}>flag</i>
     </button>

@@ -162,6 +162,24 @@ describe('itemActions', () => {
           expect(err).to.be.truthy;
         });
     });
+  });
 
+  describe('deleteAction', () => {
+    it ('should remove an action', () => {
+      fetchMock.delete('*', 'Action removed.');
+      return actions.deleteAction('abc', 'flag', '123', 'comments')(store.dispatch)
+        .then(response => {
+          expect(fetchMock.calls().matched[0][0]).to.equal('/api/v1/comments/abc/actions');
+          expect(response).to.equal('Action removed.');
+        });
+    });
+
+    it('should handle an error', () => {
+      fetchMock.post('*', 404);
+      return actions.postAction('abc', 'flag', '123')(store.dispatch)
+        .catch((err) => {
+          expect(err).to.be.truthy;
+        });
+    });
   });
 });

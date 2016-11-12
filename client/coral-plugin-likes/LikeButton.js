@@ -4,7 +4,7 @@ import translations from './translations.json';
 
 const name = 'coral-plugin-flags';
 
-const LikeButton = ({like, id, postAction, addItem, updateItem}) => {
+const LikeButton = ({like, id, postAction, deleteAction, addItem, updateItem}) => {
   const liked = like && like.current_user;
   const onLikeClick = () => {
     if (!liked) {
@@ -12,6 +12,12 @@ const LikeButton = ({like, id, postAction, addItem, updateItem}) => {
         .then((action) => {
           addItem({id: action.id, current_user:true, count: like ? like.count + 1 : 1}, 'actions');
           updateItem(action.item_id, action.action_type, action.id, 'comments');
+        });
+    } else {
+      deleteAction(id, 'like', '123', 'comments')
+        .then(() => {
+          updateItem(like.id, 'count', like.count - 1, 'actions');
+          updateItem(like.id, 'current_user', false, 'actions');
         });
     }
   };
@@ -25,7 +31,7 @@ const LikeButton = ({like, id, postAction, addItem, updateItem}) => {
       }
       <i className={`${name}-icon material-icons`}
         aria-hidden={true}>thumb_up</i>
-      <span className={`${name}-like-count`}>{like && like.count}</span>
+      <span className={`${name}-like-count`}>{like && like.count > 0 && like.count}</span>
     </button>
   </div>;
 };

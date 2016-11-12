@@ -16,7 +16,7 @@ import Pym from 'pym.js';
 import FlagButton from '../../coral-plugin-flags/FlagButton';
 import LikeButton from '../../coral-plugin-likes/LikeButton';
 
-const {addItem, updateItem, postItem, getStream, postAction, appendItemArray} = itemActions;
+const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appendItemArray} = itemActions;
 const {addNotification, clearNotification} = notificationActions;
 const {setLoggedInUser} = authActions;
 
@@ -54,6 +54,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     postAction: (item, action, user, itemType) => {
       return dispatch(postAction(item, action, user, itemType));
+    },
+    deleteAction: (item, action, user, itemType) => {
+      return dispatch(deleteAction(item, action, user, itemType));
     },
     appendItemArray: (item, property, value, addToFront, itemType) => {
       return dispatch(appendItemArray(item, property, value, addToFront, itemType));
@@ -129,6 +132,7 @@ class CommentStream extends Component {
                     id={commentId}
                     like={this.props.items.actions[comment.like]}
                     postAction={this.props.postAction}
+                    deleteAction={this.props.deleteAction}
                     addItem={this.props.addItem}
                     updateItem={this.props.updateItem}
                     currentUser={this.props.auth.user}/>
@@ -139,6 +143,7 @@ class CommentStream extends Component {
                     id={commentId}
                     flag={this.props.items.actions[comment.flag]}
                     postAction={this.props.postAction}
+                    deleteAction={this.props.deleteAction}
                     addItem={this.props.addItem}
                     updateItem={this.props.updateItem}
                     currentUser={this.props.auth.user}/>
@@ -170,6 +175,7 @@ class CommentStream extends Component {
                               id={replyId}
                               like={this.props.items.actions[reply.like]}
                               postAction={this.props.postAction}
+                              deleteAction={this.props.deleteAction}
                               addItem={this.props.addItem}
                               updateItem={this.props.updateItem}
                               currentUser={this.props.auth.user}/>
@@ -180,6 +186,7 @@ class CommentStream extends Component {
                               id={replyId}
                               flag={this.props.items.actions[reply.flag]}
                               postAction={this.props.postAction}
+                              deleteAction={this.props.deleteAction}
                               addItem={this.props.addItem}
                               updateItem={this.props.updateItem}
                               currentUser={this.props.auth.user}/>

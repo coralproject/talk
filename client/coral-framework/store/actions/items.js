@@ -241,9 +241,45 @@ export function postAction (item_id, action_type, user_id, item_type) {
           return response.ok ? response.json()
           : Promise.reject(`${response.status} ${response.statusText}`);
         }
-      )
-      .then((json)=>{
-        return json;
-      });
+      );
+  };
+}
+
+/*
+* DeleteAction
+* Deletes an action to an item
+*
+* @params
+*   id - the id of the item on which the action is taking place
+*   action - the name of the action
+*   user - the user performing the action
+*   host - the coral host
+*
+* @returns
+*   A promise resolving to null or an error
+*
+*/
+
+export function deleteAction (item_id, action_type, user_id, item_type) {
+  return () => {
+    const action = {
+      action_type,
+      user_id
+    };
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify(action)
+    };
+
+    return fetch(`/api/v1/${item_type}/${item_id}/actions`, options)
+      .then(
+        response => {
+          return response.ok ? response.text()
+          : Promise.reject(`${response.status} ${response.statusText}`);
+        }
+      );
   };
 }
