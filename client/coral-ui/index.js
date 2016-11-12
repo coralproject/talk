@@ -1,1 +1,1 @@
-export { default as Dialog } from './components/Dialog';
+export {default as Dialog} from './components/Dialog';

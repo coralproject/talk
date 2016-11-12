@@ -12,7 +12,6 @@
     font-family: 'Roboto','Helvetica','Arial',sans-serif;
     font-size: 14px;
     font-weight: 500;
-    text-transform: uppercase;
     letter-spacing: 0;
     overflow: hidden;
     will-change: box-shadow,transform;
@@ -24,20 +23,27 @@
     text-align: center;
     line-height: 36px;
     vertical-align: middle;
+    width: 100%;
+    margin: 0;
 }
 
-.local {
+.type--black {
+    color: #E0E0E0;
+    background: #212121;
+}
+
+.type--local {
     background: #E0E0E0;
     color: #212121;
 }
 
-.facebook {
+.type--facebook {
     background-color: #4267b2;
     border-color: #4267b2;
     color: rgb(255, 255, 255);
 }
 
-.facebook:hover {
+.type--facebook:hover {
     background-color: #365899;
     border-color: #365899;
 }
@@ -45,4 +51,57 @@
 .dialog {
     width: 400px;
     border: none;
+    border: none;
+    box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
+    width: 280px;
+}
+
+.header {
+    margin-bottom: 20px;
+}
+
+.header h1, .separator h1{
+    text-align: center;
+    font-size: 1.2em;
+}
+
+.formField label {
+    font-size: 1.08em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.formField input {
+    width: 100%;
+    display: block;
+    border: none;
+    outline: none;
+    border: 1px solid rgba(0,0,0,.12);
+    padding: 10px 6px;
+    box-sizing: border-box;
+    border-radius: 2px;
+    margin: 5px auto;
+}
+
+.footer {
+    margin: 20px auto 10px;
+    text-align: center;
+}
+
+.footer span {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.footer a {
+    color: #2c69b6;
+    cursor: pointer;
+}
+
+.socialConnections {
+    margin-bottom: 20px;
+}
+
+.signInButton {
+    margin-top: 10px;
 }

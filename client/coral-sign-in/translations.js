@@ -1,14 +1,38 @@
 export default {
   en: {
     'signIn': {
-      facebookLogin: 'Continue with Facebook',
-      logout: 'Logout'
+      facebookSignIn: 'Sign in with Facebook',
+      facebookSignUp: 'Sign up with Facebook',
+      logout: 'Logout',
+      signIn: 'Sign In',
+      or: 'Or',
+      email: 'E-mail Address',
+      password: 'Password',
+      forgotYourPass: 'Forgot your password?',
+      needAnAccount: 'Need an account?',
+      register: 'Register',
+      signUp: 'Sign Up',
+      confirmPassword: 'Confirm Password',
+      username: 'Username',
+      alreadyHaveAnAccount: 'Already have an account?'
     }
   },
   es: {
     'signIn': {
-      facebookLogin: 'Continuar con Facebook',
-      logout: 'Salir'
+      facebookSignIn: 'Entrar con Facebook',
+      facebookSignUp: 'Regístrate con Facebook',
+      logout: 'Salir',
+      signIn: 'Entrar',
+      or: 'o',
+      email: 'E-mail',
+      password: 'Contraseña',
+      forgotYourPass: 'Has olvidado tu contraseña?',
+      needAnAccount: 'Necesitas una cuenta?',
+      register: 'Regístrate',
+      signUp: 'Registro',
+      confirmPassword: 'Confirmar Contraseña',
+      username: 'Usuario',
+      alreadyHaveAnAccount: 'Ya tienes una cuenta?'
     }
   }
 };

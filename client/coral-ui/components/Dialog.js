@@ -47,7 +47,7 @@ export default class Dialog extends Component {
   }
 
   render() {
-    const { children, className = '', onClose, onCancel, open, ...rest } = this.props;
+    const {children, className = '', onClose, onCancel, open, ...rest} = this.props; // eslint-disable-line
 
     return (
       <dialog
@@ -57,6 +57,6 @@ export default class Dialog extends Component {
       >
           {children}
       </dialog>
-    )
+    );
   }
 }

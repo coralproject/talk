@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import SignIn from '../components/SignIn';
-import SignInDialog from '../components/SignInDialog';
+import SignDialog from '../components/SignDialog';
 import Button from '../components/Button';
 
 import {
   loginFacebookCallback,
   loginFacebook,
   logout,
-  showSignInDialog
+  showSignInDialog,
+  goTo,
 } from '../../coral-framework/actions/auth';
 
 class SignInContainer extends Component {
@@ -19,6 +19,7 @@ class SignInContainer extends Component {
     this.openFacebookWindow = this.openFacebookWindow.bind(this);
     this.openSignInDialog = this.openSignInDialog.bind(this);
     this.logout = this.logout.bind(this);
+    this.goTo = this.goTo.bind(this);
   }
 
   componentDidMount() {
@@ -37,6 +38,10 @@ class SignInContainer extends Component {
     this.props.dispatch(showSignInDialog());
   }
 
+  goTo(step = 1) {
+    this.props.dispatch(goTo(step));
+  }
+
   render() {
     const {auth} = this.props;
     return (
@@ -44,9 +49,11 @@ class SignInContainer extends Component {
         <Button onClick={this.openSignInDialog}>
           Sign in to comment
         </Button>
-        <SignInDialog
+        <SignDialog
           openFacebookWindow={this.openFacebookWindow}
           open={auth.get('showSignInDialog')}
+          step={auth.get('step')}
+          goTo={this.goTo}
         />
       </div>
     );
