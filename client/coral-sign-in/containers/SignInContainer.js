@@ -10,6 +10,7 @@ import {
   logout,
   showSignInDialog,
   changeView,
+  hideSignInDialog
 } from '../../coral-framework/actions/auth';
 
 class SignInContainer extends Component {
@@ -38,16 +39,15 @@ class SignInContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  auth: state.auth
-});
+const mapStateToProps = ({auth}) => ({auth});
 
 const mapDispatchToProps = dispatch => ({
   loginFacebookCallback: () => dispatch(loginFacebookCallback()),
   loginFacebook: () => dispatch(loginFacebook()),
   logout: () => dispatch(logout()),
   showSignInDialog: () => dispatch(showSignInDialog()),
-  changeView: (view) => dispatch(changeView(view))
+  changeView: (view) => dispatch(changeView(view)),
+  onClose: () => dispatch(hideSignInDialog())
 });
 
 export default connect(

@@ -14,7 +14,8 @@ export default {
       signUp: 'Sign Up',
       confirmPassword: 'Confirm Password',
       username: 'Username',
-      alreadyHaveAnAccount: 'Already have an account?'
+      alreadyHaveAnAccount: 'Already have an account?',
+      recoverPassword: 'Recover password'
     }
   },
   es: {
@@ -32,7 +33,8 @@ export default {
       signUp: 'Registro',
       confirmPassword: 'Confirmar Contraseña',
       username: 'Usuario',
-      alreadyHaveAnAccount: 'Ya tienes una cuenta?'
+      alreadyHaveAnAccount: 'Ya tienes una cuenta?',
+      recoverPassword: 'Recuperar contraseña'
     }
   }
 };
