@@ -1,5 +1,5 @@
 import * as actions from '../constants/auth';
-import {base, handleResp} from '../helpers';
+import {base, handleResp, getInit} from '../helpers';
 
 export const loginFacebook = () => dispatch => {
   dispatch(loginFacebookRequest());
@@ -30,10 +30,7 @@ export const loginFacebookCallback = (err, data) => {
 
 export const logout = () => dispatch => {
   dispatch(logoutRequest());
-  fetch(`${base}/api/v1/auth`, {
-    method: 'DELETE',
-    credentials: 'same-origin'
-  })
+  fetch(`${base}/auth`, getInit('DELETE'))
   .then(handleResp)
   .then(() => dispatch(dispatch(logoutSuccess())))
   .catch(error => dispatch(logoutFailure(error)));
@@ -44,7 +41,7 @@ const logoutRequest = () => ({
 });
 
 const logoutSuccess = () => ({
-  type: actions.USER_LOGOUT_SUCCESS
+  type: actions.USER_LOGOUT_SUCCESS,
 });
 
 const logoutFailure = (error) => ({
