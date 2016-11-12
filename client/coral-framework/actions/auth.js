@@ -52,7 +52,7 @@ const logoutSuccess = () => ({
   type: actions.USER_LOGOUT_SUCCESS,
 });
 
-const logoutFailure = (error) => ({
+const logoutFailure = error => ({
   type: actions.USER_LOGOUT_SUCCESS,
   error
 });
@@ -65,27 +65,9 @@ export const loginRequest = () => ({
   type: actions.USER_SIGNIN_REQUEST
 });
 
-const showSignInForm = () => ({
-  type: actions.SHOW_SIGNIN_FORM
-});
+export const changeView = view => dispatch =>
+  dispatch({
+    type: actions.CHANGE_VIEW,
+    view
+  });
 
-const showSignUpForm = () => ({
-  type: actions.SHOW_SIGNUP_FORM
-});
-
-const newStep = (step) => ({
-  type: actions.NEW_STEP,
-  step
-});
-
-export const goTo = (step) => dispatch => {
-  dispatch(newStep(step));
-  switch (step) {
-  case 1 :
-    return dispatch(showSignInForm());
-  case 2 :
-    return dispatch(showSignUpForm());
-  default :
-    return dispatch(showSignInForm());
-  }
-};

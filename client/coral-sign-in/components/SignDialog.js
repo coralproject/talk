@@ -5,10 +5,10 @@ import styles from './styles.css';
 import SignInContent from './SignInContent';
 import SingUpContent from './SignUpContent';
 
-const SignDialog = ({open, step, ...props}) => (
+const SignDialog = ({open, view, ...props}) => (
   <Dialog className={styles.dialog} open={open}>
-    {step === 1 && <SignInContent {...props} />}
-    {step === 2 && <SingUpContent {...props} />}
+    {view === 'SIGNIN' && <SignInContent {...props} />}
+    {view === 'SIGNUP' && <SingUpContent {...props} />}
   </Dialog>
 );
 

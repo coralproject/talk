@@ -3,7 +3,7 @@ import {Map} from 'immutable';
 import {
   SHOW_SIGNIN_DIALOG,
   HIDE_SIGNIN_DIALOG,
-  NEW_STEP
+  CHANGE_VIEW
 } from '../constants/auth';
 
 const initialState = Map({
@@ -12,7 +12,7 @@ const initialState = Map({
   error: '',
   user: {},
   showSignInDialog: false,
-  step: 1
+  view: 'SIGNIN'
 });
 
 export default function community (state = initialState, action) {
@@ -23,9 +23,9 @@ export default function community (state = initialState, action) {
   case HIDE_SIGNIN_DIALOG :
     return state
       .set('showSignInDialog', false);
-  case NEW_STEP :
+  case CHANGE_VIEW :
     return state
-      .set('step', action.step);
+      .set('view', action.view);
   default :
     return state;
   }

@@ -9,7 +9,7 @@ import {
   loginFacebook,
   logout,
   showSignInDialog,
-  goTo,
+  changeView,
 } from '../../coral-framework/actions/auth';
 
 class SignInContainer extends Component {
@@ -19,7 +19,7 @@ class SignInContainer extends Component {
     this.openFacebookWindow = this.openFacebookWindow.bind(this);
     this.openSignInDialog = this.openSignInDialog.bind(this);
     this.logout = this.logout.bind(this);
-    this.goTo = this.goTo.bind(this);
+    this.changeView = this.changeView.bind(this);
   }
 
   componentDidMount() {
@@ -38,8 +38,8 @@ class SignInContainer extends Component {
     this.props.dispatch(showSignInDialog());
   }
 
-  goTo(step = 1) {
-    this.props.dispatch(goTo(step));
+  changeView(view) {
+    this.props.dispatch(changeView(view));
   }
 
   render() {
@@ -52,8 +52,8 @@ class SignInContainer extends Component {
         <SignDialog
           openFacebookWindow={this.openFacebookWindow}
           open={auth.get('showSignInDialog')}
-          step={auth.get('step')}
-          goTo={this.goTo}
+          view={auth.get('view')}
+          changeView={this.changeView}
         />
       </div>
     );

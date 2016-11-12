@@ -5,7 +5,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
 const lang = new I18n(translations);
 
-const SignUpContent = ({goTo, openFacebookWindow}) => (
+const SignUpContent = ({changeView, openFacebookWindow}) => (
   <div>
     <div className={styles.header}>
       <h1>{lang.t('signIn.signUp')}</h1>
@@ -40,7 +40,7 @@ const SignUpContent = ({goTo, openFacebookWindow}) => (
       </Button>
     </form>
     <div className={styles.footer}>
-      <span>{lang.t('signIn.alreadyHaveAnAccount')} <a onClick={() => goTo(1)}>{lang.t('signIn.signIn')}</a></span>
+      <span>{lang.t('signIn.alreadyHaveAnAccount')} <a onClick={() => changeView('SIGNIN')}>{lang.t('signIn.signIn')}</a></span>
     </div>
   </div>
 );
