@@ -75,7 +75,7 @@ describe('Get /comments', () => {
   });
 });
 
-describe('Get moderation queues rejected, pending, flags', () => {
+describe('Get comments by status and action', () => {
   const comments = [{
     id: 'abc',
     body: 'comment 10',
@@ -133,37 +133,24 @@ describe('Get moderation queues rejected, pending, flags', () => {
       });
   });
 
-  it('should return all the pending comments', function(done){
+  it('should return all the approved comments', function(done){
     chai.request(app)
-      .get('/api/v1/comments/status/pending')
+      .get('/api/v1/comments/status/accepted')
       .end(function(err, res){
         expect(err).to.be.null;
         expect(res).to.have.status(200);
-        expect(res.body[0]).to.have.property('id', 'def');
+        expect(res.body[0]).to.have.property('id', 'hij');
         done();
       });
   });
 
-  it('should return all the pending comments as pre moderated', function(done){
+  it('should return all the new comments', function(done){
     chai.request(app)
-      .get('/api/v1/comments/status/pending')
-      .query({'moderation': 'pre'})
+      .get('/api/v1/comments/status/new')
       .end(function(err, res){
         expect(err).to.be.null;
         expect(res).to.have.status(200);
         expect(res.body[0]).to.have.property('id', 'def');
-        done();
-      });
-  });
-
-  it('should return all the pending comments as post moderated', function(done){
-    chai.request(app)
-      .get('/api/v1/comments/status/pending')
-      .query({'moderation': 'post'})
-      .end(function(err, res){
-        expect(err).to.be.null;
-        expect(res).to.have.status(200);
-        expect(res.body).to.have.lengthOf(0);
         done();
       });
   });

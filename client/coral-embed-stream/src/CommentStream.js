@@ -14,7 +14,11 @@ import AuthorName from '../../coral-plugin-author-name/AuthorName';
 import {ReplyBox, ReplyButton} from '../../coral-plugin-replies';
 import Pym from 'pym.js';
 import FlagButton from '../../coral-plugin-flags/FlagButton';
+<<<<<<< HEAD
 import LikeButton from '../../coral-plugin-likes/LikeButton';
+=======
+import PermalinkButton from '../../coral-plugin-permalinks/PermalinkButton';
+>>>>>>> 9897135035a3cdf14e22fe995b6a44e8b599f0b7
 
 const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appendItemArray} = itemActions;
 const {addNotification, clearNotification} = notificationActions;
@@ -147,6 +151,9 @@ class CommentStream extends Component {
                     addItem={this.props.addItem}
                     updateItem={this.props.updateItem}
                     currentUser={this.props.auth.user}/>
+                    <PermalinkButton
+                      comment_id={commentId}
+                      asset_id={comment.asset_id}/>
                 </div>
                   <ReplyBox
                     addNotification={this.props.addNotification}
@@ -190,6 +197,10 @@ class CommentStream extends Component {
                               addItem={this.props.addItem}
                               updateItem={this.props.updateItem}
                               currentUser={this.props.auth.user}/>
+                              <PermalinkButton
+                                comment_id={reply.comment_id}
+                                asset_id={reply.comment_id}
+                                />
                           </div>
                       </div>;
                     })
