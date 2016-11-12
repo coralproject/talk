@@ -1,6 +1,14 @@
 import * as actions from '../constants/auth';
 import {base, handleResp, getInit} from '../helpers';
 
+export const showSignInDialog = () => ({
+  type: actions.SHOW_SIGNIN_DIALOG
+});
+
+export const hideSignInDialog = ()  => ({
+  type: actions.HIDE_SIGNIN_DIALOG
+});
+
 export const loginFacebook = () => dispatch => {
   dispatch(loginFacebookRequest());
   window.open(

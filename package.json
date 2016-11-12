@@ -16,8 +16,13 @@
   "config": {
     "pre-git": {
       "commit-msg": [],
-      "pre-commit": ["npm run lint", "npm test"],
-      "pre-push": ["npm test"],
+      "pre-commit": [
+        "npm run lint",
+        "npm test"
+      ],
+      "pre-push": [
+        "npm test"
+      ],
       "post-commit": [],
       "post-merge": []
     }
@@ -26,7 +31,12 @@
     "type": "git",
     "url": "git+https://github.com/coralproject/talk.git"
   },
-  "keywords": ["talk", "coral", "coralproject", "ask"],
+  "keywords": [
+    "talk",
+    "coral",
+    "coralproject",
+    "ask"
+  ],
   "author": "",
   "license": "Apache-2.0",
   "bugs": {
@@ -72,6 +82,7 @@
     "chai-http": "^3.0.0",
     "copy-webpack-plugin": "^4.0.0",
     "css-loader": "^0.25.0",
+    "dialog-polyfill": "^0.4.4",
     "eslint": "^3.9.1",
     "eslint-config-postcss": "^2.0.2",
     "eslint-config-standard": "^6.2.1",

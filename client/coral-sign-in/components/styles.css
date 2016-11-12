@@ -41,3 +41,8 @@
     background-color: #365899;
     border-color: #365899;
 }
+
+.dialog {
+    width: 400px;
+    border: none;
+}
