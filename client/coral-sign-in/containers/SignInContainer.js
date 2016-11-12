@@ -15,49 +15,42 @@ import {
 class SignInContainer extends Component {
   constructor(props) {
     super(props);
-
-    this.openFacebookWindow = this.openFacebookWindow.bind(this);
-    this.openSignInDialog = this.openSignInDialog.bind(this);
-    this.logout = this.logout.bind(this);
-    this.changeView = this.changeView.bind(this);
   }
 
   componentDidMount() {
-    window.authCallback = loginFacebookCallback;
-  }
-
-  openFacebookWindow() {
-    this.props.dispatch(loginFacebook());
-  }
-
-  logout() {
-    this.props.dispatch(logout());
-  }
-
-  openSignInDialog() {
-    this.props.dispatch(showSignInDialog());
-  }
-
-  changeView(view) {
-    this.props.dispatch(changeView(view));
+    window.authCallback = this.props.loginFacebookCallback;
   }
 
   render() {
-    const {auth} = this.props;
+    const {auth, showSignInDialog} = this.props;
     return (
       <div>
-        <Button onClick={this.openSignInDialog}>
+        <Button onClick={showSignInDialog}>
           Sign in to comment
         </Button>
         <SignDialog
-          openFacebookWindow={this.openFacebookWindow}
           open={auth.get('showSignInDialog')}
           view={auth.get('view')}
-          changeView={this.changeView}
+          {...this.props}
         />
       </div>
     );
   }
 }
 
-export default connect(({auth}) => ({auth}))(SignInContainer);
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+const mapDispatchToProps = dispatch => ({
+  loginFacebookCallback: () => dispatch(loginFacebookCallback()),
+  loginFacebook: () => dispatch(loginFacebook()),
+  logout: () => dispatch(logout()),
+  showSignInDialog: () => dispatch(showSignInDialog()),
+  changeView: (view) => dispatch(changeView(view))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignInContainer);
