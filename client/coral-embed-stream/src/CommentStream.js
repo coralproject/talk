@@ -14,11 +14,8 @@ import AuthorName from '../../coral-plugin-author-name/AuthorName';
 import {ReplyBox, ReplyButton} from '../../coral-plugin-replies';
 import Pym from 'pym.js';
 import FlagButton from '../../coral-plugin-flags/FlagButton';
-<<<<<<< HEAD
 import LikeButton from '../../coral-plugin-likes/LikeButton';
-=======
 import PermalinkButton from '../../coral-plugin-permalinks/PermalinkButton';
->>>>>>> 9897135035a3cdf14e22fe995b6a44e8b599f0b7
 
 const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appendItemArray} = itemActions;
 const {addNotification, clearNotification} = notificationActions;
