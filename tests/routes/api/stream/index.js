@@ -11,6 +11,7 @@ chai.use(require('chai-http'));
 const Action = require('../../../../models/action');
 const User = require('../../../../models/user');
 const Comment = require('../../../../models/comment');
+const Asset = require('../../../../models/asset');
 
 const Setting = require('../../../../models/setting');
 
@@ -21,14 +22,12 @@ describe('api/stream: routes', () => {
   const comments = [{
     id: 'abc',
     body: 'comment 10',
-    asset_id: 'asset',
     author_id: '',
     parent_id: '',
     status: 'accepted'
   }, {
     id: 'def',
     body: 'comment 20',
-    asset_id: 'asset',
     author_id: '',
     parent_id: '',
     status: ''
@@ -66,29 +65,33 @@ describe('api/stream: routes', () => {
 
   beforeEach(() => {
 
-    return User
-      .createLocalUsers(users)
-      .then(users => {
+    return Promise.all([
+      User.createLocalUsers(users),
+      Asset.findOrCreateByUrl('http://test.com')
+    ])
+    .then(([users, asset]) => {
 
-        comments[0].author_id = users[0].id;
-        comments[1].author_id = users[1].id;
-        
-        return Promise.all([
-          Comment.create(comments),
-          Action.create(actions),
-          Setting.create(settings)
-        ]);
+      comments[0].author_id = users[0].id;
+      comments[1].author_id = users[1].id;
 
-      });
+      comments[0].asset_id = asset.id;
+      comments[1].asset_id = asset.id;
 
+      return Promise.all([
+        Comment.create(comments),
+        Action.create(actions),
+        Setting.create(settings)
+      ]);
+    });
   });
 
-  it('should return a stream with comments, users and actions', () => {
+  it('should return a stream with comments, users and actions for an existing asset', () => {
     return chai.request(app)
       .get('/api/v1/stream')
-      .query({'asset_id': 'asset'})
+      .query({'asset_url': 'http://test.com'})
       .then(res => {
         expect(res).to.have.status(200);
+        expect(res.body.assets.length).to.equal(1);
         expect(res.body.comments.length).to.equal(1);
         expect(res.body.users.length).to.equal(1);
         expect(res.body.actions.length).to.equal(1);
