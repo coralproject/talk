@@ -16,7 +16,7 @@ router.get('/', (req, res, next) => {
 
   // Get the asset_id for this url (or create it if it doesn't exist)
   Promise.all([
-    Asset.findOrCreateByUrl(req.query.asset_url),
+    Asset.findOrCreateByUrl(decodeURIComponent(req.query.asset_url)),
     Setting.getModerationSetting()
   ])
   .then(([asset, {moderation}]) => {
