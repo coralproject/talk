@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { SelectField, Option } from 'react-mdl-selectfield';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {SelectField, Option} from 'react-mdl-selectfield';
 import styles from './Community.css';
 import I18n from 'coral-framework/i18n/i18n';
 import translations from '../../translations';
-import { setRole } from '../../actions/community';
+import {setRole} from '../../actions/community';
 
 const lang = new I18n(translations);
 
@@ -20,7 +20,7 @@ class Table extends Component {
   }
 
   render () {
-    const { headers, commenters, onHeaderClickHandler } = this.props;
+    const {headers, commenters, onHeaderClickHandler} = this.props;
 
     return (
       <table className={`mdl-data-table ${styles.dataTable}`}>
@@ -63,4 +63,4 @@ class Table extends Component {
   }
 }
 
-export default connect(state => ({ commenters: state.community.get('commenters') }))(Table);
+export default connect(state => ({commenters: state.community.get('commenters')}))(Table);

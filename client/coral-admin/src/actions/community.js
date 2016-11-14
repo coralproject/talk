@@ -42,9 +42,8 @@ export const newPage = () => ({
 });
 
 export const setRole = (id, role) => dispatch => {
-  return fetch(`${base}/user/${id}/role`, getInit('POST', { role }))
+  return fetch(`${base}/user/${id}/role`, getInit('POST', {role}))
   .then(() => {
-    return dispatch({ type: SET_ROLE, id, role });
-  })
-
-}
+    return dispatch({type: SET_ROLE, id, role});
+  });
+};
