@@ -6,9 +6,9 @@ import SignInContent from './SignInContent';
 import SingUpContent from './SignUpContent';
 import ForgotContent from './ForgotContent';
 
-const SignDialog = ({open, view, onClose, ...props}) => (
+const SignDialog = ({open, view, handleClose, ...props}) => (
   <Dialog className={styles.dialog} open={open}>
-    <span className={styles.close} onClick={onClose}>×</span>
+    <span className={styles.close} onClick={handleClose}>×</span>
     {view === 'SIGNIN' && <SignInContent {...props} />}
     {view === 'SIGNUP' && <SingUpContent {...props} />}
     {view === 'FORGOT' && <ForgotContent {...props} />}

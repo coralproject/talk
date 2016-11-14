@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './styles.css';
+import styles from './Button.css';
 
 const Button = ({cStyle = 'local', children, className, ...props}) => (
   <button

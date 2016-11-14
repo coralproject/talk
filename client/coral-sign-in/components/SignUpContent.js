@@ -1,46 +1,83 @@
 import React from 'react';
 import styles from './styles.css';
-import Button from './Button';
+import FormField from './FormField';
+import Button from 'coral-ui/components/Button';
+import Spinner from 'coral-ui/components/Spinner';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
 const lang = new I18n(translations);
 
-const SignUpContent = ({changeView, openFacebookWindow}) => (
+const SignUpContent = ({handleChange, formData, ...props}) => (
   <div>
     <div className={styles.header}>
-      <h1>{lang.t('signIn.signUp')}</h1>
+      <h1>
+        {lang.t('signIn.signUp')}
+      </h1>
     </div>
     <div className={styles.socialConnections}>
-      <Button type="facebook" onClick={openFacebookWindow}>
+      <Button cStyle="facebook" onClick={props.fetchSignInFacebook}>
         {lang.t('signIn.facebookSignUp')}
       </Button>
     </div>
     <div className={styles.separator}>
-      <h1>{lang.t('signIn.or')}</h1>
+      <h1>
+        {lang.t('signIn.or')}
+      </h1>
     </div>
-    <form>
-      <div className={styles.formField}>
-        <label htmlFor="email">{lang.t('signIn.email')}</label>
-        <input type="text" id="email" />
-      </div>
-      <div className={styles.formField}>
-        <label htmlFor="username">{lang.t('signIn.username')}</label>
-        <input type="text" id="username" />
-      </div>
-      <div className={styles.formField}>
-        <label htmlFor="password">{lang.t('signIn.password')}</label>
-        <input type="password" id="password" />
-      </div>
-      <div className={styles.formField}>
-        <label htmlFor="confirmPassword">{lang.t('signIn.confirmPassword')}</label>
-        <input type="password" id="confirmPassword" />
-      </div>
-      <Button type="black" className={styles.signInButton} onClick={()=>{}}>
-        {lang.t('signIn.signIn')}
-      </Button>
+    <form onSubmit={props.handleSignUp}>
+      <FormField
+        id="email"
+        type="email"
+        label={lang.t('signIn.email')}
+        value={formData.email}
+        showErrors={props.showErrors}
+        errorMsg={props.errors.email}
+        onChange={handleChange}
+      />
+      <FormField
+        id="username"
+        type="text"
+        label={lang.t('signIn.username')}
+        value={formData.username}
+        showErrors={props.showErrors}
+        errorMsg={props.errors.username}
+        onChange={handleChange}
+      />
+      <FormField
+        id="password"
+        type="password"
+        label={lang.t('signIn.password')}
+        value={formData.password}
+        showErrors={props.showErrors}
+        errorMsg={props.errors.password}
+        onChange={handleChange}
+      />
+      <FormField
+        id="confirmPassword"
+        type="password"
+        label={lang.t('signIn.confirmPassword')}
+        value={formData.confirmPassword}
+        showErrors={props.showErrors}
+        errorMsg={props.errors.confirmPassword}
+        onChange={handleChange}
+      />
+
+      {
+        !props.isLoading ?
+          <Button type="submit" cStyle="black" className={styles.signInButton}>
+            {lang.t('signIn.signUp')}
+          </Button>
+          :
+          <Spinner />
+      }
     </form>
     <div className={styles.footer}>
-      <span>{lang.t('signIn.alreadyHaveAnAccount')} <a onClick={() => changeView('SIGNIN')}>{lang.t('signIn.signIn')}</a></span>
+      <span>
+        {lang.t('signIn.alreadyHaveAnAccount')}
+        <a onClick={() => props.changeView('SIGNIN')}>
+          {lang.t('signIn.signIn')}
+        </a>
+      </span>
     </div>
   </div>
 );

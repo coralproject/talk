@@ -1,39 +1,65 @@
 import React from 'react';
 import styles from './styles.css';
-import Button from './Button';
+
+import Button from 'coral-ui/components/Button';
+import FormField from './FormField';
+import Alert from './Alert';
+import Spinner from 'coral-ui/components/Spinner';
+
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
 const lang = new I18n(translations);
 
-const SignInContent = ({openFacebookWindow, changeView}) => (
+const SignInContent = ({handleChange, formData, ...props}) => (
   <div>
     <div className={styles.header}>
-      <h1>{lang.t('signIn.signIn')}</h1>
+      <h1>
+        {lang.t('signIn.signIn')}
+      </h1>
     </div>
     <div className={styles.socialConnections}>
-      <Button type="facebook" onClick={openFacebookWindow}>
+      <Button cStyle="facebook" onClick={props.fetchSignInFacebook}>
         {lang.t('signIn.facebookSignIn')}
       </Button>
     </div>
     <div className={styles.separator}>
-      <h1>{lang.t('signIn.or')}</h1>
+      <h1>
+        {lang.t('signIn.or')}
+      </h1>
     </div>
-    <form>
-      <div className={styles.formField}>
-        <label htmlFor="email">{lang.t('signIn.email')}</label>
-        <input type="text" id="email" />
-      </div>
-      <div className={styles.formField}>
-        <label htmlFor="password">{lang.t('signIn.password')}</label>
-        <input type="password" id="password" />
-      </div>
-      <Button type="black" className={styles.signInButton} onClick={()=>{}}>
-        {lang.t('signIn.signIn')}
-      </Button>
+    { props.message && <Alert>{props.message}</Alert> }
+    <form onSubmit={props.handleSignIn}>
+      <FormField
+        id="email"
+        type="email"
+        label={lang.t('signIn.email')}
+        value={formData.email}
+        onChange={handleChange}
+      />
+      <FormField
+        id="password"
+        type="password"
+        label={lang.t('signIn.password')}
+        value={formData.password}
+        onChange={handleChange}
+      />
+      {
+        !props.isLoading ?
+        <Button type="submit" cStyle="black" className={styles.signInButton}>
+          {lang.t('signIn.signIn')}
+        </Button>
+        :
+        <Spinner />
+      }
     </form>
     <div className={styles.footer}>
-      <span><a onClick={() => changeView('FORGOT')}>{lang.t('signIn.forgotYourPass')}</a></span>
-      <span>{lang.t('signIn.needAnAccount')} <a onClick={() => changeView('SIGNUP')}>{lang.t('signIn.register')}</a></span>
+      <span><a onClick={() => props.changeView('FORGOT')}>{lang.t('signIn.forgotYourPass')}</a></span>
+      <span>
+        {lang.t('signIn.needAnAccount')}
+        <a onClick={() => props.changeView('SIGNUP')}>
+          {lang.t('signIn.register')}
+        </a>
+      </span>
     </div>
   </div>
 );
