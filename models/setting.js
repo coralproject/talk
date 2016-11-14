@@ -1,9 +1,17 @@
 const mongoose = require('../mongoose');
 const Schema = mongoose.Schema;
 
+/**
+ * this Schema manages application settings that get used on front- and backend
+ * NOTE: when you set a setting here, it will not automatically be exposed to
+ * the front end. You must add it to the whitelist in the settings route
+ * in /routes/api/settings/index.js
+ * @type {Schema}
+ */
 const SettingSchema = new Schema({
   id: {type: String, default: '1'},
-  moderation: {type: String, enum: ['pre', 'post'], default: 'pre'}
+  moderation: {type: String, enum: ['pre', 'post'], default: 'pre'},
+  smtp_connection_string: {type: String, default: ''},
 }, {
   timestamps: {
     createdAt: 'created_at',
