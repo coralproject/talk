@@ -126,7 +126,7 @@ router.delete('/:comment_id', (req, res, next) => {
   Comment
     .removeById(req.params.comment_id)
     .then(() => {
-      res.status(201).send('OK. Removed');
+      res.status(201).send({});
     })
     .catch(error => {
       next(error);
@@ -137,7 +137,7 @@ router.delete('/:comment_id/actions', (req, res, next) => {
   Comment
     .removeAction(req.params.comment_id, req.body.user_id, req.body.action_type)
     .then(() => {
-      res.status(201).send('OK. Removed');
+      res.status(201).sent({});
     })
     .catch(error => {
       next(error);
