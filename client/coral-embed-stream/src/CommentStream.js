@@ -38,7 +38,6 @@ const mapDispatchToProps = (dispatch) => ({
   getStream: (rootId) => dispatch(getStream(rootId)),
   addNotification: (type, text) => dispatch(addNotification(type, text)),
   clearNotification: () => dispatch(clearNotification()),
-  setLoggedInUser: (user_id) => dispatch(setLoggedInUser(user_id)),
   postAction: (item, action, user, itemType) => dispatch(postAction(item, action, user, itemType)),
   appendItemArray: (item, property, value, addToFront, itemType) =>
     dispatch(appendItemArray(item, property, value, addToFront, itemType)),
@@ -68,11 +67,11 @@ class CommentStream extends Component {
         url: 'http://coralproject.net'
       }, 'asset', 'assetTest');
 
-        // Loading mock user
-      this.props.postItem({name: 'Ban Ki-Moon'}, 'user', 'user_8989')
-        .then((id) => {
-          this.props.setLoggedInUser(id);
-        });
+      // Loading mock user
+      //this.props.postItem({name: 'Ban Ki-Moon'}, 'user', 'user_8989')
+      //  .then((id) => {
+      //    this.props.setLoggedInUser(id);
+      //  });
     }
 
     // TODO: Replace teststream id with id from params
