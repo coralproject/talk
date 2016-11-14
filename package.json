@@ -54,6 +54,7 @@
     "mongoose": "^4.6.5",
     "morgan": "^1.7.0",
     "prompt": "^1.0.0",
+    "react-mdl-selectfield": "^0.2.0",
     "uuid": "^2.0.3"
   },
   "devDependencies": {
