@@ -14,7 +14,8 @@ import {
   showSignInDialog,
   hideSignInDialog,
   fetchSignInFacebook,
-  fetchForgotPassword
+  fetchForgotPassword,
+  facebookCallback
 } from '../../coral-framework/actions/auth';
 
 class SignInContainer extends Component {
@@ -38,6 +39,10 @@ class SignInContainer extends Component {
     this.handleClose = this.handleClose.bind(this);
     this.cleanState = this.cleanState.bind(this);
     this.validation = this.validation.bind(this);
+  }
+
+  componentDidMount() {
+    window.authCallback = this.props.facebookCallback;
   }
 
   cleanState () {
@@ -139,6 +144,7 @@ class SignInContainer extends Component {
 const mapStateToProps = ({auth}) => ({auth});
 
 const mapDispatchToProps = dispatch => ({
+  facebookCallback: (err, data) => dispatch(facebookCallback(err, data)),
   fetchSignUp: (formData) => dispatch(fetchSignUp(formData)),
   fetchSignIn: (formData) => dispatch(fetchSignIn(formData)),
   fetchSignInFacebook: () => dispatch(fetchSignInFacebook()),

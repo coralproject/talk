@@ -30,8 +30,8 @@ export const fetchSignIn = () => dispatch => {
 // Sign In - Facebook
 
 const signInFacebookRequest = () => ({type: actions.FETCH_SIGNIN_FACEBOOK_REQUEST});
-//const signInFacebookSuccess = () => ({type: actions.FETCH_SIGNIN_FACEBOOK_SUCCESS});
-//const signInFacebookFailure = () => ({type: actions.FETCH_SIGNIN_FACEBOOK_FAILURE});
+const signInFacebookSuccess = () => ({type: actions.FETCH_SIGNIN_FACEBOOK_SUCCESS});
+const signInFacebookFailure = () => ({type: actions.FETCH_SIGNIN_FACEBOOK_FAILURE});
 
 export const fetchSignInFacebook = () => dispatch => {
   dispatch(signInFacebookRequest());
@@ -40,6 +40,19 @@ export const fetchSignInFacebook = () => dispatch => {
     'Continue with Facebook',
     'menubar=0,resizable=0,width=500,height=500,top=200,left=500'
   );
+};
+
+export const facebookCallback = (err, data) => dispatch => {
+  if (err) {
+    signInFacebookFailure(err);
+    return;
+  }
+  try {
+    dispatch(signInFacebookSuccess(JSON.parse(data)));
+  } catch (err) {
+    dispatch(signInFacebookFailure(err));
+    return;
+  }
 };
 
 // Sign Up Actions
