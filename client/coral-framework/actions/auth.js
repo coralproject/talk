@@ -1,16 +1,40 @@
 import * as actions from '../constants/auth';
-import {base, handleResp, getInit} from '../helpers';
+import {base, handleResp, getInit} from '../helpers/response';
 
-export const showSignInDialog = () => ({
-  type: actions.SHOW_SIGNIN_DIALOG
-});
+// Dialog Actions
+export const showSignInDialog = () => ({type: actions.SHOW_SIGNIN_DIALOG});
+export const hideSignInDialog = () => ({type: actions.HIDE_SIGNIN_DIALOG});
 
-export const hideSignInDialog = ()  => ({
-  type: actions.HIDE_SIGNIN_DIALOG
-});
+export const changeView = view => dispatch =>
+  dispatch({
+    type: actions.CHANGE_VIEW,
+    view
+  });
 
-export const loginFacebook = () => dispatch => {
-  dispatch(loginFacebookRequest());
+export const cleanState = () => ({type: actions.CLEAN_STATE});
+
+// Sign In Actions
+
+const signInRequest = () => ({type: actions.FETCH_SIGNIN_REQUEST});
+const signInSuccess = () => ({type: actions.FETCH_SIGNIN_SUCCESS});
+const signInFailure = () => ({type: actions.FETCH_SIGNIN_FAILURE});
+
+export const fetchSignIn = () => dispatch => {
+  dispatch(signInRequest());
+  fetch(`${base}/auth`, getInit('POST'))
+    .then(handleResp)
+    .then(() => dispatch(signInSuccess()))
+    .catch(error => dispatch(signInFailure(error)));
+};
+
+// Sign In - Facebook
+
+const signInFacebookRequest = () => ({type: actions.FETCH_SIGNIN_FACEBOOK_REQUEST});
+//const signInFacebookSuccess = () => ({type: actions.FETCH_SIGNIN_FACEBOOK_SUCCESS});
+//const signInFacebookFailure = () => ({type: actions.FETCH_SIGNIN_FACEBOOK_FAILURE});
+
+export const fetchSignInFacebook = () => dispatch => {
+  dispatch(signInFacebookRequest());
   window.open(
     `${base}/auth/facebook`,
     'Continue with Facebook',
@@ -18,56 +42,41 @@ export const loginFacebook = () => dispatch => {
   );
 };
 
-export const loginFacebookCallback = (err, data) => {
-  let user;
+// Sign Up Actions
 
-  if (err) {
-    console.error(err);
-    return;
-  }
+const signUpRequest = () => ({type: actions.FETCH_SIGNUP_REQUEST});
+const signUpSuccess = () => ({type: actions.FETCH_SIGNUP_SUCCESS});
+const signUpFailure = () => ({type: actions.FETCH_SIGNUP_FAILURE});
 
-  try {
-    user = JSON.parse(data);
-  } catch (err) {
-    console.error('Can\'t parse the user json', err);
-    return;
-  }
-
-  console.log('User was loaded!', user);
+export const fetchSignUp = () => dispatch => {
+  dispatch(signUpRequest());
+  fetch(`${base}/auth`, getInit('POST'))
+    .then(handleResp)
+    .then(() => dispatch(signUpSuccess()))
+    .catch(error => dispatch(signUpFailure(error)));
 };
+
+// Forgot Password Actions
+
+const forgotPassowordRequest = () => ({type: actions.FETCH_FORGOT_PASSWORD_REQUEST});
+const forgotPassowordSuccess = () => ({type: actions.FETCH_FORGOT_PASSWORD_SUCCESS});
+const forgotPassowordFailure = () => ({type: actions.FETCH_FORGOT_PASSWORD_FAILURE});
+
+export const fetchForgotPassword = () => dispatch => {
+  dispatch(forgotPassowordRequest());
+  fetch(`${base}/forgot`, getInit('POST'))
+    .then(handleResp)
+    .then(() => dispatch(forgotPassowordSuccess()))
+    .catch(error => dispatch(forgotPassowordFailure(error)));
+};
+
+// LogOut
 
 export const logout = () => dispatch => {
-  dispatch(logoutRequest());
+  dispatch(signInRequest());
   fetch(`${base}/auth`, getInit('DELETE'))
-  .then(handleResp)
-  .then(() => dispatch(dispatch(logoutSuccess())))
-  .catch(error => dispatch(logoutFailure(error)));
+    .then(handleResp)
+    .then(() => dispatch(signInSuccess()))
+    .catch(error => dispatch(signInFailure(error)));
 };
-
-const logoutRequest = () => ({
-  type: actions.USER_LOGOUT_SUCCESS
-});
-
-const logoutSuccess = () => ({
-  type: actions.USER_LOGOUT_SUCCESS,
-});
-
-const logoutFailure = error => ({
-  type: actions.USER_LOGOUT_SUCCESS,
-  error
-});
-
-export const loginFacebookRequest = () => ({
-  type: actions.USER_FACEBOOK_LOGIN_REQUEST
-});
-
-export const loginRequest = () => ({
-  type: actions.USER_SIGNIN_REQUEST
-});
-
-export const changeView = view => dispatch =>
-  dispatch({
-    type: actions.CHANGE_VIEW,
-    view
-  });
 
