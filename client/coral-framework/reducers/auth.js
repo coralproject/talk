@@ -7,7 +7,10 @@ import {
   CLEAN_STATE,
   FETCH_SIGNIN_REQUEST,
   FETCH_SIGNIN_FAILURE,
-  FETCH_SIGNIN_SUCCESS
+  FETCH_SIGNIN_SUCCESS,
+  FETCH_SIGNIN_FACEBOOK_SUCCESS,
+  FETCH_SIGNIN_FACEBOOK_FAILURE,
+  LOGOUT_SUCCESS
 } from '../constants/auth';
 
 const initialState = Map({
@@ -15,7 +18,7 @@ const initialState = Map({
   isLoading: false,
   loggedIn: false,
   error: '',
-  user: {},
+  user: null,
   showSignInDialog: false,
   view: 'SIGNIN'
 });
@@ -43,6 +46,19 @@ export default function auth (state = initialState, action) {
   case FETCH_SIGNIN_SUCCESS:
     return state
       .set('isLoading', false);
+  case FETCH_SIGNIN_FACEBOOK_SUCCESS:
+    return state
+      .set('user', action.user)
+      .set('loggedIn', true)
+      .set('showSignInDialog', false);
+  case FETCH_SIGNIN_FACEBOOK_FAILURE:
+    return state
+      .set('error', action.error)
+      .set('user', null);
+  case LOGOUT_SUCCESS:
+    return state
+      .set('loggedIn', false)
+      .set('user', null);
   default :
     return state;
   }

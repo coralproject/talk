@@ -30,8 +30,8 @@ export const fetchSignIn = () => dispatch => {
 // Sign In - Facebook
 
 const signInFacebookRequest = () => ({type: actions.FETCH_SIGNIN_FACEBOOK_REQUEST});
-const signInFacebookSuccess = () => ({type: actions.FETCH_SIGNIN_FACEBOOK_SUCCESS});
-const signInFacebookFailure = () => ({type: actions.FETCH_SIGNIN_FACEBOOK_FAILURE});
+const signInFacebookSuccess = (user) => ({type: actions.FETCH_SIGNIN_FACEBOOK_SUCCESS, user});
+const signInFacebookFailure = (error) => ({type: actions.FETCH_SIGNIN_FACEBOOK_FAILURE, error});
 
 export const fetchSignInFacebook = () => dispatch => {
   dispatch(signInFacebookRequest());
@@ -83,13 +83,17 @@ export const fetchForgotPassword = () => dispatch => {
     .catch(error => dispatch(forgotPassowordFailure(error)));
 };
 
-// LogOut
+// LogOut Actions
+
+const logOutRequest = () => ({type: actions.LOGOUT_REQUEST});
+const logOutSuccess = () => ({type: actions.LOGOUT_SUCCESS});
+const logOutFailure = () => ({type: actions.LOGOUT_FAILURE});
 
 export const logout = () => dispatch => {
-  dispatch(signInRequest());
+  dispatch(logOutRequest());
   fetch(`${base}/auth`, getInit('DELETE'))
     .then(handleResp)
-    .then(() => dispatch(signInSuccess()))
-    .catch(error => dispatch(signInFailure(error)));
+    .then(() => dispatch(logOutSuccess()))
+    .catch(error => dispatch(logOutFailure(error)));
 };
 
