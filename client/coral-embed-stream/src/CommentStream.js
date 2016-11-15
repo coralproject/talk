@@ -77,7 +77,8 @@ class CommentStream extends Component {
     // Set up messaging between embedded Iframe an parent component
     // Using recommended Pym init code which violates .eslint standards
     const pym = new Pym.Child({polling: 100});
-    this.props.getStream(pym.parentUrl);
+    const path = /https?\:\/\/([^?]+)/.exec(pym.parentUrl)[1];
+    this.props.getStream(path);
   }
 
   render () {
