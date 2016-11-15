@@ -248,8 +248,7 @@ export function deleteAction (item_id, action_type, user_id, item_type) {
   return () => {
     const action = {
       action_type,
-      user_id,
-      item_id
+      user_id
     };
 
     return fetch(`/api/v1/${item_type}/${item_id}/actions`, getInit('DELETE', action))
