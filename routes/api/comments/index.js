@@ -135,9 +135,9 @@ router.delete('/:comment_id', (req, res, next) => {
 
 router.delete('/:comment_id/actions', (req, res, next) => {
   Comment
-    .removeAction(req.params.comment_id, req.body.user_id, req.body.action_type)
+    .removeAction(req.params.item_id, req.body.user_id, req.body.action_type)
     .then(() => {
-      res.status(201).sent({});
+      res.status(201).send({});
     })
     .catch(error => {
       next(error);
