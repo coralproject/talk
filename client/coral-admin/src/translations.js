@@ -2,7 +2,11 @@ export default {
   en: {
     'community': {
       username_and_email: 'Username and Email',
-      account_creation_date: 'Account Creation Date'
+      account_creation_date: 'Account Creation Date',
+      newsroom_role: 'Newsroom Role',
+      admin: 'Administrator',
+      moderator: 'Moderator',
+      role: 'Select role...'
     },
     'modqueue': {
       'pending': 'pending',
@@ -30,7 +34,11 @@ export default {
   es: {
     'community': {
       username_and_email: 'Usuario y E-mail',
-      account_creation_date: 'Fecha de creación de la cuenta'
+      account_creation_date: 'Fecha de creación de la cuenta',
+      newsroom_role: 'Rol en la redacción',
+      admin: 'Administrador',
+      moderator: 'Moderador',
+      role: 'Select role...'
     },
     'modqueue': {
       'pending': 'pendiente',
