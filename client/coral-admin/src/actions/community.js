@@ -5,7 +5,8 @@ import {
   FETCH_COMMENTERS_SUCCESS,
   FETCH_COMMENTERS_FAILURE,
   SORT_UPDATE,
-  COMMENTERS_NEW_PAGE
+  COMMENTERS_NEW_PAGE,
+  SET_ROLE
 } from '../constants/community';
 
 import {base, getInit, handleResp} from '../helpers/response';
@@ -40,3 +41,9 @@ export const newPage = () => ({
   type: COMMENTERS_NEW_PAGE
 });
 
+export const setRole = (id, role) => dispatch => {
+  return fetch(`${base}/user/${id}/role`, getInit('POST', {role}))
+  .then(() => {
+    return dispatch({type: SET_ROLE, id, role});
+  });
+};
