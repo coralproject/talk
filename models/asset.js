@@ -63,10 +63,20 @@ AssetSchema.statics.findByUrl = function(url) {
 };
 
 /**
+ * Finds a asset by its url.
+ * @param {String} url  identifier of the asset (uuid).
+*/
+AssetSchema.statics.findOrCreateByUrl = function(url) {
+
+  return Asset.findOne({url})
+    .then((asset) => asset ? asset
+      : Asset.upsert({url}));
+};
+
+/**
  * Upserts an asset.
 */
 AssetSchema.statics.upsert = function(data) {
-
   // If an id is not sent, create one.
   if (typeof data.id === 'undefined') {
     data.id = uuid.v4();
