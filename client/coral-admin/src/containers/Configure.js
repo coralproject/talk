@@ -7,7 +7,7 @@ import {
   ListItem,
   ListItemContent,
   ListItemAction,
-  //Textfield,
+  Textfield,
   Checkbox,
   Button,
   Icon
@@ -36,6 +36,16 @@ class Configure extends React.Component {
     this.props.dispatch(updateSettings({moderation}));
   }
 
+  updateInfoBoxEnable () {
+    const infoboxEnable = this.props.settings.infoBoxEnable;
+    this.props.dispatch(updateSettings({infoboxEnable}));
+  }
+
+  updateInfoBoxContent () {
+    const infoboxContent = this.props.settings.infoBoxContent;
+    this.props.dispatch(updateSettings({infoboxContent}));
+  }
+
   saveSettings () {
     this.props.dispatch(saveSettingsToServer());
   }
@@ -49,6 +59,18 @@ class Configure extends React.Component {
             checked={this.props.settings.moderation === 'pre'} />
         </ListItemAction>
         Enable pre-moderation
+      </ListItem>
+      <ListItem className={styles.configSettingInfoBox}>
+        <ListItemAction>
+          <Checkbox
+            onClick={this.updateInfoBoxEnable.bind(this)}
+            checked={this.props.settings.infoBoxEnable} />
+        </ListItemAction>
+        <Textfield
+          onChange={this.updateInfoBoxContent}
+          expandable
+          label='Include your text here'
+          value={this.props.settings.infoBoxContent}/>
       </ListItem>
       {/*
       <ListItem className={styles.configSetting}>

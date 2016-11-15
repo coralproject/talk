@@ -49,6 +49,17 @@ hr {
   font-weight: bold;
 }
 
+/* Info Box Styles */
+.coral-plugin-infobox-info {
+  position: fixed;
+  bottom: 0;
+  border: 0;
+  background: rgb(105,105,105);
+  color: white;
+  border-radius: 2px;
+  font-weight: bold;
+}
+
 /* Comment Box Styles */
 .coral-plugin-commentbox-container {
   display: flex;

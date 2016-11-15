@@ -7,6 +7,7 @@ import {
 } from '../../coral-framework';
 import {connect} from 'react-redux';
 import CommentBox from '../../coral-plugin-commentbox/CommentBox';
+import InfoBox from '../../coral-plugin-infobox/InfoBox';
 import Content from '../../coral-plugin-commentcontent/CommentContent';
 import PubDate from '../../coral-plugin-pubdate/PubDate';
 import Count from '../../coral-plugin-comment-count/CommentCount';
@@ -100,6 +101,9 @@ class CommentStream extends Component {
         rootItem
         ? <div>
           <div id="commentBox">
+            <InfoBox
+              content={this.props.config.infoBox.content}
+              enable={this.props.config.infoBox.enable}/>
             <Count
               id={rootItemId}
               items={this.props.items}/>
