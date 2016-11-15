@@ -52,7 +52,7 @@ hr {
 /* Info Box Styles */
 .coral-plugin-infobox-info {
   position: fixed;
-  bottom: 0;
+  top: 0;
   border: 0;
   background: rgb(105,105,105);
   color: white;
