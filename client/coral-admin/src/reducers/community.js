@@ -44,7 +44,6 @@ export default function community (state = initialState, action) {
 
     commenters[idx].roles[0] = action.role;
     return state.set('commenters', commenters.map(id => id));
-    return state.set('commenters', commenters);
   }
   case SORT_UPDATE :
     return state
