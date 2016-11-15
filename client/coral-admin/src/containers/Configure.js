@@ -37,13 +37,13 @@ class Configure extends React.Component {
   }
 
   updateInfoBoxEnable () {
-    const infoboxEnable = this.props.settings.infoBoxEnable;
-    this.props.dispatch(updateSettings({infoboxEnable}));
+    const infoBoxEnable = !this.props.settings.infoBoxEnable;
+    this.props.dispatch(updateSettings({infoBoxEnable}));
   }
 
   updateInfoBoxContent () {
-    const infoboxContent = this.props.settings.infoBoxContent;
-    this.props.dispatch(updateSettings({infoboxContent}));
+    const infoBoxContent = this.props.settings.infoBoxContent;
+    this.props.dispatch(updateSettings({infoBoxContent}));
   }
 
   saveSettings () {
