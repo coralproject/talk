@@ -40,11 +40,13 @@ router.get('/', (req, res, next) => {
   ])
   .then(([data, count]) => {
     const users = data.map((user) => {
-      const {displayName, created_at} = user;
+      const {id, displayName, created_at} = user;
       return {
+        id,
         displayName,
         created_at,
-        profiles: user.toObject().profiles
+        profiles: user.toObject().profiles,
+        roles: user.toObject().roles
       };
     });
 
@@ -56,6 +58,14 @@ router.get('/', (req, res, next) => {
       totalPages: Math.ceil(count / limit)
     });
 
+  })
+  .catch(next);
+});
+
+router.post('/:user_id/role', (req, res, next) => {
+  User.addRoleToUser(req.params.user_id, req.body.role)
+  .then(role => {
+    res.send(role);
   })
   .catch(next);
 });
