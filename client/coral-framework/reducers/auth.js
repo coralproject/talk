@@ -17,10 +17,10 @@ const initialState = Map({
   auth: Map(),
   isLoading: false,
   loggedIn: false,
-  error: '',
   user: null,
   showSignInDialog: false,
-  view: 'SIGNIN'
+  view: 'SIGNIN',
+  signInError: ''
 });
 
 export const getEmail = state => state.auth.formData.email;
@@ -42,10 +42,15 @@ export default function auth (state = initialState, action) {
       .set('isLoading', true);
   case FETCH_SIGNIN_FAILURE:
     return state
-      .set('isLoading', false);
+      .set('isLoading', false)
+      .set('signInError', action.error);
   case FETCH_SIGNIN_SUCCESS:
     return state
-      .set('isLoading', false);
+      .set('signInError', '')
+      .set('isLoading', false)
+      .set('loggedIn', true)
+      .set('user', action.user)
+      .set('showSignInDialog', false);
   case FETCH_SIGNIN_FACEBOOK_SUCCESS:
     return state
       .set('user', action.user)

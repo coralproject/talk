@@ -27,7 +27,7 @@ const SignInContent = ({handleChange, formData, ...props}) => (
         {lang.t('signIn.or')}
       </h1>
     </div>
-    { props.message && <Alert>{props.message}</Alert> }
+    { props.signInError && <Alert>{props.signInError}</Alert> }
     <form onSubmit={props.handleSignIn}>
       <FormField
         id="email"

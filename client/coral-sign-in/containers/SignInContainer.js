@@ -133,6 +133,7 @@ class SignInContainer extends Component {
           showErrors={showErrors}
           formData={formData}
           errors={errors}
+          signInError={auth.get('signInError')}
           {...this}
           {...this.props}
         />

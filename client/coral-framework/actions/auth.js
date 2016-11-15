@@ -16,15 +16,15 @@ export const cleanState = () => ({type: actions.CLEAN_STATE});
 // Sign In Actions
 
 const signInRequest = () => ({type: actions.FETCH_SIGNIN_REQUEST});
-const signInSuccess = () => ({type: actions.FETCH_SIGNIN_SUCCESS});
-const signInFailure = () => ({type: actions.FETCH_SIGNIN_FAILURE});
+const signInSuccess = (user) => ({type: actions.FETCH_SIGNIN_SUCCESS, user});
+const signInFailure = (error) => ({type: actions.FETCH_SIGNIN_FAILURE, error});
 
-export const fetchSignIn = () => dispatch => {
+export const fetchSignIn = (formData) => dispatch => {
   dispatch(signInRequest());
-  fetch(`${base}/auth`, getInit('POST'))
+  fetch(`${base}/auth/local`, getInit('POST', formData))
     .then(handleResp)
-    .then(() => dispatch(signInSuccess()))
-    .catch(error => dispatch(signInFailure(error)));
+    .then(({user}) => dispatch(signInSuccess(user)))
+    .catch(() => dispatch(signInFailure('Email and/or password combination incorrect.')));
 };
 
 // Sign In - Facebook

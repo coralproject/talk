@@ -83,10 +83,9 @@ input.error{
     padding: 3px 0 16px;
 }
 
-.alert--success {
-    border: solid 1px #c0c4da;
-    background: #afb5c2;
-    color: #131314;
+.alert {
+    padding: 10px;
+    margin-bottom: 20px;
 }
 
 .alert--success {
@@ -96,9 +95,8 @@ input.error{
 }
 
 .alert--error {
-    border: solid 1px #f44336;
-    background: #F1A097;
-    color: #741818;
+    background: #FFEBEE;
+    color: #B71C1C;
 }
 
 .userBox a {
