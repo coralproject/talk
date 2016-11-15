@@ -6,7 +6,7 @@ import {updateStatus} from 'actions/comments';
 import styles from './ModerationQueue.css';
 import key from 'keymaster';
 import I18n from 'coral-framework/i18n/i18n';
-import translations from '../translations';
+import translations from '../translations.json';
 
 /*
  * Renders the moderation queue as a tabbed layout with 3 moderation
@@ -91,7 +91,7 @@ class ModerationQueue extends React.Component {
               commentIds={
                 comments
                   .get('ids')
-                  .filter(id => 
+                  .filter(id =>
                     comments
                       .get('byId')
                       .get(id)
