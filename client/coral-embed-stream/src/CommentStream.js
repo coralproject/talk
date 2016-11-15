@@ -14,9 +14,10 @@ import AuthorName from '../../coral-plugin-author-name/AuthorName';
 import {ReplyBox, ReplyButton} from '../../coral-plugin-replies';
 import Pym from 'pym.js';
 import FlagButton from '../../coral-plugin-flags/FlagButton';
+import LikeButton from '../../coral-plugin-likes/LikeButton';
 import PermalinkButton from '../../coral-plugin-permalinks/PermalinkButton';
 
-const {addItem, updateItem, postItem, getStream, postAction, appendItemArray} = itemActions;
+const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appendItemArray} = itemActions;
 const {addNotification, clearNotification} = notificationActions;
 const {setLoggedInUser} = authActions;
 
@@ -54,6 +55,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     postAction: (item, action, user, itemType) => {
       return dispatch(postAction(item, action, user, itemType));
+    },
+    deleteAction: (item, action, user, itemType) => {
+      return dispatch(deleteAction(item, action, user, itemType));
     },
     appendItemArray: (item, property, value, addToFront, itemType) => {
       return dispatch(appendItemArray(item, property, value, addToFront, itemType));
@@ -120,21 +124,33 @@ class CommentStream extends Component {
                 <AuthorName name={comment.username}/>
                 <PubDate created_at={comment.created_at}/>
                 <Content body={comment.body}/>
-                <div className="commentActions">
+                <div className="commentActionsLeft">
+                  <ReplyButton
+                    updateItem={this.props.updateItem}
+                    id={commentId}/>
+                  <LikeButton
+                    addNotification={this.props.addNotification}
+                    id={commentId}
+                    like={this.props.items.actions[comment.like]}
+                    postAction={this.props.postAction}
+                    deleteAction={this.props.deleteAction}
+                    addItem={this.props.addItem}
+                    updateItem={this.props.updateItem}
+                    currentUser={this.props.auth.user}/>
+                </div>
+                <div className="commentActionsRight">
                   <FlagButton
                     addNotification={this.props.addNotification}
                     id={commentId}
                     flag={this.props.items.actions[comment.flag]}
                     postAction={this.props.postAction}
+                    deleteAction={this.props.deleteAction}
                     addItem={this.props.addItem}
                     updateItem={this.props.updateItem}
                     currentUser={this.props.auth.user}/>
-                  <ReplyButton
-                    updateItem={this.props.updateItem}
-                    id={commentId}/>
-                  <PermalinkButton
-                    comment_id={commentId}
-                    asset_id={comment.asset_id}/>
+                    <PermalinkButton
+                      comment_id={commentId}
+                      asset_id={comment.asset_id}/>
                 </div>
                   <ReplyBox
                     addNotification={this.props.addNotification}
@@ -154,23 +170,35 @@ class CommentStream extends Component {
                         <AuthorName name={reply.username}/>
                         <PubDate created_at={reply.created_at}/>
                         <Content body={reply.body}/>
-                        <div className="replyActions">
-                          <FlagButton
-                            addNotification={this.props.addNotification}
-                            id={replyId}
-                            flag={this.props.items.actions[reply.flag]}
-                            postAction={this.props.postAction}
-                            addItem={this.props.addItem}
-                            updateItem={this.props.updateItem}
-                            currentUser={this.props.auth.user}/>
-                          <ReplyButton
-                            updateItem={this.props.updateItem}
-                            parent_id={reply.parent_id}/>
-                          <PermalinkButton
-                            comment_id={reply.comment_id}
-                            asset_id={reply.comment_id}
-                            />
-                        </div>
+                        <div className="replyActionsLeft">
+                            <ReplyButton
+                              updateItem={this.props.updateItem}
+                              id={replyId}/>
+                            <LikeButton
+                              addNotification={this.props.addNotification}
+                              id={replyId}
+                              like={this.props.items.actions[reply.like]}
+                              postAction={this.props.postAction}
+                              deleteAction={this.props.deleteAction}
+                              addItem={this.props.addItem}
+                              updateItem={this.props.updateItem}
+                              currentUser={this.props.auth.user}/>
+                          </div>
+                          <div className="replyActionsRight">
+                            <FlagButton
+                              addNotification={this.props.addNotification}
+                              id={replyId}
+                              flag={this.props.items.actions[reply.flag]}
+                              postAction={this.props.postAction}
+                              deleteAction={this.props.deleteAction}
+                              addItem={this.props.addItem}
+                              updateItem={this.props.updateItem}
+                              currentUser={this.props.auth.user}/>
+                              <PermalinkButton
+                                comment_id={reply.comment_id}
+                                asset_id={reply.comment_id}
+                                />
+                          </div>
                       </div>;
                     })
                 }
