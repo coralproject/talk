@@ -4,7 +4,8 @@ import {
   FETCH_COMMENTERS_REQUEST,
   FETCH_COMMENTERS_FAILURE,
   FETCH_COMMENTERS_SUCCESS,
-  SORT_UPDATE
+  SORT_UPDATE,
+  SET_ROLE
 } from '../constants/community';
 
 const initialState = Map({
@@ -36,6 +37,13 @@ export default function community (state = initialState, action) {
         ...rest
       })
       .set('commenters', commenters); // Sets to normal array
+  }
+  case SET_ROLE : {
+    const commenters = state.get('commenters');
+    const idx = commenters.findIndex(el => el.id === action.id);
+
+    commenters[idx].roles[0] = action.role;
+    return state.set('commenters', commenters.map(id => id));
   }
   case SORT_UPDATE :
     return state
