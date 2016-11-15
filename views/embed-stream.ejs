@@ -17,7 +17,12 @@
     </style>
   </head>
   <body>
-    <div id="coralStream"></div>
-    <script src="<%= basePath %>/bundle.js" charset="utf-8"></script>
+    <div id='coralStreamEmbed'></div>
+    <script type='text/javascript' src='https://pym.nprapps.org/pym.v1.min.js'></script>
+    <script>
+    var pymParent = new pym.Parent('coralStreamEmbed', '/embed/stream', {title: 'Talk Comments'});
+    pymParent.onMessage('height', function(height) {document.querySelector('#coralStreamEmbed iframe').height = height + 'px'})</script>
+    </div>
+      </body>
   </body>
 </html>
