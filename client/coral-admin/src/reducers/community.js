@@ -43,7 +43,7 @@ export default function community (state = initialState, action) {
     const idx = commenters.findIndex(el => el.id === action.id);
 
     commenters[idx].roles[0] = action.role;
-    return state.set('commenters', commenters);
+    return state.set('commenters', commenters.map(id => id));
   case SORT_UPDATE :
     return state
       .set('field', action.sort.field)
