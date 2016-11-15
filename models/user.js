@@ -24,10 +24,9 @@ const UserSchema = new mongoose.Schema({
       required: true
     }
   }],
-	roles: {
-		type: [{ type: String, enum: ['admin', 'moderator'] }],
-
-	}
+  roles: {
+    type: [{type: String, enum: ['admin', 'moderator']}]
+  }
 }, {
   timestamps: {
     createdAt: 'created_at',

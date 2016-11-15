@@ -38,12 +38,13 @@ export default function community (state = initialState, action) {
       })
       .set('commenters', commenters); // Sets to normal array
   }
-  case SET_ROLE :
+  case SET_ROLE : {
     const commenters = state.get('commenters');
     const idx = commenters.findIndex(el => el.id === action.id);
 
     commenters[idx].roles[0] = action.role;
     return state.set('commenters', commenters);
+  }
   case SORT_UPDATE :
     return state
       .set('field', action.sort.field)
