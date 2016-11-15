@@ -102,8 +102,8 @@ class CommentStream extends Component {
         ? <div>
           <div id="commentBox">
             <InfoBox
-              content={this.props.config.infoBox.content}
-              enable={this.props.config.infoBox.enable}/>
+              content={this.props.config.infoBoxContent}
+              enable={this.props.config.infoBoxEnable}/>
             <Count
               id={rootItemId}
               items={this.props.items}/>

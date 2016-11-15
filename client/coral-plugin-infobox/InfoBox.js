@@ -3,8 +3,7 @@ const packagename = 'coral-plugin-infobox';
 
 const InfoBox = ({enable, content}) =>
 <div
-  className={`${packagename}-info`}
-  hidden={`${!enable}`}>
+  className={`${packagename}-info ${enable ? '' : ', hidden'}` }>
   {content}
 </div>;
 

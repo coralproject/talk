@@ -58,6 +58,12 @@ hr {
   color: white;
   border-radius: 2px;
   font-weight: bold;
+  display: block;
+}
+
+.hidden  {
+  visibility: hidden;
+  display: none;
 }
 
 /* Comment Box Styles */
