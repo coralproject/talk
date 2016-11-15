@@ -1,6 +1,7 @@
 const mongoose = require('../mongoose');
 const uuid = require('uuid');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const SALT_ROUNDS = 10;
 
@@ -83,10 +84,15 @@ UserSchema.options.toObject.transform = (doc, ret, options) => {
  * @param  {Function} done     [description]
  */
 UserSchema.statics.findLocalUser = function(email, password) {
+
+  if (!email || typeof email !== 'string') {
+    return Promise.reject('email is required for findLocalUser');
+  }
+
   return User.findOne({
     profiles: {
       $elemMatch: {
-        id: email,
+        id: email.toLowerCase(),
         provider: 'local'
       }
     }
@@ -221,6 +227,8 @@ UserSchema.statics.createLocalUser = function(email, password, displayName) {
     return Promise.reject('email is required');
   }
 
+  email = email.toLowerCase();
+
   if (!password) {
     return Promise.reject('password is required');
   }
@@ -336,6 +344,20 @@ UserSchema.statics.findByIdArray = function(ids) {
   return User.find({
     'id': {$in: ids}
   });
+};
+
+UserSchema.statics.createJWT = function (email) {
+  if (!email || typeof email !== 'string') {
+    return Promise.reject('email is required when creating a JWT for resetting passord');
+  }
+
+  email = email.toLowerCase();
+
+  const payload = {email, jti: uuid.v4()};
+
+  const token = jwt.sign(payload, process.env.TALK_SESSION_SECRET, {expiresIn: '1d'});
+
+  return Promise.resolve(token);
 };
 
 const User = mongoose.model('User', UserSchema);

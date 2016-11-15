@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../../../models/user');
+const mailer = require('../../../services/mailer');
 
 router.get('/', (req, res, next) => {
   const {
@@ -68,6 +69,39 @@ router.post('/:user_id/role', (req, res, next) => {
     res.send(role);
   })
   .catch(next);
+});
+
+/**
+ * this endpoint takes an email (username) and checks if it belongs to a User account
+ * if it does, create a JWT and send an email
+ */
+router.post('/request-password-reset', (req, res, next) => {
+  const {email} = req.body;
+
+  console.log('/request-password-reset', req.body);
+
+  if (!email) {
+    return next();
+  }
+
+  User
+    .createJWT(email)
+    .then(token => {
+      const options = {
+        subject: 'password reset requested',
+        from: 'coralcore@mozillafoundation.org',
+        to: 'riley.davis@gmail.com',
+        html: `<a href="http://localhost:3000/admin/password-reset/${token}">reset password</a>`
+      };
+      return mailer.sendSimple(options);
+    })
+    .then(success => {
+      console.log(success);
+      res.json({success: true});
+    })
+    .catch(error => {
+      res.status(500).json({error});
+    });
 });
 
 module.exports = router;

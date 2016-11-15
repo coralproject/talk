@@ -8,23 +8,6 @@ const options = {
 
 const transporter = nodemailer.createTransport(sgTransport(options));
 
-transporter.sendMail({
-  from: 'support@mrdavis.com',
-  to: 'riley.davis@gmail.com',
-  subject: 'this is only a test',
-  text: 'this is the body of the email maybe?',
-  html: `<table>
-          <thead>
-            <tr><th>foo</th><th>bar</th><tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>riley</td><td>davis</td>
-            </tr>
-          </tbody>
-        </table>`
-});
-
 const mailer = {
   /**
    * sendSimple
