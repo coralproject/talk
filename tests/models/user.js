@@ -63,4 +63,18 @@ describe('User: models', () => {
     });
 
   });
+
+  describe('#setStatus', () => {
+    it('should set the status to banned', () => {
+      return User
+        .setStatus(mockUsers[0].id, 'banned')
+        .then(() => {
+          User.findById(mockUsers[0].id)
+          .then((user) => {
+            expect(user).to.have.property('status')
+              .and.to.equal('banned');
+          });
+        });
+    });
+  });
 });

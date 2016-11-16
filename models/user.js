@@ -12,6 +12,12 @@ const USER_ROLES = [
   'moderator'
 ];
 
+// USER_STATUSES is the list of statuses that are permitted for the user status.
+const USER_STATUSES = [
+  'active',
+  'banned'
+];
+
 // UserSchema is the mongoose schema defined as the representation of a User in
 // MongoDB.
 const UserSchema = new mongoose.Schema({
@@ -64,7 +70,11 @@ const UserSchema = new mongoose.Schema({
 
   // Roles provides an array of roles (as strings) that is associated with a
   // user.
-  roles: [String]
+  roles: [String],
+
+  // Status provides a string that says in which state the account is.
+  // When the account is banned, the user login is disabled.
+  status: {type: String, enum: USER_STATUSES, default: 'active'}
 }, {
 
   // This will ensure that we have proper timestamps available on this model.
@@ -371,6 +381,30 @@ UserService.removeRoleFromUser = (id, role) => {
   }, {
     $pull: {
       roles: role
+    }
+  });
+};
+
+/**
+ * Adds a role to a user.
+ * @param  {String}   id   id of a user
+ * @param  {String}   role role to add
+ * @param  {Function} done callback after the operation is complete
+ */
+UserService.setStatus = (id, status) => {
+
+  // Check to see if the user role is in the allowable set of roles.
+  if (USER_STATUSES.indexOf(status) === -1) {
+
+    // User status is not supported! Error out here.
+    return Promise.reject(new Error(`status ${status} is not supported`));
+  }
+
+  return UserModel.update({
+    id: id
+  }, {
+    $set: {
+      status: status
     }
   });
 };
