@@ -1,5 +1,4 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
 const router = express.Router();
 
 router.get('/embed/stream/preview', (req, res) => {
@@ -7,15 +6,8 @@ router.get('/embed/stream/preview', (req, res) => {
 });
 
 router.get('/password-reset/:token', (req, res, next) => {
-  jwt.verify(req.params.token, process.env.TALK_SESSION_SECRET, (error, decoded) => {
-    if (error) {
-      return res.status(400).json({error});
-    }
-
-    console.log(decoded);
-
-    res.json(decoded);
-  });
+  // render a page or something?
+  res.send('ok');
 });
 
 router.get('*', (req, res) => {

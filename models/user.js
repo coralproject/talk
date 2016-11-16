@@ -196,6 +196,7 @@ UserSchema.statics.changePassword = function(id, password) {
   })
   .then((hashedPassword) => {
     return User.update({id}, {
+      $inc: {__v: 1},
       $set: {
         password: hashedPassword
       }
@@ -346,6 +347,10 @@ UserSchema.statics.findByIdArray = function(ids) {
   });
 };
 
+/**
+ * Creates a JWT from a user email. Only works for local accounts.
+ * @param {String} email of the local user
+ */
 UserSchema.statics.createJWT = function (email) {
   if (!email || typeof email !== 'string') {
     return Promise.reject('email is required when creating a JWT for resetting passord');
@@ -353,11 +358,42 @@ UserSchema.statics.createJWT = function (email) {
 
   email = email.toLowerCase();
 
-  const payload = {email, jti: uuid.v4()};
+  return this.findOne({profiles: {$elemMatch: {id: email}}})
+    .then(user => {
 
-  const token = jwt.sign(payload, process.env.TALK_SESSION_SECRET, {expiresIn: '1d'});
+      if (user === null) {
+        return Promise.reject(`Uh oh! We've never heard of ${email}. Maybe there's a typo in there?`);
+      }
 
-  return Promise.resolve(token);
+      const payload = {email, jti: uuid.v4(), userId: user.id, version: user.__v};
+      const token = jwt.sign(payload, process.env.TALK_SESSION_SECRET, {expiresIn: '1d'});
+
+      return token;
+    });
+};
+
+/**
+ * verifies a jwt and returns the associated user
+ * @param {String} token the JSON Web Token to verify
+ */
+UserSchema.statics.verifyToken = function (token) {
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, process.env.TALK_SESSION_SECRET, (error, decoded) => {
+      if (error) {
+        return reject(error);
+      }
+
+      resolve(decoded);
+    });
+  })
+  .then(decoded => {
+    /**
+     * TODO: check the jti from this decoded token in redis
+     * and make an entry if it does not exist.
+     * reject if entry already exists.
+     */
+    return this.findOne({id: decoded.userId});
+  });
 };
 
 const User = mongoose.model('User', UserSchema);

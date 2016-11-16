@@ -72,6 +72,27 @@ router.post('/:user_id/role', (req, res, next) => {
 });
 
 /**
+ * expects 2 fields in the body of the request
+ * 1) the token that was in the url of the email link {String}
+ * 2) the new password {String}
+ */
+router.post('/update-password', (req, res, next) => {
+  const {token, password} = req.body;
+
+  User.verifyToken(token)
+    .then(user => {
+      return User.changePassword(user.id, password);
+    })
+    .then(() => {
+      res.status(204).end();
+    })
+    .catch(error => {
+      console.error(error);
+      res.status(401).send('Not Authorized');
+    });
+});
+
+/**
  * this endpoint takes an email (username) and checks if it belongs to a User account
  * if it does, create a JWT and send an email
  */
@@ -91,7 +112,9 @@ router.post('/request-password-reset', (req, res, next) => {
         subject: 'password reset requested',
         from: 'coralcore@mozillafoundation.org',
         to: 'riley.davis@gmail.com',
-        html: `<a href="http://localhost:3000/admin/password-reset/${token}">reset password</a>`
+        html: `<p>We received a request to reset your password. If you did not request this change, you can ignore this email.
+                If you did, <a href="http://localhost:3000/admin/password-reset/${token}">please click here to reset password</a>.</p>
+                ${process.env.NODE_ENV === 'production' ? '' : `<h1>${token}</h1>`}`
       };
       return mailer.sendSimple(options);
     })
