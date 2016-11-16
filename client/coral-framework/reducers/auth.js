@@ -25,7 +25,6 @@ const initialState = Map({
   signInError: '',
   signUpError: '',
   emailAvailable: true,
-  displayNameAvailable: true,
 });
 
 export default function auth (state = initialState, action) {
@@ -34,7 +33,14 @@ export default function auth (state = initialState, action) {
     return state
       .set('showSignInDialog', true);
   case HIDE_SIGNIN_DIALOG :
-    return initialState;
+    return state.merge(Map({
+      isLoading: false,
+      showSignInDialog: false,
+      view: 'SIGNIN',
+      signInError: '',
+      signUpError: '',
+      emailAvailable: true,
+    }));
   case CHANGE_VIEW :
     return state
       .set('view', action.view);
@@ -43,22 +49,18 @@ export default function auth (state = initialState, action) {
   case FETCH_SIGNIN_REQUEST:
     return state
       .set('isLoading', true);
+  case FETCH_SIGNIN_SUCCESS:
+    return state
+      .set('loggedIn', true)
+      .set('user', action.user);
   case FETCH_SIGNIN_FAILURE:
     return state
       .set('isLoading', false)
       .set('signInError', action.error);
-  case FETCH_SIGNIN_SUCCESS:
-    return state
-      .set('signInError', '')
-      .set('isLoading', false)
-      .set('loggedIn', true)
-      .set('user', action.user)
-      .set('showSignInDialog', false);
   case FETCH_SIGNIN_FACEBOOK_SUCCESS:
     return state
       .set('user', action.user)
-      .set('loggedIn', true)
-      .set('showSignInDialog', false);
+      .set('loggedIn', true);
   case FETCH_SIGNIN_FACEBOOK_FAILURE:
     return state
       .set('error', action.error)

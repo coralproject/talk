@@ -41,14 +41,16 @@ const SignInContent = ({handleChange, formData, ...props}) => (
         value={formData.password}
         onChange={handleChange}
       />
-      {
-        !props.auth.isLoading ?
-        <Button type="submit" cStyle="black" className={styles.signInButton}>
-          {lang.t('signIn.signIn')}
-        </Button>
-        :
-        <Spinner />
-      }
+      <div className={styles.action}>
+        {
+          !props.auth.isLoading ?
+          <Button type="submit" cStyle="black" className={styles.signInButton}>
+            {lang.t('signIn.signIn')}
+          </Button>
+          :
+          <Spinner />
+        }
+      </div>
     </form>
     <div className={styles.footer}>
       <span><a onClick={() => props.changeView('FORGOT')}>{lang.t('signIn.forgotYourPass')}</a></span>

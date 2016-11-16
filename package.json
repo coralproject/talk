@@ -53,6 +53,7 @@
     "express": "^4.14.0",
     "express-session": "^1.14.2",
     "helmet": "^3.1.0",
+    "lodash.debounce": "^4.0.8",
     "mongoose": "^4.6.5",
     "morgan": "^1.7.0",
     "passport": "^0.3.2",

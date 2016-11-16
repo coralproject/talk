@@ -13,9 +13,10 @@ export default {
       register: 'Register',
       signUp: 'Sign Up',
       confirmPassword: 'Confirm Password',
-      username: 'Username',
+      displayName: 'Display Name',
       alreadyHaveAnAccount: 'Already have an account?',
-      recoverPassword: 'Recover password'
+      recoverPassword: 'Recover password',
+      emailInUse: 'Email address already in use'
     }
   },
   es: {
@@ -32,9 +33,10 @@ export default {
       register: 'Regístrate',
       signUp: 'Registro',
       confirmPassword: 'Confirmar Contraseña',
-      username: 'Usuario',
+      displayName: 'Nombre',
       alreadyHaveAnAccount: 'Ya tienes una cuenta?',
-      recoverPassword: 'Recuperar contraseña'
+      recoverPassword: 'Recuperar contraseña',
+      emailInUse: 'Este email se encuentra en uso'
     }
   }
 };

@@ -15,6 +15,10 @@
     font-size: 1.2em;
 }
 
+.formField {
+    margin-top: 15px;
+}
+
 .formField label {
     font-size: 1.08em;
     font-weight: bold;
@@ -74,10 +78,10 @@
 }
 
 input.error{
-    border: solid 1px #f44336;
+    border: solid 2px #f44336;
 }
 
-.errorMsg {
+.errorMsg, .hint {
     color: grey;
     font-weight: 600;
     padding: 3px 0 16px;
@@ -86,6 +90,7 @@ input.error{
 .alert {
     padding: 10px;
     margin-bottom: 20px;
+    border-radius: 2px;
 }
 
 .alert--success {
@@ -103,4 +108,25 @@ input.error{
     color: #2c69b6;
     cursor: pointer;
     margin: 0 5px;
+}
+
+.attention {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background: #B71C1C;
+    color: #FFEBEE;
+    font-weight: bolder;
+    padding: 4px;
+    vertical-align: middle;
+    border-radius: 20px;
+    box-sizing: border-box;
+    font-size: 9px;
+    line-height: 7px;
+    text-align: center;
+    margin-right: 5px;
+}
+
+.action {
+    margin-top: 15px;
 }

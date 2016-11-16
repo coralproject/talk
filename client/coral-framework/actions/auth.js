@@ -23,7 +23,10 @@ export const fetchSignIn = (formData) => dispatch => {
   dispatch(signInRequest());
   fetch(`${base}/auth/local`, getInit('POST', formData))
     .then(handleResp)
-    .then(({user}) => dispatch(signInSuccess(user)))
+    .then(({user}) => {
+      dispatch(hideSignInDialog());
+      dispatch(signInSuccess(user));
+    })
     .catch(() => dispatch(signInFailure('Email and/or password combination incorrect.')));
 };
 
@@ -49,6 +52,7 @@ export const facebookCallback = (err, data) => dispatch => {
   }
   try {
     dispatch(signInFacebookSuccess(JSON.parse(data)));
+    dispatch(hideSignInDialog());
   } catch (err) {
     dispatch(signInFacebookFailure(err));
     return;
@@ -65,8 +69,11 @@ export const fetchSignUp = formData => dispatch => {
   dispatch(signUpRequest());
   fetch(`${base}/user`, getInit('POST', formData))
     .then(handleResp)
-    .then(({user}) => signUpSuccess(user))
-    .catch((error) => signUpFailure(error));
+    .then(({user}) => {
+      dispatch(signUpSuccess(user));
+      dispatch(hideSignInDialog());
+    })
+    .catch((error) => dispatch(signUpFailure(error)));
 };
 
 // Forgot Password Actions

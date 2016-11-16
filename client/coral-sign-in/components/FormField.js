@@ -11,7 +11,7 @@ const FormField = ({className, showErrors = false, errorMsg, label, ...props}) =
       name={props.id}
       {...props}
     />
-    {showErrors && errorMsg && <span className={styles.errorMsg}>{errorMsg}</span>}
+    {showErrors && errorMsg && <span className={styles.errorMsg}><span className={styles.attention}>!</span>{errorMsg}</span>}
   </div>
 );
 

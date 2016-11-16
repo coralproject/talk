@@ -32,21 +32,20 @@ const SignUpContent = ({handleChange, formData, ...props}) => (
         type="email"
         label={lang.t('signIn.email')}
         value={formData.email}
-        showErrors={props.showErrors}
-        errorMsg={props.errors.email}
+        showErrors={!props.auth.emailAvailable || props.showErrors}
+        errorMsg={!props.auth.emailAvailable ? lang.t('signIn.emailInUse') : props.errors.email}
         onChange={handleChange}
+        autoFocus
       />
-      { !props.auth.emailAvailable && <Alert>This email is not available.</Alert> }
       <FormField
-        id="username"
+        id="displayName"
         type="text"
-        label={lang.t('signIn.username')}
-        value={formData.username}
+        label={lang.t('signIn.displayName')}
+        value={formData.displayName}
         showErrors={props.showErrors}
-        errorMsg={props.errors.username}
+        errorMsg={props.errors.displayName}
         onChange={handleChange}
       />
-      { !props.auth.displayNameAvailable && <Alert>This username is not available.</Alert> }
       <FormField
         id="password"
         type="password"
@@ -55,7 +54,9 @@ const SignUpContent = ({handleChange, formData, ...props}) => (
         showErrors={props.showErrors}
         errorMsg={props.errors.password}
         onChange={handleChange}
+        minLength="8"
       />
+      { !props.errors.password && <span className={styles.hint}> Password must be at least 8 characters. </span> }
       <FormField
         id="confirmPassword"
         type="password"
@@ -64,15 +65,18 @@ const SignUpContent = ({handleChange, formData, ...props}) => (
         showErrors={props.showErrors}
         errorMsg={props.errors.confirmPassword}
         onChange={handleChange}
+        minLength="8"
       />
-      {
-        !props.auth.isLoading ?
-          <Button type="submit" cStyle="black" className={styles.signInButton}>
-            {lang.t('signIn.signUp')}
-          </Button>
-          :
-          <Spinner />
-      }
+      <div className={styles.action}>
+        {
+          !props.auth.isLoading ?
+            <Button type="submit" cStyle="black" className={styles.signInButton}>
+              {lang.t('signIn.signUp')}
+            </Button>
+            :
+            <Spinner />
+        }
+      </div>
     </form>
     <div className={styles.footer}>
       <span>

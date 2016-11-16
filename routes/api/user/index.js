@@ -61,7 +61,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  const {email, password, displayName} = req.query;
+  const {email, password, displayName} = req.body;
 
   User
     .createLocalUser(email, password, displayName)
@@ -87,14 +87,9 @@ router.post('/availability', (req, res, next) => {
     })
     .then(count => {
       if (count) {
-        res.json({
-          status: 'unavailable'
-        });
-      } else {
-        res.json({
-          status: 'available'
-        });
+        return res.json({status: 'unavailable'});
       }
+      return res.json({status: 'available'});
     })
     .catch(err => {
       next(err);

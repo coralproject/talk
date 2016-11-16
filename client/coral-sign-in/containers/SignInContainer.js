@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import debounce from 'lodash.debounce';
 
 import SignDialog from '../components/SignDialog';
 import Button from 'coral-ui/components/Button';
 
 import validate from 'coral-framework/helpers/validate';
-import error from 'coral-framework/helpers/error';
+import errorMsj from 'coral-framework/helpers/error';
 
 import {
   changeView,
@@ -23,7 +24,7 @@ class SignInContainer extends Component {
   initialState = {
     formData: {
       email: '',
-      username: '',
+      displayName: '',
       password: '',
       confirmPassword: ''
     },
@@ -39,7 +40,7 @@ class SignInContainer extends Component {
     this.handleSignIn = this.handleSignIn.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.cleanState = this.cleanState.bind(this);
-    this.validation = this.validation.bind(this);
+    this.addError = this.addError.bind(this);
   }
 
   componentDidMount() {
@@ -52,72 +53,77 @@ class SignInContainer extends Component {
 
   handleChange(e) {
     const {name, value} = e.target;
-    this.validation(name, value, this.state.formData);
-
     this.setState(state => ({
       ...state,
       formData: {
         ...state.formData,
         [name]: value
       }
+    }), () => {
+      this.validation(name, value);
+    });
+  }
+
+  addError(name, error) {
+    return this.setState(state => ({
+      errors: {
+        ...state.errors,
+        [name]: error
+      }
     }));
   }
 
   validation(name, value) {
-    if (!validate[name](value)) {
-      this.setState(state => ({
-        errors: {
-          ...state.errors,
-          [name]: error[name]
-        }
-      }));
+    const {addError} = this;
+    const {formData} = this.state;
+    const {checkAvailability} = this.props;
+
+    if (!value.length) {
+      addError(name, 'Please, fill this field');
+    } else if (name === 'confirmPassword' && formData.confirmPassword !== formData.password) {
+      addError(name, 'Passwords don`t match. Please, check again.');
+    } else if (!validate[name](value)) {
+      addError(name, errorMsj[name]);
     } else {
       const { [name]: prop, ...errors } = this.state.errors; // eslint-disable-line
-      this.setState(state => ({
-        ...state,
-        errors
-      }));
-
-      // Check Availability
-
-      if (name === 'email' || name === 'displayName') {
-        this.props.checkAvailability({[name]: value});
+      // Removes Error
+      this.setState(state => ({...state, errors}));
+      // Checks Email Availability
+      if (name === 'email') {
+        debounce(checkAvailability({[name]: value}), 250);
       }
-
     }
   }
 
   isCompleted() {
     const {formData} = this.state;
-    return !Object.keys(formData).filter(prop => !formData[prop].length).length;
+    const {emailAvailable} = this.props.auth;
+    return !Object.keys(formData).filter(prop => !formData[prop].length).length && emailAvailable;
   }
 
   displayErrors(show = true) {
-    this.setState({
-      showErrors: show
-    });
+    this.setState({showErrors: show});
   }
 
   handleSignUp(e) {
     e.preventDefault();
+    const {errors} = this.state;
     this.displayErrors();
-    if (this.isCompleted()) {
-      console.log('Is Completed!!');
-    } else {
-      console.log('Is not Completed!!');
+    if (this.isCompleted() && !Object.keys(errors).length) {
+      this.props.fetchSignUp(this.state.formData);
+      this.cleanState();
     }
-    this.props.fetchSignUp(this.state.formData);
   }
 
   handleSignIn(e) {
     e.preventDefault();
-    this.displayErrors();
     this.props.fetchSignIn(this.state.formData);
+    this.cleanState();
   }
 
   handleClose() {
-    this.cleanState();
     this.props.hideSignInDialog();
+    this.cleanState();
   }
 
   changeView(view) {
@@ -127,19 +133,16 @@ class SignInContainer extends Component {
 
   render() {
     const {auth, showSignInDialog} = this.props;
-    const {errors, showErrors, formData} = this.state;
     return (
       <div>
         <Button onClick={showSignInDialog}>
           Sign in to comment
         </Button>
         <SignDialog
-          open={auth.showSignInDialog}
+          open={showSignInDialog}
           view={auth.view}
-          showErrors={showErrors}
-          formData={formData}
-          errors={errors}
           {...this}
+          {...this.state}
           {...this.props}
         />
       </div>
@@ -147,7 +150,7 @@ class SignInContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   auth: state.auth.toJS()
 });
 
