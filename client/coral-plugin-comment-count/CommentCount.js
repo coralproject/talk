@@ -5,7 +5,7 @@ const name = 'coral-plugin-comment-count';
 
 const CommentCount = ({items, id}) => {
   let count = 0;
-  if (items.assets[id]) {
+  if (items.assets[id] && items.assets[id].comments) {
     count += items.assets[id].comments.length;
   }
   const itemKeys = Object.keys(items.comments);

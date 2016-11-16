@@ -7,6 +7,7 @@ import {
 } from '../../coral-framework';
 import {connect} from 'react-redux';
 import CommentBox from '../../coral-plugin-commentbox/CommentBox';
+import InfoBox from '../../coral-plugin-infobox/InfoBox';
 import Content from '../../coral-plugin-commentcontent/CommentContent';
 import PubDate from '../../coral-plugin-pubdate/PubDate';
 import Count from '../../coral-plugin-comment-count/CommentCount';
@@ -76,34 +77,25 @@ class CommentStream extends Component {
   componentDidMount () {
     // Set up messaging between embedded Iframe an parent component
     // Using recommended Pym init code which violates .eslint standards
-    new Pym.Child({polling: 500});
-    this.props.getStream('assetTest');
+    const pym = new Pym.Child({polling: 100});
+    const path = /https?\:\/\/([^?]+)/.exec(pym.parentUrl)[1];
+    this.props.getStream(path);
   }
 
   render () {
-    if (Object.keys(this.props.items).length === 0) {
-        // Loading mock asset
-      this.props.postItem({
-        comments: [],
-        url: 'http://coralproject.net'
-      }, 'asset', 'assetTest');
-
-        // Loading mock user
-      this.props.postItem({name: 'Ban Ki-Moon'}, 'user', 'user_8989')
-        .then((id) => {
-          this.props.setLoggedInUser(id);
-        });
-    }
 
     // TODO: Replace teststream id with id from params
 
-    const rootItemId = 'assetTest';
+    const rootItemId = this.props.items.assets && Object.keys(this.props.items.assets)[0];
     const rootItem = this.props.items.assets && this.props.items.assets[rootItemId];
     return <div>
       {
         rootItem
         ? <div>
           <div id="commentBox">
+            <InfoBox
+              content={this.props.config.infoBoxContent}
+              enable={this.props.config.infoBoxEnable}/>
             <Count
               id={rootItemId}
               items={this.props.items}/>
@@ -117,7 +109,7 @@ class CommentStream extends Component {
               reply={false}/>
           </div>
           {
-            rootItem.comments.map((commentId) => {
+            rootItem.comments && rootItem.comments.map((commentId) => {
               const comment = this.props.items.comments[commentId];
               return <div className="comment" key={commentId}>
                 <hr aria-hidden={true}/>

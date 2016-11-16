@@ -23,6 +23,21 @@
   cursor: pointer;
 }
 
+.configSettingInfoBox {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  width: auto;
+  height: auto;
+  text-align: left;
+}
+
+.configSettingInfoBox p {
+  font-size: 12px;
+  bottom: 0;
+}
+
 .configSettingEmbed {
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -52,4 +67,8 @@
   padding: 14px;
   font-size: 14px;
   letter-spacing: 0.03em;
+}
+
+.hidden {
+  display: none;
 }

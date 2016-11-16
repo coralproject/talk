@@ -94,9 +94,9 @@ export const appendItemArray = (id, property, value, add_to_front, item_type) =>
 * @dispatches
 *   A set of items to the item store
 */
-export function getStream (assetId) {
+export function getStream (assetUrl) {
   return (dispatch) => {
-    return fetch(`/api/v1/stream?asset_id=${assetId}`, getInit('GET'))
+    return fetch(`/api/v1/stream?asset_url=${encodeURIComponent(assetUrl)}`)
       .then(responseHandler)
       .then((json) => {
 
@@ -107,6 +107,8 @@ export function getStream (assetId) {
             dispatch(addItem(json[itemTypes[i]][j], itemTypes[i]));
           }
         }
+
+        const assetId = json.assets[0].id;
 
         /* Sort comments by date*/
         json.comments.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
@@ -125,10 +127,7 @@ export function getStream (assetId) {
           return h;
         }, {rootComments: [], childComments: {}});
 
-        dispatch(addItem({
-          id: assetId,
-          comments: rels.rootComments,
-        }, 'assets'));
+        dispatch(updateItem(assetId, 'comments', rels.rootComments, 'assets'));
 
         const childKeys = Object.keys(rels.childComments);
         for (let i = 0; i < childKeys.length; i++ ) {
