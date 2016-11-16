@@ -7,14 +7,14 @@ import {
   ListItem,
   ListItemContent,
   ListItemAction,
-  //Textfield,
+  Textfield,
   Checkbox,
   Button,
   Icon
 } from 'react-mdl';
 import styles from './Configure.css';
 import I18n from 'coral-framework/i18n/i18n';
-import translations from '../translations';
+import translations from '../translations.json';
 
 class Configure extends React.Component {
   constructor (props) {
@@ -24,6 +24,8 @@ class Configure extends React.Component {
 
     this.copyToClipBoard = this.copyToClipBoard.bind(this);
     this.updateModeration = this.updateModeration.bind(this);
+    this.updateInfoBoxEnable = this.updateInfoBoxEnable.bind(this);
+    this.updateInfoBoxContent = this.updateInfoBoxContent.bind(this);
     this.saveSettings = this.saveSettings.bind(this);
   }
 
@@ -34,6 +36,16 @@ class Configure extends React.Component {
   updateModeration () {
     const moderation = this.props.settings.moderation === 'pre' ? 'post' : 'pre';
     this.props.dispatch(updateSettings({moderation}));
+  }
+
+  updateInfoBoxEnable () {
+    const infoBoxEnable = !this.props.settings.infoBoxEnable;
+    this.props.dispatch(updateSettings({infoBoxEnable}));
+  }
+
+  updateInfoBoxContent (event) {
+    const infoBoxContent =  event.target.value;
+    this.props.dispatch(updateSettings({infoBoxContent}));
   }
 
   saveSettings () {
@@ -48,22 +60,30 @@ class Configure extends React.Component {
             onClick={this.updateModeration}
             checked={this.props.settings.moderation === 'pre'} />
         </ListItemAction>
-        Enable pre-moderation
+        {lang.t('configure.enable-pre-moderation')}
       </ListItem>
-      {/*
-      <ListItem className={styles.configSetting}>
-        <ListItemAction><Checkbox /></ListItemAction>
-        Include Comment Stream Description for Readers
+      <ListItem threeLine className={styles.configSettingInfoBox}>
+        <ListItemAction>
+          <Checkbox
+            onClick={this.updateInfoBoxEnable}
+            checked={this.props.settings.infoBoxEnable} />
+        </ListItemAction>
+        <ListItemContent>
+          {lang.t('configure.include-comment-stream')}
+          <p>
+            {lang.t('configure.include-comment-stream-desc')}
+          </p>
+        </ListItemContent>
       </ListItem>
-      <ListItem className={styles.configSetting}>
-        <ListItemAction><Checkbox /></ListItemAction>
-        Limit Comment Length
-        <Textfield
-          pattern='-?[0-9]*(\.[0-9]+)?'
-          error='Input is not a number!'
-          label='Maximum Characters' />
+      <ListItem className={`${styles.configSettingInfoBox} ${this.props.settings.infoBoxEnable ? null : styles.hidden}`} >
+        <ListItemContent>
+          <Textfield
+            onChange={this.updateInfoBoxContent}
+            value={this.props.settings.infoBoxContent}
+            label={lang.t('configure.include-text')}
+            rows={3}/>
+        </ListItemContent>
       </ListItem>
-    */}
     </List>;
   }
 
@@ -84,7 +104,7 @@ class Configure extends React.Component {
 
     return <List>
       <ListItem className={styles.configSettingEmbed}>
-        <p>Copy and paste code below into your CMS to embed your comment box in your articles</p>
+        <p>{lang.t('configure.copy-and-paste')}</p>
         <textarea rows={5} type='text' className={styles.embedInput} value={embedText} readOnly={true}/>
         <Button raised colored className={styles.copyButton} onClick={this.copyToClipBoard}>
           {lang.t('embedlink.copy')}
@@ -100,8 +120,8 @@ class Configure extends React.Component {
 
   render () {
     let pageTitle = this.state.activeSection === 'comments'
-      ? 'Comment Settings'
-      : 'Embed Comment Stream';
+      ? lang.t('configure.comment-settings')
+      : lang.t('configure.embed-comment-stream');
 
     if (this.props.fetchingSettings) {
       pageTitle += ' - Loading...';
@@ -114,16 +134,16 @@ class Configure extends React.Component {
               <ListItem className={styles.settingOption}>
                 <ListItemContent
                   onClick={this.changeSection.bind(this, 'comments')}
-                  icon='settings'>Comment Settings</ListItemContent>
+                  icon='settings'>{lang.t('configure.comment-settings')}</ListItemContent>
               </ListItem>
               <ListItem className={styles.settingOption}>
                 <ListItemContent
                   onClick={this.changeSection.bind(this, 'embed')}
-                  icon='code'>Embed Comment Stream</ListItemContent>
+                  icon='code'>{lang.t('configure.embed-comment-stream')}</ListItemContent>
               </ListItem>
             </List>
             <Button raised colored onClick={this.saveSettings}>
-              <Icon name='save' /> Save Changes
+              <Icon name='save' /> {lang.t('configure.save-changes')}
             </Button>
           </div>
           <div className={styles.mainContent}>
