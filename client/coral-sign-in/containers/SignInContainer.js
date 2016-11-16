@@ -111,23 +111,19 @@ class SignInContainer extends Component {
     this.displayErrors();
     if (this.isCompleted() && !Object.keys(errors).length) {
       this.props.fetchSignUp(this.state.formData);
-      this.cleanState();
     }
   }
 
   handleSignIn(e) {
     e.preventDefault();
     this.props.fetchSignIn(this.state.formData);
-    this.cleanState();
   }
 
   handleClose() {
     this.props.hideSignInDialog();
-    this.cleanState();
   }
 
   changeView(view) {
-    this.cleanState();
     this.props.changeView(view);
   }
 
