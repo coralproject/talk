@@ -11,7 +11,8 @@ const Schema = mongoose.Schema;
 const SettingSchema = new Schema({
   id: {type: String, default: '1'},
   moderation: {type: String, enum: ['pre', 'post'], default: 'pre'},
-  smtp_connection_string: {type: String, default: ''},
+  infoBoxEnable: {type: Boolean, default: false},
+  infoBoxContent: {type: String, default: ''}
 }, {
   timestamps: {
     createdAt: 'created_at',
@@ -41,6 +42,14 @@ SettingSchema.statics.getSettings = function () {
  */
 SettingSchema.statics.getModerationSetting = function () {
   return this.findOne({id: '1'}).select('moderation');
+};
+
+/**
+ * Gets the info box settings and sends it back
+ * @return {Promise} content the content of the info Box
+ */
+SettingSchema.statics.getInfoBoxSetting = function () {
+  return this.findOne({id: '1'}).select('infoBoxEnable', 'infoBoxContent');
 };
 
 /**

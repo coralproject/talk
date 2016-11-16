@@ -1,6 +1,6 @@
 import React from 'react';
 import I18n from 'coral-framework/i18n/i18n';
-import translations from '../../translations';
+import translations from '../../translations.json';
 import {Grid, Cell} from 'react-mdl';
 
 import styles from './Community.css';

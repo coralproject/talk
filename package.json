@@ -5,25 +5,20 @@
   "main": "app.js",
   "scripts": {
     "start": "./bin/www",
-    "build": "webpack --config webpack.config.js --bail",
-    "build-watch": "webpack --config webpack.config.dev.js --watch",
+    "build": "NODE_ENV=production webpack --config webpack.config.js --bail",
+    "build-watch": "NODE_ENV=development webpack --config webpack.config.dev.js --watch",
     "lint": "eslint bin/* .",
     "lint-fix": "eslint . --fix",
     "pretest": "npm install",
     "test": "mocha --compilers js:babel-core/register --recursive tests",
     "test-watch": "mocha --compilers js:babel-core/register --recursive -w tests",
-    "embed-start": "npm run build && ./bin/www"
+    "embed-start": "NODE_ENV=development npm run build && ./bin/www"
   },
   "config": {
     "pre-git": {
       "commit-msg": [],
-      "pre-commit": [
-        "npm run lint",
-        "npm test"
-      ],
-      "pre-push": [
-        "npm test"
-      ],
+      "pre-commit": ["npm run lint", "npm test"],
+      "pre-push": ["npm test"],
       "post-commit": [],
       "post-merge": []
     }
@@ -32,12 +27,7 @@
     "type": "git",
     "url": "git+https://github.com/coralproject/talk.git"
   },
-  "keywords": [
-    "talk",
-    "coral",
-    "coralproject",
-    "ask"
-  ],
+  "keywords": ["talk", "coral", "coralproject", "ask"],
   "author": "",
   "license": "Apache-2.0",
   "bugs": {
