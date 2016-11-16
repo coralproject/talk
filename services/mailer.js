@@ -1,14 +1,14 @@
 const nodemailer = require('nodemailer');
 const debug = require('debug')('talk:mail');
 
-if (!process.env.TALK_SENDGRID_APIKEY) {
+if (!process.env.TALK_SMTP_STRING) {
   debug('\n///////////////////////////////////////////////////////////////\n' +
         '///   TALK_SENDGRID_APIKEY should be defined if you would   ///\n' +
         '///   like to send password reset emails from Talk          ///\n' +
         '///////////////////////////////////////////////////////////////');
 }
 
-const transporter = nodemailer.createTransport(`smtps://apikey:${process.env.TALK_SENDGRID_APIKEY}@smtp.sendgrid.net`);
+const transporter = nodemailer.createTransport(process.env.TALK_SMTP_STRING);
 
 const mailer = {
   /**
