@@ -11,28 +11,9 @@ router.get('/', (req, res, next) => {
     limit = 50 // Total Per Page
     } = req.query;
 
-  let q = {
-    $or: [
-      {
-        'displayName': {
-          $regex: new RegExp(`^${value}`),
-          $options: 'i'
-        },
-        'profiles': {
-          $elemMatch: {
-            id: {
-              $regex: new RegExp(`^${value}`),
-              $options: 'i'
-            },
-            provider: 'local'
-          }
-        }
-      }
-    ]
-  };
-
   Promise.all([
-    User.find(q)
+    User
+      .search(value)
       .sort({[field]: (asc === 'true') ? 1 : -1})
       .skip((page - 1) * limit)
       .limit(limit),
@@ -63,11 +44,12 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/:user_id/role', (req, res, next) => {
-  User.addRoleToUser(req.params.user_id, req.body.role)
-  .then(role => {
-    res.send(role);
-  })
-  .catch(next);
+  User
+    .addRoleToUser(req.params.user_id, req.body.role)
+    .then(role => {
+      res.send(role);
+    })
+    .catch(next);
 });
 
 module.exports = router;
