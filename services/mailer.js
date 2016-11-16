@@ -1,11 +1,5 @@
 const nodemailer = require('nodemailer');
-const sgTransport = require('nodemailer-sendgrid-transport');
 const debug = require('debug')('talk:mail');
-const options = {
-  auth: {
-    api_key: process.env.TALK_SENDGRID_APIKEY
-  }
-};
 
 if (!process.env.TALK_SENDGRID_APIKEY) {
   debug('\n///////////////////////////////////////////////////////////////\n' +
@@ -14,7 +8,7 @@ if (!process.env.TALK_SENDGRID_APIKEY) {
         '///////////////////////////////////////////////////////////////');
 }
 
-const transporter = nodemailer.createTransport(sgTransport(options));
+const transporter = nodemailer.createTransport(`smtps://apikey:${process.env.TALK_SENDGRID_APIKEY}@smtp.sendgrid.net`);
 
 const mailer = {
   /**
