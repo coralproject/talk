@@ -95,7 +95,7 @@ router.post('/request-password-reset', (req, res, next) => {
     .then(token => {
       const options = {
         subject: 'Password Reset Requested - Talk',
-        from: 'coralcore@mozillafoundation.org',
+        from: 'noreply@coralproject.net',
         to: email,
         html: resetEmailTemplate({
           token,
