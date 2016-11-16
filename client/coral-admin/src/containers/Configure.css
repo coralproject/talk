@@ -29,6 +29,13 @@
   margin-bottom: 10px;
   cursor: pointer;
   width: auto;
+  height: auto;
+  text-align: left;
+}
+
+.configSettingInfoBox p {
+  font-size: 12px;
+  bottom: 0;
 }
 
 .configSettingEmbed {

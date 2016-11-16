@@ -60,7 +60,7 @@ class Configure extends React.Component {
             onClick={this.updateModeration}
             checked={this.props.settings.moderation === 'pre'} />
         </ListItemAction>
-        Enable pre-moderation
+        {lang.t('configure.enable-pre-moderation')}
       </ListItem>
       <ListItem threeLine className={styles.configSettingInfoBox}>
         <ListItemAction>
@@ -68,33 +68,22 @@ class Configure extends React.Component {
             onClick={this.updateInfoBoxEnable}
             checked={this.props.settings.infoBoxEnable} />
         </ListItemAction>
-        <ListItemContent>Include Comment Stream Description for Readers.
-        Write a message to be added to the top of your comment stream. Pose a topic, include community guidelines, etc.
+        <ListItemContent>
+          {lang.t('configure.include-comment-stream')}
+          <p>
+            {lang.t('configure.include-comment-stream-desc')}
+          </p>
         </ListItemContent>
       </ListItem>
       <ListItem className={`${styles.configSettingInfoBox} ${this.props.settings.infoBoxEnable ? null : styles.hidden}`} >
-        <Textfield
-          onChange={this.updateInfoBoxContent}
-          value={this.props.settings.infoBoxContent}
-          expandable
-          label='Include your text here'
-          rows={3}
-          style={{width: '100%'}}/>
+        <ListItemContent>
+          <Textfield
+            onChange={this.updateInfoBoxContent}
+            value={this.props.settings.infoBoxContent}
+            label={lang.t('configure.include-text')}
+            rows={3}/>
+        </ListItemContent>
       </ListItem>
-      {/*
-      <ListItem className={styles.configSetting}>
-        <ListItemAction><Checkbox /></ListItemAction>
-        Include Comment Stream Description for Readers
-      </ListItem>
-      <ListItem className={styles.configSetting}>
-        <ListItemAction><Checkbox /></ListItemAction>
-        Limit Comment Length
-        <Textfield
-          pattern='-?[0-9]*(\.[0-9]+)?'
-          error='Input is not a number!'
-          label='Maximum Characters' />
-      </ListItem>
-    */}
     </List>;
   }
 
@@ -115,7 +104,7 @@ class Configure extends React.Component {
 
     return <List>
       <ListItem className={styles.configSettingEmbed}>
-        <p>Copy and paste code below into your CMS to embed your comment box in your articles</p>
+        <p>{lang.t('configure.copy-and-paste')}</p>
         <textarea rows={5} type='text' className={styles.embedInput} value={embedText} readOnly={true}/>
         <Button raised colored className={styles.copyButton} onClick={this.copyToClipBoard}>
           {lang.t('embedlink.copy')}
@@ -131,8 +120,8 @@ class Configure extends React.Component {
 
   render () {
     let pageTitle = this.state.activeSection === 'comments'
-      ? 'Comment Settings'
-      : 'Embed Comment Stream';
+      ? lang.t('configure.comment-settings')
+      : lang.t('configure.embed-comment-stream');
 
     if (this.props.fetchingSettings) {
       pageTitle += ' - Loading...';
@@ -145,16 +134,16 @@ class Configure extends React.Component {
               <ListItem className={styles.settingOption}>
                 <ListItemContent
                   onClick={this.changeSection.bind(this, 'comments')}
-                  icon='settings'>Comment Settings</ListItemContent>
+                  icon='settings'>{lang.t('configure.comment-settings')}</ListItemContent>
               </ListItem>
               <ListItem className={styles.settingOption}>
                 <ListItemContent
                   onClick={this.changeSection.bind(this, 'embed')}
-                  icon='code'>Embed Comment Stream</ListItemContent>
+                  icon='code'>{lang.t('configure.embed-comment-stream')}</ListItemContent>
               </ListItem>
             </List>
             <Button raised colored onClick={this.saveSettings}>
-              <Icon name='save' /> Save Changes
+              <Icon name='save' /> {lang.t('configure.save-changes')}
             </Button>
           </div>
           <div className={styles.mainContent}>

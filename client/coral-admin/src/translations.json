@@ -29,6 +29,19 @@
     },
     "embedlink": {
       "copy": "Copy to Clipboard"
+    },
+    "configure": {
+      "enable-pre-moderation": "Enable pre-moderation",
+      "include-comment-stream": "Include Comment Stream Description for Readers.",
+      "include-comment-stream-desc": "Write a message to be added to the top of your comment stream. Pose a topic, include community guidelines, etc.",
+      "include-text": "Include your text here.",
+      "comment-settings": "Comment Settings",
+      "embed-comment-stream": "Embed Comment Stream",
+      "save-changes": "Save Changes",
+      "copy-and-paste": "Copy and paste code below into your CMS to embed your comment box in your articles",
+      "moderate": "Moderate",
+      "configure": "Configure",
+      "community": "Community"
     }
   },
   "es": {
@@ -50,6 +63,19 @@
     "comment": {
       "flagged": "marcado",
       "anon": "Anónimo"
+    },
+    "configure": {
+      "enable-pre-moderation": "Habilitar pre-moderación",
+      "include-comment-stream": "Incluir la Descripción a un Hilo de Comentario para los y las Lectoras.",
+      "include-comment-stream-desc": "Escribir un mensaje que será agregado a la parte de arriba del tu hilo de comentarios. Por ejemplo, un tema, guias de comunidad, etc.",
+      "include-text": "Incluir tu texto aqui.",
+      "comment-settings": "Configuración de Comentarios",
+      "embed-comment-stream": "Colocar Hilo de Comentarios",
+      "save-changes": "Guardar Cambios",
+      "copy-and-paste": "Copiar y pegar el código de más abajo en tu CMS para colocar la caja de comentarios en tus articulos",
+      "moderate": "Moderar",
+      "configure": "Configurar",
+      "community": "Comunidad"
     }
   }
 }
