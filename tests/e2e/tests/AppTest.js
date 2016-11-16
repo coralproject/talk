@@ -1,13 +1,13 @@
-export default {
+module.exports = {
   '@tags': ['app'],
   'Base url and Hostname': browser => {
-    const { baseUrl } = browser.globals;
+    const {baseUrl} = browser.globals;
     browser
       .url(baseUrl)
       .assert.title('Talk - Coral (Beta)')
-      .waitForElementPresent("body", 1000)
+      .waitForElementPresent('body', 1000);
   },
   after: client => {
-    client.end()
+    client.end();
   }
 };

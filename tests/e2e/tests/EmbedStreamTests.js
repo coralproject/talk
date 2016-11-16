@@ -1,4 +1,4 @@
-const comment = 'This is a test comment.'
+const comment = 'This is a test comment.';
 
 module.exports = {
   '@tags': ['embed-stream', 'post'],
