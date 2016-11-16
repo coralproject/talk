@@ -10,20 +10,23 @@ import {
   FETCH_SIGNIN_SUCCESS,
   FETCH_SIGNIN_FACEBOOK_SUCCESS,
   FETCH_SIGNIN_FACEBOOK_FAILURE,
-  LOGOUT_SUCCESS
+  LOGOUT_SUCCESS,
+  FETCH_SIGNUP_FAILURE,
+  AVAILABLE_FIELD,
+  UNAVAILABLE_FIELD
 } from '../constants/auth';
 
 const initialState = Map({
-  auth: Map(),
   isLoading: false,
   loggedIn: false,
   user: null,
   showSignInDialog: false,
   view: 'SIGNIN',
-  signInError: ''
+  signInError: '',
+  signUpError: '',
+  emailAvailable: true,
+  displayNameAvailable: true,
 });
-
-export const getEmail = state => state.auth.formData.email;
 
 export default function auth (state = initialState, action) {
   switch (action.type) {
@@ -60,10 +63,20 @@ export default function auth (state = initialState, action) {
     return state
       .set('error', action.error)
       .set('user', null);
+  case FETCH_SIGNUP_FAILURE:
+    console.log(action);
+    return state
+      .set('signUpError', action.error);
   case LOGOUT_SUCCESS:
     return state
       .set('loggedIn', false)
       .set('user', null);
+  case AVAILABLE_FIELD:
+    return state
+      .set(`${action.field}Available`, true);
+  case UNAVAILABLE_FIELD:
+    return state
+      .set(`${action.field}Available`, false);
   default :
     return state;
   }

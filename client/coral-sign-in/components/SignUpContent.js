@@ -1,8 +1,9 @@
 import React from 'react';
-import styles from './styles.css';
 import FormField from './FormField';
+import Alert from './Alert';
 import Button from 'coral-ui/components/Button';
 import Spinner from 'coral-ui/components/Spinner';
+import styles from './styles.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
 const lang = new I18n(translations);
@@ -24,6 +25,7 @@ const SignUpContent = ({handleChange, formData, ...props}) => (
         {lang.t('signIn.or')}
       </h1>
     </div>
+    { props.auth.signUpError && <Alert>{props.auth.signUpError}</Alert> }
     <form onSubmit={props.handleSignUp}>
       <FormField
         id="email"
@@ -34,6 +36,7 @@ const SignUpContent = ({handleChange, formData, ...props}) => (
         errorMsg={props.errors.email}
         onChange={handleChange}
       />
+      { !props.auth.emailAvailable && <Alert>This email is not available.</Alert> }
       <FormField
         id="username"
         type="text"
@@ -43,6 +46,7 @@ const SignUpContent = ({handleChange, formData, ...props}) => (
         errorMsg={props.errors.username}
         onChange={handleChange}
       />
+      { !props.auth.displayNameAvailable && <Alert>This username is not available.</Alert> }
       <FormField
         id="password"
         type="password"
@@ -61,9 +65,8 @@ const SignUpContent = ({handleChange, formData, ...props}) => (
         errorMsg={props.errors.confirmPassword}
         onChange={handleChange}
       />
-
       {
-        !props.isLoading ?
+        !props.auth.isLoading ?
           <Button type="submit" cStyle="black" className={styles.signInButton}>
             {lang.t('signIn.signUp')}
           </Button>

@@ -30,8 +30,8 @@ export const fetchSignIn = (formData) => dispatch => {
 // Sign In - Facebook
 
 const signInFacebookRequest = () => ({type: actions.FETCH_SIGNIN_FACEBOOK_REQUEST});
-const signInFacebookSuccess = (user) => ({type: actions.FETCH_SIGNIN_FACEBOOK_SUCCESS, user});
-const signInFacebookFailure = (error) => ({type: actions.FETCH_SIGNIN_FACEBOOK_FAILURE, error});
+const signInFacebookSuccess = user => ({type: actions.FETCH_SIGNIN_FACEBOOK_SUCCESS, user});
+const signInFacebookFailure = error => ({type: actions.FETCH_SIGNIN_FACEBOOK_FAILURE, error});
 
 export const fetchSignInFacebook = () => dispatch => {
   dispatch(signInFacebookRequest());
@@ -58,15 +58,15 @@ export const facebookCallback = (err, data) => dispatch => {
 // Sign Up Actions
 
 const signUpRequest = () => ({type: actions.FETCH_SIGNUP_REQUEST});
-const signUpSuccess = () => ({type: actions.FETCH_SIGNUP_SUCCESS});
-const signUpFailure = () => ({type: actions.FETCH_SIGNUP_FAILURE});
+const signUpSuccess = user => ({type: actions.FETCH_SIGNUP_SUCCESS, user});
+const signUpFailure = error => ({type: actions.FETCH_SIGNUP_FAILURE, error});
 
-export const fetchSignUp = () => dispatch => {
+export const fetchSignUp = formData => dispatch => {
   dispatch(signUpRequest());
-  fetch(`${base}/auth`, getInit('POST'))
+  fetch(`${base}/user`, getInit('POST', formData))
     .then(handleResp)
-    .then(() => dispatch(signUpSuccess()))
-    .catch(error => dispatch(signUpFailure(error)));
+    .then(({user}) => signUpSuccess(user))
+    .catch((error) => signUpFailure(error));
 };
 
 // Forgot Password Actions
@@ -95,5 +95,29 @@ export const logout = () => dispatch => {
     .then(handleResp)
     .then(() => dispatch(logOutSuccess()))
     .catch(error => dispatch(logOutFailure(error)));
+};
+
+// Availability Checks Actions
+
+const availabilityRequest = () => ({type: actions.FETCH_AVAILABILITY_REQUEST});
+const availabilitySuccess = () => ({type: actions.FETCH_AVAILABILITY_SUCCESS});
+const availabilityFailure = () => ({type: actions.FETCH_AVAILABILITY_FAILURE});
+
+const availableField = field => ({type: actions.AVAILABLE_FIELD, field});
+const unavailableField = field => ({type: actions.UNAVAILABLE_FIELD, field});
+
+export const fetchCheckAvailability = formData => dispatch => {
+  dispatch(availabilityRequest());
+  fetch(`${base}/user/availability`, getInit('POST', formData))
+    .then(handleResp)
+    .then(({status}) => {
+      const [field] = Object.keys(formData);
+      dispatch(availabilitySuccess());
+      if (status === 'available') {
+        return dispatch(availableField(field));
+      }
+      return dispatch(unavailableField(field));
+    })
+    .catch((error) => availabilityFailure(error));
 };
 

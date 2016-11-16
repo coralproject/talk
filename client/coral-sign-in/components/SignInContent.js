@@ -1,11 +1,9 @@
 import React from 'react';
-import styles from './styles.css';
-
 import Button from 'coral-ui/components/Button';
 import FormField from './FormField';
 import Alert from './Alert';
 import Spinner from 'coral-ui/components/Spinner';
-
+import styles from './styles.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
 const lang = new I18n(translations);
@@ -27,7 +25,7 @@ const SignInContent = ({handleChange, formData, ...props}) => (
         {lang.t('signIn.or')}
       </h1>
     </div>
-    { props.signInError && <Alert>{props.signInError}</Alert> }
+    { props.auth.signInError && <Alert>{props.auth.signInError}</Alert> }
     <form onSubmit={props.handleSignIn}>
       <FormField
         id="email"
@@ -44,7 +42,7 @@ const SignInContent = ({handleChange, formData, ...props}) => (
         onChange={handleChange}
       />
       {
-        !props.isLoading ?
+        !props.auth.isLoading ?
         <Button type="submit" cStyle="black" className={styles.signInButton}>
           {lang.t('signIn.signIn')}
         </Button>

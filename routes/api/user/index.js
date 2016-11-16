@@ -60,4 +60,48 @@ router.get('/', (req, res, next) => {
   .catch(next);
 });
 
+router.post('/', (req, res, next) => {
+  const {email, password, displayName} = req.query;
+
+  User
+    .createLocalUser(email, password, displayName)
+    .then(user => {
+      res.status(201).send(user);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+router.post('/availability', (req, res, next) => {
+  const {email} = req.body;
+
+  if (email) {
+    return User.count({
+      profiles: {
+        $elemMatch: {
+          id: email,
+          provider: 'local'
+        }
+      }
+    })
+    .then(count => {
+      if (count) {
+        res.json({
+          status: 'unavailable'
+        });
+      } else {
+        res.json({
+          status: 'available'
+        });
+      }
+    })
+    .catch(err => {
+      next(err);
+    });
+  }
+
+  return res.status(404).send('Wrong parameters');
+});
+
 module.exports = router;

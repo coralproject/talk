@@ -15,7 +15,8 @@ import {
   hideSignInDialog,
   fetchSignInFacebook,
   fetchForgotPassword,
-  facebookCallback
+  facebookCallback,
+  fetchCheckAvailability
 } from '../../coral-framework/actions/auth';
 
 class SignInContainer extends Component {
@@ -76,6 +77,13 @@ class SignInContainer extends Component {
         ...state,
         errors
       }));
+
+      // Check Availability
+
+      if (name === 'email' || name === 'displayName') {
+        this.props.checkAvailability({[name]: value});
+      }
+
     }
   }
 
@@ -126,14 +134,11 @@ class SignInContainer extends Component {
           Sign in to comment
         </Button>
         <SignDialog
-          open={auth.get('showSignInDialog')}
-          message={auth.get('message')}
-          view={auth.get('view')}
-          isLoading={auth.get('isLoading')}
+          open={auth.showSignInDialog}
+          view={auth.view}
           showErrors={showErrors}
           formData={formData}
           errors={errors}
-          signInError={auth.get('signInError')}
           {...this}
           {...this.props}
         />
@@ -142,7 +147,9 @@ class SignInContainer extends Component {
   }
 }
 
-const mapStateToProps = ({auth}) => ({auth});
+const mapStateToProps = (state) => ({
+  auth: state.auth.toJS()
+});
 
 const mapDispatchToProps = dispatch => ({
   facebookCallback: (err, data) => dispatch(facebookCallback(err, data)),
@@ -152,7 +159,8 @@ const mapDispatchToProps = dispatch => ({
   fetchForgotPassword: (formData) => dispatch(fetchForgotPassword(formData)),
   showSignInDialog: () => dispatch(showSignInDialog()),
   changeView: (view) => dispatch(changeView(view)),
-  handleClose: () => dispatch(hideSignInDialog())
+  handleClose: () => dispatch(hideSignInDialog()),
+  checkAvailability: (formData) => dispatch(fetchCheckAvailability(formData))
 });
 
 export default connect(
