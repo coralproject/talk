@@ -1,5 +1,6 @@
 <html>
   <head>
+  <title>Talk - Coral (Beta)</title>
   </head>
   <body>
   <div style="margin-left:auto; margin-right:auto; width:500px">
@@ -9,7 +10,7 @@
 <div id='coralStreamEmbed'></div>
 <script type='text/javascript' src='https://pym.nprapps.org/pym.v1.min.js'></script>
 <script>
-var pymParent = new pym.Parent('coralStreamEmbed', '/embed/stream', {title: 'Talk Comments'});
+var pymParent = new pym.Parent('coralStreamEmbed', '/embed/stream', {title: 'Talk Comments', id:'coralStreamIframe'});
 pymParent.onMessage('height', function(height) {document.querySelector('#coralStreamEmbed iframe').height = height + 'px'})</script>
 </div>
   </body>

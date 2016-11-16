@@ -12,7 +12,9 @@
     "pretest": "npm install",
     "test": "mocha --compilers js:babel-core/register --recursive tests",
     "test-watch": "mocha --compilers js:babel-core/register --recursive -w tests",
-    "embed-start": "npm run build && ./bin/www"
+    "embed-start": "npm run build && ./bin/www",
+    "pree2e": "node_modules/selenium-standalone/bin/selenium-standalone install",
+    "e2e": "node_modules/.bin/nightwatch"
   },
   "config": {
     "pre-git": {
@@ -94,6 +96,7 @@
     "material-design-lite": "^1.2.1",
     "mocha": "^3.1.2",
     "mocha-junit-reporter": "^1.12.1",
+    "nightwatch": "^0.9.9",
     "postcss-loader": "^1.1.0",
     "postcss-modules": "^0.5.2",
     "postcss-smart-import": "^0.5.1",
@@ -110,6 +113,7 @@
     "redux-mock-store": "^1.2.1",
     "redux-thunk": "^2.1.0",
     "regenerator": "^0.8.46",
+    "selenium-standalone": "^5.8.0",
     "style-loader": "^0.13.1",
     "supertest": "^2.0.1",
     "timeago.js": "^2.0.3",
