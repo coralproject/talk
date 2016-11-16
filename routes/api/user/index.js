@@ -119,7 +119,6 @@ router.post('/request-password-reset', (req, res, next) => {
       return mailer.sendSimple(options);
     })
     .then(success => {
-      console.log(success);
       res.json({success: true});
     })
     .catch(error => {
