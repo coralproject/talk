@@ -2,6 +2,11 @@ const express = require('express');
 const router = express.Router();
 const User = require('../../../models/user');
 const mailer = require('../../../services/mailer');
+const ejs = require('ejs');
+const fs = require('fs');
+const path = require('path');
+const resetEmailFile = fs.readFileSync(path.resolve(__dirname, '../../../views/password-reset-email.ejs'));
+const resetEmailTemplate = ejs.compile(resetEmailFile.toString());
 
 router.get('/', (req, res, next) => {
   const {
@@ -12,28 +17,9 @@ router.get('/', (req, res, next) => {
     limit = 50 // Total Per Page
     } = req.query;
 
-  let q = {
-    $or: [
-      {
-        'displayName': {
-          $regex: new RegExp(`^${value}`),
-          $options: 'i'
-        },
-        'profiles': {
-          $elemMatch: {
-            id: {
-              $regex: new RegExp(`^${value}`),
-              $options: 'i'
-            },
-            provider: 'local'
-          }
-        }
-      }
-    ]
-  };
-
   Promise.all([
-    User.find(q)
+    User
+      .search(value)
       .sort({[field]: (asc === 'true') ? 1 : -1})
       .skip((page - 1) * limit)
       .limit(limit),
@@ -64,11 +50,12 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/:user_id/role', (req, res, next) => {
-  User.addRoleToUser(req.params.user_id, req.body.role)
-  .then(role => {
-    res.send(role);
-  })
-  .catch(next);
+  User
+    .addRoleToUser(req.params.user_id, req.body.role)
+    .then(role => {
+      res.send(role);
+    })
+    .catch(next);
 });
 
 /**
@@ -110,9 +97,11 @@ router.post('/request-password-reset', (req, res, next) => {
         subject: 'Password Reset Requested - Talk',
         from: 'coralcore@mozillafoundation.org',
         to: email,
-        html: `<p>We received a request to reset your password. If you did not request this change, you can ignore this email.
-                If you did, <a href="http://localhost:3000/admin/password-reset/${token}">please click here to reset password</a>.</p>
-                ${process.env.NODE_ENV === 'production' ? '' : `<p style="color: red">${token}</p>`}`
+        html: resetEmailTemplate({
+          token,
+          // probably more clear to explicitly pass this
+          rootURL: process.env.TALK_ROOT_URL
+        })
       };
       return mailer.sendSimple(options);
     })

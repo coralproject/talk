@@ -5,7 +5,7 @@
     "comment": "Comment",
     "name": "Name",
     "comment-post-notif": "Your comment has been posted.",
-    "comment-post-notif-premod": "Thank you for reporting this comment. Our moderation team has been notified and will review it shortly."
+    "comment-post-notif-premod": "Thank you for posting. Our moderation team will review your comment shortly."
   },
   "es": {
     "post": "Publicar",

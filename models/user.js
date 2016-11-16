@@ -4,7 +4,15 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const debug = require('debug')('talk:user_model');
 
+// SALT_ROUNDS is the number of rounds that the bcrypt algorithm will run
+// through during the salting process.
 const SALT_ROUNDS = 10;
+
+// USER_ROLES is the array of roles that is permissible as a user role.
+const USER_ROLES = [
+  'admin',
+  'moderator'
+];
 
 if (!process.env.TALK_SESSION_SECRET) {
   debug('\n////////////////////////////////////////////////////////////\n' +
@@ -13,30 +21,62 @@ if (!process.env.TALK_SESSION_SECRET) {
         '////////////////////////////////////////////////////////////');
 }
 
+// UserSchema is the mongoose schema defined as the representation of a User in
+// MongoDB.
 const UserSchema = new mongoose.Schema({
+
+  // This ID represents the most unique identifier for a user, it is generated
+  // when the user is created as a random uuid.
   id: {
     type: String,
     default: uuid.v4,
     unique: true,
     required: true
   },
+
+  // This is sourced from the social provider or set manually during user setup
+  // and simply provides a name to display for the given user.
   displayName: String,
+
+  // This is true when the user account is disabled, no action should be
+  // acknowledged when they are disabled. Logins are also prevented.
   disabled: Boolean,
+
+  // This provides a source of identity proof for users who login using the
+  // local provider. A local provider will be assumed for users who do not
+  // have any social profiles.
   password: String,
-  profiles: [{
+
+  // Profiles describes the array of identities for a given user. Any one user
+  // can have multiple profiles associated with them, including multiple email
+  // addresses.
+  profiles: [new mongoose.Schema({
+
+    // ID provides the identifier for the user profile, in the case of a local
+    // provider, the id would be an email, in the case of a social provider,
+    // the id would be the foreign providers identifier.
     id: {
       type: String,
       required: true
     },
+
+    // Provider is simply the name attached to the authentication mode. In the
+    // case of a locally provided profile, this will simply be `local`, or a
+    // social provider which for Facebook would just be `facebook`.
     provider: {
       type: String,
       required: true
     }
-  }],
-  roles: {
-    type: [{type: String, enum: ['admin', 'moderator']}]
-  }
+  }, {
+    _id: false
+  })],
+
+  // Roles provides an array of roles (as strings) that is associated with a
+  // user.
+  roles: [String]
 }, {
+
+  // This will ensure that we have proper timestamps available on this model.
   timestamps: {
     createdAt: 'created_at',
     updatedAt: 'updated_at'
@@ -84,6 +124,13 @@ UserSchema.options.toObject.transform = (doc, ret, options) => {
   return ret;
 };
 
+// Create the User model.
+const UserModel = mongoose.model('User', UserSchema);
+
+// UserService is the interface for the application to interact with the
+// UserModel through.
+const UserService = module.exports = {};
+
 /**
  * Finds a user given their email address that we have for them in the system
  * and ensures that the retuned user matches the password passed in as well.
@@ -91,13 +138,12 @@ UserSchema.options.toObject.transform = (doc, ret, options) => {
  * @param  {string}   password  - password to match against the found user
  * @param  {Function} done     [description]
  */
-UserSchema.statics.findLocalUser = function(email, password) {
-
+UserService.findLocalUser = (email, password) => {
   if (!email || typeof email !== 'string') {
     return Promise.reject('email is required for findLocalUser');
   }
 
-  return User.findOne({
+  return UserModel.findOne({
     profiles: {
       $elemMatch: {
         id: email.toLowerCase(),
@@ -134,13 +180,13 @@ UserSchema.statics.findLocalUser = function(email, password) {
  * @param  {String} srcUserID id of the user to which is the source of the merge
  * @return {Promise}          resolves when the users are merged
  */
-UserSchema.statics.mergeUsers = function(dstUserID, srcUserID) {
+UserService.mergeUsers = (dstUserID, srcUserID) => {
   let srcUser, dstUser;
 
   return Promise
     .all([
-      User.findOne({id: dstUserID}).exec(),
-      User.findOne({id: srcUserID}).exec()
+      UserModel.findOne({id: dstUserID}).exec(),
+      UserModel.findOne({id: srcUserID}).exec()
     ])
     .then((users) => {
       dstUser = users[0];
@@ -161,8 +207,8 @@ UserSchema.statics.mergeUsers = function(dstUserID, srcUserID) {
  * @param  {Object}   profile - User social/external profile
  * @param  {Function} done    [description]
  */
-UserSchema.statics.findOrCreateExternalUser = function(profile) {
-  return User
+UserService.findOrCreateExternalUser = (profile) => {
+  return UserModel
     .findOne({
       profiles: {
         $elemMatch: {
@@ -177,7 +223,7 @@ UserSchema.statics.findOrCreateExternalUser = function(profile) {
       }
 
       // The user was not found, lets create them!
-      user = new User({
+      user = new UserModel({
         displayName: profile.displayName,
         roles: [],
         profiles: [
@@ -192,7 +238,7 @@ UserSchema.statics.findOrCreateExternalUser = function(profile) {
     });
 };
 
-UserSchema.statics.changePassword = function(id, password) {
+UserService.changePassword = (id, password) => {
   return new Promise((resolve, reject) => {
     bcrypt.hash(password, SALT_ROUNDS, (err, hashedPassword) => {
       if (err) {
@@ -203,7 +249,7 @@ UserSchema.statics.changePassword = function(id, password) {
     });
   })
   .then((hashedPassword) => {
-    return User.update({id}, {
+    return UserModel.update({id}, {
       $inc: {__v: 1},
       $set: {
         password: hashedPassword
@@ -217,9 +263,9 @@ UserSchema.statics.changePassword = function(id, password) {
  * @param  {Array} users Users to create
  * @return {Promise}     Resolves with the users that were created
  */
-UserSchema.statics.createLocalUsers = function(users) {
+UserService.createLocalUsers = (users) => {
   return Promise.all(users.map((user) => {
-    return User
+    return UserService
       .createLocalUser(user.email, user.password, user.displayName);
   }));
 };
@@ -231,7 +277,7 @@ UserSchema.statics.createLocalUsers = function(users) {
  * @param  {String}   displayName name of the display user
  * @param  {Function} done        callback
  */
-UserSchema.statics.createLocalUser = function(email, password, displayName) {
+UserService.createLocalUser = (email, password, displayName) => {
   if (!email) {
     return Promise.reject('email is required');
   }
@@ -252,7 +298,7 @@ UserSchema.statics.createLocalUser = function(email, password, displayName) {
         return reject(err);
       }
 
-      let user = new User({
+      let user = new UserModel({
         displayName: displayName,
         password: hashedPassword,
         roles: [],
@@ -280,8 +326,8 @@ UserSchema.statics.createLocalUser = function(email, password, displayName) {
  * @param  {String}   id   id of a user
  * @param  {Function} done callback after the operation is complete
  */
-UserSchema.statics.disableUser = function(id) {
-  return User.update({
+UserService.disableUser = (id) => {
+  return UserModel.update({
     id: id
   }, {
     $set: {
@@ -295,8 +341,8 @@ UserSchema.statics.disableUser = function(id) {
  * @param  {String}   id   id of a user
  * @param  {Function} done callback after the operation is complete
  */
-UserSchema.statics.enableUser = function(id) {
-  return User.update({
+UserService.enableUser = (id) => {
+  return UserModel.update({
     id: id
   }, {
     $set: {
@@ -311,8 +357,16 @@ UserSchema.statics.enableUser = function(id) {
  * @param  {String}   role role to add
  * @param  {Function} done callback after the operation is complete
  */
-UserSchema.statics.addRoleToUser = function(id, role) {
-  return User.update({
+UserService.addRoleToUser = (id, role) => {
+
+  // Check to see if the user role is in the allowable set of roles.
+  if (USER_ROLES.indexOf(role) === -1) {
+
+    // User role is not supported! Error out here.
+    return Promise.reject(new Error(`role ${role} is not supported`));
+  }
+
+  return UserModel.update({
     id: id
   }, {
     $addToSet: {
@@ -327,8 +381,8 @@ UserSchema.statics.addRoleToUser = function(id, role) {
  * @param  {String}   role role to remove
  * @param  {Function} done callback after the operation is complete
  */
-UserSchema.statics.removeRoleFromUser = function(id, role) {
-  return User.update({
+UserService.removeRoleFromUser = (id, role) => {
+  return UserModel.update({
     id: id
   }, {
     $pull: {
@@ -341,16 +395,16 @@ UserSchema.statics.removeRoleFromUser = function(id, role) {
  * Finds a user with the id.
  * @param {String} id  user id (uuid)
 */
-UserSchema.statics.findById = function(id) {
-  return User.findOne({id});
+UserService.findById = (id) => {
+  return UserModel.findOne({id});
 };
 
 /**
  * Finds users in an array of idd.
  * @param {Array} ids  array of user identifiers (uuid)
 */
-UserSchema.statics.findByIdArray = function(ids) {
-  return User.find({
+UserService.findByIdArray = (ids) => {
+  return UserModel.find({
     'id': {$in: ids}
   });
 };
@@ -359,14 +413,14 @@ UserSchema.statics.findByIdArray = function(ids) {
  * Creates a JWT from a user email. Only works for local accounts.
  * @param {String} email of the local user
  */
-UserSchema.statics.createJWT = function (email) {
+UserService.createJWT = function (email) {
   if (!email || typeof email !== 'string') {
     return Promise.reject('email is required when creating a JWT for resetting passord');
   }
 
   email = email.toLowerCase();
 
-  return this.findOne({profiles: {$elemMatch: {id: email}}})
+  return UserModel.findOne({profiles: {$elemMatch: {id: email}}})
     .then(user => {
 
       if (user === null) {
@@ -384,7 +438,7 @@ UserSchema.statics.createJWT = function (email) {
  * verifies a jwt and returns the associated user
  * @param {String} token the JSON Web Token to verify
  */
-UserSchema.statics.verifyToken = function (token) {
+UserService.verifyToken = function (token) {
   return new Promise((resolve, reject) => {
     jwt.verify(token, process.env.TALK_SESSION_SECRET, (error, decoded) => {
       if (error) {
@@ -404,7 +458,36 @@ UserSchema.statics.verifyToken = function (token) {
   });
 };
 
-const User = mongoose.model('User', UserSchema);
+/**
+ * Finds a user using a value which gets compared using a prefix match against
+ * the user's email address and/or their display name.
+ * @param  {String} value value to search by
+ * @return {Promise}
+ */
+UserService.search = (value) => {
+  return UserModel.find({
+    $or: [
 
-module.exports = User;
-module.exports.Schema = UserSchema;
+      // Search by a prefix match on the displayName.
+      {
+        'displayName': {
+          $regex: new RegExp(`^${value}`),
+          $options: 'i'
+        }
+      },
+
+      // Search by a prefix match on the email address.
+      {
+        'profiles': {
+          $elemMatch: {
+            id: {
+              $regex: new RegExp(`^${value}`),
+              $options: 'i'
+            },
+            provider: 'local'
+          }
+        }
+      }
+    ]
+  });
+};
