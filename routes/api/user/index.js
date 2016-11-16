@@ -99,8 +99,6 @@ router.post('/update-password', (req, res, next) => {
 router.post('/request-password-reset', (req, res, next) => {
   const {email} = req.body;
 
-  console.log('/request-password-reset', req.body);
-
   if (!email) {
     return next();
   }
@@ -109,12 +107,12 @@ router.post('/request-password-reset', (req, res, next) => {
     .createJWT(email)
     .then(token => {
       const options = {
-        subject: 'password reset requested',
+        subject: 'Password Reset Requested - Talk',
         from: 'coralcore@mozillafoundation.org',
-        to: 'riley.davis@gmail.com',
+        to: email,
         html: `<p>We received a request to reset your password. If you did not request this change, you can ignore this email.
                 If you did, <a href="http://localhost:3000/admin/password-reset/${token}">please click here to reset password</a>.</p>
-                ${process.env.NODE_ENV === 'production' ? '' : `<h1>${token}</h1>`}`
+                ${process.env.NODE_ENV === 'production' ? '' : `<p style="color: red">${token}</p>`}`
       };
       return mailer.sendSimple(options);
     })
@@ -122,7 +120,9 @@ router.post('/request-password-reset', (req, res, next) => {
       res.json({success: true});
     })
     .catch(error => {
-      res.status(500).json({error});
+      const errorMsg = typeof error === 'string' ? error : error.message;
+
+      res.status(500).json({error: errorMsg});
     });
 });
 

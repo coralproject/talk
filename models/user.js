@@ -2,8 +2,16 @@ const mongoose = require('../mongoose');
 const uuid = require('uuid');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const debug = require('debug')('talk:user_model');
 
 const SALT_ROUNDS = 10;
+
+if (!process.env.TALK_SESSION_SECRET) {
+  debug('\n////////////////////////////////////////////////////////////\n' +
+        '///   TALK_SESSION_SECRET must be defined to encode      ///\n' +
+        '///   JSON Web Tokens and other auth functionality       ///\n' +
+        '////////////////////////////////////////////////////////////');
+}
 
 const UserSchema = new mongoose.Schema({
   id: {
