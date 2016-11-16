@@ -72,7 +72,7 @@ class Configure extends React.Component {
         Write a message to be added to the top of your comment stream. Pose a topic, include community guidelines, etc.
         </ListItemContent>
       </ListItem>
-      <ListItem className={styles.configSettingInfoBox}>
+      <ListItem className={`${styles.configSettingInfoBox} ${this.props.settings.infoBoxEnable ? null : styles.hidden}`} >
         <Textfield
           onChange={this.updateInfoBoxContent}
           value={this.props.settings.infoBoxContent}
