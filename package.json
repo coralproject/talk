@@ -13,7 +13,7 @@
     "test": "mocha --compilers js:babel-core/register --recursive tests",
     "test-watch": "mocha --compilers js:babel-core/register --recursive -w tests",
     "embed-start": "npm run build && ./bin/www",
-    "pree2e": "node_modules/selenium-standalone/bin/selenium-standalone install",
+    "pree2e": "./pree2e.sh",
     "e2e": "node_modules/.bin/nightwatch"
   },
   "config": {
