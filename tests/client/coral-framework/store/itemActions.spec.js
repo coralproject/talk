@@ -122,6 +122,7 @@ describe('itemActions', () => {
             {
               method: 'POST',
               headers: {
+                'Accept': 'application/json',
                 'Content-Type':'application/json'
               },
               body: JSON.stringify(item.data)
@@ -169,11 +170,11 @@ describe('itemActions', () => {
 
   describe('deleteAction', () => {
     it ('should remove an action', () => {
-      fetchMock.delete('*', 'Action removed.');
+      fetchMock.delete('*', {});
       return actions.deleteAction('abc', 'flag', '123', 'comments')(store.dispatch)
         .then(response => {
           expect(fetchMock.calls().matched[0][0]).to.equal('/api/v1/comments/abc/actions');
-          expect(response).to.equal('Action removed.');
+          expect(response).to.deep.equal({});
         });
     });
 

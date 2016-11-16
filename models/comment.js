@@ -194,12 +194,12 @@ CommentSchema.statics.removeById = function(id) {
  * @param {String} action_type the type of the action to be removed
  * @param {String} user_id the id of the user performing the action
 */
-CommentSchema.statics.removeAction = function(id, user_id, action_type) {
+CommentSchema.statics.removeAction = function(item_id, user_id, action_type) {
   return Action.remove({
-    action_type: action_type,
+    action_type,
     item_type: 'comment',
-    item_id: id,
-    user_id: user_id
+    item_id,
+    user_id
   });
 };
 

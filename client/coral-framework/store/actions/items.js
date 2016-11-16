@@ -8,6 +8,23 @@ export const ADD_ITEM = 'ADD_ITEM';
 export const UPDATE_ITEM = 'UPDATE_ITEM';
 export const APPEND_ITEM_ARRAY = 'APPEND_ITEM_ARRAY';
 
+const getInit = (method, body) => {
+  const headers = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  };
+
+  const init = {method, headers};
+  if (method.toLowerCase() !== 'get') {
+    init.body = JSON.stringify(body);
+  }
+
+  return init;
+};
+
+const responseHandler = response => {
+  return response.ok ? response.json() : Promise.reject(`${response.status} ${response.statusText}`);
+};
 /**
  * Action creators
  */
@@ -80,11 +97,7 @@ export const appendItemArray = (id, property, value, add_to_front, item_type) =>
 export function getStream (assetUrl) {
   return (dispatch) => {
     return fetch(`/api/v1/stream?asset_url=${encodeURIComponent(assetUrl)}`)
-      .then(
-        response => {
-          return response.ok ? response.json() : Promise.reject(`${response.status} ${response.statusText}`);
-        }
-      )
+      .then(responseHandler)
       .then((json) => {
 
         /* Add items to the store */
@@ -147,13 +160,8 @@ export function getStream (assetUrl) {
 
 export function getItemsArray (ids) {
   return (dispatch) => {
-    return fetch(`/v1/item/${ids}`)
-      .then(
-        response => {
-          return response.ok ? response.json()
-          : Promise.reject(`${response.status  } ${  response.statusText}`);
-        }
-      )
+    return fetch(`/v1/item/${ids}`, getInit('GET'))
+      .then(responseHandler)
       .then((json) => {
         for (let i = 0; i < json.items.length; i++) {
           dispatch(addItem(json.items[i]));
@@ -182,20 +190,8 @@ export function postItem (item, type, id) {
     if (id) {
       item.id = id;
     }
-    let options = {
-      method: 'POST',
-      body: JSON.stringify(item),
-      headers: {
-        'Content-Type':'application/json'
-      }
-    };
-    return fetch(`/api/v1/${type}`, options)
-      .then(
-        response => {
-          return response.ok ? response.json()
-          : Promise.reject(`${response.status} ${response.statusText}`);
-        }
-      )
+    return fetch(`/api/v1/${type}`, getInit('POST', item))
+      .then(responseHandler)
       .then((json) => {
         dispatch(addItem({...item, id:json.id}, type));
         return json.id;
@@ -226,21 +222,9 @@ export function postAction (item_id, action_type, user_id, item_type) {
       action_type,
       user_id
     };
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type':'application/json'
-      },
-      body: JSON.stringify(action)
-    };
 
-    return fetch(`/api/v1/${item_type}/${item_id}/actions`, options)
-      .then(
-        response => {
-          return response.ok ? response.json()
-          : Promise.reject(`${response.status} ${response.statusText}`);
-        }
-      );
+    return fetch(`/api/v1/${item_type}/${item_id}/actions`, getInit('POST', action))
+      .then(responseHandler);
   };
 }
 
@@ -265,20 +249,8 @@ export function deleteAction (item_id, action_type, user_id, item_type) {
       action_type,
       user_id
     };
-    const options = {
-      method: 'DELETE',
-      headers: {
-        'Content-Type':'application/json'
-      },
-      body: JSON.stringify(action)
-    };
 
-    return fetch(`/api/v1/${item_type}/${item_id}/actions`, options)
-      .then(
-        response => {
-          return response.ok ? response.text()
-          : Promise.reject(`${response.status} ${response.statusText}`);
-        }
-      );
+    return fetch(`/api/v1/${item_type}/${item_id}/actions`, getInit('DELETE', action))
+      .then(responseHandler);
   };
 }
