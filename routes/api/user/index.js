@@ -69,25 +69,17 @@ router.post('/availability', (req, res, next) => {
   const {email} = req.body;
 
   if (email) {
-    return User.count({
-      profiles: {
-        $elemMatch: {
-          id: email,
-          provider: 'local'
+    return User.availabilityCheck(email)
+      .then(count => {
+        if (count) {
+          return res.json({status: 'unavailable'});
         }
-      }
-    })
-    .then(count => {
-      if (count) {
-        return res.json({status: 'unavailable'});
-      }
-      return res.json({status: 'available'});
-    })
-    .catch(err => {
-      next(err);
-    });
+        return res.json({status: 'available'});
+      })
+      .catch(err => {
+        next(err);
+      });
   }
-
   return res.status(404).send('Wrong parameters');
 });
 

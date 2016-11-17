@@ -426,3 +426,20 @@ UserService.search = (value) => {
     ]
   });
 };
+
+/**
+ * Finds users by email and returns the count. The result should be 1 or 0 (bool) indicating email availability
+ * @param  {String} email to search by
+ * @return {Promise}
+ */
+UserService.availabilityCheck = (email) => {
+  return UserModel.count({
+    profiles: {
+      $elemMatch: {
+        id: email,
+        provider: 'local'
+      }
+    }
+  });
+};
+
