@@ -187,8 +187,8 @@ class CommentStream extends Component {
                               updateItem={this.props.updateItem}
                               currentUser={this.props.auth.user}/>
                               <PermalinkButton
-                                comment_id={reply.comment_id}
-                                asset_id={reply.comment_id}
+                                comment_id={reply.parent_id}
+                                asset_id={rootItemId}
                                 />
                           </div>
                       </div>;
