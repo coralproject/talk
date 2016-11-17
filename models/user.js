@@ -443,3 +443,10 @@ UserService.availabilityCheck = (email) => {
   });
 };
 
+/**
+ * Returns a count of the current users.
+ * @return {Promise}
+ */
+UserService.count = () => {
+  return UserModel.count();
+};
