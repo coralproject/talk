@@ -1,6 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../../../models/user');
+const mailer = require('../../../services/mailer');
+const ejs = require('ejs');
+const fs = require('fs');
+const path = require('path');
+const resetEmailFile = fs.readFileSync(path.resolve(__dirname, '../../../views/password-reset-email.ejs'));
+const resetEmailTemplate = ejs.compile(resetEmailFile.toString());
 
 router.get('/', (req, res, next) => {
   const {
@@ -81,6 +87,69 @@ router.post('/availability', (req, res, next) => {
       });
   }
   return res.status(404).send('Wrong parameters');
+});
+
+/**
+ * expects 2 fields in the body of the request
+ * 1) the token that was in the url of the email link {String}
+ * 2) the new password {String}
+ */
+router.post('/update-password', (req, res, next) => {
+  const {token, password} = req.body;
+
+  User.verifyPasswordResetToken(token)
+    .then(user => {
+      return User.changePassword(user.id, password);
+    })
+    .then(() => {
+      res.status(204).end();
+    })
+    .catch(error => {
+      console.error(error);
+      res.status(401).send('Not Authorized');
+    });
+});
+
+/**
+ * this endpoint takes an email (username) and checks if it belongs to a User account
+ * if it does, create a JWT and send an email
+ */
+router.post('/request-password-reset', (req, res, next) => {
+  const {email} = req.body;
+
+  if (!email) {
+    return next();
+  }
+
+  User
+    .createPasswordResetToken(email)
+    .then(token => {
+      if (token === null) {
+        return Promise.resolve('the email was not found in the db.');
+      }
+
+      const options = {
+        subject: 'Password Reset Requested - Talk',
+        from: 'noreply@coralproject.net',
+        to: email,
+        html: resetEmailTemplate({
+          token,
+          // probably more clear to explicitly pass this
+          rootURL: process.env.TALK_ROOT_URL
+        })
+      };
+      return mailer.sendSimple(options);
+    })
+    .then(() => {
+      // we want to send a 204 regardless of the user being found in the db
+      // if we fail on missing emails, it would reveal if people are registered or not.
+      res.status(204).send('OK');
+    })
+    .catch(error => {
+      const errorMsg = typeof error === 'string' ? error : error.message;
+
+      res.status(500).json({error: errorMsg});
+    });
 });
 
 module.exports = router;
