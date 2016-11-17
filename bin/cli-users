@@ -206,7 +206,7 @@ function listUsers() {
   const mongoose = require('../mongoose');
 
   User
-    .find()
+    .all()
     .then((users) => {
       let table = new Table({
         head: [

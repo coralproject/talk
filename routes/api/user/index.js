@@ -52,4 +52,35 @@ router.post('/:user_id/role', (req, res, next) => {
     .catch(next);
 });
 
+router.post('/', (req, res, next) => {
+  const {email, password, displayName} = req.body;
+
+  User
+    .createLocalUser(email, password, displayName)
+    .then(user => {
+      res.status(201).send(user);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+router.post('/availability', (req, res, next) => {
+  const {email} = req.body;
+
+  if (email) {
+    return User.availabilityCheck(email)
+      .then(count => {
+        if (count) {
+          return res.json({status: 'unavailable'});
+        }
+        return res.json({status: 'available'});
+      })
+      .catch(err => {
+        next(err);
+      });
+  }
+  return res.status(404).send('Wrong parameters');
+});
+
 module.exports = router;
