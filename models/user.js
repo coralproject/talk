@@ -439,7 +439,7 @@ UserService.createPasswordResetToken = function (email) {
  * verifies a jwt and returns the associated user
  * @param {String} token the JSON Web Token to verify
  */
-UserService.verifyPasswordResetToken = function (token) {
+UserService.verifyPasswordResetToken = token => {
   return new Promise((resolve, reject) => {
     jwt.verify(token, process.env.TALK_SESSION_SECRET, (error, decoded) => {
       if (error) {
@@ -455,7 +455,7 @@ UserService.verifyPasswordResetToken = function (token) {
      * and make an entry if it does not exist.
      * reject if entry already exists.
      */
-    return this.findById(decoded.userId);
+    return UserService.findById(decoded.userId);
   });
 };
 
