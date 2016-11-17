@@ -6,7 +6,9 @@
       "newsroom_role": "Newsroom Role",
       "admin": "Administrator",
       "moderator": "Moderator",
-      "role": "Select role..."
+      "role": "Select role...",
+      "no-results": "No users found with that user name or email address.",
+      "status": "Status"
     },
     "modqueue": {
       "pending": "pending",
@@ -51,7 +53,9 @@
       "newsroom_role": "Rol en la redacción",
       "admin": "Administrador",
       "moderator": "Moderador",
-      "role": "Select role..."
+      "role": "Select role...",
+      "no-results": "No se encontraron usuarios con ese nombre de usuario o correo electronico.",
+      "status": "Estado"
     },
     "modqueue": {
       "pending": "pendiente",

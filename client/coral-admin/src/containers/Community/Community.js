@@ -21,6 +21,10 @@ const tableHeaders = [
     field: 'created_at'
   },
   {
+    title: lang.t('community.status'),
+    field: 'status'
+  },
+  {
     title: lang.t('community.newsroom_role'),
     field: 'role'
   }
