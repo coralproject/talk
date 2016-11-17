@@ -39,16 +39,11 @@ class SignInContainer extends Component {
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleSignIn = this.handleSignIn.bind(this);
     this.handleClose = this.handleClose.bind(this);
-    this.cleanState = this.cleanState.bind(this);
     this.addError = this.addError.bind(this);
   }
 
   componentDidMount() {
     window.authCallback = this.props.facebookCallback;
-  }
-
-  cleanState () {
-    this.setState(this.initialState);
   }
 
   handleChange(e) {
@@ -90,7 +85,7 @@ class SignInContainer extends Component {
       this.setState(state => ({...state, errors}));
       // Checks Email Availability
       if (name === 'email') {
-        debounce(checkAvailability({[name]: value}), 250);
+        debounce(() => checkAvailability({[name]: value}), 250);
       }
     }
   }
@@ -135,7 +130,7 @@ class SignInContainer extends Component {
           Sign in to comment
         </Button>
         <SignDialog
-          open={showSignInDialog}
+          open={auth.showSignInDialog}
           view={auth.view}
           {...this}
           {...this.state}
