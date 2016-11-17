@@ -423,7 +423,9 @@ UserService.createPasswordResetToken = function (email) {
     .then(user => {
 
       if (user === null) {
-        return Promise.reject(`Uh oh! We've never heard of ${email}. Maybe there's a typo in there?`);
+        // since we don't want to reveal that the email does/doesn't exist
+        // just go ahead and resolve the Promise with null and check in the endpoint
+        return Promise.resolve(null);
       }
 
       const payload = {email, jti: uuid.v4(), userId: user.id, version: user.__v};

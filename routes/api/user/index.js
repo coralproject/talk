@@ -93,6 +93,10 @@ router.post('/request-password-reset', (req, res, next) => {
   User
     .createPasswordResetToken(email)
     .then(token => {
+      if (token === null) {
+        return Promise.resolve('the email was not found in the db.');
+      }
+
       const options = {
         subject: 'Password Reset Requested - Talk',
         from: 'noreply@coralproject.net',
@@ -106,7 +110,9 @@ router.post('/request-password-reset', (req, res, next) => {
       return mailer.sendSimple(options);
     })
     .then(() => {
-      res.json({success: true});
+      // we want to send a 204 regardless of the user being found in the db
+      // if we fail on missing emails, it would reveal if people are registered or not.
+      res.status(204).send('OK');
     })
     .catch(error => {
       const errorMsg = typeof error === 'string' ? error : error.message;
