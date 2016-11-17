@@ -85,7 +85,7 @@ class SignInContainer extends Component {
       this.setState(state => ({...state, errors}));
       // Checks Email Availability
       if (name === 'email') {
-        debounce(() => checkAvailability({[name]: value}), 200, { 'maxWait': 1000 })();
+        debounce(() => checkAvailability({[name]: value}), 200, {'maxWait': 1000})();
       }
     }
   }
