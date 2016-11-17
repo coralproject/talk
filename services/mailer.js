@@ -1,8 +1,7 @@
 const nodemailer = require('nodemailer');
-const debug = require('debug')('talk:mail');
 
 if (!process.env.TALK_SMTP_CONNECTION_URL) {
-  debug('\n///////////////////////////////////////////////////////////////\n' +
+  throw new Error('\n///////////////////////////////////////////////////////////////\n' +
         '///   TALK_SMTP_CONNECTION_URL should be defined if you would   ///\n' +
         '///   like to send password reset emails from Talk          ///\n' +
         '///////////////////////////////////////////////////////////////');

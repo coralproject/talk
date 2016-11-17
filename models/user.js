@@ -2,7 +2,6 @@ const mongoose = require('../mongoose');
 const uuid = require('uuid');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const debug = require('debug')('talk:user_model');
 
 // SALT_ROUNDS is the number of rounds that the bcrypt algorithm will run
 // through during the salting process.
@@ -15,7 +14,7 @@ const USER_ROLES = [
 ];
 
 if (!process.env.TALK_SESSION_SECRET) {
-  debug('\n////////////////////////////////////////////////////////////\n' +
+  throw new Error('\n////////////////////////////////////////////////////////////\n' +
         '///   TALK_SESSION_SECRET must be defined to encode      ///\n' +
         '///   JSON Web Tokens and other auth functionality       ///\n' +
         '////////////////////////////////////////////////////////////');
@@ -413,7 +412,7 @@ UserService.findByIdArray = (ids) => {
  * Creates a JWT from a user email. Only works for local accounts.
  * @param {String} email of the local user
  */
-UserService.createJWT = function (email) {
+UserService.createPasswordResetToken = function (email) {
   if (!email || typeof email !== 'string') {
     return Promise.reject('email is required when creating a JWT for resetting passord');
   }
@@ -438,7 +437,7 @@ UserService.createJWT = function (email) {
  * verifies a jwt and returns the associated user
  * @param {String} token the JSON Web Token to verify
  */
-UserService.verifyToken = function (token) {
+UserService.verifyPasswordResetToken = function (token) {
   return new Promise((resolve, reject) => {
     jwt.verify(token, process.env.TALK_SESSION_SECRET, (error, decoded) => {
       if (error) {
@@ -454,7 +453,7 @@ UserService.verifyToken = function (token) {
      * and make an entry if it does not exist.
      * reject if entry already exists.
      */
-    return this.findOne({id: decoded.userId});
+    return this.findById(decoded.userId);
   });
 };
 

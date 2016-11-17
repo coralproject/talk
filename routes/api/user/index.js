@@ -66,7 +66,7 @@ router.post('/:user_id/role', (req, res, next) => {
 router.post('/update-password', (req, res, next) => {
   const {token, password} = req.body;
 
-  User.verifyToken(token)
+  User.verifyPasswordResetToken(token)
     .then(user => {
       return User.changePassword(user.id, password);
     })
@@ -91,7 +91,7 @@ router.post('/request-password-reset', (req, res, next) => {
   }
 
   User
-    .createJWT(email)
+    .createPasswordResetToken(email)
     .then(token => {
       const options = {
         subject: 'Password Reset Requested - Talk',
