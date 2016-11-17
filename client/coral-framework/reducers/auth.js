@@ -1,20 +1,5 @@
 import {Map} from 'immutable';
-
-import {
-  SHOW_SIGNIN_DIALOG,
-  HIDE_SIGNIN_DIALOG,
-  CHANGE_VIEW,
-  CLEAN_STATE,
-  FETCH_SIGNIN_REQUEST,
-  FETCH_SIGNIN_FAILURE,
-  FETCH_SIGNIN_SUCCESS,
-  FETCH_SIGNIN_FACEBOOK_SUCCESS,
-  FETCH_SIGNIN_FACEBOOK_FAILURE,
-  LOGOUT_SUCCESS,
-  FETCH_SIGNUP_FAILURE,
-  AVAILABLE_FIELD,
-  UNAVAILABLE_FIELD
-} from '../constants/auth';
+import * as actions from '../constants/auth';
 
 const initialState = Map({
   isLoading: false,
@@ -22,17 +7,17 @@ const initialState = Map({
   user: null,
   showSignInDialog: false,
   view: 'SIGNIN',
-  signInError: '',
   signUpError: '',
   emailAvailable: true,
+  successSignUp: false
 });
 
 export default function auth (state = initialState, action) {
   switch (action.type) {
-  case SHOW_SIGNIN_DIALOG :
+  case actions.SHOW_SIGNIN_DIALOG :
     return state
       .set('showSignInDialog', true);
-  case HIDE_SIGNIN_DIALOG :
+  case actions.HIDE_SIGNIN_DIALOG :
     return state.merge(Map({
       isLoading: false,
       showSignInDialog: false,
@@ -40,43 +25,50 @@ export default function auth (state = initialState, action) {
       signInError: '',
       signUpError: '',
       emailAvailable: true,
+      successSignUp: false
     }));
-  case CHANGE_VIEW :
+  case actions.CHANGE_VIEW :
     return state
       .set('view', action.view);
-  case CLEAN_STATE:
+  case actions.CLEAN_STATE:
     return initialState;
-  case FETCH_SIGNIN_REQUEST:
+  case actions.FETCH_SIGNIN_REQUEST:
     return state
       .set('isLoading', true);
-  case FETCH_SIGNIN_SUCCESS:
+  case actions.FETCH_SIGNIN_SUCCESS:
     return state
       .set('loggedIn', true)
       .set('user', action.user);
-  case FETCH_SIGNIN_FAILURE:
+  case actions.FETCH_SIGNIN_FAILURE:
     return state
       .set('isLoading', false)
       .set('signInError', action.error);
-  case FETCH_SIGNIN_FACEBOOK_SUCCESS:
+  case actions.FETCH_SIGNIN_FACEBOOK_SUCCESS:
     return state
       .set('user', action.user)
       .set('loggedIn', true);
-  case FETCH_SIGNIN_FACEBOOK_FAILURE:
+  case actions.FETCH_SIGNIN_FACEBOOK_FAILURE:
     return state
       .set('error', action.error)
       .set('user', null);
-  case FETCH_SIGNUP_FAILURE:
-    console.log(action);
+  case actions.FETCH_SIGNUP_REQUEST:
     return state
-      .set('signUpError', action.error);
-  case LOGOUT_SUCCESS:
+      .set('isLoading', true);
+  case actions.FETCH_SIGNUP_FAILURE:
+    return state
+      .set('isLoading', false);
+  case actions.FETCH_SIGNUP_SUCCESS:
+    return state
+      .set('isLoading', false)
+      .set('successSignUp', true);
+  case actions.LOGOUT_SUCCESS:
     return state
       .set('loggedIn', false)
       .set('user', null);
-  case AVAILABLE_FIELD:
+  case actions.AVAILABLE_FIELD:
     return state
       .set(`${action.field}Available`, true);
-  case UNAVAILABLE_FIELD:
+  case actions.UNAVAILABLE_FIELD:
     return state
       .set(`${action.field}Available`, false);
   default :

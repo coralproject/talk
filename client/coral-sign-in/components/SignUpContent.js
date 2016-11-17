@@ -3,6 +3,7 @@ import FormField from './FormField';
 import Alert from './Alert';
 import Button from 'coral-ui/components/Button';
 import Spinner from 'coral-ui/components/Spinner';
+import Success from 'coral-ui/components/Success';
 import styles from './styles.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
@@ -68,14 +69,13 @@ const SignUpContent = ({handleChange, formData, ...props}) => (
         minLength="8"
       />
       <div className={styles.action}>
-        {
-          !props.auth.isLoading ?
-            <Button type="submit" cStyle="black" className={styles.signInButton}>
-              {lang.t('signIn.signUp')}
-            </Button>
-            :
-            <Spinner />
-        }
+        { !props.auth.isLoading && !props.auth.successSignUp && (
+          <Button type="submit" cStyle="black" className={styles.signInButton}>
+            {lang.t('signIn.signUp')}
+          </Button>
+        )}
+        { props.auth.isLoading && <Spinner /> }
+        { !props.auth.isLoading && props.auth.successSignUp && <Success /> }
       </div>
     </form>
     <div className={styles.footer}>

@@ -76,7 +76,7 @@ class SignInContainer extends Component {
     if (!value.length) {
       addError(name, 'Please, fill this field');
     } else if (name === 'confirmPassword' && formData.confirmPassword !== formData.password) {
-      addError(name, 'Passwords don`t match. Please, check again.');
+      addError('confirmPassword', 'Passwords don`t match. Please, check again');
     } else if (!validate[name](value)) {
       addError(name, errorMsj[name]);
     } else {
@@ -85,7 +85,7 @@ class SignInContainer extends Component {
       this.setState(state => ({...state, errors}));
       // Checks Email Availability
       if (name === 'email') {
-        debounce(() => checkAvailability({[name]: value}), 250);
+        debounce(() => checkAvailability({[name]: value}), 200, { 'maxWait': 1000 })();
       }
     }
   }

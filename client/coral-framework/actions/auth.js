@@ -71,7 +71,9 @@ export const fetchSignUp = formData => dispatch => {
     .then(handleResp)
     .then(({user}) => {
       dispatch(signUpSuccess(user));
-      dispatch(hideSignInDialog());
+      setTimeout(() =>{
+        dispatch(changeView('SIGNIN'));
+      }, 3000);
     })
     .catch((error) => dispatch(signUpFailure(error)));
 };
