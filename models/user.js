@@ -450,3 +450,11 @@ UserService.availabilityCheck = (email) => {
 UserService.count = () => {
   return UserModel.count();
 };
+
+/**
+ * Returns all the users.
+ * @return {Promise}
+ */
+UserService.all = () => {
+  return UserModel.find();
+};
