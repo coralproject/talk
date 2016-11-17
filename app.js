@@ -89,37 +89,27 @@ app.use((req, res, next) => {
 
 // General error handler. Respond with the message and error if we have it while
 // returning a status code that makes sense.
-if (app.get('env') === 'development') {
-  app.use('/api', (err, req, res, next) => {
-    res.status(err.status || 500);
-    res.json({
-      message: err.message,
-      error: err
-    });
-  });
-
-  app.use('/', (err, req, res, next) => {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
-
 app.use('/api', (err, req, res, next) => {
+  if (err !== ErrNotFound) {
+    console.error(err);
+  }
+
   res.status(err.status || 500);
   res.json({
     message: err.message,
-    error: {}
+    error: app.get('env') === 'development' ? err : null
   });
 });
 
 app.use('/', (err, req, res, next) => {
+  if (err !== ErrNotFound) {
+    console.error(err);
+  }
+
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
-    error: {}
+    error: app.get('env') === 'development' ? err : null
   });
 });
 

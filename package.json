@@ -16,8 +16,13 @@
   "config": {
     "pre-git": {
       "commit-msg": [],
-      "pre-commit": ["npm run lint", "npm test"],
-      "pre-push": ["npm test"],
+      "pre-commit": [
+        "npm run lint",
+        "npm test"
+      ],
+      "pre-push": [
+        "npm test"
+      ],
       "post-commit": [],
       "post-merge": []
     }
@@ -26,7 +31,12 @@
     "type": "git",
     "url": "git+https://github.com/coralproject/talk.git"
   },
-  "keywords": ["talk", "coral", "coralproject", "ask"],
+  "keywords": [
+    "talk",
+    "coral",
+    "coralproject",
+    "ask"
+  ],
   "author": "",
   "license": "Apache-2.0",
   "bugs": {
@@ -36,6 +46,7 @@
   "dependencies": {
     "bcrypt": "^0.8.7",
     "body-parser": "^1.15.2",
+    "cli-table": "^0.3.1",
     "commander": "^2.9.0",
     "connect-redis": "^3.1.0",
     "debug": "^2.2.0",

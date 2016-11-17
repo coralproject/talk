@@ -443,3 +443,18 @@ UserService.availabilityCheck = (email) => {
   });
 };
 
+/**
+ * Returns a count of the current users.
+ * @return {Promise}
+ */
+UserService.count = () => {
+  return UserModel.count();
+};
+
+/**
+ * Returns all the users.
+ * @return {Promise}
+ */
+UserService.all = () => {
+  return UserModel.find();
+};
