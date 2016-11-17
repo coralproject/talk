@@ -55,15 +55,6 @@ class CommentBox extends Component {
     const {styles, reply, canPost} = this.props;
     // How to handle language in plugins? Should we have a dependency on our central translation file?
     return <div>
-        <div className={`${name}-container`}>
-        <input type='text'
-          className={`${name}-username`}
-          style={styles && styles.textarea}
-          value={this.state.username}
-          id={reply ? 'replyUser' : 'commentUser'}
-          placeholder={lang.t('name')}
-          onChange={(e) => this.setState({username: e.target.value})}/>
-      </div>
       <div
         className={`${name}-container`}>
           <label
