@@ -7,6 +7,7 @@ import {
 } from '../../coral-framework';
 import {connect} from 'react-redux';
 import CommentBox from '../../coral-plugin-commentbox/CommentBox';
+import InfoBox from '../../coral-plugin-infobox/InfoBox';
 import Content from '../../coral-plugin-commentcontent/CommentContent';
 import PubDate from '../../coral-plugin-pubdate/PubDate';
 import Count from '../../coral-plugin-comment-count/CommentCount';
@@ -14,11 +15,12 @@ import AuthorName from '../../coral-plugin-author-name/AuthorName';
 import {ReplyBox, ReplyButton} from '../../coral-plugin-replies';
 import Pym from 'pym.js';
 import FlagButton from '../../coral-plugin-flags/FlagButton';
+import LikeButton from '../../coral-plugin-likes/LikeButton';
 import PermalinkButton from '../../coral-plugin-permalinks/PermalinkButton';
 import SignInContainer from '../../coral-sign-in/containers/SignInContainer';
 import UserBox from '../../coral-sign-in/components/UserBox';
 
-const {addItem, updateItem, postItem, getStream, postAction, appendItemArray} = itemActions;
+const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appendItemArray} = itemActions;
 const {addNotification, clearNotification} = notificationActions;
 const {logout} = authActions;
 
@@ -39,6 +41,9 @@ const mapDispatchToProps = (dispatch) => ({
   addNotification: (type, text) => dispatch(addNotification(type, text)),
   clearNotification: () => dispatch(clearNotification()),
   postAction: (item, action, user, itemType) => dispatch(postAction(item, action, user, itemType)),
+  deleteAction: (item, action, user, itemType) => {
+    return dispatch(deleteAction(item, action, user, itemType));
+  },
   appendItemArray: (item, property, value, addToFront, itemType) =>
     dispatch(appendItemArray(item, property, value, addToFront, itemType)),
   logout: () => dispatch(logout())
@@ -55,8 +60,9 @@ class CommentStream extends Component {
   componentDidMount () {
     // Set up messaging between embedded Iframe an parent component
     // Using recommended Pym init code which violates .eslint standards
-    new Pym.Child({polling: 500});
-    this.props.getStream('assetTest');
+    const pym = new Pym.Child({polling: 100});
+    const path = /https?\:\/\/([^?]+)/.exec(pym.parentUrl)[1];
+    this.props.getStream(path);
   }
 
   render () {
@@ -76,7 +82,7 @@ class CommentStream extends Component {
 
     // TODO: Replace teststream id with id from params
 
-    const rootItemId = 'assetTest';
+    const rootItemId = this.props.items.assets && Object.keys(this.props.items.assets)[0];
     const rootItem = this.props.items.assets && this.props.items.assets[rootItemId];
     const {loggedIn, user} = this.props.auth;
     return <div>
@@ -84,6 +90,9 @@ class CommentStream extends Component {
         rootItem
         ? <div>
           <div id="commentBox">
+            <InfoBox
+              content={this.props.config.infoBoxContent}
+              enable={this.props.config.infoBoxEnable}/>
             <Count
               id={rootItemId}
               items={this.props.items}/>
@@ -101,28 +110,40 @@ class CommentStream extends Component {
             {!loggedIn && <SignInContainer />}
           </div>
           {
-            rootItem.comments.map((commentId) => {
+            rootItem.comments && rootItem.comments.map((commentId) => {
               const comment = this.props.items.comments[commentId];
               return <div className="comment" key={commentId}>
                 <hr aria-hidden={true}/>
                 <AuthorName name={comment.username}/>
                 <PubDate created_at={comment.created_at}/>
                 <Content body={comment.body}/>
-                <div className="commentActions">
+                <div className="commentActionsLeft">
+                  <ReplyButton
+                    updateItem={this.props.updateItem}
+                    id={commentId}/>
+                  <LikeButton
+                    addNotification={this.props.addNotification}
+                    id={commentId}
+                    like={this.props.items.actions[comment.like]}
+                    postAction={this.props.postAction}
+                    deleteAction={this.props.deleteAction}
+                    addItem={this.props.addItem}
+                    updateItem={this.props.updateItem}
+                    currentUser={this.props.auth.user}/>
+                </div>
+                <div className="commentActionsRight">
                   <FlagButton
                     addNotification={this.props.addNotification}
                     id={commentId}
                     flag={this.props.items.actions[comment.flag]}
                     postAction={this.props.postAction}
+                    deleteAction={this.props.deleteAction}
                     addItem={this.props.addItem}
                     updateItem={this.props.updateItem}
                     currentUser={this.props.auth.user}/>
-                  <ReplyButton
-                    updateItem={this.props.updateItem}
-                    id={commentId}/>
-                  <PermalinkButton
-                    comment_id={commentId}
-                    asset_id={comment.asset_id}/>
+                    <PermalinkButton
+                      comment_id={commentId}
+                      asset_id={comment.asset_id}/>
                 </div>
                   <ReplyBox
                     addNotification={this.props.addNotification}
@@ -142,23 +163,35 @@ class CommentStream extends Component {
                         <AuthorName name={reply.username}/>
                         <PubDate created_at={reply.created_at}/>
                         <Content body={reply.body}/>
-                        <div className="replyActions">
-                          <FlagButton
-                            addNotification={this.props.addNotification}
-                            id={replyId}
-                            flag={this.props.items.actions[reply.flag]}
-                            postAction={this.props.postAction}
-                            addItem={this.props.addItem}
-                            updateItem={this.props.updateItem}
-                            currentUser={this.props.auth.user}/>
-                          <ReplyButton
-                            updateItem={this.props.updateItem}
-                            parent_id={reply.parent_id}/>
-                          <PermalinkButton
-                            comment_id={reply.comment_id}
-                            asset_id={reply.comment_id}
-                            />
-                        </div>
+                        <div className="replyActionsLeft">
+                            <ReplyButton
+                              updateItem={this.props.updateItem}
+                              id={replyId}/>
+                            <LikeButton
+                              addNotification={this.props.addNotification}
+                              id={replyId}
+                              like={this.props.items.actions[reply.like]}
+                              postAction={this.props.postAction}
+                              deleteAction={this.props.deleteAction}
+                              addItem={this.props.addItem}
+                              updateItem={this.props.updateItem}
+                              currentUser={this.props.auth.user}/>
+                          </div>
+                          <div className="replyActionsRight">
+                            <FlagButton
+                              addNotification={this.props.addNotification}
+                              id={replyId}
+                              flag={this.props.items.actions[reply.flag]}
+                              postAction={this.props.postAction}
+                              deleteAction={this.props.deleteAction}
+                              addItem={this.props.addItem}
+                              updateItem={this.props.updateItem}
+                              currentUser={this.props.auth.user}/>
+                              <PermalinkButton
+                                comment_id={reply.comment_id}
+                                asset_id={reply.comment_id}
+                                />
+                          </div>
                       </div>;
                     })
                 }

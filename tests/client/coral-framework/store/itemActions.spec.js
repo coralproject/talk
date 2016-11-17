@@ -18,8 +18,11 @@ describe('itemActions', () => {
   });
 
   describe('getStream', () => {
-    const rootId = '1234';
+    const assetUrl = 'http://www.test.com';
     const response = {
+      assets: [{
+        id: '1234', url: assetUrl
+      }],
       comments: [
         {body: 'stuff', id: '123'},
         {body: 'morestuff', id: '456'}
@@ -42,17 +45,17 @@ describe('itemActions', () => {
 
     it('should get an stream from an asset_id and send the appropriate dispatches', () => {
       fetchMock.get('*', JSON.stringify(response));
-      return actions.getStream(rootId)(store.dispatch)
+      return actions.getStream(assetUrl)(store.dispatch)
         .then((res) => {
-          expect(fetchMock.calls().matched[0][0]).to.equal('/api/v1/stream?asset_id=1234');
+          expect(fetchMock.calls().matched[0][0]).to.equal('/api/v1/stream?asset_url=http%3A%2F%2Fwww.test.com');
           expect(res).to.deep.equal(response);
-          expect(store.getActions()[0]).to.deep.equal({
+          expect(store.getActions()[1]).to.deep.equal({
             type: actions.ADD_ITEM,
             item: response.comments[0],
             item_type: 'comments',
             id: '123'
           });
-          expect(store.getActions()[1]).to.deep.equal({
+          expect(store.getActions()[2]).to.deep.equal({
             type: actions.ADD_ITEM,
             item: response.comments[1],
             item_type: 'comments',
@@ -62,7 +65,7 @@ describe('itemActions', () => {
     });
     it('should handle an error', () => {
       fetchMock.get('*', 404);
-      return actions.getStream(rootId)(store.dispatch)
+      return actions.getStream(assetUrl)(store.dispatch)
         .catch((err) => {
           expect(err).to.be.truthy;
         });
@@ -119,6 +122,7 @@ describe('itemActions', () => {
             {
               method: 'POST',
               headers: {
+                'Accept': 'application/json',
                 'Content-Type':'application/json'
               },
               body: JSON.stringify(item.data)
@@ -162,6 +166,24 @@ describe('itemActions', () => {
           expect(err).to.be.truthy;
         });
     });
+  });
 
+  describe('deleteAction', () => {
+    it ('should remove an action', () => {
+      fetchMock.delete('*', {});
+      return actions.deleteAction('abc', 'flag', '123', 'comments')(store.dispatch)
+        .then(response => {
+          expect(fetchMock.calls().matched[0][0]).to.equal('/api/v1/comments/abc/actions');
+          expect(response).to.deep.equal({});
+        });
+    });
+
+    it('should handle an error', () => {
+      fetchMock.post('*', 404);
+      return actions.postAction('abc', 'flag', '123')(store.dispatch)
+        .catch((err) => {
+          expect(err).to.be.truthy;
+        });
+    });
   });
 });

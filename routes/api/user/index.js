@@ -11,28 +11,9 @@ router.get('/', (req, res, next) => {
     limit = 50 // Total Per Page
     } = req.query;
 
-  let q = {
-    $or: [
-      {
-        'displayName': {
-          $regex: new RegExp(`^${value}`),
-          $options: 'i'
-        },
-        'profiles': {
-          $elemMatch: {
-            id: {
-              $regex: new RegExp(`^${value}`),
-              $options: 'i'
-            },
-            provider: 'local'
-          }
-        }
-      }
-    ]
-  };
-
   Promise.all([
-    User.find(q)
+    User
+      .search(value)
       .sort({[field]: (asc === 'true') ? 1 : -1})
       .skip((page - 1) * limit)
       .limit(limit),
@@ -40,11 +21,13 @@ router.get('/', (req, res, next) => {
   ])
   .then(([data, count]) => {
     const users = data.map((user) => {
-      const {displayName, created_at} = user;
+      const {id, displayName, created_at} = user;
       return {
+        id,
         displayName,
         created_at,
-        profiles: user.toObject().profiles
+        profiles: user.toObject().profiles,
+        roles: user.toObject().roles
       };
     });
 
@@ -58,6 +41,15 @@ router.get('/', (req, res, next) => {
 
   })
   .catch(next);
+});
+
+router.post('/:user_id/role', (req, res, next) => {
+  User
+    .addRoleToUser(req.params.user_id, req.body.role)
+    .then(role => {
+      res.send(role);
+    })
+    .catch(next);
 });
 
 router.post('/', (req, res, next) => {

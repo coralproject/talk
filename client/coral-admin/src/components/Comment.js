@@ -3,8 +3,8 @@ import React from 'react';
 import {Button, Icon} from 'react-mdl';
 import timeago from 'timeago.js';
 import styles from './CommentList.css';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from '../translations';
+import I18n from 'coral-framework/i18n/i18n';
+import translations from '../translations.json';
 
 // Render a single comment for the list
 export default props => (

@@ -7,9 +7,9 @@ const name = 'coral-plugin-replies';
 const ReplyButton = (props) => <button
     className={`${name}-reply-button`}
     onClick={() => props.updateItem(props.id || props.parent_id, 'showReply', true, 'comments')}>
+    {lang.t('reply')}
     <i className={`${name}-icon material-icons`}
       aria-hidden={true}>reply</i>
-    {lang.t('reply')}
 </button>;
 
 export default ReplyButton;
