@@ -29,7 +29,7 @@ export default function auth (state = initialState, action) {
     }));
   case actions.CHANGE_VIEW :
     return state
-      .set('signUpError', '')
+      .set('signInError', '')
       .set('view', action.view);
   case actions.CLEAN_STATE:
     return initialState;
