@@ -86,7 +86,7 @@ const forgotPassowordFailure = () => ({type: actions.FETCH_FORGOT_PASSWORD_FAILU
 
 export const fetchForgotPassword = () => dispatch => {
   dispatch(forgotPassowordRequest());
-  fetch(`${base}/forgot`, getInit('POST'))
+  fetch(`${base}/user/request-password-reset`, getInit('POST'))
     .then(handleResp)
     .then(() => dispatch(forgotPassowordSuccess()))
     .catch(error => dispatch(forgotPassowordFailure(error)));
