@@ -16,7 +16,7 @@
     <p><a href="/admin">Visit the moderation console</a></p>
 
 <div id='coralStreamEmbed'></div>
-<script type='text/javascript' src='https://pym.nprapps.org/pym.v1.min.js'></script>
+<script type='text/javascript' src='/client/js/lib/pym.v1.min.js'></script>
 <script>
 var pymParent = new pym.Parent('coralStreamEmbed', '/embed/stream', {title: 'Talk Comments'});
 pymParent.onMessage('height', function(height) {document.querySelector('#coralStreamEmbed iframe').height = height + 'px'})</script>

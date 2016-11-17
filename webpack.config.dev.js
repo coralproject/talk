@@ -74,10 +74,16 @@ module.exports = {
     ]
   },
   plugins: [
-    new Copy(buildEmbeds.map(embed => ({
-      from: path.join(__dirname, 'client', `coral-embed-${embed}`, 'style'),
-      to: path.join(__dirname, 'dist', 'embed', embed)
-    }))),
+    new Copy([
+      ...buildEmbeds.map(embed => ({
+        from: path.join(__dirname, 'client', `coral-embed-${embed}`, 'style'),
+        to: path.join(__dirname, 'dist', 'embed', embed)
+      })),
+      {
+        from: path.join(__dirname, 'client', 'lib'),
+        to: path.join(__dirname, 'dist', 'js', 'lib')
+      }
+    ]),
     autoprefixer,
     precss,
     new webpack.ProvidePlugin({
