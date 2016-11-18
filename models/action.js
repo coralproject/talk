@@ -84,7 +84,7 @@ ActionSchema.statics.getActionSummaries = function(item_ids, user_id = false) {
                   user_id
                 ]
               },
-              then: '$id',
+              then: '$$ROOT',
               else: false
             }
           }
