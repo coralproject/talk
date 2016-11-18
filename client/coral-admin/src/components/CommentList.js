@@ -9,7 +9,8 @@ import Comment from 'components/Comment';
 const actions = {
   'reject': {status: 'rejected', icon: 'close', key: 'r'},
   'approve': {status: 'accepted', icon: 'done', key: 't'},
-  'flag': {status: 'flagged', icon: 'flag', filter: 'Untouched'}
+  'flag': {status: 'flagged', icon: 'flag', filter: 'Untouched'},
+  'ban': {status: 'banned', icon: ''}
 };
 
 // Renders a comment list and allow performing actions

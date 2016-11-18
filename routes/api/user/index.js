@@ -21,11 +21,12 @@ router.get('/', (req, res, next) => {
   ])
   .then(([data, count]) => {
     const users = data.map((user) => {
-      const {id, displayName, created_at} = user;
+      const {id, displayName, created_at, status} = user;
       return {
         id,
         displayName,
         created_at,
+        status,
         profiles: user.toObject().profiles,
         roles: user.toObject().roles
       };
@@ -48,6 +49,15 @@ router.post('/:user_id/role', (req, res, next) => {
     .addRoleToUser(req.params.user_id, req.body.role)
     .then(role => {
       res.send(role);
+    })
+    .catch(next);
+});
+
+router.post('/:user_id/status', (req, res, next) => {
+  User
+    .setStatus(req.params.user_id, req.body.status)
+    .then(status => {
+      res.send(status);
     })
     .catch(next);
 });

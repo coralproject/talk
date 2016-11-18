@@ -13,7 +13,7 @@ const USER_ROLES = [
 ];
 
 // USER_STATUSES is the list of statuses that are permitted for the user status.
-const USER_STATUSES = [
+const USER_STATUS = [
   'active',
   'banned'
 ];
@@ -74,7 +74,7 @@ const UserSchema = new mongoose.Schema({
 
   // Status provides a string that says in which state the account is.
   // When the account is banned, the user login is disabled.
-  status: {type: String, enum: USER_STATUSES, default: 'active'}
+  status: {type: String, enum: USER_STATUS, default: 'active'}
 }, {
 
   // This will ensure that we have proper timestamps available on this model.
@@ -394,11 +394,14 @@ UserService.removeRoleFromUser = (id, role) => {
 UserService.setStatus = (id, status) => {
 
   // Check to see if the user role is in the allowable set of roles.
-  if (USER_STATUSES.indexOf(status) === -1) {
+  if (USER_STATUS.indexOf(status) === -1) {
 
     // User status is not supported! Error out here.
     return Promise.reject(new Error(`status ${status} is not supported`));
   }
+
+  // If we are banning the user
+  //  disable their account
 
   return UserModel.update({
     id: id

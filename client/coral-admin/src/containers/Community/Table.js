@@ -4,7 +4,7 @@ import {SelectField, Option} from 'react-mdl-selectfield';
 import styles from './Community.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations';
-import {setRole} from '../../actions/community';
+import {setRole, setStatus} from '../../actions/community';
 
 const lang = new I18n(translations);
 
@@ -13,10 +13,15 @@ class Table extends Component {
   constructor (props) {
     super(props);
     this.onRoleChange = this.onRoleChange.bind(this);
+    this.onStatusChange = this.onStatusChange.bind(this);
   }
 
   onRoleChange (id, role) {
     this.props.dispatch(setRole(id, role));
+  }
+
+  onStatusChange (id, status) {
+    this.props.dispatch(setStatus(id, status));
   }
 
   render () {
@@ -45,6 +50,15 @@ class Table extends Component {
               </td>
               <td className="mdl-data-table__cell--non-numeric">
                 {row.created_at}
+              </td>
+              <td className={`mdl-data-table__cell--non-numeric ${styles.statusBox}`}>
+                <SelectField label={'Select me'} value={row.status}
+                  label={lang.t('community.select-status')}
+                  onChange={status => this.onStatusChange(row.id, status)}>
+                  <Option value={''}>.</Option>
+                  <Option value={'active'}>{lang.t('community.active')}</Option>
+                  <Option value={'banned'}>{lang.t('community.banned')}</Option>
+                </SelectField>
               </td>
               <td className="mdl-data-table__cell--non-numeric">
                 <SelectField label={'Select me'} value={row.roles[0] || ''}

@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import ModerationKeysModal from 'components/ModerationKeysModal';
 import CommentList from 'components/CommentList';
 import {updateStatus} from 'actions/comments';
+import {updateUserStatus} from 'actions/users';
 import styles from './ModerationQueue.css';
 import key from 'keymaster';
 import I18n from 'coral-framework/modules/i18n/i18n';
@@ -11,6 +12,7 @@ import translations from '../translations.json';
 /*
  * Renders the moderation queue as a tabbed layout with 3 moderation
  * queues filtered by status (Untouched, Rejected and Approved)
+ * Pending queue also includes the comments that are flagged in the post-moderation setting.
  */
 
 class ModerationQueue extends React.Component {
@@ -44,9 +46,14 @@ class ModerationQueue extends React.Component {
     }
   }
 
-  // Dispatch the update status action
+  // Dispatch the update comment status action
   onCommentAction (status, id) {
     this.props.dispatch(updateStatus(status, id));
+  }
+
+  // Dispatch the update user status action
+  onUserAction (status, id) {
+    this.props.dispatch(updateUserStatus(status, id));
   }
 
   onTabClick (activeTab) {
@@ -112,7 +119,7 @@ class ModerationQueue extends React.Component {
               })}
               comments={comments.get('byId')}
               onClickAction={(action, id) => this.onCommentAction(action, id)}
-              actions={['reject', 'approve']}
+              actions={['reject', 'approve', 'ban']}
               loading={comments.loading} />
           </div>
           <ModerationKeysModal open={modalOpen}

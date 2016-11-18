@@ -6,13 +6,15 @@ import {
   FETCH_COMMENTERS_FAILURE,
   SORT_UPDATE,
   COMMENTERS_NEW_PAGE,
-  SET_ROLE
+  SET_ROLE,
+  SET_STATUS
 } from '../constants/community';
 
 import {base, getInit, handleResp} from '../helpers/response';
 
 export const fetchCommenters = (query = {}) => dispatch => {
   dispatch(requestFetchCommenters());
+  console.log('DEBUG ', query);
   fetch(`${base}/user?${qs.stringify(query)}`, getInit('GET'))
     .then(handleResp)
     .then(({result, page, count, limit, totalPages}) =>
@@ -45,5 +47,12 @@ export const setRole = (id, role) => dispatch => {
   return fetch(`${base}/user/${id}/role`, getInit('POST', {role}))
   .then(() => {
     return dispatch({type: SET_ROLE, id, role});
+  });
+};
+
+export const setStatus = (id, status) => dispatch => {
+  return fetch(`${base}/user/${id}/status`, getInit('POST', {status}))
+  .then(() => {
+    return dispatch({type: SET_STATUS, id, status});
   });
 };

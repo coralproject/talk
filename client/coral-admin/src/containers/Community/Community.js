@@ -31,10 +31,11 @@ const tableHeaders = [
 ];
 
 const Community = ({isFetching, commenters, ...props}) => {
+  console.log(commenters);
   const hasResults = !isFetching && !!commenters.length;
   return (
     <Grid>
-      <Cell col={4}>
+      <Cell col={3}>
         <form action="">
           <div className={`mdl-textfield ${styles.searchBox}`}>
             <label className="mdl-button mdl-js-button mdl-button--icon" htmlFor="commenters-search">
@@ -54,8 +55,8 @@ const Community = ({isFetching, commenters, ...props}) => {
         </form>
       </Cell>
       <Cell col={8}>
-        { isFetching && <Loading /> }
-        { !hasResults && <NoResults /> }
+        { isFetching && <Loading/> }
+        { !hasResults && <NoResults/> }
         { hasResults &&
           <Table
             headers={tableHeaders}

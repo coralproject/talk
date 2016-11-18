@@ -15,6 +15,11 @@
 .searchBox {
     /*border: 1px solid rgba(0,0,0,.12);*/
     background: white;
+    width: 100px;
+}
+
+.statusBox {
+    width: 100px;
 }
 
 .email {
