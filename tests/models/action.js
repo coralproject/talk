@@ -52,10 +52,9 @@ describe('Action: models', () => {
     it('should return properly formatted summaries from an array of item_ids', () => {
       return Action.getActionSummaries(['123', '789']).then((result) => {
         expect(result).to.have.length(3);
+
         const sorted = result.sort((a, b) => a.count - b.count);
-        delete sorted[0].id;
-        delete sorted[1].id;
-        delete sorted[2].id;
+
         expect(sorted[0]).to.deep.equal({
           action_type: 'like',
           count: 1,
@@ -63,6 +62,7 @@ describe('Action: models', () => {
           item_type: 'comments',
           current_user: false
         });
+
         expect(sorted[1]).to.deep.equal({
           action_type: 'like',
           count: 1,
@@ -70,6 +70,7 @@ describe('Action: models', () => {
           item_type: 'comments',
           current_user: false
         });
+
         expect(sorted[2]).to.deep.equal({
           action_type: 'flag',
           count: 2,
