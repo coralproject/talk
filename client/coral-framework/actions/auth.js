@@ -106,27 +106,3 @@ export const logout = () => dispatch => {
     .catch(error => dispatch(logOutFailure(error)));
 };
 
-// Availability Checks Actions
-
-const availabilityRequest = () => ({type: actions.FETCH_AVAILABILITY_REQUEST});
-const availabilitySuccess = () => ({type: actions.FETCH_AVAILABILITY_SUCCESS});
-const availabilityFailure = () => ({type: actions.FETCH_AVAILABILITY_FAILURE});
-
-const availableField = field => ({type: actions.AVAILABLE_FIELD, field});
-const unavailableField = field => ({type: actions.UNAVAILABLE_FIELD, field});
-
-export const fetchCheckAvailability = formData => dispatch => {
-  dispatch(availabilityRequest());
-  fetch(`${base}/user/availability`, getInit('POST', formData))
-    .then(handleResp)
-    .then(({status}) => {
-      const [field] = Object.keys(formData);
-      dispatch(availabilitySuccess());
-      if (status === 'available') {
-        return dispatch(availableField(field));
-      }
-      return dispatch(unavailableField(field));
-    })
-    .catch((error) => availabilityFailure(error));
-};
-

@@ -66,12 +66,6 @@ export default function auth (state = initialState, action) {
     return state
       .set('loggedIn', false)
       .set('user', null);
-  case actions.AVAILABLE_FIELD:
-    return state
-      .set(`${action.field}Available`, true);
-  case actions.UNAVAILABLE_FIELD:
-    return state
-      .set(`${action.field}Available`, false);
   default :
     return state;
   }
