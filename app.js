@@ -97,7 +97,7 @@ app.use('/api', (err, req, res, next) => {
   res.status(err.status || 500);
   res.json({
     message: err.message,
-    error: app.get('env') === 'development' ? err : null
+    error: app.get('env') === 'development' ? err : {}
   });
 });
 
@@ -109,7 +109,7 @@ app.use('/', (err, req, res, next) => {
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
-    error: app.get('env') === 'development' ? err : null
+    error: app.get('env') === 'development' ? err : {}
   });
 });
 
