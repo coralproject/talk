@@ -8,7 +8,7 @@ import translations from '../translations.json';
 
 // Render a single comment for the list
 export default props => (
-  <li tabindex={props.index} className={`${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
+  <li tabIndex={props.index} className={`${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
     <div className={styles.itemHeader}>
       <div className={styles.author}>
         <i className={`material-icons ${styles.avatar}`}>person</i>
@@ -19,10 +19,9 @@ export default props => (
       <div className={styles.actions}>
         {props.actions.map(action => canShowAction(action, props.comment) ? (
           <Button className={styles.actionButton}
-            onClick={() => props.onClickAction(props.actionsMap[action].status, props.comment.get('id'))}
-            fab colored>
-            <Icon name={props.actionsMap[action].icon} />
-            <Button>{props.actionsMap[action]}</Button>
+            onClick={() => props.onClickAction(props.actionsMap[action].status, props.comment.get('id'))} colored>
+            <Icon name={props.actionsMap[action].icon}/>
+            {props.actionsMap[action].text}
           </Button>
         ) : null)}
       </div>

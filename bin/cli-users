@@ -214,6 +214,7 @@ function listUsers() {
           'Display Name',
           'Profiles',
           'Roles',
+          'Status',
           'State'
         ]
       });
@@ -224,6 +225,7 @@ function listUsers() {
           user.displayName,
           user.profiles.map((p) => p.provider).join(', '),
           user.roles.join(', '),
+          user.status,
           user.disabled ? 'Disabled' : 'Enabled'
         ]);
       });
