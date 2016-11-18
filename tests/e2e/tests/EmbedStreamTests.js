@@ -1,7 +1,13 @@
+require('../../utils/mongoose');
+const Setting = require('../../../models/setting');
+
 const comment = 'This is a test comment.';
 
 module.exports = {
   '@tags': ['embed-stream', 'post'],
+  before: () => {
+    Setting.create({moderation: 'post'});
+  },
   'User posts a comment': client => {
     client.resizeWindow(1200, 800)
     .url(client.globals.baseUrl)
