@@ -7,8 +7,7 @@ const initialState = Map({
   user: null,
   showSignInDialog: false,
   view: 'SIGNIN',
-  signUpError: '',
-  emailAvailable: true,
+  error: '',
   successSignUp: false
 });
 
@@ -22,14 +21,12 @@ export default function auth (state = initialState, action) {
       isLoading: false,
       showSignInDialog: false,
       view: 'SIGNIN',
-      signInError: '',
-      signUpError: '',
-      emailAvailable: true,
+      error: '',
       successSignUp: false
     }));
   case actions.CHANGE_VIEW :
     return state
-      .set('signInError', '')
+      .set('error', '')
       .set('view', action.view);
   case actions.CLEAN_STATE:
     return initialState;
@@ -43,7 +40,7 @@ export default function auth (state = initialState, action) {
   case actions.FETCH_SIGNIN_FAILURE:
     return state
       .set('isLoading', false)
-      .set('signInError', action.error);
+      .set('error', action.error);
   case actions.FETCH_SIGNIN_FACEBOOK_SUCCESS:
     return state
       .set('user', action.user)
@@ -57,6 +54,7 @@ export default function auth (state = initialState, action) {
       .set('isLoading', true);
   case actions.FETCH_SIGNUP_FAILURE:
     return state
+      .set('error', action.error)
       .set('isLoading', false);
   case actions.FETCH_SIGNUP_SUCCESS:
     return state
@@ -66,6 +64,12 @@ export default function auth (state = initialState, action) {
     return state
       .set('loggedIn', false)
       .set('user', null);
+  case actions.INVALID_FORM:
+    return state
+      .set('error', action.error);
+  case actions.VALID_FORM:
+    return state
+      .set('error', '');
   default :
     return state;
   }

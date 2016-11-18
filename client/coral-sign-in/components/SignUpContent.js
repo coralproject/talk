@@ -26,17 +26,16 @@ const SignUpContent = ({handleChange, formData, ...props}) => (
         {lang.t('signIn.or')}
       </h1>
     </div>
-    { props.auth.signUpError && <Alert>{props.auth.signUpError}</Alert> }
+    { props.auth.error && <Alert>{props.auth.error}</Alert> }
     <form onSubmit={props.handleSignUp}>
       <FormField
         id="email"
         type="email"
         label={lang.t('signIn.email')}
         value={formData.email}
-        showErrors={!props.auth.emailAvailable || props.showErrors}
-        errorMsg={!props.auth.emailAvailable ? lang.t('signIn.emailInUse') : props.errors.email}
+        showErrors={props.showErrors}
+        errorMsg={props.errors.email}
         onChange={handleChange}
-        autoFocus
       />
       <FormField
         id="displayName"

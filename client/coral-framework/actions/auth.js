@@ -1,3 +1,6 @@
+import I18n from 'coral-framework/modules/i18n/i18n';
+import translations from './../translations';
+const lang = new I18n(translations);
 import * as actions from '../constants/auth';
 import {base, handleResp, getInit} from '../helpers/response';
 
@@ -27,7 +30,7 @@ export const fetchSignIn = (formData) => dispatch => {
       dispatch(hideSignInDialog());
       dispatch(signInSuccess(user));
     })
-    .catch(() => dispatch(signInFailure('Email and/or password combination incorrect.')));
+    .catch(() => dispatch(signInFailure(lang.t('error.emailPasswordError'))));
 };
 
 // Sign In - Facebook
@@ -75,7 +78,7 @@ export const fetchSignUp = formData => dispatch => {
         dispatch(changeView('SIGNIN'));
       }, 3000);
     })
-    .catch((error) => dispatch(signUpFailure(error)));
+    .catch(() => dispatch(signUpFailure(lang.t('error.emailInUse')))); // We need to inprove error handling. TODO (bc)
 };
 
 // Forgot Password Actions
@@ -105,4 +108,9 @@ export const logout = () => dispatch => {
     .then(() => dispatch(logOutSuccess()))
     .catch(error => dispatch(logOutFailure(error)));
 };
+
+// LogOut Actions
+
+export const validForm = () => ({type: actions.VALID_FORM});
+export const invalidForm = error => ({type: actions.INVALID_FORM, error});
 

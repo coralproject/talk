@@ -58,6 +58,19 @@ router.post('/:user_id/role', (req, res, next) => {
     .catch(next);
 });
 
+router.post('/', (req, res, next) => {
+  const {email, password, displayName} = req.body;
+
+  User
+    .createLocalUser(email, password, displayName)
+    .then(user => {
+      res.status(201).send(user);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
 /**
  * expects 2 fields in the body of the request
  * 1) the token that was in the url of the email link {String}
@@ -118,19 +131,6 @@ router.post('/request-password-reset', (req, res, next) => {
       const errorMsg = typeof error === 'string' ? error : error.message;
 
       res.status(500).json({error: errorMsg});
-    });
-});
-
-router.post('/', (req, res, next) => {
-  const {email, password, displayName} = req.body;
-
-  User
-    .createLocalUser(email, password, displayName)
-    .then(user => {
-      res.status(201).send(user);
-    })
-    .catch(err => {
-      next(err);
     });
 });
 

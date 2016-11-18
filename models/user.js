@@ -13,11 +13,12 @@ const USER_ROLES = [
   'moderator'
 ];
 
-if (!process.env.TALK_SESSION_SECRET) {
-  throw new Error('\n////////////////////////////////////////////////////////////\n' +
-        '///   TALK_SESSION_SECRET must be defined to encode      ///\n' +
-        '///   JSON Web Tokens and other auth functionality       ///\n' +
-        '////////////////////////////////////////////////////////////');
+// In the event that the TALK_SESSION_SECRET is missing but we are testing, then
+// set the process.env.TALK_SESSION_SECRET.
+if (process.env.NODE_ENV === 'test' && !process.env.TALK_SESSION_SECRET) {
+  process.env.TALK_SESSION_SECRET = 'keyboard cat';
+} else if (!process.env.TALK_SESSION_SECRET) {
+  throw new Error('TALK_SESSION_SECRET must be defined to encode JSON Web Tokens and other auth functionality');
 }
 
 // UserSchema is the mongoose schema defined as the representation of a User in
@@ -311,9 +312,11 @@ UserService.createLocalUser = (email, password, displayName) => {
 
       user.save((err) => {
         if (err) {
+          if (err.code === 11000) {
+            return reject('Email address already in use');
+          }
           return reject(err);
         }
-
         return resolve(user);
       });
     });
