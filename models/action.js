@@ -42,29 +42,58 @@ ActionSchema.statics.findByItemIdArray = function(item_ids) {
  * @param {String} ids array of user identifiers (uuid)
 */
 ActionSchema.statics.getActionSummaries = function(item_ids) {
-  return ActionSchema.statics.findByItemIdArray(item_ids).then((rawActions) => {
-    // Create an object with a count of each action type for each item
-    const actionSummaries = rawActions.reduce((actionObj, action) => {
-      if (!actionObj[`${action.item_id}_${action.action_type}`]) {
-        actionObj[`${action.item_id}_${action.action_type}`] = {
-          id: action.id,
-          item_id: action.item_id,
-          item_type: action.item_type,
-          action_type: action.action_type,
-          count: 1,
-          current_user: false //Update this later when we have authentication
-        };
-      } else {
-        actionObj[`${action.item_id}_${action.action_type}`].count ++;
+  return Action.aggregate([
+    {
+
+      // only grab items that match the specified item id's
+      $match: {
+        item_id: {
+          $in: item_ids
+        }
       }
-      return actionObj;
-    }, {});
-    // Return an array extracted from the actionSummaries object
-    return Object.keys(actionSummaries).reduce((actions, key) => {
-      actions.push(actionSummaries[key]);
-      return actions;
-    }, []);
-  });
+    },
+    {
+      $group: {
+
+        // group unique documents by these properties, we are leveraging the
+        // fact that each uuid is completly unique.
+        _id: {
+          item_id: '$item_id',
+          action_type: '$action_type'
+        },
+
+        // and sum up all actions matching the above grouping criteria
+        count: {
+          $sum: 1
+        },
+
+        // we are leveraging the fact that each uuid is completly unique and
+        // just grabbing the last instance of the item type here.
+        item_type: {
+          $last: '$item_type'
+        }
+      }
+    },
+    {
+      $project: {
+
+        // suppress the _id field
+        _id: false,
+
+        // map the fields from the _id grouping down a level
+        item_id: '$_id.item_id',
+        action_type: '$_id.action_type',
+
+        // map the field directly
+        count: '$count',
+        item_type: '$item_type',
+
+        // set the current user to false here
+        current_user: {$literal: false}
+      }
+    }
+  ])
+  .exec();
 };
 
 /*
