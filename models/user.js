@@ -404,14 +404,14 @@ UserService.removeRoleFromUser = (id, role) => {
 };
 
 /**
- * Adds a role to a user.
+ * Set status of a user.
  * @param  {String}   id   id of a user
- * @param  {String}   role role to add
+ * @param  {String}   status status to set
  * @param  {Function} done callback after the operation is complete
  */
 UserService.setStatus = (id, status) => {
 
-  // Check to see if the user role is in the allowable set of roles.
+  // Check to see if the user status is in the allowable set of roles.
   if (USER_STATUS.indexOf(status) === -1) {
 
     // User status is not supported! Error out here.

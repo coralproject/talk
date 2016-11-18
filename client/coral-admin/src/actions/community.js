@@ -14,7 +14,6 @@ import {base, getInit, handleResp} from '../helpers/response';
 
 export const fetchCommenters = (query = {}) => dispatch => {
   dispatch(requestFetchCommenters());
-  console.log('DEBUG ', query);
   fetch(`${base}/user?${qs.stringify(query)}`, getInit('GET'))
     .then(handleResp)
     .then(({result, page, count, limit, totalPages}) =>

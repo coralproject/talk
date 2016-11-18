@@ -119,7 +119,7 @@ class ModerationQueue extends React.Component {
               })}
               comments={comments.get('byId')}
               onClickAction={(action, id) => this.onCommentAction(action, id)}
-              actions={['reject', 'approve', 'ban']}
+              actions={['reject', 'approve']}
               loading={comments.loading} />
           </div>
           <ModerationKeysModal open={modalOpen}
