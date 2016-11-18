@@ -5,6 +5,7 @@ import timeago from 'timeago.js';
 import styles from './CommentList.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations.json';
+import Linkify from 'react-linkify';
 
 // Render a single comment for the list
 export default props => (
@@ -27,7 +28,11 @@ export default props => (
       </div>
     </div>
     <div className={styles.itemBody}>
-      <span className={styles.body}>{props.comment.get('body')}</span>
+      <span className={styles.body}>
+        <Linkify component='span' properties={{style: linkStyles}}>
+          {props.comment.get('body')}
+        </Linkify>
+      </span>
     </div>
   </li>
 );
@@ -41,6 +46,11 @@ const canShowAction = (action, comment) => {
     return false;
   }
   return true;
+};
+
+const linkStyles = {
+  backgroundColor: 'rgb(255, 219, 135)',
+  padding: '1px 2px'
 };
 
 const lang = new I18n(translations);
