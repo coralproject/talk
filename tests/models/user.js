@@ -53,7 +53,6 @@ describe('User: models', () => {
           if(a.displayName > b.displayName) {return 1;}
           return 0;
         });
-        console.log(sorted);
         expect(sorted[0]).to.have.property('displayName')
           .and.to.equal('Marvel');
       });
