@@ -165,7 +165,7 @@ class CommentStream extends Component {
                         <div className="replyActionsLeft">
                             <ReplyButton
                               updateItem={this.props.updateItem}
-                              id={replyId}/>
+                              parent_id={reply.parent_id}/>
                             <LikeButton
                               addNotification={this.props.addNotification}
                               id={replyId}
