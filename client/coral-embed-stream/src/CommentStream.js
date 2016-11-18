@@ -105,7 +105,7 @@ class CommentStream extends Component {
               id={rootItemId}
               premod={this.props.config.moderation}
               reply={false}
-              canPost={loggedIn}
+              authorId={user.id}
             />
             {!loggedIn && <SignInContainer />}
           </div>

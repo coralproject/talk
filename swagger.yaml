@@ -245,7 +245,7 @@ definitions:
         description: Display name of comment
       user_id:
         type: string
-        description: Display name of comment
+        description: User who posted the comment
       parent_id:
         type: string
         description: Display name of comment
