@@ -100,7 +100,7 @@ router.post('/request-password-reset', (req, res, next) => {
   const {email} = req.body;
 
   if (!email) {
-    return next();
+    return next('you must submit an email when requesting a password.');
   }
 
   User
