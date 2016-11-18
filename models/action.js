@@ -41,7 +41,7 @@ ActionSchema.statics.findByItemIdArray = function(item_ids) {
  * Returns summaries of actions for an array of ids
  * @param {String} ids array of user identifiers (uuid)
 */
-ActionSchema.statics.getActionSummaries = function(item_ids) {
+ActionSchema.statics.getActionSummaries = function(item_ids, user_id = false) {
   return Action.aggregate([
     {
 
@@ -71,6 +71,23 @@ ActionSchema.statics.getActionSummaries = function(item_ids) {
         // just grabbing the last instance of the item type here.
         item_type: {
           $last: '$item_type'
+        },
+
+        // inserts the action id in the event that the current user did perform
+        // this specific action already.
+        current_user: {
+          $max: {
+            $cond: {
+              if: {
+                $eq: [
+                  '$user_id',
+                  user_id
+                ]
+              },
+              then: '$id',
+              else: false
+            }
+          }
         }
       }
     },
@@ -89,7 +106,7 @@ ActionSchema.statics.getActionSummaries = function(item_ids) {
         item_type: '$item_type',
 
         // set the current user to false here
-        current_user: {$literal: false}
+        current_user: '$current_user'
       }
     }
   ])
