@@ -31,7 +31,7 @@ const FlagButton = ({flag, id, postAction, deleteAction, addItem, updateItem, ad
       : <span className={`${name}-button-text`}>{lang.t('flag')}</span>
       }
       <i className={`${name}-icon material-icons ${flagged && 'flaggedIcon'}`}
-        style={flagged && styles.flaggedIcon}
+        style={flagged ? styles.flaggedIcon : {}}
         aria-hidden={true}>flag</i>
     </button>
   </div>;
