@@ -88,7 +88,7 @@ class ModerationQueue extends React.Component {
               }
               comments={comments.get('byId')}
               onClickAction={(action, id) => this.onCommentAction(action, id)}
-              actions={['reject', 'approve']}
+              actions={['reject', 'approve', 'ban']}
               loading={comments.loading} />
           </div>
           <div className={`mdl-tabs__panel ${styles.listContainer}`} id='rejected'>

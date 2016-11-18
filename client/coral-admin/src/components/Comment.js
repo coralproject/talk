@@ -22,6 +22,7 @@ export default props => (
             onClick={() => props.onClickAction(props.actionsMap[action].status, props.comment.get('id'))}
             fab colored>
             <Icon name={props.actionsMap[action].icon} />
+            <Button>{props.actionsMap[action]}</Button>
           </Button>
         ) : null)}
       </div>
