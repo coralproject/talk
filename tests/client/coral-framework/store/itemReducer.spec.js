@@ -1,6 +1,6 @@
 import {Map, fromJS} from 'immutable';
 import {expect} from 'chai';
-import itemsReducer from '../../../../client/coral-framework/store/reducers/items';
+import itemsReducer from '../../../../client/coral-framework/reducers/items';
 
 describe ('itemsReducer', () => {
   describe('ADD_ITEM', () => {

@@ -1,10 +1,10 @@
-import Notification from './notification/Notification';
-import store from './store/store';
-import {fetchConfig} from './store/actions/config';
-import * as itemActions from './store/actions/items';
-import I18n from './i18n/i18n';
-import * as notificationActions from './store/actions/notification';
-import * as authActions from './store/actions/auth';
+import Notification from './modules/notification/Notification';
+import store from './store';
+import {fetchConfig} from './actions/config';
+import * as itemActions from './actions/items';
+import I18n from './modules/i18n/i18n';
+import * as notificationActions from './actions/notification';
+import * as authActions from './actions/auth';
 
 export {
   Notification,

@@ -17,10 +17,12 @@ import Pym from 'pym.js';
 import FlagButton from '../../coral-plugin-flags/FlagButton';
 import LikeButton from '../../coral-plugin-likes/LikeButton';
 import PermalinkButton from '../../coral-plugin-permalinks/PermalinkButton';
+import SignInContainer from '../../coral-sign-in/containers/SignInContainer';
+import UserBox from '../../coral-sign-in/components/UserBox';
 
 const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appendItemArray} = itemActions;
 const {addNotification, clearNotification} = notificationActions;
-const {setLoggedInUser} = authActions;
+const {logout} = authActions;
 
 const mapStateToProps = (state) => {
   return {
@@ -31,40 +33,21 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addItem: (item, itemType) => {
-      return dispatch(addItem(item, itemType));
-    },
-    updateItem: (id, property, value, itemType) => {
-      return dispatch(updateItem(id, property, value, itemType));
-    },
-    postItem: (data, type, id) => {
-      return dispatch(postItem(data, type, id));
-    },
-    getStream: (rootId) => {
-      return dispatch(getStream(rootId));
-    },
-    addNotification: (type, text) => {
-      return dispatch(addNotification(type, text));
-    },
-    clearNotification: () => {
-      return dispatch(clearNotification());
-    },
-    setLoggedInUser: (user_id) => {
-      return dispatch(setLoggedInUser(user_id));
-    },
-    postAction: (item, action, user, itemType) => {
-      return dispatch(postAction(item, action, user, itemType));
-    },
-    deleteAction: (item, action, user, itemType) => {
-      return dispatch(deleteAction(item, action, user, itemType));
-    },
-    appendItemArray: (item, property, value, addToFront, itemType) => {
-      return dispatch(appendItemArray(item, property, value, addToFront, itemType));
-    }
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  addItem: (item, itemType) => dispatch(addItem(item, itemType)),
+  updateItem: (id, property, value, itemType) => dispatch(updateItem(id, property, value, itemType)),
+  postItem: (data, type, id) => dispatch(postItem(data, type, id)),
+  getStream: (rootId) => dispatch(getStream(rootId)),
+  addNotification: (type, text) => dispatch(addNotification(type, text)),
+  clearNotification: () => dispatch(clearNotification()),
+  postAction: (item, action, user, itemType) => dispatch(postAction(item, action, user, itemType)),
+  deleteAction: (item, action, user, itemType) => {
+    return dispatch(deleteAction(item, action, user, itemType));
+  },
+  appendItemArray: (item, property, value, addToFront, itemType) =>
+    dispatch(appendItemArray(item, property, value, addToFront, itemType)),
+  logout: () => dispatch(logout())
+});
 
 class CommentStream extends Component {
 
@@ -86,11 +69,25 @@ class CommentStream extends Component {
   }
 
   render () {
+    if (Object.keys(this.props.items).length === 0) {
+        // Loading mock asset
+      this.props.postItem({
+        comments: [],
+        url: 'http://coralproject.net'
+      }, 'asset', 'assetTest');
+
+      // Loading mock user
+      //this.props.postItem({name: 'Ban Ki-Moon'}, 'user', 'user_8989')
+      //  .then((id) => {
+      //    this.props.setLoggedInUser(id);
+      //  });
+    }
 
     // TODO: Replace teststream id with id from params
 
     const rootItemId = this.props.items.assets && Object.keys(this.props.items.assets)[0];
     const rootItem = this.props.items.assets && this.props.items.assets[rootItemId];
+    const {loggedIn, user} = this.props.auth;
     return <div>
       {
         rootItem
@@ -102,6 +99,7 @@ class CommentStream extends Component {
             <Count
               id={rootItemId}
               items={this.props.items}/>
+            {loggedIn && <UserBox user={user} logout={this.props.logout} />}
             <CommentBox
               addNotification={this.props.addNotification}
               postItem={this.props.postItem}
@@ -109,7 +107,10 @@ class CommentStream extends Component {
               updateItem={this.props.updateItem}
               id={rootItemId}
               premod={this.props.config.moderation}
-              reply={false}/>
+              reply={false}
+              canPost={loggedIn}
+            />
+            {!loggedIn && <SignInContainer />}
           </div>
           {
             rootItem.comments && rootItem.comments.map((commentId) => {

@@ -13,7 +13,7 @@ import {
   Icon
 } from 'react-mdl';
 import styles from './Configure.css';
-import I18n from 'coral-framework/i18n/i18n';
+import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations.json';
 
 class Configure extends React.Component {
