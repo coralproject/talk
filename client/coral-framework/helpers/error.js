@@ -1,6 +1,10 @@
+import I18n from 'coral-framework/modules/i18n/i18n';
+import translations from './../translations';
+const lang = new I18n(translations);
+
 export default {
-  email: 'Not a valid E-Mail',
-  password: 'Password must be at least 8 characters',
-  displayName: 'Display name is too short',
-  confirmPassword: 'Passwords don`t match. Please, check again'
+  email: lang.t('error.email'),
+  password: lang.t('error.password'),
+  displayName: lang.t('error.displayName'),
+  confirmPassword: lang.t('error.confirmPassword')
 };

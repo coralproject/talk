@@ -162,6 +162,36 @@ paths:
       responses:
         204:
           description: OK
+
+  /user/request-password-reset:
+    post:
+      tags:
+        - Users
+      description: trigger a reset password email. sends a success code whether email was found or no.
+      responses:
+        204:
+          description: OK
+
+  /user/update-password:
+    post:
+      tags:
+        - Users
+      description: Update existing user password
+      parameters:
+        - name: token
+          type: string
+          in: body
+          description: JSON Web token taken taken from emailed link
+          required: true
+        - name: password
+          type: string
+          in: body
+          description: new password to be settings
+          required: true
+      responses:
+        204:
+          description: OK
+
   /asset:
     get:
       tags:
@@ -276,7 +306,7 @@ definitions:
         description: A summary of the asset, inferred on initial load.
       section:
         type: string
-        description: The section the asset is in. 
+        description: The section the asset is in.
       subsection:
         type: string
         description: The subsection that the asset is in.

@@ -16,7 +16,10 @@ export default {
       displayName: 'Display Name',
       alreadyHaveAnAccount: 'Already have an account?',
       recoverPassword: 'Recover password',
-      emailInUse: 'Email address already in use'
+      emailInUse: 'Email address already in use',
+      requiredField: 'This field is required',
+      passwordsDontMatch: 'Passwords don\'t match.',
+      checkTheForm: 'Invalid Form. Please, check the fields'
     }
   },
   es: {
@@ -36,7 +39,10 @@ export default {
       displayName: 'Nombre',
       alreadyHaveAnAccount: 'Ya tienes una cuenta?',
       recoverPassword: 'Recuperar contraseña',
-      emailInUse: 'Este email se encuentra en uso'
+      emailInUse: 'Este email se encuentra en uso',
+      requiredField: 'Este campo es requerido',
+      passwordsDontMatch: 'Las contraseñas no coinciden',
+      checkTheForm: 'Formulario Inválido. Por favor, completa los campos'
     }
   }
 };

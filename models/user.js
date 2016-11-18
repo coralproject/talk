@@ -1,6 +1,7 @@
 const mongoose = require('../mongoose');
 const uuid = require('uuid');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 // SALT_ROUNDS is the number of rounds that the bcrypt algorithm will run
 // through during the salting process.
@@ -17,6 +18,14 @@ const USER_STATUS = [
   'active',
   'banned'
 ];
+
+// In the event that the TALK_SESSION_SECRET is missing but we are testing, then
+// set the process.env.TALK_SESSION_SECRET.
+if (process.env.NODE_ENV === 'test' && !process.env.TALK_SESSION_SECRET) {
+  process.env.TALK_SESSION_SECRET = 'keyboard cat';
+} else if (!process.env.TALK_SESSION_SECRET) {
+  throw new Error('TALK_SESSION_SECRET must be defined to encode JSON Web Tokens and other auth functionality');
+}
 
 // UserSchema is the mongoose schema defined as the representation of a User in
 // MongoDB.
@@ -140,10 +149,14 @@ const UserService = module.exports = {};
  * @param  {Function} done     [description]
  */
 UserService.findLocalUser = (email, password) => {
+  if (!email || typeof email !== 'string') {
+    return Promise.reject('email is required for findLocalUser');
+  }
+
   return UserModel.findOne({
     profiles: {
       $elemMatch: {
-        id: email,
+        id: email.toLowerCase(),
         provider: 'local'
       }
     }
@@ -247,6 +260,7 @@ UserService.changePassword = (id, password) => {
   })
   .then((hashedPassword) => {
     return UserModel.update({id}, {
+      $inc: {__v: 1},
       $set: {
         password: hashedPassword
       }
@@ -278,6 +292,8 @@ UserService.createLocalUser = (email, password, displayName) => {
     return Promise.reject('email is required');
   }
 
+  email = email.toLowerCase();
+
   if (!password) {
     return Promise.reject('password is required');
   }
@@ -306,9 +322,11 @@ UserService.createLocalUser = (email, password, displayName) => {
 
       user.save((err) => {
         if (err) {
+          if (err.code === 11000) {
+            return reject('Email address already in use');
+          }
           return reject(err);
         }
-
         return resolve(user);
       });
     });
@@ -431,6 +449,57 @@ UserService.findByIdArray = (ids) => {
 };
 
 /**
+ * Creates a JWT from a user email. Only works for local accounts.
+ * @param {String} email of the local user
+ */
+UserService.createPasswordResetToken = function (email) {
+  if (!email || typeof email !== 'string') {
+    return Promise.reject('email is required when creating a JWT for resetting passord');
+  }
+
+  email = email.toLowerCase();
+
+  return UserModel.findOne({profiles: {$elemMatch: {id: email}}})
+    .then(user => {
+
+      if (user === null) {
+        // since we don't want to reveal that the email does/doesn't exist
+        // just go ahead and resolve the Promise with null and check in the endpoint
+        return Promise.resolve(null);
+      }
+
+      const payload = {email, jti: uuid.v4(), userId: user.id, version: user.__v};
+      const token = jwt.sign(payload, process.env.TALK_SESSION_SECRET, {expiresIn: '1d'});
+
+      return token;
+    });
+};
+
+/**
+ * verifies a jwt and returns the associated user
+ * @param {String} token the JSON Web Token to verify
+ */
+UserService.verifyPasswordResetToken = token => {
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, process.env.TALK_SESSION_SECRET, (error, decoded) => {
+      if (error) {
+        return reject(error);
+      }
+
+      resolve(decoded);
+    });
+  })
+  .then(decoded => {
+    /**
+     * TODO: check the jti from this decoded token in redis
+     * and make an entry if it does not exist.
+     * reject if entry already exists.
+     */
+    return UserService.findById(decoded.userId);
+  });
+};
+
+/**
  * Finds a user using a value which gets compared using a prefix match against
  * the user's email address and/or their display name.
  * @param  {String} value value to search by
@@ -461,22 +530,6 @@ UserService.search = (value) => {
         }
       }
     ]
-  });
-};
-
-/**
- * Finds users by email and returns the count. The result should be 1 or 0 (bool) indicating email availability
- * @param  {String} email to search by
- * @return {Promise}
- */
-UserService.availabilityCheck = (email) => {
-  return UserModel.count({
-    profiles: {
-      $elemMatch: {
-        id: email,
-        provider: 'local'
-      }
-    }
   });
 };
 

@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import debounce from 'lodash.debounce';
-
 import SignDialog from '../components/SignDialog';
 import Button from 'coral-ui/components/Button';
-
 import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
+import I18n from 'coral-framework/modules/i18n/i18n';
+import translations from '../translations';
+const lang = new I18n(translations);
 
 import {
   changeView,
@@ -17,7 +17,8 @@ import {
   fetchSignInFacebook,
   fetchForgotPassword,
   facebookCallback,
-  fetchCheckAvailability
+  invalidForm,
+  validForm
 } from '../../coral-framework/actions/auth';
 
 class SignInContainer extends Component {
@@ -44,6 +45,12 @@ class SignInContainer extends Component {
 
   componentDidMount() {
     window.authCallback = this.props.facebookCallback;
+    const {formData} = this.state;
+    const errors = Object.keys(formData).reduce((map, prop) => {
+      map[prop] = lang.t('signIn.requiredField');
+      return map;
+    }, {});
+    this.setState({errors});
   }
 
   handleChange(e) {
@@ -71,29 +78,23 @@ class SignInContainer extends Component {
   validation(name, value) {
     const {addError} = this;
     const {formData} = this.state;
-    const {checkAvailability} = this.props;
 
     if (!value.length) {
-      addError(name, 'Please, fill this field');
+      addError(name, lang.t('signIn.requiredField'));
     } else if (name === 'confirmPassword' && formData.confirmPassword !== formData.password) {
-      addError('confirmPassword', 'Passwords don`t match. Please, check again');
+      addError('confirmPassword', lang.t('signIn.passwordsDontMatch'));
     } else if (!validate[name](value)) {
       addError(name, errorMsj[name]);
     } else {
       const { [name]: prop, ...errors } = this.state.errors; // eslint-disable-line
       // Removes Error
       this.setState(state => ({...state, errors}));
-      // Checks Email Availability
-      if (name === 'email') {
-        debounce(() => checkAvailability({[name]: value}), 200, {'maxWait': 1000})();
-      }
     }
   }
 
   isCompleted() {
     const {formData} = this.state;
-    const {emailAvailable} = this.props.auth;
-    return !Object.keys(formData).filter(prop => !formData[prop].length).length && emailAvailable;
+    return !Object.keys(formData).filter(prop => !formData[prop].length).length;
   }
 
   displayErrors(show = true) {
@@ -103,9 +104,13 @@ class SignInContainer extends Component {
   handleSignUp(e) {
     e.preventDefault();
     const {errors} = this.state;
+    const {fetchSignUp, validForm, invalidForm} = this.props;
     this.displayErrors();
     if (this.isCompleted() && !Object.keys(errors).length) {
-      this.props.fetchSignUp(this.state.formData);
+      fetchSignUp(this.state.formData);
+      validForm();
+    } else {
+      invalidForm(lang.t('signIn.checkTheForm'));
     }
   }
 
@@ -116,10 +121,6 @@ class SignInContainer extends Component {
 
   handleClose() {
     this.props.hideSignInDialog();
-  }
-
-  changeView(view) {
-    this.props.changeView(view);
   }
 
   render() {
@@ -147,14 +148,15 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   facebookCallback: (err, data) => dispatch(facebookCallback(err, data)),
-  fetchSignUp: (formData) => dispatch(fetchSignUp(formData)),
-  fetchSignIn: (formData) => dispatch(fetchSignIn(formData)),
+  fetchSignUp: formData => dispatch(fetchSignUp(formData)),
+  fetchSignIn: formData => dispatch(fetchSignIn(formData)),
   fetchSignInFacebook: () => dispatch(fetchSignInFacebook()),
-  fetchForgotPassword: (formData) => dispatch(fetchForgotPassword(formData)),
+  fetchForgotPassword: formData => dispatch(fetchForgotPassword(formData)),
   showSignInDialog: () => dispatch(showSignInDialog()),
-  changeView: (view) => dispatch(changeView(view)),
+  changeView: view => dispatch(changeView(view)),
   handleClose: () => dispatch(hideSignInDialog()),
-  checkAvailability: (formData) => dispatch(fetchCheckAvailability(formData))
+  invalidForm: error => dispatch(invalidForm(error)),
+  validForm: () => dispatch(validForm())
 });
 
 export default connect(

@@ -4,7 +4,7 @@ const url = process.env.TALK_REDIS_URL || 'redis://localhost';
 
 const client = redis.createClient(url, {
   retry_strategy: function(options) {
-    if (options.error.code === 'ECONNREFUSED') {
+    if (options.error && options.error.code === 'ECONNREFUSED') {
 
       // End reconnecting on a specific error and flush all commands with a individual error
       return new Error('The server refused the connection');
@@ -25,10 +25,6 @@ const client = redis.createClient(url, {
     return Math.max(options.attempt * 100, 3000);
   }
 });
-
-// client.on('error', (err) => {
-//   throw err;
-// });
 
 client.ping((err) => {
   if (err) {
