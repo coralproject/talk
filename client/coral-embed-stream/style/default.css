@@ -66,6 +66,11 @@ hr {
   display: none;
 }
 
+.commentStream {
+  /* prevent absolutely positioned final permalink popover from being clipped */
+  padding-bottom: 50px;
+}
+
 /* Comment Box Styles */
 .coral-plugin-commentbox-container {
   display: flex;
@@ -101,6 +106,7 @@ hr {
 /* Comment styles */
 .comment {
   margin-bottom: 10px;
+  position: relative;
 }
 
 .coral-plugin-commentcontent-text {
@@ -134,9 +140,8 @@ hr {
   width: 50%;
 }
 
-.commentActionsLeft .material-icons,.commentActionsRight .material-icons,
-.replyActionsLeft .material-icons, .replyActionsRight .material-icons {
-  font-size: 12px;
+.material-icons {
+  font-size: 12px !important;
   margin-left: 3px;
   vertical-align: middle;
 }
@@ -157,4 +162,34 @@ hr {
 .coral-plugin-pubdate-text {
   color: #CCC;
   display: inline-block;
+}
+
+.coral-plugin-permalinks-container {
+  /*position: relative;*/
+  z-index: 2;
+}
+
+.coral-plugin-permalinks-popover {
+  display: none;
+  background-color: white;
+  border: 1px solid black;
+  width: calc(100% - 15px);
+  position: absolute;
+  top: 70px;
+  right: 0;
+  padding: 5px;
+}
+
+.coral-plugin-permalinks-popover.active {
+  display: block;
+}
+
+.coral-plugin-permalinks-copy-field {
+  display: block;
+  width: calc(100% - 5px);
+}
+
+.coral-plugin-permalinks-copied-text {
+  float: right;
+  margin: 8px;
 }

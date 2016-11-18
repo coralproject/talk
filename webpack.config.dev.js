@@ -81,7 +81,7 @@ module.exports = {
       })),
       {
         from: path.join(__dirname, 'client', 'lib'),
-        to: path.join(__dirname, 'dist', 'js', 'lib')
+        to: path.join(__dirname, 'dist', 'embed', 'stream')
       }
     ]),
     autoprefixer,

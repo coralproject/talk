@@ -78,6 +78,9 @@ class CommentStream extends Component {
     // Set up messaging between embedded Iframe an parent component
     // Using recommended Pym init code which violates .eslint standards
     const pym = new Pym.Child({polling: 100});
+    pym.onMessage('DOMContentLoaded', hash => {
+      pym.scrollParentTo(hash.replace('#'), '');
+    });
     const path = /https?\:\/\/([^?]+)/.exec(pym.parentUrl)[1];
     this.props.getStream(path);
   }
@@ -91,7 +94,7 @@ class CommentStream extends Component {
     return <div>
       {
         rootItem
-        ? <div>
+        ? <div className="commentStream">
           <div id="commentBox">
             <InfoBox
               content={this.props.config.infoBoxContent}
@@ -111,7 +114,7 @@ class CommentStream extends Component {
           {
             rootItem.comments && rootItem.comments.map((commentId) => {
               const comment = this.props.items.comments[commentId];
-              return <div className="comment" key={commentId}>
+              return <div className="comment" key={commentId} id={commentId}>
                 <hr aria-hidden={true}/>
                 <AuthorName name={comment.username}/>
                 <PubDate created_at={comment.created_at}/>
@@ -140,9 +143,9 @@ class CommentStream extends Component {
                     addItem={this.props.addItem}
                     updateItem={this.props.updateItem}
                     currentUser={this.props.auth.user}/>
-                    <PermalinkButton
-                      comment_id={commentId}
-                      asset_id={comment.asset_id}/>
+                  <PermalinkButton
+                    comment_id={commentId}
+                    asset_id={comment.asset_id}/>
                 </div>
                   <ReplyBox
                     addNotification={this.props.addNotification}
@@ -157,7 +160,7 @@ class CommentStream extends Component {
                     comment.children &&
                     comment.children.map((replyId) => {
                       let reply = this.props.items.comments[replyId];
-                      return <div className="reply" key={replyId}>
+                      return <div className="reply" key={replyId} id={replyId}>
                         <hr aria-hidden={true}/>
                         <AuthorName name={reply.username}/>
                         <PubDate created_at={reply.created_at}/>
@@ -186,10 +189,10 @@ class CommentStream extends Component {
                               addItem={this.props.addItem}
                               updateItem={this.props.updateItem}
                               currentUser={this.props.auth.user}/>
-                              <PermalinkButton
-                                comment_id={reply.comment_id}
-                                asset_id={reply.comment_id}
-                                />
+                            <PermalinkButton
+                              comment_id={reply.comment_id}
+                              asset_id={reply.comment_id}
+                              />
                           </div>
                       </div>;
                     })

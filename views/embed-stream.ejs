@@ -18,10 +18,17 @@
   </head>
   <body>
     <div id='coralStreamEmbed'></div>
-    <script type='text/javascript' src='/client/js/lib/pym.v1.min.js'></script>
+    <script type='text/javascript' src='<%= basePath %>/pym.v1.min.js'></script>
     <script>
     var pymParent = new pym.Parent('coralStreamEmbed', '/embed/stream', {title: 'Talk Comments'});
-    pymParent.onMessage('height', function(height) {document.querySelector('#coralStreamEmbed iframe').height = height + 'px'})</script>
+    pymParent.onMessage('height', function(height) {document.querySelector('#coralStreamEmbed iframe').height = height + 'px'});
+
+    // wait till images and other iframes are loaded before scrolling the page.
+    // or do we want to be more aggressive and scroll when we hit DOM ready?
+    document.addEventListener('DOMContentLoaded', function () {
+      pymParent.sendMessage('DOMContentLoaded', window.location.hash);
+    });
+    </script>
     </div>
       </body>
   </body>
