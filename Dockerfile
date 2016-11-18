@@ -5,6 +5,7 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # Setup the environment
+ENV NODE_ENV production
 ENV PATH /usr/src/app/bin:$PATH
 ENV TALK_PORT 5000
 EXPOSE 5000

@@ -2,7 +2,7 @@ import 'react';
 import 'redux';
 import {expect} from 'chai';
 import fetchMock from 'fetch-mock';
-import * as actions from '../../../../client/coral-framework/store/actions/items';
+import * as actions from '../../../../client/coral-framework/actions/items';
 import {Map} from 'immutable';
 
 import configureStore from 'redux-mock-store';
