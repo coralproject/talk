@@ -1,22 +1,20 @@
 const nodemailer = require('nodemailer');
 
 if (!process.env.TALK_SMTP_CONNECTION_URL) {
-  throw new Error('\n///////////////////////////////////////////////////////////////\n' +
-        '///   TALK_SMTP_CONNECTION_URL should be defined if you would   ///\n' +
-        '///   like to send password reset emails from Talk          ///\n' +
-        '///////////////////////////////////////////////////////////////');
+  console.error('TALK_SMTP_CONNECTION_URL should be defined if you would like to send password reset emails from Talk');
 }
 
-const transporter = nodemailer.createTransport(process.env.TALK_SMTP_CONNECTION_URL);
+const defaultTransporter = nodemailer.createTransport(process.env.TALK_SMTP_CONNECTION_URL);
 
 const mailer = {
+
   /**
    * sendSimple
    *
    * @param {Object} {from, to, subject, text = '', html = ''}
    * @returns
      */
-  sendSimple ({from, to, subject, text = '', html = ''}) {
+  sendSimple({from, to, subject, text = '', html = '', transporter = defaultTransporter}) {
     return new Promise((resolve, reject) => {
       if (!from) {
         reject('sendSimple requires a from address');

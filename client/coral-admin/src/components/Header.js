@@ -2,7 +2,7 @@ import React from 'react';
 import {Layout, Navigation, Drawer, Header} from 'react-mdl';
 import {Link} from 'react-router';
 import styles from './Header.css';
-import I18n from 'coral-framework/i18n/i18n';
+import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations.json';
 
 // App header. If we add a navbar it should be here

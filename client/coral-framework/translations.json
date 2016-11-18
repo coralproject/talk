@@ -1,0 +1,22 @@
+{
+  "en": {
+    "error": {
+      "email": "Not a valid E-Mail",
+      "password": "Password must be at least 8 characters",
+      "displayName": "Display name is too short",
+      "confirmPassword": "Passwords don`t match. Please, check again",
+      "emailPasswordError": "Email and/or password combination incorrect.",
+      "emailInUse": "Email address already in use"
+    }
+  },
+  "es": {
+    "error": {
+      "email": "No es un email válido",
+      "password": "La contraseña debe tener por lo menos 8 caracteres",
+      "displayName": "El nombre es muy corto",
+      "confirmPassword": "Las contraseñas no coinciden",
+      "emailPasswordError": "Email y/o contraseña incorrecta.",
+      "emailInUse": "Email address already in use"
+    }
+  }
+}
