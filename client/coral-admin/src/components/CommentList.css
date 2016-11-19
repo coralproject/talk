@@ -121,3 +121,15 @@
   }
 
 }
+
+
+.hasLinks {
+  color: #f00;
+  text-align: right;
+  display: flex;
+  align-items: center;
+
+  i {
+    margin-right: 5px;
+  }
+}
