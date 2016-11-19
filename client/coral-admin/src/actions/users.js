@@ -3,6 +3,6 @@
  */
 
 export const updateUserStatus = (status, id) => (dispatch, getState) => {
+  console.log('DEBUG ', getState);
   dispatch({type: 'USER_STATUS_UPDATE', id, status});
-  dispatch({type: 'USER_UPDATE', user: getState().comments.get('byId').get(id)});
 };

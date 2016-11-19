@@ -46,6 +46,17 @@ class ModerationQueue extends React.Component {
     }
   }
 
+  // Dispatch the appropiate action
+  onAction (status, id) {
+    switch(status){
+    case 'banned':
+      this.props.dispatch(updateUserStatus(status, id));
+      break;
+    default:
+      this.props.dispatch(updateStatus(status, id));
+    }
+  }
+
   // Dispatch the update comment status action
   onCommentAction (status, id) {
     this.props.dispatch(updateStatus(status, id));
@@ -87,7 +98,7 @@ class ModerationQueue extends React.Component {
                   .get('status'))
               }
               comments={comments.get('byId')}
-              onClickAction={(action, id) => this.onCommentAction(action, id)}
+              onClickAction={(action, id) => this.onAction(action, id)}
               actions={['reject', 'approve', 'ban']}
               loading={comments.loading} />
           </div>
