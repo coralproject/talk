@@ -26,7 +26,7 @@ class CommentBox extends Component {
     let comment = {
       body: this.state.body,
       asset_id: id,
-      user_id: author.id
+      author_id: author.id
     };
     let related;
     let parent_type;

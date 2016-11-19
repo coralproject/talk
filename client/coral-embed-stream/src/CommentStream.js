@@ -115,7 +115,7 @@ class CommentStream extends Component {
               const comment = this.props.items.comments[commentId];
               return <div className="comment" key={commentId}>
                 <hr aria-hidden={true}/>
-                <AuthorName author={users[comment.user_id]}/>
+                <AuthorName author={users[comment.author_id]}/>
                 <PubDate created_at={comment.created_at}/>
                 <Content body={comment.body}/>
                 <div className="commentActionsLeft">
@@ -162,7 +162,7 @@ class CommentStream extends Component {
                       let reply = this.props.items.comments[replyId];
                       return <div className="reply" key={replyId}>
                         <hr aria-hidden={true}/>
-                        <AuthorName author={users[comment.user_id]}/>
+                        <AuthorName author={users[comment.author_id]}/>
                         <PubDate created_at={reply.created_at}/>
                         <Content body={reply.body}/>
                         <div className="replyActionsLeft">

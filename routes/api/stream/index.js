@@ -35,7 +35,7 @@ router.get('/', (req, res, next) => {
     return Promise.all([
       [asset],
       comments,
-      User.findPublicByIdArray(comments.map((comment) => comment.user_id)),
+      User.findPublicByIdArray(comments.map((comment) => comment.author_id)),
       Action.getActionSummaries(comments.map((comment) => comment.id))
     ]);
   })
