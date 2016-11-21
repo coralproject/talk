@@ -112,7 +112,7 @@ class CommentStream extends Component {
           </div>
           {
             rootItem.comments && rootItem.comments.map((commentId) => {
-              const comment = this.props.items.comments[commentId];
+              const comment = comments[commentId];
               return <div className="comment" key={commentId}>
                 <hr aria-hidden={true}/>
                 <AuthorName author={users[comment.author_id]}/>

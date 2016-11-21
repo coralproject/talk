@@ -3,7 +3,7 @@ import translations from './../translations';
 const lang = new I18n(translations);
 import * as actions from '../constants/auth';
 import {base, handleResp, getInit} from '../helpers/response';
-import {addItem} from './items'
+import {addItem} from './items';
 
 // Dialog Actions
 export const showSignInDialog = () => ({type: actions.SHOW_SIGNIN_DIALOG});
