@@ -2,11 +2,13 @@
   "en": {
     "flag": "Flag",
     "flagged": "Flagged",
-    "flag-notif": "Thank you for reporting this comment. Our moderation team has been notified and will review it shortly."
+    "flag-notif": "Thank you for reporting this comment. Our moderation team has been notified and will review it shortly.",
+    "flag-notif-remove": "Your flag has been removed."
   },
   "es": {
     "flag": "Marcar",
     "flagged": "Marcado",
-    "flag-notif": "Gracias por marcar este comentario. Nuestro equipo de moderación ha sido notificado y muy pronto lo va a revisar."
+    "flag-notif": "Gracias por marcar este comentario. Nuestro equipo de moderación ha sido notificado y muy pronto lo va a revisar.",
+    "flag-notif-remove": "¡traduceme!"
   }
 }

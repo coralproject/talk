@@ -1,5 +1,5 @@
-import I18n from 'coral-framework/i18n/i18n';
-import translations from '../translations';
+import I18n from 'coral-framework/modules/i18n/i18n';
+import translations from '../translations.json';
 import React from 'react';
 import Modal from 'components/Modal';
 import styles from './ModerationKeysModal.css';

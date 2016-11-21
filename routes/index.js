@@ -6,7 +6,11 @@ router.use('/admin', require('./admin'));
 router.use('/embed', require('./embed'));
 
 router.get('/', (req, res) => {
-  return res.render('home', {});
+  return res.render('article', {title: 'Coral Talk'});
+});
+
+router.get('/assets/:asset_title', (req, res) => {
+  return res.render('article', {title: req.params.asset_title.split('-').join(' ')});
 });
 
 module.exports = router;

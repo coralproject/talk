@@ -10,8 +10,10 @@ services:
     environment:
       - "TALK_PORT=5000"
       - "TALK_MONGO_URL=mongodb://mongo"
+      - "TALK_REDIS_URL=redis://redis"
     depends_on:
       - mongo
+      - redis
 
   mongo:
     image: mongo:3.2
@@ -19,6 +21,14 @@ services:
     volumes:
       - mongo:/data/db
 
+  redis:
+    image: redis:3.2-alpine
+    restart: always
+    volumes:
+      - redis:/data
+
 volumes:
   mongo:
+    external: false
+  redis:
     external: false

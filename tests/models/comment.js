@@ -134,4 +134,15 @@ describe('Comment: models', () => {
     //   });
     // });
   });
+
+  describe('#removeAction', () => {
+    it('should remove an action', () => {
+      return Comment.removeAction('3', '123', 'flag').then(() => {
+        return Action.findByItemIdArray(['123']);
+      })
+      .then((actions) => {
+        expect(actions.length).to.equal(0);
+      });
+    });
+  });
 });

@@ -11,13 +11,22 @@
       body, #root {
         width: 100%;
         height: 100%;
-				margin: 0;
-				background: #fff;
+        min-height: 600px;
+        margin: 0;
+        background: #fff;
       }
     </style>
   </head>
   <body>
-    <div id="coralStream"></div>
-    <script src="<%= basePath %>/bundle.js" charset="utf-8"></script>
+    <div id='coralStreamEmbed'></div>
+
+    <!--- Script --->
+    <script type='text/javascript' src='https://pym.nprapps.org/pym.v1.min.js'></script>
+    <script>
+      var pymParent = new pym.Parent('coralStreamEmbed', '/embed/stream', {title: 'Talk Comments'});
+      pymParent.onMessage('height', function(height) {
+        document.querySelector('#coralStreamEmbed iframe').height = height + 'px';
+      });
+    </script>
   </body>
 </html>

@@ -1,6 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../../../models/user');
+const mailer = require('../../../services/mailer');
+const ejs = require('ejs');
+const fs = require('fs');
+const path = require('path');
+const resetEmailFile = fs.readFileSync(path.resolve(__dirname, '../../../views/password-reset-email.ejs'));
+const resetEmailTemplate = ejs.compile(resetEmailFile.toString());
 
 router.get('/', (req, res, next) => {
   const {
@@ -11,28 +17,9 @@ router.get('/', (req, res, next) => {
     limit = 50 // Total Per Page
     } = req.query;
 
-  let q = {
-    $or: [
-      {
-        'displayName': {
-          $regex: new RegExp(`^${value}`),
-          $options: 'i'
-        },
-        'profiles': {
-          $elemMatch: {
-            id: {
-              $regex: new RegExp(`^${value}`),
-              $options: 'i'
-            },
-            provider: 'local'
-          }
-        }
-      }
-    ]
-  };
-
   Promise.all([
-    User.find(q)
+    User
+      .search(value)
       .sort({[field]: (asc === 'true') ? 1 : -1})
       .skip((page - 1) * limit)
       .limit(limit),
@@ -40,11 +27,13 @@ router.get('/', (req, res, next) => {
   ])
   .then(([data, count]) => {
     const users = data.map((user) => {
-      const {displayName, created_at} = user;
+      const {id, displayName, created_at} = user;
       return {
+        id,
         displayName,
         created_at,
-        profiles: user.toObject().profiles
+        profiles: user.toObject().profiles,
+        roles: user.toObject().roles
       };
     });
 
@@ -58,6 +47,91 @@ router.get('/', (req, res, next) => {
 
   })
   .catch(next);
+});
+
+router.post('/:user_id/role', (req, res, next) => {
+  User
+    .addRoleToUser(req.params.user_id, req.body.role)
+    .then(role => {
+      res.send(role);
+    })
+    .catch(next);
+});
+
+router.post('/', (req, res, next) => {
+  const {email, password, displayName} = req.body;
+
+  User
+    .createLocalUser(email, password, displayName)
+    .then(user => {
+      res.status(201).send(user);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+/**
+ * expects 2 fields in the body of the request
+ * 1) the token that was in the url of the email link {String}
+ * 2) the new password {String}
+ */
+router.post('/update-password', (req, res, next) => {
+  const {token, password} = req.body;
+
+  User.verifyPasswordResetToken(token)
+    .then(user => {
+      return User.changePassword(user.id, password);
+    })
+    .then(() => {
+      res.status(204).end();
+    })
+    .catch(error => {
+      console.error(error);
+      res.status(401).send('Not Authorized');
+    });
+});
+
+/**
+ * this endpoint takes an email (username) and checks if it belongs to a User account
+ * if it does, create a JWT and send an email
+ */
+router.post('/request-password-reset', (req, res, next) => {
+  const {email} = req.body;
+
+  if (!email) {
+    return next();
+  }
+
+  User
+    .createPasswordResetToken(email)
+    .then(token => {
+      if (token === null) {
+        return Promise.resolve('the email was not found in the db.');
+      }
+
+      const options = {
+        subject: 'Password Reset Requested - Talk',
+        from: 'noreply@coralproject.net',
+        to: email,
+        html: resetEmailTemplate({
+          token,
+          // probably more clear to explicitly pass this
+          rootURL: process.env.TALK_ROOT_URL
+        })
+      };
+      return mailer.sendSimple(options);
+    })
+    .then(() => {
+      // we want to send a 204 regardless of the user being found in the db
+      // if we fail on missing emails, it would reveal if people are registered or not.
+      res.status(204).send('OK');
+    })
+    .catch(error => {
+      const errorMsg = typeof error === 'string' ? error : error.message;
+
+      res.status(500).json({error: errorMsg});
+    });
 });
 
 module.exports = router;

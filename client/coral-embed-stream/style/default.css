@@ -4,6 +4,7 @@ body {
   width: 100%;
   font-size: 12px;
   margin: 0;
+  min-height: 700px;
 }
 
 button {
@@ -47,6 +48,23 @@ hr {
   color: white;
   border-radius: 2px;
   font-weight: bold;
+}
+
+/* Info Box Styles */
+.coral-plugin-infobox-info {
+  position: fixed;
+  top: 0;
+  border: 0;
+  background: rgb(105,105,105);
+  color: white;
+  border-radius: 2px;
+  font-weight: bold;
+  display: block;
+}
+
+.hidden  {
+  visibility: hidden;
+  display: none;
 }
 
 /* Comment Box Styles */
@@ -105,14 +123,31 @@ hr {
 
 /* Comment Action Styles */
 
-.commentActions, .replyActions {
+.commentActionsRight, .replyActionsRight {
   display: flex;
   justify-content: flex-end;
+  width: 50%;
+}
+.commentActionsLeft, .replyActionsLeft {
+  display: flex;
+  justify-content: flex-start;
+  float: left;
+  width: 50%;
 }
 
-.commentActions .material-icons, .replyActions .material-icons {
+.commentActionsLeft .material-icons,.commentActionsRight .material-icons,
+.replyActionsLeft .material-icons, .replyActionsRight .material-icons {
   font-size: 12px;
+  margin-left: 3px;
   vertical-align: middle;
+}
+
+.likedButton {
+  color: rgb(0,134,227);
+}
+
+.flaggedIcon {
+  color: #F00;
 }
 
 /* Comment count styles */

@@ -5,12 +5,6 @@ const devConfig = require('./webpack.config.dev');
 devConfig.devtool = null;
 
 devConfig.plugins = devConfig.plugins.concat([
-  new webpack.DefinePlugin({
-    'process.env': {
-      'NODE_ENV': `"${'production'}"`,
-      'VERSION': `"${require('./package.json').version}"`
-    }
-  }),
   new webpack.optimize.UglifyJsPlugin({
     compress: {
       warnings: false

@@ -1,6 +1,6 @@
 import React from 'react';
-import I18n from 'coral-framework/i18n/i18n';
-import translations from '../../translations';
+import I18n from 'coral-framework/modules/i18n/i18n';
+import translations from '../../translations.json';
 import {Grid, Cell} from 'react-mdl';
 
 import styles from './Community.css';
@@ -19,6 +19,10 @@ const tableHeaders = [
   {
     title: lang.t('community.account_creation_date'),
     field: 'created_at'
+  },
+  {
+    title: lang.t('community.newsroom_role'),
+    field: 'role'
   }
 ];
 
