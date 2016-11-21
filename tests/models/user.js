@@ -123,5 +123,19 @@ describe('User: models', () => {
           });
         });
     });
+
+    it('should not still disable and ban the user if there is no comment', () => {
+      return User
+        .ban(mockUsers[0].id, '')
+        .then(() => {
+          User.findById(mockUsers[0].id)
+          .then((user) => {
+            expect(user).to.have.property('status')
+              .and.to.equal('banned');
+            expect(user).to.have.property('disabled')
+              .and.to.equal(true);
+          });
+        });
+    });
   });
 });

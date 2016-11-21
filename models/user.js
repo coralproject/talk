@@ -441,6 +441,7 @@ UserService.ban = (id, comment_id) => {
   .then(() => {
     // Set status of the user to banned
     return UserService.setStatus(id, 'banned').then(() => {
+      // Only if it was rejected based on a specific comment.
       // Reject the comment that the user was ban for.
       return Comment.setStatus(comment_id, 'rejected');
     });
