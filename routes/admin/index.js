@@ -10,7 +10,7 @@ router.get('/embed/stream/preview', (req, res) => {
 router.get('/password-reset', (req, res, next) => {
   // TODO: store the redirect uri in the token or something fancy
   // admins and regular users should probably be redirected to different places.
-  res.render('password-reset', {redirectUri: '/'});
+  res.render('password-reset', {redirectUri: process.env.TALK_ROOT_URL});
 });
 
 router.get('*', (req, res) => {
