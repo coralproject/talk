@@ -4,18 +4,21 @@ import translations from './translations.json';
 
 const name = 'coral-plugin-flags';
 
-const FlagButton = ({flag, id, postAction, deleteAction, addItem, updateItem, addNotification}) => {
+const FlagButton = ({flag, id, postAction, deleteAction, addItem, updateItem, addNotification, currentUser}) => {
   const flagged = flag && flag.current_user;
   const onFlagClick = () => {
+    if (!currentUser) {
+      return;
+    }
     if (!flagged) {
-      postAction(id, 'flag', '123', 'comments')
+      postAction(id, 'flag', currentUser.id, 'comments')
         .then((action) => {
           addItem({...action, current_user:true}, 'actions');
           updateItem(action.item_id, action.action_type, action.id, 'comments');
         });
       addNotification('success', lang.t('flag-notif'));
     } else {
-      deleteAction(id, 'flag', '123', 'comments')
+      deleteAction(id, 'flag', currentUser.id, 'comments')
         .then(() => {
           updateItem(id, 'flag', '', 'comments');
         });

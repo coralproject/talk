@@ -243,9 +243,9 @@ definitions:
         type: string
         format: date-time
         description: Display name of comment
-      user_id:
+      author_id:
         type: string
-        description: Display name of comment
+        description: User who posted the comment
       parent_id:
         type: string
         description: Display name of comment
