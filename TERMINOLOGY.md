@@ -32,7 +32,7 @@ This is a guide to have a common language to talk about "Talk".
 * Protected Profile: information about users that only moderators and admins can see
 
 * Queue - Group of items based on a query, aka - moderation queue
-* Target - The item/s on which an action is performed..
+* Target - The item/s on which an action is performed
 
 ##  Actions
 
@@ -64,3 +64,10 @@ Postmoderation means that comments appear on the site _before_ any moderation ac
 
 * New comments appear in comment streams immediately.
 * New comments do not appear in moderation queues unless they are flagged by other users.
+
+### Word lists
+
+* Banned words - words that the site never allows in a comment
+* Suspect words - words whose usage needs to be approved by a moderator before being shown in the stream
+* Approved words - words that are usually Banned or Suspect sitewide, but approved for use in a specific article stream
+
