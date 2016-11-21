@@ -2,7 +2,7 @@ const mongoose = require('../mongoose');
 const Schema = mongoose.Schema;
 
 /**
- * this Schema manages application settings that get used on front- and backend
+ * this Schema manages application settings that get used on front and backend
  * NOTE: when you set a setting here, it will not automatically be exposed to
  * the front end. You must add it to the whitelist in the settings route
  * in /routes/api/settings/index.js
@@ -12,7 +12,8 @@ const SettingSchema = new Schema({
   id: {type: String, default: '1'},
   moderation: {type: String, enum: ['pre', 'post'], default: 'pre'},
   infoBoxEnable: {type: Boolean, default: false},
-  infoBoxContent: {type: String, default: ''}
+  infoBoxContent: {type: String, default: ''},
+  wordlist: [String]
 }, {
   timestamps: {
     createdAt: 'created_at',

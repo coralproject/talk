@@ -199,8 +199,6 @@ export function postItem (item, type, id) {
   };
 }
 
-//http://localhost:16180/v1/action/flag/user/user_89654/on/item/87e418c5-aafb-4eb7-9ce4-78f28793782a
-
 /*
 * PostAction
 * Posts an action to an item

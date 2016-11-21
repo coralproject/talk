@@ -1,6 +1,15 @@
 const Setting = require('./models/setting');
+const wordlist = require('../services/wordlist');
 
-const defaults = {id: '1', moderation: 'pre'};
-module.exports = Setting.init(defaults);
+module.exports = () => Promise.all([
 
-// presumably this file will grow, which is why I've broken it out.
+  // Upsert the settings object.
+  Setting
+    .init({id: '1', moderation: 'pre'})
+    .then(() => {
+
+      // Load in the wordlist now that settings have been init'd.
+      return wordlist.init();
+    })
+
+]);
