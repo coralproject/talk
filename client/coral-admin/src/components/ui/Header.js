@@ -4,9 +4,11 @@ import {Link} from 'react-router';
 import styles from './Header.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations.json';
+import {Logo} from './Logo';
 
 export default () => (
-  <Header title='Talk'>
+  <Header className={styles.header}>
+    <Logo />
     <Navigation>
       <Link className={styles.navLink} to="/admin">{lang.t('configure.moderate')}</Link>
       <Link className={styles.navLink} to="/admin/community">{lang.t('configure.community')}</Link>
