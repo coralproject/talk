@@ -15,7 +15,7 @@ const getInit = (method, body) => {
   };
 
   const init = {method, headers};
-  if (method.toLowerCase() !== 'get') {
+  if (body) {
     init.body = JSON.stringify(body);
   }
 
@@ -23,6 +23,9 @@ const getInit = (method, body) => {
 };
 
 const responseHandler = response => {
+  if (response.status === 204) {
+    return;
+  }
   return response.ok ? response.json() : Promise.reject(`${response.status} ${response.statusText}`);
 };
 /**
@@ -241,14 +244,9 @@ export function postAction (item_id, action_type, user_id, item_type) {
 *
 */
 
-export function deleteAction (item_id, action_type, user_id, item_type) {
+export function deleteAction (action_id) {
   return () => {
-    const action = {
-      action_type,
-      user_id
-    };
-
-    return fetch(`/api/v1/${item_type}/${item_id}/actions`, getInit('DELETE', action))
+    return fetch(`/api/v1/actions/${action_id}`, {method: 'DELETE'})
       .then(responseHandler);
   };
 }

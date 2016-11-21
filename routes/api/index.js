@@ -9,5 +9,6 @@ router.use('/queue', require('./queue'));
 router.use('/settings', require('./settings'));
 router.use('/stream', require('./stream'));
 router.use('/user', require('./user'));
+router.use('/actions', require('./actions'));
 
 module.exports = router;

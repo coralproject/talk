@@ -1,5 +1,5 @@
 const Setting = require('./models/setting');
-const wordlist = require('../services/wordlist');
+const wordlist = require('./services/wordlist');
 
 module.exports = () => Promise.all([
 
