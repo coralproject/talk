@@ -22,6 +22,15 @@ describe('Action: models', () => {
       action_type: 'flag',
       item_id: '123',
       item_type: 'comments'
+    }, {
+      action_type: 'like',
+      item_id: '123',
+      item_type: 'comments'
+    }, {
+      action_type: 'like',
+      item_id: '999',
+      item_type: 'comments',
+      user_id: 'a-user-id'
     }]).then((actions) => {
       mockActions = actions;
     });
@@ -39,33 +48,55 @@ describe('Action: models', () => {
   describe('#findByItemIdArray()', () => {
     it('should find an array of actions from an array of item_ids', () => {
       return Action.findByItemIdArray(['123', '456']).then((result) => {
-        expect(result).to.have.length(3);
+        expect(result).to.have.length(4);
       });
     });
   });
 
   describe('#getActionSummaries()', () => {
     it('should return properly formatted summaries from an array of item_ids', () => {
-      return Action.getActionSummaries(['123', '789']).then((result) => {
-        expect(result).to.have.length(2);
-        const sorted = result.sort((a, b) => a.count - b.count);
-        delete sorted[0].id;
-        delete sorted[1].id;
-        expect(sorted[0]).to.deep.equal({
-          action_type: 'like',
-          count: 1,
-          item_id: '789',
-          item_type: 'comments',
-          current_user: false
+      return Action
+        .getActionSummaries(['123', '789'])
+        .then((result) => {
+          expect(result).to.have.length(3);
+
+          expect(result).to.include({
+            action_type: 'like',
+            count: 1,
+            item_id: '789',
+            item_type: 'comments',
+            current_user: false
+          });
+
+          expect(result).to.include({
+            action_type: 'like',
+            count: 1,
+            item_id: '123',
+            item_type: 'comments',
+            current_user: false
+          });
+
+          expect(result).to.include({
+            action_type: 'flag',
+            count: 2,
+            item_id: '123',
+            item_type: 'comments',
+            current_user: false
+          });
         });
-        expect(sorted[1]).to.deep.equal({
-          action_type: 'flag',
-          count: 2,
-          item_id: '123',
-          item_type: 'comments',
-          current_user: false
+    });
+
+    it('should return the action for the user', () => {
+      return Action
+        .getActionSummaries(['999'], 'a-user-id')
+        .then((actions) => {
+          expect(actions).to.have.length(1);
+
+          const action = actions[0];
+
+          expect(action).to.have.property('current_user');
+          expect(action.current_user).to.not.be.false;
         });
-      });
     });
   });
 });
