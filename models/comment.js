@@ -30,29 +30,6 @@ const CommentSchema = new Schema({
   }
 });
 
-// Comment model.
-const Comment = mongoose.model('Comment', CommentSchema);
-
-//==============================================================================
-// Service
-//==============================================================================
-
-const CommentService = {};
-
-/**
- * Create a comment.
- * @param {String} body  content of comment
- */
-CommentService.create = ({body, author_id, asset_id, parent_id, status = ''}) => {
-  return Comment.create({
-    body,
-    author_id,
-    asset_id,
-    parent_id,
-    status,
-  });
-};
-
 //==============================================================================
 // Find Statics
 //==============================================================================
@@ -62,7 +39,7 @@ CommentService.create = ({body, author_id, asset_id, parent_id, status = ''}) =>
  * @param {String} id  identifier of comment (uuid)
  * @return {Promise}
  */
-CommentService.findById = function(id) {
+CommentSchema.statics.findById = function(id) {
   return Comment.findOne({'id': id});
 };
 
@@ -71,7 +48,7 @@ CommentService.findById = function(id) {
  * @param {String} asset_id  identifier of the asset which owns this comment (uuid)
  * @return {Promise}
  */
-CommentService.findByAssetId = function(asset_id) {
+CommentSchema.statics.findByAssetId = function(asset_id) {
   return Comment.find({asset_id});
 };
 
@@ -81,7 +58,7 @@ CommentService.findByAssetId = function(asset_id) {
  * @param {String} asset_id  identifier of the asset which owns the comments (uuid)
  * @return {Promise}
  */
-CommentService.findAcceptedByAssetId = function(asset_id) {
+CommentSchema.statics.findAcceptedByAssetId = function(asset_id) {
   return Comment.find({asset_id: asset_id, status:'accepted'});
 };
 
@@ -90,7 +67,7 @@ CommentService.findAcceptedByAssetId = function(asset_id) {
  * @param {String} asset_id  identifier of the asset which owns the comments (uuid)
  * @return {Promise}
  */
-CommentService.findAcceptedAndNewByAssetId = function(asset_id) {
+CommentSchema.statics.findAcceptedAndNewByAssetId = function(asset_id) {
   return Comment.find({asset_id: asset_id, status: {'$in': ['accepted', '']}});
 };
 
@@ -99,7 +76,7 @@ CommentService.findAcceptedAndNewByAssetId = function(asset_id) {
  * @param {String} action_type the type of action that was performed on the comment
  * @return {Promise}
  */
-CommentService.findByActionType = function(action_type) {
+CommentSchema.statics.findByActionType = function(action_type) {
   return Action
     .findCommentsIdByActionType(action_type, 'comment')
     .then((actions) => {
@@ -115,20 +92,16 @@ CommentService.findByActionType = function(action_type) {
  * @param {String} status the status of the comment to search for
  * @return {Promise}
  */
-CommentService.findByStatusByActionType = function(status, action_type) {
+CommentSchema.statics.findByStatusByActionType = function(status, action_type) {
   return Action
     .findCommentsIdByActionType(action_type, 'comment')
     .then((actions) => {
-
       return Comment.find({
-        'status': status,
-        'id': {
-          '$in': actions.map(a => {
-            return a.item_id;
-          })
+        status: status,
+        id: {
+          $in: actions.map(a => a.item_id)
         }
       });
-
     });
 };
 
@@ -137,8 +110,10 @@ CommentService.findByStatusByActionType = function(status, action_type) {
  * @param {String} status the status of the comment to search for
  * @return {Promise}
  */
-CommentService.findByStatus = function(status) {
-  return Comment.find({'status': status});
+CommentSchema.statics.findByStatus = function(status) {
+  return Comment.find({
+    status: status === 'new' ? '' : status
+  });
 };
 
 /**
@@ -146,20 +121,23 @@ CommentService.findByStatus = function(status) {
  * @param {String} moderationValue pre or post moderation setting. If it is undefined then look at the settings.
  * @return {Promise}
  */
-CommentService.moderationQueue = function(moderation) {
+CommentSchema.statics.moderationQueue = function(moderation) {
   switch(moderation){
+
   // Pre-moderation:  New comments are shown in the moderator queues immediately.
   case 'pre':
     return Comment.findByStatus('').then((comments) => {
       return comments;
     });
+
   // Post-moderation: New comments do not appear in moderation queues unless they are flagged by other users.
   case 'post':
     return Comment.findByStatusByActionType('', 'flag').then((comments) => {
       return comments;
     });
+
   default:
-    throw new Error('Moderation setting not found.');
+    return Promise.reject(Error('Moderation setting not found.'));
   }
 };
 
@@ -173,7 +151,7 @@ CommentService.moderationQueue = function(moderation) {
  * @param {String} status the new status of the comment
  * @return {Promise}
  */
-CommentService.changeStatus = function(id, status) {
+CommentSchema.statics.changeStatus = function(id, status) {
   return Comment.findOneAndUpdate({'id': id}, {$set: {'status': status}});
 };
 
@@ -183,7 +161,7 @@ CommentService.changeStatus = function(id, status) {
  * @param {String} action the new action to the comment
  * @return {Promise}
  */
-CommentService.addAction = function(id, user_id, action_type) {
+CommentSchema.statics.addAction = function(id, user_id, action_type) {
   // check that the comment exist
   let action  = new Action({
     action_type: action_type,
@@ -204,7 +182,7 @@ CommentService.addAction = function(id, user_id, action_type) {
  * @param {String} status the new status of the comment
  * @return {Promise}
  */
-CommentService.removeById = function(id) {
+CommentSchema.statics.removeById = function(id) {
   return Comment.remove({'id': id});
 };
 
@@ -215,7 +193,7 @@ CommentService.removeById = function(id) {
  * @param {String} user_id the id of the user performing the action
  * @return {Promise}
  */
-CommentService.removeAction = function(item_id, user_id, action_type) {
+CommentSchema.statics.removeAction = function(item_id, user_id, action_type) {
   return Action.remove({
     action_type,
     item_type: 'comment',
@@ -228,8 +206,11 @@ CommentService.removeAction = function(item_id, user_id, action_type) {
  * Returns all the comments in the collection.
  * @return {Promise}
  */
-CommentService.all = () => {
+CommentSchema.statics.all = () => {
   return Comment.find();
 };
 
-module.exports = CommentService;
+// Comment model.
+const Comment = mongoose.model('Comment', CommentSchema);
+
+module.exports = Comment;

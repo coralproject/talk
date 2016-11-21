@@ -2,7 +2,7 @@ const expect = require('chai').expect;
 
 const wordlist = require('../../services/wordlist');
 
-describe.only('wordlist: services', () => {
+describe('wordlist: services', () => {
 
   before(() => wordlist.insert([
     'BAD',

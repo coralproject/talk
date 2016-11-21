@@ -37,7 +37,11 @@ router.get('/', (req, res, next) => {
       [asset],
       comments,
       User.findByIdArray(_.uniq(comments.map((comment) => comment.author_id))),
-      Action.getActionSummaries(_.uniq(comments.map((comment) => comment.id)))
+      Action.getActionSummaries(_.uniq([
+        asset.id,
+        ...comments.map((comment) => comment.id),
+        ...comments.map((comment) => comment.author_id)
+      ]))
     ]);
   })
   .then(([assets, comments, users, actions]) => {
