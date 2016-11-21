@@ -69,7 +69,7 @@ const SignUpContent = ({handleChange, formData, ...props}) => (
       />
       <div className={styles.action}>
         { !props.auth.isLoading && !props.auth.successSignUp && (
-          <Button type="submit" cStyle="black" className={styles.signInButton}>
+          <Button type="submit" cStyle="black" id='coralSignUpButton' className={styles.signInButton}>
             {lang.t('signIn.signUp')}
           </Button>
         )}

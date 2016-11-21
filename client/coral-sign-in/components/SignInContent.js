@@ -56,7 +56,7 @@ const SignInContent = ({handleChange, formData, ...props}) => (
       <span><a onClick={() => props.changeView('FORGOT')}>{lang.t('signIn.forgotYourPass')}</a></span>
       <span>
         {lang.t('signIn.needAnAccount')}
-        <a onClick={() => props.changeView('SIGNUP')}>
+        <a onClick={() => props.changeView('SIGNUP')} id='coralRegister'>
           {lang.t('signIn.register')}
         </a>
       </span>

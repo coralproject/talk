@@ -127,7 +127,7 @@ class SignInContainer extends Component {
     const {auth, showSignInDialog} = this.props;
     return (
       <div>
-        <Button onClick={showSignInDialog}>
+        <Button onClick={showSignInDialog} id='coralSignInButton'>
           Sign in to comment
         </Button>
         <SignDialog

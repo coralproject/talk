@@ -2,7 +2,11 @@ const utils = require('../../utils/e2e-mongoose');
 const Setting = require('../../../models/setting');
 const fetch = require('node-fetch');
 
-const comment = 'This is a test comment.';
+const mockComment = 'This is a test comment.';
+const mockUser = {
+  email: 'test@test.com',
+  pw: 'testtesttest'
+}
 
 module.exports = {
   '@tags': ['embed-stream', 'post'],
@@ -18,15 +22,24 @@ module.exports = {
       })
     });
   },
-  'User posts a comment': client => {
+  'User signs in and posts a comment': client => {
     client.resizeWindow(1200, 800)
     .url(client.globals.baseUrl)
     .frame('coralStreamIframe')
-    .waitForElementVisible('#commentBox', 2000)
-    .setValue('#commentBox .coral-plugin-commentbox-textarea', comment)
+    .waitForElementVisible('#coralSignInButton', 2000)
+    .click('#coralSignInButton')
+    .waitForElementVisible('#coralRegister', 1000)
+    .click('#coralRegister')
+    .waitForElementVisible('#email', 1000)
+    .setValue('#email', mockUser.email)
+    .setValue('#password', mockUser.pw)
+    .setValue('#confirmPassword', mockUser.pw)
+    .click('#coralSignUpButton')
+    .waitForElementVisible('#commentBox', 1000)
+    .setValue('#commentBox .coral-plugin-commentbox-textarea', mockComment)
     .click('#commentBox .coral-plugin-commentbox-button')
     .waitForElementVisible('.comment', 1000)
-    .assert.containsText('.comment', comment);
+    .assert.containsText('.comment', mockComment);
   },
   after: client => {
     utils.after();
