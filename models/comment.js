@@ -151,11 +151,11 @@ CommentSchema.statics.moderationQueue = function(moderation) {
 //==============================================================================
 
 /**
- * Change the status of a comment.
+ * Set the status of a comment.
  * @param {String} id  identifier of the comment  (uuid)
  * @param {String} status the new status of the comment
 */
-CommentSchema.statics.changeStatus = function(id, status) {
+CommentSchema.statics.setStatus = function(id, status) {
   return Comment.findOneAndUpdate({'id': id}, {$set: {'status': status}}, {upsert: false, new: true});
 };
 

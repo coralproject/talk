@@ -3,6 +3,8 @@ const uuid = require('uuid');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+const Comment = require('./comment');
+
 // SALT_ROUNDS is the number of rounds that the bcrypt algorithm will run
 // through during the salting process.
 const SALT_ROUNDS = 10;
@@ -418,15 +420,30 @@ UserService.setStatus = (id, status) => {
     return Promise.reject(new Error(`status ${status} is not supported`));
   }
 
-  // If we are banning the user
-  //  disable their account
-
   return UserModel.update({
     id: id
   }, {
     $set: {
       status: status
     }
+  });
+};
+
+/**
+ * Ban a user.
+ * @param  {String}   id   id of a user
+ * @param  {String}   comment_id   id of the comment that the user was ban for.
+ * @param  {Function} done callback after the operation is complete
+ */
+UserService.ban = (id, comment_id) => {
+  // Disable their account
+  return  UserService.disableUser(id)
+  .then(() => {
+    // Set status of the user to banned
+    return UserService.setStatus(id, 'banned').then(() => {
+      // Reject the comment that the user was ban for.
+      return Comment.setStatus(comment_id, 'rejected');
+    });
   });
 };
 
