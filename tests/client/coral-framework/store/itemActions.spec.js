@@ -29,21 +29,23 @@ describe('itemActions', () => {
       ],
       actions: [
         {
-          type: 'like',
-          id: '123',
+          action_type: 'like',
+          item_id: '123',
           count: 1,
+          id: 'like_123',
           current_user: false
         },
         {
-          type: 'flag',
-          id: '456',
+          action_type: 'flag',
+          item_id: '456',
           count: 5,
+          id: 'flag_456',
           current_user: true
         }
       ]
     };
 
-    it('should get an stream from an asset_id and send the appropriate dispatches', () => {
+    it('should get an stream from an asset_url and send the appropriate dispatches', () => {
       fetchMock.get('*', JSON.stringify(response));
       return actions.getStream(assetUrl)(store.dispatch)
         .then((res) => {
