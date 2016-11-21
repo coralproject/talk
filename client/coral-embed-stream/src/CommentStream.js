@@ -84,8 +84,8 @@ class CommentStream extends Component {
 
     const rootItemId = this.props.items.assets && Object.keys(this.props.items.assets)[0];
     const rootItem = this.props.items.assets && this.props.items.assets[rootItemId];
-    const {loggedIn, user} = this.props.auth;
-    return <div>
+    const {loggedIn, user, showSignInDialog} = this.props.auth;
+    return <div className={showSignInDialog ? 'expandForSignin' : ''}>
       {
         rootItem
         ? <div>
