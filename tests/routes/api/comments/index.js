@@ -10,6 +10,7 @@ const expect = chai.expect;
 chai.should();
 chai.use(require('chai-http'));
 
+const wordlist = require('../../../../services/wordlist');
 const Comment = require('../../../../models/comment');
 const Action = require('../../../../models/action');
 const User = require('../../../../models/user');
@@ -184,17 +185,31 @@ describe('Post /comments', () => {
   beforeEach(() => {
     return Promise.all([
       User.createLocalUsers(users),
-      Action.create(actions)
+      Action.create(actions),
+      wordlist.insert([
+        'bad words'
+      ])
     ]);
   });
 
-  it('it should create a comment', () =>  {
-    chai.request(app)
+  it('should create a comment', () => {
+    return chai.request(app)
       .post('/api/v1/comments')
       .send({'body': 'Something body.', 'author_id': '123', 'asset_id': '1', 'parent_id': ''})
       .then((res) => {
         expect(res).to.have.status(201);
         expect(res.body).to.have.property('id');
+      });
+  });
+
+  it('should create a comment with a rejected status if it contains a bad word', () => {
+    return chai.request(app)
+      .post('/api/v1/comments')
+      .send({'body': 'bad words are the baddest', 'author_id': '123', 'asset_id': '1', 'parent_id': ''})
+      .then((res) => {
+        expect(res).to.have.status(201);
+        expect(res.body).to.have.property('id');
+        expect(res.body).to.have.property('status', 'rejected');
       });
   });
 });

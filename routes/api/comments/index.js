@@ -42,7 +42,7 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
     })
     .then((comment) => {
 
-      res.status(200).send(comment);
+      res.status(201).send(comment);
     })
     .catch((err) => {
       next(err);
