@@ -90,9 +90,7 @@ ActionSchema.statics.findCommentsIdByActionType = function(action_type, item_typ
   return Action.find({
     'action_type': action_type,
     'item_type': item_type
-  },
-  'item_id'
-  );
+  }, 'item_id');
 };
 
 const Action = mongoose.model('Action', ActionSchema);
