@@ -2,6 +2,7 @@ const utils = require('../../utils/e2e-mongoose');
 const fetch = require('node-fetch');
 
 const mockComment = 'This is a test comment.';
+const mockReply = 'This is a test reply';
 const mockUser = {
   email: `${new Date().getTime()}@test.com`,
   name: 'Test User',
@@ -54,7 +55,7 @@ module.exports = {
       });
     });
   },
-  'User Registers and posts a comment with premod on': client => {
+  'User Logs In and posts a comment with premod on': client => {
     client.perform((client, done) => {
       fetch(`${client.globals.baseUrl}/api/v1/settings`, {
         method: 'PUT',
@@ -67,8 +68,7 @@ module.exports = {
         })
       }).then(() => {
         //Load Page
-        client.resizeWindow(1200, 800)
-          .url(client.globals.baseUrl)
+        client.url(client.globals.baseUrl)
           .frame('coralStreamIframe');
 
           //Log In
@@ -88,6 +88,46 @@ module.exports = {
 
           //Verify that it appears
           .assert.containsText('#coral-notif', 'moderation team');
+        done();
+      });
+    });
+  },
+  'User Logs In and Replies to a comment with premod off': client => {
+    client.perform((client, done) => {
+      fetch(`${client.globals.baseUrl}/api/v1/settings`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          moderation: 'post'
+        })
+      }).then(() => {
+        //Load Page
+        client.resizeWindow(1200, 800)
+          .url(client.globals.baseUrl)
+          .frame('coralStreamIframe');
+
+          //Log In
+        client.waitForElementVisible('#commentBox', 10000)
+          .waitForElementVisible('#coralSignInButton', 2000)
+          .click('#coralSignInButton')
+          .waitForElementVisible('#coralLogInButton', 1000)
+          .setValue('#email', mockUser.email)
+          .setValue('#password', mockUser.pw)
+          .click('#coralLogInButton');
+
+          // Post a reply
+        client.waitForElementVisible('.coral-plugin-replies-reply-button', 2000)
+          .click('.coral-plugin-replies-reply-button')
+          .waitForElementVisible('#replyText')
+          .setValue('#replyText', mockReply)
+          .click('.coral-plugin-replies-textarea button')
+          .waitForElementVisible('.reply', 1000)
+
+          //Verify that it appears
+          .assert.containsText('.reply', mockReply);
         done();
       });
     });

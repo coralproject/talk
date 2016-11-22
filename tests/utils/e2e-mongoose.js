@@ -3,6 +3,7 @@ const mongoose = require('../../mongoose');
 // Ensure the NODE_ENV is set to 'test',
 // this is helpful when you would like to change behavior when testing.
 function clearDB() {
+  console.log('Clearing DB');
   for (let i in mongoose.connection.collections) {
     mongoose.connection.collections[i].remove(function() {});
   }
