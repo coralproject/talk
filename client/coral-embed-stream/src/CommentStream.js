@@ -60,9 +60,39 @@ class CommentStream extends Component {
   componentDidMount () {
     // Set up messaging between embedded Iframe an parent component
     // Using recommended Pym init code which violates .eslint standards
-    const pym = new Pym.Child({polling: 100});
-    const path = /https?\:\/\/([^?]+)/.exec(pym.parentUrl);
-    this.props.getStream(path && path[1] || window.location);
+    this.pym = new Pym.Child({polling: 100});
+    // const path = /https?\:\/\/([^?]+)/.exec(pym.parentUrl);
+
+    const path = this.pym.parentUrl.split('#')[0];
+
+    this.props.getStream(path || window.location);
+    this.path = path;
+
+    this.pym.sendMessage('childReady');
+
+    this.pym.onMessage('DOMContentLoaded', hash => {
+      console.log('child DOMContentLoaded!', hash.replace('#', ''));
+      const interval = setInterval(() => {
+
+        /**
+         * HERE
+         * i need the following if statement to be "true"
+         *
+         * I could hit the DOM everytime, but that seems silly
+         */
+
+        if (this.rootItem && this.rootItem.comments) {
+          console.log(this.rootItem);
+          console.log(document.querySelector(hash.replace('#', 'c_')));
+          window.clearInterval(interval);
+          this.pym.scrollParentToChildEl(hash.replace('#'), 'c_');
+        }
+      }, 100);
+    });
+  }
+
+  componentWillUpdate () {
+
   }
 
   render () {
@@ -86,10 +116,13 @@ class CommentStream extends Component {
     const rootItem = this.props.items.assets && this.props.items.assets[rootItemId];
     const {actions, users, comments} = this.props.items;
     const {loggedIn, user, showSignInDialog} = this.props.auth;
+
+    this.rootItem = rootItem;
+
     return <div className={showSignInDialog ? 'expandForSignin' : ''}>
       {
         rootItem
-        ? <div>
+        ? <div className="commentStream">
           <div id="commentBox">
             <InfoBox
               content={this.props.config.infoBoxContent}
@@ -113,7 +146,7 @@ class CommentStream extends Component {
           {
             rootItem.comments && rootItem.comments.map((commentId) => {
               const comment = comments[commentId];
-              return <div className="comment" key={commentId}>
+              return <div className="comment" key={commentId} id={`c_${commentId}`}>
                 <hr aria-hidden={true}/>
                 <AuthorName author={users[comment.author_id]}/>
                 <PubDate created_at={comment.created_at}/>
@@ -142,9 +175,9 @@ class CommentStream extends Component {
                     addItem={this.props.addItem}
                     updateItem={this.props.updateItem}
                     currentUser={this.props.auth.user}/>
-                    <PermalinkButton
-                      comment_id={commentId}
-                      asset_id={comment.asset_id}/>
+                  <PermalinkButton
+                    commentId={commentId}
+                    articleURL={this.path} />
                 </div>
                   <ReplyBox
                     addNotification={this.props.addNotification}
@@ -160,7 +193,7 @@ class CommentStream extends Component {
                     comment.children &&
                     comment.children.map((replyId) => {
                       let reply = this.props.items.comments[replyId];
-                      return <div className="reply" key={replyId}>
+                      return <div className="reply" key={replyId} id={replyId}>
                         <hr aria-hidden={true}/>
                         <AuthorName author={users[comment.author_id]}/>
                         <PubDate created_at={reply.created_at}/>
@@ -189,10 +222,9 @@ class CommentStream extends Component {
                               addItem={this.props.addItem}
                               updateItem={this.props.updateItem}
                               currentUser={this.props.auth.user}/>
-                              <PermalinkButton
-                                comment_id={reply.parent_id}
-                                asset_id={rootItemId}
-                                />
+                            <PermalinkButton
+                              commentId={reply.parent_id}
+                              articleURL={this.path} />
                           </div>
                       </div>;
                     })
