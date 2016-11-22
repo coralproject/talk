@@ -61,7 +61,6 @@ class CommentStream extends Component {
     // Set up messaging between embedded Iframe an parent component
     // Using recommended Pym init code which violates .eslint standards
     this.pym = new Pym.Child({polling: 100});
-    // const path = /https?\:\/\/([^?]+)/.exec(pym.parentUrl);
 
     const path = this.pym.parentUrl.split('#')[0];
 
@@ -71,19 +70,22 @@ class CommentStream extends Component {
     this.pym.sendMessage('childReady');
 
     this.pym.onMessage('DOMContentLoaded', hash => {
+      // the comment ids can start with numbers, which is invalid for DOM id attributes
       const commentId = hash.replace('#', 'c_');
+      let count = 0;
       const interval = setInterval(() => {
-
         if (document.getElementById(commentId)) {
           window.clearInterval(interval);
           this.pym.scrollParentToChildEl(commentId);
         }
+
+        if (++count > 100) { // ~10 seconds
+          // give up waiting for the comments to load.
+          // it would be weird for the page to jump after that long.
+          window.clearInterval(interval);
+        }
       }, 100);
     });
-  }
-
-  componentWillUpdate () {
-
   }
 
   render () {
