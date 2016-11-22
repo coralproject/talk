@@ -61,11 +61,13 @@ class CommentStream extends Component {
     // Set up messaging between embedded Iframe an parent component
     // Using recommended Pym init code which violates .eslint standards
     const pym = new Pym.Child({polling: 100});
+    const path = /https?\:\/\/([^?]+)/.exec(pym.parentUrl);
+    this.props.getStream(path && path[1] || window.location);
+    this.parentUrl = pym.parentUrl;
+
     pym.onMessage('DOMContentLoaded', hash => {
       pym.scrollParentTo(hash.replace('#'), '');
     });
-    const path = /https?\:\/\/([^?]+)/.exec(pym.parentUrl);
-    this.props.getStream(path && path[1] || window.location);
   }
 
   render () {
@@ -147,7 +149,7 @@ class CommentStream extends Component {
                     currentUser={this.props.auth.user}/>
                   <PermalinkButton
                     commentId={commentId}
-                    articleURL={parent.window.location.href} />
+                    articleURL={this.parentUrl} />
                 </div>
                   <ReplyBox
                     addNotification={this.props.addNotification}
@@ -194,7 +196,7 @@ class CommentStream extends Component {
                               currentUser={this.props.auth.user}/>
                             <PermalinkButton
                               commentId={reply.parent_id}
-                              articleURL={parent.window.location.href} />
+                              articleURL={this.parentUrl} />
                           </div>
                       </div>;
                     })
