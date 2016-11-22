@@ -1,7 +1,9 @@
 const embedCommands = {
   ready() {
-    return this
-      .waitForElementVisible('body', 1000);
+    return this.resizeWindow(1200, 800)
+      .url(client.globals.baseUrl)
+      .waitForElementVisible('body', 2000)
+      .frame('coralStreamIframe');
   },
   enterComment() {
     const comment = 'This is a test comment';
