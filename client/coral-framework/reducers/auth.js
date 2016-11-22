@@ -8,6 +8,8 @@ const initialState = Map({
   showSignInDialog: false,
   view: 'SIGNIN',
   error: '',
+  passwordRequestSuccess: null,
+  passwordRequestFailure: null,
   successSignUp: false
 });
 
@@ -22,6 +24,8 @@ export default function auth (state = initialState, action) {
       showSignInDialog: false,
       view: 'SIGNIN',
       error: '',
+      passwordRequestFailure: null,
+      passwordRequestSuccess: null,
       successSignUp: false
     }));
   case actions.CHANGE_VIEW :
@@ -79,6 +83,14 @@ export default function auth (state = initialState, action) {
   case actions.VALID_FORM:
     return state
       .set('error', '');
+  case actions.FETCH_FORGOT_PASSWORD_SUCCESS:
+    return state
+      .set('passwordRequestFailure', null)
+      .set('passwordRequestSuccess', 'If you have a registered account, a password reset link was sent to that email');
+  case actions.FETCH_FORGOT_PASSWORD_FAILURE:
+    return state
+      .set('passwordRequestFailure', 'There was an error sending your password reset email. Please try again soon!')
+      .set('passwordRequestSuccess', null);
   default :
     return state;
   }
