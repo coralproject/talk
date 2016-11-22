@@ -25,7 +25,6 @@
     var pymParent = new pym.Parent('coralStreamEmbed', '/embed/stream', {title: 'Talk Comments'});
     pymParent.onMessage('height', function(height) {document.querySelector('#coralStreamEmbed iframe').height = height + 'px'});
     pymParent.onMessage('childReady', function () {
-      console.log('well, at least the child is ready');
       var interval = setInterval(function () {
         if (ready) {
           window.clearInterval(interval);
@@ -37,7 +36,6 @@
     // wait till images and other iframes are loaded before scrolling the page.
     // or do we want to be more aggressive and scroll when we hit DOM ready?
     document.addEventListener('DOMContentLoaded', function (e) {
-      console.log('parent DOMContentLoaded', e);
       ready = true;
     });
 

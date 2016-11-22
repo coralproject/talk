@@ -71,21 +71,12 @@ class CommentStream extends Component {
     this.pym.sendMessage('childReady');
 
     this.pym.onMessage('DOMContentLoaded', hash => {
-      console.log('child DOMContentLoaded!', hash.replace('#', ''));
+      const commentId = hash.replace('#', 'c_');
       const interval = setInterval(() => {
 
-        /**
-         * HERE
-         * i need the following if statement to be "true"
-         *
-         * I could hit the DOM everytime, but that seems silly
-         */
-
-        if (this.rootItem && this.rootItem.comments) {
-          console.log(this.rootItem);
-          console.log(document.querySelector(hash.replace('#', 'c_')));
+        if (document.getElementById(commentId)) {
           window.clearInterval(interval);
-          this.pym.scrollParentToChildEl(hash.replace('#'), 'c_');
+          this.pym.scrollParentToChildEl(commentId);
         }
       }, 100);
     });
