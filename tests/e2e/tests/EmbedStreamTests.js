@@ -1,5 +1,4 @@
 const utils = require('../../utils/e2e-mongoose');
-const Setting = require('../../../models/setting');
 const fetch = require('node-fetch');
 
 const mockComment = 'This is a test comment.';
@@ -7,7 +6,7 @@ const mockUser = {
   email: `${new Date().getTime()}@test4.com`,
   name: 'Test User',
   pw: 'testtesttest'
-}
+};
 
 module.exports = {
   '@tags': ['embed-stream', 'post'],
