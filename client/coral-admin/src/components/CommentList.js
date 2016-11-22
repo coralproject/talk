@@ -112,15 +112,15 @@ export default class CommentList extends React.Component {
   }
 
   render () {
-    const {singleView, commentIds, comments, hideActive} = this.props;
+    const {singleView, commentIds, comments, hideActive, key} = this.props;
     const {active} = this.state;
 
     return (
-      <ul className={`${styles.list} ${singleView ? styles.singleView : ''}`}>
+      <ul className={`${styles.list} ${singleView ? styles.singleView : ''}`} {...key}>
         {commentIds.map((commentId, index) => (
           <Comment comment={comments.get(commentId)}
             ref={el => { if (el && commentId === active) { this._active = el; } }}
-            key={`${index  }comment`}
+            key={index}
             index={index}
             onClickAction={this.onClickAction}
             actions={this.props.actions}

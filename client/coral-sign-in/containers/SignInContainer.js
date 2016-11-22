@@ -18,7 +18,8 @@ import {
   fetchForgotPassword,
   facebookCallback,
   invalidForm,
-  validForm
+  validForm,
+  checkLogin
 } from '../../coral-framework/actions/auth';
 
 class SignInContainer extends Component {
@@ -41,6 +42,10 @@ class SignInContainer extends Component {
     this.handleSignIn = this.handleSignIn.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.addError = this.addError.bind(this);
+  }
+
+  componentWillMount () {
+    this.props.checkLogin();
   }
 
   componentDidMount() {
@@ -147,6 +152,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  checkLogin: () => dispatch(checkLogin()),
   facebookCallback: (err, data) => dispatch(facebookCallback(err, data)),
   fetchSignUp: formData => dispatch(fetchSignUp(formData)),
   fetchSignIn: formData => dispatch(fetchSignIn(formData)),

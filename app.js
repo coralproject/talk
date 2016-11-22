@@ -21,7 +21,7 @@ if (app.get('env') !== 'test') {
 // APP MIDDLEWARE
 //==============================================================================
 
-app.set('trust proxy', 'loopback');
+app.set('trust proxy', 1);
 app.use(helmet());
 app.use(bodyParser.json());
 app.use('/client', express.static(path.join(__dirname, 'dist')));
@@ -97,7 +97,7 @@ app.use('/api', (err, req, res, next) => {
   res.status(err.status || 500);
   res.json({
     message: err.message,
-    error: app.get('env') === 'development' ? err : null
+    error: app.get('env') === 'development' ? err : {}
   });
 });
 
@@ -109,7 +109,7 @@ app.use('/', (err, req, res, next) => {
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
-    error: app.get('env') === 'development' ? err : null
+    error: app.get('env') === 'development' ? err : {}
   });
 });
 
