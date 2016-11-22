@@ -146,8 +146,8 @@ class CommentStream extends Component {
                     updateItem={this.props.updateItem}
                     currentUser={this.props.auth.user}/>
                   <PermalinkButton
-                    comment_id={commentId}
-                    asset_id={comment.asset_id}/>
+                    commentId={commentId}
+                    articleURL={parent.window.location.href} />
                 </div>
                   <ReplyBox
                     addNotification={this.props.addNotification}
@@ -192,10 +192,9 @@ class CommentStream extends Component {
                               addItem={this.props.addItem}
                               updateItem={this.props.updateItem}
                               currentUser={this.props.auth.user}/>
-                              <PermalinkButton
-                                comment_id={reply.parent_id}
-                                asset_id={rootItemId}
-                                />
+                            <PermalinkButton
+                              commentId={reply.parent_id}
+                              articleURL={parent.window.location.href} />
                           </div>
                       </div>;
                     })

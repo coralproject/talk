@@ -9,8 +9,8 @@ const lang = new I18n(translations);
 class PermalinkButton extends React.Component {
 
   static propTypes = {
-    asset_id: PropTypes.string.isRequired,
-    comment_id: PropTypes.string.isRequired
+    articleURL: PropTypes.string.isRequired,
+    commentId: PropTypes.string.isRequired
   }
 
   constructor (props) {
@@ -43,8 +43,6 @@ class PermalinkButton extends React.Component {
   }
 
   render () {
-    const publisherUrl = `${location.protocol}//${location.host}/assets/`;
-
     return (
       <div className={`${name}-container`}>
         <button onClick={this.toggle} className={`${name}-button`}>
@@ -57,7 +55,7 @@ class PermalinkButton extends React.Component {
             className={`${name}-copy-field`}
             type='text'
             ref={input => this.permalinkInput = input}
-            value={`${publisherUrl}${this.props.asset_id}#${this.props.comment_id}`}
+            value={`${this.props.articleURL}#${this.props.commentId}`}
             onChange={() => {}} />
           <button className={`${name}-copy-button`} onClick={this.copyPermalink}>Copy</button>
           {
