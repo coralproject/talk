@@ -100,7 +100,7 @@ class Configure extends React.Component {
   }
 
   getEmbed () {
-    const embedText = `<div id='coralStreamEmbed'></div><script type='text/javascript' src='http://pym.nprapps.org/pym.v1.min.js'></script><script>var pymParent = new pym.Parent('coralStreamEmbed', '${window.location.protocol}//${window.location.host}/embed/stream', {});</script>`;
+    const embedText = `<div id='coralStreamEmbed'></div><script type='text/javascript' src='${window.location.protocol}//pym.nprapps.org/pym.v1.min.js'></script><script>var pymParent = new pym.Parent('coralStreamEmbed', '${window.location.protocol}//${window.location.host}/embed/stream', {title: 'Comments'});</script>`;
 
     return <List>
       <ListItem className={styles.configSettingEmbed}>
