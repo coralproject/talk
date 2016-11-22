@@ -140,7 +140,7 @@ describe('User: models', () => {
         });
     });
 
-    it('should not still disable and ban the user if there is no comment', () => {
+    it('should still disable and ban the user if there is no comment', () => {
       return User
         .setStatus(mockUsers[0].id, 'banned', '')
         .then(() => {

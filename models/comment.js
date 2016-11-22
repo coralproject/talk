@@ -1,7 +1,6 @@
 const mongoose = require('../mongoose');
 const uuid = require('uuid');
 const Action = require('./action');
-const User = require('./user');
 
 const Schema = mongoose.Schema;
 
@@ -40,9 +39,6 @@ const CommentSchema = new Schema({
  * @param {String} body  content of comment
 */
 CommentSchema.statics.new = function(body, author_id, asset_id, parent_id, status, username) {
-  if (username === null && author_id != null) {
-    username = User.findById(author_id)['displayName']
-  };
   let comment  = new Comment({body, author_id, asset_id, parent_id, status, username});
   return comment.save();
 };
@@ -163,13 +159,16 @@ CommentSchema.statics.moderationQueue = function(moderation) {
 //==============================================================================
 
 /**
- * Set the status of a comment.
+ * Changes the status of a comment.
  * @param {String} id  identifier of the comment  (uuid)
  * @param {String} status the new status of the comment
-  * @return {Promise}
-*/
+ * @return {Promise}
+ */
 CommentSchema.statics.changeStatus = function(id, status) {
-  return Comment.findOneAndUpdate({'id': id}, {$set: {'status': status}});
+  return Comment.findOneAndUpdate({'id': id}, {$set: {'status': status}}, {upsert: false, new: true})
+    .then((comment) => {
+      return comment;
+    });
 };
 
 /**

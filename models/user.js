@@ -425,15 +425,16 @@ UserService.setStatus = (id, status, comment_id) => {
   if (status === 'banned') {
     return  UserService.disableUser(id)
     .then(() => {
-      return Comment.setStatus(comment_id, 'rejected').then(() => {
-        return UserModel.update({
-          id: id
-        }, {
-          $set: {
-            status: status
-          }
+      return Comment.changeStatus(comment_id, 'rejected')
+        .then(() => {
+          return UserModel.update({
+            id: id
+          }, {
+            $set: {
+              status: status
+            }
+          });
         });
-      });
     });
   }
 

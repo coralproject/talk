@@ -55,7 +55,6 @@ class Table extends Component {
                 <SelectField label={'Select me'} value={row.status}
                   label={lang.t('community.select-status')}
                   onChange={status => this.onStatusChange(row.id, status)}>
-                  <Option value={''}>.</Option>
                   <Option value={'active'}>{lang.t('community.active')}</Option>
                   <Option value={'banned'}>{lang.t('community.banned')}</Option>
                 </SelectField>

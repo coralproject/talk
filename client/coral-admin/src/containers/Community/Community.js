@@ -31,7 +31,6 @@ const tableHeaders = [
 ];
 
 const Community = ({isFetching, commenters, ...props}) => {
-  console.log(commenters);
   const hasResults = !isFetching && !!commenters.length;
   return (
     <Grid>
