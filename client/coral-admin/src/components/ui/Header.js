@@ -10,13 +10,13 @@ export default () => (
   <Header className={styles.header}>
     <Logo />
     <Navigation>
-      <IndexLink className={styles.navLink} to="/admin" activeClassName="active">{lang.t('configure.moderate')}</IndexLink>
-      <Link className={styles.navLink} to="/admin/community" activeClassName="active">{lang.t('configure.community')}</Link>
-      <Link className={styles.navLink} to="/admin/configure" activeClassName="active">{lang.t('configure.configure')}</Link>
-      <span>
-        {`v${process.env.VERSION}`}
-      </span>
+      <IndexLink className={styles.navLink} to="/admin" activeClassName={styles.active}>{lang.t('configure.moderate')}</IndexLink>
+      <Link className={styles.navLink} to="/admin/community" activeClassName={styles.active}>{lang.t('configure.community')}</Link>
+      <Link className={styles.navLink} to="/admin/configure" activeClassName={styles.active}>{lang.t('configure.configure')}</Link>
     </Navigation>
+    <div className={styles.version}>
+      {`v${process.env.VERSION}`}
+    </div>
   </Header>
 );
 
