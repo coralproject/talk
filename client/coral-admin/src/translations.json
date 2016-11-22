@@ -12,6 +12,7 @@
       "select-status": "Select status...",
       "active": "Active",
       "banned": "Banned",
+      "banned-user": "Banned User",
       "loading": "Loading results"
     },
     "modqueue": {
@@ -63,6 +64,7 @@
       "select-status": "Seleccionar estado...",
       "active": "Activa",
       "banned": "Suspendido",
+      "banned-user": "Usuario Suspendido",
       "loading": "Cargando resultados"
     },
     "modqueue": {

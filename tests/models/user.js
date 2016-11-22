@@ -90,7 +90,7 @@ describe('User: models', () => {
 
     it('should disable the user', () => {
       return User
-        .ban(mockUsers[0].id, mockComment.id)
+        .setStatus(mockUsers[0].id, 'banned', mockComment.id)
         .then(() => {
           User.findById(mockUsers[0].id)
           .then((user) => {
@@ -102,7 +102,7 @@ describe('User: models', () => {
 
     it('should set the status to banned', () => {
       return User
-        .ban(mockUsers[0].id, mockComment.id)
+        .setStatus(mockUsers[0].id, 'banned', mockComment.id)
         .then(() => {
           User.findById(mockUsers[0].id)
           .then((user) => {
@@ -114,7 +114,7 @@ describe('User: models', () => {
 
     it('should set the comment to rejected', () => {
       return User
-        .ban(mockUsers[0].id, mockComment.id)
+        .setStatus(mockUsers[0].id, 'banned', mockComment.id)
         .then(() => {
           Comment.findById(mockComment.id)
           .then((comment) => {
@@ -126,7 +126,7 @@ describe('User: models', () => {
 
     it('should not still disable and ban the user if there is no comment', () => {
       return User
-        .ban(mockUsers[0].id, '')
+        .setStatus(mockUsers[0].id, 'banned', '')
         .then(() => {
           User.findById(mockUsers[0].id)
           .then((user) => {
@@ -134,6 +134,40 @@ describe('User: models', () => {
               .and.to.equal('banned');
             expect(user).to.have.property('disabled')
               .and.to.equal(true);
+          });
+        });
+    });
+  });
+
+  describe('#unban', () => {
+    let mockComment;
+    beforeEach(() => {
+      return Comment.new('testing the comment for that user if it is rejected.', mockUsers[0].id)
+      .then((comment) => {
+        mockComment = comment;
+      });
+    });
+
+    it('should enable the user', () => {
+      return User
+        .setStatus(mockUsers[0].id, 'active', mockComment.id)
+        .then(() => {
+          User.findById(mockUsers[0].id)
+          .then((user) => {
+            expect(user).to.have.property('disabled')
+              .and.to.equal(false);
+          });
+        });
+    });
+
+    it('should set the status to active', () => {
+      return User
+        .setStatus(mockUsers[0].id, 'active', mockComment.id)
+        .then(() => {
+          User.findById(mockUsers[0].id)
+          .then((user) => {
+            expect(user).to.have.property('status')
+              .and.to.equal('active');
           });
         });
     });

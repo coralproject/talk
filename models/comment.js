@@ -1,6 +1,7 @@
 const mongoose = require('../mongoose');
 const uuid = require('uuid');
 const Action = require('./action');
+const User = require('./user');
 
 const Schema = mongoose.Schema;
 
@@ -40,6 +41,9 @@ const CommentSchema = new Schema({
  * @param {String} body  content of comment
 */
 CommentSchema.statics.new = function(body, author_id, asset_id, parent_id, status, username) {
+  if (username === null && author_id != null) {
+    username = User.findById(author_id)['displayName']
+  };
   let comment  = new Comment({body, author_id, asset_id, parent_id, status, username});
   return comment.save();
 };

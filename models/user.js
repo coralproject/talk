@@ -409,9 +409,10 @@ UserService.removeRoleFromUser = (id, role) => {
  * Set status of a user.
  * @param  {String}   id   id of a user
  * @param  {String}   status status to set
+ * @param  {String}   comment_id   id of the comment that the user was ban for.
  * @param  {Function} done callback after the operation is complete
  */
-UserService.setStatus = (id, status) => {
+UserService.setStatus = (id, status, comment_id) => {
 
   // Check to see if the user status is in the allowable set of roles.
   if (USER_STATUS.indexOf(status) === -1) {
@@ -420,32 +421,35 @@ UserService.setStatus = (id, status) => {
     return Promise.reject(new Error(`status ${status} is not supported`));
   }
 
-  return UserModel.update({
-    id: id
-  }, {
-    $set: {
-      status: status
-    }
-  });
-};
-
-/**
- * Ban a user.
- * @param  {String}   id   id of a user
- * @param  {String}   comment_id   id of the comment that the user was ban for.
- * @param  {Function} done callback after the operation is complete
- */
-UserService.ban = (id, comment_id) => {
-  // Disable their account
-  return  UserService.disableUser(id)
-  .then(() => {
-    // Set status of the user to banned
-    return UserService.setStatus(id, 'banned').then(() => {
-      // Only if it was rejected based on a specific comment.
-      // Reject the comment that the user was ban for.
-      return Comment.setStatus(comment_id, 'rejected');
+  // If ban then disable the account, reject the comment and update status
+  if (status === 'banned') {
+    return  UserService.disableUser(id)
+    .then(() => {
+      return Comment.setStatus(comment_id, 'rejected').then(() => {
+        return UserModel.update({
+          id: id
+        }, {
+          $set: {
+            status: status
+          }
+        });
+      });
     });
-  });
+  }
+
+  // If active then unable the account and update status
+  if (status === 'active') {
+    return  UserService.enableUser(id)
+    .then(() => {
+      return UserModel.update({
+        id: id
+      }, {
+        $set: {
+          status: status
+        }
+      });
+    });
+  }
 };
 
 /**
