@@ -8,7 +8,7 @@ import CommunityContainer from 'containers/Community/CommunityContainer';
 import LayoutContainer from 'containers/LayoutContainer';
 
 const routes = (
-  <Route path='admin' component={LayoutContainer}>
+  <Route path='/admin' component={LayoutContainer}>
     <IndexRoute component={ModerationQueue} />
     <Route path='embed' component={CommentStream} />
     <Route path='community' component={CommunityContainer} />

@@ -1,11 +1,11 @@
 
 import React from 'react';
-import {Button, Icon} from 'react-mdl';
 import timeago from 'timeago.js';
 import styles from './CommentList.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations.json';
 import Linkify from 'react-linkify';
+import {FabButton} from 'coral-ui';
 
 const linkify = new Linkify();
 
@@ -14,7 +14,7 @@ export default props => {
   const links = linkify.getMatches(props.comment.get('body'));
 
   return (
-    <li tabindex={props.index} className={`${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
+    <li tabIndex={props.index} className={`${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
       <div className={styles.itemHeader}>
         <div className={styles.author}>
           <i className={`material-icons ${styles.avatar}`}>person</i>
@@ -27,13 +27,15 @@ export default props => {
           {links ?
           <span className={styles.hasLinks}><Icon name='error_outline'/> Contains Link</span> : null}
           <div className={styles.actions}>
-            {props.actions.map(action => canShowAction(action, props.comment) ? (
-              <Button className={styles.actionButton}
+            {props.actions.map((action, i) => canShowAction(action, props.comment) ? (
+              <FabButton icon={props.actionsMap[action].icon} className={styles.actionButton}
+                cStyle={action}
+                key={i}
                 onClick={() => props.onClickAction(props.actionsMap[action].status, props.comment.get('id'))}
                 fab colored>
                 <Icon name={props.actionsMap[action].icon} />
                 {props.actionsMap[action].text}
-              </Button>
+              </FabButton>
             ) : null)}
           </div>
         </div>

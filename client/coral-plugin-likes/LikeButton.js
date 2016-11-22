@@ -10,11 +10,12 @@ const LikeButton = ({like, id, postAction, deleteAction, addItem, updateItem}) =
     if (!liked) {
       postAction(id, 'like', '123', 'comments')
         .then((action) => {
-          addItem({id: action.id, current_user:true, count: like ? like.count + 1 : 1}, 'actions');
-          updateItem(action.item_id, action.action_type, action.id, 'comments');
+          let id = `${action.action_type}_${action.item_id}`;
+          addItem({id, current_user: action, count: like ? like.count + 1 : 1}, 'actions');
+          updateItem(action.item_id, action.action_type, id, 'comments');
         });
     } else {
-      deleteAction(id, 'like', '123', 'comments')
+      deleteAction(liked.id)
         .then(() => {
           updateItem(like.id, 'count', like.count - 1, 'actions');
           updateItem(like.id, 'current_user', false, 'actions');

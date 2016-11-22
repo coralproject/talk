@@ -19,8 +19,8 @@ export const cleanState = () => ({type: actions.CLEAN_STATE});
 // Sign In Actions
 
 const signInRequest = () => ({type: actions.FETCH_SIGNIN_REQUEST});
-const signInSuccess = (user) => ({type: actions.FETCH_SIGNIN_SUCCESS, user});
-const signInFailure = (error) => ({type: actions.FETCH_SIGNIN_FAILURE, error});
+const signInSuccess = user => ({type: actions.FETCH_SIGNIN_SUCCESS, user});
+const signInFailure = error => ({type: actions.FETCH_SIGNIN_FAILURE, error});
 
 export const fetchSignIn = (formData) => dispatch => {
   dispatch(signInRequest());
@@ -87,9 +87,9 @@ const forgotPassowordRequest = () => ({type: actions.FETCH_FORGOT_PASSWORD_REQUE
 const forgotPassowordSuccess = () => ({type: actions.FETCH_FORGOT_PASSWORD_SUCCESS});
 const forgotPassowordFailure = () => ({type: actions.FETCH_FORGOT_PASSWORD_FAILURE});
 
-export const fetchForgotPassword = () => dispatch => {
-  dispatch(forgotPassowordRequest());
-  fetch(`${base}/user/request-password-reset`, getInit('POST'))
+export const fetchForgotPassword = email => dispatch => {
+  dispatch(forgotPassowordRequest(email));
+  fetch(`${base}/user/request-password-reset`, getInit('POST', {email}))
     .then(handleResp)
     .then(() => dispatch(forgotPassowordSuccess()))
     .catch(error => dispatch(forgotPassowordFailure(error)));
@@ -114,3 +114,16 @@ export const logout = () => dispatch => {
 export const validForm = () => ({type: actions.VALID_FORM});
 export const invalidForm = error => ({type: actions.INVALID_FORM, error});
 
+// Check Login
+
+const checkLoginRequest = () => ({type: actions.CHECK_LOGIN_REQUEST});
+const checkLoginSuccess = user => ({type: actions.CHECK_LOGIN_SUCCESS, user});
+const checkLoginFailure = error => ({type: actions.CHECK_LOGIN_FAILURE, error});
+
+export const checkLogin = () => dispatch => {
+  dispatch(checkLoginRequest());
+  fetch(`${base}/auth`, getInit('GET'))
+    .then(handleResp)
+    .then(user => dispatch(checkLoginSuccess(user)))
+    .catch(error => dispatch(checkLoginFailure(error)));
+};

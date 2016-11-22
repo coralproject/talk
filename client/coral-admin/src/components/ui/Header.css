@@ -1,0 +1,21 @@
+.header {
+    background: #505050;
+    overflow: hidden;
+}
+
+.header > div {
+    position: relative;
+    padding: 0;
+    width: 1170px;
+    margin: 0 auto;
+}
+
+.active {
+    background: #232323;
+}
+
+.version {
+    position: absolute;
+    right: 0;
+    width: 50px;
+}

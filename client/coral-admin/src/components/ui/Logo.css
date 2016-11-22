@@ -1,0 +1,18 @@
+.logo h1 {
+    color: #272727;
+    font-size: 20px;
+    padding: 0 30px;
+}
+
+.logo span {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 18px;
+    vertical-align: middle;
+}
+
+.logo {
+    background: #E5E5E5;
+}
+
+

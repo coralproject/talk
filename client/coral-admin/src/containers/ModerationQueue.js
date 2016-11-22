@@ -79,9 +79,9 @@ class ModerationQueue extends React.Component {
     return (
       <div>
         <div className='mdl-tabs mdl-js-tabs mdl-js-ripple-effect'>
-          <div className='mdl-tabs__tab-bar'>
+          <div className={`mdl-tabs__tab-bar ${styles.tabBar}`}>
             <a href='#pending' onClick={() => this.onTabClick('pending')}
-              className={`mdl-tabs__tab is-active ${styles.tab}`}>{lang.t('modqueue.pending')}</a>
+              className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.pending')}</a>
             <a href='#rejected' onClick={() => this.onTabClick('rejected')}
               className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.rejected')}</a>
             <a href='#flagged' onClick={() => this.onTabClick('flagged')}

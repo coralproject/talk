@@ -89,6 +89,10 @@ router.post('/', (req, res, next) => {
 router.post('/update-password', (req, res, next) => {
   const {token, password} = req.body;
 
+  if (!password || password.length < 8) {
+    return res.status(400).send('Password must be at least 8 characters');
+  }
+
   User.verifyPasswordResetToken(token)
     .then(user => {
       return User.changePassword(user.id, password);
@@ -110,7 +114,7 @@ router.post('/request-password-reset', (req, res, next) => {
   const {email} = req.body;
 
   if (!email) {
-    return next();
+    return next('you must submit an email when requesting a password.');
   }
 
   User

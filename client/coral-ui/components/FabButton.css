@@ -1,0 +1,9 @@
+.type--approve {
+    background: #00796b;
+    color: rgba(255, 255, 255, 0.901961);
+}
+
+.type--reject {
+    background: #d32f2f ;
+    color: rgba(255, 255, 255, 0.901961);
+}
