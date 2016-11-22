@@ -6,6 +6,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations.json';
 import Linkify from 'react-linkify';
 import {FabButton} from 'coral-ui';
+import {Icon} from 'react-mdl';
 
 const linkify = new Linkify();
 

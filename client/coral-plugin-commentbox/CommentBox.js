@@ -22,7 +22,7 @@ class CommentBox extends Component {
   }
 
   postComment = () => {
-    const {postItem, updateItem, id, parent_id, addNotification, appendItemArray, premod, author} = this.props;
+    const {postItem, updateItem, id, parent_id, child_id, addNotification, appendItemArray, premod, author} = this.props;
     let comment = {
       body: this.state.body,
       asset_id: id,
@@ -38,7 +38,7 @@ class CommentBox extends Component {
       related = 'comments';
       parent_type = 'assets';
     }
-    updateItem(parent_id, 'showReply', false, 'comments');
+    updateItem(child_id || parent_id, 'showReply', false, 'comments');
     postItem(comment, 'comments')
     .then((comment_id) => {
       if (premod === 'pre') {
