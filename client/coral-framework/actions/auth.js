@@ -87,9 +87,9 @@ const forgotPassowordRequest = () => ({type: actions.FETCH_FORGOT_PASSWORD_REQUE
 const forgotPassowordSuccess = () => ({type: actions.FETCH_FORGOT_PASSWORD_SUCCESS});
 const forgotPassowordFailure = () => ({type: actions.FETCH_FORGOT_PASSWORD_FAILURE});
 
-export const fetchForgotPassword = () => dispatch => {
-  dispatch(forgotPassowordRequest());
-  fetch(`${base}/user/request-password-reset`, getInit('POST'))
+export const fetchForgotPassword = email => dispatch => {
+  dispatch(forgotPassowordRequest(email));
+  fetch(`${base}/user/request-password-reset`, getInit('POST', {email}))
     .then(handleResp)
     .then(() => dispatch(forgotPassowordSuccess()))
     .catch(error => dispatch(forgotPassowordFailure(error)));
