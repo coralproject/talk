@@ -60,20 +60,39 @@ class CommentStream extends Component {
   componentDidMount () {
     // Set up messaging between embedded Iframe an parent component
     // Using recommended Pym init code which violates .eslint standards
-    const pym = new Pym.Child({polling: 100});
+    this.pym = new Pym.Child({polling: 100});
     // const path = /https?\:\/\/([^?]+)/.exec(pym.parentUrl);
 
-    const path = pym.parentUrl.split('#')[0];
+    const path = this.pym.parentUrl.split('#')[0];
 
     this.props.getStream(path || window.location);
-    this.parentUrl = pym.parentUrl;
+    this.path = path;
 
-    pym.sendMessage('childReady');
+    this.pym.sendMessage('childReady');
 
-    pym.onMessage('DOMContentLoaded', hash => {
-      console.log('child DOMContentLoaded!', hash);
-      pym.scrollParentTo(hash.replace('#'), '');
+    this.pym.onMessage('DOMContentLoaded', hash => {
+      console.log('child DOMContentLoaded!', hash.replace('#', ''));
+      const interval = setInterval(() => {
+
+        /**
+         * HERE
+         * i need the following if statement to be "true"
+         *
+         * I could hit the DOM everytime, but that seems silly
+         */
+
+        if (this.rootItem && this.rootItem.comments) {
+          console.log(this.rootItem);
+          console.log(document.querySelector(hash.replace('#', 'c_')));
+          window.clearInterval(interval);
+          this.pym.scrollParentToChildEl(hash.replace('#'), 'c_');
+        }
+      }, 100);
     });
+  }
+
+  componentWillUpdate () {
+
   }
 
   render () {
@@ -97,6 +116,9 @@ class CommentStream extends Component {
     const rootItem = this.props.items.assets && this.props.items.assets[rootItemId];
     const {actions, users, comments} = this.props.items;
     const {loggedIn, user, showSignInDialog} = this.props.auth;
+
+    this.rootItem = rootItem;
+
     return <div className={showSignInDialog ? 'expandForSignin' : ''}>
       {
         rootItem
@@ -124,7 +146,7 @@ class CommentStream extends Component {
           {
             rootItem.comments && rootItem.comments.map((commentId) => {
               const comment = comments[commentId];
-              return <div className="comment" key={commentId} id={commentId}>
+              return <div className="comment" key={commentId} id={`c_${commentId}`}>
                 <hr aria-hidden={true}/>
                 <AuthorName author={users[comment.author_id]}/>
                 <PubDate created_at={comment.created_at}/>
@@ -155,7 +177,7 @@ class CommentStream extends Component {
                     currentUser={this.props.auth.user}/>
                   <PermalinkButton
                     commentId={commentId}
-                    articleURL={this.parentUrl} />
+                    articleURL={this.path} />
                 </div>
                   <ReplyBox
                     addNotification={this.props.addNotification}
@@ -202,7 +224,7 @@ class CommentStream extends Component {
                               currentUser={this.props.auth.user}/>
                             <PermalinkButton
                               commentId={reply.parent_id}
-                              articleURL={this.parentUrl} />
+                              articleURL={this.path} />
                           </div>
                       </div>;
                     })
