@@ -1,5 +1,4 @@
 const utils = require('../../utils/e2e-mongoose');
-const fetch = require('node-fetch');
 
 const mockComment = 'This is a test comment.';
 const mockReply = 'This is a test reply';
