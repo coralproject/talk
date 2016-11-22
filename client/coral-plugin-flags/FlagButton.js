@@ -10,12 +10,13 @@ const FlagButton = ({flag, id, postAction, deleteAction, addItem, updateItem, ad
     if (!flagged) {
       postAction(id, 'flag', '123', 'comments')
         .then((action) => {
-          addItem({...action, current_user:true}, 'actions');
-          updateItem(action.item_id, action.action_type, action.id, 'comments');
+          let id = `${action.action_type}_${action.item_id}`;
+          addItem({id, current_user: action, count: flag ? flag.count + 1 : 1}, 'actions');
+          updateItem(action.item_id, action.action_type, id, 'comments');
         });
       addNotification('success', lang.t('flag-notif'));
     } else {
-      deleteAction(id, 'flag', '123', 'comments')
+      deleteAction(flagged.id)
         .then(() => {
           updateItem(id, 'flag', '', 'comments');
         });
