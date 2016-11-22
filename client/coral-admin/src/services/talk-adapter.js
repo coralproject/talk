@@ -52,7 +52,7 @@ Promise.all([
 
 const updateComment = (store, comment) => {
   fetch(`/api/v1/comments/${comment.get('id')}/status`, {
-    method: 'POST',
+    method: 'PUT',
     headers: jsonHeader,
     body: JSON.stringify({status: comment.get('status')})
   })
