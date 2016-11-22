@@ -44,7 +44,7 @@ const SignInContent = ({handleChange, formData, ...props}) => (
       <div className={styles.action}>
         {
           !props.auth.isLoading ?
-          <Button type="submit" cStyle="black" className={styles.signInButton}>
+          <Button id='coralLogInButton' type="submit" cStyle="black" className={styles.signInButton}>
             {lang.t('signIn.signIn')}
           </Button>
           :
