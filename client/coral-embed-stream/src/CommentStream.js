@@ -162,7 +162,7 @@ class CommentStream extends Component {
                       let reply = this.props.items.comments[replyId];
                       return <div className="reply" key={replyId}>
                         <hr aria-hidden={true}/>
-                        <AuthorName author={users[comment.author_id]}/>
+                        <AuthorName author={users[reply.author_id]}/>
                         <PubDate created_at={reply.created_at}/>
                         <Content body={reply.body}/>
                         <div className="replyActionsLeft">
