@@ -3,6 +3,7 @@ import translations from './../translations';
 const lang = new I18n(translations);
 import * as actions from '../constants/auth';
 import {base, handleResp, getInit} from '../helpers/response';
+import {addItem} from './items';
 
 // Dialog Actions
 export const showSignInDialog = () => ({type: actions.SHOW_SIGNIN_DIALOG});
@@ -29,6 +30,7 @@ export const fetchSignIn = (formData) => dispatch => {
     .then(({user}) => {
       dispatch(hideSignInDialog());
       dispatch(signInSuccess(user));
+      dispatch(addItem(user, 'users'));
     })
     .catch(() => dispatch(signInFailure(lang.t('error.emailPasswordError'))));
 };
@@ -54,8 +56,10 @@ export const facebookCallback = (err, data) => dispatch => {
     return;
   }
   try {
-    dispatch(signInFacebookSuccess(JSON.parse(data)));
+    const user = JSON.parse(data);
+    dispatch(signInFacebookSuccess(user));
     dispatch(hideSignInDialog());
+    dispatch(addItem(user, 'users'));
   } catch (err) {
     dispatch(signInFacebookFailure(err));
     return;

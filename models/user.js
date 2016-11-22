@@ -461,13 +461,23 @@ UserService.findById = (id) => {
 };
 
 /**
- * Finds users in an array of idd.
+ * Finds users in an array of ids.
  * @param {Array} ids  array of user identifiers (uuid)
 */
 UserService.findByIdArray = (ids) => {
   return UserModel.find({
     'id': {$in: ids}
   });
+};
+
+/**
+ * Finds public user information by an array of ids.
+ * @param {Array} ids  array of user identifiers (uuid)
+*/
+UserService.findPublicByIdArray = (ids) => {
+  return UserModel.find({
+    'id': {$in: ids}
+  }, 'id displayName');
 };
 
 /**

@@ -44,6 +44,22 @@ describe('User: models', () => {
     });
   });
 
+  describe('#findPublicByIdArray()', () => {
+    it('should find an array of users from an array of ids', () => {
+      const ids = mockUsers.map((user) => user.id);
+      return User.findPublicByIdArray(ids).then((result) => {
+        expect(result).to.have.length(3);
+        const sorted = result.sort((a, b) =>     {
+          if(a.displayName < b.displayName) {return -1;}
+          if(a.displayName > b.displayName) {return 1;}
+          return 0;
+        });
+        expect(sorted[0]).to.have.property('displayName')
+          .and.to.equal('Marvel');
+      });
+    });
+  });
+
   describe('#findLocalUser', () => {
 
     it('should find a user when we give the right credentials', () => {
