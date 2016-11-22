@@ -34,7 +34,11 @@ export default store => next => action => {
 // Get comments to fill each of the three lists on the mod queue
 const fetchModerationQueueComments = store =>
 
-Promise.all([fetch('/api/v1/queue/comments/pending'), fetch('/api/v1/comments/status/rejected'), fetch('/api/v1/comments/action/flag')])
+Promise.all([
+  fetch('/api/v1/queue/comments/pending'),
+  fetch('/api/v1/comments?status=rejected'),
+  fetch('/api/v1/comments?action=flag')
+])
 .then(res => Promise.all(res.map(r => r.json())))
 .then(res => {
   res[2] = res[2].map(comment => { comment.flagged = true; return comment; });
@@ -48,7 +52,7 @@ Promise.all([fetch('/api/v1/queue/comments/pending'), fetch('/api/v1/comments/st
 
 const updateComment = (store, comment) => {
   fetch(`/api/v1/comments/${comment.get('id')}/status`, {
-    method: 'POST',
+    method: 'PUT',
     headers: jsonHeader,
     body: JSON.stringify({status: comment.get('status')})
   })

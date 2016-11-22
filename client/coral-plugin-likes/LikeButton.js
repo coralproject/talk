@@ -4,17 +4,21 @@ import translations from './translations.json';
 
 const name = 'coral-plugin-flags';
 
-const LikeButton = ({like, id, postAction, deleteAction, addItem, updateItem}) => {
+const LikeButton = ({like, id, postAction, deleteAction, addItem, updateItem, currentUser}) => {
   const liked = like && like.current_user;
   const onLikeClick = () => {
+    if (!currentUser) {
+      return;
+    }
     if (!liked) {
-      postAction(id, 'like', '123', 'comments')
+      postAction(id, 'like', currentUser.id, 'comments')
         .then((action) => {
-          addItem({id: action.id, current_user:true, count: like ? like.count + 1 : 1}, 'actions');
-          updateItem(action.item_id, action.action_type, action.id, 'comments');
+          let id = `${action.action_type}_${action.item_id}`;
+          addItem({id, current_user: action, count: like ? like.count + 1 : 1}, 'actions');
+          updateItem(action.item_id, action.action_type, id, 'comments');
         });
     } else {
-      deleteAction(id, 'like', '123', 'comments')
+      deleteAction(liked.id)
         .then(() => {
           updateItem(like.id, 'count', like.count - 1, 'actions');
           updateItem(like.id, 'current_user', false, 'actions');

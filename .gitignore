@@ -7,3 +7,4 @@ dist/coral-admin/bundle.js
 *.iml
 .env
 gaba.cfg
+.idea/
