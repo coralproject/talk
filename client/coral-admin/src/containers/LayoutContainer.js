@@ -1,13 +1,25 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Layout} from '../components/ui/Layout';
-import {checkLogin} from 'coral-framework/actions/auth';
+import {checkLogin} from '../actions/auth';
+import {NotFound} from '../components/NotFound';
+import {PermissionRequired} from '../components/PermissionRequired';
 
 class LayoutContainer extends Component {
   componentWillMount () {
     this.props.checkLogin();
   }
   render () {
+    const {isAdmin, loggedIn} = this.props.auth;
+
+    if (!loggedIn) {
+      return <NotFound />;
+    }
+
+    if (!isAdmin && loggedIn) {
+      return <PermissionRequired />;
+    }
+
     return <Layout {...this.props} />;
   }
 }

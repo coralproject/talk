@@ -4,13 +4,16 @@ import {base, handleResp, getInit} from '../helpers/response';
 // Check Login
 
 const checkLoginRequest = () => ({type: actions.CHECK_LOGIN_REQUEST});
-const checkLoginSuccess = user => ({type: actions.CHECK_LOGIN_SUCCESS, user});
+const checkLoginSuccess = (user, isAdmin) => ({type: actions.CHECK_LOGIN_SUCCESS, user, isAdmin});
 const checkLoginFailure = error => ({type: actions.CHECK_LOGIN_FAILURE, error});
 
 export const checkLogin = () => dispatch => {
   dispatch(checkLoginRequest());
   fetch(`${base}/auth`, getInit('GET'))
     .then(handleResp)
-    .then(user => dispatch(checkLoginSuccess(user)))
+    .then(user => {
+      const isAdmin = !!user.roles.filter(i => i === 'admin').length;
+      dispatch(checkLoginSuccess(user, isAdmin));
+    })
     .catch(error => dispatch(checkLoginFailure(error)));
 };
