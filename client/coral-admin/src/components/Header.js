@@ -10,14 +10,14 @@ export default (props) => (
   <Layout fixedDrawer>
     <Header title='Talk'>
       <Navigation>
-        <Link className={styles.navLink} to={'/admin/'}>{lang.t('configure.moderate')}</Link>
-        <Link className={styles.navLink} to={'/admin/configure'}>{lang.t('Configure')}</Link>
+        <Link className={styles.navLink} to='/'>{lang.t('configure.moderate')}</Link>
+        <Link className={styles.navLink} to='configure'>{lang.t('Configure')}</Link>
       </Navigation>
     </Header>
     <Drawer>
       <Navigation>
-        <Link className={styles.navLink} to={'/admin/'}>{lang.t('configure.moderate')}</Link>
-        <Link className={styles.navLink} to={'/admin/configure'}>{lang.t('configure.Configure')}</Link>
+        <Link className={styles.navLink} to='/'>{lang.t('configure.moderate')}</Link>
+        <Link className={styles.navLink} to='configure'>{lang.t('configure.Configure')}</Link>
       </Navigation>
     </Drawer>
     {props.children}
