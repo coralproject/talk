@@ -12,7 +12,7 @@
     "test": "mocha --compilers js:babel-core/register --recursive tests",
     "test-watch": "mocha --compilers js:babel-core/register --recursive -w tests",
     "pree2e": "./pree2e.sh",
-    "e2e": "node_modules/.bin/nightwatch",
+    "e2e": "source .env-test && node_modules/.bin/nightwatch",
     "embed-start": "NODE_ENV=development npm run build && ./bin/www"
   },
   "config": {

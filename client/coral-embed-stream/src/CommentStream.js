@@ -59,29 +59,12 @@ class CommentStream extends Component {
 
   componentDidMount () {
     // Set up messaging between embedded Iframe an parent component
-    // Using recommended Pym init code which violates .eslint standards
     const pym = new Pym.Child({polling: 100});
     const path = /https?\:\/\/([^?]+)/.exec(pym.parentUrl);
     this.props.getStream(path && path[1] || window.location);
   }
 
   render () {
-    if (Object.keys(this.props.items).length === 0) {
-        // Loading mock asset
-      this.props.postItem({
-        comments: [],
-        url: 'http://coralproject.net'
-      }, 'asset', 'assetTest');
-
-      // Loading mock user
-      //this.props.postItem({name: 'Ban Ki-Moon'}, 'user', 'user_8989')
-      //  .then((id) => {
-      //    this.props.setLoggedInUser(id);
-      //  });
-    }
-
-    // TODO: Replace teststream id with id from params
-
     const rootItemId = this.props.items.assets && Object.keys(this.props.items.assets)[0];
     const rootItem = this.props.items.assets && this.props.items.assets[rootItemId];
     const {actions, users, comments} = this.props.items;

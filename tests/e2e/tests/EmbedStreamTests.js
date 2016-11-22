@@ -10,7 +10,10 @@ const mockUser = {
 
 module.exports = {
   '@tags': ['embed-stream', 'comment', 'premodoff', 'premodon'],
-  'User Registers and posts a comment with premod off': client => {
+  before: () => {
+    utils.before();
+  },
+  'User registers and posts a comment with premod off': client => {
     client.perform((client, done) => {
       client.page.embedStream().setConfig({moderation: 'post'}, client.globals.baseUrl)
       .then(() => {
@@ -46,22 +49,14 @@ module.exports = {
       });
     });
   },
-  'User Logs In and posts a comment with premod on': client => {
+  'User posts a comment with premod on': client => {
     client.perform((client, done) => {
       client.page.embedStream().setConfig({moderation: 'pre'}, client.globals.baseUrl)
       .then(() => {
         //Load Page
         client.url(client.globals.baseUrl)
-          .frame('coralStreamIframe');
-
-          //Log In
-        client.waitForElementVisible('#commentBox', 10000)
-          .waitForElementVisible('#coralSignInButton', 2000)
-          .click('#coralSignInButton')
-          .waitForElementVisible('#coralLogInButton', 1000)
-          .setValue('#email', mockUser.email)
-          .setValue('#password', mockUser.pw)
-          .click('#coralLogInButton');
+          .frame('coralStreamIframe')
+          .pause(10000);
 
           // Post a comment
         client.waitForElementVisible('#commentBox .coral-plugin-commentbox-button', 2000)
@@ -75,7 +70,7 @@ module.exports = {
       });
     });
   },
-  'User Logs In and Replies to a comment with premod off': client => {
+  'User replies to a comment with premod off': client => {
     client.perform((client, done) => {
       client.page.embedStream().setConfig({moderation: 'post'}, client.globals.baseUrl)
       .then(() => {
@@ -84,17 +79,8 @@ module.exports = {
           .url(client.globals.baseUrl)
           .frame('coralStreamIframe');
 
-          //Log In
-        client.waitForElementVisible('#commentBox', 10000)
-          .waitForElementVisible('#coralSignInButton', 2000)
-          .click('#coralSignInButton')
-          .waitForElementVisible('#coralLogInButton', 1000)
-          .setValue('#email', mockUser.email)
-          .setValue('#password', mockUser.pw)
-          .click('#coralLogInButton');
-
           // Post a reply
-        client.waitForElementVisible('.coral-plugin-replies-reply-button', 2000)
+        client.waitForElementVisible('.coral-plugin-replies-reply-button', 5000)
           .click('.coral-plugin-replies-reply-button')
           .waitForElementVisible('#replyText')
           .setValue('#replyText', mockReply)
@@ -107,26 +93,18 @@ module.exports = {
       });
     });
   },
-  'User Logs In and Replies to a comment with premod on': client => {
+  'User replies to a comment with premod on': client => {
     client.perform((client, done) => {
       client.page.embedStream().setConfig({moderation: 'pre'}, client.globals.baseUrl)
       .then(() => {
         //Load Page
         client.resizeWindow(1200, 800)
           .url(client.globals.baseUrl)
-          .frame('coralStreamIframe');
-
-          //Log In
-        client.waitForElementVisible('#commentBox', 10000)
-          .waitForElementVisible('#coralSignInButton', 2000)
-          .click('#coralSignInButton')
-          .waitForElementVisible('#coralLogInButton', 1000)
-          .setValue('#email', mockUser.email)
-          .setValue('#password', mockUser.pw)
-          .click('#coralLogInButton');
+          .frame('coralStreamIframe')
+          .pause(60000);
 
           // Post a reply
-        client.waitForElementVisible('.coral-plugin-replies-reply-button', 2000)
+        client.waitForElementVisible('.coral-plugin-replies-reply-button', 5000)
           .click('.coral-plugin-replies-reply-button')
           .waitForElementVisible('#replyText')
           .setValue('#replyText', mockReply)
