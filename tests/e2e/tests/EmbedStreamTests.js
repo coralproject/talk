@@ -10,19 +10,11 @@ const mockUser = {
 };
 
 module.exports = {
-  '@tags': ['embed-stream', 'post'],
+  '@tags': ['embed-stream', 'comment', 'premodoff', 'premodon'],
   'User Registers and posts a comment with premod off': client => {
     client.perform((client, done) => {
-      return fetch(`${client.globals.baseUrl}/api/v1/settings`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          moderation: 'post'
-        })
-      }).then(() => {
+      client.page.embedStream().setConfig({moderation: 'post'}, client.globals.baseUrl)
+      .then(() => {
         //Load Page
         client.resizeWindow(1200, 800)
           .url(client.globals.baseUrl)
@@ -57,16 +49,8 @@ module.exports = {
   },
   'User Logs In and posts a comment with premod on': client => {
     client.perform((client, done) => {
-      fetch(`${client.globals.baseUrl}/api/v1/settings`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          moderation: 'pre'
-        })
-      }).then(() => {
+      client.page.embedStream().setConfig({moderation: 'pre'}, client.globals.baseUrl)
+      .then(() => {
         //Load Page
         client.url(client.globals.baseUrl)
           .frame('coralStreamIframe');
@@ -94,16 +78,40 @@ module.exports = {
   },
   'User Logs In and Replies to a comment with premod off': client => {
     client.perform((client, done) => {
-      fetch(`${client.globals.baseUrl}/api/v1/settings`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          moderation: 'post'
-        })
-      }).then(() => {
+      client.page.embedStream().setConfig({moderation: 'post'}, client.globals.baseUrl)
+      .then(() => {
+        //Load Page
+        client.resizeWindow(1200, 800)
+          .url(client.globals.baseUrl)
+          .frame('coralStreamIframe');
+
+          //Log In
+        client.waitForElementVisible('#commentBox', 10000)
+          .waitForElementVisible('#coralSignInButton', 2000)
+          .click('#coralSignInButton')
+          .waitForElementVisible('#coralLogInButton', 1000)
+          .setValue('#email', mockUser.email)
+          .setValue('#password', mockUser.pw)
+          .click('#coralLogInButton');
+
+          // Post a reply
+        client.waitForElementVisible('.coral-plugin-replies-reply-button', 2000)
+          .click('.coral-plugin-replies-reply-button')
+          .waitForElementVisible('#replyText')
+          .setValue('#replyText', mockReply)
+          .click('.coral-plugin-replies-textarea button')
+          .waitForElementVisible('.reply', 1000)
+
+          //Verify that it appears
+          .assert.containsText('.reply', mockReply);
+        done();
+      });
+    });
+  },
+  'User Logs In and Replies to a comment with premod on': client => {
+    client.perform((client, done) => {
+      client.page.embedStream().setConfig({moderation: 'pre'}, client.globals.baseUrl)
+      .then(() => {
         //Load Page
         client.resizeWindow(1200, 800)
           .url(client.globals.baseUrl)
