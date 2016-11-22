@@ -21,7 +21,7 @@ if (app.get('env') !== 'test') {
 // APP MIDDLEWARE
 //==============================================================================
 
-app.set('trust proxy', 'loopback');
+app.set('trust proxy', 1);
 app.use(helmet());
 app.use(bodyParser.json());
 app.use('/client', express.static(path.join(__dirname, 'dist')));
