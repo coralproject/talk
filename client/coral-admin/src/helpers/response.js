@@ -1,12 +1,15 @@
 export const base = '/api/v1';
 
 export const getInit = (method, body) => {
-  const headers = new Headers({
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  });
+  let init = {
+    method,
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    }),
+    credentials: 'same-origin'
+  };
 
-  const init = {method, headers};
   if (method.toLowerCase() !== 'get') {
     init.body = JSON.stringify(body);
   }
