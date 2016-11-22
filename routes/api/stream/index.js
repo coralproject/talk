@@ -1,4 +1,5 @@
 const express = require('express');
+const _ = require('lodash');
 
 const Comment = require('../../../models/comment');
 const User = require('../../../models/user');
@@ -25,9 +26,9 @@ router.get('/', (req, res, next) => {
     case 'pre':
       return Promise.all([Comment.findAcceptedByAssetId(asset.id), asset]);
     case 'post':
-      return  Promise.all([Comment.findAcceptedAndNewByAssetId(asset.id), asset]);
+      return Promise.all([Comment.findAcceptedAndNewByAssetId(asset.id), asset]);
     default:
-      throw new Error('Moderation setting not found.');
+      return Promise.reject(new Error('Moderation setting not found.'));
     }
   })
   // Get all the users and actions for those comments.
@@ -35,8 +36,12 @@ router.get('/', (req, res, next) => {
     return Promise.all([
       [asset],
       comments,
-      User.findPublicByIdArray(comments.map((comment) => comment.author_id)),
-      Action.getActionSummaries(comments.map((comment) => comment.id))
+      User.findByIdArray(_.uniq(comments.map((comment) => comment.author_id))),
+      Action.getActionSummaries(_.uniq([
+        asset.id,
+        ...comments.map((comment) => comment.id),
+        ...comments.map((comment) => comment.author_id)
+      ]))
     ]);
   })
   .then(([assets, comments, users, actions]) => {

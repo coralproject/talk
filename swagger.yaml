@@ -7,221 +7,320 @@ host: talk-stg.coralproject.net
 schemes:
   - https
 basePath: /api/v1
+consumes:
+  - application/json
 produces:
   - application/json
+
 paths:
   /comments:
-    # get:
-    #   tags:
-    #     - Comments
-    #   produces:
-    #   - application/json
-    #   summary: Comment Types
-    #   description: |
-    #     This endpoint retrieves comments
-    #   parameters:
-    #     - name: id
-    #       in: query
-    #       description: Comment by id
-    #       required: false
-    #       type: string
-    #   responses:
-    #     200:
-    #       description: An array of comments
-    #       schema:
-    #         type: array
-    #         items:
-    #           $ref: '#/definitions/Comment'
+    get:
+      tags:
+        - Comments
+      parameters:
+        - name: status
+          in: query
+          description: Performs a search based on the comment's status.
+          type: string
+          enum:
+            - flag
+        - name: action_type
+          in: query
+          description: Performs a search based on the actions that have been added to it.
+          type: string
+          enum:
+            - rejected
+            - accepted
+            - new
+      responses:
+        200:
+          description: Comments matching the query.
+          schema:
+            type: array
+            items:
+              - $ref: '#/definitions/Comment'
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
     post:
-      description: Add a new comment
+      tags:
+        - Comments
       parameters:
         - name: body
           in: body
-          description: Body
-          required: true
+          description: The comment to create.
           schema:
             $ref: '#/definitions/Comment'
       responses:
         201:
-          description: "OK: Comment Added"
+          description: The comment that was created.
           schema:
-              $ref: '#/definitions/Comment'
+            $ref: '#/definitions/Comment'
         500:
-          description: "Error"
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
+  /comments/{comment_id}:
+    get:
+      tags:
+        - Comments
+      parameters:
+        - name: comment_id
+          in: path
+          description: The id of the comment to retrieve.
+          type: string
+          required: true
+      responses:
+        200:
+          description: The comment was found.
+          schema:
+            $ref: '#/definitions/Comment'
+        404:
+          description: The comment was not found.
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      tags:
+        - Comments
+      parameters:
+        - name: comment_id
+          in: path
+          description: The id of the comment to delete.
+          type: string
+          required: true
+      responses:
+        204:
+          description: The comment was deleted.
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
+  /comments/{comment_id}/status:
+    put:
+      tags:
+        - Comments
+        - Moderation
+      parameters:
+        - name: comment_id
+          in: path
+          description: The id of the comment to retrieve.
+          type: string
+          required: true
+        - name: body
+          in: body
+          description: The status to update to.
+          required: true
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                description: The status to update to.
+      responses:
+        204:
+          description: The comment status was updated.
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
   /comments/{comment_id}/actions:
     post:
       tags:
         - Comments
-      description: Add a action
+        - Actions
       parameters:
         - name: comment_id
           in: path
-          description: Comment ID
-          required: true
+          description: The id of the comment to retrieve.
           type: string
+          required: true
         - name: body
           in: body
-          description: comment
+          description: The action to add.
           required: true
           schema:
-            $ref: '#/definitions/Action'
+            type: object
+            properties:
+              action_type:
+                type: string
+                description: The action to add
       responses:
         201:
-          description: Action Added
+          description: The action created.
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Comment'
-  /comments/{comment_id}/status:
-    post:
+            $ref: '#/definitions/Action'
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
+  /actions/{action_id}:
+    delete:
       tags:
-        - Comments
-      description: Add a new status
+        - Actions
       parameters:
-        - name: comment_id
+        - name: action_id
           in: path
-          description: Comment ID
-          required: true
+          description: The id of the action to delete.
           type: string
-        - name: body
-          in: body
-          description: comment
           required: true
-          schema:
-            $ref: '#/definitions/ModerationAction'
       responses:
         204:
-          description: ModerationAction Added
-  /queue:
+          description: The action was deleted.
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
+  /auth:
     get:
       tags:
-        - Queue
-      description: Queue
-      parameters:
-        - name: type
-          in: query
-          description:
-            "pending: no status | flagged: flagged action + no status | rejected: rejected status"
-          required: true
-          type: string
-          enum:
-            - pending
-            - flagged
-            - rejected
-        - name: limit
-          in: query
-          description: Queue limit
-          required: false
-          type: integer
-        - name: skip
-          in: query
-          description: Skip
-          required: false
-          type: integer
+        - Auth
+      description: Retrieves the current authentication credentials.
       responses:
         200:
-          description: ModerationAction Added
+          description: The current user.
+          schema:
+            $ref: '#/definitions/User'
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      tags:
+        - Auth
+      description: Logs out the current authenticated user.
+      responses:
+        204:
+          description: The current user has been logged out.
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
+  /auth/local:
+    post:
+      tags:
+        - Auth
+      parameters:
+        - name: body
+          in: body
+          required: true
+          description: The login credentials.
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+                description: The email address of the current user.
+              password:
+                type: string
+                description: The password of the current user.
+      responses:
+        200:
+          description: The user has authenticated sucesfully.
+          schema:
+            $ref: '#/definitions/User'
+        401:
+          description: The authentication error.
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
+  /auth/facebook:
+    get:
+      tags:
+        - Auth
+      responses:
+        302:
+          description: Redirects the user to perform external facebook authentication.
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
+  /queue/comments/pending:
+    get:
+      tags:
+        - Comments
+        - Moderation
+      responses:
+        200:
+          description: The comments that are not moderated.
           schema:
             type: array
             items:
-              $ref: '#/definitions/ModerationAction'
+              - $ref: '#/definitions/Comment'
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
   /stream:
     get:
       tags:
-        - Stream
-      description: Stream
+        - Actions
+        - Assets
+        - Comments
+        - Users
       parameters:
-        - name: asset_id
+        - name: asset_url
           in: query
-          description: Description
-          required: true
+          description: The asset url to get the comment stream from.
           type: string
+          format: url
       responses:
         200:
-          description: OK
+          description: The comment stream.
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Item'
+            type: object
+            properties:
+              assets:
+                type: array
+                items:
+                  - $ref: '#/definitions/Asset'
+              comments:
+                type: array
+                items:
+                  - $ref: '#/definitions/Comment'
+              users:
+                type: array
+                items:
+                  - $ref: '#/definitions/User'
+              actions:
+                type: array
+                items:
+                  - $ref: '#/definitions/Actions'
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
   /settings:
     get:
-      tags:
-        - Settings
-      description: Settings
       responses:
         200:
-          description: Get Setting
+          description: The settings.
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Setting'
+            $ref: '#/definitions/Settings'
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
     put:
-      tags:
-        - Settings
-      description: Settings
       responses:
         204:
-          description: OK
-
-  /user/request-password-reset:
-    post:
-      tags:
-        - Users
-      description: trigger a reset password email. sends a success code whether email was found or no.
-      responses:
-        204:
-          description: OK
-
-  /user/update-password:
-    post:
-      tags:
-        - Users
-      description: Update existing user password
-      parameters:
-        - name: token
-          type: string
-          in: body
-          description: JSON Web token taken taken from emailed link
-          required: true
-        - name: password
-          type: string
-          in: body
-          description: new password to be settings
-          required: true
-      responses:
-        204:
-          description: OK
-
-  /asset:
-    get:
-      tags:
-        - Asset
-      description: Get an asset by id.
-      responses:
-        200:
-          description: OK
-    put:
-      tags:
-        - Asset
-      description: Upsert an asset.
-      responses:
-        204:
-          description: OK
-  /asset?url={url}:
-    get:
-      tags:
-        - Asset
-      parameters:
-        - name: url
-          in: query
-          description: The url of the asset.
-          required: true
-      description: Get an asset by its url.
-      responses:
-        200:
-          description: OK
-
+          description: The settings were updated.
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
+  Error:
+    type: object
+    properties:
+      message:
+        type: string
+        description: The error that occured.
   Item:
     type: object
   ModerationAction:
@@ -314,5 +413,10 @@ definitions:
         type: string
         description: An array of the authors for this asset.
       publication_date:
-        type: date
-        desctipion: When this asset was published.
+        type: string
+        format: datetime
+        description: When this asset was published.
+  User:
+    type: object
+  Settings:
+    type: object

@@ -129,3 +129,14 @@ input.error{
 .action {
     margin-top: 15px;
 }
+
+.passwordRequestSuccess {
+    border: 1px solid green;
+    background-color: lightgreen;
+    padding: 10px;
+}
+
+.passwordRequestFailure {
+    border: 1px solid orange;
+    background-color: 1px solid coral
+}

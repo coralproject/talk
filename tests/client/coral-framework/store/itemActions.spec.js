@@ -175,7 +175,7 @@ describe('itemActions', () => {
       fetchMock.delete('*', {});
       return actions.deleteAction('abc', 'flag', '123', 'comments')(store.dispatch)
         .then(response => {
-          expect(fetchMock.calls().matched[0][0]).to.equal('/api/v1/comments/abc/actions');
+          expect(fetchMock.calls().matched[0][0]).to.equal('/api/v1/actions/abc');
           expect(response).to.deep.equal({});
         });
     });
