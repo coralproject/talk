@@ -1,11 +1,11 @@
 
 import React from 'react';
-import {FABButton, Icon} from 'react-mdl';
 import timeago from 'timeago.js';
 import styles from './CommentList.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations.json';
 import Linkify from 'react-linkify';
+import {FabButton} from 'coral-ui';
 
 const linkify = new Linkify();
 
@@ -27,12 +27,11 @@ export default props => {
           <span className={styles.hasLinks}><Icon name='error_outline'/> Contains Link</span> : null}
           <div className={styles.actions}>
             {props.actions.map((action, i) => canShowAction(action, props.comment) ? (
-              <FABButton className={styles.actionButton}
+              <FabButton icon={props.actionsMap[action].icon} className={styles.actionButton}
+                cStyle={action}
                 key={i}
                 onClick={() => props.onClickAction(props.actionsMap[action].status, props.comment.get('id'))}
-                colored ripple>
-                <Icon name={props.actionsMap[action].icon} />
-              </FABButton>
+              />
             ) : null)}
           </div>
         </div>
