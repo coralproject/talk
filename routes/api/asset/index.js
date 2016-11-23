@@ -30,15 +30,4 @@ router.get('/:id', (req, res, next) => {
 
 });
 
-// Upsert an asset and return the affected document.
-router.put('/', (req, res, next) => {
-
-  Asset.upsert(req.body)
-    .then((asset) => {
-      res.json(asset);
-    })
-    .catch(next);
-
-});
-
 module.exports = router;
