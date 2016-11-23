@@ -1,18 +1,22 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import key from 'keymaster';
+
 import ModerationKeysModal from 'components/ModerationKeysModal';
 import CommentList from 'components/CommentList';
+
 import {updateStatus} from 'actions/comments';
 import {updateUserStatus} from 'actions/users';
 import styles from './ModerationQueue.css';
-import key from 'keymaster';
+
 import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from '../translations.json';
+import translations from '../../translations.json';
 
 /*
- * Renders the moderation queue as a tabbed layout with 3 moderation
- * queues filtered by status (Untouched, Rejected and Approved)
- * Pending queue also includes the comments that are flagged in the post-moderation setting.
+ * Renders the moderation queue as a tabbed layout with 3 moderation queues
+ * * pending: filtered by status Untouchedand comments that are flagged in the post-moderation setting.
+ * * rejected: filtered by status Rejected
+ * * flagged: with a flagged action on them
  */
 
 class ModerationQueue extends React.Component {

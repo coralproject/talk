@@ -37,7 +37,7 @@ const fetchModerationQueueComments = store =>
 Promise.all([
   fetch('/api/v1/queue/comments/pending'),
   fetch('/api/v1/comments?status=rejected'),
-  fetch('/api/v1/comments?action=flag')
+  fetch('/api/v1/comments?action_type=flag')
 ])
 .then(res => Promise.all(res.map(r => r.json())))
 .then(res => {
