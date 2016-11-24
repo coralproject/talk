@@ -1,4 +1,10 @@
+import sortBy from 'lodash/sortBy';
+
 /* Item Actions */
+
+export const REQUEST_COMMENTS_BY_USER = 'REQUEST_COMMENTS_BY_USER';
+export const RECEIVE_COMMENTS_BY_USER = 'RECEIVE_COMMENTS_BY_USER';
+export const FAILURE_COMMENTS_BY_USER = 'FAILURE_COMMENTS_BY_USER';
 
 /**
  * Action name constants
@@ -84,6 +90,27 @@ export const appendItemArray = (id, property, value, add_to_front, item_type) =>
   };
 };
 
+/**
+ *
+ * Get a list of comments by a single user
+ *
+ * @param {string} user_id
+ * @returns Promise
+ */
+export const fetchCommentsByUserId = userId => {
+  return (dispatch) => {
+    dispatch({type: REQUEST_COMMENTS_BY_USER});
+    return fetch(`/api/v1/comments?user_id=${userId}`, getInit('GET'))
+      .then(responseHandler)
+      .then(comments => {
+        dispatch({type: RECEIVE_COMMENTS_BY_USER, comments});
+      })
+      .catch(error => {
+        dispatch({type: FAILURE_COMMENTS_BY_USER, error});
+      });
+  };
+};
+
 /*
 * Get Items from Query
 * Gets a set of items from a predefined query
@@ -104,25 +131,24 @@ export function getStream (assetUrl) {
       .then((json) => {
 
         /* Add items to the store */
-        const itemTypes = Object.keys(json);
-        for (let i = 0; i < itemTypes.length; i++ ) {
-          if (itemTypes[i] === 'actions') {
-            for (let j = 0; j < json[itemTypes[i]].length; j++ ) {
-              let action = json[itemTypes[i]][j];
+        Object.keys(json).forEach(type => {
+          if (type === 'actions') {
+            json[type].forEach(action => {
               action.id = `${action.action_type}_${action.item_id}`;
               dispatch(addItem(action, 'actions'));
-            }
+            });
           } else {
-            for (let j = 0; j < json[itemTypes[i]].length; j++ ) {
-              dispatch(addItem(json[itemTypes[i]][j], itemTypes[i]));
-            }
+            json[type].forEach(item => {
+              dispatch(addItem(item, type));
+            });
           }
-        }
+        });
 
         const assetId = json.assets[0].id;
 
         /* Sort comments by date*/
         json.comments.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+
         const rels = json.comments.reduce((h, item) => {
           /* Check for root and child comments. */
           if (
@@ -140,15 +166,14 @@ export function getStream (assetUrl) {
 
         dispatch(updateItem(assetId, 'comments', rels.rootComments, 'assets'));
 
-        const childKeys = Object.keys(rels.childComments);
-        for (let i = 0; i < childKeys.length; i++ ) {
-          dispatch(updateItem(childKeys[i], 'children', rels.childComments[childKeys[i]].reverse(), 'comments'));
-        }
+        Object.keys(rels.childComments).forEach(key => {
+          dispatch(updateItem(key, 'children', rels.childComments[key].reverse(), 'comments'));
+        });
 
         /* Hydrate actions on comments */
-        for (let i = 0; i < json.actions.length; i++ ) {
-          dispatch(updateItem(json.actions[i].item_id, json.actions[i].action_type, json.actions[i].id, 'comments'));
-        }
+        json.actions.forEach(action => {
+          dispatch(updateItem(action.item_id, action.action_type, action.id, 'comments'));
+        });
 
         return (json);
       });

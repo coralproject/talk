@@ -19,6 +19,7 @@ import LikeButton from '../../coral-plugin-likes/LikeButton';
 import PermalinkButton from '../../coral-plugin-permalinks/PermalinkButton';
 import SignInContainer from '../../coral-sign-in/containers/SignInContainer';
 import UserBox from '../../coral-sign-in/components/UserBox';
+import CommentHistory from '../../coral-plugin-history/CommentHistory';
 
 const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appendItemArray} = itemActions;
 const {addNotification, clearNotification} = notificationActions;
@@ -87,6 +88,7 @@ class CommentStream extends Component {
     const {actions, users, comments} = this.props.items;
     const {loggedIn, user, showSignInDialog} = this.props.auth;
     return <div className={showSignInDialog ? 'expandForSignin' : ''}>
+      <CommentHistory />
       {
         rootItem
         ? <div>

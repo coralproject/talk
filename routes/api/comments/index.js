@@ -11,6 +11,8 @@ router.get('/', (req, res, next) => {
     query = Comment.findByStatus(req.query.status);
   } else if (req.query.action_type) {
     query = Comment.findByActionType(req.query.action_type);
+  } else if (req.query.user_id) {
+    query = Comment.findByUserId(req.query.user_id);
   } else {
     query = Comment.all();
   }
