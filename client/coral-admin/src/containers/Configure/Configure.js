@@ -1,7 +1,6 @@
-
 import React from 'react';
 import {connect} from 'react-redux';
-import {fetchSettings, updateSettings, saveSettingsToServer} from '../actions/settings';
+import {fetchSettings, updateSettings, saveSettingsToServer} from '../../actions/settings';
 import {
   List,
   ListItem,
@@ -14,7 +13,7 @@ import {
 } from 'react-mdl';
 import styles from './Configure.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from '../translations.json';
+import translations from '../../translations.json';
 
 class Configure extends React.Component {
   constructor (props) {
@@ -23,9 +22,13 @@ class Configure extends React.Component {
     this.state = {activeSection: 'comments', copied: false};
 
     this.copyToClipBoard = this.copyToClipBoard.bind(this);
+
+    // Update settings
     this.updateModeration = this.updateModeration.bind(this);
+    // InfoBox has two settings. Enable or not and the content of it if it is enable.
     this.updateInfoBoxEnable = this.updateInfoBoxEnable.bind(this);
     this.updateInfoBoxContent = this.updateInfoBoxContent.bind(this);
+
     this.saveSettings = this.saveSettings.bind(this);
   }
 
