@@ -7,8 +7,9 @@ const fs = require('fs');
 const path = require('path');
 const resetEmailFile = fs.readFileSync(path.resolve(__dirname, '../../../views/password-reset-email.ejs'));
 const resetEmailTemplate = ejs.compile(resetEmailFile.toString());
+const authorization = require('../../../middleware/authorization');
 
-router.get('/', (req, res, next) => {
+router.get('/', authorization.needed('admin'), (req, res, next) => {
   const {
     value = '',
     field = 'created_at',
@@ -49,7 +50,7 @@ router.get('/', (req, res, next) => {
   .catch(next);
 });
 
-router.post('/:user_id/role', (req, res, next) => {
+router.post('/:user_id/role', authorization.needed('admin'), (req, res, next) => {
   User
     .addRoleToUser(req.params.user_id, req.body.role)
     .then(role => {

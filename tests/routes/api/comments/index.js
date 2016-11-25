@@ -1,6 +1,7 @@
 process.env.NODE_ENV = 'test';
 
 require('../../../utils/mongoose');
+const passport = require('../../../utils/passport');
 
 const app = require('../../../../app');
 const chai = require('chai');
@@ -68,6 +69,7 @@ describe('Get /comments', () => {
   it('should return all the comments', () => {
     return chai.request(app)
       .get('/api/v1/comments')
+      .set(passport.inject({roles: ['admin']}))
       .then((res) => {
 
         expect(res).to.have.status(200);
@@ -126,6 +128,7 @@ describe('Get comments by status and action', () => {
   it('should return all the rejected comments', () => {
     return chai.request(app)
       .get('/api/v1/comments?status=rejected')
+      .set(passport.inject({roles: ['admin']}))
       .then((res) => {
         expect(res).to.have.status(200);
         expect(res.body[0]).to.have.property('id', 'abc');
@@ -135,6 +138,7 @@ describe('Get comments by status and action', () => {
   it('should return all the approved comments', () => {
     return chai.request(app)
       .get('/api/v1/comments?status=accepted')
+      .set(passport.inject({roles: ['admin']}))
       .then((res) => {
         expect(res).to.have.status(200);
         expect(res.body[0]).to.have.property('id', 'hij');
@@ -144,6 +148,7 @@ describe('Get comments by status and action', () => {
   it('should return all the new comments', () => {
     return chai.request(app)
       .get('/api/v1/comments?status=new')
+      .set(passport.inject({roles: ['admin']}))
       .then((res) => {
         expect(res).to.have.status(200);
         expect(res.body[0]).to.have.property('id', 'def');
@@ -153,6 +158,7 @@ describe('Get comments by status and action', () => {
   it('should return all the flagged comments', () => {
     return chai.request(app)
       .get('/api/v1/comments?action_type=flag')
+      .set(passport.inject({roles: ['admin']}))
       .then((res) => {
         expect(res).to.have.status(200);
 
@@ -195,6 +201,7 @@ describe('Post /comments', () => {
   it('should create a comment', () => {
     return chai.request(app)
       .post('/api/v1/comments')
+      .set(passport.inject({roles: []}))
       .send({'body': 'Something body.', 'author_id': '123', 'asset_id': '1', 'parent_id': ''})
       .then((res) => {
         expect(res).to.have.status(201);
@@ -205,6 +212,7 @@ describe('Post /comments', () => {
   it('should create a comment with a rejected status if it contains a bad word', () => {
     return chai.request(app)
       .post('/api/v1/comments')
+      .set(passport.inject({roles: []}))
       .send({'body': 'bad words are the baddest', 'author_id': '123', 'asset_id': '1', 'parent_id': ''})
       .then((res) => {
         expect(res).to.have.status(201);
@@ -262,6 +270,7 @@ describe('Get /:comment_id', () => {
   it('should return the right comment for the comment_id', () => {
     return chai.request(app)
       .get('/api/v1/comments/abc')
+      .set(passport.inject({roles: ['admin']}))
       .then((res) => {
         expect(res).to.have.status(200);
         expect(res).to.have.property('body');
@@ -318,6 +327,7 @@ describe('Remove /:comment_id', () => {
   it('it should remove comment', () => {
     return chai.request(app)
       .delete('/api/v1/comments/abc')
+      .set(passport.inject({roles: ['admin']}))
       .then((res) => {
         expect(res).to.have.status(204);
 
@@ -327,11 +337,6 @@ describe('Remove /:comment_id', () => {
         expect(comment).to.be.null;
       });
   });
-});
-
-process.on('unhandledRejection', (reason) => {
-  console.error('Reason: ');
-  console.error(reason);
 });
 
 describe('Put /:comment_id/status', () => {
@@ -384,10 +389,24 @@ describe('Put /:comment_id/status', () => {
   it('it should update status', function() {
     return chai.request(app)
       .put('/api/v1/comments/abc/status')
+      .set(passport.inject({roles: ['admin']}))
       .send({status: 'accepted'})
       .then((res) => {
         expect(res).to.have.status(204);
         expect(res.body).to.be.empty;
+      });
+  });
+
+  it('it should not allow a non-admin to update status', () => {
+    return chai.request(app)
+      .put('/api/v1/comments/abc/status')
+      .set(passport.inject({roles: []}))
+      .send({status: 'accepted'})
+      .then((res) => {
+        expect(res).to.be.empty;
+      })
+      .catch((err) => {
+        expect(err).to.have.property('status', 401);
       });
   });
 });
@@ -442,6 +461,7 @@ describe('Post /:comment_id/actions', () => {
   it('it should update actions', () => {
     return chai.request(app)
       .post('/api/v1/comments/abc/actions')
+      .set(passport.inject({roles: ['admin']}))
       .send({'user_id': '456', 'action_type': 'flag'})
       .then((res) => {
         expect(res).to.have.status(201);

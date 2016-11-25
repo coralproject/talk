@@ -1,10 +1,11 @@
 const express = require('express');
 const Comment = require('../../../models/comment');
 const wordlist = require('../../../services/wordlist');
+const authorization = require('../../../middleware/authorization');
 
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
+router.get('/', authorization.needed('admin'), (req, res, next) => {
   let query;
 
   if (req.query.status) {
@@ -49,7 +50,7 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
     });
 });
 
-router.get('/:comment_id', (req, res, next) => {
+router.get('/:comment_id', authorization.needed('admin'), (req, res, next) => {
   Comment
     .findById(req.params.comment_id)
     .then(comment => {
@@ -65,7 +66,7 @@ router.get('/:comment_id', (req, res, next) => {
     });
 });
 
-router.delete('/:comment_id', (req, res, next) => {
+router.delete('/:comment_id', authorization.needed('admin'), (req, res, next) => {
   Comment
     .removeById(req.params.comment_id)
     .then(() => {
@@ -76,7 +77,7 @@ router.delete('/:comment_id', (req, res, next) => {
     });
 });
 
-router.put('/:comment_id/status', (req, res, next) => {
+router.put('/:comment_id/status', authorization.needed('admin'), (req, res, next) => {
 
   const {
     status

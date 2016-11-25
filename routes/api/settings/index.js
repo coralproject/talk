@@ -1,7 +1,8 @@
-const _ = require('lodash');
 const express = require('express');
-const router = express.Router();
 const Setting = require('../../../models/setting');
+const _ = require('lodash');
+
+const router = express.Router();
 
 router.get('/', (req, res, next) => {
   Setting

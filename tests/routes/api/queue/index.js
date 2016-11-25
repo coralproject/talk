@@ -1,6 +1,7 @@
 process.env.NODE_ENV = 'test';
 
 require('../../../utils/mongoose');
+const passport = require('../../../utils/passport');
 
 const app = require('../../../../app');
 const chai = require('chai');
@@ -71,6 +72,7 @@ describe('Get moderation queues rejected, pending, flags', () => {
   it('should return all the pending comments', function(done){
     chai.request(app)
       .get('/api/v1/queue/comments/pending')
+      .set(passport.inject({roles: ['admin']}))
       .end(function(err, res){
         expect(err).to.be.null;
         expect(res).to.have.status(200);

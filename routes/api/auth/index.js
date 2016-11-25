@@ -14,7 +14,7 @@ router.get('/', authorization.needed(), (req, res) => {
 /**
  * This destroys the session of a user, if they have one.
  */
-router.delete('/', (req, res) => {
+router.delete('/', authorization.needed(), (req, res) => {
   req.session.destroy(() => {
     res.status(204).end();
   });
