@@ -11,36 +11,34 @@ process.env.DEBUG = process.env.TALK_DEBUG;
  */
 
 const program = require('commander');
-const mongoose = require('../mongoose');
-const Setting = require('../models/setting');
+const scraper = require('../services/scraper');
 const util = require('../util');
+const mongoose = require('../mongoose');
 
-// Regeister the shutdown criteria.
 util.onshutdown([
   () => mongoose.disconnect()
 ]);
+
+function processJobs() {
+
+  // Start the processor.
+  scraper.process();
+
+  // The scraper only needs to shutdown when the scraper has actually been
+  // started.
+  util.onshutdown([
+    () => scraper.shutdown()
+  ]);
+}
 
 //==============================================================================
 // Setting up the program command line arguments.
 //==============================================================================
 
 program
-  .command('init')
-  .description('initilizes the talk settings')
-  .action(() => {
-    const defaults = {id: '1', moderation: 'pre'};
-
-    Setting
-      .update({id: '1'}, {$setOnInsert: defaults}, {upsert: true})
-      .then(() => {
-        console.log('Created settings object.');
-        util.shutdown();
-      })
-      .catch((err) => {
-        console.error(`failed to create the settings object ${JSON.stringify(err)}`);
-        util.shutdown(1);
-      });
-  });
+  .command('process')
+  .description('starts job processing')
+  .action(processJobs);
 
 program.parse(process.argv);
 

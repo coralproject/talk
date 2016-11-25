@@ -1,0 +1,131 @@
+#!/usr/bin/env node
+
+/**
+ * Setup the debug paramater.
+ */
+
+process.env.DEBUG = process.env.TALK_DEBUG;
+
+const app = require('../app');
+const debug = require('debug')('talk:server');
+const http = require('http');
+const init = require('../init');
+const port = normalizePort(process.env.TALK_PORT || '3000');
+const scraper = require('../services/scraper');
+const mongoose = require('../mongoose');
+const util = require('../util');
+
+/**
+* Get port from environment and store in Express.
+*/
+app.set('port', port);
+
+/**
+* Create HTTP server.
+*/
+const server = http.createServer(app);
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  let bind = typeof port === 'string'
+    ? `Pipe ${port}`
+    : `Port ${port}`;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+  case 'EACCES':
+    console.error(`${bind} requires elevated privileges`);
+    break;
+  case 'EADDRINUSE':
+    console.error(`${bind} is already in use`);
+    break;
+  }
+
+  throw error;
+}
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  let port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  let addr = server.address();
+  let bind = typeof addr === 'string'
+    ? `pipe ${  addr}`
+    : `port ${  addr.port}`;
+  debug(`Listening on ${  bind}`);
+}
+
+/**
+ * Start the app.
+ */
+function startApp() {
+  init().then(() => {
+
+    /**
+    * Listen on provided port, on all network interfaces.
+    */
+    server.listen(port);
+    server.on('error', onError);
+    server.on('listening', onListening);
+  });
+}
+
+/**
+ * Module dependencies.
+ */
+
+const program = require('commander');
+
+//==============================================================================
+// Setting up the program command line arguments.
+//==============================================================================
+
+program
+  .option('-j, --jobs', 'enable job processing on this thread')
+  .parse(process.argv);
+
+// Start the application serving.
+startApp();
+
+// Enable job processing on the thread if enabled.
+if (program.jobs) {
+
+  // Start the processor.
+  scraper.process();
+}
+
+// Define a safe shutdown function to call in the event we need to shutdown
+// because the node hooks are below which will interrupt the shutdown process.
+// Shutdown the mongoose connection, the app server, and the scraper.
+util.onshutdown([
+  () => program.jobs ? scraper.shutdown() : null,
+  () => mongoose.disconnect(),
+  () => server.close()
+]);
