@@ -1,12 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/embed/stream/preview', (req, res) => {
-  res.render('embed-stream', {basePath: '/client/embed/stream'});
-});
-
-// this route is expecting there to be a token in the hash
-// see /views/password-reset-email.ejs
+// GET /password-reset expects an OpenID token in the hash.
+// Links to this endpoit are generated in /views/password-reset-email.ejs.
 router.get('/password-reset', (req, res, next) => {
   // TODO: store the redirect uri in the token or something fancy
   // admins and regular users should probably be redirected to different places.
