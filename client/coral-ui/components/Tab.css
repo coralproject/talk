@@ -1,0 +1,20 @@
+.active {
+  background: #F0F0F0;
+}
+
+.base {
+  color: #4E5259;
+  border: solid 1px #D8D8D8;
+  background: white;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  display: inline-block;
+  border-bottom: none;
+  padding: 8px 10px;
+  margin-right: -1px;
+}
+
+.base:hover {
+  background: #f3f3f3;
+  cursor: pointer;
+}
