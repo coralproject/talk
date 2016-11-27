@@ -4,9 +4,9 @@ import Header from './Header';
 import Drawer from './Drawer';
 import styles from './Layout.css';
 
-export const Layout = ({children}) => (
+export const Layout = ({children, ...props}) => (
   <LayoutMDL fixedDrawer>
-    <Header />
+    <Header {...props}/>
     <Drawer />
     <div className={styles.layout} >
       {children}

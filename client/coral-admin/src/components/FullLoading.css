@@ -1,0 +1,12 @@
+.layout {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.layout h1 {
+  font-size: 40px;
+}
+
+.layout img {
+  width: 100%;
+}
