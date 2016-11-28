@@ -1,6 +1,5 @@
 const express = require('express');
 const Comment = require('../../../models/comment');
-
 const Setting = require('../../../models/setting');
 
 const router = express.Router();

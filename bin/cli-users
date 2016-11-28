@@ -13,14 +13,20 @@ process.env.DEBUG = process.env.TALK_DEBUG;
 const program = require('commander');
 const pkg = require('../package.json');
 const prompt = require('prompt');
+const User = require('../models/user');
+const mongoose = require('../mongoose');
+const util = require('../util');
+const Table = require('cli-table');
+
+// Regeister the shutdown criteria.
+util.onshutdown([
+  () => mongoose.disconnect()
+]);
 
 /**
  * Prompts for input and registers a user based on those.
  */
 function createUser(options) {
-  const User = require('../models/user');
-  const mongoose = require('../mongoose');
-
   return new Promise((resolve, reject) => {
 
     if (options.flag_mode) {
@@ -74,11 +80,11 @@ function createUser(options) {
   })
   .then((user) => {
     console.log(`Created user ${user.id}.`);
-    mongoose.disconnect();
+    util.shutdown();
   })
   .catch((err) => {
     console.error(err);
-    mongoose.disconnect();
+    util.shutdown();
   });
 }
 
@@ -86,20 +92,17 @@ function createUser(options) {
  * Deletes a user.
  */
 function deleteUser(userID) {
-  const User = require('../models/user');
-  const mongoose = require('../mongoose');
-
   User
     .findOneAndRemove({
       id: userID
     })
     .then(() => {
       console.log('Deleted user');
-      mongoose.disconnect();
+      util.shutdown();
     })
     .catch((err) => {
       console.error(err);
-      mongoose.disconnect();
+      util.shutdown();
     });
 }
 
@@ -107,9 +110,6 @@ function deleteUser(userID) {
  * Changes the password for a user.
  */
 function passwd(userID) {
-  const User = require('../models/user');
-  const mongoose = require('../mongoose');
-
   prompt.start();
 
   prompt.get([
@@ -128,13 +128,13 @@ function passwd(userID) {
   ], (err, result) => {
     if (err) {
       console.error(err);
-      mongoose.disconnect();
+      util.shutdown();
       return;
     }
 
     if (result.password !== result.confirmPassword) {
       console.error(new Error('Password mismatch'));
-      mongoose.disconnect();
+      util.shutdown(1);
       return;
     }
 
@@ -142,11 +142,11 @@ function passwd(userID) {
       .changePassword(userID, result.password)
       .then(() => {
         console.log('Password changed.');
-        mongoose.disconnect();
+        util.shutdown();
       })
       .catch((err) => {
         console.error(err);
-        mongoose.disconnect();
+        util.shutdown(1);
       });
   });
 }
@@ -155,9 +155,6 @@ function passwd(userID) {
  * Updates the user from the options array.
  */
 function updateUser(userID, options) {
-  const User = require('../models/user');
-  const mongoose = require('../mongoose');
-
   const updates = [];
 
   if (options.email && typeof options.email === 'string' && options.email.length > 0) {
@@ -189,11 +186,11 @@ function updateUser(userID, options) {
     .all(updates.map((q) => q.exec()))
     .then(() => {
       console.log(`User ${userID} updated.`);
-      mongoose.disconnect();
+      util.shutdown();
     })
     .catch((err) => {
       console.error(err);
-      mongoose.disconnect();
+      util.shutdown(1);
     });
 }
 
@@ -201,10 +198,6 @@ function updateUser(userID, options) {
  * Lists all the users registered in the database.
  */
 function listUsers() {
-  const Table = require('cli-table');
-  const User = require('../models/user');
-  const mongoose = require('../mongoose');
-
   User
     .all()
     .then((users) => {
@@ -231,11 +224,11 @@ function listUsers() {
       });
 
       console.log(table.toString());
-      mongoose.disconnect();
+      util.shutdown();
     })
     .catch((err) => {
       console.error(err);
-      mongoose.disconnect();
+      util.shutdown(1);
     });
 }
 
@@ -245,18 +238,15 @@ function listUsers() {
  * @param  {String} srcUserID id of the user to which is the source of the merge
  */
 function mergeUsers(dstUserID, srcUserID) {
-  const User = require('../models/user');
-  const mongoose = require('../mongoose');
-
   User
     .mergeUsers(dstUserID, srcUserID)
     .then(() => {
       console.log(`User ${srcUserID} was merged into user ${dstUserID}.`);
-      mongoose.disconnect();
+      util.shutdown();
     })
     .catch((err) => {
       console.error(err);
-      mongoose.disconnect();
+      util.shutdown(1);
     });
 }
 
@@ -266,18 +256,15 @@ function mergeUsers(dstUserID, srcUserID) {
  * @param  {String} role   the role to add
  */
 function addRole(userID, role) {
-  const User = require('../models/user');
-  const mongoose = require('../mongoose');
-
   User
     .addRoleToUser(userID, role)
     .then(() => {
       console.log(`Added the ${role} role to User ${userID}.`);
-      mongoose.disconnect();
+      util.shutdown();
     })
     .catch((err) => {
       console.error(err);
-      mongoose.disconnect();
+      util.shutdown(1);
     });
 }
 
@@ -287,18 +274,15 @@ function addRole(userID, role) {
  * @param  {String} role   the role to remove
  */
 function removeRole(userID, role) {
-  const User = require('../models/user');
-  const mongoose = require('../mongoose');
-
   User
     .removeRoleFromUser(userID, role)
     .then(() => {
       console.log(`Removed the ${role} role from User ${userID}.`);
-      mongoose.disconnect();
+      util.shutdown();
     })
     .catch((err) => {
       console.error(err);
-      mongoose.disconnect();
+      util.shutdown(1);
     });
 }
 
@@ -307,18 +291,15 @@ function removeRole(userID, role) {
  * @param  {String} userID the ID of a user to disable
  */
 function disableUser(userID) {
-  const User = require('../models/user');
-  const mongoose = require('../mongoose');
-
   User
     .disableUser(userID)
     .then(() => {
       console.log(`User ${userID} was disabled.`);
-      mongoose.disconnect();
+      util.shutdown();
     })
     .catch((err) => {
       console.error(err);
-      mongoose.disconnect();
+      util.shutdown(1);
     });
 }
 
@@ -327,18 +308,15 @@ function disableUser(userID) {
  * @param  {String} userID the ID of a user to enable
  */
 function enableUser(userID) {
-  const User = require('../models/user');
-  const mongoose = require('../mongoose');
-
   User
     .enableUser(userID)
     .then(() => {
       console.log(`User ${userID} was enabled.`);
-      mongoose.disconnect();
+      util.shutdown();
     })
     .catch((err) => {
       console.error(err);
-      mongoose.disconnect();
+      util.shutdown(1);
     });
 }
 
@@ -410,4 +388,5 @@ program.parse(process.argv);
 // If there is no command listed, output help.
 if (!process.argv.slice(2).length) {
   program.outputHelp();
+  util.shutdown();
 }

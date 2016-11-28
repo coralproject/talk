@@ -1,0 +1,49 @@
+#!/usr/bin/env node
+
+/**
+ * Setup the debug paramater.
+ */
+
+process.env.DEBUG = process.env.TALK_DEBUG;
+
+/**
+ * Module dependencies.
+ */
+
+const program = require('commander');
+const scraper = require('../services/scraper');
+const util = require('../util');
+const mongoose = require('../mongoose');
+
+util.onshutdown([
+  () => mongoose.disconnect()
+]);
+
+function processJobs() {
+
+  // Start the processor.
+  scraper.process();
+
+  // The scraper only needs to shutdown when the scraper has actually been
+  // started.
+  util.onshutdown([
+    () => scraper.shutdown()
+  ]);
+}
+
+//==============================================================================
+// Setting up the program command line arguments.
+//==============================================================================
+
+program
+  .command('process')
+  .description('starts job processing')
+  .action(processJobs);
+
+program.parse(process.argv);
+
+// If there is no command listed, output help.
+if (process.argv.length <= 2) {
+  program.outputHelp();
+  util.shutdown();
+}
