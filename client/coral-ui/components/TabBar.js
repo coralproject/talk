@@ -7,12 +7,14 @@ export class TabBar extends React.Component {
     this.handleClickTab = this.handleClickTab.bind(this);
   }
 
-  handleClickTab (e) {
-    console.log(e);
+  handleClickTab(tabId) {
+    if (this.props.onChange) {
+      this.props.onChange(tabId);
+    }
   }
 
   render() {
-    const {children, activeTab = 0, cStyle = 'base'} = this.props;
+    const {children, activeTab, cStyle = 'base'} = this.props;
     return (
       <div>
         <ul className={`${styles.base} ${cStyle ? styles[cStyle] : ''}`}>
