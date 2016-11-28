@@ -29,8 +29,7 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
   const {
     body,
     asset_id,
-    parent_id,
-    author_id
+    parent_id
   } = req.body;
 
   Comment
@@ -39,7 +38,7 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
       asset_id,
       parent_id,
       status: req.wordlist.matched ? 'rejected' : '',
-      author_id
+      author_id: req.user.id
     })
     .then((comment) => {
 
@@ -96,12 +95,11 @@ router.put('/:comment_id/status', authorization.needed('admin'), (req, res, next
 router.post('/:comment_id/actions', (req, res, next) => {
 
   const {
-    user_id,
     action_type
   } = req.body;
 
   Comment
-    .addAction(req.params.comment_id, user_id, action_type)
+    .addAction(req.params.comment_id, req.user.id, action_type)
     .then((action) => {
       res.status(201).json(action);
     })
