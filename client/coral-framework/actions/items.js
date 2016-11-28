@@ -104,6 +104,11 @@ export const fetchCommentsByUserId = userId => {
       .then(responseHandler)
       .then(comments => {
         dispatch({type: RECEIVE_COMMENTS_BY_USER, comments});
+
+        comments.forEach(comment => {
+          dispatch(addItem(comment, 'comments'));
+        });
+
       })
       .catch(error => {
         dispatch({type: FAILURE_COMMENTS_BY_USER, error});
