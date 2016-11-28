@@ -127,7 +127,13 @@ const checkLoginFailure = error => ({type: actions.CHECK_LOGIN_FAILURE, error});
 export const checkLogin = () => dispatch => {
   dispatch(checkLoginRequest());
   fetch(`${base}/auth`, getInit('GET'))
-    .then(handleResp)
+    .then((res) => {
+      if (res.status !== 200) {
+        throw new Error('not logged in');
+      }
+
+      return res.json();
+    })
     .then(user => dispatch(checkLoginSuccess(user)))
     .catch(error => dispatch(checkLoginFailure(error)));
 };

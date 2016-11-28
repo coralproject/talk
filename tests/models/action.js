@@ -1,5 +1,3 @@
-require('../utils/mongoose');
-
 const Action = require('../../models/action');
 const expect = require('chai').expect;
 

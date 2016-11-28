@@ -1,4 +1,4 @@
-const authorization = require('../../middleware/authorization');
+const authorization = require('../middleware/authorization');
 
 // Add the passport middleware here before it's setup.
 authorization.middleware.push((req, res, next) => {
