@@ -1,6 +1,8 @@
 const redis = require('./redis');
 
-const cache = module.exports = {};
+const cache = module.exports = {
+  client: redis.createClient()
+};
 
 /**
  * This collects a key that may either be an array or a string and creates a
@@ -51,7 +53,7 @@ cache.wrap = (key, expiry, work) => {
  * @return {Promise}
  */
 cache.get = (key) => new Promise((resolve, reject) => {
-  redis.get(keyfunc(key), (err, reply) => {
+  cache.client.get(keyfunc(key), (err, reply) => {
     if (err) {
       return reject(err);
     }
@@ -87,7 +89,7 @@ cache.set = (key, value, expiry) => new Promise((resolve, reject) => {
   // Serialize the value as JSON.
   let reply = JSON.stringify(value);
 
-  redis.set(keyfunc(key), reply, 'EX', expiry, (err) => {
+  cache.client.set(keyfunc(key), reply, 'EX', expiry, (err) => {
     if (err) {
       return reject(err);
     }
