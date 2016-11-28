@@ -119,22 +119,20 @@ export function getStream (assetUrl) {
       .then((json) => {
 
         /* Add items to the store */
-        const itemTypes = Object.keys(json);
-        for (let i = 0; i < itemTypes.length; i++ ) {
-          if (itemTypes[i] === 'actions') {
-            for (let j = 0; j < json[itemTypes[i]].length; j++ ) {
-              let action = json[itemTypes[i]][j];
+        Object.keys(json).forEach(type => {
+          if (type === 'actions') {
+            json[type].forEach(action => {
               action.id = `${action.action_type}_${action.item_id}`;
               dispatch(addItem(action, 'actions'));
-            }
-          } else if (itemTypes[i] === 'settings') {
-            return dispatch({type: UPDATE_SETTINGS, config: fromJS(json[itemTypes[i]])});
+            });
+          } else if (type === 'settings') {
+            dispatch({type: UPDATE_SETTINGS, config: fromJS(json[type])});
           } else {
-            for (let j = 0; j < json[itemTypes[i]].length; j++ ) {
-              dispatch(addItem(json[itemTypes[i]][j], itemTypes[i]));
-            }
+            json[type].forEach(item => {
+              dispatch(addItem(item, type));
+            });
           }
-        }
+        });
 
         const assetId = json.assets[0].id;
 
@@ -157,15 +155,14 @@ export function getStream (assetUrl) {
 
         dispatch(updateItem(assetId, 'comments', rels.rootComments, 'assets'));
 
-        const childKeys = Object.keys(rels.childComments);
-        for (let i = 0; i < childKeys.length; i++ ) {
-          dispatch(updateItem(childKeys[i], 'children', rels.childComments[childKeys[i]].reverse(), 'comments'));
-        }
+        Object.keys(rels.childComments).forEach(key => {
+          dispatch(updateItem(key, 'children', rels.childComments[key].reverse(), 'comments'));
+        });
 
         /* Hydrate actions on comments */
-        for (let i = 0; i < json.actions.length; i++ ) {
-          dispatch(updateItem(json.actions[i].item_id, json.actions[i].action_type, json.actions[i].id, 'comments'));
-        }
+        json.actions.forEach(action => {
+          dispatch(updateItem(action.item_id, action.action_type, action.id, 'comments'));
+        });
 
         return (json);
       });

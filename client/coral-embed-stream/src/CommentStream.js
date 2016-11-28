@@ -61,8 +61,12 @@ class CommentStream extends Component {
     // Set up messaging between embedded Iframe an parent component
     // Using recommended Pym init code which violates .eslint standards
     const pym = new Pym.Child({polling: 100});
-    const path = /https?\:\/\/([^?]+)/.exec(pym.parentUrl);
-    this.props.getStream(path && path[1] || window.location);
+
+    if (/https?\:\/\/([^?]+)/.test(pym.parentUrl)) {
+      this.props.getStream(pym.parentUrl);
+    } else {
+      this.props.getStream(window.location);
+    }
   }
 
   render () {
@@ -121,7 +125,8 @@ class CommentStream extends Component {
                 <div className="commentActionsLeft">
                   <ReplyButton
                     updateItem={this.props.updateItem}
-                    id={commentId}/>
+                    id={commentId}
+                    showReply={comment.showReply}/>
                   <LikeButton
                     addNotification={this.props.addNotification}
                     id={commentId}
@@ -162,13 +167,14 @@ class CommentStream extends Component {
                       let reply = this.props.items.comments[replyId];
                       return <div className="reply" key={replyId}>
                         <hr aria-hidden={true}/>
-                        <AuthorName author={users[comment.author_id]}/>
+                        <AuthorName author={users[reply.author_id]}/>
                         <PubDate created_at={reply.created_at}/>
                         <Content body={reply.body}/>
                         <div className="replyActionsLeft">
                             <ReplyButton
                               updateItem={this.props.updateItem}
-                              parent_id={reply.parent_id}/>
+                              id={replyId}
+                              showReply={reply.showReply}/>
                             <LikeButton
                               addNotification={this.props.addNotification}
                               id={replyId}
@@ -194,6 +200,17 @@ class CommentStream extends Component {
                                 asset_id={rootItemId}
                                 />
                           </div>
+                          <ReplyBox
+                            addNotification={this.props.addNotification}
+                            postItem={this.props.postItem}
+                            appendItemArray={this.props.appendItemArray}
+                            updateItem={this.props.updateItem}
+                            id={rootItemId}
+                            author={user}
+                            parent_id={commentId}
+                            child_id={replyId}
+                            premod={this.props.config.moderation}
+                            showReply={reply.showReply}/>
                       </div>;
                     })
                 }
