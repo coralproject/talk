@@ -8,9 +8,6 @@ import {base, handleResp, getInit} from '../helpers/response';
  * for the coral but also for wordpress comments, disqus and many more.
  */
 
-// Default headers for json payloads.
-const jsonHeader = new Headers({'Content-Type': 'application/json'});
-
 // Intercept redux actions and act over the ones we are interested
 export default store => next => action => {
 
