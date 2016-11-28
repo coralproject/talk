@@ -14,6 +14,7 @@
   border-bottom: none;
   padding: 8px 10px;
   margin-right: -1px;
+  user-select: none;
 }
 
 .base li:hover {
