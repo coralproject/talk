@@ -1,10 +1,10 @@
 import {base, handleResp, getInit} from '../helpers/response';
 import * as actions from '../constants/embedStream';
 
-export const changeTab = view => dispatch =>
+export const changeTab = activeTab => dispatch =>
   dispatch({
     type: actions.CHANGE_TAB,
-    view
+    activeTab
   });
 
 const userBioRequest = () => ({type: actions.FETCH_USER_BIO_REQUEST});
