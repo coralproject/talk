@@ -157,20 +157,17 @@ CommentSchema.statics.changeStatus = function(id, status) {
 
 /**
  * Add an action to the comment.
- * @param {String} id  identifier of the comment  (uuid)
+ * @param {String} item_id  identifier of the comment  (uuid)
+ * @param {String} user_id  user id of the action (uuid)
  * @param {String} action the new action to the comment
  * @return {Promise}
  */
-CommentSchema.statics.addAction = function(id, user_id, action_type) {
-  // check that the comment exist
-  let action  = new Action({
-    action_type: action_type,
-    item_type: 'comment',
-    item_id: id,
-    user_id: user_id
-  });
-  return action.save();
-};
+CommentSchema.statics.addAction = (item_id, user_id, action_type) => Action.insertUserAction({
+  item_id,
+  item_type: 'comment',
+  user_id,
+  action_type
+});
 
 //==============================================================================
 // Remove Statics

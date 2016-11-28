@@ -3,7 +3,6 @@ const uuid = require('uuid');
 const Schema = mongoose.Schema;
 
 const AssetSchema = new Schema({
-
   id: {
     type: String,
     default: uuid.v4,
@@ -19,12 +18,18 @@ const AssetSchema = new Schema({
     type: String,
     default: 'article'
   },
-  headline: String,
-  summary: String,
+  scraped: {
+    type: Date,
+    default: null
+  },
+  title: String,
+  description: String,
+  image: String,
   section: String,
   subsection: String,
-  authors: [String],
-  publication_date: Date
+  author: String,
+  publication_date: Date,
+  modified_date: Date
 }, {
   versionKey: false,
   timestamps: {
@@ -36,80 +41,42 @@ const AssetSchema = new Schema({
 /**
  * Search for assets. Currently only returns all.
 */
-AssetSchema.statics.search = function(query) {
-
-  return Asset.find(query).exec();
-
-};
+AssetSchema.statics.search = (query) => Asset.find(query);
 
 /**
  * Finds an asset by its id.
  * @param {String} id  identifier of the asset (uuid).
 */
-AssetSchema.statics.findById = function(id) {
-
-  return Asset.findOne({id}).exec();
-
-};
+AssetSchema.statics.findById = (id) => Asset.findOne({id});
 
 /**
  * Finds a asset by its url.
  * @param {String} url  identifier of the asset (uuid).
 */
-AssetSchema.statics.findByUrl = function(url) {
-
-  return Asset.findOne({'url': url}).exec();
-
-};
+AssetSchema.statics.findByUrl = (url) => Asset.findOne({url});
 
 /**
  * Finds a asset by its url.
+ *
+ * NOTE: This function has scalability concerns regarding mongoose's decision
+ * always write {updated_at: new Date()} on every call to findOneAndUpdate
+ * even though the update document exactly matches the query document... In
+ * the future this function should never update, only findOneAndCreate but this
+ * is not possible with the mongoose driver.
+ *
  * @param {String} url  identifier of the asset (uuid).
 */
-AssetSchema.statics.findOrCreateByUrl = function(url) {
+AssetSchema.statics.findOrCreateByUrl = (url) => Asset.findOneAndUpdate({url}, {url}, {
 
-  return Asset.findOne({url})
-    .then((asset) => asset ? asset
-      : Asset.upsert({url}));
-};
+  // Ensure that if it's new, we return the new object created.
+  new: true,
 
-/**
- * Upserts an asset.
-*/
-AssetSchema.statics.upsert = function(data) {
-  // If an id is not sent, create one.
-  if (typeof data.id === 'undefined') {
-    data.id = uuid.v4();
-  }
+  // Perform an upsert in the event that this doesn't exist.
+  upsert: true,
 
-  // Perform the upsert against the id field.
-  let updatePromise = Asset.update({id: data.id}, data, {upsert: true}).exec()
-    .then(() => {
-
-      // Pull the freshly minted asset out and return.
-      return Asset.findById(data.id);
-
-    })
-    .catch((err) => {
-
-      console.error('Error upserting asset.', err);
-      //return new Promise(); // ??? what do we return on error?
-
-    });
-
-  return updatePromise;
-
-};
-
-/**
- * Remove assets from the db.
- * @param {String} query  bson query to identify assets to be removed.
-*/
-AssetSchema.statics.removeAll = function(query) {
-
-  return Asset.remove(query).exec();
-
-};
+  // Set the default values if not provided based on the mongoose models.
+  setDefaultsOnInsert: true
+});
 
 const Asset = mongoose.model('Asset', AssetSchema);
 

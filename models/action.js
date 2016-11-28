@@ -28,6 +28,35 @@ ActionSchema.statics.findById = function(id) {
 };
 
 /**
+ * Add an action.
+ * @param {String} item_id  identifier of the comment  (uuid)
+ * @param {String} user_id  user id of the action (uuid)
+ * @param {String} action the new action to the comment
+ * @return {Promise}
+ */
+ActionSchema.statics.insertUserAction = ({item_id, item_type, user_id, action_type}) => {
+  const action = {
+    item_id,
+    item_type,
+    user_id,
+    action_type
+  };
+
+  // Create/Update the action.
+  return Action.findOneAndUpdate(action, action, {
+
+    // Ensure that if it's new, we return the new object created.
+    new: true,
+
+    // Perform an upsert in the event that this doesn't exist.
+    upsert: true,
+
+    // Set the default values if not provided based on the mongoose models.
+    setDefaultsOnInsert: true
+  });
+};
+
+/**
  * Finds actions in an array of ids.
  * @param {String} ids array of user identifiers (uuid)
 */

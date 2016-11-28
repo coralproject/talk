@@ -256,6 +256,86 @@ paths:
           description: An error occured.
           schema:
             $ref: '#/definitions/Error'
+  /asset:
+    get:
+      parameters:
+        - name: limit
+          in: query
+          type: number
+          format: int32
+          description: Limit the listing results
+        - name: skip
+          in: query
+          type: number
+          format: int32
+          description: Skip the listing results
+        - name: sort
+          in: query
+          enum:
+            - asc
+            - desc
+          type: string
+          description: Sorting method
+        - name: field
+          in: query
+          type: string
+          description: Field to sort by.
+      responses:
+        200:
+          description: Assets listed.
+          schema:
+            type: object
+            properties:
+              count:
+                type: number
+                description: Total number of assets found.
+              result:
+                type: array
+                items:
+                  $ref: '#/definitions/Asset'
+
+  /asset/{asset_id}:
+    get:
+      parameters:
+        - name: asset_id
+          in: path
+          required: true
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: The requested asset.
+          schema:
+            $ref: '#/definitions/Asset'
+        404:
+          description: The asset was not found.
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
+
+
+  /asset/{asset_id}/scrape:
+    post:
+      parameters:
+        - name: asset_id
+          in: path
+          required: true
+          type: string
+          format: uuid
+      responses:
+        201:
+          description: The job that was created.
+          schema:
+            $ref: '#/definitions/Job'
+        404:
+          description: The asset was not found.
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
+
+
   /stream:
     get:
       tags:
@@ -420,3 +500,10 @@ definitions:
     type: object
   Settings:
     type: object
+  Job:
+    type: object
+    properties:
+      id:
+        format: number
+      state:
+        format: string
