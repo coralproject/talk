@@ -458,7 +458,7 @@ describe('Post /:comment_id/actions', () => {
   it('it should update actions', () => {
     return chai.request(app)
       .post('/api/v1/comments/abc/actions')
-      .set(passport.inject({roles: ['admin']}))
+      .set(passport.inject({id: '456', roles: ['admin']}))
       .send({'user_id': '456', 'action_type': 'flag'})
       .then((res) => {
         expect(res).to.have.status(201);
