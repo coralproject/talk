@@ -38,21 +38,32 @@ const AssetSchema = new Schema({
   }
 });
 
+AssetSchema.index({
+  title: 'text',
+  url: 'text',
+  description: 'text',
+  section: 'text',
+  subsection: 'text',
+  author: 'text'
+}, {
+  background: true
+});
+
 /**
  * Search for assets. Currently only returns all.
-*/
+ */
 AssetSchema.statics.search = (query) => Asset.find(query);
 
 /**
  * Finds an asset by its id.
  * @param {String} id  identifier of the asset (uuid).
-*/
+ */
 AssetSchema.statics.findById = (id) => Asset.findOne({id});
 
 /**
  * Finds a asset by its url.
  * @param {String} url  identifier of the asset (uuid).
-*/
+ */
 AssetSchema.statics.findByUrl = (url) => Asset.findOne({url});
 
 /**
@@ -65,7 +76,8 @@ AssetSchema.statics.findByUrl = (url) => Asset.findOne({url});
  * is not possible with the mongoose driver.
  *
  * @param {String} url  identifier of the asset (uuid).
-*/
+ * @return {Promise}
+ */
 AssetSchema.statics.findOrCreateByUrl = (url) => Asset.findOneAndUpdate({url}, {url}, {
 
   // Ensure that if it's new, we return the new object created.
@@ -76,6 +88,18 @@ AssetSchema.statics.findOrCreateByUrl = (url) => Asset.findOneAndUpdate({url}, {
 
   // Set the default values if not provided based on the mongoose models.
   setDefaultsOnInsert: true
+});
+
+/**
+ * Finds assets matching keywords on the model. If `value` is an empty string,
+ * then it will not even perform a text search query.
+ * @param  {String} value string to search by.
+ * @return {Promise}
+ */
+AssetSchema.statics.search = (value) => value.length === 0 ? Asset.find({}) : Asset.find({
+  $text: {
+    $search: value
+  }
 });
 
 const Asset = mongoose.model('Asset', AssetSchema);

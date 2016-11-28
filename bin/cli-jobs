@@ -14,11 +14,15 @@ const program = require('commander');
 const scraper = require('../services/scraper');
 const util = require('../util');
 const mongoose = require('../mongoose');
+const kue = require('../kue');
 
 util.onshutdown([
   () => mongoose.disconnect()
 ]);
 
+/**
+ * Starts the job processor.
+ */
 function processJobs() {
 
   // Start the processor.
@@ -31,6 +35,65 @@ function processJobs() {
   ]);
 }
 
+/**
+ * Removes a single job.
+ * @param  {Object} job the job to be removed
+ * @return {Promise}
+ */
+function removeJob(job) {
+  return new Promise((resolve, reject) => job.remove((err) => {
+    if (err) {
+      return reject(err);
+    }
+
+    return resolve(job);
+  }));
+}
+
+/**
+ * Removes the jobs passed in and returns a promise.
+ * @param  {Array} jobs array of jobs
+ * @return {Promise}
+ */
+function removeJobs(jobs) {
+  return Promise.all(jobs.map(removeJob));
+}
+
+/**
+ * Get the top n jobs with a specific state.
+ * @param  {String} [state='complete'] state to list jobs by
+ * @param  {Number} limit              limit of jobs to load
+ * @return {Promise}
+ */
+function rangeJobsByState(state = 'complete', limit) {
+  return new Promise((resolve, reject) => {
+    kue.Job.rangeByState(state, 0, limit, 'asc', (err, jobs) => {
+      if (err) {
+        return reject(err);
+      }
+
+      resolve(jobs);
+    });
+  });
+}
+
+/**
+ * Cleans up the jobs that are in the queue.
+ */
+function cleanupJobs(options) {
+  const n = 100;
+
+  Promise.all([
+    rangeJobsByState('complete', n),
+    options.stuck ? rangeJobsByState('failed', n) : false
+  ])
+  .then((joblists) => joblists.filter((jobs) => jobs).map(removeJobs))
+  .then(() => {
+    util.shutdown();
+    console.log('Removed old jobs');
+  });
+}
+
 //==============================================================================
 // Setting up the program command line arguments.
 //==============================================================================
@@ -39,6 +102,12 @@ program
   .command('process')
   .description('starts job processing')
   .action(processJobs);
+
+program
+  .command('cleanup')
+  .option('-s, --stuck', 'cleans up jobs that have been stuck', false)
+  .description('cleans up inactive jobs')
+  .action(cleanupJobs);
 
 program.parse(process.argv);
 
