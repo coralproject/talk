@@ -1,7 +1,4 @@
-process.env.NODE_ENV = 'test';
-
-require('../../../utils/mongoose');
-const passport = require('../../../utils/passport');
+const passport = require('../../../passport');
 
 const app = require('../../../../app');
 const chai = require('chai');

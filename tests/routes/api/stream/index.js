@@ -1,5 +1,3 @@
-require('../../../utils/mongoose');
-
 const app = require('../../../../app');
 const chai = require('chai');
 const expect = chai.expect;
@@ -92,8 +90,8 @@ describe('api/stream: routes', () => {
       .then(res => {
         expect(res).to.have.status(200);
         expect(res.body.assets.length).to.equal(1);
-        expect(res.body.comments.length).to.equal(1);
-        expect(res.body.users.length).to.equal(1);
+        expect(res.body.comments.length).to.equal(2);
+        expect(res.body.users.length).to.equal(2);
         expect(res.body.actions.length).to.equal(1);
       });
   });
