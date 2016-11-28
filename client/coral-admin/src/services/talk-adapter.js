@@ -1,4 +1,4 @@
-import {base, handleResp, getInit} from '../helpers/response';
+import {base, handleResp, getInit} from '../../../coral-framework/helpers/response';
 
 /**
  * The adapter is a redux middleware that interecepts the actions that need
