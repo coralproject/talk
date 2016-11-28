@@ -18,21 +18,21 @@ router.get('/', (req, res, next) => {
   // Get the asset_id for this url (or create it if it doesn't exist)
   Promise.all([
     Asset.findOrCreateByUrl(decodeURIComponent(req.query.asset_url)),
-    Setting.getModerationSetting()
+    Setting.getSettings()
   ])
-  .then(([asset, {moderation}]) => {
+  .then(([asset, settings]) => {
     // Get the sitewide moderation setting and return the appropriate comments
-    switch(moderation){
+    switch(settings.moderation){
     case 'pre':
-      return Promise.all([Comment.findAcceptedByAssetId(asset.id), asset]);
+      return Promise.all([Comment.findAcceptedByAssetId(asset.id), asset, settings]);
     case 'post':
-      return Promise.all([Comment.findAcceptedAndNewByAssetId(asset.id), asset]);
+      return Promise.all([Comment.findAcceptedAndNewByAssetId(asset.id), asset, settings]);
     default:
       return Promise.reject(new Error('Moderation setting not found.'));
     }
   })
   // Get all the users and actions for those comments.
-  .then(([comments, asset]) => {
+  .then(([comments, asset, settings]) => {
     return Promise.all([
       [asset],
       comments,
@@ -41,15 +41,17 @@ router.get('/', (req, res, next) => {
         asset.id,
         ...comments.map((comment) => comment.id),
         ...comments.map((comment) => comment.author_id)
-      ]))
+      ])),
+      settings
     ]);
   })
-  .then(([assets, comments, users, actions]) => {
+  .then(([assets, comments, users, actions, settings]) => {
     res.json({
       assets,
       comments,
       users,
-      actions
+      actions,
+      settings
     });
   })
   .catch(error => {
