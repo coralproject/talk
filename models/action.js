@@ -28,6 +28,35 @@ ActionSchema.statics.findById = function(id) {
 };
 
 /**
+ * Add an action.
+ * @param {String} item_id  identifier of the comment  (uuid)
+ * @param {String} user_id  user id of the action (uuid)
+ * @param {String} action the new action to the comment
+ * @return {Promise}
+ */
+ActionSchema.statics.insertUserAction = ({item_id, item_type, user_id, action_type}) => {
+  const action = {
+    item_id,
+    item_type,
+    user_id,
+    action_type
+  };
+
+  // Create/Update the action.
+  return Action.findOneAndUpdate(action, action, {
+
+    // Ensure that if it's new, we return the new object created.
+    new: true,
+
+    // Perform an upsert in the event that this doesn't exist.
+    upsert: true,
+
+    // Set the default values if not provided based on the mongoose models.
+    setDefaultsOnInsert: true
+  });
+};
+
+/**
  * Finds actions in an array of ids.
  * @param {String} ids array of user identifiers (uuid)
 */
@@ -41,32 +70,71 @@ ActionSchema.statics.findByItemIdArray = function(item_ids) {
  * Returns summaries of actions for an array of ids
  * @param {String} ids array of user identifiers (uuid)
 */
-ActionSchema.statics.getActionSummaries = function(item_ids) {
-  return ActionSchema.statics.findByItemIdArray(item_ids).then((rawActions) => {
-    // Create an object with a count of each action type for each item
-    const actionSummaries = rawActions.reduce((actionObj, action) => {
-      if (!actionObj[action.item_id]) {
-        actionObj[action.item_id] = {
-          id: action.id,
-          item_type: action.item_type,
-          action_type: action.action_type,
-          count: 1,
-          current_user: false //Update this later when we have authentication
-        };
-      } else {
-        actionObj[action.item_id].count ++;
-      }
-      return actionObj;
-    }, {});
+ActionSchema.statics.getActionSummaries = function(item_ids, current_user_id = '') {
+  return Action.aggregate([
+    {
 
-    // Return an array extracted from the actionSummaries object
-    return Object.keys(actionSummaries).reduce((actions, key) => {
-      let actionSummary = actionSummaries[key];
-      actionSummary.item_id = key;
-      actions.push(actionSummary);
-      return actions;
-    }, []);
-  });
+      // only grab items that match the specified item id's
+      $match: {
+        item_id: {
+          $in: item_ids
+        }
+      }
+    },
+    {
+      $group: {
+
+        // group unique documents by these properties, we are leveraging the
+        // fact that each uuid is completly unique.
+        _id: {
+          item_id: '$item_id',
+          action_type: '$action_type'
+        },
+
+        // and sum up all actions matching the above grouping criteria
+        count: {
+          $sum: 1
+        },
+
+        // we are leveraging the fact that each uuid is completly unique and
+        // just grabbing the last instance of the item type here.
+        item_type: {
+          $last: '$item_type'
+        },
+
+        current_user: {
+          $max: {
+            $cond: {
+              if: {
+                $eq: ['$user_id', current_user_id],
+              },
+              then: '$$CURRENT',
+              else: null
+            }
+          }
+        }
+      }
+    },
+    {
+      $project: {
+
+        // suppress the _id field
+        _id: false,
+
+        // map the fields from the _id grouping down a level
+        item_id: '$_id.item_id',
+        action_type: '$_id.action_type',
+
+        // map the field directly
+        count: '$count',
+        item_type: '$item_type',
+
+        // set the current user to false here
+        current_user: '$current_user'
+      }
+    }
+  ])
+  .exec();
 };
 
 /*

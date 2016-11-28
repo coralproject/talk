@@ -3,6 +3,7 @@ import translations from './../translations';
 const lang = new I18n(translations);
 import * as actions from '../constants/auth';
 import {base, handleResp, getInit} from '../helpers/response';
+import {addItem} from './items';
 
 // Dialog Actions
 export const showSignInDialog = () => ({type: actions.SHOW_SIGNIN_DIALOG});
@@ -19,8 +20,8 @@ export const cleanState = () => ({type: actions.CLEAN_STATE});
 // Sign In Actions
 
 const signInRequest = () => ({type: actions.FETCH_SIGNIN_REQUEST});
-const signInSuccess = (user) => ({type: actions.FETCH_SIGNIN_SUCCESS, user});
-const signInFailure = (error) => ({type: actions.FETCH_SIGNIN_FAILURE, error});
+const signInSuccess = user => ({type: actions.FETCH_SIGNIN_SUCCESS, user});
+const signInFailure = error => ({type: actions.FETCH_SIGNIN_FAILURE, error});
 
 export const fetchSignIn = (formData) => dispatch => {
   dispatch(signInRequest());
@@ -29,6 +30,7 @@ export const fetchSignIn = (formData) => dispatch => {
     .then(({user}) => {
       dispatch(hideSignInDialog());
       dispatch(signInSuccess(user));
+      dispatch(addItem(user, 'users'));
     })
     .catch(() => dispatch(signInFailure(lang.t('error.emailPasswordError'))));
 };
@@ -54,8 +56,10 @@ export const facebookCallback = (err, data) => dispatch => {
     return;
   }
   try {
-    dispatch(signInFacebookSuccess(JSON.parse(data)));
+    const user = JSON.parse(data);
+    dispatch(signInFacebookSuccess(user));
     dispatch(hideSignInDialog());
+    dispatch(addItem(user, 'users'));
   } catch (err) {
     dispatch(signInFacebookFailure(err));
     return;
@@ -114,3 +118,16 @@ export const logout = () => dispatch => {
 export const validForm = () => ({type: actions.VALID_FORM});
 export const invalidForm = error => ({type: actions.INVALID_FORM, error});
 
+// Check Login
+
+const checkLoginRequest = () => ({type: actions.CHECK_LOGIN_REQUEST});
+const checkLoginSuccess = user => ({type: actions.CHECK_LOGIN_SUCCESS, user});
+const checkLoginFailure = error => ({type: actions.CHECK_LOGIN_FAILURE, error});
+
+export const checkLogin = () => dispatch => {
+  dispatch(checkLoginRequest());
+  fetch(`${base}/auth`, getInit('GET'))
+    .then(handleResp)
+    .then(user => dispatch(checkLoginSuccess(user)))
+    .catch(error => dispatch(checkLoginFailure(error)));
+};

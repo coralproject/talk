@@ -4,11 +4,14 @@ import translations from './translations.json';
 
 const name = 'coral-plugin-flags';
 
-const FlagButton = ({flag, id, postAction, deleteAction, addItem, updateItem, addNotification}) => {
+const FlagButton = ({flag, id, postAction, deleteAction, addItem, updateItem, addNotification, currentUser}) => {
   const flagged = flag && flag.current_user;
   const onFlagClick = () => {
+    if (!currentUser) {
+      return;
+    }
     if (!flagged) {
-      postAction(id, 'flag', '123', 'comments')
+      postAction(id, 'flag', currentUser.id, 'comments')
         .then((action) => {
           let id = `${action.action_type}_${action.item_id}`;
           addItem({id, current_user: action, count: flag ? flag.count + 1 : 1}, 'actions');
@@ -32,7 +35,7 @@ const FlagButton = ({flag, id, postAction, deleteAction, addItem, updateItem, ad
       : <span className={`${name}-button-text`}>{lang.t('flag')}</span>
       }
       <i className={`${name}-icon material-icons ${flagged && 'flaggedIcon'}`}
-        style={flagged && styles.flaggedIcon}
+        style={flagged ? styles.flaggedIcon : {}}
         aria-hidden={true}>flag</i>
     </button>
   </div>;

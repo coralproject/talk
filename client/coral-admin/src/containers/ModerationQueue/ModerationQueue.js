@@ -1,16 +1,22 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import key from 'keymaster';
+
 import ModerationKeysModal from 'components/ModerationKeysModal';
 import CommentList from 'components/CommentList';
+
 import {updateStatus} from 'actions/comments';
 import styles from './ModerationQueue.css';
-import key from 'keymaster';
+
 import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from '../translations.json';
+import translations from '../../translations.json';
 
 /*
  * Renders the moderation queue as a tabbed layout with 3 moderation
- * queues filtered by status (Untouched, Rejected and Approved)
+ * queues :
+ * * pending: filtered by status Untouched
+ * * rejected: filtered by status Rejected
+ * * flagged: with a flagged action on them
  */
 
 class ModerationQueue extends React.Component {
@@ -61,9 +67,9 @@ class ModerationQueue extends React.Component {
     return (
       <div>
         <div className='mdl-tabs mdl-js-tabs mdl-js-ripple-effect'>
-          <div className='mdl-tabs__tab-bar'>
+          <div className={`mdl-tabs__tab-bar ${styles.tabBar}`}>
             <a href='#pending' onClick={() => this.onTabClick('pending')}
-              className={`mdl-tabs__tab is-active ${styles.tab}`}>{lang.t('modqueue.pending')}</a>
+              className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.pending')}</a>
             <a href='#rejected' onClick={() => this.onTabClick('rejected')}
               className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.rejected')}</a>
             <a href='#flagged' onClick={() => this.onTabClick('flagged')}

@@ -106,8 +106,16 @@ export function getStream (assetUrl) {
         /* Add items to the store */
         const itemTypes = Object.keys(json);
         for (let i = 0; i < itemTypes.length; i++ ) {
-          for (let j = 0; j < json[itemTypes[i]].length; j++ ) {
-            dispatch(addItem(json[itemTypes[i]][j], itemTypes[i]));
+          if (itemTypes[i] === 'actions') {
+            for (let j = 0; j < json[itemTypes[i]].length; j++ ) {
+              let action = json[itemTypes[i]][j];
+              action.id = `${action.action_type}_${action.item_id}`;
+              dispatch(addItem(action, 'actions'));
+            }
+          } else {
+            for (let j = 0; j < json[itemTypes[i]].length; j++ ) {
+              dispatch(addItem(json[itemTypes[i]][j], itemTypes[i]));
+            }
           }
         }
 

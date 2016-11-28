@@ -12,7 +12,8 @@ class CommentBox extends Component {
     id: PropTypes.string,
     comments: PropTypes.array,
     reply: PropTypes.bool,
-    canPost: PropTypes.bool
+    canPost: PropTypes.bool,
+    currentUser: PropTypes.object
   }
 
   state = {
@@ -21,11 +22,11 @@ class CommentBox extends Component {
   }
 
   postComment = () => {
-    const {postItem, updateItem, id, parent_id, addNotification, appendItemArray, premod} = this.props;
+    const {postItem, updateItem, id, parent_id, child_id, addNotification, appendItemArray, premod, author} = this.props;
     let comment = {
       body: this.state.body,
       asset_id: id,
-      username: this.state.username
+      author_id: author.id
     };
     let related;
     let parent_type;
@@ -37,7 +38,7 @@ class CommentBox extends Component {
       related = 'comments';
       parent_type = 'assets';
     }
-    updateItem(parent_id, 'showReply', false, 'comments');
+    updateItem(child_id || parent_id, 'showReply', false, 'comments');
     postItem(comment, 'comments')
     .then((comment_id) => {
       if (premod === 'pre') {
@@ -52,7 +53,7 @@ class CommentBox extends Component {
   }
 
   render () {
-    const {styles, reply, canPost} = this.props;
+    const {styles, reply, author} = this.props;
     // How to handle language in plugins? Should we have a dependency on our central translation file?
     return <div>
       <div
@@ -73,7 +74,7 @@ class CommentBox extends Component {
             rows={3}/>
         </div>
         <div className={`${name}-button-container`}>
-          { canPost && (
+          { author && (
               <button
                 className={`${name}-button`}
                 style={styles && styles.button}

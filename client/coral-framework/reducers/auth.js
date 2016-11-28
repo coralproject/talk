@@ -37,6 +37,14 @@ export default function auth (state = initialState, action) {
   case actions.FETCH_SIGNIN_REQUEST:
     return state
       .set('isLoading', true);
+  case actions.CHECK_LOGIN_FAILURE:
+    return state
+      .set('loggedIn', false)
+      .set('user', null);
+  case actions.CHECK_LOGIN_SUCCESS:
+    return state
+      .set('loggedIn', true)
+      .set('user', action.user);
   case actions.FETCH_SIGNIN_SUCCESS:
     return state
       .set('loggedIn', true)
@@ -44,7 +52,8 @@ export default function auth (state = initialState, action) {
   case actions.FETCH_SIGNIN_FAILURE:
     return state
       .set('isLoading', false)
-      .set('error', action.error);
+      .set('error', action.error)
+      .set('user', null);
   case actions.FETCH_SIGNIN_FACEBOOK_SUCCESS:
     return state
       .set('user', action.user)

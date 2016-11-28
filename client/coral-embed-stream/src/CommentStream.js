@@ -61,8 +61,8 @@ class CommentStream extends Component {
     // Set up messaging between embedded Iframe an parent component
     // Using recommended Pym init code which violates .eslint standards
     const pym = new Pym.Child({polling: 100});
-    const path = /https?\:\/\/([^?]+)/.exec(pym.parentUrl)[1];
-    this.props.getStream(path);
+    const path = /https?\:\/\/([^?]+)/.exec(pym.parentUrl);
+    this.props.getStream(path && path[1] || window.location);
   }
 
   render () {
@@ -84,8 +84,9 @@ class CommentStream extends Component {
 
     const rootItemId = this.props.items.assets && Object.keys(this.props.items.assets)[0];
     const rootItem = this.props.items.assets && this.props.items.assets[rootItemId];
-    const {loggedIn, user} = this.props.auth;
-    return <div>
+    const {actions, users, comments} = this.props.items;
+    const {loggedIn, user, showSignInDialog} = this.props.auth;
+    return <div className={showSignInDialog ? 'expandForSignin' : ''}>
       {
         rootItem
         ? <div>
@@ -105,26 +106,27 @@ class CommentStream extends Component {
               id={rootItemId}
               premod={this.props.config.moderation}
               reply={false}
-              canPost={loggedIn}
+              author={user}
             />
             {!loggedIn && <SignInContainer />}
           </div>
           {
             rootItem.comments && rootItem.comments.map((commentId) => {
-              const comment = this.props.items.comments[commentId];
+              const comment = comments[commentId];
               return <div className="comment" key={commentId}>
                 <hr aria-hidden={true}/>
-                <AuthorName name={comment.username}/>
+                <AuthorName author={users[comment.author_id]}/>
                 <PubDate created_at={comment.created_at}/>
                 <Content body={comment.body}/>
                 <div className="commentActionsLeft">
                   <ReplyButton
                     updateItem={this.props.updateItem}
-                    id={commentId}/>
+                    id={commentId}
+                    showReply={comment.showReply}/>
                   <LikeButton
                     addNotification={this.props.addNotification}
                     id={commentId}
-                    like={this.props.items.actions[comment.like]}
+                    like={actions[comment.like]}
                     postAction={this.props.postAction}
                     deleteAction={this.props.deleteAction}
                     addItem={this.props.addItem}
@@ -135,7 +137,7 @@ class CommentStream extends Component {
                   <FlagButton
                     addNotification={this.props.addNotification}
                     id={commentId}
-                    flag={this.props.items.actions[comment.flag]}
+                    flag={actions[comment.flag]}
                     postAction={this.props.postAction}
                     deleteAction={this.props.deleteAction}
                     addItem={this.props.addItem}
@@ -151,6 +153,7 @@ class CommentStream extends Component {
                     appendItemArray={this.props.appendItemArray}
                     updateItem={this.props.updateItem}
                     id={rootItemId}
+                    author={user}
                     parent_id={commentId}
                     premod={this.props.config.moderation}
                     showReply={comment.showReply}/>
@@ -160,13 +163,14 @@ class CommentStream extends Component {
                       let reply = this.props.items.comments[replyId];
                       return <div className="reply" key={replyId}>
                         <hr aria-hidden={true}/>
-                        <AuthorName name={reply.username}/>
+                        <AuthorName author={users[reply.author_id]}/>
                         <PubDate created_at={reply.created_at}/>
                         <Content body={reply.body}/>
                         <div className="replyActionsLeft">
                             <ReplyButton
                               updateItem={this.props.updateItem}
-                              id={replyId}/>
+                              id={replyId}
+                              showReply={reply.showReply}/>
                             <LikeButton
                               addNotification={this.props.addNotification}
                               id={replyId}
@@ -188,10 +192,21 @@ class CommentStream extends Component {
                               updateItem={this.props.updateItem}
                               currentUser={this.props.auth.user}/>
                               <PermalinkButton
-                                comment_id={reply.comment_id}
-                                asset_id={reply.comment_id}
+                                comment_id={reply.parent_id}
+                                asset_id={rootItemId}
                                 />
                           </div>
+                          <ReplyBox
+                            addNotification={this.props.addNotification}
+                            postItem={this.props.postItem}
+                            appendItemArray={this.props.appendItemArray}
+                            updateItem={this.props.updateItem}
+                            id={rootItemId}
+                            author={user}
+                            parent_id={commentId}
+                            child_id={replyId}
+                            premod={this.props.config.moderation}
+                            showReply={reply.showReply}/>
                       </div>;
                     })
                 }

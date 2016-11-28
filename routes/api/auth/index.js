@@ -8,13 +8,13 @@ const router = express.Router();
  * This returns the user if they are logged in.
  */
 router.get('/', authorization.needed(), (req, res) => {
-  res.json(req.user);
+  res.json(req.user.toObject());
 });
 
 /**
  * This destroys the session of a user, if they have one.
  */
-router.delete('/', (req, res) => {
+router.delete('/', authorization.needed(), (req, res) => {
   req.session.destroy(() => {
     res.status(204).end();
   });

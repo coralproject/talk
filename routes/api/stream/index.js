@@ -41,7 +41,7 @@ router.get('/', (req, res, next) => {
         asset.id,
         ...comments.map((comment) => comment.id),
         ...comments.map((comment) => comment.author_id)
-      ]))
+      ]), req.user ? req.user.id : '')
     ]);
   })
   .then(([assets, comments, users, actions]) => {

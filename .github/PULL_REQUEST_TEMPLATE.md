@@ -5,5 +5,3 @@
 - click a button
 - view the cat
 - see the cat meow
-
-@coralproject/tech
