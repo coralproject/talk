@@ -76,7 +76,6 @@ router.delete('/:comment_id', authorization.needed('admin'), (req, res, next) =>
     });
 });
 
-
 router.put('/:comment_id/status', authorization.needed('admin'), (req, res, next) => {
   const {
     status
