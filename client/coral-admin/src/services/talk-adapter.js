@@ -40,13 +40,15 @@ Promise.all([
 .then(res => Promise.all(res.map(handleResp)))
 .then(res => {
   res[2] = res[2].map(comment => { comment.flagged = true; return comment; });
-  return res.reduce((prev, curr) => prev.concat(curr), []);
+  res[0].comments = res[0].comments.concat(res[1]).concat(res[2]);
+  return res[0];
 })
 .then(res => {
-  store.dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH_SUCCESS',
-    comments: res.comments});
+  console.log(res);
   store.dispatch({type: 'USERS_MODERATION_QUEUE_FETCH_SUCCESS',
     users: res.users});
+  store.dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH_SUCCESS',
+    comments: res.comments});
 })
 .catch(error => store.dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH_FAILED', error}));
 
