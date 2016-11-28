@@ -161,15 +161,26 @@ CommentSchema.statics.changeStatus = function(id, status) {
  * @param {String} action the new action to the comment
  * @return {Promise}
  */
-CommentSchema.statics.addAction = function(id, user_id, action_type) {
-  // check that the comment exist
-  let action  = new Action({
-    action_type: action_type,
+CommentSchema.statics.addAction = function(item_id, user_id, action_type) {
+  const action = {
+    item_id,
     item_type: 'comment',
-    item_id: id,
-    user_id: user_id
+    user_id,
+    action_type
+  };
+
+  // Update/Create the action for the user.
+  return Action.findOneAndUpdate(action, action, {
+
+    // Ensure that if it's new, we return the new object created.
+    new: true,
+
+    // Perform an upsert in the event that this doesn't exist.
+    upsert: true,
+
+    // Set the default values if not provided based on the mongoose models.
+    setDefaultsOnInsert: true
   });
-  return action.save();
 };
 
 //==============================================================================
