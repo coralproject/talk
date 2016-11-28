@@ -1,3 +1,4 @@
+import {getInit, base, handleResp} from '../../coral-framework/helpers/response';
 import {fromJS} from 'immutable';
 /* Item Actions */
 
@@ -10,26 +11,6 @@ export const UPDATE_ITEM = 'UPDATE_ITEM';
 export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
 export const APPEND_ITEM_ARRAY = 'APPEND_ITEM_ARRAY';
 
-const getInit = (method, body) => {
-  const headers = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  };
-
-  const init = {method, headers};
-  if (body) {
-    init.body = JSON.stringify(body);
-  }
-
-  return init;
-};
-
-const responseHandler = response => {
-  if (response.status === 204) {
-    return;
-  }
-  return response.ok ? response.json() : Promise.reject(`${response.status} ${response.statusText}`);
-};
 /**
  * Action creators
  */
@@ -114,8 +95,8 @@ export const appendItemArray = (id, property, value, add_to_front, item_type) =>
 */
 export function getStream (assetUrl) {
   return (dispatch) => {
-    return fetch(`/api/v1/stream?asset_url=${encodeURIComponent(assetUrl)}`)
-      .then(responseHandler)
+    return fetch(`${base}/stream?asset_url=${encodeURIComponent(assetUrl)}`)
+      .then(handleResp)
       .then((json) => {
 
         /* Add items to the store */
@@ -185,8 +166,8 @@ export function getStream (assetUrl) {
 
 export function getItemsArray (ids) {
   return (dispatch) => {
-    return fetch(`/v1/item/${ids}`, getInit('GET'))
-      .then(responseHandler)
+    return fetch(`${base}/item/${ids}`, getInit('GET'))
+      .then(handleResp)
       .then((json) => {
         for (let i = 0; i < json.items.length; i++) {
           dispatch(addItem(json.items[i]));
@@ -215,8 +196,8 @@ export function postItem (item, type, id) {
     if (id) {
       item.id = id;
     }
-    return fetch(`/api/v1/${type}`, getInit('POST', item))
-      .then(responseHandler)
+    return fetch(`${base}/${type}`, getInit('POST', item))
+      .then(handleResp)
       .then((json) => {
         dispatch(addItem({...item, id:json.id}, type));
         return json.id;
@@ -246,8 +227,8 @@ export function postAction (item_id, action_type, user_id, item_type) {
       user_id
     };
 
-    return fetch(`/api/v1/${item_type}/${item_id}/actions`, getInit('POST', action))
-      .then(responseHandler);
+    return fetch(`${base}/${item_type}/${item_id}/actions`, getInit('POST', action))
+      .then(handleResp);
   };
 }
 
@@ -268,7 +249,7 @@ export function postAction (item_id, action_type, user_id, item_type) {
 
 export function deleteAction (action_id) {
   return () => {
-    return fetch(`/api/v1/actions/${action_id}`, {method: 'DELETE'})
-      .then(responseHandler);
+    return fetch(`${base}/actions/${action_id}`, {method: 'DELETE'})
+      .then(handleResp);
   };
 }
