@@ -21,6 +21,7 @@ import PermalinkButton from '../../coral-plugin-permalinks/PermalinkButton';
 import SignInContainer from '../../coral-sign-in/containers/SignInContainer';
 import UserBox from '../../coral-sign-in/components/UserBox';
 import {TabBar, Tab, ContentBox} from '../../coral-ui';
+import SettingsContainer from '../../coral-settings/containers/SettingsContainer';
 
 const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appendItemArray} = itemActions;
 const {addNotification, clearNotification} = notificationActions;
@@ -232,7 +233,7 @@ class CommentStream extends Component {
             />
           </ContentBox>
           <ContentBox>
-            Bio!
+            <SettingsContainer/>
           </ContentBox>
         </div>
         : 'Loading'
