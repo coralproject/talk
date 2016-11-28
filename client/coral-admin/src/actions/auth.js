@@ -17,3 +17,17 @@ export const checkLogin = () => dispatch => {
     })
     .catch(error => dispatch(checkLoginFailure(error)));
 };
+
+// LogOut Actions
+
+const logOutRequest = () => ({type: actions.LOGOUT_REQUEST});
+const logOutSuccess = () => ({type: actions.LOGOUT_SUCCESS});
+const logOutFailure = () => ({type: actions.LOGOUT_FAILURE});
+
+export const logout = () => dispatch => {
+  dispatch(logOutRequest());
+  fetch(`${base}/auth`, getInit('DELETE'))
+    .then(handleResp)
+    .then(() => dispatch(logOutSuccess()))
+    .catch(error => dispatch(logOutFailure(error)));
+};
