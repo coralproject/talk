@@ -24,7 +24,7 @@ if (app.get('env') !== 'test') {
 app.set('trust proxy', 1);
 // We disable frameward on helmet to allow crossdomain injection of the embed
 app.use(helmet({
-	frameguard: false
+  frameguard: false
 }));
 app.use(bodyParser.json());
 app.use('/client', express.static(path.join(__dirname, 'dist')));
