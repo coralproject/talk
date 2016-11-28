@@ -44,8 +44,12 @@ Promise.all([
   res[2] = res[2].map(comment => { comment.flagged = true; return comment; });
   return res.reduce((prev, curr) => prev.concat(curr), []);
 })
-.then(res => store.dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH_SUCCESS',
-  comments: res}))
+.then(res => {
+  store.dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH_SUCCESS',
+    comments: res.comments});
+  store.dispatch({type: 'USERS_MODERATION_QUEUE_FETCH_SUCCESS',
+    users: res.users});
+})
 .catch(error => store.dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH_FAILED', error}));
 
 // Update a comment. Now to update a comment we need to send back the whole object
