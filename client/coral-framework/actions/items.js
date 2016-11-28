@@ -1,5 +1,5 @@
 import {getInit, base, handleResp} from '../../coral-framework/helpers/response';
-
+import {fromJS} from 'immutable';
 /* Item Actions */
 
 /**
@@ -8,6 +8,7 @@ import {getInit, base, handleResp} from '../../coral-framework/helpers/response'
 
 export const ADD_ITEM = 'ADD_ITEM';
 export const UPDATE_ITEM = 'UPDATE_ITEM';
+export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
 export const APPEND_ITEM_ARRAY = 'APPEND_ITEM_ARRAY';
 
 /**
@@ -43,6 +44,7 @@ export const addItem = (item, item_type) => {
 *  id - the id of the item to be posted
 *  property - the property to be updated
 *  value - the value that the property should be set to
+*  item_type - the type of the item being updated (users, comments, etc)
 *
 */
 export const updateItem = (id, property, value, item_type) => {
@@ -55,6 +57,18 @@ export const updateItem = (id, property, value, item_type) => {
   };
 };
 
+/*
+* Appends data to an array in an item in the local store without posting it to the server
+* Useful for adding a recently posted reply to a comment, etc.
+*
+* @params
+*  id - the id of the item to be posted
+*  property - the property to be updated (should be an array)
+*  value - the value that should be added to the array
+*  add_to_front - boolean that defines whether value is added at the beginning (unshift) or end (push)
+*  item_type - the type of the item being updated (users, comments, etc)
+*
+*/
 export const appendItemArray = (id, property, value, add_to_front, item_type) => {
   return {
     type: APPEND_ITEM_ARRAY,
@@ -92,6 +106,8 @@ export function getStream (assetUrl) {
               action.id = `${action.action_type}_${action.item_id}`;
               dispatch(addItem(action, 'actions'));
             });
+          } else if (type === 'settings') {
+            dispatch({type: UPDATE_SETTINGS, config: fromJS(json[type])});
           } else {
             json[type].forEach(item => {
               dispatch(addItem(item, type));

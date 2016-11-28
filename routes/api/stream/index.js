@@ -14,7 +14,6 @@ router.get('/', (req, res, next) => {
 
   // Get the asset_id for this url (or create it if it doesn't exist)
   Promise.all([
-
     // Find or create the asset by url.
     Asset.findOrCreateByUrl(decodeURIComponent(req.query.asset_url))
 
@@ -30,29 +29,18 @@ router.get('/', (req, res, next) => {
     // Get the moderation setting from the settings.
     Setting.getModerationSetting()
   ])
-  .then(([asset, {moderation}]) => {
+  .then(([asset, settings]) => {
+    // Get the sitewide moderation setting and return the appropriate comments
     let comments;
-
-    if (moderation === 'post') {
+    if (settings.moderation === 'pre') {
       comments = Comment.findAcceptedByAssetId(asset.id);
     } else {
-
-      // Defaults to 'pre' moderation.
       comments = Comment.findAcceptedAndNewByAssetId(asset.id);
     }
 
-    return Promise.all([
-
-      // This is the promised component... Fetch the comments based on the
-      // moderation settings.
-      comments,
-
-      // Send back the reference to the asset.
-      asset
-    ]);
+    return Promise.all([comments, asset, settings]);
   })
-  // Get all the users and actions for those comments.
-  .then(([comments, asset]) => {
+  .then(([comments, asset, settings]) => {
 
     // Get the user id's from the author id's as a unique array that gets
     // sorted.
@@ -82,21 +70,23 @@ router.get('/', (req, res, next) => {
       // It's comments...
       comments,
 
-      // All the users/authors of those comments...
+      // The users who wrote those comments
       users,
 
-      // And all actions about the asset, comments, and users.
-      actions
+      // The actions on the above items
+      actions,
+
+      // And the relevant settings
+      settings
     ]);
   })
-  .then(([asset, comments, users, actions]) => {
-
-    // Send back the payload containing all this data.
+  .then(([asset, comments, users, actions, settings]) => {
     res.json({
       assets: [asset],
       comments,
       users,
-      actions
+      actions,
+      settings
     });
   })
   .catch(error => {
