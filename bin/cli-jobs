@@ -43,7 +43,7 @@ program
 program.parse(process.argv);
 
 // If there is no command listed, output help.
-if (!process.argv.slice(2).length) {
+if (process.argv.length <= 2) {
   program.outputHelp();
   util.shutdown();
 }
