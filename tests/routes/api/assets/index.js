@@ -1,36 +1,10 @@
-require('../../../utils/mongoose');
-const passport = require('../../../utils/passport');
+describe('/assets', () => {
 
-const chai = require('chai');
-const server = require('../../../../app');
+  describe('GET', () => {
 
-// Setup chai.
-chai.should();
-chai.use(require('chai-http'));
+    it('should return assets that we search for');
+    it('should not return assets that we do not search for');
 
-describe('Asset: routes', () => {
-
-  describe('/GET Asset', () => {
-    describe('#get', () => {
-      it('It should get an empty array when there are no assets.', (done) => {
-
-        chai.request(server)
-          .get('/api/v1/asset')
-          .set(passport.inject({roles: ['admin']}))
-          .end((err, res) => {
-
-            if (err) {
-              throw new Error(err);
-            }
-
-            res.should.have.status(200);
-            res.body.should.be.a('array');
-            res.body.length.should.be.eql(0);
-            done();
-          });
-
-      });
-    });
   });
 
 });

@@ -1,7 +1,3 @@
-/* eslint-env node, mocha */
-
-require('../utils/mongoose');
-
 const Setting = require('../../models/setting');
 const expect = require('chai').expect;
 

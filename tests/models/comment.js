@@ -1,5 +1,3 @@
-require('../utils/mongoose');
-
 const Comment = require('../../models/comment');
 const User = require('../../models/user');
 const Action = require('../../models/action');

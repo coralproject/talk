@@ -16,7 +16,7 @@ router.get('/', authorization.needed('admin'), (req, res, next) => {
     page = 1,
     asc = 'false',
     limit = 50 // Total Per Page
-    } = req.query;
+  } = req.query;
 
   Promise.all([
     User
@@ -128,9 +128,10 @@ router.post('/request-password-reset', (req, res, next) => {
       return mailer.sendSimple(options);
     })
     .then(() => {
+
       // we want to send a 204 regardless of the user being found in the db
       // if we fail on missing emails, it would reveal if people are registered or not.
-      res.status(204).send('OK');
+      res.status(204).end();
     })
     .catch(error => {
       const errorMsg = typeof error === 'string' ? error : error.message;
