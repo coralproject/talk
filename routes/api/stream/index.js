@@ -31,14 +31,14 @@ router.get('/', (req, res, next) => {
   ])
   .then(([asset, settings]) => {
     // Get the sitewide moderation setting and return the appropriate comments
-    switch(settings.moderation){
-    case 'pre':
-      return Promise.all([Comment.findAcceptedByAssetId(asset.id), asset, settings]);
-    case 'post':
-      return Promise.all([Comment.findAcceptedAndNewByAssetId(asset.id), asset, settings]);
-    default:
-      return Promise.reject(new Error('Moderation setting not found.'));
+    let comments;
+    if (settings.moderation === 'pre') {
+      comments = Comment.findAcceptedByAssetId(asset.id);
+    } else {
+      comments = Comment.findAcceptedAndNewByAssetId(asset.id);
     }
+
+    return Promise.all([comments, asset, settings]);
   })
   .then(([comments, asset, settings]) => {
 
