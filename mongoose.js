@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
 const debug = require('debug')('talk:db');
 const enabled = require('debug').enabled;
-const url = process.env.TALK_MONGO_URL || 'mongodb://localhost';
+let url = process.env.TALK_MONGO_URL || 'mongodb://localhost';
+
+if (process.env.NODE_ENV === 'test') {
+  url = 'mongodb://localhost/coral-test';
+}
 
 // Use native promises
 mongoose.Promise = global.Promise;
