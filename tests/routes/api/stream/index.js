@@ -17,7 +17,7 @@ describe('/api/v1/stream', () => {
 
   const settings = {
     id: '1',
-    moderation: 'pre'
+    moderation: 'post'
   };
 
   const comments = [{
@@ -73,7 +73,7 @@ describe('/api/v1/stream', () => {
         .findOrCreateByUrl('http://coralproject.net/asset2')
         .then((asset) => {
           return Asset
-            .overrideSettings(asset.id, {moderation: 'post'})
+            .overrideSettings(asset.id, {moderation: 'pre'})
             .then(() => asset);
         })
     ])
@@ -108,7 +108,7 @@ describe('/api/v1/stream', () => {
           expect(res.body.comments.length).to.equal(2);
           expect(res.body.users.length).to.equal(2);
           expect(res.body.actions.length).to.equal(1);
-          expect(res.body.settings).to.have.property('moderation', 'pre');
+          expect(res.body.settings).to.have.property('moderation', 'post');
         });
     });
 
@@ -121,7 +121,7 @@ describe('/api/v1/stream', () => {
           expect(res.body.assets.length).to.equal(1);
           expect(res.body.comments.length).to.equal(1);
           expect(res.body.users.length).to.equal(1);
-          expect(res.body.settings).to.have.property('moderation', 'post');
+          expect(res.body.settings).to.have.property('moderation', 'pre');
         });
     });
   });
