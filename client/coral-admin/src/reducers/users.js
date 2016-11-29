@@ -10,7 +10,7 @@ const initialState = Map({
 // Handle the users actions
 export default (state = initialState, action) => {
   switch (action.type) {
-  case 'USER_STATUS_UPDATE': return updateUserStatus(state, action);
+  case 'SET_COMMENTER_STATUS': return updateUserStatus(state, action);
   default: return state;
   }
 };

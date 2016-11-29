@@ -6,7 +6,8 @@ import {
   FETCH_COMMENTERS_FAILURE,
   SORT_UPDATE,
   COMMENTERS_NEW_PAGE,
-  SET_ROLE
+  SET_ROLE,
+  SET_COMMENTER_STATUS
 } from '../constants/community';
 
 import {base, getInit, handleResp} from '../../../coral-framework/helpers/response';
@@ -45,5 +46,12 @@ export const setRole = (id, role) => dispatch => {
   return fetch(`${base}/user/${id}/role`, getInit('POST', {role}))
   .then(() => {
     return dispatch({type: SET_ROLE, id, role});
+  });
+};
+
+export const setCommenterStatus = (id, status) => dispatch => {
+  return fetch(`${base}/user/${id}/status`, getInit('POST', {status}))
+  .then(() => {
+    return dispatch({type: SET_COMMENTER_STATUS, id, status});
   });
 };
