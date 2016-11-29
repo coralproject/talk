@@ -1,4 +1,4 @@
-import {getInit, base, handleResp} from '../../coral-framework/helpers/response';
+import {getInit, base, handleResp} from '../helpers/response';
 import {fromJS} from 'immutable';
 /* Item Actions */
 
@@ -95,7 +95,7 @@ export const appendItemArray = (id, property, value, add_to_front, item_type) =>
 */
 export function getStream (assetUrl) {
   return (dispatch) => {
-    return fetch(`${base}/stream?asset_url=${encodeURIComponent(assetUrl)}`)
+    return fetch(`${base}/stream?asset_url=${encodeURIComponent(assetUrl)}`, getInit('GET'))
       .then(handleResp)
       .then((json) => {
 
