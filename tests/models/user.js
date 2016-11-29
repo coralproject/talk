@@ -1,5 +1,6 @@
 const User = require('../../models/user');
 const Comment = require('../../models/comment');
+
 const expect = require('chai').expect;
 
 describe('User: models', () => {
@@ -96,7 +97,9 @@ describe('User: models', () => {
   describe('#ban', () => {
     let mockComment;
     beforeEach(() => {
-      return Comment.new('testing the comment for that user if it is rejected.', mockUsers[0].id)
+      return Promise.all([
+        Comment.create([{body: 'testing the comment for that user if it is rejected.', id: mockUsers[0].id}])
+      ])
       .then((comment) => {
         mockComment = comment;
       });
@@ -156,7 +159,9 @@ describe('User: models', () => {
   describe('#unban', () => {
     let mockComment;
     beforeEach(() => {
-      return Comment.new('testing the comment for that user if it is rejected.', mockUsers[0].id)
+      return Promise.all([
+        Comment.create([{body: 'testing the comment for that user if it is rejected.', id: mockUsers[0].id}])
+      ])
       .then((comment) => {
         mockComment = comment;
       });

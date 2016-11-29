@@ -31,19 +31,6 @@ const CommentSchema = new Schema({
 });
 
 //==============================================================================
-// New Statics
-//==============================================================================
-
-/**
- * Create a comment.
- * @param {String} body  content of comment
-*/
-CommentSchema.statics.new = function(body, author_id, asset_id, parent_id, status, username) {
-  let comment  = new Comment({body, author_id, asset_id, parent_id, status, username});
-  return comment.save();
-};
-
-//==============================================================================
 // Find Statics
 //==============================================================================
 
@@ -159,16 +146,13 @@ CommentSchema.statics.moderationQueue = function(moderation) {
 //==============================================================================
 
 /**
- * Changes the status of a comment.
+ * Change the status of a comment.
  * @param {String} id  identifier of the comment  (uuid)
  * @param {String} status the new status of the comment
  * @return {Promise}
  */
 CommentSchema.statics.changeStatus = function(id, status) {
-  return Comment.findOneAndUpdate({'id': id}, {$set: {'status': status}}, {upsert: false, new: true})
-    .then((comment) => {
-      return comment;
-    });
+  return Comment.findOneAndUpdate({'id': id}, {$set: {'status': status}});
 };
 
 /**
