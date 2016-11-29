@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {} from '../../coral-framework/actions/embedStream';
 import {TabBar, Tab} from '../../coral-ui';
 
 import Bio from '../components/Bio';
@@ -46,8 +45,7 @@ class SignInContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  embedStream: state.embedStream.toJS()
+const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps = dispatch => ({

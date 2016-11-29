@@ -4,7 +4,6 @@ import {
   Notification,
   notificationActions,
   authActions,
-  embedStream
 } from '../../coral-framework';
 import {connect} from 'react-redux';
 import CommentBox from '../../coral-plugin-commentbox/CommentBox';
@@ -26,15 +25,13 @@ import SettingsContainer from '../../coral-settings/containers/SettingsContainer
 const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appendItemArray} = itemActions;
 const {addNotification, clearNotification} = notificationActions;
 const {logout} = authActions;
-const {changeTab} = embedStream;
 
 const mapStateToProps = (state) => {
   return {
     config: state.config.toJS(),
     items: state.items.toJS(),
     notification: state.notification.toJS(),
-    auth: state.auth.toJS(),
-    embedStream: state.embedStream.toJS()
+    auth: state.auth.toJS()
   };
 };
 
@@ -52,10 +49,25 @@ const mapDispatchToProps = (dispatch) => ({
   appendItemArray: (item, property, value, addToFront, itemType) =>
     dispatch(appendItemArray(item, property, value, addToFront, itemType)),
   logout: () => dispatch(logout()),
-  changeTab: activeTab => dispatch(changeTab(activeTab))
 });
 
 class CommentStream extends Component {
+
+  constructor (props) {
+    super(props);
+
+    this.state = {
+      activeTab: 0
+    };
+
+    this.changeTab = this.changeTab.bind(this);
+  }
+
+  changeTab (tab) {
+    this.setState({
+      activeTab: tab
+    });
+  }
 
   static propTypes = {
     items: PropTypes.object.isRequired,
@@ -96,13 +108,13 @@ class CommentStream extends Component {
     const rootItem = this.props.items.assets && this.props.items.assets[rootItemId];
     const {actions, users, comments} = this.props.items;
     const {loggedIn, user, showSignInDialog} = this.props.auth;
-    const {activeTab} = this.props.embedStream;
+    const {activeTab} = this.state;
     return <div className={showSignInDialog ? 'expandForSignin' : ''}>
       {
         rootItem
         ? <div>
 
-          <TabBar onChange={this.props.changeTab} activeTab={activeTab}>
+          <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count id={rootItemId} items={this.props.items}/></Tab>
             <Tab>Settings</Tab>
           </TabBar>
@@ -235,9 +247,9 @@ class CommentStream extends Component {
               notification={this.props.notification}
             />
           </TabContent>
-          <ContentBox show={activeTab === 1}>
+          <TabContent show={activeTab === 1}>
             <SettingsContainer/>
-          </ContentBox>
+          </TabContent>
         </div>
         : 'Loading'
       }
