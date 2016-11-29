@@ -1,4 +1,4 @@
-import {base, handleResp, getInit} from '../../../coral-framework/helpers/response';
+import coralApi from '../../../coral-framework/helpers/response';
 
 export const SETTINGS_LOADING = 'SETTINGS_LOADING';
 export const SETTINGS_RECEIVED = 'SETTINGS_RECEIVED';
@@ -12,8 +12,7 @@ export const SAVE_SETTINGS_FAILED = 'SAVE_SETTINGS_FAILED';
 
 export const fetchSettings = () => dispatch => {
   dispatch({type: SETTINGS_LOADING});
-  fetch(`${base}/settings`, getInit('GET'))
-    .then(handleResp)
+  coralApi('/settings')
     .then(settings => {
       dispatch({type: SETTINGS_RECEIVED, settings});
     })
@@ -29,8 +28,7 @@ export const updateSettings = settings => {
 export const saveSettingsToServer = () => (dispatch, getState) => {
   const settings = getState().settings.toJS().settings;
   dispatch({type: SAVE_SETTINGS_LOADING});
-  fetch(`${base}/settings`, getInit('PUT', settings))
-    .then(handleResp)
+  coralApi('/settings', {method: 'PUT', body: settings})
     .then(() => {
       dispatch({type: SAVE_SETTINGS_SUCCESS, settings});
     })

@@ -2,7 +2,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from './../translations';
 const lang = new I18n(translations);
 import * as actions from '../constants/auth';
-import {base, handleResp, getInit} from '../helpers/response';
+import coralApi, {base} from '../helpers/response';
 import {addItem} from './items';
 
 // Dialog Actions
@@ -25,8 +25,7 @@ const signInFailure = error => ({type: actions.FETCH_SIGNIN_FAILURE, error});
 
 export const fetchSignIn = (formData) => dispatch => {
   dispatch(signInRequest());
-  fetch(`${base}/auth/local`, getInit('POST', formData))
-    .then(handleResp)
+  coralApi('/auth/local', {method: 'POST', body: formData})
     .then(({user}) => {
       dispatch(hideSignInDialog());
       dispatch(signInSuccess(user));
@@ -74,8 +73,7 @@ const signUpFailure = error => ({type: actions.FETCH_SIGNUP_FAILURE, error});
 
 export const fetchSignUp = formData => dispatch => {
   dispatch(signUpRequest());
-  fetch(`${base}/user`, getInit('POST', formData))
-    .then(handleResp)
+  coralApi('/user', {method: 'POST', body: formData})
     .then(({user}) => {
       dispatch(signUpSuccess(user));
       setTimeout(() =>{
@@ -93,8 +91,7 @@ const forgotPassowordFailure = () => ({type: actions.FETCH_FORGOT_PASSWORD_FAILU
 
 export const fetchForgotPassword = email => dispatch => {
   dispatch(forgotPassowordRequest(email));
-  fetch(`${base}/user/request-password-reset`, getInit('POST', {email}))
-    .then(handleResp)
+  coralApi('/user/request-password-reset', {method: 'POST', body: {email}})
     .then(() => dispatch(forgotPassowordSuccess()))
     .catch(error => dispatch(forgotPassowordFailure(error)));
 };
@@ -107,8 +104,7 @@ const logOutFailure = () => ({type: actions.LOGOUT_FAILURE});
 
 export const logout = () => dispatch => {
   dispatch(logOutRequest());
-  fetch(`${base}/auth`, getInit('DELETE'))
-    .then(handleResp)
+  coralApi('/auth', {method: 'DELETE'})
     .then(() => dispatch(logOutSuccess()))
     .catch(error => dispatch(logOutFailure(error)));
 };
@@ -126,14 +122,7 @@ const checkLoginFailure = error => ({type: actions.CHECK_LOGIN_FAILURE, error});
 
 export const checkLogin = () => dispatch => {
   dispatch(checkLoginRequest());
-  fetch(`${base}/auth`, getInit('GET'))
-    .then((res) => {
-      if (res.status !== 200) {
-        throw new Error('not logged in');
-      }
-
-      return res.json();
-    })
+  coralApi('/auth')
     .then(user => dispatch(checkLoginSuccess(user)))
     .catch(error => dispatch(checkLoginFailure(error)));
 };
