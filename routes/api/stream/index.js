@@ -40,7 +40,7 @@ router.get('/', (req, res, next) => {
     // Fetch the appropriate comments stream.
     let comments;
 
-    if (settings.moderation === 'post') {
+    if (settings.moderation === 'pre') {
       comments = Comment.findAcceptedByAssetId(asset.id);
     } else {
       comments = Comment.findAcceptedAndNewByAssetId(asset.id);
