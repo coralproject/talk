@@ -16,7 +16,7 @@ const SignInContent = ({handleChange, formData, ...props}) => (
       </h1>
     </div>
     <div className={styles.socialConnections}>
-      <Button cStyle="facebook" onClick={props.fetchSignInFacebook}>
+      <Button cStyle="facebook" onClick={props.fetchSignInFacebook} full>
         {lang.t('signIn.facebookSignIn')}
       </Button>
     </div>
@@ -44,7 +44,7 @@ const SignInContent = ({handleChange, formData, ...props}) => (
       <div className={styles.action}>
         {
           !props.auth.isLoading ?
-          <Button id='coralLogInButton' type="submit" cStyle="black" className={styles.signInButton}>
+          <Button id='coralLogInButton' type="submit" cStyle="black" className={styles.signInButton} full>
             {lang.t('signIn.signIn')}
           </Button>
           :
