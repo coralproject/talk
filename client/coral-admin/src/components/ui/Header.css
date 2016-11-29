@@ -1,6 +1,5 @@
 .header {
     background: #505050;
-    overflow: hidden;
 }
 
 .header > div {
@@ -14,8 +13,35 @@
     background: #232323;
 }
 
-.version {
+.rightPanel {
     position: absolute;
     right: 0;
-    width: 50px;
+    width: 170px;
+}
+
+.rightPanel ul {
+  list-style: none;
+  line-height: 38px;
+}
+
+.rightPanel li {
+  display: inline-block;
+  float: right;
+  margin-left: 15px;
+}
+
+.rightPanel .settings {
+  vertical-align: middle;
+  border-radius: 3px;
+  border: solid 1px #9e9e9e;
+  line-height: 10px;
+}
+
+.rightPanel .settings > div {
+  position: relative;
+}
+
+.rightPanel .settings:hover {
+  background: rgba(158, 158, 158, 0.69);
+  cursor: pointer;
 }
