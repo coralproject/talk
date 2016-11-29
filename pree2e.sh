@@ -1,4 +1,4 @@
 node_modules/selenium-standalone/bin/selenium-standalone install
 source .env-test
-echo $TALK_MONGO_URL
+node tests/e2e/mocks &
 npm start &
