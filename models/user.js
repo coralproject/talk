@@ -11,6 +11,7 @@ const SALT_ROUNDS = 10;
 
 // USER_ROLES is the array of roles that is permissible as a user role.
 const USER_ROLES = [
+  '',
   'admin',
   'moderator'
 ];

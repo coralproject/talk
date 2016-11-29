@@ -11,5 +11,5 @@ export {
   itemActions,
   I18n,
   notificationActions,
-  authActions
+  authActions,
 };

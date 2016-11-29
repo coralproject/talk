@@ -1,0 +1,43 @@
+.base {
+  list-style: none;
+  border-bottom: solid 1px #D8D8D8;
+  padding: 0;
+}
+
+.base li {
+  color: #4E5259;
+  border: solid 1px #D8D8D8;
+  background: #F0F0F0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  display: inline-block;
+  border-bottom: none;
+  padding: 8px 10px;
+  margin-right: -1px;
+  user-select: none;
+}
+
+.base li:hover {
+  background: #f3f3f3;
+  cursor: pointer;
+}
+
+.material {
+  list-style: none;
+  border: none;
+  padding: 0;
+}
+
+.material li {
+  color: black;
+  border: none;
+  border-bottom: solid 2px white;
+  background: white;
+  padding: 8px 0;
+  margin-right: 40px;
+}
+
+.material li:hover {
+  background: white;
+  border-bottom: solid 2px grey;
+}
