@@ -34,7 +34,7 @@ class ForgotContent extends React.Component {
               id="email"
               name="email" />
           </div>
-          <Button type="submit" cStyle="black" className={styles.signInButton}>
+          <Button type="submit" cStyle="black" className={styles.signInButton} full>
             {lang.t('signIn.recoverPassword')}
           </Button>
           {
