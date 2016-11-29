@@ -123,6 +123,12 @@ const checkLoginFailure = error => ({type: actions.CHECK_LOGIN_FAILURE, error});
 export const checkLogin = () => dispatch => {
   dispatch(checkLoginRequest());
   coralApi('/auth')
-    .then(user => dispatch(checkLoginSuccess(user)))
+    .then(user => {
+      if (!user) {
+        throw new Error('not logged in');
+      }
+
+      dispatch(checkLoginSuccess(user));
+    })
     .catch(error => dispatch(checkLoginFailure(error)));
 };
