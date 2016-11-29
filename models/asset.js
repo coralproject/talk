@@ -1,6 +1,7 @@
 const mongoose = require('../mongoose');
-const uuid = require('uuid');
 const Schema = mongoose.Schema;
+
+const uuid = require('uuid');
 
 const AssetSchema = new Schema({
   id: {
@@ -20,6 +21,10 @@ const AssetSchema = new Schema({
   },
   scraped: {
     type: Date,
+    default: null
+  },
+  settings: {
+    type: Schema.Types.Mixed,
     default: null
   },
   title: String,
@@ -88,6 +93,18 @@ AssetSchema.statics.findOrCreateByUrl = (url) => Asset.findOneAndUpdate({url}, {
 
   // Set the default values if not provided based on the mongoose models.
   setDefaultsOnInsert: true
+});
+
+/**
+ * Updates the settings for the asset.
+ * @param  {[type]} id       [description]
+ * @param  {[type]} settings [description]
+ * @return {[type]}          [description]
+ */
+AssetSchema.statics.overrideSettings = (id, settings) => Asset.update({id}, {
+  $set: {
+    settings
+  }
 });
 
 /**
