@@ -2,8 +2,8 @@ const mongoose = require('../mongoose');
 
 beforeEach(function (done) {
   function clearDB() {
-    for (let i in mongoose.connection.collections) {
-      mongoose.connection.collections[i].remove(function() {});
+    for (let collection in mongoose.connection.collections) {
+      mongoose.connection.collections[collection].remove(function() {});
     }
     return done();
   }
