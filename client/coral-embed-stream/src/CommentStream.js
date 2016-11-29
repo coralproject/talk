@@ -129,14 +129,10 @@ class CommentStream extends Component {
     const {loggedIn, user, showSignInDialog} = this.props.auth;
     const {activeTab} = this.state;
 
-    this.rootItem = rootItem;
-
     return <div className={showSignInDialog ? 'expandForSignin' : ''}>
       {
         rootItem
         ? <div className="commentStream">
-        ? <div>
-
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count id={rootItemId} items={this.props.items}/></Tab>
             <Tab>Settings</Tab>
@@ -195,8 +191,8 @@ class CommentStream extends Component {
                       updateItem={this.props.updateItem}
                       currentUser={this.props.auth.user}/>
                       <PermalinkButton
-                        comment_id={commentId}
-                        asset_id={comment.asset_id}/>
+                        commentId={commentId}
+                        articleURL={this.path}/>
                   </div>
                     <ReplyBox
                       addNotification={this.props.addNotification}
@@ -243,8 +239,8 @@ class CommentStream extends Component {
                                 updateItem={this.props.updateItem}
                                 currentUser={this.props.auth.user}/>
                                 <PermalinkButton
-                                  comment_id={reply.parent_id}
-                                  asset_id={rootItemId}
+                                  commentId={reply.parent_id}
+                                  articleURL={this.path}
                                   />
                             </div>
                             <ReplyBox
