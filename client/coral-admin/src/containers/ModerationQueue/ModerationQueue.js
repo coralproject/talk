@@ -6,15 +6,15 @@ import ModerationKeysModal from 'components/ModerationKeysModal';
 import CommentList from 'components/CommentList';
 
 import {updateStatus} from 'actions/comments';
-import {updateUserStatus} from 'actions/users';
 import styles from './ModerationQueue.css';
 
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations.json';
 
 /*
- * Renders the moderation queue as a tabbed layout with 3 moderation queues
- * * pending: filtered by status Untouchedand comments that are flagged in the post-moderation setting.
+ * Renders the moderation queue as a tabbed layout with 3 moderation
+ * queues :
+ * * pending: filtered by status Untouched
  * * rejected: filtered by status Rejected
  * * flagged: with a flagged action on them
  */
@@ -50,25 +50,9 @@ class ModerationQueue extends React.Component {
     }
   }
 
-  // Dispatch the appropiate action
-  onAction (status, id) {
-    // switch(status){
-    // case 'banned':
-    //   this.props.dispatch(updateUserStatus(status, id));
-    //   break;
-    // default:
-    this.props.dispatch(updateStatus(status, id));
-    //}
-  }
-
-  // Dispatch the update comment status action
+  // Dispatch the update status action
   onCommentAction (status, id) {
     this.props.dispatch(updateStatus(status, id));
-  }
-
-  // Dispatch the update user status action
-  onUserAction (status, id) {
-    this.props.dispatch(updateUserStatus(status, id));
   }
 
   onTabClick (activeTab) {
@@ -102,8 +86,8 @@ class ModerationQueue extends React.Component {
                   .get('status'))
               }
               comments={comments.get('byId')}
-              onClickAction={(action, id) => this.onAction(action, id)}
-              actions={['reject', 'approve', 'banned']}
+              onClickAction={(action, id) => this.onCommentAction(action, id)}
+              actions={['reject', 'approve']}
               loading={comments.loading} />
           </div>
           <div className={`mdl-tabs__panel ${styles.listContainer}`} id='rejected'>

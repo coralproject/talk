@@ -21,10 +21,6 @@ const tableHeaders = [
     field: 'created_at'
   },
   {
-    title: lang.t('community.status'),
-    field: 'status'
-  },
-  {
     title: lang.t('community.newsroom_role'),
     field: 'role'
   }
@@ -34,7 +30,7 @@ const Community = ({isFetching, commenters, ...props}) => {
   const hasResults = !isFetching && !!commenters.length;
   return (
     <Grid>
-      <Cell col={3}>
+      <Cell col={4}>
         <form action="">
           <div className={`mdl-textfield ${styles.searchBox}`}>
             <label className="mdl-button mdl-js-button mdl-button--icon" htmlFor="commenters-search">

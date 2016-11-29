@@ -1,3 +1,4 @@
+
 import React from 'react';
 import timeago from 'timeago.js';
 import styles from './CommentList.css';
@@ -20,7 +21,6 @@ export default props => {
           <i className={`material-icons ${styles.avatar}`}>person</i>
           <span>{props.comment.get('name') || lang.t('comment.anon')}</span>
           <span className={styles.created}>{timeago().format(props.comment.get('createdAt') || (Date.now() - props.index * 60 * 1000), lang.getLocale().replace('-', '_'))}</span>
-          {props.comment.get('banned') ? <p className={styles.banned}>{lang.t('comment.banned-user')}</p> : null}
           {props.comment.get('flagged') ? <p className={styles.flagged}>{lang.t('comment.flagged')}</p> : null}
         </div>
         <div>
@@ -32,9 +32,7 @@ export default props => {
                 cStyle={action}
                 key={i}
                 onClick={() => props.onClickAction(props.actionsMap[action].status, props.comment.get('id'))}
-                fab colored>
-                <Icon name={props.actionsMap[action].icon} />
-              </FabButton>
+              />
             ) : null)}
           </div>
         </div>
@@ -54,14 +52,7 @@ export default props => {
 const canShowAction = (action, comment) => {
   const status = comment.get('status');
   const flagged = comment.get('flagged');
-  //const banned = comment.get('banned');
 
-  // // If the user that authored the comment is banned then do not ban it again.
-  // if (action === 'ban' && !banned) {
-  //   return false;
-  // }
-
-  // If it is flagged do not flag it .
   if (action === 'flag' && (status || flagged === true)) {
     return false;
   }

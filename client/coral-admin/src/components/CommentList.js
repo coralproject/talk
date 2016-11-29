@@ -9,8 +9,7 @@ import Comment from 'components/Comment';
 const actions = {
   'reject': {status: 'rejected', icon: 'close', key: 'r'},
   'approve': {status: 'accepted', icon: 'done', key: 't'},
-  'flag': {status: 'flagged', icon: 'flag', filter: 'Untouched'},
-  'ban': {status: 'banned', icon: 'not interested', text: 'Ban User'}
+  'flag': {status: 'flagged', icon: 'flag', filter: 'Untouched'}
 };
 
 // Renders a comment list and allow performing actions
@@ -40,7 +39,7 @@ export default class CommentList extends React.Component {
     }
   }
 
-  // Add swipe to approve or reject or ban
+  // Add swipe to approve or reject
   bindGestures () {
     const {actions} = this.props;
     this._hammer = new Hammer(this.base);
@@ -51,9 +50,6 @@ export default class CommentList extends React.Component {
     }
     if (actions.indexOf('approve') !== -1) {
       this._hammer.on('swiperight', () => this.props.singleView && this.actionKeyHandler('Approved'));
-    }
-    if (actions.indexOf('ban') !== -1) {
-      this._hammer.on('swipeup', () => this.props.singleView && this.actionKeyHandler('Banned'));
     }
   }
 
