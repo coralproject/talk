@@ -48,7 +48,7 @@ const session_opts = {
   },
   store: new RedisStore({
     ttl: 1800,
-    client: redis,
+    client: redis.createClient(),
   })
 };
 

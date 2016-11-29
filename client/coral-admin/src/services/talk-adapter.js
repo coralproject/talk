@@ -1,3 +1,4 @@
+import {base, handleResp, getInit} from '../../../coral-framework/helpers/response';
 
 /**
  * The adapter is a redux middleware that interecepts the actions that need
@@ -6,9 +7,6 @@
  * moderation app can be platform agnostic. This same client could work not only
  * for the coral but also for wordpress comments, disqus and many more.
  */
-
-// Default headers for json payloads.
-const jsonHeader = new Headers({'Content-Type': 'application/json'});
 
 // Intercept redux actions and act over the ones we are interested
 export default store => next => action => {
@@ -35,11 +33,11 @@ export default store => next => action => {
 const fetchModerationQueueComments = store =>
 
 Promise.all([
-  fetch('/api/v1/queue/comments/pending'),
-  fetch('/api/v1/comments?status=rejected'),
-  fetch('/api/v1/comments?action_type=flag')
+  fetch(`${base}/queue/comments/pending`, getInit('GET')),
+  fetch(`${base}/comments?status=rejected`, getInit('GET')),
+  fetch(`${base}/comments?action_type=flag`, getInit('GET'))
 ])
-.then(res => Promise.all(res.map(r => r.json())))
+.then(res => Promise.all(res.map(handleResp)))
 .then(res => {
   res[2] = res[2].map(comment => { comment.flagged = true; return comment; });
   return res.reduce((prev, curr) => prev.concat(curr), []);
@@ -51,26 +49,22 @@ Promise.all([
 // Update a comment. Now to update a comment we need to send back the whole object
 
 const updateComment = (store, comment) => {
-  fetch(`/api/v1/comments/${comment.get('id')}/status`, {
-    method: 'PUT',
-    headers: jsonHeader,
-    body: JSON.stringify({status: comment.get('status')})
-  })
-  .then(res => res.json())
+  fetch(`${base}/comments/${comment.get('id')}/status`, getInit('PUT', {status: comment.get('status')}))
+  .then(handleResp)
   .then(res => store.dispatch({type: 'COMMENT_UPDATE_SUCCESS', res}))
   .catch(error => store.dispatch({type: 'COMMENT_UPDATE_FAILED', error}));
 };
 
 // Create a new comment
-const createComment = (store, name, comment) =>
-fetch('/api/v1/comments', {
-  method: 'POST',
-  body: JSON.stringify({
+const createComment = (store, name, comment) => {
+  const body = {
     status: 'Untouched',
     body: comment,
     name: name,
     createdAt: Date.now()
-  })
-}).then(res => res.json())
-.then(res => store.dispatch({type: 'COMMENT_CREATE_SUCCESS', comment: res}))
-.catch(error => store.dispatch({type: 'COMMENT_CREATE_FAILED', error}));
+  };
+  return fetch(`${base}/comments`, getInit('POST', body))
+    .then(handleResp)
+    .then(res => store.dispatch({type: 'COMMENT_CREATE_SUCCESS', comment: res}))
+    .catch(error => store.dispatch({type: 'COMMENT_CREATE_FAILED', error}));
+};
