@@ -7,15 +7,16 @@ const fs = require('fs');
 const path = require('path');
 const resetEmailFile = fs.readFileSync(path.resolve(__dirname, '../../../views/password-reset-email.ejs'));
 const resetEmailTemplate = ejs.compile(resetEmailFile.toString());
+const authorization = require('../../../middleware/authorization');
 
-router.get('/', (req, res, next) => {
+router.get('/', authorization.needed('admin'), (req, res, next) => {
   const {
     value = '',
     field = 'created_at',
     page = 1,
     asc = 'false',
     limit = 50 // Total Per Page
-    } = req.query;
+  } = req.query;
 
   Promise.all([
     User
@@ -49,7 +50,7 @@ router.get('/', (req, res, next) => {
   .catch(next);
 });
 
-router.post('/:user_id/role', (req, res, next) => {
+router.post('/:user_id/role', authorization.needed('admin'), (req, res, next) => {
   User
     .addRoleToUser(req.params.user_id, req.body.role)
     .then(role => {
@@ -127,9 +128,10 @@ router.post('/request-password-reset', (req, res, next) => {
       return mailer.sendSimple(options);
     })
     .then(() => {
+
       // we want to send a 204 regardless of the user being found in the db
       // if we fail on missing emails, it would reveal if people are registered or not.
-      res.status(204).send('OK');
+      res.status(204).end();
     })
     .catch(error => {
       const errorMsg = typeof error === 'string' ? error : error.message;

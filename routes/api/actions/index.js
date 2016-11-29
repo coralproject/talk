@@ -6,7 +6,8 @@ const router = express.Router();
 router.delete('/:action_id', (req, res, next) => {
   Action
     .findOneAndRemove({
-      id: req.params.action_id
+      id: req.params.action_id,
+      user_id: req.user.id
     })
     .then(() => {
       res.status(204).end();

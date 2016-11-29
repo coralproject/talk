@@ -1,14 +1,13 @@
-const _ = require('lodash');
 const express = require('express');
-const router = express.Router();
 const Setting = require('../../../models/setting');
+
+const router = express.Router();
 
 router.get('/', (req, res, next) => {
   Setting
     .getSettings()
     .then(settings => {
-      const whitelist = ['moderation'];
-      res.json(_.pick(settings, whitelist));
+      res.json(settings);
     })
     .catch(next);
 });

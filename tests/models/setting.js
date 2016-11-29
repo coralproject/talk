@@ -1,7 +1,3 @@
-/* eslint-env node, mocha */
-
-require('../utils/mongoose');
-
 const Setting = require('../../models/setting');
 const expect = require('chai').expect;
 
@@ -18,6 +14,7 @@ describe('Setting: model', () => {
         expect(settings).to.have.property('moderation').and.to.equal('pre');
       });
     });
+
     it('should have two infoBox fields defined', () => {
       return Setting.getSettings().then(settings => {
         expect(settings).to.have.property('infoBoxEnable').and.to.equal(false);
@@ -30,6 +27,7 @@ describe('Setting: model', () => {
     it('should update the settings with a passed object', () => {
       const mockSettings = {moderation: 'post', infoBoxEnable: true, infoBoxContent: 'yeah'};
       return Setting.updateSettings(mockSettings).then(updatedSettings => {
+        expect(updatedSettings).to.be.an('object');
         expect(updatedSettings).to.have.property('moderation').and.to.equal('post');
         expect(updatedSettings).to.have.property('infoBoxEnable', true);
         expect(updatedSettings).to.have.property('infoBoxContent', 'yeah');

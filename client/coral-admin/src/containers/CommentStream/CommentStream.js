@@ -31,7 +31,7 @@ class CommentStream extends React.Component {
 
   // The only action for now is flagging
   onClickAction (action, id) {
-    if (action === 'flagged') {
+    if (action === 'flag') {
       this.props.dispatch(flagComment(id));
       clearTimeout(this._snackTimeout);
       this.setState({snackbar: true, snackbarMsg: 'Thank you for reporting this comment. Our moderation team has been notified and will review it shortly.'});
