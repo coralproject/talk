@@ -10,7 +10,7 @@ chai.use(require('chai-http'));
 
 const Asset = require('../../../../models/asset');
 
-describe('/assets', () => {
+describe('/api/v1/assets', () => {
 
   beforeEach(() => {
     return Asset.create([
@@ -27,7 +27,7 @@ describe('/assets', () => {
     ]);
   });
 
-  describe('GET', () => {
+  describe('#get', () => {
 
     it('should return all assets without a search query', () => {
       return chai.request(app)

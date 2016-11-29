@@ -30,16 +30,36 @@ router.get('/', (req, res, next) => {
     Setting.getModerationSetting()
   ])
   .then(([asset, settings]) => {
-    // Get the sitewide moderation setting and return the appropriate comments
+
+    // Merge the asset specific settings with the returned settings object in
+    // the event that the asset that was returned also had settings.
+    if (asset.settings) {
+      settings = Object.assign(settings, asset.settings);
+    }
+
+    // Fetch the appropriate comments stream.
     let comments;
-    if (settings.moderation === 'pre') {
+
+    if (settings.moderation === 'post') {
       comments = Comment.findAcceptedByAssetId(asset.id);
     } else {
       comments = Comment.findAcceptedAndNewByAssetId(asset.id);
     }
 
-    return Promise.all([comments, asset, settings]);
+    return Promise.all([
+
+      // This is the promised component... Fetch the comments based on the
+      // moderation settings.
+      comments,
+
+      // Send back the reference to the asset.
+      asset,
+
+      // Send back the settings to the stream.
+      settings
+    ]);
   })
+  // Get all the users and actions for those comments.
   .then(([comments, asset, settings]) => {
 
     // Get the user id's from the author id's as a unique array that gets
@@ -73,14 +93,16 @@ router.get('/', (req, res, next) => {
       // The users who wrote those comments
       users,
 
-      // The actions on the above items
+      // And all actions about the asset, comments, and users.
       actions,
 
-      // And the relevant settings
+      // Pass back the settings that we loaded.
       settings
     ]);
   })
   .then(([asset, comments, users, actions, settings]) => {
+
+    // Send back the payload containing all this data.
     res.json({
       assets: [asset],
       comments,
