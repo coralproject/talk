@@ -89,10 +89,11 @@ describe('api/stream: routes', () => {
       .query({'asset_url': 'http://test.com'})
       .then(res => {
         expect(res).to.have.status(200);
-        expect(res.body.assets.length).to.equal(1);
-        expect(res.body.comments.length).to.equal(2);
-        expect(res.body.users.length).to.equal(2);
-        expect(res.body.actions.length).to.equal(1);
+        expect(res.body.assets[0]).to.have.property('url');
+        expect(res.body.comments[0]).to.have.property('body');
+        expect(res.body.users[0]).to.have.property('displayName');
+        expect(res.body.actions[0]).to.have.property('action_type');
+        expect(res.body.settings).to.have.property('moderation');
       });
   });
 });

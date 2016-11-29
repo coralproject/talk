@@ -1,5 +1,4 @@
-const kue = require('kue');
-const queue = kue.createQueue();
+const kue = require('../kue');
 const debug = require('debug')('talk:services:scraper');
 const Asset = require('../models/asset');
 const JOB_NAME = 'scraper';
@@ -19,7 +18,7 @@ const scraper = {
     return new Promise((resolve, reject) => {
       debug(`Creating job for Asset[${asset.id}]`);
 
-      let job = queue
+      let job = kue.queue
         .create(JOB_NAME, {
           title: `Scrape for asset ${asset.id}`,
           asset_id: asset.id
@@ -72,7 +71,7 @@ const scraper = {
     debug(`Now processing ${JOB_NAME} jobs`);
 
     // Process jobs with the processJob function.
-    queue.process(JOB_NAME, (job, done) => {
+    kue.queue.process(JOB_NAME, (job, done) => {
 
       debug(`Starting on Job[${job.id}] for Asset[${job.data.asset_id}]`);
 
@@ -123,7 +122,7 @@ const scraper = {
 
       // Shutdown and give the queue 5 seconds to shutdown before we start
       // killing jobs.
-      queue.shutdown(5000, (err) => {
+      kue.queue.shutdown(5000, (err) => {
         if (err) {
           return reject(err);
         }
