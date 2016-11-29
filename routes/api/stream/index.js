@@ -14,7 +14,6 @@ router.get('/', (req, res, next) => {
 
   // Get the asset_id for this url (or create it if it doesn't exist)
   Promise.all([
-
     // Find or create the asset by url.
     Asset.findOrCreateByUrl(decodeURIComponent(req.query.asset_url))
 
@@ -38,14 +37,12 @@ router.get('/', (req, res, next) => {
       settings = Object.assign(settings, asset.settings);
     }
 
-    // Fetch the appropriate comments stream. 
+    // Fetch the appropriate comments stream.
     let comments;
 
     if (settings.moderation === 'post') {
       comments = Comment.findAcceptedByAssetId(asset.id);
     } else {
-
-      // Defaults to 'pre' moderation.
       comments = Comment.findAcceptedAndNewByAssetId(asset.id);
     }
 
@@ -93,7 +90,7 @@ router.get('/', (req, res, next) => {
       // It's comments...
       comments,
 
-      // All the users/authors of those comments...
+      // The users who wrote those comments
       users,
 
       // And all actions about the asset, comments, and users.
@@ -104,7 +101,6 @@ router.get('/', (req, res, next) => {
     ]);
   })
   .then(([asset, comments, users, actions, settings]) => {
-
     // Send back the payload containing all this data.
     res.json({
       assets: [asset],
