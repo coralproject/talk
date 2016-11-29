@@ -249,7 +249,7 @@ export function postAction (item_id, action_type, user_id, item_type) {
 
 export function deleteAction (action_id) {
   return () => {
-    return fetch(`${base}/actions/${action_id}`, {method: 'DELETE'})
+    return fetch(`${base}/actions/${action_id}`, getInit('DELETE'))
       .then(handleResp);
   };
 }
