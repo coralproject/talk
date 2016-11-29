@@ -1,4 +1,4 @@
-import {base, handleResp, getInit} from '../helpers/response';
+import {base, handleResp, getInit} from '../../../coral-framework/helpers/response';
 
 export const SETTINGS_LOADING = 'SETTINGS_LOADING';
 export const SETTINGS_RECEIVED = 'SETTINGS_RECEIVED';

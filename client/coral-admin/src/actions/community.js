@@ -10,7 +10,7 @@ import {
   SET_STATUS
 } from '../constants/community';
 
-import {base, getInit, handleResp} from '../helpers/response';
+import {base, getInit, handleResp} from '../../../coral-framework/helpers/response';
 
 export const fetchCommenters = (query = {}) => dispatch => {
   dispatch(requestFetchCommenters());
