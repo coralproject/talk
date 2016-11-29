@@ -28,6 +28,35 @@ ActionSchema.statics.findById = function(id) {
 };
 
 /**
+ * Add an action.
+ * @param {String} item_id  identifier of the comment  (uuid)
+ * @param {String} user_id  user id of the action (uuid)
+ * @param {String} action the new action to the comment
+ * @return {Promise}
+ */
+ActionSchema.statics.insertUserAction = ({item_id, item_type, user_id, action_type}) => {
+  const action = {
+    item_id,
+    item_type,
+    user_id,
+    action_type
+  };
+
+  // Create/Update the action.
+  return Action.findOneAndUpdate(action, action, {
+
+    // Ensure that if it's new, we return the new object created.
+    new: true,
+
+    // Perform an upsert in the event that this doesn't exist.
+    upsert: true,
+
+    // Set the default values if not provided based on the mongoose models.
+    setDefaultsOnInsert: true
+  });
+};
+
+/**
  * Finds actions in an array of ids.
  * @param {String} ids array of user identifiers (uuid)
 */
@@ -41,7 +70,7 @@ ActionSchema.statics.findByItemIdArray = function(item_ids) {
  * Returns summaries of actions for an array of ids
  * @param {String} ids array of user identifiers (uuid)
 */
-ActionSchema.statics.getActionSummaries = function(item_ids) {
+ActionSchema.statics.getActionSummaries = function(item_ids, current_user_id = '') {
   return Action.aggregate([
     {
 
@@ -71,6 +100,18 @@ ActionSchema.statics.getActionSummaries = function(item_ids) {
         // just grabbing the last instance of the item type here.
         item_type: {
           $last: '$item_type'
+        },
+
+        current_user: {
+          $max: {
+            $cond: {
+              if: {
+                $eq: ['$user_id', current_user_id],
+              },
+              then: '$$CURRENT',
+              else: null
+            }
+          }
         }
       }
     },
@@ -89,7 +130,7 @@ ActionSchema.statics.getActionSummaries = function(item_ids) {
         item_type: '$item_type',
 
         // set the current user to false here
-        current_user: {$literal: false}
+        current_user: '$current_user'
       }
     }
   ])

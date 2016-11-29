@@ -1,6 +1,4 @@
-process.env.NODE_ENV = 'test';
-
-require('../../../utils/mongoose');
+const passport = require('../../../passport');
 
 const app = require('../../../../app');
 const chai = require('chai');
@@ -17,11 +15,7 @@ const User = require('../../../../models/user');
 const Setting = require('../../../../models/setting');
 const settings = {id: '1', moderation: 'pre'};
 
-beforeEach(() => {
-  return Setting.create(settings);
-});
-
-describe('Get moderation queues rejected, pending, flags', () => {
+describe('/api/v1/queue', () => {
   const comments = [{
     id: 'abc',
     body: 'comment 10',
@@ -64,18 +58,22 @@ describe('Get moderation queues rejected, pending, flags', () => {
     return Promise.all([
       Comment.create(comments),
       User.createLocalUsers(users),
-      Action.create(actions)
+      Action.create(actions),
+      Setting.create(settings)
     ]);
   });
 
-  it('should return all the pending comments', function(done){
-    chai.request(app)
-      .get('/api/v1/queue/comments/pending')
-      .end(function(err, res){
-        expect(err).to.be.null;
-        expect(res).to.have.status(200);
-        expect(res.body[0]).to.have.property('id', 'def');
-        done();
-      });
+  describe('#get', () => {
+    it('should return all the pending comments', function(done){
+      chai.request(app)
+        .get('/api/v1/queue/comments/pending')
+        .set(passport.inject({roles: ['admin']}))
+        .end(function(err, res){
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res.body[0]).to.have.property('id', 'def');
+          done();
+        });
+    });
   });
 });

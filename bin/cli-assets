@@ -1,0 +1,114 @@
+#!/usr/bin/env node
+
+/**
+ * Setup the debug paramater.
+ */
+
+process.env.DEBUG = process.env.TALK_DEBUG;
+
+/**
+ * Module dependencies.
+ */
+
+const program = require('commander');
+const pkg = require('../package.json');
+const parseDuration = require('parse-duration');
+const Table = require('cli-table');
+const Asset = require('../models/asset');
+const mongoose = require('../mongoose');
+const scraper = require('../services/scraper');
+const util = require('../util');
+
+// Register the shutdown criteria.
+util.onshutdown([
+  () => mongoose.disconnect()
+]);
+
+/**
+ * Lists all the assets registered in the database.
+ */
+function listAssets() {
+  Asset
+    .find({})
+    .sort({'created_at': 1})
+    .then((asset) => {
+      let table = new Table({
+        head: [
+          'ID',
+          'Title',
+          'URL'
+        ]
+      });
+
+      asset.forEach((asset) => {
+        table.push([
+          asset.id,
+          asset.title ? asset.title : '',
+          asset.url ? asset.url : ''
+        ]);
+      });
+
+      console.log(table.toString());
+      util.shutdown();
+    })
+    .catch((err) => {
+      console.error(err);
+      util.shutdown(1);
+    });
+}
+
+function refreshAssets(ageString) {
+  const now = new Date().getTime();
+  const ageMs = parseDuration(ageString);
+  const age = new Date(now - ageMs);
+
+  Asset.find({
+    $or: [
+      {
+        scraped: {
+          $lte: age
+        }
+      },
+      {
+        scraped: null
+      }
+    ]
+  })
+
+  // Queue all the assets for scraping.
+  .then((assets) => Promise.all(assets.map(scraper.create)))
+
+  .then(() => {
+    console.log('Assets were queued to be scraped');
+    util.shutdown();
+  })
+  .catch((err) => {
+    console.error(err);
+    util.shutdown(1);
+  });
+}
+
+//==============================================================================
+// Setting up the program command line arguments.
+//==============================================================================
+
+program
+  .version(pkg.version);
+
+program
+  .command('list')
+  .description('list all the assets in the database')
+  .action(listAssets);
+
+program
+  .command('refresh <age>')
+  .description('queues the assets that exceed the age requested')
+  .action(refreshAssets);
+
+program.parse(process.argv);
+
+// If there is no command listed, output help.
+if (!process.argv.slice(2).length) {
+  program.outputHelp();
+  util.shutdown();
+}
