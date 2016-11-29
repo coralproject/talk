@@ -20,7 +20,7 @@ import LikeButton from '../../coral-plugin-likes/LikeButton';
 import PermalinkButton from '../../coral-plugin-permalinks/PermalinkButton';
 import SignInContainer from '../../coral-sign-in/containers/SignInContainer';
 import UserBox from '../../coral-sign-in/components/UserBox';
-import {TabBar, Tab, ContentBox} from '../../coral-ui';
+import {TabBar, Tab, TabContent} from '../../coral-ui';
 import SettingsContainer from '../../coral-settings/containers/SettingsContainer';
 
 const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appendItemArray} = itemActions;
@@ -107,7 +107,7 @@ class CommentStream extends Component {
             <Tab>Settings</Tab>
           </TabBar>
 
-          <ContentBox show={activeTab === 0}>
+          <TabContent show={activeTab === 0}>
             <div id="commentBox">
               <InfoBox
                 content={this.props.config.infoBoxContent}
@@ -234,7 +234,7 @@ class CommentStream extends Component {
               clearNotification={this.props.clearNotification}
               notification={this.props.notification}
             />
-          </ContentBox>
+          </TabContent>
           <ContentBox show={activeTab === 1}>
             <SettingsContainer/>
           </ContentBox>
