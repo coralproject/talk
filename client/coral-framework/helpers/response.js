@@ -3,10 +3,10 @@ export const base = '/api/v1';
 export const getInit = (method, body) => {
   let init = {
     method,
-    headers: new Headers({
+    headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
-    }),
+    },
     credentials: 'same-origin'
   };
 

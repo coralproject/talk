@@ -1,3 +1,5 @@
+import {getInit, base, handleResp} from '../../coral-framework/helpers/response';
+import {fromJS} from 'immutable';
 /* Item Actions */
 
 /**
@@ -6,28 +8,9 @@
 
 export const ADD_ITEM = 'ADD_ITEM';
 export const UPDATE_ITEM = 'UPDATE_ITEM';
+export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
 export const APPEND_ITEM_ARRAY = 'APPEND_ITEM_ARRAY';
 
-const getInit = (method, body) => {
-  const headers = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  };
-
-  const init = {method, headers};
-  if (body) {
-    init.body = JSON.stringify(body);
-  }
-
-  return init;
-};
-
-const responseHandler = response => {
-  if (response.status === 204) {
-    return;
-  }
-  return response.ok ? response.json() : Promise.reject(`${response.status} ${response.statusText}`);
-};
 /**
  * Action creators
  */
@@ -61,6 +44,7 @@ export const addItem = (item, item_type) => {
 *  id - the id of the item to be posted
 *  property - the property to be updated
 *  value - the value that the property should be set to
+*  item_type - the type of the item being updated (users, comments, etc)
 *
 */
 export const updateItem = (id, property, value, item_type) => {
@@ -73,6 +57,18 @@ export const updateItem = (id, property, value, item_type) => {
   };
 };
 
+/*
+* Appends data to an array in an item in the local store without posting it to the server
+* Useful for adding a recently posted reply to a comment, etc.
+*
+* @params
+*  id - the id of the item to be posted
+*  property - the property to be updated (should be an array)
+*  value - the value that should be added to the array
+*  add_to_front - boolean that defines whether value is added at the beginning (unshift) or end (push)
+*  item_type - the type of the item being updated (users, comments, etc)
+*
+*/
 export const appendItemArray = (id, property, value, add_to_front, item_type) => {
   return {
     type: APPEND_ITEM_ARRAY,
@@ -99,25 +95,25 @@ export const appendItemArray = (id, property, value, add_to_front, item_type) =>
 */
 export function getStream (assetUrl) {
   return (dispatch) => {
-    return fetch(`/api/v1/stream?asset_url=${encodeURIComponent(assetUrl)}`)
-      .then(responseHandler)
+    return fetch(`${base}/stream?asset_url=${encodeURIComponent(assetUrl)}`)
+      .then(handleResp)
       .then((json) => {
 
         /* Add items to the store */
-        const itemTypes = Object.keys(json);
-        for (let i = 0; i < itemTypes.length; i++ ) {
-          if (itemTypes[i] === 'actions') {
-            for (let j = 0; j < json[itemTypes[i]].length; j++ ) {
-              let action = json[itemTypes[i]][j];
+        Object.keys(json).forEach(type => {
+          if (type === 'actions') {
+            json[type].forEach(action => {
               action.id = `${action.action_type}_${action.item_id}`;
               dispatch(addItem(action, 'actions'));
-            }
+            });
+          } else if (type === 'settings') {
+            dispatch({type: UPDATE_SETTINGS, config: fromJS(json[type])});
           } else {
-            for (let j = 0; j < json[itemTypes[i]].length; j++ ) {
-              dispatch(addItem(json[itemTypes[i]][j], itemTypes[i]));
-            }
+            json[type].forEach(item => {
+              dispatch(addItem(item, type));
+            });
           }
-        }
+        });
 
         const assetId = json.assets[0].id;
 
@@ -140,15 +136,14 @@ export function getStream (assetUrl) {
 
         dispatch(updateItem(assetId, 'comments', rels.rootComments, 'assets'));
 
-        const childKeys = Object.keys(rels.childComments);
-        for (let i = 0; i < childKeys.length; i++ ) {
-          dispatch(updateItem(childKeys[i], 'children', rels.childComments[childKeys[i]].reverse(), 'comments'));
-        }
+        Object.keys(rels.childComments).forEach(key => {
+          dispatch(updateItem(key, 'children', rels.childComments[key].reverse(), 'comments'));
+        });
 
         /* Hydrate actions on comments */
-        for (let i = 0; i < json.actions.length; i++ ) {
-          dispatch(updateItem(json.actions[i].item_id, json.actions[i].action_type, json.actions[i].id, 'comments'));
-        }
+        json.actions.forEach(action => {
+          dispatch(updateItem(action.item_id, action.action_type, action.id, 'comments'));
+        });
 
         return (json);
       });
@@ -171,8 +166,8 @@ export function getStream (assetUrl) {
 
 export function getItemsArray (ids) {
   return (dispatch) => {
-    return fetch(`/v1/item/${ids}`, getInit('GET'))
-      .then(responseHandler)
+    return fetch(`${base}/item/${ids}`, getInit('GET'))
+      .then(handleResp)
       .then((json) => {
         for (let i = 0; i < json.items.length; i++) {
           dispatch(addItem(json.items[i]));
@@ -201,8 +196,8 @@ export function postItem (item, type, id) {
     if (id) {
       item.id = id;
     }
-    return fetch(`/api/v1/${type}`, getInit('POST', item))
-      .then(responseHandler)
+    return fetch(`${base}/${type}`, getInit('POST', item))
+      .then(handleResp)
       .then((json) => {
         dispatch(addItem({...item, id:json.id}, type));
         return json.id;
@@ -232,8 +227,8 @@ export function postAction (item_id, action_type, user_id, item_type) {
       user_id
     };
 
-    return fetch(`/api/v1/${item_type}/${item_id}/actions`, getInit('POST', action))
-      .then(responseHandler);
+    return fetch(`${base}/${item_type}/${item_id}/actions`, getInit('POST', action))
+      .then(handleResp);
   };
 }
 
@@ -254,7 +249,7 @@ export function postAction (item_id, action_type, user_id, item_type) {
 
 export function deleteAction (action_id) {
   return () => {
-    return fetch(`/api/v1/actions/${action_id}`, {method: 'DELETE'})
-      .then(responseHandler);
+    return fetch(`${base}/actions/${action_id}`, {method: 'DELETE'})
+      .then(handleResp);
   };
 }
