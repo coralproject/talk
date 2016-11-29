@@ -101,6 +101,7 @@ router.get('/', (req, res, next) => {
     ]);
   })
   .then(([asset, comments, users, actions, settings]) => {
+
     // Send back the payload containing all this data.
     res.json({
       assets: [asset],
