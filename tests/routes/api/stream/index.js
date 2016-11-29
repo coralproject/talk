@@ -13,9 +13,12 @@ const Asset = require('../../../../models/asset');
 
 const Setting = require('../../../../models/setting');
 
-describe('api/stream: routes', () => {
+describe('/api/v1/stream', () => {
 
-  const settings = {id: '1', moderation: 'pre'};
+  const settings = {
+    id: '1',
+    moderation: 'pre'
+  };
 
   const comments = [{
     id: 'abc',
@@ -35,7 +38,7 @@ describe('api/stream: routes', () => {
     asset_id: 'asset',
     author_id: '456',
     parent_id: '',
-    status: ''
+    status: 'accepted'
   }, {
     id: 'hij',
     body: 'comment 40',
@@ -65,15 +68,26 @@ describe('api/stream: routes', () => {
 
     return Promise.all([
       User.createLocalUsers(users),
-      Asset.findOrCreateByUrl('http://test.com')
+      Asset.findOrCreateByUrl('http://test.com'),
+      Asset
+        .findOrCreateByUrl('http://coralproject.net/asset2')
+        .then((asset) => {
+          return Asset
+            .overrideSettings(asset.id, {moderation: 'post'})
+            .then(() => asset);
+        })
     ])
-    .then(([users, asset]) => {
+    .then(([users, asset1, asset2]) => {
 
       comments[0].author_id = users[0].id;
       comments[1].author_id = users[1].id;
+      comments[2].author_id = users[0].id;
+      comments[3].author_id = users[1].id;
 
-      comments[0].asset_id = asset.id;
-      comments[1].asset_id = asset.id;
+      comments[0].asset_id = asset1.id;
+      comments[1].asset_id = asset1.id;
+      comments[2].asset_id = asset2.id;
+      comments[3].asset_id = asset2.id;
 
       return Promise.all([
         Comment.create(comments),
@@ -83,17 +97,32 @@ describe('api/stream: routes', () => {
     });
   });
 
-  it('should return a stream with comments, users and actions for an existing asset', () => {
-    return chai.request(app)
-      .get('/api/v1/stream')
-      .query({'asset_url': 'http://test.com'})
-      .then(res => {
-        expect(res).to.have.status(200);
-        expect(res.body.assets[0]).to.have.property('url');
-        expect(res.body.comments[0]).to.have.property('body');
-        expect(res.body.users[0]).to.have.property('displayName');
-        expect(res.body.actions[0]).to.have.property('action_type');
-        expect(res.body.settings).to.have.property('moderation');
-      });
+  describe('#get', () => {
+    it('should return a stream with comments, users and actions for an existing asset', () => {
+      return chai.request(app)
+        .get('/api/v1/stream')
+        .query({'asset_url': 'http://test.com'})
+        .then(res => {
+          expect(res).to.have.status(200);
+          expect(res.body.assets.length).to.equal(1);
+          expect(res.body.comments.length).to.equal(2);
+          expect(res.body.users.length).to.equal(2);
+          expect(res.body.actions.length).to.equal(1);
+          expect(res.body.settings).to.have.property('moderation', 'pre');
+        });
+    });
+
+    it('should merge the settings when the asset contains settings to override it with', () => {
+      return chai.request(app)
+        .get('/api/v1/stream')
+        .query({'asset_url': 'http://coralproject.net/asset2'})
+        .then((res) => {
+          expect(res).to.have.status(200);
+          expect(res.body.assets.length).to.equal(1);
+          expect(res.body.comments.length).to.equal(1);
+          expect(res.body.users.length).to.equal(1);
+          expect(res.body.settings).to.have.property('moderation', 'post');
+        });
+    });
   });
 });

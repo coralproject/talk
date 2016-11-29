@@ -11,17 +11,20 @@ router.get('/', (req, res, next) => {
     limit = 20,
     skip = 0,
     sort = 'asc',
-    field = 'created_at'
+    field = 'created_at',
+    search = ''
   } = req.query;
 
   // Find all the assets.
   Promise.all([
     Asset
-      .find({})
+      .search(search)
       .sort({[field]: (sort === 'asc') ? 1 : -1})
       .skip(skip)
       .limit(limit),
-    Asset.count()
+    Asset
+      .search(search)
+      .count()
   ])
   .then(([result, count]) => {
 
@@ -76,6 +79,21 @@ router.post('/:asset_id/scrape', (req, res, next) => {
     .catch((err) => {
       next(err);
     });
+});
+
+router.put('/:asset_id/settings', (req, res, next) => {
+
+  // Override the settings for the asset.
+  Asset
+    .overrideSettings(req.params.asset_id, req.body)
+    .then(() => {
+
+      res.status(204).end();
+    })
+    .catch((err) => {
+      next(err);
+    });
+
 });
 
 module.exports = router;

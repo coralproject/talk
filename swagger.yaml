@@ -335,6 +335,28 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
+  /asset/{asset_id}/settings:
+    put:
+      parameters:
+        - name: asset_id
+          in: path
+          required: true
+          type: string
+          format: uuid
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Settings'
+      responses:
+        204:
+          description: The asset settings were updated.
+        404:
+          description: The asset was not found.
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
 
   /stream:
     get:

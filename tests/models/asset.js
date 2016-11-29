@@ -1,5 +1,10 @@
 const Asset = require('../../models/asset');
-const expect = require('chai').expect;
+
+const chai = require('chai');
+const expect = chai.expect;
+
+// Use the chai should.
+chai.should();
 
 describe('Asset: model', () => {
 
@@ -49,6 +54,27 @@ describe('Asset: model', () => {
         .then((asset) => {
           expect(asset).to.have.property('id')
             .and.to.not.equal(1);
+        });
+    });
+  });
+
+  describe('#overrideSettings', () => {
+    it('should update the settings', () => {
+      return Asset
+        .findOrCreateByUrl('https://override.test.com/asset')
+        .then((asset) => {
+          expect(asset).to.have.property('settings');
+          expect(asset.settings).to.be.null;
+
+          return Asset.overrideSettings(asset.id, {moderation: 'pre'});
+        })
+        .then(() => {
+          return Asset.findOrCreateByUrl('https://override.test.com/asset');
+        })
+        .then((asset) => {
+          expect(asset).to.have.property('settings');
+          expect(asset.settings).is.an('object');
+          expect(asset.settings).to.have.property('moderation', 'pre');
         });
     });
   });
