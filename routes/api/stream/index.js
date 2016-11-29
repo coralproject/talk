@@ -34,7 +34,7 @@ router.get('/', (req, res, next) => {
     // Merge the asset specific settings with the returned settings object in
     // the event that the asset that was returned also had settings.
     if (asset.settings) {
-      settings = Object.assign(settings, asset.settings);
+      settings = Object.assign({}, settings, asset.settings);
     }
 
     // Fetch the appropriate comments stream.
