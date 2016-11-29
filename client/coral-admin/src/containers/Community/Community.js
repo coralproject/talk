@@ -54,8 +54,8 @@ const Community = ({isFetching, commenters, ...props}) => {
         </form>
       </Cell>
       <Cell col={8}>
-        { isFetching && <Loading/> }
-        { !hasResults && <NoResults/> }
+        { isFetching && <Loading /> }
+        { !hasResults && <NoResults /> }
         { hasResults &&
           <Table
             headers={tableHeaders}

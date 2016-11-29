@@ -52,13 +52,13 @@ class ModerationQueue extends React.Component {
 
   // Dispatch the appropiate action
   onAction (status, id) {
-    switch(status){
-    case 'banned':
-      this.props.dispatch(updateUserStatus(status, id));
-      break;
-    default:
-      this.props.dispatch(updateStatus(status, id));
-    }
+    // switch(status){
+    // case 'banned':
+    //   this.props.dispatch(updateUserStatus(status, id));
+    //   break;
+    // default:
+    this.props.dispatch(updateStatus(status, id));
+    //}
   }
 
   // Dispatch the update comment status action

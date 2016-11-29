@@ -52,14 +52,14 @@ export default props => {
 
 // Check if an action can be performed over a comment
 const canShowAction = (action, comment) => {
-  const status = comment.get('status'); // accepted
+  const status = comment.get('status');
   const flagged = comment.get('flagged');
-  const banned = comment.get('banned');
+  //const banned = comment.get('banned');
 
-  // If the user that authored the comment is banned then do not ban it again.
-  if (action === 'ban' && !banned) {
-    return false;
-  }
+  // // If the user that authored the comment is banned then do not ban it again.
+  // if (action === 'ban' && !banned) {
+  //   return false;
+  // }
 
   // If it is flagged do not flag it .
   if (action === 'flag' && (status || flagged === true)) {
