@@ -154,11 +154,6 @@ hr {
   color: #F00;
 }
 
-/* Comment count styles */
-.coral-plugin-comment-count-text {
-  margin-bottom: 15px;
-}
-
 .coral-plugin-pubdate-text {
   color: #CCC;
   display: inline-block;
