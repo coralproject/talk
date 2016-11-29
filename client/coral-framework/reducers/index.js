@@ -14,5 +14,5 @@ export default combineReducers({
   config,
   items,
   notification,
-  auth
+  auth,
 });
