@@ -160,7 +160,7 @@ class CommentStream extends Component {
             {
               rootItem.comments && rootItem.comments.map((commentId) => {
                 const comment = comments[commentId];
-                return <div className="comment" key={commentId}>
+                return <div className="comment" key={commentId} id={`c_${commentId}`}>
                   <hr aria-hidden={true}/>
                   <AuthorName author={users[comment.author_id]}/>
                   <PubDate created_at={comment.created_at}/>
@@ -208,7 +208,7 @@ class CommentStream extends Component {
                       comment.children &&
                       comment.children.map((replyId) => {
                         let reply = this.props.items.comments[replyId];
-                        return <div className="reply" key={replyId}>
+                        return <div className="reply" key={replyId} id={`c_${replyId}`}>
                           <hr aria-hidden={true}/>
                           <AuthorName author={users[reply.author_id]}/>
                           <PubDate created_at={reply.created_at}/>
