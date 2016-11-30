@@ -44,7 +44,7 @@ class ForgotContent extends React.Component {
           }
           {
             passwordRequestFailure
-            ? <p className={styles.attention}>{passwordRequestFailure}</p>
+            ? <p className={styles.passwordRequestFailure}>{passwordRequestFailure}</p>
             : null
           }
         </form>
