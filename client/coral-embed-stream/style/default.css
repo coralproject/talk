@@ -79,6 +79,7 @@ hr {
 .coral-plugin-commentbox-textarea {
   flex: 1;
   padding: 5px;
+  min-height: 100px;
 }
 
 .coral-plugin-commentbox-button-container {

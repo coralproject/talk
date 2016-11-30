@@ -1,0 +1,17 @@
+import React from 'react';
+import styles from './NotLoggedIn.css';
+
+export default () => (
+  <div className={styles.message}>
+    <div>
+      <a>Sign In</a> to access Settings
+    </div>
+    <div>
+      From the Settings Page you can
+      <ul>
+        <li>See your comment history</li>
+        <li>Write a bio about yourself to display to the community</li>
+      </ul>
+    </div>
+  </div>
+);

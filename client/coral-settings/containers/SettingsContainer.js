@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {TabBar, Tab} from '../../coral-ui';
+import {TabBar, Tab, TabContent} from '../../coral-ui';
 
 import Bio from '../components/Bio';
 import CommentHistory from '../components/CommentHistory';
 import SettingsHeader from '../components/SettingsHeader';
+import NotLoggedIn from '../components/NotLoggedIn';
+import RestrictedContent from 'coral-framework/components/RestrictedContent';
 
 class SignInContainer extends Component {
   constructor (props) {
@@ -29,18 +31,22 @@ class SignInContainer extends Component {
   }
 
   render() {
-    //const {embedStream} = this.props;
+    const {loggedIn} = this.props;
     const {activeTab} = this.state;
     return (
-      <div>
-        <SettingsHeader />
+      <RestrictedContent restricted={!loggedIn} restrictedComp={NotLoggedIn}>
+        <SettingsHeader {...this.props} />
         <TabBar onChange={this.handleTabChange} activeTab={activeTab} cStyle='material'>
           <Tab>All Comments (120)</Tab>
           <Tab>Profile Settings</Tab>
         </TabBar>
-        { activeTab === 0 && <CommentHistory {...this.props}/> }
-        { activeTab === 1 && <Bio {...this.props}/> }
-      </div>
+        <TabContent show={activeTab === 0}>
+          <CommentHistory {...this.props}/>
+        </TabContent>
+        <TabContent show={activeTab === 1}>
+          <Bio {...this.props} />
+        </TabContent>
+      </RestrictedContent>
     );
   }
 }
@@ -49,10 +55,8 @@ const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getBio: () => dispatch(),
+  handleSaveBio: () => dispatch(),
   getHistory: () => dispatch(),
-  handleSaveChanges: () => dispatch(),
-  handleCancel: () => dispatch()
 });
 
 export default connect(

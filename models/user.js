@@ -74,7 +74,9 @@ const UserSchema = new mongoose.Schema({
 
   // Roles provides an array of roles (as strings) that is associated with a
   // user.
-  roles: [String]
+  roles: [String],
+  // User's bio
+  bio: String,
 }, {
 
   // This will ensure that we have proper timestamps available on this model.

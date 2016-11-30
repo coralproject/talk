@@ -1,5 +1,7 @@
 {
   "en": {
+    "contentNotAvailable": "This content is not available",
+    "suspendedAccountMsg": "Your account is currently suspended. This means that you cannot Like, Flag, or write comments. Please contact moderator@fakeurl.com for more information",
     "error": {
       "email": "Not a valid E-Mail",
       "password": "Password must be at least 8 characters",
@@ -10,6 +12,8 @@
     }
   },
   "es": {
+    "contentNotAvailable": "El contenido no se encuentra disponible",
+    "suspendedAccountMsg": "Tu cuenta se encuentra suspendida. Esto significa que no puedes dar Like, Marcar o escribir commentarios. Por favor, contacta moderator@fakeurl for more information",
     "error": {
       "email": "No es un email válido",
       "password": "La contraseña debe tener por lo menos 8 caracteres",
