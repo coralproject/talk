@@ -1,4 +1,4 @@
-import {getInit, base, handleResp} from '../../coral-framework/helpers/response';
+import coralApi from '../helpers/response';
 import {fromJS} from 'immutable';
 /* Item Actions */
 
@@ -95,8 +95,7 @@ export const appendItemArray = (id, property, value, add_to_front, item_type) =>
 */
 export function getStream (assetUrl) {
   return (dispatch) => {
-    return fetch(`${base}/stream?asset_url=${encodeURIComponent(assetUrl)}`)
-      .then(handleResp)
+    return coralApi(`/stream?asset_url=${encodeURIComponent(assetUrl)}`)
       .then((json) => {
 
         /* Add items to the store */
@@ -166,8 +165,7 @@ export function getStream (assetUrl) {
 
 export function getItemsArray (ids) {
   return (dispatch) => {
-    return fetch(`${base}/item/${ids}`, getInit('GET'))
-      .then(handleResp)
+    return coralApi(`/item/${ids}`)
       .then((json) => {
         for (let i = 0; i < json.items.length; i++) {
           dispatch(addItem(json.items[i]));
@@ -196,8 +194,7 @@ export function postItem (item, type, id) {
     if (id) {
       item.id = id;
     }
-    return fetch(`${base}/${type}`, getInit('POST', item))
-      .then(handleResp)
+    return coralApi(`/${type}`, {method: 'POST', body: item})
       .then((json) => {
         dispatch(addItem({...item, id:json.id}, type));
         return json.id;
@@ -227,8 +224,7 @@ export function postAction (item_id, action_type, user_id, item_type) {
       user_id
     };
 
-    return fetch(`${base}/${item_type}/${item_id}/actions`, getInit('POST', action))
-      .then(handleResp);
+    return coralApi(`/${item_type}/${item_id}/actions`, {method: 'POST', body: action});
   };
 }
 
@@ -249,7 +245,6 @@ export function postAction (item_id, action_type, user_id, item_type) {
 
 export function deleteAction (action_id) {
   return () => {
-    return fetch(`${base}/actions/${action_id}`, {method: 'DELETE'})
-      .then(handleResp);
+    return coralApi(`/actions/${action_id}`, {method: 'DELETE'});
   };
 }

@@ -3,7 +3,7 @@ import {
   itemActions,
   Notification,
   notificationActions,
-  authActions
+  authActions,
 } from '../../coral-framework';
 import {connect} from 'react-redux';
 import CommentBox from '../../coral-plugin-commentbox/CommentBox';
@@ -19,6 +19,8 @@ import LikeButton from '../../coral-plugin-likes/LikeButton';
 import PermalinkButton from '../../coral-plugin-permalinks/PermalinkButton';
 import SignInContainer from '../../coral-sign-in/containers/SignInContainer';
 import UserBox from '../../coral-sign-in/components/UserBox';
+import {TabBar, Tab, TabContent} from '../../coral-ui';
+import SettingsContainer from '../../coral-settings/containers/SettingsContainer';
 
 const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appendItemArray} = itemActions;
 const {addNotification, clearNotification} = notificationActions;
@@ -46,10 +48,26 @@ const mapDispatchToProps = (dispatch) => ({
   },
   appendItemArray: (item, property, value, addToFront, itemType) =>
     dispatch(appendItemArray(item, property, value, addToFront, itemType)),
-  logout: () => dispatch(logout())
+  logout: () => dispatch(logout()),
 });
 
 class CommentStream extends Component {
+
+  constructor (props) {
+    super(props);
+
+    this.state = {
+      activeTab: 0
+    };
+
+    this.changeTab = this.changeTab.bind(this);
+  }
+
+  changeTab (tab) {
+    this.setState({
+      activeTab: tab
+    });
+  }
 
   static propTypes = {
     items: PropTypes.object.isRequired,
@@ -60,13 +78,32 @@ class CommentStream extends Component {
   componentDidMount () {
     // Set up messaging between embedded Iframe an parent component
     // Using recommended Pym init code which violates .eslint standards
-    const pym = new Pym.Child({polling: 100});
+    this.pym = new Pym.Child({polling: 100});
 
-    if (/https?\:\/\/([^?]+)/.test(pym.parentUrl)) {
-      this.props.getStream(pym.parentUrl);
-    } else {
-      this.props.getStream(window.location);
-    }
+    const path = this.pym.parentUrl.split('#')[0];
+
+    this.props.getStream(path || window.location);
+    this.path = path;
+
+    this.pym.sendMessage('childReady');
+
+    this.pym.onMessage('DOMContentLoaded', hash => {
+      // the comment ids can start with numbers, which is invalid for DOM id attributes
+      const commentId = hash.replace('#', 'c_');
+      let count = 0;
+      const interval = setInterval(() => {
+        if (document.getElementById(commentId)) {
+          window.clearInterval(interval);
+          this.pym.scrollParentToChildEl(commentId);
+        }
+
+        if (++count > 100) { // ~10 seconds
+          // give up waiting for the comments to load.
+          // it would be weird for the page to jump after that long.
+          window.clearInterval(interval);
+        }
+      }, 100);
+    });
   }
 
   render () {
@@ -90,137 +127,148 @@ class CommentStream extends Component {
     const rootItem = this.props.items.assets && this.props.items.assets[rootItemId];
     const {actions, users, comments} = this.props.items;
     const {loggedIn, user, showSignInDialog} = this.props.auth;
+    const {activeTab} = this.state;
+
     return <div className={showSignInDialog ? 'expandForSignin' : ''}>
       {
         rootItem
-        ? <div>
-          <div id="commentBox">
-            <InfoBox
-              content={this.props.config.infoBoxContent}
-              enable={this.props.config.infoBoxEnable}/>
-            <Count
-              id={rootItemId}
-              items={this.props.items}/>
-            {loggedIn && <UserBox user={user} logout={this.props.logout} />}
-            <CommentBox
-              addNotification={this.props.addNotification}
-              postItem={this.props.postItem}
-              appendItemArray={this.props.appendItemArray}
-              updateItem={this.props.updateItem}
-              id={rootItemId}
-              premod={this.props.config.moderation}
-              reply={false}
-              author={user}
-            />
-            {!loggedIn && <SignInContainer />}
-          </div>
-          {
-            rootItem.comments && rootItem.comments.map((commentId) => {
-              const comment = comments[commentId];
-              return <div className="comment" key={commentId}>
-                <hr aria-hidden={true}/>
-                <AuthorName author={users[comment.author_id]}/>
-                <PubDate created_at={comment.created_at}/>
-                <Content body={comment.body}/>
-                <div className="commentActionsLeft">
-                  <ReplyButton
-                    updateItem={this.props.updateItem}
-                    id={commentId}
-                    showReply={comment.showReply}/>
-                  <LikeButton
-                    addNotification={this.props.addNotification}
-                    id={commentId}
-                    like={actions[comment.like]}
-                    postAction={this.props.postAction}
-                    deleteAction={this.props.deleteAction}
-                    addItem={this.props.addItem}
-                    updateItem={this.props.updateItem}
-                    currentUser={this.props.auth.user}/>
-                </div>
-                <div className="commentActionsRight">
-                  <FlagButton
-                    addNotification={this.props.addNotification}
-                    id={commentId}
-                    flag={actions[comment.flag]}
-                    postAction={this.props.postAction}
-                    deleteAction={this.props.deleteAction}
-                    addItem={this.props.addItem}
-                    updateItem={this.props.updateItem}
-                    currentUser={this.props.auth.user}/>
-                    <PermalinkButton
-                      comment_id={commentId}
-                      asset_id={comment.asset_id}/>
-                </div>
-                  <ReplyBox
-                    addNotification={this.props.addNotification}
-                    postItem={this.props.postItem}
-                    appendItemArray={this.props.appendItemArray}
-                    updateItem={this.props.updateItem}
-                    id={rootItemId}
-                    author={user}
-                    parent_id={commentId}
-                    premod={this.props.config.moderation}
-                    showReply={comment.showReply}/>
-                  {
-                    comment.children &&
-                    comment.children.map((replyId) => {
-                      let reply = this.props.items.comments[replyId];
-                      return <div className="reply" key={replyId}>
-                        <hr aria-hidden={true}/>
-                        <AuthorName author={users[reply.author_id]}/>
-                        <PubDate created_at={reply.created_at}/>
-                        <Content body={reply.body}/>
-                        <div className="replyActionsLeft">
-                            <ReplyButton
+        ? <div className="commentStream">
+          <TabBar onChange={this.changeTab} activeTab={activeTab}>
+            <Tab><Count id={rootItemId} items={this.props.items}/></Tab>
+            <Tab>Settings</Tab>
+          </TabBar>
+
+          <TabContent show={activeTab === 0}>
+            <div id="commentBox">
+              <InfoBox
+                content={this.props.config.infoBoxContent}
+                enable={this.props.config.infoBoxEnable}
+              />
+              {loggedIn && <UserBox user={user} logout={this.props.logout} />}
+              <CommentBox
+                addNotification={this.props.addNotification}
+                postItem={this.props.postItem}
+                appendItemArray={this.props.appendItemArray}
+                updateItem={this.props.updateItem}
+                id={rootItemId}
+                premod={this.props.config.moderation}
+                reply={false}
+                author={user}
+              />
+              {!loggedIn && <SignInContainer />}
+            </div>
+            {
+              rootItem.comments && rootItem.comments.map((commentId) => {
+                const comment = comments[commentId];
+                return <div className="comment" key={commentId} id={`c_${commentId}`}>
+                  <hr aria-hidden={true}/>
+                  <AuthorName author={users[comment.author_id]}/>
+                  <PubDate created_at={comment.created_at}/>
+                  <Content body={comment.body}/>
+                  <div className="commentActionsLeft">
+                    <ReplyButton
+                      updateItem={this.props.updateItem}
+                      id={commentId}
+                      showReply={comment.showReply}/>
+                    <LikeButton
+                      addNotification={this.props.addNotification}
+                      id={commentId}
+                      like={actions[comment.like]}
+                      postAction={this.props.postAction}
+                      deleteAction={this.props.deleteAction}
+                      addItem={this.props.addItem}
+                      updateItem={this.props.updateItem}
+                      currentUser={this.props.auth.user}/>
+                  </div>
+                  <div className="commentActionsRight">
+                    <FlagButton
+                      addNotification={this.props.addNotification}
+                      id={commentId}
+                      flag={actions[comment.flag]}
+                      postAction={this.props.postAction}
+                      deleteAction={this.props.deleteAction}
+                      addItem={this.props.addItem}
+                      updateItem={this.props.updateItem}
+                      currentUser={this.props.auth.user}/>
+                      <PermalinkButton
+                        commentId={commentId}
+                        articleURL={this.path}/>
+                  </div>
+                    <ReplyBox
+                      addNotification={this.props.addNotification}
+                      postItem={this.props.postItem}
+                      appendItemArray={this.props.appendItemArray}
+                      updateItem={this.props.updateItem}
+                      id={rootItemId}
+                      author={user}
+                      parent_id={commentId}
+                      premod={this.props.config.moderation}
+                      showReply={comment.showReply}/>
+                    {
+                      comment.children &&
+                      comment.children.map((replyId) => {
+                        let reply = this.props.items.comments[replyId];
+                        return <div className="reply" key={replyId} id={`c_${replyId}`}>
+                          <hr aria-hidden={true}/>
+                          <AuthorName author={users[reply.author_id]}/>
+                          <PubDate created_at={reply.created_at}/>
+                          <Content body={reply.body}/>
+                          <div className="replyActionsLeft">
+                              <ReplyButton
+                                updateItem={this.props.updateItem}
+                                id={replyId}
+                                showReply={reply.showReply}/>
+                              <LikeButton
+                                addNotification={this.props.addNotification}
+                                id={replyId}
+                                like={this.props.items.actions[reply.like]}
+                                postAction={this.props.postAction}
+                                deleteAction={this.props.deleteAction}
+                                addItem={this.props.addItem}
+                                updateItem={this.props.updateItem}
+                                currentUser={this.props.auth.user}/>
+                            </div>
+                            <div className="replyActionsRight">
+                              <FlagButton
+                                addNotification={this.props.addNotification}
+                                id={replyId}
+                                flag={this.props.items.actions[reply.flag]}
+                                postAction={this.props.postAction}
+                                deleteAction={this.props.deleteAction}
+                                addItem={this.props.addItem}
+                                updateItem={this.props.updateItem}
+                                currentUser={this.props.auth.user}/>
+                                <PermalinkButton
+                                  commentId={reply.parent_id}
+                                  articleURL={this.path}
+                                  />
+                            </div>
+                            <ReplyBox
+                              addNotification={this.props.addNotification}
+                              postItem={this.props.postItem}
+                              appendItemArray={this.props.appendItemArray}
                               updateItem={this.props.updateItem}
-                              id={replyId}
+                              id={rootItemId}
+                              author={user}
+                              parent_id={commentId}
+                              child_id={replyId}
+                              premod={this.props.config.moderation}
                               showReply={reply.showReply}/>
-                            <LikeButton
-                              addNotification={this.props.addNotification}
-                              id={replyId}
-                              like={this.props.items.actions[reply.like]}
-                              postAction={this.props.postAction}
-                              deleteAction={this.props.deleteAction}
-                              addItem={this.props.addItem}
-                              updateItem={this.props.updateItem}
-                              currentUser={this.props.auth.user}/>
-                          </div>
-                          <div className="replyActionsRight">
-                            <FlagButton
-                              addNotification={this.props.addNotification}
-                              id={replyId}
-                              flag={this.props.items.actions[reply.flag]}
-                              postAction={this.props.postAction}
-                              deleteAction={this.props.deleteAction}
-                              addItem={this.props.addItem}
-                              updateItem={this.props.updateItem}
-                              currentUser={this.props.auth.user}/>
-                              <PermalinkButton
-                                comment_id={reply.parent_id}
-                                asset_id={rootItemId}
-                                />
-                          </div>
-                          <ReplyBox
-                            addNotification={this.props.addNotification}
-                            postItem={this.props.postItem}
-                            appendItemArray={this.props.appendItemArray}
-                            updateItem={this.props.updateItem}
-                            id={rootItemId}
-                            author={user}
-                            parent_id={commentId}
-                            child_id={replyId}
-                            premod={this.props.config.moderation}
-                            showReply={reply.showReply}/>
-                      </div>;
-                    })
-                }
-              </div>;
-            })
-          }
-          <Notification
-            notifLength={4500}
-            clearNotification={this.props.clearNotification}
-            notification={this.props.notification}/>
+                        </div>;
+                      })
+                  }
+                </div>;
+              })
+            }
+            <Notification
+              notifLength={4500}
+              clearNotification={this.props.clearNotification}
+              notification={this.props.notification}
+            />
+          </TabContent>
+          <TabContent show={activeTab === 1}>
+            <SettingsContainer/>
+          </TabContent>
         </div>
         : 'Loading'
       }
