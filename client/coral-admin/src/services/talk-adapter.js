@@ -24,6 +24,9 @@ export default store => next => action => {
   case 'COMMENT_CREATE':
     createComment(store, action.name, action.body);
     break;
+  case 'BAN_USER':
+    banUser(store, action.comment);
+    break;
   }
 
   next(action);
@@ -67,4 +70,12 @@ const createComment = (store, name, comment) => {
     .then(handleResp)
     .then(res => store.dispatch({type: 'COMMENT_CREATE_SUCCESS', comment: res}))
     .catch(error => store.dispatch({type: 'COMMENT_CREATE_FAILED', error}));
+};
+
+// Ban a user
+const banUser = (store, comment) => {
+  fetch(`${base}/user/${comment.get('author_id')}/status`, getInit('POST', {status: comment.get('status')}))
+  .then(handleResp)
+  .then(res => store.dispatch({type: 'USER_BAN_SUCESSS', res}))
+  .catch(error => store.dispatch({type: 'USER_BAN_FAILED', error}));
 };
