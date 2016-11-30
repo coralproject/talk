@@ -146,5 +146,6 @@ input.error{
 
 .passwordRequestFailure {
     border: 1px solid orange;
-    background-color: 1px solid coral
+    background-color: 1px solid coral;
+    padding: 10px;
 }

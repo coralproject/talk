@@ -37,6 +37,7 @@ describe('/api/v1/comments', () => {
     id: 'hij',
     body: 'comment 30',
     asset_id: '456',
+    author_id: '456',
     status: 'accepted'
   }];
 
@@ -90,7 +91,7 @@ describe('/api/v1/comments', () => {
         .set(passport.inject({roles: ['admin']}))
         .then((res) => {
           expect(res).to.have.status(200);
-          expect(res.body[0]).to.have.property('id', 'def-rejected');
+          expect(res.body.comments[0]).to.have.property('id', 'def-rejected');
         });
     });
 
@@ -100,8 +101,8 @@ describe('/api/v1/comments', () => {
         .set(passport.inject({roles: ['admin']}))
         .then((res) => {
           expect(res).to.have.status(200);
-          expect(res.body).to.have.length(1);
-          expect(res.body[0]).to.have.property('id', 'hij');
+          expect(res.body.comments).to.have.length(1);
+          expect(res.body.comments[0]).to.have.property('id', 'hij');
         });
     });
 
@@ -111,7 +112,7 @@ describe('/api/v1/comments', () => {
         .set(passport.inject({roles: ['admin']}))
         .then((res) => {
           expect(res).to.have.status(200);
-          expect(res.body).to.have.length(2);
+          expect(res.body.comments).to.have.length(2);
         });
     });
 
@@ -122,8 +123,8 @@ describe('/api/v1/comments', () => {
         .then((res) => {
           expect(res).to.have.status(200);
 
-          expect(res.body).to.have.length(1);
-          expect(res.body[0]).to.have.property('id', 'abc');
+          expect(res.body.comments).to.have.length(1);
+          expect(res.body.comments[0]).to.have.property('id', 'abc');
 
         });
     });

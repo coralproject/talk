@@ -40,7 +40,7 @@ class CommentStream extends React.Component {
   }
 
   // Render the comment box along with the CommentList
-  render ({comments}, {snackbar, snackbarMsg}) {
+  render ({comments, users}, {snackbar, snackbarMsg}) {
     return (
       <div className={styles.container}>
         <CommentBox onSubmit={this.onSubmit} />
@@ -48,6 +48,7 @@ class CommentStream extends React.Component {
           singleView={false}
           commentIds={comments.get('ids')}
           comments={comments.get('byId')}
+          users={users.get('byId')}
           onClickAction={this.onClickAction}
           actions={['flag']}
           loading={comments.loading} />
@@ -57,4 +58,4 @@ class CommentStream extends React.Component {
   }
 }
 
-export default connect(({comments}) => ({comments}))(CommentStream);
+export default connect(({comments, users}) => ({comments, users}))(CommentStream);
