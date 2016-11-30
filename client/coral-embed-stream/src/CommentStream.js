@@ -33,26 +33,6 @@ const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appen
 const {addNotification, clearNotification} = notificationActions;
 const {logout} = authActions;
 
-const mapStateToProps = state => ({
-  config: state.config.toJS(),
-  items: state.items.toJS(),
-  notification: state.notification.toJS(),
-  auth: state.auth.toJS()
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  addItem: (item, itemType) => dispatch(addItem(item, itemType)),
-  updateItem: (id, property, value, itemType) => dispatch(updateItem(id, property, value, itemType)),
-  postItem: (data, type, id) => dispatch(postItem(data, type, id)),
-  getStream: (rootId) => dispatch(getStream(rootId)),
-  addNotification: (type, text) => dispatch(addNotification(type, text)),
-  clearNotification: () => dispatch(clearNotification()),
-  postAction: (item, action, user, itemType) => dispatch(postAction(item, action, user, itemType)),
-  deleteAction: (item, action, user, itemType) => dispatch(deleteAction(item, action, user, itemType)),
-  appendItemArray: (item, property, value, addToFront, itemType) => dispatch(appendItemArray(item, property, value, addToFront, itemType)),
-  logout: () => dispatch(logout())
-});
-
 class CommentStream extends Component {
 
   constructor (props) {
@@ -105,6 +85,7 @@ class CommentStream extends Component {
     const {actions, users, comments} = this.props.items;
     const {loggedIn, user, showSignInDialog} = this.props.auth;
     const {activeTab} = this.state;
+
     return <div className={showSignInDialog ? 'expandForSignin' : ''}>
       {
         rootItem
@@ -246,7 +227,10 @@ class CommentStream extends Component {
               />
             </TabContent>
             <TabContent show={activeTab === 1}>
-                <SettingsContainer loggedIn={loggedIn} user={user} />
+                <SettingsContainer
+                  loggedIn={loggedIn}
+                  userData={this.props.userData}
+                />
             </TabContent>
           </RestrictedContent>
         </div>
@@ -256,5 +240,26 @@ class CommentStream extends Component {
     </div>;
   }
 }
+
+const mapStateToProps = state => ({
+  config: state.config.toJS(),
+  items: state.items.toJS(),
+  notification: state.notification.toJS(),
+  auth: state.auth.toJS(),
+  userData: state.user.toJS()
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  addItem: (item, itemType) => dispatch(addItem(item, itemType)),
+  updateItem: (id, property, value, itemType) => dispatch(updateItem(id, property, value, itemType)),
+  postItem: (data, type, id) => dispatch(postItem(data, type, id)),
+  getStream: (rootId) => dispatch(getStream(rootId)),
+  addNotification: (type, text) => dispatch(addNotification(type, text)),
+  clearNotification: () => dispatch(clearNotification()),
+  postAction: (item, action, user, itemType) => dispatch(postAction(item, action, user, itemType)),
+  deleteAction: (item, action, user, itemType) => dispatch(deleteAction(item, action, user, itemType)),
+  appendItemArray: (item, property, value, addToFront, itemType) => dispatch(appendItemArray(item, property, value, addToFront, itemType)),
+  logout: () => dispatch(logout())
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentStream);

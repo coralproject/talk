@@ -75,8 +75,20 @@ const UserSchema = new mongoose.Schema({
   // Roles provides an array of roles (as strings) that is associated with a
   // user.
   roles: [String],
-  // User's bio
-  bio: String,
+
+  // User's settings
+  settings: [
+    new mongoose.Schema({
+      id: {
+        type: String,
+        required: true
+      },
+      value: {
+        type: String,
+        required: true
+      }
+    })
+  ]
 }, {
 
   // This will ensure that we have proper timestamps available on this model.
@@ -524,3 +536,18 @@ UserService.count = () => {
 UserService.all = () => {
   return UserModel.find();
 };
+
+/**
+ * Adds a new User bio
+ * @return {Promise}
+ */
+
+UserService.addBio = (id, bio) => (
+  UserModel.update({
+    id
+  }, {
+    $addToSet: {
+      bio
+    }
+  })
+);

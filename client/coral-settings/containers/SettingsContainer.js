@@ -1,26 +1,26 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {TabBar, Tab, TabContent} from '../../coral-ui';
+import {saveBio} from 'coral-framework/actions/user';
 
-import Bio from '../components/Bio';
+import BioContainer from './BioContainer';
+import NotLoggedIn from '../components/NotLoggedIn';
+import {TabBar, Tab, TabContent} from '../../coral-ui';
 import CommentHistory from '../components/CommentHistory';
 import SettingsHeader from '../components/SettingsHeader';
-import NotLoggedIn from '../components/NotLoggedIn';
 import RestrictedContent from 'coral-framework/components/RestrictedContent';
 
 class SignInContainer extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      activeTab: 0
+      activeTab: 0,
     };
 
     this.handleTabChange = this.handleTabChange.bind(this);
   }
 
   componentWillMount () {
-    // Get Bio
     // Fetch commentHistory
   }
 
@@ -44,7 +44,7 @@ class SignInContainer extends Component {
           <CommentHistory {...this.props}/>
         </TabContent>
         <TabContent show={activeTab === 1}>
-          <Bio {...this.props} />
+          <BioContainer handleSave={this.handleSave} {...this.props} />
         </TabContent>
       </RestrictedContent>
     );
@@ -55,7 +55,7 @@ const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleSaveBio: () => dispatch(),
+  saveBio: (user_id, formData) => dispatch(saveBio(user_id, formData)),
   getHistory: () => dispatch(),
 });
 

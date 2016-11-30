@@ -2,12 +2,12 @@ import * as actions from '../constants/user';
 import {base, handleResp, getInit} from '../helpers/response';
 
 const saveBioRequest = () => ({type: actions.SAVE_BIO_REQUEST});
-const saveBioSuccess = bio => ({type: actions.SAVE_BIO_SUCCESS, bio});
+const saveBioSuccess = user => ({type: actions.SAVE_BIO_SUCCESS, user});
 const saveBioFailure = error => ({type: actions.SAVE_BIO_FAILURE, error});
 
-export const saveBio = (formData) => dispatch => {
+export const saveBio = (user_id, formData) => dispatch => {
   dispatch(saveBioRequest());
-  fetch(`${base}/auth/local`, getInit('POST', formData))
+  fetch(`${base}/${user_id}/bio`, getInit('POST', formData))
     .then(handleResp)
     .then(({user}) => {
       dispatch(saveBioSuccess(user));
