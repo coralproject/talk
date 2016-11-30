@@ -1,4 +1,5 @@
 const utils = require('../../utils/e2e-mongoose');
+const mocks = require('../mocks');
 
 const mockComment = 'This is a test comment.';
 const mockReply = 'This is a test reply';
@@ -93,30 +94,43 @@ module.exports = {
       });
     });
   },
-  // 'User replies to a comment with premod on': client => {
-  //   client.perform((client, done) => {
-  //     client.page.embedStream().setConfig({moderation: 'pre'}, client.globals.baseUrl)
-  //     .then(() => {
-  //       //Load Page
-  //       client.resizeWindow(1200, 800)
-  //         .url(client.globals.baseUrl)
-  //         .frame('coralStreamIframe')
-  //         .pause(60000);
-  //
-  //         // Post a reply
-  //       client.waitForElementVisible('.coral-plugin-replies-reply-button', 5000)
-  //         .click('.coral-plugin-replies-reply-button')
-  //         .waitForElementVisible('#replyText')
-  //         .setValue('#replyText', mockReply)
-  //         .click('.coral-plugin-replies-textarea button')
-  //         .waitForElementVisible('.reply', 1000)
-  //
-  //         //Verify that it appears
-  //         .assert.containsText('.reply', mockReply);
-  //       done();
-  //     });
-  //   });
-  // },
+  'User replies to a comment with premod on': client => {
+    client.perform((client, done) => {
+      client.page.embedStream().setConfig({moderation: 'pre'}, client.globals.baseUrl)
+      // Add a mock user
+      .then(() => mocks.users([{
+        displayName: 'Baby Blue',
+        email: 'whale@tale.sea',
+        password: 'krill'
+      }]))
+
+      // Add a mock preapproved comment by that user
+      .then((user) => mocks.comments([{
+        body: 'Whales are not fish.',
+        status: 'approved',
+        author_id: user.id
+      }]))
+      .then(() => {
+        //Load Page
+        client.resizeWindow(1200, 800)
+          .url(client.globals.baseUrl)
+          .frame('coralStreamIframe')
+          .pause(60000);
+
+          // Post a reply
+        client.waitForElementVisible('.coral-plugin-replies-reply-button', 5000)
+          .click('.coral-plugin-replies-reply-button')
+          .waitForElementVisible('#replyText')
+          .setValue('#replyText', mockReply)
+          .click('.coral-plugin-replies-textarea button')
+          .waitForElementVisible('#coral-notif', 1000)
+
+          //Verify that it appears
+          .assert.containsText('#coral-notif', 'moderation team');
+        done();
+      });
+    });
+  },
   after: client => {
     utils.after();
     client.end();

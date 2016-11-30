@@ -1,20 +1,21 @@
-const Comments = require('../../models/comment')
-const Users = require('../../models/user')
-const Actions = require('../../models/action')
+const Comments = require('../../models/comment');
+const Users = require('../../models/user');
+const Actions = require('../../models/action');
+const Assets = require('../../models/asset');
+const globals = require('./globals');
 
-const mockComments = [
-  {
-    body: 'Pangolin pups are called pangopups.',
-    author_id: '123',
-    id: 'abc'
-  },
-  {
-    body: 'Baby whales grow at up to 8lbs an hour.',
-    author_id: '456',
-    id: 'def'
-  }
-];
+/* Create an array of comments */
+module.exports.comments = (comments) => Assets.findOrCreateByUrl(globals.baseUrl)
+  .then((asset) => {
+    comments = comments.map((comment) => {
+      comment.asset_id = asset.id;
+      return comment;
+    });
+    return Comments.create(comments);
+  });
 
-console.log('Loading mocks.');
+/* Create an array of users */
+module.exports.users = (users) => Users.createLocalUsers(users);
 
-Comments.create(mockComments);
+/* Create an array of actions */
+module.exports.actions = (actions) => Actions.create(actions);
