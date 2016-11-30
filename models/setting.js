@@ -42,6 +42,7 @@ SettingSchema.statics.getSettings = function () {
  * @return {Promise} moderation the settings for how to moderate comments
  */
 SettingSchema.statics.getModerationSetting = function () {
+  console.log('Getting moderation setting');
   return this.findOne({id: '1'}).select('moderation');
 };
 
