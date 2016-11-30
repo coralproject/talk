@@ -16,7 +16,7 @@ module.exports = {
   },
   'User registers and posts a comment with premod off': client => {
     client.perform((client, done) => {
-      client.page.embedStream().setConfig({moderation: 'post'}, client.globals.baseUrl)
+      mocks.settings({moderation: 'pre'})
       .then(() => {
         //Load Page
         client.resizeWindow(1200, 800)
@@ -52,7 +52,7 @@ module.exports = {
   },
   'User posts a comment with premod on': client => {
     client.perform((client, done) => {
-      client.page.embedStream().setConfig({moderation: 'pre'}, client.globals.baseUrl)
+      mocks.settings({moderation: 'pre'})
       .then(() => {
         //Load Page
         client.url(client.globals.baseUrl)
@@ -73,7 +73,7 @@ module.exports = {
   },
   'User replies to a comment with premod off': client => {
     client.perform((client, done) => {
-      client.page.embedStream().setConfig({moderation: 'post'}, client.globals.baseUrl)
+      mocks.settings({moderation: 'pre'})
       .then(() => {
         //Load Page
         client.resizeWindow(1200, 800)
@@ -96,7 +96,7 @@ module.exports = {
   },
   'User replies to a comment with premod on': client => {
     client.perform((client, done) => {
-      client.page.embedStream().setConfig({moderation: 'pre'}, client.globals.baseUrl)
+      mocks.settings({moderation: 'pre'})
       // Add a mock user
       .then(() => mocks.users([{
         displayName: 'Baby Blue',
