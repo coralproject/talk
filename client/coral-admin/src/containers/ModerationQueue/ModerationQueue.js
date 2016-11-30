@@ -90,11 +90,11 @@ class ModerationQueue extends React.Component {
               commentIds={
                 comments.get('ids')
                   .filter(id => !comments.get('byId')
-                  .get(id)
-                  .get('status'))
+                    .get(id)
+                    .get('status'))
               }
               comments={comments.get('byId')}
-              commenters={commenters}
+              commenters={commenters.get('byId')}
               onClickAction={(action, id) => this.onCommentAction(action, id)}
               actions={['reject', 'approve', 'ban']}
               loading={comments.loading} />
@@ -113,7 +113,7 @@ class ModerationQueue extends React.Component {
                       .get('status') === 'rejected')
               }
               comments={comments.get('byId')}
-              commenters={commenters}
+              commenters={commenters.get('byId')}
               onClickAction={(action, id) => this.onCommentAction(action, id)}
               actions={['approve']}
               loading={comments.loading} />
@@ -127,7 +127,7 @@ class ModerationQueue extends React.Component {
                 return !data.get('status') && data.get('flagged') === true;
               })}
               comments={comments.get('byId')}
-              commenters={commenters}
+              commenters={commenters.get('byId')}
               onClickAction={(action, id) => this.onCommentAction(action, id)}
               actions={['reject', 'approve']}
               loading={comments.loading} />
@@ -140,6 +140,6 @@ class ModerationQueue extends React.Component {
   }
 }
 
-export default connect(({comments}) => ({comments}))(ModerationQueue);
+export default connect(({comments, commenters}) => ({comments, commenters}))(ModerationQueue);
 
 const lang = new I18n(translations);

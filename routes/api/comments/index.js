@@ -1,7 +1,10 @@
 const express = require('express');
 const Comment = require('../../../models/comment');
+const User = require('../../../models/user');
+const Action = require('../../../models/action');
 const wordlist = require('../../../services/wordlist');
 const authorization = require('../../../middleware/authorization');
+const _ = require('lodash');
 
 const router = express.Router();
 
@@ -16,9 +19,22 @@ router.get('/', authorization.needed('admin'), (req, res, next) => {
     query = Comment.all();
   }
 
-  query.then(comments => {
-    res.json(comments);
+  query.then((comments) => {
+    return Promise.all([
+      comments,
+      User.findByIdArray(_.uniq(comments.map((comment) => comment.author_id))),
+      Action.getActionSummaries(_.uniq([
+        ...comments.map((comment) => comment.id),
+        ...comments.map((comment) => comment.author_id)
+      ]))
+    ]);
   })
+  .then(([comments, users, actions])=>
+    res.status(200).json({
+      comments,
+      users,
+      actions
+    }))
   .catch((err) => {
     next(err);
   });

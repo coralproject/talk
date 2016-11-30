@@ -49,7 +49,7 @@ export const setRole = (id, role) => dispatch => {
 };
 
 export const setCommenterStatus = (id, status) => dispatch => {
-  return fetch(`${base}/user/${id}/status`, getInit('POST', {status}))
+  return coralApi(`/user/${id}/status`, {method: 'POST', body: {status}})
   .then(() => {
     return dispatch({type: SET_COMMENTER_STATUS, id, status});
   });

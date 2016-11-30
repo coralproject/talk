@@ -113,13 +113,15 @@ export default class CommentList extends React.Component {
   }
 
   render () {
-    const {singleView, commentIds, comments, hideActive, key} = this.props;
+    const {singleView, commentIds, comments, users, hideActive, key} = this.props;
     const {active} = this.state;
 
     return (
       <ul className={`${styles.list} ${singleView ? styles.singleView : ''}`} {...key}>
-        {commentIds.map((commentId, index) => (
-          <Comment comment={comments.get(commentId)}
+        {commentIds.map((commentId, index) => {
+          const comment = comments.get(commentId);
+          return <Comment comment={comment}
+            author={users.get(comment.get('author_id'))}
             ref={el => { if (el && commentId === active) { this._active = el; } }}
             key={index}
             index={index}
@@ -127,8 +129,8 @@ export default class CommentList extends React.Component {
             actions={this.props.actions}
             actionsMap={actions}
             isActive={commentId === active}
-            hideActive={hideActive} />
-        )).toArray()}
+            hideActive={hideActive} />;
+        }).toArray()}
       </ul>
     );
   }
