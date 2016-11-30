@@ -31,7 +31,7 @@ class SignInContainer extends Component {
   }
 
   render() {
-    const {loggedIn} = this.props;
+    const {loggedIn, userData} = this.props;
     const {activeTab} = this.state;
     return (
       <RestrictedContent restricted={!loggedIn} restrictedComp={NotLoggedIn}>
@@ -44,7 +44,7 @@ class SignInContainer extends Component {
           <CommentHistory {...this.props}/>
         </TabContent>
         <TabContent show={activeTab === 1}>
-          <BioContainer handleSave={this.handleSave} {...this.props} />
+          <BioContainer bio={userData.settings.bio} handleSave={this.handleSave} {...this.props} />
         </TabContent>
       </RestrictedContent>
     );

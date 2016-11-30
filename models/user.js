@@ -77,18 +77,12 @@ const UserSchema = new mongoose.Schema({
   roles: [String],
 
   // User's settings
-  settings: [
-    new mongoose.Schema({
-      id: {
-        type: String,
-        required: true
-      },
-      value: {
-        type: String,
-        required: true
-      }
-    })
-  ]
+  settings: {
+    bio: {
+      type: String,
+      default: ''
+    }
+  }
 }, {
 
   // This will ensure that we have proper timestamps available on this model.
@@ -543,11 +537,13 @@ UserService.all = () => {
  */
 
 UserService.addBio = (id, bio) => (
-  UserModel.update({
+  UserModel.findOneAndUpdate({
     id
   }, {
-    $addToSet: {
-      bio
+    $set: {
+      'settings.bio': bio
     }
+  }, {
+    new: true
   })
 );

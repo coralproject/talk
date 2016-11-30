@@ -140,7 +140,7 @@ router.post('/request-password-reset', (req, res, next) => {
     });
 });
 
-router.post('/:user_id/bio', (req, res, next) => {
+router.put('/:user_id/bio', (req, res, next) => {
   const {user_id} = req.params;
   const {bio} = req.body;
 
@@ -150,9 +150,7 @@ router.post('/:user_id/bio', (req, res, next) => {
 
   User
     .addBio(user_id, bio)
-    .then(() => {
-      res.status(204).end();
-    })
+    .then(user => res.status(200).send(user))
     .catch(error => {
       const errorMsg = typeof error === 'string' ? error : error.message;
       res.status(500).json({error: errorMsg});

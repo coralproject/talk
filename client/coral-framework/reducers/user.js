@@ -4,8 +4,8 @@ import * as actions from '../constants/user';
 
 const initialState = Map({
   displayName: '',
-  profiles: [],
-  settings: []
+  profiles: null,
+  settings: null
 });
 
 const purge = user => {
@@ -29,7 +29,7 @@ export default function user (state = initialState, action) {
     return initialState;
   case actions.SAVE_BIO_SUCCESS:
     return state
-      .set('bio', action.user.bio);
+      .set('settings', action.settings);
   default :
     return state;
   }
