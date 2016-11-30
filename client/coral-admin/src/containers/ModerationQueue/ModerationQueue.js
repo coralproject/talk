@@ -61,7 +61,7 @@ class ModerationQueue extends React.Component {
 
   // Render the tabbed lists moderation queues
   render () {
-    const {comments} = this.props;
+    const {comments, users} = this.props;
     const {activeTab, singleView, modalOpen} = this.state;
 
     return (
@@ -82,10 +82,11 @@ class ModerationQueue extends React.Component {
               commentIds={
                 comments.get('ids')
                   .filter(id => !comments.get('byId')
-                  .get(id)
-                  .get('status'))
+                    .get(id)
+                    .get('status'))
               }
               comments={comments.get('byId')}
+              users={users.get('byId')}
               onClickAction={(action, id) => this.onCommentAction(action, id)}
               actions={['reject', 'approve']}
               loading={comments.loading} />
@@ -104,6 +105,7 @@ class ModerationQueue extends React.Component {
                       .get('status') === 'rejected')
               }
               comments={comments.get('byId')}
+              users={users.get('byId')}
               onClickAction={(action, id) => this.onCommentAction(action, id)}
               actions={['approve']}
               loading={comments.loading} />
@@ -117,6 +119,7 @@ class ModerationQueue extends React.Component {
                 return !data.get('status') && data.get('flagged') === true;
               })}
               comments={comments.get('byId')}
+              users={users.get('byId')}
               onClickAction={(action, id) => this.onCommentAction(action, id)}
               actions={['reject', 'approve']}
               loading={comments.loading} />
@@ -129,6 +132,6 @@ class ModerationQueue extends React.Component {
   }
 }
 
-export default connect(({comments}) => ({comments}))(ModerationQueue);
+export default connect(({comments, users}) => ({comments, users}))(ModerationQueue);
 
 const lang = new I18n(translations);

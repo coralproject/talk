@@ -1,4 +1,4 @@
-import {base, handleResp, getInit} from '../../../coral-framework/helpers/response';
+import coralApi from '../../../coral-framework/helpers/response';
 
 /**
  * The adapter is a redux middleware that interecepts the actions that need
@@ -15,9 +15,6 @@ export default store => next => action => {
   case 'COMMENTS_MODERATION_QUEUE_FETCH':
     fetchModerationQueueComments(store);
     break;
-  // case 'COMMENT_STREAM_FETCH':
-  //   fetchCommentStream(store);
-  //   break;
   case 'COMMENT_UPDATE':
     updateComment(store, action.comment);
     break;
@@ -33,24 +30,41 @@ export default store => next => action => {
 const fetchModerationQueueComments = store =>
 
 Promise.all([
-  fetch(`${base}/queue/comments/pending`, getInit('GET')),
-  fetch(`${base}/comments?status=rejected`, getInit('GET')),
-  fetch(`${base}/comments?action_type=flag`, getInit('GET'))
+  coralApi('/queue/comments/pending'),
+  coralApi('/comments?status=rejected'),
+  coralApi('/comments?action_type=flag')
 ])
-.then(res => Promise.all(res.map(handleResp)))
-.then(res => {
-  res[2] = res[2].map(comment => { comment.flagged = true; return comment; });
-  return res.reduce((prev, curr) => prev.concat(curr), []);
+.then(([pending, rejected, flagged]) => {
+  /* Combine seperate calls into a single object */
+  let all = {};
+  all.comments = pending.comments
+    .concat(rejected.comments)
+    .concat(flagged.comments.map(comment => {
+      comment.flagged = true;
+      return comment;
+    }));
+  all.users = pending.users
+    .concat(rejected.users)
+    .concat(flagged.users);
+  all.actions = pending.actions
+    .concat(rejected.actions)
+    .concat(flagged.actions);
+  return all;
 })
-.then(res => store.dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH_SUCCESS',
-  comments: res}))
-.catch(error => store.dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH_FAILED', error}));
+.then(all => {
+  /* Post comments and users to redux store. Actions will be posted when they are needed. */
+  store.dispatch({type: 'USERS_MODERATION_QUEUE_FETCH_SUCCESS',
+    users: all.users});
+  store.dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH_SUCCESS',
+    comments: all.comments});
+
+});
+// .catch(error => store.dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH_FAILED', error}));
 
 // Update a comment. Now to update a comment we need to send back the whole object
 
 const updateComment = (store, comment) => {
-  fetch(`${base}/comments/${comment.get('id')}/status`, getInit('PUT', {status: comment.get('status')}))
-  .then(handleResp)
+  coralApi(`/comments/${comment.get('id')}/status`, {method: 'PUT', body: {status: comment.get('status')}})
   .then(res => store.dispatch({type: 'COMMENT_UPDATE_SUCCESS', res}))
   .catch(error => store.dispatch({type: 'COMMENT_UPDATE_FAILED', error}));
 };
@@ -63,8 +77,7 @@ const createComment = (store, name, comment) => {
     name: name,
     createdAt: Date.now()
   };
-  return fetch(`${base}/comments`, getInit('POST', body))
-    .then(handleResp)
+  return coralApi('/comments', {method: 'POST', body})
     .then(res => store.dispatch({type: 'COMMENT_CREATE_SUCCESS', comment: res}))
     .catch(error => store.dispatch({type: 'COMMENT_CREATE_FAILED', error}));
 };

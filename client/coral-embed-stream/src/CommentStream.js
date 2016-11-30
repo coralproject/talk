@@ -77,13 +77,32 @@ class CommentStream extends Component {
 
   componentDidMount () {
     // Set up messaging between embedded Iframe an parent component
-    const pym = new Pym.Child({polling: 100});
+    this.pym = new Pym.Child({polling: 100});
 
-    if (/https?\:\/\/([^?]+)/.test(pym.parentUrl)) {
-      this.props.getStream(pym.parentUrl);
-    } else {
-      this.props.getStream(window.location);
-    }
+    const path = this.pym.parentUrl.split('#')[0];
+
+    this.props.getStream(path || window.location);
+    this.path = path;
+
+    this.pym.sendMessage('childReady');
+
+    this.pym.onMessage('DOMContentLoaded', hash => {
+      // the comment ids can start with numbers, which is invalid for DOM id attributes
+      const commentId = hash.replace('#', 'c_');
+      let count = 0;
+      const interval = setInterval(() => {
+        if (document.getElementById(commentId)) {
+          window.clearInterval(interval);
+          this.pym.scrollParentToChildEl(commentId);
+        }
+
+        if (++count > 100) { // ~10 seconds
+          // give up waiting for the comments to load.
+          // it would be weird for the page to jump after that long.
+          window.clearInterval(interval);
+        }
+      }, 100);
+    });
   }
 
   render () {
@@ -92,11 +111,11 @@ class CommentStream extends Component {
     const {actions, users, comments} = this.props.items;
     const {loggedIn, user, showSignInDialog} = this.props.auth;
     const {activeTab} = this.state;
+
     return <div className={showSignInDialog ? 'expandForSignin' : ''}>
       {
         rootItem
-        ? <div>
-
+        ? <div className="commentStream">
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count id={rootItemId} items={this.props.items}/></Tab>
             <Tab>Settings</Tab>
@@ -124,7 +143,7 @@ class CommentStream extends Component {
             {
               rootItem.comments && rootItem.comments.map((commentId) => {
                 const comment = comments[commentId];
-                return <div className="comment" key={commentId}>
+                return <div className="comment" key={commentId} id={`c_${commentId}`}>
                   <hr aria-hidden={true}/>
                   <AuthorName author={users[comment.author_id]}/>
                   <PubDate created_at={comment.created_at}/>
@@ -155,8 +174,8 @@ class CommentStream extends Component {
                       updateItem={this.props.updateItem}
                       currentUser={this.props.auth.user}/>
                       <PermalinkButton
-                        comment_id={commentId}
-                        asset_id={comment.asset_id}/>
+                        commentId={commentId}
+                        articleURL={this.path}/>
                   </div>
                     <ReplyBox
                       addNotification={this.props.addNotification}
@@ -172,7 +191,7 @@ class CommentStream extends Component {
                       comment.children &&
                       comment.children.map((replyId) => {
                         let reply = this.props.items.comments[replyId];
-                        return <div className="reply" key={replyId}>
+                        return <div className="reply" key={replyId} id={`c_${replyId}`}>
                           <hr aria-hidden={true}/>
                           <AuthorName author={users[reply.author_id]}/>
                           <PubDate created_at={reply.created_at}/>
@@ -203,8 +222,8 @@ class CommentStream extends Component {
                                 updateItem={this.props.updateItem}
                                 currentUser={this.props.auth.user}/>
                                 <PermalinkButton
-                                  comment_id={reply.parent_id}
-                                  asset_id={rootItemId}
+                                  commentId={reply.parent_id}
+                                  articleURL={this.path}
                                   />
                             </div>
                             <ReplyBox
