@@ -60,8 +60,7 @@ module.exports = {
       .then(() => {
         //Load Page
         client.url(client.globals.baseUrl)
-          .frame('coralStreamIframe')
-          .pause(10000);
+          .frame('coralStreamIframe');
 
           // Post a comment
         client.waitForElementVisible('#commentBox .coral-plugin-commentbox-button', 2000)
@@ -154,6 +153,17 @@ module.exports = {
         console.log(err);
         done();
       });
+    });
+  },
+  'Total comment count premod on': client => {
+    client.perform((client, done) => {
+      client.url(client.globals.baseUrl)
+        .frame('coralStreamIframe');
+
+        // Verify that comment count is correct
+      client.waitForElementVisible('.coral-plugin-comment-count-text', 2000)
+        .assert.containsText('.coral-plugin-comment-count-text', '5 Comments');
+      done();
     });
   },
   after: client => {
