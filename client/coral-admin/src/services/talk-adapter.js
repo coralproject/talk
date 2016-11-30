@@ -34,19 +34,33 @@ Promise.all([
   coralApi('/comments?status=rejected'),
   coralApi('/comments?action_type=flag')
 ])
-.then(res => Promise.all(res.map(coralApi.handleResp)))
 .then(([pending, rejected, flagged]) => {
-  flagged = flagged.map(comment => comment.flagged = true);
-  pending.comments = pending.comments.concat(rejected).concat(flagged);
-  return pending;
+  /* Combine seperate calls into a single object */
+  let all = {};
+  all.comments = pending.comments
+    .concat(rejected.comments)
+    .concat(flagged.comments.map(comment => {
+      comment.flagged = true;
+      return comment;
+    }));
+  all.users = pending.users
+    .concat(rejected.users)
+    .concat(flagged.users);
+  all.actions = pending.actions
+    .concat(rejected.actions)
+    .concat(flagged.actions);
+  return all;
 })
-.then(res => {
+.then(all => {
+  console.log('All', all);
+  /* Post comments and users to redux store. Actions will be posted when they are needed. */
   store.dispatch({type: 'USERS_MODERATION_QUEUE_FETCH_SUCCESS',
-    users: res.users});
+    users: all.users});
   store.dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH_SUCCESS',
-    comments: res.comments});
-})
-.catch(error => store.dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH_FAILED', error}));
+    comments: all.comments});
+
+});
+// .catch(error => store.dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH_FAILED', error}));
 
 // Update a comment. Now to update a comment we need to send back the whole object
 

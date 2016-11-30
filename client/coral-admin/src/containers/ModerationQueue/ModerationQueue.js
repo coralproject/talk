@@ -82,8 +82,8 @@ class ModerationQueue extends React.Component {
               commentIds={
                 comments.get('ids')
                   .filter(id => !comments.get('byId')
-                  .get(id)
-                  .get('status'))
+                    .get(id)
+                    .get('flagged'))
               }
               comments={comments.get('byId')}
               users={users.get('byId')}
