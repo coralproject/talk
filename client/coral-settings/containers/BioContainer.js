@@ -22,9 +22,10 @@ export default class BioContainer extends Component {
   }
 
   render () {
+    const {bio, userData} = this.props;
     return <Bio
-      bio={this.props.bio}
-      userData={this.props.userData}
+      bio={bio}
+      userData={userData}
       handleSave={this.handleSave}
       handleInput={this.handleInput}
     />;

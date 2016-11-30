@@ -24,10 +24,7 @@ export default function auth (state = initialState, action) {
       .set('isAdmin', action.isAdmin)
       .set('user', action.user);
   case actions.LOGOUT_SUCCESS:
-    return state
-      .set('loggedIn', false)
-      .set('user', null)
-      .set('isAdmin', false);
+    return initialState;
   default :
     return state;
   }

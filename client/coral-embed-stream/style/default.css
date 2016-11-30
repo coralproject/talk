@@ -106,6 +106,7 @@ hr {
 
 /* Comment styles */
 .comment {
+  position: relative;
   margin-bottom: 10px;
 }
 

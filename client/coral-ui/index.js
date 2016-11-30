@@ -6,3 +6,4 @@ export {default as Tab} from './components/Tab';
 export {default as TabContent} from './components/TabContent';
 export {default as Button} from './components/Button';
 export {default as Spinner} from './components/Spinner';
+export {default as Tooltip} from './components/Tooltip';

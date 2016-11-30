@@ -4,8 +4,8 @@ import * as actions from '../constants/user';
 
 const initialState = Map({
   displayName: '',
-  profiles: null,
-  settings: null
+  profiles: [],
+  settings: {}
 });
 
 const purge = user => {
