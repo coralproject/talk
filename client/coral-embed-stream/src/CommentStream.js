@@ -19,8 +19,9 @@ import LikeButton from '../../coral-plugin-likes/LikeButton';
 import PermalinkButton from '../../coral-plugin-permalinks/PermalinkButton';
 import SignInContainer from '../../coral-sign-in/containers/SignInContainer';
 import UserBox from '../../coral-sign-in/components/UserBox';
-import {TabBar, Tab, TabContent} from '../../coral-ui';
+import {TabBar, Tab, TabContent, Button} from '../../coral-ui';
 import SettingsContainer from '../../coral-settings/containers/SettingsContainer';
+import {Icon} from 'react-mdl';
 
 const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appendItemArray} = itemActions;
 const {addNotification, clearNotification} = notificationActions;
@@ -57,15 +58,40 @@ class CommentStream extends Component {
     super(props);
 
     this.state = {
-      activeTab: 0
+      activeTab: 0,
+      closingComments: false
     };
 
     this.changeTab = this.changeTab.bind(this);
+    this.changeCommentMessage = this.changeCommentMessage.bind(this);
+    this.promptCloseComments = this.promptCloseComments.bind(this);
+    this.cancelClosingComments = this.cancelClosingComments.bind(this);
+    this.submitMessage = this.submitMessage.bind(this);
   }
 
   changeTab (tab) {
     this.setState({
       activeTab: tab
+    });
+  }
+
+  changeCommentMessage (str) {
+
+  }
+
+  submitMessage () {
+    
+  }
+
+  cancelClosingComments () {
+    this.setState({
+      closingComments: false
+    });
+  }
+
+  promptCloseComments () {
+    this.setState({
+      closingComments: true
     });
   }
 
@@ -136,6 +162,7 @@ class CommentStream extends Component {
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count id={rootItemId} items={this.props.items}/></Tab>
             <Tab>Settings</Tab>
+            <Tab>Configure Stream</Tab>
           </TabBar>
 
           <TabContent show={activeTab === 0}>
@@ -269,11 +296,47 @@ class CommentStream extends Component {
           <TabContent show={activeTab === 1}>
             <SettingsContainer/>
           </TabContent>
+          <TabContent show={activeTab === 2}>
+            <h3>Close Comment Stream</h3>
+            <CloseCommentsInfo onClick={this.promptCloseComments}
+              closing={this.state.closingComments} />
+            {this.state.closingComments ?
+              <CloseCommentsActions
+                message={"The comments for this article are now closed"}
+                onCancel={this.cancelClosingComments}
+                onSubmitMessage={this.submitMessage}
+                onChangeMessage={this.changeCommentMessage} /> : null}
+          </TabContent>
         </div>
         : 'Loading'
       }
     </div>;
   }
 }
+
+const CloseCommentsInfo = ({ closing, onClick }) => (
+  <div className="close-comments-intro-wrapper">
+    <p>
+      This comment stream is currently open. By closing this comment stream,
+      no new comments may be submitted and all previous comments will still
+      be displayed.
+    </p>
+    <Button onClick={onClick} disabled={closing}>Close Stream</Button>
+  </div>
+)
+
+const CloseCommentsActions = ({ onChangeMessage, message, onCancel, onSubmitMessage }) => (
+  <div>
+    <p className="close-comments-alert"><Icon name='warning'/> Are you sure you'd like to close this comment stream?</p>
+    <p>Write a message for readers to display</p>
+    <textarea className="close-comments-message"
+      value={message}
+      onChange={onChangeMessage}></textarea>
+    <div className="close-comments-confirm-wrapper">
+      <Button onClick={onCancel}>Cancel</Button>
+      <Button onClick={onSubmitMessage}>Yes, Close Stream</Button>
+    </div>
+  </div>
+)
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentStream);
