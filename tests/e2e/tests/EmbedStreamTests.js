@@ -16,7 +16,7 @@ module.exports = {
   },
   'User registers and posts a comment with premod off': client => {
     client.perform((client, done) => {
-      mocks.settings({moderation: 'pre'})
+      mocks.settings({moderation: 'post'})
       .then(() => {
         //Load Page
         client.resizeWindow(1200, 800)
@@ -47,6 +47,10 @@ module.exports = {
           //Verify that it appears
           .assert.containsText('.comment', mockComment);
         done();
+      })
+      .catch((err) => {
+        console.log(err);
+        done();
       });
     });
   },
@@ -68,12 +72,66 @@ module.exports = {
           //Verify that it appears
           .assert.containsText('#coral-notif', 'moderation team');
         done();
+      })
+      .catch((err) => {
+        console.log(err);
+        done();
       });
     });
   },
   'User replies to a comment with premod off': client => {
     client.perform((client, done) => {
+      mocks.settings({moderation: 'post'})
+      .then(() => {
+        //Load Page
+        client.resizeWindow(1200, 800)
+          .url(client.globals.baseUrl)
+          .frame('coralStreamIframe');
+
+          // Post a comment
+        client.waitForElementVisible('#commentBox .coral-plugin-commentbox-button', 2000)
+          .setValue('#commentBox .coral-plugin-commentbox-textarea', mockComment)
+          .click('#commentBox .coral-plugin-commentbox-button')
+
+          // Post a reply
+          .waitForElementVisible('.coral-plugin-replies-reply-button', 5000)
+          .click('.coral-plugin-replies-reply-button')
+          .waitForElementVisible('#replyText')
+          .setValue('#replyText', mockReply)
+          .click('.coral-plugin-replies-textarea button')
+          .waitForElementVisible('.reply', 2000)
+
+          //Verify that it appears
+          .assert.containsText('.reply', mockReply);
+        done();
+      })
+      .catch((err) => {
+        console.log(err);
+        done();
+      });
+    });
+  },
+  'User replies to a comment with premod on': client => {
+    client.perform((client, done) => {
       mocks.settings({moderation: 'pre'})
+
+      // Add a mock user
+      .then(() => {
+        return mocks.users([{
+          displayName: 'Baby Blue',
+          email: 'whale@tale.sea',
+          password: 'krill'
+        }]);
+      })
+
+      // Add a mock preapproved comment by that user
+      .then((user) => {
+        return mocks.comments([{
+          body: 'Whales are not fish.',
+          status: 'accepted',
+          author_id: user.id
+        }]);
+      })
       .then(() => {
         //Load Page
         client.resizeWindow(1200, 800)
@@ -86,47 +144,14 @@ module.exports = {
           .waitForElementVisible('#replyText')
           .setValue('#replyText', mockReply)
           .click('.coral-plugin-replies-textarea button')
-          .waitForElementVisible('.reply', 1000)
-
-          //Verify that it appears
-          .assert.containsText('.reply', mockReply);
-        done();
-      });
-    });
-  },
-  'User replies to a comment with premod on': client => {
-    client.perform((client, done) => {
-      mocks.settings({moderation: 'pre'})
-      // Add a mock user
-      .then(() => mocks.users([{
-        displayName: 'Baby Blue',
-        email: 'whale@tale.sea',
-        password: 'krill'
-      }]))
-
-      // Add a mock preapproved comment by that user
-      .then((user) => mocks.comments([{
-        body: 'Whales are not fish.',
-        status: 'approved',
-        author_id: user.id
-      }]))
-      .then(() => {
-        //Load Page
-        client.resizeWindow(1200, 800)
-          .url(client.globals.baseUrl)
-          .frame('coralStreamIframe')
-          .pause(60000);
-
-          // Post a reply
-        client.waitForElementVisible('.coral-plugin-replies-reply-button', 5000)
-          .click('.coral-plugin-replies-reply-button')
-          .waitForElementVisible('#replyText')
-          .setValue('#replyText', mockReply)
-          .click('.coral-plugin-replies-textarea button')
           .waitForElementVisible('#coral-notif', 1000)
 
           //Verify that it appears
           .assert.containsText('#coral-notif', 'moderation team');
+        done();
+      })
+      .catch((err) => {
+        console.log(err);
         done();
       });
     });
