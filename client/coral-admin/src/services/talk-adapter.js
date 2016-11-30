@@ -52,7 +52,6 @@ Promise.all([
   return all;
 })
 .then(all => {
-  console.log('All', all);
   /* Post comments and users to redux store. Actions will be posted when they are needed. */
   store.dispatch({type: 'USERS_MODERATION_QUEUE_FETCH_SUCCESS',
     users: all.users});
