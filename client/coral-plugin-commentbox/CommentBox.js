@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {I18n} from '../coral-framework';
 import translations from './translations.json';
+import {Button} from 'coral-ui';
 
 const name = 'coral-plugin-commentbox';
 
@@ -75,12 +76,11 @@ class CommentBox extends Component {
         </div>
         <div className={`${name}-button-container`}>
           { author && (
-              <button
-                className={`${name}-button`}
-                style={styles && styles.button}
+              <Button
+                cStyle='darkGrey'
                 onClick={this.postComment}>
                 {lang.t('post')}
-              </button>
+              </Button>
             )
           }
       </div>
