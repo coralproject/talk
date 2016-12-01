@@ -31,10 +31,10 @@ class SignInContainer extends Component {
   }
 
   render() {
-    const {loggedIn, userData} = this.props;
+    const {loggedIn, userData, showSignInDialog} = this.props;
     const {activeTab} = this.state;
     return (
-      <RestrictedContent restricted={!loggedIn} restrictedComp={NotLoggedIn}>
+      <RestrictedContent restricted={!loggedIn} restrictedComp={<NotLoggedIn showSignInDialog={showSignInDialog} />}>
         <SettingsHeader {...this.props} />
         <TabBar onChange={this.handleTabChange} activeTab={activeTab} cStyle='material'>
           <Tab>All Comments (120)</Tab>

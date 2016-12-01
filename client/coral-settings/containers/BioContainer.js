@@ -5,29 +5,41 @@ export default class BioContainer extends Component {
   constructor (props) {
     super(props);
 
+    this.state = {
+      bio: props.bio
+    };
+
     this.handleSave = this.handleSave.bind(this);
     this.handleInput = this.handleInput.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
-  handleInput(input) {
-    this.bioInput = input;
+  handleInput(e) {
+    this.setState({
+      bio: e.target.value
+    });
   }
 
   handleSave (e) {
     e.preventDefault();
     const {userData, saveBio} = this.props;
-    saveBio(userData.id, {
-      bio: this.bioInput.value
+    const {bio} = this.state;
+    saveBio(userData.id, {bio});
+  }
+
+  handleCancel () {
+    this.setState({
+      bio: this.props.bio
     });
   }
 
   render () {
-    const {bio, userData} = this.props;
     return <Bio
-      bio={bio}
-      userData={userData}
+      bio={this.state.bio}
+      userData={this.props.userData}
       handleSave={this.handleSave}
       handleInput={this.handleInput}
+      handleCancel={this.handleCancel}
     />;
   }
 }

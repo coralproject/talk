@@ -7,7 +7,7 @@ const lang = new I18n(translations);
 
 export default ({children, restricted, message = lang.t('contentNotAvailable'), restrictedComp}) => {
   if (restricted) {
-    return restrictedComp ? restrictedComp() : messageBox(message);
+    return restrictedComp ? restrictedComp : messageBox(message);
   } else {
     return (
       <div>

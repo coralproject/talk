@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from './NotLoggedIn.css';
 
-export default () => (
+export default ({showSignInDialog}) => (
   <div className={styles.message}>
     <div>
-      <a>Sign In</a> to access Settings
+      <a onClick={showSignInDialog}>Sign In</a> to access Settings
     </div>
     <div>
       From the Settings Page you can
