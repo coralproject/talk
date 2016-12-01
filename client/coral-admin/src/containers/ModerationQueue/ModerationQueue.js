@@ -6,7 +6,7 @@ import ModerationKeysModal from 'components/ModerationKeysModal';
 import CommentList from 'components/CommentList';
 
 import {updateStatus} from 'actions/comments';
-import {updateUserStatus} from 'actions/users';
+import {banUser} from 'actions/users';
 import styles from './ModerationQueue.css';
 
 import I18n from 'coral-framework/modules/i18n/i18n';
@@ -52,11 +52,11 @@ class ModerationQueue extends React.Component {
   }
 
   // Dispatch the update status action
-  onCommentAction (action, id) {
-    // if we are banning a user by the action then dispatch updateUserStatus
+  onCommentAction (action, id, author_id) {
+    // if we are banning a user by the action then dispatch banUser
     // action = 'banned' in the case of banning
     if (action === 'banned') {
-      this.props.dispatch(updateUserStatus(action, id));
+      this.props.dispatch(banUser(action, id, author_id));
     }
 
     // If not banning then change the status to approved or flagged as action = status
@@ -69,7 +69,7 @@ class ModerationQueue extends React.Component {
 
   // Render the tabbed lists moderation queues
   render () {
-    const {comments, commenters} = this.props;
+    const {comments, users} = this.props;
     const {activeTab, singleView, modalOpen} = this.state;
 
     return (
@@ -94,8 +94,8 @@ class ModerationQueue extends React.Component {
                     .get('status'))
               }
               comments={comments.get('byId')}
-              commenters={commenters.get('byId')}
-              onClickAction={(action, id) => this.onCommentAction(action, id)}
+              users={users.get('byId')}
+              onClickAction={(action, id, author_id) => this.onCommentAction(action, id, author_id)}
               actions={['reject', 'approve', 'ban']}
               loading={comments.loading} />
           </div>
@@ -113,7 +113,7 @@ class ModerationQueue extends React.Component {
                       .get('status') === 'rejected')
               }
               comments={comments.get('byId')}
-              commenters={commenters.get('byId')}
+              users={users.get('byId')}
               onClickAction={(action, id) => this.onCommentAction(action, id)}
               actions={['approve']}
               loading={comments.loading} />
@@ -127,7 +127,7 @@ class ModerationQueue extends React.Component {
                 return !data.get('status') && data.get('flagged') === true;
               })}
               comments={comments.get('byId')}
-              commenters={commenters.get('byId')}
+              users={users.get('byId')}
               onClickAction={(action, id) => this.onCommentAction(action, id)}
               actions={['reject', 'approve']}
               loading={comments.loading} />
@@ -140,6 +140,6 @@ class ModerationQueue extends React.Component {
   }
 }
 
-export default connect(({comments, commenters}) => ({comments, commenters}))(ModerationQueue);
+export default connect(({comments, users}) => ({comments, users}))(ModerationQueue);
 
 const lang = new I18n(translations);

@@ -12,7 +12,7 @@ const linkify = new Linkify();
 
 // Render a single comment for the list
 export default props => {
-  const author_status = props.author.get('status');
+  const authorStatus = props.author.get('status');
   const {comment, author} = props;
   const links = linkify.getMatches(comment.get('body'));
 
@@ -33,8 +33,8 @@ export default props => {
           </div>
         </div>
         <div>
-          {author_status === 'banned' ?
-          <span className={styles.banned}><Icon name='error_outline'/> Banned User</span> : null}
+          {authorStatus === 'banned' ?
+          <span className={styles.banned}><Icon name='error_outline'/> {lang.t('comment.banned_user')}</span> : null}
         </div>
       </div>
       <div className={styles.itemBody}>
@@ -52,16 +52,16 @@ export default props => {
 const getActionButton = (action, i, props) => {
   const status = props.comment.get('status');
   const flagged = props.comment.get('flagged');
+  const banned = (props.author.get('status') === 'banned');
 
   if (action === 'flag' && (status || flagged === true)) {
     return null;
   }
-  if (action === 'ban') {
+  if (action === 'ban' && !banned) {
     return (
-      <Button
-        cStyle='darkGrey'
+      <Button raised
         key={i}
-        onClick={() => props.onClickAction(props.actionsMap[action].status, props.comment.get('id'))}>{lang.t('comment.ban_user')}</Button>
+        onClick={() => props.onClickAction(props.actionsMap[action].status, props.comment.get('id'), props.author.get('id'))}>{lang.t('comment.ban_user')}</Button>
     );
   }
   return (

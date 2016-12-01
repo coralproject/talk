@@ -62,7 +62,7 @@ router.post('/:user_id/role', authorization.needed('admin'), (req, res, next) =>
 
 router.post('/:user_id/status', (req, res, next) => {
   User
-    .setStatus(req.params.user_id, req.body.status, res.body.comment_id)
+    .setStatus(req.params.user_id, req.body.status, req.body.comment_id)
     .then(status => {
       res.send(status);
     })

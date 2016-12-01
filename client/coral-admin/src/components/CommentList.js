@@ -10,7 +10,7 @@ const actions = {
   'reject': {status: 'rejected', icon: 'close', key: 'r'},
   'approve': {status: 'accepted', icon: 'done', key: 't'},
   'flag': {status: 'flagged', icon: 'flag', filter: 'Untouched'},
-  'ban': {status: 'ban'}
+  'ban': {status: 'banned'}
 };
 
 // Renders a comment list and allow performing actions
@@ -100,7 +100,8 @@ export default class CommentList extends React.Component {
   // If we are performing an action over a comment (aka removing from the list) we need to select a new active.
   // TODO: In the future this can be improved and look at the actual state to
   // resolve since the content of the list could change externally. For now it works as expected
-  onClickAction (action, id) {
+  onClickAction (action, id, author_id) {
+    // activate the next comment
     if (id === this.state.active) {
       const {commentIds} = this.props;
       if (commentIds.last() === this.state.active) {
@@ -109,7 +110,7 @@ export default class CommentList extends React.Component {
         this.setState({active: commentIds.get(Math.min(commentIds.indexOf(this.state.active) + 1, commentIds.size - 1))});
       }
     }
-    this.props.onClickAction(action, id);
+    this.props.onClickAction(action, id, author_id);
   }
 
   render () {

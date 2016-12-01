@@ -33,7 +33,8 @@
     "comment": {
       "flagged": "flagged",
       "anon": "Anonymous",
-      "ban_user": "Ban User"
+      "ban_user": "Ban User",
+      "banned_user": "Banned User"
     },
     "embedlink": {
       "copy": "Copy to Clipboard"
@@ -78,7 +79,8 @@
     "comment": {
       "flagged": "marcado",
       "anon": "Anónimo",
-      "ban_user": "Suspender Usuario"
+      "ban_user": "Suspender Usuario",
+      "banned_user": "Usuario Suspendido"
     },
     "configure": {
       "enable-pre-moderation": "Habilitar pre-moderación",
