@@ -76,9 +76,10 @@ const getActionButton = (action, i, props) => {
       <div>
           <Button
             {...props.author.get('status') === 'banned' ? 'disabled' : 'raised'}
-            cStyle="black" 
-            onClick={props.cancelBan}
-            key={i}>
+            cStyle="black"
+            onClick={props.showBanUserDialog}
+            key={i}
+            {...this.props} >
             {lang.t('comment.ban_user')}
           </Button>
           <BanUserDialog
