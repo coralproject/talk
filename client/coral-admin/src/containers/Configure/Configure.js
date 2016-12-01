@@ -144,6 +144,11 @@ class Configure extends React.Component {
                   onClick={this.changeSection.bind(this, 'embed')}
                   icon='code'>{lang.t('configure.embed-comment-stream')}</ListItemContent>
               </ListItem>
+              <ListItem className={styles.settingOption}>
+                <ListItemContent
+                  onClick={this.changeSection.bind(this, 'wordlist')}
+                  icon='settings'>{lang.t('configure.wordlist')}</ListItemContent>
+              </ListItem>
             </List>
             <Button raised colored onClick={this.saveSettings}>
               <Icon name='save' /> {lang.t('configure.save-changes')}
