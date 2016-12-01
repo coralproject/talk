@@ -422,34 +422,27 @@ UserService.setStatus = (id, status, comment_id) => {
     return Promise.reject(new Error(`status ${status} is not supported`));
   }
 
-  // If ban then disable the account, reject the comment and update status
+  // If ban then reject the comment and update status
   if (status === 'banned') {
-    return  UserService.disableUser(id)
+    return UserModel.update({
+      id: id
+    }, {
+      $set: {
+        status: status
+      }
+    })
     .then(() => {
-      return Comment.changeStatus(comment_id, 'rejected')
-        .then(() => {
-          return UserModel.update({
-            id: id
-          }, {
-            $set: {
-              status: status
-            }
-          });
-        });
+      return Comment.changeStatus(comment_id, 'rejected');
     });
   }
 
-  // If active then unable the account and update status
   if (status === 'active') {
-    return  UserService.enableUser(id)
-    .then(() => {
-      return UserModel.update({
-        id: id
-      }, {
-        $set: {
-          status: status
-        }
-      });
+    return UserModel.update({
+      id: id
+    }, {
+      $set: {
+        status: status
+      }
     });
   }
 };

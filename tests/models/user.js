@@ -105,18 +105,6 @@ describe('User: models', () => {
       });
     });
 
-    it('should disable the user', () => {
-      return User
-        .setStatus(mockUsers[0].id, 'banned', mockComment.id)
-        .then(() => {
-          User.findById(mockUsers[0].id)
-          .then((user) => {
-            expect(user).to.have.property('disabled')
-              .and.to.equal(true);
-          });
-        });
-    });
-
     it('should set the status to banned', () => {
       return User
         .setStatus(mockUsers[0].id, 'banned', mockComment.id)
@@ -149,8 +137,6 @@ describe('User: models', () => {
           .then((user) => {
             expect(user).to.have.property('status')
               .and.to.equal('banned');
-            expect(user).to.have.property('disabled')
-              .and.to.equal(true);
           });
         });
     });
@@ -165,18 +151,6 @@ describe('User: models', () => {
       .then((comment) => {
         mockComment = comment;
       });
-    });
-
-    it('should enable the user', () => {
-      return User
-        .setStatus(mockUsers[0].id, 'active', mockComment.id)
-        .then(() => {
-          User.findById(mockUsers[0].id)
-          .then((user) => {
-            expect(user).to.have.property('disabled')
-              .and.to.equal(false);
-          });
-        });
     });
 
     it('should set the status to active', () => {

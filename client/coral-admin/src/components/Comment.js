@@ -1,4 +1,3 @@
-
 import React from 'react';
 import timeago from 'timeago.js';
 import styles from './CommentList.css';
@@ -7,8 +6,19 @@ import translations from '../translations.json';
 import Linkify from 'react-linkify';
 import {Icon} from 'react-mdl';
 import {FabButton, Button} from 'coral-ui';
+import BanUserDialog from './BanUserDialog';
+// import {showBanUserDialog, hideBanUserDialog} from '../actions/users';
 
 const linkify = new Linkify();
+//
+// const mapDispatchToProps = dispatch => ({
+//   showBanUserDialog: () => dispatch(showBanUserDialog()),
+//   handleClose: () => dispatch(hideBanUserDialog()),
+// });
+
+// handleClose() {
+//   this.props.hideBanUserDialog();
+// }
 
 // Render a single comment for the list
 export default props => {
@@ -52,17 +62,30 @@ export default props => {
 const getActionButton = (action, i, props) => {
   const status = props.comment.get('status');
   const flagged = props.comment.get('flagged');
-  const banned = (props.author.get('status') === 'banned');
 
   if (action === 'flag' && (status || flagged === true)) {
     return null;
   }
-  if (action === 'ban' && !banned) {
+  if (action === 'ban') {
+    //const {showBanUserDialog} = this.props;
     return (
-      <Button raised
-        key={i}
-        onClick={() => props.onClickAction(props.actionsMap[action].status, props.comment.get('id'), props.author.get('id'))}>{lang.t('comment.ban_user')}</Button>
-    );
+      // <Button
+      //   {...props.author.get('status') === 'banned' ? 'disabled' : 'raised'}
+      //   key={i}
+      //   onClick={() => props.onClickAction(props.actionsMap[action].status, props.comment.get('id'), props.author.get('id'))}>{lang.t('comment.ban_user')}</Button>
+      <div>
+          <Button
+            {...props.author.get('status') === 'banned' ? 'disabled' : 'raised'}
+            cStyle="black" 
+            onClick={props.cancelBan}
+            key={i}>
+            {lang.t('comment.ban_user')}
+          </Button>
+          <BanUserDialog
+            view='Ban'
+          />
+        </div>
+  );
   }
   return (
     <FabButton icon={props.actionsMap[action].icon} className={styles.actionButton}

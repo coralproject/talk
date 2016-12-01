@@ -57,6 +57,7 @@ class ModerationQueue extends React.Component {
     // action = 'banned' in the case of banning
     if (action === 'banned') {
       this.props.dispatch(banUser(action, id, author_id));
+      this.props.dispatch(updateStatus('rejected', id));
     }
 
     // If not banning then change the status to approved or flagged as action = status

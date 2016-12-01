@@ -51,6 +51,13 @@
       "moderate": "Moderate",
       "configure": "Configure",
       "community": "Community"
+    },
+    "bandialog": {
+      "ban_user": "Ban User?",
+      "are_you_sure": "Are you sure you would like to ban {props.author.displayName}?",
+      "note": "Note: Banning this user will also place this comment in the Rejected queue.",
+      "cancel": "Cancel",
+      "yes_ban_user": "Yes, Ban User"
     }
   },
   "es": {
@@ -94,6 +101,13 @@
       "moderate": "Moderar",
       "configure": "Configurar",
       "community": "Comunidad"
+    },
+    "bandialog": {
+      "ban_user": "Quieres suspender el Usuario?",
+      "are_you_sure": "Estas segura que quieres suspender a {props.author.displayName}?",
+      "note": "Nota: Suspender este usuario también va a colocar este comentario en la cola de Rechazados.",
+      "cancel": "Cancelar",
+      "yes_ban_user": "Si, Suspendan el usuario"
     }
   }
 }

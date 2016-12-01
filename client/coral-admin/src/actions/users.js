@@ -2,10 +2,10 @@
  * Action disptacher related to users
  */
 
-let rejected = 'rejected';
+ // Dialog Actions
+export const showBanUserDialog = () => ({type: 'SHOW_BANUSER_DIALOG'});
+export const hideBanUserDialog = () => ({type: 'HIDE_BANUSER_DIALOG'});
 
-export const banUser = (status, id, author_id) => (dispatch, getState) => {
+export const banUser = (status, id, author_id) => (dispatch) => {
   dispatch({type: 'USER_STATUS_UPDATE', id, author_id, status});
-  dispatch({type: 'COMMENT_STATUS_UPDATE', id, rejected});
-  dispatch({type: 'COMMENT_UPDATE', comment: getState().comments.get('byId').get(id)});
 };

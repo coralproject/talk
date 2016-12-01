@@ -1,14 +1,22 @@
 import {Map, List, fromJS} from 'immutable';
+import * as actions from '../constants/users';
 
 const initialState = Map({
   byId: Map(),
-  ids: List()
+  ids: List(),
+  showBanUserDialog: false
 });
 
 export default (state = initialState, action) => {
   switch (action.type) {
   case 'USERS_MODERATION_QUEUE_FETCH_SUCCESS': return replaceUsers(action, state);
   case 'USER_STATUS_UPDATE': return updateUserStatus(state, action);
+  case actions.SHOW_BANUSER_DIALOG:
+    return state
+      .set('showBanUserDialog', true);
+  case actions.HIDE_BANUSER_DIALOG:
+    return state
+      .set('showBanUserDialog', false);
   default: return state;
   }
 };
@@ -23,6 +31,6 @@ const replaceUsers = (action, state) => {
 // Update a user status
 const updateUserStatus = (state, action) => {
   const byId = state.get('byId');
-  const data = byId.get(action.id).set('status', action.status.toLowerCase());
-  return state.set('byId', byId.set(action.id, data));
+  const data = byId.get(action.author_id).set('status', action.status.toLowerCase());
+  return state.set('byId', byId.set(action.author_id, data));
 };

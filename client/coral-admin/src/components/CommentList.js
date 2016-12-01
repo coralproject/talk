@@ -10,7 +10,7 @@ const actions = {
   'reject': {status: 'rejected', icon: 'close', key: 'r'},
   'approve': {status: 'accepted', icon: 'done', key: 't'},
   'flag': {status: 'flagged', icon: 'flag', filter: 'Untouched'},
-  'ban': {status: 'banned'}
+  'ban': {status: 'banned', icon: 'not interested'}
 };
 
 // Renders a comment list and allow performing actions
