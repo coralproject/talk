@@ -11,8 +11,8 @@
     "lint-fix": "eslint . --fix",
     "test": "NODE_ENV=test mocha --compilers js:babel-core/register --recursive tests",
     "test-watch": "NODE_ENV=test mocha --compilers js:babel-core/register --recursive -w tests",
-    "pree2e": "./pree2e.sh",
-    "e2e": "source .env-test && node_modules/.bin/nightwatch",
+    "pree2e": "NODE_ENV=test ./pree2e.sh",
+    "e2e": "NODE_ENV=test node_modules/.bin/nightwatch",
     "embed-start": "NODE_ENV=development npm run build && ./bin/cli serve --jobs"
   },
   "config": {

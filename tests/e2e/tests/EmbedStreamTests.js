@@ -37,11 +37,11 @@ module.exports = {
           .click('#coralSignUpButton')
           .waitForElementVisible('#coralLogInButton', 10000)
           .click('#coralLogInButton')
-          .waitForElementVisible('#commentBox .coral-plugin-commentbox-button', 3000)
+          .waitForElementVisible('.coral-plugin-commentbox-button', 4000)
 
           // Post a comment
-          .setValue('#commentBox .coral-plugin-commentbox-textarea', mockComment)
-          .click('#commentBox .coral-plugin-commentbox-button')
+          .setValue('.coral-plugin-commentbox-textarea', mockComment)
+          .click('.coral-plugin-commentbox-button')
           .waitForElementVisible('.comment', 1000)
 
           //Verify that it appears
@@ -63,9 +63,9 @@ module.exports = {
           .frame('coralStreamIframe');
 
           // Post a comment
-        client.waitForElementVisible('#commentBox .coral-plugin-commentbox-button', 2000)
-          .setValue('#commentBox .coral-plugin-commentbox-textarea', mockComment)
-          .click('#commentBox .coral-plugin-commentbox-button')
+        client.waitForElementVisible('.coral-plugin-commentbox-button', 2000)
+          .setValue('.coral-plugin-commentbox-textarea', mockComment)
+          .click('.coral-plugin-commentbox-button')
           .waitForElementVisible('#coral-notif', 1000)
 
           //Verify that it appears
@@ -88,9 +88,9 @@ module.exports = {
           .frame('coralStreamIframe');
 
           // Post a comment
-        client.waitForElementVisible('#commentBox .coral-plugin-commentbox-button', 2000)
-          .setValue('#commentBox .coral-plugin-commentbox-textarea', mockComment)
-          .click('#commentBox .coral-plugin-commentbox-button')
+        client.waitForElementVisible('.coral-plugin-commentbox-button', 2000)
+          .setValue('.coral-plugin-commentbox-textarea', mockComment)
+          .click('.coral-plugin-commentbox-button')
 
           // Post a reply
           .waitForElementVisible('.coral-plugin-replies-reply-button', 5000)
@@ -162,7 +162,7 @@ module.exports = {
 
         // Verify that comment count is correct
       client.waitForElementVisible('.coral-plugin-comment-count-text', 2000)
-        .assert.containsText('.coral-plugin-comment-count-text', '5 Comments');
+        .assert.containsText('.coral-plugin-comment-count-text', '1 Comment');
       done();
     });
   },

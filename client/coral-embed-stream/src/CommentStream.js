@@ -61,7 +61,7 @@ class CommentStream extends Component {
 
     const path = /https?\:\/\/([^?#]+)/.exec(this.pym.parentUrl);
 
-    this.props.getStream(path || window.location);
+    this.props.getStream(path[1] || window.location);
     this.path = path;
 
     this.pym.sendMessage('childReady');

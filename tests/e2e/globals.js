@@ -1,4 +1,4 @@
 module.exports = {
   waitForConditionTimeout: 20000,
-  baseUrl: 'http://localhost:3011'
+  baseUrl: 'localhost:3011/'
 };
