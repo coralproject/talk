@@ -5,7 +5,8 @@
     "comment": "Comment",
     "name": "Name",
     "comment-post-notif": "Your comment has been posted.",
-    "comment-post-notif-premod": "Thank you for posting. Our moderation team will review your comment shortly."
+    "comment-post-notif-premod": "Thank you for posting. Our moderation team will review your comment shortly.",
+    "comment-post-banned-word":  "Your comment contains one or more words which we do not allow. It has been sent to the moderation team for review."
   },
   "es": {
     "post": "Publicar",
@@ -13,6 +14,7 @@
     "comment": "Comentario",
     "name": "Nombre",
     "comment-post-notif": "¡traduceme!",
-    "comment-post-notif-premod": "¡traduceme!"
+    "comment-post-notif-premod": "¡traduceme!",
+    "comment-post-banned-word":  "¡traduceme!"
   }
 }
