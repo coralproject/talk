@@ -28,7 +28,7 @@ import SuspendedAccount from '../../coral-framework/components/SuspendedAccount'
 
 const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appendItemArray} = itemActions;
 const {addNotification, clearNotification} = notificationActions;
-const {logout} = authActions;
+const {logout, showSignInDialog} = authActions;
 
 class CommentStream extends Component {
 
@@ -129,6 +129,7 @@ class CommentStream extends Component {
                         addNotification={this.props.addNotification}
                         id={commentId}
                         like={actions[comment.like]}
+                        showSignInDialog={this.props.showSignInDialog}
                         postAction={this.props.postAction}
                         deleteAction={this.props.deleteAction}
                         addItem={this.props.addItem}
@@ -143,6 +144,7 @@ class CommentStream extends Component {
                         postAction={this.props.postAction}
                         deleteAction={this.props.deleteAction}
                         addItem={this.props.addItem}
+                        showSignInDialog={this.props.showSignInDialog}
                         updateItem={this.props.updateItem}
                         currentUser={this.props.auth.user}/>
                       <PermalinkButton
@@ -180,6 +182,7 @@ class CommentStream extends Component {
                               postAction={this.props.postAction}
                               deleteAction={this.props.deleteAction}
                               addItem={this.props.addItem}
+                              showSignInDialog={this.props.showSignInDialog}
                               updateItem={this.props.updateItem}
                               currentUser={this.props.auth.user}/>
                           </div>
@@ -189,6 +192,7 @@ class CommentStream extends Component {
                               id={replyId}
                               flag={this.props.items.actions[reply.flag]}
                               postAction={this.props.postAction}
+                              showSignInDialog={this.props.showSignInDialog}
                               deleteAction={this.props.deleteAction}
                               addItem={this.props.addItem}
                               updateItem={this.props.updateItem}
@@ -253,6 +257,7 @@ const mapDispatchToProps = (dispatch) => ({
   getStream: (rootId) => dispatch(getStream(rootId)),
   addNotification: (type, text) => dispatch(addNotification(type, text)),
   clearNotification: () => dispatch(clearNotification()),
+  showSignInDialog: () => dispatch(showSignInDialog()),
   postAction: (item, action, user, itemType) => dispatch(postAction(item, action, user, itemType)),
   deleteAction: (item, action, user, itemType) => dispatch(deleteAction(item, action, user, itemType)),
   appendItemArray: (item, property, value, addToFront, itemType) => dispatch(appendItemArray(item, property, value, addToFront, itemType)),
