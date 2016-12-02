@@ -4,7 +4,9 @@ const expect = require('chai').expect;
 describe('Setting: model', () => {
 
   beforeEach(() => {
-    const defaults = {id: 1};
+    const defaults = {
+      id: 1
+    };
     return Setting.update({id: '1'}, {$setOnInsert: defaults}, {upsert: true});
   });
 
@@ -35,10 +37,13 @@ describe('Setting: model', () => {
     });
   });
 
-  describe('#getModerationSetting', () => {
+  describe('#getPublicSettings', () => {
     it('should return the moderation settings', () => {
-      return Setting.getModerationSetting().then(({moderation}) => {
+      return Setting.getPublicSettings().then(({moderation, infoBoxEnable, infoBoxContent, wordlist}) => {
         expect(moderation).not.to.be.null;
+        expect(infoBoxEnable).not.to.be.null;
+        expect(infoBoxContent).not.to.be.null;
+        expect(wordlist).to.be.undefined;
       });
     });
   });
