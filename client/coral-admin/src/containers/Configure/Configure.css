@@ -45,6 +45,10 @@
   display: block;
 }
 
+.changedSave {
+  background-color:#4caf50;
+}
+
 .copiedText {
   color: #008000;
   float: right;

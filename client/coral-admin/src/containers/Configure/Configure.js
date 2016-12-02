@@ -21,7 +21,8 @@ class Configure extends React.Component {
     console.log(props);
     this.state = {
       activeSection: 'comments',
-      wordlist: props.settings.wordlist && props.settings.wordlist.join(' ')
+      wordlist: props.settings.wordlist && props.settings.wordlist.join(' '),
+      changed: false
     };
     this.saveSettings = this.saveSettings.bind(this);
     this.onChangeWordlist = this.onChangeWordlist.bind(this);
@@ -42,7 +43,7 @@ class Configure extends React.Component {
   onChangeWordlist (event) {
     event.preventDefault();
     const newlist = event.target.value;
-    this.setState({wordlist: newlist.toLowerCase()});
+    this.setState({wordlist: newlist.toLowerCase(), changed: true});
     this.props.dispatch(updateSettings({
       wordlist: newlist.toLowerCase()
         .split(',')
@@ -50,12 +51,17 @@ class Configure extends React.Component {
     }));
   }
 
+  onSettingUpdate (setting) {
+    this.setState({changed: true})
+    this.props.dispatch(updateSettings(setting))
+  }
+
   getSection (section) {
     switch(section){
     case 'comments':
       return <CommentSettings
         settings={this.props.settings}
-        updateSettings={(setting) => this.props.dispatch(updateSettings(setting))}/>;
+        updateSettings={this.onSettingUpdate}/>;
     case 'embed':
       return <EmbedLink/>;
     case 'wordlist':
@@ -104,9 +110,21 @@ class Configure extends React.Component {
                   icon='settings'>{lang.t('configure.wordlist')}</ListItemContent>
               </ListItem>
             </List>
-            <Button raised colored onClick={this.saveSettings}>
-              <Icon name='save' /> {lang.t('configure.save-changes')}
+            {
+              this.state.changed ?
+              <Button
+                raised
+                onClick={this.saveSettings}
+                className={styles.changedSave}>
+                <Icon name='check' /> {lang.t('configure.save-changes')}
+              </Button>
+              : <Button
+              raised
+              disabled>
+              {lang.t('configure.save-changes')}
             </Button>
+            }
+
           </div>
           <div className={styles.mainContent}>
             <h1>{pageTitle}</h1>
