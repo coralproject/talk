@@ -26,6 +26,7 @@ class Configure extends React.Component {
     };
     this.saveSettings = this.saveSettings.bind(this);
     this.onChangeWordlist = this.onChangeWordlist.bind(this);
+    this.onSettingUpdate = this.onSettingUpdate.bind(this);
   }
 
   componentWillMount () {
@@ -52,8 +53,8 @@ class Configure extends React.Component {
   }
 
   onSettingUpdate (setting) {
-    this.setState({changed: true})
-    this.props.dispatch(updateSettings(setting))
+    this.setState({changed: true});
+    this.props.dispatch(updateSettings(setting));
   }
 
   getSection (section) {
