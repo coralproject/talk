@@ -13,6 +13,11 @@ const initialState = Map({
   successSignUp: false
 });
 
+const purge = user => {
+  const {settings, profiles, ...userData} = user; // eslint-disable-line
+  return userData;
+};
+
 export default function auth (state = initialState, action) {
   switch (action.type) {
   case actions.SHOW_SIGNIN_DIALOG :
@@ -44,11 +49,11 @@ export default function auth (state = initialState, action) {
   case actions.CHECK_LOGIN_SUCCESS:
     return state
       .set('loggedIn', true)
-      .set('user', action.user);
+      .set('user', purge(action.user));
   case actions.FETCH_SIGNIN_SUCCESS:
     return state
       .set('loggedIn', true)
-      .set('user', action.user);
+      .set('user', purge(action.user));
   case actions.FETCH_SIGNIN_FAILURE:
     return state
       .set('isLoading', false)
@@ -56,7 +61,7 @@ export default function auth (state = initialState, action) {
       .set('user', null);
   case actions.FETCH_SIGNIN_FACEBOOK_SUCCESS:
     return state
-      .set('user', action.user)
+      .set('user', purge(action.user))
       .set('loggedIn', true);
   case actions.FETCH_SIGNIN_FACEBOOK_FAILURE:
     return state
