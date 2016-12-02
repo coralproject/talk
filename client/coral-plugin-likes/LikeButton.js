@@ -4,10 +4,13 @@ import translations from './translations.json';
 
 const name = 'coral-plugin-flags';
 
-const LikeButton = ({like, id, postAction, deleteAction, addItem, updateItem, currentUser}) => {
+const LikeButton = ({like, id, postAction, deleteAction, addItem, updateItem, currentUser, banned}) => {
   const liked = like && like.current_user;
   const onLikeClick = () => {
     if (!currentUser) {
+      return;
+    }
+    if (banned) {
       return;
     }
     if (!liked) {

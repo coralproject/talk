@@ -4,10 +4,13 @@ import translations from './translations.json';
 
 const name = 'coral-plugin-flags';
 
-const FlagButton = ({flag, id, postAction, deleteAction, addItem, updateItem, addNotification, currentUser}) => {
+const FlagButton = ({flag, id, postAction, deleteAction, addItem, updateItem, addNotification, currentUser, banned}) => {
   const flagged = flag && flag.current_user;
   const onFlagClick = () => {
     if (!currentUser) {
+      return;
+    }
+    if (banned) {
       return;
     }
     if (!flagged) {
