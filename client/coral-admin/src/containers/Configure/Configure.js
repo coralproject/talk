@@ -18,10 +18,9 @@ import Wordlist from './Wordlist';
 class Configure extends React.Component {
   constructor (props) {
     super(props);
-    console.log(props);
     this.state = {
       activeSection: 'comments',
-      wordlist: props.settings.wordlist && props.settings.wordlist.join(' '),
+      wordlist: [],
       changed: false
     };
     this.saveSettings = this.saveSettings.bind(this);
@@ -33,8 +32,18 @@ class Configure extends React.Component {
     this.props.dispatch(fetchSettings());
   }
 
+  componentWillUpdate (newProps) {
+    if ((!this.props.settings
+      || !this.props.settings.wordlist)
+      && newProps.settings.wordlist
+      && newProps.settings.wordlist.length !== 0 ) {
+      this.setState({wordlist: newProps.settings.wordlist.join(', ')});
+    }
+  }
+
   saveSettings () {
     this.props.dispatch(saveSettingsToServer());
+    this.setState({changed: false});
   }
 
   changeSection (activeSection) {
