@@ -13,13 +13,18 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations.json';
 import EmbedLink from './EmbedLink';
 import CommentSettings from './CommentSettings';
+import Wordlist from './Wordlist';
 
 class Configure extends React.Component {
   constructor (props) {
     super(props);
-
-    this.state = {activeSection: 'comments'};
+    console.log(props);
+    this.state = {
+      activeSection: 'comments',
+      wordlist: props.settings.wordlist && props.settings.wordlist.join(' ')
+    };
     this.saveSettings = this.saveSettings.bind(this);
+    this.onChangeWordlist = this.onChangeWordlist.bind(this);
   }
 
   componentWillMount () {
@@ -34,12 +39,29 @@ class Configure extends React.Component {
     this.setState({activeSection});
   }
 
+  onChangeWordlist (event) {
+    event.preventDefault();
+    const newlist = event.target.value;
+    this.setState({wordlist: newlist.toLowerCase()});
+    this.props.dispatch(updateSettings({
+      wordlist: newlist.toLowerCase()
+        .split(',')
+        .map((word) => word.trim())
+    }));
+  }
+
   getSection (section) {
     switch(section){
     case 'comments':
-      return <CommentSettings settings={this.props.settings}/>;
+      return <CommentSettings
+        settings={this.props.settings}
+        updateSettings={(setting) => this.props.dispatch(updateSettings(setting))}/>;
     case 'embed':
       return <EmbedLink/>;
+    case 'wordlist':
+      return <Wordlist
+        wordlist={this.state.wordlist}
+        onChangeWordlist={this.onChangeWordlist}/>;
     }
   }
 

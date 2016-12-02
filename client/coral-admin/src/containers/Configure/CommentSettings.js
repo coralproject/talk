@@ -10,21 +10,20 @@ import {
   Textfield,
   Checkbox
 } from 'react-mdl';
-import {updateSettings} from '../../actions/settings';
 
 const updateModeration = (props) => () => {
   const moderation = props.settings.moderation === 'pre' ? 'post' : 'pre';
-  props.dispatch(updateSettings({moderation}));
+  props.updateSettings({moderation});
 };
 
 const updateInfoBoxEnable = (props) => () => {
   const infoBoxEnable = !props.settings.infoBoxEnable;
-  props.dispatch(updateSettings({infoBoxEnable}));
+  props.updateSettings({infoBoxEnable});
 };
 
 const updateInfoBoxContent = (props) => (event) => {
   const infoBoxContent =  event.target.value;
-  props.dispatch(updateSettings({infoBoxContent}));
+  props.updateSettings({infoBoxContent});
 };
 
 const StateLess = (props) => <List>
