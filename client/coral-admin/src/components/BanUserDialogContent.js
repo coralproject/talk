@@ -5,7 +5,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
 const lang = new I18n(translations);
 
-const BanUserDialogContent = ({...props}) => (
+export const BanUserDialogContent = ({...props}) => (
   <div>
     <div className={styles.header}>
       <h1>
@@ -30,5 +30,3 @@ const BanUserDialogContent = ({...props}) => (
     </div>
   </div>
 );
-
-export default BanUserDialogContent;

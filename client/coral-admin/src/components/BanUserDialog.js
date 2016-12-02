@@ -4,11 +4,10 @@ import styles from './BanUserDialog.css';
 
 import BanUserDialogContent from './BanUserDialogContent';
 
-const BanUserDialog = ({view, handleClose, ...props}) => (
-  <Dialog className={styles.dialog}>
+const BanUserDialog = ({open, handleClose, ...props}) => (
+  <Dialog className={styles.dialog} open={open}>
     <span className={styles.close} onClick={handleClose}>×</span>
-    {view === 'Ban' && <BanUserDialogContent {...props} />}
+    <BanUserDialogContent {...props} />
   </Dialog>
 );
-
 export default BanUserDialog;

@@ -6,14 +6,12 @@ import translations from '../translations.json';
 import Linkify from 'react-linkify';
 import {Icon} from 'react-mdl';
 import {FabButton, Button} from 'coral-ui';
-import BanUserDialog from './BanUserDialog';
-// import {showBanUserDialog, hideBanUserDialog} from '../actions/users';
 
 const linkify = new Linkify();
 //
 // const mapDispatchToProps = dispatch => ({
-//   showBanUserDialog: () => dispatch(showBanUserDialog()),
-//   handleClose: () => dispatch(hideBanUserDialog()),
+//   showBanUserDialog: () => actions.dispatch(showBanUserDialog(),
+//   handleClose: () => actions.hideBanUserDialog(),
 // });
 
 // handleClose() {
@@ -73,18 +71,14 @@ const getActionButton = (action, i, props) => {
       //   {...props.author.get('status') === 'banned' ? 'disabled' : 'raised'}
       //   key={i}
       //   onClick={() => props.onClickAction(props.actionsMap[action].status, props.comment.get('id'), props.author.get('id'))}>{lang.t('comment.ban_user')}</Button>
-      <div>
-          <Button
-            {...props.author.get('status') === 'banned' ? 'disabled' : 'raised'}
+      <div key={i}>
+          <Button {...props.author.get('status') === 'banned' ? 'disabled' : 'raised'}
             cStyle="black"
             onClick={props.showBanUserDialog}
             key={i}
-            {...this.props} >
+            {...props} >
             {lang.t('comment.ban_user')}
           </Button>
-          <BanUserDialog
-            view='Ban'
-          />
         </div>
   );
   }
