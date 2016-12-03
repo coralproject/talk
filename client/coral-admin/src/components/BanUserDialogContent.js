@@ -5,7 +5,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
 const lang = new I18n(translations);
 
-export const BanUserDialogContent = ({...props}) => (
+export const BanUserDialogContent = () => (
   <div>
     <div className={styles.header}>
       <h1>
@@ -21,10 +21,10 @@ export const BanUserDialogContent = ({...props}) => (
       </h3>
     </div>
     <div className={styles.buttons}>
-      <Button cStyle="cancel" onClick={props.cancelBan} full>
+      <Button cStyle="cancel" full>
         {lang.t('bandialog.cancel')}
       </Button>
-      <Button cStyle="black" onClick={props.ban} full>
+      <Button cStyle="black" full>
         {lang.t('bandialog.yes_ban_user')}
       </Button>
     </div>

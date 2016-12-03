@@ -1,22 +1,17 @@
 import React from 'react';
 import timeago from 'timeago.js';
+import Linkify from 'react-linkify';
+
 import styles from './CommentList.css';
+
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations.json';
-import Linkify from 'react-linkify';
+
 import {Icon} from 'react-mdl';
 import {FabButton, Button} from 'coral-ui';
+import BanUserDialog from './BanUserDialog';
 
 const linkify = new Linkify();
-//
-// const mapDispatchToProps = dispatch => ({
-//   showBanUserDialog: () => actions.dispatch(showBanUserDialog(),
-//   handleClose: () => actions.hideBanUserDialog(),
-// });
-
-// handleClose() {
-//   this.props.hideBanUserDialog();
-// }
 
 // Render a single comment for the list
 export default props => {
@@ -65,7 +60,7 @@ const getActionButton = (action, i, props) => {
     return null;
   }
   if (action === 'ban') {
-    //const {showBanUserDialog} = this.props;
+    const showBanUserDialog = true;
     return (
       // <Button
       //   {...props.author.get('status') === 'banned' ? 'disabled' : 'raised'}
@@ -79,6 +74,11 @@ const getActionButton = (action, i, props) => {
             {...props} >
             {lang.t('comment.ban_user')}
           </Button>
+          <BanUserDialog
+            open={showBanUserDialog}
+            handleClose={props.hideBanUserDialog}
+            authorName={props.author.get('displayName')}
+          />
         </div>
   );
   }
