@@ -46,9 +46,11 @@ class i18n {
        * it takes a string with the translation key and returns
        * the translation value or the key itself if not found
        * it works with nested translations (my.page.title)
+       *
+       * the second parameter is optional and replaces a variable marked by {0} in the translation.
        */
 
-    this.t = (key) => {
+    this.t = (key, att) => {
       const arr = key.split('.');
       let translation = this.translations;
       try {
@@ -58,8 +60,9 @@ class i18n {
         return key;
       }
 
-      const val = String(translation);
+      let val = String(translation);
       if (val) {
+        val = val.replace('/\{0\/g', att);
         return val;
       } else {
         console.warn(`${key} language key not set`);
