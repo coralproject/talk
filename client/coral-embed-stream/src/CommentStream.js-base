@@ -28,7 +28,7 @@ import SuspendedAccount from '../../coral-framework/components/SuspendedAccount'
 
 const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appendItemArray} = itemActions;
 const {addNotification, clearNotification} = notificationActions;
-const {logout, showSignInDialog} = authActions;
+const {logout} = authActions;
 
 class CommentStream extends Component {
 
@@ -82,7 +82,6 @@ class CommentStream extends Component {
     const {actions, users, comments} = this.props.items;
     const {loggedIn, user, showSignInDialog} = this.props.auth;
     const {activeTab} = this.state;
-    const banned = (this.props.userData.status === 'banned');
 
     return <div className={showSignInDialog ? 'expandForSignin' : ''}>
       {
@@ -93,13 +92,14 @@ class CommentStream extends Component {
             <Tab>Settings</Tab>
           </TabBar>
           {loggedIn && <UserBox user={user} logout={this.props.logout} />}
-          <TabContent show={activeTab === 0}>
-            <div id="commentBox">
-              <InfoBox
-                content={this.props.config.infoBoxContent}
-                enable={this.props.config.infoBoxEnable}
-              />
-              <RestrictedContent restricted={banned} restrictedComp={<SuspendedAccount />}>
+          {/* Add to the restricted param a boolean if the user is suspended*/}
+          <RestrictedContent restricted={false} restrictedComp={<SuspendedAccount />}>
+            <TabContent show={activeTab === 0}>
+              <div id="commentBox">
+                <InfoBox
+                  content={this.props.config.infoBoxContent}
+                  enable={this.props.config.infoBoxEnable}
+                />
                 <CommentBox
                   addNotification={this.props.addNotification}
                   postItem={this.props.postItem}
@@ -110,34 +110,30 @@ class CommentStream extends Component {
                   reply={false}
                   author={user}
                 />
-              </RestrictedContent>
-              {!loggedIn && <SignInContainer />}
-            </div>
-            {
-              rootItem.comments && rootItem.comments.map((commentId) => {
-                const comment = comments[commentId];
-                return <div className="comment" key={commentId} id={`c_${commentId}`}>
-                  <hr aria-hidden={true}/>
-                  <AuthorName author={users[comment.author_id]}/>
-                  <PubDate created_at={comment.created_at}/>
-                  <Content body={comment.body}/>
-                  <div className="commentActionsLeft">
+                {!loggedIn && <SignInContainer />}
+              </div>
+              {
+                rootItem.comments && rootItem.comments.map((commentId) => {
+                  const comment = comments[commentId];
+                  return <div className="comment" key={commentId} id={`c_${commentId}`}>
+                    <hr aria-hidden={true}/>
+                    <AuthorName author={users[comment.author_id]}/>
+                    <PubDate created_at={comment.created_at}/>
+                    <Content body={comment.body}/>
+                    <div className="commentActionsLeft">
                       <ReplyButton
                         updateItem={this.props.updateItem}
                         id={commentId}
-                        showReply={comment.showReply}
-                        banned={banned}/>
+                        showReply={comment.showReply}/>
                       <LikeButton
                         addNotification={this.props.addNotification}
                         id={commentId}
                         like={actions[comment.like]}
-                        showSignInDialog={this.props.showSignInDialog}
                         postAction={this.props.postAction}
                         deleteAction={this.props.deleteAction}
                         addItem={this.props.addItem}
                         updateItem={this.props.updateItem}
-                        currentUser={this.props.auth.user}
-                        banned={banned}/>
+                        currentUser={this.props.auth.user}/>
                     </div>
                     <div className="commentActionsRight">
                       <FlagButton
@@ -147,7 +143,6 @@ class CommentStream extends Component {
                         postAction={this.props.postAction}
                         deleteAction={this.props.deleteAction}
                         addItem={this.props.addItem}
-                        showSignInDialog={this.props.showSignInDialog}
                         updateItem={this.props.updateItem}
                         currentUser={this.props.auth.user}/>
                       <PermalinkButton
@@ -156,11 +151,8 @@ class CommentStream extends Component {
                     </div>
                     <ReplyBox
                       addNotification={this.props.addNotification}
-                      id={commentId}
-                      flag={actions[comment.flag]}
-                      postAction={this.props.postAction}
-                      deleteAction={this.props.deleteAction}
-                      addItem={this.props.addItem}
+                      postItem={this.props.postItem}
+                      appendItemArray={this.props.appendItemArray}
                       updateItem={this.props.updateItem}
                       id={rootItemId}
                       author={user}
@@ -188,10 +180,8 @@ class CommentStream extends Component {
                               postAction={this.props.postAction}
                               deleteAction={this.props.deleteAction}
                               addItem={this.props.addItem}
-                              showSignInDialog={this.props.showSignInDialog}
                               updateItem={this.props.updateItem}
-                              currentUser={this.props.auth.user}
-                              banned={banned}/>
+                              currentUser={this.props.auth.user}/>
                           </div>
                           <div className="replyActionsRight">
                             <FlagButton
@@ -199,12 +189,10 @@ class CommentStream extends Component {
                               id={replyId}
                               flag={this.props.items.actions[reply.flag]}
                               postAction={this.props.postAction}
-                              showSignInDialog={this.props.showSignInDialog}
                               deleteAction={this.props.deleteAction}
                               addItem={this.props.addItem}
                               updateItem={this.props.updateItem}
-                              currentUser={this.props.auth.user}
-                              banned={banned}/>
+                              currentUser={this.props.auth.user}/>
                             <PermalinkButton
                               commentId={reply.parent_id}
                               articleURL={this.path}
@@ -215,26 +203,20 @@ class CommentStream extends Component {
                             postItem={this.props.postItem}
                             appendItemArray={this.props.appendItemArray}
                             updateItem={this.props.updateItem}
-                            id={replyId}
+                            id={rootItemId}
+                            author={user}
+                            parent_id={commentId}
+                            child_id={replyId}
+                            premod={this.props.config.moderation}
                             showReply={reply.showReply}/>
-                          <LikeButton
-                            addNotification={this.props.addNotification}
-                            id={replyId}
-                            like={this.props.items.actions[reply.like]}
-                            postAction={this.props.postAction}
-                            deleteAction={this.props.deleteAction}
-                            addItem={this.props.addItem}
-                            updateItem={this.props.updateItem}
-                            currentUser={this.props.auth.user}
-                            banned={banned}/>
                         </div>;
                       })
-                  }
-                </div>;
-              })
-            }
-          </TabContent>
-          <TabContent show={activeTab === 1}>
+                    }
+                  </div>;
+                })
+              }
+            </TabContent>
+            <TabContent show={activeTab === 1}>
               <SettingsContainer
                 loggedIn={loggedIn}
                 userData={this.props.userData}
@@ -242,6 +224,7 @@ class CommentStream extends Component {
               />
               {!loggedIn && <SignInContainer noButton/>}
             </TabContent>
+          </RestrictedContent>
           <Notification
             notifLength={4500}
             clearNotification={this.props.clearNotification}
@@ -270,7 +253,6 @@ const mapDispatchToProps = (dispatch) => ({
   getStream: (rootId) => dispatch(getStream(rootId)),
   addNotification: (type, text) => dispatch(addNotification(type, text)),
   clearNotification: () => dispatch(clearNotification()),
-  showSignInDialog: () => dispatch(showSignInDialog()),
   postAction: (item, action, user, itemType) => dispatch(postAction(item, action, user, itemType)),
   deleteAction: (item, action, user, itemType) => dispatch(deleteAction(item, action, user, itemType)),
   appendItemArray: (item, property, value, addToFront, itemType) => dispatch(appendItemArray(item, property, value, addToFront, itemType)),

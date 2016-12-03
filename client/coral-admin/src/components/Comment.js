@@ -60,7 +60,7 @@ const getActionButton = (action, i, props) => {
     return null;
   }
   if (action === 'ban') {
-    const showBanUserDialog = true;
+    const showBanUserDialog = false;
     return (
       // <Button
       //   {...props.author.get('status') === 'banned' ? 'disabled' : 'raised'}
