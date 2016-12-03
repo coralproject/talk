@@ -1,3 +1,4 @@
+import actions from '../constants/users';
 
 /**
  * Action disptacher related to comments
@@ -15,4 +16,12 @@ export const flagComment = id => (dispatch, getState) => {
 
 export const createComment = (name, body) => dispatch => {
   dispatch({type: 'COMMENT_CREATE', name, body});
+};
+
+// Dialog Actions
+export const showBanUserDialog = () => (dispatch) => {
+  dispatch({type: actions.SHOW_BANUSER_DIALOG});
+};
+export const hideBanUserDialog = () => (dispatch) => {
+  dispatch({type: actions.HIDE_BANUSER_DIALOG});
 };

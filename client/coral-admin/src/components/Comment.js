@@ -11,6 +11,8 @@ import {Icon} from 'react-mdl';
 import {FabButton, Button} from 'coral-ui';
 import BanUserDialog from './BanUserDialog';
 
+import {showBanUserDialog, hideBanUserDialog} from '../actions/comments';
+
 const linkify = new Linkify();
 
 // Render a single comment for the list
@@ -60,7 +62,6 @@ const getActionButton = (action, i, props) => {
     return null;
   }
   if (action === 'ban') {
-    const showBanUserDialog = false;
     return (
       // <Button
       //   {...props.author.get('status') === 'banned' ? 'disabled' : 'raised'}
@@ -69,14 +70,14 @@ const getActionButton = (action, i, props) => {
       <div key={i}>
           <Button {...props.author.get('status') === 'banned' ? 'disabled' : 'raised'}
             cStyle="black"
-            onClick={props.showBanUserDialog}
+            onClick={showBanUserDialog()}
             key={i}
             {...props} >
             {lang.t('comment.ban_user')}
           </Button>
           <BanUserDialog
-            open={showBanUserDialog}
-            handleClose={props.hideBanUserDialog}
+            open={props.showBanUserDialog}
+            handleClose={hideBanUserDialog()}
             authorName={props.author.get('displayName')}
           />
         </div>

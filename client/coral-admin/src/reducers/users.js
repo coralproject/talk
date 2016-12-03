@@ -1,5 +1,4 @@
 import {Map, List, fromJS} from 'immutable';
-import * as actions from '../constants/users';
 
 const initialState = Map({
   byId: Map(),
@@ -11,12 +10,6 @@ export default (state = initialState, action) => {
   switch (action.type) {
   case 'USERS_MODERATION_QUEUE_FETCH_SUCCESS': return replaceUsers(action, state);
   case 'USER_STATUS_UPDATE': return updateUserStatus(state, action);
-  case actions.SHOW_BANUSER_DIALOG:
-    return state
-      .set('showBanUserDialog', true);
-  case actions.HIDE_BANUSER_DIALOG:
-    return state
-      .set('showBanUserDialog', false);
   default: return state;
   }
 };

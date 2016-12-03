@@ -1,4 +1,5 @@
 
+import * as actions from '../constants/users';
 import {Map, List, fromJS} from 'immutable';
 
 /**
@@ -11,7 +12,8 @@ import {Map, List, fromJS} from 'immutable';
 const initialState = Map({
   byId: Map(),
   ids: List(),
-  loading: false
+  loading: false,
+  showBanUserDialog: false
 });
 
 // Handle the comment actions
@@ -24,6 +26,12 @@ export default (state = initialState, action) => {
   case 'COMMENT_FLAG': return flag(state, action);
   case 'COMMENT_CREATE_SUCCESS': return addComment(state, action);
   case 'COMMENT_STREAM_FETCH_SUCCESS': return replaceComments(action, state);
+  case actions.SHOW_BANUSER_DIALOG:
+    return state
+      .set('showBanUserDialog', true);
+  case actions.HIDE_BANUSER_DIALOG:
+    return state
+      .set('showBanUserDialog', false);
   default: return state;
   }
 };
