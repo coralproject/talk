@@ -54,7 +54,7 @@
     },
     "bandialog": {
       "ban_user": "Ban User?",
-      "are_you_sure": "Are you sure you would like to ban {props.author.displayName}?",
+      "are_you_sure": "Are you sure you would like to ban {0}?",
       "note": "Note: Banning this user will also place this comment in the Rejected queue.",
       "cancel": "Cancel",
       "yes_ban_user": "Yes, Ban User"

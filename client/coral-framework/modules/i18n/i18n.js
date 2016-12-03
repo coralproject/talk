@@ -48,7 +48,7 @@ class i18n {
        * it works with nested translations (my.page.title)
        */
 
-    this.t = (key) => {
+    this.t = (key, att) => {
       const arr = key.split('.');
       let translation = this.translations;
       try {
@@ -58,8 +58,9 @@ class i18n {
         return key;
       }
 
-      const val = String(translation);
+      let val = String(translation);
       if (val) {
+        val = val.replace(/\{0\}/g, att);
         return val;
       } else {
         console.warn(`${key} language key not set`);
