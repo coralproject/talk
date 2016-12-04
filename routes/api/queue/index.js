@@ -16,7 +16,7 @@ const router = express.Router();
 // Pre-moderation:  New comments are shown in the moderator queues immediately.
 // Post-moderation: New comments do not appear in moderation queues unless they are flagged by other users.
 router.get('/comments/pending', (req, res, next) => {
-  Setting.getModerationSetting().then(({moderation}) =>
+  Setting.getPublicSettings().then(({moderation}) =>
     Comment.moderationQueue(moderation))
   .then((comments) => {
     return Promise.all([
