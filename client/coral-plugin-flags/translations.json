@@ -1,14 +1,16 @@
 {
   "en": {
-    "flag": "Report",
-    "flagged": "Reported",
-    "flag-notif": "Thank you for reporting this comment. Our moderation team has been notified and will review it shortly.",
-    "flag-notif-remove": "Your flag has been removed."
+    "report": "Report",
+    "reported": "Reported",
+    "report-notif": "Thank you for reporting this comment. Our moderation team has been notified and will review it shortly.",
+    "report-notif-remove": "Your report has been removed.",
+    "report-header": "Report an issue"
   },
   "es": {
-    "flag": "Informe",
-    "flagged": "Informado",
-    "flag-notif": "Gracias por marcar este comentario. Nuestro equipo de moderación ha sido notificado y muy pronto lo va a revisar.",
-    "flag-notif-remove": "¡traduceme!"
+    "report": "Informe",
+    "reported": "Informado",
+    "report-notif": "Gracias por marcar este comentario. Nuestro equipo de moderación ha sido notificado y muy pronto lo va a revisar.",
+    "report-notif-remove": "¡traduceme!",
+    "report-header": "¡traduceme!"
   }
 }

@@ -195,3 +195,10 @@ hr {
   float: right;
   margin: 8px;
 }
+
+/* Flag Styles */
+
+.coral-plugin-flags-popup-header {
+  font-weight: bolder;
+  font-size: 14px;
+}

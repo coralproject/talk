@@ -17,7 +17,7 @@
   border-top-color: white;
   position: absolute;
   left: 1em;
-  top: 56px;
+  bottom: -20px;
   z-index: 2;
 }
 
@@ -27,6 +27,6 @@
   border-top-color: #2376D8;
   position: absolute;
   left: 1em;
-  top: 57px;
+  bottom: -21px;
   z-index: 1;
 }

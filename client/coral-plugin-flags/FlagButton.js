@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {I18n} from '../coral-framework';
 import translations from './translations.json';
-import {PopupMenu} from 'coral-ui';
+import {PopupMenu, Button} from 'coral-ui';
 
 const name = 'coral-plugin-flags';
 
@@ -9,6 +9,8 @@ export default class FlagButton extends Component {
 
   state = {
     showMenu: false,
+    itemType: '',
+    reason: ''
   }
 
   onFlagClick = () => {
@@ -42,12 +44,28 @@ export default class FlagButton extends Component {
     // };
 
     return <div className={`${name}-container`}>
-      { this.state.showMenu && <PopupMenu>test</PopupMenu> }
+      {
+        this.state.showMenu &&
+        <PopupMenu>
+          <span className={`${name}-popup-header`}>{lang.t('report-header')}</span>
+          <form>
+            <input type="radio" value="user"/> Flag username<br/>
+            <input type="radio" value="commment"/> Flag comment<br/>
+          </form>
+          <Button style={
+            {
+              float: 'right',
+              marginTop: 10,
+            }}>
+            Continue
+          </Button>
+        </PopupMenu>
+      }
       <button onClick={this.onFlagClick} className={`${name}-button`}>
         {
           flagged
-          ? <span className={`${name}-button-text`}>{lang.t('flagged')}</span>
-        : <span className={`${name}-button-text`}>{lang.t('flag')}</span>
+          ? <span className={`${name}-button-text`}>{lang.t('reported')}</span>
+        : <span className={`${name}-button-text`}>{lang.t('report')}</span>
         }
         <i className={`${name}-icon material-icons ${flagged && 'flaggedIcon'}`}
           style={flagged ? styles.flaggedIcon : {}}
