@@ -34,7 +34,11 @@ const AssetSchema = new Schema({
   subsection: String,
   author: String,
   publication_date: Date,
-  modified_date: Date
+  modified_date: Date,
+  status: {
+    type: String,
+    default: 'open'
+  }
 }, {
   versionKey: false,
   timestamps: {

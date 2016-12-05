@@ -4,6 +4,7 @@ import {
   Notification,
   notificationActions,
   authActions,
+  configActions
 } from '../../coral-framework';
 import {connect} from 'react-redux';
 import CommentBox from '../../coral-plugin-commentbox/CommentBox';
@@ -26,6 +27,7 @@ import {Icon} from 'react-mdl';
 const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appendItemArray} = itemActions;
 const {addNotification, clearNotification} = notificationActions;
 const {logout} = authActions;
+const {updateOpenStatus} = configActions;
 
 const mapStateToProps = (state) => {
   return {
@@ -50,6 +52,7 @@ const mapDispatchToProps = (dispatch) => ({
   appendItemArray: (item, property, value, addToFront, itemType) =>
     dispatch(appendItemArray(item, property, value, addToFront, itemType)),
   logout: () => dispatch(logout()),
+  updateStatus: status => dispatch(updateOpenStatus(status))
 });
 
 class CommentStream extends Component {
@@ -58,15 +61,11 @@ class CommentStream extends Component {
     super(props);
 
     this.state = {
-      activeTab: 0,
-      closingComments: false
+      activeTab: 0
     };
 
     this.changeTab = this.changeTab.bind(this);
-    this.changeCommentMessage = this.changeCommentMessage.bind(this);
-    this.promptCloseComments = this.promptCloseComments.bind(this);
-    this.cancelClosingComments = this.cancelClosingComments.bind(this);
-    this.submitMessage = this.submitMessage.bind(this);
+    this.toggleStatus = this.toggleStatus.bind(this);
   }
 
   changeTab (tab) {
@@ -75,24 +74,8 @@ class CommentStream extends Component {
     });
   }
 
-  changeCommentMessage (str) {
-
-  }
-
-  submitMessage () {
-    
-  }
-
-  cancelClosingComments () {
-    this.setState({
-      closingComments: false
-    });
-  }
-
-  promptCloseComments () {
-    this.setState({
-      closingComments: true
-    });
+  toggleStatus () {
+    this.props.updateStatus(this.props.config.status === 'open' ? 'closed' : 'open')
   }
 
   static propTypes = {
@@ -153,6 +136,7 @@ class CommentStream extends Component {
     const rootItem = this.props.items.assets && this.props.items.assets[rootItemId];
     const {actions, users, comments} = this.props.items;
     const {loggedIn, user, showSignInDialog} = this.props.auth;
+    const {status} = this.props.config;
     const {activeTab} = this.state;
 
     return <div className={showSignInDialog ? 'expandForSignin' : ''}>
@@ -297,15 +281,9 @@ class CommentStream extends Component {
             <SettingsContainer/>
           </TabContent>
           <TabContent show={activeTab === 2}>
-            <h3>Close Comment Stream</h3>
-            <CloseCommentsInfo onClick={this.promptCloseComments}
-              closing={this.state.closingComments} />
-            {this.state.closingComments ?
-              <CloseCommentsActions
-                message={"The comments for this article are now closed"}
-                onCancel={this.cancelClosingComments}
-                onSubmitMessage={this.submitMessage}
-                onChangeMessage={this.changeCommentMessage} /> : null}
+            <h3>{status === 'open' ? 'Close' : 'Open'} Comment Stream</h3>
+            <CloseCommentsInfo onClick={this.toggleStatus}
+              status={status} />
           </TabContent>
         </div>
         : 'Loading'
@@ -314,28 +292,22 @@ class CommentStream extends Component {
   }
 }
 
-const CloseCommentsInfo = ({ closing, onClick }) => (
+const CloseCommentsInfo = ({ status, onClick }) => status === 'open' ? (
   <div className="close-comments-intro-wrapper">
     <p>
       This comment stream is currently open. By closing this comment stream,
       no new comments may be submitted and all previous comments will still
       be displayed.
     </p>
-    <Button onClick={onClick} disabled={closing}>Close Stream</Button>
+    <Button onClick={onClick}>Close Stream</Button>
   </div>
-)
-
-const CloseCommentsActions = ({ onChangeMessage, message, onCancel, onSubmitMessage }) => (
-  <div>
-    <p className="close-comments-alert"><Icon name='warning'/> Are you sure you'd like to close this comment stream?</p>
-    <p>Write a message for readers to display</p>
-    <textarea className="close-comments-message"
-      value={message}
-      onChange={onChangeMessage}></textarea>
-    <div className="close-comments-confirm-wrapper">
-      <Button onClick={onCancel}>Cancel</Button>
-      <Button onClick={onSubmitMessage}>Yes, Close Stream</Button>
-    </div>
+) : (
+  <div className="close-comments-intro-wrapper">
+    <p>
+      This comment stream is currently closed. By opening this comment stream,
+      new comments may be submitted and displayed
+    </p>
+    <Button onClick={onClick}>Open Stream</Button>
   </div>
 )
 
