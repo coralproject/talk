@@ -248,8 +248,10 @@ class CommentStream extends Component {
           </TabContent>
           <TabContent show={activeTab === 2}>
             <h3>{status === 'open' ? 'Close' : 'Open'} Comment Stream</h3>
-            <CloseCommentsInfo onClick={this.toggleStatus}
-              status={status} />
+            <RestrictedContent restricted={!loggedIn}>
+              <CloseCommentsInfo onClick={this.toggleStatus}
+                status={status} />
+            </RestrictedContent>
           </TabContent>
           </RestrictedContent>
           <Notification
