@@ -19,7 +19,7 @@ const settings = {id: '1', moderation: 'pre'};
 
 describe('/api/v1/comments', () => {
 
-  describe.only('#get', () => {
+  describe('#get', () => {
     const comments = [{
       body: 'comment 10',
       asset_id: 'asset',
