@@ -150,24 +150,28 @@ class CommentStream extends Component {
           </TabBar>
 
           <TabContent show={activeTab === 0}>
-            <div id="commentBox">
-              <InfoBox
-                content={this.props.config.infoBoxContent}
-                enable={this.props.config.infoBoxEnable}
-              />
-              {loggedIn && <UserBox user={user} logout={this.props.logout} />}
-              <CommentBox
-                addNotification={this.props.addNotification}
-                postItem={this.props.postItem}
-                appendItemArray={this.props.appendItemArray}
-                updateItem={this.props.updateItem}
-                id={rootItemId}
-                premod={this.props.config.moderation}
-                reply={false}
-                author={user}
-              />
-              {!loggedIn && <SignInContainer />}
-            </div>
+            {
+              status === 'open'
+              ? <div id="commentBox">
+                  <InfoBox
+                    content={this.props.config.infoBoxContent}
+                    enable={this.props.config.infoBoxEnable}
+                  />
+                  {loggedIn && <UserBox user={user} logout={this.props.logout} />}
+                  <CommentBox
+                    addNotification={this.props.addNotification}
+                    postItem={this.props.postItem}
+                    appendItemArray={this.props.appendItemArray}
+                    updateItem={this.props.updateItem}
+                    id={rootItemId}
+                    premod={this.props.config.moderation}
+                    reply={false}
+                    author={user}
+                  />
+                  {!loggedIn && <SignInContainer />}
+                </div>
+              : <p>Comments are closed for this thread</p>
+            }
             {
               rootItem.comments && rootItem.comments.map((commentId) => {
                 const comment = comments[commentId];
