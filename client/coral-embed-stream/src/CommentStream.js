@@ -23,10 +23,11 @@ import PermalinkButton from '../../coral-plugin-permalinks/PermalinkButton';
 import SignInContainer from '../../coral-sign-in/containers/SignInContainer';
 import UserBox from '../../coral-sign-in/components/UserBox';
 
-import {TabBar, Tab, TabContent, Spinner, Button} from '../../coral-ui';
+import {TabBar, Tab, TabContent, Spinner} from '../../coral-ui';
 import SettingsContainer from '../../coral-settings/containers/SettingsContainer';
 import RestrictedContent from '../../coral-framework/components/RestrictedContent';
 import SuspendedAccount from '../../coral-framework/components/SuspendedAccount';
+import CloseCommentsInfo from '../../coral-framework/components/CloseCommentsInfo';
 
 const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appendItemArray} = itemActions;
 const {addNotification, clearNotification} = notificationActions;
@@ -122,10 +123,10 @@ class CommentStream extends Component {
                         reply={false}
                         author={user}
                       />
-                      {!loggedIn && <SignInContainer />}
                     </div>
                   : <p>Comments are closed for this thread.</p>
                 }
+                {!loggedIn && <SignInContainer />}
                 {
                   rootItem.comments && rootItem.comments.map((commentId) => {
                     const comment = comments[commentId];
@@ -265,25 +266,6 @@ class CommentStream extends Component {
     </div>;
   }
 }
-
-const CloseCommentsInfo = ({status, onClick}) => status === 'open' ? (
-  <div className="close-comments-intro-wrapper">
-    <p>
-      This comment stream is currently open. By closing this comment stream,
-      no new comments may be submitted and all previous comments will still
-      be displayed.
-    </p>
-    <Button onClick={onClick}>Close Stream</Button>
-  </div>
-) : (
-  <div className="close-comments-intro-wrapper">
-    <p>
-      This comment stream is currently closed. By opening this comment stream,
-      new comments may be submitted and displayed
-    </p>
-    <Button onClick={onClick}>Open Stream</Button>
-  </div>
-);
 
 const mapStateToProps = state => ({
   config: state.config.toJS(),
