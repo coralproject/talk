@@ -26,15 +26,15 @@ router.get('/', (req, res, next) => {
         return asset;
       }),
 
-    // Get the moderation setting from the settings.
-    Setting.getModerationSetting()
+    // Get the public settings.
+    Setting.getPublicSettings()
   ])
   .then(([asset, settings]) => {
 
     // Merge the asset specific settings with the returned settings object in
     // the event that the asset that was returned also had settings.
     if (asset.settings) {
-      settings = Object.assign(settings, asset.settings);
+      settings = Object.assign({}, settings, asset.settings);
     }
 
     // Fetch the appropriate comments stream.

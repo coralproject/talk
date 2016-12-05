@@ -56,12 +56,14 @@ hr {
 
 /* Info Box Styles */
 .coral-plugin-infobox-info {
-  position: fixed;
   top: 0;
   border: 0;
   background: rgb(105,105,105);
   color: white;
-  border-radius: 2px;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  margin-bottom: 10px;
   font-weight: bold;
   display: block;
 }
@@ -84,6 +86,7 @@ hr {
 .coral-plugin-commentbox-textarea {
   flex: 1;
   padding: 5px;
+  min-height: 100px;
 }
 
 .coral-plugin-commentbox-button-container {
@@ -110,6 +113,7 @@ hr {
 
 /* Comment styles */
 .comment {
+  position: relative;
   margin-bottom: 10px;
   position: relative;
 }

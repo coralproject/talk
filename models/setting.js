@@ -38,11 +38,11 @@ SettingSchema.statics.getSettings = function () {
 };
 
 /**
- * Gets the moderation settings and sends it back
+ * Gets the settings visible to the public
  * @return {Promise} moderation the settings for how to moderate comments
  */
-SettingSchema.statics.getModerationSetting = function () {
-  return this.findOne({id: '1'}).select('moderation');
+SettingSchema.statics.getPublicSettings = function () {
+  return this.findOne({id: '1'}).select('moderation infoBoxEnable infoBoxContent');
 };
 
 /**
@@ -50,7 +50,7 @@ SettingSchema.statics.getModerationSetting = function () {
  * @return {Promise} content the content of the info Box
  */
 SettingSchema.statics.getInfoBoxSetting = function () {
-  return this.findOne({id: '1'}).select('infoBoxEnable', 'infoBoxContent');
+  return this.findOne({id: '1'}).select('infoBoxEnable infoBoxContent');
 };
 
 /**

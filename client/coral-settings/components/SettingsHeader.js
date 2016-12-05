@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from './SettingsHeader.css';
 
-export default () => (
+export default ({userData}) => (
   <div className={styles.header}>
-    <h1>Jackson</h1>
-    <h2>jackson_persona@gmail.com</h2>
+    <h1>{userData.displayName}</h1>
+    <h2>{userData.profiles.map(profile => profile.id)}</h2>
   </div>
 );
 
