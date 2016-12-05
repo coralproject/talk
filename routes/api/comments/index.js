@@ -126,7 +126,7 @@ router.put('/:comment_id/status', authorization.needed('admin'), (req, res, next
   } = req.body;
 
   Comment
-    .changeStatus(req.params.comment_id, status)
+    .pushStatus(req.params.comment_id, status, req.user.id)
     .then(() => {
       res.status(204).end();
     })

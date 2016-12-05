@@ -16,6 +16,13 @@ const StatusSchema = new Schema({
       'premod',
     ],
   },
+
+  // The User ID of the user that assigned the status.
+  assigned_by: {
+    type: String,
+    default: null
+  },
+
   created_at: Date
 }, {
   _id: false
@@ -253,16 +260,19 @@ CommentSchema.statics.moderationQueue = (moderation, asset_id = false) => {
 };
 
 /**
- * Change the status of a comment.
- * @param {String} id  identifier of the comment  (uuid)
- * @param {String} status the new status of the comment
+ * Pushes a new status in for the user.
+ * @param {String} id          identifier of the comment  (uuid)
+ * @param {String} status      the new status of the comment
+ * @param {String} assigned_by the user id for the user who performed the
+ *                             moderation action
  * @return {Promise}
  */
-CommentSchema.statics.changeStatus = (id, status) => Comment.findOneAndUpdate({id}, {
+CommentSchema.statics.pushStatus = (id, status, assigned_by = null) => Comment.update({id}, {
   $push: {
     status: {
       type: status,
-      created_at: new Date()
+      created_at: new Date(),
+      assigned_by
     }
   }
 });

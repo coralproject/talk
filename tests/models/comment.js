@@ -216,28 +216,35 @@ describe('models.Comment', () => {
   describe('#changeStatus', () => {
 
     it('should change the status of a comment from no status', () => {
-      return Comment.changeStatus(comments[0].id, 'rejected')
-        .then(() => {
+      let comment_id = comments[0].id;
 
-          return Comment.findById(comments[0].id);
+      return Comment.findById(comment_id)
+        .then((c) => {
+          expect(c).to.have.property('status');
+          expect(c.status).to.have.length(0);
+
+          return Comment.pushStatus(comment_id, 'rejected', '123');
         })
+        .then(() => Comment.findById(comment_id))
         .then((c) => {
           expect(c).to.have.property('status');
           expect(c.status).to.have.length(1);
           expect(c.status[0]).to.have.property('type', 'rejected');
+          expect(c.status[0]).to.have.property('assigned_by', '123');
         });
     });
 
     it('should change the status of a comment from accepted', () => {
-      return Comment.changeStatus(comments[1].id, 'rejected')
-        .then(() => {
-
-          return Comment.findById(comments[1].id);
-        })
+      return Comment.pushStatus(comments[1].id, 'rejected', '123')
+        .then(() => Comment.findById(comments[1].id))
         .then((c) => {
           expect(c).to.have.property('status');
           expect(c.status).to.have.length(2);
+          expect(c.status[0]).to.have.property('type', 'accepted');
+          expect(c.status[0]).to.have.property('assigned_by', null);
+
           expect(c.status[1]).to.have.property('type', 'rejected');
+          expect(c.status[1]).to.have.property('assigned_by', '123');
         });
     });
 
