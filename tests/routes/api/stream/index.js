@@ -25,25 +25,31 @@ describe('/api/v1/stream', () => {
     body: 'comment 10',
     author_id: '',
     parent_id: '',
-    status: 'accepted'
+    status: [{
+      type: 'accepted'
+    }]
   }, {
     id: 'def',
     body: 'comment 20',
     author_id: '',
     parent_id: '',
-    status: ''
+    status: []
   }, {
     id: 'uio',
     body: 'comment 30',
     asset_id: 'asset',
     author_id: '456',
     parent_id: '',
-    status: 'accepted'
+    status: [{
+      type: 'accepted'
+    }]
   }, {
     id: 'hij',
     body: 'comment 40',
     asset_id: '456',
-    status: 'rejected'
+    status: [{
+      type: 'rejected'
+    }]
   }];
 
   const users = [{
@@ -92,7 +98,7 @@ describe('/api/v1/stream', () => {
       return Promise.all([
         Comment.create(comments),
         Action.create(actions),
-        Setting.create(settings)
+        Setting.init(settings)
       ]);
     });
   });

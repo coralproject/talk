@@ -1,6 +1,8 @@
 const mongoose = require('../mongoose');
 const Schema = mongoose.Schema;
 
+const Setting = require('./setting');
+
 const uuid = require('uuid');
 
 const AssetSchema = new Schema({
@@ -55,11 +57,6 @@ AssetSchema.index({
 });
 
 /**
- * Search for assets. Currently only returns all.
- */
-AssetSchema.statics.search = (query) => Asset.find(query);
-
-/**
  * Finds an asset by its id.
  * @param {String} id  identifier of the asset (uuid).
  */
@@ -70,6 +67,25 @@ AssetSchema.statics.findById = (id) => Asset.findOne({id});
  * @param {String} url  identifier of the asset (uuid).
  */
 AssetSchema.statics.findByUrl = (url) => Asset.findOne({url});
+
+/**
+ * Retrieves the settings given an asset query and rectifies it against the
+ * global settings.
+ * @param  {Promise} assetQuery an asset query that returns a single asset.
+ * @return {Promise}
+ */
+AssetSchema.statics.rectifySettings = (assetQuery) => Promise.all([
+  Setting.retrieve(),
+  assetQuery
+]).then(([settings, asset]) => {
+
+  // If the asset exists and has settings then return the merged object.
+  if (asset && asset.settings) {
+    return Object.assign({}, settings, asset.settings);
+  }
+
+  return settings;
+});
 
 /**
  * Finds a asset by its url.

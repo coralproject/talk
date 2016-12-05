@@ -21,17 +21,24 @@ describe('/api/v1/queue', () => {
     body: 'comment 10',
     asset_id: 'asset',
     author_id: '123',
-    status: 'rejected'
+    status: [{
+      type: 'rejected'
+    }]
   }, {
     id: 'def',
     body: 'comment 20',
     asset_id: 'asset',
-    author_id: '456'
+    author_id: '456',
+    status: [{
+      type: 'premod'
+    }]
   }, {
     id: 'hij',
     body: 'comment 30',
     asset_id: '456',
-    status: 'accepted'
+    status: [{
+      type: 'accepted'
+    }]
   }];
 
   const users = [{
@@ -59,7 +66,7 @@ describe('/api/v1/queue', () => {
       Comment.create(comments),
       User.createLocalUsers(users),
       Action.create(actions),
-      Setting.create(settings)
+      Setting.init(settings)
     ]);
   });
 

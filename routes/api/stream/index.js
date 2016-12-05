@@ -27,7 +27,7 @@ router.get('/', (req, res, next) => {
       }),
 
     // Get the moderation setting from the settings.
-    Setting.getModerationSetting()
+    Setting.retrieve()
   ])
   .then(([asset, settings]) => {
 
