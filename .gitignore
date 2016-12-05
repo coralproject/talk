@@ -5,6 +5,7 @@ dist
 dist/coral-admin/bundle.js
 .DS_Store
 *.iml
+dump.rdb
 .env
 gaba.cfg
 .idea/
