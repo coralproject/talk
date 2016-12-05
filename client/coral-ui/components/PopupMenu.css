@@ -1,0 +1,32 @@
+.popupMenu {
+  display: inline-block;
+  position: absolute;
+  width: inherit;
+  border: solid 1px #2376D8;
+  bottom: 36px;
+  box-sizing: border-box;
+  background: white;
+  border-radius: 3px;
+  padding: 20px 10px;
+  z-index: 3;
+}
+
+.popupMenu:before{
+  content: '';
+  border: 10px solid transparent;
+  border-top-color: white;
+  position: absolute;
+  left: 1em;
+  top: 56px;
+  z-index: 2;
+}
+
+.popupMenu:after{
+  content: '';
+  border: 10px solid transparent;
+  border-top-color: #2376D8;
+  position: absolute;
+  left: 1em;
+  top: 57px;
+  z-index: 1;
+}
