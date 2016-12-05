@@ -1,7 +1,10 @@
 const express = require('express');
 const Comment = require('../../../models/comment');
+const User = require('../../../models/user');
+const Action = require('../../../models/action');
 const Setting = require('../../../models/setting');
 const Asset = require('../../../models/asset');
+const _ = require('lodash');
 
 const router = express.Router();
 
@@ -41,8 +44,21 @@ router.get('/comments/pending', (req, res, next) => {
     .then(({moderation}) => {
       return Comment.moderationQueue(moderation);
     }).then((comments) => {
-
-      res.json(comments);
+      return Promise.all([
+        comments,
+        User.findByIdArray(_.uniq(comments.map((comment) => comment.author_id))),
+        Action.getActionSummaries(_.uniq([
+          ...comments.map((comment) => comment.id),
+          ...comments.map((comment) => comment.author_id)
+        ]))
+      ]);
+    })
+    .then(([comments, users, actions]) => {
+      res.json({
+        comments,
+        users,
+        actions
+      });
     })
     .catch(error => {
       next(error);

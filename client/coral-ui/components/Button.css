@@ -67,6 +67,16 @@
   background: #4f5c67;
 }
 
+.type--darkGrey {
+  color: white;
+  background: #696969;
+}
+
+.type--darkGrey:hover {
+  color: white;
+  background: #696969;
+}
+
 .full {
   width: 100%;
   margin: 0;

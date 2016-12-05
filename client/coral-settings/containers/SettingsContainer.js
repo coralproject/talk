@@ -1,24 +1,26 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {TabBar, Tab} from '../../coral-ui';
+import {saveBio} from 'coral-framework/actions/user';
 
-import Bio from '../components/Bio';
+import BioContainer from './BioContainer';
+import NotLoggedIn from '../components/NotLoggedIn';
+import {TabBar, Tab, TabContent} from '../../coral-ui';
 import CommentHistory from '../components/CommentHistory';
 import SettingsHeader from '../components/SettingsHeader';
+import RestrictedContent from 'coral-framework/components/RestrictedContent';
 
 class SignInContainer extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      activeTab: 0
+      activeTab: 0,
     };
 
     this.handleTabChange = this.handleTabChange.bind(this);
   }
 
   componentWillMount () {
-    // Get Bio
     // Fetch commentHistory
   }
 
@@ -29,18 +31,22 @@ class SignInContainer extends Component {
   }
 
   render() {
-    //const {embedStream} = this.props;
+    const {loggedIn, userData, showSignInDialog} = this.props;
     const {activeTab} = this.state;
     return (
-      <div>
-        <SettingsHeader />
+      <RestrictedContent restricted={!loggedIn} restrictedComp={<NotLoggedIn showSignInDialog={showSignInDialog} />}>
+        <SettingsHeader {...this.props} />
         <TabBar onChange={this.handleTabChange} activeTab={activeTab} cStyle='material'>
           <Tab>All Comments (120)</Tab>
           <Tab>Profile Settings</Tab>
         </TabBar>
-        { activeTab === 0 && <CommentHistory {...this.props}/> }
-        { activeTab === 1 && <Bio {...this.props}/> }
-      </div>
+        <TabContent show={activeTab === 0}>
+          <CommentHistory {...this.props}/>
+        </TabContent>
+        <TabContent show={activeTab === 1}>
+          <BioContainer bio={userData.settings.bio} handleSave={this.handleSave} {...this.props} />
+        </TabContent>
+      </RestrictedContent>
     );
   }
 }
@@ -49,10 +55,8 @@ const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getBio: () => dispatch(),
+  saveBio: (user_id, formData) => dispatch(saveBio(user_id, formData)),
   getHistory: () => dispatch(),
-  handleSaveChanges: () => dispatch(),
-  handleCancel: () => dispatch()
 });
 
 export default connect(

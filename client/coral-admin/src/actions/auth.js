@@ -1,5 +1,5 @@
 import * as actions from '../constants/auth';
-import {base, handleResp, getInit} from '../../../coral-framework/helpers/response';
+import coralApi from '../../../coral-framework/helpers/response';
 
 // Check Login
 
@@ -9,8 +9,7 @@ const checkLoginFailure = error => ({type: actions.CHECK_LOGIN_FAILURE, error});
 
 export const checkLogin = () => dispatch => {
   dispatch(checkLoginRequest());
-  fetch(`${base}/auth`, getInit('GET'))
-    .then(handleResp)
+  coralApi('/auth')
     .then(user => {
       const isAdmin = !!user.roles.filter(i => i === 'admin').length;
       dispatch(checkLoginSuccess(user, isAdmin));
@@ -26,8 +25,7 @@ const logOutFailure = () => ({type: actions.LOGOUT_FAILURE});
 
 export const logout = () => dispatch => {
   dispatch(logOutRequest());
-  fetch(`${base}/auth`, getInit('DELETE'))
-    .then(handleResp)
+  coralApi('/auth', {method: 'DELETE'})
     .then(() => dispatch(logOutSuccess()))
     .catch(error => dispatch(logOutFailure(error)));
 };

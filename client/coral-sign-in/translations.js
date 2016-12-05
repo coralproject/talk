@@ -1,6 +1,8 @@
 export default {
   en: {
     'signIn': {
+      notYou: 'Not you?',
+      loggedInAs: 'Logged in as',
       facebookSignIn: 'Sign in with Facebook',
       facebookSignUp: 'Sign up with Facebook',
       logout: 'Logout',
@@ -24,6 +26,8 @@ export default {
   },
   es: {
     'signIn': {
+      notYou: 'No eres tu?',
+      loggedInAs: 'Entraste como',
       facebookSignIn: 'Entrar con Facebook',
       facebookSignUp: 'Regístrate con Facebook',
       logout: 'Salir',

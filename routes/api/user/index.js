@@ -140,4 +140,21 @@ router.post('/request-password-reset', (req, res, next) => {
     });
 });
 
+router.put('/:user_id/bio', (req, res, next) => {
+  const {user_id} = req.params;
+  const {bio} = req.body;
+
+  if (!bio) {
+    return next('You must submit a new bio');
+  }
+
+  User
+    .addBio(user_id, bio)
+    .then(user => res.status(200).send(user))
+    .catch(error => {
+      const errorMsg = typeof error === 'string' ? error : error.message;
+      res.status(500).json({error: errorMsg});
+    });
+});
+
 module.exports = router;

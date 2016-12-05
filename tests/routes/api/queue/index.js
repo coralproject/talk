@@ -62,25 +62,36 @@ describe('/api/v1/queue', () => {
   }];
 
   beforeEach(() => {
-    return Promise.all([
-      Comment.create(comments),
-      User.createLocalUsers(users),
-      Action.create(actions),
-      Setting.init(settings)
-    ]);
+    return User.createLocalUsers(users)
+      .then((u) => {
+        comments[0].author_id = u[0].id;
+        comments[1].author_id = u[1].id;
+        comments[2].author_id = u[1].id;
+
+        return Comment.create(comments);
+      })
+      .then((c) => {
+        actions[0].item_id = c[0].id;
+        actions[1].item_id = c[1].id;
+
+        return Promise.all([
+          Action.create(actions),
+          Setting.init(settings)
+        ]);
+      });
   });
 
-  describe('#get', () => {
-    it('should return all the pending comments', function(done){
-      chai.request(app)
-        .get('/api/v1/queue/comments/pending')
-        .set(passport.inject({roles: ['admin']}))
-        .end(function(err, res){
-          expect(err).to.be.null;
-          expect(res).to.have.status(200);
-          expect(res.body[0]).to.have.property('id', 'def');
-          done();
-        });
-    });
+  it('should return all the pending comments, users and actions', function(done){
+    chai.request(app)
+      .get('/api/v1/queue/comments/pending')
+      .set(passport.inject({roles: ['admin']}))
+      .end(function(err, res){
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res.body.comments[0]).to.have.property('body');
+        expect(res.body.users[0]).to.have.property('displayName');
+        expect(res.body.actions[0]).to.have.property('action_type');
+        done();
+      });
   });
 });

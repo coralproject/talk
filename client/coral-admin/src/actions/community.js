@@ -9,12 +9,11 @@ import {
   SET_ROLE
 } from '../constants/community';
 
-import {base, getInit, handleResp} from '../../../coral-framework/helpers/response';
+import coralApi from '../../../coral-framework/helpers/response';
 
 export const fetchCommenters = (query = {}) => dispatch => {
   dispatch(requestFetchCommenters());
-  fetch(`${base}/user?${qs.stringify(query)}`, getInit('GET'))
-    .then(handleResp)
+  coralApi(`/user?${qs.stringify(query)}`)
     .then(({result, page, count, limit, totalPages}) =>
       dispatch({
         type: FETCH_COMMENTERS_SUCCESS,
@@ -42,7 +41,7 @@ export const newPage = () => ({
 });
 
 export const setRole = (id, role) => dispatch => {
-  return fetch(`${base}/user/${id}/role`, getInit('POST', {role}))
+  return coralApi(`/user/${id}/role`, {method: 'POST', body: {role}})
   .then(() => {
     return dispatch({type: SET_ROLE, id, role});
   });

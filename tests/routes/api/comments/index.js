@@ -19,7 +19,7 @@ const settings = {id: '1', moderation: 'pre'};
 
 describe('/api/v1/comments', () => {
 
-  describe('#get', () => {
+  describe.only('#get', () => {
     const comments = [{
       body: 'comment 10',
       asset_id: 'asset',
@@ -100,8 +100,9 @@ describe('/api/v1/comments', () => {
         .set(passport.inject({roles: ['admin']}))
         .then((res) => {
           expect(res).to.have.status(200);
-          expect(res.body).to.have.length(1);
-          expect(res.body[0]).to.have.property('id', comments[2].id);
+          expect(res.body).to.have.property('comments');
+          expect(res.body.comments).to.have.length(1);
+          expect(res.body.comments[0]).to.have.property('id', comments[2].id);
         });
     });
 
@@ -111,8 +112,8 @@ describe('/api/v1/comments', () => {
         .set(passport.inject({roles: ['admin']}))
         .then((res) => {
           expect(res).to.have.status(200);
-          expect(res.body).to.have.length(1);
-          expect(res.body[0]).to.have.property('id', comments[3].id);
+          expect(res.body.comments).to.have.length(1);
+          expect(res.body.comments[0]).to.have.property('id', comments[3].id);
         });
     });
 
@@ -122,7 +123,7 @@ describe('/api/v1/comments', () => {
         .set(passport.inject({roles: ['admin']}))
         .then((res) => {
           expect(res).to.have.status(200);
-          expect(res.body).to.have.length(2);
+          expect(res.body.comments).to.have.length(2);
         });
     });
 
@@ -133,8 +134,8 @@ describe('/api/v1/comments', () => {
         .then((res) => {
           expect(res).to.have.status(200);
 
-          expect(res.body).to.have.length(1);
-          expect(res.body[0]).to.have.property('id', comments[0].id);
+          expect(res.body.comments).to.have.length(1);
+          expect(res.body.comments[0]).to.have.property('id', comments[0].id);
         });
     });
   });
@@ -300,18 +301,22 @@ describe('/api/v1/comments/:comment_id/actions', () => {
     body: 'comment 10',
     asset_id: 'asset',
     author_id: '123',
-    status: ''
+    status: []
   }, {
     id: 'def',
     body: 'comment 20',
     asset_id: 'asset',
     author_id: '456',
-    status: 'rejected'
+    status: [{
+      type: 'rejected'
+    }]
   }, {
     id: 'hij',
     body: 'comment 30',
     asset_id: '456',
-    status: 'accepted'
+    status: [{
+      type: 'accepted'
+    }]
   }];
 
   const users = [{
@@ -349,10 +354,8 @@ describe('/api/v1/comments/:comment_id/actions', () => {
         .then((res) => {
           expect(res).to.have.status(201);
           expect(res).to.have.body;
-          expect(res.body).to.have.property('item_type', 'comment');
           expect(res.body).to.have.property('action_type', 'flag');
           expect(res.body).to.have.property('item_id', 'abc');
-          expect(res.body).to.have.property('user_id', '456');
         });
     });
   });
