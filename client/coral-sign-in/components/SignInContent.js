@@ -44,7 +44,7 @@ const SignInContent = ({handleChange, formData, ...props}) => (
       <div className={styles.action}>
         {
           !props.auth.isLoading ?
-          <Button type="submit" cStyle="black" className={styles.signInButton} full>
+          <Button id='coralLogInButton' type="submit" cStyle="black" className={styles.signInButton} full>
             {lang.t('signIn.signIn')}
           </Button>
           :
@@ -56,7 +56,7 @@ const SignInContent = ({handleChange, formData, ...props}) => (
       <span><a onClick={() => props.changeView('FORGOT')}>{lang.t('signIn.forgotYourPass')}</a></span>
       <span>
         {lang.t('signIn.needAnAccount')}
-        <a onClick={() => props.changeView('SIGNUP')}>
+        <a onClick={() => props.changeView('SIGNUP')} id='coralRegister'>
           {lang.t('signIn.register')}
         </a>
       </span>
