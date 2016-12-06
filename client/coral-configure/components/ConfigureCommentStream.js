@@ -2,7 +2,7 @@ import React from 'react';
 import {Button, Checkbox} from 'coral-ui';
 import styles from './ConfigureCommentStream.css';
 
-export default ({handleChange, handleApply, changed}) => (
+export default ({handleChange, handleApply, changed, ...props}) => (
   <div className={styles.wrapper}>
     <div className={styles.container}>
       <h3>Configure Comment Stream</h3>
@@ -24,6 +24,7 @@ export default ({handleChange, handleApply, changed}) => (
           cStyle={changed ? 'green' : 'darkGrey'}
           name="premod"
           onChange={handleChange}
+          checked={props.premod}
           info={{
             title: 'Enable Premoderation',
             description: 'Moderators must approve any comment before its published'
@@ -36,6 +37,7 @@ export default ({handleChange, handleApply, changed}) => (
               cStyle={changed ? 'green' : 'darkGrey'}
               name="premodLinks"
               onChange={handleChange}
+              checked={props.premodLinks}
               info={{
                 title: 'Pre-Moderate Comments Containing Links',
                 description: 'Moderators must approve any comment containing a link before its published.'

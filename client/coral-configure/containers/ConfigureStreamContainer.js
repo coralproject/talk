@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {updateOpenStatus} from '../../coral-framework/actions/config';
+import {updateOpenStatus, updateConfiguration} from '../../coral-framework/actions/config';
 
 import CloseCommentsInfo from '../components/CloseCommentsInfo';
 import ConfigureCommentStream from '../components/ConfigureCommentStream';
@@ -11,12 +11,28 @@ class ConfigureStreamContainer extends Component {
     super(props);
 
     this.state = {
-      premod: false,
+      premod: props.config.moderation === 'pre',
       premodLinks: false
     };
 
     this.toggleStatus = this.toggleStatus.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleApply = this.handleApply.bind(this);
+  }
+
+  handleApply () {
+    const {premod, changed} = this.state;
+    const newConfig = {
+      moderation: premod ? 'pre' : 'post'
+    };
+    if (changed) {
+      this.props.updateConfiguration(newConfig);
+      setTimeout(() => {
+        this.setState({
+          changed: false
+        });
+      }, 300);
+    }
   }
 
   handleChange (e) {
@@ -37,8 +53,9 @@ class ConfigureStreamContainer extends Component {
       <div>
         <ConfigureCommentStream
           handleChange={this.handleChange}
-          handleApply={this.props.handleApply}
+          handleApply={this.handleApply}
           changed={this.state.changed}
+          {...this.state}
         />
         <hr />
         <h3>{status === 'open' ? 'Close' : 'Open'} Comment Stream</h3>
@@ -57,7 +74,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch => ({
   updateStatus: status => dispatch(updateOpenStatus(status)),
-  handleApply: () => {}
+  updateConfiguration: newConfig => dispatch(updateConfiguration(newConfig))
 });
 
 export default connect(

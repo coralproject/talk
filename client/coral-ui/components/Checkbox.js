@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './Checkbox.css';
 
-export default ({name, cStyle = 'base', onChange, label, className, info}) => (
+export default ({name, cStyle = 'base', onChange, label, className, info, checked = 'false'}) => (
   <label className={`${styles.label} ${styles[`type--${cStyle}`]} ${className}`} htmlFor={name}>
-    <input type="checkbox" id={name} name={name} onChange={onChange} />
+    <input type="checkbox" id={name} name={name} onChange={onChange} checked={checked} />
     <span className={styles.checkbox}></span>
     {label && <span>{label}</span>}
     {info && (
