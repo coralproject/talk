@@ -1,34 +1,29 @@
 const Setting = require('../../models/setting');
 const expect = require('chai').expect;
 
-describe('Setting: model', () => {
+describe('models.Setting', () => {
 
-  beforeEach(() => {
-    const defaults = {
-      id: 1
-    };
-    return Setting.update({id: '1'}, {$setOnInsert: defaults}, {upsert: true});
-  });
+  beforeEach(() => Setting.init({moderation: 'pre'}));
 
-  describe('#getSettings()', () => {
+  describe('#retrieve()', () => {
     it('should have a moderation field defined', () => {
-      return Setting.getSettings().then(settings => {
+      return Setting.retrieve().then(settings => {
         expect(settings).to.have.property('moderation').and.to.equal('pre');
       });
     });
 
     it('should have two infoBox fields defined', () => {
-      return Setting.getSettings().then(settings => {
+      return Setting.retrieve().then(settings => {
         expect(settings).to.have.property('infoBoxEnable').and.to.equal(false);
         expect(settings).to.have.property('infoBoxContent').and.to.equal('');
       });
     });
   });
 
-  describe('#updateSettings()', () => {
+  describe('#update()', () => {
     it('should update the settings with a passed object', () => {
       const mockSettings = {moderation: 'post', infoBoxEnable: true, infoBoxContent: 'yeah'};
-      return Setting.updateSettings(mockSettings).then(updatedSettings => {
+      return Setting.update(mockSettings).then(updatedSettings => {
         expect(updatedSettings).to.be.an('object');
         expect(updatedSettings).to.have.property('moderation').and.to.equal('post');
         expect(updatedSettings).to.have.property('infoBoxEnable', true);
@@ -37,13 +32,10 @@ describe('Setting: model', () => {
     });
   });
 
-  describe('#getPublicSettings', () => {
+  describe('#get', () => {
     it('should return the moderation settings', () => {
-      return Setting.getPublicSettings().then(({moderation, infoBoxEnable, infoBoxContent, wordlist}) => {
+      return Setting.retrieve().then(({moderation}) => {
         expect(moderation).not.to.be.null;
-        expect(infoBoxEnable).not.to.be.null;
-        expect(infoBoxContent).not.to.be.null;
-        expect(wordlist).to.be.undefined;
       });
     });
   });
