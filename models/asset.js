@@ -29,6 +29,14 @@ const AssetSchema = new Schema({
     type: Schema.Types.Mixed,
     default: null
   },
+  closedAt: {
+    type: Date,
+    default: null
+  },
+  closedMessage: {
+    type: String,
+    default: null
+  },
   title: String,
   description: String,
   image: String,
@@ -58,6 +66,13 @@ AssetSchema.index({
   author: 'text'
 }, {
   background: true
+});
+
+/**
+ * Returns true if the asset is closed, false else.
+ */
+AssetSchema.virtual('isClosed').get(function() {
+  return this.closedAt && this.closedAt.getTime() <= new Date().getTime();
 });
 
 /**
