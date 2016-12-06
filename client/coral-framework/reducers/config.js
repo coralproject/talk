@@ -14,7 +14,7 @@ export default (state = initialState, action) => {
       .merge(Map(action.config));
   case actions.UPDATE_CONFIG_SUCCESS:
     return state
-      .merge(Map(action.settings));
+      .merge(Map(action.config));
   case actions.OPEN_COMMENTS:
     return state
       .set('status', 'open');
