@@ -39,7 +39,9 @@ class CommentBox extends Component {
       related = 'comments';
       parent_type = 'assets';
     }
-    updateItem(child_id || parent_id, 'showReply', false, 'comments');
+    if (child_id || parent_id) {
+      updateItem(child_id || parent_id, 'showReply', false, 'comments');
+    }
     postItem(comment, 'comments')
     .then(({comment_id, status}) => {
       if (status === 'rejected') {
