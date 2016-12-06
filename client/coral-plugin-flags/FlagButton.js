@@ -22,47 +22,61 @@ export default class FlagButton extends Component {
   }
 
   onPopupContinue = () => {
-    this.setState({step: this.state.step + 1});
+    const {postAction, addItem, updateItem, currentUser, flag, id} = this.props;
+    const {itemType, reason, step} = this.state;
+
+    this.setState({step: step + 1});
+
+    if (itemType && reason) {
+      postAction(id, 'flag', currentUser.id, itemType, reason)
+        .then((action) => {
+          let id = `${action.action_type}_${action.item_id}`;
+          addItem({id, current_user: action, count: flag ? flag.count + 1 : 1}, 'actions');
+          updateItem(action.item_id, action.action_type, id, 'comments');
+        });
+    }
   }
 
   getPopupMenu = (step) => {
     switch(step) {
-    case 1:
+    case 1: {
       return {
         header: 'Report an issue',
         options: [
-          { val: 'username', text: 'Flag username'},
-          { val: 'comment', text: 'Flag comment'},
+          {val: 'users', text: 'Flag username'},
+          {val: 'comments', text: 'Flag comment'},
         ],
         button: 'Continue',
         sets: 'itemType'
-      }
-      case 2:
-        const options = this.state.itemType === 'comments' ?
-          [
-            { val: 'I don\'t agree with this comment', text: 'I don\'t agree with this comment'},
-            { val: 'This comment is offensive', text: 'This comment is offensive'},
-            { val: 'This comment reveals personally identifiable inforation without consent', text: 'This comment reveals personally identifiable inforation without consent'},
-            { val: 'Other', text: 'Other'},
-          ]
-          :[
-            { val: 'This username is offensive', text: 'This username is offensive'},
-            { val: 'I don\'t like this username', text: 'I don\'t like this username'},
-            { val: 'This looks like an ad/marketing', text: 'This looks like an ad/marketing'},
-            { val: 'Other', text: 'Other'},
-          ]
-        return {
-          header: 'Help us understand',
-          options,
-          button: 'Continue',
-          sets: 'reason'
-        }
-        case 3:
-          return {
-            header: 'Thank you for your input',
-            text: 'We value your safety and feedback. A moderator will review your flag.'
-          }
+      };
     }
+    case 2: {
+      const options = this.state.itemType === 'comments' ?
+      [
+        {val: 'I don\'t agree with this comment', text: 'I don\'t agree with this comment'},
+        {val: 'This comment is offensive', text: 'This comment is offensive'},
+        {val: 'This comment reveals personally identifiable inforation without consent', text: 'This comment reveals personally identifiable inforation without consent'},
+        {val: 'Other', text: 'Other'},
+      ]
+      : [
+        {val: 'This username is offensive', text: 'This username is offensive'},
+        {val: 'I don\'t like this username', text: 'I don\'t like this username'},
+        {val: 'This looks like an ad/marketing', text: 'This looks like an ad/marketing'},
+        {val: 'Other', text: 'Other'},
+      ];
+      return {
+        header: 'Help us understand',
+        options,
+        button: 'Continue',
+        sets: 'reason'
+      };
+    }
+    case 3: {
+      return {
+        header: 'Thank you for your input',
+        text: 'We value your safety and feedback. A moderator will review your flag.'
+      };
+    }}
   }
 
   onPopupOptionClick = (sets) => (e) => {
@@ -71,26 +85,7 @@ export default class FlagButton extends Component {
 
   render () {
     const {flag} = this.props;
-    // const {flag, id, postAction, deleteAction, addItem, updateItem, addNotification, currentUser} = this.props;
     const flagged = flag && flag.current_user;
-    // const onReportClick = () => {
-
-    //   if (!flagged) {
-    //     postAction(id, 'flag', currentUser.id, 'comments')
-    //       .then((action) => {
-    //         let id = `${action.action_type}_${action.item_id}`;
-    //         addItem({id, current_user: action, count: flag ? flag.count + 1 : 1}, 'actions');
-    //         updateItem(action.item_id, action.action_type, id, 'comments');
-    //       });
-    //     addNotification('success', lang.t('flag-notif'));
-    //   } else {
-    //     deleteAction(flagged.id)
-    //       .then(() => {
-    //         updateItem(id, 'flag', '', 'comments');
-    //       });
-    //     addNotification('success', lang.t('flag-notif-remove'));
-    //   }
-    // };
     const popupMenu = this.getPopupMenu(this.state.step);
 
     return <div className={`${name}-container`}>
