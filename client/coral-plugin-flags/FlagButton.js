@@ -46,17 +46,18 @@ export default class FlagButton extends Component {
     return <div className={`${name}-container`}>
       {
         this.state.showMenu &&
-        <PopupMenu>
-          <span className={`${name}-popup-header`}>{lang.t('report-header')}</span>
-          <form>
-            <input type="radio" value="user"/> Flag username<br/>
-            <input type="radio" value="commment"/> Flag comment<br/>
+        <PopupMenu className={`${name}-popup`}>
+          <div className={`${name}-popup-header`}>{lang.t('report-header')}</div>
+          <form className={`${name}-popup-form`}>
+            <input className={`${name}-popup-radio`} type="radio" id='r1' value="user"/>
+            <label for="r1" className={`${name}-popup-radio-label`}>Flag username</label><br/>
+            <input className={`${name}-popup-radio`} type="radio" id='r1' value="commment"/>
+            <label for="r1" className={`${name}-popup-radio-label`}>Flag comment</label><br/>
           </form>
-          <Button style={
-            {
-              float: 'right',
-              marginTop: 10,
-            }}>
+          <div className={`${name}-popup-counter`}>
+            1 of 3
+          </div>
+          <Button className={`${name}-popup-button`}>
             Continue
           </Button>
         </PopupMenu>

@@ -198,7 +198,36 @@ hr {
 
 /* Flag Styles */
 
+.coral-plugin-flags-popup {
+  min-width: 100px;
+}
+
+.coral-plugin-flags-popup-form {
+  margin-bottom: 10px;
+}
+
 .coral-plugin-flags-popup-header {
   font-weight: bolder;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.coral-plugin-flags-popup-radio {
+  margin:5px;
+}
+
+.coral-plugin-flags-popup-radio-label {
+  margin:5px;
   font-size: 14px;
+}
+
+.coral-plugin-flags-popup-counter {
+    float: left;
+    margin-top: 21px;
+    color: #999;
+}
+
+.coral-plugin-flags-popup-button {
+    float: right;
+    margin-top: 10px;
 }
