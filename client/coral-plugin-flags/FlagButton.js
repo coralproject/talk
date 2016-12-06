@@ -5,6 +5,7 @@ import {PopupMenu, Button} from 'coral-ui';
 
 const name = 'coral-plugin-flags';
 
+<<<<<<< HEAD
 export default class FlagButton extends Component {
 
   state = {
@@ -16,6 +17,7 @@ export default class FlagButton extends Component {
 
   onReportClick = () => {
     if (!this.props.currentUser) {
+      this.props.showSignInDialog();
       return;
     }
     this.setState({showMenu: !this.state.showMenu});

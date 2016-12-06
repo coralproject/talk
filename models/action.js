@@ -1,5 +1,6 @@
 const mongoose = require('../mongoose');
 const uuid = require('uuid');
+const _ = require('lodash');
 const Schema = mongoose.Schema;
 
 const ActionSchema = new Schema({
@@ -66,6 +67,34 @@ ActionSchema.statics.findByItemIdArray = function(item_ids) {
   return Action.find({
     'item_id': {$in: item_ids}
   });
+};
+
+/**
+ * Fetches the action summaries for the given asset, and comments around the
+ * given user id.
+ * @param  {[type]} asset_id             [description]
+ * @param  {[type]} comments             [description]
+ * @param  {String} [current_user_id=''] [description]
+ * @return {[type]}                      [description]
+ */
+ActionSchema.statics.getActionSummariesFromComments = (asset_id = '', comments, current_user_id = '') => {
+
+  // Get the user id's from the author id's as a unique array that gets
+  // sorted.
+  let userIDs = _.uniq(comments.map((comment) => comment.author_id)).sort();
+
+  // Fetch the actions for pretty much everything at this point.
+  return Action.getActionSummaries(_.uniq([
+
+    // Actions can be on assets...
+    asset_id,
+
+    // Comments...
+    ...comments.map((comment) => comment.id),
+
+    // Or Authors...
+    ...userIDs
+  ].filter((e) => e)), current_user_id);
 };
 
 /**
