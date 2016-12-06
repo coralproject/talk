@@ -5,7 +5,6 @@ import {PopupMenu, Button} from 'coral-ui';
 
 const name = 'coral-plugin-flags';
 
-<<<<<<< HEAD
 export default class FlagButton extends Component {
 
   state = {
