@@ -78,6 +78,7 @@ class CommentBox extends Component {
           { author && (
               <Button
                 cStyle='darkGrey'
+                className={`${name}-button`}
                 onClick={this.postComment}>
                 {lang.t('post')}
               </Button>
