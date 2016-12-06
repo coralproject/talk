@@ -253,7 +253,7 @@ const mapDispatchToProps = (dispatch) => ({
   getStream: (rootId) => dispatch(getStream(rootId)),
   addNotification: (type, text) => dispatch(addNotification(type, text)),
   clearNotification: () => dispatch(clearNotification()),
-  postAction: (item, action, user, itemType) => dispatch(postAction(item, action, user, itemType)),
+  postAction: (item, action, user, itemType, text) => dispatch(postAction(item, action, user, itemType, text)),
   deleteAction: (item, action, user, itemType) => dispatch(deleteAction(item, action, user, itemType)),
   appendItemArray: (item, property, value, addToFront, itemType) => dispatch(appendItemArray(item, property, value, addToFront, itemType)),
   handleSignInDialog: () => dispatch(authActions.showSignInDialog()),
