@@ -1,5 +1,6 @@
 const mongoose = require('../mongoose');
 const Schema = mongoose.Schema;
+const _ = require('lodash');
 const cache = require('../cache');
 
 /**
@@ -81,6 +82,14 @@ SettingService.update = (settings) => Setting.findOneAndUpdate(selector, {
     .set('settings', settings, EXPIRY_TIME)
     .then(() => settings);
 });
+
+/**
+ * Filters the document to ensure that the resulting document is indeed ready
+ * for non authenticated users.
+ * @param  {Object} settings the source settings object
+ * @return {Object}          the filtered settings object
+ */
+SettingService.public = (settings) => _.pick(settings, ['moderation', 'infoBoxEnable', 'infoBoxContent']);
 
 /**
  * This is run once when the app starts to ensure settings are populated.
