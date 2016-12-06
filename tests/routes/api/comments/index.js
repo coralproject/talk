@@ -10,6 +10,7 @@ chai.use(require('chai-http'));
 
 const wordlist = require('../../../../services/wordlist');
 const Comment = require('../../../../models/comment');
+const Asset = require('../../../../models/asset');
 const Action = require('../../../../models/action');
 const User = require('../../../../models/user');
 
@@ -17,63 +18,71 @@ const Setting = require('../../../../models/setting');
 const settings = {id: '1', moderation: 'pre'};
 
 describe('/api/v1/comments', () => {
-  const comments = [{
-    id: 'abc',
-    body: 'comment 10',
-    asset_id: 'asset',
-    author_id: '123'
-  }, {
-    id: 'def',
-    body: 'comment 20',
-    asset_id: 'asset',
-    author_id: '456'
-  }, {
-    id: 'def-rejected',
-    body: 'comment 20',
-    asset_id: 'asset',
-    author_id: '456',
-    status: 'rejected'
-  }, {
-    id: 'hij',
-    body: 'comment 30',
-    asset_id: '456',
-    author_id: '456',
-    status: 'accepted'
-  }];
-
-  const users = [{
-    displayName: 'Ana',
-    email: 'ana@gmail.com',
-    password: '123'
-  }, {
-    displayName: 'Maria',
-    email: 'maria@gmail.com',
-    password: '123'
-  }];
-
-  const actions = [{
-    action_type: 'flag',
-    item_id: 'abc',
-    item_type: 'comment'
-  }, {
-    action_type: 'like',
-    item_id: 'hij',
-    item_type: 'comment'
-  }];
-
-  beforeEach(() => {
-    return Promise.all([
-      Comment.create(comments),
-      User.createLocalUsers(users),
-      Action.create(actions),
-      wordlist.insert([
-        'bad words'
-      ]),
-      Setting.create(settings)
-    ]);
-  });
 
   describe('#get', () => {
+    const comments = [{
+      body: 'comment 10',
+      asset_id: 'asset',
+      author_id: '123'
+    }, {
+      body: 'comment 20',
+      asset_id: 'asset',
+      author_id: '456'
+    }, {
+      body: 'comment 20',
+      asset_id: 'asset',
+      author_id: '456',
+      status: [{
+        type: 'rejected'
+      }]
+    }, {
+      body: 'comment 30',
+      asset_id: '456',
+      status: [{
+        type: 'accepted'
+      }]
+    }];
+
+    const users = [{
+      displayName: 'Ana',
+      email: 'ana@gmail.com',
+      password: '123'
+    }, {
+      displayName: 'Maria',
+      email: 'maria@gmail.com',
+      password: '123'
+    }];
+
+    const actions = [{
+      action_type: 'flag',
+      item_id: 'abc',
+      item_type: 'comment'
+    }, {
+      action_type: 'like',
+      item_id: 'hij',
+      item_type: 'comment'
+    }];
+
+    beforeEach(() => {
+      return Promise.all([
+        Comment.create(comments).then((newComments) => {
+          newComments.forEach((comment, i) => {
+            comments[i].id = comment.id;
+          });
+
+          actions[0].item_id = comments[0].id;
+          actions[1].item_id = comments[1].id;
+
+          return Action.create(actions);
+        }),
+        User.createLocalUsers(users),
+        wordlist.insert([
+          'bad words'
+        ]),
+        Setting.init(settings)
+      ]);
+    });
+
     it('should return all the comments', () => {
       return chai.request(app)
         .get('/api/v1/comments')
@@ -91,7 +100,9 @@ describe('/api/v1/comments', () => {
         .set(passport.inject({roles: ['admin']}))
         .then((res) => {
           expect(res).to.have.status(200);
-          expect(res.body.comments[0]).to.have.property('id', 'def-rejected');
+          expect(res.body).to.have.property('comments');
+          expect(res.body.comments).to.have.length(1);
+          expect(res.body.comments[0]).to.have.property('id', comments[2].id);
         });
     });
 
@@ -102,7 +113,7 @@ describe('/api/v1/comments', () => {
         .then((res) => {
           expect(res).to.have.status(200);
           expect(res.body.comments).to.have.length(1);
-          expect(res.body.comments[0]).to.have.property('id', 'hij');
+          expect(res.body.comments[0]).to.have.property('id', comments[3].id);
         });
     });
 
@@ -124,8 +135,7 @@ describe('/api/v1/comments', () => {
           expect(res).to.have.status(200);
 
           expect(res.body.comments).to.have.length(1);
-          expect(res.body.comments[0]).to.have.property('id', 'abc');
-
+          expect(res.body.comments[0]).to.have.property('id', comments[0].id);
         });
     });
   });
@@ -151,7 +161,31 @@ describe('/api/v1/comments', () => {
         .then((res) => {
           expect(res).to.have.status(201);
           expect(res.body).to.have.property('id');
-          expect(res.body).to.have.property('status', 'rejected');
+          expect(res.body).to.have.property('status').and.to.have.length(1);
+          expect(res.body.status[0]).to.have.property('type', 'rejected');
+        });
+    });
+
+    it('should create a comment with a premod status if it\'s asset is has pre-moderation enabled', () => {
+      return Asset
+        .findOrCreateByUrl('https://coralproject.net/article1')
+        .then((asset) => {
+          return Asset
+            .overrideSettings(asset.id, {moderation: 'pre'})
+            .then(() => asset);
+        })
+        .then((asset) => {
+          return chai.request(app)
+            .post('/api/v1/comments')
+            .set(passport.inject({roles: []}))
+            .send({'body': 'Something body.', 'author_id': '123', 'asset_id': asset.id, 'parent_id': ''});
+        })
+        .then((res) => {
+          expect(res).to.have.status(201);
+          expect(res.body).to.have.property('id');
+          expect(res.body).to.have.property('asset_id');
+          expect(res.body).to.have.property('status').and.to.have.length(1);
+          expect(res.body.status[0]).to.have.property('type', 'premod');
         });
     });
   });
@@ -267,18 +301,22 @@ describe('/api/v1/comments/:comment_id/actions', () => {
     body: 'comment 10',
     asset_id: 'asset',
     author_id: '123',
-    status: ''
+    status: []
   }, {
     id: 'def',
     body: 'comment 20',
     asset_id: 'asset',
     author_id: '456',
-    status: 'rejected'
+    status: [{
+      type: 'rejected'
+    }]
   }, {
     id: 'hij',
     body: 'comment 30',
     asset_id: '456',
-    status: 'accepted'
+    status: [{
+      type: 'accepted'
+    }]
   }];
 
   const users = [{
@@ -316,10 +354,8 @@ describe('/api/v1/comments/:comment_id/actions', () => {
         .then((res) => {
           expect(res).to.have.status(201);
           expect(res).to.have.body;
-          expect(res.body).to.have.property('item_type', 'comment');
           expect(res.body).to.have.property('action_type', 'flag');
           expect(res.body).to.have.property('item_id', 'abc');
-          expect(res.body).to.have.property('user_id', '456');
         });
     });
   });
