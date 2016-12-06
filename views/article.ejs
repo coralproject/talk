@@ -15,6 +15,7 @@
         width:500px;
       }
     </style>
+    <title><%= title %></title>
   </head>
   <body>
   <main>
@@ -35,7 +36,7 @@
 <script type='text/javascript' src='<%= basePath %>/pym.v1.min.js'></script>
 <script>
   var ready = false;
-  var pymParent = new pym.Parent('coralStreamEmbed', '/embed/stream', {title: 'Talk Comments'});
+  var pymParent = new pym.Parent('coralStreamEmbed', '/embed/stream', {title: 'Talk Comments', id:'coralStreamIframe'});
   pymParent.onMessage('height', function(height) {document.querySelector('#coralStreamEmbed iframe').height = height + 'px'})
   pymParent.onMessage('childReady', function () {
     var interval = setInterval(function () {

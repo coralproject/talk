@@ -77,6 +77,21 @@ cache.get = (key) => new Promise((resolve, reject) => {
 });
 
 /**
+ * This invalidates a cached entry in the cache.
+ * @param  {Mixed} key Either an array of items composing a key or a string
+ * @return {Promise}
+ */
+cache.invalidate = (key) => new Promise((resolve, reject) => {
+  cache.client.del(keyfunc(key), (err) => {
+    if (err) {
+      return reject(err);
+    }
+
+    resolve();
+  });
+});
+
+/**
  * This sets a value on the key with the expiry and then resolves once it is
  * done.
  * @param  {Mixed} key   Either an array of items composing a key or a string
