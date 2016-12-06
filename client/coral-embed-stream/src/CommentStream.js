@@ -6,8 +6,7 @@ import {
   itemActions,
   Notification,
   notificationActions,
-  authActions,
-  configActions
+  authActions
 } from '../../coral-framework';
 
 import CommentBox from '../../coral-plugin-commentbox/CommentBox';
@@ -27,12 +26,12 @@ import {TabBar, Tab, TabContent, Spinner} from '../../coral-ui';
 import SettingsContainer from '../../coral-settings/containers/SettingsContainer';
 import RestrictedContent from '../../coral-framework/components/RestrictedContent';
 import SuspendedAccount from '../../coral-framework/components/SuspendedAccount';
-import CloseCommentsInfo from '../../coral-framework/components/CloseCommentsInfo';
+
+import ConfigureStreamContainer from '../../coral-configure/containers/ConfigureStreamContainer';
 
 const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appendItemArray} = itemActions;
 const {addNotification, clearNotification} = notificationActions;
 const {logout, showSignInDialog} = authActions;
-const {updateOpenStatus} = configActions;
 
 class CommentStream extends Component {
 
@@ -44,17 +43,12 @@ class CommentStream extends Component {
     };
 
     this.changeTab = this.changeTab.bind(this);
-    this.toggleStatus = this.toggleStatus.bind(this);
   }
 
   changeTab (tab) {
     this.setState({
       activeTab: tab
     });
-  }
-
-  toggleStatus () {
-    this.props.updateStatus(this.props.config.status === 'open' ? 'closed' : 'open');
   }
 
   static propTypes = {
@@ -66,10 +60,9 @@ class CommentStream extends Component {
   componentDidMount () {
     // Set up messaging between embedded Iframe an parent component
     this.pym = new Pym.Child({polling: 100});
-
     const path = /https?\:\/\/([^?#]+)/.exec(this.pym.parentUrl);
+    this.props.getStream(window.location);
 
-    this.props.getStream(path[1] || window.location);
     this.path = path;
 
     this.pym.sendMessage('childReady');
@@ -92,7 +85,7 @@ class CommentStream extends Component {
             <Tab>Settings</Tab>
             <Tab>Configure Stream</Tab>
           </TabBar>
-            {loggedIn && <UserBox user={user} logout={this.props.logout} />}
+          {loggedIn && <UserBox user={user} logout={this.props.logout} />}
           {/* Add to the restricted param a boolean if the user is suspended*/}
           <RestrictedContent restricted={false} restrictedComp={<SuspendedAccount />}>
             <TabContent show={activeTab === 0}>
@@ -238,9 +231,11 @@ class CommentStream extends Component {
               />
             </TabContent>
             <TabContent show={activeTab === 2}>
-              <h3>{status === 'open' ? 'Close' : 'Open'} Comment Stream</h3>
               <RestrictedContent restricted={!loggedIn}>
-                <CloseCommentsInfo onClick={this.toggleStatus} status={status} />
+                <ConfigureStreamContainer
+                  status={status}
+                  onClick={this.toggleStatus}
+                />
               </RestrictedContent>
             </TabContent>
           </RestrictedContent>
@@ -277,8 +272,7 @@ const mapDispatchToProps = (dispatch) => ({
   deleteAction: (item, action, user, itemType) => dispatch(deleteAction(item, action, user, itemType)),
   appendItemArray: (item, property, value, addToFront, itemType) => dispatch(appendItemArray(item, property, value, addToFront, itemType)),
   handleSignInDialog: () => dispatch(authActions.showSignInDialog()),
-  logout: () => dispatch(logout()),
-  updateStatus: status => dispatch(updateOpenStatus(status))
+  logout: () => dispatch(logout())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentStream);
