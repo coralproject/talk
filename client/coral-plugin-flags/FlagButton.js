@@ -10,21 +10,70 @@ export default class FlagButton extends Component {
   state = {
     showMenu: false,
     itemType: '',
-    reason: ''
+    reason: '',
+    step: 1
   }
 
-  onFlagClick = () => {
+  onReportClick = () => {
     if (!this.props.currentUser) {
       return;
     }
     this.setState({showMenu: !this.state.showMenu});
   }
 
+  onPopupContinue = () => {
+    this.setState({step: this.state.step + 1});
+  }
+
+  getPopupMenu = (step) => {
+    switch(step) {
+    case 1:
+      return {
+        header: 'Report an issue',
+        options: [
+          { val: 'username', text: 'Flag username'},
+          { val: 'comment', text: 'Flag comment'},
+        ],
+        button: 'Continue',
+        sets: 'itemType'
+      }
+      case 2:
+        const options = this.state.itemType === 'comments' ?
+          [
+            { val: 'I don\'t agree with this comment', text: 'I don\'t agree with this comment'},
+            { val: 'This comment is offensive', text: 'This comment is offensive'},
+            { val: 'This comment reveals personally identifiable inforation without consent', text: 'This comment reveals personally identifiable inforation without consent'},
+            { val: 'Other', text: 'Other'},
+          ]
+          :[
+            { val: 'This username is offensive', text: 'This username is offensive'},
+            { val: 'I don\'t like this username', text: 'I don\'t like this username'},
+            { val: 'This looks like an ad/marketing', text: 'This looks like an ad/marketing'},
+            { val: 'Other', text: 'Other'},
+          ]
+        return {
+          header: 'Help us understand',
+          options,
+          button: 'Continue',
+          sets: 'reason'
+        }
+        case 3:
+          return {
+            header: 'Thank you for your input',
+            text: 'We value your safety and feedback. A moderator will review your flag.'
+          }
+    }
+  }
+
+  onPopupOptionClick = (sets) => (e) => {
+    this.setState({[sets]: e.target.value});
+  }
+
   render () {
     const {flag} = this.props;
     // const {flag, id, postAction, deleteAction, addItem, updateItem, addNotification, currentUser} = this.props;
     const flagged = flag && flag.current_user;
-    // const onFlagClick = () => {
+    // const onReportClick = () => {
 
     //   if (!flagged) {
     //     postAction(id, 'flag', currentUser.id, 'comments')
@@ -42,27 +91,10 @@ export default class FlagButton extends Component {
     //     addNotification('success', lang.t('flag-notif-remove'));
     //   }
     // };
+    const popupMenu = this.getPopupMenu(this.state.step);
 
     return <div className={`${name}-container`}>
-      {
-        this.state.showMenu &&
-        <PopupMenu className={`${name}-popup`}>
-          <div className={`${name}-popup-header`}>{lang.t('report-header')}</div>
-          <form className={`${name}-popup-form`}>
-            <input className={`${name}-popup-radio`} type="radio" id='r1' value="user"/>
-            <label for="r1" className={`${name}-popup-radio-label`}>Flag username</label><br/>
-            <input className={`${name}-popup-radio`} type="radio" id='r1' value="commment"/>
-            <label for="r1" className={`${name}-popup-radio-label`}>Flag comment</label><br/>
-          </form>
-          <div className={`${name}-popup-counter`}>
-            1 of 3
-          </div>
-          <Button className={`${name}-popup-button`}>
-            Continue
-          </Button>
-        </PopupMenu>
-      }
-      <button onClick={this.onFlagClick} className={`${name}-button`}>
+      <button onClick={this.onReportClick} className={`${name}-button`}>
         {
           flagged
           ? <span className={`${name}-button-text`}>{lang.t('reported')}</span>
@@ -72,6 +104,44 @@ export default class FlagButton extends Component {
           style={flagged ? styles.flaggedIcon : {}}
           aria-hidden={true}>flag</i>
       </button>
+      {
+        this.state.showMenu &&
+        <PopupMenu className={`${name}-popup`}>
+          <div className={`${name}-popup-header`}>{popupMenu.header}</div>
+          {
+            popupMenu.text &&
+            <div className={`${name}-popup-text`}>{popupMenu.text}</div>
+          }
+          {
+            popupMenu.options && <form className={`${name}-popup-form`}>
+              {
+                popupMenu.options.map((option) =>
+                  <div key={option.val}>
+                    <input
+                      className={`${name}-popup-radio`}
+                      type="radio"
+                      id={option.val}
+                      checked={this.state[popupMenu.sets] === option.val}
+                      onClick={this.onPopupOptionClick(popupMenu.sets)}
+                      value={option.val}/>
+                    <label htmlFor={option.val} className={`${name}-popup-radio-label`}>{option.text}</label><br/>
+                  </div>
+                )
+              }
+            </form>
+          }
+          <div className={`${name}-popup-counter`}>
+            {this.state.step} of 3
+          </div>
+          {
+            popupMenu.button && <Button
+            className={`${name}-popup-button`}
+            onClick={this.onPopupContinue}>
+              {popupMenu.button}
+            </Button>
+          }
+        </PopupMenu>
+      }
     </div>;
   }
 }
