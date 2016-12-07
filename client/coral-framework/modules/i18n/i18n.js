@@ -57,7 +57,7 @@ class i18n {
         let translation = get(this.translations, key);
         // replace any {n} with the arguments passed to this method
         replacements.forEach((str, i) => {
-          translation = translation.replace(`{${i}}`, str);
+          translation = translation.replace(new RegExp(`\\{${i}\\}`, 'g'), str);
         });
         return translation;
       } else {
