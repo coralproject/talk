@@ -2,7 +2,6 @@ const mongoose = require('../mongoose');
 const uuid = require('uuid');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const debug = require('debug')('talk:users');
 
 // SALT_ROUNDS is the number of rounds that the bcrypt algorithm will run
 // through during the salting process.
@@ -436,34 +435,22 @@ UserService.findPublicByIdArray = (ids) => {
  */
 UserService.createPasswordResetToken = function (email) {
   if (!email || typeof email !== 'string') {
-    debug('the email was missing to createPasswordResetToken. you sent %s', email);
     return Promise.reject('email is required when creating a JWT for resetting passord');
   }
 
-
   email = email.toLowerCase();
-
-  debug('about to look up user by email %s', email);
 
   return UserModel.findOne({profiles: {$elemMatch: {id: email}}})
     .then(user => {
 
       if (user === null) {
-        debug('user was null on createPasswordResetToken lookup');
         // since we don't want to reveal that the email does/doesn't exist
         // just go ahead and resolve the Promise with null and check in the endpoint
         return Promise.resolve(null);
       }
 
-      debug('found the user! %s going to create the token', JSON.stringify(user, null, 2));
-
       const payload = {email, jti: uuid.v4(), userId: user.id, version: user.__v};
-
-      debug('created payload %s', JSON.stringify(payload));
-
       const token = jwt.sign(payload, process.env.TALK_SESSION_SECRET, {expiresIn: '1d'});
-
-      debug('successfully created the token %s', token);
 
       return token;
     });

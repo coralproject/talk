@@ -8,7 +8,6 @@ const path = require('path');
 const resetEmailFile = fs.readFileSync(path.resolve(__dirname, '../../../views/password-reset-email.ejs'));
 const resetEmailTemplate = ejs.compile(resetEmailFile.toString());
 const authorization = require('../../../middleware/authorization');
-const debug = require('debug')('talk:users');
 
 router.get('/', authorization.needed('admin'), (req, res, next) => {
   const {
@@ -105,8 +104,6 @@ router.post('/update-password', (req, res, next) => {
 router.post('/request-password-reset', (req, res, next) => {
   const {email} = req.body;
 
-  debug('/request-password-reset body %s', JSON.stringify(req.body, null, 2));
-
   if (!email) {
     return next('you must submit an email when requesting a password.');
   }
@@ -115,7 +112,6 @@ router.post('/request-password-reset', (req, res, next) => {
     .createPasswordResetToken(email)
     .then(token => {
       if (token === null) {
-        debug('back in the route. the token was null for some reason %s', token);
         return Promise.resolve('the email was not found in the db.');
       }
 
@@ -130,23 +126,15 @@ router.post('/request-password-reset', (req, res, next) => {
         })
       };
 
-      debug('about to send a simple email with the options %s', JSON.stringify(options, null, 2));
-
       return mailer.sendSimple(options);
     })
     .then(() => {
-
-      debug('password reset email sent successfully');
-
       // we want to send a 204 regardless of the user being found in the db
       // if we fail on missing emails, it would reveal if people are registered or not.
       res.status(204).end();
     })
     .catch(error => {
       const errorMsg = typeof error === 'string' ? error : error.message;
-
-      debug('there was an error sending your email %s', error);
-
       res.status(500).json({error: errorMsg});
     });
 });
