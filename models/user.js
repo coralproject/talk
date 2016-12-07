@@ -455,7 +455,7 @@ UserService.createPasswordResetToken = function (email) {
         return Promise.resolve(null);
       }
 
-      debug('found the user! %s going to create the token', JSON.stringify(user, null 2));
+      debug('found the user! %s going to create the token', JSON.stringify(user, null, 2));
 
       const payload = {email, jti: uuid.v4(), userId: user.id, version: user.__v};
 
