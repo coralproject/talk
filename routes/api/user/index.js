@@ -125,16 +125,17 @@ router.post('/request-password-reset', (req, res, next) => {
           rootURL: process.env.TALK_ROOT_URL
         })
       };
-
       return mailer.sendSimple(options);
     })
     .then(() => {
+
       // we want to send a 204 regardless of the user being found in the db
       // if we fail on missing emails, it would reveal if people are registered or not.
       res.status(204).end();
     })
     .catch(error => {
       const errorMsg = typeof error === 'string' ? error : error.message;
+
       res.status(500).json({error: errorMsg});
     });
 });
