@@ -1,5 +1,7 @@
 import timeago from 'timeago.js';
 import esTA from '../../../../node_modules/timeago.js/locales/es';
+import has from 'lodash/has';
+import get from 'lodash/get';
 
 /**
  * Default locales, this should be overriden by config file
@@ -47,23 +49,17 @@ class i18n {
        * the translation value or the key itself if not found
        * it works with nested translations (my.page.title)
        *
-       * the second parameter is optional and replaces a variable marked by {0} in the translation.
+       * any extra parameters are optional and replace a variable marked by {0}, {1}, etc in the translation.
        */
 
-    this.t = (key, att) => {
-      const arr = key.split('.');
-      let translation = this.translations;
-      try {
-        for (let i = 0; i < arr.length; i++) {translation = translation[arr[i]];}
-      } catch (error) {
-        console.warn(`${key} language key not set`);
-        return key;
-      }
-
-      let val = String(translation);
-      if (val) {
-        val = val.replace('/\{0\/g', att);
-        return val;
+    this.t = (key, ...replacements) => {
+      if (has(this.translations, key)) {
+        let translation = get(this.translations, key);
+        // replace any {n} with the arguments passed to this method
+        replacements.forEach((str, i) => {
+          translation = translation.replace(`{${i}}`, str);
+        });
+        return translation;
       } else {
         console.warn(`${key} language key not set`);
         return key;
