@@ -6,6 +6,7 @@ dist/coral-admin/bundle.js
 tests/e2e/reports
 .DS_Store
 *.iml
+*.swp
 dump.rdb
 .env
 gaba.cfg
