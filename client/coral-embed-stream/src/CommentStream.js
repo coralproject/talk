@@ -67,12 +67,29 @@ class CommentStream extends Component {
     // Set up messaging between embedded Iframe an parent component
     this.pym = new Pym.Child({polling: 100});
 
-    const path = /https?\:\/\/([^?#]+)/.exec(this.pym.parentUrl);
+    const path = this.pym.parentUrl.split('#')[0];
 
-    this.props.getStream(path[1] || window.location);
+    this.props.getStream(path || window.location);
     this.path = path;
 
     this.pym.sendMessage('childReady');
+
+    this.pym.onMessage('DOMContentLoaded', hash => {
+      const commentId = hash.replace('#', 'c_');
+      let count = 0;
+      const interval = setInterval(() => {
+        if (document.getElementById(commentId)) {
+          window.clearInterval(interval);
+          this.pym.scrollParentToChildEl(commentId);
+        }
+
+        if (++count > 100) { // ~10 seconds
+          // give up waiting for the comments to load.
+          // it would be weird for the page to jump after that long.
+          window.clearInterval(interval);
+        }
+      }, 100);
+    });
   }
 
   render () {
