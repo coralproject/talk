@@ -200,8 +200,11 @@ hr {
 
 /* Flag Styles */
 
-.coral-plugin-flags-popup {
+.coral-plugin-flags-popup span {
   min-width: 100px;
+  bottom: 36px;
+  right: 75px;
+  position: absolute;
 }
 
 .coral-plugin-flags-popup-form {

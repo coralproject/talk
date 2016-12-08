@@ -108,41 +108,43 @@ export default class FlagButton extends Component {
       </button>
       {
         this.state.showMenu &&
-        <PopupMenu className={`${name}-popup`}>
-          <div className={`${name}-popup-header`}>{popupMenu.header}</div>
-          {
-            popupMenu.text &&
-            <div className={`${name}-popup-text`}>{popupMenu.text}</div>
-          }
-          {
-            popupMenu.options && <form className={`${name}-popup-form`}>
-              {
-                popupMenu.options.map((option) =>
-                  <div key={option.val}>
-                    <input
-                      className={`${name}-popup-radio`}
-                      type="radio"
-                      id={option.val}
-                      checked={this.state[popupMenu.sets] === option.val}
-                      onClick={this.onPopupOptionClick(popupMenu.sets)}
-                      value={option.val}/>
-                    <label htmlFor={option.val} className={`${name}-popup-radio-label`}>{option.text}</label><br/>
-                  </div>
-                )
-              }
-            </form>
-          }
-          <div className={`${name}-popup-counter`}>
-            {this.state.step} of 3
-          </div>
-          {
-            popupMenu.button && <Button
-            className={`${name}-popup-button`}
-            onClick={this.onPopupContinue}>
-              {popupMenu.button}
-            </Button>
-          }
-        </PopupMenu>
+        <div className={`${name}-popup`}>
+          <PopupMenu>
+            <div className={`${name}-popup-header`}>{popupMenu.header}</div>
+            {
+              popupMenu.text &&
+              <div className={`${name}-popup-text`}>{popupMenu.text}</div>
+            }
+            {
+              popupMenu.options && <form className={`${name}-popup-form`}>
+                {
+                  popupMenu.options.map((option) =>
+                    <div key={option.val}>
+                      <input
+                        className={`${name}-popup-radio`}
+                        type="radio"
+                        id={option.val}
+                        checked={this.state[popupMenu.sets] === option.val}
+                        onClick={this.onPopupOptionClick(popupMenu.sets)}
+                        value={option.val}/>
+                      <label htmlFor={option.val} className={`${name}-popup-radio-label`}>{option.text}</label><br/>
+                    </div>
+                  )
+                }
+              </form>
+            }
+            <div className={`${name}-popup-counter`}>
+              {this.state.step} of 3
+            </div>
+            {
+              popupMenu.button && <Button
+              className={`${name}-popup-button`}
+              onClick={this.onPopupContinue}>
+                {popupMenu.button}
+              </Button>
+            }
+          </PopupMenu>
+        </div>
       }
     </div>;
   }
