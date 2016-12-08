@@ -19,7 +19,8 @@ class FlagButton extends Component {
 
   onReportClick = () => {
     if (!this.props.currentUser) {
-      this.props.showSignInDialog();
+      const offset = document.getElementById(`c_${this.props.id}`).getBoundingClientRect().top - 75;
+      this.props.showSignInDialog(offset);
       return;
     }
     this.setState({showMenu: !this.state.showMenu});

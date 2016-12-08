@@ -67,23 +67,42 @@ class CommentStream extends Component {
     // Set up messaging between embedded Iframe an parent component
     this.pym = new Pym.Child({polling: 100});
 
-    const path = /https?\:\/\/([^?#]+)/.exec(this.pym.parentUrl);
+    const path = this.pym.parentUrl.split('#')[0];
 
-    this.props.getStream(path[1] || window.location);
+    this.props.getStream(path || window.location);
     this.path = path;
 
     this.pym.sendMessage('childReady');
+
+    this.pym.onMessage('DOMContentLoaded', hash => {
+      const commentId = hash.replace('#', 'c_');
+      let count = 0;
+      const interval = setInterval(() => {
+        if (document.getElementById(commentId)) {
+          window.clearInterval(interval);
+          this.pym.scrollParentToChildEl(commentId);
+        }
+
+        if (++count > 100) { // ~10 seconds
+          // give up waiting for the comments to load.
+          // it would be weird for the page to jump after that long.
+          window.clearInterval(interval);
+        }
+      }, 100);
+    });
   }
 
   render () {
     const rootItemId = this.props.items.assets && Object.keys(this.props.items.assets)[0];
     const rootItem = this.props.items.assets && this.props.items.assets[rootItemId];
     const {actions, users, comments} = this.props.items;
-    const {loggedIn, user, showSignInDialog} = this.props.auth;
     const {status, moderation} = this.props.config;
+    const {loggedIn, user, showSignInDialog, signInOffset} = this.props.auth;
     const {activeTab} = this.state;
-
-    return <div className={showSignInDialog ? 'expandForSignin' : ''}>
+    const expandForLogin = showSignInDialog ? {
+      minHeight: document.body.scrollHeight + 150
+    } : {};
+    return <div style={expandForLogin}>
       {
         rootItem
           ? <div className="commentStream">
@@ -116,7 +135,7 @@ class CommentStream extends Component {
                     </div>
                   : <p>Comments are closed for this thread.</p>
                 }
-                {!loggedIn && <SignInContainer />}
+                {!loggedIn && <SignInContainer offset={signInOffset} />}
                 {
                   rootItem.comments && rootItem.comments.map((commentId) => {
                     const comment = comments[commentId];
@@ -275,7 +294,7 @@ const mapDispatchToProps = (dispatch) => ({
   addNotification: (type, text) => dispatch(addNotification(type, text)),
   clearNotification: () => dispatch(clearNotification()),
   postAction: (item, itemType, action) => dispatch(postAction(item, itemType, action)),
-  showSignInDialog: () => dispatch(showSignInDialog()),
+  showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),
   deleteAction: (item, action, user, itemType) => dispatch(deleteAction(item, action, user, itemType)),
   appendItemArray: (item, property, value, addToFront, itemType) => dispatch(appendItemArray(item, property, value, addToFront, itemType)),
   handleSignInDialog: () => dispatch(authActions.showSignInDialog()),
