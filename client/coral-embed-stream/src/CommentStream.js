@@ -114,7 +114,7 @@ class CommentStream extends Component {
                         author={user}
                       />
                     </div>
-                  : <p>{this.props.config.closedMessage}</p>
+                  : <p>{closedMessage}</p>
                 }
                 {!loggedIn && <SignInContainer />}
                 {
