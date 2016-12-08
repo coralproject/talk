@@ -67,7 +67,7 @@
       "newsroom_role": "Rol en la redacción",
       "admin": "Administrador",
       "moderator": "Moderador",
-      "role": "Select role...",
+      "role": "Seleccionar rol...",
       "no-results": "No se encontraron usuarios con ese nombre de usuario o correo electronico.",
       "status": "Estado",
       "select-status": "Seleccionar estado...",
