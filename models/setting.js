@@ -99,7 +99,7 @@ SettingService.update = (settings) => Setting.findOneAndUpdate(selector, {
  * @param  {Object} settings the source settings object
  * @return {Object}          the filtered settings object
  */
-SettingService.public = (settings) => _.pick(settings, ['moderation', 'infoBoxEnable', 'infoBoxContent']);
+SettingService.public = (settings) => _.pick(settings, ['moderation', 'infoBoxEnable', 'infoBoxContent', 'closedMessage']);
 
 /**
  * This is run once when the app starts to ensure settings are populated.

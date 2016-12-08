@@ -5,6 +5,7 @@ import coralApi from '../helpers/response';
  * Action name constants
  */
 
+export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
 export const OPEN_COMMENTS = 'OPEN_COMMENTS';
 export const CLOSE_COMMENTS = 'CLOSE_COMMENTS';
 export const ADD_ITEM = 'ADD_ITEM';
