@@ -8,7 +8,8 @@ const LikeButton = ({like, id, postAction, deleteAction, addItem, showSignInDial
   const liked = like && like.current_user;
   const onLikeClick = () => {
     if (!currentUser) {
-      showSignInDialog();
+      const offset = document.getElementById(`c_${id}`).getBoundingClientRect().top - 75;
+      showSignInDialog(offset);
       return;
     }
     if (banned) {

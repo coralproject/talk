@@ -22,7 +22,8 @@ export default function auth (state = initialState, action) {
   switch (action.type) {
   case actions.SHOW_SIGNIN_DIALOG :
     return state
-      .set('showSignInDialog', true);
+      .set('showSignInDialog', true)
+      .set('signInOffset', action.offset);
   case actions.HIDE_SIGNIN_DIALOG :
     return state.merge(Map({
       isLoading: false,
