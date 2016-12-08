@@ -2,7 +2,8 @@ const nodemailer = require('nodemailer');
 
 const smtpRequiredProps = [
   'TALK_SMTP_USERNAME',
-  'TALK_SMTP_PASSWORD'
+  'TALK_SMTP_PASSWORD',
+  'TALK_SMTP_PROVIDER'
 ];
 
 smtpRequiredProps.forEach(prop => {
@@ -11,9 +12,10 @@ smtpRequiredProps.forEach(prop => {
   }
 });
 
-// https://github.com/nodemailer/nodemailer-wellknown#supported-services
 const options = {
-  service: 'SendGrid',
+  // list of providers here:
+  // https://github.com/nodemailer/nodemailer-wellknown#supported-services
+  service: process.env.TALK_SMTP_PROVIDER,
   auth: {
     user: process.env.TALK_SMTP_USERNAME,
     pass: process.env.TALK_SMTP_PASSWORD
