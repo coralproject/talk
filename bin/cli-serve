@@ -96,6 +96,10 @@ function startApp() {
     server.listen(port);
     server.on('error', onError);
     server.on('listening', onListening);
+  })
+  .catch((err) => {
+    console.error(err);
+    util.shutdown(1);
   });
 }
 
