@@ -4,9 +4,9 @@ import key from 'keymaster';
 
 import ModerationKeysModal from 'components/ModerationKeysModal';
 import CommentList from 'components/CommentList';
+import BanUserDialog from 'components/BanUserDialog';
 
-import {updateStatus} from 'actions/comments';
-import {banUser} from 'actions/users';
+import {updateStatus, showBanUserDialog, hideBanUserDialog, banUser} from 'actions/comments';
 import styles from './ModerationQueue.css';
 
 import I18n from 'coral-framework/modules/i18n/i18n';
@@ -52,16 +52,21 @@ class ModerationQueue extends React.Component {
   }
 
   // Dispatch the update status action
-  onCommentAction (action, id, author_id) {
-    // if we are banning a user by the action then dispatch banUser
-    // action = 'banned' in the case of banning
-    if (action === 'banned') {
-      this.props.dispatch(banUser(action, id, author_id));
-      this.props.dispatch(updateStatus('rejected', id));
-    }
-
+  onCommentAction (action, id) {
     // If not banning then change the status to approved or flagged as action = status
     this.props.dispatch(updateStatus(action, id));
+  }
+
+  showBanUserDialog (userId, userName, commentId) {
+    this.props.dispatch(showBanUserDialog(userId, userName, commentId));
+  }
+
+  hideBanUserDialog () {
+    this.props.dispatch(hideBanUserDialog(false));
+  }
+
+  banUser (userId, commentId) {
+    this.props.dispatch(banUser('banned', userId, commentId));
   }
 
   onTabClick (activeTab) {
@@ -96,10 +101,16 @@ class ModerationQueue extends React.Component {
               }
               comments={comments.get('byId')}
               users={users.get('byId')}
-              onClickAction={(action, id, author_id) => this.onCommentAction(action, id, author_id)}
+              onClickAction={(action, commentId) => this.onCommentAction(action, commentId)}
+              onClickShowBanDialog={(userId, userName, commentId) => this.showBanUserDialog(userId, userName, commentId)}
               actions={['reject', 'approve', 'ban']}
               loading={comments.loading} />
-          </div>
+            <BanUserDialog
+              open={comments.get('showBanUserDialog')}
+              handleClose={() => this.hideBanUserDialog()}
+              onClickBanUser={(userId, commentId) => this.banUser(userId, commentId)}
+              user={comments.get('banUser')}/>
+        </div>
           <div className={`mdl-tabs__panel ${styles.listContainer}`} id='rejected'>
             <CommentList
               isActive={activeTab === 'rejected'}

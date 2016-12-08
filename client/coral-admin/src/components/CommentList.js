@@ -20,6 +20,7 @@ export default class CommentList extends React.Component {
 
     this.state = {active: null};
     this.onClickAction = this.onClickAction.bind(this);
+    this.onClickShowBanDialog = this.onClickShowBanDialog.bind(this);
   }
 
   // remove key handlers before leaving
@@ -113,6 +114,10 @@ export default class CommentList extends React.Component {
     this.props.onClickAction(action, id, author_id);
   }
 
+  onClickShowBanDialog(userId, userName, commentId) {
+    this.props.onClickShowBanDialog(userId, userName, commentId);
+  }
+
   render () {
     const {singleView, commentIds, comments, users, hideActive, key} = this.props;
     const {active} = this.state;
@@ -127,6 +132,7 @@ export default class CommentList extends React.Component {
             key={index}
             index={index}
             onClickAction={this.onClickAction}
+            onClickShowBanDialog={this.onClickShowBanDialog}
             actions={this.props.actions}
             actionsMap={actions}
             isActive={commentId === active}

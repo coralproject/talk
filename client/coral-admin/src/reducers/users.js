@@ -3,7 +3,6 @@ import {Map, List, fromJS} from 'immutable';
 const initialState = Map({
   byId: Map(),
   ids: List(),
-  showBanUserDialog: false
 });
 
 export default (state = initialState, action) => {

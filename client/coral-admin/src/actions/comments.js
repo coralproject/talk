@@ -1,5 +1,3 @@
-import actions from '../constants/users';
-
 /**
  * Action disptacher related to comments
  */
@@ -19,9 +17,21 @@ export const createComment = (name, body) => dispatch => {
 };
 
 // Dialog Actions
-export const showBanUserDialog = () => (dispatch) => {
-  dispatch({type: actions.SHOW_BANUSER_DIALOG});
+export const showBanUserDialog = (userId, userName, commentId) => {
+  return dispatch => {
+    dispatch({type: 'SHOW_BANUSER_DIALOG', userId, userName, commentId});
+  };
 };
-export const hideBanUserDialog = () => (dispatch) => {
-  dispatch({type: actions.HIDE_BANUSER_DIALOG});
+
+export const hideBanUserDialog = (showDialog) => {
+  return dispatch => {
+    dispatch({type: 'HIDE_BANUSER_DIALOG', showDialog});
+  };
+};
+
+export const banUser = (status, userId, commentId) => {
+  return dispatch => {
+    dispatch({type: 'USER_BAN', status, userId, commentId});
+    dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH'});
+  };
 };

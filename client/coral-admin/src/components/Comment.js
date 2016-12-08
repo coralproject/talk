@@ -9,9 +9,6 @@ import translations from '../translations.json';
 
 import {Icon} from 'react-mdl';
 import {FabButton, Button} from 'coral-ui';
-import BanUserDialog from './BanUserDialog';
-
-import {showBanUserDialog, hideBanUserDialog} from '../actions/comments';
 
 const linkify = new Linkify();
 
@@ -53,35 +50,27 @@ export default props => {
   );
 };
 
+//return props.author.get('status') === 'banned' ? 'disabled' : 'raised';
+
 // Get the button of the action performed over a comment if any
 const getActionButton = (action, i, props) => {
   const status = props.comment.get('status');
   const flagged = props.comment.get('flagged');
+  const banned = (props.author.get('status') === 'banned');
 
   if (action === 'flag' && (status || flagged === true)) {
     return null;
   }
   if (action === 'ban') {
     return (
-      // <Button
-      //   {...props.author.get('status') === 'banned' ? 'disabled' : 'raised'}
-      //   key={i}
-      //   onClick={() => props.onClickAction(props.actionsMap[action].status, props.comment.get('id'), props.author.get('id'))}>{lang.t('comment.ban_user')}</Button>
-      <div key={i}>
-          <Button {...props.author.get('status') === 'banned' ? 'disabled' : 'raised'}
-            cStyle="black"
-            onClick={showBanUserDialog()}
-            key={i}
-            {...props} >
-            {lang.t('comment.ban_user')}
-          </Button>
-          <BanUserDialog
-            open={props.showBanUserDialog}
-            handleClose={hideBanUserDialog()}
-            authorName={props.author.get('displayName')}
-          />
-        </div>
-  );
+      <Button
+        disabled={banned ? 'disabled' : ''}
+        cStyle='black'
+        onClick={() => props.onClickShowBanDialog(props.author.get('id'), props.author.get('displayName'), props.comment.get('id'))}
+        key={i} >
+        {lang.t('comment.ban_user')}
+      </Button>
+    );
   }
   return (
     <FabButton icon={props.actionsMap[action].icon} className={styles.actionButton}
