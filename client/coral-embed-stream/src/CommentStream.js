@@ -287,7 +287,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addItem: (args) => dispatch(addItem.apply(args)),
+  addItem: (item, item_id) => dispatch(addItem(item, item_id)),
   updateItem: (id, property, value, itemType) => dispatch(updateItem(id, property, value, itemType)),
   postItem: (data, type, id) => dispatch(postItem(data, type, id)),
   getStream: (rootId) => dispatch(getStream(rootId)),

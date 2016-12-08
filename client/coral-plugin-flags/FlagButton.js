@@ -33,7 +33,6 @@ class FlagButton extends Component {
     this.setState({step: step + 1});
 
     if (itemType && detail) {
-      console.log('OtherText', otherText);
       const updatedDetail = otherText || detail;
       const item_id = itemType === 'comments' ? id : author_id;
       const action = {
