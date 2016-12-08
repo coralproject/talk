@@ -85,15 +85,12 @@ function createUser(options) {
     return User.createLocalUser(result.email.trim(), result.password.trim(), result.displayName.trim())
     .then((user) => {
       console.log(`Created user ${user.id}.`);
-      User
+
+      return User
         .addRoleToUser(user.id, result.role.trim())
         .then(() => {
           console.log(`Added the admin ${result.role.trim()} to User ${user.id}.`);
           util.shutdown();
-        })
-        .catch((err) => {
-          console.error(err);
-          util.shutdown(1);
         });
     })
     .catch((err) => {
