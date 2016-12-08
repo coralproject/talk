@@ -38,7 +38,7 @@ module.exports = (req, res, next) => {
 
     } else if (typeof o === 'object') {
 
-      // Itterate over the props, find only properties owned by the object.
+      // Iterate over the props, find only properties owned by the object.
       for (let prop in o) {
 
         // If and only if the object owns the property do we actually pull the

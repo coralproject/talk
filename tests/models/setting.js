@@ -41,7 +41,7 @@ describe('models.Setting', () => {
   });
 
   describe('#merge', () => {
-    it('should merge a settings object and it\'s overrides', () => {
+    it('should merge a settings object and its overrides', () => {
       return Setting
         .retrieve()
         .then((settings) => {
