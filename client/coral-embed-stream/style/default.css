@@ -237,6 +237,11 @@ hr {
     margin-top: 10px;
 }
 
+.coral-plugin-flags-other-text {
+  margin-left: 20px;
+  width: 75%;
+}
+
 /* Close comments */
 
 .close-comments-intro-wrapper {

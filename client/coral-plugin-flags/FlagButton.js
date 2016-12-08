@@ -9,8 +9,10 @@ export default class FlagButton extends Component {
 
   state = {
     showMenu: false,
+    showOther: false,
     itemType: '',
-    reason: '',
+    detail: '',
+    otherText: '',
     step: 1
   }
 
@@ -23,14 +25,16 @@ export default class FlagButton extends Component {
   }
 
   onPopupContinue = () => {
-    const {postAction, addItem, updateItem, currentUser, flag, id, author_id} = this.props;
-    const {itemType, field, detail, step} = this.state;
+    const {postAction, addItem, updateItem, flag, id, author_id} = this.props;
+    const {itemType, field, detail, step, otherText} = this.state;
 
     this.setState({step: step + 1});
 
     if (itemType && detail) {
+      console.log('OtherText', otherText);
+      const updatedDetail = otherText || detail;
       const item_id = itemType === 'comments' ? id : author_id;
-      postAction(item_id, 'flag', currentUser.id, itemType, field, detail)
+      postAction(item_id, 'flag', itemType, field, updatedDetail)
         .then((action) => {
           let id = `${action.action_type}_${action.item_id}`;
           addItem({id, current_user: action, count: flag ? flag.count + 1 : 1}, 'actions');
@@ -43,7 +47,7 @@ export default class FlagButton extends Component {
     switch(step) {
     case 1: {
       return {
-        header: lang.t('step-1-username'),
+        header: lang.t('step-1-header'),
         options: [
           {val: 'user', text: lang.t('flag-username')},
           {val: 'comments', text: lang.t('flag-comment')},
@@ -57,14 +61,14 @@ export default class FlagButton extends Component {
       [
         {val: 'I don\'t agree with this comment', text: lang.t('no-agree-comment')},
         {val: 'This comment is offensive', text: lang.t('comment-offensive')},
-        {val: 'This comment reveals personally identifiable inforation without consent', text: lang.t('personal-info')},
-        {val: 'Other', text: lang.t('other')},
+        {val: 'This comment reveals personally identifiable infomration', text: lang.t('personal-info')},
+        {val: 'other', text: lang.t('other')},
       ]
       : [
         {val: 'This username is offensive', text: lang.t('username-offensive')},
         {val: 'I don\'t like this username', text: lang.t('no-like-username')},
-        {val: 'This looks like an ad/marketing', text: lang.t('marketing ')},
-        {val: 'Other', text: lang.t('other')},
+        {val: 'This looks like an ad/marketing', text: lang.t('marketing')},
+        {val: 'other', text: lang.t('other')},
       ];
       return {
         header: lang.t('step-2-header'),
@@ -75,19 +79,27 @@ export default class FlagButton extends Component {
     }
     case 3: {
       return {
-        header: lang.t('step-3-input'),
+        header: lang.t('step-3-header'),
         text: lang.t('thank-you')
       };
     }}
   }
 
   onPopupOptionClick = (sets) => (e) => {
-    this.setState({[sets]: e.target.value});
+    if(sets === 'detail' && e.target.value === 'other') {
+      this.setState({showOther: true});
+    }
 
     // If flagging a user, indicate that this is referencing the username rather than the bio
     if(sets === 'itemType' && e.target.value === 'user') {
       this.setState({field: 'username'});
     }
+
+    this.setState({[sets]: e.target.value});
+  }
+
+  onOtherTextChange = (e) => {
+    this.setState({otherText: e.target.value});
   }
 
   render () {
@@ -130,6 +142,19 @@ export default class FlagButton extends Component {
                       <label htmlFor={option.val} className={`${name}-popup-radio-label`}>{option.text}</label><br/>
                     </div>
                   )
+                }
+                {
+                  this.state.showOther && <div>
+                    <input
+                      className={`${name}-other-text`}
+                      type="text"
+                      id="otherText"
+                      onChange={this.onOtherTextChange}
+                      value={this.state.otherText}/>
+                    <label htmlFor={'otherText'} className={`${name}-popup-radio-label screen-reader-text`}>
+                      lang.t('flag-reason')
+                    </label><br/>
+                  </div>
                 }
               </form>
             }

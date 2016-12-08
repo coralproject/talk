@@ -17,6 +17,7 @@
     "no-like-username": "I don't like this username",
     "marketing": "This looks like an ad/marketing",
     "thank-you": "We value your safety and feedback. A moderator will review your flag.",
+    "flag-reason": "Reason for flag",
     "other": "Other"
   },
   "es": {
@@ -37,6 +38,7 @@
     "no-like-username": "¡traduceme!",
     "marketing": "¡traduceme!",
     "thank-you": "¡traduceme!",
+    "flag-reason": "Reason for flag",
     "other": "¡traduceme!"
   }
 }
