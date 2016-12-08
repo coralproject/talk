@@ -36,11 +36,7 @@ const AssetSchema = new Schema({
   subsection: String,
   author: String,
   publication_date: Date,
-  modified_date: Date,
-  status: {
-    type: String,
-    default: 'open'
-  }
+  modified_date: Date
 }, {
   versionKey: false,
   timestamps: {
@@ -85,7 +81,7 @@ AssetSchema.statics.rectifySettings = (assetQuery) => Promise.all([
 
   // If the asset exists and has settings then return the merged object.
   if (asset && asset.settings) {
-    return Object.assign({}, settings, asset.settings);
+    settings.merge(asset.settings);
   }
 
   return settings;
