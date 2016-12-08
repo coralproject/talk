@@ -6,7 +6,7 @@ const expect = chai.expect;
 // Use the chai should.
 chai.should();
 
-describe('models.Asset', () => {
+describe('Asset: model', () => {
 
   beforeEach(() => {
     const defaults = {url:'http://test.com'};

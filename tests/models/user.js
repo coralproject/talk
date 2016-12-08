@@ -1,7 +1,7 @@
 const User = require('../../models/user');
 const expect = require('chai').expect;
 
-describe('models.User', () => {
+describe('User: models', () => {
   let mockUsers;
   beforeEach(() => {
     return User.createLocalUsers([{

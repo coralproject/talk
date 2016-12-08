@@ -1,34 +1,35 @@
 const Action = require('../../models/action');
 const expect = require('chai').expect;
 
-describe('models.Action', () => {
-  let mockActions = [];
+describe('Action: models', () => {
+  let mockActions;
 
-  beforeEach(() => Action.create([{
-    action_type: 'flag',
-    item_id: '123',
-    item_type: 'comment',
-    user_id: 'flagginguserid'
-  }, {
-    action_type: 'flag',
-    item_id: '456',
-    item_type: 'comment'
-  }, {
-    action_type: 'flag',
-    item_id: '123',
-    item_type: 'comment'
-  }, {
-    action_type: 'like',
-    item_id: '123',
-    item_type: 'comment'
-  }]).then((actions) => {
-    mockActions = actions;
-  }));
+  beforeEach(() => {
+    return Action.create([{
+      action_type: 'flag',
+      item_id: '123',
+      item_type: 'comment',
+      user_id: 'flagginguserid'
+    }, {
+      action_type: 'flag',
+      item_id: '456',
+      item_type: 'comment'
+    }, {
+      action_type: 'flag',
+      item_id: '123',
+      item_type: 'comment'
+    }, {
+      action_type: 'like',
+      item_id: '123',
+      item_type: 'comment'
+    }]).then((actions) => {
+      mockActions = actions;
+    });
+  });
 
   describe('#findById()', () => {
     it('should find an action by id', () => {
       return Action.findById(mockActions[0].id).then((result) => {
-        expect(result).to.not.be.null;
         expect(result).to.have.property('action_type', 'flag');
       });
     });
