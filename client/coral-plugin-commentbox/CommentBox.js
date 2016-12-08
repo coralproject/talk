@@ -46,7 +46,7 @@ class CommentBox extends Component {
       .then((postedComment) => {
         const commentId = postedComment.id;
         const status = postedComment.status;
-        if (status === 'rejected') {
+        if (status[0] && status[0].type === 'rejected') {
           addNotification('error', lang.t('comment-post-banned-word'));
         } else if (premod === 'pre') {
           addNotification('success', lang.t('comment-post-notif-premod'));
