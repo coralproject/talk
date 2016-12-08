@@ -23,17 +23,18 @@ export default class FlagButton extends Component {
   }
 
   onPopupContinue = () => {
-    const {postAction, addItem, updateItem, currentUser, flag, id} = this.props;
-    const {itemType, reason, step} = this.state;
+    const {postAction, addItem, updateItem, currentUser, flag, id, author_id} = this.props;
+    const {itemType, field, detail, step} = this.state;
 
     this.setState({step: step + 1});
 
-    if (itemType && reason) {
-      postAction(id, 'flag', currentUser.id, itemType, reason)
+    if (itemType && detail) {
+      const item_id = itemType === 'comments' ? id : author_id;
+      postAction(item_id, 'flag', currentUser.id, itemType, field, detail)
         .then((action) => {
           let id = `${action.action_type}_${action.item_id}`;
           addItem({id, current_user: action, count: flag ? flag.count + 1 : 1}, 'actions');
-          updateItem(action.item_id, action.action_type, id, 'comments');
+          updateItem(action.item_id, action.action_type, id, action.item_type);
         });
     }
   }
@@ -44,7 +45,7 @@ export default class FlagButton extends Component {
       return {
         header: 'Report an issue',
         options: [
-          {val: 'users', text: 'Flag username'},
+          {val: 'user', text: 'Flag username'},
           {val: 'comments', text: 'Flag comment'},
         ],
         button: 'Continue',
@@ -69,7 +70,7 @@ export default class FlagButton extends Component {
         header: 'Help us understand',
         options,
         button: 'Continue',
-        sets: 'reason'
+        sets: 'detail'
       };
     }
     case 3: {
@@ -82,6 +83,11 @@ export default class FlagButton extends Component {
 
   onPopupOptionClick = (sets) => (e) => {
     this.setState({[sets]: e.target.value});
+
+    // If flagging a user, indicate that this is referencing the username rather than the bio
+    if(sets === 'itemType' && e.target.value === 'user') {
+      this.setState({field: 'username'});
+    }
   }
 
   render () {

@@ -13,7 +13,8 @@ const ActionSchema = new Schema({
   item_type: String,
   item_id: String,
   user_id: String,
-  text: String,
+  field: String, // Used when an action references a particular field of an object. (e.g. a flag on a username or bio)
+  detail: String, // Describes the reason for an action (e.g. 'Username is offensive')
 }, {
   timestamps: {
     createdAt: 'created_at',
@@ -36,13 +37,14 @@ ActionSchema.statics.findById = function(id) {
  * @param {String} action the new action to the comment
  * @return {Promise}
  */
-ActionSchema.statics.insertUserAction = ({item_id, item_type, user_id, action_type, text}) => {
+ActionSchema.statics.insertUserAction = ({item_id, item_type, user_id, action_type, field, detail}) => {
   const action = {
     item_id,
     item_type,
     user_id,
     action_type,
-    text
+    field,
+    detail
   };
 
   // Create/Update the action.

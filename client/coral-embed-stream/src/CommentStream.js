@@ -145,6 +145,7 @@ class CommentStream extends Component {
                         <FlagButton
                           addNotification={this.props.addNotification}
                           id={commentId}
+                          author_id={comment.author_id}
                           flag={actions[comment.flag]}
                           postAction={this.props.postAction}
                           deleteAction={this.props.deleteAction}
@@ -195,6 +196,7 @@ class CommentStream extends Component {
                               <FlagButton
                                 addNotification={this.props.addNotification}
                                 id={replyId}
+                                author_id={comment.author_id}
                                 flag={this.props.items.actions[reply.flag]}
                                 postAction={this.props.postAction}
                                 showSignInDialog={this.props.showSignInDialog}
@@ -272,7 +274,7 @@ const mapDispatchToProps = (dispatch) => ({
   getStream: (rootId) => dispatch(getStream(rootId)),
   addNotification: (type, text) => dispatch(addNotification(type, text)),
   clearNotification: () => dispatch(clearNotification()),
-  postAction: (item, action, user, itemType, text) => dispatch(postAction(item, action, user, itemType, text)),
+  postAction: (item, action, user, itemType, field, detail) => dispatch(postAction(item, action, user, itemType, field, detail)),
   showSignInDialog: () => dispatch(showSignInDialog()),
   deleteAction: (item, action, user, itemType) => dispatch(deleteAction(item, action, user, itemType)),
   appendItemArray: (item, property, value, addToFront, itemType) => dispatch(appendItemArray(item, property, value, addToFront, itemType)),
