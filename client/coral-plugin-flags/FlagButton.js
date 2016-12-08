@@ -8,7 +8,8 @@ const FlagButton = ({flag, id, postAction, deleteAction, addItem, showSignInDial
   const flagged = flag && flag.current_user;
   const onFlagClick = () => {
     if (!currentUser) {
-      showSignInDialog();
+      const offset = document.getElementById(`c_${id}`).getBoundingClientRect().top - 75;
+      showSignInDialog(offset);
       return;
     }
     if (!flagged) {
