@@ -85,7 +85,7 @@ router.put('/:asset_id/settings', (req, res, next) => {
   // Override the settings for the asset.
   Asset
     .overrideSettings(req.params.asset_id, req.body)
-    .then(({settings}) => res.json({settings}))
+    .then(() => res.status(204).end())
     .catch((err) => next(err));
 });
 
