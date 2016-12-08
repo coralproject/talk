@@ -21,7 +21,7 @@ describe('/api/v1/queue', () => {
     body: 'comment 10',
     asset_id: 'asset',
     author_id: '123',
-    status: [{
+    status_history: [{
       type: 'rejected'
     }]
   }, {
@@ -29,14 +29,14 @@ describe('/api/v1/queue', () => {
     body: 'comment 20',
     asset_id: 'asset',
     author_id: '456',
-    status: [{
+    status_history: [{
       type: 'premod'
     }]
   }, {
     id: 'hij',
     body: 'comment 30',
     asset_id: '456',
-    status: [{
+    status_history: [{
       type: 'accepted'
     }]
   }];
