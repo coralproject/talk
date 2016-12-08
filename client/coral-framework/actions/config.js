@@ -25,9 +25,9 @@ export const updateConfiguration = newConfig => (dispatch, getState) => {
 
   dispatch(updateConfigRequest());
   coralApi(`/asset/${assetId}/settings`, {method: 'PUT', body: newConfig})
-    .then(({settings}) => {
+    .then(() => {
       dispatch(addNotification('success', lang.t('successUpdateSettings')));
-      dispatch(updateConfigSuccess(settings));
+      dispatch(updateConfigSuccess({config: newConfig}));
     })
     .catch(error => dispatch(updateConfigFailure(error)));
 };
