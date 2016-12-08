@@ -4,7 +4,19 @@
     "reported": "Reported",
     "report-notif": "Thank you for reporting this comment. Our moderation team has been notified and will review it shortly.",
     "report-notif-remove": "Your report has been removed.",
-    "report-header": "Report an issue"
+    "step-1-header": "Report an issue",
+    "step-2-header": "Help us understand",
+    "step-3-header": "Thank you for your input",
+    "flag-username": "Flag username",
+    "flag-comment": "Flag comment",
+    "continue": "Continue",
+    "no-agree-comment": "I don't agree with this comment",
+    "comment-offensive": "This comment is offensive",
+    "personal-info": "This comment reveals personally identifiable inforation without consent",
+    "username-offensive": "This username is offensive",
+    "no-like-username": "I don't like this username",
+    "marketing": "This looks like an ad/marketing",
+    "thank-you": "We value your safety and feedback. A moderator will review your flag."
   },
   "es": {
     "report": "Informe",

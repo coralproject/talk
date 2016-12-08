@@ -43,40 +43,40 @@ export default class FlagButton extends Component {
     switch(step) {
     case 1: {
       return {
-        header: 'Report an issue',
+        header: lang.t('step-1-username'),
         options: [
-          {val: 'user', text: 'Flag username'},
-          {val: 'comments', text: 'Flag comment'},
+          {val: 'user', text: lang.t('flag-username')},
+          {val: 'comments', text: lang.t('flag-comment')},
         ],
-        button: 'Continue',
+        button: lang.t('continue'),
         sets: 'itemType'
       };
     }
     case 2: {
       const options = this.state.itemType === 'comments' ?
       [
-        {val: 'I don\'t agree with this comment', text: 'I don\'t agree with this comment'},
-        {val: 'This comment is offensive', text: 'This comment is offensive'},
-        {val: 'This comment reveals personally identifiable inforation without consent', text: 'This comment reveals personally identifiable inforation without consent'},
+        {val: 'I don\'t agree with this comment', text: lang.t('no-agree-comment')},
+        {val: 'This comment is offensive', text: lang.t('comment-offensive')},
+        {val: 'This comment reveals personally identifiable inforation without consent', text: lang.t('personal-info')},
         {val: 'Other', text: 'Other'},
       ]
       : [
-        {val: 'This username is offensive', text: 'This username is offensive'},
-        {val: 'I don\'t like this username', text: 'I don\'t like this username'},
-        {val: 'This looks like an ad/marketing', text: 'This looks like an ad/marketing'},
+        {val: 'This username is offensive', text: lang.t('username-offensive')},
+        {val: 'I don\'t like this username', text: lang.t('no-like-username')},
+        {val: 'This looks like an ad/marketing', text: lang.t('marketing')},
         {val: 'Other', text: 'Other'},
       ];
       return {
-        header: 'Help us understand',
+        header: lang.t('step-2-header'),
         options,
-        button: 'Continue',
+        button: lang.t('continue'),
         sets: 'detail'
       };
     }
     case 3: {
       return {
-        header: 'Thank you for your input',
-        text: 'We value your safety and feedback. A moderator will review your flag.'
+        header: lang.t('step-3-input'),
+        text: lang.t('thank-you')
       };
     }}
   }
