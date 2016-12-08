@@ -39,4 +39,18 @@ describe('models.Setting', () => {
       });
     });
   });
+
+  describe('#merge', () => {
+    it('should merge a settings object and it\'s overrides', () => {
+      return Setting
+        .retrieve()
+        .then((settings) => {
+          let ovrSett = {moderation: 'post'};
+
+          settings.merge(ovrSett);
+
+          expect(settings).to.have.property('moderation', 'post');
+        });
+    });
+  });
 });
