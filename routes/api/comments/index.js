@@ -148,15 +148,8 @@ router.put('/:comment_id/status', authorization.needed('admin'), (req, res, next
 });
 
 router.post('/:comment_id/actions', (req, res, next) => {
-
-  const {
-    action_type,
-    field,
-    detail
-  } = req.body;
-
   Comment
-    .addAction(req.params.comment_id, req.user.id, action_type, field, detail)
+    .addAction(req.params.comment_id, req.user.id, req.body)
     .then((action) => {
       res.status(201).json(action);
     })

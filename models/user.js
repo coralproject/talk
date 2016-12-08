@@ -555,11 +555,9 @@ UserService.addBio = (id, bio) => (
  * @param {String} action the new action to the user
  * @return {Promise}
  */
-UserService.addAction = (item_id, user_id, action_type, field, detail) => Action.insertUserAction({
+UserService.addAction = (item_id, user_id, action) => Action.insertUserAction({
   item_id,
   item_type: 'comment',
   user_id,
-  action_type,
-  field,
-  detail
+  action
 });

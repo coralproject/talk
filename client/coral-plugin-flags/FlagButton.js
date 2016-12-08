@@ -57,7 +57,7 @@ class FlagButton extends Component {
         header: lang.t('step-1-header'),
         options: [
           {val: 'user', text: lang.t('flag-username')},
-          {val: 'comments', text: lang.t('flag-comment')},
+          {val: 'comments', text: lang.t('flag-comment')}
         ],
         button: lang.t('continue'),
         sets: 'itemType'
