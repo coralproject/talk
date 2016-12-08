@@ -12,17 +12,31 @@
     "continue": "Continue",
     "no-agree-comment": "I don't agree with this comment",
     "comment-offensive": "This comment is offensive",
-    "personal-info": "This comment reveals personally identifiable inforation without consent",
+    "personal-info": "This comment reveals personally identifiable information",
     "username-offensive": "This username is offensive",
     "no-like-username": "I don't like this username",
     "marketing": "This looks like an ad/marketing",
-    "thank-you": "We value your safety and feedback. A moderator will review your flag."
+    "thank-you": "We value your safety and feedback. A moderator will review your flag.",
+    "other": "Other"
   },
   "es": {
     "report": "Informe",
     "reported": "Informado",
     "report-notif": "Gracias por marcar este comentario. Nuestro equipo de moderación ha sido notificado y muy pronto lo va a revisar.",
     "report-notif-remove": "¡traduceme!",
-    "report-header": "¡traduceme!"
+    "step-1-header": "¡traduceme!",
+    "step-2-header": "¡traduceme!",
+    "step-3-header": "¡traduceme!",
+    "flag-username": "¡traduceme!",
+    "flag-comment": "¡traduceme!",
+    "continue": "¡traduceme!",
+    "no-agree-comment": "¡traduceme!",
+    "comment-offensive": "¡traduceme!",
+    "personal-info": "¡traduceme!",
+    "username-offensive": "¡traduceme!",
+    "no-like-username": "¡traduceme!",
+    "marketing": "¡traduceme!",
+    "thank-you": "¡traduceme!",
+    "other": "¡traduceme!"
   }
 }

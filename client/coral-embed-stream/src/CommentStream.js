@@ -80,7 +80,7 @@ class CommentStream extends Component {
     const rootItem = this.props.items.assets && this.props.items.assets[rootItemId];
     const {actions, users, comments} = this.props.items;
     const {loggedIn, user, showSignInDialog} = this.props.auth;
-    const {status} = this.props.config;
+    const {status, moderation} = this.props.config;
     const {activeTab} = this.state;
 
     return <div className={showSignInDialog ? 'expandForSignin' : ''}>
@@ -109,7 +109,7 @@ class CommentStream extends Component {
                         appendItemArray={this.props.appendItemArray}
                         updateItem={this.props.updateItem}
                         id={rootItemId}
-                        premod={this.props.config.moderation}
+                        premod={moderation}
                         reply={false}
                         author={user}
                       />
@@ -165,7 +165,7 @@ class CommentStream extends Component {
                         id={rootItemId}
                         author={user}
                         parent_id={commentId}
-                        premod={this.props.config.moderation}
+                        premod={moderation}
                         showReply={comment.showReply}/>
                       {
                         comment.children &&
@@ -218,7 +218,7 @@ class CommentStream extends Component {
                               author={user}
                               parent_id={commentId}
                               child_id={replyId}
-                              premod={this.props.config.moderation}
+                              premod={moderation}
                               showReply={reply.showReply}/>
                           </div>;
                         })

@@ -12,7 +12,7 @@ export default (state = initialState, action) => {
   switch(action.type) {
   // Override config if worked
   case actions.UPDATE_SETTINGS:
-    return action.config;
+    return state.merge(action.config);
 
   case actions.OPEN_COMMENTS:
     return state.set('status', 'open');
