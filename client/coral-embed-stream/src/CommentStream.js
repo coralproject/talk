@@ -268,13 +268,13 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addItem: (item, itemType) => dispatch(addItem(item, itemType)),
+  addItem: (args) => dispatch(addItem.apply(args)),
   updateItem: (id, property, value, itemType) => dispatch(updateItem(id, property, value, itemType)),
   postItem: (data, type, id) => dispatch(postItem(data, type, id)),
   getStream: (rootId) => dispatch(getStream(rootId)),
   addNotification: (type, text) => dispatch(addNotification(type, text)),
   clearNotification: () => dispatch(clearNotification()),
-  postAction: (item, action, itemType, field, detail) => dispatch(postAction(item, action, itemType, field, detail)),
+  postAction: (item, itemType, action) => dispatch(postAction(item, itemType, action)),
   showSignInDialog: () => dispatch(showSignInDialog()),
   deleteAction: (item, action, user, itemType) => dispatch(deleteAction(item, action, user, itemType)),
   appendItemArray: (item, property, value, addToFront, itemType) => dispatch(appendItemArray(item, property, value, addToFront, itemType)),

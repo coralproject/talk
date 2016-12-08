@@ -34,7 +34,12 @@ export default class FlagButton extends Component {
       console.log('OtherText', otherText);
       const updatedDetail = otherText || detail;
       const item_id = itemType === 'comments' ? id : author_id;
-      postAction(item_id, 'flag', itemType, field, updatedDetail)
+      const action = {
+        action_type: 'flag',
+        field,
+        detail: updatedDetail
+      };
+      postAction(item_id, itemType, action)
         .then((action) => {
           let id = `${action.action_type}_${action.item_id}`;
           addItem({id, current_user: action, count: flag ? flag.count + 1 : 1}, 'actions');

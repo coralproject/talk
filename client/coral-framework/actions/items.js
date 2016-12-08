@@ -217,14 +217,8 @@ export function postItem (item, type, id) {
 *
 */
 
-export function postAction (item_id, action_type, item_type, field, detail) {
+export function postAction (item_id, item_type, action) {
   return () => {
-    const action = {
-      action_type,
-      field,
-      detail
-    };
-
     return coralApi(`/${item_type}/${item_id}/actions`, {method: 'POST', body: action});
   };
 }

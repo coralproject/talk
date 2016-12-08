@@ -12,7 +12,10 @@ const LikeButton = ({like, id, postAction, deleteAction, addItem, showSignInDial
       return;
     }
     if (!liked) {
-      postAction(id, 'like', currentUser.id, 'comments')
+      const action = {
+        action_type: 'like'
+      };
+      postAction(id, 'comments', action)
         .then((action) => {
           let id = `${action.action_type}_${action.item_id}`;
           addItem({id, current_user: action, count: like ? like.count + 1 : 1}, 'actions');
