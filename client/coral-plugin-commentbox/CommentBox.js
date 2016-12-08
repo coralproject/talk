@@ -43,16 +43,18 @@ class CommentBox extends Component {
       updateItem(child_id || parent_id, 'showReply', false, 'comments');
     }
     postItem(comment, 'comments')
-    .then(({comment_id, status}) => {
-      if (status === 'rejected') {
-        addNotification('error', lang.t('comment-post-banned-word'));
-      } else if (premod === 'pre') {
-        addNotification('success', lang.t('comment-post-notif-premod'));
-      } else {
-        appendItemArray(parent_id || id, related, comment_id, !parent_id, parent_type);
-        addNotification('success', 'Your comment has been posted.');
-      }
-    })
+      .then((postedComment) => {
+        const commentId = postedComment.id;
+        const status = postedComment.status;
+        if (status === 'rejected') {
+          addNotification('error', lang.t('comment-post-banned-word'));
+        } else if (premod === 'pre') {
+          addNotification('success', lang.t('comment-post-notif-premod'));
+        } else {
+          appendItemArray(parent_id || id, related, commentId, !parent_id, parent_type);
+          addNotification('success', 'Your comment has been posted.');
+        }
+      })
     .catch((err) => console.error(err));
     this.setState({body: ''});
   }
