@@ -2,10 +2,11 @@ import React, {Component} from 'react';
 import {I18n} from '../coral-framework';
 import translations from './translations.json';
 import {PopupMenu, Button} from 'coral-ui';
+import onClickOutside from 'react-onclickoutside';
 
 const name = 'coral-plugin-flags';
 
-export default class FlagButton extends Component {
+class FlagButton extends Component {
 
   state = {
     showMenu: false,
@@ -107,6 +108,10 @@ export default class FlagButton extends Component {
     this.setState({otherText: e.target.value});
   }
 
+  handleClickOutside () {
+    this.setState({showMenu: false});
+  }
+
   render () {
     const {flag} = this.props;
     const flagged = flag && flag.current_user;
@@ -179,6 +184,8 @@ export default class FlagButton extends Component {
     </div>;
   }
 }
+
+export default onClickOutside(FlagButton);
 
 const styles = {
   flaggedIcon: {
