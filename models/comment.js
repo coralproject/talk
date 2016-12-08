@@ -1,5 +1,6 @@
 const mongoose = require('../mongoose');
 const Schema = mongoose.Schema;
+const _ = require('lodash');
 const uuid = require('uuid');
 const Action = require('./action');
 
@@ -45,7 +46,7 @@ const CommentSchema = new Schema({
   },
   asset_id: String,
   author_id: String,
-  status: [StatusSchema],
+  status_history: [StatusSchema],
   parent_id: String
 }, {
   timestamps: {
@@ -59,22 +60,7 @@ const CommentSchema = new Schema({
  * output.
  */
 CommentSchema.options.toJSON = {};
-CommentSchema.options.toJSON.hide = '_id status';
-CommentSchema.options.toJSON.transform = (doc, ret, options) => {
-  if (options.hide) {
-    options.hide.split(' ').forEach((prop) => {
-      delete ret[prop];
-    });
-  }
-
-  return ret;
-};
-
-/**
- * toJSON overrides to remove fields from the json
- * output.
- */
-CommentSchema.options.toJSON = {};
+CommentSchema.options.toJSON.virtuals = true;
 CommentSchema.options.toJSON.hide = '_id';
 CommentSchema.options.toJSON.transform = (doc, ret, options) => {
   if (options.hide) {
@@ -87,13 +73,30 @@ CommentSchema.options.toJSON.transform = (doc, ret, options) => {
 };
 
 /**
+ * Filters the object for the given user only allowing those with the allowed
+ * roles/permissions to access particular parameters.
+ */
+CommentSchema.method('filterForUser', function(user = false) {
+  if (!user || !user.roles.includes('admin')) {
+    return _.pick(this.toJSON(), ['id', 'body', 'asset_id', 'author_id', 'parent_id', 'status']);
+  }
+
+  return this.toJSON();
+});
+
+/**
  * Sets up a virtual getter function on a comment such that when you try and
  * access the `comment.last_status` it returns the last status in the array
- * of status's on the comment, or `null` if there was no status.
+ * of status's on the comment, or `null` if there was no status_history.
  */
-CommentSchema.virtual('last_status').get(function() {
-  if (this.status && this.status.length > 0) {
-    return this.status[this.status.length - 1].type;
+CommentSchema.virtual('status').get(function() {
+
+  // Here we are taking advantage of the fact that when documents are inserted
+  // for the new status on a comment that they are always appended to the end
+  // of the list in the order that they are inserted, hence, the last status
+  // is always the most recent.
+  if (this.status_history && this.status_history.length > 0) {
+    return this.status_history[this.status_history.length - 1].type;
   }
 
   return null;
@@ -123,7 +126,7 @@ CommentSchema.statics.publicCreate = (comment) => {
     body,
     asset_id,
     parent_id,
-    status: status ? [{
+    status_history: status ? [{
       type: status,
       created_at: new Date()
     }] : [],
@@ -157,7 +160,7 @@ CommentSchema.statics.findByAssetId = (asset_id) => Comment.find({
  */
 CommentSchema.statics.findAcceptedByAssetId = (asset_id) => Comment.find({
   asset_id,
-  'status.type': 'accepted'
+  'status_history.type': 'accepted'
 });
 
 /**
@@ -169,10 +172,10 @@ CommentSchema.statics.findAcceptedAndNewByAssetId = (asset_id) => Comment.find({
   asset_id,
   $or: [
     {
-      'status.type': 'accepted'
+      'status_history.type': 'accepted'
     },
     {
-      status: {
+      status_history: {
         $size: 0
       }
     }
@@ -202,7 +205,7 @@ CommentSchema.statics.findIdsByActionType = (action_type) => Action
   .then((actions) => actions.map(a => a.item_id));
 
 /**
- * Find comments by their status.
+ * Find comments by their status_history.
  * @param {String} status the status of the comment to search for
  * @return {Promise}
  */
@@ -210,9 +213,9 @@ CommentSchema.statics.findByStatus = (status = false) => {
   let q = {};
 
   if (status) {
-    q['status.type'] = status;
+    q['status_history.type'] = status;
   } else {
-    q.status = {$size: 0};
+    q.status_history = {$size: 0};
   }
 
   return Comment.find(q);
@@ -269,7 +272,7 @@ CommentSchema.statics.moderationQueue = (moderation, asset_id = false) => {
  */
 CommentSchema.statics.pushStatus = (id, status, assigned_by = null) => Comment.update({id}, {
   $push: {
-    status: {
+    status_history: {
       type: status,
       created_at: new Date(),
       assigned_by

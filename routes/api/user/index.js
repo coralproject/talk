@@ -26,27 +26,14 @@ router.get('/', authorization.needed('admin'), (req, res, next) => {
       .limit(limit),
     User.count()
   ])
-  .then(([data, count]) => {
-    const users = data.map((user) => {
-      const {id, displayName, created_at, status} = user;
-      return {
-        id,
-        displayName,
-        created_at,
-        status,
-        profiles: user.toObject().profiles,
-        roles: user.toObject().roles
-      };
-    });
-
+  .then(([result, count]) => {
     res.json({
-      result: users,
+      result,
       limit: Number(limit),
       count,
       page: Number(page),
-      totalPages: Math.ceil(count / limit)
+      totalPages: Math.ceil(count / (limit === 0 ? 1 : limit))
     });
-
   })
   .catch(next);
 });
@@ -54,8 +41,8 @@ router.get('/', authorization.needed('admin'), (req, res, next) => {
 router.post('/:user_id/role', authorization.needed('admin'), (req, res, next) => {
   User
     .addRoleToUser(req.params.user_id, req.body.role)
-    .then(role => {
-      res.send(role);
+    .then(() => {
+      res.status(204).end();
     })
     .catch(next);
 });
@@ -75,12 +62,16 @@ router.post('/', (req, res, next) => {
   User
     .createLocalUser(email, password, displayName)
     .then(user => {
-      res.status(201).send(user);
+
+      res.status(201).json(user);
     })
     .catch(err => {
       next(err);
     });
 });
+
+const ErrPasswordTooShort = new Error('password must be at least 8 characters');
+ErrPasswordTooShort.status = 400;
 
 /**
  * expects 2 fields in the body of the request
@@ -91,7 +82,7 @@ router.post('/update-password', (req, res, next) => {
   const {token, password} = req.body;
 
   if (!password || password.length < 8) {
-    return res.status(400).send('Password must be at least 8 characters');
+    return next(ErrPasswordTooShort);
   }
 
   User.verifyPasswordResetToken(token)
@@ -103,7 +94,8 @@ router.post('/update-password', (req, res, next) => {
     })
     .catch(error => {
       console.error(error);
-      res.status(401).send('Not Authorized');
+
+      next(authorization.ErrNotAuthorized);
     });
 });
 
@@ -143,10 +135,8 @@ router.post('/request-password-reset', (req, res, next) => {
       // if we fail on missing emails, it would reveal if people are registered or not.
       res.status(204).end();
     })
-    .catch(error => {
-      const errorMsg = typeof error === 'string' ? error : error.message;
-
-      res.status(500).json({error: errorMsg});
+    .catch((err) => {
+      next(err);
     });
 });
 
@@ -160,10 +150,11 @@ router.put('/:user_id/bio', (req, res, next) => {
 
   User
     .addBio(user_id, bio)
-    .then(user => res.status(200).send(user))
-    .catch(error => {
-      const errorMsg = typeof error === 'string' ? error : error.message;
-      res.status(500).json({error: errorMsg});
+    .then(user => {
+      res.json(user);
+    })
+    .catch((err) => {
+      next(err);
     });
 });
 

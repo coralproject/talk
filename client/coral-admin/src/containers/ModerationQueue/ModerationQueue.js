@@ -95,9 +95,11 @@ class ModerationQueue extends React.Component {
               singleView={singleView}
               commentIds={
                 comments.get('ids')
-                  .filter(id => !comments.get('byId')
+                  .filter(id =>
+                    comments
+                    .get('byId')
                     .get(id)
-                    .get('status'))
+                    .get('status') === 'premod')
               }
               comments={comments.get('byId')}
               users={users.get('byId')}

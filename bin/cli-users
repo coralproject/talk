@@ -34,6 +34,7 @@ function createUser(options) {
         email: options.email,
         password: options.password,
         displayName: options.name,
+        role: options.role
       });
     }
 
@@ -62,6 +63,11 @@ function createUser(options) {
         name: 'displayName',
         description: 'Display Name',
         required: true
+      },
+      {
+        name: 'role',
+        description: 'User Role',
+        required: false
       }
     ], (err, result) => {
       if (err) {
@@ -76,15 +82,21 @@ function createUser(options) {
     });
   })
   .then((result) => {
-    return User.createLocalUser(result.email.trim(), result.password.trim(), result.displayName.trim());
-  })
-  .then((user) => {
-    console.log(`Created user ${user.id}.`);
-    util.shutdown();
-  })
-  .catch((err) => {
-    console.error(err);
-    util.shutdown();
+    return User.createLocalUser(result.email.trim(), result.password.trim(), result.displayName.trim())
+    .then((user) => {
+      console.log(`Created user ${user.id}.`);
+
+      return User
+        .addRoleToUser(user.id, result.role.trim())
+        .then(() => {
+          console.log(`Added the admin ${result.role.trim()} to User ${user.id}.`);
+          util.shutdown();
+        });
+    })
+    .catch((err) => {
+      console.error(err);
+      util.shutdown();
+    });
   });
 }
 
@@ -366,6 +378,7 @@ program
   .option('--email [email]', 'Email to use')
   .option('--password [password]', 'Password to use')
   .option('--name [name]', 'Name to use')
+  .option('--role [role]', 'Role to add')
   .option('-f, --flag_mode', 'Source from flags instead of prompting')
   .description('create a new user')
   .action(createUser);
