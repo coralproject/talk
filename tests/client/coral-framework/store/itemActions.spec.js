@@ -155,7 +155,7 @@ describe('itemActions', () => {
   describe('postAction', () => {
     it ('should post an action', () => {
       fetchMock.post('*', {id: '456'});
-      return actions.postAction('abc', 'flag', '123', 'comments', 'Comment smells funny')(store.dispatch)
+      return actions.postAction('abc', 'flag', 'comments', 'Comment smells funny')(store.dispatch)
         .then(response => {
           expect(fetchMock.calls().matched[0][0]).to.equal('/api/v1/comments/abc/actions');
           expect(response).to.deep.equal({id:'456'});
