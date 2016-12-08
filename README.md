@@ -10,6 +10,7 @@ You can view product ideas and our longer term roadmap here: https://trello.com/
 
 ### Local Dependencies
 Node
+
 Mongo
 
 ### Getting Started
@@ -26,17 +27,17 @@ inside the environment in order to run, those variables are listed here:
 
 - `TALK_SESSION_SECRET` (*required*) - a random string which will be used to 
 secure cookies.
-`TALK_FACEBOOK_APP_ID` (*required*) - the Facebook app id for your Facebook
+- `TALK_FACEBOOK_APP_ID` (*required*) - the Facebook app id for your Facebook
 Login enabled app.
-`TALK_FACEBOOK_APP_SECRET` (*required*) - the Facebook app secret for your
+- `TALK_FACEBOOK_APP_SECRET` (*required*) - the Facebook app secret for your
 Facebook Login enabled app.
-`TALK_ROOT_URL` (*required*) - root url of the installed application externally 
+- `TALK_ROOT_URL` (*required*) - root url of the installed application externally 
 available in the format: `<scheme>://<host>` without the path.
-`TALK_SMTP_PROVIDER` (*required*) - SMTP provider name.
-`TALK_SMTP_USERNAME` (*required*) - username of the SMTP provider you are using.
-`TALK_SMTP_PASSWORD` (*required*) - password for the SMTP provider you are using.
-`TALK_SMTP_HOST` (*required*) - SMTP host url with format `smtp.domain.com`.
-`TALK_SMTP_PORT` (*required*) - SMTP port.
+- `TALK_SMTP_PROVIDER` (*required*) - SMTP provider name.
+- `TALK_SMTP_USERNAME` (*required*) - username of the SMTP provider you are using.
+- `TALK_SMTP_PASSWORD` (*required*) - password for the SMTP provider you are using.
+- `TALK_SMTP_HOST` (*required*) - SMTP host url with format `smtp.domain.com`.
+- `TALK_SMTP_PORT` (*required*) - SMTP port.
 
 ### Running with Docker
 Make sure you have Docker running first and then run `docker-compose up -d`
