@@ -3,7 +3,7 @@ const Comment = require('../../models/comment');
 
 const expect = require('chai').expect;
 
-describe('User: models', () => {
+describe('models.User', () => {
   let mockUsers;
   beforeEach(() => {
     return User.createLocalUsers([{

@@ -11,7 +11,6 @@ const SALT_ROUNDS = 10;
 
 // USER_ROLES is the array of roles that is permissible as a user role.
 const USER_ROLES = [
-  '',
   'admin',
   'moderator'
 ];
@@ -117,7 +116,7 @@ UserSchema.index({
  * output.
  */
 UserSchema.options.toJSON = {};
-UserSchema.options.toJSON.hide = 'password profiles roles disabled';
+UserSchema.options.toJSON.hide = '_id password profiles roles disabled';
 UserSchema.options.toJSON.transform = (doc, ret, options) => {
   if (options.hide) {
     options.hide.split(' ').forEach((prop) => {
@@ -439,7 +438,7 @@ UserService.setStatus = (id, status, comment_id) => {
       }
     })
     .then(() => {
-      return Comment.changeStatus(comment_id, 'rejected');
+      return Comment.pushStatus(comment_id, 'rejected', id);
     });
   }
 
