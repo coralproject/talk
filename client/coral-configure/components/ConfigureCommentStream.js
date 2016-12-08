@@ -2,19 +2,21 @@ import React from 'react';
 import {Button, Checkbox} from 'coral-ui';
 import styles from './ConfigureCommentStream.css';
 
+import I18n from 'coral-framework/modules/i18n/i18n';
+import translations from '../translations.json';
+const lang = new I18n(translations);
+
 export default ({handleChange, handleApply, changed, ...props}) => (
   <div className={styles.wrapper}>
     <div className={styles.container}>
-      <h3>Configure Comment Stream</h3>
-      <p>
-        As an admin you may customize the settings for the comment stream for this article
-      </p>
+      <h3>{lang.t('configureCommentStream.title')}</h3>
+      <p>{lang.t('configureCommentStream.description')}</p>
       <Button
         className={styles.apply}
         cStyle={changed ? 'green' : 'darkGrey'}
         onClick={handleApply}
       >
-        Apply
+        {lang.t('configureCommentStream.apply')}
       </Button>
     </div>
     <ul>
@@ -26,8 +28,8 @@ export default ({handleChange, handleApply, changed, ...props}) => (
           onChange={handleChange}
           checked={props.premod}
           info={{
-            title: 'Enable Premoderation',
-            description: 'Moderators must approve any comment before its published'
+            title: lang.t('configureCommentStream.enablePremod'),
+            description: lang.t('configureCommentStream.enablePremodDescription')
           }}
         />
         <ul>
@@ -39,8 +41,8 @@ export default ({handleChange, handleApply, changed, ...props}) => (
               onChange={handleChange}
               checked={props.premodLinks}
               info={{
-                title: 'Pre-Moderate Comments Containing Links',
-                description: 'Moderators must approve any comment containing a link before its published.'
+                title: lang.t('configureCommentStream.enablePremodLinks'),
+                description: lang.t('configureCommentStream.enablePremodDescription')
               }}
             />
           </li>
