@@ -15,7 +15,7 @@ const mongoose = require('../mongoose');
 const Setting = require('../models/setting');
 const util = require('../util');
 
-// Regeister the shutdown criteria.
+// Register the shutdown criteria.
 util.onshutdown([
   () => mongoose.disconnect()
 ]);
