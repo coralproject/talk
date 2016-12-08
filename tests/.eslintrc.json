@@ -4,12 +4,8 @@
         "node": true,
         "mocha": true
     },
-    "plugins": [
-      "mocha"
-    ],
     "extends": "../.eslintrc.json",
     "rules": {
-        "no-undef": [0],
-        "mocha/no-exclusive-tests": "warn"
+        "no-undef": [0]
     }
 }

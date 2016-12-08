@@ -12,7 +12,7 @@ const defaults = {id: '1', moderation: 'pre'};
 
 describe('/api/v1/settings', () => {
 
-  beforeEach(() => Setting.init(defaults));
+  beforeEach(() => Setting.create(defaults));
 
   describe('#get', () => {
 
@@ -40,7 +40,7 @@ describe('/api/v1/settings', () => {
         .then((res) => {
           expect(res).to.have.status(204);
 
-          return Setting.retrieve();
+          return Setting.getSettings();
         })
         .then((settings) => {
           expect(settings).to.have.property('moderation', 'post');

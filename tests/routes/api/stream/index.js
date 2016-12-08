@@ -20,37 +20,7 @@ describe('/api/v1/stream', () => {
       moderation: 'post'
     };
 
-    const comments = [{
-      id: 'abc',
-      body: 'comment 10',
-      author_id: '',
-      parent_id: '',
-      status: [{
-        type: 'accepted'
-      }]
-    }, {
-      id: 'def',
-      body: 'comment 20',
-      author_id: '',
-      parent_id: '',
-      status: []
-    }, {
-      id: 'uio',
-      body: 'comment 30',
-      asset_id: 'asset',
-      author_id: '456',
-      parent_id: '',
-      status: [{
-        type: 'accepted'
-      }]
-    }, {
-      id: 'hij',
-      body: 'comment 40',
-      asset_id: '456',
-      status: [{
-        type: 'rejected'
-      }]
-    }];
+    let comments;
 
     const users = [{
       displayName: 'Ana',
@@ -71,6 +41,33 @@ describe('/api/v1/stream', () => {
     }];
 
     beforeEach(() => {
+
+      comments = [{
+        id: 'abc',
+        body: 'comment 10',
+        author_id: '',
+        parent_id: '',
+        status: 'accepted'
+      }, {
+        id: 'def',
+        body: 'comment 20',
+        author_id: '',
+        parent_id: '',
+        status: ''
+      }, {
+        id: 'uio',
+        body: 'comment 30',
+        asset_id: 'asset',
+        author_id: '456',
+        parent_id: '',
+        status: 'accepted'
+      }, {
+        id: 'hij',
+        body: 'comment 40',
+        asset_id: '456',
+        status: 'rejected'
+      }];
+
       return Promise.all([
         User.createLocalUsers(users),
         Asset.findOrCreateByUrl('http://test.com'),
@@ -97,11 +94,10 @@ describe('/api/v1/stream', () => {
         return Promise.all([
           Comment.create(comments),
           Action.create(actions),
-          Setting.init(settings)
+          Setting.init().then(() => Setting.updateSettings(settings))
         ]);
       });
     });
-
     it('should return a stream with comments, users and actions for an existing asset', () => {
       return chai.request(app)
         .get('/api/v1/stream')

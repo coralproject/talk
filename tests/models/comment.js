@@ -7,57 +7,35 @@ const settings = {id: '1', moderation: 'pre'};
 
 const expect = require('chai').expect;
 
-describe('models.Comment', () => {
+describe('Comment: models', () => {
   const comments = [{
     body: 'comment 10',
     asset_id: '123',
-    status: [],
+    status: '',
     parent_id: '',
     author_id: '123',
     id: '1'
   }, {
     body: 'comment 20',
     asset_id: '123',
-    status: [{
-      type: 'accepted'
-    }],
+    status: 'accepted',
     parent_id: '',
     author_id: '123',
     id: '2'
   }, {
     body: 'comment 30',
     asset_id: '456',
-    status: [],
+    status: '',
     parent_id: '',
     author_id: '456',
     id: '3'
   }, {
     body: 'comment 40',
     asset_id: '123',
-    status: [{
-      type: 'rejected'
-    }],
+    status: 'rejected',
     parent_id: '',
     author_id: '456',
     id: '4'
-  }, {
-    body: 'comment 50',
-    asset_id: '1234',
-    status: [{
-      type: 'premod'
-    }],
-    parent_id: '',
-    author_id: '456',
-    id: '5'
-  }, {
-    body: 'comment 60',
-    asset_id: '1234',
-    status: [{
-      type: 'premod'
-    }],
-    parent_id: '',
-    author_id: '456',
-    id: '6'
   }];
 
   const users = [{
@@ -82,69 +60,25 @@ describe('models.Comment', () => {
     user_id: '456'
   }];
 
-  beforeEach(() => Promise.all([
-    Setting.init(settings),
-    Comment.create(comments),
-    User.createLocalUsers(users),
-    Action.create(actions)
-  ]));
-
-  describe('#publicCreate()', () => {
-
-    it('creates a new comment', () => {
-      return Comment.publicCreate({
-        body: 'This is a comment!',
-        status: 'accepted'
-      }).then((c) => {
-        expect(c).to.not.be.null;
-        expect(c.id).to.not.be.null;
-        expect(c.id).to.be.uuid;
-        expect(c.status).to.have.length(1);
-        expect(c.status[0]).to.have.property('type', 'accepted');
-      });
-    });
-
-    it('creates many new comments', () => {
-      return Comment.publicCreate([{
-        body: 'This is a comment!',
-        status: 'accepted'
-      }, {
-        body: 'This is another comment!'
-      }, {
-        body: 'This is a rejected comment!',
-        status: 'rejected'
-      }]).then(([c1, c2, c3]) => {
-        expect(c1).to.not.be.null;
-        expect(c1.id).to.be.uuid;
-        expect(c1.status).to.have.length(1);
-        expect(c1.status[0]).to.have.property('type', 'accepted');
-
-        expect(c2).to.not.be.null;
-        expect(c2.id).to.be.uuid;
-        expect(c2.status).to.have.length(0);
-
-        expect(c3).to.not.be.null;
-        expect(c3.id).to.be.uuid;
-        expect(c3.status).to.have.length(1);
-        expect(c3.status[0]).to.have.property('type', 'rejected');
-      });
-    });
-
+  beforeEach(() => {
+    return Promise.all([
+      Setting.create(settings),
+      Comment.create(comments),
+      User.createLocalUsers(users),
+      Action.create(actions)
+    ]);
   });
 
   describe('#findById()', () => {
-
     it('should find a comment by id', () => {
       return Comment.findById('1').then((result) => {
         expect(result).to.not.be.null;
         expect(result).to.have.property('body', 'comment 10');
       });
     });
-
   });
 
   describe('#findByAssetId()', () => {
-
     it('should find an array of all comments by asset id', () => {
       return Comment.findByAssetId('123').then((result) => {
         expect(result).to.have.length(3);
@@ -157,7 +91,6 @@ describe('models.Comment', () => {
         expect(result[2]).to.have.property('body', 'comment 40');
       });
     });
-
     it('should find an array of accepted comments by asset id', () => {
       return Comment.findAcceptedByAssetId('123').then((result) => {
         expect(result).to.have.length(1);
@@ -168,7 +101,6 @@ describe('models.Comment', () => {
         expect(result[0]).to.have.property('body', 'comment 20');
       });
     });
-
     it('should find an array of new and accepted comments by asset id', () => {
       return Comment.findAcceptedAndNewByAssetId('123').then((result) => {
         expect(result).to.have.length(2);
@@ -180,16 +112,13 @@ describe('models.Comment', () => {
       });
     });
   });
-
   describe('#moderationQueue()', () => {
-
     it('should find an array of new comments to moderate when pre-moderation', () => {
       return Comment.moderationQueue('pre').then((result) => {
         expect(result).to.not.be.null;
         expect(result).to.have.lengthOf(2);
       });
     });
-
     it('should find an array of new comments to moderate when post-moderation', () => {
       return Comment.moderationQueue('post').then((result) => {
         expect(result).to.not.be.null;
@@ -197,56 +126,21 @@ describe('models.Comment', () => {
         expect(result[0]).to.have.property('body', 'comment 30');
       });
     });
-
+    // it('should fail when the moderation is not pre or post', () => {
+    //   return Comment.moderationQueue('any').catch(function(error) {
+    //     expect(error).to.not.be.null;
+    //   });
+    // });
   });
 
   describe('#removeAction', () => {
-
     it('should remove an action', () => {
-      return Comment.removeAction('3', '123', 'flag')
-        .then(() => {
-          return Action.findByItemIdArray(['123']);
-        })
-        .then((actions) => {
-          expect(actions.length).to.equal(0);
-        });
+      return Comment.removeAction('3', '123', 'flag').then(() => {
+        return Action.findByItemIdArray(['123']);
+      })
+      .then((actions) => {
+        expect(actions.length).to.equal(0);
+      });
     });
-  });
-
-  describe('#changeStatus', () => {
-
-    it('should change the status of a comment from no status', () => {
-      let comment_id = comments[0].id;
-
-      return Comment.findById(comment_id)
-        .then((c) => {
-          expect(c).to.have.property('status');
-          expect(c.status).to.have.length(0);
-
-          return Comment.pushStatus(comment_id, 'rejected', '123');
-        })
-        .then(() => Comment.findById(comment_id))
-        .then((c) => {
-          expect(c).to.have.property('status');
-          expect(c.status).to.have.length(1);
-          expect(c.status[0]).to.have.property('type', 'rejected');
-          expect(c.status[0]).to.have.property('assigned_by', '123');
-        });
-    });
-
-    it('should change the status of a comment from accepted', () => {
-      return Comment.pushStatus(comments[1].id, 'rejected', '123')
-        .then(() => Comment.findById(comments[1].id))
-        .then((c) => {
-          expect(c).to.have.property('status');
-          expect(c.status).to.have.length(2);
-          expect(c.status[0]).to.have.property('type', 'accepted');
-          expect(c.status[0]).to.have.property('assigned_by', null);
-
-          expect(c.status[1]).to.have.property('type', 'rejected');
-          expect(c.status[1]).to.have.property('assigned_by', '123');
-        });
-    });
-
   });
 });

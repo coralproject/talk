@@ -26,14 +26,14 @@ router.get('/', (req, res, next) => {
         return asset;
       }),
 
-    // Get the moderation setting from the settings.
-    Setting.retrieve()
+    // Get the public settings.
+    Setting.getPublicSettings()
   ])
   .then(([asset, settings]) => {
 
     // Merge the asset specific settings with the returned settings object in
     // the event that the asset that was returned also had settings.
-    if (asset && asset.settings) {
+    if (asset.settings) {
       settings = Object.assign({}, settings, asset.settings);
     }
 
@@ -70,7 +70,17 @@ router.get('/', (req, res, next) => {
     let users = userIDs.length > 0 ? User.findByIdArray(userIDs) : [];
 
     // Fetch the actions for pretty much everything at this point.
-    let actions = Action.getActionSummariesFromComments(asset.id, comments, req.user ? req.user.id : false);
+    let actions = Action.getActionSummaries(_.uniq([
+
+      // Actions can be on assets...
+      asset.id,
+
+      // Comments...
+      ...comments.map((comment) => comment.id),
+
+      // Or Authors...
+      ...userIDs
+    ]), req.user ? req.user.id : false);
 
     return Promise.all([
 
@@ -98,7 +108,7 @@ router.get('/', (req, res, next) => {
       comments,
       users,
       actions,
-      settings: Setting.public(settings)
+      settings
     });
   })
   .catch(error => {

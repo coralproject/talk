@@ -20,7 +20,7 @@ const wordlist = {
  */
 wordlist.init = () => {
   return Setting
-    .retrieve()
+    .getSettings()
     .then((settings) => {
 
       // Insert the settings wordlist.
