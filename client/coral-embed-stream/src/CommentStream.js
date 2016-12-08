@@ -132,7 +132,8 @@ class CommentStream extends Component {
                           updateItem={this.props.updateItem}
                           id={commentId}
                           currentUser={this.props.auth.user}
-                          showReply={comment.showReply}/>
+                          showReply={comment.showReply}
+                          banned={banned}/>
                         <LikeButton
                           addNotification={this.props.addNotification}
                           id={commentId}
@@ -142,7 +143,8 @@ class CommentStream extends Component {
                           deleteAction={this.props.deleteAction}
                           addItem={this.props.addItem}
                           updateItem={this.props.updateItem}
-                          currentUser={this.props.auth.user}/>
+                          currentUser={this.props.auth.user}
+                          banned={banned}/>
                       </div>
                       <div className="commentActionsRight">
                         <FlagButton
@@ -154,6 +156,7 @@ class CommentStream extends Component {
                           addItem={this.props.addItem}
                           showSignInDialog={this.props.showSignInDialog}
                           updateItem={this.props.updateItem}
+                          banned={banned}
                           currentUser={this.props.auth.user}/>
                         <PermalinkButton
                           commentId={commentId}
