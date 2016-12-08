@@ -1,10 +1,17 @@
 const nodemailer = require('nodemailer');
 
-if (!process.env.TALK_SMTP_CONNECTION_URL) {
-  console.error('TALK_SMTP_CONNECTION_URL should be defined if you would like to send password reset emails from Talk');
+if (!process.env.TALK_SMTP_USERNAME || !process.env.TALK_SMTP_PASSWORD) {
+  console.error('TALK_SMTP_USERNAME and TALK_SMTP_PASSWORD should be defined if you would like to send password reset emails from Talk');
 }
 
-const defaultTransporter = nodemailer.createTransport(process.env.TALK_SMTP_CONNECTION_URL);
+const defaultTransporter = nodemailer.createTransport({
+  // https://github.com/nodemailer/nodemailer-wellknown#supported-services
+  service: 'SendGrid',
+  auth: {
+    user: process.env.TALK_SMTP_USERNAME,
+    pass: process.env.TALK_SMTP_PASSWORD
+  }
+});
 
 const mailer = {
 
