@@ -6,7 +6,7 @@
     "name": "Name",
     "comment-post-notif": "Your comment has been posted.",
     "comment-post-notif-premod": "Thank you for posting. Our moderation team will review your comment shortly.",
-    "comment-post-banned-word":  "Your comment contains one or more words which we do not allow. It has been sent to the moderation team for review."
+    "comment-post-banned-word":  "Your comment contains one or more words that are not permitted, so it will not be published. If you think this message is incorrect, please contact our moderation team."
   },
   "es": {
     "post": "Publicar",
@@ -15,6 +15,6 @@
     "name": "Nombre",
     "comment-post-notif": "Tu comentario ha sido publicado.",
     "comment-post-notif-premod": "Gracias por comentar. Nuestro equipo de moderación va a revisarlo muy pronto.",
-    "comment-post-banned-word":  "Tu comentario contiene una o más palabras que son sensibles a nuestros filtros. Ha sido enviado a nuestro equipo de moderación para que lo revisen."
+    "comment-post-banned-word":  "Tu comentario contiene una o más palabras que no estan permitidasen nuestro espacio, por lo que no será publicado. Si crees que es un error, por favor contacta a nuestro equipo de moderación."
   }
 }
