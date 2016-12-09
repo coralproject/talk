@@ -17,6 +17,7 @@ class FlagButton extends Component {
     step: 1
   }
 
+  // When the "report" button is clicked expand the menu
   onReportClick = () => {
     if (!this.props.currentUser) {
       const offset = document.getElementById(`c_${this.props.id}`).getBoundingClientRect().top - 75;
@@ -30,11 +31,23 @@ class FlagButton extends Component {
     const {postAction, addItem, updateItem, flag, id, author_id} = this.props;
     const {itemType, field, detail, step, otherText} = this.state;
 
+    //Proceed to the next step
     this.setState({step: step + 1});
 
+    // If itemType and detail are both set, post the action
     if (itemType && detail) {
+
+      // Set the text from the "other" field if it exists.
       const updatedDetail = otherText || detail;
-      const item_id = itemType === 'comments' ? id : author_id;
+      let item_id;
+      switch(itemType) {
+      case 'comments':
+        item_id = id;
+        break;
+      case 'user':
+        item_id = author_id;
+        break;
+      }
       const action = {
         action_type: 'flag',
         field,
@@ -49,49 +62,10 @@ class FlagButton extends Component {
     }
   }
 
-  getPopupMenu = (step) => {
-    switch(step) {
-    case 1: {
-      return {
-        header: lang.t('step-1-header'),
-        options: [
-          {val: 'user', text: lang.t('flag-username')},
-          {val: 'comments', text: lang.t('flag-comment')}
-        ],
-        button: lang.t('continue'),
-        sets: 'itemType'
-      };
-    }
-    case 2: {
-      const options = this.state.itemType === 'comments' ?
-      [
-        {val: 'I don\'t agree with this comment', text: lang.t('no-agree-comment')},
-        {val: 'This comment is offensive', text: lang.t('comment-offensive')},
-        {val: 'This comment reveals personally identifiable infomration', text: lang.t('personal-info')},
-        {val: 'other', text: lang.t('other')}
-      ]
-      : [
-        {val: 'This username is offensive', text: lang.t('username-offensive')},
-        {val: 'I don\'t like this username', text: lang.t('no-like-username')},
-        {val: 'This looks like an ad/marketing', text: lang.t('marketing')},
-        {val: 'other', text: lang.t('other')}
-      ];
-      return {
-        header: lang.t('step-2-header'),
-        options,
-        button: lang.t('continue'),
-        sets: 'detail'
-      };
-    }
-    case 3: {
-      return {
-        header: lang.t('step-3-header'),
-        text: lang.t('thank-you')
-      };
-    }}
-  }
-
+  // When a popup option is clicked, update the state
   onPopupOptionClick = (sets) => (e) => {
+
+    // If the "other" option is clicked, show the other textbox
     if(sets === 'detail' && e.target.value === 'other') {
       this.setState({showOther: true});
     }
@@ -113,9 +87,9 @@ class FlagButton extends Component {
   }
 
   render () {
-    const {flag} = this.props;
+    const {flag, getPopupMenu} = this.props;
     const flagged = flag && flag.current_user;
-    const popupMenu = this.getPopupMenu(this.state.step);
+    const popupMenu = getPopupMenu(this.state.step, this.state.itemType);
 
     return <div className={`${name}-container`}>
       <button onClick={this.onReportClick} className={`${name}-button`}>

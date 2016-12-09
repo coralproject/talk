@@ -17,7 +17,7 @@ import PubDate from '../../coral-plugin-pubdate/PubDate';
 import Count from '../../coral-plugin-comment-count/CommentCount';
 import AuthorName from '../../coral-plugin-author-name/AuthorName';
 import {ReplyBox, ReplyButton} from '../../coral-plugin-replies';
-import FlagButton from '../../coral-plugin-flags/FlagButton';
+import FlagComment from '../../coral-plugin-flags/FlagComment';
 import LikeButton from '../../coral-plugin-likes/LikeButton';
 import PermalinkButton from '../../coral-plugin-permalinks/PermalinkButton';
 import SignInContainer from '../../coral-sign-in/containers/SignInContainer';
@@ -161,7 +161,7 @@ class CommentStream extends Component {
                           currentUser={this.props.auth.user}/>
                       </div>
                       <div className="commentActionsRight">
-                        <FlagButton
+                        <FlagComment
                           addNotification={this.props.addNotification}
                           id={commentId}
                           author_id={comment.author_id}
@@ -212,7 +212,7 @@ class CommentStream extends Component {
                                 currentUser={this.props.auth.user}/>
                             </div>
                             <div className="replyActionsRight">
-                              <FlagButton
+                              <FlagComment
                                 addNotification={this.props.addNotification}
                                 id={replyId}
                                 author_id={comment.author_id}
