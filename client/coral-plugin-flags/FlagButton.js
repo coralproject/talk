@@ -1,52 +1,197 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {I18n} from '../coral-framework';
 import translations from './translations.json';
+import {PopupMenu, Button} from 'coral-ui';
+import onClickOutside from 'react-onclickoutside';
 
 const name = 'coral-plugin-flags';
 
-const FlagButton = ({flag, id, postAction, deleteAction, addItem, showSignInDialog, updateItem, addNotification, currentUser, banned}) => {
-  const flagged = flag && flag.current_user;
-  const onFlagClick = () => {
-    if (!currentUser) {
-      const offset = document.getElementById(`c_${id}`).getBoundingClientRect().top - 75;
-      showSignInDialog(offset);
+class FlagButton extends Component {
+
+  state = {
+    showMenu: false,
+    showOther: false,
+    itemType: '',
+    detail: '',
+    otherText: '',
+    step: 0,
+    posted: false
+  }
+
+  onReportClick = () => {
+    if (!this.props.currentUser) {
+      const offset = document.getElementById(`c_${this.props.id}`).getBoundingClientRect().top - 75;
+      this.props.showSignInDialog(offset);
       return;
     }
-    if (banned) {
-      return;
+    this.setState({showMenu: !this.state.showMenu});
+  }
+
+  onPopupContinue = () => {
+    const {postAction, addItem, updateItem, flag, id, author_id} = this.props;
+    const {itemType, field, detail, step, otherText, posted} = this.state;
+
+    if (step + 1 >= this.getPopupMenu.length) {
+      this.setState({showMenu: false});
+    } else {
+      this.setState({step: step + 1});
     }
-    if (!flagged) {
-      postAction(id, 'flag', currentUser.id, 'comments')
+
+    if (itemType && detail && !posted) {
+      const updatedDetail = otherText || detail;
+      const item_id = itemType === 'comments' ? id : author_id;
+      const action = {
+        action_type: 'flag',
+        field,
+        detail: updatedDetail
+      };
+      postAction(item_id, itemType, action)
         .then((action) => {
           let id = `${action.action_type}_${action.item_id}`;
           addItem({id, current_user: action, count: flag ? flag.count + 1 : 1}, 'actions');
-          updateItem(action.item_id, action.action_type, id, 'comments');
+          updateItem(action.item_id, action.action_type, id, action.item_type);
+          this.setState({posted: true});
         });
-      addNotification('success', lang.t('flag-notif'));
-    } else {
-      deleteAction(flagged.id)
-        .then(() => {
-          updateItem(id, 'flag', '', 'comments');
-        });
-      addNotification('success', lang.t('flag-notif-remove'));
     }
-  };
+  }
 
-  return <div className={`${name}-container`}>
-    <button onClick={onFlagClick} className={`${name}-button`}>
+  getPopupMenu = [
+    () => {
+      return {
+        header: lang.t('step-1-header'),
+        options: [
+          {val: 'user', text: lang.t('flag-username')},
+          {val: 'comments', text: lang.t('flag-comment')}
+        ],
+        button: lang.t('continue'),
+        sets: 'itemType'
+      };
+    },
+    (itemType) => {
+      const options = itemType === 'comments' ?
+      [
+        {val: 'I don\'t agree with this comment', text: lang.t('no-agree-comment')},
+        {val: 'This comment is offensive', text: lang.t('comment-offensive')},
+        {val: 'This comment reveals personally identifiable infomration', text: lang.t('personal-info')},
+        {val: 'other', text: lang.t('other')}
+      ]
+      : [
+        {val: 'This username is offensive', text: lang.t('username-offensive')},
+        {val: 'I don\'t like this username', text: lang.t('no-like-username')},
+        {val: 'This looks like an ad/marketing', text: lang.t('marketing')},
+        {val: 'other', text: lang.t('other')}
+      ];
+      return {
+        header: lang.t('step-2-header'),
+        options,
+        button: lang.t('continue'),
+        sets: 'detail'
+      };
+    },
+    () =>  {
+      return {
+        header: lang.t('step-3-header'),
+        text: lang.t('thank-you'),
+        button: lang.t('done'),
+      };
+    }
+  ]
+
+  onPopupOptionClick = (sets) => (e) => {
+    if(sets === 'detail' && e.target.value === 'other') {
+      this.setState({showOther: true});
+    }
+
+    // If flagging a user, indicate that this is referencing the username rather than the bio
+    if(sets === 'itemType' && e.target.value === 'user') {
+      this.setState({field: 'username'});
+    }
+
+    this.setState({[sets]: e.target.value});
+  }
+
+  onOtherTextChange = (e) => {
+    this.setState({otherText: e.target.value});
+  }
+
+  handleClickOutside () {
+    this.setState({showMenu: false});
+  }
+
+  render () {
+    const {flag} = this.props;
+    const flagged = flag && flag.current_user;
+    const popupMenu = this.getPopupMenu[this.state.step](this.state.itemType);
+
+    return <div className={`${name}-container`}>
+      <button onClick={this.onReportClick} className={`${name}-button`}>
+        {
+          flagged
+          ? <span className={`${name}-button-text`}>{lang.t('reported')}</span>
+        : <span className={`${name}-button-text`}>{lang.t('report')}</span>
+        }
+        <i className={`${name}-icon material-icons ${flagged && 'flaggedIcon'}`}
+          style={flagged ? styles.flaggedIcon : {}}
+          aria-hidden={true}>flag</i>
+      </button>
       {
-        flagged
-        ? <span className={`${name}-button-text`}>{lang.t('flagged')}</span>
-      : <span className={`${name}-button-text`}>{lang.t('flag')}</span>
+        this.state.showMenu &&
+        <div className={`${name}-popup`}>
+          <PopupMenu>
+            <div className={`${name}-popup-header`}>{popupMenu.header}</div>
+            {
+              popupMenu.text &&
+              <div className={`${name}-popup-text`}>{popupMenu.text}</div>
+            }
+            {
+              popupMenu.options && <form className={`${name}-popup-form`}>
+                {
+                  popupMenu.options.map((option) =>
+                    <div key={option.val}>
+                      <input
+                        className={`${name}-popup-radio`}
+                        type="radio"
+                        id={option.val}
+                        checked={this.state[popupMenu.sets] === option.val}
+                        onClick={this.onPopupOptionClick(popupMenu.sets)}
+                        value={option.val}/>
+                      <label htmlFor={option.val} className={`${name}-popup-radio-label`}>{option.text}</label><br/>
+                    </div>
+                  )
+                }
+                {
+                  this.state.showOther && <div>
+                    <input
+                      className={`${name}-other-text`}
+                      type="text"
+                      id="otherText"
+                      onChange={this.onOtherTextChange}
+                      value={this.state.otherText}/>
+                    <label htmlFor={'otherText'} className={`${name}-popup-radio-label screen-reader-text`}>
+                      lang.t('flag-reason')
+                    </label><br/>
+                  </div>
+                }
+              </form>
+            }
+            <div className={`${name}-popup-counter`}>
+              {this.state.step + 1} of {this.getPopupMenu.length}
+            </div>
+            {
+              popupMenu.button && <Button
+              className={`${name}-popup-button`}
+              onClick={this.onPopupContinue}>
+                {popupMenu.button}
+              </Button>
+            }
+          </PopupMenu>
+        </div>
       }
-      <i className={`${name}-icon material-icons ${flagged && 'flaggedIcon'}`}
-        style={flagged ? styles.flaggedIcon : {}}
-        aria-hidden={true}>flag</i>
-    </button>
-  </div>;
-};
+    </div>;
+  }
+}
 
-export default FlagButton;
+export default onClickOutside(FlagButton);
 
 const styles = {
   flaggedIcon: {

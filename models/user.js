@@ -3,6 +3,7 @@ const uuid = require('uuid');
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Action = require('./action');
 
 const Comment = require('./comment');
 
@@ -596,3 +597,19 @@ UserService.addBio = (id, bio) => (
     new: true
   })
 );
+
+/**
+ * Add an action to the user.
+ * @param {String} item_id  identifier of the user  (uuid)
+ * @param {String} user_id  user id of the action (uuid)
+ * @param {String} action the new action to the user
+ * @return {Promise}
+ */
+UserService.addAction = (item_id, user_id, action_type, field, detail) => Action.insertUserAction({
+  item_id,
+  item_type: 'comment',
+  user_id,
+  action_type,
+  field,
+  detail
+});

@@ -158,4 +158,21 @@ router.put('/:user_id/bio', (req, res, next) => {
     });
 });
 
+router.post('/:user_id/actions',  authorization.needed(), (req, res, next) => {
+  const {
+    action_type,
+    field,
+    detail
+  } = req.body;
+
+  User
+    .addAction(req.params.user_id, req.user.id, action_type, field, detail)
+    .then((action) => {
+      res.status(201).json(action);
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
 module.exports = router;

@@ -90,8 +90,8 @@ class CommentStream extends Component {
     const rootItemId = this.props.items.assets && Object.keys(this.props.items.assets)[0];
     const rootItem = this.props.items.assets && this.props.items.assets[rootItemId];
     const {actions, users, comments} = this.props.items;
+    const {status, moderation, closedMessage} = this.props.config;
     const {loggedIn, user, showSignInDialog, signInOffset} = this.props.auth;
-    const {status, closedMessage} = this.props.config;
     const {activeTab} = this.state;
     const banned = (this.props.userData.status === 'banned');
 
@@ -123,7 +123,7 @@ class CommentStream extends Component {
                         appendItemArray={this.props.appendItemArray}
                         updateItem={this.props.updateItem}
                         id={rootItemId}
-                        premod={this.props.config.moderation}
+                        premod={moderation}
                         reply={false}
                         currentUser={this.props.auth.user}
                         banned={banned}
@@ -165,6 +165,7 @@ class CommentStream extends Component {
                         <FlagButton
                           addNotification={this.props.addNotification}
                           id={commentId}
+                          author_id={comment.author_id}
                           flag={actions[comment.flag]}
                           postAction={this.props.postAction}
                           deleteAction={this.props.deleteAction}
@@ -185,8 +186,8 @@ class CommentStream extends Component {
                         id={rootItemId}
                         author={user}
                         parent_id={commentId}
-                        currentUser={this.props.auth.user}
-                        premod={this.props.config.moderation}
+                        premod={moderation}
+                        currentUser={user}
                         showReply={comment.showReply}/>
                       {
                         comment.children &&
@@ -220,7 +221,8 @@ class CommentStream extends Component {
                               <FlagButton
                                 addNotification={this.props.addNotification}
                                 id={replyId}
-                                flag={this.props.items.actions[reply.flag]}
+                                author_id={comment.author_id}
+                                flag={actions[reply.flag]}
                                 postAction={this.props.postAction}
                                 showSignInDialog={this.props.showSignInDialog}
                                 deleteAction={this.props.deleteAction}
@@ -242,9 +244,9 @@ class CommentStream extends Component {
                               author={user}
                               parent_id={commentId}
                               child_id={replyId}
-                              premod={this.props.config.moderation}
+                              premod={moderation}
                               banned={banned}
-                              currentUser={this.props.auth.user}
+                              currentUser={user}
                               showReply={reply.showReply}/>
                           </div>;
                         })
@@ -295,14 +297,14 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addItem: (item, itemType) => dispatch(addItem(item, itemType)),
+  addItem: (item, item_id) => dispatch(addItem(item, item_id)),
   updateItem: (id, property, value, itemType) => dispatch(updateItem(id, property, value, itemType)),
   postItem: (data, type, id) => dispatch(postItem(data, type, id)),
   getStream: (rootId) => dispatch(getStream(rootId)),
   addNotification: (type, text) => dispatch(addNotification(type, text)),
   clearNotification: () => dispatch(clearNotification()),
+  postAction: (item, itemType, action) => dispatch(postAction(item, itemType, action)),
   showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),
-  postAction: (item, action, user, itemType) => dispatch(postAction(item, action, user, itemType)),
   deleteAction: (item, action, user, itemType) => dispatch(deleteAction(item, action, user, itemType)),
   appendItemArray: (item, property, value, addToFront, itemType) => dispatch(appendItemArray(item, property, value, addToFront, itemType)),
   handleSignInDialog: () => dispatch(authActions.showSignInDialog()),

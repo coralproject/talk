@@ -197,6 +197,50 @@ hr {
   margin: 8px;
 }
 
+/* Flag Styles */
+
+.coral-plugin-flags-popup span {
+  min-width: 100px;
+  bottom: 36px;
+  right: 75px;
+  position: absolute;
+}
+
+.coral-plugin-flags-popup-form {
+  margin-bottom: 10px;
+}
+
+.coral-plugin-flags-popup-header {
+  font-weight: bolder;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.coral-plugin-flags-popup-radio {
+  margin:5px;
+}
+
+.coral-plugin-flags-popup-radio-label {
+  margin:5px;
+  font-size: 14px;
+}
+
+.coral-plugin-flags-popup-counter {
+    float: left;
+    margin-top: 21px;
+    color: #999;
+}
+
+.coral-plugin-flags-popup-button {
+    float: right;
+    margin-top: 10px;
+}
+
+.coral-plugin-flags-other-text {
+  margin-left: 20px;
+  width: 75%;
+}
+
 /* Close comments */
 
 .close-comments-intro-wrapper {
