@@ -1,4 +1,6 @@
 # Talk [![CircleCI](https://circleci.com/gh/coralproject/talk.svg?style=svg)](https://circleci.com/gh/coralproject/talk)
+
+[![Join the chat at https://gitter.im/coralproject/talk](https://badges.gitter.im/coralproject/talk.svg)](https://gitter.im/coralproject/talk?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 A commenting platform from The Coral Project. [https://coralproject.net](https://coralproject.net)
 
 ## Contributing to Talk
