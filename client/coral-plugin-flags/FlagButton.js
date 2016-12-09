@@ -33,7 +33,7 @@ class FlagButton extends Component {
     const {itemType, field, detail, step, otherText, posted} = this.state;
 
     //Proceed to the next step or close the menu if we've reached the end
-    if (step + 1 >= this.getPopupMenu.length) {
+    if (step + 1 >= this.props.getPopupMenu.length) {
       this.setState({showMenu: false});
     } else {
       this.setState({step: step + 1});
@@ -77,6 +77,15 @@ class FlagButton extends Component {
     // If flagging a user, indicate that this is referencing the username rather than the bio
     if(sets === 'itemType' && e.target.value === 'user') {
       this.setState({field: 'username'});
+    }
+
+    // Set itemType and field if they are defined in the popupMenu
+    const currentMenu = this.props.getPopupMenu[this.state.step]();
+    if (currentMenu.itemType) {
+      this.setState({itemType: currentMenu.itemType});
+    }
+    if (currentMenu.field) {
+      this.setState({field: currentMenu.field});
     }
 
     this.setState({[sets]: e.target.value});
@@ -147,7 +156,7 @@ class FlagButton extends Component {
               </form>
             }
             <div className={`${name}-popup-counter`}>
-              {this.state.step + 1} of {this.getPopupMenu.length}
+              {this.state.step + 1} of {getPopupMenu.length}
             </div>
             {
               popupMenu.button && <Button

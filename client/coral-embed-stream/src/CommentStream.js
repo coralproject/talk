@@ -139,7 +139,17 @@ class CommentStream extends Component {
                     const comment = comments[commentId];
                     return <div className="comment" key={commentId} id={`c_${commentId}`}>
                       <hr aria-hidden={true}/>
-                      <AuthorName author={users[comment.author_id]}/>
+                      <AuthorName
+                        author={users[comment.author_id]}
+                        addNotification={this.props.addNotification}
+                        id={commentId}
+                        author_id={comment.author_id}
+                        postAction={this.props.postAction}
+                        showSignInDialog={this.props.showSignInDialog}
+                        deleteAction={this.props.deleteAction}
+                        addItem={this.props.addItem}
+                        updateItem={this.props.updateItem}
+                        currentUser={this.props.auth.user}/>
                       <PubDate created_at={comment.created_at}/>
                       <Content body={comment.body}/>
                       <div className="commentActionsLeft">
