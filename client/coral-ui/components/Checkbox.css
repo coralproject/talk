@@ -1,0 +1,70 @@
+.label {
+  position: relative;
+  display: inline-block;
+}
+
+.label input {
+  visibility: hidden;
+  position: absolute;
+  left: 7px;
+  bottom: 7px;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.checkbox {
+  cursor: pointer;
+}
+
+.label input[type="checkbox"]:checked + .checkbox:before {
+  content: "\e834";
+}
+
+.label input[type="checkbox"] + .checkbox:before {
+  content: "\e835";
+  color: #717171;
+}
+
+.label.type--green input[type="checkbox"] + .checkbox:before {
+  color: #00a291;
+}
+
+.label input[type="checkbox"] + .checkbox:before {
+  position: absolute;
+  left: 4px;
+  top: 0px;
+  width: 18px;
+  height: 18px;
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  vertical-align: -6px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+  -webkit-transition: all .2s ease;
+  transition: all .2s ease;
+  z-index: 1;
+}
+
+.checkboxInfo {
+  display: inline-block;
+  max-width: 360px;
+  margin-left: 50px;
+}
+
+.checkboxInfo h4 {
+  margin: 0 0 5px;
+}
