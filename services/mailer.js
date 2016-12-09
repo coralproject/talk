@@ -3,7 +3,7 @@ const nodemailer = require('nodemailer');
 const smtpRequiredProps = [
   'TALK_SMTP_USERNAME',
   'TALK_SMTP_PASSWORD',
-  'TALK_SMTP_PROVIDER'
+  'TALK_SMTP_HOST'
 ];
 
 smtpRequiredProps.forEach(prop => {
@@ -13,9 +13,7 @@ smtpRequiredProps.forEach(prop => {
 });
 
 const options = {
-  // list of providers here:
-  // https://github.com/nodemailer/nodemailer-wellknown#supported-services
-  service: process.env.TALK_SMTP_PROVIDER,
+  host: process.env.TALK_SMTP_HOST,
   auth: {
     user: process.env.TALK_SMTP_USERNAME,
     pass: process.env.TALK_SMTP_PASSWORD
@@ -24,10 +22,8 @@ const options = {
 
 if (process.env.TALK_SMTP_PORT) {
   options.port = process.env.TALK_SMTP_PORT;
-}
-
-if (process.env.TALK_SMTP_HOST) {
-  options.host = process.env.TALK_SMTP_HOST;
+} else {
+  options.port = 25;
 }
 
 const defaultTransporter = nodemailer.createTransport(options);
