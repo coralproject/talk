@@ -14,18 +14,19 @@ const linkify = new Linkify();
 
 // Render a single comment for the list
 export default props => {
-  const authorStatus = props.author.get('status');
-  const {comment, author} = props;
-  const links = linkify.getMatches(comment.get('body'));
+  const comment = props.comment.toJS();
+  const author = props.author.toJS();
+  let authorStatus = author.status;
+  const links = linkify.getMatches(comment.body);
 
   return (
     <li tabIndex={props.index} className={`${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
       <div className={styles.itemHeader}>
         <div className={styles.author}>
           <i className={`material-icons ${styles.avatar}`}>person</i>
-          <span>{author.get('displayName') || lang.t('comment.anon')}</span>
-          <span className={styles.created}>{timeago().format(comment.get('createdAt') || (Date.now() - props.index * 60 * 1000), lang.getLocale().replace('-', '_'))}</span>
-          {comment.get('flagged') ? <p className={styles.flagged}>{lang.t('comment.flagged')}</p> : null}
+          <span>{author.displayName || lang.t('comment.anon')}</span>
+          <span className={styles.created}>{timeago().format(comment.createdAt || (Date.now() - props.index * 60 * 1000), lang.getLocale().replace('-', '_'))}</span>
+          {comment.flagged ? <p className={styles.flagged}>{lang.t('comment.flagged')}</p> : null}
         </div>
         <div>
           {links ?
@@ -42,7 +43,7 @@ export default props => {
       <div className={styles.itemBody}>
         <span className={styles.body}>
           <Linkify  component='span' properties={{style: linkStyles}}>
-            {comment.get('body')}
+            {comment.body}
           </Linkify>
         </span>
       </div>
@@ -52,9 +53,11 @@ export default props => {
 
 // Get the button of the action performed over a comment if any
 const getActionButton = (action, i, props) => {
-  const status = props.comment.get('status');
-  const flagged = props.comment.get('flagged');
-  const banned = (props.author.get('status') === 'banned');
+  const comment = props.comment.toJS();
+  const author = props.author.toJS();
+  const status = comment.status;
+  const flagged = comment.flagged;
+  const banned = (author.status === 'banned');
 
   if (action === 'flag' && (status || flagged === true)) {
     return null;
@@ -64,7 +67,7 @@ const getActionButton = (action, i, props) => {
       <Button
         disabled={banned ? 'disabled' : ''}
         cStyle='black'
-        onClick={() => props.onClickShowBanDialog(props.author.get('id'), props.author.get('displayName'), props.comment.get('id'))}
+        onClick={() => props.onClickShowBanDialog(author.id, author.displayName, comment.id)}
         key={i} >
         {lang.t('comment.ban_user')}
       </Button>
@@ -74,7 +77,7 @@ const getActionButton = (action, i, props) => {
     <FabButton icon={props.actionsMap[action].icon} className={styles.actionButton}
       cStyle={action}
       key={i}
-      onClick={() => props.onClickAction(props.actionsMap[action].status, props.comment.get('id'))}
+      onClick={() => props.onClickAction(props.actionsMap[action].status, comment.id)}
     />
   );
 };
