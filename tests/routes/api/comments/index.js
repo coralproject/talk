@@ -19,6 +19,7 @@ const settings = {id: '1', moderation: 'pre'};
 
 describe('/api/v1/comments', () => {
 
+  // Ensure that the settings are always available.
   beforeEach(() => Promise.all([
     wordlist.insert(['bad words']),
     Setting.init(settings)
@@ -143,11 +144,19 @@ describe('/api/v1/comments', () => {
 
   describe('#post', () => {
 
+    let asset_id;
+
+    beforeEach(() => Asset.findOrCreateByUrl('https://coralproject.net/section/article-is-the-best').then((asset) => {
+
+      // Update the asset id.
+      asset_id = asset.id;
+    }));
+
     it('should create a comment', () => {
       return chai.request(app)
         .post('/api/v1/comments')
         .set(passport.inject({roles: []}))
-        .send({'body': 'Something body.', 'author_id': '123', 'asset_id': '1', 'parent_id': ''})
+        .send({'body': 'Something body.', 'author_id': '123', 'asset_id': asset_id, 'parent_id': ''})
         .then((res) => {
           expect(res).to.have.status(201);
           expect(res.body).to.have.property('id');
@@ -158,7 +167,7 @@ describe('/api/v1/comments', () => {
       return chai.request(app)
         .post('/api/v1/comments')
         .set(passport.inject({roles: []}))
-        .send({'body': 'bad words are the baddest', 'author_id': '123', 'asset_id': '1', 'parent_id': ''})
+        .send({'body': 'bad words are the baddest', 'author_id': '123', 'asset_id': asset_id, 'parent_id': ''})
         .then((res) => {
           expect(res).to.have.status(201);
           expect(res.body).to.have.property('id');
@@ -186,6 +195,43 @@ describe('/api/v1/comments', () => {
           expect(res.body).to.have.property('asset_id');
           expect(res.body).to.have.property('status', 'premod');
         });
+    });
+
+    it('shouldn\'t create a comment when the asset has expired commenting', () => {
+      return Asset.create({
+        closedAt: new Date().setDate(0),
+        closedMessage: 'tests said expired!'
+      })
+      .then((asset) => {
+        return chai.request(app)
+          .post('/api/v1/comments')
+          .set(passport.inject({roles: []}))
+          .send({'body': 'Something body.', 'author_id': '123', 'asset_id': asset.id, 'parent_id': ''});
+      })
+      .then((res) => {
+        expect(res).to.have.status(500);
+      })
+      .catch((err) => {
+        expect(err.response.body).to.not.be.null;
+        expect(err.response.body).to.have.property('message');
+        expect(err.response.body.message).to.contain('tests said expired!');
+      });
+    });
+
+    it('should create a comment when the asset has not expired yet', () => {
+      return Asset.create({
+        closedAt: new Date().setDate(32),
+        closedMessage: 'tests said expired!'
+      })
+      .then((asset) => {
+        return chai.request(app)
+          .post('/api/v1/comments')
+          .set(passport.inject({roles: []}))
+          .send({'body': 'Something body.', 'author_id': '123', 'asset_id': asset.id, 'parent_id': ''});
+      })
+      .then((res) => {
+        expect(res).to.have.status(201);
+      });
     });
   });
 });
