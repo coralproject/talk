@@ -1,4 +1,6 @@
 const User = require('../../models/user');
+const Comment = require('../../models/comment');
+
 const expect = require('chai').expect;
 
 describe('models.User', () => {
@@ -76,5 +78,91 @@ describe('models.User', () => {
         });
     });
 
+  });
+
+  describe('#setStatus', () => {
+    it('should set the status to active', () => {
+      return User
+        .setStatus(mockUsers[0].id, 'active')
+        .then(() => {
+          User.findById(mockUsers[0].id)
+          .then((user) => {
+            expect(user).to.have.property('status')
+              .and.to.equal('active');
+          });
+        });
+    });
+  });
+
+  describe('#ban', () => {
+    let mockComment;
+    beforeEach(() => {
+      return Promise.all([
+        Comment.create([{body: 'testing the comment for that user if it is rejected.', id: mockUsers[0].id}])
+      ])
+      .then((comment) => {
+        mockComment = comment;
+      });
+    });
+
+    it('should set the status to banned', () => {
+      return User
+        .setStatus(mockUsers[0].id, 'banned', mockComment.id)
+        .then(() => {
+          User.findById(mockUsers[0].id)
+          .then((user) => {
+            expect(user).to.have.property('status')
+              .and.to.equal('banned');
+          });
+        });
+    });
+
+    it('should set the comment to rejected', () => {
+      return User
+        .setStatus(mockUsers[0].id, 'banned', mockComment.id)
+        .then(() => {
+          Comment.findById(mockComment.id)
+          .then((comment) => {
+            expect(comment).to.have.property('status')
+              .and.to.equal('rejected');
+          });
+        });
+    });
+
+    it('should still disable and ban the user if there is no comment', () => {
+      return User
+        .setStatus(mockUsers[0].id, 'banned', '')
+        .then(() => {
+          User.findById(mockUsers[0].id)
+          .then((user) => {
+            expect(user).to.have.property('status')
+              .and.to.equal('banned');
+          });
+        });
+    });
+  });
+
+  describe('#unban', () => {
+    let mockComment;
+    beforeEach(() => {
+      return Promise.all([
+        Comment.create([{body: 'testing the comment for that user if it is rejected.', id: mockUsers[0].id}])
+      ])
+      .then((comment) => {
+        mockComment = comment;
+      });
+    });
+
+    it('should set the status to active', () => {
+      return User
+        .setStatus(mockUsers[0].id, 'active', mockComment.id)
+        .then(() => {
+          User.findById(mockUsers[0].id)
+          .then((user) => {
+            expect(user).to.have.property('status')
+              .and.to.equal('active');
+          });
+        });
+    });
   });
 });

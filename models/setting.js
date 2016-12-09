@@ -28,6 +28,16 @@ const SettingSchema = new Schema({
     type: String,
     default: ''
   },
+  closedTimeout: {
+    type: Number,
+
+    // Two weeks default expiry.
+    default: 60 * 60 * 24 * 7 * 2
+  },
+  closedMessage: {
+    type: String,
+    default: ''
+  },
   wordlist: [String]
 }, {
   timestamps: {

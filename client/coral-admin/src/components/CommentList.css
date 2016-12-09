@@ -122,10 +122,20 @@
 
 }
 
-
 .hasLinks {
   color: #f00;
   text-align: right;
+  display: flex;
+  align-items: center;
+
+  i {
+    margin-right: 5px;
+  }
+}
+
+.banned {
+  color: #f00;
+  text-align: left;
   display: flex;
   align-items: center;
 

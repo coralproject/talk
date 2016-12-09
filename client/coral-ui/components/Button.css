@@ -77,6 +77,16 @@
   background: #696969;
 }
 
+.type--green {
+  color: white;
+  background: #00897B;
+}
+
+.type--green:hover {
+  color: white;
+  background: #00a291;
+}
+
 .full {
   width: 100%;
   margin: 0;

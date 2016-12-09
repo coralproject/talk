@@ -1,0 +1,37 @@
+.container {
+  position: relative;
+}
+
+.apply {
+  position: absolute;
+  top: 38%;
+  transform: translateX(-50%);
+  right: 0;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul ul {
+  padding-left: 20px
+}
+
+.checkbox {
+  vertical-align: top;
+  margin: 12px 12px 12px 0;
+}
+
+h4 {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+p {
+  max-width: 380px;
+}
+
+.wrapper {
+  margin-bottom: 20px;
+}

@@ -82,18 +82,11 @@ router.post('/:asset_id/scrape', (req, res, next) => {
 });
 
 router.put('/:asset_id/settings', (req, res, next) => {
-
   // Override the settings for the asset.
   Asset
     .overrideSettings(req.params.asset_id, req.body)
-    .then(() => {
-
-      res.status(204).end();
-    })
-    .catch((err) => {
-      next(err);
-    });
-
+    .then(() => res.status(204).end())
+    .catch((err) => next(err));
 });
 
 router.put('/:asset_id/status', (req, res, next) => {
