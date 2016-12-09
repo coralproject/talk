@@ -50,8 +50,6 @@ export default props => {
   );
 };
 
-//return props.author.get('status') === 'banned' ? 'disabled' : 'raised';
-
 // Get the button of the action performed over a comment if any
 const getActionButton = (action, i, props) => {
   const status = props.comment.get('status');

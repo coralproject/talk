@@ -9,10 +9,8 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
 const lang = new I18n(translations);
 
-const BanUserDialog = ({open, handleClose, onClickBanUser, user}) => {
-  const userName = (typeof user === 'undefined') ? '' : user['userName'];
-  const userId = (typeof user === 'undefined') ? '' : user['userId'];
-  const commentId = (typeof user === 'undefined') ? '' : user['commentId'];
+const BanUserDialog = ({open, handleClose, onClickBanUser, user = {}}) => {
+  const {userName = '', userId = '', commentId = ''} = user;
 
   return (
     <Dialog className={styles.dialog} open={open} onClose={() => handleClose()} onCancel={() => handleClose()} title={lang.t('bandialog.ban_user')}>

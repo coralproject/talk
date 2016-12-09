@@ -51,7 +51,7 @@ router.post('/:user_id/status', (req, res, next) => {
   User
     .setStatus(req.params.user_id, req.body.status, req.body.comment_id)
     .then(status => {
-      res.send(status);
+      res.json(status);
     })
     .catch(next);
 });
