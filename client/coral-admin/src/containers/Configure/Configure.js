@@ -28,6 +28,7 @@ class Configure extends React.Component {
     // InfoBox has two settings. Enable or not and the content of it if it is enable.
     this.updateInfoBoxEnable = this.updateInfoBoxEnable.bind(this);
     this.updateInfoBoxContent = this.updateInfoBoxContent.bind(this);
+    this.updateClosedMessage = this.updateClosedMessage.bind(this);
 
     this.saveSettings = this.saveSettings.bind(this);
   }
@@ -49,6 +50,11 @@ class Configure extends React.Component {
   updateInfoBoxContent (event) {
     const infoBoxContent =  event.target.value;
     this.props.dispatch(updateSettings({infoBoxContent}));
+  }
+
+  updateClosedMessage (event) {
+    const closedMessage = event.target.value;
+    this.props.dispatch(updateSettings({closedMessage}));
   }
 
   saveSettings () {
@@ -76,6 +82,16 @@ class Configure extends React.Component {
           <p>
             {lang.t('configure.include-comment-stream-desc')}
           </p>
+        </ListItemContent>
+      </ListItem>
+      <ListItem className={styles.configSettingInfoBox}>
+        <ListItemContent>
+          {lang.t('configure.closed-comments-desc')}
+          <Textfield
+            onChange={this.updateClosedMessage}
+            value={this.props.settings.closedMessage}
+            label={lang.t('configure.closed-comments-label')}
+            rows={3}/>
         </ListItemContent>
       </ListItem>
       <ListItem className={`${styles.configSettingInfoBox} ${this.props.settings.infoBoxEnable ? null : styles.hidden}`} >
