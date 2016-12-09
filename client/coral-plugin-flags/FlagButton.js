@@ -14,7 +14,8 @@ class FlagButton extends Component {
     itemType: '',
     detail: '',
     otherText: '',
-    step: 0
+    step: 0,
+    posted: false
   }
 
   onReportClick = () => {
@@ -28,7 +29,7 @@ class FlagButton extends Component {
 
   onPopupContinue = () => {
     const {postAction, addItem, updateItem, flag, id, author_id} = this.props;
-    const {itemType, field, detail, step, otherText} = this.state;
+    const {itemType, field, detail, step, otherText, posted} = this.state;
 
     if (step + 1 >= this.getPopupMenu.length) {
       this.setState({showMenu: false});
@@ -36,7 +37,7 @@ class FlagButton extends Component {
       this.setState({step: step + 1});
     }
 
-    if (itemType && detail) {
+    if (itemType && detail && !posted) {
       const updatedDetail = otherText || detail;
       const item_id = itemType === 'comments' ? id : author_id;
       const action = {
@@ -49,6 +50,7 @@ class FlagButton extends Component {
           let id = `${action.action_type}_${action.item_id}`;
           addItem({id, current_user: action, count: flag ? flag.count + 1 : 1}, 'actions');
           updateItem(action.item_id, action.action_type, id, action.item_type);
+          this.setState({posted: true});
         });
     }
   }

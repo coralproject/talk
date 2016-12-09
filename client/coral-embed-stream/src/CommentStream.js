@@ -210,7 +210,7 @@ class CommentStream extends Component {
                                 addNotification={this.props.addNotification}
                                 id={replyId}
                                 author_id={comment.author_id}
-                                flag={this.props.items.actions[reply.flag]}
+                                flag={actions[reply.flag]}
                                 postAction={this.props.postAction}
                                 showSignInDialog={this.props.showSignInDialog}
                                 deleteAction={this.props.deleteAction}
