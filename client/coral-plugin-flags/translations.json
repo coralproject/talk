@@ -10,6 +10,7 @@
     "flag-username": "Flag username",
     "flag-comment": "Flag comment",
     "continue": "Continue",
+    "done": "Done",
     "no-agree-comment": "I don't agree with this comment",
     "comment-offensive": "This comment is offensive",
     "personal-info": "This comment reveals personally identifiable information",
@@ -31,6 +32,7 @@
     "flag-username": "¡traduceme!",
     "flag-comment": "¡traduceme!",
     "continue": "¡traduceme!",
+    "done": "¡traduceme!",
     "no-agree-comment": "¡traduceme!",
     "comment-offensive": "¡traduceme!",
     "personal-info": "¡traduceme!",
@@ -38,7 +40,7 @@
     "no-like-username": "¡traduceme!",
     "marketing": "¡traduceme!",
     "thank-you": "¡traduceme!",
-    "flag-reason": "Reason for flag",
+    "flag-reason": "¡traduceme!",
     "other": "¡traduceme!"
   }
 }

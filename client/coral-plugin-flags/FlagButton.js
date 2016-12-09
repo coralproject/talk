@@ -14,7 +14,7 @@ class FlagButton extends Component {
     itemType: '',
     detail: '',
     otherText: '',
-    step: 1
+    step: 0
   }
 
   onReportClick = () => {
@@ -30,7 +30,11 @@ class FlagButton extends Component {
     const {postAction, addItem, updateItem, flag, id, author_id} = this.props;
     const {itemType, field, detail, step, otherText} = this.state;
 
-    this.setState({step: step + 1});
+    if (step + 1 >= this.getPopupMenu.length) {
+      this.setState({showMenu: false});
+    } else {
+      this.setState({step: step + 1});
+    }
 
     if (itemType && detail) {
       const updatedDetail = otherText || detail;
@@ -49,9 +53,8 @@ class FlagButton extends Component {
     }
   }
 
-  getPopupMenu = (step) => {
-    switch(step) {
-    case 1: {
+  getPopupMenu = [
+    () => {
       return {
         header: lang.t('step-1-header'),
         options: [
@@ -61,9 +64,9 @@ class FlagButton extends Component {
         button: lang.t('continue'),
         sets: 'itemType'
       };
-    }
-    case 2: {
-      const options = this.state.itemType === 'comments' ?
+    },
+    (itemType) => {
+      const options = itemType === 'comments' ?
       [
         {val: 'I don\'t agree with this comment', text: lang.t('no-agree-comment')},
         {val: 'This comment is offensive', text: lang.t('comment-offensive')},
@@ -82,14 +85,15 @@ class FlagButton extends Component {
         button: lang.t('continue'),
         sets: 'detail'
       };
-    }
-    case 3: {
+    },
+    () =>  {
       return {
         header: lang.t('step-3-header'),
-        text: lang.t('thank-you')
+        text: lang.t('thank-you'),
+        button: lang.t('done'),
       };
-    }}
-  }
+    }
+  ]
 
   onPopupOptionClick = (sets) => (e) => {
     if(sets === 'detail' && e.target.value === 'other') {
@@ -115,7 +119,7 @@ class FlagButton extends Component {
   render () {
     const {flag} = this.props;
     const flagged = flag && flag.current_user;
-    const popupMenu = this.getPopupMenu(this.state.step);
+    const popupMenu = this.getPopupMenu[this.state.step](this.state.itemType);
 
     return <div className={`${name}-container`}>
       <button onClick={this.onReportClick} className={`${name}-button`}>
@@ -169,7 +173,7 @@ class FlagButton extends Component {
               </form>
             }
             <div className={`${name}-popup-counter`}>
-              {this.state.step} of 3
+              {this.state.step + 1} of {this.getPopupMenu.length}
             </div>
             {
               popupMenu.button && <Button
