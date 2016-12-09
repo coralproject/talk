@@ -1,5 +1,6 @@
 {
   "en": {
+    "successUpdateSettings": "The changes you have made have been applied to the comment stream on this article",
     "successBioUpdate": "Your Bio has been updated",
     "contentNotAvailable": "This content is not available",
     "suspendedAccountMsg": "Your account is currently suspended. This means that you cannot Like, Flag, or write comments. Please contact moderator@fakeurl.com for more information",
@@ -13,6 +14,7 @@
     }
   },
   "es": {
+    "successUpdateSettings": "La configuración de este articulo fue actualizada",
     "successBioUpdate": "Tu bio fue actualizada",
     "contentNotAvailable": "El contenido no se encuentra disponible",
     "suspendedAccountMsg": "Tu cuenta se encuentra suspendida. Esto significa que no puedes dar Like, Marcar o escribir commentarios. Por favor, contacta moderator@fakeurl for more information",

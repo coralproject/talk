@@ -45,6 +45,10 @@
   display: block;
 }
 
+.changedSave {
+  background-color:#4caf50;
+}
+
 .copiedText {
   color: #008000;
   float: right;
@@ -68,6 +72,19 @@
   font-size: 14px;
   letter-spacing: 0.03em;
 }
+
+#bannedWordlist {
+    width: 100%;
+    padding: 10px;
+}
+
+.bannedWordHeader {
+  font-weight: bold;
+  font-size:18px;
+  margin-bottom:3px;
+}
+
+
 
 .hidden {
   display: none;

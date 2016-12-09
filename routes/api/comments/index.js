@@ -108,7 +108,6 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
     author_id: req.user.id
   }))
   .then((comment) => {
-
     // The comment was created! Send back the created comment.
     res.status(201).json(comment);
   })

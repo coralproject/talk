@@ -131,7 +131,7 @@ describe('itemActions', () => {
               body: JSON.stringify(item.data)
             }
           );
-          expect(id).to.equal('123');
+          expect(id).to.deep.equal({id: '123'});
           expect(store.getActions()[0]).to.deep.equal({
             type: actions.ADD_ITEM,
             item: {
