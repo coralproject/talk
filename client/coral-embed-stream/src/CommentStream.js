@@ -96,7 +96,7 @@ class CommentStream extends Component {
     const rootItemId = this.props.items.assets && Object.keys(this.props.items.assets)[0];
     const rootItem = this.props.items.assets && this.props.items.assets[rootItemId];
     const {actions, users, comments} = this.props.items;
-    const {status, moderation} = this.props.config;
+    const {status, moderation, closedMessage} = this.props.config;
     const {loggedIn, user, showSignInDialog, signInOffset} = this.props.auth;
     const {activeTab} = this.state;
     const expandForLogin = showSignInDialog ? {
@@ -133,7 +133,7 @@ class CommentStream extends Component {
                         author={user}
                       />
                     </div>
-                  : <p>Comments are closed for this thread.</p>
+                  : <p>{closedMessage}</p>
                 }
                 {!loggedIn && <SignInContainer offset={signInOffset} />}
                 {

@@ -5,7 +5,8 @@ import * as actions from '../actions/config';
 
 const initialState = Map({
   features: Map({}),
-  status: 'open'
+  status: 'open',
+  closedMessage: ''
 });
 
 export default (state = initialState, action) => {

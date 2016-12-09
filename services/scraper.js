@@ -23,7 +23,7 @@ const scraper = {
           title: `Scrape for asset ${asset.id}`,
           asset_id: asset.id
         })
-        .attempts(10)
+        .attempts(3)
         .delay(1000)
         .backoff({type: 'exponential'})
         .save((err) => {
@@ -106,7 +106,7 @@ const scraper = {
 
         // Handle errors that occur.
         .catch((err) => {
-          console.error(`Failed to scrape on Job[${job.id}] for Asset[${job.data.asset_id}]:`, err);
+          debug(`Failed to scrape on Job[${job.id}] for Asset[${job.data.asset_id}]:`, err);
 
           done(err);
         });
