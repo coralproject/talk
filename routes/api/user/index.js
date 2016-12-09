@@ -27,7 +27,6 @@ router.get('/', authorization.needed('admin'), (req, res, next) => {
     User.count()
   ])
   .then(([result, count]) => {
-
     res.json({
       result,
       limit: Number(limit),
@@ -44,6 +43,15 @@ router.post('/:user_id/role', authorization.needed('admin'), (req, res, next) =>
     .addRoleToUser(req.params.user_id, req.body.role)
     .then(() => {
       res.status(204).end();
+    })
+    .catch(next);
+});
+
+router.post('/:user_id/status', (req, res, next) => {
+  User
+    .setStatus(req.params.user_id, req.body.status, req.body.comment_id)
+    .then(status => {
+      res.json(status);
     })
     .catch(next);
 });
