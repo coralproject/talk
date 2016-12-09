@@ -29,11 +29,6 @@ import RestrictedContent from '../../coral-framework/components/RestrictedConten
 import SuspendedAccount from '../../coral-framework/components/SuspendedAccount';
 import CloseCommentsInfo from '../../coral-framework/components/CloseCommentsInfo';
 
-const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appendItemArray} = itemActions;
-const {addNotification, clearNotification} = notificationActions;
-const {logout, showSignInDialog} = authActions;
-const {updateOpenStatus} = configActions;
-
 class CommentStream extends Component {
 
   constructor (props) {
@@ -59,8 +54,8 @@ class CommentStream extends Component {
 
   static propTypes = {
     items: PropTypes.object.isRequired,
-    addItem: PropTypes.func.isRequired,
-    updateItem: PropTypes.func.isRequired
+    auth: PropTypes.object.isRequired,
+    config: PropTypes.object.isRequired
   }
 
   componentDidMount () {
@@ -284,20 +279,14 @@ const mapStateToProps = state => ({
   userData: state.user.toJS()
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  addItem: (item, itemType) => dispatch(addItem(item, itemType)),
-  updateItem: (id, property, value, itemType) => dispatch(updateItem(id, property, value, itemType)),
-  postItem: (data, type, id) => dispatch(postItem(data, type, id)),
-  getStream: (rootId) => dispatch(getStream(rootId)),
-  addNotification: (type, text) => dispatch(addNotification(type, text)),
-  clearNotification: () => dispatch(clearNotification()),
-  showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),
-  postAction: (item, action, user, itemType) => dispatch(postAction(item, action, user, itemType)),
-  deleteAction: (item, action, user, itemType) => dispatch(deleteAction(item, action, user, itemType)),
-  appendItemArray: (item, property, value, addToFront, itemType) => dispatch(appendItemArray(item, property, value, addToFront, itemType)),
-  handleSignInDialog: () => dispatch(authActions.showSignInDialog()),
-  logout: () => dispatch(logout()),
-  updateStatus: status => dispatch(updateOpenStatus(status))
-});
+// Ties all imported actions to dispatch and makes them available in props.
+const mapDispatchToProps = (dispatch) => {
+  const actions = Object.assign({}, itemActions, notificationActions, authActions, configActions);
+
+  return Object.keys(actions).reduce((dispatchActions, key) => {
+    dispatchActions[key] = (...args) => dispatch(actions[key].apply(null, args));
+    return dispatchActions;
+  }, {});
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentStream);
