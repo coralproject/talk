@@ -1,21 +1,32 @@
 const express = require('express');
 const _ = require('lodash');
 const scraper = require('../../../services/scraper');
+const url = require('url');
 
 const Comment = require('../../../models/comment');
 const User = require('../../../models/user');
 const Action = require('../../../models/action');
 const Asset = require('../../../models/asset');
 const Setting = require('../../../models/setting');
+const ErrInvalidAssetURL = new Error('asset_url is invalid');
+ErrInvalidAssetURL.status = 400;
 
 const router = express.Router();
 
 router.get('/', (req, res, next) => {
 
+  let asset_url = decodeURIComponent(req.query.asset_url);
+
+  // Verify that the asset_url is parsable.
+  let parsed_asset_url = url.parse(asset_url);
+  if (!parsed_asset_url.protocol) {
+    return next(ErrInvalidAssetURL);
+  }
+
   // Get the asset_id for this url (or create it if it doesn't exist)
   Promise.all([
     // Find or create the asset by url.
-    Asset.findOrCreateByUrl(decodeURIComponent(req.query.asset_url))
+    Asset.findOrCreateByUrl(asset_url)
 
       // Add the found asset to the scraper if it's not already scraped.
       .then((asset) => {
@@ -34,7 +45,7 @@ router.get('/', (req, res, next) => {
     // Merge the asset specific settings with the returned settings object in
     // the event that the asset that was returned also had settings.
     if (asset && asset.settings) {
-      settings = Object.assign({}, settings, asset.settings);
+      settings.merge(asset.settings);
     }
 
     // Fetch the appropriate comments stream.
@@ -98,7 +109,7 @@ router.get('/', (req, res, next) => {
       comments,
       users,
       actions,
-      settings: Setting.public(settings)
+      settings
     });
   })
   .catch(error => {

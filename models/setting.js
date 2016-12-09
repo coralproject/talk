@@ -28,12 +28,58 @@ const SettingSchema = new Schema({
     type: String,
     default: ''
   },
+  closedTimeout: {
+    type: Number,
+
+    // Two weeks default expiry.
+    default: 60 * 60 * 24 * 7 * 2
+  },
+  closedMessage: {
+    type: String,
+    default: ''
+  },
   wordlist: [String]
 }, {
   timestamps: {
     createdAt: 'created_at',
     updatedAt: 'updated_at'
   }
+});
+
+/**
+ * toJSON provides settings overrides to this object's serialization methods.
+ */
+SettingSchema.options.toJSON = {};
+SettingSchema.options.toJSON.virtuals = true;
+
+/**
+ * Merges two settings objects.
+ */
+SettingSchema.method('merge', function(src) {
+  SettingSchema.eachPath((path) => {
+
+    // Exclude internal fields...
+    if (['id', '_id', '__v', 'created_at', 'updated_at'].includes(path)) {
+      return;
+    }
+
+    // If the source object contains the path, shallow copy it.
+    if (path in src) {
+      this[path] = src[path];
+    }
+  });
+});
+
+/**
+ * Filters the object for the given user only allowing those with the allowed
+ * roles/permissions to access particular parameters.
+ */
+SettingSchema.method('filterForUser', function(user = false) {
+  if (!user || !user.roles.includes('admin')) {
+    return _.pick(this.toJSON(), ['moderation', 'infoBoxEnable', 'infoBoxContent']);
+  }
+
+  return this.toJSON();
 });
 
 /**
@@ -62,7 +108,9 @@ const EXPIRY_TIME = 60 * 2;
  * Gets the entire settings record and sends it back
  * @return {Promise} settings the whole settings record
  */
-SettingService.retrieve = () => cache.wrap('settings', EXPIRY_TIME, () => Setting.findOne(selector));
+SettingService.retrieve = () => cache.wrap('settings', EXPIRY_TIME, () => {
+  return Setting.findOne(selector);
+}).then((setting) => new Setting(setting));
 
 /**
  * This will update the settings object with whatever you pass in
@@ -82,14 +130,6 @@ SettingService.update = (settings) => Setting.findOneAndUpdate(selector, {
     .set('settings', settings, EXPIRY_TIME)
     .then(() => settings);
 });
-
-/**
- * Filters the document to ensure that the resulting document is indeed ready
- * for non authenticated users.
- * @param  {Object} settings the source settings object
- * @return {Object}          the filtered settings object
- */
-SettingService.public = (settings) => _.pick(settings, ['moderation', 'infoBoxEnable', 'infoBoxContent']);
 
 /**
  * This is run once when the app starts to ensure settings are populated.
