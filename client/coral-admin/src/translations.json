@@ -102,8 +102,9 @@
       "copy-and-paste": "Copiar y pegar el código de más abajo en tu CMS para colocar la caja de comentarios en tus articulos",
       "moderate": "Moderar",
       "configure": "Configurar",
-<<<<<<< HEAD
-      "community": "Comunidad"
+      "community": "Comunidad",
+      "closed-comments-desc": "Escribe un mensaje para cuando los comentarios se encuentran cerrados",
+      "closed-comments-label": "Escribe un mensaje..."
     },
     "bandialog": {
       "ban_user": "Quieres suspender el Usuario?",
@@ -111,11 +112,6 @@
       "note": "Nota: Suspender este usuario también va a colocar este comentario en la cola de Rechazados.",
       "cancel": "Cancelar",
       "yes_ban_user": "Si, Suspendan el usuario"
-=======
-      "community": "Comunidad",
-      "closed-comments-desc": "Escribe un mensaje para cuando los comentarios se encuentran cerrados",
-      "closed-comments-label": "Escribe un mensaje..."
->>>>>>> master
     }
   }
 }
