@@ -5,6 +5,12 @@ const Setting = require('./setting');
 
 const uuid = require('uuid');
 
+// ASSET_STATUS is the array of status that is permissible as an asset status.
+const ASSET_STATUS = [
+  'open',
+  'closed'
+];
+
 const AssetSchema = new Schema({
   id: {
     type: String,
@@ -35,6 +41,10 @@ const AssetSchema = new Schema({
   section: String,
   subsection: String,
   author: String,
+  status: {
+    type: String,
+    default: 'open'
+  },
   publication_date: Date,
   modified_date: Date
 }, {
@@ -134,6 +144,20 @@ AssetSchema.statics.search = (value) => value.length === 0 ? Asset.find({}) : As
     $search: value
   }
 });
+
+AssetSchema.statics.changeStatus = (id, status) => {
+  // Check to see if the asset status is in the allowable set of statuses.
+  if (ASSET_STATUS.indexOf(status) === -1) {
+    // Asset status is not supported! Error out here.
+    return Promise.reject(new Error(`status ${status} is not supported`));
+  }
+
+  return Asset.update({id}, {
+    $set: {
+      status: status
+    }
+  });
+};
 
 const Asset = mongoose.model('Asset', AssetSchema);
 
