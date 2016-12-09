@@ -6,7 +6,8 @@ import ModerationKeysModal from 'components/ModerationKeysModal';
 import CommentList from 'components/CommentList';
 import BanUserDialog from 'components/BanUserDialog';
 
-import {updateStatus, showBanUserDialog, hideBanUserDialog, banUser} from 'actions/comments';
+import {updateStatus, showBanUserDialog, hideBanUserDialog} from 'actions/comments';
+import {banUser} from 'actions/users';
 import styles from './ModerationQueue.css';
 
 import I18n from 'coral-framework/modules/i18n/i18n';
