@@ -25,7 +25,7 @@ describe('/api/v1/stream', () => {
       body: 'comment 10',
       author_id: '',
       parent_id: '',
-      status: [{
+      status_history: [{
         type: 'accepted'
       }]
     }, {
@@ -33,21 +33,21 @@ describe('/api/v1/stream', () => {
       body: 'comment 20',
       author_id: '',
       parent_id: '',
-      status: []
+      status_history: []
     }, {
       id: 'uio',
       body: 'comment 30',
       asset_id: 'asset',
       author_id: '456',
       parent_id: '',
-      status: [{
+      status_history: [{
         type: 'accepted'
       }]
     }, {
       id: 'hij',
       body: 'comment 40',
       asset_id: '456',
-      status: [{
+      status_history: [{
         type: 'rejected'
       }]
     }];
@@ -116,6 +116,16 @@ describe('/api/v1/stream', () => {
         });
     });
 
+    it('should reject requests without a scheme in the asset_url', () => {
+      return chai.request(app)
+        .get('/api/v1/stream')
+        .query({asset_url: 'test.com'})
+        .catch((err) => {
+          expect(err).to.have.status(400);
+          expect(err.response.body.message).to.contain('asset_url is invalid');
+        });
+    });
+
     it('should merge the settings when the asset contains settings to override it with', () => {
       return chai.request(app)
         .get('/api/v1/stream')
@@ -126,6 +136,7 @@ describe('/api/v1/stream', () => {
           expect(res.body.comments.length).to.equal(1);
           expect(res.body.users.length).to.equal(1);
           expect(res.body.settings).to.have.property('moderation', 'pre');
+          expect(res.body.settings).to.not.have.property('wordlist');
         });
     });
   });
