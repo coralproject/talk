@@ -158,7 +158,6 @@ router.put('/:user_id/bio', (req, res, next) => {
 });
 
 router.post('/:user_id/actions',  authorization.needed(), (req, res, next) => {
-  console.log('Hit action endpoint');
   const {
     action_type,
     field,
