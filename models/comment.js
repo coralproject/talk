@@ -289,7 +289,7 @@ CommentSchema.statics.pushStatus = (id, status, assigned_by = null) => Comment.u
  */
 CommentSchema.statics.addAction = (item_id, user_id, action_type, field, detail) => Action.insertUserAction({
   item_id,
-  item_type: 'comment',
+  item_type: 'comments',
   user_id,
   action_type,
   field,
