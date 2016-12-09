@@ -26,11 +26,16 @@ const updateInfoBoxContent = (props) => (event) => {
   props.updateSettings({infoBoxContent});
 };
 
-const StateLess = (props) => <List>
+const updateClosedMessage = (props) => (event) => {
+  const closedMessage = event.target.value;
+  props.updateSettings({closedMessage});
+};
+
+const CommentSettings = (props) => <List>
   <ListItem className={styles.configSetting}>
     <ListItemAction>
       <Checkbox
-        onClick={updateModeration(props)}
+        onClick={updateModeration}
         checked={props.settings.moderation === 'pre'} />
     </ListItemAction>
     {lang.t('configure.enable-pre-moderation')}
@@ -38,7 +43,7 @@ const StateLess = (props) => <List>
   <ListItem threeLine className={styles.configSettingInfoBox}>
     <ListItemAction>
       <Checkbox
-        onClick={updateInfoBoxEnable(props)}
+        onClick={updateInfoBoxEnable}
         checked={props.settings.infoBoxEnable} />
     </ListItemAction>
     <ListItemContent>
@@ -48,10 +53,20 @@ const StateLess = (props) => <List>
       </p>
     </ListItemContent>
   </ListItem>
-  <ListItem className={`${styles.configSettingInfoBox} ${props.settings.infoBoxEnable ? null : styles.hidden}`} >
+  <ListItem className={styles.configSettingInfoBox}>
+    <ListItemContent>
+      {lang.t('configure.closed-comments-desc')}
+      <Textfield
+        onChange={updateClosedMessage}
+        value={props.settings.closedMessage}
+        label={lang.t('configure.closed-comments-label')}
+        rows={3}/>
+    </ListItemContent>
+  </ListItem>
+  <ListItem className={`${styles.configSettingInfoBox} ${this.props.settings.infoBoxEnable ? null : styles.hidden}`} >
     <ListItemContent>
       <Textfield
-        onChange={updateInfoBoxContent(props)}
+        onChange={updateInfoBoxContent}
         value={props.settings.infoBoxContent}
         label={lang.t('configure.include-text')}
         rows={3}/>
@@ -59,6 +74,6 @@ const StateLess = (props) => <List>
   </ListItem>
 </List>;
 
-export default StateLess;
+export default CommentSettings;
 
 const lang = new I18n(translations);

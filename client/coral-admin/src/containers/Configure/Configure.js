@@ -18,21 +18,19 @@ import Wordlist from './Wordlist';
 class Configure extends React.Component {
   constructor (props) {
     super(props);
+
     this.state = {
       activeSection: 'comments',
       wordlist: [],
       changed: false
     };
-    this.saveSettings = this.saveSettings.bind(this);
-    this.onChangeWordlist = this.onChangeWordlist.bind(this);
-    this.onSettingUpdate = this.onSettingUpdate.bind(this);
   }
 
-  componentWillMount () {
+  componentWillMount = () => {
     this.props.dispatch(fetchSettings());
   }
 
-  componentWillUpdate (newProps) {
+  componentWillUpdate = (newProps) => {
     if ((!this.props.settings
       || !this.props.settings.wordlist)
       && newProps.settings.wordlist
@@ -41,16 +39,16 @@ class Configure extends React.Component {
     }
   }
 
-  saveSettings () {
+  saveSettings = () => {
     this.props.dispatch(saveSettingsToServer());
     this.setState({changed: false});
   }
 
-  changeSection (activeSection) {
+  changeSection = (activeSection) => () => {
     this.setState({activeSection});
   }
 
-  onChangeWordlist (event) {
+  onChangeWordlist = (event) => {
     event.preventDefault();
     const newlist = event.target.value;
     this.setState({wordlist: newlist.toLowerCase(), changed: true});
@@ -61,12 +59,12 @@ class Configure extends React.Component {
     }));
   }
 
-  onSettingUpdate (setting) {
+  onSettingUpdate = (setting) => {
     this.setState({changed: true});
     this.props.dispatch(updateSettings(setting));
   }
 
-  getSection (section) {
+  getSection = (section) => {
     switch(section){
     case 'comments':
       return <CommentSettings
@@ -81,7 +79,7 @@ class Configure extends React.Component {
     }
   }
 
-  getPageTitle (section) {
+  getPageTitle = (section) => {
     switch(section) {
     case 'comments':
       return lang.t('configure.comment-settings');
@@ -106,17 +104,17 @@ class Configure extends React.Component {
             <List>
               <ListItem className={styles.settingOption}>
                 <ListItemContent
-                  onClick={this.changeSection.bind(this, 'comments')}
+                  onClick={this.changeSection('comments')}
                   icon='settings'>{lang.t('configure.comment-settings')}</ListItemContent>
               </ListItem>
               <ListItem className={styles.settingOption}>
                 <ListItemContent
-                  onClick={this.changeSection.bind(this, 'embed')}
+                  onClick={this.changeSection('embed')}
                   icon='code'>{lang.t('configure.embed-comment-stream')}</ListItemContent>
               </ListItem>
               <ListItem className={styles.settingOption}>
                 <ListItemContent
-                  onClick={this.changeSection.bind(this, 'wordlist')}
+                  onClick={this.changeSection('wordlist')}
                   icon='settings'>{lang.t('configure.wordlist')}</ListItemContent>
               </ListItem>
             </List>

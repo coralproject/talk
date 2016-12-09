@@ -94,7 +94,9 @@ app.use((req, res, next) => {
 // returning a status code that makes sense.
 app.use('/api', (err, req, res, next) => {
   if (err !== ErrNotFound) {
-    console.error(err);
+    if (app.get('env') !== 'test') {
+      console.error(err);
+    }
   }
 
   res.status(err.status || 500);

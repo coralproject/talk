@@ -80,7 +80,20 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
     status = Promise.resolve('rejected');
   } else {
     status = Asset
-      .rectifySettings(Asset.findById(asset_id))
+      .rectifySettings(Asset.findById(asset_id).then((asset) => {
+        if (!asset) {
+          return Promise.reject(new Error('asset referenced is not found'));
+        }
+
+        // Check to see if the asset has closed commenting...
+        if (asset.isClosed) {
+
+          // They have, ensure that we send back an error.
+          return Promise.reject(new Error(`asset has commenting closed because: ${asset.closedMessage}`));
+        }
+
+        return asset;
+      }))
 
       // Return `premod` if pre-moderation is enabled and an empty "new" status
       // in the event that it is not in pre-moderation mode.
@@ -96,7 +109,7 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
   }))
   .then((comment) => {
     // The comment was created! Send back the created comment.
-    res.status(201).send(comment);
+    res.status(201).json(comment);
   })
   .catch((err) => {
     next(err);
