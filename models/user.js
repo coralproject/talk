@@ -1,5 +1,6 @@
 const mongoose = require('../mongoose');
 const uuid = require('uuid');
+const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -105,7 +106,8 @@ UserSchema.index({
  * output.
  */
 UserSchema.options.toJSON = {};
-UserSchema.options.toJSON.hide = '_id password profiles roles disabled';
+UserSchema.options.toJSON.hide = '_id password';
+UserSchema.options.toJSON.virtuals = true;
 UserSchema.options.toJSON.transform = (doc, ret, options) => {
   if (options.hide) {
     options.hide.split(' ').forEach((prop) => {
@@ -117,20 +119,16 @@ UserSchema.options.toJSON.transform = (doc, ret, options) => {
 };
 
 /**
- * toObject overrides to remove the password field from the toObject
- * output.
+ * Filters the object for the given user only allowing those with the allowed
+ * roles/permissions to access particular parameters.
  */
-UserSchema.options.toObject = {};
-UserSchema.options.toObject.hide = 'password';
-UserSchema.options.toObject.transform = (doc, ret, options) => {
-  if (options.hide) {
-    options.hide.split(' ').forEach((prop) => {
-      delete ret[prop];
-    });
+UserSchema.method('filterForUser', function(user = false) {
+  if (!user || !user.roles.includes('admin')) {
+    return _.pick(this.toJSON(), ['id', 'displayName', 'settings', 'created_at', 'updated_at']);
   }
 
-  return ret;
-};
+  return this.toJSON();
+});
 
 // Create the User model.
 const UserModel = mongoose.model('User', UserSchema);

@@ -11,14 +11,14 @@ describe('models.Comment', () => {
   const comments = [{
     body: 'comment 10',
     asset_id: '123',
-    status: [],
+    status_history: [],
     parent_id: '',
     author_id: '123',
     id: '1'
   }, {
     body: 'comment 20',
     asset_id: '123',
-    status: [{
+    status_history: [{
       type: 'accepted'
     }],
     parent_id: '',
@@ -27,14 +27,14 @@ describe('models.Comment', () => {
   }, {
     body: 'comment 30',
     asset_id: '456',
-    status: [],
+    status_history: [],
     parent_id: '',
     author_id: '456',
     id: '3'
   }, {
     body: 'comment 40',
     asset_id: '123',
-    status: [{
+    status_history: [{
       type: 'rejected'
     }],
     parent_id: '',
@@ -43,7 +43,7 @@ describe('models.Comment', () => {
   }, {
     body: 'comment 50',
     asset_id: '1234',
-    status: [{
+    status_history: [{
       type: 'premod'
     }],
     parent_id: '',
@@ -52,7 +52,7 @@ describe('models.Comment', () => {
   }, {
     body: 'comment 60',
     asset_id: '1234',
-    status: [{
+    status_history: [{
       type: 'premod'
     }],
     parent_id: '',
@@ -99,8 +99,7 @@ describe('models.Comment', () => {
         expect(c).to.not.be.null;
         expect(c.id).to.not.be.null;
         expect(c.id).to.be.uuid;
-        expect(c.status).to.have.length(1);
-        expect(c.status[0]).to.have.property('type', 'accepted');
+        expect(c.status).to.be.equal('accepted');
       });
     });
 
@@ -116,17 +115,15 @@ describe('models.Comment', () => {
       }]).then(([c1, c2, c3]) => {
         expect(c1).to.not.be.null;
         expect(c1.id).to.be.uuid;
-        expect(c1.status).to.have.length(1);
-        expect(c1.status[0]).to.have.property('type', 'accepted');
+        expect(c1.status).to.be.equal('accepted');
 
         expect(c2).to.not.be.null;
         expect(c2.id).to.be.uuid;
-        expect(c2.status).to.have.length(0);
+        expect(c2.status).to.be.null;
 
         expect(c3).to.not.be.null;
         expect(c3.id).to.be.uuid;
-        expect(c3.status).to.have.length(1);
-        expect(c3.status[0]).to.have.property('type', 'rejected');
+        expect(c3.status).to.be.equal('rejected');
       });
     });
 
@@ -220,17 +217,16 @@ describe('models.Comment', () => {
 
       return Comment.findById(comment_id)
         .then((c) => {
-          expect(c).to.have.property('status');
-          expect(c.status).to.have.length(0);
+          expect(c.status).to.be.null;
 
           return Comment.pushStatus(comment_id, 'rejected', '123');
         })
         .then(() => Comment.findById(comment_id))
         .then((c) => {
           expect(c).to.have.property('status');
-          expect(c.status).to.have.length(1);
-          expect(c.status[0]).to.have.property('type', 'rejected');
-          expect(c.status[0]).to.have.property('assigned_by', '123');
+          expect(c.status_history).to.have.length(1);
+          expect(c.status_history[0]).to.have.property('type', 'rejected');
+          expect(c.status_history[0]).to.have.property('assigned_by', '123');
         });
     });
 
@@ -238,13 +234,13 @@ describe('models.Comment', () => {
       return Comment.pushStatus(comments[1].id, 'rejected', '123')
         .then(() => Comment.findById(comments[1].id))
         .then((c) => {
-          expect(c).to.have.property('status');
-          expect(c.status).to.have.length(2);
-          expect(c.status[0]).to.have.property('type', 'accepted');
-          expect(c.status[0]).to.have.property('assigned_by', null);
+          expect(c).to.have.property('status_history');
+          expect(c.status_history).to.have.length(2);
+          expect(c.status_history[0]).to.have.property('type', 'accepted');
+          expect(c.status_history[0]).to.have.property('assigned_by', null);
 
-          expect(c.status[1]).to.have.property('type', 'rejected');
-          expect(c.status[1]).to.have.property('assigned_by', '123');
+          expect(c.status_history[1]).to.have.property('type', 'rejected');
+          expect(c.status_history[1]).to.have.property('assigned_by', '123');
         });
     });
 

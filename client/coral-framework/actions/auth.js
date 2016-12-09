@@ -6,7 +6,7 @@ import coralApi, {base} from '../helpers/response';
 import {addItem} from './items';
 
 // Dialog Actions
-export const showSignInDialog = () => ({type: actions.SHOW_SIGNIN_DIALOG});
+export const showSignInDialog = (offset = 0) => ({type: actions.SHOW_SIGNIN_DIALOG, offset});
 export const hideSignInDialog = () => ({type: actions.HIDE_SIGNIN_DIALOG});
 
 export const changeView = view => dispatch =>
