@@ -1,7 +1,11 @@
 const express = require('express');
 const authorization = require('../../middleware/authorization');
+const payloadFilter = require('../../middleware/payload-filter');
 
 const router = express.Router();
+
+// Filter all content going down the pipe based on user roles.
+router.use(payloadFilter);
 
 router.use('/asset', authorization.needed('admin'), require('./asset'));
 router.use('/settings', authorization.needed('admin'), require('./settings'));

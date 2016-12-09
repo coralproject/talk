@@ -14,7 +14,8 @@ class FlagButton extends Component {
     itemType: '',
     detail: '',
     otherText: '',
-    step: 1
+    step: 0,
+    posted: false
   }
 
   // When the "report" button is clicked expand the menu
@@ -29,14 +30,17 @@ class FlagButton extends Component {
 
   onPopupContinue = () => {
     const {postAction, addItem, updateItem, flag, id, author_id} = this.props;
-    const {itemType, field, detail, step, otherText} = this.state;
+    const {itemType, field, detail, step, otherText, posted} = this.state;
 
-    //Proceed to the next step
-    this.setState({step: step + 1});
+    //Proceed to the next step or close the menu if we've reached the end
+    if (step + 1 >= this.getPopupMenu.length) {
+      this.setState({showMenu: false});
+    } else {
+      this.setState({step: step + 1});
+    }
 
     // If itemType and detail are both set, post the action
-    if (itemType && detail) {
-
+    if (itemType && detail && !posted) {
       // Set the text from the "other" field if it exists.
       const updatedDetail = otherText || detail;
       let item_id;
@@ -58,11 +62,11 @@ class FlagButton extends Component {
           let id = `${action.action_type}_${action.item_id}`;
           addItem({id, current_user: action, count: flag ? flag.count + 1 : 1}, 'actions');
           updateItem(action.item_id, action.action_type, id, action.item_type);
+          this.setState({posted: true});
         });
     }
   }
 
-  // When a popup option is clicked, update the state
   onPopupOptionClick = (sets) => (e) => {
 
     // If the "other" option is clicked, show the other textbox
@@ -89,7 +93,7 @@ class FlagButton extends Component {
   render () {
     const {flag, getPopupMenu} = this.props;
     const flagged = flag && flag.current_user;
-    const popupMenu = getPopupMenu(this.state.step, this.state.itemType);
+    const popupMenu = getPopupMenu[this.state.step](this.state.itemType);
 
     return <div className={`${name}-container`}>
       <button onClick={this.onReportClick} className={`${name}-button`}>
@@ -143,7 +147,7 @@ class FlagButton extends Component {
               </form>
             }
             <div className={`${name}-popup-counter`}>
-              {this.state.step} of 3
+              {this.state.step + 1} of {this.getPopupMenu.length}
             </div>
             {
               popupMenu.button && <Button

@@ -34,6 +34,7 @@ function createUser(options) {
         email: options.email,
         password: options.password,
         displayName: options.name,
+        role: options.role
       });
     }
 
@@ -62,6 +63,11 @@ function createUser(options) {
         name: 'displayName',
         description: 'Display Name',
         required: true
+      },
+      {
+        name: 'role',
+        description: 'User Role',
+        required: false
       }
     ], (err, result) => {
       if (err) {
@@ -76,15 +82,21 @@ function createUser(options) {
     });
   })
   .then((result) => {
-    return User.createLocalUser(result.email.trim(), result.password.trim(), result.displayName.trim());
-  })
-  .then((user) => {
-    console.log(`Created user ${user.id}.`);
-    util.shutdown();
-  })
-  .catch((err) => {
-    console.error(err);
-    util.shutdown();
+    return User.createLocalUser(result.email.trim(), result.password.trim(), result.displayName.trim())
+    .then((user) => {
+      console.log(`Created user ${user.id}.`);
+
+      return User
+        .addRoleToUser(user.id, result.role.trim())
+        .then(() => {
+          console.log(`Added the admin ${result.role.trim()} to User ${user.id}.`);
+          util.shutdown();
+        });
+    })
+    .catch((err) => {
+      console.error(err);
+      util.shutdown();
+    });
   });
 }
 
@@ -207,6 +219,7 @@ function listUsers() {
           'Display Name',
           'Profiles',
           'Roles',
+          'Status',
           'State'
         ]
       });
@@ -217,6 +230,7 @@ function listUsers() {
           user.displayName,
           user.profiles.map((p) => p.provider).join(', '),
           user.roles.join(', '),
+          user.status,
           user.disabled ? 'Disabled' : 'Enabled'
         ]);
       });
@@ -285,6 +299,40 @@ function removeRole(userID, role) {
 }
 
 /**
+ * Ban a user
+ * @param  {String} userID id of the user to ban
+ */
+function ban(userID) {
+  User
+    .setStatus(userID, 'banned', '')
+    .then(() => {
+      console.log(`Banned the User ${userID}.`);
+      util.shutdown();
+    })
+    .catch((err) => {
+      console.error(err);
+      util.shutdown(1);
+    });
+}
+
+/**
+ * Unban a user
+ * @param  {String} userUD id of the user to remove the role from
+ */
+function unban(userID) {
+  User
+    .setStatus(userID, 'active', '')
+    .then(() => {
+      console.log(`Unban the User ${userID}.`);
+      util.shutdown();
+    })
+    .catch((err) => {
+      console.error(err);
+      util.shutdown(1);
+    });
+}
+
+/**
  * Disable a given user.
  * @param  {String} userID the ID of a user to disable
  */
@@ -330,6 +378,7 @@ program
   .option('--email [email]', 'Email to use')
   .option('--password [password]', 'Password to use')
   .option('--name [name]', 'Name to use')
+  .option('--role [role]', 'Role to add')
   .option('-f, --flag_mode', 'Source from flags instead of prompting')
   .description('create a new user')
   .action(createUser);
@@ -370,6 +419,16 @@ program
   .command('removerole <userID> <role>')
   .description('removes a role from a given user')
   .action(removeRole);
+
+program
+  .command('ban <userID>')
+  .description('ban a given user')
+  .action(ban);
+
+program
+  .command('uban <userID>')
+  .description('unban a given user')
+  .action(unban);
 
 program
   .command('disable <userID>')

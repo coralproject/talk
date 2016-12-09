@@ -19,6 +19,12 @@ const settings = {id: '1', moderation: 'pre'};
 
 describe('/api/v1/comments', () => {
 
+  // Ensure that the settings are always available.
+  beforeEach(() => Promise.all([
+    wordlist.insert(['bad words']),
+    Setting.init(settings)
+  ]));
+
   describe('#get', () => {
     const comments = [{
       body: 'comment 10',
@@ -32,13 +38,13 @@ describe('/api/v1/comments', () => {
       body: 'comment 20',
       asset_id: 'asset',
       author_id: '456',
-      status: [{
+      status_history: [{
         type: 'rejected'
       }]
     }, {
       body: 'comment 30',
       asset_id: '456',
-      status: [{
+      status_history: [{
         type: 'accepted'
       }]
     }];
@@ -75,11 +81,7 @@ describe('/api/v1/comments', () => {
 
           return Action.create(actions);
         }),
-        User.createLocalUsers(users),
-        wordlist.insert([
-          'bad words'
-        ]),
-        Setting.init(settings)
+        User.createLocalUsers(users)
       ]);
     });
 
@@ -142,11 +144,19 @@ describe('/api/v1/comments', () => {
 
   describe('#post', () => {
 
+    let asset_id;
+
+    beforeEach(() => Asset.findOrCreateByUrl('https://coralproject.net/section/article-is-the-best').then((asset) => {
+
+      // Update the asset id.
+      asset_id = asset.id;
+    }));
+
     it('should create a comment', () => {
       return chai.request(app)
         .post('/api/v1/comments')
         .set(passport.inject({roles: []}))
-        .send({'body': 'Something body.', 'author_id': '123', 'asset_id': '1', 'parent_id': ''})
+        .send({'body': 'Something body.', 'author_id': '123', 'asset_id': asset_id, 'parent_id': ''})
         .then((res) => {
           expect(res).to.have.status(201);
           expect(res.body).to.have.property('id');
@@ -157,12 +167,11 @@ describe('/api/v1/comments', () => {
       return chai.request(app)
         .post('/api/v1/comments')
         .set(passport.inject({roles: []}))
-        .send({'body': 'bad words are the baddest', 'author_id': '123', 'asset_id': '1', 'parent_id': ''})
+        .send({'body': 'bad words are the baddest', 'author_id': '123', 'asset_id': asset_id, 'parent_id': ''})
         .then((res) => {
           expect(res).to.have.status(201);
           expect(res.body).to.have.property('id');
-          expect(res.body).to.have.property('status').and.to.have.length(1);
-          expect(res.body.status[0]).to.have.property('type', 'rejected');
+          expect(res.body).to.have.property('status', 'rejected');
         });
     });
 
@@ -184,9 +193,45 @@ describe('/api/v1/comments', () => {
           expect(res).to.have.status(201);
           expect(res.body).to.have.property('id');
           expect(res.body).to.have.property('asset_id');
-          expect(res.body).to.have.property('status').and.to.have.length(1);
-          expect(res.body.status[0]).to.have.property('type', 'premod');
+          expect(res.body).to.have.property('status', 'premod');
         });
+    });
+
+    it('shouldn\'t create a comment when the asset has expired commenting', () => {
+      return Asset.create({
+        closedAt: new Date().setDate(0),
+        closedMessage: 'tests said expired!'
+      })
+      .then((asset) => {
+        return chai.request(app)
+          .post('/api/v1/comments')
+          .set(passport.inject({roles: []}))
+          .send({'body': 'Something body.', 'author_id': '123', 'asset_id': asset.id, 'parent_id': ''});
+      })
+      .then((res) => {
+        expect(res).to.have.status(500);
+      })
+      .catch((err) => {
+        expect(err.response.body).to.not.be.null;
+        expect(err.response.body).to.have.property('message');
+        expect(err.response.body.message).to.contain('tests said expired!');
+      });
+    });
+
+    it('should create a comment when the asset has not expired yet', () => {
+      return Asset.create({
+        closedAt: new Date().setDate(32),
+        closedMessage: 'tests said expired!'
+      })
+      .then((asset) => {
+        return chai.request(app)
+          .post('/api/v1/comments')
+          .set(passport.inject({roles: []}))
+          .send({'body': 'Something body.', 'author_id': '123', 'asset_id': asset.id, 'parent_id': ''});
+      })
+      .then((res) => {
+        expect(res).to.have.status(201);
+      });
     });
   });
 });
@@ -301,20 +346,20 @@ describe('/api/v1/comments/:comment_id/actions', () => {
     body: 'comment 10',
     asset_id: 'asset',
     author_id: '123',
-    status: []
+    status_history: []
   }, {
     id: 'def',
     body: 'comment 20',
     asset_id: 'asset',
     author_id: '456',
-    status: [{
+    status_history: [{
       type: 'rejected'
     }]
   }, {
     id: 'hij',
     body: 'comment 30',
     asset_id: '456',
-    status: [{
+    status_history: [{
       type: 'accepted'
     }]
   }];
@@ -350,11 +395,12 @@ describe('/api/v1/comments/:comment_id/actions', () => {
       return chai.request(app)
         .post('/api/v1/comments/abc/actions')
         .set(passport.inject({id: '456', roles: ['admin']}))
-        .send({'user_id': '456', 'action_type': 'flag'})
+        .send({'action_type': 'flag', 'detail': 'Comment is too awesome.'})
         .then((res) => {
           expect(res).to.have.status(201);
           expect(res).to.have.body;
           expect(res.body).to.have.property('action_type', 'flag');
+          expect(res.body).to.have.property('detail', 'Comment is too awesome.');
           expect(res.body).to.have.property('item_id', 'abc');
         });
     });

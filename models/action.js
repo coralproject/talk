@@ -37,15 +37,7 @@ ActionSchema.statics.findById = function(id) {
  * @param {String} action the new action to the comment
  * @return {Promise}
  */
-ActionSchema.statics.insertUserAction = ({item_id, item_type, user_id, action_type, field, detail}) => {
-  const action = {
-    item_id,
-    item_type,
-    user_id,
-    action_type,
-    field,
-    detail
-  };
+ActionSchema.statics.insertUserAction = (action) => {
 
   // Create/Update the action.
   return Action.findOneAndUpdate(action, action, {

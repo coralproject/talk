@@ -29,6 +29,14 @@ const AssetSchema = new Schema({
     type: Schema.Types.Mixed,
     default: null
   },
+  closedAt: {
+    type: Date,
+    default: null
+  },
+  closedMessage: {
+    type: String,
+    default: null
+  },
   title: String,
   description: String,
   image: String,
@@ -36,11 +44,7 @@ const AssetSchema = new Schema({
   subsection: String,
   author: String,
   publication_date: Date,
-  modified_date: Date,
-  status: {
-    type: String,
-    default: 'open'
-  }
+  modified_date: Date
 }, {
   versionKey: false,
   timestamps: {
@@ -58,6 +62,13 @@ AssetSchema.index({
   author: 'text'
 }, {
   background: true
+});
+
+/**
+ * Returns true if the asset is closed, false else.
+ */
+AssetSchema.virtual('isClosed').get(function() {
+  return this.closedAt && this.closedAt.getTime() <= new Date().getTime();
 });
 
 /**
@@ -85,7 +96,7 @@ AssetSchema.statics.rectifySettings = (assetQuery) => Promise.all([
 
   // If the asset exists and has settings then return the merged object.
   if (asset && asset.settings) {
-    return Object.assign({}, settings, asset.settings);
+    settings.merge(asset.settings);
   }
 
   return settings;
@@ -121,10 +132,12 @@ AssetSchema.statics.findOrCreateByUrl = (url) => Asset.findOneAndUpdate({url}, {
  * @param  {[type]} settings [description]
  * @return {[type]}          [description]
  */
-AssetSchema.statics.overrideSettings = (id, settings) => Asset.update({id}, {
+AssetSchema.statics.overrideSettings = (id, settings) => Asset.findOneAndUpdate({id}, {
   $set: {
     settings
   }
+}, {
+  new: true
 });
 
 /**
