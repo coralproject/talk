@@ -11,31 +11,31 @@ import {
   Checkbox
 } from 'react-mdl';
 
-const updateModeration = (props) => () => {
-  const moderation = props.settings.moderation === 'pre' ? 'post' : 'pre';
-  props.updateSettings({moderation});
+const updateModeration = (updateSettings, mod) => () => {
+  const moderation = mod === 'pre' ? 'post' : 'pre';
+  updateSettings({moderation});
 };
 
-const updateInfoBoxEnable = (props) => () => {
-  const infoBoxEnable = !props.settings.infoBoxEnable;
-  props.updateSettings({infoBoxEnable});
+const updateInfoBoxEnable = (updateSettings, infoBox) => () => {
+  const infoBoxEnable = !infoBox;
+  updateSettings({infoBoxEnable});
 };
 
-const updateInfoBoxContent = (props) => (event) => {
+const updateInfoBoxContent = (updateSettings) => (event) => {
   const infoBoxContent =  event.target.value;
-  props.updateSettings({infoBoxContent});
+  updateSettings({infoBoxContent});
 };
 
-const updateClosedMessage = (props) => (event) => {
+const updateClosedMessage = (updateSettings) => (event) => {
   const closedMessage = event.target.value;
-  props.updateSettings({closedMessage});
+  updateSettings({closedMessage});
 };
 
 const CommentSettings = (props) => <List>
   <ListItem className={styles.configSetting}>
     <ListItemAction>
       <Checkbox
-        onClick={updateModeration}
+        onClick={updateModeration(props.updateSettings, props.settings.moderation)}
         checked={props.settings.moderation === 'pre'} />
     </ListItemAction>
     {lang.t('configure.enable-pre-moderation')}
@@ -43,7 +43,7 @@ const CommentSettings = (props) => <List>
   <ListItem threeLine className={styles.configSettingInfoBox}>
     <ListItemAction>
       <Checkbox
-        onClick={updateInfoBoxEnable}
+        onClick={updateInfoBoxEnable(props.updateSettings, props.settings.infoBoxEnable)}
         checked={props.settings.infoBoxEnable} />
     </ListItemAction>
     <ListItemContent>
@@ -53,22 +53,22 @@ const CommentSettings = (props) => <List>
       </p>
     </ListItemContent>
   </ListItem>
+  <ListItem className={`${styles.configSettingInfoBox} ${props.settings.infoBoxEnable ? null : styles.hidden}`} >
+    <ListItemContent>
+      <Textfield
+        onChange={updateInfoBoxContent(props.updateSettings)}
+        value={props.settings.infoBoxContent}
+        label={lang.t('configure.include-text')}
+        rows={3}/>
+    </ListItemContent>
+  </ListItem>
   <ListItem className={styles.configSettingInfoBox}>
     <ListItemContent>
       {lang.t('configure.closed-comments-desc')}
       <Textfield
-        onChange={updateClosedMessage}
+        onChange={updateClosedMessage(props.updateSettings)}
         value={props.settings.closedMessage}
         label={lang.t('configure.closed-comments-label')}
-        rows={3}/>
-    </ListItemContent>
-  </ListItem>
-  <ListItem className={`${styles.configSettingInfoBox} ${this.props.settings.infoBoxEnable ? null : styles.hidden}`} >
-    <ListItemContent>
-      <Textfield
-        onChange={updateInfoBoxContent}
-        value={props.settings.infoBoxContent}
-        label={lang.t('configure.include-text')}
         rows={3}/>
     </ListItemContent>
   </ListItem>
