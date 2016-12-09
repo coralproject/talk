@@ -13,8 +13,8 @@
     "reply": "Respuesta",
     "comment": "Comentario",
     "name": "Nombre",
-    "comment-post-notif": "¡traduceme!",
-    "comment-post-notif-premod": "¡traduceme!",
-    "comment-post-banned-word":  "¡traduceme!"
+    "comment-post-notif": "Tu comentario ha sido publicado.",
+    "comment-post-notif-premod": "Gracias por comentar. Nuestro equipo de moderación va a revisarlo muy pronto.",
+    "comment-post-banned-word":  "Tu comentario contiene una o más palabras que son sensibles a nuestros filtros. Ha sido enviado a nuestro equipo de moderación para que lo revisen."
   }
 }
