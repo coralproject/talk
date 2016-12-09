@@ -50,7 +50,9 @@
       "copy-and-paste": "Copy and paste code below into your CMS to embed your comment box in your articles",
       "moderate": "Moderate",
       "configure": "Configure",
-      "community": "Community"
+      "community": "Community",
+      "closed-comments-desc": "Write a message for closed threads",
+      "closed-comments-label": "Write a message..."
     },
     "bandialog": {
       "ban_user": "Ban User?",
@@ -100,6 +102,7 @@
       "copy-and-paste": "Copiar y pegar el código de más abajo en tu CMS para colocar la caja de comentarios en tus articulos",
       "moderate": "Moderar",
       "configure": "Configurar",
+<<<<<<< HEAD
       "community": "Comunidad"
     },
     "bandialog": {
@@ -108,6 +111,11 @@
       "note": "Nota: Suspender este usuario también va a colocar este comentario en la cola de Rechazados.",
       "cancel": "Cancelar",
       "yes_ban_user": "Si, Suspendan el usuario"
+=======
+      "community": "Comunidad",
+      "closed-comments-desc": "Escribe un mensaje para cuando los comentarios se encuentran cerrados",
+      "closed-comments-label": "Escribe un mensaje..."
+>>>>>>> master
     }
   }
 }
