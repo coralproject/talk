@@ -192,7 +192,7 @@ export function postItem (item, type, id) {
     return coralApi(`/${type}`, {method: 'POST', body: item})
       .then((json) => {
         dispatch(addItem({...item, id:json.id}, type));
-        return json.id;
+        return json;
       });
   };
 }
