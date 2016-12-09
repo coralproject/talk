@@ -93,6 +93,8 @@ class CommentStream extends Component {
     const {loggedIn, user, showSignInDialog, signInOffset} = this.props.auth;
     const {status, closedMessage} = this.props.config;
     const {activeTab} = this.state;
+    const banned = (this.props.userData.status === 'banned');
+
     const expandForLogin = showSignInDialog ? {
       minHeight: document.body.scrollHeight + 150
     } : {};
@@ -106,8 +108,6 @@ class CommentStream extends Component {
             <Tab>Configure Stream</Tab>
           </TabBar>
             {loggedIn && <UserBox user={user} logout={this.props.logout} />}
-          {/* Add to the restricted param a boolean if the user is suspended*/}
-          <RestrictedContent restricted={false} restrictedComp={<SuspendedAccount />}>
             <TabContent show={activeTab === 0}>
                 {
                   status === 'open'
@@ -116,6 +116,7 @@ class CommentStream extends Component {
                         content={this.props.config.infoBoxContent}
                         enable={this.props.config.infoBoxEnable}
                       />
+                    <RestrictedContent restricted={banned} restrictedComp={<SuspendedAccount />}>
                       <CommentBox
                         addNotification={this.props.addNotification}
                         postItem={this.props.postItem}
@@ -124,8 +125,11 @@ class CommentStream extends Component {
                         id={rootItemId}
                         premod={this.props.config.moderation}
                         reply={false}
+                        currentUser={this.props.auth.user}
+                        banned={banned}
                         author={user}
                       />
+                    </RestrictedContent>
                     </div>
                   : <p>{closedMessage}</p>
                 }
@@ -142,7 +146,9 @@ class CommentStream extends Component {
                         <ReplyButton
                           updateItem={this.props.updateItem}
                           id={commentId}
-                          showReply={comment.showReply}/>
+                          currentUser={this.props.auth.user}
+                          showReply={comment.showReply}
+                          banned={banned}/>
                         <LikeButton
                           addNotification={this.props.addNotification}
                           id={commentId}
@@ -152,7 +158,8 @@ class CommentStream extends Component {
                           deleteAction={this.props.deleteAction}
                           addItem={this.props.addItem}
                           updateItem={this.props.updateItem}
-                          currentUser={this.props.auth.user}/>
+                          currentUser={this.props.auth.user}
+                          banned={banned}/>
                       </div>
                       <div className="commentActionsRight">
                         <FlagButton
@@ -164,6 +171,7 @@ class CommentStream extends Component {
                           addItem={this.props.addItem}
                           showSignInDialog={this.props.showSignInDialog}
                           updateItem={this.props.updateItem}
+                          banned={banned}
                           currentUser={this.props.auth.user}/>
                         <PermalinkButton
                           commentId={commentId}
@@ -177,6 +185,7 @@ class CommentStream extends Component {
                         id={rootItemId}
                         author={user}
                         parent_id={commentId}
+                        currentUser={this.props.auth.user}
                         premod={this.props.config.moderation}
                         showReply={comment.showReply}/>
                       {
@@ -192,6 +201,8 @@ class CommentStream extends Component {
                               <ReplyButton
                                 updateItem={this.props.updateItem}
                                 id={replyId}
+                                banned={banned}
+                                currentUser={this.props.auth.user}
                                 showReply={reply.showReply}/>
                               <LikeButton
                                 addNotification={this.props.addNotification}
@@ -202,7 +213,8 @@ class CommentStream extends Component {
                                 addItem={this.props.addItem}
                                 showSignInDialog={this.props.showSignInDialog}
                                 updateItem={this.props.updateItem}
-                                currentUser={this.props.auth.user}/>
+                                currentUser={this.props.auth.user}
+                                banned={banned}/>
                             </div>
                             <div className="replyActionsRight">
                               <FlagButton
@@ -214,6 +226,7 @@ class CommentStream extends Component {
                                 deleteAction={this.props.deleteAction}
                                 addItem={this.props.addItem}
                                 updateItem={this.props.updateItem}
+                                banned={banned}
                                 currentUser={this.props.auth.user}/>
                               <PermalinkButton
                                 commentId={reply.parent_id}
@@ -230,6 +243,8 @@ class CommentStream extends Component {
                               parent_id={commentId}
                               child_id={replyId}
                               premod={this.props.config.moderation}
+                              banned={banned}
+                              currentUser={this.props.auth.user}
                               showReply={reply.showReply}/>
                           </div>;
                         })
@@ -258,7 +273,6 @@ class CommentStream extends Component {
                 />
               </RestrictedContent>
             </TabContent>
-          </RestrictedContent>
           <Notification
             notifLength={4500}
             clearNotification={this.props.clearNotification}
