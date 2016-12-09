@@ -158,7 +158,7 @@ router.post('/:user_id/actions',  authorization.needed(), (req, res, next) => {
   } = req.body;
 
   User
-    .addAction(req.params.comment_id, req.user.id, action_type, field, detail)
+    .addAction(req.params.user_id, req.user.id, action_type, field, detail)
     .then((action) => {
       res.status(201).json(action);
     })
