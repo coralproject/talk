@@ -79,6 +79,11 @@ class ModerationQueue extends React.Component {
     const {comments, users} = this.props;
     const {activeTab, singleView, modalOpen} = this.state;
 
+    const c = comments.toJS();
+    const premodIds = c.ids.filter(id => c.byId[id].status === 'premod');
+    const rejectedIds = c.ids.filter(id => c.byId[id].status === 'rejected');
+    const flaggedIds = c.ids.filter(id => c.byId[id].flagged === true);
+
     return (
       <div>
         <div className='mdl-tabs mdl-js-tabs mdl-js-ripple-effect'>
@@ -94,14 +99,7 @@ class ModerationQueue extends React.Component {
             <CommentList
               isActive={activeTab === 'pending'}
               singleView={singleView}
-              commentIds={
-                comments.get('ids')
-                  .filter(id =>
-                    comments
-                    .get('byId')
-                    .get(id)
-                    .get('status') === 'premod')
-              }
+              commentIds={premodIds}
               comments={comments.get('byId')}
               users={users.get('byId')}
               onClickAction={(action, commentId) => this.onCommentAction(action, commentId)}
@@ -118,15 +116,7 @@ class ModerationQueue extends React.Component {
             <CommentList
               isActive={activeTab === 'rejected'}
               singleView={singleView}
-              commentIds={
-                comments
-                  .get('ids')
-                  .filter(id =>
-                    comments
-                      .get('byId')
-                      .get(id)
-                      .get('status') === 'rejected')
-              }
+              commentIds={rejectedIds}
               comments={comments.get('byId')}
               users={users.get('byId')}
               onClickAction={(action, id) => this.onCommentAction(action, id)}
@@ -137,10 +127,7 @@ class ModerationQueue extends React.Component {
             <CommentList
               isActive={activeTab === 'rejected'}
               singleView={singleView}
-              commentIds={comments.get('ids').filter(id => {
-                const data = comments.get('byId').get(id);
-                return !data.get('status') && data.get('flagged') === true;
-              })}
+              commentIds={flaggedIds}
               comments={comments.get('byId')}
               users={users.get('byId')}
               onClickAction={(action, id) => this.onCommentAction(action, id)}
