@@ -79,10 +79,9 @@ class ModerationQueue extends React.Component {
     const {comments, users} = this.props;
     const {activeTab, singleView, modalOpen} = this.state;
 
-    const c = comments.toJS();
-    const premodIds = c.ids.filter(id => c.byId[id].status === 'premod');
-    const rejectedIds = c.ids.filter(id => c.byId[id].status === 'rejected');
-    const flaggedIds = c.ids.filter(id => c.byId[id].flagged === true);
+    const premodIds = comments.ids.filter(id => comments.byId[id].status === 'premod');
+    const rejectedIds = comments.ids.filter(id => comments.byId[id].status === 'rejected');
+    const flaggedIds = comments.ids.filter(id => comments.byId[id].flagged === true);
 
     return (
       <div>
@@ -100,25 +99,25 @@ class ModerationQueue extends React.Component {
               isActive={activeTab === 'pending'}
               singleView={singleView}
               commentIds={premodIds}
-              comments={comments.get('byId')}
-              users={users.get('byId')}
+              comments={comments.byId}
+              users={users.byId}
               onClickAction={(action, commentId) => this.onCommentAction(action, commentId)}
               onClickShowBanDialog={(userId, userName, commentId) => this.showBanUserDialog(userId, userName, commentId)}
               actions={['reject', 'approve', 'ban']}
               loading={comments.loading} />
             <BanUserDialog
-              open={comments.get('showBanUserDialog')}
+              open={comments.showBanUserDialog}
               handleClose={() => this.hideBanUserDialog()}
               onClickBanUser={(userId, commentId) => this.banUser(userId, commentId)}
-              user={comments.get('banUser')}/>
+              user={comments.banUser}/>
         </div>
           <div className={`mdl-tabs__panel ${styles.listContainer}`} id='rejected'>
             <CommentList
               isActive={activeTab === 'rejected'}
               singleView={singleView}
               commentIds={rejectedIds}
-              comments={comments.get('byId')}
-              users={users.get('byId')}
+              comments={comments.byId}
+              users={users.byId}
               onClickAction={(action, id) => this.onCommentAction(action, id)}
               actions={['approve']}
               loading={comments.loading} />
@@ -128,8 +127,8 @@ class ModerationQueue extends React.Component {
               isActive={activeTab === 'rejected'}
               singleView={singleView}
               commentIds={flaggedIds}
-              comments={comments.get('byId')}
-              users={users.get('byId')}
+              comments={comments.byId}
+              users={users.byId}
               onClickAction={(action, id) => this.onCommentAction(action, id)}
               actions={['reject', 'approve']}
               loading={comments.loading} />
@@ -142,6 +141,11 @@ class ModerationQueue extends React.Component {
   }
 }
 
-export default connect(({comments, users}) => ({comments, users}))(ModerationQueue);
+const mapStateToProps = state => ({
+  comments: state.comments.toJS(),
+  users: state.users.toJS()
+});
+
+export default connect(mapStateToProps)(ModerationQueue);
 
 const lang = new I18n(translations);
