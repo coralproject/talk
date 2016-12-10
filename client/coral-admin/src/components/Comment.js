@@ -14,8 +14,7 @@ const linkify = new Linkify();
 
 // Render a single comment for the list
 export default props => {
-  const comment = props.comment.toJS();
-  const author = props.author.toJS();
+  const {comment, author} = props;
   let authorStatus = author.status;
   const links = linkify.getMatches(comment.body);
 
@@ -53,8 +52,7 @@ export default props => {
 
 // Get the button of the action performed over a comment if any
 const getActionButton = (action, i, props) => {
-  const comment = props.comment.toJS();
-  const author = props.author.toJS();
+  const {comment, author} = props;
   const status = comment.status;
   const flagged = comment.flagged;
   const banned = (author.status === 'banned');
@@ -74,7 +72,9 @@ const getActionButton = (action, i, props) => {
     );
   }
   return (
-    <FabButton icon={props.actionsMap[action].icon} className={styles.actionButton}
+    <FabButton
+      className={styles.actionButton}
+      icon={props.actionsMap[action].icon}
       cStyle={action}
       key={i}
       onClick={() => props.onClickAction(props.actionsMap[action].status, comment.id)}

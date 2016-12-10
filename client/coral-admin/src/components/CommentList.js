@@ -4,6 +4,8 @@ import styles from './CommentList.css';
 import key from 'keymaster';
 import Hammer from 'hammerjs';
 import Comment from 'components/Comment';
+import head from 'lodash/head';
+import last from 'lodash/last';
 
 // Each action has different meaning and configuration
 const actions = {
@@ -37,7 +39,7 @@ export default class CommentList extends React.Component {
   // If entering to singleview and no active, active is the first eleement
   componentWillReceiveProps (nextProps) {
     if (nextProps.singleView && !this.state.active) {
-      this.setState({active: nextProps.commentIds.get(0)});
+      this.setState({active: nextProps.commentIds[0]});
     }
   }
 
@@ -81,12 +83,12 @@ export default class CommentList extends React.Component {
     const {commentIds} = this.props;
     const {active} = this.state;
     // check boundaries
-    if (active === null || !commentIds.size) {
-      this.setState({active: commentIds.get(0)});
-    } else if (direction === 'up' && active !== commentIds.first()) {
-      this.setState({active: commentIds.get(commentIds.indexOf(active) - 1)});
-    } else if (direction === 'down' && active !== commentIds.last()) {
-      this.setState({active: commentIds.get(commentIds.indexOf(active) + 1)});
+    if (active === null || !commentIds.length) {
+      this.setState({active: head(commentIds)});
+    } else if (direction === 'up' && active !== head(commentIds)) {
+      this.setState({active: commentIds[commentIds.indexOf(active) - 1]});
+    } else if (direction === 'down' && active !== last(commentIds)) {
+      this.setState({active: commentIds[commentIds.indexOf(active) + 1]});
     }
 
     // scroll to the position
@@ -105,10 +107,10 @@ export default class CommentList extends React.Component {
     // activate the next comment
     if (id === this.state.active) {
       const {commentIds} = this.props;
-      if (commentIds.last() === this.state.active) {
-        this.setState({active: commentIds.get(commentIds.size - 2)});
+      if (last(commentIds) === this.state.active) {
+        this.setState({active: commentIds[commentIds.length - 2]});
       } else {
-        this.setState({active: commentIds.get(Math.min(commentIds.indexOf(this.state.active) + 1, commentIds.size - 1))});
+        this.setState({active: commentIds[Math.min(commentIds.indexOf(this.state.active) + 1, commentIds.l - 1)]});
       }
     }
     this.props.onClickAction(action, id, author_id);
@@ -119,16 +121,20 @@ export default class CommentList extends React.Component {
   }
 
   render () {
-    const {singleView, commentIds, comments, users, hideActive, key} = this.props;
-    const {active} = this.state;
+    const {singleView, commentIds, hideActive, key} = this.props;
+    let {active} = this.state;
+
+    const users = this.props.users.toJS();
+    const comments = this.props.comments.toJS();
 
     return (
       <ul className={`${styles.list} ${singleView ? styles.singleView : ''}`} {...key}>
         {commentIds.map((commentId, index) => {
-          const comment = comments.get(commentId);
+          console.log('inside the map', typeof commentId, commentId, typeof active, active);
+          const comment = comments[commentId];
+          const author = users[comment.author_id];
           return <Comment comment={comment}
-            author={users.get(comment.get('author_id'))}
-            ref={el => { if (el && commentId === active) { this._active = el; } }}
+            author={author}
             key={index}
             index={index}
             onClickAction={this.onClickAction}
@@ -137,7 +143,7 @@ export default class CommentList extends React.Component {
             actionsMap={actions}
             isActive={commentId === active}
             hideActive={hideActive} />;
-        }).toArray()}
+        })}
       </ul>
     );
   }
