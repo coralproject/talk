@@ -40,8 +40,8 @@ class CommunityContainer extends Component {
 
     this.props.dispatch(fetchCommenters({
       value: this.state.searchValue,
-      field: community.get('field'),
-      asc: community.get('asc'),
+      field: community.field,
+      asc: community.asc,
       ...query
     }));
   }
@@ -66,15 +66,19 @@ class CommunityContainer extends Component {
     return (
       <Community
         searchValue={searchValue}
-        commenters={community.get('commenters')}
-        isFetching={community.get('isFetching')}
-        error={community.get('error')}
-        totalPages={community.get('totalPages')}
-        page={community.get('page')}
+        commenters={community.commenters}
+        isFetching={community.isFetching}
+        error={community.error}
+        totalPages={community.totalPages}
+        page={community.page}
         {...this}
       />
     );
   }
 }
 
-export default connect(({community}) => ({community}))(CommunityContainer);
+const mapStateToProps = state => ({
+  community: state.community.toJS()
+});
+
+export default connect(mapStateToProps)(CommunityContainer);
