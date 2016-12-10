@@ -14,7 +14,7 @@ import coralApi from '../../../coral-framework/helpers/response';
 
 export const fetchCommenters = (query = {}) => dispatch => {
   dispatch(requestFetchCommenters());
-  coralApi(`/user?${qs.stringify(query)}`)
+  coralApi(`/users?${qs.stringify(query)}`)
     .then(({result, page, count, limit, totalPages}) =>
       dispatch({
         type: FETCH_COMMENTERS_SUCCESS,
@@ -42,14 +42,14 @@ export const newPage = () => ({
 });
 
 export const setRole = (id, role) => dispatch => {
-  return coralApi(`/user/${id}/role`, {method: 'POST', body: {role}})
+  return coralApi(`/users/${id}/role`, {method: 'POST', body: {role}})
   .then(() => {
     return dispatch({type: SET_ROLE, id, role});
   });
 };
 
 export const setCommenterStatus = (id, status) => dispatch => {
-  return coralApi(`/user/${id}/status`, {method: 'POST', body: {status}})
+  return coralApi(`/users/${id}/status`, {method: 'POST', body: {status}})
   .then(() => {
     return dispatch({type: SET_COMMENTER_STATUS, id, status});
   });

@@ -10,7 +10,7 @@ chai.use(require('chai-http'));
 
 const User = require('../../../../models/user');
 
-describe('/api/v1/user/:user_id/actions', () => {
+describe('/api/v1/users/:user_id/actions', () => {
 
   const users = [{
     displayName: 'Ana',
@@ -29,7 +29,7 @@ describe('/api/v1/user/:user_id/actions', () => {
   describe('#post', () => {
     it('it should update actions', () => {
       return chai.request(app)
-        .post('/api/v1/user/abc/actions')
+        .post('/api/v1/users/abc/actions')
         .set(passport.inject({id: '456', roles: ['admin']}))
         .send({'action_type': 'flag', 'detail': 'Bio is too awesome.'})
         .then((res) => {

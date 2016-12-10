@@ -607,7 +607,7 @@ UserService.addBio = (id, bio) => (
  */
 UserService.addAction = (item_id, user_id, action_type, field, detail) => Action.insertUserAction({
   item_id,
-  item_type: 'comment',
+  item_type: 'users',
   user_id,
   action_type,
   field,
