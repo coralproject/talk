@@ -127,6 +127,10 @@ hr {
   font-weight: bolder;
 }
 
+.coral-plugin-author-name-bio-flag {
+  float: right;
+}
+
 
 /* Reply styles */
 
@@ -199,10 +203,14 @@ hr {
 
 /* Flag Styles */
 
+.coral-plugin-flags-container {
+  position: relative;
+}
+
 .coral-plugin-flags-popup span {
-  min-width: 100px;
+  min-width: 280px;
   bottom: 36px;
-  right: 75px;
+  left: -190px;
   position: absolute;
 }
 
