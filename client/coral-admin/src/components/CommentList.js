@@ -130,7 +130,6 @@ export default class CommentList extends React.Component {
     return (
       <ul className={`${styles.list} ${singleView ? styles.singleView : ''}`} {...key}>
         {commentIds.map((commentId, index) => {
-          console.log('inside the map', typeof commentId, commentId, typeof active, active);
           const comment = comments[commentId];
           const author = users[comment.author_id];
           return <Comment comment={comment}
