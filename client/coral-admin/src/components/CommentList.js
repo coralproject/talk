@@ -4,8 +4,6 @@ import styles from './CommentList.css';
 import key from 'keymaster';
 import Hammer from 'hammerjs';
 import Comment from 'components/Comment';
-import head from 'lodash/head';
-import last from 'lodash/last';
 
 // Each action has different meaning and configuration
 const actions = {
@@ -84,10 +82,10 @@ export default class CommentList extends React.Component {
     const {active} = this.state;
     // check boundaries
     if (active === null || !commentIds.length) {
-      this.setState({active: head(commentIds)});
-    } else if (direction === 'up' && active !== head(commentIds)) {
+      this.setState({active: commentIds[0]});
+    } else if (direction === 'up' && active !== commentIds[0]) {
       this.setState({active: commentIds[commentIds.indexOf(active) - 1]});
-    } else if (direction === 'down' && active !== last(commentIds)) {
+    } else if (direction === 'down' && active !== commentIds[commentIds.length - 1]) {
       this.setState({active: commentIds[commentIds.indexOf(active) + 1]});
     }
 
@@ -107,7 +105,7 @@ export default class CommentList extends React.Component {
     // activate the next comment
     if (id === this.state.active) {
       const {commentIds} = this.props;
-      if (last(commentIds) === this.state.active) {
+      if (commentIds[commentIds.length - 1] === this.state.active) {
         this.setState({active: commentIds[commentIds.length - 2]});
       } else {
         this.setState({active: commentIds[Math.min(commentIds.indexOf(this.state.active) + 1, commentIds.length - 1)]});
