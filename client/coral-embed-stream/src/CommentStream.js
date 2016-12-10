@@ -16,7 +16,7 @@ import PubDate from '../../coral-plugin-pubdate/PubDate';
 import Count from '../../coral-plugin-comment-count/CommentCount';
 import AuthorName from '../../coral-plugin-author-name/AuthorName';
 import {ReplyBox, ReplyButton} from '../../coral-plugin-replies';
-import FlagButton from '../../coral-plugin-flags/FlagButton';
+import FlagComment from '../../coral-plugin-flags/FlagComment';
 import LikeButton from '../../coral-plugin-likes/LikeButton';
 import PermalinkButton from '../../coral-plugin-permalinks/PermalinkButton';
 import SignInContainer from '../../coral-sign-in/containers/SignInContainer';
@@ -139,7 +139,17 @@ class CommentStream extends Component {
                     const comment = comments[commentId];
                     return <div className="comment" key={commentId} id={`c_${commentId}`}>
                       <hr aria-hidden={true}/>
-                      <AuthorName author={users[comment.author_id]}/>
+                      <AuthorName
+                        author={users[comment.author_id]}
+                        addNotification={this.props.addNotification}
+                        id={commentId}
+                        author_id={comment.author_id}
+                        postAction={this.props.postAction}
+                        showSignInDialog={this.props.showSignInDialog}
+                        deleteAction={this.props.deleteAction}
+                        addItem={this.props.addItem}
+                        updateItem={this.props.updateItem}
+                        currentUser={this.props.auth.user}/>
                       <PubDate created_at={comment.created_at}/>
                       <Content body={comment.body}/>
                       <div className="commentActionsLeft">
@@ -162,7 +172,7 @@ class CommentStream extends Component {
                           banned={banned}/>
                       </div>
                       <div className="commentActionsRight">
-                        <FlagButton
+                        <FlagComment
                           addNotification={this.props.addNotification}
                           id={commentId}
                           author_id={comment.author_id}
@@ -218,7 +228,7 @@ class CommentStream extends Component {
                                 banned={banned}/>
                             </div>
                             <div className="replyActionsRight">
-                              <FlagButton
+                              <FlagComment
                                 addNotification={this.props.addNotification}
                                 id={replyId}
                                 author_id={comment.author_id}
