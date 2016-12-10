@@ -122,7 +122,7 @@ export default class CommentList extends React.Component {
 
   render () {
     const {singleView, commentIds, comments, users, hideActive, key} = this.props;
-    let {active} = this.state;
+    const {active} = this.state;
 
     return (
       <ul className={`${styles.list} ${singleView ? styles.singleView : ''}`} {...key}>
