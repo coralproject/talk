@@ -110,7 +110,7 @@ export default class CommentList extends React.Component {
       if (last(commentIds) === this.state.active) {
         this.setState({active: commentIds[commentIds.length - 2]});
       } else {
-        this.setState({active: commentIds[Math.min(commentIds.indexOf(this.state.active) + 1, commentIds.l - 1)]});
+        this.setState({active: commentIds[Math.min(commentIds.indexOf(this.state.active) + 1, commentIds.length - 1)]});
       }
     }
     this.props.onClickAction(action, id, author_id);
