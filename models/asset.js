@@ -5,6 +5,12 @@ const Setting = require('./setting');
 
 const uuid = require('uuid');
 
+// ASSET_STATUSES is the list of statuses that are permitted for the asset status.
+const ASSET_STATUS = [
+  'open',
+  'closed'
+];
+
 const AssetSchema = new Schema({
   id: {
     type: String,
@@ -29,14 +35,15 @@ const AssetSchema = new Schema({
     type: Schema.Types.Mixed,
     default: null
   },
-  closedAt: {
+  status: {
+    type: String,
+    default: 'open'
+  },
+  statusChangedAt: {
     type: Date,
     default: null
   },
-  closedMessage: {
-    type: String,
-    default: null
-  },
+  statusClosedMessage: String,
   title: String,
   description: String,
   image: String,
@@ -68,8 +75,26 @@ AssetSchema.index({
  * Returns true if the asset is closed, false else.
  */
 AssetSchema.virtual('isClosed').get(function() {
-  return this.closedAt && this.closedAt.getTime() <= new Date().getTime();
+  return (this.status === 'closed') && this.statusChangedAt && this.statusChangedAt.getTime() <= new Date().getTime();
 });
+
+/**
+ * Close or Open the asset.
+ */
+AssetSchema.statics.changeOpenStatus = (id, status, closedMessage = '') => {
+  // Check to see if the user role is in the allowable set of roles.
+  if (ASSET_STATUS.indexOf(status) === -1) {
+    // Asset status is not supported! Error out here.
+    return Promise.reject(new Error(`status ${status} is not supported`));
+  }
+  return Asset.update({id}, {
+    $set: {
+      status: status,
+      statusChangedAt: new Date().getTime(),
+      statusClosedMessage: closedMessage
+    }
+  });
+};
 
 /**
  * Finds an asset by its id.
