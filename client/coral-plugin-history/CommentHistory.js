@@ -1,6 +1,18 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
+import styles from './CommentHistory.css';
+
+class CommentHistory extends React.Component {
+  render () {
+    return (
+      <div className={styles.header}>
+        <h1>Comment History</h1>
+      </div>
+    );
+  }
+}
+
 const mapStateToProps = state => {
   return {
     config: state.config.toJS(),
@@ -8,13 +20,5 @@ const mapStateToProps = state => {
     auth: state.auth.toJS()
   };
 };
-
-class CommentHistory extends React.Component {
-  render () {
-    return (
-      <div>Comment History</div>
-    );
-  }
-}
 
 export default connect(mapStateToProps)(CommentHistory);

@@ -13,8 +13,6 @@ export const ADD_ITEM = 'ADD_ITEM';
 export const UPDATE_ITEM = 'UPDATE_ITEM';
 export const APPEND_ITEM_ARRAY = 'APPEND_ITEM_ARRAY';
 
-/* Item Actions */
-
 /**
  * Action creators
  */

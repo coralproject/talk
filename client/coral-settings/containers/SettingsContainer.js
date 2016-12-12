@@ -6,9 +6,11 @@ import {saveBio} from 'coral-framework/actions/user';
 import BioContainer from './BioContainer';
 import NotLoggedIn from '../components/NotLoggedIn';
 import {TabBar, Tab, TabContent} from '../../coral-ui';
-import CommentHistory from '../components/CommentHistory';
+import CommentHistory from 'coral-plugin-history/CommentHistory';
 import SettingsHeader from '../components/SettingsHeader';
 import RestrictedContent from 'coral-framework/components/RestrictedContent';
+
+import {fetchCommentsByUserId} from 'coral-framework/actions/items';
 
 class SignInContainer extends Component {
   constructor (props) {
@@ -56,7 +58,7 @@ const mapStateToProps = () => ({
 
 const mapDispatchToProps = dispatch => ({
   saveBio: (user_id, formData) => dispatch(saveBio(user_id, formData)),
-  getHistory: () => dispatch(),
+  fetchCommentsByUserId: userId => dispatch(fetchCommentsByUserId(userId))
 });
 
 export default connect(
