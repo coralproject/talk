@@ -76,7 +76,7 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
   // premod, set it to `premod`.
   let status;
 
-  if (req.wordlist.matched) {
+  if (req.wordlist.banned) {
     status = Promise.resolve('rejected');
   } else {
     status = Asset
@@ -97,7 +97,7 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
 
       // Return `premod` if pre-moderation is enabled and an empty "new" status
       // in the event that it is not in pre-moderation mode.
-      .then(({moderation}) => moderation === 'pre' ? 'premod' : '');
+      .then(({moderation}) => moderation === 'pre' ? 'premod' : false);
   }
 
   status.then((status) => Comment.publicCreate({
@@ -108,6 +108,16 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
     author_id: req.user.id
   }))
   .then((comment) => {
+    if (req.wordlist.suspect) {
+      return Comment
+        .addAction(comment.id, null, 'flag', 'body', 'Matched suspect word filters.')
+        .then(() => comment);
+    }
+
+    return comment;
+  })
+  .then((comment) => {
+
     // The comment was created! Send back the created comment.
     res.status(201).json(comment);
   })

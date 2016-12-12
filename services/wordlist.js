@@ -9,7 +9,10 @@ const Setting = require('../models/setting');
  * @type {Object}
  */
 const wordlist = {
-  list: [],
+  lists: {
+    banned: [],
+    suspect: []
+  },
   enabled: false
 };
 
@@ -32,15 +35,19 @@ wordlist.init = () => {
  * Inserts the wordlist data and enables the wordlist.
  * @param  {Array} list list of words to be added to the wordlist
  */
-wordlist.insert = (list) => {
+wordlist.insert = (lists) => {
 
   // Add the words to this array, but also lowercase the words so that an
   // easy comparison can take place.
-  wordlist.list = _.uniq(wordlist.list.concat(list.map((word) => {
-    return tokenizer.tokenize(word.toLowerCase());
-  })));
+  ['banned', 'suspect'].forEach((k) => {
+    if (!(k in lists)) {
+      return;
+    }
 
-  debug(`Added ${list.length} words to the wordlist, now the wordlist is ${wordlist.list.length} entries long.`);
+    wordlist.lists[k] = wordlist.parseList(lists[k]);
+
+    debug(`Added ${lists[k].length} words to the ${k} wordlist.`);
+  });
 
   // Enable the wordlist.
   wordlist.enabled = true;
@@ -49,11 +56,20 @@ wordlist.insert = (list) => {
 };
 
 /**
+ * Parses the list content.
+ * @param  {Array} list array of words to parse for a list.
+ * @return {Array}      the parsed list
+ */
+wordlist.parseList = (list) => _.uniq(list.map((word) => {
+  return tokenizer.tokenize(word.toLowerCase());
+}));
+
+/**
  * Tests the phrase to see if it contains any of the defined blockwords.
  * @param  {String} phrase value to check for blockwords.
  * @return {Boolean}       true if a blockword is found, false otherwise.
  */
-wordlist.match = (phrase) => {
+wordlist.match = (list, phrase) => {
 
   // Lowercase the word to ensure that we don't miss a match due to
   // capitalization.
@@ -61,7 +77,7 @@ wordlist.match = (phrase) => {
 
   // This will return true in the event that at least one blockword is found
   // in the phrase.
-  return wordlist.list.some((blockphrase) => {
+  return list.some((blockphrase) => {
 
     // First, let's see if we can find the first word in the blockphrase in the
     // source phrase.
@@ -133,28 +149,39 @@ wordlist.filter = (...fields) => (req, res, next) => {
   }
 
   // Loop over all the fields from the body that we want to check.
-  const containsProfanity = fields.some((field) => {
+  for (let i = 0; i < fields.length; i++) {
+    let field = fields[i];
+
     let phrase = _.get(req.body, field, false);
 
     // If the field doesn't exist in the body, then it can't be profane!
     if (!phrase) {
 
       // Return that there wasn't a profane word here.
-      return false;
+      continue;
     }
 
-    // Check if the field contains a profane word.
-    if (wordlist.match(phrase)) {
-      debug(`the field "${field}" contained a phrase "${phrase}" which contained a wordlisted word/phrase`);
-      return true;
+    // Check if the field contains a banned word.
+    if (wordlist.match(wordlist.lists.banned, phrase)) {
+      debug(`the field "${field}" contained a phrase "${phrase}" which contained a banned word/phrase`);
+
+      req.wordlist.banned = ErrContainsProfanity;
+
+      // Stop looping through the fields now, we discovered the worst possible
+      // situation (a banned word).
+      break;
     }
 
-    return false;
-  });
+    // Check if the field contains a banned word.
+    if (wordlist.match(wordlist.lists.suspect, phrase)) {
+      debug(`the field "${field}" contained a phrase "${phrase}" which contained a suspected word/phrase`);
 
-  // The body could contain some profanity, address that here.
-  if (containsProfanity) {
-    req.wordlist.matched = ErrContainsProfanity;
+      req.wordlist.suspect = ErrContainsProfanity;
+
+      // Continue looping through the fields now, we discovered a possible bad
+      // word (suspect).
+      continue;
+    }
   }
 
   next();

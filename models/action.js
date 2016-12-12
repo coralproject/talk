@@ -39,8 +39,17 @@ ActionSchema.statics.findById = function(id) {
  */
 ActionSchema.statics.insertUserAction = (action) => {
 
+  // Actions are made unique by using a query that can be reproducable, i.e.,
+  // not containing user inputable values.
+  let query = {
+    action_type: action.action_type,
+    item_type: action.item_type,
+    item_id: action.item_id,
+    user_id: action.user_id
+  };
+
   // Create/Update the action.
-  return Action.findOneAndUpdate(action, action, {
+  return Action.findOneAndUpdate(query, action, {
 
     // Ensure that if it's new, we return the new object created.
     new: true,
