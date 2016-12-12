@@ -24,6 +24,8 @@ class SignInContainer extends Component {
 
   componentWillMount () {
     // Fetch commentHistory
+    console.log('userData', this.props.userData);
+    this.props.fetchCommentsByUserId(this.props.userData.id);
   }
 
   handleTabChange(tab) {

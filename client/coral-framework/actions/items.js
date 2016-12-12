@@ -92,8 +92,7 @@ export const appendItemArray = (id, property, value, add_to_front, item_type) =>
 export const fetchCommentsByUserId = userId => {
   return (dispatch) => {
     dispatch({type: REQUEST_COMMENTS_BY_USER});
-    return fetch(`/api/v1/comments?user_id=${userId}`, getInit('GET'))
-      .then(responseHandler)
+    return coralApi(`/comments?user_id=${userId}`)
       .then(comments => {
         dispatch({type: RECEIVE_COMMENTS_BY_USER, comments});
 
