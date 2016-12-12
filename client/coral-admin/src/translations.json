@@ -56,7 +56,10 @@
       "configure": "Configure",
       "community": "Community",
       "closed-comments-desc": "Write a message for closed threads",
-      "closed-comments-label": "Write a message..."
+      "closed-comments-label": "Write a message...",
+      "comment-count-header": "Limit Content Length",
+      "comment-count-text-pre":  "Comments will be limited to ",
+      "comment-count-text-post": " characters."
     },
     "bandialog": {
       "ban_user": "Ban User?",
@@ -112,7 +115,10 @@
       "configure": "Configurar",
       "community": "Comunidad",
       "closed-comments-desc": "Escribe un mensaje para cuando los comentarios se encuentran cerrados",
-      "closed-comments-label": "Escribe un mensaje..."
+      "closed-comments-label": "Escribe un mensaje...",
+      "comment-count-header": "tracundeme",
+      "comment-count-text-pre":  "tracundeme",
+      "comment-count-text-post": "tracundeme"
     },
     "bandialog": {
       "ban_user": "Quieres suspender el Usuario?",

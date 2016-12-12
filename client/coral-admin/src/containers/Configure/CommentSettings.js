@@ -65,15 +65,15 @@ const CommentSettings = (props) => <List>
         checked={props.settings.charCountEnable} />
     </ListItemAction>
     <ListItemContent>
-      <div className={styles.settingsHeader}>Limit Content Length</div>
+      <div className={styles.settingsHeader}>{lang.t('configure.comment-count-header')}</div>
       <p className={props.settings.charCountEnable ? '' : styles.disabledSettingText}>
-        <span>Comments will be limited to </span>
+        <span>{lang.t('configure.comment-count-text-pre')}</span>
         <input type='text'
           className={styles.charCountTexfield}
           htmlFor='charCount'
           onChange={updateCharCount(props.updateSettings)}
           value={props.settings.charCount}/>
-        <span> characters.</span>
+        <span>{lang.t('configure.comment-count-text-post')}</span>
       </p>
     </ListItemContent>
   </ListItem>
