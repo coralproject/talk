@@ -89,16 +89,21 @@ router.put('/:asset_id/settings', (req, res, next) => {
     .catch((err) => next(err));
 });
 
-// router.put('/:asset_id/status', (req, res, next) => {
-//   Asset
-//     .findOneAndUpdate(req.params.asset_id, {
-//       $set: {
-//         closedAt: req.query.closedAt,
-//         closedMessage: req.query.closedMessage
-//       }
-//     })
-//     .then(() => res.status(204).end())
-//     .catch((err) => next(err));
-// });
+router.put('/:asset_id/status', (req, res, next) => {
+  const id = req.params.asset_id;
+  const {
+    closedAt = null,
+    closedMessage = null
+  } = req.query;
+  Asset
+    .update(id, {
+      closedAt: closedAt,
+      closedMessage: closedMessage
+    })
+    .then((asset) => {
+      res.status(201).json(asset);
+    })
+    .catch((err) => next(err));
+});
 
 module.exports = router;

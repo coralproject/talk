@@ -202,10 +202,8 @@ describe('/api/v1/comments', () => {
 
     it('shouldn\'t create a comment when the asset has expired commenting', () => {
       return Asset.create({
-        settings: {
-          closedAt: new Date().setDate(0),
-          closedMessage: 'tests said expired!'
-        }
+        closedAt: new Date().setDate(0),
+        closedMessage: 'tests said expired!'
       })
       .then((asset) => {
         return chai.request(app)

@@ -29,6 +29,14 @@ const AssetSchema = new Schema({
     type: Schema.Types.Mixed,
     default: null
   },
+  closedAt: {
+    type: Date,
+    default: null
+  },
+  closedMessage: {
+    type: String,
+    default: null
+  },
   title: String,
   description: String,
   image: String,
@@ -69,7 +77,7 @@ AssetSchema.statics.findById = (id) => Asset.findOne({id});
 AssetSchema.statics.findByUrl = (url) => Asset.findOne({url});
 
 AssetSchema.virtual('isClosed').get(function() {
-  return this.settings && this.settings.closedAt && this.settings.closedAt <= new Date().getTime();
+  return this.closedAt && this.closedAt.getTime() <= new Date().getTime();
 });
 
 /**

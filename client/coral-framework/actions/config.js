@@ -24,15 +24,29 @@ export const updateConfiguration = newConfig => (dispatch, getState) => {
     .catch(error => dispatch(updateConfigFailure(error)));
 };
 
+export const updateOpenStream = newConfig => (dispatch, getState) => {
+  const assetId = getState().items.get('assets')
+    .keySeq()
+    .toArray()[0];
+
+  dispatch(updateConfigRequest());
+  coralApi(`/asset/${assetId}/status`, {method: 'PUT', body: newConfig})
+    .then(() => {
+      dispatch(addNotification('success', lang.t('successUpdateSettings')));
+      dispatch(updateConfigSuccess(newConfig));
+    })
+    .catch(error => dispatch(updateConfigFailure(error)));
+};
+
 const openStream = () => ({type: actions.OPEN_COMMENTS});
 const closeStream = () => ({type: actions.CLOSE_COMMENTS});
 
 export const updateOpenStatus = status => dispatch => {
   if (status === 'open') {
     dispatch(openStream());
-    dispatch(updateConfiguration({closedAt: null}));
+    dispatch(updateOpenStream({closedAt: null}));
   } else {
     dispatch(closeStream());
-    dispatch(updateConfiguration({closedAt: Date.getTime()}));
+    dispatch(updateOpenStream({closedAt: Date.now(), closedMessage: ''}));
   }
 };

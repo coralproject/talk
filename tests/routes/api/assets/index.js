@@ -17,7 +17,8 @@ describe('/api/v1/assets', () => {
       {
         url: 'https://coralproject.net/news/asset1',
         title: 'Asset 1',
-        description: 'term1'
+        description: 'term1',
+        id: '1'
       },
       {
         url: 'https://coralproject.net/news/asset2',
@@ -80,6 +81,34 @@ describe('/api/v1/assets', () => {
         });
     });
 
+  });
+
+  describe('#put', () => {
+    it('should close the asset', function() {
+
+      const asset = Asset.findByUrl('http://test.com')
+        .then((asset) => {
+          expect(asset).to.have.property('closedAt')
+            .and.to.equal(null);
+        });
+
+      const today = Date.now();
+      return chai.request(app)
+        .put(`/api/v1/asset/${asset.id}/status`)
+        .set(passport.inject({roles: ['admin']}))
+        .send({closedAt: today})
+        .then((res) => {
+          expect(res).to.have.status(201);
+
+          Asset.findByUrl('http://test.com')
+            .then((asset) => {
+              expect(asset).to.have.property('isClosed')
+                .and.to.equal(true);
+              expect(asset).to.have.property('closedAt')
+                .and.to.not.equal(null);
+            });
+        });
+    });
   });
 
 });
