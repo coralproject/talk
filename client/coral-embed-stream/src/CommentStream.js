@@ -91,7 +91,7 @@ class CommentStream extends Component {
     const rootItem = this.props.items.assets && this.props.items.assets[rootItemId];
     const {actions, users, comments} = this.props.items;
     const {status, moderation, closedMessage} = this.props.config;
-    const {loggedIn, user, showSignInDialog, signInOffset} = this.props.auth;
+    const {loggedIn, isAdmin, user, showSignInDialog, signInOffset} = this.props.auth;
     const {activeTab} = this.state;
     const banned = (this.props.userData.status === 'banned');
 
@@ -105,7 +105,7 @@ class CommentStream extends Component {
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count id={rootItemId} items={this.props.items}/></Tab>
             <Tab>Settings</Tab>
-            <Tab>Configure Stream</Tab>
+            <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>
             {loggedIn && <UserBox user={user} logout={this.props.logout} />}
             <TabContent show={activeTab === 0}>
