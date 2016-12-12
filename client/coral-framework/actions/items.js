@@ -1,14 +1,9 @@
 import coralApi from '../helpers/response';
 import {fromJS} from 'immutable';
-/* Item Actions */
-
-/**
- * Action name constants
- */
+import {UPDATE_CONFIG} from '../constants/config';
 
 export const ADD_ITEM = 'ADD_ITEM';
 export const UPDATE_ITEM = 'UPDATE_ITEM';
-export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
 export const APPEND_ITEM_ARRAY = 'APPEND_ITEM_ARRAY';
 
 /**
@@ -106,7 +101,7 @@ export function getStream (assetUrl) {
               dispatch(addItem(action, 'actions'));
             });
           } else if (type === 'settings') {
-            dispatch({type: UPDATE_SETTINGS, config: fromJS(json[type])});
+            dispatch({type: UPDATE_CONFIG, config: fromJS(json[type])});
           } else {
             json[type].forEach(item => {
               dispatch(addItem(item, type));
@@ -217,13 +212,8 @@ export function postItem (item, type, id) {
 *
 */
 
-export function postAction (item_id, action_type, user_id, item_type) {
+export function postAction (item_id, item_type, action) {
   return () => {
-    const action = {
-      action_type,
-      user_id
-    };
-
     return coralApi(`/${item_type}/${item_id}/actions`, {method: 'POST', body: action});
   };
 }

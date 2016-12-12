@@ -21,6 +21,9 @@ export default store => next => action => {
   case 'COMMENT_CREATE':
     createComment(store, action.name, action.body);
     break;
+  case 'USER_BAN':
+    userStatusUpdate(store, action.status, action.userId, action.commentId);
+    break;
   }
 
   next(action);
@@ -80,4 +83,11 @@ const createComment = (store, name, comment) => {
   return coralApi('/comments', {method: 'POST', body})
     .then(res => store.dispatch({type: 'COMMENT_CREATE_SUCCESS', comment: res}))
     .catch(error => store.dispatch({type: 'COMMENT_CREATE_FAILED', error}));
+};
+
+// Ban a user
+const userStatusUpdate = (store, status, userId, commentId) => {
+  return coralApi(`/users/${userId}/status`, {method: 'POST', body: {status: status, comment_id: commentId}})
+  .then(res => store.dispatch({type: 'USER_BAN_SUCESS', res}))
+  .catch(error => store.dispatch({type: 'USER_BAN_FAILED', error}));
 };

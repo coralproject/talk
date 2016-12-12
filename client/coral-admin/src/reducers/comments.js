@@ -1,4 +1,4 @@
-
+import * as actions from '../constants/comments';
 import {Map, List, fromJS} from 'immutable';
 
 /**
@@ -11,7 +11,13 @@ import {Map, List, fromJS} from 'immutable';
 const initialState = Map({
   byId: Map(),
   ids: List(),
-  loading: false
+  loading: false,
+  showBanUserDialog: false,
+  banUser: {
+    'userName': '',
+    'userId': '',
+    'commentId': ''
+  }
 });
 
 // Handle the comment actions
@@ -24,8 +30,19 @@ export default (state = initialState, action) => {
   case 'COMMENT_FLAG': return flag(state, action);
   case 'COMMENT_CREATE_SUCCESS': return addComment(state, action);
   case 'COMMENT_STREAM_FETCH_SUCCESS': return replaceComments(action, state);
+  case actions.SHOW_BANUSER_DIALOG: return setBanUser(state, true, action);
+  case actions.HIDE_BANUSER_DIALOG: return setBanUser(state, false, action);
+  case actions.USER_BAN_SUCESS: return setBanUser(state, false, action);
   default: return state;
   }
+};
+
+// hide or show the UI for the dialog confirming the ban
+// set the user that is going to set and the comment that is the reason
+const setBanUser = (state, showBanUser, action) => {
+  const banUser = {'userName': action.userName, 'userId': action.userId, 'commentId': action.commentId};
+  return state.set('showBanUserDialog', showBanUser)
+    .set('banUser', banUser);
 };
 
 // Update a comment status

@@ -21,7 +21,7 @@
     cursor: pointer;
     text-decoration: none;
     text-align: center;
-    line-height: 36px;
+    line-height: 28px;
     vertical-align: middle;
     margin: 2px;
 }
@@ -75,6 +75,16 @@
 .type--darkGrey:hover {
   color: white;
   background: #696969;
+}
+
+.type--green {
+  color: white;
+  background: #00897B;
+}
+
+.type--green:hover {
+  color: white;
+  background: #00a291;
 }
 
 .full {

@@ -132,10 +132,12 @@ AssetSchema.statics.findOrCreateByUrl = (url) => Asset.findOneAndUpdate({url}, {
  * @param  {[type]} settings [description]
  * @return {[type]}          [description]
  */
-AssetSchema.statics.overrideSettings = (id, settings) => Asset.update({id}, {
+AssetSchema.statics.overrideSettings = (id, settings) => Asset.findOneAndUpdate({id}, {
   $set: {
     settings
   }
+}, {
+  new: true
 });
 
 /**
