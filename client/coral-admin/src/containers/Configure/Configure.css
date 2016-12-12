@@ -20,7 +20,12 @@
   border-radius: 4px;
   height: 90px;
   margin-bottom: 10px;
-  cursor: pointer;
+  align-items: flex-start;
+}
+
+.settingsHeader {
+  margin-top: 3px;
+  margin-bottom: 10px;
 }
 
 .disabledSettingText {
@@ -100,7 +105,15 @@
   margin-bottom:3px;
 }
 
+.enabledSetting {
+  border-left-color: #4caf50;
+  border-left-style: solid;
+  border-left-width: 7px;
+}
 
+.disabledSetting {
+  padding-left: 23px;
+}
 
 .hidden {
   display: none;

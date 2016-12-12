@@ -41,6 +41,7 @@
     },
     "configure": {
       "enable-pre-moderation": "Enable pre-moderation",
+      "enable-pre-moderation-text": "Moderators must approve any comment before it is published.",
       "include-comment-stream": "Include Comment Stream Description for Readers.",
       "include-comment-stream-desc": "Write a message to be added to the top of your comment stream. Pose a topic, include community guidelines, etc.",
       "include-text": "Include your text here.",
@@ -96,6 +97,7 @@
     },
     "configure": {
       "enable-pre-moderation": "Habilitar pre-moderación",
+      "enable-pre-moderation-text": "tracundeme!",
       "include-comment-stream": "Incluir la Descripción a un Hilo de Comentario para los y las Lectoras.",
       "include-comment-stream-desc": "Escribir un mensaje que será agregado a la parte de arriba del tu hilo de comentarios. Por ejemplo, un tema, guias de comunidad, etc.",
       "include-text": "Incluir tu texto aqui.",

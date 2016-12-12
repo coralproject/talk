@@ -45,22 +45,27 @@ const updateClosedMessage = (updateSettings) => (event) => {
 };
 
 const CommentSettings = (props) => <List>
-  <ListItem className={styles.configSetting}>
+  <ListItem className={`${styles.configSetting} ${props.settings.moderation === 'pre' ? styles.enabledSetting : styles.disabledSetting}`}>
     <ListItemAction>
       <Checkbox
         onClick={updateModeration(props.updateSettings, props.settings.moderation)}
         checked={props.settings.moderation === 'pre'} />
     </ListItemAction>
-    {lang.t('configure.enable-pre-moderation')}
+    <ListItemContent>
+    <div className={styles.settingsHeader}>{lang.t('configure.enable-pre-moderation')}</div>
+    <p className={props.settings.moderation === 'pre' ? '' : styles.disabledSettingText}>
+      {lang.t('configure.enable-pre-moderation-text')}
+    </p>
+  </ListItemContent>
   </ListItem>
-  <ListItem className={styles.configSetting}>
+  <ListItem className={`${styles.configSetting} ${props.settings.charCountEnable ? styles.enabledSetting : styles.disabledSetting}`}>
     <ListItemAction>
       <Checkbox
         onClick={updateCharCountEnable(props.updateSettings, props.settings.charCountEnable)}
         checked={props.settings.charCountEnable} />
     </ListItemAction>
     <ListItemContent>
-      Limit Content Length
+      <div className={styles.settingsHeader}>Limit Content Length</div>
       <p className={props.settings.charCountEnable ? '' : styles.disabledSettingText}>
         <span>Comments will be limited to </span>
         <input type='text'
@@ -72,7 +77,7 @@ const CommentSettings = (props) => <List>
       </p>
     </ListItemContent>
   </ListItem>
-  <ListItem threeLine className={styles.configSettingInfoBox}>
+  <ListItem threeLine className={`${styles.configSettingInfoBox} ${props.settings.infoBoxEnable ? styles.enabledSetting : styles.disabledSetting}`}>
     <ListItemAction>
       <Checkbox
         onClick={updateInfoBoxEnable(props.updateSettings, props.settings.infoBoxEnable)}
