@@ -87,7 +87,7 @@ const createComment = (store, name, comment) => {
 
 // Ban a user
 const userStatusUpdate = (store, status, userId, commentId) => {
-  return coralApi(`/user/${userId}/status`, {method: 'POST', body: {status: status, comment_id: commentId}})
+  return coralApi(`/users/${userId}/status`, {method: 'POST', body: {status: status, comment_id: commentId}})
   .then(res => store.dispatch({type: 'USER_BAN_SUCESS', res}))
   .catch(error => store.dispatch({type: 'USER_BAN_FAILED', error}));
 };
