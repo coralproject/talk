@@ -160,6 +160,9 @@ describe('/api/v1/comments', () => {
         .then((res) => {
           expect(res).to.have.status(201);
           expect(res.body).to.have.property('id');
+        })
+        .catch((err) => {
+          expect(err).to.be.null;
         });
     });
 
@@ -199,9 +202,10 @@ describe('/api/v1/comments', () => {
 
     it('shouldn\'t create a comment when the asset has expired commenting', () => {
       return Asset.create({
-        status: 'closed',
-        statusChangedAt: new Date().setDate(0),
-        statusClosedMessage: 'tests said expired!'
+        settings: {
+          closedAt: new Date().setDate(0),
+          closedMessage: 'tests said expired!'
+        }
       })
       .then((asset) => {
         return chai.request(app)

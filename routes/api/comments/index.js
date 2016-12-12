@@ -87,9 +87,8 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
 
         // Check to see if the asset has closed commenting...
         if (asset.isClosed) {
-
           // They have, ensure that we send back an error.
-          return Promise.reject(new Error(`asset has commenting closed because: ${asset.statusClosedMessage}`));
+          return Promise.reject(new Error(`asset has commenting closed because: ${asset.settings.closedMessage}`));
         }
 
         return asset;
