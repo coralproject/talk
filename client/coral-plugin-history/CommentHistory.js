@@ -1,24 +1,21 @@
-import React from 'react';
-import {connect} from 'react-redux';
+import React, {PropTypes} from 'react';
 
 import styles from './CommentHistory.css';
 
-class CommentHistory extends React.Component {
-  render () {
-    return (
-      <div className={styles.header}>
-        <h1>Comment History</h1>
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    config: state.config.toJS(),
-    items: state.items.toJS(),
-    auth: state.auth.toJS()
-  };
+const CommentHistory = props => {
+  return (
+    <div className={styles.header}>
+      <h1>Comment History</h1>
+      {props.comments.map((comment, i) => {
+        console.log('a comment', comment);
+        return <p key={i}>{comment.body}</p>;
+      })}
+    </div>
+  );
 };
 
-export default connect(mapStateToProps)(CommentHistory);
+CommentHistory.propTypes = {
+  comments: PropTypes.arrayOf(PropTypes.object).isRequired
+};
+
+export default CommentHistory;

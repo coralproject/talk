@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {saveBio} from 'coral-framework/actions/user';
+import {saveBio, fetchCommentsByUserId} from 'coral-framework/actions/user';
 
 import BioContainer from './BioContainer';
 import NotLoggedIn from '../components/NotLoggedIn';
@@ -9,8 +9,6 @@ import {TabBar, Tab, TabContent} from '../../coral-ui';
 import CommentHistory from 'coral-plugin-history/CommentHistory';
 import SettingsHeader from '../components/SettingsHeader';
 import RestrictedContent from 'coral-framework/components/RestrictedContent';
-
-import {fetchCommentsByUserId} from 'coral-framework/actions/items';
 
 class SignInContainer extends Component {
   constructor (props) {
@@ -35,7 +33,7 @@ class SignInContainer extends Component {
   }
 
   render() {
-    const {loggedIn, userData, showSignInDialog} = this.props;
+    const {loggedIn, userData, showSignInDialog, items, user} = this.props;
     const {activeTab} = this.state;
     return (
       <RestrictedContent restricted={!loggedIn} restrictedComp={<NotLoggedIn showSignInDialog={showSignInDialog} />}>
@@ -45,7 +43,7 @@ class SignInContainer extends Component {
           <Tab>Profile Settings</Tab>
         </TabBar>
         <TabContent show={activeTab === 0}>
-          <CommentHistory {...this.props}/>
+          <CommentHistory comments={user.myComments.map(id => items.comments[id])} />
         </TabContent>
         <TabContent show={activeTab === 1}>
           <BioContainer bio={userData.settings.bio} handleSave={this.handleSave} {...this.props} />
@@ -55,7 +53,9 @@ class SignInContainer extends Component {
   }
 }
 
-const mapStateToProps = () => ({
+const mapStateToProps = state => ({
+  items: state.items.toJS(),
+  user: state.user.toJS()
 });
 
 const mapDispatchToProps = dispatch => ({

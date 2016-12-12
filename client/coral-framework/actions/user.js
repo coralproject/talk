@@ -1,5 +1,6 @@
 import * as actions from '../constants/user';
 import {addNotification} from '../actions/notification';
+import {addItem} from '../actions/items';
 import coralApi from '../helpers/response';
 
 import I18n from 'coral-framework/modules/i18n/i18n';
@@ -18,4 +19,30 @@ export const saveBio = (user_id, formData) => dispatch => {
       dispatch(saveBioSuccess(settings));
     })
     .catch(error => dispatch(saveBioFailure(error)));
+};
+
+/**
+ *
+ * Get a list of comments by a single user
+ *
+ * @param {string} user_id
+ * @returns Promise
+ */
+export const fetchCommentsByUserId = userId => {
+  return (dispatch) => {
+    dispatch({type: actions.REQUEST_COMMENTS_BY_USER});
+    return coralApi(`/comments/user/${userId}`)
+      .then(comments => {
+        comments.forEach(comment => {
+          dispatch(addItem(comment, 'comments'));
+        });
+
+        dispatch({type: actions.RECEIVE_COMMENTS_BY_USER, comments: comments.map(comment => comment.id)});
+      })
+      .catch(error => {
+        console.error(error.stack);
+        console.error('FAILURE_COMMENTS_BY_USER', error);
+        dispatch({type: actions.FAILURE_COMMENTS_BY_USER, error});
+      });
+  };
 };

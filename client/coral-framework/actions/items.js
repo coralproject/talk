@@ -6,9 +6,6 @@ import {UPDATE_CONFIG} from '../constants/config';
 * Action name constants
 */
 
-export const REQUEST_COMMENTS_BY_USER = 'REQUEST_COMMENTS_BY_USER';
-export const RECEIVE_COMMENTS_BY_USER = 'RECEIVE_COMMENTS_BY_USER';
-export const FAILURE_COMMENTS_BY_USER = 'FAILURE_COMMENTS_BY_USER';
 export const ADD_ITEM = 'ADD_ITEM';
 export const UPDATE_ITEM = 'UPDATE_ITEM';
 export const APPEND_ITEM_ARRAY = 'APPEND_ITEM_ARRAY';
@@ -79,34 +76,6 @@ export const appendItemArray = (id, property, value, add_to_front, item_type) =>
     value,
     add_to_front,
     item_type
-  };
-};
-
-/**
- *
- * Get a list of comments by a single user
- *
- * @param {string} user_id
- * @returns Promise
- */
-export const fetchCommentsByUserId = userId => {
-  return (dispatch) => {
-    dispatch({type: REQUEST_COMMENTS_BY_USER});
-    return coralApi(`/comments/user/${userId}`)
-      .then(comments => {
-        dispatch({type: RECEIVE_COMMENTS_BY_USER, comments});
-
-        console.log('comments?', comments);
-
-        comments.forEach(comment => {
-          dispatch(addItem(comment, 'comments'));
-        });
-
-      })
-      .catch(error => {
-        console.error('FAILURE_COMMENTS_BY_USER', error);
-        dispatch({type: FAILURE_COMMENTS_BY_USER, error});
-      });
   };
 };
 

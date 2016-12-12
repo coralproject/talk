@@ -1,11 +1,12 @@
-import {Map} from 'immutable';
+import {Map, fromJS} from 'immutable';
 import * as authActions from '../constants/auth';
 import * as actions from '../constants/user';
 
 const initialState = Map({
   displayName: '',
   profiles: [],
-  settings: {}
+  settings: {},
+  myComments: []
 });
 
 const purge = user => {
@@ -30,6 +31,8 @@ export default function user (state = initialState, action) {
   case actions.SAVE_BIO_SUCCESS:
     return state
       .set('settings', action.settings);
+  case actions.RECEIVE_COMMENTS_BY_USER:
+    return state.set('myComments', fromJS(action.comments));
   default :
     return state;
   }
