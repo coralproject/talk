@@ -71,6 +71,10 @@
   border-width: 0px 0px 1px 0px;
 }
 
+.charCountTexfieldEnabled {
+  border-color: #4caf50;
+}
+
 .charCountTexfield:focus {
   outline: none;
 }

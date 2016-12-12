@@ -87,7 +87,7 @@ class CommentSettings extends Component {
           <p className={settings.charCountEnable ? '' : styles.disabledSettingText}>
             <span>{lang.t('configure.comment-count-text-pre')}</span>
             <input type='text'
-              className={styles.charCountTexfield}
+              className={`${styles.charCountTexfield} ${settings.charCountEnable && styles.charCountTexfieldEnabled}`}
               htmlFor='charCount'
               onChange={this.updateCharCount(updateSettings)}
               value={settings.charCount}/>
