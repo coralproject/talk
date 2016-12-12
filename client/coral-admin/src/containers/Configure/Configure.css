@@ -18,9 +18,18 @@
 .configSetting {
   border: 1px solid #ccc;
   border-radius: 4px;
-  height: 90px;
+  height: 95px;
   margin-bottom: 10px;
   align-items: flex-start;
+}
+
+.settingsError {
+  color: #d50000;
+}
+
+.settingsError i {
+  font-size: 14px;
+  margin-right: 3px;
 }
 
 .settingsHeader {
