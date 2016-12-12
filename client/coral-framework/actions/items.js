@@ -92,9 +92,11 @@ export const appendItemArray = (id, property, value, add_to_front, item_type) =>
 export const fetchCommentsByUserId = userId => {
   return (dispatch) => {
     dispatch({type: REQUEST_COMMENTS_BY_USER});
-    return coralApi(`/comments?user_id=${userId}`)
+    return coralApi(`/comments/user/${userId}`)
       .then(comments => {
         dispatch({type: RECEIVE_COMMENTS_BY_USER, comments});
+
+        console.log('comments?', comments);
 
         comments.forEach(comment => {
           dispatch(addItem(comment, 'comments'));
@@ -102,6 +104,7 @@ export const fetchCommentsByUserId = userId => {
 
       })
       .catch(error => {
+        console.error('FAILURE_COMMENTS_BY_USER', error);
         dispatch({type: FAILURE_COMMENTS_BY_USER, error});
       });
   };
@@ -145,7 +148,6 @@ export function getStream (assetUrl) {
 
         /* Sort comments by date*/
         json.comments.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-
         const rels = json.comments.reduce((h, item) => {
           /* Check for root and child comments. */
           if (

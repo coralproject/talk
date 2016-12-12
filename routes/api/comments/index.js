@@ -116,6 +116,18 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
   });
 });
 
+router.get('/user/:user_id', (req, res, next) => {
+  // how to only get YOUR comments?
+  Comment.findByUserId(req.params.user_id)
+    .then(comments => {
+      res.json(comments);
+    })
+    .catch(error => {
+      error.status = 500;
+      next(error);
+    });
+});
+
 router.get('/:comment_id', authorization.needed('admin'), (req, res, next) => {
   Comment
     .findById(req.params.comment_id)
