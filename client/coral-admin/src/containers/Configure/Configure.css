@@ -23,6 +23,10 @@
   cursor: pointer;
 }
 
+.disabledSettingText {
+  color: #ccc;
+}
+
 .configSettingInfoBox {
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -43,6 +47,18 @@
   border-radius: 4px;
   margin-bottom: 10px;
   display: block;
+}
+
+.charCountTexfield {
+  width: 4em;
+  padding: 0px;
+  border-color: #ccc;
+  border-style: solid;
+  border-width: 0px 0px 1px 0px;
+}
+
+.charCountTexfield:focus {
+  outline: none;
 }
 
 .changedSave {

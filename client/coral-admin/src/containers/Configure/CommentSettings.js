@@ -11,6 +11,19 @@ import {
   Checkbox
 } from 'react-mdl';
 
+const updateCharCountEnable = (updateSettings, charCountChecked) => () => {
+  const charCountEnable = !charCountChecked;
+  updateSettings({charCountEnable});
+};
+
+const updateCharCount = (updateSettings) => (event) => {
+  const charCount = event.target.value;
+  if (charCount.match(/[^0-9]/)) {
+    //Show error
+  }
+  updateSettings({charCount: charCount});
+};
+
 const updateModeration = (updateSettings, mod) => () => {
   const moderation = mod === 'pre' ? 'post' : 'pre';
   updateSettings({moderation});
@@ -39,6 +52,25 @@ const CommentSettings = (props) => <List>
         checked={props.settings.moderation === 'pre'} />
     </ListItemAction>
     {lang.t('configure.enable-pre-moderation')}
+  </ListItem>
+  <ListItem className={styles.configSetting}>
+    <ListItemAction>
+      <Checkbox
+        onClick={updateCharCountEnable(props.updateSettings, props.settings.charCountEnable)}
+        checked={props.settings.charCountEnable} />
+    </ListItemAction>
+    <ListItemContent>
+      Limit Content Length
+      <p className={props.settings.charCountEnable ? '' : styles.disabledSettingText}>
+        <span>Comments will be limited to </span>
+        <input type='text'
+          className={styles.charCountTexfield}
+          htmlFor='charCount'
+          onChange={updateCharCount(props.updateSettings)}
+          value={props.settings.charCount}/>
+        <span> characters.</span>
+      </p>
+    </ListItemContent>
   </ListItem>
   <ListItem threeLine className={styles.configSettingInfoBox}>
     <ListItemAction>
