@@ -20,15 +20,16 @@ export const cleanState = () => ({type: actions.CLEAN_STATE});
 // Sign In Actions
 
 const signInRequest = () => ({type: actions.FETCH_SIGNIN_REQUEST});
-const signInSuccess = user => ({type: actions.FETCH_SIGNIN_SUCCESS, user});
+const signInSuccess = (user, isAdmin) => ({type: actions.FETCH_SIGNIN_SUCCESS, user, isAdmin});
 const signInFailure = error => ({type: actions.FETCH_SIGNIN_FAILURE, error});
 
 export const fetchSignIn = (formData) => dispatch => {
   dispatch(signInRequest());
   coralApi('/auth/local', {method: 'POST', body: formData})
     .then(({user}) => {
+      const isAdmin = !!user.roles.filter(i => i === 'admin').length;
+      dispatch(signInSuccess(user, isAdmin));
       dispatch(hideSignInDialog());
-      dispatch(signInSuccess(user));
       dispatch(addItem(user, 'users'));
     })
     .catch(() => dispatch(signInFailure(lang.t('error.emailPasswordError'))));
@@ -117,7 +118,7 @@ export const invalidForm = error => ({type: actions.INVALID_FORM, error});
 // Check Login
 
 const checkLoginRequest = () => ({type: actions.CHECK_LOGIN_REQUEST});
-const checkLoginSuccess = user => ({type: actions.CHECK_LOGIN_SUCCESS, user});
+const checkLoginSuccess = (user, isAdmin) => ({type: actions.CHECK_LOGIN_SUCCESS, user, isAdmin});
 const checkLoginFailure = error => ({type: actions.CHECK_LOGIN_FAILURE, error});
 
 export const checkLogin = () => dispatch => {
@@ -125,10 +126,11 @@ export const checkLogin = () => dispatch => {
   coralApi('/auth')
     .then(user => {
       if (!user) {
-        throw new Error('not logged in');
+        throw new Error('Not logged in');
       }
 
-      dispatch(checkLoginSuccess(user));
+      const isAdmin = !!user.roles.filter(i => i === 'admin').length;
+      dispatch(checkLoginSuccess(user, isAdmin));
     })
     .catch(error => dispatch(checkLoginFailure(error)));
 };
