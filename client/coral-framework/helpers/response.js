@@ -1,23 +1,25 @@
 export const base = '/api/v1';
 
-export const getInit = (method, body) => {
-  let init = {
-    method,
-    headers: new Headers({
+const buildOptions = (inputOptions = {}) => {
+
+  const defaultOptions = {
+    method: 'GET',
+    headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
-    }),
+    },
     credentials: 'same-origin'
   };
+  const options = Object.assign({}, defaultOptions, inputOptions);
 
-  if (method.toLowerCase() !== 'get') {
-    init.body = JSON.stringify(body);
+  if (options.method.toLowerCase() !== 'get') {
+    options.body = JSON.stringify(options.body);
   }
 
-  return init;
+  return options;
 };
 
-export const handleResp = res => {
+const handleResp = res => {
   if (res.status === 401) {
     throw new Error('Not Authorized to make this request');
   } else if (res.status > 399) {
@@ -27,4 +29,8 @@ export const handleResp = res => {
   } else {
     return res.json();
   }
+};
+
+export default (url, options) => {
+  return fetch(`${base}${url}`, buildOptions(options)).then(handleResp);
 };

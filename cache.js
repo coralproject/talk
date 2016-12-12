@@ -1,6 +1,8 @@
 const redis = require('./redis');
 
-const cache = module.exports = {};
+const cache = module.exports = {
+  client: redis.createClient()
+};
 
 /**
  * This collects a key that may either be an array or a string and creates a
@@ -51,7 +53,7 @@ cache.wrap = (key, expiry, work) => {
  * @return {Promise}
  */
 cache.get = (key) => new Promise((resolve, reject) => {
-  redis.get(keyfunc(key), (err, reply) => {
+  cache.client.get(keyfunc(key), (err, reply) => {
     if (err) {
       return reject(err);
     }
@@ -75,6 +77,21 @@ cache.get = (key) => new Promise((resolve, reject) => {
 });
 
 /**
+ * This invalidates a cached entry in the cache.
+ * @param  {Mixed} key Either an array of items composing a key or a string
+ * @return {Promise}
+ */
+cache.invalidate = (key) => new Promise((resolve, reject) => {
+  cache.client.del(keyfunc(key), (err) => {
+    if (err) {
+      return reject(err);
+    }
+
+    resolve();
+  });
+});
+
+/**
  * This sets a value on the key with the expiry and then resolves once it is
  * done.
  * @param  {Mixed} key   Either an array of items composing a key or a string
@@ -87,7 +104,7 @@ cache.set = (key, value, expiry) => new Promise((resolve, reject) => {
   // Serialize the value as JSON.
   let reply = JSON.stringify(value);
 
-  redis.set(keyfunc(key), reply, 'EX', expiry, (err) => {
+  cache.client.set(keyfunc(key), reply, 'EX', expiry, (err) => {
     if (err) {
       return reject(err);
     }

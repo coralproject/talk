@@ -8,7 +8,7 @@ body {
 }
 
 .expandForSignin {
-  min-height: 550px;
+  min-height: 600px;
 }
 
 button {
@@ -56,12 +56,14 @@ hr {
 
 /* Info Box Styles */
 .coral-plugin-infobox-info {
-  position: fixed;
   top: 0;
   border: 0;
   background: rgb(105,105,105);
   color: white;
-  border-radius: 2px;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  margin-bottom: 10px;
   font-weight: bold;
   display: block;
 }
@@ -69,6 +71,11 @@ hr {
 .hidden  {
   visibility: hidden;
   display: none;
+}
+
+.commentStream {
+  /* prevent absolutely positioned final permalink popover from being clipped */
+  padding-bottom: 50px;
 }
 
 /* Comment Box Styles */
@@ -79,6 +86,7 @@ hr {
 .coral-plugin-commentbox-textarea {
   flex: 1;
   padding: 5px;
+  min-height: 100px;
 }
 
 .coral-plugin-commentbox-button-container {
@@ -106,6 +114,7 @@ hr {
 /* Comment styles */
 .comment {
   margin-bottom: 10px;
+  position: relative;
 }
 
 .coral-plugin-commentcontent-text {
@@ -116,6 +125,10 @@ hr {
   display: inline-block;
   margin-right: 10px;
   font-weight: bolder;
+}
+
+.coral-plugin-author-name-bio-flag {
+  float: right;
 }
 
 
@@ -139,9 +152,8 @@ hr {
   width: 50%;
 }
 
-.commentActionsLeft .material-icons,.commentActionsRight .material-icons,
-.replyActionsLeft .material-icons, .replyActionsRight .material-icons {
-  font-size: 12px;
+.material-icons {
+  font-size: 12px !important;
   margin-left: 3px;
   vertical-align: middle;
 }
@@ -154,12 +166,124 @@ hr {
   color: #F00;
 }
 
-/* Comment count styles */
-.coral-plugin-comment-count-text {
-  margin-bottom: 15px;
-}
-
 .coral-plugin-pubdate-text {
   color: #CCC;
   display: inline-block;
+}
+
+.coral-plugin-permalinks-container {
+  /*position: relative;*/
+  z-index: 2;
+}
+
+.coral-plugin-permalinks-popover {
+  display: none;
+  background-color: white;
+  border: 1px solid black;
+  width: calc(100% - 15px);
+  position: absolute;
+  top: 70px;
+  right: 0;
+  padding: 5px;
+}
+
+.coral-plugin-permalinks-popover.active {
+  display: block;
+}
+
+.coral-plugin-permalinks-copy-field {
+  display: block;
+  width: calc(100% - 5px);
+}
+
+.coral-plugin-permalinks-copied-text {
+  float: right;
+  margin: 8px;
+}
+
+/* Flag Styles */
+
+.coral-plugin-flags-container {
+  position: relative;
+}
+
+.coral-plugin-flags-popup span {
+  min-width: 280px;
+  bottom: 36px;
+  left: -190px;
+  position: absolute;
+}
+
+.coral-plugin-flags-popup-form {
+  margin-bottom: 10px;
+}
+
+.coral-plugin-flags-popup-header {
+  font-weight: bolder;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.coral-plugin-flags-popup-radio {
+  margin:5px;
+}
+
+.coral-plugin-flags-popup-radio-label {
+  margin:5px;
+  font-size: 14px;
+}
+
+.coral-plugin-flags-popup-counter {
+    float: left;
+    margin-top: 21px;
+    color: #999;
+}
+
+.coral-plugin-flags-popup-button {
+    float: right;
+    margin-top: 10px;
+}
+
+.coral-plugin-flags-other-text {
+  margin-left: 20px;
+  width: 75%;
+}
+
+/* Close comments */
+
+.close-comments-intro-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-comments-intro-wrapper button {
+  width: 300px;
+  margin-left: 20px;
+}
+
+.close-comments-intro-wrapper button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.close-comments-message {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100px;
+}
+
+.close-comments-confirm-wrapper {
+  float: right;
+}
+
+.close-comments-alert {
+  background-color: #d65344;
+  color: white;
+  font-size: 16px;
+  padding: 5px;
+}
+
+.close-comments-alert i.material-icons {
+  font-size: 16px !important;
 }

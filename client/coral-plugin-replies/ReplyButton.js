@@ -6,7 +6,12 @@ const name = 'coral-plugin-replies';
 
 const ReplyButton = (props) => <button
     className={`${name}-reply-button`}
-    onClick={() => props.updateItem(props.id, 'showReply', !props.showReply, 'comments')}>
+    onClick={() => {
+      if (props.banned) {
+        return;
+      }
+      props.updateItem(props.id, 'showReply', !props.showReply, 'comments');
+    }}>
     {lang.t('reply')}
     <i className={`${name}-icon material-icons`}
       aria-hidden={true}>reply</i>

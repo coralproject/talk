@@ -1,0 +1,91 @@
+.container {
+  padding: 10px;
+  display: flex;
+}
+
+.leftColumn {
+  width: 300px;
+}
+
+.mainContent {
+  width: calc(70% - 300px)
+}
+
+.settingOption {
+  cursor: pointer;
+}
+
+.configSetting {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 90px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.configSettingInfoBox {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  width: auto;
+  height: auto;
+  text-align: left;
+}
+
+.configSettingInfoBox p {
+  font-size: 12px;
+  bottom: 0;
+}
+
+.configSettingEmbed {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.changedSave {
+  background-color:#4caf50;
+}
+
+.copiedText {
+  color: #008000;
+  float: right;
+  padding: 12px;
+  font-size: 14px;
+}
+
+.copyButton {
+  float: right;
+}
+
+.embedInput {
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  display: block;
+  width: 90%;
+  vertical-align: middle;
+  margin-bottom: 10px;
+  color: #555;
+  padding: 14px;
+  font-size: 14px;
+  letter-spacing: 0.03em;
+}
+
+#bannedWordlist {
+    width: 100%;
+    padding: 10px;
+}
+
+.bannedWordHeader {
+  font-weight: bold;
+  font-size:18px;
+  margin-bottom:3px;
+}
+
+
+
+.hidden {
+  display: none;
+}

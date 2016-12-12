@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {I18n} from '../coral-framework';
 import translations from './translations.json';
+import {Button} from 'coral-ui';
 
 const name = 'coral-plugin-commentbox';
 
@@ -38,16 +39,22 @@ class CommentBox extends Component {
       related = 'comments';
       parent_type = 'assets';
     }
-    updateItem(child_id || parent_id, 'showReply', false, 'comments');
+    if (child_id || parent_id) {
+      updateItem(child_id || parent_id, 'showReply', false, 'comments');
+    }
     postItem(comment, 'comments')
-    .then((comment_id) => {
-      if (premod === 'pre') {
-        addNotification('success', lang.t('comment-post-notif-premod'));
-      } else {
-        appendItemArray(parent_id || id, related, comment_id, !parent_id, parent_type);
-        addNotification('success', 'Your comment has been posted.');
-      }
-    })
+      .then((postedComment) => {
+        const commentId = postedComment.id;
+        const status = postedComment.status;
+        if (status[0] && status[0].type === 'rejected') {
+          addNotification('error', lang.t('comment-post-banned-word'));
+        } else if (premod === 'pre') {
+          addNotification('success', lang.t('comment-post-notif-premod'));
+        } else {
+          appendItemArray(parent_id || id, related, commentId, !parent_id, parent_type);
+          addNotification('success', 'Your comment has been posted.');
+        }
+      })
     .catch((err) => console.error(err));
     this.setState({body: ''});
   }
@@ -75,12 +82,12 @@ class CommentBox extends Component {
         </div>
         <div className={`${name}-button-container`}>
           { author && (
-              <button
+              <Button
+                cStyle='darkGrey'
                 className={`${name}-button`}
-                style={styles && styles.button}
                 onClick={this.postComment}>
                 {lang.t('post')}
-              </button>
+              </Button>
             )
           }
       </div>

@@ -6,7 +6,14 @@
       "newsroom_role": "Newsroom Role",
       "admin": "Administrator",
       "moderator": "Moderator",
-      "role": "Select role..."
+      "role": "Select role...",
+      "no-results": "No users found with that user name or email address.",
+      "status": "Status",
+      "select-status": "Select status...",
+      "active": "Active",
+      "banned": "Banned",
+      "banned-user": "Banned User",
+      "loading": "Loading results"
     },
     "modqueue": {
       "pending": "pending",
@@ -25,7 +32,9 @@
     },
     "comment": {
       "flagged": "flagged",
-      "anon": "Anonymous"
+      "anon": "Anonymous",
+      "ban_user": "Ban User",
+      "banned_user": "Banned User"
     },
     "embedlink": {
       "copy": "Copy to Clipboard"
@@ -37,11 +46,23 @@
       "include-text": "Include your text here.",
       "comment-settings": "Comment Settings",
       "embed-comment-stream": "Embed Comment Stream",
+      "banned-word-header": "Write the bannned words list",
+      "banned-word-text": "Comments which contain these words or phrases, not separated by commas and not case sensitive, will be automatically removed from the comment stream.",
+      "wordlist": "Banned words list",
       "save-changes": "Save Changes",
       "copy-and-paste": "Copy and paste code below into your CMS to embed your comment box in your articles",
       "moderate": "Moderate",
       "configure": "Configure",
-      "community": "Community"
+      "community": "Community",
+      "closed-comments-desc": "Write a message for closed threads",
+      "closed-comments-label": "Write a message..."
+    },
+    "bandialog": {
+      "ban_user": "Ban User?",
+      "are_you_sure": "Are you sure you would like to ban {0}?",
+      "note": "Note: Banning this user will also place this comment in the Rejected queue.",
+      "cancel": "Cancel",
+      "yes_ban_user": "Yes, Ban User"
     }
   },
   "es": {
@@ -51,7 +72,14 @@
       "newsroom_role": "Rol en la redacción",
       "admin": "Administrador",
       "moderator": "Moderador",
-      "role": "Select role..."
+      "role": "Seleccionar rol...",
+      "no-results": "No se encontraron usuarios con ese nombre de usuario o correo electronico.",
+      "status": "Estado",
+      "select-status": "Seleccionar estado...",
+      "active": "Activa",
+      "banned": "Suspendido",
+      "banned-user": "Usuario Suspendido",
+      "loading": "Cargando resultados"
     },
     "modqueue": {
       "pending": "pendiente",
@@ -62,7 +90,9 @@
     },
     "comment": {
       "flagged": "marcado",
-      "anon": "Anónimo"
+      "anon": "Anónimo",
+      "ban_user": "Suspender Usuario",
+      "banned_user": "Usuario Suspendido"
     },
     "configure": {
       "enable-pre-moderation": "Habilitar pre-moderación",
@@ -71,11 +101,23 @@
       "include-text": "Incluir tu texto aqui.",
       "comment-settings": "Configuración de Comentarios",
       "embed-comment-stream": "Colocar Hilo de Comentarios",
+      "wordlist": "Lista de palabras no permitidas",
+      "banned-word-header": "Escribir las palabras no permitidas",
+      "banned-word-text": "Comentarios que contengan estas palabras o frases, no separadas por comas y en mayusculas o minusuculas, serán automaticamente separadas de los comentarios publicados.",
       "save-changes": "Guardar Cambios",
       "copy-and-paste": "Copiar y pegar el código de más abajo en tu CMS para colocar la caja de comentarios en tus articulos",
       "moderate": "Moderar",
       "configure": "Configurar",
-      "community": "Comunidad"
+      "community": "Comunidad",
+      "closed-comments-desc": "Escribe un mensaje para cuando los comentarios se encuentran cerrados",
+      "closed-comments-label": "Escribe un mensaje..."
+    },
+    "bandialog": {
+      "ban_user": "Quieres suspender el Usuario?",
+      "are_you_sure": "Estas segura que quieres suspender a {props.author.displayName}?",
+      "note": "Nota: Suspender este usuario también va a colocar este comentario en la cola de Rechazados.",
+      "cancel": "Cancelar",
+      "yes_ban_user": "Si, Suspendan el usuario"
     }
   }
 }

@@ -1,23 +1,24 @@
-const _ = require('lodash');
 const express = require('express');
-const router = express.Router();
 const Setting = require('../../../models/setting');
 
+const router = express.Router();
+
 router.get('/', (req, res, next) => {
-  Setting
-    .getSettings()
-    .then(settings => {
-      const whitelist = ['moderation'];
-      res.json(_.pick(settings, whitelist));
-    })
-    .catch(next);
+  Setting.retrieve().then((settings) => {
+    res.json(settings);
+  })
+  .catch((err) => {
+    next(err);
+  });
 });
 
 router.put('/', (req, res, next) => {
-  Setting
-    .updateSettings(req.body)
-    .then(() => res.status(204).end())
-    .catch(next);
+  Setting.update(req.body).then(() => {
+    res.status(204).end();
+  })
+  .catch((err) => {
+    next(err);
+  });
 });
 
 module.exports = router;

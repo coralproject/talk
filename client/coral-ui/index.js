@@ -1,3 +1,11 @@
 export {default as Dialog} from './components/Dialog';
 export {default as CoralLogo} from './components/CoralLogo';
 export {default as FabButton} from './components/FabButton';
+export {default as TabBar} from './components/TabBar';
+export {default as Tab} from './components/Tab';
+export {default as TabContent} from './components/TabContent';
+export {default as Button} from './components/Button';
+export {default as Spinner} from './components/Spinner';
+export {default as Tooltip} from './components/Tooltip';
+export {default as PopupMenu} from './components/PopupMenu';
+export {default as Checkbox} from './components/Checkbox';

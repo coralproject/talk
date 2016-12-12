@@ -1,9 +1,11 @@
 const mongoose = require('../mongoose');
-const uuid = require('uuid');
 const Schema = mongoose.Schema;
 
-const AssetSchema = new Schema({
+const Setting = require('./setting');
 
+const uuid = require('uuid');
+
+const AssetSchema = new Schema({
   id: {
     type: String,
     default: uuid.v4,
@@ -19,12 +21,30 @@ const AssetSchema = new Schema({
     type: String,
     default: 'article'
   },
-  headline: String,
-  summary: String,
+  scraped: {
+    type: Date,
+    default: null
+  },
+  settings: {
+    type: Schema.Types.Mixed,
+    default: null
+  },
+  closedAt: {
+    type: Date,
+    default: null
+  },
+  closedMessage: {
+    type: String,
+    default: null
+  },
+  title: String,
+  description: String,
+  image: String,
   section: String,
   subsection: String,
-  authors: [String],
-  publication_date: Date
+  author: String,
+  publication_date: Date,
+  modified_date: Date
 }, {
   versionKey: false,
   timestamps: {
@@ -33,83 +53,104 @@ const AssetSchema = new Schema({
   }
 });
 
+AssetSchema.index({
+  title: 'text',
+  url: 'text',
+  description: 'text',
+  section: 'text',
+  subsection: 'text',
+  author: 'text'
+}, {
+  background: true
+});
+
 /**
- * Search for assets. Currently only returns all.
-*/
-AssetSchema.statics.search = function(query) {
-
-  return Asset.find(query).exec();
-
-};
+ * Returns true if the asset is closed, false else.
+ */
+AssetSchema.virtual('isClosed').get(function() {
+  return this.closedAt && this.closedAt.getTime() <= new Date().getTime();
+});
 
 /**
  * Finds an asset by its id.
  * @param {String} id  identifier of the asset (uuid).
-*/
-AssetSchema.statics.findById = function(id) {
-
-  return Asset.findOne({id}).exec();
-
-};
+ */
+AssetSchema.statics.findById = (id) => Asset.findOne({id});
 
 /**
  * Finds a asset by its url.
  * @param {String} url  identifier of the asset (uuid).
-*/
-AssetSchema.statics.findByUrl = function(url) {
-
-  return Asset.findOne({'url': url}).exec();
-
-};
+ */
+AssetSchema.statics.findByUrl = (url) => Asset.findOne({url});
 
 /**
- * Finds a asset by its url.
- * @param {String} url  identifier of the asset (uuid).
-*/
-AssetSchema.statics.findOrCreateByUrl = function(url) {
+ * Retrieves the settings given an asset query and rectifies it against the
+ * global settings.
+ * @param  {Promise} assetQuery an asset query that returns a single asset.
+ * @return {Promise}
+ */
+AssetSchema.statics.rectifySettings = (assetQuery) => Promise.all([
+  Setting.retrieve(),
+  assetQuery
+]).then(([settings, asset]) => {
 
-  return Asset.findOne({url})
-    .then((asset) => asset ? asset
-      : Asset.upsert({url}));
-};
-
-/**
- * Upserts an asset.
-*/
-AssetSchema.statics.upsert = function(data) {
-  // If an id is not sent, create one.
-  if (typeof data.id === 'undefined') {
-    data.id = uuid.v4();
+  // If the asset exists and has settings then return the merged object.
+  if (asset && asset.settings) {
+    settings.merge(asset.settings);
   }
 
-  // Perform the upsert against the id field.
-  let updatePromise = Asset.update({id: data.id}, data, {upsert: true}).exec()
-    .then(() => {
-
-      // Pull the freshly minted asset out and return.
-      return Asset.findById(data.id);
-
-    })
-    .catch((err) => {
-
-      console.error('Error upserting asset.', err);
-      //return new Promise(); // ??? what do we return on error?
-
-    });
-
-  return updatePromise;
-
-};
+  return settings;
+});
 
 /**
- * Remove assets from the db.
- * @param {String} query  bson query to identify assets to be removed.
-*/
-AssetSchema.statics.removeAll = function(query) {
+ * Finds a asset by its url.
+ *
+ * NOTE: This function has scalability concerns regarding mongoose's decision
+ * always write {updated_at: new Date()} on every call to findOneAndUpdate
+ * even though the update document exactly matches the query document... In
+ * the future this function should never update, only findOneAndCreate but this
+ * is not possible with the mongoose driver.
+ *
+ * @param {String} url  identifier of the asset (uuid).
+ * @return {Promise}
+ */
+AssetSchema.statics.findOrCreateByUrl = (url) => Asset.findOneAndUpdate({url}, {url}, {
 
-  return Asset.remove(query).exec();
+  // Ensure that if it's new, we return the new object created.
+  new: true,
 
-};
+  // Perform an upsert in the event that this doesn't exist.
+  upsert: true,
+
+  // Set the default values if not provided based on the mongoose models.
+  setDefaultsOnInsert: true
+});
+
+/**
+ * Updates the settings for the asset.
+ * @param  {[type]} id       [description]
+ * @param  {[type]} settings [description]
+ * @return {[type]}          [description]
+ */
+AssetSchema.statics.overrideSettings = (id, settings) => Asset.findOneAndUpdate({id}, {
+  $set: {
+    settings
+  }
+}, {
+  new: true
+});
+
+/**
+ * Finds assets matching keywords on the model. If `value` is an empty string,
+ * then it will not even perform a text search query.
+ * @param  {String} value string to search by.
+ * @return {Promise}
+ */
+AssetSchema.statics.search = (value) => value.length === 0 ? Asset.find({}) : Asset.find({
+  $text: {
+    $search: value
+  }
+});
 
 const Asset = mongoose.model('Asset', AssetSchema);
 

@@ -19,7 +19,10 @@ const pkg = require('../package.json');
 
 program
   .version(pkg.version)
+  .command('serve', 'serve the application')
+  .command('assets', 'interact with assets')
   .command('settings', 'work with the application settings')
+  .command('jobs', 'work with the job queues')
   .command('users', 'work with the application auth')
   .parse(process.argv);
 

@@ -1,3 +1,5 @@
+import coralApi from '../../../coral-framework/helpers/response';
+
 export const SETTINGS_LOADING = 'SETTINGS_LOADING';
 export const SETTINGS_RECEIVED = 'SETTINGS_RECEIVED';
 export const SETTINGS_FETCH_ERROR = 'SETTINGS_FETCH_ERROR';
@@ -8,38 +10,9 @@ export const SAVE_SETTINGS_LOADING = 'SAVE_SETTINGS_LOADING';
 export const SAVE_SETTINGS_SUCCESS = 'SAVE_SETTINGS_SUCCESS';
 export const SAVE_SETTINGS_FAILED = 'SAVE_SETTINGS_FAILED';
 
-const base = '/api/v1';
-
-const getInit = (method, body) => {
-  const headers = new Headers({
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  });
-
-  const init = {method, headers};
-  if (method.toLowerCase() !== 'get') {
-    init.body = JSON.stringify(body);
-  }
-
-  return init;
-};
-
-const handleResp = res => {
-  if (res.status === 401) {
-    throw new Error('Not Authorized to make this request');
-  } else if (res.status > 399) {
-    throw new Error('Error! Status ', res.status);
-  } else if (res.status === 204) {
-    return res.text();
-  } else {
-    return res.json();
-  }
-};
-
 export const fetchSettings = () => dispatch => {
   dispatch({type: SETTINGS_LOADING});
-  fetch(`${base}/settings`, getInit('GET'))
-    .then(handleResp)
+  coralApi('/settings')
     .then(settings => {
       dispatch({type: SETTINGS_RECEIVED, settings});
     })
@@ -55,8 +28,7 @@ export const updateSettings = settings => {
 export const saveSettingsToServer = () => (dispatch, getState) => {
   const settings = getState().settings.toJS().settings;
   dispatch({type: SAVE_SETTINGS_LOADING});
-  fetch(`${base}/settings`, getInit('PUT', settings))
-    .then(handleResp)
+  coralApi('/settings', {method: 'PUT', body: settings})
     .then(() => {
       dispatch({type: SAVE_SETTINGS_SUCCESS, settings});
     })

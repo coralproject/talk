@@ -1,4 +1,3 @@
-
 /**
  * Action disptacher related to comments
  */
@@ -15,4 +14,17 @@ export const flagComment = id => (dispatch, getState) => {
 
 export const createComment = (name, body) => dispatch => {
   dispatch({type: 'COMMENT_CREATE', name, body});
+};
+
+// Dialog Actions
+export const showBanUserDialog = (userId, userName, commentId) => {
+  return dispatch => {
+    dispatch({type: 'SHOW_BANUSER_DIALOG', userId, userName, commentId});
+  };
+};
+
+export const hideBanUserDialog = (showDialog) => {
+  return dispatch => {
+    dispatch({type: 'HIDE_BANUSER_DIALOG', showDialog});
+  };
 };

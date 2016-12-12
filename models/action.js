@@ -1,5 +1,6 @@
 const mongoose = require('../mongoose');
 const uuid = require('uuid');
+const _ = require('lodash');
 const Schema = mongoose.Schema;
 
 const ActionSchema = new Schema({
@@ -11,7 +12,9 @@ const ActionSchema = new Schema({
   action_type: String,
   item_type: String,
   item_id: String,
-  user_id: String
+  user_id: String,
+  field: String, // Used when an action references a particular field of an object. (e.g. a flag on a username or bio)
+  detail: String, // Describes the reason for an action (e.g. 'Username is offensive')
 }, {
   timestamps: {
     createdAt: 'created_at',
@@ -28,6 +31,29 @@ ActionSchema.statics.findById = function(id) {
 };
 
 /**
+ * Add an action.
+ * @param {String} item_id  identifier of the comment  (uuid)
+ * @param {String} user_id  user id of the action (uuid)
+ * @param {String} action the new action to the comment
+ * @return {Promise}
+ */
+ActionSchema.statics.insertUserAction = (action) => {
+
+  // Create/Update the action.
+  return Action.findOneAndUpdate(action, action, {
+
+    // Ensure that if it's new, we return the new object created.
+    new: true,
+
+    // Perform an upsert in the event that this doesn't exist.
+    upsert: true,
+
+    // Set the default values if not provided based on the mongoose models.
+    setDefaultsOnInsert: true
+  });
+};
+
+/**
  * Finds actions in an array of ids.
  * @param {String} ids array of user identifiers (uuid)
 */
@@ -38,10 +64,38 @@ ActionSchema.statics.findByItemIdArray = function(item_ids) {
 };
 
 /**
+ * Fetches the action summaries for the given asset, and comments around the
+ * given user id.
+ * @param  {[type]} asset_id             [description]
+ * @param  {[type]} comments             [description]
+ * @param  {String} [current_user_id=''] [description]
+ * @return {[type]}                      [description]
+ */
+ActionSchema.statics.getActionSummariesFromComments = (asset_id = '', comments, current_user_id = '') => {
+
+  // Get the user id's from the author id's as a unique array that gets
+  // sorted.
+  let userIDs = _.uniq(comments.map((comment) => comment.author_id)).sort();
+
+  // Fetch the actions for pretty much everything at this point.
+  return Action.getActionSummaries(_.uniq([
+
+    // Actions can be on assets...
+    asset_id,
+
+    // Comments...
+    ...comments.map((comment) => comment.id),
+
+    // Or Authors...
+    ...userIDs
+  ].filter((e) => e)), current_user_id);
+};
+
+/**
  * Returns summaries of actions for an array of ids
  * @param {String} ids array of user identifiers (uuid)
 */
-ActionSchema.statics.getActionSummaries = function(item_ids) {
+ActionSchema.statics.getActionSummaries = function(item_ids, current_user_id = '') {
   return Action.aggregate([
     {
 
@@ -71,6 +125,18 @@ ActionSchema.statics.getActionSummaries = function(item_ids) {
         // just grabbing the last instance of the item type here.
         item_type: {
           $last: '$item_type'
+        },
+
+        current_user: {
+          $max: {
+            $cond: {
+              if: {
+                $eq: ['$user_id', current_user_id],
+              },
+              then: '$$CURRENT',
+              else: null
+            }
+          }
         }
       }
     },
@@ -89,7 +155,7 @@ ActionSchema.statics.getActionSummaries = function(item_ids) {
         item_type: '$item_type',
 
         // set the current user to false here
-        current_user: {$literal: false}
+        current_user: '$current_user'
       }
     }
   ])

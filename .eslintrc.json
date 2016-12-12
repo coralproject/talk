@@ -5,25 +5,15 @@
     },
     "extends": "eslint:recommended",
     "rules": {
-        "indent": [
-            "error",
+        "indent": ["error",
             2
         ],
         "no-console": [
             0
         ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ],
+        "linebreak-style": ["error", "unix"],
+        "quotes": ["error", "single"],
+        "semi": ["error", "always"],
         "no-template-curly-in-string": [1],
         "no-unsafe-negation": [1],
         "array-callback-return": [1],
@@ -35,7 +25,6 @@
         "no-throw-literal": [2],
         "yoda": [1],
         "no-path-concat": [2],
-        "no-process-exit": [2],
         "eol-last": [1],
         "no-continue": [1],
         "no-nested-ternary": [1],
@@ -46,20 +35,20 @@
         "no-const-assign": [2],
         "no-duplicate-imports": [2],
         "prefer-template": [1],
-        "comma-spacing": [
-          "error",
-          {
+        "comma-spacing": ["error", {
             "after": true
-          }
-        ],
+        }],
         "no-var": [2],
         "no-lonely-if": [2],
         "curly": [2],
-        "no-unused-vars": ["error", { "argsIgnorePattern": "next" }],
-        "no-multiple-empty-lines": [
-          "error",
-          {"max": 1}
-        ],
-        "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 2 }]
+        "no-unused-vars": ["error", {
+            "argsIgnorePattern": "next"
+        }],
+        "no-multiple-empty-lines": ["error", {
+            "max": 1
+        }],
+        "newline-per-chained-call": ["error", {
+            "ignoreChainWithDepth": 2
+        }]
     }
 }

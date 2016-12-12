@@ -1,39 +1,20 @@
-import sortBy from 'lodash/sortBy';
+import coralApi from '../helpers/response';
+import {fromJS} from 'immutable';
+import {UPDATE_CONFIG} from '../constants/config';
 
-/* Item Actions */
+/**
+* Action name constants
+*/
 
 export const REQUEST_COMMENTS_BY_USER = 'REQUEST_COMMENTS_BY_USER';
 export const RECEIVE_COMMENTS_BY_USER = 'RECEIVE_COMMENTS_BY_USER';
 export const FAILURE_COMMENTS_BY_USER = 'FAILURE_COMMENTS_BY_USER';
-
-/**
- * Action name constants
- */
-
 export const ADD_ITEM = 'ADD_ITEM';
 export const UPDATE_ITEM = 'UPDATE_ITEM';
 export const APPEND_ITEM_ARRAY = 'APPEND_ITEM_ARRAY';
 
-const getInit = (method, body) => {
-  const headers = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  };
+/* Item Actions */
 
-  const init = {method, headers};
-  if (body) {
-    init.body = JSON.stringify(body);
-  }
-
-  return init;
-};
-
-const responseHandler = response => {
-  if (response.status === 204) {
-    return;
-  }
-  return response.ok ? response.json() : Promise.reject(`${response.status} ${response.statusText}`);
-};
 /**
  * Action creators
  */
@@ -67,6 +48,7 @@ export const addItem = (item, item_type) => {
 *  id - the id of the item to be posted
 *  property - the property to be updated
 *  value - the value that the property should be set to
+*  item_type - the type of the item being updated (users, comments, etc)
 *
 */
 export const updateItem = (id, property, value, item_type) => {
@@ -79,6 +61,18 @@ export const updateItem = (id, property, value, item_type) => {
   };
 };
 
+/*
+* Appends data to an array in an item in the local store without posting it to the server
+* Useful for adding a recently posted reply to a comment, etc.
+*
+* @params
+*  id - the id of the item to be posted
+*  property - the property to be updated (should be an array)
+*  value - the value that should be added to the array
+*  add_to_front - boolean that defines whether value is added at the beginning (unshift) or end (push)
+*  item_type - the type of the item being updated (users, comments, etc)
+*
+*/
 export const appendItemArray = (id, property, value, add_to_front, item_type) => {
   return {
     type: APPEND_ITEM_ARRAY,
@@ -131,8 +125,7 @@ export const fetchCommentsByUserId = userId => {
 */
 export function getStream (assetUrl) {
   return (dispatch) => {
-    return fetch(`/api/v1/stream?asset_url=${encodeURIComponent(assetUrl)}`)
-      .then(responseHandler)
+    return coralApi(`/stream?asset_url=${encodeURIComponent(assetUrl)}`)
       .then((json) => {
 
         /* Add items to the store */
@@ -142,6 +135,8 @@ export function getStream (assetUrl) {
               action.id = `${action.action_type}_${action.item_id}`;
               dispatch(addItem(action, 'actions'));
             });
+          } else if (type === 'settings') {
+            dispatch({type: UPDATE_CONFIG, config: fromJS(json[type])});
           } else {
             json[type].forEach(item => {
               dispatch(addItem(item, type));
@@ -201,8 +196,7 @@ export function getStream (assetUrl) {
 
 export function getItemsArray (ids) {
   return (dispatch) => {
-    return fetch(`/v1/item/${ids}`, getInit('GET'))
-      .then(responseHandler)
+    return coralApi(`/item/${ids}`)
       .then((json) => {
         for (let i = 0; i < json.items.length; i++) {
           dispatch(addItem(json.items[i]));
@@ -231,11 +225,10 @@ export function postItem (item, type, id) {
     if (id) {
       item.id = id;
     }
-    return fetch(`/api/v1/${type}`, getInit('POST', item))
-      .then(responseHandler)
+    return coralApi(`/${type}`, {method: 'POST', body: item})
       .then((json) => {
         dispatch(addItem({...item, id:json.id}, type));
-        return json.id;
+        return json;
       });
   };
 }
@@ -255,15 +248,9 @@ export function postItem (item, type, id) {
 *
 */
 
-export function postAction (item_id, action_type, user_id, item_type) {
+export function postAction (item_id, item_type, action) {
   return () => {
-    const action = {
-      action_type,
-      user_id
-    };
-
-    return fetch(`/api/v1/${item_type}/${item_id}/actions`, getInit('POST', action))
-      .then(responseHandler);
+    return coralApi(`/${item_type}/${item_id}/actions`, {method: 'POST', body: action});
   };
 }
 
@@ -284,7 +271,6 @@ export function postAction (item_id, action_type, user_id, item_type) {
 
 export function deleteAction (action_id) {
   return () => {
-    return fetch(`/api/v1/actions/${action_id}`, {method: 'DELETE'})
-      .then(responseHandler);
+    return coralApi(`/actions/${action_id}`, {method: 'DELETE'});
   };
 }

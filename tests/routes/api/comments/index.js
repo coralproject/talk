@@ -1,6 +1,4 @@
-process.env.NODE_ENV = 'test';
-
-require('../../../utils/mongoose');
+const passport = require('../../../passport');
 
 const app = require('../../../../app');
 const chai = require('chai');
@@ -12,444 +10,399 @@ chai.use(require('chai-http'));
 
 const wordlist = require('../../../../services/wordlist');
 const Comment = require('../../../../models/comment');
+const Asset = require('../../../../models/asset');
 const Action = require('../../../../models/action');
 const User = require('../../../../models/user');
 
 const Setting = require('../../../../models/setting');
 const settings = {id: '1', moderation: 'pre'};
 
-beforeEach(() => {
-  return Setting.create(settings);
-});
+describe('/api/v1/comments', () => {
 
-describe('Get /comments', () => {
-  const comments = [{
-    id: 'abc',
-    body: 'comment 10',
-    asset_id: 'asset',
-    author_id: '123'
-  }, {
-    id: 'def',
-    body: 'comment 20',
-    asset_id: 'asset',
-    author_id: '456'
-  }, {
-    id: 'hij',
-    body: 'comment 30',
-    asset_id: '456'
-  }];
+  // Ensure that the settings are always available.
+  beforeEach(() => Promise.all([
+    wordlist.insert(['bad words']),
+    Setting.init(settings)
+  ]));
 
-  const users = [{
-    displayName: 'Ana',
-    email: 'ana@gmail.com',
-    password: '123'
-  }, {
-    displayName: 'Maria',
-    email: 'maria@gmail.com',
-    password: '123'
-  }];
+  describe('#get', () => {
+    const comments = [{
+      body: 'comment 10',
+      asset_id: 'asset',
+      author_id: '123'
+    }, {
+      body: 'comment 20',
+      asset_id: 'asset',
+      author_id: '456'
+    }, {
+      body: 'comment 20',
+      asset_id: 'asset',
+      author_id: '456',
+      status_history: [{
+        type: 'rejected'
+      }]
+    }, {
+      body: 'comment 30',
+      asset_id: '456',
+      status_history: [{
+        type: 'accepted'
+      }]
+    }];
 
-  const actions = [{
-    action_type: 'flag',
-    item_id: 'abc'
-  }, {
-    action_type: 'like',
-    item_id: 'hij'
-  }];
+    const users = [{
+      displayName: 'Ana',
+      email: 'ana@gmail.com',
+      password: '123'
+    }, {
+      displayName: 'Maria',
+      email: 'maria@gmail.com',
+      password: '123'
+    }];
 
-  beforeEach(() => {
-    return Promise.all([
-      Comment.create(comments),
-      User.createLocalUsers(users),
-      Action.create(actions)
-    ]);
+    const actions = [{
+      action_type: 'flag',
+      item_id: 'abc',
+      item_type: 'comment'
+    }, {
+      action_type: 'like',
+      item_id: 'hij',
+      item_type: 'comment'
+    }];
+
+    beforeEach(() => {
+      return Promise.all([
+        Comment.create(comments).then((newComments) => {
+          newComments.forEach((comment, i) => {
+            comments[i].id = comment.id;
+          });
+
+          actions[0].item_id = comments[0].id;
+          actions[1].item_id = comments[1].id;
+
+          return Action.create(actions);
+        }),
+        User.createLocalUsers(users)
+      ]);
+    });
+
+    it('should return all the comments', () => {
+      return chai.request(app)
+        .get('/api/v1/comments')
+        .set(passport.inject({roles: ['admin']}))
+        .then((res) => {
+
+          expect(res).to.have.status(200);
+
+        });
+    });
+
+    it('should return all the rejected comments', () => {
+      return chai.request(app)
+        .get('/api/v1/comments?status=rejected')
+        .set(passport.inject({roles: ['admin']}))
+        .then((res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.have.property('comments');
+          expect(res.body.comments).to.have.length(1);
+          expect(res.body.comments[0]).to.have.property('id', comments[2].id);
+        });
+    });
+
+    it('should return all the approved comments', () => {
+      return chai.request(app)
+        .get('/api/v1/comments?status=accepted')
+        .set(passport.inject({roles: ['admin']}))
+        .then((res) => {
+          expect(res).to.have.status(200);
+          expect(res.body.comments).to.have.length(1);
+          expect(res.body.comments[0]).to.have.property('id', comments[3].id);
+        });
+    });
+
+    it('should return all the new comments', () => {
+      return chai.request(app)
+        .get('/api/v1/comments?status=new')
+        .set(passport.inject({roles: ['admin']}))
+        .then((res) => {
+          expect(res).to.have.status(200);
+          expect(res.body.comments).to.have.length(2);
+        });
+    });
+
+    it('should return all the flagged comments', () => {
+      return chai.request(app)
+        .get('/api/v1/comments?action_type=flag')
+        .set(passport.inject({roles: ['admin']}))
+        .then((res) => {
+          expect(res).to.have.status(200);
+
+          expect(res.body.comments).to.have.length(1);
+          expect(res.body.comments[0]).to.have.property('id', comments[0].id);
+        });
+    });
   });
 
-  it('should return all the comments', () => {
-    return chai.request(app)
-      .get('/api/v1/comments')
-      .then((res) => {
+  describe('#post', () => {
 
-        expect(res).to.have.status(200);
+    let asset_id;
 
-      });
-  });
-});
+    beforeEach(() => Asset.findOrCreateByUrl('https://coralproject.net/section/article-is-the-best').then((asset) => {
 
-describe('Get comments by status and action', () => {
-  const comments = [{
-    id: 'abc',
-    body: 'comment 10',
-    asset_id: 'asset',
-    author_id: '123',
-    status: 'rejected'
-  }, {
-    id: 'def',
-    body: 'comment 20',
-    asset_id: 'asset',
-    author_id: '456'
-  }, {
-    id: 'hij',
-    body: 'comment 30',
-    asset_id: '456',
-    status: 'accepted'
-  }];
+      // Update the asset id.
+      asset_id = asset.id;
+    }));
 
-  const users = [{
-    displayName: 'Ana',
-    email: 'ana@gmail.com',
-    password: '123'
-  }, {
-    displayName: 'Maria',
-    email: 'maria@gmail.com',
-    password: '123'
-  }];
+    it('should create a comment', () => {
+      return chai.request(app)
+        .post('/api/v1/comments')
+        .set(passport.inject({roles: []}))
+        .send({'body': 'Something body.', 'author_id': '123', 'asset_id': asset_id, 'parent_id': ''})
+        .then((res) => {
+          expect(res).to.have.status(201);
+          expect(res.body).to.have.property('id');
+        });
+    });
 
-  const actions = [{
-    action_type: 'flag',
-    item_id: 'abc',
-    item_type: 'comment'
-  }, {
-    action_type: 'like',
-    item_id: 'hij',
-    item_type: 'comment'
-  }];
+    it('should create a comment with a rejected status if it contains a bad word', () => {
+      return chai.request(app)
+        .post('/api/v1/comments')
+        .set(passport.inject({roles: []}))
+        .send({'body': 'bad words are the baddest', 'author_id': '123', 'asset_id': asset_id, 'parent_id': ''})
+        .then((res) => {
+          expect(res).to.have.status(201);
+          expect(res.body).to.have.property('id');
+          expect(res.body).to.have.property('status', 'rejected');
+        });
+    });
 
-  beforeEach(() => {
-    return Promise.all([
-      Comment.create(comments),
-      User.createLocalUsers(users),
-      Action.create(actions)
-    ]);
-  });
+    it('should create a comment with a premod status if it\'s asset is has pre-moderation enabled', () => {
+      return Asset
+        .findOrCreateByUrl('https://coralproject.net/article1')
+        .then((asset) => {
+          return Asset
+            .overrideSettings(asset.id, {moderation: 'pre'})
+            .then(() => asset);
+        })
+        .then((asset) => {
+          return chai.request(app)
+            .post('/api/v1/comments')
+            .set(passport.inject({roles: []}))
+            .send({'body': 'Something body.', 'author_id': '123', 'asset_id': asset.id, 'parent_id': ''});
+        })
+        .then((res) => {
+          expect(res).to.have.status(201);
+          expect(res.body).to.have.property('id');
+          expect(res.body).to.have.property('asset_id');
+          expect(res.body).to.have.property('status', 'premod');
+        });
+    });
 
-  it('should return all the rejected comments', () => {
-    return chai.request(app)
-      .get('/api/v1/comments?status=rejected')
-      .then((res) => {
-        expect(res).to.have.status(200);
-        expect(res.body[0]).to.have.property('id', 'abc');
-      });
-  });
-
-  it('should return all the approved comments', () => {
-    return chai.request(app)
-      .get('/api/v1/comments?status=accepted')
-      .then((res) => {
-        expect(res).to.have.status(200);
-        expect(res.body[0]).to.have.property('id', 'hij');
-      });
-  });
-
-  it('should return all the new comments', () => {
-    return chai.request(app)
-      .get('/api/v1/comments?status=new')
-      .then((res) => {
-        expect(res).to.have.status(200);
-        expect(res.body[0]).to.have.property('id', 'def');
-      });
-  });
-
-  it('should return all the flagged comments', () => {
-    return chai.request(app)
-      .get('/api/v1/comments?action_type=flag')
-      .then((res) => {
-        expect(res).to.have.status(200);
-
-        expect(res.body.length).to.equal(1);
-        expect(res.body[0]).to.have.property('id', 'abc');
-
-      });
-  });
-});
-
-describe('Post /comments', () => {
-  const users = [{
-    displayName: 'Ana',
-    email: 'ana@gmail.com',
-    password: '123'
-  }, {
-    displayName: 'Maria',
-    email: 'maria@gmail.com',
-    password: '123'
-  }];
-
-  const actions = [{
-    action_type: 'flag',
-    item_id: 'abc'
-  }, {
-    action_type: 'like',
-    item_id: 'hij'
-  }];
-
-  beforeEach(() => {
-    return Promise.all([
-      User.createLocalUsers(users),
-      Action.create(actions),
-      wordlist.insert([
-        'bad words'
-      ])
-    ]);
-  });
-
-  it('should create a comment', () => {
-    return chai.request(app)
-      .post('/api/v1/comments')
-      .send({'body': 'Something body.', 'author_id': '123', 'asset_id': '1', 'parent_id': ''})
-      .then((res) => {
-        expect(res).to.have.status(201);
-        expect(res.body).to.have.property('id');
-      });
-  });
-
-  it('should create a comment with a rejected status if it contains a bad word', () => {
-    return chai.request(app)
-      .post('/api/v1/comments')
-      .send({'body': 'bad words are the baddest', 'author_id': '123', 'asset_id': '1', 'parent_id': ''})
-      .then((res) => {
-        expect(res).to.have.status(201);
-        expect(res.body).to.have.property('id');
-        expect(res.body).to.have.property('status', 'rejected');
-      });
-  });
-});
-
-describe('Get /:comment_id', () => {
-  const comments = [{
-    id: 'abc',
-    body: 'comment 10',
-    asset_id: 'asset',
-    author_id: '123'
-  }, {
-    id: 'def',
-    body: 'comment 20',
-    asset_id: 'asset',
-    author_id: '456'
-  }, {
-    id: 'hij',
-    body: 'comment 30',
-    asset_id: '456'
-  }];
-
-  const users = [{
-    displayName: 'Ana',
-    email: 'ana@gmail.com',
-    password: '123'
-  }, {
-    displayName: 'Maria',
-    email: 'maria@gmail.com',
-    password: '123'
-  }];
-
-  const actions = [{
-    action_type: 'flag',
-    item_id: 'abc',
-    item_type: 'comment'
-  }, {
-    action_type: 'like',
-    item_id: 'hij',
-    item_type: 'comment'
-  }];
-
-  beforeEach(() => {
-    return Promise.all([
-      Comment.create(comments),
-      User.createLocalUsers(users),
-      Action.create(actions)
-    ]);
-  });
-
-  it('should return the right comment for the comment_id', () => {
-    return chai.request(app)
-      .get('/api/v1/comments/abc')
-      .then((res) => {
-        expect(res).to.have.status(200);
-        expect(res).to.have.property('body');
-        expect(res.body).to.have.property('body', 'comment 10');
-
-      });
-  });
-});
-
-describe('Remove /:comment_id', () => {
-
-  const comments = [{
-    id: 'abc',
-    body: 'comment 10',
-    asset_id: 'asset',
-    author_id: '123'
-  }, {
-    id: 'def',
-    body: 'comment 20',
-    asset_id: 'asset',
-    author_id: '456'
-  }, {
-    id: 'hij',
-    body: 'comment 30',
-    asset_id: '456'
-  }];
-
-  const users = [{
-    displayName: 'Ana',
-    email: 'ana@gmail.com',
-    password: '123'
-  }, {
-    displayName: 'Maria',
-    email: 'maria@gmail.com',
-    password: '123'
-  }];
-
-  const actions = [{
-    action_type: 'flag',
-    item_id: 'abc'
-  }, {
-    action_type: 'like',
-    item_id: 'hij'
-  }];
-
-  beforeEach(() => {
-    return Promise.all([
-      Comment.create(comments),
-      User.createLocalUsers(users),
-      Action.create(actions)
-    ]);
-  });
-
-  it('it should remove comment', () => {
-    return chai.request(app)
-      .delete('/api/v1/comments/abc')
-      .then((res) => {
-        expect(res).to.have.status(204);
-
-        return Comment.findById('abc');
+    it('shouldn\'t create a comment when the asset has expired commenting', () => {
+      return Asset.create({
+        closedAt: new Date().setDate(0),
+        closedMessage: 'tests said expired!'
       })
-      .then((comment) => {
-        expect(comment).to.be.null;
-      });
-  });
-});
-
-process.on('unhandledRejection', (reason) => {
-  console.error('Reason: ');
-  console.error(reason);
-});
-
-describe('Put /:comment_id/status', () => {
-
-  const comments = [{
-    id: 'abc',
-    body: 'comment 10',
-    asset_id: 'asset',
-    author_id: '123',
-    status: ''
-  }, {
-    id: 'def',
-    body: 'comment 20',
-    asset_id: 'asset',
-    author_id: '456',
-    status: 'rejected'
-  }, {
-    id: 'hij',
-    body: 'comment 30',
-    asset_id: '456',
-    status: 'accepted'
-  }];
-
-  const users = [{
-    displayName: 'Ana',
-    email: 'ana@gmail.com',
-    password: '123'
-  }, {
-    displayName: 'Maria',
-    email: 'maria@gmail.com',
-    password: '123'
-  }];
-
-  const actions = [{
-    action_type: 'flag',
-    item_id: 'abc'
-  }, {
-    action_type: 'like',
-    item_id: 'hij'
-  }];
-
-  beforeEach(() => {
-    return Promise.all([
-      Comment.create(comments),
-      User.createLocalUsers(users),
-      Action.create(actions)
-    ]);
-  });
-
-  it('it should update status', function() {
-    return chai.request(app)
-      .put('/api/v1/comments/abc/status')
-      .send({status: 'accepted'})
+      .then((asset) => {
+        return chai.request(app)
+          .post('/api/v1/comments')
+          .set(passport.inject({roles: []}))
+          .send({'body': 'Something body.', 'author_id': '123', 'asset_id': asset.id, 'parent_id': ''});
+      })
       .then((res) => {
-        expect(res).to.have.status(204);
-        expect(res.body).to.be.empty;
+        expect(res).to.have.status(500);
+      })
+      .catch((err) => {
+        expect(err.response.body).to.not.be.null;
+        expect(err.response.body).to.have.property('message');
+        expect(err.response.body.message).to.contain('tests said expired!');
       });
-  });
-});
+    });
 
-describe('Post /:comment_id/actions', () => {
-
-  const comments = [{
-    id: 'abc',
-    body: 'comment 10',
-    asset_id: 'asset',
-    author_id: '123',
-    status: ''
-  }, {
-    id: 'def',
-    body: 'comment 20',
-    asset_id: 'asset',
-    author_id: '456',
-    status: 'rejected'
-  }, {
-    id: 'hij',
-    body: 'comment 30',
-    asset_id: '456',
-    status: 'accepted'
-  }];
-
-  const users = [{
-    displayName: 'Ana',
-    email: 'ana@gmail.com',
-    password: '123'
-  }, {
-    displayName: 'Maria',
-    email: 'maria@gmail.com',
-    password: '123'
-  }];
-
-  const actions = [{
-    action_type: 'flag',
-    item_id: 'abc'
-  }, {
-    action_type: 'like',
-    item_id: 'hij'
-  }];
-
-  beforeEach(() => {
-    return Promise.all([
-      Comment.create(comments),
-      User.createLocalUsers(users),
-      Action.create(actions)
-    ]);
-  });
-
-  it('it should update actions', () => {
-    return chai.request(app)
-      .post('/api/v1/comments/abc/actions')
-      .send({'user_id': '456', 'action_type': 'flag'})
+    it('should create a comment when the asset has not expired yet', () => {
+      return Asset.create({
+        closedAt: new Date().setDate(32),
+        closedMessage: 'tests said expired!'
+      })
+      .then((asset) => {
+        return chai.request(app)
+          .post('/api/v1/comments')
+          .set(passport.inject({roles: []}))
+          .send({'body': 'Something body.', 'author_id': '123', 'asset_id': asset.id, 'parent_id': ''});
+      })
       .then((res) => {
         expect(res).to.have.status(201);
-        expect(res).to.have.body;
-        expect(res.body).to.have.property('item_type', 'comment');
-        expect(res.body).to.have.property('action_type', 'flag');
-        expect(res.body).to.have.property('item_id', 'abc');
-        expect(res.body).to.have.property('user_id', '456');
       });
+    });
+  });
+});
+
+describe('/api/v1/comments/:comment_id', () => {
+  const comments = [{
+    id: 'abc',
+    body: 'comment 10',
+    asset_id: 'asset',
+    author_id: '123'
+  }, {
+    id: 'def',
+    body: 'comment 20',
+    asset_id: 'asset',
+    author_id: '456'
+  }, {
+    id: 'hij',
+    body: 'comment 30',
+    asset_id: '456'
+  }];
+
+  const users = [{
+    displayName: 'Ana',
+    email: 'ana@gmail.com',
+    password: '123'
+  }, {
+    displayName: 'Maria',
+    email: 'maria@gmail.com',
+    password: '123'
+  }];
+
+  const actions = [{
+    action_type: 'flag',
+    item_id: 'abc',
+    item_type: 'comment'
+  }, {
+    action_type: 'like',
+    item_id: 'hij',
+    item_type: 'comment'
+  }];
+
+  beforeEach(() => {
+    return Promise.all([
+      Comment.create(comments),
+      User.createLocalUsers(users),
+      Action.create(actions)
+    ]);
+  });
+
+  describe('#get', () => {
+
+    it('should return the right comment for the comment_id', () => {
+      return chai.request(app)
+        .get('/api/v1/comments/abc')
+        .set(passport.inject({roles: ['admin']}))
+        .then((res) => {
+          expect(res).to.have.status(200);
+          expect(res).to.have.property('body');
+          expect(res.body).to.have.property('body', 'comment 10');
+
+        });
+    });
+  });
+
+  describe('#delete', () => {
+    it('it should remove comment', () => {
+      return chai.request(app)
+        .delete('/api/v1/comments/abc')
+        .set(passport.inject({roles: ['admin']}))
+        .then((res) => {
+          expect(res).to.have.status(204);
+
+          return Comment.findById('abc');
+        })
+        .then((comment) => {
+          expect(comment).to.be.null;
+        });
+    });
+  });
+
+  describe('#put', () => {
+    it('it should update status', function() {
+      return chai.request(app)
+        .put('/api/v1/comments/abc/status')
+        .set(passport.inject({roles: ['admin']}))
+        .send({status: 'accepted'})
+        .then((res) => {
+          expect(res).to.have.status(204);
+          expect(res.body).to.be.empty;
+        });
+    });
+
+    it('it should not allow a non-admin to update status', () => {
+      return chai.request(app)
+        .put('/api/v1/comments/abc/status')
+        .set(passport.inject({roles: []}))
+        .send({status: 'accepted'})
+        .then((res) => {
+          expect(res).to.be.empty;
+        })
+        .catch((err) => {
+          expect(err).to.have.property('status', 401);
+        });
+    });
+  });
+});
+
+describe('/api/v1/comments/:comment_id/actions', () => {
+
+  const comments = [{
+    id: 'abc',
+    body: 'comment 10',
+    asset_id: 'asset',
+    author_id: '123',
+    status_history: []
+  }, {
+    id: 'def',
+    body: 'comment 20',
+    asset_id: 'asset',
+    author_id: '456',
+    status_history: [{
+      type: 'rejected'
+    }]
+  }, {
+    id: 'hij',
+    body: 'comment 30',
+    asset_id: '456',
+    status_history: [{
+      type: 'accepted'
+    }]
+  }];
+
+  const users = [{
+    displayName: 'Ana',
+    email: 'ana@gmail.com',
+    password: '123'
+  }, {
+    displayName: 'Maria',
+    email: 'maria@gmail.com',
+    password: '123'
+  }];
+
+  const actions = [{
+    action_type: 'flag',
+    item_id: 'abc'
+  }, {
+    action_type: 'like',
+    item_id: 'hij'
+  }];
+
+  beforeEach(() => {
+    return Promise.all([
+      Comment.create(comments),
+      User.createLocalUsers(users),
+      Action.create(actions)
+    ]);
+  });
+
+  describe('#post', () => {
+    it('it should update actions', () => {
+      return chai.request(app)
+        .post('/api/v1/comments/abc/actions')
+        .set(passport.inject({id: '456', roles: ['admin']}))
+        .send({'action_type': 'flag', 'detail': 'Comment is too awesome.'})
+        .then((res) => {
+          expect(res).to.have.status(201);
+          expect(res).to.have.body;
+          expect(res.body).to.have.property('action_type', 'flag');
+          expect(res.body).to.have.property('detail', 'Comment is too awesome.');
+          expect(res.body).to.have.property('item_id', 'abc');
+        });
+    });
   });
 });

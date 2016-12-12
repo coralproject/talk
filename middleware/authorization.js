@@ -2,7 +2,9 @@
  * authorization contains the references to the authorization middleware.
  * @type {Object}
  */
-const authorization = module.exports = {};
+const authorization = module.exports = {
+  middleware: []
+};
 
 const debug = require('debug')('talk:middleware:authorization');
 
@@ -33,21 +35,29 @@ authorization.has = (user, ...roles) => roles.every((role) => user.roles.indexOf
  * @param  {Array} roles all the roles that a user must have
  * @return {Callback}    connect middleware
  */
-authorization.needed = (...roles) => (req, res, next) => {
-  // All routes that are wrapepd with this middleware actually require a role.
-  if (!req.user) {
-    debug(`No user on request, returning with ${ErrNotAuthorized}`);
-    return next(ErrNotAuthorized);
-  }
+authorization.needed = (...roles) => [
 
-  // Check to see if the current user has all the roles requested for the given
-  // array of roles requested, if one is not on the user, then this will
-  // evaluate to true.
-  if (!authorization.has(req.user, ...roles)) {
-    debug('User does not have all the required roles to access this page');
-    return next(ErrNotAuthorized);
-  }
+  // Insert the pre-needed middlware.
+  ...authorization.middleware,
 
-  // Looks like they're allowed!
-  return next();
-};
+  // Insert the actual middleware to check for the required role.
+  (req, res, next) => {
+
+    // All routes that are wrapepd with this middleware actually require a role.
+    if (!req.user) {
+      debug(`No user on request, returning with ${ErrNotAuthorized}`);
+      return next(ErrNotAuthorized);
+    }
+
+    // Check to see if the current user has all the roles requested for the given
+    // array of roles requested, if one is not on the user, then this will
+    // evaluate to true.
+    if (!authorization.has(req.user, ...roles)) {
+      debug('User does not have all the required roles to access this page');
+      return next(ErrNotAuthorized);
+    }
+
+    // Looks like they're allowed!
+    return next();
+  }
+];

@@ -22,7 +22,10 @@ if (app.get('env') !== 'test') {
 //==============================================================================
 
 app.set('trust proxy', 1);
-app.use(helmet());
+// We disable frameward on helmet to allow crossdomain injection of the embed
+app.use(helmet({
+  frameguard: false
+}));
 app.use(bodyParser.json());
 app.use('/client', express.static(path.join(__dirname, 'dist')));
 app.set('views', path.join(__dirname, 'views'));
@@ -45,7 +48,7 @@ const session_opts = {
   },
   store: new RedisStore({
     ttl: 1800,
-    client: redis,
+    client: redis.createClient(),
   })
 };
 
@@ -91,7 +94,9 @@ app.use((req, res, next) => {
 // returning a status code that makes sense.
 app.use('/api', (err, req, res, next) => {
   if (err !== ErrNotFound) {
-    console.error(err);
+    if (app.get('env') !== 'test') {
+      console.error(err);
+    }
   }
 
   res.status(err.status || 500);

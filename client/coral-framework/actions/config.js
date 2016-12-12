@@ -1,35 +1,33 @@
-import {fromJS} from 'immutable';
+import coralApi from '../helpers/response';
+import * as actions from '../constants/config';
+import {addNotification} from '../actions/notification';
 
-/**
- * Action name constants
- */
+import I18n from 'coral-framework/modules/i18n/i18n';
+import translations from './../translations';
+const lang = new I18n(translations);
 
-export const FETCH_CONFIG_REQUEST = 'FETCH_CONFIG_REQUEST';
-export const FETCH_CONFIG_FAILED = 'FETCH_CONFIG_FAILED';
-export const FETCH_CONFIG_SUCCESS = 'FETCH_CONFIG_SUCCESS';
+export const updateOpenStatus = status => (dispatch, getState) => {
+  const assetId = getState().items.get('assets')
+    .keySeq()
+    .toArray()[0];
+  return coralApi(`/asset/${assetId}/status?status=${status}`, {method: 'PUT'})
+    .then(() => dispatch({type: status === 'open' ? actions.OPEN_COMMENTS : actions.CLOSE_COMMENTS}));
+};
 
-/**
- * Action creators
- */
+const updateConfigRequest = () => ({type: actions.UPDATE_CONFIG_REQUEST});
+const updateConfigSuccess = config => ({type: actions.UPDATE_CONFIG_SUCCESS, config});
+const updateConfigFailure = () => ({type: actions.UPDATE_CONFIG_FAILURE});
 
-export function fetchConfig () {
-  return (dispatch) => {
-    
-    dispatch({type: FETCH_CONFIG_REQUEST});
+export const updateConfiguration = newConfig => (dispatch, getState) => {
+  const assetId = getState().items.get('assets')
+    .keySeq()
+    .toArray()[0];
 
-    return fetch('/api/v1/settings')
-      .then(
-        response => {
-          return response.ok ? response.json()
-          : Promise.reject(`${response.status} ${response.statusText}`);
-        }
-      )
-      .then((json) => {
-        return dispatch({type: FETCH_CONFIG_SUCCESS, config: fromJS(json)});
-      })
-      .catch((error) => {
-        dispatch({type: FETCH_CONFIG_FAILED, error});
-      });
-
-  };
-}
+  dispatch(updateConfigRequest());
+  coralApi(`/asset/${assetId}/settings`, {method: 'PUT', body: newConfig})
+    .then(() => {
+      dispatch(addNotification('success', lang.t('successUpdateSettings')));
+      dispatch(updateConfigSuccess(newConfig));
+    })
+    .catch(error => dispatch(updateConfigFailure(error)));
+};

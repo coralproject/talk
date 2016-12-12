@@ -1,11 +1,12 @@
-/* eslint-env node, mocha */
-
-require('../utils/mongoose');
-
 const Asset = require('../../models/asset');
-const expect = require('chai').expect;
 
-describe('Asset: model', () => {
+const chai = require('chai');
+const expect = chai.expect;
+
+// Use the chai should.
+chai.should();
+
+describe('models.Asset', () => {
 
   beforeEach(() => {
     const defaults = {url:'http://test.com'};
@@ -57,6 +58,27 @@ describe('Asset: model', () => {
     });
   });
 
+  describe('#overrideSettings', () => {
+    it('should update the settings', () => {
+      return Asset
+        .findOrCreateByUrl('https://override.test.com/asset')
+        .then((asset) => {
+          expect(asset).to.have.property('settings');
+          expect(asset.settings).to.be.null;
+
+          return Asset.overrideSettings(asset.id, {moderation: 'pre'});
+        })
+        .then(() => {
+          return Asset.findOrCreateByUrl('https://override.test.com/asset');
+        })
+        .then((asset) => {
+          expect(asset).to.have.property('settings');
+          expect(asset.settings).is.an('object');
+          expect(asset.settings).to.have.property('moderation', 'pre');
+        });
+    });
+  });
+
   describe('#findOrCreateByUrl', ()=> {
     it('should find an asset by a url', () => {
       return Asset.findOrCreateByUrl('http://test.com')
@@ -71,37 +93,6 @@ describe('Asset: model', () => {
         .then((asset) => {
           expect(asset).to.have.property('id')
             .and.to.not.equal(1);
-        });
-    });
-  });
-
-  describe('#upsert', ()=> {
-    it('should insert an asset with no id', () => {
-      return Asset.upsert({url: 'http://newasset.test.com'})
-        .then((asset) => {
-          expect(asset).to.have.property('id');
-        });
-    });
-
-    it('should update an asset when the id exists', () => {
-      return Asset.upsert({id: 1, url: 'http://new.test.com'})
-        .then((asset) => {
-          expect(asset).to.have.property('id')
-            .and.to.equal('1');
-          expect(asset).to.have.property('url')
-            .and.to.equal('http://new.test.com');
-        });
-    });
-  });
-
-  describe('#removeAll', ()=> {
-    it('should insert an asset with no id', () => {
-      return Asset.removeAll({id:1})
-        .then(() => {
-          return Asset.findById(1);
-        })
-        .then((result) => {
-          expect(result).to.be.null;
         });
     });
   });

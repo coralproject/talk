@@ -1,7 +1,11 @@
 const mongoose = require('../mongoose');
 const uuid = require('uuid');
+const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Action = require('./action');
+
+const Comment = require('./comment');
 
 // SALT_ROUNDS is the number of rounds that the bcrypt algorithm will run
 // through during the salting process.
@@ -11,6 +15,12 @@ const SALT_ROUNDS = 10;
 const USER_ROLES = [
   'admin',
   'moderator'
+];
+
+// USER_STATUSES is the list of statuses that are permitted for the user status.
+const USER_STATUS = [
+  'active',
+  'banned'
 ];
 
 // In the event that the TALK_SESSION_SECRET is missing but we are testing, then
@@ -73,7 +83,18 @@ const UserSchema = new mongoose.Schema({
 
   // Roles provides an array of roles (as strings) that is associated with a
   // user.
-  roles: [String]
+  roles: [String],
+
+  // Status provides a string that says in which state the account is.
+  // When the account is banned, the user login is disabled.
+  status: {type: String, enum: USER_STATUS, default: 'active'},
+  // User's settings
+  settings: {
+    bio: {
+      type: String,
+      default: ''
+    }
+  }
 }, {
 
   // This will ensure that we have proper timestamps available on this model.
@@ -97,7 +118,8 @@ UserSchema.index({
  * output.
  */
 UserSchema.options.toJSON = {};
-UserSchema.options.toJSON.hide = 'password profiles roles disabled';
+UserSchema.options.toJSON.hide = '_id password';
+UserSchema.options.toJSON.virtuals = true;
 UserSchema.options.toJSON.transform = (doc, ret, options) => {
   if (options.hide) {
     options.hide.split(' ').forEach((prop) => {
@@ -109,20 +131,16 @@ UserSchema.options.toJSON.transform = (doc, ret, options) => {
 };
 
 /**
- * toObject overrides to remove the password field from the toObject
- * output.
+ * Filters the object for the given user only allowing those with the allowed
+ * roles/permissions to access particular parameters.
  */
-UserSchema.options.toObject = {};
-UserSchema.options.toObject.hide = 'password';
-UserSchema.options.toObject.transform = (doc, ret, options) => {
-  if (options.hide) {
-    options.hide.split(' ').forEach((prop) => {
-      delete ret[prop];
-    });
+UserSchema.method('filterForUser', function(user = false) {
+  if (!user || !user.roles.includes('admin')) {
+    return _.pick(this.toJSON(), ['id', 'displayName', 'settings', 'created_at', 'updated_at']);
   }
 
-  return ret;
-};
+  return this.toJSON();
+});
 
 // Create the User model.
 const UserModel = mongoose.model('User', UserSchema);
@@ -394,6 +412,47 @@ UserService.removeRoleFromUser = (id, role) => {
 };
 
 /**
+ * Set status of a user.
+ * @param  {String}   id   id of a user
+ * @param  {String}   status status to set
+ * @param  {String}   comment_id   id of the comment that the user was ban for.
+ * @param  {Function} done callback after the operation is complete
+ */
+UserService.setStatus = (id, status, comment_id) => {
+
+  // Check to see if the user status is in the allowable set of roles.
+  if (USER_STATUS.indexOf(status) === -1) {
+
+    // User status is not supported! Error out here.
+    return Promise.reject(new Error(`status ${status} is not supported`));
+  }
+
+  // If ban then reject the comment and update status
+  if (status === 'banned') {
+    return UserModel.update({
+      id: id
+    }, {
+      $set: {
+        status: status
+      }
+    })
+    .then(() => {
+      return Comment.pushStatus(comment_id, 'rejected', id);
+    });
+  }
+
+  if (status === 'active') {
+    return UserModel.update({
+      id: id
+    }, {
+      $set: {
+        status: status
+      }
+    });
+  }
+};
+
+/**
  * Finds a user with the id.
  * @param {String} id  user id (uuid)
 */
@@ -521,3 +580,36 @@ UserService.count = () => {
 UserService.all = () => {
   return UserModel.find();
 };
+
+/**
+ * Adds a new User bio
+ * @return {Promise}
+ */
+
+UserService.addBio = (id, bio) => (
+  UserModel.findOneAndUpdate({
+    id
+  }, {
+    $set: {
+      'settings.bio': bio
+    }
+  }, {
+    new: true
+  })
+);
+
+/**
+ * Add an action to the user.
+ * @param {String} item_id  identifier of the user  (uuid)
+ * @param {String} user_id  user id of the action (uuid)
+ * @param {String} action the new action to the user
+ * @return {Promise}
+ */
+UserService.addAction = (item_id, user_id, action_type, field, detail) => Action.insertUserAction({
+  item_id,
+  item_type: 'users',
+  user_id,
+  action_type,
+  field,
+  detail
+});

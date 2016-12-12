@@ -11,6 +11,14 @@ process.env.DEBUG = process.env.TALK_DEBUG;
  */
 
 const program = require('commander');
+const mongoose = require('../mongoose');
+const Setting = require('../models/setting');
+const util = require('../util');
+
+// Register the shutdown criteria.
+util.onshutdown([
+  () => mongoose.disconnect()
+]);
 
 //==============================================================================
 // Setting up the program command line arguments.
@@ -20,19 +28,17 @@ program
   .command('init')
   .description('initilizes the talk settings')
   .action(() => {
-    const mongoose = require('../mongoose');
-    const Setting = require('../models/setting');
     const defaults = {id: '1', moderation: 'pre'};
 
     Setting
       .update({id: '1'}, {$setOnInsert: defaults}, {upsert: true})
       .then(() => {
         console.log('Created settings object.');
-        mongoose.disconnect();
+        util.shutdown();
       })
       .catch((err) => {
         console.error(`failed to create the settings object ${JSON.stringify(err)}`);
-        throw new Error(err); // just to be safe
+        util.shutdown(1);
       });
   });
 
@@ -41,4 +47,5 @@ program.parse(process.argv);
 // If there is no command listed, output help.
 if (!process.argv.slice(2).length) {
   program.outputHelp();
+  util.shutdown();
 }

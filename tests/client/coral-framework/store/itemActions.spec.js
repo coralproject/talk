@@ -127,10 +127,11 @@ describe('itemActions', () => {
                 'Accept': 'application/json',
                 'Content-Type':'application/json'
               },
+              credentials: 'same-origin',
               body: JSON.stringify(item.data)
             }
           );
-          expect(id).to.equal('123');
+          expect(id).to.deep.equal({id: '123'});
           expect(store.getActions()[0]).to.deep.equal({
             type: actions.ADD_ITEM,
             item: {
@@ -154,7 +155,11 @@ describe('itemActions', () => {
   describe('postAction', () => {
     it ('should post an action', () => {
       fetchMock.post('*', {id: '456'});
-      return actions.postAction('abc', 'flag', '123', 'comments')(store.dispatch)
+      const action = {
+        action_type: 'flag',
+        detail: 'Comment smells funny'
+      };
+      return actions.postAction('abc', 'comments', action)(store.dispatch)
         .then(response => {
           expect(fetchMock.calls().matched[0][0]).to.equal('/api/v1/comments/abc/actions');
           expect(response).to.deep.equal({id:'456'});

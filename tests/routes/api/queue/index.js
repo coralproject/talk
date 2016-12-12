@@ -1,6 +1,4 @@
-process.env.NODE_ENV = 'test';
-
-require('../../../utils/mongoose');
+const passport = require('../../../passport');
 
 const app = require('../../../../app');
 const chai = require('chai');
@@ -17,27 +15,30 @@ const User = require('../../../../models/user');
 const Setting = require('../../../../models/setting');
 const settings = {id: '1', moderation: 'pre'};
 
-beforeEach(() => {
-  return Setting.create(settings);
-});
-
-describe('Get moderation queues rejected, pending, flags', () => {
+describe('/api/v1/queue', () => {
   const comments = [{
     id: 'abc',
     body: 'comment 10',
     asset_id: 'asset',
     author_id: '123',
-    status: 'rejected'
+    status_history: [{
+      type: 'rejected'
+    }]
   }, {
     id: 'def',
     body: 'comment 20',
     asset_id: 'asset',
-    author_id: '456'
+    author_id: '456',
+    status_history: [{
+      type: 'premod'
+    }]
   }, {
     id: 'hij',
     body: 'comment 30',
     asset_id: '456',
-    status: 'accepted'
+    status_history: [{
+      type: 'accepted'
+    }]
   }];
 
   const users = [{
@@ -61,20 +62,35 @@ describe('Get moderation queues rejected, pending, flags', () => {
   }];
 
   beforeEach(() => {
-    return Promise.all([
-      Comment.create(comments),
-      User.createLocalUsers(users),
-      Action.create(actions)
-    ]);
+    return User.createLocalUsers(users)
+      .then((u) => {
+        comments[0].author_id = u[0].id;
+        comments[1].author_id = u[1].id;
+        comments[2].author_id = u[1].id;
+
+        return Comment.create(comments);
+      })
+      .then((c) => {
+        actions[0].item_id = c[0].id;
+        actions[1].item_id = c[1].id;
+
+        return Promise.all([
+          Action.create(actions),
+          Setting.init(settings)
+        ]);
+      });
   });
 
-  it('should return all the pending comments', function(done){
+  it('should return all the pending comments, users and actions', function(done){
     chai.request(app)
       .get('/api/v1/queue/comments/pending')
+      .set(passport.inject({roles: ['admin']}))
       .end(function(err, res){
         expect(err).to.be.null;
         expect(res).to.have.status(200);
-        expect(res.body[0]).to.have.property('id', 'def');
+        expect(res.body.comments[0]).to.have.property('body');
+        expect(res.body.users[0]).to.have.property('displayName');
+        expect(res.body.actions[0]).to.have.property('action_type');
         done();
       });
   });

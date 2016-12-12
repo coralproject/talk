@@ -6,15 +6,15 @@ import {
   FETCH_COMMENTERS_FAILURE,
   SORT_UPDATE,
   COMMENTERS_NEW_PAGE,
-  SET_ROLE
+  SET_ROLE,
+  SET_COMMENTER_STATUS
 } from '../constants/community';
 
-import {base, getInit, handleResp} from '../helpers/response';
+import coralApi from '../../../coral-framework/helpers/response';
 
 export const fetchCommenters = (query = {}) => dispatch => {
   dispatch(requestFetchCommenters());
-  fetch(`${base}/user?${qs.stringify(query)}`, getInit('GET'))
-    .then(handleResp)
+  coralApi(`/users?${qs.stringify(query)}`)
     .then(({result, page, count, limit, totalPages}) =>
       dispatch({
         type: FETCH_COMMENTERS_SUCCESS,
@@ -42,8 +42,15 @@ export const newPage = () => ({
 });
 
 export const setRole = (id, role) => dispatch => {
-  return fetch(`${base}/user/${id}/role`, getInit('POST', {role}))
+  return coralApi(`/users/${id}/role`, {method: 'POST', body: {role}})
   .then(() => {
     return dispatch({type: SET_ROLE, id, role});
+  });
+};
+
+export const setCommenterStatus = (id, status) => dispatch => {
+  return coralApi(`/users/${id}/status`, {method: 'POST', body: {status}})
+  .then(() => {
+    return dispatch({type: SET_COMMENTER_STATUS, id, status});
   });
 };

@@ -1,10 +1,32 @@
 const nodemailer = require('nodemailer');
 
-if (!process.env.TALK_SMTP_CONNECTION_URL) {
-  console.error('TALK_SMTP_CONNECTION_URL should be defined if you would like to send password reset emails from Talk');
+const smtpRequiredProps = [
+  'TALK_SMTP_USERNAME',
+  'TALK_SMTP_PASSWORD',
+  'TALK_SMTP_HOST'
+];
+
+smtpRequiredProps.forEach(prop => {
+  if (!process.env[prop]) {
+    console.error(`process.env.${prop} should be defined if you would like to send password reset emails from Talk`);
+  }
+});
+
+const options = {
+  host: process.env.TALK_SMTP_HOST,
+  auth: {
+    user: process.env.TALK_SMTP_USERNAME,
+    pass: process.env.TALK_SMTP_PASSWORD
+  }
+};
+
+if (process.env.TALK_SMTP_PORT) {
+  options.port = process.env.TALK_SMTP_PORT;
+} else {
+  options.port = 25;
 }
 
-const defaultTransporter = nodemailer.createTransport(process.env.TALK_SMTP_CONNECTION_URL);
+const defaultTransporter = nodemailer.createTransport(options);
 
 const mailer = {
 
