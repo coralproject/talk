@@ -73,7 +73,7 @@ const signUpFailure = error => ({type: actions.FETCH_SIGNUP_FAILURE, error});
 
 export const fetchSignUp = formData => dispatch => {
   dispatch(signUpRequest());
-  coralApi('/user', {method: 'POST', body: formData})
+  coralApi('/users', {method: 'POST', body: formData})
     .then(({user}) => {
       dispatch(signUpSuccess(user));
       setTimeout(() =>{
