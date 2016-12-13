@@ -107,6 +107,11 @@ const SettingService = module.exports = {};
 const selector = {id: '1'};
 
 /**
+ * The list of settings that can be viewed publicly.
+ */
+const publicSettings = 'moderation infoBoxEnable infoBoxContent closeTimeout closedMessage charCountEnable charCount';
+
+/**
  * Cache expiry time in seconds for when the cached entry of the settings object
  * expires. 2 minutes.
  */
@@ -118,6 +123,14 @@ const EXPIRY_TIME = 60 * 2;
  */
 SettingService.retrieve = () => cache.wrap('settings', EXPIRY_TIME, () => {
   return Setting.findOne(selector);
+}).then((setting) => new Setting(setting));
+
+/**
+ * Gets publicly available settings records
+ * @return {Promise} settings the publicly viewable settings record
+ */
+SettingService.public = () => cache.wrap('publicSettings', EXPIRY_TIME, () => {
+  return Setting.findOne(selector, publicSettings);
 }).then((setting) => new Setting(setting));
 
 /**
@@ -134,9 +147,11 @@ SettingService.update = (settings) => Setting.findOneAndUpdate(selector, {
 }).then((settings) => {
 
   // Invalidate the settings cache.
-  return cache
-    .set('settings', settings, EXPIRY_TIME)
-    .then(() => settings);
+  return Promise.all([
+    cache.set('settings', settings, EXPIRY_TIME),
+    cache.invalidate('publicSettings')
+  ])
+  .then(() => settings);
 });
 
 /**
