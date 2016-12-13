@@ -46,9 +46,9 @@ class CommentStream extends React.Component {
         <CommentBox onSubmit={this.onSubmit} />
         <CommentList isActive hideActive
           singleView={false}
-          commentIds={comments.get('ids')}
-          comments={comments.get('byId')}
-          users={users.get('byId')}
+          commentIds={comments.ids}
+          comments={comments.byId}
+          users={users.byId}
           onClickAction={this.onClickAction}
           actions={['flag']}
           loading={comments.loading} />
@@ -58,4 +58,9 @@ class CommentStream extends React.Component {
   }
 }
 
-export default connect(({comments, users}) => ({comments, users}))(CommentStream);
+const mapStateToProps = state => ({
+  comments: state.comments.toJS(),
+  users: state.users.toJS()
+});
+
+export default connect(mapStateToProps)(CommentStream);
