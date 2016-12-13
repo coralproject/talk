@@ -92,7 +92,7 @@ router.put('/:asset_id/settings', (req, res, next) => {
 router.put('/:asset_id/status', (req, res, next) => {
   // Update the asset status
   Asset
-    .update({id: req.params.asset_id}, {status: req.query.status})
+    .changeStatus(req.params.asset_id, req.query.status)
     .then(() => res.status(204).end())
     .catch((err) => next(err));
 });

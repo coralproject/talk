@@ -96,4 +96,22 @@ describe('models.Asset', () => {
         });
     });
   });
+
+  describe('#updateStatus', () => {
+    it('should update the status', () => {
+      return Asset
+        .findOrCreateByUrl('https://override.test.com/asset')
+        .then((asset) => {
+          expect(asset).to.have.property('status', 'open');
+
+          return Asset.changeStatus(asset.id, 'closed');
+        })
+        .then(() => {
+          return Asset.findOrCreateByUrl('https://override.test.com/asset')
+          .then((asset) => {
+            expect(asset).to.have.property('status', 'closed');
+          });
+        });
+    });
+  });
 });
