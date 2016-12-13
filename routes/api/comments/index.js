@@ -96,7 +96,13 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
 
       // Return `premod` if pre-moderation is enabled and an empty "new" status
       // in the event that it is not in pre-moderation mode.
-      .then(({moderation}) => moderation === 'pre' ? 'premod' : '');
+      .then(({moderation, charCountEnable, charCount}) => {
+        // Reject if the comment is too long
+        if (charCountEnable && body.length > charCount) {
+          return 'rejected';
+        }
+        return moderation === 'pre' ? 'premod' : '';
+      });
   }
 
   status.then((status) => Comment.publicCreate({
