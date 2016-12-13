@@ -48,6 +48,6 @@ export const updateOpenStatus = status => dispatch => {
     dispatch(updateOpenStream({closedAt: null}));
   } else {
     dispatch(closeStream());
-    dispatch(updateOpenStream({closedAt: new Date().getTime(), closedMessage: ''}));
+    dispatch(updateOpenStream({closedAt: new Date().getTime()}));
   }
 };

@@ -94,8 +94,8 @@ router.put('/:asset_id/status', (req, res, next) => {
   const id = req.params.asset_id;
 
   const {
-    closedAt = null,
-    closedMessage = null
+    closedAt,
+    closedMessage
   } = req.body;
 
   Asset
