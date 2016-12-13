@@ -94,7 +94,7 @@ router.put('/:asset_id/status', (req, res, next) => {
   const {
     closedAt = null,
     closedMessage = null
-  } = req.query;
+  } = req.body;
   Asset
     .update(id, {
       closedAt: closedAt,

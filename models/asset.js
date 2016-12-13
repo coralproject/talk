@@ -19,7 +19,7 @@ const AssetSchema = new Schema({
   },
   type: {
     type: String,
-    default: 'article'
+    default: 'assets'
   },
   scraped: {
     type: Date,
