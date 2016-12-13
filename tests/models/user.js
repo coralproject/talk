@@ -95,12 +95,17 @@ describe('models.User', () => {
   });
 
   describe('#ban', () => {
+
     let mockComment;
+
     beforeEach(() => {
-      return Promise.all([
-        Comment.create([{body: 'testing the comment for that user if it is rejected.', id: mockUsers[0].id}])
+      return Comment.create([
+        {
+          body: 'testing the comment for that user if it is rejected.',
+          id: mockUsers[0].id
+        }
       ])
-      .then((comment) => {
+      .then(([comment]) => {
         mockComment = comment;
       });
     });
@@ -109,11 +114,11 @@ describe('models.User', () => {
       return User
         .setStatus(mockUsers[0].id, 'banned', mockComment.id)
         .then(() => {
-          User.findById(mockUsers[0].id)
-          .then((user) => {
-            expect(user).to.have.property('status')
-              .and.to.equal('banned');
-          });
+          return User.findById(mockUsers[0].id);
+        })
+        .then((user) => {
+          expect(user).to.have.property('status')
+            .and.to.equal('banned');
         });
     });
 
@@ -121,23 +126,20 @@ describe('models.User', () => {
       return User
         .setStatus(mockUsers[0].id, 'banned', mockComment.id)
         .then(() => {
-          Comment.findById(mockComment.id)
-          .then((comment) => {
-            expect(comment).to.have.property('status')
-              .and.to.equal('rejected');
-          });
+          return Comment.findById(mockComment.id);
+        })
+        .then((comment) => {
+          expect(comment).to.have.property('status')
+            .and.to.equal('rejected');
         });
     });
 
     it('should still disable and ban the user if there is no comment', () => {
       return User
         .setStatus(mockUsers[0].id, 'banned', '')
-        .then(() => {
-          User.findById(mockUsers[0].id)
-          .then((user) => {
-            expect(user).to.have.property('status')
-              .and.to.equal('banned');
-          });
+        .then(() => User.findById(mockUsers[0].id))
+        .then((user) => {
+          expect(user).to.have.property('status', 'banned');
         });
     });
   });
@@ -156,12 +158,9 @@ describe('models.User', () => {
     it('should set the status to active', () => {
       return User
         .setStatus(mockUsers[0].id, 'active', mockComment.id)
-        .then(() => {
-          User.findById(mockUsers[0].id)
-          .then((user) => {
-            expect(user).to.have.property('status')
-              .and.to.equal('active');
-          });
+        .then(() => User.findById(mockUsers[0].id))
+        .then((user) => {
+          expect(user).to.have.property('status', 'active');
         });
     });
   });
