@@ -22,7 +22,7 @@ export default (state = initialState, action) => {
     return state
       .set('status', 'closed');
   case actions.ADD_ITEM:
-    return action.item_type === 'assets' ? state.set('status', action.item.status) : state;
+    return action.item_type === 'assets' ? state.set('status', (action.item && action.item.closedAt && new Date(action.item.closedAt).getTime() <= new Date().getTime()) ? 'closed' : 'open') : state;
   default:
     return state;
   }

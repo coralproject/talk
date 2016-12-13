@@ -15,7 +15,7 @@ const pkg = require('../package.json');
 const parseDuration = require('parse-duration');
 const Table = require('cli-table');
 const Asset = require('../models/asset');
-const mongoose = require('../mongoose');
+const mongoose = require('../services/mongoose');
 const scraper = require('../services/scraper');
 const util = require('../util');
 

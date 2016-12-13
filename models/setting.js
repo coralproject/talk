@@ -1,7 +1,7 @@
-const mongoose = require('../mongoose');
+const mongoose = require('../services/mongoose');
 const Schema = mongoose.Schema;
 const _ = require('lodash');
-const cache = require('../cache');
+const cache = require('../services/cache');
 
 /**
  * SettingSchema manages application settings that get used on front and backend.

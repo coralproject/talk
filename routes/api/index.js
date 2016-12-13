@@ -19,6 +19,6 @@ router.use('/stream', require('./stream'));
 router.use('/users', require('./users'));
 
 // Bind the kue handler to the /kue path.
-router.use('/kue', authorization.needed('admin'), require('../../kue').kue.app);
+router.use('/kue', authorization.needed('admin'), require('../../services/kue').kue.app);
 
 module.exports = router;
