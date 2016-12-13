@@ -53,6 +53,10 @@ class CommentBox extends Component {
     if (child_id || parent_id) {
       updateItem(child_id || parent_id, 'showReply', false, 'comments');
     }
+
+    if (this.props.charCount && this.state.body.length > this.props.charCount) {
+      return;
+    }
     postItem(comment, 'comments')
       .then((postedComment) => {
         const commentId = postedComment.id;
@@ -70,17 +74,9 @@ class CommentBox extends Component {
     this.setState({body: ''});
   }
 
-  onUpdateComment = (e) => {
-    const body = e.target.value;
-    if (!this.props.charCount || body.length > this.props.charCount) {
-      this.setState({body});
-    }
-  }
-
   render () {
     const {styles, reply, author, charCount} = this.props;
     const length = this.state.body.length;
-    // How to handle language in plugins? Should we have a dependency on our central translation file?
     return <div>
       <div
         className={`${name}-container`}>
@@ -99,16 +95,16 @@ class CommentBox extends Component {
             onChange={(e) => this.setState({body: e.target.value})}
             rows={3}/>
         </div>
-        <div className={`${name}-char-count ${length > charCount && `${name}-char-max`}`}>
+        <div className={`${name}-char-count ${length > charCount ? `${name}-char-max` : ''}`}>
           {
             charCount &&
-            `${length}/${charCount}`
+            `${charCount - length} ${lang.t('characters-remaining')}`
           }
         </div>
         <div className={`${name}-button-container`}>
           { author && (
               <Button
-                cStyle='darkGrey'
+                cStyle={length > charCount ? 'lightGrey' : 'darkGrey'}
                 className={`${name}-button`}
                 onClick={this.postComment}>
                 {lang.t('post')}
