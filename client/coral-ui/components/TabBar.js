@@ -18,14 +18,16 @@ export class TabBar extends React.Component {
     return (
       <div>
         <ul className={`${styles.base} ${cStyle ? styles[cStyle] : ''}`}>
-          {React.Children.map(children, (child, tabId) =>
-            React.cloneElement(child, {
-              tabId,
-              active: tabId === activeTab,
-              onTabClick: this.handleClickTab,
-              cStyle
-            })
-          )}
+          {React.Children.toArray(children)
+            .filter(child => !child.props.restricted)
+            .map((child, tabId) =>
+              React.cloneElement(child, {
+                tabId,
+                active: tabId === activeTab,
+                onTabClick: this.handleClickTab,
+                cStyle
+              })
+            )}
         </ul>
       </div>
     );
