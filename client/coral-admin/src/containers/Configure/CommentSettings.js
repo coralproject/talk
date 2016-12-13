@@ -19,7 +19,7 @@ const updateCharCountEnable = (updateSettings, charCountChecked) => () => {
 
 const updateCharCount = (updateSettings, settingsError) => (event) => {
   const charCount = event.target.value;
-  if (charCount.match(/[^0-9]/)) {
+  if (charCount.match(/[^0-9]/) || charCount.length === 0) {
     settingsError('charCount', true);
   } else {
     settingsError('charCount', false);
