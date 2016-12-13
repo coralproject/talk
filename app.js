@@ -3,10 +3,10 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const path = require('path');
 const helmet = require('helmet');
-const passport = require('./passport');
+const passport = require('./services/passport');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
-const redis = require('./redis');
+const redis = require('./services/redis');
 
 const app = express();
 

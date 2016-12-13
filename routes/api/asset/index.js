@@ -90,20 +90,28 @@ router.put('/:asset_id/settings', (req, res, next) => {
 });
 
 router.put('/:asset_id/status', (req, res, next) => {
+
   const id = req.params.asset_id;
+
   const {
     closedAt = null,
     closedMessage = null
   } = req.body;
+
   Asset
-    .update(id, {
-      closedAt: closedAt,
-      closedMessage: closedMessage
+    .update({id}, {
+      $set: {
+        closedAt,
+        closedMessage
+      }
     })
-    .then((asset) => {
-      res.status(201).json(asset);
+    .then(() => {
+
+      res.status(204).json();
     })
-    .catch((err) => next(err));
+    .catch((err) => {
+      next(err);
+    });
 });
 
 module.exports = router;

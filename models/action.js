@@ -1,4 +1,4 @@
-const mongoose = require('../mongoose');
+const mongoose = require('../services/mongoose');
 const uuid = require('uuid');
 const _ = require('lodash');
 const Schema = mongoose.Schema;
