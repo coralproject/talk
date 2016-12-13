@@ -22,7 +22,8 @@ class Configure extends React.Component {
     this.state = {
       activeSection: 'comments',
       wordlist: [],
-      changed: false
+      changed: false,
+      errors: {}
     };
   }
 
@@ -64,12 +65,23 @@ class Configure extends React.Component {
     this.props.dispatch(updateSettings(setting));
   }
 
+  // Sets an arbitrary error string and a boolean state.
+  // This allows the system to track multiple errors.
+  onSettingError = (error, state) => {
+    this.setState((prevState) => {
+      prevState.errors[error] = state;
+      return prevState;
+    });
+  }
+
   getSection = (section) => {
     switch(section){
     case 'comments':
       return <CommentSettings
         settings={this.props.settings}
-        updateSettings={this.onSettingUpdate}/>;
+        updateSettings={this.onSettingUpdate}
+        errors={this.state.errors}
+        settingsError={this.onSettingError}/>;
     case 'embed':
       return <EmbedLink/>;
     case 'wordlist':
@@ -93,6 +105,9 @@ class Configure extends React.Component {
   render () {
     let pageTitle = this.getPageTitle(this.state.activeSection);
     const section = this.getSection(this.state.activeSection);
+
+    const showSave = Object.keys(this.state.errors).reduce(
+      (bool, error) => this.state.errors[error] ? false : bool, this.state.changed);
 
     if (this.props.fetchingSettings) {
       pageTitle += ' - Loading...';
@@ -119,7 +134,7 @@ class Configure extends React.Component {
               </ListItem>
             </List>
             {
-              this.state.changed ?
+              showSave ?
               <Button
                 raised
                 onClick={this.saveSettings}
