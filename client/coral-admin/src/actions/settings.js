@@ -26,7 +26,10 @@ export const updateSettings = settings => {
 };
 
 export const saveSettingsToServer = () => (dispatch, getState) => {
-  const settings = getState().settings.toJS().settings;
+  let settings = getState().settings.toJS().settings;
+  if (settings.charCount) {
+    settings.charCount = parseInt(settings.charCount);
+  }
   dispatch({type: SAVE_SETTINGS_LOADING});
   coralApi('/settings', {method: 'PUT', body: settings})
     .then(() => {
