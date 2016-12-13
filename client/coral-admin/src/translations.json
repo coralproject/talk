@@ -57,7 +57,7 @@
       "community": "Community",
       "closed-comments-desc": "Write a message for closed threads",
       "closed-comments-label": "Write a message...",
-      "comment-count-header": "Limit Content Length",
+      "comment-count-header": "Limit Comment Length",
       "comment-count-text-pre":  "Comments will be limited to ",
       "comment-count-text-post": " characters.",
       "comment-count-error": "Please enter a valid number."
@@ -117,9 +117,10 @@
       "community": "Comunidad",
       "closed-comments-desc": "Escribe un mensaje para cuando los comentarios se encuentran cerrados",
       "closed-comments-label": "Escribe un mensaje...",
-      "comment-count-header": "tracundeme",
-      "comment-count-text-pre":  "tracundeme",
-      "comment-count-text-post": "tracundeme"
+      "comment-count-header": "Limitar el largo del comentario",
+      "comment-count-text-pre":  "El largo de comentarios será ",
+      "comment-count-text-post": " caracteres",
+      "comment-count-error": "Por favor escribe un número válido."
     },
     "bandialog": {
       "ban_user": "Quieres suspender el Usuario?",
