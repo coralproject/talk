@@ -101,7 +101,7 @@
     },
     "configure": {
       "enable-pre-moderation": "Habilitar pre-moderación",
-      "enable-pre-moderation-text": "tracundeme!",
+      "enable-pre-moderation-text": "Los moderadores deben aprobar cualquier comentario antes de que sea publicado.",
       "include-comment-stream": "Incluir la Descripción a un Hilo de Comentario para los y las Lectoras.",
       "include-comment-stream-desc": "Escribir un mensaje que será agregado a la parte de arriba del tu hilo de comentarios. Por ejemplo, un tema, guias de comunidad, etc.",
       "include-text": "Incluir tu texto aqui.",
