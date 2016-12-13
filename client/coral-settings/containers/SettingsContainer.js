@@ -49,7 +49,13 @@ class SignInContainer extends Component {
           <Tab>Profile Settings</Tab>
         </TabBar>
         <TabContent show={activeTab === 0}>
-          <CommentHistory comments={user.myComments.map(id => items.comments[id])} />
+          {
+            user.myComments.length && user.myAssets.length
+            ? <CommentHistory
+              comments={user.myComments.map(id => items.comments[id])}
+              assets={user.myAssets.map(id => items.assets[id])} />
+            : <p>Loading comment history...</p>
+          }
         </TabContent>
         <TabContent show={activeTab === 1}>
           <BioContainer bio={userData.settings.bio} handleSave={this.handleSave} {...this.props} />

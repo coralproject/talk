@@ -40,6 +40,20 @@ router.get('/', (req, res, next) => {
 
 });
 
+// get multiple assets with a comma-separated list of asset ids
+router.get('/multi', (req, res, next) => {
+  const assetIds = req.query.ids.split(',');
+
+  Asset.findMultipleById(assetIds)
+    .then(assets => {
+      res.json(assets);
+    })
+    .catch(error => {
+      error.status = 500;
+      next(error);
+    });
+});
+
 // Get an asset by id.
 router.get('/:asset_id', (req, res, next) => {
 
@@ -55,20 +69,6 @@ router.get('/:asset_id', (req, res, next) => {
     })
     .catch((err) => {
       next(err);
-    });
-});
-
-// get multiple assets with a comma-separated list of asset ids
-router.get('/multi', (req, res, next) => {
-  const assetIds = req.query.ids.split(',');
-
-  Asset.findMultipleById(assetIds)
-    .then(assets => {
-      res.json(assets);
-    })
-    .catch(error => {
-      error.status = 500;
-      next(error);
     });
 });
 

@@ -1,12 +1,14 @@
 import {Map, fromJS} from 'immutable';
 import * as authActions from '../constants/auth';
 import * as actions from '../constants/user';
+import * as assetActions from '../actions/assets';
 
 const initialState = Map({
   displayName: '',
   profiles: [],
   settings: {},
-  myComments: []
+  myComments: [],
+  myAssets: [] // the assets from which myComments (above) originated
 });
 
 const purge = user => {
@@ -33,6 +35,8 @@ export default function user (state = initialState, action) {
       .set('settings', action.settings);
   case actions.RECEIVE_COMMENTS_BY_USER:
     return state.set('myComments', fromJS(action.comments));
+  case assetActions.RECEIVE_MULTIPLE_ASSETS:
+    return state.set('myAssets', fromJS(action.assets));
   default :
     return state;
   }

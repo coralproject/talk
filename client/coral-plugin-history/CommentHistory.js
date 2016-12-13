@@ -7,15 +7,19 @@ const CommentHistory = props => {
     <div className={styles.header}>
       <h2>All Comments</h2>
       {props.comments.map((comment, i) => {
-        console.log('a comment', comment);
-        return <Comment key={i} comment={comment} />;
+        const asset = props.assets.find(asset => asset.id === comment.asset_id);
+        return <Comment
+          key={i}
+          comment={comment}
+          asset={asset} />;
       })}
     </div>
   );
 };
 
 CommentHistory.propTypes = {
-  comments: PropTypes.arrayOf(PropTypes.object).isRequired
+  comments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  assets: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 export default CommentHistory;
