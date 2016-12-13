@@ -16,7 +16,7 @@ export const updateConfiguration = newConfig => (dispatch, getState) => {
     .toArray()[0];
 
   dispatch(updateConfigRequest());
-  coralApi(`/asset/${assetId}/settings`, {method: 'PUT', body: newConfig})
+  coralApi(`/assets/${assetId}/settings`, {method: 'PUT', body: newConfig})
     .then(() => {
       dispatch(addNotification('success', lang.t('successUpdateSettings')));
       dispatch(updateConfigSuccess(newConfig));
@@ -31,7 +31,7 @@ export const updateOpenStream = closedBody => (dispatch, getState) => {
 
   dispatch(updateConfigRequest());
 
-  coralApi(`/asset/${assetId}/status`, {method: 'PUT', body: closedBody})
+  coralApi(`/assets/${assetId}/status`, {method: 'PUT', body: closedBody})
     .then(() => {
       dispatch(addNotification('success', lang.t('successUpdateSettings')));
       dispatch(updateConfigSuccess(closedBody));
