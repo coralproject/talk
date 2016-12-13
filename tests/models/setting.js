@@ -3,7 +3,7 @@ const expect = require('chai').expect;
 
 describe('models.Setting', () => {
 
-  beforeEach(() => Setting.init({moderation: 'pre'}));
+  beforeEach(() => Setting.init({moderation: 'pre', wordlist: ['donut']}));
 
   describe('#retrieve()', () => {
     it('should have a moderation field defined', () => {
@@ -16,6 +16,20 @@ describe('models.Setting', () => {
       return Setting.retrieve().then(settings => {
         expect(settings).to.have.property('infoBoxEnable').and.to.equal(false);
         expect(settings).to.have.property('infoBoxContent').and.to.equal('');
+      });
+    });
+  });
+
+  describe('#public()', () => {
+    it('should have a moderation field defined', () => {
+      return Setting.public().then(settings => {
+        expect(settings).to.have.property('moderation').and.to.equal('pre');
+      });
+    });
+
+    it('should not have the wordlist field defined', () => {
+      return Setting.public().then(settings => {
+        expect(settings).to.have.property('wordlist').and.to.have.length(0);
       });
     });
   });

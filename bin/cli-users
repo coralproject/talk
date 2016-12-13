@@ -14,7 +14,7 @@ const program = require('commander');
 const pkg = require('../package.json');
 const prompt = require('prompt');
 const User = require('../models/user');
-const mongoose = require('../mongoose');
+const mongoose = require('../services/mongoose');
 const util = require('../util');
 const Table = require('cli-table');
 

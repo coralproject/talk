@@ -1,4 +1,4 @@
-const mongoose = require('../mongoose');
+const mongoose = require('../services/mongoose');
 const Schema = mongoose.Schema;
 
 const Setting = require('./setting');
@@ -19,7 +19,7 @@ const AssetSchema = new Schema({
   },
   type: {
     type: String,
-    default: 'article'
+    default: 'assets'
   },
   scraped: {
     type: Date,
@@ -65,13 +65,6 @@ AssetSchema.index({
 });
 
 /**
- * Returns true if the asset is closed, false else.
- */
-AssetSchema.virtual('isClosed').get(function() {
-  return this.closedAt && this.closedAt.getTime() <= new Date().getTime();
-});
-
-/**
  * Finds an asset by its id.
  * @param {String} id  identifier of the asset (uuid).
  */
@@ -82,6 +75,13 @@ AssetSchema.statics.findById = (id) => Asset.findOne({id});
  * @param {String} url  identifier of the asset (uuid).
  */
 AssetSchema.statics.findByUrl = (url) => Asset.findOne({url});
+
+/**
+ * Returns true if the asset is closed, false else.
+ */
+AssetSchema.virtual('isClosed').get(function() {
+  return this.closedAt && this.closedAt.getTime() <= new Date().getTime();
+});
 
 /**
  * Retrieves the settings given an asset query and rectifies it against the

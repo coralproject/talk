@@ -1,4 +1,4 @@
-const mongoose = require('../../mongoose');
+const mongoose = require('../../services/mongoose');
 
 // Ensure the NODE_ENV is set to 'test',
 // this is helpful when you would like to change behavior when testing.
