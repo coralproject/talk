@@ -58,6 +58,20 @@ router.get('/:asset_id', (req, res, next) => {
     });
 });
 
+// get multiple assets with a comma-separated list of asset ids
+router.get('/multi', (req, res, next) => {
+  const assetIds = req.query.ids.split(',');
+
+  Asset.findMultipleById(assetIds)
+    .then(assets => {
+      res.json(assets);
+    })
+    .catch(error => {
+      error.status = 500;
+      next(error);
+    });
+});
+
 // Adds the asset id to the queue to be scraped.
 router.post('/:asset_id/scrape', (req, res, next) => {
 

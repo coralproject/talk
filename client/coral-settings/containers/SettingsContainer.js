@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import {saveBio, fetchCommentsByUserId} from 'coral-framework/actions/user';
+import {fetchMulitpleAssets} from 'coral-framework/actions/assets';
 
 import BioContainer from './BioContainer';
 import NotLoggedIn from '../components/NotLoggedIn';
@@ -22,8 +23,13 @@ class SignInContainer extends Component {
 
   componentWillMount () {
     // Fetch commentHistory
-    console.log('userData', this.props.userData);
-    this.props.fetchCommentsByUserId(this.props.userData.id);
+    this.props.fetchCommentsByUserId(this.props.userData.id)
+      .then(() => {
+        const assetIds = this.props.user.myComments
+          .map(id => this.props.items.comments[id])
+          .map(comment => comment.asset_id);
+        this.props.fetchMulitpleAssets(assetIds);
+      });
   }
 
   handleTabChange(tab) {
@@ -60,7 +66,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   saveBio: (user_id, formData) => dispatch(saveBio(user_id, formData)),
-  fetchCommentsByUserId: userId => dispatch(fetchCommentsByUserId(userId))
+  fetchCommentsByUserId: userId => dispatch(fetchCommentsByUserId(userId)),
+  fetchMulitpleAssets: assetIds => dispatch(fetchMulitpleAssets(assetIds))
 });
 
 export default connect(

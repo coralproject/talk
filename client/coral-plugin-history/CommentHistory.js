@@ -1,14 +1,14 @@
 import React, {PropTypes} from 'react';
-
+import Comment from './Comment';
 import styles from './CommentHistory.css';
 
 const CommentHistory = props => {
   return (
     <div className={styles.header}>
-      <h1>Comment History</h1>
+      <h2>All Comments</h2>
       {props.comments.map((comment, i) => {
         console.log('a comment', comment);
-        return <p key={i}>{comment.body}</p>;
+        return <Comment key={i} comment={comment} />;
       })}
     </div>
   );
