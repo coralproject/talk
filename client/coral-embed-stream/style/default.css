@@ -95,7 +95,7 @@ hr {
   margin-top: 10px;
 }
 
-#coralStream .coral-plugin-commentbox-button {
+.coral-plugin-commentbox-button {
   float: right;
   margin-top: 10px;
   padding: 5px 10px;
@@ -109,6 +109,16 @@ hr {
   width: 50%;
   padding-left: 5px;
   margin-bottom: 5px;
+}
+
+.coral-plugin-commentbox-char-count {
+  color: #ccc;
+  text-align: right;
+  font-size: 12px;
+}
+
+.coral-plugin-commentbox-char-max {
+  color: #d50000;
 }
 
 /* Comment styles */
