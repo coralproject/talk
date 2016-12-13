@@ -142,11 +142,9 @@ SettingService.update = (settings) => Setting.findOneAndUpdate(selector, {
 }).then((settings) => {
 
   // Invalidate the settings cache.
-  return Promise.all([
-    cache.set('settings', settings, EXPIRY_TIME),
-    cache.invalidate('publicSettings')
-  ])
-  .then(() => settings);
+  return cache
+    .set('settings', settings, EXPIRY_TIME)
+    .then(() => settings);
 });
 
 /**
