@@ -38,7 +38,15 @@ const SettingSchema = new Schema({
     type: String,
     default: ''
   },
-  wordlist: [String]
+  wordlist: [String],
+  charCount: {
+    type: Number,
+    default: 5000
+  },
+  charCountEnable: {
+    type: Boolean,
+    default: false
+  }
 }, {
   timestamps: {
     createdAt: 'created_at',

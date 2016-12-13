@@ -8,8 +8,24 @@ import {
   ListItemContent,
   ListItemAction,
   Textfield,
-  Checkbox
+  Checkbox,
+  Icon
 } from 'react-mdl';
+
+const updateCharCountEnable = (updateSettings, charCountChecked) => () => {
+  const charCountEnable = !charCountChecked;
+  updateSettings({charCountEnable});
+};
+
+const updateCharCount = (updateSettings, settingsError) => (event) => {
+  const charCount = event.target.value;
+  if (charCount.match(/[^0-9]/) || charCount.length === 0) {
+    settingsError('charCount', true);
+  } else {
+    settingsError('charCount', false);
+  }
+  updateSettings({charCount: charCount});
+};
 
 const updateModeration = (updateSettings, mod) => () => {
   const moderation = mod === 'pre' ? 'post' : 'pre';
@@ -31,48 +47,80 @@ const updateClosedMessage = (updateSettings) => (event) => {
   updateSettings({closedMessage});
 };
 
-const CommentSettings = (props) => <List>
-  <ListItem className={styles.configSetting}>
-    <ListItemAction>
-      <Checkbox
-        onClick={updateModeration(props.updateSettings, props.settings.moderation)}
-        checked={props.settings.moderation === 'pre'} />
-    </ListItemAction>
-    {lang.t('configure.enable-pre-moderation')}
-  </ListItem>
-  <ListItem threeLine className={styles.configSettingInfoBox}>
-    <ListItemAction>
-      <Checkbox
-        onClick={updateInfoBoxEnable(props.updateSettings, props.settings.infoBoxEnable)}
-        checked={props.settings.infoBoxEnable} />
-    </ListItemAction>
-    <ListItemContent>
-      {lang.t('configure.include-comment-stream')}
-      <p>
-        {lang.t('configure.include-comment-stream-desc')}
+const CommentSettings = ({updateSettings, settingsError, settings, errors}) => <List>
+    <ListItem className={`${styles.configSetting} ${settings.moderation === 'pre' ? styles.enabledSetting : styles.disabledSetting}`}>
+      <ListItemAction>
+        <Checkbox
+          onClick={updateModeration(updateSettings, settings.moderation)}
+          checked={settings.moderation === 'pre'} />
+      </ListItemAction>
+      <ListItemContent>
+      <div className={styles.settingsHeader}>{lang.t('configure.enable-pre-moderation')}</div>
+      <p className={settings.moderation === 'pre' ? '' : styles.disabledSettingText}>
+        {lang.t('configure.enable-pre-moderation-text')}
       </p>
     </ListItemContent>
-  </ListItem>
-  <ListItem className={`${styles.configSettingInfoBox} ${props.settings.infoBoxEnable ? null : styles.hidden}`} >
-    <ListItemContent>
-      <Textfield
-        onChange={updateInfoBoxContent(props.updateSettings)}
-        value={props.settings.infoBoxContent}
-        label={lang.t('configure.include-text')}
-        rows={3}/>
-    </ListItemContent>
-  </ListItem>
-  <ListItem className={styles.configSettingInfoBox}>
-    <ListItemContent>
-      {lang.t('configure.closed-comments-desc')}
-      <Textfield
-        onChange={updateClosedMessage(props.updateSettings)}
-        value={props.settings.closedMessage}
-        label={lang.t('configure.closed-comments-label')}
-        rows={3}/>
-    </ListItemContent>
-  </ListItem>
-</List>;
+    </ListItem>
+    <ListItem className={`${styles.configSetting} ${settings.charCountEnable ? styles.enabledSetting : styles.disabledSetting}`}>
+      <ListItemAction>
+        <Checkbox
+          onClick={updateCharCountEnable(updateSettings, settings.charCountEnable)}
+          checked={settings.charCountEnable} />
+      </ListItemAction>
+      <ListItemContent>
+        <div className={styles.settingsHeader}>{lang.t('configure.comment-count-header')}</div>
+        <p className={settings.charCountEnable ? '' : styles.disabledSettingText}>
+          <span>{lang.t('configure.comment-count-text-pre')}</span>
+          <input type='text'
+            className={`${styles.charCountTexfield} ${settings.charCountEnable && styles.charCountTexfieldEnabled}`}
+            htmlFor='charCount'
+            onChange={updateCharCount(updateSettings, settingsError)}
+            value={settings.charCount}/>
+          <span>{lang.t('configure.comment-count-text-post')}</span>
+            {
+              errors.charCount &&
+              <span className={styles.settingsError}>
+                <br/>
+                <Icon name="error_outline"/>
+                {lang.t('configure.comment-count-error')}
+              </span>
+            }
+        </p>
+      </ListItemContent>
+    </ListItem>
+    <ListItem threeLine className={`${styles.configSettingInfoBox} ${settings.infoBoxEnable ? styles.enabledSetting : styles.disabledSetting}`}>
+      <ListItemAction>
+        <Checkbox
+          onClick={updateInfoBoxEnable(updateSettings, settings.infoBoxEnable)}
+          checked={settings.infoBoxEnable} />
+      </ListItemAction>
+      <ListItemContent>
+        {lang.t('configure.include-comment-stream')}
+        <p>
+          {lang.t('configure.include-comment-stream-desc')}
+        </p>
+      </ListItemContent>
+    </ListItem>
+    <ListItem className={`${styles.configSettingInfoBox} ${settings.infoBoxEnable ? null : styles.hidden}`} >
+      <ListItemContent>
+        <Textfield
+          onChange={updateInfoBoxContent(updateSettings)}
+          value={settings.infoBoxContent}
+          label={lang.t('configure.include-text')}
+          rows={3}/>
+      </ListItemContent>
+    </ListItem>
+    <ListItem className={styles.configSettingInfoBox}>
+      <ListItemContent>
+        {lang.t('configure.closed-comments-desc')}
+        <Textfield
+          onChange={updateClosedMessage(updateSettings)}
+          value={settings.closedMessage}
+          label={lang.t('configure.closed-comments-label')}
+          rows={3}/>
+      </ListItemContent>
+    </ListItem>
+  </List>;
 
 export default CommentSettings;
 
