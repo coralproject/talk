@@ -32,7 +32,7 @@ describe('/api/v1/assets', () => {
 
     it('should return all assets without a search query', () => {
       return chai.request(app)
-        .get('/api/v1/asset')
+        .get('/api/v1/assets')
         .set(passport.inject({roles: ['admin']}))
         .then((res) => {
           const body = res.body;
@@ -48,7 +48,7 @@ describe('/api/v1/assets', () => {
 
     it('should return assets that we search for', () => {
       return chai.request(app)
-        .get('/api/v1/asset?search=term2')
+        .get('/api/v1/assets?search=term2')
         .set(passport.inject({roles: ['admin']}))
         .then((res) => {
           const body = res.body;
@@ -69,7 +69,7 @@ describe('/api/v1/assets', () => {
 
     it('should not return assets that we do not search for', () => {
       return chai.request(app)
-        .get('/api/v1/asset?search=term3')
+        .get('/api/v1/assets?search=term3')
         .set(passport.inject({roles: ['admin']}))
         .then((res) => {
           const body = res.body;
@@ -94,7 +94,7 @@ describe('/api/v1/assets', () => {
           expect(asset).to.have.property('closedAt', null);
 
           return chai.request(app)
-            .put(`/api/v1/asset/${asset.id}/status`)
+            .put(`/api/v1/assets/${asset.id}/status`)
             .set(passport.inject({roles: ['admin']}))
             .send({closedAt: today});
         })
