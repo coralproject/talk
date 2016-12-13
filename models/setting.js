@@ -41,7 +41,7 @@ const SettingSchema = new Schema({
   wordlist: [String],
   charCount: {
     type: Number,
-    default: 1000
+    default: 5000
   },
   charCountEnable: {
     type: Boolean,

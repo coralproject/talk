@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations.json';
 import styles from './Configure.css';
