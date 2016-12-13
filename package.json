@@ -5,21 +5,26 @@
   "main": "app.js",
   "scripts": {
     "start": "./bin/cli serve --jobs",
-    "build": "NODE_ENV=production webpack --config webpack.config.js --bail",
-    "build-watch": "NODE_ENV=development webpack --config webpack.config.dev.js --watch",
-    "lint": "eslint bin/* .",
-    "lint-fix": "eslint . --fix",
-    "test": "NODE_ENV=test mocha --compilers js:babel-core/register --recursive tests",
-    "test-watch": "NODE_ENV=test mocha --compilers js:babel-core/register --recursive -w tests",
-    "pree2e": "NODE_ENV=test ./pree2e.sh",
-    "e2e": "NODE_ENV=test node_modules/.bin/nightwatch",
+    "build": "NODE_ENV=production ./node_modules/.bin/webpack --config webpack.config.js --bail",
+    "build-watch": "NODE_ENV=development ./node_modules/.bin/webpack --config webpack.config.dev.js --watch",
+    "lint": "./node_modules/.bin/eslint bin/* .",
+    "lint-fix": "./node_modules/.bin/eslint bin/* . --fix",
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha --compilers js:babel-core/register --recursive tests",
+    "test-watch": "NODE_ENV=test ./node_modules/.bin/mocha --compilers js:babel-core/register --recursive -w tests",
+    "pree2e": "NODE_ENV=test ./scripts/pree2e.sh",
+    "e2e": "NODE_ENV=test ./node_modules/.bin/nightwatch",
     "embed-start": "NODE_ENV=development npm run build && ./bin/cli serve --jobs"
   },
   "config": {
     "pre-git": {
       "commit-msg": [],
-      "pre-commit": ["npm run lint", "npm test"],
-      "pre-push": ["npm test"],
+      "pre-commit": [
+        "npm run lint",
+        "npm test"
+      ],
+      "pre-push": [
+        "npm test"
+      ],
       "post-commit": [],
       "post-merge": []
     }
@@ -28,7 +33,12 @@
     "type": "git",
     "url": "git+https://github.com/coralproject/talk.git"
   },
-  "keywords": ["talk", "coral", "coralproject", "ask"],
+  "keywords": [
+    "talk",
+    "coral",
+    "coralproject",
+    "ask"
+  ],
   "author": "",
   "license": "Apache-2.0",
   "bugs": {
@@ -59,7 +69,6 @@
     "passport-facebook": "^2.1.1",
     "passport-local": "^1.0.0",
     "prompt": "^1.0.0",
-    "react-linkify": "^0.1.3",
     "redis": "^2.6.3",
     "uuid": "^2.0.3"
   },
@@ -84,9 +93,10 @@
     "copy-webpack-plugin": "^4.0.0",
     "css-loader": "^0.25.0",
     "dialog-polyfill": "^0.4.4",
-    "eslint": "^3.9.1",
+    "eslint": "^3.12.1",
     "eslint-config-postcss": "^2.0.2",
     "eslint-config-standard": "^6.2.1",
+    "eslint-module-utils": "^2.0.0",
     "eslint-plugin-flowtype": "^2.25.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-mocha": "^4.7.0",
@@ -113,6 +123,7 @@
     "pym.js": "^1.1.1",
     "react": "15.3.2",
     "react-dom": "15.3.2",
+    "react-linkify": "^0.1.3",
     "react-mdl": "^1.7.2",
     "react-mdl-selectfield": "^0.2.0",
     "react-onclickoutside": "^5.7.1",

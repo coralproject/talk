@@ -1,4 +1,4 @@
-const mongoose = require('../mongoose');
+const mongoose = require('../services/mongoose');
 const Schema = mongoose.Schema;
 
 const Setting = require('./setting');
@@ -76,6 +76,9 @@ AssetSchema.statics.findById = (id) => Asset.findOne({id});
  */
 AssetSchema.statics.findByUrl = (url) => Asset.findOne({url});
 
+/**
+ * Returns true if the asset is closed, false else.
+ */
 AssetSchema.virtual('isClosed').get(function() {
   return this.closedAt && this.closedAt.getTime() <= new Date().getTime();
 });

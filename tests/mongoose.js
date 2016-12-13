@@ -1,4 +1,4 @@
-const mongoose = require('../mongoose');
+const mongoose = require('../services/mongoose');
 
 beforeEach(function (done) {
   function clearDB() {

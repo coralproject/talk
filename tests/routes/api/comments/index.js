@@ -160,9 +160,6 @@ describe('/api/v1/comments', () => {
         .then((res) => {
           expect(res).to.have.status(201);
           expect(res.body).to.have.property('id');
-        })
-        .catch((err) => {
-          expect(err).to.be.null;
         });
     });
 
