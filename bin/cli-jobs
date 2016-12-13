@@ -13,8 +13,8 @@ process.env.DEBUG = process.env.TALK_DEBUG;
 const program = require('commander');
 const scraper = require('../services/scraper');
 const util = require('../util');
-const mongoose = require('../mongoose');
-const kue = require('../kue');
+const mongoose = require('../services/mongoose');
+const kue = require('../services/kue');
 
 util.onshutdown([
   () => mongoose.disconnect()
