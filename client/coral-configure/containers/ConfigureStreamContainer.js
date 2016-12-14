@@ -59,7 +59,6 @@ class ConfigureStreamContainer extends Component {
   render () {
     const {status} = this.props;
 
-    const closedIn = this.getClosedIn();
     return (
       <div>
         <ConfigureCommentStream

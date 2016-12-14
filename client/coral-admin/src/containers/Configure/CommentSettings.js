@@ -15,7 +15,7 @@ import {
 
 const TIMESTAMPS = {
   weeks: 60 * 60 * 24 * 7,
-  days: 60 * 60 *24,
+  days: 60 * 60 * 24,
   hours: 60 * 60
 };
 
@@ -60,78 +60,14 @@ const updateClosedTimeout = (updateSettings, ts, isMeasure) => (event) => {
   if (isMeasure) {
     const amount = getTimeoutAmount(ts);
     const closedTimeout = amount * TIMESTAMPS[event];
-    updateSettings({ closedTimeout });
+    updateSettings({closedTimeout});
   } else {
     const val = event.target.value;
     const measure = getTimeoutMeasure(ts);
     const closedTimeout = val * TIMESTAMPS[measure];
-    updateSettings({ closedTimeout });
+    updateSettings({closedTimeout});
   }
 };
-
-const CommentSettings = (props) => <List>
-  <ListItem className={styles.configSetting}>
-    <ListItemAction>
-      <Checkbox
-        onClick={updateModeration(props.updateSettings, props.settings.moderation)}
-        checked={props.settings.moderation === 'pre'} />
-    </ListItemAction>
-    {lang.t('configure.enable-pre-moderation')}
-  </ListItem>
-  <ListItem threeLine className={styles.configSettingInfoBox}>
-    <ListItemAction>
-      <Checkbox
-        onClick={updateInfoBoxEnable(props.updateSettings, props.settings.infoBoxEnable)}
-        checked={props.settings.infoBoxEnable} />
-    </ListItemAction>
-    <ListItemContent>
-      {lang.t('configure.include-comment-stream')}
-      <p>
-        {lang.t('configure.include-comment-stream-desc')}
-      </p>
-    </ListItemContent>
-  </ListItem>
-  <ListItem className={styles.configSettingInfoBox}>
-    <ListItemContent>
-      {lang.t('configure.close-after')}
-      <br />
-      <Textfield
-        type='number'
-        pattern='[0-9]+'
-        style={{width: 50}}
-        onChange={updateClosedTimeout(props.updateSettings, props.settings.closedTimeout)}
-        value={getTimeoutAmount(props.settings.closedTimeout)}
-        label={lang.t('configure.closed-comments-label')} />
-      <div className={styles.configTimeoutSelect}>
-        <SelectField value={getTimeoutMeasure(props.settings.closedTimeout)}
-          onChange={updateClosedTimeout(props.updateSettings, props.settings.closedTimeout, true)}>
-          <Option value={'hours'}>{lang.t('configure.hours')}</Option>
-          <Option value={'days'}>{lang.t('configure.days')}</Option>
-          <Option value={'weeks'}>{lang.t('configure.weeks')}</Option>
-        </SelectField>
-      </div>
-    </ListItemContent>
-  </ListItem>
-  <ListItem className={`${styles.configSettingInfoBox} ${props.settings.infoBoxEnable ? null : styles.hidden}`} >
-    <ListItemContent>
-      <Textfield
-        onChange={updateInfoBoxContent(props.updateSettings)}
-        value={props.settings.infoBoxContent}
-        label={lang.t('configure.include-text')}
-        rows={3}/>
-    </ListItemContent>
-  </ListItem>
-  <ListItem className={styles.configSettingInfoBox}>
-    <ListItemContent>
-      {lang.t('configure.closed-comments-desc')}
-      <Textfield
-        onChange={updateClosedMessage(props.updateSettings)}
-        value={props.settings.closedMessage}
-        label={lang.t('configure.closed-comments-label')}
-        rows={3}/>
-    </ListItemContent>
-  </ListItem>
-</List>;
 
 const CommentSettings = ({updateSettings, settingsError, settings, errors}) => <List>
     <ListItem className={`${styles.configSetting} ${settings.moderation === 'pre' ? styles.enabledSetting : styles.disabledSetting}`}>
@@ -195,6 +131,27 @@ const CommentSettings = ({updateSettings, settingsError, settings, errors}) => <
           label={lang.t('configure.include-text')}
           rows={3}/>
       </ListItemContent>
+		</ListItem>
+    <ListItem className={styles.configSettingInfoBox}>
+      <ListItemContent>
+        {lang.t('configure.close-after')}
+        <br />
+        <Textfield
+          type='number'
+          pattern='[0-9]+'
+          style={{width: 50}}
+          onChange={updateClosedTimeout(props.updateSettings, props.settings.closedTimeout)}
+          value={getTimeoutAmount(props.settings.closedTimeout)}
+          label={lang.t('configure.closed-comments-label')} />
+        <div className={styles.configTimeoutSelect}>
+          <SelectField value={getTimeoutMeasure(props.settings.closedTimeout)}
+            onChange={updateClosedTimeout(props.updateSettings, props.settings.closedTimeout, true)}>
+            <Option value={'hours'}>{lang.t('configure.hours')}</Option>
+            <Option value={'days'}>{lang.t('configure.days')}</Option>
+            <Option value={'weeks'}>{lang.t('configure.weeks')}</Option>
+          </SelectField>
+        </div>
+      </ListItemContent>
     </ListItem>
     <ListItem className={styles.configSettingInfoBox}>
       <ListItemContent>
@@ -213,14 +170,14 @@ export default CommentSettings;
 // To see if we are talking about weeks, days or hours
 // We talk the remainder of the division and see if it's 0
 const getTimeoutMeasure = ts => {
- if (ts % TIMESTAMPS['weeks'] === 0) {
+  if (ts % TIMESTAMPS['weeks'] === 0) {
     return 'weeks';
   } else if (ts % TIMESTAMPS['days'] === 0) {
     return 'days';
   } else if (ts % TIMESTAMPS['hours'] === 0) {
     return 'hours';
   }
-}
+};
 
 // Dividing the amount by it's measure (hours, days, weeks) we
 // obtain the amount of time
