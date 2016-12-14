@@ -30,19 +30,19 @@ export const saveBio = (user_id, formData) => dispatch => {
  */
 export const fetchCommentsByUserId = userId => {
   return (dispatch) => {
-    dispatch({type: actions.REQUEST_COMMENTS_BY_USER});
+    dispatch({type: actions.COMMENTS_BY_USER_REQUEST});
     return coralApi(`/comments?user_id${userId}`)
       .then(({comments}) => {
         comments.forEach(comment => {
           dispatch(addItem(comment, 'comments'));
         });
 
-        dispatch({type: actions.RECEIVE_COMMENTS_BY_USER, comments: comments.map(comment => comment.id)});
+        dispatch({type: actions.COMMENTS_BY_USER_SUCCESS, comments: comments.map(comment => comment.id)});
       })
       .catch(error => {
         console.error(error.stack);
         console.error('FAILURE_COMMENTS_BY_USER', error);
-        dispatch({type: actions.FAILURE_COMMENTS_BY_USER, error});
+        dispatch({type: actions.COMMENTS_BY_USER_FAILURE, error});
       });
   };
 };

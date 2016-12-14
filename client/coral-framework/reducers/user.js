@@ -33,9 +33,9 @@ export default function user (state = initialState, action) {
   case actions.SAVE_BIO_SUCCESS:
     return state
       .set('settings', action.settings);
-  case actions.RECEIVE_COMMENTS_BY_USER:
+  case actions.COMMENTS_BY_USER_SUCCESS:
     return state.set('myComments', fromJS(action.comments));
-  case assetActions.RECEIVE_MULTIPLE_ASSETS:
+  case assetActions.MULTIPLE_ASSETS_SUCCESS:
     return state.set('myAssets', fromJS(action.assets));
   default :
     return state;
