@@ -1,9 +1,10 @@
-var jsdom = require('jsdom').jsdom;
-var fs = require('fs');
+const jsdom = require('jsdom').jsdom;
+const fs = require('fs');
+const path = require('path');
 
 // Storage Mock
 function storageMock() {
-  var storage = {};
+  const storage = {};
 
   return {
     setItem: function(key, value) {
@@ -19,13 +20,13 @@ function storageMock() {
       return Object.keys(storage).length;
     },
     key: function(i) {
-      var keys = Object.keys(storage);
+      const keys = Object.keys(storage);
       return keys[i] || null;
     }
   };
 }
 
-global.document = jsdom(fs.readFileSync(__dirname + '/index.test.html'));
+global.document = jsdom(fs.readFileSync(path.resolve(__dirname, '/index.test.html')));
 global.window = document.defaultView;
 
 // these lines are required for react-mdl

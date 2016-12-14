@@ -1,2 +1,3 @@
 dist
 client/lib
+**/*.html
