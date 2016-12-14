@@ -131,7 +131,7 @@ const CommentSettings = ({updateSettings, settingsError, settings, errors}) => <
           label={lang.t('configure.include-text')}
           rows={3}/>
       </ListItemContent>
-		</ListItem>
+    </ListItem>
     <ListItem className={styles.configSettingInfoBox}>
       <ListItemContent>
         {lang.t('configure.close-after')}
