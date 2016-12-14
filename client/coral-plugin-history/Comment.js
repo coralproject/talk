@@ -5,8 +5,10 @@ import styles from './Comment.css';
 const Comment = props => {
   return (
     <div>
-      <p><a className={styles.assetURL} href={props.asset.url}>{props.asset.url}</a></p>
-      <p className={styles.commentBody}>{props.comment.body}</p>
+      <p className="myCommentAsset">
+        <a className={`${styles.assetURL} myCommentAnchor`} href={props.asset.url}>{props.asset.url}</a>
+      </p>
+      <p className={`${styles.commentBody} myCommentBody`}>{props.comment.body}</p>
     </div>
   );
 };
