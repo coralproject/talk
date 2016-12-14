@@ -16,6 +16,8 @@ export default ({handleLogout}) => (
             activeClassName={styles.active}>{lang.t('configure.community')}</Link>
       <Link className={styles.navLink} to="/admin/configure"
             activeClassName={styles.active}>{lang.t('configure.configure')}</Link>
+          <Link className={styles.navLink} to="/admin/streams"
+            activeClassName={styles.active}>{lang.t('configure.streams')}</Link>
     </Navigation>
     <div className={styles.rightPanel}>
       <ul>

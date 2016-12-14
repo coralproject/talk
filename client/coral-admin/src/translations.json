@@ -55,6 +55,7 @@
       "moderate": "Moderate",
       "configure": "Configure",
       "community": "Community",
+      "streams": "Streams",
       "closed-comments-desc": "Write a message for closed threads",
       "closed-comments-label": "Write a message...",
       "comment-count-header": "Limit Comment Length",

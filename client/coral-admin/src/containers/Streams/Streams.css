@@ -1,0 +1,40 @@
+.container {
+  padding: 10px;
+  display: flex;
+}
+
+.leftColumn {
+  width: 200px;
+}
+
+.mainContent {
+  width: calc(70% - 300px)
+}
+
+.searchIcon {
+  vertical-align: middle;
+  font-size: 18px;
+  color: #ccc;
+}
+
+.searchBox {
+  padding: 3px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  width: 90%;
+  display: flex;
+}
+
+.searchBoxInput {
+  border: none;
+  flex: 1;
+  font-size: 14px;
+}
+
+.searchBoxInput:focus {
+  outline: none;
+}
+
+.hidden {
+  display: none;
+}
