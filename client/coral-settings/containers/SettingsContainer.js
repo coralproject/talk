@@ -23,13 +23,7 @@ class SignInContainer extends Component {
 
   componentWillMount () {
     // Fetch commentHistory
-    this.props.fetchCommentsByUserId(this.props.userData.id)
-      .then(() => {
-        const assetIds = this.props.user.myComments
-          .map(id => this.props.items.comments[id])
-          .map(comment => comment.asset_id);
-        this.props.fetchMulitpleAssets(assetIds);
-      });
+    this.props.fetchCommentsByUserId(this.props.userData.id);
   }
 
   handleTabChange(tab) {

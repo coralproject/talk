@@ -50,13 +50,15 @@ router.get('/', authorization.needed('admin'), (req, res, next) => {
   query.then((comments) => {
     return Promise.all([
       comments,
+      Asset.findMultipleById(comments.map(comment => comment.asset_id)),
       User.findByIdArray(_.uniq(comments.map((comment) => comment.author_id))),
       Action.getActionSummariesFromComments(asset_id, comments, req.user ? req.user.id : false)
     ]);
   })
-  .then(([comments, users, actions])=>
+  .then(([comments, assets, users, actions]) =>
     res.status(200).json({
       comments,
+      assets,
       users,
       actions
     }))

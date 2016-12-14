@@ -1,4 +1,5 @@
 import * as actions from '../constants/user';
+import * as assetActions from '../constants/assets';
 import {addNotification} from '../actions/notification';
 import {addItem} from '../actions/items';
 import coralApi from '../helpers/response';
@@ -32,12 +33,13 @@ export const fetchCommentsByUserId = userId => {
   return (dispatch) => {
     dispatch({type: actions.COMMENTS_BY_USER_REQUEST});
     return coralApi(`/comments?user_id${userId}`)
-      .then(({comments}) => {
-        comments.forEach(comment => {
-          dispatch(addItem(comment, 'comments'));
-        });
+      .then(({comments, assets}) => {
+        comments.forEach(comment => dispatch(addItem(comment, 'comments')));
+
+        assets.forEach(asset => dispatch(addItem(asset, 'assets')));
 
         dispatch({type: actions.COMMENTS_BY_USER_SUCCESS, comments: comments.map(comment => comment.id)});
+        dispatch({type: assetActions.MULTIPLE_ASSETS_SUCCESS, assets: assets.map(asset => asset.id)});
       })
       .catch(error => {
         console.error(error.stack);
