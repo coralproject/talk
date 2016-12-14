@@ -140,12 +140,12 @@ const CommentSettings = ({updateSettings, settingsError, settings, errors}) => <
           type='number'
           pattern='[0-9]+'
           style={{width: 50}}
-          onChange={updateClosedTimeout(props.updateSettings, props.settings.closedTimeout)}
-          value={getTimeoutAmount(props.settings.closedTimeout)}
+          onChange={updateClosedTimeout(updateSettings, settings.closedTimeout)}
+          value={getTimeoutAmount(settings.closedTimeout)}
           label={lang.t('configure.closed-comments-label')} />
         <div className={styles.configTimeoutSelect}>
-          <SelectField value={getTimeoutMeasure(props.settings.closedTimeout)}
-            onChange={updateClosedTimeout(props.updateSettings, props.settings.closedTimeout, true)}>
+          <SelectField value={getTimeoutMeasure(settings.closedTimeout)}
+            onChange={updateClosedTimeout(updateSettings, settings.closedTimeout, true)}>
             <Option value={'hours'}>{lang.t('configure.hours')}</Option>
             <Option value={'days'}>{lang.t('configure.days')}</Option>
             <Option value={'weeks'}>{lang.t('configure.weeks')}</Option>
