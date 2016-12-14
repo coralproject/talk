@@ -26,7 +26,7 @@ function storageMock() {
   };
 }
 
-global.document = jsdom(fs.readFileSync(path.resolve(__dirname, '/index.test.html')));
+global.document = jsdom(fs.readFileSync(path.resolve(__dirname, 'index.test.html')));
 global.window = document.defaultView;
 
 // these lines are required for react-mdl

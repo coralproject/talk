@@ -14,7 +14,8 @@ router.get('/', authorization.needed('admin'), (req, res, next) => {
   const {
     status = null,
     action_type = null,
-    asset_id = null
+    asset_id = null,
+    user_id = null
   } = req.query;
 
   /**
@@ -32,6 +33,8 @@ router.get('/', authorization.needed('admin'), (req, res, next) => {
 
   if (status) {
     query = assetIDWrap(Comment.findByStatus(status === 'new' ? null : status));
+  } else if (user_id) {
+    query = Comment.findByUserId(user_id);
   } else if (action_type) {
     query = Comment
       .findIdsByActionType(action_type)
@@ -119,18 +122,6 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
   .catch((err) => {
     next(err);
   });
-});
-
-router.get('/user/:user_id', (req, res, next) => {
-  // how to only get YOUR comments?
-  Comment.findByUserId(req.params.user_id)
-    .then(comments => {
-      res.json(comments);
-    })
-    .catch(error => {
-      error.status = 500;
-      next(error);
-    });
 });
 
 router.get('/:comment_id', authorization.needed('admin'), (req, res, next) => {
