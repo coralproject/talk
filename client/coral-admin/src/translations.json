@@ -121,18 +121,15 @@
       "community": "Comunidad",
       "closed-comments-desc": "Escribe un mensaje para cuando los comentarios se encuentran cerrados",
       "closed-comments-label": "Escribe un mensaje...",
-<<<<<<< HEAD
       "never": "Nunca",
       "hours": "Horas",
       "days": "Días",
       "weeks": "Semanas",
-      "close-after": "Cerrar comentarios luego de"
-=======
+      "close-after": "Cerrar comentarios luego de",
       "comment-count-header": "Limitar el largo del comentario",
       "comment-count-text-pre":  "El largo de comentarios será ",
       "comment-count-text-post": " caracteres",
       "comment-count-error": "Por favor escribe un número válido."
->>>>>>> master
     },
     "bandialog": {
       "ban_user": "Quieres suspender el Usuario?",
