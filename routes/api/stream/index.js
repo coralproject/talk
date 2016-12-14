@@ -38,7 +38,7 @@ router.get('/', (req, res, next) => {
       }),
 
     // Get the moderation setting from the settings.
-    Setting.public()
+    Setting.retrieve()
   ])
   .then(([asset, settings]) => {
 
