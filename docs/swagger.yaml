@@ -256,7 +256,7 @@ paths:
           description: An error occured.
           schema:
             $ref: '#/definitions/Error'
-  /asset:
+  /assets:
     get:
       parameters:
         - name: limit
@@ -294,7 +294,7 @@ paths:
                 items:
                   $ref: '#/definitions/Asset'
 
-  /asset/{asset_id}:
+  /assets/{asset_id}:
     get:
       parameters:
         - name: asset_id
@@ -315,7 +315,7 @@ paths:
             $ref: '#/definitions/Error'
 
 
-  /asset/{asset_id}/scrape:
+  /assets/{asset_id}/scrape:
     post:
       parameters:
         - name: asset_id
@@ -335,7 +335,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  /asset/{asset_id}/settings:
+  /assets/{asset_id}/settings:
     put:
       parameters:
         - name: asset_id

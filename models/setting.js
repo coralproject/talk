@@ -1,7 +1,7 @@
-const mongoose = require('../mongoose');
+const mongoose = require('../services/mongoose');
 const Schema = mongoose.Schema;
 const _ = require('lodash');
-const cache = require('../cache');
+const cache = require('../services/cache');
 
 /**
  * SettingSchema manages application settings that get used on front and backend.
@@ -38,7 +38,15 @@ const SettingSchema = new Schema({
     type: String,
     default: ''
   },
-  wordlist: [String]
+  wordlist: [String],
+  charCount: {
+    type: Number,
+    default: 5000
+  },
+  charCountEnable: {
+    type: Boolean,
+    default: false
+  }
 }, {
   timestamps: {
     createdAt: 'created_at',
@@ -76,7 +84,15 @@ SettingSchema.method('merge', function(src) {
  */
 SettingSchema.method('filterForUser', function(user = false) {
   if (!user || !user.roles.includes('admin')) {
-    return _.pick(this.toJSON(), ['moderation', 'infoBoxEnable', 'infoBoxContent']);
+    return _.pick(this.toJSON(), [
+      'moderation',
+      'infoBoxEnable',
+      'infoBoxContent',
+      'closeTimeout',
+      'closedMessage',
+      'charCountEnable',
+      'charCount'
+    ]);
   }
 
   return this.toJSON();

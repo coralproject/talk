@@ -3,7 +3,7 @@
     "configureCommentStream": {
       "apply": "Apply",
       "title": "Configure Comment Stream",
-      "description": "As an admin you may customize the settings for the comment stream for this article",
+      "description": "As an admin you may customize the settings for the comment stream for this asset",
       "enablePremod": "Enable Premoderation",
       "enablePremodDescription": "Moderators must approve any comment before its published.",
       "enablePremodLinks": "Pre-Moderate Comments Containing Links",

@@ -77,6 +77,17 @@
   background: #696969;
 }
 
+.type--lightGrey {
+  color: white;
+  background: #ccc;
+  cursor: default;
+}
+
+.type--lightGrey:hover {
+  color: white;
+  background: #ccc;
+}
+
 .type--green {
   color: white;
   background: #00897B;

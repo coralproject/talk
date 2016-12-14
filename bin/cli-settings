@@ -11,7 +11,7 @@ process.env.DEBUG = process.env.TALK_DEBUG;
  */
 
 const program = require('commander');
-const mongoose = require('../mongoose');
+const mongoose = require('../services/mongoose');
 const Setting = require('../models/setting');
 const util = require('../util');
 

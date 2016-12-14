@@ -197,6 +197,28 @@ describe('/api/v1/comments', () => {
         });
     });
 
+    it('should create a rejected comment if the body is above the character count', () => {
+      return Asset
+        .findOrCreateByUrl('https://coralproject.net/article1')
+        .then((asset) => {
+          return Asset
+            .overrideSettings(asset.id, {charCountEnable: true, charCount: 10})
+            .then(() => asset);
+        })
+        .then((asset) => {
+          return chai.request(app)
+            .post('/api/v1/comments')
+            .set(passport.inject({roles: []}))
+            .send({'body': 'This is way way way way way too long.', 'author_id': '123', 'asset_id': asset.id, 'parent_id': ''});
+        })
+        .then((res) => {
+          expect(res).to.have.status(201);
+          expect(res.body).to.have.property('id');
+          expect(res.body).to.have.property('asset_id');
+          expect(res.body).to.have.property('status', 'rejected');
+        });
+    });
+
     it('shouldn\'t create a comment when the asset has expired commenting', () => {
       return Asset.create({
         closedAt: new Date().setDate(0),

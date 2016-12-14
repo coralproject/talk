@@ -18,9 +18,27 @@
 .configSetting {
   border: 1px solid #ccc;
   border-radius: 4px;
-  height: 90px;
+  height: 95px;
   margin-bottom: 10px;
-  cursor: pointer;
+  align-items: flex-start;
+}
+
+.settingsError {
+  color: #d50000;
+}
+
+.settingsError i {
+  font-size: 14px;
+  margin-right: 3px;
+}
+
+.settingsHeader {
+  margin-top: 3px;
+  margin-bottom: 10px;
+}
+
+.disabledSettingText {
+  color: #ccc;
 }
 
 .configSettingInfoBox {
@@ -48,6 +66,22 @@
 .configTimeoutSelect {
   display: inline-block;
   margin-left: 20px;
+}
+
+.charCountTexfield {
+  width: 4em;
+  padding: 0px;
+  border-color: #ccc;
+  border-style: solid;
+  border-width: 0px 0px 1px 0px;
+}
+
+.charCountTexfieldEnabled {
+  border-color: #4caf50;
+}
+
+.charCountTexfield:focus {
+  outline: none;
 }
 
 .changedSave {
@@ -89,7 +123,15 @@
   margin-bottom:3px;
 }
 
+.enabledSetting {
+  border-left-color: #4caf50;
+  border-left-style: solid;
+  border-left-width: 7px;
+}
 
+.disabledSetting {
+  padding-left: 22px;
+}
 
 .hidden {
   display: none;

@@ -24,11 +24,12 @@ describe('models.Asset', () => {
   });
 
   describe('#findByUrl', ()=> {
+    beforeEach(() => Asset.findOrCreateByUrl('http://test.com'));
+
     it('should find an asset by a url', () => {
       return Asset.findByUrl('http://test.com')
         .then((asset) => {
-          expect(asset).to.have.property('url')
-            .and.to.equal('http://test.com');
+          expect(asset).to.have.property('url', 'http://test.com');
         });
     });
 

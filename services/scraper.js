@@ -1,4 +1,4 @@
-const kue = require('../kue');
+const kue = require('./kue');
 const debug = require('debug')('talk:services:scraper');
 const Asset = require('../models/asset');
 const JOB_NAME = 'scraper';
