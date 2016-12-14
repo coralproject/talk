@@ -35,6 +35,21 @@
   outline: none;
 }
 
+.optionHeader {
+  font-size: 16px;
+  font-weight: 900;
+  margin-top: 15px;
+}
+
+.optionDetail {
+  font-size: 16px;
+  margin-top: 3px;
+}
+
+.radio {
+  display: block;
+}
+
 .hidden {
   display: none;
 }

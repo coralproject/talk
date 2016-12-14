@@ -16,16 +16,16 @@ const Streams = () => <div className={styles.container}>
       type='text'
       className={styles.searchBoxInput}
       onChange={() => {}}
-      placeholder="Search"/>
+      placeholder={lang.t('streams.search')}/>
   </div>
-  <div>{lang.t('streams.filter-streams')}</div>
-  <div>{lang.t('streams.stream-status')}</div>
-  <RadioGroup name='status' value='all'>
+  <div className={styles.optionHeader}>{lang.t('streams.filter-streams')}</div>
+  <div className={styles.optionDetail}>{lang.t('streams.stream-status')}</div>
+  <RadioGroup name='status' value='all' childContainer={<div/>}>
     <Radio value='all'>{lang.t('streams.all')}</Radio>
     <Radio value='open'>{lang.t('streams.open')}</Radio>
     <Radio value='closed'>{lang.t('streams.closed')}</Radio>
   </RadioGroup>
-  <div>{lang.t('streams.sort-by')}</div>
+  <div className={styles.optionHeader}>{lang.t('streams.sort-by')}</div>
   <RadioGroup name='sortBy' value='newest'>
     <Radio value='newest'>{lang.t('streams.newest')}</Radio>
     <Radio value='oldest'>{lang.t('streams.oldest')}</Radio>
