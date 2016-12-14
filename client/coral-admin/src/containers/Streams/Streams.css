@@ -8,7 +8,7 @@
 }
 
 .mainContent {
-  width: calc(70% - 300px)
+  width: calc(90% - 200px);
 }
 
 .searchIcon {
