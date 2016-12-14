@@ -12,6 +12,12 @@ import {
   Checkbox
 } from 'react-mdl';
 
+const TIMESTAMPS = {
+  weeks: 60 * 60 * 24 * 7,
+  days: 60 * 60 *24,
+  hours: 60 * 60
+};
+
 const updateModeration = (updateSettings, mod) => () => {
   const moderation = mod === 'pre' ? 'post' : 'pre';
   updateSettings({moderation});
@@ -32,15 +38,20 @@ const updateClosedMessage = (updateSettings) => (event) => {
   updateSettings({closedMessage});
 };
 
-const updateClosedTimeout = (updateSettings, isMeasure) => (event) => {
+// If we are changing the measure we need to recalculate using the old amount
+// Same thing if we are just changing the amount
+const updateClosedTimeout = (updateSettings, ts, isMeasure) => (event) => {
   if (isMeasure) {
-    
+    const amount = getTimeoutAmount(ts);
+    const closedTimeout = amount * TIMESTAMPS[event];
+    updateSettings({ closedTimeout });
+  } else {
+    const val = event.target.value;
+    const measure = getTimeoutMeasure(ts);
+    const closedTimeout = val * TIMESTAMPS[measure];
+    updateSettings({ closedTimeout });
   }
-
-  const closedTimeout = event.target.value;
-
-  updateSettings({ closedTimeout });
-});
+};
 
 const CommentSettings = (props) => <List>
   <ListItem className={styles.configSetting}>
@@ -66,21 +77,23 @@ const CommentSettings = (props) => <List>
   </ListItem>
   <ListItem className={styles.configSettingInfoBox}>
     <ListItemContent>
-      <p>{lang.t('configure.close-after')}</p>
+      {lang.t('configure.close-after')}
+      <br />
       <Textfield
         type='number'
         pattern='[0-9]+'
-        style={{width: 200}}
-        onChange={updateClosedMessage(props.updateSettings)}
+        style={{width: 50}}
+        onChange={updateClosedTimeout(props.updateSettings, props.settings.closedTimeout)}
         value={getTimeoutAmount(props.settings.closedTimeout)}
         label={lang.t('configure.closed-comments-label')} />
-      <SelectField value={getTimeoutMeasure(props.settings.closedTimeout)}
-        onChange={updateClosedTimeout(props.updateSettings, true)}>
-        <Option value={'never'}>{lang.t('configure.never')}</Option>
-        <Option value={'hours'}>{lang.t('configure.hours')}</Option>
-        <Option value={'days'}>{lang.t('configure.days')}</Option>
-        <Option value={'weeks'}>{lang.t('configure.weeks')}</Option>
-      </SelectField>
+      <div className={styles.configTimeoutSelect}>
+        <SelectField value={getTimeoutMeasure(props.settings.closedTimeout)}
+          onChange={updateClosedTimeout(props.updateSettings, props.settings.closedTimeout, true)}>
+          <Option value={'hours'}>{lang.t('configure.hours')}</Option>
+          <Option value={'days'}>{lang.t('configure.days')}</Option>
+          <Option value={'weeks'}>{lang.t('configure.weeks')}</Option>
+        </SelectField>
+      </div>
     </ListItemContent>
   </ListItem>
   <ListItem className={`${styles.configSettingInfoBox} ${props.settings.infoBoxEnable ? null : styles.hidden}`} >
@@ -106,31 +119,20 @@ const CommentSettings = (props) => <List>
 
 export default CommentSettings;
 
+// To see if we are talking about weeks, days or hours
+// We talk the remainder of the division and see if it's 0
 const getTimeoutMeasure = ts => {
-  if (isNaN(ts)) {
-    return 'never';
-  } else if (ts % (60 * 60 * 24 * 7) === 0) {
+ if (ts % TIMESTAMPS['weeks'] === 0) {
     return 'weeks';
-  } else if (ts % (60 * 60 * 24) === 0) {
+  } else if (ts % TIMESTAMPS['days'] === 0) {
     return 'days';
-  } else {
+  } else if (ts % TIMESTAMPS['hours'] === 0) {
     return 'hours';
   }
 }
 
-const getTimeoutAmount = ts => {
-  const measure = getTimeoutMeasure(ts);
-  switch (measure) {
-    case 'weeks':
-      return ts / (60 * 60 * 24 * 7);
-    case 'days':
-      return ts / (60 * 60 * 24);
-    case 'hours':
-      return ts / (60 * 60);
-    case 'never':
-    default:
-      return '';
-  }
-}
+// Dividing the amount by it's measure (hours, days, weeks) we
+// obtain the amount of time
+const getTimeoutAmount = ts => ts / TIMESTAMPS[getTimeoutMeasure(ts)];
 
 const lang = new I18n(translations);

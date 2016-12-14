@@ -45,6 +45,11 @@
   display: block;
 }
 
+.configTimeoutSelect {
+  display: inline-block;
+  margin-left: 20px;
+}
+
 .changedSave {
   background-color:#4caf50;
 }
