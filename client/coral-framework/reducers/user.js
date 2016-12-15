@@ -1,4 +1,4 @@
-import {Map, fromJS} from 'immutable';
+import {Map} from 'immutable';
 import * as authActions from '../constants/auth';
 import * as actions from '../constants/user';
 import * as assetActions from '../constants/assets';
@@ -34,9 +34,9 @@ export default function user (state = initialState, action) {
     return state
       .set('settings', action.settings);
   case actions.COMMENTS_BY_USER_SUCCESS:
-    return state.set('myComments', fromJS(action.comments));
+    return state.set('myComments', action.comments);
   case assetActions.MULTIPLE_ASSETS_SUCCESS:
-    return state.set('myAssets', fromJS(action.assets));
+    return state.set('myAssets', action.assets);
   default :
     return state;
   }

@@ -6,7 +6,7 @@ const Comment = props => {
   return (
     <div>
       <p className="myCommentAsset">
-        <a className={`${styles.assetURL} myCommentAnchor`} href={props.asset.url}>{props.asset.url}</a>
+        <a className={`${styles.assetURL} myCommentAnchor`} href={`${props.asset.url}#${props.comment.id}`}>{`${props.asset.url}#${props.comment.id}`}</a>
       </p>
       <p className={`${styles.commentBody} myCommentBody`}>{props.comment.body}</p>
     </div>
@@ -15,6 +15,7 @@ const Comment = props => {
 
 Comment.propTypes = {
   comment: PropTypes.shape({
+    id: PropTypes.string,
     body: PropTypes.string
   }).isRequired,
   asset: PropTypes.shape({
