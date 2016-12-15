@@ -1,4 +1,5 @@
 import {Map, List, fromJS} from 'immutable';
+import {FETCH_ASSETS_SUCCESS} from '../constants/assets';
 
 const initialState = Map({
   byId: Map(),
@@ -7,7 +8,7 @@ const initialState = Map({
 
 export default (state = initialState, action) => {
   switch (action.type) {
-  case 'ASSETS_FETCH_SUCCESS': return replaceAssets(action, state);
+  case FETCH_ASSETS_SUCCESS: return replaceAssets(action, state);
   default: return state;
   }
 };

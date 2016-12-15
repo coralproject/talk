@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import styles from './Streams.css';
 import {connect} from 'react-redux';
 import I18n from 'coral-framework/modules/i18n/i18n';
-import {ASSETS_FETCH} from '../../constants/assets';
+import {fetchAssets, updateAsset} from '../../actions/assets';
 import translations from '../../translations.json';
 import {
   RadioGroup,
@@ -17,7 +17,8 @@ class Streams extends Component {
   state = {
     searchTerm: '',
     sortBy: 'newest',
-    statusFilter: 'all'
+    statusFilter: 'all',
+    statusMenus: {}
   }
 
   componentDidMount () {
@@ -33,9 +34,40 @@ class Streams extends Component {
     return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
   }
 
-  renderStatus = (closedAt) => {
-    const status = closedAt && new Date(closedAt) < Date.now ? lang.t('streams.closed') : lang.t('streams.open');
-    return <div>{status}</div>;
+  onStatusClick = (closeStream, id, statusMenuOpen) => () => {
+    if (statusMenuOpen) {
+      this.setState(prev => {
+        prev.statusMenus[id] = false;
+        return prev;
+      });
+      this.props.updateAsset(id, 'closedAt', closeStream ? Date.now() : null);
+    } else {
+      this.setState(prev => {
+        prev.statusMenus[id] = true;
+        return prev;
+      });
+    }
+  }
+
+  renderStatus = (closedAt, id) => {
+    const closed = closedAt && new Date(closedAt) < Date.now;
+    const statusMenuOpen = this.state.statusMenus[id];
+    return <div className={styles.statusMenu}>
+      <div
+        className={closed ? styles.statusMenuClosed : styles.statusMenuOpen}
+        onClick={this.onStatusClick(closed, id, statusMenuOpen)}>
+        {closed ? lang.t('streams.closed') : lang.t('streams.open')}
+        {!statusMenuOpen && <Icon className={styles.statusMenuIcon} name='keyboard_arrow_down'/>}
+      </div>
+      {
+        statusMenuOpen &&
+        <div
+          className={!closed ? styles.statusMenuClosed : styles.statusMenuOpen}
+          onClick={this.onStatusClick(!closed, id, statusMenuOpen)}>
+          {!closed ? lang.t('streams.closed') : lang.t('streams.open')}
+        </div>
+      }
+    </div>;
   }
 
   render () {
@@ -101,14 +133,11 @@ const mapStateToProps = ({assets}) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchAssets: (skip, limit, search, sort) => {
-      dispatch({
-        type: ASSETS_FETCH,
-        skip,
-        limit,
-        search,
-        sort
-      });
+    fetchAssets: (...args) => {
+      dispatch(fetchAssets.apply(this, args));
+    },
+    updateAsset: (...args) => {
+      dispatch(updateAsset.apply(this, args));
     }
   };
 };

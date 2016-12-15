@@ -22,7 +22,7 @@ export default store => next => action => {
     return createComment(store, action.name, action.body);
   case 'USER_BAN':
     return userStatusUpdate(store, action.status, action.userId, action.commentId);
-  case 'ASSETS_FETCH':
+  case 'FETCH_ASSETS':
     return fetchAssets(store, action);
   }
 };
@@ -97,9 +97,9 @@ const fetchAssets = (store, action) => {
   return coralApi(`/assets?skip=${skip}&limit=${limit}&search=${search}`)
   .then(({result, count}) =>
     /* Post comments and users to redux store. Actions will be posted when they are needed. */
-    store.dispatch({type: 'ASSETS_FETCH_SUCCESS',
+    store.dispatch({type: 'FETCH_ASSETS_SUCCESS',
       assets: result,
       count
     }))
-    .catch(error => store.dispatch({type: 'ASSETS_FETCH_FAILED', error}));
+    .catch(error => store.dispatch({type: 'FETCH_ASSETS_FAILED', error}));
 };
