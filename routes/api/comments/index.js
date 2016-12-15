@@ -24,8 +24,8 @@ router.get('/', (req, res, next) => {
     return;
   }
 
-  // only return comment lists for the owner of the comments
-  if (req.user.id !== user_id) {
+  // if the user is not an admin, only return comment list for the owner of the comments
+  if (req.user.id !== user_id && !authorization.has(req.user, 'admin')) {
     next(authorization.ErrNotAuthorized);
     return;
   }
