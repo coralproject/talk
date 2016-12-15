@@ -30,15 +30,17 @@ class Streams extends Component {
 
   renderDate = (date) => {
     const d = new Date(date);
-    return `${d.getMonth()}/${d.getDate()}/${d.getYear()}`;
+    return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
   }
 
-  renderStatus = (status) => {
+  renderStatus = (closedAt) => {
+    const status = closedAt && new Date(closedAt) < Date.now ? lang.t('streams.closed') : lang.t('streams.open');
     return <div>{status}</div>;
   }
 
   render () {
     const {searchTerm, sortBy, statusFilter} = this.state;
+    const {assets} = this.props;
 
     return <div className={styles.container}>
       <div className={styles.leftColumn}>
@@ -77,17 +79,13 @@ class Streams extends Component {
 
       <div className={styles.mainContent}>
       <DataTable
-        rows={[
-            {article: 'Acrylic (Transparent)', pubdate: 25, status: 2.90},
-            {article: 'Plywood (Birch)', pubdate: 50, status: 1.25},
-            {article: 'Laminate (Gold on Blue)', pubdate: 10, status: 2.35}
-        ]}
-      >
-        <TableHeader name="article">{lang.t('streams.article')}</TableHeader>
-        <TableHeader name="pubdate" cellFormatter={this.renderDate}>
+        className={styles.streamsTable}
+        rows={assets.ids.map((id) => assets.byId[id])}>
+        <TableHeader name="title">{lang.t('streams.article')}</TableHeader>
+        <TableHeader numeric name="publication_date" cellFormatter={this.renderDate}>
           {lang.t('streams.pubdate')}
         </TableHeader>
-        <TableHeader name="status" cellFormatter={this.renderStatus}>
+        <TableHeader numeric name="closedAt" cellFormatter={this.renderStatus}>
           {lang.t('streams.status')}
         </TableHeader>
       </DataTable>
@@ -96,7 +94,11 @@ class Streams extends Component {
   }
 }
 
-const mapStateToProps = () => {};
+const mapStateToProps = ({assets}) => {
+  return {
+    assets: assets.toJS()
+  };
+};
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchAssets: (skip, limit, search, sort) => {

@@ -46,6 +46,10 @@
   margin-top: 3px;
 }
 
+.streamsTable {
+  width: 100%;
+}
+
 .radio {
   display: block;
 }

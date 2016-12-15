@@ -79,7 +79,12 @@
       "closed": "Closed",
       "newest": "Newest",
       "oldest": "Oldest",
-      "sort-by": "Sort By"
+      "sort-by": "Sort By",
+      "open": "Open",
+      "closed": "Closed",
+      "article": "Article",
+      "pubdate": "Publication Date",
+      "status": "Status"
     }
   },
   "es": {
@@ -150,7 +155,12 @@
       "closed": "",
       "newest": "",
       "oldest": "",
-      "sort-by": ""
+      "sort-by": "",
+      "open": "",
+      "closed": "",
+      "article": "",
+      "pubdate": "",
+      "status": ""
     }
   }
 }
