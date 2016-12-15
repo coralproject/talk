@@ -92,7 +92,7 @@ describe('/api/v1/comments', () => {
         .then(res => {
           expect(res).to.have.status(200);
           expect(res.body.comments).to.have.length(2);
-          expect(res.body.comments[0]).to.have.property('author_id', '456');
+          expect(res.body.comments[1]).to.have.property('author_id', '456');
         });
     });
 
