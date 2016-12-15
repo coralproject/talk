@@ -32,7 +32,7 @@ export const saveBio = (user_id, formData) => dispatch => {
 export const fetchCommentsByUserId = userId => {
   return (dispatch) => {
     dispatch({type: actions.COMMENTS_BY_USER_REQUEST});
-    return coralApi(`/comments?user_id${userId}`)
+    return coralApi(`/comments?user_id=${userId}`)
       .then(({comments, assets}) => {
         comments.forEach(comment => dispatch(addItem(comment, 'comments')));
 
