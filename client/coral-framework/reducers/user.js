@@ -1,4 +1,4 @@
-import {Map, fromJS} from 'immutable';
+import {Map} from 'immutable';
 import * as authActions from '../constants/auth';
 import * as actions from '../constants/user';
 import * as assetActions from '../constants/assets';
