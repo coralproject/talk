@@ -11,22 +11,20 @@ import coralApi from '../../../coral-framework/helpers/response';
 // Intercept redux actions and act over the ones we are interested
 export default store => next => action => {
 
+  next(action);
+
   switch (action.type) {
   case 'COMMENTS_MODERATION_QUEUE_FETCH':
-    fetchModerationQueueComments(store);
-    break;
+    return fetchModerationQueueComments(store);
   case 'COMMENT_UPDATE':
-    updateComment(store, action.comment);
-    break;
+    return updateComment(store, action.comment);
   case 'COMMENT_CREATE':
-    createComment(store, action.name, action.body);
-    break;
+    return createComment(store, action.name, action.body);
   case 'USER_BAN':
-    userStatusUpdate(store, action.status, action.userId, action.commentId);
-    break;
+    return userStatusUpdate(store, action.status, action.userId, action.commentId);
+  case 'ASSETS_FETCH':
+    return fetchAssets(store, action);
   }
-
-  next(action);
 };
 
 // Get comments to fill each of the three lists on the mod queue
@@ -88,6 +86,20 @@ const createComment = (store, name, comment) => {
 // Ban a user
 const userStatusUpdate = (store, status, userId, commentId) => {
   return coralApi(`/users/${userId}/status`, {method: 'POST', body: {status: status, comment_id: commentId}})
-  .then(res => store.dispatch({type: 'USER_BAN_SUCESS', res}))
+  .then(res => store.dispatch({type: 'USER_BAN_SUCCESS', res}))
   .catch(error => store.dispatch({type: 'USER_BAN_FAILED', error}));
+};
+
+// Fetch a page of assets
+// Get comments to fill each of the three lists on the mod queue
+const fetchAssets = (store, action) => {
+  const {skip, limit, search} = action;
+  return coralApi(`/assets?skip=${skip}&limit=${limit}&search=${search}`)
+  .then(({result, count}) =>
+    /* Post comments and users to redux store. Actions will be posted when they are needed. */
+    store.dispatch({type: 'ASSETS_FETCH_SUCCESS',
+      assets: result,
+      count
+    }))
+    .catch(error => store.dispatch({type: 'ASSETS_FETCH_FAILED', error}));
 };
