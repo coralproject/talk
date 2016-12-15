@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import {saveBio, fetchCommentsByUserId} from 'coral-framework/actions/user';
-import {fetchMulitpleAssets} from 'coral-framework/actions/assets';
 
 import BioContainer from './BioContainer';
 import NotLoggedIn from '../components/NotLoggedIn';
@@ -66,8 +65,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   saveBio: (user_id, formData) => dispatch(saveBio(user_id, formData)),
-  fetchCommentsByUserId: userId => dispatch(fetchCommentsByUserId(userId)),
-  fetchMulitpleAssets: assetIds => dispatch(fetchMulitpleAssets(assetIds))
+  fetchCommentsByUserId: userId => dispatch(fetchCommentsByUserId(userId))
 });
 
 export default connect(
