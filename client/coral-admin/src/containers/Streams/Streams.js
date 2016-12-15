@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import styles from './Streams.css';
+import {connect} from 'react-redux';
 import I18n from 'coral-framework/modules/i18n/i18n';
+import {ASSETS_FETCH} from '../../constants/assets';
 import translations from '../../translations.json';
 import {
   RadioGroup,
@@ -16,6 +18,10 @@ class Streams extends Component {
     searchTerm: '',
     sortBy: 'newest',
     statusFilter: 'all'
+  }
+
+  componentDidMount () {
+    this.props.fetchAssets(0, 25, '', 'desc');
   }
 
   onSettingChange = (setting) => (e) => {
@@ -90,6 +96,21 @@ class Streams extends Component {
   }
 }
 
-export default Streams;
+const mapStateToProps = () => {};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchAssets: (skip, limit, search, sort) => {
+      dispatch({
+        type: ASSETS_FETCH,
+        skip,
+        limit,
+        search,
+        sort
+      });
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Streams);
 
 const lang = new I18n(translations);

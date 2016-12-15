@@ -20,8 +20,8 @@ router.get('/', (req, res, next) => {
     Asset
       .search(search)
       .sort({[field]: (sort === 'asc') ? 1 : -1})
-      .skip(skip)
-      .limit(limit),
+      .skip(parseInt(skip))
+      .limit(parseInt(limit)),
     Asset
       .search(search)
       .count()
