@@ -324,6 +324,15 @@ CommentSchema.statics.removeAction = (item_id, user_id, action_type) => Action.r
  */
 CommentSchema.statics.all = () => Comment.find();
 
+/**
+ * Returns all the comments by user
+ * probably to be paginated at some point in the future
+ * @return {Promise} array resolves to an array of comments by that user
+ */
+CommentSchema.statics.findByUserId = function (author_id) {
+  return Comment.find({author_id});
+};
+
 // Comment model.
 const Comment = mongoose.model('Comment', CommentSchema);
 
