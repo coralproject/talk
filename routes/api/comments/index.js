@@ -9,7 +9,7 @@ const _ = require('lodash');
 
 const router = express.Router();
 
-router.get('/', authorization.needed('admin'), (req, res, next) => {
+router.get('/', (req, res, next) => {
 
   const {
     status = null,
@@ -17,6 +17,18 @@ router.get('/', authorization.needed('admin'), (req, res, next) => {
     asset_id = null,
     user_id = null
   } = req.query;
+
+  // everything on this route requires admin privileges besides listing comments for owner of said comments
+  if (!authorization.has(req.user, 'admin') && !user_id) {
+    next(authorization.ErrNotAuthorized);
+    return;
+  }
+
+  // only return comment lists for the owner of the comments
+  if (req.user.id !== user_id) {
+    next(authorization.ErrNotAuthorized);
+    return;
+  }
 
   /**
    * This adds the asset_id requirement to the query if the asset_id is defined.
@@ -31,10 +43,13 @@ router.get('/', authorization.needed('admin'), (req, res, next) => {
 
   let query;
 
-  if (status) {
-    query = assetIDWrap(Comment.findByStatus(status === 'new' ? null : status));
-  } else if (user_id) {
+  // the check for user_id MUST be first here.
+  // otherwise this will be a vulnerability if you pass user_id and something else,
+  // the app will return admin-level data without the proper checks
+  if (user_id) {
     query = Comment.findByUserId(user_id);
+  } else if (status) {
+    query = assetIDWrap(Comment.findByStatus(status === 'new' ? null : status));
   } else if (action_type) {
     query = Comment
       .findIdsByActionType(action_type)
