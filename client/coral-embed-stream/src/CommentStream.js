@@ -61,7 +61,11 @@ class CommentStream extends Component {
     // Set up messaging between embedded Iframe an parent component
     this.pym = new Pym.Child({polling: 100});
 
-    const path = this.pym.parentUrl.split('#')[0];
+    let path = this.pym.parentUrl.split('#')[0];
+
+    if (!path) {
+      path = window.location.href.split('#')[0];
+    }
 
     this.props.getStream(path || window.location);
     this.path = path;

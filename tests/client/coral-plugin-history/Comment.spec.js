@@ -5,7 +5,7 @@ import Comment from '../../../client/coral-plugin-history/Comment';
 
 describe('coral-plugin-history/Comment', () => {
   let render;
-  const comment = {body: 'this is a comment'};
+  const comment = {body: 'this is a comment', id: '123'};
   const asset = {url: 'https://google.com'};
 
   beforeEach(() => {
@@ -21,7 +21,7 @@ describe('coral-plugin-history/Comment', () => {
   it('should render the asset url as a link', () => {
     const wrapper = mount(<Comment asset={asset} comment={comment} />);
     expect(wrapper.find('.myCommentAnchor')).to.have.length(1);
-    expect(wrapper.find('.myCommentAnchor').text()).to.equal('https://google.com');
+    expect(wrapper.find('.myCommentAnchor').text()).to.equal('https://google.com#123');
   });
 
   it('should render the comment with styles', () => {
