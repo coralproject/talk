@@ -3,7 +3,7 @@ const expect = require('chai').expect;
 
 describe('models.Setting', () => {
 
-  beforeEach(() => Setting.init({moderation: 'pre'}));
+  beforeEach(() => Setting.init({moderation: 'pre', wordlist: ['donut']}));
 
   describe('#retrieve()', () => {
     it('should have a moderation field defined', () => {

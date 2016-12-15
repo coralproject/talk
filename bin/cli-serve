@@ -11,7 +11,7 @@ const debug = require('debug')('talk:server');
 const http = require('http');
 const init = require('../init');
 const scraper = require('../services/scraper');
-const mongoose = require('../mongoose');
+const mongoose = require('../services/mongoose');
 const util = require('../util');
 
 /**

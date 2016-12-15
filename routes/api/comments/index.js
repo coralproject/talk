@@ -14,7 +14,8 @@ router.get('/', authorization.needed('admin'), (req, res, next) => {
   const {
     status = null,
     action_type = null,
-    asset_id = null
+    asset_id = null,
+    user_id = null
   } = req.query;
 
   /**
@@ -32,6 +33,8 @@ router.get('/', authorization.needed('admin'), (req, res, next) => {
 
   if (status) {
     query = assetIDWrap(Comment.findByStatus(status === 'new' ? null : status));
+  } else if (user_id) {
+    query = Comment.findByUserId(user_id);
   } else if (action_type) {
     query = Comment
       .findIdsByActionType(action_type)
@@ -47,13 +50,15 @@ router.get('/', authorization.needed('admin'), (req, res, next) => {
   query.then((comments) => {
     return Promise.all([
       comments,
+      Asset.findMultipleById(comments.map(comment => comment.asset_id)),
       User.findByIdArray(_.uniq(comments.map((comment) => comment.author_id))),
       Action.getActionSummariesFromComments(asset_id, comments, req.user ? req.user.id : false)
     ]);
   })
-  .then(([comments, users, actions])=>
+  .then(([comments, assets, users, actions]) =>
     res.status(200).json({
       comments,
+      assets,
       users,
       actions
     }))
@@ -87,7 +92,6 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
 
         // Check to see if the asset has closed commenting...
         if (asset.isClosed) {
-
           // They have, ensure that we send back an error.
           return Promise.reject(new Error(`asset has commenting closed because: ${asset.closedMessage}`));
         }
@@ -97,7 +101,13 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
 
       // Return `premod` if pre-moderation is enabled and an empty "new" status
       // in the event that it is not in pre-moderation mode.
-      .then(({moderation}) => moderation === 'pre' ? 'premod' : false);
+      .then(({moderation, charCountEnable, charCount}) => {
+        // Reject if the comment is too long
+        if (charCountEnable && body.length > charCount) {
+          return 'rejected';
+        }
+        return moderation === 'pre' ? 'premod' : '';
+      });
   }
 
   status.then((status) => Comment.publicCreate({

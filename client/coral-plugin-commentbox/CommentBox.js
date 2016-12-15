@@ -23,7 +23,18 @@ class CommentBox extends Component {
   }
 
   postComment = () => {
-    const {postItem, updateItem, id, parent_id, child_id, addNotification, appendItemArray, premod, author} = this.props;
+    const {
+      postItem,
+      updateItem,
+      id,
+      parent_id,
+      child_id,
+      addNotification,
+      appendItemArray,
+      premod,
+      author
+    } = this.props;
+
     let comment = {
       body: this.state.body,
       asset_id: id,
@@ -42,11 +53,14 @@ class CommentBox extends Component {
     if (child_id || parent_id) {
       updateItem(child_id || parent_id, 'showReply', false, 'comments');
     }
+
+    if (this.props.charCount && this.state.body.length > this.props.charCount) {
+      return;
+    }
     postItem(comment, 'comments')
       .then((postedComment) => {
         const commentId = postedComment.id;
-        const status = postedComment.status;
-        if (status[0] && status[0].type === 'rejected') {
+        if (postedComment.status === 'rejected') {
           addNotification('error', lang.t('comment-post-banned-word'));
         } else if (premod === 'pre') {
           addNotification('success', lang.t('comment-post-notif-premod'));
@@ -60,8 +74,8 @@ class CommentBox extends Component {
   }
 
   render () {
-    const {styles, reply, author} = this.props;
-    // How to handle language in plugins? Should we have a dependency on our central translation file?
+    const {styles, reply, author, charCount} = this.props;
+    const length = this.state.body.length;
     return <div>
       <div
         className={`${name}-container`}>
@@ -80,10 +94,16 @@ class CommentBox extends Component {
             onChange={(e) => this.setState({body: e.target.value})}
             rows={3}/>
         </div>
+        <div className={`${name}-char-count ${length > charCount ? `${name}-char-max` : ''}`}>
+          {
+            charCount &&
+            `${charCount - length} ${lang.t('characters-remaining')}`
+          }
+        </div>
         <div className={`${name}-button-container`}>
           { author && (
               <Button
-                cStyle='darkGrey'
+                cStyle={length > charCount ? 'lightGrey' : 'darkGrey'}
                 className={`${name}-button`}
                 onClick={this.postComment}>
                 {lang.t('post')}

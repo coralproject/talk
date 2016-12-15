@@ -1,4 +1,4 @@
-const mongoose = require('../mongoose');
+const mongoose = require('../services/mongoose');
 const Schema = mongoose.Schema;
 const _ = require('lodash');
 const uuid = require('uuid');
@@ -323,6 +323,15 @@ CommentSchema.statics.removeAction = (item_id, user_id, action_type) => Action.r
  * @return {Promise}
  */
 CommentSchema.statics.all = () => Comment.find();
+
+/**
+ * Returns all the comments by user
+ * probably to be paginated at some point in the future
+ * @return {Promise} array resolves to an array of comments by that user
+ */
+CommentSchema.statics.findByUserId = function (author_id) {
+  return Comment.find({author_id});
+};
 
 // Comment model.
 const Comment = mongoose.model('Comment', CommentSchema);
