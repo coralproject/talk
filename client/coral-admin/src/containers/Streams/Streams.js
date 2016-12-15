@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import styles from './Streams.css';
 import {connect} from 'react-redux';
 import I18n from 'coral-framework/modules/i18n/i18n';
-import {fetchAssets, updateAsset} from '../../actions/assets';
+import {fetchAssets, updateAssetState} from '../../actions/assets';
 import translations from '../../translations.json';
 import {
   RadioGroup,
@@ -40,7 +40,7 @@ class Streams extends Component {
         prev.statusMenus[id] = false;
         return prev;
       });
-      this.props.updateAsset(id, 'closedAt', closeStream ? Date.now() : null);
+      this.props.updateAssetState(id, closeStream ? Date.now() : null);
     } else {
       this.setState(prev => {
         prev.statusMenus[id] = true;
@@ -49,8 +49,8 @@ class Streams extends Component {
     }
   }
 
-  renderStatus = (closedAt, id) => {
-    const closed = closedAt && new Date(closedAt) < Date.now;
+  renderStatus = (closedAt, {id}) => {
+    const closed = closedAt && new Date(closedAt).getTime() < Date.now();
     const statusMenuOpen = this.state.statusMenus[id];
     return <div className={styles.statusMenu}>
       <div
@@ -136,8 +136,8 @@ const mapDispatchToProps = (dispatch) => {
     fetchAssets: (...args) => {
       dispatch(fetchAssets.apply(this, args));
     },
-    updateAsset: (...args) => {
-      dispatch(updateAsset.apply(this, args));
+    updateAssetState: (...args) => {
+      dispatch(updateAssetState.apply(this, args));
     }
   };
 };

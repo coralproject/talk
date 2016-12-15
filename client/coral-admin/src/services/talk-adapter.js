@@ -120,6 +120,6 @@ const updateAssetState = (store, action) => {
   return coralApi(`/assets/${id}/status`, {method: 'PUT', body: {closedAt}})
   .then(() =>
     /* Post comments and users to redux store. Actions will be posted when they are needed. */
-    store.dispatch({type: UPDATE_ASSET_STATE_SUCCESS, closedAt}))
+    store.dispatch({type: UPDATE_ASSET_STATE_SUCCESS}))
     .catch(error => store.dispatch({type: UPDATE_ASSET_STATE_FAILED, error}));
 };
