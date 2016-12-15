@@ -15,6 +15,7 @@ const Comment = props => {
 
 Comment.propTypes = {
   comment: PropTypes.shape({
+    id: PropTypes.string,
     body: PropTypes.string
   }).isRequired,
   asset: PropTypes.shape({
