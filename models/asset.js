@@ -152,6 +152,16 @@ AssetSchema.statics.search = (value) => value.length === 0 ? Asset.find({}) : As
   }
 });
 
+/**
+ * Finds multiple assets with matching ids
+ * @param  {Array} ids an array of Strings of asset_id
+ * @return {Promise}     resolves to list of Assets
+ */
+AssetSchema.statics.findMultipleById = function (ids) {
+  const query = ids.map(id => ({id}));
+  return Asset.find(query);
+};
+
 const Asset = mongoose.model('Asset', AssetSchema);
 
 module.exports = Asset;
