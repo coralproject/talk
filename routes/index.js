@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const csrf = require('csurf');
-const csrfProtection = csrf({cookie: true});
+
+// Setup route middlewares for CSRF protection.
+// Default ignore methods are GET, HEAD, OPTIONS
+const csrfProtection = csrf({});
 
 router.use('/api/v1', require('./api'));
 router.use('/admin', require('./admin'));

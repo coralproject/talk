@@ -90,7 +90,6 @@
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
     "copy-webpack-plugin": "^4.0.0",
-    "cookie-parser": "^1.4.3",
     "csurf": "^1.9.0",
     "css-loader": "^0.25.0",
     "dialog-polyfill": "^0.4.4",
