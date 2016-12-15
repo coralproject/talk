@@ -3,10 +3,10 @@ import {expect} from 'chai';
 import assetsReducer from '../../../../client/coral-admin/src/reducers/assets';
 
 describe ('assetsReducer', () => {
-  describe('ASSETS_FETCH_SUCCESS', () => {
+  describe('FETCH_ASSETS_SUCCESS', () => {
     it('should replace the existing assets', () => {
       const action = {
-        type: 'ASSETS_FETCH_SUCCESS',
+        type: 'FETCH_ASSETS_SUCCESS',
         count: 200,
         assets: [
           {

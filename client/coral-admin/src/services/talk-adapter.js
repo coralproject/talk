@@ -1,5 +1,12 @@
 import coralApi from '../../../coral-framework/helpers/response';
-
+import {
+  FETCH_ASSETS,
+  FETCH_ASSETS_FAILED,
+  FETCH_ASSETS_SUCCESS,
+  UPDATE_ASSET_STATE,
+  UPDATE_ASSET_STATE_SUCCESS,
+  UPDATE_ASSET_STATE_FAILED,
+} from '../constants/assets';
 /**
  * The adapter is a redux middleware that interecepts the actions that need
  * to interface with the backend, do the job and return the results.
@@ -22,8 +29,10 @@ export default store => next => action => {
     return createComment(store, action.name, action.body);
   case 'USER_BAN':
     return userStatusUpdate(store, action.status, action.userId, action.commentId);
-  case 'FETCH_ASSETS':
+  case FETCH_ASSETS:
     return fetchAssets(store, action);
+  case UPDATE_ASSET_STATE:
+    return updateAssetState(store, action);
   }
 };
 
@@ -97,9 +106,20 @@ const fetchAssets = (store, action) => {
   return coralApi(`/assets?skip=${skip}&limit=${limit}&search=${search}`)
   .then(({result, count}) =>
     /* Post comments and users to redux store. Actions will be posted when they are needed. */
-    store.dispatch({type: 'FETCH_ASSETS_SUCCESS',
+    store.dispatch({type: FETCH_ASSETS_SUCCESS,
       assets: result,
       count
     }))
-    .catch(error => store.dispatch({type: 'FETCH_ASSETS_FAILED', error}));
+    .catch(error => store.dispatch({type: FETCH_ASSETS_FAILED, error}));
+};
+
+// Update an asset state
+// Get comments to fill each of the three lists on the mod queue
+const updateAssetState = (store, action) => {
+  const {id, closedAt} = action;
+  return coralApi(`/assets/${id}/status`, {method: 'PUT', body: {closedAt}})
+  .then(() =>
+    /* Post comments and users to redux store. Actions will be posted when they are needed. */
+    store.dispatch({type: UPDATE_ASSET_STATE_SUCCESS, closedAt}))
+    .catch(error => store.dispatch({type: UPDATE_ASSET_STATE_FAILED, error}));
 };
