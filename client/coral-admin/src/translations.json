@@ -28,7 +28,8 @@
       "nextcomment": "Go to the next comment",
       "prevcomment": "Go to the previous comment",
       "singleview": "Toggle single comment edit view",
-      "thismenu": "Open this menu"
+      "thismenu": "Open this menu",
+      "showshortcuts": "Show Shortcuts"
     },
     "comment": {
       "flagged": "flagged",
@@ -95,7 +96,8 @@
       "rejected": "rechazado",
       "flagged": "marcado",
       "shortcuts": "Atajos de teclado",
-      "close": "Cerrar"
+      "close": "Cerrar",
+      "showshortcuts": "Mostrar atajos"
     },
     "comment": {
       "flagged": "marcado",

@@ -14,6 +14,18 @@
   color: white;
 }
 
+.showShortcuts {
+  position: absolute;
+  right: 130px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+
+  span {
+    margin-left: 7px;
+  }
+}
+
 @media (--big-viewport) {
   .tab {
     flex: none;

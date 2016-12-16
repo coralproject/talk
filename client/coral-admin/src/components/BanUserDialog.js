@@ -14,7 +14,7 @@ const BanUserDialog = ({open, handleClose, onClickBanUser, user = {}}) => {
 
   return (
     <Dialog className={styles.dialog} open={open} onClose={() => handleClose()} onCancel={() => handleClose()} title={lang.t('bandialog.ban_user')}>
-    <span className={styles.close} onClick={() => handleClose()}>×</span>
+      <span className={styles.close} onClick={() => handleClose()}>×</span>
       <div>
         <div className={styles.header}>
           <h3>
