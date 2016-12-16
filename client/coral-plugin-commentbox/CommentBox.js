@@ -103,7 +103,7 @@ class CommentBox extends Component {
         <div className={`${name}-button-container`}>
           { author && (
               <Button
-                cStyle={length > charCount ? 'lightGrey' : 'darkGrey'}
+                cStyle={!length || (charCount && length > charCount) ? 'lightGrey' : 'darkGrey'}
                 className={`${name}-button`}
                 onClick={this.postComment}>
                 {lang.t('post')}
