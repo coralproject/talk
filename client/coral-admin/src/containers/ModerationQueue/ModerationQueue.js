@@ -71,7 +71,7 @@ class ModerationQueue extends React.Component {
     this.props.dispatch(banUser('banned', userId, commentId));
   }
 
-  showShortcuts () {
+  showShortcuts = () => {
     this.setState({modalOpen: true});
   }
 
@@ -98,7 +98,7 @@ class ModerationQueue extends React.Component {
               className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.rejected')}</a>
             <a href='#flagged' onClick={() => this.onTabClick('flagged')}
               className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.flagged')}</a>
-            <a href='#' onClick={() => this.showShortcuts()}
+            <a href='#' onClick={this.showShortcuts}
               className={`mdl-tabs__tab ${styles.tab} ${styles.showShortcuts}`}>
               <Icon name='keyboard' />
               <span>{lang.t('modqueue.showshortcuts')}</span>
