@@ -21,7 +21,8 @@ describe('coral-plugin-history/Comment', () => {
   it('should render the asset url as a link', () => {
     const wrapper = mount(<Comment asset={asset} comment={comment} />);
     expect(wrapper.find('.myCommentAnchor')).to.have.length(1);
-    expect(wrapper.find('.myCommentAnchor').text()).to.equal('https://google.com#123');
+    expect(wrapper.find('.myCommentAnchor').text()).to.equal('https://google.com');
+    expect(wrapper.find('.myCommentAnchor').props().href).to.equal('https://google.com#123');
   });
 
   it('should render the comment with styles', () => {

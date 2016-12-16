@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import ReactDOM from 'react-dom';
 import dialogPolyfill from 'dialog-polyfill';
 import 'dialog-polyfill/dialog-polyfill.css';
 
@@ -19,7 +18,7 @@ export default class Dialog extends Component {
   };
 
   componentDidMount(){
-    const dialog = ReactDOM.findDOMNode(this.refs.dialog);
+    const dialog = this.dialog;
     dialogPolyfill.registerDialog(dialog);
 
     if (this.props.open) {
@@ -31,7 +30,7 @@ export default class Dialog extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const dialog = ReactDOM.findDOMNode(this.refs.dialog);
+    const dialog = this.dialog;
     if (this.props.open !== prevProps.open) {
       if (this.props.open) {
         dialog.showModal();
@@ -42,7 +41,7 @@ export default class Dialog extends Component {
   }
 
   componentWillUnmount() {
-    const dialog = ReactDOM.findDOMNode(this.refs.dialog);
+    const dialog = this.dialog;
     dialog.removeEventListener('cancel', this.props.onCancel);
   }
 
@@ -51,7 +50,7 @@ export default class Dialog extends Component {
 
     return (
       <dialog
-        ref="dialog"
+        ref={el => { this.dialog = el; }}
         className={`mdl-dialog ${className}`}
         {...rest}
       >
