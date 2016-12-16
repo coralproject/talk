@@ -11,8 +11,9 @@ import {
   DataTable,
   TableHeader
 } from 'react-mdl';
+import Pager from 'coral-ui/components/Pager';
 
-const limit = 25;
+const limit = 10;
 
 class Streams extends Component {
 
@@ -21,7 +22,8 @@ class Streams extends Component {
     sort: 'desc',
     filter: 'all',
     statusMenus: {},
-    timer: null
+    timer: null,
+    page: 0
   }
 
   componentDidMount () {
@@ -88,9 +90,17 @@ class Streams extends Component {
     </div>;
   }
 
+  onPageClick = (page) => {
+    this.setState({page});
+    const {search, sort, filter} = this.state;
+    this.props.fetchAssets((page - 1) * limit, limit, search, sort, filter);
+  }
+
   render () {
     const {search, sort, filter} = this.state;
     const {assets} = this.props;
+
+    console.log(assets);
 
     return <div className={styles.container}>
       <div className={styles.leftColumn}>
@@ -139,6 +149,11 @@ class Streams extends Component {
           {lang.t('streams.status')}
         </TableHeader>
       </DataTable>
+      <Pager
+        totalPages={Math.ceil((assets.count || 0) / limit)}
+        page={this.state.page}
+        onNewPageHandler={this.onPageClick}
+      />
       </div>
     </div>;
   }
