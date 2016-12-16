@@ -8,6 +8,6 @@ export const updateAssetState = (id, closedAt) => (dispatch) => {
   dispatch({type: UPDATE_ASSET_STATE, id, closedAt});
 };
 
-export const fetchAssets = (skip, limit, search, sort) => (dispatch) => {
-  dispatch({type: FETCH_ASSETS, skip, limit, search, sort});
+export const fetchAssets = (skip, limit, search, sort, filter) => (dispatch) => {
+  dispatch({type: FETCH_ASSETS, skip, limit, search, sort, filter});
 };

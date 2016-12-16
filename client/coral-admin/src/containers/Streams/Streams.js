@@ -19,8 +19,9 @@ class Streams extends Component {
   state = {
     search: '',
     sort: 'desc',
-    statusFilter: 'all',
-    statusMenus: {}
+    filter: 'all',
+    statusMenus: {},
+    timer: null
   }
 
   componentDidMount () {
@@ -28,8 +29,22 @@ class Streams extends Component {
   }
 
   onSettingChange = (setting) => (e) => {
+    let options = this.state;
     this.setState({[setting]: e.target.value});
-    this.props.fetchAssets(0, limit, this.state.search, this.state.sort);
+    options[setting] = e.target.value;
+    this.props.fetchAssets(0, limit, options.search, options.sort, options.filter);
+  }
+
+  onSearchChange = (e) => {
+    this.setState({search: e.target.value});
+    this.setState((prevState) => {
+      clearTimeout(prevState.timer);
+      const fetchAssets = this.props.fetchAssets;
+      prevState.timer = setTimeout(() => {
+        fetchAssets(0, limit, this.state.search, this.state.sort, this.state.filter);
+      }, 350);
+      return prevState;
+    });
   }
 
   renderDate = (date) => {
@@ -74,7 +89,7 @@ class Streams extends Component {
   }
 
   render () {
-    const {searchTerm, sortBy, statusFilter} = this.state;
+    const {search, sort, filter} = this.state;
     const {assets} = this.props;
 
     return <div className={styles.container}>
@@ -84,9 +99,9 @@ class Streams extends Component {
           <Icon name='search' className={styles.searchIcon}/>
           <input
             type='text'
-            value={searchTerm}
+            value={search}
             className={styles.searchBoxInput}
-            onChange={this.onSettingChange('searchTerm')}
+            onChange={this.onSearchChange}
             placeholder={lang.t('streams.search')}/>
         </div>
 
@@ -94,9 +109,9 @@ class Streams extends Component {
         <div className={styles.optionDetail}>{lang.t('streams.stream-status')}</div>
           <RadioGroup
             name='status filter'
-            value={statusFilter}
+            value={filter}
             childContainer='div'
-            onChange={this.onSettingChange('statusFilter')}>
+            onChange={this.onSettingChange('filter')}>
             <Radio value='all'>{lang.t('streams.all')}</Radio>
             <Radio value='open'>{lang.t('streams.open')}</Radio>
             <Radio value='closed'>{lang.t('streams.closed')}</Radio>
@@ -104,9 +119,9 @@ class Streams extends Component {
           <div className={styles.optionHeader}>{lang.t('streams.sort-by')}</div>
           <RadioGroup
             name='sort by'
-            value={sortBy}
+            value={sort}
             childContainer='div'
-            onChange={this.onSettingChange('sortBy')}>
+            onChange={this.onSettingChange('sort')}>
             <Radio value='desc'>{lang.t('streams.newest')}</Radio>
             <Radio value='asc'>{lang.t('streams.oldest')}</Radio>
           </RadioGroup>

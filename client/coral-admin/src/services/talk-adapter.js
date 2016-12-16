@@ -102,8 +102,8 @@ const userStatusUpdate = (store, status, userId, commentId) => {
 // Fetch a page of assets
 // Get comments to fill each of the three lists on the mod queue
 const fetchAssets = (store, action) => {
-  const {skip, limit, search} = action;
-  return coralApi(`/assets?skip=${skip}&limit=${limit}&search=${search}`)
+  const {skip, limit, sort, search, filter} = action;
+  return coralApi(`/assets?skip=${skip}&limit=${limit}&sort=${sort}&search=${search}&filter=${filter}`)
   .then(({result, count}) =>
     /* Post comments and users to redux store. Actions will be posted when they are needed. */
     store.dispatch({type: FETCH_ASSETS_SUCCESS,
