@@ -241,6 +241,7 @@ hr {
 .coral-plugin-flags-popup-radio-label {
   margin:5px;
   font-size: 14px;
+  font-weight: 700;
 }
 
 .coral-plugin-flags-popup-counter {
@@ -256,6 +257,7 @@ hr {
 
 .coral-plugin-flags-other-text {
   margin-left: 20px;
+  margin-top: 5px;
   width: 75%;
 }
 
