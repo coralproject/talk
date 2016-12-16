@@ -1,3 +1,11 @@
+.myComment {
+  border-bottom: 1px solid lightgrey;
+}
+
+.myComment:last-child {
+  border-bottom: none;
+}
+
 .assetURL {
   font-size: 16px;
   color: black;

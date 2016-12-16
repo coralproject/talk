@@ -5,7 +5,6 @@ import styles from './CommentHistory.css';
 const CommentHistory = props => {
   return (
     <div className={`${styles.header} commentHistory`}>
-      <h2>All Comments</h2>
       <div className="commentHistory__list">
         {props.comments.map((comment, i) => {
           const asset = props.assets.find(asset => asset.id === comment.asset_id);
