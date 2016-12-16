@@ -63,6 +63,11 @@
   display: block;
 }
 
+.configTimeoutSelect {
+  display: inline-block;
+  margin-left: 20px;
+}
+
 .charCountTexfield {
   width: 4em;
   padding: 0px;

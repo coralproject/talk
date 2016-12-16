@@ -6,6 +6,7 @@ import * as actions from '../actions/items';
 const initialState = fromJS({
   comments: {},
   users: {},
+  assets: {},
   actions: {}
 });
 

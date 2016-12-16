@@ -28,7 +28,8 @@
       "nextcomment": "Go to the next comment",
       "prevcomment": "Go to the previous comment",
       "singleview": "Toggle single comment edit view",
-      "thismenu": "Open this menu"
+      "thismenu": "Open this menu",
+      "showshortcuts": "Show Shortcuts"
     },
     "comment": {
       "flagged": "flagged",
@@ -58,6 +59,10 @@
       "streams": "Streams",
       "closed-comments-desc": "Write a message for closed threads",
       "closed-comments-label": "Write a message...",
+      "hours": "Hours",
+      "days": "Days",
+      "weeks": "Weeks",
+      "close-after": "Close comments after",
       "comment-count-header": "Limit Comment Length",
       "comment-count-text-pre":  "Comments will be limited to ",
       "comment-count-text-post": " characters.",
@@ -108,7 +113,8 @@
       "rejected": "rechazado",
       "flagged": "marcado",
       "shortcuts": "Atajos de teclado",
-      "close": "Cerrar"
+      "close": "Cerrar",
+      "showshortcuts": "Mostrar atajos"
     },
     "comment": {
       "flagged": "marcado",
@@ -134,6 +140,11 @@
       "community": "Comunidad",
       "closed-comments-desc": "Escribe un mensaje para cuando los comentarios se encuentran cerrados",
       "closed-comments-label": "Escribe un mensaje...",
+      "never": "Nunca",
+      "hours": "Horas",
+      "days": "Días",
+      "weeks": "Semanas",
+      "close-after": "Cerrar comentarios luego de",
       "comment-count-header": "Limitar el largo del comentario",
       "comment-count-text-pre":  "El largo de comentarios será ",
       "comment-count-text-post": " caracteres",

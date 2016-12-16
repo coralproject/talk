@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
+import {I18n} from '../../coral-framework';
 import {updateOpenStatus, updateConfiguration} from '../../coral-framework/actions/config';
 
 import CloseCommentsInfo from '../components/CloseCommentsInfo';
 import ConfigureCommentStream from '../components/ConfigureCommentStream';
+
+const lang = new I18n();
 
 class ConfigureStreamContainer extends Component {
   constructor (props) {
@@ -47,8 +50,15 @@ class ConfigureStreamContainer extends Component {
     this.props.updateStatus(this.props.config.status === 'open' ? 'closed' : 'open');
   }
 
+  getClosedIn () {
+    const {closedTimeout} = this.props.config;
+    const {created_at} = this.props.asset;
+    return lang.timeago(new Date(created_at).getTime() + (1000 * closedTimeout));
+  }
+
   render () {
     const {status} = this.props;
+
     return (
       <div>
         <ConfigureCommentStream
@@ -59,6 +69,7 @@ class ConfigureStreamContainer extends Component {
         />
         <hr />
         <h3>{status === 'open' ? 'Close' : 'Open'} Comment Stream</h3>
+        {status === 'open' ? <p>The comment stream will close in {this.getClosedIn()}.</p> : ''}
         <CloseCommentsInfo
           onClick={this.toggleStatus}
           status={status}
@@ -69,7 +80,11 @@ class ConfigureStreamContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  config: state.config.toJS()
+  config: state.config.toJS(),
+  asset: state.items
+    .get('assets')
+    .first()
+    .toJS()
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -1,11 +1,14 @@
 import {Map} from 'immutable';
 import * as authActions from '../constants/auth';
 import * as actions from '../constants/user';
+import * as assetActions from '../constants/assets';
 
 const initialState = Map({
   displayName: '',
   profiles: [],
-  settings: {}
+  settings: {},
+  myComments: [],
+  myAssets: [] // the assets from which myComments (above) originated
 });
 
 const purge = user => {
@@ -30,6 +33,10 @@ export default function user (state = initialState, action) {
   case actions.SAVE_BIO_SUCCESS:
     return state
       .set('settings', action.settings);
+  case actions.COMMENTS_BY_USER_SUCCESS:
+    return state.set('myComments', action.comments);
+  case assetActions.MULTIPLE_ASSETS_SUCCESS:
+    return state.set('myAssets', action.assets);
   default :
     return state;
   }

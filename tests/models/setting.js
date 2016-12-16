@@ -20,20 +20,6 @@ describe('models.Setting', () => {
     });
   });
 
-  describe('#public()', () => {
-    it('should have a moderation field defined', () => {
-      return Setting.public().then(settings => {
-        expect(settings).to.have.property('moderation').and.to.equal('pre');
-      });
-    });
-
-    it('should not have the wordlist field defined', () => {
-      return Setting.public().then(settings => {
-        expect(settings).to.have.property('wordlist').and.to.have.length(0);
-      });
-    });
-  });
-
   describe('#update()', () => {
     it('should update the settings with a passed object', () => {
       const mockSettings = {moderation: 'post', infoBoxEnable: true, infoBoxContent: 'yeah'};

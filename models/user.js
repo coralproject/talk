@@ -136,7 +136,13 @@ UserSchema.options.toJSON.transform = (doc, ret, options) => {
  */
 UserSchema.method('filterForUser', function(user = false) {
   if (!user || !user.roles.includes('admin')) {
-    return _.pick(this.toJSON(), ['id', 'displayName', 'settings', 'created_at', 'updated_at']);
+    let allowed = ['id', 'displayName', 'settings', 'created_at', 'updated_at'];
+
+    if (user && user.id === this.id) {
+      allowed.push('roles');
+    }
+
+    return _.pick(this.toJSON(), allowed);
   }
 
   return this.toJSON();

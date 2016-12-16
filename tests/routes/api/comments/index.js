@@ -85,6 +85,29 @@ describe('/api/v1/comments', () => {
       ]);
     });
 
+    it('should return only the owner’s comments if the user is not an admin', () => {
+      return chai.request(app)
+        .get('/api/v1/comments?user_id=456')
+        .set(passport.inject({id: '456', roles: []}))
+        .then(res => {
+          expect(res).to.have.status(200);
+          expect(res.body.comments).to.have.length(2);
+          expect(res.body.comments[1]).to.have.property('author_id', '456');
+        });
+    });
+
+    it('should fail if a non-admin requests comments not owned by them', () => {
+      return chai.request(app)
+        .get('/api/v1/comments?user_id=456')
+        .set(passport.inject({id: '123', roles: []}))
+        .then((res) => {
+          expect(res).to.be.empty;
+        })
+        .catch((err) => {
+          expect(err).to.have.property('status', 401);
+        });
+    });
+
     it('should return all the comments', () => {
       return chai.request(app)
         .get('/api/v1/comments')
@@ -194,6 +217,28 @@ describe('/api/v1/comments', () => {
           expect(res.body).to.have.property('id');
           expect(res.body).to.have.property('asset_id');
           expect(res.body).to.have.property('status', 'premod');
+        });
+    });
+
+    it('should create a rejected comment if the body is above the character count', () => {
+      return Asset
+        .findOrCreateByUrl('https://coralproject.net/article1')
+        .then((asset) => {
+          return Asset
+            .overrideSettings(asset.id, {charCountEnable: true, charCount: 10})
+            .then(() => asset);
+        })
+        .then((asset) => {
+          return chai.request(app)
+            .post('/api/v1/comments')
+            .set(passport.inject({roles: []}))
+            .send({'body': 'This is way way way way way too long.', 'author_id': '123', 'asset_id': asset.id, 'parent_id': ''});
+        })
+        .then((res) => {
+          expect(res).to.have.status(201);
+          expect(res.body).to.have.property('id');
+          expect(res.body).to.have.property('asset_id');
+          expect(res.body).to.have.property('status', 'rejected');
         });
     });
 

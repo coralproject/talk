@@ -9,13 +9,26 @@ const _ = require('lodash');
 
 const router = express.Router();
 
-router.get('/', authorization.needed('admin'), (req, res, next) => {
+router.get('/', (req, res, next) => {
 
   const {
     status = null,
     action_type = null,
-    asset_id = null
+    asset_id = null,
+    user_id = null
   } = req.query;
+
+  // everything on this route requires admin privileges besides listing comments for owner of said comments
+  if (!authorization.has(req.user, 'admin') && !user_id) {
+    next(authorization.ErrNotAuthorized);
+    return;
+  }
+
+  // if the user is not an admin, only return comment list for the owner of the comments
+  if (req.user.id !== user_id && !authorization.has(req.user, 'admin')) {
+    next(authorization.ErrNotAuthorized);
+    return;
+  }
 
   /**
    * This adds the asset_id requirement to the query if the asset_id is defined.
@@ -30,7 +43,12 @@ router.get('/', authorization.needed('admin'), (req, res, next) => {
 
   let query;
 
-  if (status) {
+  // the check for user_id MUST be first here.
+  // otherwise this will be a vulnerability if you pass user_id and something else,
+  // the app will return admin-level data without the proper checks
+  if (user_id) {
+    query = Comment.findByUserId(user_id);
+  } else if (status) {
     query = assetIDWrap(Comment.findByStatus(status === 'new' ? null : status));
   } else if (action_type) {
     query = Comment
@@ -47,13 +65,15 @@ router.get('/', authorization.needed('admin'), (req, res, next) => {
   query.then((comments) => {
     return Promise.all([
       comments,
+      Asset.findMultipleById(comments.map(comment => comment.asset_id)),
       User.findByIdArray(_.uniq(comments.map((comment) => comment.author_id))),
       Action.getActionSummariesFromComments(asset_id, comments, req.user ? req.user.id : false)
     ]);
   })
-  .then(([comments, users, actions])=>
+  .then(([comments, assets, users, actions]) =>
     res.status(200).json({
       comments,
+      assets,
       users,
       actions
     }))
@@ -96,7 +116,13 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
 
       // Return `premod` if pre-moderation is enabled and an empty "new" status
       // in the event that it is not in pre-moderation mode.
-      .then(({moderation}) => moderation === 'pre' ? 'premod' : '');
+      .then(({moderation, charCountEnable, charCount}) => {
+        // Reject if the comment is too long
+        if (charCountEnable && body.length > charCount) {
+          return 'rejected';
+        }
+        return moderation === 'pre' ? 'premod' : '';
+      });
   }
 
   status.then((status) => Comment.publicCreate({
