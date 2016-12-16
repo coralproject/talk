@@ -13,7 +13,7 @@ import {
 } from 'react-mdl';
 import Pager from 'coral-ui/components/Pager';
 
-const limit = 10;
+const limit = 25;
 
 class Streams extends Component {
 
