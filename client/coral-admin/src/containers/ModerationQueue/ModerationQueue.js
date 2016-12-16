@@ -72,7 +72,7 @@ class ModerationQueue extends React.Component {
   }
 
   showShortcuts () {
-    this.setState({ modalOpen: true });
+    this.setState({modalOpen: true});
   }
 
   onTabClick (activeTab) {
