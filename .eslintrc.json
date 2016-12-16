@@ -21,6 +21,8 @@
         "no-eval": [2],
         "no-global-assign": [2],
         "no-implied-eval": [2],
+        "lines-around-comment": ["warn", {"beforeLineComment": true}],
+        "spaced-comment": ["warn", "always", { "line": { "exceptions": ["-", "="] } }],
         "no-script-url": [2],
         "no-throw-literal": [2],
         "yoda": [1],
