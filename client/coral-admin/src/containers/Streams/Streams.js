@@ -12,21 +12,24 @@ import {
   TableHeader
 } from 'react-mdl';
 
+const limit = 25;
+
 class Streams extends Component {
 
   state = {
-    searchTerm: '',
-    sortBy: 'newest',
+    search: '',
+    sort: 'desc',
     statusFilter: 'all',
     statusMenus: {}
   }
 
   componentDidMount () {
-    this.props.fetchAssets(0, 25, '', 'desc');
+    this.props.fetchAssets(0, limit, '', this.state.sortBy);
   }
 
   onSettingChange = (setting) => (e) => {
     this.setState({[setting]: e.target.value});
+    this.props.fetchAssets(0, limit, this.state.search, this.state.sort);
   }
 
   renderDate = (date) => {
@@ -104,8 +107,8 @@ class Streams extends Component {
             value={sortBy}
             childContainer='div'
             onChange={this.onSettingChange('sortBy')}>
-            <Radio value='newest'>{lang.t('streams.newest')}</Radio>
-            <Radio value='oldest'>{lang.t('streams.oldest')}</Radio>
+            <Radio value='desc'>{lang.t('streams.newest')}</Radio>
+            <Radio value='asc'>{lang.t('streams.oldest')}</Radio>
           </RadioGroup>
       </div>
 

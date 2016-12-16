@@ -12,22 +12,40 @@ router.get('/', (req, res, next) => {
     skip = 0,
     sort = 'asc',
     field = 'created_at',
+    filter = 'all',
     search = ''
   } = req.query;
 
+  const assets = (filter, search) => {
+    switch(filter) {
+    case 'open':
+      return Asset.search(search)
+        .find({
+          $or: [
+              {closedAt: null},
+              {closedAt: {$gt: Date.now()}}
+          ]
+        });
+    case 'closed':
+      return Asset.search(search)
+        .find({
+          closedAt: {$lt: Date.now()}
+        });
+    default:
+      return Asset.search(search);
+    }
+  };
+
   // Find all the assets.
   Promise.all([
-    Asset
-      .search(search)
+    assets(filter, search)
       .sort({[field]: (sort === 'asc') ? 1 : -1})
       .skip(parseInt(skip))
       .limit(parseInt(limit)),
-    Asset
-      .search(search)
+    assets(filter, search)
       .count()
   ])
   .then(([result, count]) => {
-
     // Send back the asset data.
     res.json({
       result,

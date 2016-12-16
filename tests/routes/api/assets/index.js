@@ -18,12 +18,14 @@ describe('/api/v1/assets', () => {
         url: 'https://coralproject.net/news/asset1',
         title: 'Asset 1',
         description: 'term1',
-        id: '1'
+        id: '1',
+        closedAt: Date.now()
       },
       {
         url: 'https://coralproject.net/news/asset2',
         title: 'Asset 2',
-        description: 'term2'
+        description: 'term2',
+        closedAt: null
       }
     ]);
   });
@@ -78,6 +80,38 @@ describe('/api/v1/assets', () => {
           expect(body).to.have.property('result');
 
           expect(body.result).to.be.empty;
+        });
+    });
+
+    it('should return only closed assets', () => {
+      return chai.request(app)
+        .get('/api/v1/assets?filter=closed')
+        .set(passport.inject({roles: ['admin']}))
+        .then((res) => {
+          const body = res.body;
+
+          expect(body).to.have.property('count', 1);
+          expect(body).to.have.property('result');
+
+          const assets = body.result;
+
+          expect(assets[0]).to.have.property('title', 'Asset 1');
+        });
+    });
+
+    it('should return only opened assets', () => {
+      return chai.request(app)
+        .get('/api/v1/assets?filter=open')
+        .set(passport.inject({roles: ['admin']}))
+        .then((res) => {
+          const body = res.body;
+
+          expect(body).to.have.property('count', 1);
+          expect(body).to.have.property('result');
+
+          const assets = body.result;
+
+          expect(assets[0]).to.have.property('title', 'Asset 2');
         });
     });
 
