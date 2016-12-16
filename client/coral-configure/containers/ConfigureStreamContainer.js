@@ -51,8 +51,8 @@ class ConfigureStreamContainer extends Component {
   }
 
   getClosedIn () {
-    const {config} = this.props;
-    const {created_at, closedTimeout} = config;
+    const {closedTimeout} = this.props.config;
+    const {created_at} = this.props.asset;
     return lang.timeago(new Date(created_at).getTime() + (1000 * closedTimeout));
   }
 
@@ -80,7 +80,8 @@ class ConfigureStreamContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  config: state.config.toJS()
+  config: state.config.toJS(),
+  asset: state.items.get('assets').first().toJS()
 });
 
 const mapDispatchToProps = dispatch => ({
