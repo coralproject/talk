@@ -11,8 +11,8 @@
     "lint-fix": "./node_modules/.bin/eslint bin/* . --fix",
     "test": "NODE_ENV=test ./node_modules/.bin/mocha --compilers js:babel-core/register tests/helpers/*.js --require ignore-styles --recursive tests",
     "test-watch": "NODE_ENV=test ./node_modules/.bin/mocha --compilers js:babel-core/register --recursive -w tests",
-    "pree2e": "NODE_ENV=test ./scripts/pree2e.sh",
-    "e2e": "NODE_ENV=test ./node_modules/.bin/nightwatch",
+    "pree2e": "node_modules/selenium-standalone/bin/selenium-standalone install",
+    "e2e": "NODE_ENV=test nightwatch",
     "embed-start": "NODE_ENV=development npm run build && ./bin/cli serve --jobs"
   },
   "config": {
@@ -115,7 +115,7 @@
     "material-design-lite": "^1.2.1",
     "mocha": "^3.1.2",
     "mocha-junit-reporter": "^1.12.1",
-    "nightwatch": "^0.9.9",
+    "nightwatch": "^0.9.11",
     "node-fetch": "^1.6.3",
     "postcss-loader": "^1.1.0",
     "postcss-modules": "^0.5.2",
