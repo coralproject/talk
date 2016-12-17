@@ -7,6 +7,7 @@ const maxRecursion = 3;
  * payload response first based on user and role.
  */
 module.exports = (req, res, next) => {
+
   /**
    * Updates the original document based on filtering out for roles.
    * @param  {Mixed}   o original object to be modified
