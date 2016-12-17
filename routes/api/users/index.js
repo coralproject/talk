@@ -131,6 +131,7 @@ router.post('/request-password-reset', parseForm, csrfProtection, (req, res, nex
         to: email,
         html: resetEmailTemplate({
           token,
+
           // probably more clear to explicitly pass this
           rootURL: process.env.TALK_ROOT_URL
         })

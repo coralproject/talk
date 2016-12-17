@@ -21,6 +21,7 @@ class SignInContainer extends Component {
   }
 
   componentWillMount () {
+
     // Fetch commentHistory
     this.props.fetchCommentsByUserId(this.props.userData.id);
   }
@@ -34,18 +35,29 @@ class SignInContainer extends Component {
   render() {
     const {loggedIn, userData, showSignInDialog, items, user} = this.props;
     const {activeTab} = this.state;
+
+    const commentsMostRecentFirst = user
+      .myComments.map(id => items.comments[id])
+      .sort(({created_at:a}, {created_at:b}) => {
+
+        // descending order, created_at
+        // js date strings can be sorted lexigraphically.
+        const aLessThanB = a < b ? 1 : 0;
+        return a > b ? -1 : aLessThanB;
+      });
+
     return (
       <RestrictedContent restricted={!loggedIn} restrictedComp={<NotLoggedIn showSignInDialog={showSignInDialog} />}>
         <SettingsHeader {...this.props} />
         <TabBar onChange={this.handleTabChange} activeTab={activeTab} cStyle='material'>
-          <Tab>All Comments (120)</Tab>
+          <Tab>All Comments ({user.myComments.length})</Tab>
           <Tab>Profile Settings</Tab>
         </TabBar>
         <TabContent show={activeTab === 0}>
           {
             user.myComments.length && user.myAssets.length
             ? <CommentHistory
-              comments={user.myComments.map(id => items.comments[id])}
+              comments={commentsMostRecentFirst}
               assets={user.myAssets.map(id => items.assets[id])} />
             : <p>Loading comment history...</p>
           }
