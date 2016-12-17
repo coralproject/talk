@@ -31,10 +31,9 @@ const embedCommands = {
   }
 };
 
-module.exports = {
+export default {
   commands: [embedCommands],
   elements: {
-
     commentBox: {
       selector: '#commentBox'
     },
