@@ -100,7 +100,7 @@ class ModerationQueue extends React.Component {
               className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.rejected')}</a>
             <a href='#flagged' onClick={() => this.onTabClick('flagged')}
               className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.flagged')}</a>
-            <a href='#' onClick={this.showShortcuts}
+            <a href='#shortcuts' onClick={this.showShortcuts}
               className={`mdl-tabs__tab ${styles.tab} ${styles.showShortcuts}`}>
               <Icon name='keyboard' />
               <span>{lang.t('modqueue.showshortcuts')}</span>
@@ -122,7 +122,7 @@ class ModerationQueue extends React.Component {
               handleClose={() => this.hideBanUserDialog()}
               onClickBanUser={(userId, commentId) => this.banUser(userId, commentId)}
               user={comments.banUser}/>
-        </div>
+          </div>
           <div className={`mdl-tabs__panel ${styles.listContainer}`} id='rejected'>
             <CommentList
               isActive={activeTab === 'rejected'}
@@ -136,7 +136,7 @@ class ModerationQueue extends React.Component {
           </div>
           <div className={`mdl-tabs__panel ${styles.listContainer}`} id='flagged'>
             <CommentList
-              isActive={activeTab === 'rejected'}
+              isActive={activeTab === 'flagged'}
               singleView={singleView}
               commentIds={flaggedIds}
               comments={comments.byId}
@@ -145,11 +145,14 @@ class ModerationQueue extends React.Component {
               actions={['reject', 'approve']}
               loading={comments.loading} />
           </div>
-          <ModerationKeysModal open={modalOpen}
-            onClose={() => this.setState({modalOpen: false})} />
+          <div className={`mdl-tabs__panel ${styles.listContainer}`} id='shortcuts'>
+            <ModerationKeysModal open={modalOpen}
+              onClose={() => this.setState({modalOpen: false})} />
+          </div>
         </div>
       </div>
     );
+
   }
 }
 
