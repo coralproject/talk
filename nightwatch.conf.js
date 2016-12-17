@@ -19,6 +19,8 @@ module.exports = {
   },
   'test_settings': {
     'default': {
+      'launch_url' : 'http://localhost:3000',
+      'globals' : {},
       'selenium_port': 6666,
       'selenium_host': 'localhost',
       'silent': true,
@@ -27,7 +29,7 @@ module.exports = {
         'javascriptEnabled': true,
         'acceptSslCerts': true,
         'webStorageEnabled' : true,
-        'databaseEnabled' : true,
+        'databaseEnabled' : true,""
         'applicationCacheEnabled' : false,
         'nativeEvents' : true
       },
@@ -37,8 +39,11 @@ module.exports = {
         'on_error' : true,
         'path' : './tests/e2e/reports'
       },
-      'exclude': [
-      ]
+      'exclude': []
+    },
+    'integration': {
+      'launch_url' : 'http://localhost:3000',
+      'globals' : {}
     }
   }
 };
