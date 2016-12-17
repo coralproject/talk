@@ -74,7 +74,7 @@ describe('itemActions', () => {
     });
   });
 
-  //Disabling tests for this function until is is used again.
+  // Disabling tests for this function until is is used again.
   xdescribe('getItemsArray', () => {
     const response = {items: [{type: 'comment', id: '123'}, {type: 'comment', id: '456'}]};
     const ids = [1, 2];

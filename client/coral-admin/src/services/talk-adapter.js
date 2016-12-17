@@ -38,6 +38,7 @@ Promise.all([
   coralApi('/comments?action_type=flag')
 ])
 .then(([pending, rejected, flagged]) => {
+
   /* Combine seperate calls into a single object */
   let all = {};
   all.comments = pending.comments
@@ -55,6 +56,7 @@ Promise.all([
   return all;
 })
 .then(all => {
+
   /* Post comments and users to redux store. Actions will be posted when they are needed. */
   store.dispatch({type: 'USERS_MODERATION_QUEUE_FETCH_SUCCESS',
     users: all.users});
@@ -62,6 +64,7 @@ Promise.all([
     comments: all.comments});
 
 });
+
 // .catch(error => store.dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH_FAILED', error}));
 
 // Update a comment. Now to update a comment we need to send back the whole object
