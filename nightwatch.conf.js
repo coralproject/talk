@@ -28,22 +28,22 @@ module.exports = {
         'browserName': 'chrome',
         'javascriptEnabled': true,
         'acceptSslCerts': true,
-        'webStorageEnabled' : true,
-        'databaseEnabled' : true,""
-        'applicationCacheEnabled' : false,
-        'nativeEvents' : true
+        'webStorageEnabled': true,
+        'databaseEnabled': true,
+        'applicationCacheEnabled': false,
+        'nativeEvents': true
       },
       'screenshots' : {
-        'enabled' : true,
-        'on_failure' : true,
-        'on_error' : true,
-        'path' : './tests/e2e/reports'
+        'enabled': true,
+        'on_failure': true,
+        'on_error': true,
+        'path': './tests/e2e/reports'
       },
       'exclude': []
     },
     'integration': {
-      'launch_url' : 'http://localhost:3000',
-      'globals' : {}
+      'launch_url': 'http://localhost:3000',
+      'globals': {}
     }
   }
 };
