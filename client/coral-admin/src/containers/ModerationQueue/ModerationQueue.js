@@ -48,6 +48,7 @@ class ModerationQueue extends React.Component {
   // Hack for dynamic mdl tabs
   componentDidMount () {
     if (typeof componentHandler !== 'undefined') {
+
       // FIXME: fix this hack
       componentHandler.upgradeAllRegistered(); // eslint-disable-line no-undef
     }
@@ -55,6 +56,7 @@ class ModerationQueue extends React.Component {
 
   // Dispatch the update status action
   onCommentAction (action, id) {
+
     // If not banning then change the status to approved or flagged as action = status
     this.props.dispatch(updateStatus(action, id));
   }

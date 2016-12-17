@@ -123,6 +123,7 @@ router.post('/request-password-reset', (req, res, next) => {
         to: email,
         html: resetEmailTemplate({
           token,
+
           // probably more clear to explicitly pass this
           rootURL: process.env.TALK_ROOT_URL
         })

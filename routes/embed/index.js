@@ -6,6 +6,7 @@ router.use('/:embed', (req, res, next) => {
   case 'stream':
     return res.render('embed/stream', {});
   default:
+
     // will return a 404.
     return next();
   }
