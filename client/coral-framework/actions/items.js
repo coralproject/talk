@@ -2,6 +2,10 @@ import coralApi from '../helpers/response';
 import {fromJS} from 'immutable';
 import {UPDATE_CONFIG} from '../constants/config';
 
+/**
+* Action name constants
+*/
+
 export const ADD_ITEM = 'ADD_ITEM';
 export const UPDATE_ITEM = 'UPDATE_ITEM';
 export const APPEND_ITEM_ARRAY = 'APPEND_ITEM_ARRAY';
@@ -114,6 +118,7 @@ export function getStream (assetUrl) {
         /* Sort comments by date*/
         json.comments.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
         const rels = json.comments.reduce((h, item) => {
+
           /* Check for root and child comments. */
           if (
             item.asset_id === assetId &&

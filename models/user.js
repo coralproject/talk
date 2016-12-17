@@ -88,6 +88,7 @@ const UserSchema = new mongoose.Schema({
   // Status provides a string that says in which state the account is.
   // When the account is banned, the user login is disabled.
   status: {type: String, enum: USER_STATUS, default: 'active'},
+
   // User's settings
   settings: {
     bio: {
@@ -136,7 +137,13 @@ UserSchema.options.toJSON.transform = (doc, ret, options) => {
  */
 UserSchema.method('filterForUser', function(user = false) {
   if (!user || !user.roles.includes('admin')) {
-    return _.pick(this.toJSON(), ['id', 'displayName', 'settings', 'created_at', 'updated_at']);
+    let allowed = ['id', 'displayName', 'settings', 'created_at', 'updated_at'];
+
+    if (user && user.id === this.id) {
+      allowed.push('roles');
+    }
+
+    return _.pick(this.toJSON(), allowed);
   }
 
   return this.toJSON();
@@ -495,6 +502,7 @@ UserService.createPasswordResetToken = function (email) {
     .then(user => {
 
       if (user === null) {
+
         // since we don't want to reveal that the email does/doesn't exist
         // just go ahead and resolve the Promise with null and check in the endpoint
         return Promise.resolve(null);
@@ -522,6 +530,7 @@ UserService.verifyPasswordResetToken = token => {
     });
   })
   .then(decoded => {
+
     /**
      * TODO: check the jti from this decoded token in redis
      * and make an entry if it does not exist.

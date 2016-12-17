@@ -85,6 +85,29 @@ describe('/api/v1/comments', () => {
       ]);
     });
 
+    it('should return only the owner’s comments if the user is not an admin', () => {
+      return chai.request(app)
+        .get('/api/v1/comments?user_id=456')
+        .set(passport.inject({id: '456', roles: []}))
+        .then(res => {
+          expect(res).to.have.status(200);
+          expect(res.body.comments).to.have.length(2);
+          expect(res.body.comments[1]).to.have.property('author_id', '456');
+        });
+    });
+
+    it('should fail if a non-admin requests comments not owned by them', () => {
+      return chai.request(app)
+        .get('/api/v1/comments?user_id=456')
+        .set(passport.inject({id: '123', roles: []}))
+        .then((res) => {
+          expect(res).to.be.empty;
+        })
+        .catch((err) => {
+          expect(err).to.have.property('status', 401);
+        });
+    });
+
     it('should return all the comments', () => {
       return chai.request(app)
         .get('/api/v1/comments')
