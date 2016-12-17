@@ -2,6 +2,8 @@ const app = require('../../../../app');
 const chai = require('chai');
 const expect = chai.expect;
 
+const csrf = require('csurf');
+
 chai.use(require('chai-http'));
 
 const User = require('../../../../models/user');
@@ -29,6 +31,7 @@ describe('/api/v1/auth/local', () => {
     it('should send back the user on a successful login', () => {
       return chai.request(app)
         .post('/api/v1/auth/local')
+        .field('_csrf', req.csrfToken())
         .send({email: 'maria@gmail.com', password: 'password!'})
         .catch((res) => {
           expect(res).to.have.status(200);

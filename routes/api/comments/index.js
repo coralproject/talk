@@ -7,6 +7,14 @@ const wordlist = require('../../../services/wordlist');
 const authorization = require('../../../middleware/authorization');
 const _ = require('lodash');
 
+const csrf = require('csurf');
+const bodyParser = require('body-parser');
+
+// Setup route middlewares for CSRF protection.
+// Default ignore methods are GET, HEAD, OPTIONS
+const csrfProtection = csrf({});
+const parseForm = bodyParser.urlencoded({extended: false});
+
 const router = express.Router();
 
 router.get('/', (req, res, next) => {
@@ -82,7 +90,7 @@ router.get('/', (req, res, next) => {
   });
 });
 
-router.post('/', wordlist.filter('body'), (req, res, next) => {
+router.post('/', parseForm, csrfProtection, wordlist.filter('body'), (req, res, next) => {
 
   const {
     body,
@@ -183,7 +191,7 @@ router.put('/:comment_id/status', authorization.needed('admin'), (req, res, next
     });
 });
 
-router.post('/:comment_id/actions', (req, res, next) => {
+router.post('/:comment_id/actions', parseForm, csrfProtection, (req, res, next) => {
 
   const {
     action_type,

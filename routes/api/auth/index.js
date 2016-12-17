@@ -4,6 +4,14 @@ const authorization = require('../../../middleware/authorization');
 
 const router = express.Router();
 
+const csrf = require('csurf');
+const bodyParser = require('body-parser');
+
+// Setup route middlewares for CSRF protection.
+// Default ignore methods are GET, HEAD, OPTIONS
+const csrfProtection = csrf({});
+const parseForm = bodyParser.urlencoded({extended: false});
+
 /**
  * This returns the user if they are logged in.
  */
@@ -80,7 +88,7 @@ const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
 /**
  * Local auth endpoint, will recieve a email and password
  */
-router.post('/local', (req, res, next) => {
+router.post('/local', parseForm, csrfProtection, (req, res, next) => {
 
   // Perform the local authentication.
   passport.authenticate('local', HandleAuthCallback(req, res, next))(req, res, next);
