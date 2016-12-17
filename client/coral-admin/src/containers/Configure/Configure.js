@@ -78,6 +78,7 @@ class Configure extends React.Component {
     switch(section){
     case 'comments':
       return <CommentSettings
+        fetchingSettings={this.props.fetchingSettings}
         settings={this.props.settings}
         updateSettings={this.onSettingUpdate}
         errors={this.state.errors}
