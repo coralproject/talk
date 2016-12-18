@@ -19,7 +19,14 @@ const embedStreamCommands = {
       .setValue('@signInDialogEmail', user.email)
       .setValue('@signInDialogPassword', user.pass)
       .waitForElementVisible('@logInButton')
-      .click('@logInButton');
+      .click('@logInButton')
+      .waitForElementVisible('@logoutButton', 5000);
+  },
+  logout() {
+    return this
+      .waitForElementVisible('@logoutButton')
+      .click('@logoutButton')
+      .waitForElementVisible('@signInButton', 2000);
   },
   postComment(comment = 'Test Comment') {
     return this
@@ -46,6 +53,9 @@ export default {
     },
     logInButton: {
       selector: '#coralLogInButton'
+    },
+    logoutButton: {
+      selector: '.commentStream #logout'
     },
     commentBox: {
       selector: '.coral-plugin-commentbox-textarea'

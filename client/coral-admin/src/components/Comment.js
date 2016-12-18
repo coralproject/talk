@@ -30,7 +30,7 @@ export default props => {
         <div>
           {links ?
           <span className={styles.hasLinks}><Icon name='error_outline'/> Contains Link</span> : null}
-          <div className={styles.actions}>
+          <div className={`actions ${styles.actions}`}>
             {props.actions.map((action, i) => getActionButton(action, i, props))}
           </div>
         </div>
@@ -63,19 +63,21 @@ const getActionButton = (action, i, props) => {
   if (action === 'ban') {
     return (
       <Button
-        disabled={banned ? 'disabled' : ''}
+        className='ban'
         cStyle='black'
+        disabled={banned ? 'disabled' : ''}
         onClick={() => props.onClickShowBanDialog(author.id, author.displayName, comment.id)}
-        key={i} >
+        key={i}
+      >
         {lang.t('comment.ban_user')}
       </Button>
     );
   }
   return (
     <FabButton
-      className={styles.actionButton}
-      icon={props.actionsMap[action].icon}
+      className={`${action} ${styles.actionButton}`}
       cStyle={action}
+      icon={props.actionsMap[action].icon}
       key={i}
       onClick={() => props.onClickAction(props.actionsMap[action].status, comment.id)}
     />
