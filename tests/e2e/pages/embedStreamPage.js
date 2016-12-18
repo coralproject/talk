@@ -36,12 +36,15 @@ const embedStreamCommands = {
   },
   likeComment() {
     return this
-      .waitForElementVisible('@likeButton', 2000)
-      .click('@likeButton');
+      .waitForElementVisible('@likeButton')
+      .waitForElementVisible('@likesCount')
+      .click('@likeButton')
+      .expect.element('@likeText').text.to.equal('Liked');
   },
   visitorLikeComment() {
     return this
-      .waitForElementVisible('@likeButton', 2000)
+      .waitForElementVisible('@likeButton')
+      .waitForElementVisible('@likesCount')
       .click('@likeButton')
       .waitForElementVisible('@signInDialog', 2000);
   }
@@ -76,6 +79,12 @@ export default {
     },
     likeButton: {
       selector: '.comment .coral-plugin-likes-container .coral-plugin-likes-button'
+    },
+    likeText: {
+      selector: '.comment .coral-plugin-likes-container .coral-plugin-likes-button .coral-plugin-likes-button-text'
+    },
+    likesCount: {
+      selector: '.comment .coral-plugin-likes-container .coral-plugin-likes-like-count'
     }
   }
 };
