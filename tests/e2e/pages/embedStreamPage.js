@@ -33,6 +33,11 @@ const embedStreamCommands = {
       .waitForElementVisible('@commentBox', 2000)
       .setValue('@commentBox', comment)
       .click('@postButton');
+  },
+  likeComment() {
+    return this
+      .waitForElementVisible('@likeButton', 2000)
+      .click('@likeButton');
   }
 };
 
@@ -62,6 +67,9 @@ export default {
     },
     postButton: {
       selector: '#commentBox .coral-plugin-commentbox-button'
+    },
+    likeButton: {
+      selector: '.comment:first-child .coral-plugin-likes-button'
     }
   }
 };
