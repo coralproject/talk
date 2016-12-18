@@ -1,22 +1,21 @@
-module.exports = {
-  '@tags': ['login'],
-  before: client => {
+export default {
+  '@tags': ['login', 'admin'],
+  before(client) {
     const embedStreamPage = client.page.embedStreamPage();
     const {launchUrl} = client;
 
     client
-      .url(launchUrl)
+      .url(launchUrl);
 
     embedStreamPage
       .ready();
   },
-  'Commenter logs in': client => {
+  'Admin logs in': client => {
     const {users} = client.globals;
     const embedStreamPage = client.page.embedStreamPage();
 
     embedStreamPage
-      .login(users.commenter);
-
+      .login(users.admin);
   },
   after: client => {
     client.end();

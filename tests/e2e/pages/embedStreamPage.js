@@ -1,9 +1,13 @@
 const embedStreamCommands = {
+  url: function () {
+    return this
+      .api.launchUrl;
+  },
   ready() {
     return this
       .waitForElementVisible('body', 2000)
       .waitForElementVisible('iframe#coralStreamIframe')
-      api.frame('coralStreamIframe');
+      .api.frame('coralStreamIframe');
   },
   login(user) {
     return this
@@ -16,6 +20,12 @@ const embedStreamCommands = {
       .setValue('@signInDialogPassword', user.pass)
       .waitForElementVisible('@logInButton')
       .click('@logInButton');
+  },
+  postComment(comment = 'Test Comment') {
+    return this
+      .waitForElementVisible('@commentBox', 2000)
+      .setValue('@commentBox', comment)
+      .click('@postButton');
   }
 };
 
@@ -41,7 +51,7 @@ export default {
       selector: '#commentBox'
     },
     postButton: {
-      selector: '#commentBox .coral-plugin-commentbox-button'
+      selector: '#commentBox .coral-plugin-commentbox-button button'
     }
   }
 };

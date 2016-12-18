@@ -1,18 +1,21 @@
 module.exports = {
-  '@tags': ['login', 'commenter'],
+  '@tags': ['write', 'commenter'],
   before: client => {
     const embedStreamPage = client.page.embedStreamPage();
+    const {users} = client.globals;
 
     embedStreamPage
       .navigate()
       .ready();
-  },
-  'Commenter logs in': client => {
-    const {users} = client.globals;
-    const embedStreamPage = client.page.embedStreamPage();
 
     embedStreamPage
       .login(users.commenter);
+  },
+  'Commenter posts a comment': client => {
+    const embedStreamPage = client.page.embedStreamPage();
+
+    embedStreamPage
+      .postComment('I read the comments');
   },
   after: client => {
     client.end();
