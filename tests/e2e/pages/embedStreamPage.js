@@ -38,6 +38,12 @@ const embedStreamCommands = {
     return this
       .waitForElementVisible('@likeButton', 2000)
       .click('@likeButton');
+  },
+  visitorLikeComment() {
+    return this
+      .waitForElementVisible('@likeButton', 2000)
+      .click('@likeButton')
+      .waitForElementVisible('@signInDialog', 2000);
   }
 };
 
