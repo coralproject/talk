@@ -75,7 +75,7 @@ export default {
       selector: '#commentBox .coral-plugin-commentbox-button'
     },
     likeButton: {
-      selector: '.comment:first-child .coral-plugin-likes-button'
+      selector: '.comment .coral-plugin-likes-container .coral-plugin-likes-button'
     }
   }
 };
