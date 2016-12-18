@@ -20,7 +20,6 @@ module.exports = {
   'test_settings': {
     'default': {
       'launch_url' : 'http://localhost:3000',
-      'globals' : {},
       'selenium_port': 6666,
       'selenium_host': 'localhost',
       'silent': true,
@@ -39,11 +38,12 @@ module.exports = {
         'on_error': true,
         'path': './tests/e2e/reports'
       },
-      'exclude': []
+      'exclude': [
+        './tests/e2e/tests/EmbedStreamTests.js'
+      ]
     },
     'integration': {
-      'launch_url': 'http://localhost:3000',
-      'globals': {}
+      'launch_url': 'http://localhost:3000'
     }
   }
 };

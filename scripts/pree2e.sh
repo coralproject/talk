@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # install selenium
-# ../node_modules/selenium-standalone/bin/selenium-standalone install
+selenium-standalone install
 
 # Creating Admin Test User
 { echo admin@test.com; echo test; echo test; echo Admin Test User; echo admin;} | dotenv ./bin/cli-users create
@@ -11,6 +11,3 @@
 
 # Creating Commenter Test User
 { echo test@test.com; echo test; echo test; echo Commenter Test User; echo '';} | dotenv ./bin/cli-users create
-
-# start the app server
-# npm start &
