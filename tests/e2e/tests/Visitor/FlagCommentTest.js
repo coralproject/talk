@@ -1,22 +1,18 @@
 export default {
-  '@tags': ['flag', 'comments', 'commenter'],
+  '@tags': ['flag', 'comments', 'visitor'],
   before: client => {
     const embedStreamPage = client.page.embedStreamPage();
-    const {users} = client.globals;
 
     embedStreamPage
       .navigate()
       .ready();
-
-    embedStreamPage
-      .login(users.commenter);
   },
-  'Commenter likes a comment': client => {
+  'Visitor tries to flag a comment': client => {
     const embedStreamPage = client.page.embedStreamPage();
 
     embedStreamPage
-      .likeComment();
-
+      .flagComment()
+      .waitForElementVisible('@signInDialog', 2000);
   },
   after: client => {
     client.end();

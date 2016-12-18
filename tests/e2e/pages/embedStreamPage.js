@@ -47,6 +47,11 @@ const embedStreamCommands = {
       .waitForElementVisible('@likesCount')
       .click('@likeButton')
       .waitForElementVisible('@signInDialog', 2000);
+  },
+  flagComment() {
+    return this
+      .waitForElementVisible('@flagButton')
+      .click('@likeButton');
   }
 };
 
@@ -83,8 +88,8 @@ export default {
     likeText: {
       selector: '.comment .coral-plugin-likes-container .coral-plugin-likes-button .coral-plugin-likes-button-text'
     },
-    likesCount: {
-      selector: '.comment .coral-plugin-likes-container .coral-plugin-likes-like-count'
+    flagButton: {
+      selector: '.comment .coral-plugin-flags-container .coral-plugin-flags-button'
     }
   }
 };
