@@ -48,10 +48,10 @@ export default {
       selector: '#coralLogInButton'
     },
     commentBox: {
-      selector: '#commentBox'
+      selector: '.coral-plugin-commentbox-textarea'
     },
     postButton: {
-      selector: '#commentBox .coral-plugin-commentbox-button button'
+      selector: '#commentBox .coral-plugin-commentbox-button'
     }
   }
 };
