@@ -1,18 +1,22 @@
 module.exports = {
   '@tags': ['login'],
   before: client => {
+    const embedStreamPage = client.page.embedStreamPage();
     const {launchUrl} = client;
 
     client
       .url(launchUrl)
-      .frame('coralStreamIframe');
+
+    embedStreamPage
+      .ready();
   },
   'Commenter logs in': client => {
+    const {users} = client.globals;
     const embedStreamPage = client.page.embedStreamPage();
 
     embedStreamPage
-      .ready()
-      .login();
+      .login(users.commenter);
+
   },
   after: client => {
     client.end();

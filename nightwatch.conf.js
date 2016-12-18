@@ -47,3 +47,6 @@ module.exports = {
     }
   }
 };
+// "chromeOptions" : {
+//   "args" : ["start-fullscreen"]
+// }
