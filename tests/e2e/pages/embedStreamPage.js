@@ -43,32 +43,12 @@ const embedStreamCommands = {
   flagComment() {
     return this
       .waitForElementVisible('@flagButton')
-      .click('@flagButton')
-      .waitForElementVisible('@flagPopUp')
-      .waitForElementVisible('@flagCommentOption')
-      .click('@flagCommentOption')
-      .waitForElementVisible('@flagDoneButton')
-      .click('@flagDoneButton')
-      .waitForElementVisible('@flagOtherOption')
-      .click('@flagOtherOption')
-      .waitForElementVisible('@flagDoneButton')
-      .click('@flagDoneButton')
-      .click('@flagDoneButton');
+      .click('@flagButton');
   },
   flagUsername() {
     return this
       .waitForElementVisible('@flagButton')
-      .click('@flagButton')
-      .waitForElementVisible('@flagPopUp')
-      .waitForElementVisible('@flagUsernameOption')
-      .click('@flagUsernameOption')
-      .waitForElementVisible('@flagDoneButton')
-      .click('@flagDoneButton')
-      .waitForElementVisible('@flagOtherOption')
-      .click('@flagOtherOption')
-      .waitForElementVisible('@flagDoneButton')
-      .click('@flagDoneButton')
-      .click('@flagDoneButton');
+      .click('@flagButton');
   },
   getPermalink(fn) {
     return this

@@ -15,7 +15,17 @@ export default {
     const embedStreamPage = client.page.embedStreamPage();
 
     embedStreamPage
-      .flagUsername();
+      .flagUsername()
+      .waitForElementVisible('@flagPopUp')
+      .waitForElementVisible('@flagUsernameOption')
+      .click('@flagUsernameOption')
+      .waitForElementVisible('@flagDoneButton')
+      .click('@flagDoneButton')
+      .waitForElementVisible('@flagOtherOption')
+      .click('@flagOtherOption')
+      .waitForElementVisible('@flagDoneButton')
+      .click('@flagDoneButton')
+      .click('@flagDoneButton');
   },
   after: client => {
     client.end();
