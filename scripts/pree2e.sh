@@ -11,3 +11,5 @@ selenium-standalone install
 
 # Creating Commenter Test User
 { echo commenter@test.com; echo test; echo test; echo Commenter Test User; echo ;} | dotenv ./bin/cli-users create
+
+npm start
