@@ -19,6 +19,7 @@ import translations from '../../translations.json';
 import EmbedLink from './EmbedLink';
 import CommentSettings from './CommentSettings';
 import Wordlist from './Wordlist';
+import has from 'lodash/has';
 
 class Configure extends React.Component {
   constructor (props) {
@@ -26,8 +27,6 @@ class Configure extends React.Component {
 
     this.state = {
       activeSection: 'comments',
-      banned: [],
-      suspect: [],
       changed: false,
       errors: {}
     };
@@ -35,18 +34,6 @@ class Configure extends React.Component {
 
   componentWillMount = () => {
     this.props.dispatch(fetchSettings());
-  }
-
-  componentWillUpdate = (newProps) => {
-    if ((!this.props.settings
-      || !this.props.settings.wordlist)
-      && newProps.settings.wordlist
-      && newProps.settings.wordlist.length !== 0 ) {
-      this.setState({
-        banned: newProps.settings.wordlist.banned.join(', '),
-        suspect: newProps.settings.wordlist.suspect.join(', ')
-      });
-    }
   }
 
   saveSettings = () => {
@@ -58,11 +45,8 @@ class Configure extends React.Component {
     this.setState({activeSection});
   }
 
-  onChangeWordlist = (event, list) => {
-    event.preventDefault();
-    const newlist = event.target.value.toLowerCase();
-    this.setState({[list]: newlist, changed: true});
-    this.props.dispatch(updateWordlist(list, newlist.split(',').map(word => word.trim()) ));
+  onChangeWordlist = (listName, list) => {
+    this.props.dispatch(updateWordlist(listName, list));
   }
 
   onSettingUpdate = (setting) => {
@@ -81,6 +65,7 @@ class Configure extends React.Component {
 
   getSection (section) {
     const pageTitle = this.getPageTitle(section);
+    console.log('getSection', this.props);
     switch(section){
     case 'comments':
       return <CommentSettings
@@ -93,10 +78,12 @@ class Configure extends React.Component {
     case 'embed':
       return <EmbedLink title={pageTitle} />;
     case 'wordlist':
-      return <Wordlist
-        bannedWords={this.state.banned}
-        suspectWords={this.state.suspect}
-        onChangeWordlist={this.onChangeWordlist}/>;
+      return has(this, 'props.settings.wordlist')
+        ? <Wordlist
+          bannedWords={this.props.settings.wordlist.banned}
+          suspectWords={this.props.settings.wordlist.suspect}
+          onChangeWordlist={this.onChangeWordlist} />
+        : <p>loading wordlists</p>;
     }
   }
 
