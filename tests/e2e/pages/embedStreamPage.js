@@ -54,7 +54,6 @@ const embedStreamCommands = {
   likeComment() {
     return this
       .waitForElementVisible('@likeButton')
-      .waitForElementVisible('@likesCount')
       .click('@likeButton');
   },
   flagComment() {

@@ -9,10 +9,11 @@ export default {
   },
   'Visitor signs up': client => {
     const embedStreamPage = client.page.embedStreamPage();
+    const hash = Math.floor(Math.random() * (999 - 0));
 
     embedStreamPage
       .signUp({
-        email: 'visitor@test.com',
+        email: `visitor_${hash}@test.com`,
         displayName: 'Visitor',
         pass: 'testtest'
       });

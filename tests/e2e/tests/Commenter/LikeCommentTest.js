@@ -16,6 +16,7 @@ module.exports = {
 
     embedStreamPage
       .likeComment()
+      .waitForElementVisible('@likesCount', 2000)
       .expect.element('@likeText').text.to.equal('Liked');
 
   },
