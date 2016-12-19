@@ -111,6 +111,7 @@ router.post('/:asset_id/scrape', (req, res, next) => {
 });
 
 router.put('/:asset_id/settings', (req, res, next) => {
+
   // Override the settings for the asset.
   Asset
     .overrideSettings(req.params.asset_id, req.body)

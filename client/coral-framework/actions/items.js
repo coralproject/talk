@@ -118,6 +118,7 @@ export function getStream (assetUrl) {
         /* Sort comments by date*/
         json.comments.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
         const rels = json.comments.reduce((h, item) => {
+
           /* Check for root and child comments. */
           if (
             item.asset_id === assetId &&

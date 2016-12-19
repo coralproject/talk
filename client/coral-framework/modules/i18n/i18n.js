@@ -9,6 +9,7 @@ import get from 'lodash/get';
 
 class i18n {
   constructor (translations) {
+
     /**
      * Register locales
      */
@@ -16,6 +17,7 @@ class i18n {
     this.locales = {'en': 'en', 'es': 'es'};
     timeago.register('es_ES', esTA);
     this.timeagoInstance = new timeago();
+
     /**
      * Load translations
      */
@@ -55,6 +57,7 @@ class i18n {
     this.t = (key, ...replacements) => {
       if (has(this.translations, key)) {
         let translation = get(this.translations, key);
+
         // replace any {n} with the arguments passed to this method
         replacements.forEach((str, i) => {
           translation = translation.replace(new RegExp(`\\{${i}\\}`, 'g'), str);
