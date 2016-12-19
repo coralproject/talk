@@ -10,4 +10,4 @@ selenium-standalone install
 { echo moderator@test.com; echo test; echo test; echo Moderator Test User; echo moderator;} | dotenv ./bin/cli-users create
 
 # Creating Commenter Test User
-{ echo commenter@test.com; echo test; echo test; echo Commenter Test User; echo '';} | dotenv ./bin/cli-users create
+{ echo commenter@test.com; echo test; echo test; echo Commenter Test User; echo ;} | dotenv ./bin/cli-users create

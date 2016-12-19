@@ -5,7 +5,7 @@ const embedStreamCommands = {
   },
   ready() {
     return this
-      .waitForElementVisible('body', 2000)
+      .waitForElementVisible('body', 4000)
       .waitForElementVisible('iframe#coralStreamIframe')
       .api.frame('coralStreamIframe');
   },
