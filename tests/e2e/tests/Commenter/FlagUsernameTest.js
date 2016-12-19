@@ -1,5 +1,5 @@
 export default {
-  tags: 'flag',
+  '@tags': ['flag', 'commenter'],
   before: client => {
     const embedStreamPage = client.page.embedStreamPage();
     const {users} = client.globals;
@@ -11,11 +11,11 @@ export default {
     embedStreamPage
       .login(users.commenter);
   },
-  'Commenter flags a comment': client => {
+  'Commenter flags a username': client => {
     const embedStreamPage = client.page.embedStreamPage();
 
     embedStreamPage
-      .flagComment();
+      .flagUsername();
   },
   after: client => {
     client.end();

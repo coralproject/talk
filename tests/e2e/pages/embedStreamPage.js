@@ -69,6 +69,13 @@ const embedStreamCommands = {
       .waitForElementVisible('@flagDoneButton')
       .click('@flagDoneButton')
       .click('@flagDoneButton');
+  },
+  getPermalink(fn) {
+    return this
+      .waitForElementVisible('@permalinkButton')
+      .click('@permalinkButton')
+      .waitForElementVisible('@permalinkPopUp')
+      .getValue('@permalinkInput', result => fn(result.value));
   }
 };
 
@@ -131,6 +138,15 @@ export default {
     },
     flagDoneButton: {
       selector: '.comment .coral-plugin-flags-popup .coral-plugin-flags-popup-button'
-    }
+    },
+    permalinkButton: {
+      selector: '.comment .coral-plugin-permalinks-button'
+    },
+    permalinkPopUp: {
+      selector: '.comment .coral-plugin-permalinks-popover.active'
+    },
+    permalinkInput: {
+      selector: '.comment .coral-plugin-permalinks-popover.active input'
+    },
   }
 };
