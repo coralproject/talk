@@ -9,6 +9,23 @@ const embedStreamCommands = {
       .waitForElementVisible('iframe#coralStreamIframe')
       .api.frame('coralStreamIframe');
   },
+  signUp(user) {
+    return this
+      .waitForElementVisible('@signInButton', 2000)
+      .click('@signInButton')
+      .waitForElementVisible('@signInDialog')
+      .waitForElementVisible('@registerButton')
+      .click('@registerButton')
+      .setValue('@signInDialogEmail', user.email)
+      .setValue('@signInDialogPassword', user.pass)
+      .setValue('@signUpDialogConfirmPassword', user.pass)
+      .setValue('@signUpDialogDisplayName', user.displayName)
+      .waitForElementVisible('@signUpButton')
+      .click('@signUpButton')
+      .waitForElementVisible('@logInButton')
+      .click('@logInButton')
+      .waitForElementVisible('@logoutButton', 5000);
+  },
   login(user) {
     return this
       .waitForElementVisible('@signInButton', 2000)
@@ -74,8 +91,17 @@ export default {
     signInDialogPassword: {
       selector: '#signInDialog #password'
     },
+    signUpDialogConfirmPassword: {
+      selector: '#signInDialog #confirmPassword'
+    },
+    signUpDialogDisplayName: {
+      selector: '#signInDialog #displayName'
+    },
     logInButton: {
       selector: '#coralLogInButton'
+    },
+    signUpButton: {
+      selector: '#coralSignUpButton'
     },
     logoutButton: {
       selector: '.commentStream #logout'
@@ -128,5 +154,8 @@ export default {
     permalinkInput: {
       selector: '.comment .coral-plugin-permalinks-popover.active input'
     },
+    registerButton: {
+      selector: '#signInDialog #coralRegister'
+    }
   }
 };

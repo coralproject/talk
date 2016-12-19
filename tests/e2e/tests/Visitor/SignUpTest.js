@@ -1,5 +1,5 @@
 export default {
-  '@tags': ['like', 'comments', 'visitor'],
+  '@tags': ['signup', 'visitor'],
   before: client => {
     const embedStreamPage = client.page.embedStreamPage();
 
@@ -7,12 +7,15 @@ export default {
       .navigate()
       .ready();
   },
-  'Visitor tries to like a comment': client => {
+  'Visitor signs up': client => {
     const embedStreamPage = client.page.embedStreamPage();
 
     embedStreamPage
-      .likeComment()
-      .waitForElementVisible('@signInDialog', 2000);
+      .signUp({
+        email: 'visitor@test.com',
+        displayName: 'Visitor',
+        pass: 'testtest'
+      });
   },
   after: client => {
     client.end();
