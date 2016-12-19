@@ -11,12 +11,11 @@ export default {
     embedStreamPage
       .login(users.commenter);
   },
-  'Commenter likes a comment': client => {
+  'Commenter flags a comment': client => {
     const embedStreamPage = client.page.embedStreamPage();
 
     embedStreamPage
-      .likeComment();
-
+      .flagComment();
   },
   after: client => {
     client.end();

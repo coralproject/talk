@@ -1,7 +1,6 @@
 const embedStreamCommands = {
   url: function () {
-    return this
-      .api.launchUrl + '/admin';
+    return `${this.api.launchUrl}/admin`;
   },
   ready() {
     return this

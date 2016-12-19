@@ -11,7 +11,8 @@ module.exports = {
     const embedStreamPage = client.page.embedStreamPage();
 
     embedStreamPage
-      .visitorLikeComment();
+      .likeComment()
+      .waitForElementVisible('@signInDialog', 2000);
   },
   after: client => {
     client.end();

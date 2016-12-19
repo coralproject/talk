@@ -38,20 +38,12 @@ const embedStreamCommands = {
     return this
       .waitForElementVisible('@likeButton')
       .waitForElementVisible('@likesCount')
-      .click('@likeButton')
-      .expect.element('@likeText').text.to.equal('Liked');
-  },
-  visitorLikeComment() {
-    return this
-      .waitForElementVisible('@likeButton')
-      .waitForElementVisible('@likesCount')
-      .click('@likeButton')
-      .waitForElementVisible('@signInDialog', 2000);
+      .click('@likeButton');
   },
   flagComment() {
     return this
       .waitForElementVisible('@flagButton')
-      .click('@likeButton');
+      .click('@flagButton');
   }
 };
 
@@ -88,8 +80,14 @@ export default {
     likeText: {
       selector: '.comment .coral-plugin-likes-container .coral-plugin-likes-button .coral-plugin-likes-button-text'
     },
+    likesCount: {
+      selector: '.comment .coral-plugin-likes-container .coral-plugin-likes-button .coral-plugin-likes-like-count'
+    },
     flagButton: {
       selector: '.comment .coral-plugin-flags-container .coral-plugin-flags-button'
+    },
+    flagPopUp: {
+      selector: '.comment .coral-plugin-flags-popup'
     }
   }
 };

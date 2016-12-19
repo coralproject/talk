@@ -15,7 +15,8 @@ module.exports = {
     const embedStreamPage = client.page.embedStreamPage();
 
     embedStreamPage
-      .likeComment();
+      .likeComment()
+      .expect.element('@likeText').text.to.equal('Liked');
 
   },
   after: client => {
