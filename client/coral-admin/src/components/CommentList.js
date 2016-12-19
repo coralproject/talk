@@ -31,6 +31,7 @@ export default class CommentList extends React.Component {
   // add key handlers and gestures
   componentDidMount () {
     this.bindKeyHandlers();
+
     // this.bindGestures() // need to check whether we're on a mobile device or this throws an Error
   }
 
@@ -80,6 +81,7 @@ export default class CommentList extends React.Component {
 
     const {commentIds} = this.props;
     const {active} = this.state;
+
     // check boundaries
     if (active === null || !commentIds.length) {
       this.setState({active: commentIds[0]});
@@ -102,6 +104,7 @@ export default class CommentList extends React.Component {
   // TODO: In the future this can be improved and look at the actual state to
   // resolve since the content of the list could change externally. For now it works as expected
   onClickAction (action, id, author_id) {
+
     // activate the next comment
     if (id === this.state.active) {
       const {commentIds} = this.props;
