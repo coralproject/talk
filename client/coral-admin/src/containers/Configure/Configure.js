@@ -36,7 +36,8 @@ class Configure extends React.Component {
       || !this.props.settings.wordlist)
       && newProps.settings.wordlist
       && newProps.settings.wordlist.length !== 0 ) {
-      this.setState({wordlist: newProps.settings.wordlist.join(', ')});
+      console.log('wordlist?', newProps.settings.wordlist);
+      this.setState({wordlist: newProps.settings.wordlist.banned.join(', ')});
     }
   }
 
@@ -74,45 +75,42 @@ class Configure extends React.Component {
     });
   }
 
-  getSection = (section) => {
+  getSection (section) {
+    const pageTitle = this.getPageTitle(section);
     switch(section){
     case 'comments':
       return <CommentSettings
+        title={pageTitle}
         fetchingSettings={this.props.fetchingSettings}
         settings={this.props.settings}
         updateSettings={this.onSettingUpdate}
         errors={this.state.errors}
         settingsError={this.onSettingError}/>;
     case 'embed':
-      return <EmbedLink/>;
+      return <EmbedLink title={pageTitle} />;
     case 'wordlist':
       return <Wordlist
-        wordlist={this.state.wordlist}
+        bannedWords={this.state.wordlist}
         onChangeWordlist={this.onChangeWordlist}/>;
     }
   }
 
-  getPageTitle = (section) => {
+  getPageTitle (section) {
     switch(section) {
     case 'comments':
       return lang.t('configure.comment-settings');
     case 'embed':
       return lang.t('configure.embed-comment-stream');
-    case 'wordlist':
-      return lang.t('configure.wordlist');
+    default:
+      return '';
     }
   }
 
   render () {
-    let pageTitle = this.getPageTitle(this.state.activeSection);
     const section = this.getSection(this.state.activeSection);
 
     const showSave = Object.keys(this.state.errors).reduce(
       (bool, error) => this.state.errors[error] ? false : bool, this.state.changed);
-
-    if (this.props.fetchingSettings) {
-      pageTitle += ' - Loading...';
-    }
 
     return (
         <div className={styles.container}>
@@ -151,7 +149,6 @@ class Configure extends React.Component {
 
           </div>
           <div className={styles.mainContent}>
-            <h1>{pageTitle}</h1>
             { this.props.saveFetchingError }
             { this.props.fetchSettingsError }
             { section }

@@ -69,109 +69,114 @@ const updateClosedTimeout = (updateSettings, ts, isMeasure) => (event) => {
   }
 };
 
-const CommentSettings = ({fetchingSettings, updateSettings, settingsError, settings, errors}) => {
+const CommentSettings = ({fetchingSettings, title, updateSettings, settingsError, settings, errors}) => {
   if (fetchingSettings) {
     /* maybe a spinner here at some point */
     return <p>Loading settings...</p>;
   }
 
-  return <List>
-    <ListItem className={`${styles.configSetting} ${settings.moderation === 'pre' ? styles.enabledSetting : styles.disabledSetting}`}>
-      <ListItemAction>
-        <Checkbox
-          onChange={updateModeration(updateSettings, settings.moderation)}
-          checked={settings.moderation === 'pre'} />
-      </ListItemAction>
-      <ListItemContent>
-      <div className={styles.settingsHeader}>{lang.t('configure.enable-pre-moderation')}</div>
-      <p className={settings.moderation === 'pre' ? '' : styles.disabledSettingText}>
-        {lang.t('configure.enable-pre-moderation-text')}
-      </p>
-    </ListItemContent>
-    </ListItem>
-    <ListItem className={`${styles.configSetting} ${settings.charCountEnable ? styles.enabledSetting : styles.disabledSetting}`}>
-      <ListItemAction>
-        <Checkbox
-          onChange={updateCharCountEnable(updateSettings, settings.charCountEnable)}
-          checked={settings.charCountEnable} />
-      </ListItemAction>
-      <ListItemContent>
-        <div className={styles.settingsHeader}>{lang.t('configure.comment-count-header')}</div>
-        <p className={settings.charCountEnable ? '' : styles.disabledSettingText}>
-          <span>{lang.t('configure.comment-count-text-pre')}</span>
-          <input type='text'
-            className={`${styles.charCountTexfield} ${settings.charCountEnable && styles.charCountTexfieldEnabled}`}
-            htmlFor='charCount'
-            onChange={updateCharCount(updateSettings, settingsError)}
-            value={settings.charCount}/>
-          <span>{lang.t('configure.comment-count-text-post')}</span>
-            {
-              errors.charCount &&
-              <span className={styles.settingsError}>
-                <br/>
-                <Icon name="error_outline"/>
-                {lang.t('configure.comment-count-error')}
-              </span>
-            }
-        </p>
-      </ListItemContent>
-    </ListItem>
-    <ListItem threeLine className={`${styles.configSettingInfoBox} ${settings.infoBoxEnable ? styles.enabledSetting : styles.disabledSetting}`}>
-      <ListItemAction>
-        <Checkbox
-          onChange={updateInfoBoxEnable(updateSettings, settings.infoBoxEnable)}
-          checked={settings.infoBoxEnable} />
-      </ListItemAction>
-      <ListItemContent>
-        {lang.t('configure.include-comment-stream')}
-        <p>
-          {lang.t('configure.include-comment-stream-desc')}
-        </p>
-      </ListItemContent>
-    </ListItem>
-    <ListItem className={`${styles.configSettingInfoBox} ${settings.infoBoxEnable ? null : styles.hidden}`} >
-      <ListItemContent>
-        <Textfield
-          onChange={updateInfoBoxContent(updateSettings)}
-          value={settings.infoBoxContent}
-          label={lang.t('configure.include-text')}
-          rows={3}/>
-      </ListItemContent>
-    </ListItem>
-    <ListItem className={styles.configSettingInfoBox}>
-      <ListItemContent>
-        {lang.t('configure.close-after')}
-        <br />
-        <Textfield
-          type='number'
-          pattern='[0-9]+'
-          style={{width: 50}}
-          onChange={updateClosedTimeout(updateSettings, settings.closedTimeout)}
-          value={getTimeoutAmount(settings.closedTimeout)}
-          label={lang.t('configure.closed-comments-label')} />
-        <div className={styles.configTimeoutSelect}>
-          <SelectField
-            label="comments closed time window"
-            value={getTimeoutMeasure(settings.closedTimeout)}
-            onChange={updateClosedTimeout(updateSettings, settings.closedTimeout, true)}>
-            <Option value={'hours'}>{lang.t('configure.hours')}</Option>
-            <Option value={'days'}>{lang.t('configure.days')}</Option>
-            <Option value={'weeks'}>{lang.t('configure.weeks')}</Option>
-          </SelectField>
-        </div>
-      </ListItemContent>
-    </ListItem>
-    <ListItem className={styles.configSettingInfoBox}>
-      <ListItemContent>
-        {lang.t('configure.closed-comments-desc')}
-        <Textfield
-          onChange={updateClosedMessage(updateSettings)}
-          value={settings.closedMessage}
-          label={lang.t('configure.closed-comments-label')}
-          rows={3}/>
-      </ListItemContent>
-    </ListItem>
-  </List>;
+  return (
+    <div>
+      <h3>{title}</h3>
+      <List>
+        <ListItem className={`${styles.configSetting} ${settings.moderation === 'pre' ? styles.enabledSetting : styles.disabledSetting}`}>
+          <ListItemAction>
+            <Checkbox
+              onChange={updateModeration(updateSettings, settings.moderation)}
+              checked={settings.moderation === 'pre'} />
+          </ListItemAction>
+          <ListItemContent>
+          <div className={styles.settingsHeader}>{lang.t('configure.enable-pre-moderation')}</div>
+          <p className={settings.moderation === 'pre' ? '' : styles.disabledSettingText}>
+            {lang.t('configure.enable-pre-moderation-text')}
+          </p>
+        </ListItemContent>
+        </ListItem>
+        <ListItem className={`${styles.configSetting} ${settings.charCountEnable ? styles.enabledSetting : styles.disabledSetting}`}>
+          <ListItemAction>
+            <Checkbox
+              onChange={updateCharCountEnable(updateSettings, settings.charCountEnable)}
+              checked={settings.charCountEnable} />
+          </ListItemAction>
+          <ListItemContent>
+            <div className={styles.settingsHeader}>{lang.t('configure.comment-count-header')}</div>
+            <p className={settings.charCountEnable ? '' : styles.disabledSettingText}>
+              <span>{lang.t('configure.comment-count-text-pre')}</span>
+              <input type='text'
+                className={`${styles.charCountTexfield} ${settings.charCountEnable && styles.charCountTexfieldEnabled}`}
+                htmlFor='charCount'
+                onChange={updateCharCount(updateSettings, settingsError)}
+                value={settings.charCount}/>
+              <span>{lang.t('configure.comment-count-text-post')}</span>
+                {
+                  errors.charCount &&
+                  <span className={styles.settingsError}>
+                    <br/>
+                    <Icon name="error_outline"/>
+                    {lang.t('configure.comment-count-error')}
+                  </span>
+                }
+            </p>
+          </ListItemContent>
+        </ListItem>
+        <ListItem threeLine className={`${styles.configSettingInfoBox} ${settings.infoBoxEnable ? styles.enabledSetting : styles.disabledSetting}`}>
+          <ListItemAction>
+            <Checkbox
+              onChange={updateInfoBoxEnable(updateSettings, settings.infoBoxEnable)}
+              checked={settings.infoBoxEnable} />
+          </ListItemAction>
+          <ListItemContent>
+            {lang.t('configure.include-comment-stream')}
+            <p>
+              {lang.t('configure.include-comment-stream-desc')}
+            </p>
+          </ListItemContent>
+        </ListItem>
+        <ListItem className={`${styles.configSettingInfoBox} ${settings.infoBoxEnable ? null : styles.hidden}`} >
+          <ListItemContent>
+            <Textfield
+              onChange={updateInfoBoxContent(updateSettings)}
+              value={settings.infoBoxContent}
+              label={lang.t('configure.include-text')}
+              rows={3}/>
+          </ListItemContent>
+        </ListItem>
+        <ListItem className={styles.configSettingInfoBox}>
+          <ListItemContent>
+            {lang.t('configure.close-after')}
+            <br />
+            <Textfield
+              type='number'
+              pattern='[0-9]+'
+              style={{width: 50}}
+              onChange={updateClosedTimeout(updateSettings, settings.closedTimeout)}
+              value={getTimeoutAmount(settings.closedTimeout)}
+              label={lang.t('configure.closed-comments-label')} />
+            <div className={styles.configTimeoutSelect}>
+              <SelectField
+                label="comments closed time window"
+                value={getTimeoutMeasure(settings.closedTimeout)}
+                onChange={updateClosedTimeout(updateSettings, settings.closedTimeout, true)}>
+                <Option value={'hours'}>{lang.t('configure.hours')}</Option>
+                <Option value={'days'}>{lang.t('configure.days')}</Option>
+                <Option value={'weeks'}>{lang.t('configure.weeks')}</Option>
+              </SelectField>
+            </div>
+          </ListItemContent>
+        </ListItem>
+        <ListItem className={styles.configSettingInfoBox}>
+          <ListItemContent>
+            {lang.t('configure.closed-comments-desc')}
+            <Textfield
+              onChange={updateClosedMessage(updateSettings)}
+              value={settings.closedMessage}
+              label={lang.t('configure.closed-comments-label')}
+              rows={3}/>
+          </ListItemContent>
+        </ListItem>
+      </List>
+    </div>
+  );
 };
 
 export default CommentSettings;

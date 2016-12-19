@@ -112,12 +112,12 @@
   letter-spacing: 0.03em;
 }
 
-#bannedWordlist {
+#bannedWordlist, #suspectWordlist {
     width: 100%;
     padding: 10px;
 }
 
-.bannedWordHeader {
+.wordlistHeader {
   font-weight: bold;
   font-size:18px;
   margin-bottom:3px;
