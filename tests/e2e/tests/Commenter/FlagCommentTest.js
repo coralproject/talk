@@ -15,7 +15,8 @@ export default {
     const embedStreamPage = client.page.embedStreamPage();
 
     embedStreamPage
-      .flagComment();
+      .flagComment()
+      .expect.element('@flagButtonText').text.to.equal('Reported');
   },
   after: client => {
     client.end();

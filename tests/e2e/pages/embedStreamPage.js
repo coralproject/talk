@@ -43,7 +43,32 @@ const embedStreamCommands = {
   flagComment() {
     return this
       .waitForElementVisible('@flagButton')
-      .click('@flagButton');
+      .click('@flagButton')
+      .waitForElementVisible('@flagPopUp')
+      .waitForElementVisible('@flagCommentOption')
+      .click('@flagCommentOption')
+      .waitForElementVisible('@flagDoneButton')
+      .click('@flagDoneButton')
+      .waitForElementVisible('@flagOtherOption')
+      .click('@flagOtherOption')
+      .waitForElementVisible('@flagDoneButton')
+      .click('@flagDoneButton')
+      .click('@flagDoneButton');
+  },
+  flagUsername() {
+    return this
+      .waitForElementVisible('@flagButton')
+      .click('@flagButton')
+      .waitForElementVisible('@flagPopUp')
+      .waitForElementVisible('@flagUsernameOption')
+      .click('@flagUsernameOption')
+      .waitForElementVisible('@flagDoneButton')
+      .click('@flagDoneButton')
+      .waitForElementVisible('@flagOtherOption')
+      .click('@flagOtherOption')
+      .waitForElementVisible('@flagDoneButton')
+      .click('@flagDoneButton')
+      .click('@flagDoneButton');
   }
 };
 
@@ -88,6 +113,24 @@ export default {
     },
     flagPopUp: {
       selector: '.comment .coral-plugin-flags-popup'
+    },
+    flagCommentOption: {
+      selector: '.comment .coral-plugin-flags-popup .coral-plugin-flags-popup-radio-label[for="comments"]'
+    },
+    flagUsernameOption: {
+      selector: '.comment .coral-plugin-flags-popup .coral-plugin-flags-popup-radio-label[for="user"]'
+    },
+    flagOtherOption: {
+      selector: '.comment .coral-plugin-flags-popup .coral-plugin-flags-popup-radio-label[for="other"]'
+    },
+    flagHeaderMessage: {
+      selector: '.comment .coral-plugin-flags-popup .coral-plugin-flags-popup-header'
+    },
+    flagButtonText: {
+      selector: '.comment .coral-plugin-flags-button-text'
+    },
+    flagDoneButton: {
+      selector: '.comment .coral-plugin-flags-popup .coral-plugin-flags-popup-button'
     }
   }
 };
