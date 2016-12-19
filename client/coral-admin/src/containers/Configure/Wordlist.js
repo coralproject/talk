@@ -16,7 +16,7 @@ const Wordlist = ({suspectWords, bannedWords, onChangeWordlist}) => (
         rows={5}
         type='text'
         className={styles.wordlistInput}
-        onChange={onChangeWordlist}
+        onChange={e => onChangeWordlist(e, 'banned')}
         value={bannedWords} />
     </Card>
     <h3>{lang.t('configure.suspect-words-title')}</h3>
@@ -27,7 +27,7 @@ const Wordlist = ({suspectWords, bannedWords, onChangeWordlist}) => (
         rows={5}
         type='text'
         className={styles.wordlistInput}
-        onChange={() => {}}
+        onChange={e => onChangeWordlist(e, 'suspect')}
         value={suspectWords} />
     </Card>
   </div>

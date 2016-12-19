@@ -1,6 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {fetchSettings, updateSettings, saveSettingsToServer} from '../../actions/settings';
+import {
+  fetchSettings,
+  updateSettings,
+  saveSettingsToServer,
+  updateWordlist,
+} from '../../actions/settings';
 import {
   List,
   ListItem,
@@ -21,7 +26,8 @@ class Configure extends React.Component {
 
     this.state = {
       activeSection: 'comments',
-      wordlist: [],
+      banned: [],
+      suspect: [],
       changed: false,
       errors: {}
     };
@@ -36,8 +42,10 @@ class Configure extends React.Component {
       || !this.props.settings.wordlist)
       && newProps.settings.wordlist
       && newProps.settings.wordlist.length !== 0 ) {
-      console.log('wordlist?', newProps.settings.wordlist);
-      this.setState({wordlist: newProps.settings.wordlist.banned.join(', ')});
+      this.setState({
+        banned: newProps.settings.wordlist.banned.join(', '),
+        suspect: newProps.settings.wordlist.suspect.join(', ')
+      });
     }
   }
 
@@ -50,15 +58,11 @@ class Configure extends React.Component {
     this.setState({activeSection});
   }
 
-  onChangeWordlist = (event) => {
+  onChangeWordlist = (event, list) => {
     event.preventDefault();
-    const newlist = event.target.value;
-    this.setState({wordlist: newlist.toLowerCase(), changed: true});
-    this.props.dispatch(updateSettings({
-      wordlist: newlist.toLowerCase()
-        .split(',')
-        .map((word) => word.trim())
-    }));
+    const newlist = event.target.value.toLowerCase();
+    this.setState({[list]: newlist, changed: true});
+    this.props.dispatch(updateWordlist(list, newlist.split(',').map(word => word.trim()) ));
   }
 
   onSettingUpdate = (setting) => {
@@ -90,7 +94,8 @@ class Configure extends React.Component {
       return <EmbedLink title={pageTitle} />;
     case 'wordlist':
       return <Wordlist
-        bannedWords={this.state.wordlist}
+        bannedWords={this.state.banned}
+        suspectWords={this.state.suspect}
         onChangeWordlist={this.onChangeWordlist}/>;
     }
   }
