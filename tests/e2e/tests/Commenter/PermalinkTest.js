@@ -24,6 +24,8 @@ export default {
     const embedStreamPage = client.page.embedStreamPage();
     embedStreamPage
       .navigate(permalink);
+
+    client.assert.urlContains(permalink);
   },
   after: client => {
     client.end();
