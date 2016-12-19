@@ -75,7 +75,7 @@ const embedStreamCommands = {
   }
 };
 
-export default {
+module.exports = {
   commands: [embedStreamCommands],
   elements: {
     signInButton: {

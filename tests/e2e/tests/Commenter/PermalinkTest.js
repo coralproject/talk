@@ -1,6 +1,6 @@
 let permalink = '';
 
-export default {
+module.exports = {
   '@tags': ['permalink', 'commenter'],
   before: client => {
     const embedStreamPage = client.page.embedStreamPage();

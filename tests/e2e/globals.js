@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   waitForConditionTimeout: 8000,
   baseUrl: 'http://localhost:3000',
   users: {

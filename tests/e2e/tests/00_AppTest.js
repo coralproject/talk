@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   '@tags': ['app'],
   'Base url and Hostname': browser => {
     const {baseUrl} = browser.globals;

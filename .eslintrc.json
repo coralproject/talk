@@ -4,16 +4,6 @@
         "node": true
     },
     "extends": "eslint:recommended",
-    "ecmaFeatures": {
-      "sourceType": "module"
-    },
-    "parserOptions": {
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "jsx": true,
-        "experimentalObjectRestSpread": true
-      }
-    },
     "rules": {
         "indent": ["error",
             2

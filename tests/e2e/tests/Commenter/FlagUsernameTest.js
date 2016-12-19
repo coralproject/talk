@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   '@tags': ['flag', 'commenter'],
   before: client => {
     const embedStreamPage = client.page.embedStreamPage();

@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   '@tags': ['login', 'admin'],
   before(client) {
     const embedStreamPage = client.page.embedStreamPage();
