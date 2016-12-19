@@ -2,13 +2,10 @@ import React from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations.json';
 import TagsInput from 'react-tagsinput';
-import tagStyles from 'react-tagsinput/react-tagsinput.css';
 
 import styles from './Configure.css';
 
 import {Card} from 'react-mdl';
-
-console.log('tagStyles', tagStyles);
 
 const Wordlist = ({suspectWords, bannedWords, onChangeWordlist}) => (
   <div>

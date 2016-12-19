@@ -46,6 +46,7 @@ class Configure extends React.Component {
   }
 
   onChangeWordlist = (listName, list) => {
+    this.setState({changed: true});
     this.props.dispatch(updateWordlist(listName, list));
   }
 
