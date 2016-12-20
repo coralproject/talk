@@ -71,6 +71,7 @@ const updateClosedTimeout = (updateSettings, ts, isMeasure) => (event) => {
 
 const CommentSettings = ({fetchingSettings, updateSettings, settingsError, settings, errors}) => {
   if (fetchingSettings) {
+
     /* maybe a spinner here at some point */
     return <p>Loading settings...</p>;
   }
