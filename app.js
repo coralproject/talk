@@ -70,15 +70,9 @@ app.use(session(session_opts));
 // CSRF MIDDLEWARE
 //==============================================================================
 
-// Use CSRF only if we are not testing.
-if (app.get('env') !== 'test') {
-  console.log('DEBUGT NO TEST');
-  app.use(cookieParser());
-}
+app.use(cookieParser());
 
 app.use((err, req, res, next) => {
-  console.log('DEBUG EN SERVER', req.csrfToken());
-
   res.locals._csrf = req.csrfToken();
   return next();
 });
