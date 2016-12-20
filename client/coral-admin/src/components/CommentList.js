@@ -26,7 +26,7 @@ export default class CommentList extends React.Component {
     // list of actions (flags, etc) associated with the comments
     actions: PropTypes.shape({
       ids: PropTypes.arrayOf(PropTypes.string)
-    }).isRequired,
+    }),
     suspectWords: PropTypes.arrayOf(PropTypes.string)
   }
 

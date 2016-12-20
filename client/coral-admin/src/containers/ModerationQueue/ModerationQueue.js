@@ -13,6 +13,7 @@ import {
   fetchModerationQueueComments
 } from 'actions/comments';
 import {userStatusUpdate} from 'actions/users';
+import {fetchSettings} from 'actions/settings';
 import styles from './ModerationQueue.css';
 
 import I18n from 'coral-framework/modules/i18n/i18n';
@@ -36,6 +37,7 @@ class ModerationQueue extends React.Component {
 
   // Fetch comments and bind singleView key before render
   componentWillMount () {
+    this.props.dispatch(fetchSettings());
     this.props.dispatch(fetchModerationQueueComments());
     key('s', () => this.setState({singleView: !this.state.singleView}));
     key('shift+/', () => this.setState({modalOpen: true}));
@@ -110,8 +112,7 @@ class ModerationQueue extends React.Component {
           </div>
           <div className={`mdl-tabs__panel is-active ${styles.listContainer}`} id='pending'>
             <CommentList
-              suspectWords={['fishy', 'shady']}
-              actions={actions}
+              suspectWords={settings.settings.wordlist.suspect}
               isActive={activeTab === 'pending'}
               singleView={singleView}
               commentIds={premodIds}
@@ -129,8 +130,7 @@ class ModerationQueue extends React.Component {
         </div>
           <div className={`mdl-tabs__panel ${styles.listContainer}`} id='rejected'>
             <CommentList
-              actions={actions}
-              suspectWords={[]}
+              suspectWords={settings.settings.wordlist.suspect}
               isActive={activeTab === 'rejected'}
               singleView={singleView}
               commentIds={rejectedIds}
@@ -143,8 +143,7 @@ class ModerationQueue extends React.Component {
           <div className={`mdl-tabs__panel ${styles.listContainer}`} id='flagged'>
             <CommentList
               isActive={activeTab === 'rejected'}
-              actions={actions}
-              suspectWords={[]}
+              suspectWords={settings.settings.wordlist.suspect}
               singleView={singleView}
               commentIds={flaggedIds}
               comments={comments.byId}

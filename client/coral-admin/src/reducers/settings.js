@@ -1,8 +1,13 @@
-import {Map} from 'immutable';
+import {Map, List} from 'immutable';
 import * as types from '../actions/settings';
 
 const initialState = Map({
-  settings: Map(),
+  settings: Map({
+    wordlist: Map({
+      banned: List(),
+      suspect: List()
+    })
+  }),
   saveSettingsError: null,
   fetchSettingsError: null,
   fetchingSettings: false
