@@ -1,7 +1,6 @@
 import coralApi from '../../../coral-framework/helpers/response';
 import * as actions from '../constants/comments';
 
-
 // Get comments to fill each of the three lists on the mod queue
 export const fetchModerationQueueComments = () => {
   return dispatch => {
@@ -55,7 +54,6 @@ export const createComment = (name, body) => {
       .catch(error => dispatch({type: actions.COMMENT_CREATE_FAILED, error}));
   };
 };
-
 
 /**
  * Action disptacher related to comments
