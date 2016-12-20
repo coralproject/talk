@@ -1,4 +1,5 @@
 import * as actions from '../constants/comments';
+import * as userActions from '../constants/user';
 import {Map, List, fromJS} from 'immutable';
 
 /**
@@ -32,7 +33,7 @@ export default (state = initialState, action) => {
   case actions.COMMENT_STREAM_FETCH_SUCCESS: return replaceComments(action, state);
   case actions.SHOW_BANUSER_DIALOG: return setBanUser(state, true, action);
   case actions.HIDE_BANUSER_DIALOG: return setBanUser(state, false, action);
-  case actions.USER_BAN_SUCESS: return setBanUser(state, false, action);
+  case userActions.UPDATE_STATUS_SUCCESS: return setBanUser(state, false, action);
   default: return state;
   }
 };

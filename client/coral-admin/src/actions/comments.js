@@ -20,7 +20,7 @@ export const fetchModerationQueueComments = () => {
         actions: [...pending.actions, ...rejected.actions, ...flagged.actions]
       };
     })
-    .then(({comments, users, actions}) => {
+    .then(({comments, users}) => {
 
       /* Post comments and users to redux store. Actions will be posted when they are needed. */
       dispatch({type: commentActions.USERS_MODERATION_QUEUE_FETCH_SUCCESS, users});
