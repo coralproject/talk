@@ -450,7 +450,7 @@ UserService.setStatus = (id, status, comment_id) => {
     });
   }
 
-  if (status === 'active') {
+  if (status === 'active' || status === 'pending') {
     return UserModel.update({
       id: id
     }, {

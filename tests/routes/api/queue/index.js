@@ -59,6 +59,10 @@ describe('/api/v1/queue', () => {
     action_type: 'like',
     item_id: 'hij',
     item_type: 'comment'
+  }, {
+    action_type: 'flag',
+    item_id: '123',
+    item_type: 'user'
   }];
 
   beforeEach(() => {
@@ -67,10 +71,14 @@ describe('/api/v1/queue', () => {
         comments[0].author_id = u[0].id;
         comments[1].author_id = u[1].id;
         comments[2].author_id = u[1].id;
+        actions[2].item_id = u[1].id;
 
-        return Comment.create(comments);
+        return Promise.all([
+          Comment.create(comments),
+          ...u.map((u) => User.setStatus(u.id, 'pending'))
+        ]);
       })
-      .then((c) => {
+      .then(([c]) => {
         actions[0].item_id = c[0].id;
         actions[1].item_id = c[1].id;
 
@@ -89,6 +97,19 @@ describe('/api/v1/queue', () => {
         expect(err).to.be.null;
         expect(res).to.have.status(200);
         expect(res.body.comments[0]).to.have.property('body');
+        expect(res.body.users[0]).to.have.property('displayName');
+        expect(res.body.actions[0]).to.have.property('action_type');
+        done();
+      });
+  });
+
+  it('should return all pending users and actions', function(done){
+    chai.request(app)
+      .get('/api/v1/queue/users/pending')
+      .set(passport.inject({roles: ['admin']}))
+      .end(function(err, res){
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
         expect(res.body.users[0]).to.have.property('displayName');
         expect(res.body.actions[0]).to.have.property('action_type');
         done();
