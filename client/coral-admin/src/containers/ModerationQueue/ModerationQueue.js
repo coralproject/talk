@@ -32,7 +32,7 @@ class ModerationQueue extends React.Component {
 
   // Fetch comments and bind singleView key before render
   componentWillMount () {
-    this.props.dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH'});
+    this.props.dispatch({type: 'MODERATION_QUEUE_FETCH'});
     key('s', () => this.setState({singleView: !this.state.singleView}));
     key('shift+/', () => this.setState({modalOpen: true}));
     key('esc', () => this.setState({modalOpen: false}));

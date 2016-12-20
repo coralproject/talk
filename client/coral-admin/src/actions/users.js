@@ -9,6 +9,6 @@
 export const banUser = (status, userId, commentId) => {
   return dispatch => {
     dispatch({type: 'USER_BAN', status, userId, commentId});
-    dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH'});
+    dispatch({type: 'MODERATION_QUEUE_FETCH'});
   };
 };

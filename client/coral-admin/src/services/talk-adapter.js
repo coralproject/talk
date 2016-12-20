@@ -12,7 +12,7 @@ import coralApi from '../../../coral-framework/helpers/response';
 export default store => next => action => {
 
   switch (action.type) {
-  case 'COMMENTS_MODERATION_QUEUE_FETCH':
+  case 'MODERATION_QUEUE_FETCH':
     fetchModerationQueueComments(store);
     break;
   case 'COMMENT_UPDATE':
@@ -34,23 +34,26 @@ const fetchModerationQueueComments = store =>
 
 Promise.all([
   coralApi('/queue/comments/pending'),
+  coralApi('/queue/users/pending'),
   coralApi('/comments?status=rejected'),
   coralApi('/comments?action_type=flag')
 ])
-.then(([pending, rejected, flagged]) => {
+.then(([pendingComments, pendingUsers, rejected, flagged]) => {
 
   /* Combine seperate calls into a single object */
   let all = {};
-  all.comments = pending.comments
+  all.comments = pendingComments.comments
     .concat(rejected.comments)
     .concat(flagged.comments.map(comment => {
       comment.flagged = true;
       return comment;
     }));
-  all.users = pending.users
+  all.users = pendingComments.users
+    .concat(pendingUsers.users)
     .concat(rejected.users)
     .concat(flagged.users);
-  all.actions = pending.actions
+  all.actions = pendingComments.actions
+    .concat(pendingUsers.actions)
     .concat(rejected.actions)
     .concat(flagged.actions);
   return all;
