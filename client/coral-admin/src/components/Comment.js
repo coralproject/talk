@@ -79,7 +79,7 @@ const getActionButton = (action, i, props) => {
       cStyle={action}
       icon={props.actionsMap[action].icon}
       key={i}
-      onClick={() => props.onClickAction(props.actionsMap[action].status, comment.id)}
+      onClick={() => props.onClickAction(props.actionsMap[action].status, comment)}
     />
   );
 };
