@@ -458,14 +458,22 @@ definitions:
     properties:
       item_id:
         type: string
+        description: The ID of the item which these actions target
       item_type:
-        type: string # comment, user...
+        type: string
+        description: The type of item which these actions target (comment, user, etc.)
       type:
-        type: string # flagged, likes, upvotes...
+        type: string
+        description: The type of action (like, flag, etc.)
       count:
         type: integer
+        description: The number of this type of actions performed on this item.
+      metadata:
+        type: array
+        description: An array of metadata from the actions performed on this item. This metadata can be defined differently for each action type.
       current_user:
-        type: boolean
+        type: Object
+        description: Will include the action performed by the currently logged in user if that user has taken an action on this item. Otherwise will return null.
   Action:
     type: object
     properties:
