@@ -27,7 +27,7 @@ export default (state = initialState, action) => {
   case actions.COMMENTS_MODERATION_QUEUE_FETCH: return state.set('loading', true);
   case actions.COMMENTS_MODERATION_QUEUE_FETCH_SUCCESS: return replaceComments(action, state);
   case actions.COMMENTS_MODERATION_QUEUE_FAILED: return state.set('loading', false);
-  case actions.COMMENT_STATUS_UPDATE: return updateStatus(state, action);
+  case actions.COMMENT_STATUS_UPDATE_REQUEST: return updateStatus(state, action);
   case actions.COMMENT_FLAG: return flag(state, action);
   case actions.COMMENT_CREATE_SUCCESS: return addComment(state, action);
   case actions.COMMENT_STREAM_FETCH_SUCCESS: return replaceComments(action, state);
