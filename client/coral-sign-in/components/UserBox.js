@@ -9,7 +9,9 @@ const UserBox = ({className, user, logout, ...props}) => (
     className={`${styles.userBox} ${className ? className : ''}`}
     {...props}
   >
-    {lang.t('signIn.loggedInAs')} <a>{user.displayName}</a>. {lang.t('signIn.notYou')} <a onClick={logout}>{lang.t('signIn.logout')}</a>
+    {lang.t('signIn.loggedInAs')}
+    <a>{user.displayName}</a>. {lang.t('signIn.notYou')}
+    <a onClick={logout} id='logout'>{lang.t('signIn.logout')}</a>
   </div>
 );
 
