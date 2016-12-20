@@ -1,16 +1,15 @@
 {
   "sourceMaps": true,
   "presets": [
-    "stage-0",
     "es2015"
   ],
   "plugins": [
-    ["transform-decorators-legacy"],
-    ["transform-react-jsx"],
-    ["transform-object-assign"],
-    ["transform-class-properties"],
-    ["transform-async-to-generator"],
-    ["transform-object-rest-spread"],
-    ["transform-class-properties"]
+    "add-module-exports",
+    "transform-async-to-generator",
+    "transform-class-properties",
+    "transform-decorators-legacy",
+    "transform-object-assign",
+    "transform-object-rest-spread",
+    "transform-react-jsx"
   ]
 }

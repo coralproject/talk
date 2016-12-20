@@ -1,14 +1,18 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Icon} from 'react-mdl';
 import key from 'keymaster';
 
 import ModerationKeysModal from 'components/ModerationKeysModal';
 import CommentList from 'components/CommentList';
 import BanUserDialog from 'components/BanUserDialog';
 
-import {updateStatus, showBanUserDialog, hideBanUserDialog} from 'actions/comments';
-import {banUser} from 'actions/users';
+import {
+  updateStatus,
+  showBanUserDialog,
+  hideBanUserDialog,
+  fetchModerationQueueComments
+} from 'actions/comments';
+import {userStatusUpdate} from 'actions/users';
 import styles from './ModerationQueue.css';
 
 import I18n from 'coral-framework/modules/i18n/i18n';
@@ -32,7 +36,7 @@ class ModerationQueue extends React.Component {
 
   // Fetch comments and bind singleView key before render
   componentWillMount () {
-    this.props.dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH'});
+    this.props.dispatch(fetchModerationQueueComments());
     key('s', () => this.setState({singleView: !this.state.singleView}));
     key('shift+/', () => this.setState({modalOpen: true}));
     key('esc', () => this.setState({modalOpen: false}));
@@ -55,10 +59,10 @@ class ModerationQueue extends React.Component {
   }
 
   // Dispatch the update status action
-  onCommentAction (action, id) {
+  onCommentAction (action, comment) {
 
     // If not banning then change the status to approved or flagged as action = status
-    this.props.dispatch(updateStatus(action, id));
+    this.props.dispatch(updateStatus(action, comment));
   }
 
   showBanUserDialog (userId, userName, commentId) {
@@ -70,11 +74,10 @@ class ModerationQueue extends React.Component {
   }
 
   banUser (userId, commentId) {
-    this.props.dispatch(banUser('banned', userId, commentId));
-  }
-
-  showShortcuts = () => {
-    this.setState({modalOpen: true});
+    this.props.dispatch(userStatusUpdate('banned', userId, commentId))
+      .then(() => {
+        this.props.dispatch(fetchModerationQueueComments());
+      });
   }
 
   onTabClick (activeTab) {
@@ -100,11 +103,6 @@ class ModerationQueue extends React.Component {
               className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.rejected')}</a>
             <a href='#flagged' onClick={() => this.onTabClick('flagged')}
               className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.flagged')}</a>
-            <a href='#' onClick={this.showShortcuts}
-              className={`mdl-tabs__tab ${styles.tab} ${styles.showShortcuts}`}>
-              <Icon name='keyboard' />
-              <span>{lang.t('modqueue.showshortcuts')}</span>
-            </a>
           </div>
           <div className={`mdl-tabs__panel is-active ${styles.listContainer}`} id='pending'>
             <CommentList
@@ -113,7 +111,7 @@ class ModerationQueue extends React.Component {
               commentIds={premodIds}
               comments={comments.byId}
               users={users.byId}
-              onClickAction={(action, commentId) => this.onCommentAction(action, commentId)}
+              onClickAction={(action, comment) => this.onCommentAction(action, comment)}
               onClickShowBanDialog={(userId, userName, commentId) => this.showBanUserDialog(userId, userName, commentId)}
               actions={['reject', 'approve', 'ban']}
               loading={comments.loading} />
@@ -130,7 +128,7 @@ class ModerationQueue extends React.Component {
               commentIds={rejectedIds}
               comments={comments.byId}
               users={users.byId}
-              onClickAction={(action, id) => this.onCommentAction(action, id)}
+              onClickAction={(action, comment) => this.onCommentAction(action, comment)}
               actions={['approve']}
               loading={comments.loading} />
           </div>
@@ -141,7 +139,7 @@ class ModerationQueue extends React.Component {
               commentIds={flaggedIds}
               comments={comments.byId}
               users={users.byId}
-              onClickAction={(action, id) => this.onCommentAction(action, id)}
+              onClickAction={(action, comment) => this.onCommentAction(action, comment)}
               actions={['reject', 'approve']}
               loading={comments.loading} />
           </div>

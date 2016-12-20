@@ -9,6 +9,7 @@ import ForgotContent from './ForgotContent';
 const SignDialog = ({open, view, handleClose, offset, ...props}) => (
   <Dialog
     className={styles.dialog}
+    id="signInDialog"
     open={open}
     style={{
       position: 'relative',
