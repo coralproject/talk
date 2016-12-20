@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './styles.css';
 import Button from 'coral-ui/components/Button';
+import FormCSRFField from 'coral-plugin-csrf/FormCSRFField';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
 const lang = new I18n(translations);
@@ -17,7 +18,7 @@ class ForgotContent extends React.Component {
   }
 
   render () {
-    const {changeView, auth} = this.props;
+    const {changeView, auth, csrfToken} = this.props;
     const {passwordRequestSuccess, passwordRequestFailure} = auth;
 
     return (
@@ -26,6 +27,9 @@ class ForgotContent extends React.Component {
           <h1>{lang.t('signIn.recoverPassword')}</h1>
         </div>
         <form onSubmit={this.handleSubmit}>
+          <FormCSRFField
+            csrfToken={csrfToken}
+          />
           <div className={styles.formField}>
             <label htmlFor="email">{lang.t('signIn.email')}</label>
             <input

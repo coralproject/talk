@@ -22,7 +22,7 @@ router.get('/assets/:asset_title', csrfProtection, (req, res) => {
   return res.render('article', {
     title: req.params.asset_title.split('-').join(' '),
     basePath: '/client/embed/stream',
-    csrfToken: req.csrfToken()
+    _csrf: req.csrfToken()
   });
 });
 

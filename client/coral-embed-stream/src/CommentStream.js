@@ -96,7 +96,7 @@ class CommentStream extends Component {
     const rootItem = this.props.items.assets && this.props.items.assets[rootItemId];
     const {actions, users, comments} = this.props.items;
     const {status, moderation, closedMessage, charCount, charCountEnable} = this.props.config;
-    const {loggedIn, isAdmin, user, showSignInDialog, signInOffset} = this.props.auth;
+    const {loggedIn, isAdmin, user, showSignInDialog, signInOffset, csrfToken} = this.props.auth;
     const {activeTab} = this.state;
     const banned = (this.props.userData.status === 'banned');
 
@@ -138,7 +138,7 @@ class CommentStream extends Component {
                     </div>
                   : <p>{closedMessage}</p>
                 }
-                {!loggedIn && <SignInContainer offset={signInOffset} />}
+                {!loggedIn && <SignInContainer offset={signInOffset}  csrfToken={csrfToken}/>}
                 {
                   rootItem.comments && rootItem.comments.map((commentId) => {
                     const comment = comments[commentId];
