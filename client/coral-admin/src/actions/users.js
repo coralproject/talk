@@ -1,14 +1,20 @@
+import coralApi from '../../../coral-framework/helpers/response';
 
 /**
  * Action disptacher related to users
  */
-//
-// export const banUser = (status, author_id) => (dispatch) => {
-//   dispatch({type: 'USER_STATUS_UPDATE', author_id, status});
+// export const banUser = (status, userId, commentId) => {
+//   return dispatch => {
+//     dispatch({type: 'USER_BAN', status, userId, commentId});
+//     dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH'});
+//   };
 // };
-export const banUser = (status, userId, commentId) => {
+
+// change status of a user
+export const userStatusUpdate = (status, userId, commentId) => {
   return dispatch => {
-    dispatch({type: 'USER_BAN', status, userId, commentId});
-    dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH'});
+    return coralApi(`/users/${userId}/status`, {method: 'POST', body: {status: status, comment_id: commentId}})
+      .then(res => dispatch({type: 'USER_BAN_SUCESS', res}))
+      .catch(error => dispatch({type: 'USER_BAN_FAILED', error}));
   };
 };

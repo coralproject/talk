@@ -6,8 +6,13 @@ import ModerationKeysModal from 'components/ModerationKeysModal';
 import CommentList from 'components/CommentList';
 import BanUserDialog from 'components/BanUserDialog';
 
-import {updateStatus, showBanUserDialog, hideBanUserDialog} from 'actions/comments';
-import {banUser} from 'actions/users';
+import {
+  updateStatus,
+  showBanUserDialog,
+  hideBanUserDialog,
+  fetchModerationQueueComments
+} from 'actions/comments';
+import {userStatusUpdate} from 'actions/users';
 import styles from './ModerationQueue.css';
 
 import I18n from 'coral-framework/modules/i18n/i18n';
@@ -31,7 +36,7 @@ class ModerationQueue extends React.Component {
 
   // Fetch comments and bind singleView key before render
   componentWillMount () {
-    this.props.dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH'});
+    this.props.dispatch(fetchModerationQueueComments());
     key('s', () => this.setState({singleView: !this.state.singleView}));
     key('shift+/', () => this.setState({modalOpen: true}));
     key('esc', () => this.setState({modalOpen: false}));
@@ -67,7 +72,10 @@ class ModerationQueue extends React.Component {
   }
 
   banUser (userId, commentId) {
-    this.props.dispatch(banUser('banned', userId, commentId));
+    this.props.dispatch(userStatusUpdate('banned', userId, commentId))
+      .then(() => {
+        this.props.dispatch(fetchModerationQueueComments());
+      });
   }
 
   onTabClick (activeTab) {

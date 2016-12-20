@@ -28,8 +28,8 @@ export default (state = initialState, action) => {
   case 'COMMENTS_MODERATION_QUEUE_FAILED': return state.set('loading', false);
   case 'COMMENT_STATUS_UPDATE': return updateStatus(state, action);
   case 'COMMENT_FLAG': return flag(state, action);
-  case 'COMMENT_CREATE_SUCCESS': return addComment(state, action);
-  case 'COMMENT_STREAM_FETCH_SUCCESS': return replaceComments(action, state);
+  case actions.COMMENT_CREATE_SUCCESS: return addComment(state, action);
+  case actions.COMMENT_STREAM_FETCH_SUCCESS: return replaceComments(action, state);
   case actions.SHOW_BANUSER_DIALOG: return setBanUser(state, true, action);
   case actions.HIDE_BANUSER_DIALOG: return setBanUser(state, false, action);
   case actions.USER_BAN_SUCESS: return setBanUser(state, false, action);
