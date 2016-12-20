@@ -111,7 +111,7 @@ class ModerationQueue extends React.Component {
           <div className={`mdl-tabs__panel is-active ${styles.listContainer}`} id='pending'>
             <CommentList
               suspectWords={['fishy', 'shady']}
-              commentActions={[]}
+              actions={actions}
               isActive={activeTab === 'pending'}
               singleView={singleView}
               commentIds={premodIds}
@@ -119,7 +119,7 @@ class ModerationQueue extends React.Component {
               users={users.byId}
               onClickAction={(action, comment) => this.onCommentAction(action, comment)}
               onClickShowBanDialog={(userId, userName, commentId) => this.showBanUserDialog(userId, userName, commentId)}
-              actions={['reject', 'approve', 'ban']}
+              modActions={['reject', 'approve', 'ban']}
               loading={comments.loading} />
             <BanUserDialog
               open={comments.showBanUserDialog}
@@ -129,26 +129,28 @@ class ModerationQueue extends React.Component {
         </div>
           <div className={`mdl-tabs__panel ${styles.listContainer}`} id='rejected'>
             <CommentList
-              commentActions={[]}
+              actions={actions}
+              suspectWords={[]}
               isActive={activeTab === 'rejected'}
               singleView={singleView}
               commentIds={rejectedIds}
               comments={comments.byId}
               users={users.byId}
               onClickAction={(action, comment) => this.onCommentAction(action, comment)}
-              actions={['approve']}
+              modActions={['approve']}
               loading={comments.loading} />
           </div>
           <div className={`mdl-tabs__panel ${styles.listContainer}`} id='flagged'>
             <CommentList
               isActive={activeTab === 'rejected'}
-              commentActions={[]}
+              actions={actions}
+              suspectWords={[]}
               singleView={singleView}
               commentIds={flaggedIds}
               comments={comments.byId}
               users={users.byId}
               onClickAction={(action, comment) => this.onCommentAction(action, comment)}
-              actions={['reject', 'approve']}
+              modActions={['reject', 'approve']}
               loading={comments.loading} />
           </div>
           <ModerationKeysModal open={modalOpen}

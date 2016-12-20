@@ -8,6 +8,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations.json';
 
 import {Icon} from 'react-mdl';
+import Highlighter from 'react-highlight-words';
 import {FabButton, Button} from 'coral-ui';
 
 const linkify = new Linkify();
@@ -31,7 +32,7 @@ export default props => {
           {links ?
           <span className={styles.hasLinks}><Icon name='error_outline'/> Contains Link</span> : null}
           <div className={`actions ${styles.actions}`}>
-            {props.actions.map((action, i) => getActionButton(action, i, props))}
+            {props.modActions.map((action, i) => getActionButton(action, i, props))}
           </div>
         </div>
         <div>
@@ -42,7 +43,9 @@ export default props => {
       <div className={styles.itemBody}>
         <span className={styles.body}>
           <Linkify  component='span' properties={{style: linkStyles}}>
-            {comment.body}
+            <Highlighter
+              searchWords={props.suspectWords}
+              textToHighlight={comment.body} />
           </Linkify>
         </span>
       </div>
