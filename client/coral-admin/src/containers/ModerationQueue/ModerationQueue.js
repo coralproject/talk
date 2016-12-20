@@ -83,8 +83,10 @@ class ModerationQueue extends React.Component {
 
   // Render the tabbed lists moderation queues
   render () {
-    const {comments, users} = this.props;
+    const {comments, users, settings} = this.props;
     const {activeTab, singleView, modalOpen} = this.state;
+
+    console.log('ModerationQueue comments', comments);
 
     const premodIds = comments.ids.filter(id => comments.byId[id].status === 'premod');
     const rejectedIds = comments.ids.filter(id => comments.byId[id].status === 'rejected');
@@ -108,6 +110,8 @@ class ModerationQueue extends React.Component {
           </div>
           <div className={`mdl-tabs__panel is-active ${styles.listContainer}`} id='pending'>
             <CommentList
+              suspectWords={['fishy', 'shady']}
+              commentActions={[]}
               isActive={activeTab === 'pending'}
               singleView={singleView}
               commentIds={premodIds}
@@ -125,6 +129,7 @@ class ModerationQueue extends React.Component {
           </div>
           <div className={`mdl-tabs__panel ${styles.listContainer}`} id='rejected'>
             <CommentList
+              commentActions={[]}
               isActive={activeTab === 'rejected'}
               singleView={singleView}
               commentIds={rejectedIds}
@@ -136,6 +141,7 @@ class ModerationQueue extends React.Component {
           </div>
           <div className={`mdl-tabs__panel ${styles.listContainer}`} id='flagged'>
             <CommentList
+              commentActions={[]}
               isActive={activeTab === 'flagged'}
               singleView={singleView}
               commentIds={flaggedIds}
@@ -157,6 +163,7 @@ class ModerationQueue extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  settings: state.settings.toJS(),
   comments: state.comments.toJS(),
   users: state.users.toJS()
 });

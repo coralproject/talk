@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, {PropTypes} from 'react';
 import styles from './CommentList.css';
 import key from 'keymaster';
 import Hammer from 'hammerjs';
@@ -15,6 +14,28 @@ const actions = {
 
 // Renders a comment list and allow performing actions
 export default class CommentList extends React.Component {
+  static propTypes = {
+    isActive: PropTypes.bool,
+    singleView: PropTypes.bool,
+    commentIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+    comments: PropTypes.object.isRequired,
+    users: PropTypes.object.isRequired,
+    onClickAction: PropTypes.func,
+    actions: PropTypes.arrayOf(PropTypes.string),
+    loading: PropTypes.bool,
+    // list of actions (flags, etc) associated with the comments
+    commentActions: PropTypes.arrayOf(
+      PropTypes.shape({
+        action_type: PropTypes.string,
+        count: PropTypes.number,
+        current_user: PropTypes.string,
+        item_id: PropTypes.string,
+        item_type: PropTypes.string
+      })
+    ),
+    suspectWords: PropTypes.arrayOf(PropTypes.string)
+  }
+
   constructor (props) {
     super(props);
 
@@ -122,7 +143,7 @@ export default class CommentList extends React.Component {
   }
 
   render () {
-    const {singleView, commentIds, comments, users, hideActive, key} = this.props;
+    const {singleView, commentIds, comments, users, hideActive, key, suspectWords, commentActions} = this.props;
     const {active} = this.state;
 
     return (
@@ -130,7 +151,11 @@ export default class CommentList extends React.Component {
         {commentIds.map((commentId, index) => {
           const comment = comments[commentId];
           const author = users[comment.author_id];
-          return <Comment comment={comment}
+          const localActions = commentActions.filter(action => action.item_id === commentId);
+          return <Comment
+            commentActions={localActions}
+            suspectWords={suspectWords}
+            comment={comment}
             author={author}
             key={index}
             index={index}
