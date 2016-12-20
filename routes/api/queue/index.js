@@ -12,10 +12,7 @@ const router = express.Router();
 // Get Routes
 //==============================================================================
 
-// Returns back all the comments that are in the moderation queue. The moderation queue is pre or post moderated,
-// depending on the settings. The :moderation overwrites this settings.
-// Pre-moderation:  New comments are shown in the moderator queues immediately.
-// Post-moderation: New comments do not appear in moderation queues unless they are flagged by other users.
+// Returns back all the user actions that are in the moderation queue.
 router.get('/comments/pending', (req, res, next) => {
 
   const {
@@ -56,6 +53,27 @@ router.get('/comments/pending', (req, res, next) => {
     .then(([comments, users, actions]) => {
       res.json({
         comments,
+        users,
+        actions
+      });
+    })
+    .catch(error => {
+      next(error);
+    });
+});
+
+// Returns back all the users that are in the moderation queue.
+router.get('/users/pending', (req, res, next) => {
+
+  User.moderationQueue()
+  .then((users) => {
+    return Promise.all([
+      users,
+      Action.getActionSummaries(users.map((user) => user.id))
+    ]);
+  })
+    .then(([users, actions]) => {
+      res.json({
         users,
         actions
       });

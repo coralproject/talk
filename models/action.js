@@ -126,7 +126,9 @@ ActionSchema.statics.getActionSummaries = function(item_ids, current_user_id = '
         item_type: {
           $last: '$item_type'
         },
-
+        metadata: {
+          $push: '$metadata'
+        },
         current_user: {
           $max: {
             $cond: {
@@ -163,7 +165,7 @@ ActionSchema.statics.getActionSummaries = function(item_ids, current_user_id = '
 };
 
 /*
- * Finds all comments for a specific action.
+ * Finds all actions for a specific type.
  * @param {String} action_type type of action
  * @param {String} item_type type of item the action is on
 */

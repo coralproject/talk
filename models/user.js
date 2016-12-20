@@ -20,6 +20,8 @@ const USER_ROLES = [
 // USER_STATUSES is the list of statuses that are permitted for the user status.
 const USER_STATUS = [
   'active',
+  'pending',
+  'suspended',
   'banned'
 ];
 
@@ -622,3 +624,11 @@ UserService.addAction = (item_id, user_id, action_type, field, detail) => Action
   field,
   detail
 });
+
+/**
+ * Returns all users with pending moderation actions.
+ * @return {Promise}
+ */
+UserService.moderationQueue = () => {
+  return UserModel.find({status: 'pending'});
+};
