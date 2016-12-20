@@ -64,14 +64,14 @@ export const createComment = (name, body) => {
 export const updateStatus = (status, comment) => {
   return dispatch => {
     dispatch({type: actions.COMMENT_STATUS_UPDATE, id: comment.id, status});
-    return coralApi(`/comments/${comment.id}/status`, {method: 'PUT', body: {status: comment.status}})
+    return coralApi(`/comments/${comment.id}/status`, {method: 'PUT', body: {status}})
       .then(res => dispatch({type: actions.COMMENT_UPDATE_SUCCESS, res}))
       .catch(error => dispatch({type: actions.COMMENT_UPDATE_FAILED, error}));
   };
 };
 
 export const flagComment = id => (dispatch, getState) => {
-  dispatch({type: 'COMMENT_FLAG', id});
+  dispatch({type: actions.COMMENT_FLAG, id});
   dispatch({type: 'COMMENT_UPDATE', comment: getState().comments.get('byId').get(id)});
 };
 
