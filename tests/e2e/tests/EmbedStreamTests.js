@@ -18,12 +18,13 @@ module.exports = {
     client.perform((client, done) => {
       mocks.settings({moderation: 'post'})
       .then(() => {
-        //Load Page
+
+        // Load Page
         client.resizeWindow(1200, 800)
           .url(client.globals.baseUrl)
           .frame('coralStreamIframe')
 
-          //Register and Log In
+          // Register and Log In
           .waitForElementVisible('#commentBox', 1000)
           .waitForElementVisible('#coralSignInButton', 2000)
           .click('#coralSignInButton')
@@ -44,7 +45,7 @@ module.exports = {
           .click('.coral-plugin-commentbox-button')
           .waitForElementVisible('.comment', 1000)
 
-          //Verify that it appears
+          // Verify that it appears
           .assert.containsText('.comment', mockComment);
         done();
       })
@@ -58,7 +59,8 @@ module.exports = {
     client.perform((client, done) => {
       mocks.settings({moderation: 'pre'})
       .then(() => {
-        //Load Page
+
+        // Load Page
         client.url(client.globals.baseUrl)
           .frame('coralStreamIframe');
 
@@ -68,7 +70,7 @@ module.exports = {
           .click('.coral-plugin-commentbox-button')
           .waitForElementVisible('#coral-notif', 1000)
 
-          //Verify that it appears
+          // Verify that it appears
           .assert.containsText('#coral-notif', 'moderation team');
         done();
       })
@@ -82,7 +84,8 @@ module.exports = {
     client.perform((client, done) => {
       mocks.settings({moderation: 'post'})
       .then(() => {
-        //Load Page
+
+        // Load Page
         client.resizeWindow(1200, 800)
           .url(client.globals.baseUrl)
           .frame('coralStreamIframe');
@@ -100,7 +103,7 @@ module.exports = {
           .click('.coral-plugin-replies-textarea button')
           .waitForElementVisible('.reply', 2000)
 
-          //Verify that it appears
+          // Verify that it appears
           .assert.containsText('.reply', mockReply);
         done();
       })
@@ -132,7 +135,8 @@ module.exports = {
         }]);
       })
       .then(() => {
-        //Load Page
+
+        // Load Page
         client.resizeWindow(1200, 800)
           .url(client.globals.baseUrl)
           .frame('coralStreamIframe');
@@ -145,7 +149,7 @@ module.exports = {
           .click('.coral-plugin-replies-textarea button')
           .waitForElementVisible('#coral-notif', 1000)
 
-          //Verify that it appears
+          // Verify that it appears
           .assert.containsText('#coral-notif', 'moderation team');
         done();
       })

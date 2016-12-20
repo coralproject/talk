@@ -25,6 +25,7 @@ router.get('/', (req, res, next) => {
 
   // Get the asset_id for this url (or create it if it doesn't exist)
   Promise.all([
+
     // Find or create the asset by url.
     Asset.findOrCreateByUrl(asset_url)
 
@@ -70,6 +71,7 @@ router.get('/', (req, res, next) => {
       settings
     ]);
   })
+
   // Get all the users and actions for those comments.
   .then(([comments, asset, settings]) => {
 

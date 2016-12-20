@@ -31,7 +31,7 @@ class FlagButton extends Component {
     const {postAction, addItem, updateItem, flag, id, author_id} = this.props;
     const {itemType, field, reason, step, note, posted} = this.state;
 
-    //Proceed to the next step or close the menu if we've reached the end
+    // Proceed to the next step or close the menu if we've reached the end
     if (step + 1 >= this.props.getPopupMenu.length) {
       this.setState({showMenu: false});
     } else {
@@ -40,6 +40,7 @@ class FlagButton extends Component {
 
     // If itemType and reason are both set, post the action
     if (itemType && reason && !posted) {
+      
       // Set the text from the "other" field if it exists.
       let item_id;
       switch(itemType) {

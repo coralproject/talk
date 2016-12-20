@@ -21,6 +21,7 @@ class SignInContainer extends Component {
   }
 
   componentWillMount () {
+
     // Fetch commentHistory
     this.props.fetchCommentsByUserId(this.props.userData.id);
   }
@@ -38,6 +39,7 @@ class SignInContainer extends Component {
     const commentsMostRecentFirst = user
       .myComments.map(id => items.comments[id])
       .sort(({created_at:a}, {created_at:b}) => {
+
         // descending order, created_at
         // js date strings can be sorted lexigraphically.
         const aLessThanB = a < b ? 1 : 0;

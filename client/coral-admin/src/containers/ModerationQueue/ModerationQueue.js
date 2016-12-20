@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Icon} from 'react-mdl';
 import key from 'keymaster';
 
 import ModerationKeysModal from 'components/ModerationKeysModal';
@@ -71,10 +70,6 @@ class ModerationQueue extends React.Component {
     this.props.dispatch(banUser('banned', userId, commentId));
   }
 
-  showShortcuts = () => {
-    this.setState({modalOpen: true});
-  }
-
   onTabClick (activeTab) {
     this.setState({activeTab});
   }
@@ -98,11 +93,6 @@ class ModerationQueue extends React.Component {
               className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.rejected')}</a>
             <a href='#flagged' onClick={() => this.onTabClick('flagged')}
               className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.flagged')}</a>
-            <a href='#' onClick={this.showShortcuts}
-              className={`mdl-tabs__tab ${styles.tab} ${styles.showShortcuts}`}>
-              <Icon name='keyboard' />
-              <span>{lang.t('modqueue.showshortcuts')}</span>
-            </a>
           </div>
           <div className={`mdl-tabs__panel is-active ${styles.listContainer}`} id='pending'>
             <CommentList

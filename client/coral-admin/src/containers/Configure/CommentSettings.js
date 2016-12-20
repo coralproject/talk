@@ -69,11 +69,17 @@ const updateClosedTimeout = (updateSettings, ts, isMeasure) => (event) => {
   }
 };
 
-const CommentSettings = ({updateSettings, settingsError, settings, errors}) => <List>
+const CommentSettings = ({fetchingSettings, updateSettings, settingsError, settings, errors}) => {
+  if (fetchingSettings) {
+    /* maybe a spinner here at some point */
+    return <p>Loading settings...</p>;
+  }
+
+  return <List>
     <ListItem className={`${styles.configSetting} ${settings.moderation === 'pre' ? styles.enabledSetting : styles.disabledSetting}`}>
       <ListItemAction>
         <Checkbox
-          onClick={updateModeration(updateSettings, settings.moderation)}
+          onChange={updateModeration(updateSettings, settings.moderation)}
           checked={settings.moderation === 'pre'} />
       </ListItemAction>
       <ListItemContent>
@@ -86,7 +92,7 @@ const CommentSettings = ({updateSettings, settingsError, settings, errors}) => <
     <ListItem className={`${styles.configSetting} ${settings.charCountEnable ? styles.enabledSetting : styles.disabledSetting}`}>
       <ListItemAction>
         <Checkbox
-          onClick={updateCharCountEnable(updateSettings, settings.charCountEnable)}
+          onChange={updateCharCountEnable(updateSettings, settings.charCountEnable)}
           checked={settings.charCountEnable} />
       </ListItemAction>
       <ListItemContent>
@@ -113,7 +119,7 @@ const CommentSettings = ({updateSettings, settingsError, settings, errors}) => <
     <ListItem threeLine className={`${styles.configSettingInfoBox} ${settings.infoBoxEnable ? styles.enabledSetting : styles.disabledSetting}`}>
       <ListItemAction>
         <Checkbox
-          onClick={updateInfoBoxEnable(updateSettings, settings.infoBoxEnable)}
+          onChange={updateInfoBoxEnable(updateSettings, settings.infoBoxEnable)}
           checked={settings.infoBoxEnable} />
       </ListItemAction>
       <ListItemContent>
@@ -144,7 +150,9 @@ const CommentSettings = ({updateSettings, settingsError, settings, errors}) => <
           value={getTimeoutAmount(settings.closedTimeout)}
           label={lang.t('configure.closed-comments-label')} />
         <div className={styles.configTimeoutSelect}>
-          <SelectField value={getTimeoutMeasure(settings.closedTimeout)}
+          <SelectField
+            label="comments closed time window"
+            value={getTimeoutMeasure(settings.closedTimeout)}
             onChange={updateClosedTimeout(updateSettings, settings.closedTimeout, true)}>
             <Option value={'hours'}>{lang.t('configure.hours')}</Option>
             <Option value={'days'}>{lang.t('configure.days')}</Option>
@@ -164,6 +172,7 @@ const CommentSettings = ({updateSettings, settingsError, settings, errors}) => <
       </ListItemContent>
     </ListItem>
   </List>;
+};
 
 export default CommentSettings;
 
