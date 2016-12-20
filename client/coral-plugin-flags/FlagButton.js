@@ -11,8 +11,8 @@ class FlagButton extends Component {
   state = {
     showMenu: false,
     itemType: '',
-    detail: '',
-    description: '',
+    reason: '',
+    note: '',
     step: 0,
     posted: false
   }
@@ -29,7 +29,7 @@ class FlagButton extends Component {
 
   onPopupContinue = () => {
     const {postAction, addItem, updateItem, flag, id, author_id} = this.props;
-    const {itemType, field, detail, step, description, posted} = this.state;
+    const {itemType, field, reason, step, note, posted} = this.state;
 
     //Proceed to the next step or close the menu if we've reached the end
     if (step + 1 >= this.props.getPopupMenu.length) {
@@ -38,8 +38,8 @@ class FlagButton extends Component {
       this.setState({step: step + 1});
     }
 
-    // If itemType and detail are both set, post the action
-    if (itemType && detail && !posted) {
+    // If itemType and reason are both set, post the action
+    if (itemType && reason && !posted) {
       // Set the text from the "other" field if it exists.
       let item_id;
       switch(itemType) {
@@ -52,9 +52,11 @@ class FlagButton extends Component {
       }
       const action = {
         action_type: 'flag',
-        field,
-        detail,
-        description
+        metadata: {
+          field,
+          reason,
+          note
+        }
       };
       postAction(item_id, itemType, action)
         .then((action) => {
@@ -69,7 +71,7 @@ class FlagButton extends Component {
   onPopupOptionClick = (sets) => (e) => {
 
     // If the "other" option is clicked, show the other textbox
-    if(sets === 'detail' && e.target.value === 'other') {
+    if(sets === 'reason' && e.target.value === 'other') {
       this.setState({showOther: true});
     }
 
@@ -91,7 +93,7 @@ class FlagButton extends Component {
   }
 
   onOtherTextChange = (e) => {
-    this.setState({description: e.target.value});
+    this.setState({note: e.target.value});
   }
 
   handleClickOutside () {
@@ -140,16 +142,16 @@ class FlagButton extends Component {
                   )
                 }
                 {
-                  this.state.detail && <div>
-                  <label htmlFor={'description'} className={`${name}-popup-radio-label`}>
+                  this.state.reason && <div>
+                  <label htmlFor={'note'} className={`${name}-popup-radio-label`}>
                     {lang.t('flag-reason')}
                   </label><br/>
                 <textarea
                       className={`${name}-other-text`}
-                      id="description"
+                      id="note"
                       rows={4}
                       onChange={this.onOtherTextChange}
-                      value={this.state.description}/>
+                      value={this.state.note}/>
                   </div>
                 }
               </form>

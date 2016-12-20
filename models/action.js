@@ -13,9 +13,7 @@ const ActionSchema = new Schema({
   item_type: String,
   item_id: String,
   user_id: String,
-  field: String, // Used when an action references a particular field of an object. (e.g. a flag on a username or bio)
-  detail: String, // Describes the reason for an action (e.g. 'Username is offensive')
-  description: String, // Describes the reason for the action in more detail (e.g. A description of why the comment is offensive.)
+  metadata: Object, //Holds arbitrary metadata about the action.
 }, {
   timestamps: {
     createdAt: 'created_at',
