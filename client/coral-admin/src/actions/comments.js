@@ -77,13 +77,9 @@ export const flagComment = id => (dispatch, getState) => {
 
 // Dialog Actions
 export const showBanUserDialog = (userId, userName, commentId) => {
-  return dispatch => {
-    dispatch({type: 'SHOW_BANUSER_DIALOG', userId, userName, commentId});
-  };
+  return {type: 'SHOW_BANUSER_DIALOG', userId, userName, commentId};
 };
 
 export const hideBanUserDialog = (showDialog) => {
-  return dispatch => {
-    dispatch({type: 'HIDE_BANUSER_DIALOG', showDialog});
-  };
+  return {type: 'HIDE_BANUSER_DIALOG', showDialog};
 };
