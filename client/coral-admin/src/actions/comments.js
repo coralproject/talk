@@ -41,17 +41,6 @@ export const fetchModerationQueueComments = () => {
   };
 };
 
-
-// .catch(error => store.dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH_FAILED', error}));
-
-// Update a comment. Now to update a comment we need to send back the whole object
-
-export const updateComment = (store, comment) => {
-  coralApi(`/comments/${comment.get('id')}/status`, {method: 'PUT', body: {status: comment.get('status')}})
-  .then(res => store.dispatch({type: 'COMMENT_UPDATE_SUCCESS', res}))
-  .catch(error => store.dispatch({type: 'COMMENT_UPDATE_FAILED', error}));
-};
-
 // Create a new comment
 export const createComment = (name, body) => {
   return dispatch => {
@@ -71,9 +60,14 @@ export const createComment = (name, body) => {
  * Action disptacher related to comments
  */
 
-export const updateStatus = (status, id) => (dispatch, getState) => {
-  dispatch({type: 'COMMENT_STATUS_UPDATE', id, status});
-  dispatch({type: 'COMMENT_UPDATE', comment: getState().comments.get('byId').get(id)});
+// Update a comment. Now to update a comment we need to send back the whole object
+export const updateStatus = (status, comment) => {
+  return dispatch => {
+    dispatch({type: actions.COMMENT_STATUS_UPDATE, id: comment.id, status});
+    return coralApi(`/comments/${comment.id}/status`, {method: 'PUT', body: {status: comment.status}})
+      .then(res => dispatch({type: actions.COMMENT_UPDATE_SUCCESS, res}))
+      .catch(error => dispatch({type: actions.COMMENT_UPDATE_FAILED, error}));
+  };
 };
 
 export const flagComment = id => (dispatch, getState) => {

@@ -58,9 +58,9 @@ class ModerationQueue extends React.Component {
   }
 
   // Dispatch the update status action
-  onCommentAction (action, id) {
+  onCommentAction (action, comment) {
     // If not banning then change the status to approved or flagged as action = status
-    this.props.dispatch(updateStatus(action, id));
+    this.props.dispatch(updateStatus(action, comment));
   }
 
   showBanUserDialog (userId, userName, commentId) {
@@ -109,7 +109,7 @@ class ModerationQueue extends React.Component {
               commentIds={premodIds}
               comments={comments.byId}
               users={users.byId}
-              onClickAction={(action, commentId) => this.onCommentAction(action, commentId)}
+              onClickAction={(action, comment) => this.onCommentAction(action, comment)}
               onClickShowBanDialog={(userId, userName, commentId) => this.showBanUserDialog(userId, userName, commentId)}
               actions={['reject', 'approve', 'ban']}
               loading={comments.loading} />
@@ -126,7 +126,7 @@ class ModerationQueue extends React.Component {
               commentIds={rejectedIds}
               comments={comments.byId}
               users={users.byId}
-              onClickAction={(action, id) => this.onCommentAction(action, id)}
+              onClickAction={(action, comment) => this.onCommentAction(action, comment)}
               actions={['approve']}
               loading={comments.loading} />
           </div>
@@ -137,7 +137,7 @@ class ModerationQueue extends React.Component {
               commentIds={flaggedIds}
               comments={comments.byId}
               users={users.byId}
-              onClickAction={(action, id) => this.onCommentAction(action, id)}
+              onClickAction={(action, comment) => this.onCommentAction(action, comment)}
               actions={['reject', 'approve']}
               loading={comments.loading} />
           </div>

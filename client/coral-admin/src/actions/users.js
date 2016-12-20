@@ -3,13 +3,6 @@ import coralApi from '../../../coral-framework/helpers/response';
 /**
  * Action disptacher related to users
  */
-// export const banUser = (status, userId, commentId) => {
-//   return dispatch => {
-//     dispatch({type: 'USER_BAN', status, userId, commentId});
-//     dispatch({type: 'COMMENTS_MODERATION_QUEUE_FETCH'});
-//   };
-// };
-
 // change status of a user
 export const userStatusUpdate = (status, userId, commentId) => {
   return dispatch => {
