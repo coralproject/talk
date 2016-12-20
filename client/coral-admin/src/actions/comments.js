@@ -6,6 +6,7 @@ import * as actions from '../constants/comments';
 export const fetchModerationQueueComments = () => {
   return dispatch => {
 
+    dispatch({type: actions.COMMENTS_MODERATION_QUEUE_FETCH});
     return Promise.all([
       coralApi('/queue/comments/pending'),
       coralApi('/comments?status=rejected'),

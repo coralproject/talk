@@ -23,9 +23,9 @@ const initialState = Map({
 // Handle the comment actions
 export default (state = initialState, action) => {
   switch (action.type) {
-  case 'COMMENTS_MODERATION_QUEUE_FETCH': return state.set('loading', true);
-  case 'COMMENTS_MODERATION_QUEUE_FETCH_SUCCESS': return replaceComments(action, state);
-  case 'COMMENTS_MODERATION_QUEUE_FAILED': return state.set('loading', false);
+  case actions.COMMENTS_MODERATION_QUEUE_FETCH: return state.set('loading', true);
+  case actions.COMMENTS_MODERATION_QUEUE_FETCH_SUCCESS: return replaceComments(action, state);
+  case actions.COMMENTS_MODERATION_QUEUE_FAILED: return state.set('loading', false);
   case actions.COMMENT_STATUS_UPDATE: return updateStatus(state, action);
   case actions.COMMENT_FLAG: return flag(state, action);
   case actions.COMMENT_CREATE_SUCCESS: return addComment(state, action);
