@@ -2156,6 +2156,10 @@ entities@^1.1.1, entities@~1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.1.tgz#6e5c2d0a5621b5dadaecef80b90edfb5cd7772f0"
 
+env-rewrite@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/env-rewrite/-/env-rewrite-1.0.2.tgz#3e344a95af1bdaab34a559479b8be3abd0804183"
+
 enzyme@^2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/enzyme/-/enzyme-2.6.0.tgz#148d742b25e2565f7e80870a0c92aea9be1b90ea"
