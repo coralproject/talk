@@ -29,7 +29,7 @@ class SignInContainer extends Component {
       displayName: '',
       password: '',
       confirmPassword: '',
-      csrfToken: ''
+      _csrf: ''
     },
     errors: {},
     showErrors: false
@@ -122,7 +122,7 @@ class SignInContainer extends Component {
 
   handleSignIn(e) {
     e.preventDefault();
-    this.state.formData.csrfToken = this.props.csrfToken;
+    this.state.formData._csrf = this.props.csrfToken;
     this.props.fetchSignIn(this.state.formData);
   }
 
