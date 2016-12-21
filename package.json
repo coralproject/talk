@@ -5,15 +5,16 @@
   "main": "app.js",
   "scripts": {
     "start": "./bin/cli serve --jobs",
-    "build": "NODE_ENV=production ./node_modules/.bin/webpack --config webpack.config.js --bail",
-    "build-watch": "NODE_ENV=development ./node_modules/.bin/webpack --config webpack.config.dev.js --watch",
-    "lint": "./node_modules/.bin/eslint bin/* .",
-    "lint-fix": "./node_modules/.bin/eslint bin/* . --fix",
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha --compilers js:babel-core/register tests/helpers/*.js --require ignore-styles --recursive tests",
-    "test-watch": "NODE_ENV=test ./node_modules/.bin/mocha --compilers js:babel-core/register --recursive -w tests",
+    "build": "NODE_ENV=production webpack --config webpack.config.js --bail",
+    "build-watch": "NODE_ENV=development webpack --config webpack.config.dev.js --watch",
+    "lint": "eslint bin/* .",
+    "lint-fix": "eslint bin/* . --fix",
+    "test": "NODE_ENV=test mocha --compilers js:babel-core/register tests/helpers/*.js --require ignore-styles --recursive tests",
+    "test-watch": "NODE_ENV=test mocha --compilers js:babel-core/register --recursive -w tests",
     "pree2e": "NODE_ENV=test scripts/pree2e.sh",
     "e2e": "NODE_ENV=test nightwatch",
-    "embed-start": "NODE_ENV=development npm run build && ./bin/cli serve --jobs"
+    "embed-start": "NODE_ENV=development npm run build && ./bin/cli serve --jobs",
+    "postinstall": "npm run build"
   },
   "config": {
     "pre-git": {
