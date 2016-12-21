@@ -14,9 +14,9 @@ import coralApi from '../../../coral-framework/helpers/response';
 
 // Fetch a page of assets
 // Get comments to fill each of the three lists on the mod queue
-export const fetchAssets = (skip, limit, search, sort, filter) => (dispatch) => {
+export const fetchAssets = (skip = '', limit = '', search = '', sort = '', filter = '') => (dispatch) => {
   dispatch({type: FETCH_ASSETS});
-  return coralApi(`/assets?skip=${skip || ''}&limit=${limit || ''}&sort=${sort || ''}&search=${search || ''}&filter=${filter || ''}`)
+  return coralApi(`/assets?skip=${skip}&limit=${limit}&sort=${sort}&search=${search}&filter=${filter}`)
   .then(({result, count}) =>
     dispatch({type: FETCH_ASSETS_SUCCESS,
       assets: result,
