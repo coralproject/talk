@@ -36,7 +36,7 @@ class ModerationQueue extends React.Component {
 
   // Fetch comments and bind singleView key before render
   componentWillMount () {
-    this.props.dispatch(fetchModerationQueueComments());
+    this.props.fetchModerationQueueComments();
     key('s', () => this.setState({singleView: !this.state.singleView}));
     key('shift+/', () => this.setState({modalOpen: true}));
     key('esc', () => this.setState({modalOpen: false}));
@@ -56,28 +56,6 @@ class ModerationQueue extends React.Component {
       // FIXME: fix this hack
       componentHandler.upgradeAllRegistered(); // eslint-disable-line no-undef
     }
-  }
-
-  // Dispatch the update status action
-  onCommentAction (action, comment) {
-
-    // If not banning then change the status to approved or flagged as action = status
-    this.props.dispatch(updateStatus(action, comment));
-  }
-
-  showBanUserDialog (userId, userName, commentId) {
-    this.props.dispatch(showBanUserDialog(userId, userName, commentId));
-  }
-
-  hideBanUserDialog () {
-    this.props.dispatch(hideBanUserDialog(false));
-  }
-
-  banUser (userId, commentId) {
-    this.props.dispatch(userStatusUpdate('banned', userId, commentId))
-      .then(() => {
-        this.props.dispatch(fetchModerationQueueComments());
-      });
   }
 
   onTabClick (activeTab) {
@@ -111,14 +89,14 @@ class ModerationQueue extends React.Component {
               commentIds={premodIds}
               comments={comments.byId}
               users={users.byId}
-              onClickAction={(action, comment) => this.onCommentAction(action, comment)}
-              onClickShowBanDialog={(userId, userName, commentId) => this.showBanUserDialog(userId, userName, commentId)}
+              onClickAction={this.props.updateStatus}
+              onClickShowBanDialog={this.props.showBanUserDialog}
               actions={['reject', 'approve', 'ban']}
               loading={comments.loading} />
             <BanUserDialog
               open={comments.showBanUserDialog}
-              handleClose={() => this.hideBanUserDialog()}
-              onClickBanUser={(userId, commentId) => this.banUser(userId, commentId)}
+              handleClose={this.props.hideBanUserDialog}
+              onClickBanUser={this.props.banUser}
               user={comments.banUser}/>
         </div>
           <div className={`mdl-tabs__panel ${styles.listContainer}`} id='rejected'>
@@ -128,7 +106,7 @@ class ModerationQueue extends React.Component {
               commentIds={rejectedIds}
               comments={comments.byId}
               users={users.byId}
-              onClickAction={(action, comment) => this.onCommentAction(action, comment)}
+              onClickAction={this.props.updateStatus}
               actions={['approve']}
               loading={comments.loading} />
           </div>
@@ -139,7 +117,7 @@ class ModerationQueue extends React.Component {
               commentIds={flaggedIds}
               comments={comments.byId}
               users={users.byId}
-              onClickAction={(action, comment) => this.onCommentAction(action, comment)}
+              onClickAction={this.props.updateStatus}
               actions={['reject', 'approve']}
               loading={comments.loading} />
           </div>
@@ -156,6 +134,18 @@ const mapStateToProps = state => ({
   users: state.users.toJS()
 });
 
-export default connect(mapStateToProps)(ModerationQueue);
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchModerationQueueComments: () => dispatch(fetchModerationQueueComments()),
+    showBanUserDialog: (userId, userName, commentId) => dispatch(showBanUserDialog(userId, userName, commentId)),
+    hideBanUserDialog: () => dispatch(hideBanUserDialog(false)),
+    banUser: (userId, commentId) => dispatch(userStatusUpdate('banned', userId, commentId)).then(() => {
+      dispatch(fetchModerationQueueComments());
+    }),
+    updateStatus: (action, comment) => dispatch(updateStatus(action, comment))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ModerationQueue);
 
 const lang = new I18n(translations);
