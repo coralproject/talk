@@ -522,7 +522,84 @@ paths:
           in: query
           type: number
           description: The number of search restults per page.
-
+      responses:
+        200:
+          parameters:
+            result:
+              type: array
+              description: Users matching search criteria.
+              items:
+                $ref: '#/definitions/User'
+            limit:
+              type: number
+              description: Results per page.
+            count:
+              type: number
+              description: Total number of results.
+            page:
+              type: number
+              description: The current page.
+            totalPages:
+              type: number
+              description: The total number of pages.
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
+  /users/:user_id/role:
+    post:
+      user_id:
+        in: path
+        type: string
+        format: uuid
+        description: ID of the user to be updated.
+      body:
+        in: body
+        type: object
+        parameters:
+          role:
+            type: string
+            description: Role to be added to the user.
+            enum:
+              admin
+              moderator
+      responses:
+        204:
+          description: Role update successful.
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
+  /users/:user_id/status:
+    post:
+      user_id:
+        in: path
+        type: string
+        format: uuid
+        required: true
+        description: ID of the user to be updated.
+      body:
+        in: body
+        type: object
+        parameters:
+          status:
+            type: string
+            required: true
+            description: Status for the user to be set to.
+            enum:
+              active
+              banned
+          comment_id:
+            type: string
+            format: uuid
+            description: The id of the comment which triggered this status change.
+      responses:
+        200:
+          description: Status update successful.
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   Error:
     type: object
