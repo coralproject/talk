@@ -423,10 +423,6 @@ definitions:
       message:
         type: string
         description: The error that occured.
-  Item:
-    type: object
-  ModerationAction:
-    type: string
   Comment:
     type: object
     properties:
@@ -453,8 +449,29 @@ definitions:
       asset_id:
         type: string
         description: Display name of comment
+      status_history:
+        type: array
+        description: A history of status changes for this comment.
+        items:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - accepted
+                - rejected
+                - premod
+            assigned_by:
+              type: string
+              description: ID of the user who assigned this status.
+            created_at:
+              type: string
+              format: date-time
+              description: Date when status was assigned.
+
   Actions:
     type: object
+    description: A summary of actions taken on a particular item which is with the comment stream.
     properties:
       item_id:
         type: string
@@ -470,22 +487,28 @@ definitions:
         description: The number of this type of actions performed on this item.
       metadata:
         type: array
-        description: An array of metadata from the actions performed on this item. This metadata can be defined differently for each action type.
+        items:
+          type: object
+          description: Metadata from the actions performed on this item. This metadata can be defined differently for each action type.
       current_user:
-        type: Object
+        type: object
         description: Will include the action performed by the currently logged in user if that user has taken an action on this item. Otherwise will return null.
   Action:
     type: object
+    description: A single action taken by a user.
     properties:
+      id:
+        type: string
+        description: The uuid.v4 id of the action.
       type:
         type: string
+        description: The type of action being taken (like, flag, etc.)
       user_id:
         type: string
-      moderation:
-        type: string
-        enum:
-            - pre
-            - post
+        description: The ID of the user taking this action.
+      metadata:
+        type: object
+        description: An object which contains arbitrary metadata about the action. Should be consistent for each action_type.
       created_at:
         type: string
         format: date-time
@@ -526,10 +549,112 @@ definitions:
         type: string
         format: datetime
         description: When this asset was published.
+      created_at:
+        type: string
+        format: date-time
+        description: Creation Date-Time
+      updated_at:
+        type: string
+        format: date-time
+        description: Updated Date-Time
   User:
     type: object
+    properties:
+      id:
+        type: string
+        description: The uuid.v4 id of the user.
+      displayName:
+        type: string
+        description: The name appearing next to the user's comments.
+      disabled:
+        type: boolean
+        description: Indicates whether the user's account has been disabled (ie if the user is banned).
+      password:
+        type: string
+        description: This provides a source of identity proof for users who login using the local provider. A local provider will be assumed for users who do not have any social profiles.
+      profiles:
+        type: array
+        description: The array of identities for a given user. Any one user can have multiple profiles associated with them (eg facebook, google, etc.)
+        items:
+          type: object
+          properties:
+              id:
+                type: string
+                description: A unique identifier for the profile.
+              provider:
+                type: string
+                description: The ame of the identity provider being used (e.g. 'facebook', 'twitter', etc.)
+      roles:
+        type: array
+        items:
+          type: string
+        description: Roles occupied by the user (e.g. 'admin', 'moderator', etc.)
+      status:
+        type: string
+        description: The current status of the user in the system.
+        enum:
+          - active
+          - banned
+      settings:
+        type: object
+        description: User-specific settings
+        properties:
+          bio:
+            type: string
+            description: A bio visible to other users.
+      created_at:
+        type: string
+        format: date-time
+        description: Creation Date-Time
+      updated_at:
+        type: string
+        format: date-time
+        description: Updated Date-Time
   Settings:
     type: object
+    properties:
+        id:
+          type: string
+          description: The id of the settings object. Defaults to 1 for global settings.
+        moderation:
+          type: string
+          enum:
+            - pre
+            - post
+          description: Indicates whether moderation occurs before or after a comment is made publicly visible.
+        infoBoxEnable:
+          type: boolean
+          description: Indicates whether an informational box will be shown above the comment input box.
+        infoBoxContent:
+          type: string
+          description: The text to appear in the informational box.
+        closedTimeout:
+          type: number
+          format: int32
+          description: The time after which streams will be automatically closed in seconds. Null will keep streams open forever.
+        closedMessage:
+          type: string
+          description: The message displayed when a stream is closed.
+        wordlist:
+          type: array
+          description: A list of banned word which will cause a comment to be automatically rejected.
+          items:
+            type: string
+        charCount:
+          type: number
+          format: int32
+          description: The maximum number of characters allowed in a comment.
+        charCountEnable:
+          type: boolean
+          description: Indicates whether a maximum character count should be enabled for comments.
+        created_at:
+          type: string
+          format: date-time
+          description: Creation Date-Time
+        updated_at:
+          type: string
+          format: date-time
+          description: Updated Date-Time
   Job:
     type: object
     properties:
