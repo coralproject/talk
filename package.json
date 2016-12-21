@@ -53,6 +53,7 @@
     "connect-redis": "^3.1.0",
     "debug": "^2.2.0",
     "ejs": "^2.5.2",
+    "env-rewrite": "^1.0.2",
     "express": "^4.14.0",
     "express-session": "^1.14.2",
     "helmet": "^3.1.0",
