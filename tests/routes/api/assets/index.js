@@ -18,7 +18,6 @@ describe('/api/v1/assets', () => {
         url: 'https://coralproject.net/news/asset1',
         title: 'Asset 1',
         description: 'term1',
-        id: '1',
         closedAt: Date.now()
       },
       {
