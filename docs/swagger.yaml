@@ -497,51 +497,103 @@ paths:
           description: An error occured.
           schema:
             $ref: '#/definitions/Error'
-    /users:
-      get:
-        value:
-          in: query
-          type: string
-          description: A term to search users' displayNames and email addresses.
-        sort:
-          in: query
-          type: string
-          enum:
-            asc
-            desc
-          description: Determines whether users sorted in are ascending or descending order.
-        field:
-          in: query
-          type: string
-          description: The field used to sort.
-        page:
-          in: query
-          type: number
-          description: The page of search results to return.
-        limit:
-          in: query
-          type: number
-          description: The number of search restults per page.
+  /users:
+    get:
+      value:
+        in: query
+        type: string
+        description: A term to search users' displayNames and email addresses.
+      sort:
+        in: query
+        type: string
+        enum:
+          asc
+          desc
+        description: Determines whether users sorted in are ascending or descending order.
+      field:
+        in: query
+        type: string
+        description: The field used to sort.
+      page:
+        in: query
+        type: number
+        description: The page of search results to return.
+      limit:
+        in: query
+        type: number
+        description: The number of search restults per page.
+    responses:
+      200:
+        parameters:
+          result:
+            type: array
+            description: Users matching search criteria.
+            items:
+              $ref: '#/definitions/User'
+          limit:
+            type: number
+            description: Results per page.
+          count:
+            type: number
+            description: Total number of results.
+          page:
+            type: number
+            description: The current page.
+          totalPages:
+            type: number
+            description: The total number of pages.
+      500:
+        description: An error occured.
+        schema:
+          $ref: '#/definitions/Error'
+    post:
+      body:
+        in: body
+        type: object
+        parameters:
+          email:
+            type: string
+            format: email
+          password:
+            type: string
+          displayName:
+            type: string
       responses:
-        200:
+        201:
+          description: The user that has been created.
+          schema:
+            $ref: '#/definitions/User'
+    /users/update-password:
+      post:
+        body:
+          in: body
+          type: object
           parameters:
-            result:
-              type: array
-              description: Users matching search criteria.
-              items:
-                $ref: '#/definitions/User'
-            limit:
-              type: number
-              description: Results per page.
-            count:
-              type: number
-              description: Total number of results.
-            page:
-              type: number
-              description: The current page.
-            totalPages:
-              type: number
-              description: The total number of pages.
+            token:
+              type: string
+              description: The token that was in the url of the email link.
+            password:
+              type: string
+              description: The new password.
+      response:
+        204:
+          description: Password update successful.
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
+    /request-password-reset:
+      post:
+        body:
+          in: body
+          type: object
+          parameters:
+            email:
+              type: string
+              description: The email address of the user whos password is being reset.
+      response:
+        204:
+          description: Returned regardless of whether the user was found in the DB.
         500:
           description: An error occured.
           schema:
@@ -596,6 +648,47 @@ paths:
       responses:
         200:
           description: Status update successful.
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
+  /users/:user_id/bio:
+    put:
+      user_id:
+        in: path
+        type: string
+        format: uuid
+        description: The id of the user being updated.
+      bio:
+        in: body
+        type: string
+        description: The bio that should be set for this user.
+      responses:
+        200:
+          description: Status update successful.
+          schema:
+            $ref: '#/definitions/User'
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
+  /:user_id/actions:
+    post:
+      action_type:
+        in: body
+        type: string
+        enum:
+          flag
+        description: The type of action being taken on this user.
+      metadata:
+        in: body
+        type: object
+        description: Arbitrary data to be included with the action.
+      responses:
+        200:
+          description: The newly created action.
+          schema:
+            $ref: '#/definitions/Action'
         500:
           description: An error occured.
           schema:
