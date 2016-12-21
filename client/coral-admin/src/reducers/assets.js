@@ -1,5 +1,5 @@
 import {Map, List, fromJS} from 'immutable';
-import {FETCH_ASSETS_SUCCESS, UPDATE_ASSET_STATE} from '../constants/assets';
+import {FETCH_ASSETS_SUCCESS, UPDATE_ASSET_STATE_REQUEST} from '../constants/assets';
 
 const initialState = Map({
   byId: Map(),
@@ -10,7 +10,7 @@ export default (state = initialState, action) => {
   switch (action.type) {
   case FETCH_ASSETS_SUCCESS:
     return replaceAssets(action, state);
-  case UPDATE_ASSET_STATE:
+  case UPDATE_ASSET_STATE_REQUEST:
     return state.setIn(['byId', action.id, 'closedAt'], action.closedAt);
   default: return state;
   }

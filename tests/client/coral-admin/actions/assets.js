@@ -30,7 +30,7 @@ describe('Asset actions', () => {
     fetchMock.restore();
   });
 
-  describe('FETCH_ASSETS', () => {
+  describe('FETCH_ASSETS_REQUEST', () => {
 
     it('should fetch a list of assets', () => {
 
@@ -41,7 +41,7 @@ describe('Asset actions', () => {
 
       return actions.fetchAssets(2, 20)(store.dispatch)
         .then(() => {
-          expect(store.getActions()[0]).to.have.property('type', 'FETCH_ASSETS');
+          expect(store.getActions()[0]).to.have.property('type', 'FETCH_ASSETS_REQUEST');
           expect(store.getActions()[1]).to.have.property('type', 'FETCH_ASSETS_SUCCESS');
           expect(store.getActions()[1]).to.have.property('count', 2);
           expect(store.getActions()[1]).to.have.property('assets').
@@ -55,13 +55,13 @@ describe('Asset actions', () => {
 
       return actions.fetchAssets(2, 20)(store.dispatch)
         .then(() => {
-          expect(store.getActions()[0]).to.have.property('type', 'FETCH_ASSETS');
-          expect(store.getActions()[1]).to.have.property('type', 'FETCH_ASSETS_FAILED');
+          expect(store.getActions()[0]).to.have.property('type', 'FETCH_ASSETS_REQUEST');
+          expect(store.getActions()[1]).to.have.property('type', 'FETCH_ASSETS_FAILURE');
         });
     });
   });
 
-  describe('UPDATE_ASSET_STATE', () => {
+  describe('UPDATE_ASSET_STATE_REQUEST', () => {
 
     it('should update an asset', () => {
 
@@ -69,7 +69,7 @@ describe('Asset actions', () => {
 
       return actions.updateAssetState('123', 'status', 'open')(store.dispatch)
         .then(() => {
-          expect(store.getActions()[0]).to.have.property('type', 'UPDATE_ASSET_STATE');
+          expect(store.getActions()[0]).to.have.property('type', 'UPDATE_ASSET_STATE_REQUEST');
           expect(store.getActions()[1]).to.have.property('type', 'UPDATE_ASSET_STATE_SUCCESS');
         });
 
@@ -81,8 +81,8 @@ describe('Asset actions', () => {
 
       return actions.updateAssetState('123', 'status', 'open')(store.dispatch)
         .then(() => {
-          expect(store.getActions()[0]).to.have.property('type', 'UPDATE_ASSET_STATE');
-          expect(store.getActions()[1]).to.have.property('type', 'UPDATE_ASSET_STATE_FAILED');
+          expect(store.getActions()[0]).to.have.property('type', 'UPDATE_ASSET_STATE_REQUEST');
+          expect(store.getActions()[1]).to.have.property('type', 'UPDATE_ASSET_STATE_FAILURE');
         });
     });
   });
