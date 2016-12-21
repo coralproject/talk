@@ -60,7 +60,11 @@ class Streams extends Component {
         prev.statusMenus[id] = false;
         return prev;
       });
-      this.props.updateAssetState(id, closeStream ? Date.now() : null);
+      this.props.updateAssetState(id, closeStream ? Date.now() : null)
+        .then(() => {
+          const {search, sort, filter, page} = this.state;
+          this.props.fetchAssets(page, limit, search, sort, filter);
+        });
     } else {
       this.setState(prev => {
         prev.statusMenus[id] = true;
@@ -169,9 +173,7 @@ const mapDispatchToProps = (dispatch) => {
     fetchAssets: (...args) => {
       dispatch(fetchAssets.apply(this, args));
     },
-    updateAssetState: (...args) => {
-      dispatch(updateAssetState.apply(this, args));
-    }
+    updateAssetState: (...args) => dispatch(updateAssetState.apply(this, args))
   };
 };
 
