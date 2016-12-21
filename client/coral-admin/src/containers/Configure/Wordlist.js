@@ -16,6 +16,8 @@ const Wordlist = ({suspectWords, bannedWords, onChangeWordlist}) => (
       <TagsInput
         value={bannedWords}
         inputProps={{placeholder: 'word or phrase'}}
+        addOnPaste={true}
+        pasteSplit={data => data.split(',').map(d => d.trim())}
         onChange={tags => onChangeWordlist('banned', tags)} />
     </Card>
     <h3>{lang.t('configure.suspect-words-title')}</h3>
@@ -25,6 +27,8 @@ const Wordlist = ({suspectWords, bannedWords, onChangeWordlist}) => (
       <TagsInput
         value={suspectWords}
         inputProps={{placeholder: 'word or phrase'}}
+        addOnPaste={true}
+        pasteSplit={data => data.split(',').map(d => d.trim())}
         onChange={tags => onChangeWordlist('suspect', tags)} />
     </Card>
   </div>
