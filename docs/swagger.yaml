@@ -18,12 +18,10 @@ paths:
       tags:
         - Comments
       parameters:
-        - name: status
+        - name: asset_id
           in: query
-          description: Performs a search based on the comment's status.
+          description: Returns comments for a particular asset, if null returns all commets.
           type: string
-          enum:
-            - flag
         - name: action_type
           in: query
           description: Performs a search based on the actions that have been added to it.
@@ -49,9 +47,18 @@ paths:
       parameters:
         - name: body
           in: body
-          description: The comment to create.
+          type: string
+          description: The text of comment to create.
           schema:
             $ref: '#/definitions/Comment'
+        - name: asset_id
+          in: body
+          type: string
+          description: The parent asset of this comment.
+        - name: parent_id
+          in: body
+          type: string
+          description: The parent comment of this comment (null if the comment is not a reply.)
       responses:
         201:
           description: The comment that was created.
@@ -132,9 +139,9 @@ paths:
         - Comments
         - Actions
       parameters:
-        - name: comment_id
+        - name: item_id
           in: path
-          description: The id of the comment to retrieve.
+          description: The id of the item which is the target of the action.
           type: string
           required: true
         - name: body
@@ -146,7 +153,10 @@ paths:
             properties:
               action_type:
                 type: string
-                description: The action to add
+                description: The type of action to add
+              metadata:
+                type: object
+                description: An arbitrary object describing the action, should be consistent per action type.
       responses:
         201:
           description: The action created.
@@ -240,6 +250,19 @@ paths:
           description: An error occured.
           schema:
             $ref: '#/definitions/Error'
+  /auth/facebook/callback:
+    get:
+      tags:
+        - Auth
+      responses:
+        200:
+          description: Logs in the user after FB Auth.
+          schema:
+            $ref: '#/definitions/User'
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
   /queue/comments/pending:
     get:
       tags:
@@ -249,9 +272,23 @@ paths:
         200:
           description: The comments that are not moderated.
           schema:
-            type: array
-            items:
-              - $ref: '#/definitions/Comment'
+            type: object
+            properties:
+              comments:
+                type: array
+                description: The comments that have yet to be moderated.
+                items:
+                  - $ref: '#/definitions/Comment'
+              users:
+                type: array
+                description: The users authoring these comments.
+                items:
+                  - $ref: '#/definitions/User'
+              actions:
+                type: array
+                description: The actions which have taken place on these comments.
+                items:
+                  - $ref: '#/definitions/Actions'
         500:
           description: An error occured.
           schema:
@@ -280,6 +317,17 @@ paths:
           in: query
           type: string
           description: Field to sort by.
+        - name: filter
+          in: query
+          type: string
+          enum:
+            - open
+            - closed
+          description: Comment status to filter by.
+        - name: search
+          in: query
+          type: string
+          description: String to search by.
       responses:
         200:
           description: Assets listed.
@@ -358,6 +406,31 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
+  /assets/{asset_id}/settings:
+    put:
+      parameters:
+        asset_id:
+          in: path
+          required: true
+          type: string
+          format: uuid
+          description: The id of the asset to be updated
+        body:
+          in: body
+          type: object
+          parameters:
+            closedAt:
+              type: number
+              description: The Unix timestamp when the stream will be or was previously closed.
+            closedMessage:
+              type: string
+              description: The message to display to users when the stream is closed.
+        responses:
+          204:
+            description: Status update successful.
+          500:
+            description: An error has occurred.
+
   /stream:
     get:
       tags:
@@ -368,7 +441,7 @@ paths:
       parameters:
         - name: asset_url
           in: query
-          description: The asset url to get the comment stream from.
+          description: The url of the asset for which to get the comment stream.
           type: string
           format: url
       responses:
@@ -377,20 +450,24 @@ paths:
           schema:
             type: object
             properties:
-              assets:
-                type: array
+              asset:
+                type: object
+                description: The asset for the url passed to this endpoint.
                 items:
                   - $ref: '#/definitions/Asset'
               comments:
                 type: array
+                description: All comments for this asset.
                 items:
                   - $ref: '#/definitions/Comment'
               users:
                 type: array
+                description: All authors of comments on this asset.
                 items:
                   - $ref: '#/definitions/User'
               actions:
                 type: array
+                description: All actions on comments on this asset and their authors.
                 items:
                   - $ref: '#/definitions/Actions'
         500:
@@ -401,7 +478,7 @@ paths:
     get:
       responses:
         200:
-          description: The settings.
+          description: All global settings.
           schema:
             $ref: '#/definitions/Settings'
         500:
@@ -410,12 +487,42 @@ paths:
             $ref: '#/definitions/Error'
     put:
       responses:
+        parameteters:
+          body:
+            type: object
+            description: Settings to be updated
         204:
           description: The settings were updated.
         500:
           description: An error occured.
           schema:
             $ref: '#/definitions/Error'
+    /users:
+      get:
+        value:
+          in: query
+          type: string
+          description: A term to search users' displayNames and email addresses.
+        sort:
+          in: query
+          type: string
+          enum:
+            asc
+            desc
+          description: Determines whether users sorted in are ascending or descending order.
+        field:
+          in: query
+          type: string
+          description: The field used to sort.
+        page:
+          in: query
+          type: number
+          description: The page of search results to return.
+        limit:
+          in: query
+          type: number
+          description: The number of search restults per page.
+
 definitions:
   Error:
     type: object
