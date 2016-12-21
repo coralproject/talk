@@ -29,8 +29,7 @@ describe('/api/v1/auth/local', () => {
 
   describe('#post', () => {
     it('should send back the user on a successful login', () => {
-      agent
-        .get('/api/v1/auth')
+      return agent.get('/api/v1/auth')
         .then((res) => {
           expect(res.status).to.be.equal(200);
           expect(res.body).to.have.property('csrfToken');
