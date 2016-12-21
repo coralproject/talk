@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 
-const wordlist = require('../../services/wordlist');
+const Wordlist = require('../../services/wordlist');
 
 describe('wordlist: services', () => {
 
@@ -16,21 +16,22 @@ describe('wordlist: services', () => {
     ]
   };
 
+  let wordlist = new Wordlist();
+
   describe('#init', () => {
 
-    before(() => wordlist.insert(wordlists));
+    before(() => wordlist.upsert(wordlists));
 
     it('has entries', () => {
       expect(wordlist.lists.banned).to.not.be.empty;
       expect(wordlist.lists.suspect).to.not.be.empty;
-      expect(wordlist.enabled).to.be.true;
     });
 
   });
 
   describe('#match', () => {
 
-    const bannedList = wordlist.parseList(wordlists.banned);
+    const bannedList = Wordlist.parseList(wordlists.banned);
 
     it('does match on a bad word', () => {
       [
@@ -61,7 +62,7 @@ describe('wordlist: services', () => {
 
   describe('#filter', () => {
 
-    before(() => wordlist.insert(wordlists));
+    before(() => wordlist.upsert(wordlists));
 
     it('matches on bodies containing bad words', (done) => {
 
@@ -75,7 +76,7 @@ describe('wordlist: services', () => {
         expect(err).to.be.undefined;
         expect(req).to.have.property('wordlist');
         expect(req.wordlist).to.have.property('matched');
-        expect(req.wordlist.banned).to.be.equal(wordlist.ErrContainsProfanity);
+        expect(req.wordlist.banned).to.be.equal(Wordlist.ErrContainsProfanity);
 
         done();
       });

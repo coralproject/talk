@@ -8,22 +8,18 @@ const expect = chai.expect;
 chai.should();
 chai.use(require('chai-http'));
 
-const wordlist = require('../../../../services/wordlist');
 const Comment = require('../../../../models/comment');
 const Asset = require('../../../../models/asset');
 const Action = require('../../../../models/action');
 const User = require('../../../../models/user');
 
 const Setting = require('../../../../models/setting');
-const settings = {id: '1', moderation: 'pre'};
+const settings = {id: '1', moderation: 'pre', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
 
 describe('/api/v1/comments', () => {
 
   // Ensure that the settings are always available.
-  beforeEach(() => Promise.all([
-    wordlist.insert({banned: ['bad words'], suspect: ['suspect words']}),
-    Setting.init(settings)
-  ]));
+  beforeEach(() => Setting.init(settings));
 
   describe('#get', () => {
     const comments = [{
