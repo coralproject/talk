@@ -19,6 +19,7 @@ module.exports = {
   },
   'test_settings': {
     'default': {
+      'launch_url' : 'http://localhost:3000',
       'selenium_port': 6666,
       'selenium_host': 'localhost',
       'silent': true,
@@ -26,19 +27,27 @@ module.exports = {
         'browserName': 'chrome',
         'javascriptEnabled': true,
         'acceptSslCerts': true,
-        'webStorageEnabled' : true,
-        'databaseEnabled' : true,
-        'applicationCacheEnabled' : false,
-        'nativeEvents' : true
+        'webStorageEnabled': true,
+        'databaseEnabled': true,
+        'applicationCacheEnabled': false,
+        'nativeEvents': true
       },
       'screenshots' : {
-        'enabled' : true,
-        'on_failure' : true,
-        'on_error' : true,
-        'path' : './tests/e2e/reports'
+        'enabled': true,
+        'on_failure': true,
+        'on_error': true,
+        'path': './tests/e2e/reports'
       },
       'exclude': [
+        './tests/e2e/tests/EmbedStreamTests.js'
       ]
+    },
+    'integration': {
+      'launch_url': 'http://localhost:3000'
     }
   }
 };
+
+// "chromeOptions" : {
+//   "args" : ["start-fullscreen"]
+// }
