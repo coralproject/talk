@@ -23,6 +23,7 @@ export default class CommentList extends React.Component {
     onClickAction: PropTypes.func,
     modActions: PropTypes.arrayOf(PropTypes.string),
     loading: PropTypes.bool,
+
     // list of actions (flags, etc) associated with the comments
     actions: PropTypes.shape({
       ids: PropTypes.arrayOf(PropTypes.string)
