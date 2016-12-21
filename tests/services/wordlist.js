@@ -6,13 +6,12 @@ describe('wordlist: services', () => {
 
   const wordlists = {
     banned: [
-      'BAD',
-      'bad',
-      'how to murder',
-      'how to kill'
+      'cookies',
+      'how to do bad things',
+      'how to do really bad things'
     ],
     suspect: [
-      'murder'
+      'do bad things'
     ]
   };
 
@@ -35,12 +34,12 @@ describe('wordlist: services', () => {
 
     it('does match on a bad word', () => {
       [
-        'how to kill',
-        'what is bad',
-        'bad',
-        'BAD.',
-        'how to murder',
-        'How To mUrDer'
+        'how to do really bad things',
+        'what is cookies',
+        'cookies',
+        'COOKIES.',
+        'how to do bad things',
+        'How To do bad things!'
       ].forEach((word) => {
         expect(wordlist.match(bannedList, word)).to.be.true;
       });
@@ -49,10 +48,9 @@ describe('wordlist: services', () => {
     it('does not match on a good word', () => {
       [
         'how to',
-        'kill',
-        'bads',
+        'cookie',
         'how to be a great person?',
-        'how to not kill?'
+        'how to not do really bad things?'
       ].forEach((word) => {
         expect(wordlist.match(bannedList, word)).to.be.false;
       });
@@ -64,62 +62,29 @@ describe('wordlist: services', () => {
 
     before(() => wordlist.upsert(wordlists));
 
-    it('matches on bodies containing bad words', (done) => {
+    it('matches on bodies containing bad words', () => {
+      let errors = wordlist.filter({
+        content: 'how to do really bad things?'
+      }, 'content');
 
-      let req = {
-        body: {
-          content: 'how to kill?'
-        }
-      };
-
-      wordlist.filter('content')(req, {}, (err) => {
-        expect(err).to.be.undefined;
-        expect(req).to.have.property('wordlist');
-        expect(req.wordlist).to.have.property('matched');
-        expect(req.wordlist.banned).to.be.equal(Wordlist.ErrContainsProfanity);
-
-        done();
-      });
-
+      expect(errors).to.have.property('banned', Wordlist.ErrContainsProfanity);
     });
 
-    it('does not match on bodies not containing bad words', (done) => {
+    it('does not match on bodies not containing bad words', () => {
+      let errors = wordlist.filter({
+        content: 'how to not do really bad things?'
+      }, 'content');
 
-      let req = {
-        body: {
-          content: 'how to be a great person?'
-        }
-      };
-
-      wordlist.filter('content')(req, {}, (err) => {
-        expect(err).to.be.undefined;
-        expect(req).to.have.property('wordlist');
-        expect(req.wordlist).to.have.property('matched');
-        expect(req.wordlist.matched).to.be.false;
-
-        done();
-      });
-
+      expect(errors).to.not.have.property('banned');
     });
 
-    it('does not match on bodies not containing the bad word field', (done) => {
+    it('does not match on bodies not containing the bad word field', () => {
+      let errors = wordlist.filter({
+        author: 'how to do really bad things?',
+        content: 'how to be a great person?'
+      }, 'content');
 
-      let req = {
-        body: {
-          author: 'how to kill?',
-          content: 'how to be a great person?'
-        }
-      };
-
-      wordlist.filter('content')(req, {}, (err) => {
-        expect(err).to.be.undefined;
-        expect(req).to.have.property('wordlist');
-        expect(req.wordlist).to.have.property('matched');
-        expect(req.wordlist.matched).to.be.false;
-
-        done();
-      });
-
+      expect(errors).to.not.have.property('banned');
     });
 
   });

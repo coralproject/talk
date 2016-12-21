@@ -117,53 +117,52 @@ class Wordlist {
     });
   }
 
-  filter(...fields) {
-    return (req, res, next) => {
+  /**
+   * Perform the filtering based on the loaded wordlists.
+   */
+  filter(body, ...fields) {
 
-      // Start with the sensible default that the content does not contain
-      // profanity.
-      req.wordlist = {
-        matched: false
-      };
+    // Start with the sensible default that the content does not contain
+    // profanity.
+    let errors = {};
 
-      // Loop over all the fields from the body that we want to check.
-      for (let i = 0; i < fields.length; i++) {
-        let field = fields[i];
+    // Loop over all the fields from the body that we want to check.
+    for (let i = 0; i < fields.length; i++) {
+      let field = fields[i];
 
-        let phrase = _.get(req.body, field, false);
+      let phrase = _.get(body, field, false);
 
-        // If the field doesn't exist in the body, then it can't be profane!
-        if (!phrase) {
+      // If the field doesn't exist in the body, then it can't be profane!
+      if (!phrase) {
 
-          // Return that there wasn't a profane word here.
-          continue;
-        }
-
-        // Check if the field contains a banned word.
-        if (this.match(this.lists.banned, phrase)) {
-          debug(`the field "${field}" contained a phrase "${phrase}" which contained a banned word/phrase`);
-
-          req.wordlist.banned = ErrContainsProfanity;
-
-          // Stop looping through the fields now, we discovered the worst possible
-          // situation (a banned word).
-          break;
-        }
-
-        // Check if the field contains a banned word.
-        if (this.match(this.lists.suspect, phrase)) {
-          debug(`the field "${field}" contained a phrase "${phrase}" which contained a suspected word/phrase`);
-
-          req.wordlist.suspect = ErrContainsProfanity;
-
-          // Continue looping through the fields now, we discovered a possible bad
-          // word (suspect).
-          continue;
-        }
+        // Return that there wasn't a profane word here.
+        continue;
       }
 
-      next();
-    };
+      // Check if the field contains a banned word.
+      if (this.match(this.lists.banned, phrase)) {
+        debug(`the field "${field}" contained a phrase "${phrase}" which contained a banned word/phrase`);
+
+        errors.banned = ErrContainsProfanity;
+
+        // Stop looping through the fields now, we discovered the worst possible
+        // situation (a banned word).
+        break;
+      }
+
+      // Check if the field contains a banned word.
+      if (this.match(this.lists.suspect, phrase)) {
+        debug(`the field "${field}" contained a phrase "${phrase}" which contained a suspected word/phrase`);
+
+        errors.suspect = ErrContainsProfanity;
+
+        // Continue looping through the fields now, we discovered a possible bad
+        // word (suspect).
+        continue;
+      }
+    }
+
+    return errors;
   }
 
   /**
@@ -186,7 +185,10 @@ class Wordlist {
 
           // Perform a filtering operation using the new instance of the
           // Wordlist.
-          wl.filter(...fields)(req, res, next);
+          req.wordlist = wl.filter(req.body, ...fields);
+
+          // Call the next piece of middleware.
+          next();
         });
     };
   }
