@@ -66,7 +66,6 @@ class Configure extends React.Component {
 
   getSection (section) {
     const pageTitle = this.getPageTitle(section);
-    console.log('getSection', this.props);
     switch(section){
     case 'comments':
       return <CommentSettings

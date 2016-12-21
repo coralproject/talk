@@ -88,12 +88,8 @@ class ModerationQueue extends React.Component {
 
   // Render the tabbed lists moderation queues
   render () {
-    const {comments, users, settings, actions} = this.props;
+    const {comments, users, settings} = this.props;
     const {activeTab, singleView, modalOpen} = this.state;
-
-    console.log('ModerationQueue comments', comments);
-    console.log('settings', settings);
-    console.log('actions', actions);
 
     const premodIds = comments.ids.filter(id => comments.byId[id].status === 'premod');
     const rejectedIds = comments.ids.filter(id => comments.byId[id].status === 'rejected');

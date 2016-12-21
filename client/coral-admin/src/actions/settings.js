@@ -35,7 +35,6 @@ export const updateWordlist = (listName, list) => {
 
 export const saveSettingsToServer = () => (dispatch, getState) => {
   let settings = getState().settings.toJS().settings;
-  console.log('about to save settings to server', settings);
   if (settings.charCount) {
     settings.charCount = parseInt(settings.charCount);
   }

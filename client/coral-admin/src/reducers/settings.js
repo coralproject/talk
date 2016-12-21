@@ -46,7 +46,6 @@ const updateWordlist = (state, action) => {
 const saveComplete = (state, action) => {
   const s = state.set('fetchingSettings', false).set('saveSettingsError', null);
   const settings = s.get('settings').merge(action.settings);
-  console.log('saveComplete', settings.toJS());
   return s.set('settings', settings);
 };
 
