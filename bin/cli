@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 
-/**
- * Setup the debug paramater.
- */
-
-process.env.DEBUG = process.env.TALK_DEBUG;
+// Perform rewrites to the runtime environment variables based on the contents
+// of the process.env.REWRITE_ENV if it exists. This is done here as it is the
+// entrypoint for the entire application.
+require('env-rewrite').rewrite();
 
 /**
  * Module dependencies.
