@@ -190,12 +190,11 @@ router.post('/:comment_id/actions', (req, res, next) => {
 
   const {
     action_type,
-    field,
-    detail
+    metadata
   } = req.body;
 
   Comment
-    .addAction(req.params.comment_id, req.user.id, action_type, field, detail)
+    .addAction(req.params.comment_id, req.user.id, action_type, metadata)
     .then((action) => {
       res.status(201).json(action);
     })
