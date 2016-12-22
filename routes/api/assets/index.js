@@ -20,18 +20,47 @@ router.get('/', (req, res, next) => {
     skip = 0,
     sort = 'asc',
     field = 'created_at',
+    filter = 'all',
     search = ''
   } = req.query;
 
+  const FilterOpenAssets = (query, filter) => {
+    switch(filter) {
+    case 'open':
+      return query.merge({
+        $or: [
+          {
+            closedAt: null
+          },
+          {
+            closedAt: {
+              $gt: Date.now()
+            }
+          }
+        ]
+      });
+    case 'closed':
+      return query.merge({
+        closedAt: {
+          $lt: Date.now()
+        }
+      });
+    default:
+      return query;
+    }
+  };
+
   // Find all the assets.
   Promise.all([
-    Asset
-      .search(search)
+
+    // Find the actuall assets.
+    FilterOpenAssets(Asset.search(search), filter)
       .sort({[field]: (sort === 'asc') ? 1 : -1})
-      .skip(skip)
-      .limit(limit),
-    Asset
-      .search(search)
+      .skip(parseInt(skip))
+      .limit(parseInt(limit)),
+
+    // Get the count of actual assets.
+    FilterOpenAssets(Asset.search(search), filter)
       .count()
   ])
   .then(([result, count]) => {
@@ -115,7 +144,6 @@ router.put('/:asset_id/status', (req, res, next) => {
       }
     })
     .then(() => {
-
       res.status(204).json();
     })
     .catch((err) => {

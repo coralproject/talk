@@ -10,22 +10,18 @@ const agent = chai.request.agent(app);
 chai.should();
 chai.use(require('chai-http'));
 
-const wordlist = require('../../../../services/wordlist');
 const Comment = require('../../../../models/comment');
 const Asset = require('../../../../models/asset');
 const Action = require('../../../../models/action');
 const User = require('../../../../models/user');
 
 const Setting = require('../../../../models/setting');
-const settings = {id: '1', moderation: 'pre'};
+const settings = {id: '1', moderation: 'pre', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
 
 describe('/api/v1/comments', () => {
 
   // Ensure that the settings are always available.
-  beforeEach(() => Promise.all([
-    wordlist.insert(['bad words']),
-    Setting.init(settings)
-  ]));
+  beforeEach(() => Setting.init(settings));
 
   describe('#get', () => {
     const comments = [{
@@ -171,12 +167,22 @@ describe('/api/v1/comments', () => {
   describe('#post', () => {
 
     let asset_id;
+    let postmod_asset_id;
 
-    beforeEach(() => Asset.findOrCreateByUrl('https://coralproject.net/section/article-is-the-best').then((asset) => {
+    beforeEach(() => Promise.all([
+      Asset.findOrCreateByUrl('https://coralproject.net/section/article-is-the-best').then((asset) => {
 
-      // Update the asset id.
-      asset_id = asset.id;
-    }));
+        // Update the asset id.
+        asset_id = asset.id;
+      }),
+      Asset.findOrCreateByUrl('https://coralproject.net/section/postmod-article-is-the-best').then((asset) => {
+
+        // Update the asset id.
+        postmod_asset_id = asset.id;
+
+        return Asset.overrideSettings(postmod_asset_id, {moderation: 'post'});
+      }),
+    ]));
 
     it('should create a comment', () => {
       agent
@@ -207,6 +213,37 @@ describe('/api/v1/comments', () => {
               expect(res).to.have.status(201);
               expect(res.body).to.have.property('id');
               expect(res.body).to.have.property('status', 'rejected');
+            });
+        });
+    });
+
+    it('should create a comment with no status and a flag if it contains a suspected word', () => {
+      agent
+        .get('/api/v1/auth')
+        .then((resa) => {
+          expect(resa.status).to.be.equal(200);
+          expect(resa.body).to.have.property('csrfToken');
+          return agent.post('/api/v1/comments')
+            .set(passport.inject({roles: []}))
+            .send({'body': 'suspect words are the most suspicious', 'author_id': '123', 'asset_id': postmod_asset_id, 'parent_id': ''})
+            .then((res) => {
+              expect(res).to.have.status(201);
+              expect(res.body).to.have.property('id');
+              expect(res.body).to.have.property('status', null);
+
+              return Promise.all([
+                res.body,
+                Action.findByType('flag', 'comments')
+              ]);
+            })
+            .then(([comment, actions]) => {
+              expect(actions).to.have.length(1);
+
+              let action = actions[0];
+
+              expect(action).to.have.property('item_id', comment.id);
+              expect(action).to.have.property('field', 'body');
+              expect(action).to.have.property('detail', 'Matched suspect word filters.');
             });
         });
     });
@@ -478,7 +515,8 @@ describe('/api/v1/comments/:comment_id/actions', () => {
               expect(res).to.have.status(201);
               expect(res).to.have.body;
               expect(res.body).to.have.property('action_type', 'flag');
-              expect(res.body).to.have.property('detail', 'Comment is too awesome.');
+              expect(res.body).to.have.property('metadata')
+                .and.to.deep.equal({'reason': 'Comment is too awesome.'});
               expect(res.body).to.have.property('item_id', 'abc');
             });
         });

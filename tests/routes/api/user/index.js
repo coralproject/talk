@@ -42,9 +42,11 @@ describe('/api/v1/users/:user_id/actions', () => {
               expect(res).to.have.status(201);
               expect(res).to.have.body;
               expect(res.body).to.have.property('action_type', 'flag');
-              expect(res.body).to.have.property('detail', 'Bio is too awesome.');
+              expect(res.body).to.have.property('metadata')
+                .and.to.deep.equal({'reason': 'Bio is too awesome.'});
               expect(res.body).to.have.property('item_id', 'abc');
-            });
+            })
+            .catch(err => console.error(err.message));
         });
     });
   });

@@ -208,7 +208,9 @@ export function postItem (item, type, id) {
 *
 * @params
 *   id - the id of the item on which the action is taking place
-*   action - the name of the action
+*   action - the action object.
+*       Must include an 'action_type' string.
+*       May optionally include a `metadata` object with arbitrary action data.
 *   user - the user performing the action
 *   host - the coral host
 *

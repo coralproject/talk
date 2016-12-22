@@ -10,6 +10,8 @@ export const SAVE_SETTINGS_LOADING = 'SAVE_SETTINGS_LOADING';
 export const SAVE_SETTINGS_SUCCESS = 'SAVE_SETTINGS_SUCCESS';
 export const SAVE_SETTINGS_FAILED = 'SAVE_SETTINGS_FAILED';
 
+export const WORDLIST_UPDATED = 'WORDLIST_UPDATED';
+
 export const fetchSettings = () => dispatch => {
   dispatch({type: SETTINGS_LOADING});
   coralApi('/settings')
@@ -21,8 +23,14 @@ export const fetchSettings = () => dispatch => {
     });
 };
 
+// for updating top-level settings
 export const updateSettings = settings => {
   return {type: SETTINGS_UPDATED, settings};
+};
+
+// this is a nested property, so it needs a special action.
+export const updateWordlist = (listName, list) => {
+  return {type: WORDLIST_UPDATED, listName, list};
 };
 
 export const saveSettingsToServer = () => (dispatch, getState) => {

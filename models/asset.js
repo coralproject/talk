@@ -25,10 +25,6 @@ const AssetSchema = new Schema({
     type: Date,
     default: null
   },
-  settings: {
-    type: Schema.Types.Mixed,
-    default: null
-  },
   closedAt: {
     type: Date,
     default: null
@@ -44,7 +40,15 @@ const AssetSchema = new Schema({
   subsection: String,
   author: String,
   publication_date: Date,
-  modified_date: Date
+  modified_date: Date,
+
+  // This object is used exclusivly for storing settings that are to override
+  // the base settings from the base Settings object. This is to be accessed
+  // always after running `rectifySettings` against it.
+  settings: {
+    type: Schema.Types.Mixed,
+    default: null
+  },
 }, {
   versionKey: false,
   timestamps: {
