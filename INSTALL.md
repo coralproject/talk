@@ -7,7 +7,7 @@ By contributing to this project you agree to the [Code of Conduct](https://coral
 * [Node](https://nodejs.org/es/download/package-manager)
 * Mongo
 * Redis
-*
+
 ### Operating System
 
 - We recommend hosting [Talk](https://github.com/coralproject/talk) with any flavor of Linux
@@ -31,17 +31,7 @@ git clone https://github.com/coralproject/talk
 
 ### Environmental Variables
 
-	export TALK_PORT=5000
-	export TALK_MONGO_URL=mongodb://localhost/talk
-	export TALK_REDIS_URL=redis://redis/talk
-	export TALK_SESSION_SECRET=somethingsecret
-	export TALK_FACEBOOK_APP_ID=fbidapp_youneeditforfbconnect
-	export TALK_FACEBOOK_APP_SECRET=fbappsecret_youneeditforfbconnect
-	export TALK_ROOT_URL=http://localhost:5000
-	export TALK_SMTP_USERNAME=coralproject
-	export TALK_SMTP_PASSWORD=smtppassword
-	export TALK_SMTP_HOST=smtp.example.net
-	export TALK_SMTP_PROVIDER=Example
+This project is using many environmental variables for configuration. You can learn about them in the [README's file](README.md).
 
 ### Local development
 
