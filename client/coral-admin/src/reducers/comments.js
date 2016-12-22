@@ -33,6 +33,7 @@ export default (state = initialState, action) => {
   case actions.COMMENT_STREAM_FETCH_SUCCESS: return replaceComments(action, state);
   case actions.SHOW_BANUSER_DIALOG: return setBanUser(state, true, action);
   case actions.HIDE_BANUSER_DIALOG: return setBanUser(state, false, action);
+  case actions.USER_BAN_SUCCESS: return setBanUser(state, false, action);
   case userActions.UPDATE_STATUS_SUCCESS: return setBanUser(state, false, action);
   default: return state;
   }
