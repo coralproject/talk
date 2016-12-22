@@ -18,10 +18,6 @@ paths:
       tags:
         - Comments
       parameters:
-        - name: asset_id
-          in: query
-          description: Returns comments for a particular asset, if null returns all commets.
-          type: string
         - name: action_type
           in: query
           description: Performs a search based on the actions that have been added to it.
@@ -47,18 +43,20 @@ paths:
       parameters:
         - name: body
           in: body
-          type: string
-          description: The text of comment to create.
           schema:
-            $ref: '#/definitions/Comment'
-        - name: asset_id
-          in: body
-          type: string
-          description: The parent asset of this comment.
-        - name: parent_id
-          in: body
-          type: string
-          description: The parent comment of this comment (null if the comment is not a reply.)
+            body:
+              in: body
+              type: string
+              required: true
+              description: The text of the comment to create.
+            asset_id:
+              in: body
+              type: string
+              description: The parent asset of this comment.
+            parent_id:
+              in: body
+              type: string
+              description: The parent comment of this comment (null if the comment is not a reply.)
       responses:
         201:
           description: The comment that was created.
@@ -68,7 +66,8 @@ paths:
           description: An error occured.
           schema:
             $ref: '#/definitions/Error'
-  /comments/{comment_id}:
+
+  /comments/:comment_id:
     get:
       tags:
         - Comments
@@ -105,6 +104,7 @@ paths:
           description: An error occured.
           schema:
             $ref: '#/definitions/Error'
+
   /comments/{comment_id}/status:
     put:
       tags:
@@ -406,7 +406,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  /assets/{asset_id}/settings:
+  /assets/:asset_id/settings:
     put:
       parameters:
         asset_id:
@@ -415,22 +415,19 @@ paths:
           type: string
           format: uuid
           description: The id of the asset to be updated
-        body:
+        closedAt:
           in: body
-          type: object
-          parameters:
-            closedAt:
-              type: number
-              description: The Unix timestamp when the stream will be or was previously closed.
-            closedMessage:
-              type: string
-              description: The message to display to users when the stream is closed.
+          type: number
+          description: The Unix timestamp when the stream will be or was previously closed.
+        closedMessage:
+          type: string
+          in: body
+          description: The message to display to users when the stream is closed.
         responses:
           204:
             description: Status update successful.
           500:
             description: An error has occurred.
-
   /stream:
     get:
       tags:
@@ -598,23 +595,24 @@ paths:
           description: An error occured.
           schema:
             $ref: '#/definitions/Error'
-  /users/:user_id/role:
+  /users/{user_id}/role:
     post:
-      user_id:
-        in: path
-        type: string
-        format: uuid
-        description: ID of the user to be updated.
-      body:
-        in: body
-        type: object
-        parameters:
-          role:
-            type: string
-            description: Role to be added to the user.
-            enum:
-              admin
-              moderator
+      parameters:
+        user_id:
+          in: path
+          type: string
+          format: uuid
+          description: ID of the user to be updated.
+        body:
+          in: body
+          type: object
+          parameters:
+            role:
+              type: string
+              description: Role to be added to the user.
+              enum:
+                admin
+                moderator
       responses:
         204:
           description: Role update successful.
@@ -622,7 +620,7 @@ paths:
           description: An error occured.
           schema:
             $ref: '#/definitions/Error'
-  /users/:user_id/status:
+  /users/{user_id}/status:
     post:
       user_id:
         in: path
@@ -652,17 +650,18 @@ paths:
           description: An error occured.
           schema:
             $ref: '#/definitions/Error'
-  /users/:user_id/bio:
+  /users/{user_id}/bio:
     put:
-      user_id:
-        in: path
-        type: string
-        format: uuid
-        description: The id of the user being updated.
-      bio:
-        in: body
-        type: string
-        description: The bio that should be set for this user.
+      parameters:
+        user_id:
+          in: path
+          type: string
+          format: uuid
+          description: The id of the user being updated.
+        bio:
+          in: body
+          type: string
+          description: The bio that should be set for this user.
       responses:
         200:
           description: Status update successful.
@@ -672,18 +671,19 @@ paths:
           description: An error occured.
           schema:
             $ref: '#/definitions/Error'
-  /:user_id/actions:
+  /{user_id}/actions:
     post:
-      action_type:
-        in: body
-        type: string
-        enum:
-          flag
-        description: The type of action being taken on this user.
-      metadata:
-        in: body
-        type: object
-        description: Arbitrary data to be included with the action.
+      parameters:
+        - name: action_type
+          in: body
+          description: The type of action being taken on this user.
+          type: string
+          enum:
+            - flag
+        - name: metadata
+          in: body
+          type: object
+          description: Arbitrary data to be included with the action.
       responses:
         200:
           description: The newly created action.
