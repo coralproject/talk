@@ -32,7 +32,7 @@ paths:
           schema:
             type: array
             items:
-              - $ref: '#/definitions/Comment'
+              $ref: '#/definitions/Comment'
         500:
           description: An error occured.
           schema:
@@ -43,20 +43,19 @@ paths:
       parameters:
         - name: body
           in: body
+          required: true
           schema:
-            body:
-              in: body
-              type: string
-              required: true
-              description: The text of the comment to create.
-            asset_id:
-              in: body
-              type: string
-              description: The parent asset of this comment.
-            parent_id:
-              in: body
-              type: string
-              description: The parent comment of this comment (null if the comment is not a reply.)
+            type: object
+            properties:
+              body:
+                type: string
+                description: The text of the comment to create.
+              asset_id:
+                type: string
+                description: The parent asset of this comment.
+              parent_id:
+                type: string
+                description: The parent comment of this comment (null if the comment is not a reply.)
       responses:
         201:
           description: The comment that was created.
@@ -67,7 +66,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  /comments/:comment_id:
+  /comments/{comment_id}:
     get:
       tags:
         - Comments
@@ -115,6 +114,7 @@ paths:
           in: path
           description: The id of the comment to retrieve.
           type: string
+          format: uuid
           required: true
         - name: body
           in: body
@@ -126,6 +126,11 @@ paths:
               status:
                 type: string
                 description: The status to update to.
+                enum:
+                  - new
+                  - flagged
+                  - accepted
+                  - rejected
       responses:
         204:
           description: The comment status was updated.
@@ -133,7 +138,7 @@ paths:
           description: An error occured.
           schema:
             $ref: '#/definitions/Error'
-  /comments/{comment_id}/actions:
+  /comments/{item_id}/actions:
     post:
       tags:
         - Comments
@@ -154,6 +159,9 @@ paths:
               action_type:
                 type: string
                 description: The type of action to add
+                enum:
+                  - like
+                  - flag
               metadata:
                 type: object
                 description: An arbitrary object describing the action, should be consistent per action type.
@@ -278,17 +286,17 @@ paths:
                 type: array
                 description: The comments that have yet to be moderated.
                 items:
-                  - $ref: '#/definitions/Comment'
+                  $ref: '#/definitions/Comment'
               users:
                 type: array
                 description: The users authoring these comments.
                 items:
-                  - $ref: '#/definitions/User'
+                  $ref: '#/definitions/User'
               actions:
                 type: array
                 description: The actions which have taken place on these comments.
                 items:
-                  - $ref: '#/definitions/Actions'
+                  $ref: '#/definitions/Actions'
         500:
           description: An error occured.
           schema:
@@ -406,28 +414,34 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
-  /assets/:asset_id/settings:
+  /assets/{asset_id}/status:
     put:
       parameters:
-        asset_id:
-          in: path
+        - name: asset_id
           required: true
+          in: path
           type: string
           format: uuid
           description: The id of the asset to be updated
-        closedAt:
+        - name: body
           in: body
-          type: number
-          description: The Unix timestamp when the stream will be or was previously closed.
-        closedMessage:
-          type: string
-          in: body
-          description: The message to display to users when the stream is closed.
-        responses:
-          204:
-            description: Status update successful.
-          500:
-            description: An error has occurred.
+          required: true
+          schema:
+            type: object
+            properties:
+              closedAt:
+                type: number
+                description: The Unix timestamp when the stream will be or was previously closed.
+              closedMessage:
+                type: string
+                description: The message to display to users when the stream is closed.
+      responses:
+        204:
+          description: Status update successful.
+        500:
+          description: An error has occurred.
+          schema:
+            $ref: '#/definitions/Error'
   /stream:
     get:
       tags:
@@ -448,25 +462,22 @@ paths:
             type: object
             properties:
               asset:
-                type: object
-                description: The asset for the url passed to this endpoint.
-                items:
-                  - $ref: '#/definitions/Asset'
+                $ref: '#/definitions/Asset'
               comments:
                 type: array
                 description: All comments for this asset.
                 items:
-                  - $ref: '#/definitions/Comment'
+                  $ref: '#/definitions/Comment'
               users:
                 type: array
                 description: All authors of comments on this asset.
                 items:
-                  - $ref: '#/definitions/User'
+                  $ref: '#/definitions/User'
               actions:
                 type: array
                 description: All actions on comments on this asset and their authors.
                 items:
-                  - $ref: '#/definitions/Actions'
+                  $ref: '#/definitions/Actions'
         500:
           description: An error occured.
           schema:
@@ -483,11 +494,15 @@ paths:
           schema:
             $ref: '#/definitions/Error'
     put:
-      responses:
-        parameteters:
-          body:
+      parameters:
+        - name: body
+          in: body
+          required: true
+          description: Settings to be updated.
+          schema:
             type: object
-            description: Settings to be updated
+            description: Any allowed setting and value.
+      responses:
         204:
           description: The settings were updated.
         500:
@@ -496,99 +511,113 @@ paths:
             $ref: '#/definitions/Error'
   /users:
     get:
-      value:
-        in: query
-        type: string
-        description: A term to search users' displayNames and email addresses.
-      sort:
-        in: query
-        type: string
-        enum:
-          asc
-          desc
-        description: Determines whether users sorted in are ascending or descending order.
-      field:
-        in: query
-        type: string
-        description: The field used to sort.
-      page:
-        in: query
-        type: number
-        description: The page of search results to return.
-      limit:
-        in: query
-        type: number
-        description: The number of search restults per page.
-    responses:
-      200:
-        parameters:
-          result:
-            type: array
-            description: Users matching search criteria.
-            items:
-              $ref: '#/definitions/User'
-          limit:
-            type: number
-            description: Results per page.
-          count:
-            type: number
-            description: Total number of results.
-          page:
-            type: number
-            description: The current page.
-          totalPages:
-            type: number
-            description: The total number of pages.
-      500:
-        description: An error occured.
-        schema:
-          $ref: '#/definitions/Error'
+      parameters:
+       - name: value
+         in: query
+         type: string
+         description: A term to search users' displayNames and email addresses.
+       - name: sort
+         in: query
+         type: string
+         enum:
+          - asc
+          - desc
+         description: Determines whether users sorted in are ascending or descending order.
+       - name: field
+         in: query
+         type: string
+         description: The field used to sort.
+       - name: page
+         in: query
+         type: number
+         description: The page of search results to return.
+       - name: limit
+         in: query
+         type: number
+         description: The number of search restults per page.
+      responses:
+        200:
+          description: A paginated array of users matching search terms.
+          schema:
+            type: object
+            properties:
+              result:
+                type: array
+                description: Users matching search criteria.
+                items:
+                  $ref: '#/definitions/User'
+              limit:
+                type: number
+                description: Results per page.
+              count:
+                type: number
+                description: Total number of results.
+              page:
+                type: number
+                description: The current page.
+              totalPages:
+                type: number
+                description: The total number of pages.
+        500:
+          description: An error occured.
+          schema:
+            $ref: '#/definitions/Error'
     post:
-      body:
-        in: body
-        type: object
-        parameters:
-          email:
-            type: string
-            format: email
-          password:
-            type: string
-          displayName:
-            type: string
+      parameters:
+        - name: body
+          in: body
+          required: true
+          description: User to be created.
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+                format: email
+              password:
+                type: string
+              displayName:
+                type: string
       responses:
         201:
           description: The user that has been created.
           schema:
             $ref: '#/definitions/User'
-    /users/update-password:
-      post:
-        body:
+  /users/update-password:
+    post:
+      parameters:
+        - name: body
           in: body
-          type: object
-          parameters:
-            token:
-              type: string
-              description: The token that was in the url of the email link.
-            password:
-              type: string
-              description: The new password.
-      response:
+          required: true
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
+                description: The token that was in the url of the email link.
+              password:
+               type: string
+               description: The new password.
+      responses:
         204:
           description: Password update successful.
         500:
           description: An error occured.
           schema:
             $ref: '#/definitions/Error'
-    /request-password-reset:
-      post:
-        body:
+  /request-password-reset:
+    post:
+      parameters:
+        - name: body
           in: body
-          type: object
-          parameters:
-            email:
-              type: string
-              description: The email address of the user whos password is being reset.
-      response:
+          required: true
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+                description: The email address of the user whos password is being reset.
+      responses:
         204:
           description: Returned regardless of whether the user was found in the DB.
         500:
@@ -598,21 +627,24 @@ paths:
   /users/{user_id}/role:
     post:
       parameters:
-        user_id:
+        - name: user_id
           in: path
+          required: true
           type: string
           format: uuid
           description: ID of the user to be updated.
-        body:
+        - name: body
           in: body
-          type: object
-          parameters:
-            role:
-              type: string
-              description: Role to be added to the user.
-              enum:
-                admin
-                moderator
+          required: true
+          schema:
+            type: object
+            properties:
+              role:
+                type: string
+                description: Role to be added to the user.
+                enum:
+                  - admin
+                  - moderator
       responses:
         204:
           description: Role update successful.
@@ -622,27 +654,29 @@ paths:
             $ref: '#/definitions/Error'
   /users/{user_id}/status:
     post:
-      user_id:
-        in: path
-        type: string
-        format: uuid
-        required: true
-        description: ID of the user to be updated.
-      body:
-        in: body
-        type: object
-        parameters:
-          status:
-            type: string
-            required: true
-            description: Status for the user to be set to.
-            enum:
-              active
-              banned
-          comment_id:
-            type: string
-            format: uuid
-            description: The id of the comment which triggered this status change.
+      parameters:
+        - name: user_id
+          in: path
+          type: string
+          format: uuid
+          required: true
+          description: ID of the user to be updated.
+        - name: body
+          in: body
+          required: true
+          schema:
+           type: object
+           properties:
+            status:
+              type: string
+              description: Status for the user to be set to.
+              enum:
+                - active
+                - banned
+            comment_id:
+              type: string
+              format: uuid
+              description: The id of the comment which triggered this status change.
       responses:
         200:
           description: Status update successful.
@@ -653,15 +687,21 @@ paths:
   /users/{user_id}/bio:
     put:
       parameters:
-        user_id:
+        - name: user_id
           in: path
+          required: true
           type: string
           format: uuid
           description: The id of the user being updated.
-        bio:
+        - name: body
           in: body
-          type: string
-          description: The bio that should be set for this user.
+          required: true
+          schema:
+            type: object
+            properties:
+              bio:
+                type: string
+                description: The bio that should be set for this user.
       responses:
         200:
           description: Status update successful.
@@ -674,16 +714,26 @@ paths:
   /{user_id}/actions:
     post:
       parameters:
-        - name: action_type
-          in: body
-          description: The type of action being taken on this user.
+        - name: user_id
+          in: path
+          required: true
           type: string
-          enum:
-            - flag
-        - name: metadata
+          format: uuid
+          description: The user on which this action is being taken.
+        - name: body
           in: body
-          type: object
-          description: Arbitrary data to be included with the action.
+          required: true
+          schema:
+            type: object
+            properties:
+              action_type:
+                description: The type of action being taken on this user.
+                type: string
+                enum:
+                  - flag
+              metadata:
+                type: object
+                description: Arbitrary data to be included with the action.
       responses:
         200:
           description: The newly created action.
@@ -693,6 +743,7 @@ paths:
           description: An error occured.
           schema:
             $ref: '#/definitions/Error'
+
 definitions:
   Error:
     type: object
