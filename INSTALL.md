@@ -4,10 +4,10 @@ By contributing to this project you agree to the [Code of Conduct](https://coral
 
 ## Requirements
 
-* [Node 7.2.1](https://nodejs.org/es/download/package-manager)
-* Mongo 3.4.0
-* Redis 3.2.6
-
+* [Node](https://nodejs.org/es/download/package-manager)
+* Mongo
+* Redis
+*
 ### Operating System
 
 - We recommend hosting [Talk](https://github.com/coralproject/talk) with any flavor of Linux
@@ -28,7 +28,6 @@ git clone https://github.com/coralproject/talk
 
 * cd talk
 * npm install
-* npm run build
 
 ### Environmental Variables
 
@@ -50,7 +49,7 @@ git clone https://github.com/coralproject/talk
 npm start
 `
 
-It will run in http://localhost:5000
+It will run in http://localhost:$PORT
 
 
 ### Testing
@@ -64,17 +63,6 @@ npm test
 `
 npm run e2e
 `
-
-## Recommendations for Deployment
-
-##### Web Server
-
-* [Caddy](https://caddyserver.com/)
-
-##### SSL Certificates
-
-* [Let's Encrypt](https://letsencrypt.org/)
-
 
 ## Troubleshooting
 
