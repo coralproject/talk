@@ -440,12 +440,13 @@ describe('/api/v1/comments/:comment_id/actions', () => {
       return chai.request(app)
         .post('/api/v1/comments/abc/actions')
         .set(passport.inject({id: '456', roles: ['admin']}))
-        .send({'action_type': 'flag', 'detail': 'Comment is too awesome.'})
+        .send({'action_type': 'flag', 'metadata': {'reason': 'Comment is too awesome.'}})
         .then((res) => {
           expect(res).to.have.status(201);
           expect(res).to.have.body;
           expect(res.body).to.have.property('action_type', 'flag');
-          expect(res.body).to.have.property('detail', 'Comment is too awesome.');
+          expect(res.body).to.have.property('metadata')
+            .and.to.deep.equal({'reason': 'Comment is too awesome.'});
           expect(res.body).to.have.property('item_id', 'abc');
         });
     });
