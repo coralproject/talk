@@ -7,7 +7,7 @@ import styles from './Community.css';
 import Table from './Table';
 import Loading from './Loading';
 import NoResults from './NoResults';
-import Pager from './Pager';
+import Pager from 'coral-ui/components/Pager';
 
 const lang = new I18n(translations);
 

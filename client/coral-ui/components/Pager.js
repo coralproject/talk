@@ -12,7 +12,7 @@ const Pager = ({totalPages, page, onNewPageHandler}) => (
   <div className="pager">
     <ul>
       {
-        (totalPages > page) ?
+        (totalPages > page && totalPages > 1) ?
           <li
             className={`mdl-button mdl-js-button ${styles.li}`}
             onClick={() => onNewPageHandler(page - 1)}>
@@ -23,7 +23,7 @@ const Pager = ({totalPages, page, onNewPageHandler}) => (
       }
       {Rows(page, totalPages, onNewPageHandler)}
       {
-        (page < totalPages) ?
+        (page < totalPages && totalPages > 1) ?
         <li
           className={`mdl-button mdl-js-button ${styles.li}`}
           onClick={() => onNewPageHandler(page + 1)}>
@@ -42,4 +42,3 @@ Pager.propTypes = {
 };
 
 export default Pager;
-

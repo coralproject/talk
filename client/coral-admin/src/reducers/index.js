@@ -5,6 +5,7 @@ import community from 'reducers/community';
 import users from 'reducers/users';
 import auth from 'reducers/auth';
 import actions from 'reducers/actions';
+import assets from 'reducers/assets';
 
 // Combine all reducers into a main one
 export default combineReducers({
@@ -13,5 +14,6 @@ export default combineReducers({
   community,
   auth,
   actions,
+  assets,
   users
 });

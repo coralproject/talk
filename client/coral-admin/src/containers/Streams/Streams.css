@@ -1,0 +1,83 @@
+.container {
+  padding: 10px;
+  display: flex;
+}
+
+.leftColumn {
+  width: 200px;
+}
+
+.mainContent {
+  width: calc(90% - 200px);
+}
+
+.searchIcon {
+  vertical-align: middle;
+  font-size: 18px;
+  color: #ccc;
+}
+
+.searchBox {
+  padding: 3px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  width: 90%;
+  display: flex;
+}
+
+.searchBoxInput {
+  border: none;
+  flex: 1;
+  font-size: 14px;
+}
+
+.searchBoxInput:focus {
+  outline: none;
+}
+
+.optionHeader {
+  font-size: 16px;
+  font-weight: 900;
+  margin-top: 15px;
+}
+
+.optionDetail {
+  font-size: 16px;
+  margin-top: 3px;
+}
+
+.streamsTable {
+  width: 100%;
+}
+
+.radio {
+  display: block;
+}
+
+.statusMenu {
+  border-radius: 3px;
+  width: 10em;
+  text-align: center;
+  float: right;
+  border: 1px solid #ccc;
+  color: #fff;
+  cursor: pointer;
+}
+
+.statusMenuOpen {
+  padding: 10px;
+  background-color: #4caf50;
+}
+
+.statusMenuIcon {
+  float: right;
+}
+
+.statusMenuClosed {
+  padding: 10px;
+  background-color: #000;
+}
+
+.hidden {
+  display: none;
+}
