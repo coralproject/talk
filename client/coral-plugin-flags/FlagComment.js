@@ -36,7 +36,7 @@ const getPopupMenu = [
       header: lang.t('step-2-header'),
       options,
       button: lang.t('continue'),
-      sets: 'detail'
+      sets: 'reason'
     };
   },
   () =>  {

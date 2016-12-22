@@ -40,7 +40,7 @@ class FlagButton extends Component {
 
     // If itemType and reason are both set, post the action
     if (itemType && reason && !posted) {
-      
+
       // Set the text from the "other" field if it exists.
       let item_id;
       switch(itemType) {
@@ -71,11 +71,6 @@ class FlagButton extends Component {
 
   onPopupOptionClick = (sets) => (e) => {
 
-    // If the "other" option is clicked, show the other textbox
-    if(sets === 'reason' && e.target.value === 'other') {
-      this.setState({showOther: true});
-    }
-
     // If flagging a user, indicate that this is referencing the username rather than the bio
     if(sets === 'itemType' && e.target.value === 'user') {
       this.setState({field: 'username'});
@@ -93,7 +88,7 @@ class FlagButton extends Component {
     this.setState({[sets]: e.target.value});
   }
 
-  onOtherTextChange = (e) => {
+  onNoteTextChange = (e) => {
     this.setState({note: e.target.value});
   }
 
@@ -147,11 +142,11 @@ class FlagButton extends Component {
                   <label htmlFor={'note'} className={`${name}-popup-radio-label`}>
                     {lang.t('flag-reason')}
                   </label><br/>
-                <textarea
-                      className={`${name}-other-text`}
+                  <textarea
+                      className={`${name}-reason-text`}
                       id="note"
                       rows={4}
-                      onChange={this.onOtherTextChange}
+                      onChange={this.onNoteTextChange}
                       value={this.state.note}/>
                   </div>
                 }
