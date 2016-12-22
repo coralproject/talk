@@ -1,11 +1,5 @@
 #!/usr/bin/env node
 
-/**
- * Setup the debug paramater.
- */
-
-process.env.DEBUG = process.env.TALK_DEBUG;
-
 const app = require('../app');
 const debug = require('debug')('talk:server');
 const http = require('http');
