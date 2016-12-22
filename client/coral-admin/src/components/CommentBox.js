@@ -7,13 +7,13 @@ import {Button} from 'react-mdl';
 export default class CommentBox extends React.Component {
   constructor (props) {
     super(props);
-    this.state = {name: '', body: ''};
+    this.state = {name: '', body: '', csrfToken: props.csrfToken};
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   onSubmit () {
-    const {name, body} = this.state;
-    this.props.onSubmit({name, body});
+    const {name, body, csrfToken} = this.state;
+    this.props.onSubmit({name, body, csrfToken});
     this.setState({body: '', name: ''});
   }
 

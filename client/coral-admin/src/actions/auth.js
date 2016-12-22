@@ -10,12 +10,19 @@ const checkLoginFailure = error => ({type: actions.CHECK_LOGIN_FAILURE, error});
 export const checkLogin = () => dispatch => {
   dispatch(checkLoginRequest());
   coralApi('/auth')
-    .then(user => {
-      const isAdmin = !!user.roles.filter(i => i === 'admin').length;
-      dispatch(checkLoginSuccess(user, isAdmin));
+    .then(result => {
+      if (result.csrfToken !== null) {
+        dispatch(checkCSRFToken(result.csrfToken));
+      }
+
+      const isAdmin = !!result.user.roles.filter(i => i === 'admin').length;
+      dispatch(checkLoginSuccess(result.user, isAdmin));
     })
     .catch(error => dispatch(checkLoginFailure(error)));
 };
+
+// Set CSRF Token
+export const checkCSRFToken = (csrfToken) => ({type: actions.CHECK_CSRF_TOKEN, csrfToken});
 
 // LogOut Actions
 

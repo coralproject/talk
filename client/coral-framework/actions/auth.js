@@ -24,10 +24,10 @@ const signInSuccess = (user, isAdmin) => ({type: actions.FETCH_SIGNIN_SUCCESS, u
 const signInFailure = error => ({type: actions.FETCH_SIGNIN_FAILURE, error});
 
 export const fetchSignIn = (formData) => dispatch => {
-  console.log('DEBUG FORMDATA', formData);
   dispatch(signInRequest());
   coralApi('/auth/local', {method: 'POST', body: formData})
     .then(({user}) => {
+      console.log('DEBUG FORMDATA ', formData);
       const isAdmin = !!user.roles.filter(i => i === 'admin').length;
       dispatch(signInSuccess(user, isAdmin));
       dispatch(hideSignInDialog());
@@ -127,7 +127,9 @@ export const checkLogin = () => dispatch => {
   dispatch(checkLoginRequest());
   coralApi('/auth')
     .then((result) => {
+      console.log('debug 1 result ', result);
       if (result.csrfToken !== null) {
+        console.log('DEBUG 2 TOKEN', result.csrfToken);
         dispatch(checkCSRFToken(result.csrfToken));
       }
 

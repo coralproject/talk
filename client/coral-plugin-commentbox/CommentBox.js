@@ -14,7 +14,8 @@ class CommentBox extends Component {
     comments: PropTypes.array,
     reply: PropTypes.bool,
     canPost: PropTypes.bool,
-    currentUser: PropTypes.object
+    currentUser: PropTypes.object,
+    csrfToken: PropTypes.string
   }
 
   state = {
@@ -32,7 +33,8 @@ class CommentBox extends Component {
       addNotification,
       appendItemArray,
       premod,
-      author
+      author,
+      csrfToken
     } = this.props;
 
     let comment = {
@@ -57,7 +59,7 @@ class CommentBox extends Component {
     if (this.props.charCount && this.state.body.length > this.props.charCount) {
       return;
     }
-    postItem(comment, 'comments')
+    postItem(comment, 'comments', csrfToken)
       .then((postedComment) => {
         const commentId = postedComment.id;
         if (postedComment.status === 'rejected') {

@@ -16,9 +16,12 @@ const parseForm = bodyParser.urlencoded({extended: false});
  * This returns the user if they are logged in.
  */
 router.get('/', csrfProtection, (req, res, next) => {
+
+  console.log('DEBUT WHAT IS GOING ?', req.user);
   if (req.user) {
     return next();
   }
+  console.log('it has the user but what the hek?');
 
   // When there is no user on the request, then just send back the CSRF token.
   res.json({csrfToken: req.csrfToken()});
@@ -87,7 +90,7 @@ const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
  * Local auth endpoint, will recieve a email and password
  */
 router.post('/local', parseForm, csrfProtection, (req, res, next) => {
-  
+
   // Perform the local authentication.
   passport.authenticate('local', HandleAuthCallback(req, res, next))(req, res, next);
 });
