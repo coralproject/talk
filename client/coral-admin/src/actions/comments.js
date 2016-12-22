@@ -5,7 +5,7 @@ import * as actionTypes from '../constants/actions';
 // Get comments to fill each of the three lists on the mod queue
 export const fetchModerationQueueComments = () => {
   return dispatch => {
-    dispatch({type: commentTypes.COMMENTS_MODERATION_QUEUE_FETCH});
+    dispatch({type: commentTypes.COMMENTS_MODERATION_QUEUE_FETCH_REQUEST});
     return Promise.all([
       coralApi('/queue/comments/pending'),
       coralApi('/comments?status=rejected'),
