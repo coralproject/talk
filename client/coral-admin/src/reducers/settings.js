@@ -28,19 +28,16 @@ export default (state = initialState, action) => {
   }
 };
 
+// only for updating top-level settings
 const updateSettings = (state, action) => {
   const s = state.set('fetchingSettings', false).set('fetchSettingsError', null);
   const settings = s.get('settings').merge(action.settings);
   return s.set('settings', settings);
 };
 
+// any nested settings must have a specialized setter
 const updateWordlist = (state, action) => {
-  const wordlist = state
-    .get('settings')
-    .get('wordlist')
-    .merge({[action.listName]: action.list});
-  const settings = state.get('settings').merge({wordlist});
-  return state.set('settings', settings);
+  return state.setIn(['settings', 'wordlist', action.listName], action.wordlist);
 };
 
 const saveComplete = (state, action) => {
