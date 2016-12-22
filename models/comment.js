@@ -287,13 +287,12 @@ CommentSchema.statics.pushStatus = (id, status, assigned_by = null) => Comment.u
  * @param {String} action the new action to the comment
  * @return {Promise}
  */
-CommentSchema.statics.addAction = (item_id, user_id, action_type, field, detail) => Action.insertUserAction({
+CommentSchema.statics.addAction = (item_id, user_id, action_type, metadata) => Action.insertUserAction({
   item_id,
   item_type: 'comments',
   user_id,
   action_type,
-  field,
-  detail
+  metadata
 });
 
 /**

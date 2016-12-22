@@ -18,7 +18,7 @@ const getPopupMenu = [
         {val: 'other', text: lang.t('other')}
       ],
       button: lang.t('continue'),
-      sets: 'detail'
+      sets: 'reason'
     };
   },
   () =>  {
