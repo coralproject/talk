@@ -2,7 +2,6 @@
 import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import mainReducer from 'reducers';
-import talkAdapter from 'services/talk-adapter';
 
 /**
  * Create the store by merging the app reducers with
@@ -14,5 +13,5 @@ import talkAdapter from 'services/talk-adapter';
 export default createStore(
   mainReducer,
   window.devToolsExtension && window.devToolsExtension(),
-  applyMiddleware(thunk, talkAdapter)
+  applyMiddleware(thunk)
 );

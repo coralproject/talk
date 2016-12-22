@@ -2,7 +2,7 @@ import React from 'react';
 import {I18n} from '../coral-framework';
 import translations from './translations.json';
 
-const name = 'coral-plugin-flags';
+const name = 'coral-plugin-likes';
 
 const LikeButton = ({like, id, postAction, deleteAction, addItem, showSignInDialog, updateItem, currentUser, banned}) => {
   const liked = like && like.current_user;

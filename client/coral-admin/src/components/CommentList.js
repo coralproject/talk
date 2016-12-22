@@ -126,7 +126,10 @@ export default class CommentList extends React.Component {
     const {active} = this.state;
 
     return (
-      <ul className={`${styles.list} ${singleView ? styles.singleView : ''}`} {...key}>
+      <ul
+        className={`${styles.list} ${singleView ? styles.singleView : ''}`} {...key}
+        id='commentList'
+      >
         {commentIds.map((commentId, index) => {
           const comment = comments[commentId];
           const author = users[comment.author_id];

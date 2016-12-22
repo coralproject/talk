@@ -56,6 +56,7 @@
       "moderate": "Moderate",
       "configure": "Configure",
       "community": "Community",
+      "streams": "Streams",
       "closed-comments-desc": "Write a message for closed threads",
       "closed-comments-label": "Write a message...",
       "hours": "Hours",
@@ -73,6 +74,22 @@
       "note": "Note: Banning this user will also place this comment in the Rejected queue.",
       "cancel": "Cancel",
       "yes_ban_user": "Yes, Ban User"
+    },
+    "streams": {
+      "search": "Search",
+      "filter-streams": "Filter Streams",
+      "stream-status": "Stream Status",
+      "all": "All",
+      "open": "Open",
+      "closed": "Closed",
+      "newest": "Newest",
+      "oldest": "Oldest",
+      "sort-by": "Sort By",
+      "open": "Open",
+      "closed": "Closed",
+      "article": "Article",
+      "pubdate": "Publication Date",
+      "status": "Status"
     }
   },
   "es": {
@@ -139,6 +156,22 @@
       "note": "Nota: Suspender este usuario también va a colocar este comentario en la cola de Rechazados.",
       "cancel": "Cancelar",
       "yes_ban_user": "Si, Suspendan el usuario"
+    },
+    "streams": {
+      "search": "",
+      "filter-streams": "",
+      "stream-status": "",
+      "all": "",
+      "open": "",
+      "closed": "",
+      "newest": "",
+      "oldest": "",
+      "sort-by": "",
+      "open": "",
+      "closed": "",
+      "article": "",
+      "pubdate": "",
+      "status": ""
     }
   }
 }

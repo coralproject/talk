@@ -1,4 +1,5 @@
 import * as actions from '../constants/comments';
+import * as userActions from '../constants/user';
 import {Map, List, fromJS} from 'immutable';
 
 /**
@@ -23,16 +24,17 @@ const initialState = Map({
 // Handle the comment actions
 export default (state = initialState, action) => {
   switch (action.type) {
-  case 'COMMENTS_MODERATION_QUEUE_FETCH': return state.set('loading', true);
-  case 'COMMENTS_MODERATION_QUEUE_FETCH_SUCCESS': return replaceComments(action, state);
-  case 'COMMENTS_MODERATION_QUEUE_FAILED': return state.set('loading', false);
-  case 'COMMENT_STATUS_UPDATE': return updateStatus(state, action);
-  case 'COMMENT_FLAG': return flag(state, action);
-  case 'COMMENT_CREATE_SUCCESS': return addComment(state, action);
-  case 'COMMENT_STREAM_FETCH_SUCCESS': return replaceComments(action, state);
+  case actions.COMMENTS_MODERATION_QUEUE_FETCH: return state.set('loading', true);
+  case actions.COMMENTS_MODERATION_QUEUE_FETCH_SUCCESS: return replaceComments(action, state);
+  case actions.COMMENTS_MODERATION_QUEUE_FAILED: return state.set('loading', false);
+  case actions.COMMENT_STATUS_UPDATE: return updateStatus(state, action);
+  case actions.COMMENT_FLAG: return flag(state, action);
+  case actions.COMMENT_CREATE_SUCCESS: return addComment(state, action);
+  case actions.COMMENT_STREAM_FETCH_SUCCESS: return replaceComments(action, state);
   case actions.SHOW_BANUSER_DIALOG: return setBanUser(state, true, action);
   case actions.HIDE_BANUSER_DIALOG: return setBanUser(state, false, action);
-  case actions.USER_BAN_SUCESS: return setBanUser(state, false, action);
+  case actions.USER_BAN_SUCCESS: return setBanUser(state, false, action);
+  case userActions.UPDATE_STATUS_SUCCESS: return setBanUser(state, false, action);
   default: return state;
   }
 };
