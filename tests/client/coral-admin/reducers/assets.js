@@ -36,10 +36,10 @@ describe ('assetsReducer', () => {
     });
   });
 
-  describe('UPDATE_ASSET_STATE', () => {
+  describe('UPDATE_ASSET_STATE_REQUEST', () => {
     it('should update the state of a particular asset', () => {
       const action = {
-        type: 'UPDATE_ASSET_STATE',
+        type: 'UPDATE_ASSET_STATE_REQUEST',
         id: '123',
         closedAt: null
       };
