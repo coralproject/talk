@@ -1,54 +1,58 @@
 const expect = require('chai').expect;
 
-const wordlist = require('../../services/wordlist');
+const Wordlist = require('../../services/wordlist');
 
 describe('wordlist: services', () => {
 
-  before(() => wordlist.insert([
-    'BAD',
-    'bad',
-    'how to murder',
-    'how to kill'
-  ]));
+  const wordlists = {
+    banned: [
+      'cookies',
+      'how to do bad things',
+      'how to do really bad things'
+    ],
+    suspect: [
+      'do bad things'
+    ]
+  };
 
-  beforeEach(() => {
-    expect(wordlist.list).to.not.be.empty;
-    expect(wordlist.enabled).to.be.true;
-  });
+  let wordlist = new Wordlist();
 
   describe('#init', () => {
 
+    before(() => wordlist.upsert(wordlists));
+
     it('has entries', () => {
-      expect(wordlist.list).to.not.be.empty;
-      expect(wordlist.enabled).to.be.true;
+      expect(wordlist.lists.banned).to.not.be.empty;
+      expect(wordlist.lists.suspect).to.not.be.empty;
     });
 
   });
 
   describe('#match', () => {
 
+    const bannedList = Wordlist.parseList(wordlists.banned);
+
     it('does match on a bad word', () => {
       [
-        'how to kill',
-        'what is bad',
-        'bad',
-        'BAD.',
-        'how to murder',
-        'How To mUrDer'
+        'how to do really bad things',
+        'what is cookies',
+        'cookies',
+        'COOKIES.',
+        'how to do bad things',
+        'How To do bad things!'
       ].forEach((word) => {
-        expect(wordlist.match(word)).to.be.true;
+        expect(wordlist.match(bannedList, word)).to.be.true;
       });
     });
 
     it('does not match on a good word', () => {
       [
         'how to',
-        'kill',
-        'bads',
+        'cookie',
         'how to be a great person?',
-        'how to not kill?'
+        'how to not do really bad things?'
       ].forEach((word) => {
-        expect(wordlist.match(word)).to.be.false;
+        expect(wordlist.match(bannedList, word)).to.be.false;
       });
     });
 
@@ -56,62 +60,31 @@ describe('wordlist: services', () => {
 
   describe('#filter', () => {
 
-    it('matches on bodies containing bad words', (done) => {
+    before(() => wordlist.upsert(wordlists));
 
-      let req = {
-        body: {
-          content: 'how to kill?'
-        }
-      };
+    it('matches on bodies containing bad words', () => {
+      let errors = wordlist.filter({
+        content: 'how to do really bad things?'
+      }, 'content');
 
-      wordlist.filter('content')(req, {}, (err) => {
-        expect(err).to.be.undefined;
-        expect(req).to.have.property('wordlist');
-        expect(req.wordlist).to.have.property('matched');
-        expect(req.wordlist.matched).to.be.equal(wordlist.ErrContainsProfanity);
-
-        done();
-      });
-
+      expect(errors).to.have.property('banned', Wordlist.ErrContainsProfanity);
     });
 
-    it('does not match on bodies not containing bad words', (done) => {
+    it('does not match on bodies not containing bad words', () => {
+      let errors = wordlist.filter({
+        content: 'how to not do really bad things?'
+      }, 'content');
 
-      let req = {
-        body: {
-          content: 'how to be a great person?'
-        }
-      };
-
-      wordlist.filter('content')(req, {}, (err) => {
-        expect(err).to.be.undefined;
-        expect(req).to.have.property('wordlist');
-        expect(req.wordlist).to.have.property('matched');
-        expect(req.wordlist.matched).to.be.false;
-
-        done();
-      });
-
+      expect(errors).to.not.have.property('banned');
     });
 
-    it('does not match on bodies not containing the bad word field', (done) => {
+    it('does not match on bodies not containing the bad word field', () => {
+      let errors = wordlist.filter({
+        author: 'how to do really bad things?',
+        content: 'how to be a great person?'
+      }, 'content');
 
-      let req = {
-        body: {
-          author: 'how to kill?',
-          content: 'how to be a great person?'
-        }
-      };
-
-      wordlist.filter('content')(req, {}, (err) => {
-        expect(err).to.be.undefined;
-        expect(req).to.have.property('wordlist');
-        expect(req.wordlist).to.have.property('matched');
-        expect(req.wordlist.matched).to.be.false;
-
-        done();
-      });
-
+      expect(errors).to.not.have.property('banned');
     });
 
   });

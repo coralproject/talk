@@ -1,8 +1,13 @@
-import {Map} from 'immutable';
+import {Map, List} from 'immutable';
 import * as types from '../actions/settings';
 
 const initialState = Map({
-  settings: Map(),
+  settings: Map({
+    wordlist: Map({
+      banned: List(),
+      suspect: List()
+    })
+  }),
   saveSettingsError: null,
   fetchSettingsError: null,
   fetchingSettings: false
@@ -18,14 +23,21 @@ export default (state = initialState, action) => {
   case types.SAVE_SETTINGS_LOADING: return state.set('fetchingSettings', true).set('saveSettingsError', null);
   case types.SAVE_SETTINGS_SUCCESS: return saveComplete(state, action);
   case types.SAVE_SETTINGS_FAILED: return settingsSaveFailed(state, action);
+  case types.WORDLIST_UPDATED: return updateWordlist(state, action);
   default: return state;
   }
 };
 
+// only for updating top-level settings
 const updateSettings = (state, action) => {
   const s = state.set('fetchingSettings', false).set('fetchSettingsError', null);
   const settings = s.get('settings').merge(action.settings);
   return s.set('settings', settings);
+};
+
+// any nested settings must have a specialized setter
+const updateWordlist = (state, action) => {
+  return state.setIn(['settings', 'wordlist', action.listName], action.wordlist);
 };
 
 const saveComplete = (state, action) => {
