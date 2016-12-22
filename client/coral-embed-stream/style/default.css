@@ -114,7 +114,6 @@ hr {
 .coral-plugin-commentbox-char-count {
   color: #ccc;
   text-align: right;
-  font-size: 12px;
 }
 
 .coral-plugin-commentbox-char-max {
@@ -230,7 +229,7 @@ hr {
 
 .coral-plugin-flags-popup-header {
   font-weight: bolder;
-  font-size: 16px;
+  font-size: 1.33rem;
   margin-bottom: 10px;
 }
 
@@ -240,8 +239,8 @@ hr {
 
 .coral-plugin-flags-popup-radio-label {
   margin:5px;
-  font-size: 14px;
   font-weight: 700;
+  font-size: 1.16rem;
 }
 
 .coral-plugin-flags-popup-counter {
@@ -292,7 +291,7 @@ hr {
 .close-comments-alert {
   background-color: #d65344;
   color: white;
-  font-size: 16px;
+  font-size: 1.33rem;
   padding: 5px;
 }
 
