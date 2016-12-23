@@ -3,6 +3,13 @@ const Schema = mongoose.Schema;
 const _ = require('lodash');
 const cache = require('../services/cache');
 
+const WordlistSchema = new Schema({
+  banned: [String],
+  suspect: [String]
+}, {
+  _id: false
+});
+
 /**
  * SettingSchema manages application settings that get used on front and backend.
  * @type {Schema}
@@ -38,7 +45,7 @@ const SettingSchema = new Schema({
     type: String,
     default: ''
   },
-  wordlist: [String],
+  wordlist: WordlistSchema,
   charCount: {
     type: Number,
     default: 5000

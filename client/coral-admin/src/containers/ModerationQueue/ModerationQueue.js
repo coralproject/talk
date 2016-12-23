@@ -13,6 +13,7 @@ import {
   fetchModerationQueueComments
 } from 'actions/comments';
 import {userStatusUpdate} from 'actions/users';
+import {fetchSettings} from 'actions/settings';
 import styles from './ModerationQueue.css';
 
 import I18n from 'coral-framework/modules/i18n/i18n';
@@ -36,6 +37,7 @@ class ModerationQueue extends React.Component {
 
   // Fetch comments and bind singleView key before render
   componentWillMount () {
+    this.props.dispatch(fetchSettings());
     this.props.dispatch(fetchModerationQueueComments());
     key('s', () => this.setState({singleView: !this.state.singleView}));
     key('shift+/', () => this.setState({modalOpen: true}));
@@ -86,7 +88,7 @@ class ModerationQueue extends React.Component {
 
   // Render the tabbed lists moderation queues
   render () {
-    const {comments, users} = this.props;
+    const {comments, users, settings} = this.props;
     const {activeTab, singleView, modalOpen} = this.state;
 
     const premodIds = comments.ids.filter(id => comments.byId[id].status === 'premod');
@@ -106,6 +108,7 @@ class ModerationQueue extends React.Component {
           </div>
           <div className={`mdl-tabs__panel is-active ${styles.listContainer}`} id='pending'>
             <CommentList
+              suspectWords={settings.settings.wordlist.suspect}
               isActive={activeTab === 'pending'}
               singleView={singleView}
               commentIds={premodIds}
@@ -113,7 +116,7 @@ class ModerationQueue extends React.Component {
               users={users.byId}
               onClickAction={(action, comment) => this.onCommentAction(action, comment)}
               onClickShowBanDialog={(userId, userName, commentId) => this.showBanUserDialog(userId, userName, commentId)}
-              actions={['reject', 'approve', 'ban']}
+              modActions={['reject', 'approve', 'ban']}
               loading={comments.loading} />
             <BanUserDialog
               open={comments.showBanUserDialog}
@@ -123,24 +126,26 @@ class ModerationQueue extends React.Component {
         </div>
           <div className={`mdl-tabs__panel ${styles.listContainer}`} id='rejected'>
             <CommentList
+              suspectWords={settings.settings.wordlist.suspect}
               isActive={activeTab === 'rejected'}
               singleView={singleView}
               commentIds={rejectedIds}
               comments={comments.byId}
               users={users.byId}
               onClickAction={(action, comment) => this.onCommentAction(action, comment)}
-              actions={['approve']}
+              modActions={['approve']}
               loading={comments.loading} />
           </div>
           <div className={`mdl-tabs__panel ${styles.listContainer}`} id='flagged'>
             <CommentList
               isActive={activeTab === 'rejected'}
+              suspectWords={settings.settings.wordlist.suspect}
               singleView={singleView}
               commentIds={flaggedIds}
               comments={comments.byId}
               users={users.byId}
               onClickAction={(action, comment) => this.onCommentAction(action, comment)}
-              actions={['reject', 'approve']}
+              modActions={['reject', 'approve']}
               loading={comments.loading} />
           </div>
           <ModerationKeysModal open={modalOpen}
@@ -152,6 +157,8 @@ class ModerationQueue extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  actions: state.actions.toJS(),
+  settings: state.settings.toJS(),
   comments: state.comments.toJS(),
   users: state.users.toJS()
 });
