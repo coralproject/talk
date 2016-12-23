@@ -27,7 +27,6 @@ export const fetchSignIn = (formData) => dispatch => {
   dispatch(signInRequest());
   coralApi('/auth/local', {method: 'POST', body: formData})
     .then(({user}) => {
-      console.log('DEBUG FORMDATA ', formData);
       const isAdmin = !!user.roles.filter(i => i === 'admin').length;
       dispatch(signInSuccess(user, isAdmin));
       dispatch(hideSignInDialog());
@@ -75,6 +74,7 @@ const signUpFailure = error => ({type: actions.FETCH_SIGNUP_FAILURE, error});
 
 export const fetchSignUp = formData => dispatch => {
   dispatch(signUpRequest());
+
   coralApi('/users', {method: 'POST', body: formData})
     .then(({user}) => {
       dispatch(signUpSuccess(user));
@@ -121,18 +121,15 @@ export const invalidForm = error => ({type: actions.INVALID_FORM, error});
 const checkLoginRequest = () => ({type: actions.CHECK_LOGIN_REQUEST});
 const checkLoginSuccess = (user, isAdmin) => ({type: actions.CHECK_LOGIN_SUCCESS, user, isAdmin});
 const checkLoginFailure = error => ({type: actions.CHECK_LOGIN_FAILURE, error});
-const checkCSRFToken = (csrfToken) => ({type: actions.CHECK_CSRF_TOKEN, csrfToken});
+const checkCSRF = (_csrf) => ({type: actions.CHECK_CSRF_TOKEN, _csrf});
 
 export const checkLogin = () => dispatch => {
   dispatch(checkLoginRequest());
   coralApi('/auth')
     .then((result) => {
-      console.log('debug 1 result ', result);
       if (result.csrfToken !== null) {
-        console.log('DEBUG 2 TOKEN', result.csrfToken);
-        dispatch(checkCSRFToken(result.csrfToken));
+        dispatch(checkCSRF(result.csrfToken));
       }
-
       if (!result.user) {
         throw new Error('Not logged in');
       }

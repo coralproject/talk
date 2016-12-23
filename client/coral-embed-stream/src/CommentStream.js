@@ -96,7 +96,7 @@ class CommentStream extends Component {
     const rootItem = this.props.items.assets && this.props.items.assets[rootItemId];
     const {actions, users, comments} = this.props.items;
     const {status, moderation, closedMessage, charCount, charCountEnable} = this.props.config;
-    const {loggedIn, isAdmin, user, showSignInDialog, signInOffset, csrfToken} = this.props.auth;
+    const {loggedIn, isAdmin, user, showSignInDialog, signInOffset, _csrf} = this.props.auth;
     const {activeTab} = this.state;
     const banned = (this.props.userData.status === 'banned');
 
@@ -134,12 +134,12 @@ class CommentStream extends Component {
                         banned={banned}
                         author={user}
                         charCount={charCountEnable && charCount}
-                        csrfToken={csrfToken}/>
+                        _csrf={_csrf}/>
                     </RestrictedContent>
                     </div>
                   : <p>{closedMessage}</p>
                 }
-                {!loggedIn && <SignInContainer offset={signInOffset}  csrfToken={csrfToken}/>}
+                {!loggedIn && <SignInContainer offset={signInOffset}  _csrf={_csrf}/>}
                 {
                   rootItem.comments && rootItem.comments.map((commentId) => {
                     const comment = comments[commentId];
@@ -205,7 +205,7 @@ class CommentStream extends Component {
                         premod={moderation}
                         currentUser={user}
                         charCount={charCountEnable && charCount}
-                        csrfToken={csrfToken}
+                        _csrf={_csrf}
                         showReply={comment.showReply}/>
                       {
                         comment.children &&
@@ -266,7 +266,7 @@ class CommentStream extends Component {
                               banned={banned}
                               currentUser={user}
                               charCount={charCountEnable && charCount}
-                              csrfToken={csrfToken}
+                              _csrf={_csrf}
                               showReply={reply.showReply}/>
                           </div>;
                         })
@@ -319,7 +319,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) => ({
   addItem: (item, item_id) => dispatch(addItem(item, item_id)),
   updateItem: (id, property, value, itemType) => dispatch(updateItem(id, property, value, itemType)),
-  postItem: (data, type, id, csrfToken) => dispatch(postItem(data, type, id, csrfToken)),
+  postItem: (data, type, id, _csrf) => dispatch(postItem(data, type, id, _csrf)),
   getStream: (rootId) => dispatch(getStream(rootId)),
   addNotification: (type, text) => dispatch(addNotification(type, text)),
   clearNotification: () => dispatch(clearNotification()),

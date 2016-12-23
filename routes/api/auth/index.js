@@ -17,11 +17,9 @@ const parseForm = bodyParser.urlencoded({extended: false});
  */
 router.get('/', csrfProtection, (req, res, next) => {
 
-  console.log('DEBUT WHAT IS GOING ?', req.user);
   if (req.user) {
     return next();
   }
-  console.log('it has the user but what the hek?');
 
   // When there is no user on the request, then just send back the CSRF token.
   res.json({csrfToken: req.csrfToken()});

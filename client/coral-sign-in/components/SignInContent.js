@@ -1,7 +1,6 @@
 import React from 'react';
 import Button from 'coral-ui/components/Button';
 import FormField from './FormField';
-import FormCSRFField from 'coral-plugin-csrf/FormCSRFField';
 import Alert from './Alert';
 import Spinner from 'coral-ui/components/Spinner';
 import styles from './styles.css';
@@ -28,9 +27,6 @@ const SignInContent = ({handleChange, formData, ...props}) => (
     </div>
     { props.auth.error && <Alert>{props.auth.error}</Alert> }
     <form onSubmit={props.handleSignIn}>
-      <FormCSRFField
-        csrfToken={props.csrfToken}
-      />
       <FormField
         id="email"
         type="email"

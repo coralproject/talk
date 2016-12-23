@@ -5,7 +5,7 @@ const initialState = Map({
   loggedIn: false,
   user: null,
   isAdmin: false,
-  csrfToken: ''
+  _csrf: ''
 });
 
 export default function auth (state = initialState, action) {
@@ -28,7 +28,7 @@ export default function auth (state = initialState, action) {
     return initialState;
   case actions.CHECK_CSRF_TOKEN:
     return state
-      .set('csrfToken', action.csrfToken);
+      .set('_csrf', action._csrf);
   default :
     return state;
   }

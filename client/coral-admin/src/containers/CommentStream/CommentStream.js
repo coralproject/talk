@@ -15,7 +15,7 @@ class CommentStream extends React.Component {
   constructor (props) {
     super(props);
     console.log('PROPS IN COMMENTSTREAM ', props);
-    this.state = {snackbar: false, snackbarMsg: '', csrfToken: props.csrfToken};
+    this.state = {snackbar: false, snackbarMsg: '', _csrf: props._csrf};
     this.onSubmit = this.onSubmit.bind(this);
     this.onClickAction = this.onClickAction.bind(this);
   }
@@ -26,8 +26,8 @@ class CommentStream extends React.Component {
   }
 
   // Submit the new comment
-  onSubmit (comment, csrfToken) {
-    this.props.dispatch(createComment(comment.name, comment.body, csrfToken));
+  onSubmit (comment, _csrf) {
+    this.props.dispatch(createComment(comment.name, comment.body, _csrf));
   }
 
   // The only action for now is flagging
@@ -44,7 +44,7 @@ class CommentStream extends React.Component {
   render ({comments, users}, {snackbar, snackbarMsg}) {
     return (
       <div className={styles.container}>
-        <CommentBox onSubmit={this.onSubmit} csrfToken={this.state.csrfToken}/>
+        <CommentBox onSubmit={this.onSubmit} _csrf={this.state._csrf}/>
         <CommentList isActive hideActive
           singleView={false}
           commentIds={comments.ids}

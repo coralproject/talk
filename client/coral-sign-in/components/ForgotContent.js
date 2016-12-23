@@ -18,7 +18,7 @@ class ForgotContent extends React.Component {
   }
 
   render () {
-    const {changeView, auth, csrfToken} = this.props;
+    const {changeView, auth, _csrf} = this.props;
     const {passwordRequestSuccess, passwordRequestFailure} = auth;
 
     return (
@@ -28,7 +28,7 @@ class ForgotContent extends React.Component {
         </div>
         <form onSubmit={this.handleSubmit}>
           <FormCSRFField
-            csrfToken={csrfToken}
+            _csrf={_csrf}
           />
           <div className={styles.formField}>
             <label htmlFor="email">{lang.t('signIn.email')}</label>

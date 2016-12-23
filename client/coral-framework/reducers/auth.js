@@ -12,7 +12,7 @@ const initialState = Map({
   passwordRequestSuccess: null,
   passwordRequestFailure: null,
   successSignUp: false,
-  csrfToken: ''
+  _csrf: ''
 });
 
 const purge = user => {
@@ -44,7 +44,7 @@ export default function auth (state = initialState, action) {
     return initialState;
   case actions.CHECK_CSRF_TOKEN:
     return state
-      .set('csrfToken', action.csrfToken);
+      .set('_csrf', action._csrf);
   case actions.FETCH_SIGNIN_REQUEST:
     return state
       .set('isLoading', true);
