@@ -3,11 +3,11 @@ Redux is a predictable state container for JavaScript apps.
 
 To understand Redux we need to dive into a few concepts. 
 
-	- Actions
-	- Action Creators
-	* Action Types
-	* Reducers
-	* Stores
+- [Actions](#actions)
+- [Action Creators](#actions)
+- [Action Types](#actions)
+- [Reducers](#reducers)
+- [Stores](#store)
 
 ## The three principles
 These are the three principles to build Redux applications. The following are specified in the Redux Documentation [Three Principles · Redux](http://redux.js.org/docs/introduction/ThreePrinciples.html)
