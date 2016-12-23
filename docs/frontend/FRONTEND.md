@@ -90,7 +90,7 @@ More about this architecture:
 ## Redux
 We use Redux to handle the state container of Talk.
 
-[How we to use Redux, and how we use it with Talk]((https://github.com/coralproject/talk/blob/frontenddocs/docs/frontend/REDUX.md))
+[How we to use Redux, and how we use it with Talk](https://github.com/coralproject/talk/blob/frontenddocs/docs/frontend/REDUX.md)
 
 
 ## ImmutableJS
