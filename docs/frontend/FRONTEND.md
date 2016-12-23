@@ -1,8 +1,8 @@
 # Frontend Architecture
 ## The Stack
-- React
-- Redux
-- ImmutableJS
+ - [React](#react)
+ - [Redux](#redux)
+ - [ImmutableJS](#immutablejs)
 
 
 ## The Architecture
@@ -15,8 +15,8 @@ We use a common simple pattern called
 __Presentational and Container Components__
 
 It basically consist in having two types of components: 
-	- Presentational 
-	- Containers
+  - Presentational 
+  - Containers
 
 ### Presentational Components
 - __How our UI looks like__
@@ -26,7 +26,7 @@ It basically consist in having two types of components:
 - They have DOM Markup
 
 ### Container Components
-* __How things work __
+* __How things work__
 * They don’t have markup nor styles
 * They provide data and behaviour to Presentational or Container Components
 * They connect via `react-redux`’s `connect()` to the state.
@@ -80,24 +80,26 @@ coral-sign-in/
 
 More about this architecture:
 [Container Components – Learn React with chantastic – Medium](https://medium.com/@learnreact/container-components-c0e67432e005#.w8mzgndcg)
+
 [Presentational and Container Components – Dan Abramov – Medium](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0#.ai4ih55v3)
+
 
 ## React
 ## Redux
 We use Redux to handle the state container of Talk.
 
-How we to use Redux, and how we use it with Talk.
+[How we to use Redux, and how we use it with Talk]((https://github.com/coralproject/talk/blob/frontenddocs/docs/frontend/REDUX.md))
 
 
 ## ImmutableJS
 We use Immutable JS to maintain our state immutable. 
 We found some really good tradeoffs while building Talk.
 
-How to use ImmutableJS and how we use it with Talk.
+[How to use ImmutableJS and how we use it with Talk](https://github.com/coralproject/talk/blob/frontenddocs/docs/frontend/IMMUTABLEJS.md)
 
 
 ## Test
-How we do testing at Coral with Talk.
+[How we do testing at Coral with Talk](https://github.com/coralproject/talk/blob/frontenddocs/docs/frontend/DEBUG.md)
 
 
 ## The Future of the Frontend
