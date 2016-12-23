@@ -104,6 +104,18 @@ We found some really good tradeoffs while building Talk.
 [How we do testing at Coral with Talk](https://github.com/coralproject/talk/blob/frontenddocs/docs/frontend/DEBUG.md)
 
 
+## Lint
+For linting in Talk we use `eslint:recommended`
+
+You can find more info about the rules and best practices here:
+http://eslint.org/docs/rules/#best-practices
+
+## Lint the code
+```js
+npm run lint
+```
+
+
 ## The Future of the Frontend
 - Preact
 - Reselect
