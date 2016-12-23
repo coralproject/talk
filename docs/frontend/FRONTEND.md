@@ -79,7 +79,9 @@ coral-sign-in/
 ```
 
 More about this architecture:
+
 [Container Components – Learn React with chantastic – Medium](https://medium.com/@learnreact/container-components-c0e67432e005#.w8mzgndcg)
+
 
 [Presentational and Container Components – Dan Abramov – Medium](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0#.ai4ih55v3)
 
