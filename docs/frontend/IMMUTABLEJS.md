@@ -1,8 +1,9 @@
-# # InmutableJS
+# InmutableJS
 InmutableJS is a library from Facebook that provides a series of inmutable data structures. They are always immutable. The reference to them can change but the data inside of them cannot which means you can build predictable and reliable state models. 
 We use ImmutableJS in Talk and it becomes really easy to manage Talk’s application state. [Immutable.js](https://facebook.github.io/immutable-js/)
 
-More about Immutable Data and React  [React.js Conf 2015 - Immutable Data and React - YouTube](https://www.youtube.com/watch?v=I7IdS-PbEgI&feature=youtu.be)
+More about Immutable Data and React: 
+[React.js Conf 2015 - Immutable Data and React - YouTube](https://www.youtube.com/watch?v=I7IdS-PbEgI&feature=youtu.be)
 
 ## Why ImmutableJS?
 - __Immutable Data is faster__
