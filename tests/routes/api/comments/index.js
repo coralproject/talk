@@ -225,8 +225,9 @@ describe('/api/v1/comments', () => {
           let action = actions[0];
 
           expect(action).to.have.property('item_id', comment.id);
-          expect(action).to.have.property('field', 'body');
-          expect(action).to.have.property('detail', 'Matched suspect word filters.');
+          expect(action).to.have.property('metadata', 'body');
+
+          // expect(action).to.have.property('detail', 'Matched suspect word filters.');
         });
     });
 
