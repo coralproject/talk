@@ -26,7 +26,7 @@ router.get('/', csrfProtection, (req, res, next) => {
 }, (req, res) => {
 
   // Send back the user object.
-  res.json(req.user.toObject(), {csrfToken: req.csrfToken()});
+  res.json({user: req.user.toObject(), csrfToken: req.csrfToken()});
 });
 
 /**

@@ -7,11 +7,11 @@ router.get('/password-reset', (req, res, next) => {
 
   // TODO: store the redirect uri in the token or something fancy.
   // admins and regular users should probably be redirected to different places.
-  res.render('password-reset', {redirectUri: process.env.TALK_ROOT_URL, csrfToken: req.csrfToken()});
+  res.render('password-reset', {redirectUri: process.env.TALK_ROOT_URL});
 });
 
 router.get('*', (req, res) => {
-  res.render('admin', {basePath: '/client/coral-admin', csrfToken: req.csrfToken()});
+  res.render('admin', {basePath: '/client/coral-admin'});
 });
 
 module.exports = router;
