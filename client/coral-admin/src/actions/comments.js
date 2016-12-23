@@ -33,10 +33,11 @@ export const fetchModerationQueueComments = () => {
 };
 
 // Create a new comment
-export const createComment = (name, body, _csrf) => {
-  return dispatch => {
-    const comment = {body, name, _csrf};
-    return coralApi('/comments', {method: 'POST', comment})
+export const createComment = (name, body) => {
+  return (dispatch, getState) => {
+    const comment = {body, name};
+    const _csrf = getState().auth.get('_csrf');
+    return coralApi('/comments', {method: 'POST', comment, _csrf: _csrf})
       .then(res => dispatch({type: commentTypes.COMMENT_CREATE_SUCCESS, comment: res}))
       .catch(error => dispatch({type: commentTypes.COMMENT_CREATE_FAILED, error}));
   };
