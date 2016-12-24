@@ -129,7 +129,7 @@ class SignInContainer extends Component {
   }
 
   render() {
-    const {auth, showSignInDialog, noButton, offset, _csrf} = this.props;
+    const {auth, showSignInDialog, noButton, offset} = this.props;
     return (
       <div>
         {!noButton && <Button id='coralSignInButton' onClick={showSignInDialog} full>
@@ -139,7 +139,6 @@ class SignInContainer extends Component {
           open={auth.showSignInDialog}
           view={auth.view}
           offset={offset}
-          _csrf={_csrf}
           {...this}
           {...this.state}
           {...this.props}
