@@ -37,6 +37,11 @@ available in the format: `<scheme>://<host>` without the path.
 - `TALK_SMTP_HOST` (*required*) - SMTP host url with format `smtp.domain.com`.
 - `TALK_SMTP_PORT` (*required*) - SMTP port.
 
+
+### Install from Source
+
+If you want to run Talk in development mode from source (without docker) you can read the [INSTALL file](INSTALL.md).
+
 ### License
 
     Copyright 2016 Mozilla Foundation
