@@ -30,6 +30,8 @@ We are looking for _documentarians_ to:
 
 ## Integrate into your environment
 
+First, [set up a dev environment](https://github.com/coralproject/talk/blob/master/INSTALL.md). Please let us know how this goes!
+
 Talk is designed to integrate into existing environments in a variety of ways:
 
 * [Auth integrations](https://github.com/coralproject/talk/wiki/Security#authentication-strategies)
@@ -41,6 +43,8 @@ If you're considering deploying Talk, [please let us know](https://github.com/co
 If you are writing custom integration code in your fork of Talk, please consider keeping it generic and filing a Pull Request to contribute it back to the project! See our [forking and merging guidelines](https://github.com/coralproject/talk/wiki/Forking,-Branching-and-Merging) for more info. 
 
 ## Write some code
+
+First, [set up a dev environment](https://github.com/coralproject/talk/blob/master/INSTALL.md). Please let us know how this goes!
 
 ### Build a New Feature / Plugin
 

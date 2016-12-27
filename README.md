@@ -8,6 +8,13 @@ See our [Contribution Guide](https://github.com/coralproject/talk/blob/master/CO
 
 ## Usage
 
+### Installation
+
+To set up a development environment or build from source, see [INSTALL.md](https://github.com/coralproject/talk/blob/master/INSTALL.md).
+
+To launch a Talk server of your own from your browser without any need to muck about in a terminal or think about engineering concepts, stay tuned. We will launch [our installer](https://github.com/coralproject/talk-install) shortly!!
+
+
 ### Configuration
 
 The Talk application requires specific configuration options to be available
