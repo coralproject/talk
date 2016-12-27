@@ -4,11 +4,7 @@ A commenting platform from [The Coral Project](https://coralproject.net).
 
 ## Contributing to Talk
 
-### Product Roadmap
-
-You can view what the Coral Team is working on next here https://www.pivotaltracker.com/n/projects/1863625.
-
-You can view product ideas and our longer term roadmap here https://trello.com/b/ILND751a/talk.
+See our [Contribution Guide](https://github.com/coralproject/talk/blob/master/CONTRIBUTING.md)!
 
 ## Usage
 

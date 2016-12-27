@@ -4,7 +4,13 @@ Welcome! We are very excited that you are interested in contributing to Talk.
 
 This document is a companion to help you approach contributing. If it does not do so, please [let us know how we can improve it](https://github.com/coralproject/talk/issues)!
 
-What would you like to do?
+
+## Product Roadmap
+
+You can view what the Coral Team is working on next here https://www.pivotaltracker.com/n/projects/1863625.
+
+You can view product ideas and our longer term roadmap here https://trello.com/b/ILND751a/talk.
+
 
 ## Contribute to the documentation
 Clear docs are a prerequisite for a successful open source project. We value non-code and code contributions equally. 
