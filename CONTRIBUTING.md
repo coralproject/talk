@@ -17,7 +17,7 @@ Clear docs are a prerequisite for a successful open source project. We value non
 
 We are looking for _documentarians_ to:
 
-* make clarity, grammar and completenes updates,
+* make clarity, grammar and completeness updates,
 * create new / missing sections, and
 * take the lead in making sections, or the over all structure better.
 
@@ -68,7 +68,7 @@ Examples:
 
 There is always more work to be done to make an application more stable, scaleable and secure. 
 
-If you see issues in the code or have ideas on how we may improve Talk, please conisder:
+If you see issues in the code or have ideas on how we may improve Talk, please consider:
 
 * [contributing a fix](https://github.com/coralproject/talk/wiki/Forking,-Branching-and-Merging),
 * [filing an issue](https://github.com/coralproject/talk/issues), or
