@@ -137,7 +137,7 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
   .then((comment) => {
     if (req.wordlist.suspect) {
       return Comment
-        .addAction(comment.id, null, 'flag', 'body', 'Matched suspect word filters.')
+        .addAction(comment.id, null, 'flag', {field: 'body', details: 'Matched suspect word filters.'})
         .then(() => comment);
     }
 
