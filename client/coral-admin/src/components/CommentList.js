@@ -21,14 +21,12 @@ export default class CommentList extends React.Component {
     comments: PropTypes.object.isRequired,
     users: PropTypes.object.isRequired,
     onClickAction: PropTypes.func,
-    modActions: PropTypes.arrayOf(PropTypes.string),
+    
+    // list of actions (flags, etc) associated with the comments
+    modActions: PropTypes.arrayOf(PropTypes.string).isRequired,
     loading: PropTypes.bool,
 
-    // list of actions (flags, etc) associated with the comments
-    actions: PropTypes.shape({
-      ids: PropTypes.arrayOf(PropTypes.string)
-    }),
-    suspectWords: PropTypes.arrayOf(PropTypes.string)
+    suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired
   }
 
   constructor (props) {
