@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Notification = (props) => {
-  console.log('ACA EL PROBLEMA notification');
   if (props.notification.text) {
     setTimeout(() => {
       props.clearNotification();

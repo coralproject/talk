@@ -221,8 +221,13 @@ export function postItem (item, type, id) {
 */
 
 export function postAction (item_id, item_type, action) {
-  return () => {
-    return coralApi(`/${item_type}/${item_id}/actions`, {method: 'POST', body: action});
+  return (dispatch, getState) => {
+    action._csrf = getState().auth.get('_csrf');
+    return coralApi(`/${item_type}/${item_id}/actions`, {method: 'POST', body: action})
+      .then((json) => {
+        dispatch(updateItem(action.item_id, action.action_type, action.id, item_type));
+        return json;
+      });
   };
 }
 
