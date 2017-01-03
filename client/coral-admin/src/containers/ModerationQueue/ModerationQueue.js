@@ -23,6 +23,7 @@ export default ({onTabClick, ...props}) => (
       </div>
       <div className={`mdl-tabs__panel is-active ${styles.listContainer}`} id='pending'>
         <CommentList
+          suspectWords={props.settings.settings.wordlist.suspect}
           isActive={props.activeTab === 'pending'}
           singleView={props.singleView}
           commentIds={props.premodIds}
@@ -30,7 +31,7 @@ export default ({onTabClick, ...props}) => (
           users={props.users.byId}
           onClickAction={props.updateStatus}
           onClickShowBanDialog={props.showBanUserDialog}
-          actions={['reject', 'approve', 'ban']}
+          modActions={['reject', 'approve', 'ban']}
           loading={props.comments.loading}/>
         <BanUserDialog
           open={props.comments.showBanUserDialog}
@@ -41,25 +42,27 @@ export default ({onTabClick, ...props}) => (
       </div>
       <div className={`mdl-tabs__panel ${styles.listContainer}`} id='rejected'>
         <CommentList
+          suspectWords={props.settings.settings.wordlist.suspect}
           isActive={props.activeTab === 'rejected'}
           singleView={props.singleView}
           commentIds={props.rejectedIds}
           comments={props.comments.byId}
           users={props.users.byId}
           onClickAction={props.updateStatus}
-          actions={['approve']}
+          modActions={['approve']}
           loading={props.comments.loading}
         />
       </div>
       <div className={`mdl-tabs__panel ${styles.listContainer}`} id='flagged'>
         <CommentList
+          suspectWords={props.settings.settings.wordlist.suspect}
           isActive={props.activeTab === 'rejected'}
           singleView={props.singleView}
           commentIds={props.flaggedIds}
           comments={props.comments.byId}
           users={props.users.byId}
           onClickAction={props.updateStatus}
-          actions={['reject', 'approve']}
+          modActions={['reject', 'approve']}
           loading={props.comments.loading}/>
       </div>
       <ModerationKeysModal open={props.modalOpen} onClose={props.closeModal} />

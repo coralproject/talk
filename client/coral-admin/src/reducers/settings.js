@@ -37,7 +37,7 @@ const updateSettings = (state, action) => {
 
 // any nested settings must have a specialized setter
 const updateWordlist = (state, action) => {
-  return state.setIn(['settings', 'wordlist', action.listName], action.wordlist);
+  return state.setIn(['settings', 'wordlist', action.listName], action.list);
 };
 
 const saveComplete = (state, action) => {
