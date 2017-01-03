@@ -1,6 +1,7 @@
 import coralApi from '../../../coral-framework/helpers/response';
 import * as commentTypes from '../constants/comments';
 import * as actionTypes from '../constants/actions';
+import * as userTypes from '../constants/users';
 
 // Get comments to fill each of the three lists on the mod queue
 export const fetchModerationQueueComments = () => {
@@ -24,7 +25,7 @@ export const fetchModerationQueueComments = () => {
     .then(({comments, users, actions}) => {
 
       /* Post comments and users to redux store. Actions will be posted when they are needed. */
-      dispatch({type: commentTypes.USERS_MODERATION_QUEUE_FETCH_SUCCESS, users});
+      dispatch({type: userTypes.USERS_MODERATION_QUEUE_FETCH_SUCCESS, users});
       dispatch({type: commentTypes.COMMENTS_MODERATION_QUEUE_FETCH_SUCCESS, comments});
       dispatch({type: actionTypes.ACTIONS_MODERATION_QUEUE_FETCH_SUCCESS, actions});
 
