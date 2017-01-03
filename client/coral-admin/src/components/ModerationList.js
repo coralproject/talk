@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import styles from './CommentList.css';
+import styles from './ModerationList.css';
 import key from 'keymaster';
 import Hammer from 'hammerjs';
 import Comment from 'components/Comment';
@@ -13,15 +13,17 @@ const modActions = {
 };
 
 // Renders a comment list and allow performing actions
-export default class CommentList extends React.Component {
+export default class ModerationList extends React.Component {
   static propTypes = {
     isActive: PropTypes.bool,
     singleView: PropTypes.bool,
-    commentIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-    comments: PropTypes.object.isRequired,
-    users: PropTypes.object.isRequired,
+    commentIds: PropTypes.arrayOf(PropTypes.string),
+    actionIds: PropTypes.arrayOf(PropTypes.string),
+    comments: PropTypes.object,
+    users: PropTypes.object,
+    actions: PropTypes.object,
     onClickAction: PropTypes.func,
-    
+
     // list of actions (flags, etc) associated with the comments
     modActions: PropTypes.arrayOf(PropTypes.string).isRequired,
     loading: PropTypes.bool,
@@ -73,11 +75,11 @@ export default class CommentList extends React.Component {
   // Add key handlers. Each action has one and added j/k for moving around
   bindKeyHandlers () {
     this.props.modActions.filter(action => modActions[action].key).forEach(action => {
-      key(modActions[action].key, 'commentList', () => this.props.isActive && this.actionKeyHandler(modActions[action].status));
+      key(modActions[action].key, 'moderationList', () => this.props.isActive && this.actionKeyHandler(modActions[action].status));
     });
-    key('j', 'commentList', () => this.props.isActive && this.moveKeyHandler('down'));
-    key('k', 'commentList', () => this.props.isActive && this.moveKeyHandler('up'));
-    key.setScope('commentList');
+    key('j', 'moderationList', () => this.props.isActive && this.moveKeyHandler('down'));
+    key('k', 'moderationList', () => this.props.isActive && this.moveKeyHandler('up'));
+    key.setScope('moderationList');
   }
 
   // Perform an action using the keys only if the comment is active
@@ -111,7 +113,7 @@ export default class CommentList extends React.Component {
   }
 
   unbindKeyHandlers () {
-    key.deleteScope('commentList');
+    key.deleteScope('moderationList');
   }
 
   // If we are performing an action over a comment (aka removing from the list) we need to select a new active.
@@ -135,31 +137,53 @@ export default class CommentList extends React.Component {
     this.props.onClickShowBanDialog(userId, userName, commentId);
   }
 
-  render () {
-    const {singleView, commentIds, comments, users, hideActive, key, suspectWords} = this.props;
+  mapModItems = (itemId, index) => {
+    const {comments, users, actions, modActions, suspectWords, hideActive} = this.props;
     const {active} = this.state;
+
+    // Because ids are unique, the id will either appear as an action or as a comment.
+
+    const item = comments[itemId] || actions[itemId];
+    let modItem;
+
+    if (item.body) {
+      // If the item is a comment...
+      const author = users[item.author_id];
+      modItem = <Comment
+        suspectWords={suspectWords}
+        comment={item}
+        author={author}
+        key={index}
+        index={index}
+        onClickAction={this.onClickAction}
+        onClickShowBanDialog={this.onClickShowBanDialog}
+        modActions={modActions}
+        actionsMap={modActions}
+        isActive={itemId === active}
+        hideActive={hideActive} />;
+    } else {
+      // If the item is an action...
+      modItem = <h2>Action</h2>;
+    }
+    return modItem;
+  }
+
+  render () {
+    const {singleView, commentIds, actionIds, comments, actions, key} = this.props;
+
+    // Combine moderations and actions into a single stream and sort by most recently updated.
+    const moderationIds = [ ...commentIds, ...actionIds ].sort((a, b) => {
+      const itemA = comments[a] || actions[a];
+      const itemB = comments[b] || actions[b];
+      return itemB.updated_at - itemA.updated_at;
+    });
 
     return (
       <ul
         className={`${styles.list} ${singleView ? styles.singleView : ''}`} {...key}
-        id='commentList'
+        id='moderationList'
       >
-        {commentIds.map((commentId, index) => {
-          const comment = comments[commentId];
-          const author = users[comment.author_id];
-          return <Comment
-            suspectWords={suspectWords}
-            comment={comment}
-            author={author}
-            key={index}
-            index={index}
-            onClickAction={this.onClickAction}
-            onClickShowBanDialog={this.onClickShowBanDialog}
-            modActions={this.props.modActions}
-            actionsMap={modActions}
-            isActive={commentId === active}
-            hideActive={hideActive} />;
-        })}
+        {moderationIds.map(this.mapModItems)}
       </ul>
     );
   }

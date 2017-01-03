@@ -821,6 +821,14 @@ definitions:
       current_user:
         type: object
         description: Will include the action performed by the currently logged in user if that user has taken an action on this item. Otherwise will return null.
+      created_at:
+        type: string
+        format: date-time
+        description: Oldest created_at of actions in this set.
+      updated_at:
+        type: string
+        format: date-time
+        description: Newest updated_at of actions in this set.
   Action:
     type: object
     description: A single action taken by a user.

@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './ModerationQueue.css';
 
 import ModerationKeysModal from 'components/ModerationKeysModal';
-import CommentList from 'components/CommentList';
+import ModerationList from 'components/ModerationList';
 import BanUserDialog from 'components/BanUserDialog';
 
 import I18n from 'coral-framework/modules/i18n/i18n';
@@ -22,7 +22,7 @@ export default ({onTabClick, ...props}) => (
            className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.flagged')}</a>
       </div>
       <div className={`mdl-tabs__panel is-active ${styles.listContainer}`} id='pending'>
-        <CommentList
+        <ModerationList
           suspectWords={props.settings.settings.wordlist.suspect}
           isActive={props.activeTab === 'pending'}
           singleView={props.singleView}
@@ -41,7 +41,7 @@ export default ({onTabClick, ...props}) => (
         />
       </div>
       <div className={`mdl-tabs__panel ${styles.listContainer}`} id='rejected'>
-        <CommentList
+        <ModerationList
           suspectWords={props.settings.settings.wordlist.suspect}
           isActive={props.activeTab === 'rejected'}
           singleView={props.singleView}
@@ -54,7 +54,7 @@ export default ({onTabClick, ...props}) => (
         />
       </div>
       <div className={`mdl-tabs__panel ${styles.listContainer}`} id='flagged'>
-        <CommentList
+        <ModerationList
           suspectWords={props.settings.settings.wordlist.suspect}
           isActive={props.activeTab === 'rejected'}
           singleView={props.singleView}

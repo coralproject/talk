@@ -81,7 +81,8 @@ class ModerationContainer extends React.Component {
 const mapStateToProps = state => ({
   comments: state.comments.toJS(),
   settings: state.settings.toJS(),
-  users: state.users.toJS()
+  users: state.users.toJS(),
+  actions: state.actions.toJS(),
 });
 
 const mapDispatchToProps = dispatch => {

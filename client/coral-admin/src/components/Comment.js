@@ -2,7 +2,7 @@ import React from 'react';
 import timeago from 'timeago.js';
 import Linkify from 'react-linkify';
 
-import styles from './CommentList.css';
+import styles from './ModerationList.css';
 
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations.json';
