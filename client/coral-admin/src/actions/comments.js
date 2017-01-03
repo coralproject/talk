@@ -9,17 +9,18 @@ export const fetchModerationQueueComments = () => {
     dispatch({type: commentTypes.COMMENTS_MODERATION_QUEUE_FETCH_REQUEST});
     return Promise.all([
       coralApi('/queue/comments/pending'),
+      coralApi('/queue/users/pending'),
       coralApi('/comments?status=rejected'),
       coralApi('/comments?action_type=flag')
     ])
-    .then(([pending, rejected, flagged]) => {
+    .then(([pendingComments, pendingUsers, rejected, flagged]) => {
 
       /* Combine seperate calls into a single object */
       flagged.comments.forEach(comment => comment.flagged = true);
       return {
-        comments: [...pending.comments, ...rejected.comments, ...flagged.comments],
-        users: [...pending.users, ...rejected.users, ...flagged.users],
-        actions: [...pending.actions, ...rejected.actions, ...flagged.actions]
+        comments: [...pendingComments.comments, ...rejected.comments, ...flagged.comments],
+        users: [...pendingComments.users, ...pendingUsers.users, ...rejected.users, ...flagged.users],
+        actions: [...pendingComments.actions, ...pendingUsers.actions, ...rejected.actions, ...flagged.actions]
       };
     })
     .then(({comments, users, actions}) => {

@@ -1,4 +1,4 @@
-import * as actions from '../constants/user';
+import * as actions from '../constants/users';
 import * as assetActions from '../constants/assets';
 import {addNotification} from '../actions/notification';
 import {addItem} from '../actions/items';
