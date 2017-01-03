@@ -113,6 +113,7 @@ input.error{
     font-weight: bold;
     cursor: pointer;
     margin: 0px;
+    margin-left: 4px;
     padding-bottom: 2px;
     border-bottom: solid 1px black;
 }

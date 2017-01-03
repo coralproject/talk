@@ -1,95 +1,78 @@
-# Contribution Guide
+# Contributor's Guide
 
-We're very excited that you're interested in contributing to Talk! There is much to do. Before you begin, please review this document to get a sense of the practices and philosophies that hold this project together.
+Welcome! We are very excited that you are interested in contributing to Talk. 
 
-
-## Doing the Work
-
-We are here to make it as seamless as possible to contribute to Talk. The following lists are meant to make it straightforward to perform the mechanics of working on the project so you can focus your energy toward writing and reviewing content.
+This document is a companion to help you approach contributing. If it does not do so, please [let us know how we can improve it](https://github.com/coralproject/talk/issues)!
 
 
-### Code Reviews
+## Product Roadmap
 
-One of the most valuable aspects of working in software. It is something that should challenge the reviewer and author alike. It is a way of focusing knowledge, experience and opinions for the benefit of the project and the participants.
+You can view what the Coral Team is working on next here https://www.pivotaltracker.com/n/projects/1863625.
 
-Code reviews are a collaboration to make _the work_ as good as it can be. Code reviews are not a good venue for providing direct instruction to _the author._  Focus on positive, incremental improvements that can be made on the work at hand.
-
-Please take your time when writing and reviewing code. Here are some fundamental questions to open up a reviewing headspace.
-
-**Is the code clear, efficient and a pleasure to read?**
-
-Somewhere at the intersection of good variable names, well laid out file structures, consistent formatting and appropriate comments lies beautiful code. Code is language spoken to at least two very distinct audiences, the computer that interprets it and the developer who encounters it. Both should be at the front of your mind when reviewing code.
-
-Thinking like a computer, you could ask:
-
-* Is the code using memory efficiently?
-* Is data being moved around unnecessarily?
-* Are multiple network requests being made where fewer would do?
-* Is there excess processing happening in a synchronous flow that may disrupt user experience?
-* Are there large libraries included for small gains?
-
-Then, returning to your human roots... Is the code readable?
-
-* Can I understand what is happening here (and maybe even why) by simply opening up the file, starting at the top and reading downward?
-* Do comments convey clear, full thoughts in a narrative language that provides background for the code choices?
-* Are the files separated logically such that each one contains a clear concept of code?
+You can view product ideas and our longer term roadmap here https://trello.com/b/ILND751a/talk.
 
 
-**Is the API documentation up to date? Are all client calls written against the docs?**
+## Contribute to the documentation
+Clear docs are a prerequisite for a successful open source project. We value non-code and code contributions equally. 
 
-We use [swagger](https://github.com/coralproject/talk/blob/master/swagger.yaml) to track our API documentation.
+We are looking for _documentarians_ to:
 
-* If APIs are created or updated, is the swagger.yml file up to date? There's nothing more frustrating than trying to develop against docs that are out of date or wrong. We need to be meticulous here as it's the little differences that can cause the most frustration and tricky bugs.
-* If client code calls APIs, are they written against the swagger.yml file? Are all return codes handled?
+* make clarity, grammar and completeness updates,
+* create new / missing sections, and
+* take the lead in making sections, or the over all structure better.
 
-**Is there sufficient test coverage?**
+### But how?
 
-Our tests folder is set up to mirror the code folders: [https://github.com/coralproject/talk/tree/master/tests](https://github.com/coralproject/talk/tree/master/tests)
+* Our public docs site can be updated [here](https://github.com/coralproject/docs).
+* [Let us know](https://github.com/coralproject/talk/wiki/Contact-Us) if you'd like permission to update our wiki.
+* Update any of our .md docs files by following [this guide](https://github.com/coralproject/talk/wiki/Forking,-Branching-and-Merging).
+* Our API docs need to be kept honest. [Update them here](https://github.com/coralproject/talk/blob/master/docs/swagger.yaml).
 
-* Can you a sense of the logic behind the code by reading the tests?
-* Can you see both what should happen and what should _never, ever_ be allowed to happen?
-* Are there future cases that are guarded against via the creation of unit tests (aka, making sure things are typed, specifically checking for all values that will be used, etc...)?
+## Integrate into your environment
 
+First, [set up a dev environment](https://github.com/coralproject/talk/blob/master/INSTALL.md). Please let us know how this goes!
 
-### Forking, Branching and Merging
+Talk is designed to integrate into existing environments in a variety of ways:
 
-Talk follows the _master as tip_ repo structure. `master` is the bleeding edge. It should be _as stable as possible_ but may suffer instabilities, generally during times that fundamental architectural elements are added.
+* [Auth integrations](https://github.com/coralproject/talk/wiki/Security#authentication-strategies)
+* [Push assets into Talk](https://github.com/coralproject/talk/blob/master/routes/api/assets/index.js)
+* Monitoring Hooks (coming in 2017)
 
-Releases are _tagged_ off the master branch.
+If you're considering deploying Talk, [please let us know](https://github.com/coralproject/talk/wiki/Contact-Us)! We are quite literally doing this for you and want to help you succeed any way we can.
 
-Contributions to Talk follow this process. There are a lot of steps, but mechanically following these steps will standardize communication, help stop errors and let you focus on your contribution.
+If you are writing custom integration code in your fork of Talk, please consider keeping it generic and filing a Pull Request to contribute it back to the project! See our [forking and merging guidelines](https://github.com/coralproject/talk/wiki/Forking,-Branching-and-Merging) for more info. 
 
-* At the outset of a piece of work, a branch or fork is made from master.
-* The work is done in that fork.
-* As soon as the work has taken shape, a PR is created for discussion. (If the PR is created for review before it's ready to merge, please make that clear in the description/title.)
-* At least one other contributor to the project must review all code (see Code Reviews below.)
-* If there are merge conflicts with master, merge master into the branch.
-* Ensure that [circleci](https://circleci.com/) passes all tests for your branch.  (If you have forked and do not have circleci set up, you and the reviewer should independently ensure that all the of Continuous Integration steps pass before merging.)
-* If merge conflicts exist with `master`, merge `master` into your branch and re-run CI before merging into master.
-* Merge to master, but _you're not quite done yet!_
-* Deploy master to staging (or have a core member do so.)
-* Ensure that all your changes are working on staging.
-* Have your reviewer verify the same.
-* ... aaaand the work is delivered!
+## Write some code
 
+First, [set up a dev environment](https://github.com/coralproject/talk/blob/master/INSTALL.md). Please let us know how this goes!
 
-## Continuous Integration
+### Build a New Feature / Plugin
 
-We use circleci to run our ci: [https://circleci.com/gh/coralproject/talk](https://circleci.com/gh/coralproject/talk)
+Talk is beginning life as a Commenting Platform, but is architected to support many varieties of community engagement. 
 
-Our pipeline will _test_, _lint_, and _build_ all pushes to the repo.
+Please [contact us](https://github.com/coralproject/talk/wiki/Contact-Us) early and often if you'd like to help. We would love to hear your ideas for features and plugins and help you find a way to productively engage the project. 
 
-Any branch not passing CI will not be merged into master.
+To get an idea of where the Coral Team is going, see:
 
-If you're working in a fork, please run each of the steps locally before submitting a PR.
+* our [product/design Trello board](https://trello.com/b/ILND751a/talk),
+* our [current stories](https://www.pivotaltracker.com/n/projects/1863625), and
+* our [issues](https://github.com/coralproject/talk/issues).
 
 
-## Coding Style
+Examples:
 
-### API Design
+* [Add An Emoji Button to Comments](https://github.com/coralproject/talk/wiki/Add-An-Emoji-Button-to-Comments)
 
-When building APIs, we follow these principles:
 
-* Follow [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer) principles for basic operations.
-* Avoid routing yourself into a corner, for example, by putting a variable other than an object's id directly after an object.
-* Put non-required, flexible variables into query params, required/identity based values in request params.
+### Work on the Core
+
+There is always more work to be done to make an application more stable, scaleable and secure. 
+
+If you see issues in the code or have ideas on how we may improve Talk, please consider:
+
+* [contributing a fix](https://github.com/coralproject/talk/wiki/Forking,-Branching-and-Merging),
+* [filing an issue](https://github.com/coralproject/talk/issues), or
+* or otherwise [letting us know](https://github.com/coralproject/talk/wiki/Contact-Us).
+
+
+

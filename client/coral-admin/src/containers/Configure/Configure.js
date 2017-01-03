@@ -1,6 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {fetchSettings, updateSettings, saveSettingsToServer} from '../../actions/settings';
+import {
+  fetchSettings,
+  updateSettings,
+  saveSettingsToServer,
+  updateWordlist,
+} from '../../actions/settings';
 import {
   List,
   ListItem,
@@ -14,6 +19,7 @@ import translations from '../../translations.json';
 import EmbedLink from './EmbedLink';
 import CommentSettings from './CommentSettings';
 import Wordlist from './Wordlist';
+import has from 'lodash/has';
 
 class Configure extends React.Component {
   constructor (props) {
@@ -21,7 +27,6 @@ class Configure extends React.Component {
 
     this.state = {
       activeSection: 'comments',
-      wordlist: [],
       changed: false,
       errors: {}
     };
@@ -29,15 +34,6 @@ class Configure extends React.Component {
 
   componentWillMount = () => {
     this.props.dispatch(fetchSettings());
-  }
-
-  componentWillUpdate = (newProps) => {
-    if ((!this.props.settings
-      || !this.props.settings.wordlist)
-      && newProps.settings.wordlist
-      && newProps.settings.wordlist.length !== 0 ) {
-      this.setState({wordlist: newProps.settings.wordlist.join(', ')});
-    }
   }
 
   saveSettings = () => {
@@ -49,15 +45,9 @@ class Configure extends React.Component {
     this.setState({activeSection});
   }
 
-  onChangeWordlist = (event) => {
-    event.preventDefault();
-    const newlist = event.target.value;
-    this.setState({wordlist: newlist.toLowerCase(), changed: true});
-    this.props.dispatch(updateSettings({
-      wordlist: newlist.toLowerCase()
-        .split(',')
-        .map((word) => word.trim())
-    }));
+  onChangeWordlist = (listName, list) => {
+    this.setState({changed: true});
+    this.props.dispatch(updateWordlist(listName, list));
   }
 
   onSettingUpdate = (setting) => {
@@ -74,45 +64,45 @@ class Configure extends React.Component {
     });
   }
 
-  getSection = (section) => {
+  getSection (section) {
+    const pageTitle = this.getPageTitle(section);
     switch(section){
     case 'comments':
       return <CommentSettings
+        title={pageTitle}
         fetchingSettings={this.props.fetchingSettings}
         settings={this.props.settings}
         updateSettings={this.onSettingUpdate}
         errors={this.state.errors}
         settingsError={this.onSettingError}/>;
     case 'embed':
-      return <EmbedLink/>;
+      return <EmbedLink title={pageTitle} />;
     case 'wordlist':
-      return <Wordlist
-        wordlist={this.state.wordlist}
-        onChangeWordlist={this.onChangeWordlist}/>;
+      return has(this, 'props.settings.wordlist')
+        ? <Wordlist
+          bannedWords={this.props.settings.wordlist.banned}
+          suspectWords={this.props.settings.wordlist.suspect}
+          onChangeWordlist={this.onChangeWordlist} />
+        : <p>loading wordlists</p>;
     }
   }
 
-  getPageTitle = (section) => {
+  getPageTitle (section) {
     switch(section) {
     case 'comments':
       return lang.t('configure.comment-settings');
     case 'embed':
       return lang.t('configure.embed-comment-stream');
-    case 'wordlist':
-      return lang.t('configure.wordlist');
+    default:
+      return '';
     }
   }
 
   render () {
-    let pageTitle = this.getPageTitle(this.state.activeSection);
     const section = this.getSection(this.state.activeSection);
 
     const showSave = Object.keys(this.state.errors).reduce(
       (bool, error) => this.state.errors[error] ? false : bool, this.state.changed);
-
-    if (this.props.fetchingSettings) {
-      pageTitle += ' - Loading...';
-    }
 
     return (
         <div className={styles.container}>
@@ -151,7 +141,6 @@ class Configure extends React.Component {
 
           </div>
           <div className={styles.mainContent}>
-            <h1>{pageTitle}</h1>
             { this.props.saveFetchingError }
             { this.props.fetchSettingsError }
             { section }

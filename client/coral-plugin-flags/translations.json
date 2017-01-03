@@ -19,8 +19,9 @@
     "bio-offensive": "This bio is offensive",
     "no-like-bio": "I don't like this bio",
     "marketing": "This looks like an ad/marketing",
+    "user-impersonating": "This user is impersonating",
     "thank-you": "We value your safety and feedback. A moderator will review your flag.",
-    "flag-reason": "Reason for flag",
+    "flag-reason": "Reason for flag (Optional)",
     "other": "Other"
   },
   "es": {
@@ -42,9 +43,10 @@
     "no-like-username": "No me gusta ese nombre de usuario",
     "bio-offensive": "Esta bio es ofensiva",
     "no-like-bio": "No me gusta esta bio",
+    "user-impersonating": "Este usario suplanta a alguien",
     "marketing": "Esto parece una publicidad/marketing",
     "thank-you": "Nos interesa tu protección y comentarios. Un moderador va a mirar tu marca.",
-    "flag-reason": "Razón por la que marcar",
+    "flag-reason": "Razón por la que marcar (Opcional)",
     "other": "Otro"
   }
 }

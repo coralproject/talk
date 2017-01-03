@@ -10,10 +10,9 @@ class FlagButton extends Component {
 
   state = {
     showMenu: false,
-    showOther: false,
     itemType: '',
-    detail: '',
-    otherText: '',
+    reason: '',
+    note: '',
     step: 0,
     posted: false
   }
@@ -30,7 +29,7 @@ class FlagButton extends Component {
 
   onPopupContinue = () => {
     const {postAction, addItem, updateItem, flag, id, author_id} = this.props;
-    const {itemType, field, detail, step, otherText, posted} = this.state;
+    const {itemType, field, reason, step, note, posted} = this.state;
 
     // Proceed to the next step or close the menu if we've reached the end
     if (step + 1 >= this.props.getPopupMenu.length) {
@@ -39,11 +38,10 @@ class FlagButton extends Component {
       this.setState({step: step + 1});
     }
 
-    // If itemType and detail are both set, post the action
-    if (itemType && detail && !posted) {
+    // If itemType and reason are both set, post the action
+    if (itemType && reason && !posted) {
 
       // Set the text from the "other" field if it exists.
-      const updatedDetail = otherText || detail;
       let item_id;
       switch(itemType) {
       case 'comments':
@@ -55,8 +53,11 @@ class FlagButton extends Component {
       }
       const action = {
         action_type: 'flag',
-        field,
-        detail: updatedDetail
+        metadata: {
+          field,
+          reason,
+          note
+        }
       };
       postAction(item_id, itemType, action)
         .then((action) => {
@@ -69,11 +70,6 @@ class FlagButton extends Component {
   }
 
   onPopupOptionClick = (sets) => (e) => {
-
-    // If the "other" option is clicked, show the other textbox
-    if(sets === 'detail' && e.target.value === 'other') {
-      this.setState({showOther: true});
-    }
 
     // If flagging a user, indicate that this is referencing the username rather than the bio
     if(sets === 'itemType' && e.target.value === 'user') {
@@ -92,8 +88,8 @@ class FlagButton extends Component {
     this.setState({[sets]: e.target.value});
   }
 
-  onOtherTextChange = (e) => {
-    this.setState({otherText: e.target.value});
+  onNoteTextChange = (e) => {
+    this.setState({note: e.target.value});
   }
 
   handleClickOutside () {
@@ -142,16 +138,16 @@ class FlagButton extends Component {
                   )
                 }
                 {
-                  this.state.showOther && <div>
-                    <input
-                      className={`${name}-other-text`}
-                      type="text"
-                      id="otherText"
-                      onChange={this.onOtherTextChange}
-                      value={this.state.otherText}/>
-                    <label htmlFor={'otherText'} className={`${name}-popup-radio-label screen-reader-text`}>
-                      lang.t('flag-reason')
-                    </label><br/>
+                  this.state.reason && <div>
+                  <label htmlFor={'note'} className={`${name}-popup-radio-label`}>
+                    {lang.t('flag-reason')}
+                  </label><br/>
+                  <textarea
+                      className={`${name}-reason-text`}
+                      id="note"
+                      rows={4}
+                      onChange={this.onNoteTextChange}
+                      value={this.state.note}/>
                   </div>
                 }
               </form>

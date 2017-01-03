@@ -119,7 +119,7 @@ router.post('/request-password-reset', (req, res, next) => {
 
       const options = {
         subject: 'Password Reset Requested - Talk',
-        from: 'noreply@coralproject.net',
+        from: process.env.TALK_SMTP_FROM_ADDRESS,
         to: email,
         html: resetEmailTemplate({
           token,
@@ -162,12 +162,11 @@ router.put('/:user_id/bio', (req, res, next) => {
 router.post('/:user_id/actions',  authorization.needed(), (req, res, next) => {
   const {
     action_type,
-    field,
-    detail
+    metadata
   } = req.body;
 
   User
-    .addAction(req.params.user_id, req.user.id, action_type, field, detail)
+    .addAction(req.params.user_id, req.user.id, action_type, metadata)
     .then((action) => {
       res.status(201).json(action);
     })

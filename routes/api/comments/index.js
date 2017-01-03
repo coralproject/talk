@@ -96,7 +96,7 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
   // premod, set it to `premod`.
   let status;
 
-  if (req.wordlist.matched) {
+  if (req.wordlist.banned) {
     status = Promise.resolve('rejected');
   } else {
     status = Asset
@@ -134,6 +134,15 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
     status,
     author_id: req.user.id
   }))
+  .then((comment) => {
+    if (req.wordlist.suspect) {
+      return Comment
+        .addAction(comment.id, null, 'flag', {field: 'body', details: 'Matched suspect word filters.'})
+        .then(() => comment);
+    }
+
+    return comment;
+  })
   .then((comment) => {
 
     // The comment was created! Send back the created comment.
@@ -190,12 +199,11 @@ router.post('/:comment_id/actions', (req, res, next) => {
 
   const {
     action_type,
-    field,
-    detail
+    metadata
   } = req.body;
 
   Comment
-    .addAction(req.params.comment_id, req.user.id, action_type, field, detail)
+    .addAction(req.params.comment_id, req.user.id, action_type, metadata)
     .then((action) => {
       res.status(201).json(action);
     })

@@ -1,12 +1,11 @@
-
-import React from 'react';
+import React, {PropTypes} from 'react';
 import styles from './CommentList.css';
 import key from 'keymaster';
 import Hammer from 'hammerjs';
 import Comment from 'components/Comment';
 
 // Each action has different meaning and configuration
-const actions = {
+const modActions = {
   'reject': {status: 'rejected', icon: 'close', key: 'r'},
   'approve': {status: 'accepted', icon: 'done', key: 't'},
   'flag': {status: 'flagged', icon: 'flag', filter: 'Untouched'},
@@ -15,6 +14,21 @@ const actions = {
 
 // Renders a comment list and allow performing actions
 export default class CommentList extends React.Component {
+  static propTypes = {
+    isActive: PropTypes.bool,
+    singleView: PropTypes.bool,
+    commentIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+    comments: PropTypes.object.isRequired,
+    users: PropTypes.object.isRequired,
+    onClickAction: PropTypes.func,
+    
+    // list of actions (flags, etc) associated with the comments
+    modActions: PropTypes.arrayOf(PropTypes.string).isRequired,
+    loading: PropTypes.bool,
+
+    suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired
+  }
+
   constructor (props) {
     super(props);
 
@@ -44,22 +58,22 @@ export default class CommentList extends React.Component {
 
   // Add swipe to approve or reject
   bindGestures () {
-    const {actions} = this.props;
+    const {modActions} = this.props;
     this._hammer = new Hammer(this.base);
     this._hammer.get('swipe').set({direction: Hammer.DIRECTION_HORIZONTAL});
 
-    if (actions.indexOf('reject') !== -1) {
+    if (modActions.indexOf('reject') !== -1) {
       this._hammer.on('swipeleft', () => this.props.singleView && this.actionKeyHandler('Rejected'));
     }
-    if (actions.indexOf('approve') !== -1) {
+    if (modActions.indexOf('approve') !== -1) {
       this._hammer.on('swiperight', () => this.props.singleView && this.actionKeyHandler('Approved'));
     }
   }
 
   // Add key handlers. Each action has one and added j/k for moving around
   bindKeyHandlers () {
-    this.props.actions.filter(action => actions[action].key).forEach(action => {
-      key(actions[action].key, 'commentList', () => this.props.isActive && this.actionKeyHandler(actions[action].status));
+    this.props.modActions.filter(action => modActions[action].key).forEach(action => {
+      key(modActions[action].key, 'commentList', () => this.props.isActive && this.actionKeyHandler(modActions[action].status));
     });
     key('j', 'commentList', () => this.props.isActive && this.moveKeyHandler('down'));
     key('k', 'commentList', () => this.props.isActive && this.moveKeyHandler('up'));
@@ -122,22 +136,27 @@ export default class CommentList extends React.Component {
   }
 
   render () {
-    const {singleView, commentIds, comments, users, hideActive, key} = this.props;
+    const {singleView, commentIds, comments, users, hideActive, key, suspectWords} = this.props;
     const {active} = this.state;
 
     return (
-      <ul className={`${styles.list} ${singleView ? styles.singleView : ''}`} {...key}>
+      <ul
+        className={`${styles.list} ${singleView ? styles.singleView : ''}`} {...key}
+        id='commentList'
+      >
         {commentIds.map((commentId, index) => {
           const comment = comments[commentId];
           const author = users[comment.author_id];
-          return <Comment comment={comment}
+          return <Comment
+            suspectWords={suspectWords}
+            comment={comment}
             author={author}
             key={index}
             index={index}
             onClickAction={this.onClickAction}
             onClickShowBanDialog={this.onClickShowBanDialog}
-            actions={this.props.actions}
-            actionsMap={actions}
+            modActions={this.props.modActions}
+            actionsMap={modActions}
             isActive={commentId === active}
             hideActive={hideActive} />;
         })}

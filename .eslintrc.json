@@ -28,7 +28,6 @@
         "yoda": [1],
         "no-path-concat": [2],
         "eol-last": [1],
-        "no-continue": [1],
         "no-nested-ternary": [1],
         "no-tabs": [2],
         "no-unneeded-ternary": [1],

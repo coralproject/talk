@@ -42,7 +42,9 @@ export default class Dialog extends Component {
 
   componentWillUnmount() {
     const dialog = this.dialog;
-    dialog.removeEventListener('cancel', this.props.onCancel);
+    if (dialog) {
+      dialog.removeEventListener('cancel', this.props.onCancel);      
+    }
   }
 
   render() {

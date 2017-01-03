@@ -13,8 +13,7 @@ const ActionSchema = new Schema({
   item_type: String,
   item_id: String,
   user_id: String,
-  field: String, // Used when an action references a particular field of an object. (e.g. a flag on a username or bio)
-  detail: String, // Describes the reason for an action (e.g. 'Username is offensive')
+  metadata: Object, //Holds arbitrary metadata about the action.
 }, {
   timestamps: {
     createdAt: 'created_at',
@@ -39,8 +38,17 @@ ActionSchema.statics.findById = function(id) {
  */
 ActionSchema.statics.insertUserAction = (action) => {
 
+  // Actions are made unique by using a query that can be reproducable, i.e.,
+  // not containing user inputable values.
+  let query = {
+    action_type: action.action_type,
+    item_type: action.item_type,
+    item_id: action.item_id,
+    user_id: action.user_id
+  };
+
   // Create/Update the action.
-  return Action.findOneAndUpdate(action, action, {
+  return Action.findOneAndUpdate(query, action, {
 
     // Ensure that if it's new, we return the new object created.
     new: true,

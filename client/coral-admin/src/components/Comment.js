@@ -8,6 +8,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations.json';
 
 import {Icon} from 'react-mdl';
+import Highlighter from 'react-highlight-words';
 import {FabButton, Button} from 'coral-ui';
 
 const linkify = new Linkify();
@@ -30,8 +31,8 @@ export default props => {
         <div>
           {links ?
           <span className={styles.hasLinks}><Icon name='error_outline'/> Contains Link</span> : null}
-          <div className={styles.actions}>
-            {props.actions.map((action, i) => getActionButton(action, i, props))}
+          <div className={`actions ${styles.actions}`}>
+            {props.modActions.map((action, i) => getActionButton(action, i, props))}
           </div>
         </div>
         <div>
@@ -42,7 +43,9 @@ export default props => {
       <div className={styles.itemBody}>
         <span className={styles.body}>
           <Linkify  component='span' properties={{style: linkStyles}}>
-            {comment.body}
+            <Highlighter
+              searchWords={props.suspectWords}
+              textToHighlight={comment.body} />
           </Linkify>
         </span>
       </div>
@@ -63,21 +66,23 @@ const getActionButton = (action, i, props) => {
   if (action === 'ban') {
     return (
       <Button
-        disabled={banned ? 'disabled' : ''}
+        className='ban'
         cStyle='black'
+        disabled={banned ? 'disabled' : ''}
         onClick={() => props.onClickShowBanDialog(author.id, author.displayName, comment.id)}
-        key={i} >
+        key={i}
+      >
         {lang.t('comment.ban_user')}
       </Button>
     );
   }
   return (
     <FabButton
-      className={styles.actionButton}
-      icon={props.actionsMap[action].icon}
+      className={`${action} ${styles.actionButton}`}
       cStyle={action}
+      icon={props.actionsMap[action].icon}
       key={i}
-      onClick={() => props.onClickAction(props.actionsMap[action].status, comment.id)}
+      onClick={() => props.onClickAction(props.actionsMap[action].status, comment)}
     />
   );
 };

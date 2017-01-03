@@ -10,7 +10,11 @@ import CommentHistory from 'coral-plugin-history/CommentHistory';
 import SettingsHeader from '../components/SettingsHeader';
 import RestrictedContent from 'coral-framework/components/RestrictedContent';
 
-class SignInContainer extends Component {
+import I18n from 'coral-framework/modules/i18n/i18n';
+import translations from '../translations';
+const lang = new I18n(translations);
+
+class SettingsContainer extends Component {
   constructor (props) {
     super(props);
     this.state = {
@@ -59,7 +63,7 @@ class SignInContainer extends Component {
             ? <CommentHistory
               comments={commentsMostRecentFirst}
               assets={user.myAssets.map(id => items.assets[id])} />
-            : <p>Loading comment history...</p>
+            : <p>{lang.t('user-no-comment')}</p>
           }
         </TabContent>
         <TabContent show={activeTab === 1}>
@@ -83,4 +87,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SignInContainer);
+)(SettingsContainer);

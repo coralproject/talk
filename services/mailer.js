@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer');
 
 const smtpRequiredProps = [
+  'TALK_SMTP_FROM_ADDRESS',
   'TALK_SMTP_USERNAME',
   'TALK_SMTP_PASSWORD',
   'TALK_SMTP_HOST'
