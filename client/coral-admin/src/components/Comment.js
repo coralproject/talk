@@ -14,7 +14,7 @@ import {FabButton, Button} from 'coral-ui';
 const linkify = new Linkify();
 
 // Render a single comment for the list
-export default props => {
+const Comment = props => {
   const {comment, author} = props;
   let authorStatus = author.status;
   const links = linkify.getMatches(comment.body);
@@ -86,6 +86,8 @@ const getActionButton = (action, i, props) => {
     />
   );
 };
+
+export default Comment;
 
 const linkStyles = {
   backgroundColor: 'rgb(255, 219, 135)',

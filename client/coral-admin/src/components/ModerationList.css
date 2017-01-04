@@ -49,6 +49,7 @@
     justify-content: space-between;
 
     .author {
+      min-width: 230px;
       display: flex;
       align-items: center;
     }
@@ -97,6 +98,12 @@
     padding-top: 15px;
     padding-left: 10px;
   }
+
+  .flagCount{
+    font-size: 12px;
+    color: #d32f2f;
+  }
+
 }
 
 .empty {

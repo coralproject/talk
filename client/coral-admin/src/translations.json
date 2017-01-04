@@ -37,6 +37,11 @@
       "ban_user": "Ban User",
       "banned_user": "Banned User"
     },
+    "user": {
+      "user_bio": "User Bio",
+      "bio_flags": "flags for this bio",
+      "username_flags": "flags for this username"
+    },
     "embedlink": {
       "copy": "Copy to Clipboard"
     },
@@ -125,6 +130,11 @@
       "anon": "Anónimo",
       "ban_user": "Suspender Usuario",
       "banned_user": "Usuario Suspendido"
+    },
+    "user": {
+      "user_bio": "",
+      "bio_flags": "",
+      "username_flags": ""
     },
     "configure": {
       "enable-pre-moderation": "Habilitar pre-moderación",

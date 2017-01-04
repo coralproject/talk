@@ -2,7 +2,8 @@ import React, {PropTypes} from 'react';
 import styles from './ModerationList.css';
 import key from 'keymaster';
 import Hammer from 'hammerjs';
-import Comment from 'components/Comment';
+import Comment from './Comment';
+import UserAction from './UserAction';
 
 // Each action has different meaning and configuration
 const actionsMap = {
@@ -167,7 +168,19 @@ export default class ModerationList extends React.Component {
     } else {
 
       // If the item is an action...
-      modItem = <h2>Action</h2>;
+      const user = users[item.item_id];
+      modItem = <UserAction
+        suspectWords={suspectWords}
+        action={item}
+        user={user}
+        key={index}
+        index={index}
+        onClickAction={this.onClickAction}
+        onClickShowBanDialog={this.onClickShowBanDialog}
+        modActions={modActions}
+        actionsMap={actionsMap}
+        isActive={itemId === active}
+        hideActive={hideActive} />;
     }
     return modItem;
   }

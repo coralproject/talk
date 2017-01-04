@@ -13,10 +13,10 @@ import {FabButton, Button} from 'coral-ui';
 const linkify = new Linkify();
 
 // Render a single comment for the list
-export default props => {
+const UserAction = props => {
   const {action, user} = props;
   let userStatus = user.status;
-  const links = linkify.getMatches(user.bio);
+  const links = user.settings.bio ? linkify.getMatches(user.settings.bio) : [];
 
   return (
     <li tabIndex={props.index} className={`${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
@@ -37,38 +37,29 @@ export default props => {
           <span className={styles.banned}><Icon name='error_outline'/> {lang.t('comment.banned_user')}</span> : null}
         </div>
       </div>
-      <div className={styles.itemBody}>
-        <span className={styles.body}>
-          <Linkify  component='span' properties={{style: linkStyles}}>
-            <Highlighter
-              searchWords={props.suspectWords}
-              textToHighlight={user.bio} />
-          </Linkify>
-        </span>
-      </div>
-      <div className={styles.flagReasons}>
-        {
-          action.metadata.map(metadata => {
-            return <div>
-                <span className={styles.flagField}>
-                  {
-                    metadata.field === 'bio' ?
-                    lang.t('user.flagged_bio')
-                    : lang.t('user.flagged_username')
-                  }:
-                </span>
-                <span className={styles.flagReason}>
-                  {
-                    metadata.reason
-                  }
-                </span>
-            </div>;
-          })
-        }
+      {
+        user.settings.bio &&
+        <div>
+          <div className={styles.itemBody}>
+            <div>{lang.t('user.user_bio')}:</div>
+            <span className={styles.body}>
+              <Linkify  component='span' properties={{style: linkStyles}}>
+                <Highlighter
+                  searchWords={props.suspectWords}
+                  textToHighlight={user.settings.bio} />
+              </Linkify>
+            </span>
+          </div>
+        </div>
+      }
+      <div className={styles.flagCount}>
+        {`${action.count} ${lang.t('user.bio_flags')}`}
       </div>
     </li>
   );
 };
+
+export default UserAction;
 
 // Get the button of the action performed over a comment if any
 const getActionButton = (action, i, props) => {
