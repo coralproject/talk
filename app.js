@@ -73,7 +73,7 @@ app.use(session(session_opts));
 app.use(cookieParser());
 
 app.use((err, req, res, next) => {
-  if (req.method === 'POST') {
+  if (req.method === 'POST' || req.method === 'PUT' || req.method === 'DELETE') {
     res.locals._csrf = req.csrfToken();
   }
   next();
