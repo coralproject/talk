@@ -194,7 +194,8 @@ export function postItem (item, type, id) {
     if (id) {
       item.id = id;
     }
-    item._csrf = getState().auth.get('_csrf');
+
+    item._csrf = getState().toJS().auth._csrf;
     return coralApi(`/${type}`, {method: 'POST', body: item})
       .then((json) => {
         dispatch(addItem({...item, id:json.id}, type));

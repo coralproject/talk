@@ -5,18 +5,16 @@ import fetchMock from 'fetch-mock';
 import * as actions from '../../../../client/coral-framework/actions/items';
 
 import configureStore from 'redux-mock-store';
+import {fromJS} from 'immutable';
 
 const mockStore = configureStore();
 
-xdescribe('itemActions', () => {
+describe('itemActions', () => {
   let store;
 
   beforeEach(() => {
-    const initialState = {};
-    store = mockStore(initialState);
-    store.setState(auth, {_csrf: 'somethingelse'});
+    store = mockStore(fromJS({'auth': {'_csrf': 'JGHxbxW3-rs7Eo3274bJpA_nEbb1oLPRge0A'}}));
     fetchMock.restore();
-
   });
 
   describe('getStream', () => {
@@ -113,7 +111,6 @@ xdescribe('itemActions', () => {
     });
   });
 
-  // NEED TO FIGURE OUT HOW TO TEST WITH CSRF TOKEN IN.
   describe('postItem', () => {
     const item = {
       type: 'comments',
@@ -122,6 +119,7 @@ xdescribe('itemActions', () => {
 
     it ('should post an item, return an id, then dispatch that item to the store', () => {
       fetchMock.post('*', {id: '123'});
+
       return actions.postItem(item.data, item.type, undefined)(store.dispatch, store.getState)
         .then((id) => {
           expect(fetchMock.calls().matched[0][1]).to.deep.equal(
@@ -139,6 +137,7 @@ xdescribe('itemActions', () => {
           expect(store.getActions()[0]).to.deep.equal({
             type: actions.ADD_ITEM,
             item: {
+              '_csrf': 'JGHxbxW3-rs7Eo3274bJpA_nEbb1oLPRge0A',
               body: 'stuff',
               id: '123'
             },
