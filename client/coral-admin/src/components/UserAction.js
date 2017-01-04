@@ -53,7 +53,7 @@ const UserAction = props => {
         </div>
       }
       <div className={styles.flagCount}>
-        {`${action.count} ${lang.t('user.bio_flags')}`}
+        {`${action.count} ${action.action_type === 'flag_bio' ? lang.t('user.bio_flags') : lang.t('user.username_flags')}`}
       </div>
     </li>
   );

@@ -15,9 +15,12 @@ export default (state = initialState, action) => {
 };
 
 const addActions = (state, action) => {
-  const ids = action.actions.map(action => action.item_id);
+  
+  // Make ids that are unique by item_id and by action type
+  const typeId = (action) => `${action.action_type}_${action.item_id}`;
+  const ids = action.actions.map(action => typeId(action));
   const map = action.actions.reduce((memo, action) => {
-    memo[action.item_id] = action;
+    memo[typeId(action)] = action;
     return memo;
   }, {});
   return state.set('byId', fromJS(map)).set('ids', new Set(ids));

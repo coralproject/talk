@@ -52,7 +52,7 @@ class FlagButton extends Component {
         break;
       }
       const action = {
-        action_type: 'flag',
+        action_type: `flag_${field}`,
         metadata: {
           field,
           reason,
