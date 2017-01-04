@@ -80,12 +80,16 @@ function createUser(options) {
     .then((user) => {
       console.log(`Created user ${user.id}.`);
 
-      return User
-        .addRoleToUser(user.id, result.role.trim())
-        .then(() => {
-          console.log(`Added the admin ${result.role.trim()} to User ${user.id}.`);
-          util.shutdown();
-        });
+      if (result.role && result.role.length > 0) {
+        return User
+          .addRoleToUser(user.id, result.role.trim())
+          .then(() => {
+            console.log(`Added the admin ${result.role.trim()} to User ${user.id}.`);
+            util.shutdown();
+          });
+      } else {
+        util.shutdown();
+      }
     })
     .catch((err) => {
       console.error(err);

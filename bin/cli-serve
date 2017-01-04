@@ -14,7 +14,7 @@ const util = require('../util');
 * Get port from environment and store in Express.
 */
 
-const port = normalizePort(process.env.TALK_PORT || (process.env.NODE_ENV === 'test' ? '3011' : '3000'));
+const port = normalizePort(process.env.TALK_PORT || '3000');
 
 app.set('port', port);
 
