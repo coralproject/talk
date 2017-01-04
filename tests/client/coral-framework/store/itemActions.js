@@ -3,17 +3,18 @@ import 'redux';
 import {expect} from 'chai';
 import fetchMock from 'fetch-mock';
 import * as actions from '../../../../client/coral-framework/actions/items';
-import {Map} from 'immutable';
 
 import configureStore from 'redux-mock-store';
 
 const mockStore = configureStore();
 
-describe('itemActions', () => {
+xdescribe('itemActions', () => {
   let store;
 
   beforeEach(() => {
-    store = mockStore(new Map({}));
+    const initialState = {};
+    store = mockStore(initialState);
+    store.setState(auth, {_csrf: 'somethingelse'});
     fetchMock.restore();
 
   });
@@ -66,6 +67,7 @@ describe('itemActions', () => {
           });
         });
     });
+
     it('should handle an error', () => {
       fetchMock.get('*', 404);
       return actions.getStream(assetUrl)(store.dispatch)
@@ -112,7 +114,7 @@ describe('itemActions', () => {
   });
 
   // NEED TO FIGURE OUT HOW TO TEST WITH CSRF TOKEN IN.
-  xdescribe('postItem', () => {
+  describe('postItem', () => {
     const item = {
       type: 'comments',
       data: {body: 'stuff'}
