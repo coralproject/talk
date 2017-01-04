@@ -26,7 +26,7 @@ const signInFailure = error => ({type: actions.FETCH_SIGNIN_FAILURE, error});
 export const fetchSignIn = (formData) => (dispatch, getState) => {
   dispatch(signInRequest());
   const _csrf = getState().auth.get('_csrf');
-  coralApi('/auth/local', {method: 'POST', body: formData, _csrf: _csrf})
+  coralApi('/auth/local', {method: 'POST', body: formData, _csrf})
     .then(({user}) => {
       const isAdmin = !!user.roles.filter(i => i === 'admin').length;
       dispatch(signInSuccess(user, isAdmin));
@@ -77,7 +77,7 @@ export const fetchSignUp = formData => (dispatch, getState) => {
   dispatch(signUpRequest());
 
   const _csrf = getState().auth.get('_csrf');
-  coralApi('/users', {method: 'POST', body: formData, _csrf: _csrf})
+  coralApi('/users', {method: 'POST', body: formData, _csrf})
     .then(({user}) => {
       dispatch(signUpSuccess(user));
       setTimeout(() =>{
@@ -97,7 +97,7 @@ export const fetchForgotPassword = email => (dispatch, getState) => {
   dispatch(forgotPassowordRequest(email));
 
   const _csrf = getState().auth.get('_csrf');
-  coralApi('/users/request-password-reset', {method: 'POST', body: {email}, _csrf: _csrf})
+  coralApi('/users/request-password-reset', {method: 'POST', body: {email}, _csrf})
     .then(() => dispatch(forgotPassowordSuccess()))
     .catch(error => dispatch(forgotPassowordFailure(error)));
 };
