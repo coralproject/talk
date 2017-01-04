@@ -5,7 +5,7 @@ import Hammer from 'hammerjs';
 import Comment from 'components/Comment';
 
 // Each action has different meaning and configuration
-const modActions = {
+const actionsMap = {
   'reject': {status: 'rejected', icon: 'close', key: 'r'},
   'approve': {status: 'accepted', icon: 'done', key: 't'},
   'flag': {status: 'flagged', icon: 'flag', filter: 'Untouched'},
@@ -17,12 +17,12 @@ export default class ModerationList extends React.Component {
   static propTypes = {
     isActive: PropTypes.bool,
     singleView: PropTypes.bool,
-    commentIds: PropTypes.arrayOf(PropTypes.string),
-    actionIds: PropTypes.arrayOf(PropTypes.string),
-    comments: PropTypes.object,
-    users: PropTypes.object,
-    actions: PropTypes.object,
-    onClickAction: PropTypes.func,
+    commentIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+    actionIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+    comments: PropTypes.object.isRequired,
+    users: PropTypes.object.isRequired,
+    actions: PropTypes.object.isRequired,
+    onClickAction: PropTypes.func.isRequired,
 
     // list of actions (flags, etc) associated with the comments
     modActions: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -74,11 +74,12 @@ export default class ModerationList extends React.Component {
 
   // Add key handlers. Each action has one and added j/k for moving around
   bindKeyHandlers () {
-    this.props.modActions.filter(action => modActions[action].key).forEach(action => {
-      key(modActions[action].key, 'moderationList', () => this.props.isActive && this.actionKeyHandler(modActions[action].status));
+    const {modActions, isActive} = this.props;
+    modActions.filter(action => modActions[action].key).forEach(action => {
+      key(modActions[action].key, 'moderationList', () => isActive && this.actionKeyHandler(modActions[action].status));
     });
-    key('j', 'moderationList', () => this.props.isActive && this.moveKeyHandler('down'));
-    key('k', 'moderationList', () => this.props.isActive && this.moveKeyHandler('up'));
+    key('j', 'moderationList', () => isActive && this.moveKeyHandler('down'));
+    key('k', 'moderationList', () => isActive && this.moveKeyHandler('up'));
     key.setScope('moderationList');
   }
 
@@ -138,6 +139,7 @@ export default class ModerationList extends React.Component {
   }
 
   mapModItems = (itemId, index) => {
+
     const {comments, users, actions, modActions, suspectWords, hideActive} = this.props;
     const {active} = this.state;
 
@@ -147,6 +149,7 @@ export default class ModerationList extends React.Component {
     let modItem;
 
     if (item.body) {
+
       // If the item is a comment...
       const author = users[item.author_id];
       modItem = <Comment
@@ -158,10 +161,11 @@ export default class ModerationList extends React.Component {
         onClickAction={this.onClickAction}
         onClickShowBanDialog={this.onClickShowBanDialog}
         modActions={modActions}
-        actionsMap={modActions}
+        actionsMap={actionsMap}
         isActive={itemId === active}
         hideActive={hideActive} />;
     } else {
+
       // If the item is an action...
       modItem = <h2>Action</h2>;
     }

@@ -10,15 +10,15 @@ import translations from '../../translations.json';
 
 const lang = new I18n(translations);
 
-export default ({onTabClick, ...props}) => (
+export default (props) => (
   <div>
     <div className='mdl-tabs mdl-js-tabs mdl-js-ripple-effect'>
       <div className={`mdl-tabs__tab-bar ${styles.tabBar}`}>
-        <a href='#pending' onClick={() => onTabClick('pending')}
+        <a href='#pending' onClick={() => props.onTabClick('pending')}
            className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.pending')}</a>
-        <a href='#rejected' onClick={() => onTabClick('rejected')}
+        <a href='#rejected' onClick={() => props.onTabClick('rejected')}
            className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.rejected')}</a>
-        <a href='#flagged' onClick={() => onTabClick('flagged')}
+        <a href='#flagged' onClick={() => props.onTabClick('flagged')}
            className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.flagged')}</a>
       </div>
       <div className={`mdl-tabs__panel is-active ${styles.listContainer}`} id='pending'>
@@ -29,6 +29,8 @@ export default ({onTabClick, ...props}) => (
           commentIds={props.premodIds}
           comments={props.comments.byId}
           users={props.users.byId}
+          actionIds={props.actions.ids}
+          actions={props.actions.byId}
           onClickAction={props.updateStatus}
           onClickShowBanDialog={props.showBanUserDialog}
           modActions={['reject', 'approve', 'ban']}
@@ -48,6 +50,8 @@ export default ({onTabClick, ...props}) => (
           commentIds={props.rejectedIds}
           comments={props.comments.byId}
           users={props.users.byId}
+          actionIds={props.actions.ids}
+          actions={props.actions.byId}
           onClickAction={props.updateStatus}
           modActions={['approve']}
           loading={props.comments.loading}
@@ -61,6 +65,8 @@ export default ({onTabClick, ...props}) => (
           commentIds={props.flaggedIds}
           comments={props.comments.byId}
           users={props.users.byId}
+          actionIds={props.actions.ids}
+          actions={props.actions.byId}
           onClickAction={props.updateStatus}
           modActions={['reject', 'approve']}
           loading={props.comments.loading}/>

@@ -2,7 +2,8 @@ import {Map, Set} from 'immutable';
 import * as types from '../constants/actions';
 
 const initialState = Map({
-  ids: Set()
+  ids: Set(),
+  byId: Map()
 });
 
 export default (state = initialState, action) => {
@@ -19,6 +20,5 @@ const addActions = (state, action) => {
     memo[action.item_id] = action;
     return memo;
   }, {});
-  const newIds = state.get('ids').concat(ids);
-  return state.merge(map).set('ids', newIds);
+  return state.set('byId', map).set('ids', ids);
 };
