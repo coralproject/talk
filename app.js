@@ -7,6 +7,7 @@ const passport = require('./services/passport');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const redis = require('./services/redis');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
@@ -64,6 +65,12 @@ if (app.get('env') === 'production') {
 }
 
 app.use(session(session_opts));
+
+//==============================================================================
+// CSRF MIDDLEWARE
+//==============================================================================
+
+app.use(cookieParser());
 
 //==============================================================================
 // PASSPORT MIDDLEWARE

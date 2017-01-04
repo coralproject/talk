@@ -4,6 +4,14 @@ const router = express.Router();
 const Asset = require('../../../models/asset');
 const scraper = require('../../../services/scraper');
 
+const csrf = require('csurf');
+const bodyParser = require('body-parser');
+
+// Setup route middlewares for CSRF protection.
+// Default ignore methods are GET, HEAD, OPTIONS
+const csrfProtection = csrf({});
+const parseForm = bodyParser.urlencoded({extended: false});
+
 // List assets.
 router.get('/', (req, res, next) => {
 
@@ -88,7 +96,7 @@ router.get('/:asset_id', (req, res, next) => {
 });
 
 // Adds the asset id to the queue to be scraped.
-router.post('/:asset_id/scrape', (req, res, next) => {
+router.post('/:asset_id/scrape', parseForm, csrfProtection, (req, res, next) => {
 
   // Create a new asset scrape job.
   Asset
