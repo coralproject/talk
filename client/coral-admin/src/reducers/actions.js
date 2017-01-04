@@ -1,4 +1,4 @@
-import {Map, Set} from 'immutable';
+import {Map, Set, fromJS} from 'immutable';
 import * as types from '../constants/actions';
 
 const initialState = Map({
@@ -20,5 +20,5 @@ const addActions = (state, action) => {
     memo[action.item_id] = action;
     return memo;
   }, {});
-  return state.set('byId', map).set('ids', ids);
+  return state.set('byId', fromJS(map)).set('ids', new Set(ids));
 };

@@ -61,16 +61,19 @@ class ModerationContainer extends React.Component {
   }
 
   render () {
-    const {comments} = this.props;
+    const {comments, actions} = this.props;
+    
     const premodIds = comments.ids.filter(id => comments.byId[id].status === 'premod');
     const rejectedIds = comments.ids.filter(id => comments.byId[id].status === 'rejected');
     const flaggedIds = comments.ids.filter(id => comments.byId[id].flagged === true);
+    const userActionIds = actions.ids.filter(id => actions.byId[id].item_type === 'user');
 
     return (
       <ModerationQueue
         onTabClick={this.onTabClick}
         onClose={this.onClose}
         premodIds={premodIds}
+        userActionIds={userActionIds}
         rejectedIds={rejectedIds}
         flaggedIds={flaggedIds}
         {...this.props}

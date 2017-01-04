@@ -18,11 +18,11 @@ export default class ModerationList extends React.Component {
   static propTypes = {
     isActive: PropTypes.bool,
     singleView: PropTypes.bool,
-    commentIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-    actionIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-    comments: PropTypes.object.isRequired,
+    commentIds: PropTypes.arrayOf(PropTypes.string),
+    actionIds: PropTypes.arrayOf(PropTypes.string),
+    comments: PropTypes.object,
     users: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired,
+    actions: PropTypes.object,
     onClickAction: PropTypes.func.isRequired,
 
     // list of actions (flags, etc) associated with the comments
@@ -141,7 +141,7 @@ export default class ModerationList extends React.Component {
 
   mapModItems = (itemId, index) => {
 
-    const {comments, users, actions, modActions, suspectWords, hideActive} = this.props;
+    const {comments = {}, users, actions = {}, modActions, suspectWords, hideActive} = this.props;
     const {active} = this.state;
 
     // Because ids are unique, the id will either appear as an action or as a comment.
@@ -186,7 +186,7 @@ export default class ModerationList extends React.Component {
   }
 
   render () {
-    const {singleView, commentIds, actionIds, comments, actions, key} = this.props;
+    const {singleView, commentIds = [], actionIds = [], comments, actions, key} = this.props;
 
     // Combine moderations and actions into a single stream and sort by most recently updated.
     const moderationIds = [ ...commentIds, ...actionIds ].sort((a, b) => {
