@@ -12,6 +12,11 @@ const buildOptions = (inputOptions = {}) => {
   };
   const options = Object.assign({}, defaultOptions, inputOptions);
 
+  // Add CSRF field to each POST.
+  if (options.method.toLowerCase() === 'post' && options._csrf) {
+    options.body._csrf = options._csrf;
+  }
+
   if (options.method.toLowerCase() !== 'get') {
     options.body = JSON.stringify(options.body);
   }

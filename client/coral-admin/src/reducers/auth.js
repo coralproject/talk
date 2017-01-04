@@ -4,7 +4,8 @@ import * as actions from '../constants/auth';
 const initialState = Map({
   loggedIn: false,
   user: null,
-  isAdmin: false
+  isAdmin: false,
+  _csrf: ''
 });
 
 export default function auth (state = initialState, action) {
@@ -25,6 +26,9 @@ export default function auth (state = initialState, action) {
       .set('user', action.user);
   case actions.LOGOUT_SUCCESS:
     return initialState;
+  case actions.CHECK_CSRF_TOKEN:
+    return state
+      .set('_csrf', action._csrf);
   default :
     return state;
   }

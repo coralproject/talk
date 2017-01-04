@@ -4,6 +4,8 @@ const app = require('../../../../app');
 const chai = require('chai');
 const expect = chai.expect;
 
+const agent = chai.request.agent(app);
+
 // Setup chai.
 chai.should();
 chai.use(require('chai-http'));
@@ -88,6 +90,7 @@ describe('/api/v1/comments', () => {
         .then(res => {
           expect(res).to.have.status(200);
           expect(res.body.comments).to.have.length(2);
+          expect(res.body.comments[0]).to.have.property('author_id', '456');
           expect(res.body.comments[1]).to.have.property('author_id', '456');
         });
     });
@@ -182,52 +185,66 @@ describe('/api/v1/comments', () => {
     ]));
 
     it('should create a comment', () => {
-      return chai.request(app)
-        .post('/api/v1/comments')
-        .set(passport.inject({roles: []}))
-        .send({'body': 'Something body.', 'author_id': '123', 'asset_id': asset_id, 'parent_id': ''})
-        .then((res) => {
-          expect(res).to.have.status(201);
-          expect(res.body).to.have.property('id');
+      agent
+        .get('/api/v1/auth')
+        .then((resa) => {
+          expect(resa.status).to.be.equal(200);
+          expect(resa.body).to.have.property('csrfToken');
+          return agent.post('/api/v1/comments')
+            .set(passport.inject({roles: []}))
+            .send({'body': 'Something body.', 'author_id': '123', 'asset_id': asset_id, 'parent_id': '', _csrf: resa.body.csrfToken})
+            .then((res) => {
+              expect(res).to.have.status(201);
+              expect(res.body).to.have.property('id');
+            });
         });
     });
 
     it('should create a comment with a rejected status if it contains a bad word', () => {
-      return chai.request(app)
-        .post('/api/v1/comments')
-        .set(passport.inject({roles: []}))
-        .send({'body': 'bad words are the baddest', 'author_id': '123', 'asset_id': asset_id, 'parent_id': ''})
-        .then((res) => {
-          expect(res).to.have.status(201);
-          expect(res.body).to.have.property('id');
-          expect(res.body).to.have.property('status', 'rejected');
+      agent
+        .get('/api/v1/auth')
+        .then((resa) => {
+          expect(resa.status).to.be.equal(200);
+          expect(resa.body).to.have.property('csrfToken');
+          return agent.post('/api/v1/comments')
+            .set(passport.inject({roles: []}))
+            .send({'body': 'bad words are the baddest', 'author_id': '123', 'asset_id': asset_id, 'parent_id': '', _csrf: resa.body.csrfToken})
+            .then((res) => {
+              expect(res).to.have.status(201);
+              expect(res.body).to.have.property('id');
+              expect(res.body).to.have.property('status', 'rejected');
+            });
         });
     });
 
     it('should create a comment with no status and a flag if it contains a suspected word', () => {
-      return chai.request(app)
-        .post('/api/v1/comments')
-        .set(passport.inject({roles: []}))
-        .send({'body': 'suspect words are the most suspicious', 'author_id': '123', 'asset_id': postmod_asset_id, 'parent_id': ''})
-        .then((res) => {
-          expect(res).to.have.status(201);
-          expect(res.body).to.have.property('id');
-          expect(res.body).to.have.property('status', null);
+      agent
+        .get('/api/v1/auth')
+        .then((resa) => {
+          expect(resa.status).to.be.equal(200);
+          expect(resa.body).to.have.property('csrfToken');
+          return agent.post('/api/v1/comments')
+          .set(passport.inject({roles: []}))
+          .send({'body': 'suspect words are the most suspicious', 'author_id': '123', 'asset_id': postmod_asset_id, 'parent_id': ''})
+          .then((res) => {
+            expect(res).to.have.status(201);
+            expect(res.body).to.have.property('id');
+            expect(res.body).to.have.property('status', null);
+            return Promise.all([
+              res.body,
+              Action.findByType('flag', 'comments')
+            ]);
+          })
+          .then(([comment, actions]) => {
+            expect(actions).to.have.length(1);
 
-          return Promise.all([
-            res.body,
-            Action.findByType('flag', 'comments')
-          ]);
-        })
-        .then(([comment, actions]) => {
-          expect(actions).to.have.length(1);
+            let action = actions[0];
 
-          let action = actions[0];
-
-          expect(action).to.have.property('item_id', comment.id);
-          expect(action).to.have.property('metadata');
-          expect(action.metadata).to.have.property('field', 'body');
-          expect(action.metadata).to.have.property('details', 'Matched suspect word filters.');
+            expect(action).to.have.property('item_id', comment.id);
+            expect(action).to.have.property('metadata');
+            expect(action.metadata).to.have.property('field', 'body');
+            expect(action.metadata).to.have.property('details', 'Matched suspect word filters.');
+          });
         });
     });
 
@@ -240,10 +257,14 @@ describe('/api/v1/comments', () => {
             .then(() => asset);
         })
         .then((asset) => {
-          return chai.request(app)
-            .post('/api/v1/comments')
-            .set(passport.inject({roles: []}))
-            .send({'body': 'Something body.', 'author_id': '123', 'asset_id': asset.id, 'parent_id': ''});
+          return agent.get('/api/v1/auth')
+            .then((resa) => {
+              expect(resa.status).to.be.equal(200);
+              expect(resa.body).to.have.property('csrfToken');
+              return agent.post('/api/v1/comments')
+                .set(passport.inject({roles: []}))
+                .send({'body': 'Something body.', 'author_id': '123', 'asset_id': asset.id, 'parent_id': '', _csrf: resa.body.csrfToken});
+            });
         })
         .then((res) => {
           expect(res).to.have.status(201);
@@ -262,10 +283,14 @@ describe('/api/v1/comments', () => {
             .then(() => asset);
         })
         .then((asset) => {
-          return chai.request(app)
-            .post('/api/v1/comments')
-            .set(passport.inject({roles: []}))
-            .send({'body': 'This is way way way way way too long.', 'author_id': '123', 'asset_id': asset.id, 'parent_id': ''});
+          return agent.get('/api/v1/auth')
+            .then((resa) => {
+              expect(resa.status).to.be.equal(200);
+              expect(resa.body).to.have.property('csrfToken');
+              return agent.post('/api/v1/comments')
+                .set(passport.inject({roles: []}))
+                .send({'body': 'This is way way way way way too long.', 'author_id': '123', 'asset_id': asset.id, 'parent_id': '', _csrf: resa.body.csrfToken});
+            });
         })
         .then((res) => {
           expect(res).to.have.status(201);
@@ -281,10 +306,14 @@ describe('/api/v1/comments', () => {
         closedMessage: 'tests said expired!'
       })
       .then((asset) => {
-        return chai.request(app)
-          .post('/api/v1/comments')
-          .set(passport.inject({roles: []}))
-          .send({'body': 'Something body.', 'author_id': '123', 'asset_id': asset.id, 'parent_id': ''});
+        return agent.get('/api/v1/auth')
+          .then((resa) => {
+            expect(resa.status).to.be.equal(200);
+            expect(resa.body).to.have.property('csrfToken');
+            return agent.post('/api/v1/comments')
+              .set(passport.inject({roles: []}))
+              .send({'body': 'Something body.', 'author_id': '123', 'asset_id': asset.id, 'parent_id': '', _csrf: resa.body.csrfToken});
+          });
       })
       .then((res) => {
         expect(res).to.have.status(500);
@@ -302,10 +331,14 @@ describe('/api/v1/comments', () => {
         closedMessage: 'tests said expired!'
       })
       .then((asset) => {
-        return chai.request(app)
-          .post('/api/v1/comments')
-          .set(passport.inject({roles: []}))
-          .send({'body': 'Something body.', 'author_id': '123', 'asset_id': asset.id, 'parent_id': ''});
+        return agent.get('/api/v1/auth')
+          .then((resa) => {
+            expect(resa.status).to.be.equal(200);
+            expect(resa.body).to.have.property('csrfToken');
+            return agent.post('/api/v1/comments')
+              .set(passport.inject({roles: []}))
+              .send({'body': 'Something body.', 'author_id': '123', 'asset_id': asset.id, 'parent_id': '', _csrf: resa.body.csrfToken});
+          });
       })
       .then((res) => {
         expect(res).to.have.status(201);
@@ -369,7 +402,6 @@ describe('/api/v1/comments/:comment_id', () => {
           expect(res).to.have.status(200);
           expect(res).to.have.property('body');
           expect(res.body).to.have.property('body', 'comment 10');
-
         });
     });
   });
@@ -381,7 +413,6 @@ describe('/api/v1/comments/:comment_id', () => {
         .set(passport.inject({roles: ['admin']}))
         .then((res) => {
           expect(res).to.have.status(204);
-
           return Comment.findById('abc');
         })
         .then((comment) => {
@@ -470,17 +501,21 @@ describe('/api/v1/comments/:comment_id/actions', () => {
 
   describe('#post', () => {
     it('it should update actions', () => {
-      return chai.request(app)
-        .post('/api/v1/comments/abc/actions')
-        .set(passport.inject({id: '456', roles: ['admin']}))
-        .send({'action_type': 'flag', 'metadata': {'reason': 'Comment is too awesome.'}})
-        .then((res) => {
-          expect(res).to.have.status(201);
-          expect(res).to.have.body;
-          expect(res.body).to.have.property('action_type', 'flag');
-          expect(res.body).to.have.property('metadata')
-            .and.to.deep.equal({'reason': 'Comment is too awesome.'});
-          expect(res.body).to.have.property('item_id', 'abc');
+      agent.get('/api/v1/auth')
+        .then((resa) => {
+          expect(resa.status).to.be.equal(200);
+          expect(resa.body).to.have.property('csrfToken');
+          return agent.post('/api/v1/comments/abc/actions')
+            .set(passport.inject({id: '456', roles: ['admin']}))
+            .send({'action_type': 'flag', 'detail': 'Comment is too awesome.', _csrf: resa.csrfToken})
+            .then((res) => {
+              expect(res).to.have.status(201);
+              expect(res).to.have.body;
+              expect(res.body).to.have.property('action_type', 'flag');
+              expect(res.body).to.have.property('metadata')
+                .and.to.deep.equal({'reason': 'Comment is too awesome.'});
+              expect(res.body).to.have.property('item_id', 'abc');
+            });
         });
     });
   });

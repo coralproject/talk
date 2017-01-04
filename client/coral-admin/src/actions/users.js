@@ -6,9 +6,10 @@ import * as userTypes from '../constants/users';
  */
 // change status of a user
 export const userStatusUpdate = (status, userId, commentId) => {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch({type: userTypes.UPDATE_STATUS_REQUEST});
-    return coralApi(`/users/${userId}/status`, {method: 'POST', body: {status: status, comment_id: commentId}})
+    const _csrf = getState().auth.get('_csrf');
+    return coralApi(`/users/${userId}/status`, {method: 'POST', body: {status: status, comment_id: commentId}, _csrf})
       .then(res => dispatch({type: userTypes.UPDATE_STATUS_SUCCESS, res}))
       .catch(error => dispatch({type: userTypes.UPDATE_STATUS_FAILURE, error}));
   };

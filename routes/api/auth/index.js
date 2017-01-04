@@ -4,22 +4,29 @@ const authorization = require('../../../middleware/authorization');
 
 const router = express.Router();
 
+const csrf = require('csurf');
+const bodyParser = require('body-parser');
+
+// Setup route middlewares for CSRF protection.
+// Default ignore methods are GET, HEAD, OPTIONS
+const csrfProtection = csrf({});
+const parseForm = bodyParser.urlencoded({extended: false});
+
 /**
  * This returns the user if they are logged in.
  */
-router.get('/', (req, res, next) => {
+router.get('/', csrfProtection, (req, res, next) => {
+
   if (req.user) {
     return next();
   }
 
-  // When there is no user on the request, then just send back a 204 to this
-  // request. It's not really "an error" if what they asked for isn't available,
-  // but it could be.
-  res.status(204).end();
+  // When there is no user on the request, then just send back the CSRF token.
+  res.json({csrfToken: req.csrfToken()});
 }, (req, res) => {
 
   // Send back the user object.
-  res.json(req.user.toObject());
+  res.json({user: req.user.toObject(), csrfToken: req.csrfToken()});
 });
 
 /**
@@ -49,8 +56,8 @@ const HandleAuthCallback = (req, res, next) => (err, user) => {
       return next(err);
     }
 
-    // We logged in the user! Let's send back the user data.
-    res.json({user});
+    // We logged in the user! Let's send back the user data and the CSRF token.
+    res.json({user, '_csrf': req.csrfToken()});
   });
 };
 
@@ -80,7 +87,7 @@ const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
 /**
  * Local auth endpoint, will recieve a email and password
  */
-router.post('/local', (req, res, next) => {
+router.post('/local', parseForm, csrfProtection, (req, res, next) => {
 
   // Perform the local authentication.
   passport.authenticate('local', HandleAuthCallback(req, res, next))(req, res, next);

@@ -9,6 +9,14 @@ const resetEmailFile = fs.readFileSync(path.resolve(__dirname, '../../../views/p
 const resetEmailTemplate = ejs.compile(resetEmailFile.toString());
 const authorization = require('../../../middleware/authorization');
 
+const csrf = require('csurf');
+const bodyParser = require('body-parser');
+
+// Setup route middlewares for CSRF protection.
+// Default ignore methods are GET, HEAD, OPTIONS
+const csrfProtection = csrf({});
+const parseForm = bodyParser.urlencoded({extended: false});
+
 router.get('/', authorization.needed('admin'), (req, res, next) => {
   const {
     value = '',
@@ -38,7 +46,7 @@ router.get('/', authorization.needed('admin'), (req, res, next) => {
   .catch(next);
 });
 
-router.post('/:user_id/role', authorization.needed('admin'), (req, res, next) => {
+router.post('/:user_id/role', parseForm, csrfProtection, authorization.needed('admin'), (req, res, next) => {
   User
     .addRoleToUser(req.params.user_id, req.body.role)
     .then(() => {
@@ -47,7 +55,7 @@ router.post('/:user_id/role', authorization.needed('admin'), (req, res, next) =>
     .catch(next);
 });
 
-router.post('/:user_id/status', (req, res, next) => {
+router.post('/:user_id/status', parseForm, csrfProtection, (req, res, next) => {
   User
     .setStatus(req.params.user_id, req.body.status, req.body.comment_id)
     .then(status => {
@@ -56,7 +64,7 @@ router.post('/:user_id/status', (req, res, next) => {
     .catch(next);
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', parseForm, csrfProtection, (req, res, next) => {
   const {email, password, displayName} = req.body;
 
   User
@@ -78,7 +86,7 @@ ErrPasswordTooShort.status = 400;
  * 1) the token that was in the url of the email link {String}
  * 2) the new password {String}
  */
-router.post('/update-password', (req, res, next) => {
+router.post('/update-password', parseForm, csrfProtection, (req, res, next) => {
   const {token, password} = req.body;
 
   if (!password || password.length < 8) {
@@ -103,7 +111,7 @@ router.post('/update-password', (req, res, next) => {
  * this endpoint takes an email (username) and checks if it belongs to a User account
  * if it does, create a JWT and send an email
  */
-router.post('/request-password-reset', (req, res, next) => {
+router.post('/request-password-reset', parseForm, csrfProtection, (req, res, next) => {
   const {email} = req.body;
 
   if (!email) {
@@ -159,7 +167,7 @@ router.put('/:user_id/bio', (req, res, next) => {
     });
 });
 
-router.post('/:user_id/actions',  authorization.needed(), (req, res, next) => {
+router.post('/:user_id/actions',  parseForm, csrfProtection, authorization.needed(), (req, res, next) => {
   const {
     action_type,
     metadata

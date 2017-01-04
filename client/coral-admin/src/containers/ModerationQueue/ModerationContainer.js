@@ -9,6 +9,7 @@ import {
   fetchModerationQueueComments
 } from 'actions/comments';
 import {userStatusUpdate} from 'actions/users';
+import {fetchSettings} from 'actions/settings';
 
 import ModerationQueue from './ModerationQueue';
 
@@ -29,6 +30,7 @@ class ModerationContainer extends React.Component {
 
   componentWillMount() {
     this.props.fetchModerationQueueComments();
+    this.props.fetchSettings();
     key('s', () => this.setState({singleView: !this.state.singleView}));
     key('shift+/', () => this.setState({modalOpen: true}));
     key('esc', () => this.setState({modalOpen: false}));
@@ -87,6 +89,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
+    fetchSettings: () => dispatch(fetchSettings()),
     fetchModerationQueueComments: () => dispatch(fetchModerationQueueComments()),
     showBanUserDialog: (userId, userName, commentId) => dispatch(showBanUserDialog(userId, userName, commentId)),
     hideBanUserDialog: () => dispatch(hideBanUserDialog(false)),
