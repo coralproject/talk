@@ -72,11 +72,6 @@ app.use(session(session_opts));
 
 app.use(cookieParser());
 
-app.use((err, req, res, next) => {
-  res.locals._csrf = req.csrfToken();
-  return next();
-});
-
 //==============================================================================
 // PASSPORT MIDDLEWARE
 //==============================================================================
