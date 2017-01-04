@@ -75,8 +75,8 @@ export default class ModerationList extends React.Component {
   // Add key handlers. Each action has one and added j/k for moving around
   bindKeyHandlers () {
     const {modActions, isActive} = this.props;
-    modActions.filter(action => modActions[action].key).forEach(action => {
-      key(modActions[action].key, 'moderationList', () => isActive && this.actionKeyHandler(modActions[action].status));
+    modActions.filter(action => actionsMap[action].key).forEach(action => {
+      key(actionsMap[action].key, 'moderationList', () => isActive && this.actionKeyHandler(actionsMap[action].status));
     });
     key('j', 'moderationList', () => isActive && this.moveKeyHandler('down'));
     key('k', 'moderationList', () => isActive && this.moveKeyHandler('up'));
