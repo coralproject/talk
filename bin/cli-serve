@@ -5,6 +5,8 @@ const debug = require('debug')('talk:server');
 const http = require('http');
 const init = require('../init');
 const scraper = require('../services/scraper');
+const mailer = require('../services/mailer');
+const kue = require('../services/kue');
 const mongoose = require('../services/mongoose');
 const util = require('../util');
 
@@ -119,15 +121,18 @@ startApp();
 // Enable job processing on the thread if enabled.
 if (program.jobs) {
 
-  // Start the processor.
+  // Start the scraper processor.
   scraper.process();
+
+  // Start the mail processor.
+  mailer.process();
 }
 
 // Define a safe shutdown function to call in the event we need to shutdown
 // because the node hooks are below which will interrupt the shutdown process.
 // Shutdown the mongoose connection, the app server, and the scraper.
 util.onshutdown([
-  () => program.jobs ? scraper.shutdown() : null,
+  () => program.jobs ? kue.Task.shutdown() : null,
   () => mongoose.disconnect(),
   () => server.close()
 ]);

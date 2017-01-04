@@ -13,7 +13,7 @@ const ActionSchema = new Schema({
   item_type: String,
   item_id: String,
   user_id: String,
-  metadata: Object, //Holds arbitrary metadata about the action.
+  metadata: Schema.Types.Mixed
 }, {
   timestamps: {
     createdAt: 'created_at',

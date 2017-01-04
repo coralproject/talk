@@ -4,7 +4,6 @@ const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Action = require('./action');
-
 const Comment = require('./comment');
 
 // SALT_ROUNDS is the number of rounds that the bcrypt algorithm will run
@@ -30,6 +29,37 @@ if (process.env.NODE_ENV === 'test' && !process.env.TALK_SESSION_SECRET) {
 } else if (!process.env.TALK_SESSION_SECRET) {
   throw new Error('TALK_SESSION_SECRET must be defined to encode JSON Web Tokens and other auth functionality');
 }
+
+// ProfileSchema is the mongoose schema defined as the representation of a
+// User's profile stored in MongoDB.
+const ProfileSchema = new mongoose.Schema({
+
+  // ID provides the identifier for the user profile, in the case of a local
+  // provider, the id would be an email, in the case of a social provider,
+  // the id would be the foreign providers identifier.
+  id: {
+    type: String,
+    required: true
+  },
+
+  // Provider is simply the name attached to the authentication mode. In the
+  // case of a locally provided profile, this will simply be `local`, or a
+  // social provider which for Facebook would just be `facebook`.
+  provider: {
+    type: String,
+    required: true
+  },
+
+  // Metadata provides a place to put provider specific details. An example of
+  // something that could be stored here is the `metadata.confirmed_at` could be
+  // used by the `local` provider to indicate when the email address was
+  // confirmed.
+  metadata: {
+    type: mongoose.Schema.Types.Mixed
+  }
+}, {
+  _id: false
+});
 
 // UserSchema is the mongoose schema defined as the representation of a User in
 // MongoDB.
@@ -60,26 +90,7 @@ const UserSchema = new mongoose.Schema({
   // Profiles describes the array of identities for a given user. Any one user
   // can have multiple profiles associated with them, including multiple email
   // addresses.
-  profiles: [new mongoose.Schema({
-
-    // ID provides the identifier for the user profile, in the case of a local
-    // provider, the id would be an email, in the case of a social provider,
-    // the id would be the foreign providers identifier.
-    id: {
-      type: String,
-      required: true
-    },
-
-    // Provider is simply the name attached to the authentication mode. In the
-    // case of a locally provided profile, this will simply be `local`, or a
-    // social provider which for Facebook would just be `facebook`.
-    provider: {
-      type: String,
-      required: true
-    }
-  }, {
-    _id: false
-  })],
+  profiles: [ProfileSchema],
 
   // Roles provides an array of roles (as strings) that is associated with a
   // user.
@@ -499,45 +510,43 @@ UserService.createPasswordResetToken = function (email) {
   email = email.toLowerCase();
 
   return UserModel.findOne({profiles: {$elemMatch: {id: email}}})
-    .then(user => {
+    .then((user) => {
+      if (!user) {
 
-      if (user === null) {
-
-        // since we don't want to reveal that the email does/doesn't exist
-        // just go ahead and resolve the Promise with null and check in the endpoint
-        return Promise.resolve(null);
+        // Since we don't want to reveal that the email does/doesn't exist
+        // just go ahead and resolve the Promise with null and check in the
+        // endpoint.
+        return;
       }
 
-      const payload = {email, jti: uuid.v4(), userId: user.id, version: user.__v};
-      const token = jwt.sign(payload, process.env.TALK_SESSION_SECRET, {expiresIn: '1d'});
+      const payload = {
+        jti: uuid.v4(),
+        email,
+        userId: user.id,
+        version: user.__v
+      };
 
-      return token;
+      return jwt.sign(payload, process.env.TALK_SESSION_SECRET, {algorithm: 'HS256'}, {
+        expiresIn: '1d'
+      });
     });
 };
 
 /**
- * verifies a jwt and returns the associated user
+ * Verifies a jwt and returns the associated user.
  * @param {String} token the JSON Web Token to verify
  */
 UserService.verifyPasswordResetToken = token => {
   return new Promise((resolve, reject) => {
-    jwt.verify(token, process.env.TALK_SESSION_SECRET, (error, decoded) => {
-      if (error) {
-        return reject(error);
+    jwt.verify(token, process.env.TALK_SESSION_SECRET, (err, decoded) => {
+      if (err) {
+        return reject(err);
       }
 
       resolve(decoded);
     });
   })
-  .then(decoded => {
-
-    /**
-     * TODO: check the jti from this decoded token in redis
-     * and make an entry if it does not exist.
-     * reject if entry already exists.
-     */
-    return UserService.findById(decoded.userId);
-  });
+  .then(decoded => UserService.findById(decoded.userId));
 };
 
 /**
@@ -594,18 +603,13 @@ UserService.all = () => {
  * Adds a new User bio
  * @return {Promise}
  */
-
-UserService.addBio = (id, bio) => (
-  UserModel.findOneAndUpdate({
-    id
-  }, {
-    $set: {
-      'settings.bio': bio
-    }
-  }, {
-    new: true
-  })
-);
+UserService.addBio = (id, bio) => UserModel.update({
+  id
+}, {
+  $set: {
+    'settings.bio': bio
+  }
+});
 
 /**
  * Add an action to the user.

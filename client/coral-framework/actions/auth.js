@@ -92,7 +92,7 @@ const forgotPassowordFailure = () => ({type: actions.FETCH_FORGOT_PASSWORD_FAILU
 
 export const fetchForgotPassword = email => dispatch => {
   dispatch(forgotPassowordRequest(email));
-  coralApi('/users/request-password-reset', {method: 'POST', body: {email}})
+  coralApi('/account/password/reset', {method: 'POST', body: {email}})
     .then(() => dispatch(forgotPassowordSuccess()))
     .catch(error => dispatch(forgotPassowordFailure(error)));
 };

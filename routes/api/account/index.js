@@ -1,0 +1,118 @@
+const express = require('express');
+const router = express.Router();
+const User = require('../../../models/user');
+const mailer = require('../../../services/mailer');
+const authorization = require('../../../middleware/authorization');
+
+router.get('/', authorization.needed(), (req, res, next) => {
+  res.json(req.user);
+});
+
+/**
+ * this endpoint takes an email (username) and checks if it belongs to a User account
+ * if it does, create a JWT and send an email
+ */
+router.post('/password/reset', (req, res, next) => {
+  const {email} = req.body;
+
+  if (!email) {
+    return next('you must submit an email when requesting a password.');
+  }
+
+  User
+    .createPasswordResetToken(email)
+    .then((token) => {
+
+      // Check to see if the token isn't defined.
+      if (!token) {
+
+        // As it isn't, don't send any emails!
+        return;
+      }
+
+      return mailer.sendSimple({
+        app: req.app,                                 // needed to render the templates.
+        template: 'email/password-reset',             // needed to know which template to render!
+        locals: {                                     // specifies the template locals.
+          token,
+          rootURL: process.env.TALK_ROOT_URL
+        },
+        subject: 'Password Reset Requested - Talk',
+        to: email
+      });
+    })
+    .then(() => {
+
+      // we want to send a 204 regardless of the user being found in the db
+      // if we fail on missing emails, it would reveal if people are registered or not.
+      res.status(204).end();
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
+// ErrPasswordTooShort is returned when the password length is too short.
+const ErrPasswordTooShort = new Error('password must be at least 8 characters');
+ErrPasswordTooShort.status = 400;
+
+// ErrMissingToken is returned in the event that the password reset is requested
+// without a token.
+const ErrMissingToken = new Error('token is required');
+ErrMissingToken.status = 400;
+
+/**
+ * expects 2 fields in the body of the request
+ * 1) the token that was in the url of the email link {String}
+ * 2) the new password {String}
+ */
+router.put('/password/reset', (req, res, next) => {
+
+  const {
+    token,
+    password
+  } = req.body;
+
+  if (!token) {
+    return next(ErrMissingToken);
+  }
+
+  if (!password || password.length < 8) {
+    return next(ErrPasswordTooShort);
+  }
+
+  User.verifyPasswordResetToken(token)
+    .then(user => {
+      return User.changePassword(user.id, password);
+    })
+    .then(() => {
+      res.status(204).end();
+    })
+    .catch(error => {
+      console.error(error);
+
+      next(authorization.ErrNotAuthorized);
+    });
+});
+
+router.put('/bio', authorization.needed(), (req, res, next) => {
+
+  const {
+    bio
+  } = req.body;
+
+  if (!bio) {
+    return next(new Error('You must submit a new bio'));
+  }
+
+  User
+    .addBio(req.user.id, bio)
+    .then(() => {
+      res.status(204).end();
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
+module.exports = router;
