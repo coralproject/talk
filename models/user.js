@@ -46,7 +46,11 @@ const UserSchema = new mongoose.Schema({
 
   // This is sourced from the social provider or set manually during user setup
   // and simply provides a name to display for the given user.
-  displayName: String,
+  displayName: {
+    type: String,
+    unique: true,
+    required: true
+  },
 
   // This is true when the user account is disabled, no action should be
   // acknowledged when they are disabled. Logins are also prevented.
