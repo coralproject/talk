@@ -325,6 +325,28 @@ describe('/api/v1/comments', () => {
       });
     });
 
+    it('shouldn\'t create a comment when there is no CSRF token', () => {
+      return Asset.findOrCreateByUrl('https://coralproject.net/article1')
+      .then((asset) => {
+        return agent.get('/api/v1/auth')
+          .then((resa) => {
+            expect(resa.status).to.be.equal(200);
+            expect(resa.body).to.have.property('csrfToken');
+            return agent.post('/api/v1/comments')
+              .set(passport.inject({roles: []}))
+              .send({'body': 'Something body.', 'author_id': '123', 'asset_id': asset.id, 'parent_id': ''});
+          });
+      })
+      .then((res) => {
+        expect(res).to.have.status(403);
+      })
+      .catch((err) => {
+        expect(err.response.body).to.not.be.null;
+        expect(err.response.body).to.have.property('message');
+        expect(err.response.body.message).to.contain('invalid csrf token');
+      });
+    });
+
     it('should create a comment when the asset has not expired yet', () => {
       return Asset.create({
         closedAt: new Date().setDate(32),

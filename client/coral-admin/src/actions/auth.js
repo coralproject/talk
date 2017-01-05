@@ -15,7 +15,7 @@ export const checkLogin = () => dispatch => {
         dispatch(check_csrf(result.csrfToken));
       }
 
-      const isAdmin = !!result.user.roles.filter(i => i === 'admin').length;
+      const isAdmin = result.user.roles.some(i => i === 'admin');
       dispatch(checkLoginSuccess(result.user, isAdmin));
     })
     .catch(error => dispatch(checkLoginFailure(error)));
