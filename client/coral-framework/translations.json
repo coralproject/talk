@@ -7,7 +7,7 @@
     "error": {
       "email": "Not a valid E-Mail",
       "password": "Password must be at least 8 characters",
-      "displayName": "Display name is too short",
+      "displayName": "Display names can contain letters, numbers and _ only",
       "confirmPassword": "Passwords don't match. Please, check again",
       "emailPasswordError": "Email and/or password combination incorrect.",
       "EMAIL_REQUIRED": "An email address is required",
@@ -27,16 +27,16 @@
     "error": {
       "email": "No es un email válido",
       "password": "La contraseña debe tener por lo menos 8 caracteres",
-      "displayName": "El nombre es muy corto",
+      "displayName": "Los nombres pueden contener letras, números y _",
       "confirmPassword": "Las contraseñas no coinciden",
       "emailPasswordError": "Email y/o contraseña incorrecta.",
-      "EMAIL_REQUIRED": "An email address is required",
-      "PASSWORD_REQUIRED": "Must input a password",
-      "PASSWORD_LENGTH": "Password is too short",
-      "EMAIL_IN_USE": "Email address already in use",
-      "DISPLAY_NAME_REQUIRED": "Must input a display name",
-      "NO_SPECIAL_CHARACTERS": "Display names can contain letters, numbers and _",
-      "PROFANITY_ERROR": "Display names must not contain profanity. Please contact the administrator if you believe this to be an error"
+      "EMAIL_REQUIRED": "Se requiere una dirección de correo electrónico",
+      "PASSWORD_REQUIRED": "Debe ingresar una contraseña",
+      "PASSWORD_LENGTH": "La contraseña es muy corta",
+      "EMAIL_IN_USE": "La dirección de correo electrónico se encuentra en uso",
+      "DISPLAY_NAME_REQUIRED": "Debe ingresar un nombre",
+      "NO_SPECIAL_CHARACTERS": "Los nombres pueden contener letras, números y _",
+      "PROFANITY_ERROR": "Los nombres no pueden contener blasfemias. Por favor contacte al administrador si cree que esto es un error"
     }
   }
 }
