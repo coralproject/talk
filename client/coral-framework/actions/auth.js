@@ -84,7 +84,9 @@ export const fetchSignUp = formData => (dispatch, getState) => {
         dispatch(changeView('SIGNIN'));
       }, 3000);
     })
-    .catch(() => dispatch(signUpFailure(lang.t('error.emailInUse')))); // We need to inprove error handling. TODO (bc)
+    .catch(error => {
+      dispatch(signUpFailure(lang.t(`error.${error.message}`)));
+    });
 };
 
 // Forgot Password Actions

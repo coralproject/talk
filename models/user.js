@@ -4,8 +4,9 @@ const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Action = require('./action');
-
 const Comment = require('./comment');
+
+const naughtyWords = require('./naughty-words.json');
 
 // SALT_ROUNDS is the number of rounds that the bcrypt algorithm will run
 // through during the salting process.
@@ -296,6 +297,41 @@ UserService.createLocalUsers = (users) => {
 };
 
 /**
+ * Check the requested displayname for naughty words (currently in English) and special chars
+ * @param  {String}   displayName word to be checked for profanity
+ * @return {Promise}  rejected if the machine's sensibilites are offended
+ */
+const isValidDisplayName = (displayName) => {
+  const onlyLettersNumbersUnderscore = /^[a-z0-9_]+$/;
+
+  if (!displayName) {
+    const ErrMissingDisplay = new Error('DISPLAY_NAME_REQUIRED');
+    ErrMissingDisplay.status = 400;
+    return Promise.reject(ErrMissingDisplay);
+  }
+
+  if (!onlyLettersNumbersUnderscore.test(displayName)) {
+    const ErrSpecialChars = new Error('NO_SPECIAL_CHARACTERS');
+    ErrSpecialChars.status = 400;
+    return Promise.reject(ErrSpecialChars);
+  }
+
+  const hasBadWords = naughtyWords.some(badWord => {
+
+    // test the word AFTER the interspersed _ characters are removed.
+    return new RegExp(badWord, 'ig').test(displayName.replace(/_/g, ''));
+  });
+
+  if (hasBadWords) {
+    const ErrProfanity = new Error('PROFANITY_ERROR');
+    ErrProfanity.status = 400;
+    return Promise.reject(ErrProfanity);
+  } else {
+    return Promise.resolve(displayName);
+  }
+};
+
+/**
  * Creates the local user with a given email, password, and name.
  * @param  {String}   email       email of the new user
  * @param  {String}   password    plaintext password of the new user
@@ -303,49 +339,62 @@ UserService.createLocalUsers = (users) => {
  * @param  {Function} done        callback
  */
 UserService.createLocalUser = (email, password, displayName) => {
+
   if (!email) {
-    return Promise.reject('email is required');
+    const ErrMissingEmail = new Error('EMAIL_REQUIRED');
+    ErrMissingEmail.status = 400;
+    return Promise.reject(ErrMissingEmail);
   }
 
-  email = email.toLowerCase();
+  email = email.toLowerCase().trim();
+  displayName = displayName.toLowerCase().trim();
 
   if (!password) {
-    return Promise.reject('password is required');
+    const ErrMissingPassword = new Error('PASSWORD_REQUIRED');
+    ErrMissingPassword.status = 400;
+    return Promise.reject(ErrMissingPassword);
   }
 
-  if (!displayName) {
-    return Promise.reject('displayName is required');
+  if (password.length < 8) {
+    const ErrPasswordTooShort = new Error('PASSWORD_LENGTH');
+    ErrPasswordTooShort.status = 400;
+    return Promise.reject(ErrPasswordTooShort);
   }
 
-  return new Promise((resolve, reject) => {
-    bcrypt.hash(password, SALT_ROUNDS, (err, hashedPassword) => {
-      if (err) {
-        return reject(err);
-      }
-
-      let user = new UserModel({
-        displayName: displayName,
-        password: hashedPassword,
-        roles: [],
-        profiles: [
-          {
-            id: email,
-            provider: 'local'
+  return isValidDisplayName(displayName)
+    .then(() => { // displayName is valid
+      return new Promise((resolve, reject) => {
+        bcrypt.hash(password, SALT_ROUNDS, (err, hashedPassword) => {
+          if (err) {
+            return reject(err);
           }
-        ]
-      });
 
-      user.save((err) => {
-        if (err) {
-          if (err.code === 11000) {
-            return reject('Email address already in use');
-          }
-          return reject(err);
-        }
-        return resolve(user);
+          let user = new UserModel({
+            displayName: displayName,
+            password: hashedPassword,
+            roles: [],
+            profiles: [
+              {
+                id: email,
+                provider: 'local'
+              }
+            ]
+          });
+
+          user.save((err) => {
+            if (err) {
+              if (err.code === 11000) {
+                const ErrEmailTaken = new Error('EMAIL_IN_USE');
+                ErrEmailTaken.status = 400;
+                return reject(ErrEmailTaken);
+              }
+              return reject(err);
+            }
+            return resolve(user);
+          });
+        });
       });
     });
-  });
 };
 
 /**

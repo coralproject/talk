@@ -8,9 +8,15 @@
       "email": "Not a valid E-Mail",
       "password": "Password must be at least 8 characters",
       "displayName": "Display name is too short",
-      "confirmPassword": "Passwords don`t match. Please, check again",
+      "confirmPassword": "Passwords don't match. Please, check again",
       "emailPasswordError": "Email and/or password combination incorrect.",
-      "emailInUse": "Email address already in use"
+      "EMAIL_REQUIRED": "An email address is required",
+      "PASSWORD_REQUIRED": "Must input a password",
+      "PASSWORD_LENGTH": "Password is too short",
+      "EMAIL_IN_USE": "Email address already in use",
+      "DISPLAY_NAME_REQUIRED": "Must input a display name",
+      "NO_SPECIAL_CHARACTERS": "Display names can contain letters, numbers and _ only",
+      "PROFANITY_ERROR": "Display names must not contain profanity. Please contact the administrator if you believe this to be in error."
     }
   },
   "es": {
@@ -24,7 +30,13 @@
       "displayName": "El nombre es muy corto",
       "confirmPassword": "Las contraseñas no coinciden",
       "emailPasswordError": "Email y/o contraseña incorrecta.",
-      "emailInUse": "Email address already in use"
+      "EMAIL_REQUIRED": "An email address is required",
+      "PASSWORD_REQUIRED": "Must input a password",
+      "PASSWORD_LENGTH": "Password is too short",
+      "EMAIL_IN_USE": "Email address already in use",
+      "DISPLAY_NAME_REQUIRED": "Must input a display name",
+      "NO_SPECIAL_CHARACTERS": "Display names can contain letters, numbers and _",
+      "PROFANITY_ERROR": "Display names must not contain profanity. Please contact the administrator if you believe this to be an error"
     }
   }
 }
