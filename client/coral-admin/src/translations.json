@@ -84,6 +84,18 @@
       "cancel": "Cancel",
       "yes_ban_user": "Yes, Ban User"
     },
+    "suspenduser": {
+      "title_0": "We noticed you rejected a {0}",
+      "description_0": "Would you like to temporarily ban this user becuase of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}.",
+      "title_1": "Notify the user of their temporary suspension",
+      "description_1": "Suspending this user will temporarily disable their account and hide all of their comments on the site.",
+      "no_cancel": "No, cancel",
+      "yes_suspend": "Yes, suspend",
+      "send": "Send",
+      "bio": "bio",
+      "username": "username",
+      "email": "Another member of the community recently flagged your {0} for review. Because of its content your {0} was rejected. This means you can no longer comment, like, or flag content until you rewrite your {0}. Please e-mail moderator@newsorg.com if you have any questions or concerns."
+    },
     "streams": {
       "search": "Search",
       "filter-streams": "Filter Streams",

@@ -33,7 +33,7 @@ export default class ModerationList extends React.Component {
     suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired
   }
 
-  state = {active: null, suspendUserModal: null};
+  state = {active: null, suspendUserModal: null, email: null};
 
   // remove key handlers before leaving
   componentWillUnmount () {
