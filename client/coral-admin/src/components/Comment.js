@@ -54,16 +54,16 @@ const Comment = props => {
 };
 
 // Get the button of the action performed over a comment if any
-const getActionButton = (action, i, props) => {
-  const {comment, author} = props;
+const getActionButton = (option, i, props) => {
+  const {comment, author, menuOptionsMap, action} = props;
   const status = comment.status;
   const flagged = comment.flagged;
   const banned = (author.status === 'banned');
 
-  if (action === 'flag' && (status || flagged === true)) {
+  if (option === 'flag' && (status || flagged === true)) {
     return null;
   }
-  if (action === 'ban') {
+  if (option === 'ban') {
     return (
       <Button
         className='ban'
@@ -76,13 +76,14 @@ const getActionButton = (action, i, props) => {
       </Button>
     );
   }
+  const menuOption = menuOptionsMap[option];
   return (
     <FabButton
-      className={`${action} ${styles.actionButton}`}
-      cStyle={action}
-      icon={props.actionsMap[action].icon}
+      className={`${option} ${styles.actionButton}`}
+      cStyle={option}
+      icon={menuOption.icon}
       key={i}
-      onClick={() => props.onClickAction(props.actionsMap[action].status, comment)}
+      onClick={() => props.onClickAction(menuOption.status, comment, action)}
     />
   );
 };

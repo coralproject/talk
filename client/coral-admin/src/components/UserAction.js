@@ -62,34 +62,35 @@ const UserAction = props => {
 export default UserAction;
 
 // Get the button of the action performed over a comment if any
-const getActionButton = (action, i, props) => {
-  const {user} = props;
+const getActionButton = (option, i, props) => {
+  const {user, onClickShowBanDialog, onClickAction, menuOptionsMap, action} = props;
   const status = user.status;
   const banned = (user.status === 'banned');
 
-  if (action === 'flag' && status) {
+  if (option === 'flag' && status) {
     return null;
   }
-  if (action === 'ban') {
+  if (option === 'ban') {
     return (
       <Button
         className='ban'
         cStyle='black'
         disabled={banned ? 'disabled' : ''}
-        onClick={() => props.onClickShowBanDialog(user.id, user.displayName)}
+        onClick={() => onClickShowBanDialog(user.id, user.displayName)}
         key={i}
       >
         {lang.t('comment.ban_user')}
       </Button>
     );
   }
+  const menuOption = menuOptionsMap[option];
   return (
     <FabButton
-      className={`${action} ${styles.actionButton}`}
-      cStyle={action}
-      icon={props.actionsMap[action].icon}
+      className={`${option} ${styles.actionButton}`}
+      cStyle={option}
+      icon={menuOption.icon}
       key={i}
-      onClick={() => props.onClickAction(props.actionsMap[action].status, user.id)}
+      onClick={() => onClickAction(menuOption.status, user.id, action)}
     />
   );
 };

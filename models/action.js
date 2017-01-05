@@ -134,6 +134,9 @@ ActionSchema.statics.getActionSummaries = function(item_ids, current_user_id = '
         item_type: {
           $last: '$item_type'
         },
+        metadata: {
+          $push: '$metadata'
+        },
         created_at: {
           $min: '$created_at'
         },

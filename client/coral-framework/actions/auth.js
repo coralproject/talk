@@ -141,5 +141,8 @@ export const checkLogin = () => dispatch => {
       const isAdmin = !!result.user.roles.filter(i => i === 'admin').length;
       dispatch(checkLoginSuccess(result.user, isAdmin));
     })
-    .catch(error => dispatch(checkLoginFailure(error)));
+    .catch(error => {
+      console.error(error);
+      dispatch(checkLoginFailure(`${error.message}`));
+    });
 };

@@ -4,9 +4,10 @@ import key from 'keymaster';
 import Hammer from 'hammerjs';
 import Comment from './Comment';
 import UserAction from './UserAction';
+import SuspendUserModal from './SuspendUserModal';
 
 // Each action has different meaning and configuration
-const actionsMap = {
+const menuOptionsMap = {
   'reject': {status: 'rejected', icon: 'close', key: 'r'},
   'approve': {status: 'accepted', icon: 'done', key: 't'},
   'flag': {status: 'flagged', icon: 'flag', filter: 'Untouched'},
@@ -23,7 +24,7 @@ export default class ModerationList extends React.Component {
     comments: PropTypes.object,
     users: PropTypes.object.isRequired,
     actions: PropTypes.object,
-    onClickAction: PropTypes.func.isRequired,
+    updateCommentStatus: PropTypes.func.isRequired,
 
     // list of actions (flags, etc) associated with the comments
     modActions: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -32,13 +33,7 @@ export default class ModerationList extends React.Component {
     suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired
   }
 
-  constructor (props) {
-    super(props);
-
-    this.state = {active: null};
-    this.onClickAction = this.onClickAction.bind(this);
-    this.onClickShowBanDialog = this.onClickShowBanDialog.bind(this);
-  }
+  state = {active: null, suspendUserModal: null};
 
   // remove key handlers before leaving
   componentWillUnmount () {
@@ -76,8 +71,8 @@ export default class ModerationList extends React.Component {
   // Add key handlers. Each action has one and added j/k for moving around
   bindKeyHandlers () {
     const {modActions, isActive} = this.props;
-    modActions.filter(action => actionsMap[action].key).forEach(action => {
-      key(actionsMap[action].key, 'moderationList', () => isActive && this.actionKeyHandler(actionsMap[action].status));
+    modActions.filter(action => menuOptionsMap[action].key).forEach(action => {
+      key(menuOptionsMap[action].key, 'moderationList', () => isActive && this.actionKeyHandler(menuOptionsMap[action].status));
     });
     key('j', 'moderationList', () => isActive && this.moveKeyHandler('down'));
     key('k', 'moderationList', () => isActive && this.moveKeyHandler('up'));
@@ -121,21 +116,52 @@ export default class ModerationList extends React.Component {
   // If we are performing an action over a comment (aka removing from the list) we need to select a new active.
   // TODO: In the future this can be improved and look at the actual state to
   // resolve since the content of the list could change externally. For now it works as expected
-  onClickAction (action, id, author_id) {
+  onClickAction = (menuOption, id, action) => {
 
     // activate the next comment
     if (id === this.state.active) {
-      const {commentIds} = this.props;
-      if (commentIds[commentIds.length - 1] === this.state.active) {
-        this.setState({active: commentIds[commentIds.length - 2]});
+      const moderationIds = this.getModerationIds();
+      if (moderationIds[moderationIds.length - 1] === this.state.active) {
+        this.setState({active: moderationIds[moderationIds.length - 2]});
       } else {
-        this.setState({active: commentIds[Math.min(commentIds.indexOf(this.state.active) + 1, commentIds.length - 1)]});
+        this.setState({active: moderationIds[Math.min(moderationIds.indexOf(this.state.active) + 1, moderationIds.length - 1)]});
       }
     }
-    this.props.onClickAction(action, id, author_id);
+
+    // Update the status right away if this is a comment
+    if (action.item_type === 'comment') {
+      this.props.updateCommentStatus(menuOption, id);
+    } else if (action.item_type === 'user') {
+
+      // If a user bio or name is rejected, bring up a dialog before suspending them.
+      if (menuOption === 'rejected') {
+        this.setState({suspendUserModal: {stage: 0, actionType: action.action_type}});
+      } else {
+        this.props.updateUserStatus(menuOption, action.item_id);
+      }
+    }
   }
 
-  onClickShowBanDialog(userId, userName, commentId) {
+  /*
+  * When an admin clicks to suspend a user a dialog is shown, this function
+  * handles the possible actions for that dialog.
+  */
+  onClickSuspendModalButton = (stage, menuOption) => () => {
+    const {updateUserStatus, action} = this.props;
+    const cancel = () => this.setState({suspendUserModal: null});
+    const next = () => this.setState((prev) => {
+      prev.suspendUserModal.stage++;
+      return prev;
+    });
+    const suspend = () => updateUserStatus('suspend', action.item_id);
+    const suspendModalActions = [
+      [ cancel, next ],
+      [ cancel, suspend ]
+    ];
+    return suspendModalActions[stage][menuOption]();
+  }
+
+  onClickShowBanDialog = (userId, userName, commentId) => {
     this.props.onClickShowBanDialog(userId, userName, commentId);
   }
 
@@ -162,7 +188,7 @@ export default class ModerationList extends React.Component {
         onClickAction={this.onClickAction}
         onClickShowBanDialog={this.onClickShowBanDialog}
         modActions={modActions}
-        actionsMap={actionsMap}
+        menuOptionsMap={menuOptionsMap}
         isActive={itemId === active}
         hideActive={hideActive} />;
     } else {
@@ -178,29 +204,37 @@ export default class ModerationList extends React.Component {
         onClickAction={this.onClickAction}
         onClickShowBanDialog={this.onClickShowBanDialog}
         modActions={modActions}
-        actionsMap={actionsMap}
+        menuOptionsMap={menuOptionsMap}
         isActive={itemId === active}
         hideActive={hideActive} />;
     }
     return modItem;
   }
 
-  render () {
-    const {singleView, commentIds = [], actionIds = [], comments, actions, key} = this.props;
-
-    // Combine moderations and actions into a single stream and sort by most recently updated.
-    const moderationIds = [ ...commentIds, ...actionIds ].sort((a, b) => {
+  getModerationIds = () => {
+    const {commentIds = [], actionIds = [], comments, actions} = this.props;
+    return [ ...commentIds, ...actionIds ].sort((a, b) => {
       const itemA = comments[a] || actions[a];
       const itemB = comments[b] || actions[b];
       return itemB.updated_at - itemA.updated_at;
     });
+  }
+
+  render () {
+    const {singleView, key} = this.props;
+
+    // Combine moderations and actions into a single stream and sort by most recently updated.
+    const moderationIds = this.getModerationIds();
 
     return (
       <ul
         className={`${styles.list} ${singleView ? styles.singleView : ''}`} {...key}
-        id='moderationList'
-      >
+        id='moderationList'>
         {moderationIds.map(this.mapModItems)}
+        <SuspendUserModal
+          {...this.state.suspendUserModal}
+          onClose={() => this.setState({suspendUserModal:null})}
+          onButtonClick={this.onClickSuspendModalButton} />
       </ul>
     );
   }

@@ -31,7 +31,7 @@ export default (props) => (
           users={props.users.byId}
           actionIds={props.userActionIds}
           actions={props.actions.byId}
-          onClickAction={props.updateStatus}
+          updateCommentStatus={props.updateStatus}
           onClickShowBanDialog={props.showBanUserDialog}
           modActions={['reject', 'approve', 'ban']}
           loading={props.comments.loading}/>
@@ -50,7 +50,7 @@ export default (props) => (
           commentIds={props.rejectedIds}
           comments={props.comments.byId}
           users={props.users.byId}
-          onClickAction={props.updateStatus}
+          updateCommentStatus={props.updateStatus}
           modActions={['approve']}
           loading={props.comments.loading}
         />
@@ -63,7 +63,7 @@ export default (props) => (
           commentIds={props.flaggedIds}
           comments={props.comments.byId}
           users={props.users.byId}
-          onClickAction={props.updateStatus}
+          updateCommentStatus={props.updateStatus}
           modActions={['reject', 'approve']}
           loading={props.comments.loading}/>
       </div>
