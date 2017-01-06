@@ -11,8 +11,7 @@ const initialState = Map({
   error: '',
   passwordRequestSuccess: null,
   passwordRequestFailure: null,
-  successSignUp: false,
-  _csrf: ''
+  successSignUp: false
 });
 
 const purge = user => {

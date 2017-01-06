@@ -1,5 +1,6 @@
 const passport = require('passport');
 const User = require('../models/user');
+const Setting = require('../models/setting');
 const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 
@@ -27,7 +28,7 @@ passport.deserializeUser((id, done) => {
  * @param {User}     user the user to be validated
  * @param {Function} done the callback for the validation
  */
-function ValidateUserLogin(user, done) {
+function ValidateUserLogin(loginProfile, user, done) {
   if (!user) {
     return done(new Error('user not found'));
   }
@@ -36,7 +37,36 @@ function ValidateUserLogin(user, done) {
     return done(null, false, {message: 'Account disabled'});
   }
 
-  return done(null, user);
+  // If the user isn't a local user (i.e., a social user).
+  if (loginProfile.provider !== 'local') {
+    return done(null, user);
+  }
+
+  // The user is a local user, check if we need email confirmation.
+  return Setting.retrieve().then(({requireEmailConfirmation = false}) => {
+
+    // If we have the requirement of checking that emails for users are
+    // verified, then we need to check the email address to ensure that it has
+    // been verified.
+    if (requireEmailConfirmation) {
+
+      // Get the profile representing the local account.
+      let profile = user.profiles.find((profile) => profile.id === loginProfile.id);
+
+      // This should never get to this point, if it does, don't let this past.
+      if (!profile) {
+        throw new Error('ID indicated by loginProfile is not on user object');
+      }
+
+      // If the profile doesn't have a metadata field, or it does not have a
+      // confirmed_at field, or that field is null, then send them back.
+      if (!profile.metadata || !profile.metadata.confirmed_at || profile.metadata.confirmed_at === null) {
+        return done(null, false, {message: `Email address ${loginProfile.id} not verified.`});
+      }
+    }
+
+    return done(null, user);
+  });
 }
 
 //==============================================================================
@@ -54,7 +84,12 @@ passport.use(new LocalStrategy({
         return done(null, false, {message: 'Incorrect email/password combination'});
       }
 
-      return ValidateUserLogin(user, done);
+      // Define the loginProfile being used to perform an additional
+      // verificaiton.
+      let loginProfile = {id: email, provider: 'local'};
+
+      // Validate the user login.
+      return ValidateUserLogin(loginProfile, user, done);
     })
     .catch((err) => {
       done(err);
@@ -70,9 +105,9 @@ if (process.env.TALK_FACEBOOK_APP_ID && process.env.TALK_FACEBOOK_APP_SECRET && 
   }, (accessToken, refreshToken, profile, done) => {
     User
       .findOrCreateExternalUser(profile)
-      .then((user) =>
-         ValidateUserLogin(user, done)
-      )
+      .then((user) => {
+        return ValidateUserLogin(profile, user, done);
+      })
       .catch((err) => {
         done(err);
       });
