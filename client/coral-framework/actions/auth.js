@@ -82,7 +82,9 @@ export const fetchSignUp = formData => (dispatch) => {
         dispatch(changeView('SIGNIN'));
       }, 3000);
     })
-    .catch(() => dispatch(signUpFailure(lang.t('error.emailInUse')))); // We need to inprove error handling. TODO (bc)
+    .catch(() => {
+      dispatch(signUpFailure(lang.t('error.emailORusernameInUse')));
+    }); // We need to improve error handling. TODO (bc)
 };
 
 // Forgot Password Actions

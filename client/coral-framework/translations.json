@@ -10,7 +10,8 @@
       "displayName": "Display name is too short",
       "confirmPassword": "Passwords don`t match. Please, check again",
       "emailPasswordError": "Email and/or password combination incorrect.",
-      "emailInUse": "Email address already in use"
+      "emailInUse": "Email address already in use",
+      "emailORusernameInUse": "Email address or Username already in use"
     }
   },
   "es": {
@@ -24,7 +25,8 @@
       "displayName": "El nombre es muy corto",
       "confirmPassword": "Las contraseñas no coinciden",
       "emailPasswordError": "Email y/o contraseña incorrecta.",
-      "emailInUse": "Email address already in use"
+      "emailInUse": "Correo electronico en uso.",
+      "emailORusernameInUse": "Correo o Nombre en uso."
     }
   }
 }

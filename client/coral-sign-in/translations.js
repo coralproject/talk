@@ -19,6 +19,7 @@ export default {
       alreadyHaveAnAccount: 'Already have an account?',
       recoverPassword: 'Recover password',
       emailInUse: 'Email address already in use',
+      emailORusernameInUse: 'Email address or Username already in use',
       requiredField: 'This field is required',
       passwordsDontMatch: 'Passwords don\'t match.',
       checkTheForm: 'Invalid Form. Please, check the fields'
@@ -44,6 +45,7 @@ export default {
       alreadyHaveAnAccount: 'Ya tienes una cuenta?',
       recoverPassword: 'Recuperar contraseña',
       emailInUse: 'Este email se encuentra en uso',
+      emailORusernameInUse: 'Este email ó nombre se encuentran en uso',
       requiredField: 'Este campo es requerido',
       passwordsDontMatch: 'Las contraseñas no coinciden',
       checkTheForm: 'Formulario Inválido. Por favor, completa los campos'

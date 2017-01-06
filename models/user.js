@@ -356,7 +356,7 @@ UserService.createLocalUser = (email, password, displayName) => {
       user.save((err) => {
         if (err) {
           if (err.code === 11000) {
-            return reject('Email address already in use');
+            return reject(new Error('Email address or Name already in use'));
           }
           return reject(err);
         }
