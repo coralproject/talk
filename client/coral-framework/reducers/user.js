@@ -36,6 +36,8 @@ export default function user (state = initialState, action) {
     return state.set('myComments', action.comments);
   case assetActions.MULTIPLE_ASSETS_SUCCESS:
     return state.set('myAssets', action.assets);
+  case actions.LOGOUT_SUCCESS:
+    return initialState;
   default :
     return state;
   }
