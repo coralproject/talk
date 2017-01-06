@@ -24,9 +24,9 @@ router.get('/', (req, res, next) => {
  * This destroys the session of a user, if they have one.
  */
 router.delete('/', authorization.needed(), (req, res) => {
-  req.session.destroy(() => {
-    res.status(204).end();
-  });
+  delete req.session.passport;
+
+  res.status(204).end();
 });
 
 //==============================================================================

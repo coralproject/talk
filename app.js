@@ -43,6 +43,7 @@ const session_opts = {
   rolling: true,
   saveUninitialized: false,
   resave: false,
+  unset: 'destroy',
   name: 'talk.sid',
   cookie: {
     secure: false,
