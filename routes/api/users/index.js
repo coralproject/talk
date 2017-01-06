@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../../../models/user');
+const Setting = require('../../../models/setting');
+const mailer = require('../../../services/mailer');
 const authorization = require('../../../middleware/authorization');
 
 router.get('/', authorization.needed('admin'), (req, res, next) => {
@@ -59,8 +61,43 @@ router.post('/', authorization.needed('admin'), (req, res, next) => {
 
   User
     .createLocalUser(email, password, displayName)
-    .then(user => {
-      res.status(201).json(user);
+    .then((user) => {
+
+      // Get the settings from the database to find out if we need to send an
+      // email confirmation. The Front end will know about the
+      // requireEmailConfirmation as it's included in the settings get endpoint.
+      return Setting.retrieve().then(({requireEmailConfirmation = false}) => {
+
+        if (requireEmailConfirmation) {
+
+          // Email confirmation is required, let's generate that token and send
+          // the email.
+          return User
+            .createEmailConfirmToken(user.id, email)
+            .then((token) => {
+              return mailer.sendSimple({
+                app: req.app,                                 // needed to render the templates.
+                template: 'email/email-confirm',              // needed to know which template to render!
+                locals: {                                     // specifies the template locals.
+                  token,
+                  rootURL: process.env.TALK_ROOT_URL,
+                  email
+                },
+                subject: 'Email Confirmation - Talk',
+                to: email
+              });
+            })
+            .then(() => {
+
+              // Then send back the user.
+              res.status(201).json(user);
+            });
+        } else {
+
+          // We don't need to confirm the email, let's just send back the user!
+          res.status(201).json(user);
+        }
+      });
     })
     .catch(err => {
       next(err);
