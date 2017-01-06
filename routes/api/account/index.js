@@ -139,3 +139,4 @@ router.put('/settings', authorization.needed(), (req, res, next) => {
 });
 
 module.exports = router;
+module.exports.ErrPasswordTooShort = ErrPasswordTooShort;

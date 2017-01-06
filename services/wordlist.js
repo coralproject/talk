@@ -3,6 +3,7 @@ const _ = require('lodash');
 const natural = require('natural');
 const tokenizer = new natural.WordTokenizer();
 const Setting = require('../models/setting');
+const errors = require('../errors');
 
 /**
  * The root wordlist object.
@@ -143,7 +144,7 @@ class Wordlist {
       if (this.match(this.lists.banned, phrase)) {
         debug(`the field "${field}" contained a phrase "${phrase}" which contained a banned word/phrase`);
 
-        errors.banned = ErrContainsProfanity;
+        errors.banned = errors.ErrContainsProfanity;
 
         // Stop looping through the fields now, we discovered the worst possible
         // situation (a banned word).
@@ -154,7 +155,7 @@ class Wordlist {
       if (this.match(this.lists.suspect, phrase)) {
         debug(`the field "${field}" contained a phrase "${phrase}" which contained a suspected word/phrase`);
 
-        errors.suspect = ErrContainsProfanity;
+        errors.suspect = errors.ErrContainsProfanity;
 
         // Continue looping through the fields now, we discovered a possible bad
         // word (suspect).
@@ -179,7 +180,7 @@ class Wordlist {
         });
 
         if (hasBadWords) {
-          throw ErrContainsProfanity;
+          throw errors.ErrContainsProfanity;
         } else {
           return Promise.resolve(displayName);
         }
@@ -215,11 +216,6 @@ class Wordlist {
   }
 }
 
-// ErrContainsProfanity is returned in the event that the middleware detects
-// profanity/wordlisted words in the payload.
-const ErrContainsProfanity = new Error('Suspected profanity. If you think this in error, please let us know!');
-ErrContainsProfanity.translation_key = 'PROFANITY_ERROR';
-ErrContainsProfanity.status = 400;
+
 
 module.exports = Wordlist;
-module.exports.ErrContainsProfanity = ErrContainsProfanity;

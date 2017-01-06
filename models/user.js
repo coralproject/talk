@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const Action = require('./action');
 const Comment = require('./comment');
 const Wordlist = require('../services/wordlist');
+const errors = require('../errors');
 
 const EMAIL_CONFIRM_JWT_SUBJECT = 'email_confirm';
 const PASSWORD_RESET_JWT_SUBJECT = 'password_reset';
@@ -319,17 +320,12 @@ const isValidDisplayName = (displayName) => {
   const onlyLettersNumbersUnderscore = /^[a-z0-9_]+$/;
 
   if (!displayName) {
-    const ErrMissingDisplay = new Error('A display name is required to create a user');
-    ErrMissingDisplay.translation_key = 'DISPLAY_NAME_REQUIRED';
-    ErrMissingDisplay.status = 400;
-    return Promise.reject(ErrMissingDisplay);
+    return Promise.reject(errors.ErrMissingDisplay);
   }
 
   if (!onlyLettersNumbersUnderscore.test(displayName)) {
-    const ErrSpecialChars = new Error('No special characters are allowed in a display name');
-    ErrSpecialChars.translation_key = 'NO_SPECIAL_CHARACTERS';
-    ErrSpecialChars.status = 400;
-    return Promise.reject(ErrSpecialChars);
+
+    return Promise.reject(errors.ErrSpecialChars);
   }
 
   // check for profanity
@@ -346,24 +342,20 @@ const isValidDisplayName = (displayName) => {
 UserService.createLocalUser = (email, password, displayName) => {
 
   if (!email) {
-    const ErrMissingEmail = new Error('EMAIL_REQUIRED');
-    ErrMissingEmail.status = 400;
-    return Promise.reject(ErrMissingEmail);
+
+    return Promise.reject(errors.ErrMissingEmail);
   }
 
   email = email.toLowerCase().trim();
   displayName = displayName.toLowerCase().trim();
 
   if (!password) {
-    const ErrMissingPassword = new Error('PASSWORD_REQUIRED');
-    ErrMissingPassword.status = 400;
-    return Promise.reject(ErrMissingPassword);
+
+    return Promise.reject(errors.ErrMissingPassword);
   }
 
   if (password.length < 8) {
-    const ErrPasswordTooShort = new Error('PASSWORD_LENGTH');
-    ErrPasswordTooShort.status = 400;
-    return Promise.reject(ErrPasswordTooShort);
+    return Promise.reject(errors.ErrPasswordTooShort);
   }
 
   return isValidDisplayName(displayName)
@@ -389,9 +381,7 @@ UserService.createLocalUser = (email, password, displayName) => {
           user.save((err) => {
             if (err) {
               if (err.code === 11000) {
-                const ErrEmailTaken = new Error('EMAIL_IN_USE');
-                ErrEmailTaken.status = 400;
-                return reject(ErrEmailTaken);
+                return reject(errors.ErrEmailTaken);
               }
               return reject(err);
             }
