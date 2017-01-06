@@ -14,7 +14,7 @@ const saveBioFailure = error => ({type: actions.SAVE_BIO_FAILURE, error});
 
 export const saveBio = (user_id, formData) => dispatch => {
   dispatch(saveBioRequest());
-  coralApi('/account/bio', {method: 'PUT', body: formData})
+  coralApi('/account/settings', {method: 'PUT', body: formData})
     .then(() => {
       dispatch(addNotification('success', lang.t('successBioUpdate')));
       dispatch(saveBioSuccess(formData));

@@ -27,7 +27,6 @@ describe('models.Action', () => {
       item_type: 'comment'
     }
   ]).then((actions) => {
-    console.log('all created');
     mockActions = actions;
   }));
 

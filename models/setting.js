@@ -101,7 +101,8 @@ SettingSchema.method('filterForUser', function(user = false) {
       'closeTimeout',
       'closedMessage',
       'charCountEnable',
-      'charCount'
+      'charCount',
+      'requireEmailConfirmation'
     ]);
   }
 

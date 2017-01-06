@@ -4,8 +4,44 @@ const User = require('../../../models/user');
 const mailer = require('../../../services/mailer');
 const authorization = require('../../../middleware/authorization');
 
+// ErrPasswordTooShort is returned when the password length is too short.
+const ErrPasswordTooShort = new Error('password must be at least 8 characters');
+ErrPasswordTooShort.status = 400;
+
+// ErrMissingToken is returned in the event that the password reset is requested
+// without a token.
+const ErrMissingToken = new Error('token is required');
+ErrMissingToken.status = 400;
+
+//==============================================================================
+// ROUTES
+//==============================================================================
+
 router.get('/', authorization.needed(), (req, res, next) => {
   res.json(req.user);
+});
+
+// POST /email/confirm takes the password confirmation token available as a
+// payload parameter and if it verifies, it updates the confirmed_at date on the
+// local profile.
+router.post('/email/confirm', (req, res, next) => {
+
+  const {
+    token
+  } = req.body;
+
+  if (!token) {
+    return next(ErrMissingToken);
+  }
+
+  User
+    .verifyEmailConfirmation(token)
+    .then(() => {
+      res.status(204).end();
+    })
+    .catch((err) => {
+      next(err);
+    });
 });
 
 /**
@@ -52,15 +88,6 @@ router.post('/password/reset', (req, res, next) => {
     });
 });
 
-// ErrPasswordTooShort is returned when the password length is too short.
-const ErrPasswordTooShort = new Error('password must be at least 8 characters');
-ErrPasswordTooShort.status = 400;
-
-// ErrMissingToken is returned in the event that the password reset is requested
-// without a token.
-const ErrMissingToken = new Error('token is required');
-ErrMissingToken.status = 400;
-
 /**
  * expects 2 fields in the body of the request
  * 1) the token that was in the url of the email link {String}
@@ -95,18 +122,14 @@ router.put('/password/reset', (req, res, next) => {
     });
 });
 
-router.put('/bio', authorization.needed(), (req, res, next) => {
+router.put('/settings', authorization.needed(), (req, res, next) => {
 
   const {
     bio
   } = req.body;
 
-  if (!bio) {
-    return next(new Error('You must submit a new bio'));
-  }
-
   User
-    .addBio(req.user.id, bio)
+    .updateSettings(req.user.id, {bio})
     .then(() => {
       res.status(204).end();
     })

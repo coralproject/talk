@@ -80,6 +80,74 @@ describe('models.User', () => {
 
   });
 
+  describe('#createEmailConfirmToken', () => {
+
+    it('should create a token for a valid user', () => {
+      return User
+        .createEmailConfirmToken(mockUsers[0].id, mockUsers[0].profiles[0].id)
+        .then((token) => {
+          expect(token).to.not.be.null;
+        });
+    });
+
+    it('should not create a token for a user already verified', () => {
+      return User
+        .createEmailConfirmToken(mockUsers[0].id, mockUsers[0].profiles[0].id)
+        .then((token) => {
+          expect(token).to.not.be.null;
+
+          return User.verifyEmailConfirmation(token);
+        })
+        .then(() => {
+          return User.createEmailConfirmToken(mockUsers[0].id, mockUsers[0].profiles[0].id);
+        })
+        .catch((err) => {
+          expect(err).to.have.property('message', 'email address already confirmed');
+        });
+    });
+
+  });
+
+  describe('#verifyEmailConfirmation', () => {
+
+    it('should correctly validate a valid token', () => {
+      return User
+        .createEmailConfirmToken(mockUsers[0].id, mockUsers[0].profiles[0].id)
+        .then((token) => {
+          expect(token).to.not.be.null;
+
+          return User.verifyEmailConfirmation(token);
+        });
+    });
+
+    it('should correctly reject an invalid token', () => {
+      return User
+        .verifyEmailConfirmation('cats')
+        .catch((err) => {
+          expect(err).to.not.be.null;
+        });
+    });
+
+    it('should update the user model when verification is complete', () => {
+      return User
+        .createEmailConfirmToken(mockUsers[0].id, mockUsers[0].profiles[0].id)
+        .then((token) => {
+          expect(token).to.not.be.null;
+
+          return User.verifyEmailConfirmation(token);
+        })
+        .then(() => {
+          return User.findById(mockUsers[0].id);
+        })
+        .then((user) => {
+          expect(user.profiles[0]).to.have.property('metadata');
+          expect(user.profiles[0].metadata).to.have.property('confirmed_at');
+          expect(user.profiles[0].metadata.confirmed_at).to.not.be.null;
+        });
+    });
+
+  });
+
   describe('#setStatus', () => {
     it('should set the status to active', () => {
       return User

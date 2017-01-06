@@ -6,6 +6,9 @@ const jwt = require('jsonwebtoken');
 const Action = require('./action');
 const Comment = require('./comment');
 
+const EMAIL_CONFIRM_JWT_SUBJECT = 'email_confirm';
+const PASSWORD_RESET_JWT_SUBJECT = 'password_reset';
+
 // SALT_ROUNDS is the number of rounds that the bcrypt algorithm will run
 // through during the salting process.
 const SALT_ROUNDS = 10;
@@ -526,27 +529,45 @@ UserService.createPasswordResetToken = function (email) {
         version: user.__v
       };
 
-      return jwt.sign(payload, process.env.TALK_SESSION_SECRET, {algorithm: 'HS256'}, {
-        expiresIn: '1d'
+      return jwt.sign(payload, process.env.TALK_SESSION_SECRET, {
+        algorithm: 'HS256',
+        expiresIn: '1d',
+        subject: PASSWORD_RESET_JWT_SUBJECT
       });
     });
 };
 
 /**
- * Verifies a jwt and returns the associated user.
- * @param {String} token the JSON Web Token to verify
+ * Verifies that the token was indeed signed by the session secret.
+ * @param  {String} token JWT token from the client
+ * @return {Promise}
  */
-UserService.verifyPasswordResetToken = token => {
+UserService.verifyToken = (token, options = {}) => {
   return new Promise((resolve, reject) => {
-    jwt.verify(token, process.env.TALK_SESSION_SECRET, (err, decoded) => {
+
+    // Set the allowed algorithms.
+    options.algorithms = ['HS256'];
+
+    jwt.verify(token, process.env.TALK_SESSION_SECRET, options, (err, decoded) => {
       if (err) {
         return reject(err);
       }
 
       resolve(decoded);
     });
-  })
-  .then(decoded => UserService.findById(decoded.userId));
+  });
+};
+
+/**
+ * Verifies a jwt and returns the associated user.
+ * @param {String} token the JSON Web Token to verify
+ */
+UserService.verifyPasswordResetToken = (token) => {
+  return UserService
+    .verifyToken(token, {
+      subject: PASSWORD_RESET_JWT_SUBJECT
+    })
+    .then((decoded) => UserService.findById(decoded.userId));
 };
 
 /**
@@ -587,27 +608,23 @@ UserService.search = (value) => {
  * Returns a count of the current users.
  * @return {Promise}
  */
-UserService.count = () => {
-  return UserModel.count();
-};
+UserService.count = () => UserModel.count();
 
 /**
  * Returns all the users.
  * @return {Promise}
  */
-UserService.all = () => {
-  return UserModel.find();
-};
+UserService.all = () => UserModel.find();
 
 /**
- * Adds a new User bio
+ * Updates the user's settings.
  * @return {Promise}
  */
-UserService.addBio = (id, bio) => UserModel.update({
+UserService.updateSettings = (id, settings) => UserModel.update({
   id
 }, {
   $set: {
-    'settings.bio': bio
+    settings
   }
 });
 
@@ -625,3 +642,77 @@ UserService.addAction = (item_id, user_id, action_type, metadata) => Action.inse
   action_type,
   metadata
 });
+
+/**
+ * This creates a token based around confirming the local profile.
+ * @param  {String} userID The user id for the user that we are creating the
+ *                         token for.
+ * @param  {String} email The email that we are needing to get confirmed.
+ * @return {Promise}
+ */
+UserService.createEmailConfirmToken = (userID, email) => {
+  if (!email || typeof email !== 'string') {
+    return Promise.reject('email is required when creating a JWT for resetting passord');
+  }
+
+  email = email.toLowerCase();
+
+  return UserService
+    .findById(userID)
+    .then((user) => {
+      if (!user) {
+        return Promise.reject(new Error('user not found'));
+      }
+
+      // Get the profile representing the local account.
+      let profile = user.profiles.find((profile) => profile.id === email && profile.provider === 'local');
+
+      // Ensure that the user email hasn't already been verified.
+      if (profile && profile.metadata && profile.metadata.confirmed_at) {
+        return Promise.reject(new Error('email address already confirmed'));
+      }
+
+      const payload = {
+        email,
+        userID
+      };
+
+      return jwt.sign(payload, process.env.TALK_SESSION_SECRET, {
+        jwtid: uuid.v4(),
+        algorithm: 'HS256',
+        expiresIn: '1d',
+        subject: EMAIL_CONFIRM_JWT_SUBJECT
+      });
+    });
+};
+
+/**
+ * This verifies that a given token was for the email confirmation and updates
+ * that user's profile with a 'confirmed_at' parameter with the current date.
+ * @param  {String} token the token containing the email confirmation details
+ *                        signed with our secret.
+ * @return {Promise}
+ */
+UserService.verifyEmailConfirmation = (token) => {
+  return UserService
+    .verifyToken(token, {
+      subject: EMAIL_CONFIRM_JWT_SUBJECT
+    })
+    .then(({userID, email}) => {
+
+      return UserModel
+        .update({
+          id: userID,
+          profiles: {
+            $elemMatch: {
+              id: email,
+              provider: 'local'
+            }
+          }
+        }, {
+          $set: {
+            'profiles.$.metadata.confirmed_at': new Date()
+          }
+        });
+    });
+};
