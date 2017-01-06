@@ -1,4 +1,4 @@
-const utils = require('../../utils/e2e-mongoose');
+const mongoose = require('../../helpers/mongoose');
 const mocks = require('../mocks');
 
 const mockComment = 'This is a test comment.';
@@ -12,7 +12,11 @@ const mockUser = {
 module.exports = {
   '@tags': ['embed-stream', 'comment', 'premodoff', 'premodon'],
   before: () => {
-    utils.before();
+    mongoose.waitTillConnect(function(err) {
+      if (err) {
+        console.error(err);
+      }
+    });
   },
   'User registers and posts a comment with premod off': client => {
     client.perform((client, done) => {
@@ -171,7 +175,11 @@ module.exports = {
     });
   },
   after: client => {
-    utils.after();
+    mongoose.disconnect(function(err) {
+      if (err) {
+        console.error(err);
+      }
+    });
     client.end();
   }
 };

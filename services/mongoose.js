@@ -1,21 +1,53 @@
 const mongoose = require('mongoose');
 const debug = require('debug')('talk:db');
+const queryDebuger = require('debug')('talk:db:query');
+
+// Loading the formatter from Mongoose:
+//
+// https://github.com/Automattic/mongoose/blob/1a93d1f4d12e441e17ddf451e96fbc5f6e8f54b8/lib/drivers/node-mongodb-native/collection.js#L182
+//
+// so we can wrap parameters.
+const formatter = require('mongoose').Collection.prototype.$format;
+
+// Provide a newly wrapped debugQuery function which wraps the `debug` package.
+function debugQuery(name, i, ...args) {
+  let functionCall = ['db', name, i].join('.');
+  let _args = [];
+  for (let j = args.length - 1; j >= 0; --j) {
+    if (formatter(args[j]) || _args.length) {
+      _args.unshift(formatter(args[j]));
+    }
+  }
+
+  let params = `(${_args.join(', ')})`;
+
+  queryDebuger(functionCall + params);
+}
+
 const enabled = require('debug').enabled;
 
-// Append '-test' to the db if node_env === 'test'
-let url = process.env.TALK_MONGO_URL || 'mongodb://localhost/coral-talk';
+// Pull the mongo url out of the environment.
+let url = process.env.TALK_MONGO_URL;
 
-if (process.env.NODE_ENV === 'test') {
-  url += '-test';
+// Reset the mongo url in the event it hasn't been overrided and we are in a
+// testing environment. Every new mongo instance comes with a test database by
+// default, this is consistent with common testing and use case practices.
+if (process.env.NODE_ENV === 'test' && !url) {
+  url = 'mongodb://localhost/test';
 }
 
 // Use native promises
 mongoose.Promise = global.Promise;
 
+// Check if debugging is enabled on the talk:db prefix.
 if (enabled('talk:db')) {
-  mongoose.set('debug', true);
+
+  // Enable the mongoose debugger, here we wrap the similar print function
+  // provided by setting the debug parameter.
+  mongoose.set('debug', debugQuery);
 }
 
+// Connect to the Mongo instance.
 mongoose.connect(url, (err) => {
   if (err) {
     throw err;

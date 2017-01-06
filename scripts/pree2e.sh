@@ -4,12 +4,12 @@
 selenium-standalone install
 
 # Creating Admin Test User
-{ echo admin@test.com; echo test; echo test; echo Admin Test User; echo admin;} | dotenv ./bin/cli-users create
+./bin/cli-users create --flag_mode --email "admin@test.com" --password "test" --name "Admin Test User" --role "admin"
 
 # Creating Moderator Test User
-{ echo moderator@test.com; echo test; echo test; echo Moderator Test User; echo moderator;} | dotenv ./bin/cli-users create
+./bin/cli-users create --flag_mode --email "moderator@test.com" --password "test" --name "Moderator Test User" --role "moderator"
 
 # Creating Commenter Test User
-{ echo commenter@test.com; echo test; echo test; echo Commenter Test User; echo ;} | dotenv ./bin/cli-users create
+./bin/cli-users create --flag_mode --email "commenter@test.com" --password "test" --name "commenter@test.com"
 
-npm start
+npm start &

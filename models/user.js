@@ -4,8 +4,10 @@ const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Action = require('./action');
-
 const Comment = require('./comment');
+
+const EMAIL_CONFIRM_JWT_SUBJECT = 'email_confirm';
+const PASSWORD_RESET_JWT_SUBJECT = 'password_reset';
 
 // SALT_ROUNDS is the number of rounds that the bcrypt algorithm will run
 // through during the salting process.
@@ -30,6 +32,37 @@ if (process.env.NODE_ENV === 'test' && !process.env.TALK_SESSION_SECRET) {
 } else if (!process.env.TALK_SESSION_SECRET) {
   throw new Error('TALK_SESSION_SECRET must be defined to encode JSON Web Tokens and other auth functionality');
 }
+
+// ProfileSchema is the mongoose schema defined as the representation of a
+// User's profile stored in MongoDB.
+const ProfileSchema = new mongoose.Schema({
+
+  // ID provides the identifier for the user profile, in the case of a local
+  // provider, the id would be an email, in the case of a social provider,
+  // the id would be the foreign providers identifier.
+  id: {
+    type: String,
+    required: true
+  },
+
+  // Provider is simply the name attached to the authentication mode. In the
+  // case of a locally provided profile, this will simply be `local`, or a
+  // social provider which for Facebook would just be `facebook`.
+  provider: {
+    type: String,
+    required: true
+  },
+
+  // Metadata provides a place to put provider specific details. An example of
+  // something that could be stored here is the `metadata.confirmed_at` could be
+  // used by the `local` provider to indicate when the email address was
+  // confirmed.
+  metadata: {
+    type: mongoose.Schema.Types.Mixed
+  }
+}, {
+  _id: false
+});
 
 // UserSchema is the mongoose schema defined as the representation of a User in
 // MongoDB.
@@ -60,26 +93,7 @@ const UserSchema = new mongoose.Schema({
   // Profiles describes the array of identities for a given user. Any one user
   // can have multiple profiles associated with them, including multiple email
   // addresses.
-  profiles: [new mongoose.Schema({
-
-    // ID provides the identifier for the user profile, in the case of a local
-    // provider, the id would be an email, in the case of a social provider,
-    // the id would be the foreign providers identifier.
-    id: {
-      type: String,
-      required: true
-    },
-
-    // Provider is simply the name attached to the authentication mode. In the
-    // case of a locally provided profile, this will simply be `local`, or a
-    // social provider which for Facebook would just be `facebook`.
-    provider: {
-      type: String,
-      required: true
-    }
-  }, {
-    _id: false
-  })],
+  profiles: [ProfileSchema],
 
   // Roles provides an array of roles (as strings) that is associated with a
   // user.
@@ -499,45 +513,61 @@ UserService.createPasswordResetToken = function (email) {
   email = email.toLowerCase();
 
   return UserModel.findOne({profiles: {$elemMatch: {id: email}}})
-    .then(user => {
+    .then((user) => {
+      if (!user) {
 
-      if (user === null) {
-
-        // since we don't want to reveal that the email does/doesn't exist
-        // just go ahead and resolve the Promise with null and check in the endpoint
-        return Promise.resolve(null);
+        // Since we don't want to reveal that the email does/doesn't exist
+        // just go ahead and resolve the Promise with null and check in the
+        // endpoint.
+        return;
       }
 
-      const payload = {email, jti: uuid.v4(), userId: user.id, version: user.__v};
-      const token = jwt.sign(payload, process.env.TALK_SESSION_SECRET, {expiresIn: '1d'});
+      const payload = {
+        jti: uuid.v4(),
+        email,
+        userId: user.id,
+        version: user.__v
+      };
 
-      return token;
+      return jwt.sign(payload, process.env.TALK_SESSION_SECRET, {
+        algorithm: 'HS256',
+        expiresIn: '1d',
+        subject: PASSWORD_RESET_JWT_SUBJECT
+      });
     });
 };
 
 /**
- * verifies a jwt and returns the associated user
- * @param {String} token the JSON Web Token to verify
+ * Verifies that the token was indeed signed by the session secret.
+ * @param  {String} token JWT token from the client
+ * @return {Promise}
  */
-UserService.verifyPasswordResetToken = token => {
+UserService.verifyToken = (token, options = {}) => {
   return new Promise((resolve, reject) => {
-    jwt.verify(token, process.env.TALK_SESSION_SECRET, (error, decoded) => {
-      if (error) {
-        return reject(error);
+
+    // Set the allowed algorithms.
+    options.algorithms = ['HS256'];
+
+    jwt.verify(token, process.env.TALK_SESSION_SECRET, options, (err, decoded) => {
+      if (err) {
+        return reject(err);
       }
 
       resolve(decoded);
     });
-  })
-  .then(decoded => {
-
-    /**
-     * TODO: check the jti from this decoded token in redis
-     * and make an entry if it does not exist.
-     * reject if entry already exists.
-     */
-    return UserService.findById(decoded.userId);
   });
+};
+
+/**
+ * Verifies a jwt and returns the associated user.
+ * @param {String} token the JSON Web Token to verify
+ */
+UserService.verifyPasswordResetToken = (token) => {
+  return UserService
+    .verifyToken(token, {
+      subject: PASSWORD_RESET_JWT_SUBJECT
+    })
+    .then((decoded) => UserService.findById(decoded.userId));
 };
 
 /**
@@ -578,34 +608,25 @@ UserService.search = (value) => {
  * Returns a count of the current users.
  * @return {Promise}
  */
-UserService.count = () => {
-  return UserModel.count();
-};
+UserService.count = () => UserModel.count();
 
 /**
  * Returns all the users.
  * @return {Promise}
  */
-UserService.all = () => {
-  return UserModel.find();
-};
+UserService.all = () => UserModel.find();
 
 /**
- * Adds a new User bio
+ * Updates the user's settings.
  * @return {Promise}
  */
-
-UserService.addBio = (id, bio) => (
-  UserModel.findOneAndUpdate({
-    id
-  }, {
-    $set: {
-      'settings.bio': bio
-    }
-  }, {
-    new: true
-  })
-);
+UserService.updateSettings = (id, settings) => UserModel.update({
+  id
+}, {
+  $set: {
+    settings
+  }
+});
 
 /**
  * Add an action to the user.
@@ -621,3 +642,77 @@ UserService.addAction = (item_id, user_id, action_type, metadata) => Action.inse
   action_type,
   metadata
 });
+
+/**
+ * This creates a token based around confirming the local profile.
+ * @param  {String} userID The user id for the user that we are creating the
+ *                         token for.
+ * @param  {String} email The email that we are needing to get confirmed.
+ * @return {Promise}
+ */
+UserService.createEmailConfirmToken = (userID, email) => {
+  if (!email || typeof email !== 'string') {
+    return Promise.reject('email is required when creating a JWT for resetting passord');
+  }
+
+  email = email.toLowerCase();
+
+  return UserService
+    .findById(userID)
+    .then((user) => {
+      if (!user) {
+        return Promise.reject(new Error('user not found'));
+      }
+
+      // Get the profile representing the local account.
+      let profile = user.profiles.find((profile) => profile.id === email && profile.provider === 'local');
+
+      // Ensure that the user email hasn't already been verified.
+      if (profile && profile.metadata && profile.metadata.confirmed_at) {
+        return Promise.reject(new Error('email address already confirmed'));
+      }
+
+      const payload = {
+        email,
+        userID
+      };
+
+      return jwt.sign(payload, process.env.TALK_SESSION_SECRET, {
+        jwtid: uuid.v4(),
+        algorithm: 'HS256',
+        expiresIn: '1d',
+        subject: EMAIL_CONFIRM_JWT_SUBJECT
+      });
+    });
+};
+
+/**
+ * This verifies that a given token was for the email confirmation and updates
+ * that user's profile with a 'confirmed_at' parameter with the current date.
+ * @param  {String} token the token containing the email confirmation details
+ *                        signed with our secret.
+ * @return {Promise}
+ */
+UserService.verifyEmailConfirmation = (token) => {
+  return UserService
+    .verifyToken(token, {
+      subject: EMAIL_CONFIRM_JWT_SUBJECT
+    })
+    .then(({userID, email}) => {
+
+      return UserModel
+        .update({
+          id: userID,
+          profiles: {
+            $elemMatch: {
+              id: email,
+              provider: 'local'
+            }
+          }
+        }, {
+          $set: {
+            'profiles.$.metadata.confirmed_at': new Date()
+          }
+        });
+    });
+};

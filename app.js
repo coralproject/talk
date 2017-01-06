@@ -7,7 +7,7 @@ const passport = require('./services/passport');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const redis = require('./services/redis');
-const cookieParser = require('cookie-parser');
+const csrf = require('csurf');
 
 const app = express();
 
@@ -43,6 +43,7 @@ const session_opts = {
   rolling: true,
   saveUninitialized: false,
   resave: false,
+  unset: 'destroy',
   name: 'talk.sid',
   cookie: {
     secure: false,
@@ -67,18 +68,35 @@ if (app.get('env') === 'production') {
 app.use(session(session_opts));
 
 //==============================================================================
-// CSRF MIDDLEWARE
-//==============================================================================
-
-app.use(cookieParser());
-
-//==============================================================================
 // PASSPORT MIDDLEWARE
 //==============================================================================
 
 // Setup the PassportJS Middleware.
 app.use(passport.initialize());
 app.use(passport.session());
+
+//==============================================================================
+// CSRF MIDDLEWARE
+//==============================================================================
+
+if (process.env.TEST_MODE === 'unit') {
+
+  // Add this fake test token in the event we are in unit test mode, and don't
+  // include the CSRF protection.
+  app.locals.csrfToken = 'UNIT_TESTS';
+
+} else {
+
+  // Setup route middlewares for CSRF protection.
+  // Default ignore methods are GET, HEAD, OPTIONS
+  app.use(csrf({}));
+  app.use((req, res, next) => {
+    res.locals.csrfToken = req.csrfToken();
+
+    next();
+  });
+
+}
 
 //==============================================================================
 // ROUTES

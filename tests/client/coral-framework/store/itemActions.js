@@ -104,7 +104,7 @@ describe('itemActions', () => {
     });
     it('should handle an error', () => {
       fetchMock.get('*', 404);
-      return actions.getItemsArray(ids, host)(store.dispatch)
+      return actions.getItemsArray(ids)(store.dispatch)
         .catch((err) => {
           expect(err).to.be.truthy;
         });

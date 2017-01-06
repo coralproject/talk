@@ -1,27 +1,15 @@
-const mongoose = require('../services/mongoose');
+const mongoose = require('./helpers/mongoose');
 
-beforeEach(function (done) {
-  function clearDB() {
-    for (let collection in mongoose.connection.collections) {
-      mongoose.connection.collections[collection].remove(function() {});
-    }
-    return done();
-  }
+before(function(done) {
+  this.timeout(30000);
 
-  if (mongoose.connection.readyState === 0) {
-    mongoose.on('open', function() {
-      if (err) {
-        throw err;
-      }
-
-      return clearDB();
-    });
-  } else {
-    return clearDB();
-  }
+  mongoose.waitTillConnect(done);
 });
 
-after(function (done) {
-  mongoose.disconnect();
-  return done();
+beforeEach(function(done) {
+  mongoose.clearDB(done);
+});
+
+after(function(done) {
+  mongoose.disconnect(done);
 });

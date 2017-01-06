@@ -34,9 +34,8 @@ export const fetchModerationQueueComments = () => {
 
 // Create a new comment
 export const createComment = (name, body) => {
-  return (dispatch, getState) => {
-    const _csrf = getState().auth.get('_csrf');
-    const formData = {body, name, _csrf};
+  return (dispatch) => {
+    const formData = {body, name};
     return coralApi('/comments', {method: 'POST', body: formData})
       .then(res => dispatch({type: commentTypes.COMMENT_CREATE_SUCCESS, comment: res}))
       .catch(error => dispatch({type: commentTypes.COMMENT_CREATE_FAILED, error}));
