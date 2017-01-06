@@ -46,23 +46,31 @@ class SuspendUserModal extends Component  {
     const {stage, actionType, onClose, onButtonClick} = this.props;
     const about = actionType === 'flag_bio' ? lang.t('suspenduser.bio') : lang.t('suspenduser.username');
     return actionType ? <Modal open={actionType} onClose={onClose}>
-        <h3>{lang.t(stages[stage].title, about)}</h3>
+        <div className={styles.title}>{lang.t(stages[stage].title, about)}</div>
         <div className={styles.container}>
           <div className={styles.description}>
             {lang.t(stages[stage].description, about)}
           </div>
           {
             stage === 1 &&
-            <textarea
-              rows={10}
-              value={this.state.email}
-              onChange={this.onEmailChange}/>
+            <div className={styles.writeContainer}>
+              <div className={styles.emailMessage}>{lang.t('suspenduser.write_message')}</div>
+              <div className={styles.emailContainer}>
+                <textarea
+                  rows={5}
+                  className={styles.emailInput}
+                  value={this.state.email}
+                  onChange={this.onEmailChange}/>
+              </div>
+            </div>
           }
-          {Object.keys(stages[stage].options).map((key, i) => (
-            <Button onClick={onButtonClick(stage, i)}>
-              {lang.t(stages[stage].options[key], about)}
-            </Button>
-          ))}
+          <div className={styles.modalButtons}>
+            {Object.keys(stages[stage].options).map((key, i) => (
+              <Button key={i} onClick={onButtonClick(stage, i)}>
+                {lang.t(stages[stage].options[key], about)}
+              </Button>
+            ))}
+        </div>
         </div>
       </Modal>
       : null;
