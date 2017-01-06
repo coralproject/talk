@@ -166,6 +166,27 @@ class Wordlist {
   }
 
   /**
+   * check potential username for banned words, special characters
+   */
+  static displayNameCheck(displayName) {
+    const wl = new Wordlist();
+    return wl.load()
+      .then(() => {
+        displayName = displayName.replace(/_/g, '');
+        // test each word, and fail if we find a match
+        const hasBadWords = wl.lists.banned.some(word => {
+          return new RegExp(word, 'ig').test(displayName);
+        });
+
+        if (hasBadWords) {
+          throw ErrContainsProfanity;
+        } else {
+          return Promise.resolve(displayName);
+        }
+      });
+  }
+
+  /**
    * Connect middleware for scanning request bodies for wordlisted words and
    * attaching a ErrContainsProfanity to the req.wordlisted parameter, otherwise
    * it will just set that parameter to false.
@@ -196,7 +217,8 @@ class Wordlist {
 
 // ErrContainsProfanity is returned in the event that the middleware detects
 // profanity/wordlisted words in the payload.
-const ErrContainsProfanity = new Error('contains profanity');
+const ErrContainsProfanity = new Error('Suspected profanity. If you think this in error, please let us know!');
+ErrContainsProfanity.translation_key = 'PROFANITY_ERROR';
 ErrContainsProfanity.status = 400;
 
 module.exports = Wordlist;

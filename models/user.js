@@ -5,8 +5,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Action = require('./action');
 const Comment = require('./comment');
-
-const naughtyWords = require('./naughty-words.json');
+const Wordlist = require('../services/wordlist');
 
 // SALT_ROUNDS is the number of rounds that the bcrypt algorithm will run
 // through during the salting process.
@@ -305,30 +304,21 @@ const isValidDisplayName = (displayName) => {
   const onlyLettersNumbersUnderscore = /^[a-z0-9_]+$/;
 
   if (!displayName) {
-    const ErrMissingDisplay = new Error('DISPLAY_NAME_REQUIRED');
+    const ErrMissingDisplay = new Error('A display name is required to create a user');
+    ErrMissingDisplay.translation_key = 'DISPLAY_NAME_REQUIRED';
     ErrMissingDisplay.status = 400;
     return Promise.reject(ErrMissingDisplay);
   }
 
   if (!onlyLettersNumbersUnderscore.test(displayName)) {
-    const ErrSpecialChars = new Error('NO_SPECIAL_CHARACTERS');
+    const ErrSpecialChars = new Error('No special characters are allowed in a display name');
+    ErrSpecialChars.translation_key = 'NO_SPECIAL_CHARACTERS';
     ErrSpecialChars.status = 400;
     return Promise.reject(ErrSpecialChars);
   }
 
-  const hasBadWords = naughtyWords.some(badWord => {
-
-    // test the word AFTER the interspersed _ characters are removed.
-    return new RegExp(badWord, 'ig').test(displayName.replace(/_/g, ''));
-  });
-
-  if (hasBadWords) {
-    const ErrProfanity = new Error('PROFANITY_ERROR');
-    ErrProfanity.status = 400;
-    return Promise.reject(ErrProfanity);
-  } else {
-    return Promise.resolve(displayName);
-  }
+  // check for profanity
+  return Wordlist.displayNameCheck(displayName);
 };
 
 /**
