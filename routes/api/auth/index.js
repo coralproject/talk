@@ -8,18 +8,16 @@ const router = express.Router();
  * This returns the user if they are logged in.
  */
 router.get('/', (req, res, next) => {
+
   if (req.user) {
     return next();
   }
 
-  // When there is no user on the request, then just send back a 204 to this
-  // request. It's not really "an error" if what they asked for isn't available,
-  // but it could be.
   res.status(204).end();
 }, (req, res) => {
 
   // Send back the user object.
-  res.json(req.user.toObject());
+  res.json({user: req.user.toObject()});
 });
 
 /**
@@ -53,7 +51,7 @@ const HandleAuthCallback = (req, res, next) => (err, user) => {
       return next(err);
     }
 
-    // We logged in the user! Let's send back the user data.
+    // We logged in the user! Let's send back the user data and the CSRF token.
     res.json({user});
   });
 };

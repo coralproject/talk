@@ -13,7 +13,7 @@ describe('/api/v1/auth', () => {
         .get('/api/v1/auth')
         .then((res) => {
           expect(res.status).to.be.equal(204);
-          expect(res.body).to.be.empty;
+          expect(res).to.not.have.a.body;
         });
     });
   });
@@ -37,26 +37,27 @@ describe('/api/v1/auth/local', () => {
         return chai.request(app)
           .post('/api/v1/auth/local')
           .send({email: 'maria@gmail.com', password: 'password!'})
-          .then((res) => {
-            expect(res).to.have.status(200);
-            expect(res).to.be.json;
-            expect(res.body).to.have.property('user');
-            expect(res.body.user).to.have.property('displayName', 'Maria');
+          .then((res2) => {
+            expect(res2).to.have.status(200);
+            expect(res2).to.be.json;
+            expect(res2.body).to.have.property('user');
+            expect(res2.body.user).to.have.property('displayName', 'Maria');
           });
       });
 
       it('should not send back the user on a unsuccessful login', () => {
         return chai.request(app)
           .post('/api/v1/auth/local')
-          .send({email: 'maria@gmail.com', password: 'password!3'})
-          .catch((err) => {
-            expect(err).to.not.be.null;
-            expect(err.response).to.have.status(401);
-            expect(err.response.body).to.have.property('message', 'not authorized');
-          });
+            .send({email: 'maria@gmail.com', password: 'password!3'})
+            .catch((err) => {
+              expect(err).to.not.be.null;
+              expect(err.response).to.have.status(401);
+              expect(err.response.body).to.have.property('message', 'not authorized');
+            });
       });
 
     });
+
   });
 
   describe('email confirmation enabled', () => {
@@ -87,6 +88,5 @@ describe('/api/v1/auth/local', () => {
           });
       });
     });
-
   });
 });

@@ -138,7 +138,7 @@ class CommentStream extends Component {
                     </div>
                   : <p>{closedMessage}</p>
                 }
-                {!loggedIn && <SignInContainer offset={signInOffset} />}
+                {!loggedIn && <SignInContainer offset={signInOffset}/>}
                 {
                   rootItem.comments && rootItem.comments.map((commentId) => {
                     const comment = comments[commentId];

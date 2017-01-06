@@ -42,8 +42,6 @@ export const fetchCommentsByUserId = userId => {
         dispatch({type: assetActions.MULTIPLE_ASSETS_SUCCESS, assets: assets.map(asset => asset.id)});
       })
       .catch(error => {
-        console.error(error.stack);
-        console.error('FAILURE_COMMENTS_BY_USER', error);
         dispatch({type: actions.COMMENTS_BY_USER_FAILURE, error});
       });
   };

@@ -52,7 +52,7 @@ router.post('/:user_id/status', (req, res, next) => {
     .catch(next);
 });
 
-router.post('/', authorization.needed('admin'), (req, res, next) => {
+router.post('/', (req, res, next) => {
   const {
     email,
     password,
@@ -105,6 +105,7 @@ router.post('/', authorization.needed('admin'), (req, res, next) => {
 });
 
 router.post('/:user_id/actions', authorization.needed(), (req, res, next) => {
+
   const {
     action_type,
     metadata

@@ -41,6 +41,9 @@ export default function auth (state = initialState, action) {
       .set('view', action.view);
   case actions.CLEAN_STATE:
     return initialState;
+  case actions.CHECK_CSRF_TOKEN:
+    return state
+      .set('_csrf', action._csrf);
   case actions.FETCH_SIGNIN_REQUEST:
     return state
       .set('isLoading', true);
