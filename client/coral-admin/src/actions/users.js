@@ -16,10 +16,10 @@ export const userStatusUpdate = (status, userId, commentId) => {
 };
 
 // change status of a user
-export const sendNotificationEmail = (userId, subject, text) => {
+export const sendNotificationEmail = (userId, subject, body) => {
   return (dispatch, getState) => {
     const _csrf = getState().auth.get('_csrf');
-    return coralApi(`/users/${userId}/email`, {method: 'POST', body: {subject, text}, _csrf})
+    return coralApi(`/users/${userId}/email`, {method: 'POST', body: {subject, body}, _csrf})
       .catch(error => dispatch({type: userTypes.USER_EMAIL_FAILURE, error}));
   };
 };

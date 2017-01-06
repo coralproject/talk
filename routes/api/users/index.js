@@ -67,17 +67,16 @@ router.post('/:user_id/status', parseForm, csrfProtection, (req, res, next) => {
 });
 
 router.post('/:user_id/email', authorization.needed('admin'), parseForm, csrfProtection, (req, res, next) => {
-  User.find(req.user_id)
+  User.findById(req.params.user_id)
     .then(user => {
       const options = {
-        subject: req.subject,
+        subject: req.body.subject,
         from: process.env.TALK_SMTP_FROM_ADDRESS,
         to: user.email,
         html: notificationEmailTemplate({
-          body: req.body
+          body: req.body.body
         })
       };
-
       return mailer.sendSimple(options);
     })
     .then(() => {

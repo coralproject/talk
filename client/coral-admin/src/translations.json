@@ -94,7 +94,7 @@
       "send": "Send",
       "bio": "bio",
       "username": "username",
-      "subject": "Your account has been suspended",
+      "email_subject": "Your account has been suspended",
       "email": "Another member of the community recently flagged your {0} for review. Because of its content your {0} was rejected. This means you can no longer comment, like, or flag content until you rewrite your {0}. Please e-mail moderator@newsorg.com if you have any questions or concerns.",
       "write_message": "Write a message"
     },

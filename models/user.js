@@ -437,7 +437,7 @@ UserService.setStatus = (id, status, comment_id) => {
   }
 
   // If ban then reject the comment and update status
-  if (status === 'banned') {
+  if (status === 'banned' || status === 'suspended') {
     return UserModel.update({
       id: id
     }, {
@@ -446,7 +446,8 @@ UserService.setStatus = (id, status, comment_id) => {
       }
     })
     .then(() => {
-      return Comment.pushStatus(comment_id, 'rejected', id);
+      return comment_id ? Comment.pushStatus(comment_id, 'rejected', id) :
+        Promise.resolve();
     });
   }
 

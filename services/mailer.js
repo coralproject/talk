@@ -48,7 +48,7 @@ const mailer = {
       if (!subject) {
         reject('sendSimple requires a subject for the email');
       }
-
+      
       return resolve(transporter.sendMail({from, to, subject, text, html}));
     });
   }
