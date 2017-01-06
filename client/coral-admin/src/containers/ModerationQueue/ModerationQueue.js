@@ -31,6 +31,8 @@ export default (props) => (
           users={props.users.byId}
           actionIds={props.userActionIds}
           actions={props.actions.byId}
+          userStatusUpdate={props.userStatusUpdate}
+          suspendUser={props.suspendUser}
           updateCommentStatus={props.updateStatus}
           onClickShowBanDialog={props.showBanUserDialog}
           modActions={['reject', 'approve', 'ban']}
@@ -48,6 +50,8 @@ export default (props) => (
           isActive={props.activeTab === 'rejected'}
           singleView={props.singleView}
           commentIds={props.rejectedIds}
+          userStatusUpdate={props.userStatusUpdate}
+          suspendUser={props.suspendUser}
           comments={props.comments.byId}
           users={props.users.byId}
           updateCommentStatus={props.updateStatus}
@@ -61,6 +65,8 @@ export default (props) => (
           isActive={props.activeTab === 'rejected'}
           singleView={props.singleView}
           commentIds={props.flaggedIds}
+          userStatusUpdate={props.userStatusUpdate}
+          suspendUser={props.suspendUser}
           comments={props.comments.byId}
           users={props.users.byId}
           updateCommentStatus={props.updateStatus}

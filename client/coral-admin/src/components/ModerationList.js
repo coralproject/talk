@@ -24,7 +24,8 @@ export default class ModerationList extends React.Component {
     comments: PropTypes.object,
     users: PropTypes.object.isRequired,
     actions: PropTypes.object,
-    updateCommentStatus: PropTypes.func.isRequired,
+    userStatusUpdate: PropTypes.func.isRequired,
+    suspendUser: PropTypes.func.isRequired,
 
     // list of actions (flags, etc) associated with the comments
     modActions: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -135,30 +136,11 @@ export default class ModerationList extends React.Component {
 
       // If a user bio or name is rejected, bring up a dialog before suspending them.
       if (menuOption === 'rejected') {
-        this.setState({suspendUserModal: {stage: 0, actionType: action.action_type}});
+        this.setState({suspendUserModal: action});
       } else {
-        this.props.updateUserStatus(menuOption, action.item_id);
+        this.props.userStatusUpdate(menuOption, action.item_id);
       }
     }
-  }
-
-  /*
-  * When an admin clicks to suspend a user a dialog is shown, this function
-  * handles the possible actions for that dialog.
-  */
-  onClickSuspendModalButton = (stage, menuOption) => () => {
-    const {updateUserStatus, action} = this.props;
-    const cancel = () => this.setState({suspendUserModal: null});
-    const next = () => this.setState((prev) => {
-      prev.suspendUserModal.stage++;
-      return prev;
-    });
-    const suspend = () => updateUserStatus('suspend', action.item_id);
-    const suspendModalActions = [
-      [ cancel, next ],
-      [ cancel, suspend ]
-    ];
-    return suspendModalActions[stage][menuOption]();
   }
 
   onClickShowBanDialog = (userId, userName, commentId) => {
@@ -221,7 +203,7 @@ export default class ModerationList extends React.Component {
   }
 
   render () {
-    const {singleView, key} = this.props;
+    const {singleView, key, suspendUser} = this.props;
 
     // Combine moderations and actions into a single stream and sort by most recently updated.
     const moderationIds = this.getModerationIds();
@@ -232,9 +214,9 @@ export default class ModerationList extends React.Component {
         id='moderationList'>
         {moderationIds.map(this.mapModItems)}
         <SuspendUserModal
-          {...this.state.suspendUserModal}
+          action = {this.state.suspendUserModal}
           onClose={() => this.setState({suspendUserModal:null})}
-          onButtonClick={this.onClickSuspendModalButton} />
+          suspendUser={suspendUser} />
       </ul>
     );
   }

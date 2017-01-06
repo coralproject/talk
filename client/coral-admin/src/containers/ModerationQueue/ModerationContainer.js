@@ -8,7 +8,7 @@ import {
   hideBanUserDialog,
   fetchModerationQueueComments
 } from 'actions/comments';
-import {userStatusUpdate} from 'actions/users';
+import {userStatusUpdate, sendNotificationEmail} from 'actions/users';
 import {fetchSettings} from 'actions/settings';
 
 import ModerationQueue from './ModerationQueue';
@@ -62,7 +62,7 @@ class ModerationContainer extends React.Component {
 
   render () {
     const {comments, actions} = this.props;
-    
+
     const premodIds = comments.ids.filter(id => comments.byId[id].status === 'premod');
     const rejectedIds = comments.ids.filter(id => comments.byId[id].status === 'rejected');
     const flaggedIds = comments.ids.filter(id => comments.byId[id].flagged === true);
@@ -99,6 +99,11 @@ const mapDispatchToProps = dispatch => {
     banUser: (userId, commentId) => dispatch(userStatusUpdate('banned', userId, commentId)).then(() => {
       dispatch(fetchModerationQueueComments());
     }),
+    userStatusUpdate: (status, userId, commentId) => dispatch(userStatusUpdate(status, userId, commentId)),
+    suspendUser: (userId, subject, text) => dispatch(userStatusUpdate('suspended', userId))
+    .then(() => dispatch(sendNotificationEmail(userId, subject, text)))
+    .then(() => dispatch(fetchModerationQueueComments()))
+    ,
     updateStatus: (action, comment) => dispatch(updateStatus(action, comment))
   };
 };

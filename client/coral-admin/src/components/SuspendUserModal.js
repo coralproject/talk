@@ -26,13 +26,13 @@ const stages = [
 
 class SuspendUserModal extends Component  {
 
-  state = {email: ''}
+  state = {email: '', stage: 0}
 
   static propTypes = {
     stage: PropTypes.number,
     actionType: PropTypes.string,
     onClose: PropTypes.func.isRequired,
-    onButtonClick: PropTypes.func.isRequired
+    suspendUser: PropTypes.func.isRequired
   }
 
   componentDidMount() {
@@ -40,12 +40,36 @@ class SuspendUserModal extends Component  {
     this.setState({email: lang.t('suspenduser.email', about)});
   }
 
+  /*
+  * When an admin clicks to suspend a user a dialog is shown, this function
+  * handles the possible actions for that dialog.
+  */
+  onActionClick = (stage, menuOption) => () => {
+    const {suspendUser, action} = this.props;
+    const {stage, email} = this.state;
+    const cancel = this.props.onClose;
+    const next = () => this.setState({stage: stage + 1});
+    const suspend = () => suspendUser(action.item_id, lang.t('suspenduser.email_subject'), email);
+    const suspendModalActions = [
+      [ cancel, next ],
+      [ cancel, suspend ]
+    ];
+    return suspendModalActions[stage][menuOption]();
+  }
+
   onEmailChange = (e) => this.setState({email: e.target.value})
 
   render () {
-    const {stage, actionType, onClose, onButtonClick} = this.props;
+    const {action, onClose} = this.props;
+
+    if (!action) {
+      return null;
+    }
+
+    const {stage} = this.state;
+    const actionType = action.actionType;
     const about = actionType === 'flag_bio' ? lang.t('suspenduser.bio') : lang.t('suspenduser.username');
-    return actionType ? <Modal open={actionType} onClose={onClose}>
+    return <Modal open={true} onClose={onClose}>
         <div className={styles.title}>{lang.t(stages[stage].title, about)}</div>
         <div className={styles.container}>
           <div className={styles.description}>
@@ -66,14 +90,13 @@ class SuspendUserModal extends Component  {
           }
           <div className={styles.modalButtons}>
             {Object.keys(stages[stage].options).map((key, i) => (
-              <Button key={i} onClick={onButtonClick(stage, i)}>
+              <Button key={i} onClick={this.onActionClick(stage, i)}>
                 {lang.t(stages[stage].options[key], about)}
               </Button>
             ))}
         </div>
         </div>
-      </Modal>
-      : null;
+      </Modal>;
   }
 }
 

@@ -14,3 +14,12 @@ export const userStatusUpdate = (status, userId, commentId) => {
       .catch(error => dispatch({type: userTypes.UPDATE_STATUS_FAILURE, error}));
   };
 };
+
+// change status of a user
+export const sendNotificationEmail = (userId, subject, text) => {
+  return (dispatch, getState) => {
+    const _csrf = getState().auth.get('_csrf');
+    return coralApi(`/users/${userId}/email`, {method: 'POST', body: {subject, text}, _csrf})
+      .catch(error => dispatch({type: userTypes.USER_EMAIL_FAILURE, error}));
+  };
+};
