@@ -15,11 +15,11 @@ describe('/api/v1/users/:user_id/actions', () => {
   const users = [{
     displayName: 'Ana',
     email: 'ana@gmail.com',
-    password: '123'
+    password: '123456789'
   }, {
     displayName: 'Maria',
     email: 'maria@gmail.com',
-    password: '123'
+    password: '123456789'
   }];
 
   beforeEach(() => {

@@ -63,11 +63,11 @@ describe('models.Comment', () => {
   const users = [{
     email: 'stampi@gmail.com',
     displayName: 'Stampi',
-    password: '1Coral!'
+    password: '1Coral!!'
   }, {
     email: 'sockmonster@gmail.com',
     displayName: 'Sockmonster',
-    password: '2Coral!'
+    password: '2Coral!!'
   }];
 
   const actions = [{
