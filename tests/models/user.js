@@ -80,6 +80,22 @@ describe('models.User', () => {
 
   });
 
+  describe('#createLocalUser', () => {
+    it('should not create a user with duplicate display name', () => {
+      return User.createLocalUsers([{
+        email: 'otrostampi@gmail.com',
+        displayName: 'Stampi',
+        password: '1Coralito!'
+      }])
+      .then((user) => {
+        expect(user).to.be.null;
+      })
+      .catch((error) => {
+        expect(error).to.not.be.null;
+      });
+    });
+  });
+
   describe('#createEmailConfirmToken', () => {
 
     it('should create a token for a valid user', () => {
