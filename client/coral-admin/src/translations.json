@@ -19,6 +19,7 @@
       "pending": "pending",
       "rejected": "rejected",
       "flagged": "flagged",
+      "account": "account flags",
       "shortcuts": "Shortcuts",
       "close": "Close",
       "actions": "Actions",

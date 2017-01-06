@@ -16,10 +16,12 @@ export default (props) => (
       <div className={`mdl-tabs__tab-bar ${styles.tabBar}`}>
         <a href='#pending' onClick={() => props.onTabClick('pending')}
            className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.pending')}</a>
-        <a href='#rejected' onClick={() => props.onTabClick('rejected')}
-           className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.rejected')}</a>
         <a href='#flagged' onClick={() => props.onTabClick('flagged')}
            className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.flagged')}</a>
+         <a href='#account' onClick={() => props.onTabClick('account')}
+          className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.account')}</a>
+       <a href='#rejected' onClick={() => props.onTabClick('rejected')}
+          className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.rejected')}</a>
       </div>
       <div className={`mdl-tabs__panel is-active ${styles.listContainer}`} id='pending'>
         <ModerationList
@@ -57,6 +59,27 @@ export default (props) => (
           updateCommentStatus={props.updateStatus}
           modActions={['approve']}
           loading={props.comments.loading}
+        />
+      </div>
+      <div className={`mdl-tabs__panel is-active ${styles.listContainer}`} id='account'>
+        <ModerationList
+          suspectWords={props.settings.settings.wordlist.suspect}
+          isActive={props.activeTab === 'pending'}
+          singleView={props.singleView}
+          users={props.users.byId}
+          actionIds={props.userActionIds}
+          actions={props.actions.byId}
+          userStatusUpdate={props.userStatusUpdate}
+          suspendUser={props.suspendUser}
+          updateCommentStatus={props.updateStatus}
+          onClickShowBanDialog={props.showBanUserDialog}
+          modActions={['reject', 'approve', 'ban']}
+          loading={props.comments.loading}/>
+        <BanUserDialog
+          open={props.comments.showBanUserDialog}
+          handleClose={props.hideBanUserDialog}
+          onClickBanUser={props.banUser}
+          user={props.comments.banUser}
         />
       </div>
       <div className={`mdl-tabs__panel ${styles.listContainer}`} id='flagged'>
