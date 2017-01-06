@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const errors = require('../../errors');
+const Errors = require('../../errors');
 const Wordlist = require('../../services/wordlist');
 
 describe('wordlist: services', () => {
@@ -67,7 +67,7 @@ describe('wordlist: services', () => {
         content: 'how to do really bad things?'
       }, 'content');
 
-      expect(errors).to.have.property('banned', errors.ErrContainsProfanity);
+      expect(errors).to.have.property('banned', Errors.ErrContainsProfanity);
     });
 
     it('does not match on bodies not containing bad words', () => {
