@@ -6,6 +6,7 @@
 
 const program = require('commander');
 const scraper = require('../services/scraper');
+const mailer = require('../services/mailer');
 const util = require('../util');
 const mongoose = require('../services/mongoose');
 const kue = require('../services/kue');
@@ -19,13 +20,16 @@ util.onshutdown([
  */
 function processJobs() {
 
-  // Start the processor.
+  // Start the scraper processor.
   scraper.process();
+
+  // Start the mail processor.
+  mailer.process();
 
   // The scraper only needs to shutdown when the scraper has actually been
   // started.
   util.onshutdown([
-    () => scraper.shutdown()
+    () => kue.Task.shutdown()
   ]);
 }
 

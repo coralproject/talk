@@ -1,7 +1,6 @@
 const mongoose = require('../services/mongoose');
 const Schema = mongoose.Schema;
 const _ = require('lodash');
-const cache = require('../services/cache');
 
 const WordlistSchema = new Schema({
   banned: [String],
@@ -53,6 +52,10 @@ const SettingSchema = new Schema({
   charCountEnable: {
     type: Boolean,
     default: false
+  },
+  requireEmailConfirmation: {
+    type: Boolean,
+    default: false
   }
 }, {
   timestamps: {
@@ -98,7 +101,8 @@ SettingSchema.method('filterForUser', function(user = false) {
       'closeTimeout',
       'closedMessage',
       'charCountEnable',
-      'charCount'
+      'charCount',
+      'requireEmailConfirmation'
     ]);
   }
 
@@ -122,18 +126,10 @@ const SettingService = module.exports = {};
 const selector = {id: '1'};
 
 /**
- * Cache expiry time in seconds for when the cached entry of the settings object
- * expires. 2 minutes.
- */
-const EXPIRY_TIME = 60 * 2;
-
-/**
  * Gets the entire settings record and sends it back
  * @return {Promise} settings the whole settings record
  */
-SettingService.retrieve = () => cache.wrap('settings', EXPIRY_TIME, () => {
-  return Setting.findOne(selector);
-}).then((setting) => new Setting(setting));
+SettingService.retrieve = () => Setting.findOne(selector);
 
 /**
  * This will update the settings object with whatever you pass in
@@ -146,12 +142,6 @@ SettingService.update = (settings) => Setting.findOneAndUpdate(selector, {
   upsert: true,
   new: true,
   setDefaultsOnInsert: true
-}).then((settings) => {
-
-  // Invalidate the settings cache.
-  return cache
-    .set('settings', settings, EXPIRY_TIME)
-    .then(() => settings);
 });
 
 /**

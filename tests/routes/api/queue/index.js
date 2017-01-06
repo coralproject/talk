@@ -81,17 +81,15 @@ describe('/api/v1/queue', () => {
       });
   });
 
-  it('should return all the pending comments, users and actions', function(done){
-    chai.request(app)
+  it('should return all the pending comments, users and actions', () => {
+    return chai.request(app)
       .get('/api/v1/queue/comments/pending')
       .set(passport.inject({roles: ['admin']}))
-      .end(function(err, res){
-        expect(err).to.be.null;
+      .then((res) => {
         expect(res).to.have.status(200);
         expect(res.body.comments[0]).to.have.property('body');
         expect(res.body.users[0]).to.have.property('displayName');
         expect(res.body.actions[0]).to.have.property('action_type');
-        done();
       });
   });
 });
