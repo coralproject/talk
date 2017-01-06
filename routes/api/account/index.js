@@ -3,15 +3,7 @@ const router = express.Router();
 const User = require('../../../models/user');
 const mailer = require('../../../services/mailer');
 const authorization = require('../../../middleware/authorization');
-
-// ErrPasswordTooShort is returned when the password length is too short.
-const ErrPasswordTooShort = new Error('password must be at least 8 characters');
-ErrPasswordTooShort.status = 400;
-
-// ErrMissingToken is returned in the event that the password reset is requested
-// without a token.
-const ErrMissingToken = new Error('token is required');
-ErrMissingToken.status = 400;
+const errors = require('../../../errors');
 
 //==============================================================================
 // ROUTES
@@ -31,7 +23,7 @@ router.post('/email/confirm', (req, res, next) => {
   } = req.body;
 
   if (!token) {
-    return next(ErrMissingToken);
+    return next(errors.ErrMissingToken);
   }
 
   User
@@ -101,11 +93,11 @@ router.put('/password/reset', (req, res, next) => {
   } = req.body;
 
   if (!token) {
-    return next(ErrMissingToken);
+    return next(errors.ErrMissingToken);
   }
 
   if (!password || password.length < 8) {
-    return next(ErrPasswordTooShort);
+    return next(errors.ErrPasswordTooShort);
   }
 
   User.verifyPasswordResetToken(token)
@@ -139,4 +131,3 @@ router.put('/settings', authorization.needed(), (req, res, next) => {
 });
 
 module.exports = router;
-module.exports.ErrPasswordTooShort = ErrPasswordTooShort;

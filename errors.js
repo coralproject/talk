@@ -23,6 +23,11 @@ const ErrMissingDisplay = new Error('A display name is required to create a user
 ErrMissingDisplay.translation_key = 'DISPLAY_NAME_REQUIRED';
 ErrMissingDisplay.status = 400;
 
+// ErrMissingToken is returned in the event that the password reset is requested
+// without a token.
+const ErrMissingToken = new Error('token is required');
+ErrMissingToken.status = 400;
+
 // ErrContainsProfanity is returned in the event that the middleware detects
 // profanity/wordlisted words in the payload.
 const ErrContainsProfanity = new Error('Suspected profanity. If you think this in error, please let us know!');
