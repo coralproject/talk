@@ -2,19 +2,28 @@ export const base = '/api/v1';
 
 const buildOptions = (inputOptions = {}) => {
 
+  const csurfDOM = document.head.querySelector('[property=csrf]');
+
   const defaultOptions = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     },
-    credentials: 'same-origin'
+    credentials: 'same-origin',
+    _csrf: csurfDOM ? csurfDOM.content : false
   };
+
   const options = Object.assign({}, defaultOptions, inputOptions);
 
-  // Add CSRF field to each POST.
-  if (options.method.toLowerCase() === 'post' && options._csrf) {
-    options.body._csrf = options._csrf;
+  if (options._csrf) {
+    switch (options.method.toLowerCase()) {
+    case 'post':
+    case 'put':
+    case 'delete':
+      options.headers['x-csrf-token'] = options._csrf;
+      break;
+    }
   }
 
   if (options.method.toLowerCase() !== 'get') {

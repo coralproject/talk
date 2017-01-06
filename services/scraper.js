@@ -1,7 +1,6 @@
 const kue = require('./kue');
 const debug = require('debug')('talk:services:scraper');
 const Asset = require('../models/asset');
-const JOB_NAME = 'scraper';
 
 const metascraper = require('metascraper');
 
@@ -12,29 +11,27 @@ const metascraper = require('metascraper');
 const scraper = {
 
   /**
-   * creates a new scraper job and scrapes the url when it gets processed.
+   * Create the new Task kue.
+   */
+  task: new kue.Task({
+    name: 'scraper'
+  }),
+
+  /**
+   * Creates a new scraper job and scrapes the url when it gets processed.
    */
   create(asset) {
-    return new Promise((resolve, reject) => {
-      debug(`Creating job for Asset[${asset.id}]`);
 
-      let job = kue.queue
-        .create(JOB_NAME, {
-          title: `Scrape for asset ${asset.id}`,
-          asset_id: asset.id
-        })
-        .attempts(3)
-        .delay(1000)
-        .backoff({type: 'exponential'})
-        .save((err) => {
-          if (err) {
-            return reject(err);
-          }
+    debug(`Creating job for Asset[${asset.id}]`);
 
-          debug(`Created Job[${job.id}] for Asset[${asset.id}]`);
+    return scraper.task.create({
+      title: `Scrape for asset ${asset.id}`,
+      asset_id: asset.id
+    }).then((job) => {
 
-          return resolve(job);
-        });
+      debug(`Created Job[${job.id}] for Asset[${asset.id}]`);
+
+      return job;
     });
   },
 
@@ -48,6 +45,9 @@ const scraper = {
     }));
   },
 
+  /**
+   * Updates an Asset based on scraped asset metadata.
+   */
   update(id, meta) {
     return Asset.update({id}, {
       $set: {
@@ -68,10 +68,9 @@ const scraper = {
    */
   process() {
 
-    debug(`Now processing ${JOB_NAME} jobs`);
+    debug(`Now processing ${scraper.task.name} jobs`);
 
-    // Process jobs with the processJob function.
-    kue.queue.process(JOB_NAME, (job, done) => {
+    scraper.task.process((job, done) => {
 
       debug(`Starting on Job[${job.id}] for Asset[${job.data.asset_id}]`);
 
@@ -110,27 +109,6 @@ const scraper = {
 
           done(err);
         });
-    });
-  },
-
-  /**
-   * Shuts down the current queue to ensure that the application can shutdown
-   * cleanly.
-   */
-  shutdown() {
-    return new Promise((resolve, reject) => {
-
-      // Shutdown and give the queue 5 seconds to shutdown before we start
-      // killing jobs.
-      kue.queue.shutdown(5000, (err) => {
-        if (err) {
-          return reject(err);
-        }
-
-        debug(`Processing for ${JOB_NAME} jobs stopped`);
-
-        resolve();
-      });
     });
   }
 

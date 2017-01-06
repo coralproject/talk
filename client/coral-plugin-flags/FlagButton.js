@@ -102,7 +102,7 @@ class FlagButton extends Component {
     const popupMenu = getPopupMenu[this.state.step](this.state.itemType);
 
     return <div className={`${name}-container`}>
-      <button onClick={this.onReportClick} className={`${name}-button`}>
+      <button onClick={!this.props.banned ? this.onReportClick : null} className={`${name}-button`}>
         {
           flagged
           ? <span className={`${name}-button-text`}>{lang.t('reported')}</span>

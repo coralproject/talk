@@ -583,7 +583,7 @@ paths:
           description: The user that has been created.
           schema:
             $ref: '#/definitions/User'
-  /users/update-password:
+  /account/password/reset:
     post:
       parameters:
         - name: body

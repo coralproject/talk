@@ -41,18 +41,16 @@ export const newPage = () => ({
   type: COMMENTERS_NEW_PAGE
 });
 
-export const setRole = (id, role) => (dispatch, getState) => {
+export const setRole = (id, role) => (dispatch) => {
 
-  const _csrf = getState().auth.get('_csrf');
-  return coralApi(`/users/${id}/role`, {method: 'POST', body: {role}, _csrf: _csrf})
+  return coralApi(`/users/${id}/role`, {method: 'POST', body: {role}})
   .then(() => {
     return dispatch({type: SET_ROLE, id, role});
   });
 };
 
-export const setCommenterStatus = (id, status) => (dispatch, getState) => {
-  const _csrf = getState().auth.get('_csrf');
-  return coralApi(`/users/${id}/status`, {method: 'POST', body: {status}, _csrf: _csrf})
+export const setCommenterStatus = (id, status) => (dispatch) => {
+  return coralApi(`/users/${id}/status`, {method: 'POST', body: {status}})
   .then(() => {
     return dispatch({type: SET_COMMENTER_STATUS, id, status});
   });

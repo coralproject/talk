@@ -31,12 +31,13 @@ export default function user (state = initialState, action) {
   case authActions.FETCH_SIGNIN_FACEBOOK_FAILURE:
     return initialState;
   case actions.SAVE_BIO_SUCCESS:
-    return state
-      .set('settings', action.settings);
+    return state.set('settings', action.settings);
   case actions.COMMENTS_BY_USER_SUCCESS:
     return state.set('myComments', action.comments);
   case assetActions.MULTIPLE_ASSETS_SUCCESS:
     return state.set('myAssets', action.assets);
+  case actions.LOGOUT_SUCCESS:
+    return initialState;
   default :
     return state;
   }
