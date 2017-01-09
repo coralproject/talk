@@ -80,6 +80,34 @@ router.post('/:user_id/email', authorization.needed('admin'), (req, res, next) =
     .catch(next);
 });
 
+// /**
+//  * SendEmailConfirmation sends a confirmation email to the user.
+//  * @param {Request} req  express request object
+//  * @param {String} email user email address
+//  */
+
+/**
+ * SendEmailConfirmation sends a confirmation email to the user.
+ * @param {ExpressApp} app     the instance of the express app
+ * @param {String}     userID  the id for the user to send the email to
+ * @param {String}     email   the email for the user to send the email to
+ */
+const SendEmailConfirmation = (app, userID, email) => User
+  .createEmailConfirmToken(userID, email)
+  .then((token) => {
+    return mailer.sendSimple({
+      app,                                 // needed to render the templates.
+      template: 'email/email-confirm',              // needed to know which template to render!
+      locals: {                                     // specifies the template locals.
+        token,
+        rootURL: process.env.TALK_ROOT_URL,
+        email
+      },
+      subject: 'Email Confirmation',
+      to: email
+    });
+  });
+
 router.post('/', (req, res, next) => {
   const {
     email,
@@ -98,23 +126,7 @@ router.post('/', (req, res, next) => {
 
         if (requireEmailConfirmation) {
 
-          // Email confirmation is required, let's generate that token and send
-          // the email.
-          return User
-            .createEmailConfirmToken(user.id, email)
-            .then((token) => {
-              return mailer.sendSimple({
-                app: req.app,                                 // needed to render the templates.
-                template: 'email/email-confirm',              // needed to know which template to render!
-                locals: {                                     // specifies the template locals.
-                  token,
-                  rootURL: process.env.TALK_ROOT_URL,
-                  email
-                },
-                subject: 'Email Confirmation - Talk',
-                to: email
-              });
-            })
+          SendEmailConfirmation(req.app, user.id, email)
             .then(() => {
 
               // Then send back the user.
@@ -152,6 +164,39 @@ router.post('/:user_id/actions', authorization.needed(), (req, res, next) => {
     })
     .then((action) => {
       res.status(201).json(action);
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
+router.post('/:user_id/email/confirm', authorization.needed('admin'), (req, res, next) => {
+  const {
+    user_id
+  } = req.params;
+
+  User
+    .findById(user_id)
+    .then((user) => {
+      if (!user) {
+        res.status(404).end();
+        return;
+      }
+
+      // Find the first local profile.
+      let localProfile = user.profiles.find((profile) => profile.provider === 'local');
+
+      // If there was no local profile for the user, error out.
+      if (!localProfile) {
+        res.status(404).end();
+        return;
+      }
+
+      // Send the email to the first local profile that was found.
+      return SendEmailConfirmation(req.app, user.id, localProfile.id)
+        .then(() => {
+          res.status(204).end();
+        });
     })
     .catch((err) => {
       next(err);
