@@ -66,7 +66,7 @@ class ModerationContainer extends React.Component {
     const premodIds = comments.ids.filter(id => comments.byId[id].status === 'premod');
     const rejectedIds = comments.ids.filter(id => comments.byId[id].status === 'rejected');
     const flaggedIds = comments.ids.filter(id => comments.byId[id].flagged === true);
-    const userActionIds = actions.ids.filter(id => actions.byId[id].item_type === 'user');
+    const userActionIds = actions.ids.filter(id => actions.byId[id].item_type === 'users');
 
     return (
       <ModerationQueue
