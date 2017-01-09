@@ -83,7 +83,7 @@ const getActionButton = (option, i, props) => {
       cStyle={option}
       icon={menuOption.icon}
       key={i}
-      onClick={() => props.onClickAction(menuOption.status, comment, {item_type: 'comment'})}
+      onClick={() => props.onClickAction(menuOption.status, comment, {item_type: 'comments'})}
     />
   );
 };
