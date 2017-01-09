@@ -1,22 +1,25 @@
 .header {
-    background: #505050;
+  background-color: transparent;
+  box-shadow: none;
 }
 
 .header > div {
-    position: relative;
-    padding: 0;
-    width: 1170px;
-    margin: 0 auto;
+  background-color: #696969;
+  position: relative;
+  padding: 0;
+  width: 1170px;
+  margin: 0 auto;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
 }
 
 .active {
-    background: #232323;
+  background: #232323;
 }
 
 .rightPanel {
-    position: absolute;
-    right: 0;
-    width: 170px;
+  position: absolute;
+  right: 0;
+  width: 170px;
 }
 
 .rightPanel ul {
@@ -44,4 +47,14 @@
 .rightPanel .settings:hover {
   background: rgba(158, 158, 158, 0.69);
   cursor: pointer;
+}
+
+.navLink {
+  padding: 0 20px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.nav .navLink {
+  padding: 0 20px;
 }
