@@ -18,8 +18,9 @@ const UserAction = props => {
   let userStatus = user.status;
   const links = user.settings.bio ? linkify.getMatches(user.settings.bio) : [];
 
-  //Do not display if the user status is 'active'. This means that they have already been reviewed and approved.
-  return userStatus !== 'active' &&
+  // Do not display unless the user status is 'pending' or 'banned'.
+  // This means that they have already been reviewed and approved.
+  return (userStatus === 'pending' ||  userStatus === 'banned') &&
     <li tabIndex={props.index} className={`${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
       <div className={styles.itemHeader}>
         <div className={styles.author}>

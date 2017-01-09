@@ -63,13 +63,15 @@ router.post('/:user_id/email', authorization.needed('admin'), (req, res, next) =
             body: req.body.body
           },
           subject: req.body.subject,
-          to: user.email
+          to: user.profiles[0].id      // This only works if the user has registered via e-mail.
+                                      // We may want a standard way to access a user's e-mail address in the future
         };
       return mailer.sendSimple(options);
     })
     .then(() => {
       res.status(204).end();
-    });
+    })
+    .catch(next);
 });
 
 router.post('/', (req, res, next) => {
