@@ -3,7 +3,8 @@
   font-size: 20px;
   margin: 0;
   line-height: 60px;
-  padding: 0 20px;
+  padding-left: 13px;
+  margin-top: -4px;
 }
 
 .logo span {
@@ -11,6 +12,7 @@
   margin-left: 10px;
   font-size: 18px;
   vertical-align: middle;
+  font-weight: 500;
 }
 
 .logo {
