@@ -49,7 +49,8 @@ class SuspendUserModal extends Component  {
     const {stage, email} = this.state;
     const cancel = this.props.onClose;
     const next = () => this.setState({stage: stage + 1});
-    const suspend = () => suspendUser(action.item_id, lang.t('suspenduser.email_subject'), email);
+    const suspend = () => suspendUser(action.item_id, lang.t('suspenduser.email_subject'), email)
+      .then(this.props.onClose);
     const suspendModalActions = [
       [ cancel, next ],
       [ cancel, suspend ]
