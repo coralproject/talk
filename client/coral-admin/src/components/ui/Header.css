@@ -11,7 +11,6 @@
   margin: 0 auto;
   box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
   height: 58px;
-  overflow: hidden;
 }
 
 .active {
@@ -27,18 +26,19 @@
 .rightPanel ul {
   list-style: none;
   line-height: 38px;
+  margin-right: 20px;
 }
 
 .rightPanel li {
   display: inline-block;
   float: right;
   margin-left: 15px;
+  font-size: 15px;
+  font-weight: 500;
 }
 
 .rightPanel .settings {
   vertical-align: middle;
-  border-radius: 3px;
-  border: solid 1px #9e9e9e;
   line-height: 10px;
 }
 
@@ -58,7 +58,8 @@
 }
 
 .nav {
-  height: auto;
+  overflow: hidden;
+  height: 58px !important;
 }
 
 .nav .navLink {
