@@ -65,13 +65,16 @@ const mailer = module.exports = {
       return Promise.reject('sendSimple requires a subject for the email');
     }
 
+    // Prefix the subject with `[Talk]`.
+    subject = `[Talk] ${subject}`;
+
     return Promise.all([
 
       // Render the HTML version of the email.
-      mailer.render(app, template, locals),
+      mailer.render(app, `${template}.ejs`, locals),
 
       // Render the TEXT version of the email.
-      mailer.render(app, `${template}.txt`, locals)
+      mailer.render(app, `${template}.txt.ejs`, locals)
     ])
     .then(([html, text]) => {
 

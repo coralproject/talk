@@ -14,7 +14,7 @@ const Queue = module.exports.queue = kue.createQueue({
   }
 });
 
-module.exports.Task = class Task {
+class Task {
 
   constructor({name, attempts = 3, delay = 1000}) {
     this.name = name;
@@ -76,4 +76,59 @@ module.exports.Task = class Task {
       });
     });
   }
-};
+}
+
+/**
+ * Stores the tasks during testing.
+ * @type {Array}
+ */
+const TestQueue = [];
+
+/**
+ * TestTask is a Task queue that is implemented for when the application is in
+ * test mode, and does not send the jobs to redis, instead it queues them in
+ * an array which can be inspected.
+ */
+class TestTask {
+
+  constructor({name}) {
+    this.name = name;
+  }
+
+  /**
+   * Push the task into the fake queue.
+   */
+  create(task) {
+    let id = TestQueue.push({
+      name: this.name,
+      task
+    });
+
+    return Promise.resolve({id});
+  }
+
+  // This is a NO-OP action simply provided to match the Task interface.
+  process() { return null; }
+
+  /**
+   * Returns the current tasks for this queue.
+   * @return {Array} the tasks in the queue
+   */
+  get tasks() {
+    return TestQueue
+      .filter((testTask) => testTask.name === this.name)
+      .map((testTask) => testTask.task);
+  }
+
+  static shutdown() {
+    return Task.shutdown();
+  }
+
+}
+
+if (process.env.NODE_ENV === 'test') {
+  module.exports.Task = TestTask;
+  module.exports.TestQueue = TestQueue;
+} else {
+  module.exports.Task = Task;
+}
