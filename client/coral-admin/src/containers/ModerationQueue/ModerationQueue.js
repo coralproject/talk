@@ -42,7 +42,7 @@ export default (props) => (
         <BanUserDialog
           open={props.comments.showBanUserDialog}
           handleClose={props.hideBanUserDialog}
-          onClickBanUser={props.banUser}
+          onClickBanUser={props.userStatusUpdate}
           user={props.comments.banUser}
         />
       </div>
@@ -78,7 +78,7 @@ export default (props) => (
         <BanUserDialog
           open={props.comments.showBanUserDialog}
           handleClose={props.hideBanUserDialog}
-          onClickBanUser={props.banUser}
+          onClickBanUser={props.userStatusUpdate}
           user={props.comments.banUser}
         />
       </div>

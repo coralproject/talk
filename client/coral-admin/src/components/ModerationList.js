@@ -137,8 +137,8 @@ export default class ModerationList extends React.Component {
       // If a user bio or name is rejected, bring up a dialog before suspending them.
       if (menuOption === 'rejected') {
         this.setState({suspendUserModal: action});
-      } else {
-        this.props.userStatusUpdate(menuOption, action.item_id);
+      } else if (menuOption === 'accepted') {
+        this.props.userStatusUpdate('active', action.item_id);
       }
     }
   }

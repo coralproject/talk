@@ -6,10 +6,9 @@ import * as userTypes from '../constants/users';
  */
 // change status of a user
 export const userStatusUpdate = (status, userId, commentId) => {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch({type: userTypes.UPDATE_STATUS_REQUEST});
-    const _csrf = getState().auth.get('_csrf');
-    return coralApi(`/users/${userId}/status`, {method: 'POST', body: {status: status, comment_id: commentId}, _csrf})
+    return coralApi(`/users/${userId}/status`, {method: 'POST', body: {status: status, comment_id: commentId}})
       .then(res => dispatch({type: userTypes.UPDATE_STATUS_SUCCESS, res}))
       .catch(error => dispatch({type: userTypes.UPDATE_STATUS_FAILURE, error}));
   };
@@ -17,9 +16,8 @@ export const userStatusUpdate = (status, userId, commentId) => {
 
 // change status of a user
 export const sendNotificationEmail = (userId, subject, body) => {
-  return (dispatch, getState) => {
-    const _csrf = getState().auth.get('_csrf');
-    return coralApi(`/users/${userId}/email`, {method: 'POST', body: {subject, body}, _csrf})
+  return (dispatch) => {
+    return coralApi(`/users/${userId}/email`, {method: 'POST', body: {subject, body}})
       .catch(error => dispatch({type: userTypes.USER_EMAIL_FAILURE, error}));
   };
 };

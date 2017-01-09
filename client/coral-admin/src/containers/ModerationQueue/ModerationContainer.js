@@ -96,10 +96,9 @@ const mapDispatchToProps = dispatch => {
     fetchModerationQueueComments: () => dispatch(fetchModerationQueueComments()),
     showBanUserDialog: (userId, userName, commentId) => dispatch(showBanUserDialog(userId, userName, commentId)),
     hideBanUserDialog: () => dispatch(hideBanUserDialog(false)),
-    banUser: (userId, commentId) => dispatch(userStatusUpdate('banned', userId, commentId)).then(() => {
+    userStatusUpdate: (status, userId, commentId) => dispatch(userStatusUpdate(status, userId, commentId)).then(() => {
       dispatch(fetchModerationQueueComments());
     }),
-    userStatusUpdate: (status, userId, commentId) => dispatch(userStatusUpdate(status, userId, commentId)),
     suspendUser: (userId, subject, text) => dispatch(userStatusUpdate('suspended', userId))
     .then(() => dispatch(sendNotificationEmail(userId, subject, text)))
     .then(() => dispatch(fetchModerationQueueComments()))

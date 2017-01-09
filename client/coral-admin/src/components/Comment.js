@@ -55,7 +55,7 @@ const Comment = props => {
 
 // Get the button of the action performed over a comment if any
 const getActionButton = (option, i, props) => {
-  const {comment, author, menuOptionsMap, action} = props;
+  const {comment, author, menuOptionsMap} = props;
   const status = comment.status;
   const flagged = comment.flagged;
   const banned = (author.status === 'banned');
@@ -83,7 +83,7 @@ const getActionButton = (option, i, props) => {
       cStyle={option}
       icon={menuOption.icon}
       key={i}
-      onClick={() => props.onClickAction(menuOption.status, comment, action)}
+      onClick={() => props.onClickAction(menuOption.status, comment, {item_type: 'comment'})}
     />
   );
 };

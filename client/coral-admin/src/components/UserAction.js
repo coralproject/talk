@@ -18,7 +18,9 @@ const UserAction = props => {
   let userStatus = user.status;
   const links = user.settings.bio ? linkify.getMatches(user.settings.bio) : [];
 
-  return (
+  //Do not display if the user status is 'active'. This means that they have already been reviewed and approved.
+
+  return userStatus !== 'active' &&
     <li tabIndex={props.index} className={`${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
       <div className={styles.itemHeader}>
         <div className={styles.author}>
@@ -55,8 +57,7 @@ const UserAction = props => {
       <div className={styles.flagCount}>
         {`${action.count} ${action.action_type === 'flag_bio' ? lang.t('user.bio_flags') : lang.t('user.username_flags')}`}
       </div>
-    </li>
-  );
+    </li>;
 };
 
 export default UserAction;
@@ -71,17 +72,14 @@ const getActionButton = (option, i, props) => {
     return null;
   }
   if (option === 'ban') {
-    return (
-      <Button
+    return <Button
         className='ban'
         cStyle='black'
         disabled={banned ? 'disabled' : ''}
         onClick={() => onClickShowBanDialog(user.id, user.displayName)}
-        key={i}
-      >
+        key={i}>
         {lang.t('comment.ban_user')}
-      </Button>
-    );
+      </Button>;
   }
   const menuOption = menuOptionsMap[option];
   return (

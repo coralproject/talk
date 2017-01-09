@@ -125,7 +125,6 @@ router.post('/', (req, res, next) => {
 });
 
 router.post('/:user_id/actions', authorization.needed(), (req, res, next) => {
-
   const {
     action_type,
     metadata
@@ -133,6 +132,16 @@ router.post('/:user_id/actions', authorization.needed(), (req, res, next) => {
 
   User
     .addAction(req.params.user_id, req.user.id, action_type, metadata)
+    .then((action) => {
+
+      // Set the user status to "pending" for review by moderators
+      if (action_type.slice(0, 4) === 'flag') {
+        return User.setStatus(req.user.id, 'pending')
+          .then(() => action);
+      } else {
+        return action;
+      }
+    })
     .then((action) => {
       res.status(201).json(action);
     })
