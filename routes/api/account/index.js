@@ -65,7 +65,7 @@ router.post('/password/reset', (req, res, next) => {
           token,
           rootURL: process.env.TALK_ROOT_URL
         },
-        subject: 'Password Reset Requested - Talk',
+        subject: 'Password Reset',
         to: email
       });
     })

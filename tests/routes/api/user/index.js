@@ -1,6 +1,7 @@
 const passport = require('../../../passport');
 
 const app = require('../../../../app');
+const mailer = require('../../../../services/mailer');
 const chai = require('chai');
 const expect = chai.expect;
 
@@ -12,6 +13,39 @@ chai.should();
 chai.use(require('chai-http'));
 
 const User = require('../../../../models/user');
+
+describe('/api/v1/users/:user_id/email/confirm', () => {
+
+  let mockUser;
+
+  beforeEach(() => User.createLocalUser('ana@gmail.com', '123', 'Ana').then((user) => {
+    mockUser = user;
+  }));
+
+  describe('#post', () => {
+    it('should send an email when we hit the endpoint', () => {
+      expect(mailer.task.tasks).to.have.length(0);
+
+      return chai.request(app)
+        .post(`/api/v1/users/${mockUser.id}/email/confirm`)
+        .set(passport.inject({roles: ['admin']}))
+        .then((res) => {
+          expect(res).to.have.status(204);
+          expect(mailer.task.tasks).to.have.length(1);
+        });
+    });
+
+    it('should send a 404 on not matching a user', () => {
+      return chai.request(app)
+        .post(`/api/v1/users/${mockUser.id}/email/confirm`)
+        .set(passport.inject({roles: ['admin']}))
+        .then((res) => {
+          expect(res).to.have.status(204);
+          expect(mailer.task.tasks).to.have.length(1);
+        });
+    });
+  });
+});
 
 describe('/api/v1/users/:user_id/actions', () => {
 
