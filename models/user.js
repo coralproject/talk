@@ -342,7 +342,6 @@ const isValidDisplayName = (displayName) => {
 UserService.createLocalUser = (email, password, displayName) => {
 
   if (!email) {
-
     return Promise.reject(errors.ErrMissingEmail);
   }
 
@@ -350,7 +349,6 @@ UserService.createLocalUser = (email, password, displayName) => {
   displayName = displayName.toLowerCase().trim();
 
   if (!password) {
-
     return Promise.reject(errors.ErrMissingPassword);
   }
 

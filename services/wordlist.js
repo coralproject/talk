@@ -176,8 +176,8 @@ class Wordlist {
         displayName = displayName.replace(/_/g, '');
 
         // test each word, and fail if we find a match
-        const hasBadWords = wl.lists.banned.some(word => {
-          return new RegExp(word, 'ig').test(displayName);
+        const hasBadWords = wl.lists.banned.some(phrase => {
+          return displayName.indexOf(phrase.join('')) !== -1;
         });
 
         if (hasBadWords) {
