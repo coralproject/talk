@@ -346,11 +346,13 @@ describe('/api/v1/comments/:comment_id', () => {
   }];
 
   beforeEach(() => {
-    return Promise.all([
-      Comment.create(comments),
-      User.createLocalUsers(users),
-      Action.create(actions)
-    ]);
+    return Setting.init(settings).then(() => {
+      return Promise.all([
+        Comment.create(comments),
+        User.createLocalUsers(users),
+        Action.create(actions)
+      ]);
+    });
   });
 
   describe('#get', () => {
@@ -453,11 +455,13 @@ describe('/api/v1/comments/:comment_id/actions', () => {
   }];
 
   beforeEach(() => {
-    return Promise.all([
-      Comment.create(comments),
-      User.createLocalUsers(users),
-      Action.create(actions)
-    ]);
+    return Setting.init(settings).then(() => {
+      return Promise.all([
+        Comment.create(comments),
+        User.createLocalUsers(users),
+        Action.create(actions)
+      ]);
+    });
   });
 
   describe('#post', () => {

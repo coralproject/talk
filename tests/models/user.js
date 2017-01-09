@@ -1,25 +1,30 @@
 const User = require('../../models/user');
 const Comment = require('../../models/comment');
+const Setting = require('../../models/setting');
 
 const expect = require('chai').expect;
 
 describe('models.User', () => {
   let mockUsers;
   beforeEach(() => {
-    return User.createLocalUsers([{
-      email: 'stampi@gmail.com',
-      displayName: 'Stampi',
-      password: '1Coral!-'
-    }, {
-      email: 'sockmonster@gmail.com',
-      displayName: 'Sockmonster',
-      password: '2Coral!2'
-    }, {
-      email: 'marvel@gmail.com',
-      displayName: 'Marvel',
-      password: '3Coral!3'
-    }]).then((users) => {
-      mockUsers = users;
+    const settings = {id: '1', moderation: 'pre', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
+
+    return Setting.init(settings).then(() => {
+      return User.createLocalUsers([{
+        email: 'stampi@gmail.com',
+        displayName: 'Stampi',
+        password: '1Coral!-'
+      }, {
+        email: 'sockmonster@gmail.com',
+        displayName: 'Sockmonster',
+        password: '2Coral!2'
+      }, {
+        email: 'marvel@gmail.com',
+        displayName: 'Marvel',
+        password: '3Coral!3'
+      }]).then((users) => {
+        mockUsers = users;
+      });
     });
   });
 

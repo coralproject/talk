@@ -4,6 +4,9 @@ const app = require('../../../../app');
 const chai = require('chai');
 const expect = chai.expect;
 
+const Setting = require('../../../../models/setting');
+const settings = {id: '1', moderation: 'pre', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
+
 // Setup chai.
 chai.should();
 chai.use(require('chai-http'));
@@ -23,7 +26,9 @@ describe('/api/v1/users/:user_id/actions', () => {
   }];
 
   beforeEach(() => {
-    return User.createLocalUsers(users);
+    return Setting.init(settings).then(() => {
+      return User.createLocalUsers(users);
+    });
   });
 
   describe('#post', () => {

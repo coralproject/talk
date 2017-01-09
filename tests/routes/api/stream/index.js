@@ -17,7 +17,11 @@ describe('/api/v1/stream', () => {
   describe('#get', () => {
     const settings = {
       id: '1',
-      moderation: 'post'
+      moderation: 'post',
+      wordlist: {
+        banned: ['banned'],
+        suspect: ['suspect']
+      }
     };
 
     const comments = [{
@@ -71,34 +75,35 @@ describe('/api/v1/stream', () => {
     }];
 
     beforeEach(() => {
-      return Promise.all([
-        User.createLocalUsers(users),
-        Asset.findOrCreateByUrl('http://test.com'),
-        Asset
-          .findOrCreateByUrl('http://coralproject.net/asset2')
-          .then((asset) => {
-            return Asset
-              .overrideSettings(asset.id, {moderation: 'pre'})
-              .then(() => asset);
-          })
-      ])
-      .then(([users, asset1, asset2]) => {
-
-        comments[0].author_id = users[0].id;
-        comments[1].author_id = users[1].id;
-        comments[2].author_id = users[0].id;
-        comments[3].author_id = users[1].id;
-
-        comments[0].asset_id = asset1.id;
-        comments[1].asset_id = asset1.id;
-        comments[2].asset_id = asset2.id;
-        comments[3].asset_id = asset2.id;
-
+      return Setting.init(settings).then(() => {
         return Promise.all([
-          Comment.create(comments),
-          Action.create(actions),
-          Setting.init(settings)
-        ]);
+          User.createLocalUsers(users),
+          Asset.findOrCreateByUrl('http://test.com'),
+          Asset
+            .findOrCreateByUrl('http://coralproject.net/asset2')
+            .then((asset) => {
+              return Asset
+                .overrideSettings(asset.id, {moderation: 'pre'})
+                .then(() => asset);
+            })
+        ])
+        .then(([users, asset1, asset2]) => {
+
+          comments[0].author_id = users[0].id;
+          comments[1].author_id = users[1].id;
+          comments[2].author_id = users[0].id;
+          comments[3].author_id = users[1].id;
+
+          comments[0].asset_id = asset1.id;
+          comments[1].asset_id = asset1.id;
+          comments[2].asset_id = asset2.id;
+          comments[3].asset_id = asset2.id;
+
+          return Promise.all([
+            Comment.create(comments),
+            Action.create(actions)
+          ]);
+        });
       });
     });
 

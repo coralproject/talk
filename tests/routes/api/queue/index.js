@@ -13,7 +13,7 @@ const Action = require('../../../../models/action');
 const User = require('../../../../models/user');
 
 const Setting = require('../../../../models/setting');
-const settings = {id: '1', moderation: 'pre'};
+const settings = {id: '1', moderation: 'pre', wordlist: {banned: ['banned'], suspect: ['suspect']}};
 
 describe('/api/v1/queue', () => {
   const comments = [{
@@ -62,23 +62,25 @@ describe('/api/v1/queue', () => {
   }];
 
   beforeEach(() => {
-    return User.createLocalUsers(users)
-      .then((u) => {
-        comments[0].author_id = u[0].id;
-        comments[1].author_id = u[1].id;
-        comments[2].author_id = u[1].id;
+    return Setting.init(settings).then(() => {
+      return User.createLocalUsers(users)
+        .then((u) => {
+          comments[0].author_id = u[0].id;
+          comments[1].author_id = u[1].id;
+          comments[2].author_id = u[1].id;
 
-        return Comment.create(comments);
-      })
-      .then((c) => {
-        actions[0].item_id = c[0].id;
-        actions[1].item_id = c[1].id;
+          return Comment.create(comments);
+        })
+        .then((c) => {
+          actions[0].item_id = c[0].id;
+          actions[1].item_id = c[1].id;
 
-        return Promise.all([
-          Action.create(actions),
-          Setting.init(settings)
-        ]);
-      });
+          return Promise.all([
+            Action.create(actions),
+            Setting.init(settings)
+          ]);
+        });
+    });
   });
 
   it('should return all the pending comments, users and actions', () => {
