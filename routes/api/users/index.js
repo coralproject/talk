@@ -55,18 +55,24 @@ router.post('/:user_id/status', (req, res, next) => {
 router.post('/:user_id/email', authorization.needed('admin'), (req, res, next) => {
   User.findById(req.params.user_id)
     .then(user => {
-      const options =
-        {
-          app: req.app,                                 // needed to render the templates.
-          template: 'email/notification',              // needed to know which template to render!
-          locals: {                                     // specifies the template locals.
-            body: req.body.body
-          },
-          subject: req.body.subject,
-          to: user.profiles[0].id      // This only works if the user has registered via e-mail.
-                                      // We may want a standard way to access a user's e-mail address in the future
-        };
-      return mailer.sendSimple(options);
+      let localProfile = user.profiles.find((profile) => profile.provider === 'local');
+
+      if (localProfile) {
+        const options =
+          {
+            app: req.app,                                 // needed to render the templates.
+            template: 'email/notification',              // needed to know which template to render!
+            locals: {                                     // specifies the template locals.
+              body: req.body.body
+            },
+            subject: req.body.subject,
+            to: localProfile.id      // This only works if the user has registered via e-mail.
+                                        // We may want a standard way to access a user's e-mail address in the future
+          };
+        return mailer.sendSimple(options);
+      } else {
+        res.json({error: 'User does not have an e-mail address.'});
+      }
     })
     .then(() => {
       res.status(204).end();
