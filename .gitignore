@@ -12,3 +12,4 @@ dump.rdb
 gaba.cfg
 .idea/
 coverage/
+yarn.lock
