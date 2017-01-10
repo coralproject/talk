@@ -47,7 +47,7 @@ class FlagButton extends Component {
       case 'comments':
         item_id = id;
         break;
-      case 'user':
+      case 'users':
         item_id = author_id;
         break;
       }
@@ -72,7 +72,7 @@ class FlagButton extends Component {
   onPopupOptionClick = (sets) => (e) => {
 
     // If flagging a user, indicate that this is referencing the username rather than the bio
-    if(sets === 'itemType' && e.target.value === 'user') {
+    if(sets === 'itemType' && e.target.value === 'users') {
       this.setState({field: 'username'});
     }
 
