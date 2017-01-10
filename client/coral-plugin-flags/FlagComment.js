@@ -10,7 +10,7 @@ const getPopupMenu = [
     return {
       header: lang.t('step-1-header'),
       options: [
-        {val: 'user', text: lang.t('flag-username')},
+        {val: 'users', text: lang.t('flag-username')},
         {val: 'comments', text: lang.t('flag-comment')}
       ],
       button: lang.t('continue'),
