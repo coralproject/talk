@@ -22,11 +22,11 @@
   position: absolute;
   right: 0;
   width: 170px;
+  height: 100%;
 }
 
 .rightPanel ul {
   list-style: none;
-  line-height: 38px;
   margin-right: 20px;
 }
 
@@ -36,11 +36,11 @@
   margin-left: 15px;
   font-size: 15px;
   font-weight: 500;
+  line-height: 33px;
 }
 
 .rightPanel .settings {
-  vertical-align: middle;
-  line-height: 10px;
+  line-height: 0;
 }
 
 .rightPanel .settings > div {
