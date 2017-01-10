@@ -6,12 +6,31 @@
 }
 
 .tabBar {
-  background: #9E9E9E;
+  background: #262626;
+  z-index: 5;
 }
 
 .tab {
   flex: 1;
   color: white;
+  text-transform: capitalize;
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 1px;
+}
+
+.active {
+  color: white;
+  box-sizing: border-box;
+  border-bottom: solid 5px #F36451;
+}
+
+.active > span {
+  color: white;
+}
+
+.active:after {
+  background: transparent !important;
 }
 
 .showShortcuts {

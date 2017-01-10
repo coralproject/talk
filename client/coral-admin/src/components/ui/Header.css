@@ -1,6 +1,7 @@
 .header {
   background-color: transparent;
   box-shadow: none;
+  min-height: 58px;
 }
 
 .header > div {
