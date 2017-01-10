@@ -9,3 +9,4 @@ export {default as Spinner} from './components/Spinner';
 export {default as Tooltip} from './components/Tooltip';
 export {default as PopupMenu} from './components/PopupMenu';
 export {default as Checkbox} from './components/Checkbox';
+export {default as Icon} from './components/Icon';

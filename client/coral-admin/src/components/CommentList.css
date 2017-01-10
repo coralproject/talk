@@ -38,10 +38,22 @@
   border-bottom: 1px solid #e0e0e0;
   padding: 16px;
   font-size: 16px;
+  width: 100%;
+  max-width: 660px;
+  min-width: 400px;
+  margin: 0 auto;
 
   &:last-child {
     border-bottom: none;
   }
+
+   .sideActions {
+     position: absolute;
+     right: 0;
+     height: 100%;
+     top: 0;
+     padding: 30px 22px;
+   }
 
   .itemHeader {
     display: flex;
@@ -76,7 +88,7 @@
   }
 
   .actionButton {
-    transform: scale(.7);
+    transform: scale(.8);
     margin: 0;
   }
 
@@ -85,11 +97,6 @@
     flex: 1;
     font-size: 1em;
     color: rgba(0,0,0,.54);
-  }
-
-  .actions {
-    margin-left: 10px;
-    display: flex;
   }
 
   .flagged {
@@ -141,5 +148,21 @@
 
   i {
     margin-right: 5px;
+  }
+}
+
+.ban {
+  display: block;
+  text-align: center;
+}
+
+.banButton {
+  width: 114px;
+  letter-spacing: 1px;
+
+  i {
+    vertical-align: middle;
+    margin-right: 10px;
+    font-size: 14px;
   }
 }

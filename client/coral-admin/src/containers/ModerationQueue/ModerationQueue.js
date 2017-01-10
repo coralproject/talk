@@ -14,13 +14,22 @@ export default ({onTabClick, ...props}) => (
   <div>
     <div className='mdl-tabs'>
       <div className={`mdl-tabs__tab-bar ${styles.tabBar}`}>
-        <a href='#pending' onClick={() => onTabClick('pending')} className={`mdl-tabs__tab ${styles.tab} ${props.activeTab === 'pending' ? styles.active : ''}`}>
+        <a href='#pending'
+           onClick={() => onTabClick('pending')}
+           className={`mdl-tabs__tab ${styles.tab} ${props.activeTab === 'pending' ? styles.active : ''}`}
+        >
           {lang.t('modqueue.pending')}
         </a>
-        <a href='#rejected' onClick={() => onTabClick('rejected')} className={`mdl-tabs__tab ${styles.tab} ${props.activeTab === 'rejected' ? styles.active : ''}`}>
+        <a href='#rejected'
+           onClick={() => onTabClick('rejected')}
+           className={`mdl-tabs__tab ${styles.tab} ${props.activeTab === 'rejected' ? styles.active : ''}`}
+        >
           {lang.t('modqueue.rejected')}
         </a>
-        <a href='#flagged' onClick={() => onTabClick('flagged')} className={`mdl-tabs__tab ${styles.tab} ${props.activeTab === 'flagged' ? styles.active : ''}`}>
+        <a href='#flagged'
+           onClick={() => onTabClick('flagged')}
+           className={`mdl-tabs__tab ${styles.tab} ${props.activeTab === 'flagged' ? styles.active : ''}`}
+        >
           {lang.t('modqueue.flagged')}
         </a>
       </div>
