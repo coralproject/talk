@@ -5,8 +5,10 @@ const path = require('path');
 const helmet = require('helmet');
 const passport = require('./services/passport');
 const session = require('express-session');
+const enabled = require('debug').enabled;
 const RedisStore = require('connect-redis')(session);
 const redis = require('./services/redis');
+const csrf = require('csurf');
 
 const app = express();
 
@@ -42,6 +44,7 @@ const session_opts = {
   rolling: true,
   saveUninitialized: false,
   resave: false,
+  unset: 'destroy',
   name: 'talk.sid',
   cookie: {
     secure: false,
@@ -74,6 +77,29 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //==============================================================================
+// CSRF MIDDLEWARE
+//==============================================================================
+
+if (process.env.TEST_MODE === 'unit') {
+
+  // Add this fake test token in the event we are in unit test mode, and don't
+  // include the CSRF protection.
+  app.locals.csrfToken = 'UNIT_TESTS';
+
+} else {
+
+  // Setup route middlewares for CSRF protection.
+  // Default ignore methods are GET, HEAD, OPTIONS
+  app.use(csrf({}));
+  app.use((req, res, next) => {
+    res.locals.csrfToken = req.csrfToken();
+
+    next();
+  });
+
+}
+
+//==============================================================================
 // ROUTES
 //==============================================================================
 
@@ -95,7 +121,7 @@ app.use((req, res, next) => {
 // returning a status code that makes sense.
 app.use('/api', (err, req, res, next) => {
   if (err !== ErrNotFound) {
-    if (app.get('env') !== 'test') {
+    if (app.get('env') !== 'test' || enabled('talk:errors')) {
       console.error(err);
     }
   }

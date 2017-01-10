@@ -4,13 +4,16 @@ A commenting platform from [The Coral Project](https://coralproject.net).
 
 ## Contributing to Talk
 
-### Product Roadmap
-
-You can view what the Coral Team is working on next here https://www.pivotaltracker.com/n/projects/1863625.
-
-You can view product ideas and our longer term roadmap here https://trello.com/b/ILND751a/talk.
+See our [Contribution Guide](https://github.com/coralproject/talk/blob/master/CONTRIBUTING.md)!
 
 ## Usage
+
+### Installation
+
+To set up a development environment or build from source, see [INSTALL.md](https://github.com/coralproject/talk/blob/master/INSTALL.md).
+
+To launch a Talk server of your own from your browser without any need to muck about in a terminal or think about engineering concepts, stay tuned. We will launch [our installer](https://github.com/coralproject/talk-install) shortly!!
+
 
 ### Configuration
 
@@ -33,6 +36,11 @@ available in the format: `<scheme>://<host>` without the path.
 - `TALK_SMTP_PASSWORD` (*required*) - password for the SMTP provider you are using.
 - `TALK_SMTP_HOST` (*required*) - SMTP host url with format `smtp.domain.com`.
 - `TALK_SMTP_PORT` (*required*) - SMTP port.
+
+
+### Install from Source
+
+If you want to run Talk in development mode from source (without docker) you can read the [INSTALL file](INSTALL.md).
 
 ### License
 

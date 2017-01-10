@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 const jsdom = require('jsdom').jsdom;
 const fs = require('fs');
 const path = require('path');

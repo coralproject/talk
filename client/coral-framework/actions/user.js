@@ -14,10 +14,10 @@ const saveBioFailure = error => ({type: actions.SAVE_BIO_FAILURE, error});
 
 export const saveBio = (user_id, formData) => dispatch => {
   dispatch(saveBioRequest());
-  coralApi(`/users/${user_id}/bio`, {method: 'PUT', body: formData})
-    .then(({settings}) => {
+  coralApi('/account/settings', {method: 'PUT', body: formData})
+    .then(() => {
       dispatch(addNotification('success', lang.t('successBioUpdate')));
-      dispatch(saveBioSuccess(settings));
+      dispatch(saveBioSuccess(formData));
     })
     .catch(error => dispatch(saveBioFailure(error)));
 };
@@ -42,8 +42,6 @@ export const fetchCommentsByUserId = userId => {
         dispatch({type: assetActions.MULTIPLE_ASSETS_SUCCESS, assets: assets.map(asset => asset.id)});
       })
       .catch(error => {
-        console.error(error.stack);
-        console.error('FAILURE_COMMENTS_BY_USER', error);
         dispatch({type: actions.COMMENTS_BY_USER_FAILURE, error});
       });
   };

@@ -43,7 +43,7 @@ class CommentStream extends React.Component {
   render ({comments, users}, {snackbar, snackbarMsg}) {
     return (
       <div className={styles.container}>
-        <CommentBox onSubmit={this.onSubmit} />
+        <CommentBox onSubmit={this.onSubmit}/>
         <CommentList isActive hideActive
           singleView={false}
           commentIds={comments.ids}

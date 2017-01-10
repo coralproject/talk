@@ -4,24 +4,29 @@ const expect = require('chai').expect;
 describe('models.Action', () => {
   let mockActions = [];
 
-  beforeEach(() => Action.create([{
-    action_type: 'flag',
-    item_id: '123',
-    item_type: 'comment',
-    user_id: 'flagginguserid'
-  }, {
-    action_type: 'flag',
-    item_id: '456',
-    item_type: 'comment'
-  }, {
-    action_type: 'flag',
-    item_id: '123',
-    item_type: 'comment'
-  }, {
-    action_type: 'like',
-    item_id: '123',
-    item_type: 'comment'
-  }]).then((actions) => {
+  beforeEach(() => Action.create([
+    {
+      action_type: 'flag',
+      item_id: '123',
+      item_type: 'comment',
+      user_id: 'flagginguserid'
+    },
+    {
+      action_type: 'flag',
+      item_id: '456',
+      item_type: 'comment'
+    },
+    {
+      action_type: 'flag',
+      item_id: '123',
+      item_type: 'comment'
+    },
+    {
+      action_type: 'like',
+      item_id: '123',
+      item_type: 'comment'
+    }
+  ]).then((actions) => {
     mockActions = actions;
   }));
 
