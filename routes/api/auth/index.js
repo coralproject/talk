@@ -17,7 +17,7 @@ router.get('/', (req, res, next) => {
 }, (req, res) => {
 
   // Send back the user object.
-  res.json({user: req.user.toObject()});
+  res.json({user: req.user});
 });
 
 /**
