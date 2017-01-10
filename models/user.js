@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Action = require('./action');
 const Comment = require('./comment');
+const Wordlist = require('../services/wordlist');
+const errors = require('../errors');
 
 const EMAIL_CONFIRM_JWT_SUBJECT = 'email_confirm';
 const PASSWORD_RESET_JWT_SUBJECT = 'password_reset';
@@ -310,6 +312,27 @@ UserService.createLocalUsers = (users) => {
 };
 
 /**
+ * Check the requested displayname for naughty words (currently in English) and special chars
+ * @param  {String}   displayName word to be checked for profanity
+ * @return {Promise}  rejected if the machine's sensibilites are offended
+ */
+const isValidDisplayName = (displayName) => {
+  const onlyLettersNumbersUnderscore = /^[a-z0-9_]+$/;
+
+  if (!displayName) {
+    return Promise.reject(errors.ErrMissingDisplay);
+  }
+
+  if (!onlyLettersNumbersUnderscore.test(displayName)) {
+
+    return Promise.reject(errors.ErrSpecialChars);
+  }
+
+  // check for profanity
+  return Wordlist.displayNameCheck(displayName);
+};
+
+/**
  * Creates the local user with a given email, password, and name.
  * @param  {String}   email       email of the new user
  * @param  {String}   password    plaintext password of the new user
@@ -317,49 +340,54 @@ UserService.createLocalUsers = (users) => {
  * @param  {Function} done        callback
  */
 UserService.createLocalUser = (email, password, displayName) => {
+
   if (!email) {
-    return Promise.reject('email is required');
+    return Promise.reject(errors.ErrMissingEmail);
   }
 
-  email = email.toLowerCase();
+  email = email.toLowerCase().trim();
+  displayName = displayName.toLowerCase().trim();
 
   if (!password) {
-    return Promise.reject('password is required');
+    return Promise.reject(errors.ErrMissingPassword);
   }
 
-  if (!displayName) {
-    return Promise.reject('displayName is required');
+  if (password.length < 8) {
+    return Promise.reject(errors.ErrPasswordTooShort);
   }
 
-  return new Promise((resolve, reject) => {
-    bcrypt.hash(password, SALT_ROUNDS, (err, hashedPassword) => {
-      if (err) {
-        return reject(err);
-      }
-
-      let user = new UserModel({
-        displayName: displayName,
-        password: hashedPassword,
-        roles: [],
-        profiles: [
-          {
-            id: email,
-            provider: 'local'
+  return isValidDisplayName(displayName)
+    .then(() => { // displayName is valid
+      return new Promise((resolve, reject) => {
+        bcrypt.hash(password, SALT_ROUNDS, (err, hashedPassword) => {
+          if (err) {
+            return reject(err);
           }
-        ]
-      });
 
-      user.save((err) => {
-        if (err) {
-          if (err.code === 11000) {
-            return reject('Email address already in use');
-          }
-          return reject(err);
-        }
-        return resolve(user);
+          let user = new UserModel({
+            displayName: displayName,
+            password: hashedPassword,
+            roles: [],
+            profiles: [
+              {
+                id: email,
+                provider: 'local'
+              }
+            ]
+          });
+
+          user.save((err) => {
+            if (err) {
+              if (err.code === 11000) {
+                return reject(errors.ErrEmailTaken);
+              }
+              return reject(err);
+            }
+            return resolve(user);
+          });
+        });
       });
     });
-  });
 };
 
 /**

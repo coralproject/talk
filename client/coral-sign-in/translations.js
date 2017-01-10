@@ -21,6 +21,7 @@ export default {
       emailInUse: 'Email address already in use',
       requiredField: 'This field is required',
       passwordsDontMatch: 'Passwords don\'t match.',
+      specialCharacters: 'Display names can contain letters, numbers and _ only',
       checkTheForm: 'Invalid Form. Please, check the fields'
     }
   },
@@ -46,6 +47,7 @@ export default {
       emailInUse: 'Este email se encuentra en uso',
       requiredField: 'Este campo es requerido',
       passwordsDontMatch: 'Las contraseñas no coinciden',
+      specialCharacters: 'Los nombres pueden contener letras, números y _',
       checkTheForm: 'Formulario Inválido. Por favor, completa los campos'
     }
   }
