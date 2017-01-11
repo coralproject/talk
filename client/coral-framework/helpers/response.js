@@ -37,7 +37,13 @@ const handleResp = res => {
   if (res.status === 401) {
     throw new Error('Not Authorized to make this request');
   } else if (res.status > 399) {
-    throw new Error('Error! Status ', res.status);
+    return res.json().then(err => {
+      let message = err.message || res.status;
+      if (err.error && err.error.translation_key) {
+        message = err.error.translation_key;
+      }
+      throw new Error(message);
+    });
   } else if (res.status === 204) {
     return res.text();
   } else {
