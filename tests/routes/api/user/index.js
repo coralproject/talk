@@ -18,8 +18,9 @@ describe('/api/v1/users/:user_id/email/confirm', () => {
 
   let mockUser;
 
-  beforeEach(() => Setting.init(settings)
-  .then(() => User.createLocalUser('ana@gmail.com', '12345678', 'Ana'))
+  beforeEach(() => Setting.init(settings).then(() => {
+    return User.createLocalUser('ana@gmail.com', '123321123', 'Ana');
+  })
   .then((user) => {
     mockUser = user;
   }));
