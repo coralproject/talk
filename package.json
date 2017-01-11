@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "./bin/cli serve --jobs",
+    "dev-start": "nodemon --exec \"./bin/cli -c .env serve --jobs\"",
     "build": "NODE_ENV=production webpack --config webpack.config.js --bail",
     "build-watch": "NODE_ENV=development webpack --config webpack.config.dev.js --watch",
     "lint": "eslint bin/* .",
@@ -54,6 +55,7 @@
     "connect-redis": "^3.1.0",
     "csurf": "^1.9.0",
     "debug": "^2.2.0",
+    "dotenv": "^4.0.0",
     "ejs": "^2.5.2",
     "env-rewrite": "^1.0.2",
     "express": "^4.14.0",
@@ -121,6 +123,7 @@
     "mocha-junit-reporter": "^1.12.1",
     "nightwatch": "^0.9.11",
     "node-fetch": "^1.6.3",
+    "nodemon": "^1.11.0",
     "postcss-loader": "^1.1.0",
     "postcss-modules": "^0.5.2",
     "postcss-smart-import": "^0.5.1",
