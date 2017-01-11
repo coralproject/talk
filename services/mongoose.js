@@ -32,7 +32,7 @@ let url = process.env.TALK_MONGO_URL;
 // Reset the mongo url in the event it hasn't been overrided and we are in a
 // testing environment. Every new mongo instance comes with a test database by
 // default, this is consistent with common testing and use case practices.
-if (process.env.NODE_ENV === 'test' && !url) {
+if (process.env.NODE_ENV === 'test') {
   url = 'mongodb://localhost/test';
 }
 
