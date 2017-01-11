@@ -1,16 +1,12 @@
 #!/usr/bin/env node
 
-// Perform rewrites to the runtime environment variables based on the contents
-// of the process.env.REWRITE_ENV if it exists. This is done here as it is the
-// entrypoint for the entire application.
-require('env-rewrite').rewrite();
-
 /**
  * Module dependencies.
  */
 
 const program = require('commander');
 const pkg = require('../package.json');
+const dotenv = require('dotenv');
 
 //==============================================================================
 // Setting up the program command line arguments.
@@ -18,6 +14,25 @@ const pkg = require('../package.json');
 
 program
   .version(pkg.version)
+  .option('-c, --config [path]', 'Specify the configuration file to load')
+  .parse(process.argv);
+
+if (program.config) {
+  let r = dotenv.config({
+    path: program.config
+  });
+
+  if (r.error) {
+    throw r.error;
+  }
+}
+
+// Perform rewrites to the runtime environment variables based on the contents
+// of the process.env.REWRITE_ENV if it exists. This is done here as it is the
+// entrypoint for the entire application.
+require('env-rewrite').rewrite();
+
+program
   .command('serve', 'serve the application')
   .command('assets', 'interact with assets')
   .command('settings', 'work with the application settings')
