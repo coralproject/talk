@@ -119,8 +119,7 @@ class SignInContainer extends Component {
     }
   }
 
-  handleSignIn(e) {
-    e.preventDefault();
+  handleSignIn() {
     this.props.fetchSignIn(this.state.formData);
   }
 
