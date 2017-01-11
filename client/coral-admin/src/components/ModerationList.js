@@ -202,7 +202,7 @@ export default class ModerationList extends React.Component {
         return itemB.updated_at - itemA.updated_at;
       });
     } else {
-      return commentIds || actionIds;
+      return comments ? commentIds : actionIds;
     }
   }
 

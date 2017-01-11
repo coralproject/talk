@@ -19,7 +19,7 @@ class ModerationContainer extends React.Component {
     super(props);
 
     this.state = {
-      activeTab: 'pending',
+      activeTab: 'all',
       singleView: false,
       modalOpen: false
     };

@@ -14,6 +14,8 @@ export default (props) => (
   <div>
     <div className='mdl-tabs mdl-js-tabs mdl-js-ripple-effect'>
       <div className={`mdl-tabs__tab-bar ${styles.tabBar}`}>
+        <a href='#all' onClick={() => props.onTabClick('all')}
+           className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.all')}</a>
         <a href='#pending' onClick={() => props.onTabClick('pending')}
            className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.pending')}</a>
         <a href='#flagged' onClick={() => props.onTabClick('flagged')}
@@ -23,7 +25,30 @@ export default (props) => (
        <a href='#rejected' onClick={() => props.onTabClick('rejected')}
           className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.rejected')}</a>
       </div>
-      <div className={`mdl-tabs__panel is-active ${styles.listContainer}`} id='pending'>
+      <div className={`mdl-tabs__panel is-active ${styles.listContainer}`} id='all'>
+        <ModerationList
+          suspectWords={props.settings.settings.wordlist.suspect}
+          isActive={props.activeTab === 'all'}
+          singleView={props.singleView}
+          commentIds={[...props.premodIds, ...props.flaggedIds]}
+          comments={props.comments.byId}
+          users={props.users.byId}
+          actionIds={props.userActionIds}
+          actions={props.actions.byId}
+          userStatusUpdate={props.userStatusUpdate}
+          suspendUser={props.suspendUser}
+          updateCommentStatus={props.updateStatus}
+          onClickShowBanDialog={props.showBanUserDialog}
+          modActions={['reject', 'approve', 'ban']}
+          loading={props.comments.loading}/>
+        <BanUserDialog
+          open={props.comments.showBanUserDialog}
+          handleClose={props.hideBanUserDialog}
+          onClickBanUser={props.userStatusUpdate}
+          user={props.comments.banUser}
+        />
+      </div>
+      <div className={`mdl-tabs__panel ${styles.listContainer}`} id='pending'>
         <ModerationList
           suspectWords={props.settings.settings.wordlist.suspect}
           isActive={props.activeTab === 'pending'}
@@ -31,7 +56,6 @@ export default (props) => (
           commentIds={props.premodIds}
           comments={props.comments.byId}
           users={props.users.byId}
-          actionIds={props.userActionIds}
           actions={props.actions.byId}
           userStatusUpdate={props.userStatusUpdate}
           suspendUser={props.suspendUser}
@@ -61,10 +85,10 @@ export default (props) => (
           loading={props.comments.loading}
         />
       </div>
-      <div className={`mdl-tabs__panel is-active ${styles.listContainer}`} id='account'>
+      <div className={`mdl-tabs__panel ${styles.listContainer}`} id='account'>
         <ModerationList
           suspectWords={props.settings.settings.wordlist.suspect}
-          isActive={props.activeTab === 'pending'}
+          isActive={props.activeTab === 'account'}
           singleView={props.singleView}
           users={props.users.byId}
           actionIds={props.userActionIds}
