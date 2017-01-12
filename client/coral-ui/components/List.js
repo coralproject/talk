@@ -14,7 +14,7 @@ export default class List extends Component {
   }
 
   render() {
-    const {children, activeItem, itemId, className = ''} = this.props;
+    const {children, activeItem, className = ''} = this.props;
     return (
       <ul className={`${styles.base} ${className}`}>
         {React.Children.toArray(children)
@@ -22,8 +22,7 @@ export default class List extends Component {
           .map((child, i) =>
             React.cloneElement(child, {
               i,
-              itemId: child.props.itemId,
-              active: itemId === activeItem,
+              active: child.props.itemId === activeItem,
               onItemClick: this.handleClickItem,
             })
           )}

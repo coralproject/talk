@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {
   fetchSettings,
@@ -16,7 +16,7 @@ import CommentSettings from './CommentSettings';
 import Wordlist from './Wordlist';
 import has from 'lodash/has';
 
-class Configure extends React.Component {
+class Configure extends Component {
   constructor (props) {
     super(props);
 
@@ -25,6 +25,8 @@ class Configure extends React.Component {
       changed: false,
       errors: {}
     };
+
+    this.changeSection = this.changeSection.bind(this);
   }
 
   componentWillMount = () => {
@@ -36,7 +38,7 @@ class Configure extends React.Component {
     this.setState({changed: false});
   }
 
-  changeSection = (activeSection) => () => {
+  changeSection(activeSection) {
     this.setState({activeSection});
   }
 
