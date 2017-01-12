@@ -42,7 +42,7 @@ const SettingSchema = new Schema({
   },
   closedMessage: {
     type: String,
-    default: ''
+    default: 'Expired'
   },
   wordlist: WordlistSchema,
   charCount: {
