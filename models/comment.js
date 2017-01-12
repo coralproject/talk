@@ -201,7 +201,7 @@ CommentSchema.statics.findByActionType = (action_type) => Action
  * @return {Promise}
  */
 CommentSchema.statics.findIdsByActionType = (action_type) => Action
-  .findCommentsIdByActionType(action_type, 'comment')
+  .findCommentsIdByActionType(action_type, 'comments')
   .then((actions) => actions.map(a => a.item_id));
 
 /**

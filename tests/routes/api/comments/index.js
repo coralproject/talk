@@ -58,11 +58,11 @@ describe('/api/v1/comments', () => {
     const actions = [{
       action_type: 'flag',
       item_id: 'abc',
-      item_type: 'comment'
+      item_type: 'comments'
     }, {
       action_type: 'like',
       item_id: 'hij',
-      item_type: 'comment'
+      item_type: 'comments'
     }];
 
     beforeEach(() => {
