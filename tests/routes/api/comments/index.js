@@ -34,12 +34,14 @@ describe('/api/v1/comments', () => {
       body: 'comment 20',
       asset_id: 'asset',
       author_id: '456',
+      status: 'rejected',
       status_history: [{
         type: 'rejected'
       }]
     }, {
       body: 'comment 30',
       asset_id: '456',
+      status: 'accepted',
       status_history: [{
         type: 'accepted'
       }]

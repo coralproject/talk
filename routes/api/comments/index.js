@@ -57,7 +57,7 @@ router.get('/', (req, res, next) => {
       .then((ids) => assetIDWrap(Comment.find({
         id: {
           $in: ids
-        },
+        }
       })));
   } else {
     query = assetIDWrap(Comment.all());
@@ -124,7 +124,7 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
         if (charCountEnable && body.length > charCount) {
           return 'rejected';
         }
-        return moderation === 'pre' ? 'premod' : '';
+        return moderation === 'pre' ? 'premod' : null;
       });
   }
 

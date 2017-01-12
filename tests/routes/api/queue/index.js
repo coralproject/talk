@@ -21,6 +21,7 @@ describe('/api/v1/queue', () => {
     body: 'comment 10',
     asset_id: 'asset',
     author_id: '123',
+    status: 'rejected',
     status_history: [{
       type: 'rejected'
     }]
@@ -29,6 +30,7 @@ describe('/api/v1/queue', () => {
     body: 'comment 20',
     asset_id: 'asset',
     author_id: '456',
+    status: 'premod',
     status_history: [{
       type: 'premod'
     }]
@@ -36,6 +38,7 @@ describe('/api/v1/queue', () => {
     id: 'hij',
     body: 'comment 30',
     asset_id: '456',
+    status: 'accepted',
     status_history: [{
       type: 'accepted'
     }]
@@ -89,6 +92,7 @@ describe('/api/v1/queue', () => {
       .set(passport.inject({roles: ['admin']}))
       .then((res) => {
         expect(res).to.have.status(200);
+        expect(res.body.comments).to.have.length(1);
         expect(res.body.comments[0]).to.have.property('body');
         expect(res.body.users[0]).to.have.property('displayName');
         expect(res.body.actions[0]).to.have.property('action_type');
