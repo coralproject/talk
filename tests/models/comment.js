@@ -73,12 +73,12 @@ describe('models.Comment', () => {
   const actions = [{
     action_type: 'flag',
     item_id: '3',
-    item_type: 'comment',
+    item_type: 'comments',
     user_id: '123'
   }, {
     action_type: 'like',
     item_id: '1',
-    item_type: 'comment',
+    item_type: 'comments',
     user_id: '456'
   }];
 
