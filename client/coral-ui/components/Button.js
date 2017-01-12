@@ -1,7 +1,8 @@
 import React from 'react';
 import styles from './Button.css';
+import Icon from './Icon';
 
-const Button = ({cStyle = 'local', children, className, raised = false, full = false, ...props}) => (
+const Button = ({cStyle = 'local', children, className, raised = false, full = false, icon = '', ...props}) => (
   <button
     className={`
       ${styles.button}
@@ -12,6 +13,7 @@ const Button = ({cStyle = 'local', children, className, raised = false, full = f
     `}
     {...props}
   >
+    {icon && <Icon name={icon} />}
     {children}
   </button>
 );

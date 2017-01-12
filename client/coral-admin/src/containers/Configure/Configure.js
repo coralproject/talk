@@ -7,7 +7,7 @@ import {
   updateWordlist,
 } from '../../actions/settings';
 
-import {Button, Icon, List, Item} from 'coral-ui';
+import {Button, List, Item} from 'coral-ui';
 import styles from './Configure.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations.json';
@@ -118,17 +118,22 @@ class Configure extends Component {
             </List>
             {
               showSave ?
-              <Button
-                raised
-                onClick={this.saveSettings}
-                className={styles.changedSave}>
-                <Icon name='check' /> {lang.t('configure.save-changes')}
-              </Button>
-              : <Button
-              raised
-              disabled>
-              {lang.t('configure.save-changes')}
-            </Button>
+                <Button
+                  raised
+                  onClick={this.saveSettings}
+                  className={styles.changedSave}
+                  icon='check'
+                >
+                  {lang.t('configure.save-changes')}
+                </Button>
+              :
+                <Button
+                  raised
+                  disabled
+                  icon='check'
+                >
+                {lang.t('configure.save-changes')}
+               </Button>
             }
 
           </div>
