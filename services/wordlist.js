@@ -3,6 +3,7 @@ const _ = require('lodash');
 const natural = require('natural');
 const tokenizer = new natural.WordTokenizer();
 const Setting = require('../models/setting');
+const Errors = require('../errors');
 
 /**
  * The root wordlist object.
@@ -143,7 +144,7 @@ class Wordlist {
       if (this.match(this.lists.banned, phrase)) {
         debug(`the field "${field}" contained a phrase "${phrase}" which contained a banned word/phrase`);
 
-        errors.banned = ErrContainsProfanity;
+        errors.banned = Errors.ErrContainsProfanity;
 
         // Stop looping through the fields now, we discovered the worst possible
         // situation (a banned word).
@@ -154,7 +155,7 @@ class Wordlist {
       if (this.match(this.lists.suspect, phrase)) {
         debug(`the field "${field}" contained a phrase "${phrase}" which contained a suspected word/phrase`);
 
-        errors.suspect = ErrContainsProfanity;
+        errors.suspect = Errors.ErrContainsProfanity;
 
         // Continue looping through the fields now, we discovered a possible bad
         // word (suspect).
@@ -163,6 +164,28 @@ class Wordlist {
     }
 
     return errors;
+  }
+
+  /**
+   * check potential username for banned words, special characters
+   */
+  static displayNameCheck(displayName) {
+    const wl = new Wordlist();
+    return wl.load()
+      .then(() => {
+        displayName = displayName.replace(/_/g, '');
+
+        // test each word, and fail if we find a match
+        const hasBadWords = wl.lists.banned.some(phrase => {
+          return displayName.indexOf(phrase.join('')) !== -1;
+        });
+
+        if (hasBadWords) {
+          throw Errors.ErrContainsProfanity;
+        } else {
+          return Promise.resolve(displayName);
+        }
+      });
   }
 
   /**
@@ -194,10 +217,4 @@ class Wordlist {
   }
 }
 
-// ErrContainsProfanity is returned in the event that the middleware detects
-// profanity/wordlisted words in the payload.
-const ErrContainsProfanity = new Error('contains profanity');
-ErrContainsProfanity.status = 400;
-
 module.exports = Wordlist;
-module.exports.ErrContainsProfanity = ErrContainsProfanity;

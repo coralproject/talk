@@ -48,21 +48,21 @@ describe('/api/v1/comments', () => {
     const users = [{
       displayName: 'Ana',
       email: 'ana@gmail.com',
-      password: '123'
+      password: '123456789'
     }, {
       displayName: 'Maria',
       email: 'maria@gmail.com',
-      password: '123'
+      password: '123456789'
     }];
 
     const actions = [{
       action_type: 'flag',
       item_id: 'abc',
-      item_type: 'comment'
+      item_type: 'comments'
     }, {
       action_type: 'like',
       item_id: 'hij',
-      item_type: 'comment'
+      item_type: 'comments'
     }];
 
     beforeEach(() => {
@@ -328,11 +328,11 @@ describe('/api/v1/comments/:comment_id', () => {
   const users = [{
     displayName: 'Ana',
     email: 'ana@gmail.com',
-    password: '123'
+    password: '123456789'
   }, {
     displayName: 'Maria',
     email: 'maria@gmail.com',
-    password: '123'
+    password: '123456789'
   }];
 
   const actions = [{
@@ -346,11 +346,13 @@ describe('/api/v1/comments/:comment_id', () => {
   }];
 
   beforeEach(() => {
-    return Promise.all([
-      Comment.create(comments),
-      User.createLocalUsers(users),
-      Action.create(actions)
-    ]);
+    return Setting.init(settings).then(() => {
+      return Promise.all([
+        Comment.create(comments),
+        User.createLocalUsers(users),
+        Action.create(actions)
+      ]);
+    });
   });
 
   describe('#get', () => {
@@ -437,11 +439,11 @@ describe('/api/v1/comments/:comment_id/actions', () => {
   const users = [{
     displayName: 'Ana',
     email: 'ana@gmail.com',
-    password: '123'
+    password: '123456789'
   }, {
     displayName: 'Maria',
     email: 'maria@gmail.com',
-    password: '123'
+    password: '123456789'
   }];
 
   const actions = [{
@@ -453,11 +455,13 @@ describe('/api/v1/comments/:comment_id/actions', () => {
   }];
 
   beforeEach(() => {
-    return Promise.all([
-      Comment.create(comments),
-      User.createLocalUsers(users),
-      Action.create(actions)
-    ]);
+    return Setting.init(settings).then(() => {
+      return Promise.all([
+        Comment.create(comments),
+        User.createLocalUsers(users),
+        Action.create(actions)
+      ]);
+    });
   });
 
   describe('#post', () => {
