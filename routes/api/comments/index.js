@@ -123,7 +123,7 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
         if (charCountEnable && body.length > charCount) {
           return 'rejected';
         }
-        return moderation === 'pre' ? 'premod' : '';
+        return moderation === 'pre' ? 'premod' : null;
       });
   }
 

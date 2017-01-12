@@ -68,6 +68,7 @@ router.get('/comments/flagged', authorization.needed('admin'), (req, res, next) 
     .then(ids => assetIDWrap(Comment.find({
       id: {$in: ids}
     })))
+    .then(gatherActionsAndUsers)
     .then(([comments, users, actions]) => {
       res.json({comments, users, actions});
     })
