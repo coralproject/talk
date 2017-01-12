@@ -6,7 +6,10 @@ import {
   updateStatus,
   showBanUserDialog,
   hideBanUserDialog,
-  fetchModerationQueueComments
+  fetchPendingQueue,
+  fetchRejectedQueue,
+  fetchFlaggedQueue,
+  fetchModerationQueueComments,
 } from 'actions/comments';
 import {userStatusUpdate} from 'actions/users';
 import {fetchSettings} from 'actions/settings';
@@ -54,6 +57,16 @@ class ModerationContainer extends React.Component {
 
   onTabClick(activeTab) {
     this.setState({activeTab});
+
+    if (activeTab === 'pending') {
+      this.props.fetchPendingQueue();
+    } else if (activeTab === 'rejected') {
+      this.props.fetchRejectedQueue();
+    } else if (activeTab === 'flagged') {
+      this.props.fetchFlaggedQueue();
+    } else {
+      this.props.fetchModerationQueueComments();
+    }
   }
 
   onClose() {
@@ -90,6 +103,9 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchSettings: () => dispatch(fetchSettings()),
     fetchModerationQueueComments: () => dispatch(fetchModerationQueueComments()),
+    fetchPendingQueue: () => dispatch(fetchPendingQueue()),
+    fetchRejectedQueue: () => dispatch(fetchRejectedQueue()),
+    fetchFlaggedQueue: () => dispatch(fetchFlaggedQueue()),
     showBanUserDialog: (userId, userName, commentId) => dispatch(showBanUserDialog(userId, userName, commentId)),
     hideBanUserDialog: () => dispatch(hideBanUserDialog(false)),
     banUser: (userId, commentId) => dispatch(userStatusUpdate('banned', userId, commentId)).then(() => {
