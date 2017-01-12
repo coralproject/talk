@@ -7,17 +7,7 @@ const authorization = module.exports = {
 };
 
 const debug = require('debug')('talk:middleware:authorization');
-
-/**
- * ErrNotAuthorized is an error that is returned in the event an operation is
- * deemed not authorized.
- * @type {Error}
- */
-const ErrNotAuthorized = new Error('not authorized');
-ErrNotAuthorized.status = 401;
-
-// Add the ErrNotAuthorized error to the authorization object to be exported.
-authorization.ErrNotAuthorized = ErrNotAuthorized;
+const ErrNotAuthorized = require('../errors').ErrNotAuthorized;
 
 /**
  * has returns true if the user has all the roles specified, otherwise it will
