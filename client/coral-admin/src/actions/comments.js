@@ -6,10 +6,11 @@ import * as actionTypes from '../constants/actions';
 export const fetchModerationQueueComments = () => {
   return dispatch => {
     dispatch({type: commentTypes.COMMENTS_MODERATION_QUEUE_FETCH_REQUEST});
+
     return Promise.all([
       coralApi('/queue/comments/pending'),
-      coralApi('/comments?status=rejected'),
-      coralApi('/comments?action_type=flag')
+      coralApi('/queue/comments/rejected'),
+      coralApi('/queue/comments/flagged')
     ])
     .then(([pending, rejected, flagged]) => {
 
@@ -27,8 +28,46 @@ export const fetchModerationQueueComments = () => {
       dispatch({type: commentTypes.USERS_MODERATION_QUEUE_FETCH_SUCCESS, users});
       dispatch({type: commentTypes.COMMENTS_MODERATION_QUEUE_FETCH_SUCCESS, comments});
       dispatch({type: actionTypes.ACTIONS_MODERATION_QUEUE_FETCH_SUCCESS, actions});
-
     });
+  };
+};
+
+export const fetchPendingQueue = () => {
+  return dispatch => {
+    dispatch({type: commentTypes.COMMENTS_MODERATION_QUEUE_FETCH_REQUEST});
+
+    return coralApi('/queue/comments/pending')
+      .then(pending => {
+        dispatch({type: commentTypes.USERS_MODERATION_QUEUE_FETCH_SUCCESS, users: pending.users});
+        dispatch({type: commentTypes.COMMENTS_MODERATION_QUEUE_FETCH_SUCCESS, comments: pending.comments});
+        dispatch({type: actionTypes.ACTIONS_MODERATION_QUEUE_FETCH_SUCCESS, actions: pending.actions});
+      });
+  };
+};
+
+export const fetchRejectedQueue = () => {
+  return dispatch => {
+    dispatch({type: commentTypes.COMMENTS_MODERATION_QUEUE_FETCH_REQUEST});
+
+    return coralApi('/queue/comments/rejected')
+      .then(rejected => {
+        dispatch({type: commentTypes.USERS_MODERATION_QUEUE_FETCH_SUCCESS, users: rejected.users});
+        dispatch({type: commentTypes.COMMENTS_MODERATION_QUEUE_FETCH_SUCCESS, comments: rejected.comments});
+        dispatch({type: actionTypes.ACTIONS_MODERATION_QUEUE_FETCH_SUCCESS, actions: rejected.actions});
+      });
+  };
+};
+
+export const fetchFlaggedQueue = () => {
+  return dispatch => {
+    dispatch({type: commentTypes.COMMENTS_MODERATION_QUEUE_FETCH_REQUEST});
+
+    return coralApi('/queue/comments/flagged')
+      .then(flagged => {
+        dispatch({type: commentTypes.USERS_MODERATION_QUEUE_FETCH_SUCCESS, users: flagged.users});
+        dispatch({type: commentTypes.COMMENTS_MODERATION_QUEUE_FETCH_SUCCESS, comments: flagged.comments});
+        dispatch({type: actionTypes.ACTIONS_MODERATION_QUEUE_FETCH_SUCCESS, actions: flagged.actions});
+      });
   };
 };
 
