@@ -15,9 +15,9 @@ const ErrEmailTaken = new Error('Email address already in use');
 ErrEmailTaken.translation_key = 'EMAIL_IN_USE';
 ErrEmailTaken.status = 400;
 
-const ErrEmailDisplaynameTaken = new Error('Email or Display name already in use');
-ErrEmailDisplaynameTaken.translation_key = 'EMAIL_DISPLAYNAME_IN_USE';
-ErrEmailDisplaynameTaken.status = 400;
+const ErrDisplayTaken = new Error('Display name already in use');
+ErrDisplayTaken.translation_key = 'DISPLAYNAME_IN_USE';
+ErrDisplayTaken.status = 400;
 
 const ErrSpecialChars = new Error('No special characters are allowed in a display name');
 ErrSpecialChars.translation_key = 'NO_SPECIAL_CHARACTERS';
@@ -45,5 +45,6 @@ module.exports = {
   ErrEmailTaken,
   ErrSpecialChars,
   ErrMissingDisplay,
-  ErrContainsProfanity
+  ErrContainsProfanity,
+  ErrDisplayTaken
 };
