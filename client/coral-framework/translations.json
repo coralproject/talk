@@ -31,10 +31,8 @@
       "displayName": "Los nombres pueden contener letras, números y _",
       "confirmPassword": "Las contraseñas no coinciden",
       "emailPasswordError": "Email y/o contraseña incorrecta.",
-<<<<<<< HEAD
       "emailInUse": "Correo electronico en uso.",
-      "emailORusernameInUse": "Correo o Nombre en uso."
-=======
+      "emailORusernameInUse": "Correo o Nombre en uso.",
       "EMAIL_REQUIRED": "Se requiere una dirección de correo electrónico",
       "PASSWORD_REQUIRED": "Debe ingresar una contraseña",
       "PASSWORD_LENGTH": "La contraseña es muy corta",
@@ -42,7 +40,6 @@
       "DISPLAY_NAME_REQUIRED": "Debe ingresar un nombre",
       "NO_SPECIAL_CHARACTERS": "Los nombres pueden contener letras, números y _",
       "PROFANITY_ERROR": "Los nombres no pueden contener blasfemias. Por favor contacte al administrador si cree que esto es un error"
->>>>>>> master
     }
   }
 }
