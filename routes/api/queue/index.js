@@ -2,8 +2,6 @@ const express = require('express');
 const Comment = require('../../../models/comment');
 const User = require('../../../models/user');
 const Action = require('../../../models/action');
-const Setting = require('../../../models/setting');
-const Asset = require('../../../models/asset');
 const authorization = require('../../../middleware/authorization');
 const _ = require('lodash');
 
@@ -42,7 +40,7 @@ router.get('/comments/pending', authorization.needed('admin'), (req, res, next) 
     });
 });
 
-router.get('/comments/rejected', /*authorization.needed('admin'),*/ (req, res, next) => {
+router.get('/comments/rejected', authorization.needed('admin'), (req, res, next) => {
   const {asset_id} = req.query;
 
   Comment.moderationQueue('rejected', asset_id)
@@ -68,7 +66,7 @@ router.get('/comments/flagged', authorization.needed('admin'), (req, res, next) 
 
   Comment.findIdsByActionType('flag')
     .then(ids => assetIDWrap(Comment.find({
-      id: { $in: ids }
+      id: {$in: ids}
     })))
     .then(([comments, users, actions]) => {
       res.json({comments, users, actions});
