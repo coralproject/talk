@@ -9,6 +9,7 @@ const enabled = require('debug').enabled;
 const RedisStore = require('connect-redis')(session);
 const redis = require('./services/redis');
 const csrf = require('csurf');
+const errors = require('./errors');
 
 const app = express();
 
@@ -109,40 +110,47 @@ app.use('/', require('./routes'));
 // ERROR HANDLING
 //==============================================================================
 
-const ErrNotFound = new Error('Not Found');
-ErrNotFound.status = 404;
-
 // Catch 404 and forward to error handler.
 app.use((req, res, next) => {
-  next(ErrNotFound);
+  next(errors.ErrNotFound);
 });
 
 // General error handler. Respond with the message and error if we have it while
 // returning a status code that makes sense.
 app.use('/api', (err, req, res, next) => {
-  if (err !== ErrNotFound) {
+  if (err !== errors.ErrNotFound) {
     if (app.get('env') !== 'test' || enabled('talk:errors')) {
       console.error(err);
     }
   }
 
-  res.status(err.status || 500);
-  res.json({
-    message: err.message,
-    error: app.get('env') === 'development' ? err : {}
-  });
+  if (err instanceof errors.APIError) {
+    res.status(err.status).json({
+      message: err.message,
+      error: err
+    });
+  } else {
+    res.status(500).json({});
+  }
 });
 
 app.use('/', (err, req, res, next) => {
-  if (err !== ErrNotFound) {
+  if (err !== errors.ErrNotFound) {
     console.error(err);
   }
 
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: app.get('env') === 'development' ? err : {}
-  });
+  if (err instanceof errors.APIError) {
+    res.status(err.status);
+    res.render('error', {
+      message: err.message,
+      error: app.get('env') === 'development' ? err : {}
+    });
+  } else {
+    res.render('error', {
+      message: err.message,
+      error: app.get('env') === 'development' ? err : {}
+    });
+  }
 });
 
 module.exports = app;
