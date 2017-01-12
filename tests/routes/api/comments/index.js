@@ -101,7 +101,7 @@ describe('/api/v1/comments', () => {
           expect(res).to.be.empty;
         })
         .catch((err) => {
-          expect(err).to.have.property('status', 401);
+          expect(err).to.have.status(401);
         });
     });
 
@@ -287,7 +287,7 @@ describe('/api/v1/comments', () => {
       .catch((err) => {
         expect(err.response.body).to.not.be.null;
         expect(err.response.body).to.have.property('message');
-        expect(err.response.body.message).to.contain('tests said expired!');
+        expect(err.response.body.error.metadata.closedMessage).to.be.equal('tests said expired!');
       });
     });
 

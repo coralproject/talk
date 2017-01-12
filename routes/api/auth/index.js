@@ -1,6 +1,7 @@
 const express = require('express');
 const passport = require('../../../services/passport');
 const authorization = require('../../../middleware/authorization');
+const errors = require('../../../errors');
 
 const router = express.Router();
 
@@ -42,7 +43,7 @@ const HandleAuthCallback = (req, res, next) => (err, user) => {
   }
 
   if (!user) {
-    return next(authorization.ErrNotAuthorized);
+    return next(errors.ErrNotAuthorized);
   }
 
   // Perform the login of the user!
@@ -65,7 +66,7 @@ const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
   }
 
   if (!user) {
-    return res.render('auth-callback', {err: JSON.stringify(authorization.ErrNotAuthorized), data: null});
+    return res.render('auth-callback', {err: JSON.stringify(errors.ErrNotAuthorized), data: null});
   }
 
   // Perform the login of the user!
