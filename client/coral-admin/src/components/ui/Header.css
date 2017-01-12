@@ -14,10 +14,6 @@
   height: 58px;
 }
 
-.active {
-  background: #232323;
-}
-
 .rightPanel {
   position: absolute;
   right: 0;
@@ -56,6 +52,12 @@
   padding: 0 20px;
   font-size: 15px;
   font-weight: 500;
+  background-color: transparent;
+  transition: background-color 200ms;
+
+  &.active {
+     background-color: #232323;
+  }
 }
 
 .nav {

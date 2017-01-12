@@ -36,12 +36,19 @@
 
 .listItem {
   border-bottom: 1px solid #e0e0e0;
-  padding: 16px;
   font-size: 16px;
   width: 100%;
   max-width: 660px;
   min-width: 400px;
   margin: 0 auto;
+  padding: 16px 14px;
+  position: relative;
+  transition: box-shadow 200ms;
+
+
+  &:hover {
+     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  }
 
   &:last-child {
     border-bottom: none;
@@ -52,7 +59,8 @@
      right: 0;
      height: 100%;
      top: 0;
-     padding: 30px 22px;
+     padding: 40px 18px;
+     box-sizing: border-box;
    }
 
   .itemHeader {
@@ -83,8 +91,8 @@
 
   .created {
     color: #666;
-    font-size: 10px;
-    margin-left: 10px;
+    font-size: 13px;
+    margin-left: 40px;
   }
 
   .actionButton {
@@ -95,8 +103,8 @@
   .body {
     margin-top: 20px;
     flex: 1;
-    font-size: 1em;
-    color: rgba(0,0,0,.54);
+    font-size: 0.88em;
+    color: black;
   }
 
   .flagged {
@@ -154,6 +162,7 @@
 .ban {
   display: block;
   text-align: center;
+  margin-top: 5px;
 }
 
 .banButton {

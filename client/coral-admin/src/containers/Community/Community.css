@@ -1,17 +1,22 @@
 .roleButton {
-    display: block;
+  display: block;
 }
 
 .searchInput {
-    display: block;
-    padding-left: 40px;
-    width: auto;
+  display: block;
+  padding-left: 40px;
+  width: 100%
 }
 
 .searchBox {
-    background: white;
+  background: white;
+  max-width: 150px;
 }
 
 .email {
-    display: block;
+  display: block;
+}
+
+.dataTable {
+  white-space: normal;
 }

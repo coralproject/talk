@@ -17,6 +17,7 @@
   font-weight: 500;
   font-size: 15px;
   letter-spacing: 1px;
+  transition: border-bottom 200ms;
 }
 
 .active {

@@ -53,7 +53,7 @@ const Community = ({isFetching, commenters, ...props}) => {
           </div>
         </form>
       </Cell>
-      <Cell col={6}>
+      <Cell col={10}>
         { isFetching && <Loading /> }
         { !hasResults && <NoResults /> }
         { hasResults &&

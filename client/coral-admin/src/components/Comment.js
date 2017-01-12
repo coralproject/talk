@@ -64,10 +64,11 @@ const getActionButton = (action, i, props) => {
       <div className={styles.ban}>
         <Button
           className={`ban ${styles.banButton}`}
-          cStyle='black'
+          cStyle='darkGrey'
           disabled={banned ? 'disabled' : ''}
           onClick={() => props.onClickShowBanDialog(author.id, author.displayName, comment.id)}
           key={i}
+          raised
         >
           <Icon name='not_interested' className={styles.banIcon} />
           {lang.t('comment.ban_user')}

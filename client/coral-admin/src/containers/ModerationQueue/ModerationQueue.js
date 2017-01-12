@@ -15,19 +15,28 @@ export default ({onTabClick, ...props}) => (
     <div className='mdl-tabs'>
       <div className={`mdl-tabs__tab-bar ${styles.tabBar}`}>
         <a href='#pending'
-           onClick={() => onTabClick('pending')}
+           onClick={(e) => {
+             e.preventDefault();
+             onTabClick('pending');
+           }}
            className={`mdl-tabs__tab ${styles.tab} ${props.activeTab === 'pending' ? styles.active : ''}`}
         >
           {lang.t('modqueue.pending')}
         </a>
         <a href='#rejected'
-           onClick={() => onTabClick('rejected')}
+           onClick={(e) => {
+             e.preventDefault();
+             onTabClick('rejected');
+           }}
            className={`mdl-tabs__tab ${styles.tab} ${props.activeTab === 'rejected' ? styles.active : ''}`}
         >
           {lang.t('modqueue.rejected')}
         </a>
         <a href='#flagged'
-           onClick={() => onTabClick('flagged')}
+           onClick={(e) => {
+             e.preventDefault();
+             onTabClick('flagged');
+           }}
            className={`mdl-tabs__tab ${styles.tab} ${props.activeTab === 'flagged' ? styles.active : ''}`}
         >
           {lang.t('modqueue.flagged')}
