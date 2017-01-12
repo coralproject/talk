@@ -12,7 +12,7 @@ const SignDialog = ({open, view, handleClose, offset, ...props}) => (
     id="signInDialog"
     open={open}
     style={{
-      position: 'relative',
+      position: 'fixed',
       top: offset !== 0 && offset
     }}>
     <span className={styles.close} onClick={handleClose}>×</span>
