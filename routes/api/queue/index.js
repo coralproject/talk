@@ -58,10 +58,20 @@ router.get('/comments/rejected', /*authorization.needed('admin'),*/ (req, res, n
 router.get('/comments/flagged', authorization.needed('admin'), (req, res, next) => {
   const {asset_id} = req.query;
 
-  Comment.findIdsByActionType('flagged')
-    .then(ids => {
-      console.log(ids);
-      res.json(ids);
+  const assetIDWrap = (query) => {
+    if (asset_id) {
+      query = query.where('asset_id', asset_id);
+    }
+
+    return query;
+  };
+
+  Comment.findIdsByActionType('flag')
+    .then(ids => assetIDWrap(Comment.find({
+      id: { $in: ids }
+    })))
+    .then(([comments, users, actions]) => {
+      res.json({comments, users, actions});
     })
     .catch(error => {
       next(error);

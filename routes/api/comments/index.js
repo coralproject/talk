@@ -56,7 +56,7 @@ router.get('/', (req, res, next) => {
       .then((ids) => assetIDWrap(Comment.find({
         id: {
           $in: ids
-        },
+        }
       })));
   } else {
     query = assetIDWrap(Comment.all());
