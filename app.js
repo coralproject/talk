@@ -5,6 +5,7 @@ const path = require('path');
 const helmet = require('helmet');
 const passport = require('./services/passport');
 const session = require('express-session');
+const enabled = require('debug').enabled;
 const RedisStore = require('connect-redis')(session);
 const redis = require('./services/redis');
 const csrf = require('csurf');
@@ -120,7 +121,7 @@ app.use((req, res, next) => {
 // returning a status code that makes sense.
 app.use('/api', (err, req, res, next) => {
   if (err !== ErrNotFound) {
-    if (app.get('env') !== 'test') {
+    if (app.get('env') !== 'test' || enabled('talk:errors')) {
       console.error(err);
     }
   }

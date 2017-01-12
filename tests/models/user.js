@@ -1,25 +1,30 @@
 const User = require('../../models/user');
 const Comment = require('../../models/comment');
+const Setting = require('../../models/setting');
 
 const expect = require('chai').expect;
 
 describe('models.User', () => {
   let mockUsers;
   beforeEach(() => {
-    return User.createLocalUsers([{
-      email: 'stampi@gmail.com',
-      displayName: 'Stampi',
-      password: '1Coral!'
-    }, {
-      email: 'sockmonster@gmail.com',
-      displayName: 'Sockmonster',
-      password: '2Coral!'
-    }, {
-      email: 'marvel@gmail.com',
-      displayName: 'Marvel',
-      password: '3Coral!'
-    }]).then((users) => {
-      mockUsers = users;
+    const settings = {id: '1', moderation: 'pre', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
+
+    return Setting.init(settings).then(() => {
+      return User.createLocalUsers([{
+        email: 'stampi@gmail.com',
+        displayName: 'Stampi',
+        password: '1Coral!-'
+      }, {
+        email: 'sockmonster@gmail.com',
+        displayName: 'Sockmonster',
+        password: '2Coral!2'
+      }, {
+        email: 'marvel@gmail.com',
+        displayName: 'Marvel',
+        password: '3Coral!3'
+      }]).then((users) => {
+        mockUsers = users;
+      });
     });
   });
 
@@ -29,7 +34,7 @@ describe('models.User', () => {
         .findById(mockUsers[0].id)
         .then((user) => {
           expect(user).to.have.property('displayName')
-            .and.to.equal('Stampi');
+            .and.to.equal('stampi');
         });
     });
   });
@@ -54,7 +59,7 @@ describe('models.User', () => {
           return 0;
         });
         expect(sorted[0]).to.have.property('displayName')
-          .and.to.equal('Marvel');
+          .and.to.equal('marvel');
       });
     });
   });
@@ -63,16 +68,16 @@ describe('models.User', () => {
 
     it('should find a user when we give the right credentials', () => {
       return User
-        .findLocalUser(mockUsers[0].profiles[0].id, '1Coral!')
+        .findLocalUser(mockUsers[0].profiles[0].id, '1Coral!-')
         .then((user) => {
           expect(user).to.have.property('displayName')
-            .and.to.equal(mockUsers[0].displayName);
+            .and.to.equal(mockUsers[0].displayName.toLowerCase());
         });
     });
 
     it('should not find the user when we give the wrong credentials', () => {
       return User
-        .findLocalUser(mockUsers[0].profiles[0].id, '1Coral!<nope>')
+        .findLocalUser(mockUsers[0].profiles[0].id, '1Coral!-<nope>')
         .then((user) => {
           expect(user).to.equal(false);
         });

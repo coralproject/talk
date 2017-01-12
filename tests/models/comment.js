@@ -3,7 +3,7 @@ const User = require('../../models/user');
 const Action = require('../../models/action');
 const Setting = require('../../models/setting');
 
-const settings = {id: '1', moderation: 'pre'};
+const settings = {id: '1', moderation: 'pre', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
 
 const expect = require('chai').expect;
 
@@ -63,31 +63,34 @@ describe('models.Comment', () => {
   const users = [{
     email: 'stampi@gmail.com',
     displayName: 'Stampi',
-    password: '1Coral!'
+    password: '1Coral!!'
   }, {
     email: 'sockmonster@gmail.com',
     displayName: 'Sockmonster',
-    password: '2Coral!'
+    password: '2Coral!!'
   }];
 
   const actions = [{
     action_type: 'flag',
     item_id: '3',
-    item_type: 'comment',
+    item_type: 'comments',
     user_id: '123'
   }, {
     action_type: 'like',
     item_id: '1',
-    item_type: 'comment',
+    item_type: 'comments',
     user_id: '456'
   }];
 
-  beforeEach(() => Promise.all([
-    Setting.init(settings),
-    Comment.create(comments),
-    User.createLocalUsers(users),
-    Action.create(actions)
-  ]));
+  beforeEach(() => {
+    return Setting.init(settings).then(() => {
+      return Promise.all([
+        Comment.create(comments),
+        User.createLocalUsers(users),
+        Action.create(actions)
+      ]);
+    });
+  });
 
   describe('#publicCreate()', () => {
 
