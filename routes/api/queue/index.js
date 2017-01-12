@@ -58,10 +58,10 @@ router.get('/comments/rejected', /*authorization.needed('admin'),*/ (req, res, n
 router.get('/comments/flagged', authorization.needed('admin'), (req, res, next) => {
   const {asset_id} = req.query;
 
-  Comment.moderationQueue('rejected', asset_id)
-    .then(gatherActionsAndUsers)
-    .then(([comments, users, actions]) => {
-      res.json({comments, users, actions})
+  Comment.findIdsByActionType('flagged')
+    .then(ids => {
+      console.log(ids);
+      res.json(ids);
     })
     .catch(error => {
       next(error);
