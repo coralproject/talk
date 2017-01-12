@@ -11,10 +11,6 @@
   width: calc(70% - 300px)
 }
 
-.settingOption {
-  cursor: pointer;
-}
-
 .configSetting {
   border: 1px solid #ccc;
   border-radius: 4px;

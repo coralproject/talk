@@ -6,13 +6,8 @@ import {
   saveSettingsToServer,
   updateWordlist,
 } from '../../actions/settings';
-import {
-  List,
-  ListItem,
-  ListItemContent,
-  Button,
-  Icon
-} from 'react-mdl';
+
+import {Button, Icon, List, Item} from 'coral-ui';
 import styles from './Configure.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations.json';
@@ -99,7 +94,8 @@ class Configure extends React.Component {
   }
 
   render () {
-    const section = this.getSection(this.state.activeSection);
+    const {activeSection} = this.state;
+    const section = this.getSection(activeSection);
 
     const showSave = Object.keys(this.state.errors).reduce(
       (bool, error) => this.state.errors[error] ? false : bool, this.state.changed);
@@ -107,22 +103,16 @@ class Configure extends React.Component {
     return (
         <div className={styles.container}>
           <div className={styles.leftColumn}>
-            <List>
-              <ListItem className={styles.settingOption}>
-                <ListItemContent
-                  onClick={this.changeSection('comments')}
-                  icon='settings'>{lang.t('configure.comment-settings')}</ListItemContent>
-              </ListItem>
-              <ListItem className={styles.settingOption}>
-                <ListItemContent
-                  onClick={this.changeSection('embed')}
-                  icon='code'>{lang.t('configure.embed-comment-stream')}</ListItemContent>
-              </ListItem>
-              <ListItem className={styles.settingOption}>
-                <ListItemContent
-                  onClick={this.changeSection('wordlist')}
-                  icon='settings'>{lang.t('configure.wordlist')}</ListItemContent>
-              </ListItem>
+            <List onChange={this.changeSection} activeItem={activeSection}>
+              <Item itemId='comments' icon="settings">
+                {lang.t('configure.comment-settings')}
+              </Item>
+              <Item itemId='embed' icon='code'>
+                {lang.t('configure.embed-comment-stream')}
+              </Item>
+              <Item itemId='wordlist' icon='settings'>
+                {lang.t('configure.wordlist')}
+              </Item>
             </List>
             {
               showSave ?

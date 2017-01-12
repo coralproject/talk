@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './TabBar.css';
 
-export class TabBar extends React.Component {
+class TabBar extends React.Component {
   constructor(props) {
     super(props);
     this.handleClickTab = this.handleClickTab.bind(this);
