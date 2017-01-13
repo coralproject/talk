@@ -116,6 +116,7 @@ class Configure extends Component {
                 {lang.t('configure.wordlist')}
               </Item>
             </List>
+            <div className={styles.saveBox}>
             {
               showSave ?
                 <Button
@@ -123,6 +124,7 @@ class Configure extends Component {
                   onClick={this.saveSettings}
                   className={styles.changedSave}
                   icon='check'
+                  full
                 >
                   {lang.t('configure.save-changes')}
                 </Button>
@@ -131,10 +133,12 @@ class Configure extends Component {
                   raised
                   disabled
                   icon='check'
+                  full
                 >
                 {lang.t('configure.save-changes')}
                </Button>
             }
+            </div>
 
           </div>
           <div className={styles.mainContent}>

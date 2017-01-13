@@ -11,8 +11,6 @@
     display: inline-block;
     font-family: 'Roboto','Helvetica','Arial',sans-serif;
     font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0;
     overflow: hidden;
     will-change: box-shadow,transform;
     -webkit-transition: box-shadow .2s cubic-bezier(.4,0,1,1),background-color .2s cubic-bezier(.4,0,.2,1),color .2s cubic-bezier(.4,0,.2,1);
@@ -24,6 +22,14 @@
     line-height: 28px;
     vertical-align: middle;
     margin: 2px;
+    letter-spacing: 0.7px;
+    font-weight: 400;
+
+    i {
+      margin-right: 13px;
+      font-size: 18px;
+      vertical-align: middle;
+    }
 }
 
 .type--black {

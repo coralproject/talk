@@ -1,14 +1,23 @@
 .container {
-  padding: 10px;
   display: flex;
+
+  h3 {
+    color: black;
+    font-size: 1.76em;
+    font-weight: 500;
+  }
 }
 
 .leftColumn {
-  width: 300px;
+  padding: 42px 56px;
+  width: 234px;
 }
 
 .mainContent {
-  width: calc(70% - 300px)
+  width: calc(100% - 300px);
+  padding: 10px 14px;
+  box-sizing: border-box;
+  max-width: 718px;
 }
 
 .configSetting {
@@ -81,7 +90,8 @@
 }
 
 .changedSave {
-  background-color:#4caf50;
+  background-color: #00796B;
+  color: white;
 }
 
 .copiedText {
@@ -131,4 +141,8 @@
 
 .hidden {
   display: none;
+}
+
+.saveBox {
+  margin-top: 38px;
 }
