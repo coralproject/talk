@@ -1,6 +1,7 @@
 const express = require('express');
 const _ = require('lodash');
 const scraper = require('../../../services/scraper');
+const errors = require('../../../errors');
 const url = require('url');
 
 const Comment = require('../../../models/comment');
@@ -8,9 +9,6 @@ const User = require('../../../models/user');
 const Action = require('../../../models/action');
 const Asset = require('../../../models/asset');
 const Setting = require('../../../models/setting');
-
-const ErrInvalidAssetURL = new Error('asset_url is invalid');
-ErrInvalidAssetURL.status = 400;
 
 const router = express.Router();
 
@@ -21,7 +19,7 @@ router.get('/', (req, res, next) => {
   // Verify that the asset_url is parsable.
   let parsed_asset_url = url.parse(asset_url);
   if (!parsed_asset_url.protocol) {
-    return next(ErrInvalidAssetURL);
+    return next(errors.ErrInvalidAssetURL);
   }
 
   // Get the asset_id for this url (or create it if it doesn't exist)

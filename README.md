@@ -17,30 +17,29 @@ To launch a Talk server of your own from your browser without any need to muck a
 
 ### Configuration
 
-The Talk application requires specific configuration options to be available
-inside the environment in order to run, those variables are listed here:
+The Talk application looks for the following configuration values either as environment variables:
 
 - `TALK_MONGO_URL` (*required*) - the database connection string for the MongoDB database.
 - `TALK_REDIS_URL` (*required*) - the database connection string for the Redis database.
 - `TALK_SESSION_SECRET` (*required*) - a random string which will be used to
 secure cookies.
-- `TALK_FACEBOOK_APP_ID` (*required*) - the Facebook app id for your Facebook
-Login enabled app.
-- `TALK_FACEBOOK_APP_SECRET` (*required*) - the Facebook app secret for your
-Facebook Login enabled app.
 - `TALK_ROOT_URL` (*required*) - root url of the installed application externally
 available in the format: `<scheme>://<host>` without the path.
-- `TALK_SMTP_EMAIL` (*required*) - the address to send emails from using the
+
+- `TALK_FACEBOOK_APP_ID` (*required for login via fb*) - the Facebook app id for your Facebook
+Login enabled app.
+- `TALK_FACEBOOK_APP_SECRET` (*required for login via fb*) - the Facebook app secret for your
+Facebook Login enabled app.
+
+- `TALK_SMTP_EMAIL` (*required for email*) - the address to send emails from using the
   SMTP provider.
-- `TALK_SMTP_USERNAME` (*required*) - username of the SMTP provider you are using.
-- `TALK_SMTP_PASSWORD` (*required*) - password for the SMTP provider you are using.
-- `TALK_SMTP_HOST` (*required*) - SMTP host url with format `smtp.domain.com`.
-- `TALK_SMTP_PORT` (*required*) - SMTP port.
+- `TALK_SMTP_USERNAME` (*required for email*) - username of the SMTP provider you are using.
+- `TALK_SMTP_PASSWORD` (*required for email*) - password for the SMTP provider you are using.
+- `TALK_SMTP_HOST` (*required for email*) - SMTP host url with format `smtp.domain.com`.
+- `TALK_SMTP_PORT` (*required for email*) - SMTP port.
 
-
-### Install from Source
-
-If you want to run Talk in development mode from source (without docker) you can read the [INSTALL file](INSTALL.md).
+Refer to the wiki page on [Configuration Loading](https://github.com/coralproject/talk/wiki/Configuration-Loading) for
+alternative methods of loading configuration during development.
 
 ### License
 
