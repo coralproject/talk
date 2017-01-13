@@ -77,7 +77,7 @@ export default ({onTabClick, ...props}) => (
       <div className={`mdl-tabs__panel ${styles.listContainer}`} id='flagged'>
         <CommentList
           suspectWords={props.settings.settings.wordlist.suspect}
-          isActive={props.activeTab === 'flagged'}
+          isActive={props.activeTab === 'rejected'}
           singleView={props.singleView}
           commentIds={props.flaggedIds}
           comments={props.comments.byId}

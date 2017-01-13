@@ -135,13 +135,13 @@ const CommentSettings = ({fetchingSettings, title, updateSettings, settingsError
         <Card className={styles.configSettingInfoBox}>
           <div className={styles.content}>
             {lang.t('configure.closed-comments-desc')}
-            <p>
+            <div>
             <Textfield
               onChange={updateClosedMessage(updateSettings)}
               value={settings.closedMessage}
               label={lang.t('configure.closed-comments-label')}
               rows={3}/>
-            </p>
+            </div>
           </div>
         </Card>
         <Card className={`${styles.configSettingInfoBox}`}>
