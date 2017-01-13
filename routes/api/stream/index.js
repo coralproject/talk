@@ -48,20 +48,11 @@ router.get('/', (req, res, next) => {
       settings.merge(asset.settings);
     }
 
-    // Fetch the appropriate comments stream.
-    let comments;
-
-    if (settings.moderation === 'pre') {
-      comments = Comment.findAcceptedByAssetId(asset.id);
-    } else {
-      comments = Comment.findAcceptedAndNewByAssetId(asset.id);
-    }
-
     return Promise.all([
 
       // This is the promised component... Fetch the comments based on the
       // moderation settings.
-      comments,
+      Comment.findByAssetIdWithStatuses(asset.id, [null, 'accepted']),
 
       // Send back the reference to the asset.
       asset,
