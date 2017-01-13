@@ -17,8 +17,7 @@ To launch a Talk server of your own from your browser without any need to muck a
 
 ### Configuration
 
-The Talk application looks for the following configuration values either as
-environment variables or via an `.env` file:
+The Talk application looks for the following configuration values either as environment variables:
 
 - `TALK_MONGO_URL` (*required*) - the database connection string for the MongoDB database.
 - `TALK_REDIS_URL` (*required*) - the database connection string for the Redis database.
@@ -39,10 +38,7 @@ Facebook Login enabled app.
 - `TALK_SMTP_HOST` (*required for email*) - SMTP host url with format `smtp.domain.com`.
 - `TALK_SMTP_PORT` (*required for email*) - SMTP port.
 
-We recommend using environment variables for configuration in staging and
-production environments.
-
-For more information about configuration via `.env`, please [visit our wiki](https://github.com/coralproject/talk/wiki/Configuration-via-.env).
+During development mode, you can use the command `npm run dev-start` which will load environment variables from a file named .env in the present working directory.
 
 ### License
 
