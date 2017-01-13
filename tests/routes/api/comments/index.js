@@ -83,15 +83,14 @@ describe('/api/v1/comments', () => {
       ]);
     });
 
-    it('should return only the owner’s comments if the user is not an admin', () => {
+    it('should return only the owner’s published comments if the user is not an admin', () => {
       return chai.request(app)
         .get('/api/v1/comments?user_id=456')
         .set(passport.inject({id: '456', roles: []}))
         .then(res => {
           expect(res).to.have.status(200);
-          expect(res.body.comments).to.have.length(2);
+          expect(res.body.comments).to.have.length(1);
           expect(res.body.comments[0]).to.have.property('author_id', '456');
-          expect(res.body.comments[1]).to.have.property('author_id', '456');
         });
     });
 
