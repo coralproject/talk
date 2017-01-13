@@ -21,6 +21,7 @@ describe('models.Comment', () => {
     status_history: [{
       type: 'accepted'
     }],
+    status: 'accepted',
     parent_id: '',
     author_id: '123',
     id: '2'
@@ -37,6 +38,7 @@ describe('models.Comment', () => {
     status_history: [{
       type: 'rejected'
     }],
+    status: 'rejected',
     parent_id: '',
     author_id: '456',
     id: '4'
@@ -46,6 +48,7 @@ describe('models.Comment', () => {
     status_history: [{
       type: 'premod'
     }],
+    status: 'premod',
     parent_id: '',
     author_id: '456',
     id: '5'
@@ -55,6 +58,7 @@ describe('models.Comment', () => {
     status_history: [{
       type: 'premod'
     }],
+    status: 'premod',
     parent_id: '',
     author_id: '456',
     id: '6'
@@ -184,17 +188,9 @@ describe('models.Comment', () => {
   describe('#moderationQueue()', () => {
 
     it('should find an array of new comments to moderate when pre-moderation', () => {
-      return Comment.moderationQueue('pre').then((result) => {
+      return Comment.moderationQueue('premod').then((result) => {
         expect(result).to.not.be.null;
         expect(result).to.have.lengthOf(2);
-      });
-    });
-
-    it('should find an array of new comments to moderate when post-moderation', () => {
-      return Comment.moderationQueue('post').then((result) => {
-        expect(result).to.not.be.null;
-        expect(result).to.have.lengthOf(1);
-        expect(result[0]).to.have.property('body', 'comment 30');
       });
     });
 
@@ -227,6 +223,7 @@ describe('models.Comment', () => {
         .then(() => Comment.findById(comment_id))
         .then((c) => {
           expect(c).to.have.property('status');
+          expect(c.status).to.equal('rejected');
           expect(c.status_history).to.have.length(1);
           expect(c.status_history[0]).to.have.property('type', 'rejected');
           expect(c.status_history[0]).to.have.property('assigned_by', '123');
@@ -238,6 +235,8 @@ describe('models.Comment', () => {
         .then(() => Comment.findById(comments[1].id))
         .then((c) => {
           expect(c).to.have.property('status_history');
+          expect(c).to.have.property('status');
+          expect(c.status).to.equal('rejected');
           expect(c.status_history).to.have.length(2);
           expect(c.status_history[0]).to.have.property('type', 'accepted');
           expect(c.status_history[0]).to.have.property('assigned_by', null);
