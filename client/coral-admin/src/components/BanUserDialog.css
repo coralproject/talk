@@ -1,17 +1,25 @@
 .dialog {
-    border: none;
-    box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
-    width: 280px;
-    top: 10px;
-}
+  border: none;
+  box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
+  width: 500px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 184px;
+  padding: 20px;
 
-.header {
-    margin-bottom: 20px;
-}
+  h2 {
+    color: black;
+    font-size: 1.76em;
+    font-weight: 500;
+    margin: 0;
+  }
 
-.header h1, .separator h1{
-    text-align: center;
-    font-size: 1.2em;
+  h3 {
+    color: black;
+    font-size: 1.4em;
+    font-weight: 500;
+    margin: 0;
+  }
 }
 
 .formField {
@@ -143,5 +151,14 @@ input.error{
 }
 
 .cancel {
-    margin: 10px 0;
+  margin-right: 10px;
+  width: 47%;
+}
+
+.ban {
+  width: 47%;
+}
+
+.buttons {
+  margin: 20px 0;
 }

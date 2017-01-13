@@ -119,8 +119,12 @@
 }
 
 #bannedWordlist, #suspectWordlist {
+  width: 100%;
+  padding: 10px;
+
+  input {
     width: 100%;
-    padding: 10px;
+  }
 }
 
 .wordlistHeader {
