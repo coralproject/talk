@@ -34,12 +34,14 @@ describe('/api/v1/comments', () => {
       body: 'comment 20',
       asset_id: 'asset',
       author_id: '456',
+      status: 'rejected',
       status_history: [{
         type: 'rejected'
       }]
     }, {
       body: 'comment 30',
       asset_id: '456',
+      status: 'accepted',
       status_history: [{
         type: 'accepted'
       }]
@@ -58,11 +60,11 @@ describe('/api/v1/comments', () => {
     const actions = [{
       action_type: 'flag',
       item_id: 'abc',
-      item_type: 'comment'
+      item_type: 'comments'
     }, {
       action_type: 'like',
       item_id: 'hij',
-      item_type: 'comment'
+      item_type: 'comments'
     }];
 
     beforeEach(() => {
@@ -81,15 +83,14 @@ describe('/api/v1/comments', () => {
       ]);
     });
 
-    it('should return only the owner’s comments if the user is not an admin', () => {
+    it('should return only the owner’s published comments if the user is not an admin', () => {
       return chai.request(app)
         .get('/api/v1/comments?user_id=456')
         .set(passport.inject({id: '456', roles: []}))
         .then(res => {
           expect(res).to.have.status(200);
-          expect(res.body.comments).to.have.length(2);
+          expect(res.body.comments).to.have.length(1);
           expect(res.body.comments[0]).to.have.property('author_id', '456');
-          expect(res.body.comments[1]).to.have.property('author_id', '456');
         });
     });
 
@@ -101,7 +102,7 @@ describe('/api/v1/comments', () => {
           expect(res).to.be.empty;
         })
         .catch((err) => {
-          expect(err).to.have.property('status', 401);
+          expect(err).to.have.status(401);
         });
     });
 
@@ -287,7 +288,7 @@ describe('/api/v1/comments', () => {
       .catch((err) => {
         expect(err.response.body).to.not.be.null;
         expect(err.response.body).to.have.property('message');
-        expect(err.response.body.message).to.contain('tests said expired!');
+        expect(err.response.body.error.metadata.closedMessage).to.be.equal('tests said expired!');
       });
     });
 

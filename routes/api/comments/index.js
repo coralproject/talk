@@ -1,4 +1,5 @@
 const express = require('express');
+const errors = require('../../../errors');
 const Comment = require('../../../models/comment');
 const Asset = require('../../../models/asset');
 const User = require('../../../models/user');
@@ -20,13 +21,13 @@ router.get('/', (req, res, next) => {
 
   // everything on this route requires admin privileges besides listing comments for owner of said comments
   if (!authorization.has(req.user, 'admin') && !user_id) {
-    next(authorization.ErrNotAuthorized);
+    next(errors.ErrNotAuthorized);
     return;
   }
 
   // if the user is not an admin, only return comment list for the owner of the comments
   if (req.user.id !== user_id && !authorization.has(req.user, 'admin')) {
-    next(authorization.ErrNotAuthorized);
+    next(errors.ErrNotAuthorized);
     return;
   }
 
@@ -47,7 +48,7 @@ router.get('/', (req, res, next) => {
   // otherwise this will be a vulnerability if you pass user_id and something else,
   // the app will return admin-level data without the proper checks
   if (user_id) {
-    query = Comment.findByUserId(user_id);
+    query = Comment.findByUserId(user_id, authorization.has(req.user, 'admin'));
   } else if (status) {
     query = assetIDWrap(Comment.findByStatus(status === 'new' ? null : status));
   } else if (action_type) {
@@ -56,7 +57,7 @@ router.get('/', (req, res, next) => {
       .then((ids) => assetIDWrap(Comment.find({
         id: {
           $in: ids
-        },
+        }
       })));
   } else {
     query = assetIDWrap(Comment.all());
@@ -102,14 +103,14 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
     status = Asset
       .rectifySettings(Asset.findById(asset_id).then((asset) => {
         if (!asset) {
-          return Promise.reject(new Error('asset referenced is not found'));
+          return Promise.reject(errors.ErrNotFound);
         }
 
         // Check to see if the asset has closed commenting...
         if (asset.isClosed) {
 
           // They have, ensure that we send back an error.
-          return Promise.reject(new Error(`asset has commenting closed because: ${asset.closedMessage}`));
+          return Promise.reject(new errors.ErrAssetCommentingClosed(asset.closedMessage));
         }
 
         return asset;
@@ -123,7 +124,7 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
         if (charCountEnable && body.length > charCount) {
           return 'rejected';
         }
-        return moderation === 'pre' ? 'premod' : '';
+        return moderation === 'pre' ? 'premod' : null;
       });
   }
 

@@ -109,7 +109,7 @@ export default (props) => (
       <div className={`mdl-tabs__panel ${styles.listContainer}`} id='flagged'>
         <ModerationList
           suspectWords={props.settings.settings.wordlist.suspect}
-          isActive={props.activeTab === 'rejected'}
+          isActive={props.activeTab === 'flagged'}
           singleView={props.singleView}
           commentIds={props.flaggedIds}
           userStatusUpdate={props.userStatusUpdate}
