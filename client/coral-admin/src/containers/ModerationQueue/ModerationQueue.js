@@ -22,49 +22,61 @@ export default ({onTabClick, ...props}) => (
            className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.flagged')}</a>
       </div>
       <div className={`mdl-tabs__panel is-active ${styles.listContainer}`} id='pending'>
-        <CommentList
-          suspectWords={props.settings.settings.wordlist.suspect}
-          isActive={props.activeTab === 'pending'}
-          singleView={props.singleView}
-          commentIds={props.premodIds}
-          comments={props.comments.byId}
-          users={props.users.byId}
-          onClickAction={props.updateStatus}
-          onClickShowBanDialog={props.showBanUserDialog}
-          modActions={['reject', 'approve', 'ban']}
-          loading={props.comments.loading}/>
-        <BanUserDialog
-          open={props.comments.showBanUserDialog}
-          handleClose={props.hideBanUserDialog}
-          onClickBanUser={props.banUser}
-          user={props.comments.banUser}
-        />
+        {
+          props.activeTab === 'pending'
+          ? <div>
+              <CommentList
+                suspectWords={props.settings.settings.wordlist.suspect}
+                isActive={props.activeTab === 'pending'}
+                singleView={props.singleView}
+                commentIds={props.premodIds}
+                comments={props.comments.byId}
+                users={props.users.byId}
+                onClickAction={props.updateStatus}
+                onClickShowBanDialog={props.showBanUserDialog}
+                modActions={['reject', 'approve', 'ban']}
+                loading={props.comments.loading} />
+              <BanUserDialog
+                open={props.comments.showBanUserDialog}
+                handleClose={props.hideBanUserDialog}
+                onClickBanUser={props.banUser}
+                user={props.comments.banUser} />
+            </div>
+          : null
+        }
       </div>
       <div className={`mdl-tabs__panel ${styles.listContainer}`} id='rejected'>
-        <CommentList
-          suspectWords={props.settings.settings.wordlist.suspect}
-          isActive={props.activeTab === 'rejected'}
-          singleView={props.singleView}
-          commentIds={props.rejectedIds}
-          comments={props.comments.byId}
-          users={props.users.byId}
-          onClickAction={props.updateStatus}
-          modActions={['approve']}
-          loading={props.comments.loading}
-        />
+      {
+        props.activeTab === 'rejected'
+        ? <CommentList
+            suspectWords={props.settings.settings.wordlist.suspect}
+            isActive={props.activeTab === 'rejected'}
+            singleView={props.singleView}
+            commentIds={props.rejectedIds}
+            comments={props.comments.byId}
+            users={props.users.byId}
+            onClickAction={props.updateStatus}
+            modActions={['approve']}
+            loading={props.comments.loading} />
+        : null
+      }
       </div>
       <div className={`mdl-tabs__panel ${styles.listContainer}`} id='flagged'>
-        <CommentList
-          suspectWords={props.settings.settings.wordlist.suspect}
-          isActive={props.activeTab === 'flagged'}
-          singleView={props.singleView}
-          commentIds={props.flaggedIds}
-          comments={props.comments.byId}
-          users={props.users.byId}
-          onClickAction={props.updateStatus}
-          modActions={['reject', 'approve']}
-          loading={props.comments.loading}/>
-      </div>
+      {
+        props.activeTab === 'flagged'
+        ? <CommentList
+            suspectWords={props.settings.settings.wordlist.suspect}
+            isActive={props.activeTab === 'flagged'}
+            singleView={props.singleView}
+            commentIds={props.flaggedIds}
+            comments={props.comments.byId}
+            users={props.users.byId}
+            onClickAction={props.updateStatus}
+            modActions={['reject', 'approve']}
+            loading={props.comments.loading} />
+        : null
+      }
+       </div>
       <ModerationKeysModal open={props.modalOpen} onClose={props.closeModal} />
     </div>
   </div>
