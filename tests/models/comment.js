@@ -187,6 +187,23 @@ describe('models.Comment', () => {
     });
   });
 
+  describe('#findByUserId', () => {
+    it('should return all comments if admin', () => {
+      return Comment.findByUserId('456', true)
+        .then(comments => {
+          expect(comments).to.have.length(4);
+        });
+    });
+
+    it('should not return premod and rejected comments if not admin', () => {
+      return Comment.findByUserId('456')
+        .then(comments => {
+          expect(comments).to.have.length(1);
+        });
+    });
+
+  });
+
   describe('#changeStatus', () => {
 
     it('should change the status of a comment from no status', () => {

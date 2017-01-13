@@ -266,8 +266,16 @@ CommentSchema.statics.all = () => Comment.find();
  * probably to be paginated at some point in the future
  * @return {Promise} array resolves to an array of comments by that user
  */
-CommentSchema.statics.findByUserId = function (author_id) {
-  return Comment.find({author_id});
+CommentSchema.statics.findByUserId = function (author_id, admin = false) {
+
+  // do not return un-published comments for non-admins
+  let query = {author_id};
+
+  if (!admin) {
+    query.$nor = [{status: 'premod'}, {status: 'rejected'}];
+  }
+
+  return Comment.find(query);
 };
 
 // Comment model.
