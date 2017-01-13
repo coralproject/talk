@@ -38,7 +38,8 @@ Facebook Login enabled app.
 - `TALK_SMTP_HOST` (*required for email*) - SMTP host url with format `smtp.domain.com`.
 - `TALK_SMTP_PORT` (*required for email*) - SMTP port.
 
-During development mode, you can use the command `npm run dev-start` which will load environment variables from a file named .env in the present working directory.
+Refer to the wiki page on [Configuration Loading](https://github.com/coralproject/talk/wiki/Configuration-Loading) for
+alternative methods of loading configuration during development.
 
 ### License
 
