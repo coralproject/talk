@@ -383,8 +383,7 @@ UserService.createLocalUser = (email, password, displayName) => {
           user.save((err) => {
             if (err) {
               if (err.code === 11000) {
-                const regex = new RegExp('displayName', 'g');
-                if (regex.exec(err.message)[0] === 'displayName') {
+                if (err.message.match('displayName')) {
                   return reject(errors.ErrDisplayTaken);
                 }
                 return reject(errors.ErrEmailTaken);

@@ -54,7 +54,7 @@ const ErrEmailTaken = new APIError('Email address already in use', {
   status: 400
 });
 
-const ErrDisplayTaken = new Error('Display name already in use', {
+const ErrDisplayTaken = new APIError('Display name already in use', {
   translation_key: 'DISPLAYNAME_IN_USE',
   status: 400
 });
