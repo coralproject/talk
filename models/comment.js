@@ -47,6 +47,7 @@ const CommentSchema = new Schema({
   asset_id: String,
   author_id: String,
   status_history: [StatusSchema],
+  status: {type: String, default: null},
   parent_id: String
 }, {
   timestamps: {
@@ -85,24 +86,6 @@ CommentSchema.method('filterForUser', function(user = false) {
 });
 
 /**
- * Sets up a virtual getter function on a comment such that when you try and
- * access the `comment.last_status` it returns the last status in the array
- * of status's on the comment, or `null` if there was no status_history.
- */
-CommentSchema.virtual('status').get(function() {
-
-  // Here we are taking advantage of the fact that when documents are inserted
-  // for the new status on a comment that they are always appended to the end
-  // of the list in the order that they are inserted, hence, the last status
-  // is always the most recent.
-  if (this.status_history && this.status_history.length > 0) {
-    return this.status_history[this.status_history.length - 1].type;
-  }
-
-  return null;
-});
-
-/**
  * Creates a new Comment that came from a public source.
  * @param  {Mixed} comment either a single comment or an array of comments.
  * @return {Promise}
@@ -118,7 +101,7 @@ CommentSchema.statics.publicCreate = (comment) => {
     body,
     asset_id,
     parent_id,
-    status = false,
+    status = null,
     author_id
   } = comment;
 
@@ -130,6 +113,7 @@ CommentSchema.statics.publicCreate = (comment) => {
       type: status,
       created_at: new Date()
     }] : [],
+    status,
     author_id
   });
 
@@ -153,33 +137,18 @@ CommentSchema.statics.findByAssetId = (asset_id) => Comment.find({
 });
 
 /**
- * Finds the accepted comments by the asset_id get the comments that are
- * accepted.
- * @param {String} asset_id  identifier of the asset which owns the comments (uuid)
- * @return {Promise}
+ * findByAssetIdWithStatuses finds all the comments where the asset id matches
+ * what's provided and the status is one of the ones listed in the statuses
+ * array.
+ * @param {String} asset_id      the asset id to search by
+ * @param {Array}  [statuses=[]] the array of statuses to search by
+ * @return {Promise}             resolves to an array of comments
  */
-CommentSchema.statics.findAcceptedByAssetId = (asset_id) => Comment.find({
+CommentSchema.statics.findByAssetIdWithStatuses = (asset_id, statuses = []) => Comment.find({
   asset_id,
-  'status_history.type': 'accepted'
-});
-
-/**
- * Finds the new and accepted comments by the asset_id.
- * @param {String} asset_id  identifier of the asset which owns the comments (uuid)
- * @return {Promise}
- */
-CommentSchema.statics.findAcceptedAndNewByAssetId = (asset_id) => Comment.find({
-  asset_id,
-  $or: [
-    {
-      'status_history.type': 'accepted'
-    },
-    {
-      status_history: {
-        $size: 0
-      }
-    }
-  ]
+  status: {
+    $in: statuses
+  }
 });
 
 /**
@@ -205,58 +174,26 @@ CommentSchema.statics.findIdsByActionType = (action_type) => Action
   .then((actions) => actions.map(a => a.item_id));
 
 /**
- * Find comments by their status_history.
- * @param {String} status the status of the comment to search for
- * @return {Promise}
+ * Find comments by current status
+ * @param {String} status status of the comment to search for
+ * @return {Promise} resovles to comment array
  */
-CommentSchema.statics.findByStatus = (status = false) => {
-  let q = {};
-
-  if (status) {
-    q['status_history.type'] = status;
-  } else {
-    q.status_history = {$size: 0};
-  }
-
-  return Comment.find(q);
+CommentSchema.statics.findByStatus = (status = null) => {
+  return Comment.find({status});
 };
 
 /**
  * Find comments that need to be moderated (aka moderation queue).
- * @param {String} moderationValue pre or post moderation setting. If it is undefined then look at the settings.
+ * @param {String} asset_id
  * @return {Promise}
  */
-CommentSchema.statics.moderationQueue = (moderation, asset_id = false) => {
+CommentSchema.statics.moderationQueue = (status, asset_id = null) => {
 
-  /**
-   * This adds the asset_id requirement to the query if the asset_id is defined.
-   */
-  const assetIDWrap = (query) => {
-    if (asset_id) {
-      query = query.where('asset_id', asset_id);
-    }
+  // Fetch the comments with statuses.
+  let comments = Comment.findByStatus(status);
 
-    return query;
-  };
-
-  // Decide on whether or not we need to load extended options for the
-  // moderation based on the moderation options.
-  let comments;
-
-  if (moderation === 'pre') {
-
-    // Pre-moderation:  New comments are shown in the moderator queues immediately.
-    comments = assetIDWrap(CommentSchema.statics.findByStatus('premod'));
-
-  } else {
-
-    // Post-moderation: New comments do not appear in moderation queues unless they are flagged by other users.
-    comments = CommentSchema.statics.findIdsByActionType('flag')
-      .then((ids) => assetIDWrap(Comment.find({
-        id: {
-          $in: ids
-        }
-      })));
+  if (asset_id) {
+    comments = comments.where('asset_id', asset_id);
   }
 
   return comments;
@@ -277,7 +214,8 @@ CommentSchema.statics.pushStatus = (id, status, assigned_by = null) => Comment.u
       created_at: new Date(),
       assigned_by
     }
-  }
+  },
+  $set: {status}
 });
 
 /**
@@ -328,8 +266,16 @@ CommentSchema.statics.all = () => Comment.find();
  * probably to be paginated at some point in the future
  * @return {Promise} array resolves to an array of comments by that user
  */
-CommentSchema.statics.findByUserId = function (author_id) {
-  return Comment.find({author_id});
+CommentSchema.statics.findByUserId = function (author_id, admin = false) {
+
+  // do not return un-published comments for non-admins
+  let query = {author_id};
+
+  if (!admin) {
+    query.$nor = [{status: 'premod'}, {status: 'rejected'}];
+  }
+
+  return Comment.find(query);
 };
 
 // Comment model.

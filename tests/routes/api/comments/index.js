@@ -34,12 +34,14 @@ describe('/api/v1/comments', () => {
       body: 'comment 20',
       asset_id: 'asset',
       author_id: '456',
+      status: 'rejected',
       status_history: [{
         type: 'rejected'
       }]
     }, {
       body: 'comment 30',
       asset_id: '456',
+      status: 'accepted',
       status_history: [{
         type: 'accepted'
       }]
@@ -81,15 +83,14 @@ describe('/api/v1/comments', () => {
       ]);
     });
 
-    it('should return only the owner’s comments if the user is not an admin', () => {
+    it('should return only the owner’s published comments if the user is not an admin', () => {
       return chai.request(app)
         .get('/api/v1/comments?user_id=456')
         .set(passport.inject({id: '456', roles: []}))
         .then(res => {
           expect(res).to.have.status(200);
-          expect(res.body.comments).to.have.length(2);
+          expect(res.body.comments).to.have.length(1);
           expect(res.body.comments[0]).to.have.property('author_id', '456');
-          expect(res.body.comments[1]).to.have.property('author_id', '456');
         });
     });
 
@@ -190,6 +191,7 @@ describe('/api/v1/comments', () => {
         .then((res) => {
           expect(res).to.have.status(201);
           expect(res.body).to.have.property('id');
+          expect(res.body).to.have.property('status', 'premod');
         });
     });
 
@@ -212,6 +214,7 @@ describe('/api/v1/comments', () => {
           expect(res).to.have.status(201);
           expect(res.body).to.have.property('id');
           expect(res.body).to.have.property('status', null);
+
           return Promise.all([
             res.body,
             Action.findByType('flag', 'comments')
@@ -247,6 +250,27 @@ describe('/api/v1/comments', () => {
           expect(res.body).to.have.property('id');
           expect(res.body).to.have.property('asset_id');
           expect(res.body).to.have.property('status', 'premod');
+        });
+    });
+
+    it('should create a comment with null status if it\'s asset is has post-moderation enabled', () => {
+      return Asset
+        .findOrCreateByUrl('https://coralproject.net/article1')
+        .then((asset) => {
+          return Asset
+            .overrideSettings(asset.id, {moderation: 'post'})
+            .then(() => asset);
+        })
+        .then((asset) => {
+          return chai.request(app).post('/api/v1/comments')
+            .set(passport.inject({roles: []}))
+            .send({'body': 'Something body.', 'author_id': '123', 'asset_id': asset.id, 'parent_id': ''});
+        })
+        .then((res) => {
+          expect(res).to.have.status(201);
+          expect(res.body).to.have.property('id');
+          expect(res.body).to.have.property('asset_id');
+          expect(res.body).to.have.property('status', null);
         });
     });
 

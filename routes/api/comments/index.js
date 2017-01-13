@@ -48,7 +48,7 @@ router.get('/', (req, res, next) => {
   // otherwise this will be a vulnerability if you pass user_id and something else,
   // the app will return admin-level data without the proper checks
   if (user_id) {
-    query = Comment.findByUserId(user_id);
+    query = Comment.findByUserId(user_id, authorization.has(req.user, 'admin'));
   } else if (status) {
     query = assetIDWrap(Comment.findByStatus(status === 'new' ? null : status));
   } else if (action_type) {
@@ -57,7 +57,7 @@ router.get('/', (req, res, next) => {
       .then((ids) => assetIDWrap(Comment.find({
         id: {
           $in: ids
-        },
+        }
       })));
   } else {
     query = assetIDWrap(Comment.all());
@@ -124,7 +124,7 @@ router.post('/', wordlist.filter('body'), (req, res, next) => {
         if (charCountEnable && body.length > charCount) {
           return 'rejected';
         }
-        return moderation === 'pre' ? 'premod' : '';
+        return moderation === 'pre' ? 'premod' : null;
       });
   }
 

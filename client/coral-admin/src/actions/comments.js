@@ -2,14 +2,21 @@ import coralApi from '../../../coral-framework/helpers/response';
 import * as commentTypes from '../constants/comments';
 import * as actionTypes from '../constants/actions';
 
+function addUsersCommentsActions (dispatch, {comments, users, actions}) {
+  dispatch({type: commentTypes.USERS_MODERATION_QUEUE_FETCH_SUCCESS, users});
+  dispatch({type: commentTypes.COMMENTS_MODERATION_QUEUE_FETCH_SUCCESS, comments});
+  dispatch({type: actionTypes.ACTIONS_MODERATION_QUEUE_FETCH_SUCCESS, actions});
+}
+
 // Get comments to fill each of the three lists on the mod queue
 export const fetchModerationQueueComments = () => {
   return dispatch => {
     dispatch({type: commentTypes.COMMENTS_MODERATION_QUEUE_FETCH_REQUEST});
+
     return Promise.all([
       coralApi('/queue/comments/pending'),
-      coralApi('/comments?status=rejected'),
-      coralApi('/comments?action_type=flag')
+      coralApi('/queue/comments/rejected'),
+      coralApi('/queue/comments/flagged')
     ])
     .then(([pending, rejected, flagged]) => {
 
@@ -21,14 +28,38 @@ export const fetchModerationQueueComments = () => {
         actions: [...pending.actions, ...rejected.actions, ...flagged.actions]
       };
     })
-    .then(({comments, users, actions}) => {
+    .then(addUsersCommentsActions.bind(this, dispatch));
+  };
+};
 
-      /* Post comments and users to redux store. Actions will be posted when they are needed. */
-      dispatch({type: commentTypes.USERS_MODERATION_QUEUE_FETCH_SUCCESS, users});
-      dispatch({type: commentTypes.COMMENTS_MODERATION_QUEUE_FETCH_SUCCESS, comments});
-      dispatch({type: actionTypes.ACTIONS_MODERATION_QUEUE_FETCH_SUCCESS, actions});
+export const fetchPendingQueue = () => {
+  return dispatch => {
+    dispatch({type: commentTypes.COMMENTS_MODERATION_QUEUE_FETCH_REQUEST});
 
-    });
+    return coralApi('/queue/comments/pending')
+      .then(addUsersCommentsActions.bind(this, dispatch));
+  };
+};
+
+export const fetchRejectedQueue = () => {
+  return dispatch => {
+    dispatch({type: commentTypes.COMMENTS_MODERATION_QUEUE_FETCH_REQUEST});
+
+    return coralApi('/queue/comments/rejected')
+      .then(addUsersCommentsActions.bind(this, dispatch));
+  };
+};
+
+export const fetchFlaggedQueue = () => {
+  return dispatch => {
+    dispatch({type: commentTypes.COMMENTS_MODERATION_QUEUE_FETCH_REQUEST});
+
+    return coralApi('/queue/comments/flagged')
+      .then(results => {
+        results.comments.forEach(comment => comment.flagged = true);
+        return results;
+      })
+      .then(addUsersCommentsActions.bind(this, dispatch));
   };
 };
 

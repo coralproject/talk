@@ -14,6 +14,8 @@
       "PASSWORD_REQUIRED": "Must input a password",
       "PASSWORD_LENGTH": "Password is too short",
       "EMAIL_IN_USE": "Email address already in use",
+      "EMAIL_DISPLAY_NAME_IN_USE": "Email address or display name already in use",
+      "DISPLAYNAME_IN_USE": "Display name already in use",
       "DISPLAY_NAME_REQUIRED": "Must input a display name",
       "NO_SPECIAL_CHARACTERS": "Display names can contain letters, numbers and _ only",
       "PROFANITY_ERROR": "Display names must not contain profanity. Please contact the administrator if you believe this to be in error."
@@ -34,6 +36,8 @@
       "PASSWORD_REQUIRED": "Debe ingresar una contraseña",
       "PASSWORD_LENGTH": "La contraseña es muy corta",
       "EMAIL_IN_USE": "La dirección de correo electrónico se encuentra en uso",
+      "EMAIL_DISPLAY_NAME_IN_USE": "Correo o Nombre en uso.",
+      "DISPLAYNAME_IN_USE": "Nombre en uso.",
       "DISPLAY_NAME_REQUIRED": "Debe ingresar un nombre",
       "NO_SPECIAL_CHARACTERS": "Los nombres pueden contener letras, números y _",
       "PROFANITY_ERROR": "Los nombres no pueden contener blasfemias. Por favor contacte al administrador si cree que esto es un error"
