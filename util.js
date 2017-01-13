@@ -38,5 +38,6 @@ util.onshutdown = (jobs) => {
 
 // Attach to the SIGTERM + SIGINT handles to ensure a clean shutdown in the
 // event that we have an external event.
-process.on('SIGTERM', () => util.shutdown());
-process.on('SIGINT',  () => util.shutdown());
+process.on('SIGTERM',   () => util.shutdown());
+process.on('SIGINT',    () => util.shutdown());
+process.once('SIGUSR2', () => util.shutdown());

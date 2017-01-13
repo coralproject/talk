@@ -192,6 +192,7 @@ describe('/api/v1/comments', () => {
         .then((res) => {
           expect(res).to.have.status(201);
           expect(res.body).to.have.property('id');
+          expect(res.body).to.have.property('status', 'premod');
         });
     });
 
@@ -214,6 +215,7 @@ describe('/api/v1/comments', () => {
           expect(res).to.have.status(201);
           expect(res.body).to.have.property('id');
           expect(res.body).to.have.property('status', null);
+
           return Promise.all([
             res.body,
             Action.findByType('flag', 'comments')
@@ -249,6 +251,27 @@ describe('/api/v1/comments', () => {
           expect(res.body).to.have.property('id');
           expect(res.body).to.have.property('asset_id');
           expect(res.body).to.have.property('status', 'premod');
+        });
+    });
+
+    it('should create a comment with null status if it\'s asset is has post-moderation enabled', () => {
+      return Asset
+        .findOrCreateByUrl('https://coralproject.net/article1')
+        .then((asset) => {
+          return Asset
+            .overrideSettings(asset.id, {moderation: 'post'})
+            .then(() => asset);
+        })
+        .then((asset) => {
+          return chai.request(app).post('/api/v1/comments')
+            .set(passport.inject({roles: []}))
+            .send({'body': 'Something body.', 'author_id': '123', 'asset_id': asset.id, 'parent_id': ''});
+        })
+        .then((res) => {
+          expect(res).to.have.status(201);
+          expect(res.body).to.have.property('id');
+          expect(res.body).to.have.property('asset_id');
+          expect(res.body).to.have.property('status', null);
         });
     });
 
