@@ -12,3 +12,5 @@ export {default as Checkbox} from './components/Checkbox';
 export {default as Icon} from './components/Icon';
 export {default as List} from './components/List';
 export {default as Item} from './components/Item';
+export {default as Card} from './components/Card';
+export {default as Pager} from './components/Pager';
