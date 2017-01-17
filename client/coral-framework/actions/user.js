@@ -30,19 +30,22 @@ export const saveBio = (user_id, formData) => dispatch => {
  * @returns Promise
  */
 export const fetchCommentsByUserId = userId => {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch({type: actions.COMMENTS_BY_USER_REQUEST});
     return coralApi(`/comments?user_id=${userId}`)
       .then(({comments, assets}) => {
+        const state = getState();
         comments.forEach(comment => dispatch(addItem(comment, 'comments')));
+        assets.forEach(asset => {
 
-        assets.forEach(asset => dispatch(addItem(asset, 'assets')));
+          // Include data such as hydrated comments from assets already in the system.
+          const prevAsset = state.items.getIn(['assets', asset.id]).toJS();
+          dispatch(addItem({...prevAsset, ...asset}, 'assets'));
+        });
 
         dispatch({type: actions.COMMENTS_BY_USER_SUCCESS, comments: comments.map(comment => comment.id)});
         dispatch({type: assetActions.MULTIPLE_ASSETS_SUCCESS, assets: assets.map(asset => asset.id)});
       })
-      .catch(error => {
-        dispatch({type: actions.COMMENTS_BY_USER_FAILURE, error});
-      });
+      .catch(error => dispatch({type: actions.COMMENTS_BY_USER_FAILURE, error}));
   };
 };

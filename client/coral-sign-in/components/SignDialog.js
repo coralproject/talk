@@ -3,7 +3,7 @@ import {Dialog} from 'coral-ui';
 import styles from './styles.css';
 
 import SignInContent from './SignInContent';
-import SingUpContent from './SignUpContent';
+import SignUpContent from './SignUpContent';
 import ForgotContent from './ForgotContent';
 
 const SignDialog = ({open, view, handleClose, offset, ...props}) => (
@@ -17,7 +17,7 @@ const SignDialog = ({open, view, handleClose, offset, ...props}) => (
     }}>
     <span className={styles.close} onClick={handleClose}>×</span>
     {view === 'SIGNIN' && <SignInContent {...props} />}
-    {view === 'SIGNUP' && <SingUpContent {...props} />}
+    {view === 'SIGNUP' && <SignUpContent {...props} />}
     {view === 'FORGOT' && <ForgotContent {...props} />}
   </Dialog>
 );
