@@ -21,4 +21,8 @@
   width: 128px;
 }
 
-
+.base {
+  stroke: #E5E5E5;
+  height: 35px;
+  width: 35px;
+}

@@ -24,8 +24,6 @@
   padding: 9px;
   border: 1px solid #ccc;
   border-radius: 2px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   background: white;
   box-sizing: border-box;
