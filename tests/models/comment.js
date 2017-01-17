@@ -161,28 +161,6 @@ describe('models.Comment', () => {
         expect(result[2]).to.have.property('body', 'comment 40');
       });
     });
-
-    it('should find an array of accepted comments by asset id', () => {
-      return Comment.findAcceptedByAssetId('123').then((result) => {
-        expect(result).to.have.length(1);
-        result.sort((a, b) => {
-          if (a.body < b.body) {return -1;}
-          else {return 1;}
-        });
-        expect(result[0]).to.have.property('body', 'comment 20');
-      });
-    });
-
-    it('should find an array of new and accepted comments by asset id', () => {
-      return Comment.findAcceptedAndNewByAssetId('123').then((result) => {
-        expect(result).to.have.length(2);
-        result.sort((a, b) => {
-          if (a.body < b.body) {return -1;}
-          else {return 1;}
-        });
-        expect(result[0]).to.have.property('body', 'comment 10');
-      });
-    });
   });
 
   describe('#moderationQueue()', () => {
@@ -207,6 +185,23 @@ describe('models.Comment', () => {
           expect(actions.length).to.equal(0);
         });
     });
+  });
+
+  describe('#findByUserId', () => {
+    it('should return all comments if admin', () => {
+      return Comment.findByUserId('456', true)
+        .then(comments => {
+          expect(comments).to.have.length(4);
+        });
+    });
+
+    it('should not return premod and rejected comments if not admin', () => {
+      return Comment.findByUserId('456')
+        .then(comments => {
+          expect(comments).to.have.length(1);
+        });
+    });
+
   });
 
   describe('#changeStatus', () => {
