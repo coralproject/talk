@@ -37,10 +37,14 @@ export const fetchCommentsByUserId = userId => {
         const state = getState();
         comments.forEach(comment => dispatch(addItem(comment, 'comments')));
         assets.forEach(asset => {
+          const prevAsset = state.items.getIn(['assets', asset.id]);
+          if (prevAsset) {
 
-          // Include data such as hydrated comments from assets already in the system.
-          const prevAsset = state.items.getIn(['assets', asset.id]).toJS();
-          dispatch(addItem({...prevAsset, ...asset}, 'assets'));
+            // Include data such as hydrated comments from assets already in the system.
+            dispatch(addItem({...prevAsset.toJS(), ...asset}, 'assets'));
+          } else {
+            dispatch(addItem(asset, 'assets'));
+          }
         });
 
         dispatch({type: actions.COMMENTS_BY_USER_SUCCESS, comments: comments.map(comment => comment.id)});
