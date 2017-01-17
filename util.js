@@ -37,6 +37,8 @@ util.onshutdown = (jobs) => {
 };
 
 // Attach to the SIGTERM + SIGINT handles to ensure a clean shutdown in the
-// event that we have an external event.
-process.on('SIGTERM', () => util.shutdown());
-process.on('SIGINT',  () => util.shutdown());
+// event that we have an external event. SIGUSR2 is called when the app is asked
+// to be 'killed', same procedure here.
+process.on('SIGTERM',   () => util.shutdown());
+process.on('SIGINT',    () => util.shutdown());
+process.once('SIGUSR2', () => util.shutdown());

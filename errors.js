@@ -54,6 +54,11 @@ const ErrEmailTaken = new APIError('Email address already in use', {
   status: 400
 });
 
+const ErrDisplayTaken = new APIError('Display name already in use', {
+  translation_key: 'DISPLAYNAME_IN_USE',
+  status: 400
+});
+
 const ErrSpecialChars = new APIError('No special characters are allowed in a display name', {
   translation_key: 'NO_SPECIAL_CHARACTERS',
   status: 400
@@ -116,6 +121,7 @@ module.exports = {
   ErrSpecialChars,
   ErrMissingDisplay,
   ErrContainsProfanity,
+  ErrDisplayTaken,
   ErrAssetCommentingClosed,
   ErrNotFound,
   ErrInvalidAssetURL,

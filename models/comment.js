@@ -137,27 +137,18 @@ CommentSchema.statics.findByAssetId = (asset_id) => Comment.find({
 });
 
 /**
- * Finds the accepted comments by the asset_id get the comments that are
- * accepted.
- * @param {String} asset_id  identifier of the asset which owns the comments (uuid)
- * @return {Promise}
+ * findByAssetIdWithStatuses finds all the comments where the asset id matches
+ * what's provided and the status is one of the ones listed in the statuses
+ * array.
+ * @param {String} asset_id      the asset id to search by
+ * @param {Array}  [statuses=[]] the array of statuses to search by
+ * @return {Promise}             resolves to an array of comments
  */
-CommentSchema.statics.findAcceptedByAssetId = (asset_id) => Comment.find({
+CommentSchema.statics.findByAssetIdWithStatuses = (asset_id, statuses = []) => Comment.find({
   asset_id,
-  status: 'accepted'
-});
-
-/**
- * Finds the new and accepted comments by the asset_id.
- * @param {String} asset_id  identifier of the asset which owns the comments (uuid)
- * @return {Promise}
- */
-CommentSchema.statics.findAcceptedAndNewByAssetId = (asset_id) => Comment.find({
-  asset_id,
-  $or: [
-    {status: 'accepted'},
-    {status: null}
-  ]
+  status: {
+    $in: statuses
+  }
 });
 
 /**
@@ -198,19 +189,12 @@ CommentSchema.statics.findByStatus = (status = null) => {
  */
 CommentSchema.statics.moderationQueue = (status, asset_id = null) => {
 
-  /**
-   * This adds the asset_id requirement to the query if the asset_id is defined.
-   */
-  const assetIDWrap = (query) => {
-    if (asset_id) {
-      query = query.where('asset_id', asset_id);
-    }
+  // Fetch the comments with statuses.
+  let comments = Comment.findByStatus(status);
 
-    return query;
-  };
-
-  // Pre-moderation:  New comments are shown in the moderator queues immediately.
-  let comments = assetIDWrap(Comment.findByStatus(status));
+  if (asset_id) {
+    comments = comments.where('asset_id', asset_id);
+  }
 
   return comments;
 };
@@ -282,8 +266,16 @@ CommentSchema.statics.all = () => Comment.find();
  * probably to be paginated at some point in the future
  * @return {Promise} array resolves to an array of comments by that user
  */
-CommentSchema.statics.findByUserId = function (author_id) {
-  return Comment.find({author_id});
+CommentSchema.statics.findByUserId = function (author_id, admin = false) {
+
+  // do not return un-published comments for non-admins
+  let query = {author_id};
+
+  if (!admin) {
+    query.$nor = [{status: 'premod'}, {status: 'rejected'}];
+  }
+
+  return Comment.find(query);
 };
 
 // Comment model.
