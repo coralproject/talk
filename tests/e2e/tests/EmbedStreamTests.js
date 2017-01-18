@@ -5,8 +5,8 @@ const mockComment = 'This is a test comment.';
 const mockReply = 'This is a test reply';
 const mockUser = {
   email: `${new Date().getTime()}@test.com`,
-  name: 'Test User',
-  pw: 'testtesttest'
+  name: 'testuser',
+  pw: 'testtest'
 };
 
 module.exports = {

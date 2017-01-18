@@ -10,6 +10,6 @@ selenium-standalone install
 ./bin/cli-users create --flag_mode --email "moderator@test.com" --password "testtest" --name "ModeratorTestUser" --role "moderator"
 
 # Creating Commenter Test User
-./bin/cli-users create --flag_mode --email "commenter@test.com" --password "testtest" --name "commenter@test.com"
+./bin/cli-users create --flag_mode --email "commenter@test.com" --password "testtest" --name "CommenterTestUser"
 
 ./bin/cli -c .env-e2e serve --jobs &
