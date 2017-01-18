@@ -77,6 +77,8 @@ app.use(session(session_opts));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/api/v1/graph', require('./routes/api/graph'));
+
 //==============================================================================
 // CSRF MIDDLEWARE
 //==============================================================================
