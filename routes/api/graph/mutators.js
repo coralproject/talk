@@ -72,18 +72,18 @@ const createComment = (context, {body, asset_id, parent_id = null}, wordlist = {
 };
 
 /**
- * Filters the comment and outputs the wordlist results.
- * @param  {[type]} context [description]
- * @param  {[type]} comment [description]
- * @return {[type]}         [description]
+ * Filters the comment object and outputs wordlist results.
+ * @param  {Object} context graphql context
+ * @param  {String} body    body of a comment
+ * @return {Object}         resolves to the wordlist results
  */
-const filterNewComment = (context, comment) => {
+const filterNewComment = (context, {body}) => {
 
   // Create a new instance of the Wordlist.
   const wl = new Wordlist();
 
   // Load the wordlist and filter the comment content.
-  return wl.load().then(() => wl.filter(comment, 'body'));
+  return wl.load().then(() => wl.scan('body', body));
 };
 
 module.exports = (context) => ({
