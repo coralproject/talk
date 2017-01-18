@@ -6,7 +6,12 @@ import {ApolloProvider} from 'react-apollo';
 import Stream from '../../coral-plugin-stream/Stream';
 
 const client = new ApolloClient({
-  networkInterface: createNetworkInterface({uri: '/api/v1/graph/ql'})
+  networkInterface: createNetworkInterface({
+    uri: '/api/v1/graph/ql',
+    opts: {
+      credentials: 'same-origin'
+    }
+  })
 });
 
 render(
