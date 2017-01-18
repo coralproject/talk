@@ -15,7 +15,7 @@ class Stream extends Component {
   }
 
   logMeIn() {
-    fetchSignIn({email: 'riley.davis@gmail.com', password: 'film2255'})(() => {});
+    fetchSignIn({email: 'your@example.com', password: 'dfasidfaisdufoiausdfoiuaspdoifas'})(() => {});
   }
 
   render() {
