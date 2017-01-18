@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "./bin/cli serve --jobs",
-    "dev-start": "nodemon --exec \"./bin/cli -c .env serve --jobs\"",
+    "dev-start": "nodemon --config .nodemon.json --exec \"./bin/cli -c .env serve --jobs\"",
     "build": "NODE_ENV=production webpack --config webpack.config.js --bail",
     "build-watch": "NODE_ENV=development webpack --config webpack.config.dev.js --watch",
     "lint": "eslint bin/* .",
