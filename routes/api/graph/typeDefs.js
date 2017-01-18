@@ -50,7 +50,7 @@ type Asset {
 type Query {
   settings: Settings
   assets: [Asset]
-  asset(id: ID!): Asset!
+  asset(id: ID!): Asset
 }
 
 type Mutation {

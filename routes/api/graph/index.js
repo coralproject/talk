@@ -1,14 +1,13 @@
 const express = require('express');
 const apollo = require('graphql-server-express');
-const tools = require('graphql-tools');
-const resolvers = require('./resolvers');
-const typeDefs = require('./typeDefs');
+
 const loaders = require('./loaders');
 const mutators = require('./mutators');
+const schema = require('./schema');
 
-const schema = tools.makeExecutableSchema({typeDefs, resolvers});
 const router = express.Router();
 
+// GraphQL endpoint.
 router.use('/ql', apollo.graphqlExpress((req) => {
 
   let context = {req};
@@ -21,6 +20,8 @@ router.use('/ql', apollo.graphqlExpress((req) => {
     context
   };
 }));
+
+// Interactive graphiql interface.
 router.use('/iql', apollo.graphiqlExpress({endpointURL: '/api/v1/graph/ql'}));
 
 module.exports = router;

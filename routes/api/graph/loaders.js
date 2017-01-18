@@ -7,6 +7,9 @@ const Action = require('../../../models/action');
 const Asset = require('../../../models/asset');
 const Settings = require('../../../models/setting');
 
+/**
+ * SingletonResolver is a cached loader for a single result.
+ */
 class SingletonResolver {
   constructor(resolver) {
     this._cache = null;
@@ -29,6 +32,13 @@ class SingletonResolver {
   }
 }
 
+/**
+ * This joins a set of results with a specific keys and sets an empty array in
+ * place if it was not found.
+ * @param  {Array}  ids ids to locate
+ * @param  {String} key key to group by
+ * @return {Array}      array of results
+ */
 const arrayJoinBy = (ids, key) => (items) => {
   const itemsByKey = _.groupBy(items, key);
   return ids.map((id) => {
@@ -40,6 +50,13 @@ const arrayJoinBy = (ids, key) => (items) => {
   });
 };
 
+/**
+ * This joins a set of results with a specific keys and sets null in place if it
+ * was not found.
+ * @param  {Array}  ids ids to locate
+ * @param  {String} key key to group by
+ * @return {Array}      array of results
+ */
 const singleJoinBy = (ids, key) => (items) => {
   const itemsByKey = _.groupBy(items, key);
   return ids.map((id) => {
@@ -51,14 +68,26 @@ const singleJoinBy = (ids, key) => (items) => {
   });
 };
 
+/**
+ * Retrieves assets by an array of ids.
+ * @param {Array} ids array of ids to lookup
+ */
 const genAssetByID = (ids) => Asset.find({
   id: {
     $in: ids
   }
 }).then(singleJoinBy(ids, 'id'));
 
+/**
+ * Retrieves actions by an array of ids.
+ * @param {Array} ids array of ids to lookup
+ */
 const genActionsByID = (ids, user = {}) => Action.getActionSummaries(ids, user.id).then(arrayJoinBy(ids, 'item_id'));
 
+/**
+ * Retrieves comments by an array of asset id's.
+ * @param {Array} ids array of ids to lookup
+ */
 const genCommentsByAssetID = (ids) => Comment.find({
   asset_id: {
     $in: ids
@@ -69,6 +98,10 @@ const genCommentsByAssetID = (ids) => Comment.find({
   }
 }).then(arrayJoinBy(ids, 'asset_id'));
 
+/**
+ * Retrieves comments by an array of parent ids.
+ * @param {Array} ids array of ids to lookup
+ */
 const genCommentsByParentID = (ids) => Comment.find({
   parent_id: {
     $in: ids
@@ -78,7 +111,12 @@ const genCommentsByParentID = (ids) => Comment.find({
   }
 }).then(arrayJoinBy(ids, 'parent_id'));
 
-module.exports = (context) => ({
+/**
+ * Creates a set of loaders based on a GraphQL context.
+ * @param  {Object} context the context of the GraphQL request
+ * @return {Object}         object of loaders
+ */
+const createLoaders = (context) => ({
   Comments: {
     getByParentID: new DataLoader((ids) => genCommentsByParentID(ids)),
     getByAssetID: new DataLoader((ids) => genCommentsByAssetID(ids)),
@@ -95,3 +133,5 @@ module.exports = (context) => ({
   },
   Settings: new SingletonResolver(() => Settings.retrieve())
 });
+
+module.exports = createLoaders;

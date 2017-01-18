@@ -3,7 +3,18 @@ const errors = require('../../../errors');
 const Asset = require('../../../models/asset');
 const Comment = require('../../../models/comment');
 
-const createComment = (context, {body, asset_id, parent_id}, wordlist = {}) => {
+const Wordlist = require('../../../services/wordlist');
+
+/**
+ * Creates a new comment.
+ * @param  {Object} context       a GraphQL context
+ * @param  {String} body          body of the comment
+ * @param  {String} asset_id      asset for the comment
+ * @param  {String} parent_id     optional parent of the comment
+ * @param  {Object} [wordlist={}] results for the wordlist analysis
+ * @return {Promise}              resolves to the created comment
+ */
+const createComment = (context, {body, asset_id, parent_id = null}, wordlist = {}) => {
 
   // Decide the status based on whether or not the current asset/settings
   // has pre-mod enabled or not. If the comment was rejected based on the
@@ -60,6 +71,23 @@ const createComment = (context, {body, asset_id, parent_id}, wordlist = {}) => {
   });
 };
 
+/**
+ * Filters the comment and outputs the wordlist results.
+ * @param  {[type]} context [description]
+ * @param  {[type]} comment [description]
+ * @return {[type]}         [description]
+ */
+const filterNewComment = (context, comment) => {
+
+  // Create a new instance of the Wordlist.
+  const wl = new Wordlist();
+
+  // Load the wordlist and filter the comment content.
+  return wl.load().then(() => wl.filter(comment, 'body'));
+};
+
 module.exports = (context) => ({
-  createComment: (comment) => createComment(context, comment)
+  createComment: (comment) => filterNewComment(context, comment).then((wordlist) => {
+    return createComment(context, comment, wordlist);
+  })
 });
