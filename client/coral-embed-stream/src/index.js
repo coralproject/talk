@@ -1,11 +1,17 @@
 import React from 'react';
 import {render} from 'react-dom';
-import CommentStream from './CommentStream';
-import {Provider} from 'react-redux';
-import {store} from '../../coral-framework';
+import ApolloClient, {createNetworkInterface} from 'apollo-client';
+import {ApolloProvider} from 'react-apollo';
+
+import Stream from '../../coral-plugin-stream/Stream';
+
+const client = new ApolloClient({
+  networkInterface: createNetworkInterface({uri: '/api/v1/graph/ql'})
+});
 
 render(
-    <Provider store={store}>
-      <CommentStream />
-    </Provider>
+    <ApolloProvider client={client}>
+      <Stream />
+    </ApolloProvider>
+
     , document.querySelector('#coralStream'));
