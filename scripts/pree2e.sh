@@ -4,12 +4,12 @@
 selenium-standalone install
 
 # Creating Admin Test User
-./bin/cli-users create --flag_mode --email "admin@test.com" --password "test" --name "Admin Test User" --role "admin"
+./bin/cli-users create --flag_mode --email "admin@test.com" --password "testtest" --name "AdminTestUser" --role "admin"
 
 # Creating Moderator Test User
-./bin/cli-users create --flag_mode --email "moderator@test.com" --password "test" --name "Moderator Test User" --role "moderator"
+./bin/cli-users create --flag_mode --email "moderator@test.com" --password "testtest" --name "ModeratorTestUser" --role "moderator"
 
 # Creating Commenter Test User
-./bin/cli-users create --flag_mode --email "commenter@test.com" --password "test" --name "commenter@test.com"
+./bin/cli-users create --flag_mode --email "commenter@test.com" --password "testtest" --name "commenter@test.com"
 
-npm start &
+./bin/cli -c .env-e2e serve --jobs &

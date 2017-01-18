@@ -14,6 +14,7 @@
     "test-watch": "TEST_MODE=unit NODE_ENV=test mocha --compilers js:babel-core/register --recursive -w tests",
     "pree2e": "NODE_ENV=test scripts/pree2e.sh",
     "e2e": "NODE_ENV=test nightwatch",
+    "poste2e": "kill -15 $(ps aux | grep './bin/cli -c .env-e2e serve --jobs' | awk '{print $2}')",
     "embed-start": "NODE_ENV=development npm run build && ./bin/cli serve --jobs",
     "postinstall": "npm run build"
   },
