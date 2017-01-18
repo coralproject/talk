@@ -3,7 +3,7 @@ import {render} from 'react-dom';
 import ApolloClient, {createNetworkInterface} from 'apollo-client';
 import {ApolloProvider} from 'react-apollo';
 
-import Stream from '../../coral-plugin-stream/Stream';
+import Stream from './CommentStream';
 
 const client = new ApolloClient({
   networkInterface: createNetworkInterface({
