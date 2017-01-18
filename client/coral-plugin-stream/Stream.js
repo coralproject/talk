@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {graphql} from 'react-apollo';
 import gql from 'graphql-tag';
 
-const assetID = 'c82f9fbb-5cf6-4eeb-bde5-25bae78227d2';
+const assetID = '';
 
 // MyComponent is a "presentational" or apollo-unaware component,
 // It could be a simple React class:
@@ -12,11 +12,8 @@ class Stream extends Component {
     super(props);
   }
 
-  componentWillUpdate() {
-    console.log(this.props);
-  }
-
   render() {
+    console.log(this.props);
     return <div>...</div>;
   }
 }
