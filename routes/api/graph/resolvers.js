@@ -8,6 +8,9 @@ module.exports = {
     },
     settings(_, args, {loaders}) {
       return loaders.Settings.load();
+    },
+    me(_, args, {req}) {
+      return req.user;
     }
   },
   Mutation: {

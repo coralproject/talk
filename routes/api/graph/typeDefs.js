@@ -45,12 +45,14 @@ type Asset {
   url: String
   comments: [Comment]
   settings: Settings!
+  currentUser: User
 }
 
 type Query {
   settings: Settings
   assets: [Asset]
   asset(id: ID!): Asset
+  me: User
 }
 
 type Mutation {
