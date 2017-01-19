@@ -3,9 +3,8 @@ import {graphql} from 'react-apollo';
 import gql from 'graphql-tag';
 import {fetchSignIn} from 'coral-framework/actions/auth';
 import RileysAwesomeCommentBox from 'coral-plugin-stream/RileysAwesomeCommentBox';
-import CommentBody from 'coral-plugin-commentcontent/CommentContent';
 
-const assetID = 'bc7b4cef-1e14-46e1-9db4-66465192f168';
+const assetID = '6187a94b-0b6d-4a96-ac6b-62b529cd8410';
 
 // MyComponent is a "presentational" or apollo-unaware component,
 // It could be a simple React class:
@@ -30,23 +29,23 @@ class Stream extends Component {
         : <div>
             <RileysAwesomeCommentBox asset_id={data.asset.id} />
             <p>Asset ID: {data.asset.id}</p>
+            <ul>
             {
               data.asset.comments.map(comment => {
-                return <div key={comment.id}>
-                  <CommentBody
-                    body={comment.body}/>
+                return <li key={comment.id}>
+                  {comment.body} [{comment.id}]
+                  <ul>
                     {
                       comment.replies.map(reply => {
-                        return <div key={reply.id}>
-                          <CommentBody
-                            body={reply.body}/>
-                        </div>;
+                        return <li key={reply.id}>{reply.body}</li>;
                       })
                     }
-                </div>;
+                  </ul>
+                </li>;
               })
             }
-        </div>
+            </ul>
+          </div>
       }
     </div>;
   }
