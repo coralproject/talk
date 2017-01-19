@@ -103,61 +103,63 @@ class Streams extends Component {
   render () {
     const {search, sort, filter} = this.state;
     const {assets} = this.props;
-
-    return <div className={styles.container}>
-      <div className={styles.leftColumn}>
-
-        <div className={styles.searchBox}>
-          <Icon name='search' className={styles.searchIcon}/>
-          <input
-            type='text'
-            value={search}
-            className={styles.searchBoxInput}
-            onChange={this.onSearchChange}
-            placeholder={lang.t('streams.search')}/>
-        </div>
-
-        <div className={styles.optionHeader}>{lang.t('streams.filter-streams')}</div>
-        <div className={styles.optionDetail}>{lang.t('streams.stream-status')}</div>
+    return (
+      <div className={styles.container}>
+        <div className={styles.leftColumn}>
+          <div className={styles.searchBox}>
+            <Icon name='search' className={styles.searchIcon}/>
+            <input
+              type='text'
+              value={search}
+              className={styles.searchBoxInput}
+              onChange={this.onSearchChange}
+              placeholder={lang.t('streams.search')}/>
+          </div>
+          <div className={styles.optionHeader}>{lang.t('streams.filter-streams')}</div>
+          <div className={styles.optionDetail}>{lang.t('streams.stream-status')}</div>
           <RadioGroup
             name='status filter'
             value={filter}
             childContainer='div'
-            onChange={this.onSettingChange('filter')}>
+            onChange={this.onSettingChange('filter')}
+            className={styles.radioGroup}
+          >
             <Radio value='all'>{lang.t('streams.all')}</Radio>
             <Radio value='open'>{lang.t('streams.open')}</Radio>
             <Radio value='closed'>{lang.t('streams.closed')}</Radio>
           </RadioGroup>
           <div className={styles.optionHeader}>{lang.t('streams.sort-by')}</div>
-          <RadioGroup
-            name='sort by'
-            value={sort}
-            childContainer='div'
-            onChange={this.onSettingChange('sort')}>
-            <Radio value='desc'>{lang.t('streams.newest')}</Radio>
-            <Radio value='asc'>{lang.t('streams.oldest')}</Radio>
-          </RadioGroup>
+            <RadioGroup
+              name='sort by'
+              value={sort}
+              childContainer='div'
+              onChange={this.onSettingChange('sort')}
+              className={styles.radioGroup}
+            >
+              <Radio value='desc'>{lang.t('streams.newest')}</Radio>
+              <Radio value='asc'>{lang.t('streams.oldest')}</Radio>
+            </RadioGroup>
+          </div>
+        <div className={styles.mainContent}>
+          <DataTable
+          className={styles.streamsTable}
+          rows={assets.ids.map((id) => assets.byId[id])}>
+          <TableHeader name="title">{lang.t('streams.article')}</TableHeader>
+          <TableHeader name="publication_date" cellFormatter={this.renderDate}>
+            {lang.t('streams.pubdate')}
+          </TableHeader>
+          <TableHeader name="closedAt" cellFormatter={this.renderStatus} className={styles.status}>
+            {lang.t('streams.status')}
+          </TableHeader>
+          </DataTable>
+          <Pager
+          totalPages={Math.ceil((assets.count || 0) / limit)}
+          page={this.state.page}
+          onNewPageHandler={this.onPageClick}
+          />
+        </div>
       </div>
-
-      <div className={styles.mainContent}>
-      <DataTable
-        className={styles.streamsTable}
-        rows={assets.ids.map((id) => assets.byId[id])}>
-        <TableHeader name="title">{lang.t('streams.article')}</TableHeader>
-        <TableHeader numeric name="publication_date" cellFormatter={this.renderDate}>
-          {lang.t('streams.pubdate')}
-        </TableHeader>
-        <TableHeader numeric name="closedAt" cellFormatter={this.renderStatus}>
-          {lang.t('streams.status')}
-        </TableHeader>
-      </DataTable>
-      <Pager
-        totalPages={Math.ceil((assets.count || 0) / limit)}
-        page={this.state.page}
-        onNewPageHandler={this.onPageClick}
-      />
-      </div>
-    </div>;
+    );
   }
 }
 

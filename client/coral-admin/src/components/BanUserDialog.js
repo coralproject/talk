@@ -19,23 +19,23 @@ const BanUserDialog = ({open, handleClose, onClickBanUser, user = {}}) => (
     <span className={styles.close} onClick={handleClose}>×</span>
     <div>
       <div className={styles.header}>
-        <h3>
+        <h2>
           {lang.t('bandialog.ban_user')}
-        </h3>
+        </h2>
       </div>
       <div className={styles.separator}>
-        <h4>
+        <h3>
           {lang.t('bandialog.are_you_sure', user.userName)}
-        </h4>
+        </h3>
         <i>
           {lang.t('bandialog.note')}
         </i>
       </div>
       <div className={styles.buttons}>
-        <Button cStyle="cancel" className={styles.cancel} onClick={() => handleClose()} full>
+        <Button cStyle="cancel" className={styles.cancel} onClick={() => handleClose()} raised>
           {lang.t('bandialog.cancel')}
         </Button>
-        <Button cStyle="black" onClick={() => onClickBanUser(user.userId, user.commentId)} full>
+        <Button cStyle="black" className={styles.ban} onClick={() => onClickBanUser(user.userId, user.commentId)} raised>
           {lang.t('bandialog.yes_ban_user')}
         </Button>
       </div>
