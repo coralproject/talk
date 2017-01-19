@@ -54,8 +54,9 @@ const SignUpContent = ({handleChange, formData, ...props}) => (
         showErrors={props.showErrors}
         errorMsg={props.errors.password}
         onChange={handleChange}
+        minLength="8"
       />
-      { !props.errors.password && <span className={styles.hint}> Password must be at least 8 characters. </span> }
+      { props.errors.password && <span className={styles.hint}> Password must be at least 8 characters. </span> }
       <FormField
         id="confirmPassword"
         type="password"
@@ -64,6 +65,7 @@ const SignUpContent = ({handleChange, formData, ...props}) => (
         showErrors={props.showErrors}
         errorMsg={props.errors.confirmPassword}
         onChange={handleChange}
+        minLength="8"
       />
       <div className={styles.action}>
         { !props.auth.isLoading && !props.auth.successSignUp && (
