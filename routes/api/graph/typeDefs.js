@@ -79,22 +79,33 @@ type Query {
 }
 
 input CreateActionInput {
+  # the type of action.
   action_type: ACTION_TYPE!
+
+  # the type of the item.
   item_type: ITEM_TYPE!
+
+  # the id of the item that is related to the action.
   item_id: ID!
 }
 
 input UpdateUserSettingsInput {
+  # user bio
   bio: String!
 }
 
 type Mutation {
+  # creates a comment on the asset.
   createComment(asset_id: ID!, parent_id: ID, body: String!): Comment
+
+  # creates an action based on an input.
   createAction(action: CreateActionInput!): Action
+
+  # delete an action based on the action id.
   deleteAction(id: ID!): Boolean
 
+  # updates a user's settings, it will return if the query was successful.
   updateUserSettings(settings: UpdateUserSettingsInput!): Boolean
-
 }
 
 schema {
