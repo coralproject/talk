@@ -20,17 +20,20 @@ export const cleanState = () => ({type: actions.CLEAN_STATE});
 // Sign In Actions
 
 const signInRequest = () => ({type: actions.FETCH_SIGNIN_REQUEST});
-const signInSuccess = (user, isAdmin) => ({type: actions.FETCH_SIGNIN_SUCCESS, user, isAdmin});
+
+// const signInSuccess = (user, isAdmin) => ({type: actions.FETCH_SIGNIN_SUCCESS, user, isAdmin});
 const signInFailure = error => ({type: actions.FETCH_SIGNIN_FAILURE, error});
 
 export const fetchSignIn = (formData) => (dispatch) => {
   dispatch(signInRequest());
   coralApi('/auth/local', {method: 'POST', body: formData})
-    .then(({user}) => {
-      const isAdmin = !!user.roles.filter(i => i === 'admin').length;
-      dispatch(signInSuccess(user, isAdmin));
+    .then(() => {
+
+      // const isAdmin = !!user.roles.filter(i => i === 'admin').length;
+      // dispatch(signInSuccess(user, isAdmin));
       dispatch(hideSignInDialog());
-      dispatch(addItem(user, 'users'));
+
+      // dispatch(addItem(user, 'users'));
     })
     .catch(() => dispatch(signInFailure(lang.t('error.emailPasswordError'))));
 };
