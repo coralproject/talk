@@ -1,9 +1,10 @@
 import React, {PropTypes} from 'react';
+import styles from './CoralLogo.css';
 
-const CoralLogo = ({height = '30px', width = '30px', stroke = '#FFFFFF'}) => (
-  <svg width={width} height={height} viewBox='0 0 381 391' version='1.1 xmlns=http://www.w3.org/2000/svg xmlns:xlink=http://www.w3.org/1999/xlink'>
+const CoralLogo = ({className = ''}) => (
+  <svg className={`${styles.base} ${className}`} viewBox='0 0 381 391' version='1.1 xmlns=http://www.w3.org/2000/svg xmlns:xlink=http://www.w3.org/1999/xlink'>
   <g stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
-    <g id='Wordmark-Round' transform='translate(-1833.000000, -411.000000)' stroke={stroke} strokeWidth='22' strokeLinecap='round' strokeLinejoin='round'>
+    <g id='Wordmark-Round' className={styles.mark} transform='translate(-1833.000000, -411.000000)' strokeWidth='22' strokeLinecap='round' strokeLinejoin='round'>
       <g id='coralProjectLogo-2-Copy-2' transform='translate(1842.000000, 421.000000)'>
         <g id='Layer_2' transform='translate(2.268750, 1.133903)'>
           <rect id='Rectangle-1' fill='#F47E6B' x='0' y='0' width='358.4625' height='368.518519' rx='40'>
