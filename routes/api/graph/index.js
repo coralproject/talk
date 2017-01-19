@@ -10,9 +10,15 @@ const router = express.Router();
 // GraphQL endpoint.
 router.use('/ql', apollo.graphqlExpress((req) => {
 
-  let context = {req};
+  let context = {};
 
+  // Load the current logged in user to `user`, otherwise this'll be null.
+  context.user = req.user;
+
+  // Create the loaders.
   context.loaders = loaders(context);
+
+  // Create the mutators.
   context.mutators = mutators(context);
 
   return {

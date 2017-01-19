@@ -6,7 +6,7 @@ type UserSettings {
 type User {
   id: ID!
   displayName: String!
-  actions: [Action]
+  actions: [ActionSummary]
   settings: UserSettings
 }
 
@@ -15,17 +15,40 @@ type Comment {
   body: String!
   user: User
   replies(limit: Int = 3): [Comment]
-  actions: [Action]
+  actions: [ActionSummary]
 }
 
-type Action {
+enum ITEM_TYPE {
+  ASSETS
+  COMMENTS
+  USERS
+}
+
+enum ACTION_TYPE {
+  LIKE
+  FLAG
+}
+
+interface ActionInterface {
+  action_type: ACTION_TYPE!
+  item_type: ITEM_TYPE!
+}
+
+type Action implements ActionInterface {
   id: ID!
   item_id: ID!
-  action_type: String!
-  count: Int
-  current_user: Action
+  action_type: ACTION_TYPE!
+  item_type: ITEM_TYPE!
+  user: User!
   updated_at: String
   created_at: String
+}
+
+type ActionSummary implements ActionInterface {
+  action_type: ACTION_TYPE!
+  item_type: ITEM_TYPE!
+  count: Int
+  current_user: Action
 }
 
 type Settings {
@@ -55,8 +78,23 @@ type Query {
   me: User
 }
 
+input CreateActionInput {
+  action_type: ACTION_TYPE!
+  item_type: ITEM_TYPE!
+  item_id: ID!
+}
+
+input UpdateUserSettingsInput {
+  bio: String!
+}
+
 type Mutation {
   createComment(asset_id: ID!, parent_id: ID, body: String!): Comment
+  createAction(action: CreateActionInput!): Action
+  deleteAction(id: ID!): Boolean
+
+  updateUserSettings(settings: UpdateUserSettingsInput!): Boolean
+
 }
 
 schema {

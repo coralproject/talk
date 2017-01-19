@@ -9,13 +9,22 @@ module.exports = {
     settings(_, args, {loaders}) {
       return loaders.Settings.load();
     },
-    me(_, args, {req}) {
-      return req.user;
+    me(_, args, {user}) {
+      return user;
     }
   },
   Mutation: {
     createComment(_, {asset_id, parent_id, body}, {mutators}) {
-      return mutators.createComment({asset_id, parent_id, body});
+      return mutators.Comment.create({asset_id, parent_id, body});
+    },
+    createAction(_, {action}, {mutators}) {
+      return mutators.Action.create(action);
+    },
+    deleteAction(_, {id}, {mutators}) {
+      return mutators.Action.delete({id});
+    },
+    updateUserSettings(_, {settings}, {mutators}) {
+      return mutators.User.updateSettings(settings);
     }
   },
   Asset: {
@@ -34,6 +43,37 @@ module.exports = {
 
           return settings;
         });
+    }
+  },
+  Action: {
+    action_type({action_type}) {
+
+      // TODO: remove once we cast the data model to have uppercase action
+      // types.
+      return action_type.toUpperCase();
+    },
+    item_type({item_type}) {
+
+      // TODO: remove once we cast the data model to have uppercase item
+      // types.
+      return item_type.toUpperCase();
+    },
+    user({user_id}, _, {loaders}) {
+      return loaders.Users.getByID.load(user_id);
+    }
+  },
+  ActionSummary: {
+    action_type({action_type}) {
+
+      // TODO: remove once we cast the data model to have uppercase action
+      // types.
+      return action_type.toUpperCase();
+    },
+    item_type({item_type}) {
+
+      // TODO: remove once we cast the data model to have uppercase item
+      // types.
+      return item_type.toUpperCase();
     }
   },
   User: {

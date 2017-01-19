@@ -122,7 +122,7 @@ const createLoaders = (context) => ({
     getByAssetID: new DataLoader((ids) => genCommentsByAssetID(ids)),
   },
   Actions: {
-    getByID: new DataLoader((ids) => genActionsByID(ids, context.req.user)),
+    getByID: new DataLoader((ids) => genActionsByID(ids, context.user)),
   },
   Users: {
     getByID: new DataLoader((ids) => User.findByIdArray(ids))
