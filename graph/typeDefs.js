@@ -1,3 +1,7 @@
+// TODO: Adjust `RootQuery.asset(id: ID, url: URL)` to instead be
+// `RootQuery.asset(id: ID, url: URL!)` because we'll always need the url, if
+// this change is done now everything will likely break on the front end.
+
 const typeDefs = [`
 type UserSettings {
   bio: String
@@ -76,7 +80,7 @@ scalar URL
 type RootQuery {
   settings: Settings
   assets: [Asset]
-  asset(id: ID, url: URL!): Asset
+  asset(id: ID, url: URL): Asset
   me: User
 }
 

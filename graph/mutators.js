@@ -1,11 +1,11 @@
-const errors = require('../../../errors');
+const errors = require('../errors');
 
-const Action = require('../../../models/action');
-const Asset = require('../../../models/asset');
-const Comment = require('../../../models/comment');
-const User = require('../../../models/user');
+const Action = require('../models/action');
+const Asset = require('../models/asset');
+const Comment = require('../models/comment');
+const User = require('../models/user');
 
-const Wordlist = require('../../../services/wordlist');
+const Wordlist = require('../services/wordlist');
 
 /**
  * Creates a new comment.

@@ -1,14 +1,14 @@
 const DataLoader = require('dataloader');
 const _ = require('lodash');
 const url = require('url');
-const errors = require('../../../errors');
-const scraper = require('../../../services/scraper');
+const errors = require('../errors');
+const scraper = require('../services/scraper');
 
-const Comment = require('../../../models/comment');
-const User = require('../../../models/user');
-const Action = require('../../../models/action');
-const Asset = require('../../../models/asset');
-const Settings = require('../../../models/setting');
+const Comment = require('../models/comment');
+const User = require('../models/user');
+const Action = require('../models/action');
+const Asset = require('../models/asset');
+const Settings = require('../models/setting');
 
 /**
  * SingletonResolver is a cached loader for a single result.
