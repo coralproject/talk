@@ -72,6 +72,7 @@ type Asset {
   url: String
   comments: [Comment]
   settings: Settings!
+  closedAt: String
 }
 
 scalar URL

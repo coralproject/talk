@@ -6,8 +6,7 @@ import gql from 'graphql-tag';
 
 import {
   itemActions,
-
-  // Notification,
+  Notification,
   notificationActions,
   authActions
 } from '../../coral-framework';
@@ -38,7 +37,7 @@ const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appen
 const {addNotification, clearNotification} = notificationActions;
 const {logout, showSignInDialog} = authActions;
 
-const assetID = 'be97065d-f0eb-44a8-8efb-b416229afdc3';
+const assetID = '4807a33a-894a-4351-8eb5-a8e0091af568';
 
 class CommentStream extends Component {
 
@@ -128,7 +127,7 @@ class CommentStream extends Component {
             {currentUser && <UserBox user={currentUser} logout={this.props.logout} />}
             <TabContent show={activeTab === 0}>
                 {
-                   status === 'open'
+                  asset.closedAt === null
                    ? <div id="commentBox">
                        <InfoBox
                          content={asset.settings.infoBoxContent}
@@ -288,12 +287,11 @@ class CommentStream extends Component {
                   })
                 }
             {
-
-              // <Notification
-              //   notifLength={4500}
-              //   clearNotification={this.props.clearNotification}
-              //   notification={{text: null}}
-              // />
+             <Notification
+               notifLength={4500}
+               clearNotification={this.props.clearNotification}
+               notification={{text: null}}
+             />
           }
             </TabContent>
             {
@@ -365,6 +363,7 @@ query AssetQuery($asset_id: ID!) {
     id
     title
     url
+    closedAt
     settings {
       moderation
       infoBoxEnable
