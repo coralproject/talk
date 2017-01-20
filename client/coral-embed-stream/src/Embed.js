@@ -9,19 +9,19 @@ import {queryStream} from './graphql/queries'
 import {
 
   // itemActions,
-  // Notification,
+  Notification,
   notificationActions,
   authActions
-} from '../../coral-framework';
+} from 'coral-framework';
 
 import Stream from './Stream';
 
-import CommentBox from '../../coral-plugin-commentbox/CommentBox';
-import InfoBox from '../../coral-plugin-infobox/InfoBox';
+import CommentBox from 'coral-plugin-commentbox/CommentBox';
+import InfoBox from 'coral-plugin-infobox/InfoBox';
 
 // import Content from '../../coral-plugin-commentcontent/CommentContent';
 // import PubDate from '../../coral-plugin-pubdate/PubDate';
-import Count from '../../coral-plugin-comment-count/CommentCount';
+import Count from 'coral-plugin-comment-count/CommentCount';
 
 // import AuthorName from '../../coral-plugin-author-name/AuthorName';
 // import {ReplyBox, ReplyButton} from '../../coral-plugin-replies';
@@ -97,7 +97,7 @@ class Embed extends Component {
   }
 
   render () {
-
+    console.log(this.props)
     // const rootItemId = this.props.items.assets && Object.keys(this.props.items.assets)[0];
     // const rootItem = this.props.items.assets && this.props.items.assets[rootItemId];
     // const {actions, users, comments} = this.props.items;
@@ -156,11 +156,11 @@ class Embed extends Component {
                     showSignInDialog={showSignInDialog}/>
                 }
                 <Stream comments={asset.comments} />
-             {/* <Notification*/}
-               {/* notifLength={4500}*/}
-               {/* clearNotification={this.props.clearNotification}*/}
-               {/* notification={{text: null}}*/}
-             {/* />*/}
+                <Notification
+                  notifLength={4500}
+                  clearNotification={this.props.clearNotification}
+                  notification={{text: null}}
+                />
             </TabContent>
              <TabContent show={activeTab === 1}>
                <SettingsContainer
@@ -177,27 +177,29 @@ class Embed extends Component {
                  />
                </RestrictedContent>
              </TabContent>
-             {/* <Notification*/}
-               {/* notifLength={4500}*/}
-               {/* clearNotification={this.props.clearNotification}*/}
-               {/* notification={this.props.notification}*/}
-             {/* />*/}
+              <Notification
+                notifLength={4500}
+                clearNotification={this.props.clearNotification}
+                notification={this.props.notification}
+              />
         </div>
       }
     </div>;
   }
 }
 
-const mapStateToProps = state => (state);
+const mapStateToProps = state => ({
+  config: state.config.toJS(),
+  items: state.items.toJS(),
+  notification: state.notification.toJS(),
+  auth: state.auth.toJS(),
+  userData: state.user.toJS()
+});
 
 const mapDispatchToProps = dispatch => ({
 
   // addItem: (item, item_id) => dispatch(addItem(item, item_id)),
   // updateItem: (id, property, value, itemType) => dispatch(updateItem(id, property, value, itemType)),
-  // postItem: (data, type, id) => {
-  //   console.log('postItem', dispatch, ownProps)
-  //   // dispatch(postItem(data, type, id, ownProps))
-  // },
   // getStream: (rootId) => dispatch(getStream(rootId)),
   addNotification: (type, text) => dispatch(addNotification(type, text)),
   clearNotification: () => dispatch(clearNotification()),

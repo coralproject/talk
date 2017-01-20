@@ -58,11 +58,12 @@ class CommentBox extends Component {
       return;
     }
     postItem(comment, 'comments')
-      .then((postedComment) => {
+      .then(({data}) => {
+        const postedComment = data.createComment
         const commentId = postedComment.id;
         if (postedComment.status === 'rejected') {
           addNotification('error', lang.t('comment-post-banned-word'));
-        } else if (premod === 'pre') {
+        } else if (postedComment.status === 'PREMOD') {
           addNotification('success', lang.t('comment-post-notif-premod'));
         } else {
           appendItemArray(parent_id || id, related, commentId, !parent_id, parent_type);
