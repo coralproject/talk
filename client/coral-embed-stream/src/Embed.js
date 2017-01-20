@@ -11,6 +11,8 @@ import {
   authActions
 } from '../../coral-framework';
 
+import Comment from './Comment';
+
 import CommentBox from '../../coral-plugin-commentbox/CommentBox';
 import InfoBox from '../../coral-plugin-infobox/InfoBox';
 import Content from '../../coral-plugin-commentcontent/CommentContent';
@@ -37,7 +39,7 @@ const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appen
 const {addNotification, clearNotification} = notificationActions;
 const {logout, showSignInDialog} = authActions;
 
-class CommentStream extends Component {
+class Embed extends Component {
 
   constructor (props) {
     super(props);
@@ -57,11 +59,12 @@ class CommentStream extends Component {
   }
 
   static propTypes = {
-    data: PropTypes.object.isRequired
+    data: PropTypes.object.isRequired,
+
   }
 
   componentDidMount () {
-
+    // stream id, logged in user, settings
     return;
 
     // Set up messaging between embedded Iframe an parent component
@@ -154,134 +157,8 @@ class CommentStream extends Component {
                     showSignInDialog={showSignInDialog}/>
                 }
                 {
-                  asset.comments.map((comment) => {
-                    return <div className="comment" key={comment.id} id={`c_${comment.id}`}>
-                      <hr aria-hidden={true}/>
-                      <AuthorName
-                        author={comment.user}
-                        addNotification={this.props.addNotification}
-                        id={comment.id}
-                        author_id={comment.user.id}
-                        postAction={this.props.postAction}
-                        showSignInDialog={this.props.showSignInDialog}
-                        deleteAction={this.props.deleteAction}
-                        addItem={this.props.addItem}
-                        updateItem={this.props.updateItem}
-                        currentUser={currentUser}/>
-                      <PubDate created_at={comment.created_at}/>
-                      <Content body={comment.body}/>
-                      <div className="commentActionsLeft">
-                        <ReplyButton
-                          updateItem={this.props.updateItem}
-                          id={comment.id}
-                          currentUser={currentUser}
-                          showReply={comment.showReply}
-                          banned={false/* banned*/}/>
-                        <LikeButton
-                          addNotification={this.props.addNotification}
-                          id={comment.id}
-                          like={comment.actions/* Need to find a way to identify which is a like.*/}
-                          showSignInDialog={this.props.showSignInDialog}
-                          postAction={this.props.postAction}
-                          deleteAction={this.props.deleteAction}
-                          addItem={this.props.addItem}
-                          updateItem={this.props.updateItem}
-                          currentUser={currentUser}
-                          banned={false/* banned*/}/>
-                      </div>
-                      <div className="commentActionsRight">
-                        <FlagComment
-                          addNotification={this.props.addNotification}
-                          id={comment.id}
-                          author_id={comment.user.id}
-                          flag={comment.actions/* Need to find a way to identify which is a flag.*/}
-                          postAction={this.props.postAction}
-                          deleteAction={this.props.deleteAction}
-                          addItem={this.props.addItem}
-                          showSignInDialog={this.props.showSignInDialog}
-                          updateItem={this.props.updateItem}
-                          banned={false/* banned*/}
-                          currentUser={currentUser}/>
-                        <PermalinkButton
-                          commentId={comment.id}
-                          articleURL={this.path}/>
-                      </div>
-                      <ReplyBox
-                        addNotification={this.props.addNotification}
-                        postItem={this.props.postItem}
-                        appendItemArray={this.props.appendItemArray}
-                        updateItem={this.props.updateItem}
-                        id={asset.id}
-                        author={null}
-                        parent_id={comment.id}
-                        premod={'post'}
-                        currentUser={null/* user*/}
-                        charCount={100/* charCountEnable && charCount*/}
-                        showReply={false/* comment.showReply need a way to do these sorts of comment-level settings*/}/>
-                      {
-                        comment.replies.map((reply) => {
-                          return <div className="reply" key={reply.id} id={`c_${reply.id}`}>
-                            <hr aria-hidden={true}/>
-                            <AuthorName author={reply.author}/>
-                            <PubDate created_at={reply.created_at}/>
-                            <Content body={reply.body}/>
-                            <div className="replyActionsLeft">
-                              <ReplyButton
-                                updateItem={this.props.updateItem}
-                                id={reply.id}
-                                banned={false/* banned*/}
-                                currentUser={this.props.auth.user}
-                                showReply={reply.showReply}/>
-                              <LikeButton
-                                addNotification={this.props.addNotification}
-                                id={reply.id}
-                                like={reply.actions}
-                                postAction={this.props.postAction}
-                                deleteAction={this.props.deleteAction}
-                                addItem={this.props.addItem}
-                                showSignInDialog={this.props.showSignInDialog}
-                                updateItem={this.props.updateItem}
-                                currentUser={currentUser}
-                                banned={false/* banned*/}/>
-                            </div>
-                            <div className="replyActionsRight">
-                              <FlagComment
-                                addNotification={this.props.addNotification}
-                                id={reply.id}
-                                author_id={comment.user_id}
-                                flag={reply.actions}
-                                postAction={this.props.postAction}
-                                showSignInDialog={this.props.showSignInDialog}
-                                deleteAction={this.props.deleteAction}
-                                addItem={this.props.addItem}
-                                updateItem={this.props.updateItem}
-                                banned={false/* banned*/}
-                                currentUser={null}/>
-                              <PermalinkButton
-                                commentId={reply.parent_id}
-                                articleURL={this.path}
-                              />
-                            </div>
-                            {
-                              <ReplyBox
-                                addNotification={this.props.addNotification}
-                                postItem={this.props.postItem}
-                                appendItemArray={this.props.appendItemArray}
-                                updateItem={this.props.updateItem}
-                                id={asset.id}
-                                author={reply.user}
-                                parent_id={comment.id}
-                                child_id={reply.id}
-                                premod={'post'/* moderation*/}
-                                banned={false/* banned*/}
-                                currentUser={null}
-                                charCount={null/* charCountEnable && charCount*/}
-                                showReply={reply.showReply}/>
-                            }
-                          </div>;
-                        })
-                    }
-                  </div>;
+                  asset.comments.map(comment => {
+                    return <Comment key={comment.id} comment={comment} />;
                   })
                 }
             {
@@ -418,4 +295,4 @@ export default compose(
     }),
   }),
   connect(mapStateToProps, mapDispatchToProps)
-)(CommentStream);
+)(Embed);
