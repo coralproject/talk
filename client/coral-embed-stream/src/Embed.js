@@ -11,7 +11,7 @@ import {
   authActions
 } from '../../coral-framework';
 
-import Comment from './Comment';
+import Stream from './Stream';
 
 import CommentBox from '../../coral-plugin-commentbox/CommentBox';
 import InfoBox from '../../coral-plugin-infobox/InfoBox';
@@ -153,11 +153,7 @@ class Embed extends Component {
                     refetch={refetch}
                     showSignInDialog={showSignInDialog}/>
                 }
-                {
-                  asset.comments.map(comment => {
-                    return <Comment key={comment.id} comment={comment} />;
-                  })
-                }
+                <Stream comments={asset.comments} />
             {
              <Notification
                notifLength={4500}
