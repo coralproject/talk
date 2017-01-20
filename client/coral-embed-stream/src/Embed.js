@@ -29,11 +29,11 @@ import UserBox from '../../coral-sign-in/components/UserBox';
 
 import {TabBar, Tab, TabContent, Spinner} from '../../coral-ui';
 
-// import SettingsContainer from '../../coral-settings/containers/SettingsContainer';
+import SettingsContainer from '../../coral-settings/containers/SettingsContainer';
 import RestrictedContent from '../../coral-framework/components/RestrictedContent';
 import SuspendedAccount from '../../coral-framework/components/SuspendedAccount';
 
-// import ConfigureStreamContainer from '../../coral-configure/containers/ConfigureStreamContainer';
+import ConfigureStreamContainer from '../../coral-configure/containers/ConfigureStreamContainer';
 
 // const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appendItemArray} = itemActions;
 const {addNotification, clearNotification} = notificationActions;
@@ -100,7 +100,7 @@ class Embed extends Component {
     // const rootItem = this.props.items.assets && this.props.items.assets[rootItemId];
     // const {actions, users, comments} = this.props.items;
 
-    const {isAdmin, showSignInDialog} = this.props.auth;
+    const {isAdmin, showSignInDialog, loggedIn} = this.props.auth;
     const {activeTab} = this.state;
 
     // const banned = (this.props.userData.status === 'banned');
@@ -154,37 +154,32 @@ class Embed extends Component {
                     showSignInDialog={showSignInDialog}/>
                 }
                 <Stream comments={asset.comments} />
-            {
-             <Notification
-               notifLength={4500}
-               clearNotification={this.props.clearNotification}
-               notification={{text: null}}
-             />
-          }
+             {/*<Notification*/}
+               {/*notifLength={4500}*/}
+               {/*clearNotification={this.props.clearNotification}*/}
+               {/*notification={{text: null}}*/}
+             {/*/>*/}
             </TabContent>
-            {
-
-            //   <TabContent show={activeTab === 1}>
-            //     <SettingsContainer
-            //       loggedIn={loggedIn}
-            //       userData={this.props.userData}
-            //       showSignInDialog={this.props.handleSignInDialog}
-            //     />
-            //   </TabContent>
-            //   <TabContent show={activeTab === 2}>
-            //     <RestrictedContent restricted={!loggedIn}>
-            //       <ConfigureStreamContainer
-            //         status={status}
-            //         onClick={this.toggleStatus}
-            //       />
-            //     </RestrictedContent>
-            //   </TabContent>
-            // <Notification
-            //   notifLength={4500}
-            //   clearNotification={this.props.clearNotification}
-            //   notification={this.props.notification}
-            // />
-            }
+             <TabContent show={activeTab === 1}>
+               <SettingsContainer
+                 loggedIn={loggedIn}
+                 userData={this.props.userData}
+                 showSignInDialog={this.props.handleSignInDialog}
+               />
+             </TabContent>
+             <TabContent show={activeTab === 2}>
+               <RestrictedContent restricted={!loggedIn}>
+                 <ConfigureStreamContainer
+                   status={status}
+                   onClick={this.toggleStatus}
+                 />
+               </RestrictedContent>
+             </TabContent>
+             {/*<Notification*/}
+               {/*notifLength={4500}*/}
+               {/*clearNotification={this.props.clearNotification}*/}
+               {/*notification={this.props.notification}*/}
+             {/*/>*/}
         </div>
       }
     </div>;
@@ -192,111 +187,40 @@ class Embed extends Component {
 }
 
 const mapStateToProps = state => (state);
-const mapDispatchToProps = (dispatch, ownProps) => ({});
 
-// const mapDispatchToProps = (dispatch, ownProps) => ({
-//   addItem: (item, item_id) => dispatch(addItem(item, item_id)),
-//   updateItem: (id, property, value, itemType) => dispatch(updateItem(id, property, value, itemType)),
-//   postItem: (data, type, id) => {
-//     console.log('postItem', dispatch, ownProps)
-//     // dispatch(postItem(data, type, id, ownProps))
-//   },
-//   getStream: (rootId) => dispatch(getStream(rootId)),
-//   addNotification: (type, text) => dispatch(addNotification(type, text)),
-//   clearNotification: () => dispatch(clearNotification()),
-//   postAction: (item, itemType, action) => dispatch(postAction(item, itemType, action)),
-//   showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),
-//   deleteAction: (item, action, user, itemType) => dispatch(deleteAction(item, action, user, itemType)),
-//   appendItemArray: (item, property, value, addToFront, itemType) => dispatch(appendItemArray(item, property, value, addToFront, itemType)),
-//   handleSignInDialog: () => dispatch(authActions.showSignInDialog()),
-//   logout: () => dispatch(logout()),
-// });
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  // addItem: (item, item_id) => dispatch(addItem(item, item_id)),
+  // updateItem: (id, property, value, itemType) => dispatch(updateItem(id, property, value, itemType)),
+  // postItem: (data, type, id) => {
+  //   console.log('postItem', dispatch, ownProps)
+  //   // dispatch(postItem(data, type, id, ownProps))
+  // },
+  // getStream: (rootId) => dispatch(getStream(rootId)),
+  addNotification: (type, text) => dispatch(addNotification(type, text)),
+  clearNotification: () => dispatch(clearNotification()),
+  // postAction: (item, itemType, action) => dispatch(postAction(item, itemType, action)),
+  showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),
+  // deleteAction: (item, action, user, itemType) => dispatch(deleteAction(item, action, user, itemType)),
+  // appendItemArray: (item, property, value, addToFront, itemType) => dispatch(appendItemArray(item, property, value, addToFront, itemType)),
+  // handleSignInDialog: () => dispatch(authActions.showSignInDialog()),
+  logout: () => dispatch(logout()),
+});
 
 // Initialize GraphQL queries or mutations with the `gql` tag
-const StreamQuery = gql`
-fragment commentView on Comment {
-  id
-  body
-  user {
-    id
-    name: displayName
-  }
-  actions {
-    type: action_type
-    count
-    current: current_user {
-      id
-      created_at
-    }
-  }
-}
-
-query AssetQuery($asset_url: String!) {
-  asset(url: $asset_url) {
-    id
-    title
-    url
-    closedAt
-    settings {
-      moderation
-      infoBoxEnable
-      infoBoxContent
-      closeTimeout
-      closedMessage
-      charCountEnable
-      charCount
-      requireEmailConfirmation
-    }
-    comments {
-      ...commentView
-      replies {
-        ...commentView
-      }
-    }
-  },
-  currentUser: me {
-    id,
-    displayName
-  }
-}
-`;
-
-const postComment = gql`
-  fragment commentView on Comment {
-    id
-    body
-    user {
-      name: displayName
-    }
-    actions {
-      type: action_type
-      count
-      current: current_user {
-        id
-        created_at
-      }
-    }
-  }
-
-  mutation CreateComment ($asset_id: ID!, $parent_id: ID, $body: String!) {
-    createComment(asset_id:$asset_id, parent_id:$parent_id, body:$body) {
-        ...commentView
-      }
-    }
-`;
-
 const pym = new Pym.Child({polling: 100});
 
 let url = pym.parentUrl;
 
-console.log('pym.parentUrl', url);
+import STREAM_QUERY from './graphql/queries/streamQuery.graphql';
+import POST_COMMENT from './graphql/mutations/postComment.graphql';
 
+console.log(STREAM_QUERY, POST_COMMENT)
 export default compose(
-  graphql(StreamQuery, {
+  graphql(STREAM_QUERY, {
     options: { variables: { asset_url: url } },
     props: props => props,
   }),
-  graphql(postComment, {
+  graphql(POST_COMMENT, {
     props: ({ownProps, mutate}) => ({
       postItem: ({asset_id, author_id, body}) => {
         mutate({

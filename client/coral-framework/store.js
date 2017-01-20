@@ -1,11 +1,11 @@
 import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
-import authReducer from './reducers/auth';
+import mainReducer from './reducers';
 import {client} from './client';
 
 export default createStore(
   combineReducers({
-    auth: authReducer,
+    ...mainReducer,
     apollo: client.reducer()
   }),
   {
