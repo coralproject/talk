@@ -1,16 +1,15 @@
-import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
+import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
-import mainReducer from './reducers';
+import authReducer from './reducers/auth';
 import {client} from './client';
 
 export default createStore(
   combineReducers({
-    ...mainReducer,
-    apollo: client.reducer(),
+    auth: authReducer,
+    apollo: client.reducer()
   }),
-  {}, // Initial State. We need to set this
   compose(
-    window.devToolsExtension && window.devToolsExtension(),
-    applyMiddleware(thunk)
+    applyMiddleware(thunk),
+    window.devToolsExtension && window.devToolsExtension()
   )
 );

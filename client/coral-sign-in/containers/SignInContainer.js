@@ -121,7 +121,12 @@ class SignInContainer extends Component {
 
   handleSignIn(e) {
     e.preventDefault();
-    this.props.fetchSignIn(this.state.formData);
+    this.props.fetchSignIn(this.state.formData)
+
+    // Using refetch to get data after the user has logged in.
+    // This is the equivalent of a page reload, we may want to use a more speficic mustation here.
+    // Also, we may want to find a way for this logic to live elsewhere.
+      .then(() => this.props.refetch());
   }
 
   handleClose() {

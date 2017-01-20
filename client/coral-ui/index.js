@@ -9,3 +9,8 @@ export {default as Spinner} from './components/Spinner';
 export {default as Tooltip} from './components/Tooltip';
 export {default as PopupMenu} from './components/PopupMenu';
 export {default as Checkbox} from './components/Checkbox';
+export {default as Icon} from './components/Icon';
+export {default as List} from './components/List';
+export {default as Item} from './components/Item';
+export {default as Card} from './components/Card';
+export {default as Pager} from './components/Pager';

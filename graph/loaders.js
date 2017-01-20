@@ -1,11 +1,14 @@
 const DataLoader = require('dataloader');
 const _ = require('lodash');
+const url = require('url');
+const errors = require('../errors');
+const scraper = require('../services/scraper');
 
-const Comment = require('../../../models/comment');
-const User = require('../../../models/user');
-const Action = require('../../../models/action');
-const Asset = require('../../../models/asset');
-const Settings = require('../../../models/setting');
+const Comment = require('../models/comment');
+const User = require('../models/user');
+const Action = require('../models/action');
+const Asset = require('../models/asset');
+const Settings = require('../models/setting');
 
 /**
  * SingletonResolver is a cached loader for a single result.
@@ -72,7 +75,7 @@ const singleJoinBy = (ids, key) => (items) => {
  * Retrieves assets by an array of ids.
  * @param {Array} ids array of ids to lookup
  */
-const genAssetByID = (ids) => Asset.find({
+const genAssetsByID = (ids) => Asset.find({
   id: {
     $in: ids
   }
@@ -112,6 +115,32 @@ const genCommentsByParentID = (ids) => Comment.find({
 }).then(arrayJoinBy(ids, 'parent_id'));
 
 /**
+ * This endpoint find or creates an asset at the given url when it is loaded.
+ * @param   {String} asset_url the url passed in from the query
+ * @returns {Promise}          resolves to the asset
+ */
+const findOrCreateAssetByURL = (asset_url) => {
+
+  // Verify that the asset_url is parsable.
+  let parsed_asset_url = url.parse(asset_url);
+  if (!parsed_asset_url.protocol) {
+    return Promise.reject(errors.ErrInvalidAssetURL);
+  }
+
+  return Asset.findOrCreateByUrl(asset_url)
+    .then((asset) => {
+
+      // If the asset wasn't scraped before, scrape it! Otherwise just return
+      // the asset.
+      if (!asset.scraped) {
+        return scraper.create(asset).then(() => asset);
+      }
+
+      return asset;
+    });
+};
+
+/**
  * Creates a set of loaders based on a GraphQL context.
  * @param  {Object} context the context of the GraphQL request
  * @return {Object}         object of loaders
@@ -122,13 +151,18 @@ const createLoaders = (context) => ({
     getByAssetID: new DataLoader((ids) => genCommentsByAssetID(ids)),
   },
   Actions: {
-    getByID: new DataLoader((ids) => genActionsByID(ids, context.req.user)),
+    getByID: new DataLoader((ids) => genActionsByID(ids, context.user)),
   },
   Users: {
     getByID: new DataLoader((ids) => User.findByIdArray(ids))
   },
   Assets: {
-    getByID: new DataLoader((ids) => genAssetByID(ids)),
+
+    // TODO: decide whether we want to move these to mutators or not, as in fact
+    // this operation create a new asset if one isn't found.
+    getByURL: (url) => findOrCreateAssetByURL(url),
+
+    getByID: new DataLoader((ids) => genAssetsByID(ids)),
     getAll: new SingletonResolver(() => Asset.find({}))
   },
   Settings: new SingletonResolver(() => Settings.retrieve())

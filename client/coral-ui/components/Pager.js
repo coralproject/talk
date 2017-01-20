@@ -2,19 +2,18 @@ import React, {PropTypes} from 'react';
 import styles from './Pager.css';
 
 const Rows = (curr, total, onClickHandler) => Array.from(Array(total)).map((e, i) =>
-  <li className={`mdl-button mdl-js-button ${styles.li} ${curr === i ? styles.current : ''}`}
+  <li className={curr === i ? styles.current : ''}
       key={i} onClick={() => onClickHandler(i + 1)}>
     {i + 1}
   </li>
 );
 
 const Pager = ({totalPages, page, onNewPageHandler}) => (
-  <div className="pager">
+  <div className={styles.pager}>
     <ul>
       {
         (totalPages > page && totalPages > 1) ?
           <li
-            className={`mdl-button mdl-js-button ${styles.li}`}
             onClick={() => onNewPageHandler(page - 1)}>
             Prev
           </li>
@@ -25,7 +24,6 @@ const Pager = ({totalPages, page, onNewPageHandler}) => (
       {
         (page < totalPages && totalPages > 1) ?
         <li
-          className={`mdl-button mdl-js-button ${styles.li}`}
           onClick={() => onNewPageHandler(page + 1)}>
           Next
         </li>
