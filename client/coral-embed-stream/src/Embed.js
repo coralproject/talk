@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import Pym from 'pym.js';
-import {graphql, compose} from 'react-apollo';
+import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 
-import STREAM_QUERY from './graphql/queries/streamQuery.graphql';
-import POST_COMMENT from './graphql/mutations/postComment.graphql';
+import {postComment} from './graphql/mutations'
+import {queryStream} from './graphql/queries'
 
 import {
 
@@ -209,6 +209,7 @@ const mapDispatchToProps = dispatch => ({
   // appendItemArray: (item, property, value, addToFront, itemType) => dispatch(appendItemArray(item, property, value, addToFront, itemType)),
   // handleSignInDialog: () => dispatch(authActions.showSignInDialog()),
   logout: () => dispatch(logout()),
+  dispatch: d => dispatch(d)
 });
 
 // Initialize GraphQL queries or mutations with the `gql` tag
@@ -217,24 +218,7 @@ const pym = new Pym.Child({polling: 100});
 let url = pym.parentUrl;
 
 export default compose(
-  graphql(STREAM_QUERY, {
-    options: {variables: {asset_url: url}},
-    props: props => props,
-  }),
-  graphql(POST_COMMENT, {
-    props: ({mutate}) => ({
-      postItem: ({asset_id, body}) => {
-        mutate({
-          variables: {
-            asset_id,
-            body,
-            parent_id: null
-          }
-        }).then(({data}) => {
-          console.log('it workt');
-          console.log(data);
-        });
-      }}),
-  }),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  postComment(),
+  queryStream()
 )(Embed);

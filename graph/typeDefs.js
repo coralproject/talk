@@ -20,6 +20,7 @@ type Comment {
   user: User
   replies(limit: Int = 3): [Comment]
   actions: [ActionSummary]
+  status: String
 }
 
 enum ITEM_TYPE {
