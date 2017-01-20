@@ -10,7 +10,6 @@ import React, {PropTypes} from 'react';
 import PermalinkButton from 'coral-plugin-permalinks/PermalinkButton';
 
 const Comment = ({comment}) => {
-  console.log('A Comment', comment);
   return (
     <div className="comment" id={`c_${comment.id}`}>
       <hr aria-hidden={true} />

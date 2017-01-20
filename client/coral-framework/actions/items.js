@@ -2,8 +2,6 @@ import coralApi from '../helpers/response';
 import {fromJS} from 'immutable';
 import {UPDATE_CONFIG} from '../constants/config';
 
-import gql from 'graphql-tag';
-
 /**
 * Action name constants
 */
@@ -191,22 +189,13 @@ export function getItemsArray (ids) {
 *   The newly put item to the item store
 */
 
-
-const postComment = gql`
-  mutation CreateComment ($asset_id: ID!, $parent_id: ID, $body: String!) {
-    createComment(asset_id:$asset_id, parent_id:$parent_id, body:$body) {
-      ...commentView
-    }
-  }
-`;
-
 export function postItem (item, type, id, mutate) {
   console.log(
     item,
     type,
     id,
     mutate
-  )
+  );
   mutate({
     variables: {
       asset_id: id,

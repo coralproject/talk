@@ -2,11 +2,14 @@ import React, {Component, PropTypes} from 'react';
 import Pym from 'pym.js';
 import {graphql, compose} from 'react-apollo';
 import {connect} from 'react-redux';
-import gql from 'graphql-tag';
+
+import STREAM_QUERY from './graphql/queries/streamQuery.graphql';
+import POST_COMMENT from './graphql/mutations/postComment.graphql';
 
 import {
-  itemActions,
-  Notification,
+
+  // itemActions,
+  // Notification,
   notificationActions,
   authActions
 } from '../../coral-framework';
@@ -15,14 +18,16 @@ import Stream from './Stream';
 
 import CommentBox from '../../coral-plugin-commentbox/CommentBox';
 import InfoBox from '../../coral-plugin-infobox/InfoBox';
-import Content from '../../coral-plugin-commentcontent/CommentContent';
-import PubDate from '../../coral-plugin-pubdate/PubDate';
+
+// import Content from '../../coral-plugin-commentcontent/CommentContent';
+// import PubDate from '../../coral-plugin-pubdate/PubDate';
 import Count from '../../coral-plugin-comment-count/CommentCount';
-import AuthorName from '../../coral-plugin-author-name/AuthorName';
-import {ReplyBox, ReplyButton} from '../../coral-plugin-replies';
-import FlagComment from '../../coral-plugin-flags/FlagComment';
-import LikeButton from '../../coral-plugin-likes/LikeButton';
-import PermalinkButton from '../../coral-plugin-permalinks/PermalinkButton';
+
+// import AuthorName from '../../coral-plugin-author-name/AuthorName';
+// import {ReplyBox, ReplyButton} from '../../coral-plugin-replies';
+// import FlagComment from '../../coral-plugin-flags/FlagComment';
+// import LikeButton from '../../coral-plugin-likes/LikeButton';
+// import PermalinkButton from '../../coral-plugin-permalinks/PermalinkButton';
 
 import SignInContainer from '../../coral-sign-in/containers/SignInContainer';
 import UserBox from '../../coral-sign-in/components/UserBox';
@@ -63,35 +68,32 @@ class Embed extends Component {
   }
 
   componentDidMount () {
+
     // stream id, logged in user, settings
-    return;
 
     // Set up messaging between embedded Iframe an parent component
-    if (!path) {
-      path = window.location.href.split('#')[0];
-    }
 
     // this.props.getStream(path || window.location);
-    this.path = path;
-
-    this.pym.sendMessage('childReady');
-
-    this.pym.onMessage('DOMContentLoaded', hash => {
-      const commentId = hash.replace('#', 'c_');
-      let count = 0;
-      const interval = setInterval(() => {
-        if (document.getElementById(commentId)) {
-          window.clearInterval(interval);
-          this.pym.scrollParentToChildEl(commentId);
-        }
-
-        if (++count > 100) { // ~10 seconds
-          // give up waiting for the comments to load.
-          // it would be weird for the page to jump after that long.
-          window.clearInterval(interval);
-        }
-      }, 100);
-    });
+    // this.path = window.location.href.split('#')[0];
+    //
+    // this.pym.sendMessage('childReady');
+    //
+    // this.pym.onMessage('DOMContentLoaded', hash => {
+    //   const commentId = hash.replace('#', 'c_');
+    //   let count = 0;
+    //   const interval = setInterval(() => {
+    //     if (document.getElementById(commentId)) {
+    //       window.clearInterval(interval);
+    //       this.pym.scrollParentToChildEl(commentId);
+    //     }
+    //
+    //     if (++count > 100) { // ~10 seconds
+    //       // give up waiting for the comments to load.
+    //       // it would be weird for the page to jump after that long.
+    //       window.clearInterval(interval);
+    //     }
+    //   }, 100);
+    // });
   }
 
   render () {
@@ -154,11 +156,11 @@ class Embed extends Component {
                     showSignInDialog={showSignInDialog}/>
                 }
                 <Stream comments={asset.comments} />
-             {/*<Notification*/}
-               {/*notifLength={4500}*/}
-               {/*clearNotification={this.props.clearNotification}*/}
-               {/*notification={{text: null}}*/}
-             {/*/>*/}
+             {/* <Notification*/}
+               {/* notifLength={4500}*/}
+               {/* clearNotification={this.props.clearNotification}*/}
+               {/* notification={{text: null}}*/}
+             {/* />*/}
             </TabContent>
              <TabContent show={activeTab === 1}>
                <SettingsContainer
@@ -175,11 +177,11 @@ class Embed extends Component {
                  />
                </RestrictedContent>
              </TabContent>
-             {/*<Notification*/}
-               {/*notifLength={4500}*/}
-               {/*clearNotification={this.props.clearNotification}*/}
-               {/*notification={this.props.notification}*/}
-             {/*/>*/}
+             {/* <Notification*/}
+               {/* notifLength={4500}*/}
+               {/* clearNotification={this.props.clearNotification}*/}
+               {/* notification={this.props.notification}*/}
+             {/* />*/}
         </div>
       }
     </div>;
@@ -188,7 +190,8 @@ class Embed extends Component {
 
 const mapStateToProps = state => (state);
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = dispatch => ({
+
   // addItem: (item, item_id) => dispatch(addItem(item, item_id)),
   // updateItem: (id, property, value, itemType) => dispatch(updateItem(id, property, value, itemType)),
   // postItem: (data, type, id) => {
@@ -198,8 +201,10 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   // getStream: (rootId) => dispatch(getStream(rootId)),
   addNotification: (type, text) => dispatch(addNotification(type, text)),
   clearNotification: () => dispatch(clearNotification()),
+
   // postAction: (item, itemType, action) => dispatch(postAction(item, itemType, action)),
   showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),
+
   // deleteAction: (item, action, user, itemType) => dispatch(deleteAction(item, action, user, itemType)),
   // appendItemArray: (item, property, value, addToFront, itemType) => dispatch(appendItemArray(item, property, value, addToFront, itemType)),
   // handleSignInDialog: () => dispatch(authActions.showSignInDialog()),
@@ -211,18 +216,14 @@ const pym = new Pym.Child({polling: 100});
 
 let url = pym.parentUrl;
 
-import STREAM_QUERY from './graphql/queries/streamQuery.graphql';
-import POST_COMMENT from './graphql/mutations/postComment.graphql';
-
-console.log(STREAM_QUERY, POST_COMMENT)
 export default compose(
   graphql(STREAM_QUERY, {
-    options: { variables: { asset_url: url } },
+    options: {variables: {asset_url: url}},
     props: props => props,
   }),
   graphql(POST_COMMENT, {
-    props: ({ownProps, mutate}) => ({
-      postItem: ({asset_id, author_id, body}) => {
+    props: ({mutate}) => ({
+      postItem: ({asset_id, body}) => {
         mutate({
           variables: {
             asset_id,
@@ -233,7 +234,7 @@ export default compose(
           console.log('it workt');
           console.log(data);
         });
-    }}),
+      }}),
   }),
   connect(mapStateToProps, mapDispatchToProps)
 )(Embed);
