@@ -1,4 +1,4 @@
-const Mutation = {
+const RootMutation = {
   createComment(_, {asset_id, parent_id, body}, {mutators}) {
     return mutators.Comment.create({asset_id, parent_id, body});
   },
@@ -13,4 +13,4 @@ const Mutation = {
   }
 };
 
-module.exports = Mutation;
+module.exports = RootMutation;

@@ -13,10 +13,44 @@ const Wordlist = require('../../../services/wordlist');
  * @param  {String} body          body of the comment
  * @param  {String} asset_id      asset for the comment
  * @param  {String} parent_id     optional parent of the comment
- * @param  {Object} [wordlist={}] results for the wordlist analysis
+ * @param  {String} [status=null] the status of the new comment
  * @return {Promise}              resolves to the created comment
  */
-const createComment = ({user}, {body, asset_id, parent_id = null}, wordlist = {}) => {
+const createComment = ({user}, {body, asset_id, parent_id = null}, status = null) => {
+  return Comment.publicCreate({
+    body,
+    asset_id,
+    parent_id,
+    status,
+    author_id: user.id
+  });
+};
+
+/**
+ * Filters the comment object and outputs wordlist results.
+ * @param  {Object} context graphql context
+ * @param  {String} body    body of a comment
+ * @return {Object}         resolves to the wordlist results
+ */
+const filterNewComment = (context, {body}) => {
+
+  // Create a new instance of the Wordlist.
+  const wl = new Wordlist();
+
+  // Load the wordlist and filter the comment content.
+  return wl.load().then(() => wl.scan('body', body));
+};
+
+/**
+ * This resolves a given comment's status to take into account moderator actions
+ * are applied.
+ * @param  {Object} context       graphql context
+ * @param  {String} body          body of the comment
+ * @param  {String} asset_id      asset for the comment
+ * @param  {Object} [wordlist={}] the results of the wordlist scan
+ * @return {Promise}              resolves to the comment's status
+ */
+const resolveNewCommentStatus = (context, {asset_id, body}, wordlist = {}) => {
 
   // Decide the status based on whether or not the current asset/settings
   // has pre-mod enabled or not. If the comment was rejected based on the
@@ -55,53 +89,71 @@ const createComment = ({user}, {body, asset_id, parent_id = null}, wordlist = {}
       });
   }
 
-  return status.then((status) => Comment.publicCreate({
-    body,
-    asset_id,
-    parent_id,
-    status,
-    author_id: user.id
-  }))
-  .then((comment) => {
-    if (wordlist.suspect) {
-      return Comment
-        .addAction(comment.id, null, 'flag', {field: 'body', details: 'Matched suspect word filters.'})
-        .then(() => comment);
-    }
-
-    return comment;
-  });
+  return status;
 };
 
 /**
- * Filters the comment object and outputs wordlist results.
- * @param  {Object} context graphql context
- * @param  {String} body    body of a comment
- * @return {Object}         resolves to the wordlist results
+ * createPublicComment is designed to create a comment from a public source. It
+ * validates the comment, and performs some automated moderator actions based on
+ * the settings.
+ * @param  {Object} context      the graphql context
+ * @param  {Object} commentInput the new comment to be created
+ * @return {Promise}             resolves to a new comment
  */
-const filterNewComment = (context, {body}) => {
+const createPublicComment = (context, commentInput) => {
 
-  // Create a new instance of the Wordlist.
-  const wl = new Wordlist();
+  // First we filter the comment contents to ensure that we note any validation
+  // issues.
+  return filterNewComment(context, commentInput)
 
-  // Load the wordlist and filter the comment content.
-  return wl.load().then(() => wl.scan('body', body));
+    // We then take the wordlist and the comment into consideration when
+    // considering what status to assign the new comment, and resolve the new
+    // status to set the comment to.
+    .then((wordlist) => resolveNewCommentStatus(context, commentInput, wordlist)
+
+      // Then we actually create the comment with the new status.
+      .then((status) => createComment(context, commentInput, status))
+      .then((comment) => {
+
+        // If the comment was flagged as being suspect, we need to add a
+        // flag to it to indicate that it needs to be looked at.
+        // Otherwise just return the new comment.
+        if (wordlist.suspect) {
+
+          // TODO: this is kind of fragile, we should refactor this to resolve
+          // all these const's that we're using like 'comments', 'flag' to be
+          // defined in a checkable schema.
+          return createAction(null, {
+            item_id: comment.id,
+            item_type: 'comments',
+            action_type: 'flag',
+            metadata: {
+              field: 'body',
+              details: 'Matched suspect word filters.'
+            }
+          }).then(() => comment);
+        }
+
+        // Finally, we return the comment.
+        return comment;
+      }));
 };
 
 /**
  * Creates an action on a item.
- * @param  {Object} user the user performing the request
+ * @param  {Object} user        the user performing the request
  * @param  {String} item_id     id of the item to add the action to
  * @param  {String} item_type   type of the item
  * @param  {String} action_type type of the action
  * @return {Promise}            resolves to the action created
  */
-const createAction = ({user}, {item_id, item_type, action_type}) => {
+const createAction = ({user = {}}, {item_id, item_type, action_type, metadata = {}}) => {
   return Action.insertUserAction({
     item_id,
     item_type,
     user_id: user.id,
-    action_type
+    action_type,
+    metadata
   });
 };
 
@@ -120,9 +172,9 @@ const deleteAction = ({user}, {id}) => {
 
 /**
  * Updates a users settings.
- * @param  {[type]} user [description]
- * @param  {[type]} bio  [description]
- * @return {[type]}      [description]
+ * @param  {Object} user the user performing the request
+ * @param  {String} bio  the new user bio
+ * @return {Promise}
  */
 const updateUserSettings = ({user}, {bio}) => {
   return User.updateSettings(user.id, {bio});
@@ -136,9 +188,7 @@ module.exports = (context) => {
   if (context.user) {
     return {
       Comment: {
-        create: (comment) => filterNewComment(context, comment).then((wordlist) => {
-          return createComment(context, comment, wordlist);
-        })
+        create: (comment) => createPublicComment(context, comment)
       },
       Action: {
         create: (action) => createAction(context, action),

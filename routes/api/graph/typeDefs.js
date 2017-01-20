@@ -71,10 +71,12 @@ type Asset {
   currentUser: User
 }
 
-type Query {
+scalar URL
+
+type RootQuery {
   settings: Settings
   assets: [Asset]
-  asset(id: ID!): Asset
+  asset(id: ID, url: URL!): Asset
   me: User
 }
 
@@ -94,7 +96,7 @@ input UpdateUserSettingsInput {
   bio: String!
 }
 
-type Mutation {
+type RootMutation {
   # creates a comment on the asset.
   createComment(asset_id: ID!, parent_id: ID, body: String!): Comment
 
@@ -109,8 +111,8 @@ type Mutation {
 }
 
 schema {
-  query: Query
-  mutation: Mutation
+  query: RootQuery
+  mutation: RootMutation
 }
 `];
 
