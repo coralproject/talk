@@ -144,11 +144,11 @@ class Embed extends Component {
                      </div>
                    : <p>{asset.settings.closedMessage}</p>
                 }
+                {!loggedIn && <SignInContainer offset={signInOffset}/>}
                 <Stream
                   asset={asset}
-                  currentUser={currentUser}
+                  currentUser={user}
                   comments={asset.comments} />
-                {!loggedIn && <SignInContainer offset={signInOffset}/>}
                 <Notification
                   notifLength={4500}
                   clearNotification={this.props.clearNotification}
