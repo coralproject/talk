@@ -5,11 +5,11 @@ import {ApolloProvider} from 'react-apollo';
 import {client} from 'coral-framework/client';
 import store from 'coral-framework/store';
 
-import Stream from './CommentStream';
+import Embed from './Embed';
 
 render(
   <ApolloProvider client={client} store={store}>
-    <Stream />
+    <Embed />
   </ApolloProvider>
   , document.querySelector('#coralStream')
 );

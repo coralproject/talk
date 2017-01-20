@@ -118,7 +118,7 @@ const createPublicComment = (context, commentInput) => {
         // If the comment was flagged as being suspect, we need to add a
         // flag to it to indicate that it needs to be looked at.
         // Otherwise just return the new comment.
-        if (wordlist.suspect) {
+        if (wordlist != null && wordlist.suspect) {
 
           // TODO: this is kind of fragile, we should refactor this to resolve
           // all these const's that we're using like 'comments', 'flag' to be
