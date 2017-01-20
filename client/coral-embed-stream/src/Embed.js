@@ -219,6 +219,6 @@ let url = pym.parentUrl;
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  postComment(),
-  queryStream()
+  postComment,
+  queryStream
 )(Embed);
