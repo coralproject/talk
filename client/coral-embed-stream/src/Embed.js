@@ -23,12 +23,6 @@ import InfoBox from 'coral-plugin-infobox/InfoBox';
 // import PubDate from '../../coral-plugin-pubdate/PubDate';
 import Count from 'coral-plugin-comment-count/CommentCount';
 
-// import AuthorName from '../../coral-plugin-author-name/AuthorName';
-// import {ReplyBox, ReplyButton} from '../../coral-plugin-replies';
-// import FlagComment from '../../coral-plugin-flags/FlagComment';
-// import LikeButton from '../../coral-plugin-likes/LikeButton';
-// import PermalinkButton from '../../coral-plugin-permalinks/PermalinkButton';
-
 import SignInContainer from '../../coral-sign-in/containers/SignInContainer';
 import UserBox from '../../coral-sign-in/components/UserBox';
 
@@ -94,6 +88,7 @@ class Embed extends Component {
     //     }
     //   }, 100);
     // });
+
   }
 
   render () {
@@ -155,12 +150,17 @@ class Embed extends Component {
                     refetch={refetch}
                     showSignInDialog={showSignInDialog}/>
                 }
-                <Stream comments={asset.comments} />
-                <Notification
-                  notifLength={4500}
-                  clearNotification={this.props.clearNotification}
-                  notification={{text: null}}
-                />
+                <Stream
+                  asset={asset}
+                  currentUser={currentUser}
+                  comments={asset.comments} />
+            {
+             <Notification
+               notifLength={4500}
+               clearNotification={this.props.clearNotification}
+               notification={{text: null}}
+             />
+          }
             </TabContent>
              <TabContent show={activeTab === 1}>
                <SettingsContainer
@@ -213,11 +213,6 @@ const mapDispatchToProps = dispatch => ({
   logout: () => dispatch(logout()),
   dispatch: d => dispatch(d)
 });
-
-// Initialize GraphQL queries or mutations with the `gql` tag
-const pym = new Pym.Child({polling: 100});
-
-let url = pym.parentUrl;
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
