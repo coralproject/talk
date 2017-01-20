@@ -33,7 +33,7 @@ import SuspendedAccount from '../../coral-framework/components/SuspendedAccount'
 
 // import ConfigureStreamContainer from '../../coral-configure/containers/ConfigureStreamContainer';
 
-const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appendItemArray} = itemActions;
+// const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appendItemArray} = itemActions;
 const {addNotification, clearNotification} = notificationActions;
 const {logout, showSignInDialog} = authActions;
 
@@ -61,12 +61,9 @@ class CommentStream extends Component {
   }
 
   componentDidMount () {
-
     return;
 
     // Set up messaging between embedded Iframe an parent component
-
-
     if (!path) {
       path = window.location.href.split('#')[0];
     }
@@ -137,7 +134,7 @@ class CommentStream extends Component {
                          postItem={this.props.postItem}
                          appendItemArray={this.props.appendItemArray}
                          updateItem={this.props.updateItem}
-                         id={asset.settings.rootItemId}
+                         id={asset.id}
                          premod={asset.settings.moderation}
                          reply={false}
                          currentUser={this.props.auth.user}
@@ -392,6 +389,22 @@ query AssetQuery($asset_url: String!) {
 `;
 
 const postComment = gql`
+  fragment commentView on Comment {
+    id
+    body
+    user {
+      name: displayName
+    }
+    actions {
+      type: action_type
+      count
+      current: current_user {
+        id
+        created_at
+      }
+    }
+  }
+
   mutation CreateComment ($asset_id: ID!, $parent_id: ID, $body: String!) {
     createComment(asset_id:$asset_id, parent_id:$parent_id, body:$body) {
         ...commentView
@@ -407,15 +420,23 @@ console.log('pym.parentUrl', url);
 
 export default compose(
   graphql(StreamQuery, {
-    // pass in the assetURL at componentDidMount
     options: { variables: { asset_url: url } },
     props: props => props,
   }),
   graphql(postComment, {
-    options: { variables: { asset_url: url } },
     props: ({ownProps, mutate}) => ({
-      postComment: (data) => mutate(data)
-    }),
+      postItem: ({asset_id, author_id, body}) => {
+        mutate({
+          variables: {
+            asset_id,
+            body,
+            parent_id: null
+          }
+        }).then(({data}) => {
+          console.log('it workt');
+          console.log(data);
+        });
+    }}),
   }),
   connect(mapStateToProps, mapDispatchToProps)
 )(CommentStream);
