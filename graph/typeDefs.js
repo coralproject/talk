@@ -72,7 +72,6 @@ type Asset {
   url: String
   comments: [Comment]
   settings: Settings!
-  currentUser: User
 }
 
 scalar URL
