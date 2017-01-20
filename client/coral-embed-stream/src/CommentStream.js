@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import Pym from 'pym.js';
-import {graphql} from 'react-apollo';
+import {graphql, compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import gql from 'graphql-tag';
 
@@ -59,7 +59,7 @@ class CommentStream extends Component {
   }
 
   static propTypes = {
-    data: PropTypes.object.isRequired,
+    data: PropTypes.object.isRequired
   }
 
   componentDidMount () {
@@ -324,24 +324,29 @@ class CommentStream extends Component {
 }
 
 const mapStateToProps = state => (state);
+const mapDispatchToProps = (dispatch, ownProps) => ({});
 
-const mapDispatchToProps = (dispatch) => ({
-  addItem: (item, item_id) => dispatch(addItem(item, item_id)),
-  updateItem: (id, property, value, itemType) => dispatch(updateItem(id, property, value, itemType)),
-  postItem: (data, type, id) => dispatch(postItem(data, type, id)),
-  getStream: (rootId) => dispatch(getStream(rootId)),
-  addNotification: (type, text) => dispatch(addNotification(type, text)),
-  clearNotification: () => dispatch(clearNotification()),
-  postAction: (item, itemType, action) => dispatch(postAction(item, itemType, action)),
-  showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),
-  deleteAction: (item, action, user, itemType) => dispatch(deleteAction(item, action, user, itemType)),
-  appendItemArray: (item, property, value, addToFront, itemType) => dispatch(appendItemArray(item, property, value, addToFront, itemType)),
-  handleSignInDialog: () => dispatch(authActions.showSignInDialog()),
-  logout: () => dispatch(logout()),
-});
+// const mapDispatchToProps = (dispatch, ownProps) => ({
+//   addItem: (item, item_id) => dispatch(addItem(item, item_id)),
+//   updateItem: (id, property, value, itemType) => dispatch(updateItem(id, property, value, itemType)),
+//   postItem: (data, type, id) => {
+//     console.log('postItem', dispatch, ownProps)
+//     // dispatch(postItem(data, type, id, ownProps))
+//   },
+//   getStream: (rootId) => dispatch(getStream(rootId)),
+//   addNotification: (type, text) => dispatch(addNotification(type, text)),
+//   clearNotification: () => dispatch(clearNotification()),
+//   postAction: (item, itemType, action) => dispatch(postAction(item, itemType, action)),
+//   showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),
+//   deleteAction: (item, action, user, itemType) => dispatch(deleteAction(item, action, user, itemType)),
+//   appendItemArray: (item, property, value, addToFront, itemType) => dispatch(appendItemArray(item, property, value, addToFront, itemType)),
+//   handleSignInDialog: () => dispatch(authActions.showSignInDialog()),
+//   logout: () => dispatch(logout()),
+// });
 
 // Initialize GraphQL queries or mutations with the `gql` tag
-const StreamQuery = gql`fragment commentView on Comment {
+const StreamQuery = gql`
+fragment commentView on Comment {
   id
   body
   user {
@@ -385,19 +390,27 @@ query AssetQuery($asset_id: ID!) {
     id,
     displayName
   }
-}`;
+}
+`;
 
-const CommentStreamWithData = graphql(
-  StreamQuery, {
-    options: {
-      variables: {
-        asset_id: assetID
+const postComment = gql`
+  mutation CreateComment ($asset_id: ID!, $parent_id: ID, $body: String!) {
+    createComment(asset_id:$asset_id, parent_id:$parent_id, body:$body) {
+        ...commentView
       }
     }
-  }
-)(CommentStream);
+`;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CommentStreamWithData);
+export default compose(
+  graphql(StreamQuery, {
+    options: { variables: { asset_id: assetID } },
+    props: props => props,
+  }),
+  graphql(postComment, {
+    options: { variables: { asset_id: assetID } },
+    props: ({ownProps, mutate}) => ({
+      postComment: (data) => mutate(data)
+    }),
+  }),
+  connect(mapStateToProps, mapDispatchToProps)
+)(CommentStream);

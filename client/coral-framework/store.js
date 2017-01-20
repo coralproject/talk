@@ -8,6 +8,13 @@ export default createStore(
     auth: authReducer,
     apollo: client.reducer()
   }),
+  {
+    apollo: {
+      data: {
+        loading: true,
+      }
+    }
+  },
   compose(
     applyMiddleware(thunk),
     window.devToolsExtension && window.devToolsExtension()

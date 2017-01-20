@@ -2,6 +2,8 @@ import coralApi from '../helpers/response';
 import {fromJS} from 'immutable';
 import {UPDATE_CONFIG} from '../constants/config';
 
+import gql from 'graphql-tag';
+
 /**
 * Action name constants
 */
@@ -189,17 +191,43 @@ export function getItemsArray (ids) {
 *   The newly put item to the item store
 */
 
-export function postItem (item, type, id) {
-  return (dispatch) => {
-    if (id) {
-      item.id = id;
+
+const postComment = gql`
+  mutation CreateComment ($asset_id: ID!, $parent_id: ID, $body: String!) {
+    createComment(asset_id:$asset_id, parent_id:$parent_id, body:$body) {
+      ...commentView
     }
-    return coralApi(`/${type}`, {method: 'POST', body: item})
-      .then((json) => {
-        dispatch(addItem({...item, id:json.id}, type));
-        return json;
-      });
-  };
+  }
+`;
+
+export function postItem (item, type, id, mutate) {
+  console.log(
+    item,
+    type,
+    id,
+    mutate
+  )
+  mutate({
+    variables: {
+      asset_id: id,
+      body: item,
+      parent_id: null
+    }
+  }).then(({data}) => {
+    console.log('it workt');
+    console.log(data);
+  });
+
+  // return (dispatch) => {
+  //   if (id) {
+  //     item.id = id;
+  //   }
+  //   return coralApi(`/${type}`, {method: 'POST', body: item})
+  //     .then((json) => {
+  //       dispatch(addItem({...item, id:json.id}, type));
+  //       return json;
+  //     });
+  // };
 }
 
 /*
