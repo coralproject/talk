@@ -92,17 +92,16 @@ class Embed extends Component {
   }
 
   render () {
-    console.log(this.props)
     // const rootItemId = this.props.items.assets && Object.keys(this.props.items.assets)[0];
     // const rootItem = this.props.items.assets && this.props.items.assets[rootItemId];
     // const {actions, users, comments} = this.props.items;
 
-    const {isAdmin, showSignInDialog, loggedIn} = this.props.auth;
+    const {loggedIn, isAdmin, user, showSignInDialog, signInOffset} = this.props.auth;
     const {activeTab} = this.state;
 
     // const banned = (this.props.userData.status === 'banned');
 
-    const {loading, asset, currentUser, refetch} = this.props.data;
+    const {loading, asset, refetch} = this.props.data;
 
     // const {status, moderation, closedMessage, charCount, charCountEnable} = asset.settings;
 
@@ -119,7 +118,7 @@ class Embed extends Component {
             <Tab>Settings</Tab>
             <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>
-            {currentUser && <UserBox user={currentUser} logout={this.props.logout} />}
+            {loggedIn && <UserBox user={user} logout={this.props.logout} />}
             <TabContent show={activeTab === 0}>
                 {
                   asset.closedAt === null
@@ -139,28 +138,22 @@ class Embed extends Component {
                          reply={false}
                          currentUser={this.props.auth.user}
                          banned={false}
-                         author={currentUser}
+                         author={user}
                          charCount={asset.settings.charCountEnable && asset.settings.charCount}/>
                      </RestrictedContent>
                      </div>
                    : <p>{asset.settings.closedMessage}</p>
                 }
-                {
-                  !currentUser && <SignInContainer
-                    refetch={refetch}
-                    showSignInDialog={showSignInDialog}/>
-                }
                 <Stream
                   asset={asset}
                   currentUser={currentUser}
                   comments={asset.comments} />
-            {
-             <Notification
-               notifLength={4500}
-               clearNotification={this.props.clearNotification}
-               notification={{text: null}}
-             />
-          }
+                {!loggedIn && <SignInContainer offset={signInOffset}/>}
+                <Notification
+                  notifLength={4500}
+                  clearNotification={this.props.clearNotification}
+                  notification={{text: null}}
+                />
             </TabContent>
              <TabContent show={activeTab === 1}>
                <SettingsContainer
