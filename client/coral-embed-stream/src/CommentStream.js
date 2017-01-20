@@ -37,8 +37,6 @@ const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appen
 const {addNotification, clearNotification} = notificationActions;
 const {logout, showSignInDialog} = authActions;
 
-const assetID = '4807a33a-894a-4351-8eb5-a8e0091af568';
-
 class CommentStream extends Component {
 
   constructor (props) {
@@ -64,10 +62,10 @@ class CommentStream extends Component {
 
   componentDidMount () {
 
-    // Set up messaging between embedded Iframe an parent component
-    this.pym = new Pym.Child({polling: 100});
+    return;
 
-    let path = this.pym.parentUrl.split('#')[0];
+    // Set up messaging between embedded Iframe an parent component
+
 
     if (!path) {
       path = window.location.href.split('#')[0];
@@ -363,8 +361,8 @@ fragment commentView on Comment {
   }
 }
 
-query AssetQuery($asset_id: ID!) {
-  asset(id: $asset_id) {
+query AssetQuery($asset_url: String!) {
+  asset(url: $asset_url) {
     id
     title
     url
@@ -401,13 +399,20 @@ const postComment = gql`
     }
 `;
 
+const pym = new Pym.Child({polling: 100});
+
+let url = pym.parentUrl;
+
+console.log('pym.parentUrl', url);
+
 export default compose(
   graphql(StreamQuery, {
-    options: { variables: { asset_id: assetID } },
+    // pass in the assetURL at componentDidMount
+    options: { variables: { asset_url: url } },
     props: props => props,
   }),
   graphql(postComment, {
-    options: { variables: { asset_id: assetID } },
+    options: { variables: { asset_url: url } },
     props: ({ownProps, mutate}) => ({
       postComment: (data) => mutate(data)
     }),

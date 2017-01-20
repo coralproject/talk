@@ -75,12 +75,10 @@ type Asset {
   closedAt: String
 }
 
-scalar URL
-
 type RootQuery {
   settings: Settings
   assets: [Asset]
-  asset(id: ID, url: URL): Asset
+  asset(id: ID, url: String): Asset
   me: User
 }
 
