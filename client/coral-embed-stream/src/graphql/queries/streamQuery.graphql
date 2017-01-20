@@ -38,9 +38,5 @@ query AssetQuery($asset_url: String!) {
                 ...commentView
             }
         }
-    },
-    currentUser: me {
-        id,
-        displayName
     }
 }
