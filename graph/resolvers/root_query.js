@@ -1,8 +1,10 @@
 const RootQuery = {
   assets(_, args, {loaders, user}) {
-    if (user.hasRole('admin')) {
-      return loaders.Assets.getAll.load();
+    if (user == null || !user.hasRoles('admin')) {
+      return null;
     }
+
+    return loaders.Assets.getAll.load();
   },
   asset(_, query, {loaders}) {
     if (query.id) {
@@ -23,7 +25,7 @@ const RootQuery = {
   // This endpoint is used for loading moderation queues, so hide it in the
   // event that we aren't an admin.
   comments(_, {query}, {loaders, user}) {
-    if (user == null || !user.hasRole('admin')) {
+    if (user == null || !user.hasRoles('admin')) {
       return null;
     }
 
