@@ -8,6 +8,7 @@ const Stream = ({comments, currentUser, asset}) => {
       {
         comments.map(comment => {
           return <Comment
+            depth={0}
             asset={asset}
             currentUser={currentUser}
             key={comment.id}

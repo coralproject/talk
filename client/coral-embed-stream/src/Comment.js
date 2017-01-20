@@ -15,11 +15,12 @@ import {ReplyBox, ReplyButton} from '../../coral-plugin-replies';
 import FlagComment from '../../coral-plugin-flags/FlagComment';
 import LikeButton from '../../coral-plugin-likes/LikeButton';
 
-const Comment = ({comment, currentUser, asset}) => {
-  console.log('A Comment', comment);
-  console.log('the asset', asset);
+const Comment = ({comment, currentUser, asset, depth}) => {
   return (
-    <div className="comment" id={`c_${comment.id}`}>
+    <div
+      className="comment"
+      id={`c_${comment.id}`}
+      style={{marginLeft: depth * 30}}>
       <hr aria-hidden={true} />
       {/*<AuthorName
         author={comment.user}
@@ -42,8 +43,10 @@ const Comment = ({comment, currentUser, asset}) => {
         <PermalinkButton articleURL={asset.url} commentId={comment.id} />
       </div>
       {
+        comment.replies &&
         comment.replies.map(reply => {
           return <Comment
+            depth={depth + 1}
             asset={asset}
             currentUser={currentUser}
             key={reply.id}
@@ -56,6 +59,7 @@ const Comment = ({comment, currentUser, asset}) => {
 };
 
 Comment.propTypes = {
+  depth: PropTypes.number.isRequired,
   asset: PropTypes.shape({
     id: PropTypes.string,
     title: PropTypes.string,
