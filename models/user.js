@@ -169,6 +169,13 @@ UserSchema.method('filterForUser', function(user = false) {
   return this.toJSON();
 });
 
+/**
+ * Returns true if the user has all the roles specified.
+ */
+UserSchema.method('hasRoles', function(...roles) {
+  return roles.every((role) => this.roles.indexOf(role) >= 0);
+});
+
 // Create the User model.
 const UserModel = mongoose.model('User', UserSchema);
 

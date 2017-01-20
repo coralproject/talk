@@ -6,7 +6,7 @@ const Comment = {
     return loaders.Comments.getByParentID.load(id);
   },
   actions({id}, _, {loaders}) {
-    return loaders.Actions.getByID.load(id);
+    return loaders.Actions.getByItemID.load(id);
   },
   status({status}) {
 
@@ -14,6 +14,9 @@ const Comment = {
     if (status) {
       return status.toUpperCase();
     }
+  },
+  asset({asset_id}, _, {loaders}) {
+    return loaders.Assets.getByID.load(asset_id);
   }
 };
 

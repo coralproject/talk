@@ -1,24 +1,14 @@
-const loaders = require('./loaders');
-const mutators = require('./mutators');
 const schema = require('./schema');
+const Context = require('./context');
 
 module.exports = {
-  createGraphOptions: (req) => {
+  createGraphOptions: (req) => ({
 
-    let context = {};
+    // Schema is created already, so just include it.
+    schema,
 
-    // Load the current logged in user to `user`, otherwise this'll be null.
-    context.user = req.user;
-
-    // Create the loaders.
-    context.loaders = loaders(context);
-
-    // Create the mutators.
-    context.mutators = mutators(context);
-
-    return {
-      schema,
-      context
-    };
-  }
+    // Load in the new context here, this'll create the loaders + mutators for
+    // the lifespan of this request.
+    context: new Context(req)
+  })
 };

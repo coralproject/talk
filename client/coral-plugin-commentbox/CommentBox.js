@@ -59,7 +59,7 @@ class CommentBox extends Component {
     }
     postItem(comment, 'comments')
       .then(({data}) => {
-        const postedComment = data.createComment
+        const postedComment = data.createComment;
         const commentId = postedComment.id;
         if (postedComment.status === 'rejected') {
           addNotification('error', lang.t('comment-post-banned-word'));

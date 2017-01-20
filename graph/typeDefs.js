@@ -1,26 +1,66 @@
-// TODO: Adjust `RootQuery.asset(id: ID, url: URL)` to instead be
-// `RootQuery.asset(id: ID, url: URL!)` because we'll always need the url, if
+// TODO: Adjust `RootQuery.asset(id: ID, url: String)` to instead be
+// `RootQuery.asset(id: ID, url: String!)` because we'll always need the url, if
 // this change is done now everything will likely break on the front end.
 
 const typeDefs = [`
+interface ActionableItem {
+  id: ID!
+}
+
 type UserSettings {
+  # bio of the user.
   bio: String
 }
 
+input CommentsInput {
+  # current status of a comment.
+  status: COMMENT_STATUS
+
+  # asset that a comment is on.
+  asset_id: ID
+
+  # action type to find comments that have an action with.
+  action_type: ACTION_TYPE
+}
+
+# Any person who can author comments, create actions, and view comments on a
+# stream.
 type User {
   id: ID!
+
+  # display name of a user.
   displayName: String!
+
+  # actions against a specific user.
   actions: [ActionSummary]
+
+  # settings for a user.
   settings: UserSettings
+
+  # returns all comments based on a query.
+  comments(query: CommentsInput): [Comment]
 }
 
 type Comment {
   id: ID!
+
+  # the actual comment data.
   body: String!
+
+  # the user who authored the comment.
   user: User
+
+  # the replies that were made to the comment.
   replies(limit: Int = 3): [Comment]
+
+  # the actions made against a comment.
   actions: [ActionSummary]
-  status: String
+
+  # the asset that a comment was made on.
+  asset: Asset
+
+  # the current status of a comment.
+  status: COMMENT_STATUS
 }
 
 enum ITEM_TYPE {
@@ -34,22 +74,20 @@ enum ACTION_TYPE {
   FLAG
 }
 
-interface ActionInterface {
-  action_type: ACTION_TYPE!
-  item_type: ITEM_TYPE!
-}
-
-type Action implements ActionInterface {
+type Action {
   id: ID!
-  item_id: ID!
   action_type: ACTION_TYPE!
+
+  item_id: ID!
   item_type: ITEM_TYPE!
+  item: ActionableItem
+
   user: User!
   updated_at: String
   created_at: String
 }
 
-type ActionSummary implements ActionInterface {
+type ActionSummary {
   action_type: ACTION_TYPE!
   item_type: ITEM_TYPE!
   count: Int
@@ -76,10 +114,26 @@ type Asset {
   closedAt: String
 }
 
+enum COMMENT_STATUS {
+  ACCEPTED
+  REJECTED
+  PREMOD
+}
+
 type RootQuery {
+  # retrieves site wide settings and defaults.
   settings: Settings
+
+  # retrieves all assets.
   assets: [Asset]
+
+  # retrieves a specific asset.
   asset(id: ID, url: String): Asset
+
+  # retrieves comments based on the input query.
+  comments(query: CommentsInput): [Comment]
+
+  # retrieves the current logged in user.
   me: User
 }
 

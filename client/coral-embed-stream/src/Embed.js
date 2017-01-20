@@ -3,8 +3,8 @@ import Pym from 'pym.js';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 
-import {postComment} from './graphql/mutations'
-import {queryStream} from './graphql/queries'
+import {postComment} from './graphql/mutations';
+import {queryStream} from './graphql/queries';
 
 import {
 
@@ -92,6 +92,7 @@ class Embed extends Component {
   }
 
   render () {
+
     // const rootItemId = this.props.items.assets && Object.keys(this.props.items.assets)[0];
     // const rootItem = this.props.items.assets && this.props.items.assets[rootItemId];
     // const {actions, users, comments} = this.props.items;

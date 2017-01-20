@@ -1,4 +1,4 @@
-import { graphql } from 'react-apollo';
+import {graphql} from 'react-apollo';
 import POST_COMMENT from './postComment.graphql';
 
 export const postComment = graphql(POST_COMMENT, {

@@ -166,8 +166,7 @@ ActionSchema.statics.getActionSummaries = function(item_ids, current_user_id = '
         current_user: '$current_user'
       }
     }
-  ])
-  .exec();
+  ]);
 };
 
 /*

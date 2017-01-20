@@ -1,12 +1,8 @@
-/* eslint eqeqeq: ["error", "smart"]*/
+const errors = require('../../errors');
+const Asset = require('../../models/asset');
+const Comment = require('../../models/comment');
 
-const errors = require('../errors');
-const Action = require('../models/action');
-const Asset = require('../models/asset');
-const Comment = require('../models/comment');
-const User = require('../models/user');
-
-const Wordlist = require('../services/wordlist');
+const Wordlist = require('../../services/wordlist');
 
 /**
  * Creates a new comment.
@@ -126,7 +122,7 @@ const createPublicComment = (context, commentInput) => {
           // TODO: this is kind of fragile, we should refactor this to resolve
           // all these const's that we're using like 'comments', 'flag' to be
           // defined in a checkable schema.
-          return createAction(null, {
+          return context.mutators.Action.createAction(null, {
             item_id: comment.id,
             item_type: 'comments',
             action_type: 'flag',
@@ -142,47 +138,6 @@ const createPublicComment = (context, commentInput) => {
       }));
 };
 
-/**
- * Creates an action on a item.
- * @param  {Object} user        the user performing the request
- * @param  {String} item_id     id of the item to add the action to
- * @param  {String} item_type   type of the item
- * @param  {String} action_type type of the action
- * @return {Promise}            resolves to the action created
- */
-const createAction = ({user = {}}, {item_id, item_type, action_type, metadata = {}}) => {
-  return Action.insertUserAction({
-    item_id,
-    item_type,
-    user_id: user.id,
-    action_type,
-    metadata
-  });
-};
-
-/**
- * Deletes an action based on the user id if the user owns that action.
- * @param  {Object} user the user performing the request
- * @param  {[type]} id   [description]
- * @return {[type]}      [description]
- */
-const deleteAction = ({user}, {id}) => {
-  return Action.remove({
-    id,
-    user_id: user.id
-  });
-};
-
-/**
- * Updates a users settings.
- * @param  {Object} user the user performing the request
- * @param  {String} bio  the new user bio
- * @return {Promise}
- */
-const updateUserSettings = ({user}, {bio}) => {
-  return User.updateSettings(user.id, {bio});
-};
-
 module.exports = (context) => {
 
   // TODO: refactor to something that'll return an error in the event an attempt
@@ -192,13 +147,6 @@ module.exports = (context) => {
     return {
       Comment: {
         create: (comment) => createPublicComment(context, comment)
-      },
-      Action: {
-        create: (action) => createAction(context, action),
-        delete: (action) => deleteAction(context, action)
-      },
-      User: {
-        updateSettings: (settings) => updateUserSettings(context, settings)
       }
     };
   }
@@ -206,13 +154,6 @@ module.exports = (context) => {
   return {
     Comment: {
       create: () => {}
-    },
-    Action: {
-      create: () => {},
-      delete: () => {}
-    },
-    User: {
-      updateSettings: () => {}
     }
   };
 };

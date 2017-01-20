@@ -22,7 +22,7 @@ const Comment = ({comment, currentUser, asset, depth}) => {
       id={`c_${comment.id}`}
       style={{marginLeft: depth * 30}}>
       <hr aria-hidden={true} />
-      {/*<AuthorName
+      {/* <AuthorName
         author={comment.user}
         addNotification={this.props.addNotification}
         id={comment.id}

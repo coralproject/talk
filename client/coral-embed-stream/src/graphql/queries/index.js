@@ -1,4 +1,4 @@
-import { graphql } from 'react-apollo';
+import {graphql} from 'react-apollo';
 import STREAM_QUERY from './streamQuery.graphql';
 import Pym from 'pym.js';
 
