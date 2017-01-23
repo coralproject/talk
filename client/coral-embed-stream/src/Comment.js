@@ -8,6 +8,7 @@
 
 import React, {PropTypes} from 'react';
 import PermalinkButton from 'coral-plugin-permalinks/PermalinkButton';
+
 // import AuthorName from '../../coral-plugin-author-name/AuthorName';
 import Content from '../../coral-plugin-commentcontent/CommentContent';
 import PubDate from '../../coral-plugin-pubdate/PubDate';

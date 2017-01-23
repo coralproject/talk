@@ -4,7 +4,7 @@ import translations from './translations.json';
 
 const name = 'coral-plugin-replies';
 
-const ReplyButton = ({banned, parentCommentId, currentUserId, onClick}) => {
+const ReplyButton = ({banned, onClick}) => {
   return (
     <button
       className={`${name}-reply-button`}
@@ -18,9 +18,7 @@ const ReplyButton = ({banned, parentCommentId, currentUserId, onClick}) => {
 
 ReplyButton.propTypes = {
   onClick: PropTypes.func.isRequired,
-  banned: PropTypes.bool.isRequired,
-  parentCommentId: PropTypes.string.isRequired,
-  currentUserId: PropTypes.string.isRequired
+  banned: PropTypes.bool.isRequired
 };
 
 export default ReplyButton;

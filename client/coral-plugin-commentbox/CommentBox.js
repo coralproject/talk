@@ -8,12 +8,13 @@ const name = 'coral-plugin-commentbox';
 class CommentBox extends Component {
 
   static propTypes = {
-    postItem: PropTypes.func.isRequired,
+
     // updateItem: PropTypes.func,
+    // comments: PropTypes.array,
+    postItem: PropTypes.func.isRequired,
     assetId: PropTypes.string.isRequired,
     parentId: PropTypes.string,
     authorId: PropTypes.string.isRequired,
-    // comments: PropTypes.array,
     isReply: PropTypes.bool.isRequired,
     canPost: PropTypes.bool,
     currentUser: PropTypes.object
@@ -26,13 +27,14 @@ class CommentBox extends Component {
 
   postComment = () => {
     const {
-      postItem,
+
+      // child_id,
       // updateItem,
+      // appendItemArray,
+      postItem,
       assetId,
       parentId,
-      // child_id,
       addNotification,
-      // appendItemArray,
       authorId
     } = this.props;
 
@@ -44,6 +46,7 @@ class CommentBox extends Component {
     };
 
     console.log('CommentBox.parentId', parentId);
+
     // let related;
     // let parent_type;
     // if (parent_id) {
@@ -64,12 +67,14 @@ class CommentBox extends Component {
     postItem(comment, 'comments')
       .then(({data}) => {
         const postedComment = data.createComment;
+
         // const commentId = postedComment.id;
         if (postedComment.status === 'rejected') {
           addNotification('error', lang.t('comment-post-banned-word'));
         } else if (postedComment.status === 'PREMOD') {
           addNotification('success', lang.t('comment-post-notif-premod'));
         } else {
+
           // appendItemArray(parent_id || id, related, commentId, !parent_id, parent_type);
           addNotification('success', 'Your comment has been posted.');
         }
