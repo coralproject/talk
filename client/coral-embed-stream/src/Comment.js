@@ -13,9 +13,10 @@ import Content from '../../coral-plugin-commentcontent/CommentContent';
 import PubDate from '../../coral-plugin-pubdate/PubDate';
 // import {ReplyBox, ReplyButton} from '../../coral-plugin-replies';
 // import FlagComment from '../../coral-plugin-flags/FlagComment';
-// import LikeButton from '../../coral-plugin-likes/LikeButton';
+import LikeButton from '../../coral-plugin-likes/LikeButton';
 
-const Comment = ({comment, currentUser, asset, depth}) => {
+const Comment = ({comment, currentUser, asset, depth, showSignInDialog, postAction, deleteAction}) => {
+  const like = comment.actions.filter((a) => a.type === 'LIKE')[0];
   return (
     <div
       className="comment"
@@ -36,10 +37,22 @@ const Comment = ({comment, currentUser, asset, depth}) => {
       <PubDate created_at={comment.created_at} />
       <Content body={comment.body} />
       <div className="commentActionsLeft">
-
+        {/*
+          <ReplyButton/>
+          */}
+          <LikeButton
+            like={like}
+            id={comment.id}
+            postAction={postAction}
+            deleteAction={deleteAction}
+            showSignInDialog={showSignInDialog}
+            currentUser={currentUser}
+            />
       </div>
       <div className="commentActionsRight">
-
+        {/*
+          <FlagButton/>
+          */}
         <PermalinkButton articleURL={asset.url} commentId={comment.id} />
       </div>
       {
@@ -49,6 +62,10 @@ const Comment = ({comment, currentUser, asset, depth}) => {
             depth={depth + 1}
             asset={asset}
             currentUser={currentUser}
+            currentUser={currentUser}
+            postAction={postAction}
+            deleteAction={deleteAction}
+            showSignInDialog={showSignInDialog}
             key={reply.id}
             comment={reply} />;
         })

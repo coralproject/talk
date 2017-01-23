@@ -4,33 +4,26 @@ import translations from './translations.json';
 
 const name = 'coral-plugin-likes';
 
-const LikeButton = ({like, id, postAction, deleteAction, addItem, showSignInDialog, updateItem, currentUser, banned}) => {
-  const liked = like && like.current_user;
+const LikeButton = ({like, id, postAction, deleteAction, showSignInDialog, currentUser}) => {
+  const liked = like && like.current;
   const onLikeClick = () => {
     if (!currentUser) {
       const offset = document.getElementById(`c_${id}`).getBoundingClientRect().top - 75;
       showSignInDialog(offset);
       return;
     }
-    if (banned) {
+    if (currentUser.banned) {
       return;
     }
     if (!liked) {
-      const action = {
-        action_type: 'like'
-      };
-      postAction(id, 'comments', action)
-        .then((action) => {
-          let id = `${action.action_type}_${action.item_id}`;
-          addItem({id, current_user: action, count: like ? like.count + 1 : 1}, 'actions');
-          updateItem(action.item_id, action.action_type, id, 'comments');
-        });
+      postAction({
+        item_id: id,
+        item_type: 'COMMENTS',
+        action_type: 'LIKE'
+      });
+      // TODO: frontend update from mutation
     } else {
-      deleteAction(liked.id)
-        .then(() => {
-          updateItem(like.id, 'count', like.count - 1, 'actions');
-          updateItem(like.id, 'current_user', false, 'actions');
-        });
+      deleteAction(liked.id);
     }
   };
 
