@@ -7,9 +7,9 @@ const Asset = {
       .then((globalSettings) => {
 
         if (settings) {
-          settings = Object.assign({}, settings, globalSettings);
+          settings = Object.assign({}, settings, globalSettings.toObject());
         } else {
-          settings = globalSettings;
+          settings = globalSettings.toObject();
         }
 
         return settings;
