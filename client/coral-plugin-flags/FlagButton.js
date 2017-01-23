@@ -14,22 +14,31 @@ class FlagButton extends Component {
     reason: '',
     note: '',
     step: 0,
-    posted: false
+    localPost: null,
+    localDelete: false
   }
 
   // When the "report" button is clicked expand the menu
   onReportClick = () => {
-    if (!this.props.currentUser) {
+    const {currentUser, flag, deleteAction} = this.props;
+    const {localPost, localDelete} = this.state;
+    const flagged = (flag && flag.current && !localDelete) || localPost;
+    if (!currentUser) {
       const offset = document.getElementById(`c_${this.props.id}`).getBoundingClientRect().top - 75;
       this.props.showSignInDialog(offset);
       return;
     }
-    this.setState({showMenu: !this.state.showMenu});
+    if (flagged) {
+      this.setState((prev) => prev.localPost ? {...prev, localPost: null, step: 0} : {...prev, localDelete: true});
+      deleteAction(localPost || flag.current.id);
+    } else {
+      this.setState({showMenu: !this.state.showMenu});
+    }
   }
 
   onPopupContinue = () => {
-    const {postAction, addItem, updateItem, flag, id, author_id} = this.props;
-    const {itemType, field, reason, step, note, posted} = this.state;
+    const {postAction, id, author_id} = this.props;
+    const {itemType, reason, step, localPost} = this.state;
 
     // Proceed to the next step or close the menu if we've reached the end
     if (step + 1 >= this.props.getPopupMenu.length) {
@@ -39,33 +48,32 @@ class FlagButton extends Component {
     }
 
     // If itemType and reason are both set, post the action
-    if (itemType && reason && !posted) {
+    if (itemType && reason && !localPost) {
 
       // Set the text from the "other" field if it exists.
       let item_id;
       switch(itemType) {
-      case 'comments':
+      case 'COMMENTS':
         item_id = id;
         break;
-      case 'users':
+      case 'USERS':
         item_id = author_id;
         break;
       }
-      const action = {
-        action_type: 'flag',
-        metadata: {
-          field,
-          reason,
-          note
+
+      // Note: Action metadata has been temporarily removed.
+      if (itemType === 'COMMENTS') {
+        this.setState({localPost: 'temp'});
+      }
+      postAction({
+        item_id,
+        item_type: itemType,
+        action_type: 'FLAG'
+      }).then(({data}) => {
+        if (itemType === 'COMMENTS') {
+          this.setState({localPost: data.createAction.id});
         }
-      };
-      postAction(item_id, itemType, action)
-        .then((action) => {
-          let id = `${action.action_type}_${action.item_id}`;
-          addItem({id, current_user: action, count: flag ? flag.count + 1 : 1}, 'actions');
-          updateItem(action.item_id, action.action_type, id, action.item_type);
-          this.setState({posted: true});
-        });
+      });
     }
   }
 
@@ -98,7 +106,8 @@ class FlagButton extends Component {
 
   render () {
     const {flag, getPopupMenu} = this.props;
-    const flagged = flag && flag.current_user;
+    const {localPost, localDelete} = this.state;
+    const flagged = (flag && flag.current && !localDelete) || localPost;
     const popupMenu = getPopupMenu[this.state.step](this.state.itemType);
 
     return <div className={`${name}-container`}>

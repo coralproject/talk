@@ -12,11 +12,14 @@ import PermalinkButton from 'coral-plugin-permalinks/PermalinkButton';
 import Content from '../../coral-plugin-commentcontent/CommentContent';
 import PubDate from '../../coral-plugin-pubdate/PubDate';
 // import {ReplyBox, ReplyButton} from '../../coral-plugin-replies';
-// import FlagComment from '../../coral-plugin-flags/FlagComment';
+import FlagComment from '../../coral-plugin-flags/FlagComment';
 import LikeButton from '../../coral-plugin-likes/LikeButton';
 
+const getAction = (type, comment) => comment.actions.filter((a) => a.type === type)[0];
+
 const Comment = ({comment, currentUser, asset, depth, showSignInDialog, postAction, deleteAction}) => {
-  const like = comment.actions.filter((a) => a.type === 'LIKE')[0];
+  const like = getAction('LIKE', comment);
+  const flag = getAction('FLAG', comment);
   return (
     <div
       className="comment"
@@ -50,9 +53,15 @@ const Comment = ({comment, currentUser, asset, depth, showSignInDialog, postActi
             />
       </div>
       <div className="commentActionsRight">
-        {/*
-          <FlagButton/>
-          */}
+        <FlagComment
+          flag={flag}
+          id={comment.id}
+          author_id={comment.user.id}
+          postAction={postAction}
+          deleteAction={deleteAction}
+          showSignInDialog={showSignInDialog}
+          currentUser={currentUser}
+          />
         <PermalinkButton articleURL={asset.url} commentId={comment.id} />
       </div>
       {
