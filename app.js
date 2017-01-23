@@ -51,7 +51,7 @@ const session_opts = {
   name: 'talk.sid',
   cookie: {
     secure: false,
-    maxAge: 18000000, // 30 minutes for expiry.
+    maxAge: 36000000, // 1 hour for expiry.
   },
   store: new RedisStore({
     ttl: 1800,
