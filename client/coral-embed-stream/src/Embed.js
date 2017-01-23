@@ -151,7 +151,7 @@ class Embed extends Component {
                   currentUser={user}
                   postAction={this.props.postAction}
                   deleteAction={this.props.deleteAction}
-                  showSignInDialog={showSignInDialog}
+                  showSignInDialog={this.props.showSignInDialog}
                   comments={asset.comments} />
                 <Notification
                   notifLength={4500}
