@@ -8,12 +8,12 @@
 
 import React, {PropTypes} from 'react';
 import PermalinkButton from 'coral-plugin-permalinks/PermalinkButton';
-import AuthorName from '../../coral-plugin-author-name/AuthorName';
+// import AuthorName from '../../coral-plugin-author-name/AuthorName';
 import Content from '../../coral-plugin-commentcontent/CommentContent';
 import PubDate from '../../coral-plugin-pubdate/PubDate';
-import {ReplyBox, ReplyButton} from '../../coral-plugin-replies';
-import FlagComment from '../../coral-plugin-flags/FlagComment';
-import LikeButton from '../../coral-plugin-likes/LikeButton';
+// import {ReplyBox, ReplyButton} from '../../coral-plugin-replies';
+// import FlagComment from '../../coral-plugin-flags/FlagComment';
+// import LikeButton from '../../coral-plugin-likes/LikeButton';
 
 const Comment = ({comment, currentUser, asset, depth}) => {
   return (

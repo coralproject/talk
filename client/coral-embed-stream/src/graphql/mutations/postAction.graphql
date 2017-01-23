@@ -1,0 +1,5 @@
+mutation CreateAction ($action: ActionInput) {
+    createAction(action:$action) {
+        ...action
+    }
+}

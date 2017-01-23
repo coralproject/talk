@@ -31,7 +31,6 @@ class CommentBox extends Component {
       child_id,
       addNotification,
       appendItemArray,
-      premod,
       author
     } = this.props;
 

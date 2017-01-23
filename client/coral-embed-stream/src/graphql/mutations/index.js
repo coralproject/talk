@@ -2,7 +2,7 @@ import {graphql} from 'react-apollo';
 import POST_COMMENT from './postComment.graphql';
 
 export const postComment = graphql(POST_COMMENT, {
-  props: ({dispatch, mutate}) => ({
+  props: ({mutate}) => ({
     postItem: ({asset_id, body}) => {
       return mutate({
         variables: {
@@ -13,4 +13,3 @@ export const postComment = graphql(POST_COMMENT, {
       });
     }}),
 });
-

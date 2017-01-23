@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import Pym from 'pym.js';
+// import Pym from 'pym.js';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 
@@ -102,7 +102,7 @@ class Embed extends Component {
 
     // const banned = (this.props.userData.status === 'banned');
 
-    const {loading, asset, refetch} = this.props.data;
+    const {loading, asset} = this.props.data;
 
     // const {status, moderation, closedMessage, charCount, charCountEnable} = asset.settings;
 
