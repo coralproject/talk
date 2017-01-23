@@ -102,7 +102,7 @@ class Embed extends Component {
 
     // const banned = (this.props.userData.status === 'banned');
 
-    const {loading, asset} = this.props.data;
+    const {loading, asset, refetch} = this.props.data;
 
     // const {status, moderation, closedMessage, charCount, charCountEnable} = asset.settings;
 
@@ -129,24 +129,31 @@ class Embed extends Component {
                          enable={asset.settings.infoBoxEnable}
                        />
                      <RestrictedContent restricted={false} restrictedComp={<SuspendedAccount />}>
-                       <CommentBox
-                         addNotification={this.props.addNotification}
-                         postItem={this.props.postItem}
-                         appendItemArray={this.props.appendItemArray}
-                         updateItem={this.props.updateItem}
-                         id={asset.id}
-                         premod={asset.settings.moderation}
-                         reply={false}
-                         currentUser={this.props.auth.user}
-                         banned={false}
-                         author={user}
-                         charCount={asset.settings.charCountEnable && asset.settings.charCount}/>
+                       {
+                         user
+                         ? <CommentBox
+                            addNotification={this.props.addNotification}
+                            postItem={this.props.postItem}
+                            appendItemArray={this.props.appendItemArray}
+                            updateItem={this.props.updateItem}
+                            assetId={asset.id}
+                            premod={asset.settings.moderation}
+                            isReply={false}
+                            currentUser={this.props.auth.user}
+                            banned={false}
+                            authorId={user.id}
+                            charCount={asset.settings.charCountEnable && asset.settings.charCount} />
+                         : null
+                       }
                      </RestrictedContent>
                      </div>
                    : <p>{asset.settings.closedMessage}</p>
                 }
                 {!loggedIn && <SignInContainer offset={signInOffset}/>}
                 <Stream
+                  refetch={refetch}
+                  addNotification={this.props.addNotification}
+                  postItem={this.props.postItem}
                   asset={asset}
                   currentUser={user}
                   postAction={this.props.postAction}

@@ -1,13 +1,15 @@
 import React, {PropTypes} from 'react';
 import Comment from './Comment';
 
-const Stream = ({comments, currentUser, asset, postAction, deleteAction, showSignInDialog}) => {
+const Stream = ({comments, currentUser, asset, postItem, addNotification, postAction, deleteAction, showSignInDialog}) => {
   return (
     <div>
       {
         comments.map(comment => {
           return <Comment
+            addNotification={addNotification}
             depth={0}
+            postItem={postItem}
             asset={asset}
             currentUser={currentUser}
             postAction={postAction}
@@ -22,6 +24,8 @@ const Stream = ({comments, currentUser, asset, postAction, deleteAction, showSig
 };
 
 Stream.propTypes = {
+  addNotification: PropTypes.func.isRequired,
+  postItem: PropTypes.func.isRequired,
   asset: PropTypes.object.isRequired,
   comments: PropTypes.array.isRequired,
   currentUser: PropTypes.shape({

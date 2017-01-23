@@ -8,11 +8,13 @@ const name = 'coral-plugin-commentbox';
 class CommentBox extends Component {
 
   static propTypes = {
-    postItem: PropTypes.func,
-    updateItem: PropTypes.func,
-    id: PropTypes.string,
-    comments: PropTypes.array,
-    reply: PropTypes.bool,
+    postItem: PropTypes.func.isRequired,
+    // updateItem: PropTypes.func,
+    assetId: PropTypes.string.isRequired,
+    parentId: PropTypes.string,
+    authorId: PropTypes.string.isRequired,
+    // comments: PropTypes.array,
+    isReply: PropTypes.bool.isRequired,
     canPost: PropTypes.bool,
     currentUser: PropTypes.object
   }
@@ -25,33 +27,36 @@ class CommentBox extends Component {
   postComment = () => {
     const {
       postItem,
-      updateItem,
-      id,
-      parent_id,
-      child_id,
+      // updateItem,
+      assetId,
+      parentId,
+      // child_id,
       addNotification,
-      appendItemArray,
-      author
+      // appendItemArray,
+      authorId
     } = this.props;
 
     let comment = {
       body: this.state.body,
-      asset_id: id,
-      author_id: author.id
+      asset_id: assetId,
+      author_id: authorId,
+      parent_id: parentId
     };
-    let related;
-    let parent_type;
-    if (parent_id) {
-      comment.parent_id = parent_id;
-      related = 'children';
-      parent_type = 'comments';
-    } else {
-      related = 'comments';
-      parent_type = 'assets';
-    }
-    if (child_id || parent_id) {
-      updateItem(child_id || parent_id, 'showReply', false, 'comments');
-    }
+
+    console.log('CommentBox.parentId', parentId);
+    // let related;
+    // let parent_type;
+    // if (parent_id) {
+    //   comment.parent_id = parent_id;
+    //   related = 'children';
+    //   parent_type = 'comments';
+    // } else {
+    //   related = 'comments';
+    //   parent_type = 'assets';
+    // }
+    // if (child_id || parent_id) {
+    //   updateItem(child_id || parent_id, 'showReply', false, 'comments');
+    // }
 
     if (this.props.charCount && this.state.body.length > this.props.charCount) {
       return;
@@ -59,13 +64,13 @@ class CommentBox extends Component {
     postItem(comment, 'comments')
       .then(({data}) => {
         const postedComment = data.createComment;
-        const commentId = postedComment.id;
+        // const commentId = postedComment.id;
         if (postedComment.status === 'rejected') {
           addNotification('error', lang.t('comment-post-banned-word'));
         } else if (postedComment.status === 'PREMOD') {
           addNotification('success', lang.t('comment-post-notif-premod'));
         } else {
-          appendItemArray(parent_id || id, related, commentId, !parent_id, parent_type);
+          // appendItemArray(parent_id || id, related, commentId, !parent_id, parent_type);
           addNotification('success', 'Your comment has been posted.');
         }
       })
@@ -74,23 +79,23 @@ class CommentBox extends Component {
   }
 
   render () {
-    const {styles, reply, author, charCount} = this.props;
+    const {styles, isReply, authorId, charCount} = this.props;
     const length = this.state.body.length;
     return <div>
       <div
         className={`${name}-container`}>
           <label
-            htmlFor={ reply ? 'replyText' : 'commentText'}
+            htmlFor={ isReply ? 'replyText' : 'commentText'}
             className="screen-reader-text"
             aria-hidden={true}>
-            {reply ? lang.t('reply') : lang.t('comment')}
+            {isReply ? lang.t('reply') : lang.t('comment')}
           </label>
           <textarea
             className={`${name}-textarea`}
             style={styles && styles.textarea}
             value={this.state.body}
             placeholder={lang.t('comment')}
-            id={reply ? 'replyText' : 'commentText'}
+            id={isReply ? 'replyText' : 'commentText'}
             onChange={(e) => this.setState({body: e.target.value})}
             rows={3}/>
         </div>
@@ -101,7 +106,7 @@ class CommentBox extends Component {
           }
         </div>
         <div className={`${name}-button-container`}>
-          { author && (
+          { authorId && (
               <Button
                 cStyle={!length || (charCount && length > charCount) ? 'lightGrey' : 'darkGrey'}
                 className={`${name}-button`}

@@ -115,7 +115,7 @@ class FlagButton extends Component {
         {
           flagged
           ? <span className={`${name}-button-text`}>{lang.t('reported')}</span>
-        : <span className={`${name}-button-text`}>{lang.t('report')}</span>
+          : <span className={`${name}-button-text`}>{lang.t('report')}</span>
         }
         <i className={`${name}-icon material-icons ${flagged && 'flaggedIcon'}`}
           style={flagged ? styles.flaggedIcon : {}}

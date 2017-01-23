@@ -5,12 +5,12 @@ import DELETE_ACTION from './deleteAction.graphql';
 
 export const postComment = graphql(POST_COMMENT, {
   props: ({mutate}) => ({
-    postItem: ({asset_id, body}) => {
+    postItem: ({asset_id, body, parent_id} /*, type */) => {
       return mutate({
         variables: {
           asset_id,
           body,
-          parent_id: null
+          parent_id
         }
       });
     }}),
