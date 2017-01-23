@@ -8,7 +8,9 @@ class Context {
   constructor({user = null}) {
 
     // Load the current logged in user to `user`, otherwise this'll be null.
-    this.user = user;
+    if (user) {
+      this.user = user;
+    }
 
     // Create the loaders.
     this.loaders = loaders(this);
