@@ -4,11 +4,14 @@
 }
 
 .leftColumn {
-  width: 200px;
+  padding: 42px 56px;
+  width: 234px;
 }
 
 .mainContent {
-  width: calc(90% - 200px);
+  width: calc(100% - 300px);
+  padding: 34px 14px;
+  box-sizing: border-box;
 }
 
 .searchIcon {
@@ -18,11 +21,12 @@
 }
 
 .searchBox {
-  padding: 3px;
+  width: 100%;
+  padding: 9px;
   border: 1px solid #ccc;
-  border-radius: 3px;
-  width: 90%;
+  border-radius: 2px;
   display: flex;
+  background: white;
 }
 
 .searchBoxInput {
@@ -48,6 +52,16 @@
 
 .streamsTable {
   width: 100%;
+  border-left: none;
+  border-right: none;
+
+  th {
+    font-size: 1.1em;
+  }
+
+  th.status {
+    width: 100px;
+  }
 }
 
 .radio {
@@ -55,18 +69,20 @@
 }
 
 .statusMenu {
-  border-radius: 3px;
+  border-radius: 2px;
   width: 10em;
   text-align: center;
   float: right;
-  border: 1px solid #ccc;
   color: #fff;
   cursor: pointer;
+  letter-spacing: 0.7px;
+  font-weight: 400;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
 }
 
 .statusMenuOpen {
   padding: 10px;
-  background-color: #4caf50;
+  background-color: #268D81;
 }
 
 .statusMenuIcon {
@@ -75,9 +91,17 @@
 
 .statusMenuClosed {
   padding: 10px;
-  background-color: #000;
+  background-color: #262626;
 }
 
 .hidden {
   display: none;
+}
+
+.radioGroup {
+  margin-top: 5px;
+  span {
+    margin-bottom: 7px;
+    display: inline-block;
+  }
 }

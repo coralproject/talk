@@ -12,14 +12,35 @@ const lang = new I18n(translations);
 
 export default ({onTabClick, ...props}) => (
   <div>
-    <div className='mdl-tabs mdl-js-tabs mdl-js-ripple-effect'>
+    <div className='mdl-tabs'>
       <div className={`mdl-tabs__tab-bar ${styles.tabBar}`}>
-        <a href='#pending' onClick={() => onTabClick('pending')}
-           className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.pending')}</a>
-        <a href='#rejected' onClick={() => onTabClick('rejected')}
-           className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.rejected')}</a>
-        <a href='#flagged' onClick={() => onTabClick('flagged')}
-           className={`mdl-tabs__tab ${styles.tab}`}>{lang.t('modqueue.flagged')}</a>
+        <a href='#pending'
+           onClick={(e) => {
+             e.preventDefault();
+             onTabClick('pending');
+           }}
+           className={`mdl-tabs__tab ${styles.tab} ${props.activeTab === 'pending' ? styles.active : ''}`}
+        >
+          {lang.t('modqueue.pending')}
+        </a>
+        <a href='#rejected'
+           onClick={(e) => {
+             e.preventDefault();
+             onTabClick('rejected');
+           }}
+           className={`mdl-tabs__tab ${styles.tab} ${props.activeTab === 'rejected' ? styles.active : ''}`}
+        >
+          {lang.t('modqueue.rejected')}
+        </a>
+        <a href='#flagged'
+           onClick={(e) => {
+             e.preventDefault();
+             onTabClick('flagged');
+           }}
+           className={`mdl-tabs__tab ${styles.tab} ${props.activeTab === 'flagged' ? styles.active : ''}`}
+        >
+          {lang.t('modqueue.flagged')}
+        </a>
       </div>
       <div className={`mdl-tabs__panel is-active ${styles.listContainer}`} id='pending'>
         {

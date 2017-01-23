@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {
   fetchSettings,
@@ -6,13 +6,8 @@ import {
   saveSettingsToServer,
   updateWordlist,
 } from '../../actions/settings';
-import {
-  List,
-  ListItem,
-  ListItemContent,
-  Button,
-  Icon
-} from 'react-mdl';
+
+import {Button, List, Item} from 'coral-ui';
 import styles from './Configure.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations.json';
@@ -21,7 +16,7 @@ import CommentSettings from './CommentSettings';
 import Wordlist from './Wordlist';
 import has from 'lodash/has';
 
-class Configure extends React.Component {
+class Configure extends Component {
   constructor (props) {
     super(props);
 
@@ -30,6 +25,8 @@ class Configure extends React.Component {
       changed: false,
       errors: {}
     };
+
+    this.changeSection = this.changeSection.bind(this);
   }
 
   componentWillMount = () => {
@@ -41,7 +38,7 @@ class Configure extends React.Component {
     this.setState({changed: false});
   }
 
-  changeSection = (activeSection) => () => {
+  changeSection(activeSection) {
     this.setState({activeSection});
   }
 
@@ -99,7 +96,8 @@ class Configure extends React.Component {
   }
 
   render () {
-    const section = this.getSection(this.state.activeSection);
+    const {activeSection} = this.state;
+    const section = this.getSection(activeSection);
 
     const showSave = Object.keys(this.state.errors).reduce(
       (bool, error) => this.state.errors[error] ? false : bool, this.state.changed);
@@ -107,37 +105,40 @@ class Configure extends React.Component {
     return (
         <div className={styles.container}>
           <div className={styles.leftColumn}>
-            <List>
-              <ListItem className={styles.settingOption}>
-                <ListItemContent
-                  onClick={this.changeSection('comments')}
-                  icon='settings'>{lang.t('configure.comment-settings')}</ListItemContent>
-              </ListItem>
-              <ListItem className={styles.settingOption}>
-                <ListItemContent
-                  onClick={this.changeSection('embed')}
-                  icon='code'>{lang.t('configure.embed-comment-stream')}</ListItemContent>
-              </ListItem>
-              <ListItem className={styles.settingOption}>
-                <ListItemContent
-                  onClick={this.changeSection('wordlist')}
-                  icon='settings'>{lang.t('configure.wordlist')}</ListItemContent>
-              </ListItem>
+            <List onChange={this.changeSection} activeItem={activeSection}>
+              <Item itemId='comments' icon="settings">
+                {lang.t('configure.comment-settings')}
+              </Item>
+              <Item itemId='embed' icon='code'>
+                {lang.t('configure.embed-comment-stream')}
+              </Item>
+              <Item itemId='wordlist' icon='settings'>
+                {lang.t('configure.wordlist')}
+              </Item>
             </List>
+            <div className={styles.saveBox}>
             {
               showSave ?
-              <Button
-                raised
-                onClick={this.saveSettings}
-                className={styles.changedSave}>
-                <Icon name='check' /> {lang.t('configure.save-changes')}
-              </Button>
-              : <Button
-              raised
-              disabled>
-              {lang.t('configure.save-changes')}
-            </Button>
+                <Button
+                  raised
+                  onClick={this.saveSettings}
+                  className={styles.changedSave}
+                  icon='check'
+                  full
+                >
+                  {lang.t('configure.save-changes')}
+                </Button>
+              :
+                <Button
+                  raised
+                  disabled
+                  icon='check'
+                  full
+                >
+                {lang.t('configure.save-changes')}
+               </Button>
             }
+            </div>
 
           </div>
           <div className={styles.mainContent}>
