@@ -1,8 +1,7 @@
 import React, {PropTypes} from 'react';
 import Comment from './Comment';
 
-const Stream = ({comments, currentUser, asset}) => {
-  console.log('currentUser', currentUser);
+const Stream = ({comments, currentUser, asset, postAction, deleteAction, showSignInDialog}) => {
   return (
     <div>
       {
@@ -11,6 +10,9 @@ const Stream = ({comments, currentUser, asset}) => {
             depth={0}
             asset={asset}
             currentUser={currentUser}
+            postAction={postAction}
+            deleteAction={deleteAction}
+            showSignInDialog={showSignInDialog}
             key={comment.id}
             comment={comment} />;
         })

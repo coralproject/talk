@@ -1,5 +1,5 @@
-mutation CreateAction ($action: ActionInput) {
+mutation CreateAction ($action: CreateActionInput!) {
     createAction(action:$action) {
-        ...action
+        id
     }
 }

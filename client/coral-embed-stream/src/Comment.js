@@ -12,10 +12,14 @@ import PermalinkButton from 'coral-plugin-permalinks/PermalinkButton';
 import Content from '../../coral-plugin-commentcontent/CommentContent';
 import PubDate from '../../coral-plugin-pubdate/PubDate';
 // import {ReplyBox, ReplyButton} from '../../coral-plugin-replies';
-// import FlagComment from '../../coral-plugin-flags/FlagComment';
-// import LikeButton from '../../coral-plugin-likes/LikeButton';
+import FlagComment from '../../coral-plugin-flags/FlagComment';
+import LikeButton from '../../coral-plugin-likes/LikeButton';
 
-const Comment = ({comment, currentUser, asset, depth}) => {
+const getAction = (type, comment) => comment.actions.filter((a) => a.type === type)[0];
+
+const Comment = ({comment, currentUser, asset, depth, showSignInDialog, postAction, deleteAction}) => {
+  const like = getAction('LIKE', comment);
+  const flag = getAction('FLAG', comment);
   return (
     <div
       className="comment"
@@ -36,10 +40,28 @@ const Comment = ({comment, currentUser, asset, depth}) => {
       <PubDate created_at={comment.created_at} />
       <Content body={comment.body} />
       <div className="commentActionsLeft">
-
+        {/*
+          <ReplyButton/>
+          */}
+          <LikeButton
+            like={like}
+            id={comment.id}
+            postAction={postAction}
+            deleteAction={deleteAction}
+            showSignInDialog={showSignInDialog}
+            currentUser={currentUser}
+            />
       </div>
       <div className="commentActionsRight">
-
+        <FlagComment
+          flag={flag}
+          id={comment.id}
+          author_id={comment.user.id}
+          postAction={postAction}
+          deleteAction={deleteAction}
+          showSignInDialog={showSignInDialog}
+          currentUser={currentUser}
+          />
         <PermalinkButton articleURL={asset.url} commentId={comment.id} />
       </div>
       {
@@ -49,6 +71,10 @@ const Comment = ({comment, currentUser, asset, depth}) => {
             depth={depth + 1}
             asset={asset}
             currentUser={currentUser}
+            currentUser={currentUser}
+            postAction={postAction}
+            deleteAction={deleteAction}
+            showSignInDialog={showSignInDialog}
             key={reply.id}
             comment={reply} />;
         })

@@ -1,0 +1,3 @@
+mutation deleteAction ($id: ID!) {
+    deleteAction(id:$id)
+}

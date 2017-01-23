@@ -3,7 +3,7 @@ import React, {Component, PropTypes} from 'react';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 
-import {postComment} from './graphql/mutations';
+import {postComment, postAction, deleteAction} from './graphql/mutations';
 import {queryStream} from './graphql/queries';
 
 import {
@@ -149,6 +149,9 @@ class Embed extends Component {
                 <Stream
                   asset={asset}
                   currentUser={user}
+                  postAction={this.props.postAction}
+                  deleteAction={this.props.deleteAction}
+                  showSignInDialog={this.props.showSignInDialog}
                   comments={asset.comments} />
                 <Notification
                   notifLength={4500}
@@ -211,5 +214,7 @@ const mapDispatchToProps = dispatch => ({
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   postComment,
+  postAction,
+  deleteAction,
   queryStream
 )(Embed);
