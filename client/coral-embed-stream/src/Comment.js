@@ -60,6 +60,15 @@ class Comment extends React.Component {
     }).isRequired
   }
 
+  onReplyBoxClick = () => {
+    if (this.props.currentUser) {
+      this.setState({replyBoxVisible: !this.state.replyBoxVisible});
+    } else {
+      const offset = document.getElementById(`c_${this.props.comment.id}`).getBoundingClientRect().top - 75;
+      this.props.showSignInDialog(offset);
+    }
+  }
+
   render () {
     const {
       comment,
@@ -95,16 +104,11 @@ class Comment extends React.Component {
           currentUser={currentUser}/>
         <PubDate created_at={comment.created_at} />
         <Content body={comment.body} />
-
-        {
-          currentUser
-          ? <div className="commentActionsLeft">
+          <div className="commentActionsLeft">
               <ReplyButton
-                onClick={() => {
-                  this.setState({replyBoxVisible: !this.state.replyBoxVisible});
-                }}
+                onClick={this.onReplyBoxClick}
                 parentCommentId={parentId || comment.id}
-                currentUserId={currentUser.id}
+                currentUserId={currentUser && currentUser.id}
                 banned={false} />
               <LikeButton
                 like={like}
@@ -114,12 +118,8 @@ class Comment extends React.Component {
                 showSignInDialog={showSignInDialog}
                 currentUser={currentUser} />
             </div>
-          : null
-        }
         <div className="commentActionsRight">
-        {
-          currentUser
-          ? <FlagComment
+          <FlagComment
             flag={flag}
             id={comment.id}
             author_id={comment.user.id}
@@ -127,9 +127,6 @@ class Comment extends React.Component {
             deleteAction={deleteAction}
             showSignInDialog={showSignInDialog}
             currentUser={currentUser} />
-          : null
-        }
-
           <PermalinkButton articleURL={asset.url} commentId={comment.id} />
         </div>
         {
