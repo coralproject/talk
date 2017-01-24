@@ -159,7 +159,7 @@ class Embed extends Component {
                <SettingsContainer
                  loggedIn={loggedIn}
                  userData={this.props.userData}
-                 showSignInDialog={this.props.handleSignInDialog}
+                 showSignInDialog={this.props.showSignInDialog}
                />
              </TabContent>
              <TabContent show={activeTab === 2}>
