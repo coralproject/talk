@@ -62,6 +62,7 @@ class Comment extends React.Component {
   render () {
     const {
       comment,
+      parentId,
       currentUser,
       asset,
       depth,
@@ -101,7 +102,7 @@ class Comment extends React.Component {
                   console.log('reply button click');
                   this.setState({replyBoxVisible: !this.state.replyBoxVisible});
                 }}
-                parentCommentId={comment.id}
+                parentCommentId={parentId || comment.id}
                 currentUserId={currentUser.id}
                 banned={false} />
               <LikeButton
@@ -133,7 +134,7 @@ class Comment extends React.Component {
         {
           this.state.replyBoxVisible
           ? <ReplyBox
-            parentId={comment.id}
+            parentId={parentId || comment.id}
             addNotification={addNotification}
             authorId={currentUser.id}
             postItem={postItem}
