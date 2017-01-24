@@ -14,7 +14,7 @@ class ConfigureStreamContainer extends Component {
     super(props);
 
     this.state = {
-      premod: props.config.moderation === 'pre',
+      premod: props.config.moderation === 'PRE',
       premodLinks: false
     };
 
@@ -26,7 +26,7 @@ class ConfigureStreamContainer extends Component {
   handleApply () {
     const {premod, changed} = this.state;
     const newConfig = {
-      moderation: premod ? 'pre' : 'post'
+      moderation: premod ? 'PRE' : 'POST'
     };
     if (changed) {
       this.props.updateConfiguration(newConfig);

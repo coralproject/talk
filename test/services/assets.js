@@ -72,7 +72,7 @@ describe('services.AssetsService', () => {
           expect(asset).to.have.property('settings');
           expect(asset.settings).to.be.null;
 
-          return AssetsService.overrideSettings(asset.id, {moderation: 'pre'});
+          return AssetsService.overrideSettings(asset.id, {moderation: 'PRE'});
         })
         .then(() => {
           return AssetsService.findOrCreateByUrl('https://override.test.com/asset');
@@ -80,7 +80,7 @@ describe('services.AssetsService', () => {
         .then((asset) => {
           expect(asset).to.have.property('settings');
           expect(asset.settings).is.an('object');
-          expect(asset.settings).to.have.property('moderation', 'pre');
+          expect(asset.settings).to.have.property('moderation', 'PRE');
         });
     });
   });

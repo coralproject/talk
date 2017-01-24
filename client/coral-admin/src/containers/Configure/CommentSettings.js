@@ -28,7 +28,7 @@ const updateCharCount = (updateSettings, settingsError) => (event) => {
 };
 
 const updateModeration = (updateSettings, mod) => () => {
-  const moderation = mod === 'pre' ? 'post' : 'pre';
+  const moderation = mod === 'PRE' ? 'POST' : 'PRE';
   updateSettings({moderation});
 };
 
@@ -70,15 +70,15 @@ const CommentSettings = ({fetchingSettings, title, updateSettings, settingsError
   return (
     <div className={styles.commentSettingsSection}>
       <h3>{title}</h3>
-        <Card className={`${styles.configSetting} ${settings.moderation === 'pre' ? styles.enabledSetting : styles.disabledSetting}`}>
+        <Card className={`${styles.configSetting} ${settings.moderation === 'PRE' ? styles.enabledSetting : styles.disabledSetting}`}>
           <div className={styles.action}>
             <Checkbox
               onChange={updateModeration(updateSettings, settings.moderation)}
-              checked={settings.moderation === 'pre'} />
+              checked={settings.moderation === 'PRE'} />
           </div>
           <div className={styles.content}>
           <div className={styles.settingsHeader}>{lang.t('configure.enable-pre-moderation')}</div>
-          <p className={settings.moderation === 'pre' ? '' : styles.disabledSettingText}>
+          <p className={settings.moderation === 'PRE' ? '' : styles.disabledSettingText}>
             {lang.t('configure.enable-pre-moderation-text')}
           </p>
         </div>

@@ -22,7 +22,7 @@ program
   .command('init')
   .description('initilizes the talk settings')
   .action(() => {
-    const defaults = {id: '1', moderation: 'pre'};
+    const defaults = {id: '1', moderation: 'PRE'};
 
     SettingsService
       .init(defaults)

@@ -6,7 +6,7 @@ const chai = require('chai');
 const expect = chai.expect;
 
 const SettingsService = require('../../../../services/settings');
-const settings = {id: '1', moderation: 'pre', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
+const settings = {id: '1', moderation: 'PRE', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
 
 // Setup chai.
 chai.should();

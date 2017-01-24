@@ -13,7 +13,7 @@ const Action = require('../../../../models/action');
 const UsersService = require('../../../../services/users');
 
 const SettingsService = require('../../../../services/settings');
-const settings = {id: '1', moderation: 'pre', wordlist: {banned: ['banned'], suspect: ['suspect']}};
+const settings = {id: '1', moderation: 'PRE', wordlist: {banned: ['banned'], suspect: ['suspect']}};
 
 describe('/api/v1/queue', () => {
   const comments = [{
