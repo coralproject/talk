@@ -9,6 +9,7 @@ const {logout, showSignInDialog} = authActions;
 const {addNotification, clearNotification} = notificationActions;
 const {fetchAssetSuccess} = assetActions
 
+import pym from './Pym'
 import {queryStream} from './graphql/queries';
 import {postComment, postAction, deleteAction} from './graphql/mutations';
 import {Notification, notificationActions, authActions, assetActions} from 'coral-framework';
