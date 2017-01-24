@@ -35,7 +35,7 @@ describe('/api/v1/assets', () => {
     it('should return all assets without a search query', () => {
       return chai.request(app)
         .get('/api/v1/assets')
-        .set(passport.inject({roles: ['admin']}))
+        .set(passport.inject({roles: ['ADMIN']}))
         .then((res) => {
           const body = res.body;
 
@@ -51,7 +51,7 @@ describe('/api/v1/assets', () => {
     it('should return assets that we search for', () => {
       return chai.request(app)
         .get('/api/v1/assets?search=term2')
-        .set(passport.inject({roles: ['admin']}))
+        .set(passport.inject({roles: ['ADMIN']}))
         .then((res) => {
           const body = res.body;
 
@@ -72,7 +72,7 @@ describe('/api/v1/assets', () => {
     it('should not return assets that we do not search for', () => {
       return chai.request(app)
         .get('/api/v1/assets?search=term3')
-        .set(passport.inject({roles: ['admin']}))
+        .set(passport.inject({roles: ['ADMIN']}))
         .then((res) => {
           const body = res.body;
 
@@ -86,7 +86,7 @@ describe('/api/v1/assets', () => {
     it('should return only closed assets', () => {
       return chai.request(app)
         .get('/api/v1/assets?filter=closed')
-        .set(passport.inject({roles: ['admin']}))
+        .set(passport.inject({roles: ['ADMIN']}))
         .then((res) => {
           const body = res.body;
 
@@ -102,7 +102,7 @@ describe('/api/v1/assets', () => {
     it('should return only opened assets', () => {
       return chai.request(app)
         .get('/api/v1/assets?filter=open')
-        .set(passport.inject({roles: ['admin']}))
+        .set(passport.inject({roles: ['ADMIN']}))
         .then((res) => {
           const body = res.body;
 
@@ -129,7 +129,7 @@ describe('/api/v1/assets', () => {
 
           return chai.request(app)
             .put(`/api/v1/assets/${asset.id}/status`)
-            .set(passport.inject({roles: ['admin']}))
+            .set(passport.inject({roles: ['ADMIN']}))
             .send({closedAt: today});
         })
         .then((res) => {

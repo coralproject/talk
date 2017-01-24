@@ -110,7 +110,7 @@ describe('/api/v1/comments', () => {
     it('should return all the comments', () => {
       return chai.request(app)
         .get('/api/v1/comments')
-        .set(passport.inject({roles: ['admin']}))
+        .set(passport.inject({roles: ['ADMIN']}))
         .then((res) => {
 
           expect(res).to.have.status(200);
@@ -121,7 +121,7 @@ describe('/api/v1/comments', () => {
     it('should return all the rejected comments', () => {
       return chai.request(app)
         .get('/api/v1/comments?status=REJECTED')
-        .set(passport.inject({roles: ['admin']}))
+        .set(passport.inject({roles: ['ADMIN']}))
         .then((res) => {
           expect(res).to.have.status(200);
           expect(res.body).to.have.property('comments');
@@ -133,7 +133,7 @@ describe('/api/v1/comments', () => {
     it('should return all the approved comments', () => {
       return chai.request(app)
         .get('/api/v1/comments?status=ACCEPTED')
-        .set(passport.inject({roles: ['admin']}))
+        .set(passport.inject({roles: ['ADMIN']}))
         .then((res) => {
           expect(res).to.have.status(200);
           expect(res.body.comments).to.have.length(1);
@@ -144,7 +144,7 @@ describe('/api/v1/comments', () => {
     it('should return all the new comments', () => {
       return chai.request(app)
         .get('/api/v1/comments?status=NEW')
-        .set(passport.inject({roles: ['admin']}))
+        .set(passport.inject({roles: ['ADMIN']}))
         .then((res) => {
           expect(res).to.have.status(200);
           expect(res.body.comments).to.have.length(2);
@@ -154,7 +154,7 @@ describe('/api/v1/comments', () => {
     it('should return all the flagged comments', () => {
       return chai.request(app)
         .get('/api/v1/comments?action_type=FLAG')
-        .set(passport.inject({roles: ['admin']}))
+        .set(passport.inject({roles: ['ADMIN']}))
         .then((res) => {
           expect(res).to.have.status(200);
 
@@ -217,7 +217,7 @@ describe('/api/v1/comments/:comment_id', () => {
     it('should return the right comment for the comment_id', () => {
       return chai.request(app)
         .get('/api/v1/comments/abc')
-        .set(passport.inject({roles: ['admin']}))
+        .set(passport.inject({roles: ['ADMIN']}))
         .then((res) => {
           expect(res).to.have.status(200);
           expect(res).to.have.property('body');
@@ -230,7 +230,7 @@ describe('/api/v1/comments/:comment_id', () => {
     it('it should remove comment', () => {
       return chai.request(app)
         .delete('/api/v1/comments/abc')
-        .set(passport.inject({roles: ['admin']}))
+        .set(passport.inject({roles: ['ADMIN']}))
         .then((res) => {
           expect(res).to.have.status(204);
           return CommentsService.findById('abc');
@@ -245,7 +245,7 @@ describe('/api/v1/comments/:comment_id', () => {
     it('it should update status', function() {
       return chai.request(app)
         .put('/api/v1/comments/abc/status')
-        .set(passport.inject({roles: ['admin']}))
+        .set(passport.inject({roles: ['ADMIN']}))
         .send({status: 'accepted'})
         .then((res) => {
           expect(res).to.have.status(204);
@@ -253,7 +253,7 @@ describe('/api/v1/comments/:comment_id', () => {
         });
     });
 
-    it('it should not allow a non-admin to update status', () => {
+    it('it should not allow a non-ADMIN to update status', () => {
       return chai.request(app)
         .put('/api/v1/comments/abc/status')
         .set(passport.inject({roles: []}))
@@ -329,7 +329,7 @@ describe('/api/v1/comments/:comment_id/actions', () => {
     it('it should create an action', () => {
       return chai.request(app)
         .post('/api/v1/comments/abc/actions')
-        .set(passport.inject({id: '456', roles: ['admin']}))
+        .set(passport.inject({id: '456', roles: ['ADMIN']}))
         .send({'action_type': 'flag', 'metadata': {'reason': 'Comment is too awesome.'}})
         .then((res) => {
           expect(res).to.have.status(201);

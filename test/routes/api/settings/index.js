@@ -20,7 +20,7 @@ describe('/api/v1/settings', () => {
       return chai.request(app)
         .get('/api/v1/settings')
         .set(passport.inject({
-          roles: ['admin']
+          roles: ['ADMIN']
         }))
         .then((res) => {
           expect(res).to.have.status(200);
@@ -35,7 +35,7 @@ describe('/api/v1/settings', () => {
     it('should update the settings', () => {
       return chai.request(app)
         .put('/api/v1/settings')
-        .set(passport.inject({roles: ['admin']}))
+        .set(passport.inject({roles: ['ADMIN']}))
         .send({moderation: 'post'})
         .then((res) => {
           expect(res).to.have.status(204);

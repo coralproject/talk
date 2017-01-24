@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 
 import {saveBio, fetchCommentsByUserId} from 'coral-framework/actions/user';
 
-import SignInContainer from '../../coral-sign-in/containers/SignInContainer';
 import BioContainer from './BioContainer';
 import NotLoggedIn from '../components/NotLoggedIn';
 import {TabBar, Tab, TabContent} from '../../coral-ui';
@@ -54,7 +53,6 @@ class SettingsContainer extends Component {
     return (
       <RestrictedContent restricted={!loggedIn} restrictedComp={<NotLoggedIn showSignInDialog={showSignInDialog} />}>
         <SettingsHeader {...this.props} />
-        <SignInContainer noButton={true}/>
         <TabBar onChange={this.handleTabChange} activeTab={activeTab} cStyle='material'>
           <Tab>All Comments ({user.myComments.length})</Tab>
           <Tab>Profile Settings</Tab>
