@@ -1,5 +1,5 @@
 module.exports = {
-  '@tags': ['login', 'admin'],
+  '@tags': ['login', 'ADMIN'],
   before(client) {
     const embedStreamPage = client.page.embedStreamPage();
     const {launchUrl} = client;

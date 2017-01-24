@@ -27,7 +27,7 @@ function gatherActionsAndUsers (comments) {
 // depending on the settings. The :moderation overwrites this settings.
 // Pre-moderation:  New comments are shown in the moderator queues immediately.
 // Post-moderation: New comments do not appear in moderation queues unless they are flagged by other users.
-router.get('/comments/pending', authorization.needed('admin'), (req, res, next) => {
+router.get('/comments/pending', authorization.needed('ADMIN'), (req, res, next) => {
 
   const {asset_id} = req.query;
 
@@ -41,7 +41,7 @@ router.get('/comments/pending', authorization.needed('admin'), (req, res, next) 
     });
 });
 
-router.get('/comments/rejected', authorization.needed('admin'), (req, res, next) => {
+router.get('/comments/rejected', authorization.needed('ADMIN'), (req, res, next) => {
   const {asset_id} = req.query;
 
   CommentsService.moderationQueue('REJECTED', asset_id)
@@ -54,7 +54,7 @@ router.get('/comments/rejected', authorization.needed('admin'), (req, res, next)
     });
 });
 
-router.get('/comments/flagged', authorization.needed('admin'), (req, res, next) => {
+router.get('/comments/flagged', authorization.needed('ADMIN'), (req, res, next) => {
   const {asset_id} = req.query;
 
   const assetIDWrap = (query) => {

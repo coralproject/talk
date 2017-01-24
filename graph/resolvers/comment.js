@@ -8,13 +8,6 @@ const Comment = {
   actions({id}, _, {loaders}) {
     return loaders.Actions.getByItemID.load(id);
   },
-  status({status}) {
-
-    // Because the status can be `null`, we do this check.
-    if (status) {
-      return status.toUpperCase();
-    }
-  },
   asset({asset_id}, _, {loaders}) {
     return loaders.Assets.getByID.load(asset_id);
   }

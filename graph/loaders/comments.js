@@ -44,16 +44,8 @@ const getCommentsByStatusAndAssetID = (context, {status = null, asset_id = null}
 };
 
 const getCommentsByActionTypeAndAssetID = (context, {action_type, asset_id = null}) => {
-
-  // TODO: remove when we move the enum over to the uppercase.
-  if (action_type) {
-    action_type = action_type.toLowerCase();
-  }
-
   return ActionModel.find({
     action_type,
-
-    // TODO: remove when we move the enum over to the uppercase.
     item_type: 'COMMENTS'
   }).then((actions) => {
     let comments = CommentModel.find({
