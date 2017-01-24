@@ -50,12 +50,43 @@ class Embed extends Component {
     }).isRequired
   }
 
+  componentDidMount () {
+
+    // stream id, logged in user, settings
+
+    // Set up messaging between embedded Iframe an parent component
+
+    // this.props.getStream(path || window.location);
+    // this.path = window.location.href.split('#')[0];
+    //
+
+    pym.sendMessage('childReady');
+
+    pym.onMessage('DOMContentLoaded', hash => {
+      const commentId = hash.replace('#', 'c_');
+      let count = 0;
+      const interval = setInterval(() => {
+        if (document.getElementById(commentId)) {
+          window.clearInterval(interval);
+          pym.scrollParentToChildEl(commentId);
+        }
+
+        if (++count > 100) { // ~10 seconds
+          // give up waiting for the comments to load.
+          // it would be weird for the page to jump after that long.
+          window.clearInterval(interval);
+        }
+      }, 100);
+    });
+
+  }
+
   componentWillReceiveProps (nextProps) {
     const {loadAsset} = this.props
     if(!isEqual(nextProps.data.asset, this.props.data.asset)) {
       loadAsset(nextProps.data.asset)
     }
- }
+  }
 
   render () {
     const {activeTab} = this.state;
@@ -89,6 +120,7 @@ class Embed extends Component {
                        {
                          user
                          ? <CommentBox
+                            refetch={refetch}
                             addNotification={this.props.addNotification}
                             postItem={this.props.postItem}
                             appendItemArray={this.props.appendItemArray}
@@ -173,5 +205,3 @@ export default compose(
   deleteAction,
   queryStream
 )(Embed);
-
-

@@ -9,12 +9,12 @@
 import React, {PropTypes} from 'react';
 import PermalinkButton from 'coral-plugin-permalinks/PermalinkButton';
 
-// import AuthorName from '../../coral-plugin-author-name/AuthorName';
-import Content from '../../coral-plugin-commentcontent/CommentContent';
-import PubDate from '../../coral-plugin-pubdate/PubDate';
+import AuthorName from 'coral-plugin-author-name/AuthorName';
+import Content from 'coral-plugin-commentcontent/CommentContent';
+import PubDate from 'coral-plugin-pubdate/PubDate';
 import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
-import FlagComment from '../../coral-plugin-flags/FlagComment';
-import LikeButton from '../../coral-plugin-likes/LikeButton';
+import FlagComment from 'coral-plugin-flags/FlagComment';
+import LikeButton from 'coral-plugin-likes/LikeButton';
 
 const getAction = (type, comment) => comment.actions.filter((a) => a.type === type)[0];
 
@@ -26,6 +26,7 @@ class Comment extends React.Component {
   }
 
   static propTypes = {
+    refetch: PropTypes.func.isRequired,
     showSignInDialog: PropTypes.func.isRequired,
     postAction: PropTypes.func.isRequired,
     deleteAction: PropTypes.func.isRequired,
@@ -62,10 +63,12 @@ class Comment extends React.Component {
   render () {
     const {
       comment,
+      parentId,
       currentUser,
       asset,
       depth,
       postItem,
+      refetch,
       addNotification,
       showSignInDialog,
       postAction,
@@ -81,7 +84,7 @@ class Comment extends React.Component {
         id={`c_${comment.id}`}
         style={{marginLeft: depth * 30}}>
         <hr aria-hidden={true} />
-        {/* <AuthorName
+        <AuthorName
           author={comment.user}
           addNotification={this.props.addNotification}
           id={comment.id}
@@ -89,9 +92,7 @@ class Comment extends React.Component {
           postAction={this.props.postAction}
           showSignInDialog={this.props.showSignInDialog}
           deleteAction={this.props.deleteAction}
-          addItem={this.props.addItem}
-          updateItem={this.props.updateItem}
-          currentUser={currentUser}/>*/}
+          currentUser={currentUser}/>
         <PubDate created_at={comment.created_at} />
         <Content body={comment.body} />
 
@@ -100,10 +101,9 @@ class Comment extends React.Component {
           ? <div className="commentActionsLeft">
               <ReplyButton
                 onClick={() => {
-                  console.log('reply button click');
                   this.setState({replyBoxVisible: !this.state.replyBoxVisible});
                 }}
-                parentCommentId={comment.id}
+                parentCommentId={parentId || comment.id}
                 currentUserId={currentUser.id}
                 banned={false} />
               <LikeButton
@@ -135,17 +135,23 @@ class Comment extends React.Component {
         {
           this.state.replyBoxVisible
           ? <ReplyBox
-            parentId={comment.id}
-            addNotification={addNotification}
-            authorId={currentUser.id}
-            postItem={postItem}
-            assetId={asset.id} />
+              replyPostedHandler={() => {
+                console.log('replyPostedHandler');
+                this.setState({replyBoxVisible: false});
+                refetch();
+              }}
+              parentId={parentId || comment.id}
+              addNotification={addNotification}
+              authorId={currentUser.id}
+              postItem={postItem}
+              assetId={asset.id} />
           : null
         }
         {
           comment.replies &&
           comment.replies.map(reply => {
             return <Comment
+              refetch={refetch}
               addNotification={addNotification}
               parentId={comment.id}
               postItem={postItem}
