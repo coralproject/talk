@@ -15,7 +15,7 @@ router.get('/login', (req, res, next) => {
 });
 
 router.get('*', (req, res) => {
-  res.render('ADMIN', {basePath: '/client/coral-admin'});
+  res.render('admin', {basePath: '/client/coral-admin'});
 });
 
 module.exports = router;
