@@ -3,6 +3,7 @@ machine:
     version: 7
   services:
     - docker
+    - redis
 
 test:
   override:
