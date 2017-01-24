@@ -1,4 +1,4 @@
-describe('scraper: services', () => {
+describe('services.scraper', () => {
   describe('#create', () => {
     it('should create a new kue job');
   });

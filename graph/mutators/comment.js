@@ -1,6 +1,7 @@
 const errors = require('../../errors');
-const Asset = require('../../models/asset');
-const Comment = require('../../models/comment');
+
+const AssetsService = require('../../services/assets');
+const CommentsService = require('../../services/comments');
 
 const Wordlist = require('../../services/wordlist');
 
@@ -14,7 +15,7 @@ const Wordlist = require('../../services/wordlist');
  * @return {Promise}              resolves to the created comment
  */
 const createComment = ({user}, {body, asset_id, parent_id = null}, status = null) => {
-  return Comment.publicCreate({
+  return CommentsService.publicCreate({
     body,
     asset_id,
     parent_id,
@@ -58,8 +59,8 @@ const resolveNewCommentStatus = (context, {asset_id, body}, wordlist = {}) => {
   if (wordlist.banned) {
     status = Promise.resolve('rejected');
   } else {
-    status = Asset
-      .rectifySettings(Asset.findById(asset_id).then((asset) => {
+    status = AssetsService
+      .rectifySettings(AssetsService.findById(asset_id).then((asset) => {
         if (!asset) {
           return Promise.reject(errors.ErrNotFound);
         }

@@ -3,10 +3,10 @@ import CommentBox from '../coral-plugin-commentbox/CommentBox';
 
 const name = 'coral-plugin-replies';
 
-const ReplyBox = ({styles, postItem, assetId, authorId, addNotification, parentId, replyPostedHandler}) => (
+const ReplyBox = ({styles, postItem, assetId, authorId, addNotification, parentId, commentPostedHandler}) => (
   <div className={`${name}-textarea`} style={styles && styles.container}>
     <CommentBox
-      replyPostedHandler={replyPostedHandler}
+      commentPostedHandler={commentPostedHandler}
       parentId={parentId}
       addNotification={addNotification}
       authorId={authorId}
@@ -17,7 +17,7 @@ const ReplyBox = ({styles, postItem, assetId, authorId, addNotification, parentI
 );
 
 ReplyBox.propTypes = {
-  replyPostedHandler: PropTypes.func,
+  commentPostedHandler: PropTypes.func,
   parentId: PropTypes.string,
   addNotification: PropTypes.func.isRequired,
   authorId: PropTypes.string.isRequired,

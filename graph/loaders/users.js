@@ -1,8 +1,8 @@
 const DataLoader = require('dataloader');
 
-const User = require('../../models/user');
+const UsersService = require('../../services/users');
 
-const genUserByIDs = (context, ids) => User.findByIdArray(ids);
+const genUserByIDs = (context, ids) => UsersService.findByIdArray(ids);
 
 /**
  * Creates a set of loaders based on a GraphQL context.

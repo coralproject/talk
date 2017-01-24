@@ -1,19 +1,19 @@
-const Setting = require('../../models/setting');
+const SettingsService = require('../../services/settings');
 const expect = require('chai').expect;
 
-describe('models.Setting', () => {
+describe('services.SettingsService', () => {
 
-  beforeEach(() => Setting.init({moderation: 'pre', wordlist: ['donut']}));
+  beforeEach(() => SettingsService.init({moderation: 'pre', wordlist: ['donut']}));
 
   describe('#retrieve()', () => {
     it('should have a moderation field defined', () => {
-      return Setting.retrieve().then(settings => {
+      return SettingsService.retrieve().then(settings => {
         expect(settings).to.have.property('moderation').and.to.equal('pre');
       });
     });
 
     it('should have two infoBox fields defined', () => {
-      return Setting.retrieve().then(settings => {
+      return SettingsService.retrieve().then(settings => {
         expect(settings).to.have.property('infoBoxEnable').and.to.equal(false);
         expect(settings).to.have.property('infoBoxContent').and.to.equal('');
       });
@@ -23,7 +23,7 @@ describe('models.Setting', () => {
   describe('#update()', () => {
     it('should update the settings with a passed object', () => {
       const mockSettings = {moderation: 'post', infoBoxEnable: true, infoBoxContent: 'yeah'};
-      return Setting.update(mockSettings).then(updatedSettings => {
+      return SettingsService.update(mockSettings).then(updatedSettings => {
         expect(updatedSettings).to.be.an('object');
         expect(updatedSettings).to.have.property('moderation').and.to.equal('post');
         expect(updatedSettings).to.have.property('infoBoxEnable', true);
@@ -34,7 +34,7 @@ describe('models.Setting', () => {
 
   describe('#get', () => {
     it('should return the moderation settings', () => {
-      return Setting.retrieve().then(({moderation}) => {
+      return SettingsService.retrieve().then(({moderation}) => {
         expect(moderation).not.to.be.null;
       });
     });
@@ -42,7 +42,7 @@ describe('models.Setting', () => {
 
   describe('#merge', () => {
     it('should merge a settings object and its overrides', () => {
-      return Setting
+      return SettingsService
         .retrieve()
         .then((settings) => {
           let ovrSett = {moderation: 'post'};

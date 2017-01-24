@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../../../models/user');
+const UsersService = require('../../../services/users');
 const mailer = require('../../../services/mailer');
 const authorization = require('../../../middleware/authorization');
 const errors = require('../../../errors');
@@ -26,7 +26,7 @@ router.post('/email/confirm', (req, res, next) => {
     return next(errors.ErrMissingToken);
   }
 
-  User
+  UsersService
     .verifyEmailConfirmation(token)
     .then(() => {
       res.status(204).end();
@@ -47,7 +47,7 @@ router.post('/password/reset', (req, res, next) => {
     return next('you must submit an email when requesting a password.');
   }
 
-  User
+  UsersService
     .createPasswordResetToken(email)
     .then((token) => {
 
@@ -100,9 +100,10 @@ router.put('/password/reset', (req, res, next) => {
     return next(errors.ErrPasswordTooShort);
   }
 
-  User.verifyPasswordResetToken(token)
+  UsersService
+    .verifyPasswordResetToken(token)
     .then(user => {
-      return User.changePassword(user.id, password);
+      return UsersService.changePassword(user.id, password);
     })
     .then(() => {
       res.status(204).end();
@@ -120,7 +121,7 @@ router.put('/settings', authorization.needed(), (req, res, next) => {
     bio
   } = req.body;
 
-  User
+  UsersService
     .updateSettings(req.user.id, {bio})
     .then(() => {
       res.status(204).end();

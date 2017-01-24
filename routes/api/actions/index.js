@@ -1,10 +1,10 @@
 const express = require('express');
-const Action = require('../../../models/action');
+const ActionsService = require('../../../services/actions');
 
 const router = express.Router();
 
 router.delete('/:action_id', (req, res, next) => {
-  Action
+  ActionsService
     .findOneAndRemove({
       id: req.params.action_id,
       user_id: req.user.id

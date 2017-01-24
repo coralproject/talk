@@ -2,7 +2,7 @@ const DataLoader = require('dataloader');
 
 const util = require('./util');
 
-const Action = require('../../models/action');
+const ActionsService = require('../../services/actions');
 
 /**
  * Looks up actions based on the requested id's all bounded by the user.
@@ -11,7 +11,8 @@ const Action = require('../../models/action');
  * @return {Promise}        resolves to the promises of the requested actions
  */
 const genActionSummariessByItemID = ({user = {}}, item_ids) => {
-  return Action.getActionSummaries(item_ids, user.id)
+  return ActionsService
+    .getActionSummaries(item_ids, user.id)
     .then(util.arrayJoinBy(item_ids, 'item_id'));
 };
 

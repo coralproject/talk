@@ -7,12 +7,12 @@ const expect = chai.expect;
 chai.should();
 chai.use(require('chai-http'));
 
-const Setting = require('../../../../models/setting');
+const SettingsService = require('../../../../services/settings');
 const defaults = {id: '1', moderation: 'pre'};
 
 describe('/api/v1/settings', () => {
 
-  beforeEach(() => Setting.init(defaults));
+  beforeEach(() => SettingsService.init(defaults));
 
   describe('#get', () => {
 
@@ -40,7 +40,7 @@ describe('/api/v1/settings', () => {
         .then((res) => {
           expect(res).to.have.status(204);
 
-          return Setting.retrieve();
+          return SettingsService.retrieve();
         })
         .then((settings) => {
           expect(settings).to.have.property('moderation', 'post');
