@@ -1,15 +1,15 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
-import {isEqual} from 'lodash'
+import {isEqual} from 'lodash';
 
 import {TabBar, Tab, TabContent, Spinner} from '../../coral-ui';
 
 const {logout, showSignInDialog} = authActions;
 const {addNotification, clearNotification} = notificationActions;
-const {fetchAssetSuccess} = assetActions
+const {fetchAssetSuccess} = assetActions;
 
-import pym from './Pym'
+import pym from './PymConnection';
 import {queryStream} from './graphql/queries';
 import {postComment, postAction, deleteAction} from './graphql/mutations';
 import {Notification, notificationActions, authActions, assetActions} from 'coral-framework';
@@ -83,15 +83,14 @@ class Embed extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const {loadAsset} = this.props
+    const {loadAsset} = this.props;
     if(!isEqual(nextProps.data.asset, this.props.data.asset)) {
-      loadAsset(nextProps.data.asset)
+      loadAsset(nextProps.data.asset);
     }
   }
 
   render () {
     const {activeTab} = this.state;
-    const {dispatch} = this.props;
     const {loading, asset, refetch} = this.props.data;
     const {loggedIn, isAdmin, user, showSignInDialog, signInOffset} = this.props.auth;
 

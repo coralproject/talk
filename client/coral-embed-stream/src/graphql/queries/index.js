@@ -1,6 +1,6 @@
 import {graphql} from 'react-apollo';
 import STREAM_QUERY from './streamQuery.graphql';
-import pym from '../../Pym';
+import pym from '../../PymConnection';
 
 let url = pym.parentUrl.split('#')[0] || 'http://localhost:3000/';
 

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {compose} from 'react-apollo';
 
 import {I18n} from '../../coral-framework';
 import {updateOpenStatus, updateConfiguration} from '../../coral-framework/actions/config';
@@ -58,9 +57,10 @@ class ConfigureStreamContainer extends Component {
   }
 
   render () {
-    const {status, asset} = this.props;
+    const {status} = this.props;
+
     // asset.closedAt === null
-    console.log(this.props.apollo.data)
+    console.log(this.props.apollo.data);
     return (
       <div>
         <ConfigureCommentStream

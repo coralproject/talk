@@ -10,10 +10,10 @@ const initialState = Map({
 
 export default function asset (state = initialState, action) {
   switch (action.type) {
-    case actions.FETCH_ASSET_SUCCESS :
-      return state
+  case actions.FETCH_ASSET_SUCCESS :
+    return state
         .merge(action.asset);
-    default :
-      return state;
+  default :
+    return state;
   }
 }
