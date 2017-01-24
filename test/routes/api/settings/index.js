@@ -8,7 +8,7 @@ chai.should();
 chai.use(require('chai-http'));
 
 const SettingsService = require('../../../../services/settings');
-const defaults = {id: '1', moderation: 'pre'};
+const defaults = {id: '1', moderation: 'PRE'};
 
 describe('/api/v1/settings', () => {
 
@@ -25,7 +25,7 @@ describe('/api/v1/settings', () => {
         .then((res) => {
           expect(res).to.have.status(200);
           expect(res).to.be.json;
-          expect(res.body).to.have.property('moderation', 'pre');
+          expect(res.body).to.have.property('moderation', 'PRE');
         });
     });
   });
@@ -36,14 +36,14 @@ describe('/api/v1/settings', () => {
       return chai.request(app)
         .put('/api/v1/settings')
         .set(passport.inject({roles: ['ADMIN']}))
-        .send({moderation: 'post'})
+        .send({moderation: 'POST'})
         .then((res) => {
           expect(res).to.have.status(204);
 
           return SettingsService.retrieve();
         })
         .then((settings) => {
-          expect(settings).to.have.property('moderation', 'post');
+          expect(settings).to.have.property('moderation', 'POST');
         });
     });
   });

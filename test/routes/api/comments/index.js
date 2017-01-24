@@ -15,7 +15,7 @@ const CommentsService = require('../../../../services/comments');
 const UsersService = require('../../../../services/users');
 const SettingsService = require('../../../../services/settings');
 
-const settings = {id: '1', moderation: 'pre', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
+const settings = {id: '1', moderation: 'PRE', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
 
 describe('/api/v1/comments', () => {
 

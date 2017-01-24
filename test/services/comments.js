@@ -6,7 +6,7 @@ const UsersService = require('../../services/users');
 const SettingsService = require('../../services/settings');
 const CommentsService = require('../../services/comments');
 
-const settings = {id: '1', moderation: 'pre', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
+const settings = {id: '1', moderation: 'PRE', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
 
 const expect = require('chai').expect;
 

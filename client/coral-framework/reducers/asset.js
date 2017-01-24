@@ -24,10 +24,12 @@ export default function asset (state = initialState, action) {
       .merge(action.config);
   case actions.OPEN_COMMENTS:
     return state
-      .set('status', 'open');
+      .set('status', 'open')
+      .set('closedAt', null)
   case actions.CLOSE_COMMENTS:
     return state
-      .set('status', 'closed');
+      .set('status', 'closed')
+      .set('closedAt', Date.now())
   default:
     return state;
   }

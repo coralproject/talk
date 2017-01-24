@@ -65,8 +65,8 @@ class Table extends Component {
                   label={lang.t('community.role')}
                   onChange={role => this.onRoleChange(row.id, role)}>
                   <Option value={''}>.</Option>
-                  <Option value={'moderator'}>{lang.t('community.moderator')}</Option>
-                  <Option value={'admin'}>{lang.t('community.admin')}</Option>
+                  <Option value={'MODERATOR'}>{lang.t('community.moderator')}</Option>
+                  <Option value={'ADMIN'}>{lang.t('community.admin')}</Option>
                 </SelectField>
               </td>
             </tr>

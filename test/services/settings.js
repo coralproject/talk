@@ -3,12 +3,12 @@ const expect = require('chai').expect;
 
 describe('services.SettingsService', () => {
 
-  beforeEach(() => SettingsService.init({moderation: 'pre', wordlist: ['donut']}));
+  beforeEach(() => SettingsService.init({moderation: 'PRE', wordlist: ['donut']}));
 
   describe('#retrieve()', () => {
     it('should have a moderation field defined', () => {
       return SettingsService.retrieve().then(settings => {
-        expect(settings).to.have.property('moderation').and.to.equal('pre');
+        expect(settings).to.have.property('moderation').and.to.equal('PRE');
       });
     });
 
@@ -22,10 +22,10 @@ describe('services.SettingsService', () => {
 
   describe('#update()', () => {
     it('should update the settings with a passed object', () => {
-      const mockSettings = {moderation: 'post', infoBoxEnable: true, infoBoxContent: 'yeah'};
+      const mockSettings = {moderation: 'POST', infoBoxEnable: true, infoBoxContent: 'yeah'};
       return SettingsService.update(mockSettings).then(updatedSettings => {
         expect(updatedSettings).to.be.an('object');
-        expect(updatedSettings).to.have.property('moderation').and.to.equal('post');
+        expect(updatedSettings).to.have.property('moderation').and.to.equal('POST');
         expect(updatedSettings).to.have.property('infoBoxEnable', true);
         expect(updatedSettings).to.have.property('infoBoxContent', 'yeah');
       });
@@ -45,11 +45,11 @@ describe('services.SettingsService', () => {
       return SettingsService
         .retrieve()
         .then((settings) => {
-          let ovrSett = {moderation: 'post'};
+          let ovrSett = {moderation: 'POST'};
 
           settings.merge(ovrSett);
 
-          expect(settings).to.have.property('moderation', 'post');
+          expect(settings).to.have.property('moderation', 'POST');
         });
     });
   });

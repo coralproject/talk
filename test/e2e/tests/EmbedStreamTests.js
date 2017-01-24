@@ -20,7 +20,7 @@ module.exports = {
   },
   'User registers and posts a comment with premod off': client => {
     client.perform((client, done) => {
-      mocks.settings({moderation: 'post'})
+      mocks.settings({moderation: 'POST'})
       .then(() => {
 
         // Load Page
@@ -61,7 +61,7 @@ module.exports = {
   },
   'User posts a comment with premod on': client => {
     client.perform((client, done) => {
-      mocks.settings({moderation: 'pre'})
+      mocks.settings({moderation: 'PRE'})
       .then(() => {
 
         // Load Page
@@ -86,7 +86,7 @@ module.exports = {
   },
   'User replies to a comment with premod off': client => {
     client.perform((client, done) => {
-      mocks.settings({moderation: 'post'})
+      mocks.settings({moderation: 'POST'})
       .then(() => {
 
         // Load Page
@@ -119,7 +119,7 @@ module.exports = {
   },
   'User replies to a comment with premod on': client => {
     client.perform((client, done) => {
-      mocks.settings({moderation: 'pre'})
+      mocks.settings({moderation: 'PRE'})
 
       // Add a mock user
       .then(() => {

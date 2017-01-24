@@ -7,7 +7,7 @@ describe('services.UsersService', () => {
 
   let mockUsers;
   beforeEach(() => {
-    const settings = {id: '1', moderation: 'pre', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
+    const settings = {id: '1', moderation: 'PRE', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
 
     return SettingsService.init(settings).then(() => {
       return UsersService.createLocalUsers([{

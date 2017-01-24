@@ -120,7 +120,7 @@ class CommentBox extends Component {
                 cStyle={!length || (charCount && length > charCount) ? 'lightGrey' : 'darkGrey'}
                 className={`${name}-button`}
                 onClick={this.postComment}>
-                {lang.t('post')}
+                {lang.t('POST')}
               </Button>
             )
           }

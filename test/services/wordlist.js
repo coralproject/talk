@@ -17,7 +17,7 @@ describe('services.Wordlist', () => {
   };
 
   let wordlist = new Wordlist();
-  const settings = {id: '1', moderation: 'pre', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
+  const settings = {id: '1', moderation: 'PRE', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
 
   beforeEach(() => SettingsService.init(settings));
 
