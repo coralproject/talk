@@ -490,7 +490,7 @@ module.exports = class UsersService {
    * @return {Promise}
    */
   static all() {
-    UserModel.find();
+    return UserModel.find();
   }
 
   /**

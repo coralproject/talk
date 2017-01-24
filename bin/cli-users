@@ -89,6 +89,10 @@ function createUser(options) {
           .then(() => {
             console.log(`Added the admin ${result.role.trim()} to User ${user.id}.`);
             util.shutdown();
+          })
+          .catch((err) => {
+            console.error(err);
+            util.shutdown();
           });
       } else {
         util.shutdown();
