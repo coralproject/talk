@@ -5,9 +5,9 @@ import auth from './auth';
 import user from './user';
 
 export default {
-  config,
-  items,
-  notification,
   auth,
-  user
+  user,
+  items,
+  config,
+  notification
 };
