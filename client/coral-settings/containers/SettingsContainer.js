@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import {saveBio, fetchCommentsByUserId} from 'coral-framework/actions/user';
 
-import {link} from '/coral-framework/PymConnection';
+import {link} from 'coral-framework/PymConnection';
 import BioContainer from './BioContainer';
 import NotLoggedIn from '../components/NotLoggedIn';
 import {TabBar, Tab, TabContent} from '../../coral-ui';
