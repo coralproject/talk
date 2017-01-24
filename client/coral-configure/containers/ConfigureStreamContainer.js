@@ -13,6 +13,8 @@ class ConfigureStreamContainer extends Component {
   constructor (props) {
     super(props);
 
+    console.log('moderation', props.asset.settings.moderation)
+
     this.state = {
       premod: props.asset.settings.moderation === 'PRE',
       premodLinks: false
@@ -58,7 +60,6 @@ class ConfigureStreamContainer extends Component {
 
   render () {
     const status = this.props.asset.closedAt === null ? 'open' : 'closed';
-    console.log('state premod', this.state.premod)
     return (
       <div>
         <ConfigureCommentStream
