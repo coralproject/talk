@@ -5,7 +5,10 @@ const initialState = Map({
   closedAt: null,
   settings: null,
   title: null,
-  url: null
+  url: null,
+  features: Map({}),
+  status: 'open',
+  moderation: null
 });
 
 export default function asset (state = initialState, action) {
@@ -13,7 +16,19 @@ export default function asset (state = initialState, action) {
   case actions.FETCH_ASSET_SUCCESS :
     return state
         .merge(action.asset);
-  default :
+  case actions.UPDATE_CONFIG:
+    return state
+      .merge(action.config);
+  case actions.UPDATE_CONFIG_SUCCESS:
+    return state
+      .merge(action.config);
+  case actions.OPEN_COMMENTS:
+    return state
+      .set('status', 'open');
+  case actions.CLOSE_COMMENTS:
+    return state
+      .set('status', 'closed');
+  default:
     return state;
   }
 }

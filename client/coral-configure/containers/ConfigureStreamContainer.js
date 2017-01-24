@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {compose} from 'react-apollo';
 
 import {I18n} from '../../coral-framework';
-import {updateOpenStatus, updateConfiguration} from '../../coral-framework/actions/config';
+import {updateOpenStatus, updateConfiguration} from '../../coral-framework/actions/asset';
 
 import CloseCommentsInfo from '../components/CloseCommentsInfo';
 import ConfigureCommentStream from '../components/ConfigureCommentStream';
@@ -15,7 +15,7 @@ class ConfigureStreamContainer extends Component {
     super(props);
 
     this.state = {
-      premod: props.asset.settings.moderation.toLowerCase() === 'pre',
+      premod: props.asset.settings.moderation === 'PRE',
       premodLinks: false
     };
 
@@ -59,7 +59,7 @@ class ConfigureStreamContainer extends Component {
 
   render () {
     const status = this.props.asset.closedAt === null ? 'open' : 'closed';
-
+    console.log('state premod', this.state.premod)
     return (
       <div>
         <ConfigureCommentStream
@@ -81,7 +81,6 @@ class ConfigureStreamContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  config: state.config.toJS(),
   asset: state.asset.toJS()
 });
 
