@@ -9,7 +9,7 @@
 import React, {PropTypes} from 'react';
 import PermalinkButton from 'coral-plugin-permalinks/PermalinkButton';
 
-// import AuthorName from '../../coral-plugin-author-name/AuthorName';
+import AuthorName from '../../coral-plugin-author-name/AuthorName';
 import Content from '../../coral-plugin-commentcontent/CommentContent';
 import PubDate from '../../coral-plugin-pubdate/PubDate';
 import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
@@ -81,7 +81,7 @@ class Comment extends React.Component {
         id={`c_${comment.id}`}
         style={{marginLeft: depth * 30}}>
         <hr aria-hidden={true} />
-        {/* <AuthorName
+        <AuthorName
           author={comment.user}
           addNotification={this.props.addNotification}
           id={comment.id}
@@ -89,9 +89,7 @@ class Comment extends React.Component {
           postAction={this.props.postAction}
           showSignInDialog={this.props.showSignInDialog}
           deleteAction={this.props.deleteAction}
-          addItem={this.props.addItem}
-          updateItem={this.props.updateItem}
-          currentUser={currentUser}/>*/}
+          currentUser={currentUser}/>
         <PubDate created_at={comment.created_at} />
         <Content body={comment.body} />
 
