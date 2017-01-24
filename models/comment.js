@@ -6,6 +6,7 @@ const STATUSES = [
   'ACCEPTED',
   'REJECTED',
   'PREMOD',
+  null
 ];
 
 /**

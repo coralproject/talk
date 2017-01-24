@@ -57,7 +57,7 @@ const resolveNewCommentStatus = (context, {asset_id, body}, wordlist = {}) => {
   let status;
 
   if (wordlist.banned) {
-    status = Promise.resolve('rejected');
+    status = Promise.resolve('REJECTED');
   } else {
     status = AssetsService
       .rectifySettings(AssetsService.findById(asset_id).then((asset) => {
@@ -81,9 +81,9 @@ const resolveNewCommentStatus = (context, {asset_id, body}, wordlist = {}) => {
 
         // Reject if the comment is too long
         if (charCountEnable && body.length > charCount) {
-          return 'rejected';
+          return 'REJECTED';
         }
-        return moderation === 'pre' ? 'premod' : null;
+        return moderation === 'PRE' ? 'PREMOD' : null;
       });
   }
 
@@ -125,8 +125,8 @@ const createPublicComment = (context, commentInput) => {
           // defined in a checkable schema.
           return context.mutators.Action.createAction(null, {
             item_id: comment.id,
-            item_type: 'comments',
-            action_type: 'flag',
+            item_type: 'COMMENTS',
+            action_type: 'FLAG',
             metadata: {
               field: 'body',
               details: 'Matched suspect word filters.'
