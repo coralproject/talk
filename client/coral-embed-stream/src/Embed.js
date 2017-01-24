@@ -48,6 +48,12 @@ class Embed extends Component {
     }).isRequired
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.data != null) {
+      console.log(nextProps.data)
+    }
+  }
+
   render () {
     const {activeTab} = this.state;
     const {dispatch} = this.props;
