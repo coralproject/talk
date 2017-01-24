@@ -55,8 +55,8 @@ class Table extends Component {
                   className={styles.selectField}
                   label={lang.t('community.status')}
                   onChange={status => this.onCommenterStatusChange(row.id, status)}>
-                  <Option value={'active'}>{lang.t('community.active')}</Option>
-                  <Option value={'banned'}>{lang.t('community.banned')}</Option>
+                  <Option value={'ACTIVE'}>{lang.t('community.active')}</Option>
+                  <Option value={'BANNED'}>{lang.t('community.banned')}</Option>
                 </SelectField>
               </td>
               <td className="mdl-data-table__cell--non-numeric">
@@ -65,8 +65,8 @@ class Table extends Component {
                   label={lang.t('community.role')}
                   onChange={role => this.onRoleChange(row.id, role)}>
                   <Option value={''}>.</Option>
-                  <Option value={'moderator'}>{lang.t('community.moderator')}</Option>
-                  <Option value={'admin'}>{lang.t('community.admin')}</Option>
+                  <Option value={'MODERATOR'}>{lang.t('community.moderator')}</Option>
+                  <Option value={'ADMIN'}>{lang.t('community.admin')}</Option>
                 </SelectField>
               </td>
             </tr>
