@@ -20,10 +20,10 @@ const SettingSchema = new Schema({
   moderation: {
     type: String,
     enum: [
-      'pre',
-      'post'
+      'PRE',
+      'POST'
     ],
-    default: 'pre'
+    default: 'PRE'
   },
   infoBoxEnable: {
     type: Boolean,
