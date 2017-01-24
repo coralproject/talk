@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 
-// import Pym from 'pym.js';
+import pym from './Pym';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 
@@ -71,24 +71,25 @@ class Embed extends Component {
     // this.props.getStream(path || window.location);
     // this.path = window.location.href.split('#')[0];
     //
-    // this.pym.sendMessage('childReady');
-    //
-    // this.pym.onMessage('DOMContentLoaded', hash => {
-    //   const commentId = hash.replace('#', 'c_');
-    //   let count = 0;
-    //   const interval = setInterval(() => {
-    //     if (document.getElementById(commentId)) {
-    //       window.clearInterval(interval);
-    //       this.pym.scrollParentToChildEl(commentId);
-    //     }
-    //
-    //     if (++count > 100) { // ~10 seconds
-    //       // give up waiting for the comments to load.
-    //       // it would be weird for the page to jump after that long.
-    //       window.clearInterval(interval);
-    //     }
-    //   }, 100);
-    // });
+
+    pym.sendMessage('childReady');
+
+    pym.onMessage('DOMContentLoaded', hash => {
+      const commentId = hash.replace('#', 'c_');
+      let count = 0;
+      const interval = setInterval(() => {
+        if (document.getElementById(commentId)) {
+          window.clearInterval(interval);
+          pym.scrollParentToChildEl(commentId);
+        }
+
+        if (++count > 100) { // ~10 seconds
+          // give up waiting for the comments to load.
+          // it would be weird for the page to jump after that long.
+          window.clearInterval(interval);
+        }
+      }, 100);
+    });
 
   }
 
