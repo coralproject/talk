@@ -25,11 +25,11 @@ export default function asset (state = initialState, action) {
   case actions.OPEN_COMMENTS:
     return state
       .set('status', 'open')
-      .set('closedAt', null)
+      .set('closedAt', null);
   case actions.CLOSE_COMMENTS:
     return state
       .set('status', 'closed')
-      .set('closedAt', Date.now())
+      .set('closedAt', Date.now());
   default:
     return state;
   }
