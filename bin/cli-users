@@ -7,7 +7,8 @@
 const program = require('commander');
 const pkg = require('../package.json');
 const prompt = require('prompt');
-const User = require('../models/user');
+const UsersService = require('../services/users');
+const UserModel = require('../models/user');
 const mongoose = require('../services/mongoose');
 const util = require('../util');
 const Table = require('cli-table');
@@ -76,15 +77,21 @@ function createUser(options) {
     });
   })
   .then((result) => {
-    return User.createLocalUser(result.email.trim(), result.password.trim(), result.displayName.trim())
+    return UsersService.createLocalUser(result.email.trim(), result.password.trim(), result.displayName.trim())
     .then((user) => {
       console.log(`Created user ${user.id}.`);
 
-      if (result.role && result.role.length > 0) {
-        return User
-          .addRoleToUser(user.id, result.role.trim())
+      let role = result.role ? result.role.trim() : null;
+
+      if (role && role.length > 0) {
+        return UsersService
+          .addRoleToUser(user.id, role)
           .then(() => {
             console.log(`Added the admin ${result.role.trim()} to User ${user.id}.`);
+            util.shutdown();
+          })
+          .catch((err) => {
+            console.error(err);
             util.shutdown();
           });
       } else {
@@ -102,7 +109,7 @@ function createUser(options) {
  * Deletes a user.
  */
 function deleteUser(userID) {
-  User
+  UserModel
     .findOneAndRemove({
       id: userID
     })
@@ -148,7 +155,7 @@ function passwd(userID) {
       return;
     }
 
-    User
+    UsersService
       .changePassword(userID, result.password)
       .then(() => {
         console.log('Password changed.');
@@ -168,7 +175,7 @@ function updateUser(userID, options) {
   const updates = [];
 
   if (options.email && typeof options.email === 'string' && options.email.length > 0) {
-    let q = User.update({
+    let q = UserModel.update({
       'id': userID,
       'profiles.provider': 'local'
     }, {
@@ -181,7 +188,7 @@ function updateUser(userID, options) {
   }
 
   if (options.name && typeof options.name === 'string' && options.name.length > 0) {
-    let q = User.update({
+    let q = UserModel.update({
       'id': userID
     }, {
       $set: {
@@ -208,7 +215,7 @@ function updateUser(userID, options) {
  * Lists all the users registered in the database.
  */
 function listUsers() {
-  User
+  UsersService
     .all()
     .then((users) => {
       let table = new Table({
@@ -248,7 +255,7 @@ function listUsers() {
  * @param  {String} srcUserID id of the user to which is the source of the merge
  */
 function mergeUsers(dstUserID, srcUserID) {
-  User
+  UsersService
     .mergeUsers(dstUserID, srcUserID)
     .then(() => {
       console.log(`User ${srcUserID} was merged into user ${dstUserID}.`);
@@ -266,7 +273,7 @@ function mergeUsers(dstUserID, srcUserID) {
  * @param  {String} role   the role to add
  */
 function addRole(userID, role) {
-  User
+  UsersService
     .addRoleToUser(userID, role)
     .then(() => {
       console.log(`Added the ${role} role to User ${userID}.`);
@@ -284,7 +291,7 @@ function addRole(userID, role) {
  * @param  {String} role   the role to remove
  */
 function removeRole(userID, role) {
-  User
+  UsersService
     .removeRoleFromUser(userID, role)
     .then(() => {
       console.log(`Removed the ${role} role from User ${userID}.`);
@@ -301,8 +308,8 @@ function removeRole(userID, role) {
  * @param  {String} userID id of the user to ban
  */
 function ban(userID) {
-  User
-    .setStatus(userID, 'banned', '')
+  UsersService
+    .setStatus(userID, 'BANNED')
     .then(() => {
       console.log(`Banned the User ${userID}.`);
       util.shutdown();
@@ -318,8 +325,8 @@ function ban(userID) {
  * @param  {String} userUD id of the user to remove the role from
  */
 function unban(userID) {
-  User
-    .setStatus(userID, 'active', '')
+  UsersService
+    .setStatus(userID, 'ACTIVE')
     .then(() => {
       console.log(`Unban the User ${userID}.`);
       util.shutdown();
@@ -335,7 +342,7 @@ function unban(userID) {
  * @param  {String} userID the ID of a user to disable
  */
 function disableUser(userID) {
-  User
+  UsersService
     .disableUser(userID)
     .then(() => {
       console.log(`User ${userID} was disabled.`);
@@ -352,7 +359,7 @@ function disableUser(userID) {
  * @param  {String} userID the ID of a user to enable
  */
 function enableUser(userID) {
-  User
+  UsersService
     .enableUser(userID)
     .then(() => {
       console.log(`User ${userID} was enabled.`);

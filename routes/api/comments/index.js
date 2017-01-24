@@ -1,10 +1,12 @@
 const express = require('express');
 const errors = require('../../../errors');
-const Comment = require('../../../models/comment');
-const Asset = require('../../../models/asset');
-const User = require('../../../models/user');
-const Action = require('../../../models/action');
-const wordlist = require('../../../services/wordlist');
+
+const CommentModel = require('../../../models/comment');
+const CommentsService = require('../../../services/comments');
+const AssetsService = require('../../../services/assets');
+const UsersService = require('../../../services/users');
+const ActionsService = require('../../../services/actions');
+
 const authorization = require('../../../middleware/authorization');
 const _ = require('lodash');
 
@@ -20,13 +22,13 @@ router.get('/', (req, res, next) => {
   } = req.query;
 
   // everything on this route requires admin privileges besides listing comments for owner of said comments
-  if (!authorization.has(req.user, 'admin') && !user_id) {
+  if (!authorization.has(req.user, 'ADMIN') && !user_id) {
     next(errors.ErrNotAuthorized);
     return;
   }
 
   // if the user is not an admin, only return comment list for the owner of the comments
-  if (req.user.id !== user_id && !authorization.has(req.user, 'admin')) {
+  if (req.user.id !== user_id && !authorization.has(req.user, 'ADMIN')) {
     next(errors.ErrNotAuthorized);
     return;
   }
@@ -48,27 +50,27 @@ router.get('/', (req, res, next) => {
   // otherwise this will be a vulnerability if you pass user_id and something else,
   // the app will return admin-level data without the proper checks
   if (user_id) {
-    query = Comment.findByUserId(user_id, authorization.has(req.user, 'admin'));
+    query = CommentsService.findByUserId(user_id, authorization.has(req.user, 'ADMIN'));
   } else if (status) {
-    query = assetIDWrap(Comment.findByStatus(status === 'new' ? null : status));
+    query = assetIDWrap(CommentsService.findByStatus(status === 'NEW' ? null : status));
   } else if (action_type) {
-    query = Comment
+    query = CommentsService
       .findIdsByActionType(action_type)
-      .then((ids) => assetIDWrap(Comment.find({
+      .then((ids) => assetIDWrap(CommentModel.find({
         id: {
           $in: ids
         }
       })));
   } else {
-    query = assetIDWrap(Comment.all());
+    query = assetIDWrap(CommentsService.all());
   }
 
   query.then((comments) => {
     return Promise.all([
       comments,
-      Asset.findMultipleById(comments.map(comment => comment.asset_id)),
-      User.findByIdArray(_.uniq(comments.map((comment) => comment.author_id))),
-      Action.getActionSummariesFromComments(asset_id, comments, req.user ? req.user.id : false)
+      AssetsService.findMultipleById(comments.map(comment => comment.asset_id)),
+      UsersService.findByIdArray(_.uniq(comments.map((comment) => comment.author_id))),
+      ActionsService.getActionSummariesFromComments(asset_id, comments, req.user ? req.user.id : false)
     ]);
   })
   .then(([comments, assets, users, actions]) =>
@@ -83,79 +85,8 @@ router.get('/', (req, res, next) => {
   });
 });
 
-router.post('/', wordlist.filter('body'), (req, res, next) => {
-
-  const {
-    body,
-    asset_id,
-    parent_id
-  } = req.body;
-
-  // Decide the status based on whether or not the current asset/settings
-  // has pre-mod enabled or not. If the comment was rejected based on the
-  // wordlist, then reject it, otherwise if the moderation setting is
-  // premod, set it to `premod`.
-  let status;
-
-  if (req.wordlist.banned) {
-    status = Promise.resolve('rejected');
-  } else {
-    status = Asset
-      .rectifySettings(Asset.findById(asset_id).then((asset) => {
-        if (!asset) {
-          return Promise.reject(errors.ErrNotFound);
-        }
-
-        // Check to see if the asset has closed commenting...
-        if (asset.isClosed) {
-
-          // They have, ensure that we send back an error.
-          return Promise.reject(new errors.ErrAssetCommentingClosed(asset.closedMessage));
-        }
-
-        return asset;
-      }))
-
-      // Return `premod` if pre-moderation is enabled and an empty "new" status
-      // in the event that it is not in pre-moderation mode.
-      .then(({moderation, charCountEnable, charCount}) => {
-
-        // Reject if the comment is too long
-        if (charCountEnable && body.length > charCount) {
-          return 'rejected';
-        }
-        return moderation === 'pre' ? 'premod' : null;
-      });
-  }
-
-  status.then((status) => Comment.publicCreate({
-    body,
-    asset_id,
-    parent_id,
-    status,
-    author_id: req.user.id
-  }))
-  .then((comment) => {
-    if (req.wordlist.suspect) {
-      return Comment
-        .addAction(comment.id, null, 'flag', {field: 'body', details: 'Matched suspect word filters.'})
-        .then(() => comment);
-    }
-
-    return comment;
-  })
-  .then((comment) => {
-
-    // The comment was created! Send back the created comment.
-    res.status(201).json(comment);
-  })
-  .catch((err) => {
-    next(err);
-  });
-});
-
-router.get('/:comment_id', authorization.needed('admin'), (req, res, next) => {
-  Comment
+router.get('/:comment_id', authorization.needed('ADMIN'), (req, res, next) => {
+  CommentsService
     .findById(req.params.comment_id)
     .then(comment => {
       if (!comment) {
@@ -170,8 +101,8 @@ router.get('/:comment_id', authorization.needed('admin'), (req, res, next) => {
     });
 });
 
-router.delete('/:comment_id', authorization.needed('admin'), (req, res, next) => {
-  Comment
+router.delete('/:comment_id', authorization.needed('ADMIN'), (req, res, next) => {
+  CommentsService
     .removeById(req.params.comment_id)
     .then(() => {
       res.status(204).end();
@@ -181,12 +112,12 @@ router.delete('/:comment_id', authorization.needed('admin'), (req, res, next) =>
     });
 });
 
-router.put('/:comment_id/status', authorization.needed('admin'), (req, res, next) => {
+router.put('/:comment_id/status', authorization.needed('ADMIN'), (req, res, next) => {
   const {
     status
   } = req.body;
 
-  Comment
+  CommentsService
     .pushStatus(req.params.comment_id, status, req.user.id)
     .then(() => {
       res.status(204).end();
@@ -203,7 +134,7 @@ router.post('/:comment_id/actions', (req, res, next) => {
     metadata
   } = req.body;
 
-  Comment
+  CommentsService
     .addAction(req.params.comment_id, req.user.id, action_type, metadata)
     .then((action) => {
       res.status(201).json(action);

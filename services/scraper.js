@@ -1,6 +1,7 @@
 const kue = require('./kue');
 const debug = require('debug')('talk:services:scraper');
-const Asset = require('../models/asset');
+const AssetModel = require('../models/asset');
+const AssetsService = require('./assets');
 
 const metascraper = require('metascraper');
 
@@ -49,7 +50,7 @@ const scraper = {
    * Updates an Asset based on scraped asset metadata.
    */
   update(id, meta) {
-    return Asset.update({id}, {
+    return AssetModel.update({id}, {
       $set: {
         title: meta.title || '',
         description: meta.description || '',
@@ -74,7 +75,7 @@ const scraper = {
 
       debug(`Starting on Job[${job.id}] for Asset[${job.data.asset_id}]`);
 
-      Asset
+      AssetsService
 
         // Find the asset, or complain that it doesn't exist.
         .findById(job.data.asset_id)

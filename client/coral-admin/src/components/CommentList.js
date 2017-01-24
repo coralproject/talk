@@ -6,10 +6,10 @@ import Comment from 'components/Comment';
 
 // Each action has different meaning and configuration
 const modActions = {
-  'reject': {status: 'rejected', icon: 'close', key: 'r'},
-  'approve': {status: 'accepted', icon: 'done', key: 't'},
-  'flag': {status: 'flagged', icon: 'flag', filter: 'Untouched'},
-  'ban': {status: 'banned', icon: 'not interested'}
+  'reject': {status: 'REJECTED', icon: 'close', key: 'r'},
+  'approve': {status: 'ACCEPTED', icon: 'done', key: 't'},
+  'flag': {status: 'FLAGGED', icon: 'flag', filter: 'Untouched'},
+  'ban': {status: 'BANNED', icon: 'not interested'}
 };
 
 // Renders a comment list and allow performing actions
@@ -21,7 +21,7 @@ export default class CommentList extends React.Component {
     comments: PropTypes.object.isRequired,
     users: PropTypes.object.isRequired,
     onClickAction: PropTypes.func,
-    
+
     // list of actions (flags, etc) associated with the comments
     modActions: PropTypes.arrayOf(PropTypes.string).isRequired,
     loading: PropTypes.bool,

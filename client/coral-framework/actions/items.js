@@ -189,17 +189,34 @@ export function getItemsArray (ids) {
 *   The newly put item to the item store
 */
 
-export function postItem (item, type, id) {
-  return (dispatch) => {
-    if (id) {
-      item.id = id;
+export function postItem (item, type, id, mutate) {
+  console.log(
+    item,
+    type,
+    id,
+    mutate
+  );
+  mutate({
+    variables: {
+      asset_id: id,
+      body: item,
+      parent_id: null
     }
-    return coralApi(`/${type}`, {method: 'POST', body: item})
-      .then((json) => {
-        dispatch(addItem({...item, id:json.id}, type));
-        return json;
-      });
-  };
+  }).then(({data}) => {
+    console.log('it workt');
+    console.log(data);
+  });
+
+  // return (dispatch) => {
+  //   if (id) {
+  //     item.id = id;
+  //   }
+  //   return coralApi(`/${type}`, {method: 'POST', body: item})
+  //     .then((json) => {
+  //       dispatch(addItem({...item, id:json.id}, type));
+  //       return json;
+  //     });
+  // };
 }
 
 /*

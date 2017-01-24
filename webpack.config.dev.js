@@ -70,6 +70,11 @@ module.exports = {
       {
         loader: 'url?limit=100000',
         test: /\.woff$/
+      },
+      {
+        test: /\.(graphql|gql)$/,
+        exclude: /node_modules/,
+        loader: 'graphql-tag/loader'
       }
     ]
   },
