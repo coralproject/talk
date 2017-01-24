@@ -5,11 +5,21 @@ machine:
     - docker
     - redis
 
+dependencies:
+  post:
+    # Lint the project here, before tests are ran.
+    - npm run lint
+
+database:
+  post:
+    # Initialize the settings in the database, this will create indicies for the
+    # database.
+    - ./bin/cli settings init
+    - sleep 2
+
 test:
   override:
-    - npm run lint
-    - ./bin/cli settings init
-    - sleep 5
+    # Run the tests using the junit reporter.
     - MOCHA_FILE=$CIRCLE_TEST_REPORTS/junit/test-results.xml NPM_PACKAGE_CONFIG_MOCHA_REPORTER=mocha-junit-reporter npm run test
 
 deployment:
