@@ -135,7 +135,11 @@ class Comment extends React.Component {
         {
           this.state.replyBoxVisible
           ? <ReplyBox
-              refetch={refetch}
+              replyPostedHandler={() => {
+                console.log('replyPostedHandler');
+                this.setState({replyBoxVisible: false});
+                refetch();
+              }}
               parentId={parentId || comment.id}
               addNotification={addNotification}
               authorId={currentUser.id}
