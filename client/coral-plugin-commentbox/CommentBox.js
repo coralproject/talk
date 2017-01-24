@@ -69,7 +69,7 @@ class CommentBox extends Component {
         const postedComment = data.createComment;
 
         // const commentId = postedComment.id;
-        if (postedComment.status === 'rejected') {
+        if (postedComment.status === 'REJECTED') {
           addNotification('error', lang.t('comment-post-banned-word'));
         } else if (postedComment.status === 'PREMOD') {
           addNotification('success', lang.t('comment-post-notif-premod'));
