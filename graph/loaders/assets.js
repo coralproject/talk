@@ -5,14 +5,15 @@ const errors = require('../../errors');
 const scraper = require('../../services/scraper');
 const util = require('./util');
 
-const Asset = require('../../models/asset');
+const AssetModel = require('../../models/asset');
+const AssetService = require('../../models/asset');
 
 /**
  * Retrieves assets by an array of ids.
  * @param {Object} context the context of the request
  * @param {Array}  ids     array of ids to lookup
  */
-const genAssetsByID = (context, ids) => Asset.find({
+const genAssetsByID = (context, ids) => AssetModel.find({
   id: {
     $in: ids
   }
@@ -32,7 +33,7 @@ const findOrCreateAssetByURL = (context, asset_url) => {
     return Promise.reject(errors.ErrInvalidAssetURL);
   }
 
-  return Asset.findOrCreateByUrl(asset_url)
+  return AssetService.findOrCreateByUrl(asset_url)
     .then((asset) => {
 
       // If the asset wasn't scraped before, scrape it! Otherwise just return
@@ -58,6 +59,6 @@ module.exports = (context) => ({
     getByURL: (url) => findOrCreateAssetByURL(context, url),
 
     getByID: new DataLoader((ids) => genAssetsByID(context, ids)),
-    getAll: new util.SingletonResolver(() => Asset.find({}))
+    getAll: new util.SingletonResolver(() => AssetModel.find({}))
   }
 });

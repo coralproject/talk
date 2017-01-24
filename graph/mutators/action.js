@@ -1,4 +1,5 @@
-const Action = require('../../models/action');
+const ActionModel = require('../../models/action');
+const ActionsService = require('../../services/actions');
 
 /**
  * Creates an action on a item.
@@ -9,7 +10,7 @@ const Action = require('../../models/action');
  * @return {Promise}            resolves to the action created
  */
 const createAction = ({user = {}}, {item_id, item_type, action_type, metadata = {}}) => {
-  return Action.insertUserAction({
+  return ActionsService.insertUserAction({
     item_id,
     item_type,
     user_id: user.id,
@@ -25,7 +26,7 @@ const createAction = ({user = {}}, {item_id, item_type, action_type, metadata = 
  * @return {Promise}     resolves when the action is deleted
  */
 const deleteAction = ({user}, {id}) => {
-  return Action.remove({
+  return ActionModel.remove({
     id,
     user_id: user.id
   });

@@ -1,11 +1,7 @@
 const express = require('express');
 const authorization = require('../../middleware/authorization');
-const payloadFilter = require('../../middleware/payload-filter');
 
 const router = express.Router();
-
-// Filter all content going down the pipe based on user roles.
-router.use(payloadFilter);
 
 router.use('/assets', authorization.needed('admin'), require('./assets'));
 router.use('/settings', authorization.needed('admin'), require('./settings'));
@@ -15,7 +11,6 @@ router.use('/comments', authorization.needed(), require('./comments'));
 router.use('/actions', authorization.needed(), require('./actions'));
 
 router.use('/auth', require('./auth'));
-router.use('/stream', require('./stream'));
 router.use('/users', require('./users'));
 router.use('/account', require('./account'));
 

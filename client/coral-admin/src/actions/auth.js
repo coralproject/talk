@@ -11,7 +11,7 @@ export const checkLogin = () => dispatch => {
   dispatch(checkLoginRequest());
   coralApi('/auth')
     .then(result => {
-      const isAdmin = !!result.user.roles.filter(i => i === 'admin').length;
+      const isAdmin = !!result.user.roles.filter(i => i === 'ADMIN').length;
       dispatch(checkLoginSuccess(result.user, isAdmin));
     })
     .catch(error => dispatch(checkLoginFailure(error)));

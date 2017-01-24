@@ -5,21 +5,21 @@ const mailer = require('../../../../services/mailer');
 const chai = require('chai');
 const expect = chai.expect;
 
-const Setting = require('../../../../models/setting');
+const SettingsService = require('../../../../services/settings');
 const settings = {id: '1', moderation: 'pre', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
 
 // Setup chai.
 chai.should();
 chai.use(require('chai-http'));
 
-const User = require('../../../../models/user');
+const UsersService = require('../../../../services/users');
 
 describe('/api/v1/users/:user_id/email/confirm', () => {
 
   let mockUser;
 
-  beforeEach(() => Setting.init(settings).then(() => {
-    return User.createLocalUser('ana@gmail.com', '123321123', 'Ana');
+  beforeEach(() => SettingsService.init(settings).then(() => {
+    return UsersService.createLocalUser('ana@gmail.com', '123321123', 'Ana');
   })
   .then((user) => {
     mockUser = user;
@@ -63,8 +63,8 @@ describe('/api/v1/users/:user_id/actions', () => {
   }];
 
   beforeEach(() => {
-    return Setting.init(settings).then(() => {
-      return User.createLocalUsers(users);
+    return SettingsService.init(settings).then(() => {
+      return UsersService.createLocalUsers(users);
     });
   });
 
