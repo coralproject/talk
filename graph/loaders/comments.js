@@ -16,7 +16,7 @@ const genCommentsByAssetID = (context, ids) => CommentModel.find({
   },
   parent_id: null,
   status: {
-    $in: [null, 'accepted']
+    $in: [null, 'ACCEPTED']
   }
 }).then(util.arrayJoinBy(ids, 'asset_id'));
 
@@ -29,7 +29,7 @@ const genCommentsByParentID = (context, ids) => CommentModel.find({
     $in: ids
   },
   status: {
-    $in: [null, 'accepted']
+    $in: [null, 'ACCEPTED']
   }
 }).then(util.arrayJoinBy(ids, 'parent_id'));
 
@@ -54,7 +54,7 @@ const getCommentsByActionTypeAndAssetID = (context, {action_type, asset_id = nul
     action_type,
 
     // TODO: remove when we move the enum over to the uppercase.
-    item_type: 'comments'
+    item_type: 'COMMENTS'
   }).then((actions) => {
     let comments = CommentModel.find({
       id: {
