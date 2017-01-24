@@ -6,7 +6,7 @@ const User = {
 
     // If the user is not an admin, only return comment list for the owner of
     // the comments.
-    if (!user.hasRoles('admin') || user.id !== id) {
+    if (!user.hasRoles('ADMIN') || user.id !== id) {
       return null;
     }
 

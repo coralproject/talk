@@ -57,3 +57,12 @@ mongoose.connect(url, (err) => {
 });
 
 module.exports = mongoose;
+
+// Here we include all the models that mongoose is used for, this ensures that
+// when we import mongoose that we also start up all the indexing opreations
+// here.
+require('../models/action');
+require('../models/asset');
+require('../models/comment');
+require('../models/setting');
+require('../models/user');

@@ -3,12 +3,14 @@ machine:
     version: 7
   services:
     - docker
+    - redis
 
 test:
   override:
-    - MOCHA_FILE=$CIRCLE_TEST_REPORTS/junit/test-results.xml ./node_modules/.bin/mocha tests --reporter mocha-junit-reporter
     - npm run lint
-    - npm run build
+    - ./bin/cli settings init
+    - sleep 5
+    - MOCHA_FILE=$CIRCLE_TEST_REPORTS/junit/test-results.xml NPM_PACKAGE_CONFIG_MOCHA_REPORTER=mocha-junit-reporter npm run test
 
 deployment:
   release:

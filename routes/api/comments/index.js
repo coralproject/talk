@@ -22,13 +22,13 @@ router.get('/', (req, res, next) => {
   } = req.query;
 
   // everything on this route requires admin privileges besides listing comments for owner of said comments
-  if (!authorization.has(req.user, 'admin') && !user_id) {
+  if (!authorization.has(req.user, 'ADMIN') && !user_id) {
     next(errors.ErrNotAuthorized);
     return;
   }
 
   // if the user is not an admin, only return comment list for the owner of the comments
-  if (req.user.id !== user_id && !authorization.has(req.user, 'admin')) {
+  if (req.user.id !== user_id && !authorization.has(req.user, 'ADMIN')) {
     next(errors.ErrNotAuthorized);
     return;
   }
@@ -50,7 +50,7 @@ router.get('/', (req, res, next) => {
   // otherwise this will be a vulnerability if you pass user_id and something else,
   // the app will return admin-level data without the proper checks
   if (user_id) {
-    query = CommentsService.findByUserId(user_id, authorization.has(req.user, 'admin'));
+    query = CommentsService.findByUserId(user_id, authorization.has(req.user, 'ADMIN'));
   } else if (status) {
     query = assetIDWrap(CommentsService.findByStatus(status === 'NEW' ? null : status));
   } else if (action_type) {
@@ -85,7 +85,7 @@ router.get('/', (req, res, next) => {
   });
 });
 
-router.get('/:comment_id', authorization.needed('admin'), (req, res, next) => {
+router.get('/:comment_id', authorization.needed('ADMIN'), (req, res, next) => {
   CommentsService
     .findById(req.params.comment_id)
     .then(comment => {
@@ -101,7 +101,7 @@ router.get('/:comment_id', authorization.needed('admin'), (req, res, next) => {
     });
 });
 
-router.delete('/:comment_id', authorization.needed('admin'), (req, res, next) => {
+router.delete('/:comment_id', authorization.needed('ADMIN'), (req, res, next) => {
   CommentsService
     .removeById(req.params.comment_id)
     .then(() => {
@@ -112,7 +112,7 @@ router.delete('/:comment_id', authorization.needed('admin'), (req, res, next) =>
     });
 });
 
-router.put('/:comment_id/status', authorization.needed('admin'), (req, res, next) => {
+router.put('/:comment_id/status', authorization.needed('ADMIN'), (req, res, next) => {
   const {
     status
   } = req.body;

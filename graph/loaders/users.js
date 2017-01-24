@@ -4,11 +4,9 @@ const util = require('./util');
 
 const UsersService = require('../../services/users');
 
-const genUserByIDs = (context, ids) => {
-  return UsersService
+const genUserByIDs = (context, ids) => UsersService
   .findByIdArray(ids)
   .then(util.singleJoinBy(ids, 'id'));
-};
 
 /**
  * Creates a set of loaders based on a GraphQL context.
