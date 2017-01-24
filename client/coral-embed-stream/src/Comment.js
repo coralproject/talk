@@ -9,12 +9,12 @@
 import React, {PropTypes} from 'react';
 import PermalinkButton from 'coral-plugin-permalinks/PermalinkButton';
 
-import AuthorName from '../../coral-plugin-author-name/AuthorName';
-import Content from '../../coral-plugin-commentcontent/CommentContent';
-import PubDate from '../../coral-plugin-pubdate/PubDate';
+import AuthorName from 'coral-plugin-author-name/AuthorName';
+import Content from 'coral-plugin-commentcontent/CommentContent';
+import PubDate from 'coral-plugin-pubdate/PubDate';
 import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
-import FlagComment from '../../coral-plugin-flags/FlagComment';
-import LikeButton from '../../coral-plugin-likes/LikeButton';
+import FlagComment from 'coral-plugin-flags/FlagComment';
+import LikeButton from 'coral-plugin-likes/LikeButton';
 
 const getAction = (type, comment) => comment.actions.filter((a) => a.type === type)[0];
 
@@ -26,6 +26,7 @@ class Comment extends React.Component {
   }
 
   static propTypes = {
+    refetch: PropTypes.func.isRequired,
     showSignInDialog: PropTypes.func.isRequired,
     postAction: PropTypes.func.isRequired,
     deleteAction: PropTypes.func.isRequired,
@@ -67,6 +68,7 @@ class Comment extends React.Component {
       asset,
       depth,
       postItem,
+      refetch,
       addNotification,
       showSignInDialog,
       postAction,
@@ -99,7 +101,6 @@ class Comment extends React.Component {
           ? <div className="commentActionsLeft">
               <ReplyButton
                 onClick={() => {
-                  console.log('reply button click');
                   this.setState({replyBoxVisible: !this.state.replyBoxVisible});
                 }}
                 parentCommentId={parentId || comment.id}
@@ -134,17 +135,19 @@ class Comment extends React.Component {
         {
           this.state.replyBoxVisible
           ? <ReplyBox
-            parentId={parentId || comment.id}
-            addNotification={addNotification}
-            authorId={currentUser.id}
-            postItem={postItem}
-            assetId={asset.id} />
+              refetch={refetch}
+              parentId={parentId || comment.id}
+              addNotification={addNotification}
+              authorId={currentUser.id}
+              postItem={postItem}
+              assetId={asset.id} />
           : null
         }
         {
           comment.replies &&
           comment.replies.map(reply => {
             return <Comment
+              refetch={refetch}
               addNotification={addNotification}
               parentId={comment.id}
               postItem={postItem}
