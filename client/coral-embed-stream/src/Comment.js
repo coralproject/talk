@@ -132,7 +132,7 @@ class Comment extends React.Component {
         {
           this.state.replyBoxVisible
           ? <ReplyBox
-              replyPostedHandler={() => {
+              commentPostedHandler={() => {
                 console.log('replyPostedHandler');
                 this.setState({replyBoxVisible: false});
                 refetch();

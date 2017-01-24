@@ -11,7 +11,7 @@ class CommentBox extends Component {
 
     // updateItem: PropTypes.func,
     // comments: PropTypes.array,
-    replyPostedHandler: PropTypes.func,
+    commentPostedHandler: PropTypes.func,
     postItem: PropTypes.func.isRequired,
     assetId: PropTypes.string.isRequired,
     parentId: PropTypes.string,
@@ -32,7 +32,7 @@ class CommentBox extends Component {
       // child_id,
       // updateItem,
       // appendItemArray,
-      replyPostedHandler,
+      commentPostedHandler,
       postItem,
       assetId,
       parentId,
@@ -79,8 +79,8 @@ class CommentBox extends Component {
           addNotification('success', 'Your comment has been posted.');
         }
 
-        if (replyPostedHandler) {
-          replyPostedHandler();
+        if (commentPostedHandler) {
+          commentPostedHandler();
         }
       })
     .catch((err) => console.error(err));
