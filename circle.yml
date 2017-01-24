@@ -9,7 +9,8 @@ test:
   override:
     - npm run lint
     - ./bin/cli settings init
-    - MOCHA_FILE=$CIRCLE_TEST_REPORTS/junit/test-results.xml ./node_modules/.bin/mocha tests --reporter mocha-junit-reporter
+    - sleep 5
+    - MOCHA_FILE=junit/test-results.xml NPM_PACKAGE_CONFIG_MOCHA_REPORTER=mocha-junit-reporter npm run test
 
 deployment:
   release:
