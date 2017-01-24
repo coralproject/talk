@@ -4,7 +4,7 @@ const expect = chai.expect;
 
 chai.use(require('chai-http'));
 
-const User = require('../../../../models/user');
+const UsersService = require('../../../../services/users');
 
 describe('/api/v1/auth', () => {
   describe('#get', () => {
@@ -19,15 +19,15 @@ describe('/api/v1/auth', () => {
   });
 });
 
-const Setting = require('../../../../models/setting');
+const SettingsService = require('../../../../services/settings');
 
 describe('/api/v1/auth/local', () => {
 
   let mockUser;
   beforeEach(() => {
     const settings = {requireEmailConfirmation: false, wordlist: {banned: ['bad'], suspect: ['naughty']}};
-    return Setting.init(settings).then(() => {
-      return User.createLocalUser('maria@gmail.com', 'password!', 'Maria')
+    return SettingsService.init(settings).then(() => {
+      return UsersService.createLocalUser('maria@gmail.com', 'password!', 'Maria')
         .then((user) => {
           mockUser = user;
         });
@@ -66,7 +66,7 @@ describe('/api/v1/auth/local', () => {
 
   describe('email confirmation enabled', () => {
 
-    beforeEach(() => Setting.init({requireEmailConfirmation: true}));
+    beforeEach(() => SettingsService.init({requireEmailConfirmation: true}));
 
     describe('#post', () => {
       it('should not allow a login from a user that is not confirmed', () => {
@@ -76,9 +76,9 @@ describe('/api/v1/auth/local', () => {
           .catch((err) => {
             err.response.should.have.status(401);
 
-            return User.createEmailConfirmToken(mockUser.id, mockUser.profiles[0].id);
+            return UsersService.createEmailConfirmToken(mockUser.id, mockUser.profiles[0].id);
           })
-          .then(User.verifyEmailConfirmation)
+          .then(UsersService.verifyEmailConfirmation)
           .then(() => {
             return chai.request(app)
               .post('/api/v1/auth/local')

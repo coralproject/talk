@@ -11,7 +11,7 @@ router.get('/password-reset', (req, res) => {
 });
 
 router.get('/login', (req, res, next) => {
-  res.render('login');
+  res.render('admin/login');
 });
 
 router.get('*', (req, res) => {

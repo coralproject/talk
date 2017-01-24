@@ -8,12 +8,13 @@ const expect = chai.expect;
 chai.should();
 chai.use(require('chai-http'));
 
-const Asset = require('../../../../models/asset');
+const AssetModel = require('../../../../models/asset');
+const AssetsService = require('../../../../services/assets');
 
 describe('/api/v1/assets', () => {
 
   beforeEach(() => {
-    return Asset.create([
+    return AssetModel.create([
       {
         url: 'https://coralproject.net/news/asset1',
         title: 'Asset 1',
@@ -121,7 +122,7 @@ describe('/api/v1/assets', () => {
 
       const today = Date.now();
 
-      return Asset.findOrCreateByUrl('http://test.com')
+      return AssetsService.findOrCreateByUrl('http://test.com')
         .then((asset) => {
           expect(asset).to.have.property('isClosed', null);
           expect(asset).to.have.property('closedAt', null);
@@ -135,7 +136,7 @@ describe('/api/v1/assets', () => {
 
           expect(res).to.have.status(204);
 
-          return Asset.findByUrl('http://test.com');
+          return AssetsService.findByUrl('http://test.com');
         })
         .then((asset) => {
           expect(asset).to.have.property('isClosed', true);

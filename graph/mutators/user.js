@@ -1,4 +1,4 @@
-const User = require('../../models/user');
+const UsersService = require('../../services/users');
 
 /**
  * Updates a users settings.
@@ -7,7 +7,7 @@ const User = require('../../models/user');
  * @return {Promise}
  */
 const updateUserSettings = ({user}, {bio}) => {
-  return User.updateSettings(user.id, {bio});
+  return UsersService.updateSettings(user.id, {bio});
 };
 
 module.exports = (context) => {

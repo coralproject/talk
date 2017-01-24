@@ -10,9 +10,9 @@ chai.use(require('chai-http'));
 
 const Comment = require('../../../../models/comment');
 const Action = require('../../../../models/action');
-const User = require('../../../../models/user');
+const UsersService = require('../../../../services/users');
 
-const Setting = require('../../../../models/setting');
+const SettingsService = require('../../../../services/settings');
 const settings = {id: '1', moderation: 'pre', wordlist: {banned: ['banned'], suspect: ['suspect']}};
 
 describe('/api/v1/queue', () => {
@@ -21,26 +21,26 @@ describe('/api/v1/queue', () => {
     body: 'comment 10',
     asset_id: 'asset',
     author_id: '123',
-    status: 'rejected',
+    status: 'REJECTED',
     status_history: [{
-      type: 'rejected'
+      type: 'REJECTED'
     }]
   }, {
     id: 'def',
     body: 'comment 20',
     asset_id: 'asset',
     author_id: '456',
-    status: 'premod',
+    status: 'PREMOD',
     status_history: [{
-      type: 'premod'
+      type: 'PREMOD'
     }]
   }, {
     id: 'hij',
     body: 'comment 30',
     asset_id: '456',
-    status: 'accepted',
+    status: 'ACCEPTED',
     status_history: [{
-      type: 'accepted'
+      type: 'ACCEPTED'
     }]
   }];
 
@@ -55,18 +55,18 @@ describe('/api/v1/queue', () => {
   }];
 
   const actions = [{
-    action_type: 'flag',
+    action_type: 'FLAG',
     item_id: 'abc',
-    item_type: 'comment'
+    item_type: 'COMMENTS'
   }, {
-    action_type: 'like',
+    action_type: 'LIKE',
     item_id: 'hij',
-    item_type: 'comment'
+    item_type: 'COMMENTS'
   }];
 
   beforeEach(() => {
-    return Setting.init(settings).then(() => {
-      return User.createLocalUsers(users)
+    return SettingsService.init(settings).then(() => {
+      return UsersService.createLocalUsers(users)
         .then((u) => {
           comments[0].author_id = u[0].id;
           comments[1].author_id = u[1].id;
@@ -80,7 +80,7 @@ describe('/api/v1/queue', () => {
 
           return Promise.all([
             Action.create(actions),
-            Setting.init(settings)
+            SettingsService.init(settings)
           ]);
         });
     });

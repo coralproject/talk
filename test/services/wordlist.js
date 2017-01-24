@@ -1,9 +1,9 @@
 const expect = require('chai').expect;
 const Errors = require('../../errors');
 const Wordlist = require('../../services/wordlist');
-const Setting = require('../../models/setting');
+const SettingsService = require('../../services/settings');
 
-describe('wordlist: services', () => {
+describe('services.Wordlist', () => {
 
   const wordlists = {
     banned: [
@@ -19,7 +19,7 @@ describe('wordlist: services', () => {
   let wordlist = new Wordlist();
   const settings = {id: '1', moderation: 'pre', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
 
-  beforeEach(() => Setting.init(settings));
+  beforeEach(() => SettingsService.init(settings));
 
   describe('#init', () => {
 

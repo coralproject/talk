@@ -2,14 +2,15 @@ const DataLoader = require('dataloader');
 
 const util = require('./util');
 
-const Action = require('../../models/action');
-const Comment = require('../../models/comment');
+const ActionModel = require('../../models/action');
+const CommentModel = require('../../models/comment');
+const CommentsService = require('../../services/comments');
 
 /**
  * Retrieves comments by an array of asset id's.
  * @param {Array} ids array of ids to lookup
  */
-const genCommentsByAssetID = (context, ids) => Comment.find({
+const genCommentsByAssetID = (context, ids) => CommentModel.find({
   asset_id: {
     $in: ids
   },
@@ -23,7 +24,7 @@ const genCommentsByAssetID = (context, ids) => Comment.find({
  * Retrieves comments by an array of parent ids.
  * @param {Array} ids array of ids to lookup
  */
-const genCommentsByParentID = (context, ids) => Comment.find({
+const genCommentsByParentID = (context, ids) => CommentModel.find({
   parent_id: {
     $in: ids
   },
@@ -39,7 +40,7 @@ const getCommentsByStatusAndAssetID = (context, {status = null, asset_id = null}
     status = status.toLowerCase();
   }
 
-  return Comment.moderationQueue(status, asset_id);
+  return CommentsService.moderationQueue(status, asset_id);
 };
 
 const getCommentsByActionTypeAndAssetID = (context, {action_type, asset_id = null}) => {
@@ -49,13 +50,13 @@ const getCommentsByActionTypeAndAssetID = (context, {action_type, asset_id = nul
     action_type = action_type.toLowerCase();
   }
 
-  return Action.find({
+  return ActionModel.find({
     action_type,
 
     // TODO: remove when we move the enum over to the uppercase.
     item_type: 'comments'
   }).then((actions) => {
-    let comments = Comment.find({
+    let comments = CommentModel.find({
       id: {
         $in: actions.map((action) => action.item_id)
       }
@@ -69,7 +70,7 @@ const getCommentsByActionTypeAndAssetID = (context, {action_type, asset_id = nul
   });
 };
 
-const genCommentsByAuthorID = (context, authorIDs) => Comment.find({
+const genCommentsByAuthorID = (context, authorIDs) => CommentModel.find({
   author_id: {
     $in: authorIDs
   }

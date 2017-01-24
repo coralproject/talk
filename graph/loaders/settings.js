@@ -1,4 +1,4 @@
-const Settings = require('../../models/setting');
+const SettingsService = require('../../services/settings');
 
 const util = require('./util');
 
@@ -8,5 +8,5 @@ const util = require('./util');
  * @return {Object}         object of loaders
  */
 module.exports = () => ({
-  Settings: new util.SingletonResolver(() => Settings.retrieve())
+  Settings: new util.SingletonResolver(() => SettingsService.retrieve())
 });

@@ -2,7 +2,7 @@ const debug = require('debug')('talk:services:wordlist');
 const _ = require('lodash');
 const natural = require('natural');
 const tokenizer = new natural.WordTokenizer();
-const Setting = require('../models/setting');
+const SettingsService = require('./settings');
 const Errors = require('../errors');
 
 /**
@@ -22,7 +22,7 @@ class Wordlist {
    * Loads wordlists in from the database
    */
   load() {
-    return Setting
+    return SettingsService
       .retrieve()
       .then((settings) => {
 

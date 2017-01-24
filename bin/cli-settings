@@ -6,7 +6,7 @@
 
 const program = require('commander');
 const mongoose = require('../services/mongoose');
-const Setting = require('../models/setting');
+const SettingsService = require('../services/settings');
 const util = require('../util');
 
 // Register the shutdown criteria.
@@ -24,8 +24,8 @@ program
   .action(() => {
     const defaults = {id: '1', moderation: 'pre'};
 
-    Setting
-      .update({id: '1'}, {$setOnInsert: defaults}, {upsert: true})
+    SettingsService
+      .init(defaults)
       .then(() => {
         console.log('Created settings object.');
         util.shutdown();
