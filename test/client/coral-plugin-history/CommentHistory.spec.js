@@ -9,11 +9,11 @@ describe('coral-plugin-history/CommentHistory', () => {
   const assets = [{'settings': null, 'created_at':'2016-12-06T21:36:09.302Z', 'url':'localhost:3000/', 'scraped':null, 'status':'open', 'updated_at':'2016-12-08T02:11:15.943Z', '_id':'58472f499e775a38f23d5da0', 'type':'article', 'closedMessage':null, 'id':'7302e637-f884-47c0-9723-02cc10a18617', 'closedAt':null}, {'settings':null, 'created_at':'2016-12-07T02:25:31.983Z', 'url':'http://localhost:3000/', 'scraped':null, 'status':'open', 'updated_at':'2016-12-13T22:58:36.061Z', '_id':'5847731b9e775a38f23d5da1', 'type':'article', 'closedMessage':null, 'id':'96fddf96-7c83-4008-80ad-50091997d006', 'closedAt':null}, {'settings':null, 'created_at':'2016-12-12T19:04:05.770Z', 'url':'http://localhost:3000/embed/stream', 'scraped':null, 'updated_at':'2016-12-14T20:13:21.934Z', '_id':'584ef4a59e775a38f23d5e86', 'type':'article', 'closedMessage':null, 'id':'cef81015-1b53-4d70-b9af-6eca680f22fc', 'closedAt':null}];
 
   beforeEach(() => {
-    render = shallow(<CommentHistory comments={comments} assets={assets} />);
+    render = shallow(<CommentHistory comments={comments} assets={assets} link={()=>{}}/>);
   });
 
   it('should render Comments as children when given comments and assets', () => {
-    const wrapper = mount(<CommentHistory comments={comments} assets={assets} />);
+    const wrapper = mount(<CommentHistory comments={comments} assets={assets} link={()=>{}}/>);
     expect(wrapper.find('.commentHistory__list').children()).to.have.length(7);
   });
 
@@ -21,4 +21,3 @@ describe('coral-plugin-history/CommentHistory', () => {
     expect(render.props().style).to.be.defined;
   });
 });
-
