@@ -1,43 +1,26 @@
 import React, {Component, PropTypes} from 'react';
-
-// import Pym from 'pym.js';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 
-import {postComment, postAction, deleteAction} from './graphql/mutations';
-import {queryStream} from './graphql/queries';
-
-import {
-
-  // itemActions,
-  Notification,
-  notificationActions,
-  authActions
-} from 'coral-framework';
-
-import Stream from './Stream';
-
-import CommentBox from 'coral-plugin-commentbox/CommentBox';
-import InfoBox from 'coral-plugin-infobox/InfoBox';
-
-// import Content from '../../coral-plugin-commentcontent/CommentContent';
-// import PubDate from '../../coral-plugin-pubdate/PubDate';
-import Count from 'coral-plugin-comment-count/CommentCount';
-
-import SignInContainer from '../../coral-sign-in/containers/SignInContainer';
-import UserBox from '../../coral-sign-in/components/UserBox';
-
 import {TabBar, Tab, TabContent, Spinner} from '../../coral-ui';
 
+const {logout, showSignInDialog} = authActions;
+const {addNotification, clearNotification} = notificationActions;
+
+import {queryStream} from './graphql/queries';
+import {postComment, postAction, deleteAction} from './graphql/mutations';
+import {Notification, notificationActions, authActions} from 'coral-framework';
+
+import Stream from './Stream';
+import InfoBox from 'coral-plugin-infobox/InfoBox';
+import Count from 'coral-plugin-comment-count/CommentCount';
+import CommentBox from 'coral-plugin-commentbox/CommentBox';
+import UserBox from '../../coral-sign-in/components/UserBox';
+import SignInContainer from '../../coral-sign-in/containers/SignInContainer';
+import SuspendedAccount from '../../coral-framework/components/SuspendedAccount';
 import SettingsContainer from '../../coral-settings/containers/SettingsContainer';
 import RestrictedContent from '../../coral-framework/components/RestrictedContent';
-import SuspendedAccount from '../../coral-framework/components/SuspendedAccount';
-
 import ConfigureStreamContainer from '../../coral-configure/containers/ConfigureStreamContainer';
-
-// const {addItem, updateItem, postItem, getStream, postAction, deleteAction, appendItemArray} = itemActions;
-const {addNotification, clearNotification} = notificationActions;
-const {logout, showSignInDialog} = authActions;
 
 class Embed extends Component {
 
@@ -59,53 +42,17 @@ class Embed extends Component {
   }
 
   static propTypes = {
-    data: PropTypes.object.isRequired,
-  }
-
-  componentDidMount () {
-
-    // stream id, logged in user, settings
-
-    // Set up messaging between embedded Iframe an parent component
-
-    // this.props.getStream(path || window.location);
-    // this.path = window.location.href.split('#')[0];
-    //
-    // this.pym.sendMessage('childReady');
-    //
-    // this.pym.onMessage('DOMContentLoaded', hash => {
-    //   const commentId = hash.replace('#', 'c_');
-    //   let count = 0;
-    //   const interval = setInterval(() => {
-    //     if (document.getElementById(commentId)) {
-    //       window.clearInterval(interval);
-    //       this.pym.scrollParentToChildEl(commentId);
-    //     }
-    //
-    //     if (++count > 100) { // ~10 seconds
-    //       // give up waiting for the comments to load.
-    //       // it would be weird for the page to jump after that long.
-    //       window.clearInterval(interval);
-    //     }
-    //   }, 100);
-    // });
-
+    data: React.PropTypes.shape({
+      loading: React.PropTypes.bool,
+      error: React.PropTypes.object
+    }).isRequired
   }
 
   render () {
-
-    // const rootItemId = this.props.items.assets && Object.keys(this.props.items.assets)[0];
-    // const rootItem = this.props.items.assets && this.props.items.assets[rootItemId];
-    // const {actions, users, comments} = this.props.items;
-
-    const {loggedIn, isAdmin, user, showSignInDialog, signInOffset} = this.props.auth;
     const {activeTab} = this.state;
-
-    // const banned = (this.props.userData.status === 'banned');
-
+    const {dispatch} = this.props;
     const {loading, asset, refetch} = this.props.data;
-
-    // const {status, moderation, closedMessage, charCount, charCountEnable} = asset.settings;
+    const {loggedIn, isAdmin, user, showSignInDialog, signInOffset} = this.props.auth;
 
     const expandForLogin = showSignInDialog ? {
       minHeight: document.body.scrollHeight + 150
@@ -202,19 +149,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-
-  // addItem: (item, item_id) => dispatch(addItem(item, item_id)),
-  // updateItem: (id, property, value, itemType) => dispatch(updateItem(id, property, value, itemType)),
-  // getStream: (rootId) => dispatch(getStream(rootId)),
   addNotification: (type, text) => dispatch(addNotification(type, text)),
   clearNotification: () => dispatch(clearNotification()),
-
-  // postAction: (item, itemType, action) => dispatch(postAction(item, itemType, action)),
   showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),
-
-  // deleteAction: (item, action, user, itemType) => dispatch(deleteAction(item, action, user, itemType)),
-  // appendItemArray: (item, property, value, addToFront, itemType) => dispatch(appendItemArray(item, property, value, addToFront, itemType)),
-  // handleSignInDialog: () => dispatch(authActions.showSignInDialog()),
   logout: () => dispatch(logout()),
   dispatch: d => dispatch(d)
 });
@@ -226,3 +163,5 @@ export default compose(
   deleteAction,
   queryStream
 )(Embed);
+
+
