@@ -97,8 +97,13 @@ type ActionSummary {
   current_user: Action
 }
 
+enum MODERATION_MODE {
+  PRE
+  POST
+}
+
 type Settings {
-  moderation: String
+  moderation: MODERATION_MODE!
   infoBoxEnable: Boolean
   infoBoxContent: String
   closeTimeout: Int
