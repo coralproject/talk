@@ -61,6 +61,9 @@ type Comment {
 
   # the current status of a comment.
   status: COMMENT_STATUS
+
+  # the time when the comment was created
+  created_at: String!
 }
 
 enum ITEM_TYPE {
