@@ -14,7 +14,6 @@ export {
   I18n,
   notificationActions,
   authActions,
-  configActions,
   assetActions,
   pym
 };
