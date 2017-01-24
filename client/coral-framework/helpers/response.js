@@ -18,7 +18,7 @@ const buildOptions = (inputOptions = {}) => {
 
   if (options._csrf) {
     switch (options.method.toLowerCase()) {
-    case 'POST':
+    case 'post':
     case 'put':
     case 'delete':
       options.headers['x-csrf-token'] = options._csrf;
