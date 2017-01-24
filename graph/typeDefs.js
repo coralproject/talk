@@ -115,6 +115,7 @@ type Asset {
   comments: [Comment]
   settings: Settings!
   closedAt: String
+  created_at: String
 }
 
 enum COMMENT_STATUS {

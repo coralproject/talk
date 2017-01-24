@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {compose} from 'react-apollo';
 
 import {I18n} from '../../coral-framework';
 import {updateOpenStatus, updateConfiguration} from '../../coral-framework/actions/config';
@@ -14,7 +15,7 @@ class ConfigureStreamContainer extends Component {
     super(props);
 
     this.state = {
-      premod: props.config.moderation === 'pre',
+      premod: props.asset.settings.moderation.toLowerCase() === 'pre',
       premodLinks: false
     };
 
@@ -26,7 +27,7 @@ class ConfigureStreamContainer extends Component {
   handleApply () {
     const {premod, changed} = this.state;
     const newConfig = {
-      moderation: premod ? 'pre' : 'post'
+      moderation: premod ? 'PRE' : 'POST'
     };
     if (changed) {
       this.props.updateConfiguration(newConfig);
@@ -47,20 +48,18 @@ class ConfigureStreamContainer extends Component {
   }
 
   toggleStatus () {
-    this.props.updateStatus(this.props.config.status === 'open' ? 'closed' : 'open');
+    this.props.updateStatus(this.props.asset.closedAt === null ? 'closed' : 'open');
   }
 
   getClosedIn () {
-    const {closedTimeout} = this.props.config;
+    const {closedTimeout} = this.props.asset.settings;
     const {created_at} = this.props.asset;
     return lang.timeago(new Date(created_at).getTime() + (1000 * closedTimeout));
   }
 
   render () {
-    const {status} = this.props;
+    const status = this.props.asset.closedAt === null ? 'open' : 'closed';
 
-    // asset.closedAt === null
-    console.log(this.props.apollo.data);
     return (
       <div>
         <ConfigureCommentStream
@@ -83,7 +82,7 @@ class ConfigureStreamContainer extends Component {
 
 const mapStateToProps = (state) => ({
   config: state.config.toJS(),
-  apollo: state.apollo
+  asset: state.asset.toJS()
 });
 
 const mapDispatchToProps = dispatch => ({

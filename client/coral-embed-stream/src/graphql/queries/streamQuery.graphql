@@ -26,6 +26,7 @@ query AssetQuery($asset_url: String!) {
         title
         url
         closedAt
+        created_at
         settings {
             moderation
             infoBoxEnable
