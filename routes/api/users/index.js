@@ -6,7 +6,7 @@ const CommentsService = require('../../../services/comments');
 const mailer = require('../../../services/mailer');
 const authorization = require('../../../middleware/authorization');
 
-router.get('/', authorization.needed('admin'), (req, res, next) => {
+router.get('/', authorization.needed('ADMIN'), (req, res, next) => {
   const {
     value = '',
     field = 'created_at',
@@ -35,7 +35,7 @@ router.get('/', authorization.needed('admin'), (req, res, next) => {
   .catch(next);
 });
 
-router.post('/:user_id/role', authorization.needed('admin'), (req, res, next) => {
+router.post('/:user_id/role', authorization.needed('ADMIN'), (req, res, next) => {
   UsersService
     .addRoleToUser(req.params.user_id, req.body.role)
     .then(() => {
@@ -44,7 +44,7 @@ router.post('/:user_id/role', authorization.needed('admin'), (req, res, next) =>
     .catch(next);
 });
 
-router.post('/:user_id/status', authorization.needed('admin'), (req, res, next) => {
+router.post('/:user_id/status', authorization.needed('ADMIN'), (req, res, next) => {
   UsersService
     .setStatus(req.params.user_id, req.body.status)
     .then((status) => {
@@ -138,7 +138,7 @@ router.post('/:user_id/actions', authorization.needed(), (req, res, next) => {
     });
 });
 
-router.post('/:user_id/email/confirm', authorization.needed('admin'), (req, res, next) => {
+router.post('/:user_id/email/confirm', authorization.needed('ADMIN'), (req, res, next) => {
   const {
     user_id
   } = req.params;
