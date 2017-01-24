@@ -31,7 +31,11 @@
           pymParent.sendMessage('DOMContentLoaded', window.location.hash);
         }
       }, 100);
-    });
+    }
+    pymParent.onMessage('navigate', function (url) {
+      window.open(url, '_blank').focus();
+    })
+  );
 
     // wait till images and other iframes are loaded before scrolling the page.
     // or do we want to be more aggressive and scroll when we hit DOM ready?

@@ -6,6 +6,7 @@ import * as notificationActions from './actions/notification';
 import * as authActions from './actions/auth';
 import * as configActions from './actions/config';
 import * as assetActions from './actions/asset';
+import pym from './PymConnection';
 
 export {
   Notification,
@@ -15,5 +16,6 @@ export {
   notificationActions,
   authActions,
   configActions,
-  assetActions
+  assetActions,
+  pym
 };

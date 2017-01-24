@@ -5,7 +5,6 @@ const util = require('./util');
 const UsersService = require('../../services/users');
 
 const genUserByIDs = (context, ids) => {
-  console.log('genUserIds', ids);
   return UsersService
   .findByIdArray(ids)
   .then(util.singleJoinBy(ids, 'id'));

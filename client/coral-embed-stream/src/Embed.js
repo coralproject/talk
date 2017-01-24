@@ -9,10 +9,9 @@ const {logout, showSignInDialog} = authActions;
 const {addNotification, clearNotification} = notificationActions;
 const {fetchAssetSuccess} = assetActions;
 
-import pym from './PymConnection';
 import {queryStream} from './graphql/queries';
 import {postComment, postAction, deleteAction} from './graphql/mutations';
-import {Notification, notificationActions, authActions, assetActions} from 'coral-framework';
+import {Notification, notificationActions, authActions, assetActions, pym} from 'coral-framework';
 
 import Stream from './Stream';
 import InfoBox from 'coral-plugin-infobox/InfoBox';
@@ -95,7 +94,7 @@ class Embed extends Component {
     const {loggedIn, isAdmin, user, showSignInDialog, signInOffset} = this.props.auth;
 
     const expandForLogin = showSignInDialog ? {
-      minHeight: document.body.scrollHeight + 150
+      minHeight: document.body.scrollHeight + 200
     } : {};
 
     return <div style={expandForLogin}>

@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 
 import {saveBio, fetchCommentsByUserId} from 'coral-framework/actions/user';
 
+import {link} from '/coral-framework/PymConnection';
 import BioContainer from './BioContainer';
 import NotLoggedIn from '../components/NotLoggedIn';
 import {TabBar, Tab, TabContent} from '../../coral-ui';
@@ -62,6 +63,7 @@ class SettingsContainer extends Component {
             user.myComments.length && user.myAssets.length
             ? <CommentHistory
               comments={commentsMostRecentFirst}
+              link={link}
               assets={user.myAssets.map(id => items.assets[id])} />
             : <p>{lang.t('user-no-comment')}</p>
           }
