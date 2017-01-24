@@ -1,15 +1,17 @@
 import React, {Component, PropTypes} from 'react';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
+import {isEqual} from 'lodash'
 
 import {TabBar, Tab, TabContent, Spinner} from '../../coral-ui';
 
 const {logout, showSignInDialog} = authActions;
 const {addNotification, clearNotification} = notificationActions;
+const {fetchAssetSuccess} = assetActions
 
 import {queryStream} from './graphql/queries';
 import {postComment, postAction, deleteAction} from './graphql/mutations';
-import {Notification, notificationActions, authActions} from 'coral-framework';
+import {Notification, notificationActions, authActions, assetActions} from 'coral-framework';
 
 import Stream from './Stream';
 import InfoBox from 'coral-plugin-infobox/InfoBox';
@@ -49,10 +51,11 @@ class Embed extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.data != null) {
-      console.log(nextProps.data)
+    const {loadAsset} = this.props
+    if(!isEqual(nextProps.data.asset, this.props.data.asset)) {
+      loadAsset(nextProps.data.asset)
     }
-  }
+ }
 
   render () {
     const {activeTab} = this.state;
@@ -155,6 +158,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  loadAsset: (asset) => dispatch(fetchAssetSuccess(asset)),
   addNotification: (type, text) => dispatch(addNotification(type, text)),
   clearNotification: () => dispatch(clearNotification()),
   showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),

@@ -5,6 +5,7 @@ import I18n from './modules/i18n/i18n';
 import * as notificationActions from './actions/notification';
 import * as authActions from './actions/auth';
 import * as configActions from './actions/config';
+import * as assetActions from './actions/asset';
 
 export {
   Notification,
@@ -13,5 +14,6 @@ export {
   I18n,
   notificationActions,
   authActions,
-  configActions
+  configActions,
+  assetActions
 };
