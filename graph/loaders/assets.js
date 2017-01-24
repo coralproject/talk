@@ -6,7 +6,7 @@ const scraper = require('../../services/scraper');
 const util = require('./util');
 
 const AssetModel = require('../../models/asset');
-const AssetService = require('../../models/asset');
+const AssetsService = require('../../services/assets');
 
 /**
  * Retrieves assets by an array of ids.
@@ -33,7 +33,7 @@ const findOrCreateAssetByURL = (context, asset_url) => {
     return Promise.reject(errors.ErrInvalidAssetURL);
   }
 
-  return AssetService.findOrCreateByUrl(asset_url)
+  return AssetsService.findOrCreateByUrl(asset_url)
     .then((asset) => {
 
       // If the asset wasn't scraped before, scrape it! Otherwise just return
