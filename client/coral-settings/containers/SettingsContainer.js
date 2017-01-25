@@ -60,7 +60,7 @@ class SettingsContainer extends Component {
                 link={link}
               />
             :
-              <p>{lang.t('user-no-comment')}</p>
+              <p>{lang.t('userNoComment')}</p>
           }
         </TabContent>
         <TabContent show={activeTab === 1}>

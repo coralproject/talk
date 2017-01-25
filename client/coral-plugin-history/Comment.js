@@ -2,7 +2,6 @@ import React, {PropTypes} from 'react';
 import styles from './Comment.css';
 
 const Comment = props => {
-  console.log(props.asset)
   return (
     <div className={styles.myComment}>
       <p className="myCommentAsset">
