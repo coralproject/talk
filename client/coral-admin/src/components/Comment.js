@@ -7,9 +7,8 @@ import styles from './ModerationList.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations.json';
 
-import {Icon} from 'react-mdl';
 import Highlighter from 'react-highlight-words';
-import {FabButton, Button} from 'coral-ui';
+import {FabButton, Button, Icon} from 'coral-ui';
 
 const linkify = new Linkify();
 
@@ -20,22 +19,19 @@ const Comment = props => {
   const links = linkify.getMatches(comment.body);
 
   return (
-    <li tabIndex={props.index} className={`${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
+    <li tabIndex={props.index} className={`mdl-card mdl-shadow--2dp ${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
       <div className={styles.itemHeader}>
         <div className={styles.author}>
-          <i className={`material-icons ${styles.avatar}`}>person</i>
           <span>{author.displayName || lang.t('comment.anon')}</span>
           <span className={styles.created}>{timeago().format(comment.createdAt || (Date.now() - props.index * 60 * 1000), lang.getLocale().replace('-', '_'))}</span>
           {comment.flagged ? <p className={styles.flagged}>{lang.t('comment.flagged')}</p> : null}
         </div>
-        <div>
+        <div className={styles.sideActions}>
           {links ?
           <span className={styles.hasLinks}><Icon name='error_outline'/> Contains Link</span> : null}
           <div className={`actions ${styles.actions}`}>
             {props.modActions.map((action, i) => getActionButton(action, i, props))}
           </div>
-        </div>
-        <div>
           {authorStatus === 'banned' ?
           <span className={styles.banned}><Icon name='error_outline'/> {lang.t('comment.banned_user')}</span> : null}
         </div>
@@ -65,15 +61,19 @@ const getActionButton = (option, i, props) => {
   }
   if (option === 'ban') {
     return (
-      <Button
-        className='ban'
-        cStyle='black'
-        disabled={banned ? 'disabled' : ''}
-        onClick={() => props.onClickShowBanDialog(author.id, author.displayName, comment.id)}
-        key={i}
-      >
-        {lang.t('comment.ban_user')}
-      </Button>
+      <div className={styles.ban}>
+        <Button
+          className={`ban ${styles.banButton}`}
+          cStyle='darkGrey'
+          disabled={banned ? 'disabled' : ''}
+          onClick={() => props.onClickShowBanDialog(author.id, author.displayName, comment.id)}
+          key={i}
+          raised
+        >
+          <Icon name='not_interested' className={styles.banIcon} />
+          {lang.t('comment.ban_user')}
+        </Button>
+      </div>
     );
   }
   const menuOption = menuOptionsMap[option];

@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../../../models/user');
-const Setting = require('../../../models/setting');
+const UsersService = require('../../../services/users');
+const SettingsService = require('../../../services/settings');
+const CommentsService = require('../../../services/comments');
 const mailer = require('../../../services/mailer');
 const authorization = require('../../../middleware/authorization');
 
-router.get('/', authorization.needed('admin'), (req, res, next) => {
+router.get('/', authorization.needed('ADMIN'), (req, res, next) => {
   const {
     value = '',
     field = 'created_at',
@@ -15,12 +16,12 @@ router.get('/', authorization.needed('admin'), (req, res, next) => {
   } = req.query;
 
   Promise.all([
-    User
+    UsersService
       .search(value)
       .sort({[field]: (asc === 'true') ? 1 : -1})
       .skip((page - 1) * limit)
       .limit(limit),
-    User.count()
+    UsersService.count()
   ])
   .then(([result, count]) => {
     res.json({
@@ -34,8 +35,8 @@ router.get('/', authorization.needed('admin'), (req, res, next) => {
   .catch(next);
 });
 
-router.post('/:user_id/role', authorization.needed('admin'), (req, res, next) => {
-  User
+router.post('/:user_id/role', authorization.needed('ADMIN'), (req, res, next) => {
+  UsersService
     .addRoleToUser(req.params.user_id, req.body.role)
     .then(() => {
       res.status(204).end();
@@ -43,17 +44,21 @@ router.post('/:user_id/role', authorization.needed('admin'), (req, res, next) =>
     .catch(next);
 });
 
-router.post('/:user_id/status', (req, res, next) => {
-  User
-    .setStatus(req.params.user_id, req.body.status, req.body.comment_id)
+router.post('/:user_id/status', authorization.needed('ADMIN'), (req, res, next) => {
+  UsersService
+    .setStatus(req.params.user_id, req.body.status)
     .then((status) => {
       res.status(201).json(status);
+
+      if (status === 'BANNED' && req.body.comment_id) {
+        return CommentsService.pushStatus(req.body.comment_id, 'rejected', req.params.user_id);
+      }
     })
     .catch(next);
 });
 
 router.post('/:user_id/email', authorization.needed('admin'), (req, res, next) => {
-  User.findById(req.params.user_id)
+  UsersService.findById(req.params.user_id)
     .then(user => {
       let localProfile = user.profiles.find((profile) => profile.provider === 'local');
 
@@ -92,7 +97,7 @@ router.post('/:user_id/email', authorization.needed('admin'), (req, res, next) =
  * @param {String}     userID  the id for the user to send the email to
  * @param {String}     email   the email for the user to send the email to
  */
-const SendEmailConfirmation = (app, userID, email) => User
+const SendEmailConfirmation = (app, userID, email) => UsersService
   .createEmailConfirmToken(userID, email)
   .then((token) => {
     return mailer.sendSimple({
@@ -115,14 +120,14 @@ router.post('/', (req, res, next) => {
     displayName
   } = req.body;
 
-  User
+  UsersService
     .createLocalUser(email, password, displayName)
     .then((user) => {
 
       // Get the settings from the database to find out if we need to send an
       // email confirmation. The Front end will know about the
       // requireEmailConfirmation as it's included in the settings get endpoint.
-      return Setting.retrieve().then(({requireEmailConfirmation = false}) => {
+      return SettingsService.retrieve().then(({requireEmailConfirmation = false}) => {
 
         if (requireEmailConfirmation) {
 
@@ -150,13 +155,13 @@ router.post('/:user_id/actions', authorization.needed(), (req, res, next) => {
     metadata
   } = req.body;
 
-  User
+  UsersService
     .addAction(req.params.user_id, req.user.id, action_type, metadata)
     .then((action) => {
 
       // Set the user status to "pending" for review by moderators
-      if (action_type.slice(0, 4) === 'flag') {
-        return User.setStatus(req.user.id, 'pending')
+      if (action_type.slice(0, 4) === 'FLAG') {
+        return UsersService.setStatus(req.user.id, 'PENDING')
           .then(() => action);
       } else {
         return action;
@@ -166,16 +171,17 @@ router.post('/:user_id/actions', authorization.needed(), (req, res, next) => {
       res.status(201).json(action);
     })
     .catch((err) => {
+      console.log('Error', err);
       next(err);
     });
 });
 
-router.post('/:user_id/email/confirm', authorization.needed('admin'), (req, res, next) => {
+router.post('/:user_id/email/confirm', authorization.needed('ADMIN'), (req, res, next) => {
   const {
     user_id
   } = req.params;
 
-  User
+  UsersService
     .findById(user_id)
     .then((user) => {
       if (!user) {

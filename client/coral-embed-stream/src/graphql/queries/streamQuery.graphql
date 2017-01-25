@@ -1,0 +1,47 @@
+
+fragment commentView on Comment {
+    id
+    body
+    created_at
+    user {
+        id
+        name: displayName
+        settings {
+          bio
+        }
+    }
+    actions {
+        type: action_type
+        count
+        current: current_user {
+            id
+            created_at
+        }
+    }
+}
+
+query AssetQuery($asset_url: String!) {
+    asset(url: $asset_url) {
+        id
+        title
+        url
+        closedAt
+        created_at
+        settings {
+            moderation
+            infoBoxEnable
+            infoBoxContent
+            closeTimeout
+            closedMessage
+            charCountEnable
+            charCount
+            requireEmailConfirmation
+        }
+        comments {
+            ...commentView
+            replies {
+                ...commentView
+            }
+        }
+    }
+}

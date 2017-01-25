@@ -1,21 +1,28 @@
 .logo h1 {
-    color: #272727;
-    font-size: 20px;
-    margin: 0;
-    line-height: 60px;
-    padding: 0 20px;
+  color: #272727;
+  font-size: 20px;
+  margin: 0;
+  line-height: 60px;
+  padding-left: 13px;
+  margin-top: -4px;
 }
 
 .logo span {
-    display: inline-block;
-    margin-left: 10px;
-    font-size: 18px;
-    vertical-align: middle;
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 18px;
+  vertical-align: middle;
+  font-weight: 500;
 }
 
 .logo {
-    background: #E5E5E5;
-    height: 100%;
+  background: #E5E5E5;
+  height: 100%;
+  width: 128px;
 }
 
-
+.base {
+  stroke: #E5E5E5;
+  height: 35px;
+  width: 35px;
+}

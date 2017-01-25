@@ -3,15 +3,8 @@ import {SelectField, Option} from 'react-mdl-selectfield';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations.json';
 import styles from './Configure.css';
-import {
-  List,
-  ListItem,
-  ListItemContent,
-  ListItemAction,
-  Textfield,
-  Checkbox,
-  Icon
-} from 'react-mdl';
+import {Textfield, Checkbox} from 'react-mdl';
+import {Card, Icon, Spinner} from 'coral-ui';
 
 const TIMESTAMPS = {
   weeks: 60 * 60 * 24 * 7,
@@ -35,7 +28,7 @@ const updateCharCount = (updateSettings, settingsError) => (event) => {
 };
 
 const updateModeration = (updateSettings, mod) => () => {
-  const moderation = mod === 'pre' ? 'post' : 'pre';
+  const moderation = mod === 'PRE' ? 'POST' : 'PRE';
   updateSettings({moderation});
 };
 
@@ -71,35 +64,32 @@ const updateClosedTimeout = (updateSettings, ts, isMeasure) => (event) => {
 
 const CommentSettings = ({fetchingSettings, title, updateSettings, settingsError, settings, errors}) => {
   if (fetchingSettings) {
-
-    /* maybe a spinner here at some point */
-    return <p>Loading settings...</p>;
+    return <Card shadow="4"><Spinner/>Loading settings...</Card>;
   }
 
   return (
-    <div>
+    <div className={styles.commentSettingsSection}>
       <h3>{title}</h3>
-      <List>
-        <ListItem className={`${styles.configSetting} ${settings.moderation === 'pre' ? styles.enabledSetting : styles.disabledSetting}`}>
-          <ListItemAction>
+        <Card className={`${styles.configSetting} ${settings.moderation === 'PRE' ? styles.enabledSetting : styles.disabledSetting}`}>
+          <div className={styles.action}>
             <Checkbox
               onChange={updateModeration(updateSettings, settings.moderation)}
-              checked={settings.moderation === 'pre'} />
-          </ListItemAction>
-          <ListItemContent>
+              checked={settings.moderation === 'PRE'} />
+          </div>
+          <div className={styles.content}>
           <div className={styles.settingsHeader}>{lang.t('configure.enable-pre-moderation')}</div>
-          <p className={settings.moderation === 'pre' ? '' : styles.disabledSettingText}>
+          <p className={settings.moderation === 'PRE' ? '' : styles.disabledSettingText}>
             {lang.t('configure.enable-pre-moderation-text')}
           </p>
-        </ListItemContent>
-        </ListItem>
-        <ListItem className={`${styles.configSetting} ${settings.charCountEnable ? styles.enabledSetting : styles.disabledSetting}`}>
-          <ListItemAction>
+        </div>
+        </Card>
+        <Card className={`${styles.configSetting} ${settings.charCountEnable ? styles.enabledSetting : styles.disabledSetting}`}>
+          <div className={styles.action}>
             <Checkbox
               onChange={updateCharCountEnable(updateSettings, settings.charCountEnable)}
               checked={settings.charCountEnable} />
-          </ListItemAction>
-          <ListItemContent>
+          </div>
+          <div className={styles.content}>
             <div className={styles.settingsHeader}>{lang.t('configure.comment-count-header')}</div>
             <p className={settings.charCountEnable ? '' : styles.disabledSettingText}>
               <span>{lang.t('configure.comment-count-text-pre')}</span>
@@ -118,32 +108,44 @@ const CommentSettings = ({fetchingSettings, title, updateSettings, settingsError
                   </span>
                 }
             </p>
-          </ListItemContent>
-        </ListItem>
-        <ListItem threeLine className={`${styles.configSettingInfoBox} ${settings.infoBoxEnable ? styles.enabledSetting : styles.disabledSetting}`}>
-          <ListItemAction>
+          </div>
+        </Card>
+        <Card className={`${styles.configSettingInfoBox} ${settings.infoBoxEnable ? styles.enabledSetting : styles.disabledSetting}`}>
+          <div className={styles.action}>
             <Checkbox
               onChange={updateInfoBoxEnable(updateSettings, settings.infoBoxEnable)}
               checked={settings.infoBoxEnable} />
-          </ListItemAction>
-          <ListItemContent>
+          </div>
+          <div className={styles.content}>
             {lang.t('configure.include-comment-stream')}
             <p>
               {lang.t('configure.include-comment-stream-desc')}
             </p>
-          </ListItemContent>
-        </ListItem>
-        <ListItem className={`${styles.configSettingInfoBox} ${settings.infoBoxEnable ? null : styles.hidden}`} >
-          <ListItemContent>
+            <div className={`${styles.configSettingInfoBox} ${settings.infoBoxEnable ? null : styles.hidden}`} >
+              <div className={styles.content}>
+                <Textfield
+                  onChange={updateInfoBoxContent(updateSettings)}
+                  value={settings.infoBoxContent}
+                  label={lang.t('configure.include-text')}
+                  rows={3}/>
+              </div>
+            </div>
+          </div>
+        </Card>
+        <Card className={styles.configSettingInfoBox}>
+          <div className={styles.content}>
+            {lang.t('configure.closed-comments-desc')}
+            <div>
             <Textfield
-              onChange={updateInfoBoxContent(updateSettings)}
-              value={settings.infoBoxContent}
-              label={lang.t('configure.include-text')}
+              onChange={updateClosedMessage(updateSettings)}
+              value={settings.closedMessage}
+              label={lang.t('configure.closed-comments-label')}
               rows={3}/>
-          </ListItemContent>
-        </ListItem>
-        <ListItem className={styles.configSettingInfoBox}>
-          <ListItemContent>
+            </div>
+          </div>
+        </Card>
+        <Card className={`${styles.configSettingInfoBox}`}>
+          <div className={styles.content}>
             {lang.t('configure.close-after')}
             <br />
             <Textfield
@@ -163,19 +165,8 @@ const CommentSettings = ({fetchingSettings, title, updateSettings, settingsError
                 <Option value={'weeks'}>{lang.t('configure.weeks')}</Option>
               </SelectField>
             </div>
-          </ListItemContent>
-        </ListItem>
-        <ListItem className={styles.configSettingInfoBox}>
-          <ListItemContent>
-            {lang.t('configure.closed-comments-desc')}
-            <Textfield
-              onChange={updateClosedMessage(updateSettings)}
-              value={settings.closedMessage}
-              label={lang.t('configure.closed-comments-label')}
-              rows={3}/>
-          </ListItemContent>
-        </ListItem>
-      </List>
+          </div>
+        </Card>
     </div>
   );
 };

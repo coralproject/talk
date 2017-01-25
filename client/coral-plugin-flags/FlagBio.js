@@ -9,7 +9,7 @@ const getPopupMenu = [
   () => {
     return {
       header: lang.t('step-2-header'),
-      itemType: 'users',
+      itemType: 'USERS',
       field: 'bio',
       options: [
         {val: 'This bio is offensive', text: lang.t('bio-offensive')},

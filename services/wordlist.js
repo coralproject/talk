@@ -2,7 +2,7 @@ const debug = require('debug')('talk:services:wordlist');
 const _ = require('lodash');
 const natural = require('natural');
 const tokenizer = new natural.WordTokenizer();
-const Setting = require('../models/setting');
+const SettingsService = require('./settings');
 const Errors = require('../errors');
 
 /**
@@ -22,7 +22,7 @@ class Wordlist {
    * Loads wordlists in from the database
    */
   load() {
-    return Setting
+    return SettingsService
       .retrieve()
       .then((settings) => {
 
@@ -119,6 +119,42 @@ class Wordlist {
   }
 
   /**
+   * Scans a specific field for wordlist violations.
+   */
+  scan(fieldName, phrase) {
+    let errors = {};
+
+    // If the field doesn't exist in the body, then it can't be profane!
+    if (!phrase) {
+
+      // Return that there wasn't a profane word here.
+      return errors;
+    }
+
+    // Check if the field contains a banned word.
+    if (this.match(this.lists.banned, phrase)) {
+      debug(`the field "${fieldName}" contained a phrase "${phrase}" which contained a banned word/phrase`);
+
+      errors.banned = Errors.ErrContainsProfanity;
+
+      // Stop looping through the fields now, we discovered the worst possible
+      // situation (a banned word).
+      return errors;
+    }
+
+    // Check if the field contains a banned word.
+    if (this.match(this.lists.suspect, phrase)) {
+      debug(`the field "${fieldName}" contained a phrase "${phrase}" which contained a suspected word/phrase`);
+
+      errors.suspect = Errors.ErrContainsProfanity;
+
+      // Continue looping through the fields now, we discovered a possible bad
+      // word (suspect).
+      return errors;
+    }
+  }
+
+  /**
    * Perform the filtering based on the loaded wordlists.
    */
   filter(body, ...fields) {
@@ -129,9 +165,9 @@ class Wordlist {
 
     // Loop over all the fields from the body that we want to check.
     for (let i = 0; i < fields.length; i++) {
-      let field = fields[i];
+      let fieldName = fields[i];
 
-      let phrase = _.get(body, field, false);
+      let phrase = _.get(body, fieldName, false);
 
       // If the field doesn't exist in the body, then it can't be profane!
       if (!phrase) {
@@ -140,11 +176,10 @@ class Wordlist {
         continue;
       }
 
-      // Check if the field contains a banned word.
-      if (this.match(this.lists.banned, phrase)) {
-        debug(`the field "${field}" contained a phrase "${phrase}" which contained a banned word/phrase`);
+      errors = Object.assign(errors, this.scan(fieldName, phrase));
 
-        errors.banned = Errors.ErrContainsProfanity;
+      // Check if the field contains a banned word.
+      if (errors.banned) {
 
         // Stop looping through the fields now, we discovered the worst possible
         // situation (a banned word).
@@ -152,10 +187,7 @@ class Wordlist {
       }
 
       // Check if the field contains a banned word.
-      if (this.match(this.lists.suspect, phrase)) {
-        debug(`the field "${field}" contained a phrase "${phrase}" which contained a suspected word/phrase`);
-
-        errors.suspect = Errors.ErrContainsProfanity;
+      if (errors.suspect) {
 
         // Continue looping through the fields now, we discovered a possible bad
         // word (suspect).

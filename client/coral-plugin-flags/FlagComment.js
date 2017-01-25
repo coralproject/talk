@@ -10,15 +10,15 @@ const getPopupMenu = [
     return {
       header: lang.t('step-1-header'),
       options: [
-        {val: 'users', text: lang.t('flag-username')},
-        {val: 'comments', text: lang.t('flag-comment')}
+        {val: 'USERS', text: lang.t('flag-username')},
+        {val: 'COMMENTS', text: lang.t('flag-comment')}
       ],
       button: lang.t('continue'),
       sets: 'itemType'
     };
   },
   (itemType) => {
-    const options = itemType === 'comments' ?
+    const options = itemType === 'COMMENTS' ?
     [
       {val: 'I don\'t agree with this comment', text: lang.t('no-agree-comment')},
       {val: 'This comment is offensive', text: lang.t('comment-offensive')},

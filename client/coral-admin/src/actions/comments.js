@@ -65,9 +65,9 @@ export const fetchFlaggedQueue = () => {
     dispatch({type: commentTypes.COMMENTS_MODERATION_QUEUE_FETCH_REQUEST});
 
     return coralApi('/queue/comments/flagged')
-      .then(comments => {
-        comments.forEach(comment => comment.flagged = true);
-        return comments;
+      .then(results => {
+        results.comments.forEach(comment => comment.flagged = true);
+        return results;
       })
       .then(addUsersCommentsActions.bind(this, dispatch));
   };

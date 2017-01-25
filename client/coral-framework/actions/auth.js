@@ -27,7 +27,7 @@ export const fetchSignIn = (formData) => (dispatch) => {
   dispatch(signInRequest());
   coralApi('/auth/local', {method: 'POST', body: formData})
     .then(({user}) => {
-      const isAdmin = !!user.roles.filter(i => i === 'admin').length;
+      const isAdmin = !!user.roles.filter(i => i === 'ADMIN').length;
       dispatch(signInSuccess(user, isAdmin));
       dispatch(hideSignInDialog());
       dispatch(addItem(user, 'users'));
@@ -132,7 +132,7 @@ export const checkLogin = () => dispatch => {
         throw new Error('Not logged in');
       }
 
-      const isAdmin = !!result.user.roles.filter(i => i === 'admin').length;
+      const isAdmin = !!result.user.roles.filter(i => i === 'ADMIN').length;
       dispatch(checkLoginSuccess(result.user, isAdmin));
     })
     .catch(error => {

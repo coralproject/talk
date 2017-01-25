@@ -11,6 +11,7 @@ const CommentHistory = props => {
           return <Comment
             key={i}
             comment={comment}
+            link={props.link}
             asset={asset} />;
         })}
       </div>

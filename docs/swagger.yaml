@@ -924,7 +924,7 @@ definitions:
         type: array
         items:
           type: string
-        description: Roles occupied by the user (e.g. 'admin', 'moderator', etc.)
+        description: Roles occupied by the user (e.g. 'ADMIN', 'MODERATOR', etc.)
       status:
         type: string
         description: The current status of the user in the system.
