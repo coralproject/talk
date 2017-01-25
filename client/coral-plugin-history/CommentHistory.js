@@ -7,12 +7,12 @@ const CommentHistory = props => {
     <div className={`${styles.header} commentHistory`}>
       <div className="commentHistory__list">
         {props.comments.map((comment, i) => {
-          const asset = props.assets.find(asset => asset.id === comment.asset_id);
-          return <Comment
-            key={i}
-            comment={comment}
-            link={props.link}
-            asset={asset} />;
+          return <div>{comment.body}</div>
+          {/*return <Comment*/}
+            {/*key={i}*/}
+            {/*comment={comment}*/}
+            {/*link={props.link}*/}
+            {/*asset={asset} />;*/}
         })}
       </div>
     </div>

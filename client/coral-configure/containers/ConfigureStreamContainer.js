@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {compose} from 'react-apollo';
 
 import {I18n} from '../../coral-framework';
 import {updateOpenStatus, updateConfiguration} from '../../coral-framework/actions/asset';
@@ -89,7 +90,6 @@ const mapDispatchToProps = dispatch => ({
   updateConfiguration: newConfig => dispatch(updateConfiguration(newConfig))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps)
 )(ConfigureStreamContainer);

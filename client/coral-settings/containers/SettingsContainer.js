@@ -1,12 +1,15 @@
 import {connect} from 'react-redux';
+import {compose} from 'react-apollo';
 import React, {Component} from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
 
+import {myCommentHistory} from 'coral-framework/graphql/queries';
 import {saveBio} from 'coral-framework/actions/user';
 
 import BioContainer from './BioContainer';
 import {TabBar, Tab, TabContent} from 'coral-ui';
 import NotLoggedIn from '../components/NotLoggedIn';
+import CommentHistory from 'coral-plugin-history/CommentHistory';
 import SettingsHeader from '../components/SettingsHeader';
 import RestrictedContent from 'coral-framework/components/RestrictedContent';
 
@@ -30,8 +33,12 @@ class SettingsContainer extends Component {
   }
 
   render() {
-    const {loggedIn, userData, showSignInDialog, user} = this.props;
+    const {loggedIn, userData, showSignInDialog, user, data} = this.props;
     const {activeTab} = this.state;
+
+    if (data.loading) {
+      return <div>Loading</div>
+    }
 
     return (
       <RestrictedContent restricted={!loggedIn} restrictedComp={<NotLoggedIn showSignInDialog={showSignInDialog} />}>
@@ -41,7 +48,12 @@ class SettingsContainer extends Component {
           <Tab>{lang.t('profileSettings')}</Tab>
         </TabBar>
         <TabContent show={activeTab === 0}>
-          {lang.t('myCommentHistory')}
+          {
+            data.me.comments.length ?
+              <CommentHistory comments={data.me.comments}/>
+            :
+              <p>{lang.t('user-no-comment')}</p>
+          }
         </TabContent>
         <TabContent show={activeTab === 1}>
           <BioContainer bio={userData.settings.bio} handleSave={this.handleSave} {...this.props} />
@@ -59,7 +71,7 @@ const mapDispatchToProps = dispatch => ({
   saveBio: (user_id, formData) => dispatch(saveBio(user_id, formData))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  myCommentHistory
 )(SettingsContainer);

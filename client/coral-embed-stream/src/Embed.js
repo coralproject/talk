@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import gql from 'graphql-tag';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {isEqual} from 'lodash';
@@ -10,8 +9,8 @@ const {logout, showSignInDialog} = authActions;
 const {addNotification, clearNotification} = notificationActions;
 const {fetchAssetSuccess} = assetActions;
 
-import {queryStream} from './graphql/queries';
-import {postComment, postAction, deleteAction} from './graphql/mutations';
+import {queryStream} from 'coral-framework/graphql/queries';
+import {postComment, postAction, deleteAction} from 'coral-framework/graphql/mutations';
 import {Notification, notificationActions, authActions, assetActions, pym} from 'coral-framework';
 
 import Stream from './Stream';
@@ -195,37 +194,6 @@ const mapDispatchToProps = dispatch => ({
   logout: () => dispatch(logout()),
   dispatch: d => dispatch(d)
 });
-
-// import commentView from './graphql/fragments/commentView.graphql';
-//
-// Embed.fragments = {
-//   entry: commentView
-// };
-
-Embed.fragments = {
-  entry: gql`
-    fragment commentView on Comment {
-      id
-      body
-      created_at
-      user {
-        id
-        name: displayName
-        settings {
-          bio
-        }
-      }
-      actions {
-        type: action_type
-        count
-        current: current_user {
-          id
-          created_at
-        }
-      }
-    }
-  `,
-};
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
