@@ -1,21 +1,3 @@
-
-  fragment commentView on Comment {
-    id
-    body
-    status
-    user {
-      name: displayName
-    }
-    actions {
-      type: action_type
-      count
-      current: current_user {
-        id
-        created_at
-      }
-    }
-  }
-
 mutation CreateComment ($asset_id: ID!, $parent_id: ID, $body: String!) {
     createComment(asset_id:$asset_id, parent_id:$parent_id, body:$body) {
         ...commentView

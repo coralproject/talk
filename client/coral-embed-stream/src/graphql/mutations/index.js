@@ -3,7 +3,12 @@ import POST_COMMENT from './postComment.graphql';
 import POST_ACTION from './postAction.graphql';
 import DELETE_ACTION from './deleteAction.graphql';
 
+import commentView from '../fragments/commentView.graphql';
+
 export const postComment = graphql(POST_COMMENT, {
+  options: () => ({
+    fragments: [commentView]
+  }),
   props: ({mutate}) => ({
     postItem: ({asset_id, body, parent_id} /* , type */ ) => {
       return mutate({
