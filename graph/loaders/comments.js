@@ -62,7 +62,7 @@ const getCommentsByActionTypeAndAssetID = (context, {action_type, asset_id = nul
       id: {
         $in: actions.map((action) => action.item_id)
       }
-    });
+    }).sort({created_at: 1});
 
     if (asset_id) {
       comments = comments.where({asset_id});
@@ -72,11 +72,15 @@ const getCommentsByActionTypeAndAssetID = (context, {action_type, asset_id = nul
   });
 };
 
-const genCommentsByAuthorID = (context, authorIDs) => CommentModel.find({
-  author_id: {
-    $in: authorIDs
-  }
-}).then(util.arrayJoinBy(authorIDs, 'author_id'));
+const genCommentsByAuthorID = (context, authorIDs) => {
+  return CommentModel.find({
+    author_id: {
+      $in: authorIDs
+    }
+  })
+  .sort({created_at: -1})
+  .then(util.arrayJoinBy(authorIDs, 'author_id'));
+};
 
 /**
  * Creates a set of loaders based on a GraphQL context.
