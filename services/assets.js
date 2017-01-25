@@ -92,11 +92,14 @@ module.exports = class AssetsService {
     if (value.length === 0) {
       return AssetsService.all(skip, limit);
     } else {
-      return AssetModel.find({
-        $text: {
-          $search: value
-        }
-      });
+      return AssetModel
+        .find({
+          $text: {
+            $search: value
+          }
+        })
+        .skip(skip)
+        .limit(limit);
     }
   }
 
