@@ -12,3 +12,7 @@ module.exports = {
     context: new Context(req)
   })
 };
+
+process.on('unhandledRejection', (err) => {
+  console.error(err);
+});

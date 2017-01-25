@@ -7,31 +7,41 @@ const CommentModel = require('../../models/comment');
 const CommentsService = require('../../services/comments');
 
 /**
- * Retrieves comments by an array of asset id's.
+ * Retrieves comments by an array of asset id's, results are returned in reverse
+ * chronological order.
  * @param {Array} ids array of ids to lookup
  */
-const genCommentsByAssetID = (context, ids) => CommentModel.find({
-  asset_id: {
-    $in: ids
-  },
-  parent_id: null,
-  status: {
-    $in: [null, 'ACCEPTED']
-  }
-}).then(util.arrayJoinBy(ids, 'asset_id'));
+const genCommentsByAssetID = (context, ids) => {
+  return CommentModel.find({
+    asset_id: {
+      $in: ids
+    },
+    parent_id: null,
+    status: {
+      $in: [null, 'ACCEPTED']
+    }
+  })
+  .sort({created_at: -1})
+  .then(util.arrayJoinBy(ids, 'asset_id'));
+};
 
 /**
- * Retrieves comments by an array of parent ids.
+ * Retrieves comments by an array of parent ids, results are returned in
+ * chronological order.
  * @param {Array} ids array of ids to lookup
  */
-const genCommentsByParentID = (context, ids) => CommentModel.find({
-  parent_id: {
-    $in: ids
-  },
-  status: {
-    $in: [null, 'ACCEPTED']
-  }
-}).then(util.arrayJoinBy(ids, 'parent_id'));
+const genCommentsByParentID = (context, ids) => {
+  return CommentModel.find({
+    parent_id: {
+      $in: ids
+    },
+    status: {
+      $in: [null, 'ACCEPTED']
+    }
+  })
+  .sort({created_at: 1})
+  .then(util.arrayJoinBy(ids, 'parent_id'));
+};
 
 const getCommentsByStatusAndAssetID = (context, {status = null, asset_id = null}) => {
 
