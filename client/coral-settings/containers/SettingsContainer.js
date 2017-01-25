@@ -6,14 +6,12 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import {myCommentHistory} from 'coral-framework/graphql/queries';
 import {saveBio} from 'coral-framework/actions/user';
 
-import {link} from 'coral-framework/PymConnection';
-
 import BioContainer from './BioContainer';
-import {TabBar, Tab, TabContent, Spinner} from 'coral-ui';
+import {link} from 'coral-framework/PymConnection';
 import NotLoggedIn from '../components/NotLoggedIn';
-import CommentHistory from 'coral-plugin-history/CommentHistory';
+import {TabBar, Tab, TabContent, Spinner} from 'coral-ui';
 import SettingsHeader from '../components/SettingsHeader';
-import RestrictedContent from 'coral-framework/components/RestrictedContent';
+import CommentHistory from 'coral-plugin-history/CommentHistory';
 
 import translations from '../translations';
 const lang = new I18n(translations);
@@ -35,17 +33,20 @@ class SettingsContainer extends Component {
   }
 
   render() {
-    const {loggedIn, userData, asset, showSignInDialog, user, data} = this.props;
+    const {loggedIn, userData, asset, showSignInDialog, data, user} = this.props;
     const {activeTab} = this.state;
+    const {me} = this.props.data;
+
+    if (!loggedIn) {
+      return <NotLoggedIn showSignInDialog={showSignInDialog}/>;
+    }
 
     if (data.loading) {
       return <Spinner/>;
     }
 
-    console.log(this.props);
-
     return (
-      <RestrictedContent restricted={!loggedIn} restrictedComp={<NotLoggedIn showSignInDialog={showSignInDialog} />}>
+      <div>
         <SettingsHeader {...this.props} />
         <TabBar onChange={this.handleTabChange} activeTab={activeTab} cStyle='material'>
           <Tab>{lang.t('allComments')} ({user.myComments.length})</Tab>
@@ -53,9 +54,9 @@ class SettingsContainer extends Component {
         </TabBar>
         <TabContent show={activeTab === 0}>
           {
-            data.me.comments.length ?
+            me.comments.length ?
               <CommentHistory
-                comments={data.me.comments}
+                comments={me.comments}
                 asset={asset}
                 link={link}
               />
@@ -66,14 +67,15 @@ class SettingsContainer extends Component {
         <TabContent show={activeTab === 1}>
           <BioContainer bio={userData.settings.bio} handleSave={this.handleSave} {...this.props} />
         </TabContent>
-      </RestrictedContent>
+      </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
   user: state.user.toJS(),
-  asset: state.asset.toJS()
+  asset: state.asset.toJS(),
+  auth: state.auth.toJS()
 });
 
 const mapDispatchToProps = dispatch => ({
