@@ -1,3 +1,5 @@
+#import "../fragments/commentView.graphql"
+
 query AssetQuery($asset_url: String!) {
     asset(url: $asset_url) {
         id

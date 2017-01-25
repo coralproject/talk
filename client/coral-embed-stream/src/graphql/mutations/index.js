@@ -7,7 +7,7 @@ import commentView from '../fragments/commentView.graphql';
 
 export const postComment = graphql(POST_COMMENT, {
   options: () => ({
-    fragments: [commentView]
+    fragments: commentView
   }),
   props: ({mutate}) => ({
     postItem: ({asset_id, body, parent_id} /* , type */ ) => {

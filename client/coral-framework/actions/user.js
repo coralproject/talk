@@ -1,5 +1,4 @@
 import * as actions from '../constants/user';
-import * as assetActions from '../constants/assets';
 import {addNotification} from '../actions/notification';
 import coralApi from '../helpers/response';
 
@@ -19,15 +18,4 @@ export const saveBio = (user_id, formData) => dispatch => {
       dispatch(saveBioSuccess(formData));
     })
     .catch(error => dispatch(saveBioFailure(error)));
-};
-
-/**
- *
- * Get a list of comments by a single user
- *
- * @param {string} user_id
- * @returns Promise
- */
-export const fetchCommentsByUserId = userId => {
-  // TODO
 };
