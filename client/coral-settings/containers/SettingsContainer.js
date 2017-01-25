@@ -6,8 +6,10 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import {myCommentHistory} from 'coral-framework/graphql/queries';
 import {saveBio} from 'coral-framework/actions/user';
 
+import {link} from 'coral-framework/PymConnection';
+
 import BioContainer from './BioContainer';
-import {TabBar, Tab, TabContent} from 'coral-ui';
+import {TabBar, Tab, TabContent, Spinner} from 'coral-ui';
 import NotLoggedIn from '../components/NotLoggedIn';
 import CommentHistory from 'coral-plugin-history/CommentHistory';
 import SettingsHeader from '../components/SettingsHeader';
@@ -33,12 +35,14 @@ class SettingsContainer extends Component {
   }
 
   render() {
-    const {loggedIn, userData, showSignInDialog, user, data} = this.props;
+    const {loggedIn, userData, asset, showSignInDialog, user, data} = this.props;
     const {activeTab} = this.state;
 
     if (data.loading) {
-      return <div>Loading</div>
+      return <Spinner/>;
     }
+
+    console.log(this.props);
 
     return (
       <RestrictedContent restricted={!loggedIn} restrictedComp={<NotLoggedIn showSignInDialog={showSignInDialog} />}>
@@ -50,7 +54,11 @@ class SettingsContainer extends Component {
         <TabContent show={activeTab === 0}>
           {
             data.me.comments.length ?
-              <CommentHistory comments={data.me.comments}/>
+              <CommentHistory
+                comments={data.me.comments}
+                asset={asset}
+                link={link}
+              />
             :
               <p>{lang.t('user-no-comment')}</p>
           }
@@ -64,7 +72,8 @@ class SettingsContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user.toJS()
+  user: state.user.toJS(),
+  asset: state.asset.toJS()
 });
 
 const mapDispatchToProps = dispatch => ({
