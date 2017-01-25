@@ -1,20 +1,14 @@
 <html>
-<head>
-  Asset list
-</head>
 <body>
-<p>
-  Clicking on an asset below will bring you to its comment stream.
-</p>
-<p>
-  You may paginate manually using skip and limit query params. (aka, ?skip=100&limit=25)
-</p>
-<p>
-  This is intended for developer use only.
-</p>
+<h1>
+  Asset list
+</h1>
 <% assets.forEach(function (asset) { %>
   <a href="/assets/id/<%= asset.id %>"><%= asset.url %></a><br />
 <% }) %>
+<p>
+  (For dev use only. FYI, you can: ?skip=100&limit=25)
+</p>
 
 </body>
 </html>
