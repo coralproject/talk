@@ -9,6 +9,8 @@ router.use('/assets', require('./assets'));
 router.get('/', (req, res) => {
   return res.render('article', {
     title: 'Coral Talk',
+    asset_url: '',
+    body: '',
     basePath: '/client/embed/stream'
   });
 });
