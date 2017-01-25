@@ -1,4 +1,6 @@
 const debug = require('debug')('talk:util');
+const fs = require('fs');
+
 const util = module.exports = {};
 
 /**
@@ -43,6 +45,43 @@ util.onshutdown = (jobs) => {
 
   // Add the new jobs to shutdown to the object reference.
   util.toshutdown = util.toshutdown.concat(jobs);
+};
+
+/**
+ * Register a PID file to be maintained for the lifespan of the process.
+ * @param  {String} path path to the PID file to create
+ */
+util.pid = (path) => {
+  if (!/\//.test(path)) {
+    if (!/\.pid/.test(path)) {
+      path += '.pid';
+    }
+    path = `/tmp/${path}`;
+  }
+
+  const pid = `${process.pid.toString()}\n`;
+
+  fs.writeFile(path, pid, (err) => {
+    if (err) {
+      console.error(`Can't write PID file: ${err}`);
+      throw err;
+    }
+
+    // Add the cleanup for the fs onto the shutdown.
+    util.onshutdown([
+      () => new Promise((resolve, reject) => {
+
+        // Remove the pid file.
+        fs.unlink(path, (err) => {
+          if (err) {
+            return reject(err);
+          }
+
+          return resolve();
+        });
+      })
+    ]);
+  });
 };
 
 // Attach to the SIGTERM + SIGINT handles to ensure a clean shutdown in the

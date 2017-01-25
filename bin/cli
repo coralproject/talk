@@ -7,7 +7,6 @@
 const program = require('commander');
 const pkg = require('../package.json');
 const dotenv = require('dotenv');
-const fs = require('fs');
 const util = require('../util');
 
 //==============================================================================
@@ -32,36 +31,7 @@ if (program.config) {
 
 // If the `--pid` flag is used, put the current pid there.
 if (program.pid) {
-  let pidPath = program.pid;
-
-  if (!/\//.test(pidPath)) {
-    if (!/\.pid/.test(pidPath)) {
-      pidPath += '.pid';
-    }
-    pidPath = `/tmp/${pidPath}`;
-  }
-
-  fs.writeFile(pidPath, `${process.pid.toString()}\n`, (err) => {
-    if (err) {
-      console.error(`Can't write PID file: ${err}`);
-      throw err;
-    }
-
-    // Add the cleanup for the fs onto the shutdown.
-    util.onshutdown([
-      () => new Promise((resolve, reject) => {
-
-        // Remove the pid file.
-        fs.unlink(pidPath, (err) => {
-          if (err) {
-            return reject(err);
-          }
-
-          return resolve();
-        });
-      })
-    ]);
-  });
+  util.pid(program.pid);
 }
 
 // Perform rewrites to the runtime environment variables based on the contents
