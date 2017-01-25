@@ -88,9 +88,9 @@ module.exports = class AssetsService {
    * @param  {String} value string to search by.
    * @return {Promise}
    */
-  static search(value) {
+  static search(value = '', skip = null, limit = null) {
     if (value.length === 0) {
-      return AssetsService.all();
+      return AssetsService.all(skip, limit);
     } else {
       return AssetModel.find({
         $text: {
@@ -110,7 +110,10 @@ module.exports = class AssetsService {
     return AssetModel.find(query);
   }
 
-  static all() {
-    return AssetModel.find({});
+  static all(skip = null, limit = null) {
+    return AssetModel
+      .find({})
+      .skip(skip)
+      .limit(limit);
   }
 };
