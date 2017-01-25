@@ -17,7 +17,7 @@
         "no-template-curly-in-string": [1],
         "no-unsafe-negation": [1],
         "array-callback-return": [1],
-        "eqeqeq": [2],
+        "eqeqeq": [2, "smart"],
         "no-eval": [2],
         "no-global-assign": [2],
         "no-implied-eval": [2],

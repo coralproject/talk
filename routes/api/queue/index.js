@@ -1,7 +1,8 @@
 const express = require('express');
-const Comment = require('../../../models/comment');
-const User = require('../../../models/user');
-const Action = require('../../../models/action');
+const CommentsService = require('../../../services/comments');
+const CommentModel = require('../../../models/comment');
+const UsersService = require('../../../services/users');
+const ActionsService = require('../../../services/actions');
 const authorization = require('../../../middleware/authorization');
 const _ = require('lodash');
 
@@ -10,8 +11,8 @@ const router = express.Router();
 function gatherActionsAndUsers (comments) {
   return Promise.all([
     comments,
-    User.findByIdArray(_.uniq(comments.map((comment) => comment.author_id))),
-    Action.getActionSummaries(_.uniq([
+    UsersService.findByIdArray(_.uniq(comments.map((comment) => comment.author_id))),
+    ActionsService.getActionSummaries(_.uniq([
       ...comments.map((comment) => comment.id),
       ...comments.map((comment) => comment.author_id)
     ]))
@@ -26,11 +27,11 @@ function gatherActionsAndUsers (comments) {
 // depending on the settings. The :moderation overwrites this settings.
 // Pre-moderation:  New comments are shown in the moderator queues immediately.
 // Post-moderation: New comments do not appear in moderation queues unless they are flagged by other users.
-router.get('/comments/pending', authorization.needed('admin'), (req, res, next) => {
+router.get('/comments/pending', authorization.needed('ADMIN'), (req, res, next) => {
 
   const {asset_id} = req.query;
 
-  Comment.moderationQueue('premod', asset_id)
+  CommentsService.moderationQueue('PREMOD', asset_id)
     .then(gatherActionsAndUsers)
     .then(([comments, users, actions]) => {
       res.json({comments, users, actions});
@@ -40,10 +41,10 @@ router.get('/comments/pending', authorization.needed('admin'), (req, res, next) 
     });
 });
 
-router.get('/comments/rejected', authorization.needed('admin'), (req, res, next) => {
+router.get('/comments/rejected', authorization.needed('ADMIN'), (req, res, next) => {
   const {asset_id} = req.query;
 
-  Comment.moderationQueue('rejected', asset_id)
+  CommentsService.moderationQueue('REJECTED', asset_id)
     .then(gatherActionsAndUsers)
     .then(([comments, users, actions]) => {
       res.json({comments, users, actions});
@@ -53,7 +54,7 @@ router.get('/comments/rejected', authorization.needed('admin'), (req, res, next)
     });
 });
 
-router.get('/comments/flagged', authorization.needed('admin'), (req, res, next) => {
+router.get('/comments/flagged', authorization.needed('ADMIN'), (req, res, next) => {
   const {asset_id} = req.query;
 
   const assetIDWrap = (query) => {
@@ -64,8 +65,8 @@ router.get('/comments/flagged', authorization.needed('admin'), (req, res, next) 
     return query;
   };
 
-  Comment.findIdsByActionType('flag')
-    .then(ids => assetIDWrap(Comment.find({
+  CommentsService.findIdsByActionType('FLAG')
+    .then(ids => assetIDWrap(CommentModel.find({
       id: {$in: ids}
     })))
     .then(gatherActionsAndUsers)

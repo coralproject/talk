@@ -10,6 +10,8 @@ const RedisStore = require('connect-redis')(session);
 const redis = require('./services/redis');
 const csrf = require('csurf');
 const errors = require('./errors');
+const graph = require('./graph');
+const apollo = require('graphql-server-express');
 
 const app = express();
 
@@ -49,7 +51,7 @@ const session_opts = {
   name: 'talk.sid',
   cookie: {
     secure: false,
-    maxAge: 18000000, // 30 minutes for expiry.
+    maxAge: 36000000, // 1 hour for expiry.
   },
   store: new RedisStore({
     ttl: 1800,
@@ -76,6 +78,23 @@ app.use(session(session_opts));
 // Setup the PassportJS Middleware.
 app.use(passport.initialize());
 app.use(passport.session());
+
+//==============================================================================
+// GraphQL Router
+//==============================================================================
+
+// GraphQL endpoint.
+app.use('/api/v1/graph/ql', apollo.graphqlExpress(graph.createGraphOptions));
+
+// Only include the graphiql tool if we aren't in production mode.
+if (app.get('env') !== 'production') {
+
+  // Interactive graphiql interface.
+  app.use('/api/v1/graph/iql', apollo.graphiqlExpress({
+    endpointURL: '/api/v1/graph/ql'
+  }));
+
+}
 
 //==============================================================================
 // CSRF MIDDLEWARE

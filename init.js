@@ -1,7 +1,13 @@
-const Setting = require('./models/setting');
+const SettingsService = require('./services/settings');
 
 module.exports = () => Promise.all([
 
   // Upsert the settings object.
-  Setting.init({id: '1', moderation: 'pre', wordlist: {banned: [], suspect: []}})
+  SettingsService.init({
+    moderation: 'PRE',
+    wordlist: {
+      banned: [],
+      suspect: []
+    }
+  })
 ]);

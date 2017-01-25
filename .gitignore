@@ -3,13 +3,13 @@ npm-debug.log*
 dist
 !dist/coral-admin
 dist/coral-admin/bundle.js
-tests/e2e/reports
+test/e2e/reports
 .DS_Store
 *.iml
 *.swp
 dump.rdb
 .env
-gaba.cfg
+*.cfg
 .idea/
 coverage/
 yarn.lock

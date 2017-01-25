@@ -36,8 +36,8 @@ export default class AuthorName extends Component {
         onMouseOver={this.handleMouseOver}
         onMouseLeave={this.handleMouseLeave}
       >
-        {author && author.displayName}
-        { showTooltip && <Tooltip>
+        {author && author.name}
+        { showTooltip && author.settings.bio && <Tooltip>
             <div className={`${packagename}-bio`}>
               {author.settings.bio}
             </div>

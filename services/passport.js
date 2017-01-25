@@ -1,6 +1,6 @@
 const passport = require('passport');
-const User = require('../models/user');
-const Setting = require('../models/setting');
+const UsersService = require('./users');
+const SettingsService = require('./settings');
 const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 
@@ -13,7 +13,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-  User
+  UsersService
     .findById(id)
     .then((user) => {
       done(null, user);
@@ -43,7 +43,7 @@ function ValidateUserLogin(loginProfile, user, done) {
   }
 
   // The user is a local user, check if we need email confirmation.
-  return Setting.retrieve().then(({requireEmailConfirmation = false}) => {
+  return SettingsService.retrieve().then(({requireEmailConfirmation = false}) => {
 
     // If we have the requirement of checking that emails for users are
     // verified, then we need to check the email address to ensure that it has
@@ -77,7 +77,7 @@ passport.use(new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password'
 }, (email, password, done) => {
-  User
+  UsersService
     .findLocalUser(email, password)
     .then((user) => {
       if (!user) {
@@ -103,7 +103,7 @@ if (process.env.TALK_FACEBOOK_APP_ID && process.env.TALK_FACEBOOK_APP_SECRET && 
     callbackURL: `${process.env.TALK_ROOT_URL}/api/v1/auth/facebook/callback`,
     profileFields: ['id', 'displayName', 'picture.type(large)']
   }, (accessToken, refreshToken, profile, done) => {
-    User
+    UsersService
       .findOrCreateExternalUser(profile)
       .then((user) => {
         return ValidateUserLogin(profile, user, done);

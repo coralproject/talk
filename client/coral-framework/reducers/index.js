@@ -1,20 +1,13 @@
-/* @flow */
-
-import {combineReducers} from 'redux';
-import config from './config';
-import items from './items';
-import notification from './notification';
 import auth from './auth';
 import user from './user';
+import asset from './asset';
+import items from './items';
+import notification from './notification';
 
-/**
- * Expose the combined main reducer
- */
-
-export default combineReducers({
-  config,
-  items,
-  notification,
+export default {
   auth,
-  user
-});
+  user,
+  asset,
+  items,
+  notification
+};

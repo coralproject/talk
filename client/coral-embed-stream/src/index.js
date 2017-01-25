@@ -1,11 +1,15 @@
 import React from 'react';
 import {render} from 'react-dom';
-import CommentStream from './CommentStream';
-import {Provider} from 'react-redux';
-import {store} from '../../coral-framework';
+import {ApolloProvider} from 'react-apollo';
+
+import {client} from 'coral-framework/client';
+import store from 'coral-framework/store';
+
+import Embed from './Embed';
 
 render(
-    <Provider store={store}>
-      <CommentStream />
-    </Provider>
-    , document.querySelector('#coralStream'));
+  <ApolloProvider client={client} store={store}>
+    <Embed />
+  </ApolloProvider>
+  , document.querySelector('#coralStream')
+);
