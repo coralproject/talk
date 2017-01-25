@@ -181,7 +181,6 @@ class Embed extends Component {
 }
 
 const mapStateToProps = state => ({
-  items: state.items.toJS(),
   notification: state.notification.toJS(),
   auth: state.auth.toJS(),
   userData: state.user.toJS()

@@ -6,7 +6,7 @@ import {saveBio, fetchCommentsByUserId} from 'coral-framework/actions/user';
 import {link} from 'coral-framework/PymConnection';
 import BioContainer from './BioContainer';
 import NotLoggedIn from '../components/NotLoggedIn';
-import {TabBar, Tab, TabContent} from '../../coral-ui';
+import {TabBar, Tab, TabContent} from 'coral-ui';
 import CommentHistory from 'coral-plugin-history/CommentHistory';
 import SettingsHeader from '../components/SettingsHeader';
 import RestrictedContent from 'coral-framework/components/RestrictedContent';
@@ -26,9 +26,7 @@ class SettingsContainer extends Component {
   }
 
   componentWillMount () {
-
-    // Fetch commentHistory
-    this.props.fetchCommentsByUserId(this.props.userData.id);
+    // this.props.fetchCommentsByUserId(this.props.userData.id);
   }
 
   handleTabChange(tab) {
@@ -41,16 +39,6 @@ class SettingsContainer extends Component {
     const {loggedIn, userData, showSignInDialog, items, user} = this.props;
     const {activeTab} = this.state;
 
-    const commentsMostRecentFirst = user
-      .myComments.map(id => items.comments[id])
-      .sort(({created_at:a}, {created_at:b}) => {
-
-        // descending order, created_at
-        // js date strings can be sorted lexigraphically.
-        const aLessThanB = a < b ? 1 : 0;
-        return a > b ? -1 : aLessThanB;
-      });
-
     return (
       <RestrictedContent restricted={!loggedIn} restrictedComp={<NotLoggedIn showSignInDialog={showSignInDialog} />}>
         <SettingsHeader {...this.props} />
@@ -59,14 +47,7 @@ class SettingsContainer extends Component {
           <Tab>Profile Settings</Tab>
         </TabBar>
         <TabContent show={activeTab === 0}>
-          {
-            user.myComments.length && user.myAssets.length
-            ? <CommentHistory
-              comments={commentsMostRecentFirst}
-              link={link}
-              assets={user.myAssets.map(id => items.assets[id])} />
-            : <p>{lang.t('user-no-comment')}</p>
-          }
+          My comment History
         </TabContent>
         <TabContent show={activeTab === 1}>
           <BioContainer bio={userData.settings.bio} handleSave={this.handleSave} {...this.props} />
@@ -77,13 +58,11 @@ class SettingsContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  items: state.items.toJS(),
   user: state.user.toJS()
 });
 
 const mapDispatchToProps = dispatch => ({
-  saveBio: (user_id, formData) => dispatch(saveBio(user_id, formData)),
-  fetchCommentsByUserId: userId => dispatch(fetchCommentsByUserId(userId))
+  saveBio: (user_id, formData) => dispatch(saveBio(user_id, formData))
 });
 
 export default connect(
