@@ -1,17 +1,15 @@
-import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import React, {Component} from 'react';
+import I18n from 'coral-framework/modules/i18n/i18n';
 
-import {saveBio, fetchCommentsByUserId} from 'coral-framework/actions/user';
+import {saveBio} from 'coral-framework/actions/user';
 
-import {link} from 'coral-framework/PymConnection';
 import BioContainer from './BioContainer';
-import NotLoggedIn from '../components/NotLoggedIn';
 import {TabBar, Tab, TabContent} from 'coral-ui';
-import CommentHistory from 'coral-plugin-history/CommentHistory';
+import NotLoggedIn from '../components/NotLoggedIn';
 import SettingsHeader from '../components/SettingsHeader';
 import RestrictedContent from 'coral-framework/components/RestrictedContent';
 
-import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
 const lang = new I18n(translations);
 
@@ -25,10 +23,6 @@ class SettingsContainer extends Component {
     this.handleTabChange = this.handleTabChange.bind(this);
   }
 
-  componentWillMount () {
-    // this.props.fetchCommentsByUserId(this.props.userData.id);
-  }
-
   handleTabChange(tab) {
     this.setState({
       activeTab: tab
@@ -36,18 +30,18 @@ class SettingsContainer extends Component {
   }
 
   render() {
-    const {loggedIn, userData, showSignInDialog, items, user} = this.props;
+    const {loggedIn, userData, showSignInDialog, user} = this.props;
     const {activeTab} = this.state;
 
     return (
       <RestrictedContent restricted={!loggedIn} restrictedComp={<NotLoggedIn showSignInDialog={showSignInDialog} />}>
         <SettingsHeader {...this.props} />
         <TabBar onChange={this.handleTabChange} activeTab={activeTab} cStyle='material'>
-          <Tab>All Comments ({user.myComments.length})</Tab>
-          <Tab>Profile Settings</Tab>
+          <Tab>{lang.t('allComments')} ({user.myComments.length})</Tab>
+          <Tab>{lang.t('profileSettings')}</Tab>
         </TabBar>
         <TabContent show={activeTab === 0}>
-          My comment History
+          {lang.t('myCommentHistory')}
         </TabContent>
         <TabContent show={activeTab === 1}>
           <BioContainer bio={userData.settings.bio} handleSave={this.handleSave} {...this.props} />
