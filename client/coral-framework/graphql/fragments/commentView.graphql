@@ -1,0 +1,20 @@
+fragment commentView on Comment {
+    id
+    body
+    created_at
+    user {
+        id
+        name: displayName
+        settings {
+            bio
+        }
+    }
+    actions {
+        type: action_type
+        count
+        current: current_user {
+            id
+            created_at
+        }
+    }
+}

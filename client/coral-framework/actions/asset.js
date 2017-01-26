@@ -10,30 +10,30 @@ export const fetchAssetRequest = () => ({type: actions.FETCH_ASSET_REQUEST});
 export const fetchAssetSuccess = asset => ({type: actions.FETCH_ASSET_SUCCESS, asset});
 export const fetchAssetFailure = error => ({type: actions.FETCH_ASSET_FAILURE, error});
 
-const updateConfigRequest = () => ({type: actions.UPDATE_CONFIG_REQUEST});
-const updateConfigSuccess = config => ({type: actions.UPDATE_CONFIG_SUCCESS, config});
-const updateConfigFailure = () => ({type: actions.UPDATE_CONFIG_FAILURE});
+const updateAssetSettingsRequest = () => ({type: actions.UPDATE_ASSET_SETTINGS_REQUEST});
+const updateAssetSettingsSuccess = settings => ({type: actions.UPDATE_ASSET_SETTINGS_SUCCESS, settings});
+const updateAssetSettingsFailure = () => ({type: actions.UPDATE_ASSET_SETTINGS_FAILURE});
 
 export const updateConfiguration = newConfig => (dispatch, getState) => {
   const assetId = getState().asset.toJS().id;
-  dispatch(updateConfigRequest());
+  dispatch(updateAssetSettingsRequest());
   coralApi(`/assets/${assetId}/settings`, {method: 'PUT', body: newConfig})
     .then(() => {
       dispatch(addNotification('success', lang.t('successUpdateSettings')));
-      dispatch(updateConfigSuccess(newConfig));
+      dispatch(updateAssetSettingsSuccess(newConfig));
     })
-    .catch(error => dispatch(updateConfigFailure(error)));
+    .catch(error => dispatch(updateAssetSettingsFailure(error)));
 };
 
 export const updateOpenStream = closedBody => (dispatch, getState) => {
   const assetId = getState().asset.toJS().id;
-  dispatch(updateConfigRequest());
+  dispatch(fetchAssetRequest());
   coralApi(`/assets/${assetId}/status`, {method: 'PUT', body: closedBody})
     .then(() => {
       dispatch(addNotification('success', lang.t('successUpdateSettings')));
-      dispatch(updateConfigSuccess(closedBody));
+      dispatch(fetchAssetSuccess(closedBody));
     })
-    .catch(error => dispatch(updateConfigFailure(error)));
+    .catch(error => dispatch(fetchAssetFailure(error)));
 };
 
 const openStream = () => ({type: actions.OPEN_COMMENTS});
