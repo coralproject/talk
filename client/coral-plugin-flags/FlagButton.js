@@ -14,6 +14,7 @@ class FlagButton extends Component {
     reason: '',
     note: '',
     step: 0,
+    posted: false,
     localPost: null,
     localDelete: false
   }
@@ -38,7 +39,7 @@ class FlagButton extends Component {
 
   onPopupContinue = () => {
     const {postAction, id, author_id} = this.props;
-    const {itemType, reason, step, localPost} = this.state;
+    const {itemType, reason, step, posted} = this.state;
 
     // Proceed to the next step or close the menu if we've reached the end
     if (step + 1 >= this.props.getPopupMenu.length) {
@@ -48,7 +49,8 @@ class FlagButton extends Component {
     }
 
     // If itemType and reason are both set, post the action
-    if (itemType && reason && !localPost) {
+    if (itemType && reason && !posted) {
+      this.setState({posted: true});
 
       // Set the text from the "other" field if it exists.
       let item_id;
