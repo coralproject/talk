@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {compose} from 'react-apollo';
 
-import {I18n} from '../../coral-framework';
-import {updateOpenStatus, updateConfiguration} from '../../coral-framework/actions/asset';
+import {I18n} from 'coral-framework';
+import {updateOpenStatus, updateConfiguration} from 'coral-framework/actions/asset';
 
 import CloseCommentsInfo from '../components/CloseCommentsInfo';
 import ConfigureCommentStream from '../components/ConfigureCommentStream';
@@ -13,11 +14,8 @@ class ConfigureStreamContainer extends Component {
   constructor (props) {
     super(props);
 
-    console.log('moderation', props.asset.settings.moderation);
-
     this.state = {
-      premod: props.asset.settings.moderation === 'PRE',
-      premodLinks: false
+      changed: false
     };
 
     this.toggleStatus = this.toggleStatus.bind(this);
@@ -25,11 +23,18 @@ class ConfigureStreamContainer extends Component {
     this.handleApply = this.handleApply.bind(this);
   }
 
-  handleApply () {
-    const {premod, changed} = this.state;
+  handleApply (e) {
+    e.preventDefault();
+    const {elements} = e.target;
+    const premod = elements.premod.checked;
+
+    // const premodLinks = elements.premodLinks.checked;
+    const {changed} = this.state;
+
     const newConfig = {
       moderation: premod ? 'PRE' : 'POST'
     };
+
     if (changed) {
       this.props.updateConfiguration(newConfig);
       setTimeout(() => {
@@ -40,16 +45,16 @@ class ConfigureStreamContainer extends Component {
     }
   }
 
-  handleChange (e) {
-    const {name, checked} = e.target;
+  handleChange () {
     this.setState({
-      [name]: checked,
       changed: true
     });
   }
 
   toggleStatus () {
-    this.props.updateStatus(this.props.asset.closedAt === null ? 'closed' : 'open');
+    this.props.updateStatus(
+      this.props.asset.closedAt === null ? 'closed' : 'open'
+    );
   }
 
   getClosedIn () {
@@ -60,13 +65,16 @@ class ConfigureStreamContainer extends Component {
 
   render () {
     const status = this.props.asset.closedAt === null ? 'open' : 'closed';
+    const premod = this.props.asset.settings.moderation === 'PRE';
+
     return (
       <div>
         <ConfigureCommentStream
           handleChange={this.handleChange}
           handleApply={this.handleApply}
           changed={this.state.changed}
-          {...this.state}
+          premodLinks={false}
+          premod={premod}
         />
         <hr />
         <h3>{status === 'open' ? 'Close' : 'Open'} Comment Stream</h3>
@@ -89,7 +97,6 @@ const mapDispatchToProps = dispatch => ({
   updateConfiguration: newConfig => dispatch(updateConfiguration(newConfig))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps)
 )(ConfigureStreamContainer);

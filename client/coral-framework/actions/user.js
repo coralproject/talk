@@ -1,7 +1,5 @@
 import * as actions from '../constants/user';
-import * as assetActions from '../constants/assets';
 import {addNotification} from '../actions/notification';
-import {addItem} from '../actions/items';
 import coralApi from '../helpers/response';
 
 import I18n from 'coral-framework/modules/i18n/i18n';
@@ -20,37 +18,4 @@ export const saveBio = (user_id, formData) => dispatch => {
       dispatch(saveBioSuccess(formData));
     })
     .catch(error => dispatch(saveBioFailure(error)));
-};
-
-/**
- *
- * Get a list of comments by a single user
- *
- * @param {string} user_id
- * @returns Promise
- */
-export const fetchCommentsByUserId = userId => {
-  return (dispatch, getState) => {
-    dispatch({type: actions.COMMENTS_BY_USER_REQUEST});
-    return coralApi(`/comments?user_id=${userId}`)
-      .then(({comments, assets}) => {
-        const state = getState();
-        comments.forEach(comment => dispatch(addItem(comment, 'comments')));
-        assets.forEach(asset => {
-          const prevAsset = state.items.getIn(['assets', asset.id]);
-
-          if (prevAsset) {
-
-            // Include data such as hydrated comments from assets already in the system.
-            dispatch(addItem({...prevAsset.toJS(), ...asset}, 'assets'));
-          } else {
-            dispatch(addItem(asset, 'assets'));
-          }
-        });
-
-        dispatch({type: actions.COMMENTS_BY_USER_SUCCESS, comments: comments.map(comment => comment.id)});
-        dispatch({type: assetActions.MULTIPLE_ASSETS_SUCCESS, assets: assets.map(asset => asset.id)});
-      })
-      .catch(error => dispatch({type: actions.COMMENTS_BY_USER_FAILURE, error}));
-  };
 };

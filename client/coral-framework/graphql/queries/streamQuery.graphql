@@ -1,24 +1,4 @@
-
-fragment commentView on Comment {
-    id
-    body
-    created_at
-    user {
-        id
-        name: displayName
-        settings {
-          bio
-        }
-    }
-    actions {
-        type: action_type
-        count
-        current: current_user {
-            id
-            created_at
-        }
-    }
-}
+#import "../fragments/commentView.graphql"
 
 query AssetQuery($asset_url: String!) {
     asset(url: $asset_url) {
