@@ -127,10 +127,10 @@ module.exports = {
       selector: '.comment .coral-plugin-flags-popup'
     },
     flagCommentOption: {
-      selector: '.comment .coral-plugin-flags-popup .coral-plugin-flags-popup-radio-label[for="comments"]'
+      selector: '.comment .coral-plugin-flags-popup .coral-plugin-flags-popup-radio-label[for="COMMENTS"]'
     },
     flagUsernameOption: {
-      selector: '.comment .coral-plugin-flags-popup .coral-plugin-flags-popup-radio-label[for="user"]'
+      selector: '.comment .coral-plugin-flags-popup .coral-plugin-flags-popup-radio-label[for="USERS"]'
     },
     flagOtherOption: {
       selector: '.comment .coral-plugin-flags-popup .coral-plugin-flags-popup-radio-label[for="other"]'

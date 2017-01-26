@@ -4,10 +4,10 @@
 selenium-standalone install
 
 # Creating Admin Test User
-./bin/cli users create --flag_mode --email "admin@test.com" --password "testtest" --name "AdminTestUser" --role "admin"
+./bin/cli users create --flag_mode --email "admin@test.com" --password "testtest" --name "AdminTestUser" --role "ADMIN"
 
 # Creating Moderator Test User
-./bin/cli users create --flag_mode --email "moderator@test.com" --password "testtest" --name "ModeratorTestUser" --role "moderator"
+./bin/cli users create --flag_mode --email "moderator@test.com" --password "testtest" --name "ModeratorTestUser" --role "MODERATOR"
 
 # Creating Commenter Test User
 ./bin/cli users create --flag_mode --email "commenter@test.com" --password "testtest" --name "CommenterTestUser"
