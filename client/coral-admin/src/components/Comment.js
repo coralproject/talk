@@ -8,7 +8,8 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations.json';
 
 import Highlighter from 'react-highlight-words';
-import {FabButton, Button, Icon} from 'coral-ui';
+import {Icon} from 'coral-ui';
+import ActionButton from './ActionButton';
 
 const linkify = new Linkify();
 
@@ -30,7 +31,18 @@ const Comment = props => {
           {links ?
           <span className={styles.hasLinks}><Icon name='error_outline'/> Contains Link</span> : null}
           <div className={`actions ${styles.actions}`}>
-            {props.modActions.map((action, i) => getActionButton(action, i, props))}
+            {props.modActions.map(
+              (action, i) =>
+              <ActionButton
+                option={action}
+                key={i}
+                type='COMMENTS'
+                comment={comment}
+                user={author}
+                menuOptionsMap={props.menuOptionsMap}
+                onClickAction={props.onClickAction}
+                onClickShowBanDialog={props.onClickShowBanDialog}/>
+            )}
           </div>
           {authorStatus === 'banned' ?
           <span className={styles.banned}><Icon name='error_outline'/> {lang.t('comment.banned_user')}</span> : null}
@@ -46,45 +58,6 @@ const Comment = props => {
         </span>
       </div>
     </li>
-  );
-};
-
-// Get the button of the action performed over a comment if any
-const getActionButton = (option, i, props) => {
-  const {comment, author, menuOptionsMap} = props;
-  const status = comment.status;
-  const flagged = comment.flagged;
-  const banned = (author.status === 'banned');
-
-  if (option === 'flag' && (status || flagged === true)) {
-    return null;
-  }
-  if (option === 'ban') {
-    return (
-      <div className={styles.ban} key={i}>
-        <Button
-          className={`ban ${styles.banButton}`}
-          cStyle='darkGrey'
-          disabled={banned ? 'disabled' : ''}
-          onClick={() => props.onClickShowBanDialog(author.id, author.displayName, comment.id)}
-          key={i}
-          raised
-        >
-          <Icon name='not_interested' className={styles.banIcon} />
-          {lang.t('comment.ban_user')}
-        </Button>
-      </div>
-    );
-  }
-  const menuOption = menuOptionsMap[option];
-  return (
-    <FabButton
-      className={`${option} ${styles.actionButton}`}
-      cStyle={option}
-      icon={menuOption.icon}
-      key={i}
-      onClick={() => props.onClickAction(menuOption.status, comment, {item_type: 'comments'})}
-    />
   );
 };
 

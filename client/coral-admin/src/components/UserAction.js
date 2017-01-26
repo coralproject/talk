@@ -8,7 +8,7 @@ import translations from '../translations.json';
 
 import {Icon} from 'react-mdl';
 import Highlighter from 'react-highlight-words';
-import {FabButton, Button} from 'coral-ui';
+import ActionButton from './ActionButton';
 
 const linkify = new Linkify();
 
@@ -21,17 +21,27 @@ const UserAction = props => {
   // Do not display unless the user status is 'pending' or 'banned'.
   // This means that they have already been reviewed and approved.
   return (userStatus === 'PENDING' ||  userStatus === 'BANNED') &&
-    <li tabIndex={props.index} className={`${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
+    <li tabIndex={props.index} className={`mdl-card mdl-shadow--2dp ${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
       <div className={styles.itemHeader}>
         <div className={styles.author}>
           <i className={`material-icons ${styles.avatar}`}>person</i>
           <span>{user.displayName}</span>
           </div>
-        <div>
+        <div className={styles.sideActions}>
           {links ?
           <span className={styles.hasLinks}><Icon name='error_outline'/> Contains Link</span> : null}
           <div className={`actions ${styles.actions}`}>
-            {props.modActions.map((action, i) => getActionButton(action, i, props))}
+            {props.modActions.map(
+              (action, i) =>
+              <ActionButton
+                option={action}
+                key={i}
+                type='USERS'
+                user={user}
+                menuOptionsMap={props.menuOptionsMap}
+                onClickAction={props.onClickAction}
+                onClickShowBanDialog={props.onClickShowBanDialog}/>
+            )}
           </div>
         </div>
         <div>
@@ -61,37 +71,6 @@ const UserAction = props => {
 };
 
 export default UserAction;
-
-// Get the button of the action performed over a comment if any
-const getActionButton = (option, i, props) => {
-  const {user, onClickShowBanDialog, onClickAction, menuOptionsMap, action} = props;
-  const status = user.status;
-  const banned = (user.status === 'BANNED');
-
-  if (option === 'flag' && status) {
-    return null;
-  }
-  if (option === 'ban') {
-    return <Button
-        className='ban'
-        cStyle='black'
-        disabled={banned ? 'disabled' : ''}
-        onClick={() => onClickShowBanDialog(user.id, user.displayName)}
-        key={i}>
-        {lang.t('comment.ban_user')}
-      </Button>;
-  }
-  const menuOption = menuOptionsMap[option];
-  return (
-    <FabButton
-      className={`${option} ${styles.actionButton}`}
-      cStyle={option}
-      icon={menuOption.icon}
-      key={i}
-      onClick={() => onClickAction(menuOption.status, user.id, action)}
-    />
-  );
-};
 
 const linkStyles = {
   backgroundColor: 'rgb(255, 219, 135)',

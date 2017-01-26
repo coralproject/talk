@@ -177,7 +177,7 @@ export default class ModerationList extends React.Component {
 
       // If the item is an action...
       const user = users[item.item_id];
-      modItem = <UserAction
+      modItem = user && <UserAction
         suspectWords={suspectWords}
         action={item}
         user={user}
