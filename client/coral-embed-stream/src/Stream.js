@@ -18,20 +18,16 @@ class Stream extends React.Component {
   constructor(props) {
     super(props);
     this.state = {activeReplyBox: ''};
+    this.setActiveReplyBox = this.setActiveReplyBox.bind(this);
   }
 
   setActiveReplyBox (reactKey) {
     if (!this.props.currentUser) {
       const offset = document.getElementById(`c_${reactKey}`).getBoundingClientRect().top - 75;
       this.props.showSignInDialog(offset);
-    } else if (this.state.activeReplyBox === reactKey) {
-
-      // if the button is clicked again, close the reply box
-      this.setState({activeReplyBox: ''});
     } else {
       this.setState({activeReplyBox: reactKey});
     }
-
   }
 
   render () {
@@ -53,7 +49,7 @@ class Stream extends React.Component {
           comments.map(comment => {
             return <Comment
               refetch={refetch}
-              replyButtonHandler={() => this.setActiveReplyBox(comment.id)}
+              setActiveReplyBox={this.setActiveReplyBox}
               activeReplyBox={this.state.activeReplyBox}
               addNotification={addNotification}
               depth={0}

@@ -30,7 +30,7 @@ class Comment extends React.Component {
 
     // id of currently opened ReplyBox. tracked in Stream.js
     activeReplyBox: PropTypes.string.isRequired,
-    replyButtonHandler: PropTypes.func.isRequired,
+    setActiveReplyBox: PropTypes.func.isRequired,
     refetch: PropTypes.func.isRequired,
     showSignInDialog: PropTypes.func.isRequired,
     postAction: PropTypes.func.isRequired,
@@ -77,7 +77,7 @@ class Comment extends React.Component {
       addNotification,
       showSignInDialog,
       postAction,
-      replyButtonHandler,
+      setActiveReplyBox,
       activeReplyBox,
       deleteAction
     } = this.props;
@@ -104,7 +104,7 @@ class Comment extends React.Component {
         <Content body={comment.body} />
           <div className="commentActionsLeft">
               <ReplyButton
-                onClick={() => replyButtonHandler(comment.id)}
+                onClick={() => setActiveReplyBox(comment.id)}
                 parentCommentId={parentId || comment.id}
                 currentUserId={currentUser && currentUser.id}
                 banned={false} />
@@ -131,9 +131,10 @@ class Comment extends React.Component {
           activeReplyBox === comment.id
           ? <ReplyBox
               commentPostedHandler={() => {
-                replyButtonHandler('');
+                setActiveReplyBox('');
                 refetch();
               }}
+              setActiveReplyBox={setActiveReplyBox}
               parentId={parentId || comment.id}
               addNotification={addNotification}
               authorId={currentUser.id}
@@ -146,7 +147,7 @@ class Comment extends React.Component {
           comment.replies.map(reply => {
             return <Comment
               refetch={refetch}
-              replyButtonHandler={replyButtonHandler}
+              setActiveReplyBox={setActiveReplyBox}
               activeReplyBox={activeReplyBox}
               addNotification={addNotification}
               parentId={comment.id}
