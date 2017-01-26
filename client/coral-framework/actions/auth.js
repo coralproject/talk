@@ -27,6 +27,7 @@ export const fetchSignIn = (formData) => (dispatch) => {
   coralApi('/auth/local', {method: 'POST', body: formData})
     .then(({user}) => {
       const isAdmin = !!user.roles.filter(i => i === 'ADMIN').length;
+
       dispatch(signInSuccess(user, isAdmin));
       dispatch(hideSignInDialog());
     })
