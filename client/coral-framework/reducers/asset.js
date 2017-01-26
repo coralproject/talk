@@ -18,10 +18,10 @@ export default function asset (state = initialState, action) {
         .merge(action.asset);
   case actions.UPDATE_CONFIG:
     return state
-      .merge(action.config);
+      .setIn(['settings'], action.config);
   case actions.UPDATE_CONFIG_SUCCESS:
     return state
-      .merge(action.config);
+      .setIn(['settings'], action.config);
   case actions.OPEN_COMMENTS:
     return state
       .set('status', 'open')
