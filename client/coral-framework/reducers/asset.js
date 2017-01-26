@@ -13,23 +13,12 @@ const initialState = Map({
 
 export default function asset (state = initialState, action) {
   switch (action.type) {
-  case actions.FETCH_ASSET_SUCCESS :
+  case actions.FETCH_ASSET_SUCCESS:
     return state
         .merge(action.asset);
-  case actions.UPDATE_CONFIG:
+  case actions.UPDATE_ASSET_SETTINGS_SUCCESS:
     return state
-      .setIn(['settings'], action.config);
-  case actions.UPDATE_CONFIG_SUCCESS:
-    return state
-      .setIn(['settings'], action.config);
-  case actions.OPEN_COMMENTS:
-    return state
-      .set('status', 'open')
-      .set('closedAt', null);
-  case actions.CLOSE_COMMENTS:
-    return state
-      .set('status', 'closed')
-      .set('closedAt', Date.now());
+      .setIn(['settings'], action.settings);
   default:
     return state;
   }

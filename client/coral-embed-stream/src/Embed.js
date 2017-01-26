@@ -90,8 +90,11 @@ class Embed extends Component {
 
   render () {
     const {activeTab} = this.state;
+    const {closedAt} = this.props.asset;
     const {loading, asset, refetch} = this.props.data;
     const {loggedIn, isAdmin, user, showSignInDialog, signInOffset} = this.props.auth;
+
+    const openStream = closedAt === null
 
     const expandForLogin = showSignInDialog ? {
       minHeight: document.body.scrollHeight + 200
@@ -109,7 +112,7 @@ class Embed extends Component {
             {loggedIn && <UserBox user={user} logout={this.props.logout} />}
             <TabContent show={activeTab === 0}>
                 {
-                  asset.closedAt === null
+                  openStream
                    ? <div id="commentBox">
                        <InfoBox
                          content={asset.settings.infoBoxContent}
@@ -183,7 +186,8 @@ class Embed extends Component {
 const mapStateToProps = state => ({
   notification: state.notification.toJS(),
   auth: state.auth.toJS(),
-  userData: state.user.toJS()
+  userData: state.user.toJS(),
+  asset: state.asset.toJS()
 });
 
 const mapDispatchToProps = dispatch => ({
