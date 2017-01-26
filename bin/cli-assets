@@ -8,7 +8,7 @@ const program = require('commander');
 const pkg = require('../package.json');
 const parseDuration = require('parse-duration');
 const Table = require('cli-table');
-const Asset = require('../models/asset');
+const AssetModel = require('../models/asset');
 const mongoose = require('../services/mongoose');
 const scraper = require('../services/scraper');
 const util = require('../util');
@@ -22,7 +22,7 @@ util.onshutdown([
  * Lists all the assets registered in the database.
  */
 function listAssets() {
-  Asset
+  AssetModel
     .find({})
     .sort({'created_at': 1})
     .then((asset) => {
@@ -56,7 +56,7 @@ function refreshAssets(ageString) {
   const ageMs = parseDuration(ageString);
   const age = new Date(now - ageMs);
 
-  Asset.find({
+  AssetModel.find({
     $or: [
       {
         scraped: {

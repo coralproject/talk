@@ -9,7 +9,7 @@ import {Logo} from './Logo';
 export default ({handleLogout}) => (
   <Header className={styles.header}>
     <Logo />
-    <Navigation>
+    <Navigation className={styles.nav}>
       <IndexLink className={styles.navLink} to="/admin"
                  activeClassName={styles.active}>{lang.t('configure.moderate')}</IndexLink>
       <Link className={styles.navLink} to="/admin/community"

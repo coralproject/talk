@@ -2,11 +2,7 @@ import React, {Component} from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations.json';
 import styles from './Configure.css';
-import {
-  List,
-  ListItem,
-  Button
-} from 'react-mdl';
+import {Button, Card} from 'coral-ui';
 
 class EmbedLink extends Component {
 
@@ -34,16 +30,16 @@ class EmbedLink extends Component {
     return (
       <div>
         <h3>{this.props.title}</h3>
-        <List>
-          <ListItem className={styles.configSettingEmbed}>
+        <div>
+          <Card shadow="2">
             <p>{lang.t('configure.copy-and-paste')}</p>
             <textarea rows={5} type='text' className={styles.embedInput} value={embedText} readOnly={true}/>
-            <Button raised colored className={styles.copyButton} onClick={this.copyToClipBoard}>
+            <Button raised className={styles.copyButton} onClick={this.copyToClipBoard} cStyle="black">
               {lang.t('embedlink.copy')}
             </Button>
             <div className={styles.copiedText}>{this.state.copied && 'Copied!'}</div>
-          </ListItem>
-        </List>
+          </Card>
+        </div>
       </div>
     );
   }

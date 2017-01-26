@@ -1,17 +1,17 @@
-import Notification from './modules/notification/Notification';
 import store from './store';
-import * as itemActions from './actions/items';
+import pym from './PymConnection';
 import I18n from './modules/i18n/i18n';
-import * as notificationActions from './actions/notification';
 import * as authActions from './actions/auth';
-import * as configActions from './actions/config';
+import * as assetActions from './actions/asset';
+import * as notificationActions from './actions/notification';
+import Notification from './modules/notification/Notification';
 
 export {
-  Notification,
-  store,
-  itemActions,
+  pym,
   I18n,
-  notificationActions,
+  store,
   authActions,
-  configActions
+  assetActions,
+  Notification,
+  notificationActions
 };

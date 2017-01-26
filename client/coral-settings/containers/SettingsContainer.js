@@ -1,16 +1,18 @@
-import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {compose} from 'react-apollo';
+import React, {Component} from 'react';
+import I18n from 'coral-framework/modules/i18n/i18n';
 
-import {saveBio, fetchCommentsByUserId} from 'coral-framework/actions/user';
+import {myCommentHistory} from 'coral-framework/graphql/queries';
+import {saveBio} from 'coral-framework/actions/user';
 
 import BioContainer from './BioContainer';
+import {link} from 'coral-framework/PymConnection';
 import NotLoggedIn from '../components/NotLoggedIn';
-import {TabBar, Tab, TabContent} from '../../coral-ui';
-import CommentHistory from 'coral-plugin-history/CommentHistory';
+import {TabBar, Tab, TabContent, Spinner} from 'coral-ui';
 import SettingsHeader from '../components/SettingsHeader';
-import RestrictedContent from 'coral-framework/components/RestrictedContent';
+import CommentHistory from 'coral-plugin-history/CommentHistory';
 
-import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
 const lang = new I18n(translations);
 
@@ -24,12 +26,6 @@ class SettingsContainer extends Component {
     this.handleTabChange = this.handleTabChange.bind(this);
   }
 
-  componentWillMount () {
-
-    // Fetch commentHistory
-    this.props.fetchCommentsByUserId(this.props.userData.id);
-  }
-
   handleTabChange(tab) {
     this.setState({
       activeTab: tab
@@ -37,54 +33,56 @@ class SettingsContainer extends Component {
   }
 
   render() {
-    const {loggedIn, userData, showSignInDialog, items, user} = this.props;
+    const {loggedIn, userData, asset, showSignInDialog, data, user} = this.props;
     const {activeTab} = this.state;
+    const {me} = this.props.data;
 
-    const commentsMostRecentFirst = user
-      .myComments.map(id => items.comments[id])
-      .sort(({created_at:a}, {created_at:b}) => {
+    if (!loggedIn || !me) {
+      return <NotLoggedIn showSignInDialog={showSignInDialog}/>;
+    }
 
-        // descending order, created_at
-        // js date strings can be sorted lexigraphically.
-        const aLessThanB = a < b ? 1 : 0;
-        return a > b ? -1 : aLessThanB;
-      });
+    if (data.loading) {
+      return <Spinner/>;
+    }
 
     return (
-      <RestrictedContent restricted={!loggedIn} restrictedComp={<NotLoggedIn showSignInDialog={showSignInDialog} />}>
+      <div>
         <SettingsHeader {...this.props} />
         <TabBar onChange={this.handleTabChange} activeTab={activeTab} cStyle='material'>
-          <Tab>All Comments ({user.myComments.length})</Tab>
-          <Tab>Profile Settings</Tab>
+          <Tab>{lang.t('allComments')} ({user.myComments.length})</Tab>
+          <Tab>{lang.t('profileSettings')}</Tab>
         </TabBar>
         <TabContent show={activeTab === 0}>
           {
-            user.myComments.length && user.myAssets.length
-            ? <CommentHistory
-              comments={commentsMostRecentFirst}
-              assets={user.myAssets.map(id => items.assets[id])} />
-            : <p>{lang.t('user-no-comment')}</p>
+            me.comments.length ?
+              <CommentHistory
+                comments={me.comments}
+                asset={asset}
+                link={link}
+              />
+            :
+              <p>{lang.t('userNoComment')}</p>
           }
         </TabContent>
         <TabContent show={activeTab === 1}>
           <BioContainer bio={userData.settings.bio} handleSave={this.handleSave} {...this.props} />
         </TabContent>
-      </RestrictedContent>
+      </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  items: state.items.toJS(),
-  user: state.user.toJS()
+  user: state.user.toJS(),
+  asset: state.asset.toJS(),
+  auth: state.auth.toJS()
 });
 
 const mapDispatchToProps = dispatch => ({
-  saveBio: (user_id, formData) => dispatch(saveBio(user_id, formData)),
-  fetchCommentsByUserId: userId => dispatch(fetchCommentsByUserId(userId))
+  saveBio: (user_id, formData) => dispatch(saveBio(user_id, formData))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  myCommentHistory
 )(SettingsContainer);

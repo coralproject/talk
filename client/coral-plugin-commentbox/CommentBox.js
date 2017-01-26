@@ -8,11 +8,16 @@ const name = 'coral-plugin-commentbox';
 class CommentBox extends Component {
 
   static propTypes = {
-    postItem: PropTypes.func,
-    updateItem: PropTypes.func,
-    id: PropTypes.string,
-    comments: PropTypes.array,
-    reply: PropTypes.bool,
+
+    // updateItem: PropTypes.func,
+    // comments: PropTypes.array,
+    commentPostedHandler: PropTypes.func,
+    postItem: PropTypes.func.isRequired,
+    cancelButtonClicked: PropTypes.func,
+    assetId: PropTypes.string.isRequired,
+    parentId: PropTypes.string,
+    authorId: PropTypes.string.isRequired,
+    isReply: PropTypes.bool.isRequired,
     canPost: PropTypes.bool,
     currentUser: PropTypes.object
   }
@@ -24,49 +29,59 @@ class CommentBox extends Component {
 
   postComment = () => {
     const {
+
+      // child_id,
+      // updateItem,
+      // appendItemArray,
+      commentPostedHandler,
       postItem,
-      updateItem,
-      id,
-      parent_id,
-      child_id,
+      assetId,
+      parentId,
       addNotification,
-      appendItemArray,
-      premod,
-      author
+      authorId
     } = this.props;
 
     let comment = {
       body: this.state.body,
-      asset_id: id,
-      author_id: author.id
+      asset_id: assetId,
+      author_id: authorId,
+      parent_id: parentId
     };
-    let related;
-    let parent_type;
-    if (parent_id) {
-      comment.parent_id = parent_id;
-      related = 'children';
-      parent_type = 'comments';
-    } else {
-      related = 'comments';
-      parent_type = 'assets';
-    }
-    if (child_id || parent_id) {
-      updateItem(child_id || parent_id, 'showReply', false, 'comments');
-    }
+
+    // let related;
+    // let parent_type;
+    // if (parent_id) {
+    //   comment.parent_id = parent_id;
+    //   related = 'children';
+    //   parent_type = 'comments';
+    // } else {
+    //   related = 'comments';
+    //   parent_type = 'assets';
+    // }
+    // if (child_id || parent_id) {
+    //   updateItem(child_id || parent_id, 'showReply', false, 'comments');
+    // }
 
     if (this.props.charCount && this.state.body.length > this.props.charCount) {
       return;
     }
     postItem(comment, 'comments')
-      .then((postedComment) => {
-        const commentId = postedComment.id;
-        if (postedComment.status === 'rejected') {
+      .then(({data}) => {
+        const postedComment = data.createComment;
+
+        // const commentId = postedComment.id;
+        if (postedComment.status === 'REJECTED') {
           addNotification('error', lang.t('comment-post-banned-word'));
-        } else if (premod === 'pre') {
+        } else if (postedComment.status === 'PREMOD') {
           addNotification('success', lang.t('comment-post-notif-premod'));
         } else {
-          appendItemArray(parent_id || id, related, commentId, !parent_id, parent_type);
+
+          // appendItemArray(parent_id || id, related, commentId, !parent_id, parent_type);
           addNotification('success', 'Your comment has been posted.');
+        }
+
+        if (commentPostedHandler) {
+          commentPostedHandler();
         }
       })
     .catch((err) => console.error(err));
@@ -74,23 +89,30 @@ class CommentBox extends Component {
   }
 
   render () {
-    const {styles, reply, author, charCount} = this.props;
+    const {styles, isReply, authorId, charCount} = this.props;
+    let {cancelButtonClicked} = this.props;
     const length = this.state.body.length;
+
+    if (isReply && typeof cancelButtonClicked !== 'function') {
+      console.warn('the CommentBox component should have a cancelButtonClicked callback defined if it lives in a Reply');
+      cancelButtonClicked = () => {};
+    }
+
     return <div>
       <div
         className={`${name}-container`}>
           <label
-            htmlFor={ reply ? 'replyText' : 'commentText'}
+            htmlFor={ isReply ? 'replyText' : 'commentText'}
             className="screen-reader-text"
             aria-hidden={true}>
-            {reply ? lang.t('reply') : lang.t('comment')}
+            {isReply ? lang.t('reply') : lang.t('comment')}
           </label>
           <textarea
             className={`${name}-textarea`}
             style={styles && styles.textarea}
             value={this.state.body}
             placeholder={lang.t('comment')}
-            id={reply ? 'replyText' : 'commentText'}
+            id={isReply ? 'replyText' : 'commentText'}
             onChange={(e) => this.setState({body: e.target.value})}
             rows={3}/>
         </div>
@@ -101,7 +123,20 @@ class CommentBox extends Component {
           }
         </div>
         <div className={`${name}-button-container`}>
-          { author && (
+          {
+            isReply && (
+              <Button
+                cStyle='darkGrey'
+                className={`${name}-cancel-button`}
+                onClick={() => {
+                  console.log('cancel button in comment box');
+                  cancelButtonClicked('');
+                }}>
+                {lang.t('cancel')}
+              </Button>
+            )
+          }
+          { authorId && (
               <Button
                 cStyle={!length || (charCount && length > charCount) ? 'lightGrey' : 'darkGrey'}
                 className={`${name}-button`}

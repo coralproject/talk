@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const Asset = require('../../../models/asset');
 const scraper = require('../../../services/scraper');
+const AssetsService = require('../../../services/assets');
+
+const AssetModel = require('../../../models/asset');
 
 // List assets.
 router.get('/', (req, res, next) => {
@@ -46,13 +48,13 @@ router.get('/', (req, res, next) => {
   Promise.all([
 
     // Find the actuall assets.
-    FilterOpenAssets(Asset.search(search), filter)
+    FilterOpenAssets(AssetsService.search(search), filter)
       .sort({[field]: (sort === 'asc') ? 1 : -1})
       .skip(parseInt(skip))
       .limit(parseInt(limit)),
 
     // Get the count of actual assets.
-    FilterOpenAssets(Asset.search(search), filter)
+    FilterOpenAssets(AssetsService.search(search), filter)
       .count()
   ])
   .then(([result, count]) => {
@@ -73,7 +75,7 @@ router.get('/', (req, res, next) => {
 router.get('/:asset_id', (req, res, next) => {
 
   // Send back the asset.
-  Asset
+  AssetsService
     .findById(req.params.asset_id)
     .then((asset) => {
       if (!asset) {
@@ -91,7 +93,7 @@ router.get('/:asset_id', (req, res, next) => {
 router.post('/:asset_id/scrape', (req, res, next) => {
 
   // Create a new asset scrape job.
-  Asset
+  AssetsService
     .findById(req.params.asset_id)
     .then((asset) => {
       if (!asset) {
@@ -113,7 +115,7 @@ router.post('/:asset_id/scrape', (req, res, next) => {
 router.put('/:asset_id/settings', (req, res, next) => {
 
   // Override the settings for the asset.
-  Asset
+  AssetsService
     .overrideSettings(req.params.asset_id, req.body)
     .then(() => res.status(204).end())
     .catch((err) => next(err));
@@ -128,7 +130,7 @@ router.put('/:asset_id/status', (req, res, next) => {
     closedMessage
   } = req.body;
 
-  Asset
+  AssetModel
     .update({id}, {
       $set: {
         closedAt,

@@ -17,7 +17,11 @@ const ErrNotAuthorized = require('../errors').ErrNotAuthorized;
  * @return {Boolean}      true if the user has all the roles required, false
  *                        otherwise
  */
-authorization.has = (user, ...roles) => roles.every((role) => user.roles.indexOf(role) >= 0);
+authorization.has = (user, ...roles) => roles.every((role) => {
+
+  // TODO: remove toUpperCase once we've migrated over the roles.
+  return user.roles.indexOf(role.toUpperCase()) >= 0;
+});
 
 /**
  * needed is a connect middleware layer that ensures that all requests coming

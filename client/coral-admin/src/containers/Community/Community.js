@@ -1,13 +1,12 @@
 import React from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations.json';
-import {Grid, Cell} from 'react-mdl';
 
 import styles from './Community.css';
 import Table from './Table';
 import Loading from './Loading';
 import NoResults from './NoResults';
-import Pager from 'coral-ui/components/Pager';
+import {Pager} from 'coral-ui';
 
 const lang = new I18n(translations);
 
@@ -33,17 +32,17 @@ const tableHeaders = [
 const Community = ({isFetching, commenters, ...props}) => {
   const hasResults = !isFetching && !!commenters.length;
   return (
-    <Grid>
-      <Cell col={2}>
+    <div className={styles.container}>
+      <div className={styles.leftColumn}>
         <form action="">
-          <div className={`mdl-textfield ${styles.searchBox}`}>
-            <label className="mdl-button mdl-js-button mdl-button--icon" htmlFor="commenters-search">
+          <div className={`${styles.searchBox}`}>
+            <label htmlFor="commenters-search">
               <i className="material-icons">search</i>
             </label>
             <div className="">
               <input
                 id="commenters-search"
-                className={`mdl-textfield__input ${styles.searchInput}`}
+                className={`${styles.searchInput}`}
                 type="text"
                 value={props.searchValue}
                 onKeyDown={props.onKeyDownHandler}
@@ -52,8 +51,8 @@ const Community = ({isFetching, commenters, ...props}) => {
             </div>
           </div>
         </form>
-      </Cell>
-      <Cell col={6}>
+      </div>
+      <div className={styles.mainContent}>
         { isFetching && <Loading /> }
         { !hasResults && <NoResults /> }
         { hasResults &&
@@ -68,8 +67,8 @@ const Community = ({isFetching, commenters, ...props}) => {
           page={props.page}
           onNewPageHandler={props.onNewPageHandler}
         />
-      </Cell>
-    </Grid>
+      </div>
+    </div>
   );
 };
 

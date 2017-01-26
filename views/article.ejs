@@ -20,32 +20,45 @@
   <body>
   <main>
     <h1><%= title %></h1>
-    <p>
-        Lorem ipsum dolor sponge amet, consectetur adipiscing clam.
-        Ut lobortis sollicitudin pillar a ornare. Curabitur dignissim
-        vestibulum cay non rhoncus. Cras laoreet ante vel nunc hendrerit,
-        shelf imperdiet neque egestas. Suspendisse aliquet iaculis fermentum.
-        Talk volutpat, tellus posuere laoreet consequat, mi lacus laoreet massa,
-        sed vehicula mauris velit non lectus. Integer non trust nec neque congue
-        faucibus porttitor sit amet elkhorn.
-    </p>
-    <p><a href="/admin">Visit the moderation console</a></p>
+    <p><%= body %></p>
+    <p><a href="/admin">Admin</a> - <a href="/assets">All Assets</a></p>
     <div id='coralStreamEmbed'></div>
   </main>
 
 <script type='text/javascript' src='<%= basePath %>/pym.v1.min.js'></script>
 <script>
   var ready = false;
-  var pymParent = new pym.Parent('coralStreamEmbed', '/embed/stream', {title: 'Talk Comments', id:'coralStreamIframe', name: 'coralStreamIframe'});
+
+  // default to using the window.location
+  var url = window.location.protocol + '//' + window.location.host + window.location.pathname;
+
+  // if a url is passed into the template prefer it to the current url
+  <%if (asset_url.length > 0) { %>
+    url = '<%= asset_url %>';
+  <%}%>
+
+  var pymParent = new pym.Parent('coralStreamEmbed', '/embed/stream?asset_url=' + encodeURIComponent(url), {title: 'Talk Comments', id:'coralStreamIframe', name: 'coralStreamIframe', asset_url: url});
   pymParent.onMessage('height', function(height) {document.querySelector('#coralStreamEmbed iframe').height = height + 'px'})
   pymParent.onMessage('childReady', function () {
     var interval = setInterval(function () {
       if (ready) {
         window.clearInterval(interval);
-        pymParent.sendMessage('DOMContentLoaded', window.location.hash);
+
+        // default to using the window.location
+        var url = window.location.hash;
+
+        // if a url is passed into the template prefer it to the current url
+        <%if (asset_url.length > 0) { %>
+          url = '<%= asset_url %>';
+        <%}%>
+
+        pymParent.sendMessage('DOMContentLoaded', url);
       }
     }, 100);
   });
+  pymParent.onMessage('navigate', function (url) {
+    window.open(url, '_blank').focus();
+  })
 
   // wait till images and other iframes are loaded before scrolling the page.
   // or do we want to be more aggressive and scroll when we hit DOM ready?

@@ -1,0 +1,5 @@
+{
+  "verbose": true,
+  "ignore": ["test/*", "client/*", "dist/*"],
+  "ext": "js,json,graphql"
+}
