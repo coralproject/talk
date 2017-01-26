@@ -37,7 +37,7 @@ class SettingsContainer extends Component {
     const {activeTab} = this.state;
     const {me} = this.props.data;
 
-    if (!loggedIn) {
+    if (!loggedIn || !me) {
       return <NotLoggedIn showSignInDialog={showSignInDialog}/>;
     }
 
