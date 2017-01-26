@@ -94,7 +94,7 @@ class Embed extends Component {
     const {loading, asset, refetch} = this.props.data;
     const {loggedIn, isAdmin, user, showSignInDialog, signInOffset} = this.props.auth;
 
-    const openStream = closedAt === null
+    const openStream = closedAt === null;
 
     const expandForLogin = showSignInDialog ? {
       minHeight: document.body.scrollHeight + 200
