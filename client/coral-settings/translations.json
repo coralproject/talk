@@ -1,8 +1,14 @@
 {
   "en":{
-    "user-no-comment": "This user has not yet left a comment."
+    "userNoComment": "This user has not yet left a comment.",
+    "allComments": "All Comments",
+    "profileSettings": "Profile Settings",
+    "myCommentHistory": "My comment History"
   },
   "es":{
-    "user-no-comment": "Aún no ha escrito ningún comentario."
+    "userNoComment": "Aún no ha escrito ningún comentario.",
+    "allComments": "Todos los comentarios",
+    "profileSettings": "Configuración del perfil",
+    "myCommentHistory": "Mi historial de comentarios"
   }
 }
