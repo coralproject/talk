@@ -130,15 +130,15 @@ export default class ModerationList extends React.Component {
     }
 
     // Update the status right away if this is a comment
-    if (action.item_type === 'comments') {
+    if (action.item_type === 'COMMENTS') {
       this.props.updateCommentStatus(menuOption, id);
-    } else if (action.item_type === 'users') {
+    } else if (action.item_type === 'USERS') {
 
       // If a user bio or name is rejected, bring up a dialog before suspending them.
       if (menuOption === 'rejected') {
         this.setState({suspendUserModal: action});
       } else if (menuOption === 'accepted') {
-        this.props.userStatusUpdate('active', action.item_id);
+        this.props.userStatusUpdate('ACTIVE', action.item_id);
       }
     }
   }

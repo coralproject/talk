@@ -20,7 +20,7 @@ const UserAction = props => {
 
   // Do not display unless the user status is 'pending' or 'banned'.
   // This means that they have already been reviewed and approved.
-  return (userStatus === 'pending' ||  userStatus === 'banned') &&
+  return (userStatus === 'PENDING' ||  userStatus === 'BANNED') &&
     <li tabIndex={props.index} className={`${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
       <div className={styles.itemHeader}>
         <div className={styles.author}>
@@ -66,7 +66,7 @@ export default UserAction;
 const getActionButton = (option, i, props) => {
   const {user, onClickShowBanDialog, onClickAction, menuOptionsMap, action} = props;
   const status = user.status;
-  const banned = (user.status === 'banned');
+  const banned = (user.status === 'BANNED');
 
   if (option === 'flag' && status) {
     return null;

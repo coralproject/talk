@@ -14,6 +14,15 @@ export default (props) => (
   <div>
     <div className='mdl-tabs'>
       <div className={`mdl-tabs__tab-bar ${styles.tabBar}`}>
+        <a href='#all'
+           onClick={(e) => {
+             e.preventDefault();
+             props.onTabClick('all');
+           }}
+           className={`mdl-tabs__tab ${styles.tab} ${props.activeTab === 'all' ? styles.active : ''}`}
+        >
+          {lang.t('modqueue.all')}
+        </a>
         <a href='#pending'
            onClick={(e) => {
              e.preventDefault();

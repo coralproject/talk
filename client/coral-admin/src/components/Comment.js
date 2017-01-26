@@ -61,7 +61,7 @@ const getActionButton = (option, i, props) => {
   }
   if (option === 'ban') {
     return (
-      <div className={styles.ban}>
+      <div className={styles.ban} key={i}>
         <Button
           className={`ban ${styles.banButton}`}
           cStyle='darkGrey'
