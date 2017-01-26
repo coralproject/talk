@@ -2,13 +2,21 @@ import {graphql} from 'react-apollo';
 import STREAM_QUERY from './streamQuery.graphql';
 import MY_COMMENT_HISTORY from './myCommentHistory.graphql';
 
-import pym from 'coral-framework/PymConnection';
-let url = pym.parentUrl.split('#')[0] || 'http://localhost:3000/';
+function getQueryVariable(variable) {
+  let query = window.location.search.substring(1);
+  let vars = query.split('&');
+  for (let i = 0; i < vars.length; i++) {
+    let pair = vars[i].split('=');
+    if (decodeURIComponent(pair[0]) === variable) {
+      return decodeURIComponent(pair[1]);
+    }
+  }
+}
 
 export const queryStream = graphql(STREAM_QUERY, {
   options: () => ({
     variables: {
-      asset_url: url
+      asset_url: getQueryVariable('asset_url')
     }
   })
 });

@@ -37,7 +37,7 @@ module.exports = (context) => {
   // TODO: refactor to something that'll return an error in the event an attempt
   // is made to mutate state while not logged in. There's got to be a better way
   // to do this.
-  if (context.user) {
+  if (context.user && context.user.can('mutation:createAction', 'mutation:deleteAction')) {
     return {
       Action: {
         create: (action) => createAction(context, action),

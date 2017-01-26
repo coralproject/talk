@@ -130,6 +130,33 @@ UserSchema.method('hasRoles', function(...roles) {
   });
 });
 
+/**
+ * All the graph operations that are available for a user.
+ * @type {Array}
+ */
+const USER_GRAPH_OPERATIONS = [
+  'mutation:createComment',
+  'mutation:createAction',
+  'mutation:deleteAction',
+  'mutation:updateUserSettings'
+];
+
+/**
+ * Can returns true if the user is allowed to perform a specific graph
+ * operation.
+ */
+UserSchema.method('can', function(...actions) {
+  if (actions.some((action) => USER_GRAPH_OPERATIONS.indexOf(action) === -1)) {
+    throw new Error(`invalid actions: ${actions}`);
+  }
+
+  if (this.status === 'BANNED') {
+    return false;
+  }
+
+  return true;
+});
+
 // Create the User model.
 const UserModel = mongoose.model('User', UserSchema);
 
