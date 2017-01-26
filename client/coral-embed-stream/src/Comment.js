@@ -105,11 +105,6 @@ class Comment extends React.Component {
         <PubDate created_at={comment.created_at} />
         <Content body={comment.body} />
           <div className="commentActionsLeft">
-              <ReplyButton
-                onClick={this.onReplyBoxClick}
-                parentCommentId={parentId || comment.id}
-                currentUserId={currentUser && currentUser.id}
-                banned={false} />
               <LikeButton
                 like={like}
                 id={comment.id}
@@ -117,8 +112,14 @@ class Comment extends React.Component {
                 deleteAction={deleteAction}
                 showSignInDialog={showSignInDialog}
                 currentUser={currentUser} />
+              <ReplyButton
+                onClick={this.onReplyBoxClick}
+                parentCommentId={parentId || comment.id}
+                currentUserId={currentUser && currentUser.id}
+                banned={false} />
             </div>
         <div className="commentActionsRight">
+          <PermalinkButton articleURL={asset.url} commentId={comment.id} />
           <FlagComment
             flag={flag}
             id={comment.id}
@@ -127,7 +128,6 @@ class Comment extends React.Component {
             deleteAction={deleteAction}
             showSignInDialog={showSignInDialog}
             currentUser={currentUser} />
-          <PermalinkButton articleURL={asset.url} commentId={comment.id} />
         </div>
         {
           this.state.replyBoxVisible
