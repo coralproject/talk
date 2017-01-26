@@ -26,6 +26,11 @@ class Comment extends React.Component {
   }
 
   static propTypes = {
+    reactKey: PropTypes.string.isRequired,
+
+    // id of currently opened ReplyBox. tracked in Stream.js
+    activeReplyBox: PropTypes.string.isRequired,
+    replyButtonHandler: PropTypes.func.isRequired,
     refetch: PropTypes.func.isRequired,
     showSignInDialog: PropTypes.func.isRequired,
     postAction: PropTypes.func.isRequired,
@@ -60,15 +65,6 @@ class Comment extends React.Component {
     }).isRequired
   }
 
-  onReplyBoxClick = () => {
-    if (this.props.currentUser) {
-      this.setState({replyBoxVisible: !this.state.replyBoxVisible});
-    } else {
-      const offset = document.getElementById(`c_${this.props.comment.id}`).getBoundingClientRect().top - 75;
-      this.props.showSignInDialog(offset);
-    }
-  }
-
   render () {
     const {
       comment,
@@ -81,6 +77,8 @@ class Comment extends React.Component {
       addNotification,
       showSignInDialog,
       postAction,
+      replyButtonHandler,
+      activeReplyBox,
       deleteAction
     } = this.props;
 
@@ -106,7 +104,7 @@ class Comment extends React.Component {
         <Content body={comment.body} />
           <div className="commentActionsLeft">
               <ReplyButton
-                onClick={this.onReplyBoxClick}
+                onClick={() => replyButtonHandler(comment.id)}
                 parentCommentId={parentId || comment.id}
                 currentUserId={currentUser && currentUser.id}
                 banned={false} />
@@ -130,11 +128,10 @@ class Comment extends React.Component {
           <PermalinkButton articleURL={asset.url} commentId={comment.id} />
         </div>
         {
-          this.state.replyBoxVisible
+          activeReplyBox === comment.id
           ? <ReplyBox
               commentPostedHandler={() => {
-                console.log('replyPostedHandler');
-                this.setState({replyBoxVisible: false});
+                replyButtonHandler('');
                 refetch();
               }}
               parentId={parentId || comment.id}
@@ -149,6 +146,8 @@ class Comment extends React.Component {
           comment.replies.map(reply => {
             return <Comment
               refetch={refetch}
+              replyButtonHandler={replyButtonHandler}
+              activeReplyBox={activeReplyBox}
               addNotification={addNotification}
               parentId={comment.id}
               postItem={postItem}
@@ -158,6 +157,7 @@ class Comment extends React.Component {
               postAction={postAction}
               deleteAction={deleteAction}
               showSignInDialog={showSignInDialog}
+              reactKey={reply.id}
               key={reply.id}
               comment={reply} />;
           })
