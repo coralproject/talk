@@ -1,6 +1,7 @@
 {
   "en": {
     "post": "Post",
+    "cancel": "Cancel",
     "reply": "Reply",
     "comment": "Comment",
     "name": "Name",
@@ -11,6 +12,7 @@
   },
   "es": {
     "post": "Publicar",
+    "cancel": "Cancelar",
     "reply": "Respuesta",
     "comment": "Comentario",
     "name": "Nombre",
