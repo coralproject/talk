@@ -1,0 +1,9 @@
+query myCommentHistory {
+    me {
+        comments {
+            id
+            body
+            created_at
+        }
+    }
+}

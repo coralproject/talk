@@ -13,6 +13,7 @@ class CommentBox extends Component {
     // comments: PropTypes.array,
     commentPostedHandler: PropTypes.func,
     postItem: PropTypes.func.isRequired,
+    cancelButtonClicked: PropTypes.func,
     assetId: PropTypes.string.isRequired,
     parentId: PropTypes.string,
     authorId: PropTypes.string.isRequired,
@@ -89,7 +90,14 @@ class CommentBox extends Component {
 
   render () {
     const {styles, isReply, authorId, charCount} = this.props;
+    let {cancelButtonClicked} = this.props;
     const length = this.state.body.length;
+
+    if (isReply && typeof cancelButtonClicked !== 'function') {
+      console.warn('the CommentBox component should have a cancelButtonClicked callback defined if it lives in a Reply');
+      cancelButtonClicked = () => {};
+    }
+
     return <div>
       <div
         className={`${name}-container`}>
@@ -115,6 +123,19 @@ class CommentBox extends Component {
           }
         </div>
         <div className={`${name}-button-container`}>
+          {
+            isReply && (
+              <Button
+                cStyle='darkGrey'
+                className={`${name}-cancel-button`}
+                onClick={() => {
+                  console.log('cancel button in comment box');
+                  cancelButtonClicked('');
+                }}>
+                {lang.t('cancel')}
+              </Button>
+            )
+          }
           { authorId && (
               <Button
                 cStyle={!length || (charCount && length > charCount) ? 'lightGrey' : 'darkGrey'}
