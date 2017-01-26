@@ -14,7 +14,7 @@ module.exports = {
     'host': '127.0.0.1',
     'port': 6666,
     'cli_args': {
-      'webdriver.chrome.driver': 'node_modules/selenium-standalone/.selenium/chromedriver/2.27-x64-chromedriver'
+      'webdriver.chrome.driver': 'node_modules/selenium-standalone/.selenium/chromedriver/2.25-x64-chromedriver'
     }
   },
   'test_settings': {
