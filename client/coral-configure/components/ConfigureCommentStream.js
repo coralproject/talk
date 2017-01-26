@@ -32,6 +32,7 @@ export default ({handleChange, handleApply, changed, ...props}) => (
             description: lang.t('configureCommentStream.enablePremodDescription')
           }}
         />
+        {/* To be implimented
         <ul>
           <li>
             <Checkbox
@@ -47,6 +48,7 @@ export default ({handleChange, handleApply, changed, ...props}) => (
             />
           </li>
         </ul>
+        */}
       </li>
     </ul>
   </div>
