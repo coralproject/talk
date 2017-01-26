@@ -598,4 +598,12 @@ module.exports = class UsersService {
       });
   }
 
+  /**
+   * Returns all users with pending 'ADMIN'ation actions.
+   * @return {Promise}
+   */
+  static moderationQueue() {
+    return UserModel.find({status: 'PENDING'});
+  }
+
 };
