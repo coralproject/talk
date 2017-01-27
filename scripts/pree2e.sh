@@ -3,6 +3,9 @@
 # install selenium
 selenium-standalone install --config=./selenium.config.js
 
+#Init settings
+./bin/cli settings init
+
 # Creating Admin Test User
 ./bin/cli users create --flag_mode --email "admin@test.com" --password "testtest" --name "AdminTestUser" --role "ADMIN"
 
