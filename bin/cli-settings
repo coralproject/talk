@@ -23,7 +23,7 @@ program
   .description('initilizes the talk settings')
   .action(() => {
     const defaults = {
-      moderation: 'PRE',
+      moderation: 'POST',
       wordlist: {
         banned: [],
         suspect: []

@@ -24,7 +24,6 @@ const UserAction = props => {
     <li tabIndex={props.index} className={`mdl-card mdl-shadow--2dp ${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
       <div className={styles.itemHeader}>
         <div className={styles.author}>
-          <i className={`material-icons ${styles.avatar}`}>person</i>
           <span>{user.displayName}</span>
           </div>
         <div className={styles.sideActions}>
