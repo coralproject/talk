@@ -8,7 +8,7 @@ const UserBox = ({className, user, logout, changeTab}) => (
   <div className={`${styles.userBox} ${className ? className : ''}`}>
     {lang.t('signIn.loggedInAs')}
     <a onClick={() => changeTab(1)}>{user.displayName}</a>. {lang.t('signIn.notYou')}
-    <a onClick={logout} id='logout'>{lang.t('signIn.logout')}</a>
+    <a className={styles.logout} onClick={logout} id='logout'>{lang.t('signIn.logout')}</a>
   </div>
 );
 
