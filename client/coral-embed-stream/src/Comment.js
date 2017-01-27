@@ -87,7 +87,7 @@ class Comment extends React.Component {
 
     return (
       <div
-        className="comment"
+        className={parentId ? 'reply' : 'comment'}
         id={`c_${comment.id}`}
         style={{marginLeft: depth * 30}}>
         <hr aria-hidden={true} />
