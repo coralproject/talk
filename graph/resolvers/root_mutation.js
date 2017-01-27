@@ -1,15 +1,15 @@
 const RootMutation = {
-  createComment(_, {asset_id, parent_id, body}, {mutators}) {
-    return mutators.Comment.create({asset_id, parent_id, body});
+  createComment(_, {asset_id, parent_id, body}, {mutators: {Comment}}) {
+    return Comment.create({asset_id, parent_id, body});
   },
-  createAction(_, {action}, {mutators}) {
-    return mutators.Action.create(action);
+  createAction(_, {action}, {mutators: {Action}}) {
+    return Action.create(action);
   },
-  deleteAction(_, {id}, {mutators}) {
-    return mutators.Action.delete({id});
+  deleteAction(_, {id}, {mutators: {Action}}) {
+    return Action.delete({id});
   },
-  updateUserSettings(_, {settings}, {mutators}) {
-    return mutators.User.updateSettings(settings);
+  updateUserSettings(_, {settings}, {mutators: {User}}) {
+    return User.updateSettings(settings);
   }
 };
 
