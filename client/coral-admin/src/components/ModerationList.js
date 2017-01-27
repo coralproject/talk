@@ -8,10 +8,10 @@ import SuspendUserModal from './SuspendUserModal';
 
 // Each action has different meaning and configuration
 const menuOptionsMap = {
-  'reject': {status: 'rejected', icon: 'close', key: 'r'},
-  'approve': {status: 'accepted', icon: 'done', key: 't'},
-  'flag': {status: 'flagged', icon: 'flag', filter: 'Untouched'},
-  'ban': {status: 'banned', icon: 'not interested'}
+  'reject': {status: 'REJECTED', icon: 'close', key: 'r'},
+  'approve': {status: 'ACCEPTED', icon: 'done', key: 't'},
+  'flag': {status: 'FLAGGED', icon: 'flag', filter: 'Untouched'},
+  'ban': {status: 'BANNED', icon: 'not interested'}
 };
 
 // Renders a comment list and allow performing actions
@@ -135,9 +135,9 @@ export default class ModerationList extends React.Component {
     } else if (action.item_type === 'USERS') {
 
       // If a user bio or name is rejected, bring up a dialog before suspending them.
-      if (menuOption === 'rejected') {
+      if (menuOption === 'REJECTED') {
         this.setState({suspendUserModal: action});
-      } else if (menuOption === 'accepted') {
+      } else if (menuOption === 'ACCEPTED') {
         this.props.userStatusUpdate('ACTIVE', action.item_id);
       }
     }
