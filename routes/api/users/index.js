@@ -69,8 +69,8 @@ router.post('/:user_id/status', authorization.needed('ADMIN'), (req, res, next) 
  * @param {String}     userID  the id for the user to send the email to
  * @param {String}     email   the email for the user to send the email to
  */
-const SendEmailConfirmation = (app, userID, email) => UsersService
-  .createEmailConfirmToken(userID, email)
+const SendEmailConfirmation = (app, userID, email, referer) => UsersService
+  .createEmailConfirmToken(userID, email, referer)
   .then((token) => {
     return mailer.sendSimple({
       app,                                 // needed to render the templates.
@@ -103,7 +103,7 @@ router.post('/', (req, res, next) => {
 
         if (requireEmailConfirmation) {
 
-          SendEmailConfirmation(req.app, user.id, email)
+          SendEmailConfirmation(req.app, user.id, email, req.header('Referer'))
             .then(() => {
 
               // Then send back the user.

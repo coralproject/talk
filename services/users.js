@@ -531,7 +531,7 @@ module.exports = class UsersService {
    * @param  {String} email The email that we are needing to get confirmed.
    * @return {Promise}
    */
-  static createEmailConfirmToken(userID, email) {
+  static createEmailConfirmToken(userID, email, referer) {
     if (!email || typeof email !== 'string') {
       return Promise.reject('email is required when creating a JWT for resetting passord');
     }
@@ -555,6 +555,7 @@ module.exports = class UsersService {
 
         const payload = {
           email,
+          referer,
           userID
         };
 
@@ -579,9 +580,9 @@ module.exports = class UsersService {
       .verifyToken(token, {
         subject: EMAIL_CONFIRM_JWT_SUBJECT
       })
-      .then(({userID, email}) => {
+      .then(({userID, email, referer}) => {
 
-        return UserModel
+        const userUpdate = UserModel
           .update({
             id: userID,
             profiles: {
@@ -595,7 +596,10 @@ module.exports = class UsersService {
               'profiles.$.metadata.confirmed_at': new Date()
             }
           });
+
+        return Promise.all([userUpdate, referer]);
       });
+
   }
 
 };

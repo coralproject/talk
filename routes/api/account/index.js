@@ -28,8 +28,8 @@ router.post('/email/confirm', (req, res, next) => {
 
   UsersService
     .verifyEmailConfirmation(token)
-    .then(() => {
-      res.status(204).end();
+    .then(([, referer]) => {
+      res.json({redirectUri: referer});
     })
     .catch((err) => {
       next(err);
