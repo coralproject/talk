@@ -20,7 +20,7 @@ const createAction = ({user = {}}, {item_id, item_type, action_type, metadata = 
     metadata
   }).then((result) =>
     item_type === 'USERS' && action_type === 'FLAG' ?
-    UsersService.setStatus(user.id, 'PENDING').then(() => result)
+    UsersService.setStatus(item_id, 'PENDING').then(() => result)
     : result);
 };
 
