@@ -1,10 +1,18 @@
+const mocks = require('../mocks');
+
 module.exports = {
   '@tags': ['embedStream'],
   before: client => {
-    const embedStreamPage = client.page.embedStreamPage();
-    embedStreamPage
-      .navigate()
-      .ready();
+    client.perform((client, done) => {
+      mocks.settings({moderation: 'PRE'})
+        .then(() => {
+          const embedStreamPage = client.page.embedStreamPage();
+          embedStreamPage
+            .navigate()
+            .ready();
+          done();
+        });
+    });
   },
   'Login as commenter': client => {
     const embedStreamPage = client.page.embedStreamPage();

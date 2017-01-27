@@ -29,7 +29,6 @@ module.exports = {
           .frame('coralStreamIframe')
 
           // Register and Log In
-          .waitForElementVisible('#commentBox', 1000)
           .waitForElementVisible('#coralSignInButton', 2000)
           .click('#coralSignInButton')
           .waitForElementVisible('#coralRegister', 1000)

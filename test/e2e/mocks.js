@@ -22,6 +22,5 @@ module.exports.users = (users) => Users.createLocalUsers(users);
 module.exports.actions = (actions) => Actions.create(actions);
 
 /* Update a setting */
-module.exports.settings = (setting) => Settings.init().then(() => {
-  Settings.updateSettings(setting);
-});
+module.exports.settings = (setting) => Settings.init().then(() =>
+  Settings.update(setting));
