@@ -1,0 +1,50 @@
+.container {
+  border-radius: 3px;
+  border: solid 1px #D8D8D8;
+  border-radius: 3px;
+  padding: 15px 10px;
+  box-sizing: border-box;
+  box-shadow: 1px 3px 28px 48px rgba(255, 255, 255, 0.75);
+  width: auto;
+  margin: 0 auto;
+  left: 0;
+  margin: 0 5px;
+
+  input {
+    display: inline-block;
+    width: calc(100% - 78px);
+    padding: 8px;
+    border-radius: 3px;
+    border: solid 1px #e0e0e0;
+    height: 32px;
+    box-sizing: border-box;
+    font-size: 1em;
+  }
+
+  button {
+    display: inline-block;
+    float: right;
+    box-sizing: border-box;
+    margin: 0;
+    background-color: #e0e0e0;
+    font-size: 1em;
+    width: auto;
+    height: auto;
+    padding: 2px;
+    transition: background-color 0.4s ease;
+
+    &:hover{
+      color: black;
+    }
+
+    &.success {
+      background-color: #00897B;
+      color: white;
+    }
+
+    &.failure {
+      background-color: #FF5252;
+      color: white;
+    }
+  }
+}
