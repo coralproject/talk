@@ -41,7 +41,7 @@ class PermalinkButton extends React.Component {
 
     setTimeout(() => {
       this.setState({copyFailure: null, copySuccessful: null});
-    }, 3500);
+    }, 3000);
   }
 
   render () {
