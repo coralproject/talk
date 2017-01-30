@@ -1,15 +1,19 @@
 #!/bin/bash
 
 # install selenium
-selenium-standalone install
+selenium-standalone install --config=./selenium.config.js
+
+#Init settings
+./bin/cli settings init
 
 # Creating Admin Test User
-./bin/cli-users create --flag_mode --email "admin@test.com" --password "test" --name "Admin Test User" --role "admin"
+./bin/cli users create --flag_mode --email "admin@test.com" --password "testtest" --name "AdminTestUser" --role "ADMIN"
 
 # Creating Moderator Test User
-./bin/cli-users create --flag_mode --email "moderator@test.com" --password "test" --name "Moderator Test User" --role "moderator"
+./bin/cli users create --flag_mode --email "moderator@test.com" --password "testtest" --name "ModeratorTestUser" --role "MODERATOR"
 
 # Creating Commenter Test User
-./bin/cli-users create --flag_mode --email "commenter@test.com" --password "test" --name "commenter@test.com"
+./bin/cli users create --flag_mode --email "commenter@test.com" --password "testtest" --name "CommenterTestUser"
 
-npm start &
+# Start the server and write the PID to a file to be killed later.
+./bin/cli --pid /tmp/talk-e2e.pid serve --jobs &

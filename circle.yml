@@ -21,6 +21,8 @@ test:
   override:
     # Run the tests using the junit reporter.
     - MOCHA_FILE=$CIRCLE_TEST_REPORTS/junit/test-results.xml NPM_PACKAGE_CONFIG_MOCHA_REPORTER=mocha-junit-reporter npm run test
+    # Run the e2e test suite
+    - E2E_REPORT_PATH=$CIRCLE_TEST_REPORTS/e2e npm run e2e
 
 deployment:
   release:

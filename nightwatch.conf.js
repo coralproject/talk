@@ -1,16 +1,21 @@
 require('babel-core/register');
 
+let E2E_REPORT_PATH = './test/e2e/reports';
+if (process.env.E2E_REPORT_PATH && process.env.E2E_REPORT_PATH.length > 0) {
+  E2E_REPORT_PATH = process.env.E2E_REPORT_PATH;
+}
+
 module.exports = {
-  'src_folders': './tests/e2e/tests',
-  'output_folder': './tests/e2e/reports',
-  'page_objects_path': './tests/e2e/pages',
-  'globals_path': './tests/e2e/globals',
+  'src_folders': './test/e2e/tests',
+  'output_folder': E2E_REPORT_PATH,
+  'page_objects_path': './test/e2e/pages',
+  'globals_path': './test/e2e/globals',
   'custom_commands_path' : '',
   'custom_assertions_path' : '',
   'selenium': {
     'start_process': true,
     'server_path': 'node_modules/selenium-standalone/.selenium/selenium-server/2.53.1-server.jar',
-    'log_path': './tests/e2e/reports',
+    'log_path': E2E_REPORT_PATH,
     'host': '127.0.0.1',
     'port': 6666,
     'cli_args': {
@@ -36,7 +41,7 @@ module.exports = {
         'enabled': true,
         'on_failure': true,
         'on_error': true,
-        'path': './tests/e2e/reports'
+        'path': E2E_REPORT_PATH
       },
       'exclude': [
         './tests/e2e/tests/EmbedStreamTests.js'
@@ -47,7 +52,3 @@ module.exports = {
     }
   }
 };
-
-// "chromeOptions" : {
-//   "args" : ["start-fullscreen"]
-// }

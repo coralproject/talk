@@ -14,6 +14,7 @@
     "test-cover": "TEST_MODE=unit NODE_ENV=test istanbul cover _mocha --report text --check-coverage -- -R spec",
     "pree2e": "NODE_ENV=test scripts/pree2e.sh",
     "e2e": "NODE_ENV=test nightwatch",
+    "poste2e": "NODE_ENV=test scripts/poste2e.sh",
     "embed-start": "NODE_ENV=development npm run build && ./bin/cli serve --jobs",
     "postinstall": "npm run build"
   },
@@ -153,7 +154,7 @@
     "redux-mock-store": "^1.2.1",
     "redux-thunk": "^2.1.0",
     "regenerator": "^0.8.46",
-    "selenium-standalone": "latest",
+    "selenium-standalone": "^5.11.2",
     "style-loader": "^0.13.1",
     "supertest": "^2.0.1",
     "timeago.js": "^2.0.3",
