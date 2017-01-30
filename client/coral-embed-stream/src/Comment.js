@@ -16,6 +16,8 @@ import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
 import FlagComment from 'coral-plugin-flags/FlagComment';
 import LikeButton from 'coral-plugin-likes/LikeButton';
 
+import styles from './Comment.css'
+
 const getAction = (type, comment) => comment.actions.filter((a) => a.type === type)[0];
 
 class Comment extends React.Component {
@@ -87,7 +89,7 @@ class Comment extends React.Component {
 
     return (
       <div
-        className={parentId ? 'reply' : 'comment'}
+        className={parentId ? `reply ${styles.Reply}` : `comment ${styles.Comment}`}
         id={`c_${comment.id}`}
         style={{marginLeft: depth * 30}}>
         <hr aria-hidden={true} />

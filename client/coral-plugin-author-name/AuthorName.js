@@ -27,7 +27,7 @@ export default class AuthorName extends Component {
     const {showTooltip} = this.state;
     return (
       <div className={`${packagename}-text ${styles.container}`} onClick={this.handleClick} onMouseLeave={this.handleMouseLeave}>
-        <a className={styles.authorName}>
+        <a className={`${styles.authorName} ${author.settings.bio ? styles.hasBio : ''}`}>
           {author && author.name}
           {author.settings.bio ? <span className={`${styles.arrowDown} ${showTooltip ? styles.arrowUp : ''}`} /> : null}
         </a>

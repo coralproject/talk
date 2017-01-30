@@ -2,10 +2,12 @@
   color: black;
   display: inline-block;
   margin: 10px 0;
+}
 
+.hasBio {
   &:hover {
-    cursor: pointer;
-  }
+     cursor: pointer;
+   }
 }
 
 .arrowDown {
