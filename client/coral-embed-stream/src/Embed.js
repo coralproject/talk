@@ -105,7 +105,7 @@ class Embed extends Component {
         loading ? <Spinner/>
       : <div className="commentStream">
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
-            <Tab><Count count={asset.comments.length}/></Tab>
+            <Tab><Count count={asset.commentCount}/></Tab>
             <Tab>Settings</Tab>
             <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>

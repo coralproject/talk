@@ -17,6 +17,7 @@ query AssetQuery($asset_url: String!) {
             charCount
             requireEmailConfirmation
         }
+        commentCount
         comments {
             ...commentView
             replies {
