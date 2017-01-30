@@ -99,7 +99,7 @@ class Embed extends Component {
           <Tab>Settings</Tab>
           <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>
-          {loggedIn && <UserBox user={user} logout={this.props.logout} />}
+          {loggedIn && <UserBox user={user} logout={this.props.logout} changeTab={this.changeTab} />}
           <TabContent show={activeTab === 0}>
             {
               openStream
