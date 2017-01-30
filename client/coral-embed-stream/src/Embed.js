@@ -95,9 +95,9 @@ class Embed extends Component {
       <div style={expandForLogin}>
         <div className="commentStream">
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
-          <Tab><Count count={asset.comments.length}/></Tab>
-          <Tab>Settings</Tab>
-          <Tab restricted={!isAdmin}>Configure Stream</Tab>
+            <Tab><Count count={asset.commentCount}/></Tab>
+            <Tab>Settings</Tab>
+            <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>
           {loggedIn && <UserBox user={user} logout={this.props.logout} changeTab={this.changeTab} />}
           <TabContent show={activeTab === 0}>

@@ -1,16 +1,25 @@
 const User = {
-  actions({id}, _, {loaders}) {
-    return loaders.Actions.getByID.load(id);
+  actions({id}, _, {loaders: {Actions}}) {
+    return Actions.getSummariesByItemID.load(id);
   },
-  comments({id}, _, {loaders, user}) {
+  comments({id}, _, {loaders: {Comments}, user}) {
 
     // If the user is not an admin, only return comment list for the owner of
     // the comments.
-    if (!user.hasRoles('ADMIN') || user.id !== id) {
-      return null;
+    if (user && (user.hasRoles('ADMIN') || user.id === id)) {
+      return Comments.getByAuthorID.load(id);
     }
 
-    return loaders.Comments.getByAuthorID.load(id);
+    return null;
+  },
+  roles({id, roles}, _, {user}) {
+
+    // If the user is not an admin, only return the current user's roles.
+    if (user && (user.hasRoles('ADMIN') || user.id === id)) {
+      return roles;
+    }
+
+    return null;
   }
 };
 
