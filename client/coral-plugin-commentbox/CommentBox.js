@@ -75,8 +75,6 @@ class CommentBox extends Component {
         } else if (postedComment.status === 'PREMOD') {
           addNotification('success', lang.t('comment-post-notif-premod'));
         } else {
-
-          // appendItemArray(parent_id || id, related, commentId, !parent_id, parent_type);
           addNotification('success', 'Your comment has been posted.');
         }
 
