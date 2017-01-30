@@ -156,6 +156,18 @@ module.exports = class UsersService {
     });
   }
 
+  static changeDisplayName(id, displayName) {
+    return UsersService.isValidDisplayName(displayName)
+      .then((displayName) => { // displayName is valid
+        return UserModel.update({id}, {
+          $inc: {__v: 1},
+          $set: {
+            displayName: displayName
+          }
+        });
+      });
+  }
+
   /**
    * Creates local users.
    * @param  {Array} users Users to create

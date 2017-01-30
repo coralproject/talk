@@ -7,6 +7,7 @@ const initialState = Map({
   isAdmin: false,
   user: null,
   showSignInDialog: false,
+  showCreateDisplayNameDialog: false,
   view: 'SIGNIN',
   error: '',
   passwordRequestSuccess: null,
@@ -34,6 +35,13 @@ export default function auth (state = initialState, action) {
       passwordRequestFailure: null,
       passwordRequestSuccess: null,
       successSignUp: false
+    }));
+  case actions.SHOW_CREATEDISPLAYNAME_DIALOG :
+    return state
+      .set('showCreateDisplayNameDialog', true);
+  case actions.HIDE_CREATEDISPLAYNAME_DIALOG :
+    return state.merge(Map({
+      showCreateDisplayNameDialog: false
     }));
   case actions.CHANGE_VIEW :
     return state

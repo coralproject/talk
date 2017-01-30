@@ -4,6 +4,14 @@
     "successBioUpdate": "Your Bio has been updated",
     "contentNotAvailable": "This content is not available",
     "suspendedAccountMsg": "Your account is currently suspended. This means that you cannot Like, Flag, or write comments. Please contact moderator@fakeurl.com for more information",
+    "createdisplay": {
+      "writeyourusername": "Write your username",
+      "yourusername": "Your username is publicly visible on all comments you post. A username is needed before you can post your first comment.",
+      "displayName": "Display Name",
+      "save": "Save",
+      "requiredField": "Required field",
+      "errorCreate": "Error when changing display name"
+    },
     "error": {
       "email": "Not a valid E-Mail",
       "password": "Password must be at least 8 characters",
@@ -26,6 +34,13 @@
     "successBioUpdate": "Tu bio fue actualizada",
     "contentNotAvailable": "El contenido no se encuentra disponible",
     "suspendedAccountMsg": "Tu cuenta se encuentra suspendida. Esto significa que no puedes dar Like, Marcar o escribir commentarios. Por favor, contacta moderator@fakeurl for more information",
+    "createdisplay": {
+      "writeyourusername": "Escribe tu nombre",
+      "yourusername": "Tu nombre es visible publicamente en todos los comentarios que publiques. Es necesario tener un nombre de usuario antes de poder publicar tu primer comentario.",
+      "displayName": "Nombre",
+      "save": "Guardar",
+      "requiredField": "Campo necesario"
+    },
     "error": {
       "email": "No es un email válido",
       "password": "La contraseña debe tener por lo menos 8 caracteres",

@@ -19,6 +19,7 @@ import Count from 'coral-plugin-comment-count/CommentCount';
 import CommentBox from 'coral-plugin-commentbox/CommentBox';
 import UserBox from '../../coral-sign-in/components/UserBox';
 import SignInContainer from '../../coral-sign-in/containers/SignInContainer';
+import ChangeDisplayNameContainer from '../../coral-framework/containers/ChangeDisplayNameContainer';
 import SuspendedAccount from '../../coral-framework/components/SuspendedAccount';
 import SettingsContainer from '../../coral-settings/containers/SettingsContainer';
 import RestrictedContent from '../../coral-framework/components/RestrictedContent';
@@ -51,15 +52,6 @@ class Embed extends Component {
   }
 
   componentDidMount () {
-
-    // stream id, logged in user, settings
-
-    // Set up messaging between embedded Iframe an parent component
-
-    // this.props.getStream(path || window.location);
-    // this.path = window.location.href.split('#')[0];
-    //
-
     pym.sendMessage('childReady');
 
     pym.onMessage('DOMContentLoaded', hash => {
@@ -138,6 +130,7 @@ class Embed extends Component {
                    : <p>{asset.settings.closedMessage}</p>
                 }
                 {!loggedIn && <SignInContainer offset={signInOffset}/>}
+                {loggedIn && <ChangeDisplayNameContainer loggedIn={loggedIn} offset={signInOffset} user={user}/>}
                 <Stream
                   refetch={refetch}
                   addNotification={this.props.addNotification}

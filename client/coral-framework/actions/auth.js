@@ -9,6 +9,19 @@ import {addItem} from './items';
 export const showSignInDialog = (offset = 0) => ({type: actions.SHOW_SIGNIN_DIALOG, offset});
 export const hideSignInDialog = () => ({type: actions.HIDE_SIGNIN_DIALOG});
 
+export const showCreateDisplayNameDialog = () => ({type: actions.SHOW_CREATEDISPLAYNAME_DIALOG});
+export const hideCreateDisplayNameDialog = () => ({type: actions.HIDE_CREATEDISPLAYNAME_DIALOG});
+export const createDisplayName = (formData) => (dispatch) => {
+  coralApi('/users', {method: 'POST', body: formData})
+    .then(() => {
+      dispatch(createDisplayNameSuccess());
+      dispatch(hideCreateDisplayNameDialog());
+    })
+    .catch(() => dispatch(createDisplayNameFailure(lang.t('createdisplay.errorCreate'))));
+};
+const createDisplayNameSuccess = () => ({type: actions.CREATEDISPLAYNAME_SUCCESS});
+const createDisplayNameFailure = error => ({type: actions.CREATEDISPLAYNAME_FAILURE, error});
+
 export const changeView = view => dispatch =>
   dispatch({
     type: actions.CHANGE_VIEW,
@@ -59,6 +72,7 @@ export const facebookCallback = (err, data) => dispatch => {
     const user = JSON.parse(data);
     dispatch(signInFacebookSuccess(user));
     dispatch(hideSignInDialog());
+    dispatch(showCreateDisplayNameDialog());
     dispatch(addItem(user, 'users'));
   } catch (err) {
     dispatch(signInFacebookFailure(err));
