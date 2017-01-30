@@ -219,8 +219,8 @@ hr {
 .coral-plugin-flags-popup span {
   min-width: 280px;
   bottom: 36px;
-  left: -190px;
   position: absolute;
+  right: 10px;
 }
 
 .coral-plugin-flags-popup-form {
