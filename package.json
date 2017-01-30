@@ -12,7 +12,7 @@
     "lint-fix": "eslint bin/* . --fix",
     "test": "TEST_MODE=unit NODE_ENV=test mocha -R ${NPM_PACKAGE_CONFIG_MOCHA_REPORTER:-spec}",
     "test-cover": "TEST_MODE=unit NODE_ENV=test istanbul cover _mocha --report text --check-coverage -- -R spec",
-    "pree2e": "NODE_ENV=test scripts/pree2e.sh",
+    "pree2e": "NODE_ENV=test TALK_PORT=3011 scripts/pree2e.sh",
     "e2e": "NODE_ENV=test nightwatch",
     "poste2e": "NODE_ENV=test scripts/poste2e.sh",
     "embed-start": "NODE_ENV=development npm run build && ./bin/cli serve --jobs",
