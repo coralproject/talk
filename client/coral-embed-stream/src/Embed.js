@@ -32,7 +32,7 @@ class Embed extends Component {
 
     // Everytime the comes from another tab, the Stream needs to be updated.
     if (tab === 0) {
-      this.props.data.refetch()
+      this.props.data.refetch();
     }
 
     this.setState({
