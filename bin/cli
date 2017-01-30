@@ -7,6 +7,7 @@
 const program = require('commander');
 const pkg = require('../package.json');
 const dotenv = require('dotenv');
+const util = require('../util');
 
 //==============================================================================
 // Setting up the program command line arguments.
@@ -15,6 +16,7 @@ const dotenv = require('dotenv');
 program
   .version(pkg.version)
   .option('-c, --config [path]', 'Specify the configuration file to load')
+  .option('--pid [path]', 'Specify a path to output the current PID to')
   .parse(process.argv);
 
 if (program.config) {
@@ -25,6 +27,11 @@ if (program.config) {
   if (r.error) {
     throw r.error;
   }
+}
+
+// If the `--pid` flag is used, put the current pid there.
+if (program.pid) {
+  util.pid(program.pid);
 }
 
 // Perform rewrites to the runtime environment variables based on the contents
@@ -43,4 +50,15 @@ program
 // If there is no command listed, output help.
 if (!process.argv.slice(2).length) {
   program.outputHelp();
+  return;
 }
+
+// The ensures that the child process that is created here is always cleaned up
+// properly when the parent process dies.
+util.onshutdown([
+  (signal) => {
+    if ((program.runningCommand.killed === false) && (program.runningCommand.exitCode === null)) {
+      program.runningCommand.kill(signal);
+    }
+  }
+]);

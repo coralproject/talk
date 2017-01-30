@@ -4,15 +4,15 @@ module.exports = {
   users: {
     admin: {
       email: 'admin@test.com',
-      pass: 'test'
+      pass: 'testtest'
     },
     moderator: {
       email: 'moderator@test.com',
-      pass: 'test'
+      pass: 'testtest'
     },
     commenter: {
       email: 'commenter@test.com',
-      pass: 'test'
+      pass: 'testtest'
     }
   },
 };

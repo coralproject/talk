@@ -2,6 +2,7 @@ fragment commentView on Comment {
     id
     body
     created_at
+    status
     user {
         id
         name: displayName
