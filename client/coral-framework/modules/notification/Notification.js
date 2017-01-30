@@ -3,10 +3,9 @@ import {SnackBar} from 'coral-ui';
 
 const Notification = (props) => {
   if (props.notification.text) {
-
-    // setTimeout(() => {
-    //   props.clearNotification();
-    // }, props.notifLength);
+    setTimeout(() => {
+      props.clearNotification();
+    }, props.notifLength);
   }
   return (
     <div>
