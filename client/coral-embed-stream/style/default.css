@@ -1,3 +1,8 @@
+html, body {
+  width:auto;
+  height:auto;
+}
+
 body {
   font-family: 'Lato', sans-serif;
   font-family: 'Open Sans', sans-serif;
@@ -76,6 +81,7 @@ hr {
 .commentStream {
   /* prevent absolutely positioned final permalink popover from being clipped */
   padding-bottom: 50px;
+  /*height: 100vh;*/
 }
 
 /* Comment Box Styles */

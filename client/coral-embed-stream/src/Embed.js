@@ -26,7 +26,7 @@ import ConfigureStreamContainer from 'coral-configure/containers/ConfigureStream
 
 class Embed extends Component {
 
-  state = { activeTab: 0, showSignInDialog: false };
+  state = {activeTab: 0, showSignInDialog: false};
 
   changeTab = (tab) => {
     this.setState({
@@ -69,6 +69,13 @@ class Embed extends Component {
         }
       }, 100);
     });
+    console.log(document.documentElement);
+    document.documentElement.addEventListener('scroll', this.handleScroll);
+  }
+
+  handleScroll = () => {
+    const doc = document.documentElement;
+    console.log((window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0));
   }
 
   componentWillReceiveProps (nextProps) {
@@ -91,12 +98,8 @@ class Embed extends Component {
     } : {};
 
     if (loading) {
-      return <Spinner />
+      return <Spinner />;
     }
-
-    console.log(
-      asset
-    )
 
     return (
       <div style={expandForLogin}>

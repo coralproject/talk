@@ -1,6 +1,4 @@
 .SnackBar {
-  top: 0;
-  background: red;
   position: fixed;
   cursor: default;
   background-color: #323232;
@@ -9,11 +7,12 @@
   will-change: transform;
   transition: transform .25s cubic-bezier(.4,0,1,1);
   pointer-events: none;
-  transform: translate(-50%,80px);
   padding: 18px 14px;
   vertical-align: middle;
   color: #fff;
   border-radius: 3px;
   text-align: center;
   left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 0);
 }
