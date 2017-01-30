@@ -47,26 +47,24 @@ class PermalinkButton extends React.Component {
   render () {
     const {copySuccessful, copyFailure} = this.state;
     return (
-      <div className={style.mainContainer}>
-        <div className={`${name}-container`}>
-          <button onClick={this.toggle} className={`${name}-button`}>
-            <i className={`${name}-icon material-icons`} aria-hidden={true}>link</i>
-            {lang.t('permalink.permalink')}
-          </button>
-          <div className={`${name}-popover ${styles.container} ${this.state.popoverOpen ? 'active' : ''}`}>
-            <input
-              className={`${name}-copy-field`}
-              type='text'
-              ref={input => this.permalinkInput = input}
-              value={`${this.props.articleURL}#${this.props.commentId}`}
-              onChange={() => {}} />
-            <Button className={`${name}-copy-button ${copySuccessful ? styles.success : ''} ${copyFailure ? styles.failure : ''}`}
-              onClick={this.copyPermalink} >
-              {!copyFailure && !copySuccessful && 'Copy'}
-              {copySuccessful && 'Copied'}
-              {copyFailure && 'Not supported'}
-            </Button>
-          </div>
+      <div className={`${name}-container`}>
+        <button onClick={this.toggle} className={`${name}-button`}>
+          <i className={`${name}-icon material-icons`} aria-hidden={true}>link</i>
+          {lang.t('permalink.permalink')}
+        </button>
+        <div className={`${name}-popover ${styles.container} ${this.state.popoverOpen ? 'active' : ''}`}>
+          <input
+            className={`${name}-copy-field`}
+            type='text'
+            ref={input => this.permalinkInput = input}
+            value={`${this.props.articleURL}#${this.props.commentId}`}
+            onChange={() => {}} />
+          <Button className={`${name}-copy-button ${copySuccessful ? styles.success : ''} ${copyFailure ? styles.failure : ''}`}
+                  onClick={this.copyPermalink} >
+            {!copyFailure && !copySuccessful && 'Copy'}
+            {copySuccessful && 'Copied'}
+            {copyFailure && 'Not supported'}
+          </Button>
         </div>
       </div>
     );
