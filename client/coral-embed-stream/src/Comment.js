@@ -111,7 +111,7 @@ class Comment extends React.Component {
                 showSignInDialog={showSignInDialog}
                 currentUser={currentUser} />
               <ReplyButton
-                onClick={this.onReplyBoxClick}
+                onClick={() => setActiveReplyBox(comment.id)}
                 parentCommentId={parentId || comment.id}
                 currentUserId={currentUser && currentUser.id}
                 banned={false} />
