@@ -137,3 +137,8 @@ export const checkLogin = () => dispatch => {
     })
     .catch(error => dispatch(checkLoginFailure(error)));
 };
+
+export const requestConfirmEmail = () => dispatch => {
+
+};
+

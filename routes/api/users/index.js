@@ -6,6 +6,7 @@ const CommentsService = require('../../../services/comments');
 const mailer = require('../../../services/mailer');
 const authorization = require('../../../middleware/authorization');
 
+// get a list of users.
 router.get('/', authorization.needed('ADMIN'), (req, res, next) => {
   const {
     value = '',
@@ -44,6 +45,7 @@ router.post('/:user_id/role', authorization.needed('ADMIN'), (req, res, next) =>
     .catch(next);
 });
 
+// update the status of a user
 router.post('/:user_id/status', authorization.needed('ADMIN'), (req, res, next) => {
   UsersService
     .setStatus(req.params.user_id, req.body.status)
@@ -85,10 +87,12 @@ const SendEmailConfirmation = (app, userID, email, referer) => UsersService
     });
   });
 
+// create a local user.
 router.post('/', (req, res, next) => {
   const {
     email,
     password,
+    redirectUri,
     displayName
   } = req.body;
 
@@ -103,7 +107,7 @@ router.post('/', (req, res, next) => {
 
         if (requireEmailConfirmation) {
 
-          SendEmailConfirmation(req.app, user.id, email, req.header('Referer'))
+          SendEmailConfirmation(req.app, user.id, email, redirectUri)
             .then(() => {
 
               // Then send back the user.

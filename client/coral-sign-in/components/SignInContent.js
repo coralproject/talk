@@ -1,8 +1,6 @@
 import React from 'react';
-import Button from 'coral-ui/components/Button';
-import FormField from './FormField';
 import Alert from './Alert';
-import Spinner from 'coral-ui/components/Spinner';
+import {Button, FormField, Spinner} from 'coral-ui';
 import styles from './styles.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';

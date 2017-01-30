@@ -14,28 +14,6 @@
     font-size: 1.2em;
 }
 
-.formField {
-    margin-top: 15px;
-}
-
-.formField label {
-    font-size: 1.08em;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.formField input {
-    width: 100%;
-    display: block;
-    border: none;
-    outline: none;
-    border: 1px solid rgba(0,0,0,.12);
-    padding: 10px 6px;
-    box-sizing: border-box;
-    border-radius: 2px;
-    margin: 5px auto;
-}
-
 .footer {
     margin: 20px auto 10px;
     text-align: center;
@@ -149,4 +127,16 @@ input.error{
     border: 1px solid orange;
     background-color: 1px solid coral;
     padding: 10px;
+}
+
+.emailConfirmDialog {
+    margin-top: 15px;
+}
+
+.confirmLabel {
+    display: block;
+}
+
+.confirmSubmit {
+
 }
