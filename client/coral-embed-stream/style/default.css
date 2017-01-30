@@ -80,7 +80,7 @@ hr {
 .commentStream {
   /* prevent absolutely positioned final permalink popover from being clipped */
   padding-bottom: 50px;
-  min-height: 500px;
+  min-height: 600px;
   position: relative;
 }
 
