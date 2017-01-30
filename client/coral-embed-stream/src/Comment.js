@@ -16,7 +16,7 @@ import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
 import FlagComment from 'coral-plugin-flags/FlagComment';
 import LikeButton from 'coral-plugin-likes/LikeButton';
 
-import styles from './Comment.css'
+import styles from './Comment.css';
 
 const getAction = (type, comment) => comment.actions.filter((a) => a.type === type)[0];
 
