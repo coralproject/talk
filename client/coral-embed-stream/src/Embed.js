@@ -42,15 +42,6 @@ class Embed extends Component {
   }
 
   componentDidMount () {
-
-    // stream id, logged in user, settings
-
-    // Set up messaging between embedded Iframe an parent component
-
-    // this.props.getStream(path || window.location);
-    // this.path = window.location.href.split('#')[0];
-    //
-
     pym.sendMessage('childReady');
 
     pym.onMessage('DOMContentLoaded', hash => {
@@ -69,13 +60,6 @@ class Embed extends Component {
         }
       }, 100);
     });
-    console.log(document.documentElement);
-    document.documentElement.addEventListener('scroll', this.handleScroll);
-  }
-
-  handleScroll = () => {
-    const doc = document.documentElement;
-    console.log((window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0));
   }
 
   componentWillReceiveProps (nextProps) {
@@ -192,7 +176,13 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   loadAsset: (asset) => dispatch(fetchAssetSuccess(asset)),
-  addNotification: (type, text) => dispatch(addNotification(type, text)),
+  addNotification: (type, text) => {
+    pym.sendMessage('getPosition');
+
+    pym.onMessage('position', position => {
+      dispatch(addNotification(type, text, position));
+    });
+  },
   clearNotification: () => dispatch(clearNotification()),
   showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),
   logout: () => dispatch(logout()),

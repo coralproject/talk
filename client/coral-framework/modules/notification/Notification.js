@@ -8,14 +8,16 @@ const Notification = (props) => {
     //   props.clearNotification();
     // }, props.notifLength);
   }
-  return <div>
-  {
-    props.notification.text &&
-    <SnackBar id='coral-notif' className={`coral-notif-${props.notification.type}`}>
-      {props.notification.text}
-    </SnackBar>
-  }
-  </div>;
+  return (
+    <div>
+      {
+        props.notification.text &&
+        <SnackBar id='coral-notif' className={`coral-notif-${props.notification.type}`} position={props.notification.position}>
+          {props.notification.text}
+        </SnackBar>
+      }
+    </div>
+  );
 };
 
 export default Notification;

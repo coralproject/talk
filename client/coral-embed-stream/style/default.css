@@ -51,7 +51,6 @@ hr {
 /* Notification styles */
 #coral-notif {
   position: fixed;
-  bottom: 0;
   border: 0;
   background: rgb(105,105,105);
   color: white;
@@ -81,7 +80,8 @@ hr {
 .commentStream {
   /* prevent absolutely positioned final permalink popover from being clipped */
   padding-bottom: 50px;
-  /*height: 100vh;*/
+  min-height: 775px;
+  position: relative;
 }
 
 /* Comment Box Styles */

@@ -1,6 +1,7 @@
 import {connect} from 'react-redux';
 import {compose} from 'react-apollo';
 import React, {Component} from 'react';
+import {addNotification} from '../actions/notification';
 import I18n from 'coral-framework/modules/i18n/i18n';
 
 import {myCommentHistory} from 'coral-framework/graphql/queries';
@@ -65,7 +66,7 @@ class SettingsContainer extends Component {
           }
         </TabContent>
         <TabContent show={activeTab === 1}>
-          <BioContainer bio={userData.settings.bio} handleSave={this.handleSave} {...this.props} />
+          <BioContainer bio={userData.settings.bio} handleSave={this.handleSave} addNotification={this.props.addNotification} {...this.props} />
         </TabContent>
       </div>
     );
