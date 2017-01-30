@@ -4,7 +4,7 @@ module.exports = () => Promise.all([
 
   // Upsert the settings object.
   SettingsService.init({
-    moderation: 'PRE',
+    moderation: 'POST',
     wordlist: {
       banned: [],
       suspect: []

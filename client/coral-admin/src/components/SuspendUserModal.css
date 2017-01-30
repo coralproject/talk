@@ -1,0 +1,31 @@
+
+.modalButtons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 50px;
+}
+
+.emailInput {
+  border-radius: 3px;
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.writeContainer {
+    margin-top: 20px;
+}
+
+.emailContainer {
+  display: flex;
+}
+
+.emailMessage {
+  font-weight: 800;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 20px;
+}

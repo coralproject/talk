@@ -23,7 +23,7 @@ const SettingSchema = new Schema({
       'PRE',
       'POST'
     ],
-    default: 'PRE'
+    default: 'POST'
   },
   infoBoxEnable: {
     type: Boolean,

@@ -35,7 +35,7 @@ const BanUserDialog = ({open, handleClose, onClickBanUser, user = {}}) => (
         <Button cStyle="cancel" className={styles.cancel} onClick={() => handleClose()} raised>
           {lang.t('bandialog.cancel')}
         </Button>
-        <Button cStyle="black" className={styles.ban} onClick={() => onClickBanUser(user.userId, user.commentId)} raised>
+        <Button cStyle="black" className={styles.ban} onClick={() => onClickBanUser('BANNED', user.userId, user.commentId)} raised>
           {lang.t('bandialog.yes_ban_user')}
         </Button>
       </div>

@@ -1,5 +1,4 @@
 import React from 'react';
-import timeago from 'timeago.js';
 import Linkify from 'react-linkify';
 
 import styles from './ModerationList.css';
@@ -7,26 +6,26 @@ import styles from './ModerationList.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations.json';
 
+import {Icon} from 'react-mdl';
 import Highlighter from 'react-highlight-words';
-import {Icon} from 'coral-ui';
 import ActionButton from './ActionButton';
 
 const linkify = new Linkify();
 
 // Render a single comment for the list
-const Comment = props => {
-  const {comment, author} = props;
-  let authorStatus = author.status;
-  const links = linkify.getMatches(comment.body);
+const UserAction = props => {
+  const {action, user} = props;
+  let userStatus = user.status;
+  const links = user.settings.bio ? linkify.getMatches(user.settings.bio) : [];
 
-  return (
+  // Do not display unless the user status is 'pending' or 'banned'.
+  // This means that they have already been reviewed and approved.
+  return (userStatus === 'PENDING' ||  userStatus === 'BANNED') &&
     <li tabIndex={props.index} className={`mdl-card mdl-shadow--2dp ${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
       <div className={styles.itemHeader}>
         <div className={styles.author}>
-          <span>{author.displayName || lang.t('comment.anon')}</span>
-          <span className={styles.created}>{timeago().format(comment.createdAt || (Date.now() - props.index * 60 * 1000), lang.getLocale().replace('-', '_'))}</span>
-          {comment.flagged ? <p className={styles.flagged}>{lang.t('comment.flagged')}</p> : null}
-        </div>
+          <span>{user.displayName}</span>
+          </div>
         <div className={styles.sideActions}>
           {links ?
           <span className={styles.hasLinks}><Icon name='error_outline'/> Contains Link</span> : null}
@@ -36,32 +35,41 @@ const Comment = props => {
               <ActionButton
                 option={action}
                 key={i}
-                type='COMMENTS'
-                comment={comment}
-                user={author}
+                type='USERS'
+                user={user}
                 menuOptionsMap={props.menuOptionsMap}
                 onClickAction={props.onClickAction}
                 onClickShowBanDialog={props.onClickShowBanDialog}/>
             )}
           </div>
-          {authorStatus === 'banned' ?
+        </div>
+        <div>
+          {userStatus === 'banned' ?
           <span className={styles.banned}><Icon name='error_outline'/> {lang.t('comment.banned_user')}</span> : null}
         </div>
       </div>
-      <div className={styles.itemBody}>
-        <span className={styles.body}>
-          <Linkify  component='span' properties={{style: linkStyles}}>
-            <Highlighter
-              searchWords={props.suspectWords}
-              textToHighlight={comment.body} />
-          </Linkify>
-        </span>
+      {
+        user.settings.bio &&
+        <div>
+          <div className={styles.itemBody}>
+            <div>{lang.t('user.user_bio')}:</div>
+            <span className={styles.body}>
+              <Linkify  component='span' properties={{style: linkStyles}}>
+                <Highlighter
+                  searchWords={props.suspectWords}
+                  textToHighlight={user.settings.bio} />
+              </Linkify>
+            </span>
+          </div>
+        </div>
+      }
+      <div className={styles.flagCount}>
+        {`${action.count} ${action.action_type === 'flag_bio' ? lang.t('user.bio_flags') : lang.t('user.username_flags')}`}
       </div>
-    </li>
-  );
+    </li>;
 };
 
-export default Comment;
+export default UserAction;
 
 const linkStyles = {
   backgroundColor: 'rgb(255, 219, 135)',

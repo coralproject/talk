@@ -8,7 +8,7 @@ const embedStreamCommands = {
   },
   approveComment() {
     return this
-      .waitForElementVisible('@commentList')
+      .waitForElementVisible('@moderationList')
       .waitForElementVisible('@approveButton')
       .click('@approveButton');
   }
@@ -17,17 +17,17 @@ const embedStreamCommands = {
 module.exports = {
   commands: [embedStreamCommands],
   elements: {
-    commentList: {
-      selector: '#commentList'
+    moderationList: {
+      selector: '#moderationList'
     },
     banButton: {
-      selector: '#commentList .actions:first-child .ban'
+      selector: '#moderationList .actions:first-child .ban'
     },
     rejectButton: {
-      selector: '#commentList .actions:first-child .reject'
+      selector: '#moderationList .actions:first-child .reject'
     },
     approveButton: {
-      selector: '#commentList .actions:first-child .approve'
+      selector: '#moderationList .actions:first-child .approve'
     }
   }
 };

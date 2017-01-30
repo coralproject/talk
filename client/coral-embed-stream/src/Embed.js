@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
-import {isEqual} from 'lodash';
+import isEqual from 'lodash/isEqual';
 
 import {TabBar, Tab, TabContent, Spinner} from '../../coral-ui';
 
