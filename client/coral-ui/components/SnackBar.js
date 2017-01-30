@@ -11,6 +11,6 @@ const SnackBar = ({children, className, position, ...attrs}) => {
   );
 };
 
-const fixedStyle = {bottom: 0, top: 'auto'};
+const fixedStyle = {bottom: '70px', top: 'auto'};
 
 export default SnackBar;
