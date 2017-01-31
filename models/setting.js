@@ -6,13 +6,6 @@ const MODERATION_OPTIONS = [
   'POST'
 ];
 
-const WordlistSchema = new Schema({
-  banned: [String],
-  suspect: [String]
-}, {
-  _id: false
-});
-
 /**
  * SettingSchema manages application settings that get used on front and backend.
  * @type {Schema}
@@ -48,7 +41,16 @@ const SettingSchema = new Schema({
     type: String,
     default: 'Expired'
   },
-  wordlist: WordlistSchema,
+  wordlist: {
+    banned: {
+      type: Array,
+      default: []
+    },
+    suspect: {
+      type: Array,
+      default: []
+    }
+  },
   charCount: {
     type: Number,
     default: 5000

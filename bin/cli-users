@@ -12,8 +12,8 @@ const mongoose = require('../services/mongoose');
 const util = require('../util');
 const Table = require('cli-table');
 
-const validateRequired = (msg = 'Field is required') => (input) => {
-  if (input && input.length > 0) {
+const validateRequired = (msg = 'Field is required', len = 1) => (input) => {
+  if (input && input.length >= len) {
     return true;
   }
 
@@ -53,18 +53,36 @@ function getUserCreateAnswers(options) {
       name: 'password',
       message: 'Password',
       type: 'password',
-      validate: validateRequired('Password is required')
+      filter: (password) => {
+        return UsersService
+          .isValidPassword(password)
+          .catch((err) => {
+            throw err.message;
+          });
+      }
     },
     {
       name: 'confirmPassword',
       message: 'Confirm Password',
       type: 'password',
-      validate: validateRequired('Confirm Password is required')
+      filter: (confirmPassword) => {
+        return UsersService
+          .isValidPassword(confirmPassword)
+          .catch((err) => {
+            throw err.message;
+          });
+      }
     },
     {
       name: 'displayName',
       message: 'Display Name',
-      validate: validateRequired('Display Name is required')
+      filter: (displayName) => {
+        return UsersService
+          .isValidDisplayName(displayName)
+          .catch((err) => {
+            throw err.message;
+          });
+      }
     },
     {
       name: 'roles',

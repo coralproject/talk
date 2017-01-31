@@ -31,20 +31,21 @@ program
 console.log('We\'ll ask you some questions in order to setup your installation of Talk.\n');
 
 SettingsService
-  .retrieve()
-  .catch(() => new SettingModel())
+  .init()
   .then((settings) => {
-
-    if (settings && settings.id) {
-      console.log('We found preexisting settings in the database, we\'ll use it\'s values as defaults.\n');
-    }
-
     return inquirer.prompt([
       {
         type: 'input',
         name: 'organizationName',
         message: 'Organization Name',
-        default: settings.organizationName
+        default: settings.organizationName,
+        validate: (input) => {
+          if (input && input.length > 0) {
+            return true;
+          }
+
+          return 'Organization Name is required.';
+        }
       },
       {
         type: 'list',
@@ -69,7 +70,7 @@ SettingsService
         }
       });
 
-      return SettingsService.update(settings);
+      return settings.save();
     });
   })
   .then(() => {

@@ -44,15 +44,14 @@ module.exports = class SettingsService {
 
   /**
    * This is run once when the app starts to ensure settings are populated.
-   * @return {Promise} null initialize the global settings object
    */
-  static init(defaults) {
+  static init(defaults = {}) {
+    return SettingsService
+      .retrieve()
+      .catch(() => {
+        let settings = new SettingModel(defaults);
 
-    // Inject the defaults on top of the passed in defaults to ensure that the new
-    // settings conform to the required selector.
-    defaults = Object.assign({}, defaults, selector);
-
-    // Actually update the settings collection.
-    return SettingsService.update(defaults);
+        return settings.save();
+      });
   }
 };

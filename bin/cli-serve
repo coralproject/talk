@@ -4,7 +4,6 @@ const app = require('../app');
 const program = require('./commander');
 const debug = require('debug')('talk:server');
 const http = require('http');
-const init = require('../init');
 const scraper = require('../services/scraper');
 const mailer = require('../services/mailer');
 const kue = require('../services/kue');
@@ -87,19 +86,13 @@ function onListening() {
  * Start the app.
  */
 function startApp() {
-  init().then(() => {
 
-    /**
-    * Listen on provided port, on all network interfaces.
-    */
-    server.listen(port);
-    server.on('error', onError);
-    server.on('listening', onListening);
-  })
-  .catch((err) => {
-    console.error(err);
-    util.shutdown(1);
-  });
+  /**
+  * Listen on provided port, on all network interfaces.
+  */
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
 }
 
 //==============================================================================
