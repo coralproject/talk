@@ -20,6 +20,8 @@ util.shutdown = (defaultCode = 0, signal = null) => {
     debug(`Reached ${signal} signal`);
   }
 
+  debug(`${util.toshutdown.length} jobs now being called`);
+
   Promise
     .all(util.toshutdown.map((func) => func ? func(signal) : null).filter((func) => func))
     .then(() => {
@@ -41,7 +43,7 @@ util.shutdown = (defaultCode = 0, signal = null) => {
  */
 util.onshutdown = (jobs) => {
 
-  debug(`${jobs.length} jobs registered`);
+  debug(`${jobs.length} jobs registered to be called during shutdown`);
 
   // Add the new jobs to shutdown to the object reference.
   util.toshutdown = util.toshutdown.concat(jobs);

@@ -1,4 +1,5 @@
 const SettingModel = require('../models/setting');
+const errors = require('../errors');
 
 /**
  * The selector used to uniquely identify the settings document.
@@ -15,7 +16,15 @@ module.exports = class SettingsService {
    * @return {Promise} settings the whole settings record
    */
   static retrieve() {
-    return SettingModel.findOne(selector);
+    return SettingModel
+      .findOne(selector)
+      .then((settings) => {
+        if (!settings) {
+          return Promise.reject(errors.ErrSettingsNotInit);
+        }
+
+        return settings;
+      });
   }
 
   /**
@@ -35,15 +44,14 @@ module.exports = class SettingsService {
 
   /**
    * This is run once when the app starts to ensure settings are populated.
-   * @return {Promise} null initialize the global settings object
    */
-  static init(defaults) {
+  static init(defaults = {}) {
+    return SettingsService
+      .retrieve()
+      .catch(() => {
+        let settings = new SettingModel(defaults);
 
-    // Inject the defaults on top of the passed in defaults to ensure that the new
-    // settings conform to the required selector.
-    defaults = Object.assign({}, defaults, selector);
-
-    // Actually update the settings collection.
-    return SettingsService.update(defaults);
+        return settings.save();
+      });
   }
 };
