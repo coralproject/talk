@@ -1,12 +1,10 @@
 const mongoose = require('../services/mongoose');
 const Schema = mongoose.Schema;
 
-const WordlistSchema = new Schema({
-  banned: [String],
-  suspect: [String]
-}, {
-  _id: false
-});
+const MODERATION_OPTIONS = [
+  'PRE',
+  'POST'
+];
 
 /**
  * SettingSchema manages application settings that get used on front and backend.
@@ -19,10 +17,7 @@ const SettingSchema = new Schema({
   },
   moderation: {
     type: String,
-    enum: [
-      'PRE',
-      'POST'
-    ],
+    enum: MODERATION_OPTIONS,
     default: 'POST'
   },
   infoBoxEnable: {
@@ -32,6 +27,9 @@ const SettingSchema = new Schema({
   infoBoxContent: {
     type: String,
     default: ''
+  },
+  organizationName: {
+    type: String
   },
   closedTimeout: {
     type: Number,
@@ -43,7 +41,16 @@ const SettingSchema = new Schema({
     type: String,
     default: 'Expired'
   },
-  wordlist: WordlistSchema,
+  wordlist: {
+    banned: {
+      type: Array,
+      default: []
+    },
+    suspect: {
+      type: Array,
+      default: []
+    }
+  },
   charCount: {
     type: Number,
     default: 5000
@@ -87,3 +94,4 @@ SettingSchema.method('merge', function(src) {
 const Setting = mongoose.model('Setting', SettingSchema);
 
 module.exports = Setting;
+module.exports.MODERATION_OPTIONS = MODERATION_OPTIONS;
