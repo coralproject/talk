@@ -543,6 +543,9 @@ module.exports = class UsersService {
       return Promise.reject('email is required when creating a JWT for resetting passord');
     }
 
+    // Conform the email to lowercase.
+    email = email.toLowerCase();
+
     const tokenOptions = {
       jwtid: uuid.v4(),
       algorithm: 'HS256',
@@ -550,13 +553,12 @@ module.exports = class UsersService {
       subject: EMAIL_CONFIRM_JWT_SUBJECT
     };
 
-    email = email.toLowerCase();
     let userPromise;
 
     if (!userID) {
 
-      // if there is no userID, we're coming from the endpoint where a new user is re-requesting a confirmation email
-      // and we don't know the userID
+      // If there is no userID, we're coming from the endpoint where a new user
+      // is re-requesting a confirmation email and we don't know the userID.
       userPromise = UserModel.findOne({profiles: {$elemMatch: {id: email, provider: 'local'}}});
     } else {
       userPromise = UsersService.findById(userID);
@@ -564,7 +566,7 @@ module.exports = class UsersService {
 
     return userPromise.then((user) => {
       if (!user) {
-        return Promise.reject(new Error('user not found'));
+        return Promise.reject(errors.ErrNotFound);
       }
 
       // Get the profile representing the local account.
@@ -575,13 +577,11 @@ module.exports = class UsersService {
         return Promise.reject(new Error('email address already confirmed'));
       }
 
-      const payload = {
+      return jwt.sign({
         email,
         referer,
         userID: user.id
-      };
-
-      return jwt.sign(payload, process.env.TALK_SESSION_SECRET, tokenOptions);
+      }, process.env.TALK_SESSION_SECRET, tokenOptions);
     });
   }
 
@@ -598,8 +598,7 @@ module.exports = class UsersService {
         subject: EMAIL_CONFIRM_JWT_SUBJECT
       })
       .then(({userID, email, referer}) => {
-
-        const userUpdate = UserModel
+        return UserModel
           .update({
             id: userID,
             profiles: {
@@ -612,9 +611,8 @@ module.exports = class UsersService {
             $set: {
               'profiles.$.metadata.confirmed_at': new Date()
             }
-          });
-
-        return Promise.all([userUpdate, referer]);
+          })
+          .then(() => ({userID, email, referer}));
       });
 
   }

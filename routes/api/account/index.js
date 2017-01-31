@@ -28,7 +28,7 @@ router.post('/email/confirm', (req, res, next) => {
 
   UsersService
     .verifyEmailConfirmation(token)
-    .then(([, referer]) => {
+    .then(({referer}) => {
       res.json({redirectUri: referer});
     })
     .catch((err) => {
