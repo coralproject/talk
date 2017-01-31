@@ -57,6 +57,10 @@ const CommentSchema = new Schema({
   }
 });
 
+// Apply Indexes
+CommentSchema.index({asset_id: 1}, {sparse: true});
+CommentSchema.index({parent_id: 1}, {sparse: true});
+
 // Comment model.
 const Comment = mongoose.model('Comment', CommentSchema);
 
