@@ -98,7 +98,7 @@ class Embed extends Component {
             <Tab>Settings</Tab>
             <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>
-            {loggedIn && <UserBox user={user} logout={this.props.logout} />}
+            {loggedIn && user && <UserBox user={user} logout={this.props.logout} />}
             <TabContent show={activeTab === 0}>
                 {
                   asset.closedAt === null
@@ -130,7 +130,7 @@ class Embed extends Component {
                    : <p>{asset.settings.closedMessage}</p>
                 }
                 {!loggedIn && <SignInContainer offset={signInOffset}/>}
-                {loggedIn && <ChangeDisplayNameContainer loggedIn={loggedIn} offset={signInOffset} user={user}/>}
+                {loggedIn &&  user && <ChangeDisplayNameContainer loggedIn={loggedIn} offset={signInOffset} user={user} />}
                 <Stream
                   refetch={refetch}
                   addNotification={this.props.addNotification}

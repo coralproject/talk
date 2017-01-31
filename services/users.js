@@ -156,18 +156,6 @@ module.exports = class UsersService {
     });
   }
 
-  static changeDisplayName(id, displayName) {
-    return UsersService.isValidDisplayName(displayName)
-      .then((displayName) => { // displayName is valid
-        return UserModel.update({id}, {
-          $inc: {__v: 1},
-          $set: {
-            displayName: displayName
-          }
-        });
-      });
-  }
-
   /**
    * Creates local users.
    * @param  {Array} users Users to create
@@ -366,14 +354,12 @@ module.exports = class UsersService {
    */
   static setDisplayName(id, displayName) {
 
-    // Check to see if that the displayName is not empty.
-    if (displayName.length < 1) {
-
-      // User displayName is required! Error out here.
-      return Promise.reject(new Error('display name should not be empty'));
-    }
-
-    return UserModel.update({id}, {$set: {'displayName': displayName}});
+    return UsersService.isValidDisplayName(displayName)
+      .then((displayName) => { // displayName is valid
+        return UserModel.update(
+          {id},
+          {$set: {'displayName': displayName}});
+      });
   }
 
   /**
