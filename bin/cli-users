@@ -28,18 +28,19 @@ util.onshutdown([
 function getUserCreateAnswers(options) {
   if (options.flag_mode) {
 
+    let user = {
+      email: options.email,
+      password: options.password,
+      confirmPassword: options.password,
+      displayName: options.name,
+      roles: []
+    };
+
     if (options.role && UserModel.USER_ROLES.indexOf(options.role) > -1) {
-
-      let roles = {};
-      roles[options.role] = true;
-
-      return Promise.resolve({
-        email: options.email,
-        password: options.password,
-        displayName: options.name,
-        roles
-      });
+      user.roles = [options.role];
     }
+
+    return Promise.resolve(user);
   }
 
   return inquirer.prompt([

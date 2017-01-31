@@ -22,17 +22,22 @@ util.onshutdown([
 
 program
   .description('runs the setup wizard to setup the application')
+  .option('--defaults', 'apply defaults for config instead of prompting')
   .parse(process.argv);
 
 //==============================================================================
 // Setup the application
 //==============================================================================
 
-console.log('We\'ll ask you some questions in order to setup your installation of Talk.\n');
-
 SettingsService
   .init()
   .then((settings) => {
+    if (program.defaults) {
+      return settings.save();
+    }
+
+    console.log('We\'ll ask you some questions in order to setup your installation of Talk.\n');
+
     return inquirer.prompt([
       {
         type: 'input',
@@ -74,7 +79,7 @@ SettingsService
     });
   })
   .then(() => {
-    console.log('\nTalk is now installed!');
+    console.log('Talk is now installed!');
     util.shutdown();
   })
   .catch((err) => {
