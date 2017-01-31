@@ -203,7 +203,6 @@ export function postItem (item, type, id, mutate) {
       parent_id: null
     }
   }).then(({data}) => {
-    console.log('it workt');
     console.log(data);
   });
 

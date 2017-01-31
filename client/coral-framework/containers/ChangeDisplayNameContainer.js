@@ -30,12 +30,13 @@ class ChangeDisplayNameContainer extends Component {
     super(props);
     this.state = this.initialState;
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmitForm = this.handleSubmitForm.bind(this);
+    this.handleSubmitDisplayName = this.handleSubmitDisplayName.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.addError = this.addError.bind(this);
   }
 
   componentDidMount() {
+    window.authCallback = this.props.facebookCallback;
     const {formData} = this.state;
     const errors = Object.keys(formData).reduce((map, prop) => {
       map[prop] = lang.t('createdisplay.requiredField');
@@ -70,7 +71,7 @@ class ChangeDisplayNameContainer extends Component {
     const {addError} = this;
 
     if (!value.length) {
-      addError(name, lang.t('displayName.requiredField'));
+      addError(name, lang.t('createdisplay.requiredField'));
     } else {
       const { [name]: prop, ...errors } = this.state.errors; // eslint-disable-line
       // Removes Error
@@ -87,16 +88,16 @@ class ChangeDisplayNameContainer extends Component {
     this.setState({showErrors: show});
   }
 
-  handleSubmitForm(e) {
+  handleSubmitDisplayName(e) {
     e.preventDefault();
     const {errors} = this.state;
     const {validForm, invalidForm} = this.props;
     this.displayErrors();
     if (this.isCompleted() && !Object.keys(errors).length) {
-      createDisplayName(this.state.formData);
+      this.props.createDisplayName(this.props.user.id, this.state.formData);
       validForm();
     } else {
-      invalidForm(lang.t('signIn.checkTheForm'));
+      invalidForm(lang.t('createdisplay.checkTheForm'));
     }
   }
 
@@ -105,15 +106,16 @@ class ChangeDisplayNameContainer extends Component {
   }
 
   render() {
-    const {loggedIn, auth, offset, user} = this.props;
+    const {loggedIn, auth, offset} = this.props;
     return (
       <div>
         <CreateDisplayNameDialog
           open={auth.showCreateDisplayNameDialog}
           offset={offset}
           handleClose={this.handleClose}
-          user={user}
           loggedIn={loggedIn}
+          handleSubmitDisplayName={this.handleSubmitDisplayName}
+          {...this}
           {...this.state}
           {...this.props}
         />
@@ -127,7 +129,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createDisplayName: formData => dispatch(createDisplayName(formData)),
+  createDisplayName: (userid, formData) => dispatch(createDisplayName(userid, formData)),
   showCreateDisplayNameDialog: () => dispatch(showCreateDisplayNameDialog()),
   hideCreateDisplayNameDialog: () => dispatch(hideCreateDisplayNameDialog()),
   invalidForm: error => dispatch(invalidForm(error)),

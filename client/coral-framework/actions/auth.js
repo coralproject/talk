@@ -3,22 +3,32 @@ import translations from './../translations';
 const lang = new I18n(translations);
 import * as actions from '../constants/auth';
 import coralApi, {base} from '../helpers/response';
-import {addItem} from './items';
+import {addItem, updateItem} from './items';
 
 // Dialog Actions
 export const showSignInDialog = (offset = 0) => ({type: actions.SHOW_SIGNIN_DIALOG, offset});
 export const hideSignInDialog = () => ({type: actions.HIDE_SIGNIN_DIALOG});
 
+export const createDisplayNameRequest = () => ({type: actions.CREATE_DISPLAYNAME_REQUEST});
 export const showCreateDisplayNameDialog = () => ({type: actions.SHOW_CREATEDISPLAYNAME_DIALOG});
 export const hideCreateDisplayNameDialog = () => ({type: actions.HIDE_CREATEDISPLAYNAME_DIALOG});
-export const createDisplayName = (formData) => (dispatch) => {
-  coralApi('/users', {method: 'POST', body: formData})
+
+export const updateDisplayName = displayName => ({type: actions.UPDATE_DISPLAYNAME, displayName});
+
+export const createDisplayName = (userId, formData) => dispatch => {
+  dispatch(createDisplayNameRequest());
+  coralApi(`/users/${userId}/displayname`, {method: 'POST', body: formData})
     .then(() => {
       dispatch(createDisplayNameSuccess());
       dispatch(hideCreateDisplayNameDialog());
+      dispatch(updateItem(userId, 'displayName', formData.displayName, 'users'));
+      dispatch(updateDisplayName(formData.displayName));
     })
-    .catch(() => dispatch(createDisplayNameFailure(lang.t('createdisplay.errorCreate'))));
+    .catch(() => {
+      dispatch(createDisplayNameFailure(lang.t('createdisplay.errorCreate')));
+    });
 };
+
 const createDisplayNameSuccess = () => ({type: actions.CREATEDISPLAYNAME_SUCCESS});
 const createDisplayNameFailure = error => ({type: actions.CREATEDISPLAYNAME_FAILURE, error});
 

@@ -10,7 +10,8 @@
       "displayName": "Display Name",
       "save": "Save",
       "requiredField": "Required field",
-      "errorCreate": "Error when changing display name"
+      "errorCreate": "Error when changing display name",
+      "checkTheForm": "Invalid Form. Please, check the fields"
     },
     "error": {
       "email": "Not a valid E-Mail",
@@ -37,9 +38,10 @@
     "createdisplay": {
       "writeyourusername": "Escribe tu nombre",
       "yourusername": "Tu nombre es visible publicamente en todos los comentarios que publiques. Es necesario tener un nombre de usuario antes de poder publicar tu primer comentario.",
-      "displayName": "Nombre",
+      "displayName": "Nombre a mostrar",
       "save": "Guardar",
-      "requiredField": "Campo necesario"
+      "requiredField": "Campo necesario",
+      "checkTheForm": "Formulario Invalido. Por favor, verifica los campos"
     },
     "error": {
       "email": "No es un email válido",

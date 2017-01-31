@@ -43,6 +43,14 @@ export default function auth (state = initialState, action) {
     return state.merge(Map({
       showCreateDisplayNameDialog: false
     }));
+  case actions.CREATEDISPLAYNAME_SUCCESS :
+    return state.merge(Map({
+      showCreateDisplayNameDialog: false,
+      error: ''
+    }));
+  case actions.CREATEDISPLAYNAME_FAILURE :
+    return state
+      .set('error', action.error);
   case actions.CHANGE_VIEW :
     return state
       .set('error', '')
@@ -109,6 +117,9 @@ export default function auth (state = initialState, action) {
     return state
       .set('passwordRequestFailure', 'There was an error sending your password reset email. Please try again soon!')
       .set('passwordRequestSuccess', null);
+  case actions.UPDATE_DISPLAYNAME:
+    return state
+      .merge({'user': {'displayName': action.displayName}});
   default :
     return state;
   }
