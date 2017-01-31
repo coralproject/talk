@@ -538,7 +538,7 @@ module.exports = class UsersService {
    * @param  {String} email The email that we are needing to get confirmed.
    * @return {Promise}
    */
-  static createEmailConfirmToken(userID = null, email, referer) {
+  static createEmailConfirmToken(userID = null, email, referer = process.env.TALK_ROOT_URL) {
     if (!email || typeof email !== 'string') {
       return Promise.reject('email is required when creating a JWT for resetting passord');
     }

@@ -118,12 +118,8 @@ const SendEmailConfirmation = (app, userID, email, referer) => UsersService
 
 // create a local user.
 router.post('/', (req, res, next) => {
-  const {
-    email,
-    password,
-    redirectUri,
-    displayName
-  } = req.body;
+  const {email, password, displayName} = req.body;
+  const redirectUri = req.header('Referer');
 
   UsersService
     .createLocalUser(email, password, displayName)
@@ -184,6 +180,7 @@ router.post('/:user_id/actions', authorization.needed(), (req, res, next) => {
 // trigger an email confirmation re-send by a new user
 router.post('/resend-confirm', (req, res, next) => {
   const {email} = req.body;
+  const redirectUri = req.header('Referer');
 
   if (!email) {
     return next(errors.ErrMissingEmail);
@@ -192,7 +189,7 @@ router.post('/resend-confirm', (req, res, next) => {
   // find user by email.
   // if the local profile is verified, return an error code?
   // send a 204 after the email is re-sent
-  SendEmailConfirmation(req.app, null, email, process.env.TALK_ROOT_URL)
+  SendEmailConfirmation(req.app, null, email, redirectUri)
     .then(() => {
       res.status(204).end();
     })
