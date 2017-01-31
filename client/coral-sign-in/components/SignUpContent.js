@@ -1,5 +1,4 @@
 import React from 'react';
-// import FormField from './FormField';
 import Alert from './Alert';
 import {Button, FormField, Spinner, Success} from 'coral-ui';
 import styles from './styles.css';

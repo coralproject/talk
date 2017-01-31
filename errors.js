@@ -144,7 +144,6 @@ module.exports = {
   ErrAssetCommentingClosed,
   ErrNotFound,
   ErrInvalidAssetURL,
-  ErrSettingsNotInit,
   ErrAuthentication,
   ErrNotAuthorized
 };
