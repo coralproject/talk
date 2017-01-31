@@ -1,5 +1,6 @@
 import {graphql} from 'react-apollo';
 import STREAM_QUERY from './streamQuery.graphql';
+import MY_COMMENT_HISTORY from './myCommentHistory.graphql';
 
 function getQueryVariable(variable) {
   let query = window.location.search.substring(1);
@@ -13,5 +14,11 @@ function getQueryVariable(variable) {
 }
 
 export const queryStream = graphql(STREAM_QUERY, {
-  options: {variables: {asset_url: getQueryVariable('asset_url')}}
+  options: () => ({
+    variables: {
+      asset_url: getQueryVariable('asset_url')
+    }
+  })
 });
+
+export const myCommentHistory = graphql(MY_COMMENT_HISTORY, {});

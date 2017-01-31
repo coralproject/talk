@@ -1,85 +1,134 @@
-const DataLoader = require('dataloader');
-
 const util = require('./util');
 
-const ActionModel = require('../../models/action');
 const CommentModel = require('../../models/comment');
-const CommentsService = require('../../services/comments');
 
 /**
- * Retrieves comments by an array of asset id's, results are returned in reverse
- * chronological order.
- * @param {Array} ids array of ids to lookup
+ * Returns the comment count for all comments that are public based on their
+ * asset ids.
+ * @param {Object}        context     graph context
+ * @param {Array<String>} asset_ids   the ids of assets for which there are
+ *                                    comments that we want to get
  */
-const genCommentsByAssetID = (context, ids) => {
-  return CommentModel.find({
-    asset_id: {
-      $in: ids
+const getCountsByAssetID = (context, asset_ids) => {
+  return CommentModel.aggregate([
+    {
+      $match: {
+        asset_id: {
+          $in: asset_ids
+        },
+        status: {
+          $in: [null, 'ACCEPTED']
+        },
+        parent_id: null
+      }
     },
-    parent_id: null,
-    status: {
-      $in: [null, 'ACCEPTED']
+    {
+      $group: {
+        _id: '$asset_id',
+        count: {
+          $sum: 1
+        }
+      }
     }
-  })
-  .sort({created_at: -1})
-  .then(util.arrayJoinBy(ids, 'asset_id'));
+  ])
+  .then(util.singleJoinBy(asset_ids, '_id'))
+  .then((results) => results.map((result) => result ? result.count : 0));
 };
 
 /**
- * Retrieves comments by an array of parent ids, results are returned in
- * chronological order.
- * @param {Array} ids array of ids to lookup
+ * Returns the comment count for all comments that are public based on their
+ * parent ids.
+ * @param {Object}        context     graph context
+ * @param {Array<String>} parent_ids  the ids of parents for which there are
+ *                                    comments that we want to get
  */
-const genCommentsByParentID = (context, ids) => {
-  return CommentModel.find({
-    parent_id: {
-      $in: ids
+const getCountsByParentID = (context, parent_ids) => {
+  return CommentModel.aggregate([
+    {
+      $match: {
+        parent_id: {
+          $in: parent_ids
+        },
+        status: {
+          $in: [null, 'ACCEPTED']
+        }
+      }
     },
-    status: {
-      $in: [null, 'ACCEPTED']
+    {
+      $group: {
+        _id: '$parent_id',
+        count: {
+          $sum: 1
+        }
+      }
     }
-  })
-  .sort({created_at: 1})
-  .then(util.arrayJoinBy(ids, 'parent_id'));
+  ])
+  .then(util.singleJoinBy(parent_ids, '_id'))
+  .then((results) => results.map((result) => result ? result.count : 0));
 };
 
-const getCommentsByStatusAndAssetID = (context, {status = null, asset_id = null}) => {
+/**
+ * Retrieves comments based on the passed in query that is filtered by the
+ * current used passed in via the context.
+ * @param  {Object} context   graph context
+ * @param  {Object} query     query terms to apply to the comments query
+ */
+const getCommentsByQuery = ({user}, {ids, statuses, asset_id, parent_id, limit, cursor, sort}) => {
+  let comments = CommentModel.find();
 
-  // TODO: remove when we move the enum over to the uppercase.
-  if (status) {
-    status = status.toLowerCase();
+  // Only administrators can search for comments with statuses that are not
+  // `null`, or `'ACCEPTED'`.
+  if (user != null && user.hasRoles('ADMIN') && statuses) {
+    comments = comments.where({
+      status: {
+        $in: statuses
+      }
+    });
+  } else {
+    comments = comments.where({
+      status: {
+        $in: [null, 'ACCEPTED']
+      }
+    });
   }
 
-  return CommentsService.moderationQueue(status, asset_id);
-};
-
-const getCommentsByActionTypeAndAssetID = (context, {action_type, asset_id = null}) => {
-  return ActionModel.find({
-    action_type,
-    item_type: 'COMMENTS'
-  }).then((actions) => {
-    let comments = CommentModel.find({
+  if (ids) {
+    comments = comments.find({
       id: {
-        $in: actions.map((action) => action.item_id)
+        $in: ids
       }
-    }).sort({created_at: 1});
+    });
+  }
 
-    if (asset_id) {
-      comments = comments.where({asset_id});
+  if (asset_id) {
+    comments = comments.where({asset_id});
+  }
+
+  // We perform the undefined check because, null, is a valid state for the
+  // search to be with, which indicates that it is at depth 0.
+  if (parent_id !== undefined) {
+    comments = comments.where({parent_id});
+  }
+
+  if (cursor) {
+    if (sort === 'REVERSE_CHRONOLOGICAL') {
+      comments = comments.where({
+        created_at: {
+          $lt: cursor
+        }
+      });
+    } else {
+      comments = comments.where({
+        created_at: {
+          $gt: cursor
+        }
+      });
     }
+  }
 
-    return comments;
-  });
-};
-
-const genCommentsByAuthorID = (context, authorIDs) => {
-  return CommentModel.find({
-    author_id: {
-      $in: authorIDs
-    }
-  })
-  .sort({created_at: -1})
-  .then(util.arrayJoinBy(authorIDs, 'author_id'));
+  return comments
+    .sort({created_at: sort === 'REVERSE_CHRONOLOGICAL' ? -1 : 1})
+    .limit(limit);
 };
 
 /**
@@ -89,10 +138,8 @@ const genCommentsByAuthorID = (context, authorIDs) => {
  */
 module.exports = (context) => ({
   Comments: {
-    getByParentID: new DataLoader((ids) => genCommentsByParentID(context, ids)),
-    getByAssetID: new DataLoader((ids) => genCommentsByAssetID(context, ids)),
-    getByStatusAndAssetID: (query) => getCommentsByStatusAndAssetID(context, query),
-    getByActionTypeAndAssetID: (query) => getCommentsByActionTypeAndAssetID(context, query),
-    getByAuthorID: new DataLoader((authorIDs) => genCommentsByAuthorID(context, authorIDs))
+    getByQuery: (query) => getCommentsByQuery(context, query),
+    countByAssetID: new util.SharedCacheDataLoader('Comments.countByAssetID', 3600, (ids) => getCountsByAssetID(context, ids)),
+    countByParentID: new util.SharedCacheDataLoader('Comments.countByParentID', 3600, (ids) => getCountsByParentID(context, ids))
   }
 });

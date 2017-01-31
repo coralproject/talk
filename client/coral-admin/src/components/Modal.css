@@ -19,7 +19,6 @@
 
 .inner {
   width: 100vw;
-  height: 100vh;
   background-color: #fff;
   box-shadow: 2px 2px 5px 0px rgba(153,153,153,1);
   padding: 20px;
@@ -37,7 +36,6 @@
 @media (--big-viewport) {
   .inner {
     width: 600px;
-    height: 50vh;
     border-radius: 4px;
   }
 }

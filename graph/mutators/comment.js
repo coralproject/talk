@@ -14,13 +14,29 @@ const Wordlist = require('../../services/wordlist');
  * @param  {String} [status=null] the status of the new comment
  * @return {Promise}              resolves to the created comment
  */
-const createComment = ({user}, {body, asset_id, parent_id = null}, status = null) => {
+const createComment = ({user, loaders: {Comments}}, {body, asset_id, parent_id = null}, status = null) => {
   return CommentsService.publicCreate({
     body,
     asset_id,
     parent_id,
     status,
     author_id: user.id
+  })
+  .then((comment) => {
+
+    // TODO: explore using an `INCR` operation to update the counts here
+
+    // If the loaders are present, clear the caches for these values because we
+    // just added a new comment, hence the counts should be updated.
+    if (Comments && Comments.countByAssetID && Comments.countByParentID) {
+      if (parent_id != null) {
+        Comments.countByParentID.clear(parent_id);
+      } else {
+        Comments.countByAssetID.clear(asset_id);
+      }
+    }
+
+    return comment;
   });
 };
 
@@ -121,7 +137,7 @@ const createPublicComment = (context, commentInput) => {
         if (wordlist != null) {
 
           // TODO: this is kind of fragile, we should refactor this to resolve
-          // all these const's that we're using like 'comments', 'flag' to be
+          // all these const's that we're using like 'COMMENTS', 'FLAG' to be
           // defined in a checkable schema.
           return context.mutators.Action.createAction(null, {
             item_id: comment.id,
@@ -131,7 +147,8 @@ const createPublicComment = (context, commentInput) => {
               field: 'body',
               details: 'Matched suspect word filters.'
             }
-          }).then(() => comment);
+          })
+          .then(() => comment);
         }
 
         // Finally, we return the comment.

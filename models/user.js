@@ -10,7 +10,9 @@ const USER_ROLES = [
 // USER_STATUS is the list of statuses that are permitted for the user status.
 const USER_STATUS = [
   'ACTIVE',
-  'BANNED'
+  'BANNED',
+  'PENDING',
+  'SUSPENDED',
 ];
 
 // ProfileSchema is the mongoose schema defined as the representation of a

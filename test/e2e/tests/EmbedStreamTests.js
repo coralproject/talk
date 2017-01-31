@@ -1,12 +1,12 @@
 const mongoose = require('../../helpers/mongoose');
 const mocks = require('../mocks');
 
-const mockComment = 'This is a test comment.';
+const mockComment = 'I read the comments';
 const mockReply = 'This is a test reply';
 const mockUser = {
   email: `${new Date().getTime()}@test.com`,
-  name: 'Test User',
-  pw: 'testtesttest'
+  name: 'testuser',
+  pw: 'testtest'
 };
 
 module.exports = {
@@ -29,7 +29,6 @@ module.exports = {
           .frame('coralStreamIframe')
 
           // Register and Log In
-          .waitForElementVisible('#commentBox', 1000)
           .waitForElementVisible('#coralSignInButton', 2000)
           .click('#coralSignInButton')
           .waitForElementVisible('#coralRegister', 1000)
@@ -47,10 +46,10 @@ module.exports = {
           // Post a comment
           .setValue('.coral-plugin-commentbox-textarea', mockComment)
           .click('.coral-plugin-commentbox-button')
-          .waitForElementVisible('.comment', 1000)
+          .waitForElementVisible('.coral-plugin-content-text', 1000)
 
           // Verify that it appears
-          .assert.containsText('.comment', mockComment);
+          .assert.containsText('.coral-plugin-content-text', mockComment);
         done();
       })
       .catch((err) => {
@@ -104,8 +103,8 @@ module.exports = {
           .click('.coral-plugin-replies-reply-button')
           .waitForElementVisible('#replyText')
           .setValue('#replyText', mockReply)
-          .click('.coral-plugin-replies-textarea button')
-          .waitForElementVisible('.reply', 2000)
+          .click('.coral-plugin-replies-textarea .coral-plugin-commentbox-button')
+          .waitForElementVisible('.reply', 20000)
 
           // Verify that it appears
           .assert.containsText('.reply', mockReply);
@@ -122,22 +121,18 @@ module.exports = {
       mocks.settings({moderation: 'PRE'})
 
       // Add a mock user
-      .then(() => {
-        return mocks.users([{
-          displayName: 'Baby Blue',
-          email: 'whale@tale.sea',
-          password: 'krill'
-        }]);
-      })
+      .then(() => mocks.users([{
+        displayName: 'Baby Blue',
+        email: 'whale@tale.sea',
+        password: 'krill'
+      }]))
 
       // Add a mock preapproved comment by that user
-      .then((user) => {
-        return mocks.comments([{
-          body: 'Whales are not fish.',
-          status: 'accepted',
-          author_id: user.id
-        }]);
-      })
+      .then((user) => mocks.comments([{
+        body: 'Whales are not fish.',
+        status: 'accepted',
+        author_id: user.id
+      }]))
       .then(() => {
 
         // Load Page
@@ -170,7 +165,7 @@ module.exports = {
 
         // Verify that comment count is correct
       client.waitForElementVisible('.coral-plugin-comment-count-text', 2000)
-        .assert.containsText('.coral-plugin-comment-count-text', '1 Comment');
+        .assert.containsText('.coral-plugin-comment-count-text', '4 Comments');
       done();
     });
   },

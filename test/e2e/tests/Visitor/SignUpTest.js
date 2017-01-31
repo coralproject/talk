@@ -1,5 +1,3 @@
-const uuid = require('uuid');
-
 module.exports = {
   '@tags': ['signup', 'visitor'],
   before: client => {
@@ -14,8 +12,8 @@ module.exports = {
 
     embedStreamPage
       .signUp({
-        email: `visitor_${uuid.v4()}@test.com`,
-        displayName: 'Visitor',
+        email: `visitor_${Date.now()}@test.com`,
+        displayName: `visitor${Date.now()}`,
         pass: 'testtest'
       });
   },

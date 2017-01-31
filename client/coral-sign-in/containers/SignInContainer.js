@@ -21,7 +21,7 @@ import {
   invalidForm,
   validForm,
   checkLogin
-} from '../../coral-framework/actions/auth';
+} from 'coral-framework/actions/auth';
 
 class SignInContainer extends Component {
   initialState = {

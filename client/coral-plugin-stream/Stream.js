@@ -73,6 +73,7 @@ query AssetQuery($asset_id: ID!) {
     id
     title
     url
+    commentCount
     comments {
       ...commentView
       replies {

@@ -1,5 +1,5 @@
 import React from 'react';
-const name = 'coral-plugin-replies';
+const name = 'coral-plugin-content';
 
 const Content = ({body, styles}) => {
   const textbreaks = body.split('\n');
