@@ -11,7 +11,7 @@ import {
   fetchFlaggedQueue,
   fetchModerationQueueComments,
 } from 'actions/comments';
-import {userStatusUpdate} from 'actions/users';
+import {userStatusUpdate, sendNotificationEmail} from 'actions/users';
 import {fetchSettings} from 'actions/settings';
 
 import ModerationQueue from './ModerationQueue';
@@ -22,7 +22,7 @@ class ModerationContainer extends React.Component {
     super(props);
 
     this.state = {
-      activeTab: 'pending',
+      activeTab: 'all',
       singleView: false,
       modalOpen: false
     };
@@ -74,7 +74,7 @@ class ModerationContainer extends React.Component {
   }
 
   render () {
-    const {comments} = this.props;
+    const {comments, actions} = this.props;
     const premodIds = comments.ids.filter(id => comments.byId[id].status === 'PREMOD');
     const rejectedIds = comments.ids.filter(id => comments.byId[id].status === 'REJECTED');
     const flaggedIds = comments.ids.filter(id =>
@@ -82,12 +82,14 @@ class ModerationContainer extends React.Component {
         comments.byId[id].status !== 'REJECTED' &&
         comments.byId[id].status !== 'ACCEPTED'
       );
+    const userActionIds = actions.ids.filter(id => actions.byId[id].item_type === 'USERS');
 
     return (
       <ModerationQueue
         onTabClick={this.onTabClick}
         onClose={this.onClose}
         premodIds={premodIds}
+        userActionIds={userActionIds}
         rejectedIds={rejectedIds}
         flaggedIds={flaggedIds}
         {...this.props}
@@ -100,7 +102,8 @@ class ModerationContainer extends React.Component {
 const mapStateToProps = state => ({
   comments: state.comments.toJS(),
   settings: state.settings.toJS(),
-  users: state.users.toJS()
+  users: state.users.toJS(),
+  actions: state.actions.toJS(),
 });
 
 const mapDispatchToProps = dispatch => {
@@ -112,9 +115,13 @@ const mapDispatchToProps = dispatch => {
     fetchFlaggedQueue: () => dispatch(fetchFlaggedQueue()),
     showBanUserDialog: (userId, userName, commentId) => dispatch(showBanUserDialog(userId, userName, commentId)),
     hideBanUserDialog: () => dispatch(hideBanUserDialog(false)),
-    banUser: (userId, commentId) => dispatch(userStatusUpdate('BANNED', userId, commentId)).then(() => {
+    userStatusUpdate: (status, userId, commentId) => dispatch(userStatusUpdate(status, userId, commentId)).then(() => {
       dispatch(fetchModerationQueueComments());
     }),
+    suspendUser: (userId, subject, text) => dispatch(userStatusUpdate('suspended', userId))
+    .then(() => dispatch(sendNotificationEmail(userId, subject, text)))
+    .then(() => dispatch(fetchModerationQueueComments()))
+    ,
     updateStatus: (action, comment) => dispatch(updateStatus(action, comment))
   };
 };

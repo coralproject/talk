@@ -3,11 +3,11 @@ import styles from './CommentStream.css';
 import {Snackbar} from 'react-mdl';
 import {connect} from 'react-redux';
 import {createComment, flagComment} from 'actions/comments';
-import CommentList from 'components/CommentList';
+import ModerationList from 'components/ModerationList';
 import CommentBox from 'components/CommentBox';
 
 /**
- * Renders a comment stream using a CommentList component
+ * Renders a comment stream using a ModerationList component
  * and adds a box for adding a new comment
  */
 
@@ -39,12 +39,12 @@ class CommentStream extends React.Component {
     }
   }
 
-  // Render the comment box along with the CommentList
+  // Render the comment box along with the ModerationList
   render ({comments, users}, {snackbar, snackbarMsg}) {
     return (
       <div className={styles.container}>
-        <CommentBox onSubmit={this.onSubmit}/>
-        <CommentList isActive hideActive
+        <CommentBox onSubmit={this.onSubmit} />
+        <ModerationList isActive hideActive
           singleView={false}
           commentIds={comments.ids}
           comments={comments.byId}

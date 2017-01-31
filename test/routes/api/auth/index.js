@@ -66,7 +66,7 @@ describe('/api/v1/auth/local', () => {
 
   describe('email confirmation enabled', () => {
 
-    beforeEach(() => SettingsService.init({requireEmailConfirmation: true}));
+    beforeEach(() => SettingsService.update({requireEmailConfirmation: true}));
 
     describe('#post', () => {
       it('should not allow a login from a user that is not confirmed', () => {
@@ -74,7 +74,7 @@ describe('/api/v1/auth/local', () => {
           .post('/api/v1/auth/local')
           .send({email: 'maria@gmail.com', password: 'password!'})
           .catch((err) => {
-            err.response.should.have.status(401);
+            expect(err).to.have.status(401);
 
             return UsersService.createEmailConfirmToken(mockUser.id, mockUser.profiles[0].id);
           })

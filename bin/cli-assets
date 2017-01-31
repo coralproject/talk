@@ -4,8 +4,7 @@
  * Module dependencies.
  */
 
-const program = require('commander');
-const pkg = require('../package.json');
+const program = require('./commander');
 const parseDuration = require('parse-duration');
 const Table = require('cli-table');
 const AssetModel = require('../models/asset');
@@ -85,9 +84,6 @@ function refreshAssets(ageString) {
 //==============================================================================
 // Setting up the program command line arguments.
 //==============================================================================
-
-program
-  .version(pkg.version);
 
 program
   .command('list')

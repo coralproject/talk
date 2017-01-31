@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
-import {isEqual} from 'lodash';
+import isEqual from 'lodash/isEqual';
 
 import {TabBar, Tab, TabContent, Spinner} from '../../coral-ui';
 
@@ -9,8 +9,8 @@ const {logout, showSignInDialog} = authActions;
 const {addNotification, clearNotification} = notificationActions;
 const {fetchAssetSuccess} = assetActions;
 
-import {queryStream} from './graphql/queries';
-import {postComment, postAction, deleteAction} from './graphql/mutations';
+import {queryStream} from 'coral-framework/graphql/queries';
+import {postComment, postAction, deleteAction} from 'coral-framework/graphql/mutations';
 import {Notification, notificationActions, authActions, assetActions, pym} from 'coral-framework';
 
 import Stream from './Stream';
@@ -82,8 +82,11 @@ class Embed extends Component {
 
   render () {
     const {activeTab} = this.state;
+    const {closedAt} = this.props.asset;
     const {loading, asset, refetch} = this.props.data;
     const {loggedIn, isAdmin, user, showSignInDialog, signInOffset} = this.props.auth;
+
+    const openStream = closedAt === null;
 
     const expandForLogin = showSignInDialog ? {
       minHeight: document.body.scrollHeight + 200
@@ -94,14 +97,14 @@ class Embed extends Component {
         loading ? <Spinner/>
       : <div className="commentStream">
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
-            <Tab><Count count={asset.comments.length}/></Tab>
+            <Tab><Count count={asset.commentCount}/></Tab>
             <Tab>Settings</Tab>
             <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>
             {loggedIn && user && <UserBox user={user} logout={this.props.logout} />}
             <TabContent show={activeTab === 0}>
                 {
-                  asset.closedAt === null
+                  openStream
                    ? <div id="commentBox">
                        <InfoBox
                          content={asset.settings.infoBoxContent}
@@ -174,10 +177,10 @@ class Embed extends Component {
 }
 
 const mapStateToProps = state => ({
-  items: state.items.toJS(),
   notification: state.notification.toJS(),
   auth: state.auth.toJS(),
-  userData: state.user.toJS()
+  userData: state.user.toJS(),
+  asset: state.asset.toJS()
 });
 
 const mapDispatchToProps = dispatch => ({

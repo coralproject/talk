@@ -189,6 +189,18 @@ module.exports = class UsersService {
     return Wordlist.displayNameCheck(displayName);
   }
 
+  static isValidPassword(password) {
+    if (!password) {
+      return Promise.reject(errors.ErrMissingPassword);
+    }
+
+    if (password.length < 8) {
+      return Promise.reject(errors.ErrPasswordTooShort);
+    }
+
+    return Promise.resolve(password);
+  }
+
   /**
    * Creates the local user with a given email, password, and name.
    * @param  {String}   email       email of the new user
@@ -205,15 +217,10 @@ module.exports = class UsersService {
     email = email.toLowerCase().trim();
     displayName = displayName.toLowerCase().trim();
 
-    if (!password) {
-      return Promise.reject(errors.ErrMissingPassword);
-    }
-
-    if (password.length < 8) {
-      return Promise.reject(errors.ErrPasswordTooShort);
-    }
-
-    return UsersService.isValidDisplayName(displayName)
+    return Promise.all([
+      UsersService.isValidDisplayName(displayName),
+      UsersService.isValidPassword(password)
+    ])
       .then(() => { // displayName is valid
         return new Promise((resolve, reject) => {
           bcrypt.hash(password, SALT_ROUNDS, (err, hashedPassword) => {
@@ -612,6 +619,14 @@ module.exports = class UsersService {
             }
           });
       });
+  }
+
+  /**
+   * Returns all users with pending 'ADMIN'ation actions.
+   * @return {Promise}
+   */
+  static moderationQueue() {
+    return UserModel.find({status: 'PENDING'});
   }
 
 };

@@ -1,5 +1,5 @@
 import * as actions from '../constants/comments';
-import * as userActions from '../constants/user';
+import * as userActions from '../constants/users';
 import {Map, List, fromJS} from 'immutable';
 
 /**

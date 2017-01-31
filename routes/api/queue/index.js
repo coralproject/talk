@@ -78,4 +78,24 @@ router.get('/comments/flagged', authorization.needed('ADMIN'), (req, res, next) 
     });
 });
 
+// Returns back all the users that are in the moderation queue.
+router.get('/users/pending', (req, res, next) => {
+  UsersService.moderationQueue()
+  .then((users) => {
+    return Promise.all([
+      users,
+      ActionsService.getActionSummaries(users.map((user) => user.id))
+    ]);
+  })
+    .then(([users, actions]) => {
+      res.json({
+        users,
+        actions
+      });
+    })
+    .catch(error => {
+      next(error);
+    });
+});
+
 module.exports = router;

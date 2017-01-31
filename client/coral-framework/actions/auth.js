@@ -3,7 +3,6 @@ import translations from './../translations';
 const lang = new I18n(translations);
 import * as actions from '../constants/auth';
 import coralApi, {base} from '../helpers/response';
-import {addItem, updateItem} from './items';
 
 // Dialog Actions
 export const showSignInDialog = (offset = 0) => ({type: actions.SHOW_SIGNIN_DIALOG, offset});
@@ -21,7 +20,6 @@ export const createDisplayName = (userId, formData) => dispatch => {
     .then(() => {
       dispatch(createDisplayNameSuccess());
       dispatch(hideCreateDisplayNameDialog());
-      dispatch(updateItem(userId, 'displayName', formData.displayName, 'users'));
       dispatch(updateDisplayName(formData.displayName));
     })
     .catch(() => {
@@ -53,7 +51,6 @@ export const fetchSignIn = (formData) => (dispatch) => {
       const isAdmin = !!user.roles.filter(i => i === 'ADMIN').length;
       dispatch(signInSuccess(user, isAdmin));
       dispatch(hideSignInDialog());
-      dispatch(addItem(user, 'users'));
     })
     .catch(() => dispatch(signInFailure(lang.t('error.emailPasswordError'))));
 };
@@ -82,8 +79,6 @@ export const facebookCallback = (err, data) => dispatch => {
     const user = JSON.parse(data);
     dispatch(signInFacebookSuccess(user));
     dispatch(hideSignInDialog());
-    dispatch(showCreateDisplayNameDialog());
-    dispatch(addItem(user, 'users'));
   } catch (err) {
     dispatch(signInFacebookFailure(err));
     return;
@@ -159,5 +154,8 @@ export const checkLogin = () => dispatch => {
       const isAdmin = !!result.user.roles.filter(i => i === 'ADMIN').length;
       dispatch(checkLoginSuccess(result.user, isAdmin));
     })
-    .catch(error => dispatch(checkLoginFailure(error)));
+    .catch(error => {
+      console.error(error);
+      dispatch(checkLoginFailure(`${error.message}`));
+    });
 };

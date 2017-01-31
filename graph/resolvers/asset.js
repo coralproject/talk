@@ -1,9 +1,17 @@
 const Asset = {
-  comments({id}, _, {loaders}) {
-    return loaders.Comments.getByAssetID.load(id);
+  comments({id}, {sort, limit}, {loaders: {Comments}}) {
+    return Comments.getByQuery({
+      asset_id: id,
+      sort,
+      limit,
+      parent_id: null
+    });
   },
-  settings({settings = null}, _, {loaders}) {
-    return loaders.Settings.load()
+  commentCount({id}, _, {loaders: {Comments}}) {
+    return Comments.countByAssetID.load(id);
+  },
+  settings({settings = null}, _, {loaders: {Settings}}) {
+    return Settings.load()
       .then((globalSettings) => {
         if (settings) {
           settings = Object.assign({}, globalSettings.toObject(), settings);

@@ -203,6 +203,7 @@ class Wordlist {
    */
   static displayNameCheck(displayName) {
     const wl = new Wordlist();
+
     return wl.load()
       .then(() => {
         displayName = displayName.replace(/_/g, '');
