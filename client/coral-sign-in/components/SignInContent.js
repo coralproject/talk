@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import Alert from './Alert';
-import {Button, FormField, Spinner} from 'coral-ui';
+import {Button, FormField, Spinner, Success} from 'coral-ui';
 import styles from './styles.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
@@ -11,6 +11,8 @@ const SignInContent = ({
   handleChangeEmail,
   emailToBeResent,
   handleResendConfirmation,
+  emailConfirmationLoading,
+  emailConfirmationSuccess,
   formData,
   ...props
 }) => {
@@ -44,6 +46,8 @@ const SignInContent = ({
               value={emailToBeResent}
               onChange={handleChangeEmail} />
             <Button id='resendConfirmEmail' type='submit' cStyle='black' full>Send Email</Button>
+            {emailConfirmationLoading && <Spinner />}
+            {emailConfirmationSuccess && <Success />}
           </form>
         : <form onSubmit={props.handleSignIn}>
             <FormField
@@ -86,6 +90,8 @@ const SignInContent = ({
 };
 
 SignInContent.propTypes = {
+  emailConfirmationLoading: PropTypes.bool.isRequired,
+  emailConfirmationSuccess: PropTypes.bool.isRequired,
   handleResendConfirmation: PropTypes.func.isRequired,
   handleChangeEmail: PropTypes.func.isRequired,
   emailToBeResent: PropTypes.string.isRequired

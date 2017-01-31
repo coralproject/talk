@@ -156,7 +156,7 @@ const confirmEmailFailure = () => ({type: actions.CONFIRM_EMAIL_FAILURE});
 
 export const requestConfirmEmail = email => dispatch => {
   dispatch(confirmEmailRequest());
-  coralApi('/users/resend-confirm', {method: 'POST', body: {email}})
+  return coralApi('/users/resend-confirm', {method: 'POST', body: {email}})
     .then(() => {
       dispatch(confirmEmailSuccess());
     })

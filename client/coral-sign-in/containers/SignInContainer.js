@@ -44,7 +44,6 @@ class SignInContainer extends Component {
     this.handleResendConfirmation = this.handleResendConfirmation.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleSignIn = this.handleSignIn.bind(this);
-    this.handleClose = this.handleClose.bind(this);
     this.addError = this.addError.bind(this);
   }
 
@@ -77,13 +76,19 @@ class SignInContainer extends Component {
 
   handleChangeEmail(e) {
     const {value} = e.target;
-    console.log('handleChangeEmail', value);
     this.setState({emailToBeResent: value});
   }
 
   handleResendConfirmation(e) {
     e.preventDefault();
-    this.props.requestConfirmEmail(this.state.emailToBeResent);
+    this.props.requestConfirmEmail(this.state.emailToBeResent)
+      .then(() => {
+        setTimeout(() => {
+
+          // allow success UI to be shown for a second, and then close the modal
+          this.props.handleClose();
+        }, 2500);
+      });
   }
 
   addError(name, error) {
@@ -139,12 +144,9 @@ class SignInContainer extends Component {
     this.props.fetchSignIn(this.state.formData);
   }
 
-  handleClose() {
-    this.props.hideSignInDialog();
-  }
-
   render() {
     const {auth, showSignInDialog, noButton, offset} = this.props;
+    const {emailConfirmationLoading, emailConfirmationSuccess} = auth;
     return (
       <div>
         {!noButton && <Button id='coralSignInButton' onClick={showSignInDialog} full>
@@ -154,6 +156,8 @@ class SignInContainer extends Component {
           open={auth.showSignInDialog}
           view={auth.view}
           offset={offset}
+          emailConfirmationLoading={emailConfirmationLoading}
+          emailConfirmationSuccess={emailConfirmationSuccess}
           {...this}
           {...this.state}
           {...this.props}
