@@ -359,6 +359,24 @@ module.exports = class UsersService {
   }
 
   /**
+   * Set the display name of a user.
+   * @param  {String}   id   id of a user
+   * @param  {String}   displayName display name to set
+   * @param  {Function} done callback after the operation is complete
+   */
+  static setDisplayName(id, displayName) {
+
+    // Check to see if that the displayName is not empty.
+    if (displayName.length < 1) {
+
+      // User displayName is required! Error out here.
+      return Promise.reject(new Error('display name should not be empty'));
+    }
+
+    return UserModel.update({id}, {$set: {'displayName': displayName}});
+  }
+
+  /**
    * Finds a user with the id.
    * @param {String} id  user id (uuid)
   */

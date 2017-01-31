@@ -57,6 +57,15 @@ router.post('/:user_id/status', authorization.needed('ADMIN'), (req, res, next) 
     .catch(next);
 });
 
+router.post('/:user_id/displayname', authorization.needed(), (req, res, next) => {
+  UsersService
+    .setDisplayName(req.params.user_id, req.body.displayName)
+    .then((status) => {
+      res.status(201).json(status);
+    })
+    .catch(next);
+});
+
 // /**
 //  * SendEmailConfirmation sends a confirmation email to the user.
 //  * @param {Request} req  express request object
