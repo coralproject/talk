@@ -110,10 +110,15 @@ const ErrNotAuthorized = new APIError('not authorized', {
   status: 401
 });
 
+// ErrSettingsNotInit is returned when the settings are required but not
+// initialized.
+const ErrSettingsNotInit = new Error('settings not initialized, run `./bin/cli setup` to setup the application first');
+
 module.exports = {
   ExtendableError,
   APIError,
   ErrPasswordTooShort,
+  ErrSettingsNotInit,
   ErrMissingEmail,
   ErrMissingPassword,
   ErrMissingToken,
