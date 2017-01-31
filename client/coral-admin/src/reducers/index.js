@@ -6,6 +6,7 @@ import users from 'reducers/users';
 import auth from 'reducers/auth';
 import actions from 'reducers/actions';
 import assets from 'reducers/assets';
+import install from 'reducers/install';
 
 // Combine all reducers into a main one
 export default combineReducers({
@@ -15,5 +16,6 @@ export default combineReducers({
   auth,
   actions,
   assets,
-  users
+  users,
+  install
 });
