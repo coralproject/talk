@@ -531,41 +531,51 @@ module.exports = class UsersService {
    * @param  {String} email The email that we are needing to get confirmed.
    * @return {Promise}
    */
-  static createEmailConfirmToken(userID, email, referer) {
+  static createEmailConfirmToken(userID = null, email, referer) {
     if (!email || typeof email !== 'string') {
       return Promise.reject('email is required when creating a JWT for resetting passord');
     }
 
+    const tokenOptions = {
+      jwtid: uuid.v4(),
+      algorithm: 'HS256',
+      expiresIn: '1d',
+      subject: EMAIL_CONFIRM_JWT_SUBJECT
+    };
+
     email = email.toLowerCase();
+    let userPromise;
 
-    return UsersService
-      .findById(userID)
-      .then((user) => {
-        if (!user) {
-          return Promise.reject(new Error('user not found'));
-        }
+    if (!userID) {
 
-        // Get the profile representing the local account.
-        let profile = user.profiles.find((profile) => profile.id === email && profile.provider === 'local');
+      // if there is no userID, we're coming from the endpoint where a new user is re-requesting a confirmation email
+      // and we don't know the userID
+      userPromise = UserModel.findOne({profiles: {$elemMatch: {id: email, provider: 'local'}}});
+    } else {
+      userPromise = UsersService.findById(userID);
+    }
 
-        // Ensure that the user email hasn't already been verified.
-        if (profile && profile.metadata && profile.metadata.confirmed_at) {
-          return Promise.reject(new Error('email address already confirmed'));
-        }
+    return userPromise.then((user) => {
+      if (!user) {
+        return Promise.reject(new Error('user not found'));
+      }
 
-        const payload = {
-          email,
-          referer,
-          userID
-        };
+      // Get the profile representing the local account.
+      let profile = user.profiles.find((profile) => profile.id === email && profile.provider === 'local');
 
-        return jwt.sign(payload, process.env.TALK_SESSION_SECRET, {
-          jwtid: uuid.v4(),
-          algorithm: 'HS256',
-          expiresIn: '1d',
-          subject: EMAIL_CONFIRM_JWT_SUBJECT
-        });
-      });
+      // Ensure that the user email hasn't already been verified.
+      if (profile && profile.metadata && profile.metadata.confirmed_at) {
+        return Promise.reject(new Error('email address already confirmed'));
+      }
+
+      const payload = {
+        email,
+        referer,
+        userID: user.id
+      };
+
+      return jwt.sign(payload, process.env.TALK_SESSION_SECRET, tokenOptions);
+    });
   }
 
   /**

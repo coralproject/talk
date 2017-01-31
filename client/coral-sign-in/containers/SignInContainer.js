@@ -16,6 +16,7 @@ import {
   hideSignInDialog,
   fetchSignInFacebook,
   fetchForgotPassword,
+  requestConfirmEmail,
   facebookCallback,
   invalidForm,
   validForm,
@@ -30,6 +31,7 @@ class SignInContainer extends Component {
       password: '',
       confirmPassword: ''
     },
+    emailToBeResent: '',
     errors: {},
     showErrors: false
   };
@@ -38,6 +40,8 @@ class SignInContainer extends Component {
     super(props);
     this.state = this.initialState;
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeEmail = this.handleChangeEmail.bind(this);
+    this.handleResendConfirmation = this.handleResendConfirmation.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleSignIn = this.handleSignIn.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -69,6 +73,17 @@ class SignInContainer extends Component {
     }), () => {
       this.validation(name, value);
     });
+  }
+
+  handleChangeEmail(e) {
+    const {value} = e.target;
+    console.log('handleChangeEmail', value);
+    this.setState({emailToBeResent: value});
+  }
+
+  handleResendConfirmation(e) {
+    e.preventDefault();
+    this.props.requestConfirmEmail(this.state.emailToBeResent);
   }
 
   addError(name, error) {
@@ -159,6 +174,7 @@ const mapDispatchToProps = dispatch => ({
   fetchSignIn: formData => dispatch(fetchSignIn(formData)),
   fetchSignInFacebook: () => dispatch(fetchSignInFacebook()),
   fetchForgotPassword: formData => dispatch(fetchForgotPassword(formData)),
+  requestConfirmEmail: email => dispatch(requestConfirmEmail(email)),
   showSignInDialog: () => dispatch(showSignInDialog()),
   changeView: view => dispatch(changeView(view)),
   handleClose: () => dispatch(hideSignInDialog()),

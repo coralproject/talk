@@ -4,6 +4,7 @@ const UsersService = require('../../../services/users');
 const SettingsService = require('../../../services/settings');
 const CommentsService = require('../../../services/comments');
 const mailer = require('../../../services/mailer');
+const errors = require('../../../errors');
 const authorization = require('../../../middleware/authorization');
 
 // get a list of users.
@@ -142,6 +143,25 @@ router.post('/:user_id/actions', authorization.needed(), (req, res, next) => {
     });
 });
 
+// trigger an email confirmation re-send by a new user
+router.post('/resend-confirm', (req, res, next) => {
+  const {email} = req.body;
+
+  if (!email) {
+    return next(errors.ErrMissingEmail);
+  }
+
+  // find user by email.
+  // if the local profile is verified, return an error code?
+  // send a 204 after the email is re-sent
+  SendEmailConfirmation(req.app, null, email, process.env.TALK_ROOT_URL)
+    .then(() => {
+      res.status(204).end();
+    })
+    .catch(next);
+});
+
+// trigger an email confirmation re-send from the admin panel
 router.post('/:user_id/email/confirm', authorization.needed('ADMIN'), (req, res, next) => {
   const {
     user_id

@@ -75,6 +75,9 @@ describe('/api/v1/auth/local', () => {
           .send({email: 'maria@gmail.com', password: 'password!'})
           .catch((err) => {
             err.response.should.have.status(401);
+            err.response.body.should.have.property('error');
+            err.response.body.error.should.have.property('metadata');
+            err.response.body.error.metadata.should.have.property('message', 'maria@gmail.com');
 
             return UsersService.createEmailConfirmToken(mockUser.id, mockUser.profiles[0].id);
           })

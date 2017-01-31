@@ -22,6 +22,7 @@ export const cleanState = () => ({type: actions.CLEAN_STATE});
 const signInRequest = () => ({type: actions.FETCH_SIGNIN_REQUEST});
 const signInSuccess = (user, isAdmin) => ({type: actions.FETCH_SIGNIN_SUCCESS, user, isAdmin});
 const signInFailure = error => ({type: actions.FETCH_SIGNIN_FAILURE, error});
+const emailConfirmError = () => ({type: actions.EMAIL_CONFIRM_ERROR});
 
 export const fetchSignIn = (formData) => (dispatch) => {
   dispatch(signInRequest());
@@ -32,7 +33,18 @@ export const fetchSignIn = (formData) => (dispatch) => {
       dispatch(hideSignInDialog());
       dispatch(addItem(user, 'users'));
     })
-    .catch(() => dispatch(signInFailure(lang.t('error.emailPasswordError'))));
+    .catch(error => {
+      if (error.metadata) {
+
+        // the user might not have a valid email. prompt the user user re-request the confirmation email
+        dispatch(signInFailure(lang.t('error.emailNotVerified', error.metadata)));
+        dispatch(emailConfirmError());
+      } else {
+
+        // invalid credentials
+        dispatch(signInFailure(lang.t('error.emailPasswordError')));
+      }
+    });
 };
 
 // Sign In - Facebook
@@ -138,7 +150,20 @@ export const checkLogin = () => dispatch => {
     .catch(error => dispatch(checkLoginFailure(error)));
 };
 
-export const requestConfirmEmail = () => dispatch => {
+const confirmEmailRequest = () => ({type: actions.CONFIRM_EMAIL_REQUEST});
+const confirmEmailSuccess = () => ({type: actions.CONFIRM_EMAIL_SUCCESS});
+const confirmEmailFailure = () => ({type: actions.CONFIRM_EMAIL_FAILURE});
 
+export const requestConfirmEmail = email => dispatch => {
+  dispatch(confirmEmailRequest());
+  coralApi('/users/resend-confirm', {method: 'POST', body: {email}})
+    .then(() => {
+      dispatch(confirmEmailSuccess());
+    })
+    .catch(err => {
+      console.log('failed to send email confirmation', err);
+
+      // email might have already been confirmed
+      dispatch(confirmEmailFailure());
+    });
 };
-
