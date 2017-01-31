@@ -4,105 +4,132 @@
  * Module dependencies.
  */
 
-const program = require('commander');
-const pkg = require('../package.json');
-const prompt = require('prompt');
+const program = require('./commander');
+const inquirer = require('inquirer');
 const UsersService = require('../services/users');
 const UserModel = require('../models/user');
 const mongoose = require('../services/mongoose');
 const util = require('../util');
 const Table = require('cli-table');
 
+const validateRequired = (msg = 'Field is required', len = 1) => (input) => {
+  if (input && input.length >= len) {
+    return true;
+  }
+
+  return msg;
+};
+
 // Regeister the shutdown criteria.
 util.onshutdown([
   () => mongoose.disconnect()
 ]);
 
+function getUserCreateAnswers(options) {
+  if (options.flag_mode) {
+
+    let user = {
+      email: options.email,
+      password: options.password,
+      confirmPassword: options.password,
+      displayName: options.name,
+      roles: []
+    };
+
+    if (options.role && UserModel.USER_ROLES.indexOf(options.role) > -1) {
+      user.roles = [options.role];
+    }
+
+    return Promise.resolve(user);
+  }
+
+  return inquirer.prompt([
+    {
+      name: 'email',
+      message: 'Email',
+      format: 'email',
+      validate: validateRequired('Email is required')
+    },
+    {
+      name: 'password',
+      message: 'Password',
+      type: 'password',
+      filter: (password) => {
+        return UsersService
+          .isValidPassword(password)
+          .catch((err) => {
+            throw err.message;
+          });
+      }
+    },
+    {
+      name: 'confirmPassword',
+      message: 'Confirm Password',
+      type: 'password',
+      filter: (confirmPassword) => {
+        return UsersService
+          .isValidPassword(confirmPassword)
+          .catch((err) => {
+            throw err.message;
+          });
+      }
+    },
+    {
+      name: 'displayName',
+      message: 'Display Name',
+      filter: (displayName) => {
+        return UsersService
+          .isValidDisplayName(displayName)
+          .catch((err) => {
+            throw err.message;
+          });
+      }
+    },
+    {
+      name: 'roles',
+      message: 'User Role',
+      type: 'checkbox',
+      choices: UserModel.USER_ROLES
+    }
+  ]);
+}
+
 /**
  * Prompts for input and registers a user based on those.
  */
 function createUser(options) {
-  return new Promise((resolve, reject) => {
-
-    if (options.flag_mode) {
-      return resolve({
-        email: options.email,
-        password: options.password,
-        displayName: options.name,
-        role: options.role
-      });
-    }
-
-    prompt.start();
-
-    prompt.get([
-      {
-        name: 'email',
-        description: 'Email',
-        format: 'email',
-        required: true
-      },
-      {
-        name: 'password',
-        description: 'Password',
-        hidden: true,
-        required: true
-      },
-      {
-        name: 'confirmPassword',
-        description: 'Confirm Password',
-        hidden: true,
-        required: true
-      },
-      {
-        name: 'displayName',
-        description: 'Display Name',
-        required: true
-      },
-      {
-        name: 'role',
-        description: 'User Role',
-        required: false
-      }
-    ], (err, result) => {
-      if (err) {
-        return reject(err);
+  getUserCreateAnswers(options)
+    .then((answers) => {
+      if (answers.password !== answers.confirmPassword) {
+        return Promise.reject(new Error('Passwords do not match'));
       }
 
-      if (result.password !== result.confirmPassword) {
-        return reject(new Error('Passwords do not match'));
-      }
+      return answers;
+    })
+    .then((answers) => {
+      return UsersService
+        .createLocalUser(answers.email.trim(), answers.password.trim(), answers.displayName.trim())
+        .then((user) => {
+          console.log(`Created user ${user.id}.`);
 
-      resolve(result);
-    });
-  })
-  .then((result) => {
-    return UsersService.createLocalUser(result.email.trim(), result.password.trim(), result.displayName.trim())
-    .then((user) => {
-      console.log(`Created user ${user.id}.`);
-
-      let role = result.role ? result.role.trim() : null;
-
-      if (role && role.length > 0) {
-        return UsersService
-          .addRoleToUser(user.id, role)
-          .then(() => {
-            console.log(`Added the admin ${result.role.trim()} to User ${user.id}.`);
-            util.shutdown();
-          })
-          .catch((err) => {
-            console.error(err);
-            util.shutdown();
-          });
-      } else {
-        util.shutdown();
-      }
+          if (answers.roles.length > 0) {
+            return Promise.all(answers.roles.map((role) => {
+              return UsersService
+                .addRoleToUser(user.id, role)
+                .then(() => {
+                  console.log(`Added the role ${role} to User ${user.id}.`);
+                });
+            }));
+          }
+        });
+    })
+    .then(() => {
+      util.shutdown();
     })
     .catch((err) => {
       console.error(err);
       util.shutdown();
     });
-  });
 }
 
 /**
@@ -127,44 +154,34 @@ function deleteUser(userID) {
  * Changes the password for a user.
  */
 function passwd(userID) {
-  prompt.start();
-
-  prompt.get([
+  inquirer.prompt([
     {
       name: 'password',
-      description: 'Password',
-      hidden: true,
-      required: true
+      message: 'Password',
+      type: 'password',
+      validate: validateRequired('Password is required')
     },
     {
       name: 'confirmPassword',
-      description: 'Confirm Password',
-      hidden: true,
-      required: true
+      message: 'Confirm Password',
+      type: 'password',
+      validate: validateRequired('Confirm Password is required')
     }
-  ], (err, result) => {
-    if (err) {
-      console.error(err);
-      util.shutdown();
-      return;
-    }
-
-    if (result.password !== result.confirmPassword) {
-      console.error(new Error('Password mismatch'));
-      util.shutdown(1);
-      return;
+  ])
+  .then((answers) => {
+    if (answers.password !== answers.confirmPassword) {
+      return Promise.reject(new Error('Password mismatch'));
     }
 
-    UsersService
-      .changePassword(userID, result.password)
-      .then(() => {
-        console.log('Password changed.');
-        util.shutdown();
-      })
-      .catch((err) => {
-        console.error(err);
-        util.shutdown(1);
-      });
+    return UsersService.changePassword(userID, answers.password);
+  })
+  .then(() => {
+    console.log('Password changed.');
+    util.shutdown();
+  })
+  .catch((err) => {
+    console.error(err);
+    util.shutdown(1);
   });
 }
 
@@ -273,6 +290,13 @@ function mergeUsers(dstUserID, srcUserID) {
  * @param  {String} role   the role to add
  */
 function addRole(userID, role) {
+
+  if (UserModel.USER_ROLES.indexOf(role) === -1) {
+    console.error(`Role '${role}' is not supported. Supported roles are ${UserModel.USER_ROLES.join(', ')}.`);
+    util.shutdown(1);
+    return;
+  }
+
   UsersService
     .addRoleToUser(userID, role)
     .then(() => {
@@ -291,6 +315,13 @@ function addRole(userID, role) {
  * @param  {String} role   the role to remove
  */
 function removeRole(userID, role) {
+
+  if (UserModel.USER_ROLES.indexOf(role) === -1) {
+    console.error(`Role '${role}' is not supported. Supported roles are ${UserModel.USER_ROLES.join(', ')}.`);
+    util.shutdown(1);
+    return;
+  }
+
   UsersService
     .removeRoleFromUser(userID, role)
     .then(() => {
@@ -374,9 +405,6 @@ function enableUser(userID) {
 //==============================================================================
 // Setting up the program command line arguments.
 //==============================================================================
-
-program
-  .version(pkg.version);
 
 program
   .command('create')

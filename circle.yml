@@ -14,7 +14,7 @@ database:
   post:
     # Initialize the settings in the database, this will create indicies for the
     # database.
-    - ./bin/cli settings init
+    - ./bin/cli setup --defaults
     - sleep 2
 
 test:
