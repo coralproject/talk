@@ -1,6 +1,11 @@
 const mongoose = require('../services/mongoose');
 const Schema = mongoose.Schema;
 
+const MODERATION_OPTIONS = [
+  'PRE',
+  'POST'
+];
+
 const WordlistSchema = new Schema({
   banned: [String],
   suspect: [String]
@@ -19,10 +24,7 @@ const SettingSchema = new Schema({
   },
   moderation: {
     type: String,
-    enum: [
-      'PRE',
-      'POST'
-    ],
+    enum: MODERATION_OPTIONS,
     default: 'POST'
   },
   infoBoxEnable: {
@@ -32,6 +34,9 @@ const SettingSchema = new Schema({
   infoBoxContent: {
     type: String,
     default: ''
+  },
+  organizationName: {
+    type: String
   },
   closedTimeout: {
     type: Number,
@@ -87,3 +92,4 @@ SettingSchema.method('merge', function(src) {
 const Setting = mongoose.model('Setting', SettingSchema);
 
 module.exports = Setting;
+module.exports.MODERATION_OPTIONS = MODERATION_OPTIONS;

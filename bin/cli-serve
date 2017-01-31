@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const app = require('../app');
+const program = require('./commander');
 const debug = require('debug')('talk:server');
 const http = require('http');
 const init = require('../init');
@@ -100,12 +101,6 @@ function startApp() {
     util.shutdown(1);
   });
 }
-
-/**
- * Module dependencies.
- */
-
-const program = require('commander');
 
 //==============================================================================
 // Setting up the program command line arguments.

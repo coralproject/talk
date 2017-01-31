@@ -1,4 +1,5 @@
 const SettingModel = require('../models/setting');
+const errors = require('../errors');
 
 /**
  * The selector used to uniquely identify the settings document.
@@ -15,7 +16,15 @@ module.exports = class SettingsService {
    * @return {Promise} settings the whole settings record
    */
   static retrieve() {
-    return SettingModel.findOne(selector);
+    return SettingModel
+      .findOne(selector)
+      .then((settings) => {
+        if (!settings) {
+          return Promise.reject(errors.ErrSettingsNotInit);
+        }
+
+        return settings;
+      });
   }
 
   /**
