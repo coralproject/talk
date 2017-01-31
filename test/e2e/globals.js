@@ -1,6 +1,6 @@
 module.exports = {
   waitForConditionTimeout: 8000,
-  baseUrl: 'http://localhost:3000',
+  baseUrl: 'http://localhost:3011',
   users: {
     admin: {
       email: 'admin@test.com',
