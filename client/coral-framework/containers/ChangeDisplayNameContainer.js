@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
+import validate from 'coral-framework/helpers/validate';
+import errorMsj from 'coral-framework/helpers/error';
+
 import CreateDisplayNameDialog from '../components/CreateDisplayNameDialog';
 
-// import validate from 'coral-framework/helpers/validate';
-// import errorMsj from 'coral-framework/helpers/error';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
 const lang = new I18n(translations);
@@ -72,6 +73,8 @@ class ChangeDisplayNameContainer extends Component {
 
     if (!value.length) {
       addError(name, lang.t('createdisplay.requiredField'));
+    } else if (!validate[name](value)) {
+      addError(name, errorMsj[name]);
     } else {
       const { [name]: prop, ...errors } = this.state.errors; // eslint-disable-line
       // Removes Error
