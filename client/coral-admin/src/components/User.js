@@ -7,13 +7,12 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations.json';
 
 import {Icon} from 'react-mdl';
-import Highlighter from 'react-highlight-words';
 import ActionButton from './ActionButton';
 
 const linkify = new Linkify();
 
 // Render a single comment for the list
-const UserAction = props => {
+const User = props => {
   const {action, user} = props;
   let userStatus = user.status;
   const links = user.settings.bio ? linkify.getMatches(user.settings.bio) : [];
@@ -48,32 +47,12 @@ const UserAction = props => {
           <span className={styles.banned}><Icon name='error_outline'/> {lang.t('comment.banned_user')}</span> : null}
         </div>
       </div>
-      {
-        user.settings.bio &&
-        <div>
-          <div className={styles.itemBody}>
-            <div>{lang.t('user.user_bio')}:</div>
-            <span className={styles.body}>
-              <Linkify  component='span' properties={{style: linkStyles}}>
-                <Highlighter
-                  searchWords={props.suspectWords}
-                  textToHighlight={user.settings.bio} />
-              </Linkify>
-            </span>
-          </div>
-        </div>
-      }
       <div className={styles.flagCount}>
         {`${action.count} ${action.action_type === 'flag_bio' ? lang.t('user.bio_flags') : lang.t('user.username_flags')}`}
       </div>
     </li>;
 };
 
-export default UserAction;
-
-const linkStyles = {
-  backgroundColor: 'rgb(255, 219, 135)',
-  padding: '1px 2px'
-};
+export default User;
 
 const lang = new I18n(translations);

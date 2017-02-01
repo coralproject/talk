@@ -11,7 +11,7 @@ import {
   fetchFlaggedQueue,
   fetchModerationQueueComments,
 } from 'actions/comments';
-import {userStatusUpdate, sendNotificationEmail} from 'actions/users';
+import {userStatusUpdate, sendNotificationEmail, enableUsernameEdit} from 'actions/users';
 import {fetchSettings} from 'actions/settings';
 
 import ModerationQueue from './ModerationQueue';
@@ -119,6 +119,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(fetchModerationQueueComments());
     }),
     suspendUser: (userId, subject, text) => dispatch(userStatusUpdate('BANNED', userId))
+    .then(() => dispatch(enableUsernameEdit(userId)))
     .then(() => dispatch(sendNotificationEmail(userId, subject, text)))
     .then(() => dispatch(fetchModerationQueueComments()))
     ,
