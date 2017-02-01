@@ -17,7 +17,12 @@ const SignDialog = ({open, view, handleClose, offset, ...props}) => (
     }}>
     <span className={styles.close} onClick={handleClose}>×</span>
     {view === 'SIGNIN' && <SignInContent {...props} />}
-    {view === 'SIGNUP' && <SignUpContent {...props} />}
+    {
+      view === 'SIGNUP' && <SignUpContent
+        emailConfirmationLoading={props.emailConfirmationLoading}
+        emailConfirmationSuccess={props.emailConfirmationSuccess}
+        {...props} />
+    }
     {view === 'FORGOT' && <ForgotContent {...props} />}
   </Dialog>
 );
