@@ -89,6 +89,20 @@ class ErrAssetCommentingClosed extends APIError {
   }
 }
 
+/**
+ * ErrAuthentication is returned when there is an error authenticating and the
+ * message is provided.
+ */
+class ErrAuthentication extends APIError {
+  constructor(message = null) {
+    super('authentication error occured', {
+      status: 401
+    }, {
+      message
+    });
+  }
+}
+
 // ErrContainsProfanity is returned in the event that the middleware detects
 // profanity/wordlisted words in the payload.
 const ErrContainsProfanity = new APIError('Suspected profanity. If you think this in error, please let us know!', {
@@ -130,5 +144,6 @@ module.exports = {
   ErrAssetCommentingClosed,
   ErrNotFound,
   ErrInvalidAssetURL,
+  ErrAuthentication,
   ErrNotAuthorized
 };

@@ -24,7 +24,7 @@ module.exports = {
   },
   'test_settings': {
     'default': {
-      'launch_url' : 'http://localhost:3000',
+      'launch_url' : 'http://localhost:3011',
       'selenium_port': 6666,
       'selenium_host': 'localhost',
       'silent': true,
@@ -48,7 +48,7 @@ module.exports = {
       ]
     },
     'integration': {
-      'launch_url': 'http://localhost:3000'
+      'launch_url': 'http://localhost:3011'
     }
   }
 };

@@ -34,15 +34,21 @@ const buildOptions = (inputOptions = {}) => {
 };
 
 const handleResp = res => {
-  if (res.status === 401) {
-    throw new Error('Not Authorized to make this request');
-  } else if (res.status > 399) {
+  if (res.status > 399) {
     return res.json().then(err => {
       let message = err.message || res.status;
+      const error = new Error();
+
+      if (err.error && err.error.metadata && err.error.metadata.message) {
+        error.metadata = err.error.metadata.message;
+      }
+
       if (err.error && err.error.translation_key) {
         message = err.error.translation_key;
       }
-      throw new Error(message);
+
+      error.message = message;
+      throw error;
     });
   } else if (res.status === 204) {
     return res.text();
