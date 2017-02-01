@@ -25,6 +25,11 @@
       width: 100%;
       box-sizing: border-box;
       margin: 10px 0;
+      transition: border-color 0.2 ease;
+
+      &:focus {
+        border-color: black;
+      }
     }
   }
 }

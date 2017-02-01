@@ -10,7 +10,7 @@ const WizardNav = props => {
           items.map((item, i) => (
             <li
               key={i}
-              className={currentStep === item.step ? styles.active : ''}
+              className={`${currentStep === item.step ? styles.active : ''} ${item.step < currentStep ? styles.done : ''}`}
               onClick={() => goToStep(item.step)}>
               {item.text}<span/>
             </li>

@@ -12,9 +12,21 @@
     color: #A7A7A7;
     position: relative;
     padding-left: 40px;
-
+    border-radius: 1px;
+    
     &:hover {
       cursor: pointer;
+    }
+
+    &.done {
+      border-color: #00796B;
+      background-color: #00796B;
+      color: #ffffff;
+      span {
+        &::after {
+          border-color: transparent transparent transparent #00796B;
+        }
+      }
     }
 
     &.active {
@@ -64,7 +76,7 @@
       position: absolute;
       border: 23px solid #DFDFDF;
       border-color: transparent transparent transparent #DFDFDF;
-      top: 0;
+      top: -1px;
       left: 0;
     }
 
@@ -74,36 +86,9 @@
       position: absolute;
       border: 23px solid white;
       border-color: transparent transparent transparent #fafafa;
-      top: 0;
+      top: -1px;
       left: -1px;
     }
-/*
-    &::before {
-      position: absolute;
-      top: 0;
-      left: -1px;
-      display: block;
-      border-left: 23px solid white;
-      border-top: 23px solid transparent;
-      border-bottom: 23px solid transparent;
-      width: 0;
-      height: 0;
-      content: " ";
-    }
-
-    &::after{
-      z-index: 1;
-      position: absolute;
-      top: 0;
-      right: -23px;
-      display: block;
-      border-left: 23px solid #f0f0f0;
-      border-top: 23px solid transparent;
-      border-bottom: 23px solid transparent;
-      width: 0;
-      height: 0;
-      content: " ";
-    }*/
 
   }
 }

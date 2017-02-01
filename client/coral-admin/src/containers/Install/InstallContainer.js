@@ -3,22 +3,31 @@ import {connect} from 'react-redux';
 import styles from './style.css';
 import {nextStep, previousStep, goToStep} from '../../actions/install';
 import {Wizard, WizardNav} from 'coral-ui';
+import {Layout} from '../../components/ui/Layout';
 
 import InitialStep from './components/Steps/InitialStep';
 import AddOrganizationName from './components/Steps/AddOrganizationName';
+import CreateYourAccount from './components/Steps/CreateYourAccount';
+import InviteTeamMembers from './components/Steps/InviteTeamMembers';
+import FinalStep from './components/Steps/FinalStep';
 
 const InstallContainer = props => {
   const {nextStep, previousStep, goToStep, install} = props;
 
   return (
-    <div className={styles.Install}>
-      <h2>Welcome to the Coral Project</h2>
-      { install.step !== 0 ? <WizardNav goToStep={goToStep} items={wizardNavitems} currentStep={install.step}/> : null }
-      <Wizard currentStep={install.step} nextStep={nextStep} previousStep={previousStep} goToStep={goToStep}>
-        <InitialStep/>
-        <AddOrganizationName/>
-      </Wizard>
-    </div>
+    <Layout restricted={true}>
+      <div className={styles.Install}>
+        <h2>Welcome to the Coral Project</h2>
+        { install.step !== 0 ? <WizardNav goToStep={goToStep} items={wizardNavitems} currentStep={install.step}/> : null }
+        <Wizard currentStep={install.step} nextStep={nextStep} previousStep={previousStep} goToStep={goToStep}>
+          <InitialStep/>
+          <AddOrganizationName/>
+          <CreateYourAccount/>
+          <InviteTeamMembers/>
+          <FinalStep/>
+        </Wizard>
+      </div>
+    </Layout>
   );
 };
 
