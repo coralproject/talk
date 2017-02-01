@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import styles from './ModerationQueue.css';
 
 import ModerationKeysModal from 'components/ModerationKeysModal';
@@ -10,7 +10,7 @@ import translations from '../../translations.json';
 
 const lang = new I18n(translations);
 
-export default (props) => (
+const ModerationQueue = (props) => (
   <div>
     <div className='mdl-tabs'>
       <div className={`mdl-tabs__tab-bar ${styles.tabBar}`}>
@@ -23,15 +23,18 @@ export default (props) => (
         >
           {lang.t('modqueue.all')}
         </a>
-        <a href='#pending'
-           onClick={(e) => {
-             e.preventDefault();
-             props.onTabClick('pending');
-           }}
-           className={`mdl-tabs__tab ${styles.tab} ${props.activeTab === 'pending' ? styles.active : ''}`}
-        >
-          {lang.t('modqueue.pending')}
-        </a>
+        {
+          props.enablePremodTab
+          ? <a href='#premod'
+             onClick={(e) => {
+               e.preventDefault();
+               props.onTabClick('premod');
+             }}
+             className={`mdl-tabs__tab ${styles.tab} ${props.activeTab === 'premod' ? styles.active : ''}`}>
+            {lang.t('modqueue.premod')}
+          </a>
+          : null
+        }
         <a href='#account'
           onClick={(e) => {
             e.preventDefault();
@@ -87,33 +90,38 @@ export default (props) => (
           </div>
         }
       </div>
-      <div className={`mdl-tabs__panel is-active ${styles.listContainer}`} id='pending'>
-        {
-          props.activeTab === 'pending' &&
-          <div>
-            <ModerationList
-              suspectWords={props.settings.settings.wordlist.suspect}
-              isActive={props.activeTab === 'pending'}
-              singleView={props.singleView}
-              commentIds={props.premodIds}
-              comments={props.comments.byId}
-              users={props.users.byId}
-              actions={props.actions.byId}
-              userStatusUpdate={props.userStatusUpdate}
-              suspendUser={props.suspendUser}
-              updateCommentStatus={props.updateStatus}
-              onClickShowBanDialog={props.showBanUserDialog}
-              modActions={['reject', 'approve', 'ban']}
-              loading={props.comments.loading}/>
-            <BanUserDialog
-              open={props.comments.showBanUserDialog}
-              handleClose={props.hideBanUserDialog}
-              onClickBanUser={props.userStatusUpdate}
-              user={props.comments.banUser}
-            />
-          </div>
-        }
-      </div>
+      {
+        props.enablePremodTab
+        ? <div className={`mdl-tabs__panel is-active ${styles.listContainer}`} id='premod'>
+          {
+            props.activeTab === 'premod' &&
+            <div>
+              <ModerationList
+                suspectWords={props.settings.settings.wordlist.suspect}
+                isActive={props.activeTab === 'premod'}
+                singleView={props.singleView}
+                commentIds={props.premodIds}
+                comments={props.comments.byId}
+                users={props.users.byId}
+                actions={props.actions.byId}
+                userStatusUpdate={props.userStatusUpdate}
+                suspendUser={props.suspendUser}
+                updateCommentStatus={props.updateStatus}
+                onClickShowBanDialog={props.showBanUserDialog}
+                modActions={['reject', 'approve', 'ban']}
+                loading={props.comments.loading}/>
+              <BanUserDialog
+                open={props.comments.showBanUserDialog}
+                handleClose={props.hideBanUserDialog}
+                onClickBanUser={props.userStatusUpdate}
+                user={props.comments.banUser}
+              />
+            </div>
+          }
+        </div>
+        : null
+      }
+
       <div className={`mdl-tabs__panel ${styles.listContainer}`} id='account'>
         {
           props.activeTab === 'account' &&
@@ -196,3 +204,9 @@ export default (props) => (
     </div>
   </div>
 );
+
+ModerationQueue.propTypes = {
+  enablePremodTab: PropTypes.bool.isRequired
+};
+
+export default ModerationQueue;
