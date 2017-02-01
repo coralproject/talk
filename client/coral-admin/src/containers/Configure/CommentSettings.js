@@ -32,6 +32,10 @@ const updateModeration = (updateSettings, mod) => () => {
   updateSettings({moderation});
 };
 
+const updateEmailConfirmation = (updateSettings, verify) => () => {
+  updateSettings({requireEmailConfirmation: !verify});
+};
+
 const updateInfoBoxEnable = (updateSettings, infoBox) => () => {
   const infoBoxEnable = !infoBox;
   updateSettings({infoBoxEnable});
@@ -67,106 +71,123 @@ const CommentSettings = ({fetchingSettings, title, updateSettings, settingsError
     return <Card shadow="4"><Spinner/>Loading settings...</Card>;
   }
 
+  // just putting this here for shorthand below
+  const on = styles.enabledSetting;
+  const off = styles.disabledSetting;
+
   return (
     <div className={styles.commentSettingsSection}>
       <h3>{title}</h3>
-        <Card className={`${styles.configSetting} ${settings.moderation === 'PRE' ? styles.enabledSetting : styles.disabledSetting}`}>
-          <div className={styles.action}>
-            <Checkbox
-              onChange={updateModeration(updateSettings, settings.moderation)}
-              checked={settings.moderation === 'PRE'} />
-          </div>
-          <div className={styles.content}>
+      <Card className={`${styles.configSetting} ${settings.moderation === 'PRE' ? on : off}`}>
+        <div className={styles.action}>
+          <Checkbox
+            onChange={updateModeration(updateSettings, settings.moderation)}
+            checked={settings.moderation === 'PRE'} />
+        </div>
+        <div className={styles.content}>
           <div className={styles.settingsHeader}>{lang.t('configure.enable-pre-moderation')}</div>
           <p className={settings.moderation === 'PRE' ? '' : styles.disabledSettingText}>
             {lang.t('configure.enable-pre-moderation-text')}
           </p>
         </div>
-        </Card>
-        <Card className={`${styles.configSetting} ${settings.charCountEnable ? styles.enabledSetting : styles.disabledSetting}`}>
-          <div className={styles.action}>
-            <Checkbox
-              onChange={updateCharCountEnable(updateSettings, settings.charCountEnable)}
-              checked={settings.charCountEnable} />
-          </div>
-          <div className={styles.content}>
-            <div className={styles.settingsHeader}>{lang.t('configure.comment-count-header')}</div>
-            <p className={settings.charCountEnable ? '' : styles.disabledSettingText}>
-              <span>{lang.t('configure.comment-count-text-pre')}</span>
-              <input type='text'
-                className={`${styles.charCountTexfield} ${settings.charCountEnable && styles.charCountTexfieldEnabled}`}
-                htmlFor='charCount'
-                onChange={updateCharCount(updateSettings, settingsError)}
-                value={settings.charCount}/>
-              <span>{lang.t('configure.comment-count-text-post')}</span>
-                {
-                  errors.charCount &&
-                  <span className={styles.settingsError}>
-                    <br/>
-                    <Icon name="error_outline"/>
-                    {lang.t('configure.comment-count-error')}
-                  </span>
-                }
-            </p>
-          </div>
-        </Card>
-        <Card className={`${styles.configSettingInfoBox} ${settings.infoBoxEnable ? styles.enabledSetting : styles.disabledSetting}`}>
-          <div className={styles.action}>
-            <Checkbox
-              onChange={updateInfoBoxEnable(updateSettings, settings.infoBoxEnable)}
-              checked={settings.infoBoxEnable} />
-          </div>
-          <div className={styles.content}>
-            {lang.t('configure.include-comment-stream')}
-            <p>
-              {lang.t('configure.include-comment-stream-desc')}
-            </p>
-            <div className={`${styles.configSettingInfoBox} ${settings.infoBoxEnable ? null : styles.hidden}`} >
-              <div className={styles.content}>
-                <Textfield
-                  onChange={updateInfoBoxContent(updateSettings)}
-                  value={settings.infoBoxContent}
-                  label={lang.t('configure.include-text')}
-                  rows={3}/>
-              </div>
+      </Card>
+      <Card className={`${styles.configSetting} ${settings.requireEmailConfirmation ? on : off}`}>
+        <div className={styles.action}>
+          <Checkbox
+            onChange={updateEmailConfirmation(updateSettings, settings.requireEmailConfirmation)}
+            checked={settings.requireEmailConfirmation} />
+        </div>
+        <div className={styles.content}>
+          <div className={styles.settingsHeader}>{lang.t('configure.require-email-verification')}</div>
+          <p className={settings.requireEmailConfirmation ? '' : styles.disabledSettingText}>
+            {lang.t('configure.require-email-verification-text')}
+          </p>
+        </div>
+      </Card>
+      <Card className={`${styles.configSetting} ${settings.charCountEnable ? on : off}`}>
+        <div className={styles.action}>
+          <Checkbox
+            onChange={updateCharCountEnable(updateSettings, settings.charCountEnable)}
+            checked={settings.charCountEnable} />
+        </div>
+        <div className={styles.content}>
+          <div className={styles.settingsHeader}>{lang.t('configure.comment-count-header')}</div>
+          <p className={settings.charCountEnable ? '' : styles.disabledSettingText}>
+            <span>{lang.t('configure.comment-count-text-pre')}</span>
+            <input type='text'
+              className={`${styles.charCountTexfield} ${settings.charCountEnable && styles.charCountTexfieldEnabled}`}
+              htmlFor='charCount'
+              onChange={updateCharCount(updateSettings, settingsError)}
+              value={settings.charCount}/>
+            <span>{lang.t('configure.comment-count-text-post')}</span>
+              {
+                errors.charCount &&
+                <span className={styles.settingsError}>
+                  <br/>
+                  <Icon name="error_outline"/>
+                  {lang.t('configure.comment-count-error')}
+                </span>
+              }
+          </p>
+        </div>
+      </Card>
+      <Card className={`${styles.configSettingInfoBox} ${settings.infoBoxEnable ? on : off}`}>
+        <div className={styles.action}>
+          <Checkbox
+            onChange={updateInfoBoxEnable(updateSettings, settings.infoBoxEnable)}
+            checked={settings.infoBoxEnable} />
+        </div>
+        <div className={styles.content}>
+          {lang.t('configure.include-comment-stream')}
+          <p>
+            {lang.t('configure.include-comment-stream-desc')}
+          </p>
+          <div className={`${styles.configSettingInfoBox} ${settings.infoBoxEnable ? null : styles.hidden}`} >
+            <div className={styles.content}>
+              <Textfield
+                onChange={updateInfoBoxContent(updateSettings)}
+                value={settings.infoBoxContent}
+                label={lang.t('configure.include-text')}
+                rows={3}/>
             </div>
           </div>
-        </Card>
-        <Card className={styles.configSettingInfoBox}>
-          <div className={styles.content}>
-            {lang.t('configure.closed-comments-desc')}
-            <div>
-            <Textfield
-              onChange={updateClosedMessage(updateSettings)}
-              value={settings.closedMessage}
-              label={lang.t('configure.closed-comments-label')}
-              rows={3}/>
-            </div>
+        </div>
+      </Card>
+      <Card className={styles.configSettingInfoBox}>
+        <div className={styles.content}>
+          {lang.t('configure.closed-comments-desc')}
+          <div>
+          <Textfield
+            onChange={updateClosedMessage(updateSettings)}
+            value={settings.closedMessage}
+            label={lang.t('configure.closed-comments-label')}
+            rows={3}/>
           </div>
-        </Card>
-        <Card className={`${styles.configSettingInfoBox}`}>
-          <div className={styles.content}>
-            {lang.t('configure.close-after')}
-            <br />
-            <Textfield
-              type='number'
-              pattern='[0-9]+'
-              style={{width: 50}}
-              onChange={updateClosedTimeout(updateSettings, settings.closedTimeout)}
-              value={getTimeoutAmount(settings.closedTimeout)}
-              label={lang.t('configure.closed-comments-label')} />
-            <div className={styles.configTimeoutSelect}>
-              <SelectField
-                label="comments closed time window"
-                value={getTimeoutMeasure(settings.closedTimeout)}
-                onChange={updateClosedTimeout(updateSettings, settings.closedTimeout, true)}>
-                <Option value={'hours'}>{lang.t('configure.hours')}</Option>
-                <Option value={'days'}>{lang.t('configure.days')}</Option>
-                <Option value={'weeks'}>{lang.t('configure.weeks')}</Option>
-              </SelectField>
-            </div>
+        </div>
+      </Card>
+      <Card className={`${styles.configSettingInfoBox}`}>
+        <div className={styles.content}>
+          {lang.t('configure.close-after')}
+          <br />
+          <Textfield
+            type='number'
+            pattern='[0-9]+'
+            style={{width: 50}}
+            onChange={updateClosedTimeout(updateSettings, settings.closedTimeout)}
+            value={getTimeoutAmount(settings.closedTimeout)}
+            label={lang.t('configure.closed-comments-label')} />
+          <div className={styles.configTimeoutSelect}>
+            <SelectField
+              label="comments closed time window"
+              value={getTimeoutMeasure(settings.closedTimeout)}
+              onChange={updateClosedTimeout(updateSettings, settings.closedTimeout, true)}>
+              <Option value={'hours'}>{lang.t('configure.hours')}</Option>
+              <Option value={'days'}>{lang.t('configure.days')}</Option>
+              <Option value={'weeks'}>{lang.t('configure.weeks')}</Option>
+            </SelectField>
           </div>
-        </Card>
+        </div>
+      </Card>
     </div>
   );
 };
