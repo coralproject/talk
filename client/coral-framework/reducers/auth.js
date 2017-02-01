@@ -12,6 +12,9 @@ const initialState = Map({
   error: '',
   passwordRequestSuccess: null,
   passwordRequestFailure: null,
+  emailConfirmationFailure: false,
+  emailConfirmationLoading: false,
+  emailConfirmationSuccess: false,
   successSignUp: false
 });
 
@@ -34,6 +37,9 @@ export default function auth (state = initialState, action) {
       error: '',
       passwordRequestFailure: null,
       passwordRequestSuccess: null,
+      emailConfirmationFailure: false,
+      emailConfirmationSuccess: false,
+      emailConfirmationLoading: false,
       successSignUp: false
     }));
   case actions.SHOW_CREATEDISPLAYNAME_DIALOG :
@@ -120,6 +126,16 @@ export default function auth (state = initialState, action) {
   case actions.UPDATE_DISPLAYNAME:
     return state
       .merge({'user': {'displayName': action.displayName}});
+  case actions.EMAIL_CONFIRM_ERROR:
+    return state
+      .set('emailConfirmationFailure', true)
+      .set('emailConfirmationLoading', false);
+  case actions.CONFIRM_EMAIL_REQUEST:
+    return state.set('emailConfirmationLoading', true);
+  case actions.CONFIRM_EMAIL_SUCCESS:
+    return state
+      .set('emailConfirmationSuccess', true)
+      .set('emailConfirmationLoading', false);
   default :
     return state;
   }

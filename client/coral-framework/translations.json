@@ -14,6 +14,7 @@
       "checkTheForm": "Invalid Form. Please, check the fields"
     },
     "error": {
+      "emailNotVerified": "Email address {0} not verified.",
       "email": "Not a valid E-Mail",
       "password": "Password must be at least 8 characters",
       "displayName": "Display names can contain letters, numbers and _ only",
@@ -44,6 +45,7 @@
       "checkTheForm": "Formulario Invalido. Por favor, verifica los campos"
     },
     "error": {
+      "emailNotVerified": "Dirección de correo electrónico {0} no verificada.",
       "email": "No es un email válido",
       "password": "La contraseña debe tener por lo menos 8 caracteres",
       "displayName": "Los nombres pueden contener letras, números y _",

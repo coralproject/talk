@@ -1,0 +1,48 @@
+.formField {
+    margin-top: 15px;
+}
+
+.formField label {
+    font-size: 1.08em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.formField input {
+    width: 100%;
+    display: block;
+    border: none;
+    outline: none;
+    border: 1px solid rgba(0,0,0,.12);
+    padding: 10px 6px;
+    box-sizing: border-box;
+    border-radius: 2px;
+    margin: 5px auto;
+}
+
+input.error{
+    border: solid 2px #f44336;
+}
+
+.errorMsg, .hint {
+    color: grey;
+    font-weight: 600;
+    padding: 3px 0 16px;
+}
+
+.attention {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background: #B71C1C;
+    color: #FFEBEE;
+    font-weight: bolder;
+    padding: 4px;
+    vertical-align: middle;
+    border-radius: 20px;
+    box-sizing: border-box;
+    font-size: 9px;
+    line-height: 7px;
+    text-align: center;
+    margin-right: 5px;
+}

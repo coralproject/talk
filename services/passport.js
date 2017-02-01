@@ -3,6 +3,7 @@ const UsersService = require('./users');
 const SettingsService = require('./settings');
 const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
+const errors = require('../errors');
 
 //==============================================================================
 // SESSION SERIALIZATION
@@ -34,7 +35,7 @@ function ValidateUserLogin(loginProfile, user, done) {
   }
 
   if (user.disabled) {
-    return done(null, false, {message: 'Account disabled'});
+    return done(new errors.ErrAuthentication('Account disabled'));
   }
 
   // If the user isn't a local user (i.e., a social user).
@@ -61,7 +62,7 @@ function ValidateUserLogin(loginProfile, user, done) {
       // If the profile doesn't have a metadata field, or it does not have a
       // confirmed_at field, or that field is null, then send them back.
       if (!profile.metadata || !profile.metadata.confirmed_at || profile.metadata.confirmed_at === null) {
-        return done(null, false, {message: `Email address ${loginProfile.id} not verified.`});
+        return done(new errors.ErrAuthentication(loginProfile.id));
       }
     }
 
