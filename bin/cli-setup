@@ -1,0 +1,88 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+const program = require('./commander');
+const inquirer = require('inquirer');
+const mongoose = require('../services/mongoose');
+const SettingModel = require('../models/setting');
+const SettingsService = require('../services/settings');
+const util = require('../util');
+
+// Register the shutdown criteria.
+util.onshutdown([
+  () => mongoose.disconnect()
+]);
+
+//==============================================================================
+// Setting up the program command line arguments.
+//==============================================================================
+
+program
+  .description('runs the setup wizard to setup the application')
+  .option('--defaults', 'apply defaults for config instead of prompting')
+  .parse(process.argv);
+
+//==============================================================================
+// Setup the application
+//==============================================================================
+
+SettingsService
+  .init()
+  .then((settings) => {
+    if (program.defaults) {
+      return settings.save();
+    }
+
+    console.log('We\'ll ask you some questions in order to setup your installation of Talk.\n');
+
+    return inquirer.prompt([
+      {
+        type: 'input',
+        name: 'organizationName',
+        message: 'Organization Name',
+        default: settings.organizationName,
+        validate: (input) => {
+          if (input && input.length > 0) {
+            return true;
+          }
+
+          return 'Organization Name is required.';
+        }
+      },
+      {
+        type: 'list',
+        choices: SettingModel.MODERATION_OPTIONS,
+        name: 'moderation',
+        default: settings.moderation,
+        message: 'Select a moderation mode'
+      },
+      {
+        type: 'confirm',
+        name: 'requireEmailConfirmation',
+        default: settings.requireEmailConfirmation,
+        message: 'Should emails always be confirmed'
+      }
+    ])
+    .then((answers) => {
+
+      // Update the settings that were changed.
+      Object.keys(answers).forEach((key) => {
+        if (answers[key] !== undefined) {
+          settings[key] = answers[key];
+        }
+      });
+
+      return settings.save();
+    });
+  })
+  .then(() => {
+    console.log('Talk is now installed!');
+    util.shutdown();
+  })
+  .catch((err) => {
+    console.error(err);
+    util.shutdown(1);
+  });
