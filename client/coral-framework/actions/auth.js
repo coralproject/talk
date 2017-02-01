@@ -22,8 +22,8 @@ export const createDisplayName = (userId, formData) => dispatch => {
       dispatch(hideCreateDisplayNameDialog());
       dispatch(updateDisplayName(formData.displayName));
     })
-    .catch(() => {
-      dispatch(createDisplayNameFailure(lang.t('createdisplay.errorCreate')));
+    .catch(error => {
+      dispatch(createDisplayNameFailure(lang.t(`error.${error.message}`)));
     });
 };
 
