@@ -7,7 +7,7 @@ const User = {
     // If the user is not an admin, only return comment list for the owner of
     // the comments.
     if (user && (user.hasRoles('ADMIN') || user.id === id)) {
-      return Comments.getByAuthorID.load(id);
+      return Comments.getByQuery({author_id: id});
     }
 
     return null;
