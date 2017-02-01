@@ -11,7 +11,8 @@
       "save": "Save",
       "requiredField": "Required field",
       "errorCreate": "Error when changing display name",
-      "checkTheForm": "Invalid Form. Please, check the fields"
+      "checkTheForm": "Invalid Form. Please, check the fields",
+      "specialCharacters": "Display names can contain letters, numbers and _ only"
     },
     "error": {
       "emailNotVerified": "Email address {0} not verified.",
@@ -42,7 +43,9 @@
       "displayName": "Nombre a mostrar",
       "save": "Guardar",
       "requiredField": "Campo necesario",
-      "checkTheForm": "Formulario Invalido. Por favor, verifica los campos"
+      "errorCreate": "Hubo un error al cambiar el nombre de usuario",
+      "checkTheForm": "Formulario Invalido. Por favor, verifica los campos",
+      "specialCharacters": "Sólo pueden contener letras, números y _"
     },
     "error": {
       "emailNotVerified": "Dirección de correo electrónico {0} no verificada.",

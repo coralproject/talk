@@ -28,6 +28,7 @@ const CreateDisplayNameDialog = ({open, handleClose, offset, formData, handleSub
         <p>{lang.t('createdisplay.yourusername')}</p>
         { props.auth.error && <Alert>{props.auth.error}</Alert> }
         <form id="saveDisplayName" onSubmit={handleSubmitDisplayName}>
+          { props.errors.displayName && <span className={styles.hint}> {lang.t('createdisplay.specialCharacters')} </span> }
           <FormField
             id="displayName"
             type="string"

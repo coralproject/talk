@@ -38,12 +38,6 @@ class ChangeDisplayNameContainer extends Component {
 
   componentDidMount() {
     window.authCallback = this.props.facebookCallback;
-    const {formData} = this.state;
-    const errors = Object.keys(formData).reduce((map, prop) => {
-      map[prop] = lang.t('createdisplay.requiredField');
-      return map;
-    }, {});
-    this.setState({errors});
   }
 
   handleChange(e) {
