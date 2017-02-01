@@ -91,6 +91,7 @@ export const facebookCallback = (err, data) => dispatch => {
     const user = JSON.parse(data);
     dispatch(signInFacebookSuccess(user));
     dispatch(hideSignInDialog());
+    dispatch(showCreateDisplayNameDialog());
   } catch (err) {
     dispatch(signInFacebookFailure(err));
     return;
