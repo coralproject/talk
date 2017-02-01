@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 
 const Wizard = (props) => {
-  const {children, currentStep, nextStep, previousStep, goToStep, className = ''} = props;
+  const {children, currentStep, nextStep, previousStep, goToStep} = props;
   return (
     <section>
       {React.Children.toArray(children)
@@ -24,6 +24,6 @@ Wizard.propTypes = {
   nextStep: PropTypes.func.isRequired,
   previousStep: PropTypes.func.isRequired,
   goToStep: PropTypes.func.isRequired
-}
+};
 
 export default Wizard;
