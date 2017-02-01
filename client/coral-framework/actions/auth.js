@@ -12,6 +12,9 @@ export const createDisplayNameRequest = () => ({type: actions.CREATE_DISPLAYNAME
 export const showCreateDisplayNameDialog = () => ({type: actions.SHOW_CREATEDISPLAYNAME_DIALOG});
 export const hideCreateDisplayNameDialog = () => ({type: actions.HIDE_CREATEDISPLAYNAME_DIALOG});
 
+const createDisplayNameSuccess = () => ({type: actions.CREATEDISPLAYNAME_SUCCESS});
+const createDisplayNameFailure = error => ({type: actions.CREATEDISPLAYNAME_FAILURE, error});
+
 export const updateDisplayName = displayName => ({type: actions.UPDATE_DISPLAYNAME, displayName});
 
 export const createDisplayName = (userId, formData) => dispatch => {
@@ -26,9 +29,6 @@ export const createDisplayName = (userId, formData) => dispatch => {
       dispatch(createDisplayNameFailure(lang.t(`error.${error.message}`)));
     });
 };
-
-const createDisplayNameSuccess = () => ({type: actions.CREATEDISPLAYNAME_SUCCESS});
-const createDisplayNameFailure = error => ({type: actions.CREATEDISPLAYNAME_FAILURE, error});
 
 export const changeView = view => dispatch =>
   dispatch({

@@ -19,7 +19,7 @@ import Count from 'coral-plugin-comment-count/CommentCount';
 import CommentBox from 'coral-plugin-commentbox/CommentBox';
 import UserBox from '../../coral-sign-in/components/UserBox';
 import SignInContainer from '../../coral-sign-in/containers/SignInContainer';
-import ChangeDisplayNameContainer from '../../coral-framework/containers/ChangeDisplayNameContainer';
+import ChangeDisplayNameContainer from '../../coral-sign-in/containers/ChangeDisplayNameContainer';
 import SuspendedAccount from '../../coral-framework/components/SuspendedAccount';
 import SettingsContainer from '../../coral-settings/containers/SettingsContainer';
 import RestrictedContent from '../../coral-framework/components/RestrictedContent';

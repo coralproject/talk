@@ -1,5 +1,5 @@
 import React from 'react';
-import FormField from './FormField';
+import FormField from 'coral-ui/components/FormField';
 import Alert from './Alert';
 import Button from 'coral-ui/components/Button';
 import {Dialog} from 'coral-ui';
@@ -25,7 +25,7 @@ const CreateDisplayNameDialog = ({open, handleClose, offset, formData, handleSub
         </h1>
       </div>
       <div>
-        <p>{lang.t('createdisplay.yourusername')}</p>
+        <label htmlFor="displayName">{lang.t('createdisplay.yourusername')}</label>
         { props.auth.error && <Alert>{props.auth.error}</Alert> }
         <form id="saveDisplayName" onSubmit={handleSubmitDisplayName}>
           <FormField
@@ -35,7 +35,7 @@ const CreateDisplayNameDialog = ({open, handleClose, offset, formData, handleSub
             value={formData.displayName}
             onChange={handleChange}
           />
-          { props.errors.displayName && <span className={styles.hint}> {lang.t('createdisplay.specialCharacters')} </span> }
+        { props.errors.displayName && <span className={styles.hint}> {lang.t('createdisplay.specialCharacters')} </span> }
           <div className={styles.action}>
             <Button id="save" type="submit" className={styles.saveButton}>{lang.t('createdisplay.save')}</Button>
           </div>
