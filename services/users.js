@@ -174,7 +174,7 @@ module.exports = class UsersService {
    * @return {Promise}  rejected if the machine's sensibilites are offended
    */
   static isValidDisplayName(displayName) {
-    const onlyLettersNumbersUnderscore = /^[a-z0-9_]+$/;
+    const onlyLettersNumbersUnderscore = /^[A-Za-z0-9_]+$/;
 
     if (!displayName) {
       return Promise.reject(errors.ErrMissingDisplay);
