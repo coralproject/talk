@@ -4,11 +4,17 @@ machine:
   services:
     - docker
     - redis
+  environment:
+    PATH: "${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
 
 dependencies:
+  override:
+    - yarn
+  cache_directories:
+    - ~/.cache/yarn
   post:
     # Lint the project here, before tests are ran.
-    - npm run lint
+    - yarn lint
 
 database:
   post:
@@ -20,9 +26,9 @@ database:
 test:
   override:
     # Run the tests using the junit reporter.
-    - MOCHA_FILE=$CIRCLE_TEST_REPORTS/junit/test-results.xml NPM_PACKAGE_CONFIG_MOCHA_REPORTER=mocha-junit-reporter npm run test
+    - MOCHA_FILE=$CIRCLE_TEST_REPORTS/junit/test-results.xml MOCHA_REPORTER=mocha-junit-reporter yarn test
     # Run the e2e test suite
-    - E2E_REPORT_PATH=$CIRCLE_TEST_REPORTS/e2e npm run e2e
+    - E2E_REPORT_PATH=$CIRCLE_TEST_REPORTS/e2e yarn e2e
 
 deployment:
   release:
