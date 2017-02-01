@@ -118,7 +118,7 @@ const mapDispatchToProps = dispatch => {
     userStatusUpdate: (status, userId, commentId) => dispatch(userStatusUpdate(status, userId, commentId)).then(() => {
       dispatch(fetchModerationQueueComments());
     }),
-    suspendUser: (userId, subject, text) => dispatch(userStatusUpdate('suspended', userId))
+    suspendUser: (userId, subject, text) => dispatch(userStatusUpdate('BANNED', userId))
     .then(() => dispatch(sendNotificationEmail(userId, subject, text)))
     .then(() => dispatch(fetchModerationQueueComments()))
     ,
