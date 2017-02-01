@@ -92,14 +92,7 @@ class Comment extends React.Component {
         style={{marginLeft: depth * 30}}>
         <hr aria-hidden={true} />
         <AuthorName
-          author={comment.user}
-          addNotification={this.props.addNotification}
-          id={comment.id}
-          author_id={comment.user.id}
-          postAction={this.props.postAction}
-          showSignInDialog={this.props.showSignInDialog}
-          deleteAction={this.props.deleteAction}
-          currentUser={currentUser}/>
+          author={comment.user}/>
         <PubDate created_at={comment.created_at} />
         <Content body={comment.body} />
           <div className="commentActionsLeft">

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {Tooltip} from 'coral-ui';
-import FlagBio from '../coral-plugin-flags/FlagBio';
+
+// import {Tooltip} from 'coral-ui';
+// import FlagBio from '../coral-plugin-flags/FlagBio';
 const packagename = 'coral-plugin-author-name';
 
 export default class AuthorName extends Component {
@@ -29,7 +30,8 @@ export default class AuthorName extends Component {
 
   render () {
     const {author} = this.props;
-    const {showTooltip} = this.state;
+
+    // const {showTooltip} = this.state;
     return (
       <div
         className={`${packagename}-text`}
@@ -37,14 +39,17 @@ export default class AuthorName extends Component {
         onMouseLeave={this.handleMouseLeave}
       >
         {author && author.name}
-        { showTooltip && author.settings.bio && <Tooltip>
-            <div className={`${packagename}-bio`}>
-              {author.settings.bio}
-            </div>
-            <div className={`${packagename}-bio-flag`}>
-              <FlagBio  {...this.props}/>
-            </div>
-            </Tooltip>
+        {
+
+          // Hiding bio until moderation is addressed
+          // showTooltip && author.settings.bio && <Tooltip>
+          //   <div className={`${packagename}-bio`}>
+          //     {author.settings.bio}
+          //   </div>
+          //   <div className={`${packagename}-bio-flag`}>
+          //     <FlagBio  {...this.props}/>
+          //   </div>
+          //   </Tooltip>
         }
       </div>
     );
