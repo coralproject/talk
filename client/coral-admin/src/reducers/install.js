@@ -15,6 +15,9 @@ export default function auth (state = initialState, action) {
   case actions.PREVIOUS_STEP:
     return state
       .set('step', state.get('step') - 1);
+  case actions.GO_TO_STEP:
+    return state
+      .set('step', action.step);
   default :
     return state;
   }
