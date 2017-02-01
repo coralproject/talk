@@ -1,0 +1,30 @@
+.step {
+
+  p {
+    max-width: 450px;
+    margin: 10px auto 30px;
+  }
+
+  > button {
+    min-width: 140px;
+  }
+
+  form {
+    max-width: 300px;
+    margin: 30px auto;
+
+    label {
+      text-align: left;
+      display: block;
+    }
+
+    input {
+      border: solid 1px rgba(0, 0, 0, 0.23);
+      padding: 10px 2px;
+      border-radius: 3px;
+      width: 100%;
+      box-sizing: border-box;
+      margin: 10px 0;
+    }
+  }
+}

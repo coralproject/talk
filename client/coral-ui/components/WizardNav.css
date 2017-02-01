@@ -1,0 +1,109 @@
+.WizardNav {
+  ul {
+    list-style: none;
+  }
+
+  li {
+    border: solid 1px #DFDFDF;
+    background-color: #F0F0F0;
+    display: inline-block;
+    padding: 10px;
+    margin-right: 10px;
+    color: #A7A7A7;
+    position: relative;
+    padding-left: 40px;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &.active {
+      background-color: #FFFFFF;
+      color: #636363;
+      font-weight: 500;
+
+      span {
+        &::after {
+          border-color: transparent transparent transparent #FFFFFF;
+        }
+      }
+    }
+
+    span {
+      padding: 10px 20px;
+      margin-right: 10px;
+      position: absolute;
+      top: -1px;
+      right: -51px;
+      z-index: 10;
+
+      &::before {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        border: 23px solid #DFDFDF;
+        border-color: transparent transparent transparent #DFDFDF;
+        top: 0;
+        left: 0;
+      }
+
+      &::after {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        border: 23px solid white;
+        border-color: transparent transparent transparent #f0f0f0;
+        top: 0;
+        left: -1px;
+      }
+    }
+
+    &::before {
+      content: "";
+      display: inline-block;
+      position: absolute;
+      border: 23px solid #DFDFDF;
+      border-color: transparent transparent transparent #DFDFDF;
+      top: 0;
+      left: 0;
+    }
+
+    &::after {
+      content: "";
+      display: inline-block;
+      position: absolute;
+      border: 23px solid white;
+      border-color: transparent transparent transparent #fafafa;
+      top: 0;
+      left: -1px;
+    }
+/*
+    &::before {
+      position: absolute;
+      top: 0;
+      left: -1px;
+      display: block;
+      border-left: 23px solid white;
+      border-top: 23px solid transparent;
+      border-bottom: 23px solid transparent;
+      width: 0;
+      height: 0;
+      content: " ";
+    }
+
+    &::after{
+      z-index: 1;
+      position: absolute;
+      top: 0;
+      right: -23px;
+      display: block;
+      border-left: 23px solid #f0f0f0;
+      border-top: 23px solid transparent;
+      border-bottom: 23px solid transparent;
+      width: 0;
+      height: 0;
+      content: " ";
+    }*/
+
+  }
+}

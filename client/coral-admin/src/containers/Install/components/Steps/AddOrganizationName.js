@@ -1,17 +1,20 @@
 import React from 'react';
-// import styles from './style.css';
+import styles from './style.css';
 import {Button} from 'coral-ui';
 
 const InitialStep = props => {
-  const {nextStep, previousStep} = props;
+  const {nextStep} = props;
   return (
-    <div>
-      <h2>Welcome to the Coral Project</h2>
+    <div className={styles.step}>
       <p>
         Please tell us the name of your organization. This will appear in emails when
         inviting new team members
       </p>
-      <Button onClick={previousStep}>Go back</Button>
+      <form>
+        <label htmlFor='organizationName'>Organization name:</label>
+        <input type='text' name='organizationName' id='organizationName'/>
+        <Button cStyle='black' onClick={nextStep} full>Save</Button>
+      </form>
     </div>
   );
 };

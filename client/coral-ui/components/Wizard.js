@@ -3,7 +3,7 @@ import React, {PropTypes} from 'react';
 const Wizard = (props) => {
   const {children, currentStep, nextStep, previousStep, goToStep, className = ''} = props;
   return (
-    <div>
+    <section>
       {React.Children.toArray(children)
         .filter((child, i) => i === currentStep)
         .map((child, i) =>
@@ -15,7 +15,7 @@ const Wizard = (props) => {
               goToStep
             })
       )}
-    </div>
+    </section>
   );
 };
 

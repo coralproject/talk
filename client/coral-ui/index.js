@@ -15,3 +15,4 @@ export {default as Item} from './components/Item';
 export {default as Card} from './components/Card';
 export {default as Pager} from './components/Pager';
 export {default as Wizard} from './components/Wizard';
+export {default as WizardNav} from './components/WizardNav';
