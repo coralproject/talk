@@ -14,6 +14,8 @@ dependencies:
   cache_directories:
     - ~/.cache/yarn
   post:
+    # Build the static assets
+    - yarn build
     # Lint the project here, before tests are ran.
     - yarn lint
 
