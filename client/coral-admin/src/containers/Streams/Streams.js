@@ -38,12 +38,13 @@ class Streams extends Component {
   }
 
   onSearchChange = (e) => {
+    const search = e.target.value;
     this.setState((prevState) => {
-      prevState.search = e.target.value;
+      prevState.search = search;
       clearTimeout(prevState.timer);
       const fetchAssets = this.props.fetchAssets;
       prevState.timer = setTimeout(() => {
-        fetchAssets(0, limit, e.target.value, this.state.sort, this.state.filter);
+        fetchAssets(0, limit, search, this.state.sort, this.state.filter);
       }, 350);
       return prevState;
     });
