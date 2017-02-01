@@ -70,7 +70,7 @@ class i18n {
     };
 
     this.timeago = (time) => {
-      return this.timeagoInstance.format(time);
+      return this.timeagoInstance.format(new Date(time));
     };
   }
 }
