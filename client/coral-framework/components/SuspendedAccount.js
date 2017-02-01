@@ -4,8 +4,12 @@ import translations from 'coral-framework/translations.json';
 const lang = new I18n(translations);
 import styles from './RestrictedContent.css';
 
-export default () => (
+export default ({canEditName}) => (
   <div className={styles.message}>
-    <span>{lang.t('suspendedAccountMsg')}</span>
+    <span>{
+        canEditName ?
+        lang.t('editNameMsg')
+        : lang.t('bannedAccountMsg')
+      }</span>
   </div>
 );

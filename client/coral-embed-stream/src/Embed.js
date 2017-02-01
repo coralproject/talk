@@ -96,6 +96,8 @@ class Embed extends Component {
 
     const openStream = closedAt === null;
 
+    const banned = user && user.status === 'BANNED';
+
     const expandForLogin = showSignInDialog ? {
       minHeight: document.body.scrollHeight + 200
     } : {};
@@ -118,7 +120,11 @@ class Embed extends Component {
                          content={asset.settings.infoBoxContent}
                          enable={asset.settings.infoBoxEnable}
                        />
-                     <RestrictedContent restricted={false} restrictedComp={<SuspendedAccount />}>
+                     <RestrictedContent restricted={banned} restrictedComp={
+                         <SuspendedAccount
+                           canEditName={user && user.canEditName}
+                           />
+                       }>
                        {
                          user
                          ? <CommentBox
