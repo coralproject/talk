@@ -57,7 +57,16 @@ router.post('/:user_id/status', authorization.needed('ADMIN'), (req, res, next) 
     .catch(next);
 });
 
-router.post('/:user_id/email', authorization.needed('admin'), (req, res, next) => {
+router.post('/:user_id/username-enable', authorization.needed('ADMIN'), (req, res, next) => {
+  UsersService
+    .toggleUsernameEdit(req.params.user_id, true)
+    .then(() => {
+      res.status(204).end();
+    })
+    .catch(next);
+});
+
+router.post('/:user_id/email', authorization.needed('ADMIN'), (req, res, next) => {
   UsersService.findById(req.params.user_id)
     .then(user => {
       let localProfile = user.profiles.find((profile) => profile.provider === 'local');

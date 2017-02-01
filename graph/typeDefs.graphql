@@ -10,11 +10,6 @@ enum SORT_ORDER {
 # Date represented as an ISO8601 string.
 scalar Date
 
-type UserSettings {
-  # bio of the user.
-  bio: String
-}
-
 input CommentsQuery {
   # current status of a comment.
   statuses: [COMMENT_STATUS]
@@ -22,7 +17,7 @@ input CommentsQuery {
   # asset that a comment is on.
   asset_id: ID
 
-  # the parent of the comment that we want to retrive.
+  # the parent of the comment that we want to retrieve.
   parent_id: ID
 
   # comments returned will only be ones which have at least one action of this
@@ -61,8 +56,8 @@ type User {
   # the current roles of the user.
   roles: [USER_ROLES]
 
-  # settings for a user.
-  settings: UserSettings
+  # determines whether the user can edit their username
+  canEditName: Boolean
 
   # returns all comments based on a query.
   comments(query: CommentsQuery): [Comment]
@@ -205,11 +200,6 @@ input CreateActionInput {
   item_id: ID!
 }
 
-input UpdateUserSettingsInput {
-  # user bio
-  bio: String!
-}
-
 type RootMutation {
   # creates a comment on the asset.
   createComment(asset_id: ID!, parent_id: ID, body: String!): Comment
@@ -220,8 +210,6 @@ type RootMutation {
   # delete an action based on the action id.
   deleteAction(id: ID!): Boolean
 
-  # updates a user's settings, it will return if the query was successful.
-  updateUserSettings(settings: UpdateUserSettingsInput!): Boolean
 }
 
 schema {

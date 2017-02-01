@@ -613,4 +613,35 @@ module.exports = class UsersService {
     return UserModel.find({status: 'PENDING'});
   }
 
+  /**
+   * Gives the user the ability to edit their username.
+   * @param  {String} id the id of the user to be toggled.
+   * @param  {Boolean} canEditName sets whether the user can edit their name.
+   * @return {Promise}
+   */
+  static toggleUsernameEdit(id, canEditName) {
+    return UserModel.update({id}, {
+      $set: {canEditName}
+    });
+  }
+
+  /**
+   * Gives the user the ability to edit their username.
+   * @param  {String} id the id of the user to be enabled.
+   * @param  {String}  displayName The new displayname for the user.
+   * @return {Promise}
+   */
+  static editUsername(id, displayName) {
+    return UserModel.findOne({id})
+      .then((user) => {
+        return user.canEditName ?
+        UserModel.update({id}, {
+          $set: {
+            displayName: displayName.toLowerCase(),
+            canEditName: false
+          }
+        })
+        : Promise.reject(new Error('Display name editing disabled for this account.'));
+      });
+  }
 };

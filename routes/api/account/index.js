@@ -115,20 +115,13 @@ router.put('/password/reset', (req, res, next) => {
     });
 });
 
-router.put('/settings', authorization.needed(), (req, res, next) => {
-
-  const {
-    bio
-  } = req.body;
-
+router.put('/displayname', authorization.needed(), (req, res, next) => {
   UsersService
-    .updateSettings(req.user.id, {bio})
+    .editUsername(req.user.id, req.body.displayName)
     .then(() => {
       res.status(204).end();
     })
-    .catch((err) => {
-      next(err);
-    });
+    .catch(next);
 });
 
 module.exports = router;

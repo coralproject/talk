@@ -96,6 +96,12 @@ const UserSchema = new mongoose.Schema({
     default: 'ACTIVE'
   },
 
+  // Determines whether the user can edit their username.
+  canEditName: {
+    type: Boolean,
+    default: false
+  },
+
   // User's settings
   settings: {
     bio: {
