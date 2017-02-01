@@ -112,7 +112,7 @@ http://eslint.org/docs/rules/#best-practices
 
 ## Lint the code
 ```js
-npm run lint
+yarn lint
 ```
 
 
