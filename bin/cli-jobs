@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-const program = require('commander');
+const program = require('./commander');
 const scraper = require('../services/scraper');
 const mailer = require('../services/mailer');
 const util = require('../util');
