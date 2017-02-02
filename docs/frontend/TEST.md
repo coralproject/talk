@@ -71,10 +71,10 @@ The `pree2e`  script will create 3 users: a Commenter, a Moderator, and an Admin
 	
 ##  Run the tests
 Run Talk
-`dotenv npm run start`   
+`dotenv yarn start`   
 
 Run e2e tests   
-`npm run e2e` 	
+`yarn e2e` 	
 	
 
 ## Advanced Nightwatch and Selenium Settings	

@@ -27,7 +27,7 @@ Navigate to a directory.
 ```
 git clone https://github.com/coralproject/talk
 cd talk
-npm install
+yarn install
 ```
 
 ### Environmental Variables
@@ -42,7 +42,7 @@ Talk uses environmental variables for configuration. You can learn about them in
 Starting the server:
 
 ```
-npm start
+yarn start
 ```
 
 Browse to `http://localhost:3000` (or your custom port.)
@@ -54,13 +54,13 @@ Our build process will build all front end components registered [here](https://
 One time build:
 
 ```
-npm build
+yarn build
 ```
 
 Build, then rebuild when a file is updated (development build):
 
 ```
-npm build-watch
+yarn build-watch
 ```
 
 
@@ -69,13 +69,13 @@ npm build-watch
 Run all tests once:
 
 `
-npm test
+yarn test
 `
 
 Run our end to end tests (will install Selenium and nightwatch):
 
 `
-npm run e2e
+yarn e2e
 `
 
 _Please ensure all tests are passing before submitting a PR!_
