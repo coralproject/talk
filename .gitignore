@@ -12,4 +12,3 @@ dump.rdb
 *.cfg
 .idea/
 coverage/
-yarn.lock
