@@ -2,7 +2,6 @@ const _ = require('lodash');
 
 const Comment = require('./comment');
 const Action = require('./action');
-const User = require('./user');
 
 module.exports = (context) => {
 
@@ -10,7 +9,6 @@ module.exports = (context) => {
   return _.merge(...[
     Comment,
     Action,
-    User,
   ].map((mutators) => {
 
     // Each set of mutators is a function which takes the context.

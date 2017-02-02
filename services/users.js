@@ -619,7 +619,7 @@ module.exports = class UsersService {
    * @param  {Boolean} canEditName sets whether the user can edit their name.
    * @return {Promise}
    */
-  static toggleUsernameEdit(id, canEditName) {
+  static toggleNameEdit(id, canEditName) {
     return UserModel.update({id}, {
       $set: {canEditName}
     });
@@ -631,14 +631,15 @@ module.exports = class UsersService {
    * @param  {String}  displayName The new displayname for the user.
    * @return {Promise}
    */
-  static editUsername(id, displayName) {
+  static editName(id, displayName) {
     return UserModel.findOne({id})
       .then((user) => {
         return user.canEditName ?
         UserModel.update({id}, {
           $set: {
             displayName: displayName.toLowerCase(),
-            canEditName: false
+            canEditName: false,
+            status: 'PENDING'
           }
         })
         : Promise.reject(new Error('Display name editing disabled for this account.'));

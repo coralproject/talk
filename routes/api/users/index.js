@@ -59,7 +59,7 @@ router.post('/:user_id/status', authorization.needed('ADMIN'), (req, res, next) 
 
 router.post('/:user_id/username-enable', authorization.needed('ADMIN'), (req, res, next) => {
   UsersService
-    .toggleUsernameEdit(req.params.user_id, true)
+    .toggleNameEdit(req.params.user_id, true)
     .then(() => {
       res.status(204).end();
     })

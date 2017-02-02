@@ -146,7 +146,7 @@ const USER_GRAPH_OPERATIONS = [
   'mutation:createComment',
   'mutation:createAction',
   'mutation:deleteAction',
-  'mutation:updateUserSettings'
+  'mutation:editName'
 ];
 
 /**

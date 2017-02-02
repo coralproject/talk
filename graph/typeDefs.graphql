@@ -145,7 +145,7 @@ type Asset {
   # The scraped title of the asset.
   title: String
 
-  # The URL that the asset is locaed on.
+  # The URL that the asset is located on.
   url: String
 
   # The top level comments that are attached to the asset.

@@ -117,11 +117,17 @@ router.put('/password/reset', (req, res, next) => {
 
 router.put('/displayname', authorization.needed(), (req, res, next) => {
   UsersService
-    .editUsername(req.user.id, req.body.displayName)
+    .editName(req.user.id, req.body.displayName)
     .then(() => {
       res.status(204).end();
     })
-    .catch(next);
+    .catch(error => {
+      if (error.code === 11000) {
+        next(errors.ErrDisplayTaken);
+      } else {
+        next(error);
+      }
+    });
 });
 
 module.exports = router;

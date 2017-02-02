@@ -11,6 +11,7 @@ const {fetchAssetSuccess} = assetActions;
 
 import {queryStream} from 'coral-framework/graphql/queries';
 import {postComment, postAction, deleteAction} from 'coral-framework/graphql/mutations';
+import {editName} from 'coral-framework/actions/user';
 import {Notification, notificationActions, authActions, assetActions, pym} from 'coral-framework';
 
 import Stream from './Stream';
@@ -123,6 +124,7 @@ class Embed extends Component {
                      <RestrictedContent restricted={banned} restrictedComp={
                          <SuspendedAccount
                            canEditName={user && user.canEditName}
+                           editName={this.props.editName}
                            />
                        }>
                        {
@@ -200,6 +202,7 @@ const mapDispatchToProps = dispatch => ({
   loadAsset: (asset) => dispatch(fetchAssetSuccess(asset)),
   addNotification: (type, text) => dispatch(addNotification(type, text)),
   clearNotification: () => dispatch(clearNotification()),
+  editName: (displayName) => dispatch(editName(displayName)),
   showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),
   logout: () => dispatch(logout()),
   dispatch: d => dispatch(d)
