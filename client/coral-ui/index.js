@@ -20,3 +20,4 @@ export {default as Wizard} from './components/Wizard';
 export {default as WizardNav} from './components/WizardNav';
 export {default as Select} from './components/Select';
 export {default as Option} from './components/Option';
+export {default as SnackBar} from './components/SnackBar';

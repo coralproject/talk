@@ -14,30 +14,30 @@ export const fetchModerationQueueComments = () => {
     dispatch({type: commentTypes.COMMENTS_MODERATION_QUEUE_FETCH_REQUEST});
 
     return Promise.all([
-      coralApi('/queue/comments/pending'),
+      coralApi('/queue/comments/premod'),
       coralApi('/queue/users/pending'),
       coralApi('/queue/comments/rejected'),
       coralApi('/queue/comments/flagged')
     ])
-    .then(([pendingComments, pendingUsers, rejected, flagged]) => {
+    .then(([premodComments, pendingUsers, rejected, flagged]) => {
 
       /* Combine seperate calls into a single object */
       flagged.comments.forEach(comment => comment.flagged = true);
       return {
-        comments: [...pendingComments.comments, ...rejected.comments, ...flagged.comments],
-        users: [...pendingComments.users, ...pendingUsers.users, ...rejected.users, ...flagged.users],
-        actions: [...pendingComments.actions, ...pendingUsers.actions, ...rejected.actions, ...flagged.actions]
+        comments: [...premodComments.comments, ...rejected.comments, ...flagged.comments],
+        users: [...premodComments.users, ...pendingUsers.users, ...rejected.users, ...flagged.users],
+        actions: [...premodComments.actions, ...pendingUsers.actions, ...rejected.actions, ...flagged.actions]
       };
     })
     .then(addUsersCommentsActions.bind(this, dispatch));
   };
 };
 
-export const fetchPendingQueue = () => {
+export const fetchPremodQueue = () => {
   return dispatch => {
     dispatch({type: commentTypes.COMMENTS_MODERATION_QUEUE_FETCH_REQUEST});
 
-    return coralApi('/queue/comments/pending')
+    return coralApi('/queue/comments/premod')
       .then(addUsersCommentsActions.bind(this, dispatch));
   };
 };

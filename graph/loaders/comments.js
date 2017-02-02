@@ -73,7 +73,7 @@ const getCountsByParentID = (context, parent_ids) => {
  * @param  {Object} context   graph context
  * @param  {Object} query     query terms to apply to the comments query
  */
-const getCommentsByQuery = ({user}, {ids, statuses, asset_id, parent_id, limit, cursor, sort}) => {
+const getCommentsByQuery = ({user}, {ids, statuses, asset_id, parent_id, author_id, limit, cursor, sort}) => {
   let comments = CommentModel.find();
 
   // Only administrators can search for comments with statuses that are not
@@ -98,6 +98,10 @@ const getCommentsByQuery = ({user}, {ids, statuses, asset_id, parent_id, limit, 
         $in: ids
       }
     });
+  }
+
+  if (user && (user.hasRoles('ADMIN') || user.id === author_id) && author_id != null) {
+    comments = comments.where({author_id});
   }
 
   if (asset_id) {

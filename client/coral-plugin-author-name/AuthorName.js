@@ -1,51 +1,47 @@
 import React, {Component} from 'react';
 import {Tooltip} from 'coral-ui';
-import FlagBio from '../coral-plugin-flags/FlagBio';
+import FlagBio from 'coral-plugin-flags/FlagBio';
 const packagename = 'coral-plugin-author-name';
+import styles from './styles.css';
 
 export default class AuthorName extends Component {
-  constructor (props) {
-    super(props);
 
-    this.state = {
-      showTooltip: false
-    };
+  state = {showTooltip: false}
 
-    this.handleMouseOver = this.handleMouseOver.bind(this);
-    this.handleMouseLeave = this.handleMouseLeave.bind(this);
+  handleClick = () => {
+    this.setState(state => ({
+      showTooltip: !state.showTooltip
+    }));
   }
 
-  handleMouseOver () {
-    this.setState({
-      showTooltip: true
-    });
-  }
-
-  handleMouseLeave () {
-    this.setState({
-      showTooltip: false
-    });
+  handleMouseLeave = () => {
+    setTimeout(() => {
+      this.setState({
+        showTooltip: false
+      });
+    }, 500);
   }
 
   render () {
     const {author} = this.props;
     const {showTooltip} = this.state;
     return (
-      <div
-        className={`${packagename}-text`}
-        onMouseOver={this.handleMouseOver}
-        onMouseLeave={this.handleMouseLeave}
-      >
-        {author && author.name}
-        { showTooltip && author.settings.bio && <Tooltip>
+      <div className={`${packagename}-text ${styles.container}`} onClick={this.handleClick} onMouseLeave={this.handleMouseLeave}>
+        <a className={`${styles.authorName} ${author.settings.bio ? styles.hasBio : ''}`}>
+          {author && author.name}
+          {author.settings.bio ? <span className={`${styles.arrowDown} ${showTooltip ? styles.arrowUp : ''}`} /> : null}
+        </a>
+        {showTooltip && author.settings.bio
+          && (
+          <Tooltip>
             <div className={`${packagename}-bio`}>
               {author.settings.bio}
             </div>
             <div className={`${packagename}-bio-flag`}>
               <FlagBio  {...this.props}/>
             </div>
-            </Tooltip>
-        }
+          </Tooltip>
+        )}
       </div>
     );
   }

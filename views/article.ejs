@@ -28,6 +28,7 @@
 <script type='text/javascript' src='<%= basePath %>/pym.v1.min.js'></script>
 <script>
   var ready = false;
+  var notificationOffset = 200;
 
   // default to using the window.location
   var url = window.location.protocol + '//' + window.location.host + window.location.pathname;
@@ -38,7 +39,21 @@
   <%}%>
 
   var pymParent = new pym.Parent('coralStreamEmbed', '/embed/stream?asset_url=' + encodeURIComponent(url), {title: 'Talk Comments', id:'coralStreamIframe', name: 'coralStreamIframe', asset_url: url});
-  pymParent.onMessage('height', function(height) {document.querySelector('#coralStreamEmbed iframe').height = height + 'px'})
+  pymParent.onMessage('height', function(height) {
+    document.querySelector('#coralStreamEmbed iframe').height = height + 'px';
+  })
+
+
+  pymParent.onMessage('getPosition', function(notification) {
+    var position = viewport().height + document.body.scrollTop;
+
+    if (position > notificationOffset) {
+      position = position - notificationOffset;
+    }
+
+    pymParent.sendMessage('position', position);
+  });
+
   pymParent.onMessage('childReady', function () {
     var interval = setInterval(function () {
       if (ready) {
@@ -65,6 +80,15 @@
   document.addEventListener('DOMContentLoaded', function () {
     ready = true;
   });
+
+  function viewport() {
+    var e = window, a = 'inner';
+    if ( !( 'innerWidth' in window ) ){
+      a = 'client';
+      e = document.documentElement || document.body;
+    }
+  return { width : e[ a+'Width' ] , height : e[ a+'Height' ] }
+  }
 </script>
   </body>
 </html>
