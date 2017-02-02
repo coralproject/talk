@@ -174,7 +174,7 @@ module.exports = class UsersService {
    * @return {Promise}  rejected if the machine's sensibilites are offended
    */
   static isValidDisplayName(displayName) {
-    const onlyLettersNumbersUnderscore = /^[a-z0-9_]+$/;
+    const onlyLettersNumbersUnderscore = /^[A-Za-z0-9_]+$/;
 
     if (!displayName) {
       return Promise.reject(errors.ErrMissingDisplay);
@@ -187,6 +187,18 @@ module.exports = class UsersService {
 
     // check for profanity
     return Wordlist.displayNameCheck(displayName);
+  }
+
+  static isValidPassword(password) {
+    if (!password) {
+      return Promise.reject(errors.ErrMissingPassword);
+    }
+
+    if (password.length < 8) {
+      return Promise.reject(errors.ErrPasswordTooShort);
+    }
+
+    return Promise.resolve(password);
   }
 
   /**
@@ -205,15 +217,10 @@ module.exports = class UsersService {
     email = email.toLowerCase().trim();
     displayName = displayName.toLowerCase().trim();
 
-    if (!password) {
-      return Promise.reject(errors.ErrMissingPassword);
-    }
-
-    if (password.length < 8) {
-      return Promise.reject(errors.ErrPasswordTooShort);
-    }
-
-    return UsersService.isValidDisplayName(displayName)
+    return Promise.all([
+      UsersService.isValidDisplayName(displayName),
+      UsersService.isValidPassword(password)
+    ])
       .then(() => { // displayName is valid
         return new Promise((resolve, reject) => {
           bcrypt.hash(password, SALT_ROUNDS, (err, hashedPassword) => {
@@ -531,40 +538,51 @@ module.exports = class UsersService {
    * @param  {String} email The email that we are needing to get confirmed.
    * @return {Promise}
    */
-  static createEmailConfirmToken(userID, email) {
+  static createEmailConfirmToken(userID = null, email, referer = process.env.TALK_ROOT_URL) {
     if (!email || typeof email !== 'string') {
       return Promise.reject('email is required when creating a JWT for resetting passord');
     }
 
+    // Conform the email to lowercase.
     email = email.toLowerCase();
 
-    return UsersService
-      .findById(userID)
-      .then((user) => {
-        if (!user) {
-          return Promise.reject(new Error('user not found'));
-        }
+    const tokenOptions = {
+      jwtid: uuid.v4(),
+      algorithm: 'HS256',
+      expiresIn: '1d',
+      subject: EMAIL_CONFIRM_JWT_SUBJECT
+    };
 
-        // Get the profile representing the local account.
-        let profile = user.profiles.find((profile) => profile.id === email && profile.provider === 'local');
+    let userPromise;
 
-        // Ensure that the user email hasn't already been verified.
-        if (profile && profile.metadata && profile.metadata.confirmed_at) {
-          return Promise.reject(new Error('email address already confirmed'));
-        }
+    if (!userID) {
 
-        const payload = {
-          email,
-          userID
-        };
+      // If there is no userID, we're coming from the endpoint where a new user
+      // is re-requesting a confirmation email and we don't know the userID.
+      userPromise = UserModel.findOne({profiles: {$elemMatch: {id: email, provider: 'local'}}});
+    } else {
+      userPromise = UsersService.findById(userID);
+    }
 
-        return jwt.sign(payload, process.env.TALK_SESSION_SECRET, {
-          jwtid: uuid.v4(),
-          algorithm: 'HS256',
-          expiresIn: '1d',
-          subject: EMAIL_CONFIRM_JWT_SUBJECT
-        });
-      });
+    return userPromise.then((user) => {
+      if (!user) {
+        return Promise.reject(errors.ErrNotFound);
+      }
+
+      // Get the profile representing the local account.
+      let profile = user.profiles.find((profile) => profile.id === email && profile.provider === 'local');
+
+      // Ensure that the user email hasn't already been verified.
+      if (profile && profile.metadata && profile.metadata.confirmed_at) {
+        return Promise.reject(new Error('email address already confirmed'));
+      }
+
+      return jwt.sign({
+        email,
+        referer,
+        userID: user.id
+      }, process.env.TALK_SESSION_SECRET, tokenOptions);
+    });
   }
 
   /**
@@ -579,8 +597,7 @@ module.exports = class UsersService {
       .verifyToken(token, {
         subject: EMAIL_CONFIRM_JWT_SUBJECT
       })
-      .then(({userID, email}) => {
-
+      .then(({userID, email, referer}) => {
         return UserModel
           .update({
             id: userID,
@@ -594,8 +611,10 @@ module.exports = class UsersService {
             $set: {
               'profiles.$.metadata.confirmed_at': new Date()
             }
-          });
+          })
+          .then(() => ({userID, email, referer}));
       });
+
   }
 
   /**

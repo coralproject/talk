@@ -5,6 +5,7 @@
     "contentNotAvailable": "This content is not available",
     "suspendedAccountMsg": "Your account is currently suspended. This means that you cannot Like, Flag, or write comments. Please contact moderator@fakeurl.com for more information",
     "error": {
+      "emailNotVerified": "Email address {0} not verified.",
       "email": "Not a valid E-Mail",
       "password": "Password must be at least 8 characters",
       "displayName": "Display names can contain letters, numbers and _ only",
@@ -27,6 +28,7 @@
     "contentNotAvailable": "El contenido no se encuentra disponible",
     "suspendedAccountMsg": "Tu cuenta se encuentra suspendida. Esto significa que no puedes dar Like, Marcar o escribir commentarios. Por favor, contacta moderator@fakeurl for more information",
     "error": {
+      "emailNotVerified": "Dirección de correo electrónico {0} no verificada.",
       "email": "No es un email válido",
       "password": "La contraseña debe tener por lo menos 8 caracteres",
       "displayName": "Los nombres pueden contener letras, números y _",

@@ -16,6 +16,7 @@ import {
   hideSignInDialog,
   fetchSignInFacebook,
   fetchForgotPassword,
+  requestConfirmEmail,
   facebookCallback,
   invalidForm,
   validForm,
@@ -30,6 +31,7 @@ class SignInContainer extends Component {
       password: '',
       confirmPassword: ''
     },
+    emailToBeResent: '',
     errors: {},
     showErrors: false
   };
@@ -38,9 +40,10 @@ class SignInContainer extends Component {
     super(props);
     this.state = this.initialState;
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeEmail = this.handleChangeEmail.bind(this);
+    this.handleResendConfirmation = this.handleResendConfirmation.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleSignIn = this.handleSignIn.bind(this);
-    this.handleClose = this.handleClose.bind(this);
     this.addError = this.addError.bind(this);
   }
 
@@ -69,6 +72,23 @@ class SignInContainer extends Component {
     }), () => {
       this.validation(name, value);
     });
+  }
+
+  handleChangeEmail(e) {
+    const {value} = e.target;
+    this.setState({emailToBeResent: value});
+  }
+
+  handleResendConfirmation(e) {
+    e.preventDefault();
+    this.props.requestConfirmEmail(this.state.emailToBeResent)
+      .then(() => {
+        setTimeout(() => {
+
+          // allow success UI to be shown for a second, and then close the modal
+          this.props.handleClose();
+        }, 2500);
+      });
   }
 
   addError(name, error) {
@@ -124,12 +144,9 @@ class SignInContainer extends Component {
     this.props.fetchSignIn(this.state.formData);
   }
 
-  handleClose() {
-    this.props.hideSignInDialog();
-  }
-
   render() {
     const {auth, showSignInDialog, noButton, offset} = this.props;
+    const {emailConfirmationLoading, emailConfirmationSuccess} = auth;
     return (
       <div>
         {!noButton && <Button id='coralSignInButton' onClick={showSignInDialog} full>
@@ -139,6 +156,8 @@ class SignInContainer extends Component {
           open={auth.showSignInDialog}
           view={auth.view}
           offset={offset}
+          emailConfirmationLoading={emailConfirmationLoading}
+          emailConfirmationSuccess={emailConfirmationSuccess}
           {...this}
           {...this.state}
           {...this.props}
@@ -159,6 +178,7 @@ const mapDispatchToProps = dispatch => ({
   fetchSignIn: formData => dispatch(fetchSignIn(formData)),
   fetchSignInFacebook: () => dispatch(fetchSignInFacebook()),
   fetchForgotPassword: formData => dispatch(fetchForgotPassword(formData)),
+  requestConfirmEmail: email => dispatch(requestConfirmEmail(email)),
   showSignInDialog: () => dispatch(showSignInDialog()),
   changeView: view => dispatch(changeView(view)),
   handleClose: () => dispatch(hideSignInDialog()),

@@ -5,7 +5,7 @@ import isEqual from 'lodash/isEqual';
 
 import {TabBar, Tab, TabContent, Spinner} from 'coral-ui';
 
-const {logout, showSignInDialog} = authActions;
+const {logout, showSignInDialog, requestConfirmEmail} = authActions;
 const {addNotification, clearNotification} = notificationActions;
 const {fetchAssetSuccess} = assetActions;
 
@@ -181,6 +181,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  requestConfirmEmail: () => dispatch(requestConfirmEmail()),
   loadAsset: (asset) => dispatch(fetchAssetSuccess(asset)),
   addNotification: (type, text) => {
     pym.sendMessage('getPosition');
