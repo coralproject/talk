@@ -13,7 +13,7 @@
     position: relative;
     padding-left: 40px;
     border-radius: 1px;
-    
+
     &:hover {
       cursor: pointer;
     }
@@ -27,6 +27,10 @@
           border-color: transparent transparent transparent #00796B;
         }
       }
+
+      i {
+        opacity: 1;
+      }
     }
 
     &.active {
@@ -39,6 +43,15 @@
           border-color: transparent transparent transparent #FFFFFF;
         }
       }
+    }
+
+    i {
+      transition: opacity 0.2s ease;
+      opacity: 0;
+      vertical-align: middle;
+      font-size: 16px;
+      margin-top: -5px;
+      margin-left: 8px;
     }
 
     span {

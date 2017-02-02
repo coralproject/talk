@@ -1,0 +1,33 @@
+.Select {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  background: #2c2c2c;
+  padding: 10px 15px;
+  box-sizing: border-box;
+  color: white;
+  border-radius: 2px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+
+  > div {
+    padding: 0;
+  }
+
+  i {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+  }
+
+  input {
+    padding: 0;
+    font-size: 13px;
+    letter-spacing: 0.7px;
+    font-weight: 400;
+  }
+
+  &:hover {
+    cursor: pointer;
+   }
+
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './style.css';
-import {Button} from 'coral-ui';
+import {FormField, Button} from 'coral-ui';
 
 const InitialStep = props => {
   const {nextStep} = props;
@@ -10,11 +10,16 @@ const InitialStep = props => {
         Please tell us the name of your organization. This will appear in emails when
         inviting new team members
       </p>
-      <form>
-        <label htmlFor='organizationName'>Organization name:</label>
-        <input type='text' name='organizationName' id='organizationName'/>
-        <Button cStyle='black' onClick={nextStep} full>Save</Button>
-      </form>
+      <div className={styles.form}>
+        <form onSubmit={() => {}}>
+          <FormField
+            className={styles.FormField}
+            id="organizationName"
+            type="text"
+            label='Organization name' required/>
+          <Button cStyle='black' full>Save</Button>
+        </form>
+      </div>
     </div>
   );
 };

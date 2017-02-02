@@ -18,7 +18,7 @@ const InstallContainer = props => {
     <Layout restricted={true}>
       <div className={styles.Install}>
         <h2>Welcome to the Coral Project</h2>
-        { install.step !== 0 ? <WizardNav goToStep={goToStep} items={wizardNavitems} currentStep={install.step}/> : null }
+        { install.step !== 0 ? <WizardNav goToStep={goToStep} items={wizardNavitems} currentStep={install.step} icon='check'/> : null }
         <Wizard currentStep={install.step} nextStep={nextStep} previousStep={previousStep} goToStep={goToStep}>
           <InitialStep/>
           <AddOrganizationName/>

@@ -11,7 +11,7 @@ const InitialStep = props => {
         Once you complete the following three steps, you will have a free
         installation and provision of Mongo and Redis.
       </p>
-      <Button cStyle='green' onClick={nextStep}>Get Started</Button>
+      <Button cStyle='green' onClick={nextStep} raised>Get Started</Button>
     </div>
   );
 };

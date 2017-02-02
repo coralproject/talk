@@ -1,8 +1,9 @@
 import React, {PropTypes} from 'react';
 import styles from './WizardNav.css';
+import Icon from './Icon';
 
 const WizardNav = props => {
-  const {goToStep, currentStep, items} = props;
+  const {goToStep, currentStep, items, icon} = props;
   return (
     <nav className={styles.WizardNav}>
       <ul>
@@ -12,7 +13,9 @@ const WizardNav = props => {
               key={i}
               className={`${currentStep === item.step ? styles.active : ''} ${item.step < currentStep ? styles.done : ''}`}
               onClick={() => goToStep(item.step)}>
-              {item.text}<span/>
+              {item.text}
+              {icon && <Icon name={icon} />}
+              <span/>
             </li>
           ))
         }

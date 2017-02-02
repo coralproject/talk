@@ -18,3 +18,5 @@ export {default as Success} from './components/Success';
 export {default as Pager} from './components/Pager';
 export {default as Wizard} from './components/Wizard';
 export {default as WizardNav} from './components/WizardNav';
+export {default as Select} from './components/Select';
+export {default as Option} from './components/Option';

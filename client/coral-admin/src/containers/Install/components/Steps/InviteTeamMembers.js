@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './style.css';
-import {Button} from 'coral-ui';
+import {Button, Select, Option, FormField} from 'coral-ui';
 
 const InviteTeamMembers = props => {
   const {nextStep} = props;
@@ -11,23 +11,32 @@ const InviteTeamMembers = props => {
         Once registered, new team members will receive an email to Create
         their password.
       </p>
-      <form>
-        <div className='formField'>
-          <label htmlFor='email'>Email address</label>
-          <input type='email' name='email' id='email'/>
-        </div>
-        <div className='formField'>
-          <label htmlFor='username'>Username</label>
-          <input type='text' name='username' id='username'/>
-        </div>
-        <div className='formField'>
-          <select>
-            <option>Admin</option>
-            <option>Moderator</option>
-          </select>
-        </div>
-        <Button cStyle='black' onClick={nextStep} full>Invite team member</Button>
-      </form>
+      <div className={styles.form}>
+        <form>
+
+          <FormField
+            className={styles.formField}
+            id="email"
+            type="email"
+            label='Email address' required/>
+
+          <FormField
+            className={styles.formField}
+            id="username"
+            type="text"
+            label='Username' required/>
+
+          <div className={styles.formField}>
+            <label htmlFor='role'>Assing a role</label>
+            <Select id='role' label='Select Role'>
+              <Option>Admin</Option>
+              <Option>Moderator</Option>
+            </Select>
+          </div>
+
+          <Button cStyle='black' onClick={nextStep} icon='arrow_forward' full>Invite team member</Button>
+        </form>
+      </div>
     </div>
   );
 };
