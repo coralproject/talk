@@ -14,7 +14,7 @@ const SignUpContent = ({handleChange, formData, ...props}) => (
       </h1>
     </div>
     <div className={styles.socialConnections}>
-      <Button cStyle="facebook" onClick={props.fetchSignInFacebook} full>
+      <Button cStyle="facebook" onClick={props.fetchSignUpFacebook} full>
         {lang.t('signIn.facebookSignUp')}
       </Button>
     </div>

@@ -82,6 +82,19 @@ export const fetchSignInFacebook = () => dispatch => {
   );
 };
 
+// Sign Up Facebook
+
+const signUpFacebookRequest = () => ({type: actions.FETCH_SIGNUP_FACEBOOK_REQUEST});
+
+export const fetchSignUpFacebook = () => dispatch => {
+  dispatch(signUpFacebookRequest());
+  window.open(
+    `${base}/auth/facebook`,
+    'Continue with Facebook',
+    'menubar=0,resizable=0,width=500,height=500,top=200,left=500'
+  );
+};
+
 export const facebookCallback = (err, data) => dispatch => {
   if (err) {
     signInFacebookFailure(err);

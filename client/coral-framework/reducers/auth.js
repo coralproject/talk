@@ -15,7 +15,8 @@ const initialState = Map({
   emailConfirmationFailure: false,
   emailConfirmationLoading: false,
   emailConfirmationSuccess: false,
-  successSignUp: false
+  successSignUp: false,
+  fromSignUp: false
 });
 
 const purge = user => {
@@ -88,6 +89,12 @@ export default function auth (state = initialState, action) {
       .set('isLoading', false)
       .set('error', action.error)
       .set('user', null);
+  case actions.FETCH_SIGNUP_FACEBOOK_REQUEST:
+    return state
+      .set('fromSignUp', true);
+  case actions.FETCH_SIGNIN_FACEBOOK_REQUEST:
+    return state
+      .set('fromSignUp', false);
   case actions.FETCH_SIGNIN_FACEBOOK_SUCCESS:
     return state
       .set('user', purge(action.user))
@@ -125,7 +132,7 @@ export default function auth (state = initialState, action) {
       .set('passwordRequestSuccess', null);
   case actions.UPDATE_DISPLAYNAME:
     return state
-      .merge({'user': {'displayName': action.displayName}});
+      .set('user', purge(action.displayName));
   case actions.EMAIL_CONFIRM_ERROR:
     return state
       .set('emailConfirmationFailure', true)

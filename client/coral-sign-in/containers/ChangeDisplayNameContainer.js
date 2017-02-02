@@ -36,10 +36,6 @@ class ChangeDisplayNameContainer extends Component {
     this.addError = this.addError.bind(this);
   }
 
-  componentDidMount() {
-    window.authCallback = this.props.facebookCallback;
-  }
-
   handleChange(e) {
     const {name, value} = e.target;
     this.setState(state => ({
@@ -107,7 +103,7 @@ class ChangeDisplayNameContainer extends Component {
     return (
       <div>
         <CreateDisplayNameDialog
-          open={auth.showCreateDisplayNameDialog}
+          open={auth.showCreateDisplayNameDialog && auth.fromSignUp}
           offset={offset}
           handleClose={this.handleClose}
           loggedIn={loggedIn}
