@@ -93,7 +93,10 @@ input.error{
     margin: 0px;
     margin-left: 4px;
     padding-bottom: 2px;
-    border-bottom: solid 1px black;
+}
+
+.userBox .logout {
+  border-bottom: solid 1px black;
 }
 
 .attention {

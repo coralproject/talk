@@ -1,3 +1,8 @@
+html, body {
+  width:auto;
+  height:auto;
+}
+
 body {
   font-family: 'Lato', sans-serif;
   font-family: 'Open Sans', sans-serif;
@@ -46,7 +51,6 @@ hr {
 /* Notification styles */
 #coral-notif {
   position: fixed;
-  bottom: 0;
   border: 0;
   background: rgb(105,105,105);
   color: white;
@@ -76,6 +80,8 @@ hr {
 .commentStream {
   /* prevent absolutely positioned final permalink popover from being clipped */
   padding-bottom: 50px;
+  min-height: 600px;
+  position: relative;
 }
 
 /* Comment Box Styles */
@@ -219,8 +225,8 @@ hr {
 .coral-plugin-flags-popup span {
   min-width: 280px;
   bottom: 36px;
-  left: -190px;
   position: absolute;
+  right: 10px;
 }
 
 .coral-plugin-flags-popup-form {
