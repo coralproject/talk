@@ -1,0 +1,19 @@
+.SnackBar {
+  position: fixed;
+  cursor: default;
+  background-color: #323232;
+  z-index: 3;
+  display: flex;
+  will-change: transform;
+  transition: transform .25s cubic-bezier(.4,0,1,1);
+  pointer-events: none;
+  padding: 18px 14px;
+  vertical-align: middle;
+  color: #fff;
+  border-radius: 3px;
+  text-align: center;
+  left: 50%;
+  transform: translate(-50%, 0);
+  top: 0;
+  bottom: auto;
+}
