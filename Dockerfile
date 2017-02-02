@@ -1,5 +1,8 @@
 FROM node:7
 
+# Install yarn
+RUN npm install -g yarn
+
 # Create app directory
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
@@ -12,9 +15,9 @@ EXPOSE 5000
 
 # Install app dependencies
 COPY package.json /usr/src/app/
-RUN npm install --production
+RUN yarn install --production
 
 # Bundle app source
 COPY . /usr/src/app
 
-CMD [ "npm", "start" ]
+CMD [ "yarn", "start" ]

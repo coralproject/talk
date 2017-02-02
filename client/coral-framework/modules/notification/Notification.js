@@ -1,4 +1,5 @@
 import React from 'react';
+import {SnackBar} from 'coral-ui';
 
 const Notification = (props) => {
   if (props.notification.text) {
@@ -6,14 +7,16 @@ const Notification = (props) => {
       props.clearNotification();
     }, props.notifLength);
   }
-  return <div>
-  {
-    props.notification.text &&
-    <dialog open id='coral-notif' className={`coral-notif-${  props.notification.type}`}>
-      {props.notification.text}
-    </dialog>
-  }
-  </div>;
+  return (
+    <div>
+      {
+        props.notification.text &&
+        <SnackBar id='coral-notif' className={`coral-notif-${props.notification.type}`} position={props.notification.position}>
+          {props.notification.text}
+        </SnackBar>
+      }
+    </div>
+  );
 };
 
 export default Notification;

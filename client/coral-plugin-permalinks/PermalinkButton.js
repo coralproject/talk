@@ -3,6 +3,8 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from './translations';
 import onClickOutside from 'react-onclickoutside';
 const name = 'coral-plugin-permalinks';
+import {Button} from 'coral-ui';
+import styles from './styles.css';
 
 const lang = new I18n(translations);
 
@@ -32,40 +34,37 @@ class PermalinkButton extends React.Component {
     this.permalinkInput.select();
     try {
       document.execCommand('copy');
-      this.setState({copySuccessful: true});
+      this.setState({copySuccessful: true, copyFailure: null});
     } catch (err) {
-      this.setState({copyFailure: true});
+      this.setState({copyFailure: true, copySuccessful: null});
     }
 
     setTimeout(() => {
       this.setState({copyFailure: null, copySuccessful: null});
-    }, 4500);
+    }, 3000);
   }
 
   render () {
+    const {copySuccessful, copyFailure} = this.state;
     return (
       <div className={`${name}-container`}>
         <button onClick={this.toggle} className={`${name}-button`}>
           <i className={`${name}-icon material-icons`} aria-hidden={true}>link</i>
           {lang.t('permalink.permalink')}
         </button>
-        <div
-          className={`${name}-popover ${this.state.popoverOpen ? 'active' : ''}`}>
+        <div className={`${name}-popover ${styles.container} ${this.state.popoverOpen ? 'active' : ''}`}>
           <input
             className={`${name}-copy-field`}
             type='text'
             ref={input => this.permalinkInput = input}
             value={`${this.props.articleURL}#${this.props.commentId}`}
             onChange={() => {}} />
-          <button className={`${name}-copy-button`} onClick={this.copyPermalink}>Copy</button>
-          {
-            this.state.copySuccessful ? <p className={`${name}-copied-text`}>copied to clipboard</p> : null
-          }
-          {
-            this.state.copyFailure
-            ? <p className={`${name}-copied-error`}>copying to clipboard not supported in this browser. Use Cmd + C.</p>
-            : null
-          }
+          <Button className={`${name}-copy-button ${copySuccessful ? styles.success : ''} ${copyFailure ? styles.failure : ''}`}
+                  onClick={this.copyPermalink} >
+            {!copyFailure && !copySuccessful && 'Copy'}
+            {copySuccessful && 'Copied'}
+            {copyFailure && 'Not supported'}
+          </Button>
         </div>
       </div>
     );
