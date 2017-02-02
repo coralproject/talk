@@ -119,7 +119,7 @@ const SendEmailConfirmation = (app, userID, email, referer) => UsersService
 // create a local user.
 router.post('/', (req, res, next) => {
   const {email, password, displayName} = req.body;
-  const redirectUri = req.header('Referer');
+  const redirectUri = req.header('X-Pym-Url') || req.header('Referer');
 
   UsersService
     .createLocalUser(email, password, displayName)
@@ -180,7 +180,7 @@ router.post('/:user_id/actions', authorization.needed(), (req, res, next) => {
 // trigger an email confirmation re-send by a new user
 router.post('/resend-verify', (req, res, next) => {
   const {email} = req.body;
-  const redirectUri = req.header('Referer');
+  const redirectUri = req.header('X-Pym-Url') || req.header('Referer');
 
   if (!email) {
     return next(errors.ErrMissingEmail);

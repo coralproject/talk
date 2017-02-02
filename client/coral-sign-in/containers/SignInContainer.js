@@ -6,6 +6,7 @@ import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
+import {pym} from 'coral-framework';
 const lang = new I18n(translations);
 
 import {
@@ -85,7 +86,7 @@ class SignInContainer extends Component {
 
   handleResendVerification(e) {
     e.preventDefault();
-    this.props.requestConfirmEmail(this.state.emailToBeResent)
+    this.props.requestConfirmEmail(this.state.emailToBeResent, pym.parentUrl || location.href)
       .then(() => {
         setTimeout(() => {
 
@@ -136,7 +137,7 @@ class SignInContainer extends Component {
     const {fetchSignUp, validForm, invalidForm} = this.props;
     this.displayErrors();
     if (this.isCompleted() && !Object.keys(errors).length) {
-      fetchSignUp(this.state.formData);
+      fetchSignUp(this.state.formData, pym.parentUrl || location.href);
       validForm();
     } else {
       invalidForm(lang.t('signIn.checkTheForm'));
@@ -180,11 +181,11 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   checkLogin: () => dispatch(checkLogin()),
   facebookCallback: (err, data) => dispatch(facebookCallback(err, data)),
-  fetchSignUp: formData => dispatch(fetchSignUp(formData)),
+  fetchSignUp: (formData, url) => dispatch(fetchSignUp(formData, url)),
   fetchSignIn: formData => dispatch(fetchSignIn(formData)),
   fetchSignInFacebook: () => dispatch(fetchSignInFacebook()),
   fetchForgotPassword: formData => dispatch(fetchForgotPassword(formData)),
-  requestConfirmEmail: email => dispatch(requestConfirmEmail(email)),
+  requestConfirmEmail: (email, url) => dispatch(requestConfirmEmail(email, url)),
   showSignInDialog: () => dispatch(showSignInDialog()),
   changeView: view => dispatch(changeView(view)),
   handleClose: () => dispatch(hideSignInDialog()),

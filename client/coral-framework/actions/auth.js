@@ -79,15 +79,16 @@ const signUpRequest = () => ({type: actions.FETCH_SIGNUP_REQUEST});
 const signUpSuccess = user => ({type: actions.FETCH_SIGNUP_SUCCESS, user});
 const signUpFailure = error => ({type: actions.FETCH_SIGNUP_FAILURE, error});
 
-export const fetchSignUp = formData => (dispatch) => {
+export const fetchSignUp = (formData, redirectUri) => (dispatch) => {
   dispatch(signUpRequest());
 
-  coralApi('/users', {method: 'POST', body: formData})
+  coralApi('/users', {method: 'POST', body: formData, headers: {'X-Pym-Url': redirectUri}})
     .then(({user}) => {
       dispatch(signUpSuccess(user));
-      setTimeout(() =>{
-        dispatch(changeView('SIGNIN'));
-      }, 3000);
+
+      // setTimeout(() =>{
+      //   dispatch(changeView('SIGNIN'));
+      // }, 3000);
     })
     .catch(error => {
       dispatch(signUpFailure(lang.t(`error.${error.message}`)));
@@ -152,9 +153,9 @@ const verifyEmailRequest = () => ({type: actions.VERIFY_EMAIL_REQUEST});
 const verifyEmailSuccess = () => ({type: actions.VERIFY_EMAIL_SUCCESS});
 const verifyEmailFailure = () => ({type: actions.VERIFY_EMAIL_FAILURE});
 
-export const requestConfirmEmail = email => dispatch => {
+export const requestConfirmEmail = (email, redirectUri) => dispatch => {
   dispatch(verifyEmailRequest());
-  return coralApi('/users/resend-verify', {method: 'POST', body: {email}})
+  return coralApi('/users/resend-verify', {method: 'POST', body: {email}, headers: {'X-Pym-Url': redirectUri}})
     .then(() => {
       dispatch(verifyEmailSuccess());
     })
