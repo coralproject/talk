@@ -33,7 +33,7 @@ export default {
     'signIn': {
       emailVerifyCTA: 'Por favor verifique su correo electronico.',
       requestNewVerifyEmail: 'Enviar otro correo:',
-      verifyEmail: '',
+      verifyEmail: '¡Gracias por crear una cuenta! Le enviamos un correo a la dirección que dio para verificar su cuenta. Debe verificarla antes de poder involucrarse en la comunidad.',
       notYou: 'No eres tu?',
       loggedInAs: 'Entraste como',
       facebookSignIn: 'Entrar con Facebook',
