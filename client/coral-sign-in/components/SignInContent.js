@@ -10,9 +10,9 @@ const SignInContent = ({
   handleChange,
   handleChangeEmail,
   emailToBeResent,
-  handleResendConfirmation,
-  emailConfirmationLoading,
-  emailConfirmationSuccess,
+  handleResendVerification,
+  emailVerificationLoading,
+  emailVerificationSuccess,
   formData,
   ...props
 }) => {
@@ -21,24 +21,14 @@ const SignInContent = ({
     <div>
       <div className={styles.header}>
         <h1>
-          {props.auth.emailConfirmationFailure ? lang.t('signIn.emailConfirmCTA') : lang.t('signIn.signIn')}
-        </h1>
-      </div>
-      <div className={styles.socialConnections}>
-        <Button cStyle="facebook" onClick={props.fetchSignInFacebook} full>
-          {lang.t('signIn.facebookSignIn')}
-        </Button>
-      </div>
-      <div className={styles.separator}>
-        <h1>
-          {lang.t('signIn.or')}
+          {props.auth.emailVerificationFailure ? lang.t('signIn.emailVerifyCTA') : lang.t('signIn.signIn')}
         </h1>
       </div>
       { props.auth.error && <Alert>{props.auth.error}</Alert> }
       {
-        props.auth.emailConfirmationFailure
-        ? <form onSubmit={handleResendConfirmation}>
-          <p>{lang.t('signIn.requestNewConfirmEmail')}</p>
+        props.auth.emailVerificationFailure
+        ? <form onSubmit={handleResendVerification}>
+            <p>{lang.t('signIn.requestNewVerifyEmail')}</p>
             <FormField
               id="confirm-email"
               type="email"
@@ -46,35 +36,47 @@ const SignInContent = ({
               value={emailToBeResent}
               onChange={handleChangeEmail} />
             <Button id='resendConfirmEmail' type='submit' cStyle='black' full>Send Email</Button>
-            {emailConfirmationLoading && <Spinner />}
-            {emailConfirmationSuccess && <Success />}
+            {emailVerificationLoading && <Spinner />}
+            {emailVerificationSuccess && <Success />}
           </form>
-        : <form onSubmit={props.handleSignIn}>
-            <FormField
-              id="email"
-              type="email"
-              label={lang.t('signIn.email')}
-              value={formData.email}
-              onChange={handleChange}
-            />
-            <FormField
-              id="password"
-              type="password"
-              label={lang.t('signIn.password')}
-              value={formData.password}
-              onChange={handleChange}
-            />
-            <div className={styles.action}>
-              {
-                !props.auth.isLoading ?
-                <Button id='coralLogInButton' type="submit" cStyle="black" className={styles.signInButton} full>
-                  {lang.t('signIn.signIn')}
-                </Button>
-                :
-                <Spinner />
-              }
+        : <div>
+            <div className={styles.socialConnections}>
+              <Button cStyle="facebook" onClick={props.fetchSignInFacebook} full>
+                {lang.t('signIn.facebookSignIn')}
+              </Button>
             </div>
-          </form>
+            <div className={styles.separator}>
+              <h1>
+                {lang.t('signIn.or')}
+              </h1>
+            </div>
+            <form onSubmit={props.handleSignIn}>
+              <FormField
+                id="email"
+                type="email"
+                label={lang.t('signIn.email')}
+                value={formData.email}
+                onChange={handleChange}
+              />
+              <FormField
+                id="password"
+                type="password"
+                label={lang.t('signIn.password')}
+                value={formData.password}
+                onChange={handleChange}
+              />
+              <div className={styles.action}>
+                {
+                  !props.auth.isLoading ?
+                  <Button id='coralLogInButton' type="submit" cStyle="black" className={styles.signInButton} full>
+                    {lang.t('signIn.signIn')}
+                  </Button>
+                  :
+                  <Spinner />
+                }
+              </div>
+            </form>
+          </div>
       }
       <div className={styles.footer}>
         <span><a onClick={() => props.changeView('FORGOT')}>{lang.t('signIn.forgotYourPass')}</a></span>
@@ -90,9 +92,9 @@ const SignInContent = ({
 };
 
 SignInContent.propTypes = {
-  emailConfirmationLoading: PropTypes.bool.isRequired,
-  emailConfirmationSuccess: PropTypes.bool.isRequired,
-  handleResendConfirmation: PropTypes.func.isRequired,
+  emailVerificationLoading: PropTypes.bool.isRequired,
+  emailVerificationSuccess: PropTypes.bool.isRequired,
+  handleResendVerification: PropTypes.func.isRequired,
   handleChangeEmail: PropTypes.func.isRequired,
   emailToBeResent: PropTypes.string.isRequired
 };

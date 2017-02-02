@@ -130,7 +130,7 @@ class Embed extends Component {
                  </div>
                : <p>{asset.settings.closedMessage}</p>
             }
-            {!loggedIn && <SignInContainer offset={signInOffset}/>}
+            {!loggedIn && <SignInContainer requireEmailConfirmation={asset.settings.requireEmailConfirmation} offset={signInOffset}/>}
             <Stream
               refetch={refetch}
               addNotification={this.props.addNotification}

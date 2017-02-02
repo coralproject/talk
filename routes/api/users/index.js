@@ -178,7 +178,7 @@ router.post('/:user_id/actions', authorization.needed(), (req, res, next) => {
 });
 
 // trigger an email confirmation re-send by a new user
-router.post('/resend-confirm', (req, res, next) => {
+router.post('/resend-verify', (req, res, next) => {
   const {email} = req.body;
   const redirectUri = req.header('Referer');
 

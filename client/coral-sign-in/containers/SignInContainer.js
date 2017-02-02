@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import SignDialog from '../components/SignDialog';
 import Button from 'coral-ui/components/Button';
@@ -41,10 +41,14 @@ class SignInContainer extends Component {
     this.state = this.initialState;
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
-    this.handleResendConfirmation = this.handleResendConfirmation.bind(this);
+    this.handleResendVerification = this.handleResendVerification.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleSignIn = this.handleSignIn.bind(this);
     this.addError = this.addError.bind(this);
+  }
+
+  static propTypes = {
+    requireEmailConfirmation: PropTypes.bool.isRequired
   }
 
   componentWillMount () {
@@ -79,7 +83,7 @@ class SignInContainer extends Component {
     this.setState({emailToBeResent: value});
   }
 
-  handleResendConfirmation(e) {
+  handleResendVerification(e) {
     e.preventDefault();
     this.props.requestConfirmEmail(this.state.emailToBeResent)
       .then(() => {
@@ -145,8 +149,9 @@ class SignInContainer extends Component {
   }
 
   render() {
-    const {auth, showSignInDialog, noButton, offset} = this.props;
-    const {emailConfirmationLoading, emailConfirmationSuccess} = auth;
+    const {auth, showSignInDialog, noButton, offset, requireEmailConfirmation} = this.props;
+    const {emailVerificationLoading, emailVerificationSuccess} = auth;
+
     return (
       <div>
         {!noButton && <Button id='coralSignInButton' onClick={showSignInDialog} full>
@@ -156,8 +161,9 @@ class SignInContainer extends Component {
           open={auth.showSignInDialog}
           view={auth.view}
           offset={offset}
-          emailConfirmationLoading={emailConfirmationLoading}
-          emailConfirmationSuccess={emailConfirmationSuccess}
+          emailVerificationEnabled={requireEmailConfirmation}
+          emailVerificationLoading={emailVerificationLoading}
+          emailVerificationSuccess={emailVerificationSuccess}
           {...this}
           {...this.state}
           {...this.props}

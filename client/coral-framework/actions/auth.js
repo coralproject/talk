@@ -21,7 +21,6 @@ export const cleanState = () => ({type: actions.CLEAN_STATE});
 const signInRequest = () => ({type: actions.FETCH_SIGNIN_REQUEST});
 const signInSuccess = (user, isAdmin) => ({type: actions.FETCH_SIGNIN_SUCCESS, user, isAdmin});
 const signInFailure = error => ({type: actions.FETCH_SIGNIN_FAILURE, error});
-const emailConfirmError = () => ({type: actions.EMAIL_CONFIRM_ERROR});
 
 export const fetchSignIn = (formData) => (dispatch) => {
   dispatch(signInRequest());
@@ -36,7 +35,6 @@ export const fetchSignIn = (formData) => (dispatch) => {
 
         // the user might not have a valid email. prompt the user user re-request the confirmation email
         dispatch(signInFailure(lang.t('error.emailNotVerified', error.metadata)));
-        dispatch(emailConfirmError());
       } else {
 
         // invalid credentials
@@ -150,20 +148,20 @@ export const checkLogin = () => dispatch => {
     });
 };
 
-const confirmEmailRequest = () => ({type: actions.CONFIRM_EMAIL_REQUEST});
-const confirmEmailSuccess = () => ({type: actions.CONFIRM_EMAIL_SUCCESS});
-const confirmEmailFailure = () => ({type: actions.CONFIRM_EMAIL_FAILURE});
+const verifyEmailRequest = () => ({type: actions.VERIFY_EMAIL_REQUEST});
+const verifyEmailSuccess = () => ({type: actions.VERIFY_EMAIL_SUCCESS});
+const verifyEmailFailure = () => ({type: actions.VERIFY_EMAIL_FAILURE});
 
 export const requestConfirmEmail = email => dispatch => {
-  dispatch(confirmEmailRequest());
-  return coralApi('/users/resend-confirm', {method: 'POST', body: {email}})
+  dispatch(verifyEmailRequest());
+  return coralApi('/users/resend-verify', {method: 'POST', body: {email}})
     .then(() => {
-      dispatch(confirmEmailSuccess());
+      dispatch(verifyEmailSuccess());
     })
     .catch(err => {
-      console.log('failed to send email confirmation', err);
+      console.log('failed to send email verification', err);
 
-      // email might have already been confirmed
-      dispatch(confirmEmailFailure());
+      // email might have already been verifyed
+      dispatch(verifyEmailFailure());
     });
 };

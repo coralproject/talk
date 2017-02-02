@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-    <title>Confirm Email</title>
+    <title>Email Verification</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
 
@@ -43,14 +43,14 @@
     <div id="root">
       <div class="coral-card-wide mdl-card mdl-shadow--2dp">
         <div class="mdl-card__title">
-          <h2 class="mdl-card__title-text">Confirm Email Address</h2>
+          <h2 class="mdl-card__title-text">Verify Email Address</h2>
         </div>
         <div class="mdl-card__supporting-text">
-          Click the button below to confirm your new user account.
+          Click the button below to verify the email on your new user account.
         </div>
         <div class="mdl-card__actions mdl-card--border">
-          <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" id="confirm-email">
-            Confirm
+          <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" id="verify-email">
+            Verify
           </a>
           <div style="display: none" id="p2" class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
         </div>
@@ -71,7 +71,7 @@
           $('.error-console').removeClass('active');
 
           $.ajax({
-            url: '/api/v1/account/email/confirm',
+            url: '/api/v1/account/email/verify',
             contentType: 'application/json',
             method: 'POST',
             headers: {
@@ -85,7 +85,7 @@
           });
         }
 
-        $('#confirm-email').on('click', handleClick);
+        $('#verify-email').on('click', handleClick);
       });
     </script>
   </body>

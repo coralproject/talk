@@ -11,9 +11,9 @@ const initialState = Map({
   error: '',
   passwordRequestSuccess: null,
   passwordRequestFailure: null,
-  emailConfirmationFailure: false,
-  emailConfirmationLoading: false,
-  emailConfirmationSuccess: false,
+  emailVerificationFailure: false,
+  emailVerificationLoading: false,
+  emailVerificationSuccess: false,
   successSignUp: false
 });
 
@@ -36,9 +36,9 @@ export default function auth (state = initialState, action) {
       error: '',
       passwordRequestFailure: null,
       passwordRequestSuccess: null,
-      emailConfirmationFailure: false,
-      emailConfirmationSuccess: false,
-      emailConfirmationLoading: false,
+      emailVerificationFailure: false,
+      emailVerificationSuccess: false,
+      emailVerificationLoading: false,
       successSignUp: false
     }));
   case actions.CHANGE_VIEW :
@@ -107,16 +107,16 @@ export default function auth (state = initialState, action) {
     return state
       .set('passwordRequestFailure', 'There was an error sending your password reset email. Please try again soon!')
       .set('passwordRequestSuccess', null);
-  case actions.EMAIL_CONFIRM_ERROR:
+  case actions.VERIFY_EMAIL_FAILURE:
     return state
-      .set('emailConfirmationFailure', true)
-      .set('emailConfirmationLoading', false);
-  case actions.CONFIRM_EMAIL_REQUEST:
-    return state.set('emailConfirmationLoading', true);
-  case actions.CONFIRM_EMAIL_SUCCESS:
+      .set('emailVerificationFailure', true)
+      .set('emailVerificationLoading', false);
+  case actions.VERIFY_EMAIL_REQUEST:
+    return state.set('emailVerificationLoading', true);
+  case actions.VERIFY_EMAIL_SUCCESS:
     return state
-      .set('emailConfirmationSuccess', true)
-      .set('emailConfirmationLoading', false);
+      .set('emailVerificationSuccess', true)
+      .set('emailVerificationLoading', false);
   default :
     return state;
   }
