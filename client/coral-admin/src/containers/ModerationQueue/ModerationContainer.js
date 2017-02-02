@@ -6,7 +6,7 @@ import {
   updateStatus,
   showBanUserDialog,
   hideBanUserDialog,
-  fetchPendingQueue,
+  fetchPremodQueue,
   fetchRejectedQueue,
   fetchFlaggedQueue,
   fetchModerationQueueComments,
@@ -58,8 +58,8 @@ class ModerationContainer extends React.Component {
   onTabClick(activeTab) {
     this.setState({activeTab});
 
-    if (activeTab === 'pending') {
-      this.props.fetchPendingQueue();
+    if (activeTab === 'premod') {
+      this.props.fetchPremodQueue();
     } else if (activeTab === 'rejected') {
       this.props.fetchRejectedQueue();
     } else if (activeTab === 'flagged') {
@@ -74,7 +74,7 @@ class ModerationContainer extends React.Component {
   }
 
   render () {
-    const {comments, actions} = this.props;
+    const {comments, actions, settings} = this.props;
     const premodIds = comments.ids.filter(id => comments.byId[id].status === 'PREMOD');
     const rejectedIds = comments.ids.filter(id => comments.byId[id].status === 'REJECTED');
     const flaggedIds = comments.ids.filter(id =>
@@ -84,8 +84,12 @@ class ModerationContainer extends React.Component {
       );
     const userActionIds = actions.ids.filter(id => actions.byId[id].item_type === 'USERS');
 
+    // show the Pre-Mod tab if premod is enabled globally OR there are pre-mod comments in the db.
+    let enablePremodTab = (settings.settings && settings.settings.moderation === 'PRE') || premodIds.length;
+
     return (
       <ModerationQueue
+        enablePremodTab={enablePremodTab}
         onTabClick={this.onTabClick}
         onClose={this.onClose}
         premodIds={premodIds}
@@ -110,7 +114,7 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchSettings: () => dispatch(fetchSettings()),
     fetchModerationQueueComments: () => dispatch(fetchModerationQueueComments()),
-    fetchPendingQueue: () => dispatch(fetchPendingQueue()),
+    fetchPremodQueue: () => dispatch(fetchPremodQueue()),
     fetchRejectedQueue: () => dispatch(fetchRejectedQueue()),
     fetchFlaggedQueue: () => dispatch(fetchFlaggedQueue()),
     showBanUserDialog: (userId, userName, commentId) => dispatch(showBanUserDialog(userId, userName, commentId)),
