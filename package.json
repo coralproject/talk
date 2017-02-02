@@ -6,27 +6,27 @@
   "scripts": {
     "start": "./bin/cli serve --jobs",
     "dev-start": "nodemon --config .nodemon.json --exec \"./bin/cli -c .env serve --jobs\"",
-    "build": "NODE_ENV=production webpack --config webpack.config.js --bail",
-    "build-watch": "NODE_ENV=development webpack --config webpack.config.dev.js --watch",
+    "build": "NODE_ENV=production webpack -p --config webpack.config.js --bail",
+    "build-watch": "NODE_ENV=development webpack --config webpack.config.js --watch",
     "lint": "eslint bin/* .",
     "lint-fix": "eslint bin/* . --fix",
-    "test": "TEST_MODE=unit NODE_ENV=test mocha -R ${NPM_PACKAGE_CONFIG_MOCHA_REPORTER:-spec}",
+    "test": "TEST_MODE=unit NODE_ENV=test mocha -R ${MOCHA_REPORTER:-spec}",
     "test-cover": "TEST_MODE=unit NODE_ENV=test istanbul cover _mocha --report text --check-coverage -- -R spec",
     "pree2e": "NODE_ENV=test TALK_PORT=3011 scripts/pree2e.sh",
     "e2e": "NODE_ENV=test nightwatch",
     "poste2e": "NODE_ENV=test scripts/poste2e.sh",
-    "embed-start": "NODE_ENV=development npm run build && ./bin/cli serve --jobs",
-    "postinstall": "npm run build"
+    "embed-start": "NODE_ENV=development yarn build && ./bin/cli serve --jobs",
+    "heroku-postbuild": "yarn build"
   },
   "config": {
     "pre-git": {
       "commit-msg": [],
       "pre-commit": [
-        "npm run lint",
-        "npm test"
+        "yarn lint",
+        "yarn test"
       ],
       "pre-push": [
-        "npm test"
+        "yarn test"
       ],
       "post-commit": [],
       "post-merge": []
@@ -159,7 +159,7 @@
     "style-loader": "^0.13.1",
     "supertest": "^2.0.1",
     "timeago.js": "^2.0.3",
-    "webpack": "^1.13.3"
+    "webpack": "^2.2.1"
   },
   "engines": {
     "node": ">=7.0.0"

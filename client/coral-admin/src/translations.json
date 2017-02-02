@@ -17,7 +17,7 @@
     },
     "modqueue": {
       "all": "all",
-      "pending": "pending",
+      "premod": "pre-mod",
       "rejected": "rejected",
       "flagged": "flagged",
       "account": "account flags",
@@ -136,7 +136,7 @@
       "loading": "Cargando resultados"
     },
     "modqueue": {
-      "pending": "pendiente",
+      "premod": "pre-mod",
       "rejected": "rechazado",
       "flagged": "marcado",
       "shortcuts": "Atajos de teclado",

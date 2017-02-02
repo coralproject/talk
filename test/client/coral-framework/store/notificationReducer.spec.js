@@ -28,8 +28,8 @@ describe ('notificationsReducer', () => {
         type: 'test'
       });
       const result = notificationReducer(store, action);
-      expect(result.get('text')).to.equal(undefined);
-      expect(result.get('type')).to.equal(undefined);
+      expect(result.get('text')).to.equal('');
+      expect(result.get('type')).to.equal('');
     });
   });
 });

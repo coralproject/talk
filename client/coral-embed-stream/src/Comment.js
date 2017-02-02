@@ -16,6 +16,8 @@ import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
 import FlagComment from 'coral-plugin-flags/FlagComment';
 import LikeButton from 'coral-plugin-likes/LikeButton';
 
+import styles from './Comment.css';
+
 const getAction = (type, comment) => comment.actions.filter((a) => a.type === type)[0];
 
 class Comment extends React.Component {
@@ -87,7 +89,7 @@ class Comment extends React.Component {
 
     return (
       <div
-        className={parentId ? 'reply' : 'comment'}
+        className={parentId ? `reply ${styles.Reply}` : `comment ${styles.Comment}`}
         id={`c_${comment.id}`}
         style={{marginLeft: depth * 30}}>
         <hr aria-hidden={true} />
@@ -96,11 +98,6 @@ class Comment extends React.Component {
         <PubDate created_at={comment.created_at} />
         <Content body={comment.body} />
           <div className="commentActionsLeft">
-              <ReplyButton
-                onClick={() => setActiveReplyBox(comment.id)}
-                parentCommentId={parentId || comment.id}
-                currentUserId={currentUser && currentUser.id}
-                banned={false} />
               <LikeButton
                 like={like}
                 id={comment.id}
@@ -108,8 +105,14 @@ class Comment extends React.Component {
                 deleteAction={deleteAction}
                 showSignInDialog={showSignInDialog}
                 currentUser={currentUser} />
+              <ReplyButton
+                onClick={() => setActiveReplyBox(comment.id)}
+                parentCommentId={parentId || comment.id}
+                currentUserId={currentUser && currentUser.id}
+                banned={false} />
             </div>
         <div className="commentActionsRight">
+          <PermalinkButton articleURL={asset.url} commentId={comment.id} />
           <FlagComment
             flag={flag}
             id={comment.id}
@@ -118,7 +121,6 @@ class Comment extends React.Component {
             deleteAction={deleteAction}
             showSignInDialog={showSignInDialog}
             currentUser={currentUser} />
-          <PermalinkButton articleURL={asset.url} commentId={comment.id} />
         </div>
         {
           activeReplyBox === comment.id

@@ -3,7 +3,7 @@ import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
 
-import {TabBar, Tab, TabContent, Spinner} from '../../coral-ui';
+import {TabBar, Tab, TabContent, Spinner} from 'coral-ui';
 
 const {logout, showSignInDialog, requestConfirmEmail} = authActions;
 const {addNotification, clearNotification} = notificationActions;
@@ -18,27 +18,24 @@ import Stream from './Stream';
 import InfoBox from 'coral-plugin-infobox/InfoBox';
 import Count from 'coral-plugin-comment-count/CommentCount';
 import CommentBox from 'coral-plugin-commentbox/CommentBox';
-import UserBox from '../../coral-sign-in/components/UserBox';
-import SignInContainer from '../../coral-sign-in/containers/SignInContainer';
-import SuspendedAccount from '../../coral-framework/components/SuspendedAccount';
-import SettingsContainer from '../../coral-settings/containers/SettingsContainer';
-import RestrictedContent from '../../coral-framework/components/RestrictedContent';
-import ConfigureStreamContainer from '../../coral-configure/containers/ConfigureStreamContainer';
+import UserBox from 'coral-sign-in/components/UserBox';
+import SignInContainer from 'coral-sign-in/containers/SignInContainer';
+import SuspendedAccount from 'coral-framework/components/SuspendedAccount';
+import SettingsContainer from 'coral-settings/containers/SettingsContainer';
+import RestrictedContent from 'coral-framework/components/RestrictedContent';
+import ConfigureStreamContainer from 'coral-configure/containers/ConfigureStreamContainer';
 
 class Embed extends Component {
 
-  constructor (props) {
-    super(props);
+  state = {activeTab: 0, showSignInDialog: false};
 
-    this.state = {
-      activeTab: 0,
-      showSignInDialog: false
-    };
+  changeTab = (tab) => {
 
-    this.changeTab = this.changeTab.bind(this);
-  }
+    // Everytime the comes from another tab, the Stream needs to be updated.
+    if (tab === 0) {
+      this.props.data.refetch();
+    }
 
-  changeTab (tab) {
     this.setState({
       activeTab: tab
     });
@@ -52,15 +49,6 @@ class Embed extends Component {
   }
 
   componentDidMount () {
-
-    // stream id, logged in user, settings
-
-    // Set up messaging between embedded Iframe an parent component
-
-    // this.props.getStream(path || window.location);
-    // this.path = window.location.href.split('#')[0];
-    //
-
     pym.sendMessage('childReady');
 
     pym.onMessage('DOMContentLoaded', hash => {
@@ -79,7 +67,6 @@ class Embed extends Component {
         }
       }, 100);
     });
-
   }
 
   componentWillReceiveProps (nextProps) {
@@ -103,91 +90,93 @@ class Embed extends Component {
       minHeight: document.body.scrollHeight + 200
     } : {};
 
-    return <div style={expandForLogin}>
-      {
-        loading ? <Spinner/>
-      : <div className="commentStream">
+    if (loading) {
+      return <Spinner />;
+    }
+
+    return (
+      <div style={expandForLogin}>
+        <div className="commentStream">
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count count={asset.commentCount}/></Tab>
             <Tab>Settings</Tab>
             <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>
-            {loggedIn && <UserBox user={user} logout={this.props.logout} />}
-            <TabContent show={activeTab === 0}>
-                {
-                  openStream
-                   ? <div id="commentBox">
-                       <InfoBox
-                         content={asset.settings.infoBoxContent}
-                         enable={asset.settings.infoBoxEnable}
+          {loggedIn && <UserBox user={user} logout={this.props.logout}  changeTab={this.changeTab}/>}
+          <TabContent show={activeTab === 0}>
+            {
+              openStream
+               ? <div id="commentBox">
+                   <InfoBox
+                     content={asset.settings.infoBoxContent}
+                     enable={asset.settings.infoBoxEnable}
+                   />
+                 <RestrictedContent restricted={banned} restrictedComp={
+                     <SuspendedAccount
+                       canEditName={user && user.canEditName}
+                       editName={this.props.editName}
                        />
-                     <RestrictedContent restricted={banned} restrictedComp={
-                         <SuspendedAccount
-                           canEditName={user && user.canEditName}
-                           editName={this.props.editName}
-                           />
-                       }>
-                       {
-                         user
-                         ? <CommentBox
-                            commentPostedHandler={refetch}
-                            addNotification={this.props.addNotification}
-                            postItem={this.props.postItem}
-                            appendItemArray={this.props.appendItemArray}
-                            updateItem={this.props.updateItem}
-                            assetId={asset.id}
-                            premod={asset.settings.moderation}
-                            isReply={false}
-                            currentUser={this.props.auth.user}
-                            banned={false}
-                            authorId={user.id}
-                            charCount={asset.settings.charCountEnable && asset.settings.charCount} />
-                         : null
-                       }
-                     </RestrictedContent>
-                     </div>
-                   : <p>{asset.settings.closedMessage}</p>
-                }
-                {!loggedIn && <SignInContainer offset={signInOffset}/>}
-                <Stream
-                  refetch={refetch}
-                  addNotification={this.props.addNotification}
-                  postItem={this.props.postItem}
-                  asset={asset}
-                  currentUser={user}
-                  postAction={this.props.postAction}
-                  deleteAction={this.props.deleteAction}
-                  showSignInDialog={this.props.showSignInDialog}
-                  comments={asset.comments} />
-                <Notification
-                  notifLength={4500}
-                  clearNotification={this.props.clearNotification}
-                  notification={{text: null}}
-                />
-            </TabContent>
-             <TabContent show={activeTab === 1}>
-               <SettingsContainer
-                 loggedIn={loggedIn}
-                 userData={this.props.userData}
-                 showSignInDialog={this.props.showSignInDialog}
-               />
-             </TabContent>
-             <TabContent show={activeTab === 2}>
-               <RestrictedContent restricted={!loggedIn}>
-                 <ConfigureStreamContainer
-                   status={status}
-                   onClick={this.toggleStatus}
-                 />
-               </RestrictedContent>
-             </TabContent>
-              <Notification
-                notifLength={4500}
-                clearNotification={this.props.clearNotification}
-                notification={this.props.notification}
-              />
+                   }>
+                   {
+                     user
+                     ? <CommentBox
+                        commentPostedHandler={refetch}
+                        addNotification={this.props.addNotification}
+                        postItem={this.props.postItem}
+                        appendItemArray={this.props.appendItemArray}
+                        updateItem={this.props.updateItem}
+                        assetId={asset.id}
+                        premod={asset.settings.moderation}
+                        isReply={false}
+                        currentUser={this.props.auth.user}
+                        authorId={user.id}
+                        charCount={asset.settings.charCountEnable && asset.settings.charCount} />
+                     : null
+                   }
+                 </RestrictedContent>
+                 </div>
+               : <p>{asset.settings.closedMessage}</p>
+            }
+            {!loggedIn && <SignInContainer offset={signInOffset}/>}
+            <Stream
+              refetch={refetch}
+              addNotification={this.props.addNotification}
+              postItem={this.props.postItem}
+              asset={asset}
+              currentUser={user}
+              postAction={this.props.postAction}
+              deleteAction={this.props.deleteAction}
+              showSignInDialog={this.props.showSignInDialog}
+              comments={asset.comments} />
+            <Notification
+              notifLength={4500}
+              clearNotification={this.props.clearNotification}
+              notification={{text: null}}
+            />
+        </TabContent>
+         <TabContent show={activeTab === 1}>
+           <SettingsContainer
+             loggedIn={loggedIn}
+             userData={this.props.userData}
+             showSignInDialog={this.props.showSignInDialog}
+           />
+         </TabContent>
+         <TabContent show={activeTab === 2}>
+           <RestrictedContent restricted={!loggedIn}>
+             <ConfigureStreamContainer
+               status={status}
+               onClick={this.toggleStatus}
+             />
+           </RestrictedContent>
+         </TabContent>
+          <Notification
+            notifLength={4500}
+            clearNotification={this.props.clearNotification}
+            notification={this.props.notification}
+          />
         </div>
-      }
-    </div>;
+      </div>
+    );
   }
 }
 
@@ -201,7 +190,13 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   requestConfirmEmail: () => dispatch(requestConfirmEmail()),
   loadAsset: (asset) => dispatch(fetchAssetSuccess(asset)),
-  addNotification: (type, text) => dispatch(addNotification(type, text)),
+  addNotification: (type, text) => {
+    pym.sendMessage('getPosition');
+
+    pym.onMessage('position', position => {
+      dispatch(addNotification(type, text, position));
+    });
+  },
   clearNotification: () => dispatch(clearNotification()),
   editName: (displayName) => dispatch(editName(displayName)),
   showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),
