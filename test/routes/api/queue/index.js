@@ -97,7 +97,7 @@ describe('/api/v1/queue', () => {
 
   it('should return all the pending comments, users and actions', () => {
     return chai.request(app)
-      .get('/api/v1/queue/comments/pending')
+      .get('/api/v1/queue/comments/premod')
       .set(passport.inject({roles: ['ADMIN']}))
       .then((res) => {
         expect(res).to.have.status(200);

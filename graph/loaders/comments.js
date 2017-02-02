@@ -100,7 +100,7 @@ const getCommentsByQuery = ({user}, {ids, statuses, asset_id, parent_id, author_
     });
   }
 
-  if (user && (user.hasRoles('ADMIN') || user.id === author_id)) {
+  if (user && (user.hasRoles('ADMIN') || user.id === author_id) && author_id != null) {
     comments = comments.where({author_id});
   }
 
