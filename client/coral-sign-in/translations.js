@@ -1,6 +1,8 @@
 export default {
   en: {
     'signIn': {
+      emailConfirmCTA: 'Please verify your email address.',
+      requestNewConfirmEmail: 'Request another email:',
       notYou: 'Not you?',
       loggedInAs: 'Logged in as',
       facebookSignIn: 'Sign in with Facebook',
@@ -28,6 +30,8 @@ export default {
   },
   es: {
     'signIn': {
+      emailConfirmCTA: 'Por favor verifique su correo electronico.',
+      requestNewConfirmEmail: 'Enviar otro correo:',
       notYou: 'No eres tu?',
       loggedInAs: 'Entraste como',
       facebookSignIn: 'Entrar con Facebook',

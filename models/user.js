@@ -64,6 +64,7 @@ const UserSchema = new mongoose.Schema({
   displayName: {
     type: String,
     unique: true,
+    lowercase: true,
     required: true
   },
 
