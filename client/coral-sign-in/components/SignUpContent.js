@@ -83,7 +83,7 @@ const SignUpContent = ({handleChange, formData, emailVerificationEnabled, ...pro
           <Success />
           {
             emailVerificationEnabled &&
-            <p>{lang.t('signIn.verifyEmail')}</p>
+            <p>{lang.t('signIn.verifyEmail')}<br /><br />{lang.t('signIn.verifyEmail2')}</p>
           }
         </div>
       }

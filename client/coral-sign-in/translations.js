@@ -3,7 +3,8 @@ export default {
     'signIn': {
       emailVerifyCTA: 'Please verify your email address.',
       requestNewVerifyEmail: 'Request another email:',
-      verifyEmail: 'Thank you for creating an account! We sent an email to the address you provided to verify your account. You must verify your account before engaging with the community.',
+      verifyEmail: 'Thank you for creating an account! We sent an email to the address you provided to verify your account.',
+      verifyEmail2: 'You must verify your account before engaging with the community.',
       notYou: 'Not you?',
       loggedInAs: 'Logged in as',
       facebookSignIn: 'Sign in with Facebook',
@@ -33,7 +34,8 @@ export default {
     'signIn': {
       emailVerifyCTA: 'Por favor verifique su correo electronico.',
       requestNewVerifyEmail: 'Enviar otro correo:',
-      verifyEmail: '¡Gracias por crear una cuenta! Le enviamos un correo a la dirección que dio para verificar su cuenta. Debe verificarla antes de poder involucrarse en la comunidad.',
+      verifyEmail: '¡Gracias por crear una cuenta! Le enviamos un correo a la dirección que dio para verificar su cuenta.',
+      verifyEmail2: 'Debe verificarla antes de poder involucrarse en la comunidad.',
       notYou: 'No eres tu?',
       loggedInAs: 'Entraste como',
       facebookSignIn: 'Entrar con Facebook',
