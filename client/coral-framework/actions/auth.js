@@ -20,10 +20,10 @@ export const updateDisplayName = displayName => ({type: actions.UPDATE_DISPLAYNA
 export const createDisplayName = (userId, formData) => dispatch => {
   dispatch(createDisplayNameRequest());
   coralApi(`/users/${userId}/displayname`, {method: 'POST', body: formData})
-    .then(() => {
+    .then((user) => {
       dispatch(createDisplayNameSuccess());
       dispatch(hideCreateDisplayNameDialog());
-      dispatch(updateDisplayName(formData.displayName));
+      dispatch(updateDisplayName(user));
     })
     .catch(error => {
       dispatch(createDisplayNameFailure(lang.t(`error.${error.message}`)));
