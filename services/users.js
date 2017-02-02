@@ -365,7 +365,10 @@ module.exports = class UsersService {
       .then((displayName) => { // displayName is valid
         return UserModel.update(
           {id},
-          {$set: {'displayName': displayName}});
+          {$set: {'displayName': displayName}})
+        .then(() => {
+          return UserModel.findOne({'id': id});
+        });
       });
   }
 

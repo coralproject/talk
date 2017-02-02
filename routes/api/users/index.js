@@ -62,8 +62,8 @@ router.post('/:user_id/status', authorization.needed('ADMIN'), (req, res, next) 
 
 router.post('/:user_id/displayname', authorization.needed(), (req, res, next) => {
   UsersService.setDisplayName(req.params.user_id, req.body.displayName)
-    .then(() => {
-      res.status(204).end();
+    .then((user) => {
+      res.status(201).json(user);
     })
     .catch(next);
 });
