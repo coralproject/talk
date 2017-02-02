@@ -4,8 +4,10 @@ const UsersService = require('../../../services/users');
 const SettingsService = require('../../../services/settings');
 const CommentsService = require('../../../services/comments');
 const mailer = require('../../../services/mailer');
+const errors = require('../../../errors');
 const authorization = require('../../../middleware/authorization');
 
+// get a list of users.
 router.get('/', authorization.needed('ADMIN'), (req, res, next) => {
   const {
     value = '',
@@ -44,6 +46,7 @@ router.post('/:user_id/role', authorization.needed('ADMIN'), (req, res, next) =>
     .catch(next);
 });
 
+// update the status of a user
 router.post('/:user_id/status', authorization.needed('ADMIN'), (req, res, next) => {
   UsersService
     .setStatus(req.params.user_id, req.body.status)
@@ -106,8 +109,8 @@ router.post('/:user_id/email', authorization.needed('ADMIN'), (req, res, next) =
  * @param {String}     userID  the id for the user to send the email to
  * @param {String}     email   the email for the user to send the email to
  */
-const SendEmailConfirmation = (app, userID, email) => UsersService
-  .createEmailConfirmToken(userID, email)
+const SendEmailConfirmation = (app, userID, email, referer) => UsersService
+  .createEmailConfirmToken(userID, email, referer)
   .then((token) => {
     return mailer.sendSimple({
       app,                                 // needed to render the templates.
@@ -122,12 +125,10 @@ const SendEmailConfirmation = (app, userID, email) => UsersService
     });
   });
 
+// create a local user.
 router.post('/', (req, res, next) => {
-  const {
-    email,
-    password,
-    displayName
-  } = req.body;
+  const {email, password, displayName} = req.body;
+  const redirectUri = req.header('Referer');
 
   UsersService
     .createLocalUser(email, password, displayName)
@@ -140,7 +141,7 @@ router.post('/', (req, res, next) => {
 
         if (requireEmailConfirmation) {
 
-          SendEmailConfirmation(req.app, user.id, email)
+          SendEmailConfirmation(req.app, user.id, email, redirectUri)
             .then(() => {
 
               // Then send back the user.
@@ -185,6 +186,26 @@ router.post('/:user_id/actions', authorization.needed(), (req, res, next) => {
     });
 });
 
+// trigger an email confirmation re-send by a new user
+router.post('/resend-confirm', (req, res, next) => {
+  const {email} = req.body;
+  const redirectUri = req.header('Referer');
+
+  if (!email) {
+    return next(errors.ErrMissingEmail);
+  }
+
+  // find user by email.
+  // if the local profile is verified, return an error code?
+  // send a 204 after the email is re-sent
+  SendEmailConfirmation(req.app, null, email, redirectUri)
+    .then(() => {
+      res.status(204).end();
+    })
+    .catch(next);
+});
+
+// trigger an email confirmation re-send from the admin panel
 router.post('/:user_id/email/confirm', authorization.needed('ADMIN'), (req, res, next) => {
   const {
     user_id
