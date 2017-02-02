@@ -52,33 +52,26 @@ describe('/api/v1/users/:user_id/email/confirm', () => {
 
 describe('/api/v1/users/:user_id/actions', () => {
 
-  const users = [{
-    displayName: 'Ana',
-    email: 'ana@gmail.com',
-    password: '123456789'
-  }, {
-    displayName: 'Maria',
-    email: 'maria@gmail.com',
-    password: '123456789'
-  }];
+  let mockUser;
 
-  beforeEach(() => {
-    return SettingsService.init(settings).then(() => {
-      return UsersService.createLocalUsers(users);
-    });
-  });
+  beforeEach(() => SettingsService.init(settings).then(() => {
+    return UsersService.createLocalUser('ana@gmail.com', '123321123', 'Ana');
+  })
+  .then((user) => {
+    mockUser = user;
+  }));
 
   describe('#post', () => {
     it('it should update actions', () => {
       return chai.request(app)
-        .post('/api/v1/users/abc/actions')
+        .post(`/api/v1/users/${mockUser.id}/actions`)
         .set(passport.inject({id: '456', roles: ['ADMIN']}))
         .send({'action_type': 'FLAG', metadata: {reason: 'Bio is too awesome.'}})
         .then((res) => {
           expect(res).to.have.status(201);
           expect(res).to.have.body;
           expect(res.body).to.have.property('action_type', 'FLAG');
-          expect(res.body).to.have.property('item_id', 'abc');
+          expect(res.body).to.have.property('item_id', mockUser.id);
         });
     });
   });

@@ -138,7 +138,7 @@ export default class ModerationList extends React.Component {
       if (menuOption === 'REJECTED') {
         this.setState({suspendUserModal: action});
       } else if (menuOption === 'ACCEPTED') {
-        this.props.userStatusUpdate('ACTIVE', action.item_id);
+        this.props.userStatusUpdate('APPROVED', action.item_id);
       }
     }
   }

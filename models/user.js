@@ -12,7 +12,7 @@ const USER_STATUS = [
   'ACTIVE',
   'BANNED',
   'PENDING',
-  'SUSPENDED',
+  'APPROVED' // Indicates that the users' displayname has been approved
 ];
 
 // ProfileSchema is the mongoose schema defined as the representation of a

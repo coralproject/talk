@@ -349,8 +349,15 @@ module.exports = class UsersService {
       // User status is not supported! Error out here.
       return Promise.reject(new Error(`status ${status} is not supported`));
     }
-
-    return UserModel.update({id}, {$set: {status}});
+    
+    return UserModel.findOne({id})
+      .then((user) => {
+        if (user.status === 'APPROVED' && status === 'PENDING') {
+          return Promise.resolve();
+        } else {
+          return UserModel.update({id}, {$set: {status}});
+        }
+      });
   }
 
   /**

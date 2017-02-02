@@ -171,7 +171,7 @@ router.post('/:user_id/actions', authorization.needed(), (req, res, next) => {
 
       // Set the user status to "pending" for review by moderators
       if (action_type.slice(0, 4) === 'FLAG') {
-        return UsersService.setStatus(req.user.id, 'PENDING')
+        return UsersService.setStatus(req.params.user_id, 'PENDING')
           .then(() => action);
       } else {
         return action;
