@@ -2,8 +2,7 @@ import React from 'react';
 import styles from './style.css';
 import {FormField, Button} from 'coral-ui';
 
-const InitialStep = props => {
-  const {nextStep} = props;
+const InitialStep = () => {
   return (
     <div className={styles.step}>
       <p>

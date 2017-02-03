@@ -23,12 +23,15 @@
   .form {
     max-width: 300px;
     margin: 30px auto;
+    text-align: left;
 
     form > button {
       margin: 30px 0;
     }
 
     .formField {
+      text-align: left;
+
       label {
         text-align: left;
         display: block;
