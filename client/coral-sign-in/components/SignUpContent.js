@@ -90,7 +90,7 @@ const SignUpContent = ({handleChange, formData, emailVerificationEnabled, ...pro
       <div className={styles.footer}>
         <span>
           {lang.t('signIn.alreadyHaveAnAccount')}
-          <a onClick={() => props.changeView('SIGNIN')}>
+          <a id="coralLogInButton" onClick={() => props.changeView('SIGNIN')}>
             {lang.t('signIn.signIn')}
           </a>
         </span>
