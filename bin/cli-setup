@@ -35,7 +35,17 @@ program
 const performSetup = () => {
 
   if (program.defaults) {
-    return SettingsService.init();
+    return SettingsService
+      .init()
+      .then(() => {
+        console.log('Settings created.');
+        console.log('\nTalk is now installed!');
+        util.shutdown();
+      })
+      .catch((err) => {
+        console.error(err);
+        util.shutdown(1);
+      });
   }
 
   // Get the current settings, we are expecing an error here.
