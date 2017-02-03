@@ -60,6 +60,14 @@ router.post('/:user_id/status', authorization.needed('ADMIN'), (req, res, next) 
     .catch(next);
 });
 
+router.post('/:user_id/displayname', authorization.needed(), (req, res, next) => {
+  UsersService.setDisplayName(req.params.user_id, req.body.displayName)
+    .then((user) => {
+      res.status(201).json(user);
+    })
+    .catch(next);
+});
+
 router.post('/:user_id/email', authorization.needed('admin'), (req, res, next) => {
   UsersService.findById(req.params.user_id)
     .then(user => {

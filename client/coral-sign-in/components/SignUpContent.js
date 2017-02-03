@@ -15,7 +15,7 @@ class SignUpContent extends React.Component {
 
   static propTypes = {
     emailVerificationEnabled: PropTypes.bool.isRequired,
-    fetchSignInFacebook: PropTypes.func.isRequired,
+    fetchSignUpFacebook: PropTypes.func.isRequired,
     changeView: PropTypes.func.isRequired,
     handleSignUp: PropTypes.func.isRequired,
     showErrors: PropTypes.bool,
@@ -44,7 +44,7 @@ class SignUpContent extends React.Component {
       showErrors,
       changeView,
       handleSignUp,
-      fetchSignInFacebook} = this.props;
+      fetchSignUpFacebook} = this.props;
 
     const beforeSignup = !auth.isLoading && !auth.successSignUp;
     const successfulSignup = !auth.isLoading && auth.successSignUp;
@@ -69,7 +69,7 @@ class SignUpContent extends React.Component {
         { beforeSignup &&
           <div>
             <div className={styles.socialConnections}>
-              <Button cStyle="facebook" onClick={fetchSignInFacebook} full>
+              <Button cStyle="facebook" onClick={fetchSignUpFacebook} full>
                 {lang.t('signIn.facebookSignUp')}
               </Button>
             </div>

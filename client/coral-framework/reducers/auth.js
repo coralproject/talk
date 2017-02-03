@@ -7,6 +7,7 @@ const initialState = Map({
   isAdmin: false,
   user: null,
   showSignInDialog: false,
+  showCreateDisplayNameDialog: false,
   view: 'SIGNIN',
   error: '',
   passwordRequestSuccess: null,
@@ -14,7 +15,8 @@ const initialState = Map({
   emailVerificationFailure: false,
   emailVerificationLoading: false,
   emailVerificationSuccess: false,
-  successSignUp: false
+  successSignUp: false,
+  fromSignUp: false
 });
 
 const purge = user => {
@@ -41,6 +43,21 @@ export default function auth (state = initialState, action) {
       emailVerificationLoading: false,
       successSignUp: false
     }));
+  case actions.SHOW_CREATEDISPLAYNAME_DIALOG :
+    return state
+      .set('showCreateDisplayNameDialog', true);
+  case actions.HIDE_CREATEDISPLAYNAME_DIALOG :
+    return state.merge(Map({
+      showCreateDisplayNameDialog: false
+    }));
+  case actions.CREATEDISPLAYNAME_SUCCESS :
+    return state.merge(Map({
+      showCreateDisplayNameDialog: false,
+      error: ''
+    }));
+  case actions.CREATEDISPLAYNAME_FAILURE :
+    return state
+      .set('error', action.error);
   case actions.CHANGE_VIEW :
     return state
       .set('error', '')
@@ -72,6 +89,12 @@ export default function auth (state = initialState, action) {
       .set('isLoading', false)
       .set('error', action.error)
       .set('user', null);
+  case actions.FETCH_SIGNUP_FACEBOOK_REQUEST:
+    return state
+      .set('fromSignUp', true);
+  case actions.FETCH_SIGNIN_FACEBOOK_REQUEST:
+    return state
+      .set('fromSignUp', false);
   case actions.FETCH_SIGNIN_FACEBOOK_SUCCESS:
     return state
       .set('user', purge(action.user))
@@ -107,6 +130,9 @@ export default function auth (state = initialState, action) {
     return state
       .set('passwordRequestFailure', 'There was an error sending your password reset email. Please try again soon!')
       .set('passwordRequestSuccess', null);
+  case actions.UPDATE_DISPLAYNAME:
+    return state
+      .set('user', purge(action.displayName));
   case actions.VERIFY_EMAIL_FAILURE:
     return state
       .set('emailVerificationFailure', true)

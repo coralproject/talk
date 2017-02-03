@@ -8,6 +8,28 @@ import coralApi, {base} from '../helpers/response';
 export const showSignInDialog = (offset = 0) => ({type: actions.SHOW_SIGNIN_DIALOG, offset});
 export const hideSignInDialog = () => ({type: actions.HIDE_SIGNIN_DIALOG});
 
+export const createDisplayNameRequest = () => ({type: actions.CREATE_DISPLAYNAME_REQUEST});
+export const showCreateDisplayNameDialog = () => ({type: actions.SHOW_CREATEDISPLAYNAME_DIALOG});
+export const hideCreateDisplayNameDialog = () => ({type: actions.HIDE_CREATEDISPLAYNAME_DIALOG});
+
+const createDisplayNameSuccess = () => ({type: actions.CREATEDISPLAYNAME_SUCCESS});
+const createDisplayNameFailure = error => ({type: actions.CREATEDISPLAYNAME_FAILURE, error});
+
+export const updateDisplayName = displayName => ({type: actions.UPDATE_DISPLAYNAME, displayName});
+
+export const createDisplayName = (userId, formData) => dispatch => {
+  dispatch(createDisplayNameRequest());
+  coralApi(`/users/${userId}/displayname`, {method: 'POST', body: formData})
+    .then((user) => {
+      dispatch(createDisplayNameSuccess());
+      dispatch(hideCreateDisplayNameDialog());
+      dispatch(updateDisplayName(user));
+    })
+    .catch(error => {
+      dispatch(createDisplayNameFailure(lang.t(`error.${error.message}`)));
+    });
+};
+
 export const changeView = view => dispatch =>
   dispatch({
     type: actions.CHANGE_VIEW,
@@ -58,6 +80,19 @@ export const fetchSignInFacebook = () => dispatch => {
   );
 };
 
+// Sign Up Facebook
+
+const signUpFacebookRequest = () => ({type: actions.FETCH_SIGNUP_FACEBOOK_REQUEST});
+
+export const fetchSignUpFacebook = () => dispatch => {
+  dispatch(signUpFacebookRequest());
+  window.open(
+    `${base}/auth/facebook`,
+    'Continue with Facebook',
+    'menubar=0,resizable=0,width=500,height=500,top=200,left=500'
+  );
+};
+
 export const facebookCallback = (err, data) => dispatch => {
   if (err) {
     signInFacebookFailure(err);
@@ -67,6 +102,7 @@ export const facebookCallback = (err, data) => dispatch => {
     const user = JSON.parse(data);
     dispatch(signInFacebookSuccess(user));
     dispatch(hideSignInDialog());
+    dispatch(showCreateDisplayNameDialog());
   } catch (err) {
     dispatch(signInFacebookFailure(err));
     return;
