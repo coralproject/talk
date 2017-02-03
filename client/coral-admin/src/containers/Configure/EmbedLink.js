@@ -32,7 +32,7 @@ class EmbedLink extends Component {
       location.hostname,
       location.port ? (`:${  window.location.port}`) : ''
     ].join('');
-    const coralJsUrl = [talkBaseUrl, '/Coral.js'].join('');
+    const coralJsUrl = [talkBaseUrl, '/embed.js'].join('');
     const nonce = String(Math.random()).slice(2);
     const streamElementId = `coral_talk_${nonce}`;
     const embedText = `

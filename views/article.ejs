@@ -23,7 +23,7 @@
     <p><%= body %></p>
     <p><a href="/admin">Admin</a> - <a href="/assets">All Assets</a></p>
     <div id='coralStreamEmbed'></div>
-    <script src="/Coral.js" onload="
+    <script src="/embed.js" onload="
       Coral.Talk.render(document.getElementById('coralStreamEmbed'), {
         talk: '/',
         asset: <%= asset_url ? asset_url : 'undefined' %>
