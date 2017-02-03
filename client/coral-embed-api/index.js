@@ -42,7 +42,6 @@
    * stream will replies to this asset
    */
   Talk.render = function (el, opts) {
-    console.log('Coral.Talk.render()', el, opts);
     if ( ! el) {
       throw new Error('Please provide Coral.Talk.render() the HTMLElement you want to render Talk in.');
     }
