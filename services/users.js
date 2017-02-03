@@ -362,7 +362,7 @@ module.exports = class UsersService {
   static setDisplayName(id, displayName) {
 
     return UsersService.isValidDisplayName(displayName)
-      .then((displayName) => { // displayName is valid
+      .then(() => { // displayName is valid
         return UserModel.update(
           {id},
           {$set: {'displayName': displayName}})
