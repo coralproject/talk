@@ -26,7 +26,17 @@ export default {
       passwordsDontMatch: 'Passwords don\'t match.',
       specialCharacters: 'Display names can contain letters, numbers and _ only',
       checkTheForm: 'Invalid Form. Please, check the fields'
-    }
+    },
+    'createdisplay': {
+      writeyourusername: 'Write your username',
+      yourusername: 'Your username is publicly visible on all comments you post. A username is needed before you can post your first comment.',
+      displayName: 'Display Name',
+      save: 'Save',
+      requiredField: 'Required field',
+      errorCreate: 'Error when changing display name',
+      checkTheForm: 'Invalid Form. Please, check the fields',
+      specialCharacters: 'Display names can contain letters, numbers and _ only'
+    },
   },
   es: {
     'signIn': {
@@ -55,6 +65,16 @@ export default {
       passwordsDontMatch: 'Las contraseñas no coinciden',
       specialCharacters: 'Los nombres pueden contener letras, números y _',
       checkTheForm: 'Formulario Inválido. Por favor, completa los campos'
-    }
+    },
+    'createdisplay': {
+      writeyourusername: 'Escribe tu nombre',
+      yourusername: 'Tu nombre es visible publicamente en todos los comentarios que publiques. Es necesario tener un nombre de usuario antes de poder publicar tu primer comentario.',
+      displayName: 'Nombre a mostrar',
+      save: 'Guardar',
+      requiredField: 'Campo necesario',
+      errorCreate: 'Hubo un error al cambiar el nombre de usuario',
+      checkTheForm: 'Formulario Invalido. Por favor, verifica los campos',
+      specialCharacters: 'Sólo pueden contener letras, números y _'
+    },
   }
 };
