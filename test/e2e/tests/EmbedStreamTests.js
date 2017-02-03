@@ -26,7 +26,7 @@ module.exports = {
         // Load Page
         client.resizeWindow(1200, 800)
           .url(client.globals.baseUrl)
-          .frame('coralStreamIframe')
+          .frame('coralStreamEmbed_iframe')
 
           // Register and Log In
           .waitForElementVisible('#coralSignInButton', 2000)
@@ -65,7 +65,7 @@ module.exports = {
 
         // Load Page
         client.url(client.globals.baseUrl)
-          .frame('coralStreamIframe');
+          .frame('coralStreamEmbed_iframe');
 
           // Post a comment
         client.waitForElementVisible('.coral-plugin-commentbox-button', 2000)
@@ -91,7 +91,7 @@ module.exports = {
         // Load Page
         client.resizeWindow(1200, 800)
           .url(client.globals.baseUrl)
-          .frame('coralStreamIframe');
+          .frame('coralStreamEmbed_iframe');
 
           // Post a comment
         client.waitForElementVisible('.coral-plugin-commentbox-button', 2000)
@@ -138,7 +138,7 @@ module.exports = {
         // Load Page
         client.resizeWindow(1200, 800)
           .url(client.globals.baseUrl)
-          .frame('coralStreamIframe');
+          .frame('coralStreamEmbed_iframe');
 
           // Post a reply
         client.waitForElementVisible('.coral-plugin-replies-reply-button', 5000)
@@ -161,7 +161,7 @@ module.exports = {
   'Total comment count premod on': client => {
     client.perform((client, done) => {
       client.url(client.globals.baseUrl)
-        .frame('coralStreamIframe');
+        .frame('coralStreamEmbed_iframe');
 
         // Verify that comment count is correct
       client.waitForElementVisible('.coral-plugin-comment-count-text', 2000)
