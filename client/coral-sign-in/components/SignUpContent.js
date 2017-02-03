@@ -77,7 +77,7 @@ const SignUpContent = ({handleChange, formData, ...props}) => (
     <div className={styles.footer}>
       <span>
         {lang.t('signIn.alreadyHaveAnAccount')}
-        <a id="coralLogInButton" Click={() => props.changeView('SIGNIN')}>
+        <a onClick={() => props.changeView('SIGNIN')}>
           {lang.t('signIn.signIn')}
         </a>
       </span>
