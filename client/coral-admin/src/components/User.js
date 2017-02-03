@@ -1,6 +1,4 @@
 import React from 'react';
-import Linkify from 'react-linkify';
-
 import styles from './ModerationList.css';
 
 import I18n from 'coral-framework/modules/i18n/i18n';
@@ -9,13 +7,10 @@ import translations from '../translations.json';
 import {Icon} from 'react-mdl';
 import ActionButton from './ActionButton';
 
-const linkify = new Linkify();
-
 // Render a single comment for the list
 const User = props => {
   const {action, user} = props;
   let userStatus = user.status;
-  const links = user.settings.bio ? linkify.getMatches(user.settings.bio) : [];
 
   // Do not display unless the user status is 'pending' or 'banned'.
   // This means that they have already been reviewed and approved.
@@ -26,8 +21,6 @@ const User = props => {
           <span>{user.displayName}</span>
           </div>
         <div className={styles.sideActions}>
-          {links ?
-          <span className={styles.hasLinks}><Icon name='error_outline'/> Contains Link</span> : null}
           <div className={`actions ${styles.actions}`}>
             {props.modActions.map(
               (action, i) =>
