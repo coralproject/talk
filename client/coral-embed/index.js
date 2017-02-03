@@ -1,4 +1,4 @@
-/* eslint-disable no-var */
+/* eslint-disable no-var, prefer-template */
 /**
  * @file Exposes the main 'window.Coral.Talk' API that developers can use to
  * render Talk streams in their webpages
@@ -46,7 +46,7 @@
       throw new Error('Please provide Coral.Talk.render() the HTMLElement you want to render Talk in.');
     }
     if (typeof el !== 'object') {
-      throw new Error(`Coral.Talk.render() expected HTMLElement but got ${  el  } (${  typeof el})`);
+      throw new Error('Coral.Talk.render() expected HTMLElement but got ' + el + ' (' + typeof el + ')');
     }
     opts = opts || {};
 
@@ -56,7 +56,7 @@
     }
 
     // ensure el has an id, as pym can't directly accept the HTMLElement
-    if ( ! el.id) {el.id = `_${  String(Math.random())}`;}
+    if ( ! el.id) {el.id = '_' + String(Math.random());}
     var asset = opts.asset || window.location;
     var pymParent = new pym.Parent(
       el.id,
@@ -64,8 +64,8 @@
       {
         title: opts.title,
         asset_url: asset,
-        id: `${el.id  }_` + 'iframe',
-        name: `${el.id  }_` + 'iframe'
+        id: el.id + '_iframe',
+        name: el.id + '_iframe'
       }
     );
 
@@ -96,7 +96,7 @@
 
       // TODO: In local testing, this is firing nonstop. Maybe there's a bug on the inside?
       // Or it's by design of pym... but that's very wasteful of CPU and DOM reflows (jank)
-      pymParent.el.querySelector('iframe').height = `${height  }px`;
+      pymParent.el.querySelector('iframe').height = height + 'px';
     });
 
     // Helps child show notifications at the right scrollTop
@@ -140,7 +140,10 @@
         a = 'client';
         e = document.documentElement || document.body;
       }
-      return {width : e[ `${a}Width` ], height : e[ `${a}Height` ]};
+      return {
+        width : e[a + 'Width'],
+        height : e[a + 'Height']
+      };
     }
   }
 
