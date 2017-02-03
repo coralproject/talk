@@ -1,0 +1,20 @@
+query ModQueue {
+  flagged_comments: comments(query: {
+    action_type: FLAG,
+    asset_id: $asset_id
+  }) {
+    id
+  }
+  accepted_comments: comments(query: {
+    statuses: [ACCEPTED],
+    asset_id: $asset_id
+  }) {
+    id
+  }
+  rejected_comments: comments(query: {
+    statuses: [REJECTED],
+    asset_id: $asset_id
+  }) {
+    id
+  }
+}
