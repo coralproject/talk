@@ -37,7 +37,7 @@ class EmbedLink extends Component {
     const streamElementId = `coral_talk_${nonce}`;
     const embedText = `
 <div id="${streamElementId}"></div>
-<script src="${coralJsUrl}" onload="
+<script src="${coralJsUrl}" async onload="
   Coral.Talk.render(document.getElementById('${streamElementId}'), {
     talk: '${talkBaseUrl}'
   });
