@@ -2,7 +2,7 @@
 
 set -e
 
-# docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
 
 # Sourced from https://segment.com/blog/ci-at-segment/
 
@@ -27,24 +27,24 @@ deploy_tag() {
   for version in $tag_list
   do
       echo "==> tagging $version"
-      echo docker tag coralproject/talk:latest coralproject/talk:$version
+      docker tag coralproject/talk:latest coralproject/talk:$version
   done
 
   # Push each of the tags to docker hub, including latest
   for version in $tag_list latest
   do
       echo "==> pushing $version"
-      echo docker push coralproject/talk:$version
+      docker push coralproject/talk:$version
   done
 }
 
 deploy_latest() {
   echo "==> pushing latest"
-  echo docker push coralproject/talk:latest
+  docker push coralproject/talk:latest
 }
 
 # build the repo
-echo docker build -t coralproject/talk .
+docker build -t coralproject/talk .
 
 # deploy based on the env
 if [ -n "$CIRCLE_TAG" ]
