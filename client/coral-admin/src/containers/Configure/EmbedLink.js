@@ -25,8 +25,24 @@ class EmbedLink extends Component {
   }
 
   render () {
-    const embedText = `<div id='coralStreamEmbed'></div><script type='text/javascript' src='${window.location.protocol}//pym.nprapps.org/pym.v1.min.js'></script><script>var pymParent = new pym.Parent('coralStreamEmbed', '${window.location.protocol}//${window.location.host}/embed/stream', {title: 'Comments'});</script>`;
-
+    const location = window.location;
+    const talkBaseUrl = [
+      location.protocol,
+      '//',
+      location.hostname,
+      location.port ? (`:${  window.location.port}`) : ''
+    ].join('');
+    const coralJsUrl = [talkBaseUrl, '/Coral.js'].join('');
+    const nonce = String(Math.random()).slice(2);
+    const streamElementId = `coral_talk_${nonce}`;
+    const embedText = `
+<div id="${streamElementId}"></div>
+<script src="${coralJsUrl}" onload="
+  Coral.Talk.render(document.getElementById('${streamElementId}'), {
+    talk: '${talkBaseUrl}'
+  });
+"></script>
+    `.trim();
     return (
       <div>
         <h3>{this.props.title}</h3>

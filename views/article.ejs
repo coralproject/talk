@@ -23,72 +23,12 @@
     <p><%= body %></p>
     <p><a href="/admin">Admin</a> - <a href="/assets">All Assets</a></p>
     <div id='coralStreamEmbed'></div>
+    <script src="/Coral.js" onload="
+      Coral.Talk.render(document.getElementById('coralStreamEmbed'), {
+        talk: '/',
+        asset: <%= asset_url ? asset_url : 'undefined' %>
+      })
+    "></script>
   </main>
-
-<script type='text/javascript' src='<%= basePath %>/pym.v1.min.js'></script>
-<script>
-  var ready = false;
-  var notificationOffset = 200;
-
-  // default to using the window.location
-  var url = window.location.protocol + '//' + window.location.host + window.location.pathname;
-
-  // if a url is passed into the template prefer it to the current url
-  <%if (asset_url.length > 0) { %>
-    url = '<%= asset_url %>';
-  <%}%>
-
-  var pymParent = new pym.Parent('coralStreamEmbed', '/embed/stream?asset_url=' + encodeURIComponent(url), {title: 'Talk Comments', id:'coralStreamIframe', name: 'coralStreamIframe', asset_url: url});
-  pymParent.onMessage('height', function(height) {
-    document.querySelector('#coralStreamEmbed iframe').height = height + 'px';
-  })
-
-
-  pymParent.onMessage('getPosition', function(notification) {
-    var position = viewport().height + document.body.scrollTop;
-
-    if (position > notificationOffset) {
-      position = position - notificationOffset;
-    }
-
-    pymParent.sendMessage('position', position);
-  });
-
-  pymParent.onMessage('childReady', function () {
-    var interval = setInterval(function () {
-      if (ready) {
-        window.clearInterval(interval);
-
-        // default to using the window.location
-        var url = window.location.hash;
-
-        // if a url is passed into the template prefer it to the current url
-        <%if (asset_url.length > 0) { %>
-          url = '<%= asset_url %>';
-        <%}%>
-
-        pymParent.sendMessage('DOMContentLoaded', url);
-      }
-    }, 100);
-  });
-  pymParent.onMessage('navigate', function (url) {
-    window.open(url, '_blank').focus();
-  })
-
-  // wait till images and other iframes are loaded before scrolling the page.
-  // or do we want to be more aggressive and scroll when we hit DOM ready?
-  document.addEventListener('DOMContentLoaded', function () {
-    ready = true;
-  });
-
-  function viewport() {
-    var e = window, a = 'inner';
-    if ( !( 'innerWidth' in window ) ){
-      a = 'client';
-      e = document.documentElement || document.body;
-    }
-  return { width : e[ a+'Width' ] , height : e[ a+'Height' ] }
-  }
-</script>
   </body>
 </html>

@@ -34,6 +34,7 @@ app.use(helmet({
 }));
 app.use(bodyParser.json());
 app.use('/client', express.static(path.join(__dirname, 'dist')));
+app.get('/Coral.js', (req, res) => res.sendFile(path.join(__dirname, 'client/coral-embed-api/index.js')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
