@@ -24,7 +24,7 @@ class SuspendedAccount extends Component {
     e.preventDefault();
     if (validate.displayName(displayName)) {
       editName(displayName)
-        .then(() => window.reload())
+        .then(() => location.reload())
         .catch((error) => {
           this.setState({alert: lang.t(`error.${error.message}`)});
         });
