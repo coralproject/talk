@@ -22,7 +22,7 @@ const getAssetUrl = () => {
     return assetUrl;
   }
 
-  // if not asset url defined, use the pym parent url
+  // if no asset_url defined, use the pym parentUrl
   return getQueryVariable('parentUrl');
 };
 
