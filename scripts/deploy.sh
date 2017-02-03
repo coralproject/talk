@@ -2,17 +2,17 @@
 
 set -e
 
-docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+# docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
 
 # Sourced from https://segment.com/blog/ci-at-segment/
 
 deploy_tag() {
   # Find our individual versions from the tags
-  if [ -n "$(echo $CIRCLE_TAG | grep -E '.*\..*\..*')" ]
+  if [ -n "$(echo $CIRCLE_TAG | grep -E 'v.*\..*\..*')" ]
   then
-    major=$(echo $CIRCLE_TAG | cut -d. -f1)
-    minor=$(echo $CIRCLE_TAG | cut -d. -f2)
-    patch=$(echo $CIRCLE_TAG | cut -d. -f3)
+    major=$(echo ${CIRCLE_TAG//v} | cut -d. -f1)
+    minor=$(echo ${CIRCLE_TAG//v} | cut -d. -f2)
+    patch=$(echo ${CIRCLE_TAG//v} | cut -d. -f3)
 
     major_version_tag=$major
     minor_version_tag=$major.$minor
@@ -27,24 +27,24 @@ deploy_tag() {
   for version in $tag_list
   do
       echo "==> tagging $version"
-      docker tag coralproject/talk:latest coralproject/talk:$version
+      echo docker tag coralproject/talk:latest coralproject/talk:$version
   done
 
   # Push each of the tags to docker hub, including latest
   for version in $tag_list latest
   do
       echo "==> pushing $version"
-      docker push coralproject/talk:$version
+      echo docker push coralproject/talk:$version
   done
 }
 
 deploy_latest() {
   echo "==> pushing latest"
-  docker push coralproject/talk:latest
+  echo docker push coralproject/talk:latest
 }
 
 # build the repo
-docker build -t coralproject/talk .
+echo docker build -t coralproject/talk .
 
 # deploy based on the env
 if [ -n "$CIRCLE_TAG" ]
