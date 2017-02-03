@@ -50,7 +50,7 @@
     "configure": {
       "enable-pre-moderation": "Enable pre-moderation",
       "enable-pre-moderation-text": "Moderators must approve any comment before it is published.",
-      "require-email-verification": "Require Email Confirmation",
+      "require-email-verification": "Require Email Verification",
       "require-email-verification-text": "New Users must verify their email before commenting",
       "include-comment-stream": "Include Comment Stream Description for Readers.",
       "include-comment-stream-desc": "Write a message to be added to the top of your comment stream. Pose a topic, include community guidelines, etc.",
