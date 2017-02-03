@@ -85,10 +85,6 @@ export const fetchSignUp = (formData, redirectUri) => (dispatch) => {
   coralApi('/users', {method: 'POST', body: formData, headers: {'X-Pym-Url': redirectUri}})
     .then(({user}) => {
       dispatch(signUpSuccess(user));
-
-      // setTimeout(() =>{
-      //   dispatch(changeView('SIGNIN'));
-      // }, 3000);
     })
     .catch(error => {
       dispatch(signUpFailure(lang.t(`error.${error.message}`)));
