@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const UsersService = require('../../../services/users');
-const SettingsService = require('../../../services/settings');
 const CommentsService = require('../../../services/comments');
 const mailer = require('../../../services/mailer');
 const errors = require('../../../errors');
@@ -88,12 +87,6 @@ router.post('/:user_id/email', authorization.needed('admin'), (req, res, next) =
     .catch(next);
 });
 
-// /**
-//  * SendEmailConfirmation sends a confirmation email to the user.
-//  * @param {Request} req  express request object
-//  * @param {String} email user email address
-//  */
-
 /**
  * SendEmailConfirmation sends a confirmation email to the user.
  * @param {ExpressApp} app     the instance of the express app
@@ -125,25 +118,14 @@ router.post('/', (req, res, next) => {
     .createLocalUser(email, password, displayName)
     .then((user) => {
 
-      // Get the settings from the database to find out if we need to send an
-      // email confirmation. The Front end will know about the
+      // Send an email confirmation. The Front end will know about the
       // requireEmailConfirmation as it's included in the settings get endpoint.
-      return SettingsService.retrieve().then(({requireEmailConfirmation = false}) => {
+      return SendEmailConfirmation(req.app, user.id, email, redirectUri)
+        .then(() => {
 
-        if (requireEmailConfirmation) {
-
-          SendEmailConfirmation(req.app, user.id, email, redirectUri)
-            .then(() => {
-
-              // Then send back the user.
-              res.status(201).json(user);
-            });
-        } else {
-
-          // We don't need to confirm the email, let's just send back the user!
+          // Then send back the user.
           res.status(201).json(user);
-        }
-      });
+        });
     })
     .catch(err => {
       next(err);
