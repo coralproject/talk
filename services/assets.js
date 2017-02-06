@@ -1,5 +1,7 @@
 const AssetModel = require('../models/asset');
 const SettingsService = require('./settings');
+const domainlist = require('./domainlist');
+const errors = require('../errors');
 
 module.exports = class AssetsService {
 
@@ -53,6 +55,12 @@ module.exports = class AssetsService {
    * @return {Promise}
    */
   static findOrCreateByUrl(url) {
+
+    // Check the URL to confirm that is in the domain whitelist
+    if (!domainlist.urlCheck(url)) {
+      return Promise.reject(errors.ErrInvalidAssetURL);
+    }
+
     return AssetModel.findOneAndUpdate({url}, {url}, {
 
       // Ensure that if it's new, we return the new object created.

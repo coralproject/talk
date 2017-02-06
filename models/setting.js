@@ -62,6 +62,16 @@ const SettingSchema = new Schema({
   requireEmailConfirmation: {
     type: Boolean,
     default: false
+  },
+  domains: {
+    whitelist: {
+      type: Array,
+      default: ['localhost']
+    },
+    enable: {
+      type: Boolean,
+      default: true
+    }
   }
 }, {
   timestamps: {
