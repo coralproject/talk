@@ -140,7 +140,7 @@ class SignUpContent extends React.Component {
         <div className={styles.footer}>
           <span>
             {lang.t('signIn.alreadyHaveAnAccount')}
-            <a id="coralLogInButton" onClick={() => changeView('SIGNIN')}>
+            <a id="coralSignInViewTrigger" onClick={() => changeView('SIGNIN')}>
               {lang.t('signIn.signIn')}
             </a>
           </span>

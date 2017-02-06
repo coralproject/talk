@@ -14,19 +14,22 @@ const SignInContent = ({
   emailVerificationLoading,
   emailVerificationSuccess,
   formData,
-  ...props
+  changeView,
+  handleSignIn,
+  auth,
+  fetchSignInFacebook
 }) => {
 
   return (
     <div>
       <div className={styles.header}>
         <h1>
-          {props.auth.emailVerificationFailure ? lang.t('signIn.emailVerifyCTA') : lang.t('signIn.signIn')}
+          {auth.emailVerificationFailure ? lang.t('signIn.emailVerifyCTA') : lang.t('signIn.signIn')}
         </h1>
       </div>
-      { props.auth.error && <Alert>{props.auth.error}</Alert> }
+      { auth.error && <Alert>{auth.error}</Alert> }
       {
-        props.auth.emailVerificationFailure
+        auth.emailVerificationFailure
         ? <form onSubmit={handleResendVerification}>
             <p>{lang.t('signIn.requestNewVerifyEmail')}</p>
             <FormField
@@ -41,7 +44,7 @@ const SignInContent = ({
           </form>
         : <div>
             <div className={styles.socialConnections}>
-              <Button cStyle="facebook" onClick={props.fetchSignInFacebook} full>
+              <Button cStyle="facebook" onClick={fetchSignInFacebook} full>
                 {lang.t('signIn.facebookSignIn')}
               </Button>
             </div>
@@ -50,7 +53,7 @@ const SignInContent = ({
                 {lang.t('signIn.or')}
               </h1>
             </div>
-            <form onSubmit={props.handleSignIn}>
+            <form onSubmit={handleSignIn}>
               <FormField
                 id="email"
                 type="email"
@@ -67,7 +70,7 @@ const SignInContent = ({
               />
               <div className={styles.action}>
                 {
-                  !props.auth.isLoading ?
+                  !auth.isLoading ?
                   <Button id='coralLogInButton' type="submit" cStyle="black" className={styles.signInButton} full>
                     {lang.t('signIn.signIn')}
                   </Button>
@@ -79,10 +82,10 @@ const SignInContent = ({
           </div>
       }
       <div className={styles.footer}>
-        <span><a onClick={() => props.changeView('FORGOT')}>{lang.t('signIn.forgotYourPass')}</a></span>
+        <span><a onClick={() => changeView('FORGOT')}>{lang.t('signIn.forgotYourPass')}</a></span>
         <span>
           {lang.t('signIn.needAnAccount')}
-          <a onClick={() => props.changeView('SIGNUP')} id='coralRegister'>
+          <a onClick={() => changeView('SIGNUP')} id='coralRegister'>
             {lang.t('signIn.register')}
           </a>
         </span>
@@ -92,6 +95,14 @@ const SignInContent = ({
 };
 
 SignInContent.propTypes = {
+  auth: PropTypes.shape({
+    isLoading: PropTypes.bool.isRequired,
+    error: PropTypes.object,
+    emailVerificationFailure: PropTypes.bool
+  }).isRequired,
+  fetchSignInFacebook: PropTypes.func.isRequired,
+  handleSignIn: PropTypes.func.isRequired,
+  changeView: PropTypes.func.isRequired,
   emailVerificationLoading: PropTypes.bool.isRequired,
   emailVerificationSuccess: PropTypes.bool.isRequired,
   handleResendVerification: PropTypes.func.isRequired,
