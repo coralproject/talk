@@ -349,7 +349,7 @@ module.exports = class UsersService {
       // User status is not supported! Error out here.
       return Promise.reject(new Error(`status ${status} is not supported`));
     }
-    
+
     return UserModel.findOne({id})
       .then((user) => {
         if (user.status === 'APPROVED' && status === 'PENDING') {
@@ -357,25 +357,6 @@ module.exports = class UsersService {
         } else {
           return UserModel.update({id}, {$set: {status}});
         }
-      });
-  }
-
-  /**
-   * Set the display name of a user.
-   * @param  {String}   id   id of a user
-   * @param  {String}   displayName display name to set
-   * @param  {Function} done callback after the operation is complete
-   */
-  static setDisplayName(id, displayName) {
-
-    return UsersService.isValidDisplayName(displayName)
-      .then(() => { // displayName is valid
-        return UserModel.update(
-          {id},
-          {$set: {'displayName': displayName}})
-        .then(() => {
-          return UserModel.findOne({'id': id});
-        });
       });
   }
 

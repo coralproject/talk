@@ -178,25 +178,6 @@ describe('services.UsersService', () => {
     });
   });
 
-  describe('#setDisplayName', () => {
-    it('should set the display name to a new unique one', () => {
-      return UsersService
-        .setDisplayName(mockUsers[0].id, 'maria')
-        .then(() => UsersService.findById(mockUsers[0].id))
-        .then((user) => {
-          expect(user).to.have.property('displayName', 'maria');
-        });
-    });
-
-    it('should return an error when the displayName is not unique', () => {
-      return UsersService
-        .setDisplayName(mockUsers[0].id, 'marvel')
-        .catch((error) => {
-          expect(error).to.not.be.null;
-        });
-    });
-  });
-
   describe('#ban', () => {
     it('should set the status to banned', () => {
       return UsersService
