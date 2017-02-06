@@ -1,4 +1,4 @@
-import {Map} from 'immutable';
+import {Map, fromJS} from 'immutable';
 import * as actions from '../constants/auth';
 
 const initialState = Map({
@@ -21,7 +21,7 @@ const initialState = Map({
 
 const purge = user => {
   const {settings, profiles, ...userData} = user; // eslint-disable-line
-  return userData;
+  return fromJS(userData);
 };
 
 export default function auth (state = initialState, action) {
@@ -131,8 +131,9 @@ export default function auth (state = initialState, action) {
       .set('passwordRequestFailure', 'There was an error sending your password reset email. Please try again soon!')
       .set('passwordRequestSuccess', null);
   case actions.UPDATE_DISPLAYNAME:
+    console.log('Action', action);
     return state
-      .set('user', purge(action.displayName));
+      .setIn(['user', 'displayName'], action.displayName);
   case actions.EMAIL_CONFIRM_ERROR:
     return state
       .set('emailConfirmationFailure', true)

@@ -645,7 +645,7 @@ module.exports = class UsersService {
   }
 
   /**
-   * Gives the user the ability to edit their username.
+   * Updates the user's displayName.
    * @param  {String} id the id of the user to be enabled.
    * @param  {String}  displayName The new displayname for the user.
    * @return {Promise}
