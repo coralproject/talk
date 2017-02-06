@@ -350,14 +350,16 @@ module.exports = class UsersService {
       return Promise.reject(new Error(`status ${status} is not supported`));
     }
 
-    return UserModel.findOne({id})
-      .then((user) => {
-        if (user.status === 'APPROVED' && status === 'PENDING') {
-          return Promise.resolve();
-        } else {
-          return UserModel.update({id}, {$set: {status}});
-        }
-      });
+    return UserModel.update({
+      id,
+      status: {
+        $ne: 'APPROVED'
+      }
+    }, {
+      $set: {
+        status
+      }
+    });
   }
 
   /**
@@ -651,17 +653,18 @@ module.exports = class UsersService {
    * @return {Promise}
    */
   static editName(id, displayName) {
-    return UserModel.findOne({id})
-      .then((user) => {
-        return user.canEditName ?
-        UserModel.update({id}, {
-          $set: {
-            displayName: displayName.toLowerCase(),
-            canEditName: false,
-            status: 'PENDING'
-          }
-        })
-        : Promise.reject(new Error('Display name editing disabled for this account.'));
-      });
+    return UserModel.update({
+      id,
+      canEditName: true
+    }, {
+      $set: {
+        displayName: displayName.toLowerCase(),
+        canEditName: false,
+        status: 'PENDING'
+      }
+    }).then((result) => {
+      return result.nModified > 0 ? result :
+      Promise.reject(new Error('You do not have permission to update your username.'));
+    });
   }
 };
