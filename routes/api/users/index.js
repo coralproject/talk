@@ -65,11 +65,17 @@ router.post('/:user_id/username-enable', authorization.needed('ADMIN'), (req, re
     .toggleNameEdit(req.params.user_id, true)
     .then(() => {
       res.status(204).end();
+
+router.post('/:user_id/displayname', authorization.needed(), (req, res, next) => {
+  UsersService.setDisplayName(req.params.user_id, req.body.displayName)
+    .then((user) => {
+      res.status(201).json(user);
     })
     .catch(next);
 });
 
 router.post('/:user_id/email', authorization.needed('ADMIN'), (req, res, next) => {
+  
   UsersService.findById(req.params.user_id)
     .then(user => {
       let localProfile = user.profiles.find((profile) => profile.provider === 'local');
