@@ -84,7 +84,7 @@ export default function install (state = initialState, action) {
       });
   case actions.CHECK_INSTALL_SUCCESS:
     return state
-      .set('alreadyInstalled', !action.available);
+      .set('alreadyInstalled', action.installed);
   default :
     return state;
   }

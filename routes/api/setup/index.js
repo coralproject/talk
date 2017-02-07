@@ -4,14 +4,14 @@ const SetupService = require('../../../services/setup');
 
 const router = express.Router();
 
-router.get('/available', (req, res, next) => {
+router.get('/', (req, res, next) => {
   SetupService
     .isAvailable()
     .then(() => {
-      res.json({available: true});
+      res.json({installed: false});
     })
     .catch(() => {
-      res.json({available: false});
+      res.json({installed: true});
     });
 });
 

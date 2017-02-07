@@ -95,10 +95,10 @@ const checkInstallFailure = error => ({type: actions.CHECK_INSTALL_FAILURE, erro
 
 export const checkInstall = next => dispatch => {
   dispatch(checkInstallRequest());
-  coralApi('/setup/available')
-    .then(({available}) => {
-      dispatch(checkInstallSuccess(available));
-      if (!available) {
+  coralApi('/setup')
+    .then(({installed}) => {
+      dispatch(checkInstallSuccess(installed));
+      if (installed) {
         next();
       }
     })
