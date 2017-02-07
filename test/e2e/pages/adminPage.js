@@ -10,8 +10,7 @@ const embedStreamCommands = {
     return this
       .waitForElementVisible('@moderationList')
       .waitForElementVisible('@approveButton')
-      .click('@approveButton')
-      .waitForElementNotPresent('@approveButton');
+      .click('@approveButton');
   }
 };
 
