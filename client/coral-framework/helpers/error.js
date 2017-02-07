@@ -6,5 +6,6 @@ export default {
   email: lang.t('error.email'),
   password: lang.t('error.password'),
   displayName: lang.t('error.displayName'),
-  confirmPassword: lang.t('error.confirmPassword')
+  confirmPassword: lang.t('error.confirmPassword'),
+  organizationName: lang.t('error.organizationName'),
 };

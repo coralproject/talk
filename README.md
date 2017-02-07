@@ -12,7 +12,7 @@ See our [Contribution Guide](https://github.com/coralproject/talk/blob/master/CO
 
 To set up a development environment or build from source, see [INSTALL.md](https://github.com/coralproject/talk/blob/master/INSTALL.md).
 
-To launch a Talk server of your own from your browser without any need to muck about in a terminal or think about engineering concepts, stay tuned. We will launch [our installer](https://github.com/coralproject/talk-install) shortly!!
+To launch a Talk server of your own from your browser without any need to muck about in a terminal or think about engineering concepts, stay tuned. We will launch [our installer](https://github.com/coralproject/talk-install) shortly!
 
 
 ### Configuration
@@ -37,6 +37,7 @@ Facebook Login enabled app.
 - `TALK_SMTP_PASSWORD` (*required for email*) - password for the SMTP provider you are using.
 - `TALK_SMTP_HOST` (*required for email*) - SMTP host url with format `smtp.domain.com`.
 - `TALK_SMTP_PORT` (*required for email*) - SMTP port.
+- `TALK_INSTALL_LOCK` (_optional for dynamic setup_) - Defaults to `FALSE`. When `TRUE`, disables the dynamic setup endpoint.
 
 Refer to the wiki page on [Configuration Loading](https://github.com/coralproject/talk/wiki/Configuration-Loading) for
 alternative methods of loading configuration during development.

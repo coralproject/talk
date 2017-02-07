@@ -9,7 +9,10 @@ const inquirer = require('inquirer');
 const mongoose = require('../services/mongoose');
 const SettingModel = require('../models/setting');
 const SettingsService = require('../services/settings');
-const util = require('../util');
+const SetupService = require('../services/setup');
+const UsersService = require('../services/users');
+const util = require('./util');
+const errors = require('../errors');
 
 // Register the shutdown criteria.
 util.onshutdown([
@@ -29,60 +32,165 @@ program
 // Setup the application
 //==============================================================================
 
-SettingsService
-  .init()
-  .then((settings) => {
-    if (program.defaults) {
-      return settings.save();
-    }
+const performSetup = () => {
 
-    console.log('We\'ll ask you some questions in order to setup your installation of Talk.\n');
-
-    return inquirer.prompt([
-      {
-        type: 'input',
-        name: 'organizationName',
-        message: 'Organization Name',
-        default: settings.organizationName,
-        validate: (input) => {
-          if (input && input.length > 0) {
-            return true;
-          }
-
-          return 'Organization Name is required.';
-        }
-      },
-      {
-        type: 'list',
-        choices: SettingModel.MODERATION_OPTIONS,
-        name: 'moderation',
-        default: settings.moderation,
-        message: 'Select a moderation mode'
-      },
-      {
-        type: 'confirm',
-        name: 'requireEmailConfirmation',
-        default: settings.requireEmailConfirmation,
-        message: 'Should emails always be confirmed'
-      }
-    ])
-    .then((answers) => {
-
-      // Update the settings that were changed.
-      Object.keys(answers).forEach((key) => {
-        if (answers[key] !== undefined) {
-          settings[key] = answers[key];
-        }
+  if (program.defaults) {
+    return SettingsService
+      .init()
+      .then(() => {
+        console.log('Settings created.');
+        console.log('\nTalk is now installed!');
+        util.shutdown();
+      })
+      .catch((err) => {
+        console.error(err);
+        util.shutdown(1);
       });
+  }
 
-      return settings.save();
+  // Get the current settings, we are expecing an error here.
+  return SettingsService
+    .retrieve()
+    .then(() => {
+
+      // We should NOT have gotten a settings object, this means that the
+      // application is already setup. Error out here.
+      throw errors.ErrSettingsInit;
+
+    })
+    .catch((err) => {
+
+      // If the error is `not init`, then we're good, otherwise, it's something
+      // else.
+      if (err !== errors.ErrSettingsNotInit) {
+        throw err;
+      }
+
+    })
+    .then(() => {
+
+      // Create the base settings model.
+      let settings = new SettingModel();
+
+      console.log('We\'ll ask you some questions in order to setup your installation of Talk.\n');
+
+      return inquirer.prompt([
+        {
+          type: 'input',
+          name: 'organizationName',
+          message: 'Organization Name',
+          default: settings.organizationName,
+          validate: (input) => {
+            if (input && input.length > 0) {
+              return true;
+            }
+
+            return 'Organization Name is required.';
+          }
+        },
+        {
+          type: 'list',
+          choices: SettingModel.MODERATION_OPTIONS,
+          name: 'moderation',
+          default: settings.moderation,
+          message: 'Select a moderation mode'
+        },
+        {
+          type: 'confirm',
+          name: 'requireEmailConfirmation',
+          default: settings.requireEmailConfirmation,
+          message: 'Should emails always be confirmed'
+        }
+      ])
+      .then((answers) => {
+
+        // Update the settings that were changed.
+        Object.keys(answers).forEach((key) => {
+          if (answers[key] !== undefined) {
+            settings[key] = answers[key];
+          }
+        });
+
+        console.log('\nWe\'ll ask you some questions about your first admin user.\n');
+
+        return inquirer.prompt([
+          {
+            type: 'input',
+            name: 'displayName',
+            message: 'Display Name',
+            filter: (displayName) => {
+              return UsersService
+                .isValidDisplayName(displayName, false)
+                .catch((err) => {
+                  throw err.message;
+                });
+            }
+          },
+          {
+            name: 'email',
+            message: 'Email',
+            format: 'email',
+            validate: (value) => {
+              if (value && value.length >= 3) {
+                return true;
+              }
+
+              return 'Email is required';
+            }
+          },
+          {
+            name: 'password',
+            message: 'Password',
+            type: 'password',
+            filter: (password) => {
+              return UsersService
+                .isValidPassword(password)
+                .catch((err) => {
+                  throw err.message;
+                });
+            }
+          },
+          {
+            name: 'confirmPassword',
+            message: 'Confirm Password',
+            type: 'password',
+            filter: (confirmPassword) => {
+              return UsersService
+                .isValidPassword(confirmPassword)
+                .catch((err) => {
+                  throw err.message;
+                });
+            }
+          },
+        ]);
+      })
+      .then((user) => {
+
+        if (user.password !== user.confirmPassword) {
+          return Promise.reject(new Error('Passwords do not match'));
+        }
+
+        return SetupService.setup({
+          settings: settings.toObject(),
+          user: {
+            email: user.email,
+            displayName: user.displayName,
+            password: user.password
+          }
+        });
+      });
+    })
+    .then(({user}) => {
+      console.log('Settings created.');
+      console.log(`User ${user.id} created.`);
+      console.log('\nTalk is now installed!');
+      util.shutdown();
+    })
+    .catch((err) => {
+      console.error(err);
+      util.shutdown(1);
     });
-  })
-  .then(() => {
-    console.log('Talk is now installed!');
-    util.shutdown();
-  })
-  .catch((err) => {
-    console.error(err);
-    util.shutdown(1);
-  });
+};
+
+// Start tthe setup process.
+performSetup();
