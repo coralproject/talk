@@ -30,6 +30,12 @@
       font-size: 18px;
       vertical-align: middle;
     }
+
+    &:disabled {
+      background: #E0E0E0;
+      color: #4f5c67;
+      font-weight: bold;
+    }
 }
 
 .type--black {

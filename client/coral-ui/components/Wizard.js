@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 
 const Wizard = (props) => {
-  const {children, currentStep, nextStep, previousStep, goToStep} = props;
+  const {children, currentStep, ...rest} = props;
   return (
     <section>
       {React.Children.toArray(children)
@@ -10,9 +10,7 @@ const Wizard = (props) => {
             React.cloneElement(child, {
               i,
               currentStep,
-              nextStep,
-              previousStep,
-              goToStep
+              ...rest
             })
       )}
     </section>

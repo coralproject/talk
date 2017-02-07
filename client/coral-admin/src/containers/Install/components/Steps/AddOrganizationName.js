@@ -2,7 +2,8 @@ import React from 'react';
 import styles from './style.css';
 import {FormField, Button} from 'coral-ui';
 
-const InitialStep = () => {
+const AddOrganizationName = props => {
+  const {handleSettingsChange, handleSubmit, install} = props;
   return (
     <div className={styles.step}>
       <p>
@@ -10,17 +11,20 @@ const InitialStep = () => {
         inviting new team members
       </p>
       <div className={styles.form}>
-        <form onSubmit={() => {}}>
+        <form onSubmit={handleSubmit}>
           <FormField
             className={styles.FormField}
             id="organizationName"
             type="text"
-            label='Organization name' required/>
-          <Button cStyle='black' full>Save</Button>
+            label='Organization name'
+            onChange={handleSettingsChange}
+            showErrors={install.showErrors}
+            errorMsg={install.errors.organizationName} />
+          <Button type="submit" cStyle='black' full>Save</Button>
         </form>
       </div>
     </div>
   );
 };
 
-export default InitialStep;
+export default AddOrganizationName;
