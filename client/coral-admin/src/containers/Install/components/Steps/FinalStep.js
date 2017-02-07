@@ -6,8 +6,9 @@ const InitialStep = () => {
   return (
     <div className={styles.step}>
       <p>
-        Thanks for installing Talk! We sent an email to your team member.
-        While they finish setting up their account, start engaging with your readers now.
+        Thanks for installing Talk! We sent an email to verify your email
+        address. While you finish setting the account, you can start engaging
+        with your readers now.
       </p>
       <Button>Launch Talk</Button>
       <Button cStyle='black'>Close this Installer</Button>

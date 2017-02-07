@@ -3,5 +3,5 @@ export default {
   password: pass => (/^(?=.{8,}).*$/.test(pass)),
   confirmPassword: () => true,
   displayName: displayName => (/^[a-zA-Z0-9_]+$/.test(displayName)),
-  organizationName: org => (/^[a-zA-Z0-9_]+$/).test(org)
+  organizationName: org => (/^[a-zA-Z0-9_ ]+$/).test(org)
 };

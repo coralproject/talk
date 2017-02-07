@@ -1,39 +1,31 @@
 const express = require('express');
 
-const errors = require('../../../errors');
-
 const SetupService = require('../../../services/setup');
-const SettingsService = require('../../../services/settings');
 
 const router = express.Router();
 
+router.get('/available', (req, res, next) => {
+  SetupService
+    .isAvailable()
+    .then(() => {
+      res.json({available: true});
+    })
+    .catch(() => {
+      res.json({available: false});
+    });
+});
+
 router.post('/', (req, res, next) => {
 
-  // Check if we have an install lock present.
-  if (process.env.TALK_INSTALL_LOCK === 'TRUE') {
-    return next(errors.ErrInstallLock);
-  }
-
-  // Get the current settings, we are expecing an error here.
-  SettingsService
-    .retrieve()
+  SetupService
+    .isAvailable()
     .then(() => {
 
-      // We should NOT have gotten a settings object, this means that the
-      // application is already setup. Error out here.
-      return next(errors.ErrSettingsInit);
-
+      // Allow the request to keep going here.
+      next();
     })
     .catch((err) => {
-
-      // If the error is `not init`, then we're good, otherwise, it's something
-      // else.
-      if (err !== errors.ErrSettingsNotInit) {
-        return next(err);
-      }
-
-      // Allow the request to keep going here.
-      return next();
+      next(err);
     });
 
 }, (req, res, next) => {
