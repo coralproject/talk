@@ -1,6 +1,9 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import key from 'keymaster';
+import {connect} from 'react-redux';
+import {compose} from 'react-apollo';
+
+import {modQueueQuery} from '../../graphql/queries';
 
 import {
   updateStatus,
@@ -19,6 +22,7 @@ import {setActiveTab, toggleModal, singleView} from 'actions/moderation';
 import ModerationQueue from './ModerationQueue';
 
 class ModerationContainer extends React.Component {
+
   componentWillMount() {
     const {toggleModal, singleView} = this.props;
 
@@ -88,6 +92,10 @@ class ModerationContainer extends React.Component {
   }
 }
 
+ModerationContainer.contextTypes = {
+  router: React.PropTypes.func.isRequired
+};
+
 const mapStateToProps = state => ({
   moderation: state.moderation.toJS(),
   comments: state.comments.toJS(),
@@ -100,7 +108,6 @@ const mapDispatchToProps = dispatch => ({
   setActiveTab: tab => dispatch(setActiveTab(tab)),
   toggleModal: open => dispatch(toggleModal(open)),
   singleView: () => dispatch(singleView()),
-
 
   fetchSettings: () => dispatch(fetchSettings()),
   fetchModerationQueueComments: () => dispatch(fetchModerationQueueComments()),
@@ -119,4 +126,7 @@ const mapDispatchToProps = dispatch => ({
   updateStatus: (action, comment) => dispatch(updateStatus(action, comment))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModerationContainer);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  modQueueQuery
+)(ModerationContainer);
