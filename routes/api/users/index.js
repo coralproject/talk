@@ -59,6 +59,14 @@ router.post('/:user_id/status', authorization.needed('ADMIN'), (req, res, next) 
     .catch(next);
 });
 
+router.post('/:user_id/displayname', authorization.needed(), (req, res, next) => {
+  UsersService.setDisplayName(req.params.user_id, req.body.displayName)
+    .then((user) => {
+      res.status(201).json(user);
+    })
+    .catch(next);
+});
+
 router.post('/:user_id/email', authorization.needed('admin'), (req, res, next) => {
   UsersService.findById(req.params.user_id)
     .then(user => {
@@ -112,7 +120,7 @@ const SendEmailConfirmation = (app, userID, email, referer) => UsersService
 // create a local user.
 router.post('/', (req, res, next) => {
   const {email, password, displayName} = req.body;
-  const redirectUri = req.header('Referer');
+  const redirectUri = req.header('X-Pym-Url') || req.header('Referer');
 
   UsersService
     .createLocalUser(email, password, displayName)
@@ -160,9 +168,9 @@ router.post('/:user_id/actions', authorization.needed(), (req, res, next) => {
 });
 
 // trigger an email confirmation re-send by a new user
-router.post('/resend-confirm', (req, res, next) => {
+router.post('/resend-verify', (req, res, next) => {
   const {email} = req.body;
-  const redirectUri = req.header('Referer');
+  const redirectUri = req.header('X-Pym-Url') || req.header('Referer');
 
   if (!email) {
     return next(errors.ErrMissingEmail);

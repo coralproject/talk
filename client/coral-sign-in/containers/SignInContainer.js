@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import SignDialog from '../components/SignDialog';
 import Button from 'coral-ui/components/Button';
@@ -6,6 +6,7 @@ import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
+import {pym} from 'coral-framework';
 const lang = new I18n(translations);
 
 import {
@@ -15,6 +16,7 @@ import {
   showSignInDialog,
   hideSignInDialog,
   fetchSignInFacebook,
+  fetchSignUpFacebook,
   fetchForgotPassword,
   requestConfirmEmail,
   facebookCallback,
@@ -41,10 +43,14 @@ class SignInContainer extends Component {
     this.state = this.initialState;
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
-    this.handleResendConfirmation = this.handleResendConfirmation.bind(this);
+    this.handleResendVerification = this.handleResendVerification.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleSignIn = this.handleSignIn.bind(this);
     this.addError = this.addError.bind(this);
+  }
+
+  static propTypes = {
+    requireEmailConfirmation: PropTypes.bool.isRequired
   }
 
   componentWillMount () {
@@ -79,9 +85,9 @@ class SignInContainer extends Component {
     this.setState({emailToBeResent: value});
   }
 
-  handleResendConfirmation(e) {
+  handleResendVerification(e) {
     e.preventDefault();
-    this.props.requestConfirmEmail(this.state.emailToBeResent)
+    this.props.requestConfirmEmail(this.state.emailToBeResent, pym.parentUrl || location.href)
       .then(() => {
         setTimeout(() => {
 
@@ -132,7 +138,7 @@ class SignInContainer extends Component {
     const {fetchSignUp, validForm, invalidForm} = this.props;
     this.displayErrors();
     if (this.isCompleted() && !Object.keys(errors).length) {
-      fetchSignUp(this.state.formData);
+      fetchSignUp(this.state.formData, pym.parentUrl || location.href);
       validForm();
     } else {
       invalidForm(lang.t('signIn.checkTheForm'));
@@ -145,8 +151,9 @@ class SignInContainer extends Component {
   }
 
   render() {
-    const {auth, showSignInDialog, noButton, offset} = this.props;
-    const {emailConfirmationLoading, emailConfirmationSuccess} = auth;
+    const {auth, showSignInDialog, noButton, offset, requireEmailConfirmation} = this.props;
+    const {emailVerificationLoading, emailVerificationSuccess} = auth;
+
     return (
       <div>
         {!noButton && <Button id='coralSignInButton' onClick={showSignInDialog} full>
@@ -156,8 +163,9 @@ class SignInContainer extends Component {
           open={auth.showSignInDialog}
           view={auth.view}
           offset={offset}
-          emailConfirmationLoading={emailConfirmationLoading}
-          emailConfirmationSuccess={emailConfirmationSuccess}
+          emailVerificationEnabled={requireEmailConfirmation}
+          emailVerificationLoading={emailVerificationLoading}
+          emailVerificationSuccess={emailVerificationSuccess}
           {...this}
           {...this.state}
           {...this.props}
@@ -174,11 +182,12 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   checkLogin: () => dispatch(checkLogin()),
   facebookCallback: (err, data) => dispatch(facebookCallback(err, data)),
-  fetchSignUp: formData => dispatch(fetchSignUp(formData)),
+  fetchSignUp: (formData, url) => dispatch(fetchSignUp(formData, url)),
   fetchSignIn: formData => dispatch(fetchSignIn(formData)),
   fetchSignInFacebook: () => dispatch(fetchSignInFacebook()),
+  fetchSignUpFacebook: () => dispatch(fetchSignUpFacebook()),
   fetchForgotPassword: formData => dispatch(fetchForgotPassword(formData)),
-  requestConfirmEmail: email => dispatch(requestConfirmEmail(email)),
+  requestConfirmEmail: (email, url) => dispatch(requestConfirmEmail(email, url)),
   showSignInDialog: () => dispatch(showSignInDialog()),
   changeView: view => dispatch(changeView(view)),
   handleClose: () => dispatch(hideSignInDialog()),

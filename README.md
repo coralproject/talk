@@ -1,6 +1,6 @@
 # Talk [![CircleCI](https://circleci.com/gh/coralproject/talk.svg?style=svg)](https://circleci.com/gh/coralproject/talk)
 
-A commenting platform from [The Coral Project](https://coralproject.net).
+A commenting platform from [The Coral Project](https://coralproject.net). Talk enters a closed beta in March 2017, but you can download the code for our alpha here. [Read more about Talk here.](https://coralproject.net/products/talk.html) 
 
 ## Contributing to Talk
 

@@ -364,6 +364,25 @@ module.exports = class UsersService {
   }
 
   /**
+   * Set the display name of a user.
+   * @param  {String}   id   id of a user
+   * @param  {String}   displayName display name to set
+   * @param  {Function} done callback after the operation is complete
+   */
+  static setDisplayName(id, displayName) {
+
+    return UsersService.isValidDisplayName(displayName)
+      .then(() => { // displayName is valid
+        return UserModel.update(
+          {id},
+          {$set: {'displayName': displayName}})
+        .then(() => {
+          return UserModel.findOne({'id': id});
+        });
+      });
+  }
+
+  /**
    * Finds a user with the id.
    * @param {String} id  user id (uuid)
   */

@@ -14,7 +14,8 @@ const buildOptions = (inputOptions = {}) => {
     _csrf: csurfDOM ? csurfDOM.content : false
   };
 
-  const options = Object.assign({}, defaultOptions, inputOptions);
+  let options = Object.assign({}, defaultOptions, inputOptions);
+  options.headers = Object.assign({}, defaultOptions.headers, inputOptions.headers);
 
   if (options._csrf) {
     switch (options.method.toLowerCase()) {
