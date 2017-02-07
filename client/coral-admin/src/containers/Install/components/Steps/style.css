@@ -56,3 +56,11 @@
     }
   }
 }
+
+.error {
+  background: #FFEBEE;
+  color: #B71C1C;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 2px;
+}

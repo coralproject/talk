@@ -3,7 +3,7 @@ import styles from './style.css';
 import {FormField, Button} from 'coral-ui';
 
 const AddOrganizationName = props => {
-  const {handleSettingsChange, handleSubmit, install} = props;
+  const {handleSettingsChange, handleSettingsSubmit, install} = props;
   return (
     <div className={styles.step}>
       <p>
@@ -11,7 +11,7 @@ const AddOrganizationName = props => {
         inviting new team members
       </p>
       <div className={styles.form}>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSettingsSubmit}>
           <FormField
             className={styles.FormField}
             id="organizationName"

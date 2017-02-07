@@ -3,16 +3,24 @@ import {Map} from 'immutable';
 import * as actions from '../constants/install';
 
 const initialState = Map({
+  isLoading: false,
   data: Map({
     settings: Map({
       organizationName: ''
     }),
     user: Map({
-      displayName: ''
+      displayName: '',
+      email: '',
+      password: '',
+      confirmPassword: ''
     })
   }),
   errors: Map({
-    organizationName: ''
+    organizationName: '',
+    displayName: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
   }),
   showErrors: false,
   hasError: false,
@@ -25,7 +33,9 @@ const initialState = Map({
   {
     text: '2. Create your account',
     step: 2
-  }]
+  }],
+  installRequest: null,
+  installRequestError: null
 });
 
 export default function install (state = initialState, action) {
@@ -57,6 +67,20 @@ export default function install (state = initialState, action) {
   case actions.CLEAR_ERRORS:
     return state
       .set('errors', Map());
+  case actions.INSTALL_REQUEST:
+    return state
+      .set('isLoading', true);
+  case actions.INSTALL_SUCCESS:
+    return state
+      .set('isLoading', false)
+      .set('installRequest', 'SUCCESS');
+  case actions.INSTALL_FAILURE:
+    return state
+      .merge({
+        isLoading: false,
+        installRequest: 'FAILURE',
+        installRequestError: action.error
+      });
   default :
     return state;
   }

@@ -24,28 +24,37 @@ const validation = (formData, dispatch, next) => {
   const empty = Object.keys(formData).filter(name => {
     const cond = !formData[name].length;
 
-    // Adding Error
-    dispatch(addError(name, 'Please, fill this field '));
+    if (cond) {
+
+      // Adding Error
+      dispatch(addError(name, 'Please, fill this field '));
+    } else {
+      dispatch(addError(name, ''));
+    }
+
     return cond;
   });
 
   if (empty.length) {
-    return dispatch(hasError('Please fill the form'));
+    return dispatch(hasError());
   }
 
   // RegExp Validation
   const validation = Object.keys(formData).filter(name => {
     const cond = !validate[name](formData[name]);
     if (cond) {
+
       // Adding Error
       dispatch(addError(name, errorMsj[name]));
+    } else {
+      dispatch(addError(name, ''));
     }
 
     return cond;
   });
 
   if (validation.length) {
-    return dispatch(hasError('Please check the form'));
+    return dispatch(hasError());
   }
 
   dispatch(clearErrors());
@@ -53,33 +62,29 @@ const validation = (formData, dispatch, next) => {
 };
 
 export const submitSettings = () => (dispatch, getState) => {
-  const formData = getState().install.toJS().data.settings;
-  validation(formData, dispatch, function() {
+  const settingsFormData = getState().install.toJS().data.settings;
+  validation(settingsFormData, dispatch, function() {
     dispatch(nextStep());
   });
 };
 
-export const install = () => dispatch => {
-  dispatch(installRequest());
-  coralApi('/setup')
-    .then(result => {
-      console.log(result);
-      dispatch(installSuccess());
-    })
-    .catch(error => {
-      console.error(error);
-      dispatch(installFailure(`${error.message}`));
-    });
+export const submitUser = () => (dispatch, getState) => {
+  const userFormData = getState().install.toJS().data.user;
+  validation(userFormData, dispatch, function() {
+    const data = getState().install.toJS().data;
+    dispatch(installRequest());
+    coralApi('/setup', {method: 'POST', body: data})
+      .then(result => {
+        console.log(result);
+        dispatch(installSuccess());
+        dispatch(nextStep());
+      })
+      .catch(error => {
+        console.error(error);
+        dispatch(installFailure(`${error.message}`));
+      });
+  });
 };
 
-export const updateSettingsFormData = (name, value) => ({
-  type: actions.UPDATE_FORMDATA_SETTINGS,
-  name,
-  value
-});
-
-export const updateUserFormData = (name, value) => ({
-  type: actions.UPDATE_FORMDATA_USER,
-  name,
-  value
-});
+export const updateSettingsFormData = (name, value) => ({type: actions.UPDATE_FORMDATA_SETTINGS, name, value});
+export const updateUserFormData = (name, value) => ({type: actions.UPDATE_FORMDATA_USER, name, value});
