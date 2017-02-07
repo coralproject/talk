@@ -1,9 +1,10 @@
 # Contributor's Guide
 
-Welcome! We are very excited that you are interested in contributing to Talk. 
+Welcome! We are very excited that you are interested in contributing to Talk.
 
 This document is a companion to help you approach contributing. If it does not do so, please [let us know how we can improve it](https://github.com/coralproject/talk/issues)!
 
+By contributing to this project you agree to the [Code of Conduct](https://coralproject.net/code-of-conduct.html).
 
 ## Product Roadmap
 
@@ -13,7 +14,7 @@ You can view product ideas and our longer term roadmap here https://trello.com/b
 
 
 ## Contribute to the documentation
-Clear docs are a prerequisite for a successful open source project. We value non-code and code contributions equally. 
+Clear docs are a prerequisite for a successful open source project. We value non-code and code contributions equally.
 
 We are looking for _documentarians_ to:
 
@@ -40,7 +41,7 @@ Talk is designed to integrate into existing environments in a variety of ways:
 
 If you're considering deploying Talk, [please let us know](https://github.com/coralproject/talk/wiki/Contact-Us)! We are quite literally doing this for you and want to help you succeed any way we can.
 
-If you are writing custom integration code in your fork of Talk, please consider keeping it generic and filing a Pull Request to contribute it back to the project! See our [forking and merging guidelines](https://github.com/coralproject/talk/wiki/Forking,-Branching-and-Merging) for more info. 
+If you are writing custom integration code in your fork of Talk, please consider keeping it generic and filing a Pull Request to contribute it back to the project! See our [forking and merging guidelines](https://github.com/coralproject/talk/wiki/Forking,-Branching-and-Merging) for more info.
 
 ## Write some code
 
@@ -48,9 +49,9 @@ First, [set up a dev environment](https://github.com/coralproject/talk/blob/mast
 
 ### Build a New Feature / Plugin
 
-Talk is beginning life as a Commenting Platform, but is architected to support many varieties of community engagement. 
+Talk is beginning life as a Commenting Platform, but is architected to support many varieties of community engagement.
 
-Please [contact us](https://github.com/coralproject/talk/wiki/Contact-Us) early and often if you'd like to help. We would love to hear your ideas for features and plugins and help you find a way to productively engage the project. 
+Please [contact us](https://github.com/coralproject/talk/wiki/Contact-Us) early and often if you'd like to help. We would love to hear your ideas for features and plugins and help you find a way to productively engage the project.
 
 To get an idea of where the Coral Team is going, see:
 
@@ -66,13 +67,10 @@ Examples:
 
 ### Work on the Core
 
-There is always more work to be done to make an application more stable, scaleable and secure. 
+There is always more work to be done to make an application more stable, scaleable and secure.
 
 If you see issues in the code or have ideas on how we may improve Talk, please consider:
 
 * [contributing a fix](https://github.com/coralproject/talk/wiki/Forking,-Branching-and-Merging),
 * [filing an issue](https://github.com/coralproject/talk/issues), or
 * or otherwise [letting us know](https://github.com/coralproject/talk/wiki/Contact-Us).
-
-
-

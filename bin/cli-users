@@ -9,7 +9,7 @@ const inquirer = require('inquirer');
 const UsersService = require('../services/users');
 const UserModel = require('../models/user');
 const mongoose = require('../services/mongoose');
-const util = require('../util');
+const util = require('./util');
 const Table = require('cli-table');
 
 const validateRequired = (msg = 'Field is required', len = 1) => (input) => {

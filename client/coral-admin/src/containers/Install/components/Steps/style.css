@@ -1,0 +1,77 @@
+.step {
+  padding: 20px 0;
+
+  h3 {
+    max-width: 450px;
+    margin: 0 auto;
+    text-align: left;
+    font-size: 1.4em;
+    font-weight: bold;
+  }
+
+  p {
+    max-width: 450px;
+    margin: 0 auto 30px;
+    font-size: 1.1em;
+    text-align: left;
+  }
+
+  > button {
+    min-width: 145px;
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+
+  .form {
+    max-width: 300px;
+    margin: 30px auto;
+    text-align: left;
+
+    form > button {
+      margin: 30px 0;
+    }
+
+    .formField {
+      text-align: left;
+
+      label {
+        text-align: left;
+        display: block;
+        margin: 10px 0;
+        font-weight: 400;
+        font-size: 1.08em;
+      }
+
+      > input {
+        border: solid 1px rgba(0, 0, 0, 0.23);
+        padding: 10px;
+        border-radius: 3px;
+        width: 100%;
+        box-sizing: border-box;
+        transition: border-color 0.2s ease;
+        font-size: 1em;
+
+        &:focus {
+          border-color: black;
+        }
+      }
+    }
+  }
+}
+
+.finalStep {
+  button {
+    width: 225px;
+    margin-right: 10px;
+  }
+}
+
+.error {
+  background: #FFEBEE;
+  color: #B71C1C;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 2px;
+}

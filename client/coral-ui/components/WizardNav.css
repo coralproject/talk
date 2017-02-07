@@ -1,0 +1,107 @@
+.WizardNav {
+  ul {
+    list-style: none;
+  }
+
+  li {
+    border: solid 1px #DFDFDF;
+    background-color: #F0F0F0;
+    display: inline-block;
+    padding: 10px;
+    margin-right: 10px;
+    color: #A7A7A7;
+    position: relative;
+    padding-left: 40px;
+    border-radius: 1px;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &.done {
+      border-color: #00796B;
+      background-color: #00796B;
+      color: #ffffff;
+      span {
+        &::after {
+          border-color: transparent transparent transparent #00796B;
+        }
+      }
+
+      i {
+        opacity: 1;
+      }
+    }
+
+    &.active {
+      background-color: #FFFFFF;
+      color: #636363;
+      font-weight: 500;
+
+      span {
+        &::after {
+          border-color: transparent transparent transparent #FFFFFF;
+        }
+      }
+    }
+
+    i {
+      transition: opacity 0.2s ease;
+      opacity: 0;
+      vertical-align: middle;
+      font-size: 16px;
+      margin-top: -5px;
+      margin-left: 8px;
+    }
+
+    span {
+      padding: 10px 20px;
+      margin-right: 10px;
+      position: absolute;
+      top: -1px;
+      right: -51px;
+      z-index: 10;
+
+      &::before {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        border: 23px solid #DFDFDF;
+        border-color: transparent transparent transparent #DFDFDF;
+        top: 0;
+        left: 0;
+      }
+
+      &::after {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        border: 23px solid white;
+        border-color: transparent transparent transparent #f0f0f0;
+        top: 0;
+        left: -1px;
+      }
+    }
+
+    &::before {
+      content: "";
+      display: inline-block;
+      position: absolute;
+      border: 23px solid #DFDFDF;
+      border-color: transparent transparent transparent #DFDFDF;
+      top: -1px;
+      left: 0;
+    }
+
+    &::after {
+      content: "";
+      display: inline-block;
+      position: absolute;
+      border: 23px solid white;
+      border-color: transparent transparent transparent #fafafa;
+      top: -1px;
+      left: -1px;
+    }
+
+  }
+}
