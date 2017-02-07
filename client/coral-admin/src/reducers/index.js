@@ -1,19 +1,21 @@
 import {combineReducers} from 'redux';
-import comments from 'reducers/comments';
-import settings from 'reducers/settings';
-import community from 'reducers/community';
-import users from 'reducers/users';
-import auth from 'reducers/auth';
-import actions from 'reducers/actions';
-import assets from 'reducers/assets';
 
-// Combine all reducers into a main one
+import auth from './auth';
+import users from './users';
+import assets from './assets';
+import actions from './actions';
+import comments from './comments';
+import settings from './settings';
+import community from './community';
+import moderation from './moderation';
+
 export default combineReducers({
+  auth,
+  users,
+  assets,
+  actions,
   settings,
   comments,
   community,
-  auth,
-  actions,
-  assets,
-  users
+  moderation
 });
