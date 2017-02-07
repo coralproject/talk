@@ -16,7 +16,7 @@ router.get('/', authorization.needed(), (req, res, next) => {
 // POST /email/confirm takes the password confirmation token available as a
 // payload parameter and if it verifies, it updates the confirmed_at date on the
 // local profile.
-router.post('/email/confirm', (req, res, next) => {
+router.post('/email/verify', (req, res, next) => {
 
   const {
     token
