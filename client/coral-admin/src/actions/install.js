@@ -15,9 +15,7 @@ const addError = (name, error) => ({type: actions.ADD_ERROR, name, error});
 const hasError = error => ({type: actions.HAS_ERROR, error});
 const clearErrors = () => ({type: actions.CLEAR_ERRORS});
 
-export const submitSettings = () => (dispatch, getState) => {
-  const formData = getState().install.toJS().data.settings;
-
+const validation = (formData, dispatch, next) => {
   if (!(formData != null)) {
     return dispatch(hasError());
   }
@@ -50,7 +48,15 @@ export const submitSettings = () => (dispatch, getState) => {
     return dispatch(hasError('Please check the form'));
   }
 
-  return dispatch(clearErrors());
+  dispatch(clearErrors());
+  next();
+};
+
+export const submitSettings = () => (dispatch, getState) => {
+  const formData = getState().install.toJS().data.settings;
+  validation(formData, dispatch, function() {
+    dispatch(nextStep());
+  });
 };
 
 export const install = () => dispatch => {
