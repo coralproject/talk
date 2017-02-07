@@ -5,7 +5,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 
 import {myCommentHistory} from 'coral-framework/graphql/queries';
 
-import {link} from 'coral-framework/PymConnection';
+import {link} from 'coral-framework/services/PymConnection';
 import NotLoggedIn from '../components/NotLoggedIn';
 import {Spinner} from 'coral-ui';
 import SettingsHeader from '../components/SettingsHeader';
