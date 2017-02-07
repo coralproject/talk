@@ -4,8 +4,10 @@ const mocks = require('../mocks');
 const mockComment = 'I read the comments';
 const mockReply = 'This is a test reply';
 const mockUser = {
-  email: `${new Date().getTime()}@test.com`,
-  name: 'testuser',
+  email: `${Date.now()}@test.com`,
+  name: `testuser${Math.random()
+    .toString()
+    .slice(-5)}`,
   pw: 'testtest'
 };
 
@@ -39,6 +41,7 @@ module.exports = {
           .setValue('#password', mockUser.pw)
           .setValue('#confirmPassword', mockUser.pw)
           .click('#coralSignUpButton')
+          .pause(5000)
           .waitForElementVisible('#coralLogInButton', 10000)
           .click('#coralLogInButton')
           .waitForElementVisible('.coral-plugin-commentbox-button', 4000)
