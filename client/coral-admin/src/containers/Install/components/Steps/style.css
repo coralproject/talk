@@ -18,6 +18,10 @@
 
   > button {
     min-width: 145px;
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
   }
 
   .form {
@@ -54,6 +58,13 @@
         }
       }
     }
+  }
+}
+
+.finalStep {
+  button {
+    width: 225px;
+    margin-right: 10px;
   }
 }
 

@@ -35,7 +35,8 @@ const initialState = Map({
     step: 2
   }],
   installRequest: null,
-  installRequestError: null
+  installRequestError: null,
+  alreadyInstalled: false
 });
 
 export default function install (state = initialState, action) {
@@ -81,6 +82,9 @@ export default function install (state = initialState, action) {
         installRequest: 'FAILURE',
         installRequestError: action.error
       });
+  case actions.CHECK_INSTALL_SUCCESS:
+    return state
+      .set('alreadyInstalled', !action.available);
   default :
     return state;
   }

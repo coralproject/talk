@@ -27,7 +27,7 @@ const validation = (formData, dispatch, next) => {
     if (cond) {
 
       // Adding Error
-      dispatch(addError(name, 'Please, fill this field '));
+      dispatch(addError(name, 'This field is required.'));
     } else {
       dispatch(addError(name, ''));
     }
@@ -88,3 +88,22 @@ export const submitUser = () => (dispatch, getState) => {
 
 export const updateSettingsFormData = (name, value) => ({type: actions.UPDATE_FORMDATA_SETTINGS, name, value});
 export const updateUserFormData = (name, value) => ({type: actions.UPDATE_FORMDATA_USER, name, value});
+
+const checkInstallRequest = () => ({type: actions.CHECK_INSTALL_REQUEST});
+const checkInstallSuccess = installed => ({type: actions.CHECK_INSTALL_SUCCESS, installed});
+const checkInstallFailure = error => ({type: actions.CHECK_INSTALL_FAILURE, error});
+
+export const checkInstall = next => dispatch => {
+  dispatch(checkInstallRequest());
+  coralApi('/setup/available')
+    .then(({available}) => {
+      dispatch(checkInstallSuccess(available));
+      if (!available) {
+        next();
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      dispatch(checkInstallFailure(`${error.message}`));
+    });
+};

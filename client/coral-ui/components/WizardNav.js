@@ -25,7 +25,6 @@ const WizardNav = props => {
 };
 
 WizardNav.propTypes = {
-  goToStep: PropTypes.func.isRequired,
   currentStep: PropTypes.number.isRequired
 };
 
