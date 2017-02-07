@@ -59,15 +59,16 @@ router.post('/:user_id/status', authorization.needed('ADMIN'), (req, res, next) 
     .catch(next);
 });
 
-router.post('/:user_id/displayname', authorization.needed(), (req, res, next) => {
-  UsersService.setDisplayName(req.params.user_id, req.body.displayName)
-    .then((user) => {
-      res.status(201).json(user);
-    })
-    .catch(next);
+router.post('/:user_id/username-enable', authorization.needed('ADMIN'), (req, res, next) => {
+  UsersService
+    .toggleNameEdit(req.params.user_id, true)
+    .then(() => {
+      res.status(204).end();
+    });
 });
 
-router.post('/:user_id/email', authorization.needed('admin'), (req, res, next) => {
+router.post('/:user_id/email', authorization.needed('ADMIN'), (req, res, next) => {
+
   UsersService.findById(req.params.user_id)
     .then(user => {
       let localProfile = user.profiles.find((profile) => profile.provider === 'local');
@@ -152,7 +153,7 @@ router.post('/:user_id/actions', authorization.needed(), (req, res, next) => {
 
       // Set the user status to "pending" for review by moderators
       if (action_type.slice(0, 4) === 'FLAG') {
-        return UsersService.setStatus(req.user.id, 'PENDING')
+        return UsersService.setStatus(req.params.user_id, 'PENDING')
           .then(() => action);
       } else {
         return action;

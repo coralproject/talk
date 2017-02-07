@@ -178,25 +178,6 @@ describe('services.UsersService', () => {
     });
   });
 
-  describe('#setDisplayName', () => {
-    it('should set the display name to a new unique one', () => {
-      return UsersService
-        .setDisplayName(mockUsers[0].id, 'maria')
-        .then(() => UsersService.findById(mockUsers[0].id))
-        .then((user) => {
-          expect(user).to.have.property('displayName', 'maria');
-        });
-    });
-
-    it('should return an error when the displayName is not unique', () => {
-      return UsersService
-        .setDisplayName(mockUsers[0].id, 'marvel')
-        .catch((error) => {
-          expect(error).to.not.be.null;
-        });
-    });
-  });
-
   describe('#ban', () => {
     it('should set the status to banned', () => {
       return UsersService
@@ -227,4 +208,56 @@ describe('services.UsersService', () => {
         });
     });
   });
+
+  describe('#toggleNameEdit', () => {
+    it('should toggle the canEditName field', () => {
+      return UsersService
+        .toggleNameEdit(mockUsers[0].id, true)
+        .then(() => UsersService.findById(mockUsers[0].id))
+        .then((user) => {
+          expect(user).to.have.property('canEditName', true);
+        });
+    });
+  });
+
+  describe('#editName', () => {
+    it('should let the user edit their username if the proper toggle is set', () => {
+      return UsersService
+        .toggleNameEdit(mockUsers[0].id, true)
+        .then(() => UsersService.editName(mockUsers[0].id, 'Jojo'))
+        .then(() => UsersService.findById(mockUsers[0].id))
+        .then((user) => {
+          expect(user).to.have.property('displayName', 'jojo');
+          expect(user).to.have.property('canEditName', false);
+        });
+    });
+
+    it('should return an error if canEditName is false', (done) => {
+      UsersService
+        .editName(mockUsers[0].id, 'Jojo')
+        .then(() => UsersService.findById(mockUsers[0].id))
+        .then(() => {
+          done(new Error('Error expected'));
+        })
+        .catch((err) => {
+          expect(err).to.be.truthy;
+          done();
+        });
+    });
+
+    it('should return an error if the username is already taken', (done) => {
+      UsersService
+      .toggleNameEdit(mockUsers[0].id, true)
+      .then(() => UsersService.editName(mockUsers[0].id, 'Marvel'))
+      .then(() => UsersService.findById(mockUsers[0].id))
+      .then(() => {
+        done(new Error('Error expected'));
+      })
+      .catch((err) => {
+        expect(err).to.be.truthy;
+        done();
+      });
+    });
+  });
+
 });

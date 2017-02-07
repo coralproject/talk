@@ -1,9 +1,15 @@
 {
   "en": {
     "successUpdateSettings": "The changes you have made have been applied to the comment stream on this article",
-    "successBioUpdate": "Your Bio has been updated",
+    "successNameUpdate": "Your display name has been updated",
     "contentNotAvailable": "This content is not available",
-    "suspendedAccountMsg": "Your account is currently suspended. This means that you cannot Like, Flag, or write comments. Please contact moderator@fakeurl.com for more information",
+    "bannedAccountMsg": "Your account is currently suspended. This means that you cannot Like, Flag, or write comments. Please contact moderator@fakeurl.com for more information",
+    "editName": {
+      "msg": "Your account is currently suspended because your display name has been deemed inappropriate. To restore your account, please enter a new username. You may contact moderator@fakeurl.com for more information.",
+      "label": "New Display Name",
+      "button": "Submit",
+      "error": "Display names can contain letters, numbers and _ only"
+    },
     "error": {
       "emailNotVerified": "Email address {0} not verified.",
       "email": "Not a valid E-Mail",
@@ -27,7 +33,8 @@
     "successUpdateSettings": "La configuración de este articulo fue actualizada",
     "successBioUpdate": "Tu bio fue actualizada",
     "contentNotAvailable": "El contenido no se encuentra disponible",
-    "suspendedAccountMsg": "Tu cuenta se encuentra suspendida. Esto significa que no puedes dar Like, Marcar o escribir commentarios. Por favor, contacta moderator@fakeurl for more information",
+    "bannedAccountMsg": "Tu cuenta se encuentra suspendida. Esto significa que no puedes dar Like, Marcar o escribir commentarios. Por favor, contacta moderator@fakeurl for more information",
+    "editNameMsg": "",
     "error": {
       "emailNotVerified": "Dirección de correo electrónico {0} no verificada.",
       "email": "No es un email válido",

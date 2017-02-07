@@ -36,7 +36,7 @@ class SuspendUserModal extends Component  {
   }
 
   componentDidMount() {
-    const about = this.props.actionType === 'flag_bio' ? lang.t('suspenduser.bio') : lang.t('suspenduser.username');
+    const about = lang.t('suspenduser.username');
     this.setState({email: lang.t('suspenduser.email', about)});
   }
 

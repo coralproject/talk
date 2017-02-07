@@ -360,26 +360,16 @@ module.exports = class UsersService {
       return Promise.reject(new Error(`status ${status} is not supported`));
     }
 
-    return UserModel.update({id}, {$set: {status}});
-  }
-
-  /**
-   * Set the display name of a user.
-   * @param  {String}   id   id of a user
-   * @param  {String}   displayName display name to set
-   * @param  {Function} done callback after the operation is complete
-   */
-  static setDisplayName(id, displayName) {
-
-    return UsersService.isValidDisplayName(displayName)
-      .then(() => { // displayName is valid
-        return UserModel.update(
-          {id},
-          {$set: {'displayName': displayName}})
-        .then(() => {
-          return UserModel.findOne({'id': id});
-        });
-      });
+    return UserModel.update({
+      id,
+      status: {
+        $ne: 'APPROVED'
+      }
+    }, {
+      $set: {
+        status
+      }
+    });
   }
 
   /**
@@ -664,4 +654,37 @@ module.exports = class UsersService {
     return UserModel.find({status: 'PENDING'});
   }
 
+  /**
+   * Gives the user the ability to edit their username.
+   * @param  {String} id the id of the user to be toggled.
+   * @param  {Boolean} canEditName sets whether the user can edit their name.
+   * @return {Promise}
+   */
+  static toggleNameEdit(id, canEditName) {
+    return UserModel.update({id}, {
+      $set: {canEditName}
+    });
+  }
+
+  /**
+   * Updates the user's displayName.
+   * @param  {String} id the id of the user to be enabled.
+   * @param  {String}  displayName The new displayname for the user.
+   * @return {Promise}
+   */
+  static editName(id, displayName) {
+    return UserModel.update({
+      id,
+      canEditName: true
+    }, {
+      $set: {
+        displayName: displayName.toLowerCase(),
+        canEditName: false,
+        status: 'PENDING'
+      }
+    }).then((result) => {
+      return result.nModified > 0 ? result :
+      Promise.reject(new Error('You do not have permission to update your username.'));
+    });
+  }
 };

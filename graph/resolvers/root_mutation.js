@@ -8,9 +8,6 @@ const RootMutation = {
   deleteAction(_, {id}, {mutators: {Action}}) {
     return Action.delete({id});
   },
-  updateUserSettings(_, {settings}, {mutators: {User}}) {
-    return User.updateSettings(settings);
-  }
 };
 
 module.exports = RootMutation;

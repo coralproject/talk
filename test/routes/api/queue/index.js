@@ -110,7 +110,7 @@ describe('/api/v1/queue', () => {
 
   it('should return all pending users and actions', function(done){
     chai.request(app)
-      .get('/api/v1/queue/users/pending')
+      .get('/api/v1/queue/users/flagged')
       .set(passport.inject({roles: ['ADMIN']}))
       .end(function(err, res){
         expect(err).to.be.null;

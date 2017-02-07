@@ -11,6 +11,7 @@ const {fetchAssetSuccess} = assetActions;
 
 import {queryStream} from 'coral-framework/graphql/queries';
 import {postComment, postAction, deleteAction} from 'coral-framework/graphql/mutations';
+import {editName} from 'coral-framework/actions/user';
 import {Notification, notificationActions, authActions, assetActions, pym} from 'coral-framework';
 
 import Stream from './Stream';
@@ -84,6 +85,8 @@ class Embed extends Component {
 
     const openStream = closedAt === null;
 
+    const banned = user && user.status === 'BANNED';
+
     const expandForLogin = showSignInDialog ? {
       minHeight: document.body.scrollHeight + 200
     } : {};
@@ -100,7 +103,7 @@ class Embed extends Component {
             <Tab>Settings</Tab>
             <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>
-          {loggedIn && <UserBox user={user} logout={this.props.logout} changeTab={this.changeTab} />}
+          {loggedIn && <UserBox user={user} logout={this.props.logout}  changeTab={this.changeTab}/>}
           <TabContent show={activeTab === 0}>
             {
               openStream
@@ -109,7 +112,12 @@ class Embed extends Component {
                      content={asset.settings.infoBoxContent}
                      enable={asset.settings.infoBoxEnable}
                    />
-                 <RestrictedContent restricted={false} restrictedComp={<SuspendedAccount />}>
+                 <RestrictedContent restricted={banned} restrictedComp={
+                     <SuspendedAccount
+                       canEditName={user && user.canEditName}
+                       editName={this.props.editName}
+                       />
+                   }>
                    {
                      user
                      ? <CommentBox
@@ -122,7 +130,6 @@ class Embed extends Component {
                         premod={asset.settings.moderation}
                         isReply={false}
                         currentUser={this.props.auth.user}
-                        banned={false}
                         authorId={user.id}
                         charCount={asset.settings.charCountEnable && asset.settings.charCount} />
                      : null
@@ -148,28 +155,28 @@ class Embed extends Component {
               clearNotification={this.props.clearNotification}
               notification={{text: null}}
             />
-          </TabContent>
-          <TabContent show={activeTab === 1}>
+        </TabContent>
+         <TabContent show={activeTab === 1}>
            <SettingsContainer
              loggedIn={loggedIn}
              userData={this.props.userData}
              showSignInDialog={this.props.showSignInDialog}
            />
-          </TabContent>
-          <TabContent show={activeTab === 2}>
+         </TabContent>
+         <TabContent show={activeTab === 2}>
            <RestrictedContent restricted={!loggedIn}>
              <ConfigureStreamContainer
                status={status}
                onClick={this.toggleStatus}
              />
            </RestrictedContent>
-          </TabContent>
+         </TabContent>
           <Notification
             notifLength={4500}
             clearNotification={this.props.clearNotification}
             notification={this.props.notification}
           />
-          </div>
+        </div>
       </div>
     );
   }
@@ -193,6 +200,7 @@ const mapDispatchToProps = dispatch => ({
     });
   },
   clearNotification: () => dispatch(clearNotification()),
+  editName: (displayName) => dispatch(editName(displayName)),
   showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),
   logout: () => dispatch(logout()),
   dispatch: d => dispatch(d)
