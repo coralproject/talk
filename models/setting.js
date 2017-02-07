@@ -67,10 +67,6 @@ const SettingSchema = new Schema({
     whitelist: {
       type: Array,
       default: ['localhost']
-    },
-    enable: {
-      type: Boolean,
-      default: true
     }
   }
 }, {
