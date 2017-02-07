@@ -11,13 +11,13 @@ import CreateYourAccount from './components/Steps/CreateYourAccount';
 import FinalStep from './components/Steps/FinalStep';
 
 const InstallContainer = props => {
-  const {goToStep, install} = props;
+  const {install} = props;
 
   return (
     <Layout restricted={true}>
       <div className={styles.Install}>
         <h2>Welcome to the Coral Project</h2>
-        { install.step !== 0 ? <WizardNav goToStep={goToStep} items={install.navItems} currentStep={install.step} icon='check'/> : null }
+        { install.step !== 0 ? <WizardNav items={install.navItems} currentStep={install.step} icon='check'/> : null }
         <Wizard currentStep={install.step} {...props}>
           <InitialStep/>
           <AddOrganizationName/>
