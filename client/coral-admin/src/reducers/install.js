@@ -3,10 +3,20 @@ import {Map} from 'immutable';
 import * as actions from '../constants/install';
 
 const initialState = Map({
-  data: Map(),
-  errors: Map(),
+  data: Map({
+    settings: Map({
+      organizationName: ''
+    }),
+    user: Map({
+      displayName: ''
+    })
+  }),
+  errors: Map({
+    organizationName: ''
+  }),
   showErrors: false,
   hasError: false,
+  error: null,
   step: 0,
   navItems: [{
     text: '1. Add Organization Name',
@@ -35,16 +45,16 @@ export default function install (state = initialState, action) {
   case actions.UPDATE_FORMDATA_USER:
     return state
       .setIn(['data', 'user', action.name], action.value);
-  case actions.SHOW_ERRORS:
-    return state
-      .set('showErrors', action.show);
   case actions.HAS_ERROR:
     return state
-      .set('hasError', action.has);
+      .merge({
+        hasError: true,
+        showErrors: true
+      });
   case actions.ADD_ERROR:
     return state
       .setIn(['errors', action.name], action.error);
-  case actions.NO_ERROR:
+  case actions.CLEAR_ERRORS:
     return state
       .set('errors', Map());
   default :

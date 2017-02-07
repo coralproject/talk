@@ -1,8 +1,7 @@
 import coralApi from 'coral-framework/helpers/response';
 import * as actions from '../constants/install';
-
-// import validate from 'coral-framework/helpers/validate';
-// import errorMsj from 'coral-framework/helpers/error';
+import validate from 'coral-framework/helpers/validate';
+import errorMsj from 'coral-framework/helpers/error';
 
 export const nextStep = () => ({type: actions.NEXT_STEP});
 export const previousStep = () => ({type: actions.PREVIOUS_STEP});
@@ -12,35 +11,46 @@ const installRequest = () => ({type: actions.INSTALL_REQUEST});
 const installSuccess = () => ({type: actions.INSTALL_SUCCESS});
 const installFailure = error => ({type: actions.INSTALL_FAILURE, error});
 
-export const submit = () => (dispatch, getState) => {
-  const formData = getState().install.toJS().data;
-  console.log('Handling Submit');
-  console.log(formData.settings);
+const addError = (name, error) => ({type: actions.ADD_ERROR, name, error});
+const hasError = error => ({type: actions.HAS_ERROR, error});
+const clearErrors = () => ({type: actions.CLEAR_ERRORS});
 
-  if (!(formData.settings != null)) {
-    return console.log('Validation Failed');
+export const submitSettings = () => (dispatch, getState) => {
+  const formData = getState().install.toJS().data.settings;
+
+  if (!(formData != null)) {
+    return dispatch(hasError());
   }
 
-  const empty = Object.keys(formData.settings).filter(name => {
-    console.log(name);
-    return !formData.settings[name].length;
+  // Required Validation
+  const empty = Object.keys(formData).filter(name => {
+    const cond = !formData[name].length;
+
+    // Adding Error
+    dispatch(addError(name, 'Please, fill this field '));
+    return cond;
   });
 
-  console.log(
-    empty
-  );
+  if (empty.length) {
+    return dispatch(hasError('Please fill the form'));
+  }
 
-  // const empty = Object.keys(formData.settings)
-  //   .filter(name => !formData[name].length)
+  // RegExp Validation
+  const validation = Object.keys(formData).filter(name => {
+    const cond = !validate[name](formData[name]);
+    if (cond) {
+      // Adding Error
+      dispatch(addError(name, errorMsj[name]));
+    }
 
-  // console.log(
-  //   empty
-  // )
-  // if (empty.length) {
-  //   console.log('Validation Failed')
-  // }
-    // .filter(name => data[name])
+    return cond;
+  });
 
+  if (validation.length) {
+    return dispatch(hasError('Please check the form'));
+  }
+
+  return dispatch(clearErrors());
 };
 
 export const install = () => dispatch => {

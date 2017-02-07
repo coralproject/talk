@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import styles from './style.css';
 import {Wizard, WizardNav} from 'coral-ui';
 import {Layout} from '../../components/ui/Layout';
-import {nextStep, previousStep, goToStep, updateUserFormData, updateSettingsFormData, submit} from '../../actions/install';
+import {nextStep, previousStep, goToStep, updateUserFormData, updateSettingsFormData, submitSettings} from '../../actions/install';
 
 import InitialStep from './components/Steps/InitialStep';
 import AddOrganizationName from './components/Steps/AddOrganizationName';
@@ -47,7 +47,7 @@ const mapDispatchToProps = dispatch => ({
   },
   handleSubmit: e => {
     e.preventDefault();
-    dispatch(submit());
+    dispatch(submitSettings());
   }
 });
 
