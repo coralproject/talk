@@ -15,7 +15,7 @@ export const fetchModerationQueueComments = () => {
 
     return Promise.all([
       coralApi('/queue/comments/premod'),
-      coralApi('/queue/users/pending'),
+      coralApi('/queue/users/flagged'),
       coralApi('/queue/comments/rejected'),
       coralApi('/queue/comments/flagged')
     ])
@@ -46,7 +46,7 @@ export const fetchPendingUsersQueue = () => {
   return dispatch => {
     dispatch({type: commentTypes.COMMENTS_MODERATION_QUEUE_FETCH_REQUEST});
 
-    return coralApi('/queue/users/pending')
+    return coralApi('/queue/users/flagged')
       .then(addUsersCommentsActions.bind(this, dispatch));
   };
 };

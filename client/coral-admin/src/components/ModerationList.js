@@ -3,7 +3,7 @@ import styles from './ModerationList.css';
 import key from 'keymaster';
 import Hammer from 'hammerjs';
 import Comment from './Comment';
-import UserAction from './UserAction';
+import User from './User';
 import SuspendUserModal from './SuspendUserModal';
 
 // Each action has different meaning and configuration
@@ -138,7 +138,7 @@ export default class ModerationList extends React.Component {
       if (menuOption === 'REJECTED') {
         this.setState({suspendUserModal: action});
       } else if (menuOption === 'ACCEPTED') {
-        this.props.userStatusUpdate('ACTIVE', action.item_id);
+        this.props.userStatusUpdate('APPROVED', action.item_id);
       }
     }
   }
@@ -177,7 +177,7 @@ export default class ModerationList extends React.Component {
 
       // If the item is an action...
       const user = users[item.item_id];
-      modItem = user && <UserAction
+      modItem = user && <User
         suspectWords={suspectWords}
         action={item}
         user={user}

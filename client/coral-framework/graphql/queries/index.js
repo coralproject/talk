@@ -11,6 +11,9 @@ function getQueryVariable(variable) {
       return decodeURIComponent(pair[1]);
     }
   }
+
+  // If no query is included, return a default string for development
+  return 'http://dev.default.stream';
 }
 
 export const queryStream = graphql(STREAM_QUERY, {

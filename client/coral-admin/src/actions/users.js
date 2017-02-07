@@ -21,3 +21,11 @@ export const sendNotificationEmail = (userId, subject, body) => {
       .catch(error => dispatch({type: userTypes.USER_EMAIL_FAILURE, error}));
   };
 };
+
+// let a user edit their username
+export const enableUsernameEdit = (userId) => {
+  return (dispatch) => {
+    return coralApi(`/users/${userId}/username-enable`, {method: 'POST'})
+      .catch(error => dispatch({type: userTypes.USERNAME_ENABLE_FAILURE, error}));
+  };
+};
