@@ -7,7 +7,7 @@ import {myCommentHistory} from 'coral-framework/graphql/queries';
 import {saveBio} from 'coral-framework/actions/user';
 
 import BioContainer from './BioContainer';
-import {link} from 'coral-framework/PymConnection';
+import {link} from 'coral-framework/services/PymConnection';
 import NotLoggedIn from '../components/NotLoggedIn';
 import {TabBar, Tab, TabContent, Spinner} from 'coral-ui';
 import SettingsHeader from '../components/SettingsHeader';

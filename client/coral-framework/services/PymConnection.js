@@ -1,4 +1,4 @@
-import Pym from '../../node_modules/pym.js';
+import Pym from '../../../node_modules/pym.js';
 
 const pym = new Pym.Child({polling: 100});
 export default pym;
