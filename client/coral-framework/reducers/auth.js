@@ -1,4 +1,4 @@
-import {Map} from 'immutable';
+import {Map, fromJS} from 'immutable';
 import * as actions from '../constants/auth';
 
 const initialState = Map({
@@ -12,16 +12,16 @@ const initialState = Map({
   error: '',
   passwordRequestSuccess: null,
   passwordRequestFailure: null,
-  emailConfirmationFailure: false,
-  emailConfirmationLoading: false,
-  emailConfirmationSuccess: false,
+  emailVerificationFailure: false,
+  emailVerificationLoading: false,
+  emailVerificationSuccess: false,
   successSignUp: false,
   fromSignUp: false
 });
 
 const purge = user => {
   const {settings, profiles, ...userData} = user; // eslint-disable-line
-  return userData;
+  return fromJS(userData);
 };
 
 export default function auth (state = initialState, action) {
@@ -38,9 +38,9 @@ export default function auth (state = initialState, action) {
       error: '',
       passwordRequestFailure: null,
       passwordRequestSuccess: null,
-      emailConfirmationFailure: false,
-      emailConfirmationSuccess: false,
-      emailConfirmationLoading: false,
+      emailVerificationFailure: false,
+      emailVerificationSuccess: false,
+      emailVerificationLoading: false,
       successSignUp: false
     }));
   case actions.SHOW_CREATEDISPLAYNAME_DIALOG :
@@ -131,18 +131,19 @@ export default function auth (state = initialState, action) {
       .set('passwordRequestFailure', 'There was an error sending your password reset email. Please try again soon!')
       .set('passwordRequestSuccess', null);
   case actions.UPDATE_DISPLAYNAME:
+    console.log('Action', action);
     return state
-      .set('user', purge(action.displayName));
-  case actions.EMAIL_CONFIRM_ERROR:
+      .setIn(['user', 'displayName'], action.displayName);
+  case actions.VERIFY_EMAIL_FAILURE:
     return state
-      .set('emailConfirmationFailure', true)
-      .set('emailConfirmationLoading', false);
-  case actions.CONFIRM_EMAIL_REQUEST:
-    return state.set('emailConfirmationLoading', true);
-  case actions.CONFIRM_EMAIL_SUCCESS:
+      .set('emailVerificationFailure', true)
+      .set('emailVerificationLoading', false);
+  case actions.VERIFY_EMAIL_REQUEST:
+    return state.set('emailVerificationLoading', true);
+  case actions.VERIFY_EMAIL_SUCCESS:
     return state
-      .set('emailConfirmationSuccess', true)
-      .set('emailConfirmationLoading', false);
+      .set('emailVerificationSuccess', true)
+      .set('emailVerificationLoading', false);
   default :
     return state;
   }

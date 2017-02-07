@@ -60,15 +60,16 @@ router.post('/:user_id/status', authorization.needed('ADMIN'), (req, res, next) 
     .catch(next);
 });
 
-router.post('/:user_id/displayname', authorization.needed(), (req, res, next) => {
-  UsersService.setDisplayName(req.params.user_id, req.body.displayName)
-    .then((user) => {
-      res.status(201).json(user);
-    })
-    .catch(next);
+router.post('/:user_id/username-enable', authorization.needed('ADMIN'), (req, res, next) => {
+  UsersService
+    .toggleNameEdit(req.params.user_id, true)
+    .then(() => {
+      res.status(204).end();
+    });
 });
 
-router.post('/:user_id/email', authorization.needed('admin'), (req, res, next) => {
+router.post('/:user_id/email', authorization.needed('ADMIN'), (req, res, next) => {
+
   UsersService.findById(req.params.user_id)
     .then(user => {
       let localProfile = user.profiles.find((profile) => profile.provider === 'local');
@@ -127,7 +128,7 @@ const SendEmailConfirmation = (app, userID, email, referer) => UsersService
 // create a local user.
 router.post('/', (req, res, next) => {
   const {email, password, displayName} = req.body;
-  const redirectUri = req.header('Referer');
+  const redirectUri = req.header('X-Pym-Url') || req.header('Referer');
 
   UsersService
     .createLocalUser(email, password, displayName)
@@ -170,7 +171,7 @@ router.post('/:user_id/actions', authorization.needed(), (req, res, next) => {
 
       // Set the user status to "pending" for review by moderators
       if (action_type.slice(0, 4) === 'FLAG') {
-        return UsersService.setStatus(req.user.id, 'PENDING')
+        return UsersService.setStatus(req.params.user_id, 'PENDING')
           .then(() => action);
       } else {
         return action;
@@ -186,9 +187,9 @@ router.post('/:user_id/actions', authorization.needed(), (req, res, next) => {
 });
 
 // trigger an email confirmation re-send by a new user
-router.post('/resend-confirm', (req, res, next) => {
+router.post('/resend-verify', (req, res, next) => {
   const {email} = req.body;
-  const redirectUri = req.header('Referer');
+  const redirectUri = req.header('X-Pym-Url') || req.header('Referer');
 
   if (!email) {
     return next(errors.ErrMissingEmail);
