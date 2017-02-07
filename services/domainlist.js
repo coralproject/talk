@@ -55,17 +55,15 @@ class Domainlist {
 
     // This will return true in the event that at least one blockword is found
     // in the phrase.
-    return list.every((domain) => {
-
-      // Not considering wildcards for now.
-      if (domain === domainToMatch) {
+    for (let i = 0; i < list.length; i++) {
+      if (list[i] === domainToMatch) {
         return true;
       }
+    }
 
-      // We've walked over all the whitelisted domains, and haven't had a
-      // mismatch... It is not an allowed domain!
-      return false;
-    });
+    // We've walked over all the whitelisted domains, and haven't had a
+    // mismatch... It is not an allowed domain!
+    return false;
   }
 
   /**
