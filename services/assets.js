@@ -57,20 +57,22 @@ module.exports = class AssetsService {
   static findOrCreateByUrl(url) {
 
     // Check the URL to confirm that is in the domain whitelist
-    if (!domainlist.urlCheck(url)) {
-      return Promise.reject(errors.ErrInvalidAssetURL);
-    }
+    return domainlist.urlCheck(url).then((whitelisted) => {
+      if (!whitelisted) {
+        return Promise.reject(errors.ErrInvalidAssetURL);
+      } else {
+        return AssetModel.findOneAndUpdate({url}, {url}, {
 
-    return AssetModel.findOneAndUpdate({url}, {url}, {
+          // Ensure that if it's new, we return the new object created.
+          new: true,
 
-      // Ensure that if it's new, we return the new object created.
-      new: true,
+          // Perform an upsert in the event that this doesn't exist.
+          upsert: true,
 
-      // Perform an upsert in the event that this doesn't exist.
-      upsert: true,
-
-      // Set the default values if not provided based on the mongoose models.
-      setDefaultsOnInsert: true
+          // Set the default values if not provided based on the mongoose models.
+          setDefaultsOnInsert: true
+        });
+      }
     });
   }
 
