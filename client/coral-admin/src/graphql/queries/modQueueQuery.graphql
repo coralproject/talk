@@ -1,32 +1,32 @@
 #import "../fragments/commentView.graphql"
 
 query ($asset_id: ID!) {
-    premod: comments(query: {
-    statuses: [PREMOD],
+    all: comments(query: {
+    statuses: [ACCEPTED, REJECTED, PREMOD],
     asset_id: $asset_id
+    }) {
+        ...commentView
+    }
+    premod: comments(query: {
+        statuses: [PREMOD],
+        asset_id: $asset_id
     }) {
         ...commentView
     }
     flagged: comments(query: {
-    action_type: FLAG,
-    asset_id: $asset_id
+        action_type: FLAG,
+        asset_id: $asset_id
     }) {
         ...commentView
     }
-    all: comments(query: {
-    statuses: [ACCEPTED],
-    asset_id: $asset_id
+    rejected: comments(query: {
+        statuses: [REJECTED],
+        asset_id: $asset_id
     }) {
         ...commentView
     }
     account: comments(query: {
     statuses: [ACCEPTED],
-    asset_id: $asset_id
-    }) {
-        ...commentView
-    }
-    rejected: comments(query: {
-    statuses: [REJECTED],
     asset_id: $asset_id
     }) {
         ...commentView
