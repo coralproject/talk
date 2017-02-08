@@ -11,6 +11,7 @@ export const SAVE_SETTINGS_SUCCESS = 'SAVE_SETTINGS_SUCCESS';
 export const SAVE_SETTINGS_FAILED = 'SAVE_SETTINGS_FAILED';
 
 export const WORDLIST_UPDATED = 'WORDLIST_UPDATED';
+export const DOMAINLIST_UPDATED = 'DOMAINLIST_UPDATED';
 
 export const fetchSettings = () => dispatch => {
   dispatch({type: SETTINGS_LOADING});
@@ -31,6 +32,10 @@ export const updateSettings = settings => {
 // this is a nested property, so it needs a special action.
 export const updateWordlist = (listName, list) => {
   return {type: WORDLIST_UPDATED, listName, list};
+};
+
+export const updateDomainlist = (listName, list) => {
+  return {type: DOMAINLIST_UPDATED, listName, list};
 };
 
 export const saveSettingsToServer = () => (dispatch, getState) => {

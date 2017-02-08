@@ -1,5 +1,7 @@
 const AssetModel = require('../models/asset');
 const SettingsService = require('./settings');
+const domainlist = require('./domainlist');
+const errors = require('../errors');
 
 module.exports = class AssetsService {
 
@@ -53,16 +55,24 @@ module.exports = class AssetsService {
    * @return {Promise}
    */
   static findOrCreateByUrl(url) {
-    return AssetModel.findOneAndUpdate({url}, {url}, {
 
-      // Ensure that if it's new, we return the new object created.
-      new: true,
+    // Check the URL to confirm that is in the domain whitelist
+    return domainlist.urlCheck(url).then((whitelisted) => {
+      if (!whitelisted) {
+        return Promise.reject(errors.ErrInvalidAssetURL);
+      } else {
+        return AssetModel.findOneAndUpdate({url}, {url}, {
 
-      // Perform an upsert in the event that this doesn't exist.
-      upsert: true,
+          // Ensure that if it's new, we return the new object created.
+          new: true,
 
-      // Set the default values if not provided based on the mongoose models.
-      setDefaultsOnInsert: true
+          // Perform an upsert in the event that this doesn't exist.
+          upsert: true,
+
+          // Set the default values if not provided based on the mongoose models.
+          setDefaultsOnInsert: true
+        });
+      }
     });
   }
 
