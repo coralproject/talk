@@ -3,7 +3,7 @@ import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
 
-import {TabBar, Tab, TabContent, Spinner} from 'coral-ui';
+import {TabBar, Tab, TabContent, Spinner, Button} from 'coral-ui';
 
 const {logout, showSignInDialog, requestConfirmEmail} = authActions;
 const {addNotification, clearNotification} = notificationActions;
@@ -77,6 +77,17 @@ class Embed extends Component {
     }
   }
 
+  loadMoreComments = () => {
+    this.props.loadMore({
+      limit: 10,
+      cursor: new Date(),
+      asset_id: this.props.asset.id,
+      sort: 'REVERSE_CHRONOLOGICAL'
+    })
+    .then((result) => console.log('result', result))
+    .catch((err) => console.log('err', err));
+  }
+
   render () {
     const {activeTab} = this.state;
     const {closedAt} = this.props.asset;
@@ -94,6 +105,8 @@ class Embed extends Component {
     if (loading) {
       return <Spinner />;
     }
+
+    console.log('Render', this.props.data);
 
     return (
       <div style={expandForLogin}>
@@ -155,6 +168,10 @@ class Embed extends Component {
               clearNotification={this.props.clearNotification}
               notification={{text: null}}
             />
+          <Button
+            onClick={() => this.loadMoreComments()}>
+            Load More
+          </Button>
         </TabContent>
          <TabContent show={activeTab === 1}>
            <SettingsContainer

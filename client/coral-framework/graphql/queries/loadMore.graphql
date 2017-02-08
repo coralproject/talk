@@ -1,0 +1,7 @@
+#import "../fragments/commentView.graphql"
+
+query LoadMoreComments($limit: Int = 5, $cursor: Date, $parent_id: ID, $asset_id: ID, $sort: SORT_ORDER) {
+  new_top_level_comments: comments(query: {limit: $limit, cursor: $cursor, parent_id: $parent_id, asset_id: $asset_id, sort: $sort}) {
+    ...commentView
+  }
+}

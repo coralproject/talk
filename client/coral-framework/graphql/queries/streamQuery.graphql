@@ -18,9 +18,9 @@ query AssetQuery($asset_url: String!) {
             requireEmailConfirmation
         }
         commentCount
-        comments {
+        comments(limit: 2) {
             ...commentView
-            replies {
+            replies(limit: 2) {
                 ...commentView
             }
         }
