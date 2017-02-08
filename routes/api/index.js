@@ -13,6 +13,7 @@ router.use('/actions', authorization.needed(), require('./actions'));
 router.use('/auth', require('./auth'));
 router.use('/users', require('./users'));
 router.use('/account', require('./account'));
+router.use('/setup', require('./setup'));
 
 // Bind the kue handler to the /kue path.
 router.use('/kue', authorization.needed('ADMIN'), require('../../services/kue').kue.app);

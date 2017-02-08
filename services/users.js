@@ -170,10 +170,11 @@ module.exports = class UsersService {
 
   /**
    * Check the requested displayname for naughty words (currently in English) and special chars
-   * @param  {String}   displayName word to be checked for profanity
+   * @param  {String}   displayName           word to be checked for profanity
+   * @param  {Boolean}  checkAgainstWordlist  enables cheching against the wordlist
    * @return {Promise}  rejected if the machine's sensibilites are offended
    */
-  static isValidDisplayName(displayName) {
+  static isValidDisplayName(displayName, checkAgainstWordlist = true) {
     const onlyLettersNumbersUnderscore = /^[A-Za-z0-9_]+$/;
 
     if (!displayName) {
@@ -185,10 +186,19 @@ module.exports = class UsersService {
       return Promise.reject(errors.ErrSpecialChars);
     }
 
-    // check for profanity
-    return Wordlist.displayNameCheck(displayName);
+    if (checkAgainstWordlist) {
+
+      // check for profanity
+      return Wordlist.displayNameCheck(displayName);
+    }
+
+    // No errors found!
+    return Promise.resolve(displayName);
   }
 
+  /**
+   * Performs validations for the password.
+   */
   static isValidPassword(password) {
     if (!password) {
       return Promise.reject(errors.ErrMissingPassword);
@@ -350,26 +360,16 @@ module.exports = class UsersService {
       return Promise.reject(new Error(`status ${status} is not supported`));
     }
 
-    return UserModel.update({id}, {$set: {status}});
-  }
-
-  /**
-   * Set the display name of a user.
-   * @param  {String}   id   id of a user
-   * @param  {String}   displayName display name to set
-   * @param  {Function} done callback after the operation is complete
-   */
-  static setDisplayName(id, displayName) {
-
-    return UsersService.isValidDisplayName(displayName)
-      .then(() => { // displayName is valid
-        return UserModel.update(
-          {id},
-          {$set: {'displayName': displayName}})
-        .then(() => {
-          return UserModel.findOne({'id': id});
-        });
-      });
+    return UserModel.update({
+      id,
+      status: {
+        $ne: 'APPROVED'
+      }
+    }, {
+      $set: {
+        status
+      }
+    });
   }
 
   /**
@@ -466,6 +466,8 @@ module.exports = class UsersService {
       .verifyToken(token, {
         subject: PASSWORD_RESET_JWT_SUBJECT
       })
+
+      // TODO: add search by __v as well
       .then((decoded) => UsersService.findById(decoded.userId));
   }
 
@@ -617,23 +619,31 @@ module.exports = class UsersService {
         subject: EMAIL_CONFIRM_JWT_SUBJECT
       })
       .then(({userID, email, referer}) => {
-        return UserModel
-          .update({
-            id: userID,
-            profiles: {
-              $elemMatch: {
-                id: email,
-                provider: 'local'
-              }
-            }
-          }, {
-            $set: {
-              'profiles.$.metadata.confirmed_at': new Date()
-            }
-          })
+        return UsersService
+          .confirmEmail(userID, email)
           .then(() => ({userID, email, referer}));
       });
 
+  }
+
+  /**
+   * Marks the email on the user as confirmed.
+   */
+  static confirmEmail(id, email) {
+    return UserModel
+      .update({
+        id: id,
+        profiles: {
+          $elemMatch: {
+            id: email,
+            provider: 'local'
+          }
+        }
+      }, {
+        $set: {
+          'profiles.$.metadata.confirmed_at': new Date()
+        }
+      });
   }
 
   /**
@@ -644,4 +654,37 @@ module.exports = class UsersService {
     return UserModel.find({status: 'PENDING'});
   }
 
+  /**
+   * Gives the user the ability to edit their username.
+   * @param  {String} id the id of the user to be toggled.
+   * @param  {Boolean} canEditName sets whether the user can edit their name.
+   * @return {Promise}
+   */
+  static toggleNameEdit(id, canEditName) {
+    return UserModel.update({id}, {
+      $set: {canEditName}
+    });
+  }
+
+  /**
+   * Updates the user's displayName.
+   * @param  {String} id the id of the user to be enabled.
+   * @param  {String}  displayName The new displayname for the user.
+   * @return {Promise}
+   */
+  static editName(id, displayName) {
+    return UserModel.update({
+      id,
+      canEditName: true
+    }, {
+      $set: {
+        displayName: displayName.toLowerCase(),
+        canEditName: false,
+        status: 'PENDING'
+      }
+    }).then((result) => {
+      return result.nModified > 0 ? result :
+      Promise.reject(new Error('You do not have permission to update your username.'));
+    });
+  }
 };

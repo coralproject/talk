@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const UsersService = require('../../../services/users');
-const SettingsService = require('../../../services/settings');
 const CommentsService = require('../../../services/comments');
 const mailer = require('../../../services/mailer');
 const errors = require('../../../errors');
@@ -60,15 +59,16 @@ router.post('/:user_id/status', authorization.needed('ADMIN'), (req, res, next) 
     .catch(next);
 });
 
-router.post('/:user_id/displayname', authorization.needed(), (req, res, next) => {
-  UsersService.setDisplayName(req.params.user_id, req.body.displayName)
-    .then((user) => {
-      res.status(201).json(user);
-    })
-    .catch(next);
+router.post('/:user_id/username-enable', authorization.needed('ADMIN'), (req, res, next) => {
+  UsersService
+    .toggleNameEdit(req.params.user_id, true)
+    .then(() => {
+      res.status(204).end();
+    });
 });
 
-router.post('/:user_id/email', authorization.needed('admin'), (req, res, next) => {
+router.post('/:user_id/email', authorization.needed('ADMIN'), (req, res, next) => {
+
   UsersService.findById(req.params.user_id)
     .then(user => {
       let localProfile = user.profiles.find((profile) => profile.provider === 'local');
@@ -96,12 +96,6 @@ router.post('/:user_id/email', authorization.needed('admin'), (req, res, next) =
     .catch(next);
 });
 
-// /**
-//  * SendEmailConfirmation sends a confirmation email to the user.
-//  * @param {Request} req  express request object
-//  * @param {String} email user email address
-//  */
-
 /**
  * SendEmailConfirmation sends a confirmation email to the user.
  * @param {ExpressApp} app     the instance of the express app
@@ -127,31 +121,20 @@ const SendEmailConfirmation = (app, userID, email, referer) => UsersService
 // create a local user.
 router.post('/', (req, res, next) => {
   const {email, password, displayName} = req.body;
-  const redirectUri = req.header('Referer');
+  const redirectUri = req.header('X-Pym-Url') || req.header('Referer');
 
   UsersService
     .createLocalUser(email, password, displayName)
     .then((user) => {
 
-      // Get the settings from the database to find out if we need to send an
-      // email confirmation. The Front end will know about the
+      // Send an email confirmation. The Front end will know about the
       // requireEmailConfirmation as it's included in the settings get endpoint.
-      return SettingsService.retrieve().then(({requireEmailConfirmation = false}) => {
+      return SendEmailConfirmation(req.app, user.id, email, redirectUri)
+        .then(() => {
 
-        if (requireEmailConfirmation) {
-
-          SendEmailConfirmation(req.app, user.id, email, redirectUri)
-            .then(() => {
-
-              // Then send back the user.
-              res.status(201).json(user);
-            });
-        } else {
-
-          // We don't need to confirm the email, let's just send back the user!
+          // Then send back the user.
           res.status(201).json(user);
-        }
-      });
+        });
     })
     .catch(err => {
       next(err);
@@ -170,7 +153,7 @@ router.post('/:user_id/actions', authorization.needed(), (req, res, next) => {
 
       // Set the user status to "pending" for review by moderators
       if (action_type.slice(0, 4) === 'FLAG') {
-        return UsersService.setStatus(req.user.id, 'PENDING')
+        return UsersService.setStatus(req.params.user_id, 'PENDING')
           .then(() => action);
       } else {
         return action;
@@ -186,9 +169,9 @@ router.post('/:user_id/actions', authorization.needed(), (req, res, next) => {
 });
 
 // trigger an email confirmation re-send by a new user
-router.post('/resend-confirm', (req, res, next) => {
+router.post('/resend-verify', (req, res, next) => {
   const {email} = req.body;
-  const redirectUri = req.header('Referer');
+  const redirectUri = req.header('X-Pym-Url') || req.header('Referer');
 
   if (!email) {
     return next(errors.ErrMissingEmail);

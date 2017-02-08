@@ -5,6 +5,7 @@ import {
   updateSettings,
   saveSettingsToServer,
   updateWordlist,
+  updateDomainlist
 } from '../../actions/settings';
 
 import {Button, List, Item} from 'coral-ui';
@@ -14,6 +15,7 @@ import translations from '../../translations.json';
 import EmbedLink from './EmbedLink';
 import CommentSettings from './CommentSettings';
 import Wordlist from './Wordlist';
+import Domainlist from './Domainlist';
 import has from 'lodash/has';
 
 class Configure extends Component {
@@ -47,6 +49,11 @@ class Configure extends Component {
     this.props.dispatch(updateWordlist(listName, list));
   }
 
+  onChangeDomainlist = (listName, list) => {
+    this.setState({changed: true});
+    this.props.dispatch(updateDomainlist(listName, list));
+  }
+
   onSettingUpdate = (setting) => {
     this.setState({changed: true});
     this.props.dispatch(updateSettings(setting));
@@ -73,7 +80,14 @@ class Configure extends Component {
         errors={this.state.errors}
         settingsError={this.onSettingError}/>;
     case 'embed':
-      return <EmbedLink title={pageTitle} />;
+      return has(this, 'props.settings.domains.whitelist')
+        ? <div>
+            <Domainlist
+             domains={this.props.settings.domains.whitelist}
+             onChangeDomainlist={this.onChangeDomainlist}/>
+            <EmbedLink title={pageTitle} />
+          </div>
+        : <EmbedLink title={pageTitle} />;
     case 'wordlist':
       return has(this, 'props.settings.wordlist')
         ? <Wordlist

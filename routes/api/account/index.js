@@ -16,7 +16,7 @@ router.get('/', authorization.needed(), (req, res, next) => {
 // POST /email/confirm takes the password confirmation token available as a
 // payload parameter and if it verifies, it updates the confirmed_at date on the
 // local profile.
-router.post('/email/confirm', (req, res, next) => {
+router.post('/email/verify', (req, res, next) => {
 
   const {
     token
@@ -115,19 +115,18 @@ router.put('/password/reset', (req, res, next) => {
     });
 });
 
-router.put('/settings', authorization.needed(), (req, res, next) => {
-
-  const {
-    bio
-  } = req.body;
-
+router.put('/displayname', authorization.needed(), (req, res, next) => {
   UsersService
-    .updateSettings(req.user.id, {bio})
+    .editName(req.user.id, req.body.displayName)
     .then(() => {
       res.status(204).end();
     })
-    .catch((err) => {
-      next(err);
+    .catch(error => {
+      if (error.code === 11000) {
+        next(errors.ErrDisplayTaken);
+      } else {
+        next(error);
+      }
     });
 });
 

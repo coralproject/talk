@@ -6,9 +6,6 @@ fragment commentView on Comment {
     user {
         id
         name: displayName
-        settings {
-            bio
-        }
     }
     actions {
         type: action_type

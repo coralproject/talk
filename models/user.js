@@ -12,7 +12,7 @@ const USER_STATUS = [
   'ACTIVE',
   'BANNED',
   'PENDING',
-  'SUSPENDED',
+  'APPROVED' // Indicates that the users' displayname has been approved
 ];
 
 // ProfileSchema is the mongoose schema defined as the representation of a
@@ -97,6 +97,12 @@ const UserSchema = new mongoose.Schema({
     default: 'ACTIVE'
   },
 
+  // Determines whether the user can edit their username.
+  canEditName: {
+    type: Boolean,
+    default: false
+  },
+
   // User's settings
   settings: {
     bio: {
@@ -141,7 +147,7 @@ const USER_GRAPH_OPERATIONS = [
   'mutation:createComment',
   'mutation:createAction',
   'mutation:deleteAction',
-  'mutation:updateUserSettings'
+  'mutation:editName'
 ];
 
 /**

@@ -10,7 +10,7 @@ const Table = require('cli-table');
 const AssetModel = require('../models/asset');
 const mongoose = require('../services/mongoose');
 const scraper = require('../services/scraper');
-const util = require('../util');
+const util = require('./util');
 
 // Register the shutdown criteria.
 util.onshutdown([

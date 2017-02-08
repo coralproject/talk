@@ -22,6 +22,8 @@ const embedStreamCommands = {
       .setValue('@signUpDialogDisplayName', user.displayName)
       .waitForElementVisible('@signUpButton')
       .click('@signUpButton')
+      .waitForElementVisible('@signInViewTrigger')
+      .click('@signInViewTrigger')
       .waitForElementVisible('@logInButton')
       .click('@logInButton')
       .waitForElementVisible('@logoutButton', 5000);
@@ -101,6 +103,9 @@ module.exports = {
     },
     signUpButton: {
       selector: '#coralSignUpButton'
+    },
+    signInViewTrigger: {
+      selector: '#coralSignInViewTrigger'
     },
     logoutButton: {
       selector: '.commentStream #logout'
