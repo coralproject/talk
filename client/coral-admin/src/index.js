@@ -2,8 +2,8 @@ import React from 'react';
 import {render} from 'react-dom';
 import {ApolloProvider} from 'react-apollo';
 
-import {client} from 'services/client';
-import store from 'services/store';
+import {client} from './services/client';
+import store from './services/store';
 
 import App from './components/App';
 

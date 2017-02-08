@@ -19,5 +19,6 @@ export default createStore(
     ...mainReducer,
     apollo: client.reducer()
   }),
+  {},
   compose(...middlewares)
 );
