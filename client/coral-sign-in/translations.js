@@ -1,8 +1,10 @@
 export default {
   en: {
     'signIn': {
-      emailConfirmCTA: 'Please verify your email address.',
-      requestNewConfirmEmail: 'Request another email:',
+      emailVerifyCTA: 'Please verify your email address.',
+      requestNewVerifyEmail: 'Request another email:',
+      verifyEmail: 'Thank you for creating an account! We sent an email to the address you provided to verify your account.',
+      verifyEmail2: 'You must verify your account before engaging with the community.',
       notYou: 'Not you?',
       loggedInAs: 'Logged in as',
       facebookSignIn: 'Sign in with Facebook',
@@ -26,12 +28,24 @@ export default {
       passwordsDontMatch: 'Passwords don\'t match.',
       specialCharacters: 'Display names can contain letters, numbers and _ only',
       checkTheForm: 'Invalid Form. Please, check the fields'
-    }
+    },
+    'createdisplay': {
+      writeyourusername: 'Write your username',
+      yourusername: 'Your username is publicly visible on all comments you post. A username is needed before you can post your first comment.',
+      displayName: 'Display Name',
+      save: 'Save',
+      requiredField: 'Required field',
+      errorCreate: 'Error when changing display name',
+      checkTheForm: 'Invalid Form. Please, check the fields',
+      specialCharacters: 'Display names can contain letters, numbers and _ only'
+    },
   },
   es: {
     'signIn': {
-      emailConfirmCTA: 'Por favor verifique su correo electronico.',
-      requestNewConfirmEmail: 'Enviar otro correo:',
+      emailVerifyCTA: 'Por favor verifique su correo electronico.',
+      requestNewVerifyEmail: 'Enviar otro correo:',
+      verifyEmail: '¡Gracias por crear una cuenta! Le enviamos un correo a la dirección que dio para verificar su cuenta.',
+      verifyEmail2: 'Debe verificarla antes de poder involucrarse en la comunidad.',
       notYou: 'No eres tu?',
       loggedInAs: 'Entraste como',
       facebookSignIn: 'Entrar con Facebook',
@@ -55,6 +69,16 @@ export default {
       passwordsDontMatch: 'Las contraseñas no coinciden',
       specialCharacters: 'Los nombres pueden contener letras, números y _',
       checkTheForm: 'Formulario Inválido. Por favor, completa los campos'
-    }
+    },
+    'createdisplay': {
+      writeyourusername: 'Escribe tu nombre',
+      yourusername: 'Tu nombre es visible publicamente en todos los comentarios que publiques. Es necesario tener un nombre de usuario antes de poder publicar tu primer comentario.',
+      displayName: 'Nombre a mostrar',
+      save: 'Guardar',
+      requiredField: 'Campo necesario',
+      errorCreate: 'Hubo un error al cambiar el nombre de usuario',
+      checkTheForm: 'Formulario Invalido. Por favor, verifica los campos',
+      specialCharacters: 'Sólo pueden contener letras, números y _'
+    },
   }
 };

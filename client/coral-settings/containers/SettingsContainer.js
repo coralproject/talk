@@ -4,12 +4,10 @@ import React, {Component} from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
 
 import {myCommentHistory} from 'coral-framework/graphql/queries';
-import {saveBio} from 'coral-framework/actions/user';
 
-import BioContainer from './BioContainer';
 import {link} from 'coral-framework/services/PymConnection';
 import NotLoggedIn from '../components/NotLoggedIn';
-import {TabBar, Tab, TabContent, Spinner} from 'coral-ui';
+import {Spinner} from 'coral-ui';
 import SettingsHeader from '../components/SettingsHeader';
 import CommentHistory from 'coral-plugin-history/CommentHistory';
 
@@ -33,8 +31,7 @@ class SettingsContainer extends Component {
   }
 
   render() {
-    const {loggedIn, userData, asset, showSignInDialog, data, user} = this.props;
-    const {activeTab} = this.state;
+    const {loggedIn, asset, showSignInDialog, data} = this.props;
     const {me} = this.props.data;
 
     if (!loggedIn || !me) {
@@ -48,25 +45,30 @@ class SettingsContainer extends Component {
     return (
       <div>
         <SettingsHeader {...this.props} />
-        <TabBar onChange={this.handleTabChange} activeTab={activeTab} cStyle='material'>
-          <Tab>{lang.t('allComments')} ({user.myComments.length})</Tab>
-          <Tab>{lang.t('profileSettings')}</Tab>
-        </TabBar>
-        <TabContent show={activeTab === 0}>
-          {
-            me.comments.length ?
-              <CommentHistory
-                comments={me.comments}
-                asset={asset}
-                link={link}
-              />
-            :
-              <p>{lang.t('userNoComment')}</p>
-          }
-        </TabContent>
-        <TabContent show={activeTab === 1}>
-          <BioContainer bio={userData.settings.bio} handleSave={this.handleSave} {...this.props} />
-        </TabContent>
+        {
+
+          // Hiding bio until moderation can get figured out
+          /* <TabBar onChange={this.handleTabChange} activeTab={activeTab} cStyle='material'>
+            <Tab>{lang.t('allComments')} ({user.myComments.length})</Tab>
+              <Tab>{lang.t('profileSettings')}</Tab>
+          </TabBar>
+          <TabContent show={activeTab === 0}> */
+          me.comments.length ?
+            <CommentHistory
+              comments={me.comments}
+              asset={asset}
+              link={link}
+            />
+          :
+            <p>{lang.t('userNoComment')}</p>
+
+          // Hiding user bio pending effective moderation system.
+          /* </TabContent>
+          <TabContent show={activeTab === 1}>
+              <BioContainer bio={userData.settings.bio} handleSave={this.handleSave} {...this.props} />
+          </TabContent> */
+        }
+
       </div>
     );
   }
@@ -78,8 +80,9 @@ const mapStateToProps = state => ({
   auth: state.auth.toJS()
 });
 
-const mapDispatchToProps = dispatch => ({
-  saveBio: (user_id, formData) => dispatch(saveBio(user_id, formData))
+const mapDispatchToProps = () => ({
+
+  // saveBio: (user_id, formData) => dispatch(saveBio(user_id, formData))
 });
 
 export default compose(

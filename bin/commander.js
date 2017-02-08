@@ -2,7 +2,6 @@ const pkg = require('../package.json');
 const dotenv = require('dotenv');
 const fs = require('fs');
 const program = require('commander');
-const util = require('../util');
 
 // Perform rewrites to the runtime environment variables based on the contents
 // of the process.env.REWRITE_ENV if it exists. This is done here as it is the
@@ -27,6 +26,10 @@ const parseArgs = require('minimist')(process.argv.slice(2), {
   }
 });
 
+/**
+ * If the config flag is present, then we have to load the configuration from
+ * the file specified. We will then load those values into the environment.
+ */
 if (parseArgs.config) {
   let envConfig = dotenv.parse(fs.readFileSync(parseArgs.config, {encoding: 'utf8'}));
 
@@ -35,8 +38,15 @@ if (parseArgs.config) {
   });
 }
 
-// If the `--pid` flag is used, put the current pid there.
+/**
+ * If the pid flag is present, then we have to create a pid file at the location
+ * specified.
+ */
 if (parseArgs.pid) {
+  const util = require('./util');
+
+  console.log('Wrote PID');
+
   util.pid(parseArgs.pid);
 }
 

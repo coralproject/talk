@@ -1,20 +1,34 @@
-query ModQueue {
-  flagged_comments: comments(query: {
+#import "../fragments/commentView.graphql"
+
+query ($asset_id: ID!) {
+    premod: comments(query: {
+    statuses: [PREMOD],
+    asset_id: $asset_id
+    }) {
+        ...commentView
+    }
+    flagged: comments(query: {
     action_type: FLAG,
     asset_id: $asset_id
-  }) {
-    id
-  }
-  accepted_comments: comments(query: {
+    }) {
+        ...commentView
+    }
+    all: comments(query: {
     statuses: [ACCEPTED],
     asset_id: $asset_id
-  }) {
-    id
-  }
-  rejected_comments: comments(query: {
+    }) {
+        ...commentView
+    }
+    account: comments(query: {
+    statuses: [ACCEPTED],
+    asset_id: $asset_id
+    }) {
+        ...commentView
+    }
+    rejected: comments(query: {
     statuses: [REJECTED],
     asset_id: $asset_id
-  }) {
-    id
-  }
+    }) {
+        ...commentView
+    }
 }

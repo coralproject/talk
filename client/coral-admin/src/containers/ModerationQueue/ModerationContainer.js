@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {Component} from 'react';
 import key from 'keymaster';
 import {connect} from 'react-redux';
 import {compose} from 'react-apollo';
+import {Spinner} from 'coral-ui';
+import {withRouter} from 'react-router';
 
 import {modQueueQuery} from '../../graphql/queries';
 
@@ -20,8 +22,9 @@ import {userStatusUpdate, sendNotificationEmail} from 'actions/users';
 import {setActiveTab, toggleModal, singleView} from 'actions/moderation';
 
 import ModerationQueue from './ModerationQueue';
+import ModerationQueueHeader from './components/ModerationQueueHeader';
 
-class ModerationContainer extends React.Component {
+class ModerationContainer extends Component {
 
   componentWillMount() {
     const {toggleModal, singleView} = this.props;
@@ -43,16 +46,6 @@ class ModerationContainer extends React.Component {
   onTabClick = (activeTab) => {
     const {setActiveTab} = this.props;
     setActiveTab(activeTab);
-
-    if (activeTab === 'premod') {
-      this.props.fetchPremodQueue();
-    } else if (activeTab === 'rejected') {
-      this.props.fetchRejectedQueue();
-    } else if (activeTab === 'flagged') {
-      this.props.fetchFlaggedQueue();
-    } else {
-      this.props.fetchModerationQueueComments();
-    }
   }
 
   onClose = () => {
@@ -61,40 +54,32 @@ class ModerationContainer extends React.Component {
   }
 
   render () {
-    const {comments, actions, settings, moderation} = this.props;
+    const {data, moderation} = this.props;
 
-    // Remove all this filters
-    const premodIds = comments.ids.filter(id => comments.byId[id].status === 'PREMOD');
-    const rejectedIds = comments.ids.filter(id => comments.byId[id].status === 'REJECTED');
-    const flaggedIds = comments.ids.filter(id =>
-        comments.byId[id].flagged === true &&
-        comments.byId[id].status !== 'REJECTED' &&
-        comments.byId[id].status !== 'ACCEPTED'
-      );
-    const userActionIds = actions.ids.filter(id => actions.byId[id].item_type === 'USERS');
-
-    // show the Pre-Mod tab if premod is enabled globally OR there are pre-mod comments in the db.
-    let enablePremodTab = (settings.settings && settings.settings.moderation === 'PRE') || premodIds.length;
+    if (data.loading) {
+      return <div><Spinner/></div>;
+    }
 
     return (
-      <ModerationQueue
-        enablePremodTab={enablePremodTab}
-        onTabClick={this.onTabClick}
-        onClose={this.onClose}
-        premodIds={premodIds}
-        userActionIds={userActionIds}
-        rejectedIds={rejectedIds}
-        flaggedIds={flaggedIds}
-        {...this.props}
-        {...moderation}
-      />
+      <div>
+        <ModerationQueueHeader onTabClick={this.onTabClick} {...moderation} />
+        <ModerationQueue
+          activeTab={moderation.activeTab}
+          data={data}
+
+          onTabClick={this.onTabClick}
+          onClose={this.onClose}
+          {...this.props}
+          {...moderation}
+        />
+      </div>
     );
   }
 }
 
-ModerationContainer.contextTypes = {
-  router: React.PropTypes.func.isRequired
-};
+// ModerationContainer.contextTypes = {
+//   router: React.PropTypes.func.isRequired
+// };
 
 const mapStateToProps = state => ({
   moderation: state.moderation.toJS(),
@@ -120,13 +105,14 @@ const mapDispatchToProps = dispatch => ({
     dispatch(fetchModerationQueueComments());
   }),
   suspendUser: (userId, subject, text) => dispatch(userStatusUpdate('suspended', userId))
-  .then(() => dispatch(sendNotificationEmail(userId, subject, text)))
-  .then(() => dispatch(fetchModerationQueueComments()))
+    .then(() => dispatch(sendNotificationEmail(userId, subject, text)))
+    .then(() => dispatch(fetchModerationQueueComments()))
   ,
   updateStatus: (action, comment) => dispatch(updateStatus(action, comment))
 });
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
+  withRouter,
   modQueueQuery
 )(ModerationContainer);

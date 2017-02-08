@@ -4,8 +4,10 @@ const mocks = require('../mocks');
 const mockComment = 'I read the comments';
 const mockReply = 'This is a test reply';
 const mockUser = {
-  email: `${new Date().getTime()}@test.com`,
-  name: 'testuser',
+  email: `${Date.now()}@test.com`,
+  name: `testuser${Math.random()
+    .toString()
+    .slice(-5)}`,
   pw: 'testtest'
 };
 
@@ -26,7 +28,7 @@ module.exports = {
         // Load Page
         client.resizeWindow(1200, 800)
           .url(client.globals.baseUrl)
-          .frame('coralStreamIframe')
+          .frame('coralStreamEmbed_iframe')
 
           // Register and Log In
           .waitForElementVisible('#coralSignInButton', 2000)
@@ -39,6 +41,7 @@ module.exports = {
           .setValue('#password', mockUser.pw)
           .setValue('#confirmPassword', mockUser.pw)
           .click('#coralSignUpButton')
+          .pause(5000)
           .waitForElementVisible('#coralLogInButton', 10000)
           .click('#coralLogInButton')
           .waitForElementVisible('.coral-plugin-commentbox-button', 4000)
@@ -65,7 +68,7 @@ module.exports = {
 
         // Load Page
         client.url(client.globals.baseUrl)
-          .frame('coralStreamIframe');
+          .frame('coralStreamEmbed_iframe');
 
           // Post a comment
         client.waitForElementVisible('.coral-plugin-commentbox-button', 2000)
@@ -91,7 +94,7 @@ module.exports = {
         // Load Page
         client.resizeWindow(1200, 800)
           .url(client.globals.baseUrl)
-          .frame('coralStreamIframe');
+          .frame('coralStreamEmbed_iframe');
 
           // Post a comment
         client.waitForElementVisible('.coral-plugin-commentbox-button', 2000)
@@ -138,7 +141,7 @@ module.exports = {
         // Load Page
         client.resizeWindow(1200, 800)
           .url(client.globals.baseUrl)
-          .frame('coralStreamIframe');
+          .frame('coralStreamEmbed_iframe');
 
           // Post a reply
         client.waitForElementVisible('.coral-plugin-replies-reply-button', 5000)
@@ -161,7 +164,7 @@ module.exports = {
   'Total comment count premod on': client => {
     client.perform((client, done) => {
       client.url(client.globals.baseUrl)
-        .frame('coralStreamIframe');
+        .frame('coralStreamEmbed_iframe');
 
         // Verify that comment count is correct
       client.waitForElementVisible('.coral-plugin-comment-count-text', 2000)

@@ -15,7 +15,6 @@ export default ({showSignInDialog}) => (
       From the Settings Page you can
       <ul>
         <li>See your comment history</li>
-        <li>Write a bio about yourself to display to the community</li>
       </ul>
     </div>
   </div>

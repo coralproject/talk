@@ -1,95 +1,94 @@
-# Installing a dev environment
-
-By contributing to this project you agree to the [Code of Conduct](https://coralproject.net/code-of-conduct.html).
+# Installation
 
 ## Requirements
 
 ### System
 
-- Any flavor of Linux, OSX or Windows
+- Any flavour of Linux, OSX or Windows
 - 1GB memory (minimum)
 - 5GB storage (minimum)
 
-### Software
+## Installation From Source
 
-* [Node](https://nodejs.org/es/download/package-manager) v7 or later
-* Mongo v3.2 or later
-* Redis v3.2 or later 
+### Requirements
+
+There are some runtime requirements for running Talk from source:
+
+- [Node](https://nodejs.org/) v7 or later
+- [MongoDB](https://www.mongodb.com/) v3.2 or later
+- [Redis](https://redis.io/) v3.2 or later
+- [Yarn](https://yarnpkg.com/) v0.19.1 or later
 
 _Please be sure to check the versions of these requirements. Insufficient versions of these may lead to unexpected errors!_
 
-## First time setup
+### Installing
 
-### Installation
+```bash
+# Download the tarball containing the repository
+curl -L https://github.com/coralproject/talk/tarball/master -o coralproject-talk.tar.gz
 
-Navigate to a directory.
+# Untar that file and change to that directory
+tar xpf coralproject-talk.tar.gz
+mv coralproject-talk-* coralproject-talk
+cd coralproject-talk
 
-```
-git clone https://github.com/coralproject/talk
-cd talk
-yarn install
-```
+# Install package dependancies
+yarn
 
-### Environmental Variables
-
-Talk uses environmental variables for configuration. You can learn about them in the [README file](README.md).
-
-
-## Workflows
-
-### The server
-
-Starting the server:
-
-```
-yarn start
-```
-
-Browse to `http://localhost:3000` (or your custom port.)
-
-### Building the front end
-
-Our build process will build all front end components registered [here](https://github.com/coralproject/talk/blob/6052cac1d3494f8060325a88bb2ce03c88c2f94c/webpack.config.dev.js#L9-L15).
-
-One time build:
-
-```
+# Build static files
 yarn build
 ```
 
-Build, then rebuild when a file is updated (development build):
+### Running
 
+Refer to the `README.md` file for required configuration variables to add to the
+environment.
+
+You can start the server after configuring the server using the command:
+
+```bash
+yarn start
 ```
-yarn build-watch
+
+You can see other scripts we've made available by consulting the `package.json`
+file under the `scripts` key including:
+
+- `yarn test` run unit tests
+- `yarn e2e` run end to end tests
+- `yarn build-watch` watch for changes to client files and build static assets
+- `yarn dev-start` watch for changes to server files and reload the server
+
+## Installation From Docker Hub
+
+### Requirements
+
+There are some runtime requirements for running Talk for Docker:
+
+- [MongoDB](https://www.mongodb.com/) v3.2 or later
+- [Redis](https://redis.io/) v3.2 or later
+- [Docker](https://www.docker.com/) v1.13.0 or later
+- [Docker Compose](https://docs.docker.com/compose/) v1.10.0 or later
+
+_Please be sure to check the versions of these requirements. Insufficient versions of these may lead to unexpected errors!_
+
+### Installing
+
+```bash
+# Create a directory for talk
+mkdir coralproject-talk
+cd coralproject-talk
+
+# Download the docker-compose.yml file from the repository
+curl -LO https://raw.githubusercontent.com/coralproject/talk/master/docker-compose.yml
 ```
 
+At this stage, you should refer to the `README.md` file for required
+configuration variables to add to the environment key for the `talk` service
+listed in the `docker-compose.yml` file.
 
-### Testing
+### Running
 
-Run all tests once:
-
-`
-yarn test
-`
-
-Run our end to end tests (will install Selenium and nightwatch):
-
-`
-yarn e2e
-`
-
-_Please ensure all tests are passing before submitting a PR!_
-
-## Troubleshooting
-
-
-##### Can't ping the redis server!
-
-- Check that Redis Server is running.
-- Check that TALK_REDIS_URL is set.
-
-##### Authenticaiton doesn't work!
-
-- Make sure Redis is the correct version. 
-
-
+```bash
+# Start the services using compose
+docker-compose up -d
+```

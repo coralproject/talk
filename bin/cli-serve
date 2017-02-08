@@ -2,13 +2,12 @@
 
 const app = require('../app');
 const program = require('./commander');
-const debug = require('debug')('talk:server');
 const http = require('http');
 const scraper = require('../services/scraper');
 const mailer = require('../services/mailer');
 const kue = require('../services/kue');
 const mongoose = require('../services/mongoose');
-const util = require('../util');
+const util = require('./util');
 
 /**
 * Get port from environment and store in Express.
@@ -79,7 +78,7 @@ function onListening() {
   let bind = typeof addr === 'string'
     ? `pipe ${  addr}`
     : `port ${  addr.port}`;
-  debug(`Listening on ${  bind}`);
+  console.log(`Listening on ${  bind}`);
 }
 
 /**

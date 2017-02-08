@@ -8,11 +8,11 @@ docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
 
 deploy_tag() {
   # Find our individual versions from the tags
-  if [ -n "$(echo $CIRCLE_TAG | grep -E '.*\..*\..*')" ]
+  if [ -n "$(echo $CIRCLE_TAG | grep -E 'v.*\..*\..*')" ]
   then
-    major=$(echo $CIRCLE_TAG | cut -d. -f1)
-    minor=$(echo $CIRCLE_TAG | cut -d. -f2)
-    patch=$(echo $CIRCLE_TAG | cut -d. -f3)
+    major=$(echo ${CIRCLE_TAG//v} | cut -d. -f1)
+    minor=$(echo ${CIRCLE_TAG//v} | cut -d. -f2)
+    patch=$(echo ${CIRCLE_TAG//v} | cut -d. -f3)
 
     major_version_tag=$major
     minor_version_tag=$major.$minor
