@@ -36,7 +36,13 @@ module.exports = class CommentsService {
         created_at: new Date()
       }] : [],
       status,
-      tag: UsersService.isStaff(author_id) ? 'STAFF' : null,
+      tags: [
+        {
+          name: UsersService.isStaff(author_id) ? 'STAFF' : null,
+          assigned_by: null,
+          created_at: new Date()
+        }
+      ],
       author_id
     });
 
