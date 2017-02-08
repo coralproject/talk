@@ -97,7 +97,7 @@ const SignInContent = ({
 SignInContent.propTypes = {
   auth: PropTypes.shape({
     isLoading: PropTypes.bool.isRequired,
-    error: PropTypes.object,
+    error: PropTypes.string,
     emailVerificationFailure: PropTypes.bool
   }).isRequired,
   fetchSignInFacebook: PropTypes.func.isRequired,

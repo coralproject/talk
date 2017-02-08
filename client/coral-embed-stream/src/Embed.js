@@ -78,9 +78,14 @@ class Embed extends Component {
   }
 
   loadMoreComments = () => {
+
+    if (!this.props.asset.comments.length) {
+      return;
+    }
+
     this.props.loadMore({
       limit: 10,
-      cursor: new Date(),
+      cursor: this.props.asset.comments[this.props.asset.comments.length - 1].created_at,
       asset_id: this.props.asset.id,
       sort: 'REVERSE_CHRONOLOGICAL'
     })
