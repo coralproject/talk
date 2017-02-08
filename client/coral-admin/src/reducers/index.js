@@ -1,15 +1,13 @@
-import {combineReducers} from 'redux';
+import auth from 'reducers/auth';
+import users from 'reducers/users';
+import assets from 'reducers/assets';
+import actions from 'reducers/actions';
+import install from 'reducers/install';
 import comments from 'reducers/comments';
 import settings from 'reducers/settings';
 import community from 'reducers/community';
-import users from 'reducers/users';
-import auth from 'reducers/auth';
-import actions from 'reducers/actions';
-import assets from 'reducers/assets';
-import install from 'reducers/install';
 
-// Combine all reducers into a main one
-export default combineReducers({
+export default {
   settings,
   comments,
   community,
@@ -18,4 +16,4 @@ export default combineReducers({
   assets,
   users,
   install
-});
+};
