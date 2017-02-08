@@ -10,24 +10,29 @@ chai.use(require('chai-http'));
 
 const AssetModel = require('../../../../models/asset');
 const AssetsService = require('../../../../services/assets');
+const SettingsService = require('../../../../services/settings');
 
 describe('/api/v1/assets', () => {
 
   beforeEach(() => {
-    return AssetModel.create([
-      {
-        url: 'https://coralproject.net/news/asset1',
-        title: 'Asset 1',
-        description: 'term1',
-        closedAt: Date.now()
-      },
-      {
-        url: 'https://coralproject.net/news/asset2',
-        title: 'Asset 2',
-        description: 'term2',
-        closedAt: null
-      }
-    ]);
+    const settings = {id: '1', moderation: 'PRE', domains: {whitelist: ['test.com']}};
+
+    return SettingsService.init(settings).then(() => {
+      return AssetModel.create([
+        {
+          url: 'https://coralproject.net/news/asset1',
+          title: 'Asset 1',
+          description: 'term1',
+          closedAt: Date.now()
+        },
+        {
+          url: 'https://coralproject.net/news/asset2',
+          title: 'Asset 2',
+          description: 'term2',
+          closedAt: null
+        }
+      ]);
+    });
   });
 
   describe('#get', () => {
