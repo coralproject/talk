@@ -687,4 +687,15 @@ module.exports = class UsersService {
       Promise.reject(new Error('You do not have permission to update your username.'));
     });
   }
+
+  /**
+   * Returns true if the user is staff.
+   * @param  {String} id the id of the user to be enabled.
+   * @return {Promise}
+   */
+  static isStaff(id) {
+    return UserModel.findById(id).then((user) => {
+      return user.hasRoles('ADMIN');
+    });
+  }
 };

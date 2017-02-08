@@ -3,6 +3,8 @@ const CommentModel = require('../models/comment');
 const ActionModel = require('../models/action');
 const ActionsService = require('./actions');
 
+const UsersService = require('./users');
+
 module.exports = class CommentsService {
 
   /**
@@ -34,6 +36,7 @@ module.exports = class CommentsService {
         created_at: new Date()
       }] : [],
       status,
+      tag: UsersService.isStaff(author_id) ? 'STAFF' : null,
       author_id
     });
 

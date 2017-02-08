@@ -9,6 +9,11 @@ const STATUSES = [
   null
 ];
 
+const TAGS = [
+  'STAFF',
+  null
+];
+
 /**
  * The Mongo schema for a Comment Status.
  * @type {Schema}
@@ -49,6 +54,10 @@ const CommentSchema = new Schema({
   author_id: String,
   status_history: [StatusSchema],
   status: {type: String, default: null},
+  tag: {
+    type: String,
+    enum: TAGS,
+  },
   parent_id: String
 }, {
   timestamps: {
