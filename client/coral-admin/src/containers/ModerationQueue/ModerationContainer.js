@@ -29,7 +29,6 @@ class ModerationContainer extends Component {
   componentWillMount() {
     const {toggleModal, singleView} = this.props;
 
-    this.props.fetchModerationQueueComments();
     this.props.fetchSettings();
 
     key('s', () => singleView());
@@ -54,7 +53,7 @@ class ModerationContainer extends Component {
   }
 
   render () {
-    const {data, moderation} = this.props;
+    const {data, moderation, settings} = this.props;
 
     if (data.loading) {
       return <div><Spinner/></div>;
@@ -66,27 +65,16 @@ class ModerationContainer extends Component {
         <ModerationQueue
           activeTab={moderation.activeTab}
           data={data}
-
-          onTabClick={this.onTabClick}
-          onClose={this.onClose}
-          {...this.props}
-          {...moderation}
+          suspectWords={settings.wordlist.suspect}
         />
       </div>
     );
   }
 }
 
-// ModerationContainer.contextTypes = {
-//   router: React.PropTypes.func.isRequired
-// };
-
 const mapStateToProps = state => ({
   moderation: state.moderation.toJS(),
-  comments: state.comments.toJS(),
-  settings: state.settings.toJS(),
-  users: state.users.toJS(),
-  actions: state.actions.toJS()
+  settings: state.settings.toJS()
 });
 
 const mapDispatchToProps = dispatch => ({

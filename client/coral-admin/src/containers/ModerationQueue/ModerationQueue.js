@@ -1,22 +1,29 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 
-// import Comment from '../../components/Comment';
+import Comment from './components/Comment';
 
-export default (props) => {
+const ModerationQueue = props => {
   return (
     <div>
-      {/* <Comment*/}
-      {/* comment={comment}*/}
-      {/* key={i}*/}
-      {/* author={comment.user}*/}
-      {/* />*/}
+      <ul>
       {
-        props.data[props.activeTab].map((comment, i) =>
-          <div key={i}>
-            {comment.body}
-          </div>
-        )
+        props.data[props.activeTab].map((comment, i) => {
+          console.log(comment);
+          return <Comment
+            key={i}
+            index={i}
+            suspectWords={props.suspectWords}
+            {...comment}
+          />;
+        })
       }
+      </ul>
     </div>
   );
 };
+
+ModerationQueue.propTypes = {
+  data: PropTypes.object.isRequired
+};
+
+export default ModerationQueue;
