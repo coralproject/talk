@@ -94,6 +94,11 @@ if (app.get('env') !== 'production') {
     endpointURL: '/api/v1/graph/ql'
   }));
 
+  // GraphQL documention.
+  app.get('/admin/docs', (req, res) => {
+    res.render('admin/docs');
+  });
+
 }
 
 //==============================================================================
