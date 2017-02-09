@@ -8,7 +8,7 @@ class LikeButton extends Component {
 
   static propTypes = {
     like: PropTypes.shape({
-      current: PropTypes.obect,
+      current: PropTypes.object,
       count: PropTypes.number
     }),
     id: PropTypes.string,

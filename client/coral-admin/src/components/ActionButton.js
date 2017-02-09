@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './styles.css';
+import styles from './ModerationList.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations.json';
 import {FabButton, Button, Icon} from 'coral-ui';

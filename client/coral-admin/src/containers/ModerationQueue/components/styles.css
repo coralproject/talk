@@ -1,4 +1,3 @@
-
 @custom-media --big-viewport (min-width: 780px);
 
 .list {
@@ -52,6 +51,14 @@
 
   &:last-child {
     border-bottom: none;
+  }
+
+  .context {
+    a {
+      color: #f36451;
+      text-decoration: underline;
+      float: right;
+    }
   }
 
    .sideActions {

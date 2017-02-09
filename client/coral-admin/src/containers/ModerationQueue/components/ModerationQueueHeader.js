@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import styles from '../ModerationQueue.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../../translations.json';
@@ -58,5 +58,10 @@ const ModerationQueueHeader = (props) => (
     </div>
   </div>
 );
+
+ModerationQueueHeader.propTypes = {
+  activeTab: PropTypes.string.isRequired,
+  enablePremodTab: PropTypes.bool
+};
 
 export default ModerationQueueHeader;

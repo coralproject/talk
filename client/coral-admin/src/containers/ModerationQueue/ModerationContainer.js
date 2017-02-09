@@ -59,10 +59,16 @@ class ModerationContainer extends Component {
       return <div><Spinner/></div>;
     }
 
+    const enablePremodTab = data.premod.length;
+
     return (
       <div>
-        <ModerationQueueHeader onTabClick={this.onTabClick} {...moderation} />
+        <ModerationQueueHeader
+          onTabClick={this.onTabClick}
+          enablePremodTab={enablePremodTab}
+          {...moderation} />
         <ModerationQueue
+          enablePremodTab={enablePremodTab}
           activeTab={moderation.activeTab}
           data={data}
           suspectWords={settings.wordlist.suspect}

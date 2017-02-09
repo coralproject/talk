@@ -1,0 +1,2 @@
+// acceptComment
+// rejectComment

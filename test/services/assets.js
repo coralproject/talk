@@ -1,5 +1,6 @@
 const AssetModel = require('../../models/asset');
 const AssetsService = require('../../services/assets');
+const SettingsService = require('../../services/settings');
 
 const chai = require('chai');
 const expect = chai.expect;
@@ -10,8 +11,12 @@ chai.should();
 describe('services.AssetsService', () => {
 
   beforeEach(() => {
+    const settings = {id: '1', moderation: 'PRE', domains: {whitelist: ['new.test.com', 'test.com', 'override.test.com']}};
     const defaults = {url:'http://test.com'};
-    return AssetModel.update({id: '1'}, {$setOnInsert: defaults}, {upsert: true});
+
+    return SettingsService.init(settings).then(() => {
+      return AssetModel.update({id: '1'}, {$setOnInsert: defaults}, {upsert: true});
+    });
   });
 
   describe('#findById', ()=> {
@@ -54,12 +59,23 @@ describe('services.AssetsService', () => {
         });
     });
 
-    it('should return a new asset when the url does not exist', () => {
+    it('should return a new asset when the url does not exist and its domain is whitelisted', () => {
       return AssetsService
         .findOrCreateByUrl('http://new.test.com')
         .then((asset) => {
           expect(asset).to.have.property('id')
             .and.to.not.equal(1);
+        });
+    });
+
+    it('should return an error when the url does not exist and its domain is not whitelisted', () => {
+      return AssetsService
+        .findOrCreateByUrl('http://bad.test.com')
+        .then((asset) => {
+          expect(asset).to.be.null;
+        })
+        .catch((error) => {
+          expect(error).to.not.be.null;
         });
     });
   });

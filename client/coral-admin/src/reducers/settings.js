@@ -6,6 +6,9 @@ const initialState = Map({
     wordlist: Map({
       banned: List(),
       suspect: List()
+    }),
+    domains: Map({
+      whitelist: List()
     })
   }),
   saveSettingsError: null,
@@ -52,6 +55,9 @@ export default function settings (state = initialState, action) {
   case actions.WORDLIST_UPDATED:
     return state
       .setIn(['settings', 'wordlist', action.listName], action.list);
+  case actions.DOMAINLIST_UPDATED:
+    return state
+      .setIn(['settings', 'domains', action.listName], action.list);
   default:
     return state;
   }

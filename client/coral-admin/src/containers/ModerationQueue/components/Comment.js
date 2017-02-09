@@ -57,6 +57,7 @@ const Comment = props => {
           </Linkify>
         </span>
       </div>
+      <span className={styles.context}><a>View context</a></span>
     </li>
   );
 };
