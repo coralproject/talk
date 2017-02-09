@@ -5,7 +5,7 @@ fragment commentView on Comment {
     status
     user {
         id
-        name: displayName
+        name: username
     }
     actions {
         type: action_type

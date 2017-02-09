@@ -69,11 +69,11 @@ describe('services.CommentsService', () => {
 
   const users = [{
     email: 'stampi@gmail.com',
-    displayName: 'Stampi',
+    username: 'Stampi',
     password: '1Coral!!'
   }, {
     email: 'sockmonster@gmail.com',
-    displayName: 'Sockmonster',
+    username: 'Sockmonster',
     password: '2Coral!!'
   }];
 

@@ -59,12 +59,12 @@ const ErrDisplayTaken = new APIError('Display name already in use', {
   status: 400
 });
 
-const ErrSpecialChars = new APIError('No special characters are allowed in a display name', {
+const ErrSpecialChars = new APIError('No special characters are allowed in a username', {
   translation_key: 'NO_SPECIAL_CHARACTERS',
   status: 400
 });
 
-const ErrMissingDisplay = new APIError('A display name is required to create a user', {
+const ErrMissingDisplay = new APIError('A username is required to create a user', {
   translation_key: 'DISPLAY_NAME_REQUIRED',
   status: 400
 });

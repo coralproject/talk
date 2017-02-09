@@ -12,7 +12,7 @@ const USER_STATUS = [
   'ACTIVE',
   'BANNED',
   'PENDING',
-  'APPROVED' // Indicates that the users' displayname has been approved
+  'APPROVED' // Indicates that the users' username has been approved
 ];
 
 // ProfileSchema is the mongoose schema defined as the representation of a
@@ -61,10 +61,8 @@ const UserSchema = new mongoose.Schema({
 
   // This is sourced from the social provider or set manually during user setup
   // and simply provides a name to display for the given user.
-  displayName: {
+  username: {
     type: String,
-    unique: true,
-    lowercase: true,
     required: true
   },
 
@@ -126,6 +124,16 @@ UserSchema.index({
 }, {
   unique: true,
   background: false
+});
+
+UserSchema.index({
+  'username': 1
+}, {
+  unique: true,
+  collation: {
+    locale: 'en_US',
+    strength: 2
+  }
 });
 
 /**

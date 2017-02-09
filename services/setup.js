@@ -45,7 +45,7 @@ module.exports = class SetupService {
   /**
    * This verifies that the current input for the setup is valid.
    */
-  static validate({settings, user: {email, displayName, password}}) {
+  static validate({settings, user: {email, username, password}}) {
 
     // Verify the email address of the user.
     if (!email) {
@@ -57,7 +57,7 @@ module.exports = class SetupService {
 
     // Verify other properties of the user.
     return Promise.all([
-      UsersService.isValidDisplayName(displayName, false),
+      UsersService.isValidDisplayName(username, false),
       UsersService.isValidPassword(password),
       settingsModel.validate()
     ]);
@@ -66,11 +66,11 @@ module.exports = class SetupService {
   /**
    * This will perform the setup.
    */
-  static setup({settings, user: {email, password, displayName}}) {
+  static setup({settings, user: {email, password, username}}) {
 
     // Validate the settings first.
     return SetupService
-      .validate({settings, user: {email, password, displayName}})
+      .validate({settings, user: {email, password, username}})
       .then(() => {
         return SettingsService.update(settings);
       })
@@ -80,7 +80,7 @@ module.exports = class SetupService {
 
         // Create the user.
         return UsersService
-          .createLocalUser(email, password, displayName)
+          .createLocalUser(email, password, username)
 
           // Grant them administrative privileges and confirm the email account.
           .then((user) => {

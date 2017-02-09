@@ -23,7 +23,7 @@ const Comment = props => {
     <li tabIndex={props.index} className={`mdl-card mdl-shadow--2dp ${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
       <div className={styles.itemHeader}>
         <div className={styles.author}>
-          <span>{author.displayName || lang.t('comment.anon')}</span>
+          <span>{author.username || lang.t('comment.anon')}</span>
           <span className={styles.created}>{timeago().format(comment.createdAt || (Date.now() - props.index * 60 * 1000), lang.getLocale().replace('-', '_'))}</span>
           {comment.flagged ? <p className={styles.flagged}>{lang.t('comment.flagged')}</p> : null}
         </div>

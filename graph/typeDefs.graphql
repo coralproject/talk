@@ -47,8 +47,8 @@ enum USER_ROLES {
 type User {
   id: ID!
 
-  # display name of a user.
-  displayName: String!
+  # username of a user.
+  username: String!
 
   # actions against a specific user.
   actions: [ActionSummary]

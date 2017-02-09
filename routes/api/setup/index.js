@@ -32,11 +32,11 @@ router.post('/', (req, res, next) => {
 
   const {
     settings,
-    user: {email, password, displayName}
+    user: {email, password, username}
   } = req.body;
 
   SetupService
-    .setup({settings, user: {email, password, displayName}})
+    .setup({settings, user: {email, password, username}})
     .then(() => {
 
       // We're setup!
