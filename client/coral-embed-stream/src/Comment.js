@@ -10,6 +10,7 @@ import React, {PropTypes} from 'react';
 import PermalinkButton from 'coral-plugin-permalinks/PermalinkButton';
 
 import AuthorName from 'coral-plugin-author-name/AuthorName';
+
 import TagLabel from 'coral-plugin-tag-label/TagLabel';
 import Content from 'coral-plugin-commentcontent/CommentContent';
 import PubDate from 'coral-plugin-pubdate/PubDate';
@@ -55,6 +56,11 @@ class Comment extends React.Component {
       actions: PropTypes.array.isRequired,
       body: PropTypes.string.isRequired,
       id: PropTypes.string.isRequired,
+      tags: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string
+        })
+      ),
       replies: PropTypes.arrayOf(
         PropTypes.shape({
           body: PropTypes.string.isRequired,
@@ -95,8 +101,7 @@ class Comment extends React.Component {
         <hr aria-hidden={true} />
         <AuthorName
           author={comment.user}/>
-        <TagLabel
-          tags={comment.tags}/>
+        <TagLabel/>
         <PubDate created_at={comment.created_at} />
         <Content body={comment.body} />
           <div className="commentActionsLeft">

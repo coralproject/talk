@@ -1,18 +1,8 @@
-import React, {Component} from 'react';
-const packagename = 'coral-plugin-tag-label';
-import styles from './styles.css';
+import React from 'react';
+const name = 'coral-plugin-tag-label';
 
-export default class TagLabel extends Component {
+const TagLabel = () => <div className={`${name  }-text`}>
+  oh yeah
+</div>;
 
-  render () {
-    const {tags} = this.props;
-    console.log('DEBUG ', tags);
-    return (
-      <div
-        className={`${packagename}-text`}
-        className={`${styles.tagLabel}`}>
-        {tags}
-      </div>
-    );
-  }
-}
+export default TagLabel;

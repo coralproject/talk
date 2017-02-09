@@ -9,11 +9,6 @@ const STATUSES = [
   null
 ];
 
-const TAGS = [
-  'STAFF',
-  null
-];
-
 /**
  * The Mongo schema for a Comment Status.
  * @type {Schema}
@@ -40,10 +35,7 @@ const StatusSchema = new Schema({
  * @type {Schema}
  */
 const TagSchema = new Schema({
-  name: {
-    type: String,
-    enum: TAGS,
-  },
+  name: String,
 
   // The User ID of the user that assigned the status.
   assigned_by: {
