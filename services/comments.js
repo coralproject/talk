@@ -27,26 +27,25 @@ module.exports = class CommentsService {
       author_id
     } = comment;
 
-    comment = new CommentModel({
-      body,
-      asset_id,
-      parent_id,
-      status_history: status ? [{
-        type: status,
-        created_at: new Date()
-      }] : [],
-      status,
-      tags: [
-        {
-          name: UsersService.isStaff(author_id) ? 'STAFF' : null,
+    return UsersService.isStaff(author_id).then((isStaff) => {
+      comment = new CommentModel({
+        body,
+        asset_id,
+        parent_id,
+        status_history: status ? [{
+          type: status,
+          created_at: new Date()
+        }] : [],
+        status,
+        tags: isStaff ? [{
+          name: 'STAFF',
           assigned_by: null,
           created_at: new Date()
-        }
-      ],
-      author_id
+        }] : [],
+        author_id
+      });
+      return comment.save();
     });
-
-    return comment.save();
   }
 
   /**

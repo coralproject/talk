@@ -9,6 +9,11 @@ const STATUSES = [
   null
 ];
 
+const TAGS = [
+  'STAFF',
+  null
+];
+
 /**
  * The Mongo schema for a Comment Status.
  * @type {Schema}
@@ -17,6 +22,27 @@ const StatusSchema = new Schema({
   type: {
     type: String,
     enum: STATUSES,
+  },
+
+  // The User ID of the user that assigned the status.
+  assigned_by: {
+    type: String,
+    default: null
+  },
+
+  created_at: Date
+}, {
+  _id: false
+});
+
+/**
+ * The Mongo schema for a Comment Tag.
+ * @type {Schema}
+ */
+const TagSchema = new Schema({
+  name: {
+    type: String,
+    enum: TAGS,
   },
 
   // The User ID of the user that assigned the status.
@@ -49,11 +75,7 @@ const CommentSchema = new Schema({
   author_id: String,
   status_history: [StatusSchema],
   status: {type: String, default: null},
-  tags: [{
-    name: String,
-    assigned_by: String,
-    created_at: Date
-  }],
+  tags: [TagSchema],
   parent_id: String
 }, {
   timestamps: {

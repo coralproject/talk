@@ -694,8 +694,11 @@ module.exports = class UsersService {
    * @return {Promise}
    */
   static isStaff(id) {
-    return UserModel.findById(id).then((user) => {
-      return user.hasRoles('ADMIN');
+    return UsersService.findById(id).then((user) => {
+      if (user) {
+        return user.hasRoles('ADMIN');
+      }
+      return false;
     });
   }
 };
