@@ -68,7 +68,7 @@ type Tag {
   name: COMMENT_TAG
 
   # the user that assigned the tag. If NULL then the system automatically tagged it.
-  assigned_by: User
+  assigned_by: String
 
   # the time when the tag was assigned.
   created_at: Date!
