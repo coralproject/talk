@@ -60,13 +60,6 @@ class Comment extends React.Component {
           body: PropTypes.string.isRequired,
           id: PropTypes.string.isRequired
         })),
-      tags: PropTypes.arrayOf(
-        PropTypes.shape({
-          name: PropTypes.string,
-          assigned_by: PropTypes.string,
-          created_at: PropTypes.string
-        })
-      ),
       user: PropTypes.shape({
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired

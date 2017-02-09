@@ -11,7 +11,7 @@ export default class TagLabel extends Component {
       <div
         className={`${packagename}-text`}
         className={`${styles.tagLabel}`}>
-        {tags && tags}
+        {tags}
       </div>
     );
   }

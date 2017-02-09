@@ -63,11 +63,25 @@ type User {
   comments(query: CommentsQuery): [Comment]
 }
 
+type Tag {
+  # the actual tag for the comment.
+  name: COMMENT_TAG
+
+  # the user that assigned the tag. If NULL then the system automatically tagged it.
+  assigned_by: User
+
+  # the time when the tag was assigned.
+  created_at: Date!
+}
+
 type Comment {
   id: ID!
 
   # the actual comment data.
   body: String!
+
+  # the tags on the comment
+  tags: [Tag]
 
   # the user who authored the comment.
   user: User
@@ -163,6 +177,11 @@ type Asset {
 
   # The date that the asset was created.
   created_at: Date
+}
+
+enum COMMENT_TAG {
+  # For the comments submitted by staff members (ADMIN or MODERATOR users).
+  STAFF
 }
 
 enum COMMENT_STATUS {
