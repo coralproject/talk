@@ -11,11 +11,12 @@ const UsersService = require('../../services/users');
  * @param  {String} action_type type of the action
  * @return {Promise}            resolves to the action created
  */
-const createAction = ({user = {}}, {item_id, item_type, action_type, metadata = {}}) => {
+const createAction = ({user = {}}, {item_id, item_type, action_type, group_id, metadata = {}}) => {
   return ActionsService.insertUserAction({
     item_id,
     item_type,
     user_id: user.id,
+    group_id,
     action_type,
     metadata
   }).then((action) => {

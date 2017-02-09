@@ -29,6 +29,12 @@ const ActionSchema = new Schema({
   },
   item_id: String,
   user_id: String,
+
+  // The element that summaries will additionally group on in addtion to their action_type, item_type, and
+  // item_id.
+  group_id: String,
+
+  // Additional metadata stored on the field.
   metadata: Schema.Types.Mixed
 }, {
   timestamps: {
