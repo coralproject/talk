@@ -1,13 +1,13 @@
 import React from 'react';
 import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 
-import ModerationContainer from 'containers/ModerationQueue/ModerationContainer';
-import CommentStream from 'containers/CommentStream/CommentStream';
-import Configure from 'containers/Configure/Configure';
 import Streams from 'containers/Streams/Streams';
-import CommunityContainer from 'containers/Community/CommunityContainer';
+import Configure from 'containers/Configure/Configure';
 import LayoutContainer from 'containers/LayoutContainer';
+import CommentStream from 'containers/CommentStream/CommentStream';
 import InstallContainer from 'containers/Install/InstallContainer';
+import CommunityContainer from 'containers/Community/CommunityContainer';
+import ModerationContainer from 'containers/ModerationQueue/ModerationContainer';
 
 const routes = (
   <div>
