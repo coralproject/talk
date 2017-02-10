@@ -15,7 +15,7 @@
 There are some runtime requirements for running Talk from source:
 
 - [Node](https://nodejs.org/) v7 or later
-- [MongoDB](https://www.mongodb.com/) v3.4 or later
+- [MongoDB](https://www.mongodb.com/) v3.2 or later
 - [Redis](https://redis.io/) v3.2 or later
 - [Yarn](https://yarnpkg.com/) v0.19.1 or later
 
