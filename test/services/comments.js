@@ -70,11 +70,14 @@ describe('services.CommentsService', () => {
   const users = [{
     email: 'stampi@gmail.com',
     displayName: 'Stampi',
-    password: '1Coral!!'
+    password: '1Coral!!',
+    roles: ['ADMIN'],
+    _id: '1'
   }, {
     email: 'sockmonster@gmail.com',
     displayName: 'Sockmonster',
-    password: '2Coral!!'
+    password: '2Coral!!',
+    _id : '2'
   }];
 
   const actions = [{
@@ -255,5 +258,39 @@ describe('services.CommentsService', () => {
         });
     });
 
+  });
+
+  describe('#tagByStaff()', () => {
+
+    it('creates a new comment by admin', () => {
+      return UsersService.findLocalUser('stampi@gmail.com', '1Coral!!').then((user) => {
+        return UsersService.addRoleToUser(user.id, 'ADMIN').then(() => {
+          return CommentsService
+            .publicCreate({
+              body: 'This is a comment!',
+              status: 'ACCEPTED',
+              author_id: user.id
+            }).then((c) => {
+              expect(c).to.not.be.null;
+              expect(c.tags).to.not.have.length(0);
+              expect(c.tags[0].name).to.be.equal('STAFF');
+            });
+        });
+      });
+    });
+
+    it('creates a new comment by non admin', () => {
+      return UsersService.findLocalUser('sockmonster@gmail.com', '2Coral!!').then((user) => {
+        return CommentsService
+          .publicCreate({
+            body: 'This is a comment!',
+            status: 'ACCEPTED',
+            author_id: user.id
+          }).then((c) => {
+            expect(c).to.not.be.null;
+            expect(c.tags).to.have.length(0);
+          });
+      });
+    });
   });
 });
