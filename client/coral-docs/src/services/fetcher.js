@@ -1,5 +1,5 @@
 export default function fetcher(query) {
-  return fetch(`${window.location.origin}/api/v1/graph/ql`, {
+  return fetch(`${window.location.host}/api/v1/graph/ql`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
