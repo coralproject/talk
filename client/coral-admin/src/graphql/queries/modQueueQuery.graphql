@@ -1,6 +1,6 @@
 #import "../fragments/commentView.graphql"
 
-query ($asset_id: ID!) {
+query ModQueue ($asset_id: ID!) {
     all: comments(query: {
     statuses: [ACCEPTED, REJECTED, PREMOD],
     asset_id: $asset_id
@@ -25,10 +25,8 @@ query ($asset_id: ID!) {
     }) {
         ...commentView
     }
-    account: comments(query: {
-    statuses: [ACCEPTED],
-    asset_id: $asset_id
-    }) {
-        ...commentView
+    assets: assets {
+      id
+      title
     }
 }

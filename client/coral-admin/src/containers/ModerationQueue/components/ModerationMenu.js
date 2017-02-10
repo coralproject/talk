@@ -5,7 +5,7 @@ import translations from '../../../translations.json';
 
 const lang = new I18n(translations);
 
-const ModerationQueueHeader = (props) => (
+const ModerationMenu = (props) => (
   <div className='mdl-tabs'>
     <div className={`mdl-tabs__tab-bar ${styles.tabBar}`}>
       <a href='#all'
@@ -29,14 +29,6 @@ const ModerationQueueHeader = (props) => (
           </a>
           : null
       }
-      <a href='#account'
-         onClick={(e) => {
-           e.preventDefault();
-           props.onTabClick('account');
-         }}
-         className={`mdl-tabs__tab ${styles.tab} ${props.activeTab === 'account' ? styles.active : ''}`}>
-        {lang.t('modqueue.account')}
-      </a>
       <a href='#rejected'
          onClick={(e) => {
            e.preventDefault();
@@ -59,9 +51,9 @@ const ModerationQueueHeader = (props) => (
   </div>
 );
 
-ModerationQueueHeader.propTypes = {
+ModerationMenu.propTypes = {
   activeTab: PropTypes.string.isRequired,
   enablePremodTab: PropTypes.bool
 };
 
-export default ModerationQueueHeader;
+export default ModerationMenu;

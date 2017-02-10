@@ -1,28 +1,20 @@
 import React, {Component} from 'react';
-import key from 'keymaster';
 import {connect} from 'react-redux';
 import {compose} from 'react-apollo';
-import {Spinner} from 'coral-ui';
-import {withRouter} from 'react-router';
+import key from 'keymaster';
+import isEqual from 'lodash/isEqual';
 
 import {modQueueQuery} from '../../graphql/queries';
 
-import {
-  updateStatus,
-  showBanUserDialog,
-  hideBanUserDialog,
-  fetchPremodQueue,
-  fetchRejectedQueue,
-  fetchFlaggedQueue,
-  fetchModerationQueueComments,
-} from 'actions/comments';
-
 import {fetchSettings} from 'actions/settings';
-import {userStatusUpdate, sendNotificationEmail} from 'actions/users';
+import {updateAssets} from 'actions/assets';
 import {setActiveTab, toggleModal, singleView} from 'actions/moderation';
 
+import {Spinner} from 'coral-ui';
 import ModerationQueue from './ModerationQueue';
-import ModerationQueueHeader from './components/ModerationQueueHeader';
+import ModerationMenu from './components/ModerationMenu';
+import ModerationHeader from './components/ModerationHeader';
+import NotFoundAsset from './components/NotFoundAsset';
 
 class ModerationContainer extends Component {
 
@@ -42,29 +34,37 @@ class ModerationContainer extends Component {
     key.unbind('esc');
   }
 
-  onTabClick = (activeTab) => {
-    const {setActiveTab} = this.props;
-    setActiveTab(activeTab);
-  }
-
-  onClose = () => {
-    const {toggleModal} = this.props;
-    toggleModal(false);
+  componentWillReceiveProps(nextProps) {
+    const {updateAssets} = this.props;
+    if(!isEqual(nextProps.data.assets, this.props.data.assets)) {
+      updateAssets(nextProps.data.assets);
+    }
   }
 
   render () {
-    const {data, moderation, settings} = this.props;
+    const {data, moderation, settings, assets} = this.props;
+    const providedAssetId = this.props.params.id;
+    let asset;
 
     if (data.loading) {
       return <div><Spinner/></div>;
     }
 
-    const enablePremodTab = data.premod.length;
+    if (providedAssetId) {
+      asset = assets.find(asset => asset.id === this.props.params.id);
+
+      if (!asset) {
+        return <NotFoundAsset assetId={providedAssetId} />;
+      }
+    }
+
+    const enablePremodTab = !!data.premod.length;
 
     return (
       <div>
-        <ModerationQueueHeader
-          onTabClick={this.onTabClick}
+        <ModerationHeader asset={asset} />
+        <ModerationMenu
+          onTabClick={this.props.onTabClick}
           enablePremodTab={enablePremodTab}
           {...moderation} />
         <ModerationQueue
@@ -80,33 +80,20 @@ class ModerationContainer extends Component {
 
 const mapStateToProps = state => ({
   moderation: state.moderation.toJS(),
-  settings: state.settings.toJS()
+  settings: state.settings.toJS(),
+  assets: state.assets.get('assets')
 });
 
 const mapDispatchToProps = dispatch => ({
-  setActiveTab: tab => dispatch(setActiveTab(tab)),
-  toggleModal: open => dispatch(toggleModal(open)),
+  onTabClick: activeTab => dispatch(setActiveTab(activeTab)),
+  toggleModal: toggle => dispatch(toggleModal(toggle)),
+  onClose: () => dispatch(toggleModal(false)),
   singleView: () => dispatch(singleView()),
-
-  fetchSettings: () => dispatch(fetchSettings()),
-  fetchModerationQueueComments: () => dispatch(fetchModerationQueueComments()),
-  fetchPremodQueue: () => dispatch(fetchPremodQueue()),
-  fetchRejectedQueue: () => dispatch(fetchRejectedQueue()),
-  fetchFlaggedQueue: () => dispatch(fetchFlaggedQueue()),
-  showBanUserDialog: (userId, userName, commentId) => dispatch(showBanUserDialog(userId, userName, commentId)),
-  hideBanUserDialog: () => dispatch(hideBanUserDialog(false)),
-  userStatusUpdate: (status, userId, commentId) => dispatch(userStatusUpdate(status, userId, commentId)).then(() => {
-    dispatch(fetchModerationQueueComments());
-  }),
-  suspendUser: (userId, subject, text) => dispatch(userStatusUpdate('suspended', userId))
-    .then(() => dispatch(sendNotificationEmail(userId, subject, text)))
-    .then(() => dispatch(fetchModerationQueueComments()))
-  ,
-  updateStatus: (action, comment) => dispatch(updateStatus(action, comment))
+  updateAssets: assets => dispatch(updateAssets(assets)),
+  fetchSettings: () => dispatch(fetchSettings())
 });
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withRouter,
   modQueueQuery
 )(ModerationContainer);

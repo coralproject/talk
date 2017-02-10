@@ -1,3 +1,62 @@
+.notFound {
+  position: relative;
+  margin: 20px auto;
+  text-align: center;
+  padding: 68px 45px;
+  vertical-align: middle;
+  min-width: 500px;
+
+  a {
+    color: rgb(244, 126, 107);
+    font-weight: 500;
+
+    &.goToStreams {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+    }
+  }
+}
+
+.header {
+  background-color: #3949AB;
+  color: white;
+  margin-bottom: -1px;
+
+  .moderateAsset {
+    a {
+      -webkit-box-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      color: white;
+      text-transform: capitalize;
+      font-weight: 500;
+      font-size: 15px;
+      letter-spacing: 1px;
+      transition: opacity 200ms;
+      opacity: 1;
+
+      &:hover {
+          opacity: .8;
+         cursor: pointer;
+      }
+
+      &:first-child {
+        text-align: left;
+      }
+
+      &:nth-child(2) {
+       text-align: center;
+      }
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+  }
+}
+
+
 @custom-media --big-viewport (min-width: 780px);
 
 .list {

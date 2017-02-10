@@ -14,7 +14,6 @@ import translations from '../../../translations.json';
 
 const Comment = props => {
   const links = linkify.getMatches(props.body);
-
   return (
     <li tabIndex={props.index}
         className={`mdl-card mdl-shadow--2dp ${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
@@ -50,14 +49,24 @@ const Comment = props => {
           : null}
         </div>
       </div>
+
+      {/* <div className={styles.itemBody}> */}
+        {/* Article title */}
+        {/* <a>Moderate this Article</a> */}
+      {/* </div> */}
+
       <div className={styles.itemBody}>
-        <span className={styles.body}>
+        <p className={styles.body}>
           <Linkify component='span' properties={{style: linkStyles}}>
             <Highlighter searchWords={props.suspectWords} textToHighlight={props.body}/>
           </Linkify>
-        </span>
+        </p>
       </div>
-      <span className={styles.context}><a>View context</a></span>
+
+      {/*  <span className={styles.context}> */}
+        {/* <a>View context</a> */}
+      {/* </span> */}
+
     </li>
   );
 };

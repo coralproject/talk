@@ -61,6 +61,9 @@ type User {
 
   # returns all comments based on a query.
   comments(query: CommentsQuery): [Comment]
+
+  # returns user status
+  status: USER_STATUS
 }
 
 type Comment {
@@ -177,6 +180,13 @@ enum COMMENT_STATUS {
   PREMOD
 }
 
+enum USER_STATUS {
+  ACTIVE
+  BANNED
+  PENDING
+  APPROVED
+}
+
 type RootQuery {
 
   # retrieves site wide settings and defaults.
@@ -216,6 +226,8 @@ type RootMutation {
   # delete an action based on the action id.
   deleteAction(id: ID!): Boolean
 
+  # sets user status
+  setUserStatus(id: ID!, status: USER_STATUS!): Boolean
 }
 
 schema {
