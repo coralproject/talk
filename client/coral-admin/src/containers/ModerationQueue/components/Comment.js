@@ -2,12 +2,13 @@ import React, {PropTypes} from 'react';
 import timeago from 'timeago.js';
 import Linkify from 'react-linkify';
 import Highlighter from 'react-highlight-words';
+import {Link} from 'react-router';
 
 import styles from './styles.css';
 
 import {Icon} from 'coral-ui';
 
-// import ActionButton from '../components/ActionButton';
+import ActionButton from '../../../components/ActionButton';
 
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../../translations.json';
@@ -16,7 +17,7 @@ const Comment = props => {
   const links = linkify.getMatches(props.body);
   return (
     <li tabIndex={props.index}
-        className={`mdl-card mdl-shadow--2dp ${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
+        className={`mdl-card mdl-shadow--2dp ${styles.Comment} ${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
       <div className={styles.itemHeader}>
         <div className={styles.author}>
           <span>{props.user.name}</span>
@@ -28,18 +29,9 @@ const Comment = props => {
         <div className={styles.sideActions}>
           {links ? <span className={styles.hasLinks}><Icon name='error_outline'/> Contains Link</span> : null}
           <div className={`actions ${styles.actions}`}>
-            {/* {props.modActions.map(*/}
-            {/* (action, i) =>*/}
-            {/* <ActionButton*/}
-            {/* option={action}*/}
-            {/* key={i}*/}
-            {/* type='COMMENTS'*/}
-            {/* comment={comment}*/}
-            {/* user={author}*/}
-            {/* menuOptionsMap={props.menuOptionsMap}*/}
-            {/* onClickAction={props.onClickAction}*/}
-            {/* onClickShowBanDialog={props.onClickShowBanDialog}/>*/}
-            {/* )}*/}
+            <ActionButton type="reject" user={props.user} />
+            <ActionButton type="approve" user={props.user} />
+            <ActionButton type="ban" user={props.user} />
           </div>
           {props.user.banned === 'banned' ?
             <span className={styles.banned}>
@@ -50,10 +42,9 @@ const Comment = props => {
         </div>
       </div>
 
-      {/* <div className={styles.itemBody}> */}
-        {/* Article title */}
-        {/* <a>Moderate this Article</a> */}
-      {/* </div> */}
+       <div className={styles.moderateArticle}>
+         {props.asset.title} <Link to={`/admin/moderate/${props.asset.id}`}>Moderate Article</Link>
+       </div>
 
       <div className={styles.itemBody}>
         <p className={styles.body}>
@@ -62,11 +53,9 @@ const Comment = props => {
           </Linkify>
         </p>
       </div>
-
-      {/*  <span className={styles.context}> */}
-        {/* <a>View context</a> */}
-      {/* </span> */}
-
+      {/* <span className={styles.context}>*/}
+       {/* <a>View context</a>*/}
+     {/* </span>*/}
     </li>
   );
 };
@@ -80,7 +69,8 @@ const linkify = new Linkify();
 const lang = new I18n(translations);
 
 Comment.propTypes = {
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  asset: PropTypes.object.isRequired
 };
 
 export default Comment;

@@ -7,11 +7,13 @@ const actionsMap = {
 };
 
 const ModerationQueue = props => {
+  console.log(props);
   return (
     <div>
       <ul>
       {
         props.data[props.activeTab].map((comment, i) => {
+          console.log(props.asset);
           return <Comment
             key={i}
             index={i}

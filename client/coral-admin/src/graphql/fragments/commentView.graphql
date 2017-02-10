@@ -6,6 +6,11 @@ fragment commentView on Comment {
     user {
         id
         name: displayName
+        status
+    }
+    asset {
+      id
+      title
     }
     actions {
         type: action_type

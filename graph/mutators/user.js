@@ -1,16 +1,8 @@
 const UsersService = require('../../services/users');
 
 const setUserStatus = ({user}, {id, status}) => {
-  console.log('------as-d-asd-a-sads-a-sad-dsa-----');
-  console.log('user', user);
-  console.log('id', id);
-  console.log('status', status);
-
   return UsersService.setStatus(id, status)
-  .then((user) => {
-    console.log('result', user);
-    return user;
-  });
+  .then(res => res);
 };
 
 module.exports = (context) => {

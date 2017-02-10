@@ -59,7 +59,6 @@ class ModerationContainer extends Component {
     }
 
     const enablePremodTab = !!data.premod.length;
-
     return (
       <div>
         <ModerationHeader asset={asset} />
@@ -68,9 +67,9 @@ class ModerationContainer extends Component {
           enablePremodTab={enablePremodTab}
           {...moderation} />
         <ModerationQueue
-          enablePremodTab={enablePremodTab}
-          activeTab={moderation.activeTab}
           data={data}
+          activeTab={moderation.activeTab}
+          enablePremodTab={enablePremodTab}
           suspectWords={settings.wordlist.suspect}
         />
       </div>

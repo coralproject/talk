@@ -248,3 +248,25 @@
     font-size: 14px;
   }
 }
+
+
+.Comment {
+  .moderateArticle {
+    padding: 10px 0px;
+    a {
+      display: block;
+      color: #679af3;
+      text-decoration: none;
+      font-size: 1em;
+      font-weight: 500;
+      letter-spacing: .5px;
+      font-size: .8em;
+
+      &:hover {
+        text-decoration: underline;
+        opacity: .9;
+        cursor: pointer;
+       }
+    }
+  }
+}
