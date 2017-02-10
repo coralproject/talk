@@ -11,9 +11,14 @@ stages:
   build:
     workDir: ~/talk
     environment:
-      - "PATH=$PATH:~/talk/node_modules/.bin"
-      - "NODE_ENV=test"
+      - NODE_ENV: test
     steps:
+      - type: shell
+        shell: /bin/bash
+        command: |
+          # add in path rewrite
+          echo "PATH=$PATH:~/talk/node_modules/.bin" >> ~/.bashrc
+
       # Get the code
       - type: checkout
 
@@ -23,7 +28,7 @@ stages:
 
       # Install dependencies
       - type: shell
-        shell: /bin/bash
+        shell: /bin/bash -l
         command: |
           # install yarn
           npm install -g yarn
@@ -39,7 +44,7 @@ stages:
 
       # Build the dependencies
       - type: shell
-        shell: /bin/bash
+        shell: /bin/bash -l
         command: |
           # build static dependencies
           yarn build
@@ -48,7 +53,7 @@ stages:
           yarn lint
 
       - type: shell
-        shell: /bin/bash
+        shell: /bin/bash -l
         command: |
           # Initialize the settings in the database, this will create indicies
           # for the database.
