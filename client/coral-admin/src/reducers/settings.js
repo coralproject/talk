@@ -6,6 +6,9 @@ const initialState = Map({
     wordlist: Map({
       banned: List(),
       suspect: List()
+    }),
+    domains: Map({
+      whitelist: List()
     })
   }),
   saveSettingsError: null,
@@ -24,6 +27,7 @@ export default (state = initialState, action) => {
   case types.SAVE_SETTINGS_SUCCESS: return saveComplete(state, action);
   case types.SAVE_SETTINGS_FAILED: return settingsSaveFailed(state, action);
   case types.WORDLIST_UPDATED: return updateWordlist(state, action);
+  case types.DOMAINLIST_UPDATED: return updateDomainlist(state, action);
   default: return state;
   }
 };
@@ -38,6 +42,10 @@ const updateSettings = (state, action) => {
 // any nested settings must have a specialized setter
 const updateWordlist = (state, action) => {
   return state.setIn(['settings', 'wordlist', action.listName], action.list);
+};
+
+const updateDomainlist = (state, action) => {
+  return state.setIn(['settings', 'domains', action.listName], action.list);
 };
 
 const saveComplete = (state, action) => {

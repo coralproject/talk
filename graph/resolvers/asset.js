@@ -1,4 +1,7 @@
 const Asset = {
+  recentComments({id}, _, {loaders: {Comments}}) {
+    return Comments.genRecentComments.load(id);
+  },
   comments({id}, {sort, limit}, {loaders: {Comments}}) {
     return Comments.getByQuery({
       asset_id: id,

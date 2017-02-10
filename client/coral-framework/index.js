@@ -1,5 +1,5 @@
-import store from './store';
-import pym from './PymConnection';
+import store from './services/store';
+import pym from './services/PymConnection';
 import I18n from './modules/i18n/i18n';
 import * as authActions from './actions/auth';
 import * as assetActions from './actions/asset';

@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-const util = require('../util');
+// const util = require('./util');
 const program = require('./commander');
 
 program
@@ -15,18 +15,14 @@ program
   .command('users', 'work with the application auth')
   .parse(process.argv);
 
-// If there is no command listed, output help.
-if (!process.argv.slice(2).length) {
-  program.outputHelp();
-  return;
-}
-
-// The ensures that the child process that is created here is always cleaned up
-// properly when the parent process dies.
-util.onshutdown([
-  (signal) => {
-    if ((program.runningCommand.killed === false) && (program.runningCommand.exitCode === null)) {
-      program.runningCommand.kill(signal);
-    }
+/**
+ * When this provess exists, check to see if we have a running command, if we do
+ * check to see if it is still running. If it is, then kill it with a SIGINT
+ * signal. This is for the use case where we want to kill the process that is
+ * labled with the PID written out by the parent process.
+ */
+process.once('exit', () => {
+  if ((program.runningCommand.killed === false) && (program.runningCommand.exitCode === null)) {
+    program.runningCommand.kill('SIGINT');
   }
-]);
+});

@@ -8,9 +8,6 @@ const name = 'coral-plugin-commentbox';
 class CommentBox extends Component {
 
   static propTypes = {
-
-    // updateItem: PropTypes.func,
-    // comments: PropTypes.array,
     commentPostedHandler: PropTypes.func,
     postItem: PropTypes.func.isRequired,
     cancelButtonClicked: PropTypes.func,
@@ -29,10 +26,6 @@ class CommentBox extends Component {
 
   postComment = () => {
     const {
-
-      // child_id,
-      // updateItem,
-      // appendItemArray,
       commentPostedHandler,
       postItem,
       assetId,
@@ -48,28 +41,13 @@ class CommentBox extends Component {
       parent_id: parentId
     };
 
-    // let related;
-    // let parent_type;
-    // if (parent_id) {
-    //   comment.parent_id = parent_id;
-    //   related = 'children';
-    //   parent_type = 'comments';
-    // } else {
-    //   related = 'comments';
-    //   parent_type = 'assets';
-    // }
-    // if (child_id || parent_id) {
-    //   updateItem(child_id || parent_id, 'showReply', false, 'comments');
-    // }
-
     if (this.props.charCount && this.state.body.length > this.props.charCount) {
       return;
     }
     postItem(comment, 'comments')
       .then(({data}) => {
-        const postedComment = data.createComment;
+        const postedComment = data.createComment.comment;
 
-        // const commentId = postedComment.id;
         if (postedComment.status === 'REJECTED') {
           addNotification('error', lang.t('comment-post-banned-word'));
         } else if (postedComment.status === 'PREMOD') {

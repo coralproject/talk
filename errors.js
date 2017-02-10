@@ -121,12 +121,25 @@ const ErrInvalidAssetURL = new APIError('asset_url is invalid', {
 // ErrNotAuthorized is an error that is returned in the event an operation is
 // deemed not authorized.
 const ErrNotAuthorized = new APIError('not authorized', {
+  translation_key: 'NOT_AUTHORIZED',
   status: 401
 });
 
 // ErrSettingsNotInit is returned when the settings are required but not
 // initialized.
 const ErrSettingsNotInit = new Error('settings not initialized, run `./bin/cli setup` to setup the application first');
+
+// ErrSettingsInit is returned when the setup endpoint is hit and we are already
+// initialized.
+const ErrSettingsInit = new APIError('settings are already initialized', {
+  status: 500
+});
+
+// ErrInstallLock is returned when the setup endpoint is hit and the install
+// lock is present.
+const ErrInstallLock = new APIError('install lock active', {
+  status: 500
+});
 
 module.exports = {
   ExtendableError,
@@ -145,5 +158,7 @@ module.exports = {
   ErrNotFound,
   ErrInvalidAssetURL,
   ErrAuthentication,
-  ErrNotAuthorized
+  ErrNotAuthorized,
+  ErrSettingsInit,
+  ErrInstallLock
 };

@@ -3,6 +3,10 @@ const CommentModel = require('../models/comment');
 const ActionModel = require('../models/action');
 const ActionsService = require('./actions');
 
+const ALLOWED_TAGS = [
+  {name: 'STAFF'}
+];
+
 module.exports = class CommentsService {
 
   /**
@@ -33,11 +37,39 @@ module.exports = class CommentsService {
         type: status,
         created_at: new Date()
       }] : [],
+      tags: [],
       status,
       author_id
     });
 
     return comment.save();
+  }
+
+  /**
+   * Adds a tag if it doesn't already exist on the comment.
+   */
+  static addTag(id, name, assigned_by) {
+
+    if (ALLOWED_TAGS.find((t) => t.name === name) == null) {
+      return Promise.reject(new Error('tag not allowed'));
+    }
+
+    return CommentModel.update({
+      id,
+      tags: {
+        $ne: {
+          name
+        }
+      }
+    }, {
+      $push: {
+        tags: {
+          name,
+          assigned_by,
+          created_at: new Date()
+        }
+      }
+    });
   }
 
   /**

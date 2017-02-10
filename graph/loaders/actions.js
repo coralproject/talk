@@ -6,6 +6,15 @@ const ActionsService = require('../../services/actions');
 const ActionModel = require('../../models/action');
 
 /**
+ * Gets actions based on their item id's.
+ */
+const genActionsByItemID = (_, item_ids) => {
+  return ActionsService
+    .findByItemIdArray(item_ids)
+    .then(util.arrayJoinBy(item_ids, 'item_id'));
+};
+
+/**
  * Looks up actions based on the requested id's all bounded by the user.
  * @param  {Object} context the context of the request
  * @param  {Array}  ids     array of id's to get
@@ -35,6 +44,7 @@ const getItemIdsByActionTypeAndItemType = (_, action_type, item_type) => {
  */
 module.exports = (context) => ({
   Actions: {
+    getByID: new DataLoader((ids) => genActionsByItemID(context, ids)),
     getSummariesByItemID: new DataLoader((ids) => genActionSummariessByItemID(context, ids)),
     getByTypes: ({action_type, item_type}) => getItemIdsByActionTypeAndItemType(context, action_type, item_type)
   }
