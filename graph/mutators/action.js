@@ -1,6 +1,7 @@
 const ActionModel = require('../../models/action');
 const ActionsService = require('../../services/actions');
 const UsersService = require('../../services/users');
+const errors = require('../../errors');
 
 /**
  * Creates an action on a item. If the item is a user flag, sets the user's status to
@@ -59,8 +60,8 @@ module.exports = (context) => {
 
   return {
     Action: {
-      create: () => {},
-      delete: () => {}
+      create: () => Promise.reject(errors.ErrNotAuthorized),
+      delete: () => Promise.reject(errors.ErrNotAuthorized)
     }
   };
 };
