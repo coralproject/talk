@@ -1,4 +1,5 @@
 const util = require('./util');
+const DataLoader = require('dataloader');
 
 const CommentModel = require('../../models/comment');
 
@@ -135,6 +136,95 @@ const getCommentsByQuery = ({user}, {ids, statuses, asset_id, parent_id, author_
     .limit(limit);
 };
 
+const genRecentReplies = (_, ids) => {
+  return CommentModel.aggregate([
+
+    // get all the replies for the comments in question
+    {$match: {
+      parent_id: {
+        $in: ids
+      }
+    }},
+
+    // sort these by their created at timestamp, CHRONOLOGICAL'y as these are
+    // replies
+    {$sort: {
+      created_at: 1
+    }},
+
+    // group these replies by their parent_id
+    {$group: {
+      _id: '$parent_id',
+      replies: {
+        $push: '$$ROOT'
+      }
+    }},
+
+    // project it so that we only retain the first 3 replies of each parent
+    // comment
+    {$project: {
+      _id: '$_id',
+      replies: {
+        $slice: [
+          '$replies',
+          0,
+          3
+        ]
+      }
+    }},
+
+    {$unwind: '$replies'},
+
+  ])
+  .then((replies) => replies.map((reply) => reply.replies))
+  .then(util.arrayJoinBy(ids, 'parent_id'));
+};
+
+const genRecentComments = (_, ids) => {
+  return CommentModel.aggregate([
+
+    // get all the replies for the comments in question
+    {$match: {
+      asset_id: {
+        $in: ids
+      }
+    }},
+
+    // sort these by their created at timestamp, CHRONOLOGICAL'y as these are
+    // replies
+    {$sort: {
+      created_at: 1
+    }},
+
+    // group these replies by their parent_id
+    {$group: {
+      _id: '$asset_id',
+      comments: {
+        $push: '$$ROOT'
+      }
+    }},
+
+    // project it so that we only retain the first 3 replies of each parent
+    // comment
+    {$project: {
+      _id: '$_id',
+      comments: {
+        $slice: [
+          '$comments',
+          0,
+          3
+        ]
+      }
+    }},
+
+    // Unwind these comments.
+    {$unwind: '$comments'},
+
+  ])
+  .then((replies) => replies.map((reply) => reply.comments))
+  .then(util.arrayJoinBy(ids, 'asset_id'));
+};
+
 /**
  * Creates a set of loaders based on a GraphQL context.
  * @param  {Object} context the context of the GraphQL request
@@ -144,6 +234,8 @@ module.exports = (context) => ({
   Comments: {
     getByQuery: (query) => getCommentsByQuery(context, query),
     countByAssetID: new util.SharedCacheDataLoader('Comments.countByAssetID', 3600, (ids) => getCountsByAssetID(context, ids)),
-    countByParentID: new util.SharedCacheDataLoader('Comments.countByParentID', 3600, (ids) => getCountsByParentID(context, ids))
+    countByParentID: new util.SharedCacheDataLoader('Comments.countByParentID', 3600, (ids) => getCountsByParentID(context, ids)),
+    genRecentReplies: new DataLoader((ids) => genRecentReplies(context, ids)),
+    genRecentComments: new DataLoader((ids) => genRecentComments(context, ids))
   }
 });

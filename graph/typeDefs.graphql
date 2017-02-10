@@ -72,6 +72,9 @@ type Comment {
   # the user who authored the comment.
   user: User
 
+  # the recent replies made against this comment.
+  recentReplies: [Comment]
+
   # the replies that were made to the comment.
   replies(sort: SORT_ORDER = CHRONOLOGICAL, limit: Int = 3): [Comment]
 
@@ -147,6 +150,9 @@ type Asset {
 
   # The URL that the asset is located on.
   url: String
+
+  # Returns recent comments
+  recentComments: [Comment]
 
   # The top level comments that are attached to the asset.
   comments(sort: SORT_ORDER = REVERSE_CHRONOLOGICAL, limit: Int = 10): [Comment]
