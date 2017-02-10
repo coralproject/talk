@@ -5,6 +5,7 @@
 # Date represented as an ISO8601 string.
 scalar Date
 
+
 ################################################################################
 ## Users
 ################################################################################
@@ -43,6 +44,17 @@ type User {
 
   # returns all comments based on a query.
   comments(query: CommentsQuery): [Comment]
+}
+
+type Tag {
+  # the actual tag for the comment.
+  name: String!
+
+  # the user that assigned the tag. If NULL then the system automatically tagged it.
+  assigned_by: String
+
+  # the time when the tag was assigned.
+  created_at: Date!
 }
 
 ################################################################################
@@ -96,6 +108,9 @@ input CommentsQuery {
   # skip results from the last created_at timestamp.
   cursor: Date
 
+  # filter by a specific tag name.
+  tag: [String]
+
   # sort the results by created_at.
   sort: SORT_ORDER = REVERSE_CHRONOLOGICAL
 }
@@ -109,7 +124,10 @@ type Comment {
   # The actual comment data.
   body: String!
 
-  # The user who authored the comment.
+  # the tags on the comment
+  tags: [Tag]
+
+  # the user who authored the comment.
   user: User
 
   # the recent replies made against this comment.

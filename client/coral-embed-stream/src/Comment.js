@@ -10,6 +10,8 @@ import React, {PropTypes} from 'react';
 import PermalinkButton from 'coral-plugin-permalinks/PermalinkButton';
 
 import AuthorName from 'coral-plugin-author-name/AuthorName';
+
+import TagLabel from 'coral-plugin-tag-label/TagLabel';
 import Content from 'coral-plugin-commentcontent/CommentContent';
 import PubDate from 'coral-plugin-pubdate/PubDate';
 import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
@@ -20,6 +22,7 @@ import styles from './Comment.css';
 
 const getActionSummary = (type, comment) => comment.action_summaries
   .filter((a) => a.__typename === type)[0];
+const isStaff = (tags) => !tags.every((t) => t.name !== 'STAFF') ;
 
 class Comment extends React.Component {
 
@@ -56,12 +59,16 @@ class Comment extends React.Component {
       action_summaries: PropTypes.array.isRequired,
       body: PropTypes.string.isRequired,
       id: PropTypes.string.isRequired,
+      tags: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string
+        })
+      ),
       replies: PropTypes.arrayOf(
         PropTypes.shape({
           body: PropTypes.string.isRequired,
           id: PropTypes.string.isRequired
-        })
-      ),
+        })),
       user: PropTypes.shape({
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired
@@ -98,6 +105,9 @@ class Comment extends React.Component {
         <hr aria-hidden={true} />
         <AuthorName
           author={comment.user}/>
+        { isStaff(comment.tags)
+          ? <TagLabel isStaff={true}/>
+          : null }
         <PubDate created_at={comment.created_at} />
         <Content body={comment.body} />
           <div className="commentActionsLeft">
