@@ -93,7 +93,7 @@ class Comment extends React.Component {
 
     const like = getAction('LIKE', comment);
     const flag = getAction('FLAG', comment);
-
+    
     return (
       <div
         className={parentId ? `reply ${styles.Reply}` : `comment ${styles.Comment}`}
@@ -102,7 +102,9 @@ class Comment extends React.Component {
         <hr aria-hidden={true} />
         <AuthorName
           author={comment.user}/>
-        <TagLabel isStaff={isStaff(comment.tags)}/>
+        { isStaff(comment.tags)
+          ? <TagLabel isStaff={true}/>
+          : null }
         <PubDate created_at={comment.created_at} />
         <Content body={comment.body} />
           <div className="commentActionsLeft">
