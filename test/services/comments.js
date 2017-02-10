@@ -265,16 +265,18 @@ describe('services.CommentsService', () => {
     it('creates a new comment by admin', () => {
       return UsersService.findLocalUser('stampi@gmail.com', '1Coral!!').then((user) => {
         return UsersService.addRoleToUser(user.id, 'ADMIN').then(() => {
-          return CommentsService
-            .publicCreate({
-              body: 'This is a comment!',
-              status: 'ACCEPTED',
-              author_id: user.id
-            }).then((c) => {
-              expect(c).to.not.be.null;
-              expect(c.tags).to.not.have.length(0);
-              expect(c.tags[0].name).to.be.equal('STAFF');
-            });
+          UsersService.findById(user.id).then((u) => {
+            return CommentsService
+              .publicCreate({
+                body: 'This is a comment!',
+                status: 'ACCEPTED',
+                author_id: u.id
+              }).then((c) => {
+                expect(c).to.not.be.null;
+                expect(c.tags).to.not.have.length(0);
+                expect(c.tags[0].name).to.be.equal('STAFF');
+              });
+          });
         });
       });
     });
