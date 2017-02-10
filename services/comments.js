@@ -3,7 +3,9 @@ const CommentModel = require('../models/comment');
 const ActionModel = require('../models/action');
 const ActionsService = require('./actions');
 
-const UsersService = require('./users');
+const ALLOWED_TAGS = [
+  {name: 'STAFF'}
+];
 
 module.exports = class CommentsService {
 
@@ -27,24 +29,46 @@ module.exports = class CommentsService {
       author_id
     } = comment;
 
-    return UsersService.isStaff(author_id).then((isStaff) => {
-      comment = new CommentModel({
-        body,
-        asset_id,
-        parent_id,
-        status_history: status ? [{
-          type: status,
+    comment = new CommentModel({
+      body,
+      asset_id,
+      parent_id,
+      status_history: status ? [{
+        type: status,
+        created_at: new Date()
+      }] : [],
+      tags: [],
+      status,
+      author_id
+    });
+
+    return comment.save();
+  }
+
+  /**
+   * Adds a tag if it doesn't already exist on the comment.
+   */
+  static addTag(id, name, assigned_by) {
+
+    if (ALLOWED_TAGS.find((t) => t.name === name) == null) {
+      return Promise.reject(new Error('tag not allowed'));
+    }
+
+    return CommentModel.update({
+      id,
+      tags: {
+        $ne: {
+          name
+        }
+      }
+    }, {
+      $push: {
+        tags: {
+          name,
+          assigned_by,
           created_at: new Date()
-        }] : [],
-        status,
-        tags: isStaff ? [{
-          name: 'STAFF',
-          assigned_by: null,
-          created_at: new Date()
-        }] : [],
-        author_id
-      });
-      return comment.save();
+        }
+      }
     });
   }
 
