@@ -27,6 +27,9 @@ input CommentsQuery {
   # limit the number of results to be returned.
   limit: Int = 10
 
+  # filter by a specific tag name.
+  tag: [String]
+
   # skip results from the last created_at timestamp.
   cursor: Date
 
@@ -65,7 +68,7 @@ type User {
 
 type Tag {
   # the actual tag for the comment.
-  name: COMMENT_TAG
+  name: String!
 
   # the user that assigned the tag. If NULL then the system automatically tagged it.
   assigned_by: String
@@ -177,11 +180,6 @@ type Asset {
 
   # The date that the asset was created.
   created_at: Date
-}
-
-enum COMMENT_TAG {
-  # For the comments submitted by staff members (ADMIN or MODERATOR users).
-  STAFF
 }
 
 enum COMMENT_STATUS {

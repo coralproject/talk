@@ -1,8 +1,9 @@
 import React from 'react';
-const name = 'coral-plugin-tag-label';
 
-const TagLabel = () => <div className={`${name  }-text`}>
-  oh yeah
+import styles from './styles.css';
+
+const TagLabel = ({isStaff}) => <div className={`${styles.staff}`}>
+  {(isStaff) ? 'Staff' : ''}
 </div>;
 
 export default TagLabel;

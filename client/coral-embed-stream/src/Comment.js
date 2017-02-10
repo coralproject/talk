@@ -21,6 +21,7 @@ import LikeButton from 'coral-plugin-likes/LikeButton';
 import styles from './Comment.css';
 
 const getAction = (type, comment) => comment.actions.filter((a) => a.type === type)[0];
+const isStaff = (tags) => !tags.every((t) => t.name !== 'STAFF') ;
 
 class Comment extends React.Component {
 
@@ -101,7 +102,7 @@ class Comment extends React.Component {
         <hr aria-hidden={true} />
         <AuthorName
           author={comment.user}/>
-        <TagLabel/>
+        <TagLabel isStaff={isStaff(comment.tags)}/>
         <PubDate created_at={comment.created_at} />
         <Content body={comment.body} />
           <div className="commentActionsLeft">
