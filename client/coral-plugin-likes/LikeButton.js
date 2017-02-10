@@ -12,7 +12,7 @@ class LikeButton extends Component {
       count: PropTypes.number
     }),
     id: PropTypes.string,
-    postAction: PropTypes.func.isRequired,
+    postLike: PropTypes.func.isRequired,
     deleteAction: PropTypes.func.isRequired,
     showSignInDialog: PropTypes.func.isRequired,
     currentUser: PropTypes.shape({
@@ -26,9 +26,9 @@ class LikeButton extends Component {
   }
 
   render() {
-    const {like, id, postAction, deleteAction, showSignInDialog, currentUser} = this.props;
+    const {like, id, postLike, deleteAction, showSignInDialog, currentUser} = this.props;
     const {localPost, localDelete} = this.state;
-    const liked = (like && like.current && !localDelete) || localPost;
+    const liked = (like && like.current_user && !localDelete) || localPost;
     let count = like ? like.count : 0;
     if (localPost) {count += 1;}
     if (localDelete) {count -= 1;}
@@ -44,16 +44,15 @@ class LikeButton extends Component {
       }
       if (!liked) {
         this.setState({localPost: 'temp', localDelete: false});
-        postAction({
+        postLike({
           item_id: id,
-          item_type: 'COMMENTS',
-          action_type: 'LIKE'
+          item_type: 'COMMENTS'
         }).then(({data}) => {
-          this.setState({localPost: data.createAction.id});
+          this.setState({localPost: data.createLike.like.id});
         });
       } else {
         this.setState((prev) => prev.localPost ? {...prev, localPost: null} : {...prev, localDelete: true});
-        deleteAction(localPost || like.current.id);
+        deleteAction(localPost || like.current_user.id);
       }
     };
 

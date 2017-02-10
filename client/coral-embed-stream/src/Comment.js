@@ -18,7 +18,8 @@ import LikeButton from 'coral-plugin-likes/LikeButton';
 
 import styles from './Comment.css';
 
-const getAction = (type, comment) => comment.actions.filter((a) => a.type === type)[0];
+const getActionSummary = (type, comment) => comment.action_summaries
+  .filter((a) => a.__typename === type)[0];
 
 class Comment extends React.Component {
 
@@ -35,7 +36,8 @@ class Comment extends React.Component {
     setActiveReplyBox: PropTypes.func.isRequired,
     refetch: PropTypes.func.isRequired,
     showSignInDialog: PropTypes.func.isRequired,
-    postAction: PropTypes.func.isRequired,
+    postFlag: PropTypes.func.isRequired,
+    postLike: PropTypes.func.isRequired,
     deleteAction: PropTypes.func.isRequired,
     parentId: PropTypes.string,
     addNotification: PropTypes.func.isRequired,
@@ -51,7 +53,7 @@ class Comment extends React.Component {
     }),
     comment: PropTypes.shape({
       depth: PropTypes.number,
-      actions: PropTypes.array.isRequired,
+      action_summaries: PropTypes.array.isRequired,
       body: PropTypes.string.isRequired,
       id: PropTypes.string.isRequired,
       replies: PropTypes.arrayOf(
@@ -78,14 +80,15 @@ class Comment extends React.Component {
       refetch,
       addNotification,
       showSignInDialog,
-      postAction,
+      postLike,
+      postFlag,
       setActiveReplyBox,
       activeReplyBox,
       deleteAction
     } = this.props;
 
-    const like = getAction('LIKE', comment);
-    const flag = getAction('FLAG', comment);
+    const like = getActionSummary('LikeActionSummary', comment);
+    const flag = getActionSummary('FlagActionSummary', comment);
 
     return (
       <div
@@ -101,7 +104,7 @@ class Comment extends React.Component {
               <LikeButton
                 like={like}
                 id={comment.id}
-                postAction={postAction}
+                postLike={postLike}
                 deleteAction={deleteAction}
                 showSignInDialog={showSignInDialog}
                 currentUser={currentUser} />
@@ -117,7 +120,7 @@ class Comment extends React.Component {
             flag={flag}
             id={comment.id}
             author_id={comment.user.id}
-            postAction={postAction}
+            postFlag={postFlag}
             deleteAction={deleteAction}
             showSignInDialog={showSignInDialog}
             currentUser={currentUser} />
@@ -150,7 +153,8 @@ class Comment extends React.Component {
               depth={depth + 1}
               asset={asset}
               currentUser={currentUser}
-              postAction={postAction}
+              postLike={postLike}
+              postFlag={postFlag}
               deleteAction={deleteAction}
               showSignInDialog={showSignInDialog}
               reactKey={reply.id}
@@ -158,7 +162,6 @@ class Comment extends React.Component {
               comment={reply} />;
           })
         }
-
       </div>
     );
   }

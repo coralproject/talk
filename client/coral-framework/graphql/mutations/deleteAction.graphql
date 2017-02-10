@@ -1,3 +1,7 @@
 mutation deleteAction ($id: ID!) {
-    deleteAction(id:$id)
+    deleteAction(id:$id) {
+      errors {
+        translation_key
+      }
+    }
 }
