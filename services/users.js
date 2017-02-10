@@ -105,13 +105,13 @@ module.exports = class UsersService {
    * @param  {Object}   profile - User social/external profile
    * @param  {Function} done    [description]
    */
-  static findOrCreateExternalUser(profile) {
+  static findOrCreateExternalUser({id, provider, displayName}) {
     return UserModel
       .findOne({
         profiles: {
           $elemMatch: {
-            id: profile.id,
-            provider: profile.provider
+            id,
+            provider
           }
         }
       })
@@ -122,14 +122,12 @@ module.exports = class UsersService {
 
         // The user was not found, lets create them!
         user = new UserModel({
-          username: profile.username,
+
+          // TODO: remove displayName reference when we have steps in the FE to handle
+          // the username create flow.
+          username: displayName.replace(/ /g, '_').replace(/[^a-zA-Z_]/g, ''),
           roles: [],
-          profiles: [
-            {
-              id: profile.id,
-              provider: profile.provider
-            }
-          ]
+          profiles: [{id, provider}]
         });
 
         return user.save();
