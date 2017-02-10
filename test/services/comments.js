@@ -254,6 +254,5 @@ describe('services.CommentsService', () => {
           expect(c.status_history[1]).to.have.property('assigned_by', '123');
         });
     });
-
   });
 });

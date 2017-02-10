@@ -36,6 +36,12 @@ const createComment = ({user, loaders: {Comments}}, {body, asset_id, parent_id =
       }
     }
 
+    if (user.hasRoles('ADMIN')) {
+      return CommentsService
+        .addTag(comment.id, 'STAFF', user.id)
+        .then(() => comment);
+    }
+
     return comment;
   });
 };
@@ -171,7 +177,7 @@ module.exports = (context) => {
 
   return {
     Comment: {
-      create: () => {}
+      create: () => Promise.reject(errors.ErrNotAuthorized)
     }
   };
 };

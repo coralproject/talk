@@ -1,6 +1,7 @@
 import {graphql} from 'react-apollo';
 import POST_COMMENT from './postComment.graphql';
-import POST_ACTION from './postAction.graphql';
+import POST_FLAG from './postFlag.graphql';
+import POST_LIKE from './postLike.graphql';
 import DELETE_ACTION from './deleteAction.graphql';
 
 import commentView from '../fragments/commentView.graphql';
@@ -21,12 +22,23 @@ export const postComment = graphql(POST_COMMENT, {
     }}),
 });
 
-export const postAction = graphql(POST_ACTION, {
+export const postLike = graphql(POST_LIKE, {
   props: ({mutate}) => ({
-    postAction: (action) => {
+    postLike: (like) => {
       return mutate({
         variables: {
-          action
+          like
+        }
+      });
+    }}),
+});
+
+export const postFlag = graphql(POST_FLAG, {
+  props: ({mutate}) => ({
+    postFlag: (flag) => {
+      return mutate({
+        variables: {
+          flag
         }
       });
     }}),

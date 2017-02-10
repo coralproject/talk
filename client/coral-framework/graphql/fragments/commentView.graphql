@@ -1,18 +1,18 @@
+#import "../fragments/actionSummaryView.graphql"
+
 fragment commentView on Comment {
     id
     body
     created_at
     status
+    tags {
+      name
+    }
     user {
         id
         name: username
     }
-    actions {
-        type: action_type
-        count
-        current: current_user {
-            id
-            created_at
-        }
+    action_summaries {
+      ...actionSummaryView
     }
 }

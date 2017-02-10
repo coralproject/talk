@@ -58,6 +58,9 @@ const StreamQuery = gql`fragment commentView on Comment {
   user {
     name: username
   }
+  tags {
+    name
+  }
   actions {
     type: action_type
     count

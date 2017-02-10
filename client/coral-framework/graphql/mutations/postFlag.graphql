@@ -1,0 +1,10 @@
+mutation CreateFlag($flag: CreateFlagInput!) {
+  createFlag(flag:$flag) {
+    flag {
+      id
+    }
+    errors {
+      translation_key
+    }
+  }
+}

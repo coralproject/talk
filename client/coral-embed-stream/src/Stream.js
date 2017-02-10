@@ -37,7 +37,8 @@ class Stream extends React.Component {
       asset,
       postItem,
       addNotification,
-      postAction,
+      postFlag,
+      postLike,
       deleteAction,
       showSignInDialog,
       refetch
@@ -56,7 +57,8 @@ class Stream extends React.Component {
               postItem={postItem}
               asset={asset}
               currentUser={currentUser}
-              postAction={postAction}
+              postLike={postLike}
+              postFlag={postFlag}
               deleteAction={deleteAction}
               showSignInDialog={showSignInDialog}
               key={comment.id}

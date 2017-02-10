@@ -12,7 +12,7 @@ class FlagButton extends Component {
     showMenu: false,
     itemType: '',
     reason: '',
-    note: '',
+    message: '',
     step: 0,
     posted: false,
     localPost: null,
@@ -23,7 +23,7 @@ class FlagButton extends Component {
   onReportClick = () => {
     const {currentUser, flag, deleteAction} = this.props;
     const {localPost, localDelete} = this.state;
-    const flagged = (flag && flag.current && !localDelete) || localPost;
+    const flagged = (flag && flag.current_user && !localDelete) || localPost;
     if (!currentUser) {
       const offset = document.getElementById(`c_${this.props.id}`).getBoundingClientRect().top - 75;
       this.props.showSignInDialog(offset);
@@ -31,15 +31,15 @@ class FlagButton extends Component {
     }
     if (flagged) {
       this.setState((prev) => prev.localPost ? {...prev, localPost: null, step: 0} : {...prev, localDelete: true});
-      deleteAction(localPost || flag.current.id);
+      deleteAction(localPost || flag.current_user.id);
     } else {
       this.setState({showMenu: !this.state.showMenu});
     }
   }
 
   onPopupContinue = () => {
-    const {postAction, id, author_id} = this.props;
-    const {itemType, reason, step, posted} = this.state;
+    const {postFlag, id, author_id} = this.props;
+    const {itemType, reason, step, posted, message} = this.state;
 
     // Proceed to the next step or close the menu if we've reached the end
     if (step + 1 >= this.props.getPopupMenu.length) {
@@ -67,13 +67,14 @@ class FlagButton extends Component {
       if (itemType === 'COMMENTS') {
         this.setState({localPost: 'temp'});
       }
-      postAction({
+      postFlag({
         item_id,
         item_type: itemType,
-        action_type: 'FLAG'
+        reason,
+        message
       }).then(({data}) => {
         if (itemType === 'COMMENTS') {
-          this.setState({localPost: data.createAction.id});
+          this.setState({localPost: data.createFlag.flag.id});
         }
       });
     }
@@ -99,7 +100,7 @@ class FlagButton extends Component {
   }
 
   onNoteTextChange = (e) => {
-    this.setState({note: e.target.value});
+    this.setState({message: e.target.value});
   }
 
   handleClickOutside () {
@@ -109,7 +110,7 @@ class FlagButton extends Component {
   render () {
     const {flag, getPopupMenu} = this.props;
     const {localPost, localDelete} = this.state;
-    const flagged = (flag && flag.current && !localDelete) || localPost;
+    const flagged = (flag && flag.current_user && !localDelete) || localPost;
     const popupMenu = getPopupMenu[this.state.step](this.state.itemType);
 
     return <div className={`${name}-container`}>
@@ -150,15 +151,15 @@ class FlagButton extends Component {
                 }
                 {
                   this.state.reason && <div>
-                  <label htmlFor={'note'} className={`${name}-popup-radio-label`}>
+                  <label htmlFor={'message'} className={`${name}-popup-radio-label`}>
                     {lang.t('flag-reason')}
                   </label><br/>
                   <textarea
                       className={`${name}-reason-text`}
-                      id="note"
+                      id="message"
                       rows={4}
                       onChange={this.onNoteTextChange}
-                      value={this.state.note}/>
+                      value={this.state.message}/>
                   </div>
                 }
               </form>
