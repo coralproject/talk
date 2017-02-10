@@ -13,14 +13,14 @@ stages:
     environment:
       - NODE_ENV: test
     steps:
+      # Get the code
+      - type: checkout
+
       - type: shell
         shell: /bin/bash
         command: |
           # add in path rewrite
           echo "PATH=$PATH:~/talk/node_modules/.bin" >> ~/.bashrc
-
-      # Get the code
-      - type: checkout
 
       # Restore the yarn cache
       - type: cache-restore
