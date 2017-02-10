@@ -1,0 +1,8 @@
+fragment actionSummaryView on ActionSummary {
+  __typename
+  count
+  current_user {
+    id
+    created_at
+  }
+}

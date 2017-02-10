@@ -1,6 +1,7 @@
 const ActionModel = require('../../models/action');
 const ActionsService = require('../../services/actions');
 const UsersService = require('../../services/users');
+const errors = require('../../errors');
 
 /**
  * Creates an action on a item. If the item is a user flag, sets the user's status to
@@ -11,11 +12,12 @@ const UsersService = require('../../services/users');
  * @param  {String} action_type type of the action
  * @return {Promise}            resolves to the action created
  */
-const createAction = ({user = {}}, {item_id, item_type, action_type, metadata = {}}) => {
+const createAction = ({user = {}}, {item_id, item_type, action_type, group_id, metadata = {}}) => {
   return ActionsService.insertUserAction({
     item_id,
     item_type,
     user_id: user.id,
+    group_id,
     action_type,
     metadata
   }).then((action) => {
@@ -58,8 +60,8 @@ module.exports = (context) => {
 
   return {
     Action: {
-      create: () => {},
-      delete: () => {}
+      create: () => Promise.reject(errors.ErrNotAuthorized),
+      delete: () => Promise.reject(errors.ErrNotAuthorized)
     }
   };
 };

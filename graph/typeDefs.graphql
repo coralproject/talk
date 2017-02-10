@@ -1,16 +1,82 @@
-# Establishes the ordering of the content by their created_at time stamp.
-enum SORT_ORDER {
-  # newest to oldest order.
-  REVERSE_CHRONOLOGICAL
-
-  # oldest to newer order.
-  CHRONOLOGICAL
-}
+################################################################################
+## Custom Scalar Types
+################################################################################
 
 # Date represented as an ISO8601 string.
 scalar Date
 
+################################################################################
+## Users
+################################################################################
+
+# Roles that a user can have, these can be combined.
+enum USER_ROLES {
+
+  # an administrator of the site
+  ADMIN
+
+  # a moderator of the site
+  MODERATOR
+}
+
+# Any person who can author comments, create actions, and view comments on a
+# stream.
+type User {
+
+  # The ID of the User.
+  id: ID!
+
+  # display name of a user.
+  displayName: String!
+
+  # Action summaries against the user.
+  action_summaries: [ActionSummary]
+
+  # Actions completed on the parent.
+  actions: [Action]
+
+  # the current roles of the user.
+  roles: [USER_ROLES]
+
+  # determines whether the user can edit their username
+  canEditName: Boolean
+
+  # returns all comments based on a query.
+  comments(query: CommentsQuery): [Comment]
+}
+
+################################################################################
+## Comments
+################################################################################
+
+# The statuses that a comment may have.
+enum COMMENT_STATUS {
+
+  # The comment has been accepted by a moderator.
+  ACCEPTED
+
+  # The comment has been rejected by a moderator.
+  REJECTED
+
+  # The comment was created while the asset's premoderation option was on, and
+  # new comments that haven't been moderated yet are referred to as
+  # "premoderated" or "premod" comments.
+  PREMOD
+}
+
+# The types of action there are as enum's.
+enum ACTION_TYPE {
+
+  # Represents a LikeAction.
+  LIKE
+
+  # Represents a FlagAction.
+  FLAG
+}
+
+# CommentsQuery allows the ability to query comments by a specific methods.
 input CommentsQuery {
+
   # current status of a comment.
   statuses: [COMMENT_STATUS]
 
@@ -34,42 +100,16 @@ input CommentsQuery {
   sort: SORT_ORDER = REVERSE_CHRONOLOGICAL
 }
 
-enum USER_ROLES {
-  # an administrator of the site
-  ADMIN
-
-  # a moderator of the site
-  MODERATOR
-}
-
-# Any person who can author comments, create actions, and view comments on a
-# stream.
-type User {
-  id: ID!
-
-  # display name of a user.
-  displayName: String!
-
-  # actions against a specific user.
-  actions: [ActionSummary]
-
-  # the current roles of the user.
-  roles: [USER_ROLES]
-
-  # determines whether the user can edit their username
-  canEditName: Boolean
-
-  # returns all comments based on a query.
-  comments(query: CommentsQuery): [Comment]
-}
-
+# Comment is the base representation of user interaction in Talk.
 type Comment {
+
+  # The ID of the comment.
   id: ID!
 
-  # the actual comment data.
+  # The actual comment data.
   body: String!
 
-  # the user who authored the comment.
+  # The user who authored the comment.
   user: User
 
   # the recent replies made against this comment.
@@ -78,68 +118,153 @@ type Comment {
   # the replies that were made to the comment.
   replies(sort: SORT_ORDER = CHRONOLOGICAL, limit: Int = 3): [Comment]
 
-  # the count of replies on a comment
+  # The count of replies on a comment.
   replyCount: Int
 
-  # the actions made against a comment.
-  actions: [ActionSummary]
+  # Actions completed on the parent.
+  actions: [Action]
 
-  # the asset that a comment was made on.
+  # Action summaries against a comment.
+  action_summaries: [ActionSummary]
+
+  # The asset that a comment was made on.
   asset: Asset
 
-  # the current status of a comment.
+  # The current status of a comment.
   status: COMMENT_STATUS
 
-  # the time when the comment was created
+  # The time when the comment was created
   created_at: Date!
 }
 
-enum ITEM_TYPE {
-  ASSETS
-  COMMENTS
-  USERS
-}
+################################################################################
+## Actions
+################################################################################
 
-enum ACTION_TYPE {
-  LIKE
-  FLAG
-}
+# An action rendered against a parent enity item.
+interface Action {
 
-type Action {
+  # The ID of the action.
   id: ID!
-  action_type: ACTION_TYPE!
 
-  item_id: ID!
-  item_type: ITEM_TYPE!
+  # The author of the action.
+  user: User
 
-  user: User!
+  # The time when the Action was updated.
   updated_at: Date
+
+  # The time when the Action was created.
   created_at: Date
 }
 
-type ActionSummary {
-  action_type: ACTION_TYPE!
-  item_type: ITEM_TYPE!
+# A summary of actions based on the specific grouping of the group_id.
+interface ActionSummary {
+
+  # The count of actions with this group.
   count: Int
+
+  # The current user's action.
   current_user: Action
 }
 
+# LikeAction is used by users who "like" a specific entity.
+type LikeAction implements Action {
+
+  # The ID of the action.
+  id: ID!
+
+  # The author of the action.
+  user: User
+
+  # The time when the Action was updated.
+  updated_at: Date
+
+  # The time when the Action was created.
+  created_at: Date
+}
+
+# LikeActionSummary is counts the amount of "likes" that a specific entity has.
+type LikeActionSummary implements ActionSummary {
+
+  # The count of likes against the parent entity.
+  count: Int!
+
+  current_user: LikeAction
+}
+
+# A FLAG action that contains flag metadata.
+type FlagAction implements Action {
+
+  # The ID of the Flag Action.
+  id: ID!
+
+  # The reason for which the Flag Action was created.
+  reason: String
+
+  # An optional message sent with the flagging action by the user.
+  message: String
+
+  # The user who created the action.
+  user: User
+
+  # The time when the Flag Action was updated.
+  updated_at: Date
+
+  # The time when the Flag Action was created.
+  created_at: Date
+}
+
+# Summary for Flag Action with a a unique reason.
+type FlagActionSummary implements ActionSummary {
+
+  # The total count of flags with this reason.
+  count: Int!
+
+  # The reason for which the Flag Action was created.
+  reason: String
+
+  # The flag by the current user against the parent entity with this reason.
+  current_user: FlagAction
+}
+
+################################################################################
+## Settings
+################################################################################
+
+# The moderation mode of the site.
 enum MODERATION_MODE {
+
+  # Comments posted while in `PRE` mode will be labeled with a `PREMOD`
+  # status and will require a moderator decision before being visible.
   PRE
+
+  # Comments posted while in `POST` will be visible immediately.
   POST
 }
 
+# Site wide global settings.
 type Settings {
+
+  # Moderation mode for the site.
   moderation: MODERATION_MODE!
+
+  # Enables a requirement for email confirmation before a user can login.
+  requireEmailConfirmation: Boolean
+
   infoBoxEnable: Boolean
   infoBoxContent: String
   closeTimeout: Int
   closedMessage: String
   charCountEnable: Boolean
   charCount: Int
-  requireEmailConfirmation: Boolean
+
 }
 
+################################################################################
+## Assets
+################################################################################
+
+# Where comments are made on.
 type Asset {
 
   # The current ID of the asset.
@@ -171,52 +296,177 @@ type Asset {
   created_at: Date
 }
 
-enum COMMENT_STATUS {
-  ACCEPTED
-  REJECTED
-  PREMOD
+################################################################################
+## Errors
+################################################################################
+
+# Any error rendered due to the user's input.
+interface UserError {
+
+  # Translation key relating to a translatable string containing details to be
+  # displayed to the end user.
+  translation_key: String!
 }
 
+# A generic error not related to validation reasons.
+type GenericUserError implements UserError {
+
+  # Translation key relating to a translatable string containing details to be
+  # displayed to the end user.
+  translation_key: String!
+}
+
+# A validation error that affects the input.
+type ValidationUserError implements UserError {
+
+  # Translation key relating to a translatable string containing details to be
+  # displayed to the end user.
+  translation_key: String!
+
+  # The field in question that caused the error.
+  field_name: String!
+}
+
+################################################################################
+## Queries
+################################################################################
+
+# Establishes the ordering of the content by their created_at time stamp.
+enum SORT_ORDER {
+
+  # newest to oldest order.
+  REVERSE_CHRONOLOGICAL
+
+  # oldest to newer order.
+  CHRONOLOGICAL
+}
+
+# All queries that can be executed.
 type RootQuery {
 
-  # retrieves site wide settings and defaults.
+  # Site wide settings and defaults.
   settings: Settings
 
-  # retrieves all assets.
+  # All assets.
   assets: [Asset]
 
-  # retrieves a specific asset.
+  # Find or create an asset by url, or just find with the ID.
   asset(id: ID, url: String): Asset
 
-  # retrieves comments based on the input query.
+  # Comments returned based on a query.
   comments(query: CommentsQuery!): [Comment]
 
-  # retrieves the current logged in user.
+  # The currently logged in user based on the request.
   me: User
 }
 
-input CreateActionInput {
-  # the type of action.
-  action_type: ACTION_TYPE!
+################################################################################
+## Mutations
+################################################################################
 
-  # the type of the item.
-  item_type: ITEM_TYPE!
+# Response defines what can be expected from any response to a mutation action.
+interface Response {
 
-  # the id of the item that is related to the action.
+  # An array of errors relating to the mutation that occured.
+  errors: [UserError]
+}
+
+# CreateCommentResponse is returned with the comment that was created and any
+# errors that may have occured in the attempt to create it.
+type CreateCommentResponse implements Response {
+
+  # The comment that was created.
+  comment: Comment
+
+  # An array of errors relating to the mutation that occured.
+  errors: [UserError]
+}
+
+# Used to represent the item type for an action.
+enum ACTION_ITEM_TYPE {
+
+  # The action references a entity of type Asset.
+  ASSETS
+
+  # The action references a entity of type Comment.
+  COMMENTS
+
+  # The action references a entity of type User.
+  USERS
+}
+
+input CreateLikeInput {
+
+  # The item's id for which we are to create a like.
   item_id: ID!
+
+  # The type of the item for which we are to create the like.
+  item_type: ACTION_ITEM_TYPE!
 }
 
+type CreateLikeResponse implements Response {
+
+  # The like that was created.
+  like: LikeAction
+
+  # An array of errors relating to the mutation that occured.
+  errors: [UserError]
+}
+
+input CreateFlagInput {
+
+  # The item's id for which we are to create a flag.
+  item_id: ID!
+
+  # The type of the item for which we are to create the flag.
+  item_type: ACTION_ITEM_TYPE!
+
+  # The reason for flagging the item.
+  reason: String!
+
+  # An optional message sent with the flagging action by the user.
+  message: String
+}
+
+# CreateFlagResponse is the response returned with possibly some errors
+# relating to the creating the flag action attempt and possibly the flag that
+# was created.
+type CreateFlagResponse implements Response {
+
+  # The like that was created.
+  flag: FlagAction
+
+  # An array of errors relating to the mutation that occured.
+  errors: [UserError]
+}
+
+# DeleteActionResponse is the response returned with possibly some errors
+# relating to the delete action attempt.
+type DeleteActionResponse implements Response {
+
+  # An array of errors relating to the mutation that occured.
+  errors: [UserError]
+}
+
+# All mutations for the application are defined on this object.
 type RootMutation {
-  # creates a comment on the asset.
-  createComment(asset_id: ID!, parent_id: ID, body: String!): Comment
 
-  # creates an action based on an input.
-  createAction(action: CreateActionInput!): Action
+  # Creates a comment on the asset.
+  createComment(asset_id: ID!, parent_id: ID, body: String!): CreateCommentResponse
 
-  # delete an action based on the action id.
-  deleteAction(id: ID!): Boolean
+  # Creates a like on an entity.
+  createLike(like: CreateLikeInput!): CreateLikeResponse
 
+  # Creates a flag on an entity.
+  createFlag(flag: CreateFlagInput!): CreateFlagResponse
+
+  # Delete an action based on the action id.
+  deleteAction(id: ID!): DeleteActionResponse
 }
+
+################################################################################
+## Schema
+################################################################################
 
 schema {
   query: RootQuery

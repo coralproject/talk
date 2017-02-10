@@ -26,7 +26,8 @@ module.exports = class ActionsService {
       action_type: action.action_type,
       item_type: action.item_type,
       item_id: action.item_id,
-      user_id: action.user_id
+      user_id: action.user_id,
+      group_id: action.group_id
     };
 
     // Create/Update the action.
@@ -86,68 +87,70 @@ module.exports = class ActionsService {
    * @param {String} ids array of user identifiers (uuid)
   */
   static getActionSummaries(item_ids, current_user_id = '') {
-    return ActionModel.aggregate([
-      {
 
-        // only grab items that match the specified item id's
-        $match: {
-          item_id: {
-            $in: item_ids
-          }
-        }
+    // only grab items that match the specified item id's
+    let $match = {
+      item_id: {
+        $in: item_ids
+      }
+    };
+
+    let $group = {
+
+      // group unique documents by these properties, we are leveraging the
+      // fact that each uuid is completly unique.
+      _id: {
+        item_id: '$item_id',
+        action_type: '$action_type',
+        group_id: '$group_id'
       },
-      {
-        $group: {
 
-          // group unique documents by these properties, we are leveraging the
-          // fact that each uuid is completly unique.
-          _id: {
-            item_id: '$item_id',
-            action_type: '$action_type'
-          },
-
-          // and sum up all actions matching the above grouping criteria
-          count: {
-            $sum: 1
-          },
-
-          // we are leveraging the fact that each uuid is completly unique and
-          // just grabbing the last instance of the item type here.
-          item_type: {
-            $last: '$item_type'
-          },
-
-          current_user: {
-            $max: {
-              $cond: {
-                if: {
-                  $eq: ['$user_id', current_user_id],
-                },
-                then: '$$CURRENT',
-                else: null
-              }
-            }
-          }
-        }
+      // and sum up all actions matching the above grouping criteria
+      count: {
+        $sum: 1
       },
-      {
-        $project: {
 
-          // suppress the _id field
-          _id: false,
+      // we are leveraging the fact that each uuid is completly unique and
+      // just grabbing the last instance of the item type here.
+      item_type: {
+        $first: '$item_type'
+      },
 
-          // map the fields from the _id grouping down a level
-          item_id: '$_id.item_id',
-          action_type: '$_id.action_type',
-
-          // map the field directly
-          count: '$count',
-          item_type: '$item_type',
-
-          // set the current user to false here
-          current_user: '$current_user'
+      current_user: {
+        $max: {
+          $cond: {
+            if: {
+              $eq: ['$user_id', current_user_id],
+            },
+            then: '$$CURRENT',
+            else: null
+          }
         }
       }
+    };
+
+    let $project = {
+
+      // suppress the _id field
+      _id: false,
+
+      // map the fields from the _id grouping down a level
+      item_id: '$_id.item_id',
+      action_type: '$_id.action_type',
+      group_id: '$_id.group_id',
+
+      // map the field directly
+      count: '$count',
+      item_type: '$item_type',
+
+      // set the current user to false here
+      current_user: '$current_user'
+    };
+
+    return ActionModel.aggregate([
+      {$match},
+      {$group},
+      {$project}
     ]);
   }
 
