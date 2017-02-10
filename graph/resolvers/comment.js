@@ -2,6 +2,9 @@ const Comment = {
   user({author_id}, _, {loaders: {Users}}) {
     return Users.getByID.load(author_id);
   },
+  recentReplies({id}, _, {loaders: {Comments}}) {
+    return Comments.genRecentReplies.load(id);
+  },
   replies({id, asset_id}, {sort, limit}, {loaders: {Comments}}) {
     return Comments.getByQuery({
       asset_id,
