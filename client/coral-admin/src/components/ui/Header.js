@@ -13,21 +13,35 @@ export default ({handleLogout, restricted = false}) => (
       !restricted ?
       <div>
         <Navigation className={styles.nav}>
-          <IndexLink className={styles.navLink} to="/admin"
-                     activeClassName={styles.active}>
-                     {lang.t('configure.moderate')}
-         </IndexLink>
-          <Link className={styles.navLink} to="/admin/community"
-                activeClassName={styles.active}>
-                {lang.t('configure.community')}
+          <IndexLink
+            className={styles.navLink}
+            to="/admin"
+            activeClassName={styles.active}>
+            {lang.t('configure.moderate')}
+          </IndexLink>
+          <Link
+            className={styles.navLink}
+            to="/admin/community"
+            activeClassName={styles.active}>
+            {lang.t('configure.community')}
           </Link>
-          <Link className={styles.navLink} to="/admin/configure"
-                activeClassName={styles.active}>
-                {lang.t('configure.configure')}
+          <Link
+            className={styles.navLink}
+            to="/admin/configure"
+            activeClassName={styles.active}>
+            {lang.t('configure.configure')}
           </Link>
-          <Link className={styles.navLink} to="/admin/streams"
-                activeClassName={styles.active}>
-                {lang.t('configure.streams')}
+          <Link
+            className={styles.navLink}
+            to="/admin/streams"
+            activeClassName={styles.active}>
+            {lang.t('configure.streams')}
+          </Link>
+          <Link
+            className={styles.navLink}
+            to="/admin/dashboard"
+            activeClassName={styles.active}>
+            {lang.t('configure.dashboard')}
           </Link>
         </Navigation>
         <div className={styles.rightPanel}>

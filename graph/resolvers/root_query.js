@@ -34,7 +34,7 @@ const RootQuery = {
           // Map the actions from the items referenced byt this query. The actions
           // returned by this query are explicitly going to be distinct by their
           // `item_id`'s.
-          let ids = actions.map((action) => action.item_id);
+          let ids = actions.map(({item_id}) => item_id);
 
           // Perform the query using the available resolver.
           return Comments.getByQuery({ids, statuses, asset_id, parent_id, limit, cursor, sort});
@@ -42,6 +42,14 @@ const RootQuery = {
     }
 
     return Comments.getByQuery(query);
+  },
+
+  metric(_, args, {user, loaders: {Assets}}) {
+    if (user == null || !user.hasRoles('ADMIN')) {
+      return null;
+    }
+
+    return Assets.getForMetrics();
   },
 
   // This returns the current user, ensure that if we aren't logged in, we
