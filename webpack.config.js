@@ -7,7 +7,8 @@ const webpack = require('webpack');
 // Edit the build targets and embeds below.
 
 const buildTargets = [
-  'coral-admin'
+  'coral-admin',
+  'coral-docs'
 ];
 
 const buildEmbeds = [

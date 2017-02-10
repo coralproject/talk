@@ -177,7 +177,7 @@ module.exports = (context) => {
 
   return {
     Comment: {
-      create: () => {}
+      create: () => Promise.reject(errors.ErrNotAuthorized)
     }
   };
 };

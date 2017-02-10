@@ -127,21 +127,4 @@ router.put('/:comment_id/status', authorization.needed('ADMIN'), (req, res, next
     });
 });
 
-router.post('/:comment_id/actions', (req, res, next) => {
-
-  const {
-    action_type,
-    metadata
-  } = req.body;
-
-  CommentsService
-    .addAction(req.params.comment_id, req.user.id, action_type, metadata)
-    .then((action) => {
-      res.status(201).json(action);
-    })
-    .catch((err) => {
-      next(err);
-    });
-});
-
 module.exports = router;

@@ -1,4 +1,12 @@
 const Action = {
+  __resolveType({action_type}) {
+    switch (action_type) {
+    case 'FLAG':
+      return 'FlagAction';
+    case 'LIKE':
+      return 'LikeAction';
+    }
+  },
 
   // This will load the user for the specific action. We'll limit this to the
   // admin users only or the current logged in user.

@@ -12,7 +12,7 @@ class LikeButton extends Component {
       count: PropTypes.number
     }),
     id: PropTypes.string,
-    postAction: PropTypes.func.isRequired,
+    postLike: PropTypes.func.isRequired,
     deleteAction: PropTypes.func.isRequired,
     showSignInDialog: PropTypes.func.isRequired,
     currentUser: PropTypes.shape({
@@ -26,9 +26,9 @@ class LikeButton extends Component {
   }
 
   render() {
-    const {like, id, postAction, deleteAction, showSignInDialog, currentUser} = this.props;
+    const {like, id, postLike, deleteAction, showSignInDialog, currentUser} = this.props;
     const {localPost, localDelete} = this.state;
-    const liked = (like && like.current && !localDelete) || localPost;
+    const liked = (like && like.current_user && !localDelete) || localPost;
     let count = like ? like.count : 0;
     if (localPost) {count += 1;}
     if (localDelete) {count -= 1;}
@@ -42,28 +42,23 @@ class LikeButton extends Component {
       if (currentUser.banned) {
         return;
       }
-      if (!liked) {
-        this.setState({localPost: 'temp', localDelete: false});
-        postAction({
+      if (!liked) { // this comment has not yet been liked by this user.
+        this.setState({localPost: 'temp'});
+        postLike({
           item_id: id,
-          item_type: 'COMMENTS',
-          action_type: 'LIKE'
+          item_type: 'COMMENTS'
         }).then(({data}) => {
-          this.setState({localPost: data.createAction.id});
+          this.setState({localPost: data.createLike.like.id});
         });
       } else {
         this.setState((prev) => prev.localPost ? {...prev, localPost: null} : {...prev, localDelete: true});
-        deleteAction(localPost || like.current.id);
+        deleteAction(localPost || like.current_user.id);
       }
     };
 
     return <div className={`${name}-container`}>
       <button onClick={onLikeClick} className={`${name}-button ${liked && 'likedButton'}`}>
-        {
-          liked
-          ? <span className={`${name}-button-text`}>{lang.t('liked')}</span>
-        : <span className={`${name}-button-text`}>{lang.t('like')}</span>
-        }
+        <span className={`${name}-button-text`}>{lang.t(liked ? 'liked' : 'like')}</span>
         <i className={`${name}-icon material-icons`}
           aria-hidden={true}>thumb_up</i>
         <span className={`${name}-like-count`}>{count > 0 && count}</span>

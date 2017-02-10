@@ -13,7 +13,7 @@ function getQueryVariable(variable) {
   }
 
   // If no query is included, return a default string for development
-  return 'http://localhost:3030';
+  return 'http://localhost/default/stream';
 }
 
 export const queryStream = graphql(STREAM_QUERY, {
