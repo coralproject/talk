@@ -35,16 +35,13 @@ export const queryStream = graphql(STREAM_QUERY, {
           asset_id,
           sort
         },
-        updateQuery: (oldData, {fetchMoreResult:{data:{new_top_level_comments}}}) => {
-          const asset = {
+        updateQuery: (oldData, {fetchMoreResult:{data:{new_top_level_comments}}}) => ({
+          ...oldData,
+          asset: {
             ...oldData.asset,
             comments: [...oldData.asset.comments, ...new_top_level_comments]
-          };
-          return {
-            ...oldData,
-            asset
-          };
-        }
+          }
+        })
       });
     }
   })

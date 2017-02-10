@@ -46,8 +46,8 @@ class Stream extends React.Component {
     return (
       <div>
         {
-          comments.map(comment => {
-            return <Comment
+          comments.map(comment =>
+            <Comment
               refetch={refetch}
               setActiveReplyBox={this.setActiveReplyBox}
               activeReplyBox={this.state.activeReplyBox}
@@ -61,8 +61,8 @@ class Stream extends React.Component {
               showSignInDialog={showSignInDialog}
               key={comment.id}
               reactKey={comment.id}
-              comment={comment} />;
-          })
+              comment={comment} />
+          )
         }
       </div>
     );

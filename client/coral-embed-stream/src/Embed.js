@@ -88,9 +88,7 @@ class Embed extends Component {
       cursor: this.props.asset.comments[this.props.asset.comments.length - 1].created_at,
       asset_id: this.props.asset.id,
       sort: 'REVERSE_CHRONOLOGICAL'
-    })
-    .then((result) => console.log('result', result))
-    .catch((err) => console.log('err', err));
+    });
   }
 
   render () {
@@ -110,8 +108,6 @@ class Embed extends Component {
     if (loading) {
       return <Spinner />;
     }
-
-    console.log('Render', this.props.data);
 
     return (
       <div style={expandForLogin}>
