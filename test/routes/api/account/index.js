@@ -13,7 +13,7 @@ chai.use(require('chai-http'));
 
 const UsersService = require('../../../../services/users');
 
-describe('/api/v1/account/displayname', () => {
+describe('/api/v1/account/username', () => {
   let mockUser;
 
   beforeEach(() => SettingsService.init(settings).then(() => {
@@ -29,9 +29,9 @@ describe('/api/v1/account/displayname', () => {
         .post(`/api/v1/users/${mockUser.id}/username-enable`)
         .set(passport.inject({id: '456', roles: ['ADMIN']}))
         .then(() => chai.request(app)
-          .put('/api/v1/account/displayname')
+          .put('/api/v1/account/username')
           .set(passport.inject({id: mockUser.id, roles: []}))
-          .send({displayName: 'MojoJojo'}))
+          .send({username: 'MojoJojo'}))
         .then((res) => {
           expect(res).to.have.status(204);
         });
@@ -42,9 +42,9 @@ describe('/api/v1/account/displayname', () => {
         .post(`/api/v1/users/${mockUser.id}/username-enable`)
         .set(passport.inject({id: '456', roles: ['ADMIN']}))
         .then(() => chai.request(app)
-          .put('/api/v1/account/displayname')
+          .put('/api/v1/account/username')
           .set(passport.inject({id: 'wrongid', roles: []}))
-          .send({displayName: 'MojoJojo'}))
+          .send({username: 'MojoJojo'}))
         .then(() => {
           done(new Error('Exected Error'));
         })
@@ -56,7 +56,7 @@ describe('/api/v1/account/displayname', () => {
 
     it('it should return an error when the user tries to edit their username if canEditName is disabled', (done) => {
       chai.request(app)
-        .put('/api/v1/account/displayname')
+        .put('/api/v1/account/username')
         .set(passport.inject({id: mockUser.id, roles: []}))
         .send({username: 'MojoJojo'})
         .then(() => {

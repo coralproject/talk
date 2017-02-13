@@ -37,7 +37,7 @@ module.exports = {
           .click('#coralRegister')
           .waitForElementVisible('#email', 1000)
           .setValue('#email', mockUser.email)
-          .setValue('#displayName', mockUser.name)
+          .setValue('#username', mockUser.name)
           .setValue('#password', mockUser.pw)
           .setValue('#confirmPassword', mockUser.pw)
           .click('#coralSignUpButton')
@@ -125,7 +125,7 @@ module.exports = {
 
       // Add a mock user
       .then(() => mocks.users([{
-        displayName: 'Baby Blue',
+        username: 'Baby Blue',
         email: 'whale@tale.sea',
         password: 'krill'
       }]))

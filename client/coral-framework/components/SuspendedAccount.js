@@ -14,16 +14,16 @@ class SuspendedAccount extends Component {
   }
 
   state = {
-    displayName: '',
+    username: '',
     alert: ''
   }
 
   onSubmitClick = (e) => {
     const {editName} = this.props;
-    const {displayName} = this.state;
+    const {username} = this.state;
     e.preventDefault();
-    if (validate.displayName(displayName)) {
-      editName(displayName)
+    if (validate.username(username)) {
+      editName(username)
         .then(() => location.reload())
         .catch((error) => {
           this.setState({alert: lang.t(`error.${error.message}`)});
@@ -36,7 +36,7 @@ class SuspendedAccount extends Component {
 
   render () {
     const {canEditName} = this.props;
-    const {displayName, alert} = this.state;
+    const {username, alert} = this.state;
 
     return <div className={styles.message}>
       <span>{
@@ -51,7 +51,7 @@ class SuspendedAccount extends Component {
             {alert}
           </div>
           <label
-            htmlFor='displayName'
+            htmlFor='username'
             className="screen-reader-text"
             aria-hidden={true}>
             {lang.t('editName.label')}
@@ -59,10 +59,10 @@ class SuspendedAccount extends Component {
           <input
             type='text'
             className={styles.editNameInput}
-            value={displayName}
+            value={username}
             placeholder={lang.t('editName.label')}
-            id='displayName'
-            onChange={(e) => this.setState({displayName: e.target.value})}
+            id='username'
+            onChange={(e) => this.setState({username: e.target.value})}
             rows={3}/><br/>
           <Button
             onClick={this.onSubmitClick}>

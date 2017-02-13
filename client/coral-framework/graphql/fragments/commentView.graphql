@@ -10,7 +10,7 @@ fragment commentView on Comment {
     }
     user {
         id
-        name: displayName
+        name: username
     }
     action_summaries {
       ...actionSummaryView

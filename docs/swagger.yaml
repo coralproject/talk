@@ -515,7 +515,7 @@ paths:
        - name: value
          in: query
          type: string
-         description: A term to search users' displayNames and email addresses.
+         description: A term to search users' usernames and email addresses.
        - name: sort
          in: query
          type: string
@@ -576,7 +576,7 @@ paths:
                 format: email
               password:
                 type: string
-              displayName:
+              username:
                 type: string
       responses:
         201:
@@ -899,7 +899,7 @@ definitions:
       id:
         type: string
         description: The uuid.v4 id of the user.
-      displayName:
+      username:
         type: string
         description: The name appearing next to the user's comments.
       disabled:

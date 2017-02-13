@@ -45,11 +45,11 @@ describe('/api/v1/queue', () => {
   }];
 
   const users = [{
-    displayName: 'Ana',
+    username: 'Ana',
     email: 'ana@gmail.com',
     password: '123456789'
   }, {
-    displayName: 'Maria',
+    username: 'Maria',
     email: 'maria@gmail.com',
     password: '123456789'
   }];
@@ -103,7 +103,7 @@ describe('/api/v1/queue', () => {
         expect(res).to.have.status(200);
         expect(res.body.comments).to.have.length(1);
         expect(res.body.comments[0]).to.have.property('body');
-        expect(res.body.users[0]).to.have.property('displayName');
+        expect(res.body.users[0]).to.have.property('username');
         expect(res.body.actions[0]).to.have.property('action_type');
       });
   });
@@ -115,7 +115,7 @@ describe('/api/v1/queue', () => {
       .end(function(err, res){
         expect(err).to.be.null;
         expect(res).to.have.status(200);
-        expect(res.body.users[0]).to.have.property('displayName');
+        expect(res.body.users[0]).to.have.property('username');
         expect(res.body.actions[0]).to.have.property('action_type');
         done();
       });

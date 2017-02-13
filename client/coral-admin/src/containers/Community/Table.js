@@ -44,7 +44,7 @@ class Table extends Component {
           {commenters.map((row, i)=> (
             <tr key={i}>
               <td className="mdl-data-table__cell--non-numeric">
-                {row.displayName}
+                {row.username}
                 <span className={styles.email}>{row.profiles.map(({id}) => id)}</span>
               </td>
               <td className="mdl-data-table__cell--non-numeric">

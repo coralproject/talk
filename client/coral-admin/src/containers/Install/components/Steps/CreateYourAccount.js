@@ -21,12 +21,12 @@ const InitialStep = props => {
 
           <FormField
             className={styles.formField}
-            id="displayName"
+            id="username"
             type="text"
             label='Username'
             onChange={handleUserChange}
             showErrors={install.showErrors}
-            errorMsg={install.errors.displayName}
+            errorMsg={install.errors.username}
             />
 
           <FormField
