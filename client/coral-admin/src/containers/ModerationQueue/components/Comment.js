@@ -13,7 +13,7 @@ const lang = new I18n(translations);
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations.json';
 
-const Comment = props => {
+const Comment = ({actions = [], ...props}) => {
   const links = linkify.getMatches(props.body);
 
   return (
@@ -30,8 +30,12 @@ const Comment = props => {
         <div className={styles.sideActions}>
           {links ? <span className={styles.hasLinks}><Icon name='error_outline'/> Contains Link</span> : null}
            <div className={`actions ${styles.actions}`}>
-             {props.actions.map((action, i) =>
-               <ActionButton type={action} user={props.user} key={i}
+             {actions.map((action, i) =>
+               <ActionButton key={i}
+                 type={action}
+                 user={props.user}
+                 acceptComment={() => props.acceptComment({commentId: props.id})}
+                 rejectComment={() => props.rejectComment({commentId: props.id})}
                  showBanUserDialog={() => props.showBanUserDialog(props.user, props.id)}
                />
              )}

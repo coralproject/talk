@@ -2,7 +2,7 @@
 
 query ModQueue ($asset_id: ID!) {
     all: comments(query: {
-    statuses: [ACCEPTED, REJECTED, PREMOD],
+    statuses: [REJECTED, PREMOD],
     asset_id: $asset_id
     }) {
         ...commentView

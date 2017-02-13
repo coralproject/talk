@@ -29,6 +29,9 @@ const RootMutation = {
   },
   setUserStatus(_, {id, status}, {mutators: {User}}) {
     return User.setUserStatus({id, status});
+  },
+  setCommentStatus(_, {id, status}, {mutators: {Comment}}) {
+    return Comment.setCommentStatus({id, status});
   }
 };
 

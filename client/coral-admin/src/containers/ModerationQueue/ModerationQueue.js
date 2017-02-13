@@ -15,6 +15,8 @@ const ModerationQueue = props => {
             suspectWords={props.suspectWords}
             actions={actionsMap[comment.status]}
             showBanUserDialog={props.showBanUserDialog}
+            acceptComment={props.acceptComment}
+            rejectComment={props.rejectComment}
             {...comment}
           />;
         })

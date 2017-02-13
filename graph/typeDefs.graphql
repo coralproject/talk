@@ -491,8 +491,11 @@ type RootMutation {
   # Delete an action based on the action id.
   deleteAction(id: ID!): DeleteActionResponse
 
-  # Sets user status
+  # Sets User status
   setUserStatus(id: ID!, status: USER_STATUS!): Boolean
+
+  # Sets Comment status
+  setCommentStatus(id: ID!, status: COMMENT_STATUS!): Boolean
 }
 
 ################################################################################

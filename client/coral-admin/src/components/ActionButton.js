@@ -14,10 +14,9 @@ const ActionButton = ({type = '', user, ...props}) => {
       className={`${type.toLowerCase()} ${styles.actionButton}`}
       cStyle={type.toLowerCase()}
       icon={menuActionsMap[type].icon}
-      onClick={() => {}}
+      onClick={type === 'APPROVE' ? props.acceptComment : props.rejectComment}
     />
   );
 };
 
 export default ActionButton;
-

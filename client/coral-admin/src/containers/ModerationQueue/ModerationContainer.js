@@ -5,7 +5,7 @@ import key from 'keymaster';
 import isEqual from 'lodash/isEqual';
 
 import {modQueueQuery} from '../../graphql/queries';
-import {banUser} from '../../graphql/mutations';
+import {banUser, setCommentStatus} from '../../graphql/mutations';
 
 import {fetchSettings} from 'actions/settings';
 import {updateAssets} from 'actions/assets';
@@ -52,6 +52,11 @@ class ModerationContainer extends Component {
       return <div><Spinner/></div>;
     }
 
+    if (data.error) {
+      console.log(data);
+      return <div>Error</div>;
+    }
+
     if (providedAssetId) {
       asset = assets.find(asset => asset.id === this.props.params.id);
 
@@ -61,7 +66,6 @@ class ModerationContainer extends Component {
     }
 
     const enablePremodTab = !!data.premod.length;
-    console.log(props.banUser);
     return (
       <div>
         <ModerationHeader asset={asset} />
@@ -75,6 +79,8 @@ class ModerationContainer extends Component {
           enablePremodTab={enablePremodTab}
           suspectWords={settings.wordlist.suspect}
           showBanUserDialog={props.showBanUserDialog}
+          acceptComment={props.acceptComment}
+          rejectComment={props.rejectComment}
         />
         <BanUserDialog
           open={moderation.banDialog}
@@ -106,6 +112,7 @@ const mapDispatchToProps = dispatch => ({
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
+  setCommentStatus,
   modQueueQuery,
   banUser
 )(ModerationContainer);

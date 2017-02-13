@@ -1,0 +1,3 @@
+mutation setCommentStatus($commentId: ID!, $status: COMMENT_STATUS!){
+  setCommentStatus(id: $commentId, status: $status)
+}

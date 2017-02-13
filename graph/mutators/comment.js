@@ -162,22 +162,36 @@ const createPublicComment = (context, commentInput) => {
       }));
 };
 
+/**
+ * Sets the status of a comment
+ * @param {String} comment     comment in graphql context
+ * @param {String} id          identifier of the comment  (uuid)
+ * @param {String} status      the new status of the comment
+ */
+
+const setCommentStatus = ({comment}, {id, status}) => {
+  return CommentsService.setStatus(id, status)
+    .then(res => res);
+};
+
 module.exports = (context) => {
 
   // TODO: refactor to something that'll return an error in the event an attempt
   // is made to mutate state while not logged in. There's got to be a better way
   // to do this.
-  if (context.user && context.user.can('mutation:createComment')) {
+  if (context.user && context.user.can('mutation:createComment', 'mutation:setUserStatus')) {
     return {
       Comment: {
-        create: (comment) => createPublicComment(context, comment)
+        create: (comment) => createPublicComment(context, comment),
+        setCommentStatus: (action) => setCommentStatus(context, action)
       }
     };
   }
 
   return {
     Comment: {
-      create: () => Promise.reject(errors.ErrNotAuthorized)
+      create: () => Promise.reject(errors.ErrNotAuthorized),
+      setCommentStatus: () => Promise.reject(errors.ErrNotAuthorized)
     }
   };
 };
