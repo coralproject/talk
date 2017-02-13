@@ -112,6 +112,10 @@ class Embed extends Component {
                      content={asset.settings.infoBoxContent}
                      enable={asset.settings.infoBoxEnable}
                    />
+                   <QuestionBox
+                     content={asset.settings.questionBoxContent}
+                     enable={asset.settings.questionBoxEnable}
+                   />
                  <RestrictedContent restricted={banned} restrictedComp={
                      <SuspendedAccount
                        canEditName={user && user.canEditName}

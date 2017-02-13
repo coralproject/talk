@@ -28,6 +28,14 @@ const SettingSchema = new Schema({
     type: String,
     default: ''
   },
+  questionBoxEnable: {
+    type: Boolean,
+    default: false
+  },
+  questionBoxContent: {
+    type: String,
+    default: ''
+  },
   organizationName: {
     type: String
   },
