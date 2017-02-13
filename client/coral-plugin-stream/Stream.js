@@ -51,7 +51,7 @@ class Stream extends Component {
   }
 }
 
-// Initialize GraphQL queries or mutations with the `gql` tag
+// Initialize GraphQL queries or mutations with the gql tag
 const StreamQuery = gql`fragment commentView on Comment {
   id
   body
