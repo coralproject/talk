@@ -1,75 +1,53 @@
-version: 2
+machine:
+  node:
+    version: 7
+  services:
+    - docker
+    - redis
+  environment:
+    PATH: "${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
+    NODE_ENV: "test"
 
-executorType: machine
+dependencies:
+  override:
+    # Upgrade the database version to 3.4.
+    - sudo apt-get purge mongodb-org*
+    - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
+    - echo "deb [ arch=amd64 ] http://repo.mongodb.org/apt/ubuntu precise/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list
+    - sudo apt-get update
+    - sudo apt-get install -y mongodb-org
+    - sudo service mongod restart
+    # Install node dependencies.
+    - yarn
+  cache_directories:
+    - ~/.cache/yarn
+  post:
+    # Build the static assets.
+    - yarn build
+    # Lint the project here, before tests are ran.
+    - yarn lint
 
-containerInfo:
-  - image: node:7
-  - image: mongo:3.4
-  - image: redis:3.2
+database:
+  post:
+    # Initialize the settings in the database, this will create indicies for the
+    # database.
+    - ./bin/cli setup --defaults
+    - sleep 2
 
-stages:
-  build:
-    workDir: ~/talk
-    environment:
-      - NODE_ENV: test
-    steps:
-      # Get the code
-      - type: checkout
+test:
+  override:
+    # Run the tests using the junit reporter.
+    - MOCHA_FILE=$CIRCLE_TEST_REPORTS/junit/test-results.xml MOCHA_REPORTER=mocha-junit-reporter yarn test
+    # Run the e2e test suite.
+    - E2E_REPORT_PATH=$CIRCLE_TEST_REPORTS/e2e yarn e2e
 
-      # Restore the yarn cache
-      - type: cache-restore
-        key: yarn-cache
+deployment:
+  release:
+    tag: /v[0-9]+(\.[0-9]+)*/
+    commands:
+      - bash ./scripts/deploy.sh
 
-      # Install dependencies
-      - type: shell
-        shell: /bin/bash -l
-        command: |
-          # install yarn
-          npm install -g yarn
-
-          # install dependencies
-          yarn
-
-      # Save the yarn cache
-      - type: cache-save
-        key: yarn-cache
-        paths:
-          - ~/.cache/yarn
-
-      # Build the dependencies
-      - type: shell
-        shell: /bin/bash -l
-        command: |
-          # build static dependencies
-          yarn build
-
-          # lint the project
-          yarn lint
-
-      - type: shell
-        shell: /bin/bash -l
-        command: |
-          # Initialize the settings in the database, this will create indicies
-          # for the database.
-          ./bin/cli setup --defaults
-
-          # Ugly fix to wait until database indicies are created.
-          sleep 2
-
-          # Run the tests using the junit reporter.
-          MOCHA_FILE=$CIRCLE_TEST_REPORTS/junit/test-results.xml MOCHA_REPORTER=mocha-junit-reporter yarn test
-
-          # Run the e2e test suite
-          E2E_REPORT_PATH=$CIRCLE_TEST_REPORTS/e2e yarn e2e
-
-# TODO: fix
-# deployment:
-#   release:
-#     tag: /v[0-9]+(\.[0-9]+)*/
-#     commands:
-#       - bash ./scripts/deploy.sh
-#
-#   latest:
-#     branch: master
-#     commands:
-#       - bash ./scripts/deploy.sh
+  latest:
+    branch: master
+    commands:
+      - bash ./scripts/deploy.sh
