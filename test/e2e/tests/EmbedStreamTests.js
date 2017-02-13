@@ -125,15 +125,15 @@ module.exports = {
 
       // Add a mock user
       .then(() => mocks.users([{
-        displayName: 'Baby Blue',
+        displayName: 'BabyBlue',
         email: 'whale@tale.sea',
-        password: 'krill'
+        password: 'krillaretasty'
       }]))
 
       // Add a mock preapproved comment by that user
       .then((user) => mocks.comments([{
         body: 'Whales are not fish.',
-        status: 'accepted',
+        status: 'ACCEPTED',
         author_id: user.id
       }]))
       .then(() => {

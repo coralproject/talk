@@ -12,7 +12,7 @@ module.exports.comments = (comments) => Assets.findOrCreateByUrl(globals.baseUrl
       comment.asset_id = asset.id;
       return comment;
     });
-    return Comments.create(comments);
+    return Comments.publicCreate(comments);
   });
 
 /* Create an array of users */

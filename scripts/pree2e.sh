@@ -3,6 +3,9 @@
 # install selenium
 selenium-standalone install --config=./selenium.config.js
 
+# Clear db
+mongo test --eval "db.dropDatabase()"
+
 # Init application
 ./bin/cli setup --defaults
 
