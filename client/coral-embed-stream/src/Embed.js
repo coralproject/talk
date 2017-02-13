@@ -16,6 +16,7 @@ import {Notification, notificationActions, authActions, assetActions, pym} from 
 
 import Stream from './Stream';
 import InfoBox from 'coral-plugin-infobox/InfoBox';
+import QuestionBox from 'coral-plugin-questionbox/QuestionBox';
 import Count from 'coral-plugin-comment-count/CommentCount';
 import CommentBox from 'coral-plugin-commentbox/CommentBox';
 import UserBox from 'coral-sign-in/components/UserBox';
