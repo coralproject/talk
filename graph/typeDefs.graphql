@@ -27,8 +27,8 @@ type User {
   # The ID of the User.
   id: ID!
 
-  # display name of a user.
-  displayName: String!
+  # username of a user.
+  username: String!
 
   # Action summaries against the user.
   action_summaries: [ActionSummary]

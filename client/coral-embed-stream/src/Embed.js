@@ -201,7 +201,7 @@ const mapDispatchToProps = dispatch => ({
     });
   },
   clearNotification: () => dispatch(clearNotification()),
-  editName: (displayName) => dispatch(editName(displayName)),
+  editName: (username) => dispatch(editName(username)),
   showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),
   logout: () => dispatch(logout()),
   dispatch: d => dispatch(d)

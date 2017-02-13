@@ -32,7 +32,7 @@ function getUserCreateAnswers(options) {
       email: options.email,
       password: options.password,
       confirmPassword: options.password,
-      displayName: options.name,
+      username: options.name,
       roles: []
     };
 
@@ -75,11 +75,11 @@ function getUserCreateAnswers(options) {
       }
     },
     {
-      name: 'displayName',
-      message: 'Display Name',
-      filter: (displayName) => {
+      name: 'username',
+      message: 'Username',
+      filter: (username) => {
         return UsersService
-          .isValidDisplayName(displayName)
+          .isValidDisplayName(username)
           .catch((err) => {
             throw err.message;
           });
@@ -108,7 +108,7 @@ function createUser(options) {
     })
     .then((answers) => {
       return UsersService
-        .createLocalUser(answers.email.trim(), answers.password.trim(), answers.displayName.trim())
+        .createLocalUser(answers.email.trim(), answers.password.trim(), answers.username.trim())
         .then((user) => {
           console.log(`Created user ${user.id}.`);
 
@@ -209,7 +209,7 @@ function updateUser(userID, options) {
       'id': userID
     }, {
       $set: {
-        displayName: options.name
+        username: options.name
       }
     });
 
@@ -238,7 +238,7 @@ function listUsers() {
       let table = new Table({
         head: [
           'ID',
-          'Display Name',
+          'Username',
           'Profiles',
           'Roles',
           'Status',
@@ -249,7 +249,7 @@ function listUsers() {
       users.forEach((user) => {
         table.push([
           user.id,
-          user.displayName,
+          user.username,
           user.profiles.map((p) => p.provider).join(', '),
           user.roles.join(', '),
           user.status,

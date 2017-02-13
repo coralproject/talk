@@ -69,15 +69,12 @@ describe('services.CommentsService', () => {
 
   const users = [{
     email: 'stampi@gmail.com',
-    displayName: 'Stampi',
-    password: '1Coral!!',
-    roles: ['ADMIN'],
-    _id: '1'
+    username: 'Stampi',
+    password: '1Coral!!'
   }, {
     email: 'sockmonster@gmail.com',
-    displayName: 'Sockmonster',
-    password: '2Coral!!',
-    _id : '2'
+    username: 'Sockmonster',
+    password: '2Coral!!'
   }];
 
   const actions = [{
@@ -256,43 +253,6 @@ describe('services.CommentsService', () => {
           expect(c.status_history[1]).to.have.property('type', 'REJECTED');
           expect(c.status_history[1]).to.have.property('assigned_by', '123');
         });
-    });
-
-  });
-
-  describe('#tagByStaff()', () => {
-
-    it('creates a new comment by admin', () => {
-      return UsersService.findLocalUser('stampi@gmail.com', '1Coral!!').then((user) => {
-        return UsersService.addRoleToUser(user.id, 'ADMIN').then(() => {
-          UsersService.findById(user.id).then((u) => {
-            return CommentsService
-              .publicCreate({
-                body: 'This is a comment!',
-                status: 'ACCEPTED',
-                author_id: u.id
-              }).then((c) => {
-                expect(c).to.not.be.null;
-                expect(c.tags).to.not.have.length(0);
-                expect(c.tags[0].name).to.be.equal('STAFF');
-              });
-          });
-        });
-      });
-    });
-
-    it('creates a new comment by non admin', () => {
-      return UsersService.findLocalUser('sockmonster@gmail.com', '2Coral!!').then((user) => {
-        return CommentsService
-          .publicCreate({
-            body: 'This is a comment!',
-            status: 'ACCEPTED',
-            author_id: user.id
-          }).then((c) => {
-            expect(c).to.not.be.null;
-            expect(c.tags).to.have.length(0);
-          });
-      });
     });
   });
 });

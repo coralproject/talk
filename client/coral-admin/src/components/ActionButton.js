@@ -18,7 +18,7 @@ const ActionButton = ({option, type, comment = {}, user, menuOptionsMap, onClick
           className={`ban ${styles.banButton}`}
           cStyle='darkGrey'
           disabled={banned ? 'disabled' : ''}
-          onClick={() => onClickShowBanDialog(user.id, user.displayName, comment.id)
+          onClick={() => onClickShowBanDialog(user.id, user.username, comment.id)
           }
           raised
         >

@@ -25,17 +25,17 @@ const CreateDisplayNameDialog = ({open, handleClose, offset, formData, handleSub
         </h1>
       </div>
       <div>
-        <label htmlFor="displayName">{lang.t('createdisplay.yourusername')}</label>
+        <label htmlFor="username">{lang.t('createdisplay.yourusername')}</label>
         { props.auth.error && <Alert>{props.auth.error}</Alert> }
         <form id="saveDisplayName" onSubmit={handleSubmitDisplayName}>
           <FormField
-            id="displayName"
+            id="username"
             type="string"
-            label={lang.t('createdisplay.displayName')}
-            value={formData.displayName}
+            label={lang.t('createdisplay.username')}
+            value={formData.username}
             onChange={handleChange}
           />
-        { props.errors.displayName && <span className={styles.hint}> {lang.t('createdisplay.specialCharacters')} </span> }
+        { props.errors.username && <span className={styles.hint}> {lang.t('createdisplay.specialCharacters')} </span> }
           <div className={styles.action}>
             <Button id="save" type="submit" className={styles.saveButton}>{lang.t('createdisplay.save')}</Button>
           </div>

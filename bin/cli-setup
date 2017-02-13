@@ -116,11 +116,11 @@ const performSetup = () => {
         return inquirer.prompt([
           {
             type: 'input',
-            name: 'displayName',
-            message: 'Display Name',
-            filter: (displayName) => {
+            name: 'username',
+            message: 'Username',
+            filter: (username) => {
               return UsersService
-                .isValidDisplayName(displayName, false)
+                .isValidDisplayName(username, false)
                 .catch((err) => {
                   throw err.message;
                 });
@@ -174,7 +174,7 @@ const performSetup = () => {
           settings: settings.toObject(),
           user: {
             email: user.email,
-            displayName: user.displayName,
+            username: user.username,
             password: user.password
           }
         });

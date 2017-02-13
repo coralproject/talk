@@ -49,11 +49,11 @@ describe('/api/v1/comments', () => {
     }];
 
     const users = [{
-      displayName: 'Ana',
+      username: 'Ana',
       email: 'ana@gmail.com',
       password: '123456789'
     }, {
-      displayName: 'Maria',
+      username: 'Maria',
       email: 'maria@gmail.com',
       password: '123456789'
     }];
@@ -183,11 +183,11 @@ describe('/api/v1/comments/:comment_id', () => {
   }];
 
   const users = [{
-    displayName: 'Ana',
+    username: 'Ana',
     email: 'ana@gmail.com',
     password: '123456789'
   }, {
-    displayName: 'Maria',
+    username: 'Maria',
     email: 'maria@gmail.com',
     password: '123456789'
   }];
