@@ -13,10 +13,14 @@ export default ({handleLogout, restricted = false}) => (
       !restricted ?
       <div>
         <Navigation className={styles.nav}>
-          <IndexLink className={styles.navLink} to="/admin"
+          <IndexLink className={styles.navLink} to="/admin/moderate"
                      activeClassName={styles.active}>
                      {lang.t('configure.moderate')}
          </IndexLink>
+          <Link className={styles.navLink} to="/admin/streams"
+                activeClassName={styles.active}>
+            {lang.t('configure.streams')}
+          </Link>
           <Link className={styles.navLink} to="/admin/community"
                 activeClassName={styles.active}>
                 {lang.t('configure.community')}
@@ -24,10 +28,6 @@ export default ({handleLogout, restricted = false}) => (
           <Link className={styles.navLink} to="/admin/configure"
                 activeClassName={styles.active}>
                 {lang.t('configure.configure')}
-          </Link>
-          <Link className={styles.navLink} to="/admin/streams"
-                activeClassName={styles.active}>
-                {lang.t('configure.streams')}
           </Link>
         </Navigation>
         <div className={styles.rightPanel}>

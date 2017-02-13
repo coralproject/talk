@@ -32,7 +32,7 @@ const postComment = gql`
     id
     body
     user {
-      name: displayName
+      name: username
     }
     actions {
       type: action_type

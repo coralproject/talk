@@ -70,7 +70,7 @@ const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
     return res.render('auth-callback', {err: JSON.stringify(errors.ErrNotAuthorized), data: null});
   }
 
-  // Authorize the user to edit their displayName.
+  // Authorize the user to edit their username.
   UsersService.toggleNameEdit(user.id, true)
     .then(() => {
       

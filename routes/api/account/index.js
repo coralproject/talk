@@ -115,9 +115,9 @@ router.put('/password/reset', (req, res, next) => {
     });
 });
 
-router.put('/displayname', authorization.needed(), (req, res, next) => {
+router.put('/username', authorization.needed(), (req, res, next) => {
   UsersService
-    .editName(req.user.id, req.body.displayName)
+    .editName(req.user.id, req.body.username)
     .then(() => {
       res.status(204).end();
     })

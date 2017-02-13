@@ -12,7 +12,7 @@ const USER_STATUS = [
   'ACTIVE',
   'BANNED',
   'PENDING',
-  'APPROVED' // Indicates that the users' displayname has been approved
+  'APPROVED' // Indicates that the users' username has been approved
 ];
 
 // ProfileSchema is the mongoose schema defined as the representation of a
@@ -61,11 +61,18 @@ const UserSchema = new mongoose.Schema({
 
   // This is sourced from the social provider or set manually during user setup
   // and simply provides a name to display for the given user.
-  displayName: {
+  username: {
     type: String,
-    unique: true,
-    lowercase: true,
     required: true
+  },
+
+  // TODO: find a way that we can instead utilize MongoDB 3.4's collation
+  // options to build the index in a case insenstive manner:
+  // https://docs.mongodb.com/manual/reference/collation/
+  lowercaseUsername: {
+    type: String,
+    required: true,
+    unique: true
   },
 
   // This is true when the user account is disabled, no action should be
@@ -147,7 +154,9 @@ const USER_GRAPH_OPERATIONS = [
   'mutation:createComment',
   'mutation:createAction',
   'mutation:deleteAction',
-  'mutation:editName'
+  'mutation:editName',
+  'mutation:setUserStatus',
+  'mutation:setCommentStatus'
 ];
 
 /**
@@ -160,6 +169,10 @@ UserSchema.method('can', function(...actions) {
   }
 
   if (this.status === 'BANNED') {
+    return false;
+  }
+
+  if (actions.some((action) => action === 'mutation:setUserStatus' || action === 'mutation:setCommentStatus') && !this.hasRoles('ADMIN')) {
     return false;
   }
 

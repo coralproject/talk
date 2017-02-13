@@ -45,7 +45,7 @@ describe('/api/v1/auth/local', () => {
             expect(res2).to.have.status(200);
             expect(res2).to.be.json;
             expect(res2.body).to.have.property('user');
-            expect(res2.body.user).to.have.property('displayName', 'maria');
+            expect(res2.body.user).to.have.property('username', 'Maria');
           });
       });
 
@@ -91,7 +91,7 @@ describe('/api/v1/auth/local', () => {
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.have.property('user');
-            expect(res.body.user).to.have.property('displayName', 'maria');
+            expect(res.body.user).to.have.property('username', 'Maria');
           });
       });
     });
