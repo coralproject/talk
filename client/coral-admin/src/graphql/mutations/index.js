@@ -1,5 +1,3 @@
-// acceptComment
-// rejectComment
 import {graphql} from 'react-apollo';
 import SET_USER_STATUS from './setUserStatus.graphql';
 import SET_COMMENT_STATUS from './setCommentStatus.graphql';
