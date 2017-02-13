@@ -3,7 +3,7 @@ import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
 
-import {TabBar, Tab, TabContent, Spinner, Button} from 'coral-ui';
+import {TabBar, Tab, TabContent, Spinner} from 'coral-ui';
 
 const {logout, showSignInDialog, requestConfirmEmail} = authActions;
 const {addNotification, clearNotification} = notificationActions;
@@ -25,6 +25,7 @@ import ChangeDisplayNameContainer from '../../coral-sign-in/containers/ChangeDis
 import SettingsContainer from 'coral-settings/containers/SettingsContainer';
 import RestrictedContent from 'coral-framework/components/RestrictedContent';
 import ConfigureStreamContainer from 'coral-configure/containers/ConfigureStreamContainer';
+import LoadMore from './LoadMore';
 
 class Embed extends Component {
 
@@ -75,20 +76,6 @@ class Embed extends Component {
     if(!isEqual(nextProps.data.asset, this.props.data.asset)) {
       loadAsset(nextProps.data.asset);
     }
-  }
-
-  loadMoreComments = () => {
-
-    if (!this.props.asset.comments.length) {
-      return;
-    }
-
-    this.props.loadMore({
-      limit: 10,
-      cursor: this.props.asset.comments[this.props.asset.comments.length - 1].created_at,
-      asset_id: this.props.asset.id,
-      sort: 'REVERSE_CHRONOLOGICAL'
-    });
   }
 
   render () {
@@ -170,10 +157,11 @@ class Embed extends Component {
               clearNotification={this.props.clearNotification}
               notification={{text: null}}
             />
-          <Button
-            onClick={() => this.loadMoreComments()}>
-            Load More
-          </Button>
+          <LoadMore
+            id={asset.id}
+            comments={asset.comments}
+            moreComments={asset.commentCount > asset.comments.length}
+            loadMore={this.props.loadMore}/>
         </TabContent>
          <TabContent show={activeTab === 1}>
            <SettingsContainer

@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-framework/translations.json';
-import Button from 'coral-ui';
+import {Button} from 'coral-ui';
 const lang = new I18n(translations);
 
 const loadMoreComments = (id, comments, loadMore) => {
@@ -18,7 +18,7 @@ const loadMoreComments = (id, comments, loadMore) => {
   });
 };
 
-const LoadMore = ({id, comments, loadMore}) => comments.length > 5 ?
+const LoadMore = ({id, comments, loadMore, moreComments}) => moreComments ?
   <Button
     className='coral-load-more'
     onClick={() => loadMoreComments(id, comments, loadMore)}>
