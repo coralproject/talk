@@ -1,0 +1,10 @@
+.banButton {
+  width: 114px;
+  letter-spacing: 1px;
+
+  i {
+    vertical-align: middle;
+    margin-right: 10px;
+    font-size: 14px;
+  }
+}

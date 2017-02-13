@@ -1,44 +1,23 @@
 import React from 'react';
 import styles from './ModerationList.css';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from '../translations.json';
-import {FabButton, Button, Icon} from 'coral-ui';
+import BanUserButton from './BanUserButton';
+import {FabButton} from 'coral-ui';
+import {menuActionsMap} from '../containers/ModerationQueue/helpers/moderationQueueActionsMap';
 
-const ActionButton = ({type, user}) => {
-  const menuOptionsMap = {
-    'reject': {status: 'REJECTED', icon: 'close', key: 'r'},
-    'approve': {status: 'ACCEPTED', icon: 'done', key: 't'},
-    'flag': {status: 'FLAGGED', icon: 'flag', filter: 'Untouched'},
-    'ban': {status: 'BANNED', icon: 'not interested'}
-  };
-
-  if (type === 'ban') {
-    return (
-      <div className={styles.ban}>
-        <Button
-          className={`ban ${styles.banButton}`}
-          cStyle='darkGrey'
-          disabled={user.status === 'BANNED' ? 'disabled' : ''}
-          onClick={() => {}}
-          raised>
-          <Icon name='not_interested' className={styles.banIcon} />
-          {lang.t('comment.ban_user')}
-        </Button>
-      </div>
-    );
+const ActionButton = ({type = '', user, ...props}) => {
+  if (type === 'BAN') {
+    return <BanUserButton user={user} onClick={() => props.showBanUserDialog(props.user, props.id)} />;
   }
 
   return (
     <FabButton
-      className={`${type} ${styles.actionButton}`}
-      cStyle={type}
-      icon={menuOptionsMap[type].icon}
+      className={`${type.toLowerCase()} ${styles.actionButton}`}
+      cStyle={type.toLowerCase()}
+      icon={menuActionsMap[type].icon}
       onClick={() => {}}
     />
   );
-
 };
 
 export default ActionButton;
 
-const lang = new I18n(translations);

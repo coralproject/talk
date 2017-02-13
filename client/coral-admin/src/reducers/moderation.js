@@ -4,11 +4,24 @@ import * as actions from '../constants/moderation';
 const initialState = Map({
   activeTab: 'all',
   singleView: false,
-  modalOpen: false
+  modalOpen: false,
+  user: Map({}),
+  commentId: null,
+  banDialog: false
 });
 
 export default function moderation (state = initialState, action) {
   switch (action.type) {
+  case actions.HIDE_BANUSER_DIALOG:
+    return state
+      .set('banDialog', false);
+  case actions.SHOW_BANUSER_DIALOG:
+    return state
+      .merge({
+        user: Map(action.user),
+        commentId: action.commentId,
+        banDialog: true
+      });
   case actions.SET_ACTIVE_TAB:
     return state
       .set('activeTab', action.activeTab);

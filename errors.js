@@ -121,6 +121,7 @@ const ErrInvalidAssetURL = new APIError('asset_url is invalid', {
 // ErrNotAuthorized is an error that is returned in the event an operation is
 // deemed not authorized.
 const ErrNotAuthorized = new APIError('not authorized', {
+  translation_key: 'NOT_AUTHORIZED',
   status: 401
 });
 

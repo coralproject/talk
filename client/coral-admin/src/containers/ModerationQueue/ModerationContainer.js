@@ -5,12 +5,14 @@ import key from 'keymaster';
 import isEqual from 'lodash/isEqual';
 
 import {modQueueQuery} from '../../graphql/queries';
+import {banUser} from '../../graphql/mutations';
 
 import {fetchSettings} from 'actions/settings';
 import {updateAssets} from 'actions/assets';
-import {setActiveTab, toggleModal, singleView} from 'actions/moderation';
+import {setActiveTab, toggleModal, singleView, showBanUserDialog, hideBanUserDialog} from 'actions/moderation';
 
 import {Spinner} from 'coral-ui';
+import BanUserDialog from '../../components/BanUserDialog';
 import ModerationQueue from './ModerationQueue';
 import ModerationMenu from './components/ModerationMenu';
 import ModerationHeader from './components/ModerationHeader';
@@ -42,7 +44,7 @@ class ModerationContainer extends Component {
   }
 
   render () {
-    const {data, moderation, settings, assets} = this.props;
+    const {data, moderation, settings, assets, ...props} = this.props;
     const providedAssetId = this.props.params.id;
     let asset;
 
@@ -59,11 +61,12 @@ class ModerationContainer extends Component {
     }
 
     const enablePremodTab = !!data.premod.length;
+    console.log(props.banUser);
     return (
       <div>
         <ModerationHeader asset={asset} />
         <ModerationMenu
-          onTabClick={this.props.onTabClick}
+          onTabClick={props.onTabClick}
           enablePremodTab={enablePremodTab}
           {...moderation} />
         <ModerationQueue
@@ -71,6 +74,13 @@ class ModerationContainer extends Component {
           activeTab={moderation.activeTab}
           enablePremodTab={enablePremodTab}
           suspectWords={settings.wordlist.suspect}
+          showBanUserDialog={props.showBanUserDialog}
+        />
+        <BanUserDialog
+          open={moderation.banDialog}
+          user={moderation.user}
+          handleClose={props.hideBanUserDialog}
+          handleBanUser={props.banUser}
         />
       </div>
     );
@@ -89,10 +99,13 @@ const mapDispatchToProps = dispatch => ({
   onClose: () => dispatch(toggleModal(false)),
   singleView: () => dispatch(singleView()),
   updateAssets: assets => dispatch(updateAssets(assets)),
-  fetchSettings: () => dispatch(fetchSettings())
+  fetchSettings: () => dispatch(fetchSettings()),
+  showBanUserDialog: (user, commentId) => dispatch(showBanUserDialog(user, commentId)),
+  hideBanUserDialog: () => dispatch(hideBanUserDialog(false)),
 });
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  modQueueQuery
+  modQueueQuery,
+  banUser
 )(ModerationContainer);

@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
-import styles from '../ModerationQueue.css';
+import styles from './styles.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from '../../../translations.json';
+import translations from 'coral-admin/src/translations.json';
 
 const lang = new I18n(translations);
 

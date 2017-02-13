@@ -10,7 +10,7 @@ const {addNotification, clearNotification} = notificationActions;
 const {fetchAssetSuccess} = assetActions;
 
 import {queryStream} from 'coral-framework/graphql/queries';
-import {postComment, postAction, deleteAction} from 'coral-framework/graphql/mutations';
+import {postComment, postFlag, postLike, deleteAction} from 'coral-framework/graphql/mutations';
 import {editName} from 'coral-framework/actions/user';
 import {Notification, notificationActions, authActions, assetActions, pym} from 'coral-framework';
 
@@ -92,7 +92,7 @@ class Embed extends Component {
       minHeight: document.body.scrollHeight + 200
     } : {};
 
-    if (loading) {
+    if (loading || !asset) {
       return <Spinner />;
     }
 
@@ -148,7 +148,8 @@ class Embed extends Component {
               postItem={this.props.postItem}
               asset={asset}
               currentUser={user}
-              postAction={this.props.postAction}
+              postLike={this.props.postLike}
+              postFlag={this.props.postFlag}
               deleteAction={this.props.deleteAction}
               showSignInDialog={this.props.showSignInDialog}
               comments={asset.comments} />
@@ -211,7 +212,8 @@ const mapDispatchToProps = dispatch => ({
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   postComment,
-  postAction,
+  postFlag,
+  postLike,
   deleteAction,
   queryStream
 )(Embed);

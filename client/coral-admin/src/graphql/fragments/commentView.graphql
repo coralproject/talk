@@ -12,12 +12,4 @@ fragment commentView on Comment {
       id
       title
     }
-    actions {
-        type: action_type
-        count
-        current: current_user {
-            id
-            created_at
-        }
-    }
 }

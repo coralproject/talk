@@ -1,6 +1,14 @@
 const User = {
-  actions({id}, _, {loaders: {Actions}}) {
+  action_summaries({id}, _, {loaders: {Actions}}) {
     return Actions.getSummariesByItemID.load(id);
+  },
+  actions({id}, _, {user, loaders: {Actions}}) {
+
+    // Only return the actions if the user is not an admin.
+    if (user && user.hasRoles('ADMIN')) {
+      return Actions.getByID.load(id);
+    }
+
   },
   comments({id}, _, {loaders: {Comments}, user}) {
 

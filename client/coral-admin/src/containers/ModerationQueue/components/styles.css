@@ -1,3 +1,57 @@
+@custom-media --big-viewport (min-width: 780px);
+
+.listContainer {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.tabBar {
+  background: #262626;
+  z-index: 5;
+}
+
+.tab {
+  flex: 1;
+  color: white;
+  text-transform: capitalize;
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 1px;
+  transition: border-bottom 200ms;
+}
+
+.active {
+  color: white;
+  box-sizing: border-box;
+  border-bottom: solid 5px #F36451;
+}
+
+.active > span {
+  color: white;
+}
+
+.active:after {
+  background: transparent !important;
+}
+
+.showShortcuts {
+  position: absolute;
+  right: 130px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+
+span {
+  margin-left: 7px;
+}
+}
+
+@media (--big-viewport) {
+  .tab {
+    flex: none;
+  }
+}
+
 .notFound {
   position: relative;
   margin: 20px auto;
@@ -238,18 +292,6 @@
   margin-top: 5px;
 }
 
-.banButton {
-  width: 114px;
-  letter-spacing: 1px;
-
-  i {
-    vertical-align: middle;
-    margin-right: 10px;
-    font-size: 14px;
-  }
-}
-
-
 .Comment {
   .moderateArticle {
     padding: 10px 0px;
@@ -270,3 +312,5 @@
     }
   }
 }
+
+

@@ -1,24 +1,20 @@
 import React, {PropTypes} from 'react';
 
 import Comment from './components/Comment';
-
-const actionsMap = {
-  premod: ['reject', 'approve', 'ban']
-};
+import {actionsMap} from './helpers/moderationQueueActionsMap';
 
 const ModerationQueue = props => {
-  console.log(props);
   return (
     <div>
       <ul>
       {
         props.data[props.activeTab].map((comment, i) => {
-          console.log(props.asset);
           return <Comment
             key={i}
             index={i}
             suspectWords={props.suspectWords}
-            actionsMap={actionsMap}
+            actions={actionsMap[comment.status]}
+            showBanUserDialog={props.showBanUserDialog}
             {...comment}
           />;
         })

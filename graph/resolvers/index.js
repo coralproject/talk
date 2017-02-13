@@ -1,21 +1,33 @@
-const Action = require('./action');
 const ActionSummary = require('./action_summary');
+const Action = require('./action');
 const Asset = require('./asset');
 const Comment = require('./comment');
 const Date = require('./date');
+const FlagActionSummary = require('./flag_action_summary');
+const FlagAction = require('./flag_action');
+const GenericUserError = require('./generic_user_error');
+const LikeAction = require('./like_action');
 const RootMutation = require('./root_mutation');
 const RootQuery = require('./root_query');
 const Settings = require('./settings');
+const UserError = require('./user_error');
 const User = require('./user');
+const ValidationUserError = require('./validation_user_error');
 
 module.exports = {
-  Action,
   ActionSummary,
+  Action,
   Asset,
   Comment,
   Date,
+  FlagActionSummary,
+  FlagAction,
+  GenericUserError,
+  LikeAction,
   RootMutation,
   RootQuery,
   Settings,
-  User
+  UserError,
+  User,
+  ValidationUserError,
 };

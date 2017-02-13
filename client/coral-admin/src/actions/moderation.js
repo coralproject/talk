@@ -5,10 +5,5 @@ export const toggleModal = open => ({type: actions.TOGGLE_MODAL, open});
 export const singleView = () => ({type: actions.SINGLE_VIEW});
 
 // Ban User Dialog
-export const showBanUserDialog = (userId, userName, commentId) => {
-  return {type: actions.SHOW_BANUSER_DIALOG, userId, userName, commentId};
-};
-
-export const hideBanUserDialog = (showDialog) => {
-  return {type: actions.HIDE_BANUSER_DIALOG, showDialog};
-};
+export const showBanUserDialog = (user, commentId) => ({type: actions.SHOW_BANUSER_DIALOG, user, commentId});
+export const hideBanUserDialog = (showDialog) => ({type: actions.HIDE_BANUSER_DIALOG, showDialog});
