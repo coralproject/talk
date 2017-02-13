@@ -28,10 +28,10 @@ const RootMutation = {
     return wrapResponse(null)(Action.delete({id}));
   },
   setUserStatus(_, {id, status}, {mutators: {User}}) {
-    return User.setUserStatus({id, status});
+    return wrapResponse(null)(User.setUserStatus({id, status}));
   },
   setCommentStatus(_, {id, status}, {mutators: {Comment}}) {
-    return Comment.setCommentStatus({id, status});
+    return wrapResponse(null)(Comment.setCommentStatus({id, status}));
   }
 };
 

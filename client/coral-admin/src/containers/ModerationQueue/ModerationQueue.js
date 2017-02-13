@@ -12,12 +12,12 @@ const ModerationQueue = props => {
           return <Comment
             key={i}
             index={i}
+            comment={comment}
             suspectWords={props.suspectWords}
             actions={actionsMap[comment.status]}
             showBanUserDialog={props.showBanUserDialog}
             acceptComment={props.acceptComment}
             rejectComment={props.rejectComment}
-            {...comment}
           />;
         })
       }

@@ -165,6 +165,10 @@ UserSchema.method('can', function(...actions) {
     return false;
   }
 
+  if (actions.some((action) => action === 'mutation:setUserStatus' || action === 'mutation:setCommentStatus') && !this.hasRoles('ADMIN')) {
+    return false;
+  }
+
   return true;
 });
 

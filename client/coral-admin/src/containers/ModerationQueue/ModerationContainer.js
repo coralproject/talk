@@ -72,7 +72,8 @@ class ModerationContainer extends Component {
         <ModerationMenu
           onTabClick={props.onTabClick}
           enablePremodTab={enablePremodTab}
-          {...moderation} />
+          activeTab={moderation.activeTab}
+        />
         <ModerationQueue
           data={data}
           activeTab={moderation.activeTab}

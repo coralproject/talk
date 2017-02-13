@@ -1,3 +1,4 @@
+const errors = require('../../errors');
 const UsersService = require('../../services/users');
 
 const setUserStatus = ({user}, {id, status}) => {
@@ -20,7 +21,7 @@ module.exports = (context) => {
 
   return {
     User: {
-      setUserStatus: () => {},
+      setUserStatus: () => Promise.reject(errors.ErrNotAuthorized)
     }
   };
 };

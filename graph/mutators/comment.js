@@ -179,19 +179,20 @@ module.exports = (context) => {
   // TODO: refactor to something that'll return an error in the event an attempt
   // is made to mutate state while not logged in. There's got to be a better way
   // to do this.
-  if (context.user && context.user.can('mutation:createComment', 'mutation:setUserStatus')) {
-    return {
-      Comment: {
-        create: (comment) => createPublicComment(context, comment),
-        setCommentStatus: (action) => setCommentStatus(context, action)
-      }
-    };
-  }
-
-  return {
+  let mutators = {
     Comment: {
       create: () => Promise.reject(errors.ErrNotAuthorized),
       setCommentStatus: () => Promise.reject(errors.ErrNotAuthorized)
     }
   };
+
+  if (context.user && context.user.can('mutation:createComment')) {
+    mutators.Comment.create = (comment) => createPublicComment(context, comment);
+  }
+
+  if (context.user && context.user.can('mutation:setCommentStatus')) {
+    mutators.Comment.setCommentStatus = (action) => setCommentStatus(context, action);
+  }
+
+  return mutators;
 };

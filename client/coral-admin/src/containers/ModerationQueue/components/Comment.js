@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 import timeago from 'timeago.js';
 import Linkify from 'react-linkify';
 import Highlighter from 'react-highlight-words';
@@ -14,16 +14,16 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations.json';
 
 const Comment = ({actions = [], ...props}) => {
-  const links = linkify.getMatches(props.body);
+  const links = linkify.getMatches(props.comment.body);
 
   return (
     <li tabIndex={props.index}
         className={`mdl-card mdl-shadow--2dp ${styles.Comment} ${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
       <div className={styles.itemHeader}>
         <div className={styles.author}>
-          <span>{props.user.name}</span>
+          <span>{props.comment.user.name}</span>
           <span className={styles.created}>
-            {timeago().format(props.created_at || (Date.now() - props.index * 60 * 1000), lang.getLocale().replace('-', '_'))}
+            {timeago().format(props.comment.created_at || (Date.now() - props.index * 60 * 1000), lang.getLocale().replace('-', '_'))}
           </span>
           {props.flagged ? <p className={styles.flagged}>{lang.t('comment.flagged')}</p> : null}
         </div>
@@ -33,14 +33,14 @@ const Comment = ({actions = [], ...props}) => {
              {actions.map((action, i) =>
                <ActionButton key={i}
                  type={action}
-                 user={props.user}
-                 acceptComment={() => props.acceptComment({commentId: props.id})}
-                 rejectComment={() => props.rejectComment({commentId: props.id})}
-                 showBanUserDialog={() => props.showBanUserDialog(props.user, props.id)}
+                 user={props.comment.user}
+                 acceptComment={() => props.acceptComment({commentId: props.comment.id})}
+                 rejectComment={() => props.rejectComment({commentId: props.comment.id})}
+                 showBanUserDialog={() => props.showBanUserDialog(props.comment.user, props.comment.id)}
                />
              )}
            </div>
-          {props.user.banned === 'banned' ?
+          {props.comment.user.banned === 'banned' ?
             <span className={styles.banned}>
               <Icon name='error_outline'/>
               {lang.t('comment.banned_user')}
@@ -50,13 +50,13 @@ const Comment = ({actions = [], ...props}) => {
       </div>
 
      <div className={styles.moderateArticle}>
-       {props.asset.title} <Link to={`/admin/moderate/${props.asset.id}`}>Moderate Article</Link>
+       {props.comment.asset.title} <Link to={`/admin/moderate/${props.comment.asset.id}`}>Moderate Article</Link>
      </div>
 
       <div className={styles.itemBody}>
         <p className={styles.body}>
           <Linkify component='span' properties={{style: linkStyles}}>
-            <Highlighter searchWords={props.suspectWords} textToHighlight={props.body}/>
+            <Highlighter searchWords={props.suspectWords} textToHighlight={props.comment.body}/>
           </Linkify>
         </p>
       </div>
@@ -72,11 +72,6 @@ const Comment = ({actions = [], ...props}) => {
 const linkStyles = {
   backgroundColor: 'rgb(255, 219, 135)',
   padding: '1px 2px'
-};
-
-Comment.propTypes = {
-  user: PropTypes.object.isRequired,
-  asset: PropTypes.object.isRequired
 };
 
 export default Comment;
