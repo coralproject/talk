@@ -228,6 +228,7 @@ span {
     font-size: 0.88em;
     color: black;
     max-width: 500px;
+    word-wrap: break-word;
   }
 
   .flagged {
