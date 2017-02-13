@@ -4,14 +4,10 @@ import {connect} from 'react-redux';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import {fetchAssets, updateAssetState} from '../../actions/assets';
 import translations from '../../translations.json';
-import {
-  RadioGroup,
-  Radio,
-  Icon,
-  DataTable,
-  TableHeader
-} from 'react-mdl';
-import Pager from 'coral-ui/components/Pager';
+import {Link} from 'react-router';
+
+import {Pager, Icon} from 'coral-ui';
+import {DataTable, TableHeader, RadioGroup, Radio} from 'react-mdl';
 
 const limit = 25;
 
@@ -74,6 +70,8 @@ class Streams extends Component {
     }
   }
 
+  renderTitle = (title, {id}) =>  <Link to={`/admin/moderate/${id}`}>{title}</Link>
+
   renderStatus = (closedAt, {id}) => {
     const closed = closedAt && new Date(closedAt).getTime() < Date.now();
     const statusMenuOpen = this.state.statusMenus[id];
@@ -104,6 +102,9 @@ class Streams extends Component {
   render () {
     const {search, sort, filter} = this.state;
     const {assets} = this.props;
+
+    const assetsIds = assets.ids.map((id) => assets.byId[id]);
+
     return (
       <div className={styles.container}>
         <div className={styles.leftColumn}>
@@ -142,16 +143,14 @@ class Streams extends Component {
             </RadioGroup>
           </div>
         <div className={styles.mainContent}>
-          <DataTable
-          className={styles.streamsTable}
-          rows={assets.ids.map((id) => assets.byId[id])}>
-          <TableHeader name="title">{lang.t('streams.article')}</TableHeader>
-          <TableHeader name="publication_date" cellFormatter={this.renderDate}>
-            {lang.t('streams.pubdate')}
-          </TableHeader>
-          <TableHeader name="closedAt" cellFormatter={this.renderStatus} className={styles.status}>
-            {lang.t('streams.status')}
-          </TableHeader>
+          <DataTable className={styles.streamsTable} rows={assetsIds} onClick={this.goToModeration}>
+            <TableHeader name="title" cellFormatter={this.renderTitle}>{lang.t('streams.article')}</TableHeader>
+            <TableHeader name="publication_date" cellFormatter={this.renderDate}>
+              {lang.t('streams.pubdate')}
+            </TableHeader>
+            <TableHeader name="closedAt" cellFormatter={this.renderStatus} className={styles.status}>
+              {lang.t('streams.status')}
+            </TableHeader>
           </DataTable>
           <Pager
           totalPages={Math.ceil((assets.count || 0) / limit)}
@@ -169,6 +168,7 @@ const mapStateToProps = ({assets}) => {
     assets: assets.toJS()
   };
 };
+
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchAssets: (...args) => {

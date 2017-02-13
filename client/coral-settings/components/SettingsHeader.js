@@ -3,7 +3,7 @@ import styles from './SettingsHeader.css';
 
 export default ({userData}) => (
   <div className={styles.header}>
-    <h1>{userData.displayName}</h1>
+    <h1>{userData.username}</h1>
 
   {
 

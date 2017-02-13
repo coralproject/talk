@@ -201,22 +201,22 @@ class Wordlist {
   /**
    * check potential username for banned words, special characters
    */
-  static displayNameCheck(displayName) {
+  static usernameCheck(username) {
     const wl = new Wordlist();
 
     return wl.load()
       .then(() => {
-        displayName = displayName.replace(/_/g, '');
+        username = username.replace(/_/g, '');
 
         // test each word, and fail if we find a match
         const hasBadWords = wl.lists.banned.some(phrase => {
-          return displayName.indexOf(phrase.join('')) !== -1;
+          return username.indexOf(phrase.join('')) !== -1;
         });
 
         if (hasBadWords) {
           throw Errors.ErrContainsProfanity;
         } else {
-          return Promise.resolve(displayName);
+          return Promise.resolve(username);
         }
       });
   }

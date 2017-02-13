@@ -18,6 +18,9 @@ const routes = (
       <Route path='community' component={CommunityContainer} />
       <Route path='configure' component={Configure} />
       <Route path='streams' component={Streams} />
+
+      <Route path='moderate' component={ModerationContainer} />
+      <Route path='moderate/:id' component={ModerationContainer} />
     </Route>
   </div>
 );

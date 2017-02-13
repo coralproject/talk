@@ -13,7 +13,7 @@ module.exports = {
     embedStreamPage
       .signUp({
         email: `visitor_${Date.now()}@test.com`,
-        displayName: `visitor${Date.now()}`,
+        username: `visitor${Date.now()}`,
         pass: 'testtest'
       });
   },

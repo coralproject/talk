@@ -21,13 +21,13 @@ class SignUpContent extends React.Component {
     showErrors: PropTypes.bool,
     errors: PropTypes.shape({
       email: PropTypes.string,
-      displayName: PropTypes.string,
+      username: PropTypes.string,
       password: PropTypes.string,
       confirmPassword: PropTypes.string,
     }),
     formData: PropTypes.shape({
       email: PropTypes.string,
-      displayName: PropTypes.string,
+      username: PropTypes.string,
       password: PropTypes.string,
       confirmPassword: PropTypes.string
     })
@@ -89,12 +89,12 @@ class SignUpContent extends React.Component {
                 onChange={handleChange}
               />
               <FormField
-                id="displayName"
+                id="username"
                 type="text"
-                label={lang.t('signIn.displayName')}
-                value={formData.displayName}
+                label={lang.t('signIn.username')}
+                value={formData.username}
                 showErrors={showErrors}
-                errorMsg={errors.displayName}
+                errorMsg={errors.username}
                 onChange={handleChange}
               />
               <FormField

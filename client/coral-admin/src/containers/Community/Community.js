@@ -13,7 +13,7 @@ const lang = new I18n(translations);
 const tableHeaders = [
   {
     title: lang.t('community.username_and_email'),
-    field: 'displayName'
+    field: 'username'
   },
   {
     title: lang.t('community.account_creation_date'),
