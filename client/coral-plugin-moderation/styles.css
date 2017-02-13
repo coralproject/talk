@@ -1,0 +1,9 @@
+.moderationLink {
+  a {
+    color: #679af3;
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: 600;
+    letter-spacing: .3px;
+  }
+}

@@ -19,7 +19,7 @@ const embedStreamCommands = {
       .setValue('@signInDialogEmail', user.email)
       .setValue('@signInDialogPassword', user.password)
       .setValue('@signUpDialogConfirmPassword', user.password)
-      .setValue('@signUpDialogDisplayName', user.displayName)
+      .setValue('@signUpDialogDisplayName', user.username)
       .waitForElementVisible('@signUpButton')
       .click('@signUpButton')
       .waitForElementVisible('@signInViewTrigger')
@@ -96,7 +96,7 @@ module.exports = {
       selector: '#signInDialog #confirmPassword'
     },
     signUpDialogDisplayName: {
-      selector: '#signInDialog #displayName'
+      selector: '#signInDialog #username'
     },
     logInButton: {
       selector: '#coralLogInButton'

@@ -120,11 +120,11 @@ const SendEmailConfirmation = (app, userID, email, referer) => UsersService
 
 // create a local user.
 router.post('/', (req, res, next) => {
-  const {email, password, displayName} = req.body;
+  const {email, password, username} = req.body;
   const redirectUri = req.header('X-Pym-Url') || req.header('Referer');
 
   UsersService
-    .createLocalUser(email, password, displayName)
+    .createLocalUser(email, password, username)
     .then((user) => {
 
       // Send an email confirmation. The Front end will know about the

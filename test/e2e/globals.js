@@ -3,17 +3,17 @@ module.exports = {
   baseUrl: 'http://localhost:3011',
   users: {
     admin: {
-      displayName: 'AdminTestUser',
+      username: 'AdminTestUser',
       email: 'admin@test.com',
       password: 'testtest'
     },
     moderator: {
-      displayName: 'ModeratorTestUser',
+      username: 'ModeratorTestUser',
       email: 'moderator@test.com',
       password: 'testtest'
     },
     commenter: {
-      displayName: 'CommentTestUser',
+      username: 'CommentTestUser',
       email: 'commenter@test.com',
       password: 'testtest'
     }

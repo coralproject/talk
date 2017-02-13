@@ -55,6 +55,12 @@
   border-left: none;
   border-right: none;
 
+  a {
+    color: rgb(44, 44, 44);
+    font-weight: 500;
+    text-decoration: none;
+  }
+
   th {
     font-size: 1.1em;
   }

@@ -1,0 +1,15 @@
+fragment commentView on Comment {
+    id
+    body
+    created_at
+    status
+    user {
+        id
+        name: username
+        status
+    }
+    asset {
+      id
+      title
+    }
+}

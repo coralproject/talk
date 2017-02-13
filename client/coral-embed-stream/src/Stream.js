@@ -10,7 +10,7 @@ class Stream extends React.Component {
     asset: PropTypes.object.isRequired,
     comments: PropTypes.array.isRequired,
     currentUser: PropTypes.shape({
-      displayName: PropTypes.string,
+      username: PropTypes.string,
       id: PropTypes.string
     })
   }

@@ -96,11 +96,6 @@
     margin-left: 40px;
   }
 
-  .actionButton {
-    transform: scale(.8);
-    margin: 0;
-  }
-
   .body {
     margin-top: 20px;
     flex: 1;
@@ -181,4 +176,10 @@
     margin-right: 10px;
     font-size: 14px;
   }
+}
+
+
+.actionButton {
+  transform: scale(.8);
+  margin: 0;
 }
