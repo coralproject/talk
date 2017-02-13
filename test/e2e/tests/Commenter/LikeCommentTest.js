@@ -1,15 +1,27 @@
+const afterEach = require('../../after');
+const mocks = require('../../mocks');
+
 module.exports = {
   '@tags': ['like', 'comments', 'commenter'],
   before: client => {
-    const embedStreamPage = client.page.embedStreamPage();
-    const {users} = client.globals;
+    client.perform((client, done) => {
+      const embedStreamPage = client.page.embedStreamPage();
+      const {users} = client.globals;
+      mocks.settings({moderation: 'POST'})
+      .then(() => mocks.users([users.commenter]))
+      .then(() => {
+        embedStreamPage
+        .navigate()
+        .ready();
 
-    embedStreamPage
-      .navigate()
-      .ready();
+        embedStreamPage
+        .login(users.commenter)
+        .postComment();
 
-    embedStreamPage
-      .login(users.commenter);
+        done();
+      })
+      .catch((err) => console.log(err));
+    });
   },
   'Commenter likes a comment': client => {
     const embedStreamPage = client.page.embedStreamPage();
@@ -20,6 +32,7 @@ module.exports = {
       .expect.element('@likeText').text.to.equal('Liked');
 
   },
+  afterEach,
   after: client => {
     client.end();
   }

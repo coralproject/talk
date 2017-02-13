@@ -1,27 +1,27 @@
 const afterEach = require('../../after');
 const mocks = require('../../mocks');
-const globals = require('../../globals');
 
 module.exports = {
   '@tags': ['flag', 'comments', 'visitor'],
   before: client => {
     client.perform((client, done) => {
       const embedStreamPage = client.page.embedStreamPage();
+      const {users} = client.globals;
       mocks.settings({moderation: 'POST'})
-      .then(() => mocks.users([globals.users.commenter]))
+      .then(() => mocks.users([users.commenter]))
       .then(() => {
         embedStreamPage
         .navigate()
         .ready();
 
         embedStreamPage
-        .login(globals.users.commenter)
+        .login(users.commenter)
         .postComment()
         .logout();
 
         done();
       })
-      .catch((err) => console.log('Err:', err));
+      .catch((err) => console.log(err));
     });
   },
   'Visitor tries to flag a comment': client => {

@@ -1,15 +1,27 @@
+const afterEach = require('../../after');
+const mocks = require('../../mocks');
+
 module.exports = {
   '@tags': ['flag', 'commenter'],
   before: client => {
-    const embedStreamPage = client.page.embedStreamPage();
-    const {users} = client.globals;
+    client.perform((client, done) => {
+      const embedStreamPage = client.page.embedStreamPage();
+      const {users} = client.globals;
+      mocks.settings({moderation: 'POST'})
+      .then(() => mocks.users([users.commenter]))
+      .then(() => {
+        embedStreamPage
+        .navigate()
+        .ready();
 
-    embedStreamPage
-      .navigate()
-      .ready();
+        embedStreamPage
+        .login(users.commenter)
+        .postComment();
 
-    embedStreamPage
-      .login(users.commenter);
+        done();
+      })
+      .catch((err) => console.log(err));
+    });
   },
   'Commenter flags a username': client => {
     const embedStreamPage = client.page.embedStreamPage();
@@ -27,6 +39,7 @@ module.exports = {
       .click('@flagDoneButton')
       .click('@flagDoneButton');
   },
+  afterEach,
   after: client => {
     client.end();
   }

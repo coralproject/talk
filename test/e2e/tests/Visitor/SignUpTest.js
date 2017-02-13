@@ -12,7 +12,8 @@ module.exports = {
             .navigate()
             .ready();
           done();
-        });
+        })
+        .catch(console.log);
     });
   },
   'Visitor signs up': client => {

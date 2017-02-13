@@ -1,11 +1,23 @@
+const afterEach = require('../../after');
+const mocks = require('../../mocks');
+
 module.exports = {
   '@tags': ['login', 'commenter'],
   before: client => {
-    const embedStreamPage = client.page.embedStreamPage();
+    client.perform((client, done) => {
+      const embedStreamPage = client.page.embedStreamPage();
+      const {users} = client.globals;
+      mocks.settings({moderation: 'POST'})
+      .then(() => mocks.users([users.commenter]))
+      .then(() => {
+        embedStreamPage
+        .navigate()
+        .ready();
 
-    embedStreamPage
-      .navigate()
-      .ready();
+        done();
+      })
+      .catch((err) => console.log(err));
+    });
   },
   'Commenter logs in': client => {
     const {users} = client.globals;
@@ -14,6 +26,7 @@ module.exports = {
     embedStreamPage
       .login(users.commenter);
   },
+  afterEach,
   after: client => {
     client.end();
   }
