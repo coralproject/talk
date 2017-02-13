@@ -201,7 +201,7 @@ const CommentSettings = ({fetchingSettings, title, updateSettings, settingsError
           <br />
           <Textfield
             style={{width: '100%'}}
-            label="external css url"
+            label={lang.t('configure.custom-css-url')}
             value={settings.customCssUrl}
             onChange={updateCustomCssUrl(updateSettings)} />
         </div>
