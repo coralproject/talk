@@ -99,6 +99,10 @@ module.exports = class UsersService {
       .then(() => dstUser.save());
   }
 
+  static castDisplayName(displayName) {
+    return displayName.replace(/ /g, '_').replace(/[^a-zA-Z_]/g, '');
+  }
+
   /**
    * Finds a user given a social profile and if the user does not exist, creates
    * them.
@@ -120,12 +124,14 @@ module.exports = class UsersService {
           return user;
         }
 
+        // TODO: remove displayName reference when we have steps in the FE to handle
+        // the username create flow.
+        let username = UsersService.castDisplayName(displayName);
+
         // The user was not found, lets create them!
         user = new UserModel({
-
-          // TODO: remove displayName reference when we have steps in the FE to handle
-          // the username create flow.
-          username: displayName.replace(/ /g, '_').replace(/[^a-zA-Z_]/g, ''),
+          username,
+          lowercaseUsername: username.toLowerCase(),
           roles: [],
           profiles: [{id, provider}]
         });
@@ -238,6 +244,7 @@ module.exports = class UsersService {
 
             let user = new UserModel({
               username,
+              lowercaseUsername: username.toLowerCase(),
               password: hashedPassword,
               roles: [],
               profiles: [
@@ -677,6 +684,7 @@ module.exports = class UsersService {
     }, {
       $set: {
         username: username,
+        lowercaseUsername: username.toLowerCase(),
         canEditName: false,
         status: 'PENDING'
       }

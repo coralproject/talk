@@ -66,6 +66,15 @@ const UserSchema = new mongoose.Schema({
     required: true
   },
 
+  // TODO: find a way that we can instead utilize MongoDB 3.4's collation
+  // options to build the index in a case insenstive manner:
+  // https://docs.mongodb.com/manual/reference/collation/
+  lowercaseUsername: {
+    type: String,
+    required: true,
+    unique: true
+  },
+
   // This is true when the user account is disabled, no action should be
   // acknowledged when they are disabled. Logins are also prevented.
   disabled: Boolean,
@@ -124,16 +133,6 @@ UserSchema.index({
 }, {
   unique: true,
   background: false
-});
-
-UserSchema.index({
-  'username': 1
-}, {
-  unique: true,
-  collation: {
-    locale: 'en_US',
-    strength: 2
-  }
 });
 
 /**
