@@ -1,4 +1,5 @@
 const mocks = require('../mocks');
+const afterEach = require('../after');
 
 module.exports = {
   '@tags': ['embedStream'],
@@ -46,6 +47,7 @@ module.exports = {
     adminPage
       .approveComment();
   },
+  afterEach,
   after: client => {
     client.end();
   }

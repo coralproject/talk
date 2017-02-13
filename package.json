@@ -13,7 +13,7 @@
     "test": "TEST_MODE=unit NODE_ENV=test mocha -R ${MOCHA_REPORTER:-spec}",
     "test-cover": "TEST_MODE=unit NODE_ENV=test istanbul cover _mocha --report text --check-coverage -- -R spec",
     "pree2e": "NODE_ENV=test TALK_PORT=3011 scripts/pree2e.sh",
-    "e2e": "NODE_ENV=test nightwatch",
+    "e2e": "NODE_ENV=test nightwatch --tag visitor",
     "poste2e": "NODE_ENV=test scripts/poste2e.sh",
     "embed-start": "NODE_ENV=development yarn build && ./bin/cli serve --jobs",
     "heroku-postbuild": "yarn build"
