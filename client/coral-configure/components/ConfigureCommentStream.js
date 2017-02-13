@@ -49,6 +49,18 @@ export default ({handleChange, handleApply, changed, ...props}) => (
           </ul>
           */}
         </li>
+        <li>
+          <Checkbox
+            className={styles.checkbox}
+            cStyle={changed ? 'green' : 'darkGrey'}
+            name="qboxenable"
+            onChange={handleChange}
+            defaultChecked={props.questionBoxEnable}
+            info={{
+              title: lang.t('configureCommentStream.enableQuestionBox'),
+              description: lang.t('configureCommentStream.enableQuestionBoxDescription')
+            }} />
+        </li>
       </ul>
     </div>
   </form>

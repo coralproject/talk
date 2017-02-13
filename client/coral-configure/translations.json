@@ -7,7 +7,9 @@
       "enablePremod": "Enable Premoderation",
       "enablePremodDescription": "Moderators must approve any comment before its published.",
       "enablePremodLinks": "Pre-Moderate Comments Containing Links",
-      "enablePremodLinksDescription": "Moderators must approve any comment containing a link before its published."
+      "enablePremodLinksDescription": "Moderators must approve any comment containing a link before its published.",
+      "enableQuestionBox": "Enable Question Box",
+      "enableQuestionBoxDescription": "Commenters will see the next question at the top of the comments stream."
     }
   },
   "es": {
@@ -18,7 +20,9 @@
       "enablePremod": "Activar Pre Moderación",
       "enablePremodDescription": "Los Moderadores deben aprobar cualquier comentario antes de su publicación",
       "enablePremodLinks": "Pre-Moderar Commentarios que contienen Links",
-      "enablePremodLinksDescription": "Los Moderadores deben probar cualquier comentario que contengan links antes de su publicación."
+      "enablePremodLinksDescription": "Los Moderadores deben probar cualquier comentario que contengan links antes de su publicación.",
+      "enableQuestionBox": "Activar Caja de Pregunta",
+      "enableQuestionBoxDescription": "La siguiente pregunta estara en la parte de arriba del hilo de comentarios."
     }
   }
 }
