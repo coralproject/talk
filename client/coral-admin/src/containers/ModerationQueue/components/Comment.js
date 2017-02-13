@@ -15,7 +15,6 @@ import translations from 'coral-admin/src/translations.json';
 
 const Comment = ({actions = [], ...props}) => {
   const links = linkify.getMatches(props.comment.body);
-
   return (
     <li tabIndex={props.index}
         className={`mdl-card mdl-shadow--2dp ${styles.Comment} ${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
@@ -48,11 +47,11 @@ const Comment = ({actions = [], ...props}) => {
           : null}
         </div>
       </div>
-
-     <div className={styles.moderateArticle}>
-       {props.comment.asset.title} <Link to={`/admin/moderate/${props.comment.asset.id}`}>Moderate Article</Link>
-     </div>
-
+      {!props.currentAsset && (
+        <div className={styles.moderateArticle}>
+          Article: {props.comment.asset.title} <Link to={`/admin/moderate/${props.comment.asset.id}`}>Moderate Article</Link>
+        </div>
+      )}
       <div className={styles.itemBody}>
         <p className={styles.body}>
           <Linkify component='span' properties={{style: linkStyles}}>

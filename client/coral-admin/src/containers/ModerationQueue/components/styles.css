@@ -6,7 +6,7 @@
 }
 
 .tabBar {
-  background: #262626;
+  background-color: rgba(44, 44, 44, 0.89);
   z-index: 5;
 }
 
@@ -73,7 +73,7 @@ span {
 }
 
 .header {
-  background-color: #3949AB;
+  background-color: #2c2c2c;
   color: white;
   margin-bottom: -1px;
 
@@ -156,6 +156,7 @@ span {
   padding: 16px 14px;
   position: relative;
   transition: box-shadow 200ms;
+  margin-top: 0;
 
 
   &:hover {
@@ -222,10 +223,11 @@ span {
   }
 
   .body {
-    margin-top: 20px;
+    margin-top: 0px;
     flex: 1;
     font-size: 0.88em;
     color: black;
+    max-width: 500px;
   }
 
   .flagged {
@@ -294,15 +296,16 @@ span {
 
 .Comment {
   .moderateArticle {
-    padding: 10px 0px;
+    font-size: 12px;
     a {
-      display: block;
+      display: inline-block;
       color: #679af3;
       text-decoration: none;
       font-size: 1em;
-      font-weight: 500;
+      font-weight: 400;
       letter-spacing: .5px;
-      font-size: .8em;
+      font-size: 12px;
+      margin-left: 10px;
 
       &:hover {
         text-decoration: underline;

@@ -18,6 +18,7 @@ const ModerationQueue = props => {
             showBanUserDialog={props.showBanUserDialog}
             acceptComment={props.acceptComment}
             rejectComment={props.rejectComment}
+            currentAsset={props.currentAsset}
           />;
         })
       }

@@ -76,6 +76,7 @@ class ModerationContainer extends Component {
         />
         <ModerationQueue
           data={data}
+          currentAsset={asset}
           activeTab={moderation.activeTab}
           enablePremodTab={enablePremodTab}
           suspectWords={settings.wordlist.suspect}
