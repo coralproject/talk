@@ -18,6 +18,12 @@ query ModQueue ($asset_id: ID!) {
         asset_id: $asset_id
     }) {
         ...commentView
+        action_summaries {
+          count
+          ... on FlagActionSummary {
+            reason
+          }
+        }
     }
     rejected: comments(query: {
         statuses: [REJECTED],

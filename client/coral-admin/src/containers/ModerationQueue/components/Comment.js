@@ -7,14 +7,17 @@ import {Link} from 'react-router';
 import styles from './styles.css';
 import {Icon} from 'coral-ui';
 import ActionButton from '../../../components/ActionButton';
+import FlagBox from './FlagBox';
+
 const linkify = new Linkify();
-const lang = new I18n(translations);
 
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations.json';
+const lang = new I18n(translations);
 
 const Comment = ({actions = [], ...props}) => {
   const links = linkify.getMatches(props.comment.body);
+  const actionSumaries = props.comment.action_summaries;
   return (
     <li tabIndex={props.index}
         className={`mdl-card mdl-shadow--2dp ${styles.Comment} ${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
@@ -24,7 +27,7 @@ const Comment = ({actions = [], ...props}) => {
           <span className={styles.created}>
             {timeago().format(props.comment.created_at || (Date.now() - props.index * 60 * 1000), lang.getLocale().replace('-', '_'))}
           </span>
-          {props.flagged ? <p className={styles.flagged}>{lang.t('comment.flagged')}</p> : null}
+          {props.comment.action_summaries ? <p className={styles.flagged}>{lang.t('comment.flagged')}</p> : null}
         </div>
         <div className={styles.sideActions}>
           {links ? <span className={styles.hasLinks}><Icon name='error_outline'/> Contains Link</span> : null}
@@ -59,11 +62,11 @@ const Comment = ({actions = [], ...props}) => {
           </Linkify>
         </p>
       </div>
+      {actionSumaries && <FlagBox actionSumaries={actionSumaries} />}
 
       {/* <span className={styles.context}>*/}
        {/* <a>View context</a>*/}
      {/* </span>*/}
-
     </li>
   );
 };
