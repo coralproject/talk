@@ -21,7 +21,7 @@ import {
 class ChangeDisplayNameContainer extends Component {
   initialState = {
     formData: {
-      displayName: '',
+      username: '',
     },
     errors: {},
     showErrors: false

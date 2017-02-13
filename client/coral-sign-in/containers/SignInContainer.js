@@ -29,7 +29,7 @@ class SignInContainer extends Component {
   initialState = {
     formData: {
       email: '',
-      displayName: '',
+      username: '',
       password: '',
       confirmPassword: ''
     },

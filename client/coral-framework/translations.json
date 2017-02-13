@@ -1,12 +1,12 @@
 {
   "en": {
     "successUpdateSettings": "The changes you have made have been applied to the comment stream on this article",
-    "successNameUpdate": "Your display name has been updated",
+    "successNameUpdate": "Your username has been updated",
     "contentNotAvailable": "This content is not available",
     "bannedAccountMsg": "Your account is currently suspended. This means that you cannot Like, Flag, or write comments. Please contact moderator@fakeurl.com for more information",
     "editName": {
-      "msg": "Your account is currently suspended because your display name has been deemed inappropriate. To restore your account, please enter a new username. You may contact moderator@fakeurl.com for more information.",
-      "label": "New Display Name",
+      "msg": "Your account is currently suspended because your username has been deemed inappropriate. To restore your account, please enter a new username. You may contact moderator@fakeurl.com for more information.",
+      "label": "New Username",
       "button": "Submit",
       "error": "Display names can contain letters, numbers and _ only"
     },
@@ -14,7 +14,7 @@
       "emailNotVerified": "Email address {0} not verified.",
       "email": "Not a valid E-Mail",
       "password": "Password must be at least 8 characters",
-      "displayName": "Display names can contain letters, numbers and _ only",
+      "username": "Display names can contain letters, numbers and _ only",
       "confirmPassword": "Passwords don't match. Please, check again",
       "organizationName": "Organization name must only contain letters or numbers.",
       "emailPasswordError": "Email and/or password combination incorrect.",
@@ -22,9 +22,9 @@
       "PASSWORD_REQUIRED": "Must input a password",
       "PASSWORD_LENGTH": "Password is too short",
       "EMAIL_IN_USE": "Email address already in use",
-      "EMAIL_DISPLAY_NAME_IN_USE": "Email address or display name already in use",
+      "EMAIL_DISPLAY_NAME_IN_USE": "Email address or username already in use",
       "DISPLAYNAME_IN_USE": "Display name already in use",
-      "DISPLAY_NAME_REQUIRED": "Must input a display name",
+      "DISPLAY_NAME_REQUIRED": "Must input a username",
       "NO_SPECIAL_CHARACTERS": "Display names can contain letters, numbers and _ only",
       "PROFANITY_ERROR": "Display names must not contain profanity. Please contact the administrator if you believe this to be in error."
     }
@@ -39,7 +39,7 @@
       "emailNotVerified": "Dirección de correo electrónico {0} no verificada.",
       "email": "No es un email válido",
       "password": "La contraseña debe tener por lo menos 8 caracteres",
-      "displayName": "Los nombres pueden contener letras, números y _",
+      "username": "Los nombres pueden contener letras, números y _",
       "organizationName": "El nombre de la organización debe contener letras y/o números.",
       "confirmPassword": "Las contraseñas no coinciden",
       "emailPasswordError": "Email y/o contraseña incorrecta.",

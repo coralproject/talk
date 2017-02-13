@@ -3,7 +3,7 @@
   <body>
     <script type="text/javascript">
       window.opener.authCallback(<% if (err) { %>'<%- err %>'<% } else { %>null<% } %>, '<%- data %>');
-      setTimeout(function() { window.close(); }, 50);
+      // setTimeout(function() { window.close(); }, 50);
     </script>
   </body>
 </html>

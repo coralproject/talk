@@ -15,11 +15,11 @@ export const hideCreateDisplayNameDialog = () => ({type: actions.HIDE_CREATEDISP
 const createDisplayNameSuccess = () => ({type: actions.CREATEDISPLAYNAME_SUCCESS});
 const createDisplayNameFailure = error => ({type: actions.CREATEDISPLAYNAME_FAILURE, error});
 
-export const updateDisplayName = ({displayName}) => ({type: actions.UPDATE_DISPLAYNAME, displayName});
+export const updateDisplayName = ({username}) => ({type: actions.UPDATE_DISPLAYNAME, username});
 
 export const createDisplayName = (userId, formData) => dispatch => {
   dispatch(createDisplayNameRequest());
-  coralApi('/account/displayname', {method: 'PUT', body: formData})
+  coralApi('/account/username', {method: 'PUT', body: formData})
     .then(() => {
       dispatch(createDisplayNameSuccess());
       dispatch(hideCreateDisplayNameDialog());

@@ -12,15 +12,15 @@ describe('services.UsersService', () => {
     return SettingsService.init(settings).then(() => {
       return UsersService.createLocalUsers([{
         email: 'stampi@gmail.com',
-        displayName: 'Stampi',
+        username: 'Stampi',
         password: '1Coral!-'
       }, {
         email: 'sockmonster@gmail.com',
-        displayName: 'Sockmonster',
+        username: 'Sockmonster',
         password: '2Coral!2'
       }, {
         email: 'marvel@gmail.com',
-        displayName: 'Marvel',
+        username: 'Marvel',
         password: '3Coral!3'
       }]).then((users) => {
         mockUsers = users;
@@ -33,7 +33,7 @@ describe('services.UsersService', () => {
       return UsersService
         .findById(mockUsers[0].id)
         .then((user) => {
-          expect(user).to.have.property('displayName', 'stampi');
+          expect(user).to.have.property('username', 'Stampi');
         });
     });
   });
@@ -53,11 +53,11 @@ describe('services.UsersService', () => {
       return UsersService.findPublicByIdArray(ids).then((result) => {
         expect(result).to.have.length(3);
         const sorted = result.sort((a, b) =>     {
-          if(a.displayName < b.displayName) {return -1;}
-          if(a.displayName > b.displayName) {return 1;}
+          if(a.username < b.username) {return -1;}
+          if(a.username > b.username) {return 1;}
           return 0;
         });
-        expect(sorted[0]).to.have.property('displayName', 'marvel');
+        expect(sorted[0]).to.have.property('username', 'Marvel');
       });
     });
   });
@@ -68,8 +68,7 @@ describe('services.UsersService', () => {
       return UsersService
         .findLocalUser(mockUsers[0].profiles[0].id, '1Coral!-')
         .then((user) => {
-          expect(user).to.have.property('displayName')
-            .and.to.equal(mockUsers[0].displayName.toLowerCase());
+          expect(user).to.have.property('username', mockUsers[0].username);
         });
     });
 
@@ -84,10 +83,10 @@ describe('services.UsersService', () => {
   });
 
   describe('#createLocalUser', () => {
-    it('should not create a user with duplicate display name', () => {
+    it('should not create a user with duplicate username', () => {
       return UsersService.createLocalUsers([{
         email: 'otrostampi@gmail.com',
-        displayName: 'StampiTheSecond',
+        username: 'StampiTheSecond',
         password: '1Coralito!'
       }])
       .then((user) => {
@@ -227,7 +226,7 @@ describe('services.UsersService', () => {
         .then(() => UsersService.editName(mockUsers[0].id, 'Jojo'))
         .then(() => UsersService.findById(mockUsers[0].id))
         .then((user) => {
-          expect(user).to.have.property('displayName', 'jojo');
+          expect(user).to.have.property('username', 'Jojo');
           expect(user).to.have.property('canEditName', false);
         });
     });

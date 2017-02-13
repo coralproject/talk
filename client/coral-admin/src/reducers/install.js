@@ -9,7 +9,7 @@ const initialState = Map({
       organizationName: ''
     }),
     user: Map({
-      displayName: '',
+      username: '',
       email: '',
       password: '',
       confirmPassword: ''
@@ -17,7 +17,7 @@ const initialState = Map({
   }),
   errors: Map({
     organizationName: '',
-    displayName: '',
+    username: '',
     email: '',
     password: '',
     confirmPassword: ''
