@@ -5,7 +5,7 @@ import {actionsMap} from './helpers/moderationQueueActionsMap';
 
 const ModerationQueue = props => {
   return (
-    <div>
+    <div id="moderationList">
       <ul>
       {
         props.data[props.activeTab].map((comment, i) => {
