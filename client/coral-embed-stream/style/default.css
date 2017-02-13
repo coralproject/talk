@@ -304,3 +304,9 @@ hr {
 .close-comments-alert i.material-icons {
   font-size: 16px !important;
 }
+
+/* Load More */
+
+.coral-load-more {
+  width: 100%;
+}
