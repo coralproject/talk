@@ -16,12 +16,6 @@ stages:
       # Get the code
       - type: checkout
 
-      - type: shell
-        shell: /bin/bash
-        command: |
-          # add in path rewrite
-          echo "PATH=$PATH:~/talk/node_modules/.bin" >> ~/.bashrc
-
       # Restore the yarn cache
       - type: cache-restore
         key: yarn-cache
