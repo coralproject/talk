@@ -108,6 +108,7 @@ class Comment extends React.Component {
         { isStaff(comment.tags)
           ? <TagLabel isStaff={true}/>
           : null }
+        {'\u00a0'}
         <PubDate created_at={comment.created_at} />
         <Content body={comment.body} />
           <div className="commentActionsLeft">
