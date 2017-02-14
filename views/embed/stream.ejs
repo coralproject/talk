@@ -5,6 +5,9 @@
     <link rel="stylesheet" type="text/css" href="/client/embed/stream/default.css">
     <link href="https://fonts.googleapis.com/css?family=Lato|Open+Sans" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <% if (locals.customCssUrl) { %>
+      <link href="<%= customCssUrl %>" rel="stylesheet" type="text/css">
+    <% } %>
   </head>
   <body>
     <div id="coralStream"></div>
