@@ -2,14 +2,12 @@ import {Map, List} from 'immutable';
 import * as actions from '../actions/settings';
 
 const initialState = Map({
-  settings: Map({
-    wordlist: Map({
-      banned: List(),
-      suspect: List()
-    }),
-    domains: Map({
-      whitelist: List()
-    })
+  wordlist: Map({
+    banned: List(),
+    suspect: List()
+  }),
+  domains: Map({
+    whitelist: List()
   }),
   saveSettingsError: null,
   fetchSettingsError: null,
@@ -54,10 +52,10 @@ export default function settings (state = initialState, action) {
       .set('fetchSettingsError', action.error);
   case actions.WORDLIST_UPDATED:
     return state
-      .setIn(['settings', 'wordlist', action.listName], action.list);
+      .setIn(['wordlist', action.listName], action.list);
   case actions.DOMAINLIST_UPDATED:
     return state
-      .setIn(['settings', 'domains', action.listName], action.list);
+      .setIn(['domains', action.listName], action.list);
   default:
     return state;
   }
