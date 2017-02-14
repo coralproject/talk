@@ -39,7 +39,7 @@ export const updateDomainlist = (listName, list) => {
 };
 
 export const saveSettingsToServer = () => (dispatch, getState) => {
-  let settings = getState().settings.toJS().settings;
+  let settings = getState().settings.toJS();
   if (settings.charCount) {
     settings.charCount = parseInt(settings.charCount);
   }
