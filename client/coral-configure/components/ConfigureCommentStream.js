@@ -60,9 +60,13 @@ export default ({handleChange, handleApply, changed, ...props}) => (
               title: lang.t('configureCommentStream.enableQuestionBox'),
               description: lang.t('configureCommentStream.enableQuestionBoxDescription')
             }} />
+          <div className={styles.content}>
+            <div className={`${styles.configSettingQuestionBox} ${props.questionBoxEnable ? null : styles.hidden}`} >
+              Pepe
+            </div>
+          </div>
         </li>
       </ul>
     </div>
   </form>
-
 );

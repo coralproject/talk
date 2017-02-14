@@ -28,13 +28,17 @@ class ConfigureStreamContainer extends Component {
     const {elements} = e.target;
     const premod = elements.premod.checked;
     const questionBoxEnable = elements.qboxenable.checked;
+    const questionBoxContent = ''; // elements.qboxcontent.value;
+
+    console.log('debug ', questionBoxContent);
 
     // const premodLinks = elements.premodLinks.checked;
     const {changed} = this.state;
 
     const newConfig = {
       moderation: premod ? 'PRE' : 'POST',
-      questionBoxEnable: questionBoxEnable
+      questionBoxEnable,
+      questionBoxContent
     };
 
     if (changed) {

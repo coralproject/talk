@@ -35,3 +35,17 @@ p {
 .wrapper {
   margin-bottom: 20px;
 }
+
+.configSettingQuestionBox {
+  min-height: 100px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  width: auto;
+  height: auto;
+  text-align: left;
+  overflow: visible;
+}
+
+.hidden {
+  display: none;
+}
