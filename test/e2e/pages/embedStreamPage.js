@@ -43,7 +43,7 @@ const embedStreamCommands = {
   },
   logout() {
     return this
-      .waitForElementVisible('@logoutButton')
+      .waitForElementVisible('@logoutButton', 5000)
       .click('@logoutButton')
       .waitForElementVisible('@signInButton', 5000);
   },
