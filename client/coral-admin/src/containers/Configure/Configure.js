@@ -165,7 +165,9 @@ class Configure extends Component {
   }
 }
 
-const mapStateToProps = state => state.settings.toJS();
+const mapStateToProps = state => ({
+  settings: state.settings.toJS()
+});
 export default connect(mapStateToProps)(Configure);
 
 const lang = new I18n(translations);
