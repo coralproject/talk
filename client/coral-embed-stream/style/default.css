@@ -317,3 +317,13 @@ button.coral-load-more {
 button.coral-load-more:hover {
   background-color: #4399FF;
 }
+
+.coral-load-more-replies {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.coral-load-more-replies button.coral-load-more {
+  width: initial;
+}

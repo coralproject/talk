@@ -20,6 +20,7 @@ query AssetQuery($asset_url: String!) {
         commentCount
         comments(limit: 10) {
             ...commentView
+            replyCount
             replies(limit: 3) {
                 ...commentView
             }
