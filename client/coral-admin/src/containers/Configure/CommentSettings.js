@@ -51,6 +51,12 @@ const updateClosedMessage = (updateSettings) => (event) => {
   updateSettings({closedMessage});
 };
 
+const updateCustomCssUrl = (updateSettings) => (event) => {
+  console.log('updateCustomCssUrl', event.target.value);
+  const customCssUrl = event.target.value;
+  updateSettings({customCssUrl});
+};
+
 // If we are changing the measure we need to recalculate using the old amount
 // Same thing if we are just changing the amount
 const updateClosedTimeout = (updateSettings, ts, isMeasure) => (event) => {
@@ -165,7 +171,7 @@ const CommentSettings = ({fetchingSettings, title, updateSettings, settingsError
           </div>
         </div>
       </Card>
-      <Card className={`${styles.configSettingInfoBox}`}>
+      <Card className={styles.configSettingInfoBox}>
         <div className={styles.content}>
           {lang.t('configure.close-after')}
           <br />
@@ -186,6 +192,18 @@ const CommentSettings = ({fetchingSettings, title, updateSettings, settingsError
               <Option value={'weeks'}>{lang.t('configure.weeks')}</Option>
             </SelectField>
           </div>
+        </div>
+      </Card>
+      <Card className={styles.configSettingInfoBox}>
+        <div className={styles.content}>
+          {lang.t('configure.custom-css-url')}
+          <p>{lang.t('configure.custom-css-url-desc')}</p>
+          <br />
+          <Textfield
+            style={{width: '100%'}}
+            label={lang.t('configure.custom-css-url')}
+            value={settings.customCssUrl}
+            onChange={updateCustomCssUrl(updateSettings)} />
         </div>
       </Card>
     </div>
