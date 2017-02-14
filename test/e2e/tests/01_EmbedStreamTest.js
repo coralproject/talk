@@ -3,9 +3,11 @@ const afterEach = require('../after');
 
 module.exports = {
   '@tags': ['embedStream'],
-  before: client => {
+  beforeEach: client => {
     client.perform((client, done) => {
+      const {users} = client.globals;
       mocks.settings({moderation: 'PRE'})
+        .then(() => mocks.users([users.commenter, users.admin]))
         .then(() => {
           const embedStreamPage = client.page.embedStreamPage();
           embedStreamPage
@@ -23,12 +25,16 @@ module.exports = {
   },
   'Add test comment': client => {
     const embedStreamPage = client.page.embedStreamPage();
+    const {users} = client.globals;
     embedStreamPage
+      .login(users.commenter)
       .postComment('Test Comment');
   },
   'Logout': client => {
     const embedStreamPage = client.page.embedStreamPage();
+    const {users} = client.globals;
     embedStreamPage
+      .login(users.commenter)
       .logout();
   },
   'Login as admin': client => {
@@ -39,6 +45,12 @@ module.exports = {
   },
   'Approve test comment': client => {
     const adminPage = client.page.adminPage();
+    const embedStreamPage = client.page.embedStreamPage();
+    const {users} = client.globals;
+
+    embedStreamPage
+      .login(users.commenter)
+      .postComment('Test Comment');
 
     adminPage
       .navigate()

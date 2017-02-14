@@ -7,7 +7,7 @@ module.exports = {
     client.perform((client, done) => {
       const embedStreamPage = client.page.embedStreamPage();
       const {users} = client.globals;
-      mocks.settings({moderation: 'POST'})
+      mocks.settings()
       .then(() => mocks.users([users.commenter]))
       .then(() => {
         embedStreamPage
@@ -16,7 +16,7 @@ module.exports = {
 
         done();
       })
-      .catch((err) => console.log(err));
+      .catch(console.log);
     });
   },
   'Commenter logs in': client => {
