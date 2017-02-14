@@ -3,16 +3,32 @@ module.exports = {
   baseUrl: 'http://localhost:3011',
   users: {
     admin: {
+      username: 'AdminTestUser',
       email: 'admin@test.com',
-      pass: 'testtest'
+      password: 'testtest',
+      roles: ['ADMIN']
     },
     moderator: {
+      username: 'ModeratorTestUser',
       email: 'moderator@test.com',
-      pass: 'testtest'
+      password: 'testtest',
+      roles: ['MODERATOR']
     },
     commenter: {
+      username: 'CommentTestUser',
       email: 'commenter@test.com',
-      pass: 'testtest'
+      password: 'testtest'
     }
   },
+  comments: (author_id) =>
+    ([{
+      body: 'I read the comments.',
+      status: 'ACCEPTED',
+      author_id
+    },
+    {
+      body: 'You read the comments',
+      status: 'ACCEPTED',
+      author_id
+    }])
 };

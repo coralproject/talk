@@ -1,3 +1,5 @@
+const afterEach = require('../after');
+
 module.exports = {
   '@tags': ['app'],
   'Base url and Hostname': browser => {
@@ -6,5 +8,6 @@ module.exports = {
       .url(baseUrl)
       .assert.title('Coral Talk')
       .waitForElementPresent('body', 1000);
-  }
+  },
+  afterEach
 };

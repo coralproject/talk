@@ -1,11 +1,20 @@
+const afterEach = require('../../after');
+const mocks = require('../../mocks');
+
 module.exports = {
   '@tags': ['signup', 'visitor'],
   before: client => {
-    const embedStreamPage = client.page.embedStreamPage();
-
-    embedStreamPage
-      .navigate()
-      .ready();
+    client.perform((client, done) => {
+      const embedStreamPage = client.page.embedStreamPage();
+      mocks.settings()
+        .then(() => {
+          embedStreamPage
+            .navigate()
+            .ready();
+          done();
+        })
+        .catch(console.log);
+    });
   },
   'Visitor signs up': client => {
     const embedStreamPage = client.page.embedStreamPage();
@@ -17,6 +26,7 @@ module.exports = {
         pass: 'testtest'
       });
   },
+  afterEach,
   after: client => {
     client.end();
   }

@@ -17,8 +17,8 @@ const embedStreamCommands = {
       .waitForElementVisible('@registerButton')
       .click('@registerButton')
       .setValue('@signInDialogEmail', user.email)
-      .setValue('@signInDialogPassword', user.pass)
-      .setValue('@signUpDialogConfirmPassword', user.pass)
+      .setValue('@signInDialogPassword', user.password)
+      .setValue('@signUpDialogConfirmPassword', user.password)
       .setValue('@signUpDialogDisplayName', user.username)
       .waitForElementVisible('@signUpButton')
       .click('@signUpButton')
@@ -30,13 +30,13 @@ const embedStreamCommands = {
   },
   login(user) {
     return this
-      .waitForElementVisible('@signInButton', 2000)
+      .waitForElementVisible('@signInButton', 5000)
       .click('@signInButton')
       .waitForElementVisible('@signInDialog')
       .waitForElementVisible('@signInDialogEmail')
       .waitForElementVisible('@signInDialogPassword')
       .setValue('@signInDialogEmail', user.email)
-      .setValue('@signInDialogPassword', user.pass)
+      .setValue('@signInDialogPassword', user.password)
       .waitForElementVisible('@logInButton')
       .click('@logInButton')
       .waitForElementVisible('@logoutButton', 5000);

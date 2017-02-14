@@ -12,11 +12,14 @@ module.exports.comments = (comments) => Assets.findOrCreateByUrl(globals.baseUrl
       comment.asset_id = asset.id;
       return comment;
     });
-    return Comments.create(comments);
+    return Comments.publicCreate(comments);
   });
 
 /* Create an array of users */
 module.exports.users = (users) => Users.createLocalUsers(users);
+
+/* Create an array of users */
+module.exports.addRole = (user, role) => Users.addRoleToUser(user, role);
 
 /* Create an array of actions */
 module.exports.actions = (actions) => Actions.create(actions);

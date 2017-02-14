@@ -1,17 +1,29 @@
+const afterEach = require('../../after');
+const mocks = require('../../mocks');
+
 let permalink = '';
 
 module.exports = {
   '@tags': ['permalink', 'commenter'],
   before: client => {
-    const embedStreamPage = client.page.embedStreamPage();
-    const {users} = client.globals;
+    client.perform((client, done) => {
+      const embedStreamPage = client.page.embedStreamPage();
+      const {users} = client.globals;
+      mocks.settings({moderation: 'POST'})
+      .then(() => mocks.users([users.commenter]))
+      .then(() => {
+        embedStreamPage
+        .navigate()
+        .ready();
 
-    embedStreamPage
-      .navigate()
-      .ready();
+        embedStreamPage
+        .login(users.commenter)
+        .postComment();
 
-    embedStreamPage
-      .login(users.commenter);
+        done();
+      })
+      .catch((err) => console.log(err));
+    });
   },
   'Commenter gets the permalink of a comment': client => {
     const embedStreamPage = client.page.embedStreamPage();
@@ -27,8 +39,8 @@ module.exports = {
 
     client.assert.urlContains(permalink);
   },
+  afterEach,
   after: client => {
     client.end();
   }
 };
-
