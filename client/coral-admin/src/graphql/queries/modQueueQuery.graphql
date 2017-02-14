@@ -1,12 +1,6 @@
 #import "../fragments/commentView.graphql"
 
 query ModQueue ($asset_id: ID!) {
-    all: comments(query: {
-    statuses: [REJECTED, PREMOD],
-    asset_id: $asset_id
-    }) {
-        ...commentView
-    }
     premod: comments(query: {
         statuses: [PREMOD],
         asset_id: $asset_id
