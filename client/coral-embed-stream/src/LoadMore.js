@@ -1,6 +1,7 @@
 import React from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-framework/translations.json';
+import {ADDTL_COMMENTS_ON_LOAD_MORE} from 'coral-framework/constants/comments';
 import {Button} from 'coral-ui';
 const lang = new I18n(translations);
 
@@ -15,7 +16,7 @@ const loadMoreComments = (id, comments, loadMore, parentId) => {
     : comments[comments.length - 1].created_at;
 
   loadMore({
-    limit: 10,
+    limit: ADDTL_COMMENTS_ON_LOAD_MORE,
     cursor,
     asset_id: id,
     parent_id: parentId,
