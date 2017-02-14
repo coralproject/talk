@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# fail the e2e if any of these fail
+set -e
+
 # install selenium
 selenium-standalone install --config=./selenium.config.js
 

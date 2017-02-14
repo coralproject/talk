@@ -16,6 +16,7 @@ import {Notification, notificationActions, authActions, assetActions, pym} from 
 
 import Stream from './Stream';
 import InfoBox from 'coral-plugin-infobox/InfoBox';
+import {ModerationLink} from 'coral-plugin-moderation';
 import Count from 'coral-plugin-comment-count/CommentCount';
 import CommentBox from 'coral-plugin-commentbox/CommentBox';
 import UserBox from 'coral-sign-in/components/UserBox';
@@ -134,6 +135,7 @@ class Embed extends Component {
                         charCount={asset.settings.charCountEnable && asset.settings.charCount} />
                      : null
                    }
+                   <ModerationLink assetId={asset.id} isAdmin={isAdmin} />
                  </RestrictedContent>
                  </div>
                : <p>{asset.settings.closedMessage}</p>
@@ -201,7 +203,7 @@ const mapDispatchToProps = dispatch => ({
     });
   },
   clearNotification: () => dispatch(clearNotification()),
-  editName: (displayName) => dispatch(editName(displayName)),
+  editName: (username) => dispatch(editName(username)),
   showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),
   logout: () => dispatch(logout()),
   dispatch: d => dispatch(d)

@@ -27,6 +27,12 @@ const RootMutation = {
   deleteAction(_, {id}, {mutators: {Action}}) {
     return wrapResponse(null)(Action.delete({id}));
   },
+  setUserStatus(_, {id, status}, {mutators: {User}}) {
+    return wrapResponse(null)(User.setUserStatus({id, status}));
+  },
+  setCommentStatus(_, {id, status}, {mutators: {Comment}}) {
+    return wrapResponse(null)(Comment.setCommentStatus({id, status}));
+  }
 };
 
 module.exports = RootMutation;

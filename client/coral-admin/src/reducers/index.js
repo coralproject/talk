@@ -1,19 +1,15 @@
-import auth from 'reducers/auth';
-import users from 'reducers/users';
-import assets from 'reducers/assets';
-import actions from 'reducers/actions';
-import install from 'reducers/install';
-import comments from 'reducers/comments';
-import settings from 'reducers/settings';
-import community from 'reducers/community';
+import auth from './auth';
+import assets from './assets';
+import settings from './settings';
+import community from './community';
+import moderation from './moderation';
+import install from './install';
 
 export default {
-  settings,
-  comments,
-  community,
   auth,
-  actions,
   assets,
-  users,
+  settings,
+  community,
+  moderation,
   install
 };

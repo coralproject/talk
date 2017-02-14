@@ -5,6 +5,7 @@
 # Date represented as an ISO8601 string.
 scalar Date
 
+
 ################################################################################
 ## Users
 ################################################################################
@@ -26,8 +27,8 @@ type User {
   # The ID of the User.
   id: ID!
 
-  # display name of a user.
-  displayName: String!
+  # username of a user.
+  username: String!
 
   # Action summaries against the user.
   action_summaries: [ActionSummary]
@@ -43,6 +44,20 @@ type User {
 
   # returns all comments based on a query.
   comments(query: CommentsQuery): [Comment]
+
+  # returns user status
+  status: USER_STATUS
+}
+
+type Tag {
+  # the actual tag for the comment.
+  name: String!
+
+  # the user that assigned the tag. If NULL then the system automatically tagged it.
+  assigned_by: String
+
+  # the time when the tag was assigned.
+  created_at: Date!
 }
 
 ################################################################################
@@ -96,6 +111,9 @@ input CommentsQuery {
   # skip results from the last created_at timestamp.
   cursor: Date
 
+  # filter by a specific tag name.
+  tag: [String]
+
   # sort the results by created_at.
   sort: SORT_ORDER = REVERSE_CHRONOLOGICAL
 }
@@ -109,7 +127,10 @@ type Comment {
   # The actual comment data.
   body: String!
 
-  # The user who authored the comment.
+  # the tags on the comment
+  tags: [Tag]
+
+  # the user who authored the comment.
   user: User
 
   # the recent replies made against this comment.
@@ -379,6 +400,13 @@ enum SORT_ORDER {
 }
 
 # All queries that can be executed.
+enum USER_STATUS {
+  ACTIVE
+  BANNED
+  PENDING
+  APPROVED
+}
+
 type RootQuery {
 
   # Site wide settings and defaults.
@@ -488,6 +516,22 @@ type DeleteActionResponse implements Response {
   errors: [UserError]
 }
 
+# SetUserStatusResponse is the response returned with possibly some errors
+# relating to the delete action attempt.
+type SetUserStatusResponse implements Response {
+
+  # An array of errors relating to the mutation that occured.
+  errors: [UserError]
+}
+
+# SetCommentStatusResponse is the response returned with possibly some errors
+# relating to the delete action attempt.
+type SetCommentStatusResponse implements Response {
+
+  # An array of errors relating to the mutation that occured.
+  errors: [UserError]
+}
+
 # All mutations for the application are defined on this object.
 type RootMutation {
 
@@ -502,6 +546,12 @@ type RootMutation {
 
   # Delete an action based on the action id.
   deleteAction(id: ID!): DeleteActionResponse
+
+  # Sets User status
+  setUserStatus(id: ID!, status: USER_STATUS!): SetUserStatusResponse
+
+  # Sets Comment status
+  setCommentStatus(id: ID!, status: COMMENT_STATUS!): SetCommentStatusResponse
 }
 
 ################################################################################

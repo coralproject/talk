@@ -69,11 +69,11 @@ describe('services.CommentsService', () => {
 
   const users = [{
     email: 'stampi@gmail.com',
-    displayName: 'Stampi',
+    username: 'Stampi',
     password: '1Coral!!'
   }, {
     email: 'sockmonster@gmail.com',
-    displayName: 'Sockmonster',
+    username: 'Sockmonster',
     password: '2Coral!!'
   }];
 
@@ -254,6 +254,5 @@ describe('services.CommentsService', () => {
           expect(c.status_history[1]).to.have.property('assigned_by', '123');
         });
     });
-
   });
 });

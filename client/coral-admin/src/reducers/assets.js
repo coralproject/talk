@@ -1,20 +1,26 @@
 import {Map, List, fromJS} from 'immutable';
-import {FETCH_ASSETS_SUCCESS, UPDATE_ASSET_STATE_REQUEST} from '../constants/assets';
+import * as actions from '../constants/assets';
 
 const initialState = Map({
   byId: Map(),
-  ids: List()
+  ids: List(),
+  assets: List()
 });
 
-export default (state = initialState, action) => {
+export default function assets (state = initialState, action) {
   switch (action.type) {
-  case FETCH_ASSETS_SUCCESS:
+  case actions.FETCH_ASSETS_SUCCESS:
     return replaceAssets(action, state);
-  case UPDATE_ASSET_STATE_REQUEST:
-    return state.setIn(['byId', action.id, 'closedAt'], action.closedAt);
-  default: return state;
+  case actions.UPDATE_ASSET_STATE_REQUEST:
+    return state
+      .setIn(['byId', action.id, 'closedAt'], action.closedAt);
+  case actions.UPDATE_ASSETS:
+    return state
+      .set('assets', List(action.assets));
+  default:
+    return state;
   }
-};
+}
 
 const replaceAssets = (action, state) => {
   const assets = fromJS(action.assets.reduce((prev, curr) => { prev[curr.id] = curr; return prev; }, {}));

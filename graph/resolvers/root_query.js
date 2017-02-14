@@ -29,12 +29,7 @@ const RootQuery = {
 
     if (user != null && user.hasRoles('ADMIN') && action_type) {
       return Actions.getByTypes({action_type, item_type: 'COMMENTS'})
-        .then((actions) => {
-
-          // Map the actions from the items referenced byt this query. The actions
-          // returned by this query are explicitly going to be distinct by their
-          // `item_id`'s.
-          let ids = actions.map(({item_id}) => item_id);
+        .then((ids) => {
 
           // Perform the query using the available resolver.
           return Comments.getByQuery({ids, statuses, asset_id, parent_id, limit, cursor, sort});

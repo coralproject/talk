@@ -99,19 +99,23 @@ module.exports = class UsersService {
       .then(() => dstUser.save());
   }
 
+  static castDisplayName(displayName) {
+    return displayName.replace(/ /g, '_').replace(/[^a-zA-Z_]/g, '');
+  }
+
   /**
    * Finds a user given a social profile and if the user does not exist, creates
    * them.
    * @param  {Object}   profile - User social/external profile
    * @param  {Function} done    [description]
    */
-  static findOrCreateExternalUser(profile) {
+  static findOrCreateExternalUser({id, provider, displayName}) {
     return UserModel
       .findOne({
         profiles: {
           $elemMatch: {
-            id: profile.id,
-            provider: profile.provider
+            id,
+            provider
           }
         }
       })
@@ -120,16 +124,16 @@ module.exports = class UsersService {
           return user;
         }
 
+        // TODO: remove displayName reference when we have steps in the FE to handle
+        // the username create flow.
+        let username = UsersService.castDisplayName(displayName);
+
         // The user was not found, lets create them!
         user = new UserModel({
-          displayName: profile.displayName,
+          username,
+          lowercaseUsername: username.toLowerCase(),
           roles: [],
-          profiles: [
-            {
-              id: profile.id,
-              provider: profile.provider
-            }
-          ]
+          profiles: [{id, provider}]
         });
 
         return user.save();
@@ -164,24 +168,24 @@ module.exports = class UsersService {
   static createLocalUsers(users) {
     return Promise.all(users.map((user) => {
       return UsersService
-        .createLocalUser(user.email, user.password, user.displayName);
+        .createLocalUser(user.email, user.password, user.username);
     }));
   }
 
   /**
-   * Check the requested displayname for naughty words (currently in English) and special chars
-   * @param  {String}   displayName           word to be checked for profanity
+   * Check the requested username for blocked words and special chars
+   * @param  {String}   username              word to be checked for profanity
    * @param  {Boolean}  checkAgainstWordlist  enables cheching against the wordlist
-   * @return {Promise}  rejected if the machine's sensibilites are offended
+   * @return {Promise}
    */
-  static isValidDisplayName(displayName, checkAgainstWordlist = true) {
+  static isValidDisplayName(username, checkAgainstWordlist = true) {
     const onlyLettersNumbersUnderscore = /^[A-Za-z0-9_]+$/;
 
-    if (!displayName) {
+    if (!username) {
       return Promise.reject(errors.ErrMissingDisplay);
     }
 
-    if (!onlyLettersNumbersUnderscore.test(displayName)) {
+    if (!onlyLettersNumbersUnderscore.test(username)) {
 
       return Promise.reject(errors.ErrSpecialChars);
     }
@@ -189,11 +193,11 @@ module.exports = class UsersService {
     if (checkAgainstWordlist) {
 
       // check for profanity
-      return Wordlist.displayNameCheck(displayName);
+      return Wordlist.usernameCheck(username);
     }
 
     // No errors found!
-    return Promise.resolve(displayName);
+    return Promise.resolve(username);
   }
 
   /**
@@ -215,23 +219,23 @@ module.exports = class UsersService {
    * Creates the local user with a given email, password, and name.
    * @param  {String}   email       email of the new user
    * @param  {String}   password    plaintext password of the new user
-   * @param  {String}   displayName name of the display user
+   * @param  {String}   username name of the display user
    * @param  {Function} done        callback
    */
-  static createLocalUser(email, password, displayName) {
+  static createLocalUser(email, password, username) {
 
     if (!email) {
       return Promise.reject(errors.ErrMissingEmail);
     }
 
     email = email.toLowerCase().trim();
-    displayName = displayName.toLowerCase().trim();
+    username = username.trim();
 
     return Promise.all([
-      UsersService.isValidDisplayName(displayName),
+      UsersService.isValidDisplayName(username),
       UsersService.isValidPassword(password)
     ])
-      .then(() => { // displayName is valid
+      .then(() => { // username is valid
         return new Promise((resolve, reject) => {
           bcrypt.hash(password, SALT_ROUNDS, (err, hashedPassword) => {
             if (err) {
@@ -239,7 +243,8 @@ module.exports = class UsersService {
             }
 
             let user = new UserModel({
-              displayName: displayName,
+              username,
+              lowercaseUsername: username.toLowerCase(),
               password: hashedPassword,
               roles: [],
               profiles: [
@@ -253,7 +258,7 @@ module.exports = class UsersService {
             user.save((err) => {
               if (err) {
                 if (err.code === 11000) {
-                  if (err.message.match('displayName')) {
+                  if (err.message.match('username')) {
                     return reject(errors.ErrDisplayTaken);
                   }
                   return reject(errors.ErrEmailTaken);
@@ -397,7 +402,7 @@ module.exports = class UsersService {
   static findPublicByIdArray(ids) {
     return UserModel.find({
       id: {$in: ids}
-    }, 'id displayName');
+    }, 'id username');
   }
 
   /**
@@ -473,7 +478,7 @@ module.exports = class UsersService {
 
   /**
    * Finds a user using a value which gets compared using a prefix match against
-   * the user's email address and/or their display name.
+   * the user's email address and/or their username.
    * @param  {String} value value to search by
    * @return {Promise}
    */
@@ -481,9 +486,9 @@ module.exports = class UsersService {
     return UserModel.find({
       $or: [
 
-        // Search by a prefix match on the displayName.
+        // Search by a prefix match on the username.
         {
-          'displayName': {
+          'username': {
             $regex: new RegExp(`^${value}`),
             $options: 'i'
           }
@@ -667,18 +672,19 @@ module.exports = class UsersService {
   }
 
   /**
-   * Updates the user's displayName.
+   * Updates the user's username.
    * @param  {String} id the id of the user to be enabled.
-   * @param  {String}  displayName The new displayname for the user.
+   * @param  {String}  username The new username for the user.
    * @return {Promise}
    */
-  static editName(id, displayName) {
+  static editName(id, username) {
     return UserModel.update({
       id,
       canEditName: true
     }, {
       $set: {
-        displayName: displayName.toLowerCase(),
+        username: username,
+        lowercaseUsername: username.toLowerCase(),
         canEditName: false,
         status: 'PENDING'
       }

@@ -36,6 +36,12 @@ const createComment = ({user, loaders: {Comments}}, {body, asset_id, parent_id =
       }
     }
 
+    if (user.hasRoles('ADMIN')) {
+      return CommentsService
+        .addTag(comment.id, 'STAFF', user.id)
+        .then(() => comment);
+    }
+
     return comment;
   });
 };
@@ -156,22 +162,37 @@ const createPublicComment = (context, commentInput) => {
       }));
 };
 
+/**
+ * Sets the status of a comment
+ * @param {String} comment     comment in graphql context
+ * @param {String} id          identifier of the comment  (uuid)
+ * @param {String} status      the new status of the comment
+ */
+
+const setCommentStatus = ({comment}, {id, status}) => {
+  return CommentsService.setStatus(id, status)
+    .then(res => res);
+};
+
 module.exports = (context) => {
 
   // TODO: refactor to something that'll return an error in the event an attempt
   // is made to mutate state while not logged in. There's got to be a better way
   // to do this.
-  if (context.user && context.user.can('mutation:createComment')) {
-    return {
-      Comment: {
-        create: (comment) => createPublicComment(context, comment)
-      }
-    };
-  }
-
-  return {
+  let mutators = {
     Comment: {
-      create: () => Promise.reject(errors.ErrNotAuthorized)
+      create: () => Promise.reject(errors.ErrNotAuthorized),
+      setCommentStatus: () => Promise.reject(errors.ErrNotAuthorized)
     }
   };
+
+  if (context.user && context.user.can('mutation:createComment')) {
+    mutators.Comment.create = (comment) => createPublicComment(context, comment);
+  }
+
+  if (context.user && context.user.can('mutation:setCommentStatus')) {
+    mutators.Comment.setCommentStatus = (action) => setCommentStatus(context, action);
+  }
+
+  return mutators;
 };

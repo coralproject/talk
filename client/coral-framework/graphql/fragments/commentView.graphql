@@ -5,9 +5,12 @@ fragment commentView on Comment {
     body
     created_at
     status
+    tags {
+      name
+    }
     user {
         id
-        name: displayName
+        name: username
     }
     action_summaries {
       ...actionSummaryView

@@ -16,6 +16,7 @@
 
 .rightPanel {
   position: absolute;
+  top: 0;
   right: 0;
   width: 170px;
   height: 100%;

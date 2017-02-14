@@ -200,7 +200,7 @@
     },
     "bandialog": {
       "ban_user": "Quieres suspender el Usuario?",
-      "are_you_sure": "Estas segura que quieres suspender a {props.author.displayName}?",
+      "are_you_sure": "Estas segura que quieres suspender a {props.author.username}?",
       "note": "Nota: Suspender este usuario también va a colocar este comentario en la cola de Rechazados.",
       "cancel": "Cancelar",
       "yes_ban_user": "Si, Suspendan el usuario"

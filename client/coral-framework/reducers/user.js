@@ -4,7 +4,7 @@ import * as actions from '../constants/user';
 import * as assetActions from '../constants/assets';
 
 const initialState = Map({
-  displayName: '',
+  username: '',
   profiles: [],
   settings: {},
   myComments: [],

@@ -133,7 +133,7 @@ export default function auth (state = initialState, action) {
   case actions.UPDATE_DISPLAYNAME:
     console.log('Action', action);
     return state
-      .setIn(['user', 'displayName'], action.displayName);
+      .setIn(['user', 'username'], action.username);
   case actions.VERIFY_EMAIL_FAILURE:
     return state
       .set('emailVerificationFailure', true)
