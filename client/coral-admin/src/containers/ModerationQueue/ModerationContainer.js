@@ -9,7 +9,7 @@ import {banUser, setCommentStatus} from '../../graphql/mutations';
 
 import {fetchSettings} from 'actions/settings';
 import {updateAssets} from 'actions/assets';
-import {setActiveTab, toggleModal, singleView, showBanUserDialog, hideBanUserDialog} from 'actions/moderation';
+import {toggleModal, singleView, showBanUserDialog, hideBanUserDialog} from 'actions/moderation';
 
 import {Spinner} from 'coral-ui';
 import BanUserDialog from '../../components/BanUserDialog';
@@ -19,7 +19,6 @@ import ModerationHeader from './components/ModerationHeader';
 import NotFoundAsset from './components/NotFoundAsset';
 
 class ModerationContainer extends Component {
-
   componentWillMount() {
     const {toggleModal, singleView} = this.props;
 
@@ -46,6 +45,8 @@ class ModerationContainer extends Component {
   render () {
     const {data, moderation, settings, assets, ...props} = this.props;
     const providedAssetId = this.props.params.id;
+    const activeTab = this.props.route.path === ':id' ? 'premod' : this.props.route.path;
+
     let asset;
 
     if (data.loading) {
@@ -65,20 +66,17 @@ class ModerationContainer extends Component {
       }
     }
 
-    const enablePremodTab = !!data.premod.length;
     return (
       <div>
         <ModerationHeader asset={asset} />
         <ModerationMenu
-          onTabClick={props.onTabClick}
-          enablePremodTab={enablePremodTab}
-          activeTab={moderation.activeTab}
+          activeTab={activeTab}
+          asset={asset}
         />
         <ModerationQueue
           data={data}
           currentAsset={asset}
-          activeTab={moderation.activeTab}
-          enablePremodTab={enablePremodTab}
+          activeTab={activeTab}
           suspectWords={settings.wordlist.suspect}
           showBanUserDialog={props.showBanUserDialog}
           acceptComment={props.acceptComment}
@@ -102,7 +100,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onTabClick: activeTab => dispatch(setActiveTab(activeTab)),
   toggleModal: toggle => dispatch(toggleModal(toggle)),
   onClose: () => dispatch(toggleModal(false)),
   singleView: () => dispatch(singleView()),
