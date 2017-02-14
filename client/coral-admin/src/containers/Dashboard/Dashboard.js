@@ -1,21 +1,30 @@
 import React from 'react';
 import {compose} from 'react-apollo';
 import {mostFlags} from 'coral-admin/src/graphql/queries';
+import {Spinner} from 'coral-ui';
 import styles from './Dashboard.css';
+import FlagWidget from '../../components/FlagWidget';
 
 class Dashboard extends React.Component {
   render () {
+
+    const {data} = this.props;
+
+    if (data.loading) {
+      return <Spinner />;
+    }
+
+    if (data.error) {
+      return <code><pre>{data.error}</pre></code>;
+    }
+
     return (
       <div className={styles.Dashboard}>
-        <div className={`${styles.flagWidget} ${styles.widget}`}>
+        <div className={styles.widget}>
           <h2 className={styles.heading}>Top Ten Articles with the most flagged comments</h2>
-          <table>
-            <thead>
-              <tr><th>Article</th><th>Flags</th></tr>
-            </thead>
-          </table>
+          <FlagWidget assets={[]} />
         </div>
-        <div className={`${styles.likeWidget} ${styles.widget}`}>
+        <div className={styles.widget}>
           <h2 className={styles.heading}>Top ten comments with the most likes</h2>
         </div>
       </div>
