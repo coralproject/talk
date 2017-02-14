@@ -101,12 +101,3 @@ export const flagComment = id => (dispatch, getState) => {
   dispatch({type: commentTypes.COMMENT_FLAG, id});
   dispatch({type: 'COMMENT_UPDATE', comment: getState().comments.get('byId').get(id)});
 };
-
-// Dialog Actions
-export const showBanUserDialog = (userId, userName, commentId) => {
-  return {type: commentTypes.SHOW_BANUSER_DIALOG, userId, userName, commentId};
-};
-
-export const hideBanUserDialog = (showDialog) => {
-  return {type: commentTypes.HIDE_BANUSER_DIALOG, showDialog};
-};

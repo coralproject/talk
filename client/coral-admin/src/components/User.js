@@ -25,9 +25,8 @@ const User = props => {
             {props.modActions.map(
               (action, i) =>
               <ActionButton
-                option={action}
+                type={action.toUpperCase()}
                 key={i}
-                type='USERS'
                 user={user}
                 menuOptionsMap={props.menuOptionsMap}
                 onClickAction={props.onClickAction}

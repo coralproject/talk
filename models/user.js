@@ -154,7 +154,9 @@ const USER_GRAPH_OPERATIONS = [
   'mutation:createComment',
   'mutation:createAction',
   'mutation:deleteAction',
-  'mutation:editName'
+  'mutation:editName',
+  'mutation:setUserStatus',
+  'mutation:setCommentStatus'
 ];
 
 /**
@@ -167,6 +169,10 @@ UserSchema.method('can', function(...actions) {
   }
 
   if (this.status === 'BANNED') {
+    return false;
+  }
+
+  if (actions.some((action) => action === 'mutation:setUserStatus' || action === 'mutation:setCommentStatus') && !this.hasRoles('ADMIN')) {
     return false;
   }
 

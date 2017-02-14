@@ -17,6 +17,7 @@ import {Notification, notificationActions, authActions, assetActions, pym} from 
 import Stream from './Stream';
 import InfoBox from 'coral-plugin-infobox/InfoBox';
 import QuestionBox from 'coral-plugin-questionbox/QuestionBox';
+import {ModerationLink} from 'coral-plugin-moderation';
 import Count from 'coral-plugin-comment-count/CommentCount';
 import CommentBox from 'coral-plugin-commentbox/CommentBox';
 import UserBox from 'coral-sign-in/components/UserBox';
@@ -139,6 +140,7 @@ class Embed extends Component {
                         charCount={asset.settings.charCountEnable && asset.settings.charCount} />
                      : null
                    }
+                   <ModerationLink assetId={asset.id} isAdmin={isAdmin} />
                  </RestrictedContent>
                  </div>
                : <p>{asset.settings.closedMessage}</p>

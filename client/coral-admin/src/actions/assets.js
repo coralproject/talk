@@ -4,8 +4,10 @@ import {
   FETCH_ASSETS_FAILURE,
   UPDATE_ASSET_STATE_REQUEST,
   UPDATE_ASSET_STATE_SUCCESS,
-  UPDATE_ASSET_STATE_FAILURE
+  UPDATE_ASSET_STATE_FAILURE,
+  UPDATE_ASSETS
 } from '../constants/assets';
+
 import coralApi from '../../../coral-framework/helpers/response';
 
 /**
@@ -33,4 +35,8 @@ export const updateAssetState = (id, closedAt) => (dispatch) => {
   .then(() =>
     dispatch({type: UPDATE_ASSET_STATE_SUCCESS}))
     .catch(error => dispatch({type: UPDATE_ASSET_STATE_FAILURE, error}));
+};
+
+export const updateAssets = assets => dispatch => {
+  dispatch({type: UPDATE_ASSETS, assets});
 };
