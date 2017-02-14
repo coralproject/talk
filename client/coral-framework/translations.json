@@ -36,7 +36,7 @@
     "contentNotAvailable": "El contenido no se encuentra disponible",
     "bannedAccountMsg": "Tu cuenta se encuentra suspendida. Esto significa que no puedes dar Like, Marcar o escribir commentarios. Por favor, contacta moderator@fakeurl for more information",
     "editNameMsg": "",
-    "loadMore": "",
+    "loadMore": "Ver más",
     "error": {
       "emailNotVerified": "Dirección de correo electrónico {0} no verificada.",
       "email": "No es un email válido",
