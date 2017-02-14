@@ -28,9 +28,7 @@ class ConfigureStreamContainer extends Component {
     const {elements} = e.target;
     const premod = elements.premod.checked;
     const questionBoxEnable = elements.qboxenable.checked;
-    const questionBoxContent = ''; // elements.qboxcontent.value;
-
-    console.log('debug ', questionBoxContent);
+    const questionBoxContent = elements.qboxcontent.value;
 
     // const premodLinks = elements.premodLinks.checked;
     const {changed} = this.state;
@@ -51,7 +49,10 @@ class ConfigureStreamContainer extends Component {
     }
   }
 
-  handleChange () {
+  handleChange (e) {
+    if (e.target && e.target.id === 'qboxenable') {
+      this.props.asset.settings.questionBoxEnable = e.target.checked;
+    }
     this.setState({
       changed: true
     });
@@ -104,7 +105,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch => ({
   updateStatus: status => dispatch(updateOpenStatus(status)),
-  updateConfiguration: newConfig => dispatch(updateConfiguration(newConfig))
+  updateConfiguration: newConfig => dispatch(updateConfiguration(newConfig)),
 });
 
 export default compose(

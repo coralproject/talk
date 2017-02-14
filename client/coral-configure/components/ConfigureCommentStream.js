@@ -1,5 +1,6 @@
 import React from 'react';
-import {Button, Checkbox} from 'coral-ui';
+import {Button, Checkbox, TextField} from 'coral-ui';
+
 import styles from './ConfigureCommentStream.css';
 
 import I18n from 'coral-framework/modules/i18n/i18n';
@@ -32,22 +33,6 @@ export default ({handleChange, handleApply, changed, ...props}) => (
               title: lang.t('configureCommentStream.enablePremod'),
               description: lang.t('configureCommentStream.enablePremodDescription')
             }} />
-          {/* To be implimented
-          <ul>
-            <li>
-              <Checkbox
-                className={styles.checkbox}
-                cStyle={changed ? 'green' : 'darkGrey'}
-                name="premodLinks"
-                onChange={handleChange}
-                defaultChecked={props.premodLinks}
-                info={{
-                  title: lang.t('configureCommentStream.enablePremodLinks'),
-                  description: lang.t('configureCommentStream.enablePremodDescription')
-                }} />
-            </li>
-          </ul>
-          */}
         </li>
         <li>
           <Checkbox
@@ -60,12 +45,17 @@ export default ({handleChange, handleApply, changed, ...props}) => (
               title: lang.t('configureCommentStream.enableQuestionBox'),
               description: lang.t('configureCommentStream.enableQuestionBoxDescription')
             }} />
-          <div className={styles.content}>
-            <div className={`${styles.configSettingQuestionBox} ${props.questionBoxEnable ? null : styles.hidden}`} >
-              Pepe
-            </div>
+
+          <div className={`${styles.configSettingQuestionBox} ${props.questionBoxEnable ? null : styles.hidden}`} >
+            <TextField
+              className={`${styles.configSettingQuestionBoxInfo}`}
+              onChange={handleChange}
+              rows={3}
+              questionBoxContent={props.questionBoxContent}
+            />
           </div>
         </li>
+
       </ul>
     </div>
   </form>
