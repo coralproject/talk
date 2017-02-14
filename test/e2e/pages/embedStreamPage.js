@@ -108,7 +108,7 @@ module.exports = {
       selector: '#coralSignInViewTrigger'
     },
     logoutButton: {
-      selector: '.commentStream #logout'
+      selector: '#coralStream #logout'
     },
     commentBox: {
       selector: '.coral-plugin-commentbox-textarea'
