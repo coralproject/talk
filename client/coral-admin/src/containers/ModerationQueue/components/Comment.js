@@ -63,10 +63,6 @@ const Comment = ({actions = [], ...props}) => {
         </p>
       </div>
       {actionSumaries && <FlagBox actionSumaries={actionSumaries} />}
-
-      {/* <span className={styles.context}>*/}
-       {/* <a>View context</a>*/}
-     {/* </span>*/}
     </li>
   );
 };
