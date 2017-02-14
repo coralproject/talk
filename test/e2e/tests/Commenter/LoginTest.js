@@ -3,7 +3,7 @@ const mocks = require('../../mocks');
 
 module.exports = {
   '@tags': ['login', 'commenter'],
-  before: client => {
+  beforeEach: client => {
     client.perform((client, done) => {
       const embedStreamPage = client.page.embedStreamPage();
       const {users} = client.globals;

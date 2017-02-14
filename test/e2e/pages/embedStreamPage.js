@@ -30,7 +30,7 @@ const embedStreamCommands = {
   },
   login(user) {
     return this
-      .waitForElementVisible('@signInButton', 2000)
+      .waitForElementVisible('@signInButton', 5000)
       .click('@signInButton')
       .waitForElementVisible('@signInDialog')
       .waitForElementVisible('@signInDialogEmail')

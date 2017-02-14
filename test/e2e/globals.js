@@ -5,12 +5,14 @@ module.exports = {
     admin: {
       username: 'AdminTestUser',
       email: 'admin@test.com',
-      password: 'testtest'
+      password: 'testtest',
+      roles: ['ADMIN']
     },
     moderator: {
       username: 'ModeratorTestUser',
       email: 'moderator@test.com',
-      password: 'testtest'
+      password: 'testtest',
+      roles: ['MODERATOR']
     },
     commenter: {
       username: 'CommentTestUser',

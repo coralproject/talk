@@ -18,6 +18,9 @@ module.exports.comments = (comments) => Assets.findOrCreateByUrl(globals.baseUrl
 /* Create an array of users */
 module.exports.users = (users) => Users.createLocalUsers(users);
 
+/* Create an array of users */
+module.exports.addRole = (user, role) => Users.addRoleToUser(user, role);
+
 /* Create an array of actions */
 module.exports.actions = (actions) => Actions.create(actions);
 
