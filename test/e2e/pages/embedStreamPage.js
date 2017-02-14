@@ -45,7 +45,7 @@ const embedStreamCommands = {
     return this
       .waitForElementVisible('@logoutButton')
       .click('@logoutButton')
-      .waitForElementVisible('@signInButton', 2000);
+      .waitForElementVisible('@signInButton', 5000);
   },
   postComment(comment = 'Test Comment') {
     return this
