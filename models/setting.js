@@ -24,6 +24,10 @@ const SettingSchema = new Schema({
     type: Boolean,
     default: false
   },
+  customCssUrl: {
+    type: String,
+    default: ''
+  },
   infoBoxContent: {
     type: String,
     default: ''

@@ -48,6 +48,8 @@
       "copy": "Copy to Clipboard"
     },
     "configure": {
+      "custom-css-url": "Custom CSS URL",
+      "custom-css-url-desc": "URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external.",
       "dashboard": "Dashboard",
       "enable-pre-moderation": "Enable pre-moderation",
       "enable-pre-moderation-text": "Moderators must approve any comment before it is published.",
@@ -158,6 +160,8 @@
       "username_flags": ""
     },
     "configure": {
+      "custom-css-url": "URL CSS a medida",
+      "custom-css-url-desc": "URL de una hoja de estilo que va a sobrescribir los estilos por defecto de Embed Stream. Puede ser interna o externa.",
       "dashboard": "Panel",
       "enable-pre-moderation": "Habilitar pre-moderación",
       "enable-pre-moderation-text": "Los moderadores deben aprobar cada comentario antes de que sea publicado.",
