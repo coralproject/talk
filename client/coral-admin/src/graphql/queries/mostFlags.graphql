@@ -1,3 +1,5 @@
 query mostFlags {
-  metric
+  metric {
+    id
+  }
 }

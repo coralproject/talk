@@ -22,6 +22,7 @@ const routes = (
       <Route path='dashboard' component={Dashboard} />
       <Route path='moderate' component={ModerationContainer} />
       <Route path='moderate/:id' component={ModerationContainer} />
+      <Route path='dashboard' component={Dashboard} />
     </Route>
   </div>
 );
