@@ -11,5 +11,3 @@ export const menuActionsMap = {
   'BAN': {status: 'BANNED', icon: 'not interested'},
   '': {icon: 'done'}
 };
-
-export const validFilters = ['premod', 'flagged', 'rejected'];
