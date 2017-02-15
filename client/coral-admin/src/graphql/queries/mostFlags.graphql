@@ -1,5 +1,12 @@
-query mostFlags {
-  metric {
+query Metrics ($from: Date!, $to: Date!) {
+  metrics(from: $from, to: $to) {
     id
+    title
+    url
+    commentCount
+    action_summaries {
+      actionCount
+      actionableItemCount
+    }
   }
 }
