@@ -1,5 +1,5 @@
-query Metrics ($from: Date!, $to: Date!) {
-  metrics(from: $from, to: $to) {
+query Metrics ($from: Date!, $to: Date!, $sort: ACTION_TYPE!) {
+  metrics(from: $from, to: $to, sort: $sort) {
     id
     title
     url

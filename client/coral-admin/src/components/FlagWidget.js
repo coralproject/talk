@@ -15,6 +15,7 @@ const FlagWidget = ({assets}) => {
           <th></th>{/* empty on purpose */}
           <th>{lang.t('streams.article')}</th>
           <th>{lang.t('modqueue.flagged')}</th>
+          <th>{lang.t('modqueue.likes')}</th>
           <th>{lang.t('dashboard.comment_count')}</th>
         </tr>
       </thead>
@@ -23,6 +24,7 @@ const FlagWidget = ({assets}) => {
           assets.length
           ? assets.map((asset, index) => {
             const flagCount = asset.action_summaries.find(s => s.__typename === 'FlagAssetActionSummary').actionCount;
+            const likeCount = asset.action_summaries.find(s => s.__typename === 'LikeAssetActionSummary').actionCount;
             return (
               <tr key={asset.id}>
                 <td>{index + 1}.</td>
@@ -30,6 +32,7 @@ const FlagWidget = ({assets}) => {
                   <Link to={`/admin/moderate/flagged/${asset.id}`}>{asset.title}</Link>
                   <p className={styles.lede}>{asset.author} - Published: {new Date(asset.created_at).toLocaleDateString()}</p>
                 </td>
+                <td>{likeCount}</td>
                 <td>{flagCount}</td>
                 <td>{asset.commentCount}</td>
               </tr>

@@ -8,9 +8,10 @@ export const mostFlags = graphql(MOST_FLAGS, {
 
     // currently hard-coded per Greg's advice
     const fiveMinutesAgo = new Date();
-    fiveMinutesAgo.setMinutes(fiveMinutesAgo.getMinutes() - 5);
+    fiveMinutesAgo.setMinutes(fiveMinutesAgo.getMinutes() - 305);
     return {
       variables: {
+        sort: 'FLAG',
         from: fiveMinutesAgo.toISOString(),
         to: new Date().toISOString()
       }

@@ -16,6 +16,7 @@
       "loading": "Loading results"
     },
     "modqueue": {
+      "likes": "likes",
       "all": "all",
       "premod": "pre-mod",
       "rejected": "rejected",
@@ -109,7 +110,7 @@
     },
     "dashboard": {
       "no_flags": "There have been no flags in the last 5 minutes! Hooray!",
-      "comment_count": "Comment Count"
+      "comment_count": "Comments"
     },
     "streams": {
       "search": "Search",
@@ -145,6 +146,7 @@
       "loading": "Cargando resultados"
     },
     "modqueue": {
+      "likes": "gustos",
       "premod": "pre-mod",
       "rejected": "rechazado",
       "flagged": "marcado",
@@ -215,7 +217,7 @@
     },
     "dashbord": {
       "no_flags": "¡Nadie ha marcado nada en los últimos 5 minutos! ¡Bravo!",
-      "comment_count": "Cantidad de comentarios"
+      "comment_count": "Comentarios"
     },
     "streams": {
       "search": "",
