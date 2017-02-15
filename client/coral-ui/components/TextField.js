@@ -4,15 +4,16 @@ import 'material-design-lite';
 
 export default class TextField extends Component {
   render() {
-    const {id, className, onChange, label, rows, value} = this.props;
+    const {name, className, onChange, label, rows, value, style} = this.props;
     return (
       <TextFieldMDL
-        id={id}
+        name={name}
         className={className}
         onChange={onChange}
         label={label}
         rows={rows}
         value={value}
+        style={style}
       />
     );
   }

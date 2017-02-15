@@ -48,7 +48,7 @@ export default ({handleChange, handleApply, changed, updateQuestionBoxContent, .
 
           <div className={`${styles.configSettingQuestionBox} ${props.questionBoxEnable ? null : styles.hidden}`} >
             <TextField
-              id="qboxcontent"
+              name="qboxcontent"
               className={`${styles.configSettingQuestionBoxInfo}`}
               onChange={updateQuestionBoxContent}
               rows={3}
