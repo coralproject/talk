@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-framework/translations.json';
 import {ADDTL_COMMENTS_ON_LOAD_MORE} from 'coral-framework/constants/comments';
 import {Button} from 'coral-ui';
 const lang = new I18n(translations);
 
-const loadMoreComments = (id, comments, loadMore, parentId) => {
+const loadMoreComments = (assetId, comments, loadMore, parentId) => {
 
   if (!comments.length) {
     return;
@@ -18,20 +18,29 @@ const loadMoreComments = (id, comments, loadMore, parentId) => {
   loadMore({
     limit: ADDTL_COMMENTS_ON_LOAD_MORE,
     cursor,
-    asset_id: id,
+    assetId,
     parent_id: parentId,
     sort: parentId ? 'CHRONOLOGICAL' : 'REVERSE_CHRONOLOGICAL'
   });
 };
 
-const LoadMore = ({id, comments, loadMore, moreComments, parentId}) => moreComments ?
-  <Button
-    className='coral-load-more'
-    onClick={() => loadMoreComments(id, comments, loadMore, parentId)}>
-    {
-      lang.t('loadMore')
-    }
-  </Button>
-  : null;
+const LoadMore = ({assetId, comments, loadMore, moreComments, parentId}) => (
+  moreComments
+  ? <Button
+      className='coral-load-more'
+      onClick={() => loadMoreComments(assetId, comments, loadMore, parentId)}>
+      {
+        lang.t('loadMore')
+      }
+    </Button>
+  : null
+);
+
+LoadMore.propTypes = {
+  assetId: PropTypes.string.isRequired,
+  comments: PropTypes.array.isRequired,
+  moreComments: PropTypes.bool.isRequired,
+  loadMore: PropTypes.func.isRequired
+};
 
 export default LoadMore;

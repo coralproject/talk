@@ -161,7 +161,7 @@ class Embed extends Component {
               notification={{text: null}}
             />
           <LoadMore
-            id={asset.id}
+            assetId={asset.id}
             comments={asset.comments}
             moreComments={asset.commentCount > asset.comments.length}
             loadMore={this.props.loadMore}/>
