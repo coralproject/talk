@@ -131,7 +131,7 @@ describe('services.CommentsService', () => {
 
           expect(c2).to.not.be.null;
           expect(c2.id).to.be.uuid;
-          expect(c2.status).to.be.null;
+          expect(c2.status).to.be.equal('NONE');
 
           expect(c3).to.not.be.null;
           expect(c3.id).to.be.uuid;
@@ -225,7 +225,7 @@ describe('services.CommentsService', () => {
 
       return CommentsService.findById(comment_id)
         .then((c) => {
-          expect(c.status).to.be.null;
+          expect(c.status).to.be.equal('NONE');
 
           return CommentsService.pushStatus(comment_id, 'REJECTED', '123');
         })

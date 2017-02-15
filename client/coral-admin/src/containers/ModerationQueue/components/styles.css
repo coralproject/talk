@@ -318,6 +318,7 @@ span {
 }
 
 .flagBox {
+  max-width: 480px;
   border-top: 1px solid rgba(66, 66, 66, 0.12);
   h3 {
     font-size: 14px;

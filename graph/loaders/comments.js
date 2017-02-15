@@ -18,7 +18,7 @@ const getCountsByAssetID = (context, asset_ids) => {
           $in: asset_ids
         },
         status: {
-          $in: [null, 'ACCEPTED']
+          $in: ['NONE', 'ACCEPTED']
         },
         parent_id: null
       }
@@ -51,7 +51,7 @@ const getCountsByParentID = (context, parent_ids) => {
           $in: parent_ids
         },
         status: {
-          $in: [null, 'ACCEPTED']
+          $in: ['NONE', 'ACCEPTED']
         }
       }
     },
@@ -88,7 +88,7 @@ const getCommentsByQuery = ({user}, {ids, statuses, asset_id, parent_id, author_
   } else {
     comments = comments.where({
       status: {
-        $in: [null, 'ACCEPTED']
+        $in: ['NONE', 'ACCEPTED']
       }
     });
   }
