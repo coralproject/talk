@@ -1,0 +1,10 @@
+query LoadCommentCounts($asset_id: ID, $limit: Int = 5, $sort: SORT_ORDER) {
+  asset(id: $asset_id) {
+    id
+    commentCount
+    comments(sort: $sort, limit: $limit) {
+      id
+      replyCount
+    }
+  }
+}
