@@ -37,17 +37,17 @@ export const postComment = graphql(POST_COMMENT, {
           }
         },
         updateQueries: {
-          AssetQuery: (oldData, {mutationResult:{data:{createComment:{comment}}}}) => {
-
+          AssetQuery: (oldData, {mutationResult:{data:{createComment:{comment}}}}) =>
+          
             // If posting a reply
-            return parent_id ? {
+            parent_id ? {
               ...oldData,
               asset: {
                 ...oldData.asset,
-                comments: oldData.asset.comments.map((comment) =>
-                  comment.id === parent_id
-                  ? {...comment, replies: [...comment.replies, comment]}
-                  : comment)
+                comments: oldData.asset.comments.map((oldComment) =>
+                  oldComment.id === parent_id
+                  ? {...oldComment, replies: [...oldComment.replies, comment]}
+                  : oldComment)
               }
             }
 
@@ -58,7 +58,6 @@ export const postComment = graphql(POST_COMMENT, {
               ...oldData.asset,
               comments: [comment, ...oldData.asset.comments]
             }
-          };
           }
         }
       })
