@@ -214,8 +214,8 @@
       "yes_ban_user": "Si, Suspendan el usuario"
     },
     "dashbord": {
-      "no_flags": "",
-      "comment_count": ""
+      "no_flags": "¡Nadie ha marcado nada en los últimos 5 minutos! ¡Bravo!",
+      "comment_count": "Cantidad de comentarios"
     },
     "streams": {
       "search": "",
