@@ -38,7 +38,7 @@ export const postComment = graphql(POST_COMMENT, {
         },
         updateQueries: {
           AssetQuery: (oldData, {mutationResult:{data:{createComment:{comment}}}}) =>
-          
+
             // If posting a reply
             parent_id ? {
               ...oldData,
@@ -56,6 +56,7 @@ export const postComment = graphql(POST_COMMENT, {
             ...oldData,
             asset: {
               ...oldData.asset,
+              commentCount: oldData.asset.commentCount + 1,
               comments: [comment, ...oldData.asset.comments]
             }
           }
