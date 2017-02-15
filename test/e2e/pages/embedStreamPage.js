@@ -43,9 +43,9 @@ const embedStreamCommands = {
   },
   logout() {
     return this
-      .waitForElementVisible('@logoutButton')
+      .waitForElementVisible('@logoutButton', 5000)
       .click('@logoutButton')
-      .waitForElementVisible('@signInButton', 2000);
+      .waitForElementVisible('@signInButton', 5000);
   },
   postComment(comment = 'Test Comment') {
     return this
@@ -108,7 +108,7 @@ module.exports = {
       selector: '#coralSignInViewTrigger'
     },
     logoutButton: {
-      selector: '.commentStream #logout'
+      selector: '#coralStream #logout'
     },
     commentBox: {
       selector: '.coral-plugin-commentbox-textarea'

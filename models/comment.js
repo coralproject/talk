@@ -6,7 +6,7 @@ const STATUSES = [
   'ACCEPTED',
   'REJECTED',
   'PREMOD',
-  null
+  'NONE'
 ];
 
 /**
@@ -66,7 +66,11 @@ const CommentSchema = new Schema({
   asset_id: String,
   author_id: String,
   status_history: [StatusSchema],
-  status: {type: String, default: null},
+  status: {
+    type: String,
+    enum: STATUSES,
+    default: 'NONE'
+  },
   tags: [TagSchema],
   parent_id: String
 }, {

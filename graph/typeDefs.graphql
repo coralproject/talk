@@ -67,6 +67,10 @@ type Tag {
 # The statuses that a comment may have.
 enum COMMENT_STATUS {
 
+  # The comment is not PREMOD, but was not applied a moderation status by a
+  # moderator.
+  NONE
+
   # The comment has been accepted by a moderator.
   ACCEPTED
 
@@ -93,7 +97,7 @@ enum ACTION_TYPE {
 input CommentsQuery {
 
   # current status of a comment.
-  statuses: [COMMENT_STATUS]
+  statuses: [COMMENT_STATUS!]
 
   # asset that a comment is on.
   asset_id: ID
@@ -152,7 +156,7 @@ type Comment {
   asset: Asset
 
   # The current status of a comment.
-  status: COMMENT_STATUS
+  status: COMMENT_STATUS!
 
   # The time when the comment was created
   created_at: Date!

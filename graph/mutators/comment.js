@@ -11,10 +11,10 @@ const Wordlist = require('../../services/wordlist');
  * @param  {String} body          body of the comment
  * @param  {String} asset_id      asset for the comment
  * @param  {String} parent_id     optional parent of the comment
- * @param  {String} [status=null] the status of the new comment
+ * @param  {String} [status='NONE'] the status of the new comment
  * @return {Promise}              resolves to the created comment
  */
-const createComment = ({user, loaders: {Comments}}, {body, asset_id, parent_id = null}, status = null) => {
+const createComment = ({user, loaders: {Comments}}, {body, asset_id, parent_id = null}, status = 'NONE') => {
   return CommentsService.publicCreate({
     body,
     asset_id,
@@ -105,7 +105,7 @@ const resolveNewCommentStatus = (context, {asset_id, body}, wordlist = {}) => {
         if (charCountEnable && body.length > charCount) {
           return 'REJECTED';
         }
-        return moderation === 'PRE' ? 'PREMOD' : null;
+        return moderation === 'PRE' ? 'PREMOD' : 'NONE';
       });
   }
 
