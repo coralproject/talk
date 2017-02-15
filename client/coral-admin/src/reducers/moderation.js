@@ -2,7 +2,6 @@ import {Map} from 'immutable';
 import * as actions from '../constants/moderation';
 
 const initialState = Map({
-  activeTab: 'all',
   singleView: false,
   modalOpen: false,
   user: Map({}),

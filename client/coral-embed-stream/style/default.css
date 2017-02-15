@@ -304,3 +304,16 @@ hr {
 .close-comments-alert i.material-icons {
   font-size: 16px !important;
 }
+
+/* Load More */
+
+button.coral-load-more {
+  width: 100%;
+  text-align: center;
+  color: #FFF;
+  background-color: #2376D8;
+}
+
+button.coral-load-more:hover {
+  background-color: #4399FF;
+}
