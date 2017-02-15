@@ -39,12 +39,12 @@ const RootQuery = {
     return Comments.getByQuery(query);
   },
 
-  metric(_, args, {user, loaders: {Assets}}) {
+  metrics(_, {from, to}, {user, loaders: {Metrics}}) {
     if (user == null || !user.hasRoles('ADMIN')) {
       return null;
     }
 
-    return Assets.getForMetrics();
+    return Metrics.get({from, to});
   },
 
   // This returns the current user, ensure that if we aren't logged in, we

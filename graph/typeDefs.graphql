@@ -198,16 +198,6 @@ interface AssetActionSummary {
   actionableItemCount: Int
 }
 
-# A summary of counts related to all the Likes on an Asset.
-type LikeAssetActionSummary implements AssetActionSummary {
-
-  # Number of actions associated with actionable types on this this Asset.
-  actionCount: Int
-
-  # Number of unique actionable types that are referenced by the actions.
-  actionableItemCount: Int
-}
-
 # A summary of counts related to all the Flags on an Asset.
 type FlagAssetActionSummary implements AssetActionSummary {
 
@@ -343,15 +333,12 @@ type Asset {
   # The date that the asset was closed at.
   closedAt: Date
 
-  # The date that the asset was created.
-  created_at: Date
-
   # Summary of all Actions against all entities associated with the Asset.
   # (likes, flags, etc.)
   action_summaries: [AssetActionSummary]
 
-  # Unique users that have commented on this Asset.
-  authorCount: Int
+  # The date that the asset was created.
+  created_at: Date
 }
 
 ################################################################################
@@ -386,7 +373,7 @@ type ValidationUserError implements UserError {
 }
 
 ################################################################################
-## Queries
+## Queries;
 ################################################################################
 
 # Establishes the ordering of the content by their created_at time stamp.
@@ -424,8 +411,8 @@ type RootQuery {
   # The currently logged in user based on the request.
   me: User
 
-  # metrics
-  metric: [Asset]
+  # Metrics related to user actions are saturated into the assets returned.
+  metrics(from: Date!, to: Date!): [Asset]
 }
 
 ################################################################################

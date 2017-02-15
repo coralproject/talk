@@ -1,7 +1,6 @@
 import React, {PropTypes} from 'react';
-import styles from './FlagWidget.css';
 
-const FlagWidget = props => {
+const FlagWidget = () => {
   return (
     <table>
       <thead>
