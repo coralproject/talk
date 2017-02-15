@@ -19,7 +19,6 @@ class Stream extends Component {
   }
 
   render() {
-    console.log(this.props);
     const {data} = this.props;
     return <div>
       <button onClick={this.logMeIn.bind(this)}>Login or whatever</button>
