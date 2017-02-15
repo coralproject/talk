@@ -25,8 +25,11 @@ const FlagWidget = ({assets}) => {
             const flagCount = asset.action_summaries.find(s => s.__typename === 'FlagAssetActionSummary').actionCount;
             return (
               <tr key={asset.id}>
-                <td>{index + 1}</td>
-                <td><Link to={`/admin/moderate/flagged/${asset.id}`}>{lang.t('configure.moderate')} » {asset.title}</Link></td>
+                <td>{index + 1}.</td>
+                <td>
+                  <Link to={`/admin/moderate/flagged/${asset.id}`}>{asset.title}</Link>
+                  <p className={styles.lede}>{asset.author} - Published: {new Date(asset.created_at).toLocaleDateString()}</p>
+                </td>
                 <td>{flagCount}</td>
                 <td>{asset.commentCount}</td>
               </tr>

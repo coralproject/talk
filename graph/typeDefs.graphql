@@ -339,6 +339,9 @@ type Asset {
 
   # The date that the asset was created.
   created_at: Date
+
+  # The author(s) of the asset.
+  author: String
 }
 
 ################################################################################

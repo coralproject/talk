@@ -4,6 +4,8 @@ query Metrics ($from: Date!, $to: Date!) {
     title
     url
     commentCount
+    author
+    created_at
     action_summaries {
       actionCount
       actionableItemCount

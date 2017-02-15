@@ -27,3 +27,8 @@
 .widgetTable tbody td {
   padding: 10px;
 }
+
+.lede {
+  font-size: 0.9em;
+  color: grey;
+}
