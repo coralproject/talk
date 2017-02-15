@@ -1,5 +1,10 @@
 import React, {PropTypes} from 'react';
+import {Link} from 'react-router';
 import styles from './FlagWidget.css';
+import I18n from 'coral-framework/modules/i18n/i18n';
+import translations from 'coral-admin/src/translations';
+
+const lang = new I18n(translations);
 
 const FlagWidget = ({assets}) => {
 
@@ -7,22 +12,28 @@ const FlagWidget = ({assets}) => {
     <table className={styles.widgetTable}>
       <thead className={styles.widgetHead}>
         <tr>
-          <th>Article</th>
-          <th>Flags</th>
-          <th>Comment Count</th>
+          <th></th>{/* empty on purpose */}
+          <th>{lang.t('streams.article')}</th>
+          <th>{lang.t('modqueue.flagged')}</th>
+          <th>{lang.t('dashboard.comment_count')}</th>
         </tr>
       </thead>
       <tbody>
-        {assets.map(asset => {
-          const flagCount = asset.action_summaries.find(s => s.__typename === 'FlagAssetActionSummary').actionCount;
-          return (
-            <tr key={asset.id}>
-              <td><a href={asset.url} target="_blank">{asset.title}</a></td>
-              <td>{flagCount}</td>
-              <td>{asset.commentCount}</td>
-            </tr>
-          );
-        })}
+        {
+          assets.length
+          ? assets.map((asset, index) => {
+            const flagCount = asset.action_summaries.find(s => s.__typename === 'FlagAssetActionSummary').actionCount;
+            return (
+              <tr key={asset.id}>
+                <td>{index + 1}</td>
+                <td><Link to={`/admin/moderate/flagged/${asset.id}`}>{lang.t('configure.moderate')} » {asset.title}</Link></td>
+                <td>{flagCount}</td>
+                <td>{asset.commentCount}</td>
+              </tr>
+            );
+          })
+          : <tr><td colSpan="3">{lang.t('dashboard.no_flags')}</td></tr>
+        }
       </tbody>
     </table>
   );

@@ -107,6 +107,10 @@
       "email": "Another member of the community recently flagged your {0} for review. Because of its content your {0} was rejected. This means you can no longer comment, like, or flag content until you rewrite your {0}. Please e-mail moderator@newsorg.com if you have any questions or concerns.",
       "write_message": "Write a message"
     },
+    "dashboard": {
+      "no_flags": "There have been no flags in the last 5 minutes! Hooray!",
+      "comment_count": "Comment Count"
+    },
     "streams": {
       "search": "Search",
       "filter-streams": "Filter Streams",
@@ -208,6 +212,10 @@
       "note": "Nota: Suspender este usuario también va a colocar este comentario en la cola de Rechazados.",
       "cancel": "Cancelar",
       "yes_ban_user": "Si, Suspendan el usuario"
+    },
+    "dashbord": {
+      "no_flags": "",
+      "comment_count": ""
     },
     "streams": {
       "search": "",
