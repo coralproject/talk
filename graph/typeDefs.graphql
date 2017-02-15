@@ -201,10 +201,20 @@ interface AssetActionSummary {
 # A summary of counts related to all the Flags on an Asset.
 type FlagAssetActionSummary implements AssetActionSummary {
 
-  # Number of actions associated with actionable types on this this Asset.
+  # Number of flags associated with actionable types on this this Asset.
   actionCount: Int
 
-  # Number of unique actionable types that are referenced by the actions.
+  # Number of unique actionable types that are referenced by the flags.
+  actionableItemCount: Int
+}
+
+# A summary of counts related to all the Likes on an Asset.
+type LikeAssetActionSummary implements AssetActionSummary {
+
+  # Number of likes associated with actionable types on this this Asset.
+  actionCount: Int
+
+  # Number of unique actionable types that are referenced by the likes.
   actionableItemCount: Int
 }
 
@@ -414,8 +424,9 @@ type RootQuery {
   # The currently logged in user based on the request.
   me: User
 
-  # Metrics related to user actions are saturated into the assets returned.
-  metrics(from: Date!, to: Date!): [Asset]
+  # Metrics related to user actions are saturated into the assets returned. The
+  # sort will affect if it will allow
+  metrics(from: Date!, to: Date!, sort: ACTION_TYPE!, limit: Int = 10): [Asset]
 }
 
 ################################################################################

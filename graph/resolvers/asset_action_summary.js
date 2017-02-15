@@ -3,6 +3,8 @@ const AssetActionSummary = {
     switch (action_type) {
     case 'FLAG':
       return 'FlagAssetActionSummary';
+    case 'LIKE':
+      return 'LikeAssetActionSummary';
     }
   }
 };

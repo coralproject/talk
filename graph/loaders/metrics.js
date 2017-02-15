@@ -3,7 +3,7 @@ const CommentModel = require('../../models/comment');
 const AssetModel = require('../../models/asset');
 const ActionModel = require('../../models/action');
 
-const getMetrics = (context, {from, to}) => {
+const getMetrics = (context, {from, to, sort, limit}) => {
 
   let commentMetrics = {};
   let assetMetrics = [];
@@ -12,7 +12,6 @@ const getMetrics = (context, {from, to}) => {
 
     // Find all actions that were created in the time range.
     {$match: {
-      action_type: 'FLAG',
       item_type: 'COMMENTS',
       created_at: {
         $gt: from,
@@ -22,7 +21,10 @@ const getMetrics = (context, {from, to}) => {
 
     // Count all those items.
     {$group: {
-      _id: '$item_id',
+      _id: {
+        item_id: '$item_id',
+        action_type: '$action_type'
+      },
       count: {
         $sum: 1
       }
@@ -30,18 +32,23 @@ const getMetrics = (context, {from, to}) => {
 
     // Project the count to a better field.
     {$project: {
-      item_id: '$_id',
+      item_id: '$_id.item_id',
+      action_type: '$_id.action_type',
       count: '$count'
     }}
   ]).then((actionSummaries) => {
 
     // Collect all the action summaries into a dictionary.
-    actionSummaries.forEach((actionSummary) => {
-      commentMetrics[actionSummary.item_id] = actionSummary.count;
+    actionSummaries.forEach(({item_id, action_type, count}) => {
+      if (!(item_id in commentMetrics)) {
+        commentMetrics[item_id] = [];
+      }
+
+      commentMetrics[item_id].push({action_type, count});
     });
 
     // Collect just the comment id's.
-    let commentIDs = actionSummaries.map((as) => as.item_id);
+    let commentIDs = _.uniq(actionSummaries.map((as) => as.item_id));
 
     // Find those comments.
     return CommentModel.aggregate([
@@ -72,29 +79,46 @@ const getMetrics = (context, {from, to}) => {
   })
   .then((commentResults) => {
 
-    // Compute all the action summaries for the assets based on the time slice
-    // that you requested.
-    commentResults.forEach((result) => {
-      let actionCount = 0;
+    assetMetrics = commentResults.map(({ids, asset_id}) => {
+      let summaries = _.groupBy(_.flatten(ids.map((id) => commentMetrics[id])), 'action_type');
 
-      result.ids.forEach((id) => {
-        actionCount += commentMetrics[id];
-      });
+      let action_summaries = Object.keys(summaries).map((action_type) => ({
+        action_type,
+        actionCount: summaries[action_type].reduce((acc, {count}) => acc + count, 0),
+        actionableItemCount: summaries[action_type].length
+      }));
 
-      assetMetrics.push({
-        id: result.asset_id,
-        actionCount,
-        actionableItemCount: result.ids.length
-      });
+      return {action_summaries, id: asset_id};
     });
 
-    // Sort the assets by flag count.
+    // Sort these metrics by the predefined sort order. This will ensure that
+    // if the action summary does not exist on the object, that it is less
+    // prefered over the one that does have it.
     assetMetrics.sort((a, b) => {
-      return b.flags - a.flags;
+      let aActionSummary = a.action_summaries.find((({action_type}) => action_type === sort));
+      let bActionSummary = b.action_summaries.find((({action_type}) => action_type === sort));
+
+      // If either a or b don't have this action type, then one of them will
+      // automatically win.
+      if (aActionSummary == null || bActionSummary == null) {
+        if (bActionSummary != null) {
+          return 1;
+        }
+
+        if (aActionSummary != null) {
+          return -1;
+        }
+
+        return 0;
+      }
+
+      // Both of them had an actionCount, hence we can determine that we could
+      // compare the actual values directly.
+      return bActionSummary.actionCount - aActionSummary.actionCount;
     });
 
-    // Only keep the top 10.
-    assetMetrics = assetMetrics.slice(0, 10);
+    // Only keep the top `limit`.
+    assetMetrics = assetMetrics.slice(0, limit);
 
     // Determine the assets that we need to return.
     return AssetModel.find({
@@ -109,18 +133,12 @@ const getMetrics = (context, {from, to}) => {
     let groupedAssets = _.groupBy(assets, 'id');
 
     // Return from the sorted asset metrics and return their assetes.
-    return assetMetrics.map(({id, actionCount, actionableItemCount}) => {
+    return assetMetrics.map(({id, action_summaries}) => {
       if (id in groupedAssets) {
         let asset = groupedAssets[id][0];
 
-        let flagAssetActionSummary = {
-          action_type: 'FLAG',
-          actionCount,
-          actionableItemCount
-        };
-
         // Add the action summaries to the asset.
-        asset.action_summaries = [flagAssetActionSummary];
+        asset.action_summaries = action_summaries;
 
         return asset;
       }
@@ -132,6 +150,6 @@ const getMetrics = (context, {from, to}) => {
 
 module.exports = (context) => ({
   Metrics: {
-    get: ({from, to}) => getMetrics(context, {from, to})
+    get: ({from, to, sort, limit}) => getMetrics(context, {from, to, sort, limit})
   }
 });
