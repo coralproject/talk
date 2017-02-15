@@ -4,7 +4,7 @@ import translations from 'coral-framework/translations.json';
 import {Button} from 'coral-ui';
 const lang = new I18n(translations);
 
-const loadMoreComments = (asset_id, comments, loadMore) => {
+const loadMoreComments = (assetId, comments, loadMore) => {
 
   if (!comments.length) {
     return;
@@ -13,16 +13,16 @@ const loadMoreComments = (asset_id, comments, loadMore) => {
   loadMore({
     limit: 10,
     cursor: comments[comments.length - 1].created_at,
-    asset_id,
+    assetId,
     sort: 'REVERSE_CHRONOLOGICAL'
   });
 };
 
-const LoadMore = ({asset_id, comments, loadMore, moreComments}) => (
+const LoadMore = ({assetId, comments, loadMore, moreComments}) => (
   moreComments
   ? <Button
       className='coral-load-more'
-      onClick={() => loadMoreComments(asset_id, comments, loadMore)}>
+      onClick={() => loadMoreComments(assetId, comments, loadMore)}>
       {
         lang.t('loadMore')
       }
@@ -31,7 +31,7 @@ const LoadMore = ({asset_id, comments, loadMore, moreComments}) => (
 );
 
 LoadMore.propTypes = {
-  asset_id: PropTypes.string.isRequired,
+  assetId: PropTypes.string.isRequired,
   comments: PropTypes.array.isRequired,
   moreComments: PropTypes.bool.isRequired,
   loadMore: PropTypes.func.isRequired
