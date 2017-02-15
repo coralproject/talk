@@ -9,12 +9,13 @@ const ModerationQueue = ({activeTab = 'premod', ...props}) => {
       <ul>
       {
         props.data[activeTab].map((comment, i) => {
+          const status = comment.action_summaries ? 'FLAGGED' : comment.status;
           return <Comment
             key={i}
             index={i}
             comment={comment}
             suspectWords={props.suspectWords}
-            actions={actionsMap[comment.status]}
+            actions={actionsMap[status]}
             showBanUserDialog={props.showBanUserDialog}
             acceptComment={props.acceptComment}
             rejectComment={props.rejectComment}

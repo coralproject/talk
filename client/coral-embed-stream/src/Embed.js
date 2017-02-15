@@ -26,6 +26,7 @@ import ChangeDisplayNameContainer from '../../coral-sign-in/containers/ChangeDis
 import SettingsContainer from 'coral-settings/containers/SettingsContainer';
 import RestrictedContent from 'coral-framework/components/RestrictedContent';
 import ConfigureStreamContainer from 'coral-configure/containers/ConfigureStreamContainer';
+import LoadMore from './LoadMore';
 
 class Embed extends Component {
 
@@ -157,6 +158,11 @@ class Embed extends Component {
               clearNotification={this.props.clearNotification}
               notification={{text: null}}
             />
+          <LoadMore
+            assetId={asset.id}
+            comments={asset.comments}
+            moreComments={asset.commentCount > asset.comments.length}
+            loadMore={this.props.loadMore}/>
         </TabContent>
          <TabContent show={activeTab === 1}>
            <SettingsContainer

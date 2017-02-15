@@ -52,7 +52,7 @@ router.get('/', (req, res, next) => {
   if (user_id) {
     query = CommentsService.findByUserId(user_id, authorization.has(req.user, 'ADMIN'));
   } else if (status) {
-    query = assetIDWrap(CommentsService.findByStatus(status === 'NEW' ? null : status));
+    query = assetIDWrap(CommentsService.findByStatus(status === 'NEW' ? 'NONE' : status));
   } else if (action_type) {
     query = CommentsService
       .findIdsByActionType(action_type)
