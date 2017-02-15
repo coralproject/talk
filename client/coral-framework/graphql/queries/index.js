@@ -26,7 +26,6 @@ export const queryStream = graphql(STREAM_QUERY, {
   props: ({data}) => ({
     data,
     loadMore: ({limit, cursor, parent_id, asset_id, sort}) => {
-      console.log('parent_id', parent_id);
       return data.fetchMore({
         query: LOAD_MORE,
         variables: {
@@ -37,7 +36,7 @@ export const queryStream = graphql(STREAM_QUERY, {
           sort
         },
         updateQuery: (oldData, {fetchMoreResult:{data:{new_top_level_comments}}}) =>
-        
+
           // If loading more replies
           parent_id ? {
             ...oldData,
