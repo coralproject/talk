@@ -36,34 +36,6 @@ p {
   margin-bottom: 20px;
 }
 
-.configSettingQuestionBox {
-  min-height: 100px;
-  margin-bottom: 20px;
-  cursor: pointer;
-  width: auto;
-  height: auto;
-  text-align: left;
-  overflow: visible;
-}
-
 .hidden {
   display: none;
-}
-
-/* Question Box Styles */
-
-.configSettingQuestionBox {
-  background: white;
-}
-
-.configSettingQuestionBoxInfo {
-  top: 0;
-  border: 10px;
-  background: white;
-  color: inherit;
-  width: 100%;
-  text-align: left;
-  padding: 5px;
-  font-weight: bold;
-  display: block;
 }
