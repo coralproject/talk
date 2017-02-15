@@ -1,6 +1,6 @@
 export const actionsMap = {
   PREMOD: ['REJECT', 'APPROVE', 'BAN'],
-  FLAGGED: ['REJECT', 'APPROVE'],
+  FLAGGED: ['REJECT', 'APPROVE', 'BAN'],
   REJECTED: ['APPROVE']
 };
 
