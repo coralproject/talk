@@ -4,6 +4,7 @@ import LOAD_MORE from './loadMore.graphql';
 import MY_COMMENT_HISTORY from './myCommentHistory.graphql';
 
 function getQueryVariable(variable) {
+
   let query = window.location.search.substring(1);
   let vars = query.split('&');
   for (let i = 0; i < vars.length; i++) {
@@ -17,10 +18,22 @@ function getQueryVariable(variable) {
   return 'http://localhost/default/stream';
 }
 
+const getAssetUrl = () => {
+  const assetUrl = getQueryVariable('asset_url');
+
+  // if there is an asset_url var, use this
+  if (assetUrl !== '' && typeof assetUrl !== 'undefined') {
+    return assetUrl;
+  }
+
+  // if no asset_url defined, use the pym parentUrl
+  return getQueryVariable('parentUrl');
+};
+
 export const queryStream = graphql(STREAM_QUERY, {
   options: () => ({
     variables: {
-      asset_url: getQueryVariable('asset_url')
+      asset_url: getAssetUrl()
     }
   }),
   props: ({data}) => ({
