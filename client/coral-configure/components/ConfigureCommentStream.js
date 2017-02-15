@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Checkbox, FormField} from 'coral-ui';
+import {Button, Checkbox, TextField} from 'coral-ui';
 
 import styles from './ConfigureCommentStream.css';
 
@@ -47,7 +47,7 @@ export default ({handleChange, handleApply, changed, updateQuestionBoxContent, .
             }} />
 
           <div className={`${props.questionBoxEnable ? null : styles.hidden}`} >
-            <FormField
+            <TextField
               id="qboxcontent"
               onChange={updateQuestionBoxContent}
               rows={3}
