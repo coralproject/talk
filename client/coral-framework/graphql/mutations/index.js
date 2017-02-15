@@ -10,16 +10,59 @@ export const postComment = graphql(POST_COMMENT, {
   options: () => ({
     fragments: commentView
   }),
-  props: ({mutate}) => ({
-    postItem: ({asset_id, body, parent_id} /* , type */ ) => {
-      return mutate({
+  props: ({ownProps, mutate}) => ({
+    postItem: ({asset_id, body, parent_id}) =>
+      mutate({
         variables: {
           asset_id,
           body,
           parent_id
+        },
+        optimisticResponse: {
+          createComment: {
+            comment: {
+              user: {
+                id: ownProps.auth.user.id,
+                name: ownProps.auth.user.username
+              },
+              created_at: new Date(),
+              body,
+              parent_id,
+              asset_id,
+              action_summaries: [],
+              tags: [],
+              status: null,
+              id: `${Date.now()}_temp_id`
+            }
+          }
+        },
+        updateQueries: {
+          AssetQuery: (oldData, {mutationResult:{data:{createComment:{comment}}}}) => {
+
+            // If posting a reply
+            return parent_id ? {
+              ...oldData,
+              asset: {
+                ...oldData.asset,
+                comments: oldData.asset.comments.map((comment) =>
+                  comment.id === parent_id
+                  ? {...comment, replies: [...comment.replies, comment]}
+                  : comment)
+              }
+            }
+
+          // If posting a top-level comment
+          : {
+            ...oldData,
+            asset: {
+              ...oldData.asset,
+              comments: [comment, ...oldData.asset.comments]
+            }
+          };
+          }
         }
-      });
-    }}),
+      })
+  }),
 });
 
 export const postLike = graphql(POST_LIKE, {
