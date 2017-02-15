@@ -7,7 +7,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations.json';
 const lang = new I18n(translations);
 
-export default ({handleChange, handleApply, changed, ...props}) => (
+export default ({handleChange, handleApply, changed, updateQuestionBoxContent, ...props}) => (
   <form onSubmit={handleApply}>
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -48,10 +48,12 @@ export default ({handleChange, handleApply, changed, ...props}) => (
 
           <div className={`${styles.configSettingQuestionBox} ${props.questionBoxEnable ? null : styles.hidden}`} >
             <TextField
+              id="qboxcontent"
               className={`${styles.configSettingQuestionBoxInfo}`}
-              onChange={handleChange}
+              onChange={updateQuestionBoxContent}
               rows={3}
-              questionBoxContent={props.questionBoxContent}
+              value={props.questionBoxContent}
+              label={lang.t('configureCommentStream.includeQuestionHere')}
             />
           </div>
         </li>

@@ -4,17 +4,15 @@ import 'material-design-lite';
 
 export default class TextField extends Component {
   render() {
-    const {className, onChange, rows, questionBoxContent} = this.props;
+    const {id, className, onChange, label, rows, value} = this.props;
     return (
       <TextFieldMDL
+        id={id}
         className={className}
         onChange={onChange}
-        label=""
+        label={label}
         rows={rows}
-        id="qboxcontent"
-        value={questionBoxContent}
-        expandable={false}
-        style={{width: '100%'}}
+        value={value}
       />
     );
   }

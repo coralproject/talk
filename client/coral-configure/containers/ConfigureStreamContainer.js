@@ -21,6 +21,7 @@ class ConfigureStreamContainer extends Component {
     this.toggleStatus = this.toggleStatus.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleApply = this.handleApply.bind(this);
+    this.updateQuestionBoxContent = this.updateQuestionBoxContent.bind(this);
   }
 
   handleApply (e) {
@@ -58,6 +59,11 @@ class ConfigureStreamContainer extends Component {
     });
   }
 
+  updateQuestionBoxContent(e) {
+    this.props.asset.settings.questionBoxContent = e.target.value;
+    this.handleChange(e);
+  }
+
   toggleStatus () {
     this.props.updateStatus(
       this.props.asset.closedAt === null ? 'closed' : 'open'
@@ -84,6 +90,7 @@ class ConfigureStreamContainer extends Component {
           changed={this.state.changed}
           premodLinks={false}
           premod={premod}
+          updateQuestionBoxContent={this.updateQuestionBoxContent}
           questionBoxEnable={questionBoxEnable}
           questionBoxContent={questionBoxContent}
         />
