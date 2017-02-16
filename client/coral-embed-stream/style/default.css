@@ -76,16 +76,25 @@ hr {
 .coral-plugin-questionbox-info {
   top: 0;
   border: 0;
-  background: rgb(105,105,105);
-  color: white;
+  background: rgb(213,213,213);
+  color: black;
   width: 100%;
-  text-align: center;
-  padding: 10px;
+  text-align: left;
+  padding-left: 0px;
   margin-bottom: 0px;
   font-weight: bold;
+  font-size: 14px;
   display: block;
 }
 
+.coral-plugin-questionbox-icon {
+  border: 0;
+  background: black;
+  color: white;
+  padding: 20px;
+  margin-left: 0px !important;
+  margin-right: 10px;
+}
 
 .hidden  {
   visibility: hidden;
