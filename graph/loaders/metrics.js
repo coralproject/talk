@@ -1,8 +1,6 @@
 const _ = require('lodash');
 const DataLoader = require('dataloader');
-const util = require('./util');
-const objectCacheKeyFn = util.objectCacheKeyFn;
-const arrayCacheKeyFn = util.arrayCacheKeyFn;
+const {objectCacheKeyFn} = require('./util');
 
 const CommentModel = require('../../models/comment');
 const ActionModel = require('../../models/action');
@@ -29,7 +27,7 @@ const getMetrics = ({loaders: {Metrics, Assets}}, {from, to, sort, limit}) => {
       let commentIDs = _.uniq(actionSummaries.map((as) => as.item_id));
 
       // Find those comments.
-      return Metrics.getSpecificComments.load(commentIDs);
+      return Metrics.getSpecificComments.loadMany(commentIDs);
     })
     .then((commentResults) => {
 
@@ -160,10 +158,7 @@ const getSpecificComments = (context, ids) => {
 
 module.exports = (context) => ({
   Metrics: {
-    getSpecificComments: new DataLoader(([ids]) => getSpecificComments(context, ids).then((c) => [c]), {
-      batch: false,
-      cacheKeyFn: arrayCacheKeyFn
-    }),
+    getSpecificComments: new DataLoader((ids) => getSpecificComments(context, ids)),
     getRecentActions: new DataLoader(([{from, to}]) => getRecentActions(context, {from, to}).then((as) => [as]), {
       batch: false,
       cacheKeyFn: objectCacheKeyFn('from', 'to')
