@@ -99,8 +99,8 @@ module.exports = class UsersService {
       .then(() => dstUser.save());
   }
 
-  static castDisplayName(displayName) {
-    return displayName.replace(/ /g, '_').replace(/[^a-zA-Z_]/g, '');
+  static castUsername(username) {
+    return username.replace(/ /g, '_').replace(/[^a-zA-Z_]/g, '');
   }
 
   /**
@@ -109,7 +109,7 @@ module.exports = class UsersService {
    * @param  {Object}   profile - User social/external profile
    * @param  {Function} done    [description]
    */
-  static findOrCreateExternalUser({id, provider, displayName}) {
+  static findOrCreateExternalUser({id, provider, displayname}) {
     return UserModel
       .findOne({
         profiles: {
@@ -124,9 +124,7 @@ module.exports = class UsersService {
           return user;
         }
 
-        // TODO: remove displayName reference when we have steps in the FE to handle
-        // the username create flow.
-        let username = UsersService.castDisplayName(displayName);
+        let username = UsersService.castUsername(displayname);
 
         // The user was not found, lets create them!
         user = new UserModel({
@@ -178,7 +176,7 @@ module.exports = class UsersService {
    * @param  {Boolean}  checkAgainstWordlist  enables cheching against the wordlist
    * @return {Promise}
    */
-  static isValidDisplayName(username, checkAgainstWordlist = true) {
+  static isValidUserName(username, checkAgainstWordlist = true) {
     const onlyLettersNumbersUnderscore = /^[A-Za-z0-9_]+$/;
 
     if (!username) {
@@ -232,7 +230,7 @@ module.exports = class UsersService {
     username = username.trim();
 
     return Promise.all([
-      UsersService.isValidDisplayName(username),
+      UsersService.isValidUserName(username),
       UsersService.isValidPassword(password)
     ])
       .then(() => { // username is valid
@@ -258,7 +256,7 @@ module.exports = class UsersService {
             user.save((err) => {
               if (err) {
                 if (err.code === 11000) {
-                  if (err.message.match('username')) {
+                  if (err.message.match('Username')) {
                     return reject(errors.ErrDisplayTaken);
                   }
                   return reject(errors.ErrEmailTaken);
