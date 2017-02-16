@@ -11,6 +11,8 @@ query AssetQuery($asset_url: String!) {
             moderation
             infoBoxEnable
             infoBoxContent
+            questionBoxEnable
+            questionBoxContent
             closeTimeout
             closedMessage
             charCountEnable
@@ -20,6 +22,7 @@ query AssetQuery($asset_url: String!) {
         commentCount
         comments(limit: 10) {
             ...commentView
+            replyCount
             replies(limit: 3) {
                 ...commentView
             }

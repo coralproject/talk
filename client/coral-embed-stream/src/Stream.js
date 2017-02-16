@@ -39,6 +39,7 @@ class Stream extends React.Component {
       addNotification,
       postFlag,
       postLike,
+      loadMore,
       deleteAction,
       showSignInDialog,
       refetch
@@ -59,6 +60,7 @@ class Stream extends React.Component {
               currentUser={currentUser}
               postLike={postLike}
               postFlag={postFlag}
+              loadMore={loadMore}
               deleteAction={deleteAction}
               showSignInDialog={showSignInDialog}
               key={comment.id}

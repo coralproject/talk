@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './style.css';
-import {Button, Select, Option, FormField} from 'coral-ui';
+import {Button, Select, Option, TextField} from 'coral-ui';
 
 const InviteTeamMembers = props => {
   const {nextStep} = props;
@@ -14,19 +14,19 @@ const InviteTeamMembers = props => {
       <div className={styles.form}>
         <form>
 
-          <FormField
-            className={styles.formField}
+          <TextField
+            className={styles.textField}
             id="email"
             type="email"
             label='Email address' required/>
 
-          <FormField
-            className={styles.formField}
+          <TextField
+            className={styles.textField}
             id="username"
             type="text"
             label='Username' required/>
 
-          <div className={styles.formField}>
+          <div className={styles.textField}>
             <label htmlFor='role'>Assing a role</label>
             <Select id='role' label='Select Role'>
               <Option>Admin</Option>

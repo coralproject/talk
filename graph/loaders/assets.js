@@ -46,6 +46,15 @@ const findOrCreateAssetByURL = (context, asset_url) => {
     });
 };
 
+const getAssetsForMetrics = ({loaders: {Actions, Comments}}) => {
+  return Actions.getByTypes({action_type: 'FLAG', item_type: 'COMMENT'})
+    .then((actions) => { // ALL ACTIONS :O
+      const ids = actions.map(({item_id}) => item_id);
+
+      return Comments.getByQuery({ids});
+    });
+};
+
 /**
  * Creates a set of loaders based on a GraphQL context.
  * @param  {Object} context the context of the GraphQL request
@@ -59,6 +68,7 @@ module.exports = (context) => ({
     getByURL: (url) => findOrCreateAssetByURL(context, url),
 
     getByID: new DataLoader((ids) => genAssetsByID(context, ids)),
+    getForMetrics: () => getAssetsForMetrics(context),
     getAll: new util.SingletonResolver(() => AssetModel.find({}))
   }
 });

@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import Alert from './Alert';
-import {Button, FormField, Spinner, Success} from 'coral-ui';
+import {Button, TextField, Spinner, Success} from 'coral-ui';
 import styles from './styles.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
@@ -32,7 +32,7 @@ const SignInContent = ({
         auth.emailVerificationFailure
         ? <form onSubmit={handleResendVerification}>
             <p>{lang.t('signIn.requestNewVerifyEmail')}</p>
-            <FormField
+            <TextField
               id="confirm-email"
               type="email"
               label={lang.t('signIn.email')}
@@ -54,14 +54,14 @@ const SignInContent = ({
               </h1>
             </div>
             <form onSubmit={handleSignIn}>
-              <FormField
+              <TextField
                 id="email"
                 type="email"
                 label={lang.t('signIn.email')}
                 value={formData.email}
                 onChange={handleChange}
               />
-              <FormField
+              <TextField
                 id="password"
                 type="password"
                 label={lang.t('signIn.password')}

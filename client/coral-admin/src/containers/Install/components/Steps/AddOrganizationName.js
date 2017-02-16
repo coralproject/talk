@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './style.css';
-import {FormField, Button} from 'coral-ui';
+import {TextField, Button} from 'coral-ui';
 
 const AddOrganizationName = props => {
   const {handleSettingsChange, handleSettingsSubmit, install} = props;
@@ -12,8 +12,8 @@ const AddOrganizationName = props => {
       </p>
       <div className={styles.form}>
         <form onSubmit={handleSettingsSubmit}>
-          <FormField
-            className={styles.FormField}
+          <TextField
+            className={styles.TextField}
             id="organizationName"
             type="text"
             label='Organization name'
