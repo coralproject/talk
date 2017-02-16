@@ -79,7 +79,7 @@ function getUserCreateAnswers(options) {
       message: 'Username',
       filter: (username) => {
         return UsersService
-          .isValidDisplayName(username)
+          .isValidUsername(username)
           .catch((err) => {
             throw err.message;
           });
