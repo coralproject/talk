@@ -17,6 +17,7 @@ import PubDate from 'coral-plugin-pubdate/PubDate';
 import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
 import FlagComment from 'coral-plugin-flags/FlagComment';
 import LikeButton from 'coral-plugin-likes/LikeButton';
+import LoadMore from 'coral-embed-stream/src/LoadMore';
 
 import styles from './Comment.css';
 
@@ -89,6 +90,7 @@ class Comment extends React.Component {
       showSignInDialog,
       postLike,
       postFlag,
+      loadMore,
       setActiveReplyBox,
       activeReplyBox,
       deleteAction
@@ -171,6 +173,17 @@ class Comment extends React.Component {
               key={reply.id}
               comment={reply} />;
           })
+        }
+        {
+          comment.replies &&
+          <div className='coral-load-more-replies'>
+            <LoadMore
+              id={asset.id}
+              comments={comment.replies}
+              parentId={comment.id}
+              moreComments={comment.replyCount > comment.replies.length}
+              loadMore={loadMore}/>
+          </div>
         }
       </div>
     );

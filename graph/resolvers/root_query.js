@@ -39,6 +39,14 @@ const RootQuery = {
     return Comments.getByQuery(query);
   },
 
+  metrics(_, {from, to, sort, limit = 10}, {user, loaders: {Metrics}}) {
+    if (user == null || !user.hasRoles('ADMIN')) {
+      return null;
+    }
+
+    return Metrics.get({from, to, sort, limit});
+  },
+
   // This returns the current user, ensure that if we aren't logged in, we
   // return null.
   me(_, args, {user}) {

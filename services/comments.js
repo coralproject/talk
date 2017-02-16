@@ -11,6 +11,7 @@ const STATUSES = [
   'ACCEPTED',
   'REJECTED',
   'PREMOD',
+  'NONE',
 ];
 
 module.exports = class CommentsService {
@@ -31,7 +32,7 @@ module.exports = class CommentsService {
       body,
       asset_id,
       parent_id,
-      status = null,
+      status = 'NONE',
       author_id
     } = comment;
 
@@ -146,7 +147,7 @@ module.exports = class CommentsService {
    * @param {String} status status of the comment to search for
    * @return {Promise} resovles to comment array
    */
-  static findByStatus(status = null) {
+  static findByStatus(status = 'NONE') {
     return CommentModel.find({status});
   }
 
@@ -155,7 +156,7 @@ module.exports = class CommentsService {
    * @param {String} asset_id
    * @return {Promise}
    */
-  static moderationQueue(status = null, asset_id = null) {
+  static moderationQueue(status = 'NONE', asset_id = null) {
 
     // Fetch the comments with statuses.
     let comments = CommentModel.find({status});
@@ -272,7 +273,7 @@ module.exports = class CommentsService {
       return Promise.reject(new Error(`status ${status} is not supported`));
     }
 
-    return CommentModel.update({id}, {
+    return CommentModel.findOneAndUpdate({id}, {
       $set: {status}
     });
   }

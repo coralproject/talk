@@ -11,10 +11,10 @@ const Wordlist = require('../../services/wordlist');
  * @param  {String} body          body of the comment
  * @param  {String} asset_id      asset for the comment
  * @param  {String} parent_id     optional parent of the comment
- * @param  {String} [status=null] the status of the new comment
+ * @param  {String} [status='NONE'] the status of the new comment
  * @return {Promise}              resolves to the created comment
  */
-const createComment = ({user, loaders: {Comments}}, {body, asset_id, parent_id = null}, status = null) => {
+const createComment = ({user, loaders: {Comments}}, {body, asset_id, parent_id = null}, status = 'NONE') => {
   return CommentsService.publicCreate({
     body,
     asset_id,
@@ -105,7 +105,7 @@ const resolveNewCommentStatus = (context, {asset_id, body}, wordlist = {}) => {
         if (charCountEnable && body.length > charCount) {
           return 'REJECTED';
         }
-        return moderation === 'PRE' ? 'PREMOD' : null;
+        return moderation === 'PRE' ? 'PREMOD' : 'NONE';
       });
   }
 
@@ -169,16 +169,26 @@ const createPublicComment = (context, commentInput) => {
  * @param {String} status      the new status of the comment
  */
 
-const setCommentStatus = ({comment}, {id, status}) => {
-  return CommentsService.setStatus(id, status)
-    .then(res => res);
+const setCommentStatus = ({loaders: {Comments}}, {id, status}) => {
+  return CommentsService
+    .setStatus(id, status)
+    .then((comment) => {
+
+      // If the loaders are present, clear the caches for these values because we
+      // just added a new comment, hence the counts should be updated.
+      if (Comments && Comments.countByAssetID && Comments.countByParentID) {
+        if (comment.parent_id != null) {
+          Comments.countByParentID.clear(comment.parent_id);
+        } else {
+          Comments.countByAssetID.clear(comment.asset_id);
+        }
+      }
+
+      return comment;
+    });
 };
 
 module.exports = (context) => {
-
-  // TODO: refactor to something that'll return an error in the event an attempt
-  // is made to mutate state while not logged in. There's got to be a better way
-  // to do this.
   let mutators = {
     Comment: {
       create: () => Promise.reject(errors.ErrNotAuthorized),

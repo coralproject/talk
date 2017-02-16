@@ -1,12 +1,13 @@
 import React from 'react';
-import {Button, Checkbox} from 'coral-ui';
+import {Button, Checkbox, TextField} from 'coral-ui';
+
 import styles from './ConfigureCommentStream.css';
 
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations.json';
 const lang = new I18n(translations);
 
-export default ({handleChange, handleApply, changed, ...props}) => (
+export default ({handleChange, handleApply, changed, updateQuestionBoxContent, ...props}) => (
   <form onSubmit={handleApply}>
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -32,25 +33,31 @@ export default ({handleChange, handleApply, changed, ...props}) => (
               title: lang.t('configureCommentStream.enablePremod'),
               description: lang.t('configureCommentStream.enablePremodDescription')
             }} />
-          {/* To be implimented
-          <ul>
-            <li>
-              <Checkbox
-                className={styles.checkbox}
-                cStyle={changed ? 'green' : 'darkGrey'}
-                name="premodLinks"
-                onChange={handleChange}
-                defaultChecked={props.premodLinks}
-                info={{
-                  title: lang.t('configureCommentStream.enablePremodLinks'),
-                  description: lang.t('configureCommentStream.enablePremodDescription')
-                }} />
-            </li>
-          </ul>
-          */}
         </li>
+        <li>
+          <Checkbox
+            className={styles.checkbox}
+            cStyle={changed ? 'green' : 'darkGrey'}
+            name="qboxenable"
+            onChange={handleChange}
+            defaultChecked={props.questionBoxEnable}
+            info={{
+              title: lang.t('configureCommentStream.enableQuestionBox'),
+              description: lang.t('configureCommentStream.enableQuestionBoxDescription')
+            }} />
+
+          <div className={`${props.questionBoxEnable ? null : styles.hidden}`} >
+            <TextField
+              id="qboxcontent"
+              onChange={updateQuestionBoxContent}
+              rows={3}
+              value={props.questionBoxContent}
+              label={lang.t('configureCommentStream.includeQuestionHere')}
+            />
+          </div>
+        </li>
+
       </ul>
     </div>
   </form>
-
 );
