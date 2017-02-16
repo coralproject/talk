@@ -8,25 +8,25 @@ import coralApi, {base} from '../helpers/response';
 export const showSignInDialog = (offset = 0) => ({type: actions.SHOW_SIGNIN_DIALOG, offset});
 export const hideSignInDialog = () => ({type: actions.HIDE_SIGNIN_DIALOG});
 
-export const createDisplayNameRequest = () => ({type: actions.CREATE_DISPLAYNAME_REQUEST});
-export const showCreateDisplayNameDialog = () => ({type: actions.SHOW_CREATEDISPLAYNAME_DIALOG});
-export const hideCreateDisplayNameDialog = () => ({type: actions.HIDE_CREATEDISPLAYNAME_DIALOG});
+export const createUsernameRequest = () => ({type: actions.CREATE_USERNAME_REQUEST});
+export const showCreateUsernameDialog = () => ({type: actions.SHOW_CREATEUSERNAME_DIALOG});
+export const hideCreateUsernameDialog = () => ({type: actions.HIDE_CREATEUSERNAME_DIALOG});
 
-const createDisplayNameSuccess = () => ({type: actions.CREATEDISPLAYNAME_SUCCESS});
-const createDisplayNameFailure = error => ({type: actions.CREATEDISPLAYNAME_FAILURE, error});
+const createUsernameSuccess = () => ({type: actions.CREATEUSERNAME_SUCCESS});
+const createUsernameFailure = error => ({type: actions.CREATEUSERNAME_FAILURE, error});
 
-export const updateDisplayName = ({username}) => ({type: actions.UPDATE_DISPLAYNAME, username});
+export const updateUsername = ({username}) => ({type: actions.UPDATE_USERNAME, username});
 
-export const createDisplayName = (userId, formData) => dispatch => {
-  dispatch(createDisplayNameRequest());
+export const createUsername = (userId, formData) => dispatch => {
+  dispatch(createUsernameRequest());
   coralApi('/account/username', {method: 'PUT', body: formData})
     .then(() => {
-      dispatch(createDisplayNameSuccess());
-      dispatch(hideCreateDisplayNameDialog());
-      dispatch(updateDisplayName(formData));
+      dispatch(createUsernameSuccess());
+      dispatch(hideCreateUsernameDialog());
+      dispatch(updateUsername(formData));
     })
     .catch(error => {
-      dispatch(createDisplayNameFailure(lang.t(`error.${error.message}`)));
+      dispatch(createUsernameFailure(lang.t(`error.${error.message}`)));
     });
 };
 
@@ -102,7 +102,7 @@ export const facebookCallback = (err, data) => dispatch => {
     const user = JSON.parse(data);
     dispatch(signInFacebookSuccess(user));
     dispatch(hideSignInDialog());
-    dispatch(showCreateDisplayNameDialog());
+    dispatch(showCreateUsernameDialog());
   } catch (err) {
     dispatch(signInFacebookFailure(err));
     return;

@@ -176,7 +176,7 @@ module.exports = class UsersService {
    * @param  {Boolean}  checkAgainstWordlist  enables cheching against the wordlist
    * @return {Promise}
    */
-  static isValidUserName(username, checkAgainstWordlist = true) {
+  static isValidUsername(username, checkAgainstWordlist = true) {
     const onlyLettersNumbersUnderscore = /^[A-Za-z0-9_]+$/;
 
     if (!username) {
@@ -230,7 +230,7 @@ module.exports = class UsersService {
     username = username.trim();
 
     return Promise.all([
-      UsersService.isValidUserName(username),
+      UsersService.isValidUsername(username),
       UsersService.isValidPassword(password)
     ])
       .then(() => { // username is valid
@@ -688,7 +688,7 @@ module.exports = class UsersService {
       }
     }).then((result) => {
       return result.nModified > 0 ? result :
-      Promise.reject(new Error('You do not have permission to update your username.'));
+        Promise.reject(errors.ErrPermissionUpdateUsername);
     });
   }
 };

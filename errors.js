@@ -141,6 +141,12 @@ const ErrInstallLock = new APIError('install lock active', {
   status: 500
 });
 
+// ErrPermissionUpdateUsername is returned when the user does not have permission to update their username.
+const ErrPermissionUpdateUsername = new APIError('You do not have permission to update your username.', {
+  translation_key: 'EDIT_USERNAME_NOT_AUTHORIZED',
+  status: 500
+});
+
 module.exports = {
   ExtendableError,
   APIError,
@@ -159,6 +165,7 @@ module.exports = {
   ErrInvalidAssetURL,
   ErrAuthentication,
   ErrNotAuthorized,
+  ErrPermissionUpdateUsername,
   ErrSettingsInit,
   ErrInstallLock
 };
