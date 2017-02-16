@@ -273,7 +273,7 @@ module.exports = class CommentsService {
       return Promise.reject(new Error(`status ${status} is not supported`));
     }
 
-    return CommentModel.update({id}, {
+    return CommentModel.findOneAndUpdate({id}, {
       $set: {status}
     });
   }
