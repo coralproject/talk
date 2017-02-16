@@ -3,6 +3,7 @@ const _ = require('lodash');
 const Actions = require('./actions');
 const Assets = require('./assets');
 const Comments = require('./comments');
+const Metrics = require('./metrics');
 const Settings = require('./settings');
 const Users = require('./users');
 
@@ -18,6 +19,7 @@ module.exports = (context) => {
     Actions,
     Assets,
     Comments,
+    Metrics,
     Settings,
     Users
   ].map((loaders) => {

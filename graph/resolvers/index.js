@@ -1,5 +1,6 @@
 const ActionSummary = require('./action_summary');
 const Action = require('./action');
+const AssetActionSummary = require('./asset_action_summary');
 const Asset = require('./asset');
 const Comment = require('./comment');
 const Date = require('./date');
@@ -17,6 +18,7 @@ const ValidationUserError = require('./validation_user_error');
 module.exports = {
   ActionSummary,
   Action,
+  AssetActionSummary,
   Asset,
   Comment,
   Date,

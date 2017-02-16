@@ -130,10 +130,20 @@ const objectCacheKeyFn = (...paths) => (obj) => {
   return paths.map((path) => obj[path]).join(':');
 };
 
+/**
+ * Maps an object's paths to a string that can be used as a cache key.
+ * @param  {Array} paths paths on the object to be used to generate the cache
+ *                       key
+ */
+const arrayCacheKeyFn = (arr) => {
+  return arr.sort().join(':');
+};
+
 module.exports = {
   singleJoinBy,
   arrayJoinBy,
   objectCacheKeyFn,
+  arrayCacheKeyFn,
   SingletonResolver,
   SharedCacheDataLoader
 };

@@ -9,6 +9,7 @@ import CommunityContainer from 'containers/Community/CommunityContainer';
 
 import ModerationLayout from 'containers/ModerationQueue/ModerationLayout';
 import ModerationContainer from 'containers/ModerationQueue/ModerationContainer';
+import Dashboard from 'containers/Dashboard/Dashboard';
 
 const routes = (
   <div>
@@ -18,6 +19,7 @@ const routes = (
       <Route path='community' component={CommunityContainer} />
       <Route path='configure' component={Configure} />
       <Route path='streams' component={Streams} />
+      <Route path='dashboard' component={Dashboard} />
 
       {/* Moderation Routes */}
 
