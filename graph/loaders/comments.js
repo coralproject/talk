@@ -133,6 +133,7 @@ const getCommentsByQuery = ({user}, {ids, statuses, asset_id, parent_id, author_
     });
   }
 
+  // Only let an admin request any user or the current user request themself.
   if (user && (user.hasRoles('ADMIN') || user.id === author_id) && author_id != null) {
     comments = comments.where({author_id});
   }
@@ -168,7 +169,13 @@ const getCommentsByQuery = ({user}, {ids, statuses, asset_id, parent_id, author_
     .limit(limit);
 };
 
-const genRecentReplies = (_, ids) => {
+/**
+ * Gets the recent replies.
+ * @param  {Object}        context   graph context
+ * @param  {Array<String>} ids       ids of parent ids
+ * @return {Promise}                 resolves to recent replies
+ */
+const genRecentReplies = (context, ids) => {
   return CommentModel.aggregate([
 
     // get all the replies for the comments in question
@@ -212,6 +219,12 @@ const genRecentReplies = (_, ids) => {
   .then(util.arrayJoinBy(ids, 'parent_id'));
 };
 
+/**
+ * Gets the recent comments.
+ * @param  {Object}        context   graph context
+ * @param  {Array<String>} ids       ids of asset ids
+ * @return {Promise}                 resolves to recent comments from assets
+ */
 const genRecentComments = (_, ids) => {
   return CommentModel.aggregate([
 
