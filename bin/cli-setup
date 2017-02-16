@@ -120,7 +120,7 @@ const performSetup = () => {
             message: 'Username',
             filter: (username) => {
               return UsersService
-                .isValidDisplayName(username, false)
+                .isValidUsername(username, false)
                 .catch((err) => {
                   throw err.message;
                 });
