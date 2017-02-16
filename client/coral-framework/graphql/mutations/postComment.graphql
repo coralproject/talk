@@ -4,6 +4,7 @@ mutation CreateComment ($asset_id: ID!, $parent_id: ID, $body: String!) {
     createComment(asset_id:$asset_id, parent_id:$parent_id, body:$body) {
         comment {
           ...commentView
+          replyCount
           replies {
               ...commentView
           }
