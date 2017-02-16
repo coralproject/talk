@@ -69,6 +69,38 @@ const getCountsByParentID = (context, parent_ids) => {
 };
 
 /**
+ * Retrieves the count of comments based on the passed in query.
+ * @param  {Object} context   graph context
+ * @param  {Object} query     query to execute against the comments collection
+ *                            to compute the counts
+ * @return {Promise}          resolves to the counts of the comments from the
+ *                            query
+ */
+const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id}) => {
+  let query = CommentModel.find();
+
+  if (ids) {
+    query = query.where({id: {$in: ids}});
+  }
+
+  if (statuses) {
+    query = query.where({status: {$in: statuses}});
+  }
+
+  if (asset_id != null) {
+    query = query.where({asset_id});
+  }
+
+  if (parent_id !== undefined) {
+    query = query.where({parent_id});
+  }
+
+  return CommentModel
+    .find(query)
+    .count();
+};
+
+/**
  * Retrieves comments based on the passed in query that is filtered by the
  * current used passed in via the context.
  * @param  {Object} context   graph context
@@ -233,6 +265,7 @@ const genRecentComments = (_, ids) => {
 module.exports = (context) => ({
   Comments: {
     getByQuery: (query) => getCommentsByQuery(context, query),
+    getCountByQuery: (query) => getCommentCountByQuery(context, query),
     countByAssetID: new util.SharedCacheDataLoader('Comments.countByAssetID', 3600, (ids) => getCountsByAssetID(context, ids)),
     countByParentID: new util.SharedCacheDataLoader('Comments.countByParentID', 3600, (ids) => getCountsByParentID(context, ids)),
     genRecentReplies: new DataLoader((ids) => genRecentReplies(context, ids)),
