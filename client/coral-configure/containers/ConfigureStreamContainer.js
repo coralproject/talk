@@ -21,18 +21,23 @@ class ConfigureStreamContainer extends Component {
     this.toggleStatus = this.toggleStatus.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleApply = this.handleApply.bind(this);
+    this.updateQuestionBoxContent = this.updateQuestionBoxContent.bind(this);
   }
 
   handleApply (e) {
     e.preventDefault();
     const {elements} = e.target;
     const premod = elements.premod.checked;
+    const questionBoxEnable = elements.qboxenable.checked;
+    const questionBoxContent = elements.qboxcontent.value;
 
     // const premodLinks = elements.premodLinks.checked;
     const {changed} = this.state;
 
     const newConfig = {
-      moderation: premod ? 'PRE' : 'POST'
+      moderation: premod ? 'PRE' : 'POST',
+      questionBoxEnable,
+      questionBoxContent
     };
 
     if (changed) {
@@ -45,10 +50,18 @@ class ConfigureStreamContainer extends Component {
     }
   }
 
-  handleChange () {
+  handleChange (e) {
+    if (e.target && e.target.id === 'qboxenable') {
+      this.props.asset.settings.questionBoxEnable = e.target.checked;
+    }
     this.setState({
       changed: true
     });
+  }
+
+  updateQuestionBoxContent(e) {
+    this.props.asset.settings.questionBoxContent = e.target.value;
+    this.handleChange(e);
   }
 
   toggleStatus () {
@@ -66,6 +79,8 @@ class ConfigureStreamContainer extends Component {
   render () {
     const status = this.props.asset.closedAt === null ? 'open' : 'closed';
     const premod = this.props.asset.settings.moderation === 'PRE';
+    const questionBoxEnable = this.props.asset.settings.questionBoxEnable;
+    const questionBoxContent = this.props.asset.settings.questionBoxContent;
 
     return (
       <div>
@@ -75,6 +90,9 @@ class ConfigureStreamContainer extends Component {
           changed={this.state.changed}
           premodLinks={false}
           premod={premod}
+          updateQuestionBoxContent={this.updateQuestionBoxContent}
+          questionBoxEnable={questionBoxEnable}
+          questionBoxContent={questionBoxContent}
         />
         <hr />
         <h3>{status === 'open' ? 'Close' : 'Open'} Comment Stream</h3>
@@ -94,7 +112,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch => ({
   updateStatus: status => dispatch(updateOpenStatus(status)),
-  updateConfiguration: newConfig => dispatch(updateConfiguration(newConfig))
+  updateConfiguration: newConfig => dispatch(updateConfiguration(newConfig)),
 });
 
 export default compose(

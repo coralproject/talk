@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
-import styles from './FormField.css';
+import styles from './TextField.css';
 
-const FormField = ({className, showErrors = false, errorMsg, label, ...props}) => (
-  <div className={`${styles.formField} ${className ? className : ''}`}>
+const TextField = ({className, showErrors = false, errorMsg, label, ...props}) => (
+  <div className={`${styles.textField} ${className ? className : ''}`}>
     <label htmlFor={props.id}>
       {label}
     </label>
@@ -15,7 +15,7 @@ const FormField = ({className, showErrors = false, errorMsg, label, ...props}) =
   </div>
 );
 
-FormField.propTypes = {
+TextField.propTypes = {
   label: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func,
@@ -23,4 +23,4 @@ FormField.propTypes = {
   type: PropTypes.string
 };
 
-export default FormField;
+export default TextField;

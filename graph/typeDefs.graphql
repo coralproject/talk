@@ -308,6 +308,8 @@ type Settings {
 
   infoBoxEnable: Boolean
   infoBoxContent: String
+  questionBoxEnable: Boolean
+  questionBoxContent: String
   closeTimeout: Int
   closedMessage: String
   charCountEnable: Boolean

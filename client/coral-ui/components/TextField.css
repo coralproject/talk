@@ -1,14 +1,14 @@
-.formField {
+.textField {
     margin-top: 15px;
 }
 
-.formField label {
+.textField label {
     font-size: 1.08em;
     font-weight: bold;
     margin-bottom: 5px;
 }
 
-.formField input {
+.textField input {
     width: 100%;
     display: block;
     border: none;

@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './style.css';
-import {FormField, Button, Spinner} from 'coral-ui';
+import {TextField, Button, Spinner} from 'coral-ui';
 
 const InitialStep = props => {
   const {handleUserChange, handleUserSubmit, install} = props;
@@ -8,8 +8,8 @@ const InitialStep = props => {
     <div className={styles.step}>
       <div className={styles.form}>
         <form onSubmit={handleUserSubmit}>
-          <FormField
-            className={styles.formField}
+          <TextField
+            className={styles.textField}
             id="email"
             type="email"
             label='Email address'
@@ -19,8 +19,8 @@ const InitialStep = props => {
             noValidate
             />
 
-          <FormField
-            className={styles.formField}
+          <TextField
+            className={styles.textField}
             id="username"
             type="text"
             label='Username'
@@ -29,8 +29,8 @@ const InitialStep = props => {
             errorMsg={install.errors.username}
             />
 
-          <FormField
-            className={styles.formField}
+          <TextField
+            className={styles.textField}
             id="password"
             type="password"
             label='Password'
@@ -39,8 +39,8 @@ const InitialStep = props => {
             errorMsg={install.errors.password}
             />
 
-          <FormField
-            className={styles.formField}
+          <TextField
+            className={styles.textField}
             id="confirmPassword"
             type="password"
             label='Confirm Password'
