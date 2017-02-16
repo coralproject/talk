@@ -23,8 +23,8 @@ const FlagWidget = ({assets}) => {
         {
           assets.length
           ? assets.map((asset, index) => {
-            const flagCount = asset.action_summaries.find(s => s.__typename === 'FlagAssetActionSummary').actionCount;
-            const likeCount = asset.action_summaries.find(s => s.__typename === 'LikeAssetActionSummary').actionCount;
+            const flagSummary = asset.action_summaries.find(s => s.__typename === 'FlagAssetActionSummary');
+            const likeSummary = asset.action_summaries.find(s => s.__typename === 'LikeAssetActionSummary');
             return (
               <tr key={asset.id}>
                 <td>{index + 1}.</td>
@@ -32,8 +32,8 @@ const FlagWidget = ({assets}) => {
                   <Link to={`/admin/moderate/flagged/${asset.id}`}>{asset.title}</Link>
                   <p className={styles.lede}>{asset.author} - Published: {new Date(asset.created_at).toLocaleDateString()}</p>
                 </td>
-                <td>{likeCount}</td>
-                <td>{flagCount}</td>
+                <td>{flagSummary ? flagSummary.actionCount : 0}</td>
+                <td>{likeSummary ? likeSummary.actionCount : 0}</td>
                 <td>{asset.commentCount}</td>
               </tr>
             );
