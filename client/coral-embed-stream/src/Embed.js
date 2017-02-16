@@ -156,6 +156,7 @@ class Embed extends Component {
               currentUser={user}
               postLike={this.props.postLike}
               postFlag={this.props.postFlag}
+              loadMore={this.props.loadMore}
               deleteAction={this.props.deleteAction}
               showSignInDialog={this.props.showSignInDialog}
               comments={asset.comments} />
