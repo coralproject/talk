@@ -26,7 +26,7 @@ class ForgotContent extends React.Component {
           <h1>{lang.t('signIn.recoverPassword')}</h1>
         </div>
         <form onSubmit={this.handleSubmit}>
-          <div className={styles.formField}>
+          <div className={styles.textField}>
             <label htmlFor="email">{lang.t('signIn.email')}</label>
             <input
               ref={input => this.emailInput = input}

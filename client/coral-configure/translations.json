@@ -7,18 +7,24 @@
       "enablePremod": "Enable Premoderation",
       "enablePremodDescription": "Moderators must approve any comment before its published.",
       "enablePremodLinks": "Pre-Moderate Comments Containing Links",
-      "enablePremodLinksDescription": "Moderators must approve any comment containing a link before its published."
+      "enablePremodLinksDescription": "Moderators must approve any comment containing a link before its published.",
+      "enableQuestionBox": "Ask readers a question",
+      "enableQuestionBoxDescription": "This question will appear at the top of this comment stram. Ask readers about a certain issue in the article or pose discussion questions, etc.",
+      "includeQuestionHere": "Write your question here."
     }
   },
   "es": {
     "configureCommentStream": {
       "apply": "Aplicar",
       "title": "Configurar los comentarios",
-      "description": "Como Administrador puedes modificar las opciones de los comentarios en este artículo",
+      "description": "Como Administrador/a puedes modificar las opciones de los comentarios en este artículo",
       "enablePremod": "Activar Pre Moderación",
-      "enablePremodDescription": "Los Moderadores deben aprobar cualquier comentario antes de su publicación",
+      "enablePremodDescription": "Los y las Moderadoras deben aprobar cualquier comentario antes de su publicación",
       "enablePremodLinks": "Pre-Moderar Commentarios que contienen Links",
-      "enablePremodLinksDescription": "Los Moderadores deben probar cualquier comentario que contengan links antes de su publicación."
+      "enablePremodLinksDescription": "Los y las Moderadoras deben probar cualquier comentario que contengan links antes de su publicación.",
+      "enableQuestionBox": "Hacer una pregunta a los y las lectoras.",
+      "enableQuestionBoxDescription": "Esta pregunta aparecera en la parte de arriba del hilo de comentarios.",
+      "includeQuestionHere": "Escribir la pregunta aquí."
     }
   }
 }

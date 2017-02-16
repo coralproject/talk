@@ -62,7 +62,7 @@ hr {
 .coral-plugin-infobox-info {
   top: 0;
   border: 0;
-  background: rgb(105,105,105);
+  background: rgb(35,118,216);
   color: white;
   width: 100%;
   text-align: center;
@@ -71,6 +71,21 @@ hr {
   font-weight: bold;
   display: block;
 }
+
+/* Question Box Styles */
+.coral-plugin-questionbox-info {
+  top: 0;
+  border: 0;
+  background: rgb(105,105,105);
+  color: white;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  margin-bottom: 0px;
+  font-weight: bold;
+  display: block;
+}
+
 
 .hidden  {
   visibility: hidden;
@@ -316,4 +331,14 @@ button.coral-load-more {
 
 button.coral-load-more:hover {
   background-color: #4399FF;
+}
+
+.coral-load-more-replies {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.coral-load-more-replies button.coral-load-more {
+  width: initial;
 }

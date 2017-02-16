@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import Alert from './Alert';
-import {Button, FormField, Spinner, Success} from 'coral-ui';
+import {Button, TextField, Spinner, Success} from 'coral-ui';
 import styles from './styles.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
@@ -79,7 +79,7 @@ class SignUpContent extends React.Component {
               </h1>
             </div>
             <form onSubmit={handleSignUp}>
-              <FormField
+              <TextField
                 id="email"
                 type="email"
                 label={lang.t('signIn.email')}
@@ -88,7 +88,7 @@ class SignUpContent extends React.Component {
                 errorMsg={errors.email}
                 onChange={handleChange}
               />
-              <FormField
+              <TextField
                 id="username"
                 type="text"
                 label={lang.t('signIn.username')}
@@ -97,7 +97,7 @@ class SignUpContent extends React.Component {
                 errorMsg={errors.username}
                 onChange={handleChange}
               />
-              <FormField
+              <TextField
                 id="password"
                 type="password"
                 label={lang.t('signIn.password')}
@@ -108,7 +108,7 @@ class SignUpContent extends React.Component {
                 minLength="8"
               />
               { errors.password && <span className={styles.hint}> Password must be at least 8 characters. </span> }
-              <FormField
+              <TextField
                 id="confirmPassword"
                 type="password"
                 label={lang.t('signIn.confirmPassword')}

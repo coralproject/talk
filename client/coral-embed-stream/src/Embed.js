@@ -16,6 +16,7 @@ import {Notification, notificationActions, authActions, assetActions, pym} from 
 
 import Stream from './Stream';
 import InfoBox from 'coral-plugin-infobox/InfoBox';
+import QuestionBox from 'coral-plugin-questionbox/QuestionBox';
 import {ModerationLink} from 'coral-plugin-moderation';
 import Count from 'coral-plugin-comment-count/CommentCount';
 import CommentBox from 'coral-plugin-commentbox/CommentBox';
@@ -114,6 +115,10 @@ class Embed extends Component {
                      content={asset.settings.infoBoxContent}
                      enable={asset.settings.infoBoxEnable}
                    />
+                   <QuestionBox
+                     content={asset.settings.questionBoxContent}
+                     enable={asset.settings.questionBoxEnable}
+                   />
                  <RestrictedContent restricted={banned} restrictedComp={
                      <SuspendedAccount
                        canEditName={user && user.canEditName}
@@ -150,6 +155,7 @@ class Embed extends Component {
               currentUser={user}
               postLike={this.props.postLike}
               postFlag={this.props.postFlag}
+              loadMore={this.props.loadMore}
               deleteAction={this.props.deleteAction}
               showSignInDialog={this.props.showSignInDialog}
               comments={asset.comments} />
