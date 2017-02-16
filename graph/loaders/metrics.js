@@ -29,9 +29,12 @@ const getMetrics = ({loaders: {Metrics, Assets}}, {from, to, sort, limit}) => {
       // Find those comments.
       return Metrics.getSpecificComments.loadMany(commentIDs);
     })
-    .then((commentResults) => {
+    .then((comments) => {
 
-      assetMetrics = commentResults.map(({ids, asset_id}) => {
+      let commentResults = _.groupBy(comments, 'asset_id');
+
+      assetMetrics = Object.keys(commentResults).map((asset_id) => {
+        let ids = commentResults[asset_id].map((comment) => comment.id);
         let summaries = _.groupBy(_.flatten(ids.map((id) => commentMetrics[id])), 'action_type');
 
         let action_summaries = Object.keys(summaries).map((action_type) => ({
@@ -129,31 +132,15 @@ const getRecentActions = (context, {from, to}) => {
 };
 
 const getSpecificComments = (context, ids) => {
-  return CommentModel.aggregate([
-
-    // Get only those comments.
-    {$match: {
-      id: {
-        $in: ids
-      }
-    }},
-
-    // Group by their asset id and push in the comment id.
-    {$group: {
-      _id: {
-        asset_id: '$asset_id'
-      },
-      ids: {
-        $addToSet: '$id'
-      }
-    }},
-
-    // Project that data only as better fields.
-    {$project: {
-      asset_id: '$_id.asset_id',
-      ids: '$ids'
-    }}
-  ]);
+  return CommentModel.find({
+    id: {
+      $in: ids
+    }
+  })
+  .select({
+    id: 1,
+    asset_id: 1
+  });
 };
 
 module.exports = (context) => ({
