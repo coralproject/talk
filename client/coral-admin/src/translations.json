@@ -16,6 +16,7 @@
       "loading": "Loading results"
     },
     "modqueue": {
+      "likes": "likes",
       "all": "all",
       "premod": "pre-mod",
       "rejected": "rejected",
@@ -50,6 +51,7 @@
     "configure": {
       "custom-css-url": "Custom CSS URL",
       "custom-css-url-desc": "URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external.",
+      "dashboard": "Dashboard",
       "enable-pre-moderation": "Enable pre-moderation",
       "enable-pre-moderation-text": "Moderators must approve any comment before it is published.",
       "require-email-verification": "Require Email Verification",
@@ -106,6 +108,10 @@
       "email": "Another member of the community recently flagged your {0} for review. Because of its content your {0} was rejected. This means you can no longer comment, like, or flag content until you rewrite your {0}. Please e-mail moderator@newsorg.com if you have any questions or concerns.",
       "write_message": "Write a message"
     },
+    "dashboard": {
+      "no_flags": "There have been no flags in the last 5 minutes! Hooray!",
+      "comment_count": "Comments"
+    },
     "streams": {
       "search": "Search",
       "filter-streams": "Filter Streams",
@@ -140,6 +146,7 @@
       "loading": "Cargando resultados"
     },
     "modqueue": {
+      "likes": "gustos",
       "premod": "pre-mod",
       "rejected": "rechazado",
       "flagged": "marcado",
@@ -161,6 +168,7 @@
     "configure": {
       "custom-css-url": "URL CSS a medida",
       "custom-css-url-desc": "URL de una hoja de estilo que va a sobrescribir los estilos por defecto de Embed Stream. Puede ser interna o externa.",
+      "dashboard": "Panel",
       "enable-pre-moderation": "Habilitar pre-moderación",
       "enable-pre-moderation-text": "Los moderadores deben aprobar cada comentario antes de que sea publicado.",
       "require-email-verification": "Necesita confirmación de correo",
@@ -206,6 +214,10 @@
       "note": "Nota: Suspender este usuario también va a colocar este comentario en la cola de Rechazados.",
       "cancel": "Cancelar",
       "yes_ban_user": "Si, Suspendan el usuario"
+    },
+    "dashbord": {
+      "no_flags": "¡Nadie ha marcado nada en los últimos 5 minutos! ¡Bravo!",
+      "comment_count": "Comentarios"
     },
     "streams": {
       "search": "",
