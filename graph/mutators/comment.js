@@ -169,9 +169,23 @@ const createPublicComment = (context, commentInput) => {
  * @param {String} status      the new status of the comment
  */
 
-const setCommentStatus = ({comment}, {id, status}) => {
-  return CommentsService.setStatus(id, status)
-    .then(res => res);
+const setCommentStatus = ({loaders: {Comments}}, {id, status}) => {
+  return CommentsService
+    .setStatus(id, status)
+    .then((comment) => {
+
+      // If the loaders are present, clear the caches for these values because we
+      // just added a new comment, hence the counts should be updated.
+      if (Comments && Comments.countByAssetID && Comments.countByParentID) {
+        if (comment.parent_id != null) {
+          Comments.countByParentID.clear(comment.parent_id);
+        } else {
+          Comments.countByAssetID.clear(comment.asset_id);
+        }
+      }
+
+      return comment;
+    });
 };
 
 module.exports = (context) => {
