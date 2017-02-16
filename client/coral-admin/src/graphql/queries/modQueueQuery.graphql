@@ -9,7 +9,8 @@ query ModQueue ($asset_id: ID!) {
     }
     flagged: comments(query: {
         action_type: FLAG,
-        asset_id: $asset_id
+        asset_id: $asset_id,
+        statuses: [NONE, PREMOD]
     }) {
         ...commentView
         action_summaries {
