@@ -29,6 +29,7 @@ query ModQueue ($asset_id: ID) {
     assets: assets {
       id
       title
+      url
     }
     premodCount: commentCount(query: {
       statuses: [PREMOD],
