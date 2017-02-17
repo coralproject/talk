@@ -123,7 +123,7 @@ module.exports = class UsersService {
         if (user) {
           return user;
         }
-        
+
         let username = UsersService.castUsername(displayName);
 
         // The user was not found, lets create them!
@@ -180,7 +180,7 @@ module.exports = class UsersService {
     const onlyLettersNumbersUnderscore = /^[A-Za-z0-9_]+$/;
 
     if (!username) {
-      return Promise.reject(errors.ErrMissingDisplay);
+      return Promise.reject(errors.ErrMissingUsername);
     }
 
     if (!onlyLettersNumbersUnderscore.test(username)) {
@@ -220,14 +220,14 @@ module.exports = class UsersService {
    * @param  {String}   username name of the display user
    * @param  {Function} done        callback
    */
-  static createLocalUser(email, password, displayname) {
+  static createLocalUser(email, password, username) {
 
     if (!email) {
       return Promise.reject(errors.ErrMissingEmail);
     }
 
     email = email.toLowerCase().trim();
-    let username = displayname.trim();
+    username = username.trim();
 
     return Promise.all([
       UsersService.isValidUsername(username),
@@ -257,7 +257,7 @@ module.exports = class UsersService {
               if (err) {
                 if (err.code === 11000) {
                   if (err.message.match('Username')) {
-                    return reject(errors.ErrDisplayTaken);
+                    return reject(errors.ErrUsernameTake);
                   }
                   return reject(errors.ErrEmailTaken);
                 }

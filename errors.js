@@ -54,8 +54,8 @@ const ErrEmailTaken = new APIError('Email address already in use', {
   status: 400
 });
 
-const ErrDisplayTaken = new APIError('Username already in use', {
-  translation_key: 'DISPLAYNAME_IN_USE',
+const ErrUsernameTaken = new APIError('Username already in use', {
+  translation_key: 'USERNAME_IN_USE',
   status: 400
 });
 
@@ -64,8 +64,8 @@ const ErrSpecialChars = new APIError('No special characters are allowed in a use
   status: 400
 });
 
-const ErrMissingDisplay = new APIError('A username is required to create a user', {
-  translation_key: 'DISPLAY_NAME_REQUIRED',
+const ErrMissingUsername = new APIError('A username is required to create a user', {
+  translation_key: 'USERNAME_REQUIRED',
   status: 400
 });
 
@@ -157,9 +157,9 @@ module.exports = {
   ErrMissingToken,
   ErrEmailTaken,
   ErrSpecialChars,
-  ErrMissingDisplay,
+  ErrMissingUsername,
   ErrContainsProfanity,
-  ErrDisplayTaken,
+  ErrUsernameTaken,
   ErrAssetCommentingClosed,
   ErrNotFound,
   ErrInvalidAssetURL,
