@@ -43,28 +43,35 @@ export const postComment = graphql(POST_COMMENT, {
               return oldData;
             }
 
+            let updatedAsset;
+
             // If posting a reply
-            return parent_id ? {
-              ...oldData,
-              asset: {
-                ...oldData.asset,
-                comments: oldData.asset.comments.map((oldComment) => {
-                  return oldComment.id === parent_id
-                  ? {...oldComment, replies: [...oldComment.replies, comment]}
-                  : oldComment;
-                })
-              }
+            if (parent_id) {
+              updatedAsset = {
+                ...oldData,
+                asset: {
+                  ...oldData.asset,
+                  comments: oldData.asset.comments.map((oldComment) => {
+                    return oldComment.id === parent_id
+                    ? {...oldComment, replies: [...oldComment.replies, comment]}
+                    : oldComment;
+                  })
+                }
+              };
+            } else {
+
+              // If posting a top-level comment
+              updatedAsset = {
+                ...oldData,
+                asset: {
+                  ...oldData.asset,
+                  commentCount: oldData.asset.commentCount + 1,
+                  comments: [comment, ...oldData.asset.comments]
+                }
+              };
             }
 
-          // If posting a top-level comment
-          : {
-            ...oldData,
-            asset: {
-              ...oldData.asset,
-              commentCount: oldData.asset.commentCount + 1,
-              comments: [comment, ...oldData.asset.comments]
-            }
-          };
+            return updatedAsset;
           }
         }
       })
