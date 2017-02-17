@@ -71,9 +71,9 @@ class ModerationContainer extends Component {
         <ModerationHeader asset={asset} />
         <ModerationMenu
           asset={asset}
-          premodCount={data.premod.length}
-          rejectCount={data.rejected.length}
-          flagCount={data.flagged.length}
+          premodCount={data.premodCount}
+          rejectedCount={data.rejectedCount}
+          flaggedCount={data.flaggedCount}
         />
         <ModerationQueue
           data={data}
