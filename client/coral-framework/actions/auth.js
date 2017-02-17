@@ -123,7 +123,7 @@ export const fetchSignUp = (formData, redirectUri) => (dispatch) => {
       dispatch(signUpSuccess(user));
     })
     .catch(error => {
-      dispatch(signUpFailure(lang.t(`error.${error.translation_key}`)));
+      dispatch(signUpFailure(lang.t(`error.${error.message}`)));
     });
 };
 
