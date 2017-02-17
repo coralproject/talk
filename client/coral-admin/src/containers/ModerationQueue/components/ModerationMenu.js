@@ -10,7 +10,7 @@ const lang = new I18n(translations);
 const ModerationMenu = ({asset, premodCount, rejectedCount, flaggedCount}) => {
   const premodPath = asset ? `/admin/moderate/premod/${asset.id}` : '/admin/moderate/premod';
   const rejectPath = asset ? `/admin/moderate/rejected/${asset.id}` : '/admin/moderate/rejected';
-  const flagPath = asset ? `/admin/modetate/flagged/${asset.id}` : '/admin/moderate/flagged';
+  const flagPath = asset ? `/admin/moderate/flagged/${asset.id}` : '/admin/moderate/flagged';
   return (
     <div className='mdl-tabs'>
       <div className={`mdl-tabs__tab-bar ${styles.tabBar}`}>
@@ -32,10 +32,10 @@ const ModerationMenu = ({asset, premodCount, rejectedCount, flaggedCount}) => {
 
 ModerationMenu.propTypes = {
   premodCount: PropTypes.number.isRequired,
-  rejectCount: PropTypes.number.isRequired,
-  flagCount: PropTypes.number.isRequired,
+  rejectedCount: PropTypes.number.isRequired,
+  flaggedCount: PropTypes.number.isRequired,
   asset: PropTypes.shape({
-    id: PropTypes.string.isRequired
+    id: PropTypes.string
   })
 };
 
