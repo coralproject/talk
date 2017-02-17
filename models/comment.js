@@ -43,7 +43,10 @@ const TagSchema = new Schema({
     default: null
   },
 
-  created_at: Date
+  created_at: {
+    type: Date,
+    default: Date
+  }
 }, {
   _id: false
 });

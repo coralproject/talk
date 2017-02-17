@@ -80,7 +80,8 @@ const ErrMissingToken = new APIError('token is required', {
 class ErrAssetCommentingClosed extends APIError {
   constructor(closedMessage = null) {
     super('asset commenting is closed', {
-      status: 400
+      status: 400,
+      translation_key: 'COMMENTING_CLOSED'
     }, {
 
       // Include the closedMessage in the metadata piece of the error.
