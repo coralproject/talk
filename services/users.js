@@ -109,7 +109,7 @@ module.exports = class UsersService {
    * @param  {Object}   profile - User social/external profile
    * @param  {Function} done    [description]
    */
-  static findOrCreateExternalUser({id, provider, displayname}) {
+  static findOrCreateExternalUser({id, provider, displayName}) {
     return UserModel
       .findOne({
         profiles: {
@@ -123,8 +123,8 @@ module.exports = class UsersService {
         if (user) {
           return user;
         }
-
-        let username = UsersService.castUsername(displayname);
+        
+        let username = UsersService.castUsername(displayName);
 
         // The user was not found, lets create them!
         user = new UserModel({
@@ -220,14 +220,14 @@ module.exports = class UsersService {
    * @param  {String}   username name of the display user
    * @param  {Function} done        callback
    */
-  static createLocalUser(email, password, username) {
+  static createLocalUser(email, password, displayname) {
 
     if (!email) {
       return Promise.reject(errors.ErrMissingEmail);
     }
 
     email = email.toLowerCase().trim();
-    username = username.trim();
+    let username = displayname.trim();
 
     return Promise.all([
       UsersService.isValidUsername(username),

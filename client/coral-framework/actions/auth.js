@@ -12,8 +12,8 @@ export const createUsernameRequest = () => ({type: actions.CREATE_USERNAME_REQUE
 export const showCreateUsernameDialog = () => ({type: actions.SHOW_CREATEUSERNAME_DIALOG});
 export const hideCreateUsernameDialog = () => ({type: actions.HIDE_CREATEUSERNAME_DIALOG});
 
-const createUsernameSuccess = () => ({type: actions.CREATEUSERNAME_SUCCESS});
-const createUsernameFailure = error => ({type: actions.CREATEUSERNAME_FAILURE, error});
+const createUsernameSuccess = () => ({type: actions.CREATE_USERNAME_SUCCESS});
+const createUsernameFailure = error => ({type: actions.CREATE_USERNAME_FAILURE, error});
 
 export const updateUsername = ({username}) => ({type: actions.UPDATE_USERNAME, username});
 
@@ -95,7 +95,7 @@ export const fetchSignUpFacebook = () => dispatch => {
 
 export const facebookCallback = (err, data) => dispatch => {
   if (err) {
-    signInFacebookFailure(err);
+    dispatch(signInFacebookFailure(err));
     return;
   }
   try {

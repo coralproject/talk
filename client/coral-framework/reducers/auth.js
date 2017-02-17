@@ -50,12 +50,12 @@ export default function auth (state = initialState, action) {
     return state.merge(Map({
       showCreateUsernameDialog: false
     }));
-  case actions.CREATEUSERNAME_SUCCESS :
+  case actions.CREATE_USERNAME_SUCCESS :
     return state.merge(Map({
       showCreateUsernameDialog: false,
       error: ''
     }));
-  case actions.CREATEUSERNAME_FAILURE :
+  case actions.CREATE_USERNAME_FAILURE :
     return state
       .set('error', action.error);
   case actions.CHANGE_VIEW :
