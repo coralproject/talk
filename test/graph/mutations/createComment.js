@@ -8,7 +8,7 @@ const AssetModel = require('../../../models/asset');
 const SettingsService = require('../../../services/settings');
 const ActionModel = require('../../../models/action');
 
-describe('graph.mutation.createComment', () => {
+describe('graph.mutations.createComment', () => {
   beforeEach(() => SettingsService.init());
 
   const query = `
