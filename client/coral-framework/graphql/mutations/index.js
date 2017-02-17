@@ -25,7 +25,7 @@ export const postComment = graphql(POST_COMMENT, {
                 id: ownProps.auth.user.id,
                 name: ownProps.auth.user.username
               },
-              created_at: new Date(),
+              created_at: new Date().toString(),
               body,
               parent_id,
               asset_id,
@@ -37,17 +37,22 @@ export const postComment = graphql(POST_COMMENT, {
           }
         },
         updateQueries: {
-          AssetQuery: (oldData, {mutationResult:{data:{createComment:{comment}}}}) =>
+          AssetQuery: (oldData, {mutationResult:{data:{createComment:{comment}}}}) => {
+
+            if (oldData.asset.moderation === 'PRE') {
+              return oldData;
+            }
 
             // If posting a reply
-            parent_id ? {
+            return parent_id ? {
               ...oldData,
               asset: {
                 ...oldData.asset,
-                comments: oldData.asset.comments.map((oldComment) =>
-                  oldComment.id === parent_id
+                comments: oldData.asset.comments.map((oldComment) => {
+                  return oldComment.id === parent_id
                   ? {...oldComment, replies: [...oldComment.replies, comment]}
-                  : oldComment)
+                  : oldComment;
+                })
               }
             }
 
@@ -59,6 +64,7 @@ export const postComment = graphql(POST_COMMENT, {
               commentCount: oldData.asset.commentCount + 1,
               comments: [comment, ...oldData.asset.comments]
             }
+          };
           }
         }
       })
