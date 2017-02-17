@@ -1,0 +1,24 @@
+fragment metrics on Asset {
+  id
+  title
+  action_summaries {
+    type: __typename
+    actionCount
+    actionableItemCount
+  }
+}
+
+query Metrics ($from: Date!, $to: Date!, $sort: ACTION_TYPE!) {
+  metrics(from: $from, to: $to, sort: $sort) {
+    id
+    title
+    url
+    commentCount
+    author
+    created_at
+    action_summaries {
+      actionCount
+      actionableItemCount
+    }
+  }
+}
