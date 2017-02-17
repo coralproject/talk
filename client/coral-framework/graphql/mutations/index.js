@@ -25,7 +25,7 @@ export const postComment = graphql(POST_COMMENT, {
                 id: ownProps.auth.user.id,
                 name: ownProps.auth.user.username
               },
-              created_at: new Date().toString(),
+              created_at: new Date().toISOString(),
               body,
               parent_id,
               asset_id,
