@@ -2,11 +2,11 @@ import React, {PropTypes} from 'react';
 import styles from './CommentCount.css';
 
 const CommentCount = props => (
-  <span className={styles.count}>{props.children}</span>
+  <span className={styles.count}>{props.count}</span>
 );
 
 CommentCount.propTypes = {
-  children: PropTypes.node
+  count: PropTypes.number.isRequired
 };
 
 export default CommentCount;

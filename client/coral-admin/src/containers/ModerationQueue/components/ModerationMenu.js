@@ -16,14 +16,14 @@ const ModerationMenu = ({asset, premodCount, rejectedCount, flaggedCount}) => {
       <div className={`mdl-tabs__tab-bar ${styles.tabBar}`}>
         <div>
           <Link to={premodPath} className={`mdl-tabs__tab ${styles.tab}`} activeClassName={styles.active}>
-            {lang.t('modqueue.premod')}<CommentCount>{premodCount}</CommentCount>
+            {lang.t('modqueue.premod')} <CommentCount count={premodCount} />
           </Link>
           <Link to={rejectPath} className={`mdl-tabs__tab ${styles.tab}`} activeClassName={styles.active}>
-            {lang.t('modqueue.rejected')}<CommentCount>{rejectedCount}</CommentCount>
+            {lang.t('modqueue.rejected')} <CommentCount count={rejectedCount} />
           </Link>
           <Link to={flagPath} className={`mdl-tabs__tab ${styles.tab}`} activeClassName={styles.active}>
-            {lang.t('modqueue.flagged')}<CommentCount>{flaggedCount}</CommentCount>
-          </Link>
+            {lang.t('modqueue.flagged')} <CommentCount count={flaggedCount} />
+        </Link>
         </div>
       </div>
     </div>
