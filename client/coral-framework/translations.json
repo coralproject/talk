@@ -9,13 +9,13 @@
       "msg": "Your account is currently suspended because your username has been deemed inappropriate. To restore your account, please enter a new username. You may contact moderator@fakeurl.com for more information.",
       "label": "New Username",
       "button": "Submit",
-      "error": "Display names can contain letters, numbers and _ only"
+      "error": "Usernames can contain letters, numbers and _ only"
     },
     "error": {
       "emailNotVerified": "Email address {0} not verified.",
       "email": "Not a valid E-Mail",
       "password": "Password must be at least 8 characters",
-      "username": "Display names can contain letters, numbers and _ only",
+      "username": "Usernames can contain letters, numbers and _ only",
       "confirmPassword": "Passwords don't match. Please, check again",
       "organizationName": "Organization name must only contain letters or numbers.",
       "emailPasswordError": "Email and/or password combination incorrect.",
@@ -23,11 +23,13 @@
       "PASSWORD_REQUIRED": "Must input a password",
       "PASSWORD_LENGTH": "Password is too short",
       "EMAIL_IN_USE": "Email address already in use",
-      "EMAIL_DISPLAY_NAME_IN_USE": "Email address or username already in use",
-      "DISPLAYNAME_IN_USE": "Display name already in use",
-      "DISPLAY_NAME_REQUIRED": "Must input a username",
-      "NO_SPECIAL_CHARACTERS": "Display names can contain letters, numbers and _ only",
-      "PROFANITY_ERROR": "Display names must not contain profanity. Please contact the administrator if you believe this to be in error."
+      "EMAIL_USERNAME_IN_USE": "Email address or username already in use",
+      "USERNAME_IN_USE": "Username already in use",
+      "USERNAME_REQUIRED": "Must input a username",
+      "NO_SPECIAL_CHARACTERS": "Usernames can contain letters, numbers and _ only",
+      "PROFANITY_ERROR": "Usernames must not contain profanity. Please contact the administrator if you believe this to be in error.",
+      "NOT_AUTHORIZED": "Not authorized.",
+      "EDIT_USERNAME_NOT_AUTHORIZED": "You do not have permission to update your username."
     }
   },
   "es": {
@@ -49,11 +51,13 @@
       "PASSWORD_REQUIRED": "Debe ingresar una contraseña",
       "PASSWORD_LENGTH": "La contraseña es muy corta",
       "EMAIL_IN_USE": "La dirección de correo electrónico se encuentra en uso",
-      "EMAIL_DISPLAY_NAME_IN_USE": "Correo o Nombre en uso.",
-      "DISPLAYNAME_IN_USE": "Nombre en uso.",
-      "DISPLAY_NAME_REQUIRED": "Debe ingresar un nombre",
+      "EMAIL_USERNAME_IN_USE": "Correo o Nombre en uso.",
+      "USERNAME_IN_USE": "Nombre en uso.",
+      "USERNAME_REQUIRED": "Debe ingresar un nombre",
       "NO_SPECIAL_CHARACTERS": "Los nombres pueden contener letras, números y _",
-      "PROFANITY_ERROR": "Los nombres no pueden contener blasfemias. Por favor contacte al administrador si cree que esto es un error"
+      "PROFANITY_ERROR": "Los nombres no pueden contener blasfemias. Por favor contacte al administrador si cree que esto es un error",
+      "NOT_AUTHORIZED": "Acción no autorizada.",
+      "EDIT_USERNAME_NOT_AUTHORIZED": "No tiene permiso para editar el nombre de usuario."
     }
   }
 }

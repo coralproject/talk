@@ -4,21 +4,21 @@ import {connect} from 'react-redux';
 import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
 
-import CreateDisplayNameDialog from '../components/CreateDisplayNameDialog';
+import CreateUsernameDialog from '../components/CreateUsernameDialog';
 
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
 const lang = new I18n(translations);
 
 import {
-  showCreateDisplayNameDialog,
-  hideCreateDisplayNameDialog,
+  showCreateUsernameDialog,
+  hideCreateUsernameDialog,
   invalidForm,
   validForm,
-  createDisplayName
+  createUsername
 } from '../../coral-framework/actions/auth';
 
-class ChangeDisplayNameContainer extends Component {
+class ChangeUsernameContainer extends Component {
   initialState = {
     formData: {
       username: '',
@@ -31,7 +31,7 @@ class ChangeDisplayNameContainer extends Component {
     super(props);
     this.state = this.initialState;
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmitDisplayName = this.handleSubmitDisplayName.bind(this);
+    this.handleSubmitUsername = this.handleSubmitUsername.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.addError = this.addError.bind(this);
   }
@@ -81,13 +81,13 @@ class ChangeDisplayNameContainer extends Component {
     this.setState({showErrors: show});
   }
 
-  handleSubmitDisplayName(e) {
+  handleSubmitUsername(e) {
     e.preventDefault();
     const {errors} = this.state;
     const {validForm, invalidForm} = this.props;
     this.displayErrors();
     if (this.isCompleted() && !Object.keys(errors).length) {
-      this.props.createDisplayName(this.props.user.id, this.state.formData);
+      this.props.createUsername(this.props.user.id, this.state.formData);
       validForm();
     } else {
       invalidForm(lang.t('createdisplay.checkTheForm'));
@@ -95,19 +95,19 @@ class ChangeDisplayNameContainer extends Component {
   }
 
   handleClose() {
-    this.props.hideCreateDisplayNameDialog();
+    this.props.hideCreateUsernameDialog();
   }
 
   render() {
     const {loggedIn, auth, offset} = this.props;
     return (
       <div>
-        <CreateDisplayNameDialog
-          open={auth.showCreateDisplayNameDialog && auth.fromSignUp}
+        <CreateUsernameDialog
+          open={auth.showCreateUsernameDialog && auth.fromSignUp}
           offset={offset}
           handleClose={this.handleClose}
           loggedIn={loggedIn}
-          handleSubmitDisplayName={this.handleSubmitDisplayName}
+          handleSubmitUsername={this.handleSubmitUsername}
           {...this}
           {...this.state}
           {...this.props}
@@ -122,9 +122,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createDisplayName: (userid, formData) => dispatch(createDisplayName(userid, formData)),
-  showCreateDisplayNameDialog: () => dispatch(showCreateDisplayNameDialog()),
-  hideCreateDisplayNameDialog: () => dispatch(hideCreateDisplayNameDialog()),
+  createUsername: (userid, formData) => dispatch(createUsername(userid, formData)),
+  showCreateUsernameDialog: () => dispatch(showCreateUsernameDialog()),
+  hideCreateUsernameDialog: () => dispatch(hideCreateUsernameDialog()),
   invalidForm: error => dispatch(invalidForm(error)),
   validForm: () => dispatch(validForm())
 });
@@ -132,4 +132,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ChangeDisplayNameContainer);
+)(ChangeUsernameContainer);
