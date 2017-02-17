@@ -109,7 +109,7 @@ module.exports = class UsersService {
    * @param  {Object}   profile - User social/external profile
    * @param  {Function} done    [description]
    */
-  static findOrCreateExternalUser({id, provider, displayname}) {
+  static findOrCreateExternalUser({id, provider, displayName}) {
     return UserModel
       .findOne({
         profiles: {
@@ -124,7 +124,7 @@ module.exports = class UsersService {
           return user;
         }
 
-        let username = UsersService.castUsername(displayname);
+        let username = UsersService.castUsername(displayName);
 
         // The user was not found, lets create them!
         user = new UserModel({
@@ -176,11 +176,11 @@ module.exports = class UsersService {
    * @param  {Boolean}  checkAgainstWordlist  enables cheching against the wordlist
    * @return {Promise}
    */
-  static isValidUserName(username, checkAgainstWordlist = true) {
+  static isValidUsername(username, checkAgainstWordlist = true) {
     const onlyLettersNumbersUnderscore = /^[A-Za-z0-9_]+$/;
 
     if (!username) {
-      return Promise.reject(errors.ErrMissingDisplay);
+      return Promise.reject(errors.ErrMissingUsername);
     }
 
     if (!onlyLettersNumbersUnderscore.test(username)) {
@@ -230,7 +230,7 @@ module.exports = class UsersService {
     username = username.trim();
 
     return Promise.all([
-      UsersService.isValidUserName(username),
+      UsersService.isValidUsername(username),
       UsersService.isValidPassword(password)
     ])
       .then(() => { // username is valid
@@ -257,7 +257,7 @@ module.exports = class UsersService {
               if (err) {
                 if (err.code === 11000) {
                   if (err.message.match('Username')) {
-                    return reject(errors.ErrDisplayTaken);
+                    return reject(errors.ErrUsernameTaken);
                   }
                   return reject(errors.ErrEmailTaken);
                 }
@@ -688,7 +688,7 @@ module.exports = class UsersService {
       }
     }).then((result) => {
       return result.nModified > 0 ? result :
-      Promise.reject(new Error('You do not have permission to update your username.'));
+        Promise.reject(errors.ErrPermissionUpdateUsername);
     });
   }
 };

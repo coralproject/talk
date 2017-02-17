@@ -123,7 +123,7 @@ router.put('/username', authorization.needed(), (req, res, next) => {
     })
     .catch(error => {
       if (error.code === 11000) {
-        next(errors.ErrDisplayTaken);
+        next(errors.ErrUsernameTaken);
       } else {
         next(error);
       }

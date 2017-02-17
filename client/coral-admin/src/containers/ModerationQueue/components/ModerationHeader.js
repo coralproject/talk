@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
+import {Icon} from 'coral-ui';
 import styles from './styles.css';
 
 const ModerationHeader = props => (
@@ -9,7 +10,10 @@ const ModerationHeader = props => (
           props.asset ?
             <div className={`mdl-tabs__tab-bar ${styles.moderateAsset}`}>
               <Link className="mdl-tabs__tab" to="/admin/moderate">All Streams</Link>
-              <a className="mdl-tabs__tab">{props.asset.title}</a>
+              <a className="mdl-tabs__tab">
+                {props.asset.title}
+                <a href={props.asset.url} className={styles.settingsButton}><Icon name="settings"/></a>
+              </a>
               <Link className="mdl-tabs__tab" to="/admin/streams">Select Stream</Link>
             </div>
             :
