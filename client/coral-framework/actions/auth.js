@@ -177,7 +177,7 @@ export const checkLogin = () => dispatch => {
     })
     .catch(error => {
       console.error(error);
-      dispatch(checkLoginFailure(`${error.message}`));
+      dispatch(checkLoginFailure(`${error.translation_key}`));
     });
 };
 

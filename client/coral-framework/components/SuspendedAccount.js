@@ -26,7 +26,7 @@ class SuspendedAccount extends Component {
       editName(username)
         .then(() => location.reload())
         .catch((error) => {
-          this.setState({alert: lang.t(`error.${error.message}`)});
+          this.setState({alert: lang.t(`error.${error.translation_key}`)});
         });
     } else {
       this.setState({alert: lang.t('editName.error')});
