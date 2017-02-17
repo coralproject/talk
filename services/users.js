@@ -257,7 +257,7 @@ module.exports = class UsersService {
               if (err) {
                 if (err.code === 11000) {
                   if (err.message.match('Username')) {
-                    return reject(errors.ErrUsernameTake);
+                    return reject(errors.ErrUsernameTaken);
                   }
                   return reject(errors.ErrEmailTaken);
                 }
