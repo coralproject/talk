@@ -38,7 +38,7 @@ export default {
       errorCreate: 'Error when changing username',
       checkTheForm: 'Invalid Form. Please, check the fields',
       specialCharacters: 'Usernames can contain letters, numbers and _ only'
-    },
+    }
   },
   es: {
     'signIn': {

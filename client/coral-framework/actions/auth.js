@@ -26,7 +26,7 @@ export const createUsername = (userId, formData) => dispatch => {
       dispatch(updateUsername(formData));
     })
     .catch(error => {
-      dispatch(createUsernameFailure(lang.t(`error.${error.message}`)));
+      dispatch(createUsernameFailure(lang.t(`error.${error.translation_key}`)));
     });
 };
 
@@ -123,7 +123,7 @@ export const fetchSignUp = (formData, redirectUri) => (dispatch) => {
       dispatch(signUpSuccess(user));
     })
     .catch(error => {
-      dispatch(signUpFailure(lang.t(`error.${error.message}`)));
+      dispatch(signUpFailure(lang.t(`error.${error.translation_key}`)));
     });
 };
 
