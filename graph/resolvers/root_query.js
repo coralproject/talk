@@ -39,6 +39,23 @@ const RootQuery = {
     return Comments.getByQuery(query);
   },
 
+  commentCount(_, {query: {action_type, statuses, asset_id, parent_id}}, {user, loaders: {Actions, Comments}}) {
+    if (user == null || !user.hasRoles('ADMIN')) {
+      return null;
+    }
+
+    if (action_type) {
+      return Actions.getByTypes({action_type, item_type: 'COMMENTS'})
+        .then((ids) => {
+
+          // Perform the query using the available resolver.
+          return Comments.getCountByQuery({ids, statuses, asset_id, parent_id});
+        });
+    }
+
+    return Comments.getCountByQuery({statuses, asset_id, parent_id});
+  },
+
   metrics(_, {from, to, sort, limit = 10}, {user, loaders: {Metrics}}) {
     if (user == null || !user.hasRoles('ADMIN')) {
       return null;
