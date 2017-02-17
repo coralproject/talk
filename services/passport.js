@@ -103,9 +103,7 @@ if (process.env.TALK_FACEBOOK_APP_ID && process.env.TALK_FACEBOOK_APP_SECRET && 
     clientSecret: process.env.TALK_FACEBOOK_APP_SECRET,
     callbackURL: `${process.env.TALK_ROOT_URL}/api/v1/auth/facebook/callback`,
 
-    // TODO: remove username reference when we have steps in the FE to handle
-    // the username create flow.
-    profileFields: ['id', 'username', 'picture.type(large)']
+    profileFields: ['id', 'displayName', 'picture.type(large)']
   }, (accessToken, refreshToken, profile, done) => {
     UsersService
       .findOrCreateExternalUser(profile)
