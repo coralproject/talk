@@ -54,8 +54,8 @@ const ErrEmailTaken = new APIError('Email address already in use', {
   status: 400
 });
 
-const ErrDisplayTaken = new APIError('Username already in use', {
-  translation_key: 'DISPLAYNAME_IN_USE',
+const ErrUsernameTaken = new APIError('Username already in use', {
+  translation_key: 'USERNAME_IN_USE',
   status: 400
 });
 
@@ -64,8 +64,8 @@ const ErrSpecialChars = new APIError('No special characters are allowed in a use
   status: 400
 });
 
-const ErrMissingDisplay = new APIError('A username is required to create a user', {
-  translation_key: 'DISPLAY_NAME_REQUIRED',
+const ErrMissingUsername = new APIError('A username is required to create a user', {
+  translation_key: 'USERNAME_REQUIRED',
   status: 400
 });
 
@@ -141,6 +141,12 @@ const ErrInstallLock = new APIError('install lock active', {
   status: 500
 });
 
+// ErrPermissionUpdateUsername is returned when the user does not have permission to update their username.
+const ErrPermissionUpdateUsername = new APIError('You do not have permission to update your username.', {
+  translation_key: 'EDIT_USERNAME_NOT_AUTHORIZED',
+  status: 500
+});
+
 module.exports = {
   ExtendableError,
   APIError,
@@ -151,14 +157,15 @@ module.exports = {
   ErrMissingToken,
   ErrEmailTaken,
   ErrSpecialChars,
-  ErrMissingDisplay,
+  ErrMissingUsername,
   ErrContainsProfanity,
-  ErrDisplayTaken,
+  ErrUsernameTaken,
   ErrAssetCommentingClosed,
   ErrNotFound,
   ErrInvalidAssetURL,
   ErrAuthentication,
   ErrNotAuthorized,
+  ErrPermissionUpdateUsername,
   ErrSettingsInit,
   ErrInstallLock
 };

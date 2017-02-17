@@ -20,7 +20,7 @@ export const mostFlags = graphql(MOST_FLAGS, {
 });
 
 export const modQueueQuery = graphql(MOD_QUEUE_QUERY, {
-  options: ({params: {id = ''}}) => {
+  options: ({params: {id = null}}) => {
     return {
       variables: {
         asset_id: id

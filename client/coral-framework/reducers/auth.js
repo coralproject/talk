@@ -7,7 +7,7 @@ const initialState = Map({
   isAdmin: false,
   user: null,
   showSignInDialog: false,
-  showCreateDisplayNameDialog: false,
+  showCreateUsernameDialog: false,
   view: 'SIGNIN',
   error: '',
   passwordRequestSuccess: null,
@@ -43,19 +43,19 @@ export default function auth (state = initialState, action) {
       emailVerificationLoading: false,
       successSignUp: false
     }));
-  case actions.SHOW_CREATEDISPLAYNAME_DIALOG :
+  case actions.SHOW_CREATEUSERNAME_DIALOG :
     return state
-      .set('showCreateDisplayNameDialog', true);
-  case actions.HIDE_CREATEDISPLAYNAME_DIALOG :
+      .set('showCreateUsernameDialog', true);
+  case actions.HIDE_CREATEUSERNAME_DIALOG :
     return state.merge(Map({
-      showCreateDisplayNameDialog: false
+      showCreateUsernameDialog: false
     }));
-  case actions.CREATEDISPLAYNAME_SUCCESS :
+  case actions.CREATE_USERNAME_SUCCESS :
     return state.merge(Map({
-      showCreateDisplayNameDialog: false,
+      showCreateUsernameDialog: false,
       error: ''
     }));
-  case actions.CREATEDISPLAYNAME_FAILURE :
+  case actions.CREATE_USERNAME_FAILURE :
     return state
       .set('error', action.error);
   case actions.CHANGE_VIEW :
@@ -130,8 +130,7 @@ export default function auth (state = initialState, action) {
     return state
       .set('passwordRequestFailure', 'There was an error sending your password reset email. Please try again soon!')
       .set('passwordRequestSuccess', null);
-  case actions.UPDATE_DISPLAYNAME:
-    console.log('Action', action);
+  case actions.UPDATE_USERNAME:
     return state
       .setIn(['user', 'username'], action.username);
   case actions.VERIFY_EMAIL_FAILURE:

@@ -175,11 +175,11 @@ anymatch@^1.3.0:
     arrify "^1.0.0"
     micromatch "^2.1.5"
 
-apollo-client@^0.7.3:
-  version "0.7.3"
-  resolved "https://registry.yarnpkg.com/apollo-client/-/apollo-client-0.7.3.tgz#f27702409ce4b90c3adbd78d8434c3e8d762c7dd"
+apollo-client@^0.8.3:
+  version "0.8.6"
+  resolved "https://registry.yarnpkg.com/apollo-client/-/apollo-client-0.8.6.tgz#9aa18b03ec338f0a3804122df7f77493a10b72a0"
   dependencies:
-    graphql-anywhere "^2.0.0"
+    graphql-anywhere "^2.1.0"
     graphql-tag "^1.1.1"
     redux "^3.4.0"
     symbol-observable "^1.0.2"
@@ -3303,7 +3303,7 @@ graceful-fs@~2.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
 
-graphql-anywhere@^2.0.0:
+graphql-anywhere@^2.0.0, graphql-anywhere@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/graphql-anywhere/-/graphql-anywhere-2.1.0.tgz#888c0a1718db3ff866b313070747777380560f69"
 
@@ -6375,9 +6375,9 @@ react-addons-test-utils@15.3.2:
   version "15.3.2"
   resolved "https://registry.yarnpkg.com/react-addons-test-utils/-/react-addons-test-utils-15.3.2.tgz#c09a44f583425a4a9c1b38444d7a6c3e6f0f41f6"
 
-react-apollo@^0.8.1:
-  version "0.8.3"
-  resolved "https://registry.yarnpkg.com/react-apollo/-/react-apollo-0.8.3.tgz#e799bdc913948bb487dfa90921b2ea8d08464816"
+react-apollo@^0.10.0:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/react-apollo/-/react-apollo-0.10.1.tgz#97fd50855f8575672aa68330b9c64a201cd13343"
   dependencies:
     graphql-anywhere "^2.0.0"
     hoist-non-react-statics "^1.2.0"

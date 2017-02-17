@@ -27,7 +27,7 @@ type User {
   # The ID of the User.
   id: ID!
 
-  # username of a user.
+  # Username of a user.
   username: String!
 
   # Action summaries against the user.
@@ -96,10 +96,40 @@ enum ACTION_TYPE {
 # CommentsQuery allows the ability to query comments by a specific methods.
 input CommentsQuery {
 
-  # current status of a comment.
+  # Current status of a comment. Requires the `ADMIN` role.
   statuses: [COMMENT_STATUS!]
 
-  # asset that a comment is on.
+  # Asset that a comment is on.
+  asset_id: ID
+
+  # The parent of the comment that we want to retrieve.
+  parent_id: ID
+
+  # Comments returned will only be ones which have at least one action of this
+  # type. Requires the `ADMIN` role.
+  action_type: ACTION_TYPE
+
+  # Limit the number of results to be returned.
+  limit: Int = 10
+
+  # Skip results from the last created_at timestamp.
+  cursor: Date
+
+  # Filter by a specific tag name.
+  tag: [String]
+
+  # Sort the results by created_at.
+  sort: SORT_ORDER = REVERSE_CHRONOLOGICAL
+}
+
+# CommentCountQuery allows the ability to query comment counts by specific
+# methods.
+input CommentCountQuery {
+
+  # Current status of a comment. Requires the `ADMIN` role.
+  statuses: [COMMENT_STATUS!]
+
+  # Asset that a comment is on.
   asset_id: ID
 
   # the parent of the comment that we want to retrieve.
@@ -109,17 +139,8 @@ input CommentsQuery {
   # type.
   action_type: ACTION_TYPE
 
-  # limit the number of results to be returned.
-  limit: Int = 10
-
-  # skip results from the last created_at timestamp.
-  cursor: Date
-
-  # filter by a specific tag name.
+  # Filter by a specific tag name.
   tag: [String]
-
-  # sort the results by created_at.
-  sort: SORT_ORDER = REVERSE_CHRONOLOGICAL
 }
 
 # Comment is the base representation of user interaction in Talk.
@@ -146,7 +167,7 @@ type Comment {
   # The count of replies on a comment.
   replyCount: Int
 
-  # Actions completed on the parent.
+  # Actions completed on the parent. Requires the `ADMIN` role.
   actions: [Action]
 
   # Action summaries against a comment.
@@ -350,7 +371,7 @@ type Asset {
   closedAt: Date
 
   # Summary of all Actions against all entities associated with the Asset.
-  # (likes, flags, etc.)
+  # (likes, flags, etc.). Requires the `ADMIN` role.
   action_summaries: [AssetActionSummary]
 
   # The date that the asset was created.
@@ -418,7 +439,7 @@ type RootQuery {
   # Site wide settings and defaults.
   settings: Settings
 
-  # All assets.
+  # All assets. Requires the `ADMIN` role.
   assets: [Asset]
 
   # Find or create an asset by url, or just find with the ID.
@@ -427,7 +448,12 @@ type RootQuery {
   # Comments returned based on a query.
   comments(query: CommentsQuery!): [Comment]
 
-  # The currently logged in user based on the request.
+  # Returne the count of comments satisfied by the query. Note that this edge is
+  # expensive as it is not batched. Requires the `ADMIN` role.
+  commentCount(query: CommentCountQuery!): Int
+
+  # The currently logged in user based on the request. Requires any logged in
+  # role.
   me: User
 
   # Metrics related to user actions are saturated into the assets returned. The
@@ -554,10 +580,10 @@ type RootMutation {
   # Delete an action based on the action id.
   deleteAction(id: ID!): DeleteActionResponse
 
-  # Sets User status
+  # Sets User status. Requires the `ADMIN` role.
   setUserStatus(id: ID!, status: USER_STATUS!): SetUserStatusResponse
 
-  # Sets Comment status
+  # Sets Comment status. Requires the `ADMIN` role.
   setCommentStatus(id: ID!, status: COMMENT_STATUS!): SetCommentStatusResponse
 }
 
