@@ -8,10 +8,10 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
 const lang = new I18n(translations);
 
-const CreateDisplayNameDialog = ({open, handleClose, offset, formData, handleSubmitDisplayName, handleChange, ...props}) => (
+const CreateUsernameDialog = ({open, handleClose, offset, formData, handleSubmitUsername, handleChange, ...props}) => (
   <Dialog
     className={styles.dialog}
-    id="createDisplayNameDialog"
+    id="createUsernameDialog"
     open={open}
     style={{
       position: 'relative',
@@ -27,7 +27,7 @@ const CreateDisplayNameDialog = ({open, handleClose, offset, formData, handleSub
       <div>
         <label htmlFor="username">{lang.t('createdisplay.yourusername')}</label>
         { props.auth.error && <Alert>{props.auth.error}</Alert> }
-        <form id="saveDisplayName" onSubmit={handleSubmitDisplayName}>
+        <form id="saveUsername" onSubmit={handleSubmitUsername}>
           <TextField
             id="username"
             type="string"
@@ -45,4 +45,4 @@ const CreateDisplayNameDialog = ({open, handleClose, offset, formData, handleSub
   </Dialog>
 );
 
-export default CreateDisplayNameDialog;
+export default CreateUsernameDialog;

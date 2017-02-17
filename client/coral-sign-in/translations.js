@@ -26,7 +26,7 @@ export default {
       emailORusernameInUse: 'Email address or Username already in use',
       requiredField: 'This field is required',
       passwordsDontMatch: 'Passwords don\'t match.',
-      specialCharacters: 'Display names can contain letters, numbers and _ only',
+      specialCharacters: 'Usernames can contain letters, numbers and _ only',
       checkTheForm: 'Invalid Form. Please, check the fields'
     },
     'createdisplay': {
@@ -37,8 +37,8 @@ export default {
       requiredField: 'Required field',
       errorCreate: 'Error when changing username',
       checkTheForm: 'Invalid Form. Please, check the fields',
-      specialCharacters: 'Display names can contain letters, numbers and _ only'
-    },
+      specialCharacters: 'Usernames can contain letters, numbers and _ only'
+    }
   },
   es: {
     'signIn': {
