@@ -307,6 +307,19 @@ type FlagActionSummary implements ActionSummary {
   current_user: FlagAction
 }
 
+# Summary for Don't Agree Action with a a unique reason.
+type DontAgreeActionSummary implements ActionSummary {
+
+  # The total count of flags with this reason.
+  count: Int!
+
+  # The reason for which the Flag Action was created.
+  reason: String
+
+  # The don't agree action by the current user against the parent entity with this reason.
+  current_user: DontAgreeAction
+}
+
 ################################################################################
 ## Settings
 ################################################################################
