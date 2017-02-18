@@ -81,7 +81,7 @@ export const submitUser = () => (dispatch, getState) => {
       })
       .catch(error => {
         console.error(error);
-        dispatch(installFailure(`${error.message}`));
+        dispatch(installFailure(`${error.translation_key}`));
       });
   });
 };
@@ -104,6 +104,6 @@ export const checkInstall = next => dispatch => {
     })
     .catch(error => {
       console.error(error);
-      dispatch(checkInstallFailure(`${error.message}`));
+      dispatch(checkInstallFailure(`${error.translation_key}`));
     });
 };

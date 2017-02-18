@@ -136,7 +136,7 @@ router.post('/', (req, res, next) => {
           res.status(201).json(user);
         });
     })
-    .catch(err => {
+    .catch((err) => {
       next(err);
     });
 });
@@ -163,7 +163,6 @@ router.post('/:user_id/actions', authorization.needed(), (req, res, next) => {
       res.status(201).json(action);
     })
     .catch((err) => {
-      console.log('Error', err);
       next(err);
     });
 });
