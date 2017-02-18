@@ -15,11 +15,18 @@ const Wordlist = require('../../services/wordlist');
  * @return {Promise}              resolves to the created comment
  */
 const createComment = ({user, loaders: {Comments}}, {body, asset_id, parent_id = null}, status = 'NONE') => {
+
+  let tags = [];
+  if (user.hasRoles('ADMIN') || user.hasRoles('MODERATOR')) {
+    tags = [{name: 'STAFF'}];
+  }
+
   return CommentsService.publicCreate({
     body,
     asset_id,
     parent_id,
     status,
+    tags,
     author_id: user.id
   })
   .then((comment) => {
@@ -34,12 +41,6 @@ const createComment = ({user, loaders: {Comments}}, {body, asset_id, parent_id =
       } else {
         Comments.countByAssetID.clear(asset_id);
       }
-    }
-
-    if (user.hasRoles('ADMIN')) {
-      return CommentsService
-        .addTag(comment.id, 'STAFF', user.id)
-        .then(() => comment);
     }
 
     return comment;
@@ -140,12 +141,12 @@ const createPublicComment = (context, commentInput) => {
         // Otherwise just return the new comment.
 
         // TODO: Check why the wordlist is undefined
-        if (wordlist != null) {
+        if (wordlist != null && wordlist.suspect != null) {
 
           // TODO: this is kind of fragile, we should refactor this to resolve
           // all these const's that we're using like 'COMMENTS', 'FLAG' to be
           // defined in a checkable schema.
-          return context.mutators.Action.createAction(null, {
+          return context.mutators.Action.create({
             item_id: comment.id,
             item_type: 'COMMENTS',
             action_type: 'FLAG',
