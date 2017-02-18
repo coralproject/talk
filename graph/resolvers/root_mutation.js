@@ -1,3 +1,6 @@
+const {Error: {ValidationError}} = require('mongoose');
+const errors = require('../../errors');
+
 /**
  * Wraps up a promise to return an object with the resolution of the promise
  * keyed at `key` or an error caught at `errors`.
@@ -9,9 +12,20 @@ const wrapResponse = (key) => (promise) => {
       res[key] = value;
     }
     return res;
-  }).catch((err) => ({
-    errors: [err]
-  }));
+  }).catch((err) => {
+
+    if (err instanceof errors.APIError) {
+      return {
+        errors: [err]
+      };
+    } else if (err instanceof ValidationError) {
+
+      // TODO: wrap this with one of our internal errors.
+      throw err;
+    }
+
+    throw err;
+  });
 };
 
 const RootMutation = {

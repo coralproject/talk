@@ -29,27 +29,17 @@ module.exports = class CommentsService {
     }
 
     const {
-      body,
-      asset_id,
-      parent_id,
       status = 'NONE',
-      author_id
     } = comment;
 
-    comment = new CommentModel({
-      body,
-      asset_id,
-      parent_id,
-      status_history: status ? [{
-        type: status,
-        created_at: new Date()
-      }] : [],
-      tags: [],
-      status,
-      author_id
-    });
+    comment.status_history = status ? [{
+      type: status,
+      created_at: new Date()
+    }] : [];
 
-    return comment.save();
+    let commentModel = new CommentModel(comment);
+
+    return commentModel.save();
   }
 
   /**
