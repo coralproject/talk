@@ -17,8 +17,28 @@ class Stream extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {activeReplyBox: ''};
+    this.state = {activeReplyBox: '', countPoll: null};
     this.setActiveReplyBox = this.setActiveReplyBox.bind(this);
+  }
+
+  componentDidMount() {
+    const {asset, getCounts, updateCountCache} = this.props;
+
+    updateCountCache(asset.id, asset.comments.length);
+
+    // Note: Apollo's built-in polling doesn't work with fetchMore queries, so a
+    // setInterval is being used instead.
+    this.setState({
+      countPoll: setInterval(() => getCounts({
+        asset_id: asset.id,
+        limit: asset.comments.length,
+        sort: 'REVERSE_CHRONOLOGICAL'
+      }), 5000),
+    });
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.countPoll);
   }
 
   setActiveReplyBox (reactKey) {

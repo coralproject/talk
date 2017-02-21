@@ -1,6 +1,7 @@
 import {graphql} from 'react-apollo';
 import STREAM_QUERY from './streamQuery.graphql';
 import LOAD_MORE from './loadMore.graphql';
+import GET_COUNTS from './getCounts.graphql';
 import MY_COMMENT_HISTORY from './myCommentHistory.graphql';
 
 function getQueryVariable(variable) {
@@ -17,6 +18,62 @@ function getQueryVariable(variable) {
   return 'http://localhost/default/stream';
 }
 
+export const getCounts = (data) => ({asset_id, limit, sort}) => {
+  return data.fetchMore({
+    query: GET_COUNTS,
+    variables: {
+      asset_id,
+      limit,
+      sort
+    },
+    updateQuery: (oldData, {fetchMoreResult:{data}}) => {
+
+      return {
+        ...oldData,
+        asset: {
+          ...oldData.asset,
+          commentCount: data.asset.commentCount
+        }
+      };
+    }
+  });
+};
+
+export const loadMore = (data) => ({limit, cursor, parent_id, asset_id, sort}) => {
+  return data.fetchMore({
+    query: LOAD_MORE,
+    variables: {
+      limit,
+      cursor,
+      parent_id,
+      asset_id,
+      sort
+    },
+    updateQuery: (oldData, {fetchMoreResult:{data:{new_top_level_comments}}}) =>
+
+      // If loading more replies
+      parent_id ? {
+        ...oldData,
+        asset: {
+          ...oldData.asset,
+          comments: oldData.asset.comments.map((comment) =>
+            comment.id === parent_id
+            ? {...comment, replies: [...comment.replies, ...new_top_level_comments]}
+            : comment)
+        }
+      }
+
+      // If loading more top-level comments
+      : {
+        ...oldData,
+        asset: {
+          ...oldData.asset,
+          comments: [...oldData.asset.comments, ...new_top_level_comments]
+        }
+      }
+  });
+};
+
 export const queryStream = graphql(STREAM_QUERY, {
   options: () => ({
     variables: {
@@ -25,40 +82,8 @@ export const queryStream = graphql(STREAM_QUERY, {
   }),
   props: ({data}) => ({
     data,
-    loadMore: ({limit, cursor, parent_id, asset_id, sort}) => {
-      return data.fetchMore({
-        query: LOAD_MORE,
-        variables: {
-          limit,
-          cursor,
-          parent_id,
-          asset_id,
-          sort
-        },
-        updateQuery: (oldData, {fetchMoreResult:{data:{new_top_level_comments}}}) =>
-
-          // If loading more replies
-          parent_id ? {
-            ...oldData,
-            asset: {
-              ...oldData.asset,
-              comments: oldData.asset.comments.map((comment) =>
-                comment.id === parent_id
-                ? {...comment, replies: [...comment.replies, ...new_top_level_comments]}
-                : comment)
-            }
-          }
-
-          // If loading more top-level comments
-          : {
-            ...oldData,
-            asset: {
-              ...oldData.asset,
-              comments: [...oldData.asset.comments, ...new_top_level_comments]
-            }
-          }
-      });
-    }
+    loadMore: loadMore(data),
+    getCounts: getCounts(data),
   })
 });
 
