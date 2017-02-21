@@ -7,7 +7,7 @@
       "admin": "Administrator",
       "moderator": "Moderator",
       "role": "Select role...",
-      "no-results": "No users found with that user name or email address.",
+      "no-results": "No users found with that user name or email address. They're hiding!",
       "status": "Status",
       "select-status": "Select status...",
       "active": "Active",
@@ -32,6 +32,7 @@
       "prevcomment": "Go to the previous comment",
       "singleview": "Toggle single comment edit view",
       "thismenu": "Open this menu",
+      "emptyqueue": "No more comments to moderate! You're all caught up. Go have some ☕️",
       "showshortcuts": "Show Shortcuts"
     },
     "comment": {
@@ -152,6 +153,7 @@
       "flagged": "marcado",
       "shortcuts": "Atajos de teclado",
       "close": "Cerrar",
+      "emptyqueue": "No se encontro ningún usuario. Están escondidos.",
       "showshortcuts": "Mostrar atajos"
     },
     "comment": {

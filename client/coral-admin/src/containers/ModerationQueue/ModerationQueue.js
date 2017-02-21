@@ -3,6 +3,10 @@ import React, {PropTypes} from 'react';
 import Comment from './components/Comment';
 import EmptyCard from '../../components/EmptyCard';
 import {actionsMap} from './helpers/moderationQueueActionsMap';
+import I18n from 'coral-framework/modules/i18n/i18n';
+import translations from 'coral-admin/src/translations';
+
+const lang = new I18n(translations);
 
 const ModerationQueue = ({activeTab = 'premod', ...props}) => {
   const areComments = props.data[activeTab].length;
@@ -25,7 +29,7 @@ const ModerationQueue = ({activeTab = 'premod', ...props}) => {
             currentAsset={props.currentAsset}
           />;
         })
-        : <EmptyCard>No more comments to moderate! You're all caught up. Go have some ☕️</EmptyCard>
+        : <EmptyCard>{lang.t('modqueue.emptyqueue')}</EmptyCard>
       }
       </ul>
     </div>
