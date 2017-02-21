@@ -11,7 +11,7 @@ class Dashboard extends React.Component {
 
     const {data} = this.props;
     console.log('data', data);
-    const {metrics: assets} = data;
+    const {assetsByLike, assetsByFlag} = data;
 
     if (data.loading) {
       return <Spinner />;
@@ -25,14 +25,14 @@ class Dashboard extends React.Component {
       <div className={styles.Dashboard}>
         <div className={styles.widget}>
           <h2 className={styles.heading}>Top Ten Articles with the most flagged comments</h2>
-          <FlagWidget assets={assets} />
+          <FlagWidget assets={assetsByFlag} />
         </div>
         <div className={styles.widget}>
           <h2 className={styles.heading}>Top ten comments with the most likes</h2>
         </div>
         <div className={styles.widget}>
           <h2 className={styles.heading}>Top Ten Articles with the most likes</h2>
-          <LikeWidget assets={assets} />
+          <LikeWidget assets={assetsByLike} />
         </div>
       </div>
     );

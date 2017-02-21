@@ -1,9 +1,10 @@
 import {graphql} from 'react-apollo';
 
-import METRICS from './metrics.graphql';
+import BY_LIKES from './assetsByLike.graphql';
+import BY_FLAGS from './assetsByFlag.graphql';
 import MOD_QUEUE_QUERY from './modQueueQuery.graphql';
 
-export const mostFlags = graphql(METRICS, {
+export const mostFlags = graphql(BY_FLAGS, {
   options: () => {
 
     // currently hard-coded per Greg's advice
@@ -19,7 +20,7 @@ export const mostFlags = graphql(METRICS, {
   }
 });
 
-export const mostLikes = graphql(METRICS, {
+export const mostLikes = graphql(BY_LIKES, {
   options: () => {
     const fiveMinutesAgo = new Date();
     fiveMinutesAgo.setMinutes(fiveMinutesAgo.getMinutes() - 5);
