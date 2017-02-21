@@ -43,7 +43,7 @@ router.post('/', (req, res, next) => {
       res.status(204).end();
     })
     .catch((err) => {
-      return next(err);
+      next(err);
     });
 
 });
