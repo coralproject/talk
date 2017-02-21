@@ -128,7 +128,6 @@ class Embed extends Component {
                    {
                      user
                      ? <CommentBox
-                        commentPostedHandler={refetch}
                         addNotification={this.props.addNotification}
                         postItem={this.props.postItem}
                         appendItemArray={this.props.appendItemArray}
