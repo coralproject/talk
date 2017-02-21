@@ -13,7 +13,7 @@ fragment metrics on Asset {
 }
 
 query Metrics ($from: Date!, $to: Date!, $sort: ACTION_TYPE!) {
-  assetsByLike: metrics(from: $from, to: $to, sort: $sort) {
+  metrics(from: $from, to: $to, sort: $sort) {
     ...metrics
   }
 }
