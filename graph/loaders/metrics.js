@@ -5,7 +5,10 @@ const {objectCacheKeyFn} = require('./util');
 const CommentModel = require('../../models/comment');
 const ActionModel = require('../../models/action');
 
-const getMetrics = ({loaders: {Metrics, Assets}}, {from, to, sort, limit}) => {
+/**
+ * Returns a list of assets with action metadata included on the models.
+ */
+const getAssetMetrics = ({loaders: {Metrics, Assets}}, {from, to, sort, limit}) => {
 
   let commentMetrics = {};
   let assetMetrics = [];
@@ -99,6 +102,59 @@ const getMetrics = ({loaders: {Metrics, Assets}}, {from, to, sort, limit}) => {
     });
 };
 
+/**
+ * Returns a list of comments that are retrieved based on most activity within
+ * the indicated time range.
+ */
+const getCommentMetrics = ({loaders: {Metrics, Assets}}, {from, to, sort, limit}) => {
+
+  let commentActionSummaries = {};
+
+  return Metrics.getRecentActions.load({from, to})
+    .then((actionSummaries) => {
+
+      actionSummaries.sort((a, b) => {
+        let aActionSummary = a.action_type === sort ? a : null;
+        let bActionSummary = b.action_type === sort ? b : null;
+
+        // If either a or b don't have this action type, then one of them will
+        // automatically win.
+        if (aActionSummary == null || bActionSummary == null) {
+          if (bActionSummary != null) {
+            return 1;
+          }
+
+          if (aActionSummary != null) {
+            return -1;
+          }
+
+          return 0;
+        }
+
+        // Both of them had an actionCount, hence we can determine that we could
+        // compare the actual values directly.
+        return bActionSummary.count - aActionSummary.count;
+      });
+
+      commentActionSummaries = _.groupBy(actionSummaries, 'item_id');
+
+      let commentIDs = _.uniq(actionSummaries.map(({item_id}) => item_id));
+
+      // Only keep the top `limit`.
+      commentIDs = commentIDs.slice(0, limit);
+
+      // Find those comments.
+      return Metrics.getSpecificComments.loadMany(commentIDs);
+    })
+    .then((comments) => comments.map((comment) => {
+
+      // Add in the action summaries genrerated.
+      comment.action_summaries = commentActionSummaries[comment.id];
+
+      return comment;
+    }));
+};
+
 const getRecentActions = (context, {from, to}) => {
   return ActionModel.aggregate([
 
@@ -150,6 +206,11 @@ module.exports = (context) => ({
       batch: false,
       cacheKeyFn: objectCacheKeyFn('from', 'to')
     }),
-    get: ({from, to, sort, limit}) => getMetrics(context, {from, to, sort, limit})
+    Assets: {
+      get: ({from, to, sort, limit}) => getAssetMetrics(context, {from, to, sort, limit})
+    },
+    Comments: {
+      get: ({from, to, sort, limit}) => getCommentMetrics(context, {from, to, sort, limit})
+    }
   }
 });
