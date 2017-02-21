@@ -3,7 +3,10 @@ import TextField from 'coral-ui/components/TextField';
 import Alert from './Alert';
 import Button from 'coral-ui/components/Button';
 import {Dialog} from 'coral-ui';
+import FakeComment from './FakeComment';
+
 import styles from './styles.css';
+
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
 const lang = new I18n(translations);
@@ -25,9 +28,14 @@ const CreateUsernameDialog = ({open, handleClose, offset, formData, handleSubmit
         </h1>
       </div>
       <div>
-        <p class={styles.yourusername}>{lang.t('createdisplay.yourusername')}</p>
-        <div class="styles.example">Example</div>
-        <p class={styles.ifyoudont}>{lang.t('createdisplay.ifyoudontchangeyourname')}</p>
+        <p className={styles.yourusername}>{lang.t('createdisplay.yourusername')}</p>
+        <FakeComment
+          className={styles.fakeComment}
+          username="Pepe"
+          created_at={Date.now()}
+          body={lang.t('createdisplay.fakecommentbody')}
+        />
+        <p className={styles.ifyoudont}>{lang.t('createdisplay.ifyoudontchangeyourname')}</p>
         { props.auth.error && <Alert>{props.auth.error}</Alert> }
         <form id="saveUsername" onSubmit={handleSubmitUsername}>
           { props.errors.username && <span className={styles.hint}> {lang.t('createdisplay.specialCharacters')} </span> }

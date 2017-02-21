@@ -159,6 +159,7 @@ input.error{
 
 .ifyoudont {
   display: block;
+  margin-top: 15px;
 }
 
 .saveusername {
@@ -177,4 +178,9 @@ input.error{
   font-weight: bold;
   color: white;
   min-width: 200px;
+}
+
+.fakeComment {
+  display: block;
+  margin-bottom: 5px;
 }
