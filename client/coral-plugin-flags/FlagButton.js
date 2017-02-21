@@ -76,7 +76,6 @@ class FlagButton extends Component {
         postDontAgree(action)
         .then(({data}) => {
           if (itemType === 'COMMENTS') {
-            console.log('data', data);
             this.setState({localPost: data.createDontAgree.dontagree.id});
           }
         });
