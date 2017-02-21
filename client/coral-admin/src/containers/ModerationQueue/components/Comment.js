@@ -42,7 +42,7 @@ const Comment = ({actions = [], ...props}) => {
                />
              )}
            </div>
-          {props.comment.user.banned === 'banned' ?
+          {props.comment.user.status === 'banned' ?
             <span className={styles.banned}>
               <Icon name='error_outline'/>
               {lang.t('comment.banned_user')}
@@ -78,7 +78,7 @@ Comment.propTypes = {
     action_summaries: PropTypes.array,
     created_at: PropTypes.string.isRequired,
     user: PropTypes.shape({
-      banned: PropTypes.bool
+      status: PropTypes.string
     }),
     asset: PropTypes.shape({
       title: PropTypes.string,
