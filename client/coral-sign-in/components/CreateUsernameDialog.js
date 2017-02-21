@@ -10,7 +10,7 @@ const lang = new I18n(translations);
 
 const CreateUsernameDialog = ({open, handleClose, offset, formData, handleSubmitUsername, handleChange, ...props}) => (
   <Dialog
-    className={styles.dialog}
+    className={styles.dialogusername}
     id="createUsernameDialog"
     open={open}
     style={{
@@ -25,20 +25,23 @@ const CreateUsernameDialog = ({open, handleClose, offset, formData, handleSubmit
         </h1>
       </div>
       <div>
-        <label htmlFor="username">{lang.t('createdisplay.yourusername')}</label>
+        <p class={styles.yourusername}>{lang.t('createdisplay.yourusername')}</p>
+        <div class="styles.example">Example</div>
+        <p class={styles.ifyoudont}>{lang.t('createdisplay.ifyoudontchangeyourname')}</p>
         { props.auth.error && <Alert>{props.auth.error}</Alert> }
         <form id="saveUsername" onSubmit={handleSubmitUsername}>
-          <TextField
-            id="username"
-            type="string"
-            label={lang.t('createdisplay.username')}
-            value={formData.username}
-            onChange={handleChange}
-          />
-        { props.errors.username && <span className={styles.hint}> {lang.t('createdisplay.specialCharacters')} </span> }
-          <div className={styles.action}>
+          { props.errors.username && <span className={styles.hint}> {lang.t('createdisplay.specialCharacters')} </span> }
+          <div className={styles.saveusername}>
+            <TextField
+              id="username"
+              type="string"
+              label={lang.t('createdisplay.username')}
+              value={formData.username}
+              onChange={handleChange}
+            />
             <Button id="save" type="submit" className={styles.saveButton}>{lang.t('createdisplay.save')}</Button>
           </div>
+          <Button className={styles.continuebutton} onClick={handleClose}>{lang.t('createdisplay.continue')}</Button>
       </form>
       </div>
     </div>

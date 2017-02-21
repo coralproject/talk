@@ -30,9 +30,11 @@ export default {
       checkTheForm: 'Invalid Form. Please, check the fields'
     },
     'createdisplay': {
-      writeyourusername: 'Write your username',
-      yourusername: 'Your username is publicly visible on all comments you post. A username is needed before you can post your first comment.',
+      writeyourusername: 'Edit your username',
+      yourusername: 'Your username appears on every comment you post.',
+      ifyoudontchangeyourname: 'If you don\'t change your username at this step, your Facebook display name will appear alongside of all your comments.',
       username: 'Username',
+      continue: 'Continue with the same Facebook username',
       save: 'Save',
       requiredField: 'Required field',
       errorCreate: 'Error when changing username',
@@ -71,9 +73,11 @@ export default {
       checkTheForm: 'Formulario Inválido. Por favor, completa los campos'
     },
     'createdisplay': {
-      writeyourusername: 'Escribe tu nombre',
-      yourusername: 'Tu nombre es visible publicamente en todos los comentarios que publiques. Es necesario tener un nombre de usuario antes de poder publicar tu primer comentario.',
-      username: 'Nombre a mostrar',
+      writeyourusername: 'Edita tu nombre',
+      yourusername: 'Tu nombre aparece en cada comentario que publiques.',
+      ifyoudontchangeyourname: 'Si no modificas tu nombre de usuario en este paso, tu nombre de Facebook aparecera al lado de cada comentario que publiques.',
+      username: 'Nombre',
+      continue: 'Continuar con nombre de Facebook',
       save: 'Guardar',
       requiredField: 'Campo necesario',
       errorCreate: 'Hubo un error al cambiar el nombre de usuario',
