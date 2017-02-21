@@ -134,6 +134,8 @@ class Embed extends Component {
                         postItem={this.props.postItem}
                         appendItemArray={this.props.appendItemArray}
                         updateItem={this.props.updateItem}
+                        updateCountCache={this.props.updateCountCache}
+                        countCache={countCache[asset.id]}
                         assetId={asset.id}
                         premod={asset.settings.moderation}
                         isReply={false}
