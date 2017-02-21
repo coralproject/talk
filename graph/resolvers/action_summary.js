@@ -5,6 +5,8 @@ const ActionSummary = {
       return 'FlagActionSummary';
     case 'LIKE':
       return 'LikeActionSummary';
+    case 'DONTAGREE':
+      return 'DontAgreeActionSummary';
     }
   },
 };

@@ -90,6 +90,7 @@ class Comment extends React.Component {
       showSignInDialog,
       postLike,
       postFlag,
+      postDontAgree,
       loadMore,
       setActiveReplyBox,
       activeReplyBox,
@@ -133,6 +134,7 @@ class Comment extends React.Component {
             id={comment.id}
             author_id={comment.user.id}
             postFlag={postFlag}
+            postDontAgree={postDontAgree}
             deleteAction={deleteAction}
             showSignInDialog={showSignInDialog}
             currentUser={currentUser} />

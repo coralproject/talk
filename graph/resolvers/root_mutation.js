@@ -24,6 +24,9 @@ const RootMutation = {
   createFlag(_, {flag: {item_id, item_type, reason, message}}, {mutators: {Action}}) {
     return wrapResponse('flag')(Action.create({item_id, item_type, action_type: 'FLAG', group_id: reason, metadata: {message}}));
   },
+  createDontAgree(_, {dontagree: {item_id, item_type, reason, message}}, {mutators: {Action}}) {
+    return wrapResponse('dontagee')(Action.create({item_id, item_type, action_type: 'DONTAGREE', group_id: reason, metadata: {message}}));
+  },
   deleteAction(_, {id}, {mutators: {Action}}) {
     return wrapResponse(null)(Action.delete({id}));
   },
