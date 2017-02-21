@@ -145,7 +145,6 @@ class Comment extends React.Component {
           ? <ReplyBox
               commentPostedHandler={() => {
                 setActiveReplyBox('');
-                refetch();
               }}
               setActiveReplyBox={setActiveReplyBox}
               parentId={parentId || comment.id}

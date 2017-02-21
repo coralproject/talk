@@ -23,7 +23,7 @@ import CommentBox from 'coral-plugin-commentbox/CommentBox';
 import UserBox from 'coral-sign-in/components/UserBox';
 import SignInContainer from 'coral-sign-in/containers/SignInContainer';
 import SuspendedAccount from 'coral-framework/components/SuspendedAccount';
-import ChangeDisplayNameContainer from '../../coral-sign-in/containers/ChangeDisplayNameContainer';
+import ChangeUsernameContainer from '../../coral-sign-in/containers/ChangeUsernameContainer';
 import SettingsContainer from 'coral-settings/containers/SettingsContainer';
 import RestrictedContent from 'coral-framework/components/RestrictedContent';
 import ConfigureStreamContainer from 'coral-configure/containers/ConfigureStreamContainer';
@@ -128,7 +128,6 @@ class Embed extends Component {
                    {
                      user
                      ? <CommentBox
-                        commentPostedHandler={refetch}
                         addNotification={this.props.addNotification}
                         postItem={this.props.postItem}
                         appendItemArray={this.props.appendItemArray}
@@ -147,7 +146,7 @@ class Embed extends Component {
                : <p>{asset.settings.closedMessage}</p>
             }
             {!loggedIn && <SignInContainer requireEmailConfirmation={asset.settings.requireEmailConfirmation} offset={signInOffset}/>}
-            {loggedIn &&  user && <ChangeDisplayNameContainer loggedIn={loggedIn} offset={signInOffset} user={user} />}
+            {loggedIn &&  user && <ChangeUsernameContainer loggedIn={loggedIn} offset={signInOffset} user={user} />}
             <Stream
               refetch={refetch}
               addNotification={this.props.addNotification}

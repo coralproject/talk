@@ -15,10 +15,16 @@ export default ({handleLogout, restricted = false}) => (
         <Navigation className={styles.nav}>
           <IndexLink
             className={styles.navLink}
+            to="/admin/dashboard"
+            activeClassName={styles.active}>
+            {lang.t('configure.dashboard')}
+          </IndexLink>
+          <Link
+            className={styles.navLink}
             to="/admin/moderate"
             activeClassName={styles.active}>
             {lang.t('configure.moderate')}
-          </IndexLink>
+          </Link>
           <Link className={styles.navLink}
             to="/admin/streams"
             activeClassName={styles.active}>
@@ -34,12 +40,6 @@ export default ({handleLogout, restricted = false}) => (
             to="/admin/configure"
             activeClassName={styles.active}>
             {lang.t('configure.configure')}
-          </Link>
-          <Link
-            className={styles.navLink}
-            to="/admin/dashboard"
-            activeClassName={styles.active}>
-            {lang.t('configure.dashboard')}
           </Link>
         </Navigation>
         <div className={styles.rightPanel}>

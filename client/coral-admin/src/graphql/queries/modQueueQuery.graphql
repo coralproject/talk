@@ -1,6 +1,6 @@
 #import "../fragments/commentView.graphql"
 
-query ModQueue ($asset_id: ID!) {
+query ModQueue ($asset_id: ID) {
     premod: comments(query: {
         statuses: [PREMOD],
         asset_id: $asset_id
@@ -29,5 +29,19 @@ query ModQueue ($asset_id: ID!) {
     assets: assets {
       id
       title
+      url
     }
+    premodCount: commentCount(query: {
+      statuses: [PREMOD],
+      asset_id: $asset_id
+    })
+    rejectedCount: commentCount(query: {
+       statuses: [REJECTED],
+       asset_id: $asset_id
+    })
+    flaggedCount: commentCount(query: {
+      action_type: FLAG,
+      asset_id: $asset_id,
+      statuses: [NONE, PREMOD]
+    })
 }

@@ -57,7 +57,7 @@ module.exports = class SetupService {
 
     // Verify other properties of the user.
     return Promise.all([
-      UsersService.isValidDisplayName(username, false),
+      UsersService.isValidUsername(username, false),
       UsersService.isValidPassword(password),
       settingsModel.validate()
     ]);

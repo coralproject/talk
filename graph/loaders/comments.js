@@ -69,6 +69,38 @@ const getCountsByParentID = (context, parent_ids) => {
 };
 
 /**
+ * Retrieves the count of comments based on the passed in query.
+ * @param  {Object} context   graph context
+ * @param  {Object} query     query to execute against the comments collection
+ *                            to compute the counts
+ * @return {Promise}          resolves to the counts of the comments from the
+ *                            query
+ */
+const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id}) => {
+  let query = CommentModel.find();
+
+  if (ids) {
+    query = query.where({id: {$in: ids}});
+  }
+
+  if (statuses) {
+    query = query.where({status: {$in: statuses}});
+  }
+
+  if (asset_id != null) {
+    query = query.where({asset_id});
+  }
+
+  if (parent_id !== undefined) {
+    query = query.where({parent_id});
+  }
+
+  return CommentModel
+    .find(query)
+    .count();
+};
+
+/**
  * Retrieves comments based on the passed in query that is filtered by the
  * current used passed in via the context.
  * @param  {Object} context   graph context
@@ -101,6 +133,7 @@ const getCommentsByQuery = ({user}, {ids, statuses, asset_id, parent_id, author_
     });
   }
 
+  // Only let an admin request any user or the current user request themself.
   if (user && (user.hasRoles('ADMIN') || user.id === author_id) && author_id != null) {
     comments = comments.where({author_id});
   }
@@ -136,7 +169,13 @@ const getCommentsByQuery = ({user}, {ids, statuses, asset_id, parent_id, author_
     .limit(limit);
 };
 
-const genRecentReplies = (_, ids) => {
+/**
+ * Gets the recent replies.
+ * @param  {Object}        context   graph context
+ * @param  {Array<String>} ids       ids of parent ids
+ * @return {Promise}                 resolves to recent replies
+ */
+const genRecentReplies = (context, ids) => {
   return CommentModel.aggregate([
 
     // get all the replies for the comments in question
@@ -180,6 +219,12 @@ const genRecentReplies = (_, ids) => {
   .then(util.arrayJoinBy(ids, 'parent_id'));
 };
 
+/**
+ * Gets the recent comments.
+ * @param  {Object}        context   graph context
+ * @param  {Array<String>} ids       ids of asset ids
+ * @return {Promise}                 resolves to recent comments from assets
+ */
 const genRecentComments = (_, ids) => {
   return CommentModel.aggregate([
 
@@ -233,6 +278,7 @@ const genRecentComments = (_, ids) => {
 module.exports = (context) => ({
   Comments: {
     getByQuery: (query) => getCommentsByQuery(context, query),
+    getCountByQuery: (query) => getCommentCountByQuery(context, query),
     countByAssetID: new util.SharedCacheDataLoader('Comments.countByAssetID', 3600, (ids) => getCountsByAssetID(context, ids)),
     countByParentID: new util.SharedCacheDataLoader('Comments.countByParentID', 3600, (ids) => getCountsByParentID(context, ids)),
     genRecentReplies: new DataLoader((ids) => genRecentReplies(context, ids)),

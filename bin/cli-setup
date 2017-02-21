@@ -120,7 +120,7 @@ const performSetup = () => {
             message: 'Username',
             filter: (username) => {
               return UsersService
-                .isValidDisplayName(username, false)
+                .isValidUsername(username, false)
                 .catch((err) => {
                   throw err.message;
                 });
@@ -184,6 +184,7 @@ const performSetup = () => {
       console.log('Settings created.');
       console.log(`User ${user.id} created.`);
       console.log('\nTalk is now installed!');
+      console.log('\nWe recommend adding TALK_INSTALL_LOCK=TRUE to your environment to turn off the dynamic setup.');
       util.shutdown();
     })
     .catch((err) => {
