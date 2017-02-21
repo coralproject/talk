@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import timeago from 'timeago.js';
 import Linkify from 'react-linkify';
 import Highlighter from 'react-highlight-words';
@@ -17,7 +17,7 @@ const lang = new I18n(translations);
 
 const Comment = ({actions = [], ...props}) => {
   const links = linkify.getMatches(props.comment.body);
-  const actionSumaries = props.comment.action_summaries;
+  const actionSummaries = props.comment.action_summaries;
   return (
     <li tabIndex={props.index}
         className={`mdl-card mdl-shadow--2dp ${styles.Comment} ${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
@@ -62,9 +62,29 @@ const Comment = ({actions = [], ...props}) => {
           </Linkify>
         </p>
       </div>
-      {actionSumaries && <FlagBox actionSumaries={actionSumaries} />}
+      {actionSummaries && <FlagBox actionSummaries={actionSummaries} />}
     </li>
   );
+};
+
+Comment.propTypes = {
+  acceptComment: PropTypes.func.isRequired,
+  rejectComment: PropTypes.func.isRequired,
+  suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired,
+  currentAsset: PropTypes.object,
+  isActive: PropTypes.bool.isRequired,
+  comment: PropTypes.shape({
+    body: PropTypes.string.isRequired,
+    action_summaries: PropTypes.array,
+    created_at: PropTypes.string.isRequired,
+    user: PropTypes.shape({
+      banned: PropTypes.bool
+    }),
+    asset: PropTypes.shape({
+      title: PropTypes.string,
+      id: PropTypes.string
+    })
+  })
 };
 
 const linkStyles = {
