@@ -136,7 +136,7 @@ router.post('/', (req, res, next) => {
           res.status(201).json(user);
         });
     })
-    .catch(err => {
+    .catch((err) => {
       next(err);
     });
 });
@@ -152,7 +152,7 @@ router.post('/:user_id/actions', authorization.needed(), (req, res, next) => {
     .then((action) => {
 
       // Set the user status to "pending" for review by moderators
-      if (action_type.slice(0, 4) === 'FLAG') {
+      if (action_type === 'FLAG') {
         return UsersService.setStatus(req.params.user_id, 'PENDING')
           .then(() => action);
       } else {
@@ -163,7 +163,6 @@ router.post('/:user_id/actions', authorization.needed(), (req, res, next) => {
       res.status(201).json(action);
     })
     .catch((err) => {
-      console.log('Error', err);
       next(err);
     });
 });

@@ -14,7 +14,7 @@ ENV TALK_PORT 5000
 EXPOSE 5000
 
 # Install app dependencies
-COPY package.json /usr/src/app/
+COPY package.json yarn.lock /usr/src/app/
 RUN yarn install --production
 
 # Bundle app source
