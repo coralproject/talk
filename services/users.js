@@ -686,9 +686,20 @@ module.exports = class UsersService {
         canEditName: false,
         status: 'PENDING'
       }
-    }).then((result) => {
-      return result.nModified > 0 ? result :
-        Promise.reject(errors.ErrPermissionUpdateUsername);
+    })
+    .then((result) => {
+      if (result.nModified <= 0) {
+        return Promise.reject(errors.ErrPermissionUpdateUsername);
+      }
+
+      return result;
+    })
+    .catch((err) => {
+      if (err.code === 11000) {
+        throw errors.ErrUsernameTaken;
+      }
+
+      throw err;
     });
   }
 };
