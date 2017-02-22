@@ -102,15 +102,13 @@ router.put('/password/reset', (req, res, next) => {
 
   UsersService
     .verifyPasswordResetToken(token)
-    .then(user => {
+    .then((user) => {
       return UsersService.changePassword(user.id, password);
     })
     .then(() => {
       res.status(204).end();
     })
-    .catch(error => {
-      console.error(error);
-
+    .catch(() => {
       next(authorization.ErrNotAuthorized);
     });
 });
@@ -121,12 +119,8 @@ router.put('/username', authorization.needed(), (req, res, next) => {
     .then(() => {
       res.status(204).end();
     })
-    .catch(error => {
-      if (error.code === 11000) {
-        next(errors.ErrUsernameTaken);
-      } else {
-        next(error);
-      }
+    .catch((err) => {
+      next(err);
     });
 });
 
