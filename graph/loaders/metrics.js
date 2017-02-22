@@ -17,6 +17,10 @@ const getAssetMetrics = ({loaders: {Metrics, Assets}}, {from, to, sort, limit}) 
     .then((actionSummaries) => {
 
       commentMetrics = actionSummaries.reduce((acc, {item_id, action_type, count}) => {
+        if (action_type !== sort) {
+          return acc;
+        }
+
         if (!(item_id in acc)) {
           acc[item_id] = [];
         }
@@ -47,28 +51,23 @@ const getAssetMetrics = ({loaders: {Metrics, Assets}}, {from, to, sort, limit}) 
         }));
 
         return {action_summaries, id: asset_id};
-      });
+      })
+
+      .filter((asset) => {
+        let contextActionSummary = asset.action_summaries.find((({action_type}) => action_type === sort));
+        if (contextActionSummary === null) {
+          return false;
+        }
+
+        return true;
+      })
 
       // Sort these metrics by the predefined sort order. This will ensure that
       // if the action summary does not exist on the object, that it is less
       // prefered over the one that does have it.
-      assetMetrics.sort((a, b) => {
+      .sort((a, b) => {
         let aActionSummary = a.action_summaries.find((({action_type}) => action_type === sort));
         let bActionSummary = b.action_summaries.find((({action_type}) => action_type === sort));
-
-        // If either a or b don't have this action type, then one of them will
-        // automatically win.
-        if (aActionSummary == null || bActionSummary == null) {
-          if (bActionSummary != null) {
-            return 1;
-          }
-
-          if (aActionSummary != null) {
-            return -1;
-          }
-
-          return 0;
-        }
 
         // Both of them had an actionCount, hence we can determine that we could
         // compare the actual values directly.
@@ -138,7 +137,16 @@ const getCommentMetrics = ({loaders: {Metrics, Comments}}, {from, to, sort, limi
 
       commentActionSummaries = _.groupBy(actionSummaries, 'item_id');
 
-      let commentIDs = _.uniq(actionSummaries.map(({item_id}) => item_id));
+      // Grab the comment id's for comment where they have at least one of the
+      // actions being sorted by.
+      let commentIDs = Object.keys(commentActionSummaries).filter((item_id) => {
+        let contextActionSummary = commentActionSummaries[item_id].find(({action_type}) => action_type === sort);
+        if (contextActionSummary == null) {
+          return false;
+        }
+
+        return true;
+      });
 
       // Only keep the top `limit`.
       commentIDs = commentIDs.slice(0, limit);
