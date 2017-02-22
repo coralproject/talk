@@ -19,7 +19,7 @@ const LikeWidget = (props) => {
 
   return (
     <div className={styles.widget}>
-      <h2 className={styles.heading}>Top Ten Articles with the most likes</h2>
+      <h2 className={styles.heading}>Articles with the most likes</h2>
       <table className={styles.widgetTable}>
         <thead className={styles.widgetHead}>
           <tr>
