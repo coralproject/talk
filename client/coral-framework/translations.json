@@ -11,6 +11,9 @@
       "button": "Submit",
       "error": "Usernames can contain letters, numbers and _ only"
     },
+    "newCount": "View {0} more {1}",
+    "comment": "comment",
+    "comments": "comments",
     "error": {
       "emailNotVerified": "Email address {0} not verified.",
       "email": "Not a valid E-Mail",

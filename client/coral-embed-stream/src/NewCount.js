@@ -1,4 +1,7 @@
 import React, {PropTypes} from 'react';
+import I18n from 'coral-framework/modules/i18n/i18n';
+import translations from 'coral-framework/translations.json';
+const lang = new I18n(translations);
 
 const onLoadMoreClick = ({loadMore, commentCount, firstCommentDate, assetId, updateCountCache}) => (e) => {
   e.preventDefault();
@@ -14,12 +17,14 @@ const onLoadMoreClick = ({loadMore, commentCount, firstCommentDate, assetId, upd
 const NewCount = (props) => {
   const newComments = props.commentCount - props.countCache;
 
-  return <div>
+  return <div className='coral-new-comments'>
     {
       props.countCache && newComments > 0 &&
-      <div onClick={onLoadMoreClick(props)}>
-        Load {newComments} More Comments
-      </div>
+      <button onClick={onLoadMoreClick(props)} className='coral-load-more'>
+        {newComments === 1
+          ? lang.t('newCount', newComments, lang.t('comment'))
+          : lang.t('newCount', newComments, lang.t('comments'))}
+      </button>
     }
   </div>;
 };
