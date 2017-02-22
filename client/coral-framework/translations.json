@@ -42,6 +42,9 @@
     "bannedAccountMsg": "Tu cuenta se encuentra suspendida. Esto significa que no puedes dar Like, Marcar o escribir commentarios. Por favor, contacta moderator@fakeurl for more information",
     "editNameMsg": "",
     "loadMore": "Ver más",
+    "newCount": "Ver {0} {1} más",
+    "comment": "commentario",
+    "comments": "commentarios",
     "error": {
       "emailNotVerified": "Dirección de correo electrónico {0} no verificada.",
       "email": "No es un email válido",
