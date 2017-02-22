@@ -458,11 +458,11 @@ type RootQuery {
 
   # Asset metrics related to user actions are saturated into the assets
   # returned.
-  assetMetrics(from: Date!, to: Date!, sort: ACTION_TYPE!, limit: Int = 10): [Asset]
+  assetMetrics(from: Date!, to: Date!, sort: ACTION_TYPE!, limit: Int = 10): [Asset!]
 
   # Comment metrics related to user actions are saturated into the comments
   # returned.
-  commentMetrics(from: Date!, to: Date!, sort: ACTION_TYPE!, limit: Int = 10): [Comment]
+  commentMetrics(from: Date!, to: Date!, sort: ACTION_TYPE!, limit: Int = 10): [Comment!]
 }
 
 ################################################################################

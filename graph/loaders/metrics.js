@@ -106,7 +106,7 @@ const getAssetMetrics = ({loaders: {Metrics, Assets}}, {from, to, sort, limit}) 
  * Returns a list of comments that are retrieved based on most activity within
  * the indicated time range.
  */
-const getCommentMetrics = ({loaders: {Metrics, Assets}}, {from, to, sort, limit}) => {
+const getCommentMetrics = ({loaders: {Metrics, Comments}}, {from, to, sort, limit}) => {
 
   let commentActionSummaries = {};
 
@@ -143,8 +143,15 @@ const getCommentMetrics = ({loaders: {Metrics, Assets}}, {from, to, sort, limit}
       // Only keep the top `limit`.
       commentIDs = commentIDs.slice(0, limit);
 
-      // Find those comments.
-      return Metrics.getSpecificComments.loadMany(commentIDs);
+      // If there are no comment's to get, then just continue with an empty
+      // array.
+      if (commentIDs.length === 0) {
+        return [];
+      }
+
+      // Find those comments, this is the final stage, so let's get all the
+      // fields.
+      return Comments.get.loadMany(commentIDs);
     })
     .then((comments) => comments.map((comment) => {
 
