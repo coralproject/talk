@@ -15,7 +15,7 @@ const routes = (
   <div>
     <Route exact path="/admin/install" component={InstallContainer}/>
     <Route path='/admin' component={LayoutContainer}>
-      <IndexRoute component={ModerationContainer} />
+      <IndexRoute component={Dashboard} />
       <Route path='community' component={CommunityContainer} />
       <Route path='configure' component={Configure} />
       <Route path='streams' component={Streams} />
