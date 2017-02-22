@@ -39,7 +39,7 @@ export const getCounts = (data) => ({asset_id, limit, sort}) => {
   });
 };
 
-export const loadMore = (data) => ({limit, cursor, parent_id, asset_id, sort}) => {
+export const loadMore = (data) => ({limit, cursor, parent_id, asset_id, sort}, newComments) => {
   return data.fetchMore({
     query: LOAD_MORE,
     variables: {
@@ -68,7 +68,8 @@ export const loadMore = (data) => ({limit, cursor, parent_id, asset_id, sort}) =
         ...oldData,
         asset: {
           ...oldData.asset,
-          comments: [...oldData.asset.comments, ...new_top_level_comments]
+          comments: newComments ? [...new_top_level_comments.reverse(), ...oldData.asset.comments]
+            : [...oldData.asset.comments, ...new_top_level_comments]
         }
       }
   });

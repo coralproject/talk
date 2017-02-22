@@ -100,6 +100,10 @@ class Embed extends Component {
       return <Spinner />;
     }
 
+    // Find the created_at date of the first comment. If no comments exist, set the date to a week ago.
+    const firstCommentDate = asset.comments[0] ? asset.comments[0].created_at
+      : new Date(Date.now() - 604800000);
+
     return (
       <div style={expandForLogin}>
         <div className="commentStream">
@@ -155,6 +159,9 @@ class Embed extends Component {
               commentCount={asset.commentCount}
               countCache={countCache[asset.id]}
               loadMore={this.props.loadMore}
+              firstCommentDate={firstCommentDate}
+              assetId={asset.id}
+              updateCountCache={this.props.updateCountCache}
               />
             <Stream
               refetch={refetch}
