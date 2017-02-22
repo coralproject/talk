@@ -5,7 +5,8 @@ const router = express.Router();
 
 router.get('/', (req, res, next) => {
   SettingsService
-    .retrieve().then((settings) => {
+    .retrieve()
+    .then((settings) => {
       res.json(settings);
     })
     .catch((err) => {
