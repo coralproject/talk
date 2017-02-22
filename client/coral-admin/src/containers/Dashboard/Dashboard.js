@@ -1,20 +1,15 @@
 import React from 'react';
 import styles from './Dashboard.css';
-import FlagWidget from '../../components/FlagWidget';
-import LikeWidget from '../../components/LikeWidget';
+import FlagWidget from './FlagWidget';
+import LikeWidget from './LikeWidget';
+import MostLikedCommentsWidget from './MostLikedCommentsWidget';
 
 const Dashboard = () => {
   return (
     <div className={styles.Dashboard}>
-      <div className={styles.widget}>
-        <FlagWidget />
-      </div>
-      <div className={styles.widget}>
-        <h2 className={styles.heading}>Top ten comments with the most likes</h2>
-      </div>
-      <div className={styles.widget}>
-        <LikeWidget />
-      </div>
+      <FlagWidget />
+      <MostLikedCommentsWidget />
+      <LikeWidget />
     </div>
   );
 };

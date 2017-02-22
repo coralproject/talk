@@ -3,12 +3,12 @@ import React, {PropTypes} from 'react';
 import Comment from './components/Comment';
 import {actionsMap} from './helpers/moderationQueueActionsMap';
 
-const ModerationQueue = ({activeTab = 'premod', ...props}) => {
+const ModerationQueue = ({comments, ...props}) => {
   return (
     <div id="moderationList">
       <ul>
       {
-        props.data[activeTab].map((comment, i) => {
+        comments.map((comment, i) => {
           const status = comment.action_summaries ? 'FLAGGED' : comment.status;
           return <Comment
             key={i}
@@ -29,7 +29,7 @@ const ModerationQueue = ({activeTab = 'premod', ...props}) => {
 };
 
 ModerationQueue.propTypes = {
-  data: PropTypes.object.isRequired
+  comments: PropTypes.array.isRequired
 };
 
 export default ModerationQueue;

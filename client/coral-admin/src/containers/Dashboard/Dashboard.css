@@ -3,14 +3,6 @@
   flex-wrap: wrap;
 }
 
-.widget {
-  box-sizing: border-box;
-  margin: 10px 5px 5px 5px;
-  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
-  padding: 15px;
-  width: calc(50% - 10px);
-}
-
 .heading {
   margin: 0;
   font-size: 1.5rem;

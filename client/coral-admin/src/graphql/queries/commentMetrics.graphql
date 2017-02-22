@@ -1,0 +1,19 @@
+query CommentMetrics ($from: Date!, $to: Date!, $sort: ACTION_TYPE!) {
+  comments: commentMetrics(from: $from, to: $to, sort: $sort) {
+    id
+    body
+    user {
+      status
+      username
+    }
+    asset {
+      id
+      title
+    }
+    created_at
+    action_summaries {
+      type: __typename
+      count
+    }
+  }
+}

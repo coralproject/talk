@@ -1,15 +1,15 @@
 import React from 'react';
 import {compose} from 'react-apollo';
-import {mostLikes} from 'coral-admin/src/graphql/queries';
+import {mostFlags} from 'coral-admin/src/graphql/queries';
 import {Link} from 'react-router';
-import {Spinner} from 'coral-ui';
 import styles from './Widget.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations';
+import {Spinner} from 'coral-ui';
 
 const lang = new I18n(translations);
 
-const LikeWidget = (props) => {
+const FlagWidget = (props) => {
 
   if (props.data.loading) {
     return <Spinner />;
@@ -18,8 +18,8 @@ const LikeWidget = (props) => {
   const {data: {metrics: assets}} = props;
 
   return (
-    <div>
-      <h2 className={styles.heading}>Top Ten Articles with the most likes</h2>
+    <div className={styles.widget}>
+      <h2 className={styles.heading}>Top Ten Articles with the most flagged comments</h2>
       <table className={styles.widgetTable}>
         <thead className={styles.widgetHead}>
           <tr>
@@ -36,7 +36,6 @@ const LikeWidget = (props) => {
             ? assets.map((asset, index) => {
               const flagSummary = asset.action_summaries.find(s => s.type === 'FlagAssetActionSummary');
               const likeSummary = asset.action_summaries.find(s => s.type === 'LikeAssetActionSummary');
-              console.log('LikeWidget', likeSummary);
               return (
                 <tr key={asset.id}>
                   <td>{index + 1}.</td>
@@ -50,7 +49,7 @@ const LikeWidget = (props) => {
                 </tr>
               );
             })
-            : <tr><td colSpan="3">{lang.t('dashboard.no_likes')}</td></tr>
+            : <tr><td colSpan="3">{lang.t('dashboard.no_flags')}</td></tr>
           }
         </tbody>
       </table>
@@ -58,4 +57,4 @@ const LikeWidget = (props) => {
   );
 };
 
-export default compose(mostLikes)(LikeWidget);
+export default compose(mostFlags)(FlagWidget);

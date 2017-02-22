@@ -66,6 +66,8 @@ class ModerationContainer extends Component {
       }
     }
 
+    const comments = data[activeTab];
+
     return (
       <div>
         <ModerationHeader asset={asset} />
@@ -76,9 +78,8 @@ class ModerationContainer extends Component {
           flaggedCount={data.flaggedCount}
         />
         <ModerationQueue
-          data={data}
           currentAsset={asset}
-          activeTab={activeTab}
+          comments={comments}
           suspectWords={settings.wordlist.suspect}
           showBanUserDialog={props.showBanUserDialog}
           acceptComment={props.acceptComment}
