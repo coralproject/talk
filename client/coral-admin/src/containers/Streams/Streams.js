@@ -8,6 +8,7 @@ import {Link} from 'react-router';
 
 import {Pager, Icon} from 'coral-ui';
 import {DataTable, TableHeader, RadioGroup, Radio} from 'react-mdl';
+import EmptyCard from 'coral-admin/src/components/EmptyCard';
 
 const limit = 25;
 
@@ -142,22 +143,25 @@ class Streams extends Component {
               <Radio value='asc'>{lang.t('streams.oldest')}</Radio>
             </RadioGroup>
           </div>
-        <div className={styles.mainContent}>
-          <DataTable className={styles.streamsTable} rows={assetsIds} onClick={this.goToModeration}>
-            <TableHeader name="title" cellFormatter={this.renderTitle}>{lang.t('streams.article')}</TableHeader>
-            <TableHeader name="publication_date" cellFormatter={this.renderDate}>
-              {lang.t('streams.pubdate')}
-            </TableHeader>
-            <TableHeader name="closedAt" cellFormatter={this.renderStatus} className={styles.status}>
-              {lang.t('streams.status')}
-            </TableHeader>
-          </DataTable>
-          <Pager
-          totalPages={Math.ceil((assets.count || 0) / limit)}
-          page={this.state.page}
-          onNewPageHandler={this.onPageClick}
-          />
-        </div>
+        {
+          assetsIds.length
+          ? <div className={styles.mainContent}>
+              <DataTable className={styles.streamsTable} rows={assetsIds} onClick={this.goToModeration}>
+                <TableHeader name="title" cellFormatter={this.renderTitle}>{lang.t('streams.article')}</TableHeader>
+                <TableHeader name="publication_date" cellFormatter={this.renderDate}>
+                  {lang.t('streams.pubdate')}
+                </TableHeader>
+                <TableHeader name="closedAt" cellFormatter={this.renderStatus} className={styles.status}>
+                  {lang.t('streams.status')}
+                </TableHeader>
+              </DataTable>
+              <Pager
+                totalPages={Math.ceil((assets.count || 0) / limit)}
+                page={this.state.page}
+                onNewPageHandler={this.onPageClick} />
+            </div>
+          : <EmptyCard>{lang.t('streams.empty_result')}</EmptyCard>
+        }
       </div>
     );
   }

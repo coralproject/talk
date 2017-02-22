@@ -114,6 +114,7 @@
       "comment_count": "Comments"
     },
     "streams": {
+      "empty_result": "No assets match this search. Maybe try widening your search?",
       "search": "Search",
       "filter-streams": "Filter Streams",
       "stream-status": "Stream Status",
@@ -222,6 +223,7 @@
       "comment_count": "Comentarios"
     },
     "streams": {
+      "empty_result": "No se encuentro articulo con esta busqueda. Tal vez extender la busqueda?",
       "search": "",
       "filter-streams": "",
       "stream-status": "",
