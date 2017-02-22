@@ -15,7 +15,7 @@ const LikeWidget = (props) => {
     return <Spinner />;
   }
 
-  const {data: {metrics: assets}} = props;
+  const {data: {assets}} = props;
 
   return (
     <div className={styles.widget}>
