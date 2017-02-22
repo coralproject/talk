@@ -151,7 +151,11 @@ class Embed extends Component {
             }
             {!loggedIn && <SignInContainer requireEmailConfirmation={asset.settings.requireEmailConfirmation} offset={signInOffset}/>}
             {loggedIn &&  user && <ChangeUsernameContainer loggedIn={loggedIn} offset={signInOffset} user={user} />}
-            <NewCount commentCount={asset.commentCount} countCache={countCache[asset.id]}/>
+            <NewCount
+              commentCount={asset.commentCount}
+              countCache={countCache[asset.id]}
+              loadMore={this.props.loadMore}
+              />
             <Stream
               refetch={refetch}
               addNotification={this.props.addNotification}

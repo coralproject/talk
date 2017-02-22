@@ -24,7 +24,7 @@ class Stream extends React.Component {
   componentDidMount() {
     const {asset, getCounts, updateCountCache} = this.props;
 
-    updateCountCache(asset.id, asset.comments.length);
+    updateCountCache(asset.id, asset.commentCount);
 
     // Note: Apollo's built-in polling doesn't work with fetchMore queries, so a
     // setInterval is being used instead.
