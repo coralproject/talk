@@ -79,7 +79,8 @@ router.get('/:asset_id', (req, res, next) => {
     .findById(req.params.asset_id)
     .then((asset) => {
       if (!asset) {
-        return res.status(404).end();
+        res.status(404).end();
+        return;
       }
 
       res.json(asset);
@@ -97,15 +98,17 @@ router.post('/:asset_id/scrape', (req, res, next) => {
     .findById(req.params.asset_id)
     .then((asset) => {
       if (!asset) {
-        return res.status(404).end();
+        res.status(404).end();
+        return;
       }
 
-      return scraper.create(asset);
-    })
-    .then((job) => {
+      return scraper
+        .create(asset)
+        .then((job) => {
 
-      // Send the job back for monitoring.
-      res.status(201).json(job);
+          // Send the job back for monitoring.
+          res.status(201).json(job);
+        });
     })
     .catch((err) => {
       next(err);
@@ -117,8 +120,12 @@ router.put('/:asset_id/settings', (req, res, next) => {
   // Override the settings for the asset.
   AssetsService
     .overrideSettings(req.params.asset_id, req.body)
-    .then(() => res.status(204).end())
-    .catch((err) => next(err));
+    .then(() => {
+      res.status(204).end();
+    })
+    .catch((err) => {
+      next(err);
+    });
 });
 
 router.put('/:asset_id/status', (req, res, next) => {
