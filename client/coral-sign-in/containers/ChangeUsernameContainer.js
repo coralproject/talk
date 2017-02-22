@@ -29,6 +29,7 @@ class ChangeUsernameContainer extends Component {
 
   constructor(props) {
     super(props);
+    this.initialState.formData.username = props.user.username;
     this.state = this.initialState;
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmitUsername = this.handleSubmitUsername.bind(this);

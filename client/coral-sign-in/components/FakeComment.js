@@ -39,7 +39,6 @@ class FakeComment extends React.Component {
                 onClick={() => {}}
                 parentCommentId={'commentID'}
                 currentUserId={{}}
-                banned={false}
               />
             </div>
         <div className="commentActionsRight">

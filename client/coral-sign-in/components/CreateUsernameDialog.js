@@ -11,7 +11,8 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
 const lang = new I18n(translations);
 
-const CreateUsernameDialog = ({open, handleClose, offset, formData, handleSubmitUsername, handleChange, ...props}) => (
+const CreateUsernameDialog = ({open, handleClose, offset, formData, handleSubmitUsername, handleChange, ...props}) => {
+  return (
   <Dialog
     className={styles.dialogusername}
     id="createUsernameDialog"
@@ -31,7 +32,7 @@ const CreateUsernameDialog = ({open, handleClose, offset, formData, handleSubmit
         <p className={styles.yourusername}>{lang.t('createdisplay.yourusername')}</p>
         <FakeComment
           className={styles.fakeComment}
-          username="Pepe"
+          username={formData.username}
           created_at={Date.now()}
           body={lang.t('createdisplay.fakecommentbody')}
         />
@@ -54,6 +55,7 @@ const CreateUsernameDialog = ({open, handleClose, offset, formData, handleSubmit
       </div>
     </div>
   </Dialog>
-);
+  );
+};
 
 export default CreateUsernameDialog;
