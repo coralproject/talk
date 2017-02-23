@@ -42,7 +42,12 @@ export default {
       errorCreate: 'Error when changing username',
       checkTheForm: 'Invalid Form. Please, check the fields',
       specialCharacters: 'Usernames can contain letters, numbers and _ only'
-    }
+    },
+    'permalink': {
+      permalink: 'Link'
+    },
+    'report': 'Report',
+    'like': 'Like',
   },
   es: {
     'signIn': {
@@ -88,5 +93,10 @@ export default {
       checkTheForm: 'Formulario Invalido. Por favor, verifica los campos',
       specialCharacters: 'Sólo pueden contener letras, números y _'
     },
+    'permalink': {
+      permalink: 'Enlace'
+    },
+    'report': 'Informe',
+    'like': 'Me gusta',
   }
 };
