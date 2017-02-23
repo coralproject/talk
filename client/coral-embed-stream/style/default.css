@@ -7,7 +7,7 @@ body {
   font-family: 'Lato', sans-serif;
   font-family: 'Open Sans', sans-serif;
   width: 100%;
-  font-size: 12px;
+  font-size: 14px;
   margin: 0px;
   padding: 0px 0px 50px 0px;
 }
@@ -18,9 +18,10 @@ body {
 
 button {
   padding: 5px 10px;
-  margin: 5px;
+  margin: 5px 10px 5px 0px;
   background: none;
   border: none;
+  font-size: inherit;
 }
 
 button:hover {
@@ -208,6 +209,7 @@ hr {
 .coral-plugin-pubdate-text {
   color: #CCC;
   display: inline-block;
+  font-size: .75rem;
 }
 
 .coral-plugin-permalinks-container {
