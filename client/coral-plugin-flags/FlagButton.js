@@ -69,7 +69,7 @@ class FlagButton extends Component {
       let action = {
         item_id,
         item_type: itemType,
-        reason,
+        reason: null,
         message
       };
       if (reason === 'I don\'t agree with this comment') {
@@ -80,7 +80,7 @@ class FlagButton extends Component {
           }
         });
       } else {
-        postFlag(action)
+        postFlag({...action, reason})
         .then(({data}) => {
           if (itemType === 'COMMENTS') {
             this.setState({localPost: data.createFlag.flag.id});
