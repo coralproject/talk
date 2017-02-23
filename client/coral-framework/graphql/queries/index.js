@@ -49,29 +49,38 @@ export const loadMore = (data) => ({limit, cursor, parent_id, asset_id, sort}, n
       asset_id,
       sort
     },
-    updateQuery: (oldData, {fetchMoreResult:{data:{new_top_level_comments}}}) =>
+    updateQuery: (oldData, {fetchMoreResult:{data:{new_top_level_comments}}}) => {
 
-      // If loading more replies
-      parent_id ? {
-        ...oldData,
-        asset: {
-          ...oldData.asset,
-          comments: oldData.asset.comments.map((comment) =>
-            comment.id === parent_id
-            ? {...comment, replies: [...comment.replies, ...new_top_level_comments]}
-            : comment)
-        }
+      let updatedAsset;
+
+      if (parent_id) {
+
+        // If loading more replies
+        updatedAsset = {
+          ...oldData,
+          asset: {
+            ...oldData.asset,
+            comments: oldData.asset.comments.map((comment) =>
+              comment.id === parent_id
+              ? {...comment, replies: [...comment.replies, ...new_top_level_comments]}
+              : comment)
+          }
+        };
+      } else {
+
+        // If loading more top-level comments
+        updatedAsset = {
+          ...oldData,
+          asset: {
+            ...oldData.asset,
+            comments: newComments ? [...new_top_level_comments.reverse(), ...oldData.asset.comments]
+              : [...oldData.asset.comments, ...new_top_level_comments]
+          }
+        };
       }
 
-      // If loading more top-level comments
-      : {
-        ...oldData,
-        asset: {
-          ...oldData.asset,
-          comments: newComments ? [...new_top_level_comments.reverse(), ...oldData.asset.comments]
-            : [...oldData.asset.comments, ...new_top_level_comments]
-        }
-      }
+      return updatedAsset;
+    }
   });
 };
 
