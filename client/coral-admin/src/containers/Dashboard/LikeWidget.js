@@ -11,11 +11,7 @@ const lang = new I18n(translations);
 
 const LikeWidget = (props) => {
 
-  if (props.data.loading) {
-    return <Spinner />;
-  }
-
-  const {data: {assets}} = props;
+  const {assets} = props;
 
   return (
     <div className={styles.widget}>
@@ -58,4 +54,4 @@ const LikeWidget = (props) => {
   );
 };
 
-export default compose(mostLikes)(LikeWidget);
+export default LikeWidget;

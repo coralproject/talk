@@ -1,21 +1,13 @@
 import React from 'react';
-import {compose} from 'react-apollo';
-import {mostFlags} from 'coral-admin/src/graphql/queries';
 import {Link} from 'react-router';
 import styles from './Widget.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations';
-import {Spinner} from 'coral-ui';
 
 const lang = new I18n(translations);
 
 const FlagWidget = (props) => {
-
-  if (props.data.loading) {
-    return <Spinner />;
-  }
-
-  const {data: {assets}} = props;
+  const {assets} = props;
 
   return (
     <div className={styles.widget}>
@@ -57,4 +49,4 @@ const FlagWidget = (props) => {
   );
 };
 
-export default compose(mostFlags)(FlagWidget);
+export default FlagWidget;
