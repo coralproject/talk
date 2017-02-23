@@ -1,12 +1,13 @@
 import React from 'react';
 import styles from './Dashboard.css';
-import {graphql} from 'react-apollo';
+import {graphql, compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import FlagWidget from './FlagWidget';
 import LikeWidget from './LikeWidget';
 import METRICS from 'coral-admin/src/graphql/queries/metrics.graphql';
-// import MostLikedCommentsWidget from './MostLikedCommentsWidget';
+import MostLikedCommentsWidget from './MostLikedCommentsWidget';
 import {showBanUserDialog, hideBanUserDialog} from 'coral-admin/src/actions/moderation';
+import {banUser, setCommentStatus} from 'coral-admin/src/graphql/mutations';
 import {Spinner} from 'coral-ui';
 
 class Dashboard extends React.Component {
@@ -19,30 +20,34 @@ class Dashboard extends React.Component {
 
     console.log(this.props.data);
 
-    const {data: {assetsByLike, assetsByFlag}} = this.props;
+    const {data: {assetsByLike, assetsByFlag, mostLikedComments}} = this.props;
 
     console.log('assetsByLike', assetsByLike);
     console.log('assetsByFlag', assetsByFlag);
 
-    // const {moderation, settings} = this.props;
+    const {moderation, settings} = this.props;
 
     return (
       <div className={styles.Dashboard}>
-        {assetsByFlag && <FlagWidget assets={assetsByFlag} />}
-        {/*<MostLikedCommentsWidget
+        <FlagWidget assets={assetsByFlag} />
+        <MostLikedCommentsWidget
+          comments={mostLikedComments}
           moderation={moderation}
           settings={settings}
+          acceptComment={this.props.acceptComment}
+          rejectComment={this.props.rejectComment}
+          handleBanUser={this.props.banUser}
           showBanUserDialog={this.props.showBanUserDialog}
-          hideBanUserDialog={this.props.hideBanUserDialog} />*/}
-        {assetsByLike && <LikeWidget assets={assetsByLike} />}
+          hideBanUserDialog={this.props.hideBanUserDialog} />
+        <LikeWidget assets={assetsByLike} />
       </div>
     );
   }
 }
 
-let fiveMinutesAgo = new Date();
-fiveMinutesAgo.setMinutes(fiveMinutesAgo.getMinutes() - 5);
-fiveMinutesAgo = fiveMinutesAgo.toISOString();
+let then = new Date();
+then.setMinutes(then.getMinutes() - 205);
+then = then.toISOString();
 const now = new Date().toISOString();
 
 const getMetrics = graphql(METRICS, {
@@ -50,16 +55,14 @@ const getMetrics = graphql(METRICS, {
 
     return {
       variables: {
-        from: fiveMinutesAgo,
-        // from: '2017-02-23T16:09:44.235Z',
+        from: then,
         to: now
-        // to: '2017-02-23T19:30:23.251Z'
       }
     };
   }
 });
 
-const DashboardWithData = getMetrics(Dashboard);
+const DashboardWithData = compose(getMetrics, setCommentStatus, banUser)(Dashboard);
 
 const mapStateToProps = state => {
   return {

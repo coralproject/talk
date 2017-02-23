@@ -8,37 +8,34 @@ import BanUserDialog from 'coral-admin/src/components/BanUserDialog';
 
 const lang = new I18n(translations);
 
-class MostLikedCommentsWidget extends React.Component {
+const MostLikedCommentsWidget = props => {
+  const {
+    comments,
+    moderation,
+    settings,
+    handleBanUser,
+    showBanUserDialog,
+    hideBanUserDialog,
+    acceptComment,
+    rejectComment
+  } = props;
 
-  render () {
-    // console.log('render! loading?', this.props.data.loading);
-
-    // if (this.props.data.loading) {
-    //   return <Spinner />;
-    // }
-
-    // const {
-    //   comments,
-    //   moderation,
-    //   settings,
-    //   showBanUserDialog,
-    //   hideBanUserDialog
-    // } = this.props;
-
-    // console.log('MostLikedCommentsWidget', comments);
-
-    return (
-      <div className={styles.widget}>
-        <h2 className={styles.heading}>{lang.t('most_liked_comments')}</h2>
-        {/*<ModerationQueue
-          comments={comments}
-          suspectWords={settings.wordlist.suspect}
-          showBanUserDialog={showBanUserDialog}
-          acceptComment={() => {}}
-          rejectComment={() => {}} />*/}
-      </div>
-    );
-  }
-}
+  return (
+    <div className={styles.widget}>
+      <h2 className={styles.heading}>{lang.t('most_liked_comments')}</h2>
+      <ModerationQueue
+        comments={comments}
+        suspectWords={settings.wordlist.suspect}
+        showBanUserDialog={showBanUserDialog}
+        acceptComment={acceptComment}
+        rejectComment={rejectComment} />
+      <BanUserDialog
+        open={moderation.banDialog}
+        user={moderation.user}
+        handleClose={hideBanUserDialog}
+        handleBanUser={handleBanUser} />
+    </div>
+  );
+};
 
 export default MostLikedCommentsWidget;
