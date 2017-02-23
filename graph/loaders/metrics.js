@@ -31,7 +31,7 @@ const getAssetMetrics = ({loaders: {Metrics, Assets}}, {from, to, sort, limit}) 
       }, {});
 
       // Collect just the comment id's.
-      let commentIDs = _.uniq(actionSummaries.map((as) => as.item_id));
+      let commentIDs = Object.keys(commentMetrics);
 
       // Find those comments.
       return Metrics.getSpecificComments.loadMany(commentIDs);
