@@ -59,6 +59,13 @@ hr {
   font-weight: bold;
 }
 
+/* Coral sign in button */
+
+#coralSignInButton {
+    background-color: #2a2a2a;
+    color: #FFF;
+}
+
 /* Info Box Styles */
 .coral-plugin-infobox-info {
   top: 0;
