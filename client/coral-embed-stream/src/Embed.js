@@ -12,6 +12,7 @@ const {fetchAssetSuccess} = assetActions;
 import {queryStream} from 'coral-framework/graphql/queries';
 import {postComment, postFlag, postLike, deleteAction} from 'coral-framework/graphql/mutations';
 import {editName} from 'coral-framework/actions/user';
+import {updateCountCache} from 'coral-framework/actions/asset';
 import {Notification, notificationActions, authActions, assetActions, pym} from 'coral-framework';
 
 import Stream from './Stream';
@@ -28,6 +29,7 @@ import SettingsContainer from 'coral-settings/containers/SettingsContainer';
 import RestrictedContent from 'coral-framework/components/RestrictedContent';
 import ConfigureStreamContainer from 'coral-configure/containers/ConfigureStreamContainer';
 import LoadMore from './LoadMore';
+import NewCount from './NewCount';
 
 class Embed extends Component {
 
@@ -82,7 +84,7 @@ class Embed extends Component {
 
   render () {
     const {activeTab} = this.state;
-    const {closedAt} = this.props.asset;
+    const {closedAt, countCache = {}} = this.props.asset;
     const {loading, asset, refetch} = this.props.data;
     const {loggedIn, isAdmin, user, showSignInDialog, signInOffset} = this.props.auth;
 
@@ -97,6 +99,11 @@ class Embed extends Component {
     if (loading || !asset) {
       return <Spinner />;
     }
+
+    // Find the created_at date of the first comment. If no comments exist, set the date to a week ago.
+    const firstCommentDate = asset.comments[0]
+      ? asset.comments[0].created_at
+      : new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString();
 
     return (
       <div style={expandForLogin}>
@@ -132,6 +139,8 @@ class Embed extends Component {
                         postItem={this.props.postItem}
                         appendItemArray={this.props.appendItemArray}
                         updateItem={this.props.updateItem}
+                        updateCountCache={this.props.updateCountCache}
+                        countCache={countCache[asset.id]}
                         assetId={asset.id}
                         premod={asset.settings.moderation}
                         isReply={false}
@@ -147,6 +156,14 @@ class Embed extends Component {
             }
             {!loggedIn && <SignInContainer requireEmailConfirmation={asset.settings.requireEmailConfirmation} offset={signInOffset}/>}
             {loggedIn &&  user && <ChangeUsernameContainer loggedIn={loggedIn} offset={signInOffset} user={user} />}
+            <NewCount
+              commentCount={asset.commentCount}
+              countCache={countCache[asset.id]}
+              loadMore={this.props.loadMore}
+              firstCommentDate={firstCommentDate}
+              assetId={asset.id}
+              updateCountCache={this.props.updateCountCache}
+              />
             <Stream
               refetch={refetch}
               addNotification={this.props.addNotification}
@@ -155,6 +172,8 @@ class Embed extends Component {
               currentUser={user}
               postLike={this.props.postLike}
               postFlag={this.props.postFlag}
+              getCounts={this.props.getCounts}
+              updateCountCache={this.props.updateCountCache}
               loadMore={this.props.loadMore}
               deleteAction={this.props.deleteAction}
               showSignInDialog={this.props.showSignInDialog}
@@ -216,6 +235,7 @@ const mapDispatchToProps = dispatch => ({
   clearNotification: () => dispatch(clearNotification()),
   editName: (username) => dispatch(editName(username)),
   showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),
+  updateCountCache: (id, count) => dispatch(updateCountCache(id, count)),
   logout: () => dispatch(logout()),
   dispatch: d => dispatch(d)
 });

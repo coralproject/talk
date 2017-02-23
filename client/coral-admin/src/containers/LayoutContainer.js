@@ -8,7 +8,11 @@ import {PermissionRequired} from '../components/PermissionRequired';
 class LayoutContainer extends Component {
   componentWillMount () {
     const {checkLogin} = this.props;
-    checkLogin();
+    checkLogin().then(() => {
+      if (!this.props.auth.isAdmin) {
+        location.href = '/admin/login';
+      }
+    });
   }
   render () {
     const {isAdmin, loggedIn, loadingUser} = this.props.auth;
