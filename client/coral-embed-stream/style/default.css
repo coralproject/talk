@@ -66,10 +66,9 @@ hr {
   background: rgb(35,118,216);
   color: white;
   width: 100%;
-  text-align: center;
+  text-align: left;
   padding: 10px;
   margin-bottom: 10px;
-  font-weight: bold;
   display: block;
 }
 
@@ -163,8 +162,8 @@ hr {
 
 .coral-plugin-author-name-text {
   display: inline-block;
-  margin-right: 10px;
-  font-weight: bolder;
+  margin: 10px 8px 10px 0;
+  font-weight: bold;
 }
 
 .coral-plugin-author-name-bio-flag {
@@ -219,7 +218,7 @@ hr {
 }
 
 .coral-plugin-pubdate-text {
-  color: #CCC;
+  color: #696969;
   display: inline-block;
   font-size: .75rem;
 }

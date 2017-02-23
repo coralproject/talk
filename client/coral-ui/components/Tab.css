@@ -1,5 +1,6 @@
 li.base--active {
   background: white;
+  font-weight: bold;
 }
 
 li.material--active {

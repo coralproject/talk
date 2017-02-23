@@ -3,12 +3,18 @@
     "userNoComment": "This user has not yet left a comment.",
     "allComments": "All Comments",
     "profileSettings": "Profile Settings",
-    "myCommentHistory": "My comment History"
+    "myCommentHistory": "My comment History",
+    "signIn": "Sign in",
+    "toAccess": " to access Settings",
+    "fromSettingsPage": "From the Settings Page you can see your comment history."
   },
   "es":{
     "userNoComment": "Aún no ha escrito ningún comentario.",
     "allComments": "Todos los comentarios",
     "profileSettings": "Configuración del perfil",
-    "myCommentHistory": "Mi historial de comentarios"
+    "myCommentHistory": "Mi historial de comentarios",
+    "signIn": "Entrar",
+    "toAccess": "para acceder a la configuración",
+    "fromSettingsPage": "Desde la peagina de configuración puede ver su historia de comentarios."
   }
 }
