@@ -448,7 +448,7 @@ type RootQuery {
   # Comments returned based on a query.
   comments(query: CommentsQuery!): [Comment]
 
-  # Returne the count of comments satisfied by the query. Note that this edge is
+  # Return the count of comments satisfied by the query. Note that this edge is
   # expensive as it is not batched. Requires the `ADMIN` role.
   commentCount(query: CommentCountQuery!): Int
 

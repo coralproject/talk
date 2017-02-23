@@ -5,7 +5,7 @@ const FlagBox = props => (
   <div className={styles.flagBox}>
     <h3>Flags:</h3>
     <ul>
-      {props.actionSumaries.map((action, i) =>
+      {props.actionSummaries.map((action, i) =>
         <li key={i}>{!action.reason ? <i>No reason provided</i> : action.reason} (<strong>{action.count}</strong>)</li>
       )}
     </ul>
@@ -13,7 +13,7 @@ const FlagBox = props => (
 );
 
 FlagBox.propTypes = {
-  actionSumaries: PropTypes.array.isRequired
+  actionSummaries: PropTypes.array.isRequired
 };
 
 export default FlagBox;

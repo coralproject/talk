@@ -1,12 +1,12 @@
 import React from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from '../../translations.json';
+import translations from 'coral-admin/src/translations.json';
 
 import styles from './Community.css';
 import Table from './Table';
 import Loading from './Loading';
-import NoResults from './NoResults';
 import {Pager} from 'coral-ui';
+import EmptyCard from '../../components/EmptyCard';
 
 const lang = new I18n(translations);
 
@@ -54,13 +54,14 @@ const Community = ({isFetching, commenters, ...props}) => {
       </div>
       <div className={styles.mainContent}>
         { isFetching && <Loading /> }
-        { !hasResults && <NoResults /> }
-        { hasResults &&
-          <Table
-            headers={tableHeaders}
-            data={commenters}
-            onHeaderClickHandler={props.onHeaderClickHandler}
-          />
+        {
+          hasResults
+          ? <Table
+              headers={tableHeaders}
+              data={commenters}
+              onHeaderClickHandler={props.onHeaderClickHandler}
+            />
+          : <EmptyCard>{lang.t('community.no-results')}</EmptyCard>
         }
         <Pager
           totalPages={props.totalPages}

@@ -38,6 +38,7 @@ export const updateOpenStream = closedBody => (dispatch, getState) => {
 
 const openStream = () => ({type: actions.OPEN_COMMENTS});
 const closeStream = () => ({type: actions.CLOSE_COMMENTS});
+export const updateCountCache = (id, count) => ({type: actions.UPDATE_COUNT_CACHE, id, count});
 
 export const updateOpenStatus = status => dispatch => {
   if (status === 'open') {

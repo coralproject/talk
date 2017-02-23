@@ -359,18 +359,26 @@ button.coral-load-more {
   text-align: center;
   color: #FFF;
   background-color: #2376D8;
+  cursor: pointer;
 }
 
 button.coral-load-more:hover {
   background-color: #4399FF;
 }
 
-.coral-load-more-replies {
+.coral-load-more-replies, .coral-new-comments {
   width: 100%;
   display: flex;
   justify-content: center;
+  cursor: pointer;
 }
 
-.coral-load-more-replies button.coral-load-more {
+.coral-new-comments {
+  position: relative;
+  top: 1.8em;
+  z-index: 100;
+}
+
+.coral-load-more-replies button.coral-load-more, .coral-new-comments  button.coral-load-more{
   width: initial;
 }

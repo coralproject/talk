@@ -150,10 +150,8 @@ const createPublicComment = (context, commentInput) => {
             item_id: comment.id,
             item_type: 'COMMENTS',
             action_type: 'FLAG',
-            metadata: {
-              field: 'body',
-              details: 'Matched suspect word filters.'
-            }
+            group_id: 'Matched suspect word filter',
+            metadata: {}
           })
           .then(() => comment);
         }
