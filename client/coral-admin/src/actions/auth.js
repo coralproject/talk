@@ -9,7 +9,7 @@ const checkLoginFailure = error => ({type: actions.CHECK_LOGIN_FAILURE, error});
 
 export const checkLogin = () => dispatch => {
   dispatch(checkLoginRequest());
-  coralApi('/auth')
+  return coralApi('/auth')
     .then(result => {
       const isAdmin = !!result.user.roles.filter(i => i === 'ADMIN').length;
       dispatch(checkLoginSuccess(result.user, isAdmin));

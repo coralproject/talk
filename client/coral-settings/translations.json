@@ -1,6 +1,6 @@
 {
   "en":{
-    "userNoComment": "This user has not yet left a comment.",
+    "userNoComment": "You've never left a comment. Join the conversation!",
     "allComments": "All Comments",
     "profileSettings": "Profile Settings",
     "myCommentHistory": "My comment History",
@@ -9,7 +9,7 @@
     "fromSettingsPage": "From the Settings Page you can see your comment history."
   },
   "es":{
-    "userNoComment": "Aún no ha escrito ningún comentario.",
+    "userNoComment": "No has dejado áun ningún comentario. ¡Unete a la conversación!",
     "allComments": "Todos los comentarios",
     "profileSettings": "Configuración del perfil",
     "myCommentHistory": "Mi historial de comentarios",
