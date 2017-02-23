@@ -601,7 +601,7 @@ input CreateDontAgreeInput {
   item_type: ACTION_ITEM_TYPE!
 
   # The reason for not agreeing with the item.
-  reason: String!
+  reason: String
 
   # An optional message sent with the don't agree action by the user.
   message: String
