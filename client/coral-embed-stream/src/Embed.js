@@ -101,8 +101,9 @@ class Embed extends Component {
     }
 
     // Find the created_at date of the first comment. If no comments exist, set the date to a week ago.
-    const firstCommentDate = asset.comments[0] ? asset.comments[0].created_at
-      : new Date(Date.now() - 604800000);
+    const firstCommentDate = asset.comments[0]
+      ? asset.comments[0].created_at
+      : new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString();
 
     return (
       <div style={expandForLogin}>
