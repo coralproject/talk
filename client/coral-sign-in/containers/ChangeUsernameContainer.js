@@ -104,7 +104,7 @@ class ChangeUsernameContainer extends Component {
     return (
       <div>
         <CreateUsernameDialog
-          open={auth.showCreateUsernameDialog && auth.fromSignUp}
+          open={auth.showCreateUsernameDialog && auth.user.canEditName}
           offset={offset}
           handleClose={this.handleClose}
           loggedIn={loggedIn}

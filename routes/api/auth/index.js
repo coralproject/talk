@@ -2,7 +2,6 @@ const express = require('express');
 const passport = require('../../../services/passport');
 const authorization = require('../../../middleware/authorization');
 const errors = require('../../../errors');
-const UsersService = require('../../../services/users');
 
 const router = express.Router();
 
@@ -61,6 +60,7 @@ const HandleAuthCallback = (req, res, next) => (err, user) => {
 /**
  * Returns the response to the login attempt via a popup callback with some JS.
  */
+
 const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
   if (err) {
     return res.render('auth-callback', {err: JSON.stringify(err), data: null});
@@ -70,20 +70,15 @@ const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
     return res.render('auth-callback', {err: JSON.stringify(errors.ErrNotAuthorized), data: null});
   }
 
-  // Authorize the user to edit their username.
-  UsersService.toggleNameEdit(user.id, true)
-    .then(() => {
-      
-      // Perform the login of the user!
-      req.logIn(user, (err) => {
-        if (err) {
-          return res.render('auth-callback', {err: JSON.stringify(err), data: null});
-        }
+  // Perform the login of the user!
+  req.logIn(user, (err) => {
+    if (err) {
+      return res.render('auth-callback', {err: JSON.stringify(err), data: null});
+    }
 
-        // We logged in the user! Let's send back the user data.
-        res.render('auth-callback', {err: null, data: JSON.stringify(user)});
-      });
-    });
+    // We logged in the user! Let's send back the user data.
+    res.render('auth-callback', {err: null, data: JSON.stringify(user), changeusername: true});
+  });
 };
 
 /**

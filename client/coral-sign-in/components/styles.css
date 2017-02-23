@@ -173,13 +173,6 @@ input.error{
   color: white;
 }
 
-.continuebutton {
-  background-color: black;
-  font-weight: bold;
-  color: white;
-  min-width: 200px;
-}
-
 .fakeComment {
   display: block;
   margin-bottom: 5px;

@@ -50,7 +50,6 @@ const CreateUsernameDialog = ({open, handleClose, offset, formData, handleSubmit
             />
             <Button id="save" type="submit" className={styles.saveButton}>{lang.t('createdisplay.save')}</Button>
           </div>
-          <Button className={styles.continuebutton} onClick={handleClose}>{lang.t('createdisplay.continue')}</Button>
       </form>
       </div>
     </div>
