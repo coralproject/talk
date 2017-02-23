@@ -17,17 +17,16 @@ body {
 }
 
 button {
-  padding: 5px 10px;
   margin: 5px 10px 5px 0px;
   background: none;
+  padding: 0px;
   border: none;
   font-size: inherit;
 }
 
 button:hover {
   border-radius: 2px;
-  color: #FFF;
-  background-color: rgb(155, 155, 155);
+  color: #767676;
 }
 
 button i {
@@ -64,6 +63,10 @@ hr {
 #coralSignInButton {
     background-color: #2a2a2a;
     color: #FFF;
+}
+
+#coralSignInButton:hover {
+  background-color: #767676;
 }
 
 /* Info Box Styles */
