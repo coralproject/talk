@@ -136,8 +136,6 @@ describe('graph.loaders.Metrics', () => {
               to: (new Date()).setMinutes((new Date()).getMinutes() + 5)
             })
               .then(({data, errors}) => {
-                console.log(JSON.stringify(errors, null, 2));
-
                 expect(errors).to.be.undefined;
                 expect(data.assetsByLike).to.have.length(liked);
                 expect(data.assetsByFlag).to.have.length(flagged);
