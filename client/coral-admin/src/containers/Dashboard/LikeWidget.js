@@ -19,7 +19,6 @@ const LikeWidget = (props) => {
             <th></th>{/* empty on purpose */}
             <th>{lang.t('streams.article')}</th>
             <th>{lang.t('modqueue.likes')}</th>
-            <th>{lang.t('dashboard.comment_count')}</th>
           </tr>
         </thead>
         <tbody>
@@ -35,7 +34,6 @@ const LikeWidget = (props) => {
                     <p className={styles.lede}>{asset.author} - Published: {new Date(asset.created_at).toLocaleDateString()}</p>
                   </td>
                   <td>{likeSummary ? likeSummary.actionCount : 0}</td>
-                  <td>{asset.commentCount}</td>
                 </tr>
               );
             })

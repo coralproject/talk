@@ -2,7 +2,6 @@ fragment metrics on Asset {
   id
   title
   url
-  commentCount
   author
   created_at
   action_summaries {
