@@ -15,7 +15,8 @@
       "banned-user": "Banned User",
       "loading": "Loading results",
       "flaggedaccounts": "Account Flags",
-      "people": "People"
+      "people": "People",
+      "no-flagged-accounts": "No flagged accounts in the queue."
     },
     "modqueue": {
       "likes": "likes",
@@ -149,7 +150,8 @@
       "banned-user": "Usuario Suspendido",
       "loading": "Cargando resultados",
       "flaggedaccounts": "Cuentas Reportadas",
-      "people": "Gente"
+      "people": "Gente",
+      "no-flagged-accounts": "No hay ninguna cuenta reportada."
     },
     "modqueue": {
       "likes": "gustos",
