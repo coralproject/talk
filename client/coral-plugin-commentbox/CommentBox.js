@@ -30,6 +30,7 @@ class CommentBox extends Component {
       postItem,
       assetId,
       updateCountCache,
+      isReply,
       countCache,
       parentId,
       addNotification,
@@ -46,17 +47,17 @@ class CommentBox extends Component {
     if (this.props.charCount && this.state.body.length > this.props.charCount) {
       return;
     }
-    updateCountCache(assetId, countCache + 1);
+    !isReply && updateCountCache(assetId, countCache + 1);
     postItem(comment, 'comments')
       .then(({data}) => {
         const postedComment = data.createComment.comment;
 
         if (postedComment.status === 'REJECTED') {
           addNotification('error', lang.t('comment-post-banned-word'));
-          updateCountCache(assetId, countCache);
+          !isReply && updateCountCache(assetId, countCache);
         } else if (postedComment.status === 'PREMOD') {
           addNotification('success', lang.t('comment-post-notif-premod'));
-          updateCountCache(assetId, countCache);
+          !isReply && updateCountCache(assetId, countCache);
         }
 
         if (commentPostedHandler) {
