@@ -10,7 +10,6 @@ export default ({showSignInDialog}) => (
     <SignInContainer noButton={true}/>
     <div>
       <a onClick={() => {
-        console.log('Signin click');
         showSignInDialog();
       }}>{lang.t('signIn')}</a> {lang.t('toAccess')}
     </div>

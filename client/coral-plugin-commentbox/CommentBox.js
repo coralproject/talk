@@ -110,7 +110,6 @@ class CommentBox extends Component {
                 cStyle='darkGrey'
                 className={`${name}-cancel-button`}
                 onClick={() => {
-                  console.log('cancel button in comment box');
                   cancelButtonClicked('');
                 }}>
                 {lang.t('cancel')}
