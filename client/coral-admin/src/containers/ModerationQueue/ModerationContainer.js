@@ -54,7 +54,6 @@ class ModerationContainer extends Component {
     }
 
     if (data.error) {
-      console.log(data);
       return <div>Error</div>;
     }
 

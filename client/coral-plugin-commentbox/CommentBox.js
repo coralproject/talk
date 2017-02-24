@@ -57,8 +57,6 @@ class CommentBox extends Component {
         } else if (postedComment.status === 'PREMOD') {
           addNotification('success', lang.t('comment-post-notif-premod'));
           updateCountCache(assetId, countCache);
-        } else {
-          addNotification('success', 'Your comment has been posted.');
         }
 
         if (commentPostedHandler) {
@@ -110,7 +108,6 @@ class CommentBox extends Component {
                 cStyle='darkGrey'
                 className={`${name}-cancel-button`}
                 onClick={() => {
-                  console.log('cancel button in comment box');
                   cancelButtonClicked('');
                 }}>
                 {lang.t('cancel')}
