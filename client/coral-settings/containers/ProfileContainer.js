@@ -8,13 +8,13 @@ import {myCommentHistory} from 'coral-framework/graphql/queries';
 import {link} from 'coral-framework/services/PymConnection';
 import NotLoggedIn from '../components/NotLoggedIn';
 import {Spinner} from 'coral-ui';
-import SettingsHeader from '../components/SettingsHeader';
+import ProfileHeader from '../components/ProfileHeader';
 import CommentHistory from 'coral-plugin-history/CommentHistory';
 
 import translations from '../translations';
 const lang = new I18n(translations);
 
-class SettingsContainer extends Component {
+class ProfileContainer extends Component {
   constructor (props) {
     super(props);
     this.state = {
@@ -44,7 +44,7 @@ class SettingsContainer extends Component {
 
     return (
       <div>
-        <SettingsHeader {...this.props} />
+        <ProfileHeader username={this.props.userData.username} />
         {
 
           // Hiding bio until moderation can get figured out
@@ -88,4 +88,4 @@ const mapDispatchToProps = () => ({
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   myCommentHistory
-)(SettingsContainer);
+)(ProfileContainer);

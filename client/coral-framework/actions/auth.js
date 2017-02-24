@@ -192,9 +192,8 @@ export const requestConfirmEmail = (email, redirectUri) => dispatch => {
       dispatch(verifyEmailSuccess());
     })
     .catch(err => {
-      console.log('failed to send email verification', err);
 
       // email might have already been verifyed
-      dispatch(verifyEmailFailure());
+      dispatch(verifyEmailFailure(err));
     });
 };
