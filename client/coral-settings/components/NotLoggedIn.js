@@ -1,6 +1,9 @@
 import React from 'react';
 import styles from './NotLoggedIn.css';
 import SignInContainer from '../../coral-sign-in/containers/SignInContainer';
+import translations from '../translations';
+import I18n from 'coral-framework/modules/i18n/i18n';
+const lang = new I18n(translations);
 
 export default ({showSignInDialog}) => (
   <div className={styles.message}>
@@ -9,13 +12,10 @@ export default ({showSignInDialog}) => (
       <a onClick={() => {
         console.log('Signin click');
         showSignInDialog();
-      }}>Sign In</a> to access Settings
+      }}>{lang.t('signIn')}</a> {lang.t('toAccess')}
     </div>
     <div>
-      From the Settings Page you can
-      <ul>
-        <li>See your comment history</li>
-      </ul>
+      {lang.t('fromSettingsPage')}
     </div>
   </div>
 );

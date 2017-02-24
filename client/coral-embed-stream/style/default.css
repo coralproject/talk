@@ -4,10 +4,10 @@ html, body {
 }
 
 body {
-  font-family: 'Lato', sans-serif;
   font-family: 'Open Sans', sans-serif;
+  font-family: 'Lato', sans-serif;
   width: 100%;
-  font-size: 12px;
+  font-size: 14px;
   margin: 0px;
   padding: 0px 0px 50px 0px;
 }
@@ -17,16 +17,16 @@ body {
 }
 
 button {
-  padding: 5px 10px;
-  margin: 5px;
+  margin: 5px 10px 5px 0px;
   background: none;
+  padding: 0px;
   border: none;
+  font-size: inherit;
 }
 
 button:hover {
   border-radius: 2px;
-  color: #FFF;
-  background-color: rgb(155, 155, 155);
+  color: #767676;
 }
 
 button i {
@@ -58,6 +58,17 @@ hr {
   font-weight: bold;
 }
 
+/* Coral sign in button */
+
+#coralSignInButton {
+    background-color: #2a2a2a;
+    color: #FFF;
+}
+
+#coralSignInButton:hover {
+  background-color: #767676;
+}
+
 /* Info Box Styles */
 .coral-plugin-infobox-info {
   top: 0;
@@ -65,10 +76,9 @@ hr {
   background: rgb(35,118,216);
   color: white;
   width: 100%;
-  text-align: center;
+  text-align: left;
   padding: 10px;
   margin-bottom: 10px;
-  font-weight: bold;
   display: block;
 }
 
@@ -157,18 +167,30 @@ hr {
 }
 
 .coral-plugin-commentcontent-text {
-  margin-bottom: 10px;
+  margin-bottom: 7px;
 }
 
 .coral-plugin-author-name-text {
   display: inline-block;
-  margin-right: 10px;
-  font-weight: bolder;
+  margin: 10px 8px 10px 0;
+  font-weight: bold;
 }
 
 .coral-plugin-author-name-bio-flag {
   float: right;
 }
+
+/* Tag Labels */
+
+.coral-plugin-tag-label {
+  background-color: #4C1066;
+  color: white;
+  display: inline-block;
+  margin: 10px 10px;
+  padding: 5px 5px;
+  border-radius: 2px;
+}
+
 
 
 /* Reply styles */
@@ -206,8 +228,9 @@ hr {
 }
 
 .coral-plugin-pubdate-text {
-  color: #CCC;
+  color: #696969;
   display: inline-block;
+  font-size: .75rem;
 }
 
 .coral-plugin-permalinks-container {
