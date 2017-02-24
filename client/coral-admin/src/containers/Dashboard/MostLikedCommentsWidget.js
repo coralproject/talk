@@ -2,7 +2,6 @@ import React from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations';
 import ModerationQueue from 'coral-admin/src/containers/ModerationQueue/ModerationQueue';
-import {Spinner} from 'coral-ui';
 import styles from './Widget.css';
 import BanUserDialog from 'coral-admin/src/components/BanUserDialog';
 
