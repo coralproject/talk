@@ -29,7 +29,6 @@ const LikeWidget = (props) => {
             ? assets.map((asset, index) => {
               const flagSummary = asset.action_summaries.find(s => s.type === 'FlagAssetActionSummary');
               const likeSummary = asset.action_summaries.find(s => s.type === 'LikeAssetActionSummary');
-              console.log('LikeWidget', likeSummary);
               return (
                 <tr key={asset.id}>
                   <td>{index + 1}.</td>

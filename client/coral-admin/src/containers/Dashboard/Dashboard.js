@@ -18,13 +18,7 @@ class Dashboard extends React.Component {
       return <Spinner />;
     }
 
-    console.log(this.props.data);
-
     const {data: {assetsByLike, assetsByFlag, mostLikedComments}} = this.props;
-
-    console.log('assetsByLike', assetsByLike);
-    console.log('assetsByFlag', assetsByFlag);
-
     const {moderation, settings} = this.props;
 
     return (
