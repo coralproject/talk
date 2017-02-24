@@ -49,8 +49,8 @@ class PermalinkButton extends React.Component {
     return (
       <div className={`${name}-container`}>
         <button onClick={this.toggle} className={`${name}-button`}>
-          <i className={`${name}-icon material-icons`} aria-hidden={true}>link</i>
           {lang.t('permalink.permalink')}
+          <i className={`${name}-icon material-icons`} aria-hidden={true}>link</i>
         </button>
         <div className={`${name}-popover ${styles.container} ${this.state.popoverOpen ? 'active' : ''}`}>
           <input

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 const packagename = 'coral-plugin-author-name';
-import styles from './styles.css';
 
 export default class AuthorName extends Component {
 
@@ -24,8 +23,7 @@ export default class AuthorName extends Component {
     const {author} = this.props;
     return (
       <div
-        className={`${packagename}-text`}
-        className={`${styles.authorName}`}>
+        className={`${packagename}-text`}>
         {author && author.name}
       </div>
     );
