@@ -5,7 +5,8 @@ import {connect} from 'react-redux';
 import FlagWidget from './FlagWidget';
 import LikeWidget from './LikeWidget';
 import METRICS from 'coral-admin/src/graphql/queries/metrics.graphql';
-import MostLikedCommentsWidget from './MostLikedCommentsWidget';
+
+// import MostLikedCommentsWidget from './MostLikedCommentsWidget';
 import {showBanUserDialog, hideBanUserDialog} from 'coral-admin/src/actions/moderation';
 import {banUser, setCommentStatus} from 'coral-admin/src/graphql/mutations';
 import {Spinner} from 'coral-ui';
@@ -18,12 +19,14 @@ class Dashboard extends React.Component {
       return <Spinner />;
     }
 
-    const {data: {assetsByLike, assetsByFlag, mostLikedComments}} = this.props;
-    const {moderation, settings} = this.props;
+    const {data: {assetsByLike, assetsByFlag/* , mostLikedComments*/}} = this.props;
+
+    // const {moderation, settings} = this.props;
 
     return (
       <div className={styles.Dashboard}>
         <FlagWidget assets={assetsByFlag} />
+        {/*
         <MostLikedCommentsWidget
           comments={mostLikedComments}
           moderation={moderation}
@@ -33,6 +36,7 @@ class Dashboard extends React.Component {
           handleBanUser={this.props.banUser}
           showBanUserDialog={this.props.showBanUserDialog}
           hideBanUserDialog={this.props.hideBanUserDialog} />
+          */}
         <LikeWidget assets={assetsByLike} />
       </div>
     );
@@ -40,7 +44,7 @@ class Dashboard extends React.Component {
 }
 
 let then = new Date();
-then.setMinutes(then.getMinutes() - 205);
+then.setMinutes(then.getMinutes() - 5);
 then = then.toISOString();
 const now = new Date().toISOString();
 

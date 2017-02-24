@@ -19,21 +19,21 @@ query Metrics ($from: Date!, $to: Date!) {
   assetsByLike: assetMetrics(from: $from, to: $to, sort: LIKE) {
     ...metrics
   }
-  mostLikedComments: commentMetrics(from: $from, to: $to, sort: LIKE) {
-    id
-    body
-    user {
-      status
-      username
-    }
-    asset {
-      id
-      title
-    }
-    created_at
-    action_summaries {
-      type: __typename
-      count
-    }
-  }
+#  mostLikedComments: commentMetrics(from: $from, to: $to, sort: LIKE) {
+#    id
+#    body
+#    user {
+#      status
+#      username
+#    }
+#    asset {
+#      id
+#      title
+#    }
+#    created_at
+#    action_summaries {
+#      type: __typename
+#      count
+#    }
+#  }
 }
