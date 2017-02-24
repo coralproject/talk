@@ -6,7 +6,10 @@ import {
   newPage,
 } from '../../actions/community';
 
-import Community from './Community';
+import CommunityMenu from './components/CommunityMenu';
+
+import People from './People';
+import FlaggedAccounts from './FlaggedAccounts';
 
 class CommunityContainer extends Component {
   constructor(props) {
@@ -60,19 +63,41 @@ class CommunityContainer extends Component {
     this.search({page});
   }
 
-  render() {
-    const {searchValue} = this.state;
+  getTabContent(searchValue) {
     const {community} = this.props;
+    const activeTab = this.props.route.path === ':id' ? 'flagged' : this.props.route.path;
+
+    if (activeTab === 'people') {
+      return (
+        <People
+          searchValue={searchValue}
+          commenters={community.commenters}
+          isFetching={community.isFetching}
+          error={community.error}
+          totalPages={community.totalPages}
+          page={community.page}
+          {...this}
+        />
+      );
+    }
+
     return (
-      <Community
-        searchValue={searchValue}
-        commenters={community.commenters}
-        isFetching={community.isFetching}
-        error={community.error}
-        totalPages={community.totalPages}
-        page={community.page}
-        {...this}
-      />
+      <FlaggedAccounts />
+    );
+  }
+
+  render() {
+    const {searchValue, activeTab} = this.state;
+
+    const tab = this.getTabContent(activeTab, searchValue, this.props);
+
+    return (
+      <div>
+        <CommunityMenu />
+        <div>
+          { tab }
+        </div>
+      </div>
     );
   }
 }

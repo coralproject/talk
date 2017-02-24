@@ -13,7 +13,9 @@
       "active": "Active",
       "banned": "Banned",
       "banned-user": "Banned User",
-      "loading": "Loading results"
+      "loading": "Loading results",
+      "flaggedaccounts": "Account Flags",
+      "people": "People"
     },
     "modqueue": {
       "likes": "likes",
@@ -145,7 +147,9 @@
       "active": "Activa",
       "banned": "Suspendido",
       "banned-user": "Usuario Suspendido",
-      "loading": "Cargando resultados"
+      "loading": "Cargando resultados",
+      "flaggedaccounts": "Cuentas Reportadas",
+      "people": "Gente"
     },
     "modqueue": {
       "likes": "gustos",

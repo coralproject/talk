@@ -29,7 +29,7 @@ const tableHeaders = [
   }
 ];
 
-const Community = ({isFetching, commenters, ...props}) => {
+const People = ({isFetching, commenters, ...props}) => {
   const hasResults = !isFetching && !!commenters.length;
   return (
     <div className={styles.container}>
@@ -73,4 +73,4 @@ const Community = ({isFetching, commenters, ...props}) => {
   );
 };
 
-export default Community;
+export default People;
