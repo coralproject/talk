@@ -2,13 +2,12 @@ const _ = require('lodash');
 const DataLoader = require('dataloader');
 const {objectCacheKeyFn} = require('./util');
 
-const CommentModel = require('../../models/comment');
 const ActionModel = require('../../models/action');
 
 /**
  * Returns a list of assets with action metadata included on the models.
  */
-const getAssetMetrics = ({loaders: {Metrics, Assets}}, {from, to, sort, limit}) => {
+const getAssetMetrics = ({loaders: {Metrics, Assets, Comments}}, {from, to, sort, limit}) => {
 
   let commentMetrics = {};
   let assetMetrics = [];
@@ -34,7 +33,7 @@ const getAssetMetrics = ({loaders: {Metrics, Assets}}, {from, to, sort, limit}) 
       let commentIDs = Object.keys(commentMetrics);
 
       // Find those comments.
-      return Metrics.getSpecificComments.loadMany(commentIDs);
+      return Comments.get.loadMany(commentIDs);
     })
     .then((comments) => {
 
@@ -202,21 +201,8 @@ const getRecentActions = (context, {from, to}) => {
   ]);
 };
 
-const getSpecificComments = (context, ids) => {
-  return CommentModel.find({
-    id: {
-      $in: ids
-    }
-  })
-  .select({
-    id: 1,
-    asset_id: 1
-  });
-};
-
 module.exports = (context) => ({
   Metrics: {
-    getSpecificComments: new DataLoader((ids) => getSpecificComments(context, ids)),
     getRecentActions: new DataLoader(([{from, to}]) => getRecentActions(context, {from, to}).then((as) => [as]), {
       batch: false,
       cacheKeyFn: objectCacheKeyFn('from', 'to')
