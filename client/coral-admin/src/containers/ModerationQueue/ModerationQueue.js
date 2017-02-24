@@ -12,7 +12,8 @@ const ModerationQueue = ({comments, ...props}) => {
     <div id="moderationList">
       <ul style={{paddingLeft: 0}}>
       {
-        comments.map((comment, i) => {
+        comments.length
+        ? comments.map((comment, i) => {
           const status = comment.action_summaries ? 'FLAGGED' : comment.status;
           return <Comment
             key={i}
@@ -34,7 +35,7 @@ const ModerationQueue = ({comments, ...props}) => {
 };
 
 ModerationQueue.propTypes = {
-  suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired
+  suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired,
   currentAsset: PropTypes.object,
   showBanUserDialog: PropTypes.func.isRequired,
   rejectComment: PropTypes.func.isRequired,
