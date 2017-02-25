@@ -52,7 +52,6 @@ const updateClosedMessage = (updateSettings) => (event) => {
 };
 
 const updateCustomCssUrl = (updateSettings) => (event) => {
-  console.log('updateCustomCssUrl', event.target.value);
   const customCssUrl = event.target.value;
   updateSettings({customCssUrl});
 };
