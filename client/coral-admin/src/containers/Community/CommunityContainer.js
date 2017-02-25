@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {
-  fetchCommenters,
+  fetchAccounts,
   updateSorting,
   newPage,
 } from '../../actions/community';
@@ -14,6 +14,8 @@ import FlaggedAccounts from './FlaggedAccounts';
 class CommunityContainer extends Component {
   constructor(props) {
     super(props);
+
+    console.log('DEBUG CONSTRUCTOR CommunityContainer ', props);
 
     this.state = {
       searchValue: ''
@@ -41,10 +43,10 @@ class CommunityContainer extends Component {
   search(query = {}) {
     const {community} = this.props;
 
-    this.props.dispatch(fetchCommenters({
+    this.props.dispatch(fetchAccounts({
       value: this.state.searchValue,
-      field: community.field,
-      asc: community.asc,
+      field: community.fieldPeople,
+      asc: community.ascPeople,
       ...query
     }));
   }
@@ -70,19 +72,26 @@ class CommunityContainer extends Component {
     if (activeTab === 'people') {
       return (
         <People
+          isFetching={community.isFetchingPeople}
+          commenters={community.accounts}
           searchValue={searchValue}
-          commenters={community.commenters}
-          isFetching={community.isFetching}
-          error={community.error}
-          totalPages={community.totalPages}
-          page={community.page}
+          error={community.errorPeople}
+          totalPages={community.totalPagesPeople}
+          page={community.pagePeople}
           {...this}
         />
       );
     }
 
     return (
-      <FlaggedAccounts />
+      <FlaggedAccounts
+        commenters={community.flaggedAccounts}
+        isFetching={community.isFetchingFlagged}
+        error={community.errorFlagged}
+        totalPages={community.totalPagesFlagged}
+        page={community.pageFlagged}
+        {...this}
+      />
     );
   }
 

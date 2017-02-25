@@ -15,6 +15,12 @@
   box-sizing: border-box;
 }
 
+.mainFlaggedContent {
+  width: 100%;
+  padding: 34px 14px;
+  box-sizing: border-box;
+}
+
 .roleButton {
   display: block;
 }

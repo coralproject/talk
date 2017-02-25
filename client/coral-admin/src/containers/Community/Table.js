@@ -77,4 +77,4 @@ class Table extends Component {
   }
 }
 
-export default connect(state => ({commenters: state.community.get('commenters')}))(Table);
+export default connect(state => ({commenters: state.community.get('accounts')}))(Table);

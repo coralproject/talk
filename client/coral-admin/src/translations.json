@@ -16,7 +16,7 @@
       "loading": "Loading results",
       "flaggedaccounts": "Account Flags",
       "people": "People",
-      "no-flagged-accounts": "No flagged accounts in the queue."
+      "no-flagged-accounts": "The Account Flags queue is currently empty."
     },
     "modqueue": {
       "likes": "likes",

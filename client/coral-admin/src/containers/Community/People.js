@@ -58,7 +58,7 @@ const People = ({isFetching, commenters, ...props}) => {
           hasResults
           ? <Table
               headers={tableHeaders}
-              data={commenters}
+              commenters={commenters}
               onHeaderClickHandler={props.onHeaderClickHandler}
             />
           : <EmptyCard>{lang.t('community.no-results')}</EmptyCard>

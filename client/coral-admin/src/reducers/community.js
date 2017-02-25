@@ -6,58 +6,88 @@ import {
   FETCH_COMMENTERS_SUCCESS,
   SORT_UPDATE,
   SET_ROLE,
-  SET_COMMENTER_STATUS
+  SET_COMMENTER_STATUS,
+  FETCH_FLAGGED_COMMENTERS_REQUEST,
+  FETCH_FLAGGED_COMMENTERS_SUCCESS,
+  FETCH_FLAGGED_COMMENTERS_FAILURE
 } from '../constants/community';
 
 const initialState = Map({
   community: Map(),
-  isFetching: false,
-  error: '',
-  commenters: [],
-  field: 'created_at',
-  asc: false,
-  totalPages: 0,
-  page: 0
+  isFetchingPeople: false,
+  errorPeople: '',
+  accounts: [],
+  fieldPeople: 'created_at',
+  ascPeople: false,
+  totalPagesPeople: 0,
+  pagePeople: 0,
+  isFetchingFlagged: false,
+  errorFlagged: '',
+  flaggedAccounts: [],
 });
 
 export default function community (state = initialState, action) {
   switch (action.type) {
   case FETCH_COMMENTERS_REQUEST :
     return state
-      .set('isFetching', true);
+      .set('isFetchingPeople', true);
   case FETCH_COMMENTERS_FAILURE :
     return state
-      .set('isFetching', false)
-      .set('error', action.error);
+      .set('isFetchingPeople', false)
+      .set('errorPeople', action.error);
+
   case FETCH_COMMENTERS_SUCCESS : {
-    const {commenters, type, ...rest} = action; // eslint-disable-line
+    const {accounts, type, page, count, limit, totalPages, ...rest} = action; // eslint-disable-line
     return state
       .merge({
-        isFetching: false,
-        error: '',
+        isFetchingPeople: false,
+        errorPeople: '',
+        pagePeople: page,
+        countPeople: count,
+        limitPeople: limit,
+        totalPagesPeople: totalPages,
         ...rest
       })
-      .set('commenters', commenters); // Sets to normal array
+      .set('accounts', accounts); // Sets to normal array
   }
   case SET_ROLE : {
-    const commenters = state.get('commenters');
+    const commenters = state.get('accounts');
     const idx = commenters.findIndex(el => el.id === action.id);
 
     commenters[idx].roles[0] = action.role;
-    return state.set('commenters', commenters.map(id => id));
+    return state.set('accounts', commenters.map(id => id));
   }
   case SET_COMMENTER_STATUS: {
-    const commenters = state.get('commenters');
+    const commenters = state.get('accounts');
     const idx = commenters.findIndex(el => el.id === action.id);
 
     commenters[idx].status = action.status;
-    return state.set('commenters', commenters.map(id => id));
+    return state.set('accounts', commenters.map(id => id));
 
   }
   case SORT_UPDATE :
     return state
-      .set('field', action.sort.field)
-      .set('asc', !state.get('asc'));
+      .set('fieldPeople', action.sort.field)
+      .set('ascPeople', !state.get('ascPeople'));
+  case FETCH_FLAGGED_COMMENTERS_REQUEST : {
+    return state
+      .set('isFetchingFlagged', true);
+  }
+  case FETCH_FLAGGED_COMMENTERS_SUCCESS : {
+    const {flaggedAccounts, type, ...rest} = action; // eslint-disable-line
+    return state
+      .merge({
+        isFetchingFlagged: false,
+        errorFlagged: '',
+        ...rest
+      })
+      .set('flaggedAccounts', flaggedAccounts); // Sets to normal array
+  }
+  case FETCH_FLAGGED_COMMENTERS_FAILURE : {
+    return state
+      .set('isFetchingFlagged', false)
+      .set('errorFlagged', action.error);
+  }
   default :
     return state;
   }
