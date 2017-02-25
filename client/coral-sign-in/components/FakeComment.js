@@ -35,7 +35,7 @@ class FakeComment extends React.Component {
                   <i className={`${'coral-plugin-likes'}-icon material-icons`}
                     aria-hidden={true}>thumb_up</i>
                 </button>
-              </div>;
+              </div>
               <ReplyButton
                 onClick={() => {}}
                 parentCommentId={'commentID'}
