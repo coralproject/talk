@@ -156,7 +156,8 @@ const USER_GRAPH_OPERATIONS = [
   'mutation:deleteAction',
   'mutation:editName',
   'mutation:setUserStatus',
-  'mutation:setCommentStatus'
+  'mutation:setCommentStatus',
+  'mutation:addCommentTag',
 ];
 
 /**

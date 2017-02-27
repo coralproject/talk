@@ -5,7 +5,10 @@ import classnames from 'classnames';
 
 // tag string for best comments
 export const BEST_TAG = 'BEST';
-export const commentIsBest = ({tags} = {}) => Array.isArray(tags) && tags.some(t => t === BEST_TAG);
+export const commentIsBest = ({tags} = {}) => {
+  const isBest = Array.isArray(tags) && tags.some(t => t.name === BEST_TAG);
+  return isBest;
+};
 
 const name = 'coral-plugin-best';
 const lang = new I18n(translations);
@@ -36,10 +39,6 @@ export class BestButton extends Component {
 
     // remove the best status
     removeBest: PropTypes.func.isRequired,
-  }
-
-  state = {
-    best: false
   }
 
   constructor(props) {
@@ -75,8 +74,7 @@ export class BestButton extends Component {
     // @TODO(bengo) Consider adding the comment__action classes to other buttons to add cursor:pointer and never wrap the icons
     // @TODO(bengo) Should I reuse another element like coral-ui button? Just doing what LikeButton does for now
     // Oh. I think that's styled for the admin. Don't use coral-ui button until the whole comment bottom bar does.
-    let {isBest} = this.state;
-    const {addBest, removeBest} = this.props;
+    const {isBest, addBest, removeBest} = this.props;
     return <div className={classnames(`${name}-container`, `${name}-button`, 'comment__action-button--nowrap',
                                       `e2e__${isBest ? 'unset' : 'set'}-best-comment`)}>
       <button onClick={isBest ? this.onClickRemoveBest : this.onClickAddBest}

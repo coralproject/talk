@@ -16,6 +16,7 @@ module.exports = {
 
     const setBestCommentButton = '@setBestButton';
     const unsetBestCommentButton = '@unsetBestButton';
+
     embedStreamPage
       .postComment('Hi everyone. Isn\'t this the BEST comment!?')
       .waitForElementVisible(setBestCommentButton, 2000)
@@ -25,13 +26,9 @@ module.exports = {
       });
 
     // on refresh, it should still be tagged as best :)
-    // client
-    //   .refresh(() => {
-
-    //   })
-    //   .waitForElementVisible(unsetBestCommentButton, 2000)
-
-    // client.pause()
+    client.refresh();
+    client.page.embedStreamPage().ready()
+      .waitForElementVisible('.e2e__unset-best-comment', 2000);
   },
   after: client => {
     client.end();

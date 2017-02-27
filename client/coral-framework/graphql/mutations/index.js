@@ -127,9 +127,10 @@ export const deleteAction = graphql(DELETE_ACTION, {
 
 export const addCommentTag = graphql(ADD_COMMENT_TAG, {
   props: ({mutate}) => ({
-    addCommentTag: (tag) => {
+    addCommentTag: ({id, tag}) => {
       return mutate({
         variables: {
+          id,
           tag
         }
       });

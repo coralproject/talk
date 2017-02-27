@@ -8,7 +8,7 @@ const CommentsService = require('../../services/comments');
 
 const settings = {id: '1', moderation: 'PRE', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
 
-const expect = require('chai').expect;
+const expect = require('chai').use(require('chai-as-promised')).expect;
 
 describe('services.CommentsService', () => {
   const comments = [{
@@ -68,6 +68,7 @@ describe('services.CommentsService', () => {
   }];
 
   const users = [{
+    id: 'u1',
     email: 'stampi@gmail.com',
     username: 'Stampi',
     password: '1Coral!!'
@@ -216,6 +217,50 @@ describe('services.CommentsService', () => {
         });
     });
 
+  });
+
+  describe('#addTag', () => {
+    it('adds a tag', async () => {
+      const commentId = comments[0].id;
+      const tagName = 'BEST';
+      const userId = users[0].id;
+      await CommentsService.addTag(commentId, tagName, userId);
+      const updatedComment = await CommentsService.findById(commentId);
+      expect(updatedComment.tags.length).to.equal(1);
+      expect(updatedComment.tags[0].name).to.equal(tagName);
+      expect(updatedComment.tags[0].assigned_by).to.equal(userId);
+      expect(updatedComment.tags[0].created_at).to.be.an.instanceof(Date);
+    });
+    it('can\'t add a tag to comment id that doesn\'t exist', async () => {
+      const commentId = 'fakenews';
+      const tagName = 'BEST';
+      const userId = users[0].id;
+      await expect(CommentsService.addTag(commentId, tagName, userId)).to.be.rejected;
+    });
+    it('can\'t add same tag.name twice', async () => {
+      const commentId = comments[0].id;
+      const tagName = 'BEST';
+      const userId = users[0].id;
+
+      // first time
+      await CommentsService.addTag(commentId, tagName, userId);
+
+      // second time should fail
+      await expect(CommentsService.addTag(commentId, tagName, userId)).to.be.rejected;
+    });
+  });
+
+  describe('#removeTag', () => {
+    it.skip('removes a tag', async () => {
+      const commentId = comments[0].id;
+      const tagName = 'BEST';
+      await CommentsService.addTag(commentId, tagName, users[0].id);
+      let updatedComment = await CommentsService.findById(commentId);
+      expect(updatedComment.tags.length).to.equal(1);
+
+      // ok now to remove it
+      await CommentsService.removeTag(commentId, tagName);
+    });
   });
 
   describe('#changeStatus', () => {

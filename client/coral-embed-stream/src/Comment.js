@@ -112,11 +112,11 @@ class Comment extends React.Component {
 
     // @TODO(bengo) Would be best to only create these funcs on prop change
     const addBestTag = () => addCommentTag({
-      comment_id: comment.id,
+      id: comment.id,
       tag: BEST_TAG,
     });
     const removeBestTag = () => removeCommentTag({
-      comment_id: comment.id,
+      id: comment.id,
       tag: BEST_TAG,
     });
 

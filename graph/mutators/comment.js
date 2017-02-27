@@ -187,11 +187,20 @@ const setCommentStatus = ({loaders: {Comments}}, {id, status}) => {
     });
 };
 
+/**
+ * Adds a tag to a Comment
+ */
+const addCommentTag = ({user, loaders: {Comments}}, {id, tag}) => {
+  return CommentsService.addTag(id, tag, user.id)
+    .then(() => CommentsService.findById( id ));
+};
+
 module.exports = (context) => {
   let mutators = {
     Comment: {
       create: () => Promise.reject(errors.ErrNotAuthorized),
-      setCommentStatus: () => Promise.reject(errors.ErrNotAuthorized)
+      setCommentStatus: () => Promise.reject(errors.ErrNotAuthorized),
+      addCommentTag: () => Promise.reject(errors.ErrNotAuthorized),
     }
   };
 
@@ -201,6 +210,10 @@ module.exports = (context) => {
 
   if (context.user && context.user.can('mutation:setCommentStatus')) {
     mutators.Comment.setCommentStatus = (action) => setCommentStatus(context, action);
+  }
+
+  if (context.user && context.user.can('mutation:addCommentTag')) {
+    mutators.Comment.addCommentTag = (action) => addCommentTag(context, action);
   }
 
   return mutators;

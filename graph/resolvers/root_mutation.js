@@ -48,6 +48,9 @@ const RootMutation = {
   },
   setCommentStatus(_, {id, status}, {mutators: {Comment}}) {
     return wrapResponse(null)(Comment.setCommentStatus({id, status}));
+  },
+  addCommentTag(_, {id, tag}, {mutators: {Comment}}) {
+    return wrapResponse('comment')(Comment.addCommentTag({id, tag}));
   }
 };
 
