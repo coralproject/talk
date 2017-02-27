@@ -8,7 +8,8 @@ const webpack = require('webpack');
 
 const buildTargets = [
   'coral-admin',
-  'coral-docs'
+  'coral-docs',
+  'coral-embed'
 ];
 
 const buildEmbeds = [
@@ -38,7 +39,11 @@ module.exports = {
   }, {})),
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: '[name].js'
+    filename: '[name].js',
+
+    // NOTE: this causes all exports to override the global.Coral, so no more
+    // than one bundle.js can be included on a page.
+    library: 'Coral'
   },
   module: {
     rules: [
