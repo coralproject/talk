@@ -8,7 +8,7 @@ import {Logo} from './Logo';
 
 export default ({handleLogout, restricted = false}) => (
   <Header className={styles.header}>
-    <Logo />
+    <Logo className={styles.logo} />
     {
       !restricted ?
       <div>

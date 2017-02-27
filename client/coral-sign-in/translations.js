@@ -30,15 +30,24 @@ export default {
       checkTheForm: 'Invalid Form. Please, check the fields'
     },
     'createdisplay': {
-      writeyourusername: 'Write your username',
-      yourusername: 'Your username is publicly visible on all comments you post. A username is needed before you can post your first comment.',
+      writeyourusername: 'Edit your username',
+      yourusername: 'Your username appears on every comment you post.',
+      ifyoudontchangeyourname: 'If you don\'t change your username at this step, your Facebook display name will appear alongside of all your comments.',
       username: 'Username',
+      continue: 'Continue with the same Facebook username',
       save: 'Save',
+      fakecommentdate: '1 minute ago',
+      fakecommentbody: 'This is an example comment. Readers can share their thoughts and opinions with newsrooms in the comments section.',
       requiredField: 'Required field',
       errorCreate: 'Error when changing username',
       checkTheForm: 'Invalid Form. Please, check the fields',
       specialCharacters: 'Usernames can contain letters, numbers and _ only'
-    }
+    },
+    'permalink': {
+      permalink: 'Link'
+    },
+    'report': 'Report',
+    'like': 'Like',
   },
   es: {
     'signIn': {
@@ -71,14 +80,23 @@ export default {
       checkTheForm: 'Formulario Inválido. Por favor, completa los campos'
     },
     'createdisplay': {
-      writeyourusername: 'Escribe tu nombre',
-      yourusername: 'Tu nombre es visible publicamente en todos los comentarios que publiques. Es necesario tener un nombre de usuario antes de poder publicar tu primer comentario.',
-      username: 'Nombre a mostrar',
+      writeyourusername: 'Edita tu nombre',
+      yourusername: 'Tu nombre aparece en cada comentario que publiques.',
+      ifyoudontchangeyourname: 'Si no modificas tu nombre de usuario en este paso, tu nombre de Facebook aparecera al lado de cada comentario que publiques.',
+      username: 'Nombre',
+      continue: 'Continuar con nombre de Facebook',
       save: 'Guardar',
+      fakecommentdate: 'hace un minuto',
+      fakecommentbody: 'Este es un comentario de ejemplo. Las lectoras pueden compartir sus ideas  y opiniones con los periodistas en la sección de comentarios.',
       requiredField: 'Campo necesario',
       errorCreate: 'Hubo un error al cambiar el nombre de usuario',
       checkTheForm: 'Formulario Invalido. Por favor, verifica los campos',
       specialCharacters: 'Sólo pueden contener letras, números y _'
     },
+    'permalink': {
+      permalink: 'Enlace'
+    },
+    'report': 'Informe',
+    'like': 'Me gusta',
   }
 };
