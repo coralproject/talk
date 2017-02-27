@@ -2,14 +2,14 @@ const path = require('path');
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');
 const Copy = require('copy-webpack-plugin');
+const LicenseWebpackPlugin = require('license-webpack-plugin');
 const webpack = require('webpack');
 
 // Edit the build targets and embeds below.
 
 const buildTargets = [
   'coral-admin',
-  'coral-docs',
-  'coral-embed'
+  'coral-docs'
 ];
 
 const buildEmbeds = [
@@ -18,7 +18,12 @@ const buildEmbeds = [
 
 module.exports = {
   devtool: 'cheap-source-map',
-  entry: buildTargets.reduce((entry, target) => {
+  entry: Object.assign({}, {
+    'embed': [
+      'babel-polyfill',
+      path.join(__dirname, 'client/coral-embed/src/index')
+    ]
+  }, buildTargets.reduce((entry, target) => {
 
     // Add the entry for the bundle.
     entry[`${target}/bundle`] = [
@@ -27,7 +32,7 @@ module.exports = {
     ];
 
     return entry;
-  }, buildEmbeds.reduce((entry, embed) => {
+  }, {}), buildEmbeds.reduce((entry, embed) => {
 
     // Add the entry for the bundle.
     entry[`embed/${embed}/bundle`] = [
@@ -39,6 +44,7 @@ module.exports = {
   }, {})),
   output: {
     path: path.join(__dirname, 'dist'),
+    publicPath: '/client/',
     filename: '[name].js',
 
     // NOTE: this causes all exports to override the global.Coral, so no more
@@ -50,7 +56,10 @@ module.exports = {
       {
         loader: 'babel-loader',
         exclude: /node_modules/,
-        test: /\.js$/
+        test: /\.js$/,
+        query: {
+          cacheDirectory: true
+        }
       },
       {
         loader: 'json-loader',
@@ -85,6 +94,10 @@ module.exports = {
     ]
   },
   plugins: [
+    new LicenseWebpackPlugin({
+      pattern: /^(MIT|ISC|BSD.*)$/,
+      addUrl: true
+    }),
     new Copy([
       ...buildEmbeds.map(embed => ({
         from: path.join(__dirname, 'client', `coral-embed-${embed}`, 'style'),
