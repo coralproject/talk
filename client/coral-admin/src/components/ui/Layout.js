@@ -6,8 +6,8 @@ import styles from './Layout.css';
 
 export const Layout = ({children, ...props}) => (
   <LayoutMDL fixedDrawer>
-    <Header {...props}/>
-    <Drawer />
+    <Header {...props} />
+    <Drawer {...props} />
     <div className={styles.layout} >
       {children}
     </div>
