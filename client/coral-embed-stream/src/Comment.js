@@ -38,7 +38,6 @@ class Comment extends React.Component {
     // id of currently opened ReplyBox. tracked in Stream.js
     activeReplyBox: PropTypes.string.isRequired,
     setActiveReplyBox: PropTypes.func.isRequired,
-    refetch: PropTypes.func.isRequired,
     showSignInDialog: PropTypes.func.isRequired,
     postFlag: PropTypes.func.isRequired,
     postLike: PropTypes.func.isRequired,
@@ -85,7 +84,6 @@ class Comment extends React.Component {
       asset,
       depth,
       postItem,
-      refetch,
       addNotification,
       showSignInDialog,
       postLike,
@@ -158,7 +156,6 @@ class Comment extends React.Component {
           comment.replies &&
           comment.replies.map(reply => {
             return <Comment
-              refetch={refetch}
               setActiveReplyBox={setActiveReplyBox}
               activeReplyBox={activeReplyBox}
               addNotification={addNotification}
