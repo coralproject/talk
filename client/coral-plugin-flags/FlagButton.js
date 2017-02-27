@@ -38,7 +38,7 @@ class FlagButton extends Component {
   }
 
   onPopupContinue = () => {
-    const {postFlag, id, author_id} = this.props;
+    const {postFlag, postDontAgree, id, author_id} = this.props;
     const {itemType, reason, step, posted, message} = this.state;
 
     // Proceed to the next step or close the menu if we've reached the end
@@ -52,7 +52,6 @@ class FlagButton extends Component {
     if (itemType && reason && !posted) {
       this.setState({posted: true});
 
-      // Set the text from the "other" field if it exists.
       let item_id;
       switch(itemType) {
       case 'COMMENTS':
@@ -63,20 +62,31 @@ class FlagButton extends Component {
         break;
       }
 
-      // Note: Action metadata has been temporarily removed.
       if (itemType === 'COMMENTS') {
         this.setState({localPost: 'temp'});
       }
-      postFlag({
+
+      let action = {
         item_id,
         item_type: itemType,
-        reason,
+        reason: null,
         message
-      }).then(({data}) => {
-        if (itemType === 'COMMENTS') {
-          this.setState({localPost: data.createFlag.flag.id});
-        }
-      });
+      };
+      if (reason === 'I don\'t agree with this comment') {
+        postDontAgree(action)
+        .then(({data}) => {
+          if (itemType === 'COMMENTS') {
+            this.setState({localPost: data.createDontAgree.dontagree.id});
+          }
+        });
+      } else {
+        postFlag({...action, reason})
+        .then(({data}) => {
+          if (itemType === 'COMMENTS') {
+            this.setState({localPost: data.createFlag.flag.id});
+          }
+        });
+      }
     }
   }
 

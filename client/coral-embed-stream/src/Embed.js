@@ -13,7 +13,7 @@ const {addNotification, clearNotification} = notificationActions;
 const {fetchAssetSuccess} = assetActions;
 
 import {queryStream} from 'coral-framework/graphql/queries';
-import {postComment, postFlag, postLike, deleteAction} from 'coral-framework/graphql/mutations';
+import {postComment, postFlag, postLike, postDontAgree, deleteAction} from 'coral-framework/graphql/mutations';
 import {editName} from 'coral-framework/actions/user';
 import {updateCountCache} from 'coral-framework/actions/asset';
 import {Notification, notificationActions, authActions, assetActions, pym} from 'coral-framework';
@@ -175,6 +175,7 @@ class Embed extends Component {
               currentUser={user}
               postLike={this.props.postLike}
               postFlag={this.props.postFlag}
+              postDontAgree={this.props.postDontAgree}
               getCounts={this.props.getCounts}
               updateCountCache={this.props.updateCountCache}
               loadMore={this.props.loadMore}
@@ -248,6 +249,7 @@ export default compose(
   postComment,
   postFlag,
   postLike,
+  postDontAgree,
   deleteAction,
   queryStream
 )(Embed);
