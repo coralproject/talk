@@ -180,7 +180,7 @@ class Comment extends React.Component {
           comment.replies &&
           <div className='coral-load-more-replies'>
             <LoadMore
-              id={asset.id}
+              assetId={asset.id}
               comments={comment.replies}
               parentId={comment.id}
               moreComments={comment.replyCount > comment.replies.length}

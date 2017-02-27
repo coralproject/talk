@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
+import I18n from 'coral-framework/modules/i18n/i18n';
+import translations from 'coral-framework/translations';
+const lang = new I18n(translations);
 
 import {TabBar, Tab, TabContent, Spinner} from 'coral-ui';
 
@@ -12,6 +15,7 @@ const {fetchAssetSuccess} = assetActions;
 import {queryStream} from 'coral-framework/graphql/queries';
 import {postComment, postFlag, postLike, postDontAgree, deleteAction} from 'coral-framework/graphql/mutations';
 import {editName} from 'coral-framework/actions/user';
+import {updateCountCache} from 'coral-framework/actions/asset';
 import {Notification, notificationActions, authActions, assetActions, pym} from 'coral-framework';
 
 import Stream from './Stream';
@@ -24,10 +28,11 @@ import UserBox from 'coral-sign-in/components/UserBox';
 import SignInContainer from 'coral-sign-in/containers/SignInContainer';
 import SuspendedAccount from 'coral-framework/components/SuspendedAccount';
 import ChangeUsernameContainer from '../../coral-sign-in/containers/ChangeUsernameContainer';
-import SettingsContainer from 'coral-settings/containers/SettingsContainer';
+import ProfileContainer from 'coral-settings/containers/ProfileContainer';
 import RestrictedContent from 'coral-framework/components/RestrictedContent';
 import ConfigureStreamContainer from 'coral-configure/containers/ConfigureStreamContainer';
 import LoadMore from './LoadMore';
+import NewCount from './NewCount';
 
 class Embed extends Component {
 
@@ -82,7 +87,7 @@ class Embed extends Component {
 
   render () {
     const {activeTab} = this.state;
-    const {closedAt} = this.props.asset;
+    const {closedAt, countCache = {}} = this.props.asset;
     const {loading, asset, refetch} = this.props.data;
     const {loggedIn, isAdmin, user, showSignInDialog, signInOffset} = this.props.auth;
 
@@ -98,12 +103,17 @@ class Embed extends Component {
       return <Spinner />;
     }
 
+    // Find the created_at date of the first comment. If no comments exist, set the date to a week ago.
+    const firstCommentDate = asset.comments[0]
+      ? asset.comments[0].created_at
+      : new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString();
+
     return (
       <div style={expandForLogin}>
         <div className="commentStream">
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count count={asset.commentCount}/></Tab>
-            <Tab>Settings</Tab>
+            <Tab>{lang.t('profile')}</Tab>
             <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>
           {loggedIn && <UserBox user={user} logout={this.props.logout}  changeTab={this.changeTab}/>}
@@ -132,6 +142,8 @@ class Embed extends Component {
                         postItem={this.props.postItem}
                         appendItemArray={this.props.appendItemArray}
                         updateItem={this.props.updateItem}
+                        updateCountCache={this.props.updateCountCache}
+                        countCache={countCache[asset.id]}
                         assetId={asset.id}
                         premod={asset.settings.moderation}
                         isReply={false}
@@ -147,6 +159,14 @@ class Embed extends Component {
             }
             {!loggedIn && <SignInContainer requireEmailConfirmation={asset.settings.requireEmailConfirmation} offset={signInOffset}/>}
             {loggedIn &&  user && <ChangeUsernameContainer loggedIn={loggedIn} offset={signInOffset} user={user} />}
+            <NewCount
+              commentCount={asset.commentCount}
+              countCache={countCache[asset.id]}
+              loadMore={this.props.loadMore}
+              firstCommentDate={firstCommentDate}
+              assetId={asset.id}
+              updateCountCache={this.props.updateCountCache}
+              />
             <Stream
               refetch={refetch}
               addNotification={this.props.addNotification}
@@ -156,6 +176,8 @@ class Embed extends Component {
               postLike={this.props.postLike}
               postFlag={this.props.postFlag}
               postDontAgree={this.props.postDontAgree}
+              getCounts={this.props.getCounts}
+              updateCountCache={this.props.updateCountCache}
               loadMore={this.props.loadMore}
               deleteAction={this.props.deleteAction}
               showSignInDialog={this.props.showSignInDialog}
@@ -172,7 +194,7 @@ class Embed extends Component {
             loadMore={this.props.loadMore}/>
         </TabContent>
          <TabContent show={activeTab === 1}>
-           <SettingsContainer
+           <ProfileContainer
              loggedIn={loggedIn}
              userData={this.props.userData}
              showSignInDialog={this.props.showSignInDialog}
@@ -217,6 +239,7 @@ const mapDispatchToProps = dispatch => ({
   clearNotification: () => dispatch(clearNotification()),
   editName: (username) => dispatch(editName(username)),
   showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),
+  updateCountCache: (id, count) => dispatch(updateCountCache(id, count)),
   logout: () => dispatch(logout()),
   dispatch: d => dispatch(d)
 });

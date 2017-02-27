@@ -1,7 +1,25 @@
+@custom-media --table-viewport (max-width: 1024px);
+
+@media (--table-viewport) {
+  .logo {
+    margin-left: 58px;
+    h1 {
+      background: #696969;
+    }
+    span {
+      color: #fcfcfc;
+    }
+  }
+  .nav {
+    display: none;
+  }
+}
+
 .header {
   background-color: transparent;
   box-shadow: none;
   min-height: 58px;
+  display: block;
 }
 
 .header > div {

@@ -36,6 +36,7 @@
 
 .signInButton {
     margin-top: 10px;
+    background-color: #2a2a2a;
 }
 
 .close {
@@ -117,7 +118,7 @@ input.error{
 }
 
 .action {
-    margin-top: 15px;
+    margin-top: 0px;
 }
 
 .passwordRequestSuccess {
@@ -140,6 +141,40 @@ input.error{
     display: block;
 }
 
-.confirmSubmit {
+/* Change username Dialog*/
 
+.dialogusername {
+  border: none;
+  box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  top: 10px;
+}
+
+.yourusername {
+  display: block;
+}
+
+.example {
+  display: block;
+}
+
+.ifyoudont {
+  display: block;
+  margin-top: 15px;
+}
+
+.saveusername {
+  display: block;
+  width: 100%;
+}
+
+.savebutton {
+  display: inline;
+  background-color: rgb(105,105,105);
+  color: white;
+}
+
+.fakeComment {
+  display: block;
+  margin-bottom: 5px;
 }

@@ -1,14 +1,22 @@
 {
   "en":{
-    "userNoComment": "This user has not yet left a comment.",
+    "profile": "Profile",
+    "userNoComment": "You've never left a comment. Join the conversation!",
     "allComments": "All Comments",
     "profileSettings": "Profile Settings",
-    "myCommentHistory": "My comment History"
+    "myCommentHistory": "My comment History",
+    "signIn": "Sign in",
+    "toAccess": " to access Profile",
+    "fromSettingsPage": "From the Profile Page you can see your comment history."
   },
   "es":{
-    "userNoComment": "Aún no ha escrito ningún comentario.",
+    "profile": "Perfil",
+    "userNoComment": "No has dejado áun ningún comentario. ¡Unete a la conversación!",
     "allComments": "Todos los comentarios",
     "profileSettings": "Configuración del perfil",
-    "myCommentHistory": "Mi historial de comentarios"
+    "myCommentHistory": "Mi historial de comentarios",
+    "signIn": "Entrar",
+    "toAccess": "para acceder a al perfil",
+    "fromSettingsPage": "Desde la peagina de configuración puede ver su historia de comentarios."
   }
 }

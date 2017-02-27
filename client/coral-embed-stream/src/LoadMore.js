@@ -12,7 +12,7 @@ const loadMoreComments = (assetId, comments, loadMore, parentId) => {
   }
 
   const cursor = parentId
-    ? comments[1].created_at
+    ? comments[0].created_at
     : comments[comments.length - 1].created_at;
 
   loadMore({

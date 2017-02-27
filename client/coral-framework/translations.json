@@ -1,5 +1,6 @@
 {
   "en": {
+    "profile": "Profile",
     "successUpdateSettings": "The changes you have made have been applied to the comment stream on this article",
     "successNameUpdate": "Your username has been updated",
     "contentNotAvailable": "This content is not available",
@@ -11,6 +12,9 @@
       "button": "Submit",
       "error": "Usernames can contain letters, numbers and _ only"
     },
+    "newCount": "View {0} more {1}",
+    "comment": "comment",
+    "comments": "comments",
     "error": {
       "emailNotVerified": "Email address {0} not verified.",
       "email": "Not a valid E-Mail",
@@ -33,12 +37,16 @@
     }
   },
   "es": {
+    "profile": "Perfil",
     "successUpdateSettings": "La configuración de este articulo fue actualizada",
     "successBioUpdate": "Tu bio fue actualizada",
     "contentNotAvailable": "El contenido no se encuentra disponible",
     "bannedAccountMsg": "Tu cuenta se encuentra suspendida. Esto significa que no puedes dar Like, Marcar o escribir commentarios. Por favor, contacta moderator@fakeurl for more information",
     "editNameMsg": "",
     "loadMore": "Ver más",
+    "newCount": "Ver {0} {1} más",
+    "comment": "commentario",
+    "comments": "commentarios",
     "error": {
       "emailNotVerified": "Dirección de correo electrónico {0} no verificada.",
       "email": "No es un email válido",
