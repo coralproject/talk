@@ -19,12 +19,13 @@ const NewCount = (props) => {
 
   return <div className='coral-new-comments'>
     {
-      props.countCache && newComments > 0 &&
+      props.countCache && newComments > 0 ?
       <button onClick={onLoadMoreClick(props)} className='coral-load-more'>
         {newComments === 1
           ? lang.t('newCount', newComments, lang.t('comment'))
           : lang.t('newCount', newComments, lang.t('comments'))}
       </button>
+      : null
     }
   </div>;
 };
