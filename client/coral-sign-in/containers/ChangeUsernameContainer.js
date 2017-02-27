@@ -29,6 +29,7 @@ class ChangeUsernameContainer extends Component {
 
   constructor(props) {
     super(props);
+    this.initialState.formData.username = props.user.username;
     this.state = this.initialState;
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmitUsername = this.handleSubmitUsername.bind(this);
@@ -103,7 +104,7 @@ class ChangeUsernameContainer extends Component {
     return (
       <div>
         <CreateUsernameDialog
-          open={auth.showCreateUsernameDialog && auth.fromSignUp}
+          open={auth.showCreateUsernameDialog && auth.user.canEditName}
           offset={offset}
           handleClose={this.handleClose}
           loggedIn={loggedIn}

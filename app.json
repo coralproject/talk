@@ -29,5 +29,5 @@
         "as": "POSTMARK"
     }],
     "image": "heroku/nodejs",
-    "success_url": "/admin/setup"
+    "success_url": "/admin/install"
 }

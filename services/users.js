@@ -124,6 +124,8 @@ module.exports = class UsersService {
           return user;
         }
 
+        // User does not exist and need to be created.
+
         let username = UsersService.castUsername(displayName);
 
         // The user was not found, lets create them!
@@ -131,7 +133,8 @@ module.exports = class UsersService {
           username,
           lowercaseUsername: username.toLowerCase(),
           roles: [],
-          profiles: [{id, provider}]
+          profiles: [{id, provider}],
+          canEditName: true
         });
 
         return user.save();

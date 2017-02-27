@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
+import I18n from 'coral-framework/modules/i18n/i18n';
+import translations from 'coral-framework/translations';
+const lang = new I18n(translations);
 
 import {TabBar, Tab, TabContent, Spinner} from 'coral-ui';
 
@@ -25,7 +28,7 @@ import UserBox from 'coral-sign-in/components/UserBox';
 import SignInContainer from 'coral-sign-in/containers/SignInContainer';
 import SuspendedAccount from 'coral-framework/components/SuspendedAccount';
 import ChangeUsernameContainer from '../../coral-sign-in/containers/ChangeUsernameContainer';
-import SettingsContainer from 'coral-settings/containers/SettingsContainer';
+import ProfileContainer from 'coral-settings/containers/ProfileContainer';
 import RestrictedContent from 'coral-framework/components/RestrictedContent';
 import ConfigureStreamContainer from 'coral-configure/containers/ConfigureStreamContainer';
 import LoadMore from './LoadMore';
@@ -110,7 +113,7 @@ class Embed extends Component {
         <div className="commentStream">
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count count={asset.commentCount}/></Tab>
-            <Tab>Settings</Tab>
+            <Tab>{lang.t('profile')}</Tab>
             <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>
           {loggedIn && <UserBox user={user} logout={this.props.logout}  changeTab={this.changeTab}/>}
@@ -190,7 +193,7 @@ class Embed extends Component {
             loadMore={this.props.loadMore}/>
         </TabContent>
          <TabContent show={activeTab === 1}>
-           <SettingsContainer
+           <ProfileContainer
              loggedIn={loggedIn}
              userData={this.props.userData}
              showSignInDialog={this.props.showSignInDialog}
