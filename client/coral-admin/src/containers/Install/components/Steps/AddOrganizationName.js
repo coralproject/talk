@@ -17,7 +17,7 @@ const AddOrganizationName = props => {
             className={styles.TextField}
             id="organizationName"
             type="text"
-            label={lang.t('ADD_ORGANIZATION.DESCRIPTION')}
+            label={lang.t('ADD_ORGANIZATION.LABEL')}
             onChange={handleSettingsChange}
             showErrors={install.showErrors}
             errorMsg={install.errors.organizationName} />
