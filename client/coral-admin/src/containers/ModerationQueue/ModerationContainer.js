@@ -43,7 +43,7 @@ class ModerationContainer extends Component {
   }
 
   render () {
-    const {data, moderation, settings, assets, ...props} = this.props;
+    const {data, moderation, settings, assets, modQueueResort, ...props} = this.props;
     const providedAssetId = this.props.params.id;
     const activeTab = this.props.route.path === ':id' ? 'premod' : this.props.route.path;
 
@@ -73,6 +73,7 @@ class ModerationContainer extends Component {
           premodCount={data.premodCount}
           rejectedCount={data.rejectedCount}
           flaggedCount={data.flaggedCount}
+          modQueueResort={modQueueResort}
         />
         <ModerationQueue
           data={data}
