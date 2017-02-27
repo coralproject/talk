@@ -6,6 +6,8 @@ const Comment = require('./comment');
 const Date = require('./date');
 const FlagActionSummary = require('./flag_action_summary');
 const FlagAction = require('./flag_action');
+const DontAgreeAction = require('./dont_agree_action');
+const DontAgreeActionSummary = require('./dont_agree_action_summary');
 const GenericUserError = require('./generic_user_error');
 const LikeAction = require('./like_action');
 const RootMutation = require('./root_mutation');
@@ -24,6 +26,8 @@ module.exports = {
   Date,
   FlagActionSummary,
   FlagAction,
+  DontAgreeAction,
+  DontAgreeActionSummary,
   GenericUserError,
   LikeAction,
   RootMutation,
