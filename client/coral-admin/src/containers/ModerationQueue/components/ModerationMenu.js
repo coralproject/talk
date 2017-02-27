@@ -10,7 +10,7 @@ const lang = new I18n(translations);
 
 class ModerationMenu extends Component {
   state = {
-    sort: '',
+    sort: 'REVERSE_CHRONOLOGICAL',
   }
 
   static propTypes = {
