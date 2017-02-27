@@ -5,14 +5,16 @@ import {Wizard, WizardNav} from 'coral-ui';
 import {Layout} from '../../components/ui/Layout';
 
 import {
-  nextStep,
-  previousStep,
   goToStep,
+  nextStep,
+  submitUser,
+  checkInstall,
+  previousStep,
+  finishInstall,
+  submitSettings,
   updateUserFormData,
   updateSettingsFormData,
-  submitSettings,
-  submitUser,
-  checkInstall
+  updatePermittedDomains
 } from '../../actions/install';
 
 import InitialStep from './components/Steps/InitialStep';
@@ -41,6 +43,9 @@ class InstallContainer extends Component {
                 <h2>Welcome to the Coral Project</h2>
                 { install.step !== 0 ? <WizardNav items={install.navItems} currentStep={install.step} icon='check'/> : null }
                 <Wizard currentStep={install.step} {...this.props}>
+                  <InitialStep/>
+                  <AddOrganizationName/>
+                  <CreateYourAccount/>
                   <PermittedDomainsStep/>
                   <FinalStep/>
                 </Wizard>
@@ -64,10 +69,14 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  checkInstall: next => dispatch(checkInstall(next)),
   nextStep: () => dispatch(nextStep()),
-  previousStep: () => dispatch(previousStep()),
   goToStep: step => dispatch(goToStep(step)),
+  previousStep: () => dispatch(previousStep()),
+  finishInstall: () => dispatch(finishInstall()),
+  checkInstall: next => dispatch(checkInstall(next)),
+  handleDomainsChange: value => {
+    dispatch(updatePermittedDomains(value));
+  },
   handleSettingsChange: e => {
     const {name, value} = e.currentTarget;
     dispatch(updateSettingsFormData(name, value));

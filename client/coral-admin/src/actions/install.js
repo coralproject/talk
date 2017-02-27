@@ -20,13 +20,17 @@ const validation = (formData, dispatch, next) => {
     return dispatch(hasError());
   }
 
+  const validKeys = Object.keys(formData)
+    .filter(name => name !== 'domains');
+
   // Required Validation
-  const empty = Object.keys(formData).filter(name => {
+  const empty = validKeys
+  .filter(name => {
     const cond = !formData[name].length;
 
     if (cond) {
 
-      // Adding Error
+    // Adding Error
       dispatch(addError(name, 'This field is required.'));
     } else {
       dispatch(addError(name, ''));
@@ -40,18 +44,19 @@ const validation = (formData, dispatch, next) => {
   }
 
   // RegExp Validation
-  const validation = Object.keys(formData).filter(name => {
-    const cond = !validate[name](formData[name]);
-    if (cond) {
+  const validation = validKeys
+    .filter(name => {
+      const cond = !validate[name](formData[name]);
+      if (cond) {
 
       // Adding Error
-      dispatch(addError(name, errorMsj[name]));
-    } else {
-      dispatch(addError(name, ''));
-    }
+        dispatch(addError(name, errorMsj[name]));
+      } else {
+        dispatch(addError(name, ''));
+      }
 
-    return cond;
-  });
+      return cond;
+    });
 
   if (validation.length) {
     return dispatch(hasError());
@@ -75,16 +80,10 @@ export const submitUser = () => (dispatch, getState) => {
   });
 };
 
-export const submitWhitelistDomains = () => (dispatch) => {
-  submitForm().then(() => {
-    dispatch(installSuccess());
-  });
-};
-
-const submitForm = () => (dispatch, getState) => {
+export const finishInstall = () => (dispatch, getState) => {
   const data = getState().install.toJS().data;
   dispatch(installRequest());
-  return coralApi('/setup', { method: 'POST', body: data })
+  return coralApi('/setup', {method: 'POST', body: data})
     .then(result => {
       console.log(result);
       dispatch(installSuccess());
@@ -98,6 +97,7 @@ const submitForm = () => (dispatch, getState) => {
 
 export const updateSettingsFormData = (name, value) => ({type: actions.UPDATE_FORMDATA_SETTINGS, name, value});
 export const updateUserFormData = (name, value) => ({type: actions.UPDATE_FORMDATA_USER, name, value});
+export const updatePermittedDomains = (value) => ({type: actions.UPDATE_PERMITTED_DOMAINS_SETTINGS, value});
 
 const checkInstallRequest = () => ({type: actions.CHECK_INSTALL_REQUEST});
 const checkInstallSuccess = installed => ({type: actions.CHECK_INSTALL_SUCCESS, installed});
