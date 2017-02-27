@@ -271,12 +271,29 @@ const genRecentComments = (_, ids) => {
 };
 
 /**
+ * genComments returns the comments by the id's specified that are considered
+ * public comments (i.e., accepted or not rejected).
+ */
+const genComments = (context, ids) => {
+  return CommentModel.find({
+    id: {
+      $in: ids
+    },
+    status: {
+      $in: ['NONE', 'ACCEPTED']
+    }
+  })
+  .then(util.singleJoinBy(ids, 'id'));
+};
+
+/**
  * Creates a set of loaders based on a GraphQL context.
  * @param  {Object} context the context of the GraphQL request
  * @return {Object}         object of loaders
  */
 module.exports = (context) => ({
   Comments: {
+    get: new DataLoader((ids) => genComments(context, ids)),
     getByQuery: (query) => getCommentsByQuery(context, query),
     getCountByQuery: (query) => getCommentCountByQuery(context, query),
     countByAssetID: new util.SharedCacheDataLoader('Comments.countByAssetID', 3600, (ids) => getCountsByAssetID(context, ids)),

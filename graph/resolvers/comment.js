@@ -1,4 +1,11 @@
 const Comment = {
+  parent({parent_id}, _, {loaders: {Comments}}) {
+    if (parent_id == null) {
+      return null;
+    }
+
+    return Comments.get.load(parent_id);
+  },
   user({author_id}, _, {loaders: {Users}}) {
     return Users.getByID.load(author_id);
   },

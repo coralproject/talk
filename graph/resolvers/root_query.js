@@ -38,7 +38,9 @@ const RootQuery = {
 
     return Comments.getByQuery(query);
   },
-
+  comment(_, {id}, {loaders: {Comments}}) {
+    return Comments.get.load(id);
+  },
   commentCount(_, {query: {action_type, statuses, asset_id, parent_id}}, {user, loaders: {Actions, Comments}}) {
     if (user == null || !user.hasRoles('ADMIN')) {
       return null;
