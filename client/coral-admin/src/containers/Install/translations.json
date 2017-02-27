@@ -9,6 +9,13 @@
       "LABEL": "Organization Name",
       "SAVE": "Save"
     },
+    "CREATE": {
+      "EMAIL": "Email address",
+      "USERNAME": "Username",
+      "PASSWORD": "Password",
+      "CONFIRM_PASSWORD": "Confirm Password",
+      "SAVE": "Save"
+    },
     "PERMITTED_DOMAINS": {
       "TITLE": "Permitted domains",
       "DESCRIPTION": "Add permitted domains",
@@ -23,6 +30,13 @@
     "ADD_ORGANIZATION": {
       "DESCRIPTION": "Por favor, dinos el nombre de tu organización. Este aparecerá en los emails cuando invites nuevos miembros",
       "LABEL": "Nombre de la Organización",
+      "SAVE": "Guardar"
+    },
+    "CREATE": {
+      "EMAIL": "Dirección de E-Mail",
+      "USERNAME": "Usuario",
+      "PASSWORD": "Contraseña",
+      "CONFIRM_PASSWORD": "Confirmar contraseña",
       "SAVE": "Guardar"
     },
     "PERMITTED_DOMAINS": {
