@@ -163,6 +163,12 @@ module.exports = {
     },
     registerButton: {
       selector: '#signInDialog #coralRegister'
+    },
+    setBestButton: {
+      selector: '.e2e__set-best-comment'
+    },
+    unsetBestButton: {
+      selector: '.e2e__unset-best-comment'
     }
   }
 };

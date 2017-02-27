@@ -17,7 +17,7 @@ import PubDate from 'coral-plugin-pubdate/PubDate';
 import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
 import FlagComment from 'coral-plugin-flags/FlagComment';
 import LikeButton from 'coral-plugin-likes/LikeButton';
-import BestButton from 'coral-plugin-best/BestButton';
+import BestButton, {IfUserCanModifyBest} from 'coral-plugin-best/BestButton';
 import LoadMore from 'coral-embed-stream/src/LoadMore';
 
 import styles from './Comment.css';
@@ -126,10 +126,12 @@ class Comment extends React.Component {
                 parentCommentId={parentId || comment.id}
                 currentUserId={currentUser && currentUser.id}
                 banned={false} />
-              <BestButton
-                isBest={false}
-                setBestTag={() => {}}
-                removeBestTag={() => {}} />
+              <IfUserCanModifyBest user={currentUser}>
+                <BestButton
+                  isBest={false}
+                  setBestTag={() => {}}
+                  removeBestTag={() => {}} />
+              </IfUserCanModifyBest>
             </div>
         <div className="commentActionsRight">
           <PermalinkButton articleURL={asset.url} commentId={comment.id} />

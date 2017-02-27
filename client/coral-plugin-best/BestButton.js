@@ -6,6 +6,17 @@ import classnames from 'classnames';
 const name = 'coral-plugin-best';
 const lang = new I18n(translations);
 
+// It would be best if the backend/api held this business logic
+const canModifyBestTag = ({roles = []} = {}) => roles && ['ADMIN', 'MODERATOR'].some(role => roles.includes(role));
+
+/**
+ * Component that only renders children if the provided user prop can modify best tags
+ */
+export const IfUserCanModifyBest = ({user, children}) => {
+  if ( ! ( user && canModifyBestTag(user))) {return null;}
+  return children;
+};
+
 /**
  * Button that lets a moderator tag a comment as "Best".
  * Used to recognize really good comments.

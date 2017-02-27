@@ -9,22 +9,19 @@ module.exports = {
       .ready();
 
     embedStreamPage
-      .login(users.commenter);
+      .login(users.moderator);
   },
   'Moderator marks their comment as BEST': client => {
     const embedStreamPage = client.page.embedStreamPage();
 
-    const setBestCommentButton = '.comment:nth-of-type(1) .e2e__set-best-comment';
-    const unsetBestCommentButton = '.comment:nth-of-type(1) .e2e__unset-best-comment';
+    const setBestCommentButton = '@setBestButton';
+    const unsetBestCommentButton = '@unsetBestButton';
     embedStreamPage
       .postComment('Hi everyone. Isn\'t this the BEST comment!?')
-      .waitForElementVisible(setBestCommentButton, 2000, () => {
-        client.expect.element(setBestCommentButton).text.to.contain('Tag as Best');        
-      })
+      .waitForElementVisible(setBestCommentButton, 2000)
       .click(setBestCommentButton)
       .waitForElementVisible(unsetBestCommentButton, 2000, () => {
         client.assert.elementNotPresent(setBestCommentButton);
-        client.expect.element(unsetBestCommentButton).text.to.contain('Untag as Best');
       });
 
     // on refresh, it should still be tagged as best :)
