@@ -20,9 +20,9 @@ const getPopupMenu = [
   (itemType) => {
     const options = itemType === 'COMMENTS' ?
     [
-      {val: 'I don\'t agree with this comment', text: lang.t('no-agree-comment')},
       {val: 'This comment is offensive', text: lang.t('comment-offensive')},
       {val: 'This looks like an ad/marketing', text: lang.t('marketing')},
+      {val: 'I don\'t agree with this comment', text: lang.t('no-agree-comment')},
       {val: 'other', text: lang.t('other')}
     ]
     : [
