@@ -88,6 +88,7 @@ class Comment extends React.Component {
       showSignInDialog,
       postLike,
       postFlag,
+      postDontAgree,
       loadMore,
       setActiveReplyBox,
       activeReplyBox,
@@ -96,6 +97,7 @@ class Comment extends React.Component {
 
     const like = getActionSummary('LikeActionSummary', comment);
     const flag = getActionSummary('FlagActionSummary', comment);
+    const dontagree = getActionSummary('DontAgreeActionSummary', comment);
 
     return (
       <div
@@ -127,10 +129,11 @@ class Comment extends React.Component {
         <div className="commentActionsRight">
           <PermalinkButton articleURL={asset.url} commentId={comment.id} />
           <FlagComment
-            flag={flag}
+            flag={flag && flag.current_user ? flag : dontagree}
             id={comment.id}
             author_id={comment.user.id}
             postFlag={postFlag}
+            postDontAgree={postDontAgree}
             deleteAction={deleteAction}
             showSignInDialog={showSignInDialog}
             currentUser={currentUser} />

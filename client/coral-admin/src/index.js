@@ -7,6 +7,9 @@ import store from './services/store';
 
 import App from './components/App';
 
+import 'react-mdl/extra/material.css';
+import 'react-mdl/extra/material.js';
+
 render(
   <ApolloProvider client={client} store={store}>
     <App />

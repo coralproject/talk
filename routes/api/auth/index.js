@@ -77,7 +77,7 @@ const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
     }
 
     // We logged in the user! Let's send back the user data.
-    res.render('auth-callback', {err: null, data: JSON.stringify(user), changeusername: true});
+    res.render('auth-callback', {err: null, data: JSON.stringify(user)});
   });
 };
 
