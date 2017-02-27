@@ -18,7 +18,7 @@
     },
     "PERMITTED_DOMAINS": {
       "TITLE": "Permitted domains",
-      "DESCRIPTION": "Add permitted domains",
+      "DESCRIPTION": "Enter the domains you would like to permit for Talk, e.g. your local, staging and production environments (ex. localhost:3000, staging.domain.com, domain.com).",
       "SUBMIT": "Finish install"
     },
     "FINAL": {
@@ -46,7 +46,7 @@
     },
     "PERMITTED_DOMAINS": {
       "TITLE": "Dominios Permitidos",
-      "DESCRIPTION": "Agrega dominios permitidos",
+      "DESCRIPTION": "Agrega dominios permitidos a Talk, e.g. tu localhost, staging y ambientes de production  (ex. localhost:3000, staging.domain.com, domain.com).",
       "SUBMIT": "Finalizar instalación"
     },
     "FINAL": {
