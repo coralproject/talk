@@ -20,6 +20,11 @@
       "TITLE": "Permitted domains",
       "DESCRIPTION": "Add permitted domains",
       "SUBMIT": "Finish install"
+    },
+    "FINAL": {
+      "DESCRIPTION": "Thanks for installing Talk! We sent an email to verify your email address. While you finish setting the account, you can start engaging with your readers now.",
+      "LAUNCH": "Launch Talk",
+      "CLOSE": "Close this Installer"
     }
   },
   "es": {
@@ -43,6 +48,11 @@
       "TITLE": "Dominios Permitidos",
       "DESCRIPTION": "Agrega dominios permitidos",
       "SUBMIT": "Finalizar instalación"
+    },
+    "FINAL": {
+      "DESCRIPTION": "Gracias por instalar Talk! Te enviamos un email para verificar tu identidad. Mientras se termina de configurar la cuenta, ya puedes empezar a interactuar con tus lectores",
+      "LAUNCH": "Lanzar Talk",
+      "CLOSE": "Cerrar este instalador"
     }
   }
 }
