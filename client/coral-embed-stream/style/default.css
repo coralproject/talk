@@ -217,6 +217,10 @@ hr {
   cursor: pointer;
 }
 
+.comment__action-button[disabled] {
+  cursor: inherit;
+}
+
 .comment__action-button--nowrap {
   white-space: nowrap;
 }

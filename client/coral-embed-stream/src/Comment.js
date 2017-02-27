@@ -17,7 +17,7 @@ import PubDate from 'coral-plugin-pubdate/PubDate';
 import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
 import FlagComment from 'coral-plugin-flags/FlagComment';
 import LikeButton from 'coral-plugin-likes/LikeButton';
-import BestButton, {IfUserCanModifyBest} from 'coral-plugin-best/BestButton';
+import {BestButton, IfUserCanModifyBest, BEST_TAG, commentIsBest} from 'coral-plugin-best/BestButton';
 import LoadMore from 'coral-embed-stream/src/LoadMore';
 
 import styles from './Comment.css';
@@ -74,7 +74,13 @@ class Comment extends React.Component {
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired
       }).isRequired
-    }).isRequired
+    }).isRequired,
+
+    // dispatch action to add a tag to a comment
+    addCommentTag: React.PropTypes.func,
+
+    // dispatch action to remove a tag from a comment
+    removeCommentTag: React.PropTypes.func,
   }
 
   render () {
@@ -93,12 +99,26 @@ class Comment extends React.Component {
       loadMore,
       setActiveReplyBox,
       activeReplyBox,
-      deleteAction
+      deleteAction,
+      addCommentTag,
+      removeCommentTag,
     } = this.props;
 
     const like = getActionSummary('LikeActionSummary', comment);
     const flag = getActionSummary('FlagActionSummary', comment);
     const dontagree = getActionSummary('DontAgreeActionSummary', comment);
+
+    // @TODO(bengo) Should I do this for addCommentTag and/or best button
+
+    // @TODO(bengo) Would be best to only create these funcs on prop change
+    const addBestTag = () => addCommentTag({
+      comment_id: comment.id,
+      tag: BEST_TAG,
+    });
+    const removeBestTag = () => removeCommentTag({
+      comment_id: comment.id,
+      tag: BEST_TAG,
+    });
 
     return (
       <div
@@ -128,9 +148,9 @@ class Comment extends React.Component {
                 banned={false} />
               <IfUserCanModifyBest user={currentUser}>
                 <BestButton
-                  isBest={false}
-                  setBestTag={() => {}}
-                  removeBestTag={() => {}} />
+                  isBest={commentIsBest(comment)}
+                  addBest={addBestTag}
+                  removeBest={removeBestTag} />
               </IfUserCanModifyBest>
             </div>
         <div className="commentActionsRight">
