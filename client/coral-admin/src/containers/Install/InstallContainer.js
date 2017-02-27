@@ -18,6 +18,7 @@ import {
 import InitialStep from './components/Steps/InitialStep';
 import AddOrganizationName from './components/Steps/AddOrganizationName';
 import CreateYourAccount from './components/Steps/CreateYourAccount';
+import WhitelistStep from './components/Steps/WhitelistStep';
 import FinalStep from './components/Steps/FinalStep';
 
 class InstallContainer extends Component {
@@ -43,6 +44,7 @@ class InstallContainer extends Component {
                   <InitialStep/>
                   <AddOrganizationName/>
                   <CreateYourAccount/>
+                  <WhitelistStep/>
                   <FinalStep/>
                 </Wizard>
               </div>
