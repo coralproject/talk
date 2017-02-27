@@ -4,6 +4,11 @@
       "DESCRIPTION": "The remainder of the Talk installation will take about ten minutes. Once you complete the following two steps, you will have a free installation and provision of Mongo and Redis.",
       "SUBMIT": "Get Started"
     },
+    "ADD_ORGANIZATION": {
+      "DESCRIPTION": "Please tell us the name of your organization. This will appear in emails when inviting new team members",
+      "LABEL": "Organization Name",
+      "SAVE": "Save"
+    },
     "PERMITTED_DOMAINS": {
       "TITLE": "Permitted domains",
       "DESCRIPTION": "Add permitted domains",
@@ -14,6 +19,11 @@
     "INITIAL" : {
       "DESCRIPTION": "La instalación de Talk tomará aproximadamente diez minutos. Tan pronto como termines los tres pasos, tendrás una gratis instalación y provision de Mongo y Redis",
       "SUBMIT": "Empezá!"
+    },
+    "ADD_ORGANIZATION": {
+      "DESCRIPTION": "Por favor, dinos el nombre de tu organización. Este aparecerá en los emails cuando invites nuevos miembros",
+      "LABEL": "Nombre de la Organización",
+      "SAVE": "Guardar"
     },
     "PERMITTED_DOMAINS": {
       "TITLE": "Dominios Permitidos",
