@@ -1,0 +1,16 @@
+{
+  "en": {
+    "PERMITTED_DOMAINS": {
+      "TITLE": "Permitted domains",
+      "DESCRIPTION": "Add permitted domains",
+      "SUBMIT": "Finish install"
+    }
+  },
+  "es": {
+    "PERMITTED_DOMAINS": {
+      "TITLE": "Dominios Permitidos",
+      "DESCRIPTION": "Agrega dominios permitidos",
+      "SUBMIT": "Finalizar instalación"
+    }
+  }
+}

@@ -18,7 +18,7 @@ import {
 import InitialStep from './components/Steps/InitialStep';
 import AddOrganizationName from './components/Steps/AddOrganizationName';
 import CreateYourAccount from './components/Steps/CreateYourAccount';
-import WhitelistStep from './components/Steps/WhitelistStep';
+import PermittedDomainsStep from './components/Steps/PermittedDomainsStep';
 import FinalStep from './components/Steps/FinalStep';
 
 class InstallContainer extends Component {
@@ -41,10 +41,7 @@ class InstallContainer extends Component {
                 <h2>Welcome to the Coral Project</h2>
                 { install.step !== 0 ? <WizardNav items={install.navItems} currentStep={install.step} icon='check'/> : null }
                 <Wizard currentStep={install.step} {...this.props}>
-                  <InitialStep/>
-                  <AddOrganizationName/>
-                  <CreateYourAccount/>
-                  <WhitelistStep/>
+                  <PermittedDomainsStep/>
                   <FinalStep/>
                 </Wizard>
               </div>

@@ -6,10 +6,7 @@ const initialState = Map({
   isLoading: false,
   data: Map({
     settings: Map({
-      organizationName: '',
-      domains: Map({
-        whitelist: List()
-      })
+      organizationName: ''
     }),
     user: Map({
       username: '',

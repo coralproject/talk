@@ -71,19 +71,29 @@ export const submitSettings = () => (dispatch, getState) => {
 export const submitUser = () => (dispatch, getState) => {
   const userFormData = getState().install.toJS().data.user;
   validation(userFormData, dispatch, function() {
-    const data = getState().install.toJS().data;
-    dispatch(installRequest());
-    coralApi('/setup', {method: 'POST', body: data})
-      .then(result => {
-        console.log(result);
-        dispatch(installSuccess());
-        dispatch(nextStep());
-      })
-      .catch(error => {
-        console.error(error);
-        dispatch(installFailure(`${error.translation_key}`));
-      });
+    dispatch(nextStep());
   });
+};
+
+export const submitWhitelistDomains = () => (dispatch) => {
+  submitForm().then(() => {
+    dispatch(installSuccess());
+  });
+};
+
+const submitForm = () => (dispatch, getState) => {
+  const data = getState().install.toJS().data;
+  dispatch(installRequest());
+  return coralApi('/setup', { method: 'POST', body: data })
+    .then(result => {
+      console.log(result);
+      dispatch(installSuccess());
+      dispatch(nextStep());
+    })
+    .catch(error => {
+      console.error(error);
+      dispatch(installFailure(`${error.translation_key}`));
+    });
 };
 
 export const updateSettingsFormData = (name, value) => ({type: actions.UPDATE_FORMDATA_SETTINGS, name, value});
