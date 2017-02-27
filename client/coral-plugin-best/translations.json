@@ -1,0 +1,10 @@
+{
+  "en": {
+    "setBest": "Tag as Best",
+    "unsetBest": "Untag as Best"
+  },
+  "es": {
+    "like": "Establecer como mejor",
+    "liked": "Desarmado como mejor"
+  }
+}
