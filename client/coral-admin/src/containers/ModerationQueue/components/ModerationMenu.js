@@ -52,8 +52,8 @@ class ModerationMenu extends Component {
             label='Sort'
             value={this.state.sort}
             onChange={sort => this.selectSort(sort)}>
-            <Option value={'CHRONOLOGICAL'}>Newest First</Option>
-            <Option value={'REVERSE_CHRONOLOGICAL'}>Oldest First</Option>
+            <Option value={'REVERSE_CHRONOLOGICAL'}>Newest First</Option>
+            <Option value={'CHRONOLOGICAL'}>Oldest First</Option>
           </SelectField>
         </div>
       </div>
