@@ -1,10 +1,11 @@
-mutation RemoveCommentTag ($comment_id: ID!, $tag: String!) {
-  removeCommentTag(comment_id:$comment_id, tag:$tag) {
-  	comment {
-	    tags {
-	      name
-	    }
-  	}
+mutation RemoveCommentTag ($id: ID!, $tag: String!) {
+  removeCommentTag(id:$id, tag:$tag) {
+    comment {
+      id
+      tags {
+        name
+      }
+    }
     errors {
       translation_key
     }

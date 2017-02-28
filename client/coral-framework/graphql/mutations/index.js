@@ -139,9 +139,10 @@ export const addCommentTag = graphql(ADD_COMMENT_TAG, {
 
 export const removeCommentTag = graphql(REMOVE_COMMENT_TAG, {
   props: ({mutate}) => ({
-    removeCommentTag: (tag) => {
+    removeCommentTag: ({id, tag}) => {
       return mutate({
         variables: {
+          id,
           tag
         }
       });

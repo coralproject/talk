@@ -54,8 +54,7 @@ export class BestButton extends Component {
       console.warn('BestButton#onClickAddBest called even though there is no addBest prop. doing nothing');
       return;
     }
-    const addBestRet = await addBest();
-    console.log('addBestRet', addBestRet);
+    await addBest();
   }
 
   async onClickRemoveBest(e) {
@@ -65,8 +64,7 @@ export class BestButton extends Component {
       console.warn('BestButton#onClickAddBest called even though there is no removeBest prop. doing nothing');
       return;
     }
-    const removeBestRet = await removeBest();
-    console.log('removeBestRet', removeBestRet);
+    await removeBest();
   }
 
   render() {
