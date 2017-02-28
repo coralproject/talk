@@ -89,10 +89,7 @@ export class BestButton extends Component {
   }
 
   render() {
-
-    // @TODO(bengo) Consider adding the comment__action classes to other buttons to add cursor:pointer and never wrap the icons
-    // @TODO(bengo) Should I reuse another element like coral-ui button? Just doing what LikeButton does for now
-    // Oh. I think that's styled for the admin. Don't use coral-ui button until the whole comment bottom bar does.
+    // @TODO(bengo) Consider adding the comment__action--cursor-pointer to all buttons to add cursor:pointer and never wrap the icons
     const {isBest, addBest, removeBest} = this.props;
     const {isSaving} = this.state;
     const disabled = isSaving || ! (isBest ? removeBest : addBest);

@@ -108,7 +108,6 @@ class Comment extends React.Component {
     const flag = getActionSummary('FlagActionSummary', comment);
     const dontagree = getActionSummary('DontAgreeActionSummary', comment);
 
-    // @TODO(bengo) Would be best to only create these funcs on prop change
     const addBestTag = () => addCommentTag({
       id: comment.id,
       tag: BEST_TAG,
