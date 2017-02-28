@@ -310,6 +310,11 @@ span {
 }
 
 .Comment {
+
+  .commentType {
+    background: red;
+  }
+
   .moderateArticle {
     font-size: 12px;
     a {

@@ -21,6 +21,7 @@ const ModerationQueue = ({activeTab = 'premod', ...props}) => {
             key={i}
             index={i}
             comment={comment}
+            commentType={activeTab}
             suspectWords={props.suspectWords}
             actions={actionsMap[status]}
             showBanUserDialog={props.showBanUserDialog}

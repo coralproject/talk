@@ -8,6 +8,7 @@ import styles from './styles.css';
 import {Icon} from 'coral-ui';
 import ActionButton from '../../../components/ActionButton';
 import FlagBox from './FlagBox';
+import CommentType from './CommentType';
 
 const linkify = new Linkify();
 
@@ -18,6 +19,7 @@ const lang = new I18n(translations);
 const Comment = ({actions = [], ...props}) => {
   const links = linkify.getMatches(props.comment.body);
   const actionSummaries = props.comment.action_summaries;
+  console.log(props)
   return (
     <li tabIndex={props.index}
         className={`mdl-card mdl-shadow--2dp ${styles.Comment} ${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
@@ -27,7 +29,7 @@ const Comment = ({actions = [], ...props}) => {
           <span className={styles.created}>
             {timeago().format(props.comment.created_at || (Date.now() - props.index * 60 * 1000), lang.getLocale().replace('-', '_'))}
           </span>
-          {props.comment.action_summaries ? <p className={styles.flagged}>{lang.t('comment.flagged')}</p> : null}
+          <CommentType type={props.commentType}/>
         </div>
         <div className={styles.sideActions}>
           {links ? <span className={styles.hasLinks}><Icon name='error_outline'/> Contains Link</span> : null}
