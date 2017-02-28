@@ -15,8 +15,8 @@ module.exports = {
     const embedStreamPage = client.page.embedStreamPage();
 
     embedStreamPage
-      .likeComment()
-      .waitForElementVisible('@likesCount', 2000)
+      .postComment('Hi everyone. Isn\'t this the BEST comment!?')
+      .waitForElementVisible('@likeButton')
       .expect.element('@setBestButton').to.not.be.present;
   },
   after: client => {
