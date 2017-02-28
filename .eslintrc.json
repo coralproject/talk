@@ -3,8 +3,10 @@
         "es6": true,
         "node": true
     },
-    "parser": "babel-eslint",
     "extends": "eslint:recommended",
+    "parserOptions": {
+        "ecmaVersion": 2017
+    },
     "rules": {
         "indent": ["error",
             2
