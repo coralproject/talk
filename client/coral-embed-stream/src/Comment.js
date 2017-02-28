@@ -38,7 +38,6 @@ class Comment extends React.Component {
     // id of currently opened ReplyBox. tracked in Stream.js
     activeReplyBox: PropTypes.string.isRequired,
     setActiveReplyBox: PropTypes.func.isRequired,
-    refetch: PropTypes.func.isRequired,
     showSignInDialog: PropTypes.func.isRequired,
     postFlag: PropTypes.func.isRequired,
     postLike: PropTypes.func.isRequired,
@@ -85,11 +84,11 @@ class Comment extends React.Component {
       asset,
       depth,
       postItem,
-      refetch,
       addNotification,
       showSignInDialog,
       postLike,
       postFlag,
+      postDontAgree,
       loadMore,
       setActiveReplyBox,
       activeReplyBox,
@@ -98,6 +97,7 @@ class Comment extends React.Component {
 
     const like = getActionSummary('LikeActionSummary', comment);
     const flag = getActionSummary('FlagActionSummary', comment);
+    const dontagree = getActionSummary('DontAgreeActionSummary', comment);
 
     return (
       <div
@@ -129,10 +129,11 @@ class Comment extends React.Component {
         <div className="commentActionsRight">
           <PermalinkButton articleURL={asset.url} commentId={comment.id} />
           <FlagComment
-            flag={flag}
+            flag={flag && flag.current_user ? flag : dontagree}
             id={comment.id}
             author_id={comment.user.id}
             postFlag={postFlag}
+            postDontAgree={postDontAgree}
             deleteAction={deleteAction}
             showSignInDialog={showSignInDialog}
             currentUser={currentUser} />
@@ -155,7 +156,6 @@ class Comment extends React.Component {
           comment.replies &&
           comment.replies.map(reply => {
             return <Comment
-              refetch={refetch}
               setActiveReplyBox={setActiveReplyBox}
               activeReplyBox={activeReplyBox}
               addNotification={addNotification}
