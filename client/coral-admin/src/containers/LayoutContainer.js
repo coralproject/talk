@@ -11,11 +11,13 @@ class LayoutContainer extends Component {
     checkLogin();
   }
   render () {
-    const {isAdmin, loggedIn, loadingUser} = this.props.auth;
+    const {isAdmin, loggedIn, loadingUser, loginError} = this.props.auth;
     const {handleLogout} = this.props;
     if (loadingUser) { return <FullLoading />; }
     if (!isAdmin) {
-      return <AdminLogin handleLogin={this.props.handleLogin} />;
+      return <AdminLogin
+        handleLogin={this.props.handleLogin}
+        errorMessage={loginError} />;
     }
     if (isAdmin && loggedIn) { return <Layout handleLogout={handleLogout} {...this.props} />; }
     return <FullLoading />;

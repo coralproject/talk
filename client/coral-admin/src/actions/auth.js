@@ -1,5 +1,5 @@
 import * as actions from '../constants/auth';
-import coralApi from '../../../coral-framework/helpers/response';
+import coralApi from 'coral-framework/helpers/response';
 
 // Log In.
 export const handleLogin = (email, password) => dispatch => {
@@ -10,7 +10,7 @@ export const handleLogin = (email, password) => dispatch => {
       dispatch(checkLoginSuccess(result.user, isAdmin));
     })
     .catch(error => {
-      console.error(error);
+      dispatch({type: actions.LOGIN_FAILURE, message: error.translation_key});
     });
 };
 
