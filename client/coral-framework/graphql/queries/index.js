@@ -2,7 +2,6 @@ import {graphql} from 'react-apollo';
 import STREAM_QUERY from './streamQuery.graphql';
 import LOAD_MORE from './loadMore.graphql';
 import GET_COUNTS from './getCounts.graphql';
-import COMMENT_QUERY from './commentQuery.graphql';
 import MY_COMMENT_HISTORY from './myCommentHistory.graphql';
 
 function getQueryVariable(variable) {
@@ -88,21 +87,14 @@ export const loadMore = (data) => ({limit, cursor, parent_id, asset_id, sort}, n
 export const queryStream = graphql(STREAM_QUERY, {
   options: () => ({
     variables: {
-      asset_url: getQueryVariable('asset_url')
+      asset_url: getQueryVariable('asset_url'),
+      comment_id: getQueryVariable('comment_id')
     }
   }),
   props: ({data}) => ({
     data,
     loadMore: loadMore(data),
     getCounts: getCounts(data),
-  })
-});
-
-export const commentQuery = graphql(COMMENT_QUERY, {
-  options: () => ({
-    variables: {
-      id: getQueryVariable('comment_id')
-    }
   })
 });
 

@@ -12,7 +12,7 @@ const {logout, showSignInDialog, requestConfirmEmail} = authActions;
 const {addNotification, clearNotification} = notificationActions;
 const {fetchAssetSuccess} = assetActions;
 
-import {queryStream, commentQuery} from 'coral-framework/graphql/queries';
+import {queryStream} from 'coral-framework/graphql/queries';
 import {postComment, postFlag, postLike, postDontAgree, deleteAction} from 'coral-framework/graphql/mutations';
 import {editName} from 'coral-framework/actions/user';
 import {updateCountCache} from 'coral-framework/actions/asset';
@@ -31,12 +31,13 @@ import ChangeUsernameContainer from '../../coral-sign-in/containers/ChangeUserna
 import ProfileContainer from 'coral-settings/containers/ProfileContainer';
 import RestrictedContent from 'coral-framework/components/RestrictedContent';
 import ConfigureStreamContainer from 'coral-configure/containers/ConfigureStreamContainer';
+import Comment from './Comment';
 import LoadMore from './LoadMore';
 import NewCount from './NewCount';
 
 class Embed extends Component {
 
-  state = {activeTab: 0, showSignInDialog: false};
+  state = {activeTab: 0, showSignInDialog: false, activeReplyBox: ''};
 
   changeTab = (tab) => {
 
@@ -60,22 +61,24 @@ class Embed extends Component {
   componentDidMount () {
     pym.sendMessage('childReady');
 
-    pym.onMessage('DOMContentLoaded', hash => {
-      const commentId = hash.replace('#', 'c_');
-      let count = 0;
-      const interval = setInterval(() => {
-        if (document.getElementById(commentId)) {
-          window.clearInterval(interval);
-          pym.scrollParentToChildEl(commentId);
-        }
+    // pym.onMessage('DOMContentLoaded', hash => {
 
-        if (++count > 100) { // ~10 seconds
-          // give up waiting for the comments to load.
-          // it would be weird for the page to jump after that long.
-          window.clearInterval(interval);
-        }
-      }, 100);
-    });
+      // const commentId = hash.replace('#', 'c_');
+      // let count = 0;
+
+      // const interval = setInterval(() => {
+      //   if (document.getElementById(commentId)) {
+      //     window.clearInterval(interval);
+      //     pym.scrollParentToChildEl(commentId);
+      //   }
+      //
+      //   if (++count > 100) { // ~10 seconds
+      //     // give up waiting for the comments to load.
+      //     // it would be weird for the page to jump after that long.
+      //     window.clearInterval(interval);
+      //   }
+      // }, 100);
+    // });
   }
 
   componentWillReceiveProps (nextProps) {
@@ -83,13 +86,27 @@ class Embed extends Component {
     if(!isEqual(nextProps.data.asset, this.props.data.asset)) {
       loadAsset(nextProps.data.asset);
     }
+
+    // if(!isEqual(nextProps.data.comment, this.props.data.comment)) {
+      // pym.scrollParentToChildEl(nextProps.data.comment.id);
+    // }
+  }
+
+  setActiveReplyBox (reactKey) {
+    if (!this.props.currentUser) {
+      const offset = document.getElementById(`c_${reactKey}`).getBoundingClientRect().top - 75;
+      this.props.showSignInDialog(offset);
+    } else {
+      this.setState({activeReplyBox: reactKey});
+    }
   }
 
   render () {
     const {activeTab} = this.state;
     const {closedAt, countCache = {}} = this.props.asset;
-    const {loading, asset, refetch} = this.props.data;
+    const {loading, asset, refetch, comment} = this.props.data;
     const {loggedIn, isAdmin, user, showSignInDialog, signInOffset} = this.props.auth;
+    const highlightedComment = comment && comment.parent ? comment.parent : comment;
 
     const openStream = closedAt === null;
 
@@ -159,6 +176,28 @@ class Embed extends Component {
             }
             {!loggedIn && <SignInContainer requireEmailConfirmation={asset.settings.requireEmailConfirmation} offset={signInOffset}/>}
             {loggedIn &&  user && <ChangeUsernameContainer loggedIn={loggedIn} offset={signInOffset} user={user} />}
+            {
+              highlightedComment &&
+              <Comment
+                refetch={refetch}
+                setActiveReplyBox={this.setActiveReplyBox}
+                activeReplyBox={this.state.activeReplyBox}
+                addNotification={addNotification}
+                depth={0}
+                postItem={this.props.postItem}
+                asset={asset}
+                currentUser={user}
+                highlighted={comment.id}
+                postLike={this.props.postLike}
+                postFlag={this.props.postFlag}
+                postDontAgree={this.props.postDontAgree}
+                loadMore={this.props.loadMore}
+                deleteAction={this.props.deleteAction}
+                showSignInDialog={this.props.showSignInDialog}
+                key={highlightedComment.id}
+                reactKey={highlightedComment.id}
+                comment={highlightedComment} />
+            }
             <NewCount
               commentCount={asset.commentCount}
               countCache={countCache[asset.id]}
@@ -171,6 +210,8 @@ class Embed extends Component {
               refetch={refetch}
               addNotification={this.props.addNotification}
               postItem={this.props.postItem}
+              setActiveReplyBox={this.setActiveReplyBox}
+              activeReplyBox={this.state.activeReplyBox}
               asset={asset}
               currentUser={user}
               postLike={this.props.postLike}
@@ -251,6 +292,5 @@ export default compose(
   postLike,
   postDontAgree,
   deleteAction,
-  commentQuery,
   queryStream
 )(Embed);
