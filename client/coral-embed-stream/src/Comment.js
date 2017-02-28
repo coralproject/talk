@@ -17,7 +17,7 @@ import PubDate from 'coral-plugin-pubdate/PubDate';
 import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
 import FlagComment from 'coral-plugin-flags/FlagComment';
 import LikeButton from 'coral-plugin-likes/LikeButton';
-import {BestButton, IfUserCanModifyBest, BEST_TAG, commentIsBest} from 'coral-plugin-best/BestButton';
+import {BestButton, IfUserCanModifyBest, BEST_TAG, commentIsBest, BestIndicator} from 'coral-plugin-best/BestButton';
 import LoadMore from 'coral-embed-stream/src/LoadMore';
 
 import styles from './Comment.css';
@@ -127,11 +127,15 @@ class Comment extends React.Component {
         <AuthorName
           author={comment.user}/>
         { isStaff(comment.tags)
-          ? <TagLabel isStaff={true}/>
+          ? <TagLabel>Staff</TagLabel>
+          : null }
+
+        { commentIsBest(comment)
+          ? <TagLabel><BestIndicator /></TagLabel>
           : null }
         <PubDate created_at={comment.created_at} />
         <Content body={comment.body} />
-          <div className="commentActionsLeft">
+          <div className="commentActionsLeft comment__action-container">
               <LikeButton
                 like={like}
                 id={comment.id}
@@ -151,7 +155,7 @@ class Comment extends React.Component {
                   removeBest={removeBestTag} />
               </IfUserCanModifyBest>
             </div>
-        <div className="commentActionsRight">
+        <div className="commentActionsRight comment__action-container">
           <PermalinkButton articleURL={asset.url} commentId={comment.id} />
           <FlagComment
             flag={flag && flag.current_user ? flag : dontagree}

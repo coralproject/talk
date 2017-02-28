@@ -16,6 +16,13 @@ const lang = new I18n(translations);
 // It would be best if the backend/api held this business logic
 const canModifyBestTag = ({roles = []} = {}) => roles && ['ADMIN', 'MODERATOR'].some(role => roles.includes(role));
 
+// Put this on a comment to show that it is best
+export const BestIndicator = ({children = <i className={'material-icons'} aria-hidden={true}>favorite</i>}) => (
+  <span aria-label={lang.t('commentIsBest')}>
+    { children } 
+  </span>
+);
+
 /**
  * Component that only renders children if the provided user prop can modify best tags
  */
@@ -94,8 +101,8 @@ export class BestButton extends Component {
               disabled={disabled}
               className={classnames('comment__action-button', `${name}-button`,
                                     'comment__action-button--nowrap', /* Can I do this to all buttons? 'comment__action-button--cursor-pointer', */
-                                    `e2e__${isBest ? 'unset' : 'set'}-best-comment`)}>
-        <span className={`${name}-button-text`}>/* {lang.t(isBest ? 'unsetBest' : 'setBest')} */</span>
+                                    `e2e__${isBest ? 'unset' : 'set'}-best-comment`)}
+              aria-label={lang.t(isBest ? 'unsetBest' : 'setBest')}>
         <i className={`${name}-icon material-icons`} aria-hidden={true}>
           { isBest ? 'favorite' : 'favorite_border' }
         </i>
