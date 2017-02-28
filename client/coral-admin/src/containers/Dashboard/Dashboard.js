@@ -1,38 +1,46 @@
 import React from 'react';
-import {compose} from 'react-apollo';
-import {mostFlags} from 'coral-admin/src/graphql/queries';
-import {Spinner} from 'coral-ui';
 import styles from './Dashboard.css';
-import FlagWidget from '../../components/FlagWidget';
+import {compose} from 'react-apollo';
+import {connect} from 'react-redux';
+import {getMetrics} from 'coral-admin/src/graphql/queries';
+import FlagWidget from './FlagWidget';
+import LikeWidget from './LikeWidget';
+import {showBanUserDialog, hideBanUserDialog} from 'coral-admin/src/actions/moderation';
+
+import {Spinner} from 'coral-ui';
 
 class Dashboard extends React.Component {
+
   render () {
 
-    const {data} = this.props;
-    const {metrics: assets} = data;
-
-    if (data.loading) {
+    if (this.props.data && this.props.data.loading) {
       return <Spinner />;
     }
 
-    if (data.error) {
-      return <code><pre>{data.error}</pre></code>;
-    }
+    const {data: {assetsByLike, assetsByFlag}} = this.props;
 
     return (
       <div className={styles.Dashboard}>
-        <div className={styles.widget}>
-          <h2 className={styles.heading}>Top Ten Articles with the most flagged comments</h2>
-          <FlagWidget assets={assets} />
-        </div>
-        <div className={styles.widget}>
-          <h2 className={styles.heading}>Top ten comments with the most likes</h2>
-        </div>
+        <FlagWidget assets={assetsByFlag} />
+        <LikeWidget assets={assetsByLike} />
       </div>
     );
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    settings: state.settings.toJS(),
+    moderation: state.moderation.toJS()
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  showBanUserDialog: (user, commentId) => dispatch(showBanUserDialog(user, commentId)),
+  hideBanUserDialog: () => dispatch(hideBanUserDialog(false))
+});
+
 export default compose(
-  mostFlags
+  connect(mapStateToProps, mapDispatchToProps),
+  getMetrics
 )(Dashboard);
