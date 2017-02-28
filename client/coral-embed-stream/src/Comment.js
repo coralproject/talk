@@ -108,8 +108,6 @@ class Comment extends React.Component {
     const flag = getActionSummary('FlagActionSummary', comment);
     const dontagree = getActionSummary('DontAgreeActionSummary', comment);
 
-    // @TODO(bengo) Should I do this for addCommentTag and/or best button
-
     // @TODO(bengo) Would be best to only create these funcs on prop change
     const addBestTag = () => addCommentTag({
       id: comment.id,
@@ -194,6 +192,8 @@ class Comment extends React.Component {
               postLike={postLike}
               postFlag={postFlag}
               deleteAction={deleteAction}
+              addCommentTag={addCommentTag}
+              removeCommentTag={removeCommentTag}
               showSignInDialog={showSignInDialog}
               reactKey={reply.id}
               key={reply.id}
