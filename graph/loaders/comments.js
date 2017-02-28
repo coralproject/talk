@@ -39,14 +39,7 @@ const getCountsByAssetID = (context, asset_ids) => {
 /**
  * Returns the comment count for all comments that are public based on their
  * parent ids.
- * @param {Object}        
- 
- 
- 
- 
- 
- 
- graph context
+ *
  * @param {Array<String>} parent_ids  the ids of parents for which there are
  *                                    comments that we want to get
  */
@@ -284,7 +277,7 @@ const genRecentComments = (_, ids) => {
  * @return {Promise}       resolves to the comments
  */
 const genComments = ({user}, ids) => {
-  let comments
+  let comments;
   if (user && user.hasRoles('ADMIN')) {
     comments = CommentModel.find({
       id: {
@@ -300,11 +293,8 @@ const genComments = ({user}, ids) => {
         $in: ['NONE', 'ACCEPTED']
       }
     });
+  }
   return comments.then(util.singleJoinBy(ids, 'id'));
-    
- */
-const genCommentsByID = (context, ids) => {
-
 };
 
 /**
