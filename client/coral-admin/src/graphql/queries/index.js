@@ -1,7 +1,7 @@
 import {graphql} from 'react-apollo';
 
 import MOD_QUEUE_QUERY from './modQueueQuery.graphql';
-import METRICS from './metrics.graphql';
+import METRICS from './metricsQuery.graphql';
 
 export const modQueueQuery = graphql(MOD_QUEUE_QUERY, {
   options: ({params: {id = null}}) => {
