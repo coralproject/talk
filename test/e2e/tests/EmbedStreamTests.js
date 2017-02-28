@@ -95,10 +95,12 @@ module.exports = {
         client.resizeWindow(1200, 800)
           .url(client.globals.baseUrl)
           .frame('coralStreamEmbed_iframe');
+
           // Post a comment
         client.waitForElementVisible('.coral-plugin-commentbox-button', 2000)
           .setValue('.coral-plugin-commentbox-textarea', mockComment)
           .click('.coral-plugin-commentbox-button')
+
           // Post a reply
           .waitForElementVisible('.embed__stream .coral-plugin-replies-reply-button', 5000)
           .click('.embed__stream .coral-plugin-replies-reply-button')
@@ -106,6 +108,7 @@ module.exports = {
           .setValue('#replyText', mockReply)
           .click('.embed__stream .coral-plugin-replies-textarea .coral-plugin-commentbox-button')
           .waitForElementVisible('.embed__stream .reply', 20000)
+
           // Verify that it appears
           .assert.containsText('.embed__stream .reply', mockReply);
         done();
