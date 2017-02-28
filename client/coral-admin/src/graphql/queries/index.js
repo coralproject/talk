@@ -1,23 +1,7 @@
 import {graphql} from 'react-apollo';
 
-import MOST_FLAGS from './mostFlags.graphql';
 import MOD_QUEUE_QUERY from './modQueueQuery.graphql';
-
-export const mostFlags = graphql(MOST_FLAGS, {
-  options: () => {
-
-    // currently hard-coded per Greg's advice
-    const fiveMinutesAgo = new Date();
-    fiveMinutesAgo.setMinutes(fiveMinutesAgo.getMinutes() - 305);
-    return {
-      variables: {
-        sort: 'FLAG',
-        from: fiveMinutesAgo.toISOString(),
-        to: new Date().toISOString()
-      }
-    };
-  }
-});
+import METRICS from './metricsQuery.graphql';
 
 export const modQueueQuery = graphql(MOD_QUEUE_QUERY, {
   options: ({params: {id = null}}) => {
@@ -32,6 +16,18 @@ export const modQueueQuery = graphql(MOD_QUEUE_QUERY, {
     data,
     modQueueResort: modQueueResort(id, data.fetchMore)
   })
+});
+
+export const getMetrics = graphql(METRICS, {
+  options: ({settings: {dashboardWindowStart, dashboardWindowEnd}}) => {
+
+    return {
+      variables: {
+        from: dashboardWindowStart,
+        to: dashboardWindowEnd
+      }
+    };
+  }
 });
 
 export const modQueueResort = (id, fetchMore) => (sort) => {
