@@ -2,6 +2,7 @@ import {graphql} from 'react-apollo';
 import STREAM_QUERY from './streamQuery.graphql';
 import LOAD_MORE from './loadMore.graphql';
 import GET_COUNTS from './getCounts.graphql';
+import COMMENT_QUERY from './commentQuery.graphql';
 import MY_COMMENT_HISTORY from './myCommentHistory.graphql';
 
 function getQueryVariable(variable) {
@@ -94,6 +95,14 @@ export const queryStream = graphql(STREAM_QUERY, {
     data,
     loadMore: loadMore(data),
     getCounts: getCounts(data),
+  })
+});
+
+export const commentQuery = graphql(COMMENT_QUERY, {
+  options: () => ({
+    variables: {
+      id: getQueryVariable('comment_id')
+    }
   })
 });
 

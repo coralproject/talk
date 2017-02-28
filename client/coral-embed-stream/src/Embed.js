@@ -12,7 +12,7 @@ const {logout, showSignInDialog, requestConfirmEmail} = authActions;
 const {addNotification, clearNotification} = notificationActions;
 const {fetchAssetSuccess} = assetActions;
 
-import {queryStream} from 'coral-framework/graphql/queries';
+import {queryStream, commentQuery} from 'coral-framework/graphql/queries';
 import {postComment, postFlag, postLike, postDontAgree, deleteAction} from 'coral-framework/graphql/mutations';
 import {editName} from 'coral-framework/actions/user';
 import {updateCountCache} from 'coral-framework/actions/asset';
@@ -251,5 +251,6 @@ export default compose(
   postLike,
   postDontAgree,
   deleteAction,
+  commentQuery,
   queryStream
 )(Embed);
