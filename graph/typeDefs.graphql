@@ -91,6 +91,9 @@ enum ACTION_TYPE {
 
   # Represents a FlagAction.
   FLAG
+
+  # Represents a don't agree action
+  DONTAGREE
 }
 
 # CommentsQuery allows the ability to query comments by a specific methods.
@@ -187,7 +190,7 @@ type Comment {
 ## Actions
 ################################################################################
 
-# An action rendered against a parent enity item.
+# An action rendered against a parent entity item.
 interface Action {
 
   # The ID of the action.
@@ -290,6 +293,28 @@ type FlagAction implements Action {
   created_at: Date
 }
 
+# A DONTAGREE action that contains do not agree metadata.
+type DontAgreeAction implements Action {
+
+  # The ID of the DontAgree Action.
+  id: ID!
+
+  # The reason for which the DontAgree Action was created.
+  reason: String
+
+  # An optional message sent with the flagging action by the user.
+  message: String
+
+  # The user who created the action.
+  user: User
+
+  # The time when the DontAgree Action was updated.
+  updated_at: Date
+
+  # The time when the DontAgree Action was created.
+  created_at: Date
+}
+
 # Summary for Flag Action with a a unique reason.
 type FlagActionSummary implements ActionSummary {
 
@@ -301,6 +326,19 @@ type FlagActionSummary implements ActionSummary {
 
   # The flag by the current user against the parent entity with this reason.
   current_user: FlagAction
+}
+
+# Summary for Don't Agree Action with a a unique reason.
+type DontAgreeActionSummary implements ActionSummary {
+
+  # The total count of flags with this reason.
+  count: Int!
+
+  # The reason for which the Flag Action was created.
+  reason: String
+
+  # The don't agree action by the current user against the parent entity with this reason.
+  current_user: DontAgreeAction
 }
 
 ################################################################################
@@ -472,18 +510,18 @@ type RootQuery {
 # Response defines what can be expected from any response to a mutation action.
 interface Response {
 
-  # An array of errors relating to the mutation that occured.
+  # An array of errors relating to the mutation that occurred.
   errors: [UserError]
 }
 
 # CreateCommentResponse is returned with the comment that was created and any
-# errors that may have occured in the attempt to create it.
+# errors that may have occurred in the attempt to create it.
 type CreateCommentResponse implements Response {
 
   # The comment that was created.
   comment: Comment
 
-  # An array of errors relating to the mutation that occured.
+  # An array of errors relating to the mutation that occurred.
   errors: [UserError]
 }
 
@@ -514,7 +552,7 @@ type CreateLikeResponse implements Response {
   # The like that was created.
   like: LikeAction
 
-  # An array of errors relating to the mutation that occured.
+  # An array of errors relating to the mutation that occurred.
   errors: [UserError]
 }
 
@@ -538,18 +576,46 @@ input CreateFlagInput {
 # was created.
 type CreateFlagResponse implements Response {
 
-  # The like that was created.
+  # The flag that was created.
   flag: FlagAction
 
-  # An array of errors relating to the mutation that occured.
+  # An array of errors relating to the mutation that occurred.
   errors: [UserError]
+}
+
+
+# CreateDontAgreeResponse is the response returned with possibly some errors
+# relating to the creating the don't agree action attempt and possibly the don't agree that
+# was created.
+type CreateDontAgreeResponse implements Response {
+
+  # The don't agree that was created.
+  dontagree: DontAgreeAction
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError]
+}
+
+input CreateDontAgreeInput {
+
+  # The item's id for which we are to create a don't agree.
+  item_id: ID!
+
+  # The type of the item for which we are to create the don't agree.
+  item_type: ACTION_ITEM_TYPE!
+
+  # The reason for not agreeing with the item.
+  reason: String
+
+  # An optional message sent with the don't agree action by the user.
+  message: String
 }
 
 # DeleteActionResponse is the response returned with possibly some errors
 # relating to the delete action attempt.
 type DeleteActionResponse implements Response {
 
-  # An array of errors relating to the mutation that occured.
+  # An array of errors relating to the mutation that occurred.
   errors: [UserError]
 }
 
@@ -557,7 +623,7 @@ type DeleteActionResponse implements Response {
 # relating to the delete action attempt.
 type SetUserStatusResponse implements Response {
 
-  # An array of errors relating to the mutation that occured.
+  # An array of errors relating to the mutation that occurred.
   errors: [UserError]
 }
 
@@ -565,7 +631,7 @@ type SetUserStatusResponse implements Response {
 # relating to the delete action attempt.
 type SetCommentStatusResponse implements Response {
 
-  # An array of errors relating to the mutation that occured.
+  # An array of errors relating to the mutation that occurred.
   errors: [UserError]
 }
 
@@ -580,6 +646,9 @@ type RootMutation {
 
   # Creates a flag on an entity.
   createFlag(flag: CreateFlagInput!): CreateFlagResponse
+
+  # Creates a don't agree action on an entity.
+  createDontAgree(dontagree: CreateDontAgreeInput!): CreateDontAgreeResponse
 
   # Delete an action based on the action id.
   deleteAction(id: ID!): DeleteActionResponse

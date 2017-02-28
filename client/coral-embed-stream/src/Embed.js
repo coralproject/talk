@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
+import I18n from 'coral-framework/modules/i18n/i18n';
+import translations from 'coral-framework/translations';
+const lang = new I18n(translations);
 
 import {TabBar, Tab, TabContent, Spinner} from 'coral-ui';
 
@@ -10,7 +13,7 @@ const {addNotification, clearNotification} = notificationActions;
 const {fetchAssetSuccess} = assetActions;
 
 import {queryStream} from 'coral-framework/graphql/queries';
-import {postComment, postFlag, postLike, deleteAction} from 'coral-framework/graphql/mutations';
+import {postComment, postFlag, postLike, postDontAgree, deleteAction} from 'coral-framework/graphql/mutations';
 import {editName} from 'coral-framework/actions/user';
 import {updateCountCache} from 'coral-framework/actions/asset';
 import {Notification, notificationActions, authActions, assetActions, pym} from 'coral-framework';
@@ -25,7 +28,7 @@ import UserBox from 'coral-sign-in/components/UserBox';
 import SignInContainer from 'coral-sign-in/containers/SignInContainer';
 import SuspendedAccount from 'coral-framework/components/SuspendedAccount';
 import ChangeUsernameContainer from '../../coral-sign-in/containers/ChangeUsernameContainer';
-import SettingsContainer from 'coral-settings/containers/SettingsContainer';
+import ProfileContainer from 'coral-settings/containers/ProfileContainer';
 import RestrictedContent from 'coral-framework/components/RestrictedContent';
 import ConfigureStreamContainer from 'coral-configure/containers/ConfigureStreamContainer';
 import LoadMore from './LoadMore';
@@ -110,7 +113,7 @@ class Embed extends Component {
         <div className="commentStream">
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count count={asset.commentCount}/></Tab>
-            <Tab>Settings</Tab>
+            <Tab>{lang.t('profile')}</Tab>
             <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>
           {loggedIn && <UserBox user={user} logout={this.props.logout}  changeTab={this.changeTab}/>}
@@ -172,6 +175,7 @@ class Embed extends Component {
               currentUser={user}
               postLike={this.props.postLike}
               postFlag={this.props.postFlag}
+              postDontAgree={this.props.postDontAgree}
               getCounts={this.props.getCounts}
               updateCountCache={this.props.updateCountCache}
               loadMore={this.props.loadMore}
@@ -190,7 +194,7 @@ class Embed extends Component {
             loadMore={this.props.loadMore}/>
         </TabContent>
          <TabContent show={activeTab === 1}>
-           <SettingsContainer
+           <ProfileContainer
              loggedIn={loggedIn}
              userData={this.props.userData}
              showSignInDialog={this.props.showSignInDialog}
@@ -245,6 +249,7 @@ export default compose(
   postComment,
   postFlag,
   postLike,
+  postDontAgree,
   deleteAction,
   queryStream
 )(Embed);

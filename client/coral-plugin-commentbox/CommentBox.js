@@ -58,8 +58,6 @@ class CommentBox extends Component {
         } else if (postedComment.status === 'PREMOD') {
           addNotification('success', lang.t('comment-post-notif-premod'));
           !isReply && updateCountCache(assetId, countCache);
-        } else {
-          addNotification('success', 'Your comment has been posted.');
         }
 
         if (commentPostedHandler) {

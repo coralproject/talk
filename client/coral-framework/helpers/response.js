@@ -45,7 +45,7 @@ const handleResp = res => {
       }
 
       if (err.error && err.error.translation_key) {
-        message = err.error.translation_key;
+        error.translation_key = err.error.translation_key;
       }
 
       error.message = message;
