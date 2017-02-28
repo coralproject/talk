@@ -47,6 +47,10 @@ export class BestButton extends Component {
     this.onClickRemoveBest = this.onClickRemoveBest.bind(this);
   }
 
+  state = {
+    isSaving: false
+  }
+
   async onClickAddBest(e) {
     e.preventDefault();
     const {addBest} = this.props;
@@ -54,7 +58,12 @@ export class BestButton extends Component {
       console.warn('BestButton#onClickAddBest called even though there is no addBest prop. doing nothing');
       return;
     }
-    await addBest();
+    this.setState({isSaving: true});
+    try {
+      await addBest();
+    } finally {
+      this.setState({isSaving: false});      
+    }
   }
 
   async onClickRemoveBest(e) {
@@ -64,7 +73,12 @@ export class BestButton extends Component {
       console.warn('BestButton#onClickAddBest called even though there is no removeBest prop. doing nothing');
       return;
     }
-    await removeBest();
+    this.setState({isSaving: true});
+    try {
+      await removeBest();
+    } finally {
+      this.setState({isSaving: false});      
+    }
   }
 
   render() {
@@ -73,10 +87,12 @@ export class BestButton extends Component {
     // @TODO(bengo) Should I reuse another element like coral-ui button? Just doing what LikeButton does for now
     // Oh. I think that's styled for the admin. Don't use coral-ui button until the whole comment bottom bar does.
     const {isBest, addBest, removeBest} = this.props;
+    const {isSaving} = this.state;
+    const disabled = isSaving || ! (isBest ? removeBest : addBest);
     return <div className={classnames(`${name}-container`, `${name}-button`, 'comment__action-button--nowrap',
                                       `e2e__${isBest ? 'unset' : 'set'}-best-comment`)}>
       <button onClick={isBest ? this.onClickRemoveBest : this.onClickAddBest}
-              disabled={ ! (isBest ? removeBest : addBest)}
+              disabled={disabled}
               className='comment__action-button'>
         <span className={`${name}-button-text`}>{lang.t(isBest ? 'unsetBest' : 'setBest')}</span>
         <i className={`${name}-icon material-icons`} aria-hidden={true}>
