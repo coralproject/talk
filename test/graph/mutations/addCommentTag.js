@@ -29,8 +29,8 @@ describe('graph.mutations.addCommentTag', () => {
     }
   `;
 
-  it('can add tags to comments', async () => {
-    const user = new UserModel({});
+  it('moderators can add tags to comments', async () => {
+    const user = new UserModel({roles: ['MODERATOR' ]});
     const context = new Context({user});
     const response = await graphql(schema, query, {}, context, {id: comment.id, tag: 'BEST'});
     if (response.errors && response.errors.length) {
@@ -39,4 +39,24 @@ describe('graph.mutations.addCommentTag', () => {
     expect(response.errors).to.be.empty;
     expect(response.data.addCommentTag.comment.tags).to.deep.equal([{name: 'BEST'}]);
   });
+
+  describe('users who cant add tags', () => {
+    Object.entries({
+      'anonymous': undefined,
+      'regular commenter': new UserModel({}),
+      'banned moderator': new UserModel({roles: ['MODERATOR'], status: 'BANNED'})
+    }).forEach(([ userDescription, user ]) => {
+      it(userDescription, async function () {
+        const context = new Context({user});
+        const response = await graphql(schema, query, {}, context, {id: comment.id, tag: 'BEST'});
+        if (response.errors && response.errors.length) {
+          console.error(response.errors);
+        }
+        expect(response.errors).to.be.empty;
+        expect(response.data.addCommentTag.errors).to.deep.equal([{'translation_key':'NOT_AUTHORIZED'}]);
+        expect(response.data.addCommentTag.comment).to.be.null;        
+      });
+    });
+  });
+
 });
