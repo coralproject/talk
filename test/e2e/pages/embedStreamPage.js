@@ -38,10 +38,7 @@ const embedStreamCommands = {
       .setValue('@signInDialogEmail', user.email)
       .setValue('@signInDialogPassword', user.pass)
       .waitForElementVisible('@logInButton')
-      .click('@logInButton', () => {
-
-        // this.api.pause()
-      })
+      .click('@logInButton')
       .waitForElementVisible('@logoutButton', 5000);
   },
   logout() {
