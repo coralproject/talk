@@ -60,25 +60,6 @@ class Embed extends Component {
 
   componentDidMount () {
     pym.sendMessage('childReady');
-
-    // pym.onMessage('DOMContentLoaded', hash => {
-
-      // const commentId = hash.replace('#', 'c_');
-      // let count = 0;
-
-      // const interval = setInterval(() => {
-      //   if (document.getElementById(commentId)) {
-      //     window.clearInterval(interval);
-      //     pym.scrollParentToChildEl(commentId);
-      //   }
-      //
-      //   if (++count > 100) { // ~10 seconds
-      //     // give up waiting for the comments to load.
-      //     // it would be weird for the page to jump after that long.
-      //     window.clearInterval(interval);
-      //   }
-      // }, 100);
-    // });
   }
 
   componentWillReceiveProps (nextProps) {
@@ -86,10 +67,14 @@ class Embed extends Component {
     if(!isEqual(nextProps.data.asset, this.props.data.asset)) {
       loadAsset(nextProps.data.asset);
     }
+  }
 
-    // if(!isEqual(nextProps.data.comment, this.props.data.comment)) {
-      // pym.scrollParentToChildEl(nextProps.data.comment.id);
-    // }
+  componentDidUpdate(prevProps) {
+    if(!isEqual(prevProps.data.comment, this.props.data.comment)) {
+
+      // Scroll to a permalinked comment if one is in the URL once the page is done rendering.
+      setTimeout(()=>pym.scrollParentToChildEl(`c_${this.props.data.comment.id}`), 0);
+    }
   }
 
   setActiveReplyBox (reactKey) {
