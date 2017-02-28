@@ -95,11 +95,11 @@ export class BestButton extends Component {
               className={classnames('comment__action-button', `${name}-button`,
                                     'comment__action-button--nowrap', /* Can I do this to all buttons? 'comment__action-button--cursor-pointer', */
                                     `e2e__${isBest ? 'unset' : 'set'}-best-comment`)}>
-        <span className={`${name}-button-text`}>{lang.t(isBest ? 'unsetBest' : 'setBest')}</span>
+        <span className={`${name}-button-text`}>/* {lang.t(isBest ? 'unsetBest' : 'setBest')} */</span>
         <i className={`${name}-icon material-icons`} aria-hidden={true}>
           { isBest ? 'favorite' : 'favorite_border' }
         </i>
       </button>
-    )
+    );
   }
 }
