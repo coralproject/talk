@@ -3,7 +3,7 @@ import Layout from 'coral-admin/src/components/ui/Layout';
 import styles from './NotFound.css';
 import {Button, TextField} from 'coral-ui';
 
-class LoginView extends React.Component {
+class AdminLogin extends React.Component {
 
   constructor (props) {
     super(props);
@@ -42,8 +42,8 @@ class LoginView extends React.Component {
   }
 }
 
-LoginView.propTypes = {
+AdminLogin.propTypes = {
   handleLogin: PropTypes.func.isRequired
 };
 
-export default LoginView;
+export default AdminLogin;

@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import Layout from '../components/ui/Layout';
 import {checkLogin, handleLogin, logout} from '../actions/auth';
 import {FullLoading} from '../components/FullLoading';
-import LoginView from '../components/LoginView';
+import AdminLogin from '../components/AdminLogin';
 
 class LayoutContainer extends Component {
   componentWillMount () {
@@ -15,7 +15,7 @@ class LayoutContainer extends Component {
     const {handleLogout} = this.props;
     if (loadingUser) { return <FullLoading />; }
     if (!isAdmin) {
-      return <LoginView handleLogin={this.props.handleLogin} />;
+      return <AdminLogin handleLogin={this.props.handleLogin} />;
     }
     if (isAdmin && loggedIn) { return <Layout handleLogout={handleLogout} {...this.props} />; }
     return <FullLoading />;
