@@ -172,7 +172,7 @@ hr {
 
 .coral-plugin-author-name-text {
   display: inline-block;
-  margin: 10px 8px 10px 0;
+  margin: 10px 5px 10px 0;
   font-weight: bold;
 }
 
@@ -186,7 +186,7 @@ hr {
   background-color: #4C1066;
   color: white;
   display: inline-block;
-  margin: 10px 10px;
+  margin: 0px 5px;
   padding: 5px 5px;
   border-radius: 2px;
 }
@@ -213,6 +213,11 @@ hr {
   width: 50%;
 }
 
+.comment__action-container .material-icons {
+  font-size: 12px !important;
+  margin-left: 3px;  
+}
+
 .comment__action-button {
   cursor: pointer;
 }
@@ -225,11 +230,10 @@ hr {
   white-space: nowrap;
 }
 
-.material-icons {
-  font-size: 12px !important;
-  margin-left: 3px;
+.commentStream .material-icons {
   vertical-align: middle;
   width: 1em;
+  font-size: 1em;
   overflow: hidden;
 }
 
@@ -245,6 +249,7 @@ hr {
   color: #696969;
   display: inline-block;
   font-size: .75rem;
+  margin-left: 5px;
 }
 
 .coral-plugin-permalinks-container {
