@@ -1,6 +1,19 @@
 import * as actions from '../constants/auth';
 import coralApi from '../../../coral-framework/helpers/response';
 
+// Log In.
+export const handleLogin = (email, password) => dispatch => {
+  dispatch({type: actions.LOGIN_REQUEST});
+  return coralApi('/auth/local', {method: 'POST', body: {email, password}})
+    .then(result => {
+      const isAdmin = !!result.user.roles.filter(i => i === 'ADMIN').length;
+      dispatch(checkLoginSuccess(result.user, isAdmin));
+    })
+    .catch(error => {
+      console.error(error);
+    });
+};
+
 // Check Login
 
 const checkLoginRequest = () => ({type: actions.CHECK_LOGIN_REQUEST});

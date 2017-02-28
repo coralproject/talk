@@ -1,12 +1,8 @@
 .layout {
-    max-width: 800px;
-    margin: 0 auto;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 .layout h1 {
-    font-size: 40px;
-}
-
-.layout img {
-    width: 100%;
+  font-size: 40px;
 }

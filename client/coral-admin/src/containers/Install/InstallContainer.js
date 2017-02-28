@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import styles from './style.css';
 import {Wizard, WizardNav} from 'coral-ui';
-import {Layout} from '../../components/ui/Layout';
+import Layout from 'coral-admin/src/components/ui/Layout';
 
 import {
   nextStep,
