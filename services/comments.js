@@ -4,8 +4,8 @@ const ActionModel = require('../models/action');
 const ActionsService = require('./actions');
 
 const ALLOWED_TAGS = [
-  'STAFF',
-  'BEST',
+  {name: 'STAFF'},
+  {name: 'BEST'},
 ];
 
 const STATUSES = [
@@ -53,7 +53,7 @@ module.exports = class CommentsService {
    */
   static addTag(id, name, assigned_by) {
 
-    if (ALLOWED_TAGS.find((t) => t === name) == null) {
+    if (ALLOWED_TAGS.find((t) => t.name === name) == null) {
       return Promise.reject(new Error('tag not allowed'));
     }
 
