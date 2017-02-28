@@ -89,6 +89,7 @@ export class BestButton extends Component {
   }
 
   render() {
+
     // @TODO(bengo) Consider adding the comment__action--cursor-pointer to all buttons to add cursor:pointer and never wrap the icons
     const {isBest, addBest, removeBest} = this.props;
     const {isSaving} = this.state;
