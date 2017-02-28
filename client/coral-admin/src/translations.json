@@ -111,7 +111,8 @@
     },
     "dashboard": {
       "no_flags": "There have been no flags in the last 5 minutes! Hooray!",
-      "comment_count": "Comments"
+      "no_likes": "There have been no likes in the last 5 minutes. All quiet.",
+      "comment_count": "comments"
     },
     "streams": {
       "empty_result": "No assets match this search. Maybe try widening your search?",
@@ -220,7 +221,8 @@
     },
     "dashbord": {
       "no_flags": "¡Nadie ha marcado nada en los últimos 5 minutos! ¡Bravo!",
-      "comment_count": "Comentarios"
+      "no_likes": "A nadie le ha gustado algún comentario en los últimos 5 minutos. Todo tranquilo.",
+      "comment_count": "comentarios"
     },
     "streams": {
       "empty_result": "No se encuentro articulo con esta busqueda. Tal vez extender la busqueda?",

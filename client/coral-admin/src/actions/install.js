@@ -84,8 +84,7 @@ export const finishInstall = () => (dispatch, getState) => {
   const data = getState().install.toJS().data;
   dispatch(installRequest());
   return coralApi('/setup', {method: 'POST', body: data})
-    .then(result => {
-      console.log(result);
+    .then(() => {
       dispatch(installSuccess());
       dispatch(nextStep());
     })
