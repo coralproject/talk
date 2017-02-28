@@ -1,11 +1,20 @@
 import {Map, List} from 'immutable';
 import * as actions from '../actions/settings';
 
+// this is initialized here because
+// currently you have to reload the dashboard to get new stats
+// cleaner updates are planned in the future.
+const DASHBOARD_WINDOW_MINUTES = 5;
+let then = new Date();
+then.setMinutes(then.getMinutes() - DASHBOARD_WINDOW_MINUTES);
+
 const initialState = Map({
   wordlist: Map({
     banned: List(),
     suspect: List()
   }),
+  dashboardWindowStart: then.toISOString(),
+  dashboardWindowEnd: new Date().toISOString(),
   domains: Map({
     whitelist: List()
   }),

@@ -1,6 +1,7 @@
 import {graphql} from 'react-apollo';
 
 import MOD_QUEUE_QUERY from './modQueueQuery.graphql';
+import METRICS from './metrics.graphql';
 
 export const modQueueQuery = graphql(MOD_QUEUE_QUERY, {
   options: ({params: {id = null}}) => {
@@ -15,6 +16,18 @@ export const modQueueQuery = graphql(MOD_QUEUE_QUERY, {
     data,
     modQueueResort: modQueueResort(id, data.fetchMore)
   })
+});
+
+export const getMetrics = graphql(METRICS, {
+  options: ({settings: {dashboardWindowStart, dashboardWindowEnd}}) => {
+
+    return {
+      variables: {
+        from: dashboardWindowStart,
+        to: dashboardWindowEnd
+      }
+    };
+  }
 });
 
 export const modQueueResort = (id, fetchMore) => (sort) => {
