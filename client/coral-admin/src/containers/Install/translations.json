@@ -1,11 +1,11 @@
 {
   "en": {
     "INITIAL" : {
-      "DESCRIPTION": "The remainder of the Talk installation will take about ten minutes. Once you complete the following two steps, you will have a free installation and provision of Mongo and Redis.",
+      "DESCRIPTION": "Let's set up your Talk community in just a few short steps.",
       "SUBMIT": "Get Started"
     },
     "ADD_ORGANIZATION": {
-      "DESCRIPTION": "Please tell us the name of your organization. This will appear in emails when inviting new team members",
+      "DESCRIPTION": "Please tell us the name of your organization. This will appear in emails when inviting new team members.",
       "LABEL": "Organization Name",
       "SAVE": "Save"
     },
@@ -22,18 +22,18 @@
       "SUBMIT": "Finish install"
     },
     "FINAL": {
-      "DESCRIPTION": "Thanks for installing Talk! We sent an email to verify your email address. While you finish setting the account, you can start engaging with your readers now.",
+      "DESCRIPTION": "Thanks for installing Talk! We sent an email to verify your email address. While you finish setting up the account, you can start engaging with your readers now.",
       "LAUNCH": "Launch Talk",
       "CLOSE": "Close this Installer"
     }
   },
   "es": {
     "INITIAL" : {
-      "DESCRIPTION": "La instalación de Talk tomará aproximadamente diez minutos. Tan pronto como termines los tres pasos, tendrás una gratis instalación y provision de Mongo y Redis",
+      "DESCRIPTION": "Configuremos su comunidad de Talk en sólo algunos pasos.",
       "SUBMIT": "Empezá!"
     },
     "ADD_ORGANIZATION": {
-      "DESCRIPTION": "Por favor, dinos el nombre de tu organización. Este aparecerá en los emails cuando invites nuevos miembros",
+      "DESCRIPTION": "Por favor, dinos el nombre de tu organización. Este aparecerá en los emails cuando invites nuevos miembros.",
       "LABEL": "Nombre de la Organización",
       "SAVE": "Guardar"
     },
