@@ -17,7 +17,7 @@ const routes = (
     <Route path='/admin/login' component={LayoutContainer} />
     <Route path='/admin/logon' component={LayoutContainer} />
     <Route path='/admin' component={LayoutContainer}>
-      <IndexRoute component={ModerationContainer} />
+      <IndexRoute component={Dashboard} />
       <Route path='community' component={CommunityContainer} />
       <Route path='configure' component={Configure} />
       <Route path='streams' component={Streams} />
