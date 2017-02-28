@@ -57,7 +57,7 @@ class LikeButton extends Component {
     };
 
     return <div className={`${name}-container`}>
-      <button onClick={onLikeClick} className={`${name}-button ${liked && 'likedButton'}`}>
+      <button onClick={onLikeClick} className={`${name}-button ${liked ? 'likedButton' : ''}`}>
         <span className={`${name}-button-text`}>{lang.t(liked ? 'liked' : 'like')}</span>
         <i className={`${name}-icon material-icons`}
           aria-hidden={true}>thumb_up</i>

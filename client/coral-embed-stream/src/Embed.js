@@ -173,23 +173,25 @@ class Embed extends Component {
               assetId={asset.id}
               updateCountCache={this.props.updateCountCache}
               />
-            <Stream
-              refetch={refetch}
-              addNotification={this.props.addNotification}
-              postItem={this.props.postItem}
-              asset={asset}
-              currentUser={user}
-              postLike={this.props.postLike}
-              postFlag={this.props.postFlag}
-              postDontAgree={this.props.postDontAgree}
-              addCommentTag={this.props.addCommentTag}
-              removeCommentTag={this.props.removeCommentTag}
-              getCounts={this.props.getCounts}
-              updateCountCache={this.props.updateCountCache}
-              loadMore={this.props.loadMore}
-              deleteAction={this.props.deleteAction}
-              showSignInDialog={this.props.showSignInDialog}
-              comments={asset.comments} />
+            <div className="embed__stream">
+              <Stream
+                refetch={refetch}
+                addNotification={this.props.addNotification}
+                postItem={this.props.postItem}
+                asset={asset}
+                currentUser={user}
+                postLike={this.props.postLike}
+                postFlag={this.props.postFlag}
+                postDontAgree={this.props.postDontAgree}
+                addCommentTag={this.props.addCommentTag}
+                removeCommentTag={this.props.removeCommentTag}
+                getCounts={this.props.getCounts}
+                updateCountCache={this.props.updateCountCache}
+                loadMore={this.props.loadMore}
+                deleteAction={this.props.deleteAction}
+                showSignInDialog={this.props.showSignInDialog}
+                comments={asset.comments} />
+            </div>
             <Notification
               notifLength={4500}
               clearNotification={this.props.clearNotification}
