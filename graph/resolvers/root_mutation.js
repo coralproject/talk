@@ -51,7 +51,10 @@ const RootMutation = {
   },
   addCommentTag(_, {id, tag}, {mutators: {Comment}}) {
     return wrapResponse('comment')(Comment.addCommentTag({id, tag}));
-  }
+  },
+  removeCommentTag(_, {id, tag}, {mutators: {Comment}}) {
+    return wrapResponse('comment')(Comment.removeCommentTag({id, tag}));
+  },
 };
 
 module.exports = RootMutation;

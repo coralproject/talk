@@ -189,9 +189,21 @@ const setCommentStatus = ({loaders: {Comments}}, {id, status}) => {
 
 /**
  * Adds a tag to a Comment
+ * @param {String} id          identifier of the comment  (uuid)
+ * @param {String} tag     name of the tag
  */
 const addCommentTag = ({user, loaders: {Comments}}, {id, tag}) => {
   return CommentsService.addTag(id, tag, user.id)
+    .then(() => CommentsService.findById( id ));
+};
+
+/**
+ * Removes a tag from a Comment
+ * @param {String} id          identifier of the comment  (uuid)
+ * @param {String} tag     name of the tag
+ */
+const removeCommentTag = ({user, loaders: {Comments}}, {id, tag}) => {
+  return CommentsService.removeTag(id, tag)
     .then(() => CommentsService.findById( id ));
 };
 
@@ -201,6 +213,7 @@ module.exports = (context) => {
       create: () => Promise.reject(errors.ErrNotAuthorized),
       setCommentStatus: () => Promise.reject(errors.ErrNotAuthorized),
       addCommentTag: () => Promise.reject(errors.ErrNotAuthorized),
+      removeCommentTag: () => Promise.reject(errors.ErrNotAuthorized),
     }
   };
 
@@ -214,6 +227,10 @@ module.exports = (context) => {
 
   if (context.user && context.user.can('mutation:addCommentTag')) {
     mutators.Comment.addCommentTag = (action) => addCommentTag(context, action);
+  }
+
+  if (context.user && context.user.can('mutation:removeCommentTag')) {
+    mutators.Comment.removeCommentTag = (action) => removeCommentTag(context, action);
   }
 
   return mutators;

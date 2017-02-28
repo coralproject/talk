@@ -158,6 +158,7 @@ const USER_GRAPH_OPERATIONS = [
   'mutation:setUserStatus',
   'mutation:setCommentStatus',
   'mutation:addCommentTag',
+  'mutation:removeCommentTag',
 ];
 
 /**
