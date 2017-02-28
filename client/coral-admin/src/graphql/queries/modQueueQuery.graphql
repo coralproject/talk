@@ -1,16 +1,18 @@
 #import "../fragments/commentView.graphql"
 
-query ModQueue ($asset_id: ID) {
+query ModQueue ($asset_id: ID, $sort: SORT_ORDER) {
     premod: comments(query: {
         statuses: [PREMOD],
-        asset_id: $asset_id
+        asset_id: $asset_id,
+        sort: $sort
     }) {
         ...commentView
     }
     flagged: comments(query: {
         action_type: FLAG,
         asset_id: $asset_id,
-        statuses: [NONE, PREMOD]
+        statuses: [NONE, PREMOD],
+        sort: $sort
     }) {
         ...commentView
         action_summaries {
@@ -22,7 +24,8 @@ query ModQueue ($asset_id: ID) {
     }
     rejected: comments(query: {
         statuses: [REJECTED],
-        asset_id: $asset_id
+        asset_id: $asset_id,
+        sort: $sort
     }) {
         ...commentView
     }
