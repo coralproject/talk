@@ -89,16 +89,17 @@ export class BestButton extends Component {
     const {isBest, addBest, removeBest} = this.props;
     const {isSaving} = this.state;
     const disabled = isSaving || ! (isBest ? removeBest : addBest);
-    return <div className={classnames(`${name}-container`, `${name}-button`, 'comment__action-button--nowrap',
-                                      `e2e__${isBest ? 'unset' : 'set'}-best-comment`)}>
+    return (
       <button onClick={isBest ? this.onClickRemoveBest : this.onClickAddBest}
               disabled={disabled}
-              className='comment__action-button'>
+              className={classnames('comment__action-button', `${name}-button`,
+                                    'comment__action-button--nowrap', /* Can I do this to all buttons? 'comment__action-button--cursor-pointer', */
+                                    `e2e__${isBest ? 'unset' : 'set'}-best-comment`)}>
         <span className={`${name}-button-text`}>{lang.t(isBest ? 'unsetBest' : 'setBest')}</span>
         <i className={`${name}-icon material-icons`} aria-hidden={true}>
           { isBest ? 'favorite' : 'favorite_border' }
         </i>
       </button>
-    </div>;
+    )
   }
 }
