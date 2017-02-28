@@ -32,7 +32,11 @@ const Comment = {
 
     return null;
   },
-  action_summaries({id}, _, {loaders: {Actions}}) {
+  action_summaries({id, action_summaries}, _, {loaders: {Actions}}) {
+    if (action_summaries) {
+      return action_summaries;
+    }
+
     return Actions.getSummariesByItemID.load(id);
   },
   asset({asset_id}, _, {loaders: {Assets}}) {

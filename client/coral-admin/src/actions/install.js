@@ -75,8 +75,7 @@ export const submitUser = () => (dispatch, getState) => {
     dispatch(installRequest());
     coralApi('/setup', {method: 'POST', body: data})
       .then(result => {
-        console.log(result);
-        dispatch(installSuccess());
+        dispatch(installSuccess(result));
         dispatch(nextStep());
       })
       .catch(error => {
