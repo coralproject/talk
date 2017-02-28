@@ -251,15 +251,29 @@ describe('services.CommentsService', () => {
   });
 
   describe('#removeTag', () => {
-    it.skip('removes a tag', async () => {
+    it('removes a tag', async () => {
       const commentId = comments[0].id;
       const tagName = 'BEST';
       await CommentsService.addTag(commentId, tagName, users[0].id);
-      let updatedComment = await CommentsService.findById(commentId);
+      const updatedComment = await CommentsService.findById(commentId);
       expect(updatedComment.tags.length).to.equal(1);
 
       // ok now to remove it
       await CommentsService.removeTag(commentId, tagName);
+      const updatedComment2 = await CommentsService.findById(commentId);
+      expect(updatedComment2.tags.length).to.equal(0);
+    });
+    it('throws if removing a tag that isn\'t there', async () => {
+      const commentId = comments[0].id;
+
+      // just make sure it has no tags to start
+      const updatedComment2 = await CommentsService.findById(commentId);
+      expect(updatedComment2.tags.length).to.equal(0);
+
+      const tagName = 'BEST';
+
+      // ok now to remove it
+      await expect(CommentsService.removeTag(commentId, tagName)).to.be.rejected;
     });
   });
 

@@ -45,6 +45,8 @@ module.exports = class CommentsService {
 
   /**
    * Adds a tag if it doesn't already exist on the comment.
+   * @throws if tag is already added to the comment
+   * @throws if tag name is not in ALLOWED_TAGS
    * @param {String} id the id of the comment to tag
    * @param {String} name the name of the tag to add
    * @param {String} assigned_by the user id for the user who added the tag
@@ -85,7 +87,43 @@ module.exports = class CommentsService {
           return;
         default:
           console.warn('CommentsService#addTag modified multiple comments, but it should only have modified 1. '
-                        + `You may have bad data. Check for multiple comments with id=${id}`);
+                      + `You may have bad data. Check for multiple comments with id=${id}`);
+        }
+      });
+  }
+
+  /**
+   * Removes a tag from a comment
+   * @throws if the tag is not on the comment
+   * @param {String} id the id of the comment to tag
+   * @param {String} name the name of the tag to add
+   */
+  static removeTag(id, name) {
+    const filter = {
+      id,
+      tags: {$elemMatch: {name}}
+    };
+    const update = {$pull: {tags: {name}}};
+    return CommentModel.update(filter, update)
+      .then(({nModified}) => {
+        switch (nModified) {
+        case 0:
+
+            // either the tag was already there, or the comment doesn't exist with that id...
+          return this.findById(id)
+              .then(result => {
+                if ( ! result) {
+                  throw new Error(`Can't remove tag from comment. There is no comment with id ${id}`);
+                }
+                throw new Error(`Can't remove tag ${name} from comment. Comment doesn't have that tag.`);
+              });
+        case 1:
+
+            // tag removed
+          return;
+        default:
+          console.warn('CommentsService#removeTag modified multiple comments, but it should only have modified 1. '
+                      + `You may have bad data. Check for multiple comments with id=${id}`);
         }
       });
   }
