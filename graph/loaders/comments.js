@@ -271,12 +271,28 @@ const genRecentComments = (_, ids) => {
 };
 
 /**
+ * Returns the comment's by their id.
+ * @param  {Object}        context graph context
+ * @param  {Array<String>} ids     the comment id's to fetch
+ * @return {Promise}       resolves to the comments
+ */
+const genCommentsByID = (context, ids) => {
+  return CommentModel.find({
+    id: {
+      $in: ids
+    }
+  })
+  .then(util.singleJoinBy(ids, 'id'));
+};
+
+/**
  * Creates a set of loaders based on a GraphQL context.
  * @param  {Object} context the context of the GraphQL request
  * @return {Object}         object of loaders
  */
 module.exports = (context) => ({
   Comments: {
+    get: new DataLoader((ids) => genCommentsByID(context, ids)),
     getByQuery: (query) => getCommentsByQuery(context, query),
     getCountByQuery: (query) => getCommentCountByQuery(context, query),
     countByAssetID: new util.SharedCacheDataLoader('Comments.countByAssetID', 3600, (ids) => getCountsByAssetID(context, ids)),
