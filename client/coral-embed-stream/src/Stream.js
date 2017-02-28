@@ -5,7 +5,6 @@ import {NEW_COMMENT_COUNT_POLL_INTERVAL} from 'coral-framework/constants/comment
 class Stream extends React.Component {
 
   static propTypes = {
-    refetch: PropTypes.func.isRequired,
     addNotification: PropTypes.func.isRequired,
     postItem: PropTypes.func.isRequired,
     asset: PropTypes.object.isRequired,
@@ -63,8 +62,7 @@ class Stream extends React.Component {
       postDontAgree,
       loadMore,
       deleteAction,
-      showSignInDialog,
-      refetch
+      showSignInDialog
     } = this.props;
 
     return (
@@ -72,7 +70,6 @@ class Stream extends React.Component {
         {
           comments.map(comment =>
             <Comment
-              refetch={refetch}
               setActiveReplyBox={this.setActiveReplyBox}
               activeReplyBox={this.state.activeReplyBox}
               addNotification={addNotification}
