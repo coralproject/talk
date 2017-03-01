@@ -162,16 +162,21 @@ span {
 
 .listItem {
   border-bottom: 1px solid #e0e0e0;
-  font-size: 16px;
+  font-size: 18px;
   width: 100%;
   max-width: 660px;
   min-width: 400px;
   margin: 0 auto;
-  padding: 16px 14px;
   position: relative;
   transition: box-shadow 200ms;
   margin-top: 0;
+  padding: 4px 0 0;
+  min-height: 220px;
 
+  .container {
+    padding: 0 14px;
+    min-height: 180px;
+  }
 
   &:hover {
      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -194,7 +199,7 @@ span {
      right: 0;
      height: 100%;
      top: 0;
-     padding: 40px 18px;
+     padding: 65px 12px;
      box-sizing: border-box;
    }
 
@@ -213,6 +218,8 @@ span {
   .itemBody {
     display: flex;
     justify-content: space-between;
+    margin-top: 15px;
+    font-size: 16px;
   }
 
   .avatar {
@@ -228,7 +235,7 @@ span {
   .created {
     color: #666;
     font-size: 13px;
-    margin-left: 40px;
+    margin-left: 15px;
   }
 
   .actionButton {
@@ -311,38 +318,29 @@ span {
 
 .Comment {
 
-  .commentType {
-    background: red;
-  }
-
   .moderateArticle {
-    font-size: 12px;
+    font-size: 15px;
+    margin-top: 14px;
+    font-weight: 500;
     a {
       display: inline-block;
-      color: #679af3;
+      color: #063b9a;
       text-decoration: none;
-      font-size: 1em;
-      font-weight: 400;
+      font-weight: 500;
       letter-spacing: .5px;
-      font-size: 12px;
       margin-left: 10px;
 
+      font-size: 13px;
+      margin-left: 5px;
+      padding-bottom: 0px;
+      border-bottom: solid 1px;
+      line-height: 16px;
+
       &:hover {
-        text-decoration: underline;
         opacity: .9;
         cursor: pointer;
        }
     }
-  }
-}
-
-.flagBox {
-  max-width: 480px;
-  border-top: 1px solid rgba(66, 66, 66, 0.12);
-  h3 {
-    font-size: 14px;
-    margin: 0;
-    font-weight: 500;
   }
 }
 

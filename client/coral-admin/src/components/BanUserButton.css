@@ -1,6 +1,7 @@
 .banButton {
-  width: 114px;
-  letter-spacing: 1px;
+  -webkit-transform: scale(.8);
+  transform: scale(.8);
+  margin: 0;
 
   i {
     vertical-align: middle;

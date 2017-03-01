@@ -1,13 +1,14 @@
 export const actionsMap = {
-  PREMOD: ['REJECT', 'APPROVE', 'BAN'],
-  FLAGGED: ['REJECT', 'APPROVE', 'BAN'],
-  REJECTED: ['APPROVE']
+  PREMOD: ['APPROVE', 'REJECT'],
+  FLAGGED: ['APPROVE', 'REJECT'],
+  REJECTED: ['APPROVE', 'REJECTED']
 };
 
 export const menuActionsMap = {
-  'REJECT': {status: 'REJECTED', icon: 'close', key: 'r'},
-  'APPROVE': {status: 'ACCEPTED', icon: 'done', key: 't'},
-  'FLAGGED': {status: 'FLAGGED', icon: 'flag', filter: 'Untouched'},
-  'BAN': {status: 'BANNED', icon: 'not interested'},
+  'REJECT': {status: 'REJECTED', text: 'Reject', icon: 'close', key: 'r'},
+  'REJECTED': {status: 'REJECTED', text: 'Rejected', icon: 'close'},
+  'APPROVE': {status: 'ACCEPTED', text: 'Approve', icon: 'done', key: 't'},
+  'FLAGGED': {status: 'FLAGGED', text: 'Flag', icon: 'flag', filter: 'Untouched'},
+  'BAN': {status: 'BANNED', text: 'Ban User', icon: 'not interested'},
   '': {icon: 'done'}
 };

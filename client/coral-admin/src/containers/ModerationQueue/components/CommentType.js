@@ -15,11 +15,11 @@ const CommentType = props => {
 const getTypeData = type => {
   switch (type) {
   case 'premod':
-    return {icon: 'clock', text: 'Pre-Mod', className: 'premod'};
+    return {icon: 'query_builder', text: 'Pre-Mod', className: 'premod'};
   case 'flagged':
     return {icon: 'flag', text: 'Flagged', className: 'flagged'};
   default:
-    return {icon: 'flag', text: 'no-type', className: 'non'};
+    return {icon: 'flag', className: 'no-type'};
   }
 };
 
