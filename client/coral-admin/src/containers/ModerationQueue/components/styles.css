@@ -170,11 +170,12 @@ span {
   position: relative;
   transition: box-shadow 200ms;
   margin-top: 0;
-  padding: 20px 0 0;
-  min-height: 187px;
+  padding: 4px 0 0;
+  min-height: 220px;
 
   .container {
     padding: 0 14px;
+    min-height: 180px;
   }
 
   &:hover {
@@ -198,7 +199,7 @@ span {
      right: 0;
      height: 100%;
      top: 0;
-     padding: 40px 18px;
+     padding: 65px 12px;
      box-sizing: border-box;
    }
 

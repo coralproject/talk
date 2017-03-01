@@ -6,9 +6,11 @@ import {Link} from 'react-router';
 
 import styles from './styles.css';
 import {Icon} from 'coral-ui';
-import ActionButton from '../../../components/ActionButton';
+
 import FlagBox from './FlagBox';
 import CommentType from './CommentType';
+import ActionButton from 'coral-admin/src/components/ActionButton';
+import BanUserButton from 'coral-admin/src/components/BanUserButton';
 
 const linkify = new Linkify();
 
@@ -29,6 +31,7 @@ const Comment = ({actions = [], ...props}) => {
           <span className={styles.created}>
               {timeago().format(props.comment.created_at || (Date.now() - props.index * 60 * 1000), lang.getLocale().replace('-', '_'))}
             </span>
+          <BanUserButton user={props.comment.user} onClick={() => props.showBanUserDialog(props.comment.user, props.comment.id)} />
           <CommentType type={props.commentType} />
         </div>
         <div className={styles.sideActions}>
@@ -40,7 +43,6 @@ const Comment = ({actions = [], ...props}) => {
                             user={props.comment.user}
                             acceptComment={() => props.acceptComment({commentId: props.comment.id})}
                             rejectComment={() => props.rejectComment({commentId: props.comment.id})}
-                            showBanUserDialog={() => props.showBanUserDialog(props.comment.user, props.comment.id)}
               />
             )}
           </div>
