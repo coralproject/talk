@@ -14,8 +14,6 @@ import Dashboard from 'containers/Dashboard/Dashboard';
 const routes = (
   <div>
     <Route exact path="/admin/install" component={InstallContainer}/>
-    <Route path='/admin/login' component={LayoutContainer} />
-    <Route path='/admin/logon' component={LayoutContainer} />
     <Route path='/admin' component={LayoutContainer}>
       <IndexRoute component={Dashboard} />
       <Route path='community' component={CommunityContainer} />
