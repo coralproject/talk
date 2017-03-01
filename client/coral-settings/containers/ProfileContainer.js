@@ -35,7 +35,7 @@ class ProfileContainer extends Component {
     const {me} = this.props.data;
 
     if (!loggedIn || !me) {
-      return <NotLoggedIn showSignInDialog={showSignInDialog}/>;
+      return <NotLoggedIn showSignInDialog={showSignInDialog} requireEmailConfirmation={asset.settings.requireEmailConfirmation}/>;
     }
 
     if (data.loading) {

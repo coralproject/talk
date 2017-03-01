@@ -5,9 +5,9 @@ import translations from '../translations';
 import I18n from 'coral-framework/modules/i18n/i18n';
 const lang = new I18n(translations);
 
-export default ({showSignInDialog}) => (
+export default ({showSignInDialog, requireEmailConfirmation}) => (
   <div className={styles.message}>
-    <SignInContainer noButton={true}/>
+    <SignInContainer noButton={true} requireEmailConfirmation={requireEmailConfirmation}/>
     <div>
       <a onClick={() => {
         showSignInDialog();
