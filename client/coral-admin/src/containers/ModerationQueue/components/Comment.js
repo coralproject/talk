@@ -6,7 +6,6 @@ import {Link} from 'react-router';
 
 import styles from './styles.css';
 import {Icon} from 'coral-ui';
-import ActionButton from '../../../components/ActionButton';
 import FlagBox from './FlagBox';
 import CommentType from './CommentType';
 import ActionButton from 'coral-admin/src/components/ActionButton';
