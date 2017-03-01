@@ -1,8 +1,5 @@
 FROM node:7.6
 
-# Install yarn
-RUN npm install -g yarn
-
 # Create app directory
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
