@@ -15,10 +15,6 @@ router.get('/password-reset', (req, res) => {
   res.render('password-reset', {redirectUri: process.env.TALK_ROOT_URL});
 });
 
-router.get('/login', (req, res, next) => {
-  res.render('admin/login');
-});
-
 router.get('*', (req, res) => {
   res.render('admin', {basePath: '/client/coral-admin'});
 });
