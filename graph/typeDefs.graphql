@@ -494,9 +494,13 @@ type RootQuery {
   # role.
   me: User
 
-  # Metrics related to user actions are saturated into the assets returned. The
-  # sort will affect if it will allow
-  metrics(from: Date!, to: Date!, sort: ACTION_TYPE!, limit: Int = 10): [Asset]
+  # Asset metrics related to user actions are saturated into the assets
+  # returned.
+  assetMetrics(from: Date!, to: Date!, sort: ACTION_TYPE!, limit: Int = 10): [Asset!]
+
+  # Comment metrics related to user actions are saturated into the comments
+  # returned.
+  commentMetrics(from: Date!, to: Date!, sort: ACTION_TYPE!, limit: Int = 10): [Comment!]
 }
 
 ################################################################################

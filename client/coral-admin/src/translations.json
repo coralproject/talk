@@ -86,7 +86,7 @@
       "comment-count-text-post": " characters.",
       "comment-count-error": "Please enter a valid number.",
       "domain-list-title": "Domain Whitelist",
-      "domain-list-text": "Some instructions on how to type the urls."
+      "domain-list-text": "Enter the domains you would like to permit for Talk, e.g. your local, staging and production environments (ex. localhost:3000, staging.domain.com, domain.com)."
     },
     "bandialog": {
       "ban_user": "Ban User?",
@@ -111,7 +111,8 @@
     },
     "dashboard": {
       "no_flags": "There have been no flags in the last 5 minutes! Hooray!",
-      "comment_count": "Comments"
+      "no_likes": "There have been no likes in the last 5 minutes. All quiet.",
+      "comment_count": "comments"
     },
     "streams": {
       "empty_result": "No assets match this search. Maybe try widening your search?",
@@ -206,7 +207,7 @@
       "comment-count-text-post": " caracteres",
       "comment-count-error": "Por favor escribe un número válido.",
       "domain-list-title": "Lista de Dominios Permitidos",
-      "domain-list-text": "Instrucciones de como ingresar las URLs."
+      "domain-list-text": "Agrega dominios permitidos a Talk, e.g. tu localhost, staging y ambientes de production  (ex. localhost:3000, staging.domain.com, domain.com)."
     },
     "embedlink": {
       "copy": "Copiar"
@@ -220,7 +221,8 @@
     },
     "dashbord": {
       "no_flags": "¡Nadie ha marcado nada en los últimos 5 minutos! ¡Bravo!",
-      "comment_count": "Comentarios"
+      "no_likes": "A nadie le ha gustado algún comentario en los últimos 5 minutos. Todo tranquilo.",
+      "comment_count": "comentarios"
     },
     "streams": {
       "empty_result": "No se encuentro articulo con esta busqueda. Tal vez extender la busqueda?",

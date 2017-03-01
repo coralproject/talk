@@ -2,6 +2,10 @@ import React from 'react';
 import styles from './style.css';
 import {TextField, Button, Spinner} from 'coral-ui';
 
+const lang = new I18n(translations);
+import translations from '../../translations.json';
+import I18n from 'coral-framework/modules/i18n/i18n';
+
 const InitialStep = props => {
   const {handleUserChange, handleUserSubmit, install} = props;
   return (
@@ -12,7 +16,7 @@ const InitialStep = props => {
             className={styles.textField}
             id="email"
             type="email"
-            label='Email address'
+            label={lang.t('CREATE.EMAIL')}
             onChange={handleUserChange}
             showErrors={install.showErrors}
             errorMsg={install.errors.email}
@@ -23,7 +27,7 @@ const InitialStep = props => {
             className={styles.textField}
             id="username"
             type="text"
-            label='Username'
+            label={lang.t('CREATE.USERNAME')}
             onChange={handleUserChange}
             showErrors={install.showErrors}
             errorMsg={install.errors.username}
@@ -33,7 +37,7 @@ const InitialStep = props => {
             className={styles.textField}
             id="password"
             type="password"
-            label='Password'
+            label={lang.t('CREATE.PASSWORD')}
             onChange={handleUserChange}
             showErrors={install.showErrors}
             errorMsg={install.errors.password}
@@ -43,7 +47,7 @@ const InitialStep = props => {
             className={styles.textField}
             id="confirmPassword"
             type="password"
-            label='Confirm Password'
+            label={lang.t('CREATE.CONFIRM_PASSWORD')}
             onChange={handleUserChange}
             showErrors={install.showErrors}
             errorMsg={install.errors.confirmPassword}
@@ -51,7 +55,7 @@ const InitialStep = props => {
 
           {
             !props.install.isLoading ?
-            <Button cStyle='black' type="submit" full>Save</Button>
+            <Button cStyle='black' type="submit" full>{lang.t('CREATE.SAVE')}</Button>
             :
             <Spinner />
           }
