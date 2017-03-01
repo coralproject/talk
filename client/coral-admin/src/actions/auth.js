@@ -14,6 +14,17 @@ export const handleLogin = (email, password) => dispatch => {
     });
 };
 
+const forgotPassowordRequest = () => ({type: actions.FETCH_FORGOT_PASSWORD_REQUEST});
+const forgotPassowordSuccess = () => ({type: actions.FETCH_FORGOT_PASSWORD_SUCCESS});
+const forgotPassowordFailure = () => ({type: actions.FETCH_FORGOT_PASSWORD_FAILURE});
+
+export const requestPasswordReset = email => dispatch => {
+  dispatch(forgotPassowordRequest(email));
+  return coralApi('/account/password/reset', {method: 'POST', body: {email}})
+    .then(() => dispatch(forgotPassowordSuccess()))
+    .catch(error => dispatch(forgotPassowordFailure(error)));
+};
+
 // Check Login
 
 const checkLoginRequest = () => ({type: actions.CHECK_LOGIN_REQUEST});

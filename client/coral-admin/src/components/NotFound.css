@@ -6,3 +6,10 @@
 .layout h1 {
   font-size: 40px;
 }
+
+.passwordRequestSuccess {
+  padding: 8px 14px;
+  background: lightgreen;
+  border: 1px solid darkgreen;
+  border-radius: 4px;
+}

@@ -10,7 +10,7 @@ class AdminLogin extends React.Component {
 
   constructor (props) {
     super(props);
-    this.state = {email: '', password: ''};
+    this.state = {email: '', password: '', requestPassword: false};
   }
 
   handleSignIn = e => {
@@ -18,29 +18,57 @@ class AdminLogin extends React.Component {
     this.props.handleLogin(this.state.email, this.state.password);
   }
 
+  handleRequestPassword = e => {
+    e.preventDefault();
+    this.props.requestPasswordReset(this.state.email);
+  }
+
   render () {
     const {errorMessage} = this.props;
+    const signInForm = (
+      <form onSubmit={this.handleSignIn}>
+        {errorMessage && <Alert>{lang.t(`errors.${errorMessage}`)}</Alert>}
+        <TextField
+          label='email'
+          value={this.state.email}
+          onChange={e => this.setState({email: e.target.value})} />
+        <TextField
+          label='password'
+          value={this.state.password}
+          onChange={e => this.setState({password: e.target.value})}
+          type='password' />
+        <Button
+          type='submit'
+          cStyle='black'
+          onClick={this.handleSignIn} full>Sign In</Button>
+        <p>
+          Forgot your password? <a href="#" onClick={e => {
+            e.preventDefault();
+            this.setState({requestPassword: true});
+          }}>Request a new one.</a>
+        </p>
+      </form>
+    );
+    const requestPasswordForm = (
+      this.props.passwordRequestSuccess
+      ? <p className={styles.passwordRequestSuccess}>{this.props.passwordRequestSuccess}</p>
+      : <form onSubmit={this.handleRequestPassword}>
+        <TextField
+          label='email'
+          value={this.state.email}
+          onChange={e => this.setState({email: e.target.value})} />
+        <Button
+          type='submit'
+          cStyle='black'
+          onClick={this.handleRequestPassword}>Reset Password</Button>
+      </form>
+    );
     return (
       <Layout fixedDrawer restricted={true}>
         <div className={styles.layout}>
           <h1>Permission Required</h1>
           <p>Sign in to interact with your community.</p>
-          <form onSubmit={this.handleSignIn}>
-            {errorMessage && <Alert>{lang.t(`errors.${errorMessage}`)}</Alert>}
-            <TextField
-              label='email'
-              value={this.state.email}
-              onChange={e => this.setState({email: e.target.value})} />
-            <TextField
-              label='password'
-              value={this.state.password}
-              onChange={e => this.setState({password: e.target.value})}
-              type='password' />
-            <Button
-              type='submit'
-              cStyle='black'
-              onClick={this.handleSignIn} full>Sign In</Button>
-          </form>
+          { this.state.requestPassword ? requestPasswordForm : signInForm }
         </div>
       </Layout>
     );
@@ -49,6 +77,7 @@ class AdminLogin extends React.Component {
 
 AdminLogin.propTypes = {
   handleLogin: PropTypes.func.isRequired,
+  passwordRequestSuccess: PropTypes.string,
   loginError: PropTypes.string
 };
 

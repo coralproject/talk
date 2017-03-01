@@ -5,7 +5,8 @@ const initialState = Map({
   loggedIn: false,
   user: null,
   isAdmin: false,
-  loginError: null
+  loginError: null,
+  passwordRequestSuccess: null
 });
 
 export default function auth (state = initialState, action) {
@@ -30,6 +31,10 @@ export default function auth (state = initialState, action) {
     return state.set('loginError', null);
   case actions.LOGIN_FAILURE:
     return state.set('loginError', action.message);
+  case actions.FETCH_FORGOT_PASSWORD_REQUEST:
+    return state.set('passwordRequestSuccess', null);
+  case actions.FETCH_FORGOT_PASSWORD_SUCCESS:
+    return state.set('passwordRequestSuccess', 'If you have a registered account, a password reset link was sent to that email.');
   default :
     return state;
   }
