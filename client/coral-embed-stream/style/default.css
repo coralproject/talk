@@ -180,6 +180,11 @@ hr {
   float: right;
 }
 
+.highlighted-comment {
+  padding-left: 10px;
+  border-left: 3px solid rgb(35,118,216);
+}
+
 /* Tag Labels */
 
 .coral-plugin-tag-label {

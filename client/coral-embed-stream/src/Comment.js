@@ -49,6 +49,7 @@ class Comment extends React.Component {
     postLike: PropTypes.func.isRequired,
     deleteAction: PropTypes.func.isRequired,
     parentId: PropTypes.string,
+    highlighted: PropTypes.string,
     addNotification: PropTypes.func.isRequired,
     postItem: PropTypes.func.isRequired,
     depth: PropTypes.number.isRequired,
@@ -99,6 +100,7 @@ class Comment extends React.Component {
       addNotification,
       showSignInDialog,
       postLike,
+      highlighted,
       postFlag,
       postDontAgree,
       loadMore,
@@ -112,6 +114,8 @@ class Comment extends React.Component {
     const like = getActionSummary('LikeActionSummary', comment);
     const flag = getActionSummary('FlagActionSummary', comment);
     const dontagree = getActionSummary('DontAgreeActionSummary', comment);
+    let commentClass = parentId ? `reply ${styles.Reply}` : `comment ${styles.Comment}`;
+    commentClass += highlighted === comment.id ? ' highlighted-comment' : '';
 
     // call a function, and if it errors, call addNotification('error', ...) (e.g. to show user a snackbar)
     const notifyOnError = (fn, errorToMessage) => async () => {
@@ -136,7 +140,7 @@ class Comment extends React.Component {
 
     return (
       <div
-        className={parentId ? `reply ${styles.Reply}` : `comment ${styles.Comment}`}
+        className={commentClass}
         id={`c_${comment.id}`}
         style={{marginLeft: depth * 30}}>
         <hr aria-hidden={true} />
@@ -218,6 +222,7 @@ class Comment extends React.Component {
               postItem={postItem}
               depth={depth + 1}
               asset={asset}
+              highlighted={highlighted}
               currentUser={currentUser}
               postLike={postLike}
               postFlag={postFlag}

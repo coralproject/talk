@@ -1,0 +1,13 @@
+#import "../fragments/commentView.graphql"
+
+query commentQuery($id: ID!) {
+  comment(id: $id) {
+    ...commentView
+    parent {
+      ...commentView
+      replies {
+        ...commentView
+      }
+    }
+  }
+}
