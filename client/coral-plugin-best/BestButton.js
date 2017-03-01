@@ -89,17 +89,13 @@ export class BestButton extends Component {
   }
 
   render() {
-
-    // @TODO(bengo) Consider adding the comment__action--cursor-pointer to all buttons to add cursor:pointer and never wrap the icons
     const {isBest, addBest, removeBest} = this.props;
     const {isSaving} = this.state;
     const disabled = isSaving || ! (isBest ? removeBest : addBest);
     return (
       <button onClick={isBest ? this.onClickRemoveBest : this.onClickAddBest}
               disabled={disabled}
-              className={classnames('comment__action-button', `${name}-button`,
-                                    'comment__action-button--nowrap', /* Can I do this to all buttons? 'comment__action-button--cursor-pointer', */
-                                    `e2e__${isBest ? 'unset' : 'set'}-best-comment`)}
+              className={classnames(`${name}-button`, `e2e__${isBest ? 'unset' : 'set'}-best-comment`)}
               aria-label={lang.t(isBest ? 'unsetBest' : 'setBest')}>
         <i className={`${name}-icon material-icons`} aria-hidden={true}>
           { isBest ? 'favorite' : 'favorite_border' }

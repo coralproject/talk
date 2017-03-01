@@ -214,15 +214,17 @@ hr {
 }
 
 .comment__action-container .material-icons {
-  font-size: 12px !important;
+  font-size: 12px;
   margin-left: 3px;  
 }
 
-.comment__action-button {
+button.comment__action-button,
+.comment__action-button button {
   cursor: pointer;
 }
 
-.comment__action-button[disabled] {
+button.comment__action-button[disabled],
+.comment__action-button[disabled] button {
   cursor: inherit;
 }
 

@@ -26,6 +26,11 @@ const getActionSummary = (type, comment) => comment.action_summaries
   .filter((a) => a.__typename === type)[0];
 const isStaff = (tags) => !tags.every((t) => t.name !== 'STAFF') ;
 
+// hold actions links (e.g. Like, Reply) along the comment footer
+const ActionButton = ({children}) => {
+  return <span className="comment__action-button comment__action-button--nowrap">{ children }</span>;
+};
+
 class Comment extends React.Component {
 
   constructor(props) {
@@ -135,36 +140,46 @@ class Comment extends React.Component {
         <PubDate created_at={comment.created_at} />
         <Content body={comment.body} />
           <div className="commentActionsLeft comment__action-container">
-              <LikeButton
-                like={like}
-                id={comment.id}
-                postLike={postLike}
-                deleteAction={deleteAction}
-                showSignInDialog={showSignInDialog}
-                currentUser={currentUser} />
-              <ReplyButton
-                onClick={() => setActiveReplyBox(comment.id)}
-                parentCommentId={parentId || comment.id}
-                currentUserId={currentUser && currentUser.id}
-                banned={false} />
-              <IfUserCanModifyBest user={currentUser}>
-                <BestButton
-                  isBest={commentIsBest(comment)}
-                  addBest={addBestTag}
-                  removeBest={removeBestTag} />
-              </IfUserCanModifyBest>
+              <ActionButton>
+                <LikeButton
+                  like={like}
+                  id={comment.id}
+                  postLike={postLike}
+                  deleteAction={deleteAction}
+                  showSignInDialog={showSignInDialog}
+                  currentUser={currentUser} />
+              </ActionButton>
+              <ActionButton>
+                <ReplyButton
+                  onClick={() => setActiveReplyBox(comment.id)}
+                  parentCommentId={parentId || comment.id}
+                  currentUserId={currentUser && currentUser.id}
+                  banned={false} />
+              </ActionButton>
+              <ActionButton>
+                <IfUserCanModifyBest user={currentUser}>
+                  <BestButton
+                    isBest={commentIsBest(comment)}
+                    addBest={addBestTag}
+                    removeBest={removeBestTag} />
+                </IfUserCanModifyBest>
+              </ActionButton>
             </div>
         <div className="commentActionsRight comment__action-container">
-          <PermalinkButton articleURL={asset.url} commentId={comment.id} />
-          <FlagComment
-            flag={flag && flag.current_user ? flag : dontagree}
-            id={comment.id}
-            author_id={comment.user.id}
-            postFlag={postFlag}
-            postDontAgree={postDontAgree}
-            deleteAction={deleteAction}
-            showSignInDialog={showSignInDialog}
-            currentUser={currentUser} />
+          <ActionButton>
+            <PermalinkButton articleURL={asset.url} commentId={comment.id} />
+          </ActionButton>
+          <ActionButton>
+            <FlagComment
+              flag={flag && flag.current_user ? flag : dontagree}
+              id={comment.id}
+              author_id={comment.user.id}
+              postFlag={postFlag}
+              postDontAgree={postDontAgree}
+              deleteAction={deleteAction}
+              showSignInDialog={showSignInDialog}
+              currentUser={currentUser} />
+          </ActionButton>
         </div>
         {
           activeReplyBox === comment.id

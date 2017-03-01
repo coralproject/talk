@@ -8,7 +8,7 @@ const name = 'coral-plugin-replies';
 const ReplyButton = ({banned, onClick}) => {
   return (
     <button
-      className={classnames(`${name}-reply-button`, 'comment__action-button--nowrap')}
+      className={classnames(`${name}-reply-button`)}
       onClick={onClick}>
       {lang.t('reply')}
       <i className={`${name}-icon material-icons`}
