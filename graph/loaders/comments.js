@@ -39,7 +39,7 @@ const getCountsByAssetID = (context, asset_ids) => {
 /**
  * Returns the comment count for all comments that are public based on their
  * parent ids.
- * @param {Object}        context     graph context
+ *
  * @param {Array<String>} parent_ids  the ids of parents for which there are
  *                                    comments that we want to get
  */
@@ -271,18 +271,30 @@ const genRecentComments = (_, ids) => {
 };
 
 /**
- * Returns the comment's by their id.
+ * genComments returns the comments by the id's. Only admins can see non-public comments.
  * @param  {Object}        context graph context
  * @param  {Array<String>} ids     the comment id's to fetch
  * @return {Promise}       resolves to the comments
  */
-const genCommentsByID = (context, ids) => {
-  return CommentModel.find({
-    id: {
-      $in: ids
-    }
-  })
-  .then(util.singleJoinBy(ids, 'id'));
+const genComments = ({user}, ids) => {
+  let comments;
+  if (user && user.hasRoles('ADMIN')) {
+    comments = CommentModel.find({
+      id: {
+        $in: ids
+      }
+    });
+  } else {
+    comments = CommentModel.find({
+      id: {
+        $in: ids
+      },
+      status: {
+        $in: ['NONE', 'ACCEPTED']
+      }
+    });
+  }
+  return comments.then(util.singleJoinBy(ids, 'id'));
 };
 
 /**
@@ -292,7 +304,7 @@ const genCommentsByID = (context, ids) => {
  */
 module.exports = (context) => ({
   Comments: {
-    get: new DataLoader((ids) => genCommentsByID(context, ids)),
+    get: new DataLoader((ids) => genComments(context, ids)),
     getByQuery: (query) => getCommentsByQuery(context, query),
     getCountByQuery: (query) => getCommentCountByQuery(context, query),
     countByAssetID: new util.SharedCacheDataLoader('Comments.countByAssetID', 3600, (ids) => getCountsByAssetID(context, ids)),
