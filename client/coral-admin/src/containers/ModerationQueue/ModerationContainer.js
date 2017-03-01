@@ -80,6 +80,7 @@ class ModerationContainer extends Component {
         <ModerationQueue
           currentAsset={asset}
           comments={comments}
+          activeTab={activeTab}
           suspectWords={settings.wordlist.suspect}
           showBanUserDialog={props.showBanUserDialog}
           acceptComment={props.acceptComment}
