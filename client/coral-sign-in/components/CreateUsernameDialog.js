@@ -1,8 +1,7 @@
 import React from 'react';
 import TextField from 'coral-ui/components/TextField';
-import Alert from './Alert';
 import Button from 'coral-ui/components/Button';
-import {Dialog} from 'coral-ui';
+import {Dialog, Alert} from 'coral-ui';
 import FakeComment from './FakeComment';
 
 import styles from './styles.css';

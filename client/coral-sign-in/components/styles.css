@@ -65,23 +65,6 @@ input.error{
     padding: 3px 0 16px;
 }
 
-.alert {
-    padding: 10px;
-    margin-bottom: 20px;
-    border-radius: 2px;
-}
-
-.alert--success {
-    border: solid 1px #1ec00e;
-    background: #cbf1b8;
-    color: #006900;
-}
-
-.alert--error {
-    background: #FFEBEE;
-    color: #B71C1C;
-}
-
 .userBox {
   padding: 10px 0 20px;
   letter-spacing: 0.1px;
