@@ -112,6 +112,7 @@
     "dashboard": {
       "no_flags": "There have been no flags in the last 5 minutes! Hooray!",
       "no_likes": "There have been no likes in the last 5 minutes. All quiet.",
+      "flags": "Flags",
       "comment_count": "comments"
     },
     "streams": {
@@ -222,6 +223,7 @@
     "dashbord": {
       "no_flags": "¡Nadie ha marcado nada en los últimos 5 minutos! ¡Bravo!",
       "no_likes": "A nadie le ha gustado algún comentario en los últimos 5 minutos. Todo tranquilo.",
+      "flags": "Marcados",
       "comment_count": "comentarios"
     },
     "streams": {
