@@ -14,8 +14,8 @@ function getQueryVariable(variable) {
     }
   }
 
-  // If no query is included, return a default string for development
-  return 'http://localhost/default/stream';
+  // If not found, return null.
+  return null;
 }
 
 export const getCounts = (data) => ({asset_id, limit, sort}) => {
@@ -85,12 +85,19 @@ export const loadMore = (data) => ({limit, cursor, parent_id, asset_id, sort}, n
 };
 
 export const queryStream = graphql(STREAM_QUERY, {
-  options: () => ({
-    variables: {
-      asset_url: getQueryVariable('asset_url'),
-      comment_id: getQueryVariable('comment_id')
-    }
-  }),
+  options: () => {
+    let comment_id = getQueryVariable('comment_id');
+    let has_comment = comment_id != null;
+
+    return {
+      variables: {
+        asset_id: getQueryVariable('asset_id'),
+        asset_url: getQueryVariable('asset_url'),
+        comment_id: has_comment ? comment_id : 'no-comment',
+        has_comment
+      }
+    };
+  },
   props: ({data}) => ({
     data,
     loadMore: loadMore(data),
