@@ -59,7 +59,7 @@ module.exports = class CommentsService {
 
     const filter = {
       id,
-      tags: {$not: {$elemMatch: {name}}}
+      'tags.name': {$ne: name},
     };
     const update = {
       $push: {tags: {
@@ -101,7 +101,7 @@ module.exports = class CommentsService {
   static removeTag(id, name) {
     const filter = {
       id,
-      tags: {$elemMatch: {name}}
+      'tags.name': name,
     };
     const update = {$pull: {tags: {name}}};
     return CommentModel.update(filter, update)
