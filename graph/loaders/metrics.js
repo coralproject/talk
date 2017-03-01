@@ -54,7 +54,7 @@ const getAssetMetrics = ({loaders: {Metrics, Assets, Comments}}, {from, to, sort
 
       .filter((asset) => {
         let contextActionSummary = asset.action_summaries.find((({action_type}) => action_type === sort));
-        if (contextActionSummary === null) {
+        if (contextActionSummary === null || contextActionSummary.actionCount === 0) {
           return false;
         }
 
