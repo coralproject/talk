@@ -2,7 +2,6 @@ test/helpers/*.js
 test
 --compilers js:babel-core/register
 --require ignore-styles
---require babel-polyfill
 --recursive
 --colors
 --sort
