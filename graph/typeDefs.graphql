@@ -31,10 +31,10 @@ type User {
   username: String!
 
   # Action summaries against the user.
-  action_summaries: [ActionSummary]
+  action_summaries: [FlagActionSummary]
 
   # Actions completed on the parent.
-  actions: [Action]
+  actions: [FlagAction]
 
   # the current roles of the user.
   roles: [USER_ROLES]
@@ -58,6 +58,19 @@ type Tag {
 
   # the time when the tag was assigned.
   created_at: Date!
+}
+
+# UsersQuery allows the ability to query users by a specific methods.
+input UsersQuery {
+
+  # Limit the number of results to be returned.
+  limit: Int = 10
+
+  # Skip results from the last created_at timestamp.
+  cursor: Date
+
+  # Sort the results by created_at.
+  sort: SORT_ORDER = REVERSE_CHRONOLOGICAL
 }
 
 ################################################################################
@@ -497,6 +510,9 @@ type RootQuery {
   # Metrics related to user actions are saturated into the assets returned. The
   # sort will affect if it will allow
   metrics(from: Date!, to: Date!, sort: ACTION_TYPE!, limit: Int = 10): [Asset]
+
+  # Users returned based on a query.
+  usersFlagged(query: UsersQuery): [User]
 }
 
 ################################################################################

@@ -6,18 +6,28 @@ const lang = new I18n(translations);
 
 import styles from './Community.css';
 
-// import Loading from './Loading';
+import Loading from './Loading';
 import EmptyCard from '../../components/EmptyCard';
+import User from './components/User';
+
+// actions={commenter.actions}
 
 const FlaggedAccounts = ({...props}) => {
-  const {commenters, isFetching, error, totalPages, page} = props;
-  const hasResults = !isFetching && !!commenters.length;
+  const {commenters, isFetching} = props;
+  const hasResults = !isFetching && commenters && !!commenters.length;
 
-  console.log('debug props', props);
-  console.log('debug commenters', commenters);
-  console.log('debug error', error);
-  console.log('debug totalPages', totalPages);
-  console.log('debug page', page);
+  // const menuOptions = {
+  //   'reject': {status: 'REJECTED', icon: 'close', key: 'r'},
+  //   'approve': {status: 'ACCEPTED', icon: 'done', key: 't'},
+  //   'ban': {status: 'BANNED', icon: 'not interested'}
+  // };
+  //
+  //
+  // onClickAction={this.onClickAction}
+  // onClickShowBanDialog={this.onClickShowBanDialog}
+  // acceptCommenter={props.acceptCommenter}
+  // rejectCommenter={props.rejectCommenter}
+  // menuOptions={menuOptions}
 
   return (
     <div className={styles.container}>
@@ -25,7 +35,12 @@ const FlaggedAccounts = ({...props}) => {
         { isFetching && <Loading /> }
         {
           hasResults
-          ? <div></div>
+          ? commenters.map((commenter, index) => {
+            return <User
+              user={commenter}
+              key={index}
+              index={index} />;
+          })
           : <EmptyCard>{lang.t('community.no-flagged-accounts')}</EmptyCard>
         }
       </div>

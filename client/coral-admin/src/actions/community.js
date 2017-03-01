@@ -7,10 +7,7 @@ import {
   SORT_UPDATE,
   COMMENTERS_NEW_PAGE,
   SET_ROLE,
-  SET_COMMENTER_STATUS,
-  FETCH_FLAGGED_COMMENTERS_REQUEST,
-  FETCH_FLAGGED_COMMENTERS_SUCCESS,
-  FETCH_FLAGGED_COMMENTERS_FAILURE
+  SET_COMMENTER_STATUS
 } from '../constants/community';
 
 import coralApi from '../../../coral-framework/helpers/response';
@@ -18,7 +15,7 @@ import coralApi from '../../../coral-framework/helpers/response';
 export const fetchAccounts = (query = {}) => dispatch => {
   dispatch(requestFetchAccounts());
   coralApi(`/users?${qs.stringify(query)}`)
-    .then(({result, page, count, limit, totalPages}) =>
+    .then(({result, page, count, limit, totalPages}) =>{
       dispatch({
         type: FETCH_COMMENTERS_SUCCESS,
         accounts: result,
@@ -26,8 +23,8 @@ export const fetchAccounts = (query = {}) => dispatch => {
         count,
         limit,
         totalPages
-      })
-    )
+      });
+    })
     .catch(error => dispatch({type: FETCH_COMMENTERS_FAILURE, error}));
 };
 
@@ -58,25 +55,3 @@ export const setCommenterStatus = (id, status) => (dispatch) => {
     return dispatch({type: SET_COMMENTER_STATUS, id, status});
   });
 };
-
-// Fetch flagged accounts to display in the moderation queue of the community.
-
-export const fetchFlaggedAccounts = (query = {}) => dispatch => {
-  dispatch(requestFetchFlaggedAccounts());
-  coralApi(`/users?${qs.stringify(query)}`)
-    .then(({result, page, count, limit, totalPages}) =>
-      dispatch({
-        type: FETCH_FLAGGED_COMMENTERS_SUCCESS,
-        flaggedAccounts: result,
-        page,
-        count,
-        limit,
-        totalPages
-      })
-    )
-    .catch(error => dispatch({type: FETCH_FLAGGED_COMMENTERS_FAILURE, error}));
-};
-
-const requestFetchFlaggedAccounts = () => ({
-  type: FETCH_FLAGGED_COMMENTERS_REQUEST
-});

@@ -4,6 +4,7 @@ import {
   fetchAccounts,
   updateSorting,
   newPage,
+  fetchFlaggedAccounts,
 } from '../../actions/community';
 
 import CommunityMenu from './components/CommunityMenu';
@@ -12,10 +13,15 @@ import People from './People';
 import FlaggedAccounts from './FlaggedAccounts';
 
 class CommunityContainer extends Component {
+
+  // static propTypes = {
+  //
+  //   // list of actions (approve, reject, ban) associated with the users
+  //   modActions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  // }
+
   constructor(props) {
     super(props);
-
-    console.log('DEBUG CONSTRUCTOR CommunityContainer ', props);
 
     this.state = {
       searchValue: ''
@@ -49,6 +55,11 @@ class CommunityContainer extends Component {
       asc: community.ascPeople,
       ...query
     }));
+
+  }
+
+  componentWillMount() {
+    this.props.dispatch(fetchFlaggedAccounts());
   }
 
   componentDidMount() {
@@ -88,8 +99,6 @@ class CommunityContainer extends Component {
         commenters={community.flaggedAccounts}
         isFetching={community.isFetchingFlagged}
         error={community.errorFlagged}
-        totalPages={community.totalPagesFlagged}
-        page={community.pageFlagged}
         {...this}
       />
     );

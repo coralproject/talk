@@ -1,0 +1,19 @@
+query Users {
+  usersFlagged {
+    id
+    username
+    status
+    roles
+    actions{
+      id
+      reason
+      user {
+        username
+      }
+    }
+    action_summaries {
+      count
+      reason
+    }
+  }
+}

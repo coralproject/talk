@@ -2,6 +2,7 @@ import {graphql} from 'react-apollo';
 
 import MOST_FLAGS from './mostFlags.graphql';
 import MOD_QUEUE_QUERY from './modQueueQuery.graphql';
+import USER_FLAGGED_QUERY from './modUserFlaggedQuery.graphql';
 
 export const mostFlags = graphql(MOST_FLAGS, {
   options: () => {
@@ -28,3 +29,5 @@ export const modQueueQuery = graphql(MOD_QUEUE_QUERY, {
     };
   }
 });
+
+export const modUserFlaggedQuery  = graphql(USER_FLAGGED_QUERY);
