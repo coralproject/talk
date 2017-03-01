@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {compose} from 'react-apollo';
 
 import {modUserFlaggedQuery} from 'coral-admin/src/graphql/queries';
-import {banUser} from '../../graphql/mutations';
+import {banUser, setUserStatus} from '../../graphql/mutations';
 
 import {
   fetchAccounts,
@@ -99,7 +99,7 @@ class CommunityContainer extends Component {
           isFetching={data.loading}
           error={data.error}
           showBanUserDialog={props.showBanUserDialog}
-          acceptUser={props.acceptUser}
+          approveUser={props.approveUser}
           rejectUser={props.rejectUser}
           {...this}
         />
@@ -142,5 +142,6 @@ const mapDispatchToProps = dispatch => ({
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   modUserFlaggedQuery,
-  banUser
+  banUser,
+  setUserStatus
 )(CommunityContainer);

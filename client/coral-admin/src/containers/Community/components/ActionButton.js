@@ -6,7 +6,7 @@ import {menuActionsMap} from '../../../containers/ModerationQueue/helpers/modera
 
 const ActionButton = ({type = '', user, ...props}) => {
   if (type === 'BAN') {
-    return <BanUserButton user={user} onClick={() => props.showBanUserDialog(user)} />;
+    return <BanUserButton icon='not interested' user={user} onClick={() => props.showBanUserDialog(user)} />;
   }
 
   return (
@@ -14,7 +14,9 @@ const ActionButton = ({type = '', user, ...props}) => {
       className={`${type.toLowerCase()} ${styles.actionButton}`}
       cStyle={type.toLowerCase()}
       icon={menuActionsMap[type].icon}
-      onClick={type === 'APPROVE' ? props.acceptUser : props.rejectUser}
+      onClick={() => {
+        type === 'APPROVE' ? props.approveUser({userId: user.id}) : props.rejectUser({userId: user.id});
+      }}
     />
   );
 };

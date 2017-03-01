@@ -1,17 +1,16 @@
 import React from 'react';
 import styles from '../Community.css';
 
+import ActionButton from './ActionButton';
+
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../../translations.json';
 
 const lang = new I18n(translations);
 
-// import {Icon} from 'react-mdl';
-import ActionButton from './ActionButton';
-
 // Render a single user for the list
 const User = props => {
-  const {user} = props;
+  const {user, modActionButtons} = props;
   let userStatus = user.status;
 
   // Do not display unless the user status is 'pending' or 'banned'.
@@ -50,16 +49,17 @@ const User = props => {
         </div>
         <div className={styles.sideActions}>
           <div className={`actions ${styles.actions}`}>
-            {/* props.modActions.map(
-              (action, i) =>
-              return <ActionButton
-                type={action.toUpperCase()}
-                key={i}
-                user={user}
-                menuOptionsMap={props.menuOptionsMap}
-                onClickAction={props.onClickAction}
-                onClickShowBanDialog={props.onClickShowBanDialog}/>
-            )*/}
+            {modActionButtons.map(
+              (action, i) => {
+                return <ActionButton
+                  type={action.toUpperCase()}
+                  key={i}
+                  user={user}
+                  approveUser={props.approveUser}
+                  rejectUser={props.rejectUser}
+                  />;
+              }
+            )}
           </div>
         </div>
       </div>

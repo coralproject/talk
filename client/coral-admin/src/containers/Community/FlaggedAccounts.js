@@ -10,24 +10,9 @@ import Loading from './Loading';
 import EmptyCard from '../../components/EmptyCard';
 import User from './components/User';
 
-// actions={commenter.actions}
-
 const FlaggedAccounts = ({...props}) => {
   const {commenters, isFetching} = props;
   const hasResults = !isFetching && commenters && !!commenters.length;
-
-  // const menuOptions = {
-  //   'reject': {status: 'REJECTED', icon: 'close', key: 'r'},
-  //   'approve': {status: 'ACCEPTED', icon: 'done', key: 't'},
-  //   'ban': {status: 'BANNED', icon: 'not interested'}
-  // };
-  //
-  //
-  // onClickAction={this.onClickAction}
-  // onClickShowBanDialog={this.onClickShowBanDialog}
-  // acceptCommenter={props.acceptCommenter}
-  // rejectCommenter={props.rejectCommenter}
-  // menuOptions={menuOptions}
 
   return (
     <div className={styles.container}>
@@ -40,7 +25,11 @@ const FlaggedAccounts = ({...props}) => {
               user={commenter}
               key={index}
               index={index}
-              showBanUserDialog={props.showBanUserDialog}/>;
+              modActionButtons={['REJECT', 'APPROVE']}
+              showBanUserDialog={props.showBanUserDialog}
+              approveUser={props.approveUser}
+              rejectUser={props.rejectUser}
+              />;
           })
           : <EmptyCard>{lang.t('community.no-flagged-accounts')}</EmptyCard>
         }
