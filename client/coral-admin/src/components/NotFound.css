@@ -1,12 +1,37 @@
 .layout {
-    max-width: 800px;
-    margin: 0 auto;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.loginLayout {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.loginHeader, .loginCTA, .forgotPasswordCTA, .passwordRequestSuccess {
+  text-align: center;
+  font-size: 16px;
+}
+
+.forgotPasswordLink, .signInLink {
+  color: blue;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+.forgotPasswordLink:hover, .signInLink:hover {
+  text-decoration: underline;
 }
 
 .layout h1 {
-    font-size: 40px;
+  font-size: 40px;
 }
 
-.layout img {
-    width: 100%;
+.loginHeader {
+  font-size: 30px;
+}
+
+.passwordRequestSuccess {
+  cursor: pointer;
+  padding: 8px 14px;
 }
