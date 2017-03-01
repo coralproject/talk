@@ -8,7 +8,7 @@ const lang = new I18n(translations);
 
 const BanUserButton = ({user, ...props}) => (
   <div className={styles.ban}>
-    <Button cStyle='darkGrey'
+    <Button cStyle='ban'
       className={`ban ${styles.banButton}`}
       disabled={user.status === 'BANNED' ? 'disabled' : ''}
       onClick={props.onClick}
