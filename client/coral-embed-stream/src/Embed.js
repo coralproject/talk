@@ -118,7 +118,7 @@ class Embed extends Component {
             <Tab>{lang.t('profile')}</Tab>
             <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>
-          {loggedIn && <UserBox user={user} logout={this.props.logout}  changeTab={this.changeTab}/>}
+          {loggedIn && <UserBox user={user} logout={() => this.props.logout().then(refetch)}  changeTab={this.changeTab}/>}
           <TabContent show={activeTab === 0}>
             {
               openStream
@@ -159,7 +159,10 @@ class Embed extends Component {
                  </div>
                : <p>{asset.settings.closedMessage}</p>
             }
-            {!loggedIn && <SignInContainer requireEmailConfirmation={asset.settings.requireEmailConfirmation} offset={signInOffset}/>}
+            {!loggedIn && <SignInContainer
+              requireEmailConfirmation={asset.settings.requireEmailConfirmation}
+              refetch={refetch}
+              offset={signInOffset}/>}
             {loggedIn &&  user && <ChangeUsernameContainer loggedIn={loggedIn} offset={signInOffset} user={user} />}
             {
               highlightedComment &&
@@ -192,7 +195,6 @@ class Embed extends Component {
               updateCountCache={this.props.updateCountCache}
               />
             <Stream
-              refetch={refetch}
               addNotification={this.props.addNotification}
               postItem={this.props.postItem}
               setActiveReplyBox={this.setActiveReplyBox}

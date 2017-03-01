@@ -52,7 +52,7 @@ const logOutFailure = () => ({type: actions.LOGOUT_FAILURE});
 
 export const logout = () => dispatch => {
   dispatch(logOutRequest());
-  coralApi('/auth', {method: 'DELETE'})
+  return coralApi('/auth', {method: 'DELETE'})
     .then(() => dispatch(logOutSuccess()))
     .catch(error => dispatch(logOutFailure(error)));
 };
