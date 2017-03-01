@@ -17,10 +17,16 @@
       "flaggedaccounts": "Flagged Usernames",
       "people": "People",
       "no-flagged-accounts": "The Account Flags queue is currently empty.",
+      "I don't like this username": "I don't like this username",
       "This user is impersonating": "Impersonation",
       "This looks like an ad/marketing": "Spam/Ads",
       "This username is offensive": "Offensive",
-      "Other": "Other"
+      "Other": "Other",
+      "ban_user": "Ban User?",
+      "are_you_sure": "Are you sure you would like to ban {0}?",
+      "note": "Note: Banning this user will not let them edit, comment or remove anything.",
+      "cancel": "Cancel",
+      "yes_ban_user": "Yes, Ban User"
     },
     "modqueue": {
       "likes": "likes",
@@ -156,10 +162,16 @@
       "flaggedaccounts": "Nombres de Usuario Reportados",
       "people": "Gente",
       "no-flagged-accounts": "No hay ninguna cuenta reportada.",
+      "I don't like this username": "No me gusta ese nombre de usuario",
       "This user is impersonating": "Suplantación",
       "This looks like an ad/marketing": "Spam/Propaganda",
       "This username is offensive": "Ofensivo",
-      "Other": "Otros"
+      "Other": "Otros",
+      "ban_user": "Quieres suspender el Usuario?",
+      "are_you_sure": "Estas segura que quieres suspender a {0}?",
+      "note": "Nota: Suspender a este usuario no le va a permitir borrar ni editar ni comentar.",
+      "cancel": "Cancelar",
+      "yes_ban_user": "Si, Suspendan el usuario"
     },
     "modqueue": {
       "likes": "gustos",

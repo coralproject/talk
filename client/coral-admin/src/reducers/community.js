@@ -6,7 +6,9 @@ import {
   FETCH_COMMENTERS_SUCCESS,
   SORT_UPDATE,
   SET_ROLE,
-  SET_COMMENTER_STATUS
+  SET_COMMENTER_STATUS,
+  SHOW_BANUSER_DIALOG,
+  HIDE_BANUSER_DIALOG
 } from '../constants/community';
 
 const initialState = Map({
@@ -17,7 +19,9 @@ const initialState = Map({
   fieldPeople: 'created_at',
   ascPeople: false,
   totalPagesPeople: 0,
-  pagePeople: 0
+  pagePeople: 0,
+  user: Map({}),
+  banDialog: false
 });
 
 export default function community (state = initialState, action) {
@@ -63,6 +67,15 @@ export default function community (state = initialState, action) {
     return state
       .set('fieldPeople', action.sort.field)
       .set('ascPeople', !state.get('ascPeople'));
+  case HIDE_BANUSER_DIALOG:
+    return state
+      .set('banDialog', false);
+  case SHOW_BANUSER_DIALOG:
+    return state
+      .merge({
+        user: Map(action.user),
+        banDialog: true
+      });
   default :
     return state;
   }

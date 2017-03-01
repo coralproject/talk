@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../UserModerationList.css';
+import styles from '../Community.css';
 
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../../translations.json';
@@ -7,7 +7,7 @@ import translations from '../../../translations.json';
 const lang = new I18n(translations);
 
 // import {Icon} from 'react-mdl';
-// import ActionButton from './ActionButton';
+import ActionButton from './ActionButton';
 
 // Render a single user for the list
 const User = props => {
@@ -19,9 +19,13 @@ const User = props => {
   return (userStatus === 'PENDING' ||  userStatus === 'BANNED') &&
     <li tabIndex={props.index} className={`mdl-card mdl-shadow--2dp ${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
       <div className={styles.itemHeader}>
-        <div className={styles.author}>
-          <span>{user.username}</span>
-        </div>
+        <span className={styles.author}>{user.username}</span>
+        <ActionButton
+          className={styles.banButton}
+          type='BAN'
+          user={user}
+          showBanUserDialog={props.showBanUserDialog}
+        />
       </div>
       <div className={styles.itemBody}>
         <div className={styles.flaggedByCount}>

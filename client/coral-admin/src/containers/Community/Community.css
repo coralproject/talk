@@ -1,3 +1,5 @@
+@custom-media --big-viewport (min-width: 780px);
+
 .container {
   padding: 10px;
   display: flex;
@@ -99,4 +101,189 @@
   &:hover {
     cursor: pointer;
    }
+}
+
+.list {
+  padding: 8px 0;
+  list-style: none;
+  display: block;
+
+  &.singleView .listItem {
+    display: none;
+  }
+
+  &.singleView .listItem.activeItem {
+    display: block;
+    height: 100%;
+    font-size: 1.5em;
+    line-height: 1.5em;
+    border: none;
+
+    .actions {
+      position: fixed;
+      bottom: 60px;
+      left: 25%;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-around;
+      width: 50%;
+      margin: 0;
+    }
+
+    .actionButton {
+      transform: scale(1.4);
+    }
+  }
+}
+
+.listItem {
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 16px;
+  width: 100%;
+  max-width: 660px;
+  min-width: 400px;
+  margin: 0 auto;
+  padding: 16px 14px;
+  position: relative;
+  transition: box-shadow 200ms;
+
+
+  &:hover {
+     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+   .sideActions {
+     position: absolute;
+     right: 0;
+     height: 100%;
+     top: 0;
+     padding: 40px 18px;
+     box-sizing: border-box;
+   }
+
+  .itemHeader {
+    display: inline;
+
+    .author {
+      font-size: 24px;
+      min-width: 50px;
+      align-items: left;
+      margin-bottom: 15px;
+    }
+  }
+
+  .itemBody {
+    display: block;
+  }
+
+  .created {
+    color: #666;
+    font-size: 13px;
+    margin-left: 40px;
+  }
+
+  .body {
+    margin-top: 20px;
+    flex: 1;
+    font-size: 0.88em;
+    color: black;
+  }
+
+  .flagged {
+    color: rgba(255, 0, 0, .5);
+    padding-top: 15px;
+    padding-left: 10px;
+  }
+
+  .flagCount{
+    font-size: 12px;
+    color: #d32f2f;
+  }
+
+}
+
+.empty {
+  color: #444;
+  margin-top: 50px;
+  text-align: center;
+}
+
+
+@media (--big-viewport) {
+  .listItem {
+    border: 1px solid #e0e0e0;
+    margin-bottom: 30px;
+
+    &:last-child {
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    &.activeItem {
+      border: 2px solid #333;
+    }
+  }
+
+}
+
+.hasLinks {
+  color: #f00;
+  text-align: right;
+  display: flex;
+  align-items: center;
+
+  i {
+    margin-right: 5px;
+  }
+}
+
+.banned {
+  color: #f00;
+  text-align: left;
+  display: flex;
+  align-items: center;
+
+  i {
+    margin-right: 5px;
+  }
+}
+
+.ban {
+  display: block;
+  text-align: center;
+  margin-top: 5px;
+}
+
+.banButton {
+  width: 114px;
+  letter-spacing: 1px;
+
+  i {
+    vertical-align: middle;
+    margin-right: 10px;
+    font-size: 14px;
+  }
+}
+
+
+.actionButton {
+  transform: scale(.8);
+  margin: 0;
+}
+
+.flaggedByCount {
+  display: block;
+  text-align: left;
+}
+
+.flaggedBy {
+  display: inline;
+  padding: 3px;
+}
+
+.flaggedByLabel {
+  font-weight: bold;
 }

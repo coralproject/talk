@@ -39,7 +39,8 @@ const FlaggedAccounts = ({...props}) => {
             return <User
               user={commenter}
               key={index}
-              index={index} />;
+              index={index}
+              showBanUserDialog={props.showBanUserDialog}/>;
           })
           : <EmptyCard>{lang.t('community.no-flagged-accounts')}</EmptyCard>
         }

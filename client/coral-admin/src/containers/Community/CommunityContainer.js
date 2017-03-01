@@ -1,25 +1,26 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {modUserFlaggedQuery} from 'coral-admin/src/graphql/queries';
 import {compose} from 'react-apollo';
+
+import {modUserFlaggedQuery} from 'coral-admin/src/graphql/queries';
+import {banUser} from '../../graphql/mutations';
+
 import {
   fetchAccounts,
   updateSorting,
-  newPage
+  newPage,
+  showBanUserDialog,
+  hideBanUserDialog
 } from '../../actions/community';
 
 import CommunityMenu from './components/CommunityMenu';
+
+import BanUserDialog from './components/BanUserDialog';
 
 import People from './People';
 import FlaggedAccounts from './FlaggedAccounts';
 
 class CommunityContainer extends Component {
-
-  // static propTypes = {
-  //
-  //   // list of actions (approve, reject, ban) associated with the users
-  //   modActions: PropTypes.arrayOf(PropTypes.string).isRequired,
-  // }
 
   constructor(props) {
     super(props);
@@ -92,12 +93,23 @@ class CommunityContainer extends Component {
     }
 
     return (
-      <FlaggedAccounts
-        commenters={data.usersFlagged}
-        isFetching={data.loading}
-        error={data.error}
-        {...this}
-      />
+      <div>
+        <FlaggedAccounts
+          commenters={data.usersFlagged}
+          isFetching={data.loading}
+          error={data.error}
+          showBanUserDialog={props.showBanUserDialog}
+          acceptUser={props.acceptUser}
+          rejectUser={props.rejectUser}
+          {...this}
+        />
+        <BanUserDialog
+          open={community.banDialog}
+          user={community.user}
+          handleClose={props.hideBanUserDialog}
+          handleBanUser={props.banUser}
+        />
+      </div>
     );
   }
 
@@ -122,10 +134,13 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchAccounts: query => dispatch(fetchAccounts(query))
+  fetchAccounts: query => dispatch(fetchAccounts(query)),
+  showBanUserDialog: (user) => dispatch(showBanUserDialog(user)),
+  hideBanUserDialog: () => dispatch(hideBanUserDialog(false))
 });
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  modUserFlaggedQuery
+  modUserFlaggedQuery,
+  banUser
 )(CommunityContainer);
