@@ -66,7 +66,7 @@ class AdminLogin extends React.Component {
     return (
       <Layout fixedDrawer restricted={true}>
         <div className={styles.layout}>
-          <h1>Permission Required</h1>
+          <h1>Team Sign In</h1>
           <p>Sign in to interact with your community.</p>
           { this.state.requestPassword ? requestPasswordForm : signInForm }
         </div>
