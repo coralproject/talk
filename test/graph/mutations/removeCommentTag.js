@@ -10,7 +10,7 @@ const CommentsService = require('../../../services/comments');
 describe('graph.mutations.removeCommentTag', () => {
   let comment;
   beforeEach(async () => {
-    SettingsService.init();
+    await SettingsService.init();
     comment = await CommentsService.publicCreate({body: `hello there! ${  String(Math.random()).slice(2)}`});
   });
 
