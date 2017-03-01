@@ -5,24 +5,30 @@ const Coral = {};
 const Talk = Coral.Talk = {};
 
 // build the URL to load in the pym iframe
-function buildStreamIframeUrl(talkBaseUrl, asset, comment) {
+function buildStreamIframeUrl(talkBaseUrl, asset_url, comment, asset_id) {
   let iframeArray = [
     talkBaseUrl,
     (talkBaseUrl.match(/\/$/) ? '' : '/'), // make sure no double-'/' if opts.talk already ends with '/'
     'embed/stream?asset_url=',
-    encodeURIComponent(asset)
+    encodeURIComponent(asset_url)
   ];
 
   if (comment) {
     iframeArray.push('&comment_id=');
     iframeArray.push(encodeURIComponent(comment));
   }
+
+  if (asset_id) {
+    iframeArray.push('&asset_id=');
+    iframeArray.push(encodeURIComponent(asset_id));
+  }
+
   return iframeArray.join('');
 }
 
 // Set up postMessage listeners/handlers on the pymParent
 // e.g. to resize the iframe, and navigate the host page
-function configurePymParent(pymParent, assetUrl) {
+function configurePymParent(pymParent, asset_url) {
   let notificationOffset = 200;
   let ready = false;
 
@@ -52,7 +58,7 @@ function configurePymParent(pymParent, assetUrl) {
         window.clearInterval(interval);
 
         // @todo - It's weird to me that this is sent here in addition to the iframe URL. Could it just be in one place?
-        pymParent.sendMessage('DOMContentLoaded', assetUrl);
+        pymParent.sendMessage('DOMContentLoaded', asset_url);
       }
     }, 100);
   });
@@ -88,11 +94,11 @@ function configurePymParent(pymParent, assetUrl) {
  * @param {Object} opts - Configuration options for talk
  * @param {String} opts.talk - Talk base URL
  * @param {String} [opts.title] - Title of Stream (rendered in iframe)
- * @param {String} [opts.asset] - parent Asset ID or URL. Comments in the
- * stream will replies to this asset
+ * @param {String} [opts.asset_url] - Asset URL
+ * @param {String} [opts.asset_id] - Asset ID
  */
 Talk.render = function (el, opts) {
-  if ( ! el) {
+  if (!el) {
     throw new Error('Please provide Coral.Talk.render() the HTMLElement you want to render Talk in.');
   }
   if (typeof el !== 'object') {
@@ -101,7 +107,7 @@ Talk.render = function (el, opts) {
   opts = opts || {};
 
   // @todo infer this URL without explicit user input (if possible, may have to be added at build/render time of this script)
-  if (! opts.talk) {
+  if (!opts.talk) {
     throw new Error('Coral.Talk.render() expects opts.talk as the Talk Base URL');
   }
 
@@ -110,16 +116,23 @@ Talk.render = function (el, opts) {
     el.id = `_${Math.random()}`;
   }
 
-  let asset = opts.asset || window.location.href.split('#')[0];
+  let asset_url = opts.asset_url || window.location.href.split('#')[0];
   let comment = window.location.hash.slice(1);
-  let pymParent = new pym.Parent(el.id, buildStreamIframeUrl(opts.talk, asset, comment), {
+
+  let query = {
     title: opts.title,
-    asset_url: asset,
+    asset_url: asset_url,
     id: `${el.id}_iframe`,
     name: `${el.id}_iframe`
-  });
+  };
 
-  configurePymParent(pymParent, asset);
+  if (opts.asset_id && opts.asset_id.length > 0) {
+    query.asset_id = opts.asset_id;
+  }
+
+  let pymParent = new pym.Parent(el.id, buildStreamIframeUrl(opts.talk, asset_url, comment), query);
+
+  configurePymParent(pymParent, asset_url);
 };
 
 export default Coral;

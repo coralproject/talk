@@ -1,7 +1,7 @@
 #import "../fragments/commentView.graphql"
 
-query AssetQuery($asset_url: String!, $comment_id: ID!) {
-    comment(id: $comment_id) {
+query AssetQuery($asset_id: ID, $asset_url: String!, $comment_id: ID!, $has_comment: Boolean!) {
+    comment(id: $comment_id) @include(if: $has_comment) {
       ...commentView
       parent {
         ...commentView
@@ -10,7 +10,7 @@ query AssetQuery($asset_url: String!, $comment_id: ID!) {
         }
       }
     }
-    asset(url: $asset_url) {
+    asset(id: $asset_id, url: $asset_url) {
         id
         title
         url
