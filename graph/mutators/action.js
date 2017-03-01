@@ -16,7 +16,7 @@ const createAction = ({user = {}}, {item_id, item_type, action_type, group_id, m
   return ActionsService.insertUserAction({
     item_id,
     item_type,
-    user_id: user.id,
+    user_id: group_id === 'Matched suspect word filter' ? null : user.id,
     group_id,
     action_type,
     metadata
