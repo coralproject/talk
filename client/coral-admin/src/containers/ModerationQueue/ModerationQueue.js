@@ -19,6 +19,7 @@ const ModerationQueue = ({comments, ...props}) => {
             key={i}
             index={i}
             comment={comment}
+            commentType={props.activeTab}
             suspectWords={props.suspectWords}
             actions={actionsMap[status]}
             showBanUserDialog={props.showBanUserDialog}

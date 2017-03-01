@@ -1,0 +1,33 @@
+.commentType {
+  position: absolute;
+  right: 15px;
+  top: 11px;
+  color: white;
+  background: grey;
+  padding: 2px 13px;
+  font-size: 14px;
+  height: 32px;
+  box-sizing: border-box;
+  line-height: 29px;
+  padding-left: 26px;
+
+  i {
+    font-size: 14px;
+    position: absolute;
+    left: 6px;
+    top: 8px;
+    margin: 0;
+  }
+
+  &.premod {
+    background: #063B9A;
+  }
+
+  &.flagged {
+    background: #d03235;
+  }
+
+  &.no-type {
+    display: none;
+  }
+}

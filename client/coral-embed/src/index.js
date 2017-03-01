@@ -5,14 +5,19 @@ const Coral = {};
 const Talk = Coral.Talk = {};
 
 // build the URL to load in the pym iframe
-function buildStreamIframeUrl(talkBaseUrl, asset) {
-  let iframeUrl = [
+function buildStreamIframeUrl(talkBaseUrl, asset, comment) {
+  let iframeArray = [
     talkBaseUrl,
     (talkBaseUrl.match(/\/$/) ? '' : '/'), // make sure no double-'/' if opts.talk already ends with '/'
     'embed/stream?asset_url=',
     encodeURIComponent(asset)
-  ].join('');
-  return iframeUrl;
+  ];
+
+  if (comment) {
+    iframeArray.push('&comment_id=');
+    iframeArray.push(encodeURIComponent(comment));
+  }
+  return iframeArray.join('');
 }
 
 // Set up postMessage listeners/handlers on the pymParent
@@ -105,8 +110,9 @@ Talk.render = function (el, opts) {
     el.id = `_${Math.random()}`;
   }
 
-  let asset = opts.asset || window.location;
-  let pymParent = new pym.Parent(el.id, buildStreamIframeUrl(opts.talk, asset), {
+  let asset = opts.asset || window.location.href.split('#')[0];
+  let comment = window.location.hash.slice(1);
+  let pymParent = new pym.Parent(el.id, buildStreamIframeUrl(opts.talk, asset, comment), {
     title: opts.title,
     asset_url: asset,
     id: `${el.id}_iframe`,

@@ -149,6 +149,9 @@ input CommentCountQuery {
 # Comment is the base representation of user interaction in Talk.
 type Comment {
 
+  # The parent of the comment (if there is one).
+  parent: Comment
+
   # The ID of the comment.
   id: ID!
 
@@ -476,6 +479,9 @@ type RootQuery {
 
   # Site wide settings and defaults.
   settings: Settings
+
+  # Finds a specific comment based on it's id.
+  comment(id: ID!): Comment
 
   # All assets. Requires the `ADMIN` role.
   assets: [Asset]
