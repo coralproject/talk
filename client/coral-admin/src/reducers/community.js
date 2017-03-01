@@ -6,10 +6,7 @@ import {
   FETCH_COMMENTERS_SUCCESS,
   SORT_UPDATE,
   SET_ROLE,
-  SET_COMMENTER_STATUS,
-  FETCH_FLAGGED_COMMENTERS_REQUEST,
-  FETCH_FLAGGED_COMMENTERS_SUCCESS,
-  FETCH_FLAGGED_COMMENTERS_FAILURE
+  SET_COMMENTER_STATUS
 } from '../constants/community';
 
 const initialState = Map({
@@ -20,10 +17,7 @@ const initialState = Map({
   fieldPeople: 'created_at',
   ascPeople: false,
   totalPagesPeople: 0,
-  pagePeople: 0,
-  isFetchingFlagged: false,
-  errorFlagged: '',
-  flaggedAccounts: [],
+  pagePeople: 0
 });
 
 export default function community (state = initialState, action) {
@@ -69,25 +63,6 @@ export default function community (state = initialState, action) {
     return state
       .set('fieldPeople', action.sort.field)
       .set('ascPeople', !state.get('ascPeople'));
-  case FETCH_FLAGGED_COMMENTERS_REQUEST : {
-    return state
-      .set('isFetchingFlagged', true);
-  }
-  case FETCH_FLAGGED_COMMENTERS_SUCCESS : {
-    const {flaggedAccounts, type, ...rest} = action; // eslint-disable-line
-    return state
-      .merge({
-        isFetchingFlagged: false,
-        errorFlagged: '',
-        ...rest
-      })
-      .set('flaggedAccounts', flaggedAccounts); // Sets to normal array
-  }
-  case FETCH_FLAGGED_COMMENTERS_FAILURE : {
-    return state
-      .set('isFetchingFlagged', false)
-      .set('errorFlagged', action.error);
-  }
   default :
     return state;
   }

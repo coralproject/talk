@@ -13,6 +13,7 @@ import {
 import coralApi from '../../../coral-framework/helpers/response';
 
 export const fetchAccounts = (query = {}) => dispatch => {
+
   dispatch(requestFetchAccounts());
   coralApi(`/users?${qs.stringify(query)}`)
     .then(({result, page, count, limit, totalPages}) =>{

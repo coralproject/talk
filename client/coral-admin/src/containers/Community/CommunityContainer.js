@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {modUserFlaggedQuery} from 'coral-admin/src/graphql/queries';
+import {compose} from 'react-apollo';
 import {
   fetchAccounts,
   updateSorting,
-  newPage,
-  fetchFlaggedAccounts,
+  newPage
 } from '../../actions/community';
 
 import CommunityMenu from './components/CommunityMenu';
@@ -33,6 +34,10 @@ class CommunityContainer extends Component {
     this.onNewPageHandler = this.onNewPageHandler.bind(this);
   }
 
+  componentWillMount() {
+    this.props.fetchAccounts({});
+  }
+
   onKeyDownHandler(e) {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -49,21 +54,13 @@ class CommunityContainer extends Component {
   search(query = {}) {
     const {community} = this.props;
 
-    this.props.dispatch(fetchAccounts({
+    this.props.fetchAccounts({
       value: this.state.searchValue,
       field: community.fieldPeople,
       asc: community.ascPeople,
       ...query
-    }));
+    });
 
-  }
-
-  componentWillMount() {
-    this.props.dispatch(fetchFlaggedAccounts());
-  }
-
-  componentDidMount() {
-    this.search();
   }
 
   onHeaderClickHandler(sort) {
@@ -76,9 +73,9 @@ class CommunityContainer extends Component {
     this.search({page});
   }
 
-  getTabContent(searchValue) {
-    const {community} = this.props;
-    const activeTab = this.props.route.path === ':id' ? 'flagged' : this.props.route.path;
+  getTabContent(searchValue, props) {
+    const {community, data} = props;
+    const activeTab = props.route.path === ':id' ? 'flagged' : props.route.path;
 
     if (activeTab === 'people') {
       return (
@@ -96,18 +93,18 @@ class CommunityContainer extends Component {
 
     return (
       <FlaggedAccounts
-        commenters={community.flaggedAccounts}
-        isFetching={community.isFetchingFlagged}
-        error={community.errorFlagged}
+        commenters={data.usersFlagged}
+        isFetching={data.loading}
+        error={data.error}
         {...this}
       />
     );
   }
 
   render() {
-    const {searchValue, activeTab} = this.state;
+    const {searchValue} = this.state;
 
-    const tab = this.getTabContent(activeTab, searchValue, this.props);
+    const tab = this.getTabContent(searchValue, this.props);
 
     return (
       <div>
@@ -124,4 +121,11 @@ const mapStateToProps = state => ({
   community: state.community.toJS()
 });
 
-export default connect(mapStateToProps)(CommunityContainer);
+const mapDispatchToProps = dispatch => ({
+  fetchAccounts: query => dispatch(fetchAccounts(query))
+});
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  modUserFlaggedQuery
+)(CommunityContainer);
