@@ -18,7 +18,6 @@ class Stream extends React.Component {
   constructor(props) {
     super(props);
     this.state = {activeReplyBox: '', countPoll: null};
-    this.setActiveReplyBox = this.setActiveReplyBox.bind(this);
   }
 
   componentDidMount() {
@@ -41,15 +40,6 @@ class Stream extends React.Component {
     clearInterval(this.state.countPoll);
   }
 
-  setActiveReplyBox (reactKey) {
-    if (!this.props.currentUser) {
-      const offset = document.getElementById(`c_${reactKey}`).getBoundingClientRect().top - 75;
-      this.props.showSignInDialog(offset);
-    } else {
-      this.setState({activeReplyBox: reactKey});
-    }
-  }
-
   render () {
     const {
       comments,
@@ -70,8 +60,8 @@ class Stream extends React.Component {
         {
           comments.map(comment =>
             <Comment
-              setActiveReplyBox={this.setActiveReplyBox}
-              activeReplyBox={this.state.activeReplyBox}
+              setActiveReplyBox={this.props.setActiveReplyBox}
+              activeReplyBox={this.props.activeReplyBox}
               addNotification={addNotification}
               depth={0}
               postItem={postItem}

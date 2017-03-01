@@ -4385,6 +4385,12 @@ libqp@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/libqp/-/libqp-1.1.0.tgz#f5e6e06ad74b794fb5b5b66988bf728ef1dedbe8"
 
+license-webpack-plugin@^0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/license-webpack-plugin/-/license-webpack-plugin-0.4.2.tgz#188df5418a72ab61cad648b9ffd9355be270242b"
+  dependencies:
+    object-assign "^4.1.0"
+
 linkify-it@^1.2.0:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/linkify-it/-/linkify-it-1.2.4.tgz#0773526c317c8fd13bd534ee1d180ff88abf881a"

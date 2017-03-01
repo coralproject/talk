@@ -6,8 +6,10 @@ import {Link} from 'react-router';
 
 import styles from './styles.css';
 import {Icon} from 'coral-ui';
-import ActionButton from '../../../components/ActionButton';
 import FlagBox from './FlagBox';
+import CommentType from './CommentType';
+import ActionButton from 'coral-admin/src/components/ActionButton';
+import BanUserButton from 'coral-admin/src/components/BanUserButton';
 
 const linkify = new Linkify();
 
@@ -21,46 +23,48 @@ const Comment = ({actions = [], ...props}) => {
   return (
     <li tabIndex={props.index}
         className={`mdl-card mdl-shadow--2dp ${styles.Comment} ${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
-      <div className={styles.itemHeader}>
+      <div className={styles.container}>
+        <div className={styles.itemHeader}>
         <div className={styles.author}>
           <span>{props.comment.user.name}</span>
           <span className={styles.created}>
-            {timeago().format(props.comment.created_at || (Date.now() - props.index * 60 * 1000), lang.getLocale().replace('-', '_'))}
-          </span>
-          {props.comment.action_summaries ? <p className={styles.flagged}>{lang.t('comment.flagged')}</p> : null}
+              {timeago().format(props.comment.created_at || (Date.now() - props.index * 60 * 1000), lang.getLocale().replace('-', '_'))}
+            </span>
+          <BanUserButton user={props.comment.user} onClick={() => props.showBanUserDialog(props.comment.user, props.comment.id)} />
+          <CommentType type={props.commentType} />
         </div>
         <div className={styles.sideActions}>
           {links ? <span className={styles.hasLinks}><Icon name='error_outline'/> Contains Link</span> : null}
-           <div className={`actions ${styles.actions}`}>
-             {actions.map((action, i) =>
-               <ActionButton key={i}
-                 type={action}
-                 user={props.comment.user}
-                 acceptComment={() => props.acceptComment({commentId: props.comment.id})}
-                 rejectComment={() => props.rejectComment({commentId: props.comment.id})}
-                 showBanUserDialog={() => props.showBanUserDialog(props.comment.user, props.comment.id)}
-               />
-             )}
-           </div>
+          <div className={`actions ${styles.actions}`}>
+            {actions.map((action, i) =>
+              <ActionButton key={i}
+                            type={action}
+                            user={props.comment.user}
+                            acceptComment={() => props.acceptComment({commentId: props.comment.id})}
+                            rejectComment={() => props.rejectComment({commentId: props.comment.id})}
+              />
+            )}
+          </div>
           {props.comment.user.status === 'banned' ?
             <span className={styles.banned}>
-              <Icon name='error_outline'/>
+                <Icon name='error_outline'/>
               {lang.t('comment.banned_user')}
-            </span>
-          : null}
+              </span>
+            : null}
         </div>
       </div>
-      {!props.currentAsset && (
-        <div className={styles.moderateArticle}>
-          Article: {props.comment.asset.title} <Link to={`/admin/moderate/${props.comment.asset.id}`}>Moderate Article</Link>
+        {!props.currentAsset && (
+          <div className={styles.moderateArticle}>
+            Story: {props.comment.asset.title} <Link to={`/admin/moderate/${props.comment.asset.id}`}>Moderate &rarr;</Link>
+          </div>
+        )}
+        <div className={styles.itemBody}>
+          <p className={styles.body}>
+            <Linkify component='span' properties={{style: linkStyles}}>
+              <Highlighter searchWords={props.suspectWords} textToHighlight={props.comment.body}/>
+            </Linkify>
+          </p>
         </div>
-      )}
-      <div className={styles.itemBody}>
-        <p className={styles.body}>
-          <Linkify component='span' properties={{style: linkStyles}}>
-            <Highlighter searchWords={props.suspectWords} textToHighlight={props.comment.body}/>
-          </Linkify>
-        </p>
       </div>
       {actionSummaries && <FlagBox actionSummaries={actionSummaries} />}
     </li>
@@ -72,7 +76,6 @@ Comment.propTypes = {
   rejectComment: PropTypes.func.isRequired,
   suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired,
   currentAsset: PropTypes.object,
-  isActive: PropTypes.bool.isRequired,
   comment: PropTypes.shape({
     body: PropTypes.string.isRequired,
     action_summaries: PropTypes.array,
