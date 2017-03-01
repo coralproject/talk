@@ -1,0 +1,35 @@
+.flagBox {
+  border-top: 1px solid rgba(66, 66, 66, 0.12);
+
+  .container {
+    padding: 0 14px;
+  }
+
+  .header {
+    position: relative;
+    .moreDetail {
+      float: right;
+    }
+    i {
+      vertical-align: middle;
+      font-size: 12px;
+    }
+    ul {
+      vertical-align: middle;
+      list-style: none;
+      display: inline-block;
+      padding: 0;
+      margin-left: 10px;
+      font-size: 12px;
+    }
+  }
+
+  h3 {
+    vertical-align: middle;
+    margin: 0;
+    font-weight: 500;
+    display: inline-block;
+    margin-left: 7px;
+    font-size: 12px;
+  }
+}
