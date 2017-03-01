@@ -79,16 +79,12 @@ class Configure extends Component {
       break;
     case 'moderation':
       sectionComponent = <ModerationSettings
-        title={pageTitle}
         onChangeWordlist={this.onChangeWordlist}
-        fetchingSettings={this.props.settings.fetchingSettings}
         settings={this.props.settings}
         updateSettings={this.onSettingUpdate} />;
       break;
     case 'tech':
       sectionComponent = <TechSettings
-        title={pageTitle}
-        fetchingSettings={this.props.settings.fetchingSettings}
         onChangeDomainlist={this.onChangeDomainlist}
         settings={this.props.settings}
         updateSettings={this.onSettingUpdate} />;
