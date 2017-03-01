@@ -58,10 +58,11 @@
 
     // ensure el has an id, as pym can't directly accept the HTMLElement
     if ( ! el.id) {el.id = '_' + String(Math.random());}
-    var asset = opts.asset || window.location;
+    var asset = opts.asset || window.location.href.split('#')[0];
+    var comment = window.location.hash.slice(1);
     var pymParent = new pym.Parent(
       el.id,
-      buildStreamIframeUrl(opts.talk, asset),
+      buildStreamIframeUrl(opts.talk, asset, comment),
       {
         title: opts.title,
         asset_url: asset,
@@ -76,14 +77,18 @@
   return Coral;
 
   // build the URL to load in the pym iframe
-  function buildStreamIframeUrl(talkBaseUrl, asset) {
-    var iframeUrl = [
+  function buildStreamIframeUrl(talkBaseUrl, asset, comment) {
+    var iframeArray = [
       talkBaseUrl,
       (talkBaseUrl.match(/\/$/) ? '' : '/'), // make sure no double-'/' if opts.talk already ends with '/'
       'embed/stream?asset_url=',
       encodeURIComponent(asset)
-    ].join('');
-    return iframeUrl;
+    ];
+    
+    if (comment) {
+      iframeArray.push(`&comment_id=${comment}`);
+    }
+    return iframeArray.join('');
   }
 
   // Set up postMessage listeners/handlers on the pymParent

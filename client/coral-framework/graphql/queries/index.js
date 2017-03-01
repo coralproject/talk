@@ -87,7 +87,8 @@ export const loadMore = (data) => ({limit, cursor, parent_id, asset_id, sort}, n
 export const queryStream = graphql(STREAM_QUERY, {
   options: () => ({
     variables: {
-      asset_url: getQueryVariable('asset_url')
+      asset_url: getQueryVariable('asset_url'),
+      comment_id: getQueryVariable('comment_id')
     }
   }),
   props: ({data}) => ({
