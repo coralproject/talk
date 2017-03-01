@@ -26,7 +26,7 @@ const LikeWidget = (props) => {
             ? assets.map(asset => {
               const likeSummary = asset.action_summaries.find(s => s.type === 'LikeAssetActionSummary');
               return (
-                <tr key={asset.id}>
+                <tr className={styles.rowLinkify} key={asset.id}>
                   <td>
                     <Link className={styles.linkToAsset} to={`/admin/moderate/flagged/${asset.id}`}>
                       <p className={styles.assetTitle}>{asset.title}</p>
@@ -41,7 +41,11 @@ const LikeWidget = (props) => {
                 </tr>
               );
             })
-            : <tr><td colSpan="2">{lang.t('dashboard.no_likes')}</td></tr>
+            : <tr className={styles.rowLinkify}><td colSpan="2">{lang.t('dashboard.no_likes')}</td></tr>
+          }
+          { /* rows in a table with a fixed height will expand and ignore height.
+                this extra row will expand to fill the extra space. */
+            assets.length < 10 ? <tr></tr> : null
           }
         </tbody>
       </table>

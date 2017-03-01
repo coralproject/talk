@@ -1,3 +1,7 @@
+:root {
+  --row-height: 80px;
+}
+
 .widget {
   box-sizing: border-box;
   margin: 10px 5px 5px 5px;
@@ -18,6 +22,7 @@
   width: 100%;
   border-collapse: collapse;
   user-select: none;
+  height: calc(var(--row-height) * 10);
 }
 
 .widgetTable thead th {
@@ -35,6 +40,7 @@
   cursor: pointer;
   border-bottom: 1px solid lightgrey;
   color: #555;
+  height: var(--row-height);
 }
 
 .rowLinkify:last-child {
