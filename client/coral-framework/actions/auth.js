@@ -46,7 +46,7 @@ const signInFailure = error => ({type: actions.FETCH_SIGNIN_FAILURE, error});
 
 export const fetchSignIn = (formData) => (dispatch) => {
   dispatch(signInRequest());
-  coralApi('/auth/local', {method: 'POST', body: formData})
+  return coralApi('/auth/local', {method: 'POST', body: formData})
     .then(({user}) => {
       const isAdmin = !!user.roles.filter(i => i === 'ADMIN').length;
       dispatch(signInSuccess(user, isAdmin));
@@ -148,7 +148,7 @@ const logOutFailure = () => ({type: actions.LOGOUT_FAILURE});
 
 export const logout = () => dispatch => {
   dispatch(logOutRequest());
-  coralApi('/auth', {method: 'DELETE'})
+  return coralApi('/auth', {method: 'DELETE'})
     .then(() => dispatch(logOutSuccess()))
     .catch(error => dispatch(logOutFailure(error)));
 };
