@@ -11,7 +11,7 @@ const CommentHistory = props => {
             key={i}
             comment={comment}
             link={props.link}
-            asset={props.asset} />;
+            asset={comment.asset} />;
         })}
       </div>
     </div>
@@ -19,8 +19,7 @@ const CommentHistory = props => {
 };
 
 CommentHistory.propTypes = {
-  comments: PropTypes.array.isRequired,
-  asset: PropTypes.object.isRequired
+  comments: PropTypes.array.isRequired
 };
 
 export default CommentHistory;

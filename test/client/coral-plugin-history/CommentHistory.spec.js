@@ -20,6 +20,10 @@ describe('coral-plugin-history/CommentHistory', () => {
     'closedAt':null
   };
 
+  comments.forEach((comment) => {
+    comment.asset = asset;
+  });
+
   beforeEach(() => {
     render = shallow(<CommentHistory comments={comments} asset={asset} link={()=>{}}/>);
   });
