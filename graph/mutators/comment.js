@@ -193,8 +193,7 @@ const setCommentStatus = ({loaders: {Comments}}, {id, status}) => {
  * @param {String} tag     name of the tag
  */
 const addCommentTag = ({user, loaders: {Comments}}, {id, tag}) => {
-  return CommentsService.addTag(id, tag, user.id)
-    .then(() => CommentsService.findById( id ));
+  return CommentsService.addTag(id, tag, user.id);
 };
 
 /**
@@ -203,8 +202,7 @@ const addCommentTag = ({user, loaders: {Comments}}, {id, tag}) => {
  * @param {String} tag     name of the tag
  */
 const removeCommentTag = ({user, loaders: {Comments}}, {id, tag}) => {
-  return CommentsService.removeTag(id, tag)
-    .then(() => CommentsService.findById( id ));
+  return CommentsService.removeTag(id, tag);
 };
 
 module.exports = (context) => {
