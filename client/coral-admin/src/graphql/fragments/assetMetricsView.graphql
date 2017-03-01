@@ -1,0 +1,12 @@
+fragment metrics on Asset {
+  id
+  title
+  url
+  author
+  created_at
+  action_summaries {
+    type: __typename
+    actionCount
+    actionableItemCount
+  }
+}

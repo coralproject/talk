@@ -7,15 +7,13 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations';
 
 const lang = new I18n(translations);
-
-const ModerationQueue = ({activeTab = 'premod', ...props}) => {
-  const areComments = props.data[activeTab].length;
+const ModerationQueue = ({comments, ...props}) => {
   return (
     <div id="moderationList">
       <ul style={{paddingLeft: 0}}>
       {
-        areComments
-        ? props.data[activeTab].map((comment, i) => {
+        comments.length
+        ? comments.map((comment, i) => {
           const status = comment.action_summaries ? 'FLAGGED' : comment.status;
           return <Comment
             key={i}
@@ -38,12 +36,12 @@ const ModerationQueue = ({activeTab = 'premod', ...props}) => {
 };
 
 ModerationQueue.propTypes = {
-  data: PropTypes.object.isRequired,
-  acceptComment: PropTypes.func.isRequired,
-  rejectComment: PropTypes.func.isRequired,
-  showBanUserDialog: PropTypes.func.isRequired,
+  suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired,
   currentAsset: PropTypes.object,
-  suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired
+  showBanUserDialog: PropTypes.func.isRequired,
+  rejectComment: PropTypes.func.isRequired,
+  acceptComment: PropTypes.func.isRequired,
+  comments: PropTypes.array.isRequired
 };
 
 export default ModerationQueue;

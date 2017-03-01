@@ -1,4 +1,4 @@
-import {Map} from 'immutable';
+import {Map, List} from 'immutable';
 
 import * as actions from '../constants/install';
 
@@ -6,7 +6,10 @@ const initialState = Map({
   isLoading: false,
   data: Map({
     settings: Map({
-      organizationName: ''
+      organizationName: '',
+      domains: Map({
+        whitelist: List()
+      })
     }),
     user: Map({
       username: '',
@@ -33,6 +36,10 @@ const initialState = Map({
   {
     text: '2. Create your account',
     step: 2
+  },
+  {
+    text: '3. Domain Whitelist',
+    step: 3
   }],
   installRequest: null,
   installRequestError: null,
@@ -50,6 +57,9 @@ export default function install (state = initialState, action) {
   case actions.GO_TO_STEP:
     return state
       .set('step', action.step);
+  case actions.UPDATE_PERMITTED_DOMAINS_SETTINGS:
+    return state
+      .setIn(['data', 'settings', 'domains', 'whitelist'], action.value);
   case actions.UPDATE_FORMDATA_SETTINGS:
     return state
       .setIn(['data', 'settings', action.name], action.value);
