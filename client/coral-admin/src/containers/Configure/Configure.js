@@ -8,22 +8,20 @@ import {
   updateDomainlist
 } from '../../actions/settings';
 
-import {Button, List, Item} from 'coral-ui';
+import {Button, List, Item, Card, Spinner} from 'coral-ui';
 import styles from './Configure.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from '../../translations.json';
-import EmbedLink from './EmbedLink';
-import CommentSettings from './CommentSettings';
-import Wordlist from './Wordlist';
-import Domainlist from './Domainlist';
-import has from 'lodash/has';
+import translations from 'coral-admin/src/translations.json';
+import StreamSettings from './StreamSettings';
+import ModerationSettings from './ModerationSettings';
+import TechSettings from './TechSettings';
 
 class Configure extends Component {
   constructor (props) {
     super(props);
 
     this.state = {
-      activeSection: 'comments',
+      activeSection: 'stream',
       changed: false,
       errors: {}
     };
@@ -70,40 +68,52 @@ class Configure extends Component {
 
   getSection (section) {
     const pageTitle = this.getPageTitle(section);
+    let sectionComponent;
     switch(section){
-    case 'comments':
-      return <CommentSettings
-        title={pageTitle}
-        fetchingSettings={this.props.fetchingSettings}
+    case 'stream':
+      sectionComponent = <StreamSettings
         settings={this.props.settings}
         updateSettings={this.onSettingUpdate}
         errors={this.state.errors}
         settingsError={this.onSettingError}/>;
-    case 'embed':
-      return has(this, 'props.settings.domains.whitelist')
-        ? <div>
-            <Domainlist
-             domains={this.props.settings.domains.whitelist}
-             onChangeDomainlist={this.onChangeDomainlist}/>
-            <EmbedLink title={pageTitle} />
-          </div>
-        : <EmbedLink title={pageTitle} />;
-    case 'wordlist':
-      return has(this, 'props.settings.wordlist')
-        ? <Wordlist
-          bannedWords={this.props.settings.wordlist.banned}
-          suspectWords={this.props.settings.wordlist.suspect}
-          onChangeWordlist={this.onChangeWordlist} />
-        : <p>loading wordlists</p>;
+      break;
+    case 'moderation':
+      sectionComponent = <ModerationSettings
+        title={pageTitle}
+        onChangeWordlist={this.onChangeWordlist}
+        fetchingSettings={this.props.settings.fetchingSettings}
+        settings={this.props.settings}
+        updateSettings={this.onSettingUpdate} />;
+      break;
+    case 'tech':
+      sectionComponent = <TechSettings
+        title={pageTitle}
+        fetchingSettings={this.props.settings.fetchingSettings}
+        onChangeDomainlist={this.onChangeDomainlist}
+        settings={this.props.settings}
+        updateSettings={this.onSettingUpdate} />;
     }
+
+    if (this.props.settings.fetchingSettings) {
+      return <Card shadow="4"><Spinner/>Loading settings...</Card>;
+    }
+
+    return (
+      <div className={styles.settingsSection}>
+        <h3>{pageTitle}</h3>
+        {sectionComponent}
+      </div>
+    );
   }
 
   getPageTitle (section) {
     switch(section) {
-    case 'comments':
-      return lang.t('configure.comment-settings');
-    case 'embed':
-      return lang.t('configure.embed-comment-stream');
+    case 'stream':
+      return lang.t('configure.stream-settings');
+    case 'moderation':
+      return lang.t('configure.moderation-settings');
+    case 'tech':
+      return lang.t('configure.tech-settings');
     default:
       return '';
     }
@@ -120,14 +130,14 @@ class Configure extends Component {
         <div className={styles.container}>
           <div className={styles.leftColumn}>
             <List onChange={this.changeSection} activeItem={activeSection}>
-              <Item itemId='comments' icon="settings">
-                {lang.t('configure.comment-settings')}
+              <Item itemId='stream' icon='speaker_notes'>
+                {lang.t('configure.stream-settings')}
               </Item>
-              <Item itemId='embed' icon='code'>
-                {lang.t('configure.embed-comment-stream')}
+              <Item itemId='moderation' icon='thumbs_up_down'>
+                {lang.t('configure.moderation-settings')}
               </Item>
-              <Item itemId='wordlist' icon='settings'>
-                {lang.t('configure.wordlist')}
+              <Item itemId='tech' icon='code'>
+                {lang.t('configure.tech-settings')}
               </Item>
             </List>
             <div className={styles.saveBox}>

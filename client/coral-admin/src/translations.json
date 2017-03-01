@@ -65,8 +65,6 @@
       "include-text": "Include your text here.",
       "comment-settings": "Settings",
       "embed-comment-stream": "Embed Stream",
-      "banned-word-header": "Write the banned words list",
-      "suspect-word-header": "Write the suspect words list",
       "banned-word-text": "Comments which contain these words or phrases (not case-sensitive) will be automatically removed from the comment stream. Type a word and press Enter or Tab to add. Optionally paste a comma-separated list.",
       "suspect-word-text": "Comments which contain these words or phrases (not case-sensitive) will be highlighted in the comment stream. Type a word and press Enter or Tab to add. Optionally paste a comma-separated list.",
       "wordlist": "Banned Words",
@@ -88,7 +86,7 @@
       "comment-count-text-pre":  "Comments will be limited to ",
       "comment-count-text-post": " characters.",
       "comment-count-error": "Please enter a valid number.",
-      "domain-list-title": "Domain Whitelist",
+      "domain-list-title": "Permitted Domains",
       "domain-list-text": "Enter the domains you would like to permit for Talk, e.g. your local, staging and production environments (ex. localhost:3000, staging.domain.com, domain.com)."
     },
     "bandialog": {
@@ -190,8 +188,6 @@
       "comment-settings": "Configuración de Comentarios",
       "embed-comment-stream": "Colocar Hilo de Comentarios",
       "wordlist": "Palabras Suspendidas y Suspechosas",
-      "banned-word-header": "Escribir las palabras no permitidas",
-      "suspect-word-header": "Write the suspect words list",
       "banned-word-text": "Comentarios que contengan estas palabras o frases, no separadas por comas y en mayusculas o minusuculas, serán automaticamente separadas de los comentarios publicados.",
       "suspect-word-text": "Comments which contain these words or phrases (not case-sensitive) will be highlighted in the comment stream. Type a word and press Enter or Tab to add. Optionally paste a comma-separated list.",
       "banned-words-title": "Banned words list",

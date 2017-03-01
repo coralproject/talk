@@ -9,19 +9,17 @@ const lang = new I18n(translations);
 
 const Domainlist = ({domains, onChangeDomainlist}) => {
   return (
-    <div>
+    <Card id={styles.domainlist} className={styles.configSetting}>
       <h3>{lang.t('configure.domain-list-title')}</h3>
-      <Card id={styles.domainlist}>
-        <p className={styles.domainlistDesc}>{lang.t('configure.domain-list-text')}</p>
-        <TagsInput
-          value={domains}
-          inputProps={{placeholder: 'URL'}}
-          addOnPaste={true}
-          pasteSplit={data => data.split(',').map(d => d.trim())}
-          onChange={tags => onChangeDomainlist('whitelist', tags)}
-        />
-      </Card>
-    </div>
+      <p className={styles.domainlistDesc}>{lang.t('configure.domain-list-text')}</p>
+      <TagsInput
+        value={domains}
+        inputProps={{placeholder: 'URL'}}
+        addOnPaste={true}
+        pasteSplit={data => data.split(',').map(d => d.trim())}
+        onChange={tags => onChangeDomainlist('whitelist', tags)}
+      />
+    </Card>
   );
 };
 
