@@ -1,5 +1,8 @@
 FROM node:7.6
 
+# Add node-gyp for bcrypt build support
+RUN yarn global add node-gyp
+
 # Create app directory
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
