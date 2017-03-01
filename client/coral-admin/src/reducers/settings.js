@@ -6,7 +6,7 @@ import * as actions from '../actions/settings';
 // cleaner updates are planned in the future.
 // TODO: if there are more than two fields for the dashboard being created here,
 // please create a new reducer specifically for the Dashboard.
-const DASHBOARD_WINDOW_MINUTES = 105;
+const DASHBOARD_WINDOW_MINUTES = 5;
 let then = new Date();
 then.setMinutes(then.getMinutes() - DASHBOARD_WINDOW_MINUTES);
 
