@@ -73,14 +73,8 @@ module.exports = class CommentsService {
         switch (nModified) {
         case 0:
 
-            // either the tag was already there, or the comment doesn't exist with that id...
-          return this.findById(id)
-              .then(result => {
-                if ( ! result) {
-                  throw new Error(`Can't add tag to comment. There is no comment with id ${id}`);
-                }
-                throw new Error(`Can't add tag ${name} to comment. Comment already has that tag.`);
-              });
+          // either the tag was already there, or the comment doesn't exist with that id...
+          throw new Error('Could not add tag to comment. Either the comment doesn\'t exist or the tag is already present.');
         case 1:
 
             // tag added
@@ -108,15 +102,7 @@ module.exports = class CommentsService {
       .then(({nModified}) => {
         switch (nModified) {
         case 0:
-
-            // either the tag was already there, or the comment doesn't exist with that id...
-          return this.findById(id)
-              .then(result => {
-                if ( ! result) {
-                  throw new Error(`Can't remove tag from comment. There is no comment with id ${id}`);
-                }
-                throw new Error(`Can't remove tag ${name} from comment. Comment doesn't have that tag.`);
-              });
+          throw new Error('Could not remove tag from comment. Either the comment doesn\'t exist or the tag is not present');
         case 1:
 
             // tag removed
