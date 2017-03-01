@@ -33,7 +33,7 @@ export default function settings (state = initialState, action) {
       .set('fetchSettingsError', null);
   case actions.SETTINGS_RECEIVED:
     return state.merge({
-      fetchingSettings: null,
+      fetchingSettings: false,
       fetchSettingsError: null,
       ...action.settings
     });
@@ -43,7 +43,7 @@ export default function settings (state = initialState, action) {
       .set('fetchSettingsError', action.error);
   case actions.SETTINGS_UPDATED:
     return state.merge({
-      fetchingSettings: null,
+      fetchingSettings: false,
       fetchSettingsError: null,
       ...action.settings
     });

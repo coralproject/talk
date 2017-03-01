@@ -4,7 +4,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations.json';
 import styles from './Configure.css';
 import {Textfield, Checkbox} from 'react-mdl';
-import {Card, Icon, Spinner} from 'coral-ui';
+import {Card, Icon} from 'coral-ui';
 
 const TIMESTAMPS = {
   weeks: 60 * 60 * 24 * 7,
@@ -27,11 +27,6 @@ const updateCharCount = (updateSettings, settingsError) => (event) => {
   updateSettings({charCount: charCount});
 };
 
-const updateModeration = (updateSettings, mod) => () => {
-  const moderation = mod === 'PRE' ? 'POST' : 'PRE';
-  updateSettings({moderation});
-};
-
 const updateEmailConfirmation = (updateSettings, verify) => () => {
   updateSettings({requireEmailConfirmation: !verify});
 };
@@ -51,11 +46,6 @@ const updateClosedMessage = (updateSettings) => (event) => {
   updateSettings({closedMessage});
 };
 
-const updateCustomCssUrl = (updateSettings) => (event) => {
-  const customCssUrl = event.target.value;
-  updateSettings({customCssUrl});
-};
-
 // If we are changing the measure we need to recalculate using the old amount
 // Same thing if we are just changing the amount
 const updateClosedTimeout = (updateSettings, ts, isMeasure) => (event) => {
@@ -71,31 +61,14 @@ const updateClosedTimeout = (updateSettings, ts, isMeasure) => (event) => {
   }
 };
 
-const CommentSettings = ({fetchingSettings, title, updateSettings, settingsError, settings, errors}) => {
-  if (fetchingSettings) {
-    return <Card shadow="4"><Spinner/>Loading settings...</Card>;
-  }
+const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
 
   // just putting this here for shorthand below
   const on = styles.enabledSetting;
   const off = styles.disabledSetting;
 
   return (
-    <div className={styles.commentSettingsSection}>
-      <h3>{title}</h3>
-      <Card className={`${styles.configSetting} ${settings.moderation === 'PRE' ? on : off}`}>
-        <div className={styles.action}>
-          <Checkbox
-            onChange={updateModeration(updateSettings, settings.moderation)}
-            checked={settings.moderation === 'PRE'} />
-        </div>
-        <div className={styles.content}>
-          <div className={styles.settingsHeader}>{lang.t('configure.enable-pre-moderation')}</div>
-          <p className={settings.moderation === 'PRE' ? '' : styles.disabledSettingText}>
-            {lang.t('configure.enable-pre-moderation-text')}
-          </p>
-        </div>
-      </Card>
+    <div>
       <Card className={`${styles.configSetting} ${settings.requireEmailConfirmation ? on : off}`}>
         <div className={styles.action}>
           <Checkbox
@@ -193,23 +166,11 @@ const CommentSettings = ({fetchingSettings, title, updateSettings, settingsError
           </div>
         </div>
       </Card>
-      <Card className={styles.configSettingInfoBox}>
-        <div className={styles.content}>
-          {lang.t('configure.custom-css-url')}
-          <p>{lang.t('configure.custom-css-url-desc')}</p>
-          <br />
-          <Textfield
-            style={{width: '100%'}}
-            label={lang.t('configure.custom-css-url')}
-            value={settings.customCssUrl}
-            onChange={updateCustomCssUrl(updateSettings)} />
-        </div>
-      </Card>
     </div>
   );
 };
 
-export default CommentSettings;
+export default StreamSettings;
 
 // To see if we are talking about weeks, days or hours
 // We talk the remainder of the division and see if it's 0
