@@ -45,6 +45,7 @@ class EmbedLink extends Component {
     `.trim();
     return (
       <Card shadow="2" className={styles.configSetting}>
+        <h3>Embed Comment Stream</h3>
         <p>{lang.t('configure.copy-and-paste')}</p>
         <textarea rows={5} type='text' className={styles.embedInput} value={embedText} readOnly={true}/>
         <Button raised className={styles.copyButton} onClick={this.copyToClipBoard} cStyle="black">

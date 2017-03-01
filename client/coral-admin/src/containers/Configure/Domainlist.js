@@ -10,7 +10,7 @@ const lang = new I18n(translations);
 const Domainlist = ({domains, onChangeDomainlist}) => {
   return (
     <Card id={styles.domainlist} className={styles.configSetting}>
-      <h3 style={{margin: 0}}>{lang.t('configure.domain-list-title')}</h3>
+      <h3>{lang.t('configure.domain-list-title')}</h3>
       <p className={styles.domainlistDesc}>{lang.t('configure.domain-list-text')}</p>
       <TagsInput
         value={domains}

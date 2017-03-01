@@ -89,6 +89,7 @@ class Configure extends Component {
       sectionComponent = <TechSettings
         title={pageTitle}
         fetchingSettings={this.props.settings.fetchingSettings}
+        onChangeDomainlist={this.onChangeDomainlist}
         settings={this.props.settings}
         updateSettings={this.onSettingUpdate} />;
     }

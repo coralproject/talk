@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
 import {Card} from 'coral-ui';
-import {Textfield} from 'react-mdl';
 import Domainlist from './Domainlist';
 import EmbedLink from './EmbedLink';
 import styles from './Configure.css';
@@ -20,17 +19,14 @@ const TechSettings = ({settings, onChangeDomainlist, updateSettings}) => {
         domains={settings.domains.whitelist}
         onChangeDomainlist={onChangeDomainlist} />
       <EmbedLink />
-      <Card className={styles.configSettingInfoBox}>
-        <div className={styles.content}>
-          {lang.t('configure.custom-css-url')}
-          <p>{lang.t('configure.custom-css-url-desc')}</p>
-          <br />
-          <Textfield
-            style={{width: '100%'}}
-            label={lang.t('configure.custom-css-url')}
-            value={settings.customCssUrl}
-            onChange={updateCustomCssUrl(updateSettings)} />
-        </div>
+      <Card className={styles.configSetting}>
+        <h3>{lang.t('configure.custom-css-url')}</h3>
+        <p>{lang.t('configure.custom-css-url-desc')}</p>
+        <br />
+        <input
+          className={styles.customCSSInput}
+          value={settings.customCssUrl}
+          onChange={updateCustomCssUrl(updateSettings)} />
       </Card>
     </div>
   );

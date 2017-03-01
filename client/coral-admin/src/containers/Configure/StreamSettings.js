@@ -27,10 +27,6 @@ const updateCharCount = (updateSettings, settingsError) => (event) => {
   updateSettings({charCount: charCount});
 };
 
-const updateEmailConfirmation = (updateSettings, verify) => () => {
-  updateSettings({requireEmailConfirmation: !verify});
-};
-
 const updateInfoBoxEnable = (updateSettings, infoBox) => () => {
   const infoBoxEnable = !infoBox;
   updateSettings({infoBoxEnable});
@@ -69,19 +65,6 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
 
   return (
     <div>
-      <Card className={`${styles.configSetting} ${settings.requireEmailConfirmation ? on : off}`}>
-        <div className={styles.action}>
-          <Checkbox
-            onChange={updateEmailConfirmation(updateSettings, settings.requireEmailConfirmation)}
-            checked={settings.requireEmailConfirmation} />
-        </div>
-        <div className={styles.content}>
-          <div className={styles.settingsHeader}>{lang.t('configure.require-email-verification')}</div>
-          <p className={settings.requireEmailConfirmation ? '' : styles.disabledSettingText}>
-            {lang.t('configure.require-email-verification-text')}
-          </p>
-        </div>
-      </Card>
       <Card className={`${styles.configSetting} ${settings.charCountEnable ? on : off}`}>
         <div className={styles.action}>
           <Checkbox
