@@ -113,14 +113,26 @@ class Comment extends React.Component {
     const flag = getActionSummary('FlagActionSummary', comment);
     const dontagree = getActionSummary('DontAgreeActionSummary', comment);
 
-    const addBestTag = () => addCommentTag({
+    // call a function, and if it errors, call addNotification('error', ...) (e.g. to show user a snackbar)
+    const notifyOnError = (fn, errorToMessage) => async () => {
+      if (typeof errorToMessage !== 'function') {errorToMessage = (error) => error.message;}
+      try {
+        return await fn();
+      } catch (error) {
+        addNotification('error', errorToMessage(error));
+        throw error;
+      }
+    };
+
+    const addBestTag = notifyOnError(() => addCommentTag({
       id: comment.id,
       tag: BEST_TAG,
-    });
-    const removeBestTag = () => removeCommentTag({
+    }), () => 'Failed to tag comment as best');
+
+    const removeBestTag = notifyOnError(() => removeCommentTag({
       id: comment.id,
       tag: BEST_TAG,
-    });
+    }), () => 'Failed to remove best comment tag');
 
     return (
       <div
