@@ -175,7 +175,7 @@ span {
 
   .container {
     padding: 0 14px;
-    min-height: 180px;
+    min-height: 220px;
   }
 
   &:hover {
@@ -199,7 +199,7 @@ span {
      right: 0;
      height: 100%;
      top: 0;
-     padding: 65px 12px;
+     padding: 100px 12px 65px;
      box-sizing: border-box;
    }
 

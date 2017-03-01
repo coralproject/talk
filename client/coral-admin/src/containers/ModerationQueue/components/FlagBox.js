@@ -28,7 +28,7 @@ class FlagBox extends Component {
                 <li key={i}>{!action.reason ? <i>No reason provided</i> : action.reason} (<strong>{action.count}</strong>)</li>
               )}
             </ul>
-            <a onClick={this.toggleDetail} className={styles.moreDetail}>More detail</a>
+            {/*<a onClick={this.toggleDetail} className={styles.moreDetail}>More detail</a>*/}
           </div>
           {this.state.showDetail && (<div className={styles.detail}>
             <ul>
