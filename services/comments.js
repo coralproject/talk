@@ -86,8 +86,8 @@ module.exports = class CommentsService {
             // tag added
           return;
         default:
-          console.warn('CommentsService#addTag modified multiple comments, but it should only have modified 1. '
-                      + `You may have bad data. Check for multiple comments with id=${id}`);
+
+          // this should never happen because no multi parameter and unique index on id
         }
       });
   }
@@ -122,8 +122,8 @@ module.exports = class CommentsService {
             // tag removed
           return;
         default:
-          console.warn('CommentsService#removeTag modified multiple comments, but it should only have modified 1. '
-                      + `You may have bad data. Check for multiple comments with id=${id}`);
+
+          // this should never happen because no multi parameter and unique index on id
         }
       });
   }
