@@ -77,8 +77,8 @@ class Embed extends Component {
     }
   }
 
-  setActiveReplyBox (reactKey) {
-    if (!this.props.currentUser) {
+  setActiveReplyBox = (reactKey) => {
+    if (!this.props.auth.user) {
       const offset = document.getElementById(`c_${reactKey}`).getBoundingClientRect().top - 75;
       this.props.showSignInDialog(offset);
     } else {
