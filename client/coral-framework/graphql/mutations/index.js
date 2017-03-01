@@ -42,7 +42,7 @@ export const postComment = graphql(POST_COMMENT, {
         updateQueries: {
           AssetQuery: (oldData, {mutationResult:{data:{createComment:{comment}}}}) => {
 
-            if (oldData.asset.moderation === 'PRE') {
+            if (oldData.asset.settings.moderation === 'PRE') {
               return oldData;
             }
 
