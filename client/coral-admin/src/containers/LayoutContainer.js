@@ -1,24 +1,33 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Layout} from '../components/ui/Layout';
-import {checkLogin, logout} from '../actions/auth';
+import Layout from '../components/ui/Layout';
+import {checkLogin, handleLogin, logout, requestPasswordReset} from '../actions/auth';
 import {FullLoading} from '../components/FullLoading';
-import {PermissionRequired} from '../components/PermissionRequired';
+import AdminLogin from '../components/AdminLogin';
 
 class LayoutContainer extends Component {
   componentWillMount () {
     const {checkLogin} = this.props;
-    checkLogin().then(() => {
-      if (!this.props.auth.isAdmin) {
-        location.href = '/admin/login';
-      }
-    });
+    checkLogin();
   }
   render () {
-    const {isAdmin, loggedIn, loadingUser} = this.props.auth;
+    const {
+      isAdmin,
+      loggedIn,
+      loadingUser,
+      loginError,
+      passwordRequestSuccess
+    } = this.props.auth;
+    const {handleLogout} = this.props;
     if (loadingUser) { return <FullLoading />; }
-    if (!isAdmin) { return <PermissionRequired />; }
-    if (isAdmin && loggedIn) { return <Layout {...this.props} />; }
+    if (!isAdmin) {
+      return <AdminLogin
+        handleLogin={this.props.handleLogin}
+        requestPasswordReset={this.props.requestPasswordReset}
+        passwordRequestSuccess={passwordRequestSuccess}
+        errorMessage={loginError} />;
+    }
+    if (isAdmin && loggedIn) { return <Layout handleLogout={handleLogout} {...this.props} />; }
     return <FullLoading />;
   }
 }
@@ -29,6 +38,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   checkLogin: () => dispatch(checkLogin()),
+  handleLogin: (username, password) => dispatch(handleLogin(username, password)),
+  requestPasswordReset: email => dispatch(requestPasswordReset(email)),
   handleLogout: () => dispatch(logout())
 });
 

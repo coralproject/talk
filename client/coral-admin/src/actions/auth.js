@@ -1,5 +1,29 @@
 import * as actions from '../constants/auth';
-import coralApi from '../../../coral-framework/helpers/response';
+import coralApi from 'coral-framework/helpers/response';
+
+// Log In.
+export const handleLogin = (email, password) => dispatch => {
+  dispatch({type: actions.LOGIN_REQUEST});
+  return coralApi('/auth/local', {method: 'POST', body: {email, password}})
+    .then(result => {
+      const isAdmin = !!result.user.roles.filter(i => i === 'ADMIN').length;
+      dispatch(checkLoginSuccess(result.user, isAdmin));
+    })
+    .catch(error => {
+      dispatch({type: actions.LOGIN_FAILURE, message: error.translation_key});
+    });
+};
+
+const forgotPassowordRequest = () => ({type: actions.FETCH_FORGOT_PASSWORD_REQUEST});
+const forgotPassowordSuccess = () => ({type: actions.FETCH_FORGOT_PASSWORD_SUCCESS});
+const forgotPassowordFailure = () => ({type: actions.FETCH_FORGOT_PASSWORD_FAILURE});
+
+export const requestPasswordReset = email => dispatch => {
+  dispatch(forgotPassowordRequest(email));
+  return coralApi('/account/password/reset', {method: 'POST', body: {email}})
+    .then(() => dispatch(forgotPassowordSuccess()))
+    .catch(error => dispatch(forgotPassowordFailure(error)));
+};
 
 // Check Login
 
