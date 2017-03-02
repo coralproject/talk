@@ -10,12 +10,13 @@ import {
   updateSorting,
   newPage,
   showBanUserDialog,
-  hideBanUserDialog
+  hideBanUserDialog,
+  hideSuspendUserDialog
 } from '../../actions/community';
 
 import CommunityMenu from './components/CommunityMenu';
-
 import BanUserDialog from './components/BanUserDialog';
+import SuspendUserModal from './components/SuspendUserModal';
 
 import People from './People';
 import FlaggedAccounts from './FlaggedAccounts';
@@ -109,6 +110,11 @@ class CommunityContainer extends Component {
           handleClose={props.hideBanUserDialog}
           handleBanUser={props.banUser}
         />
+        <SuspendUserModal
+          stage={0}
+          onClose={props.hideSuspendUserDialog}
+          suspendUser={props.rejectUser}
+        />
       </div>
     );
   }
@@ -136,7 +142,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   fetchAccounts: query => dispatch(fetchAccounts(query)),
   showBanUserDialog: (user) => dispatch(showBanUserDialog(user)),
-  hideBanUserDialog: () => dispatch(hideBanUserDialog(false))
+  hideBanUserDialog: () => dispatch(hideBanUserDialog(false)),
+  hideSuspendUserDialog: () => dispatch(hideSuspendUserDialog(false))
 });
 
 export default compose(

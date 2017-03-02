@@ -9,7 +9,9 @@ import {
   SET_ROLE,
   SET_COMMENTER_STATUS,
   SHOW_BANUSER_DIALOG,
-  HIDE_BANUSER_DIALOG
+  HIDE_BANUSER_DIALOG,
+  SHOW_SUSPENDUSER_DIALOG,
+  HIDE_SUSPENDUSER_DIALOG
 } from '../constants/community';
 
 import coralApi from '../../../coral-framework/helpers/response';
@@ -62,3 +64,7 @@ export const setCommenterStatus = (id, status) => (dispatch) => {
 // Ban User Dialog
 export const showBanUserDialog = (user) => ({type: SHOW_BANUSER_DIALOG, user});
 export const hideBanUserDialog = (showDialog) => ({type: HIDE_BANUSER_DIALOG, showDialog});
+
+// Suspend User Dialog
+export const showSuspendUserDialog = (user) => ({type: SHOW_SUSPENDUSER_DIALOG, user});
+export const hideSuspendUserDialog = (showDialog) => ({type: HIDE_SUSPENDUSER_DIALOG, showDialog});

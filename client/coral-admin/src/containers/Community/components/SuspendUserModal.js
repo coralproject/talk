@@ -1,5 +1,5 @@
 import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from '../translations.json';
+import translations from '../../../translations.json';
 import React, {Component, PropTypes} from 'react';
 import Modal from 'components/Modal';
 import styles from './SuspendUserModal.css';

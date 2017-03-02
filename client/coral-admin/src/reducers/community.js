@@ -8,7 +8,9 @@ import {
   SET_ROLE,
   SET_COMMENTER_STATUS,
   SHOW_BANUSER_DIALOG,
-  HIDE_BANUSER_DIALOG
+  HIDE_BANUSER_DIALOG,
+  SHOW_SUSPENDUSER_DIALOG,
+  HIDE_SUSPENDUSER_DIALOG
 } from '../constants/community';
 
 const initialState = Map({
@@ -75,6 +77,15 @@ export default function community (state = initialState, action) {
       .merge({
         user: Map(action.user),
         banDialog: true
+      });
+  case HIDE_SUSPENDUSER_DIALOG:
+    return state
+      .set('suspendDialog', false);
+  case SHOW_SUSPENDUSER_DIALOG:
+    return state
+      .merge({
+        user: Map(action.user),
+        suspendDialog: true
       });
   default :
     return state;

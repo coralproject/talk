@@ -17,7 +17,7 @@ export const banUser = graphql(SET_USER_STATUS, {
 
 export const setUserStatus = graphql(SET_USER_STATUS, {
   props: ({mutate}) => ({
-    approveUser: (userId) => {
+    approveUser: ({userId}) => {
       return mutate({
         variables: {
           userId,
@@ -26,7 +26,7 @@ export const setUserStatus = graphql(SET_USER_STATUS, {
         refetchQueries: ['Users']
       });
     },
-    rejectUser: (userId) => {
+    rejectUser: ({userId}) => {
       return mutate({
         variables: {
           userId,
