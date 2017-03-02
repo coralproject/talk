@@ -7,9 +7,8 @@ import {Card} from 'coral-ui';
 
 const Wordlist = ({suspectWords, bannedWords, onChangeWordlist}) => (
   <div>
-    <h3>{lang.t('configure.banned-words-title')}</h3>
-    <Card id={styles.bannedWordlist}>
-      <p className={styles.wordlistHeader}>{lang.t('configure.banned-word-header')}</p>
+    <Card id={styles.bannedWordlist} className={styles.configSetting}>
+      <h3>{lang.t('configure.banned-words-title')}</h3>
       <p className={styles.wordlistDesc}>{lang.t('configure.banned-word-text')}</p>
       <TagsInput
         value={bannedWords}
@@ -19,9 +18,8 @@ const Wordlist = ({suspectWords, bannedWords, onChangeWordlist}) => (
         onChange={tags => onChangeWordlist('banned', tags)}
       />
     </Card>
-    <h3>{lang.t('configure.suspect-words-title')}</h3>
-    <Card id={styles.suspectWordlist}>
-      <p className={styles.wordlistHeader}>{lang.t('configure.suspect-word-header')}</p>
+    <Card id={styles.suspectWordlist} className={styles.configSetting}>
+      <h3>{lang.t('configure.suspect-words-title')}</h3>
       <p className={styles.wordlistDesc}>{lang.t('configure.suspect-word-text')}</p>
       <TagsInput
         value={suspectWords}

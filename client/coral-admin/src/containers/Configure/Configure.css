@@ -3,7 +3,7 @@
 
   h3 {
     color: black;
-    font-size: 1.76em;
+    font-size: 1.26em;
     font-weight: 500;
   }
 }
@@ -24,6 +24,10 @@
   margin-bottom: 20px;
   align-items: flex-start;
   min-height: 100px;
+
+  h3 {
+    margin: 0;
+  }
 }
 
 .settingsError {
@@ -118,18 +122,19 @@
 }
 
 #bannedWordlist, #suspectWordlist {
-  width: 100%;
-  padding: 10px;
-
+  display: block;
   input {
     width: 100%;
   }
 }
 
-.wordlistHeader {
-  font-weight: bold;
-  font-size:18px;
-  margin-bottom:3px;
+.customCSSInput {
+  width: 100%;
+  font-size: 14px;
+  padding: 14px;
+  letter-spacing: 0.03em;
+  color: #555;
+  box-sizing: border-box;
 }
 
 .enabledSetting {
@@ -150,7 +155,7 @@
   margin-top: 38px;
 }
 
-.commentSettingsSection {
+.settingsSection {
   padding-bottom: 200px;
   .action {
     display: inline-block;

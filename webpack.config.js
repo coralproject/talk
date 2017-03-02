@@ -17,7 +17,7 @@ const buildEmbeds = [
 ];
 
 module.exports = {
-  devtool: 'cheap-source-map',
+  devtool: '#cheap-module-source-map',
   entry: Object.assign({}, {
     'embed': [
       'babel-polyfill',
@@ -58,7 +58,8 @@ module.exports = {
         exclude: /node_modules/,
         test: /\.js$/,
         query: {
-          cacheDirectory: true
+          cacheDirectory: true,
+          sourceMap: true
         }
       },
       {

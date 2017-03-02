@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './styles.css';
+import styles from './Alert.css';
 
 const Alert = ({cStyle = 'error', children, className, ...props}) => (
   <div

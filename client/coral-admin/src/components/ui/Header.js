@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {Navigation, Header, IconButton, MenuItem, Menu} from 'react-mdl';
 import {Link, IndexLink} from 'react-router';
 import styles from './Header.css';
@@ -6,7 +6,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations.json';
 import {Logo} from './Logo';
 
-export default ({handleLogout, restricted = false}) => (
+const CoralHeader = ({handleLogout, restricted = false}) => (
   <Header className={styles.header}>
     <Logo className={styles.logo} />
     {
@@ -71,4 +71,11 @@ export default ({handleLogout, restricted = false}) => (
   </Header>
 );
 
+CoralHeader.propTypes = {
+  handleLogout: PropTypes.func.isRequired,
+  restricted: PropTypes.bool // hide elemnts from a user that's logged out
+};
+
 const lang = new I18n(translations);
+
+export default CoralHeader;
