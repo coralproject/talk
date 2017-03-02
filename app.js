@@ -45,16 +45,15 @@ const session_opts = {
   secret: process.env.TALK_SESSION_SECRET,
   httpOnly: true,
   rolling: true,
-  saveUninitialized: false,
-  resave: false,
+  saveUninitialized: true,
+  resave: true,
   unset: 'destroy',
   name: 'talk.sid',
   cookie: {
     secure: false,
-    maxAge: 36000000, // 1 hour for expiry.
+    maxAge: 8.64e+7, // 24 hours for session token expiry
   },
   store: new RedisStore({
-    ttl: 1800,
     client: redis.createClient(),
   })
 };
