@@ -34,12 +34,33 @@ class ModerationContainer extends Component {
     key('esc', () => toggleModal(false));
     key('j', () => this.setState({selectedIndex: selectedIndex + 1}));
     key('k', () => this.setState({selectedIndex: selectedIndex > 0 ? selectedIndex + 1 : selectedIndex}));
+    key('r', () => this.moderate(false));
+    key('t', () => this.moderate(true));
+  }
+
+  moderate = (accept) => {
+    const {data, route, acceptComment, rejectComment} = this.props;
+    const {selectedIndex} = this.state;
+    const activeTab = route.path === ':id' ? 'premod' : route.path;
+    const comments = data[activeTab];
+    const commentId = {commentId: comments[selectedIndex].id};
+
+    if (accept) {
+      acceptComment(commentId);
+    } else {
+      rejectComment(commentId);
+    }
+
   }
 
   componentWillUnmount() {
     key.unbind('s');
     key.unbind('shift+/');
     key.unbind('esc');
+    key.unbind('j');
+    key.unbind('k');
+    key.unbind('r');
+    key.unbind('t');
   }
 
   componentWillReceiveProps(nextProps) {
