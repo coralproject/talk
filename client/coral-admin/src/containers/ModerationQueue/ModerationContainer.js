@@ -20,13 +20,20 @@ import NotFoundAsset from './components/NotFoundAsset';
 import ModerationKeysModal from '../../components/ModerationKeysModal';
 
 class ModerationContainer extends Component {
+  state = {
+    selectedIndex: 0
+  }
+
   componentWillMount() {
     const {toggleModal, singleView} = this.props;
+    const {selectedIndex} = this.state;
 
     this.props.fetchSettings();
     key('s', () => singleView());
     key('shift+/', () => toggleModal(true));
     key('esc', () => toggleModal(false));
+    key('j', () => this.setState({selectedIndex: selectedIndex + 1}));
+    key('k', () => this.setState({selectedIndex: selectedIndex > 0 ? selectedIndex + 1 : selectedIndex}));
   }
 
   componentWillUnmount() {
@@ -81,6 +88,7 @@ class ModerationContainer extends Component {
           currentAsset={asset}
           comments={comments}
           activeTab={activeTab}
+          selectedIndex={this.state.selectedIndex}
           suspectWords={settings.wordlist.suspect}
           showBanUserDialog={props.showBanUserDialog}
           acceptComment={props.acceptComment}

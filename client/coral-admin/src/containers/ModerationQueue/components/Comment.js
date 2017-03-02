@@ -22,7 +22,7 @@ const Comment = ({actions = [], ...props}) => {
   const actionSummaries = props.comment.action_summaries;
   return (
     <li tabIndex={props.index}
-        className={`mdl-card mdl-shadow--2dp ${styles.Comment} ${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
+        className={`mdl-card mdl-shadow--2dp ${styles.Comment} ${styles.listItem} ${props.selected ? styles.selected : ''} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
       <div className={styles.container}>
         <div className={styles.itemHeader}>
         <div className={styles.author}>

@@ -186,6 +186,10 @@ span {
     border-bottom: none;
   }
 
+  &.selected {
+    box-shadow: 0px 0px 15px 5px rgb(255, 255, 111);
+  }
+
   .context {
     a {
       color: #f36451;
