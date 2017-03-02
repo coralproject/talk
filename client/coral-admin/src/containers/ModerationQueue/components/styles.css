@@ -136,7 +136,7 @@ span {
     display: none;
   }
 
-  &.singleView .listItem.activeItem {
+  &.singleView .listItem.selected {
     display: block;
     height: 100%;
     font-size: 1.5em;
@@ -187,7 +187,8 @@ span {
   }
 
   &.selected {
-    box-shadow: 0px 0px 15px 5px rgb(255, 255, 111);
+    max-width: 670px;
+    max-height: 410px;
   }
 
   .context {

@@ -109,6 +109,7 @@ class ModerationContainer extends Component {
           currentAsset={asset}
           comments={comments}
           activeTab={activeTab}
+          singleView={moderation.singleView}
           selectedIndex={this.state.selectedIndex}
           suspectWords={settings.wordlist.suspect}
           showBanUserDialog={props.showBanUserDialog}
