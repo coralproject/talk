@@ -17,13 +17,13 @@ import ModerationQueue from './ModerationQueue';
 import ModerationMenu from './components/ModerationMenu';
 import ModerationHeader from './components/ModerationHeader';
 import NotFoundAsset from './components/NotFoundAsset';
+import ModerationKeysModal from '../../components/ModerationKeysModal';
 
 class ModerationContainer extends Component {
   componentWillMount() {
     const {toggleModal, singleView} = this.props;
 
     this.props.fetchSettings();
-
     key('s', () => singleView());
     key('shift+/', () => toggleModal(true));
     key('esc', () => toggleModal(false));
@@ -43,7 +43,7 @@ class ModerationContainer extends Component {
   }
 
   render () {
-    const {data, moderation, settings, assets, modQueueResort, ...props} = this.props;
+    const {data, moderation, settings, assets, modQueueResort, onClose, ...props} = this.props;
     const providedAssetId = this.props.params.id;
     const activeTab = this.props.route.path === ':id' ? 'premod' : this.props.route.path;
 
@@ -92,6 +92,9 @@ class ModerationContainer extends Component {
           handleClose={props.hideBanUserDialog}
           handleBanUser={props.banUser}
         />
+      <ModerationKeysModal
+          open={moderation.modalOpen}
+          onClose={onClose}/>
       </div>
     );
   }
