@@ -36,7 +36,7 @@ function configurePymParent(pymParent, asset_url) {
   // Resize parent iframe height when child height changes
   pymParent.onMessage('height', function(height) {
     if (height !== cachedHeight) {
-      pymParent.el.querySelector('iframe').height = `${height  }px`;
+      pymParent.el.firstChild.style.height = `${height}px`;
       cachedHeight = height;
     }
   });
