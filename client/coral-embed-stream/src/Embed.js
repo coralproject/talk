@@ -258,11 +258,15 @@ const mapDispatchToProps = dispatch => ({
   requestConfirmEmail: () => dispatch(requestConfirmEmail()),
   loadAsset: (asset) => dispatch(fetchAssetSuccess(asset)),
   addNotification: (type, text) => {
-    pym.sendMessage('getPosition');
+    // pym.sendMessage('getPosition');
 
-    pym.onMessage('position', position => {
-      dispatch(addNotification(type, text, position));
-    });
+    console.log('addNotification', type, text);
+
+    pym.sendMessage('coral-alert', text);
+
+    // pym.onMessage('position', position => {
+      // dispatch(addNotification(type, text, position));
+    // });
   },
   clearNotification: () => dispatch(clearNotification()),
   editName: (username) => dispatch(editName(username)),

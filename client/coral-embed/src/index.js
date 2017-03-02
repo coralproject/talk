@@ -1,5 +1,26 @@
 import pym from 'pym.js';
 
+const snackbarStyles = {
+  position: 'fixed',
+  cursor: 'default',
+  userSelect: 'none',
+  backgroundColor: '#323232',
+  zIndex: 3,
+  willChange: 'transform, opacity',
+  transition: 'transform .35s cubic-bezier(.55,0,.1,1), opacity .35s',
+  pointerEvents: 'none',
+  padding: '12px 18px',
+  color: '#fff',
+  borderRadius: '3px 3px 0 0',
+  textAlign: 'center',
+  maxWidth: '300px',
+  left: '50%',
+  opacity: 0,
+  transform: 'translate(-50%, 20px)',
+  bottom: 0,
+  boxSizing: 'border-box'
+};
+
 // This function should return value of window.Coral
 const Coral = {};
 const Talk = Coral.Talk = {};
@@ -32,6 +53,14 @@ function configurePymParent(pymParent, asset_url) {
   let notificationOffset = 200;
   let ready = false;
   let cachedHeight;
+  const snackbar = document.createElement('div');
+  snackbar.id = 'coral-snackbar';
+
+  for (let key in snackbarStyles) {
+    snackbar.style[key] = snackbarStyles[key];
+  }
+
+  window.document.body.appendChild(snackbar);
 
   // Resize parent iframe height when child height changes
   pymParent.onMessage('height', function(height) {
@@ -39,6 +68,21 @@ function configurePymParent(pymParent, asset_url) {
       pymParent.el.firstChild.style.height = `${height}px`;
       cachedHeight = height;
     }
+  });
+
+  pymParent.onMessage('coral-alert', function (message) {
+    snackbar.style.transform = 'translate(-50%, 20px)';
+    snackbar.style.opacity = 0;
+    snackbar.textContent = message;
+
+    setTimeout(() => {
+      snackbar.style.transform = 'translate(-50%, 0)';
+      snackbar.style.opacity = 1;
+    }, 0);
+
+    setTimeout(() => {
+      snackbar.style.opacity = 0;
+    }, 5000);
   });
 
   // Helps child show notifications at the right scrollTop
