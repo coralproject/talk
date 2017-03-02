@@ -159,6 +159,8 @@ class Comment extends React.Component {
         {
           comment.replies &&
           comment.replies.map(reply => {
+            const key = Math.random().toString()
+              .slice(-5);
             return <Comment
               setActiveReplyBox={setActiveReplyBox}
               activeReplyBox={activeReplyBox}
@@ -174,7 +176,7 @@ class Comment extends React.Component {
               deleteAction={deleteAction}
               showSignInDialog={showSignInDialog}
               reactKey={reply.id}
-              key={reply.id}
+              key={key}
               comment={reply} />;
           })
         }
