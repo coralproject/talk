@@ -166,7 +166,7 @@ module.exports = {
 
         // Verify that comment count is correct
       client.waitForElementVisible('.coral-plugin-comment-count-text', 2000)
-        .assert.containsText('.coral-plugin-comment-count-text', '4 Comments');
+        .assert.containsText('.coral-plugin-comment-count-text', '5 Comments');
       done();
     });
   },
