@@ -16,6 +16,7 @@ module.exports = {
 
     embedStreamPage
       .flagUsername()
+      .click('@flagButton')
       .waitForElementVisible('@flagPopUp')
       .waitForElementVisible('@flagUsernameOption')
       .click('@flagUsernameOption')

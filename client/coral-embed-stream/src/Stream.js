@@ -56,7 +56,7 @@ class Stream extends React.Component {
     } = this.props;
 
     return (
-      <div>
+      <div id='stream'>
         {
           comments.map(comment =>
             <Comment

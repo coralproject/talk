@@ -8,6 +8,8 @@ const embedStreamCommands = {
   },
   approveComment() {
     return this
+      .waitForElementVisible('@moderateNav')
+      .click('@moderateNav')
       .waitForElementVisible('@moderationList')
       .waitForElementVisible('@approveButton')
       .click('@approveButton');
@@ -17,6 +19,9 @@ const embedStreamCommands = {
 module.exports = {
   commands: [embedStreamCommands],
   elements: {
+    moderateNav: {
+      selector: '#moderateNav'
+    },
     moderationList: {
       selector: '#moderationList'
     },
