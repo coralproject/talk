@@ -23,7 +23,8 @@ const initialState = Map({
   totalPagesPeople: 0,
   pagePeople: 0,
   user: Map({}),
-  banDialog: false
+  banDialog: false,
+  suspendDialog: false
 });
 
 export default function community (state = initialState, action) {

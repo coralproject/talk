@@ -63,8 +63,8 @@ export const setCommenterStatus = (id, status) => (dispatch) => {
 
 // Ban User Dialog
 export const showBanUserDialog = (user) => ({type: SHOW_BANUSER_DIALOG, user});
-export const hideBanUserDialog = (showDialog) => ({type: HIDE_BANUSER_DIALOG, showDialog});
+export const hideBanUserDialog = () => ({type: HIDE_BANUSER_DIALOG});
 
 // Suspend User Dialog
 export const showSuspendUserDialog = (user) => ({type: SHOW_SUSPENDUSER_DIALOG, user});
-export const hideSuspendUserDialog = (showDialog) => ({type: HIDE_SUSPENDUSER_DIALOG, showDialog});
+export const hideSuspendUserDialog = () => ({type: HIDE_SUSPENDUSER_DIALOG});

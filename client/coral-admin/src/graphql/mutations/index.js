@@ -26,11 +26,12 @@ export const setUserStatus = graphql(SET_USER_STATUS, {
         refetchQueries: ['Users']
       });
     },
-    rejectUser: ({userId}) => {
+    suspendUser: ({userId}) => {
       return mutate({
         variables: {
           userId,
-          status: 'BANNED'
+          status: 'BANNED',
+          canEditName: true
         },
         refetchQueries: ['Users']
       });

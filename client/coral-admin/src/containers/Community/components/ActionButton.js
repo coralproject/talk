@@ -15,7 +15,7 @@ const ActionButton = ({type = '', user, ...props}) => {
       cStyle={type.toLowerCase()}
       icon={menuActionsMap[type].icon}
       onClick={() => {
-        type === 'APPROVE' ? props.approveUser({userId: user.id}) : props.rejectUser({userId: user.id});
+        type === 'APPROVE' ? props.approveUser({userId: user.id}) : props.showSuspendUserDialog({user: user});
       }}
     />
   );

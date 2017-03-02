@@ -27,8 +27,8 @@ const FlaggedAccounts = ({...props}) => {
               index={index}
               modActionButtons={['REJECT', 'APPROVE']}
               showBanUserDialog={props.showBanUserDialog}
+              showSuspendUserDialog={props.showSuspendUserDialog}
               approveUser={props.approveUser}
-              rejectUser={props.rejectUser}
               />;
           })
           : <EmptyCard>{lang.t('community.no-flagged-accounts')}</EmptyCard>

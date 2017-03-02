@@ -11,12 +11,13 @@ import {
   newPage,
   showBanUserDialog,
   hideBanUserDialog,
+  showSuspendUserDialog,
   hideSuspendUserDialog
 } from '../../actions/community';
 
 import CommunityMenu from './components/CommunityMenu';
 import BanUserDialog from './components/BanUserDialog';
-import SuspendUserModal from './components/SuspendUserModal';
+import SuspendUserDialog from './components/SuspendUserDialog';
 
 import People from './People';
 import FlaggedAccounts from './FlaggedAccounts';
@@ -93,6 +94,7 @@ class CommunityContainer extends Component {
       );
     }
 
+    console.log('debug props', props);
     return (
       <div>
         <FlaggedAccounts
@@ -101,7 +103,7 @@ class CommunityContainer extends Component {
           error={data.error}
           showBanUserDialog={props.showBanUserDialog}
           approveUser={props.approveUser}
-          rejectUser={props.rejectUser}
+          showSuspendUserDialog={props.showSuspendUserDialog}
           {...this}
         />
         <BanUserDialog
@@ -110,10 +112,11 @@ class CommunityContainer extends Component {
           handleClose={props.hideBanUserDialog}
           handleBanUser={props.banUser}
         />
-        <SuspendUserModal
-          stage={0}
+      <SuspendUserDialog
+          open={community.suspendDialog}
           onClose={props.hideSuspendUserDialog}
-          suspendUser={props.rejectUser}
+          user={community.user}
+          suspendUser={props.suspendUser}
         />
       </div>
     );
@@ -143,7 +146,8 @@ const mapDispatchToProps = dispatch => ({
   fetchAccounts: query => dispatch(fetchAccounts(query)),
   showBanUserDialog: (user) => dispatch(showBanUserDialog(user)),
   hideBanUserDialog: () => dispatch(hideBanUserDialog(false)),
-  hideSuspendUserDialog: () => dispatch(hideSuspendUserDialog(false))
+  showSuspendUserDialog: () => dispatch(showSuspendUserDialog()),
+  hideSuspendUserDialog: () => dispatch(hideSuspendUserDialog())
 });
 
 export default compose(
