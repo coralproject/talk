@@ -168,7 +168,7 @@ span {
   min-width: 400px;
   margin: 0 auto;
   position: relative;
-  transition: box-shadow 200ms;
+  transition: all 200ms;
   margin-top: 0;
   padding: 4px 0 0;
   min-height: 220px;
