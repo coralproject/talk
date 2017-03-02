@@ -41,7 +41,6 @@ module.exports = {
           .setValue('#password', mockUser.pw)
           .setValue('#confirmPassword', mockUser.pw)
           .click('#coralSignUpButton')
-          .pause(5000)
           .waitForElementVisible('#coralLogInButton', 10000)
           .click('#coralLogInButton')
           .waitForElementVisible('.coral-plugin-commentbox-button', 4000)
@@ -49,10 +48,10 @@ module.exports = {
           // Post a comment
           .setValue('.coral-plugin-commentbox-textarea', mockComment)
           .click('.coral-plugin-commentbox-button')
-          .waitForElementVisible('.coral-plugin-content-text', 1000)
+          .waitForElementVisible('#stream .coral-plugin-commentcontent-text')
 
           // Verify that it appears
-          .assert.containsText('.coral-plugin-content-text', mockComment);
+          .assert.containsText('#stream .coral-plugin-commentcontent-text', mockComment);
         done();
       })
       .catch((err) => {
@@ -73,11 +72,7 @@ module.exports = {
           // Post a comment
         client.waitForElementVisible('.coral-plugin-commentbox-button', 2000)
           .setValue('.coral-plugin-commentbox-textarea', mockComment)
-          .click('.coral-plugin-commentbox-button')
-          .waitForElementVisible('#coral-notif', 1000)
-
-          // Verify that it appears
-          .assert.containsText('#coral-notif', 'moderation team');
+          .click('.coral-plugin-commentbox-button');
         done();
       })
       .catch((err) => {
@@ -102,8 +97,8 @@ module.exports = {
           .click('.coral-plugin-commentbox-button')
 
           // Post a reply
-          .waitForElementVisible('.coral-plugin-replies-reply-button', 5000)
-          .click('.coral-plugin-replies-reply-button')
+          .waitForElementVisible('#stream .coral-plugin-replies-reply-button', 5000)
+          .click('#stream .coral-plugin-replies-reply-button')
           .waitForElementVisible('#replyText')
           .setValue('#replyText', mockReply)
           .click('.coral-plugin-replies-textarea .coral-plugin-commentbox-button')

@@ -117,46 +117,46 @@ module.exports = {
       selector: '#commentBox .coral-plugin-commentbox-button'
     },
     likeButton: {
-      selector: '.comment .coral-plugin-likes-container .coral-plugin-likes-button'
+      selector: '#stream .coral-plugin-likes-container .coral-plugin-likes-button'
     },
     likeText: {
-      selector: '.comment .coral-plugin-likes-container .coral-plugin-likes-button .coral-plugin-likes-button-text'
+      selector: '#stream .coral-plugin-likes-container .coral-plugin-likes-button .coral-plugin-likes-button-text'
     },
     likesCount: {
-      selector: '.comment .coral-plugin-likes-container .coral-plugin-likes-button .coral-plugin-likes-like-count'
+      selector: '#stream .coral-plugin-likes-container .coral-plugin-likes-button .coral-plugin-likes-like-count'
     },
     flagButton: {
-      selector: '.comment .coral-plugin-flags-container .coral-plugin-flags-button'
+      selector: '#stream .coral-plugin-flags-container .coral-plugin-flags-button'
     },
     flagPopUp: {
-      selector: '.comment .coral-plugin-flags-popup'
+      selector: '#stream .coral-plugin-flags-popup'
     },
     flagCommentOption: {
-      selector: '.comment .coral-plugin-flags-popup .coral-plugin-flags-popup-radio-label[for="COMMENTS"]'
+      selector: '#stream .coral-plugin-flags-popup .coral-plugin-flags-popup-radio-label[for="COMMENTS"]'
     },
     flagUsernameOption: {
-      selector: '.comment .coral-plugin-flags-popup .coral-plugin-flags-popup-radio-label[for="USERS"]'
+      selector: '#stream .coral-plugin-flags-popup .coral-plugin-flags-popup-radio-label[for="USERS"]'
     },
     flagOtherOption: {
-      selector: '.comment .coral-plugin-flags-popup .coral-plugin-flags-popup-radio-label[for="other"]'
+      selector: '#stream .coral-plugin-flags-popup .coral-plugin-flags-popup-radio-label[for="other"]'
     },
     flagHeaderMessage: {
-      selector: '.comment .coral-plugin-flags-popup .coral-plugin-flags-popup-header'
+      selector: '#stream .coral-plugin-flags-popup .coral-plugin-flags-popup-header'
     },
     flagButtonText: {
-      selector: '.comment .coral-plugin-flags-button-text'
+      selector: '#stream .coral-plugin-flags-button-text'
     },
     flagDoneButton: {
-      selector: '.comment .coral-plugin-flags-popup .coral-plugin-flags-popup-button'
+      selector: '#stream .coral-plugin-flags-popup .coral-plugin-flags-popup-button'
     },
     permalinkButton: {
-      selector: '.comment .coral-plugin-permalinks-button'
+      selector: '#stream .coral-plugin-permalinks-button'
     },
     permalinkPopUp: {
-      selector: '.comment .coral-plugin-permalinks-popover.active'
+      selector: '#stream .coral-plugin-permalinks-popover.active'
     },
     permalinkInput: {
-      selector: '.comment .coral-plugin-permalinks-popover.active input'
+      selector: '#stream .coral-plugin-permalinks-popover.active input'
     },
     registerButton: {
       selector: '#signInDialog #coralRegister'

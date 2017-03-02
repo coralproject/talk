@@ -14,28 +14,35 @@ export default ({handleLogout, restricted = false}) => (
       <div>
         <Navigation className={styles.nav}>
           <IndexLink
+            id='dashboardNav'
             className={styles.navLink}
             to="/admin/dashboard"
             activeClassName={styles.active}>
             {lang.t('configure.dashboard')}
           </IndexLink>
           <Link
+            id='moderateNav'
             className={styles.navLink}
             to="/admin/moderate"
             activeClassName={styles.active}>
             {lang.t('configure.moderate')}
           </Link>
-          <Link className={styles.navLink}
+          <Link
+            id='streamsNav'
+            className={styles.navLink}
             to="/admin/streams"
             activeClassName={styles.active}>
             {lang.t('configure.streams')}
           </Link>
-          <Link className={styles.navLink}
+          <Link
+            id='communityNav'
+            className={styles.navLink}
             to="/admin/community"
             activeClassName={styles.active}>
             {lang.t('configure.community')}
           </Link>
           <Link
+            id='configureNav'
             className={styles.navLink}
             to="/admin/configure"
             activeClassName={styles.active}>
