@@ -69,7 +69,7 @@ class SuspendUserDialog extends Component  {
   }
 
   onEmailChange = (e) => {
-    console.log('debug', e.target);
+    console.log('debug emailchange', e.target);
     this.setState({email: e.target.value});
   }
 

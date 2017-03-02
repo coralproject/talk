@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {compose} from 'react-apollo';
 
 import {modUserFlaggedQuery} from 'coral-admin/src/graphql/queries';
-import {banUser, setUserStatus} from '../../graphql/mutations';
+import {banUser, setUserStatus, suspendUser} from '../../graphql/mutations';
 
 import {
   fetchAccounts,
@@ -154,5 +154,6 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   modUserFlaggedQuery,
   banUser,
-  setUserStatus
+  setUserStatus,
+  suspendUser
 )(CommunityContainer);

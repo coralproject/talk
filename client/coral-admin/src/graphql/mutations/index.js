@@ -1,6 +1,7 @@
 import {graphql} from 'react-apollo';
 import SET_USER_STATUS from './setUserStatus.graphql';
 import SET_COMMENT_STATUS from './setCommentStatus.graphql';
+import SUSPEND_USER from './suspendUser.graphql';
 
 export const banUser = graphql(SET_USER_STATUS, {
   props: ({mutate}) => ({
@@ -25,13 +26,16 @@ export const setUserStatus = graphql(SET_USER_STATUS, {
         },
         refetchQueries: ['Users']
       });
-    },
+    }
+  })
+});
+
+export const suspendUser = graphql(SUSPEND_USER, {
+  props: ({mutate}) => ({
     suspendUser: ({userId}) => {
       return mutate({
         variables: {
-          userId,
-          status: 'BANNED',
-          canEditName: true
+          userId
         },
         refetchQueries: ['Users']
       });
