@@ -31,13 +31,14 @@ function buildStreamIframeUrl(talkBaseUrl, asset_url, comment, asset_id) {
 function configurePymParent(pymParent, asset_url) {
   let notificationOffset = 200;
   let ready = false;
+  let cachedHeight;
 
   // Resize parent iframe height when child height changes
   pymParent.onMessage('height', function(height) {
-
-    // TODO: In local testing, this is firing nonstop. Maybe there's a bug on the inside?
-    // Or it's by design of pym... but that's very wasteful of CPU and DOM reflows (jank)
-    pymParent.el.querySelector('iframe').height = `${height  }px`;
+    if (height !== cachedHeight) {
+      pymParent.el.querySelector('iframe').height = `${height  }px`;
+      cachedHeight = height;
+    }
   });
 
   // Helps child show notifications at the right scrollTop
