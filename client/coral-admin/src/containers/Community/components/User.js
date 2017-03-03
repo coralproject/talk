@@ -56,6 +56,7 @@ const User = props => {
                   key={i}
                   user={user}
                   approveUser={props.approveUser}
+                  suspendUser={props.suspendUser}
                   showSuspendUserDialog={props.showSuspendUserDialog}
                   />;
               }

@@ -33,7 +33,7 @@ class SuspendUserDialog extends Component  {
 
   static propTypes = {
     stage: PropTypes.number,
-    onClose: PropTypes.func.isRequired,
+    handleClose: PropTypes.func.isRequired,
     suspendUser: PropTypes.func.isRequired
   }
 
@@ -47,17 +47,14 @@ class SuspendUserDialog extends Component  {
   */
   onActionClick = (stage, menuOption) => () => {
     const {suspendUser, user} = this.props;
-    const {stage, email} = this.state;
-
-    console.log('DEBUG props --> ', this.props);
-    console.log('DEBUG user', user);
+    const {stage} = this.state;
 
     const cancel = this.props.onClose;
     const next = () => this.setState({stage: stage + 1});
     const suspend = () => {
-      suspendUser({userId: user.id, email})
+      suspendUser({userId: user.user.id})
       .then(() => {
-        this.props.onClose;
+        this.props.handleClose();
       });
     };
 
@@ -69,20 +66,19 @@ class SuspendUserDialog extends Component  {
   }
 
   onEmailChange = (e) => {
-    console.log('debug emailchange', e.target);
     this.setState({email: e.target.value});
   }
 
   render () {
-    const {open, onClose} = this.props;
+    const {open, handleClose} = this.props;
     const {stage} = this.state;
 
     return <Dialog
             className={styles.suspendDialog}
             id="suspendUserDialog"
             open={open}
-            onClose={onClose}
-            onCancel={onClose}
+            onClose={handleClose}
+            onCancel={handleClose}
             title={lang.t('suspenduser.title')}>
             <div className={styles.title}>
               {lang.t(stages[stage].title, lang.t('suspenduser.username'))}

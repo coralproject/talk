@@ -94,7 +94,6 @@ class CommunityContainer extends Component {
       );
     }
 
-    console.log('debug props', props);
     return (
       <div>
         <FlaggedAccounts
@@ -103,6 +102,7 @@ class CommunityContainer extends Component {
           error={data.error}
           showBanUserDialog={props.showBanUserDialog}
           approveUser={props.approveUser}
+          suspendUser={props.suspendUser}
           showSuspendUserDialog={props.showSuspendUserDialog}
           {...this}
         />
@@ -112,9 +112,9 @@ class CommunityContainer extends Component {
           handleClose={props.hideBanUserDialog}
           handleBanUser={props.banUser}
         />
-      <SuspendUserDialog
+        <SuspendUserDialog
           open={community.suspendDialog}
-          onClose={props.hideSuspendUserDialog}
+          handleClose={props.hideSuspendUserDialog}
           user={community.user}
           suspendUser={props.suspendUser}
         />
@@ -146,7 +146,7 @@ const mapDispatchToProps = dispatch => ({
   fetchAccounts: query => dispatch(fetchAccounts(query)),
   showBanUserDialog: (user) => dispatch(showBanUserDialog(user)),
   hideBanUserDialog: () => dispatch(hideBanUserDialog(false)),
-  showSuspendUserDialog: () => dispatch(showSuspendUserDialog()),
+  showSuspendUserDialog: (user) => dispatch(showSuspendUserDialog(user)),
   hideSuspendUserDialog: () => dispatch(hideSuspendUserDialog())
 });
 
