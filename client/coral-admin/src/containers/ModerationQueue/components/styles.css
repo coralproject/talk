@@ -136,7 +136,7 @@ span {
     display: none;
   }
 
-  &.singleView .listItem.activeItem {
+  &.singleView .listItem.selected {
     display: block;
     height: 100%;
     font-size: 1.5em;
@@ -168,7 +168,7 @@ span {
   min-width: 400px;
   margin: 0 auto;
   position: relative;
-  transition: box-shadow 200ms;
+  transition: all 200ms;
   margin-top: 0;
   padding: 4px 0 0;
   min-height: 220px;
@@ -184,6 +184,11 @@ span {
 
   &:last-child {
     border-bottom: none;
+  }
+
+  &.selected {
+    max-width: 670px;
+    max-height: 410px;
   }
 
   .context {
