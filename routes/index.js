@@ -1,12 +1,11 @@
 const express = require('express');
 const path = require('path');
-const _ = require('lodash');
 const pkg = require('../package.json');
 
 const router = express.Router();
 
 router.use('/', (req, res) => {
-  res.json(_.pick(pkg, ['version']));
+  res.json({version: pkg.version});
 });
 
 router.use('/api/v1', require('./api'));
