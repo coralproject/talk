@@ -66,6 +66,8 @@
       "include-comment-stream": "Include Comment Stream Description for Readers.",
       "include-comment-stream-desc": "Write a message to be added to the top of your comment stream. Pose a topic, include community guidelines, etc.",
       "include-text": "Include your text here.",
+      "enable-premod-links": "Moderate all comments with links",
+      "enable-premod-links-text": "Automatically send comments with links to the moderation queue.",
       "comment-settings": "Settings",
       "embed-comment-stream": "Embed Stream",
       "banned-word-text": "Comments which contain these words or phrases (not case-sensitive) will be automatically removed from the comment stream. Type a word and press Enter or Tab to add. Optionally paste a comma-separated list.",

@@ -3,6 +3,7 @@ const errors = require('../../errors');
 const AssetsService = require('../../services/assets');
 const ActionsService = require('../../services/actions');
 const CommentsService = require('../../services/comments');
+const linkify = require('linkify-it')();
 
 const Wordlist = require('../../services/wordlist');
 
@@ -162,7 +163,7 @@ const createPublicComment = (context, commentInput) => {
         }
 
         // If the comment contains a link.
-        if (settings.premodLinksEnable && /\S+\.\S+/.exec(comment.body)) {
+        if (settings.premodLinksEnable && linkify.test(comment.body)) {
           return ActionsService.insertUserAction({
             item_id: comment.id,
             item_type: 'COMMENTS',

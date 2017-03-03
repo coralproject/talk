@@ -19,6 +19,7 @@ const lang = new I18n(translations);
 
 const Comment = ({actions = [], ...props}) => {
   const links = linkify.getMatches(props.comment.body);
+  console.log('Links', links);
   const actionSummaries = props.comment.action_summaries;
   return (
     <li tabIndex={props.index}
