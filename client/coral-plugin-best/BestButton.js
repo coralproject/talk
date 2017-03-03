@@ -17,9 +17,9 @@ const lang = new I18n(translations);
 const canModifyBestTag = ({roles = []} = {}) => roles && ['ADMIN', 'MODERATOR'].some(role => roles.includes(role));
 
 // Put this on a comment to show that it is best
-export const BestIndicator = ({children = <i className={'material-icons'} aria-hidden={true}>favorite</i>}) => (
+export const BestIndicator = ({children = <i className={'material-icons'} aria-hidden={true}>star</i>}) => (
   <span aria-label={lang.t('commentIsBest')}>
-    { children } 
+    { children }
   </span>
 );
 
@@ -69,7 +69,7 @@ export class BestButton extends Component {
     try {
       await addBest();
     } finally {
-      this.setState({isSaving: false});      
+      this.setState({isSaving: false});
     }
   }
 
@@ -84,7 +84,7 @@ export class BestButton extends Component {
     try {
       await removeBest();
     } finally {
-      this.setState({isSaving: false});      
+      this.setState({isSaving: false});
     }
   }
 
