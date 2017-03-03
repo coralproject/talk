@@ -41,7 +41,6 @@ module.exports = {
           .setValue('#password', mockUser.pw)
           .setValue('#confirmPassword', mockUser.pw)
           .click('#coralSignUpButton')
-          .pause(5000)
           .waitForElementVisible('#coralLogInButton', 10000)
           .click('#coralLogInButton')
           .waitForElementVisible('.coral-plugin-commentbox-button', 4000)
@@ -73,11 +72,7 @@ module.exports = {
           // Post a comment
         client.waitForElementVisible('.coral-plugin-commentbox-button', 2000)
           .setValue('.coral-plugin-commentbox-textarea', mockComment)
-          .click('.coral-plugin-commentbox-button')
-          .waitForElementVisible('#coral-notif', 1000)
-
-          // Verify that it appears
-          .assert.containsText('#coral-notif', 'moderation team');
+          .click('.coral-plugin-commentbox-button');
         done();
       })
       .catch((err) => {
@@ -102,6 +97,7 @@ module.exports = {
           .click('.coral-plugin-commentbox-button')
 
           // Post a reply
+
           .waitForElementVisible('.embed__stream .coral-plugin-replies-reply-button', 5000)
           .click('.embed__stream .coral-plugin-replies-reply-button')
           .waitForElementVisible('#replyText')
@@ -171,7 +167,7 @@ module.exports = {
 
         // Verify that comment count is correct
       client.waitForElementVisible('.coral-plugin-comment-count-text', 2000)
-        .assert.containsText('.coral-plugin-comment-count-text', '4 Comments');
+        .assert.containsText('.coral-plugin-comment-count-text', '5 Comments');
       done();
     });
   },
