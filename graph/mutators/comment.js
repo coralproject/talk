@@ -54,13 +54,16 @@ const createComment = ({user, loaders: {Comments}}, {body, asset_id, parent_id =
  * @param  {String} body    body of a comment
  * @return {Object}         resolves to the wordlist results
  */
-const filterNewComment = (context, {body}) => {
+const filterNewComment = (context, {body, asset_id}) => {
 
   // Create a new instance of the Wordlist.
   const wl = new Wordlist();
 
   // Load the wordlist and filter the comment content.
-  return wl.load().then(() => wl.scan('body', body));
+  return Promise.all([
+    wl.load().then(() => wl.scan('body', body)),
+    AssetsService.rectifySettings(AssetsService.findById(asset_id))
+  ]);
 };
 
 /**
@@ -131,13 +134,13 @@ const createPublicComment = (context, commentInput) => {
     // We then take the wordlist and the comment into consideration when
     // considering what status to assign the new comment, and resolve the new
     // status to set the comment to.
-    .then((wordlist) => resolveNewCommentStatus(context, commentInput, wordlist)
+    .then(([wordlist, settings]) => resolveNewCommentStatus(context, commentInput, wordlist)
 
       // Then we actually create the comment with the new status.
       .then((status) => createComment(context, commentInput, status))
       .then((comment) => {
 
-        // If the comment was flagged as being suspect, we need to add a
+        // If the comment has a suspect word or a link, we need to add a
         // flag to it to indicate that it needs to be looked at.
         // Otherwise just return the new comment.
 
@@ -153,6 +156,19 @@ const createPublicComment = (context, commentInput) => {
             action_type: 'FLAG',
             user_id: null,
             group_id: 'Matched suspect word filter',
+            metadata: {}
+          })
+          .then(() => comment);
+        }
+
+        // If the comment contains a link.
+        if (settings.premodLinksEnable && /\S+\.\S+/.exec(comment.body)) {
+          return ActionsService.insertUserAction({
+            item_id: comment.id,
+            item_type: 'COMMENTS',
+            action_type: 'FLAG',
+            user_id: null,
+            group_id: 'Contains link',
             metadata: {}
           })
           .then(() => comment);
