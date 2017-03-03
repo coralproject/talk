@@ -18,6 +18,7 @@ const lang = new I18n(translations);
 const canModifyBestTag = ({roles = []} = {}) => roles && ['ADMIN', 'MODERATOR'].some(role => roles.includes(role));
 
 // Put this on a comment to show that it is best
+
 export const BestIndicator = ({children = <Icon name='star'/>}) => (
   <span aria-label={lang.t('commentIsBest')}>
     { children }
