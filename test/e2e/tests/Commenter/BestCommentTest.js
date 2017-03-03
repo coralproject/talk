@@ -11,15 +11,13 @@ module.exports = {
     embedStreamPage
       .login(users.commenter);
   },
-  'Commenter likes a comment': client => {
+  'Commenters should not see the set-best-comment button': client => {
     const embedStreamPage = client.page.embedStreamPage();
 
     embedStreamPage
-      .postComment(`hi ${Math.random()}`)
-      .likeComment()
-      .waitForElementVisible('@likesCount', 2000)
-      .expect.element('@likeText').text.to.equal('Liked');
-
+      .postComment('Hi everyone. Isn\'t this the BEST comment!?')
+      .waitForElementVisible('@likeButton')
+      .expect.element('@setBestButton').to.not.be.present;
   },
   after: client => {
     client.end();
