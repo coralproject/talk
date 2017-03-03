@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {I18n} from '../coral-framework';
 import translations from './translations.json';
+import {Icon} from 'coral-ui';
 import classnames from 'classnames';
 
 // tag string for best comments
@@ -17,9 +18,9 @@ const lang = new I18n(translations);
 const canModifyBestTag = ({roles = []} = {}) => roles && ['ADMIN', 'MODERATOR'].some(role => roles.includes(role));
 
 // Put this on a comment to show that it is best
-export const BestIndicator = ({children = <i className={'material-icons'} aria-hidden={true}>favorite</i>}) => (
+export const BestIndicator = ({children = <Icon name='star'/>}) => (
   <span aria-label={lang.t('commentIsBest')}>
-    { children } 
+    { children }
   </span>
 );
 
@@ -69,7 +70,7 @@ export class BestButton extends Component {
     try {
       await addBest();
     } finally {
-      this.setState({isSaving: false});      
+      this.setState({isSaving: false});
     }
   }
 
@@ -84,7 +85,7 @@ export class BestButton extends Component {
     try {
       await removeBest();
     } finally {
-      this.setState({isSaving: false});      
+      this.setState({isSaving: false});
     }
   }
 
@@ -97,9 +98,7 @@ export class BestButton extends Component {
               disabled={disabled}
               className={classnames(`${name}-button`, `e2e__${isBest ? 'unset' : 'set'}-best-comment`)}
               aria-label={lang.t(isBest ? 'unsetBest' : 'setBest')}>
-        <i className={`${name}-icon material-icons`} aria-hidden={true}>
-          { isBest ? 'favorite' : 'favorite_border' }
-        </i>
+        <Icon name={ isBest ? 'star' : 'star_border' } />
       </button>
     );
   }
