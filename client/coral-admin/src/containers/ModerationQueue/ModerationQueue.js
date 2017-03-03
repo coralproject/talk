@@ -1,15 +1,16 @@
 import React, {PropTypes} from 'react';
 
 import Comment from './components/Comment';
+import styles from './components/styles.css';
 import EmptyCard from '../../components/EmptyCard';
 import {actionsMap} from './helpers/moderationQueueActionsMap';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations';
 
 const lang = new I18n(translations);
-const ModerationQueue = ({comments, ...props}) => {
+const ModerationQueue = ({comments, selectedIndex, singleView, ...props}) => {
   return (
-    <div id="moderationList">
+    <div id="moderationList" className={`${styles.list} ${singleView ? styles.singleView : ''}`}>
       <ul style={{paddingLeft: 0}}>
       {
         comments.length
@@ -20,6 +21,7 @@ const ModerationQueue = ({comments, ...props}) => {
             index={i}
             comment={comment}
             commentType={props.activeTab}
+            selected={i === selectedIndex}
             suspectWords={props.suspectWords}
             actions={actionsMap[status]}
             showBanUserDialog={props.showBanUserDialog}
