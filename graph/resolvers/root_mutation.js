@@ -1,5 +1,6 @@
 const {Error: {ValidationError}} = require('mongoose');
 const errors = require('../../errors');
+const CommentsService = require('../../services/comments');
 
 /**
  * Wraps up a promise to return an object with the resolution of the promise
@@ -48,7 +49,13 @@ const RootMutation = {
   },
   setCommentStatus(_, {id, status}, {mutators: {Comment}}) {
     return wrapResponse(null)(Comment.setCommentStatus({id, status}));
-  }
+  },
+  addCommentTag(_, {id, tag}, {mutators: {Comment}}) {
+    return wrapResponse('comment')(Comment.addCommentTag({id, tag}).then(() => CommentsService.findById(id)));
+  },
+  removeCommentTag(_, {id, tag}, {mutators: {Comment}}) {
+    return wrapResponse('comment')(Comment.removeCommentTag({id, tag}).then(() => CommentsService.findById(id)));
+  },
 };
 
 module.exports = RootMutation;

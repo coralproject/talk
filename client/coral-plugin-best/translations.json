@@ -1,0 +1,12 @@
+{
+  "en": {
+    "setBest": "Tag as Best",
+    "unsetBest": "Untag as Best",
+    "commentIsBest": "This comment is one of the best"
+  },
+  "es": {
+    "like": "Establecer como mejor",
+    "liked": "Desarmado como mejor",
+    "commentIsBest": "Este comentario es uno de los mejores"
+  }
+}

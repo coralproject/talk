@@ -172,7 +172,7 @@ hr {
 
 .coral-plugin-author-name-text {
   display: inline-block;
-  margin: 10px 8px 10px 0;
+  margin: 10px 5px 10px 0;
   font-weight: bold;
 }
 
@@ -191,7 +191,7 @@ hr {
   background-color: #4C1066;
   color: white;
   display: inline-block;
-  margin: 10px 10px;
+  margin: 0px 5px;
   padding: 5px 5px;
   border-radius: 2px;
 }
@@ -218,10 +218,30 @@ hr {
   width: 50%;
 }
 
-.material-icons {
-  font-size: 12px !important;
-  margin-left: 3px;
+.comment__action-container .material-icons {
+  font-size: 12px;
+  margin-left: 3px;  
+}
+
+button.comment__action-button,
+.comment__action-button button {
+  cursor: pointer;
+}
+
+button.comment__action-button[disabled],
+.comment__action-button[disabled] button {
+  cursor: inherit;
+}
+
+.comment__action-button--nowrap {
+  white-space: nowrap;
+}
+
+.commentStream .material-icons {
   vertical-align: middle;
+  width: 1em;
+  font-size: 1em;
+  overflow: hidden;
 }
 
 .likedButton {
@@ -236,6 +256,7 @@ hr {
   color: #696969;
   display: inline-block;
   font-size: .75rem;
+  margin-left: 5px;
 }
 
 .coral-plugin-permalinks-container {

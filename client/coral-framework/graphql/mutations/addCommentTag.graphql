@@ -1,0 +1,13 @@
+mutation AddCommentTag ($id: ID!, $tag: String!) {
+  addCommentTag(id:$id, tag:$tag) {
+    comment {
+      id
+      tags {
+        name
+      }
+    }
+    errors {
+      translation_key
+    }
+  }
+}
