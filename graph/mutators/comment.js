@@ -76,7 +76,7 @@ const filterNewComment = (context, {body, asset_id}) => {
  * @param  {Object} [wordlist={}] the results of the wordlist scan
  * @return {Promise}              resolves to the comment's status
  */
-const resolveNewCommentStatus = (context, {asset_id, body}, wordlist = {}) => {
+const resolveNewCommentStatus = (context, {asset_id, body}, wordlist = {}, settings) => {
 
   // Decide the status based on whether or not the current asset/settings
   // has pre-mod enabled or not. If the comment was rejected based on the
@@ -86,6 +86,8 @@ const resolveNewCommentStatus = (context, {asset_id, body}, wordlist = {}) => {
 
   if (wordlist.banned) {
     status = Promise.resolve('REJECTED');
+  } else if (settings.premodLinksEnable && linkify.test(body)) {
+    status = Promise.resolve('PREMOD');
   } else {
     status = AssetsService
       .rectifySettings(AssetsService.findById(asset_id).then((asset) => {
@@ -135,7 +137,7 @@ const createPublicComment = (context, commentInput) => {
     // We then take the wordlist and the comment into consideration when
     // considering what status to assign the new comment, and resolve the new
     // status to set the comment to.
-    .then(([wordlist, settings]) => resolveNewCommentStatus(context, commentInput, wordlist)
+    .then(([wordlist, settings]) => resolveNewCommentStatus(context, commentInput, wordlist, settings)
 
       // Then we actually create the comment with the new status.
       .then((status) => createComment(context, commentInput, status))
@@ -157,19 +159,6 @@ const createPublicComment = (context, commentInput) => {
             action_type: 'FLAG',
             user_id: null,
             group_id: 'Matched suspect word filter',
-            metadata: {}
-          })
-          .then(() => comment);
-        }
-
-        // If the comment contains a link.
-        if (settings.premodLinksEnable && linkify.test(comment.body)) {
-          return ActionsService.insertUserAction({
-            item_id: comment.id,
-            item_type: 'COMMENTS',
-            action_type: 'FLAG',
-            user_id: null,
-            group_id: 'Contains link',
             metadata: {}
           })
           .then(() => comment);
