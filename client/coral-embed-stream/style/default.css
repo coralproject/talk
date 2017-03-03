@@ -80,6 +80,7 @@ hr {
   padding: 10px;
   margin-bottom: 10px;
   display: block;
+  box-sizing: border-box;
 }
 
 /* Question Box Styles */
@@ -220,7 +221,7 @@ hr {
 
 .comment__action-container .material-icons {
   font-size: 12px;
-  margin-left: 3px;  
+  margin-left: 3px;
 }
 
 button.comment__action-button,
