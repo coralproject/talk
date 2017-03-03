@@ -4,7 +4,7 @@ const pkg = require('../package.json');
 
 const router = express.Router();
 
-router.use('/', (req, res) => {
+router.get('/', (req, res) => {
   res.json({version: pkg.version});
 });
 
