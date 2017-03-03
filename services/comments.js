@@ -4,7 +4,8 @@ const ActionModel = require('../models/action');
 const ActionsService = require('./actions');
 
 const ALLOWED_TAGS = [
-  {name: 'STAFF'}
+  {name: 'STAFF'},
+  {name: 'BEST'},
 ];
 
 const STATUSES = [
@@ -44,6 +45,11 @@ module.exports = class CommentsService {
 
   /**
    * Adds a tag if it doesn't already exist on the comment.
+   * @throws if tag is already added to the comment
+   * @throws if tag name is not in ALLOWED_TAGS
+   * @param {String} id the id of the comment to tag
+   * @param {String} name the name of the tag to add
+   * @param {String} assigned_by the user id for the user who added the tag
    */
   static addTag(id, name, assigned_by) {
 
@@ -51,22 +57,61 @@ module.exports = class CommentsService {
       return Promise.reject(new Error('tag not allowed'));
     }
 
-    return CommentModel.update({
+    const filter = {
       id,
-      tags: {
-        $ne: {
-          name
+      'tags.name': {$ne: name},
+    };
+    const update = {
+      $push: {tags: {
+        name,
+        assigned_by,
+        created_at: new Date()
+      }}
+    };
+    return CommentModel.update(filter, update)
+      .then(({nModified}) => {
+        switch (nModified) {
+        case 0:
+
+          // either the tag was already there, or the comment doesn't exist with that id...
+          throw new Error('Could not add tag to comment. Either the comment doesn\'t exist or the tag is already present.');
+        case 1:
+
+            // tag added
+          return;
+        default:
+
+          // this should never happen because no multi parameter and unique index on id
         }
-      }
-    }, {
-      $push: {
-        tags: {
-          name,
-          assigned_by,
-          created_at: new Date()
+      });
+  }
+
+  /**
+   * Removes a tag from a comment
+   * @throws if the tag is not on the comment
+   * @param {String} id the id of the comment to tag
+   * @param {String} name the name of the tag to add
+   */
+  static removeTag(id, name) {
+    const filter = {
+      id,
+      'tags.name': name,
+    };
+    const update = {$pull: {tags: {name}}};
+    return CommentModel.update(filter, update)
+      .then(({nModified}) => {
+        switch (nModified) {
+        case 0:
+          throw new Error('Could not remove tag from comment. Either the comment doesn\'t exist or the tag is not present');
+        case 1:
+
+            // tag removed
+          return;
+        default:
+
+          // this should never happen because no multi parameter and unique index on id
         }
-      }
-    });
+      });
   }
 
   /**

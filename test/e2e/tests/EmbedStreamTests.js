@@ -48,10 +48,10 @@ module.exports = {
           // Post a comment
           .setValue('.coral-plugin-commentbox-textarea', mockComment)
           .click('.coral-plugin-commentbox-button')
-          .waitForElementVisible('#stream .coral-plugin-commentcontent-text')
+          .waitForElementVisible('.embed__stream .coral-plugin-commentcontent-text', 1000)
 
           // Verify that it appears
-          .assert.containsText('#stream .coral-plugin-commentcontent-text', mockComment);
+          .assert.containsText('.embed__stream .coral-plugin-commentcontent-text', mockComment);
         done();
       })
       .catch((err) => {
@@ -97,15 +97,16 @@ module.exports = {
           .click('.coral-plugin-commentbox-button')
 
           // Post a reply
-          .waitForElementVisible('#stream .coral-plugin-replies-reply-button', 5000)
-          .click('#stream .coral-plugin-replies-reply-button')
+
+          .waitForElementVisible('.embed__stream .coral-plugin-replies-reply-button', 5000)
+          .click('.embed__stream .coral-plugin-replies-reply-button')
           .waitForElementVisible('#replyText')
           .setValue('#replyText', mockReply)
-          .click('.coral-plugin-replies-textarea .coral-plugin-commentbox-button')
-          .waitForElementVisible('.reply', 20000)
+          .click('.embed__stream .coral-plugin-replies-textarea .coral-plugin-commentbox-button')
+          .waitForElementVisible('.embed__stream .reply', 20000)
 
           // Verify that it appears
-          .assert.containsText('.reply', mockReply);
+          .assert.containsText('.embed__stream .reply', mockReply);
         done();
       })
       .catch((err) => {
