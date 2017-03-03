@@ -78,6 +78,8 @@
   border-color: #ccc;
   border-style: solid;
   border-width: 0px 0px 1px 0px;
+  font-size: 14px;
+  text-align: center;
 }
 
 .charCountTexfieldEnabled {
@@ -173,5 +175,14 @@
   p {
     line-height: 1.2;
     max-width: 600px;
+  }
+
+  .descriptionBox {
+    margin-top: 15px;
+    max-width: 550px;
+
+    input {
+      height: 150px;
+    }
   }
 }

@@ -3,8 +3,8 @@ import {SelectField, Option} from 'react-mdl-selectfield';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations.json';
 import styles from './Configure.css';
-import {Textfield, Checkbox} from 'react-mdl';
-import {Card, Icon} from 'coral-ui';
+import {Checkbox} from 'react-mdl';
+import {Card, Icon, TextArea, Textfield} from 'coral-ui';
 
 const TIMESTAMPS = {
   weeks: 60 * 60 * 24 * 7,
@@ -108,12 +108,11 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
             {lang.t('configure.include-comment-stream-desc')}
           </p>
           <div className={`${styles.configSettingInfoBox} ${settings.infoBoxEnable ? null : styles.hidden}`} >
-            <div className={styles.content}>
-              <Textfield
+            <div>
+              <TextArea
+                className={styles.descriptionBox}
                 onChange={updateInfoBoxContent(updateSettings)}
                 value={settings.infoBoxContent}
-                label={lang.t('configure.include-text')}
-                rows={3}
               />
             </div>
           </div>
@@ -123,11 +122,10 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
         <div className={styles.content}>
           {lang.t('configure.closed-comments-desc')}
           <div>
-          <Textfield
-            onChange={updateClosedMessage(updateSettings)}
-            value={settings.closedMessage}
-            label={lang.t('configure.closed-comments-label')}
-            rows={3}/>
+            <TextArea className={styles.descriptionBox}
+              onChange={updateClosedMessage(updateSettings)}
+              value={settings.closedMessage}
+            />
           </div>
         </div>
       </Card>
