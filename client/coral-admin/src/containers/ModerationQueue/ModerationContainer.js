@@ -32,8 +32,12 @@ class ModerationContainer extends Component {
     key('s', () => singleView());
     key('shift+/', () => toggleModal(true));
     key('esc', () => toggleModal(false));
-    key('j', () => this.setState({selectedIndex: selectedIndex + 1}));
-    key('k', () => this.setState({selectedIndex: selectedIndex > 0 ? selectedIndex + 1 : selectedIndex}));
+    key('j', () => this.setState(prevState =>
+      ({...prevState, selectedIndex: prevState.selectedIndex + 1}))
+    );
+    key('k', () => this.setState(prevState =>
+      ({...prevState, selectedIndex: prevState.selectedIndex > 0 ? prevState.selectedIndex + 1 : selectedIndex}))
+    );
     key('r', () => this.moderate(false));
     key('t', () => this.moderate(true));
   }
