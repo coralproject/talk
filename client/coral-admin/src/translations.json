@@ -63,7 +63,7 @@
       "enable-pre-moderation-text": "Moderators must approve any comment before it is published.",
       "require-email-verification": "Require Email Verification",
       "require-email-verification-text": "New Users must verify their email before commenting",
-      "include-comment-stream": "Include Comment Stream Description for Readers.",
+      "include-comment-stream": "Include Comment Stream Description for Readers",
       "include-comment-stream-desc": "Write a message to be added to the top of your comment stream. Pose a topic, include community guidelines, etc.",
       "include-text": "Include your text here.",
       "comment-settings": "Settings",
@@ -87,7 +87,7 @@
       "close-after": "Close comments after",
       "comment-count-header": "Limit Comment Length",
       "comment-count-text-pre":  "Comments will be limited to ",
-      "comment-count-text-post": " characters.",
+      "comment-count-text-post": " characters",
       "comment-count-error": "Please enter a valid number.",
       "domain-list-title": "Permitted Domains",
       "domain-list-text": "Enter the domains you would like to permit for Talk, e.g. your local, staging and production environments (ex. localhost:3000, staging.domain.com, domain.com)."

@@ -64,7 +64,7 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
   const off = styles.disabledSetting;
 
   return (
-    <div>
+    <div className={styles.Configure}>
       <Card className={`${styles.configSetting} ${settings.charCountEnable ? on : off}`}>
         <div className={styles.action}>
           <Checkbox
@@ -79,7 +79,9 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
               className={`${styles.charCountTexfield} ${settings.charCountEnable && styles.charCountTexfieldEnabled}`}
               htmlFor='charCount'
               onChange={updateCharCount(updateSettings, settingsError)}
-              value={settings.charCount}/>
+              value={settings.charCount}
+              disabled={settings.charCountEnable ? '' : 'disabled'}
+            />
             <span>{lang.t('configure.comment-count-text-post')}</span>
               {
                 errors.charCount &&
@@ -99,8 +101,10 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
             checked={settings.infoBoxEnable} />
         </div>
         <div className={styles.content}>
-          {lang.t('configure.include-comment-stream')}
-          <p>
+          <div className={styles.settingsHeader}>
+            {lang.t('configure.include-comment-stream')}
+          </div>
+          <p className={settings.infoBoxEnable ? '' : styles.disabledSettingText}>
             {lang.t('configure.include-comment-stream-desc')}
           </p>
           <div className={`${styles.configSettingInfoBox} ${settings.infoBoxEnable ? null : styles.hidden}`} >
@@ -109,7 +113,8 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
                 onChange={updateInfoBoxContent(updateSettings)}
                 value={settings.infoBoxContent}
                 label={lang.t('configure.include-text')}
-                rows={3}/>
+                rows={3}
+              />
             </div>
           </div>
         </div>
