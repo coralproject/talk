@@ -36,7 +36,7 @@ class ModerationContainer extends Component {
       ({...prevState, selectedIndex: prevState.selectedIndex + 1}))
     );
     key('k', () => this.setState(prevState =>
-      ({...prevState, selectedIndex: prevState.selectedIndex > 0 ? prevState.selectedIndex + 1 : selectedIndex}))
+      ({...prevState, selectedIndex: prevState.selectedIndex > 0 ? prevState.selectedIndex - 1 : selectedIndex}))
     );
     key('r', () => this.moderate(false));
     key('t', () => this.moderate(true));
