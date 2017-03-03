@@ -53,11 +53,12 @@ const Comment = ({actions = [], ...props}) => {
             : null}
         </div>
       </div>
-        {!props.currentAsset && (
           <div className={styles.moderateArticle}>
-            Story: {props.comment.asset.title} <Link to={`/admin/moderate/${props.comment.asset.id}`}>Moderate &rarr;</Link>
+            Story: {props.comment.asset.title}
+            {!props.currentAsset && (
+              <Link to={`/admin/moderate/${props.comment.asset.id}`}>Moderate &rarr;</Link>
+            )}
           </div>
-        )}
         <div className={styles.itemBody}>
           <p className={styles.body}>
             <Linkify component='span' properties={{style: linkStyles}}>
