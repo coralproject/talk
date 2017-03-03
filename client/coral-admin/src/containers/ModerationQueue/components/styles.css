@@ -136,7 +136,7 @@ span {
     display: none;
   }
 
-  &.singleView .listItem.activeItem {
+  &.singleView .listItem.selected {
     display: block;
     height: 100%;
     font-size: 1.5em;
@@ -147,7 +147,6 @@ span {
       position: fixed;
       bottom: 60px;
       left: 25%;
-      margin: 0 auto;
       display: flex;
       justify-content: space-around;
       width: 50%;
@@ -168,14 +167,13 @@ span {
   min-width: 400px;
   margin: 0 auto;
   position: relative;
-  transition: box-shadow 200ms;
-  margin-top: 0;
-  padding: 4px 0 0;
+  transition: all 200ms;
+  padding: 10px 0 0;
   min-height: 220px;
 
   .container {
     padding: 0 14px;
-    min-height: 220px;
+    min-height: 180px;
   }
 
   &:hover {
@@ -184,6 +182,11 @@ span {
 
   &:last-child {
     border-bottom: none;
+  }
+
+  &.selected {
+    max-width: 670px;
+    max-height: 410px;
   }
 
   .context {
@@ -195,11 +198,8 @@ span {
   }
 
    .sideActions {
-     position: absolute;
-     right: 0;
      height: 100%;
      top: 0;
-     padding: 100px 12px 65px;
      box-sizing: border-box;
    }
 
@@ -209,6 +209,7 @@ span {
     justify-content: space-between;
 
     .author {
+      font-weight: 600;
       min-width: 230px;
       display: flex;
       align-items: center;
@@ -218,8 +219,9 @@ span {
   .itemBody {
     display: flex;
     justify-content: space-between;
-    margin-top: 15px;
-    font-size: 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 300;
   }
 
   .avatar {
@@ -236,6 +238,7 @@ span {
     color: #666;
     font-size: 13px;
     margin-left: 15px;
+    line-height: 1px;
   }
 
   .actionButton {
@@ -246,10 +249,10 @@ span {
   .body {
     margin-top: 0px;
     flex: 1;
-    font-size: 0.88em;
     color: black;
     max-width: 500px;
     word-wrap: break-word;
+    font-weight: 300;
   }
 
   .flagged {
@@ -319,9 +322,12 @@ span {
 .Comment {
 
   .moderateArticle {
-    font-size: 15px;
-    margin-top: 14px;
+    font-size: 14px;
+    margin: 10px 0;
     font-weight: 500;
+    line-height: 1.2;
+    max-width: 500px;
+
     a {
       display: inline-block;
       color: #063b9a;
