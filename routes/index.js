@@ -1,12 +1,7 @@
 const express = require('express');
 const path = require('path');
-const pkg = require('../package.json');
 
 const router = express.Router();
-
-router.get('/', (req, res) => {
-  res.json({version: pkg.version});
-});
 
 router.use('/api/v1', require('./api'));
 router.use('/admin', require('./admin'));

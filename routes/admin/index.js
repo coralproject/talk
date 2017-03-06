@@ -12,7 +12,7 @@ router.get('/password-reset', (req, res) => {
 
   // TODO: store the redirect uri in the token or something fancy.
   // admins and regular users should probably be redirected to different places.
-  res.render('password-reset', {redirectUri: process.env.TALK_ROOT_URL});
+  res.render('admin/password-reset', {redirectUri: process.env.TALK_ROOT_URL});
 });
 
 router.get('*', (req, res) => {
