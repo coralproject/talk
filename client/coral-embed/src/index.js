@@ -54,7 +54,7 @@ function configurePymParent(pymParent, asset_url) {
   let ready = false;
   let cachedHeight;
   const snackbar = document.createElement('div');
-  snackbar.id = 'coral-snackbar';
+  snackbar.id = 'coral-notif';
 
   for (let key in snackbarStyles) {
     snackbar.style[key] = snackbarStyles[key];
@@ -70,10 +70,16 @@ function configurePymParent(pymParent, asset_url) {
     }
   });
 
+  pymParent.onMessage('coral-clear-notification', function () {
+    snackbar.style.opacity = 0;
+  });
+
   pymParent.onMessage('coral-alert', function (message) {
+    const [type, text] = message.split('|');
     snackbar.style.transform = 'translate(-50%, 20px)';
     snackbar.style.opacity = 0;
-    snackbar.textContent = message;
+    snackbar.className = `coral-notif-${type}`;
+    snackbar.textContent = text;
 
     setTimeout(() => {
       snackbar.style.transform = 'translate(-50%, 0)';
