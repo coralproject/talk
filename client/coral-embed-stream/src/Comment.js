@@ -17,6 +17,7 @@ import PubDate from 'coral-plugin-pubdate/PubDate';
 import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
 import FlagComment from 'coral-plugin-flags/FlagComment';
 import LikeButton from 'coral-plugin-likes/LikeButton';
+import {BestButton, IfUserCanModifyBest, BEST_TAG, commentIsBest, BestIndicator} from 'coral-plugin-best/BestButton';
 import LoadMore from 'coral-embed-stream/src/LoadMore';
 
 import styles from './Comment.css';
@@ -24,6 +25,11 @@ import styles from './Comment.css';
 const getActionSummary = (type, comment) => comment.action_summaries
   .filter((a) => a.__typename === type)[0];
 const isStaff = (tags) => !tags.every((t) => t.name !== 'STAFF') ;
+
+// hold actions links (e.g. Like, Reply) along the comment footer
+const ActionButton = ({children}) => {
+  return <span className="comment__action-button comment__action-button--nowrap">{ children }</span>;
+};
 
 class Comment extends React.Component {
 
@@ -74,7 +80,13 @@ class Comment extends React.Component {
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired
       }).isRequired
-    }).isRequired
+    }).isRequired,
+
+    // dispatch action to add a tag to a comment
+    addCommentTag: React.PropTypes.func,
+
+    // dispatch action to remove a tag from a comment
+    removeCommentTag: React.PropTypes.func,
   }
 
   render () {
@@ -94,7 +106,9 @@ class Comment extends React.Component {
       loadMore,
       setActiveReplyBox,
       activeReplyBox,
-      deleteAction
+      deleteAction,
+      addCommentTag,
+      removeCommentTag,
     } = this.props;
 
     const like = getActionSummary('LikeActionSummary', comment);
@@ -102,6 +116,27 @@ class Comment extends React.Component {
     const dontagree = getActionSummary('DontAgreeActionSummary', comment);
     let commentClass = parentId ? `reply ${styles.Reply}` : `comment ${styles.Comment}`;
     commentClass += highlighted === comment.id ? ' highlighted-comment' : '';
+
+    // call a function, and if it errors, call addNotification('error', ...) (e.g. to show user a snackbar)
+    const notifyOnError = (fn, errorToMessage) => async () => {
+      if (typeof errorToMessage !== 'function') {errorToMessage = (error) => error.message;}
+      try {
+        return await fn();
+      } catch (error) {
+        addNotification('error', errorToMessage(error));
+        throw error;
+      }
+    };
+
+    const addBestTag = notifyOnError(() => addCommentTag({
+      id: comment.id,
+      tag: BEST_TAG,
+    }), () => 'Failed to tag comment as best');
+
+    const removeBestTag = notifyOnError(() => removeCommentTag({
+      id: comment.id,
+      tag: BEST_TAG,
+    }), () => 'Failed to remove best comment tag');
 
     return (
       <div
@@ -112,35 +147,55 @@ class Comment extends React.Component {
         <AuthorName
           author={comment.user}/>
         { isStaff(comment.tags)
-          ? <TagLabel isStaff={true}/>
+          ? <TagLabel>Staff</TagLabel>
+          : null }
+
+        { commentIsBest(comment)
+          ? <TagLabel><BestIndicator /></TagLabel>
           : null }
         <PubDate created_at={comment.created_at} />
         <Content body={comment.body} />
-          <div className="commentActionsLeft">
-              <LikeButton
-                like={like}
-                id={comment.id}
-                postLike={postLike}
-                deleteAction={deleteAction}
-                showSignInDialog={showSignInDialog}
-                currentUser={currentUser} />
-              <ReplyButton
-                onClick={() => setActiveReplyBox(comment.id)}
-                parentCommentId={parentId || comment.id}
-                currentUserId={currentUser && currentUser.id}
-                banned={false} />
+          <div className="commentActionsLeft comment__action-container">
+              <ActionButton>
+                <LikeButton
+                  like={like}
+                  id={comment.id}
+                  postLike={postLike}
+                  deleteAction={deleteAction}
+                  showSignInDialog={showSignInDialog}
+                  currentUser={currentUser} />
+              </ActionButton>
+              <ActionButton>
+                <ReplyButton
+                  onClick={() => setActiveReplyBox(comment.id)}
+                  parentCommentId={parentId || comment.id}
+                  currentUserId={currentUser && currentUser.id}
+                  banned={false} />
+              </ActionButton>
+              <ActionButton>
+                <IfUserCanModifyBest user={currentUser}>
+                  <BestButton
+                    isBest={commentIsBest(comment)}
+                    addBest={addBestTag}
+                    removeBest={removeBestTag} />
+                </IfUserCanModifyBest>
+              </ActionButton>
             </div>
-        <div className="commentActionsRight">
-          <PermalinkButton articleURL={asset.url} commentId={comment.id} />
-          <FlagComment
-            flag={flag && flag.current_user ? flag : dontagree}
-            id={comment.id}
-            author_id={comment.user.id}
-            postFlag={postFlag}
-            postDontAgree={postDontAgree}
-            deleteAction={deleteAction}
-            showSignInDialog={showSignInDialog}
-            currentUser={currentUser} />
+        <div className="commentActionsRight comment__action-container">
+          <ActionButton>
+            <PermalinkButton articleURL={asset.url} commentId={comment.id} />
+          </ActionButton>
+          <ActionButton>
+            <FlagComment
+              flag={flag && flag.current_user ? flag : dontagree}
+              id={comment.id}
+              author_id={comment.user.id}
+              postFlag={postFlag}
+              postDontAgree={postDontAgree}
+              deleteAction={deleteAction}
+              showSignInDialog={showSignInDialog}
+              currentUser={currentUser} />
+          </ActionButton>
         </div>
         {
           activeReplyBox === comment.id
@@ -172,6 +227,8 @@ class Comment extends React.Component {
               postLike={postLike}
               postFlag={postFlag}
               deleteAction={deleteAction}
+              addCommentTag={addCommentTag}
+              removeCommentTag={removeCommentTag}
               showSignInDialog={showSignInDialog}
               reactKey={reply.id}
               key={reply.id}
