@@ -33,19 +33,20 @@
   .actions {
     display: inline-block;
     width: 100%;
-      .copiedText {
-        display: inline-block;
-        color: #00796b;
-        padding: 12px;
-        font-size: 14px;
-        float: right;
-      }
 
-      .copyButton {
-        display: inline-block;
-        width: 200px;
-        float: right;
-      }
+    .copiedText {
+      display: inline-block;
+      color: #00796b;
+      padding: 12px;
+      font-size: 14px;
+      float: right;
+    }
+
+    .copyButton {
+      display: inline-block;
+      width: 200px;
+      float: right;
+    }
   }
 }
 

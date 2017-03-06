@@ -24,9 +24,9 @@ const TechSettings = ({settings, onChangeDomainlist, updateSettings}) => {
           <div className={styles.settingsHeader}>{lang.t('configure.custom-css-url')}</div>
           <p>{lang.t('configure.custom-css-url-desc')}</p>
           <input
-          className={styles.customCSSInput}
-          value={settings.customCssUrl}
-          onChange={updateCustomCssUrl(updateSettings)} />
+            className={styles.customCSSInput}
+            value={settings.customCssUrl}
+            onChange={updateCustomCssUrl(updateSettings)} />
         </div>
       </Card>
     </div>
