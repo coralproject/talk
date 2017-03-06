@@ -5,7 +5,6 @@
   ],
   "plugins": [
     "add-module-exports",
-    "transform-async-to-generator",
     "transform-class-properties",
     "transform-decorators-legacy",
     "transform-object-assign",

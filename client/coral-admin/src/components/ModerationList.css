@@ -178,6 +178,10 @@
   }
 }
 
+.selected {
+  border-radius: 10px;
+}
+
 
 .actionButton {
   transform: scale(.8);

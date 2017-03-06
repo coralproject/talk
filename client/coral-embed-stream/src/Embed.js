@@ -13,7 +13,7 @@ const {addNotification, clearNotification} = notificationActions;
 const {fetchAssetSuccess} = assetActions;
 
 import {queryStream} from 'coral-framework/graphql/queries';
-import {postComment, postFlag, postLike, postDontAgree, deleteAction} from 'coral-framework/graphql/mutations';
+import {postComment, postFlag, postLike, postDontAgree, deleteAction, addCommentTag, removeCommentTag} from 'coral-framework/graphql/mutations';
 import {editName} from 'coral-framework/actions/user';
 import {updateCountCache} from 'coral-framework/actions/asset';
 import {Notification, notificationActions, authActions, assetActions, pym} from 'coral-framework';
@@ -55,7 +55,13 @@ class Embed extends Component {
     data: React.PropTypes.shape({
       loading: React.PropTypes.bool,
       error: React.PropTypes.object
-    }).isRequired
+    }).isRequired,
+
+    // dispatch action to add a tag to a comment
+    addCommentTag: React.PropTypes.func,
+
+    // dispatch action to remove a tag from a comment
+    removeCommentTag: React.PropTypes.func,
   }
 
   componentDidMount () {
@@ -194,22 +200,26 @@ class Embed extends Component {
               assetId={asset.id}
               updateCountCache={this.props.updateCountCache}
               />
-            <Stream
-              addNotification={this.props.addNotification}
-              postItem={this.props.postItem}
-              setActiveReplyBox={this.setActiveReplyBox}
-              activeReplyBox={this.state.activeReplyBox}
-              asset={asset}
-              currentUser={user}
-              postLike={this.props.postLike}
-              postFlag={this.props.postFlag}
-              postDontAgree={this.props.postDontAgree}
-              getCounts={this.props.getCounts}
-              updateCountCache={this.props.updateCountCache}
-              loadMore={this.props.loadMore}
-              deleteAction={this.props.deleteAction}
-              showSignInDialog={this.props.showSignInDialog}
-              comments={asset.comments} />
+            <div className="embed__stream">
+              <Stream
+                addNotification={this.props.addNotification}
+                postItem={this.props.postItem}
+                setActiveReplyBox={this.setActiveReplyBox}
+                activeReplyBox={this.state.activeReplyBox}
+                asset={asset}
+                currentUser={user}
+                postLike={this.props.postLike}
+                postFlag={this.props.postFlag}
+                postDontAgree={this.props.postDontAgree}
+                getCounts={this.props.getCounts}
+                addCommentTag={this.props.addCommentTag}
+                removeCommentTag={this.props.removeCommentTag}
+                updateCountCache={this.props.updateCountCache}
+                loadMore={this.props.loadMore}
+                deleteAction={this.props.deleteAction}
+                showSignInDialog={this.props.showSignInDialog}
+                comments={asset.comments} />
+            </div>
             <Notification
               notifLength={4500}
               clearNotification={this.props.clearNotification}
@@ -278,6 +288,8 @@ export default compose(
   postFlag,
   postLike,
   postDontAgree,
+  addCommentTag,
+  removeCommentTag,
   deleteAction,
   queryStream
 )(Embed);
