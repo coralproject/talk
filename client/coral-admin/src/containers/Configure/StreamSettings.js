@@ -3,8 +3,8 @@ import {SelectField, Option} from 'react-mdl-selectfield';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations.json';
 import styles from './Configure.css';
-import {Checkbox} from 'react-mdl';
-import {Card, Icon, TextArea, Textfield} from 'coral-ui';
+import {Checkbox, Textfield} from 'react-mdl';
+import {Card, Icon, TextArea} from 'coral-ui';
 
 const TIMESTAMPS = {
   weeks: 60 * 60 * 24 * 7,
@@ -94,7 +94,7 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
           </p>
         </div>
       </Card>
-      <Card className={`${styles.configSettingInfoBox} ${settings.infoBoxEnable ? on : off}`}>
+      <Card className={`${styles.configSetting} ${styles.configSettingInfoBox} ${settings.infoBoxEnable ? on : off}`}>
         <div className={styles.action}>
           <Checkbox
             onChange={updateInfoBoxEnable(updateSettings, settings.infoBoxEnable)}
@@ -118,9 +118,10 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
           </div>
         </div>
       </Card>
-      <Card className={styles.configSettingInfoBox}>
-        <div className={styles.content}>
-          {lang.t('configure.closed-comments-desc')}
+      <Card className={`${styles.configSetting} ${styles.configSettingInfoBox}`}>
+        <div className={styles.settingsHeader}>{lang.t('configure.closed-stream-settings')}</div>
+        <div className={styles.wrapper}>
+          <p>{lang.t('configure.closed-comments-desc')}</p>
           <div>
             <TextArea className={styles.descriptionBox}
               onChange={updateClosedMessage(updateSettings)}
@@ -129,7 +130,7 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
           </div>
         </div>
       </Card>
-      <Card className={styles.configSettingInfoBox}>
+      <Card className={`${styles.configSetting} ${styles.configSettingInfoBox}`}>
         <div className={styles.content}>
           {lang.t('configure.close-after')}
           <br />

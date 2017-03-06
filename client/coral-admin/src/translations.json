@@ -53,6 +53,7 @@
       "copy": "Copy to Clipboard"
     },
     "configure": {
+      "closed-stream-settings": "Closed Stream Message",
       "stream-settings": "Stream Settings",
       "moderation-settings": "Moderation Settings",
       "tech-settings": "Tech Settings",
@@ -79,7 +80,7 @@
       "configure": "Configure",
       "community": "Community",
       "streams": "Streams",
-      "closed-comments-desc": "Write a message for closed threads",
+      "closed-comments-desc": "Write a message to be displayed when when your comment stream is closed and no longer accepting comments.",
       "closed-comments-label": "Write a message...",
       "hours": "Hours",
       "days": "Days",
@@ -178,6 +179,7 @@
       "username_flags": ""
     },
     "configure": {
+      "closed-stream-settings": "Mensaje cuando los comentarios están cerrados en el artículo",
       "stream-settings": "Configuración de Comentarios",
       "moderation-settings": "Configuración de Moderación",
       "tech-settings": "Configuración Technical",
@@ -204,7 +206,7 @@
       "configure": "Configurar",
       "community": "Comunidad",
       "streams": "Streams",
-      "closed-comments-desc": "Escribe un mensaje para cuando los comentarios se encuentran cerrados",
+      "closed-comments-desc": "Escribe un mensaje que será mostrado cuando los comentarios estén cerrados y no se acepten más comentarios.",
       "closed-comments-label": "Escribe un mensaje...",
       "never": "Nunca",
       "hours": "Horas",

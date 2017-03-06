@@ -14,19 +14,20 @@ const updateCustomCssUrl = (updateSettings) => (event) => {
 
 const TechSettings = ({settings, onChangeDomainlist, updateSettings}) => {
   return (
-    <div>
+    <div className={styles.Configure}>
       <Domainlist
         domains={settings.domains.whitelist}
         onChangeDomainlist={onChangeDomainlist} />
       <EmbedLink />
       <Card className={styles.configSetting}>
-        <h3>{lang.t('configure.custom-css-url')}</h3>
-        <p>{lang.t('configure.custom-css-url-desc')}</p>
-        <br />
-        <input
+        <div className={styles.wrapper}>
+          <div className={styles.settingsHeader}>{lang.t('configure.custom-css-url')}</div>
+          <p>{lang.t('configure.custom-css-url-desc')}</p>
+          <input
           className={styles.customCSSInput}
           value={settings.customCssUrl}
           onChange={updateCustomCssUrl(updateSettings)} />
+        </div>
       </Card>
     </div>
   );
