@@ -53,6 +53,7 @@
       "copy": "Copy to Clipboard"
     },
     "configure": {
+      "closed-stream-settings": "Closed Stream Message",
       "stream-settings": "Stream Settings",
       "moderation-settings": "Moderation Settings",
       "tech-settings": "Tech Settings",
@@ -63,7 +64,7 @@
       "enable-pre-moderation-text": "Moderators must approve any comment before it is published.",
       "require-email-verification": "Require Email Verification",
       "require-email-verification-text": "New Users must verify their email before commenting",
-      "include-comment-stream": "Include Comment Stream Description for Readers.",
+      "include-comment-stream": "Include Comment Stream Description for Readers",
       "include-comment-stream-desc": "Write a message to be added to the top of your comment stream. Pose a topic, include community guidelines, etc.",
       "include-text": "Include your text here.",
       "comment-settings": "Settings",
@@ -79,7 +80,7 @@
       "configure": "Configure",
       "community": "Community",
       "streams": "Streams",
-      "closed-comments-desc": "Write a message for closed threads",
+      "closed-comments-desc": "Write a message to be displayed when when your comment stream is closed and no longer accepting comments.",
       "closed-comments-label": "Write a message...",
       "hours": "Hours",
       "days": "Days",
@@ -87,7 +88,7 @@
       "close-after": "Close comments after",
       "comment-count-header": "Limit Comment Length",
       "comment-count-text-pre":  "Comments will be limited to ",
-      "comment-count-text-post": " characters.",
+      "comment-count-text-post": " characters",
       "comment-count-error": "Please enter a valid number.",
       "domain-list-title": "Permitted Domains",
       "domain-list-text": "Enter the domains you would like to permit for Talk, e.g. your local, staging and production environments (ex. localhost:3000, staging.domain.com, domain.com)."
@@ -178,6 +179,7 @@
       "username_flags": ""
     },
     "configure": {
+      "closed-stream-settings": "Mensaje cuando los comentarios están cerrados en el artículo",
       "stream-settings": "Configuración de Comentarios",
       "moderation-settings": "Configuración de Moderación",
       "tech-settings": "Configuración Technical",
@@ -204,7 +206,7 @@
       "configure": "Configurar",
       "community": "Comunidad",
       "streams": "Streams",
-      "closed-comments-desc": "Escribe un mensaje para cuando los comentarios se encuentran cerrados",
+      "closed-comments-desc": "Escribe un mensaje que será mostrado cuando los comentarios estén cerrados y no se acepten más comentarios.",
       "closed-comments-label": "Escribe un mensaje...",
       "never": "Nunca",
       "hours": "Horas",
