@@ -116,6 +116,7 @@ class Comment extends React.Component {
     const dontagree = getActionSummary('DontAgreeActionSummary', comment);
     let commentClass = parentId ? `reply ${styles.Reply}` : `comment ${styles.Comment}`;
     commentClass += highlighted === comment.id ? ' highlighted-comment' : '';
+    commentClass += comment.id === 'pending' ? ' pendingComment' : '';
 
     // call a function, and if it errors, call addNotification('error', ...) (e.g. to show user a snackbar)
     const notifyOnError = (fn, errorToMessage) => async () => {

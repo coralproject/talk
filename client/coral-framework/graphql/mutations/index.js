@@ -35,7 +35,7 @@ export const postComment = graphql(POST_COMMENT, {
               action_summaries: [],
               tags: [],
               status: null,
-              id: `${Date.now()}_temp_id`
+              id: 'pending'
             }
           }
         },
