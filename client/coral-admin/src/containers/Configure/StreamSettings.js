@@ -32,6 +32,11 @@ const updateInfoBoxEnable = (updateSettings, infoBox) => () => {
   updateSettings({infoBoxEnable});
 };
 
+const updatePremodLinksEnable = (updateSettings, premodLinks) => () => {
+  const premodLinksEnable = !premodLinks;
+  updateSettings({premodLinksEnable});
+};
+
 const updateInfoBoxContent = (updateSettings) => (event) => {
   const infoBoxContent =  event.target.value;
   updateSettings({infoBoxContent});
@@ -91,6 +96,19 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
                   {lang.t('configure.comment-count-error')}
                 </span>
               }
+          </p>
+        </div>
+      </Card>
+      <Card className={`${styles.configSetting} ${settings.premodLinksEnable ? on : off}`}>
+        <div className={styles.action}>
+          <Checkbox
+            onChange={updatePremodLinksEnable(updateSettings, settings.premodLinksEnable)}
+            checked={settings.premodLinksEnable} />
+        </div>
+        <div className={styles.content}>
+          <div className={styles.settingsHeader}>{lang.t('configure.enable-premod-links')}</div>
+          <p>
+            {lang.t('configure.enable-premod-links-text')}
           </p>
         </div>
       </Card>
