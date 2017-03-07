@@ -43,6 +43,10 @@
   height: var(--row-height);
 }
 
+.emptyRow {
+  height: var(--row-height);
+}
+
 .rowLinkify:last-child {
   border-bottom: none;
 }

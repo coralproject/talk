@@ -3,6 +3,7 @@ import {Link} from 'react-router';
 import styles from './Widget.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations';
+import range from 'lodash/range';
 
 const lang = new I18n(translations);
 
@@ -44,7 +45,7 @@ const FlagWidget = (props) => {
           }
           { /* rows in a table with a fixed height will expand and ignore height.
                 this extra row will expand to fill the extra space. */
-            assets.length < 10 ? <tr></tr> : null
+            range(10 - Math.max(assets.length, 1)).map(() => <tr className={styles.emptyRow}></tr>)
           }
         </tbody>
       </table>
