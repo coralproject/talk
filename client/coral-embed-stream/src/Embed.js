@@ -16,7 +16,7 @@ import {queryStream} from 'coral-framework/graphql/queries';
 import {postComment, postFlag, postLike, postDontAgree, deleteAction, addCommentTag, removeCommentTag} from 'coral-framework/graphql/mutations';
 import {editName} from 'coral-framework/actions/user';
 import {updateCountCache} from 'coral-framework/actions/asset';
-import {Notification, notificationActions, authActions, assetActions, pym} from 'coral-framework';
+import {notificationActions, authActions, assetActions, pym} from 'coral-framework';
 
 import Stream from './Stream';
 import InfoBox from 'coral-plugin-infobox/InfoBox';
@@ -176,7 +176,7 @@ class Embed extends Component {
                 refetch={refetch}
                 setActiveReplyBox={this.setActiveReplyBox}
                 activeReplyBox={this.state.activeReplyBox}
-                addNotification={addNotification}
+                addNotification={this.props.addNotification}
                 depth={0}
                 postItem={this.props.postItem}
                 asset={asset}
@@ -220,11 +220,6 @@ class Embed extends Component {
                 showSignInDialog={this.props.showSignInDialog}
                 comments={asset.comments} />
             </div>
-            <Notification
-              notifLength={4500}
-              clearNotification={this.props.clearNotification}
-              notification={{text: null}}
-            />
           <LoadMore
             assetId={asset.id}
             comments={asset.comments}
@@ -246,11 +241,6 @@ class Embed extends Component {
              />
            </RestrictedContent>
          </TabContent>
-          <Notification
-            notifLength={4500}
-            clearNotification={this.props.clearNotification}
-            notification={this.props.notification}
-          />
         </div>
       </div>
     );
@@ -258,7 +248,6 @@ class Embed extends Component {
 }
 
 const mapStateToProps = state => ({
-  notification: state.notification.toJS(),
   auth: state.auth.toJS(),
   userData: state.user.toJS(),
   asset: state.asset.toJS()
@@ -267,13 +256,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   requestConfirmEmail: () => dispatch(requestConfirmEmail()),
   loadAsset: (asset) => dispatch(fetchAssetSuccess(asset)),
-  addNotification: (type, text) => {
-    pym.sendMessage('getPosition');
-
-    pym.onMessage('position', position => {
-      dispatch(addNotification(type, text, position));
-    });
-  },
+  addNotification: (type, text) => dispatch(addNotification(type, text)),
   clearNotification: () => dispatch(clearNotification()),
   editName: (username) => dispatch(editName(username)),
   showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),

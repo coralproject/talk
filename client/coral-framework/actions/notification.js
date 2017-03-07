@@ -1,17 +1,9 @@
-export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
-export const CLEAR_NOTIFICATION = 'CLEAR_NOTIFICATION';
+import {pym} from 'coral-framework';
 
-export const addNotification = (notifType, text, position) => {
-  return {
-    type: ADD_NOTIFICATION,
-    notifType,
-    text,
-    position
-  };
+export const addNotification = (notifType, text) => {
+  pym.sendMessage('coral-alert', `${notifType}|${text}`);
 };
 
 export const clearNotification = () => {
-  return {
-    type: CLEAR_NOTIFICATION
-  };
+  pym.sendMessage('coral-clear-notification');
 };
