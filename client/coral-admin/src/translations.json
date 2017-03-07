@@ -117,6 +117,8 @@
       "write_message": "Write a message"
     },
     "dashboard": {
+      "next-update": "{0} minutes until next update.",
+      "auto-update": "Data automatically updates every five minutes or when you Reload.",
       "no_flags": "There have been no flags in the last 5 minutes! Hooray!",
       "no_likes": "There have been no likes in the last 5 minutes. All quiet.",
       "flags": "Flags",
@@ -235,6 +237,8 @@
       "yes_ban_user": "Si, Suspendan el usuario"
     },
     "dashbord": {
+      "next-update": "",
+      "auto-update": "",
       "no_flags": "¡Nadie ha marcado nada en los últimos 5 minutos! ¡Bravo!",
       "no_likes": "A nadie le ha gustado algún comentario en los últimos 5 minutos. Todo tranquilo.",
       "flags": "Marcados",

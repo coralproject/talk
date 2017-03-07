@@ -7,3 +7,28 @@
   font-size: 1.5rem;
   font-weight: bold;
 }
+
+.autoUpdate {
+  background-color: #ffdb87;
+  padding: 3px 10px 10px 10px;
+  margin-bottom: 0;
+
+  i {
+    position: relative;
+    top: 7px;
+  }
+
+  b {
+    float: right;
+    border-radius: 20px;
+    cursor: pointer;
+    background-color: #e6ba52;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    top: 4px;
+    position: relative;
+    line-height: 1.7em;
+    font-size: 1.3em;
+  }
+}
