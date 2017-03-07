@@ -24,9 +24,29 @@
   margin-bottom: 20px;
   align-items: flex-start;
   min-height: 100px;
+  max-width: 600px;
 
   h3 {
     margin: 0;
+  }
+
+  .actions {
+    display: inline-block;
+    width: 100%;
+
+    .copiedText {
+      display: inline-block;
+      color: #00796b;
+      padding: 12px;
+      font-size: 14px;
+      float: right;
+    }
+
+    .copyButton {
+      display: inline-block;
+      width: 200px;
+      float: right;
+    }
   }
 }
 
@@ -41,7 +61,9 @@
 
 .settingsHeader {
   margin-top: 3px;
-  margin-bottom: 10px;
+  margin-bottom: 7px;
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .disabledSettingText {
@@ -56,11 +78,6 @@
   height: auto;
   text-align: left;
   overflow: visible;
-}
-
-.configSettingInfoBox p {
-  font-size: 12px;
-  bottom: 0;
 }
 
 .configSettingEmbed {
@@ -81,6 +98,8 @@
   border-color: #ccc;
   border-style: solid;
   border-width: 0px 0px 1px 0px;
+  font-size: 14px;
+  text-align: center;
 }
 
 .charCountTexfieldEnabled {
@@ -96,29 +115,18 @@
   color: white;
 }
 
-.copiedText {
-  color: #00796b;
-  float: right;
-  padding: 12px;
-  font-size: 14px;
-}
-
-.copyButton {
-  float: right;
-  width: 200px;
-}
-
 .embedInput {
-  border-radius: 3px;
-  border: 1px solid #ccc;
+  width: 100%;
   display: block;
-  width: 90%;
-  vertical-align: middle;
-  margin-bottom: 10px;
-  color: #555;
-  padding: 14px;
+  outline: none;
+  border: 1px solid rgba(0,0,0,.12);
+  padding: 6px;
+  box-sizing: border-box;
+  border-radius: 2px;
+  margin: 5px auto;
+  min-height: 175px;
   font-size: 14px;
-  letter-spacing: 0.03em;
+  resize: none;
 }
 
 #bannedWordlist, #suspectWordlist {
@@ -168,5 +176,26 @@
   .content {
     display: inline-block;
     padding-left: 30px;
+  }
+}
+
+.Configure {
+
+  p {
+    line-height: 1.2;
+    max-width: 550px;
+  }
+
+  .wrapper {
+    width: 550px;
+  }
+
+  .descriptionBox {
+    margin-top: 15px;
+    max-width: 550px;
+
+    input {
+      height: 150px;
+    }
   }
 }
