@@ -21,7 +21,8 @@ import ModerationKeysModal from '../../components/ModerationKeysModal';
 
 class ModerationContainer extends Component {
   state = {
-    selectedIndex: 0
+    selectedIndex: 0,
+    sort: 'REVERSE_CHRONOLOGICAL'
   }
 
   componentWillMount() {
@@ -53,6 +54,11 @@ class ModerationContainer extends Component {
 
   }
 
+  selectSort = (sort) => {
+    this.setState({sort});
+    this.props.modQueueResort(sort);
+  }
+
   componentWillUnmount() {
     key.unbind('s');
     key.unbind('shift+/');
@@ -71,7 +77,7 @@ class ModerationContainer extends Component {
   }
 
   render () {
-    const {data, moderation, settings, assets, modQueueResort, onClose, ...props} = this.props;
+    const {data, moderation, settings, assets, onClose, ...props} = this.props;
     const providedAssetId = this.props.params.id;
     const activeTab = this.props.route.path === ':id' ? 'premod' : this.props.route.path;
 
@@ -103,7 +109,8 @@ class ModerationContainer extends Component {
           premodCount={data.premodCount}
           rejectedCount={data.rejectedCount}
           flaggedCount={data.flaggedCount}
-          modQueueResort={modQueueResort}
+          selectSort={this.selectSort}
+          sort={this.state.sort}
         />
         <ModerationQueue
           currentAsset={asset}
@@ -115,6 +122,9 @@ class ModerationContainer extends Component {
           showBanUserDialog={props.showBanUserDialog}
           acceptComment={props.acceptComment}
           rejectComment={props.rejectComment}
+          loadMore={props.loadMore}
+          assetId={providedAssetId}
+          sort={this.state.sort}
         />
         <BanUserDialog
           open={moderation.banDialog}
