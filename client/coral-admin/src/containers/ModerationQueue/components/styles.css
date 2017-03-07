@@ -114,7 +114,15 @@ span {
       }
 
       &:nth-child(2) {
-       text-align: center;
+        span {
+          text-align: center;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          max-width: 344px;
+          display: inline-block;
+          vertical-align: top;
+        }
       }
 
       &:last-child {

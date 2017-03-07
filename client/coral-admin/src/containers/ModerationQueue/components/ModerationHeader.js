@@ -11,7 +11,7 @@ const ModerationHeader = props => (
             <div className={`mdl-tabs__tab-bar ${styles.moderateAsset}`}>
               <Link className="mdl-tabs__tab" to="/admin/moderate">All Streams</Link>
               <a className="mdl-tabs__tab">
-                {props.asset.title}
+                <span>{props.asset.title}</span>
                 <a href={props.asset.url} className={styles.settingsButton}><Icon name="settings"/></a>
               </a>
               <Link className="mdl-tabs__tab" to="/admin/streams">Select Stream</Link>
