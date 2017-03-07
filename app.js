@@ -34,6 +34,7 @@ app.use(helmet({
 }));
 app.use(bodyParser.json());
 app.use('/client', express.static(path.join(__dirname, 'dist')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
