@@ -3,8 +3,8 @@ import {SelectField, Option} from 'react-mdl-selectfield';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations.json';
 import styles from './Configure.css';
-import {Textfield, Checkbox} from 'react-mdl';
-import {Card, Icon} from 'coral-ui';
+import {Checkbox, Textfield} from 'react-mdl';
+import {Card, Icon, TextArea} from 'coral-ui';
 
 const TIMESTAMPS = {
   weeks: 60 * 60 * 24 * 7,
@@ -69,7 +69,7 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
   const off = styles.disabledSetting;
 
   return (
-    <div>
+    <div className={styles.Configure}>
       <Card className={`${styles.configSetting} ${settings.charCountEnable ? on : off}`}>
         <div className={styles.action}>
           <Checkbox
@@ -84,7 +84,9 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
               className={`${styles.charCountTexfield} ${settings.charCountEnable && styles.charCountTexfieldEnabled}`}
               htmlFor='charCount'
               onChange={updateCharCount(updateSettings, settingsError)}
-              value={settings.charCount}/>
+              value={settings.charCount}
+              disabled={settings.charCountEnable ? '' : 'disabled'}
+            />
             <span>{lang.t('configure.comment-count-text-post')}</span>
               {
                 errors.charCount &&
@@ -97,54 +99,56 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
           </p>
         </div>
       </Card>
-      <Card className={`${styles.configSettingInfoBox} ${settings.premodLinksEnable ? on : off}`}>
+      <Card className={`${styles.configSetting} ${settings.premodLinksEnable ? on : off}`}>
         <div className={styles.action}>
           <Checkbox
             onChange={updatePremodLinksEnable(updateSettings, settings.premodLinksEnable)}
             checked={settings.premodLinksEnable} />
         </div>
         <div className={styles.content}>
-          {lang.t('configure.enable-premod-links')}
+          <div className={styles.settingsHeader}>{lang.t('configure.enable-premod-links')}</div>
           <p>
             {lang.t('configure.enable-premod-links-text')}
           </p>
         </div>
       </Card>
-      <Card className={`${styles.configSettingInfoBox} ${settings.infoBoxEnable ? on : off}`}>
+      <Card className={`${styles.configSetting} ${styles.configSettingInfoBox} ${settings.infoBoxEnable ? on : off}`}>
         <div className={styles.action}>
           <Checkbox
             onChange={updateInfoBoxEnable(updateSettings, settings.infoBoxEnable)}
             checked={settings.infoBoxEnable} />
         </div>
         <div className={styles.content}>
-          {lang.t('configure.include-comment-stream')}
-          <p>
+          <div className={styles.settingsHeader}>
+            {lang.t('configure.include-comment-stream')}
+          </div>
+          <p className={settings.infoBoxEnable ? '' : styles.disabledSettingText}>
             {lang.t('configure.include-comment-stream-desc')}
           </p>
           <div className={`${styles.configSettingInfoBox} ${settings.infoBoxEnable ? null : styles.hidden}`} >
-            <div className={styles.content}>
-              <Textfield
+            <div>
+              <TextArea
+                className={styles.descriptionBox}
                 onChange={updateInfoBoxContent(updateSettings)}
                 value={settings.infoBoxContent}
-                label={lang.t('configure.include-text')}
-                rows={3}/>
+              />
             </div>
           </div>
         </div>
       </Card>
-      <Card className={styles.configSettingInfoBox}>
-        <div className={styles.content}>
-          {lang.t('configure.closed-comments-desc')}
+      <Card className={`${styles.configSetting} ${styles.configSettingInfoBox}`}>
+        <div className={styles.settingsHeader}>{lang.t('configure.closed-stream-settings')}</div>
+        <div className={styles.wrapper}>
+          <p>{lang.t('configure.closed-comments-desc')}</p>
           <div>
-          <Textfield
-            onChange={updateClosedMessage(updateSettings)}
-            value={settings.closedMessage}
-            label={lang.t('configure.closed-comments-label')}
-            rows={3}/>
+            <TextArea className={styles.descriptionBox}
+              onChange={updateClosedMessage(updateSettings)}
+              value={settings.closedMessage}
+            />
           </div>
         </div>
       </Card>
-      <Card className={styles.configSettingInfoBox}>
+      <Card className={`${styles.configSetting} ${styles.configSettingInfoBox}`}>
         <div className={styles.content}>
           {lang.t('configure.close-after')}
           <br />
