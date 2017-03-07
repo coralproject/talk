@@ -4,12 +4,12 @@
   top: 11px;
   color: white;
   background: grey;
-  padding: 2px 13px;
-  font-size: 14px;
   height: 32px;
   box-sizing: border-box;
   line-height: 29px;
-  padding-left: 26px;
+  padding: 2px 8px 2px 26px;
+  border-radius: 2px;
+  font-size: 12px;
 
   i {
     font-size: 14px;

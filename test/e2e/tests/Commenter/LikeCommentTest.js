@@ -15,6 +15,7 @@ module.exports = {
     const embedStreamPage = client.page.embedStreamPage();
 
     embedStreamPage
+      .postComment(`hi ${Math.random()}`)
       .likeComment()
       .waitForElementVisible('@likesCount', 2000)
       .expect.element('@likeText').text.to.equal('Liked');

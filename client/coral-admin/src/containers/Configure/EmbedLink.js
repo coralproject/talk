@@ -45,13 +45,19 @@ class EmbedLink extends Component {
     `.trim();
     return (
       <Card shadow="2" className={styles.configSetting}>
-        <h3>Embed Comment Stream</h3>
-        <p>{lang.t('configure.copy-and-paste')}</p>
-        <textarea rows={5} type='text' className={styles.embedInput} value={embedText} readOnly={true}/>
-        <Button raised className={styles.copyButton} onClick={this.copyToClipBoard} cStyle="black">
-          {lang.t('embedlink.copy')}
-        </Button>
-        <div className={styles.copiedText}>{this.state.copied && 'Copied!'}</div>
+        <div className={styles.wrapper}>
+          <div className={styles.settingsHeader}>Embed Comment Stream</div>
+          <p>{lang.t('configure.copy-and-paste')}</p>
+          <textarea rows={5} type='text' className={styles.embedInput} value={embedText} readOnly={true}/>
+          <div className={styles.actions}>
+            <Button raised className={styles.copyButton} onClick={this.copyToClipBoard} cStyle="black">
+              {lang.t('embedlink.copy')}
+            </Button>
+            <div className={styles.copiedText}>
+              {this.state.copied && 'Copied!'}
+            </div>
+          </div>
+        </div>
       </Card>
     );
   }
