@@ -9,7 +9,7 @@
     min-width: 64px;
     padding: 0 8px;
     display: inline-block;
-    font-family: 'Roboto','Helvetica','Arial',sans-serif;
+    font-family: inherit;
     font-size: 14px;
     overflow: hidden;
     will-change: box-shadow,transform;
