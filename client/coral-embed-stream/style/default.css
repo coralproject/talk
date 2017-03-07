@@ -90,6 +90,14 @@ hr {
   border-radius: 2px;
 }
 
+
+.commentStream .material-icons {
+  vertical-align: middle;
+  width: 1em;
+  font-size: 1em;
+  overflow: hidden;
+}
+
 /* Question Box Styles */
 .coral-plugin-questionbox-info {
   top: 0;
@@ -103,15 +111,41 @@ hr {
   font-weight: bold;
   font-size: 14px;
   display: block;
+  overflow: hidden;
+  height: 50px;
 }
 
-.coral-plugin-questionbox-icon {
+.coral-plugin-questionbox-icon.bubble{
+  position: absolute;
+  top: 11px;
+  left: 15px;
+  color: #949393;
+  font-size: 20px;
+  z-index: 0;
+}
+
+.coral-plugin-questionbox-icon.person{
+  z-index: 2;
+  top: 20px;
+  left: 20px;
+  position: absolute;
+  font-size: 24px;
+  color: white;
+}
+
+.coral-plugin-questionbox-box {
+  position: relative;
   border: 0;
   background: black;
   color: white;
   padding: 20px;
   margin-left: 0px !important;
   margin-right: 10px;
+  display: inline-block;
+  width: 15px;
+  height: 100%;
+  padding: 3px 20px;
+  vertical-align: middle;
 }
 
 .hidden  {
@@ -245,13 +279,6 @@ button.comment__action-button[disabled],
 
 .comment__action-button--nowrap {
   white-space: nowrap;
-}
-
-.commentStream .material-icons {
-  vertical-align: middle;
-  width: 1em;
-  font-size: 1em;
-  overflow: hidden;
 }
 
 .likedButton {
