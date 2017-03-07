@@ -38,6 +38,18 @@ export default ({handleChange, handleApply, changed, updateQuestionBoxContent, .
           <Checkbox
             className={styles.checkbox}
             cStyle={changed ? 'green' : 'darkGrey'}
+            name="premodLinks"
+            onChange={handleChange}
+            defaultChecked={props.premodLinks}
+            info={{
+              title: lang.t('configureCommentStream.enablePremodLinks'),
+              description: lang.t('configureCommentStream.enablePremodLinksDescription')
+            }} />
+        </li>
+        <li>
+          <Checkbox
+            className={styles.checkbox}
+            cStyle={changed ? 'green' : 'darkGrey'}
             name="qboxenable"
             onChange={handleChange}
             defaultChecked={props.questionBoxEnable}
