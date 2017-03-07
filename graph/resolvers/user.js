@@ -28,15 +28,6 @@ const User = {
     }
 
     return null;
-  },
-  users({id}, _, {loaders: {Users}, user}) {
-
-    // Only administrators can search for users
-    if (user && user.hasRoles('ADMIN')) {
-      return Users.getByQuery();
-    }
-
-    return null;
   }
 };
 
