@@ -370,6 +370,7 @@ type Settings {
 
   infoBoxEnable: Boolean
   infoBoxContent: String
+  premodLinksEnable: Boolean
   questionBoxEnable: Boolean
   questionBoxContent: String
   closeTimeout: Int
