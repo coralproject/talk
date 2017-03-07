@@ -76,18 +76,24 @@ const RootQuery = {
 
   // This endpoint is used for loading the user moderation queues (users whose username has been flagged),
   // so hide it in the event that we aren't an admin.
-  usersFlagged(_, args, {user, loaders: {Users, Actions}}) {
+  users(_, {query: {action_type, limit, cursor, sort}}, {user, loaders: {Users, Actions}}) {
 
     if (user == null || !user.hasRoles('ADMIN')) {
       return null;
     }
 
-    return Actions.getByTypes({action_type: 'FLAG', item_type: 'USERS'})
-      .then((ids) => {
+    const query = {limit, cursor, sort};
 
-        // Perform the query using the available resolver.
-        return Users.getByQuery({ids});
-      });
+    if (action_type) {
+      return Actions.getByTypes({action_type, item_type: 'USERS'})
+        .then((ids) => {
+
+          // Perform the query using the available resolver.
+          return Users.getByQuery({ids, limit, cursor, sort});
+        });
+    }
+
+    return Users.getByQuery(query);
   }
 };
 

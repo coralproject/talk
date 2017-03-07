@@ -1,15 +1,12 @@
-query Users {
-  usersFlagged {
+query Users ($n: ACTION_TYPE) {
+  users (query:{action_type: $n}){
     id
     username
     status
     roles
     actions{
       id
-      reason
-      user {
-        username
-      }
+      created_at
     }
     action_summaries {
       count

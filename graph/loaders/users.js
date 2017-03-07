@@ -19,13 +19,6 @@ const getUsersByQuery = ({user}, {ids, limit, cursor, sort}) => {
 
   let users = UserModel.find();
 
-  // Only administrators can search for users
-  if (user == null || !user.hasRoles('ADMIN')) {
-    return null;
-  }
-
-  users = users.find();
-
   if (ids) {
     users = users.find({
       id: {

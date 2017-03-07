@@ -34,7 +34,7 @@ type User {
   action_summaries: [FlagActionSummary]
 
   # Actions completed on the parent.
-  actions: [FlagAction]
+  actions: [Action]
 
   # the current roles of the user.
   roles: [USER_ROLES]
@@ -45,6 +45,9 @@ type User {
   # returns all comments based on a query.
   comments(query: CommentsQuery): [Comment]
 
+  # returns all users based on a query.
+  users(query: UsersQuery): [User]
+  
   # returns user status
   status: USER_STATUS
 }
@@ -60,8 +63,9 @@ type Tag {
   created_at: Date!
 }
 
-# UsersQuery allows the ability to query users by a specific methods.
+# UsersQuery allows the ability to query users by a specific fields.
 input UsersQuery {
+  action_type: ACTION_TYPE
 
   # Limit the number of results to be returned.
   limit: Int = 10
@@ -512,7 +516,7 @@ type RootQuery {
   metrics(from: Date!, to: Date!, sort: ACTION_TYPE!, limit: Int = 10): [Asset]
 
   # Users returned based on a query.
-  usersFlagged(query: UsersQuery): [User]
+  users(query: UsersQuery): [User]
 }
 
 ################################################################################
