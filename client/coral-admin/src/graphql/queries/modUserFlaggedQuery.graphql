@@ -7,6 +7,12 @@ query Users ($n: ACTION_TYPE) {
     actions{
       id
       created_at
+      ... on FlagAction {
+        reason
+      }
+      user {
+        username
+      }
     }
     action_summaries {
       count
