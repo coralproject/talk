@@ -1,26 +1,27 @@
 import React, {PropTypes} from 'react';
 
 import Comment from './components/Comment';
+import styles from './components/styles.css';
 import EmptyCard from '../../components/EmptyCard';
 import {actionsMap} from './helpers/moderationQueueActionsMap';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations';
 
 const lang = new I18n(translations);
-
-const ModerationQueue = ({activeTab = 'premod', ...props}) => {
-  const areComments = props.data[activeTab].length;
+const ModerationQueue = ({comments, selectedIndex, singleView, ...props}) => {
   return (
-    <div id="moderationList">
+    <div id="moderationList" className={`${styles.list} ${singleView ? styles.singleView : ''}`}>
       <ul style={{paddingLeft: 0}}>
       {
-        areComments
-        ? props.data[activeTab].map((comment, i) => {
+        comments.length
+        ? comments.map((comment, i) => {
           const status = comment.action_summaries ? 'FLAGGED' : comment.status;
           return <Comment
             key={i}
             index={i}
             comment={comment}
+            commentType={props.activeTab}
+            selected={i === selectedIndex}
             suspectWords={props.suspectWords}
             actions={actionsMap[status]}
             showBanUserDialog={props.showBanUserDialog}
@@ -37,12 +38,12 @@ const ModerationQueue = ({activeTab = 'premod', ...props}) => {
 };
 
 ModerationQueue.propTypes = {
-  data: PropTypes.object.isRequired,
-  acceptComment: PropTypes.func.isRequired,
-  rejectComment: PropTypes.func.isRequired,
-  showBanUserDialog: PropTypes.func.isRequired,
+  suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired,
   currentAsset: PropTypes.object,
-  suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired
+  showBanUserDialog: PropTypes.func.isRequired,
+  rejectComment: PropTypes.func.isRequired,
+  acceptComment: PropTypes.func.isRequired,
+  comments: PropTypes.array.isRequired
 };
 
 export default ModerationQueue;

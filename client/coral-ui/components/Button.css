@@ -110,6 +110,82 @@
   background: #00a291;
 }
 
+.type--approve {
+  display: block;
+  color: #519954;
+  border: solid 2px rgba(81, 153, 84, 0.75);
+  background: white;
+  padding: 10px 12px;
+  box-sizing: border-box;
+  vertical-align: middle;
+  line-height: 24px;
+  font-size: 17px;
+  height: 47px;
+  border-radius: 3px;
+  text-transform: capitalize;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.03), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.09);
+  width: 128px;
+
+  &:hover {
+   box-shadow: none;
+   color: white;
+   background-color: #519954;
+  }
+}
+
+.type--reject, .type--rejected {
+  display: block;
+  color: #D03235;
+  border: solid 1px #D03235;
+  background: white;
+  padding: 10px 11px;
+  box-sizing: border-box;
+  vertical-align: middle;
+  line-height: 24px;
+  font-size: 17px;
+  height: 47px;
+  border-radius: 3px;
+  text-transform: capitalize;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.03), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.09);
+  width: 128px;
+
+&:hover {
+   color: white;
+   background-color: #D03235;
+   box-shadow: none;
+ }
+}
+
+.type--rejected {
+  color: white;
+  background-color: #D03235;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.type--ban {
+  display: block;
+  color: #616161;
+  border: solid 1px rgba(97, 97, 97, 0.77);
+  background: white;
+  box-sizing: border-box;
+  vertical-align: middle;
+  line-height: 24px;
+  border-radius: 3px;
+  text-transform: capitalize;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.03), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.09);
+  padding: 0 8px;
+  height: 34px;
+  font-size: 14px;
+  width: auto;
+
+&:hover {
+   box-shadow: none;
+   color: white;
+   background-color: #616161;
+ }
+}
+
 .full {
   width: 100%;
   margin: 0;

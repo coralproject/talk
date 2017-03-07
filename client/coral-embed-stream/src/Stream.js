@@ -5,7 +5,6 @@ import {NEW_COMMENT_COUNT_POLL_INTERVAL} from 'coral-framework/constants/comment
 class Stream extends React.Component {
 
   static propTypes = {
-    refetch: PropTypes.func.isRequired,
     addNotification: PropTypes.func.isRequired,
     postItem: PropTypes.func.isRequired,
     asset: PropTypes.object.isRequired,
@@ -13,13 +12,18 @@ class Stream extends React.Component {
     currentUser: PropTypes.shape({
       username: PropTypes.string,
       id: PropTypes.string
-    })
+    }),
+
+    // dispatch action to add a tag to a comment
+    addCommentTag: React.PropTypes.func,
+
+    // dispatch action to remove a tag from a comment
+    removeCommentTag: React.PropTypes.func,
   }
 
   constructor(props) {
     super(props);
     this.state = {activeReplyBox: '', countPoll: null};
-    this.setActiveReplyBox = this.setActiveReplyBox.bind(this);
   }
 
   componentDidMount() {
@@ -42,15 +46,6 @@ class Stream extends React.Component {
     clearInterval(this.state.countPoll);
   }
 
-  setActiveReplyBox (reactKey) {
-    if (!this.props.currentUser) {
-      const offset = document.getElementById(`c_${reactKey}`).getBoundingClientRect().top - 75;
-      this.props.showSignInDialog(offset);
-    } else {
-      this.setState({activeReplyBox: reactKey});
-    }
-  }
-
   render () {
     const {
       comments,
@@ -64,17 +59,17 @@ class Stream extends React.Component {
       loadMore,
       deleteAction,
       showSignInDialog,
-      refetch
+      addCommentTag,
+      removeCommentTag
     } = this.props;
 
     return (
-      <div>
+      <div id='stream'>
         {
           comments.map(comment =>
             <Comment
-              refetch={refetch}
-              setActiveReplyBox={this.setActiveReplyBox}
-              activeReplyBox={this.state.activeReplyBox}
+              setActiveReplyBox={this.props.setActiveReplyBox}
+              activeReplyBox={this.props.activeReplyBox}
               addNotification={addNotification}
               depth={0}
               postItem={postItem}
@@ -83,6 +78,8 @@ class Stream extends React.Component {
               postLike={postLike}
               postFlag={postFlag}
               postDontAgree={postDontAgree}
+              addCommentTag={addCommentTag}
+              removeCommentTag={removeCommentTag}
               loadMore={loadMore}
               deleteAction={deleteAction}
               showSignInDialog={showSignInDialog}

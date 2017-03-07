@@ -47,7 +47,7 @@ type User {
 
   # returns all users based on a query.
   users(query: UsersQuery): [User]
-  
+
   # returns user status
   status: USER_STATUS
 }
@@ -165,6 +165,9 @@ input CommentCountQuery {
 
 # Comment is the base representation of user interaction in Talk.
 type Comment {
+
+  # The parent of the comment (if there is one).
+  parent: Comment
 
   # The ID of the comment.
   id: ID!
@@ -494,6 +497,9 @@ type RootQuery {
   # Site wide settings and defaults.
   settings: Settings
 
+  # Finds a specific comment based on it's id.
+  comment(id: ID!): Comment
+
   # All assets. Requires the `ADMIN` role.
   assets: [Asset]
 
@@ -511,12 +517,16 @@ type RootQuery {
   # role.
   me: User
 
-  # Metrics related to user actions are saturated into the assets returned. The
-  # sort will affect if it will allow
-  metrics(from: Date!, to: Date!, sort: ACTION_TYPE!, limit: Int = 10): [Asset]
-
   # Users returned based on a query.
   users(query: UsersQuery): [User]
+
+  # Asset metrics related to user actions are saturated into the assets
+  # returned.
+  assetMetrics(from: Date!, to: Date!, sort: ACTION_TYPE!, limit: Int = 10): [Asset!]
+
+  # Comment metrics related to user actions are saturated into the comments
+  # returned.
+  commentMetrics(from: Date!, to: Date!, sort: ACTION_TYPE!, limit: Int = 10): [Comment!]
 }
 
 ################################################################################
@@ -659,6 +669,20 @@ type SetCommentStatusResponse implements Response {
   errors: [UserError]
 }
 
+# Response to addCommentTag mutation
+type AddCommentTagResponse implements Response {
+  # An array of errors relating to the mutation that occured.
+  comment: Comment
+  errors: [UserError]
+}
+
+# Response to removeCommentTag mutation
+type RemoveCommentTagResponse implements Response {
+  # An array of errors relating to the mutation that occured.
+  comment: Comment
+  errors: [UserError]
+}
+
 # All mutations for the application are defined on this object.
 type RootMutation {
 
@@ -685,6 +709,12 @@ type RootMutation {
 
   # Sets Comment status. Requires the `ADMIN` role.
   setCommentStatus(id: ID!, status: COMMENT_STATUS!): SetCommentStatusResponse
+
+  # Add tag to comment.
+  addCommentTag(id: ID!, tag: String!): AddCommentTagResponse
+
+  # Remove tag from comment.
+  removeCommentTag(id: ID!, tag: String!): RemoveCommentTagResponse
 }
 
 ################################################################################

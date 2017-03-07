@@ -97,7 +97,7 @@ class CommunityContainer extends Component {
     return (
       <div>
         <FlaggedAccounts
-          commenters={data.usersFlagged}
+          commenters={data.users}
           isFetching={data.loading}
           error={data.error}
           showBanUserDialog={props.showBanUserDialog}

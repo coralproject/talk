@@ -3,6 +3,11 @@ query myCommentHistory {
         comments {
             id
             body
+            asset {
+              id
+              title
+              url
+            }
             created_at
         }
     }

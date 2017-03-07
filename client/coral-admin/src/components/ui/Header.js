@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {Navigation, Header, IconButton, MenuItem, Menu} from 'react-mdl';
 import {Link, IndexLink} from 'react-router';
 import styles from './Header.css';
@@ -6,7 +6,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations.json';
 import {Logo} from './Logo';
 
-export default ({handleLogout, restricted = false}) => (
+const CoralHeader = ({handleLogout, restricted = false}) => (
   <Header className={styles.header}>
     <Logo className={styles.logo} />
     {
@@ -14,28 +14,35 @@ export default ({handleLogout, restricted = false}) => (
       <div>
         <Navigation className={styles.nav}>
           <IndexLink
+            id='dashboardNav'
             className={styles.navLink}
             to="/admin/dashboard"
             activeClassName={styles.active}>
             {lang.t('configure.dashboard')}
           </IndexLink>
           <Link
+            id='moderateNav'
             className={styles.navLink}
             to="/admin/moderate"
             activeClassName={styles.active}>
             {lang.t('configure.moderate')}
           </Link>
-          <Link className={styles.navLink}
+          <Link
+            id='streamsNav'
+            className={styles.navLink}
             to="/admin/streams"
             activeClassName={styles.active}>
             {lang.t('configure.streams')}
           </Link>
-          <Link className={styles.navLink}
+          <Link
+            id='communityNav'
+            className={styles.navLink}
             to="/admin/community"
             activeClassName={styles.active}>
             {lang.t('configure.community')}
           </Link>
           <Link
+            id='configureNav'
             className={styles.navLink}
             to="/admin/configure"
             activeClassName={styles.active}>
@@ -64,4 +71,11 @@ export default ({handleLogout, restricted = false}) => (
   </Header>
 );
 
+CoralHeader.propTypes = {
+  handleLogout: PropTypes.func.isRequired,
+  restricted: PropTypes.bool // hide elemnts from a user that's logged out
+};
+
 const lang = new I18n(translations);
+
+export default CoralHeader;

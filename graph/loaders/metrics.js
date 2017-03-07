@@ -2,10 +2,12 @@ const _ = require('lodash');
 const DataLoader = require('dataloader');
 const {objectCacheKeyFn} = require('./util');
 
-const CommentModel = require('../../models/comment');
 const ActionModel = require('../../models/action');
 
-const getMetrics = ({loaders: {Metrics, Assets}}, {from, to, sort, limit}) => {
+/**
+ * Returns a list of assets with action metadata included on the models.
+ */
+const getAssetMetrics = ({loaders: {Metrics, Assets, Comments}}, {from, to, sort, limit}) => {
 
   let commentMetrics = {};
   let assetMetrics = [];
@@ -14,6 +16,10 @@ const getMetrics = ({loaders: {Metrics, Assets}}, {from, to, sort, limit}) => {
     .then((actionSummaries) => {
 
       commentMetrics = actionSummaries.reduce((acc, {item_id, action_type, count}) => {
+        if (action_type !== sort) {
+          return acc;
+        }
+
         if (!(item_id in acc)) {
           acc[item_id] = [];
         }
@@ -24,10 +30,10 @@ const getMetrics = ({loaders: {Metrics, Assets}}, {from, to, sort, limit}) => {
       }, {});
 
       // Collect just the comment id's.
-      let commentIDs = _.uniq(actionSummaries.map((as) => as.item_id));
+      let commentIDs = Object.keys(commentMetrics);
 
       // Find those comments.
-      return Metrics.getSpecificComments.loadMany(commentIDs);
+      return Comments.get.loadMany(commentIDs);
     })
     .then((comments) => {
 
@@ -44,28 +50,23 @@ const getMetrics = ({loaders: {Metrics, Assets}}, {from, to, sort, limit}) => {
         }));
 
         return {action_summaries, id: asset_id};
-      });
+      })
+
+      .filter((asset) => {
+        let contextActionSummary = asset.action_summaries.find((({action_type}) => action_type === sort));
+        if (contextActionSummary === null || contextActionSummary.actionCount === 0) {
+          return false;
+        }
+
+        return true;
+      })
 
       // Sort these metrics by the predefined sort order. This will ensure that
       // if the action summary does not exist on the object, that it is less
       // prefered over the one that does have it.
-      assetMetrics.sort((a, b) => {
+      .sort((a, b) => {
         let aActionSummary = a.action_summaries.find((({action_type}) => action_type === sort));
         let bActionSummary = b.action_summaries.find((({action_type}) => action_type === sort));
-
-        // If either a or b don't have this action type, then one of them will
-        // automatically win.
-        if (aActionSummary == null || bActionSummary == null) {
-          if (bActionSummary != null) {
-            return 1;
-          }
-
-          if (aActionSummary != null) {
-            return -1;
-          }
-
-          return 0;
-        }
 
         // Both of them had an actionCount, hence we can determine that we could
         // compare the actual values directly.
@@ -97,6 +98,75 @@ const getMetrics = ({loaders: {Metrics, Assets}}, {from, to, sort, limit}) => {
         return null;
       }).filter((asset) => asset != null);
     });
+};
+
+/**
+ * Returns a list of comments that are retrieved based on most activity within
+ * the indicated time range.
+ */
+const getCommentMetrics = ({loaders: {Metrics, Comments}}, {from, to, sort, limit}) => {
+
+  let commentActionSummaries = {};
+
+  return Metrics.getRecentActions.load({from, to})
+    .then((actionSummaries) => {
+
+      actionSummaries.sort((a, b) => {
+        let aActionSummary = a.action_type === sort ? a : null;
+        let bActionSummary = b.action_type === sort ? b : null;
+
+        // If either a or b don't have this action type, then one of them will
+        // automatically win.
+        if (aActionSummary == null || bActionSummary == null) {
+          if (bActionSummary != null) {
+            return 1;
+          }
+
+          if (aActionSummary != null) {
+            return -1;
+          }
+
+          return 0;
+        }
+
+        // Both of them had an actionCount, hence we can determine that we could
+        // compare the actual values directly.
+        return bActionSummary.count - aActionSummary.count;
+      });
+
+      commentActionSummaries = _.groupBy(actionSummaries, 'item_id');
+
+      // Grab the comment id's for comment where they have at least one of the
+      // actions being sorted by.
+      let commentIDs = Object.keys(commentActionSummaries).filter((item_id) => {
+        let contextActionSummary = commentActionSummaries[item_id].find(({action_type}) => action_type === sort);
+        if (contextActionSummary == null) {
+          return false;
+        }
+
+        return true;
+      });
+
+      // Only keep the top `limit`.
+      commentIDs = commentIDs.slice(0, limit);
+
+      // If there are no comment's to get, then just continue with an empty
+      // array.
+      if (commentIDs.length === 0) {
+        return [];
+      }
+
+      // Find those comments, this is the final stage, so let's get all the
+      // fields.
+      return Comments.get.loadMany(commentIDs);
+    })
+    .then((comments) => comments.map((comment) => {
+
+      // Add in the action summaries genrerated.
+      comment.action_summaries = commentActionSummaries[comment.id];
+
+      return comment;
+    }));
 };
 
 const getRecentActions = (context, {from, to}) => {
@@ -131,25 +201,17 @@ const getRecentActions = (context, {from, to}) => {
   ]);
 };
 
-const getSpecificComments = (context, ids) => {
-  return CommentModel.find({
-    id: {
-      $in: ids
-    }
-  })
-  .select({
-    id: 1,
-    asset_id: 1
-  });
-};
-
 module.exports = (context) => ({
   Metrics: {
-    getSpecificComments: new DataLoader((ids) => getSpecificComments(context, ids)),
     getRecentActions: new DataLoader(([{from, to}]) => getRecentActions(context, {from, to}).then((as) => [as]), {
       batch: false,
       cacheKeyFn: objectCacheKeyFn('from', 'to')
     }),
-    get: ({from, to, sort, limit}) => getMetrics(context, {from, to, sort, limit})
+    Assets: {
+      get: ({from, to, sort, limit}) => getAssetMetrics(context, {from, to, sort, limit})
+    },
+    Comments: {
+      get: ({from, to, sort, limit}) => getCommentMetrics(context, {from, to, sort, limit})
+    }
   }
 });

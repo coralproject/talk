@@ -1,7 +1,4 @@
-FROM node:7
-
-# Install yarn
-RUN npm install -g yarn
+FROM node:7.6
 
 # Create app directory
 RUN mkdir -p /usr/src/app

@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
-import Alert from './Alert';
-import {Button, TextField, Spinner, Success} from 'coral-ui';
+import {Button, TextField, Spinner, Success, Alert} from 'coral-ui';
 import styles from './styles.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
@@ -138,12 +137,9 @@ class SignUpContent extends React.Component {
           </div>
         }
         <div className={styles.footer}>
-          <span>
-            {lang.t('signIn.alreadyHaveAnAccount')}
-            <a id="coralSignInViewTrigger" onClick={() => changeView('SIGNIN')}>
-              {lang.t('signIn.signIn')}
-            </a>
-          </span>
+          {lang.t('signIn.alreadyHaveAnAccount')} <a id="coralSignInViewTrigger" onClick={() => changeView('SIGNIN')}>
+            {lang.t('signIn.signIn')}
+          </a>
         </div>
       </div>
     );

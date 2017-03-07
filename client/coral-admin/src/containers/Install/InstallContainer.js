@@ -2,22 +2,25 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import styles from './style.css';
 import {Wizard, WizardNav} from 'coral-ui';
-import {Layout} from '../../components/ui/Layout';
+import Layout from 'coral-admin/src/components/ui/Layout';
 
 import {
-  nextStep,
-  previousStep,
   goToStep,
+  nextStep,
+  submitUser,
+  checkInstall,
+  previousStep,
+  finishInstall,
+  submitSettings,
   updateUserFormData,
   updateSettingsFormData,
-  submitSettings,
-  submitUser,
-  checkInstall
+  updatePermittedDomains
 } from '../../actions/install';
 
 import InitialStep from './components/Steps/InitialStep';
 import AddOrganizationName from './components/Steps/AddOrganizationName';
 import CreateYourAccount from './components/Steps/CreateYourAccount';
+import PermittedDomainsStep from './components/Steps/PermittedDomainsStep';
 import FinalStep from './components/Steps/FinalStep';
 
 class InstallContainer extends Component {
@@ -43,6 +46,7 @@ class InstallContainer extends Component {
                   <InitialStep/>
                   <AddOrganizationName/>
                   <CreateYourAccount/>
+                  <PermittedDomainsStep/>
                   <FinalStep/>
                 </Wizard>
               </div>
@@ -65,10 +69,14 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  checkInstall: next => dispatch(checkInstall(next)),
   nextStep: () => dispatch(nextStep()),
-  previousStep: () => dispatch(previousStep()),
   goToStep: step => dispatch(goToStep(step)),
+  previousStep: () => dispatch(previousStep()),
+  finishInstall: () => dispatch(finishInstall()),
+  checkInstall: next => dispatch(checkInstall(next)),
+  handleDomainsChange: value => {
+    dispatch(updatePermittedDomains(value));
+  },
   handleSettingsChange: e => {
     const {name, value} = e.currentTarget;
     dispatch(updateSettingsFormData(name, value));

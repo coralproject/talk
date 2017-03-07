@@ -20,13 +20,17 @@ const validation = (formData, dispatch, next) => {
     return dispatch(hasError());
   }
 
+  const validKeys = Object.keys(formData)
+    .filter(name => name !== 'domains');
+
   // Required Validation
-  const empty = Object.keys(formData).filter(name => {
+  const empty = validKeys
+  .filter(name => {
     const cond = !formData[name].length;
 
     if (cond) {
 
-      // Adding Error
+    // Adding Error
       dispatch(addError(name, 'This field is required.'));
     } else {
       dispatch(addError(name, ''));
@@ -40,18 +44,19 @@ const validation = (formData, dispatch, next) => {
   }
 
   // RegExp Validation
-  const validation = Object.keys(formData).filter(name => {
-    const cond = !validate[name](formData[name]);
-    if (cond) {
+  const validation = validKeys
+    .filter(name => {
+      const cond = !validate[name](formData[name]);
+      if (cond) {
 
       // Adding Error
-      dispatch(addError(name, errorMsj[name]));
-    } else {
-      dispatch(addError(name, ''));
-    }
+        dispatch(addError(name, errorMsj[name]));
+      } else {
+        dispatch(addError(name, ''));
+      }
 
-    return cond;
-  });
+      return cond;
+    });
 
   if (validation.length) {
     return dispatch(hasError());
@@ -71,23 +76,27 @@ export const submitSettings = () => (dispatch, getState) => {
 export const submitUser = () => (dispatch, getState) => {
   const userFormData = getState().install.toJS().data.user;
   validation(userFormData, dispatch, function() {
-    const data = getState().install.toJS().data;
-    dispatch(installRequest());
-    coralApi('/setup', {method: 'POST', body: data})
-      .then(result => {
-        console.log(result);
-        dispatch(installSuccess());
-        dispatch(nextStep());
-      })
-      .catch(error => {
-        console.error(error);
-        dispatch(installFailure(`${error.translation_key}`));
-      });
+    dispatch(nextStep());
   });
+};
+
+export const finishInstall = () => (dispatch, getState) => {
+  const data = getState().install.toJS().data;
+  dispatch(installRequest());
+  return coralApi('/setup', {method: 'POST', body: data})
+    .then(() => {
+      dispatch(installSuccess());
+      dispatch(nextStep());
+    })
+    .catch(error => {
+      console.error(error);
+      dispatch(installFailure(`${error.translation_key}`));
+    });
 };
 
 export const updateSettingsFormData = (name, value) => ({type: actions.UPDATE_FORMDATA_SETTINGS, name, value});
 export const updateUserFormData = (name, value) => ({type: actions.UPDATE_FORMDATA_USER, name, value});
+export const updatePermittedDomains = (value) => ({type: actions.UPDATE_PERMITTED_DOMAINS_SETTINGS, value});
 
 const checkInstallRequest = () => ({type: actions.CHECK_INSTALL_REQUEST});
 const checkInstallSuccess = installed => ({type: actions.CHECK_INSTALL_SUCCESS, installed});

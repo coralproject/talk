@@ -1,6 +1,7 @@
 const errors = require('../../errors');
 
 const AssetsService = require('../../services/assets');
+const ActionsService = require('../../services/actions');
 const CommentsService = require('../../services/comments');
 
 const Wordlist = require('../../services/wordlist');
@@ -146,10 +147,11 @@ const createPublicComment = (context, commentInput) => {
           // TODO: this is kind of fragile, we should refactor this to resolve
           // all these const's that we're using like 'COMMENTS', 'FLAG' to be
           // defined in a checkable schema.
-          return context.mutators.Action.create({
+          return ActionsService.insertUserAction({
             item_id: comment.id,
             item_type: 'COMMENTS',
             action_type: 'FLAG',
+            user_id: null,
             group_id: 'Matched suspect word filter',
             metadata: {}
           })
@@ -187,11 +189,31 @@ const setCommentStatus = ({loaders: {Comments}}, {id, status}) => {
     });
 };
 
+/**
+ * Adds a tag to a Comment
+ * @param {String} id          identifier of the comment  (uuid)
+ * @param {String} tag     name of the tag
+ */
+const addCommentTag = ({user, loaders: {Comments}}, {id, tag}) => {
+  return CommentsService.addTag(id, tag, user.id);
+};
+
+/**
+ * Removes a tag from a Comment
+ * @param {String} id          identifier of the comment  (uuid)
+ * @param {String} tag     name of the tag
+ */
+const removeCommentTag = ({user, loaders: {Comments}}, {id, tag}) => {
+  return CommentsService.removeTag(id, tag);
+};
+
 module.exports = (context) => {
   let mutators = {
     Comment: {
       create: () => Promise.reject(errors.ErrNotAuthorized),
-      setCommentStatus: () => Promise.reject(errors.ErrNotAuthorized)
+      setCommentStatus: () => Promise.reject(errors.ErrNotAuthorized),
+      addCommentTag: () => Promise.reject(errors.ErrNotAuthorized),
+      removeCommentTag: () => Promise.reject(errors.ErrNotAuthorized),
     }
   };
 
@@ -201,6 +223,14 @@ module.exports = (context) => {
 
   if (context.user && context.user.can('mutation:setCommentStatus')) {
     mutators.Comment.setCommentStatus = (action) => setCommentStatus(context, action);
+  }
+
+  if (context.user && context.user.can('mutation:addCommentTag')) {
+    mutators.Comment.addCommentTag = (action) => addCommentTag(context, action);
+  }
+
+  if (context.user && context.user.can('mutation:removeCommentTag')) {
+    mutators.Comment.removeCommentTag = (action) => removeCommentTag(context, action);
   }
 
   return mutators;

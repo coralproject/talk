@@ -1,4 +1,11 @@
 const Comment = {
+  parent({parent_id}, _, {loaders: {Comments}}) {
+    if (parent_id == null) {
+      return null;
+    }
+
+    return Comments.get.load(parent_id);
+  },
   user({author_id}, _, {loaders: {Users}}) {
     return Users.getByID.load(author_id);
   },
@@ -25,7 +32,11 @@ const Comment = {
 
     return null;
   },
-  action_summaries({id}, _, {loaders: {Actions}}) {
+  action_summaries({id, action_summaries}, _, {loaders: {Actions}}) {
+    if (action_summaries) {
+      return action_summaries;
+    }
+
     return Actions.getSummariesByItemID.load(id);
   },
   asset({asset_id}, _, {loaders: {Assets}}) {

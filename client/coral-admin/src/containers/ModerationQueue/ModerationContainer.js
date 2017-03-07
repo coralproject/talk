@@ -17,22 +17,50 @@ import ModerationQueue from './ModerationQueue';
 import ModerationMenu from './components/ModerationMenu';
 import ModerationHeader from './components/ModerationHeader';
 import NotFoundAsset from './components/NotFoundAsset';
+import ModerationKeysModal from '../../components/ModerationKeysModal';
 
 class ModerationContainer extends Component {
+  state = {
+    selectedIndex: 0
+  }
+
   componentWillMount() {
     const {toggleModal, singleView} = this.props;
+    const {selectedIndex} = this.state;
 
     this.props.fetchSettings();
-
     key('s', () => singleView());
     key('shift+/', () => toggleModal(true));
     key('esc', () => toggleModal(false));
+    key('j', () => this.setState({selectedIndex: selectedIndex + 1}));
+    key('k', () => this.setState({selectedIndex: selectedIndex > 0 ? selectedIndex + 1 : selectedIndex}));
+    key('r', () => this.moderate(false));
+    key('t', () => this.moderate(true));
+  }
+
+  moderate = (accept) => {
+    const {data, route, acceptComment, rejectComment} = this.props;
+    const {selectedIndex} = this.state;
+    const activeTab = route.path === ':id' ? 'premod' : route.path;
+    const comments = data[activeTab];
+    const commentId = {commentId: comments[selectedIndex].id};
+
+    if (accept) {
+      acceptComment(commentId);
+    } else {
+      rejectComment(commentId);
+    }
+
   }
 
   componentWillUnmount() {
     key.unbind('s');
     key.unbind('shift+/');
     key.unbind('esc');
+    key.unbind('j');
+    key.unbind('k');
+    key.unbind('r');
+    key.unbind('t');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -43,7 +71,7 @@ class ModerationContainer extends Component {
   }
 
   render () {
-    const {data, moderation, settings, assets, ...props} = this.props;
+    const {data, moderation, settings, assets, modQueueResort, onClose, ...props} = this.props;
     const providedAssetId = this.props.params.id;
     const activeTab = this.props.route.path === ':id' ? 'premod' : this.props.route.path;
 
@@ -65,6 +93,8 @@ class ModerationContainer extends Component {
       }
     }
 
+    const comments = data[activeTab];
+
     return (
       <div>
         <ModerationHeader asset={asset} />
@@ -73,11 +103,14 @@ class ModerationContainer extends Component {
           premodCount={data.premodCount}
           rejectedCount={data.rejectedCount}
           flaggedCount={data.flaggedCount}
+          modQueueResort={modQueueResort}
         />
         <ModerationQueue
-          data={data}
           currentAsset={asset}
+          comments={comments}
           activeTab={activeTab}
+          singleView={moderation.singleView}
+          selectedIndex={this.state.selectedIndex}
           suspectWords={settings.wordlist.suspect}
           showBanUserDialog={props.showBanUserDialog}
           acceptComment={props.acceptComment}
@@ -89,6 +122,9 @@ class ModerationContainer extends Component {
           handleClose={props.hideBanUserDialog}
           handleBanUser={props.banUser}
         />
+      <ModerationKeysModal
+          open={moderation.modalOpen}
+          onClose={onClose}/>
       </div>
     );
   }

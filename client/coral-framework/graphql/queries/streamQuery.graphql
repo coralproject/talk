@@ -1,7 +1,16 @@
 #import "../fragments/commentView.graphql"
 
-query AssetQuery($asset_url: String!) {
-    asset(url: $asset_url) {
+query AssetQuery($asset_id: ID, $asset_url: String!, $comment_id: ID!, $has_comment: Boolean!) {
+    comment(id: $comment_id) @include(if: $has_comment) {
+      ...commentView
+      parent {
+        ...commentView
+        replies {
+          ...commentView
+        }
+      }
+    }
+    asset(id: $asset_id, url: $asset_url) {
         id
         title
         url

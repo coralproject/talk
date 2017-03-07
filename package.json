@@ -1,13 +1,13 @@
 {
   "name": "talk",
-  "version": "0.0.1",
+  "version": "1.1.0",
   "description": "A commenting platform from The Coral Project. https://coralproject.net",
   "main": "app.js",
   "scripts": {
     "start": "./bin/cli serve --jobs",
     "dev-start": "nodemon --config .nodemon.json --exec \"./bin/cli -c .env serve --jobs\"",
-    "build": "NODE_ENV=production webpack -p --config webpack.config.js --bail",
-    "build-watch": "NODE_ENV=development webpack --config webpack.config.js --watch",
+    "build": "NODE_ENV=production webpack --progress -p --config webpack.config.js --bail",
+    "build-watch": "NODE_ENV=development webpack --progress --config webpack.config.js --watch",
     "lint": "eslint bin/* .",
     "lint-fix": "eslint bin/* . --fix",
     "test": "TEST_MODE=unit NODE_ENV=test mocha -R ${MOCHA_REPORTER:-spec}",
@@ -49,7 +49,7 @@
   },
   "homepage": "https://github.com/coralproject/talk#readme",
   "dependencies": {
-    "bcrypt": "^0.8.7",
+    "bcrypt": "^1.0.2",
     "body-parser": "^1.15.2",
     "cli-table": "^0.3.1",
     "commander": "^2.9.0",
@@ -103,6 +103,7 @@
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-stage-0": "^6.16.0",
     "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
     "chai-http": "^3.0.0",
     "copy-webpack-plugin": "^4.0.0",
     "css-loader": "^0.25.0",
@@ -130,6 +131,7 @@
     "jsdom": "^9.8.3",
     "json-loader": "^0.5.4",
     "keymaster": "^1.6.2",
+    "license-webpack-plugin": "^0.4.2",
     "material-design-lite": "^1.2.1",
     "mocha": "^3.1.2",
     "mocha-junit-reporter": "^1.12.1",
@@ -164,6 +166,6 @@
     "webpack": "^2.2.1"
   },
   "engines": {
-    "node": ">=7.0.0"
+    "node": "~7.6.0"
   }
 }

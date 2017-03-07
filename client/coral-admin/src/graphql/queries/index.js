@@ -1,33 +1,45 @@
 import {graphql} from 'react-apollo';
 
-import MOST_FLAGS from './mostFlags.graphql';
 import MOD_QUEUE_QUERY from './modQueueQuery.graphql';
 import MOD_USER_FLAGGED_QUERY from './modUserFlaggedQuery.graphql';
-
-export const mostFlags = graphql(MOST_FLAGS, {
-  options: () => {
-
-    // currently hard-coded per Greg's advice
-    const fiveMinutesAgo = new Date();
-    fiveMinutesAgo.setMinutes(fiveMinutesAgo.getMinutes() - 305);
-    return {
-      variables: {
-        sort: 'FLAG',
-        from: fiveMinutesAgo.toISOString(),
-        to: new Date().toISOString()
-      }
-    };
-  }
-});
+import METRICS from './metricsQuery.graphql';
 
 export const modQueueQuery = graphql(MOD_QUEUE_QUERY, {
   options: ({params: {id = null}}) => {
     return {
       variables: {
-        asset_id: id
+        asset_id: id,
+        sort: 'REVERSE_CHRONOLOGICAL'
+      }
+    };
+  },
+  props: ({ownProps: {params: {id = null}}, data}) => ({
+    data,
+    modQueueResort: modQueueResort(id, data.fetchMore)
+  })
+});
+
+export const getMetrics = graphql(METRICS, {
+  options: ({settings: {dashboardWindowStart, dashboardWindowEnd}}) => {
+
+    return {
+      variables: {
+        from: dashboardWindowStart,
+        to: dashboardWindowEnd
       }
     };
   }
 });
 
 export const modUserFlaggedQuery  = graphql(MOD_USER_FLAGGED_QUERY);
+
+export const modQueueResort = (id, fetchMore) => (sort) => {
+  return fetchMore({
+    query: MOD_QUEUE_QUERY,
+    variables: {
+      asset_id: id,
+      sort
+    },
+    updateQuery: (oldData, {fetchMoreResult:{data}}) => data
+  });
+};

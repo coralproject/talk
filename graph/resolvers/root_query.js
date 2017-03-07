@@ -38,7 +38,9 @@ const RootQuery = {
 
     return Comments.getByQuery(query);
   },
-
+  comment(_, {id}, {loaders: {Comments}}) {
+    return Comments.get.load(id);
+  },
   commentCount(_, {query: {action_type, statuses, asset_id, parent_id}}, {user, loaders: {Actions, Comments}}) {
     if (user == null || !user.hasRoles('ADMIN')) {
       return null;
@@ -56,12 +58,20 @@ const RootQuery = {
     return Comments.getCountByQuery({statuses, asset_id, parent_id});
   },
 
-  metrics(_, {from, to, sort, limit = 10}, {user, loaders: {Metrics}}) {
+  assetMetrics(_, {from, to, sort, limit = 10}, {user, loaders: {Metrics: {Assets}}}) {
     if (user == null || !user.hasRoles('ADMIN')) {
       return null;
     }
 
-    return Metrics.get({from, to, sort, limit});
+    return Assets.get({from, to, sort, limit});
+  },
+
+  commentMetrics(_, {from, to, sort, limit = 10}, {user, loaders: {Metrics: {Comments}}}) {
+    if (user == null || !user.hasRoles('ADMIN')) {
+      return null;
+    }
+
+    return Comments.get({from, to, sort, limit});
   },
 
   // This returns the current user, ensure that if we aren't logged in, we
