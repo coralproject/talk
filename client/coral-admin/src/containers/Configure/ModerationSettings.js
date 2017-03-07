@@ -23,7 +23,7 @@ const ModerationSettings = ({settings, updateSettings, onChangeWordlist}) => {
   const off = styles.disabledSetting;
 
   return (
-    <div>
+    <div className={styles.Configure}>
       <Card className={`${styles.configSetting} ${settings.requireEmailConfirmation ? on : off}`}>
         <div className={styles.action}>
           <Checkbox
