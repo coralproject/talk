@@ -1,0 +1,15 @@
+.textArea {
+  textarea {
+    width: 100%;
+    display: block;
+    outline: none;
+    border: 1px solid rgba(0,0,0,.12);
+    padding: 6px;
+    box-sizing: border-box;
+    border-radius: 2px;
+    margin: 5px auto;
+    min-height: 175px;
+    font-size: 14px;
+    resize: none;
+  }
+}
