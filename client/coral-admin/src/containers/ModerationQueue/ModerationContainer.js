@@ -100,6 +100,18 @@ class ModerationContainer extends Component {
     }
 
     const comments = data[activeTab];
+    let activeTabCount;
+    switch(activeTab) {
+    case 'premod':
+      activeTabCount = data.premodCount;
+      break;
+    case 'flagged':
+      activeTabCount = data.flaggedCount;
+      break;
+    case 'rejected':
+      activeTabCount = data.rejectedCount;
+      break;
+    }
 
     return (
       <div>
@@ -125,6 +137,7 @@ class ModerationContainer extends Component {
           loadMore={props.loadMore}
           assetId={providedAssetId}
           sort={this.state.sort}
+          commentCount={activeTabCount}
         />
         <BanUserDialog
           open={moderation.banDialog}

@@ -6,9 +6,10 @@ import EmptyCard from '../../components/EmptyCard';
 import {actionsMap} from './helpers/moderationQueueActionsMap';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations';
+import LoadMore from './components/LoadMore';
 
 const lang = new I18n(translations);
-const ModerationQueue = ({comments, selectedIndex, singleView, loadMore, activeTab, sort, ...props}) => {
+const ModerationQueue = ({comments, selectedIndex, commentCount, singleView, loadMore, activeTab, sort, ...props}) => {
   return (
     <div id="moderationList" className={`${styles.list} ${singleView ? styles.singleView : ''}`}>
       <ul style={{paddingLeft: 0}}>
@@ -33,14 +34,14 @@ const ModerationQueue = ({comments, selectedIndex, singleView, loadMore, activeT
         : <EmptyCard>{lang.t('modqueue.emptyqueue')}</EmptyCard>
       }
       </ul>
-      <button onClick={() =>
-          loadMore({
-            cursor: comments[comments.length - 1].created_at,
-            sort,
-            tab: activeTab,
-            asset_id: props.assetId
-          })}
-          >Load More</button>
+      <LoadMore
+        comments={comments}
+        loadMore={loadMore}
+        sort={sort}
+        tab={activeTab}
+        showLoadMore={comments.length < commentCount}
+        assetId={props.assetId}
+        />
     </div>
   );
 };
