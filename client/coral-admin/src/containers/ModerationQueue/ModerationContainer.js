@@ -26,23 +26,21 @@ class ModerationContainer extends Component {
 
   componentWillMount() {
     const {toggleModal, singleView} = this.props;
-    const {selectedIndex} = this.state;
-
+    
     this.props.fetchSettings();
     key('s', () => singleView());
     key('shift+/', () => toggleModal(true));
     key('esc', () => toggleModal(false));
-    key('j', () => this.setState({selectedIndex: selectedIndex + 1}));
-    key('k', () => this.setState({selectedIndex: selectedIndex > 0 ? selectedIndex + 1 : selectedIndex}));
-    key('r', () => this.moderate(false));
-    key('t', () => this.moderate(true));
+    key('j', this.select(true));
+    key('k', this.select(false));
+    key('r', this.moderate(false));
+    key('t', this.moderate(true));
   }
 
-  moderate = (accept) => {
-    const {data, route, acceptComment, rejectComment} = this.props;
+  moderate = (accept) => () => {
+    const {acceptComment, rejectComment} = this.props;
     const {selectedIndex} = this.state;
-    const activeTab = route.path === ':id' ? 'premod' : route.path;
-    const comments = data[activeTab];
+    const comments = this.getComments();
     const commentId = {commentId: comments[selectedIndex].id};
 
     if (accept) {
@@ -50,7 +48,30 @@ class ModerationContainer extends Component {
     } else {
       rejectComment(commentId);
     }
+  }
 
+  getComments = () => {
+    const {data, route} = this.props;
+    const activeTab = route.path === ':id' ? 'premod' : route.path;
+    return data[activeTab];
+  }
+
+  select = (next) => () => {
+    if (next) {
+      this.setState(prevState =>
+        ({
+          ...prevState,
+          selectedIndex: prevState.selectedIndex < this.getComments().length - 1
+            ? prevState.selectedIndex + 1 : prevState.selectedIndex
+        }));
+    } else {
+      this.setState(prevState =>
+        ({
+          ...prevState,
+          selectedIndex: prevState.selectedIndex > 0 ?
+            prevState.selectedIndex - 1 : prevState.selectedIndex
+        }));
+    }
   }
 
   componentWillUnmount() {
