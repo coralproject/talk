@@ -8,7 +8,13 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
 const lang = new I18n(translations);
 
-const BanUserDialog = ({open, handleClose, handleBanUser, user}) => (
+const onBanClick = (userId, commentId, handleBanUser, rejectComment) => (e) => {
+  e.preventDefault();
+  handleBanUser({userId})
+  .then(() => rejectComment({commentId}));
+};
+
+const BanUserDialog = ({open, handleClose, handleBanUser, rejectComment, user, commentId}) => (
   <Dialog
     className={styles.dialog}
     id="banuserDialog"
@@ -29,7 +35,7 @@ const BanUserDialog = ({open, handleClose, handleBanUser, user}) => (
         <Button cStyle="cancel" className={styles.cancel} onClick={handleClose} raised>
           {lang.t('bandialog.cancel')}
         </Button>
-        <Button cStyle="black" className={styles.ban} onClick={() => handleBanUser({userId: user.id})} raised>
+        <Button cStyle="black" className={styles.ban} onClick={onBanClick(user.id, commentId, handleBanUser, rejectComment)} raised>
           {lang.t('bandialog.yes_ban_user')}
         </Button>
       </div>
