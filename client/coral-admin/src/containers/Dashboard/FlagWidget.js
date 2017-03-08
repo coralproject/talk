@@ -12,29 +12,28 @@ const FlagWidget = (props) => {
   return (
     <div className={styles.widget}>
       <h2 className={styles.heading}>Articles with the most flags</h2>
+      <div className={styles.widgetHead}>
+        <p>{lang.t('streams.article')}</p>
+        <p>{lang.t('dashboard.flags')}</p>
+      </div>
       <div className={styles.widgetTable}>
-        <div className={styles.widgetHead}>
-          <p>{lang.t('streams.article')}</p>
-          <p>{lang.t('dashboard.flags')}</p>
-        </div>
-        <div>
-          {
-            assets.length
-            ? assets.map(asset => {
-              const flagSummary = asset.action_summaries.find(s => s.type === 'FlagAssetActionSummary');
-              return (
-                <div className={styles.rowLinkify} key={asset.id}>
-                  <p className={styles.widgetCount}>{flagSummary ? flagSummary.actionCount : 0}</p>
-                  <Link className={styles.linkToAsset} to={`/admin/moderate/flagged/${asset.id}`}>
-                    <p className={styles.assetTitle}>{asset.title}</p>
-                    <p className={styles.lede}>{asset.author} — Published: {new Date(asset.created_at).toLocaleDateString()}</p>
-                  </Link>
-                </div>
-              );
-            })
-            : <div className={styles.rowLinkify}>{lang.t('dashboard.no_flags')}</div>
-          }
-        </div>
+        {
+          assets.length
+          ? assets.map(asset => {
+            const flagSummary = asset.action_summaries.find(s => s.type === 'FlagAssetActionSummary');
+            return (
+              <div className={styles.rowLinkify} key={asset.id}>
+                <Link className={styles.linkToModerate} to={`/admin/moderate/flagged/${asset.id}`}>Moderate</Link>
+                <p className={styles.widgetCount}>{flagSummary ? flagSummary.actionCount : 0}</p>
+                <Link className={styles.linkToAsset} to={`${asset.url}#coralStreamEmbed_iframe`} target="_blank">
+                  <p className={styles.assetTitle}>{asset.title}</p>
+                  <p className={styles.lede}>{asset.author} — Published: {new Date(asset.created_at).toLocaleDateString()}</p>
+                </Link>
+              </div>
+            );
+          })
+          : <div className={styles.rowLinkify}>{lang.t('dashboard.no_flags')}</div>
+        }
       </div>
     </div>
   );
