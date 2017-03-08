@@ -256,7 +256,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   requestConfirmEmail: () => dispatch(requestConfirmEmail()),
   loadAsset: (asset) => dispatch(fetchAssetSuccess(asset)),
-  addNotification: (type, text) => dispatch(addNotification(type, text)),
+  addNotification: (type, text) => addNotification(type, text),
   clearNotification: () => dispatch(clearNotification()),
   editName: (username) => dispatch(editName(username)),
   showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),
