@@ -1,5 +1,5 @@
 :root {
-  --row-height: 80px;
+  --row-height: 50px;
 }
 
 .widget {
@@ -19,20 +19,25 @@
 }
 
 .widgetTable {
-  width: 100%;
-  border-collapse: collapse;
   user-select: none;
   height: calc(var(--row-height) * 10);
 }
 
-.widgetTable thead th {
+.widgetHead p {
   color: rgb(35, 102, 223);
   padding: 10px;
   text-align: left;
   text-transform: capitalize;
+  display: inline-block;
+  box-sizing: border-box;
+  margin-bottom: 0;
 }
 
-.widgetTable thead th:last-child {
+.widgetHead p:first-child {
+  width: 90%;
+}
+
+.widgetHead p:last-child {
   width: 10%;
 }
 
@@ -41,10 +46,7 @@
   border-bottom: 1px solid lightgrey;
   color: #555;
   height: var(--row-height);
-}
-
-.emptyRow {
-  height: var(--row-height);
+  padding: 10px;
 }
 
 .rowLinkify:last-child {
@@ -53,10 +55,6 @@
 
 .rowLinkify:hover {
   background-color: #f8f8f8;
-}
-
-.widgetTable tbody td {
-  padding: 10px;
 }
 
 .linkToAsset {
@@ -85,4 +83,5 @@
   color: #555;
   font-size: 1.3em;
   font-weight: 400;
+  float: right;
 }
