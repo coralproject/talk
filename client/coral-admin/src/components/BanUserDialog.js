@@ -8,7 +8,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
 const lang = new I18n(translations);
 
-const BanUserDialog = ({open, handleClose, handleBanUser, user}) => (
+const BanUserDialog = ({open, handleClose, handleBanUser, user, showRejectedNote}) => (
   <Dialog
     className={styles.dialog}
     id="banuserDialog"
@@ -23,7 +23,7 @@ const BanUserDialog = ({open, handleClose, handleBanUser, user}) => (
       </div>
       <div className={styles.separator}>
         <h3>{lang.t('bandialog.are_you_sure', user.name)}</h3>
-        <i>{lang.t('bandialog.note')}</i>
+        <i>{showRejectedNote && lang.t('bandialog.note')}</i>
       </div>
       <div className={styles.buttons}>
         <Button cStyle="cancel" className={styles.cancel} onClick={handleClose} raised>

@@ -26,7 +26,7 @@ class ModerationContainer extends Component {
 
   componentWillMount() {
     const {toggleModal, singleView} = this.props;
-    
+
     this.props.fetchSettings();
     key('s', () => singleView());
     key('shift+/', () => toggleModal(true));
@@ -142,6 +142,7 @@ class ModerationContainer extends Component {
           user={moderation.user}
           handleClose={props.hideBanUserDialog}
           handleBanUser={props.banUser}
+          showRejectedNote={moderation.showRejectedNote}
         />
       <ModerationKeysModal
           open={moderation.modalOpen}
@@ -163,7 +164,7 @@ const mapDispatchToProps = dispatch => ({
   singleView: () => dispatch(singleView()),
   updateAssets: assets => dispatch(updateAssets(assets)),
   fetchSettings: () => dispatch(fetchSettings()),
-  showBanUserDialog: (user, commentId) => dispatch(showBanUserDialog(user, commentId)),
+  showBanUserDialog: (user, commentId, showRejectedNote) => dispatch(showBanUserDialog(user, commentId, showRejectedNote)),
   hideBanUserDialog: () => dispatch(hideBanUserDialog(false)),
 });
 
