@@ -3,5 +3,10 @@
 }
 
 .Comment {
-  
+
+}
+
+.pendingComment {
+  filter: blur(2px);
+  pointer-events: none;
 }
