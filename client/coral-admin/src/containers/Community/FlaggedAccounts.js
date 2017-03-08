@@ -21,16 +21,19 @@ const FlaggedAccounts = ({...props}) => {
         {
           hasResults
           ? commenters.map((commenter, index) => {
-            return <User
-              user={commenter}
-              key={index}
-              index={index}
-              modActionButtons={['REJECT', 'APPROVE']}
-              showBanUserDialog={props.showBanUserDialog}
-              showSuspendUserDialog={props.showSuspendUserDialog}
-              approveUser={props.approveUser}
-              suspendUser={props.suspendUser}
-              />;
+            if (commenter.status === 'PENDING' && commenter.actions.length > 0) {
+              return <User
+                user={commenter}
+                key={index}
+                index={index}
+                modActionButtons={['REJECT', 'APPROVE']}
+                showBanUserDialog={props.showBanUserDialog}
+                showSuspendUserDialog={props.showSuspendUserDialog}
+                approveUser={props.approveUser}
+                suspendUser={props.suspendUser}
+                />;
+            }
+            return null;
           })
           : <EmptyCard>{lang.t('community.no-flagged-accounts')}</EmptyCard>
         }
