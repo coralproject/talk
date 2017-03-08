@@ -40,6 +40,10 @@ const SettingSchema = new Schema({
     type: String,
     default: ''
   },
+  premodLinksEnable: {
+    type: Boolean,
+    default: false
+  },
   organizationName: {
     type: String
   },
