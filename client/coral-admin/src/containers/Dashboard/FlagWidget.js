@@ -3,7 +3,6 @@ import {Link} from 'react-router';
 import styles from './Widget.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations';
-import range from 'lodash/range';
 
 const lang = new I18n(translations);
 
