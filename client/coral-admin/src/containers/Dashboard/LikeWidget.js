@@ -28,8 +28,8 @@ const LikeWidget = (props) => {
                 <p className={styles.widgetCount}>{likeSummary ? likeSummary.actionCount : 0}</p>
                 <Link className={styles.linkToAsset} to={`${asset.url}#coralStreamEmbed_iframe`} target="_blank">
                   <p className={styles.assetTitle}>{asset.title}</p>
-                  <p className={styles.lede}>{asset.author} — Published: {new Date(asset.created_at).toLocaleDateString()}</p>
                 </Link>
+                <p className={styles.lede}>{asset.author} — Published: {new Date(asset.created_at).toLocaleDateString()}</p>
               </div>
             );
           })
