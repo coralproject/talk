@@ -8,12 +8,6 @@
 .tabBar {
   background-color: rgba(44, 44, 44, 0.89);
   z-index: 5;
-  display: flex;
-  justify-content: space-between;
-}
-
-.tabBarPadding {
-  width: 150px;
 }
 
 .tab {
@@ -84,10 +78,11 @@ span {
   margin-bottom: -1px;
 
   .settingsButton {
-    vertical-align: middle;
-    margin-left: 10px;
-    margin-top: -4px;
-    font-size: 16px;
+    i {
+      vertical-align: middle;
+      margin-left: 10px;
+      margin-top: -4px;
+    }
   }
 
   .moderateAsset {
@@ -113,15 +108,7 @@ span {
       }
 
       &:nth-child(2) {
-        span {
-          text-align: center;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          overflow: hidden;
-          max-width: 344px;
-          display: inline-block;
-          vertical-align: top;
-        }
+       text-align: center;
       }
 
       &:last-child {
@@ -143,7 +130,7 @@ span {
     display: none;
   }
 
-  &.singleView .listItem.selected {
+  &.singleView .listItem.activeItem {
     display: block;
     height: 100%;
     font-size: 1.5em;
@@ -154,6 +141,7 @@ span {
       position: fixed;
       bottom: 60px;
       left: 25%;
+      margin: 0 auto;
       display: flex;
       justify-content: space-around;
       width: 50%;
@@ -168,20 +156,16 @@ span {
 
 .listItem {
   border-bottom: 1px solid #e0e0e0;
-  font-size: 18px;
+  font-size: 16px;
   width: 100%;
   max-width: 660px;
   min-width: 400px;
   margin: 0 auto;
+  padding: 16px 14px;
   position: relative;
-  transition: all 200ms;
-  padding: 10px 0 0;
-  min-height: 220px;
+  transition: box-shadow 200ms;
+  margin-top: 0;
 
-  .container {
-    padding: 0 14px;
-    min-height: 180px;
-  }
 
   &:hover {
      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -189,11 +173,6 @@ span {
 
   &:last-child {
     border-bottom: none;
-  }
-
-  &.selected {
-    max-width: 670px;
-    max-height: 410px;
   }
 
   .context {
@@ -205,8 +184,11 @@ span {
   }
 
    .sideActions {
+     position: absolute;
+     right: 0;
      height: 100%;
      top: 0;
+     padding: 40px 18px;
      box-sizing: border-box;
    }
 
@@ -216,7 +198,6 @@ span {
     justify-content: space-between;
 
     .author {
-      font-weight: 600;
       min-width: 230px;
       display: flex;
       align-items: center;
@@ -226,9 +207,6 @@ span {
   .itemBody {
     display: flex;
     justify-content: space-between;
-    font-size: 14px;
-    line-height: 1.5;
-    font-weight: 300;
   }
 
   .avatar {
@@ -244,8 +222,7 @@ span {
   .created {
     color: #666;
     font-size: 13px;
-    margin-left: 15px;
-    line-height: 1px;
+    margin-left: 40px;
   }
 
   .actionButton {
@@ -256,10 +233,10 @@ span {
   .body {
     margin-top: 0px;
     flex: 1;
+    font-size: 0.88em;
     color: black;
     max-width: 500px;
     word-wrap: break-word;
-    font-weight: 300;
   }
 
   .flagged {
@@ -327,29 +304,20 @@ span {
 }
 
 .Comment {
-
   .moderateArticle {
-    font-size: 14px;
-    margin: 10px 0;
-    font-weight: 500;
-    line-height: 1.2;
-    max-width: 500px;
-
+    font-size: 12px;
     a {
       display: inline-block;
-      color: #063b9a;
+      color: #679af3;
       text-decoration: none;
-      font-weight: 500;
+      font-size: 1em;
+      font-weight: 400;
       letter-spacing: .5px;
+      font-size: 12px;
       margin-left: 10px;
 
-      font-size: 13px;
-      margin-left: 5px;
-      padding-bottom: 0px;
-      border-bottom: solid 1px;
-      line-height: 16px;
-
       &:hover {
+        text-decoration: underline;
         opacity: .9;
         cursor: pointer;
        }
@@ -357,60 +325,12 @@ span {
   }
 }
 
-.selectField {
-  position: relative;
-  width: 140px;
-  height: 36px;
-  top: 5px;
-  margin-right: 10px;
-  background: #FFF;
-  padding: 10px 15px;
-  box-sizing: border-box;
-  border-radius: 2px;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
-
-  > div {
-    padding: 0;
+.flagBox {
+  max-width: 480px;
+  border-top: 1px solid rgba(66, 66, 66, 0.12);
+  h3 {
+    font-size: 14px;
+    margin: 0;
+    font-weight: 500;
   }
-
-  i {
-    position: absolute;
-    top: 7px;
-    right: 7px;
-  }
-
-  input {
-    padding: 0;
-    font-size: 13px;
-    letter-spacing: 0.7px;
-    font-weight: 400;
-  }
-
-  label {
-    top: -4px;
-  }
-
-  &:hover {
-    cursor: pointer;
-   }
-}
-
-.loadMoreContainer {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-};
-
-.loadMore {
-  width: 100%;
-  text-align: center;
-  color: #FFF;
-  max-width: 660px;
-  margin-bottom: 30px;
-  background-color: #2376D8;
-  cursor: pointer;
-}
-
-.loadMore:hover {
-  background-color: #4399FF;
 }

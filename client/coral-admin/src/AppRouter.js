@@ -5,10 +5,13 @@ import Streams from 'containers/Streams/Streams';
 import Configure from 'containers/Configure/Configure';
 import LayoutContainer from 'containers/LayoutContainer';
 import InstallContainer from 'containers/Install/InstallContainer';
+
+import CommunityLayout from 'containers/Community/CommunityLayout';
 import CommunityContainer from 'containers/Community/CommunityContainer';
 
 import ModerationLayout from 'containers/ModerationQueue/ModerationLayout';
 import ModerationContainer from 'containers/ModerationQueue/ModerationContainer';
+
 import Dashboard from 'containers/Dashboard/Dashboard';
 
 const routes = (
@@ -20,6 +23,18 @@ const routes = (
       <Route path='configure' component={Configure} />
       <Route path='streams' component={Streams} />
       <Route path='dashboard' component={Dashboard} />
+
+      {/* Community Routes */}
+
+      <Route path='community' component={CommunityLayout}>
+        <Route path='flagged' components={CommunityContainer}>
+          <Route path=':id' components={CommunityContainer} />
+        </Route>
+        <Route path='people' components={CommunityContainer}>
+          <Route path=':id' components={CommunityContainer} />
+        </Route>
+        <IndexRedirect to='flagged' />
+      </Route>
 
       {/* Moderation Routes */}
 
