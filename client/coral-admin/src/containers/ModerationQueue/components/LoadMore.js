@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {Button} from 'coral-ui';
 import styles from './styles.css';
 
@@ -18,5 +18,14 @@ const LoadMore = ({comments, loadMore, sort, tab, assetId, showLoadMore}) =>
       </Button>
     }
   </div>;
+
+LoadMore.propTypes = {
+  comments: PropTypes.array.isRequired,
+  loadMore: PropTypes.func.isRequired,
+  sort: PropTypes.oneOf(['CHRONOLOGICAL', 'REVERSE_CHRONOLOGICAL']).isRequired,
+  tab: PropTypes.oneOf(['rejected', 'premod', 'flagged']).isRequired,
+  assetId: PropTypes.string,
+  showLoadMore: PropTypes.bool.isRequired
+};
 
 export default LoadMore;
