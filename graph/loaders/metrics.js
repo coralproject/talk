@@ -5,6 +5,52 @@ const {objectCacheKeyFn} = require('./util');
 const ActionModel = require('../../models/action');
 
 /**
+ * Returns the assets which have had comments made within the last time period.
+ */
+const getCommentActivityMetrics = ({loaders: {Assets, Comments}}, {from, to, limit}) => {
+  let assetMetrics = [];
+
+  return Comments.aggregate([
+    {$match: {
+      parent_id: null,
+      created_at: {
+        $gt: from,
+        $lt: to
+      }
+    }},
+    {$group: {
+      _id: '$asset_id',
+      commentCount: {
+        $sum: 1
+      }
+    }},
+    {$project: {
+      _id: false,
+      asset_id: '$_id',
+      commentCount: '$commentCount'
+    }},
+    {$sort: {
+      commentCount: -1
+    }},
+    {$limit: limit}
+  ])
+  .then((results) => {
+    results = assetMetrics;
+
+    return Assets.getByID.loadMany(results.map((result) => result.asset_id));
+  })
+  .then((assets) => assets.map((asset, i) => {
+
+    // We're leveraging the fact that the comments returned by the aggregation
+    // query are in the request order that we just made, it's what the
+    // Assets.getByID loader does.
+    asset.commentCount = assetMetrics[i].commentCount;
+
+    return asset;
+  }));
+};
+
+/**
  * Returns a list of assets with action metadata included on the models.
  */
 const getAssetMetrics = ({loaders: {Metrics, Assets, Comments}}, {from, to, sort, limit}) => {
@@ -211,7 +257,8 @@ module.exports = (context) => ({
       get: ({from, to, sort, limit}) => getAssetMetrics(context, {from, to, sort, limit})
     },
     Comments: {
-      get: ({from, to, sort, limit}) => getCommentMetrics(context, {from, to, sort, limit})
+      get: ({from, to, sort, limit}) => getCommentMetrics(context, {from, to, sort, limit}),
+      getActivity: ({from, to, limit}) => getCommentActivityMetrics(context, {from, to, limit}),
     }
   }
 });

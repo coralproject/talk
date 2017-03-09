@@ -10,7 +10,11 @@ const Asset = {
       parent_id: null
     });
   },
-  commentCount({id}, _, {loaders: {Comments}}) {
+  commentCount({id, commentCount}, _, {loaders: {Comments}}) {
+    if (commentCount) {
+      return commentCount;
+    }
+
     return Comments.countByAssetID.load(id);
   },
   settings({settings = null}, _, {loaders: {Settings}}) {

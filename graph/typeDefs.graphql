@@ -476,6 +476,21 @@ enum USER_STATUS {
   APPROVED
 }
 
+enum COMMENT_METRICS_SORT {
+
+  # Represents a LikeAction.
+  LIKE
+
+  # Represents a FlagAction.
+  FLAG
+
+  # Represents a don't agree action.
+  DONTAGREE
+
+  # Represents activity.
+  ACTIVITY
+}
+
 type RootQuery {
 
   # Site wide settings and defaults.
@@ -507,7 +522,7 @@ type RootQuery {
 
   # Comment metrics related to user actions are saturated into the comments
   # returned.
-  commentMetrics(from: Date!, to: Date!, sort: ACTION_TYPE!, limit: Int = 10): [Comment!]
+  commentMetrics(from: Date!, to: Date!, sort: COMMENT_METRICS_SORT!, limit: Int = 10): [Comment!]
 }
 
 ################################################################################
@@ -646,14 +661,14 @@ type SetCommentStatusResponse implements Response {
 type AddCommentTagResponse implements Response {
   # An array of errors relating to the mutation that occured.
   comment: Comment
-  errors: [UserError]  
+  errors: [UserError]
 }
 
 # Response to removeCommentTag mutation
 type RemoveCommentTagResponse implements Response {
   # An array of errors relating to the mutation that occured.
   comment: Comment
-  errors: [UserError]  
+  errors: [UserError]
 }
 
 # All mutations for the application are defined on this object.

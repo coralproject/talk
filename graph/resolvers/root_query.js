@@ -71,6 +71,10 @@ const RootQuery = {
       return null;
     }
 
+    if (sort === 'COMMENTS') {
+      return Comments.getActivity({from, to, limit});
+    }
+
     return Comments.get({from, to, sort, limit});
   },
 
