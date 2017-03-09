@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 import styles from './Widget.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
@@ -6,9 +6,7 @@ import translations from 'coral-admin/src/translations';
 
 const lang = new I18n(translations);
 
-const LikeWidget = (props) => {
-
-  const {assets} = props;
+const LikeWidget = ({assets}) => {
 
   return (
     <div className={styles.widget}>
@@ -38,6 +36,16 @@ const LikeWidget = (props) => {
       </div>
     </div>
   );
+};
+
+LikeWidget.propTypes = {
+  assets: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    url: PropTypes.string,
+    action_summaries: PropTypes.array,
+    author: PropTypes.string,
+    created_at: PropTypes.string
+  })).isRequired
 };
 
 export default LikeWidget;
