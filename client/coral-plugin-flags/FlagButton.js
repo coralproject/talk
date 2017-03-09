@@ -32,9 +32,21 @@ class FlagButton extends Component {
     if (flagged) {
       this.setState((prev) => prev.localPost ? {...prev, localPost: null, step: 0} : {...prev, localDelete: true});
       deleteAction(localPost || flag.current_user.id);
+    } else if (this.state.showMenu){
+      this.closeMenu();
     } else {
-      this.setState({showMenu: !this.state.showMenu});
+      this.setState({showMenu: true});
     }
+  }
+
+  closeMenu = () => {
+    this.setState({
+      showMenu: false,
+      itemType: '',
+      reason: '',
+      message: '',
+      step: 0
+    });
   }
 
   onPopupContinue = () => {
@@ -43,7 +55,7 @@ class FlagButton extends Component {
 
     // Proceed to the next step or close the menu if we've reached the end
     if (step + 1 >= this.props.getPopupMenu.length) {
-      this.setState({showMenu: false});
+      this.closeMenu();
     } else {
       this.setState({step: step + 1});
     }
@@ -114,7 +126,7 @@ class FlagButton extends Component {
   }
 
   handleClickOutside () {
-    this.setState({showMenu: false});
+    this.closeMenu();
   }
 
   render () {
