@@ -26,7 +26,7 @@ class ModerationContainer extends Component {
 
   componentWillMount() {
     const {toggleModal, singleView} = this.props;
-    
+
     this.props.fetchSettings();
     key('s', () => singleView());
     key('shift+/', () => toggleModal(true));
@@ -140,8 +140,10 @@ class ModerationContainer extends Component {
         <BanUserDialog
           open={moderation.banDialog}
           user={moderation.user}
+          commentId={moderation.commentId}
           handleClose={props.hideBanUserDialog}
           handleBanUser={props.banUser}
+          rejectComment={props.rejectComment}
         />
       <ModerationKeysModal
           open={moderation.modalOpen}
