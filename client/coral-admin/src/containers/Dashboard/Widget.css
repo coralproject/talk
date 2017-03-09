@@ -1,14 +1,21 @@
 :root {
-  --row-height: 80px;
+  --row-height: 60px;
 }
 
 .widget {
-  box-sizing: border-box;
   margin: 10px 5px 5px 5px;
   box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
-  padding: 15px;
   flex: 1;
   background-color: white;
+  box-sizing: border-box;
+}
+
+.widget * {
+  box-sizing: border-box;
+}
+
+.widget * {
+  box-sizing: border-box;
 }
 
 .heading {
@@ -16,24 +23,35 @@
   padding-left: 10px;
   font-size: 1.5rem;
   font-weight: bold;
+  background-color: #e0e0e0;
 }
 
 .widgetTable {
-  width: 100%;
   border-collapse: collapse;
   user-select: none;
+  margin: 5px 15px 15px 15px;
   height: calc(var(--row-height) * 10);
 }
 
-.widgetTable thead th {
+.widgetTable + div:after {
+  content: '';
+  clear: both;
+  display: block;
+}
+
+.widgetHead p {
   color: rgb(35, 102, 223);
   padding: 10px;
   text-align: left;
   text-transform: capitalize;
+  display: inline-block;
+  box-sizing: border-box;
+  margin-bottom: 0;
 }
 
-.widgetTable thead th:last-child {
-  width: 10%;
+.widgetHead p:last-child {
+  float: right;
+  margin-right: 100px;
 }
 
 .rowLinkify {
@@ -41,6 +59,7 @@
   border-bottom: 1px solid lightgrey;
   color: #555;
   height: var(--row-height);
+  padding: 10px;
 }
 
 .rowLinkify:last-child {
@@ -51,16 +70,8 @@
   background-color: #f8f8f8;
 }
 
-.widgetTable tbody td {
-  padding: 10px;
-}
-
-.widgetTable tbody td:last-child {
-  padding-top: 0;
-}
-
 .linkToAsset {
-  display: block;
+  display: inline-block;
   text-decoration: none;
 }
 
@@ -69,6 +80,8 @@
   padding: 10px 14px;
   text-decoration: none;
   color: black;
+  float: right;
+  margin-left: 15px;
 }
 
 .linkToModerate:hover {
@@ -96,4 +109,6 @@
   color: #555;
   font-size: 1.3em;
   font-weight: 400;
+  float: right;
+  margin-top: 7px;
 }
