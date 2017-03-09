@@ -1,0 +1,22 @@
+query Users ($n: ACTION_TYPE) {
+  users (query:{action_type: $n}){
+    id
+    username
+    status
+    roles
+    actions{
+      id
+      created_at
+      ... on FlagAction {
+        reason
+      }
+      user {
+        username
+      }
+    }
+    action_summaries {
+      count
+      reason
+    }
+  }
+}

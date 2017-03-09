@@ -379,6 +379,22 @@ module.exports = class UsersService {
   }
 
   /**
+   * Suspend a user. It changes the status to BANNED and canEditName to True.
+   * @param  {String}   id   id of a user
+   * @param  {Function} done callback after the operation is complete
+   */
+  static suspendUser(id) {
+    return UserModel.update({
+      id
+    }, {
+      $set: {
+        status: 'BANNED',
+        canEditName: true
+      }
+    });
+  }
+
+  /**
    * Finds a user with the id.
    * @param {String} id  user id (uuid)
   */
