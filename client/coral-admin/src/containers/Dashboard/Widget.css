@@ -55,9 +55,24 @@
   padding: 10px;
 }
 
+.widgetTable tbody td:last-child {
+  padding-top: 0;
+}
+
 .linkToAsset {
   display: block;
   text-decoration: none;
+}
+
+.linkToModerate {
+  background-color: #e0e0e0;
+  padding: 10px 14px;
+  text-decoration: none;
+  color: black;
+}
+
+.linkToModerate:hover {
+  background-color: #ccc;
 }
 
 .lede {
