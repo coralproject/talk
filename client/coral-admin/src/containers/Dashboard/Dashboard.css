@@ -9,7 +9,7 @@
 }
 
 .autoUpdate {
-  background-color: #ffdb87;
+  background-color: #d5d5d5;
   padding: 3px 10px 10px 10px;
   margin-bottom: 0;
 
@@ -22,7 +22,7 @@
     float: right;
     border-radius: 20px;
     cursor: pointer;
-    background-color: #e6ba52;
+    background-color: #c0c0c0;
     width: 30px;
     height: 30px;
     text-align: center;
