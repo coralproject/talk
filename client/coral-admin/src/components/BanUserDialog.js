@@ -8,7 +8,14 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
 const lang = new I18n(translations);
 
-const BanUserDialog = ({open, handleClose, handleBanUser, user, showRejectedNote}) => (
+const onBanClick = (userId, commentId, handleBanUser, rejectComment, handleClose) => (e) => {
+  e.preventDefault();
+  handleBanUser({userId})
+  .then(handleClose)
+  .then(() => rejectComment({commentId}));
+};
+
+const BanUserDialog = ({open, handleClose, handleBanUser, rejectComment, user, commentId, showRejectedNote}) => (
   <Dialog
     className={styles.dialog}
     id="banuserDialog"
@@ -29,7 +36,7 @@ const BanUserDialog = ({open, handleClose, handleBanUser, user, showRejectedNote
         <Button cStyle="cancel" className={styles.cancel} onClick={handleClose} raised>
           {lang.t('bandialog.cancel')}
         </Button>
-        <Button cStyle="black" className={styles.ban} onClick={() => handleBanUser({userId: user.id})} raised>
+        <Button cStyle="black" className={styles.ban} onClick={onBanClick(user.id, commentId, handleBanUser, rejectComment, handleClose)} raised>
           {lang.t('bandialog.yes_ban_user')}
         </Button>
       </div>
@@ -40,6 +47,8 @@ const BanUserDialog = ({open, handleClose, handleBanUser, user, showRejectedNote
 BanUserDialog.propTypes = {
   handleBanUser: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
+  rejectComment: PropTypes.func.isRequired,
+  commentId: PropTypes.string,
   user: PropTypes.object.isRequired,
 };
 
