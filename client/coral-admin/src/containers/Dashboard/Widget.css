@@ -3,12 +3,15 @@
 }
 
 .widget {
-  box-sizing: border-box;
   margin: 10px 5px 5px 5px;
   box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
-  padding: 15px;
   flex: 1;
   background-color: white;
+  box-sizing: border-box;
+}
+
+.widget * {
+  box-sizing: border-box;
 }
 
 .widget * {
@@ -20,9 +23,13 @@
   padding-left: 10px;
   font-size: 1.5rem;
   font-weight: bold;
+  background-color: #e0e0e0;
 }
 
 .widgetTable {
+  border-collapse: collapse;
+  user-select: none;
+  margin: 5px 15px 15px 15px;
   height: calc(var(--row-height) * 10);
 }
 
