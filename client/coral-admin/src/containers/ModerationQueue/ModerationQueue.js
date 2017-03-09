@@ -6,9 +6,10 @@ import EmptyCard from '../../components/EmptyCard';
 import {actionsMap} from './helpers/moderationQueueActionsMap';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations';
+import LoadMore from './components/LoadMore';
 
 const lang = new I18n(translations);
-const ModerationQueue = ({comments, selectedIndex, singleView, ...props}) => {
+const ModerationQueue = ({comments, selectedIndex, commentCount, singleView, loadMore, activeTab, sort, ...props}) => {
   return (
     <div id="moderationList" className={`${styles.list} ${singleView ? styles.singleView : ''}`}>
       <ul style={{paddingLeft: 0}}>
@@ -20,7 +21,7 @@ const ModerationQueue = ({comments, selectedIndex, singleView, ...props}) => {
             key={i}
             index={i}
             comment={comment}
-            commentType={props.activeTab}
+            commentType={activeTab}
             selected={i === selectedIndex}
             suspectWords={props.suspectWords}
             actions={actionsMap[status]}
@@ -33,6 +34,14 @@ const ModerationQueue = ({comments, selectedIndex, singleView, ...props}) => {
         : <EmptyCard>{lang.t('modqueue.emptyqueue')}</EmptyCard>
       }
       </ul>
+      <LoadMore
+        comments={comments}
+        loadMore={loadMore}
+        sort={sort}
+        tab={activeTab}
+        showLoadMore={comments.length < commentCount}
+        assetId={props.assetId}
+        />
     </div>
   );
 };
