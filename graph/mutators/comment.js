@@ -3,6 +3,7 @@ const errors = require('../../errors');
 const AssetsService = require('../../services/assets');
 const ActionsService = require('../../services/actions');
 const CommentsService = require('../../services/comments');
+const linkify = require('linkify-it')();
 
 const Wordlist = require('../../services/wordlist');
 
@@ -54,13 +55,16 @@ const createComment = ({user, loaders: {Comments}}, {body, asset_id, parent_id =
  * @param  {String} body    body of a comment
  * @return {Object}         resolves to the wordlist results
  */
-const filterNewComment = (context, {body}) => {
+const filterNewComment = (context, {body, asset_id}) => {
 
   // Create a new instance of the Wordlist.
   const wl = new Wordlist();
 
   // Load the wordlist and filter the comment content.
-  return wl.load().then(() => wl.scan('body', body));
+  return Promise.all([
+    wl.load().then(() => wl.scan('body', body)),
+    AssetsService.rectifySettings(AssetsService.findById(asset_id))
+  ]);
 };
 
 /**
@@ -72,7 +76,7 @@ const filterNewComment = (context, {body}) => {
  * @param  {Object} [wordlist={}] the results of the wordlist scan
  * @return {Promise}              resolves to the comment's status
  */
-const resolveNewCommentStatus = (context, {asset_id, body}, wordlist = {}) => {
+const resolveNewCommentStatus = (context, {asset_id, body}, wordlist = {}, settings) => {
 
   // Decide the status based on whether or not the current asset/settings
   // has pre-mod enabled or not. If the comment was rejected based on the
@@ -82,6 +86,8 @@ const resolveNewCommentStatus = (context, {asset_id, body}, wordlist = {}) => {
 
   if (wordlist.banned) {
     status = Promise.resolve('REJECTED');
+  } else if (settings.premodLinksEnable && linkify.test(body)) {
+    status = Promise.resolve('PREMOD');
   } else {
     status = AssetsService
       .rectifySettings(AssetsService.findById(asset_id).then((asset) => {
@@ -131,13 +137,13 @@ const createPublicComment = (context, commentInput) => {
     // We then take the wordlist and the comment into consideration when
     // considering what status to assign the new comment, and resolve the new
     // status to set the comment to.
-    .then((wordlist) => resolveNewCommentStatus(context, commentInput, wordlist)
+    .then(([wordlist, settings]) => resolveNewCommentStatus(context, commentInput, wordlist, settings)
 
       // Then we actually create the comment with the new status.
       .then((status) => createComment(context, commentInput, status))
       .then((comment) => {
 
-        // If the comment was flagged as being suspect, we need to add a
+        // If the comment has a suspect word or a link, we need to add a
         // flag to it to indicate that it needs to be looked at.
         // Otherwise just return the new comment.
 

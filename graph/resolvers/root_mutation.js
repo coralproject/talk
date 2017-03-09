@@ -47,6 +47,9 @@ const RootMutation = {
   setUserStatus(_, {id, status}, {mutators: {User}}) {
     return wrapResponse(null)(User.setUserStatus({id, status}));
   },
+  suspendUser(_, {id}, {mutators: {User}}) {
+    return wrapResponse(null)(User.suspendUser({id}));
+  },
   setCommentStatus(_, {id, status}, {mutators: {Comment}}) {
     return wrapResponse(null)(Comment.setCommentStatus({id, status}));
   },
