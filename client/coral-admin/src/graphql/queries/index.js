@@ -1,6 +1,7 @@
 import {graphql} from 'react-apollo';
 
 import MOD_QUEUE_QUERY from './modQueueQuery.graphql';
+import MOD_QUEUE_LOAD_MORE from './loadMore.graphql';
 import METRICS from './metricsQuery.graphql';
 
 export const modQueueQuery = graphql(MOD_QUEUE_QUERY, {
@@ -14,7 +15,8 @@ export const modQueueQuery = graphql(MOD_QUEUE_QUERY, {
   },
   props: ({ownProps: {params: {id = null}}, data}) => ({
     data,
-    modQueueResort: modQueueResort(id, data.fetchMore)
+    modQueueResort: modQueueResort(id, data.fetchMore),
+    loadMore: loadMore(data.fetchMore)
   })
 });
 
@@ -29,6 +31,40 @@ export const getMetrics = graphql(METRICS, {
     };
   }
 });
+
+export const loadMore = (fetchMore) => ({limit, cursor, sort, tab, asset_id}) => {
+  let statuses;
+  switch(tab) {
+  case 'premod':
+    statuses = ['PREMOD'];
+    break;
+  case 'flagged':
+    statuses = ['NONE', 'PREMOD'];
+    break;
+  case 'rejected':
+    statuses = ['REJECTED'];
+    break;
+  }
+  return fetchMore({
+    query: MOD_QUEUE_LOAD_MORE,
+    variables: {
+      limit,
+      cursor,
+      sort,
+      statuses,
+      asset_id
+    },
+    updateQuery: (oldData, {fetchMoreResult:{data:{comments}}}) => {
+      return {
+        ...oldData,
+        [tab]: [
+          ...oldData[tab],
+          ...comments
+        ]
+      };
+    }
+  });
+};
 
 export const modQueueResort = (id, fetchMore) => (sort) => {
   return fetchMore({
