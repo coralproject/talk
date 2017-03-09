@@ -35,14 +35,14 @@ export const postComment = graphql(POST_COMMENT, {
               action_summaries: [],
               tags: [],
               status: null,
-              id: `${Date.now()}_temp_id`
+              id: 'pending'
             }
           }
         },
         updateQueries: {
           AssetQuery: (oldData, {mutationResult:{data:{createComment:{comment}}}}) => {
 
-            if (oldData.asset.settings.moderation === 'PRE') {
+            if (oldData.asset.settings.moderation === 'PRE' || comment.status === 'PREMOD' || comment.status === 'REJECTED') {
               return oldData;
             }
 
