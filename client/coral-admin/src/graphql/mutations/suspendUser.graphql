@@ -1,0 +1,7 @@
+mutation suspendUser($userId: ID!) {
+  suspendUser(id: $userId) {
+    errors {
+      translation_key
+    }
+  }
+}
