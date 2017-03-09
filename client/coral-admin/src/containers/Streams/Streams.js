@@ -80,8 +80,8 @@ class Streams extends Component {
       <div
         className={closed ? styles.statusMenuClosed : styles.statusMenuOpen}
         onClick={this.onStatusClick(closed, id, statusMenuOpen)}>
-        {closed ? lang.t('streams.closed') : lang.t('streams.open')}
         {!statusMenuOpen && <Icon className={styles.statusMenuIcon} name='keyboard_arrow_down'/>}
+        {closed ? lang.t('streams.closed') : lang.t('streams.open')}
       </div>
       {
         statusMenuOpen &&
