@@ -3,14 +3,15 @@ const DataLoader = require('dataloader');
 const {objectCacheKeyFn} = require('./util');
 
 const ActionModel = require('../../models/action');
+const CommentModel = require('../../models/comment');
 
 /**
  * Returns the assets which have had comments made within the last time period.
  */
-const getCommentActivityMetrics = ({loaders: {Assets, Comments}}, {from, to, limit}) => {
+const getAssetActivityMetrics = ({loaders: {Assets}}, {from, to, limit}) => {
   let assetMetrics = [];
 
-  return Comments.aggregate([
+  return CommentModel.aggregate([
     {$match: {
       parent_id: null,
       created_at: {
@@ -35,7 +36,7 @@ const getCommentActivityMetrics = ({loaders: {Assets, Comments}}, {from, to, lim
     {$limit: limit}
   ])
   .then((results) => {
-    results = assetMetrics;
+    assetMetrics = results;
 
     return Assets.getByID.loadMany(results.map((result) => result.asset_id));
   })
@@ -254,11 +255,11 @@ module.exports = (context) => ({
       cacheKeyFn: objectCacheKeyFn('from', 'to')
     }),
     Assets: {
-      get: ({from, to, sort, limit}) => getAssetMetrics(context, {from, to, sort, limit})
+      get: ({from, to, sort, limit}) => getAssetMetrics(context, {from, to, sort, limit}),
+      getActivity: ({from, to, limit}) => getAssetActivityMetrics(context, {from, to, limit}),
     },
     Comments: {
       get: ({from, to, sort, limit}) => getCommentMetrics(context, {from, to, sort, limit}),
-      getActivity: ({from, to, limit}) => getCommentActivityMetrics(context, {from, to, limit}),
     }
   }
 });

@@ -63,16 +63,18 @@ const RootQuery = {
       return null;
     }
 
+    console.log({from, to, sort, limit});
+
+    if (sort === 'ACTIVITY') {
+      return Assets.getActivity({from, to, limit});
+    }
+
     return Assets.get({from, to, sort, limit});
   },
 
   commentMetrics(_, {from, to, sort, limit = 10}, {user, loaders: {Metrics: {Comments}}}) {
     if (user == null || !user.hasRoles('ADMIN')) {
       return null;
-    }
-
-    if (sort === 'COMMENTS') {
-      return Comments.getActivity({from, to, limit});
     }
 
     return Comments.get({from, to, sort, limit});
