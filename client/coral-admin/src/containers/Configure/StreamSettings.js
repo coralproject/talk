@@ -171,6 +171,7 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
           </div>
         </div>
       </Card>
+      {/* the above card should be the last one if at all possible because of z-index issues with the selects */}
     </div>
   );
 };
