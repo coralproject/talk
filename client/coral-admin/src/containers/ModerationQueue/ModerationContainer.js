@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {compose} from 'react-apollo';
 import key from 'keymaster';
 import isEqual from 'lodash/isEqual';
+import styles from './components/styles.css';
 
 import {modQueueQuery} from '../../graphql/queries';
 import {banUser, setCommentStatus} from '../../graphql/mutations';
@@ -88,6 +89,15 @@ class ModerationContainer extends Component {
     key.unbind('k');
     key.unbind('r');
     key.unbind('t');
+  }
+
+  componentDidUpdate(_, prevState) {
+
+    // If paging through using keybaord shortcuts, scroll the page to keep the selected
+    // comment in view.
+    if (prevState.selectedIndex !== this.state.selectedIndex) {
+      document.querySelector(`.${styles.selected}`).scrollIntoViewIfNeeded();
+    }
   }
 
   componentWillReceiveProps(nextProps) {
