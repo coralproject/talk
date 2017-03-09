@@ -84,11 +84,10 @@ span {
   margin-bottom: -1px;
 
   .settingsButton {
-    i {
-      vertical-align: middle;
-      margin-left: 10px;
-      margin-top: -4px;
-    }
+    vertical-align: middle;
+    margin-left: 10px;
+    margin-top: -4px;
+    font-size: 16px;
   }
 
   .moderateAsset {
@@ -114,7 +113,15 @@ span {
       }
 
       &:nth-child(2) {
-       text-align: center;
+        span {
+          text-align: center;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          max-width: 344px;
+          display: inline-block;
+          vertical-align: top;
+        }
       }
 
       &:last-child {
@@ -386,4 +393,24 @@ span {
   &:hover {
     cursor: pointer;
    }
+}
+
+.loadMoreContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+};
+
+.loadMore {
+  width: 100%;
+  text-align: center;
+  color: #FFF;
+  max-width: 660px;
+  margin-bottom: 30px;
+  background-color: #2376D8;
+  cursor: pointer;
+}
+
+.loadMore:hover {
+  background-color: #4399FF;
 }
