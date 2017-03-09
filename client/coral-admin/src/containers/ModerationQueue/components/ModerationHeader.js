@@ -10,9 +10,9 @@ const ModerationHeader = props => (
           props.asset ?
             <div className={`mdl-tabs__tab-bar ${styles.moderateAsset}`}>
               <Link className="mdl-tabs__tab" to="/admin/moderate">All Streams</Link>
-              <a className="mdl-tabs__tab">
-                {props.asset.title}
-                <a href={props.asset.url} className={styles.settingsButton}><Icon name="settings"/></a>
+              <a className="mdl-tabs__tab" href={props.asset.url}>
+                <span>{props.asset.title}</span>
+                <Icon className={styles.settingsButton} name="open_in_new"/>
               </a>
               <Link className="mdl-tabs__tab" to="/admin/streams">Select Stream</Link>
             </div>
