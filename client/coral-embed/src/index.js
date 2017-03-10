@@ -13,7 +13,7 @@ const snackbarStyles = {
   color: '#fff',
   borderRadius: '3px 3px 0 0',
   textAlign: 'center',
-  maxWidth: '300px',
+  maxWidth: '400px',
   left: '50%',
   opacity: 0,
   transform: 'translate(-50%, 20px)',
