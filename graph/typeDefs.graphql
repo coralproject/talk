@@ -422,6 +422,9 @@ type Asset {
   # The count of top level comments on the asset.
   commentCount: Int
 
+  # The total count of all comments made on the asset.
+  totalCommentCount: Int
+
   # The settings (rectified with the global settings) that should be applied to
   # this asset.
   settings: Settings!
