@@ -1,0 +1,13 @@
+#import "../fragments/commentView.graphql"
+
+query LoadMoreModQueue($limit: Int = 10, $cursor: Date, $sort: SORT_ORDER, $asset_id: ID, $statuses:[COMMENT_STATUS!]) {
+  comments(query: {limit: $limit, cursor: $cursor, asset_id: $asset_id, statuses: $statuses, sort: $sort}) {
+    ...commentView
+    action_summaries {
+      count
+      ... on FlagActionSummary {
+        reason
+      }
+    }
+  }
+}

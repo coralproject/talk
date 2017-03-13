@@ -71,6 +71,7 @@
     "inquirer": "^3.0.1",
     "jsonwebtoken": "^7.1.9",
     "kue": "^0.11.5",
+    "linkify-it": "^2.0.3",
     "lodash": "^4.16.6",
     "metascraper": "^1.0.6",
     "minimist": "^1.2.0",
@@ -84,7 +85,7 @@
     "passport-facebook": "^2.1.1",
     "passport-local": "^1.0.0",
     "react-apollo": "^0.10.0",
-    "redis": "^2.6.3",
+    "redis": "^2.6.5",
     "uuid": "^2.0.3"
   },
   "devDependencies": {
@@ -167,6 +168,6 @@
     "webpack": "^2.2.1"
   },
   "engines": {
-    "node": "~7.6.0"
+    "node": "^7.7.0"
   }
 }

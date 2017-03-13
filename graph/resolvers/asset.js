@@ -10,7 +10,18 @@ const Asset = {
       parent_id: null
     });
   },
-  commentCount({id}, _, {loaders: {Comments}}) {
+  commentCount({id, commentCount}, _, {loaders: {Comments}}) {
+    if (commentCount != null) {
+      return commentCount;
+    }
+
+    return Comments.parentCountByAssetID.load(id);
+  },
+  totalCommentCount({id, totalCommentCount}, _, {loaders: {Comments}}) {
+    if (totalCommentCount != null) {
+      return totalCommentCount;
+    }
+
     return Comments.countByAssetID.load(id);
   },
   settings({settings = null}, _, {loaders: {Settings}}) {

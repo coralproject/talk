@@ -1,14 +1,29 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {compose} from 'react-apollo';
+
+import {modUserFlaggedQuery} from 'coral-admin/src/graphql/queries';
+import {banUser, setUserStatus, suspendUser} from '../../graphql/mutations';
+
 import {
-  fetchCommenters,
+  fetchAccounts,
   updateSorting,
   newPage,
+  showBanUserDialog,
+  hideBanUserDialog,
+  showSuspendUserDialog,
+  hideSuspendUserDialog
 } from '../../actions/community';
 
-import Community from './Community';
+import CommunityMenu from './components/CommunityMenu';
+import BanUserDialog from './components/BanUserDialog';
+import SuspendUserDialog from './components/SuspendUserDialog';
+
+import People from './People';
+import FlaggedAccounts from './FlaggedAccounts';
 
 class CommunityContainer extends Component {
+
   constructor(props) {
     super(props);
 
@@ -20,6 +35,10 @@ class CommunityContainer extends Component {
     this.onChangeHandler = this.onChangeHandler.bind(this);
     this.onHeaderClickHandler = this.onHeaderClickHandler.bind(this);
     this.onNewPageHandler = this.onNewPageHandler.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.fetchAccounts({});
   }
 
   onKeyDownHandler(e) {
@@ -38,16 +57,13 @@ class CommunityContainer extends Component {
   search(query = {}) {
     const {community} = this.props;
 
-    this.props.dispatch(fetchCommenters({
+    this.props.fetchAccounts({
       value: this.state.searchValue,
-      field: community.field,
-      asc: community.asc,
+      field: community.fieldPeople,
+      asc: community.ascPeople,
       ...query
-    }));
-  }
+    });
 
-  componentDidMount() {
-    this.search();
   }
 
   onHeaderClickHandler(sort) {
@@ -60,19 +76,64 @@ class CommunityContainer extends Component {
     this.search({page});
   }
 
+  getTabContent(searchValue, props) {
+    const {community, data} = props;
+    const activeTab = props.route.path === ':id' ? 'flagged' : props.route.path;
+
+    if (activeTab === 'people') {
+      return (
+        <People
+          isFetching={community.isFetchingPeople}
+          commenters={community.accounts}
+          searchValue={searchValue}
+          error={community.errorPeople}
+          totalPages={community.totalPagesPeople}
+          page={community.pagePeople}
+          {...this}
+        />
+      );
+    }
+
+    return (
+      <div>
+        <FlaggedAccounts
+          commenters={data.users}
+          isFetching={data.loading}
+          error={data.error}
+          showBanUserDialog={props.showBanUserDialog}
+          approveUser={props.approveUser}
+          suspendUser={props.suspendUser}
+          showSuspendUserDialog={props.showSuspendUserDialog}
+          {...this}
+        />
+        <BanUserDialog
+          open={community.banDialog}
+          user={community.user}
+          handleClose={props.hideBanUserDialog}
+          handleBanUser={props.banUser}
+        />
+        <SuspendUserDialog
+          open={community.suspendDialog}
+          handleClose={props.hideSuspendUserDialog}
+          user={community.user}
+          suspendUser={props.suspendUser}
+        />
+      </div>
+    );
+  }
+
   render() {
     const {searchValue} = this.state;
-    const {community} = this.props;
+
+    const tab = this.getTabContent(searchValue, this.props);
+
     return (
-      <Community
-        searchValue={searchValue}
-        commenters={community.commenters}
-        isFetching={community.isFetching}
-        error={community.error}
-        totalPages={community.totalPages}
-        page={community.page}
-        {...this}
-      />
+      <div>
+        <CommunityMenu />
+        <div>
+          { tab }
+        </div>
+      </div>
     );
   }
 }
@@ -81,4 +142,18 @@ const mapStateToProps = state => ({
   community: state.community.toJS()
 });
 
-export default connect(mapStateToProps)(CommunityContainer);
+const mapDispatchToProps = dispatch => ({
+  fetchAccounts: query => dispatch(fetchAccounts(query)),
+  showBanUserDialog: (user) => dispatch(showBanUserDialog(user)),
+  hideBanUserDialog: () => dispatch(hideBanUserDialog(false)),
+  showSuspendUserDialog: (user) => dispatch(showSuspendUserDialog(user)),
+  hideSuspendUserDialog: () => dispatch(hideSuspendUserDialog())
+});
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  modUserFlaggedQuery,
+  banUser,
+  setUserStatus,
+  suspendUser
+)(CommunityContainer);

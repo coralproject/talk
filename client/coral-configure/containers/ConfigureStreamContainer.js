@@ -31,13 +31,14 @@ class ConfigureStreamContainer extends Component {
     const questionBoxEnable = elements.qboxenable.checked;
     const questionBoxContent = elements.qboxcontent.value;
 
-    // const premodLinks = elements.premodLinks.checked;
+    const premodLinksEnable = elements.premodLinks.checked;
     const {changed} = this.state;
 
     const newConfig = {
       moderation: premod ? 'PRE' : 'POST',
       questionBoxEnable,
-      questionBoxContent
+      questionBoxContent,
+      premodLinksEnable
     };
 
     if (changed) {
@@ -77,10 +78,9 @@ class ConfigureStreamContainer extends Component {
   }
 
   render () {
-    const status = this.props.asset.closedAt === null ? 'open' : 'closed';
-    const premod = this.props.asset.settings.moderation === 'PRE';
-    const questionBoxEnable = this.props.asset.settings.questionBoxEnable;
-    const questionBoxContent = this.props.asset.settings.questionBoxContent;
+    const {settings, closedAt} = this.props.asset;
+    const status = closedAt === null ? 'open' : 'closed';
+    const premod = settings.moderation === 'PRE';
 
     return (
       <div>
@@ -88,11 +88,11 @@ class ConfigureStreamContainer extends Component {
           handleChange={this.handleChange}
           handleApply={this.handleApply}
           changed={this.state.changed}
-          premodLinks={false}
+          premodLinks={settings.premodLinks}
           premod={premod}
           updateQuestionBoxContent={this.updateQuestionBoxContent}
-          questionBoxEnable={questionBoxEnable}
-          questionBoxContent={questionBoxContent}
+          questionBoxEnable={settings.questionBoxEnable}
+          questionBoxContent={settings.questionBoxContent}
         />
         <hr />
         <h3>{status === 'open' ? 'Close' : 'Open'} Comment Stream</h3>
