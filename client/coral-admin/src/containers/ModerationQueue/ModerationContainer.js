@@ -96,7 +96,9 @@ class ModerationContainer extends Component {
     // If paging through using keybaord shortcuts, scroll the page to keep the selected
     // comment in view.
     if (prevState.selectedIndex !== this.state.selectedIndex) {
-      document.querySelector(`.${styles.selected}`).scrollIntoViewIfNeeded();
+
+      // the 'smooth' flag only works in FF as of March 2017
+      document.querySelector(`.${styles.selected}`).scrollIntoView({behavior: 'smooth'});
     }
   }
 
