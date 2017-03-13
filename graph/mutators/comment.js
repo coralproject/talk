@@ -33,16 +33,17 @@ const createComment = ({user, loaders: {Comments}}, {body, asset_id, parent_id =
   })
   .then((comment) => {
 
-    // TODO: explore using an `INCR` operation to update the counts here
-
     // If the loaders are present, clear the caches for these values because we
-    // just added a new comment, hence the counts should be updated.
-    if (Comments && Comments.countByAssetID && Comments.countByParentID) {
+    // just added a new comment, hence the counts should be updated. We should
+    // perform these increments in the event that we do have a new comment that
+    // is approved or without a comment.
+    if (status === 'NONE' || status === 'APPROVED') {
       if (parent_id != null) {
-        Comments.countByParentID.clear(parent_id);
+        Comments.countByParentID.incr(parent_id);
       } else {
-        Comments.countByAssetID.clear(asset_id);
+        Comments.parentCountByAssetID.incr(asset_id);
       }
+      Comments.countByAssetID.incr(asset_id);
     }
 
     return comment;
@@ -182,14 +183,17 @@ const setCommentStatus = ({loaders: {Comments}}, {id, status}) => {
     .then((comment) => {
 
       // If the loaders are present, clear the caches for these values because we
-      // just added a new comment, hence the counts should be updated.
-      if (Comments && Comments.countByAssetID && Comments.countByParentID) {
-        if (comment.parent_id != null) {
-          Comments.countByParentID.clear(comment.parent_id);
-        } else {
-          Comments.countByAssetID.clear(comment.asset_id);
-        }
+      // just added a new comment, hence the counts should be updated. It would
+      // be nice if we could decrement the counters here, but that would result
+      // in us having to know the initial state of the comment, which would
+      // require another database query.
+      if (comment.parent_id != null) {
+        Comments.countByParentID.clear(comment.parent_id);
+      } else {
+        Comments.parentCountByAssetID.clear(comment.asset_id);
       }
+
+      Comments.countByAssetID.clear(comment.asset_id);
 
       return comment;
     });
