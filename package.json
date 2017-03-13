@@ -83,7 +83,7 @@
     "passport-facebook": "^2.1.1",
     "passport-local": "^1.0.0",
     "react-apollo": "^0.10.0",
-    "redis": "^2.6.3",
+    "redis": "^2.6.5",
     "uuid": "^2.0.3"
   },
   "devDependencies": {
@@ -167,6 +167,6 @@
     "webpack": "^2.2.1"
   },
   "engines": {
-    "node": "~7.6.0"
+    "node": "^7.7.0"
   }
 }
