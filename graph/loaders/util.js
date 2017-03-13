@@ -122,6 +122,29 @@ class SharedCacheDataLoader extends DataLoader {
 }
 
 /**
+ * SharedCounterDataLoader is identical to SharedCacheDataLoader with the
+ * exception in that it is designed to work with numerical cached data.
+ */
+class SharedCounterDataLoader extends SharedCacheDataLoader {
+
+  /**
+   * Increments the key in the cache if it already exists in the cache, if not
+   * it does nothing.
+   */
+  incr(key) {
+    return cache.incr(key, this._expiry, this._keyFunc);
+  }
+
+  /**
+   * Decrements the key in the cache if it already exists in the cache, if not
+   * it does nothing.
+   */
+  decr(key) {
+    return cache.decr(key, this._expiry, this._keyFunc);
+  }
+}
+
+/**
  * Maps an object's paths to a string that can be used as a cache key.
  * @param  {Array} paths paths on the object to be used to generate the cache
  *                       key
@@ -145,5 +168,6 @@ module.exports = {
   objectCacheKeyFn,
   arrayCacheKeyFn,
   SingletonResolver,
-  SharedCacheDataLoader
+  SharedCacheDataLoader,
+  SharedCounterDataLoader
 };

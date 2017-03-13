@@ -19,6 +19,7 @@ export default function moderation (state = initialState, action) {
       .merge({
         user: Map(action.user),
         commentId: action.commentId,
+        showRejectedNote: action.showRejectedNote,
         banDialog: true
       });
   case actions.SET_ACTIVE_TAB:
