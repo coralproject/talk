@@ -166,6 +166,7 @@ class ModerationContainer extends Component {
           commentId={moderation.commentId}
           handleClose={props.hideBanUserDialog}
           handleBanUser={props.banUser}
+          showRejectedNote={moderation.showRejectedNote}
           rejectComment={props.rejectComment}
         />
       <ModerationKeysModal
@@ -188,7 +189,7 @@ const mapDispatchToProps = dispatch => ({
   singleView: () => dispatch(singleView()),
   updateAssets: assets => dispatch(updateAssets(assets)),
   fetchSettings: () => dispatch(fetchSettings()),
-  showBanUserDialog: (user, commentId) => dispatch(showBanUserDialog(user, commentId)),
+  showBanUserDialog: (user, commentId, showRejectedNote) => dispatch(showBanUserDialog(user, commentId, showRejectedNote)),
   hideBanUserDialog: () => dispatch(hideBanUserDialog(false)),
 });
 
