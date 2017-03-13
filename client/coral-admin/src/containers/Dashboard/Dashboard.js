@@ -4,7 +4,6 @@ import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {getMetrics} from 'coral-admin/src/graphql/queries';
 import FlagWidget from './FlagWidget';
-import LikeWidget from './LikeWidget';
 import {showBanUserDialog, hideBanUserDialog} from 'coral-admin/src/actions/moderation';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations';
@@ -47,7 +46,7 @@ class Dashboard extends React.Component {
       return <Spinner />;
     }
 
-    const {data: {assetsByLike, assetsByFlag}} = this.props;
+    const {data: {assetsByFlag}} = this.props;
 
     return (
       <div>
@@ -60,7 +59,6 @@ class Dashboard extends React.Component {
         </p>
         <div className={styles.Dashboard}>
           <FlagWidget assets={assetsByFlag} />
-          <LikeWidget assets={assetsByLike} />
         </div>
       </div>
     );
