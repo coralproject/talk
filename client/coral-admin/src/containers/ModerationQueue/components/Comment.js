@@ -31,7 +31,7 @@ const Comment = ({actions = [], ...props}) => {
           <span className={styles.created}>
             {timeago().format(props.comment.created_at || (Date.now() - props.index * 60 * 1000), lang.getLocale().replace('-', '_'))}
           </span>
-          <BanUserButton user={props.comment.user} onClick={() => props.showBanUserDialog(props.comment.user, props.comment.id)} />
+          <BanUserButton user={props.comment.user} onClick={() => props.showBanUserDialog(props.comment.user, props.comment.id, props.comment.status !== 'REJECTED')} />
           <CommentType type={props.commentType} />
         </div>
           {props.comment.user.status === 'banned' ?
