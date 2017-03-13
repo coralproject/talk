@@ -15,7 +15,7 @@ const onBanClick = (userId, commentId, handleBanUser, rejectComment, handleClose
   .then(() => rejectComment({commentId}));
 };
 
-const BanUserDialog = ({open, handleClose, handleBanUser, rejectComment, user, commentId}) => (
+const BanUserDialog = ({open, handleClose, handleBanUser, rejectComment, user, commentId, showRejectedNote}) => (
   <Dialog
     className={styles.dialog}
     id="banuserDialog"
@@ -30,7 +30,7 @@ const BanUserDialog = ({open, handleClose, handleBanUser, rejectComment, user, c
       </div>
       <div className={styles.separator}>
         <h3>{lang.t('bandialog.are_you_sure', user.name)}</h3>
-        <i>{lang.t('bandialog.note')}</i>
+        <i>{showRejectedNote && lang.t('bandialog.note')}</i>
       </div>
       <div className={styles.buttons}>
         <Button cStyle="cancel" className={styles.cancel} onClick={handleClose} raised>
@@ -47,6 +47,8 @@ const BanUserDialog = ({open, handleClose, handleBanUser, rejectComment, user, c
 BanUserDialog.propTypes = {
   handleBanUser: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
+  rejectComment: PropTypes.func.isRequired,
+  commentId: PropTypes.string,
   user: PropTypes.object.isRequired,
 };
 
