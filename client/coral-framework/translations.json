@@ -5,9 +5,9 @@
     "successNameUpdate": "Your username has been updated",
     "contentNotAvailable": "This content is not available",
     "loadMore": "View more",
-    "bannedAccountMsg": "Your account is currently suspended. This means that you cannot Like, Flag, or write comments. Please contact moderator@fakeurl.com for more information",
+    "bannedAccountMsg": "Your account is currently suspended. This means that you cannot Like, Report, or write comments. Please contact us if you have any questions.",
     "editName": {
-      "msg": "Your account is currently suspended because your username has been deemed inappropriate. To restore your account, please enter a new username. You may contact moderator@fakeurl.com for more information.",
+      "msg": "Your account is currently suspended because your username has been deemed inappropriate. To restore your account, please enter a new username. Please contact us if you have any questions.",
       "label": "New Username",
       "button": "Submit",
       "error": "Usernames can contain letters, numbers and _ only"
@@ -41,7 +41,7 @@
     "successUpdateSettings": "La configuración de este articulo fue actualizada",
     "successBioUpdate": "Tu bio fue actualizada",
     "contentNotAvailable": "El contenido no se encuentra disponible",
-    "bannedAccountMsg": "Tu cuenta se encuentra suspendida. Esto significa que no puedes dar Like, Marcar o escribir commentarios. Por favor, contacta moderator@fakeurl for more information",
+    "bannedAccountMsg": "Tu cuenta se encuentra suspendida. Esto significa que no puedes dar Like, Marcar o escribir commentarios.",
     "editNameMsg": "",
     "loadMore": "Ver más",
     "newCount": "Ver {0} {1} más",
