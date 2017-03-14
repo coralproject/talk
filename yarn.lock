@@ -6452,6 +6452,10 @@ react-onclickoutside@^5.7.1:
   version "5.8.4"
   resolved "https://registry.yarnpkg.com/react-onclickoutside/-/react-onclickoutside-5.8.4.tgz#a2c673a8d1b104a550e565574b95419feb12cc3f"
 
+react-recaptcha@^2.2.6:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/react-recaptcha/-/react-recaptcha-2.2.6.tgz#bb44c1948a39b37d5a41920c73db833e5d8524f9"
+
 react-redux@^4.4.5:
   version "4.4.6"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-4.4.6.tgz#4b9d32985307a11096a2dd61561980044fcc6209"

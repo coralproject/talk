@@ -118,6 +118,9 @@ module.exports = {
       'process.env': {
         'VERSION': `"${require('./package.json').version}"`
       }
+    }),
+    new webpack.EnvironmentPlugin({
+      TALK_RECAPTCHA_PUBLIC: JSON.stringify(process.env.TALK_RECAPTCHA_PUBLIC)
     })
   ],
   resolve: {
