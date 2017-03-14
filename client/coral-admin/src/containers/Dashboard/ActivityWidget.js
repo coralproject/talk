@@ -9,7 +9,7 @@ const lang = new I18n(translations);
 const ActivityWidget = ({assets}) => {
   return (
     <div className={styles.widget}>
-      <h2 className={styles.heading}>Articles with the most comments (parent)</h2>
+      <h2 className={styles.heading}>Articles with the most conversations</h2>
       <div className={styles.widgetHead}>
         <p>{lang.t('streams.article')}</p>
         <p>{lang.t('dashboard.comment_count')}</p>
