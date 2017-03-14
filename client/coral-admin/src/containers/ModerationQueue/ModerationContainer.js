@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {compose} from 'react-apollo';
 import key from 'keymaster';
 import isEqual from 'lodash/isEqual';
+import styles from './components/styles.css';
 
 import {modQueueQuery} from '../../graphql/queries';
 import {banUser, setCommentStatus} from '../../graphql/mutations';
@@ -90,6 +91,17 @@ class ModerationContainer extends Component {
     key.unbind('t');
   }
 
+  componentDidUpdate(_, prevState) {
+
+    // If paging through using keybaord shortcuts, scroll the page to keep the selected
+    // comment in view.
+    if (prevState.selectedIndex !== this.state.selectedIndex) {
+
+      // the 'smooth' flag only works in FF as of March 2017
+      document.querySelector(`.${styles.selected}`).scrollIntoView({behavior: 'smooth'});
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     const {updateAssets} = this.props;
     if(!isEqual(nextProps.data.assets, this.props.data.assets)) {
@@ -166,6 +178,7 @@ class ModerationContainer extends Component {
           commentId={moderation.commentId}
           handleClose={props.hideBanUserDialog}
           handleBanUser={props.banUser}
+          showRejectedNote={moderation.showRejectedNote}
           rejectComment={props.rejectComment}
         />
       <ModerationKeysModal
@@ -188,7 +201,7 @@ const mapDispatchToProps = dispatch => ({
   singleView: () => dispatch(singleView()),
   updateAssets: assets => dispatch(updateAssets(assets)),
   fetchSettings: () => dispatch(fetchSettings()),
-  showBanUserDialog: (user, commentId) => dispatch(showBanUserDialog(user, commentId)),
+  showBanUserDialog: (user, commentId, showRejectedNote) => dispatch(showBanUserDialog(user, commentId, showRejectedNote)),
   hideBanUserDialog: () => dispatch(hideBanUserDialog(false)),
 });
 

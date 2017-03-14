@@ -157,31 +157,31 @@ class Comment extends React.Component {
         <PubDate created_at={comment.created_at} />
         <Content body={comment.body} />
           <div className="commentActionsLeft comment__action-container">
-              <ActionButton>
-                <LikeButton
-                  like={like}
-                  id={comment.id}
-                  postLike={postLike}
-                  deleteAction={deleteAction}
-                  showSignInDialog={showSignInDialog}
-                  currentUser={currentUser} />
-              </ActionButton>
-              <ActionButton>
-                <ReplyButton
-                  onClick={() => setActiveReplyBox(comment.id)}
-                  parentCommentId={parentId || comment.id}
-                  currentUserId={currentUser && currentUser.id}
-                  banned={false} />
-              </ActionButton>
-              <ActionButton>
-                <IfUserCanModifyBest user={currentUser}>
-                  <BestButton
-                    isBest={commentIsBest(comment)}
-                    addBest={addBestTag}
-                    removeBest={removeBestTag} />
-                </IfUserCanModifyBest>
-              </ActionButton>
-            </div>
+            <ActionButton>
+              <LikeButton
+                like={like}
+                id={comment.id}
+                postLike={postLike}
+                deleteAction={deleteAction}
+                showSignInDialog={showSignInDialog}
+                currentUser={currentUser} />
+            </ActionButton>
+            <ActionButton>
+              <ReplyButton
+                onClick={() => setActiveReplyBox(comment.id)}
+                parentCommentId={parentId || comment.id}
+                currentUserId={currentUser && currentUser.id}
+                banned={false} />
+            </ActionButton>
+            <ActionButton>
+              <IfUserCanModifyBest user={currentUser}>
+                <BestButton
+                  isBest={commentIsBest(comment)}
+                  addBest={addBestTag}
+                  removeBest={removeBestTag} />
+              </IfUserCanModifyBest>
+            </ActionButton>
+          </div>
         <div className="commentActionsRight comment__action-container">
           <ActionButton>
             <PermalinkButton articleURL={asset.url} commentId={comment.id} />
