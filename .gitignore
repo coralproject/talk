@@ -12,3 +12,7 @@ dump.rdb
 *.cfg
 .idea/
 coverage/
+
+# remove plugin folders
+plugins
+plugins.json
