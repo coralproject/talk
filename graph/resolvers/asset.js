@@ -11,8 +11,15 @@ const Asset = {
     });
   },
   commentCount({id, commentCount}, _, {loaders: {Comments}}) {
-    if (commentCount) {
+    if (commentCount != null) {
       return commentCount;
+    }
+
+    return Comments.parentCountByAssetID.load(id);
+  },
+  totalCommentCount({id, totalCommentCount}, _, {loaders: {Comments}}) {
+    if (totalCommentCount != null) {
+      return totalCommentCount;
     }
 
     return Comments.countByAssetID.load(id);
