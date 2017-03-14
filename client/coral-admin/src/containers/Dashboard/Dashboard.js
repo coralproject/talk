@@ -86,6 +86,7 @@ class Dashboard extends React.Component {
         </p>
         <div className={styles.Dashboard}>
           <FlagWidget assets={assetsByFlag} />
+
           <LikeWidget assets={assetsByLike} />
           <ActivityWidget assets={assetsByActivity} />
         </div>
