@@ -1,5 +1,6 @@
 const redis = require('./redis');
 const debug = require('debug')('talk:cache');
+const crypto = require('crypto');
 
 const cache = module.exports = {
   client: redis.createClient()
@@ -58,6 +59,157 @@ cache.wrap = (key, expiry, work, kf = keyfunc) => {
           return value;
         });
     });
+};
+
+// This is designed to increment a key and add an expiry iff the key already
+// exists.
+const INCR_SCRIPT = `
+if redis.call('GET', KEYS[1]) ~= false then
+  redis.call('INCR', KEYS[1])
+  redis.call('EXPIRE', KEYS[1], ARGV[1])
+end
+`;
+
+// Stores the SHA1 hash of INCR_SCRIPT, used for executing via EVALSHA.
+let INCR_SCRIPT_HASH;
+
+// This is designed to decrement a key and add an expiry iff the key already
+// exists.
+const DECR_SCRIPT = `
+if redis.call('GET', KEYS[1]) ~= false then
+  redis.call('DECR', KEYS[1])
+  redis.call('EXPIRE', KEYS[1], ARGV[1])
+end
+`;
+
+// Stores the SHA1 hash of DECR_SCRIPT, used for executing via EVALSHA.
+let DECR_SCRIPT_HASH;
+
+// Load the script into redis and track the script hash that we will use to exec
+// increments on.
+const loadScript = (name, script) => new Promise((resolve, reject) => {
+
+  let shasum = crypto.createHash('sha1');
+  shasum.update(script);
+
+  let hash = shasum.digest('hex');
+
+  cache.client
+    .script('EXISTS', hash, (err, [exists]) => {
+      if (err) {
+        return reject(err);
+      }
+
+      if (exists) {
+        debug(`already loaded ${name} as SHA[${hash}], not loading again`);
+
+        return resolve(hash);
+      }
+
+      debug(`${name} not loaded as SHA[${hash}], loading`);
+
+      cache.client
+        .script('load', script, (err, hash) => {
+          if (err) {
+            return reject(err);
+          }
+
+          debug(`loaded ${name} as SHA[${hash}]`);
+
+          resolve(hash);
+        });
+    });
+});
+
+// Load the INCR_SCRIPT and DECR_SCRIPT into Redis.
+Promise.all([
+  loadScript('INCR_SCRIPT', INCR_SCRIPT),
+  loadScript('DECR_SCRIPT', DECR_SCRIPT)
+])
+.then(([incrScriptHash, decrScriptHash]) => {
+  INCR_SCRIPT_HASH = incrScriptHash;
+  DECR_SCRIPT_HASH = decrScriptHash;
+})
+.catch((err) => {
+  throw err;
+});
+
+/**
+ * This will increment a key in redis and update the expiry iff it already
+ * exists, otherwise it will do nothing.
+ */
+cache.incr = (key, expiry, kf = keyfunc) => new Promise((resolve, reject) => {
+  cache.client
+    .evalsha(INCR_SCRIPT_HASH, 1, kf(key), expiry, (err) => {
+      if (err) {
+        return reject(err);
+      }
+
+      return resolve();
+    });
+});
+
+/**
+ * This will decrement a key in redis and update the expiry iff it already
+ * exists, otherwise it will do nothing.
+ */
+cache.decr = (key, expiry, kf = keyfunc) => new Promise((resolve, reject) => {
+  cache.client
+    .evalsha(DECR_SCRIPT_HASH, 1, kf(key), expiry, (err) => {
+      if (err) {
+        return reject(err);
+      }
+
+      return resolve();
+    });
+});
+
+/**
+ * This will increment many keys in redis and update the expiry iff it already
+ * exists, otherwise it will do nothing.
+ */
+cache.incrMany = (keys, expiry, kf = keyfunc) => {
+  let multi = cache.client.multi();
+
+  keys.forEach((key) => {
+
+    // Queue up the evalsha command.
+    multi.evalsha(INCR_SCRIPT_HASH, 1, kf(key), expiry);
+  });
+
+  return new Promise((resolve, reject) => {
+    multi.exec((err) => {
+      if (err) {
+        return reject(err);
+      }
+
+      resolve();
+    });
+  });
+};
+
+/**
+ * This will decrement many keys in redis and update the expiry iff it already
+ * exists, otherwise it will do nothing.
+ */
+cache.decrMany = (keys, expiry, kf = keyfunc) => {
+  let multi = cache.client.multi();
+
+  keys.forEach((key) => {
+
+    // Queue up the evalsha command.
+    multi.evalsha(DECR_SCRIPT_HASH, 1, kf(key), expiry);
+  });
+
+  return new Promise((resolve, reject) => {
+    multi.exec((err) => {
+      if (err) {
+        return reject(err);
+      }
+
+      resolve();
+    });
+  });
 };
 
 /**

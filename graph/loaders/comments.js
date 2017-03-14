@@ -1,4 +1,8 @@
-const util = require('./util');
+const {
+  SharedCounterDataLoader,
+  singleJoinBy,
+  arrayJoinBy
+} = require('./util');
 const DataLoader = require('dataloader');
 
 const CommentModel = require('../../models/comment');
@@ -11,6 +15,38 @@ const CommentModel = require('../../models/comment');
  *                                    comments that we want to get
  */
 const getCountsByAssetID = (context, asset_ids) => {
+  return CommentModel.aggregate([
+    {
+      $match: {
+        asset_id: {
+          $in: asset_ids
+        },
+        status: {
+          $in: ['NONE', 'ACCEPTED']
+        }
+      }
+    },
+    {
+      $group: {
+        _id: '$asset_id',
+        count: {
+          $sum: 1
+        }
+      }
+    }
+  ])
+  .then(singleJoinBy(asset_ids, '_id'))
+  .then((results) => results.map((result) => result ? result.count : 0));
+};
+
+/**
+ * Returns the comment count for all comments that are public based on their
+ * asset ids.
+ * @param {Object}        context     graph context
+ * @param {Array<String>} asset_ids   the ids of assets for which there are
+ *                                    comments that we want to get
+ */
+const getParentCountsByAssetID = (context, asset_ids) => {
   return CommentModel.aggregate([
     {
       $match: {
@@ -32,7 +68,7 @@ const getCountsByAssetID = (context, asset_ids) => {
       }
     }
   ])
-  .then(util.singleJoinBy(asset_ids, '_id'))
+  .then(singleJoinBy(asset_ids, '_id'))
   .then((results) => results.map((result) => result ? result.count : 0));
 };
 
@@ -64,7 +100,7 @@ const getCountsByParentID = (context, parent_ids) => {
       }
     }
   ])
-  .then(util.singleJoinBy(parent_ids, '_id'))
+  .then(singleJoinBy(parent_ids, '_id'))
   .then((results) => results.map((result) => result ? result.count : 0));
 };
 
@@ -216,7 +252,7 @@ const genRecentReplies = (context, ids) => {
 
   ])
   .then((replies) => replies.map((reply) => reply.replies))
-  .then(util.arrayJoinBy(ids, 'parent_id'));
+  .then(arrayJoinBy(ids, 'parent_id'));
 };
 
 /**
@@ -267,7 +303,7 @@ const genRecentComments = (_, ids) => {
 
   ])
   .then((replies) => replies.map((reply) => reply.comments))
-  .then(util.arrayJoinBy(ids, 'asset_id'));
+  .then(arrayJoinBy(ids, 'asset_id'));
 };
 
 /**
@@ -294,7 +330,7 @@ const genComments = ({user}, ids) => {
       }
     });
   }
-  return comments.then(util.singleJoinBy(ids, 'id'));
+  return comments.then(singleJoinBy(ids, 'id'));
 };
 
 /**
@@ -307,8 +343,9 @@ module.exports = (context) => ({
     get: new DataLoader((ids) => genComments(context, ids)),
     getByQuery: (query) => getCommentsByQuery(context, query),
     getCountByQuery: (query) => getCommentCountByQuery(context, query),
-    countByAssetID: new util.SharedCacheDataLoader('Comments.countByAssetID', 3600, (ids) => getCountsByAssetID(context, ids)),
-    countByParentID: new util.SharedCacheDataLoader('Comments.countByParentID', 3600, (ids) => getCountsByParentID(context, ids)),
+    countByAssetID: new SharedCounterDataLoader('Comments.totalCommentCount', 3600, (ids) => getCountsByAssetID(context, ids)),
+    parentCountByAssetID: new SharedCounterDataLoader('Comments.countByAssetID', 3600, (ids) => getParentCountsByAssetID(context, ids)),
+    countByParentID: new SharedCounterDataLoader('Comments.countByParentID', 3600, (ids) => getCountsByParentID(context, ids)),
     genRecentReplies: new DataLoader((ids) => genRecentReplies(context, ids)),
     genRecentComments: new DataLoader((ids) => genRecentComments(context, ids))
   }
