@@ -4,9 +4,6 @@ query Metrics ($from: Date!, $to: Date!) {
   assetsByFlag: assetMetrics(from: $from, to: $to, sort: FLAG) {
     ...metrics
   }
-  assetsByLike: assetMetrics(from: $from, to: $to, sort: LIKE) {
-    ...metrics
-  }
   assetsByActivity: assetMetrics(from: $from, to: $to, sort: ACTIVITY) {
     ...metrics
   }
