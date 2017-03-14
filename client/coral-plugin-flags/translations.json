@@ -7,8 +7,8 @@
     "step-1-header": "Report an issue",
     "step-2-header": "Help us understand",
     "step-3-header": "Thank you for your input",
-    "flag-username": "Flag username",
-    "flag-comment": "Flag comment",
+    "flag-username": "Report username",
+    "flag-comment": "Report comment",
     "continue": "Continue",
     "done": "Done",
     "no-agree-comment": "I don't agree with this comment",
@@ -20,8 +20,8 @@
     "no-like-bio": "I don't like this bio",
     "marketing": "This looks like an ad/marketing",
     "user-impersonating": "This user is impersonating",
-    "thank-you": "We value your safety and feedback. A moderator will review your flag.",
-    "flag-reason": "Reason for flag (Optional)",
+    "thank-you": "We value your safety and feedback. A moderator will review your report.",
+    "flag-reason": "Reason for reporting (Optional)",
     "other": "Other"
   },
   "es": {

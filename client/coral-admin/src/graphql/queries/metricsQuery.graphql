@@ -7,4 +7,7 @@ query Metrics ($from: Date!, $to: Date!) {
   assetsByLike: assetMetrics(from: $from, to: $to, sort: LIKE) {
     ...metrics
   }
+  assetsByActivity: assetMetrics(from: $from, to: $to, sort: ACTIVITY) {
+    ...metrics
+  }
 }
