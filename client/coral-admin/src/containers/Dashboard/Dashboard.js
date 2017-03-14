@@ -15,9 +15,22 @@ const refreshIntervalSeconds = 60 * 5;
 
 class Dashboard extends React.Component {
 
-  state = {
-    noteHidden: false,
-    secondsUntilRefresh: refreshIntervalSeconds
+  constructor (props) {
+    super(props);
+
+    try {
+      if (window.localStorage.getItem('coral:dashboardNote') === null) {
+        window.localStorage.setItem('coral:dashboardNote', 'show');
+      }
+    } catch (e) {
+
+      // above will fail in Private Mode in some browsers.
+    }
+
+    this.state = {
+      secondsUntilRefresh: refreshIntervalSeconds,
+      dashboardNote: window.localStorage.getItem('coral:dashboardNote') || 'show'
+    };
   }
 
   componentWillMount () {
@@ -29,6 +42,16 @@ class Dashboard extends React.Component {
       }
       this.setState({secondsUntilRefresh: nextCount});
     }, 1000);
+  }
+
+  dismissNote = () => {
+    try {
+      window.localStorage.setItem('coral:dashboardNote', 'hide');
+    } catch (e) {
+
+      // when setItem fails in Safari Private mode
+      this.setState({dashboardNote: 'hide'});
+    }
   }
 
   formatTime = () => {
@@ -48,13 +71,15 @@ class Dashboard extends React.Component {
     }
 
     const {data: {assetsByLike, assetsByFlag}} = this.props;
+    const hideReloadNote = window.localStorage.getItem('coral:dashboardNote') === 'hide' ||
+      this.state.dashboardNote === 'hide'; // for Safari Incognito
 
     return (
       <div>
         <p
-          style={{display: this.state.noteHidden ? 'none' : 'block'}}
+          style={{display: hideReloadNote ? 'none' : 'block'}}
           className={styles.autoUpdate}
-          onClick={() => this.setState({noteHidden: true})}>
+          onClick={this.dismissNote}>
           <b>×</b>
           <Icon name='timer' /> <strong>{lang.t('dashboard.next-update', this.formatTime())}</strong> {lang.t('dashboard.auto-update')}
         </p>
