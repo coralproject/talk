@@ -6,24 +6,22 @@ import translations from 'coral-admin/src/translations';
 
 const lang = new I18n(translations);
 
-const FlagWidget = ({assets}) => {
-
+const ActivityWidget = ({assets}) => {
   return (
     <div className={styles.widget}>
-      <h2 className={styles.heading}>Articles with the most flags</h2>
+      <h2 className={styles.heading}>Articles with the most conversations</h2>
       <div className={styles.widgetHead}>
         <p>{lang.t('streams.article')}</p>
-        <p>{lang.t('dashboard.flags')}</p>
+        <p>{lang.t('dashboard.comment_count')}</p>
       </div>
       <div className={styles.widgetTable}>
         {
           assets.length
           ? assets.map(asset => {
-            const flagSummary = asset.action_summaries.find(s => s.type === 'FlagAssetActionSummary');
             return (
               <div className={styles.rowLinkify} key={asset.id}>
                 <Link className={styles.linkToModerate} to={`/admin/moderate/flagged/${asset.id}`}>Moderate</Link>
-                <p className={styles.widgetCount}>{flagSummary ? flagSummary.actionCount : 0}</p>
+                <p className={styles.widgetCount}>{asset.commentCount}</p>
                 <Link className={styles.linkToAsset} to={`${asset.url}#coralStreamEmbed_iframe`} target="_blank">
                   <p className={styles.assetTitle}>{asset.title}</p>
                 </Link>
@@ -31,21 +29,21 @@ const FlagWidget = ({assets}) => {
               </div>
             );
           })
-          : <div className={styles.rowLinkify}>{lang.t('dashboard.no_flags')}</div>
+          : <div className={styles.rowLinkify}>{lang.t('dashboard.no_activity')}</div>
         }
       </div>
     </div>
   );
 };
 
-FlagWidget.propTypes = {
+ActivityWidget.propTypes = {
   assets: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
     url: PropTypes.string,
-    action_summaries: PropTypes.array,
+    commentCount: PropTypes.number,
     author: PropTypes.string,
     created_at: PropTypes.string
   })).isRequired
 };
 
-export default FlagWidget;
+export default ActivityWidget;
