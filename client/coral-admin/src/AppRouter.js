@@ -1,7 +1,7 @@
 import React from 'react';
 import {Router, Route, IndexRoute, IndexRedirect, browserHistory} from 'react-router';
 
-import Streams from 'containers/Streams/Streams';
+import Stories from 'containers/Stories/Stories';
 import Configure from 'containers/Configure/Configure';
 import LayoutContainer from 'containers/LayoutContainer';
 import InstallContainer from 'containers/Install/InstallContainer';
@@ -21,7 +21,7 @@ const routes = (
       <IndexRoute component={Dashboard} />
       <Route path='community' component={CommunityContainer} />
       <Route path='configure' component={Configure} />
-      <Route path='streams' component={Streams} />
+      <Route path='stories' component={Stories} />
       <Route path='dashboard' component={Dashboard} />
 
       {/* Community Routes */}
