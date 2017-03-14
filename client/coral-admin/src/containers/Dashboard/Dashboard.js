@@ -4,7 +4,7 @@ import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {getMetrics} from 'coral-admin/src/graphql/queries';
 import FlagWidget from './FlagWidget';
-import LikeWidget from './LikeWidget';
+import ActivityWidget from './ActivityWidget';
 import {showBanUserDialog, hideBanUserDialog} from 'coral-admin/src/actions/moderation';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations';
@@ -70,7 +70,7 @@ class Dashboard extends React.Component {
       return <Spinner />;
     }
 
-    const {data: {assetsByLike, assetsByFlag}} = this.props;
+    const {data: {assetsByActivity, assetsByFlag}} = this.props;
     const hideReloadNote = window.localStorage.getItem('coral:dashboardNote') === 'hide' ||
       this.state.dashboardNote === 'hide'; // for Safari Incognito
 
@@ -85,7 +85,7 @@ class Dashboard extends React.Component {
         </p>
         <div className={styles.Dashboard}>
           <FlagWidget assets={assetsByFlag} />
-          <LikeWidget assets={assetsByLike} />
+          <ActivityWidget assets={assetsByActivity} />
         </div>
       </div>
     );

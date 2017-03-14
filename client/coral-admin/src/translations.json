@@ -122,6 +122,7 @@
       "no_flags": "There have been no flags in the last 5 minutes! Hooray!",
       "no_likes": "There have been no likes in the last 5 minutes. All quiet.",
       "flags": "Flags",
+      "no_activity": "There haven't been any comments anywhere in the last five minutes.",
       "comment_count": "comments"
     },
     "streams": {
@@ -242,6 +243,7 @@
       "no_flags": "¡Nadie ha marcado nada en los últimos 5 minutos! ¡Bravo!",
       "no_likes": "A nadie le ha gustado algún comentario en los últimos 5 minutos. Todo tranquilo.",
       "flags": "Marcados",
+      "no_activity": "No hubo comentarios en los ultimos 5 minutos",
       "comment_count": "comentarios"
     },
     "streams": {
