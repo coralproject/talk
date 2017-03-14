@@ -63,8 +63,6 @@ const RootQuery = {
       return null;
     }
 
-    console.log({from, to, sort, limit});
-
     if (sort === 'ACTIVITY') {
       return Assets.getActivity({from, to, limit});
     }
