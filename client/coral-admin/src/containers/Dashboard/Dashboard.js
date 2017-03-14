@@ -4,7 +4,6 @@ import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {getMetrics} from 'coral-admin/src/graphql/queries';
 import FlagWidget from './FlagWidget';
-import LikeWidget from './LikeWidget';
 import ActivityWidget from './ActivityWidget';
 import {showBanUserDialog, hideBanUserDialog} from 'coral-admin/src/actions/moderation';
 import I18n from 'coral-framework/modules/i18n/i18n';
@@ -16,9 +15,22 @@ const refreshIntervalSeconds = 60 * 5;
 
 class Dashboard extends React.Component {
 
-  state = {
-    noteHidden: false,
-    secondsUntilRefresh: refreshIntervalSeconds
+  constructor (props) {
+    super(props);
+
+    try {
+      if (window.localStorage.getItem('coral:dashboardNote') === null) {
+        window.localStorage.setItem('coral:dashboardNote', 'show');
+      }
+    } catch (e) {
+
+      // above will fail in Private Mode in some browsers.
+    }
+
+    this.state = {
+      secondsUntilRefresh: refreshIntervalSeconds,
+      dashboardNote: window.localStorage.getItem('coral:dashboardNote') || 'show'
+    };
   }
 
   componentWillMount () {
@@ -30,6 +42,16 @@ class Dashboard extends React.Component {
       }
       this.setState({secondsUntilRefresh: nextCount});
     }, 1000);
+  }
+
+  dismissNote = () => {
+    try {
+      window.localStorage.setItem('coral:dashboardNote', 'hide');
+    } catch (e) {
+
+      // when setItem fails in Safari Private mode
+      this.setState({dashboardNote: 'hide'});
+    }
   }
 
   formatTime = () => {
@@ -48,20 +70,21 @@ class Dashboard extends React.Component {
       return <Spinner />;
     }
 
-    const {data: {assetsByLike, assetsByFlag, assetsByActivity}} = this.props;
+    const {data: {assetsByActivity, assetsByFlag}} = this.props;
+    const hideReloadNote = window.localStorage.getItem('coral:dashboardNote') === 'hide' ||
+      this.state.dashboardNote === 'hide'; // for Safari Incognito
 
     return (
       <div>
         <p
-          style={{display: this.state.noteHidden ? 'none' : 'block'}}
+          style={{display: hideReloadNote ? 'none' : 'block'}}
           className={styles.autoUpdate}
-          onClick={() => this.setState({noteHidden: true})}>
+          onClick={this.dismissNote}>
           <b>×</b>
           <Icon name='timer' /> <strong>{lang.t('dashboard.next-update', this.formatTime())}</strong> {lang.t('dashboard.auto-update')}
         </p>
         <div className={styles.Dashboard}>
           <FlagWidget assets={assetsByFlag} />
-          <LikeWidget assets={assetsByLike} />
           <ActivityWidget assets={assetsByActivity} />
         </div>
       </div>
