@@ -22,12 +22,7 @@ class Dashboard extends React.Component {
       return <Spinner />;
     }
 
-    console.log('data', this.props.data);
-
     const {data: {assetsByActivity, assetsByFlag}} = this.props;
-
-    console.log('assetsByActivity', assetsByActivity);
-    console.log('assetsByFlag', assetsByActivity);
 
     return (
       <div>
