@@ -5,9 +5,13 @@ import coralApi from 'coral-framework/helpers/response';
 export const handleLogin = (email, password) => dispatch => {
   dispatch({type: actions.LOGIN_REQUEST});
   return coralApi('/auth/local', {method: 'POST', body: {email, password}})
-    .then(result => {
-      const isAdmin = !!result.user.roles.filter(i => i === 'ADMIN').length;
-      dispatch(checkLoginSuccess(result.user, isAdmin));
+    .then(({user}) => {
+      if (!user) {
+        return dispatch(checkLoginFailure('not logged in'));
+      }
+
+      const isAdmin = !!user.roles.filter(i => i === 'ADMIN').length;
+      dispatch(checkLoginSuccess(user, isAdmin));
     })
     .catch(error => {
       dispatch({type: actions.LOGIN_FAILURE, message: error.translation_key});
@@ -34,9 +38,13 @@ const checkLoginFailure = error => ({type: actions.CHECK_LOGIN_FAILURE, error});
 export const checkLogin = () => dispatch => {
   dispatch(checkLoginRequest());
   return coralApi('/auth')
-    .then(result => {
-      const isAdmin = !!result.user.roles.filter(i => i === 'ADMIN').length;
-      dispatch(checkLoginSuccess(result.user, isAdmin));
+    .then(({user}) => {
+      if (!user) {
+        return dispatch(checkLoginFailure('not logged in'));
+      }
+
+      const isAdmin = !!user.roles.filter(i => i === 'ADMIN').length;
+      dispatch(checkLoginSuccess(user, isAdmin));
     })
     .catch(error => {
       console.error(error);
