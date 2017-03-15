@@ -1,6 +1,32 @@
 const loaders = require('./loaders');
 const mutators = require('./mutators');
 
+const plugins = require('../plugins');
+const debug = require('debug')('talk:graph:context');
+
+/**
+ * Contains the array of plugins that provide context to the server, these top
+ * level functions all need the context reference.
+ * @type {Array}
+ */
+const contextPlugins = plugins.get('server', 'context').map(({plugin, context}) => {
+  debug(`added plugin '${plugin.name}'`);
+  return {context};
+});
+
+/**
+ * This should itterate over the passed in plugins and load them all with the
+ * current graph context.
+ * @return {Object} the saturated plugins object
+ */
+const decorateContextPlugins = (context, contextPlugins) => contextPlugins.reduce((acc, plugin) => {
+  Object.keys(plugin.context).forEach((service) => {
+    acc[service] = plugin.context[service](context);
+  });
+
+  return acc;
+}, {});
+
 /**
  * Stores the request context.
  */
@@ -17,6 +43,9 @@ class Context {
 
     // Create the mutators.
     this.mutators = mutators(this);
+
+    // Decorate the plugin context.
+    this.plugins = decorateContextPlugins(this, contextPlugins);
   }
 }
 
