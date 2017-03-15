@@ -99,14 +99,31 @@ const decorateWithHooks = (schema, hooks) => forEachField(schema, (field, typeNa
   field.resolve = async (obj, args, context, info) => {
 
     // Issue all pre hooks before we resolve the field.
-    await Promise.all(pre.map(async (pre) => await pre(obj, args, context, info)));
+    await Promise.all(pre.map((pre) => pre(obj, args, context, info)));
 
     // Resolve the field.
-    let result = await resolve(obj, args, context, info);
+    let result = resolve(obj, args, context, info);
 
     // Insure all post hooks after we've resolved the field with the result
     // passed in as the fifth argument.
-    return await post.reduce(async (result, post) => await post(obj, args, context, info, result), result);
+    return await post.reduce(async (result, post) => {
+
+      // Wait for the accumulator to resolve before we continue.
+      result = await result;
+
+      // Check to see if this post function accepts a result, if it does, we
+      // expect that it modifies the result, otherwise, just fire the post hook,
+      // wait till it's done, then move onto the next hook.
+      if (post.length === 5) {
+        return await post(obj, args, context, info, result);
+      }
+
+      // Wait for the post hook to finish.
+      await post(obj, args, context, info);
+
+      // Return the result, which we already awaited for before.
+      return result;
+    }, result);
   };
 });
 
