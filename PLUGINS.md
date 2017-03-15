@@ -197,6 +197,10 @@ module.exports = {
     colour: COLOUR!
   }
 
+  type RootMutation {
+    createPerson(name: String!): Person
+  }
+
   type RootQuery {
     people: [Person!]
   }
