@@ -23,7 +23,7 @@ const defaultResolveFn = (source, args, context, {fieldName}) => {
 };
 
 /**
- * Decorates the schema with before and after hooks as provided by the Plugin
+ * Decorates the schema with pre and post hooks as provided by the Plugin
  * Manager.
  * @param  {GraphQLSchema} schema the schema to decorate
  * @param  {Array}         hooks  hooks to apply to the schema
@@ -31,10 +31,10 @@ const defaultResolveFn = (source, args, context, {fieldName}) => {
  */
 const decorateWithHooks = (schema, hooks) => forEachField(schema, (field, typeName, fieldName) => {
 
-  // Pull out the before/after hooks from the available hooks.
+  // Pull out the pre/post hooks from the available hooks.
   const {
-    before,
-    after
+    pre,
+    post
   } = hooks
 
     // Only grab hooks that are associated with thie field and typeName.
@@ -43,7 +43,7 @@ const decorateWithHooks = (schema, hooks) => forEachField(schema, (field, typeNa
     // Grab the hooks we need.
     .map(({plugin, hooks}) => ({plugin, hooks: hooks[typeName][fieldName]}))
 
-    // Combine the before/after hooks from each plugin into an array we can
+    // Combine the pre/post hooks from each plugin into an array we can
     // execute.
     .reduce((acc, {plugin, hooks}) => {
 
@@ -51,23 +51,23 @@ const decorateWithHooks = (schema, hooks) => forEachField(schema, (field, typeNa
       // block to check for misconfigured plugins.
       Object.keys(hooks).forEach((hook) => {
         switch (hook) {
-        case 'before':
-          debug(`adding before hook to resolver ${typeName}.${fieldName} from plugin '${plugin.name}'`);
+        case 'pre':
+          debug(`adding pre hook to resolver ${typeName}.${fieldName} from plugin '${plugin.name}'`);
 
-          if (typeof hooks.before !== 'function') {
+          if (typeof hooks.pre !== 'function') {
             throw new Error(`expected ${hook} hook on resolver ${typeName}.${fieldName} from plugin '${plugin.name}' to be a function, it was a '${typeof hooks[hook]}'`);
           }
 
-          acc.before.push(hooks.before);
+          acc.pre.push(hooks.pre);
           break;
-        case 'after':
-          debug(`adding after hook to resolver ${typeName}.${fieldName} from plugin '${plugin.name}'`);
+        case 'post':
+          debug(`adding post hook to resolver ${typeName}.${fieldName} from plugin '${plugin.name}'`);
 
-          if (typeof hooks.after !== 'function') {
+          if (typeof hooks.post !== 'function') {
             throw new Error(`expected ${hook} hook on resolver ${typeName}.${fieldName} from plugin '${plugin.name}' to be a function, it was a '${typeof hooks[hook]}'`);
           }
 
-          acc.after.unshift(hooks.after);
+          acc.post.unshift(hooks.post);
           break;
         default:
           throw new Error(`invalid hook '${hook}' on resolver ${typeName}.${fieldName} from plugin '${plugin.name}'`);
@@ -76,12 +76,12 @@ const decorateWithHooks = (schema, hooks) => forEachField(schema, (field, typeNa
 
       return acc;
     }, {
-      before: [],
-      after: []
+      pre: [],
+      post: []
     });
 
   // If we have no hooks to add here, don't try to modify anything.
-  if (before.length === 0 && after.length === 0) {
+  if (pre.length === 0 && post.length === 0) {
     return;
   }
 
@@ -92,21 +92,21 @@ const decorateWithHooks = (schema, hooks) => forEachField(schema, (field, typeNa
     resolve = defaultResolveFn;
   }
 
-  // Apply our async resolve function which will fire all before functions (and
+  // Apply our async resolve function which will fire all pre functions (and
   // wait until they resolve) followed by waiting for the response and then
-  // firing their after hooks. Lastly, we respond with the result of the
+  // firing their post hooks. Lastly, we respond with the result of the
   // original resolver.
   field.resolve = async (obj, args, context, info) => {
 
-    // Issue all before hooks before we resolve the field.
-    await Promise.all(before.map(async (before) => await before(obj, args, context, info)));
+    // Issue all pre hooks before we resolve the field.
+    await Promise.all(pre.map(async (pre) => await pre(obj, args, context, info)));
 
     // Resolve the field.
     let result = await resolve(obj, args, context, info);
 
-    // Insure all after hooks after we've resolved the field with the result
+    // Insure all post hooks after we've resolved the field with the result
     // passed in as the fifth argument.
-    return await after.reduce(async (result, after) => await after(obj, args, context, info, result), result);
+    return await post.reduce(async (result, post) => await post(obj, args, context, info, result), result);
   };
 });
 
