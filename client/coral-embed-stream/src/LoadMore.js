@@ -43,7 +43,7 @@ class LoadMore extends React.Component {
   }
 
   render () {
-    const {assetId, comments, loadMore, moreComments, parentId, replyCount} = this.props;
+    const {assetId, comments, loadMore, moreComments, parentId, replyCount, topLevel} = this.props;
     return moreComments
       ? <Button
         className='coral-load-more'
@@ -51,7 +51,7 @@ class LoadMore extends React.Component {
           this.initialState = false;
           loadMoreComments(assetId, comments, loadMore, parentId);
         }}>
-        {this.replyCountFormat(replyCount)}
+        {topLevel ? lang.t('viewMoreComments') : this.replyCountFormat(replyCount)}
       </Button>
       : null;
   }
@@ -61,7 +61,8 @@ LoadMore.propTypes = {
   assetId: PropTypes.string.isRequired,
   comments: PropTypes.array.isRequired,
   moreComments: PropTypes.bool.isRequired,
-  replyCount: PropTypes.number.isRequired,
+  topLevel: PropTypes.bool.isRequired,
+  replyCount: PropTypes.number,
   loadMore: PropTypes.func.isRequired
 };
 
