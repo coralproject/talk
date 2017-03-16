@@ -1,7 +1,8 @@
 {
   "en": {
     "errors": {
-      "NOT_AUTHORIZED": "Your username or password is not recognized by our system."
+      "NOT_AUTHORIZED": "Your username or password is not recognized by our system.",
+      "LOGIN_MAXIMUM_EXCEEDED": "You have made too many unsuccessful password attempts. Please wait."
     },
     "community": {
       "username_and_email": "Username and Email",
@@ -159,7 +160,8 @@
   },
   "es": {
     "errors": {
-      "NOT_AUTHORIZED": "Acción no autorizada."
+      "NOT_AUTHORIZED": "Acción no autorizada.",
+      "LOGIN_MAXIMUM_EXCEEDED": "Ha realizado demasiados intentos fallidos de contraseña. Por favor espera."
     },
     "community": {
       "username_and_email": "Usuario y E-mail",

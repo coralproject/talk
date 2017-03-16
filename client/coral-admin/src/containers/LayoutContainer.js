@@ -16,12 +16,14 @@ class LayoutContainer extends Component {
       loggedIn,
       loadingUser,
       loginError,
+      loginMaxExceeded,
       passwordRequestSuccess
     } = this.props.auth;
     const {handleLogout} = this.props;
     if (loadingUser) { return <FullLoading />; }
     if (!isAdmin) {
       return <AdminLogin
+        loginMaxExceeded={loginMaxExceeded}
         handleLogin={this.props.handleLogin}
         requestPasswordReset={this.props.requestPasswordReset}
         passwordRequestSuccess={passwordRequestSuccess}
@@ -38,7 +40,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   checkLogin: () => dispatch(checkLogin()),
-  handleLogin: (username, password) => dispatch(handleLogin(username, password)),
+  handleLogin: (username, password, recaptchaResponse) => dispatch(handleLogin(username, password, recaptchaResponse)),
   requestPasswordReset: email => dispatch(requestPasswordReset(email)),
   handleLogout: () => dispatch(logout())
 });
