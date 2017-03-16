@@ -30,9 +30,9 @@ const CoralHeader = ({handleLogout, restricted = false}) => (
           <Link
             id='streamsNav'
             className={styles.navLink}
-            to="/admin/streams"
+            to="/admin/stories"
             activeClassName={styles.active}>
-            {lang.t('configure.streams')}
+            {lang.t('configure.stories')}
           </Link>
           <Link
             id='communityNav'

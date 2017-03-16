@@ -82,7 +82,7 @@
       "moderate": "Moderate",
       "configure": "Configure",
       "community": "Community",
-      "streams": "Streams",
+      "stories": "Stories",
       "closed-comments-desc": "Write a message to be displayed when when your comment stream is closed and no longer accepting comments.",
       "closed-comments-label": "Write a message...",
       "hours": "Hours",
@@ -139,9 +139,9 @@
       "sort-by": "Sort By",
       "open": "Open",
       "closed": "Closed",
-      "article": "Article",
+      "article": "Story",
       "pubdate": "Publication Date",
-      "status": "Status"
+      "status": "Stream Status"
     }
   },
   "es": {
@@ -214,7 +214,7 @@
       "moderate": "Moderar",
       "configure": "Configurar",
       "community": "Comunidad",
-      "streams": "Streams",
+      "stories": "Artículos",
       "closed-comments-desc": "Escribe un mensaje que será mostrado cuando los comentarios estén cerrados y no se acepten más comentarios.",
       "closed-comments-label": "Escribe un mensaje...",
       "never": "Nunca",
@@ -261,7 +261,7 @@
       "sort-by": "",
       "open": "",
       "closed": "",
-      "article": "",
+      "article": "artículo",
       "pubdate": "",
       "status": ""
     }
