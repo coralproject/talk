@@ -248,7 +248,7 @@ module.exports = {
   hooks: {
     RootMutation: {
       createPerson: {
-        post: async (obj, args, {plugins: {Slack}}, person) {
+        post: async (obj, args, {plugins: {Slack}}, person) => {
           if (!person) {
             return person;
           }
