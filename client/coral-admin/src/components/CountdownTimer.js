@@ -31,14 +31,18 @@ class CountdownTimer extends React.Component {
   }
 
   componentWillMount () {
-    setInterval(() => { // the countdown timer
+    this.interval = setInterval(() => { // the countdown timer
       let nextCount = this.state.secondsUntilRefresh - 1;
       if (nextCount < 0) {
         nextCount = refreshIntervalSeconds;
-        this.props.handleTimeout();
+        return this.props.handleTimeout();
       }
       this.setState({secondsUntilRefresh: nextCount});
     }, 1000);
+  }
+
+  componentWillUnmount () {
+    window.clearInterval(this.interval);
   }
 
   formatTime = () => {
