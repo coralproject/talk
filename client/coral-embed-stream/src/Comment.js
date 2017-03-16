@@ -243,6 +243,7 @@ class Comment extends React.Component {
               assetId={asset.id}
               comments={comment.replies}
               parentId={comment.id}
+              replyCount={comment.replyCount}
               moreComments={comment.replyCount > comment.replies.length}
               loadMore={loadMore}/>
           </div>
