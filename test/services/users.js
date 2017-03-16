@@ -64,19 +64,11 @@ describe('services.UsersService', () => {
 
   describe('#findLocalUser', () => {
 
-    it('should find a user when we give the right credentials', () => {
+    it('should find a user', () => {
       return UsersService
-        .findLocalUser(mockUsers[0].profiles[0].id, '1Coral!-')
+        .findLocalUser(mockUsers[0].profiles[0].id)
         .then((user) => {
           expect(user).to.have.property('username', mockUsers[0].username);
-        });
-    });
-
-    it('should not find the user when we give the wrong credentials', () => {
-      return UsersService
-        .findLocalUser(mockUsers[0].profiles[0].id, '1Coral!-<nope>')
-        .then((user) => {
-          expect(user).to.equal(false);
         });
     });
 

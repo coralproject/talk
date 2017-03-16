@@ -2,9 +2,13 @@ import * as actions from '../constants/auth';
 import coralApi from 'coral-framework/helpers/response';
 
 // Log In.
-export const handleLogin = (email, password) => dispatch => {
+export const handleLogin = (email, password, recaptchaResponse) => dispatch => {
   dispatch({type: actions.LOGIN_REQUEST});
-  return coralApi('/auth/local', {method: 'POST', body: {email, password}})
+  const params = {method: 'POST', body: {email, password}};
+  if (recaptchaResponse) {
+    params.headers = {'X-Recaptcha-Response': recaptchaResponse};
+  }
+  return coralApi('/auth/local', params)
     .then(({user}) => {
       if (!user) {
         return dispatch(checkLoginFailure('not logged in'));
@@ -14,7 +18,12 @@ export const handleLogin = (email, password) => dispatch => {
       dispatch(checkLoginSuccess(user, isAdmin));
     })
     .catch(error => {
-      dispatch({type: actions.LOGIN_FAILURE, message: error.translation_key});
+
+      if (error.translation_key === 'LOGIN_MAXIMUM_EXCEEDED') {
+        dispatch({type: actions.LOGIN_MAXIMUM_EXCEEDED, message: error.translation_key});
+      } else {
+        dispatch({type: actions.LOGIN_FAILURE, message: error.translation_key});
+      }
     });
 };
 
