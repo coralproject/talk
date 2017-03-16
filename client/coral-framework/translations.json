@@ -11,6 +11,7 @@
       "button": "Submit",
       "error": "Usernames can contain letters, numbers and _ only"
     },
+    "viewMoreComments": "view more comments",
     "viewReply": "view reply",
     "viewAllRepliesInitial": "view all {0} replies",
     "viewAllReplies": "view {0} replies",
@@ -45,6 +46,7 @@
     "contentNotAvailable": "El contenido no se encuentra disponible",
     "bannedAccountMsg": "Tu cuenta se encuentra suspendida. Esto significa que no puedes dar Like, Marcar o escribir commentarios.",
     "editNameMsg": "",
+    "viewMoreComments": "Var commentarios más",
     "viewReply": "ver respuesta",
     "viewAllRepliesInitial": "ver todas las {0} respuestas",
     "viewAllReplies": "ver {0} respuestas",
