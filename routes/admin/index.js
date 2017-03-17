@@ -16,7 +16,11 @@ router.get('/password-reset', (req, res) => {
 });
 
 router.get('*', (req, res) => {
-  res.render('admin', {basePath: '/client/coral-admin'});
+  const data = {
+    TALK_RECAPTCHA_PUBLIC: process.env.TALK_RECAPTCHA_PUBLIC
+  };
+
+  res.render('admin', {basePath: '/client/coral-admin', data});
 });
 
 module.exports = router;
