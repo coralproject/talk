@@ -221,6 +221,7 @@ class Embed extends Component {
                 comments={asset.comments} />
             </div>
           <LoadMore
+            topLevel={true}
             assetId={asset.id}
             comments={asset.comments}
             moreComments={asset.commentCount > asset.comments.length}
