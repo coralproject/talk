@@ -62,6 +62,7 @@
     "env-rewrite": "^1.0.2",
     "express": "^4.14.0",
     "express-session": "^1.14.2",
+    "gql-merge": "^0.0.4",
     "form-data": "^2.1.2",
     "graphql": "^0.8.2",
     "graphql-errors": "^2.1.0",
