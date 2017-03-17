@@ -4,6 +4,7 @@ import settings from './settings';
 import community from './community';
 import moderation from './moderation';
 import install from './install';
+import config from './config';
 
 export default {
   auth,
@@ -11,5 +12,6 @@ export default {
   settings,
   community,
   moderation,
-  install
+  install,
+  config
 };

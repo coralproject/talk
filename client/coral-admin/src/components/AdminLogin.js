@@ -34,7 +34,7 @@ class AdminLogin extends React.Component {
   }
 
   render () {
-    const {errorMessage, loginMaxExceeded} = this.props;
+    const {errorMessage, loginMaxExceeded, recaptchaPublic} = this.props;
     const signInForm = (
       <form onSubmit={this.handleSignIn}>
         {errorMessage && <Alert>{lang.t(`errors.${errorMessage}`)}</Alert>}
@@ -62,7 +62,7 @@ class AdminLogin extends React.Component {
         {
           loginMaxExceeded &&
           <Recaptcha
-            sitekey={process.env.TALK_RECAPTCHA_PUBLIC}
+            sitekey={recaptchaPublic}
             render='explicit'
             theme='dark'
             onloadCallback={this.onRecaptchaLoad}
@@ -106,7 +106,8 @@ AdminLogin.propTypes = {
   loginMaxExceeded: PropTypes.bool.isRequired,
   handleLogin: PropTypes.func.isRequired,
   passwordRequestSuccess: PropTypes.string,
-  loginError: PropTypes.string
+  loginError: PropTypes.string,
+  recaptchaPublic: PropTypes.string
 };
 
 export default AdminLogin;
