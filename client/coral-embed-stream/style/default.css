@@ -425,6 +425,8 @@ button.coral-load-more {
   cursor: pointer;
   padding: 10px;
   border-radius: 2px;
+  line-height: 1em;
+  text-transform: capitalize;
 }
 
 button.coral-load-more:hover {

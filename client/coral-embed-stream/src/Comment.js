@@ -232,7 +232,7 @@ class Comment extends React.Component {
               removeCommentTag={removeCommentTag}
               showSignInDialog={showSignInDialog}
               reactKey={reply.id}
-              key={reply.id}
+              key={`${reply.id}:${depth}`}
               comment={reply} />;
           })
         }
@@ -243,6 +243,8 @@ class Comment extends React.Component {
               assetId={asset.id}
               comments={comment.replies}
               parentId={comment.id}
+              topLevel={false}
+              replyCount={comment.replyCount}
               moreComments={comment.replyCount > comment.replies.length}
               loadMore={loadMore}/>
           </div>
