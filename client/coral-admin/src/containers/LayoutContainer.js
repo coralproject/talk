@@ -2,16 +2,16 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Layout from '../components/ui/Layout';
 import {checkLogin, handleLogin, logout, requestPasswordReset} from '../actions/auth';
-import {fetchPageData} from '../actions/pageData';
+import {fetchConfig} from '../actions/config';
 import {FullLoading} from '../components/FullLoading';
 import AdminLogin from '../components/AdminLogin';
 
 class LayoutContainer extends Component {
   componentWillMount () {
-    const {checkLogin, fetchPageData} = this.props;
+    const {checkLogin, fetchConfig} = this.props;
 
     checkLogin();
-    fetchPageData();
+    fetchConfig();
   }
   render () {
     const {
@@ -45,12 +45,12 @@ class LayoutContainer extends Component {
 
 const mapStateToProps = state => ({
   auth: state.auth.toJS(),
-  TALK_RECAPTCHA_PUBLIC: state.pageData.get('data').get('TALK_RECAPTCHA_PUBLIC', null)
+  TALK_RECAPTCHA_PUBLIC: state.config.get('data').get('TALK_RECAPTCHA_PUBLIC', null)
 });
 
 const mapDispatchToProps = dispatch => ({
   checkLogin: () => dispatch(checkLogin()),
-  fetchPageData: () => dispatch(fetchPageData()),
+  fetchConfig: () => dispatch(fetchConfig()),
   handleLogin: (username, password, recaptchaResponse) => dispatch(handleLogin(username, password, recaptchaResponse)),
   requestPasswordReset: email => dispatch(requestPasswordReset(email)),
   handleLogout: () => dispatch(logout())
