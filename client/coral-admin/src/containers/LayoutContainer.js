@@ -23,11 +23,7 @@ class LayoutContainer extends Component {
       passwordRequestSuccess
     } = this.props.auth;
 
-    const {
-      TALK_RECAPTCHA_PUBLIC
-    } = this.props;
-
-    const {handleLogout} = this.props;
+    const {handleLogout, TALK_RECAPTCHA_PUBLIC} = this.props;
     if (loadingUser) { return <FullLoading />; }
     if (!isAdmin) {
       return <AdminLogin
