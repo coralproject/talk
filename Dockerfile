@@ -12,12 +12,9 @@ EXPOSE 5000
 
 # Install app dependencies
 COPY package.json yarn.lock /usr/src/app/
-RUN yarn install
+RUN yarn install --production
 
 # Bundle app source
 COPY . /usr/src/app
-
-# Build static assets
-RUN yarn build
 
 CMD ["yarn", "start"]
