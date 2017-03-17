@@ -82,6 +82,9 @@
       }
 
     </style>
+    <% if (data != null) { %>
+      <script id="data" type="application/json"><%- JSON.stringify(data) %></script>
+    <% } %>
   </head>
   <body>
     <div id="root"></div>
