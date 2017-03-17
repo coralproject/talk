@@ -4,6 +4,7 @@ import styles from './NotFound.css';
 import {Button, TextField, Alert, Success} from 'coral-ui';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
+import Recaptcha from 'react-recaptcha';
 const lang = new I18n(translations);
 
 class AdminLogin extends React.Component {
@@ -18,13 +19,22 @@ class AdminLogin extends React.Component {
     this.props.handleLogin(this.state.email, this.state.password);
   }
 
+  onRecaptchaLoad = () => {
+
+    // do something?
+  }
+
+  onRecaptchaVerify = (recaptchaResponse) => {
+    this.props.handleLogin(this.state.email, this.state.password, recaptchaResponse);
+  }
+
   handleRequestPassword = e => {
     e.preventDefault();
     this.props.requestPasswordReset(this.state.email);
   }
 
   render () {
-    const {errorMessage} = this.props;
+    const {errorMessage, loginMaxExceeded} = this.props;
     const signInForm = (
       <form onSubmit={this.handleSignIn}>
         {errorMessage && <Alert>{lang.t(`errors.${errorMessage}`)}</Alert>}
@@ -49,6 +59,15 @@ class AdminLogin extends React.Component {
             this.setState({requestPassword: true});
           }}>Request a new one.</a>
         </p>
+        {
+          loginMaxExceeded &&
+          <Recaptcha
+            sitekey={process.env.TALK_RECAPTCHA_PUBLIC}
+            render='explicit'
+            theme='dark'
+            onloadCallback={this.onRecaptchaLoad}
+            verifyCallback={this.onRecaptchaVerify} />
+        }
       </form>
     );
     const requestPasswordForm = (
@@ -84,6 +103,7 @@ class AdminLogin extends React.Component {
 }
 
 AdminLogin.propTypes = {
+  loginMaxExceeded: PropTypes.bool.isRequired,
   handleLogin: PropTypes.func.isRequired,
   passwordRequestSuccess: PropTypes.string,
   loginError: PropTypes.string

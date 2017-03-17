@@ -148,6 +148,11 @@ const ErrPermissionUpdateUsername = new APIError('You do not have permission to 
   status: 500
 });
 
+const ErrLoginAttemptMaximumExceeded = new APIError('You have made too many incorrect password attempts.', {
+  translation_key: 'LOGIN_MAXIMUM_EXCEEDED',
+  status: 429
+});
+
 module.exports = {
   ExtendableError,
   APIError,
@@ -168,5 +173,6 @@ module.exports = {
   ErrNotAuthorized,
   ErrPermissionUpdateUsername,
   ErrSettingsInit,
-  ErrInstallLock
+  ErrInstallLock,
+  ErrLoginAttemptMaximumExceeded
 };

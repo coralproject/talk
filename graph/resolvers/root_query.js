@@ -63,6 +63,10 @@ const RootQuery = {
       return null;
     }
 
+    if (sort === 'ACTIVITY') {
+      return Assets.getActivity({from, to, limit});
+    }
+
     return Assets.get({from, to, sort, limit});
   },
 
