@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styles from './List.css';
 
 export default class List extends Component {
@@ -14,7 +14,7 @@ export default class List extends Component {
   }
 
   render() {
-    const {children, activeItem, className = ''} = this.props;
+    const { children, activeItem, className = '' } = this.props;
     return (
       <ul className={`${styles.base} ${className}`}>
         {React.Children.toArray(children)

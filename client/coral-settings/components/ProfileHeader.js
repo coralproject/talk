@@ -10,6 +10,8 @@ const ProfileHeader = ({ userData }) => (
   </div>
 );
 
-// ProfileHeader.propTypes = {username: PropTypes.string.isRequired};
+ProfileHeader.propTypes = {
+  userData: PropTypes.object.isRequired
+};
 
 export default ProfileHeader;

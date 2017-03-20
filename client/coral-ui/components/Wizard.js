@@ -1,7 +1,7 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 const Wizard = (props) => {
-  const {children, currentStep, ...rest} = props;
+  const { children, currentStep, ...rest } = props;
   return (
     <section>
       {React.Children.toArray(children)

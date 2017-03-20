@@ -1,4 +1,4 @@
-import {graphql} from 'react-apollo';
+import { graphql } from 'react-apollo';
 import STREAM_QUERY from './streamQuery.graphql';
 import LOAD_MORE from './loadMore.graphql';
 import GET_COUNTS from './getCounts.graphql';
@@ -18,7 +18,7 @@ function getQueryVariable(variable) {
   return null;
 }
 
-export const getCounts = (data) => ({asset_id, limit, sort}) => {
+export const getCounts = (data) => ({ asset_id, limit, sort }) => {
   return data.fetchMore({
     query: GET_COUNTS,
     variables: {
@@ -26,7 +26,7 @@ export const getCounts = (data) => ({asset_id, limit, sort}) => {
       limit,
       sort
     },
-    updateQuery: (oldData, {fetchMoreResult:{data}}) => {
+    updateQuery: (oldData, { fetchMoreResult:{ data } }) => {
 
       return {
         ...oldData,
@@ -39,7 +39,7 @@ export const getCounts = (data) => ({asset_id, limit, sort}) => {
   });
 };
 
-export const loadMore = (data) => ({limit, cursor, parent_id, asset_id, sort}, newComments) => {
+export const loadMore = (data) => ({ limit, cursor, parent_id, asset_id, sort }, newComments) => {
   return data.fetchMore({
     query: LOAD_MORE,
     variables: {
@@ -49,7 +49,7 @@ export const loadMore = (data) => ({limit, cursor, parent_id, asset_id, sort}, n
       asset_id,
       sort
     },
-    updateQuery: (oldData, {fetchMoreResult:{data:{new_top_level_comments}}}) => {
+    updateQuery: (oldData, { fetchMoreResult:{ data:{ new_top_level_comments } } }) => {
 
       let updatedAsset;
 
@@ -62,7 +62,7 @@ export const loadMore = (data) => ({limit, cursor, parent_id, asset_id, sort}, n
             ...oldData.asset,
             comments: oldData.asset.comments.map((comment) =>
               comment.id === parent_id
-              ? {...comment, replies: [...comment.replies, ...new_top_level_comments]}
+              ? { ...comment, replies: [...comment.replies, ...new_top_level_comments] }
               : comment)
           }
         };
@@ -98,7 +98,7 @@ export const queryStream = graphql(STREAM_QUERY, {
       }
     };
   },
-  props: ({data}) => ({
+  props: ({ data }) => ({
     data,
     loadMore: loadMore(data),
     getCounts: getCounts(data),

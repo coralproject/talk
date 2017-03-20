@@ -15,7 +15,7 @@ import coralApi from '../../../coral-framework/helpers/response';
 export const fetchCommenters = (query = {}) => dispatch => {
   dispatch(requestFetchCommenters());
   coralApi(`/users?${qs.stringify(query)}`)
-    .then(({result, page, count, limit, totalPages}) =>
+    .then(({ result, page, count, limit, totalPages }) =>
       dispatch({
         type: FETCH_COMMENTERS_SUCCESS,
         commenters: result,
@@ -25,7 +25,7 @@ export const fetchCommenters = (query = {}) => dispatch => {
         totalPages
       })
     )
-    .catch(error => dispatch({type: FETCH_COMMENTERS_FAILURE, error}));
+    .catch(error => dispatch({ type: FETCH_COMMENTERS_FAILURE, error }));
 };
 
 const requestFetchCommenters = () => ({
@@ -43,15 +43,15 @@ export const newPage = () => ({
 
 export const setRole = (id, role) => (dispatch) => {
 
-  return coralApi(`/users/${id}/role`, {method: 'POST', body: {role}})
+  return coralApi(`/users/${id}/role`, { method: 'POST', body: { role } })
   .then(() => {
-    return dispatch({type: SET_ROLE, id, role});
+    return dispatch({ type: SET_ROLE, id, role });
   });
 };
 
 export const setCommenterStatus = (id, status) => (dispatch) => {
-  return coralApi(`/users/${id}/status`, {method: 'POST', body: {status}})
+  return coralApi(`/users/${id}/status`, { method: 'POST', body: { status } })
   .then(() => {
-    return dispatch({type: SET_COMMENTER_STATUS, id, status});
+    return dispatch({ type: SET_COMMENTER_STATUS, id, status });
   });
 };

@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   fetchCommenters,
   updateSorting,
@@ -36,7 +36,7 @@ class CommunityContainer extends Component {
   }
 
   search(query = {}) {
-    const {community} = this.props;
+    const { community } = this.props;
 
     this.props.dispatch(fetchCommenters({
       value: this.state.searchValue,
@@ -57,12 +57,12 @@ class CommunityContainer extends Component {
 
   onNewPageHandler(page) {
     this.props.dispatch(newPage(page));
-    this.search({page});
+    this.search({ page });
   }
 
   render() {
-    const {searchValue} = this.state;
-    const {community} = this.props;
+    const { searchValue } = this.state;
+    const { community } = this.props;
     return (
       <Community
         searchValue={searchValue}

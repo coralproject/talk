@@ -1,10 +1,10 @@
 import React from 'react';
-import {SelectField, Option} from 'react-mdl-selectfield';
+import { SelectField, Option } from 'react-mdl-selectfield';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations.json';
 import styles from './Configure.css';
-import {Checkbox, Textfield} from 'react-mdl';
-import {Card, Icon, TextArea} from 'coral-ui';
+import { Checkbox, Textfield } from 'react-mdl';
+import { Card, Icon, TextArea } from 'coral-ui';
 
 const TIMESTAMPS = {
   weeks: 60 * 60 * 24 * 7,
@@ -14,7 +14,7 @@ const TIMESTAMPS = {
 
 const updateCharCountEnable = (updateSettings, charCountChecked) => () => {
   const charCountEnable = !charCountChecked;
-  updateSettings({charCountEnable});
+  updateSettings({ charCountEnable });
 };
 
 const updateCharCount = (updateSettings, settingsError) => (event) => {
@@ -24,22 +24,22 @@ const updateCharCount = (updateSettings, settingsError) => (event) => {
   } else {
     settingsError('charCount', false);
   }
-  updateSettings({charCount: charCount});
+  updateSettings({ charCount: charCount });
 };
 
 const updateInfoBoxEnable = (updateSettings, infoBox) => () => {
   const infoBoxEnable = !infoBox;
-  updateSettings({infoBoxEnable});
+  updateSettings({ infoBoxEnable });
 };
 
 const updateInfoBoxContent = (updateSettings) => (event) => {
   const infoBoxContent =  event.target.value;
-  updateSettings({infoBoxContent});
+  updateSettings({ infoBoxContent });
 };
 
 const updateClosedMessage = (updateSettings) => (event) => {
   const closedMessage = event.target.value;
-  updateSettings({closedMessage});
+  updateSettings({ closedMessage });
 };
 
 // If we are changing the measure we need to recalculate using the old amount
@@ -48,16 +48,16 @@ const updateClosedTimeout = (updateSettings, ts, isMeasure) => (event) => {
   if (isMeasure) {
     const amount = getTimeoutAmount(ts);
     const closedTimeout = amount * TIMESTAMPS[event];
-    updateSettings({closedTimeout});
+    updateSettings({ closedTimeout });
   } else {
     const val = event.target.value;
     const measure = getTimeoutMeasure(ts);
     const closedTimeout = val * TIMESTAMPS[measure];
-    updateSettings({closedTimeout});
+    updateSettings({ closedTimeout });
   }
 };
 
-const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
+const StreamSettings = ({ updateSettings, settingsError, settings, errors }) => {
 
   // just putting this here for shorthand below
   const on = styles.enabledSetting;
@@ -137,7 +137,7 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
           <Textfield
             type='number'
             pattern='[0-9]+'
-            style={{width: 50}}
+            style={{ width: 50 }}
             onChange={updateClosedTimeout(updateSettings, settings.closedTimeout)}
             value={getTimeoutAmount(settings.closedTimeout)}
             label={lang.t('configure.closed-comments-label')} />

@@ -1,7 +1,7 @@
 import React from 'react';
-import {Button} from 'coral-ui';
+import { Button } from 'coral-ui';
 
-export default ({status, onClick}) => (
+export default ({ status, onClick }) => (
   status === 'open' ? (
     <div className="close-comments-intro-wrapper">
       <p>

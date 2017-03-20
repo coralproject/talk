@@ -18,7 +18,6 @@ const Comment = props => {
             Story: {props.asset.title ? props.asset.title : props.asset.url}
           </a>
         </p>
-        {console.log(props)}
       </div>
       <div className={styles.sidebar}>
         <ul>

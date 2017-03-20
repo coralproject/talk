@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Bio from '../components/Bio';
 
 export default class BioContainer extends Component {
@@ -22,9 +22,9 @@ export default class BioContainer extends Component {
 
   handleSave (e) {
     e.preventDefault();
-    const {userData, saveBio} = this.props;
-    const {bio} = this.state;
-    saveBio(userData.id, {bio});
+    const { userData, saveBio } = this.props;
+    const { bio } = this.state;
+    saveBio(userData.id, { bio });
   }
 
   handleCancel () {

@@ -23,7 +23,7 @@ const shortcuts = [
   }
 ];
 
-export default ({open, onClose}) => (
+export default ({ open, onClose }) => (
   <Modal open={open} onClose={onClose}>
     <h3>{lang.t('modqueue.shortcuts')}</h3>
     <div className={styles.container}>

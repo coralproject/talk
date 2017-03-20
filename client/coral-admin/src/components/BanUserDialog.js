@@ -1,5 +1,5 @@
-import React, {PropTypes} from 'react';
-import {Dialog} from 'coral-ui';
+import React, { PropTypes } from 'react';
+import { Dialog } from 'coral-ui';
 import styles from './BanUserDialog.css';
 
 import Button from 'coral-ui/components/Button';
@@ -10,12 +10,12 @@ const lang = new I18n(translations);
 
 const onBanClick = (userId, commentId, handleBanUser, rejectComment, handleClose) => (e) => {
   e.preventDefault();
-  handleBanUser({userId})
+  handleBanUser({ userId })
   .then(handleClose)
-  .then(() => rejectComment({commentId}));
+  .then(() => rejectComment({ commentId }));
 };
 
-const BanUserDialog = ({open, handleClose, handleBanUser, rejectComment, user, commentId, showRejectedNote}) => (
+const BanUserDialog = ({ open, handleClose, handleBanUser, rejectComment, user, commentId, showRejectedNote }) => (
   <Dialog
     className={styles.dialog}
     id="banuserDialog"

@@ -1,5 +1,5 @@
-import {Map} from 'immutable';
-import {expect} from 'chai';
+import { Map } from 'immutable';
+import { expect } from 'chai';
 import assetReducer from '../../../../client/coral-framework/reducers/asset';
 import * as actions from '../../../../client/coral-framework/constants/asset';
 

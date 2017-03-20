@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
@@ -38,7 +38,7 @@ class ChangeUsernameContainer extends Component {
   }
 
   handleChange(e) {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
     this.setState(state => ({
       ...state,
       formData: {
@@ -60,7 +60,7 @@ class ChangeUsernameContainer extends Component {
   }
 
   validation(name, value) {
-    const {addError} = this;
+    const { addError } = this;
 
     if (!value.length) {
       addError(name, lang.t('createdisplay.requiredField'));
@@ -69,23 +69,23 @@ class ChangeUsernameContainer extends Component {
     } else {
       const { [name]: prop, ...errors } = this.state.errors; // eslint-disable-line
       // Removes Error
-      this.setState(state => ({...state, errors}));
+      this.setState(state => ({ ...state, errors }));
     }
   }
 
   isCompleted() {
-    const {formData} = this.state;
+    const { formData } = this.state;
     return !Object.keys(formData).filter(prop => !formData[prop].length).length;
   }
 
   displayErrors(show = true) {
-    this.setState({showErrors: show});
+    this.setState({ showErrors: show });
   }
 
   handleSubmitUsername(e) {
     e.preventDefault();
-    const {errors} = this.state;
-    const {validForm, invalidForm} = this.props;
+    const { errors } = this.state;
+    const { validForm, invalidForm } = this.props;
     this.displayErrors();
     if (this.isCompleted() && !Object.keys(errors).length) {
       this.props.createUsername(this.props.user.id, this.state.formData);
@@ -100,7 +100,7 @@ class ChangeUsernameContainer extends Component {
   }
 
   render() {
-    const {loggedIn, auth, offset} = this.props;
+    const { loggedIn, auth, offset } = this.props;
     return (
       <div>
         <CreateUsernameDialog

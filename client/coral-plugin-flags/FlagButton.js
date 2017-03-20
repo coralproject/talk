@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {I18n} from '../coral-framework';
+import React, { Component } from 'react';
+import { I18n } from '../coral-framework';
 import translations from './translations.json';
-import {PopupMenu, Button} from 'coral-ui';
+import { PopupMenu, Button } from 'coral-ui';
 import onClickOutside from 'react-onclickoutside';
 
 const name = 'coral-plugin-flags';
@@ -21,8 +21,8 @@ class FlagButton extends Component {
 
   // When the "report" button is clicked expand the menu
   onReportClick = () => {
-    const {currentUser, flag, deleteAction} = this.props;
-    const {localPost, localDelete} = this.state;
+    const { currentUser, flag, deleteAction } = this.props;
+    const { localPost, localDelete } = this.state;
     const flagged = (flag && flag.current_user && !localDelete) || localPost;
     if (!currentUser) {
       const offset = document.getElementById(`c_${this.props.id}`).getBoundingClientRect().top - 75;
@@ -30,12 +30,12 @@ class FlagButton extends Component {
       return;
     }
     if (flagged) {
-      this.setState((prev) => prev.localPost ? {...prev, localPost: null, step: 0} : {...prev, localDelete: true});
+      this.setState((prev) => prev.localPost ? { ...prev, localPost: null, step: 0 } : { ...prev, localDelete: true });
       deleteAction(localPost || flag.current_user.id);
     } else if (this.state.showMenu){
       this.closeMenu();
     } else {
-      this.setState({showMenu: true});
+      this.setState({ showMenu: true });
     }
   }
 
@@ -50,19 +50,19 @@ class FlagButton extends Component {
   }
 
   onPopupContinue = () => {
-    const {postFlag, postDontAgree, id, author_id} = this.props;
-    const {itemType, reason, step, posted, message} = this.state;
+    const { postFlag, postDontAgree, id, author_id } = this.props;
+    const { itemType, reason, step, posted, message } = this.state;
 
     // Proceed to the next step or close the menu if we've reached the end
     if (step + 1 >= this.props.getPopupMenu.length) {
       this.closeMenu();
     } else {
-      this.setState({step: step + 1});
+      this.setState({ step: step + 1 });
     }
 
     // If itemType and reason are both set, post the action
     if (itemType && reason && !posted) {
-      this.setState({posted: true});
+      this.setState({ posted: true });
 
       let item_id;
       switch(itemType) {
@@ -75,7 +75,7 @@ class FlagButton extends Component {
       }
 
       if (itemType === 'COMMENTS') {
-        this.setState({localPost: 'temp'});
+        this.setState({ localPost: 'temp' });
       }
 
       let action = {
@@ -86,16 +86,16 @@ class FlagButton extends Component {
       };
       if (reason === 'I don\'t agree with this comment') {
         postDontAgree(action)
-        .then(({data}) => {
+        .then(({ data }) => {
           if (itemType === 'COMMENTS') {
-            this.setState({localPost: data.createDontAgree.dontagree.id});
+            this.setState({ localPost: data.createDontAgree.dontagree.id });
           }
         });
       } else {
-        postFlag({...action, reason})
-        .then(({data}) => {
+        postFlag({ ...action, reason })
+        .then(({ data }) => {
           if (itemType === 'COMMENTS') {
-            this.setState({localPost: data.createFlag.flag.id});
+            this.setState({ localPost: data.createFlag.flag.id });
           }
         });
       }
@@ -106,23 +106,23 @@ class FlagButton extends Component {
 
     // If flagging a user, indicate that this is referencing the username rather than the bio
     if(sets === 'itemType' && e.target.value === 'users') {
-      this.setState({field: 'username'});
+      this.setState({ field: 'username' });
     }
 
     // Set itemType and field if they are defined in the popupMenu
     const currentMenu = this.props.getPopupMenu[this.state.step]();
     if (currentMenu.itemType) {
-      this.setState({itemType: currentMenu.itemType});
+      this.setState({ itemType: currentMenu.itemType });
     }
     if (currentMenu.field) {
-      this.setState({field: currentMenu.field});
+      this.setState({ field: currentMenu.field });
     }
 
-    this.setState({[sets]: e.target.value});
+    this.setState({ [sets]: e.target.value });
   }
 
   onNoteTextChange = (e) => {
-    this.setState({message: e.target.value});
+    this.setState({ message: e.target.value });
   }
 
   handleClickOutside () {
@@ -130,8 +130,8 @@ class FlagButton extends Component {
   }
 
   render () {
-    const {flag, getPopupMenu} = this.props;
-    const {localPost, localDelete} = this.state;
+    const { flag, getPopupMenu } = this.props;
+    const { localPost, localDelete } = this.state;
     const flagged = (flag && flag.current_user && !localDelete) || localPost;
     const popupMenu = getPopupMenu[this.state.step](this.state.itemType);
 

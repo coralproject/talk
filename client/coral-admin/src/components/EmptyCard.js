@@ -1,8 +1,8 @@
-import React, {PropTypes} from 'react';
-import {Card} from 'coral-ui';
+import React, { PropTypes } from 'react';
+import { Card } from 'coral-ui';
 
 const EmptyCard = props => (
-  <Card style={{textAlign: 'center', maxWidth: 400, margin: '0 auto'}}>
+  <Card style={{ textAlign: 'center', maxWidth: 400, margin: '0 auto' }}>
     {props.children}
   </Card>
 );

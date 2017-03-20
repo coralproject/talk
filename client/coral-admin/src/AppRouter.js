@@ -1,5 +1,5 @@
 import React from 'react';
-import {Router, Route, IndexRoute, IndexRedirect, browserHistory} from 'react-router';
+import { Router, Route, IndexRoute, IndexRedirect, browserHistory } from 'react-router';
 
 import Stories from 'containers/Stories/Stories';
 import Configure from 'containers/Configure/Configure';

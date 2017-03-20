@@ -1,7 +1,7 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import styles from './styles.css';
 
-import {I18n} from '../coral-framework';
+import { I18n } from '../coral-framework';
 import translations from './translations.json';
 
 const ModerationLink = props => props.isAdmin ? (

@@ -1,9 +1,9 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from './translations';
 import onClickOutside from 'react-onclickoutside';
 const name = 'coral-plugin-permalinks';
-import {Button} from 'coral-ui';
+import { Button } from 'coral-ui';
 import styles from './styles.css';
 
 const lang = new I18n(translations);
@@ -17,35 +17,35 @@ class PermalinkButton extends React.Component {
 
   constructor (props) {
     super(props);
-    this.state = {popoverOpen: false, copySuccessful: null, copyFailure: null};
+    this.state = { popoverOpen: false, copySuccessful: null, copyFailure: null };
     this.toggle = this.toggle.bind(this);
     this.copyPermalink = this.copyPermalink.bind(this);
   }
 
   toggle () {
-    this.setState({popoverOpen: !this.state.popoverOpen});
+    this.setState({ popoverOpen: !this.state.popoverOpen });
   }
 
   handleClickOutside () {
-    this.setState({popoverOpen: false});
+    this.setState({ popoverOpen: false });
   }
 
   copyPermalink () {
     this.permalinkInput.select();
     try {
       document.execCommand('copy');
-      this.setState({copySuccessful: true, copyFailure: null});
+      this.setState({ copySuccessful: true, copyFailure: null });
     } catch (err) {
-      this.setState({copyFailure: true, copySuccessful: null});
+      this.setState({ copyFailure: true, copySuccessful: null });
     }
 
     setTimeout(() => {
-      this.setState({copyFailure: null, copySuccessful: null});
+      this.setState({ copyFailure: null, copySuccessful: null });
     }, 3000);
   }
 
   render () {
-    const {copySuccessful, copyFailure} = this.state;
+    const { copySuccessful, copyFailure } = this.state;
     return (
       <div className={`${name}-container`}>
         <button onClick={this.toggle} className={`${name}-button`}>

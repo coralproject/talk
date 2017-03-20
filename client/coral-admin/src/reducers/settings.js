@@ -1,4 +1,4 @@
-import {Map, List} from 'immutable';
+import { Map, List } from 'immutable';
 import * as actions from '../actions/settings';
 
 // this is initialized here because

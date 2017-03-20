@@ -1,8 +1,8 @@
-import React, {PropTypes} from 'react';
-import {Button} from 'coral-ui';
+import React, { PropTypes } from 'react';
+import { Button } from 'coral-ui';
 import styles from './styles.css';
 
-const LoadMore = ({comments, loadMore, sort, tab, assetId, showLoadMore}) =>
+const LoadMore = ({ comments, loadMore, sort, tab, assetId, showLoadMore }) =>
   <div className={styles.loadMoreContainer}>
     {
       showLoadMore && <Button

@@ -1,4 +1,4 @@
-import {Map} from 'immutable';
+import { Map } from 'immutable';
 
 import {
   FETCH_COMMENTERS_REQUEST,

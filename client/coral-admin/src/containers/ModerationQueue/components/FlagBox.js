@@ -1,5 +1,5 @@
-import React, {Component, PropTypes} from 'react';
-import {Icon} from 'coral-ui';
+import React, { Component, PropTypes } from 'react';
+import { Icon } from 'coral-ui';
 import styles from './FlagBox.css';
 
 class FlagBox extends Component {
@@ -17,7 +17,7 @@ class FlagBox extends Component {
   }
 
   render() {
-    const {props} = this;
+    const { props } = this;
     return (
       <div className={styles.flagBox}>
         <div className={styles.container}>

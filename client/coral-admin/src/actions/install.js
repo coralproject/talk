@@ -3,17 +3,17 @@ import * as actions from '../constants/install';
 import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
 
-export const nextStep = () => ({type: actions.NEXT_STEP});
-export const previousStep = () => ({type: actions.PREVIOUS_STEP});
-export const goToStep = step => ({type: actions.GO_TO_STEP, step});
+export const nextStep = () => ({ type: actions.NEXT_STEP });
+export const previousStep = () => ({ type: actions.PREVIOUS_STEP });
+export const goToStep = step => ({ type: actions.GO_TO_STEP, step });
 
-const installRequest = () => ({type: actions.INSTALL_REQUEST});
-const installSuccess = () => ({type: actions.INSTALL_SUCCESS});
-const installFailure = error => ({type: actions.INSTALL_FAILURE, error});
+const installRequest = () => ({ type: actions.INSTALL_REQUEST });
+const installSuccess = () => ({ type: actions.INSTALL_SUCCESS });
+const installFailure = error => ({ type: actions.INSTALL_FAILURE, error });
 
-const addError = (name, error) => ({type: actions.ADD_ERROR, name, error});
-const hasError = error => ({type: actions.HAS_ERROR, error});
-const clearErrors = () => ({type: actions.CLEAR_ERRORS});
+const addError = (name, error) => ({ type: actions.ADD_ERROR, name, error });
+const hasError = error => ({ type: actions.HAS_ERROR, error });
+const clearErrors = () => ({ type: actions.CLEAR_ERRORS });
 
 const validation = (formData, dispatch, next) => {
   if (!(formData != null)) {
@@ -83,7 +83,7 @@ export const submitUser = () => (dispatch, getState) => {
 export const finishInstall = () => (dispatch, getState) => {
   const data = getState().install.toJS().data;
   dispatch(installRequest());
-  return coralApi('/setup', {method: 'POST', body: data})
+  return coralApi('/setup', { method: 'POST', body: data })
     .then(() => {
       dispatch(installSuccess());
       dispatch(nextStep());
@@ -94,18 +94,18 @@ export const finishInstall = () => (dispatch, getState) => {
     });
 };
 
-export const updateSettingsFormData = (name, value) => ({type: actions.UPDATE_FORMDATA_SETTINGS, name, value});
-export const updateUserFormData = (name, value) => ({type: actions.UPDATE_FORMDATA_USER, name, value});
-export const updatePermittedDomains = (value) => ({type: actions.UPDATE_PERMITTED_DOMAINS_SETTINGS, value});
+export const updateSettingsFormData = (name, value) => ({ type: actions.UPDATE_FORMDATA_SETTINGS, name, value });
+export const updateUserFormData = (name, value) => ({ type: actions.UPDATE_FORMDATA_USER, name, value });
+export const updatePermittedDomains = (value) => ({ type: actions.UPDATE_PERMITTED_DOMAINS_SETTINGS, value });
 
-const checkInstallRequest = () => ({type: actions.CHECK_INSTALL_REQUEST});
-const checkInstallSuccess = installed => ({type: actions.CHECK_INSTALL_SUCCESS, installed});
-const checkInstallFailure = error => ({type: actions.CHECK_INSTALL_FAILURE, error});
+const checkInstallRequest = () => ({ type: actions.CHECK_INSTALL_REQUEST });
+const checkInstallSuccess = installed => ({ type: actions.CHECK_INSTALL_SUCCESS, installed });
+const checkInstallFailure = error => ({ type: actions.CHECK_INSTALL_FAILURE, error });
 
 export const checkInstall = next => dispatch => {
   dispatch(checkInstallRequest());
   coralApi('/setup')
-    .then(({installed}) => {
+    .then(({ installed }) => {
       dispatch(checkInstallSuccess(installed));
       if (installed) {
         next();

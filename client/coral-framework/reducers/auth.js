@@ -1,4 +1,4 @@
-import {Map, fromJS} from 'immutable';
+import { Map, fromJS } from 'immutable';
 import * as actions from '../constants/auth';
 
 const initialState = Map({

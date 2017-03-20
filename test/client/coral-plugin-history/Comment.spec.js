@@ -1,12 +1,12 @@
 import React from 'react';
-import {shallow, mount} from 'enzyme';
-import {expect} from 'chai';
+import { shallow, mount } from 'enzyme';
+import { expect } from 'chai';
 import Comment from '../../../client/coral-plugin-history/Comment';
 
 describe('coral-plugin-history/Comment', () => {
   let render;
-  const comment = {body: 'this is a comment', id: '123'};
-  const asset = {url: 'https://google.com'};
+  const comment = { body: 'this is a comment', id: '123' };
+  const asset = { url: 'https://google.com' };
 
   beforeEach(() => {
     render = shallow(<Comment asset={asset} comment={comment} link={()=>{}}/>);

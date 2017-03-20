@@ -1,22 +1,22 @@
-import {graphql} from 'react-apollo';
+import { graphql } from 'react-apollo';
 import SET_USER_STATUS from './setUserStatus.graphql';
 import SET_COMMENT_STATUS from './setCommentStatus.graphql';
 
 export const banUser = graphql(SET_USER_STATUS, {
-  props: ({mutate}) => ({
-    banUser: ({userId}) => {
+  props: ({ mutate }) => ({
+    banUser: ({ userId }) => {
       return mutate({
         variables: {
           userId,
           status: 'BANNED'
         }
       });
-    }}),
+    } }),
 });
 
 export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
-  props: ({mutate}) => ({
-    acceptComment: ({commentId}) => {
+  props: ({ mutate }) => ({
+    acceptComment: ({ commentId }) => {
       return mutate({
         variables: {
           commentId,
@@ -44,7 +44,7 @@ export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
         }
       });
     },
-    rejectComment: ({commentId}) => {
+    rejectComment: ({ commentId }) => {
       return mutate({
         variables: {
           commentId,

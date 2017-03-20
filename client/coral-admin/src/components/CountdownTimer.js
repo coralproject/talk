@@ -1,8 +1,8 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations';
 import styles from 'coral-admin/src/containers/Dashboard/Dashboard.css';
-import {Icon} from 'coral-ui';
+import { Icon } from 'coral-ui';
 
 const lang = new I18n(translations);
 const refreshIntervalSeconds = 60 * 5;
@@ -37,7 +37,7 @@ class CountdownTimer extends React.Component {
         nextCount = refreshIntervalSeconds;
         return this.props.handleTimeout();
       }
-      this.setState({secondsUntilRefresh: nextCount});
+      this.setState({ secondsUntilRefresh: nextCount });
     }, 1000);
   }
 
@@ -61,7 +61,7 @@ class CountdownTimer extends React.Component {
     } catch (e) {
 
       // when setItem fails in Safari Private mode
-      this.setState({dashboardNote: 'hide'});
+      this.setState({ dashboardNote: 'hide' });
     }
   }
 
@@ -70,7 +70,7 @@ class CountdownTimer extends React.Component {
       this.state.dashboardNote === 'hide'; // for Safari Incognito
     return (
       <p
-        style={{display: hideReloadNote ? 'none' : 'block'}}
+        style={{ display: hideReloadNote ? 'none' : 'block' }}
         className={styles.autoUpdate}
         onClick={this.dismissNote}>
         <b>×</b>

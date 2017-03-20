@@ -1,18 +1,18 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {compose} from 'react-apollo';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'react-apollo';
 import key from 'keymaster';
 import isEqual from 'lodash/isEqual';
 import styles from './components/styles.css';
 
-import {modQueueQuery} from '../../graphql/queries';
-import {banUser, setCommentStatus} from '../../graphql/mutations';
+import { modQueueQuery } from '../../graphql/queries';
+import { banUser, setCommentStatus } from '../../graphql/mutations';
 
-import {fetchSettings} from 'actions/settings';
-import {updateAssets} from 'actions/assets';
-import {toggleModal, singleView, showBanUserDialog, hideBanUserDialog} from 'actions/moderation';
+import { fetchSettings } from 'actions/settings';
+import { updateAssets } from 'actions/assets';
+import { toggleModal, singleView, showBanUserDialog, hideBanUserDialog } from 'actions/moderation';
 
-import {Spinner} from 'coral-ui';
+import { Spinner } from 'coral-ui';
 import BanUserDialog from '../../components/BanUserDialog';
 import ModerationQueue from './ModerationQueue';
 import ModerationMenu from './components/ModerationMenu';
@@ -27,7 +27,7 @@ class ModerationContainer extends Component {
   }
 
   componentWillMount() {
-    const {toggleModal, singleView} = this.props;
+    const { toggleModal, singleView } = this.props;
 
     this.props.fetchSettings();
     key('s', () => singleView());
@@ -40,10 +40,10 @@ class ModerationContainer extends Component {
   }
 
   moderate = (accept) => () => {
-    const {acceptComment, rejectComment} = this.props;
-    const {selectedIndex} = this.state;
+    const { acceptComment, rejectComment } = this.props;
+    const { selectedIndex } = this.state;
     const comments = this.getComments();
-    const commentId = {commentId: comments[selectedIndex].id};
+    const commentId = { commentId: comments[selectedIndex].id };
 
     if (accept) {
       acceptComment(commentId);
@@ -53,7 +53,7 @@ class ModerationContainer extends Component {
   }
 
   getComments = () => {
-    const {data, route} = this.props;
+    const { data, route } = this.props;
     const activeTab = route.path === ':id' ? 'premod' : route.path;
     return data[activeTab];
   }
@@ -77,7 +77,7 @@ class ModerationContainer extends Component {
   }
 
   selectSort = (sort) => {
-    this.setState({sort});
+    this.setState({ sort });
     this.props.modQueueResort(sort);
   }
 
@@ -98,19 +98,19 @@ class ModerationContainer extends Component {
     if (prevState.selectedIndex !== this.state.selectedIndex) {
 
       // the 'smooth' flag only works in FF as of March 2017
-      document.querySelector(`.${styles.selected}`).scrollIntoView({behavior: 'smooth'});
+      document.querySelector(`.${styles.selected}`).scrollIntoView({ behavior: 'smooth' });
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const {updateAssets} = this.props;
+    const { updateAssets } = this.props;
     if(!isEqual(nextProps.data.assets, this.props.data.assets)) {
       updateAssets(nextProps.data.assets);
     }
   }
 
   render () {
-    const {data, moderation, settings, assets, onClose, ...props} = this.props;
+    const { data, moderation, settings, assets, onClose, ...props } = this.props;
     const providedAssetId = this.props.params.id;
     const activeTab = this.props.route.path === ':id' ? 'premod' : this.props.route.path;
 

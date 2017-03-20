@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './style.css';
-import {Button, Select, Option, TextField} from 'coral-ui';
+import { Button, Select, Option, TextField } from 'coral-ui';
 
 const InviteTeamMembers = props => {
-  const {nextStep} = props;
+  const { nextStep } = props;
   return (
     <div className={styles.step}>
       <h3>Invite Team Members </h3>

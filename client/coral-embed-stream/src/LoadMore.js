@@ -1,8 +1,8 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-framework/translations.json';
-import {ADDTL_COMMENTS_ON_LOAD_MORE} from 'coral-framework/constants/comments';
-import {Button} from 'coral-ui';
+import { ADDTL_COMMENTS_ON_LOAD_MORE } from 'coral-framework/constants/comments';
+import { Button } from 'coral-ui';
 const lang = new I18n(translations);
 
 const loadMoreComments = (assetId, comments, loadMore, parentId) => {
@@ -43,7 +43,7 @@ class LoadMore extends React.Component {
   }
 
   render () {
-    const {assetId, comments, loadMore, moreComments, parentId, replyCount, topLevel} = this.props;
+    const { assetId, comments, loadMore, moreComments, parentId, replyCount, topLevel } = this.props;
     return moreComments
       ? <Button
         className='coral-load-more'

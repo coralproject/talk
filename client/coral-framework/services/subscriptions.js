@@ -1,4 +1,4 @@
-import {print} from 'graphql-tag/printer';
+import { print } from 'graphql-tag/printer';
 
 // quick way to add the subscribe and unsubscribe functions to the network interface
 const addGraphQLSubscriptions = (networkInterface, wsClient) => {

@@ -4,12 +4,12 @@ import styles from './ModerationList.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations.json';
 
-import {Icon} from 'react-mdl';
+import { Icon } from 'react-mdl';
 import ActionButton from './ActionButton';
 
 // Render a single comment for the list
 const User = props => {
-  const {action, user} = props;
+  const { action, user } = props;
   let userStatus = user.status;
 
   // Do not display unless the user status is 'pending' or 'banned'.

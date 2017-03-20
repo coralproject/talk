@@ -1,11 +1,11 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import timeago from 'timeago.js';
 import Linkify from 'react-linkify';
 import Highlighter from 'react-highlight-words';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 
 import styles from './styles.css';
-import {Icon} from 'coral-ui';
+import { Icon } from 'coral-ui';
 import FlagBox from './FlagBox';
 import CommentType from './CommentType';
 import ActionButton from 'coral-admin/src/components/ActionButton';
@@ -17,7 +17,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations.json';
 const lang = new I18n(translations);
 
-const Comment = ({actions = [], ...props}) => {
+const Comment = ({ actions = [], ...props }) => {
   const links = linkify.getMatches(props.comment.body);
   const actionSummaries = props.comment.action_summaries;
   return (
@@ -49,7 +49,7 @@ const Comment = ({actions = [], ...props}) => {
         </div>
         <div className={styles.itemBody}>
           <p className={styles.body}>
-            <Linkify component='span' properties={{style: linkStyles}}>
+            <Linkify component='span' properties={{ style: linkStyles }}>
               <Highlighter searchWords={props.suspectWords} textToHighlight={props.comment.body}/>
             </Linkify>
           </p>
@@ -60,8 +60,8 @@ const Comment = ({actions = [], ...props}) => {
                 <ActionButton key={i}
                               type={action}
                               user={props.comment.user}
-                              acceptComment={() => props.acceptComment({commentId: props.comment.id})}
-                              rejectComment={() => props.rejectComment({commentId: props.comment.id})}
+                              acceptComment={() => props.acceptComment({ commentId: props.comment.id })}
+                              rejectComment={() => props.rejectComment({ commentId: props.comment.id })}
                 />
               )}
             </div>

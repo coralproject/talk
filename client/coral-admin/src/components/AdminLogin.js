@@ -1,7 +1,7 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import Layout from 'coral-admin/src/components/ui/Layout';
 import styles from './NotFound.css';
-import {Button, TextField, Alert, Success} from 'coral-ui';
+import { Button, TextField, Alert, Success } from 'coral-ui';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
 import Recaptcha from 'react-recaptcha';
@@ -11,7 +11,7 @@ class AdminLogin extends React.Component {
 
   constructor (props) {
     super(props);
-    this.state = {email: '', password: '', requestPassword: false};
+    this.state = { email: '', password: '', requestPassword: false };
   }
 
   handleSignIn = e => {
@@ -34,20 +34,20 @@ class AdminLogin extends React.Component {
   }
 
   render () {
-    const {errorMessage, loginMaxExceeded, recaptchaPublic} = this.props;
+    const { errorMessage, loginMaxExceeded, recaptchaPublic } = this.props;
     const signInForm = (
       <form onSubmit={this.handleSignIn}>
         {errorMessage && <Alert>{lang.t(`errors.${errorMessage}`)}</Alert>}
         <TextField
           label='Email Address'
           value={this.state.email}
-          onChange={e => this.setState({email: e.target.value})} />
+          onChange={e => this.setState({ email: e.target.value })} />
         <TextField
           label='Password'
           value={this.state.password}
-          onChange={e => this.setState({password: e.target.value})}
+          onChange={e => this.setState({ password: e.target.value })}
           type='password' />
-        <div style={{height: 10}}></div>
+        <div style={{ height: 10 }}></div>
         <Button
           type='submit'
           cStyle='black'
@@ -56,7 +56,7 @@ class AdminLogin extends React.Component {
         <p className={styles.forgotPasswordCTA}>
           Forgot your password? <a href="#" className={styles.forgotPasswordLink} onClick={e => {
             e.preventDefault();
-            this.setState({requestPassword: true});
+            this.setState({ requestPassword: true });
           }}>Request a new one.</a>
         </p>
         {
@@ -82,7 +82,7 @@ class AdminLogin extends React.Component {
         <TextField
           label='Email Address'
           value={this.state.email}
-          onChange={e => this.setState({email: e.target.value})} />
+          onChange={e => this.setState({ email: e.target.value })} />
         <Button
           type='submit'
           cStyle='black'

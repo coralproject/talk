@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styles from './Stories.css';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import I18n from 'coral-framework/modules/i18n/i18n';
-import {fetchAssets, updateAssetState} from '../../actions/assets';
+import { fetchAssets, updateAssetState } from '../../actions/assets';
 import translations from '../../translations.json';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 
-import {Pager, Icon} from 'coral-ui';
-import {DataTable, TableHeader, RadioGroup, Radio} from 'react-mdl';
+import { Pager, Icon } from 'coral-ui';
+import { DataTable, TableHeader, RadioGroup, Radio } from 'react-mdl';
 import EmptyCard from 'coral-admin/src/components/EmptyCard';
 
 const limit = 25;
@@ -29,7 +29,7 @@ class Stories extends Component {
 
   onSettingChange = (setting) => (e) => {
     let options = this.state;
-    this.setState({[setting]: e.target.value});
+    this.setState({ [setting]: e.target.value });
     options[setting] = e.target.value;
     this.props.fetchAssets(0, limit, options.search, options.sort, options.filter);
   }
@@ -60,7 +60,7 @@ class Stories extends Component {
       });
       this.props.updateAssetState(id, closeStream ? Date.now() : null)
         .then(() => {
-          const {search, sort, filter, page} = this.state;
+          const { search, sort, filter, page } = this.state;
           this.props.fetchAssets(page, limit, search, sort, filter);
         });
     } else {
@@ -71,9 +71,9 @@ class Stories extends Component {
     }
   }
 
-  renderTitle = (title, {id}) =>  <Link to={`/admin/moderate/${id}`}>{title}</Link>
+  renderTitle = (title, { id }) =>  <Link to={`/admin/moderate/${id}`}>{title}</Link>
 
-  renderStatus = (closedAt, {id}) => {
+  renderStatus = (closedAt, { id }) => {
     const closed = closedAt && new Date(closedAt).getTime() < Date.now();
     const statusMenuOpen = this.state.statusMenus[id];
     return <div className={styles.statusMenu}>
@@ -95,14 +95,14 @@ class Stories extends Component {
   }
 
   onPageClick = (page) => {
-    this.setState({page});
-    const {search, sort, filter} = this.state;
+    this.setState({ page });
+    const { search, sort, filter } = this.state;
     this.props.fetchAssets((page - 1) * limit, limit, search, sort, filter);
   }
 
   render () {
-    const {search, sort, filter} = this.state;
-    const {assets} = this.props;
+    const { search, sort, filter } = this.state;
+    const { assets } = this.props;
 
     const assetsIds = assets.ids.map((id) => assets.byId[id]);
 
@@ -167,7 +167,7 @@ class Stories extends Component {
   }
 }
 
-const mapStateToProps = ({assets}) => {
+const mapStateToProps = ({ assets }) => {
   return {
     assets: assets.toJS()
   };

@@ -1,7 +1,7 @@
-import React, {Component, PropTypes} from 'react';
-import {I18n} from '../coral-framework';
+import React, { Component, PropTypes } from 'react';
+import { I18n } from '../coral-framework';
 import translations from './translations.json';
-import {Button} from 'coral-ui';
+import { Button } from 'coral-ui';
 
 const name = 'coral-plugin-commentbox';
 
@@ -49,7 +49,7 @@ class CommentBox extends Component {
     }
     !isReply && updateCountCache(assetId, countCache + 1);
     postItem(comment, 'comments')
-      .then(({data}) => {
+      .then(({ data }) => {
         const postedComment = data.createComment.comment;
 
         if (postedComment.status === 'REJECTED') {
@@ -65,12 +65,12 @@ class CommentBox extends Component {
         }
       })
     .catch((err) => console.error(err));
-    this.setState({body: ''});
+    this.setState({ body: '' });
   }
 
   render () {
-    const {styles, isReply, authorId, charCount} = this.props;
-    let {cancelButtonClicked} = this.props;
+    const { styles, isReply, authorId, charCount } = this.props;
+    let { cancelButtonClicked } = this.props;
     const length = this.state.body.length;
 
     if (isReply && typeof cancelButtonClicked !== 'function') {
@@ -93,7 +93,7 @@ class CommentBox extends Component {
             value={this.state.body}
             placeholder={lang.t('comment')}
             id={isReply ? 'replyText' : 'commentText'}
-            onChange={(e) => this.setState({body: e.target.value})}
+            onChange={(e) => this.setState({ body: e.target.value })}
             rows={3}/>
         </div>
         <div className={`${name}-char-count ${length > charCount ? `${name}-char-max` : ''}`}>

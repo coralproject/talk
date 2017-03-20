@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styles from './style.css';
-import {Wizard, WizardNav} from 'coral-ui';
+import { Wizard, WizardNav } from 'coral-ui';
 import Layout from 'coral-admin/src/components/ui/Layout';
 
 import {
@@ -25,14 +25,14 @@ import FinalStep from './components/Steps/FinalStep';
 
 class InstallContainer extends Component {
   componentDidMount() {
-    const {checkInstall} = this.props;
+    const { checkInstall } = this.props;
     checkInstall(() => {
       this.context.router.push('/admin');
     });
   }
 
   render() {
-    const {install} = this.props;
+    const { install } = this.props;
 
     return (
       <Layout restricted={true}>
@@ -78,11 +78,11 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updatePermittedDomains(value));
   },
   handleSettingsChange: e => {
-    const {name, value} = e.currentTarget;
+    const { name, value } = e.currentTarget;
     dispatch(updateSettingsFormData(name, value));
   },
   handleUserChange: e => {
-    const {name, value} = e.currentTarget;
+    const { name, value } = e.currentTarget;
     dispatch(updateUserFormData(name, value));
   },
   handleSettingsSubmit: e => {

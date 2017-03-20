@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   fetchSettings,
   updateSettings,
@@ -8,7 +8,7 @@ import {
   updateDomainlist
 } from '../../actions/settings';
 
-import {Button, List, Item, Card, Spinner} from 'coral-ui';
+import { Button, List, Item, Card, Spinner } from 'coral-ui';
 import styles from './Configure.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations.json';
@@ -35,25 +35,25 @@ class Configure extends Component {
 
   saveSettings = () => {
     this.props.dispatch(saveSettingsToServer());
-    this.setState({changed: false});
+    this.setState({ changed: false });
   }
 
   changeSection(activeSection) {
-    this.setState({activeSection});
+    this.setState({ activeSection });
   }
 
   onChangeWordlist = (listName, list) => {
-    this.setState({changed: true});
+    this.setState({ changed: true });
     this.props.dispatch(updateWordlist(listName, list));
   }
 
   onChangeDomainlist = (listName, list) => {
-    this.setState({changed: true});
+    this.setState({ changed: true });
     this.props.dispatch(updateDomainlist(listName, list));
   }
 
   onSettingUpdate = (setting) => {
-    this.setState({changed: true});
+    this.setState({ changed: true });
     this.props.dispatch(updateSettings(setting));
   }
 
@@ -116,7 +116,7 @@ class Configure extends Component {
   }
 
   render () {
-    const {activeSection} = this.state;
+    const { activeSection } = this.state;
     const section = this.getSection(activeSection);
 
     const showSave = Object.keys(this.state.errors).reduce(

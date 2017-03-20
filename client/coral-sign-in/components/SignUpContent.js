@@ -1,5 +1,5 @@
-import React, {PropTypes} from 'react';
-import {Button, TextField, Spinner, Success, Alert} from 'coral-ui';
+import React, { PropTypes } from 'react';
+import { Button, TextField, Spinner, Success, Alert } from 'coral-ui';
 import styles from './styles.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
@@ -43,7 +43,7 @@ class SignUpContent extends React.Component {
       showErrors,
       changeView,
       handleSignUp,
-      fetchSignUpFacebook} = this.props;
+      fetchSignUpFacebook } = this.props;
 
     const beforeSignup = !auth.isLoading && !auth.successSignUp;
     const successfulSignup = !auth.isLoading && auth.successSignUp;
