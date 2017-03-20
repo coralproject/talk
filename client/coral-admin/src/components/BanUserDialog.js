@@ -47,6 +47,8 @@ const BanUserDialog = ({open, handleClose, handleBanUser, rejectComment, user, c
 BanUserDialog.propTypes = {
   handleBanUser: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
+  rejectComment: PropTypes.func.isRequired,
+  commentId: PropTypes.string,
   user: PropTypes.object.isRequired,
 };
 

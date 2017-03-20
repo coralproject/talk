@@ -14,10 +14,6 @@
   box-sizing: border-box;
 }
 
-.widget * {
-  box-sizing: border-box;
-}
-
 .heading {
   margin: 0;
   padding-left: 10px;
