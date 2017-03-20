@@ -1,27 +1,27 @@
-import React, {Component} from 'react';
-import {compose} from 'react-apollo';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { compose } from 'react-apollo';
+import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-framework/translations';
 const lang = new I18n(translations);
 
-import {TabBar, Tab, TabContent, Spinner} from 'coral-ui';
+import { TabBar, Tab, TabContent, Spinner } from 'coral-ui';
 
-const {logout, showSignInDialog, requestConfirmEmail} = authActions;
-const {addNotification, clearNotification} = notificationActions;
-const {fetchAssetSuccess} = assetActions;
+const { logout, showSignInDialog, requestConfirmEmail } = authActions;
+const { addNotification, clearNotification } = notificationActions;
+const { fetchAssetSuccess } = assetActions;
 
-import {queryStream} from 'coral-framework/graphql/queries';
-import {postComment, postFlag, postLike, postDontAgree, deleteAction, addCommentTag, removeCommentTag} from 'coral-framework/graphql/mutations';
-import {editName} from 'coral-framework/actions/user';
-import {updateCountCache} from 'coral-framework/actions/asset';
-import {notificationActions, authActions, assetActions, pym} from 'coral-framework';
+import { queryStream } from 'coral-framework/graphql/queries';
+import { postComment, postFlag, postLike, postDontAgree, deleteAction, addCommentTag, removeCommentTag } from 'coral-framework/graphql/mutations';
+import { editName } from 'coral-framework/actions/user';
+import { updateCountCache } from 'coral-framework/actions/asset';
+import { notificationActions, authActions, assetActions, pym } from 'coral-framework';
 
 import Stream from './Stream';
 import InfoBox from 'coral-plugin-infobox/InfoBox';
 import QuestionBox from 'coral-plugin-questionbox/QuestionBox';
-import {ModerationLink} from 'coral-plugin-moderation';
+import { ModerationLink } from 'coral-plugin-moderation';
 import Count from 'coral-plugin-comment-count/CommentCount';
 import CommentBox from 'coral-plugin-commentbox/CommentBox';
 import UserBox from 'coral-sign-in/components/UserBox';
@@ -37,7 +37,7 @@ import NewCount from './NewCount';
 
 class Embed extends Component {
 
-  state = {activeTab: 0, showSignInDialog: false, activeReplyBox: ''};
+  state = { activeTab: 0, showSignInDialog: false, activeReplyBox: '' };
 
   changeTab = (tab) => {
 
@@ -69,7 +69,7 @@ class Embed extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const {loadAsset} = this.props;
+    const { loadAsset } = this.props;
     if(!isEqual(nextProps.data.asset, this.props.data.asset)) {
       loadAsset(nextProps.data.asset);
     }
@@ -88,15 +88,15 @@ class Embed extends Component {
       const offset = document.getElementById(`c_${reactKey}`).getBoundingClientRect().top - 75;
       this.props.showSignInDialog(offset);
     } else {
-      this.setState({activeReplyBox: reactKey});
+      this.setState({ activeReplyBox: reactKey });
     }
   }
 
   render () {
-    const {activeTab} = this.state;
-    const {closedAt, countCache = {}} = this.props.asset;
-    const {loading, asset, refetch, comment} = this.props.data;
-    const {loggedIn, isAdmin, user, showSignInDialog, signInOffset} = this.props.auth;
+    const { activeTab } = this.state;
+    const { closedAt, countCache = {} } = this.props.asset;
+    const { loading, asset, refetch, comment } = this.props.data;
+    const { loggedIn, isAdmin, user, showSignInDialog, signInOffset } = this.props.auth;
     const highlightedComment = comment && comment.parent ? comment.parent : comment;
 
     const openStream = closedAt === null;
@@ -121,7 +121,7 @@ class Embed extends Component {
         <div className="commentStream">
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count count={asset.commentCount}/></Tab>
-            <Tab>{lang.t('profile')}</Tab>
+            <Tab>{lang.t('MY_COMMENTS')}</Tab>
             <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>
           {loggedIn && <UserBox user={user} logout={() => this.props.logout().then(refetch)}  changeTab={this.changeTab}/>}

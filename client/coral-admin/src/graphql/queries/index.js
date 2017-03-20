@@ -1,11 +1,11 @@
-import {graphql} from 'react-apollo';
+import { graphql } from 'react-apollo';
 
 import MOD_QUEUE_QUERY from './modQueueQuery.graphql';
 import MOD_QUEUE_LOAD_MORE from './loadMore.graphql';
 import METRICS from './metricsQuery.graphql';
 
 export const modQueueQuery = graphql(MOD_QUEUE_QUERY, {
-  options: ({params: {id = null}}) => {
+  options: ({ params: { id = null } }) => {
     return {
       variables: {
         asset_id: id,
@@ -13,7 +13,7 @@ export const modQueueQuery = graphql(MOD_QUEUE_QUERY, {
       }
     };
   },
-  props: ({ownProps: {params: {id = null}}, data}) => ({
+  props: ({ ownProps: { params: { id = null } }, data }) => ({
     data,
     modQueueResort: modQueueResort(id, data.fetchMore),
     loadMore: loadMore(data.fetchMore)
@@ -21,7 +21,7 @@ export const modQueueQuery = graphql(MOD_QUEUE_QUERY, {
 });
 
 export const getMetrics = graphql(METRICS, {
-  options: ({settings: {dashboardWindowStart, dashboardWindowEnd}}) => {
+  options: ({ settings: { dashboardWindowStart, dashboardWindowEnd } }) => {
 
     return {
       variables: {
@@ -32,7 +32,7 @@ export const getMetrics = graphql(METRICS, {
   }
 });
 
-export const loadMore = (fetchMore) => ({limit, cursor, sort, tab, asset_id}) => {
+export const loadMore = (fetchMore) => ({ limit, cursor, sort, tab, asset_id }) => {
   let statuses;
   switch(tab) {
   case 'premod':
@@ -54,7 +54,7 @@ export const loadMore = (fetchMore) => ({limit, cursor, sort, tab, asset_id}) =>
       statuses,
       asset_id
     },
-    updateQuery: (oldData, {fetchMoreResult:{data:{comments}}}) => {
+    updateQuery: (oldData, { fetchMoreResult:{ data:{ comments } } }) => {
       return {
         ...oldData,
         [tab]: [
@@ -73,6 +73,6 @@ export const modQueueResort = (id, fetchMore) => (sort) => {
       asset_id: id,
       sort
     },
-    updateQuery: (oldData, {fetchMoreResult:{data}}) => data
+    updateQuery: (oldData, { fetchMoreResult:{ data } }) => data
   });
 };

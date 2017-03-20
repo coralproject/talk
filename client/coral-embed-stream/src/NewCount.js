@@ -1,9 +1,9 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-framework/translations.json';
 const lang = new I18n(translations);
 
-const onLoadMoreClick = ({loadMore, commentCount, firstCommentDate, assetId, updateCountCache}) => (e) => {
+const onLoadMoreClick = ({ loadMore, commentCount, firstCommentDate, assetId, updateCountCache }) => (e) => {
   e.preventDefault();
   updateCountCache(assetId, commentCount);
   loadMore({

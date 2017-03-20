@@ -1,14 +1,14 @@
 import React from 'react';
 import styles from './Dashboard.css';
-import {compose} from 'react-apollo';
-import {connect} from 'react-redux';
-import {getMetrics} from 'coral-admin/src/graphql/queries';
+import { compose } from 'react-apollo';
+import { connect } from 'react-redux';
+import { getMetrics } from 'coral-admin/src/graphql/queries';
 import FlagWidget from './FlagWidget';
 import ActivityWidget from './ActivityWidget';
 import CountdownTimer from 'coral-admin/src/components/CountdownTimer';
-import {showBanUserDialog, hideBanUserDialog} from 'coral-admin/src/actions/moderation';
+import { showBanUserDialog, hideBanUserDialog } from 'coral-admin/src/actions/moderation';
 
-import {Spinner} from 'coral-ui';
+import { Spinner } from 'coral-ui';
 
 class Dashboard extends React.Component {
 
@@ -22,7 +22,7 @@ class Dashboard extends React.Component {
       return <Spinner />;
     }
 
-    const {data: {assetsByActivity, assetsByFlag}} = this.props;
+    const { data: { assetsByActivity, assetsByFlag } } = this.props;
 
     return (
       <div>

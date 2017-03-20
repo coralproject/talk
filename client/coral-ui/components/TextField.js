@@ -1,7 +1,7 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import styles from './TextField.css';
 
-const TextField = ({className, showErrors = false, errorMsg, label, ...props}) => (
+const TextField = ({ className, showErrors = false, errorMsg, label, ...props }) => (
   <div className={`${styles.textField} ${className ? className : ''}`}>
     <label htmlFor={props.id}>
       {label}

@@ -14,14 +14,14 @@ class i18n {
      * Register locales
      */
 
-    this.locales = {'en': 'en', 'es': 'es'};
+    this.locales = { 'en': 'en', 'es': 'es' };
     timeago.register('es_ES', esTA);
     this.timeagoInstance = new timeago();
 
     /**
      * Load translations
      */
-    let trans = translations || {en: {}};
+    let trans = translations || { en: {} };
 
     try {
       const locale = localStorage.getItem('locale') || navigator.language;

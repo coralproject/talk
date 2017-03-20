@@ -1,6 +1,6 @@
 import React from 'react';
 import FlagButton from './FlagButton';
-import {I18n} from '../coral-framework';
+import { I18n } from '../coral-framework';
 import translations from './translations.json';
 
 const FlagComment = (props) => <FlagButton {...props} getPopupMenu={getPopupMenu} />;
@@ -10,8 +10,8 @@ const getPopupMenu = [
     return {
       header: lang.t('step-1-header'),
       options: [
-        {val: 'COMMENTS', text: lang.t('flag-comment')},
-        {val: 'USERS', text: lang.t('flag-username')}
+        { val: 'COMMENTS', text: lang.t('flag-comment') },
+        { val: 'USERS', text: lang.t('flag-username') }
       ],
       button: lang.t('continue'),
       sets: 'itemType'
@@ -20,17 +20,17 @@ const getPopupMenu = [
   (itemType) => {
     const options = itemType === 'COMMENTS' ?
     [
-      {val: 'This comment is offensive', text: lang.t('comment-offensive')},
-      {val: 'This looks like an ad/marketing', text: lang.t('marketing')},
-      {val: 'I don\'t agree with this comment', text: lang.t('no-agree-comment')},
-      {val: 'other', text: lang.t('other')}
+      { val: 'This comment is offensive', text: lang.t('comment-offensive') },
+      { val: 'This looks like an ad/marketing', text: lang.t('marketing') },
+      { val: 'I don\'t agree with this comment', text: lang.t('no-agree-comment') },
+      { val: 'other', text: lang.t('other') }
     ]
     : [
-      {val: 'This username is offensive', text: lang.t('username-offensive')},
-      {val: 'I don\'t like this username', text: lang.t('no-like-username')},
-      {val: 'This user is impersonating', text: lang.t('user-impersonating')},
-      {val: 'This looks like an ad/marketing', text: lang.t('marketing')},
-      {val: 'other', text: lang.t('other')}
+      { val: 'This username is offensive', text: lang.t('username-offensive') },
+      { val: 'I don\'t like this username', text: lang.t('no-like-username') },
+      { val: 'This user is impersonating', text: lang.t('user-impersonating') },
+      { val: 'This looks like an ad/marketing', text: lang.t('marketing') },
+      { val: 'other', text: lang.t('other') }
     ];
     return {
       header: lang.t('step-2-header'),

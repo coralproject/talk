@@ -17,8 +17,8 @@ class ForgotContent extends React.Component {
   }
 
   render () {
-    const {changeView, auth} = this.props;
-    const {passwordRequestSuccess, passwordRequestFailure} = auth;
+    const { changeView, auth } = this.props;
+    const { passwordRequestSuccess, passwordRequestFailure } = auth;
 
     return (
       <div>

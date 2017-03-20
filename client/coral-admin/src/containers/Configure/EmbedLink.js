@@ -1,15 +1,15 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations.json';
 import styles from './Configure.css';
-import {Button, Card} from 'coral-ui';
+import { Button, Card } from 'coral-ui';
 
 class EmbedLink extends Component {
 
   constructor (props) {
     super(props);
 
-    this.state = {copied: false};
+    this.state = { copied: false };
   }
 
   copyToClipBoard = () => {
@@ -18,7 +18,7 @@ class EmbedLink extends Component {
 
     try {
       document.execCommand('copy');
-      this.setState({copied: true});
+      this.setState({ copied: true });
     } catch (err) {
       console.error('Unable to copy', err);
     }

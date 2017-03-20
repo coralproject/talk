@@ -1,9 +1,9 @@
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations.json';
-import React, {Component, PropTypes} from 'react';
+import React, { Component, PropTypes } from 'react';
 import Modal from 'components/Modal';
 import styles from './SuspendUserModal.css';
-import {Button} from 'coral-ui';
+import { Button } from 'coral-ui';
 
 const stages = [
   {
@@ -26,7 +26,7 @@ const stages = [
 
 class SuspendUserModal extends Component  {
 
-  state = {email: '', stage: 0}
+  state = { email: '', stage: 0 }
 
   static propTypes = {
     stage: PropTypes.number,
@@ -37,7 +37,7 @@ class SuspendUserModal extends Component  {
 
   componentDidMount() {
     const about = lang.t('suspenduser.username');
-    this.setState({email: lang.t('suspenduser.email', about)});
+    this.setState({ email: lang.t('suspenduser.email', about) });
   }
 
   /*
@@ -45,10 +45,10 @@ class SuspendUserModal extends Component  {
   * handles the possible actions for that dialog.
   */
   onActionClick = (stage, menuOption) => () => {
-    const {suspendUser, action} = this.props;
-    const {stage, email} = this.state;
+    const { suspendUser, action } = this.props;
+    const { stage, email } = this.state;
     const cancel = this.props.onClose;
-    const next = () => this.setState({stage: stage + 1});
+    const next = () => this.setState({ stage: stage + 1 });
     const suspend = () => suspendUser(action.item_id, lang.t('suspenduser.email_subject'), email)
       .then(this.props.onClose);
     const suspendModalActions = [
@@ -58,16 +58,16 @@ class SuspendUserModal extends Component  {
     return suspendModalActions[stage][menuOption]();
   }
 
-  onEmailChange = (e) => this.setState({email: e.target.value})
+  onEmailChange = (e) => this.setState({ email: e.target.value })
 
   render () {
-    const {action, onClose} = this.props;
+    const { action, onClose } = this.props;
 
     if (!action) {
       return null;
     }
 
-    const {stage} = this.state;
+    const { stage } = this.state;
     const actionType = action.actionType;
     const about = actionType === 'flag_bio' ? lang.t('suspenduser.bio') : lang.t('suspenduser.username');
     return <Modal open={true} onClose={onClose}>

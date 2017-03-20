@@ -1,6 +1,6 @@
 import React from 'react';
-import {Link} from 'react-router';
-import {Icon} from 'coral-ui';
+import { Link } from 'react-router';
+import { Icon } from 'coral-ui';
 import styles from './styles.css';
 
 const ModerationHeader = props => (

@@ -1,5 +1,5 @@
-import React, {Component, PropTypes} from 'react';
-import {I18n} from '../coral-framework';
+import React, { Component, PropTypes } from 'react';
+import { I18n } from '../coral-framework';
 import translations from './translations.json';
 
 const name = 'coral-plugin-likes';
@@ -26,8 +26,8 @@ class LikeButton extends Component {
   }
 
   render() {
-    const {like, id, postLike, deleteAction, showSignInDialog, currentUser} = this.props;
-    const {localPost, localDelete} = this.state;
+    const { like, id, postLike, deleteAction, showSignInDialog, currentUser } = this.props;
+    const { localPost, localDelete } = this.state;
     const liked = (like && like.current_user && !localDelete) || localPost;
     let count = like ? like.count : 0;
     if (localPost) {count += 1;}
@@ -43,15 +43,15 @@ class LikeButton extends Component {
         return;
       }
       if (!liked) { // this comment has not yet been liked by this user.
-        this.setState({localPost: 'temp'});
+        this.setState({ localPost: 'temp' });
         postLike({
           item_id: id,
           item_type: 'COMMENTS'
-        }).then(({data}) => {
-          this.setState({localPost: data.createLike.like.id});
+        }).then(({ data }) => {
+          this.setState({ localPost: data.createLike.like.id });
         });
       } else {
-        this.setState((prev) => prev.localPost ? {...prev, localPost: null} : {...prev, localDelete: true});
+        this.setState((prev) => prev.localPost ? { ...prev, localPost: null } : { ...prev, localDelete: true });
         deleteAction(localPost || like.current_user.id);
       }
     };

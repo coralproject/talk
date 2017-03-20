@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './style.css';
-import {Button} from 'coral-ui';
-import {Link} from 'react-router';
+import { Button } from 'coral-ui';
+import { Link } from 'react-router';
 
 const lang = new I18n(translations);
 import translations from '../../translations.json';

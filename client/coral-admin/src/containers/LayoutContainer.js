@@ -1,14 +1,14 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Layout from '../components/ui/Layout';
-import {checkLogin, handleLogin, logout, requestPasswordReset} from '../actions/auth';
-import {fetchConfig} from '../actions/config';
-import {FullLoading} from '../components/FullLoading';
+import { checkLogin, handleLogin, logout, requestPasswordReset } from '../actions/auth';
+import { fetchConfig } from '../actions/config';
+import { FullLoading } from '../components/FullLoading';
 import AdminLogin from '../components/AdminLogin';
 
 class LayoutContainer extends Component {
   componentWillMount () {
-    const {checkLogin, fetchConfig} = this.props;
+    const { checkLogin, fetchConfig } = this.props;
 
     checkLogin();
     fetchConfig();
@@ -23,7 +23,7 @@ class LayoutContainer extends Component {
       passwordRequestSuccess
     } = this.props.auth;
 
-    const {handleLogout, TALK_RECAPTCHA_PUBLIC} = this.props;
+    const { handleLogout, TALK_RECAPTCHA_PUBLIC } = this.props;
     if (loadingUser) { return <FullLoading />; }
     if (!isAdmin) {
       return <AdminLogin

@@ -1,6 +1,6 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import Comment from './Comment';
-import {NEW_COMMENT_COUNT_POLL_INTERVAL} from 'coral-framework/constants/comments';
+import { NEW_COMMENT_COUNT_POLL_INTERVAL } from 'coral-framework/constants/comments';
 
 class Stream extends React.Component {
 
@@ -23,11 +23,11 @@ class Stream extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {activeReplyBox: '', countPoll: null};
+    this.state = { activeReplyBox: '', countPoll: null };
   }
 
   componentDidMount() {
-    const {asset, getCounts, updateCountCache} = this.props;
+    const { asset, getCounts, updateCountCache } = this.props;
 
     updateCountCache(asset.id, asset.commentCount);
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Layout} from 'react-mdl';
+import { Layout } from 'react-mdl';
 import styles from './NotFound.css';
 
 export const NotFound = () => (

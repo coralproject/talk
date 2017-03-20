@@ -1,12 +1,12 @@
 import React from 'react';
-import {Dialog} from 'coral-ui';
+import { Dialog } from 'coral-ui';
 import styles from './styles.css';
 
 import SignInContent from './SignInContent';
 import SignUpContent from './SignUpContent';
 import ForgotContent from './ForgotContent';
 
-const SignDialog = ({open, view, handleClose, offset, ...props}) => (
+const SignDialog = ({ open, view, handleClose, offset, ...props }) => (
   <Dialog
     className={styles.dialog}
     id="signInDialog"

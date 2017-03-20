@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {SelectField, Option} from 'react-mdl-selectfield';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { SelectField, Option } from 'react-mdl-selectfield';
 import styles from './Community.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations';
-import {setRole, setCommenterStatus} from '../../actions/community';
+import { setRole, setCommenterStatus } from '../../actions/community';
 
 const lang = new I18n(translations);
 
@@ -24,7 +24,7 @@ class Table extends Component {
   }
 
   render () {
-    const {headers, commenters, onHeaderClickHandler} = this.props;
+    const { headers, commenters, onHeaderClickHandler } = this.props;
 
     return (
       <table className={`mdl-data-table ${styles.dataTable}`}>
@@ -34,7 +34,7 @@ class Table extends Component {
               <th
               key={i}
               className="mdl-data-table__cell--non-numeric"
-              onClick={() => onHeaderClickHandler({field: header.field})}>
+              onClick={() => onHeaderClickHandler({ field: header.field })}>
                 {header.title}
               </th>
             ))}
@@ -45,7 +45,7 @@ class Table extends Component {
             <tr key={i}>
               <td className="mdl-data-table__cell--non-numeric">
                 {row.username}
-                <span className={styles.email}>{row.profiles.map(({id}) => id)}</span>
+                <span className={styles.email}>{row.profiles.map(({ id }) => id)}</span>
               </td>
               <td className="mdl-data-table__cell--non-numeric">
                 {row.created_at}
@@ -77,4 +77,4 @@ class Table extends Component {
   }
 }
 
-export default connect(state => ({commenters: state.community.get('commenters')}))(Table);
+export default connect(state => ({ commenters: state.community.get('commenters') }))(Table);

@@ -1,5 +1,5 @@
-import React, {PropTypes} from 'react';
-import {Card} from 'coral-ui';
+import React, { PropTypes } from 'react';
+import { Card } from 'coral-ui';
 import Domainlist from './Domainlist';
 import EmbedLink from './EmbedLink';
 import styles from './Configure.css';
@@ -9,10 +9,10 @@ const lang = new I18n(translations);
 
 const updateCustomCssUrl = (updateSettings) => (event) => {
   const customCssUrl = event.target.value;
-  updateSettings({customCssUrl});
+  updateSettings({ customCssUrl });
 };
 
-const TechSettings = ({settings, onChangeDomainlist, updateSettings}) => {
+const TechSettings = ({ settings, onChangeDomainlist, updateSettings }) => {
   return (
     <div className={styles.Configure}>
       <Domainlist

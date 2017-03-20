@@ -1,5 +1,5 @@
-import React, {PropTypes} from 'react';
-import {Button, TextField, Spinner, Success, Alert} from 'coral-ui';
+import React, { PropTypes } from 'react';
+import { Button, TextField, Spinner, Success, Alert } from 'coral-ui';
 import styles from './styles.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';

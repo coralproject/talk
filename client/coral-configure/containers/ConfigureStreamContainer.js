@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {compose} from 'react-apollo';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'react-apollo';
 
-import {I18n} from 'coral-framework';
-import {updateOpenStatus, updateConfiguration} from 'coral-framework/actions/asset';
+import { I18n } from 'coral-framework';
+import { updateOpenStatus, updateConfiguration } from 'coral-framework/actions/asset';
 
 import CloseCommentsInfo from '../components/CloseCommentsInfo';
 import ConfigureCommentStream from '../components/ConfigureCommentStream';
@@ -26,13 +26,13 @@ class ConfigureStreamContainer extends Component {
 
   handleApply (e) {
     e.preventDefault();
-    const {elements} = e.target;
+    const { elements } = e.target;
     const premod = elements.premod.checked;
     const questionBoxEnable = elements.qboxenable.checked;
     const questionBoxContent = elements.qboxcontent.value;
 
     const premodLinksEnable = elements.premodLinks.checked;
-    const {changed} = this.state;
+    const { changed } = this.state;
 
     const newConfig = {
       moderation: premod ? 'PRE' : 'POST',
@@ -72,13 +72,13 @@ class ConfigureStreamContainer extends Component {
   }
 
   getClosedIn () {
-    const {closedTimeout} = this.props.asset.settings;
-    const {created_at} = this.props.asset;
+    const { closedTimeout } = this.props.asset.settings;
+    const { created_at } = this.props.asset;
     return lang.timeago(new Date(created_at).getTime() + (1000 * closedTimeout));
   }
 
   render () {
-    const {settings, closedAt} = this.props.asset;
+    const { settings, closedAt } = this.props.asset;
     const status = closedAt === null ? 'open' : 'closed';
     const premod = settings.moderation === 'PRE';
 

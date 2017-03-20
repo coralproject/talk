@@ -1,18 +1,18 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import Comment from './components/Comment';
 import styles from './components/styles.css';
 import EmptyCard from '../../components/EmptyCard';
-import {actionsMap} from './helpers/moderationQueueActionsMap';
+import { actionsMap } from './helpers/moderationQueueActionsMap';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations';
 import LoadMore from './components/LoadMore';
 
 const lang = new I18n(translations);
-const ModerationQueue = ({comments, selectedIndex, commentCount, singleView, loadMore, activeTab, sort, ...props}) => {
+const ModerationQueue = ({ comments, selectedIndex, commentCount, singleView, loadMore, activeTab, sort, ...props }) => {
   return (
     <div id="moderationList" className={`${styles.list} ${singleView ? styles.singleView : ''}`}>
-      <ul style={{paddingLeft: 0}}>
+      <ul style={{ paddingLeft: 0 }}>
       {
         comments.length
         ? comments.map((comment, i) => {

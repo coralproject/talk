@@ -1,5 +1,5 @@
-import {Map, fromJS} from 'immutable';
-import {expect} from 'chai';
+import { Map, fromJS } from 'immutable';
+import { expect } from 'chai';
 import assetsReducer from '../../../../client/coral-admin/src/reducers/assets';
 
 describe ('assetsReducer', () => {

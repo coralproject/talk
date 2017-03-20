@@ -5,7 +5,7 @@ import translations from 'coral-admin/src/translations.json';
 import styles from './Community.css';
 import Table from './Table';
 import Loading from './Loading';
-import {Pager} from 'coral-ui';
+import { Pager } from 'coral-ui';
 import EmptyCard from '../../components/EmptyCard';
 
 const lang = new I18n(translations);
@@ -29,7 +29,7 @@ const tableHeaders = [
   }
 ];
 
-const Community = ({isFetching, commenters, ...props}) => {
+const Community = ({ isFetching, commenters, ...props }) => {
   const hasResults = !isFetching && !!commenters.length;
   return (
     <div className={styles.container}>

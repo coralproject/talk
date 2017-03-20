@@ -1,7 +1,7 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import styles from './Configure.css';
-import {Card} from 'coral-ui';
-import {Checkbox} from 'react-mdl';
+import { Card } from 'coral-ui';
+import { Checkbox } from 'react-mdl';
 import Wordlist from './Wordlist';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations.json';
@@ -9,19 +9,19 @@ const lang = new I18n(translations);
 
 const updateModeration = (updateSettings, mod) => () => {
   const moderation = mod === 'PRE' ? 'POST' : 'PRE';
-  updateSettings({moderation});
+  updateSettings({ moderation });
 };
 
 const updateEmailConfirmation = (updateSettings, verify) => () => {
-  updateSettings({requireEmailConfirmation: !verify});
+  updateSettings({ requireEmailConfirmation: !verify });
 };
 
 const updatePremodLinksEnable = (updateSettings, premodLinks) => () => {
   const premodLinksEnable = !premodLinks;
-  updateSettings({premodLinksEnable});
+  updateSettings({ premodLinksEnable });
 };
 
-const ModerationSettings = ({settings, updateSettings, onChangeWordlist}) => {
+const ModerationSettings = ({ settings, updateSettings, onChangeWordlist }) => {
 
   // just putting this here for shorthand below
   const on = styles.enabledSetting;

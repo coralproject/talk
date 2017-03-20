@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import styles from './ModerationList.css';
 import key from 'keymaster';
 import Hammer from 'hammerjs';
@@ -8,10 +8,10 @@ import SuspendUserModal from './SuspendUserModal';
 
 // Each action has different meaning and configuration
 const menuOptionsMap = {
-  'reject': {status: 'REJECTED', icon: 'close', key: 'r'},
-  'approve': {status: 'ACCEPTED', icon: 'done', key: 't'},
-  'flag': {status: 'FLAGGED', icon: 'flag', filter: 'Untouched'},
-  'ban': {status: 'BANNED', icon: 'not interested'}
+  'reject': { status: 'REJECTED', icon: 'close', key: 'r' },
+  'approve': { status: 'ACCEPTED', icon: 'done', key: 't' },
+  'flag': { status: 'FLAGGED', icon: 'flag', filter: 'Untouched' },
+  'ban': { status: 'BANNED', icon: 'not interested' }
 };
 
 // Renders a comment list and allow performing actions
@@ -34,7 +34,7 @@ export default class ModerationList extends React.Component {
     suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired
   }
 
-  state = {active: null, suspendUserModal: null, email: null};
+  state = { active: null, suspendUserModal: null, email: null };
 
   // remove key handlers before leaving
   componentWillUnmount () {
@@ -51,15 +51,15 @@ export default class ModerationList extends React.Component {
   // If entering to singleview and no active, active is the first eleement
   componentWillReceiveProps (nextProps) {
     if (nextProps.singleView && !this.state.active) {
-      this.setState({active: nextProps.commentIds[0]});
+      this.setState({ active: nextProps.commentIds[0] });
     }
   }
 
   // Add swipe to approve or reject
   bindGestures () {
-    const {modActions} = this.props;
+    const { modActions } = this.props;
     this._hammer = new Hammer(this.base);
-    this._hammer.get('swipe').set({direction: Hammer.DIRECTION_HORIZONTAL});
+    this._hammer.get('swipe').set({ direction: Hammer.DIRECTION_HORIZONTAL });
 
     if (modActions.indexOf('reject') !== -1) {
       this._hammer.on('swipeleft', () => this.props.singleView && this.actionKeyHandler('Rejected'));
@@ -71,7 +71,7 @@ export default class ModerationList extends React.Component {
 
   // Add key handlers. Each action has one and added j/k for moving around
   bindKeyHandlers () {
-    const {modActions, isActive} = this.props;
+    const { modActions, isActive } = this.props;
     modActions.filter(action => menuOptionsMap[action].key).forEach(action => {
       key(menuOptionsMap[action].key, 'moderationList', () => isActive && this.actionKeyHandler(menuOptionsMap[action].status));
     });
@@ -93,16 +93,16 @@ export default class ModerationList extends React.Component {
       return;
     }
 
-    const {commentIds} = this.props;
-    const {active} = this.state;
+    const { commentIds } = this.props;
+    const { active } = this.state;
 
     // check boundaries
     if (active === null || !commentIds.length) {
-      this.setState({active: commentIds[0]});
+      this.setState({ active: commentIds[0] });
     } else if (direction === 'up' && active !== commentIds[0]) {
-      this.setState({active: commentIds[commentIds.indexOf(active) - 1]});
+      this.setState({ active: commentIds[commentIds.indexOf(active) - 1] });
     } else if (direction === 'down' && active !== commentIds[commentIds.length - 1]) {
-      this.setState({active: commentIds[commentIds.indexOf(active) + 1]});
+      this.setState({ active: commentIds[commentIds.indexOf(active) + 1] });
     }
 
     // scroll to the position
@@ -123,9 +123,9 @@ export default class ModerationList extends React.Component {
     if (id === this.state.active) {
       const moderationIds = this.getModerationIds();
       if (moderationIds[moderationIds.length - 1] === this.state.active) {
-        this.setState({active: moderationIds[moderationIds.length - 2]});
+        this.setState({ active: moderationIds[moderationIds.length - 2] });
       } else {
-        this.setState({active: moderationIds[Math.min(moderationIds.indexOf(this.state.active) + 1, moderationIds.length - 1)]});
+        this.setState({ active: moderationIds[Math.min(moderationIds.indexOf(this.state.active) + 1, moderationIds.length - 1)] });
       }
     }
 
@@ -136,7 +136,7 @@ export default class ModerationList extends React.Component {
 
       // If a user bio or name is rejected, bring up a dialog before suspending them.
       if (menuOption === 'REJECTED') {
-        this.setState({suspendUserModal: action});
+        this.setState({ suspendUserModal: action });
       } else if (menuOption === 'ACCEPTED') {
         this.props.userStatusUpdate('APPROVED', action.item_id);
       }
@@ -149,8 +149,8 @@ export default class ModerationList extends React.Component {
 
   mapModItems = (itemId, index) => {
 
-    const {comments = {}, users, actions = {}, modActions, suspectWords, hideActive} = this.props;
-    const {active} = this.state;
+    const { comments = {}, users, actions = {}, modActions, suspectWords, hideActive } = this.props;
+    const { active } = this.state;
 
     // Because ids are unique, the id will either appear as an action or as a comment.
 
@@ -194,7 +194,7 @@ export default class ModerationList extends React.Component {
   }
 
   getModerationIds = () => {
-    const {commentIds = [], actionIds = [], comments, actions} = this.props;
+    const { commentIds = [], actionIds = [], comments, actions } = this.props;
     if (comments && actions) {
       return [ ...commentIds, ...actionIds ].sort((a, b) => {
         const itemA = comments[a] || actions[a];
@@ -207,7 +207,7 @@ export default class ModerationList extends React.Component {
   }
 
   render () {
-    const {singleView, key, suspendUser} = this.props;
+    const { singleView, key, suspendUser } = this.props;
 
     // Combine moderations and actions into a single stream and sort by most recently updated.
     const moderationIds = this.getModerationIds();
@@ -219,7 +219,7 @@ export default class ModerationList extends React.Component {
         {moderationIds.map(this.mapModItems)}
         <SuspendUserModal
           action = {this.state.suspendUserModal}
-          onClose={() => this.setState({suspendUserModal:null})}
+          onClose={() => this.setState({ suspendUserModal:null })}
           suspendUser={suspendUser} />
       </ul>
     );

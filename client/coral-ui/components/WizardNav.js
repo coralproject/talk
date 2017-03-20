@@ -1,9 +1,9 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import styles from './WizardNav.css';
 import Icon from './Icon';
 
 const WizardNav = props => {
-  const {goToStep = () => {}, currentStep, items, icon} = props;
+  const { goToStep = () => {}, currentStep, items, icon } = props;
   return (
     <nav className={styles.WizardNav}>
       <ul>

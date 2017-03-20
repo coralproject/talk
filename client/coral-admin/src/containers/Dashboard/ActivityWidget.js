@@ -1,12 +1,12 @@
-import React, {PropTypes} from 'react';
-import {Link} from 'react-router';
+import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 import styles from './Widget.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations';
 
 const lang = new I18n(translations);
 
-const ActivityWidget = ({assets}) => {
+const ActivityWidget = ({ assets }) => {
   return (
     <div className={styles.widget}>
       <h2 className={styles.heading}>Articles with the most conversations</h2>

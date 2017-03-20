@@ -1,11 +1,11 @@
-import React, {PropTypes} from 'react';
-import {I18n} from '../coral-framework';
+import React, { PropTypes } from 'react';
+import { I18n } from '../coral-framework';
 import translations from './translations.json';
 import classnames from 'classnames';
 
 const name = 'coral-plugin-replies';
 
-const ReplyButton = ({banned, onClick}) => {
+const ReplyButton = ({ banned, onClick }) => {
   return (
     <button
       className={classnames(`${name}-reply-button`)}

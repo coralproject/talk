@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './ModerationList.css';
-import {Button} from 'coral-ui';
-import {menuActionsMap} from '../containers/ModerationQueue/helpers/moderationQueueActionsMap';
+import { Button } from 'coral-ui';
+import { menuActionsMap } from '../containers/ModerationQueue/helpers/moderationQueueActionsMap';
 
-const ActionButton = ({type = '', ...props}) => {
+const ActionButton = ({ type = '', ...props }) => {
   return (
     <Button
       className={`${type.toLowerCase()} ${styles.actionButton}`}

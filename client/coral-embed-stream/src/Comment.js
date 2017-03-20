@@ -6,7 +6,7 @@
 // render a flag button
 // translate things?
 
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import PermalinkButton from 'coral-plugin-permalinks/PermalinkButton';
 
 import AuthorName from 'coral-plugin-author-name/AuthorName';
@@ -14,10 +14,10 @@ import AuthorName from 'coral-plugin-author-name/AuthorName';
 import TagLabel from 'coral-plugin-tag-label/TagLabel';
 import Content from 'coral-plugin-commentcontent/CommentContent';
 import PubDate from 'coral-plugin-pubdate/PubDate';
-import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
+import { ReplyBox, ReplyButton } from 'coral-plugin-replies';
 import FlagComment from 'coral-plugin-flags/FlagComment';
 import LikeButton from 'coral-plugin-likes/LikeButton';
-import {BestButton, IfUserCanModifyBest, BEST_TAG, commentIsBest, BestIndicator} from 'coral-plugin-best/BestButton';
+import { BestButton, IfUserCanModifyBest, BEST_TAG, commentIsBest, BestIndicator } from 'coral-plugin-best/BestButton';
 import LoadMore from 'coral-embed-stream/src/LoadMore';
 
 import styles from './Comment.css';
@@ -27,7 +27,7 @@ const getActionSummary = (type, comment) => comment.action_summaries
 const isStaff = (tags) => !tags.every((t) => t.name !== 'STAFF') ;
 
 // hold actions links (e.g. Like, Reply) along the comment footer
-const ActionButton = ({children}) => {
+const ActionButton = ({ children }) => {
   return <span className="comment__action-button comment__action-button--nowrap">{ children }</span>;
 };
 
@@ -35,7 +35,7 @@ class Comment extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {replyBoxVisible: false};
+    this.state = { replyBoxVisible: false };
   }
 
   static propTypes = {
@@ -143,7 +143,7 @@ class Comment extends React.Component {
       <div
         className={commentClass}
         id={`c_${comment.id}`}
-        style={{marginLeft: depth * 30}}>
+        style={{ marginLeft: depth * 30 }}>
         <hr aria-hidden={true} />
         <AuthorName
           author={comment.user}/>

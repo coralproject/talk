@@ -1,5 +1,5 @@
 import React from 'react';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import 'material-design-lite';
 import store from 'services/store';
 

@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import styles from './Pager.css';
 
 const Rows = (curr, total, onClickHandler) => Array.from(Array(total)).map((e, i) =>
@@ -8,7 +8,7 @@ const Rows = (curr, total, onClickHandler) => Array.from(Array(total)).map((e, i
   </li>
 );
 
-const Pager = ({totalPages, page, onNewPageHandler}) => (
+const Pager = ({ totalPages, page, onNewPageHandler }) => (
   <div className={styles.pager}>
     <ul>
       {

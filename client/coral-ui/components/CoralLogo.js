@@ -1,7 +1,7 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import styles from './CoralLogo.css';
 
-const CoralLogo = ({className = ''}) => (
+const CoralLogo = ({ className = '' }) => (
   <svg className={`${styles.base} ${className}`} viewBox='0 0 381 391' version='1.1 xmlns=http://www.w3.org/2000/svg xmlns:xlink=http://www.w3.org/1999/xlink'>
   <g stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
     <g id='Wordmark-Round' className={styles.mark} transform='translate(-1833.000000, -411.000000)' strokeWidth='22' strokeLinecap='round' strokeLinejoin='round'>

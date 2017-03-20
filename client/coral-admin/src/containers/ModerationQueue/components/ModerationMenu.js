@@ -1,14 +1,14 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import CommentCount from './CommentCount';
 import styles from './styles.css';
-import {SelectField, Option} from 'react-mdl-selectfield';
+import { SelectField, Option } from 'react-mdl-selectfield';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations.json';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 
 const lang = new I18n(translations);
 
-const ModerationMenu = ({asset, premodCount, rejectedCount, flaggedCount, selectSort, sort}) => {
+const ModerationMenu = ({ asset, premodCount, rejectedCount, flaggedCount, selectSort, sort }) => {
   const premodPath = asset ? `/admin/moderate/premod/${asset.id}` : '/admin/moderate/premod';
   const rejectPath = asset ? `/admin/moderate/rejected/${asset.id}` : '/admin/moderate/rejected';
   const flagPath = asset ? `/admin/moderate/flagged/${asset.id}` : '/admin/moderate/flagged';

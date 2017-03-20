@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Checkbox, TextField} from 'coral-ui';
+import { Button, Checkbox, TextField } from 'coral-ui';
 
 import styles from './ConfigureCommentStream.css';
 
@@ -7,7 +7,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations.json';
 const lang = new I18n(translations);
 
-export default ({handleChange, handleApply, changed, updateQuestionBoxContent, ...props}) => (
+export default ({ handleChange, handleApply, changed, updateQuestionBoxContent, ...props }) => (
   <form onSubmit={handleApply}>
     <div className={styles.wrapper}>
       <div className={styles.container}>

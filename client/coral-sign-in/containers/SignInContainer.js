@@ -1,12 +1,12 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import SignDialog from '../components/SignDialog';
 import Button from 'coral-ui/components/Button';
 import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
-import {pym} from 'coral-framework';
+import { pym } from 'coral-framework';
 const lang = new I18n(translations);
 
 import {
@@ -59,16 +59,16 @@ class SignInContainer extends Component {
 
   componentDidMount() {
     window.authCallback = this.props.facebookCallback;
-    const {formData} = this.state;
+    const { formData } = this.state;
     const errors = Object.keys(formData).reduce((map, prop) => {
       map[prop] = lang.t('signIn.requiredField');
       return map;
     }, {});
-    this.setState({errors});
+    this.setState({ errors });
   }
 
   handleChange(e) {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
     this.setState(state => ({
       ...state,
       formData: {
@@ -81,8 +81,8 @@ class SignInContainer extends Component {
   }
 
   handleChangeEmail(e) {
-    const {value} = e.target;
-    this.setState({emailToBeResent: value});
+    const { value } = e.target;
+    this.setState({ emailToBeResent: value });
   }
 
   handleResendVerification(e) {
@@ -107,8 +107,8 @@ class SignInContainer extends Component {
   }
 
   validation(name, value) {
-    const {addError} = this;
-    const {formData} = this.state;
+    const { addError } = this;
+    const { formData } = this.state;
 
     if (!value.length) {
       addError(name, lang.t('signIn.requiredField'));
@@ -119,23 +119,23 @@ class SignInContainer extends Component {
     } else {
       const { [name]: prop, ...errors } = this.state.errors; // eslint-disable-line
       // Removes Error
-      this.setState(state => ({...state, errors}));
+      this.setState(state => ({ ...state, errors }));
     }
   }
 
   isCompleted() {
-    const {formData} = this.state;
+    const { formData } = this.state;
     return !Object.keys(formData).filter(prop => !formData[prop].length).length;
   }
 
   displayErrors(show = true) {
-    this.setState({showErrors: show});
+    this.setState({ showErrors: show });
   }
 
   handleSignUp(e) {
     e.preventDefault();
-    const {errors} = this.state;
-    const {fetchSignUp, validForm, invalidForm} = this.props;
+    const { errors } = this.state;
+    const { fetchSignUp, validForm, invalidForm } = this.props;
     this.displayErrors();
     if (this.isCompleted() && !Object.keys(errors).length) {
       fetchSignUp(this.state.formData, pym.parentUrl || location.href);
@@ -152,8 +152,8 @@ class SignInContainer extends Component {
   }
 
   render() {
-    const {auth, showSignInDialog, noButton, offset, requireEmailConfirmation} = this.props;
-    const {emailVerificationLoading, emailVerificationSuccess} = auth;
+    const { auth, showSignInDialog, noButton, offset, requireEmailConfirmation } = this.props;
+    const { emailVerificationLoading, emailVerificationSuccess } = auth;
 
     return (
       <div>

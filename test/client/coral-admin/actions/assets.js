@@ -1,9 +1,9 @@
 import 'react';
 import 'redux';
-import {expect} from 'chai';
+import { expect } from 'chai';
 import fetchMock from 'fetch-mock';
 import * as actions from '../../../../client/coral-admin/src/actions/assets';
-import {Map} from 'immutable';
+import { Map } from 'immutable';
 
 import configureStore from 'redux-mock-store';
 

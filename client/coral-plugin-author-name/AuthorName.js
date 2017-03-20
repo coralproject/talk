@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 const packagename = 'coral-plugin-author-name';
 
 export default class AuthorName extends Component {
 
-  state = {showTooltip: false}
+  state = { showTooltip: false }
 
   handleClick = () => {
     this.setState(state => ({
@@ -20,7 +20,7 @@ export default class AuthorName extends Component {
   }
 
   render () {
-    const {author} = this.props;
+    const { author } = this.props;
     return (
       <div
         className={`${packagename}-text`}>

@@ -1,7 +1,7 @@
 import React from 'react';
 const name = 'coral-plugin-commentcontent';
 
-const Content = ({body, styles}) => {
+const Content = ({ body, styles }) => {
   const textbreaks = body.split('\n');
   return <div
     className={`${name}-text`}

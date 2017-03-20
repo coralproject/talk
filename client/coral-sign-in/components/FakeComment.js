@@ -4,7 +4,7 @@ import styles from 'coral-embed-stream/src/Comment.css';
 import AuthorName from 'coral-plugin-author-name/AuthorName';
 import Content from 'coral-plugin-commentcontent/CommentContent';
 import PubDate from 'coral-plugin-pubdate/PubDate';
-import {ReplyButton} from 'coral-plugin-replies';
+import { ReplyButton } from 'coral-plugin-replies';
 
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
@@ -17,15 +17,15 @@ class FakeComment extends React.Component {
   }
 
   render () {
-    const {username, created_at, body} = this.props;
+    const { username, created_at, body } = this.props;
 
     return (
       <div
         className={`comment ${styles.Comment}`}
-        style={{marginLeft: 0 * 30}}>
+        style={{ marginLeft: 0 * 30 }}>
         <hr aria-hidden={true} />
         <AuthorName
-          author={{'name': username}}/>
+          author={{ 'name': username }}/>
         <PubDate created_at={created_at} />
         <Content body={body} />
           <div className="commentActionsLeft">

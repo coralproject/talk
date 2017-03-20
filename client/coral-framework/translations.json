@@ -1,5 +1,6 @@
 {
   "en": {
+    "MY_COMMENTS": "My comments",
     "profile": "Profile",
     "successUpdateSettings": "The changes you have made have been applied to the comment stream on this article",
     "successNameUpdate": "Your username has been updated",
@@ -40,6 +41,7 @@
     }
   },
   "es": {
+    "MY_COMMENTS": "Mis Comentarios",
     "profile": "Perfil",
     "successUpdateSettings": "La configuración de este articulo fue actualizada",
     "successBioUpdate": "Tu bio fue actualizada",

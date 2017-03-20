@@ -1,7 +1,7 @@
 import React from 'react';
 import TextField from 'coral-ui/components/TextField';
 import Button from 'coral-ui/components/Button';
-import {Dialog, Alert} from 'coral-ui';
+import { Dialog, Alert } from 'coral-ui';
 import FakeComment from './FakeComment';
 
 import styles from './styles.css';
@@ -10,7 +10,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
 const lang = new I18n(translations);
 
-const CreateUsernameDialog = ({open, handleClose, offset, formData, handleSubmitUsername, handleChange, ...props}) => {
+const CreateUsernameDialog = ({ open, handleClose, offset, formData, handleSubmitUsername, handleChange, ...props }) => {
   return (
   <Dialog
     className={styles.dialogusername}
