@@ -1,16 +1,53 @@
 .myComment {
   border-bottom: 1px solid lightgrey;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
 }
 
 .myComment:last-child {
-  border-bottom: none;
+  border-bottom: solid 1px #EBEBEB;
 }
 
 .assetURL {
-  font-size: 16px;
+  font-size: 14px;
   color: black;
+  text-decoration: none;
+  font-weight: bold;
 }
 
 .commentBody {
 
+}
+
+.sidebar {
+  li {
+    margin-bottom: 10px;
+
+    &:nth-child(1) {
+      color: #5394D7;
+    }
+
+    &:nth-child(2) {
+      color: #909090;
+    }
+
+
+    i {
+      margin-right: 5px;
+      font-size: 15px;
+      vertical-align: bottom;
+    }
+
+    a:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.pubdate {
+  display: inline-block;
+  font-size: inherit;
+  margin: inherit;
+  color: inherit;
 }

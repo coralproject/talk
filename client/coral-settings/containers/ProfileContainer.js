@@ -1,13 +1,13 @@
-import {connect} from 'react-redux';
-import {compose} from 'react-apollo';
-import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'react-apollo';
+import React, { Component } from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
 
-import {myCommentHistory} from 'coral-framework/graphql/queries';
+import { myCommentHistory } from 'coral-framework/graphql/queries';
 
-import {link} from 'coral-framework/services/PymConnection';
+import { link } from 'coral-framework/services/PymConnection';
 import NotLoggedIn from '../components/NotLoggedIn';
-import {Spinner} from 'coral-ui';
+import { Spinner } from 'coral-ui';
 import ProfileHeader from '../components/ProfileHeader';
 import CommentHistory from 'coral-plugin-history/CommentHistory';
 
@@ -15,10 +15,10 @@ import translations from '../translations';
 const lang = new I18n(translations);
 
 class ProfileContainer extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.state = {
-      activeTab: 0,
+      activeTab: 0
     };
 
     this.handleTabChange = this.handleTabChange.bind(this);
@@ -31,39 +31,37 @@ class ProfileContainer extends Component {
   }
 
   render() {
-    const {loggedIn, asset, showSignInDialog, data} = this.props;
-    const {me} = this.props.data;
+    const { loggedIn, asset, showSignInDialog, data } = this.props;
+    const { me } = this.props.data;
 
     if (!loggedIn || !me) {
-      return <NotLoggedIn showSignInDialog={showSignInDialog} requireEmailConfirmation={asset.settings.requireEmailConfirmation}/>;
+      return (
+        <NotLoggedIn
+          showSignInDialog={showSignInDialog}
+          requireEmailConfirmation={asset.settings.requireEmailConfirmation}
+        />
+      );
     }
 
     if (data.loading) {
-      return <Spinner/>;
+      return <Spinner />;
     }
 
     return (
       <div>
-        <ProfileHeader username={this.props.userData.username} />
-        {
-
-          // Hiding bio until moderation can get figured out
-          /* <TabBar onChange={this.handleTabChange} activeTab={activeTab} cStyle='material'>
+        <ProfileHeader userData={this.props.userData} />
+        {// Hiding bio until moderation can get figured out
+        /* <TabBar onChange={this.handleTabChange} activeTab={activeTab} cStyle='material'>
             <Tab>{lang.t('allComments')} ({user.myComments.length})</Tab>
               <Tab>{lang.t('profileSettings')}</Tab>
           </TabBar>
           <TabContent show={activeTab === 0}> */
-          me.comments.length ?
-            <CommentHistory
-              comments={me.comments}
-              asset={asset}
-              link={link}
-            />
-          :
-            <p>{lang.t('userNoComment')}</p>
+        me.comments.length
+          ? <CommentHistory comments={me.comments} asset={asset} link={link} />
+          : <p>{lang.t('userNoComment')}</p>
 
-          // Hiding user bio pending effective moderation system.
-          /* </TabContent>
+        // Hiding user bio pending effective moderation system.
+        /* </TabContent>
           <TabContent show={activeTab === 1}>
               <BioContainer bio={userData.settings.bio} handleSave={this.handleSave} {...this.props} />
           </TabContent> */
@@ -81,7 +79,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = () => ({
-
   // saveBio: (user_id, formData) => dispatch(saveBio(user_id, formData))
 });
 
