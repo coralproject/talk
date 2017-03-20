@@ -7,7 +7,4 @@ query Metrics ($from: Date!, $to: Date!) {
   assetsByActivity: assetMetrics(from: $from, to: $to, sort: ACTIVITY) {
     ...metrics
   }
-  assetsByActivity: assetMetrics(from: $from, to: $to, sort: ACTIVITY) {
-    ...metrics
-  }
 }
