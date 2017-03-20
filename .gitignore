@@ -14,3 +14,7 @@ dump.rdb
 coverage/
 .tags
 .tags1
+
+# remove plugin folders
+plugins
+plugins.json
