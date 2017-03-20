@@ -4,7 +4,7 @@ import {Dialog, Button} from 'coral-ui';
 import styles from './SuspendUserDialog.css';
 
 import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from '../../../translations.json';
+import translations from 'coral-admin/src/translations.json';
 
 const lang = new I18n(translations);
 

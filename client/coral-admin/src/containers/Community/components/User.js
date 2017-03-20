@@ -16,51 +16,61 @@ const User = props => {
   // Do not display unless the user status is 'pending' or 'banned'.
   // This means that they have already been reviewed and approved.
   return (userStatus === 'PENDING' ||  userStatus === 'BANNED') &&
-    <li tabIndex={props.index} className={`mdl-card mdl-shadow--2dp ${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
-      <div className={styles.itemHeader}>
-        <span className={styles.author}>{user.username}</span>
-        <ActionButton
-          className={styles.banButton}
-          type='BAN'
-          user={user}
-          showBanUserDialog={props.showBanUserDialog}
-        />
-      </div>
-      <div className={styles.itemBody}>
-        <div className={styles.flaggedByCount}>
-          <i className="material-icons">flag</i><span className={styles.flaggedByLabel}>Flags({ user.actions.length })</span>:
-            { user.action_summaries.map(
-            (action, i ) => {
-              return <span className={styles.flaggedBy} key={i}>
-                {lang.t(`community.${action.reason}`)} ({action.count})
-              </span>;
-            }
-          )}
+    <li tabIndex={props.index} className={`mdl-card ${props.selected ? 'mdl-shadow--8dp' : 'mdl-shadow--2dp'} ${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
+      <div className={styles.container}>
+        <div className={styles.itemHeader}>
+          <div className={styles.author}>
+            <span>
+              {user.username}
+            </span>
+            <ActionButton
+              className={styles.banButton}
+              type='BAN'
+              user={user}
+              showBanUserDialog={props.showBanUserDialog}
+            />
+          </div>
         </div>
-        <div className={styles.flaggedReasons}>
-          {user.actions.map(
-            (action, i) => {
-              return <span key={i}>
-                {action.reason}
-                {/* action.user.username */}
-              </span>;
-            }
-          )}
-        </div>
-        <div className={styles.sideActions}>
-          <div className={`actions ${styles.actions}`}>
-            {modActionButtons.map(
+
+        <div className={styles.itemBody}>
+          <div className={styles.body}>
+            <div className={styles.flaggedByCount}>
+              <i className="material-icons">flag</i><span className={styles.flaggedByLabel}>Flags({ user.actions.length })</span>:
+                { user.action_summaries.map(
+                (action, i ) => {
+                  return <span className={styles.flaggedBy} key={i}>
+                    {lang.t(`community.${action.reason}`)} ({action.count})
+                  </span>;
+                }
+              )}
+            </div>
+            <div className={styles.flaggedReasons}>
+            {user.actions.map(
               (action, i) => {
-                return <ActionButton
-                  type={action.toUpperCase()}
-                  key={i}
-                  user={user}
-                  approveUser={props.approveUser}
-                  suspendUser={props.suspendUser}
-                  showSuspendUserDialog={props.showSuspendUserDialog}
-                  />;
+                return <span key={i}>
+                  {action.id}
+                  {action.reason}
+                  {action.user  && action.user.username}
+                </span>;
               }
             )}
+          </div>
+        </div>
+          <div className={styles.sideActions}>
+            <div className={`actions ${styles.actions}`}>
+                {modActionButtons.map(
+                  (action, i) => {
+                    return <ActionButton
+                      type={action.toUpperCase()}
+                      key={i}
+                      user={user}
+                      approveUser={props.approveUser}
+                      suspendUser={props.suspendUser}
+                      showSuspendUserDialog={props.showSuspendUserDialog}
+                      />;
+                  }
+                )}
+            </div>
           </div>
         </div>
       </div>

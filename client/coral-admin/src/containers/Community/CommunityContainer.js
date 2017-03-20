@@ -89,7 +89,10 @@ class CommunityContainer extends Component {
           error={community.errorPeople}
           totalPages={community.totalPagesPeople}
           page={community.pagePeople}
-          {...this}
+          onKeyDown={this.onKeyDownHandler}
+          onChange={this.onChangeHandler}
+          onHeaderClickHandler={this.onHeaderClickHandler}
+          onNewPageHandler={this.onNewPageHandler}
         />
       );
     }
@@ -104,7 +107,6 @@ class CommunityContainer extends Component {
           approveUser={props.approveUser}
           suspendUser={props.suspendUser}
           showSuspendUserDialog={props.showSuspendUserDialog}
-          {...this}
         />
         <BanUserDialog
           open={community.banDialog}

@@ -138,15 +138,21 @@
 
 .listItem {
   border-bottom: 1px solid #e0e0e0;
-  font-size: 16px;
+  font-size: 18px;
   width: 100%;
   max-width: 660px;
   min-width: 400px;
   margin: 0 auto;
-  padding: 16px 14px;
   position: relative;
-  transition: box-shadow 200ms;
+  transition: all 200ms;
+  padding: 10px 0 0;
+  min-height: 220px;
 
+  .container {
+    display: block;
+    padding: 0 14px;
+    min-height: 180px;
+  }
 
   &:hover {
      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -154,6 +160,14 @@
 
   &:last-child {
     border-bottom: none;
+  }
+
+  .context {
+    a {
+      color: #f36451;
+      text-decoration: underline;
+      float: right;
+    }
   }
 
    .sideActions {
@@ -166,18 +180,30 @@
    }
 
   .itemHeader {
-    display: inline;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
     .author {
-      font-size: 24px;
-      min-width: 50px;
-      align-items: left;
-      margin-bottom: 15px;
+      min-width: 230px;
+      display: flex;
+      align-items: center;
     }
   }
 
   .itemBody {
-    display: block;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .avatar {
+    margin-right: 16px;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background-color: #757575;
+    font-size: 40px;
+    color: #fff;
   }
 
   .created {
@@ -186,11 +212,18 @@
     margin-left: 40px;
   }
 
+  .actionButton {
+    transform: scale(.8);
+    margin: 0;
+  }
+
   .body {
-    margin-top: 20px;
+    margin-top: 0px;
     flex: 1;
-    font-size: 0.88em;
     color: black;
+    max-width: 500px;
+    word-wrap: break-word;
+    font-weight: 300;
   }
 
   .flagged {
