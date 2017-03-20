@@ -4,6 +4,7 @@ fragment metrics on Asset {
   url
   author
   created_at
+  commentCount
   action_summaries {
     type: __typename
     actionCount

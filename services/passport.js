@@ -1,9 +1,12 @@
 const passport = require('passport');
 const UsersService = require('./users');
 const SettingsService = require('./settings');
+const fetch = require('node-fetch');
+const FormData = require('form-data');
 const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const errors = require('../errors');
+const debug = require('debug')('talk:passport');
 
 //==============================================================================
 // SESSION SERIALIZATION
@@ -74,27 +77,233 @@ function ValidateUserLogin(loginProfile, user, done) {
 // STRATEGIES
 //==============================================================================
 
+/**
+ * This looks at the request headers to see if there is a recaptcha response on
+ * the input request.
+ */
+const CheckIfRecaptcha = (req) => {
+  let response = req.get('X-Recaptcha-Response');
+
+  if (response && response.length > 0) {
+    return true;
+  }
+
+  return false;
+};
+
+/**
+ * This checks the user to see if the current email profile needs to get checked
+ * for recaptcha compliance before being allowed to login.
+ */
+const CheckIfNeedsRecaptcha = (user, email) => {
+
+  // Get the profile representing the local account.
+  let profile = user.profiles.find((profile) => profile.id === email);
+
+  // This should never get to this point, if it does, don't let this past.
+  if (!profile) {
+    throw new Error('ID indicated by loginProfile is not on user object');
+  }
+
+  if (profile.metadata && profile.metadata.recaptcha_required) {
+    return true;
+  }
+
+  return false;
+};
+
+/**
+ * This stores the Recaptcha secret.
+ */
+const RECAPTCHA_SECRET = process.env.TALK_RECAPTCHA_SECRET;
+
+/**
+ * This is true when the recaptcha secret is provided and the Recaptcha feature
+ * is to be enabled.
+ */
+const RECAPTCHA_ENABLED = RECAPTCHA_SECRET && RECAPTCHA_SECRET.length > 0;
+if (!RECAPTCHA_ENABLED) {
+  console.log('Recaptcha is not enabled for login/signup abuse prevention, set TALK_RECAPTCHA_SECRET to enable Recaptcha.');
+}
+
+/**
+ * This sends the request details down Google to check to see if the response is
+ * genuine or not.
+ * @return {Promise} resolves with the success status of the recaptcha
+ */
+const CheckRecaptcha = async (req) => {
+
+  // Ask Google to verify the recaptcha response: https://developers.google.com/recaptcha/docs/verify
+  const form = new FormData();
+
+  form.append('secret', RECAPTCHA_SECRET);
+  form.append('response', req.get('X-Recaptcha-Response'));
+  form.append('remoteip', req.ip);
+
+  // Perform the request.
+  let res = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+    method: 'POST',
+    body: form,
+    headers: form.getHeaders()
+  });
+
+  // Parse the JSON response.
+  let json = await res.json();
+
+  return json.success;
+};
+
+/**
+ * This records a login attempt failure as well as optionally flags an account
+ * for requiring a recaptcha in the future outside the temporary window.
+ * @return {Promise} resolves with nothing if rate limit not exeeded, errors if
+ *                   there is a rate limit error
+ */
+const HandleFailedAttempt = async (email, userNeedsRecaptcha) => {
+  try {
+    await UsersService.recordLoginAttempt(email);
+  } catch (err) {
+    if (err === errors.ErrLoginAttemptMaximumExceeded && !userNeedsRecaptcha && RECAPTCHA_ENABLED) {
+
+      debug(`flagging user email=${email}`);
+      await UsersService.flagForRecaptchaRequirement(email, true);
+    }
+
+    throw err;
+  }
+};
+
 passport.use(new LocalStrategy({
   usernameField: 'email',
-  passwordField: 'password'
-}, (email, password, done) => {
-  UsersService
-    .findLocalUser(email, password)
-    .then((user) => {
-      if (!user) {
-        return done(null, false, {message: 'Incorrect email/password combination'});
+  passwordField: 'password',
+  passReqToCallback: true
+}, async (req, email, password, done) => {
+
+  // We need to check if this request has a recaptcha on it at all, if it does,
+  // we must verify it first. If verification fails, we fail the request early.
+  // We can only do this obviously when recaptcha is enabled.
+  let hasRecaptcha = CheckIfRecaptcha(req);
+  let recaptchaPassed = false;
+  if (RECAPTCHA_ENABLED && hasRecaptcha) {
+
+    try {
+
+      // Check to see if this recaptcha passed.
+      recaptchaPassed = await CheckRecaptcha(req);
+    } catch (err) {
+      return done(err);
+    }
+
+    if (!recaptchaPassed) {
+      try {
+        await HandleFailedAttempt(email);
+      } catch (err) {
+        return done(err);
       }
 
-      // Define the loginProfile being used to perform an additional
-      // verificaiton.
-      let loginProfile = {id: email, provider: 'local'};
+      return done(null, false, {message: 'Incorrect recaptcha'});
+    }
+  }
 
-      // Validate the user login.
-      return ValidateUserLogin(loginProfile, user, done);
-    })
-    .catch((err) => {
-      done(err);
-    });
+  debug(`hasRecaptcha=${hasRecaptcha}, recaptchaPassed=${recaptchaPassed}`);
+
+  // If the request didn't have a recaptcha, check to see if we did need one by
+  // checking the rate limit against failed attempts on this email
+  // address/login.
+  if (!hasRecaptcha) {
+    try {
+      await UsersService.checkLoginAttempts(email);
+    } catch (err) {
+      if (err === errors.ErrLoginAttemptMaximumExceeded) {
+
+        // This says, we didn't have a recaptcha, yet we needed one.. Reject
+        // here.
+
+        try {
+          await HandleFailedAttempt(email);
+        } catch (err) {
+          return done(err);
+        }
+
+        return done(null, false, {message: 'Incorrect recaptcha'});
+      }
+
+      // Some other unexpected error occured.
+      return done(err);
+    }
+  }
+
+  // Let's find the user for which this login is connected to.
+  let user;
+  try {
+    user = await UsersService.findLocalUser(email);
+  } catch (err) {
+    return done(err);
+  }
+
+  debug(`user=${user != null}`);
+
+  // If the user doesn't exist, then mark this as a failed attempt at logging in
+  // this non-existant user and continue.
+  if (!user) {
+    try {
+      await HandleFailedAttempt(email);
+    } catch (err) {
+      return done(err);
+    }
+
+    return done(null, false, {message: 'Incorrect email/password combination'});
+  }
+
+  // Let's check if the user indeed needed recaptcha in order to authenticate.
+  // We can only do this obviously when recaptcha is enabled.
+  let userNeedsRecaptcha = false;
+  if (RECAPTCHA_ENABLED && user) {
+    userNeedsRecaptcha = CheckIfNeedsRecaptcha(user, email);
+  }
+
+  debug(`userNeedsRecaptcha=${userNeedsRecaptcha}`);
+
+  // Let's check now if their password is correct.
+  let userPasswordCorrect;
+  try {
+    userPasswordCorrect = await user.verifyPassword(password);
+  } catch (err) {
+    return done(err);
+  }
+
+  debug(`userPasswordCorrect=${userPasswordCorrect}`);
+
+  // If their password wasn't correct, mark their attempt as failed and
+  // continue.
+  if (!userPasswordCorrect) {
+    try {
+      await HandleFailedAttempt(email, userNeedsRecaptcha);
+    } catch (err) {
+      return done(err);
+    }
+
+    return done(null, false, {message: 'Incorrect email/password combination'});
+  }
+
+  // If the user needed a recaptcha, yet we have gotten this far, this indicates
+  // that the password was correct, so let's unflag their account for logins. We
+  // can only do this obviously when recaptcha is enabled. The account wouldn't
+  // have been flagged otherwise.
+  if (RECAPTCHA_ENABLED && userNeedsRecaptcha) {
+    try {
+      await UsersService.flagForRecaptchaRequirement(email, false);
+    } catch (err) {
+      return done(err);
+    }
+  }
+
+  // Define the loginProfile being used to perform an additional
+  // verificaiton.
+  let loginProfile = {id: email, provider: 'local'};
+
+  // Perform final steps to login the user.
+  return ValidateUserLogin(loginProfile, user, done);
 }));
 
 if (process.env.TALK_FACEBOOK_APP_ID && process.env.TALK_FACEBOOK_APP_SECRET && process.env.TALK_ROOT_URL) {
@@ -102,17 +311,18 @@ if (process.env.TALK_FACEBOOK_APP_ID && process.env.TALK_FACEBOOK_APP_SECRET && 
     clientID: process.env.TALK_FACEBOOK_APP_ID,
     clientSecret: process.env.TALK_FACEBOOK_APP_SECRET,
     callbackURL: `${process.env.TALK_ROOT_URL}/api/v1/auth/facebook/callback`,
-
+    passReqToCallback: true,
     profileFields: ['id', 'displayName', 'picture.type(large)']
-  }, (accessToken, refreshToken, profile, done) => {
-    UsersService
-      .findOrCreateExternalUser(profile)
-      .then((user) => {
-        return ValidateUserLogin(profile, user, done);
-      })
-      .catch((err) => {
-        done(err);
-      });
+  }, async (req, accessToken, refreshToken, profile, done) => {
+
+    let user;
+    try {
+      user = await UsersService.findOrCreateExternalUser(profile);
+    } catch (err) {
+      return done(err);
+    }
+
+    return ValidateUserLogin(profile, user, done);
   }));
 } else {
   console.error('Facebook cannot be enabled, missing one of TALK_FACEBOOK_APP_ID, TALK_FACEBOOK_APP_SECRET, TALK_ROOT_URL');

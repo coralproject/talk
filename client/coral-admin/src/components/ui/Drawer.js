@@ -23,9 +23,9 @@ const CoralDrawer = ({handleLogout, restricted = false}) => (
             {lang.t('configure.moderate')}
           </Link>
           <Link className={styles.navLink}
-                to="/admin/streams"
+                to="/admin/stories"
                 activeClassName={styles.active}>
-            {lang.t('configure.streams')}
+            {lang.t('configure.stories')}
           </Link>
           <Link className={styles.navLink}
                 to="/admin/community"

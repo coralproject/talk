@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import styles from './Streams.css';
+import styles from './Stories.css';
 import {connect} from 'react-redux';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import {fetchAssets, updateAssetState} from '../../actions/assets';
@@ -12,7 +12,7 @@ import EmptyCard from 'coral-admin/src/components/EmptyCard';
 
 const limit = 25;
 
-class Streams extends Component {
+class Stories extends Component {
 
   state = {
     search: '',
@@ -182,6 +182,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Streams);
+export default connect(mapStateToProps, mapDispatchToProps)(Stories);
 
 const lang = new I18n(translations);
