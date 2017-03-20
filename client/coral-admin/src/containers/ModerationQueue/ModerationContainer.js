@@ -140,9 +140,11 @@ class ModerationContainer extends Component {
         <BanUserDialog
           open={moderation.banDialog}
           user={moderation.user}
+          commentId={moderation.commentId}
           handleClose={props.hideBanUserDialog}
           handleBanUser={props.banUser}
           showRejectedNote={moderation.showRejectedNote}
+          rejectComment={props.rejectComment}
         />
       <ModerationKeysModal
           open={moderation.modalOpen}
