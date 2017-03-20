@@ -9,19 +9,27 @@ describe('coral-plugin-history/Comment', () => {
   const asset = { url: 'https://google.com' };
 
   beforeEach(() => {
-    render = shallow(<Comment asset={asset} comment={comment} link={()=>{}}/>);
+    render = shallow(
+      <Comment asset={asset} comment={comment} link={() => {}} />
+    );
   });
 
   it('should render the provided comment body', () => {
-    const wrapper = mount(<Comment asset={asset} comment={comment} link={()=>{}}/>);
+    const wrapper = mount(
+      <Comment asset={asset} comment={comment} link={() => {}} />
+    );
     expect(wrapper.find('.myCommentBody')).to.have.length(1);
     expect(wrapper.find('.myCommentBody').text()).to.equal('this is a comment');
   });
 
   it('should render the asset url as a link', () => {
-    const wrapper = mount(<Comment asset={asset} comment={comment} link={()=>{}}/>);
+    const wrapper = mount(
+      <Comment asset={asset} comment={comment} link={() => {}} />
+    );
     expect(wrapper.find('.myCommentAnchor')).to.have.length(1);
-    expect(wrapper.find('.myCommentAnchor').text()).to.equal('https://google.com');
+    expect(wrapper.find('.myCommentAnchor').text()).to.equal(
+      'https://google.com'
+    );
   });
 
   it('should render the comment with styles', () => {
