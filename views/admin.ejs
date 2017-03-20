@@ -82,9 +82,13 @@
       }
 
     </style>
+    <% if (data != null) { %>
+      <script id="data" type="application/json"><%- JSON.stringify(data) %></script>
+    <% } %>
   </head>
   <body>
     <div id="root"></div>
+    <script src='https://www.google.com/recaptcha/api.js?render=explicit' async defer></script>
     <script src="<%= basePath %>/bundle.js" charset="utf-8"></script>
   </body>
 </html>

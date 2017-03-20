@@ -8,8 +8,12 @@
     <% if (locals.customCssUrl) { %>
       <link href="<%= customCssUrl %>" rel="stylesheet" type="text/css">
     <% } %>
+    <% if (data != null) { %>
+      <script id="data" type="application/json"><%- JSON.stringify(data) %></script>
+    <% } %>
   </head>
   <body>
+
     <div id="coralStream"></div>
     <script src="/client/embed/stream/bundle.js"></script>
   </body>

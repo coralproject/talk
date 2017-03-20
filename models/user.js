@@ -1,4 +1,5 @@
 const mongoose = require('../services/mongoose');
+const bcrypt = require('bcrypt');
 const uuid = require('uuid');
 
 // USER_ROLES is the array of roles that is permissible as a user role.
@@ -143,6 +144,25 @@ UserSchema.method('hasRoles', function(...roles) {
 
     // TODO: remove toUpperCase() once we've migrated usage.
     return this.roles.indexOf(role.toUpperCase()) >= 0;
+  });
+});
+
+/**
+ * This verifies that a password is valid.
+ */
+UserSchema.method('verifyPassword', function(password) {
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(password, this.password, (err, res) => {
+      if (err) {
+        return reject(err);
+      }
+
+      if (!res) {
+        return resolve(false);
+      }
+
+      return resolve(true);
+    });
   });
 });
 

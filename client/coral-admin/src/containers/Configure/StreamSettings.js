@@ -32,11 +32,6 @@ const updateInfoBoxEnable = (updateSettings, infoBox) => () => {
   updateSettings({infoBoxEnable});
 };
 
-const updatePremodLinksEnable = (updateSettings, premodLinks) => () => {
-  const premodLinksEnable = !premodLinks;
-  updateSettings({premodLinksEnable});
-};
-
 const updateInfoBoxContent = (updateSettings) => (event) => {
   const infoBoxContent =  event.target.value;
   updateSettings({infoBoxContent});
@@ -99,19 +94,6 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
           </p>
         </div>
       </Card>
-      <Card className={`${styles.configSetting} ${settings.premodLinksEnable ? on : off}`}>
-        <div className={styles.action}>
-          <Checkbox
-            onChange={updatePremodLinksEnable(updateSettings, settings.premodLinksEnable)}
-            checked={settings.premodLinksEnable} />
-        </div>
-        <div className={styles.content}>
-          <div className={styles.settingsHeader}>{lang.t('configure.enable-premod-links')}</div>
-          <p>
-            {lang.t('configure.enable-premod-links-text')}
-          </p>
-        </div>
-      </Card>
       <Card className={`${styles.configSetting} ${styles.configSettingInfoBox} ${settings.infoBoxEnable ? on : off}`}>
         <div className={styles.action}>
           <Checkbox
@@ -171,6 +153,7 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
           </div>
         </div>
       </Card>
+      {/* the above card should be the last one if at all possible because of z-index issues with the selects */}
     </div>
   );
 };

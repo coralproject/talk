@@ -3,10 +3,15 @@ const jwt = require('jsonwebtoken');
 const Wordlist = require('./wordlist');
 const errors = require('../errors');
 const uuid = require('uuid');
+const redis = require('./redis');
+const redisClient = redis.createClient();
 
 const UserModel = require('../models/user');
 const USER_STATUS = require('../models/user').USER_STATUS;
 const USER_ROLES = require('../models/user').USER_ROLES;
+
+const RECAPTCHA_WINDOW_SECONDS = 60 * 10; // 10 minutes.
+const RECAPTCHA_INCORRECT_TRIGGER = 5; // after 3 incorrect attempts, recaptcha will be required.
 
 const ActionsService = require('./actions');
 
@@ -30,13 +35,9 @@ const SALT_ROUNDS = 10;
 module.exports = class UsersService {
 
   /**
-   * Finds a user given their email address that we have for them in the system
-   * and ensures that the retuned user matches the password passed in as well.
-   * @param  {string}   email     - email to look up the user by
-   * @param  {string}   password  - password to match against the found user
-   * @param  {Function} done     [description]
+   * Returns a user (if found) for the given email address.
    */
-  static findLocalUser(email, password) {
+  static findLocalUser(email) {
     if (!email || typeof email !== 'string') {
       return Promise.reject('email is required for findLocalUser');
     }
@@ -48,32 +49,99 @@ module.exports = class UsersService {
           provider: 'local'
         }
       }
-    })
-    .then((user) => {
-      if (!user) {
-        return false;
-      }
+    });
+  }
 
-      return new Promise((resolve, reject) => {
-        bcrypt.compare(password, user.password, (err, res) => {
+  /**
+   * This records an unsucesfull login attempt for the given email address. If
+   * the maximum has been reached, the promise will be rejected with:
+   *
+   *  errors.ErrLoginAttemptMaximumExceeded
+   *
+   * Indicating that the account should be flagged as "login recaptcha required"
+   * where future login attempts must be made with the recaptcha flag.
+   */
+  static recordLoginAttempt(email) {
+    const rdskey = `la[${email.toLowerCase().trim()}]`;
+
+    return new Promise((resolve, reject) => {
+      redisClient
+        .multi()
+        .incr(rdskey)
+        .expire(rdskey, RECAPTCHA_WINDOW_SECONDS)
+        .exec((err, replies) => {
           if (err) {
             return reject(err);
           }
 
-          if (!res) {
-            return resolve(false);
+          // if this is new or has no expiry
+          if (replies[0] === 1 || replies[1] === -1) {
+
+            // then expire it after the timeout
+            redisClient.expire(rdskey, RECAPTCHA_WINDOW_SECONDS);
           }
 
-          return resolve(user);
+          if (replies[0] >= RECAPTCHA_INCORRECT_TRIGGER) {
+            return reject(errors.ErrLoginAttemptMaximumExceeded);
+          }
+
+          resolve();
         });
-      });
+    });
+  }
+
+  /**
+   * This checks to see if the current login attempts against a user exeeds the
+   * maximum value allowed, if so, it rejects with:
+   *
+   *  errors.ErrLoginAttemptMaximumExceeded
+   */
+  static checkLoginAttempts(email) {
+    const rdskey = `la[${email.toLowerCase().trim()}]`;
+
+    return new Promise((resolve, reject) => {
+      redisClient
+        .get(rdskey, (err, reply) => {
+          if (err) {
+            return reject(err);
+          }
+
+          if (!reply) {
+            return resolve();
+          }
+
+          if (reply >= RECAPTCHA_INCORRECT_TRIGGER) {
+            return reject(errors.ErrLoginAttemptMaximumExceeded);
+          }
+
+          resolve();
+        });
+    });
+  }
+
+  /**
+   * Sets or unsets the recaptcha_required flag on a user's local profile.
+   */
+  static flagForRecaptchaRequirement(email, required) {
+    return UserModel.update({
+      profiles: {
+        $elemMatch: {
+          id: email.toLowerCase(),
+          provider: 'local'
+        }
+      }
+    }, {
+      $set: {
+        'profiles.$.metadata.recaptcha_required': required
+      }
     });
   }
 
   /**
    * Merges two users together by taking all the profiles on a given user and
    * pushing them into the source user followed by deleting the destination user's
-   * user account. This will not merge the roles associated with the source user.
+   * user account. This will
+   * not merge the roles associated with the source user.
    * @param  {String} dstUserID id of the user to which is the target of the merge
    * @param  {String} srcUserID id of the user to which is the source of the merge
    * @return {Promise}          resolves when the users are merged

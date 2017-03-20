@@ -1,4 +1,4 @@
-FROM node:7.6
+FROM node:7
 
 # Create app directory
 RUN mkdir -p /usr/src/app
@@ -17,4 +17,4 @@ RUN yarn install --production
 # Bundle app source
 COPY . /usr/src/app
 
-CMD [ "yarn", "start" ]
+CMD ["yarn", "start"]

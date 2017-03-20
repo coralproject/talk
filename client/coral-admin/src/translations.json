@@ -1,7 +1,8 @@
 {
   "en": {
     "errors": {
-      "NOT_AUTHORIZED": "Your username or password is not recognized by our system."
+      "NOT_AUTHORIZED": "Your username or password is not recognized by our system.",
+      "LOGIN_MAXIMUM_EXCEEDED": "You have made too many unsuccessful password attempts. Please wait."
     },
     "community": {
       "username_and_email": "Username and Email",
@@ -94,7 +95,7 @@
       "moderate": "Moderate",
       "configure": "Configure",
       "community": "Community",
-      "streams": "Streams",
+      "stories": "Stories",
       "closed-comments-desc": "Write a message to be displayed when when your comment stream is closed and no longer accepting comments.",
       "closed-comments-label": "Write a message...",
       "hours": "Hours",
@@ -131,9 +132,12 @@
       "write_message": "Write a message"
     },
     "dashboard": {
+      "next-update": "{0} minutes until next update.",
+      "auto-update": "Data automatically updates every five minutes or when you Reload.",
       "no_flags": "There have been no flags in the last 5 minutes! Hooray!",
       "no_likes": "There have been no likes in the last 5 minutes. All quiet.",
       "flags": "Flags",
+      "no_activity": "There haven't been any comments anywhere in the last five minutes.",
       "comment_count": "comments"
     },
     "streams": {
@@ -149,14 +153,15 @@
       "sort-by": "Sort By",
       "open": "Open",
       "closed": "Closed",
-      "article": "Article",
+      "article": "Story",
       "pubdate": "Publication Date",
-      "status": "Status"
+      "status": "Stream Status"
     }
   },
   "es": {
     "errors": {
-      "NOT_AUTHORIZED": "Acción no autorizada."
+      "NOT_AUTHORIZED": "Acción no autorizada.",
+      "LOGIN_MAXIMUM_EXCEEDED": "Ha realizado demasiados intentos fallidos de contraseña. Por favor espera."
     },
     "community": {
       "username_and_email": "Usuario y E-mail",
@@ -250,7 +255,7 @@
       "moderate": "Moderar",
       "configure": "Configurar",
       "community": "Comunidad",
-      "streams": "Streams",
+      "stories": "Artículos",
       "closed-comments-desc": "Escribe un mensaje que será mostrado cuando los comentarios estén cerrados y no se acepten más comentarios.",
       "closed-comments-label": "Escribe un mensaje...",
       "never": "Nunca",
@@ -276,9 +281,12 @@
       "yes_ban_user": "Si, Suspendan el usuario"
     },
     "dashbord": {
+      "next-update": "{0} minutos hasta la siguiente actualización.",
+      "auto-update": "Los datos se actualizan automaticamente cada 5 minutos o cuando Recargas.",
       "no_flags": "¡Nadie ha marcado nada en los últimos 5 minutos! ¡Bravo!",
       "no_likes": "A nadie le ha gustado algún comentario en los últimos 5 minutos. Todo tranquilo.",
       "flags": "Marcados",
+      "no_activity": "No hubo comentarios en los ultimos 5 minutos",
       "comment_count": "comentarios"
     },
     "streams": {
@@ -294,7 +302,7 @@
       "sort-by": "",
       "open": "",
       "closed": "",
-      "article": "",
+      "article": "artículo",
       "pubdate": "",
       "status": ""
     }

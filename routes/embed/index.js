@@ -7,7 +7,11 @@ router.use('/:embed', (req, res, next) => {
   case 'stream':
     return SettingsService.retrieve()
       .then(({customCssUrl}) => {
-        return res.render('embed/stream', {customCssUrl});
+        const data = {
+          TALK_RECAPTCHA_PUBLIC: process.env.TALK_RECAPTCHA_PUBLIC
+        };
+
+        return res.render('embed/stream', {customCssUrl, data});
       });
   default:
 

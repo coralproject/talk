@@ -221,6 +221,7 @@ class Embed extends Component {
                 comments={asset.comments} />
             </div>
           <LoadMore
+            topLevel={true}
             assetId={asset.id}
             comments={asset.comments}
             moreComments={asset.commentCount > asset.comments.length}
@@ -256,7 +257,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   requestConfirmEmail: () => dispatch(requestConfirmEmail()),
   loadAsset: (asset) => dispatch(fetchAssetSuccess(asset)),
-  addNotification: (type, text) => dispatch(addNotification(type, text)),
+  addNotification: (type, text) => addNotification(type, text),
   clearNotification: () => dispatch(clearNotification()),
   editName: (username) => dispatch(editName(username)),
   showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),

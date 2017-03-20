@@ -1,3 +1,6 @@
+const _ = require('lodash');
+const debug = require('debug')('talk:graph:resolvers');
+
 const ActionSummary = require('./action_summary');
 const Action = require('./action');
 const AssetActionSummary = require('./asset_action_summary');
@@ -17,7 +20,10 @@ const UserError = require('./user_error');
 const User = require('./user');
 const ValidationUserError = require('./validation_user_error');
 
-module.exports = {
+const plugins = require('../../plugins');
+
+// Provide the core resolvers.
+let resolvers = {
   ActionSummary,
   Action,
   AssetActionSummary,
@@ -37,3 +43,16 @@ module.exports = {
   User,
   ValidationUserError,
 };
+
+/**
+ * Plugin support requires that we merge in existing resolvers with our new
+ * plugin based ones. This allows plugins to extend existing resolvers as well
+ * as provide new ones.
+ */
+resolvers = plugins.get('server', 'resolvers').reduce((resolvers, {plugin}) => {
+  debug(`added plugin '${plugin.name}'`);
+
+  return _.merge(resolvers, plugin.resolvers);
+}, resolvers);
+
+module.exports = resolvers;

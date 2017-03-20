@@ -422,6 +422,9 @@ type Asset {
   # The count of top level comments on the asset.
   commentCount: Int
 
+  # The total count of all comments made on the asset.
+  totalCommentCount: Int
+
   # The settings (rectified with the global settings) that should be applied to
   # this asset.
   settings: Settings!
@@ -493,6 +496,22 @@ enum USER_STATUS {
   APPROVED
 }
 
+# Metrics for the assets.
+enum ASSET_METRICS_SORT {
+
+  # Represents a LikeAction.
+  LIKE
+
+  # Represents a FlagAction.
+  FLAG
+
+  # Represents a don't agree action.
+  DONTAGREE
+
+  # Represents activity.
+  ACTIVITY
+}
+
 type RootQuery {
 
   # Site wide settings and defaults.
@@ -523,7 +542,7 @@ type RootQuery {
 
   # Asset metrics related to user actions are saturated into the assets
   # returned.
-  assetMetrics(from: Date!, to: Date!, sort: ACTION_TYPE!, limit: Int = 10): [Asset!]
+  assetMetrics(from: Date!, to: Date!, sort: ASSET_METRICS_SORT!, limit: Int = 10): [Asset!]
 
   # Comment metrics related to user actions are saturated into the comments
   # returned.

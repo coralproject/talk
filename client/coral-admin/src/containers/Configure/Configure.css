@@ -90,6 +90,11 @@
 .configTimeoutSelect {
   display: inline-block;
   margin-left: 20px;
+
+  i { /* fix for firefox and react-mdl-selectfield@0.2.0 */
+    padding: 20px 0;
+    vertical-align: top;
+  }
 }
 
 .charCountTexfield {
