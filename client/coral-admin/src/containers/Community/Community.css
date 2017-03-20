@@ -320,3 +320,7 @@
 .flaggedByLabel {
   font-weight: bold;
 }
+
+.flaggedReasons {
+  padding-top: 15px;
+}

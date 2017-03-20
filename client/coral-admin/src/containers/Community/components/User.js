@@ -45,15 +45,28 @@ const User = props => {
               )}
             </div>
             <div className={styles.flaggedReasons}>
-            {user.actions.map(
-              (action, i) => {
-                return <span key={i}>
-                  {action.id}
-                  {action.reason}
-                  {action.user  && action.user.username}
-                </span>;
-              }
-            )}
+              { user.action_summaries.map(
+                (action_sum, i ) => {
+                  return <div key={i}>
+                    <span className={styles.flaggedByLabel}>
+                      {lang.t(`community.${action_sum.reason}`)} ({action_sum.count})
+                    </span>
+                    {user.actions.map(
+
+                      // find the action by action_sum.reason
+                      (action, j) => {
+                        if (action.reason === action_sum.reason) {
+                          return <p className={styles.flaggedByReason} key={j}>
+                            {action.user && action.user.username}: {action.message ? action.message : 'n/a'}
+                          </p>;
+                        }
+                        return null;
+                      }
+                    )}
+                  </div>;
+                }
+              )}
+
           </div>
         </div>
           <div className={styles.sideActions}>

@@ -31,7 +31,7 @@ type User {
   username: String!
 
   # Action summaries against the user.
-  action_summaries: [FlagActionSummary]
+  action_summaries: [ActionSummary]
 
   # Actions completed on the parent.
   actions: [Action]

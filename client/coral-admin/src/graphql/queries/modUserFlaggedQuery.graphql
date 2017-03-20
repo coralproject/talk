@@ -9,14 +9,18 @@ query Users ($n: ACTION_TYPE) {
       created_at
       ... on FlagAction {
         reason
-      }
-      user {
-        username
+        message
+        user {
+          id
+          username
+        }
       }
     }
     action_summaries {
       count
-      reason
+    	... on FlagActionSummary {
+      	reason
+      }
     }
   }
 }
