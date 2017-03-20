@@ -156,8 +156,6 @@ class Comment extends React.Component {
           : null }
         <PubDate created_at={comment.created_at} />
 
-        <p>parent_id {comment.parent ? comment.parent.id : 'no parent'}</p>
-        <p>id: {comment.id}</p>
         <Content body={comment.body} />
           <div className="commentActionsLeft comment__action-container">
             <ActionButton>

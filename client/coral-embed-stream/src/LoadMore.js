@@ -7,15 +7,12 @@ const lang = new I18n(translations);
 
 const loadMoreComments = (assetId, comments, loadMore, parentId) => {
 
-  console.log('loadMoreComments', comments, comments.length);
-
-  if (!comments.length) {
-    return;
+  let cursor = null;
+  if (comments.length) {
+    cursor = parentId
+      ? comments[0].created_at
+      : comments[comments.length - 1].created_at;
   }
-
-  const cursor = parentId
-    ? comments[0].created_at
-    : comments[comments.length - 1].created_at;
 
   loadMore({
     limit: ADDTL_COMMENTS_ON_LOAD_MORE,
@@ -50,7 +47,6 @@ class LoadMore extends React.Component {
       ? <Button
         className='coral-load-more'
         onClick={() => {
-          console.log('loadMore clicked');
           this.initialState = false;
           loadMoreComments(assetId, comments, loadMore, parentId);
         }}>

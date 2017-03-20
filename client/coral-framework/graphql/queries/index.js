@@ -42,7 +42,6 @@ export const getCounts = (data) => ({asset_id, limit, sort}) => {
 };
 
 export const loadMore = (data) => ({limit, cursor, parent_id, asset_id, sort}, newComments) => {
-  console.log('loadMore query', data);
   return data.fetchMore({
     query: LOAD_MORE,
     variables: {
@@ -63,7 +62,7 @@ export const loadMore = (data) => ({limit, cursor, parent_id, asset_id, sort}, n
           ...oldData,
           asset: {
             ...oldData.asset,
-            comments: oldData.asset.comments.map((comment) => {
+            comments: oldData.asset.comments.map(comment => {
 
               // since the dipslayed replies and the returned replies can overlap,
               // pull out the unique ones.
