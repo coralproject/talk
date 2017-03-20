@@ -202,6 +202,7 @@ class Embed extends Component {
               />
             <div className="embed__stream">
               <Stream
+                open={openStream}
                 addNotification={this.props.addNotification}
                 postItem={this.props.postItem}
                 setActiveReplyBox={this.setActiveReplyBox}

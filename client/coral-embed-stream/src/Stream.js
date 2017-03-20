@@ -8,6 +8,7 @@ class Stream extends React.Component {
     addNotification: PropTypes.func.isRequired,
     postItem: PropTypes.func.isRequired,
     asset: PropTypes.object.isRequired,
+    open: PropTypes.bool.isRequired,
     comments: PropTypes.array.isRequired,
     currentUser: PropTypes.shape({
       username: PropTypes.string,
@@ -15,10 +16,10 @@ class Stream extends React.Component {
     }),
 
     // dispatch action to add a tag to a comment
-    addCommentTag: React.PropTypes.func,
+    addCommentTag: PropTypes.func,
 
     // dispatch action to remove a tag from a comment
-    removeCommentTag: React.PropTypes.func,
+    removeCommentTag: PropTypes.func,
   }
 
   constructor(props) {
@@ -55,6 +56,7 @@ class Stream extends React.Component {
       addNotification,
       postFlag,
       postLike,
+      open,
       postDontAgree,
       loadMore,
       deleteAction,
@@ -68,6 +70,7 @@ class Stream extends React.Component {
         {
           comments.map(comment =>
             <Comment
+              disableReply={!open}
               setActiveReplyBox={this.props.setActiveReplyBox}
               activeReplyBox={this.props.activeReplyBox}
               addNotification={addNotification}
