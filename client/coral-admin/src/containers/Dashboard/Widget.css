@@ -22,9 +22,6 @@
 }
 
 .widgetTable {
-  border-collapse: collapse;
-  user-select: none;
-  margin: 5px 15px 15px 15px;
   height: calc(var(--row-height) * 10);
 }
 
