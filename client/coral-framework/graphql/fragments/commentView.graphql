@@ -3,6 +3,9 @@
 fragment commentView on Comment {
     id
     body
+    parent {
+      id
+    }
     created_at
     status
     tags {

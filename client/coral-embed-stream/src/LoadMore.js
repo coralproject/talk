@@ -7,6 +7,8 @@ const lang = new I18n(translations);
 
 const loadMoreComments = (assetId, comments, loadMore, parentId) => {
 
+  console.log('loadMoreComments', comments, comments.length);
+
   if (!comments.length) {
     return;
   }
@@ -48,6 +50,7 @@ class LoadMore extends React.Component {
       ? <Button
         className='coral-load-more'
         onClick={() => {
+          console.log('loadMore clicked');
           this.initialState = false;
           loadMoreComments(assetId, comments, loadMore, parentId);
         }}>
