@@ -19,7 +19,11 @@ const FlagWidget = ({assets}) => {
         {
           assets.length
           ? assets.map(asset => {
-            const flagSummary = asset.action_summaries.find(s => s.type === 'FlagAssetActionSummary');
+            let flagSummary = null;
+            if (asset.action_summaries) {
+              flagSummary = asset.action_summaries.find(s => s.type === 'FlagAssetActionSummary');
+            }
+
             return (
               <div className={styles.rowLinkify} key={asset.id}>
                 <Link className={styles.linkToModerate} to={`/admin/moderate/flagged/${asset.id}`}>Moderate</Link>

@@ -43,9 +43,13 @@ const checkLoginFailure = error => ({type: actions.CHECK_LOGIN_FAILURE, error});
 export const checkLogin = () => dispatch => {
   dispatch(checkLoginRequest());
   return coralApi('/auth')
-    .then(result => {
-      const isAdmin = !!result.user.roles.filter(i => i === 'ADMIN').length;
-      dispatch(checkLoginSuccess(result.user, isAdmin));
+    .then(({user}) => {
+      if (!user) {
+        return dispatch(checkLoginFailure('not logged in'));
+      }
+
+      const isAdmin = !!user.roles.filter(i => i === 'ADMIN').length;
+      dispatch(checkLoginSuccess(user, isAdmin));
     })
     .catch(error => {
       console.error(error);

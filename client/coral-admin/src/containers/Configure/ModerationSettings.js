@@ -16,6 +16,11 @@ const updateEmailConfirmation = (updateSettings, verify) => () => {
   updateSettings({requireEmailConfirmation: !verify});
 };
 
+const updatePremodLinksEnable = (updateSettings, premodLinks) => () => {
+  const premodLinksEnable = !premodLinks;
+  updateSettings({premodLinksEnable});
+};
+
 const ModerationSettings = ({settings, updateSettings, onChangeWordlist}) => {
 
   // just putting this here for shorthand below
@@ -47,6 +52,19 @@ const ModerationSettings = ({settings, updateSettings, onChangeWordlist}) => {
           <div className={styles.settingsHeader}>{lang.t('configure.enable-pre-moderation')}</div>
           <p className={settings.moderation === 'PRE' ? '' : styles.disabledSettingText}>
             {lang.t('configure.enable-pre-moderation-text')}
+          </p>
+        </div>
+      </Card>
+      <Card className={`${styles.configSetting} ${settings.premodLinksEnable ? on : off}`}>
+        <div className={styles.action}>
+          <Checkbox
+            onChange={updatePremodLinksEnable(updateSettings, settings.premodLinksEnable)}
+            checked={settings.premodLinksEnable} />
+        </div>
+        <div className={styles.content}>
+          <div className={styles.settingsHeader}>{lang.t('configure.enable-premod-links')}</div>
+          <p>
+            {lang.t('configure.enable-premod-links-text')}
           </p>
         </div>
       </Card>
