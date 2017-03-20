@@ -1,3 +1,5 @@
+@custom-media --big-viewport (min-width: 780px);
+
 .myComment {
   border-bottom: 1px solid lightgrey;
   display: flex;
@@ -41,6 +43,21 @@
 
     a:hover {
       cursor: pointer;
+    }
+  }
+}
+
+@custom-media --mobile-viewport (max-width: 480px);
+
+@media (--mobile-viewport) {
+  .myComment {
+    flex-direction: column;
+  }
+
+  .sidebar ul {
+    display: flex;
+    li {
+      margin-right: 20px;
     }
   }
 }
