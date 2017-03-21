@@ -222,6 +222,7 @@ class Comment extends React.Component {
           comment.replies.map(reply => {
             return <Comment
               setActiveReplyBox={setActiveReplyBox}
+              disableReply={disableReply}
               activeReplyBox={activeReplyBox}
               addNotification={addNotification}
               parentId={comment.id}
