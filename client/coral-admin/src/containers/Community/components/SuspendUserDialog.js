@@ -52,7 +52,7 @@ class SuspendUserDialog extends Component  {
     const cancel = this.props.onClose;
     const next = () => this.setState({stage: stage + 1});
     const suspend = () => {
-      suspendUser({userId: user.user.id})
+      suspendUser({userId: user.user.id, message: this.state.email})
       .then(() => {
         this.props.handleClose();
       });

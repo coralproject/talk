@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {compose} from 'react-apollo';
 
 import {modUserFlaggedQuery} from 'coral-admin/src/graphql/queries';
-import {banUser, setUserStatus, suspendUser} from '../../graphql/mutations';
+import {banUser, setUserStatus, suspendUser} from 'coral-admin/src/graphql/mutations';
 
 import {
   fetchAccounts,

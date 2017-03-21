@@ -1,8 +1,12 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const ejs = require('ejs');
 const Wordlist = require('./wordlist');
+
 const errors = require('../errors');
+
 const uuid = require('uuid');
+
 const redis = require('./redis');
 const redisClient = redis.createClient();
 
@@ -14,6 +18,7 @@ const RECAPTCHA_WINDOW_SECONDS = 60 * 10; // 10 minutes.
 const RECAPTCHA_INCORRECT_TRIGGER = 5; // after 3 incorrect attempts, recaptcha will be required.
 
 const ActionsService = require('./actions');
+const MailerService = require('./mailer');
 
 // In the event that the TALK_SESSION_SECRET is missing but we are testing, then
 // set the process.env.TALK_SESSION_SECRET.
@@ -451,7 +456,7 @@ module.exports = class UsersService {
    * @param  {String}   id   id of a user
    * @param  {Function} done callback after the operation is complete
    */
-  static suspendUser(id) {
+  static suspendUser(id, message) {
     return UserModel.update({
       id
     }, {
@@ -459,6 +464,32 @@ module.exports = class UsersService {
         status: 'BANNED',
         canEditName: true
       }
+    })
+    .then(() => {
+      return UsersService.findById(id)
+      .then((user) => {
+        if (message) {
+          let localProfile = user.profiles.find((profile) => profile.provider === 'local');
+
+          if (localProfile) {
+            const options =
+              {
+                app: ejs,                              // needed to render the templates.
+                template: 'email/suspension',              // needed to know which template to render!
+                locals: {                                  // specifies the template locals.
+                  body: message
+                },
+                subject: 'Email Suspension',
+                to: localProfile.id  // This only works if the user has registered via e-mail.
+                                     // We may want a standard way to access a user's e-mail address in the future
+              };
+            return MailerService.sendSimple(options);
+          } else {
+            return Promise.reject(errors.ErrMissingEmail);
+          }
+        }
+      });
+
     });
   }
 

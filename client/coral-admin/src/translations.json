@@ -119,7 +119,7 @@
     "suspenduser": {
       "title": "Suspend a user",
       "title_0": "We noticed you rejected a username",
-      "description_0": "Would you like to temporarily ban this user becuase of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}.",
+      "description_0": "Would you like to temporarily ban this user because of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}.",
       "title_1": "Notify the user of their temporary suspension",
       "description_1": "Suspending this user will temporarily disable their account and hide all of their comments on the site.",
       "no_cancel": "No, cancel",
@@ -128,7 +128,7 @@
       "bio": "bio",
       "username": "username",
       "email_subject": "Your account has been suspended",
-      "email": "Another member of the community recently flagged your username for review. Because of its content your user was rejected. This means you can no longer comment, like, or flag content until you rewrite your {0}. Please e-mail moderator@newsorg.com if you have any questions or concerns.",
+      "email": "Another member of the community recently flagged your username for review. Because of its content your user was rejected. This means you can no longer comment, like, or flag content until you rewrite your username. Please e-mail us if you have any questions or concerns.",
       "write_message": "Write a message"
     },
     "dashboard": {

@@ -6,9 +6,11 @@ const setUserStatus = ({user}, {id, status}) => {
   .then(res => res);
 };
 
-const suspendUser = ({user}, {id}) => {
-  return UsersService.suspendUser(id)
-  .then(res => res);
+const suspendUser = ({user}, {id, message}) => {
+  return UsersService.suspendUser(id, message)
+  .then(res => {
+    return res;
+  });
 };
 
 module.exports = (context) => {

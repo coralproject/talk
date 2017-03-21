@@ -724,8 +724,8 @@ type RootMutation {
   # Sets User status. Requires the `ADMIN` role.
   setUserStatus(id: ID!, status: USER_STATUS!): SetUserStatusResponse
 
-  # Sets User status to BANNED and canEditName to true. Requires the `ADMIN` role.
-  suspendUser(id: ID!): SuspendUserResponse
+  # Sets User status to BANNED and canEditName to true. It sends a message to the banned User. Requires the `ADMIN` role.
+  suspendUser(id: ID!, message: String): SuspendUserResponse
 
   # Sets Comment status. Requires the `ADMIN` role.
   setCommentStatus(id: ID!, status: COMMENT_STATUS!): SetCommentStatusResponse

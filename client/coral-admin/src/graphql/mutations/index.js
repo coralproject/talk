@@ -32,10 +32,11 @@ export const setUserStatus = graphql(SET_USER_STATUS, {
 
 export const suspendUser = graphql(SUSPEND_USER, {
   props: ({mutate}) => ({
-    suspendUser: ({userId}) => {
+    suspendUser: ({userId, message}) => {
       return mutate({
         variables: {
-          userId
+          userId,
+          message
         },
         refetchQueries: ['Users']
       });
