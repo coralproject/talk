@@ -2,13 +2,14 @@ import React, {Component} from 'react';
 import styles from './Stories.css';
 import {connect} from 'react-redux';
 import I18n from 'coral-framework/modules/i18n/i18n';
-import {fetchAssets, updateAssetState} from '../../actions/assets';
-import translations from '../../translations.json';
+import {fetchAssets, updateAssetState} from 'coral-admin/src/actions/assets';
+import translations from 'coral-admin/src/translations.json';
 import {Link} from 'react-router';
 
 import {Pager, Icon} from 'coral-ui';
 import {DataTable, TableHeader, RadioGroup, Radio} from 'react-mdl';
 import EmptyCard from 'coral-admin/src/components/EmptyCard';
+import sortBy from 'lodash/sortBy';
 
 const limit = 25;
 
@@ -104,7 +105,11 @@ class Stories extends Component {
     const {search, sort, filter} = this.state;
     const {assets} = this.props;
 
-    const assetsIds = assets.ids.map((id) => assets.byId[id]);
+    const assetsIds = sortBy(assets.ids.map((id) => assets.byId[id]), 'publication_date');
+
+    if (this.state.sort === 'desc') {
+      assetsIds.reverse();
+    }
 
     return (
       <div className={styles.container}>

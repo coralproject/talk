@@ -39,7 +39,7 @@ export const getCounts = (data) => ({asset_id, limit, sort}) => {
   });
 };
 
-export const loadMore = (data) => ({limit, cursor, parent_id, asset_id, sort}, newComments) => {
+export const loadMore = (data) => ({limit, cursor, parent_id = null, asset_id, sort}, newComments) => {
   return data.fetchMore({
     query: LOAD_MORE,
     variables: {
