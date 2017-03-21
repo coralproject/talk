@@ -23,8 +23,13 @@ export default function assets (state = initialState, action) {
 }
 
 const replaceAssets = (action, state) => {
-  const assets = fromJS(action.assets.reduce((prev, curr) => { prev[curr.id] = curr; return prev; }, {}));
-  return state.set('byId', assets)
-  .set('count', action.count)
-  .set('ids', List(assets.keys()));
+  const assets = fromJS(action.assets.reduce((prev, curr) => {
+    prev[curr.id] = curr;
+    return prev;
+  }, {}));
+
+  return state
+    .set('byId', assets)
+    .set('count', action.count)
+    .set('ids', List(assets.keys()));
 };
