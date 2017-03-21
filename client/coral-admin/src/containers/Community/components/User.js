@@ -71,18 +71,15 @@ const User = props => {
         </div>
           <div className={styles.sideActions}>
             <div className={`actions ${styles.actions}`}>
-                {modActionButtons.map(
-                  (action, i) => {
-                    return <ActionButton
-                      type={action.toUpperCase()}
-                      key={i}
-                      user={user}
-                      approveUser={props.approveUser}
-                      suspendUser={props.suspendUser}
-                      showSuspendUserDialog={props.showSuspendUserDialog}
-                      />;
-                  }
-                )}
+              {modActionButtons.map((action, i) =>
+                <ActionButton key={i}
+                              type={action.toUpperCase()}
+                              user={user}
+                              approveUser={props.approveUser}
+                              suspendUser={props.suspendUser}
+                              showSuspendUserDialog={props.showSuspendUserDialog}
+                />
+              )}
             </div>
           </div>
         </div>
