@@ -17,7 +17,7 @@ const loadMoreComments = (assetId, comments, loadMore, parentId) => {
   loadMore({
     limit: ADDTL_COMMENTS_ON_LOAD_MORE,
     cursor,
-    assetId,
+    asset_id: assetId,
     parent_id: parentId,
     sort: parentId ? 'CHRONOLOGICAL' : 'REVERSE_CHRONOLOGICAL'
   });
