@@ -155,6 +155,7 @@ class Comment extends React.Component {
           ? <TagLabel><BestIndicator /></TagLabel>
           : null }
         <PubDate created_at={comment.created_at} />
+
         <Content body={comment.body} />
           <div className="commentActionsLeft comment__action-container">
             <ActionButton>
@@ -232,7 +233,7 @@ class Comment extends React.Component {
               removeCommentTag={removeCommentTag}
               showSignInDialog={showSignInDialog}
               reactKey={reply.id}
-              key={`${reply.id}:${depth}`}
+              key={reply.id}
               comment={reply} />;
           })
         }
