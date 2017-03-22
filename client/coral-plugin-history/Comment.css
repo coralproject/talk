@@ -23,6 +23,10 @@
 }
 
 .sidebar {
+  ul {
+    min-width: 136px;
+  }
+  
   li {
     margin-bottom: 10px;
 

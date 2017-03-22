@@ -10,7 +10,7 @@
     "build-watch": "NODE_ENV=development webpack --progress --config webpack.config.js --watch",
     "lint": "eslint bin/* .",
     "lint-fix": "eslint bin/* . --fix",
-    "test": "TEST_MODE=unit NODE_ENV=test NODE_PATH=$NODE_PATH:$PWD/client mocha -R ${MOCHA_REPORTER:-spec} --require test/setup.js",
+    "test": "TEST_MODE=unit NODE_ENV=test NODE_PATH=$NODE_PATH:$PWD/client mocha -R ${MOCHA_REPORTER:-spec} --require test/.setup.js",
     "test-cover": "TEST_MODE=unit NODE_ENV=test istanbul cover _mocha --report text --check-coverage -- -R spec",
     "pree2e": "NODE_ENV=test TALK_PORT=3011 scripts/pree2e.sh",
     "e2e": "NODE_ENV=test nightwatch",

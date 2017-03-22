@@ -2,19 +2,22 @@ import React, { PropTypes } from 'react';
 import { Icon } from '../coral-ui';
 import styles from './Comment.css';
 import PubDate from '../coral-plugin-pubdate/PubDate';
+import Content from '../coral-plugin-commentcontent/CommentContent';
 
 const Comment = props => {
   return (
     <div className={styles.myComment}>
       <div>
-        <p className={`${styles.commentBody} myCommentBody`}>
-          {props.comment.body}
-        </p>
+        {console.log(props)}
+        <Content
+          className={`${styles.commentBody} myCommentBody`}
+          body={props.comment.body}
+        />
         <p className="myCommentAsset">
           <a
             className={`${styles.assetURL} myCommentAnchor`}
             href="#"
-            onClick={props.link(`${props.asset.url}#${props.comment.id}`)}>
+            onClick={props.link(`${props.asset.url}`)}>
             Story: {props.asset.title ? props.asset.title : props.asset.url}
           </a>
         </p>
