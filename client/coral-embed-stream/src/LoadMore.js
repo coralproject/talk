@@ -7,18 +7,17 @@ const lang = new I18n(translations);
 
 const loadMoreComments = (assetId, comments, loadMore, parentId) => {
 
-  if (!comments.length) {
-    return;
+  let cursor = null;
+  if (comments.length) {
+    cursor = parentId
+      ? comments[0].created_at
+      : comments[comments.length - 1].created_at;
   }
-
-  const cursor = parentId
-    ? comments[0].created_at
-    : comments[comments.length - 1].created_at;
 
   loadMore({
     limit: ADDTL_COMMENTS_ON_LOAD_MORE,
     cursor,
-    assetId,
+    asset_id: assetId,
     parent_id: parentId,
     sort: parentId ? 'CHRONOLOGICAL' : 'REVERSE_CHRONOLOGICAL'
   });

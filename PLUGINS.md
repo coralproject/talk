@@ -149,7 +149,7 @@ This will merge with the existing resolvers in core and from previous plugins.
 {
   RootMutation: {
     createPerson: {
-      post: async (obj, args, {plugins: {Slack}}, person) {
+      post: async (obj, args, {plugins: {Slack}}, info, person) {
         if (!person) {
           return person;
         }
@@ -248,7 +248,7 @@ module.exports = {
   hooks: {
     RootMutation: {
       createPerson: {
-        post: async (obj, args, {plugins: {Slack}}, person) => {
+        post: async (obj, args, {plugins: {Slack}}, info, person) => {
           if (!person) {
             return person;
           }
