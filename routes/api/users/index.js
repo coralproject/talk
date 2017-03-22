@@ -76,8 +76,7 @@ router.post('/:user_id/email', authorization.needed('ADMIN'), (req, res, next) =
       if (localProfile) {
         const options =
           {
-            app: req.app,                                 // needed to render the templates.
-            template: 'email/notification',              // needed to know which template to render!
+            template: 'notification',                     // needed to know which template to render!
             locals: {                                     // specifies the template locals.
               body: req.body.body
             },
@@ -106,8 +105,7 @@ const SendEmailConfirmation = (app, userID, email, referer) => UsersService
   .createEmailConfirmToken(userID, email, referer)
   .then((token) => {
     return mailer.sendSimple({
-      app,                                 // needed to render the templates.
-      template: 'email/email-confirm',              // needed to know which template to render!
+      template: 'email-confirm',              // needed to know which template to render!
       locals: {                                     // specifies the template locals.
         token,
         rootURL: process.env.TALK_ROOT_URL,

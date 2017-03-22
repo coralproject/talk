@@ -29,7 +29,7 @@ const tableHeaders = [
   }
 ];
 
-const Community = ({isFetching, commenters, ...props}) => {
+const People = ({isFetching, commenters, ...props}) => {
   const hasResults = !isFetching && !!commenters.length;
   return (
     <div className={styles.container}>
@@ -58,7 +58,7 @@ const Community = ({isFetching, commenters, ...props}) => {
           hasResults
           ? <Table
               headers={tableHeaders}
-              data={commenters}
+              commenters={commenters}
               onHeaderClickHandler={props.onHeaderClickHandler}
             />
           : <EmptyCard>{lang.t('community.no-results')}</EmptyCard>
@@ -73,4 +73,4 @@ const Community = ({isFetching, commenters, ...props}) => {
   );
 };
 
-export default Community;
+export default People;
