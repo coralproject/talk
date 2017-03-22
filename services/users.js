@@ -524,7 +524,7 @@ module.exports = class UsersService {
    * Creates a JWT from a user email. Only works for local accounts.
    * @param {String} email of the local user
    */
-  static createPasswordResetToken(email) {
+  static createPasswordResetToken(email, loc) {
     if (!email || typeof email !== 'string') {
       return Promise.reject('email is required when creating a JWT for resetting passord');
     }
@@ -544,6 +544,7 @@ module.exports = class UsersService {
         const payload = {
           jti: uuid.v4(),
           email,
+          loc,
           userId: user.id,
           version: user.__v
         };
@@ -588,7 +589,9 @@ module.exports = class UsersService {
       })
 
       // TODO: add search by __v as well
-      .then((decoded) => UsersService.findById(decoded.userId));
+      .then((decoded) => {
+        return Promise.all([UsersService.findById(decoded.userId), decoded.loc]);
+      });
   }
 
   /**
