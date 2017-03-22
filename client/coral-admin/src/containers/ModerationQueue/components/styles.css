@@ -216,10 +216,12 @@ span {
     justify-content: space-between;
 
     .author {
-      font-weight: 600;
+      font-weight: 300;
       min-width: 230px;
       display: flex;
       align-items: center;
+      color: #262626;
+      font-size: 16px;
     }
   }
 
@@ -242,10 +244,11 @@ span {
   }
 
   .created {
-    color: #666;
-    font-size: 13px;
+    color: #262626;
+    font-size: 14px;
     margin-left: 15px;
     line-height: 1px;
+    font-weight: 300;
   }
 
   .actionButton {
