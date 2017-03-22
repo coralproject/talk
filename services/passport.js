@@ -116,14 +116,15 @@ const CheckIfNeedsRecaptcha = (user, email) => {
  * This stores the Recaptcha secret.
  */
 const RECAPTCHA_SECRET = process.env.TALK_RECAPTCHA_SECRET;
+const RECAPTCHA_PUBLIC = process.env.TALK_RECAPTCHA_PUBLIC;
 
 /**
  * This is true when the recaptcha secret is provided and the Recaptcha feature
  * is to be enabled.
  */
-const RECAPTCHA_ENABLED = RECAPTCHA_SECRET && RECAPTCHA_SECRET.length > 0;
+const RECAPTCHA_ENABLED = RECAPTCHA_SECRET && RECAPTCHA_SECRET.length > 0 && RECAPTCHA_PUBLIC && RECAPTCHA_PUBLIC.length > 0;
 if (!RECAPTCHA_ENABLED) {
-  console.log('Recaptcha is not enabled for login/signup abuse prevention, set TALK_RECAPTCHA_SECRET to enable Recaptcha.');
+  console.log('Recaptcha is not enabled for login/signup abuse prevention, set TALK_RECAPTCHA_SECRET and TALK_RECAPTCHA_PUBLIC to enable Recaptcha.');
 }
 
 /**
