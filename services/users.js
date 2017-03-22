@@ -473,7 +473,7 @@ module.exports = class UsersService {
           if (localProfile) {
             const options =
               {
-                template: 'email/suspension',              // needed to know which template to render!
+                template: 'suspension',              // needed to know which template to render!
                 locals: {                                  // specifies the template locals.
                   body: message
                 },
