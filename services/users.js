@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const ejs = require('ejs');
 const Wordlist = require('./wordlist');
 
 const errors = require('../errors');
@@ -474,7 +473,6 @@ module.exports = class UsersService {
           if (localProfile) {
             const options =
               {
-                app: ejs,                              // needed to render the templates.
                 template: 'email/suspension',              // needed to know which template to render!
                 locals: {                                  // specifies the template locals.
                   body: message
@@ -483,6 +481,7 @@ module.exports = class UsersService {
                 to: localProfile.id  // This only works if the user has registered via e-mail.
                                      // We may want a standard way to access a user's e-mail address in the future
               };
+
             return MailerService.sendSimple(options);
           } else {
             return Promise.reject(errors.ErrMissingEmail);
