@@ -3,6 +3,8 @@ import STREAM_QUERY from './streamQuery.graphql';
 import LOAD_MORE from './loadMore.graphql';
 import GET_COUNTS from './getCounts.graphql';
 import MY_COMMENT_HISTORY from './myCommentHistory.graphql';
+import uniqBy from 'lodash/uniqBy';
+import sortBy from 'lodash/sortBy';
 
 function getQueryVariable(variable) {
   let query = window.location.search.substring(1);
@@ -39,7 +41,7 @@ export const getCounts = (data) => ({asset_id, limit, sort}) => {
   });
 };
 
-export const loadMore = (data) => ({limit, cursor, parent_id, asset_id, sort}, newComments) => {
+export const loadMore = (data) => ({limit, cursor, parent_id = null, asset_id, sort}, newComments) => {
   return data.fetchMore({
     query: LOAD_MORE,
     variables: {
@@ -60,10 +62,18 @@ export const loadMore = (data) => ({limit, cursor, parent_id, asset_id, sort}, n
           ...oldData,
           asset: {
             ...oldData.asset,
-            comments: oldData.asset.comments.map((comment) =>
-              comment.id === parent_id
-              ? {...comment, replies: [...comment.replies, ...new_top_level_comments]}
-              : comment)
+            comments: oldData.asset.comments.map(comment => {
+
+              // since the dipslayed replies and the returned replies can overlap,
+              // pull out the unique ones.
+              const uniqueReplies = uniqBy([...new_top_level_comments, ...comment.replies], 'id');
+
+              // since we just gave the returned replies precedence, they're now out of order.
+              // resort according to date.
+              return comment.id === parent_id
+                ? {...comment, replies: sortBy(uniqueReplies, 'created_at')}
+                : comment;
+            })
           }
         };
       } else {

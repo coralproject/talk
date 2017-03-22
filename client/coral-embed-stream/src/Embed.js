@@ -202,6 +202,7 @@ class Embed extends Component {
               />
             <div className="embed__stream">
               <Stream
+                open={openStream}
                 addNotification={this.props.addNotification}
                 postItem={this.props.postItem}
                 setActiveReplyBox={this.setActiveReplyBox}
@@ -224,7 +225,7 @@ class Embed extends Component {
             topLevel={true}
             assetId={asset.id}
             comments={asset.comments}
-            moreComments={asset.commentCount > asset.comments.length}
+            moreComments={countCache[asset.id] > asset.comments.length}
             loadMore={this.props.loadMore}/>
         </TabContent>
          <TabContent show={activeTab === 1}>

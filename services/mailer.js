@@ -1,6 +1,9 @@
 const debug = require('debug')('talk:services:mailer');
 const nodemailer = require('nodemailer');
 const kue = require('./kue');
+const path = require('path');
+const fs = require('fs');
+const _ = require('lodash');
 
 const smtpRequiredProps = [
   'TALK_SMTP_FROM_ADDRESS',
@@ -12,6 +15,20 @@ const smtpRequiredProps = [
 if (smtpRequiredProps.some(prop => !process.env[prop])) {
   console.error(`${smtpRequiredProps.join(', ')} should be defined in the environment if you would like to send password reset emails from Talk`);
 }
+
+// load all the templates as strings
+const templateStrings = {};
+fs.readdir(path.join(__dirname, 'email'), (err, files) => {
+  if (err) {
+    throw err;
+  }
+
+  files.forEach(file => {
+    fs.readFile(path.join(__dirname, 'email', file), 'utf8', (err, data) => {
+      templateStrings[file] = _.template(data);
+    });
+  });
+});
 
 const options = {
   host: process.env.TALK_SMTP_HOST,
@@ -38,25 +55,7 @@ const mailer = module.exports = {
     name: 'mailer'
   }),
 
-  /**
-   * Render renders the template with the given locals and returns the rendered
-   * html/text.
-   */
-  render(app, template, locals = {}) {
-    return new Promise((resolve, reject) => {
-
-      // Render the template with the app.render method.
-      app.render(template, locals, (err, rendered) => {
-        if (err) {
-          return reject(err);
-        }
-
-        return resolve(rendered);
-      });
-    });
-  },
-
-  sendSimple({app, template, locals, to, subject}) {
+  sendSimple({template, locals, to, subject}) {
     if (!to) {
       return Promise.reject('sendSimple requires a comma-separated list of "to" addresses');
     }
@@ -71,10 +70,10 @@ const mailer = module.exports = {
     return Promise.all([
 
       // Render the HTML version of the email.
-      mailer.render(app, `${template}.ejs`, locals),
+      templateStrings[`${template}.ejs`](locals),
 
       // Render the TEXT version of the email.
-      mailer.render(app, `${template}.txt.ejs`, locals)
+      templateStrings[`${template}.txt.ejs`](locals)
     ])
     .then(([html, text]) => {
 

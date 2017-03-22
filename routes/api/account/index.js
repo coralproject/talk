@@ -59,8 +59,7 @@ router.post('/password/reset', (req, res, next) => {
       }
 
       return mailer.sendSimple({
-        app: req.app,                                 // needed to render the templates.
-        template: 'email/password-reset',             // needed to know which template to render!
+        template: 'password-reset',             // needed to know which template to render!
         locals: {                                     // specifies the template locals.
           token,
           rootURL: process.env.TALK_ROOT_URL
