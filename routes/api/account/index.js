@@ -104,7 +104,7 @@ router.put('/password/reset', (req, res, next) => {
     .then(([user, loc]) => {
       return Promise.all([UsersService.changePassword(user.id, password), loc]);
     })
-    .then(([_, loc]) => {
+    .then(([ , loc]) => {
       res.json({redirect: loc});
     })
     .catch(() => {
