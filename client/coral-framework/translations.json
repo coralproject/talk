@@ -15,7 +15,7 @@
     "viewReply": "view reply",
     "viewAllRepliesInitial": "view all {0} replies",
     "viewAllReplies": "view {0} replies",
-    "newCount": "View {0} more {1}",
+    "newCount": "View {0} new {1}",
     "comment": "comment",
     "comments": "comments",
     "error": {
@@ -46,7 +46,7 @@
     "contentNotAvailable": "El contenido no se encuentra disponible",
     "bannedAccountMsg": "Tu cuenta se encuentra suspendida. Esto significa que no puedes dar Like, Marcar o escribir commentarios.",
     "editNameMsg": "",
-    "viewMoreComments": "Var commentarios más",
+    "viewMoreComments": "Ver commentarios más",
     "viewReply": "ver respuesta",
     "viewAllRepliesInitial": "ver todas las {0} respuestas",
     "viewAllReplies": "ver {0} respuestas",
