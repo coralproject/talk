@@ -170,7 +170,7 @@ span {
   border-bottom: 1px solid #e0e0e0;
   font-size: 18px;
   width: 100%;
-  max-width: 660px;
+  max-width: 700px;
   min-width: 400px;
   margin: 0 auto;
   position: relative;
@@ -192,7 +192,7 @@ span {
   }
 
   &.selected {
-    max-width: 670px;
+    max-width: 720px;
     max-height: 410px;
   }
 
@@ -263,6 +263,7 @@ span {
     max-width: 500px;
     word-wrap: break-word;
     font-weight: 300;
+    font-size: 16px;
   }
 
   .flagged {
