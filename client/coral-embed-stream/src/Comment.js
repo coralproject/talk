@@ -43,6 +43,7 @@ class Comment extends React.Component {
 
     // id of currently opened ReplyBox. tracked in Stream.js
     activeReplyBox: PropTypes.string.isRequired,
+    disableReply: PropTypes.bool,
     setActiveReplyBox: PropTypes.func.isRequired,
     showSignInDialog: PropTypes.func.isRequired,
     postFlag: PropTypes.func.isRequired,
@@ -109,6 +110,7 @@ class Comment extends React.Component {
       deleteAction,
       addCommentTag,
       removeCommentTag,
+      disableReply,
     } = this.props;
 
     const like = getActionSummary('LikeActionSummary', comment);
@@ -167,13 +169,16 @@ class Comment extends React.Component {
                 showSignInDialog={showSignInDialog}
                 currentUser={currentUser} />
             </ActionButton>
-            <ActionButton>
-              <ReplyButton
-                onClick={() => setActiveReplyBox(comment.id)}
-                parentCommentId={parentId || comment.id}
-                currentUserId={currentUser && currentUser.id}
-                banned={false} />
-            </ActionButton>
+            {
+              !disableReply &&
+              <ActionButton>
+                <ReplyButton
+                  onClick={() => setActiveReplyBox(comment.id)}
+                  parentCommentId={parentId || comment.id}
+                  currentUserId={currentUser && currentUser.id}
+                  banned={false} />
+              </ActionButton>
+            }
             <ActionButton>
               <IfUserCanModifyBest user={currentUser}>
                 <BestButton
@@ -218,6 +223,7 @@ class Comment extends React.Component {
           comment.replies.map(reply => {
             return <Comment
               setActiveReplyBox={setActiveReplyBox}
+              disableReply={disableReply}
               activeReplyBox={activeReplyBox}
               addNotification={addNotification}
               parentId={comment.id}
