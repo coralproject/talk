@@ -12,8 +12,6 @@ dump.rdb
 *.cfg
 .idea/
 coverage/
-.tags
-.tags1
 
 # remove plugin folders
 plugins

@@ -176,10 +176,9 @@ const USER_GRAPH_OPERATIONS = [
   'mutation:deleteAction',
   'mutation:editName',
   'mutation:setUserStatus',
-  'mutation:suspendUser',
   'mutation:setCommentStatus',
   'mutation:addCommentTag',
-  'mutation:removeCommentTag'
+  'mutation:removeCommentTag',
 ];
 
 /**
@@ -195,7 +194,7 @@ UserSchema.method('can', function(...actions) {
     return false;
   }
 
-  if (actions.some((action) => action === 'mutation:setUserStatus' || action === 'mutation:suspendUser' || action === 'mutation:setCommentStatus') && !this.hasRoles('ADMIN')) {
+  if (actions.some((action) => action === 'mutation:setUserStatus' || action === 'mutation:setCommentStatus') && !this.hasRoles('ADMIN')) {
     return false;
   }
 

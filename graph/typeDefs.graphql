@@ -45,9 +45,6 @@ type User {
   # returns all comments based on a query.
   comments(query: CommentsQuery): [Comment]
 
-  # returns all users based on a query.
-  users(query: UsersQuery): [User]
-
   # returns user status
   status: USER_STATUS
 }
@@ -61,20 +58,6 @@ type Tag {
 
   # the time when the tag was assigned.
   created_at: Date!
-}
-
-# UsersQuery allows the ability to query users by a specific fields.
-input UsersQuery {
-  action_type: ACTION_TYPE
-
-  # Limit the number of results to be returned.
-  limit: Int = 10
-
-  # Skip results from the last created_at timestamp.
-  cursor: Date
-
-  # Sort the results by created_at.
-  sort: SORT_ORDER = REVERSE_CHRONOLOGICAL
 }
 
 ################################################################################
@@ -537,9 +520,6 @@ type RootQuery {
   # role.
   me: User
 
-  # Users returned based on a query.
-  users(query: UsersQuery): [User]
-
   # Asset metrics related to user actions are saturated into the assets
   # returned.
   assetMetrics(from: Date!, to: Date!, sort: ASSET_METRICS_SORT!, limit: Int = 10): [Asset!]
@@ -673,14 +653,6 @@ type SetUserStatusResponse implements Response {
   errors: [UserError]
 }
 
-# SuspendUserResponse is the response returned with possibly some errors
-# relating to the suspend action attempt.
-type SuspendUserResponse implements Response {
-
-  # An array of errors relating to the mutation that occurred.
-  errors: [UserError]
-}
-
 # SetCommentStatusResponse is the response returned with possibly some errors
 # relating to the delete action attempt.
 type SetCommentStatusResponse implements Response {
@@ -723,9 +695,6 @@ type RootMutation {
 
   # Sets User status. Requires the `ADMIN` role.
   setUserStatus(id: ID!, status: USER_STATUS!): SetUserStatusResponse
-
-  # Sets User status to BANNED and canEditName to true. It sends a message to the banned User. Requires the `ADMIN` role.
-  suspendUser(id: ID!, message: String): SuspendUserResponse
 
   # Sets Comment status. Requires the `ADMIN` role.
   setCommentStatus(id: ID!, status: COMMENT_STATUS!): SetCommentStatusResponse
