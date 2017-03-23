@@ -121,7 +121,7 @@ class Embed extends Component {
         <div className="commentStream">
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count count={asset.commentCount}/></Tab>
-            <Tab>{lang.t('MY_COMMENTSg')}</Tab>
+            <Tab>{lang.t('MY_COMMENTS')}</Tab>
             <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>
           {loggedIn && <UserBox user={user} logout={() => this.props.logout().then(refetch)}  changeTab={this.changeTab}/>}
