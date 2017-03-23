@@ -1,4 +1,4 @@
-const SettingsService = require('../../services/settings');
+const SettingsService = require('../../../services/settings');
 const expect = require('chai').expect;
 
 describe('services.SettingsService', () => {

@@ -1,5 +1,5 @@
-const UsersService = require('../../services/users');
-const SettingsService = require('../../services/settings');
+const UsersService = require('../../../services/users');
+const SettingsService = require('../../../services/settings');
 
 const expect = require('chai').expect;
 

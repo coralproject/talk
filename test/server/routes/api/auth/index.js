@@ -1,10 +1,10 @@
-const app = require('../../../../app');
+const app = require('../../../../../app');
 const chai = require('chai');
 const expect = chai.expect;
 
 chai.use(require('chai-http'));
 
-const UsersService = require('../../../../services/users');
+const UsersService = require('../../../../../services/users');
 
 describe('/api/v1/auth', () => {
   describe('#get', () => {
@@ -19,7 +19,7 @@ describe('/api/v1/auth', () => {
   });
 });
 
-const SettingsService = require('../../../../services/settings');
+const SettingsService = require('../../../../../services/settings');
 
 describe('/api/v1/auth/local', () => {
 

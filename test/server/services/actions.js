@@ -1,5 +1,5 @@
-const ActionModel = require('../../models/action');
-const ActionsService = require('../../services/actions');
+const ActionModel = require('../../../models/action');
+const ActionsService = require('../../../services/actions');
 
 const expect = require('chai').expect;
 

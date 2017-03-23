@@ -1,13 +1,13 @@
 const passport = require('../../../passport');
 
-const app = require('../../../../app');
+const app = require('../../../../../app');
 const chai = require('chai');
 const expect = chai.expect;
 
 chai.should();
 chai.use(require('chai-http'));
 
-const SettingsService = require('../../../../services/settings');
+const SettingsService = require('../../../../../services/settings');
 const defaults = {id: '1', moderation: 'PRE'};
 
 describe('/api/v1/settings', () => {

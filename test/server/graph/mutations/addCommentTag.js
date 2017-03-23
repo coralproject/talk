@@ -1,11 +1,11 @@
 const expect = require('chai').expect;
 const {graphql} = require('graphql');
 
-const schema = require('../../../graph/schema');
-const Context = require('../../../graph/context');
-const UserModel = require('../../../models/user');
-const SettingsService = require('../../../services/settings');
-const CommentsService = require('../../../services/comments');
+const schema = require('../../../../graph/schema');
+const Context = require('../../../../graph/context');
+const UserModel = require('../../../../models/user');
+const SettingsService = require('../../../../services/settings');
+const CommentsService = require('../../../../services/comments');
 
 describe('graph.mutations.addCommentTag', () => {
   let comment;

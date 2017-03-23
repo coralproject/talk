@@ -1,6 +1,6 @@
 const passport = require('../../../passport');
 
-const app = require('../../../../app');
+const app = require('../../../../../app');
 const chai = require('chai');
 const expect = chai.expect;
 
@@ -8,9 +8,9 @@ const expect = chai.expect;
 chai.should();
 chai.use(require('chai-http'));
 
-const AssetModel = require('../../../../models/asset');
-const AssetsService = require('../../../../services/assets');
-const SettingsService = require('../../../../services/settings');
+const AssetModel = require('../../../../../models/asset');
+const AssetsService = require('../../../../../services/assets');
+const SettingsService = require('../../../../../services/settings');
 
 describe('/api/v1/assets', () => {
 

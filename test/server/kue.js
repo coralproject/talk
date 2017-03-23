@@ -1,4 +1,4 @@
-const kue = require('../services/kue');
+const kue = require('../../services/kue');
 
 beforeEach(() => {
 

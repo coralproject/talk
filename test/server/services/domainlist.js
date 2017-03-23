@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
-const Domainlist = require('../../services/domainlist');
-const SettingsService = require('../../services/settings');
+const Domainlist = require('../../../services/domainlist');
+const SettingsService = require('../../../services/settings');
 
 describe('services.Domainlist', () => {
 

@@ -1,10 +1,10 @@
-const CommentModel = require('../../models/comment');
-const ActionModel = require('../../models/action');
+const CommentModel = require('../../../models/comment');
+const ActionModel = require('../../../models/action');
 
-const ActionsService = require('../../services/actions');
-const UsersService = require('../../services/users');
-const SettingsService = require('../../services/settings');
-const CommentsService = require('../../services/comments');
+const ActionsService = require('../../../services/actions');
+const UsersService = require('../../../services/users');
+const SettingsService = require('../../../services/settings');
+const CommentsService = require('../../../services/comments');
 
 const settings = {id: '1', moderation: 'PRE', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
 

@@ -1,6 +1,6 @@
-const AssetModel = require('../../models/asset');
-const AssetsService = require('../../services/assets');
-const SettingsService = require('../../services/settings');
+const AssetModel = require('../../../models/asset');
+const AssetsService = require('../../../services/assets');
+const SettingsService = require('../../../services/settings');
 
 const chai = require('chai');
 const expect = chai.expect;

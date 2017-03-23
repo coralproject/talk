@@ -1,12 +1,12 @@
 const expect = require('chai').expect;
 const {graphql} = require('graphql');
 
-const schema = require('../../../graph/schema');
-const Context = require('../../../graph/context');
-const UserModel = require('../../../models/user');
-const AssetModel = require('../../../models/asset');
-const SettingsService = require('../../../services/settings');
-const ActionModel = require('../../../models/action');
+const schema = require('../../../../graph/schema');
+const Context = require('../../../../graph/context');
+const UserModel = require('../../../../models/user');
+const AssetModel = require('../../../../models/asset');
+const SettingsService = require('../../../../services/settings');
+const ActionModel = require('../../../../models/action');
 
 describe('graph.mutations.createComment', () => {
   beforeEach(() => SettingsService.init());

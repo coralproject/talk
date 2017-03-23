@@ -1,8 +1,8 @@
 const expect = require('chai').expect;
 
-const User = require('../../models/user');
-const Context = require('../../graph/context');
-const errors = require('../../errors');
+const User = require('../../../models/user');
+const Context = require('../../../graph/context');
+const errors = require('../../../errors');
 
 describe('graph.Context', () => {
 

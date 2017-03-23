@@ -1,4 +1,4 @@
-const mongoose = require('./helpers/mongoose');
+const mongoose = require('../helpers/mongoose');
 
 before(function(done) {
   this.timeout(30000);
