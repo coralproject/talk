@@ -25,8 +25,8 @@
     "other": "Other"
   },
   "es": {
-    "report": "Informe",
-    "reported": "Informado",
+    "report": "Marca",
+    "reported": "Marcado",
     "report-notif": "Gracias por marcar este comentario. Nuestro equipo de moderación ha sido notificado y muy pronto lo va a revisar.",
     "report-notif-remove": "Tu marca ha sido eliminada.",
     "step-1-header": "Reportar un problema",
@@ -40,13 +40,13 @@
     "comment-offensive": "Este comentario es ofensivo",
     "personal-info": "Este comentario muestra información personal",
     "username-offensive": "Este nombre de usuario es ofensivo",
-    "no-like-username": "No me gusta ese nombre de usuario",
-    "bio-offensive": "Esta bio es ofensiva",
-    "no-like-bio": "No me gusta esta bio",
-    "user-impersonating": "Este usario suplanta a alguien",
-    "marketing": "Esto parece una publicidad/marketing",
-    "thank-you": "Nos interesa tu protección y comentarios. Un moderador va a mirar tu marca.",
-    "flag-reason": "Razón por la que marcar (Opcional)",
+    "no-like-username": "No me gusta este nombre de usuario",
+    "bio-offensive": "Esta biografia es ofensiva",
+    "no-like-bio": "No me gusta esta biografia",
+    "user-impersonating": "Este usuario suplanta a alguien",
+    "marketing": "Esto parece una propaganda",
+    "thank-you": "Valoramos tu seguridad en el espacio y comentarios. Un o una moderadora va a mirar tu reporte.",
+    "flag-reason": "Razón por la que hacer este reporte (Opcional)",
     "other": "Otro"
   }
 }

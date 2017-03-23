@@ -13,12 +13,12 @@
   "es": {
     "post": "Publicar",
     "cancel": "Cancelar",
-    "reply": "Respuesta",
-    "comment": "Escribe un Comentario",
+    "reply": "Responder",
+    "comment": "Publicar un Comentario",
     "name": "Nombre",
     "comment-post-notif": "Tu comentario ha sido publicado.",
-    "comment-post-notif-premod": "Gracias por comentar. Nuestro equipo de moderación va a revisarlo muy pronto.",
-    "comment-post-banned-word":  "Tu comentario contiene una o más palabras que no estan permitidasen nuestro espacio, por lo que no será publicado. Si crees que es un error, por favor contacta a nuestro equipo de moderación.",
+    "comment-post-notif-premod": "Gracias por el comentario. Nuestro equipo de moderación va a revisarlo muy pronto.",
+    "comment-post-banned-word":  "Tu comentario contiene una o más palabras que no estan permitidas en nuestro espacio, por lo que no será publicado. Si crees que es un error, por favor contacta a nuestro equipo de moderación.",
     "characters-remaining": "carácteres restantes"
   }
 }

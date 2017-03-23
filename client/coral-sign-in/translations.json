@@ -47,15 +47,15 @@
       "permalink": "Link"
     },
     "report": "Report",
-    "like": "Like",
+    "like": "Like"
   },
   "es": {
     "signIn": {
-      "emailVerifyCTA": "Por favor verifique su correo electronico.",
+      "emailVerifyCTA": "Por favor verifique su e-mail.",
       "requestNewVerifyEmail": "Enviar otro correo:",
       "verifyEmail": "¡Gracias por crear una cuenta! Le enviamos un correo a la dirección que dio para verificar su cuenta.",
       "verifyEmail2": "Debe verificarla antes de poder involucrarse en la comunidad.",
-      "notYou": "No eres tu?",
+      "notYou": "¿No eres tu?",
       "loggedInAs": "Entraste como",
       "facebookSignIn": "Entrar con Facebook",
       "facebookSignUp": "Regístrate con Facebook",
@@ -64,16 +64,16 @@
       "or": "o",
       "email": "E-mail",
       "password": "Contraseña",
-      "forgotYourPass": "Has olvidado tu contraseña?",
-      "needAnAccount": "Necesitas una cuenta?",
+      "forgotYourPass": "¿Has olvidado tu contraseña?",
+      "needAnAccount": "¿Necesitas una cuenta?",
       "register": "Regístrate",
       "signUp": "Registro",
       "confirmPassword": "Confirmar Contraseña",
       "username": "Nombre",
-      "alreadyHaveAnAccount": "Ya tienes una cuenta?",
+      "alreadyHaveAnAccount": "¿Ya tienes una cuenta?",
       "recoverPassword": "Recuperar contraseña",
-      "emailInUse": "Este email se encuentra en uso",
-      "emailORusernameInUse": "Este email ó nombre se encuentran en uso",
+      "emailInUse": "Este e-mail se encuentra en uso",
+      "emailORusernameInUse": "Este e-mail ó nombre de usuario se encuentran en uso",
       "requiredField": "Este campo es requerido",
       "passwordsDontMatch": "Las contraseñas no coinciden",
       "specialCharacters": "Los nombres pueden contener letras, números y _",
@@ -90,13 +90,13 @@
       "fakecommentbody": "Este es un comentario de ejemplo. Las lectoras pueden compartir sus ideas  y opiniones con los periodistas en la sección de comentarios.",
       "requiredField": "Campo necesario",
       "errorCreate": "Hubo un error al cambiar el nombre de usuario",
-      "checkTheForm": "Formulario Invalido. Por favor, verifica los campos",
+      "checkTheForm": "Formulario Inválido. Por favor, verifica los campos",
       "specialCharacters": "Sólo pueden contener letras, números y _"
     },
     "permalink": {
       "permalink": "Enlace"
     },
-    "report": "Informe",
-    "like": "Me gusta",
+    "report": "Marcar",
+    "like": "Me gusta"
   }
 }
