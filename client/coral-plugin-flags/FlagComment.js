@@ -23,14 +23,14 @@ const getPopupMenu = [
       {val: 'This comment is offensive', text: lang.t('comment-offensive')},
       {val: 'This looks like an ad/marketing', text: lang.t('marketing')},
       {val: 'I don\'t agree with this comment', text: lang.t('no-agree-comment')},
-      {val: 'Other', text: lang.t('other')}
+      {val: 'other', text: lang.t('other')}
     ]
     : [
       {val: 'This username is offensive', text: lang.t('username-offensive')},
       {val: 'I don\'t like this username', text: lang.t('no-like-username')},
       {val: 'This user is impersonating', text: lang.t('user-impersonating')},
       {val: 'This looks like an ad/marketing', text: lang.t('marketing')},
-      {val: 'Other', text: lang.t('other')}
+      {val: 'other', text: lang.t('other')}
     ];
     return {
       header: lang.t('step-2-header'),

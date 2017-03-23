@@ -2,7 +2,7 @@ import * as actions from '../constants/asset';
 import coralApi from '../helpers/response';
 import {addNotification} from '../actions/notification';
 
-import I18n from 'coral-framework/modules/i18n/i18n';
+import I18n from '../../coral-framework/modules/i18n/i18n';
 import translations from './../translations';
 const lang = new I18n(translations);
 
