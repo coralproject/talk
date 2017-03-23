@@ -121,8 +121,12 @@ module.exports = {
     })
   ],
   resolve: {
+    alias: {
+      plugins: path.resolve(__dirname, 'plugins/index.js'),
+    },
     modules: [
       path.resolve(__dirname, 'client'),
+      path.resolve(__dirname, 'plugins'),
       ...buildTargets.map(target => path.join(__dirname, 'client', target, 'src')),
       ...buildEmbeds.map(embed => path.join(__dirname, 'client', `coral-embed-${embed}`, 'src')),
       'node_modules'

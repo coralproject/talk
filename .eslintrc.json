@@ -5,8 +5,16 @@
     },
     "extends": "eslint:recommended",
     "parserOptions": {
-        "ecmaVersion": 2017
+        "ecmaVersion": 2017,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true,
+            "experimentalObjectRestSpread": true
+        }
     },
+    "plugins": [
+        "react"
+    ],
     "rules": {
         "indent": ["error",
             2
@@ -53,6 +61,8 @@
         }],
         "newline-per-chained-call": ["error", {
             "ignoreChainWithDepth": 2
-        }]
+        }],
+        "react/jsx-uses-react": "error",
+        "react/jsx-uses-vars": "error"
     }
 }

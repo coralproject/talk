@@ -19,6 +19,7 @@ import FlagComment from 'coral-plugin-flags/FlagComment';
 import LikeButton from 'coral-plugin-likes/LikeButton';
 import {BestButton, IfUserCanModifyBest, BEST_TAG, commentIsBest, BestIndicator} from 'coral-plugin-best/BestButton';
 import LoadMore from 'coral-embed-stream/src/LoadMore';
+import Pluggable from './Pluggable';
 
 import styles from './Comment.css';
 
@@ -168,7 +169,6 @@ class Comment extends React.Component {
                 deleteAction={deleteAction}
                 showSignInDialog={showSignInDialog}
                 currentUser={currentUser} />
-
             </ActionButton>
             {
               !disableReply &&
@@ -189,6 +189,7 @@ class Comment extends React.Component {
               </IfUserCanModifyBest>
             </ActionButton>
           </div>
+          <Pluggable/>
         <div className="commentActionsRight comment__action-container">
           <ActionButton>
             <PermalinkButton articleURL={asset.url} commentId={comment.id} />
