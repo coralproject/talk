@@ -168,6 +168,7 @@ class Comment extends React.Component {
                 deleteAction={deleteAction}
                 showSignInDialog={showSignInDialog}
                 currentUser={currentUser} />
+
             </ActionButton>
             {
               !disableReply &&
