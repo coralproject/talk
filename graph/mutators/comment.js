@@ -45,8 +45,11 @@ const createComment = ({user, loaders: {Comments}, pubsub}, {body, asset_id, par
       }
       Comments.countByAssetID.incr(asset_id);
 
-      // Publish the newly added comment via the subscription.
-      pubsub.publish('commentAdded', comment);
+      if (pubsub) {
+
+        // Publish the newly added comment via the subscription.
+        pubsub.publish('commentAdded', comment);
+      }
     }
 
     return comment;
