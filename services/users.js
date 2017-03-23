@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const url = require('url');
 const jwt = require('jsonwebtoken');
 const Wordlist = require('./wordlist');
 const errors = require('../errors');
@@ -13,6 +14,7 @@ const USER_ROLES = require('../models/user').USER_ROLES;
 const RECAPTCHA_WINDOW_SECONDS = 60 * 10; // 10 minutes.
 const RECAPTCHA_INCORRECT_TRIGGER = 5; // after 3 incorrect attempts, recaptcha will be required.
 
+const SettingsService = require('./settings');
 const ActionsService = require('./actions');
 
 // In the event that the TALK_SESSION_SECRET is missing but we are testing, then
@@ -485,14 +487,28 @@ module.exports = class UsersService {
 
     email = email.toLowerCase();
 
-    return UserModel.findOne({profiles: {$elemMatch: {id: email}}})
-      .then((user) => {
+    return Promise.all([
+      UserModel.findOne({profiles: {$elemMatch: {id: email}}}),
+      SettingsService.retrieve()
+    ])
+      .then(([user, settings]) => {
         if (!user) {
 
           // Since we don't want to reveal that the email does/doesn't exist
           // just go ahead and resolve the Promise with null and check in the
           // endpoint.
           return;
+        }
+
+        let redirectDomain;
+        try {
+          redirectDomain = url.parse(loc).hostname;
+        } catch (e) {
+          return Promise.reject('redirect location is invalid');
+        }
+
+        if (settings.domains.whitelist.indexOf(redirectDomain) === -1) {
+          return Promise.reject('redirect location is not on the list of acceptable domains');
         }
 
         const payload = {
