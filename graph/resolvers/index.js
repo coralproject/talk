@@ -16,6 +16,7 @@ const LikeAction = require('./like_action');
 const RootMutation = require('./root_mutation');
 const RootQuery = require('./root_query');
 const Settings = require('./settings');
+const Subscription = require('./subscription');
 const UserError = require('./user_error');
 const User = require('./user');
 const ValidationUserError = require('./validation_user_error');
@@ -39,6 +40,7 @@ let resolvers = {
   RootMutation,
   RootQuery,
   Settings,
+  Subscription,
   UserError,
   User,
   ValidationUserError,

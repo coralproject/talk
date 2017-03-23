@@ -16,7 +16,7 @@ const Wordlist = require('../../services/wordlist');
  * @param  {String} [status='NONE'] the status of the new comment
  * @return {Promise}              resolves to the created comment
  */
-const createComment = ({user, loaders: {Comments}}, {body, asset_id, parent_id = null}, status = 'NONE') => {
+const createComment = ({user, loaders: {Comments}, pubsub}, {body, asset_id, parent_id = null}, status = 'NONE') => {
 
   let tags = [];
   if (user.hasRoles('ADMIN') || user.hasRoles('MODERATOR')) {
@@ -44,6 +44,9 @@ const createComment = ({user, loaders: {Comments}}, {body, asset_id, parent_id =
         Comments.parentCountByAssetID.incr(asset_id);
       }
       Comments.countByAssetID.incr(asset_id);
+
+      // Publish the newly added comment via the subscription.
+      pubsub.publish('commentAdded', comment);
     }
 
     return comment;

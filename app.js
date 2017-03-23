@@ -83,6 +83,8 @@ app.use(passport.session());
 // GraphQL Router
 //==============================================================================
 
+graph.createSubscriptionManager(app, '/api/v1/live');
+
 // GraphQL endpoint.
 app.use('/api/v1/graph/ql', apollo.graphqlExpress(graph.createGraphOptions));
 

@@ -2,12 +2,13 @@
 
 const app = require('../app');
 const program = require('./commander');
-const http = require('http');
+const {createServer} = require('http');
 const scraper = require('../services/scraper');
 const mailer = require('../services/mailer');
 const kue = require('../services/kue');
 const mongoose = require('../services/mongoose');
 const util = require('./util');
+const {createSubscriptionManager} = require('../graph');
 
 /**
 * Get port from environment and store in Express.
@@ -20,7 +21,7 @@ app.set('port', port);
 /**
 * Create HTTP server.
 */
-const server = http.createServer(app);
+const server = createServer(app);
 
 /**
  * Event listener for HTTP server "error" event.
@@ -89,7 +90,10 @@ function startApp() {
   /**
   * Listen on provided port, on all network interfaces.
   */
-  server.listen(port);
+  server.listen(port, () => {
+    createSubscriptionManager(server, '/api/v1/live');
+  });
+
   server.on('error', onError);
   server.on('listening', onListening);
 }

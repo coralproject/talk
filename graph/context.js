@@ -31,7 +31,7 @@ const decorateContextPlugins = (context, contextPlugins) => contextPlugins.reduc
  * Stores the request context.
  */
 class Context {
-  constructor({user = null}) {
+  constructor({user = null}, pubsub) {
 
     // Load the current logged in user to `user`, otherwise this'll be null.
     if (user) {
@@ -46,6 +46,9 @@ class Context {
 
     // Decorate the plugin context.
     this.plugins = decorateContextPlugins(this, contextPlugins);
+
+    // Bind the publish/subscribe to the context.
+    this.pubsub = pubsub;
   }
 }
 

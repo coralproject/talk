@@ -13,7 +13,8 @@ const buildTargets = [
 ];
 
 const buildEmbeds = [
-  'stream'
+  'stream',
+  'live-stream'
 ];
 
 module.exports = {
