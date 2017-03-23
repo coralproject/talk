@@ -1,9 +1,10 @@
 .Reply {
   position: relative;
+  margin-bottom: 15px;
 }
 
 .Comment {
-
+  margin-bottom: 15px;
 }
 
 .pendingComment {
