@@ -1,7 +1,0 @@
-mutation suspendUser($userId: ID!, $message: String) {
-  suspendUser(id: $userId, message: $message) {
-    errors {
-      translation_key
-    }
-  }
-}
