@@ -456,7 +456,7 @@ module.exports = class UsersService {
    * @param  {Function} done callback after the operation is complete
    */
   static suspendUser(id, message) {
-    return UserModel.update({
+    return UserModel.findOneAndUpdate({
       id
     }, {
       $set: {
@@ -464,31 +464,27 @@ module.exports = class UsersService {
         canEditName: true
       }
     })
-    .then(() => {
-      return UsersService.findById(id)
-      .then((user) => {
-        if (message) {
-          let localProfile = user.profiles.find((profile) => profile.provider === 'local');
+    .then((user) => {
+      if (message) {
+        let localProfile = user.profiles.find((profile) => profile.provider === 'local');
 
-          if (localProfile) {
-            const options =
-              {
-                template: 'suspension',              // needed to know which template to render!
-                locals: {                                  // specifies the template locals.
-                  body: message
-                },
-                subject: 'Email Suspension',
-                to: localProfile.id  // This only works if the user has registered via e-mail.
-                                     // We may want a standard way to access a user's e-mail address in the future
-              };
+        if (localProfile) {
+          const options =
+            {
+              template: 'suspension',              // needed to know which template to render!
+              locals: {                                  // specifies the template locals.
+                body: message
+              },
+              subject: 'Email Suspension',
+              to: localProfile.id  // This only works if the user has registered via e-mail.
+                                   // We may want a standard way to access a user's e-mail address in the future
+            };
 
-            return MailerService.sendSimple(options);
-          } else {
-            return Promise.reject(errors.ErrMissingEmail);
-          }
+          return MailerService.sendSimple(options);
+        } else {
+          return Promise.reject(errors.ErrMissingEmail);
         }
-      });
-
+      }
     });
   }
 
