@@ -185,6 +185,8 @@
     justify-content: space-between;
 
     .author {
+      font-size: 16px;
+      font-weight: bold;
       min-width: 230px;
       display: flex;
       align-items: center;
@@ -223,7 +225,6 @@
     color: black;
     max-width: 500px;
     word-wrap: break-word;
-    font-weight: 300;
   }
 
   .flagged {
@@ -314,13 +315,19 @@
 .flaggedBy {
   display: inline;
   padding: 3px;
+  font-size: 16px;
 }
 
 .flaggedByLabel {
   font-weight: bold;
+  font-size: 14px;
 }
 
 .flaggedReasons {
   padding-top: 15px;
   margin-left: 24px;
+}
+
+.flaggedByReason {
+  font-size: 1tpx;
 }
