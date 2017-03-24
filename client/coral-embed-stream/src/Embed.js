@@ -121,7 +121,7 @@ class Embed extends Component {
         <div className="commentStream">
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count count={asset.commentCount}/></Tab>
-            <Tab>{lang.t('profile')}</Tab>
+            <Tab>{lang.t('MY_COMMENTS')}</Tab>
             <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>
           {loggedIn && <UserBox user={user} logout={() => this.props.logout().then(refetch)}  changeTab={this.changeTab}/>}
@@ -160,7 +160,6 @@ class Embed extends Component {
                         charCount={asset.settings.charCountEnable && asset.settings.charCount} />
                      : null
                    }
-                   <ModerationLink assetId={asset.id} isAdmin={isAdmin} />
                  </RestrictedContent>
                  </div>
                : <p>{asset.settings.closedMessage}</p>
@@ -170,6 +169,7 @@ class Embed extends Component {
               refetch={refetch}
               offset={signInOffset}/>}
             {loggedIn &&  user && <ChangeUsernameContainer loggedIn={loggedIn} offset={signInOffset} user={user} />}
+            {loggedIn && <ModerationLink assetId={asset.id} isAdmin={isAdmin} />}
             {
               highlightedComment &&
               <Comment

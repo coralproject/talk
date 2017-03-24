@@ -44,14 +44,15 @@ class LoadMore extends React.Component {
   render () {
     const {assetId, comments, loadMore, moreComments, parentId, replyCount, topLevel} = this.props;
     return moreComments
-      ? <Button
-        className='coral-load-more'
-        onClick={() => {
-          this.initialState = false;
-          loadMoreComments(assetId, comments, loadMore, parentId);
-        }}>
-        {topLevel ? lang.t('viewMoreComments') : this.replyCountFormat(replyCount)}
-      </Button>
+      ? <div className='coral-load-more'>
+        <Button
+          onClick={() => {
+            this.initialState = false;
+            loadMoreComments(assetId, comments, loadMore, parentId);
+          }}>
+          {topLevel ? lang.t('viewMoreComments') : this.replyCountFormat(replyCount)}
+        </Button>
+      </div>
       : null;
   }
 }

@@ -167,7 +167,16 @@ Talk.render = function (el, opts) {
     el.id = `_${Math.random()}`;
   }
 
-  let asset_url = opts.asset_url || window.location.href.split('#')[0];
+  let asset_url = opts.asset_url;
+  if (!asset_url) {
+    try {
+      asset_url = document.querySelector('link[rel="canonical"]').href;
+    } catch (e) {
+      console.warn('This page does not include a canonical link tag. Talk has inferred this asset_url from the window object. Query params have been stripped, which may cause a single thread to be present across multiple pages.');
+      asset_url = window.location.origin + window.location.pathname;
+    }
+  }
+
   let comment = window.location.hash.slice(1);
 
   let query = {
