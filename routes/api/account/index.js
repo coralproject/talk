@@ -41,14 +41,14 @@ router.post('/email/verify', (req, res, next) => {
  * if it does, create a JWT and send an email
  */
 router.post('/password/reset', (req, res, next) => {
-  const {email} = req.body;
+  const {email, loc} = req.body;
 
   if (!email) {
     return next('you must submit an email when requesting a password.');
   }
 
   UsersService
-    .createPasswordResetToken(email)
+    .createPasswordResetToken(email, loc)
     .then((token) => {
 
       // Check to see if the token isn't defined.
@@ -101,11 +101,11 @@ router.put('/password/reset', (req, res, next) => {
 
   UsersService
     .verifyPasswordResetToken(token)
-    .then((user) => {
-      return UsersService.changePassword(user.id, password);
+    .then(([user, loc]) => {
+      return Promise.all([UsersService.changePassword(user.id, password), loc]);
     })
-    .then(() => {
-      res.status(204).end();
+    .then(([ , loc]) => {
+      res.json({redirect: loc});
     })
     .catch(() => {
       next(authorization.ErrNotAuthorized);

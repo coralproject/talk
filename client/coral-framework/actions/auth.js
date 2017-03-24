@@ -1,8 +1,9 @@
-import I18n from 'coral-framework/modules/i18n/i18n';
+import I18n from '../../coral-framework/modules/i18n/i18n';
 import translations from './../translations';
 const lang = new I18n(translations);
 import * as actions from '../constants/auth';
 import coralApi, {base} from '../helpers/response';
+import {pym} from 'coral-framework';
 
 // Dialog Actions
 export const showSignInDialog = (offset = 0) => ({type: actions.SHOW_SIGNIN_DIALOG, offset});
@@ -135,7 +136,8 @@ const forgotPassowordFailure = () => ({type: actions.FETCH_FORGOT_PASSWORD_FAILU
 
 export const fetchForgotPassword = email => (dispatch) => {
   dispatch(forgotPassowordRequest(email));
-  coralApi('/account/password/reset', {method: 'POST', body: {email}})
+  const redirectUri = pym.parentUrl || location.href;
+  coralApi('/account/password/reset', {method: 'POST', body: {email, loc: redirectUri}})
     .then(() => dispatch(forgotPassowordSuccess()))
     .catch(error => dispatch(forgotPassowordFailure(error)));
 };

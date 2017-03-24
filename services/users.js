@@ -1,11 +1,9 @@
 const bcrypt = require('bcrypt');
+const url = require('url');
 const jwt = require('jsonwebtoken');
 const Wordlist = require('./wordlist');
-
 const errors = require('../errors');
-
 const uuid = require('uuid');
-
 const redis = require('./redis');
 const redisClient = redis.createClient();
 
@@ -16,8 +14,9 @@ const USER_ROLES = require('../models/user').USER_ROLES;
 const RECAPTCHA_WINDOW_SECONDS = 60 * 10; // 10 minutes.
 const RECAPTCHA_INCORRECT_TRIGGER = 5; // after 3 incorrect attempts, recaptcha will be required.
 
+const SettingsService = require('./settings');
 const ActionsService = require('./actions');
-const MailerService = require('./mailer');
+const MailerService = require ('./mailer');
 
 // In the event that the TALK_SESSION_SECRET is missing but we are testing, then
 // set the process.env.TALK_SESSION_SECRET.
@@ -520,15 +519,18 @@ module.exports = class UsersService {
    * Creates a JWT from a user email. Only works for local accounts.
    * @param {String} email of the local user
    */
-  static createPasswordResetToken(email) {
+  static createPasswordResetToken(email, loc) {
     if (!email || typeof email !== 'string') {
       return Promise.reject('email is required when creating a JWT for resetting passord');
     }
 
     email = email.toLowerCase();
 
-    return UserModel.findOne({profiles: {$elemMatch: {id: email}}})
-      .then((user) => {
+    return Promise.all([
+      UserModel.findOne({profiles: {$elemMatch: {id: email}}}),
+      SettingsService.retrieve()
+    ])
+      .then(([user, settings]) => {
         if (!user) {
 
           // Since we don't want to reveal that the email does/doesn't exist
@@ -537,9 +539,21 @@ module.exports = class UsersService {
           return;
         }
 
+        let redirectDomain;
+        try {
+          redirectDomain = url.parse(loc).hostname;
+        } catch (e) {
+          return Promise.reject('redirect location is invalid');
+        }
+
+        if (settings.domains.whitelist.indexOf(redirectDomain) === -1) {
+          return Promise.reject('redirect location is not on the list of acceptable domains');
+        }
+
         const payload = {
           jti: uuid.v4(),
           email,
+          loc,
           userId: user.id,
           version: user.__v
         };
@@ -584,7 +598,9 @@ module.exports = class UsersService {
       })
 
       // TODO: add search by __v as well
-      .then((decoded) => UsersService.findById(decoded.userId));
+      .then((decoded) => {
+        return Promise.all([UsersService.findById(decoded.userId), decoded.loc]);
+      });
   }
 
   /**

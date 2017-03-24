@@ -1,5 +1,3 @@
-@custom-media --big-viewport (min-width: 780px);
-
 .container {
   padding: 10px;
   display: flex;
@@ -13,12 +11,6 @@
 
 .mainContent {
   width: calc(100% - 300px);
-  padding: 34px 14px;
-  box-sizing: border-box;
-}
-
-.mainFlaggedContent {
-  width: 100%;
   padding: 34px 14px;
   box-sizing: border-box;
 }
