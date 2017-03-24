@@ -301,7 +301,6 @@
   }
 }
 
-
 .actionButton {
   transform: scale(.8);
   margin: 0;
@@ -323,4 +322,5 @@
 
 .flaggedReasons {
   padding-top: 15px;
+  margin-left: 24px;
 }
