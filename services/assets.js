@@ -62,18 +62,16 @@ module.exports = class AssetsService {
       SettingsService.retrieve()
     ]).then(([whitelisted, settings]) => {
 
-      const setOnInsert = {url};
+      const update = {$setOnInsert: {url}};
 
       if (settings.autoCloseStream) {
-        setOnInsert.closedAt = new Date(Date.now() + settings.closedTimeout * 1000);
+        update.$setOnInsert.closedAt = new Date(Date.now() + settings.closedTimeout * 1000);
       }
 
       if (!whitelisted) {
         return Promise.reject(errors.ErrInvalidAssetURL);
       } else {
-        return AssetModel.findOneAndUpdate({url}, {url}, {
-
-          $setOnInsert: setOnInsert,
+        return AssetModel.findOneAndUpdate({url}, update, {
 
           // Ensure that if it's new, we return the new object created.
           new: true,
