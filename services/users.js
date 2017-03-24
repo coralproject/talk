@@ -16,6 +16,7 @@ const RECAPTCHA_INCORRECT_TRIGGER = 5; // after 3 incorrect attempts, recaptcha 
 
 const SettingsService = require('./settings');
 const ActionsService = require('./actions');
+const MailerService = require ('./mailer');
 
 // In the event that the TALK_SESSION_SECRET is missing but we are testing, then
 // set the process.env.TALK_SESSION_SECRET.
@@ -444,6 +445,44 @@ module.exports = class UsersService {
     }, {
       $set: {
         status
+      }
+    });
+  }
+
+  /**
+   * Suspend a user. It changes the status to BANNED and canEditName to True.
+   * @param  {String}   id   id of a user
+   * @param  {Function} done callback after the operation is complete
+   */
+  static suspendUser(id, message) {
+    return UserModel.findOneAndUpdate({
+      id
+    }, {
+      $set: {
+        status: 'BANNED',
+        canEditName: true
+      }
+    })
+    .then((user) => {
+      if (message) {
+        let localProfile = user.profiles.find((profile) => profile.provider === 'local');
+
+        if (localProfile) {
+          const options =
+            {
+              template: 'suspension',              // needed to know which template to render!
+              locals: {                                  // specifies the template locals.
+                body: message
+              },
+              subject: 'Email Suspension',
+              to: localProfile.id  // This only works if the user has registered via e-mail.
+                                   // We may want a standard way to access a user's e-mail address in the future
+            };
+
+          return MailerService.sendSimple(options);
+        } else {
+          return Promise.reject(errors.ErrMissingEmail);
+        }
       }
     });
   }

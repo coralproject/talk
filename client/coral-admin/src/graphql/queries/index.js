@@ -2,6 +2,7 @@ import {graphql} from 'react-apollo';
 
 import MOD_QUEUE_QUERY from './modQueueQuery.graphql';
 import MOD_QUEUE_LOAD_MORE from './loadMore.graphql';
+import MOD_USER_FLAGGED_QUERY from './modUserFlaggedQuery.graphql';
 import METRICS from './metricsQuery.graphql';
 
 export const modQueueQuery = graphql(MOD_QUEUE_QUERY, {
@@ -65,6 +66,16 @@ export const loadMore = (fetchMore) => ({limit, cursor, sort, tab, asset_id}) =>
     }
   });
 };
+
+export const modUserFlaggedQuery  = graphql(MOD_USER_FLAGGED_QUERY, {
+  options: ({params: {action_type = 'FLAG'}}) => {
+    return {
+      variables: {
+        action_type: action_type
+      }
+    };
+  }
+});
 
 export const modQueueResort = (id, fetchMore) => (sort) => {
   return fetchMore({
