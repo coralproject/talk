@@ -160,7 +160,6 @@ class Embed extends Component {
                         charCount={asset.settings.charCountEnable && asset.settings.charCount} />
                      : null
                    }
-                   <ModerationLink assetId={asset.id} isAdmin={isAdmin} />
                  </RestrictedContent>
                  </div>
                : <p>{asset.settings.closedMessage}</p>
@@ -170,6 +169,7 @@ class Embed extends Component {
               refetch={refetch}
               offset={signInOffset}/>}
             {loggedIn &&  user && <ChangeUsernameContainer loggedIn={loggedIn} offset={signInOffset} user={user} />}
+            {loggedIn && <ModerationLink assetId={asset.id} isAdmin={isAdmin} />}
             {
               highlightedComment &&
               <Comment
