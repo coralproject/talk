@@ -38,7 +38,6 @@ const updateInfoBoxContent = (updateSettings) => (event) => {
 };
 
 const updateAutoClose = (updateSettings, autoCloseStream) => () => {
-  console.log('autoCloseStream', autoCloseStream);
   updateSettings({autoCloseStream});
 };
 
