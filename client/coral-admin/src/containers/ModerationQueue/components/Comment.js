@@ -19,21 +19,22 @@ const lang = new I18n(translations);
 
 const Comment = ({actions = [], ...props}) => {
   const links = linkify.getMatches(props.comment.body);
+  const linkText = links ? links.map(link => link.raw) : [];
   const actionSummaries = props.comment.action_summaries;
   return (
-    <li tabIndex={props.index} className={`mdl-card ${props.selected ? 'mdl-shadow--8dp' : 'mdl-shadow--2dp'} ${styles.Comment} ${styles.listItem}`}>
+    <li tabIndex={props.index} className={`mdl-card ${props.selected ? 'mdl-shadow--8dp' : 'mdl-shadow--2dp'} ${styles.Comment} ${styles.listItem} ${props.selected ? styles.selected : ''}`}>
       <div className={styles.container}>
         <div className={styles.itemHeader}>
           <div className={styles.author}>
-            <span>
-              {props.comment.user.name}
-            </span>
-            <span className={styles.created}>
-              {timeago().format(props.comment.created_at || (Date.now() - props.index * 60 * 1000), lang.getLocale().replace('-', '_'))}
-            </span>
-            <BanUserButton user={props.comment.user} onClick={() => props.showBanUserDialog(props.comment.user, props.comment.id, props.comment.status !== 'REJECTED')} />
-            <CommentType type={props.commentType} />
-          </div>
+          <span>
+            {props.comment.user.name}
+          </span>
+          <span className={styles.created}>
+            {timeago().format(props.comment.created_at || (Date.now() - props.index * 60 * 1000), lang.getLocale().replace('-', '_'))}
+          </span>
+          <BanUserButton user={props.comment.user} onClick={() => props.showBanUserDialog(props.comment.user, props.comment.id, props.comment.status !== 'REJECTED')} />
+          <CommentType type={props.commentType} />
+        </div>
           {props.comment.user.status === 'banned' ?
             <span className={styles.banned}>
               <Icon name='error_outline'/>
@@ -49,9 +50,9 @@ const Comment = ({actions = [], ...props}) => {
         </div>
         <div className={styles.itemBody}>
           <p className={styles.body}>
-            <Linkify component='span' properties={{style: linkStyles}}>
-              <Highlighter searchWords={props.suspectWords} textToHighlight={props.comment.body}/>
-            </Linkify>
+            <Highlighter
+              searchWords={[...props.suspectWords, ...props.bannedWords, ...linkText]}
+              textToHighlight={props.comment.body} />
           </p>
           <div className={styles.sideActions}>
             {links ? <span className={styles.hasLinks}><Icon name='error_outline'/> Contains Link</span> : null}
@@ -77,6 +78,7 @@ Comment.propTypes = {
   acceptComment: PropTypes.func.isRequired,
   rejectComment: PropTypes.func.isRequired,
   suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired,
+  bannedWords: PropTypes.arrayOf(PropTypes.string).isRequired,
   currentAsset: PropTypes.object,
   comment: PropTypes.shape({
     body: PropTypes.string.isRequired,
@@ -90,11 +92,6 @@ Comment.propTypes = {
       id: PropTypes.string
     })
   })
-};
-
-const linkStyles = {
-  backgroundColor: 'rgb(255, 219, 135)',
-  padding: '1px 2px'
 };
 
 export default Comment;

@@ -74,8 +74,12 @@
   background-color: transparent;
   transition: background-color 200ms;
 
+  &:hover {
+    background-color: #232323;
+  }
+
   &.active {
-     background-color: #232323;
+    background-color: #232323;
   }
 }
 

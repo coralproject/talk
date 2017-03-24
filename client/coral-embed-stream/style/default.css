@@ -212,6 +212,7 @@ hr {
 
 .coral-plugin-commentcontent-text {
   margin-bottom: 7px;
+  font-size: 16px;
 }
 
 .coral-plugin-author-name-text {
@@ -417,8 +418,11 @@ button.comment__action-button[disabled],
 
 /* Load More */
 
-button.coral-load-more {
-  width: 100%;
+.coral-load-more {
+  text-align: center;
+}
+
+.coral-load-more button {
   text-align: center;
   color: #FFF;
   background-color: #2376D8;
@@ -427,9 +431,10 @@ button.coral-load-more {
   border-radius: 2px;
   line-height: 1em;
   text-transform: capitalize;
+  display: inline-block;
 }
 
-button.coral-load-more:hover {
+.coral-load-more:hover button {
   background-color: #4399FF;
 }
 
