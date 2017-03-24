@@ -57,11 +57,23 @@ module.exports = class AssetsService {
   static findOrCreateByUrl(url) {
 
     // Check the URL to confirm that is in the domain whitelist
-    return domainlist.urlCheck(url).then((whitelisted) => {
+    return Promise.all([
+      domainlist.urlCheck(url),
+      SettingsService.retrieve()
+    ]).then(([whitelisted, settings]) => {
+
+      const setOnInsert = {url};
+
+      if (settings.autoCloseStream) {
+        setOnInsert.closedAt = new Date(Date.now() + settings.closedTimeout * 1000);
+      }
+
       if (!whitelisted) {
         return Promise.reject(errors.ErrInvalidAssetURL);
       } else {
         return AssetModel.findOneAndUpdate({url}, {url}, {
+
+          $setOnInsert: setOnInsert,
 
           // Ensure that if it's new, we return the new object created.
           new: true,
