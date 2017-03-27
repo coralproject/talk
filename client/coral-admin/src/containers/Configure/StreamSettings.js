@@ -37,6 +37,10 @@ const updateInfoBoxContent = (updateSettings) => (event) => {
   updateSettings({infoBoxContent});
 };
 
+const updateAutoClose = (updateSettings, autoCloseStream) => () => {
+  updateSettings({autoCloseStream});
+};
+
 const updateClosedMessage = (updateSettings) => (event) => {
   const closedMessage = event.target.value;
   updateSettings({closedMessage});
@@ -131,6 +135,11 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
         </div>
       </Card>
       <Card className={`${styles.configSetting} ${styles.configSettingInfoBox}`}>
+        <div className={styles.action}>
+          <Checkbox
+            onChange={updateAutoClose(updateSettings, !settings.autoCloseStream)}
+            checked={settings.autoCloseStream} />
+        </div>
         <div className={styles.content}>
           {lang.t('configure.close-after')}
           <br />

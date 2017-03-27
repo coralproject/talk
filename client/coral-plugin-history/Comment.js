@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react';
-import { Icon } from '../coral-ui';
+import React, {PropTypes} from 'react';
+import {Icon} from '../coral-ui';
 import styles from './Comment.css';
 import PubDate from '../coral-plugin-pubdate/PubDate';
 import Content from '../coral-plugin-commentcontent/CommentContent';
