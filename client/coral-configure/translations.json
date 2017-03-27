@@ -9,7 +9,7 @@
       "enablePremodLinks": "Pre-Moderate Comments Containing Links",
       "enablePremodLinksDescription": "Moderators must approve any comment containing a link before its published.",
       "enableQuestionBox": "Ask readers a question",
-      "enableQuestionBoxDescription": "This question will appear at the top of this comment stram. Ask readers about a certain issue in the article or pose discussion questions, etc.",
+      "enableQuestionBoxDescription": "This question will appear at the top of this comment stream. Ask readers about a certain issue in the article or pose discussion questions, etc.",
       "includeQuestionHere": "Write your question here."
     }
   },
