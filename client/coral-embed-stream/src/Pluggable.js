@@ -1,4 +1,10 @@
 import React from 'react';
-import * as Plugins from 'plugins';
+import injectedPlugins from 'coral-framework/helpers/importer';
 
-export default () => <div>{Object.keys(Plugins).map((component, i) => Plugins[component]({key: i}))}</div>;
+export default function pluginContainer () {
+  return (
+    <div>
+      {Object.keys(injectedPlugins).map((component, i) => injectedPlugins[component]({key: i}))}
+    </div>
+  )
+};

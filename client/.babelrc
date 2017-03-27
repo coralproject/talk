@@ -2,8 +2,5 @@
   "extends": "../.babelrc",
   "plugins": [
     "transform-async-to-generator",
-    "syntax-dynamic-import",
-    "transform-regenerator",
-    "transform-runtime"
   ]
 }

@@ -4,7 +4,8 @@ const precss = require('precss');
 const Copy = require('copy-webpack-plugin');
 const LicenseWebpackPlugin = require('license-webpack-plugin');
 const webpack = require('webpack');
-
+// const plugins = require('./plugins.json');
+// 'plugins': plugins.client.map(name => path.join(__dirname, `plugins/${name}/index`))
 // Edit the build targets and embeds below.
 
 const buildTargets = [
@@ -122,7 +123,7 @@ module.exports = {
   ],
   resolve: {
     alias: {
-      plugins: path.resolve(__dirname, 'plugins/index.js'),
+      plugins: path.resolve(__dirname, 'plugins/'),
     },
     modules: [
       path.resolve(__dirname, 'client'),
