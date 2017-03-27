@@ -17,18 +17,42 @@ if (smtpRequiredProps.some(prop => !process.env[prop])) {
 }
 
 // load all the templates as strings
-const templateStrings = {};
-fs.readdir(path.join(__dirname, 'email'), (err, files) => {
-  if (err) {
-    throw err;
-  }
+const templates = {};
 
-  files.forEach(file => {
-    fs.readFile(path.join(__dirname, 'email', file), 'utf8', (err, data) => {
-      templateStrings[file] = _.template(data);
+// load the temlates per request during development
+if (process.env.NODE_ENV !== 'production') {
+  templates.render = (name, format = 'txt', context) => new Promise((resolve, reject) => {
+    fs.readFile(path.join(__dirname, 'email', [name, format, 'ejs'].join('.')), (err, file) => {
+      if (err) {
+        return reject(err);
+      }
+
+      return resolve(_.template(file)(context));
     });
   });
-});
+} else {
+  templates.data = fs.readdirSync(path.join(__dirname, 'email')).reduce((data, filename) => {
+
+    // split the filename
+    let splitFileName = filename.split('.');
+
+    // remove the ejs extension
+    splitFileName.splice(-1, 1);
+
+    const [name, format] = splitFileName;
+
+    if (!(name in data)) {
+      data[name] = {};
+    }
+
+    data[name][format] = _.template(fs.readFileSync(filename, 'utf8'));
+
+    return data;
+  });
+
+  // render a template based on the request name
+  templates.render = (name, format = 'txt', context) => templates.data[name][format](context);
+}
 
 const options = {
   host: process.env.TALK_SMTP_HOST,
@@ -70,10 +94,10 @@ const mailer = module.exports = {
     return Promise.all([
 
       // Render the HTML version of the email.
-      templateStrings[`${template}.ejs`](locals),
+      templates.render(template, 'html', locals),
 
       // Render the TEXT version of the email.
-      templateStrings[`${template}.txt.ejs`](locals)
+      templates.render(template, 'txt', locals)
     ])
     .then(([html, text]) => {
 
