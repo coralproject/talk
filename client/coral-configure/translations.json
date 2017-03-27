@@ -20,8 +20,8 @@
       "description": "Como Administrador/a puedes modificar las opciones de los comentarios en este artículo",
       "enablePremod": "Activar Pre Moderación",
       "enablePremodDescription": "Los y las Moderadoras deben aprobar cualquier comentario antes de su publicación",
-      "enablePremodLinks": "Pre-Moderar Commentarios que contienen Links",
-      "enablePremodLinksDescription": "Los y las Moderadoras deben probar cualquier comentario que contengan links antes de su publicación.",
+      "enablePremodLinks": "Pre-Moderar Comentarios que contienen Enlaces",
+      "enablePremodLinksDescription": "Los y las moderadoras deben aprobar cualquier comentario que contengan enlaces antes de su publicación.",
       "enableQuestionBox": "Hacer una pregunta a los y las lectoras.",
       "enableQuestionBoxDescription": "Esta pregunta aparecera en la parte de arriba del hilo de comentarios.",
       "includeQuestionHere": "Escribir la pregunta aquí."
