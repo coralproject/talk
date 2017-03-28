@@ -4,8 +4,7 @@ const precss = require('precss');
 const Copy = require('copy-webpack-plugin');
 const LicenseWebpackPlugin = require('license-webpack-plugin');
 const webpack = require('webpack');
-// const plugins = require('./plugins.json');
-// 'plugins': plugins.client.map(name => path.join(__dirname, `plugins/${name}/index`))
+
 // Edit the build targets and embeds below.
 
 const buildTargets = [
@@ -18,7 +17,7 @@ const buildEmbeds = [
 ];
 
 module.exports = {
-  devtool: '#cheap-module-source-map',
+  devtool: 'cheap-module-source-map',
   entry: Object.assign({}, {
     'embed': [
       'babel-polyfill',
@@ -59,8 +58,7 @@ module.exports = {
         exclude: /node_modules/,
         test: /\.js$/,
         query: {
-          cacheDirectory: true,
-          sourceMap: true
+          cacheDirectory: true
         }
       },
       {
@@ -124,10 +122,10 @@ module.exports = {
   resolve: {
     alias: {
       plugins: path.resolve(__dirname, 'plugins/'),
+      pluginsConfig: path.resolve(__dirname, 'plugins.json')
     },
     modules: [
       path.resolve(__dirname, 'client'),
-      path.resolve(__dirname, 'plugins'),
       ...buildTargets.map(target => path.join(__dirname, 'client', target, 'src')),
       ...buildEmbeds.map(embed => path.join(__dirname, 'client', `coral-embed-${embed}`, 'src')),
       'node_modules'

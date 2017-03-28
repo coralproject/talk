@@ -20,6 +20,7 @@ import LikeButton from 'coral-plugin-likes/LikeButton';
 import {BestButton, IfUserCanModifyBest, BEST_TAG, commentIsBest, BestIndicator} from 'coral-plugin-best/BestButton';
 import LoadMore from 'coral-embed-stream/src/LoadMore';
 import Pluggable from './Pluggable';
+import {Slot} from 'coral-framework';
 
 import styles from './Comment.css';
 
@@ -148,16 +149,20 @@ class Comment extends React.Component {
         id={`c_${comment.id}`}
         style={{marginLeft: depth * 30}}>
         <hr aria-hidden={true} />
-        <AuthorName
-          author={comment.user}/>
-        { isStaff(comment.tags)
-          ? <TagLabel>Staff</TagLabel>
-          : null }
 
-        { commentIsBest(comment)
-          ? <TagLabel><BestIndicator /></TagLabel>
-          : null }
-        <PubDate created_at={comment.created_at} />
+        <div id="Comment.InfoBar">
+          <AuthorName
+            author={comment.user}/>
+          { isStaff(comment.tags)
+            ? <TagLabel>Staff</TagLabel>
+            : null }
+
+          { commentIsBest(comment)
+            ? <TagLabel><BestIndicator /></TagLabel>
+            : null }
+          <PubDate created_at={comment.created_at} />
+          <Slot fill="Comment.InfoBar" />
+        </div>
 
         <Content body={comment.body} />
           <div className="commentActionsLeft comment__action-container">
