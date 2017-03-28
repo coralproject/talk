@@ -5,8 +5,8 @@
     "commentIsBest": "This comment is one of the best"
   },
   "es": {
-    "like": "Establecer como mejor",
-    "liked": "Desarmado como mejor",
+    "setBest": "Etiquetar como el mejor",
+    "unsetBest": "Desetiquetar como el mejor",
     "commentIsBest": "Este comentario es uno de los mejores"
   }
 }
