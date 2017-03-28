@@ -54,7 +54,7 @@ describe('graph.mutations.addCommentTag', () => {
         }
         expect(response.errors).to.be.empty;
         expect(response.data.addCommentTag.errors).to.deep.equal([{'translation_key':'NOT_AUTHORIZED'}]);
-        expect(response.data.addCommentTag.comment).to.be.null;        
+        expect(response.data.addCommentTag.comment).to.be.null;
       });
     });
   });
