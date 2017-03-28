@@ -132,7 +132,7 @@ class Embed extends Component {
               onClick={() => {
                 this.props.viewAllComments();
                 this.props.data.refetch();
-              }}>Show all comments</Button>
+              }}>{lang.t('showAllComments')}</Button>
           }
           {loggedIn && <UserBox user={user} logout={() => this.props.logout().then(refetch)}  changeTab={this.changeTab}/>}
           <TabContent show={activeTab === 0}>
