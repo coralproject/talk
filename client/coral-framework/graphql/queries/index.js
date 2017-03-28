@@ -20,6 +20,7 @@ function getQueryVariable(variable) {
   return null;
 }
 
+// get the counts of the top-level comments
 export const getCounts = (data) => ({asset_id, limit, sort}) => {
   return data.fetchMore({
     query: GET_COUNTS,
@@ -41,6 +42,7 @@ export const getCounts = (data) => ({asset_id, limit, sort}) => {
   });
 };
 
+// handle paginated requests for more Comments pertaining to the Asset
 export const loadMore = (data) => ({limit, cursor, parent_id = null, asset_id, sort}, newComments) => {
   return data.fetchMore({
     query: LOAD_MORE,
@@ -94,6 +96,7 @@ export const loadMore = (data) => ({limit, cursor, parent_id = null, asset_id, s
   });
 };
 
+// load the comment stream.
 export const queryStream = graphql(STREAM_QUERY, {
   options: () => {
     let comment_id = getQueryVariable('comment_id');

@@ -6,7 +6,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-framework/translations';
 const lang = new I18n(translations);
 
-import {TabBar, Tab, TabContent, Spinner} from 'coral-ui';
+import {TabBar, Tab, TabContent, Spinner, Button} from 'coral-ui';
 
 const {logout, showSignInDialog, requestConfirmEmail} = authActions;
 const {addNotification, clearNotification} = notificationActions;
@@ -15,7 +15,7 @@ const {fetchAssetSuccess} = assetActions;
 import {queryStream} from 'coral-framework/graphql/queries';
 import {postComment, postFlag, postLike, postDontAgree, deleteAction, addCommentTag, removeCommentTag} from 'coral-framework/graphql/mutations';
 import {editName} from 'coral-framework/actions/user';
-import {updateCountCache} from 'coral-framework/actions/asset';
+import {updateCountCache, viewAllComments} from 'coral-framework/actions/asset';
 import {notificationActions, authActions, assetActions, pym} from 'coral-framework';
 
 import Stream from './Stream';
@@ -79,7 +79,7 @@ class Embed extends Component {
     if(!isEqual(prevProps.data.comment, this.props.data.comment)) {
 
       // Scroll to a permalinked comment if one is in the URL once the page is done rendering.
-      setTimeout(()=>pym.scrollParentToChildEl(`c_${this.props.data.comment.id}`), 0);
+      setTimeout(() => pym.scrollParentToChildEl('coralStream'), 0);
     }
   }
 
@@ -124,6 +124,16 @@ class Embed extends Component {
             <Tab>{lang.t('MY_COMMENTS')}</Tab>
             <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>
+          {
+            highlightedComment &&
+            <Button
+              cStyle='darkGrey'
+              style={{float: 'right'}}
+              onClick={() => {
+                this.props.viewAllComments();
+                this.props.data.refetch();
+              }}>Show all comments</Button>
+          }
           {loggedIn && <UserBox user={user} logout={() => this.props.logout().then(refetch)}  changeTab={this.changeTab}/>}
           <TabContent show={activeTab === 0}>
             {
@@ -170,9 +180,11 @@ class Embed extends Component {
               offset={signInOffset}/>}
             {loggedIn &&  user && <ChangeUsernameContainer loggedIn={loggedIn} offset={signInOffset} user={user} />}
             {loggedIn && <ModerationLink assetId={asset.id} isAdmin={isAdmin} />}
+
+            {/* the highlightedComment is isolated after the user followed a permalink */}
             {
-              highlightedComment &&
-              <Comment
+              highlightedComment
+              ? <Comment
                 refetch={refetch}
                 setActiveReplyBox={this.setActiveReplyBox}
                 activeReplyBox={this.state.activeReplyBox}
@@ -191,42 +203,44 @@ class Embed extends Component {
                 key={highlightedComment.id}
                 reactKey={highlightedComment.id}
                 comment={highlightedComment} />
+              : <div>
+                <NewCount
+                  commentCount={asset.commentCount}
+                  countCache={countCache[asset.id]}
+                  loadMore={this.props.loadMore}
+                  firstCommentDate={firstCommentDate}
+                  assetId={asset.id}
+                  updateCountCache={this.props.updateCountCache}
+                  />
+                <div className="embed__stream">
+                  <Stream
+                    open={openStream}
+                    addNotification={this.props.addNotification}
+                    postItem={this.props.postItem}
+                    setActiveReplyBox={this.setActiveReplyBox}
+                    activeReplyBox={this.state.activeReplyBox}
+                    asset={asset}
+                    currentUser={user}
+                    postLike={this.props.postLike}
+                    postFlag={this.props.postFlag}
+                    postDontAgree={this.props.postDontAgree}
+                    getCounts={this.props.getCounts}
+                    addCommentTag={this.props.addCommentTag}
+                    removeCommentTag={this.props.removeCommentTag}
+                    updateCountCache={this.props.updateCountCache}
+                    loadMore={this.props.loadMore}
+                    deleteAction={this.props.deleteAction}
+                    showSignInDialog={this.props.showSignInDialog}
+                    comments={asset.comments} />
+                </div>
+                <LoadMore
+                  topLevel={true}
+                  assetId={asset.id}
+                  comments={asset.comments}
+                  moreComments={countCache[asset.id] > asset.comments.length}
+                  loadMore={this.props.loadMore} />
+              </div>
             }
-            <NewCount
-              commentCount={asset.commentCount}
-              countCache={countCache[asset.id]}
-              loadMore={this.props.loadMore}
-              firstCommentDate={firstCommentDate}
-              assetId={asset.id}
-              updateCountCache={this.props.updateCountCache}
-              />
-            <div className="embed__stream">
-              <Stream
-                open={openStream}
-                addNotification={this.props.addNotification}
-                postItem={this.props.postItem}
-                setActiveReplyBox={this.setActiveReplyBox}
-                activeReplyBox={this.state.activeReplyBox}
-                asset={asset}
-                currentUser={user}
-                postLike={this.props.postLike}
-                postFlag={this.props.postFlag}
-                postDontAgree={this.props.postDontAgree}
-                getCounts={this.props.getCounts}
-                addCommentTag={this.props.addCommentTag}
-                removeCommentTag={this.props.removeCommentTag}
-                updateCountCache={this.props.updateCountCache}
-                loadMore={this.props.loadMore}
-                deleteAction={this.props.deleteAction}
-                showSignInDialog={this.props.showSignInDialog}
-                comments={asset.comments} />
-            </div>
-          <LoadMore
-            topLevel={true}
-            assetId={asset.id}
-            comments={asset.comments}
-            moreComments={countCache[asset.id] > asset.comments.length}
-            loadMore={this.props.loadMore}/>
         </TabContent>
          <TabContent show={activeTab === 1}>
            <ProfileContainer
@@ -263,6 +277,7 @@ const mapDispatchToProps = dispatch => ({
   editName: (username) => dispatch(editName(username)),
   showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),
   updateCountCache: (id, count) => dispatch(updateCountCache(id, count)),
+  viewAllComments: () => dispatch(viewAllComments()),
   logout: () => dispatch(logout()),
   dispatch: d => dispatch(d)
 });
