@@ -17,42 +17,43 @@ if (smtpRequiredProps.some(prop => !process.env[prop])) {
 }
 
 // load all the templates as strings
-const templates = {};
+const templates = {
+  data: {}
+};
 
 // load the temlates per request during development
-if (process.env.NODE_ENV !== 'production') {
-  templates.render = (name, format = 'txt', context) => new Promise((resolve, reject) => {
-    fs.readFile(path.join(__dirname, 'email', [name, format, 'ejs'].join('.')), (err, file) => {
-      if (err) {
-        return reject(err);
-      }
+templates.render = (name, format = 'txt', context) => new Promise((resolve, reject) => {
 
-      return resolve(_.template(file)(context));
-    });
-  });
-} else {
-  templates.data = fs.readdirSync(path.join(__dirname, 'email')).reduce((data, filename) => {
+  // If we are in production mode, check the view cache.
+  if (process.env.NODE_ENV === 'production') {
+    if (name in templates.data && format in templates.data[name]) {
+      let view = templates.data[name][format];
 
-    // split the filename
-    let splitFileName = filename.split('.');
+      return resolve(view(context));
+    }
+  }
 
-    // remove the ejs extension
-    splitFileName.splice(-1, 1);
+  const filename = path.join(__dirname, 'email', [name, format, 'ejs'].join('.'));
 
-    const [name, format] = splitFileName;
-
-    if (!(name in data)) {
-      data[name] = {};
+  fs.readFile(filename, (err, file) => {
+    if (err) {
+      return reject(err);
     }
 
-    data[name][format] = _.template(fs.readFileSync(filename, 'utf8'));
+    let view = _.template(file);
 
-    return data;
+    // If we are in production mode, fill the view cache.
+    if (process.env.NODE_ENV === 'production') {
+      if (!(name in templates.data)) {
+        templates.data[name] = {};
+      }
+
+      templates.data[name][format] = view;
+    }
+
+    return resolve(view(context));
   });
-
-  // render a template based on the request name
-  templates.render = (name, format = 'txt', context) => templates.data[name][format](context);
-}
+});
 
 const options = {
   host: process.env.TALK_SMTP_HOST,
