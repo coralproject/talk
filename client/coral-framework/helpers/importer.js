@@ -1,6 +1,6 @@
 import {client as clientPlugins} from 'pluginsConfig';
 
-function importer (slot) {
+function importer () {
   let context,
     importedFiles;
 
@@ -66,7 +66,7 @@ function importer (slot) {
     return filterByUserConfig(importedFiles)
       .filter(key => key.format === 'js')
       .reduce((entry, plugin) => {
-        entry.push(context(plugin.key)(getConfig(plugin.name)))
+        entry.push(context(plugin.key)(getConfig(plugin.name)));
         return entry;
       }, []);
   }

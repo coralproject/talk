@@ -6,7 +6,6 @@ class Slot extends Component {
     console.log('Slot Mounted');
   }
   render() {
-    const {slot} = this.props;
     return (
       <div>
         {injectedPlugins}
