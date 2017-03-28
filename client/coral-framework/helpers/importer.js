@@ -1,6 +1,6 @@
 import {client as clientPlugins} from 'pluginsConfig';
 
-function importer () {
+function importer (fill) {
   let context,
     importedFiles;
 
@@ -55,6 +55,15 @@ function importer () {
       .filter(plugin => clientPlugins.indexOf(plugin.name) > -1);
   }
 
+  function addProps (plugin) {
+    plugin.props = getConfig(plugin.name);
+    return plugin;
+  }
+
+  function filterBySlot (plugin) {
+    return plugin.props.slot === fill;
+  }
+
   function init() {
 
     /**
@@ -65,8 +74,10 @@ function importer () {
 
     return filterByUserConfig(importedFiles)
       .filter(key => key.format === 'js')
-      .reduce((entry, plugin) => {
-        entry.push(context(plugin.key)(getConfig(plugin.name)));
+      .map(addProps)
+      .filter(filterBySlot)
+      .reduce((entry, plugin, i) => {
+        entry.push(context(plugin.key)(plugin.props));
         return entry;
       }, []);
   }
@@ -74,5 +85,5 @@ function importer () {
   return init();
 }
 
-export default importer();
+export default importer;
 

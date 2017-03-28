@@ -34,6 +34,7 @@ import ConfigureStreamContainer from 'coral-configure/containers/ConfigureStream
 import Comment from './Comment';
 import LoadMore from './LoadMore';
 import NewCount from './NewCount';
+import {Slot} from 'coral-framework';
 
 class Embed extends Component {
 
@@ -119,6 +120,7 @@ class Embed extends Component {
     return (
       <div style={expandForLogin}>
         <div className="commentStream">
+          <Slot fill="Stream"/>
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count count={asset.commentCount}/></Tab>
             <Tab>{lang.t('profile')}</Tab>

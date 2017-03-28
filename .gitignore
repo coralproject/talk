@@ -16,5 +16,5 @@ coverage/
 .tags1
 
 # remove plugin folders
-plugins
-plugins.json
+# plugins
+# plugins.json

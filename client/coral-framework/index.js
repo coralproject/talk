@@ -6,6 +6,11 @@ import * as assetActions from './actions/asset';
 import * as notificationActions from './actions/notification';
 import Slot from './components/Slot';
 
+const context = require.context('plugins', true, /\.\/(.*)\/client\/actions.js$/);
+const pluginsActions = context
+  .keys()
+  .reduce(entry, key => entry[key] = context(key), {});
+
 export {
   pym,
   Slot,
@@ -13,5 +18,6 @@ export {
   store,
   authActions,
   assetActions,
-  notificationActions
+  notificationActions,
+  pluginsActions
 };

@@ -1,0 +1,9 @@
+.Respect {
+    display: inline-block;
+    button {
+        padding: 10px 2px;
+        border-radius: 3px;
+        background: #ffa16e;
+        color: #161616;
+    }
+}
