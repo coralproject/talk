@@ -17,7 +17,21 @@
       "active": "Active",
       "banned": "Banned",
       "banned-user": "Banned User",
-      "loading": "Loading results"
+      "loading": "Loading results",
+      "flags": "Flags",
+      "flaggedaccounts": "Flagged Usernames",
+      "people": "People",
+      "no-flagged-accounts": "The Account Flags queue is currently empty.",
+      "I don't like this username": "I don't like this username",
+      "This user is impersonating": "Impersonation",
+      "This looks like an ad/marketing": "Spam/Ads",
+      "This username is offensive": "Offensive",
+      "Other": "Other",
+      "ban_user": "Ban User?",
+      "are_you_sure": "Are you sure you would like to ban {0}?",
+      "note": "Note: Banning this user will not let them edit, comment or remove anything.",
+      "cancel": "Cancel",
+      "yes_ban_user": "Yes, Ban User"
     },
     "modqueue": {
       "likes": "likes",
@@ -104,8 +118,9 @@
       "yes_ban_user": "Yes, Ban User"
     },
     "suspenduser": {
-      "title_0": "We noticed you rejected a {0}",
-      "description_0": "Would you like to temporarily ban this user becuase of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}.",
+      "title": "Suspend a user",
+      "title_0": "We noticed you rejected a username",
+      "description_0": "Would you like to temporarily ban this user because of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}.",
       "title_1": "Notify the user of their temporary suspension",
       "description_1": "Suspending this user will temporarily disable their account and hide all of their comments on the site.",
       "no_cancel": "No, cancel",
@@ -114,7 +129,7 @@
       "bio": "bio",
       "username": "username",
       "email_subject": "Your account has been suspended",
-      "email": "Another member of the community recently flagged your {0} for review. Because of its content your {0} was rejected. This means you can no longer comment, like, or flag content until you rewrite your {0}. Please e-mail moderator@newsorg.com if you have any questions or concerns.",
+      "email": "Another member of the community recently flagged your username for review. Because of its content your user was rejected. This means you can no longer comment, like, or flag content until you rewrite your username. Please e-mail us if you have any questions or concerns.",
       "write_message": "Write a message"
     },
     "dashboard": {
@@ -163,6 +178,7 @@
       "banned": "Suspendido",
       "banned-user": "Usuario Suspendido",
       "loading": "Cargando resultados",
+      "flags": "Reporte",
       "flaggedaccounts": "Nombres de Usuario Reportados",
       "people": "Gente",
       "no-flagged-accounts": "No hay ninguna cuenta reportada.",
@@ -179,16 +195,16 @@
     },
     "suspenduser": {
       "title": "Suspendiendo un usuario",
-      "title_0": "¿Esta queriendo suspender un usuario?",
-      "description_0": "¿Le gustaría suspender a esta usuaria temporalmente devido a su nombre de usuario? Si lo hace sus comentarios serán escondidos temporalmente hasta que el usuario pueda cambiar su nombre.",
-      "title_1": "Enviarle un correo al usuario informandole que su cuenta fue suspendida",
+      "title_0": "Esta queriendo suspender un usuario?",
+      "description_0": "Le gustaria suspender a esta usuaria temporarianmente por su nombre de usuario? Si lo hace sus comentarios serán escondidos temporariamente hasta que puedan reescribir su nombre de usuario.",
+      "title_1": "Enviarle una nota al usuario sobre su cuenta suspendida",
       "description_1": "Si suspende a este usuario, su cuenta va a ser deshabilitada y todos sus comentarios escondidos del sitio.",
       "no_cancel": "No, cancelar",
       "yes_suspend": "Si, suspender",
       "send": "Enviar",
       "username": "nombre de usuario",
-      "email_subject": "Su cuenta ha sido suspendida temporalmente",
-      "email": "Una persona de la comunidad recientemente marcó su nombre de usuario para ser revisado. Por su contenido, el nombre de usuario ha sido rechazado. Esto quiere decir que no puede comentar, gustar o marcar contenido hasta que modifique su nombre de usuario. Por favor, envienos un correo si tiene alguna pregunta o comentario.",
+      "email_subject": "Su cuenta ha sido suspendida temporariamente",
+      "email": "Otra persona de la comunidad recientemente marcó su nombre de usuario para ser revisado. Por su contenido, el nombre de usuario ha sido rechazado. Esto quiere decir que no puede comentar, gustar o marcar contenido hasta que modifique su nombre de usuario. Por favor, envienos un correo a moderator@newsorg.com si tiene alguna pregunta o preocupación",
       "write_message": "Escribir un mensaje",
       "loading": "Cargando resultados"
     },
