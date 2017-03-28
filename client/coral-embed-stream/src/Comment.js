@@ -19,7 +19,6 @@ import FlagComment from 'coral-plugin-flags/FlagComment';
 import LikeButton from 'coral-plugin-likes/LikeButton';
 import {BestButton, IfUserCanModifyBest, BEST_TAG, commentIsBest, BestIndicator} from 'coral-plugin-best/BestButton';
 import LoadMore from 'coral-embed-stream/src/LoadMore';
-import Pluggable from './Pluggable';
 import {Slot} from 'coral-framework';
 
 import styles from './Comment.css';
@@ -193,8 +192,8 @@ class Comment extends React.Component {
                   removeBest={removeBestTag} />
               </IfUserCanModifyBest>
             </ActionButton>
+            <Slot fill="Comment.Detail" />
           </div>
-          <Pluggable/>
         <div className="commentActionsRight comment__action-container">
           <ActionButton>
             <PermalinkButton articleURL={asset.url} commentId={comment.id} />

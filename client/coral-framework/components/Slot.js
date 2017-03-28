@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
-
-// { "slot": "Comment.DetailArea"},
+import injectedPlugins from 'coral-framework/helpers/importer';
 
 class Slot extends Component {
+  componentDidMount() {
+    console.log('Slot Mounted');
+  }
   render() {
+    const {slot} = this.props;
     return (
       <div>
-        This is a slot
+        {injectedPlugins}
       </div>
     );
   }
