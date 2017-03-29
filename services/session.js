@@ -1,6 +1,6 @@
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
-const redis = require('./services/redis');
+const redis = require('./redis');
 
 //==============================================================================
 // SESSION MIDDLEWARE
