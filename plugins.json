@@ -1,8 +1,6 @@
 {
   "server": [],
   "client": [
-    "coral-plugin-respect",
-    "coral-plugin-love",
-    "coral-plugin-monitor"
+    "coral-plugin-respect"
   ]
 }
