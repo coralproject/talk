@@ -19,20 +19,6 @@ function importer (fill) {
       .map(key => shapeData(key));
   }
 
-  function shapeData(test) {
-
-    /**
-     *  shapeData shapes each item in the plugins array with useful data
-     *  returns an Object with the name of the plugin, the format, and it's key(filename)
-     */
-    const match = test.match(/\.\/(.*)\/client\/.*.(json|js)$/);
-    return {
-      name: match[1],
-      format: match[2],
-      key: match[0]
-    };
-  }
-
   function getConfig (name) {
 
     /**
@@ -85,5 +71,47 @@ function importer (fill) {
   return init();
 }
 
-export default importer;
+function shapeData(test) {
+
+  /**
+   *  shapeData shapes each item in the plugins array with useful data
+   *  returns an Object with the name of the plugin, the format, and it's key(filename)
+   */
+  const match = test.match(/\.\/(.*)\/client\/.*.(json|js)$/);
+  return {
+    name: match[1],
+    format: match[2],
+    key: match[0]
+  };
+}
+
+function actionsImporter () {
+  const context = require.context('plugins', true, /\.\/(.*)\/client\/actions.js$/);
+
+  return context
+    .keys()
+    .map(key => shapeData(key))
+    .reduce((entry, actionsPlugin, i) => {
+      entry[actionsPlugin.name] = context(actionsPlugin.key);
+      return entry;
+    }, {});
+}
+
+function reducersImporter () {
+  const context = require.context('plugins', true, /\.\/(.*)\/client\/reducer.js$/);
+
+  return context
+    .keys()
+    .map(key => shapeData(key))
+    .reduce((entry, reducerPlugin, i) => {
+      entry[reducerPlugin.name] = context(reducerPlugin.key);
+      return entry;
+  }, {});
+}
+
+export default {
+  importer,
+  actionsImporter: actionsImporter(),
+  reducersImporter: reducersImporter()
+};
 

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import injectedPlugins from 'coral-framework/helpers/importer';
+import { importer as injectPlugins } from 'coral-framework/helpers/importer';
 
 class Slot extends Component {
   componentDidMount() {
@@ -9,7 +9,7 @@ class Slot extends Component {
     const {fill} = this.props;
     return (
       <div>
-        {injectedPlugins(fill)}
+        {injectPlugins(fill)}
       </div>
     );
   }
