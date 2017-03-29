@@ -2,8 +2,12 @@ const debug = require('debug')('talk:services:wordlist');
 const _ = require('lodash');
 const natural = require('natural');
 const tokenizer = new natural.WordTokenizer();
+const nameTokenizer = new natural.RegexpTokenizer({pattern: /\_/});
 const SettingsService = require('./settings');
 const Errors = require('../errors');
+
+// REGEX to prevent emoji's from entering the wordlist.
+const EMOJI_REGEX = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff])[\ufe0e\ufe0f]?(?:[\u0300-\u036f\ufe20-\ufe23\u20d0-\u20f0]|\ud83c[\udffb-\udfff])?(?:\u200d(?:[^\ud800-\udfff]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff])[\ufe0e\ufe0f]?(?:[\u0300-\u036f\ufe20-\ufe23\u20d0-\u20f0]|\ud83c[\udffb-\udfff])?)*/;
 
 /**
  * The root wordlist object.
@@ -58,7 +62,27 @@ class Wordlist {
    * @return {Array}      the parsed list
    */
   static parseList(list) {
-    return _.uniq(list.map((word) => tokenizer.tokenize(word.toLowerCase())));
+    return _.uniq(list.filter((word) => {
+      if (EMOJI_REGEX.test(word)) {
+        return false;
+      }
+
+      return true;
+    })
+    .map((word) => {
+      if (word.length === 1) {
+        return [word];
+      }
+      
+      return tokenizer.tokenize(word.toLowerCase());
+    })
+    .filter((tokens) => {
+      if (tokens.length === 0) {
+        return false;
+      }
+
+      return true;
+    }));
   }
 
   /**
@@ -66,11 +90,11 @@ class Wordlist {
    * @param  {String} phrase value to check for blockwords.
    * @return {Boolean}       true if a blockword is found, false otherwise.
    */
-  match(list, phrase) {
+  match(list, phrase, tk = tokenizer) {
 
     // Lowercase the word to ensure that we don't miss a match due to
     // capitalization.
-    let lowerPhraseWords = tokenizer.tokenize(phrase.toLowerCase());
+    let lowerPhraseWords = tk.tokenize(phrase.toLowerCase());
 
     // This will return true in the event that at least one blockword is found
     // in the phrase.
@@ -199,26 +223,22 @@ class Wordlist {
   }
 
   /**
-   * check potential username for banned words, special characters
+   * check potential username for banned words
    */
   static usernameCheck(username) {
     const wl = new Wordlist();
 
-    return wl.load()
+    return wl
+      .load()
       .then(() => {
-        username = username.replace(/_/g, '');
-
-        // test each word, and fail if we find a match
-        const hasBadWords = wl.lists.banned.some(phrase => {
-          return username.indexOf(phrase.join('')) !== -1;
-        });
-
-        if (hasBadWords) {
-          throw Errors.ErrContainsProfanity;
-        } else {
-          return Promise.resolve(username);
+        if (!wl.checkName(wl.lists.banned, username)) {
+          return Errors.ErrContainsProfanity;
         }
       });
+  }
+
+  checkName(list, name) {
+    return !this.match(list, name, nameTokenizer);
   }
 
   /**

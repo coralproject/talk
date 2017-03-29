@@ -9,7 +9,8 @@ describe('services.Wordlist', () => {
     banned: [
       'cookies',
       'how to do bad things',
-      'how to do really bad things'
+      'how to do really bad things',
+      's h i t'
     ],
     suspect: [
       'do bad things'
@@ -32,9 +33,22 @@ describe('services.Wordlist', () => {
 
   });
 
-  describe('#match', () => {
+  describe('#parseList', () => {
+    it('does not include emojis in the wordlist', () => {
+      let list = Wordlist.parseList([
+        '🖕',
+        '🖕 asdf',
+        'asd🖕asdf',
+        'asd🖕',
+      ]);
 
-    const bannedList = Wordlist.parseList(wordlists.banned);
+      expect(list).to.have.length(0);
+    });
+  });
+
+  const bannedList = Wordlist.parseList(wordlists.banned);
+
+  describe('#match', () => {
 
     it('does match on a bad word', () => {
       [
@@ -60,6 +74,26 @@ describe('services.Wordlist', () => {
       });
     });
 
+  });
+
+  describe('#checkName', () => {
+    [
+      'flowers',
+      'joy',
+      'lots_of_candy'
+    ].forEach((username) => {
+      it(`does not match on list=banned name=${username}`, () => {
+        expect(wordlist.checkName(bannedList, username)).to.be.true;
+      });
+    });
+
+    [
+      'cookies'
+    ].forEach((username) => {
+      it(`does match on list=banned name=${username}`, () => {
+        expect(wordlist.checkName(bannedList, username)).to.be.false;
+      });
+    });
   });
 
   describe('#filter', () => {
