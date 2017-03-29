@@ -5,6 +5,7 @@ query AssetQuery($asset_id: ID, $asset_url: String!, $comment_id: ID!, $has_comm
       ...commentView
       parent {
         ...commentView
+        replyCount
         replies {
           ...commentView
         }
