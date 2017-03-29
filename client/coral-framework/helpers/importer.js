@@ -63,7 +63,7 @@ function importer (fill) {
       .map(addProps)
       .filter(filterBySlot)
       .reduce((entry, plugin, i) => {
-        entry.push(context(plugin.key)(plugin.props));
+        entry.push(context(plugin.key)({...plugin.props, key: i}));
         return entry;
       }, []);
   }
@@ -85,16 +85,20 @@ function shapeData(test) {
   };
 }
 
-function actionsImporter () {
-  const context = require.context('plugins', true, /\.\/(.*)\/client\/actions.js$/);
-
+function importAll(context) {
   return context
     .keys()
     .map(key => shapeData(key))
-    .reduce((entry, actionsPlugin, i) => {
+    .reduce((entry, actionsPlugin) => {
       entry[actionsPlugin.name] = context(actionsPlugin.key);
       return entry;
     }, {});
+}
+
+function actionsImporter () {
+  return importAll(require.context('plugins', true, /\.\/(.*)\/client\/actions.js$/))
+
+
 }
 
 function reducersImporter () {
@@ -103,7 +107,7 @@ function reducersImporter () {
   return context
     .keys()
     .map(key => shapeData(key))
-    .reduce((entry, reducerPlugin, i) => {
+    .reduce((entry, reducerPlugin) => {
       entry[reducerPlugin.name] = context(reducerPlugin.key);
       return entry;
   }, {});
