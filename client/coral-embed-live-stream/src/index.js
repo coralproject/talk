@@ -10,7 +10,7 @@ import Embed from './Embed';
 
 render(
   <ApolloProvider client={client}>
-    <Embed assetID='8377903e-2601-47d9-af8a-1baab5651da9' />
+    <Embed assetID='7babeab7-4546-4b2d-a0cd-841bd4e32c05' />
   </ApolloProvider>
   , document.querySelector('#coralStream')
 );

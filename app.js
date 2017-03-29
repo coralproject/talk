@@ -4,13 +4,11 @@ const morgan = require('morgan');
 const path = require('path');
 const helmet = require('helmet');
 const passport = require('./services/passport');
-const session = require('express-session');
 const enabled = require('debug').enabled;
-const RedisStore = require('connect-redis')(session);
-const redis = require('./services/redis');
 const csrf = require('csurf');
 const errors = require('./errors');
-const graph = require('./graph');
+const session = require('./services/session');
+const {createGraphOptions} = require('./graph');
 const apollo = require('graphql-server-express');
 
 const app = express();
@@ -42,34 +40,7 @@ app.set('view engine', 'ejs');
 // SESSION MIDDLEWARE
 //==============================================================================
 
-const session_opts = {
-  secret: process.env.TALK_SESSION_SECRET,
-  httpOnly: true,
-  rolling: true,
-  saveUninitialized: true,
-  resave: true,
-  unset: 'destroy',
-  name: 'talk.sid',
-  cookie: {
-    secure: false,
-    maxAge: 8.64e+7, // 24 hours for session token expiry
-  },
-  store: new RedisStore({
-    client: redis.createClient(),
-  })
-};
-
-if (app.get('env') === 'production') {
-
-  // Enable the secure cookie when we are in production mode.
-  session_opts.cookie.secure = true;
-} else if (app.get('env') === 'test') {
-
-  // Add in the secret during tests.
-  session_opts.secret = 'keyboard cat';
-}
-
-app.use(session(session_opts));
+app.use(session);
 
 //==============================================================================
 // PASSPORT MIDDLEWARE
@@ -83,10 +54,8 @@ app.use(passport.session());
 // GraphQL Router
 //==============================================================================
 
-graph.createSubscriptionManager(app, '/api/v1/live');
-
 // GraphQL endpoint.
-app.use('/api/v1/graph/ql', apollo.graphqlExpress(graph.createGraphOptions));
+app.use('/api/v1/graph/ql', apollo.graphqlExpress(createGraphOptions));
 
 // Only include the graphiql tool if we aren't in production mode.
 if (app.get('env') !== 'production') {

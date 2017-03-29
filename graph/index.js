@@ -19,7 +19,7 @@ module.exports = {
     // the lifespan of this request.
     context: new Context(req, pubsub)
   }),
-  createSubscriptionManager: (server, path) => new SubscriptionServer({
+  createSubscriptionManager: (server, path, sessionFactory) => new SubscriptionServer({
     subscriptionManager: new SubscriptionManager({
       schema,
       pubsub,
@@ -31,9 +31,19 @@ module.exports = {
         }),
       }
     }),
-    // onConnect: (connectionParams, webSocket) => {
-    //   console.log(webSocket.upgradeReq.headers);
-    // }
+    onSubscribe: (parsedMessage, baseParams, connection) => {
+
+      // Attach the context per request.
+      baseParams.context = () => sessionFactory(connection.upgradeReq)
+        .then((req) => new Context(req, pubsub))
+        .catch((err) => {
+          console.error(err);
+
+          return new Context({}, pubsub);
+        });
+
+      return baseParams;
+    }
   }, {
     server,
     path

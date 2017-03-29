@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
-const app = require('../app');
 const program = require('./commander');
+const app = require('../app');
 const {createServer} = require('http');
 const scraper = require('../services/scraper');
 const mailer = require('../services/mailer');
 const kue = require('../services/kue');
 const mongoose = require('../services/mongoose');
 const util = require('./util');
-const {createSubscriptionManager} = require('../graph');
+const subscriptions = require('../services/subscriptions');
 
 /**
 * Get port from environment and store in Express.
@@ -91,7 +91,9 @@ function startApp() {
   * Listen on provided port, on all network interfaces.
   */
   server.listen(port, () => {
-    createSubscriptionManager(server, '/api/v1/live');
+
+    // Mount the subscriptions server on the application server.
+    subscriptions.mount(server);
   });
 
   server.on('error', onError);

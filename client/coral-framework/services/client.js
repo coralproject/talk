@@ -2,7 +2,7 @@ import ApolloClient, {addTypename} from 'apollo-client';
 import getNetworkInterface from './transport';
 
 import {SubscriptionClient, addGraphQLSubscriptions} from 'subscriptions-transport-ws';
-const wsClient = new SubscriptionClient('ws://localhost:3001/api/v1/live', {
+const wsClient = new SubscriptionClient('ws://localhost:3000/api/v1/live', {
   reconnect: true
 });
 const networkInterface = getNetworkInterface();

@@ -3,6 +3,8 @@ import React from 'react';
 import {graphql} from 'react-apollo';
 import gql from 'graphql-tag';
 
+import PubDate from 'coral-plugin-pubdate/PubDate';
+
 class Embed extends React.Component {
 
   static propTypes = {
@@ -20,18 +22,24 @@ class Embed extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const {asset, loading} = this.props.data;
     return (
       <div>
-        <h1>Live Stream</h1>
-        <ul>
+        <h1>Wyatt's Awesome Live Stream</h1>
+        <div>
           {!loading && asset && asset.comments && asset.comments.map((comment) => (
-            <li key={comment.id}>
-              <span>{comment.id} {comment.body}</span>
-            </li>
+            <div key={comment.id} style={{position: 'relative'}}>
+              <span>
+                <b>{comment.user.username}</b> - {comment.body}
+              </span>
+              <span
+                style={{float: 'right'}}
+              >
+                <PubDate created_at={comment.created_at} />
+              </span>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     );
   }
@@ -40,12 +48,13 @@ class Embed extends React.Component {
 const COMMENT_QUERY = gql`
   query Comment($assetID: ID!) {
     asset(id: $assetID) {
-      comments {
+      comments(limit: 50) {
         id
         body
         user {
           username
         }
+        created_at
       }
     }
   }
@@ -59,6 +68,7 @@ const COMMENTS_SUBSCRIPTION = gql`
       user {
         username
       }
+      created_at
     }
   }
 `;
@@ -94,8 +104,6 @@ const withData = graphql(COMMENT_QUERY, {
               comments: [newComment, ...before.asset.comments]
             }
           };
-
-          console.log('updateQuery', before, after);
 
           return after;
         }

@@ -1,5 +1,6 @@
 const loaders = require('./loaders');
 const mutators = require('./mutators');
+const uuid = require('uuid');
 
 const plugins = require('../plugins');
 const debug = require('debug')('talk:graph:context');
@@ -32,6 +33,9 @@ const decorateContextPlugins = (context, contextPlugins) => contextPlugins.reduc
  */
 class Context {
   constructor({user = null}, pubsub) {
+
+    // Generate a new context id for the request.
+    this.id = uuid.v4();
 
     // Load the current logged in user to `user`, otherwise this'll be null.
     if (user) {
