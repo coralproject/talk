@@ -1,20 +1,12 @@
 node_modules
 npm-debug.log*
 dist
-!dist/coral-admin
-dist/coral-admin/bundle.js
 test/e2e/reports
-.DS_Store
-*.iml
-*.swp
 dump.rdb
 .env
 *.cfg
 .idea/
 coverage/
-.tags
-.tags1
-
-# remove plugin folders
+*.swp
 plugins
 plugins.json
