@@ -97,6 +97,8 @@ class Embed extends Component {
     const {closedAt, countCache = {}} = this.props.asset;
     const {loading, asset, refetch, comment} = this.props.data;
     const {loggedIn, isAdmin, user, showSignInDialog, signInOffset} = this.props.auth;
+
+    // even though the permalinked comment is the highlighted one, we're displaying its parent + replies
     const highlightedComment = comment && comment.parent ? comment.parent : comment;
 
     const openStream = closedAt === null;
