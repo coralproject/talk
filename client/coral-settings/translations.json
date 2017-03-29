@@ -10,13 +10,13 @@
     "fromSettingsPage": "From the Profile Page you can see your comment history."
   },
   "es":{
-    "profile": "Pérfil",
-    "userNoComment": "No has dejado áun ningún comentario. ¡Unete a la conversación!",
+    "profile": "Perfil",
+    "userNoComment": "No has dejado aún ningún comentario. ¡Únete a la conversación!",
     "allComments": "Todos los comentarios",
-    "profileSettings": "Configuración del pérfil",
+    "profileSettings": "Configuración del perfil",
     "myCommentHistory": "Mi historial de comentarios",
     "signIn": "Entrar",
-    "toAccess": "para acceder a al pérfil",
-    "fromSettingsPage": "Desde la peagina de configuración puedes ver tu historia de comentarios."
+    "toAccess": "para acceder a al perfil",
+    "fromSettingsPage": "Desde la página de configuración puedes ver tu historia de comentarios."
   }
 }
