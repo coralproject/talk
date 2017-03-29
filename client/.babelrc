@@ -1,6 +1,14 @@
 {
-  "extends": "../.babelrc",
+  "presets": [
+    "es2015"
+  ],
   "plugins": [
-    "transform-async-to-generator"
+    "add-module-exports",
+    "transform-class-properties",
+    "transform-decorators-legacy",
+    "transform-object-assign",
+    "transform-object-rest-spread",
+    "transform-async-to-generator",
+    "transform-react-jsx"
   ]
 }

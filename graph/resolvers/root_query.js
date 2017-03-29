@@ -103,7 +103,7 @@ const RootQuery = {
         .then((ids) => {
 
           // Perform the query using the available resolver.
-          return Users.getByQuery({ids, limit, cursor, sort});
+          return Users.getByQuery({ids, limit, cursor, sort}).find({status: 'PENDING'});
         });
     }
 

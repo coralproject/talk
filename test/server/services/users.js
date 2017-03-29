@@ -249,6 +249,17 @@ describe('services.UsersService', () => {
         done();
       });
     });
+
+    it('should not allow non-alphanumeric characters in usernames', () => {
+      return UsersService
+        .isValidUsername('hi🖕')
+        .then(() => {
+          expect(false).to.be.true;
+        })
+        .catch((err) => {
+          expect(err).to.be.truthy;
+        });
+    });
   });
 
 });

@@ -67,7 +67,15 @@ export const loadMore = (fetchMore) => ({limit, cursor, sort, tab, asset_id}) =>
   });
 };
 
-export const modUserFlaggedQuery  = graphql(MOD_USER_FLAGGED_QUERY);
+export const modUserFlaggedQuery  = graphql(MOD_USER_FLAGGED_QUERY, {
+  options: ({params: {action_type = 'FLAG'}}) => {
+    return {
+      variables: {
+        action_type: action_type
+      }
+    };
+  }
+});
 
 export const modQueueResort = (id, fetchMore) => (sort) => {
   return fetchMore({

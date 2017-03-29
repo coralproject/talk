@@ -7,12 +7,14 @@ const lang = new I18n(translations);
 import styles from './Community.css';
 
 import Loading from './Loading';
-import EmptyCard from '../../components/EmptyCard';
+import EmptyCard from 'coral-admin/src/components/EmptyCard';
 import User from './components/User';
 
 const FlaggedAccounts = ({...props}) => {
   const {commenters, isFetching} = props;
   const hasResults = !isFetching && commenters && !!commenters.length;
+
+// if (commenter.status === 'PENDING' && commenter.actions.length > 0) {
 
   return (
     <div className={styles.container}>
@@ -21,19 +23,16 @@ const FlaggedAccounts = ({...props}) => {
         {
           hasResults
           ? commenters.map((commenter, index) => {
-            if (commenter.status === 'PENDING' && commenter.actions.length > 0) {
-              return <User
-                user={commenter}
-                key={index}
-                index={index}
-                modActionButtons={['REJECT', 'APPROVE']}
-                showBanUserDialog={props.showBanUserDialog}
-                showSuspendUserDialog={props.showSuspendUserDialog}
-                approveUser={props.approveUser}
-                suspendUser={props.suspendUser}
-                />;
-            }
-            return null;
+            return <User
+              user={commenter}
+              key={index}
+              index={index}
+              modActionButtons={['APPROVE', 'REJECT']}
+              showBanUserDialog={props.showBanUserDialog}
+              showSuspendUserDialog={props.showSuspendUserDialog}
+              approveUser={props.approveUser}
+              suspendUser={props.suspendUser}
+              />;
           })
           : <EmptyCard>{lang.t('community.no-flagged-accounts')}</EmptyCard>
         }

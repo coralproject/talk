@@ -35,7 +35,7 @@ const User = props => {
         <div className={styles.itemBody}>
           <div className={styles.body}>
             <div className={styles.flaggedByCount}>
-              <i className="material-icons">flag</i><span className={styles.flaggedByLabel}>Flags({ user.actions.length })</span>:
+              <i className="material-icons">flag</i><span className={styles.flaggedByLabel}>{lang.t('community.flags')}({ user.actions.length })</span>:
                 { user.action_summaries.map(
                 (action, i ) => {
                   return <span className={styles.flaggedBy} key={i}>
@@ -67,8 +67,8 @@ const User = props => {
                 }
               )}
 
+            </div>
           </div>
-        </div>
           <div className={styles.sideActions}>
             <div className={`actions ${styles.actions}`}>
               {modActionButtons.map((action, i) =>

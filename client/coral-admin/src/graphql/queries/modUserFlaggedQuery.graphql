@@ -1,5 +1,5 @@
-query Users ($n: ACTION_TYPE) {
-  users (query:{action_type: $n}){
+query Users ($action_type: ACTION_TYPE) {
+  users (query:{action_type: $action_type}){
     id
     username
     status

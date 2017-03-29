@@ -1,4 +1,4 @@
-import {pym} from 'coral-framework';
+import {pym} from '../../coral-framework';
 
 export const addNotification = (notifType, text) => {
   pym.sendMessage('coral-alert', `${notifType}|${text}`);

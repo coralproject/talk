@@ -47,6 +47,10 @@ const SettingSchema = new Schema({
   organizationName: {
     type: String
   },
+  autoCloseStream: {
+    type: Boolean,
+    default: false
+  },
   closedTimeout: {
     type: Number,
 
