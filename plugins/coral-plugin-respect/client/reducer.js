@@ -6,7 +6,7 @@ const initialState = Map({
 
 export default function reducer (state = initialState, action) {
   switch (action.type) {
-    default:
-      return state;
+  default:
+    return state;
   }
 }

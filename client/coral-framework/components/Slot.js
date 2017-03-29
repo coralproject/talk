@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { importer as injectPlugins } from 'coral-framework/helpers/importer';
+import {importer as injectPlugins} from 'coral-framework/helpers/importer';
 
 class Slot extends Component {
   render() {

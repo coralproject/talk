@@ -16,7 +16,7 @@ import {queryStream} from 'coral-framework/graphql/queries';
 import {postComment, postFlag, postLike, postDontAgree, deleteAction, addCommentTag, removeCommentTag} from 'coral-framework/graphql/mutations';
 import {editName} from 'coral-framework/actions/user';
 import {updateCountCache} from 'coral-framework/actions/asset';
-import {notificationActions, authActions, assetActions, pym} from 'coral-framework';
+import {notificationActions, authActions, assetActions, pym, Slot} from 'coral-framework';
 
 import Stream from './Stream';
 import InfoBox from 'coral-plugin-infobox/InfoBox';
@@ -34,7 +34,6 @@ import ConfigureStreamContainer from 'coral-configure/containers/ConfigureStream
 import Comment from './Comment';
 import LoadMore from './LoadMore';
 import NewCount from './NewCount';
-import {Slot} from 'coral-framework';
 
 class Embed extends Component {
 

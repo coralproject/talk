@@ -96,21 +96,11 @@ function importAll(context) {
 }
 
 function actionsImporter () {
-  return importAll(require.context('plugins', true, /\.\/(.*)\/client\/actions.js$/))
-
-
+  return importAll(require.context('plugins', true, /\.\/(.*)\/client\/actions.js$/));
 }
 
 function reducersImporter () {
-  const context = require.context('plugins', true, /\.\/(.*)\/client\/reducer.js$/);
-
-  return context
-    .keys()
-    .map(key => shapeData(key))
-    .reduce((entry, reducerPlugin) => {
-      entry[reducerPlugin.name] = context(reducerPlugin.key);
-      return entry;
-  }, {});
+  return importAll(require.context('plugins', true, /\.\/(.*)\/client\/reducer.js$/));
 }
 
 export default {
