@@ -1,0 +1,10 @@
+mutation CreateRespect ($respect: CreateRespectInput!) {
+  createRespect(respect: $respect) {
+    respect {
+      id
+    }
+    errors {
+      translation_key
+    }
+  }
+}

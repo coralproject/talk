@@ -103,9 +103,23 @@ function reducersImporter () {
   return importAll(require.context('plugins', true, /\.\/(.*)\/client\/reducer.js$/));
 }
 
+function graphImporter () {
+  const context = require.context('plugins', true, /\.\/(.*)\/client\/(queries|mutations)\/index.js$/);
+  return context
+      .keys()
+      .map(key => shapeData(key))
+      .reduce((entry, actionsPlugin) => {
+        const input = context(actionsPlugin.key);
+        const res = Object.keys(input)
+          .map(key => input[key]);
+        return [...entry, ...res];
+      }, []);
+}
+
 export default {
   importer,
   actionsImporter: actionsImporter(),
-  reducersImporter: reducersImporter()
+  reducersImporter: reducersImporter(),
+  graphImporter: graphImporter()
 };
 

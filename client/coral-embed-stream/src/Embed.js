@@ -5,6 +5,7 @@ import isEqual from 'lodash/isEqual';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-framework/translations';
 const lang = new I18n(translations);
+import {graphImporter} from 'coral-framework/helpers/importer';
 
 import {TabBar, Tab, TabContent, Spinner} from 'coral-ui';
 
@@ -277,5 +278,6 @@ export default compose(
   addCommentTag,
   removeCommentTag,
   deleteAction,
-  queryStream
+  queryStream,
+  ...graphImporter
 )(Embed);
