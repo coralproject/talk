@@ -29,6 +29,7 @@ query AssetQuery($asset_id: ID, $asset_url: String!, $comment_id: ID!, $has_comm
             requireEmailConfirmation
         }
         commentCount
+        totalCommentCount
         comments(limit: 10) {
             ...commentView
             replyCount
