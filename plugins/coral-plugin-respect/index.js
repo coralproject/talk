@@ -10,12 +10,22 @@ module.exports = {
     }
   },
   hooks: {
+    Action: {
+      __resolveType: {
+        post({action_type}) {
+          switch (action_type) {
+          case 'RESPECT':
+            return 'RespectAction';
+          }
+        }
+      }
+    },
     ActionSummary: {
       __resolveType: {
         post({action_type}) {
           switch (action_type) {
-            case 'RESPECT':
-              return 'HappyActionSummary';
+          case 'RESPECT':
+            return 'RespectActionSummary';
           }
         }
       }

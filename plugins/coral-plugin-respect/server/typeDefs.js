@@ -29,6 +29,15 @@ module.exports = `
     # The time when the Action was created.
     created_at: Date
   }
+
+  type RespectActionSummary implements ActionSummary {
+
+    # The count of actions with this group.
+    count: Int
+
+    # The current user's action.
+    current_user: RespectAction
+  }
   
   type CreateRespectResponse implements Response {
   
