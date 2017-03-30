@@ -73,7 +73,6 @@
 .configSettingInfoBox {
   min-height: 100px;
   margin-bottom: 20px;
-  cursor: pointer;
   width: auto;
   height: auto;
   text-align: left;
@@ -180,7 +179,9 @@
 
   .content {
     display: inline-block;
-    padding-left: 30px;
+    padding: 0px 30px;
+    box-sizing: border-box;
+    width: 100%;
   }
 }
 
@@ -192,12 +193,11 @@
   }
 
   .wrapper {
-    width: 550px;
+    width: 100%;
   }
 
   .descriptionBox {
     margin-top: 15px;
-    max-width: 550px;
 
     input {
       height: 150px;
