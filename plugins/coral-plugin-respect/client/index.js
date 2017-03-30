@@ -4,11 +4,12 @@ import {Icon} from 'coral-ui';
 
 export default (props) => {
   const handleClick = () => {
-    props.actions.clickButton();
-    // props.postRespect({
-    //   item_id: props.comment.id,
-    //   item_type: 'COMMENTS'
-    // });
+    // props.actions.clic     kButton();
+
+    props.context.postRespect({
+      item_id: props.context.comment.id,
+      item_type: 'COMMENTS'
+    });
   };
   const {clicked} = props.state.respect;
 

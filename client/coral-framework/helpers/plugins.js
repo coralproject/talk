@@ -67,6 +67,10 @@ function injectPlugins ({fill, ...props}) {
       .map(addProps)
       .filter(filterBySlot)
       .reduce((entry, plugin, i) => {
+        // const element = React.cloneElement(
+        //   context(plugin.key),
+        //   {...plugin.props, key: i}
+        // );
         entry = [...entry, context(plugin.key)({...plugin.props, key: i})];
         return entry;
       }, []);

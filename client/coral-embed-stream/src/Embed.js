@@ -135,7 +135,7 @@ class Embed extends Component {
     return (
       <div style={expandForLogin}>
         <div className="commentStream">
-          {/*<Slot fill="Stream" pluginProps={pluginProps} />*/}
+          {/* <Slot fill="Stream" pluginProps={pluginProps} />*/}
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count count={asset.totalCommentCount}/></Tab>
             <Tab>{lang.t('MY_COMMENTS')}</Tab>
@@ -282,7 +282,7 @@ const mapStateToProps = (state) => Object
     userData: state.user.toJS(),
     asset: state.asset.toJS(),
     state: {}
-});
+  });
 
 const mapDispatchToProps = dispatch => ({
   requestConfirmEmail: () => dispatch(requestConfirmEmail()),

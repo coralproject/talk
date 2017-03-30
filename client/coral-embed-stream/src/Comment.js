@@ -148,8 +148,6 @@ class Comment extends React.Component {
       ...rest
     };
 
-    console.log('Commnet --------', pluginProps)
-
     return (
       <div
         className={commentClass}
