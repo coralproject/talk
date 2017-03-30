@@ -1,3 +1,5 @@
+import asd from 'coral-framework';
+console.log(asd)
 import {client as clientPlugins} from 'pluginsConfig';
 
 function importer (fill) {
@@ -42,7 +44,11 @@ function importer (fill) {
   }
 
   function addProps (plugin) {
-    plugin.props = getConfig(plugin.name);
+
+    /**
+     *  addProps add properties to the injected plugins
+     */
+    plugin.props = {...getConfig(plugin.name), plugin: 'true'};
     return plugin;
   }
 
@@ -108,8 +114,8 @@ function graphImporter () {
   return context
       .keys()
       .map(key => shapeData(key))
-      .reduce((entry, actionsPlugin) => {
-        const input = context(actionsPlugin.key);
+      .reduce((entry, graphPlugin) => {
+        const input = context(graphPlugin.key);
         const res = Object.keys(input)
           .map(key => input[key]);
         return [...entry, ...res];
