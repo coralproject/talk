@@ -5,6 +5,7 @@ import translations from '../../translations.json';
 import styles from './Configure.css';
 import {Checkbox, Textfield} from 'react-mdl';
 import {Card, Icon, TextArea} from 'coral-ui';
+import MarkdownEditor from 'coral-admin/src/components/MarkdownEditor';
 
 const TIMESTAMPS = {
   weeks: 60 * 60 * 24 * 7,
@@ -32,8 +33,8 @@ const updateInfoBoxEnable = (updateSettings, infoBox) => () => {
   updateSettings({infoBoxEnable});
 };
 
-const updateInfoBoxContent = (updateSettings) => (event) => {
-  const infoBoxContent =  event.target.value;
+const updateInfoBoxContent = (updateSettings) => (value) => {
+  const infoBoxContent = value;
   updateSettings({infoBoxContent});
 };
 
@@ -112,19 +113,17 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
             {lang.t('configure.include-comment-stream-desc')}
           </p>
           <div className={`${styles.configSettingInfoBox} ${settings.infoBoxEnable ? null : styles.hidden}`} >
-            <div>
-              <TextArea
-                className={styles.descriptionBox}
-                onChange={updateInfoBoxContent(updateSettings)}
-                value={settings.infoBoxContent}
-              />
-            </div>
+            <MarkdownEditor
+              className={styles.descriptionBox}
+              onChange={updateInfoBoxContent(updateSettings)}
+              value={settings.infoBoxContent}
+            />
           </div>
         </div>
       </Card>
       <Card className={`${styles.configSetting} ${styles.configSettingInfoBox}`}>
-        <div className={styles.settingsHeader}>{lang.t('configure.closed-stream-settings')}</div>
         <div className={styles.wrapper}>
+          <div className={styles.settingsHeader}>{lang.t('configure.closed-stream-settings')}</div>
           <p>{lang.t('configure.closed-comments-desc')}</p>
           <div>
             <TextArea className={styles.descriptionBox}
