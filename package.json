@@ -74,6 +74,7 @@
     "kue": "^0.11.5",
     "linkify-it": "^2.0.3",
     "lodash": "^4.16.6",
+    "marked": "^0.3.6",
     "metascraper": "^1.0.6",
     "minimist": "^1.2.0",
     "mongoose": "^4.9.1",
@@ -88,6 +89,7 @@
     "react-apollo": "^0.10.0",
     "react-recaptcha": "^2.2.6",
     "redis": "^2.7.1",
+    "simplemde": "^1.11.2",
     "uuid": "^2.0.3"
   },
   "devDependencies": {
@@ -148,9 +150,9 @@
     "pre-git": "^3.10.0",
     "precss": "^1.4.0",
     "pym.js": "^1.1.1",
-    "react": "15.3.2",
-    "react-addons-test-utils": "15.3.2",
-    "react-dom": "15.3.2",
+    "react": "^15.4.2",
+    "react-addons-test-utils": "^15.4.2",
+    "react-dom": "^15.4.2",
     "react-highlight-words": "^0.6.0",
     "react-linkify": "^0.1.3",
     "react-mdl": "^1.7.2",
