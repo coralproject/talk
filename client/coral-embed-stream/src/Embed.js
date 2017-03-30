@@ -11,6 +11,7 @@ import {TabBar, Tab, TabContent, Spinner, Button} from 'coral-ui';
 const {logout, showSignInDialog, requestConfirmEmail} = authActions;
 const {addNotification, clearNotification} = notificationActions;
 const {fetchAssetSuccess} = assetActions;
+import {NEW_COMMENT_COUNT_POLL_INTERVAL} from 'coral-framework/constants/comments';
 
 import {queryStream} from 'coral-framework/graphql/queries';
 import {postComment, postFlag, postLike, postDontAgree, deleteAction, addCommentTag, removeCommentTag} from 'coral-framework/graphql/mutations';
@@ -31,7 +32,7 @@ import ChangeUsernameContainer from '../../coral-sign-in/containers/ChangeUserna
 import ProfileContainer from 'coral-settings/containers/ProfileContainer';
 import RestrictedContent from 'coral-framework/components/RestrictedContent';
 import ConfigureStreamContainer from 'coral-configure/containers/ConfigureStreamContainer';
-import Comment from './Comment';
+import HighlightedComment from './Comment';
 import LoadMore from './LoadMore';
 import NewCount from './NewCount';
 
@@ -68,10 +69,30 @@ class Embed extends Component {
     pym.sendMessage('childReady');
   }
 
+  componentWillUnmount () {
+    clearInterval(this.state.countPoll);
+  }
+
   componentWillReceiveProps (nextProps) {
     const {loadAsset} = this.props;
     if(!isEqual(nextProps.data.asset, this.props.data.asset)) {
       loadAsset(nextProps.data.asset);
+
+      const {getCounts, updateCountCache} = this.props;
+      const {asset} = nextProps.data;
+
+      updateCountCache(asset.id, asset.commentCount);
+
+      this.setState({
+        countPoll: setInterval(() => {
+          const {asset} = this.props.data;
+          getCounts({
+            asset_id: asset.id,
+            limit: asset.comments.length,
+            sort: 'REVERSE_CHRONOLOGICAL'
+          });
+        }, NEW_COMMENT_COUNT_POLL_INTERVAL)
+      });
     }
   }
 
@@ -186,7 +207,7 @@ class Embed extends Component {
             {/* the highlightedComment is isolated after the user followed a permalink */}
             {
               highlightedComment
-              ? <Comment
+              ? <HighlightedComment
                 refetch={refetch}
                 setActiveReplyBox={this.setActiveReplyBox}
                 activeReplyBox={this.state.activeReplyBox}
@@ -226,10 +247,8 @@ class Embed extends Component {
                     postLike={this.props.postLike}
                     postFlag={this.props.postFlag}
                     postDontAgree={this.props.postDontAgree}
-                    getCounts={this.props.getCounts}
                     addCommentTag={this.props.addCommentTag}
                     removeCommentTag={this.props.removeCommentTag}
-                    updateCountCache={this.props.updateCountCache}
                     loadMore={this.props.loadMore}
                     deleteAction={this.props.deleteAction}
                     showSignInDialog={this.props.showSignInDialog}
