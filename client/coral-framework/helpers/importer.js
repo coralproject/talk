@@ -1,5 +1,3 @@
-import asd from 'coral-framework';
-console.log(asd)
 import {client as clientPlugins} from 'pluginsConfig';
 
 function importer (fill) {
@@ -34,25 +32,23 @@ function importer (fill) {
       }, {});
   }
 
-  function filterByUserConfig (list) {
-
-    /**
-     *  filterByUserConfig will filter the imported files and will only keep the allowed plugins
-     */
-    return list
-      .filter(plugin => clientPlugins.indexOf(plugin.name) > -1);
-  }
-
   function addProps (plugin) {
 
     /**
      *  addProps add properties to the injected plugins
      */
-    plugin.props = {...getConfig(plugin.name), plugin: 'true'};
+    plugin.props = {
+      ...actionsImporter(),
+      ...getConfig(plugin.name)
+    };
+
     return plugin;
   }
 
   function filterBySlot (plugin) {
+    /**
+     *  filterBySlot
+     */
     return plugin.props.slot === fill;
   }
 
@@ -64,12 +60,13 @@ function importer (fill) {
      */
     buildContext();
 
-    return filterByUserConfig(importedFiles)
+    return importedFiles
+      .filter(filterByUserConfig)
       .filter(key => key.format === 'js')
       .map(addProps)
       .filter(filterBySlot)
       .reduce((entry, plugin, i) => {
-        entry.push(context(plugin.key)({...plugin.props, key: i}));
+        entry = [...entry, context(plugin.key)({...plugin.props, key: i})];
         return entry;
       }, []);
   }
@@ -91,14 +88,42 @@ function shapeData(test) {
   };
 }
 
+function filterByUserConfig (plugin) {
+
+  /**
+   *  filterByUserConfig will filter the imported files and will only keep the allowed plugins
+   */
+  return clientPlugins.indexOf(plugin.name) > -1;
+}
+
 function importAll(context) {
+  /**
+   *  importAll builds the map to import
+   */
   return context
     .keys()
     .map(key => shapeData(key))
+    .filter(filterByUserConfig)
     .reduce((entry, actionsPlugin) => {
-      entry[actionsPlugin.name] = context(actionsPlugin.key);
-      return entry;
+      const input = context(actionsPlugin.key);
+      return {...entry, ...input};
     }, {});
+}
+
+function importAllAsArr(context) {
+  /**
+   *  importAllAsArr builds the array to import
+   */
+  return context
+    .keys()
+    .map(key => shapeData(key))
+    .filter(filterByUserConfig)
+    .reduce((entry, graphPlugin) => {
+      const input = context(graphPlugin.key);
+      const res = Object.keys(input)
+        .map(key => input[key]);
+      return [...entry, ...res];
+    }, []);
 }
 
 function actionsImporter () {
@@ -110,16 +135,7 @@ function reducersImporter () {
 }
 
 function graphImporter () {
-  const context = require.context('plugins', true, /\.\/(.*)\/client\/(queries|mutations)\/index.js$/);
-  return context
-      .keys()
-      .map(key => shapeData(key))
-      .reduce((entry, graphPlugin) => {
-        const input = context(graphPlugin.key);
-        const res = Object.keys(input)
-          .map(key => input[key]);
-        return [...entry, ...res];
-      }, []);
+  return importAllAsArr(require.context('plugins', true, /\.\/(.*)\/client\/(queries|mutations)\/index.js$/));
 }
 
 export default {
