@@ -269,11 +269,15 @@ class Embed extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  auth: state.auth.toJS(),
-  userData: state.user.toJS(),
-  asset: state.asset.toJS()
-});
+const mapStateToProps = (state) => Object
+  .keys(state)
+  .reduce((entry, key) => {
+    if (key !== 'apollo') {
+      entry[key] = state[key].toJS();
+    }
+    console.log(entry);
+    return entry;
+  }, {});
 
 const mapDispatchToProps = dispatch => ({
   requestConfirmEmail: () => dispatch(requestConfirmEmail()),
