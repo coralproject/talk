@@ -47,9 +47,9 @@ deployment:
   release:
     tag: /v[0-9]+(\.[0-9]+)*/
     commands:
-      - bash ./scripts/deploy.sh
+      - bash ./scripts/docker.sh deploy
 
   latest:
     branch: master
     commands:
-      - bash ./scripts/deploy.sh
+      - bash ./scripts/docker.sh deploy
