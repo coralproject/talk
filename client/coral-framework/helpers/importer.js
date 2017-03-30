@@ -38,7 +38,6 @@ function importer ({fill, ...props}) {
      *  addProps add properties to the injected plugins
      */
     plugin.props = {
-      ...actionsImporter(),
       ...getConfig(plugin.name),
       ...props
     };

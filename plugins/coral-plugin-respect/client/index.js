@@ -3,8 +3,7 @@ import styles from './style.css';
 
 export default (props) => (
   <div className={styles.Respect} key={props.key}>
-    {console.log(props)}
-    <button>Respect</button>
+    <button onClick={props.pluginProps.clickButton}>Respect</button>
   </div>
 );
 

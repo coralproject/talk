@@ -1,1 +1,6 @@
-export const clickButton = () => ({type: 'BUTTON_CLICKED'});
+const buttonClicked = () => ({type: 'BUTTON_CLICKED'});
+
+export const clickButton = () => dispatch => {
+  console.log('here');
+  dispatch(buttonClicked());
+};

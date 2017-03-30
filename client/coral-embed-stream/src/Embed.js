@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {compose} from 'react-apollo';
+import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
 import I18n from 'coral-framework/modules/i18n/i18n';
@@ -17,7 +18,7 @@ import {queryStream} from 'coral-framework/graphql/queries';
 import {postComment, postFlag, postLike, postDontAgree, deleteAction, addCommentTag, removeCommentTag} from 'coral-framework/graphql/mutations';
 import {editName} from 'coral-framework/actions/user';
 import {updateCountCache} from 'coral-framework/actions/asset';
-import {notificationActions, authActions, assetActions, pym, Slot} from 'coral-framework';
+import {notificationActions, authActions, assetActions, pym, Slot, actions} from 'coral-framework';
 
 import Stream from './Stream';
 import InfoBox from 'coral-plugin-infobox/InfoBox';
@@ -117,10 +118,23 @@ class Embed extends Component {
       ? asset.comments[0].created_at
       : new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString();
 
+    /**
+     * Plugins Section
+     *
+     */
+    const {dispatch} = this.props;
+    const {pluginActions} = actions;
+    let boundActionCreators = bindActionCreators(pluginActions, dispatch);
+
+    const pluginProps = {
+      ...this.props,
+      ...boundActionCreators
+    };
+
     return (
       <div style={expandForLogin}>
         <div className="commentStream">
-          <Slot fill="Stream" {...this.props} />
+          <Slot fill="Stream" {...pluginProps} />
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count count={asset.totalCommentCount}/></Tab>
             <Tab>{lang.t('MY_COMMENTS')}</Tab>
@@ -193,7 +207,7 @@ class Embed extends Component {
                 key={highlightedComment.id}
                 reactKey={highlightedComment.id}
                 comment={highlightedComment}
-                {...this.props}
+                pluginProps={pluginProps}
               />
             }
             <NewCount
@@ -223,7 +237,9 @@ class Embed extends Component {
                 loadMore={this.props.loadMore}
                 deleteAction={this.props.deleteAction}
                 showSignInDialog={this.props.showSignInDialog}
-                comments={asset.comments} />
+                comments={asset.comments}
+                pluginProps={pluginProps}
+              />
             </div>
           <LoadMore
             topLevel={true}
