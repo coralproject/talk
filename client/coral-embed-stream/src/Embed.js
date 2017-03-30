@@ -6,7 +6,7 @@ import isEqual from 'lodash/isEqual';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-framework/translations';
 const lang = new I18n(translations);
-import {graphImporter} from 'coral-framework/helpers/importer';
+import {graphImporter} from 'coral-framework/helpers/plugins';
 
 import {TabBar, Tab, TabContent, Spinner} from 'coral-ui';
 
@@ -128,7 +128,7 @@ class Embed extends Component {
 
     const pluginProps = {
       ...this.props,
-      ...boundActionCreators
+      actions: boundActionCreators
     };
 
     return (

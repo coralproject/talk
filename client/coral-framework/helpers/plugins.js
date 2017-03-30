@@ -1,6 +1,6 @@
 import {client as clientPlugins} from 'pluginsConfig';
 
-function importer ({fill, ...props}) {
+function injectPlugins ({fill, ...props}) {
   let context,
     importedFiles;
 
@@ -142,7 +142,7 @@ function graphImporter () {
 }
 
 export default {
-  importer,
+  injectPlugins,
   actionsImporter: actionsImporter(),
   reducersImporter: reducersImporter(),
   graphImporter: graphImporter()

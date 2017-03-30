@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import {importer as injectPlugins} from 'coral-framework/helpers/importer';
+import {injectPlugins} from 'coral-framework/helpers/plugins';
 
 class Slot extends Component {
   render() {
-    const {pluginProps: actions, ...props} = this.props;
+    const {pluginProps, ...props} = this.props;
     return (
       <div>
-        {injectPlugins({...props, actions})}
+        {injectPlugins({...props, ...pluginProps})}
       </div>
     );
   }
