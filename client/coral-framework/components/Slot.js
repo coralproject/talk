@@ -3,9 +3,10 @@ import {importer as injectPlugins} from 'coral-framework/helpers/importer';
 
 class Slot extends Component {
   render() {
+    const {pluginProps: actions, ...props} = this.props;
     return (
       <div>
-        {injectPlugins(this.props)}
+        {injectPlugins({...props, actions})}
       </div>
     );
   }
