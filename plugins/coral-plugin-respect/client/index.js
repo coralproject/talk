@@ -1,9 +1,8 @@
 import React from 'react';
 import styles from './style.css';
-import {Icon} from 'coral-ui';
+import Icon from './components/Icon';
 
-const getActionSummary = (type, comment) => comment.action_summaries
-  .filter((a) => a.__typename === type)[0];
+import {getActionSummary} from 'coral-framework/utils';
 
 export default (props) => {
   const {comment} = props.context;
@@ -22,7 +21,7 @@ export default (props) => {
       <button
         onClick={handleClick}>
         Respect
-        <Icon name="done"/>
+        <Icon />
         {respectActionSummary ? <span>{respectActionSummary.count}</span> : null}
       </button>
     </div>

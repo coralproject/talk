@@ -7,9 +7,18 @@
         padding: 0px;
         border: none;
         font-size: inherit;
+
+        &:hover {
+          color: #d6ab00;
+          cursor: pointer;
+         }
     }
 
     .clicked {
         color: #ffcc00;
+    }
+
+    i {
+        padding: 0 5px;
     }
 }
