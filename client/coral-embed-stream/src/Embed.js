@@ -275,7 +275,6 @@ const mapStateToProps = (state) => Object
     if (key !== 'apollo') {
       entry[key] = state[key].toJS();
     }
-    console.log(entry);
     return entry;
   }, {});
 

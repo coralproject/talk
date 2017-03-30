@@ -46,6 +46,7 @@ function importer ({fill, ...props}) {
   }
 
   function filterBySlot (plugin) {
+
     /**
      *  filterBySlot
      */
@@ -97,6 +98,7 @@ function filterByUserConfig (plugin) {
 }
 
 function importAll(context) {
+
   /**
    *  importAll builds the map to import
    */
@@ -111,6 +113,7 @@ function importAll(context) {
 }
 
 function importAllAsArr(context) {
+
   /**
    *  importAllAsArr builds the array to import
    */
