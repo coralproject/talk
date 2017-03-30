@@ -3,24 +3,27 @@ import {shallow} from 'enzyme';
 import {expect} from 'chai';
 import InfoBox from '../InfoBox';
 
+const render = props => shallow(<InfoBox {...props} />);
+
 describe('InfoBox', () => {
-  let comment;
-  let render;
-  beforeEach(() => {
-    comment = {};
-    const postItem = (item) => {
-      comment.posted = item;
-      return Promise.resolve(4);
-    };
-    render = shallow(<InfoBox
-      postItem={postItem}
-      updateItem={(e) => comment.text = e.target.value}
-      item_id={'1'}
-      comments={['1', '2', '3']}/>);
+  it('should render hidden InfoBox', () => {
+    const wrapper = render();
+    const className = wrapper.prop('className');
+    expect(className).to.include('-info');
+    expect(className).to.include('hidden');
   });
 
-  it('should render the InfoBox appropriately', () => {
-    expect(render.contains('<div class="InfoBox"')).to.be.truthy;
-    expect(render.contains('<button class="postCommentButton"')).to.be.truthy;
+  it('should render enabled InfoBox', () => {
+    const wrapper = render({enable: true});
+    const className = wrapper.prop('className');
+    expect(className).to.include('-info');
+    expect(className).to.not.include('hidden');
+  });
+
+  it('should render Markdown', () => {
+    const wrapper = render({content: 'x'});
+    const Markddown = wrapper.find('Markdown');
+    expect(Markddown).to.have.length(1);
+    expect(Markddown.prop('content')).to.equal('x');
   });
 });
