@@ -160,7 +160,7 @@ class Comment extends React.Component {
             ? <TagLabel><BestIndicator /></TagLabel>
             : null }
           <PubDate created_at={comment.created_at} />
-          <Slot fill="Comment.InfoBar" />
+          <Slot fill="Comment.InfoBar"  {...this.props}/>
         </div>
 
         <Content body={comment.body} />
@@ -192,7 +192,7 @@ class Comment extends React.Component {
                   removeBest={removeBestTag} />
               </IfUserCanModifyBest>
             </ActionButton>
-            <Slot fill="Comment.Detail" />
+            <Slot fill="Comment.Detail"  {...this.props}/>
           </div>
         <div className="commentActionsRight comment__action-container">
           <ActionButton>

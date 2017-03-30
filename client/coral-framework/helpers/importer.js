@@ -1,6 +1,6 @@
 import {client as clientPlugins} from 'pluginsConfig';
 
-function importer (fill) {
+function importer ({fill, ...props}) {
   let context,
     importedFiles;
 
@@ -39,7 +39,8 @@ function importer (fill) {
      */
     plugin.props = {
       ...actionsImporter(),
-      ...getConfig(plugin.name)
+      ...getConfig(plugin.name),
+      ...props
     };
 
     return plugin;

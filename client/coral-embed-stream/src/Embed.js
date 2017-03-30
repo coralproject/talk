@@ -120,7 +120,7 @@ class Embed extends Component {
     return (
       <div style={expandForLogin}>
         <div className="commentStream">
-          <Slot fill="Stream"/>
+          <Slot fill="Stream" {...this.props} />
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count count={asset.totalCommentCount}/></Tab>
             <Tab>{lang.t('MY_COMMENTS')}</Tab>
@@ -192,7 +192,9 @@ class Embed extends Component {
                 showSignInDialog={this.props.showSignInDialog}
                 key={highlightedComment.id}
                 reactKey={highlightedComment.id}
-                comment={highlightedComment} />
+                comment={highlightedComment}
+                {...this.props}
+              />
             }
             <NewCount
               commentCount={asset.commentCount}

@@ -4,10 +4,10 @@ import actions from 'coral-framework/actions';
 
 class Slot extends Component {
   render() {
-    const {fill} = this.props;
+    const slotProps = {...this.props, ...actions};
     return (
       <div>
-        {injectPlugins(fill)}
+        {injectPlugins(slotProps)}
       </div>
     );
   }
