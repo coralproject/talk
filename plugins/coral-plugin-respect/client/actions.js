@@ -4,3 +4,4 @@ export const clickButton = () => dispatch => {
   console.log('here');
   dispatch(buttonClicked());
 };
+

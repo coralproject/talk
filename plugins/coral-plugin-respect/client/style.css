@@ -8,4 +8,8 @@
         border: none;
         font-size: inherit;
     }
+
+    .clicked {
+        color: #ffcc00;
+    }
 }

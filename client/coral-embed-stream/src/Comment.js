@@ -112,7 +112,6 @@ class Comment extends React.Component {
       addCommentTag,
       removeCommentTag,
       disableReply,
-      pluginProps
     } = this.props;
 
     const like = getActionSummary('LikeActionSummary', comment);
@@ -143,6 +142,14 @@ class Comment extends React.Component {
       tag: BEST_TAG,
     }), () => 'Failed to remove best comment tag');
 
+    const {context, ...rest} = this.props.pluginProps;
+    const pluginProps = {
+      context: {...context, ...this.props},
+      ...rest
+    };
+
+    console.log('Commnet --------', pluginProps)
+
     return (
       <div
         className={commentClass}
@@ -161,7 +168,7 @@ class Comment extends React.Component {
             ? <TagLabel><BestIndicator /></TagLabel>
             : null }
           <PubDate created_at={comment.created_at} />
-          <Slot fill="Comment.InfoBar" {...this.props} />
+          <Slot fill="Comment.InfoBar" {...pluginProps} />
         </div>
 
         <Content body={comment.body} />
@@ -193,7 +200,7 @@ class Comment extends React.Component {
                   removeBest={removeBestTag} />
               </IfUserCanModifyBest>
             </ActionButton>
-            <Slot fill="Comment.Detail" {...this.props} />
+            <Slot fill="Comment.Detail" {...pluginProps} />
           </div>
         <div className="commentActionsRight comment__action-container">
           <ActionButton>
