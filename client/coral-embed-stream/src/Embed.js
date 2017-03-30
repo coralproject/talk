@@ -18,7 +18,7 @@ import {queryStream} from 'coral-framework/graphql/queries';
 import {postComment, postFlag, postLike, postDontAgree, deleteAction, addCommentTag, removeCommentTag} from 'coral-framework/graphql/mutations';
 import {editName} from 'coral-framework/actions/user';
 import {updateCountCache} from 'coral-framework/actions/asset';
-import {notificationActions, authActions, assetActions, pym, Slot, actions} from 'coral-framework';
+import {notificationActions, authActions, assetActions, pym, actions} from 'coral-framework';
 
 import Stream from './Stream';
 import InfoBox from 'coral-plugin-infobox/InfoBox';
@@ -135,7 +135,6 @@ class Embed extends Component {
     return (
       <div style={expandForLogin}>
         <div className="commentStream">
-          {/* <Slot fill="Stream" pluginProps={pluginProps} />*/}
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count count={asset.totalCommentCount}/></Tab>
             <Tab>{lang.t('MY_COMMENTS')}</Tab>

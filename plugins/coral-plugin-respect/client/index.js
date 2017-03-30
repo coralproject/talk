@@ -2,25 +2,28 @@ import React from 'react';
 import styles from './style.css';
 import {Icon} from 'coral-ui';
 
-export default (props) => {
-  const handleClick = () => {
-    // props.actions.clic     kButton();
+const getActionSummary = (type, comment) => comment.action_summaries
+  .filter((a) => a.__typename === type)[0];
 
+export default (props) => {
+  const {comment} = props.context;
+
+  const handleClick = () => {
     props.context.postRespect({
-      item_id: props.context.comment.id,
+      item_id: comment.id,
       item_type: 'COMMENTS'
     });
   };
-  const {clicked} = props.state.respect;
+
+  const respectActionSummary = getActionSummary('RespectActionSummary', comment);
 
   return (
     <div className={styles.Respect} key={props.key}>
       <button
-        className={clicked ? styles.clicked : ''}
         onClick={handleClick}>
         Respect
         <Icon name="done"/>
-        <span>9</span>
+        {respectActionSummary ? <span>{respectActionSummary.count}</span> : null}
       </button>
     </div>
   );
