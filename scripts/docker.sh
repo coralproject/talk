@@ -48,7 +48,7 @@ deploy_latest() {
 docker build -t coralproject/talk:latest -f Dockerfile .
 docker build -t coralproject/talk:latest-onbuild -f Dockerfile.onbuild .
 
-if [ "$1" -eq "deploy" ]
+if [ "$1" = "deploy" ]
 then
 
   if [[ -n "$DOCKER_EMAIL" && -n "$DOCKER_USER" && -n "$DOCKER_PASS" ]]
