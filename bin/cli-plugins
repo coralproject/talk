@@ -8,7 +8,9 @@ const program = require('./commander');
 
 // Make things colorful!
 require('colors');
+const emoji = require('node-emoji');
 
+const dir = process.cwd();
 const fs = require('fs');
 const path = require('path');
 const spawn = require('cross-spawn');
@@ -17,7 +19,7 @@ const {plugins, isInternal} = require('../plugins');
 
 function existsInNodeModules(name) {
   try {
-    resolve.sync(name, {basedir: process.cwd()});
+    resolve.sync(name, {basedir: dir});
 
     return true;
   } catch (e) {
@@ -27,11 +29,11 @@ function existsInNodeModules(name) {
 
 const EXTERNAL = /^\w[a-z\-0-9\.]+$/; // Match "react", "path", "fs", "lodash.random", etc.
 
-async function reconcileRemotePlugins(dryRun) {
+function reconcilePackages() {
   const linkable = [];
   const fetchable = [];
 
-  console.log('\n[1/3] 🔍 Reconciling plugins...\n'.yellow);
+  console.log();
   console.log(' +local     (l)  packages in your project\n +external  (e)  referenced packages in node_modules but not in current project\n +missing   (m)  referenced packages but not found\n +symlinked (sl) symlinked external packages\n');
   for (let i in plugins) {
     let section = plugins[i];
@@ -50,7 +52,7 @@ async function reconcileRemotePlugins(dryRun) {
       }
 
       if (isInternal(dep)) {
-        let stat = fs.lstatSync(path.join(process.cwd(), 'plugins', name));
+        let stat = fs.lstatSync(path.join(dir, 'plugins', name));
         if (stat.isSymbolicLink()) {
           console.log(` sl ${name.cyan}`);
         } else {
@@ -69,8 +71,16 @@ async function reconcileRemotePlugins(dryRun) {
       }
     }
   }
+  console.log();
 
-  console.log('\n[2/3] 🚚 Fetching plugins...\n'.yellow);
+  return {linkable, fetchable};
+}
+
+async function reconcileRemotePlugins(dryRun) {
+  console.log(`\n[1/3] ${emoji.get('mag')} Reconciling plugins...`.yellow);
+  const {linkable, fetchable} = reconcilePackages();
+
+  console.log(`[2/3] ${emoji.get('truck')} Fetching plugins...\n`.yellow);
 
   if (fetchable.length > 0) {
 
@@ -101,13 +111,13 @@ async function reconcileRemotePlugins(dryRun) {
 
   // TODO fetch the plugins using yarn
 
-  console.log('\n[3/3] 🔗 Linking plugins...\n'.yellow);
+  console.log(`\n[3/3] ${emoji.get('link')} Linking plugins...\n`.yellow);
 
   for (let i in linkable) {
     let {name} = linkable[i];
 
-    let src = path.join(process.cwd(), 'node_modules', name);
-    let dst = path.join(process.cwd(), 'plugins', name);
+    let src = path.join(dir, 'node_modules', name);
+    let dst = path.join(dir, 'plugins', name);
 
     console.log(`$ link ${src.cyan} -> ${dst.cyan}`);
 
@@ -176,6 +186,11 @@ async function reconcilePluginDeps(options) {
 //==============================================================================
 // Setting up the program command line arguments.
 //==============================================================================
+
+program
+  .command('list')
+  .description('')
+  .action(reconcilePackages);
 
 program
   .command('reconcile')
