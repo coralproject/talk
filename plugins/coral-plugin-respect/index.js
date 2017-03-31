@@ -1,7 +1,8 @@
-const typeDefs = require('./server/typeDefs');
+const {readFileSync} = require('fs');
+const path = require('path');
 
 module.exports = {
-  typeDefs,
+  typeDefs: readFileSync(path.join(__dirname, 'server/typeDefs.graphql'), 'utf8'),
   resolvers: {
     RootMutation: {
       createRespect(_, {respect: {item_id, item_type}}, {mutators: {Action}}) {
