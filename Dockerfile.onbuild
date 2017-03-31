@@ -7,7 +7,7 @@ ONBUILD COPY . /usr/src/app
 # we need to have webpack available. We then build the new dependancies and
 # clear out the development dependancies again. After this we of course need to
 # clear out the yarn cache, this saves quite a lot of size.
-ONBUILD RUN NODE_ENV=development yarn install && \
+ONBUILD RUN NODE_ENV=development yarn install --frozen-lockfile && \
             NODE_ENV=production  yarn build && \
             NODE_ENV=production  yarn install --production && \
             yarn cache clean

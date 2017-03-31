@@ -1,6 +1,6 @@
 machine:
   node:
-    version: 7.6
+    version: 7
   services:
     - docker
     - redis
@@ -20,6 +20,7 @@ dependencies:
     # - sudo service mongod restart
 
     # Install node dependencies.
+    - yarn --version
     - yarn
   cache_directories:
     - ~/.cache/yarn

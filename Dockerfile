@@ -13,7 +13,7 @@ EXPOSE 5000
 COPY . /usr/src/app
 
 # Install app dependencies and build static assets.
-RUN yarn install && \
+RUN yarn install --frozen-lockfile && \
     yarn build && \
     yarn install --production && \
     yarn cache clean
