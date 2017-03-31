@@ -14,6 +14,7 @@ COPY . /usr/src/app
 
 # Install app dependencies and build static assets.
 RUN yarn install --frozen-lockfile && \
+    cli plugins reconcile && \
     yarn build && \
     yarn install --production && \
     yarn cache clean

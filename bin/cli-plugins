@@ -29,12 +29,13 @@ function existsInNodeModules(name) {
 
 const EXTERNAL = /^\w[a-z\-0-9\.]+$/; // Match "react", "path", "fs", "lodash.random", etc.
 
-function reconcilePackages() {
+function reconcilePackages(log = console.log) {
   const linkable = [];
   const fetchable = [];
+  const local = [];
 
-  console.log();
-  console.log(' +local     (l)  packages in your project\n +external  (e)  referenced packages in node_modules but not in current project\n +missing   (m)  referenced packages but not found\n +symlinked (sl) symlinked external packages\n');
+  log();
+  log(' +local     (l)  packages in your project\n +external  (e)  referenced packages in node_modules but not in current project\n +missing   (m)  referenced packages but not found\n +symlinked (sl) symlinked external packages\n');
   for (let i in plugins) {
     let section = plugins[i];
 
@@ -54,33 +55,34 @@ function reconcilePackages() {
       if (isInternal(dep)) {
         let stat = fs.lstatSync(path.join(dir, 'plugins', name));
         if (stat.isSymbolicLink()) {
-          console.log(` sl ${name.cyan}`);
+          log(` sl ${name.cyan}`);
         } else {
-          console.log(` l  ${name.cyan}`);
+          log(` l  ${name.cyan}`);
+          local.push({name, version});
         }
 
         continue;
       }
 
       if (!existsInNodeModules(dep)) {
-        console.warn(` m  ${name.cyan}`);
+        log(` m  ${name.cyan}`);
         fetchable.push({name, version});
       } else {
-        console.log(` e  ${name.cyan}`);
+        log(` e  ${name.cyan}`);
         linkable.push({name, version});
       }
     }
   }
-  console.log();
+  log();
 
-  return {linkable, fetchable};
+  return {local, linkable, fetchable};
 }
 
-async function reconcileRemotePlugins(dryRun) {
-  console.log(`\n[1/3] ${emoji.get('mag')} Reconciling plugins...`.yellow);
+async function reconcileRemotePlugins({skipLocal, dryRun}) {
+  console.log(`\n[${skipLocal ? '1/3' : '2/4'}] ${emoji.get('mag')} Reconciling plugins...`.yellow);
   const {linkable, fetchable} = reconcilePackages();
 
-  console.log(`[2/3] ${emoji.get('truck')} Fetching plugins...\n`.yellow);
+  console.log(`[${skipLocal ? '2/3' : '3/4'}] ${emoji.get('truck')} Fetching plugins...\n`.yellow);
 
   if (fetchable.length > 0) {
 
@@ -111,7 +113,7 @@ async function reconcileRemotePlugins(dryRun) {
 
   // TODO fetch the plugins using yarn
 
-  console.log(`\n[3/3] ${emoji.get('link')} Linking plugins...\n`.yellow);
+  console.log(`\n[${skipLocal ? '3/3' : '4/4'}] ${emoji.get('link')} Linking plugins...\n`.yellow);
 
   for (let i in linkable) {
     let {name} = linkable[i];
@@ -131,33 +133,65 @@ async function reconcileRemotePlugins(dryRun) {
   return {linkable, fetchable};
 }
 
+async function reconcileLocalPlugins({skipRemote, dryRun}) {
+  console.log(`\n[${skipRemote ? '1/1' : '1/4'}] ${emoji.get('pick')} Installing local plugin dependencies...\n`.yellow);
+  const {local} = reconcilePackages(() => {});
+
+  for (let i in local) {
+    let {name} = local[i];
+
+    if (!fs.existsSync(path.join(dir, 'plugins', name, 'package.json'))) {
+      continue;
+    }
+
+    let wd = path.join(dir, 'plugins', name);
+
+    console.log(`$ cd ${wd.cyan} && yarn`);
+
+    if (!dryRun) {
+      let args = [];
+
+      let output = spawn.sync('yarn', args, {
+        stdio: ['ignore', 'pipe', 'inherit'],
+        cwd: wd
+      });
+
+      if (output.status) {
+        throw new Error('Could not install local plugin dependencies, errors occured during install');
+      }
+
+      console.log(output.stdout.toString());
+    }
+  }
+}
+
 // This traverses the local plugins and installs any dependencies listed there,
 // this only is really needed for plugins that are installed via docker because
 // core plugins will have their dependencies already included in core.
-async function reconcilePluginDeps(options) {
+async function reconcilePluginDeps({skipLocal, skipRemote, dryRun}) {
   let startTime = new Date();
 
   // We don't need to do anything if we skip everything....
-  if (options.skipLocal && options.skipRemote) {
+  if (skipLocal && skipRemote) {
     return;
   }
 
   // Traverse local plugins and install dependencies if enabled.
-  if (!options.skipLocal) {
-    
+  if (!skipLocal) {
+    await reconcileLocalPlugins({skipRemote, dryRun});
   }
 
   // Locate any external plugins and install them.
-  if (!options.skipRemote) {
+  if (!skipRemote) {
     let results = [];
     try {
-      results = await reconcileRemotePlugins(options.dryRun);
+      results = await reconcileRemotePlugins({skipLocal, skipRemote, dryRun});
     } catch (e) {
       throw e;
     }
 
     let status;
-    if (options.dryRun) {
+    if (dryRun) {
       status = '[dry-run] success'.green;
     } else {
       status = 'success'.green;
