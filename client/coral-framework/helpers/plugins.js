@@ -1,4 +1,5 @@
 import {client as clientPlugins} from 'pluginsConfig';
+import React from 'react';
 
 function injectPlugins ({fill, ...props}) {
   let context,
@@ -67,11 +68,13 @@ function injectPlugins ({fill, ...props}) {
       .map(addProps)
       .filter(filterBySlot)
       .reduce((entry, plugin, i) => {
-        // const element = React.cloneElement(
-        //   context(plugin.key),
-        //   {...plugin.props, key: i}
-        // );
-        entry = [...entry, context(plugin.key)({...plugin.props, key: i})];
+        const component = context(plugin.key);
+        const element = React.createElement(component, {
+          key: i,
+          ...plugin.props
+        }, null);
+
+        entry = [...entry, element];
         return entry;
       }, []);
   }

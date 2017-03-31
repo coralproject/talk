@@ -4,27 +4,36 @@ import Icon from './components/Icon';
 
 import {getActionSummary} from 'coral-framework/utils';
 
-export default (props) => {
-  const {comment} = props.context;
+class RespectButton extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-  const handleClick = () => {
-    props.context.postRespect({
+  handleClick = () => {
+    const {comment} = this.props.context;
+
+    this.props.context.postRespect({
       item_id: comment.id,
       item_type: 'COMMENTS'
     });
-  };
+  }
+  
+  render() {
+    const {comment} = this.props.context;
+    const respectActionSummary = getActionSummary('RespectActionSummary', comment);
 
-  const respectActionSummary = getActionSummary('RespectActionSummary', comment);
+    return (
+      <div className={styles.Respect}>
+        <button
+          onClick={this.handleClick}>
+          Respect
+          <Icon />
+          {respectActionSummary ? <span>{respectActionSummary.count}</span> : null}
+        </button>
+      </div>
+    );
+  }
+}
 
-  return (
-    <div className={styles.Respect} key={props.key}>
-      <button
-        onClick={handleClick}>
-        Respect
-        <Icon />
-        {respectActionSummary ? <span>{respectActionSummary.count}</span> : null}
-      </button>
-    </div>
-  );
-};
+export default RespectButton;
 

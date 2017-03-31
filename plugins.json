@@ -3,6 +3,7 @@
     "coral-plugin-respect"
   ],
   "client": [
-    "coral-plugin-respect"
+    "coral-plugin-respect",
+    "coral-plugin-love"
   ]
 }
