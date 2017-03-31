@@ -4,6 +4,9 @@
  * Module dependencies.
  */
 
+// Interface heavily inspired by the yarn package manager:
+// https://yarnpkg.com/
+
 const program = require('./commander');
 
 // Make things colorful!
