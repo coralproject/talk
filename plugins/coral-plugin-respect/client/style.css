@@ -14,8 +14,11 @@
          }
     }
 
-    .clicked {
+    .respected {
         color: #ffcc00;
+        i {
+          color: #161616;
+        }
     }
 
     i {
