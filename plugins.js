@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const debug = require('debug')('talk:plugins');
 
 let plugins = {};
 
@@ -17,12 +18,64 @@ try {
 }
 
 /**
+ * isInternal checks to see if a given plugin is internal, and returns true
+ * if it is. 
+ * 
+ * @param {String} name 
+ * @returns {Boolean}
+ */
+function isInternal(name) {
+  const internalPluginPath = path.join(__dirname, 'plugins', name);
+
+  // Check to see if this plugin exists internally, because if it doesn't, it is
+  // external.
+  return fs.existsSync(internalPluginPath);
+}
+
+/**
+ * Returns the plugin path for the given plugin name.
+ * 
+ * @param {any} name 
+ * @returns 
+ */
+function pluginPath(name) {
+  if (isInternal(name)) {
+    return path.join(__dirname, 'plugins', name);
+  }
+
+  // The plugin is not available.
+  return undefined;
+}
+
+/**
  * Stores a reference to a section for a section of Plugins.
  */
 class PluginSection {
   constructor(plugin_names) {
-    this.plugins = plugin_names.map((plugin_name) => {
-      let plugin = require(`./plugins/${plugin_name}`);
+    this.plugins = Object.keys(plugin_names).map((plugin_name) => {
+      let plugin = {};
+
+      // Get the version/folder that was specified.
+      plugin.version = plugin_names[plugin_name];
+
+      // Get the path for the plugin.
+      plugin.path = pluginPath(plugin_name);
+
+      if (typeof plugin.path === 'undefined') {
+        throw new Error(`plugin '${plugin_name}' is not local or is not symlinked from your node_modules directory, plugin reconsiliation may be required`);
+      }
+
+      try {
+        plugin.module = require(plugin.path);
+      } catch (e) {
+        throw new Error(`plugin '${plugin_name}' could not be required from '${plugin.path}': ${e.message}`);
+      }
+
+      if (isInternal(plugin_name)) {
+        debug(`loading internal plugin '${plugin_name}' from '${plugin.path}'`);
+      } else {
+        debug(`loading external plugin '${plugin_name}' from '${plugin.path}'`);
+      }
 
       // Ensure we have a default plugin name, but allow the name to be
       // overrided by the plugin.
@@ -38,8 +91,8 @@ class PluginSection {
    */
   hook(hook) {
     return this.plugins
-      .filter((plugin) => hook in plugin)
-      .map((plugin) => ({plugin, [hook]: plugin[hook]}));
+      .filter(({module}) => hook in module)
+      .map((plugin) => ({plugin, [hook]: module[hook]}));
   }
 }
 
@@ -78,4 +131,9 @@ class PluginManager {
   }
 }
 
-module.exports = new PluginManager(plugins);
+module.exports = {
+  plugins,
+  PluginManager,
+  isInternal,
+  pluginPath
+};

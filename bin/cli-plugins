@@ -1,0 +1,193 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+const program = require('./commander');
+
+// Make things colorful!
+require('colors');
+
+const fs = require('fs');
+const path = require('path');
+const spawn = require('cross-spawn');
+const resolve = require('resolve');
+const {plugins, isInternal} = require('../plugins');
+
+function existsInNodeModules(name) {
+  try {
+    resolve.sync(name, {basedir: process.cwd()});
+
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+const EXTERNAL = /^\w[a-z\-0-9\.]+$/; // Match "react", "path", "fs", "lodash.random", etc.
+
+async function reconcileRemotePlugins(dryRun) {
+  const linkable = [];
+  const fetchable = [];
+
+  console.log('\n[1/3] 🔍 Reconciling plugins...\n'.yellow);
+  console.log(' +local     (l)  packages in your project\n +external  (e)  referenced packages in node_modules but not in current project\n +missing   (m)  referenced packages but not found\n +symlinked (sl) symlinked external packages\n');
+  for (let i in plugins) {
+    let section = plugins[i];
+
+    for (let name in section) {
+      let version = section[name];
+
+      let namespaced = name.charAt(0) === '@';
+      let dep = name.split('/')
+        .slice(0, namespaced ? 2 : 1)
+        .join('/');
+
+      // Ignore relative modules, which aren't installed by NPM
+      if (!dep.match(EXTERNAL) && !namespaced) {
+        return;
+      }
+
+      if (isInternal(dep)) {
+        let stat = fs.lstatSync(path.join(process.cwd(), 'plugins', name));
+        if (stat.isSymbolicLink()) {
+          console.log(` sl ${name.cyan}`);
+        } else {
+          console.log(` l  ${name.cyan}`);
+        }
+
+        continue;
+      }
+
+      if (!existsInNodeModules(dep)) {
+        console.warn(` m  ${name.cyan}`);
+        fetchable.push({name, version});
+      } else {
+        console.log(` e  ${name.cyan}`);
+        linkable.push({name, version});
+      }
+    }
+  }
+
+  console.log('\n[2/3] 🚚 Fetching plugins...\n'.yellow);
+
+  if (fetchable.length > 0) {
+
+    console.log(`$ yarn add ${fetchable.map(({name, version}) => `${name}@${version}`.cyan)}`);
+
+    if (!dryRun) {
+
+      let args = [
+        'add',
+        ...fetchable.map(({name, version}) => `${name}@${version}`)
+      ];
+
+      let output = spawn.sync('yarn', args, {
+        stdio: ['ignore', 'pipe', 'inherit']
+      });
+
+      if (output.status) {
+        throw new Error('Could not install external plugins, errors occured during install');
+      }
+
+      console.log(output.stdout.toString());
+    }
+
+    fetchable.forEach((plugin) => {
+      linkable.push(plugin);
+    });
+  }
+
+  // TODO fetch the plugins using yarn
+
+  console.log('\n[3/3] 🔗 Linking plugins...\n'.yellow);
+
+  for (let i in linkable) {
+    let {name} = linkable[i];
+
+    let src = path.join(process.cwd(), 'node_modules', name);
+    let dst = path.join(process.cwd(), 'plugins', name);
+
+    console.log(`$ link ${src.cyan} -> ${dst.cyan}`);
+
+    if (!dryRun) {
+
+      // Create the symlink for the plugin directory.
+      fs.symlinkSync(src, dst, 'dir');
+    }
+  }
+
+  return {linkable, fetchable};
+}
+
+// This traverses the local plugins and installs any dependencies listed there,
+// this only is really needed for plugins that are installed via docker because
+// core plugins will have their dependencies already included in core.
+async function reconcilePluginDeps(options) {
+  let startTime = new Date();
+
+  // We don't need to do anything if we skip everything....
+  if (options.skipLocal && options.skipRemote) {
+    return;
+  }
+
+  // Traverse local plugins and install dependencies if enabled.
+  if (!options.skipLocal) {
+    
+  }
+
+  // Locate any external plugins and install them.
+  if (!options.skipRemote) {
+    let results = [];
+    try {
+      results = await reconcileRemotePlugins(options.dryRun);
+    } catch (e) {
+      throw e;
+    }
+
+    let status;
+    if (options.dryRun) {
+      status = '[dry-run] success'.green;
+    } else {
+      status = 'success'.green;
+    }
+
+    let message;
+    if (results.linkable.length === 0 && results.fetchable.length === 0) {
+      message = 'Already up-to-date.';
+    } else if (results.linkable.length === 0) {
+      message = `Fetched ${results.fetchable.length} new plugins.`;
+    } else if (results.fetchable.length === 0) {
+      message = `Linked ${results.linkable.length} new plugins.`;
+    } else {
+      message = `Fetched ${results.fetchable.length} new plugins, linked ${results.linkable.length} plugins.`;
+    }
+
+    console.log(`\n${status} ${message}`);
+  }
+
+  let endTime = new Date();
+
+  let totalTime = ((endTime.getTime() - startTime.getTime()) / 1000).toFixed(2);
+  console.log(`✨ Done in ${totalTime}s.`);
+}
+
+//==============================================================================
+// Setting up the program command line arguments.
+//==============================================================================
+
+program
+  .command('reconcile')
+  .description('reconciles local plugin dependencies and downloads external plugins')
+  .option('-d, --dry-run', 'does not actually change anything on the filesystem acts only as a simulation')
+  .option('--skip-local', 'skips the local dependancy reconciliation')
+  .option('--skip-remote', 'skips the remote plugin reconciliation')
+  .action(reconcilePluginDeps);
+
+program.parse(process.argv);
+
+// If there is no command listed, output help.
+if (!process.argv.slice(2).length) {
+  program.outputHelp();
+}
