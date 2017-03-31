@@ -41,7 +41,7 @@ function getConfig(plugin) {
 /**
  * getSlotComponents returns React Elements for given slot.
  */
-export function getSlotComponents(slot, props = {}) {
+export function getSlotElements(slot, props = {}) {
   return loaded.components
     .map((o, i) => ({
       component: o.module,
