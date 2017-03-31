@@ -39,7 +39,7 @@ function getConfig(plugin) {
 }
 
 /**
- * getSlotComponents returns React Elements for given slot.
+ * getSlotElements returns React Elements for given slot.
  */
 export function getSlotElements(slot, props = {}) {
   return loaded.components
