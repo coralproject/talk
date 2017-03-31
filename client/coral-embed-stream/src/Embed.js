@@ -135,6 +135,7 @@ class Embed extends Component {
     return (
       <div style={expandForLogin}>
         <div className="commentStream">
+          {/* <Slot fill="Stream" pluginProps={pluginProps} />*/}
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count count={asset.totalCommentCount}/></Tab>
             <Tab>{lang.t('MY_COMMENTS')}</Tab>

@@ -7,28 +7,71 @@ import {getActionSummary} from 'coral-framework/utils';
 class RespectButton extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      localPost: null, // Set to the ID of an action if one is posted
+      localDelete: false // Set to true is the user deletes an action, unless localPost is already set.
+    };
   }
 
   handleClick = () => {
-    const {comment} = this.props.context;
+    const {comment, postRespect, showSignInDialog, currentUser} = this.props.context;
+    const {localPost, localDelete} = this.state;
+    const respect = getActionSummary('RespectActionSummary', comment);
+    const respected = (respect && respect.current_user && !localDelete) || localPost;
 
-    this.props.context.postRespect({
-      item_id: comment.id,
-      item_type: 'COMMENTS'
-    });
+    /**
+     *  If the current user does not exist, trigger signIn Box
+     */
+
+    if (!currentUser) {
+      const offset = document.getElementById(`c_${comment.id}`).getBoundingClientRect().top - 75;
+      showSignInDialog(offset);
+      return;
+    }
+
+    /**
+     *  If the current user is banned, do nothing
+     */
+
+    if (currentUser.banned) {
+      return;
+    }
+
+    if (!respected) {
+      this.setState({
+        localPost: 'temp'
+      });
+
+      postRespect({
+        item_id: comment.id,
+        item_type: 'COMMENTS'
+      }).then(({data}) => {
+        this.setState({
+          localPost: data.createRespect.respect.id
+        });
+      });
+
+    } else {
+      this.setState((prev) => prev.localPost ? {...prev, localPost: null} : {...prev, localDelete: true});
+    }
   }
-  
+
   render() {
     const {comment} = this.props.context;
-    const respectActionSummary = getActionSummary('RespectActionSummary', comment);
+    const {localPost, localDelete} = this.state;
+    const respect = getActionSummary('RespectActionSummary', comment);
+    let count = respect ? respect.count : 0;
+
+    if (localPost) {count += 1;}
+    if (localDelete) {count -= 1;}
 
     return (
       <div className={styles.Respect}>
-        <button
-          onClick={this.handleClick}>
+        <button onClick={this.handleClick}>
           Respect
           <Icon />
-          {respectActionSummary ? <span>{respectActionSummary.count}</span> : null}
+          {count > 0 && count}
         </button>
       </div>
     );
