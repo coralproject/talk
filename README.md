@@ -1,6 +1,6 @@
 # Talk [![CircleCI](https://circleci.com/gh/coralproject/talk.svg?style=svg)](https://circleci.com/gh/coralproject/talk)
 
-A commenting platform from [The Coral Project](https://coralproject.net). Talk enters a closed beta in March 2017, but you can download the code for our alpha here. [Read more about Talk here.](https://coralproject.net/products/talk.html)
+Talk is currently in Beta! [Read more about Talk here.](https://coralproject.net/products/talk.html)
 
 Third party licenses are available via the `/client/3rdpartylicenses.txt`
 endpoint when the server is running with built assets.

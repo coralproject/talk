@@ -117,7 +117,6 @@ class Comment extends React.Component {
     const flag = getActionSummary('FlagActionSummary', comment);
     const dontagree = getActionSummary('DontAgreeActionSummary', comment);
     let commentClass = parentId ? `reply ${styles.Reply}` : `comment ${styles.Comment}`;
-    commentClass += highlighted === comment.id ? ' highlighted-comment' : '';
     commentClass += comment.id === 'pending' ? ` ${styles.pendingComment}` : '';
 
     // call a function, and if it errors, call addNotification('error', ...) (e.g. to show user a snackbar)
@@ -147,18 +146,19 @@ class Comment extends React.Component {
         id={`c_${comment.id}`}
         style={{marginLeft: depth * 30}}>
         <hr aria-hidden={true} />
-        <AuthorName
-          author={comment.user}/>
-        { isStaff(comment.tags)
-          ? <TagLabel>Staff</TagLabel>
+        <div className={highlighted === comment.id ? 'highlighted-comment' : ''}>
+          <AuthorName
+            author={comment.user}/>
+          { isStaff(comment.tags)
+            ? <TagLabel>Staff</TagLabel>
           : null }
 
-        { commentIsBest(comment)
-          ? <TagLabel><BestIndicator /></TagLabel>
+          { commentIsBest(comment)
+            ? <TagLabel><BestIndicator /></TagLabel>
           : null }
-        <PubDate created_at={comment.created_at} />
+          <PubDate created_at={comment.created_at} />
 
-        <Content body={comment.body} />
+          <Content body={comment.body} />
           <div className="commentActionsLeft comment__action-container">
             <ActionButton>
               <LikeButton
@@ -188,21 +188,22 @@ class Comment extends React.Component {
               </IfUserCanModifyBest>
             </ActionButton>
           </div>
-        <div className="commentActionsRight comment__action-container">
-          <ActionButton>
-            <PermalinkButton articleURL={asset.url} commentId={comment.id} />
-          </ActionButton>
-          <ActionButton>
-            <FlagComment
-              flag={flag && flag.current_user ? flag : dontagree}
-              id={comment.id}
-              author_id={comment.user.id}
-              postFlag={postFlag}
-              postDontAgree={postDontAgree}
-              deleteAction={deleteAction}
-              showSignInDialog={showSignInDialog}
-              currentUser={currentUser} />
-          </ActionButton>
+          <div className="commentActionsRight comment__action-container">
+            <ActionButton>
+              <PermalinkButton articleURL={asset.url} commentId={comment.id} />
+            </ActionButton>
+            <ActionButton>
+              <FlagComment
+                flag={flag && flag.current_user ? flag : dontagree}
+                id={comment.id}
+                author_id={comment.user.id}
+                postFlag={postFlag}
+                postDontAgree={postDontAgree}
+                deleteAction={deleteAction}
+                showSignInDialog={showSignInDialog}
+                currentUser={currentUser} />
+            </ActionButton>
+          </div>
         </div>
         {
           activeReplyBox === comment.id
