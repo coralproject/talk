@@ -44,6 +44,20 @@ dependancies. _Note that if the plugin is already installed and available in the
 node_modules folder, it will not be fetched again unless there is a version
 mismatch._
 
+## Plugin Dependencies
+
+From your plugins you may import any component of server code relative to the
+project root. An example could be:
+
+```js
+const cache = require('services/cache');
+```
+
+You may also include additioal external depenancies in your local packages by
+specifying a `package.json` at your plugin root which will result in a
+`node_modules` folder being generated at the plugin root with your specific
+dependencies.
+
 ## Server Plugins
 
 ### Specification

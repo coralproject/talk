@@ -49,6 +49,7 @@
   },
   "homepage": "https://github.com/coralproject/talk#readme",
   "dependencies": {
+    "app-module-path": "^2.2.0",
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.1",
     "cli-table": "^0.3.1",

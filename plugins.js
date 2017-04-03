@@ -3,6 +3,9 @@ const path = require('path');
 const resolve = require('resolve');
 const debug = require('debug')('talk:plugins');
 
+// Add support for require rewriting.
+require('app-module-path').addPath(__dirname);
+
 let plugins = {};
 
 // Try to parse the plugins.json file, logging out an error if the plugins.json
