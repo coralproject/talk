@@ -2,6 +2,10 @@ import React from 'react';
 import styles from './style.css';
 import Icon from './components/Icon';
 
+import {I18n} from 'coral-framework';
+import translations from './translations.json';
+const lang = new I18n(translations);
+
 import {getActionSummary} from 'coral-framework/utils';
 
 class RespectButton extends React.Component {
@@ -15,7 +19,7 @@ class RespectButton extends React.Component {
   }
 
   handleClick = () => {
-    const {comment, postRespect, showSignInDialog, currentUser} = this.props.context;
+    const {comment, postRespect, showSignInDialog, currentUser, deleteAction} = this.props.context;
     const {localPost, localDelete} = this.state;
     const respect = getActionSummary('RespectActionSummary', comment);
     const respected = (respect && respect.current_user && !localDelete) || localPost;
@@ -54,6 +58,7 @@ class RespectButton extends React.Component {
 
     } else {
       this.setState((prev) => prev.localPost ? {...prev, localPost: null} : {...prev, localDelete: true});
+      deleteAction(localPost || respect.current_user.id);
     }
   }
 
@@ -61,6 +66,7 @@ class RespectButton extends React.Component {
     const {comment} = this.props.context;
     const {localPost, localDelete} = this.state;
     const respect = getActionSummary('RespectActionSummary', comment);
+    const respected = (respect && respect.current_user && !localDelete) || localPost;
     let count = respect ? respect.count : 0;
 
     if (localPost) {count += 1;}
@@ -68,8 +74,10 @@ class RespectButton extends React.Component {
 
     return (
       <div className={styles.Respect}>
-        <button onClick={this.handleClick}>
-          Respect
+        <button
+          className={respected ? styles.respected : ''}
+          onClick={this.handleClick} >
+          <span>{lang.t(respected ? 'respected' : 'respect')}</span>
           <Icon />
           {count > 0 && count}
         </button>

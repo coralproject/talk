@@ -1,12 +1,13 @@
 const {readFileSync} = require('fs');
 const path = require('path');
+const wrapResponse = require('../../graph/helpers/response');
 
 module.exports = {
   typeDefs: readFileSync(path.join(__dirname, 'server/typeDefs.graphql'), 'utf8'),
   resolvers: {
     RootMutation: {
       createRespect(_, {respect: {item_id, item_type}}, {mutators: {Action}}) {
-        return Action.create({item_id, item_type, action_type: 'RESPECT'});
+        return wrapResponse('respect')(Action.create({item_id, item_type, action_type: 'RESPECT'}));
       }
     }
   },
