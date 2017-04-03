@@ -62,6 +62,11 @@ module.exports = {
         }
       },
       {
+        loader: 'plugins-loader',
+        test: /\.json$/,
+        include: path.join(__dirname, 'plugins.json')
+      },
+      {
         loader: 'json-loader',
         test: /\.json$/,
         exclude: /node_modules/
@@ -119,6 +124,9 @@ module.exports = {
       }
     })
   ],
+  resolveLoader: {
+    modules: ['node_modules', path.resolve(__dirname, 'client/coral-framework/loaders')],
+  },
   resolve: {
     alias: {
       plugins: path.resolve(__dirname, 'plugins/'),

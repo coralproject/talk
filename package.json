@@ -114,6 +114,7 @@
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "chai-http": "^3.0.0",
+    "common-tags": "^1.4.0",
     "copy-webpack-plugin": "^4.0.0",
     "css-loader": "^0.27.3",
     "dialog-polyfill": "^0.4.4",
