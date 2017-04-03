@@ -4,8 +4,8 @@
  *
  * Outputs a module that looks like the following:
  *
- * module.exports.actions = [{plugin: string, module: callback}, ...]
- * module.exports.reducer = [{plugin: string, module: callback}, ...]
+ * module.exports.actions = [{plugin: string, getModule: callback}, ...]
+ * module.exports.reducer = [{plugin: string, getModule: callback}, ...]
  * [...]
  *
  */
@@ -30,7 +30,7 @@ function moduleExists(loc) {
 
 function addIfExists(list, plugin, resource) {
   if (moduleExists(`../../../plugins/${plugin}/client/${resource}`)) {
-    list.push(`{module: () => require('plugins/${plugin}/client/${resource}'), plugin: '${plugin}'}`);
+    list.push(`{getModule: () => require('plugins/${plugin}/client/${resource}'), plugin: '${plugin}'}`);
   }
 }
 

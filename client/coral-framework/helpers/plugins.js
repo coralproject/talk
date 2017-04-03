@@ -8,7 +8,7 @@ import plugins from 'pluginsConfig';
  * Returns the config object of given plugin.
  */
 function getConfig(plugin) {
-  return plugins.configs.filter(o => o.plugin === plugin)[0].module();
+  return plugins.configs.filter(o => o.plugin === plugin)[0].getModule();
 }
 
 /**
@@ -17,7 +17,7 @@ function getConfig(plugin) {
 export function getSlotElements(slot, props = {}) {
   return plugins.components
     .map((o, i) => ({
-      component: o.module(),
+      component: o.getModule(),
       props: {...getConfig(o.plugin), ...props, key: i},
     }))
     .filter(o => o.props.slot === slot)
@@ -26,20 +26,20 @@ export function getSlotElements(slot, props = {}) {
 
 // Returns a map of redux actions.
 export function getPluginActions() {
-  return merge(...plugins.actions.map(o => ({...o.module()})));
+  return merge(...plugins.actions.map(o => ({...o.getModule()})));
 }
 
 // Returns a map of redux reducers.
 export function getPluginReducers() {
-  merge(...plugins.reducers.map(o => ({...o.module()})));
+  merge(...plugins.reducers.map(o => ({...o.getModule()})));
 }
 
 // Returns an array of graphQL queries and mutators.
 export function getPluginQueriesAndMutators() {
   return flatten(
     merge(
-      plugins.queries.map(o => values(o.module())),
-      plugins.mutators.map(o => values(o.module())),
+      plugins.queries.map(o => values(o.getModule())),
+      plugins.mutators.map(o => values(o.getModule())),
     )
   );
 }
