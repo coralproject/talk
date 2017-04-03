@@ -40,6 +40,7 @@ import NewCount from './NewCount';
 class Embed extends Component {
 
   state = {activeTab: 0, showSignInDialog: false, activeReplyBox: ''};
+  pluginActions = {}
 
   changeTab = (tab) => {
 
@@ -64,6 +65,11 @@ class Embed extends Component {
 
     // dispatch action to remove a tag from a comment
     removeCommentTag: React.PropTypes.func,
+  }
+
+  constructor(props) {
+    super(props);
+    this.pluginActions = bindActionCreators(actions.pluginActions, props.dispatch);
   }
 
   componentDidMount () {
@@ -122,14 +128,12 @@ class Embed extends Component {
      * Plugins Section
      *
      */
-    const {dispatch, state, ...currentProps} = this.props;
-    const {pluginActions} = actions;
-    let boundActionCreators = bindActionCreators(pluginActions, dispatch);
+    const {state, ...currentProps} = this.props;
 
     const pluginProps = {
       state,
       context: currentProps,
-      actions: boundActionCreators
+      actions: this.pluginActions,
     };
 
     return (
