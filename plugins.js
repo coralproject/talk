@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const resolve = require('resolve');
 const debug = require('debug')('talk:plugins');
 
 let plugins = {};
@@ -43,8 +44,40 @@ function pluginPath(name) {
     return path.join(__dirname, 'plugins', name);
   }
 
-  // The plugin is not available.
-  return undefined;
+  try {
+    return resolve.sync(name, {basedir: process.cwd()});
+  } catch (e) {
+    return undefined;
+  }
+}
+
+function itteratePlugins(plugins) {
+  return plugins.map((p) => {
+    let plugin = {};
+
+    // This checks to see if the structure for this entry is an object:
+    // 
+    // {"people": "^1.2.0"}
+    // 
+    // otherwise it's checked whether it matches the local version:
+    //
+    // "people"
+    //
+    if (typeof p === 'object') {
+      plugin.name = Object.keys(p).find((name) => name !== null);
+      plugin.version = p[plugin.name];
+    } else if (typeof p === 'string') {
+      plugin.name = p;
+      plugin.version = `file:./plugins/${plugin.name}`;
+    } else {
+      throw new Error(`plugins.json is malformed, refer to PLUGINS.md for formatting, expected a string or an object for a plugin entry, found a ${typeof p}`);
+    }
+
+    // Get the path for the plugin.
+    plugin.path = pluginPath(plugin.name);
+
+    return plugin;
+  });
 }
 
 /**
@@ -52,31 +85,9 @@ function pluginPath(name) {
  */
 class PluginSection {
   constructor(plugins) {
-    this.plugins = plugins.map((p) => {
-      let plugin = {};
-
-      // This checks to see if the structure for this entry is an object:
-      // 
-      // {"people": "^1.2.0"}
-      // 
-      // otherwise it's checked whether it matches the local version:
-      //
-      // "people"
-      //
-      if (typeof p === 'object') {
-        plugin.name = Object.keys(p).find((name) => name !== null);
-        plugin.version = p[plugin.name];
-      } else if (typeof p === 'string') {
-        plugin.name = p;
-      } else {
-        throw new Error(`plugins.json is malformed, refer to PLUGINS.md for formatting, expected a string or an object for a plugin entry, found a ${typeof p}`);
-      }
-
-      // Get the path for the plugin.
-      plugin.path = pluginPath(plugin.name);
-
+    this.plugins = itteratePlugins(plugins).map((plugin) => {
       if (typeof plugin.path === 'undefined') {
-        throw new Error(`plugin '${plugin.name}' is not local or is not symlinked from your node_modules directory, plugin reconsiliation may be required`);
+        throw new Error(`plugin '${plugin.name}' is not local and is not resolvable, plugin reconsiliation may be required`);
       }
 
       try {
@@ -151,5 +162,6 @@ module.exports = {
   plugins,
   PluginManager,
   isInternal,
-  pluginPath
+  pluginPath,
+  itteratePlugins
 };

@@ -17,8 +17,9 @@ const dir = process.cwd();
 const fs = require('fs');
 const path = require('path');
 const spawn = require('cross-spawn');
+const semver = require('semver');
 const resolve = require('resolve');
-const {plugins, isInternal} = require('../plugins');
+const {plugins, itteratePlugins, isInternal} = require('../plugins');
 
 function existsInNodeModules(name) {
   try {
@@ -30,20 +31,48 @@ function existsInNodeModules(name) {
   }
 }
 
+function versionMatch(name, version) {
+  try {
+    let matched = false;
+
+    resolve.sync(name, {
+      basedir: dir,
+      packageFilter: (pkg) => {
+        if (pkg && pkg.version && semver.satisfies(pkg.version, version)) {
+          matched = true;
+        }
+
+        return pkg;
+      }
+    });
+
+    return matched;
+  } catch (e) {
+    return false;
+  }
+}
+
 const EXTERNAL = /^\w[a-z\-0-9\.]+$/; // Match "react", "path", "fs", "lodash.random", etc.
 
-function reconcilePackages(log = console.log) {
-  const linkable = [];
+function reconcilePackages({quiet = false, upgradeRemote = false}) {
   const fetchable = [];
   const local = [];
+  const upgradable = [];
 
-  log();
-  log(' +local     (l)  packages in your project\n +external  (e)  referenced packages in node_modules but not in current project\n +missing   (m)  referenced packages but not found\n +symlinked (sl) symlinked external packages\n');
+  if (!quiet) {
+    console.log();
+    console.log(' +local     (l)  packages in your project');
+    console.log(' +external  (e)  packages are external');
+    console.log(' +outofdate (oe) packages are external but are out of date');
+    console.log(' +missing   (m)  packages are not found');
+    console.log();
+  }
+  
   for (let i in plugins) {
-    let section = plugins[i];
+    let section = itteratePlugins(plugins[i]);
 
-    for (let name in section) {
-      let version = section[name];
+    for (let j in section) {
+      let {name, version} = section[j];
 
       let namespaced = name.charAt(0) === '@';
       let dep = name.split('/')
@@ -56,36 +85,59 @@ function reconcilePackages(log = console.log) {
       }
 
       if (isInternal(dep)) {
-        let stat = fs.lstatSync(path.join(dir, 'plugins', name));
-        if (stat.isSymbolicLink()) {
-          log(` sl ${name.cyan}`);
-        } else {
-          log(` l  ${name.cyan}`);
-          local.push({name, version});
+        if (!quiet) {
+          console.log(` l  ${name}`);
         }
 
+        local.push({name, version});
         continue;
       }
 
       if (!existsInNodeModules(dep)) {
-        log(` m  ${name.cyan}`);
+        if (!quiet) {
+          console.log(` m  ${name}`);
+        }
         fetchable.push({name, version});
+      } else if (!versionMatch(dep, version)) {
+
+        // A plugin was found, yet the current version does not match the
+        // current version installed. We should warn if upgradeRemote is
+        // not enabled that it is currently not supported.
+        if (!upgradeRemote) {
+          if (!quiet) {
+            console.warn(` oe ${name} (package upgrade may be required)`.bgRed);
+          }
+
+          continue;
+        }
+
+        console.log(` oe ${name} (package upgrade may be required)`);
+
+        upgradable.push({name, version});
       } else {
-        log(` e  ${name.cyan}`);
-        linkable.push({name, version});
+        if (!quiet) {
+          console.log(` e  ${name}`);
+        }
+        
+        if (upgradeRemote) {
+          upgradable.push({name, version});
+        }
       }
     }
   }
-  log();
 
-  return {local, linkable, fetchable};
+  if (!quiet) {
+    console.log();
+  }
+
+  return {local, fetchable, upgradable};
 }
 
-async function reconcileRemotePlugins({skipLocal, dryRun}) {
-  console.log(`\n[${skipLocal ? '1/3' : '2/4'}] ${emoji.get('mag')} Reconciling plugins...`.yellow);
-  const {linkable, fetchable} = reconcilePackages();
+async function reconcileRemotePlugins({skipLocal, dryRun, upgradeRemote}) {
+  console.log(`\n[${skipLocal ? '1/2' : '2/3'}] ${emoji.get('mag')} Reconciling plugins...`.yellow);
+  const {fetchable, upgradable} = reconcilePackages({upgradeRemote});
 
-  console.log(`[${skipLocal ? '2/3' : '3/4'}] ${emoji.get('truck')} Fetching plugins...\n`.yellow);
+  console.log(`[${skipLocal ? '2/2' : '3/3'}] ${emoji.get('truck')} Fetching plugins...\n`.yellow);
 
   if (fetchable.length > 0) {
 
@@ -108,37 +160,36 @@ async function reconcileRemotePlugins({skipLocal, dryRun}) {
 
       console.log(output.stdout.toString());
     }
-
-    fetchable.forEach((plugin) => {
-      linkable.push(plugin);
-    });
   }
 
-  // TODO fetch the plugins using yarn
-
-  console.log(`\n[${skipLocal ? '3/3' : '4/4'}] ${emoji.get('link')} Linking plugins...\n`.yellow);
-
-  for (let i in linkable) {
-    let {name} = linkable[i];
-
-    let src = path.join(dir, 'node_modules', name);
-    let dst = path.join(dir, 'plugins', name);
-
-    console.log(`$ link ${src.cyan} -> ${dst.cyan}`);
+  if (upgradable.length > 0) {
+    console.log(`$ yarn upgrade ${upgradable.map(({name, version}) => `${name}@${version}`.cyan)}`);
 
     if (!dryRun) {
 
-      // Create the symlink for the plugin directory.
-      fs.symlinkSync(src, dst, 'dir');
+      let args = [
+        'upgrade',
+        ...upgradable.map(({name, version}) => `${name}@${version}`)
+      ];
+
+      let output = spawn.sync('yarn', args, {
+        stdio: ['ignore', 'pipe', 'inherit']
+      });
+
+      if (output.status) {
+        throw new Error('Could not install external plugins, errors occured during install');
+      }
+
+      console.log(output.stdout.toString());
     }
   }
 
-  return {linkable, fetchable};
+  return {upgradable, fetchable};
 }
 
 async function reconcileLocalPlugins({skipRemote, dryRun}) {
-  console.log(`\n[${skipRemote ? '1/1' : '1/4'}] ${emoji.get('pick')} Installing local plugin dependencies...\n`.yellow);
-  const {local} = reconcilePackages(() => {});
+  console.log(`\n[${skipRemote ? '1/1' : '1/3'}] ${emoji.get('pick')} Installing local plugin dependencies...\n`.yellow);
+  const {local} = reconcilePackages({quiet: true});
 
   for (let i in local) {
     let {name} = local[i];
@@ -171,7 +222,7 @@ async function reconcileLocalPlugins({skipRemote, dryRun}) {
 // This traverses the local plugins and installs any dependencies listed there,
 // this only is really needed for plugins that are installed via docker because
 // core plugins will have their dependencies already included in core.
-async function reconcilePluginDeps({skipLocal, skipRemote, dryRun}) {
+async function reconcilePluginDeps({skipLocal, skipRemote, dryRun, upgradeRemote}) {
   let startTime = new Date();
 
   // We don't need to do anything if we skip everything....
@@ -188,7 +239,7 @@ async function reconcilePluginDeps({skipLocal, skipRemote, dryRun}) {
   if (!skipRemote) {
     let results = [];
     try {
-      results = await reconcileRemotePlugins({skipLocal, skipRemote, dryRun});
+      results = await reconcileRemotePlugins({skipLocal, skipRemote, dryRun, upgradeRemote});
     } catch (e) {
       throw e;
     }
@@ -201,14 +252,14 @@ async function reconcilePluginDeps({skipLocal, skipRemote, dryRun}) {
     }
 
     let message;
-    if (results.linkable.length === 0 && results.fetchable.length === 0) {
+    if (results.upgradable.length === 0 && results.fetchable.length === 0) {
       message = 'Already up-to-date.';
-    } else if (results.linkable.length === 0) {
+    } else if (results.upgradable.length === 0) {
       message = `Fetched ${results.fetchable.length} new plugins.`;
     } else if (results.fetchable.length === 0) {
-      message = `Linked ${results.linkable.length} new plugins.`;
+      message = `Upgraded ${results.upgradable.length} new plugins.`;
     } else {
-      message = `Fetched ${results.fetchable.length} new plugins, linked ${results.linkable.length} plugins.`;
+      message = `Fetched ${results.fetchable.length} new plugins, upgraded ${results.upgradable.length} plugins.`;
     }
 
     console.log(`\n${status} ${message}`);
@@ -232,6 +283,7 @@ program
 program
   .command('reconcile')
   .description('reconciles local plugin dependencies and downloads external plugins')
+  .option('-u, --upgrade-remote', 'upgrades remote dependencies')
   .option('-d, --dry-run', 'does not actually change anything on the filesystem acts only as a simulation')
   .option('--skip-local', 'skips the local dependancy reconciliation')
   .option('--skip-remote', 'skips the remote plugin reconciliation')
