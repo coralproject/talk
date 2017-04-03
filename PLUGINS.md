@@ -206,6 +206,33 @@ If your post function accepts four parameters, then it can modify the field
 result. It is *required* that the function resolves a promise (or returns) with
 the modified value or simply the original if you didn't modify it.
 
+#### Field: `router`
+
+```js
+(router) => {
+  router.get('/api/v1/people', (req, res) => {
+    res.json({people: [{name: 'Bob'}]});
+  });
+}
+```
+
+The Router hook allows you to create a function that accepts the base express
+router where you can mount any amount of middleware/routes to do any form of
+action needed by external applications. We also provide the authorization
+middleware via:
+
+```js
+const authorization = require('middleware/authorization');
+
+module.exports = {
+  router(router) {
+    router.get('/api/v1/people', authorization.needed('ADMIN'), (req, res) => {
+      res.json({people: [{name: 'SECRET PEOPLE'}]});
+    });
+  }
+}
+```
+
 ### Full Example
 
 Contents of `plugins.json`:
