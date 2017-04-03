@@ -122,7 +122,10 @@ class PluginSection {
   hook(hook) {
     return this.plugins
       .filter(({module}) => hook in module)
-      .map((plugin) => ({plugin, [hook]: module[hook]}));
+      .map((plugin) => ({
+        plugin,
+        [hook]: plugin.module[hook]
+      }));
   }
 }
 
