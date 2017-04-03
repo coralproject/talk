@@ -24,17 +24,22 @@ export function getSlotElements(slot, props = {}) {
     .map(o => React.createElement(o.component, o.props));
 }
 
-// actions is a map of redux actions .
-export const actions = merge(...plugins.actions.map(o => ({...o.module()})));
+// Returns a map of redux actions.
+export function getPluginActions() {
+  return merge(...plugins.actions.map(o => ({...o.module()})));
+}
 
-// reducers is a map of redux reducers.
-export const reducers = merge(...plugins.reducers.map(o => ({...o.module()})));
+// Returns a map of redux reducers.
+export function getPluginReducers() {
+  merge(...plugins.reducers.map(o => ({...o.module()})));
+}
 
-// queriesAndMutators is an array of graphQL queries and mutators.
-export const queriesAndMutators = flatten(
-  merge(
-    plugins.queries.map(o => values(o.module())),
-    plugins.mutators.map(o => values(o.module())),
-  )
-);
-
+// Returns an array of graphQL queries and mutators.
+export function getPluginQueriesAndMutators() {
+  return flatten(
+    merge(
+      plugins.queries.map(o => values(o.module())),
+      plugins.mutators.map(o => values(o.module())),
+    )
+  );
+}
