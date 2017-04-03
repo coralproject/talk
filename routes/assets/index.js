@@ -14,6 +14,7 @@ router.get('/id/:asset_id', (req, res, next) => {
       }
       res.render('article', {
         title: asset.title,
+        asset_id: asset.id,
         asset_url: asset.url,
         body: '',
         basePath: '/client/embed/stream'
