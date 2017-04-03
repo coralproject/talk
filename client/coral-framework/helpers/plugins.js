@@ -18,7 +18,7 @@ const getPluginName = (key) => key.match(/\.\/(.*)\/client\/.*$/)[1];
 const isActivePlugin = (plugin) => clientPlugins.indexOf(plugin) > -1;
 
 /**
- * createLoader returns a callback that loads enabled modules of the context and
+ * Returns a callback that loads enabled modules of the context and
  * returns an Array with {plugin, module} entries. Consecutive calls
  * will return a memoized result.
  */
@@ -39,14 +39,14 @@ function createLoader(context) {
 const loaders = mapValues(contextMap, createLoader);
 
 /**
- * getConfig returns the config object of given plugin.
+ * Returns the config object of given plugin.
  */
 function getConfig(plugin) {
   return loaders.configs().filter(o => o.plugin === plugin)[0].module;
 }
 
 /**
- * getSlotElements returns React Elements for given slot.
+ * Returns React Elements for given slot.
  */
 export function getSlotElements(slot, props = {}) {
   return loaders.components()
