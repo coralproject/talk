@@ -377,12 +377,12 @@ if (process.env.TALK_FACEBOOK_APP_ID && process.env.TALK_FACEBOOK_APP_SECRET && 
 }
 
 // Inject server route plugins.
-plugins.get('server', 'auth').forEach(({plugin, auth}) => {
-  debug(`added plugin '${plugin.name}'`);
+plugins.get('server', 'passport').forEach((plugin) => {
+  debug(`added plugin '${plugin.plugin.name}'`);
 
   // Pass the passport.js instance to the plugin to allow it to inject it's
   // functionality.
-  auth(passport);
+  plugin.passport(passport);
 });
 
 module.exports = {

@@ -25,11 +25,11 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // Inject server route plugins.
-plugins.get('server', 'routes').forEach(({plugin, routes}) => {
-  debug(`added plugin '${plugin.name}'`);
+plugins.get('server', 'router').forEach((plugin) => {
+  debug(`added plugin '${plugin.plugin.name}'`);
 
   // Pass the root router to the plugin to mount it's routes.
-  routes(router);
+  plugin.router(router);
 });
 
 module.exports = router;

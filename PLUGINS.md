@@ -233,7 +233,7 @@ module.exports = {
 }
 ```
 
-#### Field: `auth`
+#### Field: `passport`
 
 ```js
 const FacebookStrategy = require('passport-facebook').Strategy;
@@ -241,7 +241,7 @@ const UsersService = require('services/users');
 const {ValidateUserLogin, HandleAuthPopupCallback} = require('services/passport');
 
 module.exports = {
-  auth(passport) {
+  passport(passport) {
     passport.use(new FacebookStrategy({
       clientID: process.env.TALK_FACEBOOK_APP_ID,
       clientSecret: process.env.TALK_FACEBOOK_APP_SECRET,
@@ -260,7 +260,10 @@ module.exports = {
       return ValidateUserLogin(profile, user, done);
     }));
   },
-  routes(router) {
+  router(router) {
+
+    // Note that we have to import the passport instance here, it is
+    // instantiated after all the strategies have been mounted.
     const {passport} = require('services/passport');
 
     /**
