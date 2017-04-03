@@ -18,31 +18,38 @@ const getPluginName = (key) => key.match(/\.\/(.*)\/client\/.*$/)[1];
 const isActivePlugin = (plugin) => clientPlugins.indexOf(plugin) > -1;
 
 /**
- * Loads all enabled modules of the context and returns an
- * Array with {plugin, module} entries.
+ * createLoader returns a callback that loads enabled modules of the context and
+ * returns an Array with {plugin, module} entries. Consecutive calls
+ * will return a memoized result.
  */
-function loadActiveModules(context) {
-  return context
-      .keys()
-      .map(key => ({key, plugin: getPluginName(key)}))
-      .filter(info => isActivePlugin(info.plugin))
-      .map(info => ({plugin: info.plugin, module: context(info.key)}));
+function createLoader(context) {
+  let loaded = null;
+  return () => {
+    if (!loaded) {
+      loaded = context
+        .keys()
+        .map(key => ({key, plugin: getPluginName(key)}))
+        .filter(info => isActivePlugin(info.plugin))
+        .map(info => ({plugin: info.plugin, module: context(info.key)}));
+    }
+    return loaded;
+  };
 }
 
-const loaded = mapValues(contextMap, loadActiveModules);
+const loaders = mapValues(contextMap, createLoader);
 
 /**
  * getConfig returns the config object of given plugin.
  */
 function getConfig(plugin) {
-  return loaded.configs.filter(o => o.plugin === plugin)[0].module;
+  return loaders.configs().filter(o => o.plugin === plugin)[0].module;
 }
 
 /**
  * getSlotElements returns React Elements for given slot.
  */
 export function getSlotElements(slot, props = {}) {
-  return loaded.components
+  return loaders.components()
     .map((o, i) => ({
       component: o.module,
       props: {...getConfig(o.plugin), ...props, key: i},
@@ -52,11 +59,11 @@ export function getSlotElements(slot, props = {}) {
 }
 
 // actions is a map of redux actions .
-export const actions = merge(...loaded.actions.map(o => ({...o.module})));
+export const actions = merge(...loaders.actions().map(o => ({...o.module})));
 
 // reducers is a map of redux reducers.
-export const reducers = merge(...loaded.reducers.map(o => ({...o.module})));
+export const reducers = merge(...loaders.reducers().map(o => ({...o.module})));
 
 // queriesAndMutators is an array of graphQL queries and mutators.
-export const queriesAndMutators = flatten(loaded.graph.map(o => values(o.module)));
+export const queriesAndMutators = flatten(loaders.graph().map(o => values(o.module)));
 
