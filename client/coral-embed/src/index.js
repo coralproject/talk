@@ -175,15 +175,13 @@ Talk.render = function (el, opts) {
   query.comment_id = window.location.hash.slice(1);
   query.asset_id = opts.asset_id;
 
-  if (!query.asset_id) {
-    query.asset_url = opts.asset_url;
-    if (!query.asset_url && !query.asset_id) {
-      try {
-        query.asset_url = document.querySelector('link[rel="canonical"]').href;
-      } catch (e) {
-        console.warn('This page does not include a canonical link tag. Talk has inferred this asset_url from the window object. Query params have been stripped, which may cause a single thread to be present across multiple pages.');
-        query.asset_url = window.location.origin + window.location.pathname;
-      }
+  query.asset_url = opts.asset_url;
+  if (!query.asset_url) {
+    try {
+      query.asset_url = document.querySelector('link[rel="canonical"]').href;
+    } catch (e) {
+      console.warn('This page does not include a canonical link tag. Talk has inferred this asset_url from the window object. Query params have been stripped, which may cause a single thread to be present across multiple pages.');
+      query.asset_url = window.location.origin + window.location.pathname;
     }
   }
 
