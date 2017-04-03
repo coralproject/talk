@@ -82,7 +82,13 @@ class PluginSection {
       try {
         plugin.module = require(plugin.path);
       } catch (e) {
-        throw new Error(`plugin '${plugin.name}' could not be required from '${plugin.path}': ${e.message}`);
+        if (e && e.code && e.code === 'MODULE_NOT_FOUND' && isInternal(plugin.name)) {
+          console.error(new Error(`plugin '${plugin.name}' could not be loaded due to missing dependencies, plugin reconsiliation may be required`));
+          throw e;
+        }
+
+        console.error(new Error(`plugin '${plugin.name}' could not be required from '${plugin.path}': ${e.message}`));
+        throw e;
       }
 
       if (isInternal(plugin.name)) {
