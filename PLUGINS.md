@@ -53,7 +53,7 @@ project root. An example could be:
 const cache = require('services/cache');
 ```
 
-You may also include additioal external depenancies in your local packages by
+You may also include additional external depenancies in your local packages by
 specifying a `package.json` at your plugin root which will result in a
 `node_modules` folder being generated at the plugin root with your specific
 dependencies.
