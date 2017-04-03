@@ -9,7 +9,7 @@ All plugins must be registered in the root file `plugins.json`.
 
 The format for this file is thus:
 
-```js
+```json
 {
   "server": [
     "people"
@@ -21,6 +21,28 @@ Where we have a `server` key with an array of plugins that match the folder
 name in the `plugins/` folder. For example, the above `plugins.json` would
 require a plugin from `plugins/people`, which must provide a `index.js` file
 that returns an object that matches the Plugin Specification.
+
+If the package is external (available on NPM) you can specify the string for
+the version by using an object instead, for example:
+
+```json
+{
+  "server": [
+    {"people": "^1.2.0"}
+  ]
+}
+```
+
+External plugins can be resolved by running:
+
+```bash
+./bin/cli plugins reconcile
+```
+
+This will also traverse into local plugin folders and install their
+dependancies. _Note that if the plugin is already installed and available in the
+node_modules folder, it will not be fetched again unless there is a version
+mismatch._
 
 ## Server Plugins
 

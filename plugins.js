@@ -51,35 +51,45 @@ function pluginPath(name) {
  * Stores a reference to a section for a section of Plugins.
  */
 class PluginSection {
-  constructor(plugin_names) {
-    this.plugins = Object.keys(plugin_names).map((plugin_name) => {
+  constructor(plugins) {
+    this.plugins = plugins.map((p) => {
       let plugin = {};
 
-      // Get the version/folder that was specified.
-      plugin.version = plugin_names[plugin_name];
+      // This checks to see if the structure for this entry is an object:
+      // 
+      // {"people": "^1.2.0"}
+      // 
+      // otherwise it's checked whether it matches the local version:
+      //
+      // "people"
+      //
+      if (typeof p === 'object') {
+        plugin.name = Object.keys(p).find((name) => name !== null);
+        plugin.version = p[plugin.name];
+      } else if (typeof p === 'string') {
+        plugin.name = p;
+      } else {
+        throw new Error(`plugins.json is malformed, refer to PLUGINS.md for formatting, expected a string or an object for a plugin entry, found a ${typeof p}`);
+      }
 
       // Get the path for the plugin.
-      plugin.path = pluginPath(plugin_name);
+      plugin.path = pluginPath(plugin.name);
 
       if (typeof plugin.path === 'undefined') {
-        throw new Error(`plugin '${plugin_name}' is not local or is not symlinked from your node_modules directory, plugin reconsiliation may be required`);
+        throw new Error(`plugin '${plugin.name}' is not local or is not symlinked from your node_modules directory, plugin reconsiliation may be required`);
       }
 
       try {
         plugin.module = require(plugin.path);
       } catch (e) {
-        throw new Error(`plugin '${plugin_name}' could not be required from '${plugin.path}': ${e.message}`);
+        throw new Error(`plugin '${plugin.name}' could not be required from '${plugin.path}': ${e.message}`);
       }
 
-      if (isInternal(plugin_name)) {
-        debug(`loading internal plugin '${plugin_name}' from '${plugin.path}'`);
+      if (isInternal(plugin.name)) {
+        debug(`loading internal plugin '${plugin.name}' from '${plugin.path}'`);
       } else {
-        debug(`loading external plugin '${plugin_name}' from '${plugin.path}'`);
+        debug(`loading external plugin '${plugin.name}' from '${plugin.path}'`);
       }
-
-      // Ensure we have a default plugin name, but allow the name to be
-      // overrided by the plugin.
-      plugin.name = plugin.name || plugin_name;
 
       return plugin;
     });
