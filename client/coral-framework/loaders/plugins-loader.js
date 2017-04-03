@@ -34,9 +34,14 @@ function addIfExists(list, plugin, resource) {
   }
 }
 
+function getPluginList(config) {
+  return config.client.map(x => typeof x === 'string' ? x : Object.keys(x)[0]);
+}
+
 module.exports = function(source) {
   this.cacheable();
-  const plugins = this.exec(source, this.resourcePath).client;
+  const config = this.exec(source, this.resourcePath);
+  const plugins = getPluginList(config);
 
   const exports = {
     configs: [],
