@@ -1,3 +1,14 @@
+/**
+ * Executes `source` to retrieve plugins configuration
+ * and loads all modules of specified plugins.
+ *
+ * Outputs a module that looks like the following:
+ *
+ * module.exports.actions = [{plugin: string, module: callback}, ...]
+ * module.exports.reducer = [{plugin: string, module: callback}, ...]
+ * [...]
+ *
+ */
 const {stripIndent} = require('common-tags');
 const fs = require('fs');
 const path = require('path');
