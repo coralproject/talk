@@ -233,6 +233,58 @@ module.exports = {
 }
 ```
 
+#### Field: `auth`
+
+```js
+const FacebookStrategy = require('passport-facebook').Strategy;
+const UsersService = require('services/users');
+const {ValidateUserLogin, HandleAuthPopupCallback} = require('services/passport');
+
+module.exports = {
+  auth(passport) {
+    passport.use(new FacebookStrategy({
+      clientID: process.env.TALK_FACEBOOK_APP_ID,
+      clientSecret: process.env.TALK_FACEBOOK_APP_SECRET,
+      callbackURL: `${process.env.TALK_ROOT_URL}/api/v1/auth/facebook/callback`,
+      passReqToCallback: true,
+      profileFields: ['id', 'displayName', 'picture.type(large)']
+    }, async (req, accessToken, refreshToken, profile, done) => {
+
+      let user;
+      try {
+        user = await UsersService.findOrCreateExternalUser(profile);
+      } catch (err) {
+        return done(err);
+      }
+
+      return ValidateUserLogin(profile, user, done);
+    }));
+  },
+  routes(router) {
+    const {passport} = require('services/passport');
+
+    /**
+     * Facebook auth endpoint, this will redirect the user immediatly to facebook
+     * for authorization.
+     */
+    router.get('/facebook', passport.authenticate('facebook', {display: 'popup', authType: 'rerequest', scope: ['public_profile']}));
+
+    /**
+     * Facebook callback endpoint, this will send the user a html page designed to
+     * send back the user credentials upon sucesfull login.
+     */
+    router.get('/facebook/callback', (req, res, next) => {
+
+      // Perform the facebook login flow and pass the data back through the opener.
+      passport.authenticate('facebook', HandleAuthPopupCallback(req, res, next))(req, res, next);
+    });
+  }
+};
+```
+
+This is a full example including the routes hook to add the required components
+to the application router to support a different auth strategy.
+
 ### Full Example
 
 Contents of `plugins.json`:
