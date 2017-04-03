@@ -8,7 +8,7 @@ function moduleExists(loc) {
     return true;
   }
 
-  const hasExtension = /\..*$/.test(loc);
+  const hasExtension = /\.[^\/\\]*$/.test(loc);
   if (hasExtension) {
     return false;
   }
