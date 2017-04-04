@@ -11,6 +11,7 @@ import PermalinkButton from 'coral-plugin-permalinks/PermalinkButton';
 
 import AuthorName from 'coral-plugin-author-name/AuthorName';
 
+import {Button} from 'coral-ui';
 import TagLabel from 'coral-plugin-tag-label/TagLabel';
 import Content from 'coral-plugin-commentcontent/CommentContent';
 import PubDate from 'coral-plugin-pubdate/PubDate';
@@ -141,6 +142,91 @@ class Comment extends React.Component {
       tag: BEST_TAG,
     }), () => 'Failed to remove best comment tag');
 
+    class IgnoreUserWizard extends React.Component {
+      static propTypes = {
+
+        // comment on which this menu appears
+        user: PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          name: PropTypes.string.isRequired
+        }).isRequired,
+        cancel: PropTypes.func.isRequired,
+      }
+      constructor(props) {
+        super(props);
+        this.state = {};
+        this.onClickCancel = this.onClickCancel.bind(this);
+      }
+      onClickCancel() {
+        this.props.cancel();
+      }
+      render() {
+        return (
+          <div className={styles.IgnoreUserWizard}>
+            <header>Ignore User</header>
+            <p>When you ignore a user, all comments they wrote on the site will be hidden from you. You can undo this later from the Profile tab.</p>
+            <div>
+              <Button cStyle='cancel' onClick={this.onClickCancel}>Cancel</Button>
+              <Button>Ignore user</Button>
+            </div>
+          </div>
+        );
+      }
+    }
+
+    // Menu of actions in top right of Comment.
+    // When you choose 'Ignore User', the menu choices are replaced with the Ignore User flow
+    class TopRightMenu extends React.Component {
+      static propTypes = {
+
+        // comment on which this menu appears
+        comment: PropTypes.shape({
+          user: PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired
+          }).isRequired
+        }).isRequired,
+      }
+      constructor(props) {
+        super(props);
+        this.state = {
+          chosenItem: null
+        };
+      }
+      render() {
+        const {chosenItem} = this.state;
+        const {comment} = this.props;
+        let child;
+        const chooseIgnoreUser = () => {
+          this.setState({chosenItem: 'IGNORE_USER'});
+        };
+        const reset = () => this.setState({chosenItem: null});
+        switch (chosenItem) {
+        case 'IGNORE_USER':
+          child = (
+              <IgnoreUserWizard
+                user={comment.user}
+                cancel={reset}
+                />
+            );
+          break;
+        default:
+          child = (
+              <Menu>
+                <Menu.Item onClick={chooseIgnoreUser}>Ignore User</Menu.Item>
+              </Menu>
+            );
+        }
+        return (
+          <Toggleable>
+            <div style={{position: 'absolute', right: 0, zIndex: 1}}>
+              { child }
+            </div>
+          </Toggleable>
+        );        
+      }
+    }
+
     return (
       <div
         className={commentClass}
@@ -159,6 +245,10 @@ class Comment extends React.Component {
           : null }
           <PubDate created_at={comment.created_at} />
           <Slot fill="commentInfoBar" commentId={comment.id} />
+
+          <span className={styles.topRightMenu}>
+            <TopRightMenu comment={comment} />
+          </span>          
 
           <Content body={comment.body} />
           <div className="commentActionsLeft comment__action-container">
@@ -265,5 +355,48 @@ class Comment extends React.Component {
     );
   }
 }
+
+// TODO (bengo): use arrows that match designs, probably with css borders http://stackoverflow.com/questions/15938933/creating-a-chevron-in-css
+const upArrow = String.fromCharCode(0x25B2);
+const downArrow = String.fromCharCode(0x25BC);
+class Toggleable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.toggle = this.toggle.bind(this);
+    this.close = this.close.bind(this);
+    this.state = {
+      isOpen: false
+    };
+  }
+  toggle() {
+    this.setState({isOpen: ! this.state.isOpen});
+  }
+  close() {
+    this.setState({isOpen: false});
+  }
+  render() {
+    const {children} = this.props;
+    const {isOpen} = this.state;
+    return (
+
+      // /*onBlur={ this.close } */
+      <span className={styles.Toggleable} tabIndex="0" >
+        <span className={styles.toggler}
+              onClick={this.toggle}>{isOpen ? upArrow : downArrow}</span>
+        {isOpen ? children : null}
+      </span>
+    );
+  }
+}
+const Menu = ({children}) => (
+  <ul className={styles.Menu}>
+    { children }
+  </ul>
+);
+Menu.Item = ({children, onClick}) => (
+  <li className={styles.MenuItem} onClick={onClick}>
+    { children }
+  </li>
+);
 
 export default Comment;

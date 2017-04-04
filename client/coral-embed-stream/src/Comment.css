@@ -12,3 +12,46 @@
   filter: blur(2px);
   pointer-events: none;
 }
+
+.topRightMenu {
+  float: right;
+  text-align: right;
+}
+
+.topRightMenu > * {
+  text-align: initial;
+}
+
+.topRightMenu .toggler {
+  cursor: pointer;
+}
+
+.topRightMenu .Menu {
+  background-color: white;
+  text-align: initial;
+}
+
+.Toggleable:focus {
+  outline: none;
+}
+
+.Menu {
+  border: 1px solid #ddd;
+  margin: 0;
+
+}
+
+.MenuItem {
+  cursor: pointer;
+  padding: 1em;
+}
+
+.IgnoreUserWizard {
+  background-color: #2E343B;
+  color: white;
+  padding: 1em;
+}
+
+.IgnoreUserWizard header {
+  font-weight: bold;
+}
