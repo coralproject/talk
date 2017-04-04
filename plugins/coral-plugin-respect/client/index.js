@@ -3,7 +3,9 @@ import styles from './style.css';
 import Icon from './components/Icon';
 
 import {I18n} from 'coral-framework';
+import cn from 'classnames';
 import translations from './translations.json';
+
 const lang = new I18n(translations);
 
 import {getActionSummary} from 'coral-framework/utils';
@@ -73,12 +75,12 @@ class RespectButton extends React.Component {
     if (localDelete) {count -= 1;}
 
     return (
-      <div className={styles.Respect}>
+      <div className={styles.respect}>
         <button
-          className={respected ? styles.respected : ''}
+          className={cn(styles.button, {[styles.respected]: respected})}
           onClick={this.handleClick} >
           <span>{lang.t(respected ? 'respected' : 'respect')}</span>
-          <Icon />
+          <Icon className={cn(styles.icon, {[styles.respected]: respected})} />
           {count > 0 && count}
         </button>
       </div>

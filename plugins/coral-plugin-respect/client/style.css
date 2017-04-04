@@ -1,27 +1,30 @@
-.Respect {
-    display: inline-block;
-    button {
-        color: #161616;
-        margin: 5px 10px 5px 0px;
-        background: none;
-        padding: 0px;
-        border: none;
-        font-size: inherit;
+.respect {
+  display: inline-block;
+ }
 
-        &:hover {
-          color: #d6ab00;
-          cursor: pointer;
-         }
-    }
+.button {
+  color: #2a2a2a;
+  margin: 5px 10px 5px 0px;
+  background: none;
+  padding: 0px;
+  border: none;
+  font-size: inherit;
 
-    .respected {
-        color: #ffcc00;
-        i {
-          color: #161616;
-        }
-    }
+  &:hover {
+    color: #767676;
+    cursor: pointer;
+  }
 
-    i {
-        padding: 0 5px;
+  &.respected {
+    color: #c98211;
+
+    &:hover {
+      color: #e59614;
+      cursor: pointer;
     }
+  }
+}
+
+.icon {
+  padding: 0 5px;
 }
