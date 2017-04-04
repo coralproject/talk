@@ -16,6 +16,7 @@ body {
   font-size: 14px;
   margin: 0px;
   padding: 0px 0px 50px 0px;
+  height: auto !important;
 }
 
 .expandForSignin {
@@ -306,10 +307,7 @@ button.comment__action-button[disabled],
   display: none;
   background-color: white;
   border: 1px solid black;
-  width: calc(100% - 15px);
   position: absolute;
-  top: 70px;
-  right: 0;
   padding: 5px;
 }
 

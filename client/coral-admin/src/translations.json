@@ -17,7 +17,21 @@
       "active": "Active",
       "banned": "Banned",
       "banned-user": "Banned User",
-      "loading": "Loading results"
+      "loading": "Loading results",
+      "flags": "Flags",
+      "flaggedaccounts": "Flagged Usernames",
+      "people": "People",
+      "no-flagged-accounts": "The Account Flags queue is currently empty.",
+      "I don't like this username": "I don't like this username",
+      "This user is impersonating": "Impersonation",
+      "This looks like an ad/marketing": "Spam/Ads",
+      "This username is offensive": "Offensive",
+      "Other": "Other",
+      "ban_user": "Ban User?",
+      "are_you_sure": "Are you sure you would like to ban {0}?",
+      "note": "Note: Banning this user will not let them edit, comment or remove anything.",
+      "cancel": "Cancel",
+      "yes_ban_user": "Yes, Ban User"
     },
     "modqueue": {
       "likes": "likes",
@@ -104,8 +118,9 @@
       "yes_ban_user": "Yes, Ban User"
     },
     "suspenduser": {
-      "title_0": "We noticed you rejected a {0}",
-      "description_0": "Would you like to temporarily ban this user becuase of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}.",
+      "title": "Suspend a user",
+      "title_0": "We noticed you rejected a username",
+      "description_0": "Would you like to temporarily ban this user because of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}.",
       "title_1": "Notify the user of their temporary suspension",
       "description_1": "Suspending this user will temporarily disable their account and hide all of their comments on the site.",
       "no_cancel": "No, cancel",
@@ -114,7 +129,7 @@
       "bio": "bio",
       "username": "username",
       "email_subject": "Your account has been suspended",
-      "email": "Another member of the community recently flagged your {0} for review. Because of its content your {0} was rejected. This means you can no longer comment, like, or flag content until you rewrite your {0}. Please e-mail moderator@newsorg.com if you have any questions or concerns.",
+      "email": "Another member of the community recently flagged your username for review. Because of its content your user was rejected. This means you can no longer comment, like, or flag content until you rewrite your username. Please e-mail us if you have any questions or concerns.",
       "write_message": "Write a message"
     },
     "dashboard": {
@@ -147,21 +162,50 @@
   "es": {
     "errors": {
       "NOT_AUTHORIZED": "Acción no autorizada.",
-      "LOGIN_MAXIMUM_EXCEEDED": "Ha realizado demasiados intentos fallidos de contraseña. Por favor espera."
+      "LOGIN_MAXIMUM_EXCEEDED": "Ha realizado demasiados intentos fallidos de colocar la contraseña. Por favor espere."
     },
     "community": {
       "username_and_email": "Usuario y E-mail",
       "account_creation_date": "Fecha de creación de la cuenta",
       "newsroom_role": "Rol en la redacción",
-      "admin": "Administrador",
-      "moderator": "Moderador",
+      "admin": "Administradora",
+      "moderator": "Moderadora",
       "role": "Seleccionar rol...",
-      "no-results": "No se encontraron usuarios con ese nombre de usuario o correo electronico.",
+      "no-results": "No se encontraron usuarixs con ese nombre de usuario o e-mail.",
       "status": "Estado",
       "select-status": "Seleccionar estado...",
       "active": "Activa",
       "banned": "Suspendido",
       "banned-user": "Usuario Suspendido",
+      "loading": "Cargando resultados",
+      "flags": "Reporte",
+      "flaggedaccounts": "Nombres de Usuario Reportados",
+      "people": "Gente",
+      "no-flagged-accounts": "No hay ninguna cuenta reportada.",
+      "I don't like this username": "No me gusta ese nombre de usuario",
+      "This user is impersonating": "Suplantación",
+      "This looks like an ad/marketing": "Spam/Propaganda",
+      "This username is offensive": "Ofensivo",
+      "Other": "Otros",
+      "ban_user": "Quieres suspender al Usuario?",
+      "are_you_sure": "Estas segura que quieres suspender a {0}?",
+      "note": "Nota: Suspender a este usuario no le va a permitir (al usuario) borrar ni editar ni comentar.",
+      "cancel": "Cancelar",
+      "yes_ban_user": "Si, Suspendan el usuario"
+    },
+    "suspenduser": {
+      "title": "Suspendiendo un usuario",
+      "title_0": "Esta queriendo suspender un usuario?",
+      "description_0": "Le gustaria suspender a esta usuaria temporarianmente por su nombre de usuario? Si lo hace sus comentarios serán escondidos temporariamente hasta que puedan reescribir su nombre de usuario.",
+      "title_1": "Enviarle una nota al usuario sobre su cuenta suspendida",
+      "description_1": "Si suspende a este usuario, su cuenta va a ser deshabilitada y todos sus comentarios escondidos del sitio.",
+      "no_cancel": "No, cancelar",
+      "yes_suspend": "Si, suspender",
+      "send": "Enviar",
+      "username": "nombre de usuario",
+      "email_subject": "Su cuenta ha sido suspendida temporariamente",
+      "email": "Otra persona de la comunidad recientemente marcó su nombre de usuario para ser revisado. Por su contenido, el nombre de usuario ha sido rechazado. Esto quiere decir que no puede comentar, gustar o marcar contenido hasta que modifique su nombre de usuario. Por favor, envienos un correo a moderator@newsorg.com si tiene alguna pregunta o preocupación",
+      "write_message": "Escribir un mensaje",
       "loading": "Cargando resultados"
     },
     "modqueue": {
@@ -181,34 +225,34 @@
       "banned_user": "Usuario Suspendido"
     },
     "user": {
-      "user_bio": "",
-      "bio_flags": "",
-      "username_flags": ""
+      "user_bio": "marcas para este usuario",
+      "bio_flags": "marcas para esta biografia",
+      "username_flags": "marcas para este nombre de usuario"
     },
     "configure": {
-      "closed-stream-settings": "Mensaje cuando los comentarios están cerrados en el artículo",
+      "closed-stream-settings": "Mensaje a enviar cuando los comentarios están cerrados en el artículo",
       "stream-settings": "Configuración de Comentarios",
       "moderation-settings": "Configuración de Moderación",
-      "tech-settings": "Configuración Technical",
+      "tech-settings": "Configuración Técnica",
       "custom-css-url": "URL CSS a medida",
-      "custom-css-url-desc": "URL de una hoja de estilo que va a sobrescribir los estilos por defecto de Embed Stream. Puede ser interna o externa.",
+      "custom-css-url-desc": "URL de una hoja de estilo que va a sobrescribir los estilos por defecto del hilo de comentarios. Puede ser interna o externa.",
       "dashboard": "Panel",
       "enable-pre-moderation": "Habilitar pre-moderación",
       "enable-pre-moderation-text": "Los moderadores deben aprobar cada comentario antes de que sea publicado.",
-      "require-email-verification": "Necesita confirmación de correo",
-      "require-email-verification-text": "Nuevos usuarios deben verificar sus correos antes de comentar",
+      "require-email-verification": "Necesita confirmación de e-mail",
+      "require-email-verification-text": "Nuevos usuarios deben verificar sus e-mails antes de comentar",
       "include-comment-stream": "Incluir la Descripción a un Hilo de Comentario para los y las Lectoras.",
       "include-comment-stream-desc": "Escribir un mensaje que será agregado a la parte de arriba del tu hilo de comentarios. Por ejemplo, un tema, guias de comunidad, etc.",
       "include-text": "Incluir tu texto aqui.",
       "comment-settings": "Configuración de Comentarios",
       "embed-comment-stream": "Colocar Hilo de Comentarios",
-      "enable-premod-links": "Pre-Moderar Commentarios que contienen Links",
-      "enable-premod-links-text": "Los y las Moderadoras deben probar cualquier comentario que contengan links antes de su publicación.",
-      "wordlist": "Palabras Suspendidas y Suspechosas",
-      "banned-word-text": "Comentarios que contengan estas palabras o frases, no separadas por comas y en mayusculas o minusuculas, serán automaticamente separadas de los comentarios publicados.",
-      "suspect-word-text": "Comments which contain these words or phrases (not case-sensitive) will be highlighted in the comment stream. Type a word and press Enter or Tab to add. Optionally paste a comma-separated list.",
-      "banned-words-title": "Banned words list",
-      "suspect-words-title": "Suspect words list",
+      "enable-premod-links": "Pre-Moderar Commentarios que contienen Enlaces",
+      "enable-premod-links-text": "Los y las Moderadoras deben aprobar cualquier comentario que contengan links antes de su publicación.",
+      "wordlist": "Palabras Suspendidas y Sospechosas",
+      "banned-word-text": "Comentarios que contengan estas palabras o frases, no separadas por comas y en mayusculas o minusuculas, serán automaticamente marcadas para separar los comentarios publicados.",
+      "suspect-word-text": "Comentarios que contengan estas palabras o frases, considerando mayusculas y minusculas, serán automaticamente  destacadas en los comentarios publicados. Escribir una palabra y apretar Enter o Tabulador para agergarla. Opcionalmente pegar una lista separada por coma.",
+      "banned-words-title": "Lista de palabras prohibidas",
+      "suspect-words-title": "Lista de palabras sospechosas",
       "save-changes": "Guardar Cambios",
       "copy-and-paste": "Copiar y pegar el código de más abajo en tu CMS para colocar la caja de comentarios en tus articulos",
       "moderate": "Moderar",
@@ -227,21 +271,21 @@
       "comment-count-text-post": " caracteres",
       "comment-count-error": "Por favor escribe un número válido.",
       "domain-list-title": "Lista de Dominios Permitidos",
-      "domain-list-text": "Agrega dominios permitidos a Talk, e.g. tu localhost, staging y ambientes de production  (ex. localhost:3000, staging.domain.com, domain.com)."
+      "domain-list-text": "Agrega dominios permitidos a Talk, por ejemplo tu localhost, staging y ambientes de producción (ej. localhost:3000, staging.domain.com, domain.com)."
     },
     "embedlink": {
       "copy": "Copiar"
     },
     "bandialog": {
-      "ban_user": "Quieres suspender el Usuario?",
-      "are_you_sure": "Estas segura que quieres suspender a {0}?",
-      "note": "Nota: Suspender este usuario también va a colocar este comentario en la cola de Rechazados.",
+      "ban_user": "¿Quieres suspender el Usuario?",
+      "are_you_sure": "¿Estás segura que quieres suspender a {0}?",
+      "note": "Nota: Suspender a este usuario también va a colocar este comentario en la cola de Rechazados.",
       "cancel": "Cancelar",
       "yes_ban_user": "Si, Suspendan el usuario"
     },
     "dashbord": {
       "next-update": "{0} minutos hasta la siguiente actualización.",
-      "auto-update": "Los datos se actualizan automaticamente cada 5 minutos o cuando Recargas.",
+      "auto-update": "Los datos se actualizan automaticamente cada 5 minutos o cuando recargas.",
       "no_flags": "¡Nadie ha marcado nada en los últimos 5 minutos! ¡Bravo!",
       "no_likes": "A nadie le ha gustado algún comentario en los últimos 5 minutos. Todo tranquilo.",
       "flags": "Marcados",
@@ -249,21 +293,19 @@
       "comment_count": "comentarios"
     },
     "streams": {
-      "empty_result": "No se encuentro articulo con esta busqueda. Tal vez extender la busqueda?",
-      "search": "",
-      "filter-streams": "",
-      "stream-status": "",
-      "all": "",
-      "open": "",
-      "closed": "",
-      "newest": "",
-      "oldest": "",
-      "sort-by": "",
-      "open": "",
-      "closed": "",
+      "empty_result": "No se encuentro articulo con esta busqueda. ¿Tal vez puedas extender la busqueda?",
+      "search": "buscar",
+      "filter-streams": "Filtrar Hilos de Comentarios",
+      "stream-status": "Estado del Hilo de Comentarios",
+      "all": "todxs",
+      "open": "abrir",
+      "closed": "cerrado",
+      "newest": "más nuevoß",
+      "oldest": "más viejo",
+      "sort-by": "ordenar por",
       "article": "artículo",
-      "pubdate": "",
-      "status": ""
+      "pubdate": "Fecha de Pblicación",
+      "status": "Estado"
     }
   }
 }

@@ -24,6 +24,7 @@ const ModerationQueue = ({comments, selectedIndex, commentCount, singleView, loa
             commentType={activeTab}
             selected={i === selectedIndex}
             suspectWords={props.suspectWords}
+            bannedWords={props.bannedWords}
             actions={actionsMap[status]}
             showBanUserDialog={props.showBanUserDialog}
             acceptComment={props.acceptComment}
@@ -47,6 +48,7 @@ const ModerationQueue = ({comments, selectedIndex, commentCount, singleView, loa
 };
 
 ModerationQueue.propTypes = {
+  bannedWords: PropTypes.arrayOf(PropTypes.string).isRequired,
   suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired,
   currentAsset: PropTypes.object,
   showBanUserDialog: PropTypes.func.isRequired,

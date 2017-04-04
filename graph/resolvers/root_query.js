@@ -86,6 +86,28 @@ const RootQuery = {
     }
 
     return user;
+  },
+
+  // This endpoint is used for loading the user moderation queues (users whose username has been flagged),
+  // so hide it in the event that we aren't an admin.
+  users(_, {query: {action_type, limit, cursor, sort}}, {user, loaders: {Users, Actions}}) {
+
+    if (user == null || !user.hasRoles('ADMIN')) {
+      return null;
+    }
+
+    const query = {limit, cursor, sort};
+
+    if (action_type) {
+      return Actions.getByTypes({action_type, item_type: 'USERS'})
+        .then((ids) => {
+
+          // Perform the query using the available resolver.
+          return Users.getByQuery({ids, limit, cursor, sort}).find({status: 'PENDING'});
+        });
+    }
+
+    return Users.getByQuery(query);
   }
 };
 
