@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const {mergeStrings} = require('gql-merge');
 const debug = require('debug')('talk:graph:typeDefs');
-const plugins = require('../plugins');
+const plugins = require('../services/plugins');
 
 /**
  * Plugin support requires us to merge the type definitions from the loaded

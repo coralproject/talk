@@ -2,9 +2,7 @@
 
 set -e
 
-docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-
-# Sourced from https://segment.com/blog/ci-at-segment/
+# Inspired by https://segment.com/blog/ci-at-segment/
 
 deploy_tag() {
   # Find our individual versions from the tags
@@ -28,6 +26,7 @@ deploy_tag() {
   do
       echo "==> tagging $version"
       docker tag coralproject/talk:latest coralproject/talk:$version
+      docker tag coralproject/talk:latest-onbuild coralproject/talk:$version-onbuild
   done
 
   # Push each of the tags to docker hub, including latest
@@ -35,21 +34,35 @@ deploy_tag() {
   do
       echo "==> pushing $version"
       docker push coralproject/talk:$version
+      docker push coralproject/talk:$version-onbuild
   done
 }
 
 deploy_latest() {
   echo "==> pushing latest"
   docker push coralproject/talk:latest
+  docker push coralproject/talk:latest-onbuild
 }
 
-# build the repo
-docker build -t coralproject/talk .
+# build the repo, including the onbuild tagged versions.
+docker build -t coralproject/talk:latest -f Dockerfile .
+docker build -t coralproject/talk:latest-onbuild -f Dockerfile.onbuild .
 
-# deploy based on the env
-if [ -n "$CIRCLE_TAG" ]
+if [ "$1" = "deploy" ]
 then
-  deploy_tag
-else
-  deploy_latest
+
+  if [[ -n "$DOCKER_EMAIL" && -n "$DOCKER_USER" && -n "$DOCKER_PASS" ]]
+  then
+
+    # Log the Docker Daemon in
+    docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+  fi
+
+  # deploy based on the env
+  if [ -n "$CIRCLE_TAG" ]
+  then
+    deploy_tag
+  else
+    deploy_latest
+  fi
 fi
