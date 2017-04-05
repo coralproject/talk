@@ -2,7 +2,7 @@ const loaders = require('./loaders');
 const mutators = require('./mutators');
 const uuid = require('uuid');
 
-const plugins = require('../plugins');
+const plugins = require('../services/plugins');
 const debug = require('debug')('talk:graph:context');
 
 /**
