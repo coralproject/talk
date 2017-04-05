@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {compose} from 'react-apollo';
-import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
 import I18n from 'coral-framework/modules/i18n/i18n';
@@ -17,7 +16,7 @@ import {queryStream} from 'coral-framework/graphql/queries';
 import {postComment, postFlag, postLike, postDontAgree, deleteAction, addCommentTag, removeCommentTag} from 'coral-framework/graphql/mutations';
 import {editName} from 'coral-framework/actions/user';
 import {updateCountCache} from 'coral-framework/actions/asset';
-import {notificationActions, authActions, assetActions, pym, actions} from 'coral-framework';
+import {notificationActions, authActions, assetActions, pym} from 'coral-framework';
 
 import Stream from './Stream';
 import InfoBox from 'coral-plugin-infobox/InfoBox';
@@ -64,11 +63,6 @@ class Embed extends Component {
 
     // dispatch action to remove a tag from a comment
     removeCommentTag: React.PropTypes.func,
-  }
-
-  constructor(props) {
-    super(props);
-    this.pluginActions = bindActionCreators(actions.pluginActions, props.dispatch);
   }
 
   componentDidMount () {
