@@ -148,8 +148,7 @@ class Comment extends React.Component {
         id={`c_${comment.id}`}
         style={{marginLeft: depth * 30}}>
         <hr aria-hidden={true} />
-
-        <div>
+        <div className={highlighted === comment.id ? 'highlighted-comment' : ''}>
           <AuthorName
             author={comment.user}/>
           { isStaff(comment.tags)
@@ -192,7 +191,6 @@ class Comment extends React.Component {
                   removeBest={removeBestTag} />
               </IfUserCanModifyBest>
             </ActionButton>
-            <Slot fill="Comment.Detail" commentId={comment.id} />
           </div>
         <div className="commentActionsRight comment__action-container">
           <ActionButton>
@@ -246,8 +244,7 @@ class Comment extends React.Component {
               showSignInDialog={showSignInDialog}
               reactKey={reply.id}
               key={reply.id}
-              comment={reply}
-            />;
+              comment={reply} />;
           })
         }
         {

@@ -6,16 +6,17 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-framework/translations';
 const lang = new I18n(translations);
 
-import {TabBar, Tab, TabContent, Spinner} from 'coral-ui';
+import {TabBar, Tab, TabContent, Spinner, Button} from 'coral-ui';
 
 const {logout, showSignInDialog, requestConfirmEmail} = authActions;
 const {addNotification, clearNotification} = notificationActions;
 const {fetchAssetSuccess} = assetActions;
+import {NEW_COMMENT_COUNT_POLL_INTERVAL} from 'coral-framework/constants/comments';
 
 import {queryStream} from 'coral-framework/graphql/queries';
 import {postComment, postFlag, postLike, postDontAgree, deleteAction, addCommentTag, removeCommentTag} from 'coral-framework/graphql/mutations';
 import {editName} from 'coral-framework/actions/user';
-import {updateCountCache} from 'coral-framework/actions/asset';
+import {updateCountCache, viewAllComments} from 'coral-framework/actions/asset';
 import {notificationActions, authActions, assetActions, pym} from 'coral-framework';
 
 import Stream from './Stream';
@@ -31,7 +32,7 @@ import ChangeUsernameContainer from '../../coral-sign-in/containers/ChangeUserna
 import ProfileContainer from 'coral-settings/containers/ProfileContainer';
 import RestrictedContent from 'coral-framework/components/RestrictedContent';
 import ConfigureStreamContainer from 'coral-configure/containers/ConfigureStreamContainer';
-import Comment from './Comment';
+import HighlightedComment from './Comment';
 import LoadMore from './LoadMore';
 import NewCount from './NewCount';
 
@@ -69,10 +70,30 @@ class Embed extends Component {
     pym.sendMessage('childReady');
   }
 
+  componentWillUnmount () {
+    clearInterval(this.state.countPoll);
+  }
+
   componentWillReceiveProps (nextProps) {
     const {loadAsset} = this.props;
     if(!isEqual(nextProps.data.asset, this.props.data.asset)) {
       loadAsset(nextProps.data.asset);
+
+      const {getCounts, updateCountCache} = this.props;
+      const {asset} = nextProps.data;
+
+      updateCountCache(asset.id, asset.commentCount);
+
+      this.setState({
+        countPoll: setInterval(() => {
+          const {asset} = this.props.data;
+          getCounts({
+            asset_id: asset.id,
+            limit: asset.comments.length,
+            sort: 'REVERSE_CHRONOLOGICAL'
+          });
+        }, NEW_COMMENT_COUNT_POLL_INTERVAL)
+      });
     }
   }
 
@@ -80,7 +101,7 @@ class Embed extends Component {
     if(!isEqual(prevProps.data.comment, this.props.data.comment)) {
 
       // Scroll to a permalinked comment if one is in the URL once the page is done rendering.
-      setTimeout(()=>pym.scrollParentToChildEl(`c_${this.props.data.comment.id}`), 0);
+      setTimeout(() => pym.scrollParentToChildEl('coralStream'), 0);
     }
   }
 
@@ -98,6 +119,8 @@ class Embed extends Component {
     const {closedAt, countCache = {}} = this.props.asset;
     const {loading, asset, refetch, comment} = this.props.data;
     const {loggedIn, isAdmin, user, showSignInDialog, signInOffset} = this.props.auth;
+
+    // even though the permalinked comment is the highlighted one, we're displaying its parent + replies
     const highlightedComment = comment && comment.parent ? comment.parent : comment;
 
     const openStream = closedAt === null;
@@ -125,6 +148,16 @@ class Embed extends Component {
             <Tab>{lang.t('MY_COMMENTS')}</Tab>
             <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>
+          {
+            highlightedComment &&
+            <Button
+              cStyle='darkGrey'
+              style={{float: 'right'}}
+              onClick={() => {
+                this.props.viewAllComments();
+                this.props.data.refetch();
+              }}>{lang.t('showAllComments')}</Button>
+          }
           {loggedIn && <UserBox user={user} logout={() => this.props.logout().then(refetch)}  changeTab={this.changeTab}/>}
           <TabContent show={activeTab === 0}>
             {
@@ -171,9 +204,11 @@ class Embed extends Component {
               offset={signInOffset}/>}
             {loggedIn &&  user && <ChangeUsernameContainer loggedIn={loggedIn} offset={signInOffset} user={user} />}
             {loggedIn && <ModerationLink assetId={asset.id} isAdmin={isAdmin} />}
+
+            {/* the highlightedComment is isolated after the user followed a permalink */}
             {
-              highlightedComment &&
-              <Comment
+              highlightedComment
+              ? <HighlightedComment
                 refetch={refetch}
                 setActiveReplyBox={this.setActiveReplyBox}
                 activeReplyBox={this.state.activeReplyBox}
@@ -230,6 +265,43 @@ class Embed extends Component {
             comments={asset.comments}
             moreComments={countCache[asset.id] > asset.comments.length}
             loadMore={this.props.loadMore}/>
+                comment={highlightedComment} />
+              : <div>
+                <NewCount
+                  commentCount={asset.commentCount}
+                  countCache={countCache[asset.id]}
+                  loadMore={this.props.loadMore}
+                  firstCommentDate={firstCommentDate}
+                  assetId={asset.id}
+                  updateCountCache={this.props.updateCountCache}
+                  />
+                <div className="embed__stream">
+                  <Stream
+                    open={openStream}
+                    addNotification={this.props.addNotification}
+                    postItem={this.props.postItem}
+                    setActiveReplyBox={this.setActiveReplyBox}
+                    activeReplyBox={this.state.activeReplyBox}
+                    asset={asset}
+                    currentUser={user}
+                    postLike={this.props.postLike}
+                    postFlag={this.props.postFlag}
+                    postDontAgree={this.props.postDontAgree}
+                    addCommentTag={this.props.addCommentTag}
+                    removeCommentTag={this.props.removeCommentTag}
+                    loadMore={this.props.loadMore}
+                    deleteAction={this.props.deleteAction}
+                    showSignInDialog={this.props.showSignInDialog}
+                    comments={asset.comments} />
+                </div>
+                <LoadMore
+                  topLevel={true}
+                  assetId={asset.id}
+                  comments={asset.comments}
+                  moreComments={countCache[asset.id] > asset.comments.length}
+                  loadMore={this.props.loadMore} />
+              </div>
+            }
         </TabContent>
          <TabContent show={activeTab === 1}>
            <ProfileContainer
@@ -266,6 +338,7 @@ const mapDispatchToProps = dispatch => ({
   editName: (username) => dispatch(editName(username)),
   showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),
   updateCountCache: (id, count) => dispatch(updateCountCache(id, count)),
+  viewAllComments: () => dispatch(viewAllComments()),
   logout: () => dispatch(logout()),
   dispatch: d => dispatch(d)
 });
@@ -279,5 +352,5 @@ export default compose(
   addCommentTag,
   removeCommentTag,
   deleteAction,
-  queryStream,
+  queryStream
 )(Embed);

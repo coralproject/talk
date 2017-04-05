@@ -23,6 +23,10 @@ class PermalinkButton extends React.Component {
   }
 
   toggle () {
+
+    // I wish I could position this with a stylesheet, but top-level comments with
+    // nested replies throws everything off, as well as very long comments
+    this.popover.style.top = `${this.linkButton.offsetTop - 80}px`;
     this.setState({popoverOpen: !this.state.popoverOpen});
   }
 
@@ -48,11 +52,16 @@ class PermalinkButton extends React.Component {
     const {copySuccessful, copyFailure} = this.state;
     return (
       <div className={`${name}-container`}>
-        <button onClick={this.toggle} className={`${name}-button`}>
+        <button
+          ref={ref => this.linkButton = ref}
+          onClick={this.toggle}
+          className={`${name}-button`}>
           {lang.t('permalink.permalink')}
           <i className={`${name}-icon material-icons`} aria-hidden={true}>link</i>
         </button>
-        <div className={`${name}-popover ${styles.container} ${this.state.popoverOpen ? 'active' : ''}`}>
+        <div
+          ref={ref => this.popover = ref}
+          className={`${name}-popover ${styles.container} ${this.state.popoverOpen ? 'active' : ''}`}>
           <input
             className={`${name}-copy-field`}
             type='text'
