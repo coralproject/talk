@@ -1,3 +1,18 @@
+# excluded because we'll likely need to rebuild this.
 node_modules
+
+# scripts are used during development and testing, not
+# production.
+scripts
+
+# documentation should not be visable in production.
+docs
+
+# static assets are rebuild in the docker container.
+dist
+
+# tests are not run in the docker container.
 test
+
+# we won't use the .git folder in production.
 .git
