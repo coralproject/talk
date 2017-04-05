@@ -6,7 +6,6 @@ import isEqual from 'lodash/isEqual';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-framework/translations';
 const lang = new I18n(translations);
-import {getPluginQueriesAndMutators} from 'coral-framework/helpers/plugins';
 
 import {TabBar, Tab, TabContent, Spinner} from 'coral-ui';
 
@@ -124,22 +123,9 @@ class Embed extends Component {
       ? asset.comments[0].created_at
       : new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString();
 
-    /**
-     * Plugins Section
-     *
-     */
-    const {state, ...currentProps} = this.props;
-
-    const pluginProps = {
-      state,
-      context: currentProps,
-      actions: this.pluginActions,
-    };
-
     return (
       <div style={expandForLogin}>
         <div className="commentStream">
-          {/* <Slot fill="Stream" pluginProps={pluginProps} />*/}
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count count={asset.totalCommentCount}/></Tab>
             <Tab>{lang.t('MY_COMMENTS')}</Tab>
@@ -212,7 +198,6 @@ class Embed extends Component {
                 key={highlightedComment.id}
                 reactKey={highlightedComment.id}
                 comment={highlightedComment}
-                pluginProps={pluginProps}
               />
             }
             <NewCount
@@ -243,7 +228,6 @@ class Embed extends Component {
                 deleteAction={this.props.deleteAction}
                 showSignInDialog={this.props.showSignInDialog}
                 comments={asset.comments}
-                pluginProps={pluginProps}
               />
             </div>
           <LoadMore
@@ -274,19 +258,11 @@ class Embed extends Component {
   }
 }
 
-const mapStateToProps = (state) => Object
-  .keys(state)
-  .reduce((entry, key) => {
-    if (key !== 'apollo') {
-      entry.state[key] = state[key].toJS();
-    }
-    return entry;
-  }, {
-    auth: state.auth.toJS(),
-    userData: state.user.toJS(),
-    asset: state.asset.toJS(),
-    state: {}
-  });
+const mapStateToProps = state => ({
+  auth: state.auth.toJS(),
+  userData: state.user.toJS(),
+  asset: state.asset.toJS()
+});
 
 const mapDispatchToProps = dispatch => ({
   requestConfirmEmail: () => dispatch(requestConfirmEmail()),
@@ -310,5 +286,4 @@ export default compose(
   removeCommentTag,
   deleteAction,
   queryStream,
-  ...getPluginQueriesAndMutators(),
 )(Embed);

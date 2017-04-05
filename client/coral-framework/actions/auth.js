@@ -1,9 +1,27 @@
+import {gql} from 'react-apollo';
+import client from 'coral-framework/services/client';
 import I18n from '../../coral-framework/modules/i18n/i18n';
 import translations from './../translations';
 const lang = new I18n(translations);
 import * as actions from '../constants/auth';
 import coralApi, {base} from '../helpers/response';
 import {pym} from 'coral-framework';
+
+// TODO: error reporting.
+
+const ME_QUERY = gql`
+  query Me {
+    me {
+      status
+    }
+  }
+`;
+
+function updateStore() {
+  return client.query({
+    fetchPolicy: 'network-only',
+    query: ME_QUERY});
+}
 
 // Dialog Actions
 export const showSignInDialog = (offset = 0) => ({type: actions.SHOW_SIGNIN_DIALOG, offset});
@@ -52,6 +70,7 @@ export const fetchSignIn = (formData) => (dispatch) => {
       const isAdmin = !!user && !!user.roles.filter(i => i === 'ADMIN').length;
       dispatch(signInSuccess(user, isAdmin));
       dispatch(hideSignInDialog());
+      updateStore();
     })
     .catch(error => {
       if (error.metadata) {
@@ -151,7 +170,10 @@ const logOutFailure = () => ({type: actions.LOGOUT_FAILURE});
 export const logout = () => dispatch => {
   dispatch(logOutRequest());
   return coralApi('/auth', {method: 'DELETE'})
-    .then(() => dispatch(logOutSuccess()))
+    .then(() => {
+      dispatch(logOutSuccess());
+      updateStore();
+    })
     .catch(error => dispatch(logOutFailure(error)));
 };
 

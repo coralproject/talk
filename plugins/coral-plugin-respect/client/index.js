@@ -2,13 +2,19 @@ import React from 'react';
 import styles from './style.css';
 import Icon from './components/Icon';
 
+import {compose, gql, graphql} from 'react-apollo';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {I18n} from 'coral-framework';
 import cn from 'classnames';
 import translations from './translations.json';
+import {withPostRespect} from './mutations';
 
 const lang = new I18n(translations);
 
 import {getActionSummary} from 'coral-framework/utils';
+import {showSignInDialog} from 'coral-framework/actions/auth';
+import {deleteAction} from 'coral-framework/graphql/mutations';
 
 class RespectButton extends React.Component {
   constructor(props) {
@@ -21,7 +27,9 @@ class RespectButton extends React.Component {
   }
 
   handleClick = () => {
-    const {comment, postRespect, showSignInDialog, currentUser, deleteAction} = this.props.context;
+    const {postRespect, showSignInDialog, deleteAction, commentId} = this.props;
+    const {me, comment} = this.props.data;
+
     const {localPost, localDelete} = this.state;
     const respect = getActionSummary('RespectActionSummary', comment);
     const respected = (respect && respect.current_user && !localDelete) || localPost;
@@ -30,8 +38,8 @@ class RespectButton extends React.Component {
      *  If the current user does not exist, trigger signIn Box
      */
 
-    if (!currentUser) {
-      const offset = document.getElementById(`c_${comment.id}`).getBoundingClientRect().top - 75;
+    if (!me) {
+      const offset = document.getElementById(`c_${commentId}`).getBoundingClientRect().top - 75;
       showSignInDialog(offset);
       return;
     }
@@ -40,7 +48,7 @@ class RespectButton extends React.Component {
      *  If the current user is banned, do nothing
      */
 
-    if (currentUser.banned) {
+    if (me.status === 'BANNED') {
       return;
     }
 
@@ -50,7 +58,7 @@ class RespectButton extends React.Component {
       });
 
       postRespect({
-        item_id: comment.id,
+        item_id: commentId,
         item_type: 'COMMENTS'
       }).then(({data}) => {
         this.setState({
@@ -65,9 +73,9 @@ class RespectButton extends React.Component {
   }
 
   render() {
-    const {comment} = this.props.context;
+    const {comment} = this.props.data;
     const {localPost, localDelete} = this.state;
-    const respect = getActionSummary('RespectActionSummary', comment);
+    const respect = comment && getActionSummary('RespectActionSummary', comment);
     const respected = (respect && respect.current_user && !localDelete) || localPost;
     let count = respect ? respect.count : 0;
 
@@ -88,5 +96,33 @@ class RespectButton extends React.Component {
   }
 }
 
-export default RespectButton;
+const withQuery = graphql(gql`
+  query CommentQuery($commentId: ID!) {
+    comment(id: $commentId) {
+      action_summaries {
+        ... on RespectActionSummary {
+          count
+          current_user {
+            id
+          }
+        }
+      }
+    }
+    me {
+      status
+    }
+  }
+`);
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({showSignInDialog}, dispatch);
+
+const enhance = compose(
+  connect(null, mapDispatchToProps),
+  deleteAction,
+  withPostRespect,
+  withQuery,
+);
+
+export default enhance(RespectButton);
 

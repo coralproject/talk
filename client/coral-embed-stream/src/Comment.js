@@ -142,12 +142,6 @@ class Comment extends React.Component {
       tag: BEST_TAG,
     }), () => 'Failed to remove best comment tag');
 
-    const {context, ...rest} = this.props.pluginProps;
-    const pluginProps = {
-      context: {...context, ...this.props},
-      ...rest
-    };
-
     return (
       <div
         className={commentClass}
@@ -155,7 +149,7 @@ class Comment extends React.Component {
         style={{marginLeft: depth * 30}}>
         <hr aria-hidden={true} />
 
-        <div id="Comment.InfoBar">
+        <div>
           <AuthorName
             author={comment.user}/>
           { isStaff(comment.tags)
@@ -166,7 +160,7 @@ class Comment extends React.Component {
             ? <TagLabel><BestIndicator /></TagLabel>
             : null }
           <PubDate created_at={comment.created_at} />
-          <Slot fill="Comment.InfoBar" {...pluginProps} />
+          <Slot fill="Comment.InfoBar" commentId={comment.id} />
         </div>
 
         <Content body={comment.body} />
@@ -198,7 +192,7 @@ class Comment extends React.Component {
                   removeBest={removeBestTag} />
               </IfUserCanModifyBest>
             </ActionButton>
-            <Slot fill="Comment.Detail" {...pluginProps} />
+            <Slot fill="Comment.Detail" commentId={comment.id} />
           </div>
         <div className="commentActionsRight comment__action-container">
           <ActionButton>
@@ -253,7 +247,6 @@ class Comment extends React.Component {
               reactKey={reply.id}
               key={reply.id}
               comment={reply}
-              pluginProps={pluginProps}
             />;
           })
         }
