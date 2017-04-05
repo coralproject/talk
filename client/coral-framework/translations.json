@@ -13,6 +13,7 @@
       "error": "Usernames can contain letters, numbers and _ only"
     },
     "viewMoreComments": "view more comments",
+    "showAllComments": "Show all comments",
     "viewReply": "view reply",
     "viewAllRepliesInitial": "view all {0} replies",
     "viewAllReplies": "view {0} replies",
@@ -56,6 +57,7 @@
     "newCount": "Ver {0} {1} más",
     "comment": "commentario",
     "comments": "commentarios",
+    "showAllComments": "Mostrar todos los comentarios",
     "error": {
       "emailNotVerified": "E-mail {0} no verificado.",
       "email": "No es un e-mail válido",

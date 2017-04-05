@@ -1,3 +1,5 @@
 dist
 client/lib
 **/*.html
+plugins/
+plugins/**/node_modules

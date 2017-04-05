@@ -139,7 +139,7 @@ const withPostRespect = graphql(gql`
         optimisticResponse: {
           createRespect: {
             __typename: 'CreateRespectResponse',
-            erros: null,
+            errors: null,
             respect: {
               __typename: 'RespectAction',
               id: 'pending',
