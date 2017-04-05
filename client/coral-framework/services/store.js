@@ -3,9 +3,19 @@ import thunk from 'redux-thunk';
 import mainReducer from '../reducers';
 import {client} from './client';
 
+const apolloErrorReporter = () => next => action => {
+  if (action.type === 'APOLLO_QUERY_ERROR') {
+    console.error(action.error);
+  }
+  return next(action);
+};
+
 const middlewares = [
-  applyMiddleware(client.middleware()),
-  applyMiddleware(thunk)
+  applyMiddleware(
+    client.middleware(),
+    thunk,
+    apolloErrorReporter,
+  ),
 ];
 
 if (window.devToolsExtension) {
