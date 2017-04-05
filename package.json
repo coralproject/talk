@@ -86,14 +86,14 @@
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-local": "^1.0.0",
-    "react-apollo": "^0.10.0",
+    "react-apollo": "^1.0.0",
     "react-recaptcha": "^2.2.6",
     "redis": "^2.7.1",
     "simplemde": "^1.11.2",
     "uuid": "^2.0.3"
   },
   "devDependencies": {
-    "apollo-client": "^0.8.3",
+    "apollo-client": "^1.0.0",
     "autoprefixer": "^6.5.2",
     "babel-cli": "^6.24.0",
     "babel-core": "^6.24.0",
