@@ -5,7 +5,7 @@ import {ADDTL_COMMENTS_ON_LOAD_MORE} from 'coral-framework/constants/comments';
 import {Button} from 'coral-ui';
 const lang = new I18n(translations);
 
-const loadMoreComments = (assetId, comments, loadMore, parentId, replyCount) => {
+const loadMoreComments = (assetId, comments, loadMore, parentId) => {
 
   let cursor = null;
   if (comments.length) {
@@ -15,7 +15,7 @@ const loadMoreComments = (assetId, comments, loadMore, parentId, replyCount) => 
   }
 
   loadMore({
-    limit: parentId ? replyCount : ADDTL_COMMENTS_ON_LOAD_MORE,
+    limit: ADDTL_COMMENTS_ON_LOAD_MORE,
     cursor,
     asset_id: assetId,
     parent_id: parentId,
@@ -48,7 +48,7 @@ class LoadMore extends React.Component {
         <Button
           onClick={() => {
             this.initialState = false;
-            loadMoreComments(assetId, comments, loadMore, parentId, replyCount);
+            loadMoreComments(assetId, comments, loadMore, parentId);
           }}>
           {topLevel ? lang.t('viewMoreComments') : this.replyCountFormat(replyCount)}
         </Button>

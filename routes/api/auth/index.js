@@ -1,6 +1,7 @@
 const express = require('express');
-const {passport, HandleAuthCallback, HandleAuthPopupCallback} = require('../../../services/passport');
+const passport = require('../../../services/passport');
 const authorization = require('../../../middleware/authorization');
+const errors = require('../../../errors');
 
 const router = express.Router();
 
@@ -32,6 +33,53 @@ router.delete('/', authorization.needed(), (req, res) => {
 //==============================================================================
 // PASSPORT ROUTES
 //==============================================================================
+
+/**
+ * This sends back the user data as JSON.
+ */
+const HandleAuthCallback = (req, res, next) => (err, user) => {
+  if (err) {
+    return next(err);
+  }
+
+  if (!user) {
+    return next(errors.ErrNotAuthorized);
+  }
+
+  // Perform the login of the user!
+  req.logIn(user, (err) => {
+    if (err) {
+      return next(err);
+    }
+
+    // We logged in the user! Let's send back the user data and the CSRF token.
+    res.json({user});
+  });
+};
+
+/**
+ * Returns the response to the login attempt via a popup callback with some JS.
+ */
+
+const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
+  if (err) {
+    return res.render('auth-callback', {err: JSON.stringify(err), data: null});
+  }
+
+  if (!user) {
+    return res.render('auth-callback', {err: JSON.stringify(errors.ErrNotAuthorized), data: null});
+  }
+
+  // Perform the login of the user!
+  req.logIn(user, (err) => {
+    if (err) {
+      return res.render('auth-callback', {err: JSON.stringify(err), data: null});
+    }
+
+    // We logged in the user! Let's send back the user data.
+    res.render('auth-callback', {err: null, data: JSON.stringify(user)});
+  });
+};
 
 /**
  * Local auth endpoint, will recieve a email and password

@@ -5,21 +5,16 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # Setup the environment
+ENV NODE_ENV production
 ENV PATH /usr/src/app/bin:$PATH
 ENV TALK_PORT 5000
 EXPOSE 5000
 
+# Install app dependencies
+COPY package.json yarn.lock /usr/src/app/
+RUN yarn install --production
+
 # Bundle app source
 COPY . /usr/src/app
-
-# Install app dependencies and build static assets.
-RUN yarn install --frozen-lockfile && \
-    cli plugins reconcile && \
-    yarn build && \
-    yarn install --production && \
-    yarn cache clean
-
-# Ensure the runtime of the container is in production mode.
-ENV NODE_ENV production
 
 CMD ["yarn", "start"]

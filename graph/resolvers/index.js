@@ -20,7 +20,7 @@ const UserError = require('./user_error');
 const User = require('./user');
 const ValidationUserError = require('./validation_user_error');
 
-const plugins = require('../../services/plugins');
+const plugins = require('../../plugins');
 
 // Provide the core resolvers.
 let resolvers = {

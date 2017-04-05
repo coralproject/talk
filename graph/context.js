@@ -1,7 +1,7 @@
 const loaders = require('./loaders');
 const mutators = require('./mutators');
 
-const plugins = require('../services/plugins');
+const plugins = require('../plugins');
 const debug = require('debug')('talk:graph:context');
 
 /**

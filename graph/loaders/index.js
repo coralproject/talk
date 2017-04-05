@@ -8,7 +8,7 @@ const Metrics = require('./metrics');
 const Settings = require('./settings');
 const Users = require('./users');
 
-const plugins = require('../../services/plugins');
+const plugins = require('../../plugins');
 
 let loaders = [
 

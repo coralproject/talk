@@ -2,7 +2,7 @@ const {makeExecutableSchema} = require('graphql-tools');
 const {maskErrors} = require('graphql-errors');
 const {decorateWithHooks} = require('./hooks');
 
-const plugins = require('../services/plugins');
+const plugins = require('../plugins');
 const resolvers = require('./resolvers');
 const typeDefs = require('./typeDefs');
 

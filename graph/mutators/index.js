@@ -5,7 +5,7 @@ const Comment = require('./comment');
 const Action = require('./action');
 const User = require('./user');
 
-const plugins = require('../../services/plugins');
+const plugins = require('../../plugins');
 
 let mutators = [
 

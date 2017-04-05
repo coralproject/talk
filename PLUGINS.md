@@ -9,7 +9,7 @@ All plugins must be registered in the root file `plugins.json`.
 
 The format for this file is thus:
 
-```json
+```js
 {
   "server": [
     "people"
@@ -21,42 +21,6 @@ Where we have a `server` key with an array of plugins that match the folder
 name in the `plugins/` folder. For example, the above `plugins.json` would
 require a plugin from `plugins/people`, which must provide a `index.js` file
 that returns an object that matches the Plugin Specification.
-
-If the package is external (available on NPM) you can specify the string for
-the version by using an object instead, for example:
-
-```json
-{
-  "server": [
-    {"people": "^1.2.0"}
-  ]
-}
-```
-
-External plugins can be resolved by running:
-
-```bash
-./bin/cli plugins reconcile
-```
-
-This will also traverse into local plugin folders and install their
-dependancies. _Note that if the plugin is already installed and available in the
-node_modules folder, it will not be fetched again unless there is a version
-mismatch._
-
-## Plugin Dependencies
-
-From your plugins you may import any component of server code relative to the
-project root. An example could be:
-
-```js
-const cache = require('services/cache');
-```
-
-You may also include additional external depenancies in your local packages by
-specifying a `package.json` at your plugin root which will result in a
-`node_modules` folder being generated at the plugin root with your specific
-dependencies.
 
 ## Server Plugins
 
@@ -205,88 +169,6 @@ pre/post hook that will execute pre and post field resolution.
 If your post function accepts four parameters, then it can modify the field
 result. It is *required* that the function resolves a promise (or returns) with
 the modified value or simply the original if you didn't modify it.
-
-#### Field: `router`
-
-```js
-(router) => {
-  router.get('/api/v1/people', (req, res) => {
-    res.json({people: [{name: 'Bob'}]});
-  });
-}
-```
-
-The Router hook allows you to create a function that accepts the base express
-router where you can mount any amount of middleware/routes to do any form of
-action needed by external applications. We also provide the authorization
-middleware via:
-
-```js
-const authorization = require('middleware/authorization');
-
-module.exports = {
-  router(router) {
-    router.get('/api/v1/people', authorization.needed('ADMIN'), (req, res) => {
-      res.json({people: [{name: 'SECRET PEOPLE'}]});
-    });
-  }
-}
-```
-
-#### Field: `passport`
-
-```js
-const FacebookStrategy = require('passport-facebook').Strategy;
-const UsersService = require('services/users');
-const {ValidateUserLogin, HandleAuthPopupCallback} = require('services/passport');
-
-module.exports = {
-  passport(passport) {
-    passport.use(new FacebookStrategy({
-      clientID: process.env.TALK_FACEBOOK_APP_ID,
-      clientSecret: process.env.TALK_FACEBOOK_APP_SECRET,
-      callbackURL: `${process.env.TALK_ROOT_URL}/api/v1/auth/facebook/callback`,
-      passReqToCallback: true,
-      profileFields: ['id', 'displayName', 'picture.type(large)']
-    }, async (req, accessToken, refreshToken, profile, done) => {
-
-      let user;
-      try {
-        user = await UsersService.findOrCreateExternalUser(profile);
-      } catch (err) {
-        return done(err);
-      }
-
-      return ValidateUserLogin(profile, user, done);
-    }));
-  },
-  router(router) {
-
-    // Note that we have to import the passport instance here, it is
-    // instantiated after all the strategies have been mounted.
-    const {passport} = require('services/passport');
-
-    /**
-     * Facebook auth endpoint, this will redirect the user immediatly to facebook
-     * for authorization.
-     */
-    router.get('/facebook', passport.authenticate('facebook', {display: 'popup', authType: 'rerequest', scope: ['public_profile']}));
-
-    /**
-     * Facebook callback endpoint, this will send the user a html page designed to
-     * send back the user credentials upon sucesfull login.
-     */
-    router.get('/facebook/callback', (req, res, next) => {
-
-      // Perform the facebook login flow and pass the data back through the opener.
-      passport.authenticate('facebook', HandleAuthPopupCallback(req, res, next))(req, res, next);
-    });
-  }
-};
-```
-
-This is a full example including the routes hook to add the required components
-to the application router to support a different auth strategy.
 
 ### Full Example
 

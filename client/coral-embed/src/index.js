@@ -74,15 +74,6 @@ function configurePymParent(pymParent, asset_url) {
     snackbar.style.opacity = 0;
   });
 
-  // remove the permalink comment id from the hash
-  pymParent.onMessage('coral-view-all-comments', function () {
-    window.history.replaceState(
-      {},
-      document.title,
-      location.origin + location.pathname + location.search
-    );
-  });
-
   pymParent.onMessage('coral-alert', function (message) {
     const [type, text] = message.split('|');
     snackbar.style.transform = 'translate(-50%, 20px)';

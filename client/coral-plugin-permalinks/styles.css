@@ -4,15 +4,22 @@
   box-sizing: border-box;
   /* box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.3); */
   border: solid 1px rgba(153, 153, 153, 0.33);
+  width: auto;
+  margin: 0 auto;
+  left: 0;
+  margin: 0 5px;
+  top: 0;
   left: 0;
   width: 100%;
+  margin: 0;
+  margin-top: -13px;
 
   &::before {
     content: '';
     border: 10px solid transparent;
     border-top-color: white;
     position: absolute;
-    right: 7em;
+    right: 8.69em;
     bottom: -20px;
     z-index: 2;
   }
@@ -22,7 +29,7 @@
     border: 10px solid transparent;
     border-top-color: rgba(153, 153, 153, 0.33);
     position: absolute;
-    right: 7em;
+    right: 8.69em;
     bottom: -21px;
     z-index: 1;
   }

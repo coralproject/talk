@@ -1,7 +1,5 @@
 const express = require('express');
 const path = require('path');
-const plugins = require('../services/plugins');
-const debug = require('debug')('talk:routes');
 
 const router = express.Router();
 
@@ -23,13 +21,5 @@ if (process.env.NODE_ENV !== 'production') {
     });
   });
 }
-
-// Inject server route plugins.
-plugins.get('server', 'router').forEach((plugin) => {
-  debug(`added plugin '${plugin.plugin.name}'`);
-
-  // Pass the root router to the plugin to mount it's routes.
-  plugin.router(router);
-});
 
 module.exports = router;

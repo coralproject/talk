@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import Comment from './Comment';
+import {NEW_COMMENT_COUNT_POLL_INTERVAL} from 'coral-framework/constants/comments';
 
 class Stream extends React.Component {
 
@@ -24,6 +25,26 @@ class Stream extends React.Component {
   constructor(props) {
     super(props);
     this.state = {activeReplyBox: '', countPoll: null};
+  }
+
+  componentDidMount() {
+    const {asset, getCounts, updateCountCache} = this.props;
+
+    updateCountCache(asset.id, asset.commentCount);
+
+    // Note: Apollo's built-in polling doesn't work with fetchMore queries, so a
+    // setInterval is being used instead.
+    this.setState({
+      countPoll: setInterval(() => getCounts({
+        asset_id: asset.id,
+        limit: asset.comments.length,
+        sort: 'REVERSE_CHRONOLOGICAL'
+      }), NEW_COMMENT_COUNT_POLL_INTERVAL),
+    });
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.countPoll);
   }
 
   render () {

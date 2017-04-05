@@ -7,7 +7,6 @@ const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const errors = require('../errors');
 const debug = require('debug')('talk:passport');
-const plugins = require('./plugins');
 
 //==============================================================================
 // SESSION SERIALIZATION
@@ -27,52 +26,6 @@ passport.deserializeUser((id, done) => {
       done(err);
     });
 });
-
-/**
- * This sends back the user data as JSON.
- */
-const HandleAuthCallback = (req, res, next) => (err, user) => {
-  if (err) {
-    return next(err);
-  }
-
-  if (!user) {
-    return next(errors.ErrNotAuthorized);
-  }
-
-  // Perform the login of the user!
-  req.logIn(user, (err) => {
-    if (err) {
-      return next(err);
-    }
-
-    // We logged in the user! Let's send back the user data and the CSRF token.
-    res.json({user});
-  });
-};
-
-/**
- * Returns the response to the login attempt via a popup callback with some JS.
- */
-const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
-  if (err) {
-    return res.render('auth-callback', {err: JSON.stringify(err), data: null});
-  }
-
-  if (!user) {
-    return res.render('auth-callback', {err: JSON.stringify(errors.ErrNotAuthorized), data: null});
-  }
-
-  // Perform the login of the user!
-  req.logIn(user, (err) => {
-    if (err) {
-      return res.render('auth-callback', {err: JSON.stringify(err), data: null});
-    }
-
-    // We logged in the user! Let's send back the user data.
-    res.render('auth-callback', {err: null, data: JSON.stringify(user)});
-  });
-};
 
 /**
  * Validates that a user is allowed to login.
@@ -376,19 +329,4 @@ if (process.env.TALK_FACEBOOK_APP_ID && process.env.TALK_FACEBOOK_APP_SECRET && 
   console.error('Facebook cannot be enabled, missing one of TALK_FACEBOOK_APP_ID, TALK_FACEBOOK_APP_SECRET, TALK_ROOT_URL');
 }
 
-// Inject server route plugins.
-plugins.get('server', 'passport').forEach((plugin) => {
-  debug(`added plugin '${plugin.plugin.name}'`);
-
-  // Pass the passport.js instance to the plugin to allow it to inject it's
-  // functionality.
-  plugin.passport(passport);
-});
-
-module.exports = {
-  passport,
-  ValidateUserLogin,
-  HandleFailedAttempt,
-  HandleAuthCallback,
-  HandleAuthPopupCallback
-};
+module.exports = passport;
