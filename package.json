@@ -4,6 +4,7 @@
   "description": "A commenting platform from The Coral Project. https://coralproject.net",
   "main": "app.js",
   "scripts": {
+    "postinstall": "./bin/cli plugins reconcile --skip-remote",
     "start": "./bin/cli serve --jobs",
     "dev-start": "nodemon --config .nodemon.json --exec \"./bin/cli -c .env serve --jobs\"",
     "build": "NODE_ENV=production webpack --progress -p --config webpack.config.js --bail",
