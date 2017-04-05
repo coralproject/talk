@@ -1,16 +1,9 @@
 const schema = require('./schema');
 const Context = require('./context');
-const setupFunctions = require('./setupFunctions');
-
-const {connectionOptions} = require('../services/redis');
-const {RedisPubSub} = require('graphql-redis-subscriptions');
-const {SubscriptionManager} = require('graphql-subscriptions');
-const {SubscriptionServer} = require('subscriptions-transport-ws');
-
-const pubsub = new RedisPubSub(connectionOptions);
+const pubsub = require('./pubsub');
+const {createSubscriptionManager} = require('./subscriptions');
 
 module.exports = {
-  pubsub,
   createGraphOptions: (req) => ({
 
     // Schema is created already, so just include it.
@@ -20,27 +13,5 @@ module.exports = {
     // the lifespan of this request.
     context: new Context(req, pubsub)
   }),
-  createSubscriptionManager: (server, path, sessionFactory) => new SubscriptionServer({
-    subscriptionManager: new SubscriptionManager({
-      schema,
-      pubsub,
-      setupFunctions,
-    }),
-    onSubscribe: (parsedMessage, baseParams, connection) => {
-
-      // Attach the context per request.
-      baseParams.context = () => sessionFactory(connection.upgradeReq)
-        .then((req) => new Context(req, pubsub))
-        .catch((err) => {
-          console.error(err);
-
-          return new Context({}, pubsub);
-        });
-
-      return baseParams;
-    }
-  }, {
-    server,
-    path
-  })
+  createSubscriptionManager
 };
