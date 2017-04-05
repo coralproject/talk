@@ -92,6 +92,10 @@ type RootMutation {
 type RootQuery {
   people: [Person!]
 }
+
+type Subscription {
+  leader: Person
+}
 ```
 
 Thanks to [gql-merge](https://www.npmjs.com/package/gql-merge) the contents of
@@ -205,6 +209,23 @@ pre/post hook that will execute pre and post field resolution.
 If your post function accepts four parameters, then it can modify the field
 result. It is *required* that the function resolves a promise (or returns) with
 the modified value or simply the original if you didn't modify it.
+
+#### Field: `setupFunctions`
+
+```js
+setupFunctions: {
+  leader: (options, args) => ({
+    leader: {
+      filter: (person) => person.place === 1
+    },
+  }),
+}
+```
+
+Setup functions allow you to create filters that control which pubsub.publish() events
+send data to the client. If the type in question contains args, clients may subscribe using those arguments to further filter their subscription.
+
+For more information, see the [Apollo Docs](https://github.com/apollographql/graphql-subscriptions).
 
 #### Field: `router`
 
@@ -322,6 +343,10 @@ module.exports = {
   type RootQuery {
     people: [Person!]
   }
+
+  type Subscription {
+    leader: Person
+  }
   `,
   context: {
     Slack: () => ({
@@ -375,6 +400,13 @@ module.exports = {
 
           return person;
         }
+      }
+    }
+  },
+  setupFunctions: {
+    leader: (options, args) => ({
+      leader: {
+        filter: (person) => person.place === 1
       }
     }
   }
