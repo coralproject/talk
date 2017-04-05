@@ -28,12 +28,6 @@ The Talk application looks for the following configuration values either as envi
 secure cookies.
 - `TALK_ROOT_URL` (*required*) - root url of the installed application externally
 available in the format: `<scheme>://<host>` without the path.
-
-- `TALK_FACEBOOK_APP_ID` (*required for login via fb*) - the Facebook app id for your Facebook
-Login enabled app.
-- `TALK_FACEBOOK_APP_SECRET` (*required for login via fb*) - the Facebook app secret for your
-Facebook Login enabled app.
-
 - `TALK_SMTP_EMAIL` (*required for email*) - the address to send emails from using the
   SMTP provider.
 - `TALK_SMTP_USERNAME` (*required for email*) - username of the SMTP provider you are using.
