@@ -6,84 +6,52 @@ import {compose, gql, graphql} from 'react-apollo';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {I18n} from 'coral-framework';
+import get from 'lodash/get';
 import cn from 'classnames';
 import translations from '../translations.json';
-import {withPostRespect} from '../mutations';
 
 const lang = new I18n(translations);
 
-import {getActionSummary} from 'coral-framework/utils';
 import {showSignInDialog} from 'coral-framework/actions/auth';
-import {deleteAction} from 'coral-framework/graphql/mutations';
 
 class RespectButton extends React.Component {
 
   static slot = 'Comment.Detail';
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      localPost: null, // Set to the ID of an action if one is posted
-      localDelete: false // Set to true is the user deletes an action, unless localPost is already set.
-    };
-  }
-
   handleClick = () => {
     const {postRespect, showSignInDialog, deleteAction, commentId} = this.props;
     const {me, comment} = this.props.data;
 
-    const {localPost, localDelete} = this.state;
-    const respect = getActionSummary('RespectActionSummary', comment);
-    const respected = (respect && respect.current_user && !localDelete) || localPost;
+    const respect = comment.action_summaries[0];
+    const respected = (respect && respect.current_user);
 
-    /**
-     *  If the current user does not exist, trigger signIn Box
-     */
-
+    // If the current user does not exist, trigger sign in dialog.
     if (!me) {
       const offset = document.getElementById(`c_${commentId}`).getBoundingClientRect().top - 75;
       showSignInDialog(offset);
       return;
     }
 
-    /**
-     *  If the current user is banned, do nothing
-     */
-
+    // If the current user is banned, do nothing.
     if (me.status === 'BANNED') {
       return;
     }
 
     if (!respected) {
-      this.setState({
-        localPost: 'temp'
-      });
-
       postRespect({
         item_id: commentId,
         item_type: 'COMMENTS'
-      }).then(({data}) => {
-        this.setState({
-          localPost: data.createRespect.respect.id
-        });
       });
-
     } else {
-      this.setState((prev) => prev.localPost ? {...prev, localPost: null} : {...prev, localDelete: true});
-      deleteAction(localPost || respect.current_user.id);
+      deleteAction(respect.current_user.id);
     }
   }
 
   render() {
     const {comment} = this.props.data;
-    const {localPost, localDelete} = this.state;
-    const respect = comment && getActionSummary('RespectActionSummary', comment);
-    const respected = (respect && respect.current_user && !localDelete) || localPost;
+    const respect = comment && comment.action_summaries && comment.action_summaries[0];
+    const respected = respect && respect.current_user;
     let count = respect ? respect.count : 0;
-
-    if (localPost) {count += 1;}
-    if (localDelete) {count -= 1;}
 
     return (
       <div className={styles.respect}>
@@ -99,9 +67,114 @@ class RespectButton extends React.Component {
   }
 }
 
+const withDeleteAction = graphql(gql`
+  mutation deleteAction($id: ID!) {
+      deleteAction(id:$id) {
+        errors {
+          translation_key
+        }
+      }
+  }
+`, {
+  options: {
+    refetchQueries: [
+      'CommentQuery',
+    ],
+  },
+  props: ({mutate}) => ({
+    deleteAction: (id) => {
+      return mutate({
+        variables: {id},
+        optimisticResponse: {
+          deleteAction: {
+            __typename: 'DeleteActionResponse',
+            errors: null,
+          }
+        },
+        updateQueries: {
+          CommentQuery: (prev) => {
+            if (get(prev, 'comment.action_summaries.0.current_user.id') !== id) {
+              return prev;
+            }
+            const next = {
+              ...prev,
+              comment: {
+                ...prev.comment,
+                action_summaries: [{
+                  __typename: 'RespectActionSummary',
+                  count: prev.comment.action_summaries[0].count - 1,
+                  current_user: null,
+                }],
+              }
+            };
+            return next;
+          },
+        },
+      },
+    );
+    }}),
+});
+
+const withPostRespect = graphql(gql`
+  mutation createRespect($respect: CreateRespectInput!) {
+    createRespect(respect: $respect) {
+      respect {
+        id
+      }
+      errors {
+        translation_key
+      }
+    }
+  }
+`, {
+  options: {
+    refetchQueries: [
+      'CommentQuery',
+    ],
+  },
+  props: ({mutate}) => ({
+    postRespect: (respect) => {
+      return mutate({
+        variables: {respect},
+        optimisticResponse: {
+          createRespect: {
+            __typename: 'CreateRespectResponse',
+            erros: null,
+            respect: {
+              __typename: 'RespectAction',
+              id: 'pending',
+            },
+          }
+        },
+        updateQueries: {
+          CommentQuery: (prev, {mutationResult, queryVariables}) => {
+            if (queryVariables.commentId !== respect.item_id) {
+              return prev;
+            }
+            const respectAction = mutationResult.data.createRespect.respect;
+            const count = prev.action_summaries ? prev.action_summaries.count : 0;
+            const next = {
+              ...prev,
+              comment: {
+                ...prev.comment,
+                action_summaries: [{
+                  __typename: 'RespectActionSummary',
+                  count: count + 1,
+                  current_user: respectAction,
+                }],
+              }
+            };
+            return next;
+          },
+        },
+      });
+    }})
+});
+
 const withQuery = graphql(gql`
   query CommentQuery($commentId: ID!) {
     comment(id: $commentId) {
+      id
       action_summaries {
         ... on RespectActionSummary {
           count
@@ -122,7 +195,7 @@ const mapDispatchToProps = dispatch =>
 
 const enhance = compose(
   connect(null, mapDispatchToProps),
-  deleteAction,
+  withDeleteAction,
   withPostRespect,
   withQuery,
 );
