@@ -4,10 +4,8 @@ const SettingsService = require('./settings');
 const fetch = require('node-fetch');
 const FormData = require('form-data');
 const LocalStrategy = require('passport-local').Strategy;
-const FacebookStrategy = require('passport-facebook').Strategy;
 const errors = require('../errors');
 const debug = require('debug')('talk:passport');
-const plugins = require('./plugins');
 
 //==============================================================================
 // SESSION SERIALIZATION
@@ -353,37 +351,6 @@ passport.use(new LocalStrategy({
   // Perform final steps to login the user.
   return ValidateUserLogin(loginProfile, user, done);
 }));
-
-if (process.env.TALK_FACEBOOK_APP_ID && process.env.TALK_FACEBOOK_APP_SECRET && process.env.TALK_ROOT_URL) {
-  passport.use(new FacebookStrategy({
-    clientID: process.env.TALK_FACEBOOK_APP_ID,
-    clientSecret: process.env.TALK_FACEBOOK_APP_SECRET,
-    callbackURL: `${process.env.TALK_ROOT_URL}/api/v1/auth/facebook/callback`,
-    passReqToCallback: true,
-    profileFields: ['id', 'displayName', 'picture.type(large)']
-  }, async (req, accessToken, refreshToken, profile, done) => {
-
-    let user;
-    try {
-      user = await UsersService.findOrCreateExternalUser(profile);
-    } catch (err) {
-      return done(err);
-    }
-
-    return ValidateUserLogin(profile, user, done);
-  }));
-} else {
-  console.error('Facebook cannot be enabled, missing one of TALK_FACEBOOK_APP_ID, TALK_FACEBOOK_APP_SECRET, TALK_ROOT_URL');
-}
-
-// Inject server route plugins.
-plugins.get('server', 'passport').forEach((plugin) => {
-  debug(`added plugin '${plugin.plugin.name}'`);
-
-  // Pass the passport.js instance to the plugin to allow it to inject it's
-  // functionality.
-  plugin.passport(passport);
-});
 
 module.exports = {
   passport,
