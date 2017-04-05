@@ -23,6 +23,7 @@ import LoadMore from 'coral-embed-stream/src/LoadMore';
 import {Slot} from 'coral-framework';
 
 import styles from './Comment.css';
+import classnames from 'classnames';
 
 const getActionSummary = (type, comment) => comment.action_summaries
   .filter((a) => a.__typename === type)[0];
@@ -154,21 +155,54 @@ class Comment extends React.Component {
       }
       constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+
+          // what step of the wizard is the user on
+          step: 1
+        };
         this.onClickCancel = this.onClickCancel.bind(this);
       }
       onClickCancel() {
         this.props.cancel();
       }
       render() {
-        return (
-          <div className={styles.IgnoreUserWizard}>
+        const {user} = this.props;
+        const goToStep = (stepNum) => this.setState({step: stepNum});
+        const step1 = (
+          <div>
             <header>Ignore User</header>
             <p>When you ignore a user, all comments they wrote on the site will be hidden from you. You can undo this later from the Profile tab.</p>
-            <div>
+            <div className={styles.textAlignRight}>
               <Button cStyle='cancel' onClick={this.onClickCancel}>Cancel</Button>
-              <Button>Ignore user</Button>
+              <Button onClick={() => goToStep(2)}>Ignore user</Button>
             </div>
+          </div>
+        );
+        const step2Confirmation = (
+          <div>
+            <header>Ignore User</header>
+            <p>Are you sure you want to ignore { user.name }?</p>
+            <div className={styles.textAlignRight}>
+              <Button cStyle='cancel' onClick={this.onClickCancel}>Cancel</Button>
+              <Button onClick={() => goToStep(3)}>Ignore user</Button>
+            </div>
+          </div>
+        );
+        const step3Confirmed = (
+          <div>
+            <header>User Ignored</header>
+            <p>You will no longer see comments from { user.name }. You can undo this later from the Profile tab</p>
+            <div className={styles.textAlignRight}>
+              <Button cStyle='cancel' onClick={this.onClickCancel}>Close</Button>
+            </div>            
+          </div>
+        );
+        const elsForStep = [step1, step2Confirmation, step3Confirmed];
+        const {step} = this.state;
+        const elForThisStep = elsForStep[step - 1];
+        return (
+          <div className={styles.IgnoreUserWizard}>
+            { elForThisStep }
           </div>
         );
       }
@@ -357,8 +391,8 @@ class Comment extends React.Component {
 }
 
 // TODO (bengo): use arrows that match designs, probably with css borders http://stackoverflow.com/questions/15938933/creating-a-chevron-in-css
-const upArrow = String.fromCharCode(0x25B2);
-const downArrow = String.fromCharCode(0x25BC);
+const upArrow = <span className={classnames(styles.chevron, styles.up)}></span>;
+const downArrow = <span className={classnames(styles.chevron, styles.down)}></span>;
 class Toggleable extends React.Component {
   constructor(props) {
     super(props);
