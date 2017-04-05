@@ -5,7 +5,6 @@ const path = require('path');
 const helmet = require('helmet');
 const {passport} = require('./services/passport');
 const plugins = require('./services/plugins');
-const session = require('express-session');
 const enabled = require('debug').enabled;
 const csrf = require('csurf');
 const errors = require('./errors');
