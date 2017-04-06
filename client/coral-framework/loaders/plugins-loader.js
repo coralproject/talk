@@ -18,11 +18,14 @@ module.exports = function(source) {
   const config = this.exec(source, this.resourcePath);
   const plugins = getPluginList(config);
 
-  plugins.map(plugin => `{module: require('plugins/${plugin}/client/index.js'), plugin: '${plugin}'}`);
+  const list = [];
+  plugins.forEach(plugin => {
+    list.push(`{module: require('plugins/${plugin}/client/index.js'), plugin: '${plugin}'}`);
+  });
 
   return stripIndent`
     module.exports = [
-      ${plugins.join(',')}
+      ${list.join(',')}
     ];
   `;
 };
