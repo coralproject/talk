@@ -41,9 +41,10 @@ class Embed extends Component {
   state = {activeTab: 0, showSignInDialog: false, activeReplyBox: ''};
 
   changeTab = (tab) => {
+    const {isAdmin} = this.props.auth;
 
     // Everytime the comes from another tab, the Stream needs to be updated.
-    if (tab === 0) {
+    if (tab === 0 && isAdmin) {
       this.props.data.refetch();
     }
 
