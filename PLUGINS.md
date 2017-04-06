@@ -7,9 +7,9 @@ side plugins.
 
 The parsing order for the plugin registration is as follows:
 
-- `process.env.TALK_PLUGINS_JSON`
-- `plugins.json`
-- `plugins.default.json`
+- `TALK_PLUGINS_JSON` environment variable
+- `plugins.json` file
+- `plugins.default.json` file
 
 If you need to "disable all plugins", you can simply provide `{}` as the
 contents of `process.env.TALK_PLUGINS_JSON` or the `plugins.json`.
