@@ -31,15 +31,6 @@ export const RESPECT_QUERY = gql`
 
 const withQuery = graphql(RESPECT_QUERY);
 
-function getRefetchTarget(props) {
-  return {
-    query: RESPECT_QUERY,
-    variables: {
-      commentId: props.commentId,
-    },
-  };
-}
-
 const withDeleteAction = graphql(gql`
   mutation deleteAction($id: ID!) {
       deleteAction(id:$id) {
@@ -49,9 +40,6 @@ const withDeleteAction = graphql(gql`
       }
   }
 `, {
-  options: (props) => ({
-    refetchQueries: [getRefetchTarget(props)],
-  }),
   props: ({mutate}) => ({
     deleteAction: (id) => {
       return mutate({
@@ -98,9 +86,6 @@ const withPostRespect = graphql(gql`
     }
   }
 `, {
-  options: (props) => ({
-    refetchQueries: [getRefetchTarget(props)],
-  }),
   props: ({mutate}) => ({
     postRespect: (respect) => {
       return mutate({
