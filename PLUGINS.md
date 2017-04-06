@@ -5,7 +5,7 @@ side plugins.
 
 ## Plugin Registration
 
-The parsing order for the plugin regsitration is as follows:
+The parsing order for the plugin registration is as follows:
 
 - `process.env.TALK_PLUGINS_JSON`
 - `plugins.json`
