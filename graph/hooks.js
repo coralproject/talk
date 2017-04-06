@@ -1,6 +1,5 @@
 const {forEachField} = require('graphql-tools');
 const debug = require('debug')('talk:graph:schema');
-const Joi = require('joi');
 
 /**
  * XXX taken from graphql-js: src/execution/execute.js, because that function
@@ -47,10 +46,6 @@ const decorateWithHooks = (schema, hooks) => forEachField(schema, (field, typeNa
     // Combine the pre/post hooks from each plugin into an array we can
     // execute.
     .reduce((acc, {plugin, hooks}) => {
-      Joi.assert(hooks, Joi.object({
-        pre: Joi.func(),
-        post: Joi.func()
-      }), `Plugin '${plugin.name}' had an error loading the hooks`);
 
       // Itterate over the hooks on the fields and look at it with a switch
       // block to check for misconfigured plugins.

@@ -3,7 +3,6 @@ const mutators = require('./mutators');
 
 const plugins = require('../services/plugins');
 const debug = require('debug')('talk:graph:context');
-const Joi = require('joi');
 
 /**
  * Contains the array of plugins that provide context to the server, these top
@@ -11,8 +10,6 @@ const Joi = require('joi');
  * @type {Array}
  */
 const contextPlugins = plugins.get('server', 'context').map(({plugin, context}) => {
-  Joi.assert(context, Joi.object().pattern(/\w/, Joi.func().maxArity(1)), `Plugin '${plugin.name}' had an error loading the context`);
-
   debug(`added plugin '${plugin.name}'`);
   return {context};
 });

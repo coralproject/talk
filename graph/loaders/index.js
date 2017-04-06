@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const Joi = require('joi');
 const debug = require('debug')('talk:graph:loaders');
 
 const Actions = require('./actions');
@@ -24,8 +23,6 @@ let loaders = [
   // Load the plugin loaders from the manager.
   ...plugins
     .get('server', 'loaders').map(({plugin, loaders}) => {
-      Joi.assert(loaders, Joi.object().pattern(/\w/, Joi.object().pattern(/\w/, Joi.func())), `Plugin '${plugin.name}' had an error loading the loaders`);
-
       debug(`added plugin '${plugin.name}'`);
 
       return loaders;

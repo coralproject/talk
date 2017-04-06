@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const resolve = require('resolve');
 const debug = require('debug')('talk:plugins');
+const Joi = require('joi');
 
 // Add support for require rewriting.
 require('app-module-path').addPath(__dirname);
@@ -20,6 +21,20 @@ try {
     throw err;
   }
 }
+
+const hookSchemas = {
+  passport: Joi.func().arity(1),
+  router: Joi.func().arity(1),
+  context: Joi.object().pattern(/\w/, Joi.func().maxArity(1)),
+  hooks: Joi.object({
+    pre: Joi.func(),
+    post: Joi.func()
+  }),
+  loaders: Joi.object().pattern(/\w/, Joi.object().pattern(/\w/, Joi.func())),
+  mutators: Joi.object().pattern(/\w/, Joi.object().pattern(/\w/, Joi.func())),
+  resolvers: Joi.object().pattern(/\w/, Joi.object().pattern(/\w/, Joi.func())),
+  typeDefs: Joi.string()
+};
 
 /**
  * isInternal checks to see if a given plugin is internal, and returns true
@@ -122,6 +137,15 @@ class PluginSection {
   hook(hook) {
     return this.plugins
       .filter(({module}) => hook in module)
+      .filter((plugin) => {
+
+        // Validate the hook.
+        if (hook in hookSchemas) {
+          Joi.assert(plugin.module[hook], hookSchemas[hook], `Plugin '${plugin.name}' failed validation for the '${hook}' hook`);
+        }
+
+        return true;
+      })
       .map((plugin) => ({
         plugin,
         [hook]: plugin.module[hook]

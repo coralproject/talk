@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const Joi = require('joi');
 const debug = require('debug')('talk:graph:resolvers');
 
 const ActionSummary = require('./action_summary');
@@ -51,8 +50,6 @@ let resolvers = {
  * as provide new ones.
  */
 resolvers = plugins.get('server', 'resolvers').reduce((acc, {plugin, resolvers}) => {
-  Joi.assert(resolvers, Joi.object().pattern(/\w/, Joi.object().pattern(/\w/, Joi.func())), `Plugin '${plugin.name}' had an error loading the resolvers`);
-
   debug(`added plugin '${plugin.name}'`);
 
   return _.merge(acc, resolvers);

@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const Joi = require('joi');
 const debug = require('debug')('talk:graph:mutators');
 
 const Comment = require('./comment');
@@ -18,8 +17,6 @@ let mutators = [
   // Load the plugin mutators from the manager.
   ...plugins
     .get('server', 'mutators').map(({plugin, mutators}) => {
-      Joi.assert(mutators, Joi.object().pattern(/\w/, Joi.object().pattern(/\w/, Joi.func())), `Plugin '${plugin.name}' had an error loading the mutators`);
-
       debug(`added plugin '${plugin.name}'`);
 
       return mutators;

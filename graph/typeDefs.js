@@ -3,7 +3,6 @@
 // this change is done now everything will likely break on the front end.
 
 const fs = require('fs');
-const Joi = require('joi');
 const path = require('path');
 const {mergeStrings} = require('gql-merge');
 const debug = require('debug')('talk:graph:typeDefs');
@@ -21,8 +20,6 @@ const typeDefs = mergeStrings([
 
   // Load the plugin definitions from the manager.
   ...plugins.get('server', 'typeDefs').map(({plugin, typeDefs}) => {
-    Joi.assert(typeDefs, Joi.string(), `Plugin '${plugin.name}' had an error loading the typeDefs`);
-
     debug(`added plugin '${plugin.name}'`);
 
     return typeDefs;
