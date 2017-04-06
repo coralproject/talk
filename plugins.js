@@ -12,10 +12,23 @@ let plugins = {};
 // file isn't loaded, but continuing. Else, like a parsing error, throw it and
 // crash the program.
 try {
-  plugins = JSON.parse(fs.readFileSync(path.join(__dirname, 'plugins.json'), 'utf8'));
+  let defaultPlugins = path.join(__dirname, 'plugins.default.json');
+  let customPlugins = path.join(__dirname, 'plugins.json');
+  let envPluginJSON = process.env.TALK_PLUGINS_JSON;
+
+  if (envPluginJSON && envPluginJSON.length > 0) {
+    debug('Now using TALK_PLUGINS_JSON environment variable for plugins');
+    plugins = JSON.parse(envPluginJSON);
+  } else if (fs.existsSync(customPlugins)) {
+    debug(`Now using ${customPlugins} for plugins`);
+    plugins = JSON.parse(fs.readFileSync(customPlugins, 'utf8'));
+  } else {
+    debug(`Now using ${defaultPlugins} for plugins`);
+    plugins = JSON.parse(fs.readFileSync(defaultPlugins, 'utf8'));
+  }
 } catch (err) {
   if (err.code === 'ENOENT') {
-    console.error('plugins.json not found, plugins will not be active');
+    console.error('plugins.json and plugins.default.json not found, plugins will not be active');
   } else {
     throw err;
   }
