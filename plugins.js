@@ -14,8 +14,12 @@ let plugins = {};
 try {
   let defaultPlugins = path.join(__dirname, 'plugins.default.json');
   let customPlugins = path.join(__dirname, 'plugins.json');
+  let envPluginJSON = process.env.TALK_PLUGINS_JSON;
 
-  if (fs.existsSync(customPlugins)) {
+  if (envPluginJSON && envPluginJSON.length > 0) {
+    debug('Now using TALK_PLUGINS_JSON environment variable for plugins');
+    plugins = JSON.parse(envPluginJSON);
+  } else if (fs.existsSync(customPlugins)) {
     debug(`Now using ${customPlugins} for plugins`);
     plugins = JSON.parse(fs.readFileSync(customPlugins, 'utf8'));
   } else {

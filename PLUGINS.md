@@ -3,11 +3,18 @@
 Plugins for Talk can take various forms, currently we are only supporting server
 side plugins.
 
-## Plugin Registration: `plugins.json`
+## Plugin Registration
 
-All plugins must be registered in the root file `plugins.json`.
+The parsing order for the plugin regsitration is as follows:
 
-The format for this file is thus:
+- `process.env.TALK_PLUGINS_JSON`
+- `plugins.json`
+- `plugins.default.json`
+
+If you need to "disable all plugins", you can simply provide `{}` as the
+contents of `process.env.TALK_PLUGINS_JSON` or the `plugins.json`.
+
+The format for this is thus:
 
 ```json
 {
@@ -18,7 +25,7 @@ The format for this file is thus:
 ```
 
 Where we have a `server` key with an array of plugins that match the folder
-name in the `plugins/` folder. For example, the above `plugins.json` would
+name in the `plugins/` folder. For example, the above config would
 require a plugin from `plugins/people`, which must provide a `index.js` file
 that returns an object that matches the Plugin Specification.
 
