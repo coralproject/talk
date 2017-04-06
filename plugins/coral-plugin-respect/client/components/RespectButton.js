@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import styles from './style.css';
 import Icon from './Icon';
 
@@ -8,7 +8,7 @@ import translations from '../translations.json';
 
 const lang = new I18n(translations);
 
-export default class RespectButton extends React.Component {
+class RespectButton extends Component {
 
   handleClick = () => {
     const {postRespect, showSignInDialog, deleteAction, commentId} = this.props;
@@ -58,4 +58,10 @@ export default class RespectButton extends React.Component {
     );
   }
 }
+
+RespectButton.propTypes = {
+  data: React.PropTypes.object.isRequired
+};
+
+export default RespectButton;
 
