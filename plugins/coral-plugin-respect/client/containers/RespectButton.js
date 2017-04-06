@@ -6,6 +6,10 @@ import get from 'lodash/get';
 import {showSignInDialog} from 'coral-framework/actions/auth';
 import RespectButton from '../components/RespectButton';
 
+// TODO: use `update` instead of `updateQueries` for optimistic mutations.
+// See https://dev-blog.apollodata.com/apollo-clients-new-imperative-store-api-6cb69318a1e3
+// and https://github.com/apollographql/apollo-client/issues/1224
+
 export const RESPECT_QUERY = gql`
   query RespectQuery($commentId: ID!) {
     comment(id: $commentId) {
@@ -59,7 +63,7 @@ const withDeleteAction = graphql(gql`
           }
         },
         updateQueries: {
-          CommentQuery: (prev) => {
+          RespectQuery: (prev) => {
             if (get(prev, 'comment.action_summaries.0.current_user.id') !== id) {
               return prev;
             }
@@ -112,7 +116,7 @@ const withPostRespect = graphql(gql`
           }
         },
         updateQueries: {
-          CommentQuery: (prev, {mutationResult, queryVariables}) => {
+          RespectQuery: (prev, {mutationResult, queryVariables}) => {
             if (queryVariables.commentId !== respect.item_id) {
               return prev;
             }
