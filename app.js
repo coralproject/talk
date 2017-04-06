@@ -10,6 +10,7 @@ const enabled = require('debug').enabled;
 const RedisStore = require('connect-redis')(session);
 const redis = require('./services/redis');
 const csrf = require('csurf');
+const Joi = require('joi');
 const errors = require('./errors');
 const graph = require('./graph');
 const apollo = require('graphql-server-express');
@@ -80,6 +81,8 @@ const passportDebug = require('debug')('talk:passport');
 
 // Install the passport plugins.
 plugins.get('server', 'passport').forEach((plugin) => {
+  Joi.assert(plugin.passport, Joi.func().arity(1), `Plugin '${plugin.name}' had an error loading the passport hook`);
+
   passportDebug(`added plugin '${plugin.plugin.name}'`);
 
   // Pass the passport.js instance to the plugin to allow it to inject it's

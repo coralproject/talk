@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const Joi = require('joi');
 const plugins = require('../services/plugins');
 const debug = require('debug')('talk:routes');
 
@@ -27,6 +28,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 // Inject server route plugins.
 plugins.get('server', 'router').forEach((plugin) => {
+  Joi.assert(plugin.router, Joi.func().arity(1), `Plugin '${plugin.name}' had an error loading the passport router`);
+
   debug(`added plugin '${plugin.plugin.name}'`);
 
   // Pass the root router to the plugin to mount it's routes.
