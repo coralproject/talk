@@ -83,6 +83,16 @@ const RootQuery = {
     return user;
   },
 
+  myIgnoredUsers: async (_, args, {user, loaders: {Users}}) => {
+
+    // get currentUser again since context.user was out of date when running test/graph/mutations/ignoreUser
+    const currentUser = (await Users.getByQuery({ids: [user.id], limit: 1}))[0];
+    if ( ! (currentUser && Array.isArray(currentUser.ignoresUsers) && currentUser.ignoresUsers.length)) {
+      return [];
+    }
+    return await Users.getByQuery({ids: currentUser.ignoresUsers});
+  },
+
   // This endpoint is used for loading the user moderation queues (users whose username has been flagged),
   // so hide it in the event that we aren't an admin.
   users(_, {query: {action_type, limit, cursor, sort}}, {user, loaders: {Users, Actions}}) {
