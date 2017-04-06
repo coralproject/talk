@@ -1,4 +1,6 @@
 import RespectButton from './containers/RespectButton';
 export default {
-  components: [RespectButton]
+  slots: {
+    'comment.detail': [RespectButton],
+  }
 };
