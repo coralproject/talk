@@ -49,10 +49,11 @@ let resolvers = {
  * plugin based ones. This allows plugins to extend existing resolvers as well
  * as provide new ones.
  */
-resolvers = plugins.get('server', 'resolvers').reduce((resolvers, {plugin}) => {
-  debug(`added plugin '${plugin.name}'`);
 
-  return _.merge(resolvers, plugin.resolvers);
-}, resolvers);
+resolvers = plugins.get('server', 'resolvers').reduce(
+  (resolvers, {plugin, resolvers: pluginResolvers}) => {
+    debug(`added plugin '${plugin.name}'`);
+    return _.merge(resolvers, pluginResolvers);
+  }, resolvers);
 
 module.exports = resolvers;
