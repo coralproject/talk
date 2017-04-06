@@ -7,10 +7,10 @@
  * module.exports = [{plugin: string, module: object}, ...]
  *
  */
-const {stripIndent} = require('common-tags');
+const { stripIndent } = require("common-tags");
 
 function getPluginList(config) {
-  return config.client.map(x => typeof x === 'string' ? x : Object.keys(x)[0]);
+  return config.client.map(x => typeof x === "string" ? x : Object.keys(x)[0]);
 }
 
 module.exports = function(source) {
@@ -18,14 +18,15 @@ module.exports = function(source) {
   const config = this.exec(source, this.resourcePath);
   const plugins = getPluginList(config);
 
-  const list = [];
-  plugins.forEach(plugin => {
-    list.push(`{module: require('plugins/${plugin}/client/index.js'), plugin: '${plugin}'}`);
+  plugins.map(plugin => {
+    list.push(
+      `{module: require('plugins/${plugin}/client/index.js'), plugin: '${plugin}'}`
+    );
   });
 
   return stripIndent`
     module.exports = [
-      ${list.join(',')}
+      ${plugins.join(",")}
     ];
   `;
 };
