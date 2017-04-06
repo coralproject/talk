@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const path = require('path');
 const helmet = require('helmet');
 const {passport} = require('./services/passport');
+const plugins = require('./services/plugins');
 const session = require('express-session');
 const enabled = require('debug').enabled;
 const RedisStore = require('connect-redis')(session);
@@ -74,6 +75,17 @@ app.use(session(session_opts));
 //==============================================================================
 // PASSPORT MIDDLEWARE
 //==============================================================================
+
+const passportDebug = require('debug')('talk:passport');
+
+// Install the passport plugins.
+plugins.get('server', 'passport').forEach((plugin) => {
+  passportDebug(`added plugin '${plugin.plugin.name}'`);
+
+  // Pass the passport.js instance to the plugin to allow it to inject it's
+  // functionality.
+  plugin.passport(passport);
+});
 
 // Setup the PassportJS Middleware.
 app.use(passport.initialize());

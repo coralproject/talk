@@ -7,8 +7,6 @@ import * as actions from '../constants/auth';
 import coralApi, {base} from '../helpers/response';
 import {pym} from 'coral-framework';
 
-// TODO: error reporting.
-
 const ME_QUERY = gql`
   query Me {
     me {
@@ -17,7 +15,7 @@ const ME_QUERY = gql`
   }
 `;
 
-function updateStore() {
+function fetchMe() {
   return client.query({
     fetchPolicy: 'network-only',
     query: ME_QUERY});
@@ -70,7 +68,7 @@ export const fetchSignIn = (formData) => (dispatch) => {
       const isAdmin = !!user && !!user.roles.filter(i => i === 'ADMIN').length;
       dispatch(signInSuccess(user, isAdmin));
       dispatch(hideSignInDialog());
-      updateStore();
+      fetchMe();
     })
     .catch(error => {
       if (error.metadata) {
@@ -123,6 +121,7 @@ export const facebookCallback = (err, data) => dispatch => {
     dispatch(signInFacebookSuccess(user));
     dispatch(hideSignInDialog());
     dispatch(showCreateUsernameDialog());
+    fetchMe();
   } catch (err) {
     dispatch(signInFacebookFailure(err));
     return;
@@ -172,7 +171,7 @@ export const logout = () => dispatch => {
   return coralApi('/auth', {method: 'DELETE'})
     .then(() => {
       dispatch(logOutSuccess());
-      updateStore();
+      fetchMe();
     })
     .catch(error => dispatch(logOutFailure(error)));
 };

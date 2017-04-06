@@ -8,11 +8,6 @@ const RootQuery = {
   },
   asset(_, query, {loaders: {Assets}}) {
     if (query.id) {
-
-      // TODO: we may not always have a comment stream here, therefore, when we
-      // load it, we may also need to create with the url. This may also have to
-      // move the logic over to the mutators function as an upsert operation
-      // possibly.
       return Assets.getByID.load(query.id);
     }
 

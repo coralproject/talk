@@ -3,12 +3,6 @@ import merge from 'lodash/merge';
 import flatten from 'lodash/flatten';
 import plugins from 'pluginsConfig';
 
-const components = flatten(
-  plugins
-    .map(o => o.module.components)
-    .filter(o => o)
-);
-
 export const pluginReducers = merge(
   ...plugins
     .filter(o => o.module.reducer)
@@ -19,11 +13,9 @@ export const pluginReducers = merge(
  * Returns React Elements for given slot.
  */
 export function getSlotElements(slot, props = {}) {
+  const components = flatten(plugins
+    .filter(o => o.module.slots[slot])
+    .map(o => o.module.slots[slot]));
   return components
-    .map((component, i) => ({
-      component,
-      props: {...props, key: i},
-    }))
-    .filter(o => o.component.slot === slot)
-    .map(o => React.createElement(o.component, o.props));
+    .map((component, i) => React.createElement(component, {...props, key: i}));
 }

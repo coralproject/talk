@@ -12,3 +12,5 @@ export const client = new ApolloClient({
   },
   networkInterface: getNetworkInterface()
 });
+
+export default client;

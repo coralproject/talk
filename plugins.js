@@ -23,9 +23,9 @@ try {
 
 /**
  * isInternal checks to see if a given plugin is internal, and returns true
- * if it is. 
- * 
- * @param {String} name 
+ * if it is.
+ *
+ * @param {String} name
  * @returns {Boolean}
  */
 function isInternal(name) {
@@ -38,9 +38,9 @@ function isInternal(name) {
 
 /**
  * Returns the plugin path for the given plugin name.
- * 
- * @param {any} name 
- * @returns 
+ *
+ * @param {any} name
+ * @returns
  */
 function pluginPath(name) {
   if (isInternal(name)) {
@@ -59,9 +59,9 @@ function itteratePlugins(plugins) {
     let plugin = {};
 
     // This checks to see if the structure for this entry is an object:
-    // 
+    //
     // {"people": "^1.2.0"}
-    // 
+    //
     // otherwise it's checked whether it matches the local version:
     //
     // "people"
