@@ -1,7 +1,4 @@
-import RespectButton from './components/RespectButton';
-import * as reducer from './reducer';
-
+import RespectButton from './containers/RespectButton';
 export default {
-  components: [RespectButton],
-  reducer,
+  components: [RespectButton]
 };
