@@ -28,7 +28,7 @@ try {
   }
 } catch (err) {
   if (err.code === 'ENOENT') {
-    console.error('plugins.json and plguins.default.json not found, plugins will not be active');
+    console.error('plugins.json and plugins.default.json not found, plugins will not be active');
   } else {
     throw err;
   }
