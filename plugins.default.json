@@ -1,0 +1,9 @@
+{
+  "server": [
+    "coral-plugin-respect",
+    "coral-plugin-facebook-auth"
+  ],
+  "client": [
+    "coral-plugin-respect"
+  ]
+}
