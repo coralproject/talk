@@ -1,5 +1,7 @@
 import pym from 'pym.js';
 
+import {stringify} from 'querystring';
+
 const snackbarStyles = {
   position: 'fixed',
   cursor: 'default',
@@ -26,30 +28,21 @@ const Coral = {};
 const Talk = Coral.Talk = {};
 
 // build the URL to load in the pym iframe
-function buildStreamIframeUrl(talkBaseUrl, asset_url, comment, asset_id) {
-  let iframeArray = [
+function buildStreamIframeUrl(talkBaseUrl, query) {
+  let url = [
     talkBaseUrl,
     (talkBaseUrl.match(/\/$/) ? '' : '/'), // make sure no double-'/' if opts.talk already ends with '/'
-    'embed/stream?asset_url=',
-    encodeURIComponent(asset_url)
-  ];
+    'embed/stream?'
+  ].join('');
 
-  if (comment) {
-    iframeArray.push('&comment_id=');
-    iframeArray.push(encodeURIComponent(comment));
-  }
+  url += stringify(query);
 
-  if (asset_id) {
-    iframeArray.push('&asset_id=');
-    iframeArray.push(encodeURIComponent(asset_id));
-  }
-
-  return iframeArray.join('');
+  return url;
 }
 
 // Set up postMessage listeners/handlers on the pymParent
 // e.g. to resize the iframe, and navigate the host page
-function configurePymParent(pymParent, asset_url) {
+function configurePymParent(pymParent) {
   let notificationOffset = 200;
   let ready = false;
   let cachedHeight;
@@ -117,8 +110,8 @@ function configurePymParent(pymParent, asset_url) {
       if (ready) {
         window.clearInterval(interval);
 
-        // @todo - It's weird to me that this is sent here in addition to the iframe URL. Could it just be in one place?
-        pymParent.sendMessage('DOMContentLoaded', asset_url);
+        // TODO: It's weird to me that this is sent here
+        pymParent.sendMessage('DOMContentLoaded');
       }
     }, 100);
   });
@@ -166,42 +159,37 @@ Talk.render = function (el, opts) {
   }
   opts = opts || {};
 
-  // @todo infer this URL without explicit user input (if possible, may have to be added at build/render time of this script)
+  // TODO: infer this URL without explicit user input (if possible, may have to be added at build/render time of this script)
   if (!opts.talk) {
     throw new Error('Coral.Talk.render() expects opts.talk as the Talk Base URL');
   }
 
-  // ensure el has an id, as pym can't directly accept the HTMLElement
+  // Ensure el has an id, as pym can't directly accept the HTMLElement.
   if (!el.id) {
     el.id = `_${Math.random()}`;
   }
 
-  let asset_url = opts.asset_url;
-  if (!asset_url) {
+  // Compose the query to send down to the Talk API so it knows what to load.
+  let query = {};
+
+  query.comment_id = window.location.hash.slice(1);
+  query.asset_id = opts.asset_id;
+
+  query.asset_url = opts.asset_url;
+  if (!query.asset_url) {
     try {
-      asset_url = document.querySelector('link[rel="canonical"]').href;
+      query.asset_url = document.querySelector('link[rel="canonical"]').href;
     } catch (e) {
       console.warn('This page does not include a canonical link tag. Talk has inferred this asset_url from the window object. Query params have been stripped, which may cause a single thread to be present across multiple pages.');
-      asset_url = window.location.origin + window.location.pathname;
+      query.asset_url = window.location.origin + window.location.pathname;
     }
   }
 
-  let comment = window.location.hash.slice(1);
-
-  let query = {
+  configurePymParent(new pym.Parent(el.id, buildStreamIframeUrl(opts.talk, query), {
     title: opts.title,
-    asset_url: asset_url,
     id: `${el.id}_iframe`,
     name: `${el.id}_iframe`
-  };
-
-  if (opts.asset_id && opts.asset_id.length > 0) {
-    query.asset_id = opts.asset_id;
-  }
-
-  let pymParent = new pym.Parent(el.id, buildStreamIframeUrl(opts.talk, asset_url, comment), query);
-
-  configurePymParent(pymParent, asset_url);
+  }));
 };
 
 export default Coral;
