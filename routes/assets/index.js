@@ -27,6 +27,7 @@ router.get('/title/:asset_title', (req, res) => {
   return res.render('article', {
     title: req.params.asset_title.split('-').join(' '),
     asset_url: '',
+    asset_id: null,
     body: body,
     basePath: '/client/embed/stream'
   });
