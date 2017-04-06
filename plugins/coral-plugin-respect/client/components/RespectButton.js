@@ -67,6 +67,27 @@ class RespectButton extends React.Component {
   }
 }
 
+const COMMENT_QUERY = gql`
+  query CommentQuery($commentId: ID!) {
+    comment(id: $commentId) {
+      id
+      action_summaries {
+        ... on RespectActionSummary {
+          count
+          current_user {
+            id
+          }
+        }
+      }
+    }
+    me {
+      status
+    }
+  }
+`;
+
+const withQuery = graphql(COMMENT_QUERY);
+
 const withDeleteAction = graphql(gql`
   mutation deleteAction($id: ID!) {
       deleteAction(id:$id) {
@@ -76,11 +97,16 @@ const withDeleteAction = graphql(gql`
       }
   }
 `, {
-  options: {
+  options: (props) => ({
     refetchQueries: [
-      'CommentQuery',
+      {
+        query: COMMENT_QUERY,
+        variables: {
+          commentId: props.commentId,
+        },
+      },
     ],
-  },
+  }),
   props: ({mutate}) => ({
     deleteAction: (id) => {
       return mutate({
@@ -127,11 +153,16 @@ const withPostRespect = graphql(gql`
     }
   }
 `, {
-  options: {
+  options: (props) => ({
     refetchQueries: [
-      'CommentQuery',
+      {
+        query: COMMENT_QUERY,
+        variables: {
+          commentId: props.commentId,
+        },
+      },
     ],
-  },
+  }),
   props: ({mutate}) => ({
     postRespect: (respect) => {
       return mutate({
@@ -170,25 +201,6 @@ const withPostRespect = graphql(gql`
       });
     }})
 });
-
-const withQuery = graphql(gql`
-  query CommentQuery($commentId: ID!) {
-    comment(id: $commentId) {
-      id
-      action_summaries {
-        ... on RespectActionSummary {
-          count
-          current_user {
-            id
-          }
-        }
-      }
-    }
-    me {
-      status
-    }
-  }
-`);
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators({showSignInDialog}, dispatch);
