@@ -37,6 +37,7 @@ available in the format: `<scheme>://<host>` without the path.
 - `TALK_INSTALL_LOCK` (_optional for dynamic setup_) - Defaults to `FALSE`. When `TRUE`, disables the dynamic setup endpoint.
 - `TALK_RECAPTCHA_SECRET` (*required for reCAPTCHA support*) - server secret used for enabling reCAPTCHA powered logins. If not provided it will instead default to providing only a time based lockout.
 - `TALK_RECAPTCHA_PUBLIC` (*required for reCAPTCHA support*) - client secret used for enabling reCAPTCHA powered logins. If not provided it will instead default to providing only a time based lockout.
+- `TALK_PLUGINS_JSON` (_optional_) - used to specify the plugin config via the environment
 
 Refer to the wiki page on [Configuration Loading](https://github.com/coralproject/talk/wiki/Configuration-Loading) for
 alternative methods of loading configuration during development.
