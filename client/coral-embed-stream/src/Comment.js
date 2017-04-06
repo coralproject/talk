@@ -91,6 +91,9 @@ class Comment extends React.Component {
 
     // dispatch action to remove a tag from a comment
     removeCommentTag: React.PropTypes.func,
+
+    // dispatch action to ignore another user
+    ignoreUser: React.PropTypes.func,
   }
 
   render () {
@@ -113,6 +116,7 @@ class Comment extends React.Component {
       deleteAction,
       addCommentTag,
       removeCommentTag,
+      ignoreUser,
       disableReply,
     } = this.props;
 
@@ -152,6 +156,9 @@ class Comment extends React.Component {
           name: PropTypes.string.isRequired
         }).isRequired,
         cancel: PropTypes.func.isRequired,
+
+        // actually submit the ignore. Provide {id: user id to ignore}
+        ignoreUser: PropTypes.func,
       }
       constructor(props) {
         super(props);
@@ -166,7 +173,7 @@ class Comment extends React.Component {
         this.props.cancel();
       }
       render() {
-        const {user} = this.props;
+        const {user, ignoreUser} = this.props;
         const goToStep = (stepNum) => this.setState({step: stepNum});
         const step1 = (
           <div>
@@ -178,13 +185,17 @@ class Comment extends React.Component {
             </div>
           </div>
         );
+        const ignoreUserAndGotoStep3 = async () => {
+          await ignoreUser({id: user.id});
+          goToStep(3);
+        };
         const step2Confirmation = (
           <div>
             <header>Ignore User</header>
             <p>Are you sure you want to ignore { user.name }?</p>
             <div className={styles.textAlignRight}>
               <Button cStyle='cancel' onClick={this.onClickCancel}>Cancel</Button>
-              <Button onClick={() => goToStep(3)}>Ignore user</Button>
+              <Button onClick={ignoreUserAndGotoStep3}>Ignore user</Button>
             </div>
           </div>
         );
@@ -220,16 +231,31 @@ class Comment extends React.Component {
             name: PropTypes.string.isRequired
           }).isRequired
         }).isRequired,
+        ignoreUser: PropTypes.func,
       }
       constructor(props) {
+
+        // console.log('TopRightMenu#constructor', props)
         super(props);
         this.state = {
           chosenItem: null
         };
       }
+      componentWillUnmount() {
+
+        // console.log('TopRightMenu#componentWillUnmount')
+      }
+      componentDidMount() {
+
+        // console.log('TopRightMenu#componentDidMount')
+      }
+      componentWillReceiveProps(nextProps) {
+
+        // console.log('TopRightMenu#componentWillReceiveProps', nextProps)
+      }
       render() {
         const {chosenItem} = this.state;
-        const {comment} = this.props;
+        const {comment, ignoreUser} = this.props;
         let child;
         const chooseIgnoreUser = () => {
           this.setState({chosenItem: 'IGNORE_USER'});
@@ -238,18 +264,19 @@ class Comment extends React.Component {
         switch (chosenItem) {
         case 'IGNORE_USER':
           child = (
-              <IgnoreUserWizard
-                user={comment.user}
-                cancel={reset}
-                />
-            );
+                <IgnoreUserWizard
+                  user={comment.user}
+                  cancel={reset}
+                  ignoreUser={ignoreUser}
+                  />
+              );
           break;
         default:
           child = (
-              <Menu>
-                <Menu.Item onClick={chooseIgnoreUser}>Ignore User</Menu.Item>
-              </Menu>
-            );
+                <Menu>
+                  <Menu.Item onClick={chooseIgnoreUser}>Ignore User</Menu.Item>
+                </Menu>
+              );
         }
         return (
           <Toggleable>
@@ -281,7 +308,9 @@ class Comment extends React.Component {
           <Slot fill="commentInfoBar" commentId={comment.id} />
 
           <span className={styles.topRightMenu}>
-            <TopRightMenu comment={comment} />
+            <TopRightMenu
+              comment={comment}
+              ignoreUser={ignoreUser} />
           </span>          
 
           <Content body={comment.body} />
@@ -365,6 +394,7 @@ class Comment extends React.Component {
               deleteAction={deleteAction}
               addCommentTag={addCommentTag}
               removeCommentTag={removeCommentTag}
+              ignoreUser={ignoreUser}
               showSignInDialog={showSignInDialog}
               reactKey={reply.id}
               key={reply.id}

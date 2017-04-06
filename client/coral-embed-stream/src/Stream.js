@@ -19,6 +19,9 @@ class Stream extends React.Component {
 
     // dispatch action to remove a tag from a comment
     removeCommentTag: PropTypes.func,
+
+    // dispatch action to ignore another user
+    ignoreUser: React.PropTypes.func,
   }
 
   constructor(props) {
@@ -42,7 +45,8 @@ class Stream extends React.Component {
       showSignInDialog,
       addCommentTag,
       removeCommentTag,
-      pluginProps
+      pluginProps,
+      ignoreUser,
     } = this.props;
 
     return (
@@ -63,6 +67,7 @@ class Stream extends React.Component {
               postDontAgree={postDontAgree}
               addCommentTag={addCommentTag}
               removeCommentTag={removeCommentTag}
+              ignoreUser ={ignoreUser}
               loadMore={loadMore}
               deleteAction={deleteAction}
               showSignInDialog={showSignInDialog}

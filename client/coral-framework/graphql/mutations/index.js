@@ -6,6 +6,7 @@ import POST_DONT_AGREE from './postDontAgree.graphql';
 import DELETE_ACTION from './deleteAction.graphql';
 import ADD_COMMENT_TAG from './addCommentTag.graphql';
 import REMOVE_COMMENT_TAG from './removeCommentTag.graphql';
+import IGNORE_USER from './ignoreUser.graphql';
 
 import commentView from '../fragments/commentView.graphql';
 
@@ -144,6 +145,17 @@ export const removeCommentTag = graphql(REMOVE_COMMENT_TAG, {
         variables: {
           id,
           tag
+        }
+      });
+    }}),
+});
+
+export const ignoreUser = graphql(IGNORE_USER, {
+  props: ({mutate}) => ({
+    ignoreUser: ({id}) => {
+      return mutate({
+        variables: {
+          id,
         }
       });
     }}),
