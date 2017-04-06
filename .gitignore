@@ -14,6 +14,7 @@ dump.rdb
 test/e2e/reports
 coverage/
 
+plugins.json
 plugins/*
 !plugins/coral-plugin-facebook-auth
 !plugins/coral-plugin-respect
