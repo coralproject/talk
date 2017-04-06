@@ -7,7 +7,7 @@
     "postinstall": "./bin/cli plugins reconcile --skip-remote",
     "start": "./bin/cli serve --jobs",
     "dev-start": "nodemon --config .nodemon.json --exec \"./bin/cli -c .env serve --jobs\"",
-    "build": "NODE_ENV=production webpack --progress -p --config webpack.config.js --bail",
+    "build": "NODE_ENV=production webpack -p --config webpack.config.js --bail",
     "build-watch": "NODE_ENV=development webpack --progress --config webpack.config.js --watch",
     "lint": "eslint bin/* .",
     "lint-fix": "eslint bin/* . --fix",
