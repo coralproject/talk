@@ -9,5 +9,5 @@ dump.rdb
 coverage/
 *.swp
 plugins.json
-plugins
-!plugins/coral-plugin-respect
+plugins/*
+!plugins/coral-plugin-respect/
