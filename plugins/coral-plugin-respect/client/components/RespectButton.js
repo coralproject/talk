@@ -10,7 +10,7 @@ const lang = new I18n(translations);
 
 export default class RespectButton extends React.Component {
 
-  static slot = 'Comment.Detail';
+  static slot = 'comment.detail';
 
   handleClick = () => {
     const {postRespect, showSignInDialog, deleteAction, commentId} = this.props;
