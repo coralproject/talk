@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const resolve = require('resolve');
 const debug = require('debug')('talk:plugins');
+const Joi = require('joi');
 
 // Add support for require rewriting.
 require('app-module-path').addPath(__dirname);
@@ -12,14 +13,41 @@ let plugins = {};
 // file isn't loaded, but continuing. Else, like a parsing error, throw it and
 // crash the program.
 try {
-  plugins = JSON.parse(fs.readFileSync(path.join(__dirname, 'plugins.json'), 'utf8'));
+  let defaultPlugins = path.join(__dirname, 'plugins.default.json');
+  let customPlugins = path.join(__dirname, 'plugins.json');
+  let envPluginJSON = process.env.TALK_PLUGINS_JSON;
+
+  if (envPluginJSON && envPluginJSON.length > 0) {
+    debug('Now using TALK_PLUGINS_JSON environment variable for plugins');
+    plugins = JSON.parse(envPluginJSON);
+  } else if (fs.existsSync(customPlugins)) {
+    debug(`Now using ${customPlugins} for plugins`);
+    plugins = JSON.parse(fs.readFileSync(customPlugins, 'utf8'));
+  } else {
+    debug(`Now using ${defaultPlugins} for plugins`);
+    plugins = JSON.parse(fs.readFileSync(defaultPlugins, 'utf8'));
+  }
 } catch (err) {
   if (err.code === 'ENOENT') {
-    console.error('plugins.json not found, plugins will not be active');
+    console.error('plugins.json and plugins.default.json not found, plugins will not be active');
   } else {
     throw err;
   }
 }
+
+const hookSchemas = {
+  passport: Joi.func().arity(1),
+  router: Joi.func().arity(1),
+  context: Joi.object().pattern(/\w/, Joi.func().maxArity(1)),
+  hooks: Joi.object({
+    pre: Joi.func(),
+    post: Joi.func()
+  }),
+  loaders: Joi.object().pattern(/\w/, Joi.object().pattern(/\w/, Joi.func())),
+  mutators: Joi.object().pattern(/\w/, Joi.object().pattern(/\w/, Joi.func())),
+  resolvers: Joi.object().pattern(/\w/, Joi.object().pattern(/\w/, Joi.func())),
+  typeDefs: Joi.string()
+};
 
 /**
  * isInternal checks to see if a given plugin is internal, and returns true
@@ -122,6 +150,15 @@ class PluginSection {
   hook(hook) {
     return this.plugins
       .filter(({module}) => hook in module)
+      .filter((plugin) => {
+
+        // Validate the hook.
+        if (hook in hookSchemas) {
+          Joi.assert(plugin.module[hook], hookSchemas[hook], `Plugin '${plugin.name}' failed validation for the '${hook}' hook`);
+        }
+
+        return true;
+      })
       .map((plugin) => ({
         plugin,
         [hook]: plugin.module[hook]

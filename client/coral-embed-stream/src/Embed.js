@@ -41,9 +41,10 @@ class Embed extends Component {
   state = {activeTab: 0, showSignInDialog: false, activeReplyBox: ''};
 
   changeTab = (tab) => {
+    const {isAdmin} = this.props.auth;
 
     // Everytime the comes from another tab, the Stream needs to be updated.
-    if (tab === 0) {
+    if (tab === 0 && isAdmin) {
       this.props.data.refetch();
     }
 
@@ -116,7 +117,7 @@ class Embed extends Component {
   render () {
     const {activeTab} = this.state;
     const {closedAt, countCache = {}} = this.props.asset;
-    const {loading, asset, refetch, comment} = this.props.data;
+    const {asset, refetch, comment} = this.props.data;
     const {loggedIn, isAdmin, user, showSignInDialog, signInOffset} = this.props.auth;
 
     // even though the permalinked comment is the highlighted one, we're displaying its parent + replies
@@ -130,7 +131,7 @@ class Embed extends Component {
       minHeight: document.body.scrollHeight + 200
     } : {};
 
-    if (loading || !asset) {
+    if (!asset) {
       return <Spinner />;
     }
 

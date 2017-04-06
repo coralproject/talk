@@ -18,6 +18,7 @@ if (process.env.NODE_ENV !== 'production') {
     return res.render('article', {
       title: 'Coral Talk',
       asset_url: '',
+      asset_id: '',
       body: '',
       basePath: '/client/embed/stream'
     });
