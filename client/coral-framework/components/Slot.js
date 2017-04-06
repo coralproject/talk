@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
-import {getSlotElements} from 'coral-framework/helpers/plugins';
+import React, { Component } from "react";
+import { getSlotElements } from "coral-framework/helpers/plugins";
 
 class Slot extends Component {
   render() {
-    const {fill, ...rest} = this.props;
+    const { fill, ...rest } = this.props;
     return (
       <div>
         {getSlotElements(fill, rest)}
@@ -11,5 +11,9 @@ class Slot extends Component {
     );
   }
 }
+
+Slot.propTypes = {
+  fill: React.PropTypes.string
+};
 
 export default Slot;
