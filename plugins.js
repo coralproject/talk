@@ -39,13 +39,13 @@ const hookSchemas = {
   passport: Joi.func().arity(1),
   router: Joi.func().arity(1),
   context: Joi.object().pattern(/\w/, Joi.func().maxArity(1)),
-  hooks: Joi.object({
+  hooks: Joi.object().pattern(/\w/, Joi.object().pattern(/(?:__resolveType|\w+)/, Joi.object({
     pre: Joi.func(),
     post: Joi.func()
-  }),
+  }))),
   loaders: Joi.object().pattern(/\w/, Joi.object().pattern(/\w/, Joi.func())),
   mutators: Joi.object().pattern(/\w/, Joi.object().pattern(/\w/, Joi.func())),
-  resolvers: Joi.object().pattern(/\w/, Joi.object().pattern(/\w/, Joi.func())),
+  resolvers: Joi.object().pattern(/\w/, Joi.object().pattern(/(?:__resolveType|\w+)/, Joi.func())),
   typeDefs: Joi.string()
 };
 
