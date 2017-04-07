@@ -21,6 +21,7 @@ import LikeButton from 'coral-plugin-likes/LikeButton';
 import {BestButton, IfUserCanModifyBest, BEST_TAG, commentIsBest, BestIndicator} from 'coral-plugin-best/BestButton';
 import LoadMore from 'coral-embed-stream/src/LoadMore';
 import {Slot} from 'coral-framework';
+import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 
 import styles from './Comment.css';
 import classnames from 'classnames';
@@ -86,6 +87,9 @@ class Comment extends React.Component {
       }).isRequired
     }).isRequired,
 
+    // given a comment, return whether it should be rendered as ignored
+    commentIsIgnored: React.PropTypes.func,
+
     // dispatch action to add a tag to a comment
     addCommentTag: React.PropTypes.func,
 
@@ -118,6 +122,7 @@ class Comment extends React.Component {
       removeCommentTag,
       ignoreUser,
       disableReply,
+      commentIsIgnored,
     } = this.props;
 
     const like = getActionSummary('LikeActionSummary', comment);
@@ -348,28 +353,29 @@ class Comment extends React.Component {
         {
           comment.replies &&
           comment.replies.map(reply => {
-            return <Comment
-              setActiveReplyBox={setActiveReplyBox}
-              disableReply={disableReply}
-              activeReplyBox={activeReplyBox}
-              addNotification={addNotification}
-              parentId={comment.id}
-              postItem={postItem}
-              depth={depth + 1}
-              asset={asset}
-              highlighted={highlighted}
-              currentUser={currentUser}
-              postLike={postLike}
-              postFlag={postFlag}
-              deleteAction={deleteAction}
-              addCommentTag={addCommentTag}
-              removeCommentTag={removeCommentTag}
-              ignoreUser={ignoreUser}
-              showSignInDialog={showSignInDialog}
-              reactKey={reply.id}
-              key={reply.id}
-              comment={reply}
-            />;
+            return commentIsIgnored(reply)
+              ? <IgnoredCommentTombstone key={reply.id} />
+              : <Comment
+                  setActiveReplyBox={setActiveReplyBox}
+                  disableReply={disableReply}
+                  activeReplyBox={activeReplyBox}
+                  addNotification={addNotification}
+                  parentId={comment.id}
+                  postItem={postItem}
+                  depth={depth + 1}
+                  asset={asset}
+                  highlighted={highlighted}
+                  currentUser={currentUser}
+                  postLike={postLike}
+                  postFlag={postFlag}
+                  deleteAction={deleteAction}
+                  addCommentTag={addCommentTag}
+                  removeCommentTag={removeCommentTag}
+                  ignoreUser={ignoreUser}
+                  showSignInDialog={showSignInDialog}
+                  reactKey={reply.id}
+                  key={reply.id}
+                  comment={reply} />;
           })
         }
         {

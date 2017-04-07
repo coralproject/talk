@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import Comment from './Comment';
+import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 
 class Stream extends React.Component {
 
@@ -75,7 +76,8 @@ class Stream extends React.Component {
                   postDontAgree={postDontAgree}
                   addCommentTag={addCommentTag}
                   removeCommentTag={removeCommentTag}
-                  ignoreUser ={ignoreUser}
+                  ignoreUser={ignoreUser}
+                  commentIsIgnored={commentIsIgnored}
                   loadMore={loadMore}
                   deleteAction={deleteAction}
                   showSignInDialog={showSignInDialog}
@@ -90,19 +92,5 @@ class Stream extends React.Component {
     );
   }
 }
-
-const IgnoredCommentTombstone = () => (
-  <div>
-    <hr aria-hidden={true} />
-    <p style={{
-      backgroundColor: '#F0F0F0',
-      textAlign: 'center',
-      padding: '1em',
-      color: '#3E4F71',
-    }}>
-      This comment is hidden because you ignored this user.
-    </p>
-  </div>
-);
 
 export default Stream;
