@@ -152,6 +152,8 @@ class Embed extends Component {
       ? asset.comments[0].created_at
       : new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString();
 
+    const userBox = <UserBox user={user} logout={() => this.props.logout().then(refetch)}  changeTab={this.changeTab}/>;
+
     return (
       <div style={expandForLogin}>
         <div className="commentStream">
@@ -170,8 +172,8 @@ class Embed extends Component {
                 this.props.data.refetch();
               }}>{lang.t('showAllComments')}</Button>
           }
-          {loggedIn && <UserBox user={user} logout={() => this.props.logout().then(refetch)}  changeTab={this.changeTab}/>}
           <TabContent show={activeTab === 0}>
+            { loggedIn ? userBox : null }
             {
               openStream
                ? <div id="commentBox">
@@ -277,22 +279,23 @@ class Embed extends Component {
                   loadMore={this.props.loadMore} />
               </div>
             }
-        </TabContent>
-         <TabContent show={activeTab === 1}>
-           <ProfileContainer
-             loggedIn={loggedIn}
-             userData={this.props.userData}
-             showSignInDialog={this.props.showSignInDialog}
-           />
-         </TabContent>
-         <TabContent show={activeTab === 2}>
-           <RestrictedContent restricted={!loggedIn}>
-             <ConfigureStreamContainer
-               status={status}
-               onClick={this.toggleStatus}
-             />
-           </RestrictedContent>
-         </TabContent>
+          </TabContent>
+          <TabContent show={activeTab === 1}>
+            <ProfileContainer
+              loggedIn={loggedIn}
+              userData={this.props.userData}
+              showSignInDialog={this.props.showSignInDialog}
+            />
+          </TabContent>
+          <TabContent show={activeTab === 2}>
+            <RestrictedContent restricted={!loggedIn}>
+              { loggedIn ? userBox : null }
+              <ConfigureStreamContainer
+                status={status}
+                onClick={this.toggleStatus}
+              />
+            </RestrictedContent>
+          </TabContent>
         </div>
       </div>
     );

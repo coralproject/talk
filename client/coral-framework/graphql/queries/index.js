@@ -3,6 +3,7 @@ import STREAM_QUERY from './streamQuery.graphql';
 import LOAD_MORE from './loadMore.graphql';
 import GET_COUNTS from './getCounts.graphql';
 import MY_COMMENT_HISTORY from './myCommentHistory.graphql';
+import MY_IGNORED_USERS from './myIgnoredUsers.graphql';
 import uniqBy from 'lodash/uniqBy';
 import sortBy from 'lodash/sortBy';
 import isNil from 'lodash/isNil';
@@ -144,3 +145,11 @@ export const queryStream = graphql(STREAM_QUERY, {
 });
 
 export const myCommentHistory = graphql(MY_COMMENT_HISTORY, {});
+
+export const myIgnoredUsers = graphql(MY_IGNORED_USERS, {
+  props: ({data}) => {
+    return ({
+      myIgnoredUsersData: data
+    });
+  }
+});
