@@ -1,7 +1,6 @@
 import {addNotification} from '../actions/notification';
 import coralApi from '../helpers/response';
 import * as actions from '../constants/auth';
-import {IGNORE_USER_SUCCESS} from '../constants/user';
 
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from './../translations';
@@ -20,6 +19,3 @@ export const editName = (username) => (dispatch) => {
       dispatch(editUsernameFailure(lang.t(`error.${error.translation_key}`)));
     });
 };
-
-// a user was successfully ignored
-export const ignoreUserSuccess = ({id}) => ({type: IGNORE_USER_SUCCESS, id});

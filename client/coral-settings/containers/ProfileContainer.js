@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
 
 import {myCommentHistory, myIgnoredUsers} from 'coral-framework/graphql/queries';
+import {stopIgnoringUser} from 'coral-framework/graphql/mutations';
 
 import {link} from 'coral-framework/services/PymConnection';
 import NotLoggedIn from '../components/NotLoggedIn';
@@ -31,7 +32,7 @@ class ProfileContainer extends Component {
   }
 
   render() {
-    const {loggedIn, asset, showSignInDialog, data, myIgnoredUsersData} = this.props;
+    const {loggedIn, asset, showSignInDialog, data, myIgnoredUsersData, stopIgnoringUser} = this.props;
     const {me} = this.props.data;
 
     if (!loggedIn || !me) {
@@ -60,6 +61,7 @@ class ProfileContainer extends Component {
               <h3>Ignored users</h3>
               <IgnoredUsers
                 users={myIgnoredUsersData.myIgnoredUsers}
+                stopIgnoring={stopIgnoringUser}
               />
             </div>
           )
@@ -100,4 +102,5 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   myCommentHistory,
   myIgnoredUsers,
+  stopIgnoringUser,
 )(ProfileContainer);

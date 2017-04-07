@@ -7,6 +7,9 @@ import DELETE_ACTION from './deleteAction.graphql';
 import ADD_COMMENT_TAG from './addCommentTag.graphql';
 import REMOVE_COMMENT_TAG from './removeCommentTag.graphql';
 import IGNORE_USER from './ignoreUser.graphql';
+import STOP_IGNORING_USER from './stopIgnoringUser.graphql';
+
+import MY_IGNORED_USERS from '../queries/myIgnoredUsers.graphql';
 
 import commentView from '../fragments/commentView.graphql';
 
@@ -156,7 +159,24 @@ export const ignoreUser = graphql(IGNORE_USER, {
       return mutate({
         variables: {
           id,
-        }
+        },
+        refetchQueries: [{
+          query: MY_IGNORED_USERS,
+        }]
+      });
+    }}),
+});
+
+export const stopIgnoringUser = graphql(STOP_IGNORING_USER, {
+  props: ({mutate}) => ({
+    stopIgnoringUser: ({id}) => {
+      return mutate({
+        variables: {
+          id,
+        },
+        refetchQueries: [{
+          query: MY_IGNORED_USERS,
+        }]
       });
     }}),
 });

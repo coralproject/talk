@@ -15,7 +15,7 @@ import {NEW_COMMENT_COUNT_POLL_INTERVAL} from 'coral-framework/constants/comment
 
 import {queryStream} from 'coral-framework/graphql/queries';
 import {postComment, postFlag, postLike, postDontAgree, deleteAction, addCommentTag, removeCommentTag, ignoreUser} from 'coral-framework/graphql/mutations';
-import {editName, ignoreUserSuccess} from 'coral-framework/actions/user';
+import {editName} from 'coral-framework/actions/user';
 import {updateCountCache, viewAllComments} from 'coral-framework/actions/asset';
 import {notificationActions, authActions, assetActions, pym} from 'coral-framework';
 
@@ -115,15 +115,6 @@ class Embed extends Component {
     } else {
       this.setState({activeReplyBox: reactKey});
     }
-  }
-
-  ignoreUser = async ({id}) => {
-    const {ignoreUser, dispatch} = this.props;
-    await ignoreUser({id});
-
-    // dispatch ignoreUserSuccess so other reducers can know about the newly
-    // ignored user (e.g. to hide coments by that user)
-    dispatch(ignoreUserSuccess({id}));
   }
 
   render () {
@@ -264,7 +255,7 @@ class Embed extends Component {
                     postDontAgree={this.props.postDontAgree}
                     addCommentTag={this.props.addCommentTag}
                     removeCommentTag={this.props.removeCommentTag}
-                    ignoreUser={this.ignoreUser}
+                    ignoreUser={this.props.ignoreUser}
                     loadMore={this.props.loadMore}
                     deleteAction={this.props.deleteAction}
                     showSignInDialog={this.props.showSignInDialog}

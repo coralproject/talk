@@ -39,9 +39,14 @@ export default function user (state = initialState, action) {
     return state.set('myAssets', action.assets);
   case actions.LOGOUT_SUCCESS:
     return initialState;
-  case actions.IGNORE_USER_SUCCESS:
-    return state.updateIn(['ignoredUsers'], i => i.add(action.id));
-  default :
-    return state;
+  case 'APOLLO_MUTATION_RESULT':
+    switch (action.operationName) {
+    case 'ignoreUser':
+      return state.updateIn(['ignoredUsers'], i => i.add(action.variables.id));        
+    case 'stopIgnoringUser':
+      return state.updateIn(['ignoredUsers'], i => i.delete(action.variables.id));
+    }
+    break;
   }
+  return state;
 }

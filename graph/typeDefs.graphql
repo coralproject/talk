@@ -712,6 +712,11 @@ type IgnoreUserResponse implements Response {
   errors: [UserError]
 }
 
+# Response to stopIgnoringUser mutation
+type StopIgnoringUserResponse implements Response {
+  # An array of errors relating to the mutation that occured.
+  errors: [UserError]
+}
 
 # All mutations for the application are defined on this object.
 type RootMutation {
@@ -748,6 +753,9 @@ type RootMutation {
 
   # Ignore comments by another user
   ignoreUser(id: ID!): IgnoreUserResponse
+
+  # Stop Ignoring comments by another user
+  stopIgnoringUser(id: ID!): StopIgnoringUserResponse
 }
 
 ################################################################################

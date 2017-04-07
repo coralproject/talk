@@ -854,4 +854,20 @@ module.exports = class UsersService {
       }
     });
   }
+
+  /**
+   * Stop ignoring other users
+   * @param  {String} userId the id of the user that is ignoring another users
+   * @param  {String[]} usersToStopIgnoring Array of user IDs to stop ignoring
+   */
+  static async stopIgnoringUsers(userId, usersToStopIgnoring) {
+    assert(Array.isArray(usersToStopIgnoring), 'usersToStopIgnoring is an array');
+    assert(usersToStopIgnoring.every(u => typeof u === 'string'), 'usersToStopIgnoring is an array of string user IDs');
+    await UserModel.update({id: userId}, {
+      $pullAll:  {
+        ignoresUsers: usersToStopIgnoring
+      }
+    });
+    console.log('Mongo wrote stopIgnoringUsers', usersToStopIgnoring);
+  }
 };
