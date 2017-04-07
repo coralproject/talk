@@ -2,6 +2,8 @@ import React, {Component, PropTypes} from 'react';
 import {I18n} from '../coral-framework';
 import translations from './translations.json';
 import {Button} from 'coral-ui';
+import {Slot} from 'coral-framework';
+import styles from './styles.css';
 
 const name = 'coral-plugin-commentbox';
 
@@ -102,6 +104,7 @@ class CommentBox extends Component {
             `${charCount - length} ${lang.t('characters-remaining')}`
           }
         </div>
+        <Slot fill="commentBoxDetail" inline/>
         <div className={`${name}-button-container`}>
           {
             isReply && (
