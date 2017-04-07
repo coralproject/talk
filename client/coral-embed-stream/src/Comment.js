@@ -185,9 +185,8 @@ class Comment extends React.Component {
             </div>
           </div>
         );
-        const ignoreUserAndGotoStep3 = async () => {
+        const onClickIgnoreUser = async () => {
           await ignoreUser({id: user.id});
-          goToStep(3);
         };
         const step2Confirmation = (
           <div>
@@ -195,7 +194,7 @@ class Comment extends React.Component {
             <p>Are you sure you want to ignore { user.name }?</p>
             <div className={styles.textAlignRight}>
               <Button cStyle='cancel' onClick={this.onClickCancel}>Cancel</Button>
-              <Button onClick={ignoreUserAndGotoStep3}>Ignore user</Button>
+              <Button onClick={onClickIgnoreUser}>Ignore user</Button>
             </div>
           </div>
         );
@@ -219,8 +218,9 @@ class Comment extends React.Component {
       }
     }
 
-    // Menu of actions in top right of Comment.
-    // When you choose 'Ignore User', the menu choices are replaced with the Ignore User flow
+    // TopRightMenu appears as a dropdown in the top right of the comment.
+    // when you click the down cehvron, it expands and shows IgnoreUserWizard
+    // when you click 'cancel' in the wizard, it closes the menu
     class TopRightMenu extends React.Component {
       static propTypes = {
 
@@ -234,54 +234,24 @@ class Comment extends React.Component {
         ignoreUser: PropTypes.func,
       }
       constructor(props) {
-
-        // console.log('TopRightMenu#constructor', props)
         super(props);
         this.state = {
-          chosenItem: null
+          timesReset: 0
         };
-      }
-      componentWillUnmount() {
-
-        // console.log('TopRightMenu#componentWillUnmount')
-      }
-      componentDidMount() {
-
-        // console.log('TopRightMenu#componentDidMount')
-      }
-      componentWillReceiveProps(nextProps) {
-
-        // console.log('TopRightMenu#componentWillReceiveProps', nextProps)
       }
       render() {
-        const {chosenItem} = this.state;
         const {comment, ignoreUser} = this.props;
-        let child;
-        const chooseIgnoreUser = () => {
-          this.setState({chosenItem: 'IGNORE_USER'});
-        };
-        const reset = () => this.setState({chosenItem: null});
-        switch (chosenItem) {
-        case 'IGNORE_USER':
-          child = (
-                <IgnoreUserWizard
-                  user={comment.user}
-                  cancel={reset}
-                  ignoreUser={ignoreUser}
-                  />
-              );
-          break;
-        default:
-          child = (
-                <Menu>
-                  <Menu.Item onClick={chooseIgnoreUser}>Ignore User</Menu.Item>
-                </Menu>
-              );
-        }
+
+        // timesReset is used as Toggleable key so it re-renders on reset (closing the toggleable)
+        const reset = () => this.setState({timesReset: this.state.timesReset + 1});
         return (
-          <Toggleable>
+          <Toggleable key={this.state.timesReset}>
             <div style={{position: 'absolute', right: 0, zIndex: 1}}>
-              { child }
+              <IgnoreUserWizard
+                user={comment.user}
+                cancel={reset}
+                ignoreUser={ignoreUser}
+                />
             </div>
           </Toggleable>
         );        
