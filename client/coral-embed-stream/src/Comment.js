@@ -132,10 +132,10 @@ class Comment extends React.Component {
     commentClass += comment.id === 'pending' ? ` ${styles.pendingComment}` : '';
 
     // call a function, and if it errors, call addNotification('error', ...) (e.g. to show user a snackbar)
-    const notifyOnError = (fn, errorToMessage) => async () => {
+    const notifyOnError = (fn, errorToMessage) => async function (...args) {
       if (typeof errorToMessage !== 'function') {errorToMessage = (error) => error.message;}
       try {
-        return await fn();
+        return await fn(...args);
       } catch (error) {
         addNotification('error', errorToMessage(error));
         throw error;
@@ -163,7 +163,7 @@ class Comment extends React.Component {
         cancel: PropTypes.func.isRequired,
 
         // actually submit the ignore. Provide {id: user id to ignore}
-        ignoreUser: PropTypes.func,
+        ignoreUser: PropTypes.func.isRequired,
       }
       constructor(props) {
         super(props);
@@ -203,16 +203,7 @@ class Comment extends React.Component {
             </div>
           </div>
         );
-        const step3Confirmed = (
-          <div>
-            <header>User Ignored</header>
-            <p>You will no longer see comments from { user.name }. You can undo this later from the Profile tab</p>
-            <div className={styles.textAlignRight}>
-              <Button cStyle='cancel' onClick={this.onClickCancel}>Close</Button>
-            </div>            
-          </div>
-        );
-        const elsForStep = [step1, step2Confirmation, step3Confirmed];
+        const elsForStep = [step1, step2Confirmation];
         const {step} = this.state;
         const elForThisStep = elsForStep[step - 1];
         return (
@@ -237,6 +228,9 @@ class Comment extends React.Component {
           }).isRequired
         }).isRequired,
         ignoreUser: PropTypes.func,
+
+        // show notification to the user (e.g. for errors)
+        addNotification: PropTypes.func.isRequired,
       }
       constructor(props) {
         super(props);
@@ -245,17 +239,32 @@ class Comment extends React.Component {
         };
       }
       render() {
-        const {comment, ignoreUser} = this.props;
+        const {comment, ignoreUser, addNotification} = this.props;
 
         // timesReset is used as Toggleable key so it re-renders on reset (closing the toggleable)
         const reset = () => this.setState({timesReset: this.state.timesReset + 1});
+        const ignoreUserAndCloseMenuAndNotifyOnError = async ({id}) => {
+
+          // close menu
+          reset();
+
+          // ignore user
+          let errorToThrow;
+          try {
+            await ignoreUser({id});
+          } catch (error) {
+            addNotification('error', 'Failed to ignore user');
+            errorToThrow = error;
+          }
+          throw errorToThrow;
+        };
         return (
           <Toggleable key={this.state.timesReset}>
             <div style={{position: 'absolute', right: 0, zIndex: 1}}>
               <IgnoreUserWizard
                 user={comment.user}
                 cancel={reset}
-                ignoreUser={ignoreUser}
+                ignoreUser={ignoreUserAndCloseMenuAndNotifyOnError}
                 />
             </div>
           </Toggleable>
@@ -285,7 +294,8 @@ class Comment extends React.Component {
           <span className={styles.topRightMenu}>
             <TopRightMenu
               comment={comment}
-              ignoreUser={ignoreUser} />
+              ignoreUser={ignoreUser}
+              addNotification={addNotification} />
           </span>          
 
           <Content body={comment.body} />
