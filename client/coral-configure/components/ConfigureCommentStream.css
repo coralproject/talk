@@ -9,12 +9,12 @@
   right: 0;
 }
 
-ul {
+.wrapper ul {
   list-style: none;
   padding: 0;
 }
 
-ul ul {
+.wrapper ul ul {
   padding-left: 20px
 }
 
@@ -23,12 +23,12 @@ ul ul {
   margin: 12px 12px 12px 0;
 }
 
-h4 {
+.wrapper h4 {
   font-size: 14px;
   margin-bottom: 5px;
 }
 
-p {
+.wrapper p {
   max-width: 380px;
 }
 

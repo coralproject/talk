@@ -38,7 +38,10 @@
 .Menu {
   border: 1px solid #ddd;
   margin: 0;
-
+}
+ul.Menu {
+  list-style-type: none;
+  padding: 0;
 }
 
 .MenuItem {
@@ -50,6 +53,7 @@
   background-color: #2E343B;
   color: white;
   padding: 1em;
+  max-width: 220px;
 }
 
 .IgnoreUserWizard header {

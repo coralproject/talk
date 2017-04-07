@@ -15,7 +15,7 @@ import {NEW_COMMENT_COUNT_POLL_INTERVAL} from 'coral-framework/constants/comment
 
 import {queryStream} from 'coral-framework/graphql/queries';
 import {postComment, postFlag, postLike, postDontAgree, deleteAction, addCommentTag, removeCommentTag, ignoreUser} from 'coral-framework/graphql/mutations';
-import {editName} from 'coral-framework/actions/user';
+import {editName, ignoreUserSuccess} from 'coral-framework/actions/user';
 import {updateCountCache, viewAllComments} from 'coral-framework/actions/asset';
 import {notificationActions, authActions, assetActions, pym} from 'coral-framework';
 
@@ -115,6 +115,15 @@ class Embed extends Component {
     } else {
       this.setState({activeReplyBox: reactKey});
     }
+  }
+
+  ignoreUser = async ({id}) => {
+    const {ignoreUser, dispatch} = this.props;
+    await ignoreUser({id});
+
+    // dispatch ignoreUserSuccess so other reducers can know about the newly
+    // ignored user (e.g. to hide coments by that user)
+    dispatch(ignoreUserSuccess({id}));
   }
 
   render () {
@@ -253,11 +262,12 @@ class Embed extends Component {
                     postDontAgree={this.props.postDontAgree}
                     addCommentTag={this.props.addCommentTag}
                     removeCommentTag={this.props.removeCommentTag}
-                    ignoreUser={this.props.ignoreUser}
+                    ignoreUser={this.ignoreUser}
                     loadMore={this.props.loadMore}
                     deleteAction={this.props.deleteAction}
                     showSignInDialog={this.props.showSignInDialog}
-                    comments={asset.comments} />
+                    comments={asset.comments}
+                    ignoredUsers={this.props.userData.ignoredUsers} />
                 </div>
                 <LoadMore
                   topLevel={true}
@@ -292,7 +302,7 @@ class Embed extends Component {
 const mapStateToProps = state => ({
   auth: state.auth.toJS(),
   userData: state.user.toJS(),
-  asset: state.asset.toJS()
+  asset: state.asset.toJS(),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -305,7 +315,7 @@ const mapDispatchToProps = dispatch => ({
   updateCountCache: (id, count) => dispatch(updateCountCache(id, count)),
   viewAllComments: () => dispatch(viewAllComments()),
   logout: () => dispatch(logout()),
-  dispatch: d => dispatch(d)
+  dispatch: d => dispatch(d),
 });
 
 export default compose(
@@ -315,8 +325,8 @@ export default compose(
   postLike,
   postDontAgree,
   addCommentTag,
-  ignoreUser,
   removeCommentTag,
+  ignoreUser,
   deleteAction,
   queryStream,
 )(Embed);

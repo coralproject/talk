@@ -1,4 +1,4 @@
-import {Map} from 'immutable';
+import {Map, Set} from 'immutable';
 import * as authActions from '../constants/auth';
 import * as actions from '../constants/user';
 import * as assetActions from '../constants/assets';
@@ -8,7 +8,8 @@ const initialState = Map({
   profiles: [],
   settings: {},
   myComments: [],
-  myAssets: [] // the assets from which myComments (above) originated
+  myAssets: [], // the assets from which myComments (above) originated
+  ignoredUsers: Set(),
 });
 
 const purge = user => {
@@ -38,6 +39,8 @@ export default function user (state = initialState, action) {
     return state.set('myAssets', action.assets);
   case actions.LOGOUT_SUCCESS:
     return initialState;
+  case actions.IGNORE_USER_SUCCESS:
+    return state.updateIn(['ignoredUsers'], i => i.add(action.id));
   default :
     return state;
   }
