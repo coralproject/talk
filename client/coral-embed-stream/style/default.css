@@ -255,13 +255,13 @@ hr {
 .commentActionsRight, .replyActionsRight {
   display: flex;
   justify-content: flex-end;
-  width: 50%;
+  width: 30%;
 }
 .commentActionsLeft, .replyActionsLeft {
   display: flex;
   justify-content: flex-start;
   float: left;
-  width: 50%;
+  width: 70%;
 }
 
 .comment__action-container .material-icons {
