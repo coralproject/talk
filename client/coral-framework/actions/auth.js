@@ -1,9 +1,25 @@
+import {gql} from 'react-apollo';
+import client from 'coral-framework/services/client';
 import I18n from '../../coral-framework/modules/i18n/i18n';
 import translations from './../translations';
 const lang = new I18n(translations);
 import * as actions from '../constants/auth';
 import coralApi, {base} from '../helpers/response';
 import {pym} from 'coral-framework';
+
+const ME_QUERY = gql`
+  query Me {
+    me {
+      status
+    }
+  }
+`;
+
+function fetchMe() {
+  return client.query({
+    fetchPolicy: 'network-only',
+    query: ME_QUERY});
+}
 
 // Dialog Actions
 export const showSignInDialog = (offset = 0) => ({type: actions.SHOW_SIGNIN_DIALOG, offset});
@@ -52,6 +68,7 @@ export const fetchSignIn = (formData) => (dispatch) => {
       const isAdmin = !!user && !!user.roles.filter(i => i === 'ADMIN').length;
       dispatch(signInSuccess(user, isAdmin));
       dispatch(hideSignInDialog());
+      fetchMe();
     })
     .catch(error => {
       if (error.metadata) {
@@ -104,6 +121,7 @@ export const facebookCallback = (err, data) => dispatch => {
     dispatch(signInFacebookSuccess(user));
     dispatch(hideSignInDialog());
     dispatch(showCreateUsernameDialog());
+    fetchMe();
   } catch (err) {
     dispatch(signInFacebookFailure(err));
     return;
@@ -151,7 +169,10 @@ const logOutFailure = () => ({type: actions.LOGOUT_FAILURE});
 export const logout = () => dispatch => {
   dispatch(logOutRequest());
   return coralApi('/auth', {method: 'DELETE'})
-    .then(() => dispatch(logOutSuccess()))
+    .then(() => {
+      dispatch(logOutSuccess());
+      fetchMe();
+    })
     .catch(error => dispatch(logOutFailure(error)));
 };
 

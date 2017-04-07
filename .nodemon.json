@@ -1,5 +1,5 @@
 {
   "verbose": true,
-  "ignore": ["test/*", "client/*", "dist/*"],
+  "ignore": ["test/*", "client/*", "dist/*", "plugins/*/client"],
   "ext": "js,json,graphql"
 }

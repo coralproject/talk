@@ -1,15 +1,16 @@
 import store from './services/store';
 import pym from './services/PymConnection';
 import I18n from './modules/i18n/i18n';
-import * as authActions from './actions/auth';
-import * as assetActions from './actions/asset';
-import * as notificationActions from './actions/notification';
+import actions from './actions';
+import Slot from './components/Slot';
 
-export {
+// TODO (bc): Deprecate old actions. Spreading actions is now needed.
+
+export default {
   pym,
+  Slot,
   I18n,
   store,
-  authActions,
-  assetActions,
-  notificationActions
+  actions,
+  ...actions
 };

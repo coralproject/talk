@@ -13,13 +13,13 @@ let plugins = {};
 // file isn't loaded, but continuing. Else, like a parsing error, throw it and
 // crash the program.
 try {
-  let defaultPlugins = path.join(__dirname, 'plugins.default.json');
+  let envPlugins = path.join(__dirname, 'plugins.env.js');
   let customPlugins = path.join(__dirname, 'plugins.json');
-  let envPluginJSON = process.env.TALK_PLUGINS_JSON;
+  let defaultPlugins = path.join(__dirname, 'plugins.default.json');
 
-  if (envPluginJSON && envPluginJSON.length > 0) {
+  if (process.env.TALK_PLUGINS_JSON && process.env.TALK_PLUGINS_JSON.length > 0) {
     debug('Now using TALK_PLUGINS_JSON environment variable for plugins');
-    plugins = JSON.parse(envPluginJSON);
+    plugins = require(envPlugins);
   } else if (fs.existsSync(customPlugins)) {
     debug(`Now using ${customPlugins} for plugins`);
     plugins = JSON.parse(fs.readFileSync(customPlugins, 'utf8'));
@@ -39,13 +39,13 @@ const hookSchemas = {
   passport: Joi.func().arity(1),
   router: Joi.func().arity(1),
   context: Joi.object().pattern(/\w/, Joi.func().maxArity(1)),
-  hooks: Joi.object({
+  hooks: Joi.object().pattern(/\w/, Joi.object().pattern(/(?:__resolveType|\w+)/, Joi.object({
     pre: Joi.func(),
     post: Joi.func()
-  }),
+  }))),
   loaders: Joi.object().pattern(/\w/, Joi.object().pattern(/\w/, Joi.func())),
   mutators: Joi.object().pattern(/\w/, Joi.object().pattern(/\w/, Joi.func())),
-  resolvers: Joi.object().pattern(/\w/, Joi.object().pattern(/\w/, Joi.func())),
+  resolvers: Joi.object().pattern(/\w/, Joi.object().pattern(/(?:__resolveType|\w+)/, Joi.func())),
   typeDefs: Joi.string()
 };
 

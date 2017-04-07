@@ -1,5 +1,7 @@
 test/helpers/*.js
-test
+
+test/e2e
+test/server
 --compilers js:babel-core/register
 --require ignore-styles
 --recursive
