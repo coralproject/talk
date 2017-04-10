@@ -150,7 +150,7 @@ class Embed extends Component {
         <div className="commentStream">
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count count={asset.totalCommentCount}/></Tab>
-            <Tab>{lang.t('MY_COMMENTS')}</Tab>
+            <Tab>{lang.t('myProfile')}</Tab>
             <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>
           {
