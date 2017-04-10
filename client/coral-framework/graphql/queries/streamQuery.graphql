@@ -6,13 +6,13 @@ query AssetQuery($asset_id: ID, $asset_url: String, $comment_id: ID!, $has_comme
     # which is in turn pulled from the host page url
     comment(id: $comment_id) @include(if: $has_comment) {
       ...commentView
-      replyCount
+      replyCount(notIgnoredBy: $notIgnoredBy)
       replies {
         ...commentView
       }
       parent {
         ...commentView
-        replyCount
+        replyCount(notIgnoredBy: $notIgnoredBy)
         replies {
           ...commentView
         }
@@ -40,7 +40,7 @@ query AssetQuery($asset_id: ID, $asset_url: String, $comment_id: ID!, $has_comme
         totalCommentCount
         comments(limit: 10, notIgnoredBy: $notIgnoredBy) {
             ...commentView
-            replyCount
+            replyCount(notIgnoredBy: $notIgnoredBy)
             replies(limit: 3, notIgnoredBy: $notIgnoredBy) {
                 ...commentView
             }

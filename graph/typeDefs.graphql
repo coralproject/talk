@@ -191,7 +191,7 @@ type Comment {
   replies(sort: SORT_ORDER = CHRONOLOGICAL, limit: Int = 3, notIgnoredBy: String): [Comment]
 
   # The count of replies on a comment.
-  replyCount: Int
+  replyCount(notIgnoredBy: String): Int
 
   # Actions completed on the parent. Requires the `ADMIN` role.
   actions: [Action]

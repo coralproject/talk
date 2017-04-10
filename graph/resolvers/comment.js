@@ -13,7 +13,6 @@ const Comment = {
     return Comments.genRecentReplies.load(id);
   },
   replies({id, asset_id}, {sort, limit, notIgnoredBy}, {loaders: {Comments}}) {
-    console.log('replies notIgnoredBy', notIgnoredBy);
     return Comments.getByQuery({
       asset_id,
       parent_id: id,
@@ -22,8 +21,11 @@ const Comment = {
       notIgnoredBy,
     });
   },
-  replyCount({id}, _, {loaders: {Comments}}) {
-    return Comments.countByParentID.load(id);
+  replyCount({id}, {notIgnoredBy}, {loaders: {Comments}}) {
+    if ( ! notIgnoredBy) {
+      return Comments.countByParentID.load(id);      
+    }
+    return Comments.countByParentIDPersonalized({id, notIgnoredBy});
   },
   actions({id}, _, {user, loaders: {Actions}}) {
 

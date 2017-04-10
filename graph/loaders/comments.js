@@ -106,6 +106,36 @@ const getCountsByParentID = (context, parent_ids) => {
 };
 
 /**
+ * Returns the count of comments for the provided parent_id, also filtering by personalization options.
+ *
+ * @param {Array<String>} id The ID of the parent comment
+ * @param {Array<String>} notIgnoredBy Exclude comments ignored by this User ID
+ */
+const getCountByParentIDPersonalized = async (context, {id, notIgnoredBy}) => {
+  const query = {
+    parent_id: {
+      $in: [id]
+    },
+    status: {
+      $in: ['NONE', 'ACCEPTED']
+    }
+  };
+  if (notIgnoredBy) {
+    const user = context.user;
+    if (user.id !== notIgnoredBy) {
+      throw new Error(`You are not authorized to query for comments counts notIgnoredBy ${notIgnoredBy}`);
+    }
+
+    // load afresh, as `user` may be from cache and not have recent ignores
+    const freshUser = await UsersService.findById(user.id);
+    const ignoredUsers = freshUser.ignoresUsers;
+    query.author_id = {$nin: ignoredUsers};
+  }
+  const count = await CommentModel.where(query).count();
+  return count;
+};
+
+/**
  * Retrieves the count of comments based on the passed in query.
  * @param  {Object} context   graph context
  * @param  {Object} query     query to execute against the comments collection
@@ -360,6 +390,7 @@ module.exports = (context) => ({
     countByAssetID: new SharedCounterDataLoader('Comments.totalCommentCount', 3600, (ids) => getCountsByAssetID(context, ids)),
     parentCountByAssetID: new SharedCounterDataLoader('Comments.countByAssetID', 3600, (ids) => getParentCountsByAssetID(context, ids)),
     countByParentID: new SharedCounterDataLoader('Comments.countByParentID', 3600, (ids) => getCountsByParentID(context, ids)),
+    countByParentIDPersonalized: (query) => getCountByParentIDPersonalized(context, query),
     genRecentReplies: new DataLoader((ids) => genRecentReplies(context, ids)),
     genRecentComments: new DataLoader((ids) => genRecentComments(context, ids))
   }
