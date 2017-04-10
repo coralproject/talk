@@ -72,7 +72,7 @@ class MetadataService {
     key = MetadataService.parseKey(key);
 
     return model.update({id}, {
-      $unset: key
+      $unset: {[key]: ''}
     });
   }
 }
