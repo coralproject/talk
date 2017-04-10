@@ -6,6 +6,7 @@ const {
 const DataLoader = require('dataloader');
 
 const CommentModel = require('../../models/comment');
+const UsersService = require('../../services/users');
 
 /**
  * Returns the comment count for all comments that are public based on their
@@ -142,7 +143,7 @@ const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id}) =
  * @param  {Object} context   graph context
  * @param  {Object} query     query terms to apply to the comments query
  */
-const getCommentsByQuery = ({user}, {ids, statuses, asset_id, parent_id, author_id, limit, cursor, sort}) => {
+const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, author_id, limit, cursor, sort, notIgnoredBy}) => {
   let comments = CommentModel.find();
 
   // Only administrators can search for comments with statuses that are not
@@ -182,6 +183,19 @@ const getCommentsByQuery = ({user}, {ids, statuses, asset_id, parent_id, author_
   // search to be with, which indicates that it is at depth 0.
   if (parent_id !== undefined) {
     comments = comments.where({parent_id});
+  }
+
+  if (notIgnoredBy) {
+    if (user.id !== notIgnoredBy) {
+      throw new Error(`You are not authorized to query for comments notIgnoredBy ${notIgnoredBy}`);
+    }
+
+    // load afresh, as `user` may be from cache and not have recent ignores
+    const freshUser = await UsersService.findById(user.id);
+    const ignoredUsers = freshUser.ignoresUsers;
+    comments = comments.where({
+      author_id: {$nin: ignoredUsers}
+    });
   }
 
   if (cursor) {

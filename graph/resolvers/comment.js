@@ -12,12 +12,14 @@ const Comment = {
   recentReplies({id}, _, {loaders: {Comments}}) {
     return Comments.genRecentReplies.load(id);
   },
-  replies({id, asset_id}, {sort, limit}, {loaders: {Comments}}) {
+  replies({id, asset_id}, {sort, limit, notIgnoredBy}, {loaders: {Comments}}) {
+    console.log('replies notIgnoredBy', notIgnoredBy);
     return Comments.getByQuery({
       asset_id,
       parent_id: id,
       sort,
-      limit
+      limit,
+      notIgnoredBy,
     });
   },
   replyCount({id}, _, {loaders: {Comments}}) {

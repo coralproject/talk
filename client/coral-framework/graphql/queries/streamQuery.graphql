@@ -1,6 +1,6 @@
 #import "../fragments/commentView.graphql"
 
-query AssetQuery($asset_id: ID, $asset_url: String, $comment_id: ID!, $has_comment: Boolean!) {
+query AssetQuery($asset_id: ID, $asset_url: String, $comment_id: ID!, $has_comment: Boolean!, $notIgnoredBy: String) {
     # the comment here is for loading one comment and it's children, probably after following a permalink
     # $has_comment is derived from the comment_id query param in the iframe url,
     # which is in turn pulled from the host page url
@@ -38,10 +38,10 @@ query AssetQuery($asset_id: ID, $asset_url: String, $comment_id: ID!, $has_comme
         }
         commentCount
         totalCommentCount
-        comments(limit: 10) {
+        comments(limit: 10, notIgnoredBy: $notIgnoredBy) {
             ...commentView
             replyCount
-            replies(limit: 3) {
+            replies(limit: 3, notIgnoredBy: $notIgnoredBy) {
                 ...commentView
             }
         }

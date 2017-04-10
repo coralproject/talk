@@ -29,10 +29,10 @@ export const getCounts = (data) => ({asset_id, limit, sort}) => {
     variables: {
       asset_id,
       limit,
-      sort
+      sort,
+      notIgnoredBy: data.variables.notIgnoredBy,
     },
     updateQuery: (oldData, {fetchMoreResult:{asset}}) => {
-
       return {
         ...oldData,
         asset: {
@@ -53,7 +53,8 @@ export const loadMore = (data) => ({limit, cursor, parent_id = null, asset_id, s
       cursor, // the date of the first/last comment depending on the sort order
       parent_id, // if null, we're loading more top-level comments, if not, we're loading more replies to a comment
       asset_id, // the id of the asset we're currently on
-      sort // CHRONOLOGICAL or REVERSE_CHRONOLOGICAL
+      sort, // CHRONOLOGICAL or REVERSE_CHRONOLOGICAL
+      notIgnoredBy: data.variables.notIgnoredBy,
     },
     updateQuery: (oldData, {fetchMoreResult:{new_top_level_comments}}) => {
       let updatedAsset;
@@ -122,18 +123,18 @@ export const loadMore = (data) => ({limit, cursor, parent_id = null, asset_id, s
 
 // load the comment stream.
 export const queryStream = graphql(STREAM_QUERY, {
-  options: () => {
+  options: ({auth} = {}) => {
 
     // where the query string is from the embeded iframe url
     let comment_id = getQueryVariable('comment_id');
     let has_comment = comment_id != null;
-
     return {
       variables: {
         asset_id: getQueryVariable('asset_id'),
         asset_url: getQueryVariable('asset_url'),
         comment_id: has_comment ? comment_id : 'no-comment',
-        has_comment
+        has_comment,
+        notIgnoredBy: (auth && auth.user) ? auth.user.id : undefined,
       }
     };
   },

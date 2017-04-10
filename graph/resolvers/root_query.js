@@ -19,15 +19,15 @@ const RootQuery = {
 
   // This endpoint is used for loading moderation queues, so hide it in the
   // event that we aren't an admin.
-  comments(_, {query: {action_type, statuses, asset_id, parent_id, limit, cursor, sort}}, {user, loaders: {Comments, Actions}}) {
-    let query = {statuses, asset_id, parent_id, limit, cursor, sort};
+  comments(_, {query: {action_type, statuses, asset_id, parent_id, limit, cursor, sort, notIgnoredBy}}, {user, loaders: {Comments, Actions}}) {
+    let query = {statuses, asset_id, parent_id, limit, cursor, sort, notIgnoredBy};
 
     if (user != null && user.hasRoles('ADMIN') && action_type) {
       return Actions.getByTypes({action_type, item_type: 'COMMENTS'})
         .then((ids) => {
 
           // Perform the query using the available resolver.
-          return Comments.getByQuery({ids, statuses, asset_id, parent_id, limit, cursor, sort});
+          return Comments.getByQuery({ids, statuses, asset_id, parent_id, limit, cursor, sort, notIgnoredBy});
         });
     }
 

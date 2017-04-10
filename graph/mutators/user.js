@@ -18,7 +18,6 @@ const ignoreUser = async ({user}, userToIgnore) => {
 };
 
 const stopIgnoringUser = async ({user}, userToStopIgnoring) => {
-  console.log('stopIgnoringUser!!');
   return await UsersService.stopIgnoringUsers(user.id, [userToStopIgnoring.id]);
 };
 

@@ -2,12 +2,13 @@ const Asset = {
   recentComments({id}, _, {loaders: {Comments}}) {
     return Comments.genRecentComments.load(id);
   },
-  comments({id}, {sort, limit}, {loaders: {Comments}}) {
+  comments({id}, {sort, limit, notIgnoredBy}, {loaders: {Comments}}) {
     return Comments.getByQuery({
       asset_id: id,
       sort,
       limit,
-      parent_id: null
+      parent_id: null,
+      notIgnoredBy,
     });
   },
   commentCount({id, commentCount}, _, {loaders: {Comments}}) {

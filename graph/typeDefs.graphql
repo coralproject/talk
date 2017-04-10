@@ -140,6 +140,9 @@ input CommentsQuery {
 
   # Sort the results by created_at.
   sort: SORT_ORDER = REVERSE_CHRONOLOGICAL
+
+  # Exclude comments ignored by this user ID
+  notIgnoredBy: String
 }
 
 # CommentCountQuery allows the ability to query comment counts by specific
@@ -185,7 +188,7 @@ type Comment {
   recentReplies: [Comment]
 
   # the replies that were made to the comment.
-  replies(sort: SORT_ORDER = CHRONOLOGICAL, limit: Int = 3): [Comment]
+  replies(sort: SORT_ORDER = CHRONOLOGICAL, limit: Int = 3, notIgnoredBy: String): [Comment]
 
   # The count of replies on a comment.
   replyCount: Int
@@ -417,7 +420,7 @@ type Asset {
   recentComments: [Comment]
 
   # The top level comments that are attached to the asset.
-  comments(sort: SORT_ORDER = REVERSE_CHRONOLOGICAL, limit: Int = 10): [Comment]
+  comments(sort: SORT_ORDER = REVERSE_CHRONOLOGICAL, limit: Int = 10, notIgnoredBy: String): [Comment]
 
   # The count of top level comments on the asset.
   commentCount: Int
