@@ -17,6 +17,7 @@
   float: right;
   text-align: right;
   cursor: pointer;
+  margin-top: 5px;
 }
 
 .topRightMenu > * {
