@@ -1,9 +1,29 @@
 const path = require('path');
+const fs = require('fs');
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');
 const Copy = require('copy-webpack-plugin');
 const LicenseWebpackPlugin = require('license-webpack-plugin');
 const webpack = require('webpack');
+
+// Possibly load the config from the .env file (if there is one).
+require('dotenv').config();
+
+let pluginsConfigPath;
+
+let envPlugins = path.join(__dirname, 'plugins.env.js');
+let customPlugins = path.join(__dirname, 'plugins.json');
+let defaultPlugins = path.join(__dirname, 'plugins.default.json');
+
+if (process.env.TALK_PLUGINS_JSON && process.env.TALK_PLUGINS_JSON.length > 0) {
+  pluginsConfigPath = envPlugins;
+} else if (fs.existsSync(customPlugins)) {
+  pluginsConfigPath = customPlugins;
+} else {
+  pluginsConfigPath = defaultPlugins;
+}
+
+console.log(`Using ${pluginsConfigPath} as the plugin configuration path`);
 
 // Edit the build targets and embeds below.
 
@@ -54,6 +74,11 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        loader: 'plugins-loader',
+        test: /\.(json|js)$/,
+        include: pluginsConfigPath
+      },
       {
         loader: 'babel-loader',
         exclude: /node_modules/,
@@ -116,12 +141,23 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        'VERSION': `"${require('./package.json').version}"`
+        'VERSION': `"${require('./package.json').version}"`,
       }
+    }),
+    new webpack.EnvironmentPlugin({
+      'TALK_PLUGINS_JSON': '{}'
     })
   ],
+  resolveLoader: {
+    modules: ['node_modules', path.resolve(__dirname, 'client/coral-framework/loaders')],
+  },
   resolve: {
+    alias: {
+      plugins: path.resolve(__dirname, 'plugins/'),
+      pluginsConfig: pluginsConfigPath
+    },
     modules: [
+      path.resolve(__dirname, 'plugins'),
       path.resolve(__dirname, 'client'),
       ...buildTargets.map(target => path.join(__dirname, 'client', target, 'src')),
       ...buildEmbeds.map(embed => path.join(__dirname, 'client', `coral-embed-${embed}`, 'src')),

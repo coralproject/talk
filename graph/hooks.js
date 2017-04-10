@@ -1,4 +1,7 @@
-const {forEachField} = require('graphql-tools');
+const {
+  GraphQLObjectType,
+  GraphQLInterfaceType
+} = require('graphql');
 const debug = require('debug')('talk:graph:schema');
 
 /**
@@ -22,6 +25,33 @@ const defaultResolveFn = (source, args, context, {fieldName}) => {
   }
 };
 
+// This function is pretty much copied verbatim from the graphql-tools repo:
+// https://github.com/apollographql/graphql-tools/blob/b12973c86e00be209d04af0184780998056051c4/src/schemaGenerator.ts#L180-L194
+// With the small alteration that we look for the `resolveType` function on the
+// schema so we can wrap post hooks around it to provide additional resolve
+// points.
+const forEachField = (schema, fn) => {
+  const typeMap = schema.getTypeMap();
+  Object.keys(typeMap).forEach((typeName) => {
+    const type = typeMap[typeName];
+
+    if (type instanceof GraphQLObjectType || type instanceof GraphQLInterfaceType) {
+
+      // Here we capture the change to extract the resolve type. We pass this
+      // with the `isResolveType = true` to introduce the specific beheviour.
+      if ('resolveType' in type) {
+        fn(type, typeName, '__resolveType', true);
+      }
+
+      const fields = type.getFields();
+      Object.keys(fields).forEach((fieldName) => {
+        const field = fields[fieldName];
+        fn(field, typeName, fieldName);
+      });
+    }
+  });
+};
+
 /**
  * Decorates the schema with pre and post hooks as provided by the Plugin
  * Manager.
@@ -29,7 +59,7 @@ const defaultResolveFn = (source, args, context, {fieldName}) => {
  * @param  {Array}         hooks  hooks to apply to the schema
  * @return {void}
  */
-const decorateWithHooks = (schema, hooks) => forEachField(schema, (field, typeName, fieldName) => {
+const decorateWithHooks = (schema, hooks) => forEachField(schema, (field, typeName, fieldName, isResolveType = false) => {
 
   // Pull out the pre/post hooks from the available hooks.
   const {
@@ -85,6 +115,48 @@ const decorateWithHooks = (schema, hooks) => forEachField(schema, (field, typeNa
     return;
   }
 
+  // If this is a resolve type, we need to do some specific things to handle
+  // this type of field.
+  if (isResolveType) {
+
+    // Warn if we have any pre hooks.
+    if (pre.length !== 0) {
+      throw new Error(`invalid pre hooks were found for ${typeName}.${fieldName}, only post hooks are supported on the __resolveType hook`);
+    }
+
+    // This only needs to do something if post hooks are defined.
+    if (post.length === 0) {
+      return;
+    }
+
+    // Cache the original resolverType function.
+    let resolveType = field.resolveType;
+
+    // Return the function to handle the resolveType hooks.
+    field.resolveType = (obj, context, info) => {
+      let type = resolveType(obj, context, info);
+
+      // Only if a previous resolver was unable to resolve the field type do we
+      // progress to the hooks (in order!) to resolve the field name until we
+      // have resolved it.
+      if (typeof type !== 'undefined' && type != null) {
+        return type;
+      }
+
+      // We will walk through the post hooks until we find the right one. This
+      // follows what redux does to combine existing reducers.
+      for (let i = 0; i < post.length; i++) {
+        let resolveType = post[i];
+        type = resolveType(obj, context, info);
+        if (typeof type !== 'undefined' && type != null) {
+          return type;
+        }
+      }
+    };
+
+    return;
+  }
+
   // Cache the original resolve function, this emulates the beheviour found in
   // graphql-tools: https://github.com/apollographql/graphql-tools/blob/6e9cc124b10d673448386041e6c3d058bc205a02/src/schemaGenerator.ts#L423-L425
   let resolve = field.resolve;
@@ -102,7 +174,7 @@ const decorateWithHooks = (schema, hooks) => forEachField(schema, (field, typeNa
     await Promise.all(pre.map((pre) => pre(obj, args, context, info)));
 
     // Resolve the field.
-    let result = resolve(obj, args, context, info);
+    let result = await resolve(obj, args, context, info);
 
     // Insure all post hooks after we've resolved the field with the result
     // passed in as the fifth argument.

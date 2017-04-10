@@ -313,5 +313,5 @@ export default compose(
   addCommentTag,
   removeCommentTag,
   deleteAction,
-  queryStream
+  queryStream,
 )(Embed);

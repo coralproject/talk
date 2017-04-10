@@ -3,9 +3,10 @@ const path = require('path');
 const resolve = require('resolve');
 const debug = require('debug')('talk:plugins');
 const Joi = require('joi');
+const amp = require('app-module-path');
 
-// Add support for require rewriting.
-require('app-module-path').addPath(__dirname);
+// Add the current path to the module root.
+amp.addPath(__dirname);
 
 let plugins = {};
 
@@ -13,13 +14,13 @@ let plugins = {};
 // file isn't loaded, but continuing. Else, like a parsing error, throw it and
 // crash the program.
 try {
-  let defaultPlugins = path.join(__dirname, 'plugins.default.json');
+  let envPlugins = path.join(__dirname, 'plugins.env.js');
   let customPlugins = path.join(__dirname, 'plugins.json');
-  let envPluginJSON = process.env.TALK_PLUGINS_JSON;
+  let defaultPlugins = path.join(__dirname, 'plugins.default.json');
 
-  if (envPluginJSON && envPluginJSON.length > 0) {
+  if (process.env.TALK_PLUGINS_JSON && process.env.TALK_PLUGINS_JSON.length > 0) {
     debug('Now using TALK_PLUGINS_JSON environment variable for plugins');
-    plugins = JSON.parse(envPluginJSON);
+    plugins = require(envPlugins);
   } else if (fs.existsSync(customPlugins)) {
     debug(`Now using ${customPlugins} for plugins`);
     plugins = JSON.parse(fs.readFileSync(customPlugins, 'utf8'));
@@ -35,17 +36,20 @@ try {
   }
 }
 
+/**
+ * All the hooks from plugins must match the schema defined here.
+ */
 const hookSchemas = {
   passport: Joi.func().arity(1),
   router: Joi.func().arity(1),
   context: Joi.object().pattern(/\w/, Joi.func().maxArity(1)),
-  hooks: Joi.object({
+  hooks: Joi.object().pattern(/\w/, Joi.object().pattern(/(?:__resolveType|\w+)/, Joi.object({
     pre: Joi.func(),
     post: Joi.func()
-  }),
+  }))),
   loaders: Joi.object().pattern(/\w/, Joi.object().pattern(/\w/, Joi.func())),
   mutators: Joi.object().pattern(/\w/, Joi.object().pattern(/\w/, Joi.func())),
-  resolvers: Joi.object().pattern(/\w/, Joi.object().pattern(/\w/, Joi.func())),
+  resolvers: Joi.object().pattern(/\w/, Joi.object().pattern(/(?:__resolveType|\w+)/, Joi.func())),
   typeDefs: Joi.string()
 };
 
@@ -82,6 +86,12 @@ function pluginPath(name) {
   }
 }
 
+/**
+ * Itterates over the plugins and gets the plugin path's, version, and name.
+ *
+ * @param {Array<Object|String>} plugins
+ * @returns {Array<Object>}
+ */
 function itteratePlugins(plugins) {
   return plugins.map((p) => {
     let plugin = {};
@@ -110,6 +120,12 @@ function itteratePlugins(plugins) {
     return plugin;
   });
 }
+
+// Add each plugin folder to the allowed import path so that they can import our
+// internal dependancies.
+Object.keys(plugins).forEach((type) => itteratePlugins(plugins[type]).forEach((plugin) => {
+  amp.enableForDir(path.dirname(plugin.path));
+}));
 
 /**
  * Stores a reference to a section for a section of Plugins.

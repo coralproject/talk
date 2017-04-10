@@ -19,6 +19,7 @@ import FlagComment from 'coral-plugin-flags/FlagComment';
 import LikeButton from 'coral-plugin-likes/LikeButton';
 import {BestButton, IfUserCanModifyBest, BEST_TAG, commentIsBest, BestIndicator} from 'coral-plugin-best/BestButton';
 import LoadMore from 'coral-embed-stream/src/LoadMore';
+import {Slot} from 'coral-framework';
 
 import styles from './Comment.css';
 
@@ -157,6 +158,7 @@ class Comment extends React.Component {
             ? <TagLabel><BestIndicator /></TagLabel>
           : null }
           <PubDate created_at={comment.created_at} />
+          <Slot fill="commentInfoBar" commentId={comment.id} />
 
           <Content body={comment.body} />
           <div className="commentActionsLeft comment__action-container">
@@ -187,6 +189,7 @@ class Comment extends React.Component {
                   removeBest={removeBestTag} />
               </IfUserCanModifyBest>
             </ActionButton>
+            <Slot fill="commentDetail" commentId={comment.id} />
           </div>
           <div className="commentActionsRight comment__action-container">
             <ActionButton>
@@ -241,7 +244,8 @@ class Comment extends React.Component {
               showSignInDialog={showSignInDialog}
               reactKey={reply.id}
               key={reply.id}
-              comment={reply} />;
+              comment={reply}
+            />;
           })
         }
         {

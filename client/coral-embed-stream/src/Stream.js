@@ -41,7 +41,8 @@ class Stream extends React.Component {
       deleteAction,
       showSignInDialog,
       addCommentTag,
-      removeCommentTag
+      removeCommentTag,
+      pluginProps
     } = this.props;
 
     return (
@@ -67,7 +68,9 @@ class Stream extends React.Component {
               showSignInDialog={showSignInDialog}
               key={comment.id}
               reactKey={comment.id}
-              comment={comment} />
+              comment={comment}
+              pluginProps={pluginProps}
+            />
           )
         }
       </div>
