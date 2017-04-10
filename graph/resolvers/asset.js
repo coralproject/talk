@@ -11,18 +11,22 @@ const Asset = {
       notIgnoredBy,
     });
   },
-  commentCount({id, commentCount}, _, {loaders: {Comments}}) {
+  commentCount({id, commentCount}, {notIgnoredBy}, {loaders: {Comments}}) {
+    if (notIgnoredBy) {
+      return Comments.parentCountByAssetIDPersonalized({assetId: id, notIgnoredBy});
+    }
     if (commentCount != null) {
       return commentCount;
     }
-
     return Comments.parentCountByAssetID.load(id);
   },
-  totalCommentCount({id, totalCommentCount}, _, {loaders: {Comments}}) {
+  totalCommentCount({id, totalCommentCount}, {notIgnoredBy}, {loaders: {Comments}}) {
+    if (notIgnoredBy) {
+      return Comments.countByAssetIDPersonalized({assetId: id, notIgnoredBy});
+    }
     if (totalCommentCount != null) {
       return totalCommentCount;
     }
-
     return Comments.countByAssetID.load(id);
   },
   settings({settings = null}, _, {loaders: {Settings}}) {

@@ -41,6 +41,34 @@ const getCountsByAssetID = (context, asset_ids) => {
 };
 
 /**
+ * Returns the count of all public comments on an asset id, also filtering by personalization options.
+ *
+ * @param {Array<String>} id The ID of the asset
+ * @param {Array<String>} notIgnoredBy Exclude comments ignored by this User ID
+ */
+const getCountsByAssetIDPersonalized = async (context, {assetId, notIgnoredBy}) => {
+  const query = {
+    asset_id: assetId,
+    status: {
+      $in: ['NONE', 'ACCEPTED'],
+    },
+  };
+  if (notIgnoredBy) {
+    const user = context.user;
+    if (user.id !== notIgnoredBy) {
+      throw new Error(`You are not authorized to query for comments counts notIgnoredBy ${notIgnoredBy}`);
+    }
+
+    // load afresh, as `user` may be from cache and not have recent ignores
+    const freshUser = await UsersService.findById(user.id);
+    const ignoredUsers = freshUser.ignoresUsers;
+    query.author_id = {$nin: ignoredUsers};
+  }
+  const count = await CommentModel.where(query).count();
+  return count;
+};
+
+/**
  * Returns the comment count for all comments that are public based on their
  * asset ids.
  * @param {Object}        context     graph context
@@ -71,6 +99,35 @@ const getParentCountsByAssetID = (context, asset_ids) => {
   ])
   .then(singleJoinBy(asset_ids, '_id'))
   .then((results) => results.map((result) => result ? result.count : 0));
+};
+
+/**
+ * Returns the count of top-level comments on an asset id, also filtering by personalization options.
+ *
+ * @param {Array<String>} id The ID of the asset
+ * @param {Array<String>} notIgnoredBy Exclude comments ignored by this User ID
+ */
+const getParentCountByAssetIDPersonalized = async (context, {assetId, notIgnoredBy}) => {
+  const query = {
+    asset_id: assetId,
+    parent_id: null,
+    status: {
+      $in: ['NONE', 'ACCEPTED'],
+    },
+  };
+  if (notIgnoredBy) {
+    const user = context.user;
+    if (user.id !== notIgnoredBy) {
+      throw new Error(`You are not authorized to query for comments counts notIgnoredBy ${notIgnoredBy}`);
+    }
+
+    // load afresh, as `user` may be from cache and not have recent ignores
+    const freshUser = await UsersService.findById(user.id);
+    const ignoredUsers = freshUser.ignoresUsers;
+    query.author_id = {$nin: ignoredUsers};
+  }
+  const count = await CommentModel.where(query).count();
+  return count;
 };
 
 /**
@@ -388,7 +445,9 @@ module.exports = (context) => ({
     getByQuery: (query) => getCommentsByQuery(context, query),
     getCountByQuery: (query) => getCommentCountByQuery(context, query),
     countByAssetID: new SharedCounterDataLoader('Comments.totalCommentCount', 3600, (ids) => getCountsByAssetID(context, ids)),
+    countByAssetIDPersonalized: (query) => getCountsByAssetIDPersonalized(context, query),
     parentCountByAssetID: new SharedCounterDataLoader('Comments.countByAssetID', 3600, (ids) => getParentCountsByAssetID(context, ids)),
+    parentCountByAssetIDPersonalized: (query) => getParentCountByAssetIDPersonalized(context, query),
     countByParentID: new SharedCounterDataLoader('Comments.countByParentID', 3600, (ids) => getCountsByParentID(context, ids)),
     countByParentIDPersonalized: (query) => getCountByParentIDPersonalized(context, query),
     genRecentReplies: new DataLoader((ids) => genRecentReplies(context, ids)),

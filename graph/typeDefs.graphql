@@ -423,10 +423,10 @@ type Asset {
   comments(sort: SORT_ORDER = REVERSE_CHRONOLOGICAL, limit: Int = 10, notIgnoredBy: String): [Comment]
 
   # The count of top level comments on the asset.
-  commentCount: Int
+  commentCount(notIgnoredBy: String): Int
 
   # The total count of all comments made on the asset.
-  totalCommentCount: Int
+  totalCommentCount(notIgnoredBy: String): Int
 
   # The settings (rectified with the global settings) that should be applied to
   # this asset.
