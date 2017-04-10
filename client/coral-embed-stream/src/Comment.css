@@ -16,71 +16,9 @@
 .topRightMenu {
   float: right;
   text-align: right;
+  cursor: pointer;
 }
 
 .topRightMenu > * {
   text-align: initial;
-}
-
-.topRightMenu .toggler {
-  cursor: pointer;
-}
-
-.topRightMenu .Menu {
-  background-color: white;
-  text-align: initial;
-}
-
-.Toggleable:focus {
-  outline: none;
-}
-
-.Menu {
-  border: 1px solid #ddd;
-  margin: 0;
-}
-ul.Menu {
-  list-style-type: none;
-  padding: 0;
-}
-
-.MenuItem {
-  cursor: pointer;
-  padding: 1em;
-}
-
-.IgnoreUserWizard {
-  background-color: #2E343B;
-  color: white;
-  padding: 1em;
-  max-width: 220px;
-}
-
-.IgnoreUserWizard header {
-  font-weight: bold;
-}
-
-.IgnoreUserWizard .textAlignRight {
-  text-align: right;
-}
-
-/** 
- * Up/Down Chevrons for the top right menu
- */
-.chevron {
-}
-.chevron:before {
-  content: '⌃';
-  display: inline-block; 
-  position: relative;
-  top: 0.25em;   
-}
-
-/* Down Arrow */   
-.chevron.down:before {
-  display: inline-block; 
-  position: relative;
-  transform: rotate(180deg);
-  top: 0;
-  /*top: -0.25em;*/
 }
