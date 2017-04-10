@@ -291,12 +291,15 @@ class Comment extends React.Component {
           <PubDate created_at={comment.created_at} />
           <Slot fill="commentInfoBar" commentId={comment.id} />
 
-          <span className={styles.topRightMenu}>
-            <TopRightMenu
-              comment={comment}
-              ignoreUser={ignoreUser}
-              addNotification={addNotification} />
-          </span>          
+          { (currentUser && (comment.user.id !== currentUser.id))
+            ? <span className={styles.topRightMenu}>
+                <TopRightMenu
+                  comment={comment}
+                  ignoreUser={ignoreUser}
+                  addNotification={addNotification} />
+              </span>
+            : null
+          }
 
           <Content body={comment.body} />
           <div className="commentActionsLeft comment__action-container">
