@@ -10,10 +10,11 @@ By contributing to this project you agree to the [Code of Conduct](https://coral
 
 You can view what the Coral Team is working on next here https://www.pivotaltracker.com/n/projects/1863625.
 
-You can view product ideas and our longer term roadmap here https://trello.com/b/ILND751a/talk.
+If you'd like to see our longer term roadmap, [get in touch.](https://coralproject.net/contact.html)
 
 
 ## Contribute to the documentation
+
 Clear docs are a prerequisite for a successful open source project. We value non-code and code contributions equally.
 
 We are looking for _documentarians_ to:
@@ -55,7 +56,7 @@ Please [contact us](https://github.com/coralproject/talk/wiki/Contact-Us) early 
 
 To get an idea of where the Coral Team is going, see:
 
-* our [product/design Trello board](https://trello.com/b/ILND751a/talk),
+* our [Slack channel](https://coralprojectslackin.herokuapp.com/), where you can talk directly with the Team and other community members,
 * our [current stories](https://www.pivotaltracker.com/n/projects/1863625), and
 * our [issues](https://github.com/coralproject/talk/issues).
 
