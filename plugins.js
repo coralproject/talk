@@ -3,9 +3,10 @@ const path = require('path');
 const resolve = require('resolve');
 const debug = require('debug')('talk:plugins');
 const Joi = require('joi');
+const amp = require('app-module-path');
 
-// Add support for require rewriting.
-require('app-module-path').addPath(__dirname);
+// Add the current path to the module root.
+amp.addPath(__dirname);
 
 let plugins = {};
 
@@ -35,6 +36,9 @@ try {
   }
 }
 
+/**
+ * All the hooks from plugins must match the schema defined here.
+ */
 const hookSchemas = {
   passport: Joi.func().arity(1),
   router: Joi.func().arity(1),
@@ -82,6 +86,12 @@ function pluginPath(name) {
   }
 }
 
+/**
+ * Itterates over the plugins and gets the plugin path's, version, and name.
+ *
+ * @param {Array<Object|String>} plugins
+ * @returns {Array<Object>}
+ */
 function itteratePlugins(plugins) {
   return plugins.map((p) => {
     let plugin = {};
@@ -110,6 +120,12 @@ function itteratePlugins(plugins) {
     return plugin;
   });
 }
+
+// Add each plugin folder to the allowed import path so that they can import our
+// internal dependancies.
+Object.keys(plugins).forEach((type) => itteratePlugins(plugins[type]).forEach((plugin) => {
+  amp.enableForDir(path.dirname(plugin.path));
+}));
 
 /**
  * Stores a reference to a section for a section of Plugins.
