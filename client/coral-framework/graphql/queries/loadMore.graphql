@@ -1,9 +1,9 @@
 #import "../fragments/commentView.graphql"
 
-query LoadMoreComments($limit: Int = 5, $cursor: Date, $parent_id: ID, $asset_id: ID, $sort: SORT_ORDER, $notIgnoredBy: String) {
-  new_top_level_comments: comments(query: {limit: $limit, cursor: $cursor, parent_id: $parent_id, asset_id: $asset_id, sort: $sort, notIgnoredBy: $notIgnoredBy}) {
+query LoadMoreComments($limit: Int = 5, $cursor: Date, $parent_id: ID, $asset_id: ID, $sort: SORT_ORDER, $excludeIgnored: Boolean) {
+  new_top_level_comments: comments(query: {limit: $limit, cursor: $cursor, parent_id: $parent_id, asset_id: $asset_id, sort: $sort, excludeIgnored: $excludeIgnored}) {
     ...commentView
-    replyCount(notIgnoredBy: $notIgnoredBy)
+    replyCount(excludeIgnored: $excludeIgnored)
     replies(limit: 3) {
         ...commentView
     }

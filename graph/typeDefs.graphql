@@ -141,8 +141,8 @@ input CommentsQuery {
   # Sort the results by created_at.
   sort: SORT_ORDER = REVERSE_CHRONOLOGICAL
 
-  # Exclude comments ignored by this user ID
-  notIgnoredBy: String
+  # Exclude comments ignored by the requesting user
+  excludeIgnored: Boolean
 }
 
 # CommentCountQuery allows the ability to query comment counts by specific
@@ -188,10 +188,10 @@ type Comment {
   recentReplies: [Comment]
 
   # the replies that were made to the comment.
-  replies(sort: SORT_ORDER = CHRONOLOGICAL, limit: Int = 3, notIgnoredBy: String): [Comment]
+  replies(sort: SORT_ORDER = CHRONOLOGICAL, limit: Int = 3, excludeIgnored: Boolean): [Comment]
 
   # The count of replies on a comment.
-  replyCount(notIgnoredBy: String): Int
+  replyCount(excludeIgnored: Boolean): Int
 
   # Actions completed on the parent. Requires the `ADMIN` role.
   actions: [Action]
@@ -420,13 +420,13 @@ type Asset {
   recentComments: [Comment]
 
   # The top level comments that are attached to the asset.
-  comments(sort: SORT_ORDER = REVERSE_CHRONOLOGICAL, limit: Int = 10, notIgnoredBy: String): [Comment]
+  comments(sort: SORT_ORDER = REVERSE_CHRONOLOGICAL, limit: Int = 10, excludeIgnored: Boolean): [Comment]
 
   # The count of top level comments on the asset.
-  commentCount(notIgnoredBy: String): Int
+  commentCount(excludeIgnored: Boolean): Int
 
   # The total count of all comments made on the asset.
-  totalCommentCount(notIgnoredBy: String): Int
+  totalCommentCount(excludeIgnored: Boolean): Int
 
   # The settings (rectified with the global settings) that should be applied to
   # this asset.

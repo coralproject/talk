@@ -30,7 +30,7 @@ export const getCounts = (data) => ({asset_id, limit, sort}) => {
       asset_id,
       limit,
       sort,
-      notIgnoredBy: data.variables.notIgnoredBy,
+      excludeIgnored: data.variables.excludeIgnored,
     },
     updateQuery: (oldData, {fetchMoreResult:{asset}}) => {
       return {
@@ -54,7 +54,7 @@ export const loadMore = (data) => ({limit, cursor, parent_id = null, asset_id, s
       parent_id, // if null, we're loading more top-level comments, if not, we're loading more replies to a comment
       asset_id, // the id of the asset we're currently on
       sort, // CHRONOLOGICAL or REVERSE_CHRONOLOGICAL
-      notIgnoredBy: data.variables.notIgnoredBy,
+      excludeIgnored: data.variables.excludeIgnored,
     },
     updateQuery: (oldData, {fetchMoreResult:{new_top_level_comments}}) => {
       let updatedAsset;
@@ -131,7 +131,7 @@ export const variablesForStreamQuery = ({auth}) => {
     asset_url: getQueryVariable('asset_url'),
     comment_id: has_comment ? comment_id : 'no-comment',
     has_comment,
-    notIgnoredBy: (auth && auth.user) ? auth.user.id : undefined,
+    excludeIgnored: Boolean(auth && auth.user && auth.user.id),
   };
 };
 

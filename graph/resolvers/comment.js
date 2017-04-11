@@ -12,20 +12,20 @@ const Comment = {
   recentReplies({id}, _, {loaders: {Comments}}) {
     return Comments.genRecentReplies.load(id);
   },
-  replies({id, asset_id}, {sort, limit, notIgnoredBy}, {loaders: {Comments}}) {
+  replies({id, asset_id}, {sort, limit, excludeIgnored}, {loaders: {Comments}}) {
     return Comments.getByQuery({
       asset_id,
       parent_id: id,
       sort,
       limit,
-      notIgnoredBy,
+      excludeIgnored,
     });
   },
-  replyCount({id}, {notIgnoredBy}, {loaders: {Comments}}) {
-    if ( ! notIgnoredBy) {
-      return Comments.countByParentID.load(id);      
+  replyCount({id}, {excludeIgnored}, {user, loaders: {Comments}}) {
+    if (user && excludeIgnored) {
+      return Comments.countByParentIDPersonalized({id, excludeIgnored});      
     }
-    return Comments.countByParentIDPersonalized({id, notIgnoredBy});
+    return Comments.countByParentID.load(id);      
   },
   actions({id}, _, {user, loaders: {Actions}}) {
 

@@ -44,20 +44,17 @@ const getCountsByAssetID = (context, asset_ids) => {
  * Returns the count of all public comments on an asset id, also filtering by personalization options.
  *
  * @param {Array<String>} id The ID of the asset
- * @param {Array<String>} notIgnoredBy Exclude comments ignored by this User ID
+ * @param {Array<String>} excludeIgnored Exclude comments ignored by the requesting user
  */
-const getCountsByAssetIDPersonalized = async (context, {assetId, notIgnoredBy}) => {
+const getCountsByAssetIDPersonalized = async (context, {assetId, excludeIgnored}) => {
   const query = {
     asset_id: assetId,
     status: {
       $in: ['NONE', 'ACCEPTED'],
     },
   };
-  if (notIgnoredBy) {
-    const user = context.user;
-    if (user.id !== notIgnoredBy) {
-      throw new Error(`You are not authorized to query for comments counts notIgnoredBy ${notIgnoredBy}`);
-    }
+  const user = context.user;
+  if (excludeIgnored && user) {
 
     // load afresh, as `user` may be from cache and not have recent ignores
     const freshUser = await UsersService.findById(user.id);
@@ -105,9 +102,9 @@ const getParentCountsByAssetID = (context, asset_ids) => {
  * Returns the count of top-level comments on an asset id, also filtering by personalization options.
  *
  * @param {Array<String>} id The ID of the asset
- * @param {Array<String>} notIgnoredBy Exclude comments ignored by this User ID
+ * @param {Array<String>} excludeIgnored Exclude comments ignored by the requesting user
  */
-const getParentCountByAssetIDPersonalized = async (context, {assetId, notIgnoredBy}) => {
+const getParentCountByAssetIDPersonalized = async (context, {assetId, excludeIgnored}) => {
   const query = {
     asset_id: assetId,
     parent_id: null,
@@ -115,11 +112,8 @@ const getParentCountByAssetIDPersonalized = async (context, {assetId, notIgnored
       $in: ['NONE', 'ACCEPTED'],
     },
   };
-  if (notIgnoredBy) {
-    const user = context.user;
-    if (user.id !== notIgnoredBy) {
-      throw new Error(`You are not authorized to query for comments counts notIgnoredBy ${notIgnoredBy}`);
-    }
+  const user = context.user;
+  if (excludeIgnored && user) {
 
     // load afresh, as `user` may be from cache and not have recent ignores
     const freshUser = await UsersService.findById(user.id);
@@ -166,9 +160,9 @@ const getCountsByParentID = (context, parent_ids) => {
  * Returns the count of comments for the provided parent_id, also filtering by personalization options.
  *
  * @param {Array<String>} id The ID of the parent comment
- * @param {Array<String>} notIgnoredBy Exclude comments ignored by this User ID
+ * @param {Array<String>} excludeIgnored Exclude comments ignored by context.user
  */
-const getCountByParentIDPersonalized = async (context, {id, notIgnoredBy}) => {
+const getCountByParentIDPersonalized = async (context, {id, excludeIgnored}) => {
   const query = {
     parent_id: {
       $in: [id]
@@ -177,11 +171,8 @@ const getCountByParentIDPersonalized = async (context, {id, notIgnoredBy}) => {
       $in: ['NONE', 'ACCEPTED']
     }
   };
-  if (notIgnoredBy) {
-    const user = context.user;
-    if (user.id !== notIgnoredBy) {
-      throw new Error(`You are not authorized to query for comments counts notIgnoredBy ${notIgnoredBy}`);
-    }
+  const user = context.user;
+  if (excludeIgnored && user) {
 
     // load afresh, as `user` may be from cache and not have recent ignores
     const freshUser = await UsersService.findById(user.id);
@@ -230,7 +221,7 @@ const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id}) =
  * @param  {Object} context   graph context
  * @param  {Object} query     query terms to apply to the comments query
  */
-const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, author_id, limit, cursor, sort, notIgnoredBy}) => {
+const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, author_id, limit, cursor, sort, excludeIgnored}) => {
   let comments = CommentModel.find();
 
   // Only administrators can search for comments with statuses that are not
@@ -272,10 +263,7 @@ const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, a
     comments = comments.where({parent_id});
   }
 
-  if (notIgnoredBy) {
-    if (user.id !== notIgnoredBy) {
-      throw new Error(`You are not authorized to query for comments notIgnoredBy ${notIgnoredBy}`);
-    }
+  if (excludeIgnored && user) {
 
     // load afresh, as `user` may be from cache and not have recent ignores
     const freshUser = await UsersService.findById(user.id);

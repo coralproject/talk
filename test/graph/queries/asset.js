@@ -76,16 +76,16 @@ describe('graph.queries.asset', () => {
     expect(ignoreUserResponse.errors).to.be.empty;
 
     const assetCommentsWithoutIgnoredQuery = `
-      query assetCommentsQuery($assetId: ID!, $assetUrl: String!, $notIgnoredBy: String!) {
+      query assetCommentsQuery($assetId: ID!, $assetUrl: String!, $excludeIgnored: Boolean!) {
         asset(id: $assetId, url: $assetUrl) {
-          comments(limit: 10, notIgnoredBy: $notIgnoredBy) {
+          comments(limit: 10, excludeIgnored: $excludeIgnored) {
             id,
             body,
           }
         }
       }
     `;
-    const assetCommentsResponse = await graphql(schema, assetCommentsWithoutIgnoredQuery, {}, context, {assetId, assetUrl, notIgnoredBy: userA.id});
+    const assetCommentsResponse = await graphql(schema, assetCommentsWithoutIgnoredQuery, {}, context, {assetId, assetUrl, excludeIgnored: true});
     const comments = assetCommentsResponse.data.asset.comments;
     expect(comments.length).to.equal(2);    
   });
