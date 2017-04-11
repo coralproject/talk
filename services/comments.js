@@ -3,10 +3,10 @@ const CommentModel = require('../models/comment');
 const ActionModel = require('../models/action');
 const ActionsService = require('./actions');
 
-const ALLOWED_TAGS = [
-  {name: 'STAFF'},
-  {name: 'BEST'},
-];
+// const ALLOWED_TAGS = [
+//   {name: 'STAFF'},
+//   {name: 'BEST'},
+// ];
 
 const STATUSES = [
   'ACCEPTED',
@@ -53,9 +53,10 @@ module.exports = class CommentsService {
    */
   static addTag(id, name, assigned_by) {
 
-    if (ALLOWED_TAGS.find((t) => t.name === name) == null) {
-      return Promise.reject(new Error('tag not allowed'));
-    }
+    // Disabling allowed tags until we are able to extend them
+    // if (ALLOWED_TAGS.find((t) => t.name === name) == null) {
+    //   return Promise.reject(new Error('tag not allowed'));
+    // }
 
     const filter = {
       id,

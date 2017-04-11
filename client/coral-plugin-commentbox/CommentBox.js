@@ -3,7 +3,6 @@ import {I18n} from '../coral-framework';
 import translations from './translations.json';
 import {Button} from 'coral-ui';
 import {Slot} from 'coral-framework';
-import styles from './styles.css';
 import merge from 'lodash/merge';
 
 const name = 'coral-plugin-commentbox';
