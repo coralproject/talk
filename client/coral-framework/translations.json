@@ -21,6 +21,7 @@
     "newCount": "View {0} new {1}",
     "comment": "comment",
     "comments": "comments",
+    "commentIsIgnored": "This comment is hidden because you ignored this user.",
     "error": {
       "emailNotVerified": "Email address {0} not verified.",
       "email": "Not a valid E-Mail",
@@ -58,6 +59,7 @@
     "newCount": "Ver {0} {1} más",
     "comment": "commentario",
     "comments": "commentarios",
+    "commentIsIgnored": "Este comentario está oculto porque ignoró a este usuario.",
     "showAllComments": "Mostrar todos los comentarios",
     "error": {
       "emailNotVerified": "E-mail {0} no verificado.",
