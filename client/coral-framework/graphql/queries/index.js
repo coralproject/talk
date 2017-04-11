@@ -121,21 +121,25 @@ export const loadMore = (data) => ({limit, cursor, parent_id = null, asset_id, s
   });
 };
 
+export const variablesForStreamQuery = ({auth}) => {
+
+  // where the query string is from the embeded iframe url
+  let comment_id = getQueryVariable('comment_id');
+  let has_comment = comment_id != null;
+  return {
+    asset_id: getQueryVariable('asset_id'),
+    asset_url: getQueryVariable('asset_url'),
+    comment_id: has_comment ? comment_id : 'no-comment',
+    has_comment,
+    notIgnoredBy: (auth && auth.user) ? auth.user.id : undefined,
+  };
+};
+
 // load the comment stream.
 export const queryStream = graphql(STREAM_QUERY, {
-  options: ({auth} = {}) => {
-
-    // where the query string is from the embeded iframe url
-    let comment_id = getQueryVariable('comment_id');
-    let has_comment = comment_id != null;
+  options: (props) => {
     return {
-      variables: {
-        asset_id: getQueryVariable('asset_id'),
-        asset_url: getQueryVariable('asset_url'),
-        comment_id: has_comment ? comment_id : 'no-comment',
-        has_comment,
-        notIgnoredBy: (auth && auth.user) ? auth.user.id : undefined,
-      }
+      variables: variablesForStreamQuery(props)
     };
   },
   props: ({data}) => ({
