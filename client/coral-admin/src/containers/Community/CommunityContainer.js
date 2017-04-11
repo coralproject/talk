@@ -28,11 +28,12 @@ class CommunityContainer extends Component {
     super(props);
 
     this.state = {
-      searchValue: ''
+      searchValue: '',
+      timer: null
     };
 
     this.onKeyDownHandler = this.onKeyDownHandler.bind(this);
-    this.onChangeHandler = this.onChangeHandler.bind(this);
+    this.onSearchChange = this.onSearchChange.bind(this);
     this.onHeaderClickHandler = this.onHeaderClickHandler.bind(this);
     this.onNewPageHandler = this.onNewPageHandler.bind(this);
   }
@@ -48,9 +49,16 @@ class CommunityContainer extends Component {
     }
   }
 
-  onChangeHandler(e) {
-    this.setState({
-      searchValue: e.target.value
+  onSearchChange(e) {
+    const value = e.target.value;
+    this.setState((prevState) => {
+      prevState.searchValue = value;
+      clearTimeout(prevState.timer);
+      const fetchAccounts = this.props.fetchAccounts;
+      prevState.timer = setTimeout(() => {
+        fetchAccounts({value});
+      }, 350);
+      return prevState;
     });
   }
 
@@ -86,11 +94,11 @@ class CommunityContainer extends Component {
           isFetching={community.isFetchingPeople}
           commenters={community.accounts}
           searchValue={searchValue}
+          onSearchChange={this.onSearchChange}
           error={community.errorPeople}
           totalPages={community.totalPagesPeople}
           page={community.pagePeople}
           onKeyDown={this.onKeyDownHandler}
-          onChange={this.onChangeHandler}
           onHeaderClickHandler={this.onHeaderClickHandler}
           onNewPageHandler={this.onNewPageHandler}
         />
