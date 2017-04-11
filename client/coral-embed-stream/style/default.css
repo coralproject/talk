@@ -101,13 +101,13 @@ hr {
 }
 
 .coral-plugin-infobox-info blockquote{
-  border-left: solid 2px #536d8c;
+  border-left: solid 2px #2a2a2a;
   padding-left: 10px;
 }
 
 
 .coral-plugin-infobox-info a{
-  color: #012d67;
+  color: #2a2a2a;
 }
 
 .commentStream .material-icons {
