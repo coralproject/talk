@@ -4,6 +4,7 @@ import translations from './translations.json';
 import {Button} from 'coral-ui';
 import {Slot} from 'coral-framework';
 import styles from './styles.css';
+import merge from 'lodash/merge';
 
 const name = 'coral-plugin-commentbox';
 
@@ -23,7 +24,11 @@ class CommentBox extends Component {
 
   state = {
     body: '',
-    username: ''
+    username: '',
+    hooks: {
+      preSubmit: {},
+      postSubmit: {}
+    }
   }
 
   postComment = () => {
@@ -50,9 +55,23 @@ class CommentBox extends Component {
       return;
     }
     !isReply && updateCountCache(assetId, countCache + 1);
+
     postItem(comment, 'comments')
       .then(({data}) => {
         const postedComment = data.createComment.comment;
+
+        // Execute postComment Hooks
+
+        Object.keys(this.state.hooks.postSubmit).forEach(hook => {
+
+          // Hooks MUST be functions
+
+          if (typeof this.state.hooks.postSubmit[hook] === 'function') {
+            this.state.hooks.postSubmit[hook](data);
+          } else {
+            console.warn(`Hooks MUST be functions. ${hook} will not be executed.`);
+          }
+        });
 
         if (postedComment.status === 'REJECTED') {
           addNotification('error', lang.t('comment-post-banned-word'));
@@ -68,6 +87,15 @@ class CommentBox extends Component {
       })
     .catch((err) => console.error(err));
     this.setState({body: ''});
+  }
+
+  addCommentHooks = (hooks = {}) => {
+    if (typeof hooks === 'object') {
+      this.setState(() => ({
+        hooks: merge(this.state.hooks, hooks)
+      }));
+    }
+    return this.state.hooks;
   }
 
   render () {
@@ -105,7 +133,13 @@ class CommentBox extends Component {
           }
         </div>
         <div className={`${name}-button-container`}>
-          <Slot fill="commentBoxDetail" inline />
+
+          <Slot
+            fill="commentBoxDetail"
+            addCommentHooks={this.addCommentHooks}
+            inline
+          />
+
           {
             isReply && (
               <Button
