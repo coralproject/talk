@@ -1,0 +1,13 @@
+.offTopic {
+  label {
+    padding: 10px 20px;
+  }
+}
+
+.tag {
+  padding: 0 12px;
+  background: coral;
+  border-radius: 3px;
+}
+
+

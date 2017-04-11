@@ -158,7 +158,7 @@ class Comment extends React.Component {
             ? <TagLabel><BestIndicator /></TagLabel>
           : null }
           <PubDate created_at={comment.created_at} />
-          <Slot fill="commentInfoBar" commentId={comment.id} inline/>
+          <Slot fill="commentInfoBar" comment={comment} commentId={comment.id} inline/>
 
           <Content body={comment.body} />
           <div className="commentActionsLeft comment__action-container">
