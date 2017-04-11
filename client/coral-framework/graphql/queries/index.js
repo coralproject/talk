@@ -30,13 +30,13 @@ export const getCounts = (data) => ({asset_id, limit, sort}) => {
       limit,
       sort
     },
-    updateQuery: (oldData, {fetchMoreResult:{data}}) => {
+    updateQuery: (oldData, {fetchMoreResult:{asset}}) => {
 
       return {
         ...oldData,
         asset: {
           ...oldData.asset,
-          commentCount: data.asset.commentCount
+          commentCount: asset.commentCount
         }
       };
     }
@@ -54,8 +54,7 @@ export const loadMore = (data) => ({limit, cursor, parent_id = null, asset_id, s
       asset_id, // the id of the asset we're currently on
       sort // CHRONOLOGICAL or REVERSE_CHRONOLOGICAL
     },
-    updateQuery: (oldData, {fetchMoreResult:{data:{new_top_level_comments}}}) => {
-
+    updateQuery: (oldData, {fetchMoreResult:{new_top_level_comments}}) => {
       let updatedAsset;
 
       if (!isNil(oldData.comment)) { // loaded replies on a highlighted (permalinked) comment
