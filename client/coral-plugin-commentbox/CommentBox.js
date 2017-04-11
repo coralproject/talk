@@ -104,8 +104,8 @@ class CommentBox extends Component {
             `${charCount - length} ${lang.t('characters-remaining')}`
           }
         </div>
-        <Slot fill="commentBoxDetail" inline />
         <div className={`${name}-button-container`}>
+          <Slot fill="commentBoxDetail" inline />
           {
             isReply && (
               <Button

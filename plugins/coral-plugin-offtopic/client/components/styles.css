@@ -1,13 +1,18 @@
 .offTopic {
-  label {
-    padding: 10px 20px;
-  }
+  height: 100%;
+}
+
+.offTopic label {
+  padding: 10px 20px;
+  display: block;
 }
 
 .tag {
-  padding: 0 12px;
-  background: coral;
-  border-radius: 3px;
+  background: rgba(245, 188, 168, 0.6);
+  display: inline-block;
+  margin: 0px 5px;
+  padding: 5px 5px;
+  border-radius: 2px;
 }
 
 

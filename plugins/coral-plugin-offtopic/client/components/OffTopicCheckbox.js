@@ -9,7 +9,7 @@ class OffTopicCheckbox extends React.Component {
 
   render() {
     return (
-      <div className={`wapo-styles-offtopic ${styles.offTopic}`}>
+      <div className={styles.offTopic}>
         <label>
           <input type="checkbox" onChange={this.handleChange}/>
           Off-Topic
