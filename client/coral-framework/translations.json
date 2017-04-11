@@ -59,7 +59,7 @@
     "newCount": "Ver {0} {1} más",
     "comment": "commentario",
     "comments": "commentarios",
-    "commentIsIgnored": "Este comentario está oculto porque ignoró a este usuario.",
+    "commentIsIgnored": "Este comentario está escondido porque has ignorado al usuario.",
     "showAllComments": "Mostrar todos los comentarios",
     "error": {
       "emailNotVerified": "E-mail {0} no verificado.",
