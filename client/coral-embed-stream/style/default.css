@@ -78,8 +78,8 @@ hr {
 .coral-plugin-infobox-info {
   top: 0;
   border: 0;
-  background: rgb(35,118,216);
-  color: white;
+  background: #DEEDFF;
+  color: #2a2a2a;
   width: 100%;
   text-align: left;
   padding: 10px;
@@ -89,6 +89,24 @@ hr {
   border-radius: 2px;
 }
 
+
+.coral-plugin-infobox-info em{
+  font-style: italic;
+}
+
+.coral-plugin-infobox-info strong{
+  font-weight: bold;
+}
+
+.coral-plugin-infobox-info blockquote{
+  border-left: solid 2px #2a2a2a;
+  padding-left: 10px;
+}
+
+
+.coral-plugin-infobox-info a{
+  color: #2a2a2a;
+}
 
 .commentStream .material-icons {
   vertical-align: middle;
