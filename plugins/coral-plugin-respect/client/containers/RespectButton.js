@@ -102,11 +102,12 @@ const withPostRespect = graphql(gql`
         },
         updateQueries: {
           RespectQuery: (prev, {mutationResult, queryVariables}) => {
-            if (queryVariables.commentId !== respect.item_id) {
+            if (queryVariables.commentId !== respect.item_id ||
+                get(prev, 'comment.action_summaries.0.current_user')) {
               return prev;
             }
             const respectAction = mutationResult.data.createRespect.respect;
-            const count = prev.action_summaries ? prev.action_summaries.count : 0;
+            const count = prev.comment.action_summaries[0] ? prev.comment.action_summaries[0].count : 0;
             const next = {
               ...prev,
               comment: {

@@ -268,7 +268,7 @@ module.exports = class UsersService {
     if (checkAgainstWordlist) {
 
       // check for profanity
-      return Wordlist.usernameCheck(username);
+      console.log('Username profanity check disabled: ', Wordlist.usernameCheck(username));
     }
 
     // No errors found!
