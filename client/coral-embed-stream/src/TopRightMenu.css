@@ -2,21 +2,6 @@
   outline: none;
 }
 
-.IgnoreUserWizard {
-  background-color: #2E343B;
-  color: white;
-  padding: 1em;
-  max-width: 220px;
-}
-
-.IgnoreUserWizard header {
-  font-weight: bold;
-}
-
-.IgnoreUserWizard .textAlignRight {
-  text-align: right;
-}
-
 /** 
  * Up/Down Chevrons for the top right menu
  */
