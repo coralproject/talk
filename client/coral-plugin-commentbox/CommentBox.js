@@ -56,11 +56,24 @@ class CommentBox extends Component {
     }
     !isReply && updateCountCache(assetId, countCache + 1);
 
+    // Execute preSubmit Hooks
+
+    Object.keys(this.state.hooks.preSubmit).forEach(hook => {
+
+      // Hooks MUST be functions
+
+      if (typeof this.state.hooks.preSubmit[hook] === 'function') {
+        this.state.hooks.preSubmit[hook]();
+      } else {
+        console.warn(`Hooks MUST be functions. preSubmit ${hook} will not be executed.`);
+      }
+    });
+
     postItem(comment, 'comments')
       .then(({data}) => {
         const postedComment = data.createComment.comment;
 
-        // Execute postComment Hooks
+        // Execute postSubmit Hooks
 
         Object.keys(this.state.hooks.postSubmit).forEach(hook => {
 
@@ -69,7 +82,7 @@ class CommentBox extends Component {
           if (typeof this.state.hooks.postSubmit[hook] === 'function') {
             this.state.hooks.postSubmit[hook](data);
           } else {
-            console.warn(`Hooks MUST be functions. ${hook} will not be executed.`);
+            console.warn(`Hooks MUST be functions. postSubmit ${hook} will not be executed.`);
           }
         });
 

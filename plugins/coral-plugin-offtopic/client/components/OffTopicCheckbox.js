@@ -29,7 +29,6 @@ class OffTopicCheckbox extends React.Component {
     return (
       <div className={styles.offTopic}>
         <label>
-          {/*{console.log(this.props)}*/}
           <input type="checkbox" onChange={this.handleChange}/>
           Off-Topic
         </label>
