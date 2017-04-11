@@ -189,7 +189,7 @@ class Comment extends React.Component {
                   removeBest={removeBestTag} />
               </IfUserCanModifyBest>
             </ActionButton>
-            <Slot fill="commentDetail" commentId={comment.id} />
+            <Slot fill="commentDetail" comment={comment} commentId={comment.id} inline/>
           </div>
           <div className="commentActionsRight comment__action-container">
             <ActionButton>
