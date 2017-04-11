@@ -17,7 +17,7 @@
     "e2e": "NODE_ENV=test nightwatch",
     "poste2e": "NODE_ENV=test scripts/poste2e.sh",
     "embed-start": "NODE_ENV=development yarn build && ./bin/cli serve --jobs",
-    "heroku-postbuild": "yarn build"
+    "heroku-postbuild": "./bin/cli plugins reconcile && yarn build"
   },
   "config": {
     "pre-git": {
