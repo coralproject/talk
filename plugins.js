@@ -124,7 +124,12 @@ function itteratePlugins(plugins) {
 // Add each plugin folder to the allowed import path so that they can import our
 // internal dependancies.
 Object.keys(plugins).forEach((type) => itteratePlugins(plugins[type]).forEach((plugin) => {
-  amp.enableForDir(path.dirname(plugin.path));
+
+  // The plugin may be remote, and therefore not installed. We check here if the
+  // plugin path is available before trying to monkeypatch it's require path.
+  if (plugin.path) {
+    amp.enableForDir(path.dirname(plugin.path));
+  }
 }));
 
 /**
