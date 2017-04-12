@@ -25,8 +25,8 @@ class CommentBox extends Component {
     body: '',
     username: '',
     hooks: {
-      preSubmit: {},
-      postSubmit: {}
+      preSubmit: [],
+      postSubmit: []
     }
   }
 
@@ -56,34 +56,14 @@ class CommentBox extends Component {
     !isReply && updateCountCache(assetId, countCache + 1);
 
     // Execute preSubmit Hooks
-
-    Object.keys(this.state.hooks.preSubmit).forEach(hook => {
-
-      // Hooks MUST be functions
-
-      if (typeof this.state.hooks.preSubmit[hook] === 'function') {
-        this.state.hooks.preSubmit[hook]();
-      } else {
-        console.warn(`Hooks MUST be functions. preSubmit ${hook} will not be executed.`);
-      }
-    });
+    this.state.hooks.preSubmit.forEach(hook => hook());
 
     postItem(comment, 'comments')
       .then(({data}) => {
         const postedComment = data.createComment.comment;
 
         // Execute postSubmit Hooks
-
-        Object.keys(this.state.hooks.postSubmit).forEach(hook => {
-
-          // Hooks MUST be functions
-
-          if (typeof this.state.hooks.postSubmit[hook] === 'function') {
-            this.state.hooks.postSubmit[hook](data);
-          } else {
-            console.warn(`Hooks MUST be functions. postSubmit ${hook} will not be executed.`);
-          }
-        });
+        this.state.hooks.postSubmit.forEach(hook => hook());
 
         if (postedComment.status === 'REJECTED') {
           addNotification('error', lang.t('comment-post-banned-word'));
@@ -101,29 +81,54 @@ class CommentBox extends Component {
     this.setState({body: ''});
   }
 
-  registerHook = (hooks = {}) => {
-    if (typeof hooks === 'object') {
-      this.setState(() => ({
-        hooks: merge(this.state.hooks, hooks)
-      }));
-    }
-    return this.state.hooks;
-  }
+  registerHook = (hookType = '', hook = () => {}) => {
+    if (typeof hook === 'function') {
+      if (typeof hookType === 'string') {
+        this.setState(state => ({
+          hooks: {
+            ...state.hooks,
+            [hookType]: [
+              ...state.hooks[hookType],
+              hook
+            ]
+          }
+        }));
 
-  unregisterHook = (hookType = '', hookName = '') => {
-    const hooks = this.state.hooks;
+        return {
+          hookType,
+          hook
+        };
 
-    if (hooks[hookType]) {
-      if (hooks[hookType][hookName]) {
-        delete hooks[hookType][hookName];
       } else {
-        console.warn(`${hookName} is invalid. Cannot unregister ${hookName} Hook `);
+        console.warn('hookTypes must be a string. Please check your hooks');
       }
     } else {
-      console.warn(`${hookType} does not exist. Cannot unregister ${hookName} Hook `);
+      console.warn(`Hooks must be functions. Please check your ${hookType} hooks`);
     }
+  }
 
-    this.setState(() => ({hooks}));
+  unregisterHook = hookData => {
+    const {hookType, hook} = hookData;
+
+    this.setState(state => {
+      let newHooks = state.hooks[newHooks];
+      const idx = state.hooks[hookType].indexOf(hook);
+
+      if (idx !== -1) {
+        newHooks = [
+          ...state.hooks[hookType].slice(0, idx),
+          ...state.hooks[hookType].slice(idx + 1)
+        ];
+      }
+
+      return {
+        hooks: {
+          ...state.hooks,
+          [hookType]: newHooks
+        }
+      };
+
+    });
   }
 
   render () {
