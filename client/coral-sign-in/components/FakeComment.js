@@ -28,10 +28,10 @@ class FakeComment extends React.Component {
           author={{'name': username}}/>
         <PubDate created_at={created_at} />
         <Content body={body} />
-          <div className="commentActionsLeft">
+          <div className="commentActionsLeft comment__action-container">
               <div className={`${'coral-plugin-likes'}-container`}>
-                <button className={`${'coral-plugin-likes'}-button`}>
-                  <span className={`${'coral-plugin-likes'}-button-text`}>{lang.t('like')}</span>
+                <button className={`coral-plugin-likes-button`}>
+                  <span className={`coral-plugin-likes-button-text`}>{lang.t('like')}</span>
                   <i className={`${'coral-plugin-likes'}-icon material-icons`}
                     aria-hidden={true}>thumb_up</i>
                 </button>
@@ -43,16 +43,16 @@ class FakeComment extends React.Component {
                 banned={false}
               />
             </div>
-        <div className="commentActionsRight">
+        <div className="commentActionsRight comment__action-container">
           <div className="coral-plugin-permalinks-container">
             <button className="coral-plugin-permalinks-button">
+              <span className={`comment__action-button comment__action-button--nowrap ${'coral-plugin-flags'}-button-text`}>{lang.t('permalink.permalink')}</span>
               <i className="coral-plugin-permalinks-icon material-icons" aria-hidden={true}>link</i>
-              {lang.t('permalink.permalink')}
             </button>
           </div>
           <div className={`${'coral-plugin-flags'}-container`}>
             <button className={`${'coral-plugin-flags'}-button`}>
-              <span className={`${'coral-plugin-flags'}-button-text`}>{lang.t('report')}</span>
+              <span className={`comment__action-button comment__action-button--nowrap ${'coral-plugin-flags'}-button-text`}>{lang.t('report')}</span>
               <i className={`${'coral-plugin-flags'}-icon material-icons`}
                 aria-hidden={true}>flag</i>
             </button>
