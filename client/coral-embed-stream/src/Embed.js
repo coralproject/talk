@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
@@ -36,15 +36,22 @@ import HighlightedComment from './Comment';
 import LoadMore from './LoadMore';
 import NewCount from './NewCount';
 
-class Embed extends Component {
+class Embed extends React.Component {
 
-  state = {activeTab: 0, showSignInDialog: false, activeReplyBox: ''};
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeTab: 0,
+      showSignInDialog: false,
+      activeReplyBox: ''
+    };
+  }
 
   changeTab = (tab) => {
-    const {isAdmin} = this.props.auth;
 
     // Everytime the comes from another tab, the Stream needs to be updated.
-    if (tab === 0 && isAdmin) {
+    if (tab === 0) {
+      this.props.viewAllComments();
       this.props.data.refetch();
     }
 
@@ -144,7 +151,8 @@ class Embed extends Component {
       <div style={expandForLogin}>
         <div className="commentStream">
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
-            <Tab><Count count={asset.totalCommentCount}/></Tab>
+            <Tab><Count count={asset.totalCommentCount}/>
+            </Tab>
             <Tab>{lang.t('MY_COMMENTS')}</Tab>
             <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>
