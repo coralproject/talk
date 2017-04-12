@@ -91,8 +91,12 @@ Images are tagged using the following notation:
 
 - `x` (where `x` is the major version number): any minor or patch updates will be included in this. If you're ok getting
   new features occationally and all the bug fixes, this is the tag for you.
-- `x.y` (where `y` is the minor version number):
-- `x.y.z` (where `z` is the patch version):
+- `x.y` (where `y` is the minor version number): any patch updates will be
+  included with this tag. If you like getting fixes and having features change
+  only when you want, this is the tag for you. **(recommended)**
+- `x.y.z` (where `z` is the patch version): this tag never gets updated, and
+  essentially freezes your version, this should only be used when you are either
+  extending Talk or are sure of a specific version you want to freeze.
 
 We provide tags with `*-onbuild` that can be used for easy plugin integration and
 acts as a customization endpoint. Instructions are provided in the `PLUGINS.md`
