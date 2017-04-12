@@ -48,10 +48,10 @@ class Embed extends React.Component {
   }
 
   changeTab = (tab) => {
-    const {isAdmin} = this.props.auth;
 
     // Everytime the comes from another tab, the Stream needs to be updated.
-    if (tab === 0 && isAdmin) {
+    if (tab === 0) {
+      this.props.viewAllComments();
       this.props.data.refetch();
     }
 
