@@ -16,7 +16,6 @@ export const postComment = graphql(POST_COMMENT, {
   props: ({ownProps, mutate}) => ({
     postItem: comment => {
       const {asset_id, body, parent_id, tags = []} = comment;
-      console.log(tags)
       return mutate({
         variables: {
           comment

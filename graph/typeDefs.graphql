@@ -595,8 +595,7 @@ input CreateLikeInput {
 
 
 
-enum TAG {
-  STAFF
+enum TAG_TYPE {
   OFF_TOPIC
 }
 
@@ -612,7 +611,7 @@ input CreateCommentInput {
   body: String!
 
   # Tags
-  tags: [TAG]
+  tags: [TAG_TYPE]
 
 }
 
