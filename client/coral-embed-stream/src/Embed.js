@@ -121,11 +121,6 @@ class Embed extends React.Component {
     }
   }
 
-  handleClick = () => {
-    this.props.viewAllComments();
-    this.props.data.refetch();
-  }
-
   render () {
     const {activeTab} = this.state;
     const {closedAt, countCache = {}} = this.props.asset;
@@ -156,9 +151,7 @@ class Embed extends React.Component {
       <div style={expandForLogin}>
         <div className="commentStream">
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
-            <Tab><Count
-              count={asset.totalCommentCount}
-              handleClick={this.handleClick}/>
+            <Tab><Count count={asset.totalCommentCount}/>
             </Tab>
             <Tab>{lang.t('MY_COMMENTS')}</Tab>
             <Tab restricted={!isAdmin}>Configure Stream</Tab>
