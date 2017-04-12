@@ -8,49 +8,42 @@ const name = 'coral-plugin-commentbox';
 
 class CommentBox extends Component {
 
-  static propTypes = {
-    commentPostedHandler: PropTypes.func,
-    postItem: PropTypes.func.isRequired,
-    cancelButtonClicked: PropTypes.func,
-    assetId: PropTypes.string.isRequired,
-    parentId: PropTypes.string,
-    authorId: PropTypes.string.isRequired,
-    isReply: PropTypes.bool.isRequired,
-    canPost: PropTypes.bool,
-    currentUser: PropTypes.object
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      username: '',
+      comment: {
+        body: '',
+        tags: []
+      },
+      hooks: {
+        preSubmit: [],
+        postSubmit: []
+      }
+    };
   }
 
-  state = {
-    body: '',
-    username: '',
-    hooks: {
-      preSubmit: [],
-      postSubmit: []
-    }
-  }
+  updateComment = cb => this.setState(cb);
 
   postComment = () => {
     const {
-      commentPostedHandler,
-      postItem,
-      assetId,
-      updateCountCache,
       isReply,
-      countCache,
+      assetId,
       parentId,
+      postItem,
+      countCache,
       addNotification,
-      authorId
+      updateCountCache,
+      commentPostedHandler,
     } = this.props;
 
     let comment = {
-      body: this.state.body,
       asset_id: assetId,
-      parent_id: parentId
+      parent_id: parentId,
+      ...this.state.comment
     };
 
-    if (this.props.charCount && this.state.body.length > this.props.charCount) {
-      return;
-    }
     !isReply && updateCountCache(assetId, countCache + 1);
 
     // Execute preSubmit Hooks
@@ -75,33 +68,37 @@ class CommentBox extends Component {
           commentPostedHandler();
         }
       })
-    .catch((err) => console.error(err));
-    this.setState({body: ''});
+      .catch((err) => console.error(err));
+
+    this.setState({
+      comment: {
+        ...this.state.comment,
+        body: ''
+      }
+    });
   }
 
   registerHook = (hookType = '', hook = () => {}) => {
-    if (typeof hook === 'function') {
-      if (typeof hookType === 'string') {
-        this.setState(state => ({
-          hooks: {
-            ...state.hooks,
-            [hookType]: [
-              ...state.hooks[hookType],
-              hook
-            ]
-          }
-        }));
+    if (typeof hook !== 'function') {
+      return console.warn(`Hooks must be functions. Please check your ${hookType} hooks`);
+    } else if (typeof hookType === 'string') {
+      this.setState(state => ({
+        hooks: {
+          ...state.hooks,
+          [hookType]: [
+            ...state.hooks[hookType],
+            hook
+          ]
+        }
+      }));
 
-        return {
-          hookType,
-          hook
-        };
+      return {
+        hookType,
+        hook
+      };
 
-      } else {
-        console.warn('hookTypes must be a string. Please check your hooks');
-      }
     } else {
-      console.warn(`Hooks must be functions. Please check your ${hookType} hooks`);
+      return console.warn('hookTypes must be a string. Please check your hooks');
     }
   }
 
@@ -129,10 +126,21 @@ class CommentBox extends Component {
     });
   }
 
+  handleChange = e => {
+    this.setState({
+      comment: {
+        ...this.state.comment,
+        body: e.target.value
+      }
+    });
+  }
+
   render () {
     const {styles, isReply, authorId, charCount} = this.props;
     let {cancelButtonClicked} = this.props;
-    const length = this.state.body.length;
+
+    const length = this.state.comment.body.length;
+    const enablePostComment = !length || (charCount && length > charCount);
 
     if (isReply && typeof cancelButtonClicked !== 'function') {
       console.warn('the CommentBox component should have a cancelButtonClicked callback defined if it lives in a Reply');
@@ -151,46 +159,39 @@ class CommentBox extends Component {
           <textarea
             className={`${name}-textarea`}
             style={styles && styles.textarea}
-            value={this.state.body}
+            value={this.state.comment.body}
             placeholder={lang.t('comment')}
             id={isReply ? 'replyText' : 'commentText'}
-            onChange={(e) => this.setState({body: e.target.value})}
+            onChange={this.handleChange}
             rows={3}/>
         </div>
         <div className={`${name}-char-count ${length > charCount ? `${name}-char-max` : ''}`}>
-          {
-            charCount &&
-            `${charCount - length} ${lang.t('characters-remaining')}`
-          }
+          {charCount && `${charCount - length} ${lang.t('characters-remaining')}`}
         </div>
         <div className={`${name}-button-container`}>
-
           <Slot
             fill="commentBoxDetail"
+            updateComment={this.updateComment}
             registerHook={this.registerHook}
             unregisterHook={this.unregisterHook}
             inline
           />
-
           {
             isReply && (
               <Button
                 cStyle='darkGrey'
                 className={`${name}-cancel-button`}
-                onClick={() => {
-                  cancelButtonClicked('');
-                }}>
+                onClick={() => cancelButtonClicked('')}>
                 {lang.t('cancel')}
               </Button>
             )
           }
           { authorId && (
               <Button
-                cStyle={!length || (charCount && length > charCount) ? 'lightGrey' : 'darkGrey'}
+                cStyle={enablePostComment ? 'lightGrey' : 'darkGrey'}
                 className={`${name}-button`}
                 onClick={this.postComment}
-                disabled={!length || (charCount && length > charCount) ? 'disabled' : ''}
-              >
+                disabled={enablePostComment ? 'disabled' : ''}>
                 {lang.t('post')}
               </Button>
             )
@@ -199,6 +200,18 @@ class CommentBox extends Component {
     </div>;
   }
 }
+
+CommentBox.propTypes = {
+  commentPostedHandler: PropTypes.func,
+  postItem: PropTypes.func.isRequired,
+  cancelButtonClicked: PropTypes.func,
+  assetId: PropTypes.string.isRequired,
+  parentId: PropTypes.string,
+  authorId: PropTypes.string.isRequired,
+  isReply: PropTypes.bool.isRequired,
+  canPost: PropTypes.bool,
+  currentUser: PropTypes.object
+};
 
 export default CommentBox;
 

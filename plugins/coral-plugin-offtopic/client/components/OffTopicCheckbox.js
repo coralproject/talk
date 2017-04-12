@@ -1,21 +1,37 @@
 import React from 'react';
 import styles from './styles.css';
-import {addCommentTag} from 'coral-framework/graphql/mutations';
-import {compose} from 'react-apollo';
 
 class OffTopicCheckbox extends React.Component {
+  constructor() {
+    super();
+    this.label = 'OFF_TOPIC';
+  }
 
   handleChange = (e) => {
     if (e.target.checked) {
-      this.addCommentTagHook = this.props.registerHook('postSubmit', (data) => {
-        const {comment} = data.createComment;
-        this.props.addCommentTag({
-          id: comment.id,
-          tag: 'OFF_TOPIC'
-        });
-      })
+      this.props.updateComment(this.addTag)
     } else {
-      this.props.unregisterHook(this.addCommentTagHook);
+      this.props.updateComment(this.removeTag)
+    }
+  }
+
+  addTag = (state) => ({
+    comment: {
+      ...state.comment,
+      tags: [...state.comment.tags, this.label]
+    }
+  })
+
+  removeTag = (state) => {
+    const idx = state.comment.tags.indexOf(this.label);
+    return {
+      comment: {
+        ...state.comment,
+        tags: [
+          ...state.comment.tags.slice(0, idx),
+          ...state.comment.tags.slice(idx + 1)
+        ]
+      }
     }
   }
 
@@ -31,4 +47,4 @@ class OffTopicCheckbox extends React.Component {
   }
 }
 
-export default compose(addCommentTag)(OffTopicCheckbox);
+export default OffTopicCheckbox;
