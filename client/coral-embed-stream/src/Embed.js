@@ -158,7 +158,7 @@ class Embed extends Component {
                 this.props.data.refetch();
               }}>{lang.t('showAllComments')}</Button>
           }
-          {loggedIn && <UserBox user={user} logout={() => this.props.logout().then(refetch)}  changeTab={this.changeTab}/>}
+          {loggedIn && activeTab !== 1 && <UserBox user={user} logout={() => this.props.logout().then(refetch)}  changeTab={this.changeTab}/>}
           <TabContent show={activeTab === 0}>
             {
               openStream
