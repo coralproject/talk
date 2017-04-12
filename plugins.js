@@ -47,8 +47,8 @@ const hookSchemas = {
     pre: Joi.func(),
     post: Joi.func()
   }))),
-  loaders: Joi.object().pattern(/\w/, Joi.object().pattern(/\w/, Joi.func())),
-  mutators: Joi.object().pattern(/\w/, Joi.object().pattern(/\w/, Joi.func())),
+  loaders: Joi.func().maxArity(1),
+  mutators: Joi.func().maxArity(1),
   resolvers: Joi.object().pattern(/\w/, Joi.object().pattern(/(?:__resolveType|\w+)/, Joi.func())),
   typeDefs: Joi.string()
 };
