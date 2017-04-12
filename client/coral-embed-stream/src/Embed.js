@@ -79,10 +79,12 @@ class Embed extends Component {
     if(!isEqual(nextProps.data.asset, this.props.data.asset)) {
       loadAsset(nextProps.data.asset);
 
-      const {getCounts, updateCountCache} = this.props;
+      const {getCounts, updateCountCache, asset: {countCache}} = this.props;
       const {asset} = nextProps.data;
 
-      updateCountCache(asset.id, asset.commentCount);
+      if (!countCache) {
+        updateCountCache(asset.id, asset.commentCount);
+      }
 
       this.setState({
         countPoll: setInterval(() => {
@@ -126,6 +128,10 @@ class Embed extends Component {
     const openStream = closedAt === null;
 
     const banned = user && user.status === 'BANNED';
+
+    const hasOlderComments =
+      asset && asset.lastComment &&
+      asset.lastComment.id !== asset.comments[asset.comments.length - 1].id;
 
     const expandForLogin = showSignInDialog ? {
       minHeight: document.body.scrollHeight + 200
@@ -259,7 +265,7 @@ class Embed extends Component {
                   topLevel={true}
                   assetId={asset.id}
                   comments={asset.comments}
-                  moreComments={countCache[asset.id] > asset.comments.length}
+                  moreComments={hasOlderComments}
                   loadMore={this.props.loadMore} />
               </div>
             }
