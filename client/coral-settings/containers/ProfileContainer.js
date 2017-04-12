@@ -44,7 +44,6 @@ class ProfileContainer extends Component {
 
     return (
       <div>
-        <ProfileHeader username={this.props.userData.username} />
         {
 
           // Hiding bio until moderation can get figured out
