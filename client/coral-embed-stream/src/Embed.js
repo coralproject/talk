@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
@@ -36,9 +36,18 @@ import HighlightedComment from './Comment';
 import LoadMore from './LoadMore';
 import NewCount from './NewCount';
 
-class Embed extends Component {
+class Embed extends React.Component {
 
-  state = {activeTab: 0, showSignInDialog: false, activeReplyBox: ''};
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeTab: 0,
+      showSignInDialog:
+      false, activeReplyBox: ''
+    };
+
+    this.handleClick = this.handleClick.bind(this);
+  }
 
   changeTab = (tab) => {
     const {isAdmin} = this.props.auth;
@@ -114,6 +123,11 @@ class Embed extends Component {
     }
   }
 
+  handleClick() {
+    this.props.viewAllComments();
+    this.props.data.refetch();
+  }
+
   render () {
     const {activeTab} = this.state;
     const {closedAt, countCache = {}} = this.props.asset;
@@ -146,10 +160,7 @@ class Embed extends Component {
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count
               count={asset.totalCommentCount}
-              onClick={()=> {
-                this.props.viewAllComments();
-                this.props.data.refetch();
-              }}/>
+              handleClick={this.handleClick}/>
             </Tab>
             <Tab>{lang.t('MY_COMMENTS')}</Tab>
             <Tab restricted={!isAdmin}>Configure Stream</Tab>
