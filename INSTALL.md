@@ -72,6 +72,8 @@ file under the `scripts` key including:
 We currently support packaging the Talk application via Docker, which automates
 the dependancy install and asset build process.
 
+https://hub.docker.com/r/coralproject/talk/
+
 ### Requirements
 
 There are some runtime requirements for running Talk for Docker:
