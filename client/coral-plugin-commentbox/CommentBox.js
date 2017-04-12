@@ -110,17 +110,17 @@ class CommentBox extends Component {
     return this.state.hooks;
   }
 
-  unregisterHook = (hookType = '', hook = '') => {
+  unregisterHook = (hookType = '', hookName = '') => {
     const hooks = this.state.hooks;
 
     if (hooks[hookType]) {
-      if (hooks[hookType][hook]) {
-        delete hooks[hookType][hook];
+      if (hooks[hookType][hookName]) {
+        delete hooks[hookType][hookName];
       } else {
-        console.warn(`${hook} is invalid. Cannot unregister ${hook} Hook `);
+        console.warn(`${hookName} is invalid. Cannot unregister ${hookName} Hook `);
       }
     } else {
-      console.warn(`${hookType} does not exist. Cannot unregister ${hook} Hook `);
+      console.warn(`${hookType} does not exist. Cannot unregister ${hookName} Hook `);
     }
 
     this.setState(() => ({hooks}));
