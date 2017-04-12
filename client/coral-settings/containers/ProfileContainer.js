@@ -8,7 +8,6 @@ import {myCommentHistory} from 'coral-framework/graphql/queries';
 import {link} from 'coral-framework/services/PymConnection';
 import NotLoggedIn from '../components/NotLoggedIn';
 import {Spinner} from 'coral-ui';
-import ProfileHeader from '../components/ProfileHeader';
 import CommentHistory from 'coral-plugin-history/CommentHistory';
 
 import translations from '../translations';
