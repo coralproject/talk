@@ -42,11 +42,9 @@ class Embed extends React.Component {
     super(props);
     this.state = {
       activeTab: 0,
-      showSignInDialog:
-      false, activeReplyBox: ''
+      showSignInDialog: false,
+      activeReplyBox: ''
     };
-
-    this.handleClick = this.handleClick.bind(this);
   }
 
   changeTab = (tab) => {
@@ -123,7 +121,7 @@ class Embed extends React.Component {
     }
   }
 
-  handleClick() {
+  handleClick = () => {
     this.props.viewAllComments();
     this.props.data.refetch();
   }
