@@ -593,6 +593,29 @@ input CreateLikeInput {
   item_type: ACTION_ITEM_TYPE!
 }
 
+
+
+enum TAG {
+  STAFF
+  OFF_TOPIC
+}
+
+input CreateCommentInput {
+
+  # The asset id
+  asset_id: ID!
+
+  # The id of the parent comment
+  parent_id: ID
+
+  # The body of the comment
+  body: String!
+
+  # Tags
+  tags: [TAG]
+
+}
+
 type CreateLikeResponse implements Response {
 
   # The like that was created.
@@ -707,7 +730,7 @@ type RemoveCommentTagResponse implements Response {
 type RootMutation {
 
   # Creates a comment on the asset.
-  createComment(asset_id: ID!, parent_id: ID, body: String!): CreateCommentResponse
+  createComment(comment: CreateCommentInput!): CreateCommentResponse
 
   # Creates a like on an entity.
   createLike(like: CreateLikeInput!): CreateLikeResponse

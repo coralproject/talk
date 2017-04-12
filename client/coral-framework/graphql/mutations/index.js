@@ -17,9 +17,11 @@ export const postComment = graphql(POST_COMMENT, {
     postItem: ({asset_id, body, parent_id}) =>
       mutate({
         variables: {
-          asset_id,
-          body,
-          parent_id
+          comment: {
+            asset_id,
+            body,
+            parent_id
+          }
         },
         optimisticResponse: {
           createComment: {
