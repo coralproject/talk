@@ -1,7 +1,7 @@
 {
   "name": "talk",
-  "version": "1.4.0",
-  "description": "A commenting platform from The Coral Project. https://coralproject.net",
+  "version": "1.5.0",
+  "description": "A better commenting experience from Mozilla, The New York Times, and the Washington Post. https://coralproject.net",
   "main": "app.js",
   "scripts": {
     "postinstall": "./bin/cli plugins reconcile --skip-remote",
