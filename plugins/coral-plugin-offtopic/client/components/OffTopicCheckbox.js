@@ -1,4 +1,7 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {addTag, removeTag} from 'coral-plugin-commentbox/actions';
 import styles from './styles.css';
 
 class OffTopicCheckbox extends React.Component {
@@ -9,29 +12,10 @@ class OffTopicCheckbox extends React.Component {
 
   handleChange = (e) => {
     if (e.target.checked) {
-      this.props.updateComment(this.addTag)
+      this.props.addTag(this.label)
     } else {
-      this.props.updateComment(this.removeTag)
-    }
-  }
-
-  addTag = (state) => ({
-    comment: {
-      ...state.comment,
-      tags: [...state.comment.tags, this.label]
-    }
-  })
-
-  removeTag = (state) => {
-    const idx = state.comment.tags.indexOf(this.label);
-    return {
-      comment: {
-        ...state.comment,
-        tags: [
-          ...state.comment.tags.slice(0, idx),
-          ...state.comment.tags.slice(idx + 1)
-        ]
-      }
+      const idx = this.props.commentBox.tags.indexOf(this.label);
+      this.props.removeTag(idx);
     }
   }
 
@@ -47,4 +31,10 @@ class OffTopicCheckbox extends React.Component {
   }
 }
 
-export default OffTopicCheckbox;
+
+const mapStateToProps = ({commentBox}) => ({commentBox});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({addTag, removeTag}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(OffTopicCheckbox);

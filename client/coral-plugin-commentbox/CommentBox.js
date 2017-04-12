@@ -3,6 +3,8 @@ import {I18n} from '../coral-framework';
 import translations from './translations.json';
 import {Button} from 'coral-ui';
 import {Slot} from 'coral-framework';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 const name = 'coral-plugin-commentbox';
 
@@ -13,10 +15,7 @@ class CommentBox extends Component {
 
     this.state = {
       username: '',
-      comment: {
-        body: '',
-        tags: []
-      },
+      body: '',
       hooks: {
         preSubmit: [],
         postSubmit: []
@@ -35,13 +34,14 @@ class CommentBox extends Component {
       countCache,
       addNotification,
       updateCountCache,
-      commentPostedHandler,
+      commentPostedHandler
     } = this.props;
 
     let comment = {
       asset_id: assetId,
       parent_id: parentId,
-      ...this.state.comment
+      body: this.state.body,
+      ...this.props.commentBox
     };
 
     !isReply && updateCountCache(assetId, countCache + 1);
@@ -70,12 +70,7 @@ class CommentBox extends Component {
       })
       .catch((err) => console.error(err));
 
-    this.setState({
-      comment: {
-        ...this.state.comment,
-        body: ''
-      }
-    });
+    this.setState({body: ''});
   }
 
   registerHook = (hookType = '', hook = () => {}) => {
@@ -126,20 +121,13 @@ class CommentBox extends Component {
     });
   }
 
-  handleChange = e => {
-    this.setState({
-      comment: {
-        ...this.state.comment,
-        body: e.target.value
-      }
-    });
-  }
+  handleChange = e => this.setState({body: e.target.value});
 
   render () {
     const {styles, isReply, authorId, charCount} = this.props;
     let {cancelButtonClicked} = this.props;
 
-    const length = this.state.comment.body.length;
+    const length = this.state.body.length;
     const enablePostComment = !length || (charCount && length > charCount);
 
     if (isReply && typeof cancelButtonClicked !== 'function') {
@@ -159,7 +147,7 @@ class CommentBox extends Component {
           <textarea
             className={`${name}-textarea`}
             style={styles && styles.textarea}
-            value={this.state.comment.body}
+            value={this.state.body}
             placeholder={lang.t('comment')}
             id={isReply ? 'replyText' : 'commentText'}
             onChange={this.handleChange}
@@ -213,6 +201,10 @@ CommentBox.propTypes = {
   currentUser: PropTypes.object
 };
 
-export default CommentBox;
+const mapStateToProps = ({commentBox}) => ({commentBox});
+
+const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(CommentBox);
 
 const lang = new I18n(translations);
