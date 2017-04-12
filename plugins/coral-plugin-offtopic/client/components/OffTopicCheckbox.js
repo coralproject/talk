@@ -5,10 +5,8 @@ import {addTag, removeTag} from 'coral-plugin-commentbox/actions';
 import styles from './styles.css';
 
 class OffTopicCheckbox extends React.Component {
-  constructor() {
-    super();
-    this.label = 'OFF_TOPIC';
-  }
+
+  label = 'OFF_TOPIC';
 
   handleChange = (e) => {
     if (e.target.checked) {
