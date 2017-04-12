@@ -53,19 +53,22 @@ mismatch._
 
 ## Plugin Dependencies
 
-From your plugins you may import any component of server code relative to the
-project root. An example could be:
-
-```js
-const cache = require('services/cache');
-```
-
 You may also include additional external depenancies in your local packages by
 specifying a `package.json` at your plugin root which will result in a
 `node_modules` folder being generated at the plugin root with your specific
 dependencies.
 
 ## Server Plugins
+
+### API
+
+You can access any API available inside the talk directory in a plugin by simply
+importing the file relative to the talk project root. An example would be if you
+wanted to import the `MetadataService`, you would simply write:
+
+```javascript
+const MetadataService = require('services/metadata');
+```
 
 ### Specification
 
