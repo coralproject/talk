@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
@@ -36,15 +36,22 @@ import HighlightedComment from './Comment';
 import LoadMore from './LoadMore';
 import NewCount from './NewCount';
 
-class Embed extends Component {
+class Embed extends React.Component {
 
-  state = {activeTab: 0, showSignInDialog: false, activeReplyBox: ''};
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeTab: 0,
+      showSignInDialog: false,
+      activeReplyBox: ''
+    };
+  }
 
   changeTab = (tab) => {
-    const {isAdmin} = this.props.auth;
 
     // Everytime the comes from another tab, the Stream needs to be updated.
-    if (tab === 0 && isAdmin) {
+    if (tab === 0) {
+      this.props.viewAllComments();
       this.props.data.refetch();
     }
 
@@ -79,10 +86,12 @@ class Embed extends Component {
     if(!isEqual(nextProps.data.asset, this.props.data.asset)) {
       loadAsset(nextProps.data.asset);
 
-      const {getCounts, updateCountCache} = this.props;
+      const {getCounts, updateCountCache, asset: {countCache}} = this.props;
       const {asset} = nextProps.data;
 
-      updateCountCache(asset.id, asset.commentCount);
+      if (!countCache) {
+        updateCountCache(asset.id, asset.commentCount);
+      }
 
       this.setState({
         countPoll: setInterval(() => {
@@ -127,6 +136,12 @@ class Embed extends Component {
 
     const banned = user && user.status === 'BANNED';
 
+    const hasOlderComments = !!(
+      asset &&
+      asset.lastComment &&
+      asset.lastComment.id !== asset.comments[asset.comments.length - 1].id
+    );
+
     const expandForLogin = showSignInDialog ? {
       minHeight: document.body.scrollHeight + 200
     } : {};
@@ -144,7 +159,8 @@ class Embed extends Component {
       <div style={expandForLogin}>
         <div className="commentStream">
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
-            <Tab><Count count={asset.totalCommentCount}/></Tab>
+            <Tab><Count count={asset.totalCommentCount}/>
+            </Tab>
             <Tab>{lang.t('MY_COMMENTS')}</Tab>
             <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>
@@ -259,7 +275,7 @@ class Embed extends Component {
                   topLevel={true}
                   assetId={asset.id}
                   comments={asset.comments}
-                  moreComments={countCache[asset.id] > asset.comments.length}
+                  moreComments={hasOlderComments}
                   loadMore={this.props.loadMore} />
               </div>
             }
