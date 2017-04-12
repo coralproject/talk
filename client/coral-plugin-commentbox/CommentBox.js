@@ -45,7 +45,6 @@ class CommentBox extends Component {
     let comment = {
       body: this.state.body,
       asset_id: assetId,
-      author_id: authorId,
       parent_id: parentId
     };
 
