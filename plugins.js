@@ -47,8 +47,8 @@ const hookSchemas = {
     pre: Joi.func(),
     post: Joi.func()
   }))),
-  loaders: Joi.object().pattern(/\w/, Joi.object().pattern(/\w/, Joi.func())),
-  mutators: Joi.object().pattern(/\w/, Joi.object().pattern(/\w/, Joi.func())),
+  loaders: Joi.func().maxArity(1),
+  mutators: Joi.func().maxArity(1),
   resolvers: Joi.object().pattern(/\w/, Joi.object().pattern(/(?:__resolveType|\w+)/, Joi.func())),
   typeDefs: Joi.string()
 };
@@ -124,7 +124,12 @@ function itteratePlugins(plugins) {
 // Add each plugin folder to the allowed import path so that they can import our
 // internal dependancies.
 Object.keys(plugins).forEach((type) => itteratePlugins(plugins[type]).forEach((plugin) => {
-  amp.enableForDir(path.dirname(plugin.path));
+
+  // The plugin may be remote, and therefore not installed. We check here if the
+  // plugin path is available before trying to monkeypatch it's require path.
+  if (plugin.path) {
+    amp.enableForDir(path.dirname(plugin.path));
+  }
 }));
 
 /**
