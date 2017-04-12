@@ -30,8 +30,8 @@ class FakeComment extends React.Component {
         <Content body={body} />
           <div className="commentActionsLeft comment__action-container">
               <div className={`${'coral-plugin-likes'}-container`}>
-                <button className={`coral-plugin-likes-button`}>
-                  <span className={`coral-plugin-likes-button-text`}>{lang.t('like')}</span>
+                <button className={'coral-plugin-likes-button'}>
+                  <span className={'coral-plugin-likes-button-text'}>{lang.t('like')}</span>
                   <i className={`${'coral-plugin-likes'}-icon material-icons`}
                     aria-hidden={true}>thumb_up</i>
                 </button>
