@@ -7,7 +7,9 @@ const QuestionBox = ({enable, content}) =>
     <i className={`${packagename}-icon material-icons bubble`}>chat_bubble</i>
     <i className={`${packagename}-icon material-icons person`}>person</i>
   </div>
-  {content}
+  <div className={`${packagename}-content`}>
+    {content}
+  </div>
 </div>;
 
 export default QuestionBox;
