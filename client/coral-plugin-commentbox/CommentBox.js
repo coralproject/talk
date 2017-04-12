@@ -101,13 +101,29 @@ class CommentBox extends Component {
     this.setState({body: ''});
   }
 
-  addCommentHooks = (hooks = {}) => {
+  registerHook = (hooks = {}) => {
     if (typeof hooks === 'object') {
       this.setState(() => ({
         hooks: merge(this.state.hooks, hooks)
       }));
     }
     return this.state.hooks;
+  }
+
+  unregisterHook = (hookType = '', hook = '') => {
+    const hooks = this.state.hooks;
+
+    if (hooks[hookType]) {
+      if (hooks[hookType][hook]) {
+        delete hooks[hookType][hook];
+      } else {
+        console.warn(`${hook} is invalid. Cannot unregister ${hook} Hook `);
+      }
+    } else {
+      console.warn(`${hookType} does not exist. Cannot unregister ${hook} Hook `);
+    }
+
+    this.setState(() => ({hooks}));
   }
 
   render () {
@@ -148,7 +164,8 @@ class CommentBox extends Component {
 
           <Slot
             fill="commentBoxDetail"
-            addCommentHooks={this.addCommentHooks}
+            registerHook={this.registerHook}
+            unregisterHook={this.unregisterHook}
             inline
           />
 

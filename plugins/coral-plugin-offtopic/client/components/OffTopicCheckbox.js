@@ -7,7 +7,7 @@ class OffTopicCheckbox extends React.Component {
 
   handleChange = (e) => {
     if (e.target.checked) {
-      this.props.addCommentHooks({
+      this.props.registerHook({
         postSubmit: {
           addTag: (data) => {
             const {comment} = data.createComment;
@@ -19,11 +19,7 @@ class OffTopicCheckbox extends React.Component {
         }
       })
     } else {
-      this.props.addCommentHooks({
-        postSubmit: {
-          addTag: () => {}
-        }
-      })
+      this.props.unregisterHook('postSubmit', 'addTag');
     }
   }
 
