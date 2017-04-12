@@ -8,7 +8,6 @@ import {myCommentHistory} from 'coral-framework/graphql/queries';
 import {link} from 'coral-framework/services/PymConnection';
 import NotLoggedIn from '../components/NotLoggedIn';
 import {Spinner} from 'coral-ui';
-import ProfileHeader from '../components/ProfileHeader';
 import CommentHistory from 'coral-plugin-history/CommentHistory';
 
 import translations from '../translations';
@@ -44,7 +43,6 @@ class ProfileContainer extends Component {
 
     return (
       <div>
-        <ProfileHeader username={this.props.userData.username} />
         {
 
           // Hiding bio until moderation can get figured out
