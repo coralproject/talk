@@ -129,9 +129,11 @@ class Embed extends Component {
 
     const banned = user && user.status === 'BANNED';
 
-    const hasOlderComments =
-      asset && asset.lastComment &&
-      asset.lastComment.id !== asset.comments[asset.comments.length - 1].id;
+    const hasOlderComments = !!(
+      asset &&
+      asset.lastComment &&
+      asset.lastComment.id !== asset.comments[asset.comments.length - 1].id
+    );
 
     const expandForLogin = showSignInDialog ? {
       minHeight: document.body.scrollHeight + 200
