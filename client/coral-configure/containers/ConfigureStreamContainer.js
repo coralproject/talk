@@ -15,13 +15,13 @@ class ConfigureStreamContainer extends Component {
     super(props);
 
     this.state = {
-      changed: false
+      changed: false,
+      settings: props.asset.settings
     };
 
     this.toggleStatus = this.toggleStatus.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleApply = this.handleApply.bind(this);
-    this.updateQuestionBoxContent = this.updateQuestionBoxContent.bind(this);
   }
 
   handleApply (e) {
@@ -31,7 +31,7 @@ class ConfigureStreamContainer extends Component {
     const questionBoxEnable = elements.qboxenable.checked;
     const questionBoxContent = elements.qboxcontent.value;
 
-    const premodLinksEnable = elements.premodLinks.checked;
+    const premodLinksEnable = elements.plinksenable.checked;
     const {changed} = this.state;
 
     const newConfig = {
@@ -53,16 +53,18 @@ class ConfigureStreamContainer extends Component {
 
   handleChange (e) {
     if (e.target && e.target.id === 'qboxenable') {
-      this.props.asset.settings.questionBoxEnable = e.target.checked;
+      this.state.settings.questionBoxEnable = e.target.checked;
     }
+    if (e.target && e.target.id === 'qboxcontent') {
+      this.state.settings.questionBoxContent = e.target.value;
+    }
+    if (e.target && e.target.id === 'qboxcontent') {
+      this.state.settings.premodLinksEnable = e.target.value;
+    }
+
     this.setState({
       changed: true
     });
-  }
-
-  updateQuestionBoxContent(e) {
-    this.props.asset.settings.questionBoxContent = e.target.value;
-    this.handleChange(e);
   }
 
   toggleStatus () {
@@ -78,7 +80,8 @@ class ConfigureStreamContainer extends Component {
   }
 
   render () {
-    const {settings, closedAt} = this.props.asset;
+    const {closedAt} = this.props.asset;
+    const {settings} = this.state;
     const status = closedAt === null ? 'open' : 'closed';
     const premod = settings.moderation === 'PRE';
 
@@ -88,9 +91,8 @@ class ConfigureStreamContainer extends Component {
           handleChange={this.handleChange}
           handleApply={this.handleApply}
           changed={this.state.changed}
-          premodLinks={settings.premodLinks}
+          premodLinksEnable={settings.premodLinksEnable}
           premod={premod}
-          updateQuestionBoxContent={this.updateQuestionBoxContent}
           questionBoxEnable={settings.questionBoxEnable}
           questionBoxContent={settings.questionBoxContent}
         />
