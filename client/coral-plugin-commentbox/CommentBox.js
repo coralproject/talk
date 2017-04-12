@@ -3,7 +3,6 @@ import {I18n} from '../coral-framework';
 import translations from './translations.json';
 import {Button} from 'coral-ui';
 import {Slot} from 'coral-framework';
-import merge from 'lodash/merge';
 
 const name = 'coral-plugin-commentbox';
 
@@ -63,7 +62,7 @@ class CommentBox extends Component {
         const postedComment = data.createComment.comment;
 
         // Execute postSubmit Hooks
-        this.state.hooks.postSubmit.forEach(hook => hook());
+        this.state.hooks.postSubmit.forEach(hook => hook(data));
 
         if (postedComment.status === 'REJECTED') {
           addNotification('error', lang.t('comment-post-banned-word'));
