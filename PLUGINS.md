@@ -58,6 +58,43 @@ specifying a `package.json` at your plugin root which will result in a
 `node_modules` folder being generated at the plugin root with your specific
 dependencies.
 
+## Deployment Solutions
+
+Plugins can be deployed with a production instance of Talk.
+
+### Source
+
+Source deployments can just modify the `plugins.json` file and include any
+local plugins into the `plugins/` directory. After including the config, you
+need to reconcile the plugins and build the static assets:
+
+```bash
+# get plugin dependancies and remote plugins
+./bin/cli plugins reconcile
+
+# build staic assets (including enabled client side plugins)
+yarn build
+```
+
+Then the application can be started as is.
+
+### Docker
+
+If you deploy using Docker, you can extend from the `*-onbuild` image, an
+example `Dockerfile` for your project could be:
+
+```Dockerfile
+FROM coralproject/talk:latest-onbuild
+```
+
+Where the directory for your instance would contain a `plugins.json` file
+describing the plugin requirements and a `plugins` directory containing any
+other local plugins that should be included.
+
+Onbuild triggers will execute when the image is building with your custom
+configuration and will ensure that the image is ready to use by building all
+assets inside the image as well.
+
 ## Server Plugins
 
 ### API
