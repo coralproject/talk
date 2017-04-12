@@ -2,6 +2,7 @@ import pym from 'pym.js';
 
 import {stringify} from 'querystring';
 
+// TODO: Styles should live in a separate file
 const snackbarStyles = {
   position: 'fixed',
   cursor: 'default',
@@ -20,7 +21,8 @@ const snackbarStyles = {
   opacity: 0,
   transform: 'translate(-50%, 20px)',
   bottom: 0,
-  boxSizing: 'border-box'
+  boxSizing: 'border-box',
+  fontFamily: 'Helvetica, \'Helvetica Neue\', Verdana, sans-serif'
 };
 
 // This function should return value of window.Coral
