@@ -25,14 +25,14 @@
       "emailInUse": "Email address already in use",
       "emailORusernameInUse": "Email address or Username already in use",
       "requiredField": "This field is required",
-      "passwordsDontMatch": "Passwords don\"t match.",
+      "passwordsDontMatch": "Passwords don\'t match.",
       "specialCharacters": "Usernames can contain letters, numbers and _ only",
       "checkTheForm": "Invalid Form. Please, check the fields"
     },
     "createdisplay": {
       "writeyourusername": "Edit your username",
       "yourusername": "Your username appears on every comment you post.",
-      "ifyoudontchangeyourname": "If you don\"t change your username at this step, your Facebook display name will appear alongside of all your comments.",
+      "ifyoudontchangeyourname": "If you don\'t change your username at this step, your Facebook display name will appear alongside of all your comments.",
       "username": "Username",
       "continue": "Continue with the same Facebook username",
       "save": "Save",
