@@ -2,11 +2,11 @@
 
 ## Requirements
 
-### System
-
 - Any flavour of Linux, OSX or Windows
 - 1GB memory (minimum)
 - 5GB storage (minimum)
+- [MongoDB](https://www.mongodb.com/) v3.4 or later
+- [Redis](https://redis.io/) v3.2 or later
 
 ## Installation From Source
 
@@ -14,24 +14,31 @@
 
 There are some runtime requirements for running Talk from source:
 
-- [Node](https://nodejs.org/) v7 or later
-- [MongoDB](https://www.mongodb.com/) v3.4 or later
-- [Redis](https://redis.io/) v3.2 or later
-- [Yarn](https://yarnpkg.com/) v0.19.1 or later
+- [Node](https://nodejs.org/) v7.9 or later
+- [Yarn](https://yarnpkg.com/) v0.22.0 or later
 
-_Please be sure to check the versions of these requirements. Insufficient versions of these may lead to unexpected errors!_
+_Please be sure to check the versions of these requirements. Incorrect versions
+of these may lead to unexpected errors!_
 
 ### Installing
 
+#### Download
+
+It is highly recommended that you download a released version as the code
+available in `master` may not be stable. You can download the latest release
+from the [releases page](https://github.com/coralproject/talk/releases).
+
+You can also clone the git repository via:
+
 ```bash
-# Download the tarball containing the repository
-curl -L https://github.com/coralproject/talk/tarball/master -o coralproject-talk.tar.gz
+git clone https://github.com/coralproject/talk.git
+```
 
-# Untar that file and change to that directory
-tar xpf coralproject-talk.tar.gz
-mv coralproject-talk-* coralproject-talk
-cd coralproject-talk
+#### Setup
 
+We now have to install the dependancies and build the static assets.
+
+```bash
 # Install package dependancies
 yarn
 
@@ -50,6 +57,8 @@ You can start the server after configuring the server using the command:
 yarn start
 ```
 
+This will setup the server to serve everything on a single node.js process.
+
 You can see other scripts we've made available by consulting the `package.json`
 file under the `scripts` key including:
 
@@ -58,33 +67,60 @@ file under the `scripts` key including:
 - `yarn build-watch` watch for changes to client files and build static assets
 - `yarn dev-start` watch for changes to server files and reload the server
 
-## Installation From Docker Hub
+## Installation From Docker
+
+We currently support packaging the Talk application via Docker, which automates
+the dependancy install and asset build process.
 
 ### Requirements
 
 There are some runtime requirements for running Talk for Docker:
 
-- [MongoDB](https://www.mongodb.com/) v3.2 or later
-- [Redis](https://redis.io/) v3.2 or later
 - [Docker](https://www.docker.com/) v1.13.0 or later
 - [Docker Compose](https://docs.docker.com/compose/) v1.10.0 or later
 
-_Please be sure to check the versions of these requirements. Insufficient versions of these may lead to unexpected errors!_
+_Please be sure to check the versions of these requirements. Incorrect versions
+of these may lead to unexpected errors!_
 
 ### Installing
 
-```bash
-# Create a directory for talk
-mkdir coralproject-talk
-cd coralproject-talk
+An example docker-compose.yml:
 
-# Download the docker-compose.yml file from the repository
-curl -LO https://raw.githubusercontent.com/coralproject/talk/master/docker-compose.yml
+```yaml
+version: '2'
+services:
+  talk:
+    image: coralproject/talk:1.5
+    restart: always
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+      - redis
+    environment:
+      - TALK_MONGO_URL=mongodb://mongo/talk
+      - TALK_REDIS_URL=redis://redis
+  mongo:
+    image: mongo:3.2
+    restart: always
+    volumes:
+      - mongo:/data/db
+  redis:
+    image: redis:3.2
+    restart: always
+    volumes:
+      - redis:/data
+volumes:
+  mongo:
+    external: false
+  redis:
+    external: false
 ```
 
-At this stage, you should refer to the `README.md` file for required
-configuration variables to add to the environment key for the `talk` service
-listed in the `docker-compose.yml` file.
+At this stage, you should refer to the `README.md` for configuration variables
+that are specific to your installation. Some pre-defined fields have been filled
+in the above example which are consistent with Docker Compose naming conventions
+for [Docker Links](https://docs.docker.com/compose/networking/#links).
 
 ### Running
 
