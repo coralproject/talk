@@ -593,10 +593,8 @@ input CreateLikeInput {
   item_type: ACTION_ITEM_TYPE!
 }
 
-
-
 enum TAG_TYPE {
-  OFF_TOPIC
+  STAFF
 }
 
 input CreateCommentInput {
