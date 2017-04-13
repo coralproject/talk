@@ -48,18 +48,26 @@ class ConfigureStreamContainer extends Component {
           changed: false
         });
       }, 300);
+
+      this.props.loadAsset(this.props.data.asset);
     }
   }
 
   handleChange (e) {
     if (e.target && e.target.id === 'qboxenable') {
-      this.state.settings.questionBoxEnable = e.target.checked;
+      this.setState({
+        questionBoxEnable: e.target.checked
+      });
     }
     if (e.target && e.target.id === 'qboxcontent') {
-      this.state.settings.questionBoxContent = e.target.value;
+      this.setState({
+        questionBoxContent: e.target.value
+      });
     }
     if (e.target && e.target.id === 'plinksenable') {
-      this.state.settings.premodLinksEnable = e.target.value;
+      this.setState({
+        premodLinksEnable: e.target.value
+      });
     }
 
     this.setState({
