@@ -17,10 +17,10 @@ const onLoadMoreClick = ({loadMore, commentCount, firstCommentDate, assetId, upd
 const NewCount = (props) => {
   const newComments = props.commentCount - props.countCache;
 
-  return <div className='coral-new-comments'>
+  return <div className='coral-new-comments coral-load-more'>
     {
       props.countCache && newComments > 0 ?
-      <button onClick={onLoadMoreClick(props)} className='coral-load-more'>
+      <button onClick={onLoadMoreClick(props)}>
         {newComments === 1
           ? lang.t('newCount', newComments, lang.t('comment'))
           : lang.t('newCount', newComments, lang.t('comments'))}

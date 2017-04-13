@@ -14,13 +14,13 @@ const ModerationHeader = props => (
                 <span>{props.asset.title}</span>
                 <Icon className={styles.settingsButton} name="open_in_new"/>
               </a>
-              <Link className="mdl-tabs__tab" to="/admin/streams">Select Stream</Link>
+              <Link className="mdl-tabs__tab" to="/admin/stories">Select Stream</Link>
             </div>
             :
             <div className={`mdl-tabs__tab-bar ${styles.moderateAsset}`}>
               <a className="mdl-tabs__tab" />
               <a className="mdl-tabs__tab">All Streams</a>
-              <Link className="mdl-tabs__tab" to="/admin/streams">Select Stream</Link>
+              <Link className="mdl-tabs__tab" to="/admin/stories">Select Stream</Link>
             </div>
         }
       </div>
