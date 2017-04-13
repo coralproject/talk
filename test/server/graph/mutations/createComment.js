@@ -12,8 +12,8 @@ describe('graph.mutations.createComment', () => {
   beforeEach(() => SettingsService.init());
 
   const query = `
-    mutation CreateComment($body: String = "Here's my comment!") {
-      createComment(asset_id: "123", body: $body) {
+    mutation CreateComment($comment: CreateCommentInput = {asset_id: 123, body: "Here's my comment!"}) {
+      createComment(comment: $comment) {
         comment {
           id
           status
