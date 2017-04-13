@@ -45,7 +45,7 @@ const Comment = ({actions = [], ...props}) => {
         <div className={styles.moderateArticle}>
           Story: {props.comment.asset.title}
           {!props.currentAsset && (
-            <Link to={`/admin/moderate/${props.comment.asset.id}`}>Moderate &rarr;</Link>
+            <Link to={`/admin/moderate/${props.comment.asset.id}`}>Moderate →</Link>
           )}
         </div>
         <div className={styles.itemBody}>
