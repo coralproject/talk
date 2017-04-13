@@ -69,6 +69,10 @@
     },
     "configure": {
       "closed-stream-settings": "Closed Stream Message",
+      "open-stream-configuration": "This comment stream is currently open. By closing this comment stream, no new comments may be submitted and all previous comments will still be displayed.",
+      "close-stream-configuration": "This comment stream is currently closed. By opening this comment stream, new comments may be submitted and displayed",
+      "close-stream": "Close Stream",
+      "open-stream": "Open Stream",
       "stream-settings": "Stream Settings",
       "moderation-settings": "Moderation Settings",
       "tech-settings": "Tech Settings",
@@ -232,6 +236,10 @@
     },
     "configure": {
       "closed-stream-settings": "Mensaje a enviar cuando los comentarios están cerrados en el artículo",
+      "open-stream-configuration": "Este hilo de comentarios esta abierto. Al cerrarlo, ningún nuevo comentario será publicado y todos los comentarios anteriores serán mostrados.",
+      "close-stream-configuration": "Este hilo de comentario está en este momento cerrado. Al abrirlo, nuevos comentarios serán publicaods y mostrados.",
+      "close-stream": "Cerrar Comentarios",
+      "open-stream": "Abrir Comentarios",
       "stream-settings": "Configuración de Comentarios",
       "moderation-settings": "Configuración de Moderación",
       "tech-settings": "Configuración Técnica",
