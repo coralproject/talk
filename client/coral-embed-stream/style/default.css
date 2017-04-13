@@ -127,15 +127,15 @@ hr {
   margin-bottom: 0px;
   font-weight: bold;
   font-size: 14px;
-  display: block;
   overflow: hidden;
-  height: 50px;
+  min-height: 50px;
+  display: flex;
 }
 
 .coral-plugin-questionbox-icon.bubble{
   position: absolute;
   top: 11px;
-  left: 15px;
+  left: 10px;
   color: #949393;
   font-size: 20px;
   z-index: 0;
@@ -144,7 +144,7 @@ hr {
 .coral-plugin-questionbox-icon.person{
   z-index: 2;
   top: 20px;
-  left: 20px;
+  left: 15px;
   position: absolute;
   font-size: 24px;
   color: white;
@@ -159,10 +159,17 @@ hr {
   margin-left: 0px !important;
   margin-right: 10px;
   display: inline-block;
-  width: 15px;
-  height: 100%;
-  padding: 3px 20px;
+  width: 10px;
+  min-height: 100%;
+  padding: 5px 20px;
   vertical-align: middle;
+}
+
+.coral-plugin-questionbox-content {
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hidden  {

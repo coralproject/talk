@@ -36,6 +36,9 @@ query AssetQuery($asset_id: ID, $asset_url: String, $comment_id: ID!, $has_comme
             charCount
             requireEmailConfirmation
         }
+        lastComment {
+          id
+        }
         commentCount(excludeIgnored: $excludeIgnored)
         totalCommentCount(excludeIgnored: $excludeIgnored)
         comments(limit: 10, excludeIgnored: $excludeIgnored) {

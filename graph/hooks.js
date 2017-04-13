@@ -3,6 +3,7 @@ const {
   GraphQLInterfaceType
 } = require('graphql');
 const debug = require('debug')('talk:graph:schema');
+const Joi = require('joi');
 
 /**
  * XXX taken from graphql-js: src/execution/execute.js, because that function
@@ -82,6 +83,8 @@ const decorateWithHooks = (schema, hooks) => forEachField(schema, (field, typeNa
       Object.keys(hooks).forEach((hook) => {
         switch (hook) {
         case 'pre':
+          Joi.assert(hooks.pre, Joi.func().maxArity(4));
+
           debug(`adding pre hook to resolver ${typeName}.${fieldName} from plugin '${plugin.name}'`);
 
           if (typeof hooks.pre !== 'function') {
@@ -91,6 +94,8 @@ const decorateWithHooks = (schema, hooks) => forEachField(schema, (field, typeNa
           acc.pre.push(hooks.pre);
           break;
         case 'post':
+          Joi.assert(hooks.pre, Joi.func().maxArity(5));
+
           debug(`adding post hook to resolver ${typeName}.${fieldName} from plugin '${plugin.name}'`);
 
           if (typeof hooks.post !== 'function') {
@@ -128,6 +133,9 @@ const decorateWithHooks = (schema, hooks) => forEachField(schema, (field, typeNa
     if (post.length === 0) {
       return;
     }
+
+    // Ensure it matches the format we expect.
+    Joi.assert(post, Joi.array().items(Joi.func().maxArity(3)), `invalid post hooks were found for ${typeName}.${fieldName}`);
 
     // Cache the original resolverType function.
     let resolveType = field.resolveType;

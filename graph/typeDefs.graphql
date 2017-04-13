@@ -416,6 +416,9 @@ type Asset {
   # The URL that the asset is located on.
   url: String
 
+  # Returns last comment
+  lastComment: Comment
+
   # Returns recent comments
   recentComments: [Comment]
 
