@@ -80,6 +80,61 @@ that are specific to your installation. Some pre-defined fields have been filled
 in the above example which are consistent with Docker Compose naming conventions
 for [Docker Links](https://docs.docker.com/compose/networking/#links).
 
+### Scaling
+
+If you are interested in splitting apart services, you can simply adjust the
+command being executed in the container to optimize for your use case. An
+example would be if you wanted to run the API server and the job processor
+on different machines. You can acheive this easily with docker compose:
+
+```yaml
+version: '2'
+services:
+  talk-api:
+    image: coralproject/talk:1.5
+    command: cli serve
+    restart: always
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+      - redis
+    environment:
+      - TALK_MONGO_URL=mongodb://mongo/talk
+      - TALK_REDIS_URL=redis://redis
+  talk-jobs:
+    image: coralproject/talk:1.5
+    command: cli jobs process
+    restart: always
+    ports:
+      - "5001:5000"
+    depends_on:
+      - mongo
+      - redis
+    environment:
+      - TALK_MONGO_URL=mongodb://mongo/talk
+      - TALK_REDIS_URL=redis://redis
+  mongo:
+    image: mongo:3.2
+    restart: always
+    volumes:
+      - mongo:/data/db
+  redis:
+    image: redis:3.2
+    restart: always
+    volumes:
+      - redis:/data
+volumes:
+  mongo:
+    external: false
+  redis:
+    external: false
+```
+
+Note that the only difference is in the `command` key. From this, you are able
+to discretly control which modules are running in order to have the maximum
+flexibility when managing your application.
+
 ### Running
 
 If you're using docker compose:
