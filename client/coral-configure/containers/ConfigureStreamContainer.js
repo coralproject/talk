@@ -58,7 +58,7 @@ class ConfigureStreamContainer extends Component {
     if (e.target && e.target.id === 'qboxcontent') {
       this.state.settings.questionBoxContent = e.target.value;
     }
-    if (e.target && e.target.id === 'qboxcontent') {
+    if (e.target && e.target.id === 'plinksenable') {
       this.state.settings.premodLinksEnable = e.target.value;
     }
 
