@@ -4,7 +4,6 @@ import translations from './translations.json';
 import {Button} from 'coral-ui';
 import {Slot} from 'coral-framework';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 
 const name = 'coral-plugin-commentbox';
 
@@ -22,8 +21,6 @@ class CommentBox extends Component {
       }
     };
   }
-
-  updateComment = cb => this.setState(cb);
 
   postComment = () => {
     const {
@@ -159,7 +156,6 @@ class CommentBox extends Component {
         <div className={`${name}-button-container`}>
           <Slot
             fill="commentBoxDetail"
-            updateComment={this.updateComment}
             registerHook={this.registerHook}
             unregisterHook={this.unregisterHook}
             inline
@@ -203,8 +199,6 @@ CommentBox.propTypes = {
 
 const mapStateToProps = ({commentBox}) => ({commentBox});
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(CommentBox);
+export default connect(mapStateToProps, null)(CommentBox);
 
 const lang = new I18n(translations);
