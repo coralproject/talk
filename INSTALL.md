@@ -24,7 +24,8 @@
 ## Installation From Docker
 
 We currently support packaging the Talk application via Docker, which automates
-the dependency install and asset build process.
+the dependency install and asset build process. This is the recommended way to
+deploy the application when used in production.
 
 Available as [coralproject/talk](https://hub.docker.com/r/coralproject/talk/) on Docker Hub.
 
@@ -164,6 +165,10 @@ docker run -d -P coralproject/talk:latest
 ```
 
 ## Installation From Source
+
+This provides information on how to setup the application from source. Note that
+this is not recommended for production deploys, but will work for development
+and testing purposes.
 
 ### Requirements
 
