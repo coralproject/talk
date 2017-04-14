@@ -10,7 +10,7 @@ const FlagWidget = ({assets}) => {
 
   return (
     <div className={styles.widget}>
-      <h2 className={styles.heading}>Articles with the most flags</h2>
+      <h2 className={styles.heading}>{lang.t('dashboard.most_flags')}</h2>
       <div className={styles.widgetHead}>
         <p>{lang.t('streams.article')}</p>
         <p>{lang.t('dashboard.flags')}</p>
