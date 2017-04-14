@@ -46,14 +46,20 @@ External plugins can be resolved by running:
 ./bin/cli plugins reconcile
 ```
 
-This will also traverse into local plugin folders and install their
-dependancies. _Note that if the plugin is already installed and available in the
-node_modules folder, it will not be fetched again unless there is a version
-mismatch._
+This achieves two things:
+
+1. It will traverse into local plugin folders and install their dependencies.
+  _Note that if the plugin is already installed and available in the node_modules folder, it will not be
+  fetched again unless there is a version mismatch._ This will result in the
+  project `package.json` and `yarn.lock` files to be modified, this is normal as
+  this ensures that repeated deployments (with the same config) will have the
+  same config, these changes should not be committed to source control.
+2. It will seek out dependencies that are listed in the object notation and try
+  to install them from npm.
 
 ## Plugin Dependencies
 
-You may also include additional external depenancies in your local packages by
+You may also include additional external dependencies in your local packages by
 specifying a `package.json` at your plugin root which will result in a
 `node_modules` folder being generated at the plugin root with your specific
 dependencies.

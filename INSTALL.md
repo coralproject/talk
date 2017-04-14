@@ -11,14 +11,14 @@
 ## Installation From Docker
 
 We currently support packaging the Talk application via Docker, which automates
-the dependancy install and asset build process.
+the dependency install and asset build process.
 
 Available as [coralproject/talk](https://hub.docker.com/r/coralproject/talk/) on Docker Hub.
 
 Images are tagged using the following notation:
 
 - `x` (where `x` is the major version number): any minor or patch updates will be included in this. If you're ok getting
-  new features occationally and all the bug fixes, this is the tag for you.
+  new features occasionally and all the bug fixes, this is the tag for you.
 - `x.y` (where `y` is the minor version number): any patch updates will be
   included with this tag. If you like getting fixes and having features change
   only when you want, this is the tag for you. **(recommended)**
@@ -85,7 +85,7 @@ for [Docker Links](https://docs.docker.com/compose/networking/#links).
 If you are interested in splitting apart services, you can simply adjust the
 command being executed in the container to optimize for your use case. An
 example would be if you wanted to run the API server and the job processor
-on different machines. You can acheive this easily with docker compose:
+on different machines. You can achieve this easily with docker compose:
 
 ```yaml
 version: '2'
@@ -132,7 +132,7 @@ volumes:
 ```
 
 Note that the only difference is in the `command` key. From this, you are able
-to discretly control which modules are running in order to have the maximum
+to discretely control which modules are running in order to have the maximum
 flexibility when managing your application.
 
 ### Running
@@ -178,7 +178,7 @@ git clone https://github.com/coralproject/talk.git
 
 #### Setup
 
-We now have to install the dependancies and build the static assets.
+We now have to install the dependencies and build the static assets.
 
 ```bash
 # Install package dependancies
@@ -189,7 +189,7 @@ yarn build
 ```
 
 After you create/modify the `plugins.json` (refer to `PLUGINS.md` for plugin
-docs) file, you can re-run the following to install their dependancies:
+docs) file, you can re-run the following to install their dependencies:
 
 ```bash
 # Reconcile plugins
