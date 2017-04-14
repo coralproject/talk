@@ -15,6 +15,11 @@
 - 5GB storage (minimum)
 - [MongoDB](https://www.mongodb.com/) v3.4 or later
 - [Redis](https://redis.io/) v3.2 or later
+- SSL Certificate
+  - This application assumes that you will be serving this application in a
+    production environment, and therefore requires that you serve it behind a
+    webserver with a valid SSL certificate. This is chosen in order to secure
+    user's sessions.
 
 ## Installation From Docker
 
