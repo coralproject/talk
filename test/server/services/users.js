@@ -169,6 +169,24 @@ describe('services.UsersService', () => {
     });
   });
 
+  describe('#ignoreUser', () => {
+
+    // @TODO: assert cannot ignore yourself
+    
+    it('should add user id to ignoredUsers set', async () => {
+      const user = mockUsers[0];
+      const usersToIgnore = [mockUsers[1], mockUsers[2]];
+      await UsersService.ignoreUsers(user.id, usersToIgnore.map(u => u.id));
+      const userAfterIgnoring = await UsersService.findById(user.id);
+      expect(userAfterIgnoring.ignoresUsers.length).to.equal(2);
+
+      // ignore same user another time, make sure it's not added to the list.
+      await UsersService.ignoreUsers(user.id, usersToIgnore.slice(0, 1).map(u => u.id));
+      const userAfterIgnoring2 = await UsersService.findById(user.id);
+      expect(userAfterIgnoring2.ignoresUsers.length).to.equal(2);
+    });
+  });
+
   describe('#ban', () => {
     it('should set the status to banned', () => {
       return UsersService

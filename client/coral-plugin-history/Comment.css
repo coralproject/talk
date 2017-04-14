@@ -1,6 +1,7 @@
 @custom-media --big-viewport (min-width: 780px);
 
 .myComment {
+  margin: 1em 0;
   border-bottom: 1px solid lightgrey;
   display: flex;
   align-items: baseline;
@@ -24,6 +25,9 @@
 
 .sidebar {
   ul {
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style-type: none;
     min-width: 136px;
   }
 

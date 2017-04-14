@@ -15,7 +15,8 @@ class ConfigureStreamContainer extends Component {
     super(props);
 
     this.state = {
-      changed: false
+      changed: false,
+      closedAt: (props.asset.closedAt === null ? 'open' : 'closed')
     };
 
     this.toggleStatus = this.toggleStatus.bind(this);
@@ -66,21 +67,28 @@ class ConfigureStreamContainer extends Component {
   }
 
   toggleStatus () {
+
+    // update the closedAt status for the asset
     this.props.updateStatus(
-      this.props.asset.closedAt === null ? 'closed' : 'open'
+      this.state.closedAt === 'open' ? 'closed' : 'open'
     );
+    this.setState({
+      closedAt: (this.state.closedAt === 'open' ? 'closed' : 'open')
+    });
   }
 
   getClosedIn () {
     const {closedTimeout} = this.props.asset.settings;
     const {created_at} = this.props.asset;
+
     return lang.timeago(new Date(created_at).getTime() + (1000 * closedTimeout));
   }
 
   render () {
-    const {settings, closedAt} = this.props.asset;
-    const status = closedAt === null ? 'open' : 'closed';
+    const {settings} = this.props.asset;
+    const {closedAt} = this.state;
     const premod = settings.moderation === 'PRE';
+    const closedTimeout = settings.closedTimeout;
 
     return (
       <div>
@@ -95,11 +103,11 @@ class ConfigureStreamContainer extends Component {
           questionBoxContent={settings.questionBoxContent}
         />
         <hr />
-        <h3>{status === 'open' ? 'Close' : 'Open'} Comment Stream</h3>
-        {status === 'open' ? <p>The comment stream will close in {this.getClosedIn()}.</p> : ''}
+        <h3>{closedAt === 'open' ? 'Close' : 'Open'} Comment Stream</h3>
+        {(closedAt === 'open' && closedTimeout) ? <p>The comment stream will close in {this.getClosedIn()}.</p> : ''}
         <CloseCommentsInfo
           onClick={this.toggleStatus}
-          status={status}
+          status={closedAt}
         />
       </div>
     );

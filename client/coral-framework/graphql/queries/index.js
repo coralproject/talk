@@ -3,6 +3,7 @@ import STREAM_QUERY from './streamQuery.graphql';
 import LOAD_MORE from './loadMore.graphql';
 import GET_COUNTS from './getCounts.graphql';
 import MY_COMMENT_HISTORY from './myCommentHistory.graphql';
+import MY_IGNORED_USERS from './myIgnoredUsers.graphql';
 import uniqBy from 'lodash/uniqBy';
 import sortBy from 'lodash/sortBy';
 import isNil from 'lodash/isNil';
@@ -28,10 +29,10 @@ export const getCounts = (data) => ({asset_id, limit, sort}) => {
     variables: {
       asset_id,
       limit,
-      sort
+      sort,
+      excludeIgnored: data.variables.excludeIgnored,
     },
     updateQuery: (oldData, {fetchMoreResult:{asset}}) => {
-
       return {
         ...oldData,
         asset: {
@@ -52,7 +53,8 @@ export const loadMore = (data) => ({limit, cursor, parent_id = null, asset_id, s
       cursor, // the date of the first/last comment depending on the sort order
       parent_id, // if null, we're loading more top-level comments, if not, we're loading more replies to a comment
       asset_id, // the id of the asset we're currently on
-      sort // CHRONOLOGICAL or REVERSE_CHRONOLOGICAL
+      sort, // CHRONOLOGICAL or REVERSE_CHRONOLOGICAL
+      excludeIgnored: data.variables.excludeIgnored,
     },
     updateQuery: (oldData, {fetchMoreResult:{new_top_level_comments}}) => {
       let updatedAsset;
@@ -119,21 +121,25 @@ export const loadMore = (data) => ({limit, cursor, parent_id = null, asset_id, s
   });
 };
 
+export const variablesForStreamQuery = ({auth}) => {
+
+  // where the query string is from the embeded iframe url
+  let comment_id = getQueryVariable('comment_id');
+  let has_comment = comment_id != null;
+  return {
+    asset_id: getQueryVariable('asset_id'),
+    asset_url: getQueryVariable('asset_url'),
+    comment_id: has_comment ? comment_id : 'no-comment',
+    has_comment,
+    excludeIgnored: Boolean(auth && auth.user && auth.user.id),
+  };
+};
+
 // load the comment stream.
 export const queryStream = graphql(STREAM_QUERY, {
-  options: () => {
-
-    // where the query string is from the embeded iframe url
-    let comment_id = getQueryVariable('comment_id');
-    let has_comment = comment_id != null;
-
+  options: (props) => {
     return {
-      variables: {
-        asset_id: getQueryVariable('asset_id'),
-        asset_url: getQueryVariable('asset_url'),
-        comment_id: has_comment ? comment_id : 'no-comment',
-        has_comment
-      }
+      variables: variablesForStreamQuery(props)
     };
   },
   props: ({data}) => ({
@@ -144,3 +150,11 @@ export const queryStream = graphql(STREAM_QUERY, {
 });
 
 export const myCommentHistory = graphql(MY_COMMENT_HISTORY, {});
+
+export const myIgnoredUsers = graphql(MY_IGNORED_USERS, {
+  props: ({data}) => {
+    return ({
+      myIgnoredUsersData: data
+    });
+  }
+});

@@ -67,7 +67,7 @@ function reconcilePackages({quiet = false, upgradeRemote = false}) {
     console.log(' +missing   (m)  packages are not found');
     console.log();
   }
-  
+
   for (let i in plugins) {
     let section = itteratePlugins(plugins[i]);
 
@@ -118,7 +118,7 @@ function reconcilePackages({quiet = false, upgradeRemote = false}) {
         if (!quiet) {
           console.log(` e  ${name}`);
         }
-        
+
         if (upgradeRemote) {
           upgradable.push({name, version});
         }
@@ -141,12 +141,13 @@ async function reconcileRemotePlugins({skipLocal, dryRun, upgradeRemote}) {
 
   if (fetchable.length > 0) {
 
-    console.log(`$ yarn add ${fetchable.map(({name, version}) => `${name}@${version}`.cyan)}`);
+    console.log(`$ yarn add --ignore-scripts ${fetchable.map(({name, version}) => `${name}@${version}`.cyan)}`);
 
     if (!dryRun) {
 
       let args = [
         'add',
+        '--ignore-scripts',
         ...fetchable.map(({name, version}) => `${name}@${version}`)
       ];
 

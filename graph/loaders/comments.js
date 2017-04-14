@@ -6,6 +6,7 @@ const {
 const DataLoader = require('dataloader');
 
 const CommentModel = require('../../models/comment');
+const UsersService = require('../../services/users');
 
 /**
  * Returns the comment count for all comments that are public based on their
@@ -37,6 +38,31 @@ const getCountsByAssetID = (context, asset_ids) => {
   ])
   .then(singleJoinBy(asset_ids, '_id'))
   .then((results) => results.map((result) => result ? result.count : 0));
+};
+
+/**
+ * Returns the count of all public comments on an asset id, also filtering by personalization options.
+ *
+ * @param {Array<String>} id The ID of the asset
+ * @param {Array<String>} excludeIgnored Exclude comments ignored by the requesting user
+ */
+const getCountsByAssetIDPersonalized = async (context, {assetId, excludeIgnored}) => {
+  const query = {
+    asset_id: assetId,
+    status: {
+      $in: ['NONE', 'ACCEPTED'],
+    },
+  };
+  const user = context.user;
+  if (excludeIgnored && user) {
+
+    // load afresh, as `user` may be from cache and not have recent ignores
+    const freshUser = await UsersService.findById(user.id);
+    const ignoredUsers = freshUser.ignoresUsers;
+    query.author_id = {$nin: ignoredUsers};
+  }
+  const count = await CommentModel.where(query).count();
+  return count;
 };
 
 /**
@@ -73,6 +99,32 @@ const getParentCountsByAssetID = (context, asset_ids) => {
 };
 
 /**
+ * Returns the count of top-level comments on an asset id, also filtering by personalization options.
+ *
+ * @param {Array<String>} id The ID of the asset
+ * @param {Array<String>} excludeIgnored Exclude comments ignored by the requesting user
+ */
+const getParentCountByAssetIDPersonalized = async (context, {assetId, excludeIgnored}) => {
+  const query = {
+    asset_id: assetId,
+    parent_id: null,
+    status: {
+      $in: ['NONE', 'ACCEPTED'],
+    },
+  };
+  const user = context.user;
+  if (excludeIgnored && user) {
+
+    // load afresh, as `user` may be from cache and not have recent ignores
+    const freshUser = await UsersService.findById(user.id);
+    const ignoredUsers = freshUser.ignoresUsers;
+    query.author_id = {$nin: ignoredUsers};
+  }
+  const count = await CommentModel.where(query).count();
+  return count;
+};
+
+/**
  * Returns the comment count for all comments that are public based on their
  * parent ids.
  *
@@ -102,6 +154,33 @@ const getCountsByParentID = (context, parent_ids) => {
   ])
   .then(singleJoinBy(parent_ids, '_id'))
   .then((results) => results.map((result) => result ? result.count : 0));
+};
+
+/**
+ * Returns the count of comments for the provided parent_id, also filtering by personalization options.
+ *
+ * @param {Array<String>} id The ID of the parent comment
+ * @param {Array<String>} excludeIgnored Exclude comments ignored by context.user
+ */
+const getCountByParentIDPersonalized = async (context, {id, excludeIgnored}) => {
+  const query = {
+    parent_id: {
+      $in: [id]
+    },
+    status: {
+      $in: ['NONE', 'ACCEPTED']
+    }
+  };
+  const user = context.user;
+  if (excludeIgnored && user) {
+
+    // load afresh, as `user` may be from cache and not have recent ignores
+    const freshUser = await UsersService.findById(user.id);
+    const ignoredUsers = freshUser.ignoresUsers;
+    query.author_id = {$nin: ignoredUsers};
+  }
+  const count = await CommentModel.where(query).count();
+  return count;
 };
 
 /**
@@ -142,7 +221,7 @@ const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id}) =
  * @param  {Object} context   graph context
  * @param  {Object} query     query terms to apply to the comments query
  */
-const getCommentsByQuery = ({user}, {ids, statuses, asset_id, parent_id, author_id, limit, cursor, sort}) => {
+const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, author_id, limit, cursor, sort, excludeIgnored}) => {
   let comments = CommentModel.find();
 
   // Only administrators can search for comments with statuses that are not
@@ -182,6 +261,16 @@ const getCommentsByQuery = ({user}, {ids, statuses, asset_id, parent_id, author_
   // search to be with, which indicates that it is at depth 0.
   if (parent_id !== undefined) {
     comments = comments.where({parent_id});
+  }
+
+  if (excludeIgnored && user) {
+
+    // load afresh, as `user` may be from cache and not have recent ignores
+    const freshUser = await UsersService.findById(user.id);
+    const ignoredUsers = freshUser.ignoresUsers;
+    comments = comments.where({
+      author_id: {$nin: ignoredUsers}
+    });
   }
 
   if (cursor) {
@@ -344,8 +433,11 @@ module.exports = (context) => ({
     getByQuery: (query) => getCommentsByQuery(context, query),
     getCountByQuery: (query) => getCommentCountByQuery(context, query),
     countByAssetID: new SharedCounterDataLoader('Comments.totalCommentCount', 3600, (ids) => getCountsByAssetID(context, ids)),
+    countByAssetIDPersonalized: (query) => getCountsByAssetIDPersonalized(context, query),
     parentCountByAssetID: new SharedCounterDataLoader('Comments.countByAssetID', 3600, (ids) => getParentCountsByAssetID(context, ids)),
+    parentCountByAssetIDPersonalized: (query) => getParentCountByAssetIDPersonalized(context, query),
     countByParentID: new SharedCounterDataLoader('Comments.countByParentID', 3600, (ids) => getCountsByParentID(context, ids)),
+    countByParentIDPersonalized: (query) => getCountByParentIDPersonalized(context, query),
     genRecentReplies: new DataLoader((ids) => genRecentReplies(context, ids)),
     genRecentComments: new DataLoader((ids) => genRecentComments(context, ids))
   }
