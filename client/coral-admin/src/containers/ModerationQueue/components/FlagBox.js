@@ -74,10 +74,12 @@ class FlagBox extends Component {
 
 FlagBox.propTypes = {
   actionSummaries: PropTypes.arrayOf(PropTypes.shape({
-
+    reason: PropTypes.string,
+    count: PropTypes.number
   })).isRequired,
   actions: PropTypes.arrayOf(PropTypes.shape({
-
+    message: PropTypes.string,
+    user: PropTypes.shape({username: PropTypes.string})
   })).isRequired
 };
 
