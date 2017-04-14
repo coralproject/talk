@@ -16,6 +16,9 @@ fragment commentView on Comment {
       ... on FlagAction {
         reason
         message
+        user {
+          username
+        }
       }
     }
 }

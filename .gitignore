@@ -17,6 +17,5 @@ coverage/
 plugins.json
 plugins/*
 !plugins/coral-plugin-facebook-auth
-**/node_modules/*
 !plugins/coral-plugin-respect
 **/node_modules/*

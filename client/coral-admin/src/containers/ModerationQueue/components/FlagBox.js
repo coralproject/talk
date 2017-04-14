@@ -4,7 +4,8 @@ import styles from './FlagBox.css';
 
 const shortReasons = {
   'This comment is offensive': 'Offensive',
-  'This looks like an ad/marketing': 'Spam/Ads'
+  'This looks like an ad/marketing': 'Spam/Ads',
+  'Other': 'other'
 };
 
 class FlagBox extends Component {
@@ -29,26 +30,42 @@ class FlagBox extends Component {
   }
 
   render() {
-    const {props} = this;
+    const {actionSummaries, actions} = this.props;
+    const {showDetail} = this.state;
+
     return (
       <div className={styles.flagBox}>
         <div className={styles.container}>
           <div className={styles.header}>
-            <Icon name='flag'/><h3>Flags ({props.actionSummaries.length}):</h3>
-            <div>
-              {props.actionSummaries.map((action, i) =>
-                <span key={i}>{this.reasonMap(action.reason)} (<strong>{action.count}</strong>)</span>
+            <Icon name='flag'/><h3>Flags ({actionSummaries.length}):</h3>
+            <ul>
+              {actionSummaries.map((action, i) =>
+                <li key={i} className={styles.lessDetail}>{this.reasonMap(action.reason)} (<strong>{action.count}</strong>)</li>
               )}
-            </div>
-            <a onClick={this.toggleDetail} className={styles.moreDetail}>More detail</a>
+            </ul>
+            <a onClick={this.toggleDetail} className={styles.moreDetail}>{showDetail ? 'Less' : 'More'} detail</a>
           </div>
-          {this.state.showDetail && (<div className={styles.detail}>
-          <ul>
-            {props.actionSummaries.map((action, i) =>
-              <li key={i}>{this.reasonMap(action.reason)} (<strong>{action.count}</strong>)</li>
-            )}
-          </ul>
-          </div>)}
+          {showDetail && (
+            <div className={styles.detail}>
+              <ul>
+                {actionSummaries.map((summary, i) => {
+
+                  const actionList = actions.filter(a => a.reason === summary.reason);
+
+                  return (
+                    <li key={i}>
+                      {this.reasonMap(summary.reason)} (<strong>{summary.count}</strong>)
+                      <ul>
+                        {
+                          actionList.map((action, j) => <li key={`${i}_${j}`} className={styles.subDetail}><span>{action.user.username}</span> {action.message}</li>)
+                        }
+                      </ul>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
     );
@@ -59,7 +76,7 @@ FlagBox.propTypes = {
   actionSummaries: PropTypes.arrayOf(PropTypes.shape({
 
   })).isRequired,
-  flagActions: PropTypes.arrayOf(PropTypes.shape({
+  actions: PropTypes.arrayOf(PropTypes.shape({
 
   })).isRequired
 };

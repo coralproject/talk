@@ -20,7 +20,7 @@ const lang = new I18n(translations);
 const Comment = ({actions = [], comment, ...props}) => {
   const links = linkify.getMatches(comment.body);
   const linkText = links ? links.map(link => link.raw) : [];
-  const actionSummaries = comment.action_summaries;
+  const actionSummaries = comment.action_summaries.filter(a => a.__typename === 'FlagActionSummary');
   const flagActions = comment.actions.filter(a => a.__typename === 'FlagAction');
 
   return (
