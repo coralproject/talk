@@ -46,26 +46,72 @@ External plugins can be resolved by running:
 ./bin/cli plugins reconcile
 ```
 
-This will also traverse into local plugin folders and install their
-dependancies. _Note that if the plugin is already installed and available in the
-node_modules folder, it will not be fetched again unless there is a version
-mismatch._
+This achieves two things:
+
+1. It will traverse into local plugin folders and install their dependencies.
+  _Note that if the plugin is already installed and available in the node_modules folder, it will not be
+  fetched again unless there is a version mismatch._ This will result in the
+  project `package.json` and `yarn.lock` files to be modified, this is normal as
+  this ensures that repeated deployments (with the same config) will have the
+  same config, these changes should not be committed to source control.
+2. It will seek out dependencies that are listed in the object notation and try
+  to install them from npm.
 
 ## Plugin Dependencies
 
-From your plugins you may import any component of server code relative to the
-project root. An example could be:
-
-```js
-const cache = require('services/cache');
-```
-
-You may also include additional external depenancies in your local packages by
+You may also include additional external dependencies in your local packages by
 specifying a `package.json` at your plugin root which will result in a
 `node_modules` folder being generated at the plugin root with your specific
 dependencies.
 
+## Deployment Solutions
+
+Plugins can be deployed with a production instance of Talk.
+
+### Source
+
+Source deployments can just modify the `plugins.json` file and include any
+local plugins into the `plugins/` directory. After including the config, you
+need to reconcile the plugins and build the static assets:
+
+```bash
+# get plugin dependancies and remote plugins
+./bin/cli plugins reconcile
+
+# build staic assets (including enabled client side plugins)
+yarn build
+```
+
+Then the application can be started as is.
+
+### Docker
+
+If you deploy using Docker, you can extend from the `*-onbuild` image, an
+example `Dockerfile` for your project could be:
+
+```Dockerfile
+FROM coralproject/talk:latest-onbuild
+```
+
+Where the directory for your instance would contain a `plugins.json` file
+describing the plugin requirements and a `plugins` directory containing any
+other local plugins that should be included.
+
+Onbuild triggers will execute when the image is building with your custom
+configuration and will ensure that the image is ready to use by building all
+assets inside the image as well.
+
 ## Server Plugins
+
+### API
+
+You can access any API available inside the talk directory in a plugin by simply
+importing the file relative to the talk project root. An example would be if you
+wanted to import the `MetadataService`, you would simply write:
+
+```javascript
+const MetadataService = require('services/metadata');
+```
 
 ### Specification
 
