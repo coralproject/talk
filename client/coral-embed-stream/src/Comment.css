@@ -12,3 +12,14 @@
   filter: blur(2px);
   pointer-events: none;
 }
+
+.topRightMenu {
+  float: right;
+  text-align: right;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.topRightMenu > * {
+  text-align: initial;
+}
