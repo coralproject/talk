@@ -58,6 +58,9 @@ class FlagBox extends Component {
 FlagBox.propTypes = {
   actionSummaries: PropTypes.arrayOf(PropTypes.shape({
 
+  })).isRequired,
+  flagActions: PropTypes.arrayOf(PropTypes.shape({
+
   })).isRequired
 };
 
