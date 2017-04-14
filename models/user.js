@@ -117,7 +117,13 @@ const UserSchema = new mongoose.Schema({
       type: String,
       default: ''
     }
-  }
+  },
+
+  ignoresUsers: [{
+
+    // user id of another user
+    type: String,
+  }]
 }, {
 
   // This will ensure that we have proper timestamps available on this model.
