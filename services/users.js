@@ -254,26 +254,28 @@ module.exports = class UsersService {
    * @param  {Boolean}  checkAgainstWordlist  enables cheching against the wordlist
    * @return {Promise}
    */
-  static isValidUsername(username, checkAgainstWordlist = true) {
+  static async isValidUsername(username, checkAgainstWordlist = true) {
     const onlyLettersNumbersUnderscore = /^[A-Za-z0-9_]+$/;
 
     if (!username) {
-      return Promise.reject(errors.ErrMissingUsername);
+      throw errors.ErrMissingUsername;
     }
 
     if (!onlyLettersNumbersUnderscore.test(username)) {
-
-      return Promise.reject(errors.ErrSpecialChars);
+      throw errors.ErrSpecialChars;
     }
 
     if (checkAgainstWordlist) {
 
       // check for profanity
-      console.log('Username profanity check disabled: ', Wordlist.usernameCheck(username));
+      let err = await Wordlist.usernameCheck(username);
+      if (err) {
+        throw err;
+      }
     }
 
     // No errors found!
-    return Promise.resolve(username);
+    return username;
   }
 
   /**
