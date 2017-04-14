@@ -544,11 +544,11 @@ type RootQuery {
   users(query: UsersQuery): [User]
 
   # Asset metrics related to user actions are saturated into the assets
-  # returned.
+  # returned. Parameters `from` and `to` are related to the action created_at field.
   assetMetrics(from: Date!, to: Date!, sort: ASSET_METRICS_SORT!, limit: Int = 10): [Asset!]
 
   # Comment metrics related to user actions are saturated into the comments
-  # returned.
+  # returned. Parameters `from` and `to` are related to the action created_at field.
   commentMetrics(from: Date!, to: Date!, sort: ACTION_TYPE!, limit: Int = 10): [Comment!]
 }
 
