@@ -3,10 +3,12 @@ import {compose} from 'react-apollo';
 import React, {Component} from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
 
-import {myCommentHistory} from 'coral-framework/graphql/queries';
+import {myCommentHistory, myIgnoredUsers} from 'coral-framework/graphql/queries';
+import {stopIgnoringUser} from 'coral-framework/graphql/mutations';
 
 import {link} from 'coral-framework/services/PymConnection';
 import NotLoggedIn from '../components/NotLoggedIn';
+import IgnoredUsers from '../components/IgnoredUsers';
 import {Spinner} from 'coral-ui';
 import CommentHistory from 'coral-plugin-history/CommentHistory';
 
@@ -30,7 +32,7 @@ class ProfileContainer extends Component {
   }
 
   render() {
-    const {loggedIn, asset, showSignInDialog, data} = this.props;
+    const {loggedIn, asset, showSignInDialog, data, myIgnoredUsersData, stopIgnoringUser} = this.props;
     const {me} = this.props.data;
 
     if (!loggedIn || !me) {
@@ -41,16 +43,35 @@ class ProfileContainer extends Component {
       return <Spinner/>;
     }
 
+    const localProfile = this.props.user.profiles.find(p => p.provider === 'local');
+    const emailAddress = localProfile && localProfile.id;
+
     return (
       <div>
-        {
+        <h2>{this.props.userData.username}</h2>
+        { emailAddress
+          ? <p>{ emailAddress }</p>
+          : null
+        }
 
-          // Hiding bio until moderation can get figured out
-          /* <TabBar onChange={this.handleTabChange} activeTab={activeTab} cStyle='material'>
-            <Tab>{lang.t('allComments')} ({user.myComments.length})</Tab>
-              <Tab>{lang.t('profileSettings')}</Tab>
-          </TabBar>
-          <TabContent show={activeTab === 0}> */
+        {
+          myIgnoredUsersData.myIgnoredUsers && myIgnoredUsersData.myIgnoredUsers.length
+          ? (
+            <div>
+              <h3>Ignored users</h3>
+              <IgnoredUsers
+                users={myIgnoredUsersData.myIgnoredUsers}
+                stopIgnoring={stopIgnoringUser}
+              />
+            </div>
+          )
+          : null
+        }
+
+        <hr />
+
+        <h3>My comments</h3>
+        {
           me.comments.length ?
             <CommentHistory
               comments={me.comments}
@@ -59,12 +80,6 @@ class ProfileContainer extends Component {
             />
           :
             <p>{lang.t('userNoComment')}</p>
-
-          // Hiding user bio pending effective moderation system.
-          /* </TabContent>
-          <TabContent show={activeTab === 1}>
-              <BioContainer bio={userData.settings.bio} handleSave={this.handleSave} {...this.props} />
-          </TabContent> */
         }
 
       </div>
@@ -85,5 +100,7 @@ const mapDispatchToProps = () => ({
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  myCommentHistory
+  myCommentHistory,
+  myIgnoredUsers,
+  stopIgnoringUser,
 )(ProfileContainer);

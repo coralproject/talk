@@ -1,0 +1,24 @@
+.ignoredUser {
+  display: table-row;
+}
+
+.ignoredUserList {
+  display: table;
+}
+
+.ignoredUser > * {
+  display: table-cell;
+}
+
+.stopListening {
+  color: #D0011B;
+}
+
+.link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.stopListening:before {
+  content: '\00a0\00a0\00a0\00a0';
+}

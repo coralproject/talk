@@ -5,9 +5,9 @@ class Slot extends Component {
   render() {
     const {fill, ...rest} = this.props;
     return (
-      <div>
+      <span>
         {getSlotElements(fill, rest)}
-      </div>
+      </span>
     );
   }
 }

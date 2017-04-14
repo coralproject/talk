@@ -13,11 +13,21 @@ const suspendUser = ({user}, {id, message}) => {
   });
 };
 
+const ignoreUser = async ({user}, userToIgnore) => {
+  return await UsersService.ignoreUsers(user.id, [userToIgnore.id]);
+};
+
+const stopIgnoringUser = async ({user}, userToStopIgnoring) => {
+  return await UsersService.stopIgnoringUsers(user.id, [userToStopIgnoring.id]);
+};
+
 module.exports = (context) => {
   let mutators = {
     User: {
       setUserStatus: () => Promise.reject(errors.ErrNotAuthorized),
-      suspendUser: () => Promise.reject(errors.ErrNotAuthorized)
+      suspendUser: () => Promise.reject(errors.ErrNotAuthorized),
+      ignoreUser: (action) => ignoreUser(context, action),
+      stopIgnoringUser: (action) => stopIgnoringUser(context, action),
     }
   };
 
