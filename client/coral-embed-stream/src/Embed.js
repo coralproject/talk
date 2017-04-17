@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import isEqual from 'lodash/isEqual';
@@ -14,7 +14,7 @@ const {fetchAssetSuccess} = assetActions;
 import {NEW_COMMENT_COUNT_POLL_INTERVAL} from 'coral-framework/constants/comments';
 
 import {queryStream} from 'coral-framework/graphql/queries';
-import {postComment, postFlag, postLike, postDontAgree, deleteAction, addCommentTag, removeCommentTag} from 'coral-framework/graphql/mutations';
+import {postComment, postFlag, postLike, postDontAgree, deleteAction, addCommentTag, removeCommentTag, ignoreUser} from 'coral-framework/graphql/mutations';
 import {editName} from 'coral-framework/actions/user';
 import {updateCountCache, viewAllComments} from 'coral-framework/actions/asset';
 import {notificationActions, authActions, assetActions, pym} from 'coral-framework';
@@ -36,15 +36,22 @@ import HighlightedComment from './Comment';
 import LoadMore from './LoadMore';
 import NewCount from './NewCount';
 
-class Embed extends Component {
+class Embed extends React.Component {
 
-  state = {activeTab: 0, showSignInDialog: false, activeReplyBox: ''};
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeTab: 0,
+      showSignInDialog: false,
+      activeReplyBox: ''
+    };
+  }
 
   changeTab = (tab) => {
-    const {isAdmin} = this.props.auth;
 
     // Everytime the comes from another tab, the Stream needs to be updated.
-    if (tab === 0 && isAdmin) {
+    if (tab === 0) {
+      this.props.viewAllComments();
       this.props.data.refetch();
     }
 
@@ -64,6 +71,9 @@ class Embed extends Component {
 
     // dispatch action to remove a tag from a comment
     removeCommentTag: React.PropTypes.func,
+
+    // dispatch action to ignore another user
+    ignoreUser: React.PropTypes.func,
   }
 
   componentDidMount () {
@@ -79,10 +89,12 @@ class Embed extends Component {
     if(!isEqual(nextProps.data.asset, this.props.data.asset)) {
       loadAsset(nextProps.data.asset);
 
-      const {getCounts, updateCountCache} = this.props;
+      const {getCounts, updateCountCache, asset: {countCache}} = this.props;
       const {asset} = nextProps.data;
 
-      updateCountCache(asset.id, asset.commentCount);
+      if (!countCache) {
+        updateCountCache(asset.id, asset.commentCount);
+      }
 
       this.setState({
         countPoll: setInterval(() => {
@@ -127,6 +139,12 @@ class Embed extends Component {
 
     const banned = user && user.status === 'BANNED';
 
+    const hasOlderComments = !!(
+      asset &&
+      asset.lastComment &&
+      asset.lastComment.id !== asset.comments[asset.comments.length - 1].id
+    );
+
     const expandForLogin = showSignInDialog ? {
       minHeight: document.body.scrollHeight + 200
     } : {};
@@ -140,12 +158,14 @@ class Embed extends Component {
       ? asset.comments[0].created_at
       : new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString();
 
+    const userBox = <UserBox user={user} logout={() => this.props.logout().then(refetch)}  changeTab={this.changeTab}/>;
+
     return (
       <div style={expandForLogin}>
         <div className="commentStream">
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count count={asset.totalCommentCount}/></Tab>
-            <Tab>{lang.t('MY_COMMENTS')}</Tab>
+            <Tab>{lang.t('myProfile')}</Tab>
             <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>
           {
@@ -158,8 +178,8 @@ class Embed extends Component {
                 this.props.data.refetch();
               }}>{lang.t('showAllComments')}</Button>
           }
-          {loggedIn && <UserBox user={user} logout={() => this.props.logout().then(refetch)}  changeTab={this.changeTab}/>}
           <TabContent show={activeTab === 0}>
+            { loggedIn ? userBox : null }
             {
               openStream
                ? <div id="commentBox">
@@ -250,35 +270,38 @@ class Embed extends Component {
                     postDontAgree={this.props.postDontAgree}
                     addCommentTag={this.props.addCommentTag}
                     removeCommentTag={this.props.removeCommentTag}
+                    ignoreUser={this.props.ignoreUser}
                     loadMore={this.props.loadMore}
                     deleteAction={this.props.deleteAction}
                     showSignInDialog={this.props.showSignInDialog}
-                    comments={asset.comments} />
+                    comments={asset.comments}
+                    ignoredUsers={this.props.userData.ignoredUsers} />
                 </div>
                 <LoadMore
                   topLevel={true}
                   assetId={asset.id}
                   comments={asset.comments}
-                  moreComments={countCache[asset.id] > asset.comments.length}
+                  moreComments={hasOlderComments}
                   loadMore={this.props.loadMore} />
               </div>
             }
-        </TabContent>
-         <TabContent show={activeTab === 1}>
-           <ProfileContainer
-             loggedIn={loggedIn}
-             userData={this.props.userData}
-             showSignInDialog={this.props.showSignInDialog}
-           />
-         </TabContent>
-         <TabContent show={activeTab === 2}>
-           <RestrictedContent restricted={!loggedIn}>
-             <ConfigureStreamContainer
-               status={status}
-               onClick={this.toggleStatus}
-             />
-           </RestrictedContent>
-         </TabContent>
+          </TabContent>
+          <TabContent show={activeTab === 1}>
+            <ProfileContainer
+              loggedIn={loggedIn}
+              userData={this.props.userData}
+              showSignInDialog={this.props.showSignInDialog}
+            />
+          </TabContent>
+          <TabContent show={activeTab === 2}>
+            <RestrictedContent restricted={!loggedIn}>
+              { loggedIn ? userBox : null }
+              <ConfigureStreamContainer
+                status={status}
+                onClick={this.toggleStatus}
+              />
+            </RestrictedContent>
+          </TabContent>
         </div>
       </div>
     );
@@ -288,7 +311,7 @@ class Embed extends Component {
 const mapStateToProps = state => ({
   auth: state.auth.toJS(),
   userData: state.user.toJS(),
-  asset: state.asset.toJS()
+  asset: state.asset.toJS(),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -301,7 +324,7 @@ const mapDispatchToProps = dispatch => ({
   updateCountCache: (id, count) => dispatch(updateCountCache(id, count)),
   viewAllComments: () => dispatch(viewAllComments()),
   logout: () => dispatch(logout()),
-  dispatch: d => dispatch(d)
+  dispatch: d => dispatch(d),
 });
 
 export default compose(
@@ -312,6 +335,7 @@ export default compose(
   postDontAgree,
   addCommentTag,
   removeCommentTag,
+  ignoreUser,
   deleteAction,
   queryStream,
 )(Embed);

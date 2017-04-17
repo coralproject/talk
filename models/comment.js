@@ -75,7 +75,13 @@ const CommentSchema = new Schema({
     default: 'NONE'
   },
   tags: [TagSchema],
-  parent_id: String
+  parent_id: String,
+
+  // Additional metadata stored on the field.
+  metadata: {
+    default: {},
+    type: Object
+  }
 }, {
   timestamps: {
     createdAt: 'created_at',

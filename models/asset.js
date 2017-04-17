@@ -46,6 +46,12 @@ const AssetSchema = new Schema({
     type: Schema.Types.Mixed,
     default: null
   },
+
+  // Additional metadata stored on the field.
+  metadata: {
+    default: {},
+    type: Object
+  }
 }, {
   versionKey: false,
   timestamps: {
