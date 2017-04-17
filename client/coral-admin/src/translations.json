@@ -51,7 +51,12 @@
       "singleview": "Toggle single comment edit view",
       "thismenu": "Open this menu",
       "emptyqueue": "No more comments to moderate! You're all caught up. Go have some ☕️",
-      "showshortcuts": "Show Shortcuts"
+      "showshortcuts": "Show Shortcuts",
+      "dont-like-username": "Don't like username",
+      "impersonating": "Impersonating",
+      "offensive": "Offensive",
+      "spam/ads": "Spam/Ads",
+      "other": "Other"
     },
     "comment": {
       "flagged": "flagged",
@@ -221,7 +226,12 @@
       "shortcuts": "Atajos de teclado",
       "close": "Cerrar",
       "emptyqueue": "No se encontro ningún usuario. Están escondidos.",
-      "showshortcuts": "Mostrar atajos"
+      "showshortcuts": "Mostrar atajos",
+      "dont-like-username": "No me gusta ese nombre de usuario",
+      "impersonating": "Suplantación",
+      "offensive": "Ofensivo",
+      "spam/ads": "Spam/Propaganda",
+      "other": "Otros"
     },
     "comment": {
       "flagged": "marcado",

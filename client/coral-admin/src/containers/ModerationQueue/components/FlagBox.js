@@ -1,11 +1,16 @@
 import React, {Component, PropTypes} from 'react';
 import {Icon} from 'coral-ui';
 import styles from './FlagBox.css';
+import I18n from 'coral-framework/modules/i18n/i18n';
+import translations from 'coral-admin/src/translations.json';
+const lang = new I18n(translations);
 
 const shortReasons = {
-  'This comment is offensive': 'Offensive',
-  'This looks like an ad/marketing': 'Spam/Ads',
-  'Other': 'other'
+  'This comment is offensive': lang.t('modqueue.offensive'),
+  'This looks like an ad/marketing': lang.t('modqueue.spam/ads'),
+  'This user is impersonating': lang.t('modqueue.impersonating'),
+  'I don\'t like this username': lang.t('modqueue.dont-like-username'),
+  'Other': lang.t('modqueue.other')
 };
 
 class FlagBox extends Component {
