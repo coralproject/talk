@@ -56,7 +56,7 @@ class ConfigureStreamContainer extends Component {
 
   handleChange (e) {
 
-    // TO DO: Don’t directly manipulate state and make state change immutable.
+    // TODO: Don’t directly manipulate state and make state change immutable.
     if (e.target && e.target.id === 'qboxenable') {
       this.state.dirtySettings.questionBoxEnable = e.target.checked;
     }
