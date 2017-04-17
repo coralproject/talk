@@ -36,6 +36,9 @@ export const getMetrics = graphql(METRICS, {
 export const loadMore = (fetchMore) => ({limit, cursor, sort, tab, asset_id}) => {
   let statuses;
   switch(tab) {
+  case 'all':
+    statuses = null;
+    break;
   case 'premod':
     statuses = ['PREMOD'];
     break;
