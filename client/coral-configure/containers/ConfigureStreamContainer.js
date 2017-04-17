@@ -16,7 +16,7 @@ class ConfigureStreamContainer extends Component {
 
     this.state = {
       changed: false,
-      settings: props.asset.settings
+      dirtySettings: props.asset.settings
     };
 
     this.toggleStatus = this.toggleStatus.bind(this);
@@ -54,14 +54,16 @@ class ConfigureStreamContainer extends Component {
   }
 
   handleChange (e) {
+
+    // TO DO: Don’t directly manipulate state and make state change immutable.
     if (e.target && e.target.id === 'qboxenable') {
-      this.state.settings.questionBoxEnable = e.target.checked;
+      this.state.dirtySettings.questionBoxEnable = e.target.checked;
     }
     if (e.target && e.target.id === 'qboxcontent') {
-      this.state.settings.questionBoxContent = e.target.value;
+      this.state.dirtySettings.questionBoxContent = e.target.value;
     }
     if (e.target && e.target.id === 'plinksenable') {
-      this.state.settings.premodLinksEnable = e.target.value;
+      this.state.dirtySettings.premodLinksEnable = e.target.value;
     }
 
     this.setState({
@@ -83,9 +85,9 @@ class ConfigureStreamContainer extends Component {
 
   render () {
     const {closedAt} = this.props.asset;
-    const {settings} = this.state;
+    const {dirtySettings} = this.state;
     const status = closedAt === null ? 'open' : 'closed';
-    const premod = settings.moderation === 'PRE';
+    const premod = dirtySettings.moderation === 'PRE';
 
     return (
       <div>
@@ -93,10 +95,10 @@ class ConfigureStreamContainer extends Component {
           handleChange={this.handleChange}
           handleApply={this.handleApply}
           changed={this.state.changed}
-          premodLinksEnable={settings.premodLinksEnable}
+          premodLinksEnable={dirtySettings.premodLinksEnable}
           premod={premod}
-          questionBoxEnable={settings.questionBoxEnable}
-          questionBoxContent={settings.questionBoxContent}
+          questionBoxEnable={dirtySettings.questionBoxEnable}
+          questionBoxContent={dirtySettings.questionBoxContent}
         />
         <hr />
         <h3>{status === 'open' ? 'Close' : 'Open'} Comment Stream</h3>
