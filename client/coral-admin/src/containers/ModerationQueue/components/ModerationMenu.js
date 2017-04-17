@@ -4,6 +4,7 @@ import styles from './styles.css';
 import {SelectField, Option} from 'react-mdl-selectfield';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations.json';
+import {Icon} from 'coral-ui';
 import {Link} from 'react-router';
 
 const lang = new I18n(translations);
@@ -25,25 +26,25 @@ const ModerationMenu = (
             to={getPath('all')}
             className={`mdl-tabs__tab ${styles.tab}`}
             activeClassName={styles.active}>
-            {lang.t('modqueue.all')} <CommentCount count={allCount} />
+            <Icon name='question_answer' className={styles.tabIcon} /> {lang.t('modqueue.all')} <CommentCount count={allCount} />
           </Link>
           <Link
             to={getPath('premod')}
             className={`mdl-tabs__tab ${styles.tab}`}
             activeClassName={styles.active}>
-            {lang.t('modqueue.premod')} <CommentCount count={premodCount} />
+            <Icon name='access_time' className={styles.tabIcon} /> {lang.t('modqueue.premod')} <CommentCount count={premodCount} />
           </Link>
           <Link
             to={getPath('flagged')}
             className={`mdl-tabs__tab ${styles.tab}`}
             activeClassName={styles.active}>
-            {lang.t('modqueue.flagged')} <CommentCount count={flaggedCount} />
+            <Icon name='flag' className={styles.tabIcon} /> {lang.t('modqueue.flagged')} <CommentCount count={flaggedCount} />
           </Link>
           <Link
             to={getPath('rejected')}
             className={`mdl-tabs__tab ${styles.tab}`}
             activeClassName={styles.active}>
-            {lang.t('modqueue.rejected')} <CommentCount count={rejectedCount} />
+            <Icon name='close' className={styles.tabIcon} /> {lang.t('modqueue.rejected')} <CommentCount count={rejectedCount} />
           </Link>
         </div>
         <SelectField
