@@ -1,23 +1,25 @@
 import React from 'react';
 import {Button} from 'coral-ui';
 
+import I18n from 'coral-framework/modules/i18n/i18n';
+import translations from 'coral-admin/src/translations';
+
+const lang = new I18n(translations);
+
 export default ({status, onClick}) => (
   status === 'open' ? (
     <div className="close-comments-intro-wrapper">
       <p>
-        This comment stream is currently open. By closing this comment stream,
-        no new comments may be submitted and all previous comments will still
-        be displayed.
+        {lang.t('configure.open-stream-configuration')}
       </p>
-      <Button onClick={onClick}>Close Stream</Button>
+      <Button onClick={onClick}>{lang.t('configure.close-stream')}</Button>
     </div>
   ) : (
     <div className="close-comments-intro-wrapper">
       <p>
-        This comment stream is currently closed. By opening this comment stream,
-        new comments may be submitted and displayed
+        {lang.t('configure.close-stream-configuration')}
       </p>
-      <Button onClick={onClick}>Open Stream</Button>
+      <Button onClick={onClick}>{lang.t('configure.open-stream')}</Button>
     </div>
   )
 );
