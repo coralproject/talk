@@ -48,7 +48,7 @@ class FlagBox extends Component {
                 <li key={i} className={styles.lessDetail}>{this.reasonMap(action.reason)} (<strong>{action.count}</strong>)</li>
               )}
             </ul>
-            <a onClick={this.toggleDetail} className={styles.moreDetail}>{showDetail ? 'Less' : 'More'} detail</a>
+            <a onClick={this.toggleDetail} className={styles.moreDetail}>{showDetail ? lang.t('modqueue.less-detail') : lang.t('modqueue.more-detail')}</a>
           </div>
           {showDetail && (
             <div className={styles.detail}>
