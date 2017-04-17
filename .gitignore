@@ -20,3 +20,4 @@ plugins/*
 !plugins/coral-plugin-respect
 !plugins/coral-plugin-offtopic
 
+**/node_modules/*

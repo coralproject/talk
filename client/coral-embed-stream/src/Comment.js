@@ -20,6 +20,8 @@ import LikeButton from 'coral-plugin-likes/LikeButton';
 import {BestButton, IfUserCanModifyBest, BEST_TAG, commentIsBest, BestIndicator} from 'coral-plugin-best/BestButton';
 import LoadMore from 'coral-embed-stream/src/LoadMore';
 import {Slot} from 'coral-framework';
+import IgnoredCommentTombstone from './IgnoredCommentTombstone';
+import {TopRightMenu} from './TopRightMenu';
 
 import styles from './Comment.css';
 
@@ -84,11 +86,17 @@ class Comment extends React.Component {
       }).isRequired
     }).isRequired,
 
+    // given a comment, return whether it should be rendered as ignored
+    commentIsIgnored: React.PropTypes.func,
+
     // dispatch action to add a tag to a comment
     addCommentTag: React.PropTypes.func,
 
     // dispatch action to remove a tag from a comment
     removeCommentTag: React.PropTypes.func,
+
+    // dispatch action to ignore another user
+    ignoreUser: React.PropTypes.func,
   }
 
   render () {
@@ -111,7 +119,9 @@ class Comment extends React.Component {
       deleteAction,
       addCommentTag,
       removeCommentTag,
+      ignoreUser,
       disableReply,
+      commentIsIgnored,
     } = this.props;
 
     const like = getActionSummary('LikeActionSummary', comment);
@@ -121,10 +131,10 @@ class Comment extends React.Component {
     commentClass += comment.id === 'pending' ? ` ${styles.pendingComment}` : '';
 
     // call a function, and if it errors, call addNotification('error', ...) (e.g. to show user a snackbar)
-    const notifyOnError = (fn, errorToMessage) => async () => {
+    const notifyOnError = (fn, errorToMessage) => async function (...args) {
       if (typeof errorToMessage !== 'function') {errorToMessage = (error) => error.message;}
       try {
-        return await fn();
+        return await fn(...args);
       } catch (error) {
         addNotification('error', errorToMessage(error));
         throw error;
@@ -159,6 +169,16 @@ class Comment extends React.Component {
           : null }
           <PubDate created_at={comment.created_at} />
           <Slot fill="commentInfoBar" comment={comment} commentId={comment.id} inline/>
+
+          { (currentUser && (comment.user.id !== currentUser.id))
+            ? <span className={styles.topRightMenu}>
+                <TopRightMenu
+                  comment={comment}
+                  ignoreUser={ignoreUser}
+                  addNotification={addNotification} />
+              </span>
+            : null
+          }
 
           <Content body={comment.body} />
           <div className="commentActionsLeft comment__action-container">
@@ -225,27 +245,29 @@ class Comment extends React.Component {
         {
           comment.replies &&
           comment.replies.map(reply => {
-            return <Comment
-              setActiveReplyBox={setActiveReplyBox}
-              disableReply={disableReply}
-              activeReplyBox={activeReplyBox}
-              addNotification={addNotification}
-              parentId={comment.id}
-              postItem={postItem}
-              depth={depth + 1}
-              asset={asset}
-              highlighted={highlighted}
-              currentUser={currentUser}
-              postLike={postLike}
-              postFlag={postFlag}
-              deleteAction={deleteAction}
-              addCommentTag={addCommentTag}
-              removeCommentTag={removeCommentTag}
-              showSignInDialog={showSignInDialog}
-              reactKey={reply.id}
-              key={reply.id}
-              comment={reply}
-            />;
+            return commentIsIgnored(reply)
+              ? <IgnoredCommentTombstone key={reply.id} />
+              : <Comment
+                  setActiveReplyBox={setActiveReplyBox}
+                  disableReply={disableReply}
+                  activeReplyBox={activeReplyBox}
+                  addNotification={addNotification}
+                  parentId={comment.id}
+                  postItem={postItem}
+                  depth={depth + 1}
+                  asset={asset}
+                  highlighted={highlighted}
+                  currentUser={currentUser}
+                  postLike={postLike}
+                  postFlag={postFlag}
+                  deleteAction={deleteAction}
+                  addCommentTag={addCommentTag}
+                  removeCommentTag={removeCommentTag}
+                  ignoreUser={ignoreUser}
+                  showSignInDialog={showSignInDialog}
+                  reactKey={reply.id}
+                  key={reply.id}
+                  comment={reply} />;
           })
         }
         {

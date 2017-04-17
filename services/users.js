@@ -1,3 +1,4 @@
+const assert = require('assert');
 const bcrypt = require('bcrypt');
 const url = require('url');
 const jwt = require('jsonwebtoken');
@@ -253,26 +254,28 @@ module.exports = class UsersService {
    * @param  {Boolean}  checkAgainstWordlist  enables cheching against the wordlist
    * @return {Promise}
    */
-  static isValidUsername(username, checkAgainstWordlist = true) {
+  static async isValidUsername(username, checkAgainstWordlist = true) {
     const onlyLettersNumbersUnderscore = /^[A-Za-z0-9_]+$/;
 
     if (!username) {
-      return Promise.reject(errors.ErrMissingUsername);
+      throw errors.ErrMissingUsername;
     }
 
     if (!onlyLettersNumbersUnderscore.test(username)) {
-
-      return Promise.reject(errors.ErrSpecialChars);
+      throw errors.ErrSpecialChars;
     }
 
     if (checkAgainstWordlist) {
 
       // check for profanity
-      console.log('Username profanity check disabled: ', Wordlist.usernameCheck(username));
+      let err = await Wordlist.usernameCheck(username);
+      if (err) {
+        throw err;
+      }
     }
 
     // No errors found!
-    return Promise.resolve(username);
+    return username;
   }
 
   /**
@@ -833,5 +836,43 @@ module.exports = class UsersService {
 
       throw err;
     });
+  }
+
+  /**
+   * Ignore another user
+   * @param  {String} userId the id of the user that is ignoring another users
+   * @param  {String[]} usersToIgnore Array of user IDs to ignore
+   */
+  static ignoreUsers(userId, usersToIgnore) {
+    assert(Array.isArray(usersToIgnore), 'usersToIgnore is an array');
+    assert(usersToIgnore.every(u => typeof u === 'string'), 'usersToIgnore is an array of string user IDs');
+    if (usersToIgnore.includes(userId)) {
+      throw new Error('Users cannot ignore themselves');
+    }
+
+    // TODO: For each usersToIgnore, make sure they exist?
+    return UserModel.update({id: userId}, {
+      $addToSet:  {
+        ignoresUsers: {
+          $each: usersToIgnore
+        }
+      }
+    });
+  }
+
+  /**
+   * Stop ignoring other users
+   * @param  {String} userId the id of the user that is ignoring another users
+   * @param  {String[]} usersToStopIgnoring Array of user IDs to stop ignoring
+   */
+  static async stopIgnoringUsers(userId, usersToStopIgnoring) {
+    assert(Array.isArray(usersToStopIgnoring), 'usersToStopIgnoring is an array');
+    assert(usersToStopIgnoring.every(u => typeof u === 'string'), 'usersToStopIgnoring is an array of string user IDs');
+    await UserModel.update({id: userId}, {
+      $pullAll:  {
+        ignoresUsers: usersToStopIgnoring
+      }
+    });
+    console.log('Mongo wrote stopIgnoringUsers', usersToStopIgnoring);
   }
 };
