@@ -7,7 +7,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations.json';
 const lang = new I18n(translations);
 
-export default ({handleChange, handleApply, changed, updateQuestionBoxContent, ...props}) => (
+export default ({handleChange, handleApply, changed, ...props}) => (
   <form onSubmit={handleApply}>
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -38,9 +38,9 @@ export default ({handleChange, handleApply, changed, updateQuestionBoxContent, .
           <Checkbox
             className={styles.checkbox}
             cStyle={changed ? 'green' : 'darkGrey'}
-            name="premodLinks"
+            name="plinksenable"
             onChange={handleChange}
-            defaultChecked={props.premodLinks}
+            defaultChecked={props.premodLinksEnable}
             info={{
               title: lang.t('configureCommentStream.enablePremodLinks'),
               description: lang.t('configureCommentStream.enablePremodLinksDescription')
@@ -57,11 +57,10 @@ export default ({handleChange, handleApply, changed, updateQuestionBoxContent, .
               title: lang.t('configureCommentStream.enableQuestionBox'),
               description: lang.t('configureCommentStream.enableQuestionBoxDescription')
             }} />
-
           <div className={`${props.questionBoxEnable ? null : styles.hidden}`} >
             <TextField
               id="qboxcontent"
-              onChange={updateQuestionBoxContent}
+              onChange={handleChange}
               rows={3}
               value={props.questionBoxContent}
               label={lang.t('configureCommentStream.includeQuestionHere')}
