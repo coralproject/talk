@@ -170,7 +170,10 @@ describe('graph.mutations.createComment', () => {
           const context = new Context({user: new UserModel({status: 'ACTIVE'})});
 
           return graphql(schema, query, {}, context, {
-            body
+            comment: {
+              asset_id: '123',
+              body
+            }
           })
           .then(({data, errors}) => {
             expect(errors).to.be.undefined;
