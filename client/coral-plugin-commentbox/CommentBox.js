@@ -29,9 +29,9 @@ class CommentBox extends Component {
       commentPostedHandler,
       postItem,
       assetId,
-      updateCountCache,
+      setCommentCountCache,
       isReply,
-      countCache,
+      commentCountCache,
       parentId,
       addNotification,
       authorId
@@ -47,24 +47,27 @@ class CommentBox extends Component {
     if (this.props.charCount && this.state.body.length > this.props.charCount) {
       return;
     }
-    !isReply && updateCountCache(assetId, countCache + 1);
+    !isReply && setCommentCountCache(commentCountCache + 1);
     postItem(comment, 'comments')
       .then(({data}) => {
         const postedComment = data.createComment.comment;
 
         if (postedComment.status === 'REJECTED') {
           addNotification('error', lang.t('comment-post-banned-word'));
-          !isReply && updateCountCache(assetId, countCache);
+          !isReply && setCommentCountCache(commentCountCache);
         } else if (postedComment.status === 'PREMOD') {
           addNotification('success', lang.t('comment-post-notif-premod'));
-          !isReply && updateCountCache(assetId, countCache);
+          !isReply && setCommentCountCache(commentCountCache);
         }
 
         if (commentPostedHandler) {
           commentPostedHandler();
         }
       })
-    .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error(err);
+        setCommentCountCache(commentCountCache);
+      });
     this.setState({body: ''});
   }
 

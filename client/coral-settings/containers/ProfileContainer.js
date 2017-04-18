@@ -2,6 +2,7 @@ import {connect} from 'react-redux';
 import {compose} from 'react-apollo';
 import React, {Component} from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
+import {bindActionCreators} from 'redux';
 
 import {myCommentHistory, myIgnoredUsers} from 'coral-framework/graphql/queries';
 import {stopIgnoringUser} from 'coral-framework/graphql/mutations';
@@ -11,6 +12,7 @@ import NotLoggedIn from '../components/NotLoggedIn';
 import IgnoredUsers from '../components/IgnoredUsers';
 import {Spinner} from 'coral-ui';
 import CommentHistory from 'coral-plugin-history/CommentHistory';
+import {showSignInDialog} from 'coral-framework/actions/auth';
 
 import translations from '../translations';
 const lang = new I18n(translations);
@@ -32,10 +34,10 @@ class ProfileContainer extends Component {
   }
 
   render() {
-    const {loggedIn, asset, showSignInDialog, data, myIgnoredUsersData, stopIgnoringUser} = this.props;
+    const {asset, showSignInDialog, data, myIgnoredUsersData, stopIgnoringUser} = this.props;
     const {me} = this.props.data;
 
-    if (!loggedIn || !me) {
+    if (!me) {
       return <NotLoggedIn showSignInDialog={showSignInDialog} requireEmailConfirmation={asset.settings.requireEmailConfirmation}/>;
     }
 
@@ -48,7 +50,7 @@ class ProfileContainer extends Component {
 
     return (
       <div>
-        <h2>{this.props.userData.username}</h2>
+        <h2>{this.props.user.username}</h2>
         { emailAddress
           ? <p>{ emailAddress }</p>
           : null
@@ -93,10 +95,8 @@ const mapStateToProps = state => ({
   auth: state.auth.toJS()
 });
 
-const mapDispatchToProps = () => ({
-
-  // saveBio: (user_id, formData) => dispatch(saveBio(user_id, formData))
-});
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({showSignInDialog}, dispatch);
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
