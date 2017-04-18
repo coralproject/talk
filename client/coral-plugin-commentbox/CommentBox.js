@@ -67,7 +67,7 @@ class CommentBox extends Component {
       })
       .catch((err) => {
         console.error(err);
-        setCommentCountCache(commentCountCache);
+        !isReply && setCommentCountCache(commentCountCache);
       });
     this.setState({body: ''});
   }
