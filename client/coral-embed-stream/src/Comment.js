@@ -168,7 +168,7 @@ class Comment extends React.Component {
             ? <TagLabel><BestIndicator /></TagLabel>
           : null }
           <PubDate created_at={comment.created_at} />
-          <Slot fill="commentInfoBar" commentId={comment.id} />
+          <Slot fill="commentInfoBar" comment={comment} commentId={comment.id} inline/>
 
           { (currentUser && (comment.user.id !== currentUser.id))
             ? <span className={styles.topRightMenu}>
@@ -209,7 +209,7 @@ class Comment extends React.Component {
                   removeBest={removeBestTag} />
               </IfUserCanModifyBest>
             </ActionButton>
-            <Slot fill="commentDetail" commentId={comment.id} />
+            <Slot fill="commentDetail" comment={comment} commentId={comment.id} inline/>
           </div>
           <div className="commentActionsRight comment__action-container">
             <ActionButton>
