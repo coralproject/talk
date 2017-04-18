@@ -18,4 +18,6 @@ plugins.json
 plugins/*
 !plugins/coral-plugin-facebook-auth
 !plugins/coral-plugin-respect
+!plugins/coral-plugin-offtopic
+
 **/node_modules/*

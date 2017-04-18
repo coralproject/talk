@@ -16,11 +16,14 @@ const Wordlist = require('../../services/wordlist');
  * @param  {String} [status='NONE'] the status of the new comment
  * @return {Promise}              resolves to the created comment
  */
-const createComment = ({user, loaders: {Comments}, pubsub}, {body, asset_id, parent_id = null}, status = 'NONE') => {
+const createComment = ({user, loaders: {Comments}, pubsub}, {body, asset_id, parent_id = null, tags = []}, status = 'NONE') => {
 
-  let tags = [];
+  // Building array of tags
+  tags = tags.map(tag => ({name: tag}));
+
+  // If admin or moderator, adding STAFF tag
   if (user.hasRoles('ADMIN') || user.hasRoles('MODERATOR')) {
-    tags = [{name: 'STAFF'}];
+    tags.push({name: 'STAFF'});
   }
 
   return CommentsService.publicCreate({

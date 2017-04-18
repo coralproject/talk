@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import {getSlotElements} from 'coral-framework/helpers/plugins';
+import styles from './Slot.css';
 
 class Slot extends Component {
   render() {
-    const {fill, ...rest} = this.props;
+    const {fill, inline = false, ...rest} = this.props;
     return (
-      <span>
+      <div className={inline ? styles.inline : ''}>
         {getSlotElements(fill, rest)}
-      </span>
+      </div>
     );
   }
 }

@@ -1,12 +1,12 @@
 const expect = require('chai').expect;
 const {graphql} = require('graphql');
 
-const schema = require('../../../graph/schema');
-const Context = require('../../../graph/context');
-const UsersService = require('../../../services/users');
-const SettingsService = require('../../../services/settings');
-const Asset = require('../../../models/asset');
-const CommentsService = require('../../../services/comments');
+const schema = require('../../../../graph/schema');
+const Context = require('../../../../graph/context');
+const UsersService = require('../../../../services/users');
+const SettingsService = require('../../../../services/settings');
+const Asset = require('../../../../models/asset');
+const CommentsService = require('../../../../services/comments');
 
 describe('graph.queries.asset', () => {
   beforeEach(async () => {
@@ -87,7 +87,7 @@ describe('graph.queries.asset', () => {
     `;
     const assetCommentsResponse = await graphql(schema, assetCommentsWithoutIgnoredQuery, {}, context, {assetId, assetUrl, excludeIgnored: true});
     const comments = assetCommentsResponse.data.asset.comments;
-    expect(comments.length).to.equal(2);    
+    expect(comments.length).to.equal(2);
   });
 
 });
