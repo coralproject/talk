@@ -4,6 +4,7 @@ const {graphql} = require('graphql');
 const schema = require('../../../../graph/schema');
 const Context = require('../../../../graph/context');
 const UserModel = require('../../../../models/user');
+const TagModel = require('../../../../models/tag');
 const SettingsService = require('../../../../services/settings');
 const CommentsService = require('../../../../services/comments');
 
@@ -37,7 +38,12 @@ describe('graph.mutations.addCommentTag', () => {
       console.error(response.errors);
     }
     expect(response.errors).to.be.empty;
-    expect(response.data.addCommentTag.comment.tags).to.deep.equal([{name: 'BEST'}]);
+    TagModel.find({
+      item_id: response.data.addCommentTag.comment.id,
+      name: 'BEST'
+    }).then((tags) => {
+      expect(tags).to.have.length(1);
+    });
   });
 
   describe('users who cant add tags', () => {

@@ -3,10 +3,8 @@ const CommentModel = require('../models/comment');
 const ActionModel = require('../models/action');
 const ActionsService = require('./actions');
 
-const ALLOWED_TAGS = [
-  {name: 'STAFF'},
-  {name: 'BEST'},
-];
+const TagModel = require('../models/tag');
+const TagsService = require('./tags');
 
 const STATUSES = [
   'ACCEPTED',
@@ -53,37 +51,14 @@ module.exports = class CommentsService {
    */
   static addTag(id, name, assigned_by) {
 
-    if (ALLOWED_TAGS.find((t) => t.name === name) == null) {
-      return Promise.reject(new Error('tag not allowed'));
-    }
+    return TagsService.insertCommentTag({
+      name,
+      item_id: id,
+      item_type: 'COMMENTS',
+      user_id: assigned_by,
+    });
 
-    const filter = {
-      id,
-      'tags.name': {$ne: name},
-    };
-    const update = {
-      $push: {tags: {
-        name,
-        assigned_by,
-        created_at: new Date()
-      }}
-    };
-    return CommentModel.update(filter, update)
-      .then(({nModified}) => {
-        switch (nModified) {
-        case 0:
-
-          // either the tag was already there, or the comment doesn't exist with that id...
-          throw new Error('Could not add tag to comment. Either the comment doesn\'t exist or the tag is already present.');
-        case 1:
-
-            // tag added
-          return;
-        default:
-
-          // this should never happen because no multi parameter and unique index on id
-        }
-      });
+    // Add the ID to the comment
   }
 
   /**
@@ -93,25 +68,11 @@ module.exports = class CommentsService {
    * @param {String} name the name of the tag to add
    */
   static removeTag(id, name) {
-    const filter = {
-      id,
-      'tags.name': name,
-    };
-    const update = {$pull: {tags: {name}}};
-    return CommentModel.update(filter, update)
-      .then(({nModified}) => {
-        switch (nModified) {
-        case 0:
-          throw new Error('Could not remove tag from comment. Either the comment doesn\'t exist or the tag is not present');
-        case 1:
-
-            // tag removed
-          return;
-        default:
-
-          // this should never happen because no multi parameter and unique index on id
-        }
-      });
+    return TagModel.remove({
+      item_type: 'COMMENTS',
+      item_id: id,
+      name
+    });
   }
 
   /**

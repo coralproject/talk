@@ -65,4 +65,5 @@ require('../models/action');
 require('../models/asset');
 require('../models/comment');
 require('../models/setting');
+require('../models/tag');
 require('../models/user');

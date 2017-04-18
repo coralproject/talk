@@ -185,7 +185,9 @@ const USER_GRAPH_OPERATIONS = [
   'mutation:suspendUser',
   'mutation:setCommentStatus',
   'mutation:addCommentTag',
-  'mutation:removeCommentTag'
+  'mutation:removeCommentTag',
+  'mutation:addUserTag',
+  'mutation:removeUserTag'
 ];
 
 /**
@@ -207,7 +209,7 @@ UserSchema.method('can', function(...actions) {
 
   // {add,remove}CommentTag - requires admin and/or moderator role
   const userCanModifyTags = user => ['ADMIN', 'MODERATOR'].some(r => user.hasRoles(r));
-  if (actions.some(a => ['mutation:removeCommentTag', 'mutation:addCommentTag'].includes(a)) && ! userCanModifyTags(this)) {
+  if (actions.some(a => ['mutation:removeCommentTag', 'mutation:addCommentTag', 'mutation:removeUserTag', 'mutation: addUserTag'].includes(a)) && ! userCanModifyTags(this)) {
     return false;
   }
 
