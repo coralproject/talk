@@ -16,13 +16,13 @@ class ConfigureStreamContainer extends Component {
 
     this.state = {
       changed: false,
+      dirtySettings: props.asset.settings,
       closedAt: (props.asset.closedAt === null ? 'open' : 'closed')
     };
 
     this.toggleStatus = this.toggleStatus.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleApply = this.handleApply.bind(this);
-    this.updateQuestionBoxContent = this.updateQuestionBoxContent.bind(this);
   }
 
   handleApply (e) {
@@ -32,7 +32,7 @@ class ConfigureStreamContainer extends Component {
     const questionBoxEnable = elements.qboxenable.checked;
     const questionBoxContent = elements.qboxcontent.value;
 
-    const premodLinksEnable = elements.premodLinks.checked;
+    const premodLinksEnable = elements.plinksenable.checked;
     const {changed} = this.state;
 
     const newConfig = {
@@ -49,21 +49,27 @@ class ConfigureStreamContainer extends Component {
           changed: false
         });
       }, 300);
+
+      // this.props.loadAsset(this.props.data.asset);
     }
   }
 
   handleChange (e) {
+
+    // TODO: Don’t directly manipulate state and make state change immutable.
     if (e.target && e.target.id === 'qboxenable') {
-      this.props.asset.settings.questionBoxEnable = e.target.checked;
+      this.state.dirtySettings.questionBoxEnable = e.target.checked;
     }
+    if (e.target && e.target.id === 'qboxcontent') {
+      this.state.dirtySettings.questionBoxContent = e.target.value;
+    }
+    if (e.target && e.target.id === 'plinksenable') {
+      this.state.dirtySettings.premodLinksEnable = e.target.value;
+    }
+
     this.setState({
       changed: true
     });
-  }
-
-  updateQuestionBoxContent(e) {
-    this.props.asset.settings.questionBoxContent = e.target.value;
-    this.handleChange(e);
   }
 
   toggleStatus () {
@@ -85,10 +91,10 @@ class ConfigureStreamContainer extends Component {
   }
 
   render () {
-    const {settings} = this.props.asset;
+    const {dirtySettings} = this.state;
+    const premod = dirtySettings.moderation === 'PRE';
     const {closedAt} = this.state;
-    const premod = settings.moderation === 'PRE';
-    const closedTimeout = settings.closedTimeout;
+    const closedTimeout = dirtySettings.closedTimeout;
 
     return (
       <div>
@@ -96,11 +102,10 @@ class ConfigureStreamContainer extends Component {
           handleChange={this.handleChange}
           handleApply={this.handleApply}
           changed={this.state.changed}
-          premodLinks={settings.premodLinks}
+          premodLinksEnable={dirtySettings.premodLinksEnable}
           premod={premod}
-          updateQuestionBoxContent={this.updateQuestionBoxContent}
-          questionBoxEnable={settings.questionBoxEnable}
-          questionBoxContent={settings.questionBoxContent}
+          questionBoxEnable={dirtySettings.questionBoxEnable}
+          questionBoxContent={dirtySettings.questionBoxContent}
         />
         <hr />
         <h3>{closedAt === 'open' ? 'Close' : 'Open'} Comment Stream</h3>
