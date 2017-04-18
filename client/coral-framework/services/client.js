@@ -4,12 +4,11 @@ import getNetworkInterface from './transport';
 import {SubscriptionClient, addGraphQLSubscriptions} from 'subscriptions-transport-ws';
 
 // TODO: replace absolute reference with something loaded from the store/page.
-const wsClient = new SubscriptionClient('ws://localhost:3000/api/v1/live', {
-  reconnect: true
-});
-const networkInterface = getNetworkInterface();
-const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
-  networkInterface,
+// const wsClient = new SubscriptionClient('ws://localhost:3000/api/v1/live', {
+//   reconnect: true
+// });
+const networkInterface = addGraphQLSubscriptions(
+  getNetworkInterface(),
   wsClient,
 );
 
@@ -22,7 +21,7 @@ export const client = new ApolloClient({
     }
     return null;
   },
-  networkInterface: networkInterfaceWithSubscriptions,
+  networkInterface
 });
 
 export default client;
