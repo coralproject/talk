@@ -156,9 +156,6 @@ class SignInContainer extends Component {
 
     return (
       <div>
-        {/*{!noButton && <Button id='coralSignInButton' onClick={showSignInDialog} full>*/}
-          {/*Sign in to comment*/}
-        {/*</Button>}*/}
         <SignDialog
           open={true}
           view={auth.view}

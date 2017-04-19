@@ -2,6 +2,7 @@ import {connect} from 'react-redux';
 import {compose} from 'react-apollo';
 import React, {Component} from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
+import {bindActionCreators} from 'redux';
 
 import {myCommentHistory, myIgnoredUsers} from 'coral-framework/graphql/queries';
 import {stopIgnoringUser} from 'coral-framework/graphql/mutations';
@@ -11,6 +12,8 @@ import NotLoggedIn from '../components/NotLoggedIn';
 import IgnoredUsers from '../components/IgnoredUsers';
 import {Spinner} from 'coral-ui';
 import CommentHistory from 'coral-plugin-history/CommentHistory';
+
+import {openSignInPopUp, checkLogin} from 'coral-framework/actions/auth';
 
 import translations from '../translations';
 const lang = new I18n(translations);
@@ -31,16 +34,26 @@ class ProfileContainer extends Component {
     });
   }
 
-  render() {
-    const {loggedIn, asset, showSignInDialog, data, myIgnoredUsersData, stopIgnoringUser} = this.props;
-    const {me} = this.props.data;
+  signIn = () => {
+    const {refetch} = this.props.data;
+    const {openSignInPopUp, checkLogin} = this.props;
 
-    if (!loggedIn || !me) {
-      return <NotLoggedIn showSignInDialog={showSignInDialog} requireEmailConfirmation={asset.settings.requireEmailConfirmation}/>;
-    }
+    openSignInPopUp(() => {
+      checkLogin();
+      refetch();
+    });
+  }
+
+  render() {
+    const {loggedIn, asset, data, myIgnoredUsersData, stopIgnoringUser} = this.props;
+    const {me} = this.props.data;
 
     if (data.loading) {
       return <Spinner/>;
+    }
+
+    if (!loggedIn || !me) {
+      return <NotLoggedIn signIn={this.signIn} />;
     }
 
     const localProfile = this.props.user.profiles.find(p => p.provider === 'local');
@@ -81,7 +94,6 @@ class ProfileContainer extends Component {
           :
             <p>{lang.t('userNoComment')}</p>
         }
-
       </div>
     );
   }
@@ -93,10 +105,8 @@ const mapStateToProps = state => ({
   auth: state.auth.toJS()
 });
 
-const mapDispatchToProps = () => ({
-
-  // saveBio: (user_id, formData) => dispatch(saveBio(user_id, formData))
-});
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({openSignInPopUp, checkLogin}, dispatch);
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

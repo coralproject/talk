@@ -8,7 +8,7 @@ const lang = new I18n(translations);
 
 import {TabBar, Tab, TabContent, Spinner, Button} from 'coral-ui';
 
-const {logout, showSignInDialog, requestConfirmEmail, signInPopUp} = authActions;
+const {logout, showSignInDialog, requestConfirmEmail, openSignInPopUp, checkLogin} = authActions;
 const {addNotification, clearNotification} = notificationActions;
 const {fetchAssetSuccess} = assetActions;
 import {NEW_COMMENT_COUNT_POLL_INTERVAL} from 'coral-framework/constants/comments';
@@ -26,7 +26,6 @@ import {ModerationLink} from 'coral-plugin-moderation';
 import Count from 'coral-plugin-comment-count/CommentCount';
 import CommentBox from 'coral-plugin-commentbox/CommentBox';
 import UserBox from 'coral-sign-in/components/UserBox';
-import SignInContainer from 'coral-sign-in/containers/SignInContainer';
 import SuspendedAccount from 'coral-framework/components/SuspendedAccount';
 import ChangeUsernameContainer from '../../coral-sign-in/containers/ChangeUsernameContainer';
 import ProfileContainer from 'coral-settings/containers/ProfileContainer';
@@ -78,6 +77,7 @@ class Embed extends React.Component {
 
   componentDidMount () {
     pym.sendMessage('childReady');
+    this.props.checkLogin();
   }
 
   componentWillUnmount () {
@@ -126,14 +126,14 @@ class Embed extends React.Component {
     }
   }
 
-  runPopUpLogin = () => {
-    // const newwindow = window.open(
-    //   'http://localhost:3000/embed/stream/login','Login','height=420,width=310,top=200,left=500');
-    // if (window.focus) {
-    //   newwindow.focus();
-    // }
-    // return false;
-    this.props.signInPopUp();
+  signIn = () => {
+    const {refetch} = this.props.data;
+    const {openSignInPopUp, checkLogin} = this.props;
+
+    openSignInPopUp(() => {
+      checkLogin();
+      refetch();
+    });
   }
 
   render () {
@@ -229,9 +229,9 @@ class Embed extends React.Component {
                : <p>{asset.settings.closedMessage}</p>
             }
 
-            <Button id='coralSignInButton' onClick={this.runPopUpLogin} full>Sign in to comment</Button>
+            {!loggedIn && <Button id='coralSignInButton' onClick={this.signIn} full>Sign in to comment</Button>}
 
-            {loggedIn &&  user && <ChangeUsernameContainer loggedIn={loggedIn} offset={signInOffset} user={user} />}
+            {loggedIn && user && <ChangeUsernameContainer loggedIn={loggedIn} offset={signInOffset} user={user} />}
             {loggedIn && <ModerationLink assetId={asset.id} isAdmin={isAdmin} />}
 
             {/* the highlightedComment is isolated after the user followed a permalink */}
@@ -299,7 +299,6 @@ class Embed extends React.Component {
             <ProfileContainer
               loggedIn={loggedIn}
               userData={this.props.userData}
-              showSignInDialog={this.props.showSignInDialog}
             />
           </TabContent>
           <TabContent show={activeTab === 2}>
@@ -333,7 +332,8 @@ const mapDispatchToProps = dispatch => ({
   updateCountCache: (id, count) => dispatch(updateCountCache(id, count)),
   viewAllComments: () => dispatch(viewAllComments()),
   logout: () => dispatch(logout()),
-  signInPopUp: () => dispatch(signInPopUp()),
+  openSignInPopUp: cb => dispatch(openSignInPopUp(cb)),
+  checkLogin: () => dispatch(checkLogin()),
   dispatch: d => dispatch(d),
 });
 

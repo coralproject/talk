@@ -64,12 +64,7 @@ const signInFailure = error => ({type: actions.FETCH_SIGNIN_FAILURE, error});
 export const fetchSignIn = (formData) => (dispatch) => {
   dispatch(signInRequest());
   return coralApi('/auth/local', {method: 'POST', body: formData})
-    .then(({user}) => {
-      const isAdmin = !!user && !!user.roles.filter(i => i === 'ADMIN').length;
-      dispatch(signInSuccess(user, isAdmin));
-      dispatch(hideSignInDialog());
-      fetchMe();
-    })
+    .then(() => dispatch(closeSignInPopUp()))
     .catch(error => {
       if (error.metadata) {
 
@@ -85,12 +80,18 @@ export const fetchSignIn = (formData) => (dispatch) => {
 
 // Sign In - Standalone PopUp
 
-export const signInPopUp = () => () => {
-  window.open(
+export const openSignInPopUp = cb => () => {
+  const signInPopUp = window.open(
     '/embed/stream/login',
     'Login',
     'menubar=0,resizable=0,width=500,height=500,top=200,left=500'
   );
+
+  signInPopUp.onbeforeunload = cb;
+};
+
+export const closeSignInPopUp = () => () => {
+  window.close();
 };
 
 // Sign In - Facebook
