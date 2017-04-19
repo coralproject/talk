@@ -17,17 +17,10 @@ export default class Embed extends React.Component {
     activeTab: 0,
   };
 
-  exitHighlighting = () => {
-    this.props.viewAllComments();
-
-    // TODO: don't rely on refetching.
-    this.props.data.refetch();
-  };
-
   changeTab = (tab) => {
     if (tab === 0) {
       if (this.props.data.comment) {
-        this.exitHighlighting();
+        this.props.viewAllComments();
       }
       else {
 
@@ -65,7 +58,7 @@ export default class Embed extends React.Component {
               <Button
                 cStyle='darkGrey'
                 style={{float: 'right'}}
-                onClick={this.exitHighlighting}
+                onClick={this.props.viewAllComments}
               >
                 {lang.t('showAllComments')}
               </Button>
@@ -89,7 +82,7 @@ export default class Embed extends React.Component {
               deleteAction={this.props.deleteAction}
               showSignInDialog={this.props.showSignInDialog}
               comments={asset.comments}
-              ignoredUsers={this.props.data.myIgnoredUsers}
+              ignoredUsers={this.props.data.myIgnoredUsers.map(u => u.id)}
               auth={this.props.auth}
               comment={this.props.data.comment}
               commentCountCache={this.props.commentCountCache}
