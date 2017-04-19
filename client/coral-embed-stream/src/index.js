@@ -5,11 +5,11 @@ import {ApolloProvider} from 'react-apollo';
 import {client} from 'coral-framework/services/client';
 import store from 'coral-framework/services/store';
 
-import Embed from './Embed';
+import AppRouter from './AppRouter';
 
 render(
   <ApolloProvider client={client} store={store}>
-    <Embed />
+    <AppRouter />
   </ApolloProvider>
   , document.querySelector('#coralStream')
 );

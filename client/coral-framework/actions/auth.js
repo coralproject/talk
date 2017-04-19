@@ -83,6 +83,16 @@ export const fetchSignIn = (formData) => (dispatch) => {
     });
 };
 
+// Sign In - Standalone PopUp
+
+export const signInPopUp = () => () => {
+  window.open(
+    '/embed/stream/login',
+    'Login',
+    'menubar=0,resizable=0,width=500,height=500,top=200,left=500'
+  );
+};
+
 // Sign In - Facebook
 
 const signInFacebookRequest = () => ({type: actions.FETCH_SIGNIN_FACEBOOK_REQUEST});

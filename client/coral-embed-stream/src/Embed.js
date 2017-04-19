@@ -8,7 +8,7 @@ const lang = new I18n(translations);
 
 import {TabBar, Tab, TabContent, Spinner, Button} from 'coral-ui';
 
-const {logout, showSignInDialog, requestConfirmEmail} = authActions;
+const {logout, showSignInDialog, requestConfirmEmail, signInPopUp} = authActions;
 const {addNotification, clearNotification} = notificationActions;
 const {fetchAssetSuccess} = assetActions;
 import {NEW_COMMENT_COUNT_POLL_INTERVAL} from 'coral-framework/constants/comments';
@@ -126,6 +126,16 @@ class Embed extends React.Component {
     }
   }
 
+  runPopUpLogin = () => {
+    // const newwindow = window.open(
+    //   'http://localhost:3000/embed/stream/login','Login','height=420,width=310,top=200,left=500');
+    // if (window.focus) {
+    //   newwindow.focus();
+    // }
+    // return false;
+    this.props.signInPopUp();
+  }
+
   render () {
     const {activeTab} = this.state;
     const {closedAt, countCache = {}} = this.props.asset;
@@ -218,10 +228,9 @@ class Embed extends React.Component {
                  </div>
                : <p>{asset.settings.closedMessage}</p>
             }
-            {!loggedIn && <SignInContainer
-              requireEmailConfirmation={asset.settings.requireEmailConfirmation}
-              refetch={refetch}
-              offset={signInOffset}/>}
+
+            <Button id='coralSignInButton' onClick={this.runPopUpLogin} full>Sign in to comment</Button>
+
             {loggedIn &&  user && <ChangeUsernameContainer loggedIn={loggedIn} offset={signInOffset} user={user} />}
             {loggedIn && <ModerationLink assetId={asset.id} isAdmin={isAdmin} />}
 
@@ -324,6 +333,7 @@ const mapDispatchToProps = dispatch => ({
   updateCountCache: (id, count) => dispatch(updateCountCache(id, count)),
   viewAllComments: () => dispatch(viewAllComments()),
   logout: () => dispatch(logout()),
+  signInPopUp: () => dispatch(signInPopUp()),
   dispatch: d => dispatch(d),
 });
 

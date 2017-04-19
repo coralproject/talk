@@ -147,8 +147,7 @@ class SignInContainer extends Component {
 
   handleSignIn(e) {
     e.preventDefault();
-    this.props.fetchSignIn(this.state.formData)
-      .then(this.props.refetch);
+    this.props.fetchSignIn(this.state.formData);
   }
 
   render() {
@@ -157,11 +156,11 @@ class SignInContainer extends Component {
 
     return (
       <div>
-        {!noButton && <Button id='coralSignInButton' onClick={showSignInDialog} full>
-          Sign in to comment
-        </Button>}
+        {/*{!noButton && <Button id='coralSignInButton' onClick={showSignInDialog} full>*/}
+          {/*Sign in to comment*/}
+        {/*</Button>}*/}
         <SignDialog
-          open={auth.showSignInDialog}
+          open={true}
           view={auth.view}
           offset={offset}
           emailVerificationEnabled={requireEmailConfirmation}
