@@ -14,6 +14,7 @@ import {notificationActions, authActions, assetActions, pym} from 'coral-framewo
 import {NEW_COMMENT_COUNT_POLL_INTERVAL} from '../constants/stream';
 import Embed from '../components/Embed';
 import {setCommentCountCache, setActiveReplyBox, viewAllComments} from '../actions/stream';
+import {setActiveTab} from '../actions/embed';
 import * as Stream from './Stream';
 
 const {logout, showSignInDialog, requestConfirmEmail} = authActions;
@@ -260,6 +261,7 @@ const mapStateToProps = state => ({
   commentId: state.stream.commentId,
   assetId: state.stream.assetId,
   assetUrl: state.stream.assetUrl,
+  activeTab: state.embed.activeTab,
 });
 
 const mapDispatchToProps = dispatch =>
@@ -274,6 +276,7 @@ const mapDispatchToProps = dispatch =>
     viewAllComments,
     logout,
     setActiveReplyBox,
+    setActiveTab,
   }, dispatch);
 
 export default compose(

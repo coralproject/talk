@@ -13,29 +13,24 @@ import RestrictedContent from 'coral-framework/components/RestrictedContent';
 import ConfigureStreamContainer from 'coral-configure/containers/ConfigureStreamContainer';
 
 export default class Embed extends React.Component {
-  state = {
-    activeTab: 0,
-  };
-
   changeTab = (tab) => {
-    if (tab === 0) {
-      if (this.props.data.comment) {
-        this.props.viewAllComments();
-      }
-      else {
-
-        // TODO: don't rely on refetching.
-        this.props.data.refetch();
-      }
+    switch(tab) {
+    case 0:
+      this.props.setActiveTab('stream');
+      break;
+    case 1:
+      this.props.setActiveTab('profile');
+      break;
+    case 2:
+      this.props.setActiveTab('config');
+      break;
+    default:
+      throw new Error(`Unknown tab ${tab}`);
     }
-
-    this.setState({
-      activeTab: tab
-    });
   }
 
   render () {
-    const {activeTab} = this.state;
+    const {activeTab} = this.props;
     const {asset, comment} = this.props.data;
     const {loggedIn, isAdmin, user, showSignInDialog} = this.props.auth;
 
@@ -63,7 +58,7 @@ export default class Embed extends React.Component {
                 {lang.t('showAllComments')}
               </Button>
           }
-          <TabContent show={activeTab === 0}>
+          <TabContent show={activeTab === 'stream'}>
             { loggedIn ? userBox : null }
             <Stream
               addNotification={this.props.addNotification}
@@ -91,10 +86,10 @@ export default class Embed extends React.Component {
               setCommentCountCache={this.props.setCommentCountCache}
             />
           </TabContent>
-          <TabContent show={activeTab === 1}>
+          <TabContent show={activeTab === 'profile'}>
             <ProfileContainer />
           </TabContent>
-          <TabContent show={activeTab === 2}>
+          <TabContent show={activeTab === 'config'}>
             <RestrictedContent restricted={!loggedIn}>
               { loggedIn ? userBox : null }
               <ConfigureStreamContainer />
