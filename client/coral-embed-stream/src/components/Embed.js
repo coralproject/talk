@@ -17,15 +17,16 @@ export default class Embed extends React.Component {
     switch(tab) {
     case 0:
       this.props.setActiveTab('stream');
+      this.props.data.refetch();
       break;
     case 1:
       this.props.setActiveTab('profile');
+      this.props.data.refetch();
       break;
     case 2:
       this.props.setActiveTab('config');
+      this.props.data.refetch();
       break;
-    default:
-      throw new Error(`Unknown tab ${tab}`);
     }
   }
 
