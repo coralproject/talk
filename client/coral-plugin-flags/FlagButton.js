@@ -25,8 +25,7 @@ class FlagButton extends Component {
     const {localPost, localDelete} = this.state;
     const flagged = (flag && flag.current_user && !localDelete) || localPost;
     if (!currentUser) {
-      const offset = document.getElementById(`c_${this.props.id}`).getBoundingClientRect().top - 75;
-      this.props.showSignInDialog(offset);
+      this.props.showSignInDialog();
       return;
     }
     if (flagged) {

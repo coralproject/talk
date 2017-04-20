@@ -149,7 +149,7 @@ class SignInContainer extends Component {
   }
 
   render() {
-    const {auth, offset, requireEmailConfirmation} = this.props;
+    const {auth, requireEmailConfirmation} = this.props;
     const {emailVerificationLoading, emailVerificationSuccess} = auth;
 
     return (
@@ -157,7 +157,6 @@ class SignInContainer extends Component {
         <SignDialog
           open={true}
           view={auth.view}
-          offset={offset}
           emailVerificationEnabled={requireEmailConfirmation}
           emailVerificationLoading={emailVerificationLoading}
           emailVerificationSuccess={emailVerificationSuccess}

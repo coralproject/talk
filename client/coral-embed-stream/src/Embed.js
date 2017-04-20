@@ -119,8 +119,7 @@ class Embed extends React.Component {
 
   setActiveReplyBox = (reactKey) => {
     if (!this.props.auth.user) {
-      const offset = document.getElementById(`c_${reactKey}`).getBoundingClientRect().top - 75;
-      this.props.showSignInDialog(offset);
+      this.props.showSignInDialog();
     } else {
       this.setState({activeReplyBox: reactKey});
     }
@@ -130,7 +129,7 @@ class Embed extends React.Component {
     const {activeTab} = this.state;
     const {closedAt, countCache = {}} = this.props.asset;
     const {asset, refetch, comment} = this.props.data;
-    const {loggedIn, isAdmin, user, showSignInDialog, signInOffset} = this.props.auth;
+    const {loggedIn, isAdmin, user, showSignInDialog} = this.props.auth;
 
     // even though the permalinked comment is the highlighted one, we're displaying its parent + replies
     const highlightedComment = comment && comment.parent ? comment.parent : comment;
@@ -221,7 +220,7 @@ class Embed extends React.Component {
 
             {!loggedIn && <Button id='coralSignInButton' onClick={this.props.showSignInDialog} full>Sign in to comment</Button>}
 
-            {loggedIn && user && <ChangeUsernameContainer loggedIn={loggedIn} offset={signInOffset} user={user} />}
+            {loggedIn && user && <ChangeUsernameContainer loggedIn={loggedIn} user={user} />}
             {loggedIn && <ModerationLink assetId={asset.id} isAdmin={isAdmin} />}
 
             {/* the highlightedComment is isolated after the user followed a permalink */}
@@ -318,7 +317,7 @@ const mapDispatchToProps = dispatch => ({
   addNotification: (type, text) => addNotification(type, text),
   clearNotification: () => dispatch(clearNotification()),
   editName: (username) => dispatch(editName(username)),
-  showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),
+  showSignInDialog: () => dispatch(showSignInDialog()),
   updateCountCache: (id, count) => dispatch(updateCountCache(id, count)),
   viewAllComments: () => dispatch(viewAllComments()),
   logout: () => dispatch(logout()),
