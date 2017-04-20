@@ -54,6 +54,71 @@ const forEachField = (schema, fn) => {
 };
 
 /**
+ * Decorates the field with the post resolvers (if available) and attaches a
+ * default type in the form of `Default${typeName}`.
+ */
+const decorateResolveFunction = (field, typeName, fieldName, post) => {
+
+  // Cache the original resolverType function.
+  let resolveType = field.resolveType;
+
+  // defaultResolveType is the default type that is resolved on a resolver
+  // when the interface being looked up is not defined.
+  const defaultResolveType = `Default${typeName}`;
+
+  // Return the function to handle the resolveType hooks.
+  const defaultResolveFn = (obj, context, info) => {
+    let type = resolveType(obj, context, info);
+
+    // Only if a previous resolver was unable to resolve the field type do we
+    // progress to the hooks (in order!) to resolve the field name until we
+    // have resolved it.
+    if (typeof type !== 'undefined' && type != null) {
+      return type;
+    }
+
+    // All else fails, resort to the defaultResolveType.
+    return defaultResolveType;
+  };
+
+  // This only needs to do something if post hooks are defined.
+  if (post.length === 0) {
+
+    // Set the default on the resolveType function.
+    field.resolveType = defaultResolveFn;
+
+    return;
+  }
+
+  // Ensure it matches the format we expect.
+  Joi.assert(post, Joi.array().items(Joi.func().maxArity(3)), `invalid post hooks were found for ${typeName}.${fieldName}`);
+
+  // Return the function to handle the resolveType hooks.
+  field.resolveType = (obj, context, info) => {
+    let type = defaultResolveFn(obj, context, info);
+
+    // Only if a previous resolver was unable to resolve the field type do we
+    // progress to the hooks (in order!) to resolve the field name until we
+    // have resolved it.
+    if (typeof type !== 'undefined' && type != null && type !== defaultResolveType) {
+      return type;
+    }
+
+    // We will walk through the post hooks until we find the right one. This
+    // follows what redux does to combine existing reducers.
+    for (let i = 0; i < post.length; i++) {
+      let resolveType = post[i];
+      let resolvedType = resolveType(obj, context, info);
+      if (typeof resolvedType !== 'undefined' && resolvedType != null) {
+        return resolvedType;
+      }
+    }
+
+    return type;
+  };
+};
+
+/**
  * Decorates the schema with pre and post hooks as provided by the Plugin
  * Manager.
  * @param  {GraphQLSchema} schema the schema to decorate
@@ -115,11 +180,6 @@ const decorateWithHooks = (schema, hooks) => forEachField(schema, (field, typeNa
       post: []
     });
 
-  // If we have no hooks to add here, don't try to modify anything.
-  if (pre.length === 0 && post.length === 0) {
-    return;
-  }
-
   // If this is a resolve type, we need to do some specific things to handle
   // this type of field.
   if (isResolveType) {
@@ -129,39 +189,13 @@ const decorateWithHooks = (schema, hooks) => forEachField(schema, (field, typeNa
       throw new Error(`invalid pre hooks were found for ${typeName}.${fieldName}, only post hooks are supported on the __resolveType hook`);
     }
 
-    // This only needs to do something if post hooks are defined.
-    if (post.length === 0) {
-      return;
-    }
+    // Decorate the resolve function on the field with the new resolveType func.
+    decorateResolveFunction(field, typeName, fieldName, post);
+    return;
+  }
 
-    // Ensure it matches the format we expect.
-    Joi.assert(post, Joi.array().items(Joi.func().maxArity(3)), `invalid post hooks were found for ${typeName}.${fieldName}`);
-
-    // Cache the original resolverType function.
-    let resolveType = field.resolveType;
-
-    // Return the function to handle the resolveType hooks.
-    field.resolveType = (obj, context, info) => {
-      let type = resolveType(obj, context, info);
-
-      // Only if a previous resolver was unable to resolve the field type do we
-      // progress to the hooks (in order!) to resolve the field name until we
-      // have resolved it.
-      if (typeof type !== 'undefined' && type != null) {
-        return type;
-      }
-
-      // We will walk through the post hooks until we find the right one. This
-      // follows what redux does to combine existing reducers.
-      for (let i = 0; i < post.length; i++) {
-        let resolveType = post[i];
-        type = resolveType(obj, context, info);
-        if (typeof type !== 'undefined' && type != null) {
-          return type;
-        }
-      }
-    };
-
+  // If we have no hooks to add here, don't try to modify anything.
+  if (pre.length === 0 && post.length === 0) {
     return;
   }
 
