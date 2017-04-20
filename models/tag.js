@@ -50,13 +50,17 @@ const TagSchema = new Schema({
 
   privacy_type: {
     type: String,
-    enum: PRIVACY_TYPES
+    enum: PRIVACY_TYPES,
+    default: 'SELF'
   },
 
   // Additional metadata stored on the field.
   metadata: Schema.Types.Mixed
-}, {
-  _id: false
+},  {
+  timestamps: {
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+  }
 });
 
 const Tag = mongoose.model('Tag', TagSchema);

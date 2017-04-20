@@ -4,8 +4,10 @@ const {graphql} = require('graphql');
 const schema = require('../../../../graph/schema');
 const Context = require('../../../../graph/context');
 const UserModel = require('../../../../models/user');
+
 const SettingsService = require('../../../../services/settings');
 const CommentsService = require('../../../../services/comments');
+const TagService = require('../../../../services/tags');
 
 describe('graph.mutations.removeCommentTag', () => {
   let comment;
@@ -18,9 +20,7 @@ describe('graph.mutations.removeCommentTag', () => {
     mutation RemoveCommentTag ($id: ID!, $tag: String!) {
       removeCommentTag(id:$id, tag:$tag) {
         comment {
-          tags {
-            name
-          }
+          id
         }
         errors {
           translation_key
@@ -41,7 +41,12 @@ describe('graph.mutations.removeCommentTag', () => {
     }
     expect(response.errors).to.be.empty;
     expect(response.data.removeCommentTag.errors).to.be.null;
-    expect(response.data.removeCommentTag.comment.tags).to.deep.equal([]);
+
+    TagService.findByItemIdAndName(response.data.removeCommentTag.comment.id, 'BEST')
+    .then((tags) => {
+      expect(tags).to.deep.equal([]);
+    });
+
   });
 
   describe('users who cant remove tags', () => {
@@ -60,8 +65,9 @@ describe('graph.mutations.removeCommentTag', () => {
           console.error(response.errors);
         }
         expect(response.errors).to.be.empty;
+
         expect(response.data.removeCommentTag.errors).to.deep.equal([{'translation_key':'NOT_AUTHORIZED'}]);
-        expect(response.data.removeCommentTag.comment).to.be.null;        
+        expect(response.data.removeCommentTag.comment).to.be.null;
       });
     });
   });

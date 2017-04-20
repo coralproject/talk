@@ -3,10 +3,13 @@ const {graphql} = require('graphql');
 
 const schema = require('../../../../graph/schema');
 const Context = require('../../../../graph/context');
+
 const UserModel = require('../../../../models/user');
 const AssetModel = require('../../../../models/asset');
-const SettingsService = require('../../../../services/settings');
 const ActionModel = require('../../../../models/action');
+
+const SettingsService = require('../../../../services/settings');
+const TagService = require('../../../../services/tags');
 
 describe('graph.mutations.createComment', () => {
   beforeEach(() => SettingsService.init());
@@ -217,11 +220,14 @@ describe('graph.mutations.createComment', () => {
               expect(data.createComment).to.have.property('comment').not.null;
               expect(data.createComment).to.have.property('errors').null;
 
+              return TagService.findByItemIdAndName(data.createComment.comment.id, tag, 'COMMENTS');
+            })
+            .then((tags) => {
               if (tag) {
-                expect(data.createComment.comment).to.have.property('tags').length(1);
-                expect(data.createComment.comment.tags[0]).to.have.property('name', tag);
+                expect(tags).to.have.length(1);
+                expect(tags[0]).to.have.property('name', tag);
               } else {
-                expect(data.createComment.comment).to.have.property('tags').length(0);
+                expect(tags).length(0);
               }
             });
         });

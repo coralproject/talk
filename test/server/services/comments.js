@@ -5,6 +5,7 @@ const ActionsService = require('../../../services/actions');
 const UsersService = require('../../../services/users');
 const SettingsService = require('../../../services/settings');
 const CommentsService = require('../../../services/comments');
+const TagService = require('../../../services/tags');
 
 const settings = {id: '1', moderation: 'PRE', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
 
@@ -225,16 +226,17 @@ describe('services.CommentsService', () => {
       const tagName = 'BEST';
       const userId = users[0].id;
       await CommentsService.addTag(commentId, tagName, userId);
-      const updatedComment = await CommentsService.findById(commentId);
-      expect(updatedComment.tags.length).to.equal(1);
-      expect(updatedComment.tags[0].name).to.equal(tagName);
-      expect(updatedComment.tags[0].assigned_by).to.equal(userId);
-      expect(updatedComment.tags[0].created_at).to.be.an.instanceof(Date);
+      const tags = await TagService.findByItemIdAndName(commentId, 'BEST', 'COMMENTS');
+      expect(tags.length).to.equal(1);
+      expect(tags[0].name).to.equal(tagName);
+      expect(tags[0].assigned_by).to.equal(userId);
+      expect(tags[0].created_at).to.be.an.instanceof(Date);
     });
     it('can\'t add a tag to comment id that doesn\'t exist', async () => {
       const commentId = 'fakenews';
       const tagName = 'BEST';
       const userId = users[0].id;
+
       await expect(CommentsService.addTag(commentId, tagName, userId)).to.be.rejected;
     });
     it('can\'t add same tag.name twice', async () => {
@@ -255,23 +257,23 @@ describe('services.CommentsService', () => {
       const commentId = comments[0].id;
       const tagName = 'BEST';
       await CommentsService.addTag(commentId, tagName, users[0].id);
-      const updatedComment = await CommentsService.findById(commentId);
-      expect(updatedComment.tags.length).to.equal(1);
+      const tags = await TagService.findByItemIdAndName(commentId, tagName, 'COMMENTS');
+      expect(tags.length).to.equal(1);
 
       // ok now to remove it
       await CommentsService.removeTag(commentId, tagName);
-      const updatedComment2 = await CommentsService.findById(commentId);
-      expect(updatedComment2.tags.length).to.equal(0);
+      const tags2 = await TagService.findByItemIdAndName(commentId, tagName, 'COMMENTS');
+      expect(tags2.length).to.equal(0);
     });
     it('throws if removing a tag that isn\'t there', async () => {
       const commentId = comments[0].id;
 
-      // just make sure it has no tags to start
-      const updatedComment2 = await CommentsService.findById(commentId);
-      expect(updatedComment2.tags.length).to.equal(0);
-
       const tagName = 'BEST';
 
+      // just make sure it has no tags to start
+      const tags = await TagService.findByItemIdAndName(commentId, tagName, 'COMMENTS');
+      expect(tags.length).to.equal(0);
+      
       // ok now to remove it
       await expect(CommentsService.removeTag(commentId, tagName)).to.be.rejected;
     });

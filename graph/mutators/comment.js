@@ -5,6 +5,8 @@ const ActionsService = require('../../services/actions');
 const CommentsService = require('../../services/comments');
 const linkify = require('linkify-it')();
 
+const TagModel = require('../../models/tag');
+
 const Wordlist = require('../../services/wordlist');
 
 /**
@@ -18,20 +20,18 @@ const Wordlist = require('../../services/wordlist');
  */
 const createComment = ({user, loaders: {Comments}}, {body, asset_id, parent_id = null}, status = 'NONE') => {
 
-  let tags = [];
-  if (user.hasRoles('ADMIN') || user.hasRoles('MODERATOR')) {
-    tags = [{name: 'STAFF'}];
-  }
-
   return CommentsService.publicCreate({
     body,
     asset_id,
     parent_id,
     status,
-    tags,
     author_id: user.id
   })
-  .then((comment) => {
+  .then(async (comment) => {
+
+    if (user.hasRoles('ADMIN') || user.hasRoles('MODERATOR')) {
+      await CommentsService.addTag(comment.id, 'STAFF', user.id);
+    }
 
     // If the loaders are present, clear the caches for these values because we
     // just added a new comment, hence the counts should be updated. We should

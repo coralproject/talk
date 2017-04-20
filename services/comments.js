@@ -3,8 +3,8 @@ const CommentModel = require('../models/comment');
 const ActionModel = require('../models/action');
 const ActionsService = require('./actions');
 
-const TagModel = require('../models/tag');
 const TagsService = require('./tags');
+const TagModel = require('../models/tag');
 
 const STATUSES = [
   'ACCEPTED',
@@ -51,14 +51,18 @@ module.exports = class CommentsService {
    */
   static addTag(id, name, assigned_by) {
 
-    return TagsService.insertCommentTag({
-      name,
-      item_id: id,
-      item_type: 'COMMENTS',
-      user_id: assigned_by,
+    return CommentModel.findOne({id})
+    .then((comment) => {
+      if (comment == null) {
+        return Promise.reject(new Error('tag not allowed'));
+      }
+      return TagsService.insertCommentTag({
+        name,
+        item_id: id,
+        item_type: 'COMMENTS',
+        user_id: assigned_by,
+      });
     });
-
-    // Add the ID to the comment
   }
 
   /**
@@ -68,10 +72,15 @@ module.exports = class CommentsService {
    * @param {String} name the name of the tag to add
    */
   static removeTag(id, name) {
-    return TagModel.remove({
+    return TagModel.findOneAndRemove({
       item_type: 'COMMENTS',
       item_id: id,
       name
+    })
+    .then((tag) => {
+      if (tag == null) {
+        return Promise.reject(new Error('tag does not exist'));
+      }
     });
   }
 
