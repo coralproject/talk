@@ -13,8 +13,6 @@ router.use('/:embed', (req, res, next) => {
 
         return res.render('embed/stream', {customCssUrl, data});
       });
-  case 'live-stream':
-    return res.render('embed/live-stream');
   default:
 
     // will return a 404.
