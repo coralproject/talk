@@ -8,7 +8,7 @@ const lang = new I18n(translations);
 
 import {TabBar, Tab, TabContent, Spinner, Button} from 'coral-ui';
 
-const {logout, showSignInDialog, requestConfirmEmail} = authActions;
+const {logout, showSignInDialog, requestConfirmEmail, openSignInPopUp, checkLogin} = authActions;
 const {addNotification, clearNotification} = notificationActions;
 const {fetchAssetSuccess} = assetActions;
 import {NEW_COMMENT_COUNT_POLL_INTERVAL} from 'coral-framework/constants/comments';
@@ -26,7 +26,6 @@ import {ModerationLink} from 'coral-plugin-moderation';
 import Count from 'coral-plugin-comment-count/CommentCount';
 import CommentBox from 'coral-plugin-commentbox/CommentBox';
 import UserBox from 'coral-sign-in/components/UserBox';
-import SignInContainer from 'coral-sign-in/containers/SignInContainer';
 import SuspendedAccount from 'coral-framework/components/SuspendedAccount';
 import ChangeUsernameContainer from '../../coral-sign-in/containers/ChangeUsernameContainer';
 import ProfileContainer from 'coral-settings/containers/ProfileContainer';
@@ -78,6 +77,7 @@ class Embed extends React.Component {
 
   componentDidMount () {
     pym.sendMessage('childReady');
+    this.props.checkLogin();
   }
 
   componentWillUnmount () {
@@ -119,8 +119,7 @@ class Embed extends React.Component {
 
   setActiveReplyBox = (reactKey) => {
     if (!this.props.auth.user) {
-      const offset = document.getElementById(`c_${reactKey}`).getBoundingClientRect().top - 75;
-      this.props.showSignInDialog(offset);
+      this.props.showSignInDialog();
     } else {
       this.setState({activeReplyBox: reactKey});
     }
@@ -130,7 +129,7 @@ class Embed extends React.Component {
     const {activeTab} = this.state;
     const {closedAt, countCache = {}} = this.props.asset;
     const {asset, refetch, comment} = this.props.data;
-    const {loggedIn, isAdmin, user, showSignInDialog, signInOffset} = this.props.auth;
+    const {loggedIn, isAdmin, user, showSignInDialog} = this.props.auth;
 
     // even though the permalinked comment is the highlighted one, we're displaying its parent + replies
     const highlightedComment = comment && comment.parent ? comment.parent : comment;
@@ -218,11 +217,10 @@ class Embed extends React.Component {
                  </div>
                : <p>{asset.settings.closedMessage}</p>
             }
-            {!loggedIn && <SignInContainer
-              requireEmailConfirmation={asset.settings.requireEmailConfirmation}
-              refetch={refetch}
-              offset={signInOffset}/>}
-            {loggedIn &&  user && <ChangeUsernameContainer loggedIn={loggedIn} offset={signInOffset} user={user} />}
+
+            {!loggedIn && <Button id='coralSignInButton' onClick={this.props.showSignInDialog} full>Sign in to comment</Button>}
+
+            {loggedIn && user && <ChangeUsernameContainer loggedIn={loggedIn} user={user} />}
             {loggedIn && <ModerationLink assetId={asset.id} isAdmin={isAdmin} />}
 
             {/* the highlightedComment is isolated after the user followed a permalink */}
@@ -290,7 +288,6 @@ class Embed extends React.Component {
             <ProfileContainer
               loggedIn={loggedIn}
               userData={this.props.userData}
-              showSignInDialog={this.props.showSignInDialog}
             />
           </TabContent>
           <TabContent show={activeTab === 2}>
@@ -320,10 +317,12 @@ const mapDispatchToProps = dispatch => ({
   addNotification: (type, text) => addNotification(type, text),
   clearNotification: () => dispatch(clearNotification()),
   editName: (username) => dispatch(editName(username)),
-  showSignInDialog: (offset) => dispatch(showSignInDialog(offset)),
+  showSignInDialog: () => dispatch(showSignInDialog()),
   updateCountCache: (id, count) => dispatch(updateCountCache(id, count)),
   viewAllComments: () => dispatch(viewAllComments()),
   logout: () => dispatch(logout()),
+  openSignInPopUp: cb => dispatch(openSignInPopUp(cb)),
+  checkLogin: () => dispatch(checkLogin()),
   dispatch: d => dispatch(d),
 });
 

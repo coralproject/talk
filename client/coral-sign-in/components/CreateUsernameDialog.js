@@ -10,16 +10,12 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
 const lang = new I18n(translations);
 
-const CreateUsernameDialog = ({open, handleClose, offset, formData, handleSubmitUsername, handleChange, ...props}) => {
+const CreateUsernameDialog = ({open, handleClose, formData, handleSubmitUsername, handleChange, ...props}) => {
   return (
   <Dialog
     className={styles.dialogusername}
     id="createUsernameDialog"
-    open={open}
-    style={{
-      position: 'relative',
-      top: offset !== 0 && offset
-    }}>
+    open={open}>
     <span className={styles.close} onClick={handleClose}>×</span>
     <div>
       <div className={styles.header}>

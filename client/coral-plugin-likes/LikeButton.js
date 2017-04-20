@@ -35,8 +35,7 @@ class LikeButton extends Component {
 
     const onLikeClick = () => {
       if (!currentUser) {
-        const offset = document.getElementById(`c_${id}`).getBoundingClientRect().top - 75;
-        showSignInDialog(offset);
+        showSignInDialog();
         return;
       }
       if (currentUser.banned) {
