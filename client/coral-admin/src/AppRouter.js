@@ -14,8 +14,6 @@ import ModerationContainer from 'containers/ModerationQueue/ModerationContainer'
 
 import Dashboard from 'containers/Dashboard/Dashboard';
 
-import SignInContainer from 'coral-sign-in/containers/SignInContainer';
-
 const routes = (
   <div>
     <Route exact path="/admin/install" component={InstallContainer}/>
@@ -25,7 +23,6 @@ const routes = (
       <Route path='configure' component={Configure} />
       <Route path='stories' component={Stories} />
       <Route path='dashboard' component={Dashboard} />
-
 
       {/* Community Routes */}
 
