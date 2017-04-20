@@ -5,8 +5,6 @@ const ActionsService = require('../../services/actions');
 const CommentsService = require('../../services/comments');
 const linkify = require('linkify-it')();
 
-const TagModel = require('../../models/tag');
-
 const Wordlist = require('../../services/wordlist');
 
 /**
