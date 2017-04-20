@@ -21,8 +21,13 @@ const lang = new I18n(translations);
 const Comment = ({actions = [], comment, ...props}) => {
   const links = linkify.getMatches(comment.body);
   const linkText = links ? links.map(link => link.raw) : [];
-  const flagActionSummaries = getActionSummary('FlagActionSummary', comment);
-  const flagActions = comment.actions && comment.actions.filter(a => a.__typename === 'FlagAction');
+
+  let flagActionSummaries;
+  let flagActions;
+  if (comment.action_summaries) { // this might be missing if we're on the pre-mod tab
+    flagActionSummaries = getActionSummary('FlagActionSummary', comment);
+    flagActions = comment.actions && comment.actions.filter(a => a.__typename === 'FlagAction');
+  }
 
   return (
     <li tabIndex={props.index} className={`mdl-card ${props.selected ? 'mdl-shadow--8dp' : 'mdl-shadow--2dp'} ${styles.Comment} ${styles.listItem}`}>
