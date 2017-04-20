@@ -219,7 +219,7 @@ class Embed extends React.Component {
                : <p>{asset.settings.closedMessage}</p>
             }
 
-            {!loggedIn && <Button id='coralSignInButton' onClick={this.showSignInDialog} full>Sign in to comment</Button>}
+            {!loggedIn && <Button id='coralSignInButton' onClick={this.props.showSignInDialog} full>Sign in to comment</Button>}
 
             {loggedIn && user && <ChangeUsernameContainer loggedIn={loggedIn} offset={signInOffset} user={user} />}
             {loggedIn && <ModerationLink assetId={asset.id} isAdmin={isAdmin} />}

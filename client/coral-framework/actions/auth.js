@@ -26,16 +26,19 @@ export const showSignInDialog = () => dispatch => {
   const signInPopUp = window.open(
     '/embed/stream/login',
     'Login',
-    'menubar=0,resizable=0,width=500,height=500,top=200,left=500'
+    'menubar=0,resizable=0,width=500,height=550,top=200,left=500'
   );
 
-  signInPopUp.onbeforeunload = fetchMe;
-  // ({type: actions.SHOW_SIGNIN_DIALOG, offset})
+  signInPopUp.onbeforeunload = () => {
+    dispatch(checkLogin());
+    fetchMe();
+  };
+  dispatch({type: actions.SHOW_SIGNIN_DIALOG});
 };
 export const hideSignInDialog = () => dispatch => {
+  dispatch({type: actions.HIDE_SIGNIN_DIALOG});
   window.close();
-  // ({type: actions.HIDE_SIGNIN_DIALOG});
-}
+};
 
 export const createUsernameRequest = () => ({type: actions.CREATE_USERNAME_REQUEST});
 export const showCreateUsernameDialog = () => ({type: actions.SHOW_CREATEUSERNAME_DIALOG});
@@ -62,10 +65,13 @@ export const createUsername = (userId, formData) => dispatch => {
 export const changeView = view => dispatch => {
   switch(view) {
   case 'SIGNUP':
-    window.resizeTo(500, 700);
+    window.resizeTo(500, 800);
+    break;
+  case 'FORGOT':
+    window.resizeTo(500, 400);
     break;
   default:
-    window.resizeTo(500, 500);
+    window.resizeTo(500, 550);
   }
   dispatch({
     type: actions.CHANGE_VIEW,
@@ -87,7 +93,7 @@ const signInFailure = error => ({type: actions.FETCH_SIGNIN_FAILURE, error});
 export const fetchSignIn = (formData) => (dispatch) => {
   dispatch(signInRequest());
   return coralApi('/auth/local', {method: 'POST', body: formData})
-    .then(() => dispatch(closeSignInPopUp()))
+    .then(() => dispatch(hideSignInDialog()))
     .catch(error => {
       if (error.metadata) {
 
@@ -99,22 +105,6 @@ export const fetchSignIn = (formData) => (dispatch) => {
         dispatch(signInFailure(lang.t('error.emailPasswordError')));
       }
     });
-};
-
-// Sign In - Standalone PopUp
-
-export const openSignInPopUp = cb => () => {
-  const signInPopUp = window.open(
-    '/embed/stream/login',
-    'Login',
-    'menubar=0,resizable=0,width=500,height=500,top=200,left=500'
-  );
-
-  signInPopUp.onbeforeunload = cb;
-};
-
-export const closeSignInPopUp = () => () => {
-  window.close();
 };
 
 // Sign In - Facebook
@@ -155,7 +145,7 @@ export const facebookCallback = (err, data) => dispatch => {
     dispatch(signInFacebookSuccess(user));
     dispatch(hideSignInDialog());
     dispatch(showCreateUsernameDialog());
-    fetchMe();
+    dispatch(hideSignInDialog());
   } catch (err) {
     dispatch(signInFacebookFailure(err));
     return;
