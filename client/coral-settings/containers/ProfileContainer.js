@@ -13,7 +13,7 @@ import IgnoredUsers from '../components/IgnoredUsers';
 import {Spinner} from 'coral-ui';
 import CommentHistory from 'coral-plugin-history/CommentHistory';
 
-import {openSignInPopUp, checkLogin} from 'coral-framework/actions/auth';
+import {showSignInDialog, checkLogin} from 'coral-framework/actions/auth';
 
 import translations from '../translations';
 const lang = new I18n(translations);
@@ -34,18 +34,8 @@ class ProfileContainer extends Component {
     });
   }
 
-  signIn = () => {
-    const {refetch} = this.props.data;
-    const {openSignInPopUp, checkLogin} = this.props;
-
-    openSignInPopUp(() => {
-      checkLogin();
-      refetch();
-    });
-  }
-
   render() {
-    const {loggedIn, asset, data, myIgnoredUsersData, stopIgnoringUser} = this.props;
+    const {loggedIn, asset, data, showSignInDialog, myIgnoredUsersData, stopIgnoringUser} = this.props;
     const {me} = this.props.data;
 
     if (data.loading) {
@@ -53,7 +43,7 @@ class ProfileContainer extends Component {
     }
 
     if (!loggedIn || !me) {
-      return <NotLoggedIn signIn={this.signIn} />;
+      return <NotLoggedIn showSignInDialog={showSignInDialog} />;
     }
 
     const localProfile = this.props.user.profiles.find(p => p.provider === 'local');
@@ -106,7 +96,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({openSignInPopUp, checkLogin}, dispatch);
+  bindActionCreators({showSignInDialog, checkLogin}, dispatch);
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
