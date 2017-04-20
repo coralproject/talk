@@ -2,8 +2,8 @@ const wrapResponse = require('../helpers/response');
 const CommentsService = require('../../services/comments');
 
 const RootMutation = {
-  createComment(_, {asset_id, parent_id, body}, {mutators: {Comment}}) {
-    return wrapResponse('comment')(Comment.create({asset_id, parent_id, body}));
+  createComment(_, {comment}, {mutators: {Comment}}) {
+    return wrapResponse('comment')(Comment.create(comment));
   },
   createLike(_, {like: {item_id, item_type}}, {mutators: {Action}}) {
     return wrapResponse('like')(Action.create({item_id, item_type, action_type: 'LIKE'}));

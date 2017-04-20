@@ -10,6 +10,7 @@ import FlagBox from './FlagBox';
 import CommentType from './CommentType';
 import ActionButton from 'coral-admin/src/components/ActionButton';
 import BanUserButton from 'coral-admin/src/components/BanUserButton';
+import {getActionSummary} from 'coral-framework/utils';
 
 const linkify = new Linkify();
 
@@ -17,25 +18,27 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations.json';
 const lang = new I18n(translations);
 
-const Comment = ({actions = [], ...props}) => {
-  const links = linkify.getMatches(props.comment.body);
+const Comment = ({actions = [], comment, ...props}) => {
+  const links = linkify.getMatches(comment.body);
   const linkText = links ? links.map(link => link.raw) : [];
-  const actionSummaries = props.comment.action_summaries;
+  const flagActionSummaries = getActionSummary('FlagActionSummary', comment);
+  const flagActions = comment.actions && comment.actions.filter(a => a.__typename === 'FlagAction');
+
   return (
     <li tabIndex={props.index} className={`mdl-card ${props.selected ? 'mdl-shadow--8dp' : 'mdl-shadow--2dp'} ${styles.Comment} ${styles.listItem}`}>
       <div className={styles.container}>
         <div className={styles.itemHeader}>
           <div className={styles.author}>
             <span>
-              {props.comment.user.name}
+              {comment.user.name}
             </span>
             <span className={styles.created}>
-              {timeago().format(props.comment.created_at || (Date.now() - props.index * 60 * 1000), lang.getLocale().replace('-', '_'))}
+              {timeago().format(comment.created_at || (Date.now() - props.index * 60 * 1000), lang.getLocale().replace('-', '_'))}
             </span>
-            <BanUserButton user={props.comment.user} onClick={() => props.showBanUserDialog(props.comment.user, props.comment.id, props.comment.status !== 'REJECTED')} />
+            <BanUserButton user={comment.user} onClick={() => props.showBanUserDialog(comment.user, comment.id, comment.status !== 'REJECTED')} />
             <CommentType type={props.commentType} />
           </div>
-          {props.comment.user.status === 'banned' ?
+          {comment.user.status === 'banned' ?
             <span className={styles.banned}>
               <Icon name='error_outline'/>
               {lang.t('comment.banned_user')}
@@ -43,16 +46,16 @@ const Comment = ({actions = [], ...props}) => {
             : null}
         </div>
         <div className={styles.moderateArticle}>
-          Story: {props.comment.asset.title}
+          Story: {comment.asset.title}
           {!props.currentAsset && (
-            <Link to={`/admin/moderate/${props.comment.asset.id}`}>Moderate &rarr;</Link>
+            <Link to={`/admin/moderate/${comment.asset.id}`}>Moderate →</Link>
           )}
         </div>
         <div className={styles.itemBody}>
           <p className={styles.body}>
             <Highlighter
               searchWords={[...props.suspectWords, ...props.bannedWords, ...linkText]}
-              textToHighlight={props.comment.body} />
+              textToHighlight={comment.body} />
           </p>
           <div className={styles.sideActions}>
             {links ? <span className={styles.hasLinks}><Icon name='error_outline'/> Contains Link</span> : null}
@@ -60,16 +63,20 @@ const Comment = ({actions = [], ...props}) => {
               {actions.map((action, i) =>
                 <ActionButton key={i}
                               type={action}
-                              user={props.comment.user}
-                              acceptComment={() => props.acceptComment({commentId: props.comment.id})}
-                              rejectComment={() => props.rejectComment({commentId: props.comment.id})}
+                              user={comment.user}
+                              acceptComment={() => props.acceptComment({commentId: comment.id})}
+                              rejectComment={() => props.rejectComment({commentId: comment.id})}
                 />
               )}
             </div>
           </div>
         </div>
       </div>
-      {actionSummaries && <FlagBox actionSummaries={actionSummaries} />}
+      {
+        flagActions && flagActions.length
+        ? <FlagBox actions={flagActions} actionSummaries={flagActionSummaries} />
+        : null
+      }
     </li>
   );
 };
@@ -83,6 +90,7 @@ Comment.propTypes = {
   comment: PropTypes.shape({
     body: PropTypes.string.isRequired,
     action_summaries: PropTypes.array,
+    actions: PropTypes.array,
     created_at: PropTypes.string.isRequired,
     user: PropTypes.shape({
       status: PropTypes.string

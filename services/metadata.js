@@ -36,7 +36,14 @@ class MetadataService {
   }
 
   /**
-   * Sets an object on the metadata field of an object.
+   * Sets an object on the metadata field of an object. An example could be:
+   *
+   * @example
+   * const MetadataService = require('services/metadata');
+   * const CommentModel = require('models/comment');
+   *
+   * // Sets the property `loaded` on the comment with `id=1`.
+   * MetadataService.set(CommentModel, '1', 'loaded', true);
    *
    * @static
    * @param {mongoose.Model} model the mongoose model for the object
@@ -59,6 +66,13 @@ class MetadataService {
 
   /**
    * Removes the value for the metadata field as the specific key.
+   *
+   * @example
+   * const MetadataService = require('services/metadata');
+   * const CommentModel = require('models/comment');
+   *
+   * // Removes the property `loaded` on the comment with `id=1`.
+   * MetadataService.unset(CommentModel, '1', 'loaded');
    *
    * @static
    * @param {mongoose.Model} model the mongoose model for the object

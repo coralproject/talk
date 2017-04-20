@@ -116,7 +116,7 @@ class ModerationContainer extends Component {
 
     let asset;
 
-    if (data.loading) {
+    if (!('premodCount' in data)) {
       return <div><Spinner/></div>;
     }
 

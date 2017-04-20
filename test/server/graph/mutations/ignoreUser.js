@@ -1,10 +1,10 @@
 const expect = require('chai').expect;
 const {graphql} = require('graphql');
 
-const schema = require('../../../graph/schema');
-const Context = require('../../../graph/context');
-const UsersService = require('../../../services/users');
-const SettingsService = require('../../../services/settings');
+const schema = require('../../../../graph/schema');
+const Context = require('../../../../graph/context');
+const UsersService = require('../../../../services/users');
+const SettingsService = require('../../../../services/settings');
 
 const ignoreUserMutation = `
   mutation ignoreUser ($id: ID!) {
@@ -94,7 +94,7 @@ describe('graph.mutations.stopIgnoringUser', () => {
       if (response.errors && response.errors.length) {
         console.error(response.errors);
       }
-      expect(response.errors).to.be.empty;      
+      expect(response.errors).to.be.empty;
     });
 
     const stopIgnoringUserMutation = `
@@ -112,7 +112,7 @@ describe('graph.mutations.stopIgnoringUser', () => {
     if (stopIgnoringUserResponse.errors && stopIgnoringUserResponse.errors.length) {
       console.error(stopIgnoringUserResponse.errors);
     }
-    expect(stopIgnoringUserResponse.errors).to.be.empty;     
+    expect(stopIgnoringUserResponse.errors).to.be.empty;
 
     // now check my ignored users
     const myIgnoredUsersResponse = await graphql(schema, getMyIgnoredUsersQuery, {}, context, {});

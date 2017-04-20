@@ -1,0 +1,18 @@
+.offTopic {
+  height: 100%;
+}
+
+.offTopicLabel {
+  padding: 10px 20px;
+  display: block;
+}
+
+.tag {
+  background: rgba(245, 188, 168, 0.6);
+  display: inline-block;
+  margin: 0px 5px;
+  padding: 5px 5px;
+  border-radius: 2px;
+}
+
+

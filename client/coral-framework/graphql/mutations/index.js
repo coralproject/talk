@@ -20,12 +20,11 @@ export const postComment = graphql(POST_COMMENT, {
     fragments: commentView
   }),
   props: ({ownProps, mutate}) => ({
-    postItem: ({asset_id, body, parent_id}) =>
-      mutate({
+    postItem: comment => {
+      const {asset_id, body, parent_id, tags = []} = comment;
+      return mutate({
         variables: {
-          asset_id,
-          body,
-          parent_id
+          comment
         },
         optimisticResponse: {
           createComment: {
@@ -39,14 +38,14 @@ export const postComment = graphql(POST_COMMENT, {
               parent_id,
               asset_id,
               action_summaries: [],
-              tags: [],
+              tags,
               status: null,
               id: 'pending'
             }
           }
         },
         updateQueries: {
-          AssetQuery: (oldData, {mutationResult:{data:{createComment:{comment}}}}) => {
+          AssetQuery: (oldData, {mutationResult: {data: {createComment: {comment}}}}) => {
 
             if (oldData.asset.settings.moderation === 'PRE' || comment.status === 'PREMOD' || comment.status === 'REJECTED') {
               return oldData;
@@ -62,8 +61,8 @@ export const postComment = graphql(POST_COMMENT, {
                   ...oldData.asset,
                   comments: oldData.asset.comments.map((oldComment) => {
                     return oldComment.id === parent_id
-                    ? {...oldComment, replies: [...oldComment.replies, comment]}
-                    : oldComment;
+                      ? {...oldComment, replies: [...oldComment.replies, comment]}
+                      : oldComment;
                   })
                 }
               };
@@ -83,7 +82,8 @@ export const postComment = graphql(POST_COMMENT, {
             return updatedAsset;
           }
         }
-      })
+      });
+    }
   }),
 });
 

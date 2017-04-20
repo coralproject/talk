@@ -16,7 +16,7 @@ const Wordlist = require('../../services/wordlist');
  * @param  {String} [status='NONE'] the status of the new comment
  * @return {Promise}              resolves to the created comment
  */
-const createComment = ({user, loaders: {Comments}}, {body, asset_id, parent_id = null}, status = 'NONE') => {
+const createComment = ({user, loaders: {Comments}}, {body, asset_id, parent_id = null, tags = []}, status = 'NONE') => {
 
   return CommentsService.publicCreate({
     body,
