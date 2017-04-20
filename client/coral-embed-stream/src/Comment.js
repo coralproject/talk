@@ -22,11 +22,10 @@ import LoadMore from 'coral-embed-stream/src/LoadMore';
 import Slot from 'coral-framework/components/Slot';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import {TopRightMenu} from './TopRightMenu';
+import {getActionSummary, getTotalActionCount, iPerformedThisAction} from 'coral-framework/utils';
 
 import styles from './Comment.css';
 
-const getActionSummary = (type, comment) => comment.action_summaries
-  .filter((a) => a.__typename === type)[0];
 const isStaff = (tags) => !tags.every((t) => t.name !== 'STAFF') ;
 
 // hold actions links (e.g. Like, Reply) along the comment footer
@@ -124,9 +123,16 @@ class Comment extends React.Component {
       commentIsIgnored,
     } = this.props;
 
-    const like = getActionSummary('LikeActionSummary', comment);
-    const flag = getActionSummary('FlagActionSummary', comment);
-    const dontagree = getActionSummary('DontAgreeActionSummary', comment);
+    const likeSummary = getActionSummary('LikeActionSummary', comment);
+    const flagSummary = getActionSummary('FlagActionSummary', comment);
+    const dontAgreeSummary = getActionSummary('DontAgreeActionSummary', comment);
+    let myFlag = null;
+    if (iPerformedThisAction('FlagActionSummary', comment)) {
+      myFlag = flagSummary.find(s => s.current_user);
+    } else if (iPerformedThisAction('DontAgreeActionSummary', comment)) {
+      myFlag = dontAgreeSummary.find(s => s.current_user);
+    }
+
     let commentClass = parentId ? `reply ${styles.Reply}` : `comment ${styles.Comment}`;
     commentClass += comment.id === 'pending' ? ` ${styles.pendingComment}` : '';
 
@@ -183,8 +189,10 @@ class Comment extends React.Component {
           <Content body={comment.body} />
           <div className="commentActionsLeft comment__action-container">
             <ActionButton>
+              {/* TODO implmement iPerformedThisAction for the like */}
               <LikeButton
-                like={like}
+                totalLikes={getTotalActionCount('LikeActionSummary', comment)}
+                like={likeSummary[0]}
                 id={comment.id}
                 postLike={postLike}
                 deleteAction={deleteAction}
@@ -217,7 +225,8 @@ class Comment extends React.Component {
             </ActionButton>
             <ActionButton>
               <FlagComment
-                flag={flag && flag.current_user ? flag : dontagree}
+                flaggedByCurrentUser={!!myFlag}
+                flag={myFlag}
                 id={comment.id}
                 author_id={comment.user.id}
                 postFlag={postFlag}

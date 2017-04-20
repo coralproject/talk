@@ -5,6 +5,7 @@ import Icon from './Icon';
 import {I18n} from 'coral-framework';
 import cn from 'classnames';
 import translations from '../translations.json';
+import {getMyActionSummary, getTotalActionCount} from 'coral-framework/utils';
 
 const lang = new I18n(translations);
 
@@ -14,8 +15,7 @@ class RespectButton extends Component {
     const {postRespect, showSignInDialog, deleteAction, commentId} = this.props;
     const {me, comment} = this.props.data;
 
-    const respect = comment.action_summaries[0];
-    const respected = (respect && respect.current_user);
+    const myRespectActionSummary = getMyActionSummary('RespectActionSummary', comment);
 
     // If the current user does not exist, trigger sign in dialog.
     if (!me) {
@@ -28,29 +28,33 @@ class RespectButton extends Component {
       return;
     }
 
-    if (!respected) {
+    if (myRespectActionSummary) {
+      deleteAction(myRespectActionSummary.current_user.id);
+    } else {
       postRespect({
         item_id: commentId,
         item_type: 'COMMENTS'
       });
-    } else {
-      deleteAction(respect.current_user.id);
     }
   }
 
   render() {
     const {comment} = this.props.data;
-    const respect = comment && comment.action_summaries && comment.action_summaries[0];
-    const respected = respect && respect.current_user;
-    let count = respect ? respect.count : 0;
+
+    if (!comment) {
+      return null;
+    }
+
+    const myRespect = getMyActionSummary('RespectActionSummary', comment);
+    let count = getTotalActionCount('RespectActionSummary', comment);
 
     return (
       <div className={styles.respect}>
         <button
-          className={cn(styles.button, {[styles.respected]: respected})}
+          className={cn(styles.button, {[styles.respected]: myRespect})}
           onClick={this.handleClick} >
-          <span>{lang.t(respected ? 'respected' : 'respect')}</span>
-          <Icon className={cn(styles.icon, {[styles.respected]: respected})} />
+          <span>{lang.t(myRespect ? 'respected' : 'respect')}</span>
+          <Icon className={cn(styles.icon, {[styles.respected]: myRespect})} />
           {count > 0 && count}
         </button>
       </div>
@@ -63,4 +67,3 @@ RespectButton.propTypes = {
 };
 
 export default RespectButton;
-

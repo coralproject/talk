@@ -21,14 +21,14 @@ class FlagButton extends Component {
 
   // When the "report" button is clicked expand the menu
   onReportClick = () => {
-    const {currentUser, flag, deleteAction} = this.props;
+    const {currentUser, deleteAction, flaggedByCurrentUser, flag} = this.props;
     const {localPost, localDelete} = this.state;
-    const flagged = (flag && flag.current_user && !localDelete) || localPost;
+    const localFlagged = (flaggedByCurrentUser && !localDelete) || localPost;
     if (!currentUser) {
       this.props.showSignInDialog();
       return;
     }
-    if (flagged) {
+    if (localFlagged) {
       this.setState((prev) => prev.localPost ? {...prev, localPost: null, step: 0} : {...prev, localDelete: true});
       deleteAction(localPost || flag.current_user.id);
     } else if (this.state.showMenu){
@@ -129,9 +129,9 @@ class FlagButton extends Component {
   }
 
   render () {
-    const {flag, getPopupMenu} = this.props;
+    const {getPopupMenu, flaggedByCurrentUser} = this.props;
     const {localPost, localDelete} = this.state;
-    const flagged = (flag && flag.current_user && !localDelete) || localPost;
+    const flagged = (flaggedByCurrentUser && !localDelete) || localPost;
     const popupMenu = getPopupMenu[this.state.step](this.state.itemType);
 
     return <div className={`${name}-container`}>

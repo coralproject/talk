@@ -48,10 +48,16 @@ module.exports = class ActionsService {
    * Finds actions in an array of ids.
    * @param {String} ids array of user identifiers (uuid)
   */
-  static findByItemIdArray(item_ids) {
-    return ActionModel.find({
+  static async findByItemIdArray(item_ids) {
+    let actions = await ActionModel.find({
       'item_id': {$in: item_ids}
     });
+
+    if (actions === null) {
+      return [];
+    }
+
+    return actions;
   }
 
   /**
