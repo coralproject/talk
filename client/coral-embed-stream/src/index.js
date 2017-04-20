@@ -3,9 +3,12 @@ import {render} from 'react-dom';
 import {ApolloProvider} from 'react-apollo';
 
 import {client} from 'coral-framework/services/client';
-import store from 'coral-framework/services/store';
+import {store, injectReducers} from 'coral-framework/services/store';
 
-import Embed from './Embed';
+import Embed from './containers/Embed';
+import reducers from './reducers';
+
+injectReducers(reducers);
 
 render(
   <ApolloProvider client={client} store={store}>

@@ -24,14 +24,14 @@ class CommentBox extends Component {
 
   postComment = () => {
     const {
+      commentPostedHandler,
+      postItem,
+      setCommentCountCache,
+      commentCountCache,
       isReply,
       assetId,
       parentId,
-      postItem,
-      countCache,
       addNotification,
-      updateCountCache,
-      commentPostedHandler
     } = this.props;
 
     let comment = {
@@ -41,7 +41,7 @@ class CommentBox extends Component {
       ...this.props.commentBox
     };
 
-    !isReply && updateCountCache(assetId, countCache + 1);
+    !isReply && setCommentCountCache(commentCountCache + 1);
 
     // Execute preSubmit Hooks
     this.state.hooks.preSubmit.forEach(hook => hook());
@@ -55,18 +55,20 @@ class CommentBox extends Component {
 
         if (postedComment.status === 'REJECTED') {
           addNotification('error', lang.t('comment-post-banned-word'));
-          !isReply && updateCountCache(assetId, countCache);
+          !isReply && setCommentCountCache(commentCountCache);
         } else if (postedComment.status === 'PREMOD') {
           addNotification('success', lang.t('comment-post-notif-premod'));
-          !isReply && updateCountCache(assetId, countCache);
+          !isReply && setCommentCountCache(commentCountCache);
         }
 
         if (commentPostedHandler) {
           commentPostedHandler();
         }
       })
-      .catch((err) => console.error(err));
-
+      .catch((err) => {
+        console.error(err);
+        !isReply && setCommentCountCache(commentCountCache);
+      });
     this.setState({body: ''});
   }
 

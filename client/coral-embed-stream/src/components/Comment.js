@@ -18,8 +18,8 @@ import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
 import FlagComment from 'coral-plugin-flags/FlagComment';
 import LikeButton from 'coral-plugin-likes/LikeButton';
 import {BestButton, IfUserCanModifyBest, BEST_TAG, commentIsBest, BestIndicator} from 'coral-plugin-best/BestButton';
-import LoadMore from 'coral-embed-stream/src/LoadMore';
 import {Slot} from 'coral-framework';
+import LoadMore from './LoadMore';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import {TopRightMenu} from './TopRightMenu';
 

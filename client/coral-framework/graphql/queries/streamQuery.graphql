@@ -50,4 +50,8 @@ query AssetQuery($asset_id: ID, $asset_url: String, $comment_id: ID!, $has_comme
             }
         }
     }
+    myIgnoredUsers {
+        id,
+        username,
+    }
 }
