@@ -12,4 +12,13 @@ fragment commentView on Comment {
       id
       title
     }
+    actions {
+      ... on FlagAction {
+        reason
+        message
+        user {
+          username
+        }
+      }
+    }
 }
