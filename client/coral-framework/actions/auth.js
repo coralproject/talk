@@ -58,7 +58,10 @@ export const cleanState = () => ({type: actions.CLEAN_STATE});
 // Sign In Actions
 
 const signInRequest = () => ({type: actions.FETCH_SIGNIN_REQUEST});
-const signInSuccess = (user, isAdmin) => ({type: actions.FETCH_SIGNIN_SUCCESS, user, isAdmin});
+
+// TODO: revisit login redux flow.
+// const signInSuccess = (user, isAdmin) => ({type: actions.FETCH_SIGNIN_SUCCESS, user, isAdmin});
+//
 const signInFailure = error => ({type: actions.FETCH_SIGNIN_FAILURE, error});
 
 export const fetchSignIn = (formData) => (dispatch) => {
