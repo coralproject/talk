@@ -11,6 +11,16 @@ const ME_QUERY = gql`
   query Me {
     me {
       status
+      comments {
+          id
+          body
+          asset {
+            id
+            title
+            url
+          }
+          created_at
+      }
     }
   }
 `;
@@ -22,8 +32,23 @@ function fetchMe() {
 }
 
 // Dialog Actions
-export const showSignInDialog = (offset = 0) => ({type: actions.SHOW_SIGNIN_DIALOG, offset});
-export const hideSignInDialog = () => ({type: actions.HIDE_SIGNIN_DIALOG});
+export const showSignInDialog = () => dispatch => {
+  const signInPopUp = window.open(
+    '/embed/stream/login',
+    'Login',
+    'menubar=0,resizable=0,width=500,height=550,top=200,left=500'
+  );
+
+  signInPopUp.onbeforeunload = () => {
+    dispatch(checkLogin());
+    fetchMe();
+  };
+  dispatch({type: actions.SHOW_SIGNIN_DIALOG});
+};
+export const hideSignInDialog = () => dispatch => {
+  dispatch({type: actions.HIDE_SIGNIN_DIALOG});
+  window.close();
+};
 
 export const createUsernameRequest = () => ({type: actions.CREATE_USERNAME_REQUEST});
 export const showCreateUsernameDialog = () => ({type: actions.SHOW_CREATEUSERNAME_DIALOG});
@@ -47,29 +72,39 @@ export const createUsername = (userId, formData) => dispatch => {
     });
 };
 
-export const changeView = view => dispatch =>
+export const changeView = view => dispatch => {
   dispatch({
     type: actions.CHANGE_VIEW,
     view
   });
+
+  switch(view) {
+  case 'SIGNUP':
+    window.resizeTo(500, 800);
+    break;
+  case 'FORGOT':
+    window.resizeTo(500, 400);
+    break;
+  default:
+    window.resizeTo(500, 550);
+  }
+};
 
 export const cleanState = () => ({type: actions.CLEAN_STATE});
 
 // Sign In Actions
 
 const signInRequest = () => ({type: actions.FETCH_SIGNIN_REQUEST});
-const signInSuccess = (user, isAdmin) => ({type: actions.FETCH_SIGNIN_SUCCESS, user, isAdmin});
+
+// TODO: revisit login redux flow.
+// const signInSuccess = (user, isAdmin) => ({type: actions.FETCH_SIGNIN_SUCCESS, user, isAdmin});
+//
 const signInFailure = error => ({type: actions.FETCH_SIGNIN_FAILURE, error});
 
 export const fetchSignIn = (formData) => (dispatch) => {
   dispatch(signInRequest());
   return coralApi('/auth/local', {method: 'POST', body: formData})
-    .then(({user}) => {
-      const isAdmin = !!user && !!user.roles.filter(i => i === 'ADMIN').length;
-      dispatch(signInSuccess(user, isAdmin));
-      dispatch(hideSignInDialog());
-      fetchMe();
-    })
+    .then(() => dispatch(hideSignInDialog()))
     .catch(error => {
       if (error.metadata) {
 
@@ -121,7 +156,7 @@ export const facebookCallback = (err, data) => dispatch => {
     dispatch(signInFacebookSuccess(user));
     dispatch(hideSignInDialog());
     dispatch(showCreateUsernameDialog());
-    fetchMe();
+    dispatch(hideSignInDialog());
   } catch (err) {
     dispatch(signInFacebookFailure(err));
     return;
