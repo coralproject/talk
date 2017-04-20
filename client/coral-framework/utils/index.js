@@ -1,8 +1,4 @@
 export const getTotalActionCount = (type, comment) => {
-  if (!comment.action_summaries) {
-    return 0;
-  }
-
   return comment.action_summaries
     .filter(s => s.__typename === type)
     .reduce((total, summary) => {
@@ -11,9 +7,6 @@ export const getTotalActionCount = (type, comment) => {
 };
 
 export const iPerformedThisAction = (type, comment) => {
-  if (!comment.action_summaries) {
-    return false;
-  }
 
   // if there is a current_user on any of the ActionSummary(s), the user performed this action
   return comment.action_summaries
@@ -22,10 +15,6 @@ export const iPerformedThisAction = (type, comment) => {
 };
 
 export const getMyActionSummary = (type, comment) => {
-  if (!comment.action_summaries) {
-    return null;
-  }
-
   return comment.action_summaries
     .filter(a => a.__typename === type)
     .find(a => a.current_user);
@@ -38,9 +27,5 @@ export const getMyActionSummary = (type, comment) => {
  */
 
 export const getActionSummary = (type, comment) => {
-  if (!comment.action_summaries) {
-    return null;
-  }
-
   return comment.action_summaries.filter(a => a.__typename === type);
 };
