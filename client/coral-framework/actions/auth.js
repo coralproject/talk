@@ -22,8 +22,20 @@ function fetchMe() {
 }
 
 // Dialog Actions
-export const showSignInDialog = (offset = 0) => ({type: actions.SHOW_SIGNIN_DIALOG, offset});
-export const hideSignInDialog = () => ({type: actions.HIDE_SIGNIN_DIALOG});
+export const showSignInDialog = () => dispatch => {
+  const signInPopUp = window.open(
+    '/embed/stream/login',
+    'Login',
+    'menubar=0,resizable=0,width=500,height=500,top=200,left=500'
+  );
+
+  signInPopUp.onbeforeunload = fetchMe;
+  // ({type: actions.SHOW_SIGNIN_DIALOG, offset})
+};
+export const hideSignInDialog = () => dispatch => {
+  window.close();
+  // ({type: actions.HIDE_SIGNIN_DIALOG});
+}
 
 export const createUsernameRequest = () => ({type: actions.CREATE_USERNAME_REQUEST});
 export const showCreateUsernameDialog = () => ({type: actions.SHOW_CREATEUSERNAME_DIALOG});
@@ -47,11 +59,19 @@ export const createUsername = (userId, formData) => dispatch => {
     });
 };
 
-export const changeView = view => dispatch =>
+export const changeView = view => dispatch => {
+  switch(view) {
+  case 'SIGNUP':
+    window.resizeTo(500, 700);
+    break;
+  default:
+    window.resizeTo(500, 500);
+  }
   dispatch({
     type: actions.CHANGE_VIEW,
     view
   });
+};
 
 export const cleanState = () => ({type: actions.CLEAN_STATE});
 
