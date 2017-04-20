@@ -53,3 +53,17 @@
     font-size: 12px;
   }
 }
+
+.lessDetail {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.subDetail {
+  font-weight: normal;
+  color: #888;
+
+  span {
+    color: black;
+  }
+}
