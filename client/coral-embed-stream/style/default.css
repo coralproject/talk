@@ -475,3 +475,19 @@ button.comment__action-button[disabled],
 .coral-load-more-replies button.coral-load-more, .coral-new-comments  button.coral-load-more{
   width: initial;
 }
+
+@media (min-device-width : 300px) and (max-device-width : 420px) {
+  .commentActionsLeft.comment__action-container .coral-plugin-likes-button-text,
+  .commentActionsLeft.comment__action-container > div span {
+    display: none;
+  }
+
+  .commentActionsLeft.comment__action-container .coral-plugin-replies-reply-button {
+    visibility: collapse;
+    margin-left: -30px;
+  }
+
+  .commentActionsLeft.comment__action-container .coral-plugin-replies-reply-button .coral-plugin-replies-icon {
+    visibility: visible;
+  }
+}

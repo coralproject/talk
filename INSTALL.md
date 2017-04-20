@@ -174,8 +174,8 @@ and testing purposes.
 
 There are some runtime requirements for running Talk from source:
 
-- [Node](https://nodejs.org/) v7.9 or later
-- [Yarn](https://yarnpkg.com/) v0.22.0 or later
+- [Node](https://nodejs.org/) ~7.8
+- [Yarn](https://yarnpkg.com/) ^0.22.0
 
 _Please be sure to check the versions of these requirements. Incorrect versions
 of these may lead to unexpected errors!_
