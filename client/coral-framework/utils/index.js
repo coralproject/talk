@@ -1,7 +1,31 @@
-/**
-* getActionSummary
-* retrieves the action summary based on the type and the comment
-*/
+export const getTotalActionCount = (type, comment) => {
+  return comment.action_summaries
+    .filter(s => s.__typename === type)
+    .reduce((total, summary) => {
+      return total + summary.count;
+    }, 0);
+};
 
-export const getActionSummary = (type, comment) =>
-  comment.action_summaries.filter(a => a.__typename === type)[0];
+export const iPerformedThisAction = (type, comment) => {
+
+  // if there is a current_user on any of the ActionSummary(s), the user performed this action
+  return comment.action_summaries
+    .filter(a => a.__typename === type)
+    .some(a => a.current_user);
+};
+
+export const getMyActionSummary = (type, comment) => {
+  return comment.action_summaries
+    .filter(a => a.__typename === type)
+    .find(a => a.current_user);
+};
+
+ /**
+ * getActionSummary
+ * retrieves the action summaries based on the type and the comment
+ * array could be length > 1, as in the case of FlagActionSummary
+ */
+
+export const getActionSummary = (type, comment) => {
+  return comment.action_summaries.filter(a => a.__typename === type);
+};

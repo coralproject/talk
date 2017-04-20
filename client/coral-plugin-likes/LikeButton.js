@@ -27,16 +27,15 @@ class LikeButton extends Component {
 
   render() {
     const {like, id, postLike, deleteAction, showSignInDialog, currentUser} = this.props;
+    let {totalLikes: count} = this.props;
     const {localPost, localDelete} = this.state;
     const liked = (like && like.current_user && !localDelete) || localPost;
-    let count = like ? like.count : 0;
     if (localPost) {count += 1;}
     if (localDelete) {count -= 1;}
 
     const onLikeClick = () => {
       if (!currentUser) {
-        const offset = document.getElementById(`c_${id}`).getBoundingClientRect().top - 75;
-        showSignInDialog(offset);
+        showSignInDialog();
         return;
       }
       if (currentUser.banned) {

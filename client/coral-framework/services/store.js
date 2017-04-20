@@ -24,7 +24,7 @@ if (window.devToolsExtension) {
   middlewares.push(window.devToolsExtension());
 }
 
-export default createStore(
+const store = createStore(
   combineReducers({
     ...mainReducer,
     apollo: client.reducer()
@@ -32,3 +32,6 @@ export default createStore(
   {},
   compose(...middlewares)
 );
+
+export default store;
+window.coralStore = store;

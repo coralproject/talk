@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import SignDialog from '../components/SignDialog';
-import Button from 'coral-ui/components/Button';
 import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
 import I18n from 'coral-framework/modules/i18n/i18n';
@@ -13,7 +12,6 @@ import {
   changeView,
   fetchSignUp,
   fetchSignIn,
-  showSignInDialog,
   hideSignInDialog,
   fetchSignInFacebook,
   fetchSignUpFacebook,
@@ -147,23 +145,18 @@ class SignInContainer extends Component {
 
   handleSignIn(e) {
     e.preventDefault();
-    this.props.fetchSignIn(this.state.formData)
-      .then(this.props.refetch);
+    this.props.fetchSignIn(this.state.formData);
   }
 
   render() {
-    const {auth, showSignInDialog, noButton, offset, requireEmailConfirmation} = this.props;
+    const {auth, requireEmailConfirmation} = this.props;
     const {emailVerificationLoading, emailVerificationSuccess} = auth;
 
     return (
       <div>
-        {!noButton && <Button id='coralSignInButton' onClick={showSignInDialog} full>
-          Sign in to comment
-        </Button>}
         <SignDialog
-          open={auth.showSignInDialog}
+          open={true}
           view={auth.view}
-          offset={offset}
           emailVerificationEnabled={requireEmailConfirmation}
           emailVerificationLoading={emailVerificationLoading}
           emailVerificationSuccess={emailVerificationSuccess}
@@ -189,7 +182,6 @@ const mapDispatchToProps = dispatch => ({
   fetchSignUpFacebook: () => dispatch(fetchSignUpFacebook()),
   fetchForgotPassword: formData => dispatch(fetchForgotPassword(formData)),
   requestConfirmEmail: (email, url) => dispatch(requestConfirmEmail(email, url)),
-  showSignInDialog: () => dispatch(showSignInDialog()),
   changeView: view => dispatch(changeView(view)),
   handleClose: () => dispatch(hideSignInDialog()),
   invalidForm: error => dispatch(invalidForm(error)),
