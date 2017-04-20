@@ -126,16 +126,6 @@ class Embed extends React.Component {
     }
   }
 
-  signIn = () => {
-    const {refetch} = this.props.data;
-    const {openSignInPopUp, checkLogin} = this.props;
-
-    openSignInPopUp(() => {
-      checkLogin();
-      refetch();
-    });
-  }
-
   render () {
     const {activeTab} = this.state;
     const {closedAt, countCache = {}} = this.props.asset;
@@ -229,7 +219,7 @@ class Embed extends React.Component {
                : <p>{asset.settings.closedMessage}</p>
             }
 
-            {!loggedIn && <Button id='coralSignInButton' onClick={this.signIn} full>Sign in to comment</Button>}
+            {!loggedIn && <Button id='coralSignInButton' onClick={this.props.showSignInDialog} full>Sign in to comment</Button>}
 
             {loggedIn && user && <ChangeUsernameContainer loggedIn={loggedIn} offset={signInOffset} user={user} />}
             {loggedIn && <ModerationLink assetId={asset.id} isAdmin={isAdmin} />}

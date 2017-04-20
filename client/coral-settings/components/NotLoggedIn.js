@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './NotLoggedIn.css';
-import SignInContainer from '../../coral-sign-in/containers/SignInContainer';
 import translations from '../translations';
 import I18n from 'coral-framework/modules/i18n/i18n';
 const lang = new I18n(translations);

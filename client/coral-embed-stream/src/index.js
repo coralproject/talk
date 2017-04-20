@@ -3,9 +3,11 @@ import {render} from 'react-dom';
 import {ApolloProvider} from 'react-apollo';
 
 import {client} from 'coral-framework/services/client';
-import store from 'coral-framework/services/store';
+import localStore from 'coral-framework/services/store';
 
 import AppRouter from './AppRouter';
+
+const store = (window.opener && window.opener.coralStore) ? window.opener.coralStore : localStore;
 
 render(
   <ApolloProvider client={client} store={store}>
