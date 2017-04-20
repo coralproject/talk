@@ -11,6 +11,16 @@ const ME_QUERY = gql`
   query Me {
     me {
       status
+      comments {
+          id
+          body
+          asset {
+            id
+            title
+            url
+          }
+          created_at
+      }
     }
   }
 `;
