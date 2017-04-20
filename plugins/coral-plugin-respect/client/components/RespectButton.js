@@ -5,6 +5,7 @@ import Icon from './Icon';
 import {I18n} from 'coral-framework';
 import cn from 'classnames';
 import translations from '../translations.json';
+import {getActionSummary} from 'coral-framework/utils';
 
 const lang = new I18n(translations);
 
@@ -14,7 +15,7 @@ class RespectButton extends Component {
     const {postRespect, showSignInDialog, deleteAction, commentId} = this.props;
     const {me, comment} = this.props.data;
 
-    const respect = comment.action_summaries[0];
+    const respect = getActionSummary('RespectActionSummary', comment);
     const respected = (respect && respect.current_user);
 
     // If the current user does not exist, trigger sign in dialog.
@@ -41,7 +42,7 @@ class RespectButton extends Component {
 
   render() {
     const {comment} = this.props.data;
-    const respect = comment && comment.action_summaries && comment.action_summaries[0];
+    const respect = comment && getActionSummary('RespectActionSummary', comment);
     const respected = respect && respect.current_user;
     let count = respect ? respect.count : 0;
 
