@@ -63,6 +63,11 @@ export const createUsername = (userId, formData) => dispatch => {
 };
 
 export const changeView = view => dispatch => {
+  dispatch({
+    type: actions.CHANGE_VIEW,
+    view
+  });
+
   switch(view) {
   case 'SIGNUP':
     window.resizeTo(500, 800);
@@ -73,10 +78,6 @@ export const changeView = view => dispatch => {
   default:
     window.resizeTo(500, 550);
   }
-  dispatch({
-    type: actions.CHANGE_VIEW,
-    view
-  });
 };
 
 export const cleanState = () => ({type: actions.CLEAN_STATE});
