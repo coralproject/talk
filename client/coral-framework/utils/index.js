@@ -3,24 +3,32 @@ export const getTotalActionCount = (type, comment) => {
     return 0;
   }
 
-  return comment.action_summaries.reduce((total, summary) => {
-    if (summary.__typename === type) {
+  return comment.action_summaries
+    .filter(s => s.__typename === type)
+    .reduce((total, summary) => {
       return total + summary.count;
-    } else {
-      return total;
-    }
-  }, 0);
+    }, 0);
 };
 
 export const iPerformedThisAction = (type, comment) => {
   if (!comment.action_summaries) {
-    return 0;
+    return false;
   }
 
   // if there is a current_user on any of the ActionSummary(s), the user performed this action
   return comment.action_summaries
     .filter(a => a.__typename === type)
     .some(a => a.current_user);
+};
+
+export const getMyActionSummary = (type, comment) => {
+  if (!comment.action_summaries) {
+    return null;
+  }
+
+  return comment.action_summaries
+    .filter(a => a.__typename === type)
+    .find(a => a.current_user);
 };
 
  /**
