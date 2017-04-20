@@ -32,7 +32,6 @@ const TagSchema = new Schema({
 
   name: {
     type: String,
-    unique: true
   },
 
   item_type: {
