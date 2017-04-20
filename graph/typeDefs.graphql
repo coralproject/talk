@@ -31,7 +31,7 @@ type User {
   username: String!
 
   # Action summaries against the user.
-  action_summaries: [ActionSummary]
+  action_summaries: [ActionSummary]!
 
   # Actions completed on the parent.
   actions: [Action]
@@ -197,7 +197,7 @@ type Comment {
   actions: [Action]
 
   # Action summaries against a comment.
-  action_summaries: [ActionSummary]
+  action_summaries: [ActionSummary]!
 
   # The asset that a comment was made on.
   asset: Asset
@@ -476,7 +476,7 @@ type Asset {
 
   # Summary of all Actions against all entities associated with the Asset.
   # (likes, flags, etc.). Requires the `ADMIN` role.
-  action_summaries: [AssetActionSummary]
+  action_summaries: [AssetActionSummary!]
 
   # The date that the asset was created.
   created_at: Date

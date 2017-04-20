@@ -10,6 +10,7 @@ import FlagBox from './FlagBox';
 import CommentType from './CommentType';
 import ActionButton from 'coral-admin/src/components/ActionButton';
 import BanUserButton from 'coral-admin/src/components/BanUserButton';
+import {getActionSummary} from 'coral-framework/utils';
 
 const linkify = new Linkify();
 
@@ -20,8 +21,8 @@ const lang = new I18n(translations);
 const Comment = ({actions = [], comment, ...props}) => {
   const links = linkify.getMatches(comment.body);
   const linkText = links ? links.map(link => link.raw) : [];
-  const actionSummaries = comment.action_summaries.filter(a => a.__typename === 'FlagActionSummary');
-  const flagActions = comment.actions.filter(a => a.__typename === 'FlagAction');
+  const flagActionSummaries = getActionSummary('FlagActionSummary', comment);
+  const flagActions = comment.actions && comment.actions.filter(a => a.__typename === 'FlagAction');
 
   return (
     <li tabIndex={props.index} className={`mdl-card ${props.selected ? 'mdl-shadow--8dp' : 'mdl-shadow--2dp'} ${styles.Comment} ${styles.listItem}`}>
@@ -71,7 +72,11 @@ const Comment = ({actions = [], comment, ...props}) => {
           </div>
         </div>
       </div>
-      {flagActions && <FlagBox actions={flagActions} actionSummaries={actionSummaries} />}
+      {
+        flagActions && flagActions.length
+        ? <FlagBox actions={flagActions} actionSummaries={flagActionSummaries} />
+        : null
+      }
     </li>
   );
 };
