@@ -83,6 +83,7 @@ class SignUpContent extends React.Component {
                 type="email"
                 label={lang.t('signIn.email')}
                 value={formData.email}
+                style={{fontSize: 16}}
                 showErrors={showErrors}
                 errorMsg={errors.email}
                 onChange={handleChange}
@@ -93,6 +94,7 @@ class SignUpContent extends React.Component {
                 label={lang.t('signIn.username')}
                 value={formData.username}
                 showErrors={showErrors}
+                style={{fontSize: 16}}
                 errorMsg={errors.username}
                 onChange={handleChange}
               />
@@ -102,6 +104,7 @@ class SignUpContent extends React.Component {
                 label={lang.t('signIn.password')}
                 value={formData.password}
                 showErrors={showErrors}
+                style={{fontSize: 16}}
                 errorMsg={errors.password}
                 onChange={handleChange}
                 minLength="8"
@@ -112,6 +115,7 @@ class SignUpContent extends React.Component {
                 type="password"
                 label={lang.t('signIn.confirmPassword')}
                 value={formData.confirmPassword}
+                style={{fontSize: 16}}
                 showErrors={showErrors}
                 errorMsg={errors.confirmPassword}
                 onChange={handleChange}
