@@ -125,12 +125,12 @@ class Comment extends React.Component {
 
     const likeSummary = getActionSummary('LikeActionSummary', comment);
     const flagSummary = getActionSummary('FlagActionSummary', comment);
-    const dontagreeSummary = getActionSummary('DontAgreeActionSummary', comment);
+    const dontAgreeSummary = getActionSummary('DontAgreeActionSummary', comment);
     let myFlag = null;
     if (iPerformedThisAction('FlagActionSummary', comment)) {
       myFlag = flagSummary.find(s => s.current_user);
     } else if (iPerformedThisAction('DontAgreeActionSummary', comment)) {
-      myFlag = dontagreeSummary.find(s => s.current_user);
+      myFlag = dontAgreeSummary.find(s => s.current_user);
     }
 
     let commentClass = parentId ? `reply ${styles.Reply}` : `comment ${styles.Comment}`;
