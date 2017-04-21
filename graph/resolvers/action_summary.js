@@ -8,7 +8,7 @@ const ActionSummary = {
     case 'DONTAGREE':
       return 'DontAgreeActionSummary';
     }
-  },
+  }
 };
 
 module.exports = ActionSummary;

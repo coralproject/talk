@@ -19,8 +19,7 @@ class RespectButton extends Component {
 
     // If the current user does not exist, trigger sign in dialog.
     if (!me) {
-      const offset = document.getElementById(`c_${commentId}`).getBoundingClientRect().top - 75;
-      showSignInDialog(offset);
+      showSignInDialog();
       return;
     }
 

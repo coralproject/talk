@@ -100,12 +100,11 @@ class ChangeUsernameContainer extends Component {
   }
 
   render() {
-    const {loggedIn, auth, offset} = this.props;
+    const {loggedIn, auth} = this.props;
     return (
       <div>
         <CreateUsernameDialog
           open={auth.showCreateUsernameDialog && auth.user.canEditName}
-          offset={offset}
           handleClose={this.handleClose}
           loggedIn={loggedIn}
           handleSubmitUsername={this.handleSubmitUsername}

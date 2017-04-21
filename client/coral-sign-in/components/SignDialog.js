@@ -6,15 +6,11 @@ import SignInContent from './SignInContent';
 import SignUpContent from './SignUpContent';
 import ForgotContent from './ForgotContent';
 
-const SignDialog = ({open, view, handleClose, offset, ...props}) => (
+const SignDialog = ({open, view, handleClose, ...props}) => (
   <Dialog
     className={styles.dialog}
     id="signInDialog"
-    open={open}
-    style={{
-      position: 'fixed',
-      top: offset !== 0 && offset
-    }}>
+    open={open}>
     <span className={styles.close} onClick={handleClose}>×</span>
     {view === 'SIGNIN' && <SignInContent {...props} />}
     {view === 'SIGNUP' && <SignUpContent {...props} />}

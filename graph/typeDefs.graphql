@@ -229,6 +229,22 @@ interface Action {
   created_at: Date
 }
 
+# DefaultAction is the Action provided for undefined types.
+type DefaultAction implements Action {
+
+  # The ID of the action.
+  id: ID!
+
+  # The author of the action.
+  user: User
+
+  # The time when the Action was updated.
+  updated_at: Date
+
+  # The time when the Action was created.
+  created_at: Date
+}
+
 # A summary of actions based on the specific grouping of the group_id.
 interface ActionSummary {
 
@@ -239,8 +255,28 @@ interface ActionSummary {
   current_user: Action
 }
 
+# DefaultActionSummary is the ActionSummary provided for undefined types.
+type DefaultActionSummary implements ActionSummary {
+
+  # The count of actions with this group.
+  count: Int
+
+  # The current user's action.
+  current_user: Action
+}
+
 # A summary of actions for a specific action type on an Asset.
 interface AssetActionSummary {
+
+  # Number of actions associated with actionable types on this this Asset.
+  actionCount: Int
+
+  # Number of unique actionable types that are referenced by the actions.
+  actionableItemCount: Int
+}
+
+# DefaultAssetActionSummary is the AssetActionSummary provided for undefined types.
+type DefaultAssetActionSummary implements AssetActionSummary {
 
   # Number of actions associated with actionable types on this this Asset.
   actionCount: Int
