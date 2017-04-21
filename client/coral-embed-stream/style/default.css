@@ -396,6 +396,7 @@ button.comment__action-button[disabled],
   margin-left: 20px;
   margin-top: 5px;
   width: 75%;
+  font-size: 16px;
 }
 
 /* Close comments */

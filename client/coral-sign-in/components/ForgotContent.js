@@ -31,6 +31,7 @@ class ForgotContent extends React.Component {
             <input
               ref={input => this.emailInput = input}
               type="text"
+              style={{fontSize: 16}}
               id="email"
               name="email" />
           </div>
