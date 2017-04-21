@@ -38,6 +38,7 @@ const CreateUsernameDialog = ({open, handleClose, formData, handleSubmitUsername
           <div className={styles.saveusername}>
             <TextField
               id="username"
+              style={{fontSize: 16}}
               type="string"
               label={lang.t('createdisplay.username')}
               value={formData.username}

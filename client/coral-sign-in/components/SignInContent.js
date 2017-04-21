@@ -58,6 +58,7 @@ const SignInContent = ({
                 type="email"
                 label={lang.t('signIn.email')}
                 value={formData.email}
+                style={{fontSize: 16}}
                 onChange={handleChange}
               />
               <TextField
@@ -65,6 +66,7 @@ const SignInContent = ({
                 type="password"
                 label={lang.t('signIn.password')}
                 value={formData.password}
+                style={{fontSize: 16}}
                 onChange={handleChange}
               />
               <div className={styles.action}>
