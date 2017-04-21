@@ -8,7 +8,9 @@ const FlagAction = {
     return group_id;
   },
   user({user_id}, _, {loaders: {Users}}) {
-    return Users.getByID.load(user_id);
+    if (user_id) {
+      return Users.getByID.load(user_id);
+    }
   },
 };
 
