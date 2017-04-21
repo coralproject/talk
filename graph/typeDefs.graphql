@@ -31,7 +31,7 @@ type User {
   username: String!
 
   # Action summaries against the user.
-  action_summaries: [ActionSummary]
+  action_summaries: [ActionSummary]!
 
   # Actions completed on the parent.
   actions: [Action]
@@ -197,7 +197,7 @@ type Comment {
   actions: [Action]
 
   # Action summaries against a comment.
-  action_summaries: [ActionSummary]
+  action_summaries: [ActionSummary]!
 
   # The asset that a comment was made on.
   asset: Asset
@@ -229,6 +229,22 @@ interface Action {
   created_at: Date
 }
 
+# DefaultAction is the Action provided for undefined types.
+type DefaultAction implements Action {
+
+  # The ID of the action.
+  id: ID!
+
+  # The author of the action.
+  user: User
+
+  # The time when the Action was updated.
+  updated_at: Date
+
+  # The time when the Action was created.
+  created_at: Date
+}
+
 # A summary of actions based on the specific grouping of the group_id.
 interface ActionSummary {
 
@@ -239,8 +255,28 @@ interface ActionSummary {
   current_user: Action
 }
 
+# DefaultActionSummary is the ActionSummary provided for undefined types.
+type DefaultActionSummary implements ActionSummary {
+
+  # The count of actions with this group.
+  count: Int
+
+  # The current user's action.
+  current_user: Action
+}
+
 # A summary of actions for a specific action type on an Asset.
 interface AssetActionSummary {
+
+  # Number of actions associated with actionable types on this this Asset.
+  actionCount: Int
+
+  # Number of unique actionable types that are referenced by the actions.
+  actionableItemCount: Int
+}
+
+# DefaultAssetActionSummary is the AssetActionSummary provided for undefined types.
+type DefaultAssetActionSummary implements AssetActionSummary {
 
   # Number of actions associated with actionable types on this this Asset.
   actionCount: Int
@@ -440,7 +476,7 @@ type Asset {
 
   # Summary of all Actions against all entities associated with the Asset.
   # (likes, flags, etc.). Requires the `ADMIN` role.
-  action_summaries: [AssetActionSummary]
+  action_summaries: [AssetActionSummary!]
 
   # The date that the asset was created.
   created_at: Date
@@ -602,6 +638,26 @@ input CreateLikeInput {
   item_type: ACTION_ITEM_TYPE!
 }
 
+enum TAG_TYPE {
+  STAFF
+}
+
+input CreateCommentInput {
+
+  # The asset id
+  asset_id: ID!
+
+  # The id of the parent comment
+  parent_id: ID
+
+  # The body of the comment
+  body: String!
+
+  # Tags
+  tags: [TAG_TYPE]
+
+}
+
 type CreateLikeResponse implements Response {
 
   # The like that was created.
@@ -728,7 +784,7 @@ type StopIgnoringUserResponse implements Response {
 type RootMutation {
 
   # Creates a comment on the asset.
-  createComment(asset_id: ID!, parent_id: ID, body: String!): CreateCommentResponse
+  createComment(comment: CreateCommentInput!): CreateCommentResponse
 
   # Creates a like on an entity.
   createLike(like: CreateLikeInput!): CreateLikeResponse

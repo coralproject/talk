@@ -1,0 +1,6 @@
+.slot {
+  display: inline-block;
+  div {
+    display: inline-block;
+    }
+}

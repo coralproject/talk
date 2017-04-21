@@ -58,7 +58,7 @@ export const loadMore = (fetchMore) => ({limit, cursor, sort, tab, asset_id}) =>
       statuses,
       asset_id
     },
-    updateQuery: (oldData, {fetchMoreResult:{data:{comments}}}) => {
+    updateQuery: (oldData, {fetchMoreResult:{comments}}) => {
       return {
         ...oldData,
         [tab]: [

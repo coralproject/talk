@@ -20,8 +20,8 @@ const SignInContent = ({
 }) => {
 
   return (
-    <div>
-      <div className={styles.header}>
+    <div className="coral-sign-in">
+      <div className={`${styles.header} header`}>
         <h1>
           {auth.emailVerificationFailure ? lang.t('signIn.emailVerifyCTA') : lang.t('signIn.signIn')}
         </h1>
@@ -42,7 +42,7 @@ const SignInContent = ({
             {emailVerificationSuccess && <Success />}
           </form>
         : <div>
-            <div className={styles.socialConnections}>
+            <div className={`${styles.socialConnections} social-connections`}>
               <Button cStyle="facebook" onClick={fetchSignInFacebook} full>
                 {lang.t('signIn.facebookSignIn')}
               </Button>
@@ -58,6 +58,7 @@ const SignInContent = ({
                 type="email"
                 label={lang.t('signIn.email')}
                 value={formData.email}
+                style={{fontSize: 16}}
                 onChange={handleChange}
               />
               <TextField
@@ -65,6 +66,7 @@ const SignInContent = ({
                 type="password"
                 label={lang.t('signIn.password')}
                 value={formData.password}
+                style={{fontSize: 16}}
                 onChange={handleChange}
               />
               <div className={styles.action}>
@@ -80,7 +82,7 @@ const SignInContent = ({
             </form>
           </div>
       }
-      <div className={styles.footer}>
+      <div className={`${styles.footer} footer`}>
         <span><a onClick={() => changeView('FORGOT')}>{lang.t('signIn.forgotYourPass')}</a></span>
         <span>
           {lang.t('signIn.needAnAccount')}

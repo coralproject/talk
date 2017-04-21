@@ -1,7 +1,9 @@
 import ApolloClient, {addTypename} from 'apollo-client';
 import getNetworkInterface from './transport';
+import fragmentMatcher from './fragmentMatcher';
 
 export const client = new ApolloClient({
+  fragmentMatcher,
   addTypename: true,
   queryTransformer: addTypename,
   dataIdFromObject: (result) => {
