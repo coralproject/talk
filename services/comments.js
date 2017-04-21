@@ -49,7 +49,7 @@ module.exports = class CommentsService {
    * @param {String} name the name of the tag to add
    * @param {String} assigned_by the user id for the user who added the tag
    */
-  static addTag(id, name, assigned_by) {
+  static addTag(id, name, assigned_by, privacy_type) {
 
     return CommentModel.findOne({id})
     .then((comment) => {
@@ -61,6 +61,7 @@ module.exports = class CommentsService {
         item_id: id,
         item_type: 'COMMENTS',
         user_id: assigned_by,
+        privacy_type
       });
     });
   }

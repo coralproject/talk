@@ -16,8 +16,8 @@ describe('graph.mutations.addCommentTag', () => {
   });
 
   const query = `
-    mutation AddCommentTag ($id: ID!, $tag: String!) {
-      addCommentTag(id:$id, tag:$tag) {
+    mutation AddCommentTag ($id: ID!, $tag: String!, $privacy_type: String!) {
+      addCommentTag(id:$id, tag:$tag, privacy_type:$privacy_type) {
         comment {
           id
         }
@@ -31,7 +31,7 @@ describe('graph.mutations.addCommentTag', () => {
   it('moderators can add tags to comments', async () => {
     const user = new UserModel({roles: ['MODERATOR' ]});
     const context = new Context({user});
-    const response = await graphql(schema, query, {}, context, {id: comment.id, tag: 'BEST'});
+    const response = await graphql(schema, query, {}, context, {id: comment.id, tag: 'BEST', privacy_type: 'PUBLIC'});
     if (response.errors && response.errors.length) {
       console.error(response.errors);
     }
@@ -51,7 +51,7 @@ describe('graph.mutations.addCommentTag', () => {
     }).forEach(([ userDescription, user ]) => {
       it(userDescription, async function () {
         const context = new Context({user});
-        const response = await graphql(schema, query, {}, context, {id: comment.id, tag: 'BEST'});
+        const response = await graphql(schema, query, {}, context, {id: comment.id, tag: 'BEST', privacy_type: 'PUBLIC'});
         if (response.errors && response.errors.length) {
           console.error(response.errors);
         }

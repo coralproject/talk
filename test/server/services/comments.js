@@ -225,7 +225,7 @@ describe('services.CommentsService', () => {
       const commentId = comments[0].id;
       const tagName = 'BEST';
       const userId = users[0].id;
-      await CommentsService.addTag(commentId, tagName, userId);
+      await CommentsService.addTag(commentId, tagName, userId, 'PUBLIC');
       const tags = await TagService.findByItemIdAndName(commentId, 'BEST', 'COMMENTS');
       expect(tags.length).to.equal(1);
       expect(tags[0].name).to.equal(tagName);
@@ -237,7 +237,7 @@ describe('services.CommentsService', () => {
       const tagName = 'BEST';
       const userId = users[0].id;
 
-      await expect(CommentsService.addTag(commentId, tagName, userId)).to.be.rejected;
+      await expect(CommentsService.addTag(commentId, tagName, userId, 'PUBLIC')).to.be.rejected;
     });
     it('can\'t add same tag.name twice', async () => {
       const commentId = comments[0].id;
@@ -245,10 +245,10 @@ describe('services.CommentsService', () => {
       const userId = users[0].id;
 
       // first time
-      await CommentsService.addTag(commentId, tagName, userId);
+      await CommentsService.addTag(commentId, tagName, userId, 'PUBLIC');
 
       // second time should fail
-      await expect(CommentsService.addTag(commentId, tagName, userId)).to.be.rejected;
+      await expect(CommentsService.addTag(commentId, tagName, userId, 'PUBLIC')).to.be.rejected;
     });
   });
 
@@ -256,7 +256,7 @@ describe('services.CommentsService', () => {
     it('removes a tag', async () => {
       const commentId = comments[0].id;
       const tagName = 'BEST';
-      await CommentsService.addTag(commentId, tagName, users[0].id);
+      await CommentsService.addTag(commentId, tagName, users[0].id, 'PUBLIC');
       const tags = await TagService.findByItemIdAndName(commentId, tagName, 'COMMENTS');
       expect(tags.length).to.equal(1);
 
@@ -273,7 +273,7 @@ describe('services.CommentsService', () => {
       // just make sure it has no tags to start
       const tags = await TagService.findByItemIdAndName(commentId, tagName, 'COMMENTS');
       expect(tags.length).to.equal(0);
-      
+
       // ok now to remove it
       await expect(CommentsService.removeTag(commentId, tagName)).to.be.rejected;
     });

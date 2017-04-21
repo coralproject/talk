@@ -28,7 +28,7 @@ const createComment = ({user, loaders: {Comments}}, {body, asset_id, parent_id =
   .then(async (comment) => {
 
     if (user.hasRoles('ADMIN') || user.hasRoles('MODERATOR')) {
-      await CommentsService.addTag(comment.id, 'STAFF', user.id);
+      await CommentsService.addTag(comment.id, 'STAFF', user.id, 'PUBLIC');
     }
 
     // If the loaders are present, clear the caches for these values because we
@@ -202,8 +202,8 @@ const setCommentStatus = ({loaders: {Comments}}, {id, status}) => {
  * @param {String} id          identifier of the comment  (uuid)
  * @param {String} tag     name of the tag
  */
-const addCommentTag = ({user, loaders: {Comments}}, {id, tag}) => {
-  return CommentsService.addTag(id, tag, user.id);
+const addCommentTag = ({user, loaders: {Comments}}, {id, tag, privacy_type}) => {
+  return CommentsService.addTag(id, tag, user.id, privacy_type);
 };
 
 /**

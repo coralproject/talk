@@ -808,7 +808,7 @@ type RootMutation {
   setCommentStatus(id: ID!, status: COMMENT_STATUS!): SetCommentStatusResponse
 
   # Add tag to comment.
-  addCommentTag(id: ID!, tag: String!): AddCommentTagResponse
+  addCommentTag(id: ID!, tag: String!, privacy_type: String!): AddCommentTagResponse
 
   # Remove tag from comment.
   removeCommentTag(id: ID!, tag: String!): RemoveCommentTagResponse

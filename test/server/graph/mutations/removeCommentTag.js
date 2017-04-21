@@ -34,7 +34,7 @@ describe('graph.mutations.removeCommentTag', () => {
     const context = new Context({user});
 
     // add a tag first
-    await CommentsService.addTag(comment.id, 'BEST');
+    await CommentsService.addTag(comment.id, 'BEST', user.id, 'PUBLIC');
     const response = await graphql(schema, query, {}, context, {id: comment.id, tag: 'BEST'});
     if (response.errors && response.errors.length) {
       console.error(response.errors);
@@ -59,7 +59,7 @@ describe('graph.mutations.removeCommentTag', () => {
         const context = new Context({user});
 
         // add a tag first
-        await CommentsService.addTag(comment.id, 'BEST');
+        await CommentsService.addTag(comment.id, 'BEST', user ? user.id : null, 'PUBLIC');
         const response = await graphql(schema, query, {}, context, {id: comment.id, tag: 'BEST'});
         if (response.errors && response.errors.length) {
           console.error(response.errors);

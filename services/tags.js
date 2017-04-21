@@ -5,6 +5,12 @@ const ALLOWED_COMMENT_TAGS = [
   {name: 'BEST'},
 ];
 
+const ALLOWED_PRIVACY_TYPE = [
+  {privacy_type: 'PUBLIC'},
+  {privacy_type: 'SELF'},
+  {privacy_type: 'ADMIN'}
+];
+
 module.exports = class TagsService {
 
   /**
@@ -59,15 +65,9 @@ module.exports = class TagsService {
       return Promise.reject(new Error('tag not allowed'));
     }
 
-    // // Tags are made unique by using a query that can be reproducable, i.e.,
-    // // not containing user inputable values.
-    // let query = {
-    //   name: tag.name,
-    //   item_id: tag.item_id,
-    //   item_type: tag.item_type,
-    //   assigned_by: tag.user_id,
-    //   privacy_type: tag.privacy_type
-    // };
+    if (ALLOWED_PRIVACY_TYPE.find((p) => p.privacy_type === tag.privacy_type) == null) {
+      return Promise.reject(new Error('privacy type not allowed'));
+    }
 
     // Create/Update the tag.
     let newtag = new TagModel({
