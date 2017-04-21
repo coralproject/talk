@@ -62,6 +62,16 @@ const TagSchema = new Schema({
   }
 });
 
+// Add the indixies on the tag on an item.
+TagSchema.index({
+  'item_type': 1,
+  'item_id': 1,
+  'name': 1
+}, {
+  unique: true,
+  background: false
+});
+
 const Tag = mongoose.model('Tag', TagSchema);
 
 module.exports = Tag;

@@ -6,6 +6,9 @@ const Comment = {
 
     return Comments.get.load(parent_id);
   },
+  tags({id}, _, {loaders: {Tags}}) {
+    return Tags.getByID.load([id]);
+  },
   user({author_id}, _, {loaders: {Users}}) {
     return Users.getByID.load(author_id);
   },
@@ -23,9 +26,9 @@ const Comment = {
   },
   replyCount({id}, {excludeIgnored}, {user, loaders: {Comments}}) {
     if (user && excludeIgnored) {
-      return Comments.countByParentIDPersonalized({id, excludeIgnored});      
+      return Comments.countByParentIDPersonalized({id, excludeIgnored});
     }
-    return Comments.countByParentID.load(id);      
+    return Comments.countByParentID.load(id);
   },
   actions({id}, _, {user, loaders: {Actions}}) {
 

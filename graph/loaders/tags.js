@@ -8,7 +8,7 @@ const TagModel = require('../../models/tag');
 /**
  * Gets tags based on their item id's.
  */
-const genTagsByItemID = (_, item_ids) => {
+const getByItemID = (_, item_ids) => {
   return TagsService
     .findByItemIdArray(item_ids)
     .then(util.arrayJoinBy(item_ids, 'item_id'));
@@ -31,7 +31,7 @@ const getItemIdsByItemType = (_, item_type) => {
  */
 module.exports = (context) => ({
   Tags: {
-    getByID: new DataLoader((ids) => genTagsByItemID(context, ids)),
+    getByID: new DataLoader((ids) => getByItemID(context, ids)),
     getByTypes: ({item_type}) => getItemIdsByItemType(context, item_type)
   }
 });

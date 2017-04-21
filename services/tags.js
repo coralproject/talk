@@ -29,6 +29,22 @@ module.exports = class TagsService {
   }
 
   /**
+   * Finds actions in an array of ids.
+   * @param {String} ids array of user identifiers (uuid)
+  */
+  static async findByItemIdArray(item_ids) {
+    let tags = await TagModel.find({
+      'item_id': {$in: item_ids}
+    });
+
+    if (tags === null) {
+      return [];
+    }
+
+    return tags;
+  }
+
+  /**
    * Add a tag.
    * @param {string} name the actual tag
    * @param {String} item_id  identifier of the comment  (uuid)
