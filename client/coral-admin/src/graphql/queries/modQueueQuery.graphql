@@ -2,6 +2,7 @@
 
 query ModQueue ($asset_id: ID, $sort: SORT_ORDER) {
     all: comments(query: {
+      statuses: [NONE, PREMOD, ACCEPTED, REJECTED],
       asset_id: $asset_id,
       sort: $sort
     }) {
