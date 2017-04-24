@@ -1,0 +1,62 @@
+---
+es:
+  framework:
+    profile: Pérfil
+    my_profile: Mi pérfil
+    successUpdateSettings: La configuración de este articulo fue actualizada
+    successBioUpdate: Tu biografia fue actualizada
+    contentNotAvailable: El contenido no se encuentra disponible
+    bannedAccountMsg: Tu cuenta se encuentra suspendida. Esto significa que no puedes gustar marcar o escribir commentarios.
+    editName:
+      msg: Your account is currently suspended because your username has been deemed inappropriate. To restore your account please enter a new username. Please contact us if you have any questions.
+      label: New Username
+      button: Submit
+      error: Usernames can contain letters numbers and _ only
+    viewMoreComments: Ver commentarios más
+    viewReply: ver respuesta
+    viewAllRepliesInitial: ver todas las 0 respuestas
+    viewAllReplies: ver 0 respuestas
+    newCount: Ver 0 1 más
+    comment: commentario
+    comments: commentarios
+    commentIsIgnored: Este comentario está escondido porque has ignorado al usuario.
+    showAllComments: Mostrar todos los comentarios
+  configure:
+    apply: Aplicar
+    title: Configurar los comentarios
+    description: Como Administrador/a puedes modificar las opciones de los comentarios en este artículo
+    enablePremod: Activar Pre Moderación
+    enablePremodDescription: Los y las Moderadoras deben aprobar cualquier comentario antes de su publicación
+    enablePremodLinks: Pre-Moderar Comentarios que contienen Enlaces
+    enablePremodLinksDescription: Los y las moderadoras deben aprobar cualquier comentario que contengan enlaces antes de su publicación.
+    enableQuestionBox: Hacer una pregunta a los y las lectoras.
+    enableQuestionBoxDescription: Esta pregunta aparecera en la parte de arriba del hilo de comentarios.
+    includeQuestionHere: Escribir la pregunta aquí.
+  settings:
+    profile: Perfil
+    userNoComment: No has dejado aún ningún comentario. ¡Únete a la conversación!
+    allComments: Todos los comentarios
+    profileSettings: Configuración del perfil
+    myCommentHistory: Mi historial de comentarios
+    signIn: Entrar
+    toAccess: para acceder a al perfil
+    fromSettingsPage: Desde la página de configuración puedes ver tu historia de comentarios.
+  error:
+    emailNotVerified: E-mail 0 no verificado.
+    email: No es un e-mail válido
+    password: La contraseña debe tener por lo menos 8 caracteres
+    username: Los nombres pueden contener letras números y _
+    organizationName: El nombre de la organización debe contener letras y/o números.
+    confirmPassword: Las contraseñas no coinciden
+    emailPasswordError: E-mail y/o contraseña incorrecta.
+    EMAIL_REQUIRED: Se requiere un e-mail
+    PASSWORD_REQUIRED: Debe ingresar una contraseña
+    PASSWORD_LENGTH: La contraseña es muy corta
+    EMAIL_IN_USE: El e-mail se encuentra en uso
+    EMAIL_USERNAME_IN_USE: E-mail o Nombre en uso.
+    USERNAME_IN_USE: Nombre en uso.
+    USERNAME_REQUIRED: Debe ingresar un nombre
+    NO_SPECIAL_CHARACTERS: Los nombres pueden contener letras números y _
+    PROFANITY_ERROR: Los nombres no pueden contener blasfemias. Por favor contacte al o la administradora si cree que esto es un error
+    NOT_AUTHORIZED: Acción no autorizada.
+    EDIT_USERNAME_NOT_AUTHORIZED: No tiene permiso para editar el nombre de usuario.

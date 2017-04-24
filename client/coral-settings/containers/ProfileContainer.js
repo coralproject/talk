@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
 import {compose} from 'react-apollo';
 import React, {Component} from 'react';
-import I18n from 'coral-framework/modules/i18n/i18n';
+import I18n from 'coral-i18n/modules/i18n/i18n';
 import {bindActionCreators} from 'redux';
 
 import {myCommentHistory, myIgnoredUsers} from 'coral-framework/graphql/queries';
@@ -15,8 +15,7 @@ import CommentHistory from 'coral-plugin-history/CommentHistory';
 
 import {showSignInDialog, checkLogin} from 'coral-framework/actions/auth';
 
-import translations from '../translations';
-const lang = new I18n(translations);
+const lang = new I18n();
 
 class ProfileContainer extends Component {
   constructor (props) {

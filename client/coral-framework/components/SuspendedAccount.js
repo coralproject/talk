@@ -1,9 +1,11 @@
 import React, {Component, PropTypes} from 'react';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from 'coral-framework/translations.json';
-const lang = new I18n(translations);
+
+import I18n from 'coral-i18n/modules/i18n/i18n';
+const lang = new I18n();
+
 import styles from './RestrictedContent.css';
 import {Button} from 'coral-ui';
+
 import validate from '../helpers/validate';
 
 class SuspendedAccount extends Component {

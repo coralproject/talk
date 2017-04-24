@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './NotLoggedIn.css';
-import translations from '../translations';
-import I18n from 'coral-framework/modules/i18n/i18n';
-const lang = new I18n(translations);
+import I18n from 'coral-i18n/modules/i18n/i18n';
+
+const lang = new I18n();
 
 export default ({showSignInDialog}) => (
   <div className={styles.message}>

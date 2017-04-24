@@ -1,0 +1,63 @@
+---
+en:
+  framework:
+    profile: Profile
+    my_profile: My profile
+    successUpdateSettings: The changes you have made have been applied to the comment stream on this article
+    successNameUpdate: Your username has been updated
+    contentNotAvailable: This content is not available
+    bannedAccountMsg: Your account is currently suspended. This means that you cannot Like Report or write comments. Please contact us if you have any questions.
+    editName:
+      msg: Your account is currently suspended because your username has been deemed inappropriate. To restore your account please enter a new username. Please contact us if you have any questions.
+      label: New Username
+      button: Submit
+      error: Usernames can contain letters numbers and _ only
+    viewMoreComments: view more comments
+    showAllComments: Show all comments
+    viewReply: view reply
+    viewAllRepliesInitial: view all 0 replies
+    viewAllReplies: view 0 replies
+    newCount: View 0 new 1
+    comment: comment
+    comments: comments
+    commentIsIgnored: This comment is hidden because you ignored this user.
+  configure:
+    apply: Apply
+    title: Configure Comment Stream
+    description: As an admin you may customize the settings for the comment stream for this asset
+    enablePremod: Enable Premoderation
+    enablePremodDescription: Moderators must approve any comment before its published.
+    enablePremodLinks: Pre-Moderate Comments Containing Links
+    enablePremodLinksDescription: Moderators must approve any comment containing a link before its published.
+    enableQuestionBox: Ask readers a question
+    enableQuestionBoxDescription: This question will appear at the top of this comment stream. Ask readers about a certain issue in the article or pose discussion questions etc.
+    includeQuestionHere: Write your question here.
+  error:
+    emailNotVerified: Email address 0 not verified.
+    email: Not a valid E-Mail
+    password: Password must be at least 8 characters
+    username: Usernames can contain letters numbers and _ only
+    confirmPassword: Passwords don't match. Please check again
+    organizationName: Organization name must only contain letters or numbers.
+    emailPasswordError: Email and/or password combination incorrect.
+    EMAIL_REQUIRED: An email address is required
+    PASSWORD_REQUIRED: Must input a password
+    PASSWORD_LENGTH: Password is too short
+    EMAIL_IN_USE: Email address already in use
+    EMAIL_USERNAME_IN_USE: Email address or username already in use
+    USERNAME_IN_USE: Username already in use
+    USERNAME_REQUIRED: Must input a username
+    NO_SPECIAL_CHARACTERS: Usernames can contain letters numbers and _ only
+    PROFANITY_ERROR: Usernames must not contain profanity. Please contact the administrator if you believe this to be in error.
+    NOT_AUTHORIZED: Not authorized.
+    EDIT_USERNAME_NOT_AUTHORIZED: You do not have permission to update your username.
+
+  settings:
+    profile: Profile
+    userNoComment: You've never left a comment. Join the conversation!
+    allComments: All Comments
+    profileSettings: Profile Settings
+    myCommentHistory: My comment History
+    signIn: Sign in
+    toAccess:  to access Profile
+    fromSettingsPage: From the Profile Page you can see your comment history.

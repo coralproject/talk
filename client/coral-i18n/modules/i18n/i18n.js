@@ -3,6 +3,11 @@ import esTA from '../../../../node_modules/timeago.js/locales/es';
 import has from 'lodash/has';
 import get from 'lodash/get';
 
+// To Do
+// check on how to load the translations from YML file
+
+// Look at other i18n work in express/node
+
 /**
  * Default locales, this should be overriden by config file
  */
@@ -14,21 +19,27 @@ class i18n {
      * Register locales
      */
 
-    this.locales = {'en': 'en', 'es': 'es'};
+    this.locales = {'en': 'locales/en.yml', 'es': 'locales/es.yml'};
+
     timeago.register('es_ES', esTA);
     this.timeagoInstance = new timeago();
 
     /**
      * Load translations
      */
+    // To Do : get all the yml from locales
     let trans = translations || {en: {}};
 
     try {
       const locale = localStorage.getItem('locale') || navigator.language;
       localStorage.setItem('locale', locale);
+
       const lang = this.locales[locale.split('-')[0]] || 'en';
       this.translations = trans[lang];
+
     } catch (err) {
+
+      // To Do: get configuration for default translation
       this.translations = trans['en'];
     }
 
@@ -72,7 +83,9 @@ class i18n {
     this.timeago = (time) => {
       return this.timeagoInstance.format(new Date(time));
     };
+
   }
+
 }
 
 export default i18n;
