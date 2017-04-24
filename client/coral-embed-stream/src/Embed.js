@@ -214,7 +214,8 @@ class Embed extends React.Component {
                         isReply={false}
                         currentUser={this.props.auth.user}
                         authorId={user.id}
-                        charCount={asset.settings.charCountEnable && asset.settings.charCount} />
+                        charCountEnable={asset.settings.charCountEnable}
+                        maxCharCount={asset.settings.charCount} />
                      : null
                    }
                  </RestrictedContent>
@@ -278,6 +279,8 @@ class Embed extends React.Component {
                     deleteAction={this.props.deleteAction}
                     showSignInDialog={this.props.showSignInDialog}
                     comments={asset.comments}
+                    maxCharCount={asset.settings.charCount}
+                    charCountEnable={asset.settings.charCountEnable}
                     ignoredUsers={this.props.userData.ignoredUsers} />
                 </div>
                 <LoadMore
