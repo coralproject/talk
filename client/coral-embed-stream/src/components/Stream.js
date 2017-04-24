@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import {Button} from 'coral-ui';
-import Comment from './Comment';
+import Comment from '../containers/Comment';
 import CommentBox from 'coral-plugin-commentbox/CommentBox';
 import SuspendedAccount from 'coral-framework/components/SuspendedAccount';
 import RestrictedContent from 'coral-framework/components/RestrictedContent';
