@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import Layout from 'coral-admin/src/components/ui/Layout';
 import styles from './NotFound.css';
 import {Button, TextField, Alert, Success} from 'coral-ui';
-import I18n from 'coral-framework/modules/i18n/i18n';
+import I18n from 'coral-i18n/modules/i18n/i18n';
 import translations from '../translations';
 import Recaptcha from 'react-recaptcha';
 const lang = new I18n(translations);

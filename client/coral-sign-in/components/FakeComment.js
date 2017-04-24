@@ -6,7 +6,7 @@ import Content from 'coral-plugin-commentcontent/CommentContent';
 import PubDate from 'coral-plugin-pubdate/PubDate';
 import {ReplyButton} from 'coral-plugin-replies';
 
-import I18n from 'coral-framework/modules/i18n/i18n';
+import I18n from 'coral-i18n/modules/i18n/i18n';
 import translations from '../translations';
 
 const lang = new I18n(translations);

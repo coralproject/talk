@@ -3,7 +3,7 @@ import {Card} from 'coral-ui';
 import styles from './Configure.css';
 import TagsInput from 'react-tagsinput';
 
-import I18n from 'coral-framework/modules/i18n/i18n';
+import I18n from 'coral-i18n/modules/i18n/i18n';
 import translations from '../../translations.json';
 const lang = new I18n(translations);
 

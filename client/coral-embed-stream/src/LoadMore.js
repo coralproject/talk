@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import I18n from 'coral-framework/modules/i18n/i18n';
+import I18n from 'coral-i18n/modules/i18n/i18n';
 import translations from 'coral-framework/translations.json';
 import {ADDTL_COMMENTS_ON_LOAD_MORE} from 'coral-framework/constants/comments';
 import {Button} from 'coral-ui';

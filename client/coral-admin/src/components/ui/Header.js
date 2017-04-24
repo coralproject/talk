@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {Navigation, Header, IconButton, MenuItem, Menu} from 'react-mdl';
 import {Link, IndexLink} from 'react-router';
 import styles from './Header.css';
-import I18n from 'coral-framework/modules/i18n/i18n';
+import I18n from 'coral-i18n/modules/i18n/i18n';
 import translations from '../../translations.json';
 import {Logo} from './Logo';
 

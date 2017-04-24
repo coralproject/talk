@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import CommentCount from './CommentCount';
 import styles from './styles.css';
 import {SelectField, Option} from 'react-mdl-selectfield';
-import I18n from 'coral-framework/modules/i18n/i18n';
+import I18n from 'coral-i18n/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations.json';
 import {Link} from 'react-router';
 

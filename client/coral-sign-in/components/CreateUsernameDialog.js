@@ -6,7 +6,7 @@ import FakeComment from './FakeComment';
 
 import styles from './styles.css';
 
-import I18n from 'coral-framework/modules/i18n/i18n';
+import I18n from 'coral-i18n/modules/i18n/i18n';
 import translations from '../translations';
 const lang = new I18n(translations);
 

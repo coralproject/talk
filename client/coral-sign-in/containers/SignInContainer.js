@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import SignDialog from '../components/SignDialog';
 import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
-import I18n from 'coral-framework/modules/i18n/i18n';
+import I18n from 'coral-i18n/modules/i18n/i18n';
 import translations from '../translations';
 import {pym} from 'coral-framework';
 const lang = new I18n(translations);

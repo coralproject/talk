@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import styles from './Stories.css';
 import {connect} from 'react-redux';
-import I18n from 'coral-framework/modules/i18n/i18n';
+import I18n from 'coral-i18n/modules/i18n/i18n';
 import {fetchAssets, updateAssetState} from '../../actions/assets';
 import translations from '../../translations.json';
 import {Link} from 'react-router';

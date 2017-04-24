@@ -10,7 +10,7 @@ import {
 
 import {Button, List, Item, Card, Spinner} from 'coral-ui';
 import styles from './Configure.css';
-import I18n from 'coral-framework/modules/i18n/i18n';
+import I18n from 'coral-i18n/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations.json';
 import StreamSettings from './StreamSettings';
 import ModerationSettings from './ModerationSettings';

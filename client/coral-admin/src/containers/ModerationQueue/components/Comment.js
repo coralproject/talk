@@ -14,7 +14,7 @@ import {getActionSummary} from 'coral-framework/utils';
 
 const linkify = new Linkify();
 
-import I18n from 'coral-framework/modules/i18n/i18n';
+import I18n from 'coral-i18n/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations.json';
 const lang = new I18n(translations);
 

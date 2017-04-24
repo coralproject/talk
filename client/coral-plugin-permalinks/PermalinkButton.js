@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import I18n from 'coral-framework/modules/i18n/i18n';
+import I18n from 'coral-i18n/modules/i18n/i18n';
 import translations from './translations';
 import onClickOutside from 'react-onclickoutside';
 const name = 'coral-plugin-permalinks';

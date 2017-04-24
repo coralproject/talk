@@ -4,7 +4,7 @@ import {TextField, Button, Spinner} from 'coral-ui';
 
 const lang = new I18n(translations);
 import translations from '../../translations.json';
-import I18n from 'coral-framework/modules/i18n/i18n';
+import I18n from 'coral-i18n/modules/i18n/i18n';
 
 const InitialStep = props => {
   const {handleUserChange, handleUserSubmit, install} = props;

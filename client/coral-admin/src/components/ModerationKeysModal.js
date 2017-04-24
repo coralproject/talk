@@ -1,4 +1,4 @@
-import I18n from 'coral-framework/modules/i18n/i18n';
+import I18n from 'coral-i18n/modules/i18n/i18n';
 import translations from '../translations.json';
 import React from 'react';
 import Modal from 'components/Modal';
