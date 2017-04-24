@@ -1,6 +1,6 @@
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations.json';
-import React from 'react';
+import React, {PropTypes} from 'react';
 import Modal from 'components/Modal';
 import styles from './ModerationKeysModal.css';
 
@@ -26,40 +26,18 @@ const shortcuts = [
 ];
 
 export default class ModerationKeysModal extends React.Component {
-  constructor (props) {
-    super(props);
-    try {
-      if (window.localStorage.getItem('coral:shortcutsNote') === null) {
-        window.localStorage.setItem('coral:shortcutsNote', 'show');
-      }
-    } catch (e) {
 
-      // above will fail in Private Mode in some browsers.
-    }
-    this.state = {
-      shortcutsNote: window.localStorage.getItem('coral:shortcutsNote') || 'show'
-    };
-  }
-
-  closeCallToAction = () => {
-    try {
-      window.localStorage.setItem('coral:shortcutsNote', 'hide');
-      this.setState({foo: Math.random()}); // apparently this.forceUpdate() is bad, but we need a re-render
-    } catch (e) {
-
-      // when setItem fails in Safari Private mode
-      this.setState({shortcutsNote: 'hide'});
-    }
+  static propTypes = {
+    hideShortcutsNote: PropTypes.func.isRequired,
+    shortcutsNoteVisible: PropTypes.string.isRequired
   }
 
   render () {
-    const {open, onClose} = this.props;
-    const hideShortcutsNote = window.localStorage.getItem('coral:shortcutsNote') === 'hide' ||
-      this.state.dashboardNote === 'hide'; // for Safari Incognito
+    const {open, onClose, hideShortcutsNote, shortcutsNoteVisible} = this.props;
     return (
       <div>
-        <div className={styles.callToAction} style={{display: hideShortcutsNote ? 'none' : 'block'}}>
-          <div onClick={this.closeCallToAction} className={styles.closeButton}>×</div>
+        <div className={styles.callToAction} style={{display: shortcutsNoteVisible === 'show' ? 'block' : 'none'}}>
+          <div onClick={hideShortcutsNote} className={styles.closeButton}>×</div>
           <p className={styles.ctaHeader}>{lang.t('modqueue.mod-faster')}</p>
           <p><strong>{lang.t('modqueue.try-these')}:</strong></p>
           <ul>
