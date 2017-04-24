@@ -187,6 +187,7 @@ hr {
 /* Comment Box Styles */
 .coral-plugin-commentbox-container {
   display: flex;
+  width: 100%;
 }
 
 .coral-plugin-commentbox-textarea {
@@ -194,7 +195,8 @@ hr {
   padding: 5px;
   min-height: 100px;
   margin-top: 10px;
-  font-size: 14px;
+  font-size: 16px;
+  border: 1px solid #ccc;
 }
 
 .coral-plugin-commentbox-button-container {
@@ -278,13 +280,13 @@ hr {
 .commentActionsRight, .replyActionsRight {
   display: flex;
   justify-content: flex-end;
-  width: 30%;
+  width: 50%;
 }
 .commentActionsLeft, .replyActionsLeft {
   display: flex;
   justify-content: flex-start;
   float: left;
-  width: 70%;
+  width: 50%;
 }
 
 .comment__action-container .material-icons {
