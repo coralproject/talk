@@ -9,8 +9,6 @@ import REMOVE_COMMENT_TAG from './removeCommentTag.graphql';
 import IGNORE_USER from './ignoreUser.graphql';
 import STOP_IGNORING_USER from './stopIgnoringUser.graphql';
 
-import MY_IGNORED_USERS from '../queries/myIgnoredUsers.graphql';
-
 import commentView from '../fragments/commentView.graphql';
 
 export const postComment = graphql(POST_COMMENT, {
@@ -43,7 +41,7 @@ export const postComment = graphql(POST_COMMENT, {
           }
         },
         updateQueries: {
-          AssetQuery: (oldData, {mutationResult: {data: {createComment: {comment}}}}) => {
+          EmbedQuery: (oldData, {mutationResult: {data: {createComment: {comment}}}}) => {
 
             if (oldData.asset.settings.moderation === 'PRE' || comment.status === 'PREMOD' || comment.status === 'REJECTED') {
               return oldData;
@@ -161,9 +159,9 @@ export const ignoreUser = graphql(IGNORE_USER, {
         variables: {
           id,
         },
-        refetchQueries: [{
-          query: MY_IGNORED_USERS,
-        }]
+        refetchQueries: [
+          'EmbedQuery', 'myIgnoredUsers',
+        ]
       });
     }}),
 });
@@ -178,10 +176,7 @@ export const stopIgnoringUser = graphql(STOP_IGNORING_USER, {
             id,
           },
           refetchQueries: [
-            {
-              query: MY_IGNORED_USERS,
-            },
-            'StreamQuery',
+            'EmbedQuery', 'myIgnoredUsers',
           ]
         });
       }

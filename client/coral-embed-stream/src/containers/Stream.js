@@ -1,9 +1,21 @@
 import React from 'react';
-import {gql} from 'react-apollo';
+import {gql, compose} from 'react-apollo';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import uniqBy from 'lodash/uniqBy';
+import sortBy from 'lodash/sortBy';
+import isNil from 'lodash/isNil';
 import Stream from '../components/Stream';
 import {NEW_COMMENT_COUNT_POLL_INTERVAL} from '../constants/stream';
+import {postComment, postFlag, postLike, postDontAgree, deleteAction, addCommentTag, removeCommentTag, ignoreUser} from 'coral-framework/graphql/mutations';
+import {notificationActions, authActions} from 'coral-framework';
+import {editName} from 'coral-framework/actions/user';
+import {setCommentCountCache, setActiveReplyBox} from '../actions/stream';
 
-export default class StreamContainer extends React.Component {
+const {showSignInDialog} = authActions;
+const {addNotification} = notificationActions;
+
+class StreamContainer extends React.Component {
   getCounts = ({asset_id, limit, sort}) => {
     return this.props.data.fetchMore({
       query: LOAD_COMMENT_COUNTS_QUERY,
@@ -11,7 +23,7 @@ export default class StreamContainer extends React.Component {
         asset_id,
         limit,
         sort,
-        excludeIgnored: data.variables.excludeIgnored,
+        excludeIgnored: this.props.data.variables.excludeIgnored,
       },
       updateQuery: (oldData, {fetchMoreResult:{asset}}) => {
         return {
@@ -35,7 +47,7 @@ export default class StreamContainer extends React.Component {
         parent_id, // if null, we're loading more top-level comments, if not, we're loading more replies to a comment
         asset_id, // the id of the asset we're currently on
         sort, // CHRONOLOGICAL or REVERSE_CHRONOLOGICAL
-        excludeIgnored: data.variables.excludeIgnored,
+        excludeIgnored: this.props.data.variables.excludeIgnored,
       },
       updateQuery: (oldData, {fetchMoreResult:{new_top_level_comments}}) => {
         let updatedAsset;
@@ -103,9 +115,10 @@ export default class StreamContainer extends React.Component {
   };
 
   componentDidMount() {
+    this.props.data.refetch();
     this.countPoll = setInterval(() => {
       const {asset} = this.props.data;
-      this.props.getCounts({
+      this.getCounts({
         asset_id: asset.id,
         limit: asset.comments.length,
         sort: 'REVERSE_CHRONOLOGICAL'
@@ -118,7 +131,7 @@ export default class StreamContainer extends React.Component {
   }
 
   render() {
-    return <Stream {...this.props} loadMore={this.loadMore} getCounts={this.getCounts}/>;
+    return <Stream {...this.props} loadMore={this.loadMore}/>;
   }
 }
 
@@ -150,6 +163,33 @@ const actionSummaryViewFragment = gql`
       created_at
     }
   }
+`;
+
+const LOAD_COMMENT_COUNTS_QUERY = gql`
+  query LoadCommentCounts($asset_id: ID, $limit: Int = 5, $sort: SORT_ORDER) {
+    asset(id: $asset_id) {
+      id
+      commentCount
+      comments(sort: $sort, limit: $limit) {
+        id
+        replyCount
+      }
+    }
+  }
+`;
+
+const LOAD_MORE_QUERY = gql`
+  query LoadMoreComments($limit: Int = 5, $cursor: Date, $parent_id: ID, $asset_id: ID, $sort: SORT_ORDER, $excludeIgnored: Boolean) {
+    new_top_level_comments: comments(query: {limit: $limit, cursor: $cursor, parent_id: $parent_id, asset_id: $asset_id, sort: $sort, excludeIgnored: $excludeIgnored}) {
+      ...commentView
+      replyCount(excludeIgnored: $excludeIgnored)
+      replies(limit: 3) {
+          ...commentView
+      }
+    }
+  }
+  ${commentViewFragment}
+  ${actionSummaryViewFragment}
 `;
 
 StreamContainer.fragments = {
@@ -205,8 +245,44 @@ StreamContainer.fragments = {
         id,
         username,
       }
+      me {
+        status
+      }
     }
     ${commentViewFragment}
     ${actionSummaryViewFragment}
   `,
 };
+
+const mapStateToProps = state => ({
+  auth: state.auth.toJS(),
+  commentCountCache: state.stream.commentCountCache,
+  activeReplyBox: state.stream.activeReplyBox,
+
+  commentId: state.stream.commentId,
+  assetId: state.stream.assetId,
+  assetUrl: state.stream.assetUrl,
+  activeTab: state.embed.activeTab,
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({
+    showSignInDialog,
+    addNotification,
+    setActiveReplyBox,
+    editName,
+    setCommentCountCache,
+  }, dispatch);
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  postComment,
+  postFlag,
+  postLike,
+  postDontAgree,
+  addCommentTag,
+  removeCommentTag,
+  ignoreUser,
+  deleteAction,
+)(StreamContainer);
+

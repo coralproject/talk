@@ -24,8 +24,7 @@ class Stream extends React.Component {
 
   render () {
     const {
-      comments,
-      asset,
+      data: {asset, asset: {comments}, comment, myIgnoredUsers},
       postItem,
       addNotification,
       postFlag,
@@ -38,10 +37,7 @@ class Stream extends React.Component {
       removeCommentTag,
       pluginProps,
       ignoreUser,
-      ignoredUsers,
       auth: {loggedIn, isAdmin, user},
-      comment,
-      refetch,
       commentCountCache,
       editName,
     } = this.props;
@@ -62,7 +58,7 @@ class Stream extends React.Component {
     const firstCommentDate = asset.comments[0]
       ? asset.comments[0].created_at
       : new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString();
-    const commentIsIgnored = (comment) => ignoredUsers && ignoredUsers.includes(comment.user.id);
+    const commentIsIgnored = (comment) => myIgnoredUsers && myIgnoredUsers.includes(comment.user.id);
     return (
       <div id='stream'>
         {
@@ -94,7 +90,6 @@ class Stream extends React.Component {
                     assetId={asset.id}
                     premod={asset.settings.moderation}
                     isReply={false}
-                    currentUser={this.props.auth.user}
                     authorId={user.id}
                     charCount={asset.settings.charCountEnable && asset.settings.charCount} />
                  : null
@@ -111,7 +106,6 @@ class Stream extends React.Component {
         {
           highlightedComment
           ? <Comment
-            refetch={refetch}
             setActiveReplyBox={this.setActiveReplyBox}
             activeReplyBox={this.props.activeReplyBox}
             addNotification={addNotification}
@@ -189,8 +183,6 @@ class Stream extends React.Component {
 Stream.propTypes = {
   addNotification: PropTypes.func.isRequired,
   postItem: PropTypes.func.isRequired,
-  asset: PropTypes.object.isRequired,
-  comments: PropTypes.array.isRequired,
 
   // dispatch action to add a tag to a comment
   addCommentTag: PropTypes.func,
@@ -200,9 +192,6 @@ Stream.propTypes = {
 
   // dispatch action to ignore another user
   ignoreUser: React.PropTypes.func,
-
-  // list of user ids that should be rendered as ignored
-  ignoredUsers: React.PropTypes.arrayOf(React.PropTypes.string)
 };
 
 export default Stream;

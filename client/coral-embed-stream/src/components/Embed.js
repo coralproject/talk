@@ -5,7 +5,7 @@ const lang = new I18n(translations);
 
 import {TabBar, Tab, TabContent, Button} from 'coral-ui';
 
-import Stream from './Stream';
+import Stream from '../containers/Stream';
 import Count from 'coral-plugin-comment-count/CommentCount';
 import UserBox from 'coral-sign-in/components/UserBox';
 import ProfileContainer from 'coral-settings/containers/ProfileContainer';
@@ -17,75 +17,50 @@ export default class Embed extends React.Component {
     switch(tab) {
     case 0:
       this.props.setActiveTab('stream');
-      this.props.data.refetch();
       break;
     case 1:
       this.props.setActiveTab('profile');
+
+      // TODO: move data fetching to profile container.
       this.props.data.refetch();
       break;
     case 2:
       this.props.setActiveTab('config');
+
+      // TODO: move data fetching to config container.
       this.props.data.refetch();
       break;
     }
   }
 
   render () {
-    const {activeTab} = this.props;
-    const {asset, comment} = this.props.data;
-    const {loggedIn, isAdmin, user, showSignInDialog} = this.props.auth;
+    const {activeTab, logout, viewAllComments, commentId} = this.props;
+    const {asset: {totalCommentCount}} = this.props.data;
+    const {loggedIn, isAdmin, user} = this.props.auth;
 
-    const expandForLogin = showSignInDialog ? {
-      minHeight: document.body.scrollHeight + 200
-    } : {};
-
-    const userBox = <UserBox user={user} logout={this.props.logout} changeTab={this.changeTab}/>;
+    const userBox = <UserBox user={user} logout={logout} changeTab={this.changeTab}/>;
 
     return (
-      <div style={expandForLogin}>
+      <div>
         <div className="commentStream">
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
-            <Tab><Count count={asset.totalCommentCount}/></Tab>
+            <Tab><Count count={totalCommentCount}/></Tab>
             <Tab>{lang.t('myProfile')}</Tab>
             <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>
           {
-            comment &&
+            commentId &&
               <Button
                 cStyle='darkGrey'
                 style={{float: 'right'}}
-                onClick={this.props.viewAllComments}
+                onClick={viewAllComments}
               >
                 {lang.t('showAllComments')}
               </Button>
           }
           <TabContent show={activeTab === 'stream'}>
             { loggedIn ? userBox : null }
-            <Stream
-              addNotification={this.props.addNotification}
-              postItem={this.props.postItem}
-              setActiveReplyBox={this.props.setActiveReplyBox}
-              activeReplyBox={this.props.activeReplyBox}
-              asset={asset}
-              currentUser={user}
-              postLike={this.props.postLike}
-              postFlag={this.props.postFlag}
-              postDontAgree={this.props.postDontAgree}
-              addCommentTag={this.props.addCommentTag}
-              removeCommentTag={this.props.removeCommentTag}
-              ignoreUser={this.props.ignoreUser}
-              loadMore={this.props.loadMore}
-              deleteAction={this.props.deleteAction}
-              showSignInDialog={this.props.showSignInDialog}
-              comments={asset.comments}
-              ignoredUsers={this.props.data.myIgnoredUsers ? this.props.data.myIgnoredUsers.map(u => u.id) : []}
-              auth={this.props.auth}
-              comment={this.props.data.comment}
-              commentCountCache={this.props.commentCountCache}
-              refetch={this.props.data.refetch}
-              editName={this.props.editName}
-              setCommentCountCache={this.props.setCommentCountCache}
-            />
+            <Stream data={this.props.data} />
           </TabContent>
           <TabContent show={activeTab === 'profile'}>
             <ProfileContainer />
@@ -107,13 +82,4 @@ Embed.propTypes = {
     loading: React.PropTypes.bool,
     error: React.PropTypes.object
   }).isRequired,
-
-  // dispatch action to add a tag to a comment
-  addCommentTag: React.PropTypes.func,
-
-  // dispatch action to remove a tag from a comment
-  removeCommentTag: React.PropTypes.func,
-
-  // dispatch action to ignore another user
-  ignoreUser: React.PropTypes.func,
 };

@@ -196,7 +196,6 @@ CommentBox.propTypes = {
   authorId: PropTypes.string.isRequired,
   isReply: PropTypes.bool.isRequired,
   canPost: PropTypes.bool,
-  currentUser: PropTypes.object
 };
 
 const mapStateToProps = ({commentBox}) => ({commentBox});
