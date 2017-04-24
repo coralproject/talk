@@ -41,3 +41,5 @@ export function injectReducers(reducers) {
   storeReducers = {...storeReducers, ...reducers};
   store.replaceReducer(combineReducers(storeReducers));
 }
+
+window.coralStore = store;

@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
+import {Button} from 'coral-ui';
 import Comment from './Comment';
 import CommentBox from 'coral-plugin-commentbox/CommentBox';
-import SignInContainer from 'coral-sign-in/containers/SignInContainer';
 import SuspendedAccount from 'coral-framework/components/SuspendedAccount';
 import RestrictedContent from 'coral-framework/components/RestrictedContent';
 import ChangeUsernameContainer from 'coral-sign-in/containers/ChangeUsernameContainer';
@@ -16,8 +16,7 @@ class Stream extends React.Component {
 
   setActiveReplyBox = (reactKey) => {
     if (!this.props.auth.user) {
-      const offset = document.getElementById(`c_${reactKey}`).getBoundingClientRect().top - 75;
-      this.props.showSignInDialog(offset);
+      this.props.showSignInDialog();
     } else {
       this.props.setActiveReplyBox(reactKey);
     }
@@ -40,7 +39,7 @@ class Stream extends React.Component {
       pluginProps,
       ignoreUser,
       ignoredUsers,
-      auth: {signInOffset, loggedIn, isAdmin, user},
+      auth: {loggedIn, isAdmin, user},
       comment,
       refetch,
       commentCountCache,
@@ -104,11 +103,8 @@ class Stream extends React.Component {
              </div>
            : <p>{asset.settings.closedMessage}</p>
         }
-        {!loggedIn && <SignInContainer
-          requireEmailConfirmation={asset.settings.requireEmailConfirmation}
-          refetch={refetch}
-          offset={signInOffset}/>}
-        {loggedIn &&  user && <ChangeUsernameContainer loggedIn={loggedIn} offset={signInOffset} user={user} />}
+        {!loggedIn && <Button id='coralSignInButton' onClick={this.props.showSignInDialog} full>Sign in to comment</Button>}
+        {loggedIn && user && <ChangeUsernameContainer loggedIn={loggedIn} user={user} />}
         {loggedIn && <ModerationLink assetId={asset.id} isAdmin={isAdmin} />}
 
         {/* the highlightedComment is isolated after the user followed a permalink */}

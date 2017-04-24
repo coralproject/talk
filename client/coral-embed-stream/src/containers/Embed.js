@@ -17,7 +17,7 @@ import {setCommentCountCache, setActiveReplyBox, viewAllComments} from '../actio
 import {setActiveTab} from '../actions/embed';
 import * as Stream from './Stream';
 
-const {logout, showSignInDialog, requestConfirmEmail} = authActions;
+const {logout, showSignInDialog, requestConfirmEmail, checkLogin} = authActions;
 const {addNotification, clearNotification} = notificationActions;
 const {fetchAssetSuccess} = assetActions;
 
@@ -25,6 +25,7 @@ class EmbedContainer extends React.Component {
 
   componentDidMount() {
     pym.sendMessage('childReady');
+    this.props.checkLogin();
   }
 
   componentWillUnmount() {
@@ -135,7 +136,7 @@ const STREAM_QUERY = gql`
     __typename
     ...Stream_root
   }
-  ${Stream.fragment}
+  ${Stream.fragments.root}
 `;
 
 // get the counts of the top-level comments
@@ -271,6 +272,7 @@ const mapDispatchToProps = dispatch =>
     fetchAssetSuccess,
     addNotification,
     clearNotification,
+    checkLogin,
     editName,
     setCommentCountCache,
     viewAllComments,

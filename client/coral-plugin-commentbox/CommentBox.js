@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {I18n} from '../coral-framework';
 import translations from './translations.json';
 import {Button} from 'coral-ui';
-import {Slot} from 'coral-framework';
+import Slot from 'coral-framework/components/Slot';
 import {connect} from 'react-redux';
 
 const name = 'coral-plugin-commentbox';

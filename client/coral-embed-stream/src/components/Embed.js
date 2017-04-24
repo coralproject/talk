@@ -78,7 +78,7 @@ export default class Embed extends React.Component {
               deleteAction={this.props.deleteAction}
               showSignInDialog={this.props.showSignInDialog}
               comments={asset.comments}
-              ignoredUsers={this.props.data.myIgnoredUsers.map(u => u.id)}
+              ignoredUsers={this.props.data.myIgnoredUsers ? this.props.data.myIgnoredUsers.map(u => u.id) : []}
               auth={this.props.auth}
               comment={this.props.data.comment}
               commentCountCache={this.props.commentCountCache}
