@@ -5,12 +5,14 @@ import {bindActionCreators} from 'redux';
 import uniqBy from 'lodash/uniqBy';
 import sortBy from 'lodash/sortBy';
 import isNil from 'lodash/isNil';
-import Stream from '../components/Stream';
 import {NEW_COMMENT_COUNT_POLL_INTERVAL} from '../constants/stream';
 import {postComment, postFlag, postLike, postDontAgree, deleteAction, addCommentTag, removeCommentTag, ignoreUser} from 'coral-framework/graphql/mutations';
 import {notificationActions, authActions} from 'coral-framework';
 import {editName} from 'coral-framework/actions/user';
 import {setCommentCountCache, setActiveReplyBox} from '../actions/stream';
+import Stream from '../components/Stream';
+import Comment from './Comment';
+import withFragments from 'coral-framework/hocs/withFragments';
 
 const {showSignInDialog} = authActions;
 const {addNotification} = notificationActions;
@@ -135,36 +137,6 @@ class StreamContainer extends React.Component {
   }
 }
 
-const commentViewFragment = gql`
-  fragment commentView on Comment {
-    id
-    body
-    created_at
-    status
-    tags {
-      name
-    }
-    user {
-        id
-        name: username
-    }
-    action_summaries {
-      ...actionSummaryView
-    }
-  }
-`;
-
-const actionSummaryViewFragment = gql`
-  fragment actionSummaryView on ActionSummary {
-    __typename
-    count
-    current_user {
-      id
-      created_at
-    }
-  }
-`;
-
 const LOAD_COMMENT_COUNTS_QUERY = gql`
   query LoadCommentCounts($asset_id: ID, $limit: Int = 5, $sort: SORT_ORDER) {
     asset(id: $asset_id) {
@@ -181,31 +153,30 @@ const LOAD_COMMENT_COUNTS_QUERY = gql`
 const LOAD_MORE_QUERY = gql`
   query LoadMoreComments($limit: Int = 5, $cursor: Date, $parent_id: ID, $asset_id: ID, $sort: SORT_ORDER, $excludeIgnored: Boolean) {
     new_top_level_comments: comments(query: {limit: $limit, cursor: $cursor, parent_id: $parent_id, asset_id: $asset_id, sort: $sort, excludeIgnored: $excludeIgnored}) {
-      ...commentView
+      ...Comment_comment
       replyCount(excludeIgnored: $excludeIgnored)
       replies(limit: 3) {
-          ...commentView
+          ...Comment_comment
       }
     }
   }
-  ${commentViewFragment}
-  ${actionSummaryViewFragment}
+  ${Comment.fragments.comment}
 `;
 
-StreamContainer.fragments = {
+const fragments = {
   root: gql`
     fragment Stream_root on RootQuery {
       comment(id: $commentId) @include(if: $hasComment) {
-        ...commentView
+        ...Comment_comment
         replyCount(excludeIgnored: $excludeIgnored)
         replies {
-          ...commentView
+          ...Comment_comment
         }
         parent {
-          ...commentView
+          ...Comment_comment
           replyCount(excludeIgnored: $excludeIgnored)
           replies {
-            ...commentView
+            ...Comment_comment
           }
         }
       }
@@ -234,10 +205,10 @@ StreamContainer.fragments = {
         commentCount(excludeIgnored: $excludeIgnored)
         totalCommentCount(excludeIgnored: $excludeIgnored)
         comments(limit: 10, excludeIgnored: $excludeIgnored) {
-          ...commentView
+          ...Comment_comment
           replyCount(excludeIgnored: $excludeIgnored)
           replies(limit: 3, excludeIgnored: $excludeIgnored) {
-              ...commentView
+            ...Comment_comment
           }
         }
       }
@@ -249,8 +220,7 @@ StreamContainer.fragments = {
         status
       }
     }
-    ${commentViewFragment}
-    ${actionSummaryViewFragment}
+    ${Comment.fragments.comment}
   `,
 };
 
@@ -284,5 +254,6 @@ export default compose(
   removeCommentTag,
   ignoreUser,
   deleteAction,
+  withFragments(fragments),
 )(StreamContainer);
 

@@ -9,7 +9,7 @@ import {authActions, assetActions, pym} from 'coral-framework';
 import Embed from '../components/Embed';
 import {setCommentCountCache, viewAllComments} from '../actions/stream';
 import {setActiveTab} from '../actions/embed';
-import * as Stream from './Stream';
+import Stream from './Stream';
 
 const {logout, checkLogin} = authActions;
 const {fetchAssetSuccess} = assetActions;
@@ -25,6 +25,7 @@ class EmbedContainer extends React.Component {
     if(this.props.data.me && !nextProps.data.me) {
 
       // Refetch because on logout `excludeIgnored` becomes `false`.
+      // TODO: logout via mutation and obsolete this?
       this.props.data.refetch();
     }
 
