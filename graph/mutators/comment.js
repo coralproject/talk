@@ -186,9 +186,9 @@ const createPublicComment = (context, commentInput) => {
  * @param {String} status      the new status of the comment
  */
 
-const setCommentStatus = ({loaders: {Comments}}, {id, status}) => {
+const setCommentStatus = ({user, loaders: {Comments}}, {id, status}) => {
   return CommentsService
-    .setStatus(id, status)
+    .pushStatus(id, status, user ? user.id : null)
     .then((comment) => {
 
       // If the loaders are present, clear the caches for these values because we
