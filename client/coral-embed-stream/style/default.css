@@ -187,6 +187,7 @@ hr {
 /* Comment Box Styles */
 .coral-plugin-commentbox-container {
   display: flex;
+  width: 100%;
 }
 
 .coral-plugin-commentbox-textarea {
