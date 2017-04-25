@@ -18,3 +18,47 @@
   border-radius: 4px;
   border: 1px solid #999;
 }
+
+.callToAction {
+  position: fixed;
+  left: 10px;
+  bottom: 10px;
+  width: 280px;
+  height: 200px;
+  background: white;
+  padding: 15px;
+  box-sizing: border-box;
+  box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.15);
+
+  .ctaHeader {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+
+  ul {
+    padding-left: 0;
+    list-style: none;
+    margin: 0 0 10px 0;
+  }
+
+  p, li {
+    font-size: 12px;
+    margin-bottom: 5px;
+  }
+
+  li span:first-child, p:last-child span:first-child {
+    display: inline-block;
+    width: 120px;
+  }
+}
+
+.closeButton {
+  float: right;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.smallKey {
+  padding: 5px;
+  border: 1px solid #ccc;
+}
