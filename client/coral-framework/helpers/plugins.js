@@ -30,15 +30,18 @@ function getComponentFragments(components) {
     .reduce((res, fragments) => {
       Object.keys(fragments).forEach(key => {
         if (!(key in res)) {
-          res[key] = {names: '', definitions: ''};
+          res[key] = {spreads: '', definitions: ''};
         }
-        res[key].names += `...${fragments[key].definitions[0].name.value}\n`;
+        res[key].spreads += `...${fragments[key].definitions[0].name.value}\n`;
         res[key].definitions = gql`${res[key].definitions}${fragments[key]}`;
       });
       return res;
     }, {});
 }
 
+/**
+ * @returns {[key]: {spreads: string, definitions: AST}}
+ */
 export function getSlotsFragments(slots) {
   if (!Array.isArray(slots)) {
     slots = [slots];
@@ -49,6 +52,14 @@ export function getSlotsFragments(slots) {
     .map(o => o.module.slots[slot]);
   })));
 
-  return getComponentFragments(components);
+  const fragments = getComponentFragments(components);
+  return {
+    spreads(key) {
+      return fragments[key] && fragments[key].spreads;
+    },
+    definitions(key) {
+      return fragments[key] && fragments[key].definitions;
+    },
+  };
 }
 

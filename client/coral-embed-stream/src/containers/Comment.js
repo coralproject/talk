@@ -9,9 +9,9 @@ export default withFragments({
   root: gql`
     fragment Comment_root on RootQuery {
       __typename
-      ${pluginFragments.root && pluginFragments.root.names}
+      ${pluginFragments.spreads('root')}
     }
-    ${pluginFragments.root && pluginFragments.root.definitions}
+    ${pluginFragments.definitions('root')}
     `,
   comment: gql`
     fragment Comment_comment on Comment {
@@ -33,8 +33,8 @@ export default withFragments({
           id
         }
       }
-      ${pluginFragments.comment && pluginFragments.comment.names}
+      ${pluginFragments.spreads('comment')}
     }
-    ${pluginFragments.comment && pluginFragments.comment.definitions}
+    ${pluginFragments.definitions('comment')}
   `,
 })(Comment);
