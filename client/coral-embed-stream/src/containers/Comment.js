@@ -31,7 +31,6 @@ export default withFragments({
         count
         current_user {
           id
-          created_at
         }
       }
       ${pluginFragments.comment && pluginFragments.comment.names}
