@@ -5,10 +5,7 @@ import {menuActionsMap} from '../containers/ModerationQueue/helpers/moderationQu
 
 const ActionButton = ({type = '', status, ...props}) => {
   const typeName = type.toLowerCase();
-  let active = false;
-  if ((type === 'REJECT' && status === 'REJECTED') || (type === 'APPROVE' && status === 'APPROVED')) {
-    active = true;
-  }
+  const active = ((type === 'REJECT' && status === 'REJECTED') || (type === 'APPROVE' && status === 'APPROVED'));
 
   return (
     <Button
