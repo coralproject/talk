@@ -41,7 +41,16 @@ function getComponentFragments(components) {
 }
 
 /**
- * @returns {[key]: {spreads: string, definitions: AST}}
+ * Returns an object that can be used to compose fragments or queries.
+ *
+ * Example:
+ * const pluginFragments = getSlotsFragments(['commentInfoBar', 'commentDetail']);
+ * const rootFragment = gql`
+ *   fragment Comment_root on RootQuery {
+ +     ${pluginFragments.spreads('root')}
+ *   }
+ *   ${pluginFragments.definitions('root')}
+ * `;
  */
 export function getSlotsFragments(slots) {
   if (!Array.isArray(slots)) {
