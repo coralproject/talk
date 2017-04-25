@@ -123,11 +123,11 @@ class CommentBox extends Component {
   handleChange = e => this.setState({body: e.target.value});
 
   render () {
-    const {styles, isReply, authorId, charCount} = this.props;
+    const {styles, isReply, authorId, maxCharCount} = this.props;
     let {cancelButtonClicked} = this.props;
 
     const length = this.state.body.length;
-    const enablePostComment = !length || (charCount && length > charCount);
+    const enablePostComment = !length || (maxCharCount && length > maxCharCount);
 
     if (isReply && typeof cancelButtonClicked !== 'function') {
       console.warn('the CommentBox component should have a cancelButtonClicked callback defined if it lives in a Reply');
@@ -152,8 +152,8 @@ class CommentBox extends Component {
             onChange={this.handleChange}
             rows={3}/>
         </div>
-        <div className={`${name}-char-count ${length > charCount ? `${name}-char-max` : ''}`}>
-          {charCount && `${charCount - length} ${lang.t('characters-remaining')}`}
+        <div className={`${name}-char-count ${length > maxCharCount ? `${name}-char-max` : ''}`}>
+          {maxCharCount && `${maxCharCount - length} ${lang.t('characters-remaining')}`}
         </div>
         <div className={`${name}-button-container`}>
           <Slot
@@ -188,6 +188,8 @@ class CommentBox extends Component {
 }
 
 CommentBox.propTypes = {
+  charCountEnable: PropTypes.bool.isRequired,
+  maxCharCount: PropTypes.number,
   commentPostedHandler: PropTypes.func,
   postItem: PropTypes.func.isRequired,
   cancelButtonClicked: PropTypes.func,

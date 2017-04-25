@@ -6,7 +6,8 @@ const initialState = Map({
   modalOpen: false,
   user: Map({}),
   commentId: null,
-  banDialog: false
+  banDialog: false,
+  shortcutsNoteVisible: window.localStorage.getItem('coral:shortcutsNote') || 'show'
 });
 
 export default function moderation (state = initialState, action) {
@@ -31,6 +32,9 @@ export default function moderation (state = initialState, action) {
   case actions.SINGLE_VIEW:
     return state
       .set('singleView', !state.get('singleView'));
+  case actions.HIDE_SHORTCUTS_NOTE:
+    return state
+      .set('shortcutsNoteVisible', 'hide');
   default :
     return state;
   }

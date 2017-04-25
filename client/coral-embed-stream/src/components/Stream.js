@@ -91,7 +91,8 @@ class Stream extends React.Component {
                     premod={asset.settings.moderation}
                     isReply={false}
                     authorId={user.id}
-                    charCount={asset.settings.charCountEnable && asset.settings.charCount} />
+                    charCountEnable={asset.settings.charCountEnable}
+                    maxCharCount={asset.settings.charCount} />
                  : null
                }
              </RestrictedContent>
@@ -125,7 +126,10 @@ class Stream extends React.Component {
             key={highlightedComment.id}
             commentIsIgnored={commentIsIgnored}
             reactKey={highlightedComment.id}
-            comment={highlightedComment} />
+            comment={highlightedComment}
+            charCountEnable={asset.settings.charCountEnable}
+            maxCharCount={asset.settings.charCount}
+          />
           : <div>
             <NewCount
               commentCount={asset.commentCount}
@@ -167,6 +171,8 @@ class Stream extends React.Component {
                         reactKey={comment.id}
                         comment={comment}
                         pluginProps={pluginProps}
+                        charCountEnable={asset.settings.charCountEnable}
+                        maxCharCount={asset.settings.charCount}
                       />
                 )
               }
