@@ -1,9 +1,7 @@
-import timeago from 'timeago.js';
-import esTA from '../../../../node_modules/timeago.js/locales/es';
 import has from 'lodash/has';
 import get from 'lodash/get';
 
-const  yaml = require('node-yaml');
+import YAML from 'yamljs';
 
 /**
  * Default locales, this should be overriden by config file
@@ -15,8 +13,6 @@ class i18n {
     /**
      * Register locales
      */
-    timeago.register('es_ES', esTA);
-    this.timeagoInstance = new timeago();
 
     try {
       const locale = this.getLocale();
@@ -34,18 +30,16 @@ class i18n {
   loadTranslations = (translations) => {
     const localesFiles = {'en': 'locales/en.yml', 'es': 'locales/es.yml'};
 
-    yaml.readPromise(localesFiles[this.language])
-      .then((data) => {
+    try {
 
-        // Translations need to be loaded from translations or localesFiles.
-        this.translations = translations[this.language] || data;
+      // Translations need to be loaded from translations or localesFiles.
+      this.translations = translations[this.language] || YAML.load(localesFiles[this.language]);
+    }
+    catch(err) {
 
-      })
-      .catch(() => {
-
-        // To Do: get configuration for default translation
-        this.translations = translations['en'];
-      });
+      // To Do: get configuration for default translation
+      this.translations = translations['en'];
+    }
   }
 
   setLocale = (locale) => {
@@ -84,11 +78,6 @@ class i18n {
       return key;
     }
   };
-
-  timeago = (time) => {
-    return this.timeagoInstance.format(new Date(time));
-  };
-
 }
 
 export default i18n;

@@ -5,6 +5,8 @@ import {compose} from 'react-apollo';
 import {I18n} from 'coral-framework';
 import {updateOpenStatus, updateConfiguration} from 'coral-framework/actions/asset';
 
+import timeago from 'timeago.js';
+
 import CloseCommentsInfo from '../components/CloseCommentsInfo';
 import ConfigureCommentStream from '../components/ConfigureCommentStream';
 
@@ -87,7 +89,7 @@ class ConfigureStreamContainer extends Component {
     const {closedTimeout} = this.props.asset.settings;
     const {created_at} = this.props.asset;
 
-    return lang.timeago(new Date(created_at).getTime() + (1000 * closedTimeout));
+    return timeago().format(new Date(created_at).getTime() + (1000 * closedTimeout), lang.getLocale().replace('-', '_'));
   }
 
   render () {
