@@ -37,3 +37,27 @@ export function getDefinitionName(doc, pos = 0) {
   return doc.definitions[pos].name.value;
 }
 
+/**
+ * Separate apollo `data` props into `data` and `root`.
+ * `data` will contain props like `loading`, `fetchMore`...
+ * while `root` contains the actual query data.
+ */
+export function separateDataAndRoot(
+  {
+    fetchMore,
+    loading,
+    networkStatus,
+    refetch,
+    startPolling,
+    stopPolling,
+    subscribeToMore,
+    updateQuery,
+    variables,
+    ...root,
+  }) {
+  return {
+    data: {fetchMore, loading, networkStatus, refetch, startPolling,
+      stopPolling, subscribeToMore, updateQuery, variables},
+    root,
+  };
+}

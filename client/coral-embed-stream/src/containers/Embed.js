@@ -6,7 +6,7 @@ import isEqual from 'lodash/isEqual';
 
 import {Spinner} from 'coral-ui';
 import {authActions, assetActions, pym} from 'coral-framework';
-import {getDefinitionName} from 'coral-framework/utils';
+import {getDefinitionName, separateDataAndRoot} from 'coral-framework/utils';
 import Embed from '../components/Embed';
 import {setCommentCountCache, viewAllComments} from '../actions/stream';
 import {setActiveTab} from '../actions/embed';
@@ -84,14 +84,7 @@ export const withQuery = graphql(EMBED_QUERY, {
       excludeIgnored: Boolean(auth && auth.user && auth.user.id),
     },
   }),
-  props: ({data: {
-    fetchMore, loading, networkStatus, refetch, startPolling,
-    stopPolling, subscribeToMore, updateQuery, variables,
-    ...root}}) => ({
-      data: {fetchMore, loading, networkStatus, refetch, startPolling,
-        stopPolling, subscribeToMore, updateQuery, variables},
-      root,
-    }),
+  props: ({data}) => separateDataAndRoot(data),
 });
 
 const mapStateToProps = state => ({
