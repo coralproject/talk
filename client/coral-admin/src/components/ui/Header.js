@@ -6,7 +6,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations.json';
 import {Logo} from './Logo';
 
-const CoralHeader = ({handleLogout, showShortcuts, restricted = false}) => (
+const CoralHeader = ({handleLogout, showShortcuts = () => {}, restricted = false}) => (
   <Header className={styles.header}>
     <Logo className={styles.logo} />
     {
