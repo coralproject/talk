@@ -47,7 +47,7 @@ const People = ({isFetching, commenters, searchValue, onSearchChange, ...props})
         </div>
       </div>
       <div className={styles.mainContent}>
-        { isFetching && <Loading /> }
+        { isFetching && (searchValue === null) && <Loading /> }
         {
           hasResults
           ? <Table
