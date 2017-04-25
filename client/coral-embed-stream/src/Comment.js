@@ -64,6 +64,8 @@ class Comment extends React.Component {
     currentUser: PropTypes.shape({
       id: PropTypes.string.isRequired
     }),
+    charCountEnable: PropTypes.bool.isRequired,
+    maxCharCount: PropTypes.number,
     comment: PropTypes.shape({
       depth: PropTypes.number,
       action_summaries: PropTypes.array.isRequired,
@@ -121,6 +123,8 @@ class Comment extends React.Component {
       ignoreUser,
       disableReply,
       commentIsIgnored,
+      maxCharCount,
+      charCountEnable,
     } = this.props;
 
     const likeSummary = getActionSummary('LikeActionSummary', comment);
@@ -243,6 +247,8 @@ class Comment extends React.Component {
               commentPostedHandler={() => {
                 setActiveReplyBox('');
               }}
+              charCountEnable={charCountEnable}
+              maxCharCount={maxCharCount}
               setActiveReplyBox={setActiveReplyBox}
               parentId={parentId || comment.id}
               addNotification={addNotification}
@@ -273,6 +279,8 @@ class Comment extends React.Component {
                   addCommentTag={addCommentTag}
                   removeCommentTag={removeCommentTag}
                   ignoreUser={ignoreUser}
+                  charCountEnable={charCountEnable}
+                  maxCharCount={maxCharCount}
                   showSignInDialog={showSignInDialog}
                   reactKey={reply.id}
                   key={reply.id}

@@ -187,6 +187,7 @@ hr {
 /* Comment Box Styles */
 .coral-plugin-commentbox-container {
   display: flex;
+  width: 100%;
 }
 
 .coral-plugin-commentbox-textarea {
@@ -194,7 +195,8 @@ hr {
   padding: 5px;
   min-height: 100px;
   margin-top: 10px;
-  font-size: 14px;
+  font-size: 16px;
+  border: 1px solid #ccc;
 }
 
 .coral-plugin-commentbox-button-container {
