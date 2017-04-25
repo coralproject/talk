@@ -64,6 +64,7 @@ const Comment = ({actions = [], comment, ...props}) => {
                 <ActionButton key={i}
                               type={action}
                               user={comment.user}
+                              status={comment.status}
                               acceptComment={() => props.acceptComment({commentId: comment.id})}
                               rejectComment={() => props.rejectComment({commentId: comment.id})}
                 />

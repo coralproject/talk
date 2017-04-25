@@ -6,3 +6,15 @@ export const singleView = () => ({type: actions.SINGLE_VIEW});
 // Ban User Dialog
 export const showBanUserDialog = (user, commentId, showRejectedNote) => ({type: actions.SHOW_BANUSER_DIALOG, user, commentId, showRejectedNote});
 export const hideBanUserDialog = (showDialog) => ({type: actions.HIDE_BANUSER_DIALOG, showDialog});
+
+// hide shortcuts note
+export const hideShortcutsNote = () => {
+  try {
+    window.localStorage.setItem('coral:shortcutsNote', 'hide');
+  } catch (e) {
+
+    // above will fail in Safari private mode
+  }
+
+  return {type: actions.HIDE_SHORTCUTS_NOTE};
+};

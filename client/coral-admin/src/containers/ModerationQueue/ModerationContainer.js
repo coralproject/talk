@@ -10,7 +10,7 @@ import {banUser, setCommentStatus} from '../../graphql/mutations';
 
 import {fetchSettings} from 'actions/settings';
 import {updateAssets} from 'actions/assets';
-import {toggleModal, singleView, showBanUserDialog, hideBanUserDialog} from 'actions/moderation';
+import {toggleModal, singleView, showBanUserDialog, hideBanUserDialog, hideShortcutsNote} from 'actions/moderation';
 
 import {Spinner} from 'coral-ui';
 import BanUserDialog from '../../components/BanUserDialog';
@@ -187,6 +187,8 @@ class ModerationContainer extends Component {
           rejectComment={props.rejectComment}
         />
       <ModerationKeysModal
+          hideShortcutsNote={props.hideShortcutsNote}
+          shortcutsNoteVisible={moderation.shortcutsNoteVisible}
           open={moderation.modalOpen}
           onClose={onClose}/>
       </div>
@@ -208,6 +210,7 @@ const mapDispatchToProps = dispatch => ({
   fetchSettings: () => dispatch(fetchSettings()),
   showBanUserDialog: (user, commentId, showRejectedNote) => dispatch(showBanUserDialog(user, commentId, showRejectedNote)),
   hideBanUserDialog: () => dispatch(hideBanUserDialog(false)),
+  hideShortcutsNote: () => dispatch(hideShortcutsNote()),
 });
 
 export default compose(
