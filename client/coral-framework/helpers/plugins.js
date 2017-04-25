@@ -5,6 +5,7 @@ import flattenDeep from 'lodash/flattenDeep';
 import uniq from 'lodash/uniq';
 import plugins from 'pluginsConfig';
 import {gql} from 'react-apollo';
+import {getDefinitionName} from 'coral-framework/utils';
 
 export const pluginReducers = merge(
   ...plugins
@@ -32,7 +33,7 @@ function getComponentFragments(components) {
         if (!(key in res)) {
           res[key] = {spreads: '', definitions: ''};
         }
-        res[key].spreads += `...${fragments[key].definitions[0].name.value}\n`;
+        res[key].spreads += `...${getDefinitionName(fragments[key])}\n`;
         res[key].definitions = gql`${res[key].definitions}${fragments[key]}`;
       });
       return res;

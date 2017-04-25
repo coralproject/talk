@@ -29,3 +29,11 @@ export const getMyActionSummary = (type, comment) => {
 export const getActionSummary = (type, comment) => {
   return comment.action_summaries.filter(a => a.__typename === type);
 };
+
+/**
+ * Get name of first (or $pos-th) definition
+ */
+export function getDefinitionName(doc, pos = 0) {
+  return doc.definitions[pos].name.value;
+}
+

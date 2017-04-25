@@ -6,6 +6,7 @@ import isEqual from 'lodash/isEqual';
 
 import {Spinner} from 'coral-ui';
 import {authActions, assetActions, pym} from 'coral-framework';
+import {getDefinitionName} from 'coral-framework/utils';
 import Embed from '../components/Embed';
 import {setCommentCountCache, viewAllComments} from '../actions/stream';
 import {setActiveTab} from '../actions/embed';
@@ -68,7 +69,7 @@ const EMBED_QUERY = gql`
     me {
       status
     }
-    ...Stream_root
+    ...${getDefinitionName(Stream.fragments.root)}
   }
   ${Stream.fragments.root}
 `;

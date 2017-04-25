@@ -13,6 +13,7 @@ import {setCommentCountCache, setActiveReplyBox} from '../actions/stream';
 import Stream from '../components/Stream';
 import Comment from './Comment';
 import withFragments from 'coral-framework/hocs/withFragments';
+import {getDefinitionName} from 'coral-framework/utils';
 
 const {showSignInDialog} = authActions;
 const {addNotification} = notificationActions;
@@ -153,10 +154,10 @@ const LOAD_COMMENT_COUNTS_QUERY = gql`
 const LOAD_MORE_QUERY = gql`
   query LoadMoreComments($limit: Int = 5, $cursor: Date, $parent_id: ID, $asset_id: ID, $sort: SORT_ORDER, $excludeIgnored: Boolean) {
     new_top_level_comments: comments(query: {limit: $limit, cursor: $cursor, parent_id: $parent_id, asset_id: $asset_id, sort: $sort, excludeIgnored: $excludeIgnored}) {
-      ...Comment_comment
+      ...${getDefinitionName(Comment.fragments.comment)}
       replyCount(excludeIgnored: $excludeIgnored)
       replies(limit: 3) {
-          ...Comment_comment
+        ...${getDefinitionName(Comment.fragments.comment)}
       }
     }
   }
@@ -167,16 +168,16 @@ const fragments = {
   root: gql`
     fragment Stream_root on RootQuery {
       comment(id: $commentId) @include(if: $hasComment) {
-        ...Comment_comment
+        ...${getDefinitionName(Comment.fragments.comment)}
         replyCount(excludeIgnored: $excludeIgnored)
         replies {
-          ...Comment_comment
+          ...${getDefinitionName(Comment.fragments.comment)}
         }
         parent {
-          ...Comment_comment
+          ...${getDefinitionName(Comment.fragments.comment)}
           replyCount(excludeIgnored: $excludeIgnored)
           replies {
-            ...Comment_comment
+            ...${getDefinitionName(Comment.fragments.comment)}
           }
         }
       }
@@ -205,10 +206,10 @@ const fragments = {
         commentCount(excludeIgnored: $excludeIgnored)
         totalCommentCount(excludeIgnored: $excludeIgnored)
         comments(limit: 10, excludeIgnored: $excludeIgnored) {
-          ...Comment_comment
+          ...${getDefinitionName(Comment.fragments.comment)}
           replyCount(excludeIgnored: $excludeIgnored)
           replies(limit: 3, excludeIgnored: $excludeIgnored) {
-            ...Comment_comment
+            ...${getDefinitionName(Comment.fragments.comment)}
           }
         }
       }
@@ -219,7 +220,7 @@ const fragments = {
       me {
         status
       }
-      ...Comment_root
+      ...${getDefinitionName(Comment.fragments.root)}
     }
     ${Comment.fragments.root}
     ${Comment.fragments.comment}
