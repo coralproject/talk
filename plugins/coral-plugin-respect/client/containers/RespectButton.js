@@ -9,8 +9,7 @@ import RespectButton from '../components/RespectButton';
 const isRespectAction = (a) => a.__typename === 'RespectActionSummary';
 
 const COMMENT_FRAGMENT = gql`
-  fragment RespectButton_comment on Comment {
-    id
+  fragment RespectButton_updateFragment on Comment {
     action_summaries {
       ... on RespectActionSummary {
         count
