@@ -159,6 +159,10 @@ class Embed extends React.Component {
 
     const userBox = <UserBox user={user} logout={() => this.props.logout().then(refetch)}  changeTab={this.changeTab}/>;
 
+    // TODO: This is a quickfix and will be replaced after our refactor.
+    const ignoredUsers = this.props.userData.ignoredUsers;
+    const commentIsIgnored = (comment) => ignoredUsers && ignoredUsers.includes(comment.user.id);
+
     return (
       <div style={expandForLogin}>
         <div className="commentStream">
@@ -210,7 +214,8 @@ class Embed extends React.Component {
                         isReply={false}
                         currentUser={this.props.auth.user}
                         authorId={user.id}
-                        charCount={asset.settings.charCountEnable && asset.settings.charCount} />
+                        charCountEnable={asset.settings.charCountEnable}
+                        maxCharCount={asset.settings.charCount} />
                      : null
                    }
                  </RestrictedContent>
@@ -242,6 +247,7 @@ class Embed extends React.Component {
                 loadMore={this.props.loadMore}
                 deleteAction={this.props.deleteAction}
                 showSignInDialog={this.props.showSignInDialog}
+                commentIsIgnored={commentIsIgnored}
                 key={highlightedComment.id}
                 reactKey={highlightedComment.id}
                 comment={highlightedComment} />
@@ -273,6 +279,8 @@ class Embed extends React.Component {
                     deleteAction={this.props.deleteAction}
                     showSignInDialog={this.props.showSignInDialog}
                     comments={asset.comments}
+                    maxCharCount={asset.settings.charCount}
+                    charCountEnable={asset.settings.charCountEnable}
                     ignoredUsers={this.props.userData.ignoredUsers} />
                 </div>
                 <LoadMore
