@@ -1,6 +1,7 @@
 .popupMenu {
-  display: inline-block;
-  width: inherit;
+  display: block;
+  position: absolute;
+  width: 100%;
   border: solid 1px #999;
   box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.3);
   box-sizing: border-box;
@@ -8,6 +9,7 @@
   border-radius: 3px;
   padding: 20px 10px;
   z-index: 3;
+  left: 0;
 }
 
 .popupMenu:before{
