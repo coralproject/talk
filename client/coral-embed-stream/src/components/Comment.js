@@ -174,8 +174,14 @@ class Comment extends React.Component {
             ? <TagLabel><BestIndicator /></TagLabel>
           : null }
           <PubDate created_at={comment.created_at} />
-          <Slot fill="commentInfoBar" comment={comment} commentId={comment.id} inline/>
-
+          <Slot
+            fill="commentInfoBar"
+            data={this.props.data}
+            root={this.props.root}
+            comment={comment}
+            commentId={comment.id}
+            inline
+          />
           { (currentUser && (comment.user.id !== currentUser.id))
             ? <span className={styles.topRightMenu}>
                 <TopRightMenu
@@ -217,7 +223,14 @@ class Comment extends React.Component {
                   removeBest={removeBestTag} />
               </IfUserCanModifyBest>
             </ActionButton>
-            <Slot fill="commentDetail" comment={comment} commentId={comment.id} inline/>
+            <Slot
+              fill="commentDetail"
+              data={this.props.data}
+              root={this.props.root}
+              comment={comment}
+              commentId={comment.id}
+              inline
+            />
           </div>
           <div className="commentActionsRight comment__action-container">
             <ActionButton>
@@ -257,6 +270,8 @@ class Comment extends React.Component {
             return commentIsIgnored(reply)
               ? <IgnoredCommentTombstone key={reply.id} />
               : <Comment
+                  data={this.props.data}
+                  root={this.props.root}
                   setActiveReplyBox={setActiveReplyBox}
                   disableReply={disableReply}
                   activeReplyBox={activeReplyBox}

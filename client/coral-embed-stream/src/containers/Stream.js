@@ -119,7 +119,7 @@ class StreamContainer extends React.Component {
   componentDidMount() {
     this.props.data.refetch();
     this.countPoll = setInterval(() => {
-      const {asset} = this.props.data;
+      const {asset} = this.props.root;
       this.getCounts({
         asset_id: asset.id,
         limit: asset.comments.length,
@@ -219,7 +219,9 @@ const fragments = {
       me {
         status
       }
+      ...Comment_root
     }
+    ${Comment.fragments.root}
     ${Comment.fragments.comment}
   `,
 };
@@ -245,6 +247,7 @@ const mapDispatchToProps = dispatch =>
   }, dispatch);
 
 export default compose(
+  withFragments(fragments),
   connect(mapStateToProps, mapDispatchToProps),
   postComment,
   postFlag,
@@ -254,6 +257,5 @@ export default compose(
   removeCommentTag,
   ignoreUser,
   deleteAction,
-  withFragments(fragments),
 )(StreamContainer);
 

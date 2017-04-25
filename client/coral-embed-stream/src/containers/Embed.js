@@ -22,7 +22,7 @@ class EmbedContainer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.data.me && !nextProps.data.me) {
+    if(this.props.root.me && !nextProps.root.me) {
 
       // Refetch because on logout `excludeIgnored` becomes `false`.
       // TODO: logout via mutation and obsolete this?
@@ -30,13 +30,13 @@ class EmbedContainer extends React.Component {
     }
 
     const {fetchAssetSuccess} = this.props;
-    if(!isEqual(nextProps.data.asset, this.props.data.asset)) {
+    if(!isEqual(nextProps.root.asset, this.props.root.asset)) {
 
       // TODO: remove asset data from redux store.
-      fetchAssetSuccess(nextProps.data.asset);
+      fetchAssetSuccess(nextProps.root.asset);
 
       const {setCommentCountCache, commentCountCache} = this.props;
-      const {asset} = nextProps.data;
+      const {asset} = nextProps.root;
 
       if (commentCountCache === -1) {
         setCommentCountCache(asset.commentCount);
@@ -45,7 +45,7 @@ class EmbedContainer extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(!isEqual(prevProps.data.comment, this.props.data.comment)) {
+    if(!isEqual(prevProps.root.comment, this.props.root.comment)) {
 
       // Scroll to a permalinked comment if one is in the URL once the page is done rendering.
       setTimeout(() => pym.scrollParentToChildEl('coralStream'), 0);
@@ -53,7 +53,7 @@ class EmbedContainer extends React.Component {
   }
 
   render() {
-    if (!this.props.data.asset) {
+    if (!this.props.root.asset) {
       return <Spinner />;
     }
     return <Embed {...this.props} />;
@@ -83,9 +83,14 @@ export const withQuery = graphql(EMBED_QUERY, {
       excludeIgnored: Boolean(auth && auth.user && auth.user.id),
     },
   }),
-  props: ({data}) => ({
-    data,
-  })
+  props: ({data: {
+    fetchMore, loading, networkStatus, refetch, startPolling,
+    stopPolling, subscribeToMore, updateQuery, variables,
+    ...root}}) => ({
+      data: {fetchMore, loading, networkStatus, refetch, startPolling,
+        stopPolling, subscribeToMore, updateQuery, variables},
+      root,
+    }),
 });
 
 const mapStateToProps = state => ({

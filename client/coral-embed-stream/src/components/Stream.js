@@ -24,7 +24,7 @@ class Stream extends React.Component {
 
   render () {
     const {
-      data: {asset, asset: {comments}, comment, myIgnoredUsers},
+      root: {asset, asset: {comments}, comment, myIgnoredUsers},
       postItem,
       addNotification,
       postFlag,
@@ -106,6 +106,8 @@ class Stream extends React.Component {
         {
           highlightedComment
           ? <Comment
+            data={this.props.data}
+            root={this.props.root}
             setActiveReplyBox={this.setActiveReplyBox}
             activeReplyBox={this.props.activeReplyBox}
             addNotification={addNotification}
@@ -141,6 +143,8 @@ class Stream extends React.Component {
                         key={comment.id}
                       />
                     : <Comment
+                        data={this.props.data}
+                        root={this.props.root}
                         disableReply={!open}
                         setActiveReplyBox={this.setActiveReplyBox}
                         activeReplyBox={this.props.activeReplyBox}

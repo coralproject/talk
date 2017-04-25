@@ -2,7 +2,7 @@ import {compose, gql, graphql} from 'react-apollo';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import get from 'lodash/get';
-
+import withFragments from 'coral-framework/hocs/withFragments';
 import {showSignInDialog} from 'coral-framework/actions/auth';
 import RespectButton from '../components/RespectButton';
 
@@ -155,6 +155,26 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators({showSignInDialog}, dispatch);
 
 const enhance = compose(
+  withFragments({
+    root: gql`
+      fragment RespectButton_root on RootQuery {
+        me {
+          status
+        }
+      }
+    `,
+    comment: gql`
+      fragment RespectButton_comment on Comment {
+        action_summaries {
+          ... on RespectActionSummary {
+            count
+            current_user {
+              id
+            }
+          }
+        }
+      }`,
+  }),
   connect(null, mapDispatchToProps),
   withDeleteAction,
   withPostRespect,

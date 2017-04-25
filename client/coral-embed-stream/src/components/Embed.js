@@ -35,7 +35,7 @@ export default class Embed extends React.Component {
 
   render () {
     const {activeTab, logout, viewAllComments, commentId} = this.props;
-    const {asset: {totalCommentCount}} = this.props.data;
+    const {asset: {totalCommentCount}} = this.props.root;
     const {loggedIn, isAdmin, user} = this.props.auth;
 
     const userBox = <UserBox user={user} logout={logout} changeTab={this.changeTab}/>;
@@ -60,7 +60,7 @@ export default class Embed extends React.Component {
           }
           <TabContent show={activeTab === 'stream'}>
             { loggedIn ? userBox : null }
-            <Stream data={this.props.data} />
+            <Stream data={this.props.data} root={this.props.root} />
           </TabContent>
           <TabContent show={activeTab === 'profile'}>
             <ProfileContainer />
