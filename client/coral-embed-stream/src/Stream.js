@@ -15,6 +15,9 @@ class Stream extends React.Component {
       id: PropTypes.string
     }),
 
+    charCountEnable: PropTypes.bool.isRequired,
+    maxCharCount: PropTypes.number,
+
     // dispatch action to add a tag to a comment
     addCommentTag: PropTypes.func,
 
@@ -52,6 +55,8 @@ class Stream extends React.Component {
       pluginProps,
       ignoreUser,
       ignoredUsers,
+      charCountEnable,
+      maxCharCount,
     } = this.props;
     const commentIsIgnored = (comment) => ignoredUsers && ignoredUsers.includes(comment.user.id);
     return (
@@ -84,6 +89,8 @@ class Stream extends React.Component {
                   key={comment.id}
                   reactKey={comment.id}
                   comment={comment}
+                  maxCharCount={maxCharCount}
+                  charCountEnable={charCountEnable}
                   pluginProps={pluginProps}
                 />
           )
