@@ -25,7 +25,7 @@ const Comment = ({actions = [], comment, ...props}) => {
   const flagActions = comment.actions && comment.actions.filter(a => a.__typename === 'FlagAction');
 
   return (
-    <li tabIndex={props.index} className={`mdl-card ${props.selected ? 'mdl-shadow--8dp' : 'mdl-shadow--2dp'} ${styles.Comment} ${styles.listItem}`}>
+    <li tabIndex={props.index} className={`mdl-card ${props.selected ?  'mdl-shadow--16dp' : 'mdl-shadow--2dp'} ${styles.Comment} ${styles.listItem} ${props.selected ? styles.selected : ''}`}>
       <div className={styles.container}>
         <div className={styles.itemHeader}>
           <div className={styles.author}>
