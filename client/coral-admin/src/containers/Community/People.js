@@ -28,8 +28,8 @@ const tableHeaders = [
   }
 ];
 
-const People = ({isFetching, commenters, searchValue, onSearchChange, ...props}) => {
-  const hasResults = !isFetching && !!commenters.length;
+const People = ({commenters, searchValue, onSearchChange, ...props}) => {
+  const hasResults = !!commenters.length;
   return (
     <div className={styles.container}>
       <div className={styles.leftColumn}>
