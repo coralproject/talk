@@ -2,7 +2,8 @@
   white-space: normal;
   display: block;
   position: absolute;
-  width: 98%;
+  max-width: 98%;
+  min-width: 50%;
   border: solid 1px #999;
   box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.3);
   box-sizing: border-box;
@@ -10,7 +11,7 @@
   border-radius: 3px;
   padding: 20px 10px;
   z-index: 300;
-  left: 1%;
+  right: 1%;
 }
 
 .popupMenu:before{
