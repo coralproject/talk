@@ -418,3 +418,8 @@ span {
 .loadMore:hover {
   background-color: #4399FF;
 }
+
+.tabIcon {
+  position: relative;
+  top: 7px;
+}

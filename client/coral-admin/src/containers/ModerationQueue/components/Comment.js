@@ -23,6 +23,12 @@ const Comment = ({actions = [], comment, ...props}) => {
   const linkText = links ? links.map(link => link.raw) : [];
   const flagActionSummaries = getActionSummary('FlagActionSummary', comment);
   const flagActions = comment.actions && comment.actions.filter(a => a.__typename === 'FlagAction');
+  let commentType = '';
+  if (comment.status === 'PREMOD') {
+    commentType = 'premod';
+  } else if (flagActions && flagActions.length) {
+    commentType = 'flagged';
+  }
 
   return (
     <li tabIndex={props.index} className={`mdl-card ${props.selected ?  'mdl-shadow--16dp' : 'mdl-shadow--2dp'} ${styles.Comment} ${styles.listItem} ${props.selected ? styles.selected : ''}`}>
@@ -36,7 +42,7 @@ const Comment = ({actions = [], comment, ...props}) => {
               {timeago().format(comment.created_at || (Date.now() - props.index * 60 * 1000), lang.getLocale().replace('-', '_'))}
             </span>
             <BanUserButton user={comment.user} onClick={() => props.showBanUserDialog(comment.user, comment.id, comment.status !== 'REJECTED')} />
-            <CommentType type={props.commentType} />
+            <CommentType type={commentType} />
           </div>
           {comment.user.status === 'banned' ?
             <span className={styles.banned}>
@@ -64,6 +70,7 @@ const Comment = ({actions = [], comment, ...props}) => {
                 <ActionButton key={i}
                               type={action}
                               user={comment.user}
+                              status={comment.status}
                               acceptComment={() => props.acceptComment({commentId: comment.id})}
                               rejectComment={() => props.rejectComment({commentId: comment.id})}
                 />

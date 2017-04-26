@@ -1,6 +1,13 @@
 #import "../fragments/commentView.graphql"
 
 query ModQueue ($asset_id: ID, $sort: SORT_ORDER) {
+    all: comments(query: {
+      statuses: [NONE, PREMOD, ACCEPTED, REJECTED],
+      asset_id: $asset_id,
+      sort: $sort
+    }) {
+      ...commentView
+    }
     premod: comments(query: {
         statuses: [PREMOD],
         asset_id: $asset_id,
@@ -28,6 +35,9 @@ query ModQueue ($asset_id: ID, $sort: SORT_ORDER) {
       title
       url
     }
+    allCount: commentCount(query: {
+      asset_id: $asset_id
+    })
     premodCount: commentCount(query: {
       statuses: [PREMOD],
       asset_id: $asset_id
