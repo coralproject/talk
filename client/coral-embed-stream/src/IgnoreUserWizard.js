@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import styles from './IgnoreUserWizard.css';
+import styles from './Comment.css';
 import {Button} from 'coral-ui';
 
 // Guides the user through ignoring another user, including confirming their decision
@@ -58,7 +58,7 @@ export class IgnoreUserWizard extends React.Component {
     const {step} = this.state;
     const elForThisStep = elsForStep[step - 1];
     return (
-      <div className={styles.IgnoreUserWizard}>
+      <div className={styles.Wizard}>
         { elForThisStep }
       </div>
     );

@@ -23,6 +23,8 @@ import Slot from 'coral-framework/components/Slot';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import {TopRightMenu} from './TopRightMenu';
 import {getActionSummary, getTotalActionCount, iPerformedThisAction} from 'coral-framework/utils';
+import {Button} from 'coral-ui';
+import classnames from 'classnames';
 
 import styles from './Comment.css';
 
@@ -161,6 +163,55 @@ class Comment extends React.Component {
       tag: BEST_TAG,
     }), () => 'Failed to remove best comment tag');
 
+    class PopoverMenu extends React.Component {
+      static propTypes = {
+        children: PropTypes.node,
+        Popover: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+        openClassName: PropTypes.string,
+      }
+      constructor(props) {
+        super(props);
+        this.toggle = this.toggle.bind(this);
+        this.close = this.close.bind(this);
+        this.state = {
+          isOpen: false
+        };
+      }
+      toggle() {
+        this.setState({isOpen: ! this.state.isOpen});
+      }
+      close() {
+        this.setState({isOpen: false});
+      }
+      render() {
+        const {isOpen} = this.state;
+        const {children, Popover, openClassName} = this.props;
+        return (
+          <span className={classnames({[openClassName]: isOpen})}>
+            <span onClick={this.toggle}>
+              { children }
+            </span>
+            <span>
+              { isOpen ? <Popover close={this.close} /> : null }
+            </span>
+          </span>
+        );
+      }
+    }
+
+    const DeleteCommentConfirmation = ({cancel, deleteComment}) => {
+      return (
+        <div className={classnames(styles.popover, styles.Wizard)}>
+          <header>Delete a comment</header>
+          <p>Are you sure you want to delete that comment</p>
+          <div className={styles.textAlignRight}>
+            <Button cStyle='cancel' onClick={cancel}>Cancel</Button>
+            <Button onClick={() => deleteComment()}>Delete comment</Button>
+          </div>
+        </div>
+      );
+    };
+
     return (
       <div
         className={commentClass}
@@ -180,14 +231,30 @@ class Comment extends React.Component {
           <PubDate created_at={comment.created_at} />
           <Slot fill="commentInfoBar" comment={comment} commentId={comment.id} inline/>
 
-          { (currentUser && (comment.user.id !== currentUser.id))
-            ? <span className={styles.topRightMenu}>
-                <TopRightMenu
-                  comment={comment}
-                  ignoreUser={ignoreUser}
-                  addNotification={addNotification} />
-              </span>
-            : null
+          { (currentUser &&
+              (comment.user.id === currentUser.id))
+
+              /* User can edit/delete their own comment for a short window after posting */
+              ? <span className={classnames(styles.topRight)}>
+                  <PopoverMenu
+                    className={styles.popoverMenu}
+                    openClassName={styles.popoverMenuOpen}
+                    Popover={ ({close}) =>
+                      <DeleteCommentConfirmation
+                        cancel={close}
+                        deleteComment={() => { /*console.log('delete comment', comment)*/ }}
+                      /> }>
+                    <a className={styles.link}>Delete</a>
+                  </PopoverMenu>
+                </span>
+
+              /* TopRightMenu allows currentUser to ignore other users' comments */
+              : <span className={classnames(styles.topRight, styles.topRightMenu)}>
+                  <TopRightMenu
+                    comment={comment}
+                    ignoreUser={ignoreUser}
+                    addNotification={addNotification} />
+                </span>
           }
 
           <Content body={comment.body} />
