@@ -36,6 +36,7 @@
     "modqueue": {
       "likes": "likes",
       "all": "all",
+      "accepted": "accepted",
       "premod": "pre-mod",
       "rejected": "rejected",
       "flagged": "flagged",
@@ -225,6 +226,8 @@
       "loading": "Cargando resultados"
     },
     "modqueue": {
+      "all": "todos",
+      "accepted": "accepted",
       "likes": "gustos",
       "premod": "pre-mod",
       "rejected": "rechazado",
