@@ -79,6 +79,8 @@
       "copy": "Copy to Clipboard"
     },
     "configure": {
+      "sign-out": "Sign Out",
+      "shortcuts": "Shortcuts",
       "closed-stream-settings": "Closed Stream Message",
       "open-stream-configuration": "This comment stream is currently open. By closing this comment stream, no new comments may be submitted and all previous comments will still be displayed.",
       "close-stream-configuration": "This comment stream is currently closed. By opening this comment stream, new comments may be submitted and displayed",
@@ -257,6 +259,8 @@
       "username_flags": "marcas para este nombre de usuario"
     },
     "configure": {
+      "sign-out": "Desconectar",
+      "shortcuts": "Atajos",
       "closed-stream-settings": "Mensaje a enviar cuando los comentarios están cerrados en el artículo",
       "open-stream-configuration": "Este hilo de comentarios esta abierto. Al cerrarlo, ningún nuevo comentario será publicado y todos los comentarios anteriores serán mostrados.",
       "close-stream-configuration": "Este hilo de comentario está en este momento cerrado. Al abrirlo, nuevos comentarios serán publicaods y mostrados.",
