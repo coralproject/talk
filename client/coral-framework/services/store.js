@@ -24,14 +24,22 @@ if (window.devToolsExtension) {
   middlewares.push(window.devToolsExtension());
 }
 
-const store = createStore(
-  combineReducers({
-    ...mainReducer,
-    apollo: client.reducer()
-  }),
+let storeReducers = {
+  ...mainReducer,
+  apollo: client.reducer()
+};
+
+export const store = createStore(
+  combineReducers(storeReducers),
   {},
   compose(...middlewares)
 );
 
 export default store;
+
+export function injectReducers(reducers) {
+  storeReducers = {...storeReducers, ...reducers};
+  store.replaceReducer(combineReducers(storeReducers));
+}
+
 window.coralStore = store;
