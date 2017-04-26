@@ -4,7 +4,6 @@ import translations from 'coral-admin/src/translations.json';
 
 import styles from './Community.css';
 import Table from './Table';
-import Loading from './Loading';
 import {Pager, Icon} from 'coral-ui';
 import EmptyCard from '../../components/EmptyCard';
 
@@ -47,7 +46,6 @@ const People = ({isFetching, commenters, searchValue, onSearchChange, ...props})
         </div>
       </div>
       <div className={styles.mainContent}>
-        { isFetching && (searchValue === null) && <Loading /> }
         {
           hasResults
           ? <Table
