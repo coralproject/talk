@@ -5,6 +5,10 @@ module.exports = new GraphQLScalarType({
   name: 'Date',
   description: 'Date represented as an ISO8601 string',
   serialize(value) {
+    if (typeof value === 'string') {
+      return value;
+    }
+
     return value.toISOString();
   },
   parseValue(value) {
