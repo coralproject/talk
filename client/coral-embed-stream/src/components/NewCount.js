@@ -7,9 +7,9 @@ const onLoadMoreClick = ({loadMore, commentCount, firstCommentDate, assetId, set
   e.preventDefault();
   setCommentCountCache(commentCount);
   loadMore({
+    asset_id: assetId,
     limit: 500,
     cursor: firstCommentDate,
-    assetId,
     sort: 'CHRONOLOGICAL'
   }, true);
 };
