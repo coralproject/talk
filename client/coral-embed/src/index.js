@@ -57,6 +57,10 @@ function configurePymParent(pymParent) {
 
   window.document.body.appendChild(snackbar);
 
+  // Workaround: IOS Safari ignores `width` but respects `min-width` value.
+  pymParent.el.firstChild.style.width = '1px';
+  pymParent.el.firstChild.style.minWidth = '100%';
+
   // Resize parent iframe height when child height changes
   pymParent.onMessage('height', function(height) {
     if (height !== cachedHeight) {

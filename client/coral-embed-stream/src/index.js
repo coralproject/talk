@@ -3,9 +3,12 @@ import {render} from 'react-dom';
 import {ApolloProvider} from 'react-apollo';
 
 import {client} from 'coral-framework/services/client';
-import localStore from 'coral-framework/services/store';
 
+import reducers from './reducers';
+import localStore, {injectReducers} from 'coral-framework/services/store';
 import AppRouter from './AppRouter';
+
+injectReducers(reducers);
 
 const store = (window.opener && window.opener.coralStore) ? window.opener.coralStore : localStore;
 

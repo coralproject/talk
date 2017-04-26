@@ -12,8 +12,8 @@ const lang = new I18n(translations);
 class RespectButton extends Component {
 
   handleClick = () => {
-    const {postRespect, showSignInDialog, deleteAction, commentId} = this.props;
-    const {me, comment} = this.props.data;
+    const {postRespect, showSignInDialog, deleteAction} = this.props;
+    const {root: {me}, comment} = this.props;
 
     const myRespectActionSummary = getMyActionSummary('RespectActionSummary', comment);
 
@@ -29,17 +29,17 @@ class RespectButton extends Component {
     }
 
     if (myRespectActionSummary) {
-      deleteAction(myRespectActionSummary.current_user.id);
+      deleteAction(myRespectActionSummary.current_user.id, comment.id);
     } else {
       postRespect({
-        item_id: commentId,
+        item_id: comment.id,
         item_type: 'COMMENTS'
       });
     }
   }
 
   render() {
-    const {comment} = this.props.data;
+    const {comment} = this.props;
 
     if (!comment) {
       return null;

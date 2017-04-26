@@ -179,11 +179,11 @@ anymatch@^1.3.0:
     arrify "^1.0.0"
     micromatch "^2.1.5"
 
-apollo-client@^1.0.0, apollo-client@^1.0.0-rc.9:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/apollo-client/-/apollo-client-1.0.2.tgz#4355bd49d53a1489bc91d9f56d5b3d0ffe33fb3c"
+apollo-client@^1.0.2, apollo-client@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/apollo-client/-/apollo-client-1.0.4.tgz#af75db8cdd27e08a835ddfb39807849e178540f9"
   dependencies:
-    graphql "^0.9.1"
+    graphql "^0.9.3"
     graphql-anywhere "^3.0.1"
     graphql-tag "^2.0.0"
     redux "^3.4.0"
@@ -2948,6 +2948,18 @@ fbjs@^0.8.1, fbjs@^0.8.4:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.9"
 
+fbjs@^0.8.9:
+  version "0.8.12"
+  resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.12.tgz#10b5d92f76d45575fd63a217d4ea02bea2f8ed04"
+  dependencies:
+    core-js "^1.0.0"
+    isomorphic-fetch "^2.1.1"
+    loose-envify "^1.0.0"
+    object-assign "^4.1.0"
+    promise "^7.1.1"
+    setimmediate "^1.0.5"
+    ua-parser-js "^0.7.9"
+
 fd-slicer@~1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/fd-slicer/-/fd-slicer-1.0.1.tgz#8b5bcbd9ec327c5041bf9ab023fd6750f1177e65"
@@ -3513,10 +3525,6 @@ graphql-tag@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-1.2.3.tgz#74c62443fbf3e693647426d7359f7e3e6ce7dace"
 
-graphql-tag@^1.3.1:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-1.3.2.tgz#7abb3a8fd9f3415d07163314ed237061c785b759"
-
 graphql-tag@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.0.0.tgz#f3efe3b4d64f33bfe8479ae06a461c9d72f2a6fe"
@@ -3543,9 +3551,9 @@ graphql@^0.8.2:
   dependencies:
     iterall "1.0.2"
 
-graphql@^0.9.1:
-  version "0.9.2"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.9.2.tgz#2cb5c635de13f790a77c5879649cb401b1589386"
+graphql@^0.9.3:
+  version "0.9.3"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.9.3.tgz#71fc0fa331bffb9c20678485861cfb370803118e"
   dependencies:
     iterall "1.0.3"
 
@@ -6366,6 +6374,12 @@ promise@^7.0.1, promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
+prop-types@^15.5.8:
+  version "15.5.8"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.8.tgz#6b7b2e141083be38c8595aa51fc55775c7199394"
+  dependencies:
+    fbjs "^0.8.9"
+
 protocols@^1.1.0, protocols@^1.4.0:
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/protocols/-/protocols-1.4.3.tgz#635b1c0785f0b389e8a012df1b1afffda9608b76"
@@ -6613,13 +6627,13 @@ react-addons-test-utils@^15.4.2:
     fbjs "^0.8.4"
     object-assign "^4.1.0"
 
-react-apollo@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/react-apollo/-/react-apollo-1.0.0.tgz#7fcc14adcc7aa4ca4d9e04ddedf50b8fb74daa91"
+react-apollo@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-apollo/-/react-apollo-1.1.0.tgz#0c5027da72420919b62083e4c473cf406959892c"
   dependencies:
-    apollo-client "^1.0.0-rc.9"
+    apollo-client "^1.0.2"
     graphql-anywhere "^3.0.0"
-    graphql-tag "^1.3.1"
+    graphql-tag "^2.0.0"
     hoist-non-react-statics "^1.2.0"
     invariant "^2.2.1"
     lodash.flatten "^4.2.0"
