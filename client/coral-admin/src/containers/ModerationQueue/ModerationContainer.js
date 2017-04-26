@@ -10,7 +10,7 @@ import {banUser, setCommentStatus} from '../../graphql/mutations';
 
 import {fetchSettings} from 'actions/settings';
 import {updateAssets} from 'actions/assets';
-import {toggleModal, singleView, showBanUserDialog, hideBanUserDialog} from 'actions/moderation';
+import {toggleModal, singleView, showBanUserDialog, hideBanUserDialog, hideShortcutsNote} from 'actions/moderation';
 
 import {Spinner} from 'coral-ui';
 import BanUserDialog from '../../components/BanUserDialog';
@@ -135,6 +135,9 @@ class ModerationContainer extends Component {
     const comments = data[activeTab];
     let activeTabCount;
     switch(activeTab) {
+    case 'all':
+      activeTabCount = data.allCount;
+      break;
     case 'premod':
       activeTabCount = data.premodCount;
       break;
@@ -151,6 +154,7 @@ class ModerationContainer extends Component {
         <ModerationHeader asset={asset} />
         <ModerationMenu
           asset={asset}
+          allCount={data.allCount}
           premodCount={data.premodCount}
           rejectedCount={data.rejectedCount}
           flaggedCount={data.flaggedCount}
@@ -183,6 +187,8 @@ class ModerationContainer extends Component {
           rejectComment={props.rejectComment}
         />
       <ModerationKeysModal
+          hideShortcutsNote={props.hideShortcutsNote}
+          shortcutsNoteVisible={moderation.shortcutsNoteVisible}
           open={moderation.modalOpen}
           onClose={onClose}/>
       </div>
@@ -204,6 +210,7 @@ const mapDispatchToProps = dispatch => ({
   fetchSettings: () => dispatch(fetchSettings()),
   showBanUserDialog: (user, commentId, showRejectedNote) => dispatch(showBanUserDialog(user, commentId, showRejectedNote)),
   hideBanUserDialog: () => dispatch(hideBanUserDialog(false)),
+  hideShortcutsNote: () => dispatch(hideShortcutsNote()),
 });
 
 export default compose(

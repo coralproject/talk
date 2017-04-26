@@ -18,8 +18,8 @@ import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
 import FlagComment from 'coral-plugin-flags/FlagComment';
 import LikeButton from 'coral-plugin-likes/LikeButton';
 import {BestButton, IfUserCanModifyBest, BEST_TAG, commentIsBest, BestIndicator} from 'coral-plugin-best/BestButton';
-import LoadMore from 'coral-embed-stream/src/LoadMore';
 import Slot from 'coral-framework/components/Slot';
+import LoadMore from './LoadMore';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import {TopRightMenu} from './TopRightMenu';
 import {getActionSummary, getTotalActionCount, iPerformedThisAction} from 'coral-framework/utils';
@@ -64,6 +64,8 @@ class Comment extends React.Component {
     currentUser: PropTypes.shape({
       id: PropTypes.string.isRequired
     }),
+    charCountEnable: PropTypes.bool.isRequired,
+    maxCharCount: PropTypes.number,
     comment: PropTypes.shape({
       depth: PropTypes.number,
       action_summaries: PropTypes.array.isRequired,
@@ -121,6 +123,8 @@ class Comment extends React.Component {
       ignoreUser,
       disableReply,
       commentIsIgnored,
+      maxCharCount,
+      charCountEnable,
     } = this.props;
 
     const likeSummary = getActionSummary('LikeActionSummary', comment);
@@ -174,8 +178,14 @@ class Comment extends React.Component {
             ? <TagLabel><BestIndicator /></TagLabel>
           : null }
           <PubDate created_at={comment.created_at} />
-          <Slot fill="commentInfoBar" comment={comment} commentId={comment.id} inline/>
-
+          <Slot
+            fill="commentInfoBar"
+            data={this.props.data}
+            root={this.props.root}
+            comment={comment}
+            commentId={comment.id}
+            inline
+          />
           { (currentUser && (comment.user.id !== currentUser.id))
             ? <span className={styles.topRightMenu}>
                 <TopRightMenu
@@ -217,7 +227,14 @@ class Comment extends React.Component {
                   removeBest={removeBestTag} />
               </IfUserCanModifyBest>
             </ActionButton>
-            <Slot fill="commentDetail" comment={comment} commentId={comment.id} inline/>
+            <Slot
+              fill="commentDetail"
+              data={this.props.data}
+              root={this.props.root}
+              comment={comment}
+              commentId={comment.id}
+              inline
+            />
           </div>
           <div className="commentActionsRight comment__action-container">
             <ActionButton>
@@ -243,6 +260,8 @@ class Comment extends React.Component {
               commentPostedHandler={() => {
                 setActiveReplyBox('');
               }}
+              charCountEnable={charCountEnable}
+              maxCharCount={maxCharCount}
               setActiveReplyBox={setActiveReplyBox}
               parentId={parentId || comment.id}
               addNotification={addNotification}
@@ -257,6 +276,8 @@ class Comment extends React.Component {
             return commentIsIgnored(reply)
               ? <IgnoredCommentTombstone key={reply.id} />
               : <Comment
+                  data={this.props.data}
+                  root={this.props.root}
                   setActiveReplyBox={setActiveReplyBox}
                   disableReply={disableReply}
                   activeReplyBox={activeReplyBox}
@@ -273,6 +294,8 @@ class Comment extends React.Component {
                   addCommentTag={addCommentTag}
                   removeCommentTag={removeCommentTag}
                   ignoreUser={ignoreUser}
+                  charCountEnable={charCountEnable}
+                  maxCharCount={maxCharCount}
                   showSignInDialog={showSignInDialog}
                   reactKey={reply.id}
                   key={reply.id}
