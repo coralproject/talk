@@ -32,7 +32,7 @@ const ModerationMenu = (
             to={getPath('accepted')}
             className={`mdl-tabs__tab ${styles.tab}`}
             activeClassName={styles.active}>
-            <Icon name='check' className={styles.tabIcon} /> {lang.t('modqueue.accepted')} <CommentCount count={acceptedCount} />
+            <Icon name='check' className={styles.tabIcon} /> {lang.t('modqueue.approved')} <CommentCount count={acceptedCount} />
           </Link>
           <Link
             to={getPath('premod')}
