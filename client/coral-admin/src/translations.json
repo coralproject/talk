@@ -227,7 +227,7 @@
     },
     "modqueue": {
       "all": "todos",
-      "approved": "approved",
+      "approved": "aprobado",
       "likes": "gustos",
       "premod": "pre-mod",
       "rejected": "rechazado",
