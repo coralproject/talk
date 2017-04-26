@@ -1,7 +1,7 @@
 import React from 'react';
 import {Router, Route, browserHistory} from 'react-router';
 
-import Embed from './Embed';
+import Embed from './containers/Embed';
 import SignInContainer from 'coral-sign-in/containers/SignInContainer';
 
 const routes = (
