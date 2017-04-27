@@ -8,6 +8,7 @@ const initialState = Map({
   user: null,
   showSignInDialog: false,
   showCreateUsernameDialog: false,
+  checkedInitialLogin: false,
   view: 'SIGNIN',
   error: '',
   passwordRequestSuccess: null,
@@ -71,10 +72,12 @@ export default function auth (state = initialState, action) {
       .set('isLoading', true);
   case actions.CHECK_LOGIN_FAILURE:
     return state
+      .set('checkedInitialLogin', true)
       .set('loggedIn', false)
       .set('user', null);
   case actions.CHECK_LOGIN_SUCCESS:
     return state
+      .set('checkedInitialLogin', true)
       .set('loggedIn', true)
       .set('isAdmin', action.isAdmin)
       .set('user', purge(action.user));
@@ -114,7 +117,11 @@ export default function auth (state = initialState, action) {
       .set('isLoading', false)
       .set('successSignUp', true);
   case actions.LOGOUT_SUCCESS:
-    return initialState;
+    return state
+      .set('user', null)
+      .set('isLoading', false)
+      .set('loggedIn', false)
+      .set('isAdmin', false);
   case actions.INVALID_FORM:
     return state
       .set('error', action.error);
