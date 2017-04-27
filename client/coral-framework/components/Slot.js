@@ -1,20 +1,16 @@
-import React, {Component} from 'react';
-import {getSlotElements} from 'coral-framework/helpers/plugins';
+import React from 'react';
+import cn from 'classnames';
 import styles from './Slot.css';
+import {getSlotElements} from 'coral-framework/helpers/plugins';
 
-class Slot extends Component {
-  render() {
-    const {fill, inline = false, ...rest} = this.props;
-    return (
-      <div className={inline ? styles.inline : ''}>
-        {getSlotElements(fill, rest)}
-      </div>
-    );
-  }
+export default function Slot ({fill, inline = false, ...rest}) {
+  return (
+    <div className={cn({[styles.inline]: inline})}>
+      {getSlotElements(fill, rest)}
+    </div>
+  );
 }
 
 Slot.propTypes = {
   fill: React.PropTypes.string
 };
-
-export default Slot;
