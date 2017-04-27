@@ -9,6 +9,32 @@ const fm = new IntrospectionFragmentMatcher({
       types: [
         {
           kind: 'INTERFACE',
+          name: 'UserError',
+          possibleTypes: [
+            {name: 'GenericUserError'},
+            {name: 'ValidationUserError'}
+          ]
+        },
+        {
+          kind: 'INTERFACE',
+          name: 'Response',
+          possibleTypes: [
+            {name: 'CreateCommentResponse'},
+            {name: 'CreateLikeResponse'},
+            {name: 'CreateFlagResponse'},
+            {name: 'CreateDontAgreeResponse'},
+            {name: 'DeleteActionResponse'},
+            {name: 'SetUserStatusResponse'},
+            {name: 'SuspendUserResponse'},
+            {name: 'SetCommentStatusResponse'},
+            {name: 'AddCommentTagResponse'},
+            {name: 'RemoveCommentTagResponse'},
+            {name: 'IgnoreUserResponse'},
+            {name: 'StopIgnoringUserResponse'}
+          ]
+        },
+        {
+          kind: 'INTERFACE',
           name: 'Action',
           possibleTypes: [
             {name: 'FlagAction'},
@@ -24,6 +50,15 @@ const fm = new IntrospectionFragmentMatcher({
             {name: 'LikeActionSummary'},
             {name: 'DontAgreeActionSummary'}
           ],
+        },
+        {
+          kind: 'INTERFACE',
+          name: 'AssetActionSummary',
+          possibleTypes: [
+            {name: 'DefaultAssetActionSummary'},
+            {name: 'FlagAssetActionSummary'},
+            {name: 'LikeAssetActionSummary'}
+          ]
         }
       ],
     },

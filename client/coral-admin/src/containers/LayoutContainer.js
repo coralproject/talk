@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Layout from '../components/ui/Layout';
 import {checkLogin, handleLogin, logout, requestPasswordReset} from '../actions/auth';
+import {toggleModal as toggleShortcutModal} from '../actions/moderation';
 import {fetchConfig} from '../actions/config';
 import {FullLoading} from '../components/FullLoading';
 import AdminLogin from '../components/AdminLogin';
@@ -23,7 +24,7 @@ class LayoutContainer extends Component {
       passwordRequestSuccess
     } = this.props.auth;
 
-    const {handleLogout, TALK_RECAPTCHA_PUBLIC} = this.props;
+    const {handleLogout, toggleShortcutModal, TALK_RECAPTCHA_PUBLIC} = this.props;
     if (loadingUser) { return <FullLoading />; }
     if (!isAdmin) {
       return <AdminLogin
@@ -34,7 +35,9 @@ class LayoutContainer extends Component {
         recaptchaPublic={TALK_RECAPTCHA_PUBLIC}
         errorMessage={loginError} />;
     }
-    if (isAdmin && loggedIn) { return <Layout handleLogout={handleLogout} {...this.props} />; }
+    if (isAdmin && loggedIn) {
+      return <Layout handleLogout={handleLogout} toggleShortcutModal={toggleShortcutModal} {...this.props} />;
+    }
     return <FullLoading />;
   }
 }
@@ -49,6 +52,7 @@ const mapDispatchToProps = dispatch => ({
   fetchConfig: () => dispatch(fetchConfig()),
   handleLogin: (username, password, recaptchaResponse) => dispatch(handleLogin(username, password, recaptchaResponse)),
   requestPasswordReset: email => dispatch(requestPasswordReset(email)),
+  toggleShortcutModal: toggle => dispatch(toggleShortcutModal(toggle)),
   handleLogout: () => dispatch(logout())
 });
 
