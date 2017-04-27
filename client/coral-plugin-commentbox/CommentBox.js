@@ -5,7 +5,6 @@ import {I18n} from '../coral-framework';
 import translations from './translations.json';
 import Slot from 'coral-framework/components/Slot';
 
-
 const name = 'coral-plugin-commentbox';
 
 class CommentBox extends React.Component {

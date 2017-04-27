@@ -4,7 +4,6 @@ import {Button} from 'coral-ui';
 import LoadMore from './LoadMore';
 import NewCount from './NewCount';
 import Comment from '../containers/Comment';
-import Slot from 'coral-framework/components/Slot';
 import InfoBox from 'coral-plugin-infobox/InfoBox';
 import {ModerationLink} from 'coral-plugin-moderation';
 import CommentBox from 'coral-plugin-commentbox/CommentBox';
