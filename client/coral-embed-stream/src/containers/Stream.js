@@ -118,7 +118,9 @@ class StreamContainer extends React.Component {
   };
 
   componentDidMount() {
-    this.props.data.refetch();
+    if (this.props.previousTab) {
+      this.props.data.refetch();
+    }
     this.countPoll = setInterval(() => {
       const {asset} = this.props.root;
       this.getCounts({
@@ -236,6 +238,7 @@ const mapStateToProps = state => ({
   assetId: state.stream.assetId,
   assetUrl: state.stream.assetUrl,
   activeTab: state.embed.activeTab,
+  previousTab: state.embed.previousTab,
 });
 
 const mapDispatchToProps = dispatch =>
