@@ -106,7 +106,7 @@ class ErrAuthentication extends APIError {
 
 // ErrContainsProfanity is returned in the event that the middleware detects
 // profanity/wordlisted words in the payload.
-const ErrContainsProfanity = new APIError('Suspected profanity. If you think this in error, please let us know!', {
+const ErrContainsProfanity = new APIError('This username contains elements which are not permitted in our community. If you think this is in error, please contact us or try again.', {
   translation_key: 'PROFANITY_ERROR',
   status: 400
 });
