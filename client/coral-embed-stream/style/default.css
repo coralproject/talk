@@ -352,17 +352,6 @@ button.comment__action-button[disabled],
 
 /* Flag Styles */
 
-.coral-plugin-flags-container {
-  position: relative;
-}
-
-.coral-plugin-flags-popup span {
-  min-width: 280px;
-  bottom: 36px;
-  position: absolute;
-  right: 10px;
-}
-
 .coral-plugin-flags-popup-form {
   margin-bottom: 10px;
 }
@@ -399,6 +388,7 @@ button.comment__action-button[disabled],
   margin-top: 5px;
   width: 75%;
   font-size: 16px;
+  border: 1px solid #ccc;
 }
 
 /* Close comments */
