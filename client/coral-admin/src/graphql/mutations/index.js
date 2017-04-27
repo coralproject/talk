@@ -64,7 +64,7 @@ export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
             } else {
               comment.status = 'ACCEPTED';
               acceptedCount++;
-              accepted = [comment, ...oldData.accepted]
+              accepted = [comment, ...oldData.accepted];
             }
 
             const premod = oldData.premod.filter(c => c.id !== commentId);
