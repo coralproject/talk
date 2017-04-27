@@ -44,7 +44,7 @@ function getComponentFragments(components) {
  * Returns an object that can be used to compose fragments or queries.
  *
  * Example:
- * const pluginFragments = getSlotsFragments(['commentInfoBar', 'commentDetail']);
+ * const pluginFragments = getSlotsFragments(['commentInfoBar', 'commentActions']);
  * const rootFragment = gql`
  *   fragment Comment_root on RootQuery {
  +     ${pluginFragments.spreads('root')}
