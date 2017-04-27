@@ -10,7 +10,7 @@ import {Link} from 'react-router';
 const lang = new I18n(translations);
 
 const ModerationMenu = (
-  {asset, allCount, premodCount, rejectedCount, flaggedCount, selectSort, sort}
+  {asset, allCount, acceptedCount, premodCount, rejectedCount, flaggedCount, selectSort, sort}
 ) => {
 
   function getPath (type) {
@@ -27,6 +27,12 @@ const ModerationMenu = (
             className={`mdl-tabs__tab ${styles.tab}`}
             activeClassName={styles.active}>
             <Icon name='question_answer' className={styles.tabIcon} /> {lang.t('modqueue.all')} <CommentCount count={allCount} />
+          </Link>
+          <Link
+            to={getPath('accepted')}
+            className={`mdl-tabs__tab ${styles.tab}`}
+            activeClassName={styles.active}>
+            <Icon name='check' className={styles.tabIcon} /> {lang.t('modqueue.approved')} <CommentCount count={acceptedCount} />
           </Link>
           <Link
             to={getPath('premod')}
