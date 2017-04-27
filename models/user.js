@@ -123,7 +123,13 @@ const UserSchema = new mongoose.Schema({
 
     // user id of another user
     type: String,
-  }]
+  }],
+
+  // Additional metadata stored on the field.
+  metadata: {
+    default: {},
+    type: Object
+  }
 }, {
 
   // This will ensure that we have proper timestamps available on this model.

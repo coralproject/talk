@@ -10,9 +10,22 @@ class ReplyBox extends Component {
   }
 
   render() {
-    const {styles, postItem, assetId, authorId, addNotification, parentId, commentPostedHandler, setActiveReplyBox} = this.props;
+    const {
+      styles,
+      postItem,
+      assetId,
+      authorId,
+      addNotification,
+      parentId,
+      commentPostedHandler,
+      setActiveReplyBox,
+      maxCharCount,
+      charCountEnable
+    } = this.props;
     return <div className={`${name}-textarea`} style={styles && styles.container}>
       <CommentBox
+        maxCharCount={maxCharCount}
+        charCountEnable={charCountEnable}
         commentPostedHandler={commentPostedHandler}
         parentId={parentId}
         cancelButtonClicked={setActiveReplyBox}
@@ -26,6 +39,8 @@ class ReplyBox extends Component {
 }
 
 ReplyBox.propTypes = {
+  charCountEnable: PropTypes.bool.isRequired,
+  maxCharCount: PropTypes.number,
   setActiveReplyBox: PropTypes.func.isRequired,
   commentPostedHandler: PropTypes.func,
   parentId: PropTypes.string,

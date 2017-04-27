@@ -16,7 +16,7 @@ const Wordlist = require('../../services/wordlist');
  * @param  {String} [status='NONE'] the status of the new comment
  * @return {Promise}              resolves to the created comment
  */
-const createComment = ({user, loaders: {Comments}}, {body, asset_id, parent_id = null, tags = []}, status = 'NONE') => {
+const createComment = ({user, loaders: {Comments}, pubsub}, {body, asset_id, parent_id = null, tags = []}, status = 'NONE') => {
 
   return CommentsService.publicCreate({
     body,
@@ -42,6 +42,12 @@ const createComment = ({user, loaders: {Comments}}, {body, asset_id, parent_id =
         Comments.parentCountByAssetID.incr(asset_id);
       }
       Comments.countByAssetID.incr(asset_id);
+
+      if (pubsub) {
+
+        // Publish the newly added comment via the subscription.
+        pubsub.publish('commentAdded', comment);
+      }
     }
 
     return comment;
@@ -175,9 +181,9 @@ const createPublicComment = (context, commentInput) => {
  * @param {String} status      the new status of the comment
  */
 
-const setCommentStatus = ({loaders: {Comments}}, {id, status}) => {
+const setCommentStatus = ({user, loaders: {Comments}}, {id, status}) => {
   return CommentsService
-    .setStatus(id, status)
+    .pushStatus(id, status, user ? user.id : null)
     .then((comment) => {
 
       // If the loaders are present, clear the caches for these values because we

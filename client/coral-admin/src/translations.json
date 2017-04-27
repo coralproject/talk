@@ -44,6 +44,10 @@
       "close": "Close",
       "actions": "Actions",
       "navigation": "Navigation",
+      "mod-faster": "Moderate faster with keyboard shortcuts",
+      "try-these": "Try these",
+      "view-more-shortcuts": "View more shortcuts",
+      "shift-key": "⇧",
       "approve": "Approve comment",
       "reject": "Reject comment",
       "nextcomment": "Go to the next comment",
@@ -75,6 +79,8 @@
       "copy": "Copy to Clipboard"
     },
     "configure": {
+      "sign-out": "Sign Out",
+      "shortcuts": "Shortcuts",
       "closed-stream-settings": "Closed Stream Message",
       "open-stream-configuration": "This comment stream is currently open. By closing this comment stream, no new comments may be submitted and all previous comments will still be displayed.",
       "close-stream-configuration": "This comment stream is currently closed. By opening this comment stream, new comments may be submitted and displayed",
@@ -226,6 +232,10 @@
       "rejected": "rechazado",
       "flagged": "marcado",
       "shortcuts": "Atajos de teclado",
+      "mod-faster": "Moderar más rápido con atajos del teclado",
+      "try-these": "Intenta estos",
+      "view-more-shortcuts": "Ver más atajos",
+      "shift-key": "⇧",
       "close": "Cerrar",
       "emptyqueue": "No se encontro ningún usuario. Están escondidos.",
       "showshortcuts": "Mostrar atajos",
@@ -249,6 +259,8 @@
       "username_flags": "marcas para este nombre de usuario"
     },
     "configure": {
+      "sign-out": "Desconectar",
+      "shortcuts": "Atajos",
       "closed-stream-settings": "Mensaje a enviar cuando los comentarios están cerrados en el artículo",
       "open-stream-configuration": "Este hilo de comentarios esta abierto. Al cerrarlo, ningún nuevo comentario será publicado y todos los comentarios anteriores serán mostrados.",
       "close-stream-configuration": "Este hilo de comentario está en este momento cerrado. Al abrirlo, nuevos comentarios serán publicaods y mostrados.",

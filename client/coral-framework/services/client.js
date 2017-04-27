@@ -1,6 +1,18 @@
 import ApolloClient, {addTypename} from 'apollo-client';
 import getNetworkInterface from './transport';
 
+// import {SubscriptionClient, addGraphQLSubscriptions} from 'subscriptions-transport-ws';
+
+// TODO: replace absolute reference with something loaded from the store/page.
+// const wsClient = new SubscriptionClient('ws://localhost:3000/api/v1/live', {
+//   reconnect: true
+// });
+// const networkInterface = addGraphQLSubscriptions(
+//   getNetworkInterface(),
+//   wsClient,
+// );
+const networkInterface = getNetworkInterface();
+
 export const client = new ApolloClient({
   connectToDevTools: true,
   queryTransformer: addTypename,
@@ -10,7 +22,7 @@ export const client = new ApolloClient({
     }
     return null;
   },
-  networkInterface: getNetworkInterface()
+  networkInterface
 });
 
 export default client;
