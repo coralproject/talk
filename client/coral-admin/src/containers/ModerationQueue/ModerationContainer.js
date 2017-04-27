@@ -138,6 +138,9 @@ class ModerationContainer extends Component {
     case 'all':
       activeTabCount = data.allCount;
       break;
+    case 'accepted':
+      activeTabCount = data.acceptedCount;
+      break;
     case 'premod':
       activeTabCount = data.premodCount;
       break;
@@ -155,6 +158,7 @@ class ModerationContainer extends Component {
         <ModerationMenu
           asset={asset}
           allCount={data.allCount}
+          acceptedCount={data.acceptedCount}
           premodCount={data.premodCount}
           rejectedCount={data.rejectedCount}
           flaggedCount={data.flaggedCount}
