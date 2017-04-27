@@ -1,5 +1,6 @@
 import React from 'react';
 const packagename = 'coral-plugin-questionbox';
+import Slot from 'coral-framework/components/Slot';
 
 const QuestionBox = ({enable, content}) =>
 <div className={`${packagename}-info ${enable ? null : 'hidden'}` }>
@@ -10,6 +11,7 @@ const QuestionBox = ({enable, content}) =>
   <div className={`${packagename}-content`}>
     {content}
   </div>
+  <Slot fill="streamQuestionArea" />
 </div>;
 
 export default QuestionBox;
