@@ -3,7 +3,7 @@ import Comment from '../components/Comment';
 import withFragments from 'coral-framework/hocs/withFragments';
 import {getSlotsFragments} from 'coral-framework/helpers/plugins';
 
-const pluginFragments = getSlotsFragments(['commentInfoBar', 'commentDetail']);
+const pluginFragments = getSlotsFragments(['commentInfoBar', 'commentActions']);
 
 export default withFragments({
   root: gql`
