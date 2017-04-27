@@ -188,7 +188,13 @@ export const fetchSignUp = (formData, redirectUri) => (dispatch) => {
       dispatch(signUpSuccess(user));
     })
     .catch(error => {
-      dispatch(signUpFailure(lang.t(`error.${error.message}`)));
+      let errorMessage = lang.t(`error.${error.message}`);
+
+      // if there is no translation defined, just show the error string
+      if (errorMessage === `error.${error.message}`) {
+        errorMessage = error.message;
+      }
+      dispatch(signUpFailure(errorMessage));
     });
 };
 
