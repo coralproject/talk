@@ -39,6 +39,9 @@ export const loadMore = (fetchMore) => ({limit, cursor, sort, tab, asset_id}) =>
   case 'all':
     statuses = null;
     break;
+  case 'accepted':
+    statuses = ['ACCEPTED'];
+    break;
   case 'premod':
     statuses = ['PREMOD'];
     break;
