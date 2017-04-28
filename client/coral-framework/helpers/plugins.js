@@ -65,10 +65,10 @@ export function getSlotsFragments(slots) {
   const fragments = getComponentFragments(components);
   return {
     spreads(key) {
-      return fragments[key] && fragments[key].spreads;
+      return (fragments[key] && fragments[key].spreads) || '';
     },
     definitions(key) {
-      return fragments[key] && fragments[key].definitions;
+      return (fragments[key] && fragments[key].definitions) || '';
     },
   };
 }
