@@ -57,7 +57,7 @@ export const postComment = graphql(POST_COMMENT, {
                   ...oldData.asset,
                   comments: oldData.asset.comments.map((oldComment) => {
                     return oldComment.id === parent_id
-                      ? {...oldComment, replies: [...oldComment.replies, comment]}
+                      ? {...oldComment, replies: [...oldComment.replies, comment], replyCount: oldComment.replyCount + 1}
                       : oldComment;
                   })
                 }
