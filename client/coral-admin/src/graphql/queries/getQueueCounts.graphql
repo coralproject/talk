@@ -1,0 +1,5 @@
+#import "../fragments/counts.graphql"
+
+query Counts ($asset_id: ID) {
+  ...counts
+}
