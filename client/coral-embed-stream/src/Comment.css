@@ -29,7 +29,8 @@
   right: 0px;
 }
 
-.topRight .popoverMenuOpen .link {
+.topRight .link.active,
+.topRight .active .link {
   padding-bottom: 0.125em;
   border-bottom: 2px solid currentColor;
 }

@@ -23,8 +23,8 @@ import Slot from 'coral-framework/components/Slot';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import {TopRightMenu} from './TopRightMenu';
 import {getActionSummary, getTotalActionCount, iPerformedThisAction} from 'coral-framework/utils';
-import {Button} from 'coral-ui';
 import classnames from 'classnames';
+import {EditableCommentContent} from './EditableCommentContent';
 
 import styles from './Comment.css';
 
@@ -39,7 +39,13 @@ class Comment extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {replyBoxVisible: false};
+    this.onClickEdit = this.onClickEdit.bind(this);
+    this.state = {
+
+      // Whether the comment should be editable (e.g. after a commenter clicking the 'Edit' button on their own comment)
+      isEditing: false,
+      replyBoxVisible: false,
+    };
   }
 
   static propTypes = {
@@ -100,6 +106,11 @@ class Comment extends React.Component {
 
     // dispatch action to ignore another user
     ignoreUser: React.PropTypes.func,
+  }
+
+  onClickEdit (e) {
+    e.preventDefault();
+    this.setState({isEditing: true});
   }
 
   render () {
@@ -163,55 +174,6 @@ class Comment extends React.Component {
       tag: BEST_TAG,
     }), () => 'Failed to remove best comment tag');
 
-    class PopoverMenu extends React.Component {
-      static propTypes = {
-        children: PropTypes.node,
-        Popover: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
-        openClassName: PropTypes.string,
-      }
-      constructor(props) {
-        super(props);
-        this.toggle = this.toggle.bind(this);
-        this.close = this.close.bind(this);
-        this.state = {
-          isOpen: false
-        };
-      }
-      toggle() {
-        this.setState({isOpen: ! this.state.isOpen});
-      }
-      close() {
-        this.setState({isOpen: false});
-      }
-      render() {
-        const {isOpen} = this.state;
-        const {children, Popover, openClassName} = this.props;
-        return (
-          <span className={classnames({[openClassName]: isOpen})}>
-            <span onClick={this.toggle}>
-              { children }
-            </span>
-            <span>
-              { isOpen ? <Popover close={this.close} /> : null }
-            </span>
-          </span>
-        );
-      }
-    }
-
-    const DeleteCommentConfirmation = ({cancel, deleteComment}) => {
-      return (
-        <div className={classnames(styles.popover, styles.Wizard)}>
-          <header>Delete a comment</header>
-          <p>Are you sure you want to delete that comment</p>
-          <div className={styles.textAlignRight}>
-            <Button cStyle='cancel' onClick={cancel}>Cancel</Button>
-            <Button onClick={() => deleteComment()}>Delete comment</Button>
-          </div>
-        </div>
-      );
-    };
-
     return (
       <div
         className={commentClass}
@@ -236,16 +198,9 @@ class Comment extends React.Component {
 
               /* User can edit/delete their own comment for a short window after posting */
               ? <span className={classnames(styles.topRight)}>
-                  <PopoverMenu
-                    className={styles.popoverMenu}
-                    openClassName={styles.popoverMenuOpen}
-                    Popover={ ({close}) =>
-                      <DeleteCommentConfirmation
-                        cancel={close}
-                        deleteComment={() => { /*console.log('delete comment', comment)*/ }}
-                      /> }>
-                    <a className={styles.link}>Delete</a>
-                  </PopoverMenu>
+                  <a
+                    className={classnames(styles.link, {[styles.active]: this.state.isEditing})}
+                    onClick={this.onClickEdit}>Edit</a>
                 </span>
 
               /* TopRightMenu allows currentUser to ignore other users' comments */
@@ -257,7 +212,19 @@ class Comment extends React.Component {
                 </span>
           }
 
-          <Content body={comment.body} />
+          { 
+            this.state.isEditing
+            ? <EditableCommentContent
+                addNotification={addNotification}
+                asset={asset}
+                comment={comment}
+                currentUser={currentUser}
+                maxCharCount={maxCharCount}
+                parentId={parentId}
+                />
+            : <Content body={comment.body} />
+          }
+          
           <div className="commentActionsLeft comment__action-container">
             <ActionButton>
               {/* TODO implmement iPerformedThisAction for the like */}

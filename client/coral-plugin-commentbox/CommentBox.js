@@ -7,6 +7,132 @@ import {connect} from 'react-redux';
 
 const name = 'coral-plugin-commentbox';
 
+/**
+ * Common UI for Creating or Editing a Comment
+ */
+export class CommentForm extends Component {
+  static propTypes = {
+
+    // Initial value for underlying comment body textarea
+    defaultValue: PropTypes.string,
+    charCountEnable: PropTypes.bool.isRequired,
+    maxCharCount: PropTypes.number,
+    cancelButtonClicked: PropTypes.func,
+
+    // Save the comment in the form.
+    // Will be passed { body: String }
+    saveComment: PropTypes.func.isRequired,
+
+    // DOM ID for form input that edits comment body
+    bodyInputId: PropTypes.string,
+
+    // screen reader label for input that edits comment body
+    bodyLabel: PropTypes.string,
+
+    // Placeholder for input that edits comment body
+    bodyPlaceholder: PropTypes.string,
+
+    // render at start of button container (useful for extra buttons)
+    buttonContainerStart: PropTypes.node,
+
+    // render inside submit button
+    submitText: PropTypes.node,
+
+    styles: PropTypes.shape({
+      textarea: PropTypes.string
+    }),
+
+    // cStyle for enabled save <coral-ui/Button>
+    saveButtonCStyle: PropTypes.string,
+
+    // return whether the save button should be enabled for the provided
+    // comment ({ body }) (for reasons other than charCount)
+    saveCommentEnabled: PropTypes.func,
+  }
+  static get defaultProps() {
+    return {
+      bodyLabel: lang.t('comment'),
+      bodyPlaceholder: lang.t('comment'),
+      submitText: lang.t('post'),
+      saveButtonCStyle: 'darkGrey',
+      saveCommentEnabled: () => true,
+    };
+  }
+  constructor(props) {
+    super(props);
+    this.onBodyChange = this.onBodyChange.bind(this);
+    this.onClickSubmit = this.onClickSubmit.bind(this);
+    this.state = {
+      body: props.defaultValue || ''
+    };
+  }
+  onBodyChange(e) {
+    this.setState({body: e.target.value});
+  }
+  onClickSubmit(e) {
+    e.preventDefault();
+    const {saveComment} = this.props;
+    const {body} = this.state;
+    saveComment({body});
+  }
+  render() {
+    const {maxCharCount, styles, saveCommentEnabled} = this.props;
+
+    const body = this.state.body;
+    const length = body.length;
+    const isNotValidLength = (length) => !length || (maxCharCount && length > maxCharCount);
+    const disablePostComment = isNotValidLength(length) || ! saveCommentEnabled({body});
+
+    return <div>
+      <div className={`${name}-container`}>
+        <label
+          htmlFor={this.props.bodyInputId}
+          className="screen-reader-text"
+          aria-hidden={true}>
+          {this.props.bodyLabel}
+        </label>
+        <textarea
+          style={styles && styles.textarea}
+          className={`${name}-textarea`}
+          value={this.state.body}
+          placeholder={this.props.bodyPlaceholder}
+          id={this.props.bodyInputId}
+          onChange={this.onBodyChange}
+          rows={3}/>
+      </div>
+      { 
+        this.props.charCountEnable && 
+        <div className={`${name}-char-count ${length > maxCharCount ? `${name}-char-max` : ''}`}>
+          {maxCharCount && `${maxCharCount - length} ${lang.t('characters-remaining')}`}
+        </div>
+      }
+      <div className={`${name}-button-container`}>
+        { this.props.buttonContainerStart }
+        {
+          typeof this.props.cancelButtonClicked === 'function' && (
+            <Button
+              cStyle='darkGrey'
+              className={`${name}-cancel-button`}
+              onClick={this.props.cancelButtonClicked}>
+              {lang.t('cancel')}
+            </Button>
+          )
+        }
+        <Button
+          cStyle={disablePostComment ? 'lightGrey' : this.props.saveButtonCStyle}
+          className={`${name}-button`}
+          onClick={this.onClickSubmit}
+          disabled={disablePostComment ? 'disabled' : ''}>
+          {this.props.submitText}
+        </Button>
+      </div>
+    </div>;
+  }
+}
+
+/**
+ * Container for posting a new Comment
+ */
 class CommentBox extends Component {
 
   constructor(props) {
@@ -14,15 +140,21 @@ class CommentBox extends Component {
 
     this.state = {
       username: '',
-      body: '',
+
+      // incremented on successful post to clear form
+      postedCount: 0,
       hooks: {
         preSubmit: [],
         postSubmit: []
       }
     };
   }
-
-  postComment = () => {
+  static get defaultProps() {
+    return {
+      updateCountCache: () => {}
+    };
+  }
+  postComment = ({body}) => {
     const {
       isReply,
       assetId,
@@ -37,7 +169,7 @@ class CommentBox extends Component {
     let comment = {
       asset_id: assetId,
       parent_id: parentId,
-      body: this.state.body,
+      body: body,
       ...this.props.commentBox
     };
 
@@ -67,7 +199,7 @@ class CommentBox extends Component {
       })
       .catch((err) => console.error(err));
 
-    this.setState({body: ''});
+    this.setState({postedCount: this.state.postedCount + 1});
   }
 
   registerHook = (hookType = '', hook = () => {}) => {
@@ -124,68 +256,39 @@ class CommentBox extends Component {
     const {styles, isReply, authorId, maxCharCount} = this.props;
     let {cancelButtonClicked} = this.props;
 
-    const length = this.state.body.length;
-    const enablePostComment = !length || (maxCharCount && length > maxCharCount);
-
     if (isReply && typeof cancelButtonClicked !== 'function') {
       console.warn('the CommentBox component should have a cancelButtonClicked callback defined if it lives in a Reply');
       cancelButtonClicked = () => {};
     }
 
     return <div>
-      <div
-        className={`${name}-container`}>
-          <label
-            htmlFor={ isReply ? 'replyText' : 'commentText'}
-            className="screen-reader-text"
-            aria-hidden={true}>
-            {isReply ? lang.t('reply') : lang.t('comment')}
-          </label>
-          <textarea
-            className={`${name}-textarea`}
-            style={styles && styles.textarea}
-            value={this.state.body}
-            placeholder={lang.t('comment')}
-            id={isReply ? 'replyText' : 'commentText'}
-            onChange={this.handleChange}
-            rows={3}/>
-        </div>
-        <div className={`${name}-char-count ${length > maxCharCount ? `${name}-char-max` : ''}`}>
-          {maxCharCount && `${maxCharCount - length} ${lang.t('characters-remaining')}`}
-        </div>
-        <div className={`${name}-button-container`}>
-          <Slot
-            fill="commentBoxDetail"
-            registerHook={this.registerHook}
-            unregisterHook={this.unregisterHook}
-            inline
-          />
-          {
-            isReply && (
-              <Button
-                cStyle='darkGrey'
-                className={`${name}-cancel-button`}
-                onClick={() => cancelButtonClicked('')}>
-                {lang.t('cancel')}
-              </Button>
-            )
-          }
-          { authorId && (
-              <Button
-                cStyle={enablePostComment ? 'lightGrey' : 'darkGrey'}
-                className={`${name}-button`}
-                onClick={this.postComment}
-                disabled={enablePostComment ? 'disabled' : ''}>
-                {lang.t('post')}
-              </Button>
-            )
-          }
-      </div>
+      <CommentForm
+        styles={styles}
+        key={this.state.postedCount}
+        defaultValue={this.props.defaultValue}
+        bodyInputId={isReply ? 'replyText' : 'commentText'}
+        bodyLabel={isReply ? lang.t('reply') : lang.t('comment')}
+        maxCharCount={maxCharCount}
+        charCountEnable={this.props.charCountEnable}
+        bodyPlaceholder={lang.t('comment')}
+        bodyInputId={isReply ? 'replyText' : 'commentText'}
+        saveComment={authorId && this.postComment}
+        buttonContainerStart={<Slot
+          fill="commentBoxDetail"
+          registerHook={this.registerHook}
+          unregisterHook={this.unregisterHook}
+          inline
+        />}
+        cancelButtonClicked={cancelButtonClicked}
+      />
     </div>;
   }
 }
 
 CommentBox.propTypes = {
+
+  // Initial value for underlying comment body textarea
+  defaultValue: PropTypes.string,
   charCountEnable: PropTypes.bool.isRequired,
   maxCharCount: PropTypes.number,
   commentPostedHandler: PropTypes.func,
@@ -196,7 +299,8 @@ CommentBox.propTypes = {
   authorId: PropTypes.string.isRequired,
   isReply: PropTypes.bool.isRequired,
   canPost: PropTypes.bool,
-  currentUser: PropTypes.object
+  currentUser: PropTypes.object,
+  updateCountCache: PropTypes.func,
 };
 
 const mapStateToProps = ({commentBox}) => ({commentBox});
