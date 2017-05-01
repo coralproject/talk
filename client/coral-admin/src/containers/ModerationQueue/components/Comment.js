@@ -69,16 +69,14 @@ const Comment = ({actions = [], comment, ...props}) => {
               {actions.map((action, i) => {
                 const active = (action === 'REJECT' && comment.status === 'REJECTED') ||
                                (action === 'APPROVE' && comment.status === 'ACCEPTED');
-                return (<ActionButton key={i}
+                return <ActionButton key={i}
                   type={action}
                   user={comment.user}
                   status={comment.status}
                   active={active}
                   acceptComment={() => props.acceptComment({commentId: comment.id})}
-                  rejectComment={() => props.rejectComment({commentId: comment.id})}
-                />);
-              }
-              )}
+                  rejectComment={() => props.rejectComment({commentId: comment.id})} />;
+              })}
             </div>
           </div>
         </div>
