@@ -4,6 +4,12 @@ enum ACTION_TYPE {
   LIKE
 }
 
+enum ASSET_METRICS_SORT {
+
+  # Represents a LikeAction.
+  LIKE
+}
+
 input CreateLikeInput {
 
   # The item's id for which we are to create a like.
@@ -36,6 +42,16 @@ type LikeActionSummary implements ActionSummary {
 
   # The current user's action.
   current_user: LikeAction
+}
+
+# A summary of counts related to all the Likes on an Asset.
+type LikeAssetActionSummary implements AssetActionSummary {
+
+  # Number of likes associated with actionable types on this this Asset.
+  actionCount: Int
+
+  # Number of unique actionable types that are referenced by the likes.
+  actionableItemCount: Int
 }
 
 type CreateLikeResponse implements Response {
