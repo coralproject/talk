@@ -13,7 +13,7 @@ import Slot from 'coral-framework/components/Slot';
 import LoadMore from './LoadMore';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import {TopRightMenu} from './TopRightMenu';
-import {getActionSummary, getTotalActionCount, iPerformedThisAction} from 'coral-framework/utils';
+import {getActionSummary, iPerformedThisAction} from 'coral-framework/utils';
 
 import styles from './Comment.css';
 
