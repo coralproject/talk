@@ -1,10 +1,10 @@
 {
   "en": {
-    "respect": "Respect",
-    "respected": "Respected"
+    "like": "Like",
+    "liked": "Liked"
   },
   "es": {
-    "respect": "Respeto",
-    "respected": "Respetado"
+    "like": "Me Gusta",
+    "liked": "Me Gustó"
   }
 }
