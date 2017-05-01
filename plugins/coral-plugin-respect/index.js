@@ -3,11 +3,16 @@ const path = require('path');
 const wrapResponse = require('../../graph/helpers/response');
 
 module.exports = {
-  typeDefs: readFileSync(path.join(__dirname, 'server/typeDefs.graphql'), 'utf8'),
+  typeDefs: readFileSync(
+    path.join(__dirname, 'server/typeDefs.graphql'),
+    'utf8'
+  ),
   resolvers: {
     RootMutation: {
       createRespect(_, {respect: {item_id, item_type}}, {mutators: {Action}}) {
-        return wrapResponse('respect')(Action.create({item_id, item_type, action_type: 'RESPECT'}));
+        return wrapResponse('respect')(
+          Action.create({item_id, item_type, action_type: 'RESPECT'})
+        );
       }
     }
   },
