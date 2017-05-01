@@ -2,6 +2,7 @@ import * as actions from '../constants/embed';
 
 const initialState = {
   activeTab: 'stream',
+  previousTab: '',
 };
 
 export default function stream(state = initialState, action) {
@@ -10,6 +11,7 @@ export default function stream(state = initialState, action) {
     return {
       ...state,
       activeTab: action.tab,
+      previousTab: state.activeTab,
     };
   default:
     return state;
