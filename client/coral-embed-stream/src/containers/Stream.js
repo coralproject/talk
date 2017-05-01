@@ -19,24 +19,13 @@ const {showSignInDialog} = authActions;
 const {addNotification} = notificationActions;
 
 class StreamContainer extends React.Component {
-  getCounts = ({asset_id, limit, sort}) => {
+  getCounts = (variables) => {
     return this.props.data.fetchMore({
       query: LOAD_COMMENT_COUNTS_QUERY,
-      variables: {
-        asset_id,
-        limit,
-        sort,
-        excludeIgnored: this.props.data.variables.excludeIgnored,
-      },
-      updateQuery: (oldData, {fetchMoreResult:{asset}}) => {
-        return {
-          ...oldData,
-          asset: {
-            ...oldData.asset,
-            commentCount: asset.commentCount
-          }
-        };
-      }
+      variables,
+
+      // Apollo requires this, even though we don't use it...
+      updateQuery: data => data,
     });
   };
 
@@ -118,14 +107,11 @@ class StreamContainer extends React.Component {
   };
 
   componentDidMount() {
-    this.props.data.refetch();
+    if (this.props.previousTab) {
+      this.props.data.refetch();
+    }
     this.countPoll = setInterval(() => {
-      const {asset} = this.props.root;
-      this.getCounts({
-        asset_id: asset.id,
-        limit: asset.comments.length,
-        sort: 'REVERSE_CHRONOLOGICAL'
-      });
+      this.getCounts(this.props.data.variables);
     }, NEW_COMMENT_COUNT_POLL_INTERVAL);
   }
 
@@ -139,13 +125,13 @@ class StreamContainer extends React.Component {
 }
 
 const LOAD_COMMENT_COUNTS_QUERY = gql`
-  query LoadCommentCounts($asset_id: ID, $limit: Int = 5, $sort: SORT_ORDER) {
-    asset(id: $asset_id) {
+  query LoadCommentCounts($assetUrl: String, $assetId: ID, $excludeIgnored: Boolean) {
+    asset(id: $assetId, url: $assetUrl) {
       id
-      commentCount
-      comments(sort: $sort, limit: $limit) {
+      commentCount(excludeIgnored: $excludeIgnored)
+      comments(limit: 10) {
         id
-        replyCount
+        replyCount(excludeIgnored: $excludeIgnored)
       }
     }
   }
@@ -236,6 +222,7 @@ const mapStateToProps = state => ({
   assetId: state.stream.assetId,
   assetUrl: state.stream.assetUrl,
   activeTab: state.embed.activeTab,
+  previousTab: state.embed.previousTab,
 });
 
 const mapDispatchToProps = dispatch =>

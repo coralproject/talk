@@ -3,6 +3,8 @@ import {compose, gql, graphql} from 'react-apollo';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import isEqual from 'lodash/isEqual';
+import branch from 'recompose/branch';
+import renderComponent from 'recompose/renderComponent';
 
 import {Spinner} from 'coral-ui';
 import {authActions, assetActions, pym} from 'coral-framework';
@@ -19,7 +21,6 @@ class EmbedContainer extends React.Component {
 
   componentDidMount() {
     pym.sendMessage('childReady');
-    this.props.checkLogin();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -108,6 +109,10 @@ const mapDispatchToProps = dispatch =>
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
+  branch(
+    props => !props.auth.checkedInitialLogin,
+    renderComponent(Spinner),
+  ),
   withQuery,
 )(EmbedContainer);
 
