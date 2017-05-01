@@ -1,11 +1,3 @@
-// this component will
-// render its children
-// render a like button
-// render a permalink button
-// render a reply button
-// render a flag button
-// translate things?
-
 import React, {PropTypes} from 'react';
 import PermalinkButton from 'coral-plugin-permalinks/PermalinkButton';
 
@@ -16,7 +8,6 @@ import Content from 'coral-plugin-commentcontent/CommentContent';
 import PubDate from 'coral-plugin-pubdate/PubDate';
 import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
 import FlagComment from 'coral-plugin-flags/FlagComment';
-import LikeButton from 'coral-plugin-likes/LikeButton';
 import {BestButton, IfUserCanModifyBest, BEST_TAG, commentIsBest, BestIndicator} from 'coral-plugin-best/BestButton';
 import Slot from 'coral-framework/components/Slot';
 import LoadMore from './LoadMore';
@@ -28,7 +19,7 @@ import styles from './Comment.css';
 
 const isStaff = (tags) => !tags.every((t) => t.name !== 'STAFF') ;
 
-// hold actions links (e.g. Like, Reply) along the comment footer
+// hold actions links (e.g. Reply) along the comment footer
 const ActionButton = ({children}) => {
   return <span className="comment__action-button comment__action-button--nowrap">{ children }</span>;
 };
@@ -49,7 +40,6 @@ class Comment extends React.Component {
     setActiveReplyBox: PropTypes.func.isRequired,
     showSignInDialog: PropTypes.func.isRequired,
     postFlag: PropTypes.func.isRequired,
-    postLike: PropTypes.func.isRequired,
     deleteAction: PropTypes.func.isRequired,
     parentId: PropTypes.string,
     highlighted: PropTypes.string,
@@ -110,7 +100,6 @@ class Comment extends React.Component {
       postItem,
       addNotification,
       showSignInDialog,
-      postLike,
       highlighted,
       postFlag,
       postDontAgree,
@@ -127,7 +116,6 @@ class Comment extends React.Component {
       charCountEnable,
     } = this.props;
 
-    const likeSummary = getActionSummary('LikeActionSummary', comment);
     const flagSummary = getActionSummary('FlagActionSummary', comment);
     const dontAgreeSummary = getActionSummary('DontAgreeActionSummary', comment);
     let myFlag = null;
@@ -198,17 +186,6 @@ class Comment extends React.Component {
 
           <Content body={comment.body} />
           <div className="commentActionsLeft comment__action-container">
-            <ActionButton>
-              {/* TODO implmement iPerformedThisAction for the like */}
-              <LikeButton
-                totalLikes={getTotalActionCount('LikeActionSummary', comment)}
-                like={likeSummary[0]}
-                id={comment.id}
-                postLike={postLike}
-                deleteAction={deleteAction}
-                showSignInDialog={showSignInDialog}
-                currentUser={currentUser} />
-            </ActionButton>
             {
               !disableReply &&
               <ActionButton>
@@ -288,7 +265,6 @@ class Comment extends React.Component {
                   asset={asset}
                   highlighted={highlighted}
                   currentUser={currentUser}
-                  postLike={postLike}
                   postFlag={postFlag}
                   deleteAction={deleteAction}
                   addCommentTag={addCommentTag}

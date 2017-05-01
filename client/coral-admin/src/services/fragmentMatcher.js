@@ -20,7 +20,6 @@ const fm = new IntrospectionFragmentMatcher({
           name: 'Response',
           possibleTypes: [
             {name: 'CreateCommentResponse'},
-            {name: 'CreateLikeResponse'},
             {name: 'CreateFlagResponse'},
             {name: 'CreateDontAgreeResponse'},
             {name: 'DeleteActionResponse'},
@@ -38,7 +37,6 @@ const fm = new IntrospectionFragmentMatcher({
           name: 'Action',
           possibleTypes: [
             {name: 'FlagAction'},
-            {name: 'LikeAction'},
             {name: 'DontAgreeAction'}
           ],
         },
@@ -47,7 +45,6 @@ const fm = new IntrospectionFragmentMatcher({
           name: 'ActionSummary',
           possibleTypes: [
             {name: 'FlagActionSummary'},
-            {name: 'LikeActionSummary'},
             {name: 'DontAgreeActionSummary'}
           ],
         },
@@ -57,7 +54,6 @@ const fm = new IntrospectionFragmentMatcher({
           possibleTypes: [
             {name: 'DefaultAssetActionSummary'},
             {name: 'FlagAssetActionSummary'},
-            {name: 'LikeAssetActionSummary'}
           ]
         }
       ],
