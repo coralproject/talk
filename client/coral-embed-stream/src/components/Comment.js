@@ -185,7 +185,9 @@ class Comment extends React.Component {
           }
 
           <Content body={comment.body} />
+          <Slot fill="commentContent" />
           <div className="commentActionsLeft comment__action-container">
+            <Slot fill="commentReactions" inline />
             {
               !disableReply &&
               <ActionButton>
@@ -205,7 +207,7 @@ class Comment extends React.Component {
               </IfUserCanModifyBest>
             </ActionButton>
             <Slot
-              fill="commentDetail"
+              fill="commentActions"
               data={this.props.data}
               root={this.props.root}
               comment={comment}
