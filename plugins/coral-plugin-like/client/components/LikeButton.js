@@ -8,14 +8,15 @@ import translations from '../translations.json';
 import {getMyActionSummary, getTotalActionCount} from 'coral-framework/utils';
 
 const lang = new I18n(translations);
+const name = 'coral-plugin-like';
 
-class RespectButton extends Component {
+class LikeButton extends Component {
 
   handleClick = () => {
-    const {postRespect, showSignInDialog, deleteAction} = this.props;
+    const {postLike, showSignInDialog, deleteAction} = this.props;
     const {root: {me}, comment} = this.props;
 
-    const myRespectActionSummary = getMyActionSummary('RespectActionSummary', comment);
+    const myLikeActionSummary = getMyActionSummary('LikeActionSummary', comment);
 
     // If the current user does not exist, trigger sign in dialog.
     if (!me) {
@@ -28,10 +29,10 @@ class RespectButton extends Component {
       return;
     }
 
-    if (myRespectActionSummary) {
-      deleteAction(myRespectActionSummary.current_user.id, comment.id);
+    if (myLikeActionSummary) {
+      deleteAction(myLikeActionSummary.current_user.id, comment.id);
     } else {
-      postRespect({
+      postLike({
         item_id: comment.id,
         item_type: 'COMMENTS'
       });
@@ -45,25 +46,25 @@ class RespectButton extends Component {
       return null;
     }
 
-    const myRespect = getMyActionSummary('RespectActionSummary', comment);
-    let count = getTotalActionCount('RespectActionSummary', comment);
+    const myLike = getMyActionSummary('LikeActionSummary', comment);
+    let count = getTotalActionCount('LikeActionSummary', comment);
 
     return (
-      <div className={styles.respect}>
+      <div className={cn(styles.like, `${name}-container`)}>
         <button
-          className={cn(styles.button, {[styles.respected]: myRespect})}
+          className={cn(styles.button, {[styles.liked]: myLike}, `${name}-button`)}
           onClick={this.handleClick} >
-          <span>{lang.t(myRespect ? 'respected' : 'respect')}</span>
-          <Icon className={cn(styles.icon, {[styles.respected]: myRespect})} />
-          {count > 0 && count}
+          <span className={`${name}-button-text`}>{lang.t(myLike ? 'liked' : 'like')}</span>
+          <i className={cn(styles.icon, 'material-icons', {[styles.liked]: myLike}, `${name}-icon`)} aria-hidden={true}>thumb_up</i>
+          <span className={`${name}-count`}>{count > 0 && count}</span>
         </button>
       </div>
     );
   }
 }
 
-RespectButton.propTypes = {
+LikeButton.propTypes = {
   data: React.PropTypes.object.isRequired
 };
 
-export default RespectButton;
+export default LikeButton;

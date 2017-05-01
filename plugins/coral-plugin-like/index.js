@@ -6,7 +6,7 @@ module.exports = {
   typeDefs: readFileSync(path.join(__dirname, 'server/typeDefs.graphql'), 'utf8'),
   resolvers: {
     RootMutation: {
-      createRespect(_, {like: {item_id, item_type}}, {mutators: {Action}}) {
+      createLike(_, {like: {item_id, item_type}}, {mutators: {Action}}) {
         return wrapResponse('like')(Action.create({item_id, item_type, action_type: 'LIKE'}));
       }
     }

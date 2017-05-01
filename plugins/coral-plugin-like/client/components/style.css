@@ -1,4 +1,4 @@
-.respect {
+.like {
   display: inline-block;
  }
 
@@ -15,7 +15,7 @@
     cursor: pointer;
   }
 
-  &.respected {
+  &.liked {
     color: #c98211;
 
     &:hover {
