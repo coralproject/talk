@@ -16,10 +16,10 @@
   }
 
   &.liked {
-    color: #c98211;
+    color: rgb(0,134,227);
 
     &:hover {
-      color: #e59614;
+      color: rgb(0,134,227);
       cursor: pointer;
     }
   }
