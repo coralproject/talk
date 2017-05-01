@@ -12,7 +12,6 @@ import NotLoggedIn from '../components/NotLoggedIn';
 import IgnoredUsers from '../components/IgnoredUsers';
 import {Spinner} from 'coral-ui';
 import CommentHistory from 'coral-plugin-history/CommentHistory';
-
 import {showSignInDialog, checkLogin} from 'coral-framework/actions/auth';
 
 const lang = new I18n();
@@ -34,14 +33,14 @@ class ProfileContainer extends Component {
   }
 
   render() {
-    const {loggedIn, asset, data, showSignInDialog, myIgnoredUsersData, stopIgnoringUser} = this.props;
+    const {asset, data, showSignInDialog, myIgnoredUsersData, stopIgnoringUser} = this.props;
     const {me} = this.props.data;
 
     if (data.loading) {
       return <Spinner/>;
     }
 
-    if (!loggedIn || !me) {
+    if (!me) {
       return <NotLoggedIn showSignInDialog={showSignInDialog} />;
     }
 
@@ -50,7 +49,7 @@ class ProfileContainer extends Component {
 
     return (
       <div>
-        <h2>{this.props.userData.username}</h2>
+        <h2>{this.props.user.username}</h2>
         { emailAddress
           ? <p>{ emailAddress }</p>
           : null

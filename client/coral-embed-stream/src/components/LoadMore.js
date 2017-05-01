@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import I18n from 'coral-i18n/modules/i18n/i18n';
 import translations from 'coral-framework/translations.json';
-import {ADDTL_COMMENTS_ON_LOAD_MORE} from 'coral-framework/constants/comments';
+import {ADDTL_COMMENTS_ON_LOAD_MORE} from '../constants/stream';
 import {Button} from 'coral-ui';
 const lang = new I18n(translations);
 

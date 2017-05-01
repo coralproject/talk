@@ -6,7 +6,7 @@ import I18n from 'coral-i18n/modules/i18n/i18n';
 import translations from '../../translations.json';
 import {Logo} from './Logo';
 
-const CoralHeader = ({handleLogout, restricted = false}) => (
+const CoralHeader = ({handleLogout, showShortcuts = () => {}, restricted = false}) => (
   <Header className={styles.header}>
     <Logo className={styles.logo} />
     {
@@ -55,7 +55,8 @@ const CoralHeader = ({handleLogout, restricted = false}) => (
               <div>
                 <IconButton name="settings" id="menu-settings"/>
                 <Menu target="menu-settings" align="right">
-                  <MenuItem onClick={handleLogout}>Sign Out</MenuItem>
+                  <MenuItem onClick={() => showShortcuts(true)}>{lang.t('configure.shortcuts')}</MenuItem>
+                  <MenuItem onClick={handleLogout}>{lang.t('configure.sign-out')}</MenuItem>
                 </Menu>
               </div>
             </li>
@@ -72,6 +73,7 @@ const CoralHeader = ({handleLogout, restricted = false}) => (
 );
 
 CoralHeader.propTypes = {
+  showShortcuts: PropTypes.func,
   handleLogout: PropTypes.func.isRequired,
   restricted: PropTypes.bool // hide elemnts from a user that's logged out
 };

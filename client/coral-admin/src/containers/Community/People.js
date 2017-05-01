@@ -4,7 +4,6 @@ import translations from 'coral-admin/src/translations.json';
 
 import styles from './Community.css';
 import Table from './Table';
-import Loading from './Loading';
 import {Pager, Icon} from 'coral-ui';
 import EmptyCard from '../../components/EmptyCard';
 
@@ -29,8 +28,8 @@ const tableHeaders = [
   }
 ];
 
-const People = ({isFetching, commenters, searchValue, onSearchChange, ...props}) => {
-  const hasResults = !isFetching && !!commenters.length;
+const People = ({commenters, searchValue, onSearchChange, ...props}) => {
+  const hasResults = !!commenters.length;
   return (
     <div className={styles.container}>
       <div className={styles.leftColumn}>
@@ -47,7 +46,6 @@ const People = ({isFetching, commenters, searchValue, onSearchChange, ...props})
         </div>
       </div>
       <div className={styles.mainContent}>
-        { isFetching && <Loading /> }
         {
           hasResults
           ? <Table

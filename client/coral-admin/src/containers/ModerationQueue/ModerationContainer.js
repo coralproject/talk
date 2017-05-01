@@ -135,6 +135,12 @@ class ModerationContainer extends Component {
     const comments = data[activeTab];
     let activeTabCount;
     switch(activeTab) {
+    case 'all':
+      activeTabCount = data.allCount;
+      break;
+    case 'accepted':
+      activeTabCount = data.acceptedCount;
+      break;
     case 'premod':
       activeTabCount = data.premodCount;
       break;
@@ -151,6 +157,8 @@ class ModerationContainer extends Component {
         <ModerationHeader asset={asset} />
         <ModerationMenu
           asset={asset}
+          allCount={data.allCount}
+          acceptedCount={data.acceptedCount}
           premodCount={data.premodCount}
           rejectedCount={data.rejectedCount}
           flaggedCount={data.flaggedCount}

@@ -39,10 +39,21 @@ export const showSignInDialog = () => dispatch => {
     'menubar=0,resizable=0,width=500,height=550,top=200,left=500'
   );
 
-  signInPopUp.onbeforeunload = () => {
-    dispatch(checkLogin());
-    fetchMe();
+  // Workaround odd behavior in older WebKit versions, where
+  // onunload is called twice. (Encountered in IOS 8.3)
+  let loaded = false;
+  signInPopUp.onload = () => {
+    loaded = true;
   };
+
+  // Use `onunload` instead of `onbeforeunload` which is not supported in IOS Safari.
+  signInPopUp.onunload = () => {
+    if (loaded) {
+      dispatch(checkLogin());
+      fetchMe();
+    }
+  };
+
   dispatch({type: actions.SHOW_SIGNIN_DIALOG});
 };
 export const hideSignInDialog = () => dispatch => {
@@ -177,7 +188,13 @@ export const fetchSignUp = (formData, redirectUri) => (dispatch) => {
       dispatch(signUpSuccess(user));
     })
     .catch(error => {
-      dispatch(signUpFailure(lang.t(`error.${error.message}`)));
+      let errorMessage = lang.t(`error.${error.message}`);
+
+      // if there is no translation defined, just show the error string
+      if (errorMessage === `error.${error.message}`) {
+        errorMessage = error.message;
+      }
+      dispatch(signUpFailure(errorMessage));
     });
 };
 

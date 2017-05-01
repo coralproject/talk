@@ -28,6 +28,8 @@ const shortcuts = [
 export default class ModerationKeysModal extends React.Component {
 
   static propTypes = {
+    open: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
     hideShortcutsNote: PropTypes.func.isRequired,
     shortcutsNoteVisible: PropTypes.string.isRequired
   }

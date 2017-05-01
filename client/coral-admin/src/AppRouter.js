@@ -39,6 +39,12 @@ const routes = (
       {/* Moderation Routes */}
 
       <Route path='moderate' component={ModerationLayout}>
+        <Route path='all' components={ModerationContainer}>
+          <Route path=':id' components={ModerationContainer} />
+        </Route>
+        <Route path='accepted' components={ModerationContainer}>
+          <Route path=':id' components={ModerationContainer} />
+        </Route>
         <Route path='premod' components={ModerationContainer}>
           <Route path=':id' components={ModerationContainer} />
         </Route>

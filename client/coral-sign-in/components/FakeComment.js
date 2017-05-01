@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from 'coral-embed-stream/src/Comment.css';
+import styles from 'coral-embed-stream/src/components/Comment.css';
 
 import AuthorName from 'coral-plugin-author-name/AuthorName';
 import Content from 'coral-plugin-commentcontent/CommentContent';

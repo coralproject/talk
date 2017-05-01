@@ -19,6 +19,12 @@ class FlagButton extends Component {
     localDelete: false
   }
 
+  componentDidUpdate () {
+    if (this.popup) { // this will be defined when the reporting popup is opened
+      this.popup.firstChild.style.top = `${this.flagButton.offsetTop - this.popup.firstChild.clientHeight - 15}px`;
+    }
+  }
+
   // When the "report" button is clicked expand the menu
   onReportClick = () => {
     const {currentUser, deleteAction, flaggedByCurrentUser, flag} = this.props;
@@ -135,7 +141,10 @@ class FlagButton extends Component {
     const popupMenu = getPopupMenu[this.state.step](this.state.itemType);
 
     return <div className={`${name}-container`}>
-      <button onClick={!this.props.banned ? this.onReportClick : null} className={`${name}-button`}>
+      <button
+        ref={ref => this.flagButton = ref}
+        onClick={!this.props.banned ? this.onReportClick : null}
+        className={`${name}-button`}>
         {
           flagged
           ? <span className={`${name}-button-text`}>{lang.t('reported')}</span>
@@ -147,7 +156,7 @@ class FlagButton extends Component {
       </button>
       {
         this.state.showMenu &&
-        <div className={`${name}-popup`}>
+        <div className={`${name}-popup`} ref={ref => this.popup = ref}>
           <PopupMenu>
             <div className={`${name}-popup-header`}>{popupMenu.header}</div>
             {

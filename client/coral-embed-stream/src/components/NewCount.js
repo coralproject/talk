@@ -3,9 +3,9 @@ import I18n from 'coral-i18n/modules/i18n/i18n';
 import translations from 'coral-framework/translations.json';
 const lang = new I18n(translations);
 
-const onLoadMoreClick = ({loadMore, commentCount, firstCommentDate, assetId, updateCountCache}) => (e) => {
+const onLoadMoreClick = ({loadMore, commentCount, firstCommentDate, assetId, setCommentCountCache}) => (e) => {
   e.preventDefault();
-  updateCountCache(assetId, commentCount);
+  setCommentCountCache(commentCount);
   loadMore({
     asset_id: assetId,
     limit: 500,
@@ -15,11 +15,11 @@ const onLoadMoreClick = ({loadMore, commentCount, firstCommentDate, assetId, upd
 };
 
 const NewCount = (props) => {
-  const newComments = props.commentCount - props.countCache;
+  const newComments = props.commentCount - props.commentCountCache;
 
   return <div className='coral-new-comments coral-load-more'>
     {
-      props.countCache && newComments > 0 ?
+      props.commentCountCache && newComments > 0 ?
       <button onClick={onLoadMoreClick(props)}>
         {newComments === 1
           ? lang.t('newCount', newComments, lang.t('comment'))
@@ -32,7 +32,7 @@ const NewCount = (props) => {
 
 NewCount.propTypes = {
   commentCount: PropTypes.number.isRequired,
-  countCache: PropTypes.number,
+  commentCountCache: PropTypes.number,
   loadMore: PropTypes.func.isRequired,
   assetId: PropTypes.string.isRequired,
   firstCommentDate: PropTypes.string.isRequired

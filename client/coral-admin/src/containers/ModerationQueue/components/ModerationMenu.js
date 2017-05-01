@@ -4,22 +4,18 @@ import styles from './styles.css';
 import {SelectField, Option} from 'react-mdl-selectfield';
 import I18n from 'coral-i18n/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations.json';
+import {Icon} from 'coral-ui';
 import {Link} from 'react-router';
 
 const lang = new I18n(translations);
 
 const ModerationMenu = (
-  {asset, premodCount, rejectedCount, flaggedCount, selectSort, sort}
+  {asset, allCount, acceptedCount, premodCount, rejectedCount, flaggedCount, selectSort, sort}
 ) => {
-  const premodPath = asset
-    ? `/admin/moderate/premod/${asset.id}`
-    : '/admin/moderate/premod';
-  const rejectPath = asset
-    ? `/admin/moderate/rejected/${asset.id}`
-    : '/admin/moderate/rejected';
-  const flagPath = asset
-    ? `/admin/moderate/flagged/${asset.id}`
-    : '/admin/moderate/flagged';
+
+  function getPath (type) {
+    return asset ? `/admin/moderate/${type}/${asset.id}` : `/admin/moderate/${type}`;
+  }
 
   return (
     <div className="mdl-tabs">
@@ -27,22 +23,34 @@ const ModerationMenu = (
         <div className={styles.tabBarPadding} />
         <div>
           <Link
-            to={premodPath}
+            to={getPath('all')}
             className={`mdl-tabs__tab ${styles.tab}`}
             activeClassName={styles.active}>
-            {lang.t('modqueue.premod')} <CommentCount count={premodCount} />
+            <Icon name='question_answer' className={styles.tabIcon} /> {lang.t('modqueue.all')} <CommentCount count={allCount} />
           </Link>
           <Link
-            to={flagPath}
+            to={getPath('accepted')}
             className={`mdl-tabs__tab ${styles.tab}`}
             activeClassName={styles.active}>
-            {lang.t('modqueue.flagged')} <CommentCount count={flaggedCount} />
+            <Icon name='check' className={styles.tabIcon} /> {lang.t('modqueue.approved')} <CommentCount count={acceptedCount} />
           </Link>
           <Link
-            to={rejectPath}
+            to={getPath('premod')}
             className={`mdl-tabs__tab ${styles.tab}`}
             activeClassName={styles.active}>
-            {lang.t('modqueue.rejected')} <CommentCount count={rejectedCount} />
+            <Icon name='access_time' className={styles.tabIcon} /> {lang.t('modqueue.premod')} <CommentCount count={premodCount} />
+          </Link>
+          <Link
+            to={getPath('flagged')}
+            className={`mdl-tabs__tab ${styles.tab}`}
+            activeClassName={styles.active}>
+            <Icon name='flag' className={styles.tabIcon} /> {lang.t('modqueue.flagged')} <CommentCount count={flaggedCount} />
+          </Link>
+          <Link
+            to={getPath('rejected')}
+            className={`mdl-tabs__tab ${styles.tab}`}
+            activeClassName={styles.active}>
+            <Icon name='close' className={styles.tabIcon} /> {lang.t('modqueue.rejected')} <CommentCount count={rejectedCount} />
           </Link>
         </div>
         <SelectField
@@ -59,6 +67,7 @@ const ModerationMenu = (
 };
 
 ModerationMenu.propTypes = {
+  allCount: PropTypes.number.isRequired,
   premodCount: PropTypes.number.isRequired,
   rejectedCount: PropTypes.number.isRequired,
   flaggedCount: PropTypes.number.isRequired,

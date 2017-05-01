@@ -21,7 +21,6 @@ const ModerationQueue = ({comments, selectedIndex, commentCount, singleView, loa
             key={i}
             index={i}
             comment={comment}
-            commentType={activeTab}
             selected={i === selectedIndex}
             suspectWords={props.suspectWords}
             bannedWords={props.bannedWords}
