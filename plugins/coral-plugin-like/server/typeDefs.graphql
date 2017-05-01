@@ -1,0 +1,54 @@
+enum ACTION_TYPE {
+
+  # Represents a Like.
+  LIKE
+}
+
+input CreateLikeInput {
+
+  # The item's id for which we are to create a like.
+  item_id: ID!
+
+  # The type of the item for which we are to create the like.
+  item_type: ACTION_ITEM_TYPE!
+}
+
+# LikeAction is used by users who "like" a specific entity.
+type LikeAction implements Action {
+
+  # The ID of the action.
+  id: ID!
+
+  # The author of the action.
+  user: User
+
+  # The time when the Action was updated.
+  updated_at: Date
+
+  # The time when the Action was created.
+  created_at: Date
+}
+
+type LikeActionSummary implements ActionSummary {
+
+  # The count of actions with this group.
+  count: Int
+
+  # The current user's action.
+  current_user: LikeAction
+}
+
+type CreateLikeResponse implements Response {
+
+  # The like that was created.
+  like: LikeAction
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError]
+}
+
+type RootMutation {
+
+  # Creates a like on an entity.
+  createLike(like: CreateLikeInput!): CreateLikeResponse
+}
