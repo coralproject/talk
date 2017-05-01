@@ -8,7 +8,13 @@ import Content from 'coral-plugin-commentcontent/CommentContent';
 import PubDate from 'coral-plugin-pubdate/PubDate';
 import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
 import FlagComment from 'coral-plugin-flags/FlagComment';
-import {BestButton, IfUserCanModifyBest, BEST_TAG, commentIsBest, BestIndicator} from 'coral-plugin-best/BestButton';
+import {
+  BestButton,
+  IfUserCanModifyBest,
+  BEST_TAG,
+  commentIsBest,
+  BestIndicator
+} from 'coral-plugin-best/BestButton';
 import Slot from 'coral-framework/components/Slot';
 import LoadMore from './LoadMore';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
@@ -17,15 +23,18 @@ import {getActionSummary, iPerformedThisAction} from 'coral-framework/utils';
 
 import styles from './Comment.css';
 
-const isStaff = (tags) => !tags.every((t) => t.name !== 'STAFF') ;
+const isStaff = tags => !tags.every(t => t.name !== 'STAFF');
 
 // hold actions links (e.g. Reply) along the comment footer
 const ActionButton = ({children}) => {
-  return <span className="comment__action-button comment__action-button--nowrap">{ children }</span>;
+  return (
+    <span className="comment__action-button comment__action-button--nowrap">
+      {children}
+    </span>
+  );
 };
 
 class Comment extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {replyBoxVisible: false};
@@ -70,7 +79,8 @@ class Comment extends React.Component {
         PropTypes.shape({
           body: PropTypes.string.isRequired,
           id: PropTypes.string.isRequired
-        })),
+        })
+      ),
       user: PropTypes.shape({
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired
@@ -87,10 +97,10 @@ class Comment extends React.Component {
     removeCommentTag: React.PropTypes.func,
 
     // dispatch action to ignore another user
-    ignoreUser: React.PropTypes.func,
-  }
+    ignoreUser: React.PropTypes.func
+  };
 
-  render () {
+  render() {
     const {
       comment,
       parentId,
@@ -113,11 +123,14 @@ class Comment extends React.Component {
       disableReply,
       commentIsIgnored,
       maxCharCount,
-      charCountEnable,
+      charCountEnable
     } = this.props;
 
     const flagSummary = getActionSummary('FlagActionSummary', comment);
-    const dontAgreeSummary = getActionSummary('DontAgreeActionSummary', comment);
+    const dontAgreeSummary = getActionSummary(
+      'DontAgreeActionSummary',
+      comment
+    );
     let myFlag = null;
     if (iPerformedThisAction('FlagActionSummary', comment)) {
       myFlag = flagSummary.find(s => s.current_user);
@@ -125,46 +138,59 @@ class Comment extends React.Component {
       myFlag = dontAgreeSummary.find(s => s.current_user);
     }
 
-    let commentClass = parentId ? `reply ${styles.Reply}` : `comment ${styles.Comment}`;
+    let commentClass = parentId
+      ? `reply ${styles.Reply}`
+      : `comment ${styles.Comment}`;
     commentClass += comment.id === 'pending' ? ` ${styles.pendingComment}` : '';
 
     // call a function, and if it errors, call addNotification('error', ...) (e.g. to show user a snackbar)
-    const notifyOnError = (fn, errorToMessage) => async function (...args) {
-      if (typeof errorToMessage !== 'function') {errorToMessage = (error) => error.message;}
-      try {
-        return await fn(...args);
-      } catch (error) {
-        addNotification('error', errorToMessage(error));
-        throw error;
-      }
-    };
+    const notifyOnError = (fn, errorToMessage) =>
+      async function(...args) {
+        if (typeof errorToMessage !== 'function') {
+          errorToMessage = error => error.message;
+        }
+        try {
+          return await fn(...args);
+        } catch (error) {
+          addNotification('error', errorToMessage(error));
+          throw error;
+        }
+      };
 
-    const addBestTag = notifyOnError(() => addCommentTag({
-      id: comment.id,
-      tag: BEST_TAG,
-    }), () => 'Failed to tag comment as best');
+    const addBestTag = notifyOnError(
+      () =>
+        addCommentTag({
+          id: comment.id,
+          tag: BEST_TAG
+        }),
+      () => 'Failed to tag comment as best'
+    );
 
-    const removeBestTag = notifyOnError(() => removeCommentTag({
-      id: comment.id,
-      tag: BEST_TAG,
-    }), () => 'Failed to remove best comment tag');
+    const removeBestTag = notifyOnError(
+      () =>
+        removeCommentTag({
+          id: comment.id,
+          tag: BEST_TAG
+        }),
+      () => 'Failed to remove best comment tag'
+    );
 
     return (
       <div
         className={commentClass}
         id={`c_${comment.id}`}
-        style={{marginLeft: depth * 30}}>
+        style={{marginLeft: depth * 30}}
+      >
         <hr aria-hidden={true} />
-        <div className={highlighted === comment.id ? 'highlighted-comment' : ''}>
-          <AuthorName
-            author={comment.user}/>
-          { isStaff(comment.tags)
-            ? <TagLabel>Staff</TagLabel>
-          : null }
+        <div
+          className={highlighted === comment.id ? 'highlighted-comment' : ''}
+        >
+          <AuthorName author={comment.user} />
+          {isStaff(comment.tags) ? <TagLabel>Staff</TagLabel> : null}
 
-          { commentIsBest(comment)
+          {commentIsBest(comment)
             ? <TagLabel><BestIndicator /></TagLabel>
-          : null }
+            : null}
           <PubDate created_at={comment.created_at} />
           <Slot
             fill="commentInfoBar"
@@ -174,36 +200,43 @@ class Comment extends React.Component {
             commentId={comment.id}
             inline
           />
-          { (currentUser && (comment.user.id !== currentUser.id))
+          {currentUser && comment.user.id !== currentUser.id
             ? <span className={styles.topRightMenu}>
                 <TopRightMenu
                   comment={comment}
                   ignoreUser={ignoreUser}
-                  addNotification={addNotification} />
+                  addNotification={addNotification}
+                />
               </span>
-            : null
-          }
+            : null}
 
           <Content body={comment.body} />
           <Slot fill="commentContent" />
           <div className="commentActionsLeft comment__action-container">
-            <Slot fill="commentReactions" inline />
-            {
-              !disableReply &&
+            <Slot
+              fill="commentReactions"
+              data={this.props.data}
+              root={this.props.root}
+              comment={comment}
+              commentId={comment.id}
+              inline
+            />
+            {!disableReply &&
               <ActionButton>
                 <ReplyButton
                   onClick={() => setActiveReplyBox(comment.id)}
                   parentCommentId={parentId || comment.id}
                   currentUserId={currentUser && currentUser.id}
-                  banned={false} />
-              </ActionButton>
-            }
+                  banned={false}
+                />
+              </ActionButton>}
             <ActionButton>
               <IfUserCanModifyBest user={currentUser}>
                 <BestButton
                   isBest={commentIsBest(comment)}
                   addBest={addBestTag}
-                  removeBest={removeBestTag} />
+                  removeBest={removeBestTag}
+                />
               </IfUserCanModifyBest>
             </ActionButton>
             <Slot
@@ -229,12 +262,12 @@ class Comment extends React.Component {
                 postDontAgree={postDontAgree}
                 deleteAction={deleteAction}
                 showSignInDialog={showSignInDialog}
-                currentUser={currentUser} />
+                currentUser={currentUser}
+              />
             </ActionButton>
           </div>
         </div>
-        {
-          activeReplyBox === comment.id
+        {activeReplyBox === comment.id
           ? <ReplyBox
               commentPostedHandler={() => {
                 setActiveReplyBox('');
@@ -246,11 +279,10 @@ class Comment extends React.Component {
               addNotification={addNotification}
               authorId={currentUser.id}
               postItem={postItem}
-              assetId={asset.id} />
-          : null
-        }
-        {
-          comment.replies &&
+              assetId={asset.id}
+            />
+          : null}
+        {comment.replies &&
           comment.replies.map(reply => {
             return commentIsIgnored(reply)
               ? <IgnoredCommentTombstone key={reply.id} />
@@ -277,12 +309,11 @@ class Comment extends React.Component {
                   showSignInDialog={showSignInDialog}
                   reactKey={reply.id}
                   key={reply.id}
-                  comment={reply} />;
-          })
-        }
-        {
-          comment.replies &&
-          <div className='coral-load-more-replies'>
+                  comment={reply}
+                />;
+          })}
+        {comment.replies &&
+          <div className="coral-load-more-replies">
             <LoadMore
               assetId={asset.id}
               comments={comment.replies}
@@ -290,9 +321,9 @@ class Comment extends React.Component {
               topLevel={false}
               replyCount={comment.replyCount}
               moreComments={comment.replyCount > comment.replies.length}
-              loadMore={loadMore}/>
-          </div>
-        }
+              loadMore={loadMore}
+            />
+          </div>}
       </div>
     );
   }
