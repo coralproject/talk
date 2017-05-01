@@ -55,15 +55,24 @@ export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
         updateQueries: {
           ModQueue: (oldData) => {
             const comment = oldData.all.find(c => c.id === commentId);
-            comment.status = 'ACCEPTED';
+            let accepted;
+            let acceptedCount = oldData.acceptedCount;
+
+            // if the comment was already in the Approved queue, don't re-add it
+            if (comment.status === 'ACCEPTED') {
+              accepted = [...oldData.accepted];
+            } else {
+              comment.status = 'ACCEPTED';
+              acceptedCount++;
+              accepted = [comment, ...oldData.accepted];
+            }
+
             const premod = oldData.premod.filter(c => c.id !== commentId);
             const flagged = oldData.flagged.filter(c => c.id !== commentId);
-            const accepted = [comment].concat(oldData.accepted);
             const rejected = oldData.rejected.filter(c => c.id !== commentId);
             const premodCount = premod.length < oldData.premod.length ? oldData.premodCount - 1 : oldData.premodCount;
             const flaggedCount = flagged.length < oldData.flagged.length ? oldData.flaggedCount - 1 : oldData.flaggedCount;
             const rejectedCount = rejected.length < oldData.rejected.length ? oldData.rejectedCount - 1 : oldData.rejectedCount;
-            const acceptedCount = oldData.acceptedCount + 1;
 
             return {
               ...oldData,
@@ -89,14 +98,23 @@ export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
         updateQueries: {
           ModQueue: (oldData) => {
             const comment = oldData.all.find(c => c.id === commentId);
-            comment.status = 'REJECTED';
-            const rejected = [comment].concat(oldData.rejected);
+            let rejected;
+            let rejectedCount = oldData.rejectedCount;
+
+            // if the item was already in the Rejected queue, don't put it in again
+            if (comment.status === 'REJECTED') {
+              rejected = oldData.rejected;
+            } else {
+              comment.status = 'REJECTED';
+              rejectedCount++;
+              rejected = [comment, ...oldData.rejected];
+            }
+
             const premod = oldData.premod.filter(c => c.id !== commentId);
             const flagged = oldData.flagged.filter(c => c.id !== commentId);
             const accepted = oldData.accepted.filter(c => c.id !== commentId);
             const premodCount = premod.length < oldData.premod.length ? oldData.premodCount - 1 : oldData.premodCount;
             const flaggedCount = flagged.length < oldData.flagged.length ? oldData.flaggedCount - 1 : oldData.flaggedCount;
-            const rejectedCount = oldData.rejectedCount + 1;
             const acceptedCount = accepted.length < oldData.accepted.length ? oldData.acceptedCount - 1 : oldData.acceptedCount;
 
             return {

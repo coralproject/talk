@@ -1,13 +1,13 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes} from 'react';
+import {Button} from 'coral-ui';
+import {connect} from 'react-redux';
 import {I18n} from '../coral-framework';
 import translations from './translations.json';
-import {Button} from 'coral-ui';
 import Slot from 'coral-framework/components/Slot';
-import {connect} from 'react-redux';
 
 const name = 'coral-plugin-commentbox';
 
-class CommentBox extends Component {
+class CommentBox extends React.Component {
 
   constructor(props) {
     super(props);
@@ -151,13 +151,14 @@ class CommentBox extends Component {
             id={isReply ? 'replyText' : 'commentText'}
             onChange={this.handleChange}
             rows={3}/>
+          <Slot fill='commentInputArea' />
         </div>
         <div className={`${name}-char-count ${length > maxCharCount ? `${name}-char-max` : ''}`}>
           {maxCharCount && `${maxCharCount - length} ${lang.t('characters-remaining')}`}
         </div>
         <div className={`${name}-button-container`}>
           <Slot
-            fill="commentBoxDetail"
+            fill="commentInputDetailArea"
             registerHook={this.registerHook}
             unregisterHook={this.unregisterHook}
             inline
