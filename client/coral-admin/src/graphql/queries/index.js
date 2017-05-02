@@ -63,13 +63,21 @@ export const loadMore = (fetchMore) => ({limit, cursor, sort, tab, asset_id}) =>
       asset_id
     },
     updateQuery: (oldData, {fetchMoreResult:{comments}}) => {
-      return {
+      const updatedData = {
         ...oldData,
         [tab]: [
           ...oldData[tab],
           ...comments
         ]
       };
+
+      // if we're not in the all tab, put the new comments in there anyway
+      // this way the acceptComment and rejectComment mutations don't break
+      if (tab !== 'all') {
+        updatedData.all = [...updatedData.all, ...comments];
+      }
+
+      return updatedData;
     }
   });
 };
