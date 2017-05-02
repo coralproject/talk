@@ -7,3 +7,7 @@ export const UPDATE_CONFIG = 'UPDATE_CONFIG';
 export const OPEN_COMMENTS = 'OPEN_COMMENTS';
 export const CLOSE_COMMENTS = 'CLOSE_COMMENTS';
 export const ADD_ITEM = 'ADD_ITEM';
+
+// TODO: Deprecate old constants
+
+export const ADD_EXTERNAL_CONFIG = 'ADD_EXTERNAL_CONFIG';
