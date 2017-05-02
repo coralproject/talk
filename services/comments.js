@@ -33,14 +33,50 @@ module.exports = class CommentsService {
       status = 'NONE',
     } = comment;
 
-    comment.status_history = status ? [{
-      type: status,
-      created_at: new Date()
-    }] : [];
-
-    let commentModel = new CommentModel(comment);
+    const commentModel = new CommentModel(Object.assign({
+      status_history: status ? [{
+        type: status,
+        created_at: new Date()
+      }] : [],
+      body_history: [{
+        body: comment.body,
+        created_at: new Date()
+      }]
+    }, comment));
 
     return commentModel.save();
+  }
+
+  /**
+   * Edit a Comment
+   * @param {String} body  the new Comment body
+   * @param {String} status  the new Comment status
+   */
+  static async edit(id, {body, status}) {
+    if (status && ! STATUSES.includes(status)) {
+      throw new Error(`status ${status} is not supported`);
+    }
+    const {nModified} = await CommentModel.update({id}, {
+      $set: {
+        body,
+        status,
+      },
+      $push: {
+        body_history: {
+          body,
+          created_at: new Date(),
+        },
+        status_history: {
+          type: status,
+          created_at: new Date(),
+        }
+      },
+    });
+    switch (nModified) {
+    case 0:
+      throw new Error(`Couldn't edit comment. There is no Comment with id "${id}"`);
+    }
+
   }
 
   /**
