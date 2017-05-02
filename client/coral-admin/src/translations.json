@@ -36,6 +36,7 @@
     "modqueue": {
       "likes": "likes",
       "all": "all",
+      "approved": "approved",
       "premod": "pre-mod",
       "rejected": "rejected",
       "flagged": "flagged",
@@ -62,7 +63,10 @@
       "impersonating": "Impersonating",
       "offensive": "Offensive",
       "spam/ads": "Spam/Ads",
-      "other": "Other"
+      "other": "Other",
+      "thousand": "k",
+      "million": "M",
+      "billion": "B"
     },
     "comment": {
       "flagged": "flagged",
@@ -227,6 +231,8 @@
       "loading": "Cargando resultados"
     },
     "modqueue": {
+      "all": "todos",
+      "approved": "aprobado",
       "likes": "gustos",
       "premod": "pre-mod",
       "rejected": "rechazado",
@@ -245,7 +251,10 @@
       "impersonating": "Suplantación",
       "offensive": "Ofensivo",
       "spam/ads": "Spam/Propaganda",
-      "other": "Otros"
+      "other": "Otros",
+      "thousand": "m",
+      "million": "M",
+      "billion": "B"
     },
     "comment": {
       "flagged": "marcado",

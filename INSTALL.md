@@ -243,7 +243,7 @@ file under the `scripts` key including:
 # Setup
 
 Once you've installed Talk (either via Docker or source), you still need to
-setup the application. If you are unfamiliar with any terminoligy used in the
+setup the application. If you are unfamiliar with any terminology used in the
 setup process, refer to the `TERMINOLOGY.md` document.
 
 ## Via Web

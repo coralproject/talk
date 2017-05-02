@@ -3,7 +3,7 @@ import OffTopicTag from './components/OffTopicTag';
 
 export default {
   slots: {
-    commentBoxDetail: [OffTopicCheckbox],
+    commentInputDetailArea: [OffTopicCheckbox],
     commentInfoBar: [OffTopicTag]
   }
 };

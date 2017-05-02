@@ -33,12 +33,14 @@ export default class Embed extends React.Component {
     }
   }
 
+  handleShowProfile = () => this.props.setActiveTab('profile');
+
   render () {
     const {activeTab, logout, viewAllComments, commentId} = this.props;
     const {asset: {totalCommentCount}} = this.props.root;
     const {loggedIn, isAdmin, user} = this.props.auth;
 
-    const userBox = <UserBox user={user} logout={logout} changeTab={this.changeTab}/>;
+    const userBox = <UserBox user={user} onLogout={logout} onShowProfile={this.handleShowProfile}/>;
 
     return (
       <div>

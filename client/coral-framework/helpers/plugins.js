@@ -44,7 +44,7 @@ function getComponentFragments(components) {
  * Returns an object that can be used to compose fragments or queries.
  *
  * Example:
- * const pluginFragments = getSlotsFragments(['commentInfoBar', 'commentDetail']);
+ * const pluginFragments = getSlotsFragments(['commentInfoBar', 'commentActions']);
  * const rootFragment = gql`
  *   fragment Comment_root on RootQuery {
  +     ${pluginFragments.spreads('root')}
@@ -65,10 +65,10 @@ export function getSlotsFragments(slots) {
   const fragments = getComponentFragments(components);
   return {
     spreads(key) {
-      return fragments[key] && fragments[key].spreads;
+      return (fragments[key] && fragments[key].spreads) || '';
     },
     definitions(key) {
-      return fragments[key] && fragments[key].definitions;
+      return (fragments[key] && fragments[key].definitions) || '';
     },
   };
 }
