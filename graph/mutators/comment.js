@@ -246,7 +246,16 @@ const editComment = async ({user, loaders: {Comments}}, {id, edit}) => {
     return status;
   };
   const status = await determineStatusForComment({body, asset_id});
-  await CommentsService.edit(id, Object.assign({status}, edit));
+  try {
+    await CommentsService.edit(comment, Object.assign({status}, edit));
+  } catch (error) {
+    switch (error.name) {
+    case 'EditWindowExpired':
+      throw errors.ErrNotAuthorized;
+    default:
+      throw error;
+    }
+  }
 };
 
 module.exports = (context) => {

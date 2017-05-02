@@ -15,6 +15,8 @@ const STATUSES = [
   'NONE',
 ];
 
+const EDIT_WINDOW_MS = 5 * 60 * 60; // 5 minutes
+
 module.exports = class CommentsService {
 
   /**
@@ -49,13 +51,32 @@ module.exports = class CommentsService {
 
   /**
    * Edit a Comment
+   * @param {CommentModel|String} comment you want to edit (or its ID)
    * @param {String} body  the new Comment body
    * @param {String} status  the new Comment status
    */
-  static async edit(id, {body, status}) {
+  static async edit(comment, {body, status, ignoreEditWindow}) {
+    if (typeof comment === 'string') {
+
+      // it's an id
+      comment = await this.findById(comment);
+    }
+    const lastEditDate = (comment) => {
+      const {created_at, body_history} = comment;
+      const lastEdit = body_history[body_history.length - 1];
+      return lastEdit.created_at || created_at;
+    };
+    const editWindowExpired = (new Date() - lastEditDate(comment)) > EDIT_WINDOW_MS;
+    if (( ! ignoreEditWindow) && editWindowExpired) {
+      throw Object.assign(new Error('Edit window is over.'), {
+        name: 'EditWindowExpired'
+      });
+    }
     if (status && ! STATUSES.includes(status)) {
       throw new Error(`status ${status} is not supported`);
     }
+
+    const {id} = comment;
     const {nModified} = await CommentModel.update({id}, {
       $set: {
         body,

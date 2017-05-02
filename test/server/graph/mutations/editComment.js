@@ -1,5 +1,6 @@
 const expect = require('chai').expect;
 const {graphql} = require('graphql');
+const timekeeper = require('timekeeper');
 
 const schema = require('../../../../graph/schema');
 const Context = require('../../../../graph/context');
@@ -13,6 +14,7 @@ describe('graph.mutations.editComment', () => {
   let user;
   let settings;
   beforeEach(async () => {
+    timekeeper.reset();
     settings = await SettingsService.init();
     asset = await AssetModel.create({});
     user = await UsersService.createLocalUser(
@@ -71,6 +73,34 @@ describe('graph.mutations.editComment', () => {
     expect(commentAfterEdit.body_history[1].created_at).to.be.instanceOf(Date);
     expect(commentAfterEdit.body_history[1].created_at).to.be.at.least(testStartedAt);
     expect(commentAfterEdit.status).to.equal('NONE');
+  });
+
+  it('A user can\'t edit their comment outside of the edit comment time window', async () => {
+    const comment = await CommentsService.publicCreate({
+      asset_id: asset.id,
+      author_id: user.id,
+      body: `hello there! ${  String(Math.random()).slice(2)}`,
+    });
+
+    const now = new Date();
+    const oneHourFromNow = new Date(new Date(now).setHours(now.getHours() + 1));
+    timekeeper.travel(oneHourFromNow);
+
+    const newBody = 'This body should never be set';
+    const context = new Context({user});
+    const response = await graphql(schema, editCommentMutation, {}, context, {
+      id: comment.id,
+      edit: {
+        body: newBody
+      }
+    });
+    expect(response.errors).to.be.empty;
+    expect(response.data.editComment.errors).to.not.be.empty;
+    expect(response.data.editComment.errors[0].translation_key).to.equal('NOT_AUTHORIZED');
+    const commentAfterEdit = await CommentsService.findById(comment.id);
+
+    // it *hasn't* changed from the original
+    expect(commentAfterEdit.body).to.equal(comment.body);
   });
 
   it('A user can\'t edit someone else\'s comment', async () => {
