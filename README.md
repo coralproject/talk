@@ -20,7 +20,7 @@ To launch a Talk server of your own from your browser without any need to muck a
 
 ### Configuration
 
-The Talk application looks for the following configuration values either as environment variables:
+The Talk application looks for the following configuration values as environment variables:
 
 - `TALK_MONGO_URL` (*required*) - the database connection string for the MongoDB database.
 - `TALK_REDIS_URL` (*required*) - the database connection string for the Redis database.
@@ -38,6 +38,7 @@ available in the format: `<scheme>://<host>` without the path.
 - `TALK_RECAPTCHA_SECRET` (*required for reCAPTCHA support*) - server secret used for enabling reCAPTCHA powered logins. If not provided it will instead default to providing only a time based lockout.
 - `TALK_RECAPTCHA_PUBLIC` (*required for reCAPTCHA support*) - client secret used for enabling reCAPTCHA powered logins. If not provided it will instead default to providing only a time based lockout.
 - `TALK_PLUGINS_JSON` (_optional_) - used to specify the plugin config via the environment
+- `NODE_ENV` (*required*) - either 'development' or 'production'
 
 Refer to the wiki page on [Configuration Loading](https://github.com/coralproject/talk/wiki/Configuration-Loading) for
 alternative methods of loading configuration during development.
