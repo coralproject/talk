@@ -72,6 +72,11 @@ services:
     environment:
       - TALK_MONGO_URL=mongodb://mongo/talk
       - TALK_REDIS_URL=redis://redis
+      - TALK_SESSION_SECRET=this_is_a_secret_string
+      - TALK_ROOT_URL=http://localhost
+      - TALK_FACEBOOK_APP_ID=none
+      - TALK_FACEBOOK_APP_SECRET=none
+      - NODE_ENV=development
   mongo:
     image: mongo:3.2
     restart: always
