@@ -73,6 +73,45 @@ describe('graph.mutations.editComment', () => {
     expect(commentAfterEdit.status).to.equal('NONE');
   });
 
+  it('A user can\'t edit someone else\'s comment', async () => {
+    const comment = await CommentsService.publicCreate({
+      asset_id: asset.id,
+      author_id: user.id,
+      body: `hello there! ${  String(Math.random()).slice(2)}`,
+    });
+
+    const userB = await UsersService.createLocalUser(
+      'usernameB@example.com', 'password', 'usernameB');
+    const newBody = 'This body should never be set';
+    const context = new Context({user: userB});
+    const response = await graphql(schema, editCommentMutation, {}, context, {
+      id: comment.id,
+      edit: {
+        body: newBody
+      }
+    });
+    expect(response.errors).to.be.empty;
+    expect(response.data.editComment.errors[0].translation_key).to.equal('NOT_AUTHORIZED');
+    const commentAfterEdit = await CommentsService.findById(comment.id);    
+
+    // it *hasn't* changed from the original
+    expect(commentAfterEdit.body).to.equal(comment.body);
+  });
+
+  it('A user Can\'t edit a comment id that doesn\'t exist', async () => {
+    const fakeCommentId = 'nooooope';
+    const newBody = 'This body should never be set';
+    const context = new Context({user});
+    const response = await graphql(schema, editCommentMutation, {}, context, {
+      id: fakeCommentId,
+      edit: {
+        body: newBody
+      }
+    });
+    expect(response.errors).to.be.empty;
+    expect(response.data.editComment.errors[0].translation_key).to.equal('NOT_FOUND');
+  });
+
   const bannedWord = 'BANNED_WORD';
   [
     {
@@ -175,16 +214,8 @@ describe('graph.mutations.editComment', () => {
     });
   });
 
-  /**
-  Server: When an Edit is sent to the server
-  -- The (old) comment.body and (current) timestamp are pushed onto the comment.body_history array.
-  -- The status is set to the same status as if the comment is posted for the first time.*
-  -- The body of the comment is updated.
-  */
   // user can't edit outside of edit window
-  // can't edit comment id that doesn't exist
-  // user cant edit comments by others
 
   // should BANNED users be able to edit their comments?
-
+  
 });

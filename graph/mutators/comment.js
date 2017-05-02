@@ -230,6 +230,15 @@ const removeCommentTag = ({user, loaders: {Comments}}, {id, tag}) => {
 const editComment = async ({user, loaders: {Comments}}, {id, edit}) => {
   const {body} = edit;
   const comment = await CommentsService.findById(id);
+  if ( ! comment) {
+    throw new errors.APIError('Comment not found', {
+      status: 404,
+      translation_key: 'NOT_FOUND',
+    });
+  }
+  if ( ! (user && user.id && (user.id === comment.author_id))) {
+    throw errors.ErrNotAuthorized;
+  }
   const {asset_id} = comment;
   const determineStatusForComment = async ({body, asset_id}) => {
     const [wordlist, settings] = await filterNewComment({asset_id, body});
