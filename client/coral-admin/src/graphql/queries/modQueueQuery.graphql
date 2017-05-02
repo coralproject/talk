@@ -1,5 +1,4 @@
 #import "../fragments/commentView.graphql"
-#import "../fragments/counts.graphql"
 
 query ModQueue ($asset_id: ID, $sort: SORT_ORDER) {
     all: comments(query: {
@@ -43,5 +42,24 @@ query ModQueue ($asset_id: ID, $sort: SORT_ORDER) {
       title
       url
     }
-    ...counts
+    allCount: commentCount(query: {
+      asset_id: $asset_id
+    })
+    acceptedCount: commentCount(query: {
+      statuses: [ACCEPTED],
+      asset_id: $asset_id
+    })
+    premodCount: commentCount(query: {
+      statuses: [PREMOD],
+      asset_id: $asset_id
+    })
+    rejectedCount: commentCount(query: {
+       statuses: [REJECTED],
+       asset_id: $asset_id
+    })
+    flaggedCount: commentCount(query: {
+      action_type: FLAG,
+      asset_id: $asset_id,
+      statuses: [NONE, PREMOD]
+    })
 }

@@ -6,7 +6,6 @@ fragment metrics on Asset {
   created_at
   commentCount
   action_summaries {
-    type: __typename
     actionCount
     actionableItemCount
   }
