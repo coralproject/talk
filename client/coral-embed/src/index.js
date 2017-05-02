@@ -22,18 +22,18 @@ const snackbarStyles = {
   transform: 'translate(-50%, 20px)',
   bottom: 0,
   boxSizing: 'border-box',
-  fontFamily: 'Helvetica, \'Helvetica Neue\', Verdana, sans-serif'
+  fontFamily: 'Helvetica, "Helvetica Neue", Verdana, sans-serif'
 };
 
 // This function should return value of window.Coral
 const Coral = {};
-const Talk = Coral.Talk = {};
+const Talk = (Coral.Talk = {});
 
 // build the URL to load in the pym iframe
 function buildStreamIframeUrl(talkBaseUrl, query) {
   let url = [
     talkBaseUrl,
-    (talkBaseUrl.match(/\/$/) ? '' : '/'), // make sure no double-'/' if opts.talk already ends with '/'
+    talkBaseUrl.match(/\/$/) ? '' : '/', // make sure no double-'/' if opts.talk already ends with '/'
     'embed/stream?'
   ].join('');
 
@@ -44,11 +44,22 @@ function buildStreamIframeUrl(talkBaseUrl, query) {
 
 // Set up postMessage listeners/handlers on the pymParent
 // e.g. to resize the iframe, and navigate the host page
-function configurePymParent(pymParent) {
+function configurePymParent(pymParent, opts) {
   let notificationOffset = 200;
-  let ready = false;
+  let DOMReady = false;
   let cachedHeight;
   const snackbar = document.createElement('div');
+
+  // Sets DOMReady
+  function completed() {
+    DOMReady = true;
+  }
+
+  // Sends config to pymChild
+  function sendConfig(config) {
+    pymParent.sendMessage('config', JSON.stringify(config));
+  }
+
   snackbar.id = 'coral-notif';
 
   for (let key in snackbarStyles) {
@@ -69,12 +80,12 @@ function configurePymParent(pymParent) {
     }
   });
 
-  pymParent.onMessage('coral-clear-notification', function () {
+  pymParent.onMessage('coral-clear-notification', function() {
     snackbar.style.opacity = 0;
   });
 
   // remove the permalink comment id from the hash
-  pymParent.onMessage('coral-view-all-comments', function () {
+  pymParent.onMessage('coral-view-all-comments', function() {
     window.history.replaceState(
       {},
       document.title,
@@ -82,7 +93,7 @@ function configurePymParent(pymParent) {
     );
   });
 
-  pymParent.onMessage('coral-alert', function (message) {
+  pymParent.onMessage('coral-alert', function(message) {
     const [type, text] = message.split('|');
     snackbar.style.transform = 'translate(-50%, 20px)';
     snackbar.style.opacity = 0;
@@ -110,39 +121,46 @@ function configurePymParent(pymParent) {
     pymParent.sendMessage('position', position);
   });
 
+  // Sends config to the child
+  pymParent.onMessage('getConfig', function() {
+    sendConfig(opts || {});
+  });
+
+  document.addEventListener('DOMContentLoaded', completed, false);
+
+  // A fallback to window.onload, that will always work
+  window.addEventListener('load', completed, false);
+
   // Tell child when parent's DOMContentLoaded
-  pymParent.onMessage('childReady', function () {
-    const interval = setInterval(function () {
-      if (ready) {
+  pymParent.onMessage('childReady', function() {
+    const interval = setInterval(function() {
+      if (DOMReady) {
         window.clearInterval(interval);
 
-        // TODO: It's weird to me that this is sent here
+        // DOMContentLoaded is ready
         pymParent.sendMessage('DOMContentLoaded');
+
+        // Sending the config to the child
+        sendConfig(opts || {});
       }
     }, 100);
   });
 
   // When end-user clicks link in iframe, open it in parent context
-  pymParent.onMessage('navigate', function (url) {
+  pymParent.onMessage('navigate', function(url) {
     window.open(url, '_blank').focus();
-  });
-
-  // wait till images and other iframes are loaded before scrolling the page.
-  // or do we want to be more aggressive and scroll when we hit DOM ready?
-  document.addEventListener('DOMContentLoaded', function () {
-    ready = true;
   });
 
   // get dimensions of viewport
   const viewport = () => {
     let e = window, a = 'inner';
-    if ( !( 'innerWidth' in window ) ){
+    if (!('innerWidth' in window)) {
       a = 'client';
       e = document.documentElement || document.body;
     }
     return {
-      width : e[`${a}Width`],
-      height : e[`${a}Height`]
+      width: e[`${a}Width`],
+      height: e[`${a}Height`]
     };
   };
 }
@@ -156,18 +174,24 @@ function configurePymParent(pymParent) {
  * @param {String} [opts.asset_url] - Asset URL
  * @param {String} [opts.asset_id] - Asset ID
  */
-Talk.render = function (el, opts) {
+Talk.render = function(el, opts) {
   if (!el) {
-    throw new Error('Please provide Coral.Talk.render() the HTMLElement you want to render Talk in.');
+    throw new Error(
+      'Please provide Coral.Talk.render() the HTMLElement you want to render Talk in.'
+    );
   }
   if (typeof el !== 'object') {
-    throw new Error(`Coral.Talk.render() expected HTMLElement but got ${el} (${typeof el})`);
+    throw new Error(
+      `Coral.Talk.render() expected HTMLElement but got ${el} (${typeof el})`
+    );
   }
   opts = opts || {};
 
   // TODO: infer this URL without explicit user input (if possible, may have to be added at build/render time of this script)
   if (!opts.talk) {
-    throw new Error('Coral.Talk.render() expects opts.talk as the Talk Base URL');
+    throw new Error(
+      'Coral.Talk.render() expects opts.talk as the Talk Base URL'
+    );
   }
 
   // Ensure el has an id, as pym can't directly accept the HTMLElement.
@@ -186,16 +210,21 @@ Talk.render = function (el, opts) {
     try {
       query.asset_url = document.querySelector('link[rel="canonical"]').href;
     } catch (e) {
-      console.warn('This page does not include a canonical link tag. Talk has inferred this asset_url from the window object. Query params have been stripped, which may cause a single thread to be present across multiple pages.');
+      console.warn(
+        'This page does not include a canonical link tag. Talk has inferred this asset_url from the window object. Query params have been stripped, which may cause a single thread to be present across multiple pages.'
+      );
       query.asset_url = window.location.origin + window.location.pathname;
     }
   }
 
-  configurePymParent(new pym.Parent(el.id, buildStreamIframeUrl(opts.talk, query), {
-    title: opts.title,
-    id: `${el.id}_iframe`,
-    name: `${el.id}_iframe`
-  }));
+  configurePymParent(
+    new pym.Parent(el.id, buildStreamIframeUrl(opts.talk, query), {
+      title: opts.title,
+      id: `${el.id}_iframe`,
+      name: `${el.id}_iframe`
+    }),
+    opts
+  );
 };
 
 export default Coral;

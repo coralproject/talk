@@ -21,6 +21,14 @@ class EmbedContainer extends React.Component {
 
   componentDidMount() {
     pym.sendMessage('childReady');
+
+    pym.onMessage('config', config => {
+      console.log(JSON.parse(config));
+    });
+  }
+
+  componentWillUnmount() {
+    pym.remove();
   }
 
   componentWillReceiveProps(nextProps) {
