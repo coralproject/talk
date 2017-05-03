@@ -52,7 +52,7 @@ describe('graph.loaders.Metrics', () => {
               to: (new Date()).setMinutes((new Date()).getMinutes() + 5)
             })
               .then(({data, errors}) => {
-              console.log(errors)
+                console.log(errors);
                 expect(errors).to.be.undefined;
                 expect(data.flagged).to.have.length(flagged);
               });
