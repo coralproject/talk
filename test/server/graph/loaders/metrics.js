@@ -15,9 +15,6 @@ describe('graph.loaders.Metrics', () => {
   describe('#Comments', () => {
     const query = `
       query CommentMetrics($from: Date!, $to: Date!) {
-        liked: commentMetrics(from: $from, to: $to, sort: LIKE) {
-          id
-        }
         flagged: commentMetrics(from: $from, to: $to, sort: FLAG) {
           id
         }
@@ -33,26 +30,21 @@ describe('graph.loaders.Metrics', () => {
       ]));
 
       [
-        {liked: 0, flagged: 0, actions: []},
-        {liked: 1, flagged: 0, actions: [{action_type: 'LIKE', item_id: '1', item_type: 'COMMENTS'}]},
-        {liked: 0, flagged: 1, actions: [{action_type: 'FLAG', item_id: '1', item_type: 'COMMENTS'}]},
-        {liked: 1, flagged: 1, actions: [
+        {flagged: 0, actions: []},
+        {flagged: 1, actions: [{action_type: 'FLAG', item_id: '1', item_type: 'COMMENTS'}]},
+        {flagged: 1, actions: [
           {action_type: 'FLAG', item_id: '1', item_type: 'COMMENTS'},
-          {action_type: 'LIKE', item_id: '1', item_type: 'COMMENTS'}
         ]},
-        {liked: 3, flagged: 1, actions: [
-          {action_type: 'LIKE', item_id: '1', item_type: 'COMMENTS'},
-          {action_type: 'LIKE', item_id: '2', item_type: 'COMMENTS'},
-          {action_type: 'LIKE', item_id: '3', item_type: 'COMMENTS'},
+        {flagged: 1, actions: [
           {action_type: 'FLAG', item_id: '3', item_type: 'COMMENTS'}
         ]}
-      ].forEach(({liked, flagged, actions}) => {
+      ].forEach(({flagged, actions}) => {
 
         describe(`with actions=${actions.length}`, () => {
 
           beforeEach(() => ActionModel.create(actions));
 
-          it(`returns the correct amount of metrics liked=${liked} flagged=${flagged}`, () => {
+          it(`returns the correct amount of metrics flagged=${flagged}`, () => {
             const context = new Context({user: new UserModel({roles: ['ADMIN']})});
 
             return graphql(schema, query, {}, context, {
@@ -60,8 +52,8 @@ describe('graph.loaders.Metrics', () => {
               to: (new Date()).setMinutes((new Date()).getMinutes() + 5)
             })
               .then(({data, errors}) => {
+                console.log(errors);
                 expect(errors).to.be.undefined;
-                expect(data.liked).to.have.length(liked);
                 expect(data.flagged).to.have.length(flagged);
               });
           });
@@ -88,9 +80,6 @@ describe('graph.loaders.Metrics', () => {
         assetsByFlag: assetMetrics(from: $from, to: $to, sort: FLAG) {
           ...metrics
         }
-        assetsByLike: assetMetrics(from: $from, to: $to, sort: LIKE) {
-          ...metrics
-        }
       }
     `;
 
@@ -109,26 +98,21 @@ describe('graph.loaders.Metrics', () => {
       ]));
 
       [
-        {liked: 0, flagged: 0, actions: []},
-        {liked: 1, flagged: 0, actions: [{action_type: 'LIKE', item_id: 'c1', item_type: 'COMMENTS'}]},
-        {liked: 0, flagged: 1, actions: [{action_type: 'FLAG', item_id: 'c1', item_type: 'COMMENTS'}]},
-        {liked: 1, flagged: 1, actions: [
+        {flagged: 0, actions: []},
+        {flagged: 1, actions: [{action_type: 'FLAG', item_id: 'c1', item_type: 'COMMENTS'}]},
+        {flagged: 1, actions: [
           {action_type: 'FLAG', item_id: 'c1', item_type: 'COMMENTS'},
-          {action_type: 'LIKE', item_id: 'c1', item_type: 'COMMENTS'}
         ]},
-        {liked: 1, flagged: 1, actions: [
-          {action_type: 'LIKE', item_id: 'c1', item_type: 'COMMENTS'},
-          {action_type: 'LIKE', item_id: 'c2', item_type: 'COMMENTS'},
-          {action_type: 'LIKE', item_id: 'c3', item_type: 'COMMENTS'},
+        {flagged: 1, actions: [
           {action_type: 'FLAG', item_id: 'c3', item_type: 'COMMENTS'}
         ]}
-      ].forEach(({liked, flagged, actions}) => {
+      ].forEach(({flagged, actions}) => {
 
         describe(`with actions=${actions.length}`, () => {
 
           beforeEach(() => ActionModel.create(actions));
 
-          it(`returns the correct amount of metrics liked=${liked} flagged=${flagged}`, () => {
+          it(`returns the correct amount of metrics flagged=${flagged}`, () => {
             const context = new Context({user: new UserModel({roles: ['ADMIN']})});
 
             return graphql(schema, query, {}, context, {
@@ -137,7 +121,6 @@ describe('graph.loaders.Metrics', () => {
             })
               .then(({data, errors}) => {
                 expect(errors).to.be.undefined;
-                expect(data.assetsByLike).to.have.length(liked);
                 expect(data.assetsByFlag).to.have.length(flagged);
               });
           });
