@@ -63,15 +63,13 @@ export const loadMore = (fetchMore) => ({limit, cursor, sort, tab, asset_id}) =>
       asset_id
     },
     updateQuery: (oldData, {fetchMoreResult:{comments}}) => {
-      const updatedData = {
+      return {
         ...oldData,
         [tab]: [
           ...oldData[tab],
           ...comments
         ]
       };
-
-      return updatedData;
     }
   });
 };
