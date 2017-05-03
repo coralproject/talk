@@ -22,6 +22,15 @@
     "comment": "comment",
     "comments": "comments",
     "commentIsIgnored": "This comment is hidden because you ignored this user.",
+    "editComment": {
+      "bodyInputLabel": "Edit this comment",
+      "saveButton": "Save changes",
+      "editWindowExpired": "You can no longer edit this comment. The time window to do so has expired. Why not post another one?",
+      "editWindowExpiredClose": "Close",
+      "editWindowTimerPrefix": "Edit Window: ",
+      "second": "second",
+      "secondsPlural": "seconds"
+    },
     "error": {
       "editWindowExpired": "You can no longer edit this comment. The time window to do so has expired.",
       "emailNotVerified": "Email address {0} not verified.",
@@ -63,6 +72,15 @@
     "comments": "commentarios",
     "commentIsIgnored": "Este comentario está escondido porque has ignorado al usuario.",
     "showAllComments": "Mostrar todos los comentarios",
+    "editComment": {
+      "bodyInputLabel": "Editar este comentario",
+      "saveButton": "Guardar cambios",
+      "editWindowExpired": "Ya no puedes editar este comentario. La ventana de tiempo para hacerlo ha caducado. ¿Por qué no publicar otro?",
+      "editWindowExpiredClose": "Cerca",
+      "editWindowTimerPrefix": "Ventana de edición: ",
+      "second": "segundo",
+      "secondsPlural": "segundos"
+    },
     "error": {
       "emailNotVerified": "E-mail {0} no verificado.",
       "email": "No es un e-mail válido",

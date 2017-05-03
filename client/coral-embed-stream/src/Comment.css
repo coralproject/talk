@@ -49,6 +49,25 @@
   margin-top: 5px;
 }
 
+.editCommentForm {
+  margin-bottom: 10px;
+}
+
+.editCommentForm .buttonContainerLeft {
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.editCommentForm .buttonContainerLeft .editWindowRemaining {
+  margin-right: 1em;
+}
+
+.editCommentForm .button {
+  flex-shrink: 0;
+}
+
 .link {
   color: #2376D8;
   cursor: pointer;

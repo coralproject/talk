@@ -1,6 +1,8 @@
 import React, {PropTypes} from 'react';
 import {CommentForm} from 'coral-plugin-commentbox/CommentBox';
+import styles from './Comment.css';
 
+import {Icon} from 'coral-ui';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-framework/translations';
 const lang = new I18n(translations);
@@ -102,7 +104,7 @@ export class EditableCommentContent extends React.Component {
     const editableUntil = getEditableUntilDate(this.props.comment);
     const editWindowExpired = (editableUntil - new Date()) < 0;
     return (
-      <div style={{marginBottom: '10px'}}>
+      <div className={styles.editCommentForm}>
         <CommentForm
           defaultValue={this.props.comment.body}
           charCountEnable={this.props.asset.settings.charCountEnable}
@@ -114,17 +116,33 @@ export class EditableCommentContent extends React.Component {
             return (comment.body !== originalBody) && ! editWindowExpired;
           }}
           saveComment={this.editComment}
-          bodyLabel={'Edit this comment' /* @TODO (bengo) i18n */}
+          bodyLabel={lang.t('editComment.bodyInputLabel')}
           bodyPlaceholder=""
-          submitText={'Save changes' /* @TODO (bengo) i18n */}
+          submitText={<span>{lang.t('editComment.saveButton')}</span>}
           saveButtonCStyle="green"
           cancelButtonClicked={this.props.stopEditing}
+          buttonClass={styles.button}
+          buttonContainerStart={
+            <div className={styles.buttonContainerLeft}>
+              <span className={styles.editWindowRemaining}>
+                {
+                  editWindowExpired
+                  ? <span>
+                      {lang.t('editComment.editWindowExpired')}
+                      {
+                        typeof this.props.stopEditing === 'function'
+                        ? <span>&nbsp;<a className={styles.link} onClick={this.props.stopEditing}>{lang.t('editComment.editWindowExpiredClose')}</a></span>
+                        : null
+                      }
+                    </span>
+                  : <span>
+                      <Icon name="timer"/> {lang.t('editComment.editWindowTimerPrefix')}<CountdownSeconds until={editableUntil} />
+                    </span>
+                }
+              </span>
+            </div>
+          }
         />
-        {
-          editWindowExpired
-          ? <p>You can no longer edit this comment. The time window to do so has expired. Why not post another one?</p>
-          : <p>You have <CountdownSeconds until={editableUntil} /> to save this Edit. You may save this edit now to reset the clock.</p>
-        }
       </div>
     );
   }
@@ -164,6 +182,7 @@ class CountdownSeconds extends React.Component {
     const secRemaining = msRemaining / 1000;
     const wholeSecRemaining = Math.floor(secRemaining);
     const plural = secRemaining !== 1;
-    return <span>{`${wholeSecRemaining} second${plural ? 's' : ''}`}</span>;
+    const units = lang.t(plural ? 'editComment.secondsPlural' : 'editComment.second');
+    return <span>{`${wholeSecRemaining} ${units}`}</span>;
   }
 }

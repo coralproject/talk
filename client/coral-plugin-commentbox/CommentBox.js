@@ -4,6 +4,7 @@ import translations from './translations.json';
 import {Button} from 'coral-ui';
 import Slot from 'coral-framework/components/Slot';
 import {connect} from 'react-redux';
+import classnames from 'classnames';
 
 const name = 'coral-plugin-commentbox';
 
@@ -48,6 +49,9 @@ export class CommentForm extends Component {
     // return whether the save button should be enabled for the provided
     // comment ({ body }) (for reasons other than charCount)
     saveCommentEnabled: PropTypes.func,
+
+    // className to add to buttons
+    buttonClass: PropTypes.string,
   }
   static get defaultProps() {
     return {
@@ -76,7 +80,7 @@ export class CommentForm extends Component {
     saveComment({body});
   }
   render() {
-    const {maxCharCount, styles, saveCommentEnabled} = this.props;
+    const {maxCharCount, styles, saveCommentEnabled, buttonClass} = this.props;
 
     const body = this.state.body;
     const length = body.length;
@@ -112,7 +116,7 @@ export class CommentForm extends Component {
           typeof this.props.cancelButtonClicked === 'function' && (
             <Button
               cStyle='darkGrey'
-              className={`${name}-cancel-button`}
+              className={classnames(`${name}-cancel-button`, buttonClass)}
               onClick={this.props.cancelButtonClicked}>
               {lang.t('cancel')}
             </Button>
@@ -120,7 +124,7 @@ export class CommentForm extends Component {
         }
         <Button
           cStyle={disablePostComment ? 'lightGrey' : this.props.saveButtonCStyle}
-          className={`${name}-button`}
+          className={classnames(`${name}-button`, buttonClass)}
           onClick={this.onClickSubmit}
           disabled={disablePostComment ? 'disabled' : ''}>
           {this.props.submitText}
