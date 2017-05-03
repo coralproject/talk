@@ -97,9 +97,6 @@ export class EditableCommentContent extends React.Component {
       stopEditing();
     }
   }
-  stopEditing() {
-    this.setState({resetCounter: this.state.resetCounter + 1});
-  }
   render() {
     const originalBody = this.props.comment.body;
     const editableUntil = getEditableUntilDate(this.props.comment);
@@ -121,6 +118,7 @@ export class EditableCommentContent extends React.Component {
           bodyPlaceholder=""
           submitText={'Save changes' /* @TODO (bengo) i18n */}
           saveButtonCStyle="green"
+          cancelButtonClicked={this.props.stopEditing}
         />
         {
           editWindowExpired
