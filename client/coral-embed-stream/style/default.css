@@ -317,9 +317,7 @@ button.comment__action-button[disabled],
 }
 
 .coral-plugin-pubdate-text {
-  color: #696969;
   display: inline-block;
-  font-size: .75rem;
   margin-left: 5px;
 }
 

@@ -63,6 +63,7 @@ describe('graph.mutations.editComment', () => {
       console.error(response.errors);
     }
     expect(response.errors).to.be.empty;
+    expect(response.data.editComment.errors).to.be.null;
 
     // assert body has changed
     const commentAfterEdit = await CommentsService.findById(comment.id);

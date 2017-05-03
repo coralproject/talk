@@ -39,6 +39,9 @@ class Comment extends React.Component {
 
   constructor(props) {
     super(props);
+
+    // timeout to keep track of Comment edit window expiration
+    this.editWindowExpiryTimeout = null;
     this.onClickEdit = this.onClickEdit.bind(this);
     this.state = {
 
@@ -92,7 +95,13 @@ class Comment extends React.Component {
       user: PropTypes.shape({
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired
-      }).isRequired
+      }).isRequired,
+      editing: PropTypes.shape({
+        edited: PropTypes.bool,
+
+        // ISO8601
+        editableUntil: PropTypes.string,
+      })
     }).isRequired,
 
     // given a comment, return whether it should be rendered as ignored
@@ -116,6 +125,26 @@ class Comment extends React.Component {
     this.setState({isEditing: true});
   }
 
+  componentDidMount() {
+    if (this.editWindowExpiryTimeout) {
+      this.editWindowExpiryTimeout = clearTimeout(this.editWindowExpiryTimeout);
+    }
+
+    // if still in the edit window, set a timeout to re-render once it expires
+    const msLeftToEdit = editWindowRemainingMs(this.props.comment);
+    if (msLeftToEdit > 0) {
+      this.editWindowExpiryTimeout = setTimeout(() => {
+
+        // re-render
+        this.setState(this.state);
+      }, msLeftToEdit);      
+    }
+  }
+  componentWillUnmount() {
+    if (this.editWindowExpiryTimeout) {
+      this.editWindowExpiryTimeout = clearTimeout(this.editWindowExpiryTimeout);
+    }    
+  }
   render () {
     const {
       comment,
@@ -193,7 +222,14 @@ class Comment extends React.Component {
           { commentIsBest(comment)
             ? <TagLabel><BestIndicator /></TagLabel>
           : null }
-          <PubDate created_at={comment.created_at} />
+          <span className={styles.bylineSecondary}>
+            <PubDate created_at={comment.created_at} />
+            {
+              (comment.editing && comment.editing.edited)
+              ? <span>&nbsp;<span className={styles.editedMarker}>(Edited)</span></span>
+              : null
+            }
+          </span>
           <Slot fill="commentInfoBar" comment={comment} commentId={comment.id} inline/>
 
           { (currentUser &&
@@ -201,9 +237,12 @@ class Comment extends React.Component {
 
               /* User can edit/delete their own comment for a short window after posting */
               ? <span className={classnames(styles.topRight)}>
-                  <a
-                    className={classnames(styles.link, {[styles.active]: this.state.isEditing})}
-                    onClick={this.onClickEdit}>Edit</a>
+                  {
+                    commentIsStillEditable(comment) &&
+                    <a
+                      className={classnames(styles.link, {[styles.active]: this.state.isEditing})}
+                      onClick={this.onClickEdit}>Edit</a>
+                  }
                 </span>
 
               /* TopRightMenu allows currentUser to ignore other users' comments */
@@ -346,3 +385,28 @@ class Comment extends React.Component {
 }
 
 export default Comment;
+
+// return a Date instance representing end of edit window for comment
+const getEditableUntilDate = (comment) => {
+  const editing = comment && comment.editing;
+  const editableUntil = editing && editing.editableUntil && new Date(Date.parse(editing.editableUntil));
+  return editableUntil;  
+};
+
+// return whether the comment is editable
+function commentIsStillEditable (comment) {
+  const editing = comment && comment.editing;
+  if ( ! editing) {return false;}
+  const editableUntil = getEditableUntilDate(comment);
+  const editWindowExpired = (editableUntil - new Date) < 0;
+  return ! editWindowExpired;  
+}
+
+// return number of milliseconds before edit window expires
+function editWindowRemainingMs (comment) {
+  const editableUntil = getEditableUntilDate(comment);
+  if ( ! editableUntil) {return;}
+  const now = new Date();
+  const editWindowRemainingMs = (editableUntil - now);
+  return editWindowRemainingMs;
+}

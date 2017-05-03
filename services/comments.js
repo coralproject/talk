@@ -61,13 +61,12 @@ module.exports = class CommentsService {
       // it's an id
       comment = await this.findById(comment);
     }
-    const lastEditDate = (comment) => {
-      const {created_at, body_history} = comment;
-      const lastEdit = body_history[body_history.length - 1];
-      return lastEdit.created_at || created_at;
+    const editWindowExpired = (comment) => {
+      const now = new Date;
+      const editableUntil = this.getEditableUntilDate(comment);
+      return now > editableUntil;
     };
-    const editWindowExpired = (new Date() - lastEditDate(comment)) > EDIT_WINDOW_MS;
-    if (( ! ignoreEditWindow) && editWindowExpired) {
+    if (( ! ignoreEditWindow) && editWindowExpired(comment)) {
       throw Object.assign(new Error('Edit window is over.'), {
         name: 'EditWindowExpired'
       });
@@ -97,7 +96,20 @@ module.exports = class CommentsService {
     case 0:
       throw new Error(`Couldn't edit comment. There is no Comment with id "${id}"`);
     }
+  }
 
+  /**
+   * Until when can the provided comment be edited?
+   * @param {Comment} comment - comment to check last edit date of
+   * @returns {Date} last date at which comment can be edited
+   */
+  static getEditableUntilDate(comment) {
+    const mostRecentEditDate = (comment) => {
+      const {created_at, body_history} = comment;
+      const lastEdit = body_history[body_history.length - 1];
+      return (lastEdit && lastEdit.created_at) || created_at;
+    };
+    return new Date(Number(mostRecentEditDate(comment)) + EDIT_WINDOW_MS);
   }
 
   /**

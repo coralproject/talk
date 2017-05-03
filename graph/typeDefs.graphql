@@ -166,6 +166,11 @@ input CommentCountQuery {
   tag: [String]
 }
 
+type EditInfo {
+  edited: Boolean!
+  editableUntil: Date
+}
+
 # Comment is the base representation of user interaction in Talk.
 type Comment {
 
@@ -207,6 +212,9 @@ type Comment {
 
   # The time when the comment was created
   created_at: Date!
+
+  # describes how the comment can be edited
+  editing: EditInfo
 }
 
 ################################################################################
