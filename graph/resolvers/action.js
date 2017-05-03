@@ -5,8 +5,6 @@ const Action = {
       return 'DontAgreeAction';
     case 'FLAG':
       return 'FlagAction';
-    case 'LIKE':
-      return 'LikeAction';
     }
   },
 
