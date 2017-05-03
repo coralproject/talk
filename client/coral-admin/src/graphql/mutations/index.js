@@ -44,6 +44,7 @@ export const suspendUser = graphql(SUSPEND_USER, {
   })
 });
 
+const views = ['all', 'premod', 'flagged', 'accepted', 'rejected'];
 export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
   props: ({mutate}) => ({
     acceptComment: ({commentId}) => {
@@ -54,12 +55,9 @@ export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
         },
         updateQueries: {
           ModQueue: (oldData) => {
-            let comment = [
-              ...oldData.all,
-              ...oldData.premod,
-              ...oldData.flagged,
-              ...oldData.rejected
-            ].find(c => c.id === commentId);
+            const comment = views.reduce((comment, view) => {
+              return comment ? comment : oldData[view].find(c => c.id === commentId);
+            }, null);
             let accepted;
             let acceptedCount = oldData.acceptedCount;
 
@@ -102,13 +100,9 @@ export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
         },
         updateQueries: {
           ModQueue: (oldData) => {
-            let comment = [
-              ...oldData.all,
-              ...oldData.premod,
-              ...oldData.flagged,
-              ...oldData.accepted
-            ].find(c => c.id === commentId);
-
+            const comment = views.reduce((comment, view) => {
+              return comment ? comment : oldData[view].find(c => c.id === commentId);
+            }, null);
             let rejected;
             let rejectedCount = oldData.rejectedCount;
 
