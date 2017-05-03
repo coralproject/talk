@@ -15,7 +15,7 @@ const STATUSES = [
   'NONE',
 ];
 
-const EDIT_WINDOW_MS = 5 * 60 * 1000; // 5 minutes
+const EDIT_WINDOW_MS = 30 * 1000; // 30 seconds
 
 module.exports = class CommentsService {
 
