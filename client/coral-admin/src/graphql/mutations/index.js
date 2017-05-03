@@ -79,10 +79,10 @@ export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
 
             return {
               ...oldData,
-              premodCount,
-              flaggedCount,
-              acceptedCount,
-              rejectedCount,
+              premodCount: Math.max(0, premodCount),
+              flaggedCount: Math.max(0, flaggedCount),
+              acceptedCount: Math.max(0, acceptedCount),
+              rejectedCount: Math.max(0, rejectedCount),
               premod,
               flagged,
               accepted,
@@ -124,10 +124,10 @@ export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
 
             return {
               ...oldData,
-              premodCount,
-              flaggedCount,
-              acceptedCount,
-              rejectedCount,
+              premodCount: Math.max(0, premodCount),
+              flaggedCount: Math.max(0, flaggedCount),
+              acceptedCount: Math.max(0, acceptedCount),
+              rejectedCount: Math.max(0, rejectedCount),
               premod,
               flagged,
               accepted,
