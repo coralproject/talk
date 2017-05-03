@@ -14,7 +14,7 @@ const {fetchAssetSuccess} = assetActions;
 import {NEW_COMMENT_COUNT_POLL_INTERVAL} from 'coral-framework/constants/comments';
 
 import {queryStream} from 'coral-framework/graphql/queries';
-import {postComment, postFlag, postLike, postDontAgree, deleteAction, addCommentTag, removeCommentTag, ignoreUser} from 'coral-framework/graphql/mutations';
+import {postComment, postFlag, postLike, postDontAgree, deleteAction, addCommentTag, removeCommentTag, ignoreUser, editComment} from 'coral-framework/graphql/mutations';
 import {editName} from 'coral-framework/actions/user';
 import {updateCountCache, viewAllComments} from 'coral-framework/actions/asset';
 import {notificationActions, authActions, assetActions, pym} from 'coral-framework';
@@ -73,6 +73,9 @@ class Embed extends React.Component {
 
     // dispatch action to ignore another user
     ignoreUser: React.PropTypes.func,
+
+    // edit a comment, passed (id, { body })
+    editComment: React.PropTypes.func,
   }
 
   componentDidMount () {
@@ -265,6 +268,7 @@ class Embed extends React.Component {
                     open={openStream}
                     addNotification={this.props.addNotification}
                     postItem={this.props.postItem}
+                    editComment={this.props.editComment}
                     setActiveReplyBox={this.setActiveReplyBox}
                     activeReplyBox={this.state.activeReplyBox}
                     asset={asset}
@@ -344,5 +348,6 @@ export default compose(
   removeCommentTag,
   ignoreUser,
   deleteAction,
+  editComment,
   queryStream,
 )(Embed);

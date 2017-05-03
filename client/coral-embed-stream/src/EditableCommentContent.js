@@ -1,6 +1,10 @@
 import React, {PropTypes} from 'react';
 import {CommentForm} from 'coral-plugin-commentbox/CommentBox';
 
+import I18n from 'coral-framework/modules/i18n/i18n';
+import translations from 'coral-framework/translations';
+const lang = new I18n(translations);
+
 /**
  * Renders a Comment's body in such a way that the end-user can edit it and save changes
  */
@@ -12,7 +16,6 @@ export class EditableCommentContent extends React.Component {
     // show notification to the user (e.g. for errors)
     addNotification: PropTypes.func.isRequired,
     asset: PropTypes.shape({
-      id: PropTypes.string.isRequired,
       settings: PropTypes.shape({
         charCountEnable: PropTypes.bool,
       }),
@@ -29,14 +32,47 @@ export class EditableCommentContent extends React.Component {
     }),
     maxCharCount: PropTypes.number,
 
-    parentId: PropTypes.string,
+    // edit a comment, passed {{ body }}
+    editComment: React.PropTypes.func,
+
+    // called when editing should be stopped
+    stopEditing: React.PropTypes.func,
   }
   constructor(props) {
     super(props);
+    this.editComment = this.editComment.bind(this);
+  }
+  async editComment(edit) {
+    const {editComment, addNotification, stopEditing} = this.props;
+    if (typeof editComment !== 'function') {return;}
+    let response;
+    let successfullyEdited = false;
+    try {
+      response = await editComment(edit);
+      const errors = (response && response.data && response.data.editComment)
+        ? response.data.editComment.errors
+        : null;
+      if (errors && (errors.length === 1)) {
+        throw errors[0];
+      }
+      successfullyEdited = true;
+    } catch (error) {
+      if (error.translation_key) {
+        addNotification('error', lang.t(error.translation_key) || error.translation_key);
+      } else if (error.networkError) {
+        addNotification('error', lang.t('error.networkError'));
+      } else {
+        throw error;
+      }
+    }
+    if (successfullyEdited && typeof stopEditing === 'function') {
+      stopEditing();
+    }
+  }
+  stopEditing() {
+    this.setState({resetCounter: this.state.resetCounter + 1});
   }
   render() {
-    const saveComment = function () {
-    };
     const originalBody = this.props.comment.body;
     return (
       <div style={{marginBottom: '10px'}}>
@@ -50,7 +86,7 @@ export class EditableCommentContent extends React.Component {
             // original comment
             return comment.body !== originalBody;
           }}
-          saveComment={saveComment}
+          saveComment={this.editComment}
           bodyLabel={'Edit this comment' /* @TODO (bengo) i18n */}
           bodyPlaceholder=""
           submitText={'Save changes' /* @TODO (bengo) i18n */}

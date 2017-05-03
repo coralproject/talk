@@ -96,7 +96,7 @@ describe('graph.mutations.editComment', () => {
     });
     expect(response.errors).to.be.empty;
     expect(response.data.editComment.errors).to.not.be.empty;
-    expect(response.data.editComment.errors[0].translation_key).to.equal('NOT_AUTHORIZED');
+    expect(response.data.editComment.errors[0].translation_key).to.equal('error.editWindowExpired');
     const commentAfterEdit = await CommentsService.findById(comment.id);
 
     // it *hasn't* changed from the original

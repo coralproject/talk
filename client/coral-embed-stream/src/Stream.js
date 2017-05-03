@@ -28,7 +28,10 @@ class Stream extends React.Component {
     ignoreUser: React.PropTypes.func,
 
     // list of user ids that should be rendered as ignored
-    ignoredUsers: React.PropTypes.arrayOf(React.PropTypes.string)
+    ignoredUsers: React.PropTypes.arrayOf(React.PropTypes.string),
+
+    // edit a comment, passed (id, { body })
+    editComment: React.PropTypes.func,
   }
 
   constructor(props) {
@@ -74,6 +77,7 @@ class Stream extends React.Component {
                   addNotification={addNotification}
                   depth={0}
                   postItem={postItem}
+                  editComment={this.props.editComment}
                   asset={asset}
                   currentUser={currentUser}
                   postLike={postLike}

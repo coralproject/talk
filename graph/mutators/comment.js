@@ -251,7 +251,10 @@ const editComment = async ({user, loaders: {Comments}}, {id, edit}) => {
   } catch (error) {
     switch (error.name) {
     case 'EditWindowExpired':
-      throw errors.ErrNotAuthorized;
+      throw new errors.APIError('You can no longer edit this comment. The window to do so has expired.', {
+        status: 401,
+        translation_key: 'error.editWindowExpired',
+      });
     default:
       throw error;
     }

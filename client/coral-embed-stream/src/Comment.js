@@ -106,6 +106,9 @@ class Comment extends React.Component {
 
     // dispatch action to ignore another user
     ignoreUser: React.PropTypes.func,
+
+    // edit a comment, passed (id, { body })
+    editComment: React.PropTypes.func,
   }
 
   onClickEdit (e) {
@@ -215,12 +218,14 @@ class Comment extends React.Component {
           { 
             this.state.isEditing
             ? <EditableCommentContent
+                editComment={this.props.editComment.bind(null, comment.id)}
                 addNotification={addNotification}
                 asset={asset}
                 comment={comment}
                 currentUser={currentUser}
                 maxCharCount={maxCharCount}
                 parentId={parentId}
+                stopEditing={() => this.setState({isEditing: false})}
                 />
             : <Content body={comment.body} />
           }
@@ -303,6 +308,7 @@ class Comment extends React.Component {
                   addNotification={addNotification}
                   parentId={comment.id}
                   postItem={postItem}
+                  editComment={this.props.editComment}
                   depth={depth + 1}
                   asset={asset}
                   highlighted={highlighted}

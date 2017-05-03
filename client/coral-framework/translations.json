@@ -23,8 +23,10 @@
     "comments": "comments",
     "commentIsIgnored": "This comment is hidden because you ignored this user.",
     "error": {
+      "editWindowExpired": "You can no longer edit this comment. The time window to do so has expired.",
       "emailNotVerified": "Email address {0} not verified.",
       "email": "Not a valid E-Mail",
+      "networkError": "Failed to connect to server. Check your internet connection and try again.",
       "password": "Password must be at least 8 characters",
       "username": "Usernames can contain letters, numbers and _ only",
       "confirmPassword": "Passwords don't match. Please, check again",

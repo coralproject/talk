@@ -8,6 +8,7 @@ import ADD_COMMENT_TAG from './addCommentTag.graphql';
 import REMOVE_COMMENT_TAG from './removeCommentTag.graphql';
 import IGNORE_USER from './ignoreUser.graphql';
 import STOP_IGNORING_USER from './stopIgnoringUser.graphql';
+import EDIT_COMMENT from './editComment.graphql';
 
 import MY_IGNORED_USERS from '../queries/myIgnoredUsers.graphql';
 import STREAM_QUERY from '../queries/streamQuery.graphql';
@@ -181,6 +182,27 @@ export const stopIgnoringUser = graphql(STOP_IGNORING_USER, {
             {
               query: MY_IGNORED_USERS,
             },
+            {
+              query: STREAM_QUERY,
+              variables: variablesForStreamQuery(ownProps),
+            }
+          ]
+        });
+      }
+    };
+  }
+});
+
+export const editComment = graphql(EDIT_COMMENT, {
+  props: ({mutate, ownProps}) => {
+    return {
+      editComment: (id, edit) => {
+        return mutate({
+          variables: {
+            id,
+            edit,
+          },
+          refetchQueries: [
             {
               query: STREAM_QUERY,
               variables: variablesForStreamQuery(ownProps),
