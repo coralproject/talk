@@ -96,6 +96,16 @@ const RootQuery = {
     return await Users.getByQuery({ids: currentUser.ignoresUsers});
   },
 
+  // this returns an arbitrary user
+  user(_, {id}, {user, loaders: {Users}}) {
+    console.log("user id!", id);
+    if (user == null || !user.hasRoles('ADMIN')) {
+      return null;
+    }
+
+    return Users.getByID.load(id);
+  },
+
   // This endpoint is used for loading the user moderation queues (users whose username has been flagged),
   // so hide it in the event that we aren't an admin.
   users(_, {query: {action_type, limit, cursor, sort}}, {user, loaders: {Users, Actions}}) {

@@ -9,7 +9,16 @@ import translations from 'coral-admin/src/translations';
 import LoadMore from './components/LoadMore';
 
 const lang = new I18n(translations);
-const ModerationQueue = ({comments, selectedIndex, commentCount, singleView, loadMore, activeTab, sort, ...props}) => {
+const ModerationQueue = ({
+  comments,
+  selectedIndex,
+  commentCount,
+  singleView,
+  loadMore,
+  activeTab,
+  sort,
+  viewUserDetail,
+  ...props}) => {
   return (
     <div id="moderationList" className={`${styles.list} ${singleView ? styles.singleView : ''}`}>
       <ul style={{paddingLeft: 0}}>
@@ -26,6 +35,7 @@ const ModerationQueue = ({comments, selectedIndex, commentCount, singleView, loa
             bannedWords={props.bannedWords}
             actions={actionsMap[status]}
             showBanUserDialog={props.showBanUserDialog}
+            viewUserDetail={viewUserDetail}
             acceptComment={props.acceptComment}
             rejectComment={props.rejectComment}
             currentAsset={props.currentAsset}
@@ -47,6 +57,7 @@ const ModerationQueue = ({comments, selectedIndex, commentCount, singleView, loa
 };
 
 ModerationQueue.propTypes = {
+  viewUserDetail: PropTypes.func.isRequired,
   bannedWords: PropTypes.arrayOf(PropTypes.string).isRequired,
   suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired,
   currentAsset: PropTypes.object,

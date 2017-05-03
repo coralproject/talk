@@ -5,7 +5,7 @@ import key from 'keymaster';
 import isEqual from 'lodash/isEqual';
 import styles from './components/styles.css';
 
-import {modQueueQuery} from '../../graphql/queries';
+import {modQueueQuery, getUserDetail} from '../../graphql/queries';
 import {banUser, setCommentStatus} from '../../graphql/mutations';
 
 import {fetchSettings} from 'actions/settings';
@@ -19,6 +19,7 @@ import ModerationMenu from './components/ModerationMenu';
 import ModerationHeader from './components/ModerationHeader';
 import NotFoundAsset from './components/NotFoundAsset';
 import ModerationKeysModal from '../../components/ModerationKeysModal';
+import UserDetail from '../../components/UserDetail';
 
 class ModerationContainer extends Component {
   state = {
@@ -73,6 +74,15 @@ class ModerationContainer extends Component {
           selectedIndex: prevState.selectedIndex > 0 ?
             prevState.selectedIndex - 1 : prevState.selectedIndex
         }));
+    }
+  }
+
+  viewUserDetail = (id) => {
+    console.log('getting user detail', id, typeof getUserDetail);
+    try {
+      getUserDetail({id});
+    } catch (e) {
+      console.log(e);
     }
   }
 
@@ -180,6 +190,7 @@ class ModerationContainer extends Component {
           assetId={providedAssetId}
           sort={this.state.sort}
           commentCount={activeTabCount}
+          viewUserDetail={this.viewUserDetail}
         />
         <BanUserDialog
           open={moderation.banDialog}
@@ -190,11 +201,12 @@ class ModerationContainer extends Component {
           showRejectedNote={moderation.showRejectedNote}
           rejectComment={props.rejectComment}
         />
-      <ModerationKeysModal
+        <ModerationKeysModal
           hideShortcutsNote={props.hideShortcutsNote}
           shortcutsNoteVisible={moderation.shortcutsNoteVisible}
           open={moderation.modalOpen}
           onClose={onClose}/>
+        {data.user && <UserDetail user={data.user} />}
       </div>
     );
   }

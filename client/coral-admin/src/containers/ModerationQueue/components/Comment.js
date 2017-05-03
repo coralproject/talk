@@ -18,7 +18,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations.json';
 const lang = new I18n(translations);
 
-const Comment = ({actions = [], comment, ...props}) => {
+const Comment = ({actions = [], comment, viewUserDetail, ...props}) => {
   const links = linkify.getMatches(comment.body);
   const linkText = links ? links.map(link => link.raw) : [];
   const flagActionSummaries = getActionSummary('FlagActionSummary', comment);
@@ -35,7 +35,10 @@ const Comment = ({actions = [], comment, ...props}) => {
       <div className={styles.container}>
         <div className={styles.itemHeader}>
           <div className={styles.author}>
-            <span>
+            <span className={styles.username} onClick={() => {
+              console.log('clickt', comment.user.id);
+              viewUserDetail(comment.user.id);
+            }}>
               {comment.user.name}
             </span>
             <span className={styles.created}>
@@ -89,6 +92,7 @@ const Comment = ({actions = [], comment, ...props}) => {
 };
 
 Comment.propTypes = {
+  viewUserDetail: PropTypes.func.isRequired,
   acceptComment: PropTypes.func.isRequired,
   rejectComment: PropTypes.func.isRequired,
   suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -100,8 +104,9 @@ Comment.propTypes = {
     actions: PropTypes.array,
     created_at: PropTypes.string.isRequired,
     user: PropTypes.shape({
+      id: PropTypes.string,
       status: PropTypes.string
-    }),
+    }).isRequired,
     asset: PropTypes.shape({
       title: PropTypes.string,
       id: PropTypes.string

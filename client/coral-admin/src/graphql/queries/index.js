@@ -4,6 +4,7 @@ import MOD_QUEUE_QUERY from './modQueueQuery.graphql';
 import MOD_QUEUE_LOAD_MORE from './loadMore.graphql';
 import MOD_USER_FLAGGED_QUERY from './modUserFlaggedQuery.graphql';
 import METRICS from './metricsQuery.graphql';
+import USER_DETAIL from './userDetail.graphql';
 
 export const modQueueQuery = graphql(MOD_QUEUE_QUERY, {
   options: ({params: {id = null}}) => {
@@ -91,5 +92,19 @@ export const modQueueResort = (id, fetchMore) => (sort) => {
       sort
     },
     updateQuery: (oldData, {fetchMoreResult:{data}}) => data
+  });
+};
+
+export const getUserDetail = ({id}) => {
+  console.log('close', id);
+  return graphql(USER_DETAIL, {
+    options: () => {
+      console.log('so close!', id);
+      return {
+        variables: {
+          id
+        }
+      };
+    }
   });
 };

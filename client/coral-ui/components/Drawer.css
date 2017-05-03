@@ -1,0 +1,12 @@
+.wrapper {
+  transition: opacity 250ms;
+  position: fixed;
+  z-index: 10000;
+  background-color: rgba(0, 0, 0, .2);
+  height: 100%;
+  width: 100%;
+}
+
+.drawer {
+  transition: transform 500ms ease-in-out;
+}

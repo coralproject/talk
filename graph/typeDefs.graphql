@@ -585,6 +585,9 @@ type RootQuery {
   # Users returned based on a query.
   users(query: UsersQuery): [User]
 
+  # a single User by id
+  user(id: ID!): User
+
   # Asset metrics related to user actions are saturated into the assets
   # returned. Parameters `from` and `to` are related to the action created_at field.
   assetMetrics(from: Date!, to: Date!, sort: ASSET_METRICS_SORT!, limit: Int = 10): [Asset!]
