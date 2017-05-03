@@ -104,12 +104,8 @@ module.exports = class CommentsService {
    * @returns {Date} last date at which comment can be edited
    */
   static getEditableUntilDate(comment) {
-    const mostRecentEditDate = (comment) => {
-      const {created_at, body_history} = comment;
-      const lastEdit = body_history[body_history.length - 1];
-      return (lastEdit && lastEdit.created_at) || created_at;
-    };
-    return new Date(Number(mostRecentEditDate(comment)) + EDIT_WINDOW_MS);
+    const {created_at} = comment;
+    return new Date(Number(created_at) + EDIT_WINDOW_MS);
   }
 
   /**
