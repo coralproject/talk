@@ -5,12 +5,19 @@ import key from 'keymaster';
 import isEqual from 'lodash/isEqual';
 import styles from './components/styles.css';
 
-import {modQueueQuery, getUserDetail} from '../../graphql/queries';
+import {modQueueQuery} from '../../graphql/queries';
 import {banUser, setCommentStatus} from '../../graphql/mutations';
 
 import {fetchSettings} from 'actions/settings';
 import {updateAssets} from 'actions/assets';
-import {toggleModal, singleView, showBanUserDialog, hideBanUserDialog, hideShortcutsNote} from 'actions/moderation';
+import {
+  toggleModal,
+  singleView,
+  showBanUserDialog,
+  hideBanUserDialog,
+  hideShortcutsNote,
+  viewUserDetail
+} from 'actions/moderation';
 
 import {Spinner} from 'coral-ui';
 import BanUserDialog from '../../components/BanUserDialog';
@@ -19,7 +26,7 @@ import ModerationMenu from './components/ModerationMenu';
 import ModerationHeader from './components/ModerationHeader';
 import NotFoundAsset from './components/NotFoundAsset';
 import ModerationKeysModal from '../../components/ModerationKeysModal';
-import UserDetail from '../../components/UserDetail';
+import UserDetail from './UserDetail';
 
 class ModerationContainer extends Component {
   state = {
@@ -77,15 +84,6 @@ class ModerationContainer extends Component {
     }
   }
 
-  viewUserDetail = (id) => {
-    console.log('getting user detail', id, typeof getUserDetail);
-    try {
-      getUserDetail({id});
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
   selectSort = (sort) => {
     this.setState({sort});
     this.props.modQueueResort(sort);
@@ -120,7 +118,7 @@ class ModerationContainer extends Component {
   }
 
   render () {
-    const {data, moderation, settings, assets, onClose, ...props} = this.props;
+    const {data, moderation, settings, assets, onClose, viewUserDetail, ...props} = this.props;
     const providedAssetId = this.props.params.id;
     const activeTab = this.props.route.path === ':id' ? 'premod' : this.props.route.path;
 
@@ -190,7 +188,7 @@ class ModerationContainer extends Component {
           assetId={providedAssetId}
           sort={this.state.sort}
           commentCount={activeTabCount}
-          viewUserDetail={this.viewUserDetail}
+          viewUserDetail={viewUserDetail}
         />
         <BanUserDialog
           open={moderation.banDialog}
@@ -206,7 +204,7 @@ class ModerationContainer extends Component {
           shortcutsNoteVisible={moderation.shortcutsNoteVisible}
           open={moderation.modalOpen}
           onClose={onClose}/>
-        {data.user && <UserDetail user={data.user} />}
+        {moderation.userDetailId && <UserDetail id={moderation.userDetailId} />}
       </div>
     );
   }
@@ -224,6 +222,7 @@ const mapDispatchToProps = dispatch => ({
   singleView: () => dispatch(singleView()),
   updateAssets: assets => dispatch(updateAssets(assets)),
   fetchSettings: () => dispatch(fetchSettings()),
+  viewUserDetail: id => dispatch(viewUserDetail(id)),
   showBanUserDialog: (user, commentId, showRejectedNote) => dispatch(showBanUserDialog(user, commentId, showRejectedNote)),
   hideBanUserDialog: () => dispatch(hideBanUserDialog(false)),
   hideShortcutsNote: () => dispatch(hideShortcutsNote()),

@@ -35,10 +35,7 @@ const Comment = ({actions = [], comment, viewUserDetail, ...props}) => {
       <div className={styles.container}>
         <div className={styles.itemHeader}>
           <div className={styles.author}>
-            <span className={styles.username} onClick={() => {
-              console.log('clickt', comment.user.id);
-              viewUserDetail(comment.user.id);
-            }}>
+            <span className={styles.username} onClick={() => viewUserDetail(comment.user.id)}>
               {comment.user.name}
             </span>
             <span className={styles.created}>

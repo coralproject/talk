@@ -98,7 +98,6 @@ const RootQuery = {
 
   // this returns an arbitrary user
   user(_, {id}, {user, loaders: {Users}}) {
-    console.log("user id!", id);
     if (user == null || !user.hasRoles('ADMIN')) {
       return null;
     }

@@ -20,6 +20,15 @@ const User = {
 
     return null;
   },
+  profiles({id, profiles}, _, {user}) {
+
+    // if the user is not an admin, do not return the profiles
+    if (user && (user.hasRoles('ADMIN') || user.id === id)) {
+      return profiles;
+    }
+
+    return null;
+  },
   roles({id, roles}, _, {user}) {
 
     // If the user is not an admin, only return the current user's roles.

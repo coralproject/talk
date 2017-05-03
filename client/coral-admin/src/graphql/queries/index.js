@@ -95,16 +95,10 @@ export const modQueueResort = (id, fetchMore) => (sort) => {
   });
 };
 
-export const getUserDetail = ({id}) => {
-  console.log('close', id);
-  return graphql(USER_DETAIL, {
-    options: () => {
-      console.log('so close!', id);
-      return {
-        variables: {
-          id
-        }
-      };
-    }
-  });
-};
+export const getUserDetail = graphql(USER_DETAIL, {
+  options: ({id}) => {
+    return {
+      variables: {id}
+    };
+  }
+});
