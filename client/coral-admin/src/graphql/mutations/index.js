@@ -54,20 +54,12 @@ export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
         },
         updateQueries: {
           ModQueue: (oldData) => {
-            let comment = oldData.all.find(c => c.id === commentId);
-
-            if (!comment) {
-              comment = oldData.premod.find(c => c.id === commentId);
-            }
-
-            if (!comment) {
-              comment = oldData.flagged.find(c => c.id === commentId);
-            }
-
-            if (!comment) {
-              comment = oldData.rejected.find(c => c.id === commentId);
-            }
-
+            let comment = [
+              ...oldData.all,
+              ...oldData.premod,
+              ...oldData.flagged,
+              ...oldData.rejected
+            ].find(c => c.id === commentId);
             let accepted;
             let acceptedCount = oldData.acceptedCount;
 
@@ -110,19 +102,12 @@ export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
         },
         updateQueries: {
           ModQueue: (oldData) => {
-            let comment = oldData.all.find(c => c.id === commentId);
-
-            if (!comment) {
-              comment = oldData.premod.find(c => c.id === commentId);
-            }
-
-            if (!comment) {
-              comment = oldData.flagged.find(c => c.id === commentId);
-            }
-
-            if (!comment) {
-              comment = oldData.accepted.find(c => c.id === commentId);
-            }
+            let comment = [
+              ...oldData.all,
+              ...oldData.premod,
+              ...oldData.flagged,
+              ...oldData.accepted
+            ].find(c => c.id === commentId);
 
             let rejected;
             let rejectedCount = oldData.rejectedCount;
