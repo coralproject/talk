@@ -1,4 +1,5 @@
 import {graphql} from 'react-apollo';
+import update from 'immutability-helper';
 import STREAM_QUERY from './streamQuery.graphql';
 import LOAD_MORE from './loadMore.graphql';
 import GET_COUNTS from './getCounts.graphql';
@@ -139,7 +140,10 @@ export const variablesForStreamQuery = ({auth}) => {
 export const queryStream = graphql(STREAM_QUERY, {
   options: (props) => {
     return {
-      variables: variablesForStreamQuery(props)
+      variables: variablesForStreamQuery(props),
+      reducer: (previousResult, action, variables) => {
+        return reduceEditCommentActionsToUpdateStreamQuery(previousResult, action, variables);
+      },
     };
   },
   props: ({data}) => ({
@@ -148,6 +152,61 @@ export const queryStream = graphql(STREAM_QUERY, {
     getCounts: getCounts(data),
   })
 });
+
+/**
+ * Reduce editComment mutation actions
+ * producing a new queryStream result where asset.comments reflects the edit
+ */
+function reduceEditCommentActionsToUpdateStreamQuery(previousResult, action) {
+  if ( ! (action.type === 'APOLLO_MUTATION_RESULT' && action.operationName === 'editComment')) {
+    return previousResult;
+  }
+  const resultHasErrors = (result) => {
+    try {
+      return result.data.editComment.errors.length > 0;
+    } catch (error) {
+
+      // expected if no errors;
+      return false;
+    }
+  };
+  if (resultHasErrors(action.result)) {
+    return previousResult;
+  }
+  const {variables: {id, edit}} = action;
+  const updateCommentWithEdit = (comment, edit) => {
+    const {body} = edit;
+    const editedComment = update(comment, {
+      $merge: {
+        body
+      },
+      editing: {$merge:{edited:true}}
+    });
+    return editedComment;
+  };
+  const resultReflectingEdit = update(previousResult, {
+    asset: {
+      comments: {
+        $apply: comments => comments.map(comment => {
+          if (comment.id === id) {
+            return updateCommentWithEdit(comment, edit);
+          }
+          return update(comment, {
+            replies: {
+              $apply: (comments) => comments.map(comment => {
+                if (comment.id === id) {
+                  return updateCommentWithEdit(comment, edit);                          
+                }
+                return comment;
+              })
+            },
+          });
+        })
+      }
+    }
+  });
+  return resultReflectingEdit;
+}
 
 export const myCommentHistory = graphql(MY_COMMENT_HISTORY, {});
 

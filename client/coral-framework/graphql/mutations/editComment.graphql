@@ -1,4 +1,4 @@
-mutation EditComment ($id: ID!, $edit: EditCommentInput) {
+mutation editComment ($id: ID!, $edit: EditCommentInput) {
   editComment(id:$id, edit:$edit) {
     errors {
       translation_key
