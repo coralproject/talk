@@ -66,15 +66,17 @@ const Comment = ({actions = [], comment, ...props}) => {
           <div className={styles.sideActions}>
             {links ? <span className={styles.hasLinks}><Icon name='error_outline'/> Contains Link</span> : null}
             <div className={`actions ${styles.actions}`}>
-              {actions.map((action, i) =>
-                <ActionButton key={i}
-                              type={action}
-                              user={comment.user}
-                              status={comment.status}
-                              acceptComment={() => props.acceptComment({commentId: comment.id})}
-                              rejectComment={() => props.rejectComment({commentId: comment.id})}
-                />
-              )}
+              {actions.map((action, i) => {
+                const active = (action === 'REJECT' && comment.status === 'REJECTED') ||
+                               (action === 'APPROVE' && comment.status === 'ACCEPTED');
+                return <ActionButton key={i}
+                  type={action}
+                  user={comment.user}
+                  status={comment.status}
+                  active={active}
+                  acceptComment={() => props.acceptComment({commentId: comment.id})}
+                  rejectComment={() => props.rejectComment({commentId: comment.id})} />;
+              })}
             </div>
           </div>
         </div>

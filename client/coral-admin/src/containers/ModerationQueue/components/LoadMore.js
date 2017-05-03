@@ -7,13 +7,16 @@ const LoadMore = ({comments, loadMore, sort, tab, assetId, showLoadMore}) =>
     {
       showLoadMore && <Button
         className={styles.loadMore}
-        onClick={() =>
-          loadMore({
-            cursor: comments[comments.length - 1].created_at,
+        onClick={() => {
+          const lastComment = comments[comments.length - 1];
+          const cursor = lastComment ? lastComment.created_at : null;
+          return loadMore({
+            cursor,
             sort,
             tab,
             asset_id: assetId
-          })}>
+          });
+        }}>
         Load More
       </Button>
     }
