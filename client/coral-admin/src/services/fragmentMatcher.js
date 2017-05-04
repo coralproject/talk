@@ -36,6 +36,7 @@ const fm = new IntrospectionFragmentMatcher({
           kind: 'INTERFACE',
           name: 'Action',
           possibleTypes: [
+            {name: 'DefaultAction'},
             {name: 'FlagAction'},
             {name: 'DontAgreeAction'}
           ],
@@ -44,6 +45,7 @@ const fm = new IntrospectionFragmentMatcher({
           kind: 'INTERFACE',
           name: 'ActionSummary',
           possibleTypes: [
+            {name: 'DefaultActionSummary'},
             {name: 'FlagActionSummary'},
             {name: 'DontAgreeActionSummary'}
           ],

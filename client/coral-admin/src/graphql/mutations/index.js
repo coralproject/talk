@@ -44,6 +44,7 @@ export const suspendUser = graphql(SUSPEND_USER, {
   })
 });
 
+const views = ['all', 'premod', 'flagged', 'accepted', 'rejected'];
 export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
   props: ({mutate}) => ({
     acceptComment: ({commentId}) => {
@@ -54,7 +55,9 @@ export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
         },
         updateQueries: {
           ModQueue: (oldData) => {
-            const comment = oldData.all.find(c => c.id === commentId);
+            const comment = views.reduce((comment, view) => {
+              return comment ? comment : oldData[view].find(c => c.id === commentId);
+            }, null);
             let accepted;
             let acceptedCount = oldData.acceptedCount;
 
@@ -76,10 +79,10 @@ export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
 
             return {
               ...oldData,
-              premodCount,
-              flaggedCount,
-              acceptedCount,
-              rejectedCount,
+              premodCount: Math.max(0, premodCount),
+              flaggedCount: Math.max(0, flaggedCount),
+              acceptedCount: Math.max(0, acceptedCount),
+              rejectedCount: Math.max(0, rejectedCount),
               premod,
               flagged,
               accepted,
@@ -97,7 +100,9 @@ export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
         },
         updateQueries: {
           ModQueue: (oldData) => {
-            const comment = oldData.all.find(c => c.id === commentId);
+            const comment = views.reduce((comment, view) => {
+              return comment ? comment : oldData[view].find(c => c.id === commentId);
+            }, null);
             let rejected;
             let rejectedCount = oldData.rejectedCount;
 
@@ -119,10 +124,10 @@ export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
 
             return {
               ...oldData,
-              premodCount,
-              flaggedCount,
-              acceptedCount,
-              rejectedCount,
+              premodCount: Math.max(0, premodCount),
+              flaggedCount: Math.max(0, flaggedCount),
+              acceptedCount: Math.max(0, acceptedCount),
+              rejectedCount: Math.max(0, rejectedCount),
               premod,
               flagged,
               accepted,

@@ -70,7 +70,6 @@ describe('graph.loaders.Metrics', () => {
       fragment metrics on Asset {
         id
         action_summaries {
-          type: __typename
           actionCount
           actionableItemCount
         }
