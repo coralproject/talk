@@ -84,8 +84,10 @@
       "unexpectedError": "Unexpected error while saving changes. Sorry!"
     },
     "error": {
+      "editWindowExpired": "Ya no puedes editar este comentario. La ventana de tiempo para hacerlo ha caducado.",
       "emailNotVerified": "E-mail {0} no verificado.",
       "email": "No es un e-mail válido",
+      "networkError": "Error al conectar con el servidor. Compruebe su conexión a Internet y vuelva a intentarlo.",
       "password": "La contraseña debe tener por lo menos 8 caracteres",
       "username": "Los nombres pueden contener letras, números y _",
       "organizationName": "El nombre de la organización debe contener letras y/o números.",
