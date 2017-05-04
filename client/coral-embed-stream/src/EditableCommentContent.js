@@ -17,8 +17,6 @@ const getEditableUntilDate = (comment) => {
  * Renders a Comment's body in such a way that the end-user can edit it and save changes
  */
 export class EditableCommentContent extends React.Component {
-
-  // @TODO (bengo) make sure these are accurate wrt isRequired
   static propTypes = {
 
     // show notification to the user (e.g. for errors)
