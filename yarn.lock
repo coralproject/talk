@@ -6780,7 +6780,7 @@ react-mdl@^1.7.1, react-mdl@^1.7.2:
     lodash.isequal "^4.4.0"
     prop-types "^15.5.0"
 
-react-onclickoutside@^5.7.1:
+react-onclickoutside@^5.11.1:
   version "5.11.1"
   resolved "https://registry.yarnpkg.com/react-onclickoutside/-/react-onclickoutside-5.11.1.tgz#00314e52567cf55faba94cabbacd119619070623"
   dependencies:

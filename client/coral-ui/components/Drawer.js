@@ -1,17 +1,19 @@
 import React, {PropTypes} from 'react';
 import styles from './Drawer.css';
+import onClickOutside from 'react-onclickoutside';
 
-const Drawer = (props) => {
+const Drawer = ({children, handleClickOutside}) => {
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.drawer}>{props.children}</div>
-      <div className={styles.closeButton} onClick={props.close}>×</div>
+    <div className={styles.drawer}>
+      <div className={styles.closeButton} onClick={handleClickOutside}>×</div>
+      {children}
     </div>
   );
 };
 
 Drawer.propTypes = {
-  active: PropTypes.bool
+  active: PropTypes.bool,
+  handleClickOutside: PropTypes.func.isRequired
 };
 
-export default Drawer;
+export default onClickOutside(Drawer);

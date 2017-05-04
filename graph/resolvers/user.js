@@ -10,6 +10,13 @@ const User = {
     }
 
   },
+  created_at({roles, created_at}, _, {user}) {
+    if (user && user.hasRoles('ADMIN')) {
+      return created_at;
+    }
+
+    return null;
+  },
   comments({id}, _, {loaders: {Comments}, user}) {
 
     // If the user is not an admin, only return comment list for the owner of
@@ -20,10 +27,10 @@ const User = {
 
     return null;
   },
-  profiles({id, profiles}, _, {user}) {
+  profiles({profiles}, _, {user}) {
 
     // if the user is not an admin, do not return the profiles
-    if (user && (user.hasRoles('ADMIN') || user.id === id)) {
+    if (user && user.hasRoles('ADMIN')) {
       return profiles;
     }
 

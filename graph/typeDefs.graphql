@@ -38,6 +38,9 @@ type User {
   # Username of a user.
   username: String!
 
+  # creation date of user
+  created_at: String!
+
   # Action summaries against the user.
   action_summaries: [ActionSummary]!
 

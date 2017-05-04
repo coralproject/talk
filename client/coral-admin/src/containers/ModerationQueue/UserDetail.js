@@ -1,16 +1,27 @@
 import React, {PropTypes} from 'react';
 import {Button, Drawer} from 'coral-ui';
-import styles from './UserDetail.js';
+import styles from './UserDetail.css';
 import {compose} from 'react-apollo';
 import {getUserDetail} from 'coral-admin/src/graphql/queries';
 
 class UserDetail extends React.Component {
   static propTypes = {
-    id: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
+    hideUserDetail: PropTypes.func.isRequired
+  }
+
+  copyPermalink () {
+    this.profile.select();
+    try {
+      document.execCommand('copy');
+    } catch (e) {
+
+      /* nothing */
+    }
   }
 
   render () {
-    const {data} = this.props;
+    const {data, hideUserDetail} = this.props;
 
     if (!('user' in data)) {
       return null;
@@ -27,13 +38,16 @@ class UserDetail extends React.Component {
     }
 
     return (
-      <Drawer>
+      <Drawer handleClickOutside={hideUserDetail}>
         <h3>{user.username}</h3>
-        <p>{profile}</p> <Button>Copy</Button>
-        <strong>Member since</strong> {user.created_at}
+        <Button className={styles.copyButton}>Copy</Button>
+        <p ref={ref => this.profile = ref} contentEditable="true">{profile}</p>
+        <p className={styles.memberSince}><strong>Member since</strong> {new Date(user.created_at).toLocaleString()}</p>
         <hr/>
-        <strong>Account summary</strong>
-        <br/><span className={styles.small}>Data represents the last six months of activity</span>
+        <p>
+          <strong>Account summary</strong>
+          <br/><small className={styles.small}>Data represents the last six months of activity</small>
+        </p>
         <div className={styles.stats}>
         </div>
       </Drawer>

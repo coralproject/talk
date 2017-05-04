@@ -1,0 +1,12 @@
+.copyButton {
+  float: right;
+  top: -10px;
+}
+
+.memberSince {
+  clear: both;
+}
+
+.small {
+  color: #aaa;
+}

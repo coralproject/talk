@@ -1,12 +1,31 @@
-.wrapper {
-  transition: opacity 250ms;
+.drawer {
+  max-width: 700px;
+  padding: 20px;
   position: fixed;
-  z-index: 10000;
-  background-color: rgba(0, 0, 0, .2);
-  height: 100%;
-  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: white;
+  transition: transform 500ms ease-in-out;
+  box-shadow: -3px 0px 4px 0px rgba(0,0,0,0.15);
 }
 
-.drawer {
-  transition: transform 500ms ease-in-out;
+.closeButton {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  left: -40px;
+  background-color: white;
+  border-radius: 4px 0 0 4px;
+  box-sizing: border-box;
+  font-size: 32px;
+  top: 60px;
+  box-shadow: -1px 3px 4px 0px rgba(0,0,0,0.15);
+  text-align: center;
+  padding-top: 10px;
+  cursor: pointer;
+
+  &:hover {
+    color: #ccc;
+  }
 }

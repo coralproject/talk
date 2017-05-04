@@ -16,7 +16,8 @@ import {
   showBanUserDialog,
   hideBanUserDialog,
   hideShortcutsNote,
-  viewUserDetail
+  viewUserDetail,
+  hideUserDetail
 } from 'actions/moderation';
 
 import {Spinner} from 'coral-ui';
@@ -118,7 +119,7 @@ class ModerationContainer extends Component {
   }
 
   render () {
-    const {data, moderation, settings, assets, onClose, viewUserDetail, ...props} = this.props;
+    const {data, moderation, settings, assets, onClose, viewUserDetail, hideUserDetail, ...props} = this.props;
     const providedAssetId = this.props.params.id;
     const activeTab = this.props.route.path === ':id' ? 'premod' : this.props.route.path;
 
@@ -189,6 +190,7 @@ class ModerationContainer extends Component {
           sort={this.state.sort}
           commentCount={activeTabCount}
           viewUserDetail={viewUserDetail}
+          hideUserDetail={hideUserDetail}
         />
         <BanUserDialog
           open={moderation.banDialog}
@@ -204,7 +206,7 @@ class ModerationContainer extends Component {
           shortcutsNoteVisible={moderation.shortcutsNoteVisible}
           open={moderation.modalOpen}
           onClose={onClose}/>
-        {moderation.userDetailId && <UserDetail id={moderation.userDetailId} />}
+        {moderation.userDetailId && <UserDetail id={moderation.userDetailId} hideUserDetail={hideUserDetail}/>}
       </div>
     );
   }
@@ -223,6 +225,7 @@ const mapDispatchToProps = dispatch => ({
   updateAssets: assets => dispatch(updateAssets(assets)),
   fetchSettings: () => dispatch(fetchSettings()),
   viewUserDetail: id => dispatch(viewUserDetail(id)),
+  hideUserDetail: () => dispatch(hideUserDetail()),
   showBanUserDialog: (user, commentId, showRejectedNote) => dispatch(showBanUserDialog(user, commentId, showRejectedNote)),
   hideBanUserDialog: () => dispatch(hideBanUserDialog(false)),
   hideShortcutsNote: () => dispatch(hideShortcutsNote()),
