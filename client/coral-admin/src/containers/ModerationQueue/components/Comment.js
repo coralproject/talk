@@ -74,8 +74,8 @@ const Comment = ({actions = [], comment, ...props}) => {
                   user={comment.user}
                   status={comment.status}
                   active={active}
-                  acceptComment={() => props.acceptComment({commentId: comment.id})}
-                  rejectComment={() => props.rejectComment({commentId: comment.id})} />;
+                  acceptComment={() => comment.status === 'ACCEPTED' ? null : props.acceptComment({commentId: comment.id})}
+                  rejectComment={() => comment.status === 'REJECTED' ? null : props.rejectComment({commentId: comment.id})} />;
               })}
             </div>
           </div>
