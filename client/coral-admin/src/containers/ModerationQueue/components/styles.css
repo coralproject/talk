@@ -231,6 +231,14 @@ span {
     font-size: 14px;
     line-height: 1.5;
     font-weight: 300;
+    cursor: pointer;
+    text-decoration: none;
+    background-color: white;
+    transition: background-color .3s;
+
+    &:hover {
+      background-color: #eee;
+    }
   }
 
   .avatar {

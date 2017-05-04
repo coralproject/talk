@@ -57,7 +57,7 @@ const Comment = ({actions = [], comment, ...props}) => {
             <Link to={`/admin/moderate/${comment.asset.id}`}>Moderate →</Link>
           )}
         </div>
-        <div className={styles.itemBody}>
+        <a className={styles.itemBody} href={`${comment.asset.url}#${comment.id}`} target="_blank">
           <p className={styles.body}>
             <Highlighter
               searchWords={[...props.suspectWords, ...props.bannedWords, ...linkText]}
@@ -79,7 +79,7 @@ const Comment = ({actions = [], comment, ...props}) => {
               })}
             </div>
           </div>
-        </div>
+        </a>
       </div>
       {
         flagActions && flagActions.length
@@ -106,6 +106,7 @@ Comment.propTypes = {
     }),
     asset: PropTypes.shape({
       title: PropTypes.string,
+      url: PropTypes.string,
       id: PropTypes.string
     })
   })
