@@ -43,12 +43,13 @@ class ModerationContainer extends Component {
     const {acceptComment, rejectComment} = this.props;
     const {selectedIndex} = this.state;
     const comments = this.getComments();
-    const commentId = {commentId: comments[selectedIndex].id};
+    const comment = comments[selectedIndex];
+    const commentId = {commentId: comment.id};
 
     if (accept) {
-      acceptComment(commentId);
+      comment.status !== 'ACCEPTED' && acceptComment(commentId);
     } else {
-      rejectComment(commentId);
+      comment.status !== 'REJECTED' && rejectComment(commentId);
     }
   }
 
@@ -185,6 +186,7 @@ class ModerationContainer extends Component {
           open={moderation.banDialog}
           user={moderation.user}
           commentId={moderation.commentId}
+          commentStatus={moderation.commentStatus}
           handleClose={props.hideBanUserDialog}
           handleBanUser={props.banUser}
           showRejectedNote={moderation.showRejectedNote}
@@ -212,7 +214,7 @@ const mapDispatchToProps = dispatch => ({
   singleView: () => dispatch(singleView()),
   updateAssets: assets => dispatch(updateAssets(assets)),
   fetchSettings: () => dispatch(fetchSettings()),
-  showBanUserDialog: (user, commentId, showRejectedNote) => dispatch(showBanUserDialog(user, commentId, showRejectedNote)),
+  showBanUserDialog: (user, commentId, commentStatus, showRejectedNote) => dispatch(showBanUserDialog(user, commentId, commentStatus, showRejectedNote)),
   hideBanUserDialog: () => dispatch(hideBanUserDialog(false)),
   hideShortcutsNote: () => dispatch(hideShortcutsNote()),
 });
