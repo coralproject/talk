@@ -44,6 +44,7 @@ export const suspendUser = graphql(SUSPEND_USER, {
   })
 });
 
+const views = ['all', 'premod', 'flagged', 'accepted', 'rejected'];
 export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
   props: ({mutate}) => ({
     acceptComment: ({commentId}) => {
@@ -54,6 +55,21 @@ export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
         },
         updateQueries: {
           ModQueue: (oldData) => {
+            const comment = views.reduce((comment, view) => {
+              return comment ? comment : oldData[view].find(c => c.id === commentId);
+            }, null);
+            let accepted;
+            let acceptedCount = oldData.acceptedCount;
+
+            // if the comment was already in the Approved queue, don't re-add it
+            if (comment.status === 'ACCEPTED') {
+              accepted = [...oldData.accepted];
+            } else {
+              comment.status = 'ACCEPTED';
+              acceptedCount++;
+              accepted = [comment, ...oldData.accepted];
+            }
+
             const premod = oldData.premod.filter(c => c.id !== commentId);
             const flagged = oldData.flagged.filter(c => c.id !== commentId);
             const rejected = oldData.rejected.filter(c => c.id !== commentId);
@@ -63,11 +79,13 @@ export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
 
             return {
               ...oldData,
-              premodCount,
-              flaggedCount,
-              rejectedCount,
+              premodCount: Math.max(0, premodCount),
+              flaggedCount: Math.max(0, flaggedCount),
+              acceptedCount: Math.max(0, acceptedCount),
+              rejectedCount: Math.max(0, rejectedCount),
               premod,
               flagged,
+              accepted,
               rejected,
             };
           }
@@ -82,21 +100,37 @@ export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
         },
         updateQueries: {
           ModQueue: (oldData) => {
-            const comment = oldData.premod.concat(oldData.flagged).filter(c => c.id === commentId)[0];
-            const rejected = [comment].concat(oldData.rejected);
+            const comment = views.reduce((comment, view) => {
+              return comment ? comment : oldData[view].find(c => c.id === commentId);
+            }, null);
+            let rejected;
+            let rejectedCount = oldData.rejectedCount;
+
+            // if the item was already in the Rejected queue, don't put it in again
+            if (comment.status === 'REJECTED') {
+              rejected = oldData.rejected;
+            } else {
+              comment.status = 'REJECTED';
+              rejectedCount++;
+              rejected = [comment, ...oldData.rejected];
+            }
+
             const premod = oldData.premod.filter(c => c.id !== commentId);
             const flagged = oldData.flagged.filter(c => c.id !== commentId);
+            const accepted = oldData.accepted.filter(c => c.id !== commentId);
             const premodCount = premod.length < oldData.premod.length ? oldData.premodCount - 1 : oldData.premodCount;
             const flaggedCount = flagged.length < oldData.flagged.length ? oldData.flaggedCount - 1 : oldData.flaggedCount;
-            const rejectedCount = oldData.rejectedCount + 1;
+            const acceptedCount = accepted.length < oldData.accepted.length ? oldData.acceptedCount - 1 : oldData.acceptedCount;
 
             return {
               ...oldData,
-              premodCount,
-              flaggedCount,
-              rejectedCount,
+              premodCount: Math.max(0, premodCount),
+              flaggedCount: Math.max(0, flaggedCount),
+              acceptedCount: Math.max(0, acceptedCount),
+              rejectedCount: Math.max(0, rejectedCount),
               premod,
               flagged,
+              accepted,
               rejected
             };
           }

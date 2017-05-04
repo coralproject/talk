@@ -7,13 +7,16 @@ const LoadMore = ({comments, loadMore, sort, tab, assetId, showLoadMore}) =>
     {
       showLoadMore && <Button
         className={styles.loadMore}
-        onClick={() =>
-          loadMore({
-            cursor: comments[comments.length - 1].created_at,
+        onClick={() => {
+          const lastComment = comments[comments.length - 1];
+          const cursor = lastComment ? lastComment.created_at : null;
+          return loadMore({
+            cursor,
             sort,
             tab,
             asset_id: assetId
-          })}>
+          });
+        }}>
         Load More
       </Button>
     }
@@ -23,7 +26,7 @@ LoadMore.propTypes = {
   comments: PropTypes.array.isRequired,
   loadMore: PropTypes.func.isRequired,
   sort: PropTypes.oneOf(['CHRONOLOGICAL', 'REVERSE_CHRONOLOGICAL']).isRequired,
-  tab: PropTypes.oneOf(['rejected', 'premod', 'flagged', 'all']).isRequired,
+  tab: PropTypes.oneOf(['rejected', 'premod', 'flagged', 'all', 'accepted']).isRequired,
   assetId: PropTypes.string,
   showLoadMore: PropTypes.bool.isRequired
 };

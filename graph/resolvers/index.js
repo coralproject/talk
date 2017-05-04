@@ -12,10 +12,10 @@ const FlagAction = require('./flag_action');
 const DontAgreeAction = require('./dont_agree_action');
 const DontAgreeActionSummary = require('./dont_agree_action_summary');
 const GenericUserError = require('./generic_user_error');
-const LikeAction = require('./like_action');
 const RootMutation = require('./root_mutation');
 const RootQuery = require('./root_query');
 const Settings = require('./settings');
+const Subscription = require('./subscription');
 const UserError = require('./user_error');
 const User = require('./user');
 const ValidationUserError = require('./validation_user_error');
@@ -35,10 +35,10 @@ let resolvers = {
   DontAgreeAction,
   DontAgreeActionSummary,
   GenericUserError,
-  LikeAction,
   RootMutation,
   RootQuery,
   Settings,
+  Subscription,
   UserError,
   User,
   ValidationUserError,

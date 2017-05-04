@@ -4,6 +4,7 @@ import MOD_QUEUE_QUERY from './modQueueQuery.graphql';
 import MOD_QUEUE_LOAD_MORE from './loadMore.graphql';
 import MOD_USER_FLAGGED_QUERY from './modUserFlaggedQuery.graphql';
 import METRICS from './metricsQuery.graphql';
+import GET_QUEUE_COUNTS from './getQueueCounts.graphql';
 
 export const modQueueQuery = graphql(MOD_QUEUE_QUERY, {
   options: ({params: {id = null}}) => {
@@ -33,31 +34,34 @@ export const getMetrics = graphql(METRICS, {
   }
 });
 
-export const loadMore = (fetchMore) => ({limit, cursor, sort, tab, asset_id}) => {
-  let statuses;
+export const loadMore = (fetchMore) => ({limit = 10, cursor, sort, tab, asset_id}) => {
+  let variables = {
+    limit,
+    cursor,
+    sort,
+    asset_id
+  };
   switch(tab) {
   case 'all':
-    statuses = null;
+    variables.statuses = null;
+    break;
+  case 'accepted':
+    variables.statuses = ['ACCEPTED'];
     break;
   case 'premod':
-    statuses = ['PREMOD'];
+    variables.statuses = ['PREMOD'];
     break;
   case 'flagged':
-    statuses = ['NONE', 'PREMOD'];
+    variables.statuses = ['NONE', 'PREMOD'];
+    variables.action_type = 'FLAG';
     break;
   case 'rejected':
-    statuses = ['REJECTED'];
+    variables.statuses = ['REJECTED'];
     break;
   }
   return fetchMore({
     query: MOD_QUEUE_LOAD_MORE,
-    variables: {
-      limit,
-      cursor,
-      sort,
-      statuses,
-      asset_id
-    },
+    variables,
     updateQuery: (oldData, {fetchMoreResult:{comments}}) => {
       return {
         ...oldData,
@@ -90,3 +94,14 @@ export const modQueueResort = (id, fetchMore) => (sort) => {
     updateQuery: (oldData, {fetchMoreResult:{data}}) => data
   });
 };
+
+export const getQueueCounts = graphql(GET_QUEUE_COUNTS, {
+  options: ({params: {id = null}}) => {
+    return {
+      pollInterval: 5000,
+      variables: {
+        asset_id: id
+      }
+    };
+  }
+});

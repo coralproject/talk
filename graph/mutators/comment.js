@@ -16,7 +16,7 @@ const Wordlist = require('../../services/wordlist');
  * @param  {String} [status='NONE'] the status of the new comment
  * @return {Promise}              resolves to the created comment
  */
-const createComment = ({user, loaders: {Comments}}, {body, asset_id, parent_id = null, tags = []}, status = 'NONE') => {
+const createComment = ({user, loaders: {Comments}, pubsub}, {body, asset_id, parent_id = null, tags = []}, status = 'NONE') => {
 
   // Building array of tags
   tags = tags.map(tag => ({name: tag}));
@@ -47,6 +47,12 @@ const createComment = ({user, loaders: {Comments}}, {body, asset_id, parent_id =
         Comments.parentCountByAssetID.incr(asset_id);
       }
       Comments.countByAssetID.incr(asset_id);
+
+      if (pubsub) {
+
+        // Publish the newly added comment via the subscription.
+        pubsub.publish('commentAdded', comment);
+      }
     }
 
     return comment;

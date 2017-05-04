@@ -5,7 +5,7 @@ import key from 'keymaster';
 import isEqual from 'lodash/isEqual';
 import styles from './components/styles.css';
 
-import {modQueueQuery} from '../../graphql/queries';
+import {modQueueQuery, getQueueCounts} from '../../graphql/queries';
 import {banUser, setCommentStatus} from '../../graphql/mutations';
 
 import {fetchSettings} from 'actions/settings';
@@ -138,6 +138,9 @@ class ModerationContainer extends Component {
     case 'all':
       activeTabCount = data.allCount;
       break;
+    case 'accepted':
+      activeTabCount = data.acceptedCount;
+      break;
     case 'premod':
       activeTabCount = data.premodCount;
       break;
@@ -155,6 +158,7 @@ class ModerationContainer extends Component {
         <ModerationMenu
           asset={asset}
           allCount={data.allCount}
+          acceptedCount={data.acceptedCount}
           premodCount={data.premodCount}
           rejectedCount={data.rejectedCount}
           flaggedCount={data.flaggedCount}
@@ -216,6 +220,7 @@ const mapDispatchToProps = dispatch => ({
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   setCommentStatus,
+  getQueueCounts,
   modQueueQuery,
   banUser
 )(ModerationContainer);

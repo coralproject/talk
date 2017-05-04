@@ -1,7 +1,6 @@
 import {graphql} from 'react-apollo';
 import POST_COMMENT from './postComment.graphql';
 import POST_FLAG from './postFlag.graphql';
-import POST_LIKE from './postLike.graphql';
 import POST_DONT_AGREE from './postDontAgree.graphql';
 import DELETE_ACTION from './deleteAction.graphql';
 import ADD_COMMENT_TAG from './addCommentTag.graphql';
@@ -9,10 +8,6 @@ import REMOVE_COMMENT_TAG from './removeCommentTag.graphql';
 import IGNORE_USER from './ignoreUser.graphql';
 import STOP_IGNORING_USER from './stopIgnoringUser.graphql';
 import EDIT_COMMENT from './editComment.graphql';
-
-import MY_IGNORED_USERS from '../queries/myIgnoredUsers.graphql';
-import STREAM_QUERY from '../queries/streamQuery.graphql';
-import {variablesForStreamQuery} from '../queries';
 
 import commentView from '../fragments/commentView.graphql';
 
@@ -46,7 +41,7 @@ export const postComment = graphql(POST_COMMENT, {
           }
         },
         updateQueries: {
-          AssetQuery: (oldData, {mutationResult: {data: {createComment: {comment}}}}) => {
+          EmbedQuery: (oldData, {mutationResult: {data: {createComment: {comment}}}}) => {
 
             if (oldData.asset.settings.moderation === 'PRE' || comment.status === 'PREMOD' || comment.status === 'REJECTED') {
               return oldData;
@@ -62,7 +57,7 @@ export const postComment = graphql(POST_COMMENT, {
                   ...oldData.asset,
                   comments: oldData.asset.comments.map((oldComment) => {
                     return oldComment.id === parent_id
-                      ? {...oldComment, replies: [...oldComment.replies, comment]}
+                      ? {...oldComment, replies: [...oldComment.replies, comment], replyCount: oldComment.replyCount + 1}
                       : oldComment;
                   })
                 }
@@ -86,17 +81,6 @@ export const postComment = graphql(POST_COMMENT, {
       });
     }
   }),
-});
-
-export const postLike = graphql(POST_LIKE, {
-  props: ({mutate}) => ({
-    postLike: (like) => {
-      return mutate({
-        variables: {
-          like
-        }
-      });
-    }}),
 });
 
 export const postFlag = graphql(POST_FLAG, {
@@ -156,6 +140,7 @@ export const removeCommentTag = graphql(REMOVE_COMMENT_TAG, {
     }}),
 });
 
+// TODO: don't rely on refetching.
 export const ignoreUser = graphql(IGNORE_USER, {
   props: ({mutate}) => ({
     ignoreUser: ({id}) => {
@@ -163,15 +148,16 @@ export const ignoreUser = graphql(IGNORE_USER, {
         variables: {
           id,
         },
-        refetchQueries: [{
-          query: MY_IGNORED_USERS,
-        }]
+        refetchQueries: [
+          'EmbedQuery', 'myIgnoredUsers',
+        ]
       });
     }}),
 });
 
+// TODO: don't rely on refetching.
 export const stopIgnoringUser = graphql(STOP_IGNORING_USER, {
-  props: ({mutate, ownProps}) => {
+  props: ({mutate}) => {
     return {
       stopIgnoringUser: ({id}) => {
         return mutate({
@@ -179,13 +165,7 @@ export const stopIgnoringUser = graphql(STOP_IGNORING_USER, {
             id,
           },
           refetchQueries: [
-            {
-              query: MY_IGNORED_USERS,
-            },
-            {
-              query: STREAM_QUERY,
-              variables: variablesForStreamQuery(ownProps),
-            }
+            'EmbedQuery', 'myIgnoredUsers',
           ]
         });
       }
@@ -194,7 +174,7 @@ export const stopIgnoringUser = graphql(STOP_IGNORING_USER, {
 });
 
 export const editComment = graphql(EDIT_COMMENT, {
-  props: ({mutate, ownProps}) => {
+  props: ({mutate}) => {
     return {
       editComment: (id, edit) => {
         return mutate({
@@ -203,10 +183,7 @@ export const editComment = graphql(EDIT_COMMENT, {
             edit,
           },
           refetchQueries: [
-            {
-              query: STREAM_QUERY,
-              variables: variablesForStreamQuery(ownProps),
-            }
+            'EmbedQuery'
           ]
         });
       }

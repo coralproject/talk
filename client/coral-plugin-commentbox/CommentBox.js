@@ -1,7 +1,7 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes} from 'react';
+import {Button} from 'coral-ui';
 import {I18n} from '../coral-framework';
 import translations from './translations.json';
-import {Button} from 'coral-ui';
 import Slot from 'coral-framework/components/Slot';
 import {connect} from 'react-redux';
 import classnames from 'classnames';
@@ -21,7 +21,7 @@ export const notifyForNewCommentStatus = (addNotification, status) => {
 /**
  * Common UI for Creating or Editing a Comment
  */
-export class CommentForm extends Component {
+export class CommentForm extends React.Component {
   static propTypes = {
 
     // Initial value for underlying comment body textarea
@@ -113,6 +113,7 @@ export class CommentForm extends Component {
           id={this.props.bodyInputId}
           onChange={this.onBodyChange}
           rows={3}/>
+        <Slot fill='commentInputArea' />
       </div>
       { 
         this.props.charCountEnable && 
@@ -147,8 +148,7 @@ export class CommentForm extends Component {
 /**
  * Container for posting a new Comment
  */
-class CommentBox extends Component {
-
+class CommentBox extends React.Component {
   constructor(props) {
     super(props);
 
@@ -165,19 +165,19 @@ class CommentBox extends Component {
   }
   static get defaultProps() {
     return {
-      updateCountCache: () => {}
+      setCommentCountCache: () => {}
     };
   }
   postComment = ({body}) => {
     const {
+      commentPostedHandler,
+      postItem,
+      setCommentCountCache,
+      commentCountCache,
       isReply,
       assetId,
       parentId,
-      postItem,
-      countCache,
       addNotification,
-      updateCountCache,
-      commentPostedHandler
     } = this.props;
 
     let comment = {
@@ -187,7 +187,7 @@ class CommentBox extends Component {
       ...this.props.commentBox
     };
 
-    !isReply && updateCountCache(assetId, countCache + 1);
+    !isReply && setCommentCountCache(commentCountCache + 1);
 
     // Execute preSubmit Hooks
     this.state.hooks.preSubmit.forEach(hook => hook());
@@ -202,16 +202,19 @@ class CommentBox extends Component {
         notifyForNewCommentStatus(addNotification, postedComment.status);
 
         if (postedComment.status === 'REJECTED') {
-          !isReply && updateCountCache(assetId, countCache);
+          !isReply && setCommentCountCache(assetId, commentCountCache);
         } else if (postedComment.status === 'PREMOD') {
-          !isReply && updateCountCache(assetId, countCache);
+          !isReply && setCommentCountCache(assetId, commentCountCache);
         }
 
         if (commentPostedHandler) {
           commentPostedHandler();
         }
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error(err);
+        !isReply && setCommentCountCache(commentCountCache);
+      });
 
     this.setState({postedCount: this.state.postedCount + 1});
   }
@@ -288,7 +291,7 @@ class CommentBox extends Component {
         bodyInputId={isReply ? 'replyText' : 'commentText'}
         saveComment={authorId && this.postComment}
         buttonContainerStart={<Slot
-          fill="commentBoxDetail"
+          fill="commentInputDetailArea"
           registerHook={this.registerHook}
           unregisterHook={this.unregisterHook}
           inline
@@ -313,8 +316,7 @@ CommentBox.propTypes = {
   authorId: PropTypes.string.isRequired,
   isReply: PropTypes.bool.isRequired,
   canPost: PropTypes.bool,
-  currentUser: PropTypes.object,
-  updateCountCache: PropTypes.func,
+  setCommentCountCache: PropTypes.func,
 };
 
 const mapStateToProps = ({commentBox}) => ({commentBox});

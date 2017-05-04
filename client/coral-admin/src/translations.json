@@ -36,6 +36,7 @@
     "modqueue": {
       "likes": "likes",
       "all": "all",
+      "approved": "approved",
       "premod": "pre-mod",
       "rejected": "rejected",
       "flagged": "flagged",
@@ -62,7 +63,10 @@
       "impersonating": "Impersonating",
       "offensive": "Offensive",
       "spam/ads": "Spam/Ads",
-      "other": "Other"
+      "other": "Other",
+      "thousand": "k",
+      "million": "M",
+      "billion": "B"
     },
     "comment": {
       "flagged": "flagged",
@@ -79,6 +83,8 @@
       "copy": "Copy to Clipboard"
     },
     "configure": {
+      "sign-out": "Sign Out",
+      "shortcuts": "Shortcuts",
       "closed-stream-settings": "Closed Stream Message",
       "open-stream-configuration": "This comment stream is currently open. By closing this comment stream, no new comments may be submitted and all previous comments will still be displayed.",
       "close-stream-configuration": "This comment stream is currently closed. By opening this comment stream, new comments may be submitted and displayed",
@@ -225,6 +231,8 @@
       "loading": "Cargando resultados"
     },
     "modqueue": {
+      "all": "todos",
+      "approved": "aprobado",
       "likes": "gustos",
       "premod": "pre-mod",
       "rejected": "rechazado",
@@ -243,7 +251,10 @@
       "impersonating": "Suplantación",
       "offensive": "Ofensivo",
       "spam/ads": "Spam/Propaganda",
-      "other": "Otros"
+      "other": "Otros",
+      "thousand": "m",
+      "million": "M",
+      "billion": "B"
     },
     "comment": {
       "flagged": "marcado",
@@ -257,6 +268,8 @@
       "username_flags": "marcas para este nombre de usuario"
     },
     "configure": {
+      "sign-out": "Desconectar",
+      "shortcuts": "Atajos",
       "closed-stream-settings": "Mensaje a enviar cuando los comentarios están cerrados en el artículo",
       "open-stream-configuration": "Este hilo de comentarios esta abierto. Al cerrarlo, ningún nuevo comentario será publicado y todos los comentarios anteriores serán mostrados.",
       "close-stream-configuration": "Este hilo de comentario está en este momento cerrado. Al abrirlo, nuevos comentarios serán publicaods y mostrados.",
