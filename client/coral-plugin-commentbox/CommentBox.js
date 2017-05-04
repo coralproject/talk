@@ -90,12 +90,12 @@ export class CommentForm extends React.Component {
     saveComment({body});
   }
   render() {
-    const {maxCharCount, styles, saveCommentEnabled, buttonClass} = this.props;
+    const {maxCharCount, styles, saveCommentEnabled, buttonClass, charCountEnable} = this.props;
 
     const body = this.state.body;
     const length = body.length;
     const isNotValidLength = (length) => !length || (maxCharCount && length > maxCharCount);
-    const disablePostComment = isNotValidLength(length) || ! saveCommentEnabled({body});
+    const disablePostComment = (charCountEnable && isNotValidLength(length)) || ! saveCommentEnabled({body});
 
     return <div>
       <div className={`${name}-container`}>
