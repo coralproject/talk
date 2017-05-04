@@ -68,6 +68,10 @@
   flex-shrink: 0;
 }
 
+.editWindowAlmostOver {
+  font-weight: bold;
+}
+
 .link {
   color: #2376D8;
   cursor: pointer;
