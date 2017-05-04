@@ -6,7 +6,7 @@ const RootMutation = {
     return wrapResponse('comment')(Comment.create(comment));
   },
   editComment(_, args, {mutators: {Comment}}) {
-    return wrapResponse(null)(Comment.editComment(args));
+    return wrapResponse('comment')(Comment.editComment(args));
   },
   createLike(_, {like: {item_id, item_type}}, {mutators: {Action}}) {
     return wrapResponse('like')(Action.create({item_id, item_type, action_type: 'LIKE'}));

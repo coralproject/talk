@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {CommentForm} from 'coral-plugin-commentbox/CommentBox';
+import {notifyForNewCommentStatus, CommentForm} from 'coral-plugin-commentbox/CommentBox';
 import styles from './Comment.css';
 
 import {Icon} from 'coral-ui';
@@ -93,6 +93,10 @@ export class EditableCommentContent extends React.Component {
         addNotification('error', lang.t('editComment.unexpectedError'));
         throw error;
       }
+    }
+    if (successfullyEdited) {
+      const status = response.data.editComment.comment.status;
+      notifyForNewCommentStatus(this.props.addNotification, status);
     }
     if (successfullyEdited && typeof stopEditing === 'function') {
       stopEditing();

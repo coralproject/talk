@@ -259,6 +259,7 @@ const editComment = async ({user, loaders: {Comments}}, {id, edit}) => {
       throw error;
     }
   }
+  return {status};
 };
 
 module.exports = (context) => {

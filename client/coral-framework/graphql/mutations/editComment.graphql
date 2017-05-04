@@ -1,5 +1,8 @@
 mutation editComment ($id: ID!, $edit: EditCommentInput) {
   editComment(id:$id, edit:$edit) {
+    comment {
+      status
+    }
     errors {
       translation_key
     }

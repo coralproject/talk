@@ -8,6 +8,16 @@ import classnames from 'classnames';
 
 const name = 'coral-plugin-commentbox';
 
+// Given a newly posted comment's status, show a notification to the user
+// if needed
+export const notifyForNewCommentStatus = (addNotification, status) => {
+  if (status === 'REJECTED') {
+    addNotification('error', lang.t('comment-post-banned-word'));
+  } else if (status === 'PREMOD') {
+    addNotification('success', lang.t('comment-post-notif-premod'));
+  }
+};
+
 /**
  * Common UI for Creating or Editing a Comment
  */
@@ -189,11 +199,11 @@ class CommentBox extends Component {
         // Execute postSubmit Hooks
         this.state.hooks.postSubmit.forEach(hook => hook(data));
 
+        notifyForNewCommentStatus(addNotification, postedComment.status);
+
         if (postedComment.status === 'REJECTED') {
-          addNotification('error', lang.t('comment-post-banned-word'));
           !isReply && updateCountCache(assetId, countCache);
         } else if (postedComment.status === 'PREMOD') {
-          addNotification('success', lang.t('comment-post-notif-premod'));
           !isReply && updateCountCache(assetId, countCache);
         }
 
