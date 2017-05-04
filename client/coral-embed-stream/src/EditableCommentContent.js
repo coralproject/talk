@@ -90,6 +90,7 @@ export class EditableCommentContent extends React.Component {
       } else if (error.networkError) {
         addNotification('error', lang.t('error.networkError'));
       } else {
+        addNotification('error', lang.t('editComment.unexpectedError'));
         throw error;
       }
     }

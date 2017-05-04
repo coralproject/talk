@@ -29,7 +29,8 @@
       "editWindowExpiredClose": "Close",
       "editWindowTimerPrefix": "Edit Window: ",
       "second": "second",
-      "secondsPlural": "seconds"
+      "secondsPlural": "seconds",
+      "unexpectedError": "Unexpected error while saving changes. Sorry!"
     },
     "error": {
       "editWindowExpired": "You can no longer edit this comment. The time window to do so has expired.",
@@ -79,7 +80,8 @@
       "editWindowExpiredClose": "Cerca",
       "editWindowTimerPrefix": "Ventana de edición: ",
       "second": "segundo",
-      "secondsPlural": "segundos"
+      "secondsPlural": "segundos",
+      "unexpectedError": "Unexpected error while saving changes. Sorry!"
     },
     "error": {
       "emailNotVerified": "E-mail {0} no verificado.",
