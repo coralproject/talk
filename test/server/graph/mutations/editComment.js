@@ -243,10 +243,5 @@ describe('graph.mutations.editComment', () => {
       expect(commentAfterEdit.body).to.equal(newBody);
       expect(commentAfterEdit.status).to.equal(afterEdit.status);      
     });
-  });
-
-  // user can't edit outside of edit window
-
-  // should BANNED users be able to edit their comments?
-  
+  });  
 });
