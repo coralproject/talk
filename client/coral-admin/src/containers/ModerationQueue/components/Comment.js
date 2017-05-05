@@ -61,7 +61,7 @@ const Comment = ({actions = [], comment, ...props}) => {
           <p className={styles.body}>
             <Highlighter
               searchWords={[...props.suspectWords, ...props.bannedWords, ...linkText]}
-              textToHighlight={comment.body} /> <a className={styles.external} href={`${comment.asset.url}#${comment.id}`} target="_blank"><Icon name='open_in_new' /> View context</a>
+              textToHighlight={comment.body} /> <a className={styles.external} href={`${comment.asset.url}#${comment.id}`} target="_blank"><Icon name='open_in_new' /> {lang.t('comment.view_context')}</a>
           </p>
           <div className={styles.sideActions}>
             {links ? <span className={styles.hasLinks}><Icon name='error_outline'/> Contains Link</span> : null}
