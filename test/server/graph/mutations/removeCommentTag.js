@@ -4,6 +4,7 @@ const {graphql} = require('graphql');
 const schema = require('../../../../graph/schema');
 const Context = require('../../../../graph/context');
 const UserModel = require('../../../../models/user');
+const SettingModel = require('../../../../models/setting');
 
 const SettingsService = require('../../../../services/settings');
 const CommentsService = require('../../../../services/comments');
@@ -33,7 +34,7 @@ describe('graph.mutations.removeCommentTag', () => {
     const context = new Context({user});
 
     // add a tag first
-    await CommentsService.addTag(comment.id, 'BEST', user.id, 'PUBLIC');
+    await CommentsService.addTag(comment.id, 'BEST', user);
     const response = await graphql(schema, query, {}, context, {id: comment.id, tag: 'BEST'});
     if (response.errors && response.errors.length) {
       console.error(response.errors);
@@ -49,6 +50,16 @@ describe('graph.mutations.removeCommentTag', () => {
   });
 
   describe('users who cant remove tags', () => {
+
+    // allow the tag in the settings
+    SettingModel.findOneAndUpdate({id: 1}, {
+      $push: {
+        tags: {
+          id: 'BEST',
+          models: ['COMMENTS']
+        }
+      }
+    });
     Object.entries({
       'anonymous': undefined,
       'regular commenter': new UserModel({}),
@@ -58,7 +69,7 @@ describe('graph.mutations.removeCommentTag', () => {
         const context = new Context({user});
 
         // add a tag first
-        await CommentsService.addTag(comment.id, 'BEST', user ? user.id : null, 'PUBLIC');
+        await CommentsService.addTag(comment.id, 'BEST', user);
         const response = await graphql(schema, query, {}, context, {id: comment.id, tag: 'BEST'});
         if (response.errors && response.errors.length) {
           console.error(response.errors);

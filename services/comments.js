@@ -57,14 +57,14 @@ module.exports = class CommentsService {
     // Check that the tag is allowed by the system OR in our setting.tags.
     return SettingsService.retrieve()
     .then((settings) => {
-      
+
       // Moderators or ADMIN can add any tag automatically.
       if (added_by != null && (added_by.hasRoles('ADMIN') || added_by.hasRoles('MODERATOR'))) {
         SettingModel.findOneAndUpdate({id: settings.id}, {
           $push: {
             tags: {
               id: name,
-              added_by: added_by.id
+              models: ['COMMENTS']
             }
           }
         });
