@@ -103,9 +103,6 @@ enum COMMENT_STATUS {
 # The types of action there are as enum's.
 enum ACTION_TYPE {
 
-  # Represents a LikeAction.
-  LIKE
-
   # Represents a FlagAction.
   FLAG
 
@@ -293,41 +290,6 @@ type FlagAssetActionSummary implements AssetActionSummary {
 
   # Number of unique actionable types that are referenced by the flags.
   actionableItemCount: Int
-}
-
-# A summary of counts related to all the Likes on an Asset.
-type LikeAssetActionSummary implements AssetActionSummary {
-
-  # Number of likes associated with actionable types on this this Asset.
-  actionCount: Int
-
-  # Number of unique actionable types that are referenced by the likes.
-  actionableItemCount: Int
-}
-
-# LikeAction is used by users who "like" a specific entity.
-type LikeAction implements Action {
-
-  # The ID of the action.
-  id: ID!
-
-  # The author of the action.
-  user: User
-
-  # The time when the Action was updated.
-  updated_at: Date
-
-  # The time when the Action was created.
-  created_at: Date
-}
-
-# LikeActionSummary is counts the amount of "likes" that a specific entity has.
-type LikeActionSummary implements ActionSummary {
-
-  # The count of likes against the parent entity.
-  count: Int!
-
-  current_user: LikeAction
 }
 
 # A FLAG action that contains flag metadata.
@@ -541,9 +503,6 @@ enum USER_STATUS {
 # Metrics for the assets.
 enum ASSET_METRICS_SORT {
 
-  # Represents a LikeAction.
-  LIKE
-
   # Represents a FlagAction.
   FLAG
 
@@ -629,15 +588,6 @@ enum ACTION_ITEM_TYPE {
   USERS
 }
 
-input CreateLikeInput {
-
-  # The item's id for which we are to create a like.
-  item_id: ID!
-
-  # The type of the item for which we are to create the like.
-  item_type: ACTION_ITEM_TYPE!
-}
-
 enum TAG_TYPE {
   STAFF
 }
@@ -656,15 +606,6 @@ input CreateCommentInput {
   # Tags
   tags: [TAG_TYPE]
 
-}
-
-type CreateLikeResponse implements Response {
-
-  # The like that was created.
-  like: LikeAction
-
-  # An array of errors relating to the mutation that occurred.
-  errors: [UserError]
 }
 
 input CreateFlagInput {
@@ -785,9 +726,6 @@ type RootMutation {
 
   # Creates a comment on the asset.
   createComment(comment: CreateCommentInput!): CreateCommentResponse
-
-  # Creates a like on an entity.
-  createLike(like: CreateLikeInput!): CreateLikeResponse
 
   # Creates a flag on an entity.
   createFlag(flag: CreateFlagInput!): CreateFlagResponse
