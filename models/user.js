@@ -136,6 +136,14 @@ const UserSchema = new mongoose.Schema({
   timestamps: {
     createdAt: 'created_at',
     updatedAt: 'updated_at'
+  },
+
+  toJSON: {
+    transform: function (doc, ret) {
+      delete ret.password;
+      delete ret._id;
+      delete ret.__v;
+    }
   }
 });
 
