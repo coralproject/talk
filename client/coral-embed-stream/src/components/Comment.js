@@ -54,7 +54,7 @@ class Comment extends React.Component {
     parentId: PropTypes.string,
     highlighted: PropTypes.string,
     addNotification: PropTypes.func.isRequired,
-    postItem: PropTypes.func.isRequired,
+    postComment: PropTypes.func.isRequired,
     depth: PropTypes.number.isRequired,
     asset: PropTypes.shape({
       id: PropTypes.string,
@@ -107,7 +107,7 @@ class Comment extends React.Component {
       currentUser,
       asset,
       depth,
-      postItem,
+      postComment,
       addNotification,
       showSignInDialog,
       postLike,
@@ -268,7 +268,7 @@ class Comment extends React.Component {
               parentId={parentId || comment.id}
               addNotification={addNotification}
               authorId={currentUser.id}
-              postItem={postItem}
+              postComment={postComment}
               assetId={asset.id} />
           : null
         }
@@ -285,7 +285,7 @@ class Comment extends React.Component {
                   activeReplyBox={activeReplyBox}
                   addNotification={addNotification}
                   parentId={comment.id}
-                  postItem={postItem}
+                  postComment={postComment}
                   depth={depth + 1}
                   asset={asset}
                   highlighted={highlighted}

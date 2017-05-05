@@ -1,5 +1,4 @@
-import {graphql} from 'react-apollo';
-import POST_COMMENT from './postComment.graphql';
+import {graphql, gql} from 'react-apollo';
 import POST_FLAG from './postFlag.graphql';
 import POST_LIKE from './postLike.graphql';
 import POST_DONT_AGREE from './postDontAgree.graphql';
@@ -8,80 +7,28 @@ import ADD_COMMENT_TAG from './addCommentTag.graphql';
 import REMOVE_COMMENT_TAG from './removeCommentTag.graphql';
 import IGNORE_USER from './ignoreUser.graphql';
 import STOP_IGNORING_USER from './stopIgnoringUser.graphql';
+import withMutation from '../../hocs/withMutation';
+import {getFragmentDocument} from '../../services/registry';
 
-import commentView from '../fragments/commentView.graphql';
-
-export const postComment = graphql(POST_COMMENT, {
-  options: () => ({
-    fragments: commentView
-  }),
-  props: ({ownProps, mutate}) => ({
-    postItem: comment => {
-      const {asset_id, body, parent_id, tags = []} = comment;
-      return mutate({
-        variables: {
-          comment
-        },
-        optimisticResponse: {
-          createComment: {
-            comment: {
-              user: {
-                id: ownProps.auth.user.id,
-                name: ownProps.auth.user.username
-              },
-              created_at: new Date().toISOString(),
-              body,
-              parent_id,
-              asset_id,
-              action_summaries: [],
-              tags,
-              status: null,
-              id: 'pending'
-            }
-          }
-        },
-        updateQueries: {
-          EmbedQuery: (oldData, {mutationResult: {data: {createComment: {comment}}}}) => {
-
-            if (oldData.asset.settings.moderation === 'PRE' || comment.status === 'PREMOD' || comment.status === 'REJECTED') {
-              return oldData;
-            }
-
-            let updatedAsset;
-
-            // If posting a reply
-            if (parent_id) {
-              updatedAsset = {
-                ...oldData,
-                asset: {
-                  ...oldData.asset,
-                  comments: oldData.asset.comments.map((oldComment) => {
-                    return oldComment.id === parent_id
-                      ? {...oldComment, replies: [...oldComment.replies, comment], replyCount: oldComment.replyCount + 1}
-                      : oldComment;
-                  })
-                }
-              };
-            } else {
-
-              // If posting a top-level comment
-              updatedAsset = {
-                ...oldData,
-                asset: {
-                  ...oldData.asset,
-                  commentCount: oldData.asset.commentCount + 1,
-                  comments: [comment, ...oldData.asset.comments]
-                }
-              };
-            }
-
-            return updatedAsset;
-          }
-        }
-      });
+export const withPostComment = withMutation(
+  gql`
+    mutation PostComment($comment: CreateCommentInput!) {
+      createComment(comment: $comment) {
+        ...CreateCommentResponse
+      }
     }
-  }),
-});
+    ${getFragmentDocument('CreateCommentResponse')}
+  `, {
+    props: ({mutate}) => ({
+      postComment: comment => {
+        return mutate({
+          variables: {
+            comment
+          },
+        });
+      }
+    }),
+  });
 
 export const postLike = graphql(POST_LIKE, {
   props: ({mutate}) => ({

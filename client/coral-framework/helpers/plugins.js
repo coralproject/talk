@@ -3,6 +3,7 @@ import merge from 'lodash/merge';
 import flatten from 'lodash/flatten';
 import flattenDeep from 'lodash/flattenDeep';
 import uniq from 'lodash/uniq';
+import pick from 'lodash/pick';
 import plugins from 'pluginsConfig';
 import {gql} from 'react-apollo';
 import {getDefinitionName} from 'coral-framework/utils';
@@ -25,19 +26,27 @@ export function getSlotElements(slot, props = {}) {
 }
 
 function getComponentFragments(components) {
-  return components
+  const res = components
     .map(c => c.fragments)
     .filter(fragments => fragments)
     .reduce((res, fragments) => {
       Object.keys(fragments).forEach(key => {
         if (!(key in res)) {
-          res[key] = {spreads: '', definitions: ''};
+          res[key] = {spreads: [], definitions: []};
         }
-        res[key].spreads += `...${getDefinitionName(fragments[key])}\n`;
-        res[key].definitions = gql`${res[key].definitions}${fragments[key]}`;
+        res[key].spreads.push(getDefinitionName(fragments[key]));
+        res[key].definitions.push(fragments[key]);
       });
       return res;
     }, {});
+
+  Object.keys(res).forEach(key => {
+    res[key].spreads = `...${res[key].spreads.join('\n...')}\n`;
+    const literals = ['', ...res[key].definitions.map(() => '\n')];
+    res[key].definitions = gql.apply(null, [literals, ...res[key].definitions]);
+  });
+
+  return res;
 }
 
 /**
@@ -71,5 +80,11 @@ export function getSlotsFragments(slots) {
       return (fragments[key] && fragments[key].definitions) || '';
     },
   };
+}
+
+export function getGraphQLConfigs() {
+  return plugins
+    .map(o => o.module.mutations && pick(o.module, ['mutations', 'queries', 'fragments']))
+    .filter(o => o);
 }
 

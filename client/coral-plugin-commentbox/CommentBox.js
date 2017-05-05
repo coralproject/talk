@@ -25,7 +25,7 @@ class CommentBox extends React.Component {
   postComment = () => {
     const {
       commentPostedHandler,
-      postItem,
+      postComment,
       setCommentCountCache,
       commentCountCache,
       isReply,
@@ -46,7 +46,7 @@ class CommentBox extends React.Component {
     // Execute preSubmit Hooks
     this.state.hooks.preSubmit.forEach(hook => hook());
 
-    postItem(comment, 'comments')
+    postComment(comment, 'comments')
       .then(({data}) => {
         const postedComment = data.createComment.comment;
 
@@ -192,7 +192,7 @@ CommentBox.propTypes = {
   charCountEnable: PropTypes.bool.isRequired,
   maxCharCount: PropTypes.number,
   commentPostedHandler: PropTypes.func,
-  postItem: PropTypes.func.isRequired,
+  postComment: PropTypes.func.isRequired,
   cancelButtonClicked: PropTypes.func,
   assetId: PropTypes.string.isRequired,
   parentId: PropTypes.string,
