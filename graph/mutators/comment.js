@@ -28,7 +28,7 @@ const createComment = ({user, loaders: {Comments}, pubsub}, {body, asset_id, par
   .then(async (comment) => {
 
     if (user.hasRoles('ADMIN') || user.hasRoles('MODERATOR')) {
-      await CommentsService.addTag(comment.id, 'STAFF', user.id);
+      await CommentsService.addTag(comment.id, 'STAFF', user);
     }
 
     // If the loaders are present, clear the caches for these values because we
@@ -209,7 +209,7 @@ const setCommentStatus = ({user, loaders: {Comments}}, {id, status}) => {
  * @param {String} tag     name of the tag
  */
 const addCommentTag = ({user, loaders: {Comments}}, {id, tag}) => {
-  return CommentsService.addTag(id, tag, user.id);
+  return CommentsService.addTag(id, tag, user);
 };
 
 /**

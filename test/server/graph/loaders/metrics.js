@@ -23,27 +23,11 @@ describe('graph.loaders.Metrics', () => {
 
     describe('different comment states', () => {
 
-      beforeEach(() =>{
-        CommentModel.create( {id: '1', body: 'a new comment!'})
-        .then((comment) => {
-          console.log('*************** wtf comment', comment);
-        })
-        .catch((error) => {
-          console.log('1 debug the rror create ', error);
-        });
-        console.log('debug 1');
-        CommentModel.create({id: '2', body: 'a new comment!'})
-        .catch((error) => {
-          console.log('2 debug the rror create ', error);
-        });
-        console.log('debug 2');
+      beforeEach(() =>[
+        CommentModel.create( {id: '1', body: 'a new comment!'}),
+        CommentModel.create({id: '2', body: 'a new comment!'}),
         CommentModel.create({id: '3', body: 'a new comment!'})
-        .catch((error) => {
-          console.log('3 debug the rror create ', error);
-        });
-        console.log('debug 3');
-      }
-      );
+      ]);
 
       [
         {flagged: 0, actions: []},
@@ -56,7 +40,6 @@ describe('graph.loaders.Metrics', () => {
         ]}
       ].forEach(({flagged, actions}) => {
 
-        console.log('-----------------> debug  forEach');
         describe(`with actions=${actions.length}`, () => {
 
           beforeEach(() => ActionModel.create(actions));

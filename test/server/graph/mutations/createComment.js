@@ -21,7 +21,7 @@ describe('graph.mutations.createComment', () => {
           id
           status
           tags {
-            name
+            id
           }
         }
         errors {
@@ -228,7 +228,7 @@ describe('graph.mutations.createComment', () => {
             .then(({tags}) => {
               if (tag) {
                 expect(tags).to.have.length(1);
-                expect(tags[0]).to.have.property('name', tag);
+                expect(tags[0]).to.have.property('id', tag);
               } else {
                 expect(tags).length(0);
               }

@@ -2,7 +2,7 @@ const CommentModel = require('../models/comment');
 
 const ActionModel = require('../models/action');
 const ActionsService = require('./actions');
-
+const SettingModel = require('../models/setting');
 const SettingsService = require('./settings');
 
 const STATUSES = [
@@ -24,8 +24,6 @@ module.exports = class CommentsService {
    * @return {Promise}
    */
   static publicCreate(comment) {
-
-    console.log('-----------------> debug publicCreate');
 
     // Check to see if this is an array of comments, if so map it out.
     if (Array.isArray(comment)) {
@@ -56,22 +54,33 @@ module.exports = class CommentsService {
    */
   static addTag(id, name, added_by) {
 
-    console.log('-----------------> debug addtag', name);
-
-    SettingsService.retrieve()
-    .then(({tags}) => {
-      if (!ALLOWED_TAGS.includes(name) || tags.findIndex((t) => {return t.id === name & t.models.include('COMMENTS');}) === -1) {
+    // Check that the tag is allowed by the system OR in our setting.tags.
+    return SettingsService.retrieve()
+    .then((settings) => {
+      
+      // Moderators or ADMIN can add any tag automatically.
+      if (added_by != null && (added_by.hasRoles('ADMIN') || added_by.hasRoles('MODERATOR'))) {
+        SettingModel.findOneAndUpdate({id: settings.id}, {
+          $push: {
+            tags: {
+              id: name,
+              added_by: added_by.id
+            }
+          }
+        });
+      }
+      else if (!ALLOWED_TAGS.includes(name) || settings.tags.findIndex((t) => {return t.id === name & t.models.include('COMMENTS');}) === -1) {
         return Promise.reject(new Error('tag not allowed'));
       }
-    });
 
-    return CommentModel.findOneAndUpdate({id}, {
-      $push: {
-        tags: {
-          id: name,
-          added_by: added_by
+      return CommentModel.findOneAndUpdate({id}, {
+        $push: {
+          tags: {
+            id: name,
+            added_by: added_by.id
+          }
         }
-      }
+      });
     });
   }
 
