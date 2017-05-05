@@ -431,3 +431,24 @@ span {
   position: relative;
   top: 7px;
 }
+
+.external {
+  font-size: .7em;
+  text-decoration: none;
+  color: #063b9a;
+  cursor: pointer;
+  font-weight: normal;
+  margin-left: 10px;
+  white-space: nowrap;
+
+  &:hover {
+    text-decoration: underline;
+    opacity: .9;
+  }
+
+  i {
+    font-size: 12px;
+    top: 2px;
+    position: relative;
+  }
+}

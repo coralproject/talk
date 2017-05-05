@@ -57,11 +57,11 @@ const Comment = ({actions = [], comment, ...props}) => {
             <Link to={`/admin/moderate/${comment.asset.id}`}>Moderate →</Link>
           )}
         </div>
-        <a className={styles.itemBody} href={`${comment.asset.url}#${comment.id}`} target="_blank">
+        <div className={styles.itemBody}>
           <p className={styles.body}>
             <Highlighter
               searchWords={[...props.suspectWords, ...props.bannedWords, ...linkText]}
-              textToHighlight={comment.body} />
+              textToHighlight={comment.body} /> <a className={styles.external} href={`${comment.asset.url}#${comment.id}`} target="_blank"><Icon name='open_in_new' /> View context</a>
           </p>
           <div className={styles.sideActions}>
             {links ? <span className={styles.hasLinks}><Icon name='error_outline'/> Contains Link</span> : null}
@@ -79,7 +79,7 @@ const Comment = ({actions = [], comment, ...props}) => {
               })}
             </div>
           </div>
-        </a>
+        </div>
       </div>
       {
         flagActions && flagActions.length
