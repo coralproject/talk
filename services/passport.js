@@ -3,33 +3,43 @@ const UsersService = require('./users');
 const SettingsService = require('./settings');
 const fetch = require('node-fetch');
 const FormData = require('form-data');
+const JWT = require('jsonwebtoken');
 const LocalStrategy = require('passport-local').Strategy;
 const errors = require('../errors');
+const uuid = require('uuid');
 const debug = require('debug')('talk:passport');
 
-//==============================================================================
-// SESSION SERIALIZATION
-//==============================================================================
+// JWT_SECRET is the secret used to sign and verify tokens issued by this
+// application.
+const JWT_SECRET = process.env.JWT_SECRET;
 
-passport.serializeUser((user, done) => {
-  done(null, user.id);
+// JWT_EXPIRY is the time for which a given token is valid for.
+const JWT_EXPIRY = process.env.JWT_EXPIRY || '1 day';
+
+// JWT_ISSUER is the value for the issuer for the tokens that will be verified
+// when decoding. If `JWT_ISSUER` is not in the environment, then it will try
+// `TALK_ROOT_URL`, otherwise, it will be undefined.
+const JWT_ISSUER = process.env.JWT_ISSUER || process.env.TALK_ROOT_URL || undefined;
+
+// JWT_AUDIENCE is the value for the audience claim for the tokens that will be
+// verified when decoding. If `JWT_AUDIENCE` is not in the environment, then it
+// will default to `talk`.
+const JWT_AUDIENCE = process.env.JWT_AUDIENCE || 'talk';
+
+// GenerateToken will sign a token to include all the authorization information
+// needed for the front end.
+const GenerateToken = (user) => JWT.sign({}, JWT_SECRET, {
+  jwtid: uuid.v4(),
+  expiresIn: JWT_EXPIRY,
+  issuer: JWT_ISSUER,
+  subject: user.id,
+  audience: JWT_AUDIENCE
 });
 
-passport.deserializeUser((id, done) => {
-  UsersService
-    .findById(id)
-    .then((user) => {
-      done(null, user);
-    })
-    .catch((err) => {
-      done(err);
-    });
-});
-
-/**
- * This sends back the user data as JSON.
- */
-const HandleAuthCallback = (req, res, next) => (err, user) => {
+// HandleGenerateCredentials validates that an authentication scheme did indeed
+// return a user, if it did, then sign and return the user and token to be used
+// by the frontend to display and update the UI.
+const HandleGenerateCredentials = (req, res, next) => (err, user) => {
   if (err) {
     return next(err);
   }
@@ -38,15 +48,11 @@ const HandleAuthCallback = (req, res, next) => (err, user) => {
     return next(errors.ErrNotAuthorized);
   }
 
-  // Perform the login of the user!
-  req.logIn(user, (err) => {
-    if (err) {
-      return next(err);
-    }
+  // Generate the token to re-issue to the frontend.
+  const token = GenerateToken(user);
 
-    // We logged in the user! Let's send back the user data and the CSRF token.
-    res.json({user});
-  });
+  // Send back the details!
+  res.json({user, token});
 };
 
 /**
@@ -54,22 +60,18 @@ const HandleAuthCallback = (req, res, next) => (err, user) => {
  */
 const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
   if (err) {
-    return res.render('auth-callback', {err: JSON.stringify(err), data: null});
+    return res.render('auth-callback', {auth: JSON.stringify({err, data: null})});
   }
 
   if (!user) {
-    return res.render('auth-callback', {err: JSON.stringify(errors.ErrNotAuthorized), data: null});
+    return res.render('auth-callback', {auth: JSON.stringify({err, data: null})});
   }
 
-  // Perform the login of the user!
-  req.logIn(user, (err) => {
-    if (err) {
-      return res.render('auth-callback', {err: JSON.stringify(err), data: null});
-    }
+  // Generate the token to re-issue to the frontend.
+  const token = GenerateToken(user);
 
-    // We logged in the user! Let's send back the user data.
-    res.render('auth-callback', {err: null, data: JSON.stringify(user)});
-  });
+  // We logged in the user! Let's send back the user data.
+  res.render('auth-callback', {auth: JSON.stringify({err: null, data: {user, token}})});
 };
 
 /**
@@ -119,7 +121,45 @@ function ValidateUserLogin(loginProfile, user, done) {
 }
 
 //==============================================================================
-// STRATEGIES
+// JWT STRATEGY
+//==============================================================================
+
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
+
+// Extract the JWT from the 'Authorization' header with the 'Bearer' scheme.
+passport.use(new JwtStrategy({
+
+  // Prepare the extractor from the header.
+  jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
+
+  // Use the secret passed in which is loaded from the environment. This can be
+  // a certificate (loaded) or a HMAC key.
+  secretOrKey: JWT_SECRET,
+
+  // Verify the issuer.
+  issuer: JWT_ISSUER,
+
+  // Verify the audience.
+  audience: JWT_AUDIENCE,
+
+  // Enable only the HS256 algorithm.
+  algorithms: ['HS256']
+}, async (jwt, done) => {
+
+  // Load the user from the environment, because we just got a user from the
+  // header.
+  try {
+    let user = await UsersService.findById(jwt.sub);
+
+    return done(null, user);
+  } catch(e) {
+    return done(e);
+  }
+}));
+
+//==============================================================================
+// LOCAL STRATEGY
 //==============================================================================
 
 /**
@@ -356,6 +396,6 @@ module.exports = {
   passport,
   ValidateUserLogin,
   HandleFailedAttempt,
-  HandleAuthCallback,
-  HandleAuthPopupCallback
+  HandleAuthPopupCallback,
+  HandleGenerateCredentials
 };
