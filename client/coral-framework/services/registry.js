@@ -37,6 +37,8 @@ export function registerFragment(key, document) {
  * Register mutation options.
  *
  * Example:
+ * // state is the current redux state, which is sometimes
+ * // necessary to fill the optimistic response.
  * registerMutationOptions('PostComment', ({variables, state}) => ({
  *   optimisticResponse: {
  *     CreateComment: {
@@ -89,6 +91,8 @@ export function registerQueryOptions(key, config) {
  *       }`,
  *   },
  *   mutations: {
+ *     // state is the current redux state, which is sometimes
+ *     // necessary to fill the optimistic response.
  *     PostComment: ({variables, state}) => ({
  *       optimisticResponse: {
  *         [...]
@@ -143,6 +147,7 @@ export function getFragmentDocument(key) {
   let documents = fragments[key] ? fragments[key].documents : [];
   let fields =  fragments[key] ? `...${fragments[key].names.join('\n...')}\n` : ' __typename';
 
+  // Assemble arguments for `gql` to call it directly without using template literals.
   const main = `
     fragment ${key} on ${fragments[key].type} {
       ${fields}

@@ -5,6 +5,10 @@ import {getMutationOptions} from 'coral-framework/services/registry';
 import {store} from 'coral-framework/services/store';
 import {getDefinitionName} from '../utils';
 
+/**
+ * Exports a HOC with the same signature as `graphql`, that will
+ * apply mutation options registered in the registry.
+ */
 export default (definitions, config) => WrappedComponent => {
   config = {
     ...config,

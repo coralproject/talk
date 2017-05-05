@@ -41,6 +41,8 @@ function getComponentFragments(components) {
     }, {});
 
   Object.keys(res).forEach(key => {
+
+    // Assemble arguments for `gql` to call it directly without using template literals.
     res[key].spreads = `...${res[key].spreads.join('\n...')}\n`;
     const literals = ['', ...res[key].definitions.map(() => '\n')];
     res[key].definitions = gql.apply(null, [literals, ...res[key].definitions]);
