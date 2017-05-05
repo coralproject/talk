@@ -76,7 +76,7 @@ alternative methods of loading configuration during development.
 - Chrome for Android: latest version
 - Firefox for Android: latest version
 
-### License
+## License
 
     Copyright 2017 Mozilla Foundation
 
