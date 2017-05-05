@@ -42,9 +42,43 @@ available in the format: `<scheme>://<host>` without the path.
 Refer to the wiki page on [Configuration Loading](https://github.com/coralproject/talk/wiki/Configuration-Loading) for
 alternative methods of loading configuration during development.
 
+## Supported Browsers
+
+### Web
+
+- Chrome: latest 2 versions
+- Firefox: latest 2 versions, and most recent extended support version, if any
+- Safari: latest 2 versions
+- Internet Explorer: IE Edge, 11
+
+### iOS Devices
+
+- iPad
+- iPad Pro
+- iPhone 6 Plus
+- iPhone 6
+- iPhone 5
+
+### iOS Browsers
+
+- Chrome for iOS: latest version
+- Firefox for iOS: latest version
+- Safari for iOS: latest version
+
+### Android Devices
+
+- Galaxy S5
+- Nexus 5X
+- Nexus 6P
+
+### Android Browsers
+
+- Chrome for Android: latest version
+- Firefox for Android: latest version
+
 ### License
 
-    Copyright 2016 Mozilla Foundation
+    Copyright 2017 Mozilla Foundation
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
