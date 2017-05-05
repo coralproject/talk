@@ -3,10 +3,8 @@
 }
 
 .apply {
-  position: absolute;
-  top: 38%;
-  transform: translateX(-50%);
-  right: 0;
+  float: right;
+  margin: 0 10px;
 }
 
 .wrapper ul {
