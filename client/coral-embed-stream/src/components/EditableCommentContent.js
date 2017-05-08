@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
-import {notifyForNewCommentStatus, CommentForm} from 'coral-plugin-commentbox/CommentBox';
+import {notifyForNewCommentStatus} from 'coral-plugin-commentbox/CommentBox';
+import {CommentForm} from 'coral-plugin-commentbox/CommentForm';
 import styles from './Comment.css';
 
 import {Icon} from 'coral-ui';
