@@ -36,7 +36,7 @@ export default reaction => WrappedComponent => {
   }
 
   const isReaction = a =>
-    a.__typereaction === `${capitalize(reaction)}ActionSummary`;
+    a.__typename === `${capitalize(reaction)}ActionSummary`;
 
   const COMMENT_FRAGMENT = gql`
       fragment ${capitalize(reaction)}Button_updateFragment on Comment {
@@ -68,7 +68,7 @@ export default reaction => WrappedComponent => {
             variables: {id},
             optimisticResponse: {
               deleteAction: {
-                __typereaction: 'DeleteActionResponse',
+                __typename: 'DeleteActionResponse',
                 errors: null
               }
             },
@@ -129,10 +129,10 @@ export default reaction => WrappedComponent => {
             variables: {[reaction]: reactionData},
             optimisticResponse: {
               [`create${capitalize(reaction)}`]: {
-                __typereaction: `Create${capitalize(reaction)}Response`,
+                __typename: `Create${capitalize(reaction)}Response`,
                 errors: null,
                 [reaction]: {
-                  __typereaction: `${capitalize(reaction)}Action`,
+                  __typename: `${capitalize(reaction)}Action`,
                   id: 'pending'
                 }
               }
@@ -157,7 +157,7 @@ export default reaction => WrappedComponent => {
               if (idx < 0) {
                 // Add initial action when it doesn't exist.
                 data.action_summaries.push({
-                  __typereaction: `${capitalize(reaction)}ActionSummary`,
+                  __typename: `${capitalize(reaction)}ActionSummary`,
                   count: 0,
                   current_user: null
                 });
