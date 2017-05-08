@@ -76,21 +76,26 @@ module.exports = class CommentsService {
           });
         }
         else if (!ALLOWED_TAGS.includes(name) || settings.tags.findIndex((t) => {return t.id === name & t.models.include('COMMENTS');}) === -1) {
-          return Promise.reject(errors.ErrorTagNotAllowed);
+          return Promise.reject(errors.ErrTagNotAllowed);
         }
       });
 
-      return CommentModel.findOneAndUpdate({id}, {
+      return CommentModel.findOneAndUpdate({id, 'tags.id': {$ne: name}}, {
         $push: {
           tags: {
             id: name,
             added_by: added_by
           }
         },
-      },
-        {
-          new: false,
-          upsert: false
+      })
+        .then(({nModified}) => {
+          switch (nModified) {
+          case 0:
+            return Promise.reject(errors.ErrNoCommentFound);
+          case 1:
+            return;
+          default:
+          }
         });
     });
   }
@@ -102,11 +107,21 @@ module.exports = class CommentsService {
    * @param {String} tag_id the id of the tag to remove
    */
   static removeTag(id, tag_id) {
-    return CommentModel.findOneAndUpdate({id}, {
+    return CommentModel.findOneAndUpdate({id, 'tags.id': tag_id}, {
       $pull: {
         tags: {
           id: tag_id
         }
+      }
+    }
+    )
+    .then(({nModified}) => {
+      switch(nModified) {
+      case 0:
+        return Promise.reject(errors.ErrNoCommentFound);
+      case 1:
+        return;
+      default:
       }
     });
   }

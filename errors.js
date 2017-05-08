@@ -82,7 +82,7 @@ const ErrNoCommentFound = new APIError('comment does not exist', {
 });
 
 // ErrNoCommentFound is returned when trying to add a tag to a comment that does not exist.
-const ErrorTagNotAllowed = new APIError('tag not allowed', {
+const ErrTagNotAllowed = new APIError('tag not allowed', {
   translation_key: 'TAG_NOT_ALLOWED',
   status: 400
 });
@@ -174,7 +174,7 @@ module.exports = {
   ErrMissingPassword,
   ErrMissingToken,
   ErrNoCommentFound,
-  ErrorTagNotAllowed,
+  ErrTagNotAllowed,
   ErrEmailTaken,
   ErrSpecialChars,
   ErrMissingUsername,

@@ -92,6 +92,15 @@ const CommentSchema = new Schema({
   }
 });
 
+// Add the indexes on the comment tag.
+CommentSchema.index({
+  'id': 1,
+  'tags.id': 1
+}, {
+  unique: true,
+  background: false
+});
+
 // Comment model.
 const Comment = mongoose.model('Comment', CommentSchema);
 

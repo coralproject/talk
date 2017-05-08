@@ -32,7 +32,6 @@ describe('graph.mutations.ignoreUser', () => {
 
   // @TODO (bengo) - test a user can't ignore themselves
   it('users can ignoreUser', async () => {
-    UsersService.findLocalUser('usernameB@example.com');
     const user = await UsersService.createLocalUser('usernameA@example.com', 'password', 'usernameA');
     const userToIgnore = await UsersService.createLocalUser('usernameB@example.com', 'password', 'usernameB');
     const context = new Context({user});
