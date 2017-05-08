@@ -68,7 +68,7 @@ const Comment = ({actions = [], comment, suspectWords, bannedWords, ...props}) =
           <p className={styles.body}>
             <Highlighter
               searchWords={searchWords}
-              textToHighlight={comment.body} />
+              textToHighlight={comment.body} /> <a className={styles.external} href={`${comment.asset.url}#${comment.id}`} target="_blank"><Icon name='open_in_new' /> {lang.t('comment.view_context')}</a>
           </p>
           <div className={styles.sideActions}>
             {links ? <span className={styles.hasLinks}><Icon name='error_outline'/> Contains Link</span> : null}
@@ -113,6 +113,7 @@ Comment.propTypes = {
     }),
     asset: PropTypes.shape({
       title: PropTypes.string,
+      url: PropTypes.string,
       id: PropTypes.string
     })
   })
