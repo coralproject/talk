@@ -1,5 +1,6 @@
 const mongoose = require('../services/mongoose');
 const bcrypt = require('bcrypt');
+const Schema = mongoose.Schema;
 const uuid = require('uuid');
 
 // USER_ROLES is the array of roles that is permissible as a user role.
@@ -16,9 +17,32 @@ const USER_STATUS = [
   'APPROVED' // Indicates that the users' username has been approved
 ];
 
+// /**
+//  * The Mongo schema for a User Tag.
+//  * @type {Schema}
+//  */
+// const TagSchema = new Schema({
+//
+//   // This is the actual 'tag' and we only permit tags that are in Setting.tags.
+//   id: String,
+//
+//   // The User ID of the user that added the tag.
+//   added_by: {
+//     type: String,
+//     default: null
+//   },
+//
+//   created_at: {
+//     type: Date,
+//     default: Date
+//   }
+// }, {
+//   _id: false
+// });
+
 // ProfileSchema is the mongoose schema defined as the representation of a
 // User's profile stored in MongoDB.
-const ProfileSchema = new mongoose.Schema({
+const ProfileSchema = new Schema({
 
   // ID provides the identifier for the user profile, in the case of a local
   // provider, the id would be an email, in the case of a social provider,
@@ -41,7 +65,7 @@ const ProfileSchema = new mongoose.Schema({
   // used by the `local` provider to indicate when the email address was
   // confirmed.
   metadata: {
-    type: mongoose.Schema.Types.Mixed
+    type: Schema.Types.Mixed
   }
 }, {
   _id: false
@@ -49,7 +73,7 @@ const ProfileSchema = new mongoose.Schema({
 
 // UserSchema is the mongoose schema defined as the representation of a User in
 // MongoDB.
-const UserSchema = new mongoose.Schema({
+const UserSchema = new Schema({
 
   // This ID represents the most unique identifier for a user, it is generated
   // when the user is created as a random uuid.
@@ -110,18 +134,6 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-
-  tags: [{
-    id: {
-      type: String,
-      unique: true
-    },
-    public: Boolean,
-    text: [{
-      type: mongoose.Schema.Types.Mixed,
-      default:  null
-    }]
-  }],
 
   // User's settings
   settings: {

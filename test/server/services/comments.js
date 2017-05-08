@@ -227,8 +227,8 @@ describe('services.CommentsService', () => {
       await CommentsService.addTag(commentId, tagName, userId, 'PUBLIC');
       const {tags} = await CommentsService.findById(commentId);
       expect(tags.length).to.equal(1);
-      expect(tags[0].name).to.equal(tagName);
-      expect(tags[0].assigned_by).to.equal(userId);
+      expect(tags[0].id).to.equal(tagName);
+      expect(tags[0].added_by).to.equal(userId);
       expect(tags[0].created_at).to.be.an.instanceof(Date);
     });
     it('can\'t add a tag to comment id that doesn\'t exist', async () => {
@@ -238,7 +238,7 @@ describe('services.CommentsService', () => {
 
       await expect(CommentsService.addTag(commentId, tagName, userId, 'PUBLIC')).to.be.rejected;
     });
-    it('can\'t add same tag.name twice', async () => {
+    it('can\'t add same tag.id twice', async () => {
       const commentId = comments[0].id;
       const tagName = 'BEST';
       const userId = users[0].id;

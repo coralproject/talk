@@ -4,6 +4,9 @@ const ActionModel = require('../models/action');
 const ActionsService = require('./actions');
 const SettingModel = require('../models/setting');
 const SettingsService = require('./settings');
+const UsersService = require('./users');
+
+const errors = require('../errors');
 
 const STATUSES = [
   'ACCEPTED',
@@ -58,29 +61,37 @@ module.exports = class CommentsService {
     return SettingsService.retrieve()
     .then((settings) => {
 
-      // Moderators or ADMIN can add any tag automatically.
-      if (added_by != null && (added_by.hasRoles('ADMIN') || added_by.hasRoles('MODERATOR'))) {
-        SettingModel.findOneAndUpdate({id: settings.id}, {
-          $push: {
-            tags: {
-              id: name,
-              models: ['COMMENTS']
+      UsersService.findById(added_by)
+      .then((user) => {
+
+        // Moderators or ADMIN can add any tag automatically.
+        if (user != null && (user.hasRoles('ADMIN') || user.hasRoles('MODERATOR'))) {
+          SettingModel.findOneAndUpdate({id: settings.id}, {
+            $push: {
+              tags: {
+                id: name,
+                models: ['COMMENTS']
+              }
             }
-          }
-        });
-      }
-      else if (!ALLOWED_TAGS.includes(name) || settings.tags.findIndex((t) => {return t.id === name & t.models.include('COMMENTS');}) === -1) {
-        return Promise.reject(new Error('tag not allowed'));
-      }
+          });
+        }
+        else if (!ALLOWED_TAGS.includes(name) || settings.tags.findIndex((t) => {return t.id === name & t.models.include('COMMENTS');}) === -1) {
+          return Promise.reject(errors.ErrorTagNotAllowed);
+        }
+      });
 
       return CommentModel.findOneAndUpdate({id}, {
         $push: {
           tags: {
             id: name,
-            added_by: added_by.id
+            added_by: added_by
           }
-        }
-      });
+        },
+      },
+        {
+          new: false,
+          upsert: false
+        });
     });
   }
 

@@ -339,6 +339,7 @@ module.exports = class UsersService {
                   if (err.message.match('Username')) {
                     return reject(errors.ErrUsernameTaken);
                   }
+                  console.log('DEBUG FUCKING ERROR', err);
                   return reject(errors.ErrEmailTaken);
                 }
                 return reject(err);

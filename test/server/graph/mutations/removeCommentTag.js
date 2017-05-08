@@ -34,7 +34,7 @@ describe('graph.mutations.removeCommentTag', () => {
     const context = new Context({user});
 
     // add a tag first
-    await CommentsService.addTag(comment.id, 'BEST', user);
+    await CommentsService.addTag(comment.id, 'BEST', user.id);
     const response = await graphql(schema, query, {}, context, {id: comment.id, tag: 'BEST'});
     if (response.errors && response.errors.length) {
       console.error(response.errors);
@@ -59,25 +59,28 @@ describe('graph.mutations.removeCommentTag', () => {
           models: ['COMMENTS']
         }
       }
-    });
-    Object.entries({
-      'anonymous': undefined,
-      'regular commenter': new UserModel({}),
-      'banned moderator': new UserModel({roles: ['MODERATOR'], status: 'BANNED'})
-    }).forEach(([ userDescription, user ]) => {
-      it(userDescription, async function () {
-        const context = new Context({user});
+    })
+    .then(() => {
+      Object.entries({
+        'anonymous': undefined,
+        'regular commenter': new UserModel({}),
+        'banned moderator': new UserModel({roles: ['MODERATOR'], status: 'BANNED'})
+      }).forEach(([ userDescription, user ]) => {
+        it(userDescription, async function () {
+          const context = new Context({user});
 
-        // add a tag first
-        await CommentsService.addTag(comment.id, 'BEST', user);
-        const response = await graphql(schema, query, {}, context, {id: comment.id, tag: 'BEST'});
-        if (response.errors && response.errors.length) {
-          console.error(response.errors);
-        }
-        expect(response.errors).to.be.empty;
+          // add a tag first
+          await CommentsService.addTag(comment.id, 'BEST', user.id);
 
-        expect(response.data.removeCommentTag.errors).to.deep.equal([{'translation_key':'NOT_AUTHORIZED'}]);
-        expect(response.data.removeCommentTag.comment).to.be.null;
+          const response = await graphql(schema, query, {}, context, {id: comment.id, tag: 'BEST'});
+          if (response.errors && response.errors.length) {
+            console.error(response.errors);
+          }
+          expect(response.errors).to.be.empty;
+
+          expect(response.data.removeCommentTag.errors).to.deep.equal([{'translation_key':'NOT_AUTHORIZED'}]);
+          expect(response.data.removeCommentTag.comment).to.be.null;
+        });
       });
     });
   });
