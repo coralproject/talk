@@ -6,7 +6,7 @@ fragment commentView on Comment {
     created_at
     status
     tags {
-      name
+      id
     }
     user {
         id

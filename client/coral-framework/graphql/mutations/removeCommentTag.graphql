@@ -3,7 +3,7 @@ mutation RemoveCommentTag ($id: ID!, $tag: String!) {
     comment {
       id
       tags {
-        name
+        id
       }
     }
     errors {
