@@ -3,6 +3,19 @@ import {registerConfig} from 'coral-framework/services/registry';
 
 const config = {
   fragments: {
+    AddCommentTagResponse: gql`
+      fragment CoralEmbedStream_AddCommentTagResponse on AddCommentTagResponse {
+        comment {
+          id
+          tags {
+            name
+          }
+        }
+        errors {
+          translation_key
+        }
+      }
+    `,
     DeleteActionResponse: gql`
       fragment CoralEmbedStream_DeleteActionResponse on DeleteActionResponse {
         errors {
