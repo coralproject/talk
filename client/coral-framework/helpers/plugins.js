@@ -5,8 +5,7 @@ import flattenDeep from 'lodash/flattenDeep';
 import uniq from 'lodash/uniq';
 import pick from 'lodash/pick';
 import plugins from 'pluginsConfig';
-import {gql} from 'react-apollo';
-import {getDefinitionName} from 'coral-framework/utils';
+import {getDefinitionName, mergeDocuments} from 'coral-framework/utils';
 
 export const pluginReducers = merge(
   ...plugins
@@ -44,8 +43,7 @@ function getComponentFragments(components) {
 
     // Assemble arguments for `gql` to call it directly without using template literals.
     res[key].spreads = `...${res[key].spreads.join('\n...')}\n`;
-    const literals = ['', ...res[key].definitions.map(() => '\n')];
-    res[key].definitions = gql.apply(null, [literals, ...res[key].definitions]);
+    res[key].definitions = mergeDocuments(res[key].definitions);
   });
 
   return res;
@@ -86,7 +84,7 @@ export function getSlotsFragments(slots) {
 
 export function getGraphQLConfigs() {
   return plugins
-    .map(o => o.module.mutations && pick(o.module, ['mutations', 'queries', 'fragments']))
+    .map(o => pick(o.module, ['mutations', 'queries', 'fragments']))
     .filter(o => o);
 }
 

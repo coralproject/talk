@@ -1,5 +1,6 @@
+import * as React from 'react';
 import {graphql} from 'react-apollo';
-import {getQueryOptions} from 'coral-framework/services/registry';
+import {getQueryOptions, resolveFragments} from 'coral-framework/services/registry';
 import {getDefinitionName, separateDataAndRoot} from '../utils';
 
 /**
@@ -33,6 +34,16 @@ export default (document, config) => WrappedComponent => {
     };
   };
 
-  const wrapped = graphql(document, {...config, options: wrappedOptions})(WrappedComponent);
-  return wrapped;
+  let memoized = null;
+  const getWrapped = () => {
+    if (!memoized) {
+      memoized = graphql(resolveFragments(document), {...config, options: wrappedOptions})(WrappedComponent);
+    }
+    return memoized;
+  };
+
+  return (props) => {
+    const Wrapped = getWrapped();
+    return <Wrapped {...props} />;
+  };
 };

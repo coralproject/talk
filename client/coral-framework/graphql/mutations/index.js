@@ -8,7 +8,6 @@ import REMOVE_COMMENT_TAG from './removeCommentTag.graphql';
 import IGNORE_USER from './ignoreUser.graphql';
 import STOP_IGNORING_USER from './stopIgnoringUser.graphql';
 import withMutation from '../../hocs/withMutation';
-import {getFragmentDocument} from '../../services/registry';
 
 export const withPostComment = withMutation(
   gql`
@@ -17,7 +16,6 @@ export const withPostComment = withMutation(
         ...CreateCommentResponse
       }
     }
-    ${getFragmentDocument('CreateCommentResponse')}
   `, {
     props: ({mutate}) => ({
       postComment: comment => {

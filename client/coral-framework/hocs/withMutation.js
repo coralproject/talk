@@ -1,7 +1,8 @@
+import * as React from 'react';
 import {graphql} from 'react-apollo';
 import merge from 'lodash/merge';
 import uniq from 'lodash/uniq';
-import {getMutationOptions} from 'coral-framework/services/registry';
+import {getMutationOptions, resolveFragments} from 'coral-framework/services/registry';
 import {store} from 'coral-framework/services/store';
 import {getDefinitionName} from '../utils';
 
@@ -73,6 +74,18 @@ export default (document, config) => WrappedComponent => {
     };
     return config.props({...data, mutate});
   };
-  const wrapped = graphql(document, {...config, props: wrappedProps})(WrappedComponent);
-  return wrapped;
+
+  // Lazily resolve fragments from registry to support circular dependencies.
+  let memoized = null;
+  const getWrapped = () => {
+    if (!memoized) {
+      memoized = graphql(resolveFragments(document), {...config, props: wrappedProps})(WrappedComponent);
+    }
+    return memoized;
+  };
+
+  return (props) => {
+    const Wrapped = getWrapped();
+    return <Wrapped {...props} />;
+  };
 };

@@ -1,7 +1,7 @@
-import {gql} from 'react-apollo';
-import {getDefinitionName} from 'coral-framework/utils';
+import {getDefinitionName, mergeDocuments} from 'coral-framework/utils';
 import {getGraphQLConfigs} from 'coral-framework/helpers/plugins';
 import globalFragments from 'coral-framework/graphql/fragments';
+import uniq from 'lodash/uniq';
 
 const fragments = {};
 const mutationOptions = {};
@@ -144,6 +144,11 @@ export function getQueryOptions(key) {
  */
 export function getFragmentDocument(key) {
   init();
+
+  if (!(key in fragments)) {
+    return '';
+  }
+
   let documents = fragments[key] ? fragments[key].documents : [];
   let fields =  fragments[key] ? `...${fragments[key].names.join('\n...')}\n` : ' __typename';
 
@@ -153,8 +158,7 @@ export function getFragmentDocument(key) {
       ${fields}
     }
   `;
-  const literals = [main, ...documents.map(() => '\n')];
-  return gql.apply(null, [literals, ...documents]);
+  return mergeDocuments([main, ...documents]);
 }
 
 // The fragments and configs are lazily loaded to allow circular dependencies to work.
@@ -174,3 +178,21 @@ function init() {
   getGraphQLConfigs().forEach(cfg => registerConfig(cfg));
 }
 
+export function resolveFragments(document) {
+  if (document.loc.source) {
+
+    // resolve fragments from registry
+    const matchedSubFragments = document.loc.source.body.match(/\.\.\.(.*)/g) || [];
+    const subFragments =
+      uniq(matchedSubFragments.map(f => f.replace('...', '')))
+      .map(key => getFragmentDocument(key))
+      .filter(i => i);
+
+    if (subFragments.length > 0) {
+      return mergeDocuments([document, ...subFragments]);
+    }
+  } else {
+    console.warn('Can only resolve fragments from documents definied using the gql tag.');
+  }
+  return document;
+}
