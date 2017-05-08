@@ -55,7 +55,7 @@ class CommentBox extends React.Component {
     let comment = {
       asset_id: assetId,
       parent_id: parentId,
-      body: body,
+      body,
       ...this.props.commentBox
     };
 
