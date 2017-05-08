@@ -21,7 +21,7 @@ export function getSlotElements(slot, props = {}) {
     .filter(o => o.module.slots[slot])
     .map(o => o.module.slots[slot]));
   return components
-    .map((component, i) => React.createElement(component, {...props, key: i}));
+    .map((component, i) => React.createElement(component, {key: i, ...props}));
 }
 
 function getComponentFragments(components) {
