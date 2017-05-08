@@ -4,7 +4,6 @@ const {graphql} = require('graphql');
 const schema = require('../../../../graph/schema');
 const Context = require('../../../../graph/context');
 const UserModel = require('../../../../models/user');
-const TagService = require('../../../../services/tags');
 const SettingsService = require('../../../../services/settings');
 const CommentsService = require('../../../../services/comments');
 
@@ -16,8 +15,8 @@ describe('graph.mutations.addCommentTag', () => {
   });
 
   const query = `
-    mutation AddCommentTag ($id: ID!, $tag: String!, $privacy_type: String!) {
-      addCommentTag(id:$id, tag:$tag, privacy_type:$privacy_type) {
+    mutation AddCommentTag ($id: ID!, $tag: String!) {
+      addCommentTag(id:$id, tag:$tag) {
         comment {
           id
         }
@@ -31,14 +30,14 @@ describe('graph.mutations.addCommentTag', () => {
   it('moderators can add tags to comments', async () => {
     const user = new UserModel({roles: ['MODERATOR' ]});
     const context = new Context({user});
-    const response = await graphql(schema, query, {}, context, {id: comment.id, tag: 'BEST', privacy_type: 'PUBLIC'});
+    const response = await graphql(schema, query, {}, context, {id: comment.id, tag: 'BEST'});
     if (response.errors && response.errors.length) {
       console.error(response.errors);
     }
     expect(response.errors).to.be.empty;
 
-    return TagService.findByItemIdAndName(response.data.addCommentTag.comment.id, 'BEST', 'COMMENTS')
-    .then((tags) => {
+    return CommentsService.findById(response.data.addCommentTag.comment.id)
+    .then(({tags}) => {
       expect(tags).to.have.length(1);
     });
   });

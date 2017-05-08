@@ -29,8 +29,8 @@ const RootMutation = {
   setCommentStatus(_, {id, status}, {mutators: {Comment}}) {
     return wrapResponse(null)(Comment.setCommentStatus({id, status}));
   },
-  addCommentTag(_, {id, tag, privacy_type}, {mutators: {Comment}}) {
-    return wrapResponse('comment')(Comment.addCommentTag({id, tag, privacy_type}).then(() => CommentsService.findById(id)));
+  addCommentTag(_, {id, tag}, {mutators: {Comment}}) {
+    return wrapResponse('comment')(Comment.addCommentTag({id, tag}).then(() => CommentsService.findById(id)));
   },
   removeCommentTag(_, {id, tag}, {mutators: {Comment}}) {
     return wrapResponse('comment')(Comment.removeCommentTag({id, tag}).then(() => CommentsService.findById(id)));

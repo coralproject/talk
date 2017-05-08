@@ -7,7 +7,6 @@ const UserModel = require('../../../../models/user');
 
 const SettingsService = require('../../../../services/settings');
 const CommentsService = require('../../../../services/comments');
-const TagService = require('../../../../services/tags');
 
 describe('graph.mutations.removeCommentTag', () => {
   let comment;
@@ -42,8 +41,8 @@ describe('graph.mutations.removeCommentTag', () => {
     expect(response.errors).to.be.empty;
     expect(response.data.removeCommentTag.errors).to.be.null;
 
-    TagService.findByItemIdAndName(response.data.removeCommentTag.comment.id, 'BEST')
-    .then((tags) => {
+    CommentsService.findById(response.data.removeCommentTag.comment.id)
+    .then(({tags}) => {
       expect(tags).to.deep.equal([]);
     });
 

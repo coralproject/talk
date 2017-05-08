@@ -16,7 +16,7 @@ const Wordlist = require('../../services/wordlist');
  * @param  {String} [status='NONE'] the status of the new comment
  * @return {Promise}              resolves to the created comment
  */
-const createComment = ({user, loaders: {Comments}, pubsub}, {body, asset_id, parent_id = null, tags = []}, status = 'NONE') => {
+const createComment = ({user, loaders: {Comments}, pubsub}, {body, asset_id, parent_id = null}, status = 'NONE') => {
 
   return CommentsService.publicCreate({
     body,
@@ -28,7 +28,7 @@ const createComment = ({user, loaders: {Comments}, pubsub}, {body, asset_id, par
   .then(async (comment) => {
 
     if (user.hasRoles('ADMIN') || user.hasRoles('MODERATOR')) {
-      await CommentsService.addTag(comment.id, 'STAFF', user.id, 'PUBLIC');
+      await CommentsService.addTag(comment.id, 'STAFF', user.id);
     }
 
     // If the loaders are present, clear the caches for these values because we
@@ -208,8 +208,8 @@ const setCommentStatus = ({user, loaders: {Comments}}, {id, status}) => {
  * @param {String} id          identifier of the comment  (uuid)
  * @param {String} tag     name of the tag
  */
-const addCommentTag = ({user, loaders: {Comments}}, {id, tag, privacy_type}) => {
-  return CommentsService.addTag(id, tag, user.id, privacy_type);
+const addCommentTag = ({user, loaders: {Comments}}, {id, tag}) => {
+  return CommentsService.addTag(id, tag, user.id);
 };
 
 /**

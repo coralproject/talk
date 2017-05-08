@@ -6,7 +6,6 @@ const Assets = require('./assets');
 const Comments = require('./comments');
 const Metrics = require('./metrics');
 const Settings = require('./settings');
-const Tags = require('./tags');
 const Users = require('./users');
 
 const plugins = require('../../services/plugins');
@@ -19,7 +18,6 @@ let loaders = [
   Comments,
   Metrics,
   Settings,
-  Tags,
   Users,
 
   // Load the plugin loaders from the manager.

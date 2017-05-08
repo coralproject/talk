@@ -9,7 +9,7 @@ const AssetModel = require('../../../../models/asset');
 const ActionModel = require('../../../../models/action');
 
 const SettingsService = require('../../../../services/settings');
-const TagService = require('../../../../services/tags');
+const CommentsService = require('../../../../services/comments');
 
 describe('graph.mutations.createComment', () => {
   beforeEach(() => SettingsService.init());
@@ -223,9 +223,9 @@ describe('graph.mutations.createComment', () => {
               expect(data.createComment).to.have.property('comment').not.null;
               expect(data.createComment).to.have.property('errors').null;
 
-              return TagService.findByItemIdAndName(data.createComment.comment.id, tag, 'COMMENTS');
+              return CommentsService.findById(data.createComment.comment.id);
             })
-            .then((tags) => {
+            .then(({tags}) => {
               if (tag) {
                 expect(tags).to.have.length(1);
                 expect(tags[0]).to.have.property('name', tag);

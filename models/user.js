@@ -111,6 +111,18 @@ const UserSchema = new mongoose.Schema({
     default: false
   },
 
+  tags: [{
+    id: {
+      type: String,
+      unique: true
+    },
+    public: Boolean,
+    text: [{
+      type: mongoose.Schema.Types.Mixed,
+      default:  null
+    }]
+  }],
+
   // User's settings
   settings: {
     bio: {

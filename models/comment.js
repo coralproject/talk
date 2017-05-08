@@ -31,6 +31,29 @@ const StatusSchema = new Schema({
 });
 
 /**
+ * The Mongo schema for a Comment Tag.
+ * @type {Schema}
+ */
+const TagSchema = new Schema({
+
+  // This is the actual 'tag' and we only permit tags that are in Setting.tags.
+  id: String,
+
+  // The User ID of the user that added the tag.
+  added_by: {
+    type: String,
+    default: null
+  },
+
+  created_at: {
+    type: Date,
+    default: Date
+  }
+}, {
+  _id: false
+});
+
+/**
  * The Mongo schema for a Comment.
  * @type {Schema}
  */
@@ -54,6 +77,8 @@ const CommentSchema = new Schema({
     default: 'NONE'
   },
   parent_id: String,
+
+  tags: [TagSchema],
 
   // Additional metadata stored on the field.
   metadata: {

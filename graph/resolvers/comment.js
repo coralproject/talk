@@ -6,9 +6,6 @@ const Comment = {
 
     return Comments.get.load(parent_id);
   },
-  tags({id}, _, {loaders: {Tags}}) {
-    return Tags.getByID.load([id]);
-  },
   user({author_id}, _, {loaders: {Users}}) {
     return Users.getByID.load(author_id);
   },

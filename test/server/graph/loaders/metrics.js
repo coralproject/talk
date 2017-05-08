@@ -23,11 +23,27 @@ describe('graph.loaders.Metrics', () => {
 
     describe('different comment states', () => {
 
-      beforeEach(() => CommentModel.create([
-        {id: '1', body: 'a new comment!'},
-        {id: '2', body: 'a new comment!'},
-        {id: '3', body: 'a new comment!'}
-      ]));
+      beforeEach(() =>{
+        CommentModel.create( {id: '1', body: 'a new comment!'})
+        .then((comment) => {
+          console.log('*************** wtf comment', comment);
+        })
+        .catch((error) => {
+          console.log('1 debug the rror create ', error);
+        });
+        console.log('debug 1');
+        CommentModel.create({id: '2', body: 'a new comment!'})
+        .catch((error) => {
+          console.log('2 debug the rror create ', error);
+        });
+        console.log('debug 2');
+        CommentModel.create({id: '3', body: 'a new comment!'})
+        .catch((error) => {
+          console.log('3 debug the rror create ', error);
+        });
+        console.log('debug 3');
+      }
+      );
 
       [
         {flagged: 0, actions: []},
@@ -40,6 +56,7 @@ describe('graph.loaders.Metrics', () => {
         ]}
       ].forEach(({flagged, actions}) => {
 
+        console.log('-----------------> debug  forEach');
         describe(`with actions=${actions.length}`, () => {
 
           beforeEach(() => ActionModel.create(actions));
@@ -52,7 +69,6 @@ describe('graph.loaders.Metrics', () => {
               to: (new Date()).setMinutes((new Date()).getMinutes() + 5)
             })
               .then(({data, errors}) => {
-                console.log(errors);
                 expect(errors).to.be.undefined;
                 expect(data.flagged).to.have.length(flagged);
               });

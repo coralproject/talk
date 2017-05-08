@@ -5,7 +5,6 @@ const ActionsService = require('../../../services/actions');
 const UsersService = require('../../../services/users');
 const SettingsService = require('../../../services/settings');
 const CommentsService = require('../../../services/comments');
-const TagService = require('../../../services/tags');
 
 const settings = {id: '1', moderation: 'PRE', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
 
@@ -226,7 +225,7 @@ describe('services.CommentsService', () => {
       const tagName = 'BEST';
       const userId = users[0].id;
       await CommentsService.addTag(commentId, tagName, userId, 'PUBLIC');
-      const tags = await TagService.findByItemIdAndName(commentId, 'BEST', 'COMMENTS');
+      const {tags} = await CommentsService.findById(commentId);
       expect(tags.length).to.equal(1);
       expect(tags[0].name).to.equal(tagName);
       expect(tags[0].assigned_by).to.equal(userId);
@@ -257,13 +256,13 @@ describe('services.CommentsService', () => {
       const commentId = comments[0].id;
       const tagName = 'BEST';
       await CommentsService.addTag(commentId, tagName, users[0].id, 'PUBLIC');
-      const tags = await TagService.findByItemIdAndName(commentId, tagName, 'COMMENTS');
+      const {tags} = await CommentsService.findById(commentId);
       expect(tags.length).to.equal(1);
 
       // ok now to remove it
       await CommentsService.removeTag(commentId, tagName);
-      const tags2 = await TagService.findByItemIdAndName(commentId, tagName, 'COMMENTS');
-      expect(tags2.length).to.equal(0);
+      const comment = await CommentsService.findById(commentId);
+      expect(comment.tags.length).to.equal(0);
     });
     it('throws if removing a tag that isn\'t there', async () => {
       const commentId = comments[0].id;
@@ -271,7 +270,7 @@ describe('services.CommentsService', () => {
       const tagName = 'BEST';
 
       // just make sure it has no tags to start
-      const tags = await TagService.findByItemIdAndName(commentId, tagName, 'COMMENTS');
+      const {tags} = await CommentsService.findById(commentId);
       expect(tags.length).to.equal(0);
 
       // ok now to remove it

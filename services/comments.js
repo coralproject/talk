@@ -3,14 +3,17 @@ const CommentModel = require('../models/comment');
 const ActionModel = require('../models/action');
 const ActionsService = require('./actions');
 
-const TagsService = require('./tags');
-const TagModel = require('../models/tag');
+const SettingsService = require('./settings');
 
 const STATUSES = [
   'ACCEPTED',
   'REJECTED',
   'PREMOD',
   'NONE',
+];
+
+const ALLOWED_TAGS = [
+  'STAFF'
 ];
 
 module.exports = class CommentsService {
@@ -21,6 +24,8 @@ module.exports = class CommentsService {
    * @return {Promise}
    */
   static publicCreate(comment) {
+
+    console.log('-----------------> debug publicCreate');
 
     // Check to see if this is an array of comments, if so map it out.
     if (Array.isArray(comment)) {
@@ -47,22 +52,26 @@ module.exports = class CommentsService {
    * @throws if tag name is not in ALLOWED_TAGS
    * @param {String} id the id of the comment to tag
    * @param {String} name the name of the tag to add
-   * @param {String} assigned_by the user id for the user who added the tag
+   * @param {String} added_by the user id for the user who added the tag
    */
-  static addTag(id, name, assigned_by, privacy_type) {
+  static addTag(id, name, added_by) {
 
-    return CommentModel.findOne({id})
-    .then((comment) => {
-      if (comment == null) {
+    console.log('-----------------> debug addtag', name);
+
+    SettingsService.retrieve()
+    .then(({tags}) => {
+      if (!ALLOWED_TAGS.includes(name) || tags.findIndex((t) => {return t.id === name & t.models.include('COMMENTS');}) === -1) {
         return Promise.reject(new Error('tag not allowed'));
       }
-      return TagsService.insertCommentTag({
-        name,
-        item_id: id,
-        item_type: 'COMMENTS',
-        user_id: assigned_by,
-        privacy_type
-      });
+    });
+
+    return CommentModel.findOneAndUpdate({id}, {
+      $push: {
+        tags: {
+          id: name,
+          added_by: added_by
+        }
+      }
     });
   }
 
@@ -70,17 +79,14 @@ module.exports = class CommentsService {
    * Removes a tag from a comment
    * @throws if the tag is not on the comment
    * @param {String} id the id of the comment to tag
-   * @param {String} name the name of the tag to add
+   * @param {String} tag_id the id of the tag to remove
    */
-  static removeTag(id, name) {
-    return TagModel.findOneAndRemove({
-      item_type: 'COMMENTS',
-      item_id: id,
-      name
-    })
-    .then((tag) => {
-      if (tag == null) {
-        return Promise.reject(new Error('tag does not exist'));
+  static removeTag(id, tag_id) {
+    return CommentModel.findOneAndUpdate({id}, {
+      $pull: {
+        tags: {
+          id: tag_id
+        }
       }
     });
   }

@@ -1,6 +1,41 @@
 const mongoose = require('../services/mongoose');
 const Schema = mongoose.Schema;
 
+const PERMISSIONS = [
+  'ADMIN'
+];
+
+/**
+ * The Mongo schema for a Tag.
+ * @type {Schema}
+ */
+const TagSchema = new Schema({
+  id: {
+    type: String,
+    unique: true,
+    default: 'STAFF'
+  },
+  public: Boolean,
+  text: {
+    type: Schema.Types.Mixed,
+    default:  null
+  },
+  permissions: [{
+    type: String,
+    enum: PERMISSIONS,
+    default: 'ADMIN'
+  }],
+  models: [String],
+
+  // Additional metadata stored on the field.
+  metadata: Schema.Types.Mixed
+}, {
+  timestamps: {
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+  }
+});
+
 const MODERATION_OPTIONS = [
   'PRE',
   'POST'
@@ -88,7 +123,8 @@ const SettingSchema = new Schema({
       type: Array,
       default: ['localhost']
     }
-  }
+  },
+  tags: [TagSchema]
 }, {
   timestamps: {
     createdAt: 'created_at',
