@@ -32,18 +32,12 @@ describe('graph.mutations.ignoreUser', () => {
 
   // @TODO (bengo) - test a user can't ignore themselves
   it('users can ignoreUser', async () => {
-    UsersService.findLocalUser('usernameB@example.com')
-    .then((user) => {
-      console.log('--------- debug user', user);
-    });
+    UsersService.findLocalUser('usernameB@example.com');
     const user = await UsersService.createLocalUser('usernameA@example.com', 'password', 'usernameA');
-    console.log('--------------- debug aca -2');
     const userToIgnore = await UsersService.createLocalUser('usernameB@example.com', 'password', 'usernameB');
-    console.log('--------------- debug aca -1');
     const context = new Context({user});
     const ignoreUserResponse = await graphql(schema, ignoreUserMutation, {}, context, {id: userToIgnore.id});
     if (ignoreUserResponse.errors && ignoreUserResponse.errors.length) {
-      console.log('--------------- debug aca 0');
       console.error(ignoreUserResponse.errors);
     }
     expect(ignoreUserResponse.errors).to.be.empty;
@@ -51,17 +45,13 @@ describe('graph.mutations.ignoreUser', () => {
     // now check my ignored users
     const myIgnoredUsersResponse = await graphql(schema, getMyIgnoredUsersQuery, {}, context, {});
     if (myIgnoredUsersResponse.errors && myIgnoredUsersResponse.errors.length) {
-      console.log('debug aca 1');
       console.error(myIgnoredUsersResponse.errors);
     }
     expect(myIgnoredUsersResponse.errors).to.be.empty;
     const myIgnoredUsers = myIgnoredUsersResponse.data.myIgnoredUsers;
     expect(myIgnoredUsers.length).to.equal(1);
-    console.log('debug aca 2');
     expect(myIgnoredUsers[0].id).to.equal(userToIgnore.id);
-    console.log('debug aca 3');
     expect(myIgnoredUsers[0].username).to.equal(userToIgnore.username);
-    console.log('debug aca 4');
   });
 
   it('users cannot ignore themselves', async () => {
