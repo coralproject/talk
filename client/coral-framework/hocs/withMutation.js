@@ -2,6 +2,7 @@ import * as React from 'react';
 import {graphql} from 'react-apollo';
 import merge from 'lodash/merge';
 import uniq from 'lodash/uniq';
+import flatten from 'lodash/flatten';
 import {getMutationOptions, resolveFragments} from 'coral-framework/services/registry';
 import {store} from 'coral-framework/services/store';
 import {getDefinitionName} from '../utils';
@@ -28,10 +29,10 @@ export default (document, config) => WrappedComponent => {
         ...configs.map(cfg => cfg.optimisticResponse),
       );
 
-      const refetchQueries = uniq(
+      const refetchQueries = flatten(uniq([
         base.refetchQueries || config.options.refetchQueries,
         ...configs.map(cfg => cfg.refetchQueries),
-      );
+      ].filter(i => i)));
 
       const updateCallbacks =
         [base.update || config.options.update]
