@@ -73,9 +73,9 @@ const config = {
     CreateCommentResponse: gql`
       fragment CoralEmbedStream_CreateCommentResponse on CreateCommentResponse {
         comment {
-          ...Coral_CreateCommentResponse_Comment
+          ...CoralEmbedStream_CreateCommentResponse_Comment
           replies {
-            ...Coral_CreateCommentResponse_Comment
+            ...CoralEmbedStream_CreateCommentResponse_Comment
           }
         }
         errors {
