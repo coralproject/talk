@@ -3,8 +3,17 @@ import {registerConfig} from 'coral-framework/services/registry';
 
 const config = {
   fragments: {
+    CreateFlagResponse: gql`
+      fragment CoralEmbedStream_CreateFlagResponse on CreateFlagResponse {
+        flag {
+          id
+        }
+        errors {
+          translation_key
+        }
+      }`,
     CreateCommentResponse: gql`
-      fragment Coral_CreateCommentResponse on CreateCommentResponse {
+      fragment CoralEmbedStream_CreateCommentResponse on CreateCommentResponse {
         comment {
           ...Coral_CreateCommentResponse_Comment
           replies {
@@ -16,7 +25,7 @@ const config = {
         }
       }
 
-      fragment Coral_CreateCommentResponse_Comment on Comment {
+      fragment CoralEmbedStream_CreateCommentResponse_Comment on Comment {
         id
         body
         created_at

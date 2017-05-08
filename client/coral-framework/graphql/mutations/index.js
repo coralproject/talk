@@ -1,5 +1,4 @@
 import {graphql, gql} from 'react-apollo';
-import POST_FLAG from './postFlag.graphql';
 import POST_DONT_AGREE from './postDontAgree.graphql';
 import DELETE_ACTION from './deleteAction.graphql';
 import ADD_COMMENT_TAG from './addCommentTag.graphql';
@@ -27,16 +26,23 @@ export const withPostComment = withMutation(
     }),
   });
 
-export const postFlag = graphql(POST_FLAG, {
-  props: ({mutate}) => ({
-    postFlag: (flag) => {
-      return mutate({
-        variables: {
-          flag
-        }
-      });
-    }}),
-});
+export const withPostFlag = withMutation(
+  gql`
+    mutation CreateFlag($flag: CreateFlagInput!) {
+      createFlag(flag: $flag) {
+        ...CreateFlagResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      postFlag: (flag) => {
+        return mutate({
+          variables: {
+            flag
+          }
+        });
+      }}),
+  });
 
 export const postDontAgree = graphql(POST_DONT_AGREE, {
   props: ({mutate}) => ({
