@@ -174,6 +174,7 @@ export default reaction => WrappedComponent => {
               }
 
               if (idx < 0) {
+
                 // Add initial action when it doesn't exist.
                 data.action_summaries.push({
                   __typename: `${capitalize(reaction)}ActionSummary`,
