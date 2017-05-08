@@ -3,17 +3,12 @@ import {notifyForNewCommentStatus} from 'coral-plugin-commentbox/CommentBox';
 import {CommentForm} from 'coral-plugin-commentbox/CommentForm';
 import styles from './Comment.css';
 import {CountdownSeconds} from './CountdownSeconds';
+import {getEditableUntilDate} from './util';
 
 import {Icon} from 'coral-ui';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-framework/translations';
 const lang = new I18n(translations);
-
-const getEditableUntilDate = (comment) => {
-  const editing = comment && comment.editing;
-  const editableUntil = editing && editing.editableUntil && new Date(Date.parse(editing.editableUntil));
-  return editableUntil;  
-};
 
 /**
  * Renders a Comment's body in such a way that the end-user can edit it and save changes

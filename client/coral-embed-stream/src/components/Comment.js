@@ -22,7 +22,7 @@ import {TopRightMenu} from './TopRightMenu';
 import classnames from 'classnames';
 import {EditableCommentContent} from './EditableCommentContent';
 import {getActionSummary, iPerformedThisAction} from 'coral-framework/utils';
-
+import {getEditableUntilDate} from './util';
 import styles from './Comment.css';
 
 const isStaff = tags => !tags.every(t => t.name !== 'STAFF');
@@ -414,13 +414,6 @@ class Comment extends React.Component {
 }
 
 export default Comment;
-
-// return a Date instance representing end of edit window for comment
-const getEditableUntilDate = (comment) => {
-  const editing = comment && comment.editing;
-  const editableUntil = editing && editing.editableUntil && new Date(Date.parse(editing.editableUntil));
-  return editableUntil;  
-};
 
 // return whether the comment is editable
 function commentIsStillEditable (comment) {
