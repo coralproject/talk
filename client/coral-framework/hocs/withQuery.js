@@ -6,7 +6,7 @@ import {getDefinitionName, separateDataAndRoot} from '../utils';
  * Exports a HOC with the same signature as `graphql`, that will
  * apply query options registered in the registry.
  */
-export default (definitions, config) => WrappedComponent => {
+export default (document, config) => WrappedComponent => {
   config = {
     ...config,
     options: config.options || {},
@@ -15,7 +15,7 @@ export default (definitions, config) => WrappedComponent => {
 
   const wrappedOptions = (data) => {
     const base = (typeof config.options === 'function') ? config.options(data) : config.options;
-    const name = getDefinitionName(definitions);
+    const name = getDefinitionName(document);
     const configs = getQueryOptions(name);
     const reducerCallbacks =
       [base.reducer || (i => i)]
@@ -33,6 +33,6 @@ export default (definitions, config) => WrappedComponent => {
     };
   };
 
-  const wrapped = graphql(definitions, {...config, options: wrappedOptions})(WrappedComponent);
+  const wrapped = graphql(document, {...config, options: wrappedOptions})(WrappedComponent);
   return wrapped;
 };

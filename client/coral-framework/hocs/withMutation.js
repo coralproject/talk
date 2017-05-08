@@ -9,14 +9,14 @@ import {getDefinitionName} from '../utils';
  * Exports a HOC with the same signature as `graphql`, that will
  * apply mutation options registered in the registry.
  */
-export default (definitions, config) => WrappedComponent => {
+export default (document, config) => WrappedComponent => {
   config = {
     ...config,
     options: config.options || {},
     props: config.props || (data => ({mutate: data.mutate()})),
   };
   const wrappedProps = (data) => {
-    const name = getDefinitionName(definitions);
+    const name = getDefinitionName(document);
     const callbacks = getMutationOptions(name);
     const mutate = (base) => {
       const variables = base.variables || config.options.variables;
@@ -73,6 +73,6 @@ export default (definitions, config) => WrappedComponent => {
     };
     return config.props({...data, mutate});
   };
-  const wrapped = graphql(definitions, {...config, props: wrappedProps})(WrappedComponent);
+  const wrapped = graphql(document, {...config, props: wrappedProps})(WrappedComponent);
   return wrapped;
 };
