@@ -11,7 +11,18 @@ const config = {
         errors {
           translation_key
         }
-      }`,
+      }
+    `,
+    CreateDontAgreeResponse : gql`
+      fragment CoralEmbedStream_CreateDontAgreeResponse on CreateDontAgreeResponse {
+        dontagree {
+          id
+        }
+        errors {
+          translation_key
+        }
+      }
+    `,
     CreateCommentResponse: gql`
       fragment CoralEmbedStream_CreateCommentResponse on CreateCommentResponse {
         comment {
@@ -45,7 +56,8 @@ const config = {
             created_at
           }
         }
-      }`,
+      }
+    `,
   },
   mutations: {
     PostComment: ({
