@@ -25,6 +25,7 @@ export default reaction => WrappedComponent => {
         `${capitalize(reaction)}ActionSummary`,
         comment
       );
+
       const count = getTotalActionCount(
         `${capitalize(reaction)}ActionSummary`,
         comment
@@ -63,10 +64,21 @@ export default reaction => WrappedComponent => {
         }
     `,
     {
-      props: ({mutate}) => ({
-        deleteReaction: (id, commentId) => {
+      props: ({mutate, ownProps}) => ({
+        deleteReaction: () => {
+
+          const reactionSummary = getMyActionSummary(
+            `${capitalize(reaction)}ActionSummary`,
+            ownProps.comment
+          );
+
+          const reactionData = {
+            id: reactionSummary.current_user.id,
+            commentId: ownProps.comment.id
+          };
+
           return mutate({
-            variables: {id},
+            variables: {id: reactionData.id},
             optimisticResponse: {
               deleteAction: {
                 __typename: 'DeleteActionResponse',
@@ -74,7 +86,7 @@ export default reaction => WrappedComponent => {
               }
             },
             update: proxy => {
-              const fragmentId = `Comment_${commentId}`;
+              const fragmentId = `Comment_${reactionData.commentId}`;
 
               // Read the data from our cache for this query.
               const data = proxy.readFragment({
@@ -86,7 +98,7 @@ export default reaction => WrappedComponent => {
               const idx = data.action_summaries.findIndex(isReaction);
               if (
                 idx < 0 ||
-                get(data.action_summaries[idx], 'current_user.id') !== id
+                get(data.action_summaries[idx], 'current_user.id') !== reactionData.id
               ) {
                 return;
               }
@@ -124,8 +136,14 @@ export default reaction => WrappedComponent => {
         }
     `,
     {
-      props: ({mutate}) => ({
-        postReaction: reactionData => {
+      props: ({mutate, ownProps}) => ({
+        postReaction: () => {
+
+          const reactionData = {
+            item_id: ownProps.comment.id,
+            item_type: 'COMMENTS'
+          };
+
           return mutate({
             variables: {[reaction]: reactionData},
             optimisticResponse: {
