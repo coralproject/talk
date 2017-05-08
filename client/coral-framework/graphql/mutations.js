@@ -1,5 +1,5 @@
 import {gql} from 'react-apollo';
-import withMutation from '../../hocs/withMutation';
+import withMutation from '../hocs/withMutation';
 
 export const withPostComment = withMutation(
   gql`

@@ -1,10 +1,9 @@
 import {connect} from 'react-redux';
-import {compose} from 'react-apollo';
+import {compose, graphql, gql} from 'react-apollo';
 import React, {Component} from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import {bindActionCreators} from 'redux';
 
-import {myCommentHistory, myIgnoredUsers} from 'coral-framework/graphql/queries';
 import {withStopIgnoringUser} from 'coral-framework/graphql/mutations';
 
 import {link} from 'coral-framework/services/PymConnection';
@@ -88,6 +87,38 @@ class ProfileContainer extends Component {
   }
 }
 
+// TODO: These currently relies on refetching (see ignoreUser and stopIgnoringUser mutations).
+//
+const withMyIgnoredUsersQuery = graphql(gql`
+  query myIgnoredUsers {
+    myIgnoredUsers {
+      id,
+      username,
+    }
+  }`, {
+    props: ({data}) => {
+      return ({
+        myIgnoredUsersData: data
+      });
+    }
+  });
+
+const withMyCommentHistoryQuery = graphql(gql`
+  query myCommentHistory {
+    me {
+      comments {
+          id
+          body
+          asset {
+            id
+            title
+            url
+          }
+          created_at
+      }
+    }
+  }`);
+
 const mapStateToProps = state => ({
   user: state.user.toJS(),
   asset: state.asset.toJS(),
@@ -99,7 +130,7 @@ const mapDispatchToProps = dispatch =>
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  myCommentHistory,
-  myIgnoredUsers,
+  withMyCommentHistoryQuery,
+  withMyIgnoredUsersQuery,
   withStopIgnoringUser,
 )(ProfileContainer);
