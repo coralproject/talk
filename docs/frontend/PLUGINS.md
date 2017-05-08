@@ -1,15 +1,19 @@
 # Plugins
-We can build plugins to extend the functionality of Talk.  Our plugins are powered by *React*, *Redux* and *GraphQL*. We can also build them with simple vanilla javascript. 
+We can build plugins to extend the functionality of Talk.  
+
+This guide is a walkthrough of our plugin architecture and components that we provide that allow you to build on top of Core coral components without having to understand the concepts there in. It is organized into three sections:
+
+* Plugin architecture
+* Using our building block components
+* Styling
+
+Advanced users will quickly realize that our plugins have complete access to core code. If you would like to write advanced plugins that reach outside of our published API as described in this document, please see [our notes on experimental pluginss](PLUGINS-experimental.md).
+
+Under the hood our plugins are powered by *React*, *Redux* and *GraphQL*. We can also build them with simple vanilla javascript.
+
+## Plugin Architecture
+
 The plugins live in the `/plugins` folder. Each plugin must have an `index.js` file and two folders `client` and `server`.
-
-Our plugin folder structure should look like this:
-```
-my-plugin/
-  ├── client/
-  ├── server/
-  └── index.js
-```
-
 
 ### The Client Folder
 The frontend of our plugin lives inside the `client` folder. The `client`  folder must have an `index.js` file that exports the configuration of our plugin.
@@ -17,12 +21,12 @@ The frontend of our plugin lives inside the `client` folder. The `client`  folde
 ```
 my-plugin/
   ├── client/
-  │   └── index.js
+  │   └── index.js <-- index for client side functionality
   ├── server/
-  └── index.js
+  └── index.js <-- base plugin index
 ```
 
-For now our `index.js` file should look like this:
+For now our base plugin `index.js` file should look like this:
 
 ```js
 export default {
@@ -30,9 +34,8 @@ export default {
 };
 ```
 
-
 ###  Components
-We can add our components within the `client` folder.
+We can add our components (or any other javascript code) within the `client` folder.
 
 ```
 my-plugin/
@@ -44,7 +47,7 @@ my-plugin/
 ```
 
 ####  Creating a Component
-Our component could look like this: 
+Our component could look like this:
 
 ```js
 import React, {Component} from 'react';
@@ -56,20 +59,19 @@ class MyButton extends Component {
 }
 
 export default MyButton;
-````
+```
 
 We are just creating a component that creates a `button`. Now that we created our component we need to specify where it should get injected within Talk!
-To tell Talk where that Component should get injected we need to specify our *Slots*.
 
-Also, our Component can be a Stateless Component.
+To tell Talk where that Component should get injected we need to specify which *Slots* to insert it into.
 
 ```js
 import React from 'react';
 export default = () => <button>My Button</button>;
-````
+```
 
 ### Slots
-In Talk we have defined specific *Slots* where we can inject components. 
+In Talk we have defined specific *Slots* where we can inject components.
 
 Here is how we specify our slots config in `my-plugin/index.js`
 
@@ -89,49 +91,10 @@ Here I’m specifying that the MyComponent Component will take place within the 
 
 Slots properties take an`Array` so we can add as many components as we want.
 
-#### Reducers and Actions : Redux
-
-Talk is powered by Redux and our plugins can too! Our plugins can have their own reducers and actions.
-
-```js
-import MyButton from './MyButton';
-import reducer from './reducer';
-
-export default {
-  slots: {
-    commentDetail: [MyButton],
-  },
-	reducer
-};
-```
-
-### Import Actions from Talk
-We can easily trigger `Talk` actions in our plugin Components.
-
-```js
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {addTag, removeTag} from 'coral-plugin-commentbox/actions';
-
-class MyButton extends Component {
-  render() {
-    return <button onClick={this.props.addTag('MY_TAG')}>My Button</button>;
-  }
-}
-
-const mapStateToProps = ({commentBox}) => ({commentBox});
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({addTag, removeTag}, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(OffTopicCheckbox);
-```
-
 ### Styling our Plugin
 Talk uses CSS Modules. This basically means that you can also add your CSS Module to your plugin without colliding with the rest of Talk!
 
-##### My Component 
+##### My Component
 ```js
 import styles from './style.css';
 
@@ -151,58 +114,7 @@ Our `style.css` should could look like this.
 }
 ```
 
-## ESlint and Babel
-In talk we use `eslint:recommended` and Babel with the latest ECMAScript Features. But you can use your own! 
-While building your plugin you need to specify a `.eslintrc.json` file and a`.babelrc` file.
-
-#### `.eslintrc.json`
-```json
-{
-  "env": {
-    "browser": true,
-    "es6": true,
-    "mocha": true
-  },
-  "parserOptions": {
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": true,
-      "jsx": true
-    }
-  },
-  "parser": "babel-eslint",
-  "plugins": [
-    "react"
-  ],
-  "rules": {
-    "react/jsx-uses-react": "error",
-    "react/jsx-uses-vars": "error",
-    "no-console": ["warn", { "allow": ["warn", "error"] }]
-  }
-}
-````
-
-
-#### `. babelrc `
-```json
-{
-  "presets": [
-    "es2015"
-  ],
-  "plugins": [
-    "add-module-exports",
-    "transform-class-properties",
-    "transform-decorators-legacy",
-    "transform-object-assign",
-    "transform-object-rest-spread",
-    "transform-async-to-generator",
-    "transform-react-jsx"
-  ]
-}
-````
 
 ### The server folder and the index file
 Read more about the `/server` and how to extend Talk here.
 [talk/PLUGINS.md at master · coralproject/talk · GitHub](https://github.com/coralproject/talk/blob/master/PLUGINS.md)
-
-
