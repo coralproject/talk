@@ -116,7 +116,7 @@ class Comment extends React.Component {
     // dispatch action to ignore another user
     ignoreUser: React.PropTypes.func,
 
-    // edit a comment, passed (id, { body })
+    // edit a comment, passed (id, asset_id, { body })
     editComment: React.PropTypes.func,
   }
 
@@ -280,7 +280,7 @@ class Comment extends React.Component {
           { 
             this.state.isEditing
             ? <EditableCommentContent
-                editComment={this.props.editComment.bind(null, comment.id)}
+                editComment={this.props.editComment.bind(null, comment.id, asset.id)}
                 addNotification={addNotification}
                 asset={asset}
                 comment={comment}

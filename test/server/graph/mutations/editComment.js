@@ -27,8 +27,8 @@ describe('graph.mutations.editComment', () => {
   });
 
   const editCommentMutation = `
-    mutation EditComment ($id: ID!, $edit: EditCommentInput) {
-      editComment(id:$id, edit:$edit) {
+    mutation EditComment ($id: ID!, $asset_id: ID!, $edit: EditCommentInput) {
+      editComment(id:$id, asset_id:$asset_id, edit:$edit) {
         errors {
           translation_key
         }
@@ -55,6 +55,7 @@ describe('graph.mutations.editComment', () => {
     const newBody = 'I have been edited.';
     const response = await graphql(schema, editCommentMutation, {}, context, {
       id: comment.id,
+      asset_id: asset.id,
       edit: {
         body: newBody
       }
@@ -91,6 +92,7 @@ describe('graph.mutations.editComment', () => {
     const context = new Context({user});
     const response = await graphql(schema, editCommentMutation, {}, context, {
       id: comment.id,
+      asset_id: asset.id,
       edit: {
         body: newBody
       }
@@ -117,11 +119,13 @@ describe('graph.mutations.editComment', () => {
     const context = new Context({user: userB});
     const response = await graphql(schema, editCommentMutation, {}, context, {
       id: comment.id,
+      asset_id: asset.id,
       edit: {
         body: newBody
       }
     });
     expect(response.errors).to.be.empty;
+    expect(response.data.editComment.errors).to.not.be.empty;
     expect(response.data.editComment.errors[0].translation_key).to.equal('NOT_AUTHORIZED');
     const commentAfterEdit = await CommentsService.findById(comment.id);    
 
@@ -135,6 +139,7 @@ describe('graph.mutations.editComment', () => {
     const context = new Context({user});
     const response = await graphql(schema, editCommentMutation, {}, context, {
       id: fakeCommentId,
+      asset_id: asset.id,
       edit: {
         body: newBody
       }
@@ -233,6 +238,7 @@ describe('graph.mutations.editComment', () => {
       const newBody = edit.body;
       const response = await graphql(schema, editCommentMutation, {}, context, {
         id: comment.id,
+        asset_id: asset.id,
         edit: {
           body: newBody
         }

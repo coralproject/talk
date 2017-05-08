@@ -209,7 +209,7 @@ Stream.propTypes = {
   // dispatch action to ignore another user
   ignoreUser: React.PropTypes.func,
 
-  // edit a comment, passed (id, { body })
+  // edit a comment, passed (id, asset_id, { body })
   editComment: React.PropTypes.func,
 };
 

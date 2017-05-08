@@ -762,7 +762,7 @@ type RootMutation {
   deleteAction(id: ID!): DeleteActionResponse
 
   # Edit a comment
-  editComment(id: ID!, edit: EditCommentInput): EditCommentResponse
+  editComment(id: ID!, asset_id: ID!, edit: EditCommentInput): EditCommentResponse
 
   # Sets User status. Requires the `ADMIN` role.
   setUserStatus(id: ID!, status: USER_STATUS!): SetUserStatusResponse

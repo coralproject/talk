@@ -176,10 +176,11 @@ export const stopIgnoringUser = graphql(STOP_IGNORING_USER, {
 export const editComment = graphql(EDIT_COMMENT, {
   props: ({mutate}) => {
     return {
-      editComment: (id, edit) => {
+      editComment: (id, asset_id, edit) => {
         return mutate({
           variables: {
             id,
+            asset_id,
             edit,
           },
           refetchQueries: [

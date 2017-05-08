@@ -51,50 +51,76 @@ module.exports = class CommentsService {
 
   /**
    * Edit a Comment
-   * @param {CommentModel|String} comment you want to edit (or its ID)
-   * @param {String} body  the new Comment body
-   * @param {String} status  the new Comment status
+   * @param {String} id    comment.id you want to edit (or its ID)
+   * @param {String} asset_id   asset_id of the comment
+   * @param {String} editor     user.id of the user trying to edit the comment (will err if not comment author)
+   * @param {String} body       the new Comment body
+   * @param {String} status     the new Comment status
    */
-  static async edit(comment, {body, status, ignoreEditWindow}) {
-    if (typeof comment === 'string') {
-
-      // it's an id
-      comment = await this.findById(comment);
-    }
-    const editWindowExpired = (comment) => {
-      const now = new Date;
-      const editableUntil = this.getEditableUntilDate(comment);
-      return now > editableUntil;
-    };
-    if (( ! ignoreEditWindow) && editWindowExpired(comment)) {
-      throw Object.assign(new Error('Edit window is over.'), {
-        name: 'EditWindowExpired'
-      });
-    }
+  static async edit(id, asset_id, editor, {body, status, ignoreEditWindow}) {
     if (status && ! STATUSES.includes(status)) {
       throw new Error(`status ${status} is not supported`);
     }
-
-    const {id} = comment;
-    const {nModified} = await CommentModel.update({id}, {
-      $set: {
-        body,
-        status,
+    const lastEditableCommentCreatedAt = new Date((new Date()).getTime() - EDIT_WINDOW_MS);
+    const filter = Object.assign(
+      {
+        id,
+        asset_id,
+        author_id: editor,
       },
-      $push: {
-        body_history: {
-          body,
-          created_at: new Date(),
+      ignoreEditWindow ? {} : {
+        created_at: {
+          $gt: lastEditableCommentCreatedAt,
         },
-        status_history: {
-          type: status,
-          created_at: new Date(),
-        }
-      },
-    });
+      }
+    );
+    const {nModified} = await CommentModel.update(
+      filter,
+      {
+        $set: {
+          body,
+          status,
+        },
+        $push: {
+          body_history: {
+            body,
+            created_at: new Date(),
+          },
+          status_history: {
+            type: status,
+            created_at: new Date(),
+          }
+        },
+      }
+    );
     switch (nModified) {
-    case 0:
-      throw new Error(`Couldn't edit comment. There is no Comment with id "${id}"`);
+    case 0: {
+
+          // disambiguate possible error cases
+      const comment = await this.findById(id);
+
+          // return whether the comment should no longer be editable
+          // because its edit window expired
+      const editWindowExpired = (comment) => {
+        const now = new Date;
+        const editableUntil = this.getEditableUntilDate(comment);
+        return now > editableUntil;
+      };
+      if ( ! comment || (comment.asset_id !== asset_id)) {
+        throw Object.assign(new Error('Comment not found'), {
+          name: 'CommentNotFound'
+        });         
+      } else if (comment.author_id !== editor) {
+        throw Object.assign(new Error('You aren\'t allowed to edit that comment'), {
+          name: 'NotAuthorizedToEdit'
+        });
+      } else if (( ! ignoreEditWindow) && editWindowExpired(comment)) {
+        throw Object.assign(new Error('Edit window is over.'), {
+          name: 'EditWindowExpired'
+        });
+      }
+      throw new Error('Failed to edit comment. This could be because it can\'t be found, the edit window expired, or because you\'re not allowed to edit it.');
+    }
     }
   }
 

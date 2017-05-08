@@ -233,19 +233,8 @@ const removeCommentTag = ({user, loaders: {Comments}}, {id, tag}) => {
  * @param {Object} edit       describes how to edit the comment
  * @param {String} edit.body  the new Comment body
  */
-const editComment = async ({user, loaders: {Comments}}, {id, edit}) => {
+const editComment = async ({user, loaders: {Comments}}, {id, asset_id, edit}) => {
   const {body} = edit;
-  const comment = await CommentsService.findById(id);
-  if ( ! comment) {
-    throw new errors.APIError('Comment not found', {
-      status: 404,
-      translation_key: 'NOT_FOUND',
-    });
-  }
-  if ( ! (user && user.id && (user.id === comment.author_id))) {
-    throw errors.ErrNotAuthorized;
-  }
-  const {asset_id} = comment;
   const determineStatusForComment = async ({body, asset_id}) => {
     const [wordlist, settings] = await filterNewComment({asset_id, body});
     const status = await resolveNewCommentStatus({asset_id, body}, wordlist, settings);    
@@ -253,14 +242,21 @@ const editComment = async ({user, loaders: {Comments}}, {id, edit}) => {
   };
   const status = await determineStatusForComment({body, asset_id});
   try {
-    await CommentsService.edit(comment, Object.assign({status}, edit));
+    await CommentsService.edit(id, asset_id, user.id, Object.assign({status}, edit));
   } catch (error) {
     switch (error.name) {
+    case 'CommentNotFound':
+      throw new errors.APIError('Comment not found', {
+        status: 404,
+        translation_key: 'NOT_FOUND',
+      });        
     case 'EditWindowExpired':
       throw new errors.APIError('You can no longer edit this comment. The window to do so has expired.', {
         status: 401,
         translation_key: 'error.editWindowExpired',
       });
+    case 'NotAuthorizedToEdit':
+      throw errors.ErrNotAuthorized;
     default:
       throw error;
     }

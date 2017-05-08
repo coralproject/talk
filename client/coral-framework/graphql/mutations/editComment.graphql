@@ -1,5 +1,5 @@
-mutation editComment ($id: ID!, $edit: EditCommentInput) {
-  editComment(id:$id, edit:$edit) {
+mutation editComment ($id: ID!, $asset_id: ID!, $edit: EditCommentInput) {
+  editComment(id:$id, asset_id:$asset_id, edit:$edit) {
     comment {
       status
     }
