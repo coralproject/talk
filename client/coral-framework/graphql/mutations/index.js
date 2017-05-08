@@ -1,5 +1,4 @@
 import {graphql, gql} from 'react-apollo';
-import IGNORE_USER from './ignoreUser.graphql';
 import STOP_IGNORING_USER from './stopIgnoringUser.graphql';
 import withMutation from '../../hocs/withMutation';
 
@@ -114,20 +113,23 @@ export const withRemoveCommentTag = withMutation(
       }}),
   });
 
-// TODO: don't rely on refetching.
-export const ignoreUser = graphql(IGNORE_USER, {
-  props: ({mutate}) => ({
-    ignoreUser: ({id}) => {
-      return mutate({
-        variables: {
-          id,
-        },
-        refetchQueries: [
-          'EmbedQuery', 'myIgnoredUsers',
-        ]
-      });
-    }}),
-});
+export const withIgnoreUser = withMutation(
+  gql`
+    mutation IgnoreUser($id: ID!) {
+      ignoreUser(id:$id) {
+        ...IgnoreUserResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      ignoreUser: ({id}) => {
+        return mutate({
+          variables: {
+            id,
+          },
+        });
+      }}),
+  });
 
 // TODO: don't rely on refetching.
 export const stopIgnoringUser = graphql(STOP_IGNORING_USER, {

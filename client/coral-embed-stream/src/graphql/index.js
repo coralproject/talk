@@ -3,6 +3,13 @@ import {registerConfig} from 'coral-framework/services/registry';
 
 const config = {
   fragments: {
+    IgnoreUserResponse: gql`
+      fragment CoralEmbedStream_IgnoreUserResponse on IgnoreUserResponse {
+        errors {
+          translation_key
+        }
+      }
+    `,
     RemoveCommentTagResponse: gql`
       fragment CoralEmbedStream_RemoveCommentTagResponse on RemoveCommentTagResponse {
         comment {
@@ -93,6 +100,13 @@ const config = {
     `,
   },
   mutations: {
+    IgnoreUser: () => ({
+
+      // TODO: don't rely on refetching.
+      refetchQueries: [
+        'EmbedQuery', 'myIgnoredUsers',
+      ],
+    }),
     PostComment: ({
       variables: {comment: {asset_id, body, parent_id, tags = []}},
       state: {auth},
