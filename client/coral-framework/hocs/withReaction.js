@@ -138,7 +138,6 @@ export default reaction => WrappedComponent => {
               }
             },
             update: (proxy, mutationResult) => {
-              console.log(isReaction);
               const fragmentId = `Comment_${reactionData.item_id}`;
 
               // Read the data from our cache for this query.
@@ -149,7 +148,6 @@ export default reaction => WrappedComponent => {
 
               // Add our comment from the mutation to the end.
               let idx = data.action_summaries.findIndex(isReaction);
-              console.log(data.action_summaries);
 
               // Check whether we already reactioned this comment.
               if (idx >= 0 && data.action_summaries[idx].current_user) {
@@ -194,21 +192,21 @@ export default reaction => WrappedComponent => {
     withFragments({
       root: gql`
           fragment ${capitalize(reaction)}Button_root on RootQuery {
-          me {
-              status
-          }
+            me {
+                status
+            }
           }
       `,
       comment: gql`
           fragment ${capitalize(reaction)}Button_comment on Comment {
-          action_summaries {
-          ... on ${capitalize(reaction)}ActionSummary {
-              count
-              current_user {
-                  id
+            action_summaries {
+              ... on ${capitalize(reaction)}ActionSummary {
+                  count
+                  current_user {
+                      id
+                  }
               }
-          }
-          }
+            }
           }`
     }),
     connect(null, mapDispatchToProps),
