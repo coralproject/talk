@@ -1,10 +1,10 @@
 {
   "en": {
-    "like": "Like",
-    "liked": "Liked"
+    "love": "Love",
+    "loved": "Loved"
   },
   "es": {
-    "like": "Me Gusta",
-    "liked": "Me Gustó"
+    "love": "Amo",
+    "loved": "Amé"
   }
 }
