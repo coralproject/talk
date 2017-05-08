@@ -5,7 +5,7 @@ import key from 'keymaster';
 import isEqual from 'lodash/isEqual';
 import styles from './components/styles.css';
 
-import {modQueueQuery} from '../../graphql/queries';
+import {modQueueQuery, getQueueCounts} from '../../graphql/queries';
 import {banUser, setCommentStatus} from '../../graphql/mutations';
 
 import {fetchSettings} from 'actions/settings';
@@ -220,6 +220,7 @@ const mapDispatchToProps = dispatch => ({
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   setCommentStatus,
+  getQueueCounts,
   modQueueQuery,
   banUser
 )(ModerationContainer);

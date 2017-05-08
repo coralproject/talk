@@ -6,7 +6,7 @@ import uniqBy from 'lodash/uniqBy';
 import sortBy from 'lodash/sortBy';
 import isNil from 'lodash/isNil';
 import {NEW_COMMENT_COUNT_POLL_INTERVAL} from '../constants/stream';
-import {withPostComment, postFlag, postLike, postDontAgree, deleteAction, addCommentTag, removeCommentTag, ignoreUser} from 'coral-framework/graphql/mutations';
+import {withPostComment, postFlag, postDontAgree, deleteAction, addCommentTag, removeCommentTag, ignoreUser} from 'coral-framework/graphql/mutations';
 import {notificationActions, authActions} from 'coral-framework';
 import {editName} from 'coral-framework/actions/user';
 import {setCommentCountCache, setActiveReplyBox} from '../actions/stream';
@@ -217,7 +217,6 @@ const mapStateToProps = state => ({
   auth: state.auth.toJS(),
   commentCountCache: state.stream.commentCountCache,
   activeReplyBox: state.stream.activeReplyBox,
-
   commentId: state.stream.commentId,
   assetId: state.stream.assetId,
   assetUrl: state.stream.assetUrl,
@@ -239,7 +238,6 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withPostComment,
   postFlag,
-  postLike,
   postDontAgree,
   addCommentTag,
   removeCommentTag,

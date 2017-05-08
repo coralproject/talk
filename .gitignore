@@ -19,5 +19,6 @@ plugins/*
 !plugins/coral-plugin-facebook-auth
 !plugins/coral-plugin-respect
 !plugins/coral-plugin-offtopic
+!plugins/coral-plugin-like
 
 **/node_modules/*

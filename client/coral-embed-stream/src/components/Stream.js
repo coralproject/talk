@@ -29,7 +29,6 @@ class Stream extends React.Component {
       postComment,
       addNotification,
       postFlag,
-      postLike,
       postDontAgree,
       loadMore,
       deleteAction,
@@ -127,7 +126,6 @@ class Stream extends React.Component {
               asset={asset}
               currentUser={user}
               highlighted={comment.id}
-              postLike={this.props.postLike}
               postFlag={this.props.postFlag}
               postDontAgree={this.props.postDontAgree}
               loadMore={this.props.loadMore}
@@ -165,7 +163,6 @@ class Stream extends React.Component {
                           postComment={postComment}
                           asset={asset}
                           currentUser={user}
-                          postLike={postLike}
                           postFlag={postFlag}
                           postDontAgree={postDontAgree}
                           addCommentTag={addCommentTag}
