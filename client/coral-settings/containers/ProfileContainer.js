@@ -5,7 +5,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import {bindActionCreators} from 'redux';
 
 import {myCommentHistory, myIgnoredUsers} from 'coral-framework/graphql/queries';
-import {stopIgnoringUser} from 'coral-framework/graphql/mutations';
+import {withStopIgnoringUser} from 'coral-framework/graphql/mutations';
 
 import {link} from 'coral-framework/services/PymConnection';
 import NotLoggedIn from '../components/NotLoggedIn';
@@ -101,5 +101,5 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   myCommentHistory,
   myIgnoredUsers,
-  stopIgnoringUser,
+  withStopIgnoringUser,
 )(ProfileContainer);

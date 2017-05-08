@@ -3,6 +3,13 @@ import {registerConfig} from 'coral-framework/services/registry';
 
 const config = {
   fragments: {
+    StopIgnoringUserResponse: gql`
+      fragment CoralEmbedStream_StopIgnoringUserResponse on StopIgnoringUserResponse {
+        errors {
+          translation_key
+        }
+      }
+    `,
     IgnoreUserResponse: gql`
       fragment CoralEmbedStream_IgnoreUserResponse on IgnoreUserResponse {
         errors {
@@ -101,6 +108,13 @@ const config = {
   },
   mutations: {
     IgnoreUser: () => ({
+
+      // TODO: don't rely on refetching.
+      refetchQueries: [
+        'EmbedQuery', 'myIgnoredUsers',
+      ],
+    }),
+    StopIgnoringUser: () => ({
 
       // TODO: don't rely on refetching.
       refetchQueries: [
