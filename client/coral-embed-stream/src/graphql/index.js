@@ -3,6 +3,13 @@ import {registerConfig} from 'coral-framework/services/registry';
 
 const config = {
   fragments: {
+    DeleteActionResponse: gql`
+      fragment CoralEmbedStream_DeleteActionResponse on DeleteActionResponse {
+        errors {
+          translation_key
+        }
+      }
+    `,
     CreateFlagResponse: gql`
       fragment CoralEmbedStream_CreateFlagResponse on CreateFlagResponse {
         flag {

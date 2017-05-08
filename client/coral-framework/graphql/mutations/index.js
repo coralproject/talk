@@ -1,5 +1,4 @@
 import {graphql, gql} from 'react-apollo';
-import DELETE_ACTION from './deleteAction.graphql';
 import ADD_COMMENT_TAG from './addCommentTag.graphql';
 import REMOVE_COMMENT_TAG from './removeCommentTag.graphql';
 import IGNORE_USER from './ignoreUser.graphql';
@@ -61,16 +60,23 @@ export const withPostDontAgree = withMutation(
       }}),
   });
 
-export const deleteAction = graphql(DELETE_ACTION, {
-  props: ({mutate}) => ({
-    deleteAction: (id) => {
-      return mutate({
-        variables: {
-          id
-        }
-      });
-    }}),
-});
+export const withDeleteAction = withMutation(
+  gql`
+    mutation DeleteAction($id: ID!) {
+      deleteAction(id:$id) {
+        ...DeleteActionResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      deleteAction: (id) => {
+        return mutate({
+          variables: {
+            id
+          }
+        });
+      }}),
+  });
 
 export const addCommentTag = graphql(ADD_COMMENT_TAG, {
   props: ({mutate}) => ({
