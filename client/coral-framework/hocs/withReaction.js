@@ -1,5 +1,6 @@
 import React from 'react';
 import get from 'lodash/get';
+import uuid from 'uuid/v4';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {compose, gql, graphql} from 'react-apollo';
@@ -133,7 +134,7 @@ export default reaction => WrappedComponent => {
                 errors: null,
                 [reaction]: {
                   __typename: `${capitalize(reaction)}Action`,
-                  id: 'pending'
+                  id: uuid()
                 }
               }
             },
