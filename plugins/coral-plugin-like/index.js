@@ -3,16 +3,11 @@ const path = require('path');
 const wrapResponse = require('../../graph/helpers/response');
 
 module.exports = {
-  typeDefs: readFileSync(
-    path.join(__dirname, 'server/typeDefs.graphql'),
-    'utf8'
-  ),
+  typeDefs: readFileSync(path.join(__dirname, 'server/typeDefs.graphql'), 'utf8'),
   resolvers: {
     RootMutation: {
-      createRespect(_, {respect: {item_id, item_type}}, {mutators: {Action}}) {
-        return wrapResponse('respect')(
-          Action.create({item_id, item_type, action_type: 'RESPECT'})
-        );
+      createLike(_, {like: {item_id, item_type}}, {mutators: {Action}}) {
+        return wrapResponse('like')(Action.create({item_id, item_type, action_type: 'LIKE'}));
       }
     }
   },
@@ -21,8 +16,8 @@ module.exports = {
       __resolveType: {
         post({action_type}) {
           switch (action_type) {
-          case 'RESPECT':
-            return 'RespectAction';
+          case 'LIKE':
+            return 'LikeAction';
           }
         }
       }
@@ -31,8 +26,8 @@ module.exports = {
       __resolveType: {
         post({action_type}) {
           switch (action_type) {
-          case 'RESPECT':
-            return 'RespectActionSummary';
+          case 'LIKE':
+            return 'LikeActionSummary';
           }
         }
       }

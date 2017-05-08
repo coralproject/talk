@@ -3,9 +3,8 @@ import styles from './ModerationList.css';
 import {Button} from 'coral-ui';
 import {menuActionsMap} from '../containers/ModerationQueue/helpers/moderationQueueActionsMap';
 
-const ActionButton = ({type = '', status, ...props}) => {
+const ActionButton = ({type = '', active, ...props}) => {
   const typeName = type.toLowerCase();
-  const active = ((type === 'REJECT' && status === 'REJECTED') || (type === 'APPROVE' && status === 'ACCEPTED'));
   let text = menuActionsMap[type].text;
 
   if (text === 'Approve' && active) {
@@ -25,7 +24,7 @@ const ActionButton = ({type = '', status, ...props}) => {
 };
 
 ActionButton.propTypes = {
-  status: PropTypes.string
+  active: PropTypes.bool
 };
 
 export default ActionButton;
