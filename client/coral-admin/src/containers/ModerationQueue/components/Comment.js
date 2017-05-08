@@ -18,7 +18,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations.json';
 const lang = new I18n(translations);
 
-const Comment = ({actions = [], comment, ...props}) => {
+const Comment = ({actions = [], comment, suspectWords, bannedWords, ...props}) => {
   const links = linkify.getMatches(comment.body);
   const linkText = links ? links.map(link => link.raw) : [];
   const flagActionSummaries = getActionSummary('FlagActionSummary', comment);
@@ -29,6 +29,13 @@ const Comment = ({actions = [], comment, ...props}) => {
   } else if (flagActions && flagActions.length) {
     commentType = 'flagged';
   }
+
+  // since words are checked against word boundaries on the backend,
+  // this should be the behavior on the front end as well.
+  // currently the highlighter plugin does not support this out of the box.
+  const searchWords = [...suspectWords, ...bannedWords].filter(w => {
+    return new RegExp(`(^|\\s)${w}(\\s|$)`).test(comment.body);
+  }).concat(linkText);
 
   return (
     <li tabIndex={props.index} className={`mdl-card ${props.selected ?  'mdl-shadow--16dp' : 'mdl-shadow--2dp'} ${styles.Comment} ${styles.listItem} ${props.selected ? styles.selected : ''}`}>
@@ -60,7 +67,7 @@ const Comment = ({actions = [], comment, ...props}) => {
         <div className={styles.itemBody}>
           <p className={styles.body}>
             <Highlighter
-              searchWords={[...props.suspectWords, ...props.bannedWords, ...linkText]}
+              searchWords={searchWords}
               textToHighlight={comment.body} />
           </p>
           <div className={styles.sideActions}>
