@@ -109,7 +109,7 @@ Comment streams may be created with filtering and ordering in place:
 
 * filter by user
 * filter by tag
-* sort by date ascending / descrnding
+* sort by date ascending / descending
 
 ### Comment Commit hooks
 
