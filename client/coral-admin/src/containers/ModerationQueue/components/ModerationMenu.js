@@ -29,12 +29,6 @@ const ModerationMenu = (
             <Icon name='question_answer' className={styles.tabIcon} /> {lang.t('modqueue.all')} <CommentCount count={allCount} />
           </Link>
           <Link
-            to={getPath('accepted')}
-            className={`mdl-tabs__tab ${styles.tab}`}
-            activeClassName={styles.active}>
-            <Icon name='check' className={styles.tabIcon} /> {lang.t('modqueue.approved')} <CommentCount count={acceptedCount} />
-          </Link>
-          <Link
             to={getPath('premod')}
             className={`mdl-tabs__tab ${styles.tab}`}
             activeClassName={styles.active}>
@@ -45,6 +39,12 @@ const ModerationMenu = (
             className={`mdl-tabs__tab ${styles.tab}`}
             activeClassName={styles.active}>
             <Icon name='flag' className={styles.tabIcon} /> {lang.t('modqueue.flagged')} <CommentCount count={flaggedCount} />
+          </Link>
+          <Link
+            to={getPath('accepted')}
+            className={`mdl-tabs__tab ${styles.tab}`}
+            activeClassName={styles.active}>
+            <Icon name='check' className={styles.tabIcon} /> {lang.t('modqueue.approved')} <CommentCount count={acceptedCount} />
           </Link>
           <Link
             to={getPath('rejected')}
