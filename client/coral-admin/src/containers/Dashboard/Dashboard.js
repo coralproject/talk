@@ -6,7 +6,6 @@ import {getMetrics} from 'coral-admin/src/graphql/queries';
 import FlagWidget from './FlagWidget';
 import ActivityWidget from './ActivityWidget';
 import CountdownTimer from 'coral-admin/src/components/CountdownTimer';
-import {showBanUserDialog, hideBanUserDialog} from 'coral-admin/src/actions/moderation';
 
 import {Spinner} from 'coral-ui';
 
@@ -43,12 +42,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  showBanUserDialog: (user, commentId) => dispatch(showBanUserDialog(user, commentId)),
-  hideBanUserDialog: () => dispatch(hideBanUserDialog(false))
-});
-
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps),
   getMetrics
 )(Dashboard);
