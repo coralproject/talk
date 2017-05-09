@@ -22,12 +22,12 @@ const SettingsService = require('./settings');
 const ActionsService = require('./actions');
 const MailerService = require('./mailer');
 
-// In the event that the TALK_SESSION_SECRET is missing but we are testing, then
-// set the process.env.TALK_SESSION_SECRET.
-if (process.env.NODE_ENV === 'test' && !process.env.TALK_SESSION_SECRET) {
-  process.env.TALK_SESSION_SECRET = 'keyboard cat';
-} else if (!process.env.TALK_SESSION_SECRET) {
-  throw new Error('TALK_SESSION_SECRET must be defined to encode JSON Web Tokens and other auth functionality');
+// In the event that the TALK_JWT_SECRET is missing but we are testing, then
+// set the process.env.TALK_JWT_SECRET.
+if (process.env.NODE_ENV === 'test' && !process.env.TALK_JWT_SECRET) {
+  process.env.TALK_JWT_SECRET = 'keyboard cat';
+} else if (!process.env.TALK_JWT_SECRET) {
+  throw new Error('TALK_JWT_SECRET must be defined to encode JSON Web Tokens and other auth functionality');
 }
 
 const EMAIL_CONFIRM_JWT_SUBJECT = 'email_confirm';
@@ -564,7 +564,7 @@ module.exports = class UsersService {
           version: user.__v
         };
 
-        return jwt.sign(payload, process.env.TALK_SESSION_SECRET, {
+        return jwt.sign(payload, process.env.TALK_JWT_SECRET, {
           algorithm: 'HS256',
           expiresIn: '1d',
           subject: PASSWORD_RESET_JWT_SUBJECT
@@ -583,7 +583,7 @@ module.exports = class UsersService {
       // Set the allowed algorithms.
       options.algorithms = ['HS256'];
 
-      jwt.verify(token, process.env.TALK_SESSION_SECRET, options, (err, decoded) => {
+      jwt.verify(token, process.env.TALK_JWT_SECRET, options, (err, decoded) => {
         if (err) {
           return reject(err);
         }
@@ -740,7 +740,7 @@ module.exports = class UsersService {
         email,
         referer,
         userID: user.id
-      }, process.env.TALK_SESSION_SECRET, tokenOptions);
+      }, process.env.TALK_JWT_SECRET, tokenOptions);
     });
   }
 

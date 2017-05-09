@@ -11,7 +11,10 @@ const debug = require('debug')('talk:passport');
 
 // JWT_SECRET is the secret used to sign and verify tokens issued by this
 // application.
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET || null;
+if (JWT_SECRET === null) {
+  throw new Error('JWT_SECRET must be provided in the environment to sign/verify tokens');
+}
 
 // JWT_EXPIRY is the time for which a given token is valid for.
 const JWT_EXPIRY = process.env.JWT_EXPIRY || '1 day';

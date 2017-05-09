@@ -24,10 +24,13 @@ The Talk application looks for the following configuration values either as envi
 
 - `TALK_MONGO_URL` (*required*) - the database connection string for the MongoDB database.
 - `TALK_REDIS_URL` (*required*) - the database connection string for the Redis database.
-- `TALK_SESSION_SECRET` (*required*) - a random string which will be used to
-secure cookies.
 - `TALK_ROOT_URL` (*required*) - root url of the installed application externally
 available in the format: `<scheme>://<host>` without the path.
+- `TALK_JWT_SECRET` (*required*) - a long and cryptographical secure random string which will be used to
+sign and verify tokens via a `HS256` algorithm.
+- `TALK_JWT_EXPIRY` (_optional_) - the expiry duration (`exp`) for the tokens issued for logged in sessions (Default `1 day`)
+- `TALK_JWT_ISSUER` (_optional_) - the issuer (`iss`) claim for login JWT tokens (Default `process.env.TALK_ROOT_URL`)
+- `TALK_JWT_AUDIENCE` (_optional_) - the audience (`aud`) claim for login JWT tokens (Default `talk`)
 - `TALK_SMTP_EMAIL` (*required for email*) - the address to send emails from using the
   SMTP provider.
 - `TALK_SMTP_USERNAME` (*required for email*) - username of the SMTP provider you are using.
