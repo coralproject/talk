@@ -1,23 +1,7 @@
 const CommentModel = require('../models/comment');
-
 const ActionModel = require('../models/action');
 const ActionsService = require('./actions');
-const SettingModel = require('../models/setting');
-const SettingsService = require('./settings');
-const UsersService = require('./users');
-
-const errors = require('../errors');
-
-const STATUSES = [
-  'ACCEPTED',
-  'REJECTED',
-  'PREMOD',
-  'NONE',
-];
-
-const ALLOWED_TAGS = [
-  'STAFF'
-];
+const COMMENT_STATUS = require('../models/enum/comment_status');
 
 module.exports = class CommentsService {
 
@@ -47,81 +31,51 @@ module.exports = class CommentsService {
     return commentModel.save();
   }
 
-  /**
-   * Adds a tag if it doesn't already exist on the comment.
-   * @throws if tag is already added to the comment
-   * @throws if tag name is not in ALLOWED_TAGS
-   * @param {String} id the id of the comment to tag
-   * @param {String} name the name of the tag to add
-   * @param {String} added_by the user id for the user who added the tag
-   */
-  static addTag(id, name, added_by) {
+  static addTag(id, tagLink, verifyOwnership = false) {
 
-    // Check that the tag is allowed by the system OR in our setting.tags.
-    return SettingsService.retrieve()
-    .then((settings) => {
+    // Compose the query to find the comment.
+    const query = {
+      id,
+      'tags.tag.name': {
+        $ne: tagLink.tag.name
+      }
+    };
 
-      UsersService.findById(added_by)
-      .then((user) => {
+    // If ownership verification is required, ensure that the person that is
+    // assigning the tag is the same person that owns the comment.
+    if (verifyOwnership) {
+      query['author_id'] = tagLink.assigned_by;
+    }
 
-        // Moderators or ADMIN can add any tag automatically.
-        if (user != null && (user.hasRoles('ADMIN') || user.hasRoles('MODERATOR'))) {
-          SettingModel.findOneAndUpdate({id: settings.id}, {
-            $push: {
-              tags: {
-                id: name,
-                models: ['COMMENTS']
-              }
-            }
-          });
-        }
-        else if (!ALLOWED_TAGS.includes(name) || settings.tags.findIndex((t) => {return t.id === name & t.models.include('COMMENTS');}) === -1) {
-          return Promise.reject(errors.ErrTagNotAllowed);
-        }
-      });
-
-      return CommentModel.findOneAndUpdate({id, 'tags.id': {$ne: name}}, {
-        $push: {
-          tags: {
-            id: name,
-            added_by: added_by
-          }
-        },
-      })
-        .then(({nModified}) => {
-          switch (nModified) {
-          case 0:
-            return Promise.reject(errors.ErrNoCommentFound);
-          case 1:
-            return;
-          default:
-          }
-        });
+    return CommentModel.update(query, {
+      $push: {
+        tags: tagLink
+      }
     });
   }
 
-  /**
-   * Removes a tag from a comment
-   * @throws if the tag is not on the comment
-   * @param {String} id the id of the comment to tag
-   * @param {String} tag_id the id of the tag to remove
-   */
-  static removeTag(id, tag_id) {
-    return CommentModel.findOneAndUpdate({id, 'tags.id': tag_id}, {
+  static removeTag(id, {tag: {name}, assigned_by}, verifyOwnership = false) {
+
+    // Compose the query to find the comment that has the id: `id` and a tag
+    // that has the name: `name`.
+    const query = {
+      id,
+      'tags.tag.name': {
+        $eq: name
+      }
+    };
+
+    // If ownership verification is required, ensure that the person that is
+    // assigning the tag is the same person that owns the comment.
+    if (verifyOwnership) {
+      query['author_id'] = assigned_by;
+    }
+
+    return CommentModel.update(query, {
       $pull: {
         tags: {
-          id: tag_id
+          name
         }
-      }
-    }
-    )
-    .then(({nModified}) => {
-      switch(nModified) {
-      case 0:
-        return Promise.reject(errors.ErrNoCommentFound);
-      case 1:
-        return;
-      default:
       }
     });
   }
@@ -226,7 +180,7 @@ module.exports = class CommentsService {
   static pushStatus(id, status, assigned_by = null) {
 
     // Check to see if the comment status is in the allowable set of statuses.
-    if (STATUSES.indexOf(status) === -1) {
+    if (COMMENT_STATUS.indexOf(status) === -1) {
 
       // Comment status is not supported! Error out here.
       return Promise.reject(new Error(`status ${status} is not supported`));

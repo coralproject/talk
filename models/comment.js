@@ -1,13 +1,8 @@
 const mongoose = require('../services/mongoose');
 const Schema = mongoose.Schema;
+const TagLinkSchema = require('./schema/tag_link');
 const uuid = require('uuid');
-
-const STATUSES = [
-  'ACCEPTED',
-  'REJECTED',
-  'PREMOD',
-  'NONE'
-];
+const COMMENT_STATUS = require('./enum/comment_status');
 
 /**
  * The Mongo schema for a Comment Status.
@@ -16,7 +11,7 @@ const STATUSES = [
 const StatusSchema = new Schema({
   type: {
     type: String,
-    enum: STATUSES,
+    enum: COMMENT_STATUS,
   },
 
   // The User ID of the user that assigned the status.
@@ -26,29 +21,6 @@ const StatusSchema = new Schema({
   },
 
   created_at: Date
-}, {
-  _id: false
-});
-
-/**
- * The Mongo schema for a Comment Tag.
- * @type {Schema}
- */
-const TagSchema = new Schema({
-
-  // This is the actual 'tag' and we only permit tags that are in Setting.tags.
-  id: String,
-
-  // The User ID of the user that added the tag.
-  added_by: {
-    type: String,
-    default: null
-  },
-
-  created_at: {
-    type: Date,
-    default: Date
-  }
 }, {
   _id: false
 });
@@ -73,12 +45,11 @@ const CommentSchema = new Schema({
   status_history: [StatusSchema],
   status: {
     type: String,
-    enum: STATUSES,
+    enum: COMMENT_STATUS,
     default: 'NONE'
   },
   parent_id: String,
-
-  tags: [TagSchema],
+  tags: [TagLinkSchema],
 
   // Additional metadata stored on the field.
   metadata: {
@@ -92,10 +63,9 @@ const CommentSchema = new Schema({
   }
 });
 
-// Add the indexes on the comment tag.
+// Add the indexes for the id of the comment.
 CommentSchema.index({
-  'id': 1,
-  'tags.id': 1
+  'id': 1
 }, {
   unique: true,
   background: false

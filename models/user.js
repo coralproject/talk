@@ -4,41 +4,10 @@ const Schema = mongoose.Schema;
 const uuid = require('uuid');
 
 // USER_ROLES is the array of roles that is permissible as a user role.
-const USER_ROLES = [
-  'ADMIN',
-  'MODERATOR'
-];
+const USER_ROLES = require('./enum/user_roles');
 
 // USER_STATUS is the list of statuses that are permitted for the user status.
-const USER_STATUS = [
-  'ACTIVE',
-  'BANNED',
-  'PENDING',
-  'APPROVED' // Indicates that the users' username has been approved
-];
-
-// /**
-//  * The Mongo schema for a User Tag.
-//  * @type {Schema}
-//  */
-// const TagSchema = new Schema({
-//
-//   // This is the actual 'tag' and we only permit tags that are in Setting.tags.
-//   id: String,
-//
-//   // The User ID of the user that added the tag.
-//   added_by: {
-//     type: String,
-//     default: null
-//   },
-//
-//   created_at: {
-//     type: Date,
-//     default: Date
-//   }
-// }, {
-//   _id: false
-// });
+const USER_STATUS = require('./enum/user_status');
 
 // ProfileSchema is the mongoose schema defined as the representation of a
 // User's profile stored in MongoDB.
@@ -245,12 +214,6 @@ UserSchema.method('can', function(...actions) {
     return false;
   }
 
-  // {add,remove}CommentTag - requires admin and/or moderator role
-  const userCanModifyTags = user => ['ADMIN', 'MODERATOR'].some(r => user.hasRoles(r));
-  if (actions.some(a => ['mutation:removeCommentTag', 'mutation:addCommentTag', 'mutation:removeUserTag', 'mutation: addUserTag'].includes(a)) && ! userCanModifyTags(this)) {
-    return false;
-  }
-
   return true;
 });
 
@@ -258,5 +221,3 @@ UserSchema.method('can', function(...actions) {
 const UserModel = mongoose.model('User', UserSchema);
 
 module.exports = UserModel;
-module.exports.USER_ROLES = USER_ROLES;
-module.exports.USER_STATUS = USER_STATUS;

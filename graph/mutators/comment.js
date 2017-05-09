@@ -18,18 +18,25 @@ const Wordlist = require('../../services/wordlist');
  */
 const createComment = ({user, loaders: {Comments}, pubsub}, {body, asset_id, parent_id = null}, status = 'NONE') => {
 
+  // Add the staff tag for comments created as a staff member.
+  let tags = [];
+  if (user.hasRoles('ADMIN') || user.hasRoles('MODERATOR')) {
+    tags = [{
+      tag: {
+        name: 'STAFF'
+      }
+    }];
+  }
+
   return CommentsService.publicCreate({
     body,
     asset_id,
     parent_id,
     status,
+    tags,
     author_id: user.id
   })
-  .then(async (comment) => {
-
-    if (user.hasRoles('ADMIN') || user.hasRoles('MODERATOR')) {
-      await CommentsService.addTag(comment.id, 'STAFF', user.id);
-    }
+  .then((comment) => {
 
     // If the loaders are present, clear the caches for these values because we
     // just added a new comment, hence the counts should be updated. We should
@@ -204,21 +211,139 @@ const setCommentStatus = ({user, loaders: {Comments}}, {id, status}) => {
 };
 
 /**
- * Adds a tag to a Comment
- * @param {String} id          identifier of the comment  (uuid)
- * @param {String} tag     name of the tag
+ * Adds a tag to a Comment.
  */
-const addCommentTag = ({user, loaders: {Comments}}, {id, tag}) => {
-  return CommentsService.addTag(id, tag, user.id);
+const addCommentTag = async ({user, loaders: {Assets, Comments, Settings}}, {id, asset_id, name}) => {
+
+  // If the current user does not have the ADMIN or MODERATOR role
+  if (!user || !user.can('mutation:addCommentTag')) {
+    throw errors.ErrNotAuthorized;
+  }
+
+  // Load the settings from the dataloader, it will be cached if it was
+  // retrieved already.
+  let settings = await AssetsService.rectifySettings(AssetsService.findById(asset_id));
+
+  // Try to find the tag in the asset tags. This will contain the permission
+  // information.
+  let tag = settings.tags.find((globalTag) => {
+    return globalTag.name === name && globalTag.models.include('COMMENTS');
+  });
+
+  // Create the new tagLink that will be created to attach to the comment.
+  let tagLink = {
+    tag,
+    assigned_by: user.id,
+    created_at: new Date()
+  };
+
+  // If the tag was found, we need to ensure that the current user can indeed
+  // set this tag on the comment.
+  if (tag) {
+    
+    // If the tag has roles defined, and the current user has at least one of
+    // the required roles, then add the tag without checking for ownership.
+    if (tag.permissions && tag.permissions.roles && tag.permissions.roles.some((role) => user.roles.include(role))) {
+      return CommentsService.addTag(id, tagLink, false);
+    }
+
+    // If the permissions allow for self assignment, then ensure that the query
+    // is compose with that in mind.
+    if (tag.permissions && tag.permissions.self) {
+
+      // Otherwise, we assume that we have to check to see that the user indeed
+      // owns the resource before allowing the tag to get added.
+      return CommentsService.addTag(id, tagLink, true);
+    }
+
+    throw errors.ErrNotAuthorized;
+  }
+
+  // Only admin/moderators can add unique tags, these are tags that are not in
+  // the global list.
+  if (!(user.hasRoles('ADMIN') || user.hasRoles('MODERATOR'))) {
+    throw errors.ErrNotAuthorized;
+  }
+
+  // Generate the tag in the event now that we have to create the tag for this
+  // specific comment.
+  tagLink.tag = {
+    name,
+    permissions: {
+      public: true,
+      self: false,
+      roles: []
+    },
+    models: ['COMMENTS'],
+    created_at: new Date()
+  };
+
+  // Actually attach the new tag that we created to the comment.
+  return CommentsService.addTag(id, tagLink, false);
 };
 
 /**
- * Removes a tag from a Comment
- * @param {String} id          identifier of the comment  (uuid)
- * @param {String} tag     name of the tag
+ * Removes a tag from a Comment.
  */
-const removeCommentTag = ({user, loaders: {Comments}}, {id, tag}) => {
-  return CommentsService.removeTag(id, tag);
+const removeCommentTag = async ({user, loaders: {Comments}}, {id, asset_id, name}) => {
+
+  // If the current user does not have the ADMIN or MODERATOR role
+  if (!user || !user.can('mutation:removeCommentTag')) {
+    throw errors.ErrNotAuthorized;
+  }
+
+  // Load the settings from the dataloader, it will be cached if it was
+  // retrieved already.
+  let settings = await AssetsService.rectifySettings(AssetsService.findById(asset_id));
+
+  // Try to find the tag in the asset tags. This will contain the permission
+  // information.
+  let tag = settings.tags.find((globalTag) => {
+    return globalTag.name === name && globalTag.models.include('COMMENTS');
+  });
+
+  // Create the new tagLink that will be created to attach to the comment.
+  let tagLink = {
+    tag,
+    assigned_by: user.id
+  };
+
+  // If the tag was found, we need to ensure that the current user can indeed
+  // remove this tag on the comment.
+  if (tag) {
+    
+    // If the tag has roles defined, and the current user has at least one of
+    // the required roles, then remove the tag without checking for ownership.
+    if (tag.permissions && tag.permissions.roles && tag.permissions.roles.some((role) => user.roles.include(role))) {
+      return CommentsService.removeTag(id, tagLink, false);
+    }
+
+    // If the permissions allow for self assignment, then ensure that the query
+    // is compose with that in mind.
+    if (tag.permissions && tag.permissions.self) {
+
+      // Otherwise, we assume that we have to check to see that the user indeed
+      // owns the resource before allowing the tag to get removed.
+      return CommentsService.removeTag(id, tagLink, true);
+    }
+
+    throw errors.ErrNotAuthorized;
+  }
+
+  // Only admin/moderators can remove unique tags, these are tags that are not
+  // in the global list.
+  if (!(user.hasRoles('ADMIN') || user.hasRoles('MODERATOR'))) {
+    throw errors.ErrNotAuthorized;
+  }
+
+  // Generate the tag in the event now that we have to create the tag for this
+  // specific comment.
+  tagLink.tag = {
+    name
+  };
+
+  // Actually attach the new tag that we created to the comment.
+  return CommentsService.removeTag(id, tagLink, false);
 };
 
 module.exports = (context) => {

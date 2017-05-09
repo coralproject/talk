@@ -1,17 +1,8 @@
 const mongoose = require('../services/mongoose');
 const uuid = require('uuid');
 const Schema = mongoose.Schema;
-
-const ACTION_TYPES = [
-  'LIKE',
-  'FLAG'
-];
-
-const ITEM_TYPES = [
-  'ASSETS',
-  'COMMENTS',
-  'USERS'
-];
+const ACTION_TYPES = require('./enum/action_types');
+const ITEM_TYPES = require('./enum/item_types');
 
 const ActionSchema = new Schema({
   id: {

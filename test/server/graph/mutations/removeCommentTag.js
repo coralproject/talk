@@ -6,22 +6,24 @@ const Context = require('../../../../graph/context');
 const UserModel = require('../../../../models/user');
 const SettingModel = require('../../../../models/setting');
 
+const AssetModel = require('../../../../models/asset');
 const SettingsService = require('../../../../services/settings');
 const CommentsService = require('../../../../services/comments');
 
 describe('graph.mutations.removeCommentTag', () => {
-  let comment;
+  let asset, comment;
   beforeEach(async () => {
     await SettingsService.init();
-    comment = await CommentsService.publicCreate({body: `hello there! ${  String(Math.random()).slice(2)}`});
+    
+    asset = new AssetModel({url: 'http://new.test.com/'});
+    await asset.save();
+
+    comment = await CommentsService.publicCreate({asset_id: asset.id, body: `hello there! ${String(Math.random()).slice(2)}`});
   });
 
   const query = `
-    mutation RemoveCommentTag ($id: ID!, $tag: String!) {
-      removeCommentTag(id:$id, tag:$tag) {
-        comment {
-          id
-        }
+    mutation RemoveCommentTag ($id: ID!, $asset_id: ID!, $name: String!) {
+      removeCommentTag(id: $id, asset_id: $asset_id, name: $name) {
         errors {
           translation_key
         }
@@ -30,57 +32,53 @@ describe('graph.mutations.removeCommentTag', () => {
   `;
 
   it('moderators can add remove tags from comments', async () => {
-    const user = new UserModel({roles: ['MODERATOR' ]});
+    const user = new UserModel({roles: ['MODERATOR']});
     const context = new Context({user});
 
     // add a tag first
-    await CommentsService.addTag(comment.id, 'BEST', user.id);
-    const response = await graphql(schema, query, {}, context, {id: comment.id, tag: 'BEST'});
+    await CommentsService.addTag(comment.id, {tag: {name: 'BEST'}}, false);
+
+    const response = await graphql(schema, query, {}, context, {id: comment.id, asset_id: asset.id, name: 'BEST'});
     if (response.errors && response.errors.length) {
       console.error(response.errors);
     }
     expect(response.errors).to.be.empty;
     expect(response.data.removeCommentTag.errors).to.be.null;
 
-    CommentsService.findById(response.data.removeCommentTag.comment.id)
-    .then(({tags}) => {
-      expect(tags).to.deep.equal([]);
-    });
+    let retrievedComment = await CommentsService.findById(comment.id);
 
+    expect(retrievedComment.tags).to.have.length(0);
   });
 
   describe('users who cant remove tags', () => {
 
-    // allow the tag in the settings
-    SettingModel.findOneAndUpdate({id: 1}, {
+    before(() => SettingModel.findOneAndUpdate({id: 1}, {
       $push: {
         tags: {
           id: 'BEST',
           models: ['COMMENTS']
         }
       }
-    })
-    .then(() => {
-      Object.entries({
-        'anonymous': undefined,
-        'regular commenter': new UserModel({}),
-        'banned moderator': new UserModel({roles: ['MODERATOR'], status: 'BANNED'})
-      }).forEach(([ userDescription, user ]) => {
-        it(userDescription, async function () {
-          const context = new Context({user});
+    }));
 
-          // add a tag first
-          await CommentsService.addTag(comment.id, 'BEST', user.id);
+    Object.entries({
+      'anonymous': undefined,
+      'regular commenter': new UserModel({}),
+      'banned moderator': new UserModel({roles: ['MODERATOR'], status: 'BANNED'})
+    }).forEach(([userDescription, user]) => {
+      it(userDescription, async function () {
+        const context = new Context({user});
 
-          const response = await graphql(schema, query, {}, context, {id: comment.id, tag: 'BEST'});
-          if (response.errors && response.errors.length) {
-            console.error(response.errors);
-          }
-          expect(response.errors).to.be.empty;
+        // add a tag first
+        await CommentsService.addTag(comment.id, {tag: {name: 'BEST'}}, false);
 
-          expect(response.data.removeCommentTag.errors).to.deep.equal([{'translation_key':'NOT_AUTHORIZED'}]);
-          expect(response.data.removeCommentTag.comment).to.be.null;
-        });
+        const response = await graphql(schema, query, {}, context, {id: comment.id, asset_id: asset.id, name: 'BEST'});
+        if (response.errors && response.errors.length) {
+          console.error(response.errors);
+        }
+        expect(response.errors).to.be.empty;
+
+        expect(response.data.removeCommentTag.errors).to.deep.equal([{'translation_key':'NOT_AUTHORIZED'}]);
       });
     });
   });

@@ -52,14 +52,30 @@ type User {
   status: USER_STATUS
 }
 
+# Tag represents the underlying Tag that can be either stored in a global list
+# or added uniquely to the entity.
 type Tag {
-  # the actual tag for the comment.
-  id: String!
 
-  # the user that assigned the tag. If NULL then the system automatically tagged it.
-  added_by: String
+  # The actual name of the tag entry.
+  name: String!
 
-  # the time when the tag was assigned.
+  # The time that this Tag was created.
+  created_at: Date!
+}
+
+# TagLink is used to associate a given Tag with a Model via a TagLink.
+type TagLink {
+
+  # The underlying Tag that is either duplicated from the global list or created
+  # uniquely for this specific model.
+  tag: Tag!
+  
+  # The user that assigned the tag. This TagLink could have been created by the
+  # system, in which case this will be null. It could also be null if the
+  # current user is not an Admin/Moderator.
+  assigned_by: User
+  
+  # The date that the TagLink was created.
   created_at: Date!
 }
 
@@ -176,7 +192,7 @@ type Comment {
   body: String!
 
   # the tags on the comment
-  tags: [Tag]
+  tags: [TagLink!]
 
   # the user who authored the comment.
   user: User
@@ -702,15 +718,15 @@ type SetCommentStatusResponse implements Response {
 
 # Response to addCommentTag mutation
 type AddCommentTagResponse implements Response {
+  
   # An array of errors relating to the mutation that occured.
-  comment: Comment
   errors: [UserError]
 }
 
 # Response to removeCommentTag mutation
 type RemoveCommentTagResponse implements Response {
+
   # An array of errors relating to the mutation that occured.
-  comment: Comment
   errors: [UserError]
 }
 
@@ -751,10 +767,10 @@ type RootMutation {
   setCommentStatus(id: ID!, status: COMMENT_STATUS!): SetCommentStatusResponse
 
   # Add tag to comment.
-  addCommentTag(id: ID!, tag: String!): AddCommentTagResponse
+  addCommentTag(id: ID!, asset_id: ID!, name: String!): AddCommentTagResponse
 
   # Remove tag from comment.
-  removeCommentTag(id: ID!, tag: String!): RemoveCommentTagResponse
+  removeCommentTag(id: ID!, asset_id: ID!, name: String!): RemoveCommentTagResponse
 
   # Ignore comments by another user
   ignoreUser(id: ID!): IgnoreUserResponse
