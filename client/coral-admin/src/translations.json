@@ -72,6 +72,7 @@
       "flagged": "flagged",
       "anon": "Anonymous",
       "ban_user": "Ban User",
+      "view_context": "View context",
       "banned_user": "Banned User"
     },
     "user": {
@@ -259,6 +260,7 @@
     "comment": {
       "flagged": "marcado",
       "anon": "Anónimo",
+      "view_context": "Ver contexto",
       "ban_user": "Suspender Usuario",
       "banned_user": "Usuario Suspendido"
     },
