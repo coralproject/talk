@@ -1,5 +1,5 @@
 import React from 'react';
-import {Router, Route, IndexRoute, IndexRedirect, browserHistory} from 'react-router';
+import {Router, Route, IndexRedirect, browserHistory} from 'react-router';
 
 import Stories from 'containers/Stories/Stories';
 import Configure from 'containers/Configure/Configure';
@@ -18,7 +18,7 @@ const routes = (
   <div>
     <Route exact path="/admin/install" component={InstallContainer}/>
     <Route path='/admin' component={LayoutContainer}>
-      <IndexRoute component={Dashboard} />
+      <IndexRedirect to='/admin/moderate/all' />
       <Route path='community' component={CommunityContainer} />
       <Route path='configure' component={Configure} />
       <Route path='stories' component={Stories} />
