@@ -23,7 +23,7 @@ import {getActionSummary, iPerformedThisAction} from 'coral-framework/utils';
 
 import styles from './Comment.css';
 
-const isStaff = tags => !tags.every(t => t.name !== 'STAFF');
+const isStaff = tags => !tags.every(t => t.id !== 'STAFF');
 
 // hold actions links (e.g. Reply) along the comment footer
 const ActionButton = ({children}) => {
@@ -72,7 +72,7 @@ class Comment extends React.Component {
       id: PropTypes.string.isRequired,
       tags: PropTypes.arrayOf(
         PropTypes.shape({
-          name: PropTypes.string
+          id: PropTypes.string
         })
       ),
       replies: PropTypes.arrayOf(
