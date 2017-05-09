@@ -1,16 +1,17 @@
 import React, {PropTypes} from 'react';
 import timeago from 'timeago.js';
+import {Link} from 'react-router';
 import Linkify from 'react-linkify';
 import Highlighter from 'react-highlight-words';
-import {Link} from 'react-router';
 
 import styles from './styles.css';
 import {Icon} from 'coral-ui';
 import FlagBox from './FlagBox';
 import CommentType from './CommentType';
+import Slot from 'coral-framework/components/Slot';
+import {getActionSummary} from 'coral-framework/utils';
 import ActionButton from 'coral-admin/src/components/ActionButton';
 import BanUserButton from 'coral-admin/src/components/BanUserButton';
-import {getActionSummary} from 'coral-framework/utils';
 
 const linkify = new Linkify();
 
@@ -50,6 +51,10 @@ const Comment = ({actions = [], comment, ...props}) => {
               {lang.t('comment.banned_user')}
             </span>
             : null}
+          <Slot
+            fill="adminCommentInfoBar"
+            comment={comment}
+          />
         </div>
         <div className={styles.moderateArticle}>
           Story: {comment.asset.title}
@@ -62,6 +67,10 @@ const Comment = ({actions = [], comment, ...props}) => {
             <Highlighter
               searchWords={[...props.suspectWords, ...props.bannedWords, ...linkText]}
               textToHighlight={comment.body} />
+            <Slot
+              fill="adminCommentContent"
+              comment={comment}
+            />
           </p>
           <div className={styles.sideActions}>
             {links ? <span className={styles.hasLinks}><Icon name='error_outline'/> Contains Link</span> : null}
@@ -78,8 +87,18 @@ const Comment = ({actions = [], comment, ...props}) => {
                   rejectComment={() => props.rejectComment({commentId: comment.id})} />;
               })}
             </div>
+            <Slot
+              fill="adminSideActions"
+              comment={comment}
+            />
           </div>
         </div>
+      </div>
+      <div>
+        <Slot
+          fill="adminCommentDetailArea"
+          comment={comment}
+        />
       </div>
       {
         flagActions && flagActions.length
