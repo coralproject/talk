@@ -13,7 +13,6 @@ import Stream from './Stream';
 import Embed from '../components/Embed';
 
 import {setActiveTab} from '../actions/embed';
-import {addExternalConfig} from 'coral-framework/actions/config';
 import {setCommentCountCache, viewAllComments} from '../actions/stream';
 import {getDefinitionName, separateDataAndRoot} from 'coral-framework/utils';
 
@@ -21,17 +20,6 @@ const {logout, checkLogin} = authActions;
 const {fetchAssetSuccess} = assetActions;
 
 class EmbedContainer extends React.Component {
-  componentDidMount() {
-    pym.sendMessage('childReady');
-
-    pym.onMessage('config', config => {
-      this.props.addExternalConfig(JSON.parse(config));
-    });
-  }
-
-  componentWillUnmount() {
-    pym.remove();
-  }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.root.me && !nextProps.root.me) {
@@ -114,7 +102,6 @@ const mapDispatchToProps = dispatch =>
       checkLogin,
       setActiveTab,
       viewAllComments,
-      addExternalConfig,
       fetchAssetSuccess,
       setCommentCountCache
     },
@@ -123,6 +110,6 @@ const mapDispatchToProps = dispatch =>
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  branch(props => !props.auth.checkedInitialLogin, renderComponent(Spinner)),
+  branch(props => !props.auth.checkedInitialLogin && props.config, renderComponent(Spinner)),
   withQuery
 )(EmbedContainer);

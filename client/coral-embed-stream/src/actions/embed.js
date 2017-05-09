@@ -8,3 +8,7 @@ export const setActiveTab = (tab) => (dispatch, getState) => {
   }
 };
 
+export const addExternalConfig = externalConfig => ({
+  type: 'ADD_EXTERNAL_CONFIG',
+  externalConfig
+});

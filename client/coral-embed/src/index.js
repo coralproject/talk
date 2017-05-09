@@ -46,19 +46,18 @@ function buildStreamIframeUrl(talkBaseUrl, query) {
 // e.g. to resize the iframe, and navigate the host page
 function configurePymParent(pymParent, opts) {
   let notificationOffset = 200;
-  let DOMReady = false;
   let cachedHeight;
   const snackbar = document.createElement('div');
-
-  // Sets DOMReady
-  function completed() {
-    DOMReady = true;
-  }
 
   // Sends config to pymChild
   function sendConfig(config) {
     pymParent.sendMessage('config', JSON.stringify(config));
   }
+
+  // Sends config to the child
+  pymParent.onMessage('getConfig', function() {
+    sendConfig(opts || {});
+  });
 
   snackbar.id = 'coral-notif';
 
@@ -119,31 +118,6 @@ function configurePymParent(pymParent, opts) {
     }
 
     pymParent.sendMessage('position', position);
-  });
-
-  // Sends config to the child
-  pymParent.onMessage('getConfig', function() {
-    sendConfig(opts || {});
-  });
-
-  document.addEventListener('DOMContentLoaded', completed, false);
-
-  // A fallback to window.onload, that will always work
-  window.addEventListener('load', completed, false);
-
-  // Tell child when parent's DOMContentLoaded
-  pymParent.onMessage('childReady', function() {
-    const interval = setInterval(function() {
-      if (DOMReady) {
-        window.clearInterval(interval);
-
-        // DOMContentLoaded is ready
-        pymParent.sendMessage('DOMContentLoaded');
-
-        // Sending the config to the child
-        sendConfig(opts || {});
-      }
-    }, 100);
   });
 
   // When end-user clicks link in iframe, open it in parent context
