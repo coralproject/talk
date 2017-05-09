@@ -34,7 +34,10 @@ class LikeButton extends Component {
     if (myLikeActionSummary) {
       deleteAction(myLikeActionSummary.current_user.id, comment.id);
     } else {
-      postLike();
+      postLike({
+        item_id: comment.id,
+        item_type: 'COMMENTS'
+      });
     }
   };
 
