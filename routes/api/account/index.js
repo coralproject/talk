@@ -4,6 +4,9 @@ const UsersService = require('../../../services/users');
 const mailer = require('../../../services/mailer');
 const authorization = require('../../../middleware/authorization');
 const errors = require('../../../errors');
+const {
+  ROOT_URL
+} = require('../../../config');
 
 //==============================================================================
 // ROUTES
@@ -62,7 +65,7 @@ router.post('/password/reset', (req, res, next) => {
         template: 'password-reset',             // needed to know which template to render!
         locals: {                                     // specifies the template locals.
           token,
-          rootURL: process.env.TALK_ROOT_URL
+          rootURL: ROOT_URL
         },
         subject: 'Password Reset',
         to: email

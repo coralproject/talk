@@ -4,6 +4,9 @@ const resolve = require('resolve');
 const debug = require('debug')('talk:plugins');
 const Joi = require('joi');
 const amp = require('app-module-path');
+const {
+  PLUGINS_JSON
+} = require('./config');
 
 // Add the current path to the module root.
 amp.addPath(__dirname);
@@ -18,7 +21,7 @@ try {
   let customPlugins = path.join(__dirname, 'plugins.json');
   let defaultPlugins = path.join(__dirname, 'plugins.default.json');
 
-  if (process.env.TALK_PLUGINS_JSON && process.env.TALK_PLUGINS_JSON.length > 0) {
+  if (PLUGINS_JSON && PLUGINS_JSON.length > 0) {
     debug('Now using TALK_PLUGINS_JSON environment variable for plugins');
     plugins = require(envPlugins);
   } else if (fs.existsSync(customPlugins)) {

@@ -5,6 +5,9 @@ const CommentsService = require('../../../services/comments');
 const mailer = require('../../../services/mailer');
 const errors = require('../../../errors');
 const authorization = require('../../../middleware/authorization');
+const {
+  ROOT_URL
+} = require('../../../config');
 
 // get a list of users.
 router.get('/', authorization.needed('ADMIN'), (req, res, next) => {
@@ -108,7 +111,7 @@ const SendEmailConfirmation = (app, userID, email, referer) => UsersService
       template: 'email-confirm',              // needed to know which template to render!
       locals: {                                     // specifies the template locals.
         token,
-        rootURL: process.env.TALK_ROOT_URL,
+        rootURL: ROOT_URL,
         email
       },
       subject: 'Email Confirmation',

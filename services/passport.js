@@ -9,25 +9,14 @@ const errors = require('../errors');
 const uuid = require('uuid');
 const debug = require('debug')('talk:passport');
 
-// JWT_SECRET is the secret used to sign and verify tokens issued by this
-// application.
-const JWT_SECRET = process.env.JWT_SECRET || null;
-if (JWT_SECRET === null) {
-  throw new Error('JWT_SECRET must be provided in the environment to sign/verify tokens');
-}
-
-// JWT_EXPIRY is the time for which a given token is valid for.
-const JWT_EXPIRY = process.env.JWT_EXPIRY || '1 day';
-
-// JWT_ISSUER is the value for the issuer for the tokens that will be verified
-// when decoding. If `JWT_ISSUER` is not in the environment, then it will try
-// `TALK_ROOT_URL`, otherwise, it will be undefined.
-const JWT_ISSUER = process.env.JWT_ISSUER || process.env.TALK_ROOT_URL || undefined;
-
-// JWT_AUDIENCE is the value for the audience claim for the tokens that will be
-// verified when decoding. If `JWT_AUDIENCE` is not in the environment, then it
-// will default to `talk`.
-const JWT_AUDIENCE = process.env.JWT_AUDIENCE || 'talk';
+const {
+  JWT_SECRET,
+  JWT_ISSUER,
+  JWT_EXPIRY,
+  JWT_AUDIENCE,
+  RECAPTCHA_SECRET,
+  RECAPTCHA_ENABLED
+} = require('../config');
 
 // GenerateToken will sign a token to include all the authorization information
 // needed for the front end.
@@ -199,21 +188,6 @@ const CheckIfNeedsRecaptcha = (user, email) => {
 
   return false;
 };
-
-/**
- * This stores the Recaptcha secret.
- */
-const RECAPTCHA_SECRET = process.env.TALK_RECAPTCHA_SECRET;
-const RECAPTCHA_PUBLIC = process.env.TALK_RECAPTCHA_PUBLIC;
-
-/**
- * This is true when the recaptcha secret is provided and the Recaptcha feature
- * is to be enabled.
- */
-const RECAPTCHA_ENABLED = RECAPTCHA_SECRET && RECAPTCHA_SECRET.length > 0 && RECAPTCHA_PUBLIC && RECAPTCHA_PUBLIC.length > 0;
-if (!RECAPTCHA_ENABLED) {
-  console.log('Recaptcha is not enabled for login/signup abuse prevention, set TALK_RECAPTCHA_SECRET and TALK_RECAPTCHA_PUBLIC to enable Recaptcha.');
-}
 
 /**
  * This sends the request details down Google to check to see if the response is
