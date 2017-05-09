@@ -249,11 +249,6 @@ const editComment = async ({user, loaders: {Comments}}, {id, asset_id, edit}) =>
       throw new errors.APIError('Comment not found', {
         status: 404,
         translation_key: 'NOT_FOUND',
-      });        
-    case 'EditWindowExpired':
-      throw new errors.APIError('You can no longer edit this comment. The window to do so has expired.', {
-        status: 401,
-        translation_key: 'error.editWindowExpired',
       });
     case 'NotAuthorizedToEdit':
       throw errors.ErrNotAuthorized;

@@ -3,6 +3,8 @@ const CommentModel = require('../models/comment');
 const ActionModel = require('../models/action');
 const ActionsService = require('./actions');
 
+const {ErrEditWindowHasEnded} = require('../errors');
+
 // const ALLOWED_TAGS = [
 //   {name: 'STAFF'},
 //   {name: 'BEST'},
@@ -115,9 +117,7 @@ module.exports = class CommentsService {
           name: 'NotAuthorizedToEdit'
         });
       } else if (( ! ignoreEditWindow) && editWindowExpired(comment)) {
-        throw Object.assign(new Error('Edit window is over.'), {
-          name: 'EditWindowExpired'
-        });
+        throw new ErrEditWindowHasEnded();
       }
       throw new Error('Failed to edit comment. This could be because it can\'t be found, the edit window expired, or because you\'re not allowed to edit it.');
     }
