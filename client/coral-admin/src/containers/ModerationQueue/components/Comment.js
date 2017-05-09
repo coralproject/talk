@@ -18,7 +18,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-admin/src/translations.json';
 const lang = new I18n(translations);
 
-const Comment = ({actions = [], comment, viewUserDetail, ...props}) => {
+const Comment = ({actions = [], comment, viewUserDetail, suspectWords, bannedWords, ...props}) => {
   const links = linkify.getMatches(comment.body);
   const linkText = links ? links.map(link => link.raw) : [];
   const flagActionSummaries = getActionSummary('FlagActionSummary', comment);
@@ -29,6 +29,13 @@ const Comment = ({actions = [], comment, viewUserDetail, ...props}) => {
   } else if (flagActions && flagActions.length) {
     commentType = 'flagged';
   }
+
+  // since words are checked against word boundaries on the backend,
+  // this should be the behavior on the front end as well.
+  // currently the highlighter plugin does not support this out of the box.
+  const searchWords = [...suspectWords, ...bannedWords].filter(w => {
+    return new RegExp(`(^|\\s)${w}(\\s|$)`).test(comment.body);
+  }).concat(linkText);
 
   return (
     <li tabIndex={props.index} className={`mdl-card ${props.selected ?  'mdl-shadow--16dp' : 'mdl-shadow--2dp'} ${styles.Comment} ${styles.listItem} ${props.selected ? styles.selected : ''}`}>
@@ -60,8 +67,8 @@ const Comment = ({actions = [], comment, viewUserDetail, ...props}) => {
         <div className={styles.itemBody}>
           <p className={styles.body}>
             <Highlighter
-              searchWords={[...props.suspectWords, ...props.bannedWords, ...linkText]}
-              textToHighlight={comment.body} />
+              searchWords={searchWords}
+              textToHighlight={comment.body} /> <a className={styles.external} href={`${comment.asset.url}#${comment.id}`} target="_blank"><Icon name='open_in_new' /> {lang.t('comment.view_context')}</a>
           </p>
           <div className={styles.sideActions}>
             {links ? <span className={styles.hasLinks}><Icon name='error_outline'/> Contains Link</span> : null}
@@ -108,6 +115,7 @@ Comment.propTypes = {
     }).isRequired,
     asset: PropTypes.shape({
       title: PropTypes.string,
+      url: PropTypes.string,
       id: PropTypes.string
     })
   })

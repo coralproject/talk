@@ -12,7 +12,6 @@ export default ({handleChange, handleApply, changed, ...props}) => (
     <div className={styles.wrapper}>
       <div className={styles.container}>
         <h3>{lang.t('configureCommentStream.title')}</h3>
-        <p>{lang.t('configureCommentStream.description')}</p>
         <Button
           type="submit"
           className={styles.apply}
@@ -20,6 +19,7 @@ export default ({handleChange, handleApply, changed, ...props}) => (
           cStyle={changed ? 'green' : 'darkGrey'} >
           {lang.t('configureCommentStream.apply')}
         </Button>
+        <p>{lang.t('configureCommentStream.description')}</p>
       </div>
       <ul>
         <li>
