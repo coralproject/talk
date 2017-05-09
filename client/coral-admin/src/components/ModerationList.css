@@ -193,10 +193,12 @@
   box-shadow: none;
   color: white;
   background-color: #519954;
+  cursor: not-allowed;
 }
 
 .reject__active, .rejected__active {
   color: white;
   background-color: #D03235;
   box-shadow: none;
+  cursor: not-allowed;
 }
