@@ -11,6 +11,7 @@ fragment commentView on Comment {
     asset {
       id
       title
+      url
     }
     action_summaries {
       count
