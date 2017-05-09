@@ -9,18 +9,13 @@ const webpack = require('webpack');
 // Possibly load the config from the .env file (if there is one).
 require('dotenv').config();
 
-// Load the config after dotenv has does it's thing.
-const {
-  PLUGINS_JSON
-} = require('./config');
-
 let pluginsConfigPath;
 
 let envPlugins = path.join(__dirname, 'plugins.env.js');
 let customPlugins = path.join(__dirname, 'plugins.json');
 let defaultPlugins = path.join(__dirname, 'plugins.default.json');
 
-if (PLUGINS_JSON && PLUGINS_JSON.length > 0) {
+if (process.env.TALK_PLUGINS_JSON && process.env.TALK_PLUGINS_JSON.length > 0) {
   pluginsConfigPath = envPlugins;
 } else if (fs.existsSync(customPlugins)) {
   pluginsConfigPath = customPlugins;
