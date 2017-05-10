@@ -95,17 +95,11 @@ Slots properties take an`Array` so we can add as many components as we want.
 
 `Note: the concepts in this section are still to be implemented. Code samples are for discussion and may change.`
 
-In order to allow you to build more complex plugins, we have wrapped some of our functionality in higher order componenets that expose a simple api.
+In order to allow you to build more complex plugins, we have wrapped some of our functionality in higher order components that expose a simple api.
 
 ### Reactions
 
 Reactions provide users the ability to 'like', 'respect', etc... comments.
-
-```
-<Reaction name="love">
-	<img class="coralsrc="" />
-</Reaction>
-```
 
 Note: some server side work will need to accompany this client side component. See the like and respect plugins as examples.
 
@@ -115,11 +109,7 @@ Comment streams may be created with filtering and ordering in place:
 
 * filter by user
 * filter by tag
-* sort by date ascending / descrnding
-
-```
-<CommentStream userFilter="[userId]" tagFilter="[tag]" sort="[ascending|descending]"></CommentStream>
-```
+* sort by date ascending / descending
 
 ### Comment Commit hooks
 
