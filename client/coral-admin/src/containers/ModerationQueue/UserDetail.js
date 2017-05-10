@@ -3,6 +3,7 @@ import {Button, Drawer} from 'coral-ui';
 import styles from './UserDetail.css';
 import {compose} from 'react-apollo';
 import {getUserDetail} from 'coral-admin/src/graphql/queries';
+import Slot from 'coral-framework/components/Slot';
 
 class UserDetail extends React.Component {
   static propTypes = {
@@ -29,19 +30,17 @@ class UserDetail extends React.Component {
 
     const {user} = data;
     const localProfile = user.profiles.find(p => p.provider === 'local');
-    const facebookProfile = user.profiles.find(p => p.provider === 'facebook');
     let profile;
     if (localProfile) {
       profile = localProfile.id;
-    } else if (facebookProfile) {
-      profile = <a href={`https://facebook.com/${facebookProfile.id}`}>{facebookProfile.id}</a>;
     }
 
     return (
       <Drawer handleClickOutside={hideUserDetail}>
         <h3>{user.username}</h3>
         <Button className={styles.copyButton}>Copy</Button>
-        <p ref={ref => this.profile = ref} contentEditable="true">{profile}</p>
+        {profile && <p ref={ref => this.profile = ref} contentEditable="true">{profile}</p>}
+        <Slot fill="userProfile" user={user} />
         <p className={styles.memberSince}><strong>Member since</strong> {new Date(user.created_at).toLocaleString()}</p>
         <hr/>
         <p>
