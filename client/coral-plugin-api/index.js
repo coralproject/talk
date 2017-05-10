@@ -1,5 +1,1 @@
-import hocs from '../coral-framework/hocs';
-
-export default {
-  ...hocs
-};
+export {withReaction} from '../coral-framework/hocs';
