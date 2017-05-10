@@ -4,4 +4,4 @@ import withReaction from './withReaction';
 export default {
   withFragments,
   withReaction
-}
+};

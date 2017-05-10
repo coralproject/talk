@@ -36,7 +36,6 @@ export default reaction => WrappedComponent => {
 
       const withReactionProps = {reactionSummary, count, alreadyReacted};
 
-
       return <WrappedComponent {...this.props} {...withReactionProps} />;
     }
   }
