@@ -240,7 +240,7 @@ module.exports = class CommentsService {
    * @param {String} action the new action to the comment
    * @return {Promise}
    */
-  static addAction(item_id, user_id, action_type, metadata) {
+  static addAction(item_id, user_id, action_type, metadata = {}) {
     return ActionsService.insertUserAction({
       item_id,
       item_type: 'COMMENTS',
