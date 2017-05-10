@@ -3,6 +3,7 @@ import get from 'lodash/get';
 import uuid from 'uuid/v4';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {getDisplayName} from '../helpers/hoc';
 import {compose, gql, graphql} from 'react-apollo';
 import withFragments from 'coral-framework/hocs/withFragments';
 import {showSignInDialog} from 'coral-framework/actions/auth';
@@ -31,7 +32,10 @@ export default reaction => WrappedComponent => {
         comment
       );
 
-      const withReactionProps = {reactionSummary, count};
+      const alreadyReacted = () => !!reactionSummary;
+
+      const withReactionProps = {reactionSummary, count, alreadyReacted};
+
 
       return <WrappedComponent {...this.props} {...withReactionProps} />;
     }
@@ -233,6 +237,8 @@ export default reaction => WrappedComponent => {
     withDeleteReaction,
     withPostReaction
   );
+
+  WithReactions.displayName = `WithReactions(${getDisplayName(WrappedComponent)})`;
 
   return enhance(WithReactions);
 };

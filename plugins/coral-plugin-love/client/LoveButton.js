@@ -12,7 +12,7 @@ class LoveButton extends React.Component {
       postReaction,
       deleteReaction,
       showSignInDialog,
-      reactionSummary
+      alreadyReacted
     } = this.props;
     const {root: {me}, comment} = this.props;
 
@@ -27,7 +27,7 @@ class LoveButton extends React.Component {
       return;
     }
 
-    if (reactionSummary) {
+    if (alreadyReacted()) {
       deleteReaction();
     } else {
       postReaction();
@@ -35,13 +35,13 @@ class LoveButton extends React.Component {
   };
 
   render() {
-    const {count, reactionSummary} = this.props;
+    const {count, alreadyReacted} = this.props;
     return (
       <button
-        className={`${styles.button} ${reactionSummary ? styles.loved : ''}`}
+        className={`${styles.button} ${alreadyReacted() ? styles.loved : ''}`}
         onClick={this.handleClick}
       >
-        <span>{lang.t(reactionSummary ? 'loved' : 'love')}</span>
+        <span>{lang.t(alreadyReacted() ? 'loved' : 'love')}</span>
         <Icon name="favorite" />
         <span>{count > 0 && count}</span>
       </button>
