@@ -20,5 +20,6 @@ plugins/*
 !plugins/coral-plugin-respect
 !plugins/coral-plugin-offtopic
 !plugins/coral-plugin-like
+!plugins/coral-plugin-mod
 
 **/node_modules/*
