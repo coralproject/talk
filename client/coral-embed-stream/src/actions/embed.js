@@ -7,8 +7,3 @@ export const setActiveTab = (tab) => (dispatch, getState) => {
     dispatch(viewAllComments());
   }
 };
-
-export const addExternalConfig = externalConfig => ({
-  type: 'ADD_EXTERNAL_CONFIG',
-  externalConfig
-});

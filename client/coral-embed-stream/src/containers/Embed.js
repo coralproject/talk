@@ -92,7 +92,8 @@ const mapStateToProps = state => ({
   commentId: state.stream.commentId,
   assetId: state.stream.assetId,
   assetUrl: state.stream.assetUrl,
-  activeTab: state.embed.activeTab
+  activeTab: state.embed.activeTab,
+  config: state.config
 });
 
 const mapDispatchToProps = dispatch =>
