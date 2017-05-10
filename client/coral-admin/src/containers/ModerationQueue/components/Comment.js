@@ -48,7 +48,7 @@ const Comment = ({actions = [], comment, viewUserDetail, suspectWords, bannedWor
             <span className={styles.created}>
               {timeago().format(comment.created_at || (Date.now() - props.index * 60 * 1000), lang.getLocale().replace('-', '_'))}
             </span>
-            <BanUserButton user={comment.user} onClick={() => props.showBanUserDialog(comment.user, comment.id, comment.status !== 'REJECTED')} />
+            <BanUserButton user={comment.user} onClick={() => props.showBanUserDialog(comment.user, comment.id, comment.status, comment.status !== 'REJECTED')} />
             <CommentType type={commentType} />
           </div>
           {comment.user.status === 'banned' ?
@@ -81,8 +81,8 @@ const Comment = ({actions = [], comment, viewUserDetail, suspectWords, bannedWor
                   user={comment.user}
                   status={comment.status}
                   active={active}
-                  acceptComment={() => props.acceptComment({commentId: comment.id})}
-                  rejectComment={() => props.rejectComment({commentId: comment.id})} />;
+                  acceptComment={() => comment.status === 'ACCEPTED' ? null : props.acceptComment({commentId: comment.id})}
+                  rejectComment={() => comment.status === 'REJECTED' ? null : props.rejectComment({commentId: comment.id})} />;
               })}
             </div>
           </div>

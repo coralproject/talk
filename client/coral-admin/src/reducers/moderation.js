@@ -6,6 +6,7 @@ const initialState = Map({
   modalOpen: false,
   user: Map({}),
   commentId: null,
+  commentStatus: null,
   userDetailId: null,
   banDialog: false,
   shortcutsNoteVisible: window.localStorage.getItem('coral:shortcutsNote') || 'show'
@@ -15,12 +16,14 @@ export default function moderation (state = initialState, action) {
   switch (action.type) {
   case actions.HIDE_BANUSER_DIALOG:
     return state
-      .set('banDialog', false);
+      .set('banDialog', false)
+      .set('commentStatus', null);
   case actions.SHOW_BANUSER_DIALOG:
     return state
       .merge({
         user: Map(action.user),
         commentId: action.commentId,
+        commentStatus: action.commentStatus,
         showRejectedNote: action.showRejectedNote,
         banDialog: true
       });
