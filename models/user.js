@@ -5,7 +5,8 @@ const uuid = require('uuid');
 // USER_ROLES is the array of roles that is permissible as a user role.
 const USER_ROLES = [
   'ADMIN',
-  'MODERATOR'
+  'MODERATOR',
+  'STAFF'
 ];
 
 // USER_STATUS is the list of statuses that are permitted for the user status.
