@@ -3,7 +3,7 @@ import {Icon} from 'coral-ui';
 import styles from './styles.css';
 import {I18n} from 'coral-framework';
 import translations from './translations.json';
-import withReaction from 'coral-framework/hocs/withReaction';
+import {withReaction} from 'coral-framework';
 const lang = new I18n(translations);
 
 class LoveButton extends React.Component {
