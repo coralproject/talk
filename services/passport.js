@@ -56,7 +56,7 @@ const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
   }
 
   if (!user) {
-    return res.render('auth-callback', {auth: JSON.stringify({err, data: null})});
+    return res.render('auth-callback', {auth: JSON.stringify({err: errors.ErrNotAuthorized, data: null})});
   }
 
   // Generate the token to re-issue to the frontend.
