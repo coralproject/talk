@@ -7,6 +7,7 @@ const isOffTopic = (tags) => {
 
 export default (props) => (
   <span>
+    {console.log(props)}
     {
       isOffTopic(props.comment.tags) ? (
         <span className={styles.tag}>
