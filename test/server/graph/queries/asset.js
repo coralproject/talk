@@ -9,85 +9,94 @@ const Asset = require('../../../../models/asset');
 const CommentsService = require('../../../../services/comments');
 
 describe('graph.queries.asset', () => {
+  let asset, users;
   beforeEach(async () => {
     await SettingsService.init();
+    asset = await Asset.create({id: '1', url: 'https://example.com'});
+    users = await UsersService.createLocalUsers([
+      {
+        email: 'usernameA@example.com',
+        password: 'password',
+        username: 'usernameA'
+      },
+      {
+        email: 'usernameB@example.com',
+        password: 'password',
+        username: 'usernameB'
+      },
+      {
+        email: 'usernameC@example.com',
+        password: 'password',
+        username: 'usernameC'
+      }
+    ]);
   });
 
   it('can get comments edge', async () => {
-    const assetId = 'fakeAssetId';
-    const assetUrl = 'https://bengo.is';
-    await Asset.create({id: assetId, url: assetUrl});
-
-    const user = await UsersService.createLocalUser('usernameA@example.com', 'password', 'usernameA');
-    const context = new Context({user});
+    const context = new Context({user: users[0]});
 
     await CommentsService.publicCreate([1, 2].map(() => ({
-      author_id: user.id,
-      asset_id: assetId,
-      body: `hello there! ${  String(Math.random()).slice(2)}`,
+      author_id: users[0].id,
+      asset_id: asset.id,
+      body: `hello there! ${String(Math.random()).slice(2)}`,
     })));
 
     const assetCommentsQuery = `
-      query assetCommentsQuery($assetId: ID!, $assetUrl: String!) {
-        asset(id: $assetId, url: $assetUrl) {
+      query assetCommentsQuery($id: ID!) {
+        asset(id: $id) {
           comments(limit: 10) {
-            id,
-            body,
+            edges {
+              id
+              body
+            }
           }
         }
       }
     `;
-    const assetCommentsResponse = await graphql(schema, assetCommentsQuery, {}, context, {assetId, assetUrl});
-    const comments = assetCommentsResponse.data.asset.comments;
+    const res = await graphql(schema, assetCommentsQuery, {}, context, {id: asset.id});
+    expect(res.erros).is.empty;
+    const comments = res.data.asset.comments.edges;
     expect(comments.length).to.equal(2);
   });
 
   it('can query comments edge to exclude comments ignored by user', async () => {
-    const assetId = 'fakeAssetId1';
-    const assetUrl = 'https://bengo.is/1';
-    await Asset.create({id: assetId, url: assetUrl});
+    const context = new Context({user: users[0]});
 
-    const userA = await UsersService.createLocalUser('usernameA@example.com', 'password', 'usernameA');
-    const userB = await UsersService.createLocalUser('usernameB@example.com', 'password', 'usernameB');
-    const userC = await UsersService.createLocalUser('usernameC@example.com', 'password', 'usernameC');
-    const context = new Context({user: userA});
-
-    // create 2 comments each for userB, userC
-    await Promise.all([userB, userC].map(user => CommentsService.publicCreate([1, 2].map(() => ({
+    await Promise.all(users.slice(1, 3).map((user) => CommentsService.publicCreate({
       author_id: user.id,
-      asset_id: assetId,
-      body: `hello there! ${  String(Math.random()).slice(2)}`,
-    })))));
+      asset_id: asset.id,
+      body: `hello there! ${String(Math.random()).slice(2)}`,
+    })));
+    
+    // Add the second user to the list of ignored users.
+    context.user.ignoresUsers.push(users[1].id);
 
-    // ignore userB
-    const ignoreUserMutation = `
-      mutation ignoreUser ($id: ID!) {
-        ignoreUser(id:$id) {
-          errors {
-            translation_key
-          }
-        }
-      }
-    `;
-    const ignoreUserResponse = await graphql(schema, ignoreUserMutation, {}, context, {id: userB.id});
-    if (ignoreUserResponse.errors && ignoreUserResponse.errors.length) {
-      console.error(ignoreUserResponse.errors);
-    }
-    expect(ignoreUserResponse.errors).to.be.empty;
-
-    const assetCommentsWithoutIgnoredQuery = `
-      query assetCommentsQuery($assetId: ID!, $assetUrl: String!, $excludeIgnored: Boolean!) {
-        asset(id: $assetId, url: $assetUrl) {
+    const query = `
+      query assetCommentsQuery($id: ID!, $url: String!, $excludeIgnored: Boolean!) {
+        asset(id: $id, url: $url) {
           comments(limit: 10, excludeIgnored: $excludeIgnored) {
-            id,
-            body,
+            edges {
+              id
+              body
+            }
           }
         }
       }
     `;
-    const assetCommentsResponse = await graphql(schema, assetCommentsWithoutIgnoredQuery, {}, context, {assetId, assetUrl, excludeIgnored: true});
-    const comments = assetCommentsResponse.data.asset.comments;
-    expect(comments.length).to.equal(2);
+
+    {
+      const res = await graphql(schema, query, {}, context, {
+        id: asset.id,
+        url: asset.url,
+        excludeIgnored: true
+      });
+      if (res.errors && res.errors.length) {
+        console.error(res.errors);
+      }
+      expect(res.errors).is.empty;
+      const comments = res.data.asset.comments.edges;
+      expect(comments.length).to.equal(1);
+    }
   });
 
 });

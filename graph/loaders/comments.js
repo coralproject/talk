@@ -120,8 +120,8 @@ const getParentCountByAssetIDPersonalized = async (context, {assetId, excludeIgn
     const ignoredUsers = freshUser.ignoresUsers;
     query.author_id = {$nin: ignoredUsers};
   }
-  const count = await CommentModel.where(query).count();
-  return count;
+  
+  return CommentModel.where(query).count();
 };
 
 /**
@@ -263,13 +263,9 @@ const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, a
     comments = comments.where({parent_id});
   }
 
-  if (excludeIgnored && user) {
-
-    // load afresh, as `user` may be from cache and not have recent ignores
-    const freshUser = await UsersService.findById(user.id);
-    const ignoredUsers = freshUser.ignoresUsers;
+  if (excludeIgnored && user && user.ignoresUsers) {
     comments = comments.where({
-      author_id: {$nin: ignoredUsers}
+      author_id: {$nin: user.ignoresUsers}
     });
   }
 
@@ -292,6 +288,27 @@ const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, a
   return comments
     .sort({created_at: sort === 'REVERSE_CHRONOLOGICAL' ? -1 : 1})
     .limit(limit);
+};
+
+const getCommentsConnection = async ({user}, query) => {
+  let {limit} = query;
+  
+  // Increate the limit by one.
+  query.limit++;
+
+  let comments = await getCommentsByQuery({user}, query);
+
+  if (!comments) {
+    comments = [];
+  }
+
+  return {
+    edges: comments.slice(0, limit),
+    pageInfo: {
+      hasNextPage: Boolean(comments.length > limit),
+      cursor: comments.length > 0 ? comments[comments.length - 1].created_at : null
+    }
+  };
 };
 
 /**
@@ -431,6 +448,7 @@ module.exports = (context) => ({
   Comments: {
     get: new DataLoader((ids) => genComments(context, ids)),
     getByQuery: (query) => getCommentsByQuery(context, query),
+    getConnection: (query) => getCommentsConnection(context, query),
     getCountByQuery: (query) => getCommentCountByQuery(context, query),
     countByAssetID: new SharedCounterDataLoader('Comments.totalCommentCount', 3600, (ids) => getCountsByAssetID(context, ids)),
     countByAssetIDPersonalized: (query) => getCountsByAssetIDPersonalized(context, query),

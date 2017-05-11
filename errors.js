@@ -112,10 +112,12 @@ const ErrContainsProfanity = new APIError('This username contains elements which
 });
 
 const ErrNotFound = new APIError('not found', {
+  translation_key: 'NOT_FOUND',
   status: 404
 });
 
 const ErrInvalidAssetURL = new APIError('asset_url is invalid', {
+  translation_key: 'INVALID_ASSET_URL',
   status: 400
 });
 
@@ -148,16 +150,17 @@ const ErrPermissionUpdateUsername = new APIError('You do not have permission to 
   status: 500
 });
 
+// ErrLoginAttemptMaximumExceeded is returned when the login maximum is exceeded.
 const ErrLoginAttemptMaximumExceeded = new APIError('You have made too many incorrect password attempts.', {
   translation_key: 'LOGIN_MAXIMUM_EXCEEDED',
   status: 429
 });
 
-class ErrEditWindowHasEnded extends APIError {
-  constructor(message) {
-    super(message || 'Edit window is over.', {status: 403, translation_key: 'error.editWindowExpired'});
-  }
-}
+// ErrEditWindowHasEnded is returned when the edit window has expired.
+const ErrEditWindowHasEnded = new APIError('Edit window is over', {
+  translation_key: 'EDIT_WINDOW_ENDED',
+  status: 403
+});
 
 module.exports = {
   ExtendableError,

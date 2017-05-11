@@ -64,6 +64,9 @@ describe('graph.mutations.editComment', () => {
       console.error(response.errors);
     }
     expect(response.errors).to.be.empty;
+    if (response.data.editComment.errors && response.data.editComment.errors.length > 0) {
+      console.error(response.data.editComment.errors);
+    }
     expect(response.data.editComment.errors).to.be.null;
 
     // assert body has changed
@@ -97,9 +100,12 @@ describe('graph.mutations.editComment', () => {
         body: newBody
       }
     });
+    if (response.errors && response.errors.length > 0) {
+      console.error(response.errors);
+    }
     expect(response.errors).to.be.empty;
     expect(response.data.editComment.errors).to.not.be.empty;
-    expect(response.data.editComment.errors[0].translation_key).to.equal('error.editWindowExpired');
+    expect(response.data.editComment.errors[0].translation_key).to.equal('EDIT_WINDOW_ENDED');
     const commentAfterEdit = await CommentsService.findById(comment.id);
 
     // it *hasn't* changed from the original
@@ -144,6 +150,9 @@ describe('graph.mutations.editComment', () => {
         body: newBody
       }
     });
+    if (response.errors && response.errors.length > 0) {
+      console.error(response.errors);
+    }
     expect(response.errors).to.be.empty;
     expect(response.data.editComment.errors[0].translation_key).to.equal('NOT_FOUND');
   });

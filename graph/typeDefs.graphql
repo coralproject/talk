@@ -1,4 +1,13 @@
 ################################################################################
+## Pagination
+################################################################################
+
+type PageInfo {
+  hasNextPage: Boolean!
+  cursor: String
+}
+
+################################################################################
 ## Custom Scalar Types
 ################################################################################
 
@@ -37,16 +46,13 @@ type User {
   actions: [Action]
 
   # the current roles of the user.
-  roles: [USER_ROLES]
+  roles: [USER_ROLES!]
 
   # determines whether the user can edit their username
   canEditName: Boolean
 
   # returns all comments based on a query.
-  comments(query: CommentsQuery): [Comment]
-
-  # returns all users based on a query.
-  users(query: UsersQuery): [User]
+  comments(query: CommentsQuery): [Comment!]
 
   # returns user status
   status: USER_STATUS
@@ -80,6 +86,12 @@ input UsersQuery {
 ################################################################################
 ## Comments
 ################################################################################
+
+# CommentConnection provides Comments with PageInfo.
+type CommentConnection {
+  edges: [Comment!]
+  pageInfo: PageInfo!
+}
 
 # The statuses that a comment may have.
 enum COMMENT_STATUS {
@@ -190,7 +202,7 @@ type Comment {
   recentReplies: [Comment]
 
   # the replies that were made to the comment.
-  replies(sort: SORT_ORDER = CHRONOLOGICAL, limit: Int = 3, excludeIgnored: Boolean): [Comment]
+  replies(sort: SORT_ORDER = CHRONOLOGICAL, limit: Int = 3, excludeIgnored: Boolean): CommentConnection
 
   # The count of replies on a comment.
   replyCount(excludeIgnored: Boolean): Int
@@ -429,7 +441,7 @@ type Asset {
   recentComments: [Comment]
 
   # The top level comments that are attached to the asset.
-  comments(sort: SORT_ORDER = REVERSE_CHRONOLOGICAL, limit: Int = 10, excludeIgnored: Boolean): [Comment]
+  comments(sort: SORT_ORDER = REVERSE_CHRONOLOGICAL, limit: Int = 10, excludeIgnored: Boolean): CommentConnection
 
   # The count of top level comments on the asset.
   commentCount(excludeIgnored: Boolean): Int
@@ -536,7 +548,7 @@ type RootQuery {
   asset(id: ID, url: String): Asset
 
   # Comments returned based on a query.
-  comments(query: CommentsQuery!): [Comment]
+  comments(query: CommentsQuery!): CommentConnection!
 
   # Return the count of comments satisfied by the query. Note that this edge is
   # expensive as it is not batched. Requires the `ADMIN` role.
@@ -600,6 +612,7 @@ enum TAG_TYPE {
   STAFF
 }
 
+# CreateCommentInput is the input content used to create a new comment.
 input CreateCommentInput {
 
   # The asset id
@@ -729,19 +742,19 @@ type StopIgnoringUserResponse implements Response {
   errors: [UserError]
 }
 
-# Input to editComment mutation
+# Input to editComment mutation.
 input EditCommentInput {
+
   # Update body of the comment
   body: String!
 }
 
-type CommentInfoAfterEdit {
-  # New status of the edited comment
-  status: COMMENT_STATUS!
-}
-
+# EditCommentResponse contains the updated comment and any errors that occured.
 type EditCommentResponse implements Response {
-  comment: CommentInfoAfterEdit!
+
+  # The edited comment.
+  comment: Comment
+
   # An array of errors relating to the mutation that occured.
   errors: [UserError]  
 }

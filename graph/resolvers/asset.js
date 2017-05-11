@@ -10,7 +10,7 @@ const Asset = {
     return Comments.genRecentComments.load(id);
   },
   comments({id}, {sort, limit, excludeIgnored}, {loaders: {Comments}}) {
-    return Comments.getByQuery({
+    return Comments.getConnection({
       asset_id: id,
       sort,
       limit,

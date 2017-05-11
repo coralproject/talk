@@ -16,7 +16,7 @@ const Wordlist = require('../../services/wordlist');
  * @param  {String} [status='NONE'] the status of the new comment
  * @return {Promise}              resolves to the created comment
  */
-const createComment = ({user, loaders: {Comments}, pubsub}, {body, asset_id, parent_id = null, tags = []}, status = 'NONE') => {
+const createComment = async ({user, loaders: {Comments}, pubsub}, {body, asset_id, parent_id = null, tags = []}, status = 'NONE') => {
 
   // Building array of tags
   tags = tags.map(tag => ({name: tag}));
@@ -26,37 +26,35 @@ const createComment = ({user, loaders: {Comments}, pubsub}, {body, asset_id, par
     tags.push({name: 'STAFF'});
   }
 
-  return CommentsService.publicCreate({
+  let comment = await CommentsService.publicCreate({
     body,
     asset_id,
     parent_id,
     status,
     tags,
     author_id: user.id
-  })
-  .then((comment) => {
-
-    // If the loaders are present, clear the caches for these values because we
-    // just added a new comment, hence the counts should be updated. We should
-    // perform these increments in the event that we do have a new comment that
-    // is approved or without a comment.
-    if (status === 'NONE' || status === 'APPROVED') {
-      if (parent_id != null) {
-        Comments.countByParentID.incr(parent_id);
-      } else {
-        Comments.parentCountByAssetID.incr(asset_id);
-      }
-      Comments.countByAssetID.incr(asset_id);
-
-      if (pubsub) {
-
-        // Publish the newly added comment via the subscription.
-        pubsub.publish('commentAdded', comment);
-      }
-    }
-
-    return comment;
   });
+
+  // If the loaders are present, clear the caches for these values because we
+  // just added a new comment, hence the counts should be updated. We should
+  // perform these increments in the event that we do have a new comment that
+  // is approved or without a comment.
+  if (status === 'NONE' || status === 'APPROVED') {
+    if (parent_id != null) {
+      Comments.countByParentID.incr(parent_id);
+    } else {
+      Comments.parentCountByAssetID.incr(asset_id);
+    }
+    Comments.countByAssetID.incr(asset_id);
+
+    if (pubsub) {
+
+      // Publish the newly added comment via the subscription.
+      pubsub.publish('commentAdded', comment);
+    }
+  }
+
+  return comment;
 };
 
 /**
@@ -65,7 +63,7 @@ const createComment = ({user, loaders: {Comments}, pubsub}, {body, asset_id, par
  * @param  {String} [asset_id]  id of asset comment is posted on
  * @return {Object}         resolves to the wordlist results
  */
-const filterNewComment = ({body, asset_id}) => {
+const filterNewComment = (context, {body, asset_id}) => {
 
   // Create a new instance of the Wordlist.
   const wl = new Wordlist();
@@ -85,50 +83,40 @@ const filterNewComment = ({body, asset_id}) => {
  * @param  {Object} [wordlist={}] the results of the wordlist scan
  * @return {Promise}              resolves to the comment's status
  */
-const resolveNewCommentStatus = ({asset_id, body}, wordlist = {}, settings = {}) => {
+const resolveNewCommentStatus = async (context, {asset_id, body}, wordlist = {}, settings = {}) => {
 
   // Decide the status based on whether or not the current asset/settings
   // has pre-mod enabled or not. If the comment was rejected based on the
   // wordlist, then reject it, otherwise if the moderation setting is
   // premod, set it to `premod`.
-  let status;
-
   if (wordlist.banned) {
-    status = Promise.resolve('REJECTED');
-  } else if (settings.premodLinksEnable && linkify.test(body)) {
-    status = Promise.resolve('PREMOD');
-  } else if (asset_id) {
-    status = AssetsService
-      .rectifySettings(AssetsService.findById(asset_id).then((asset) => {
-        if (!asset) {
-          return Promise.reject(errors.ErrNotFound);
-        }
-
-        // Check to see if the asset has closed commenting...
-        if (asset.isClosed) {
-
-          // They have, ensure that we send back an error.
-          return Promise.reject(new errors.ErrAssetCommentingClosed(asset.closedMessage));
-        }
-
-        return asset;
-      }))
-
-      // Return `premod` if pre-moderation is enabled and an empty "new" status
-      // in the event that it is not in pre-moderation mode.
-      .then(({moderation, charCountEnable, charCount}) => {
-
-        // Reject if the comment is too long
-        if (charCountEnable && body.length > charCount) {
-          return 'REJECTED';
-        }
-        return moderation === 'PRE' ? 'PREMOD' : 'NONE';
-      });
-  } else {
-    status = 'NONE';
+    return 'REJECTED';
+  }
+  
+  if (settings.premodLinksEnable && linkify.test(body)) {
+    return 'PREMOD';
   }
 
-  return status;
+  let asset = await AssetsService.findById(asset_id);
+  if (!asset) {
+    throw errors.ErrNotFound;
+  }
+
+  // Check to see if the asset has closed commenting...
+  if (asset.isClosed) {
+    throw new errors.ErrAssetCommentingClosed(asset.closedMessage);
+  }
+
+  // Return `premod` if pre-moderation is enabled and an empty "new" status
+  // in the event that it is not in pre-moderation mode.
+  let {moderation, charCountEnable, charCount} = await AssetsService.rectifySettings(asset);
+
+  // Reject if the comment is too long
+  if (charCountEnable && body.length > charCount) {
+    return 'REJECTED';
+  }
+
+  return moderation === 'PRE' ? 'PREMOD' : 'NONE';
 };
 
 /**
@@ -139,45 +127,42 @@ const resolveNewCommentStatus = ({asset_id, body}, wordlist = {}, settings = {})
  * @param  {Object} commentInput the new comment to be created
  * @return {Promise}             resolves to a new comment
  */
-const createPublicComment = (context, commentInput) => {
+const createPublicComment = async (context, commentInput) => {
 
   // First we filter the comment contents to ensure that we note any validation
   // issues.
-  return filterNewComment(commentInput)
+  let [wordlist, settings] = await filterNewComment(context, commentInput);
 
-    // We then take the wordlist and the comment into consideration when
-    // considering what status to assign the new comment, and resolve the new
-    // status to set the comment to.
-    .then(([wordlist, settings]) => resolveNewCommentStatus(commentInput, wordlist, settings)
+  // We then take the wordlist and the comment into consideration when
+  // considering what status to assign the new comment, and resolve the new
+  // status to set the comment to.
+  let status = await resolveNewCommentStatus(context, commentInput, wordlist, settings);
 
-      // Then we actually create the comment with the new status.
-      .then((status) => createComment(context, commentInput, status))
-      .then((comment) => {
+  // Then we actually create the comment with the new status.
+  let comment = await createComment(context, commentInput, status);
 
-        // If the comment has a suspect word or a link, we need to add a
-        // flag to it to indicate that it needs to be looked at.
-        // Otherwise just return the new comment.
+  // If the comment has a suspect word or a link, we need to add a
+  // flag to it to indicate that it needs to be looked at.
+  // Otherwise just return the new comment.
 
-        // TODO: Check why the wordlist is undefined
-        if (wordlist != null && wordlist.suspect != null) {
+  // TODO: Check why the wordlist is undefined
+  if (wordlist != null && wordlist.suspect != null) {
 
-          // TODO: this is kind of fragile, we should refactor this to resolve
-          // all these const's that we're using like 'COMMENTS', 'FLAG' to be
-          // defined in a checkable schema.
-          return ActionsService.insertUserAction({
-            item_id: comment.id,
-            item_type: 'COMMENTS',
-            action_type: 'FLAG',
-            user_id: null,
-            group_id: 'Matched suspect word filter',
-            metadata: {}
-          })
-          .then(() => comment);
-        }
+    // TODO: this is kind of fragile, we should refactor this to resolve
+    // all these const's that we're using like 'COMMENTS', 'FLAG' to be
+    // defined in a checkable schema.
+    await ActionsService.insertUserAction({
+      item_id: comment.id,
+      item_type: 'COMMENTS',
+      action_type: 'FLAG',
+      user_id: null,
+      group_id: 'Matched suspect word filter',
+      metadata: {}
+    });
+  }
 
-        // Finally, we return the comment.
-        return comment;
-      }));
+  // Finally, we return the comment.
+  return comment;
 };
 
 /**
@@ -187,26 +172,23 @@ const createPublicComment = (context, commentInput) => {
  * @param {String} status      the new status of the comment
  */
 
-const setCommentStatus = ({user, loaders: {Comments}}, {id, status}) => {
-  return CommentsService
-    .pushStatus(id, status, user ? user.id : null)
-    .then((comment) => {
+const setCommentStatus = async ({user, loaders: {Comments}}, {id, status}) => {
+  let comment = await CommentsService.pushStatus(id, status, user ? user.id : null);
 
-      // If the loaders are present, clear the caches for these values because we
-      // just added a new comment, hence the counts should be updated. It would
-      // be nice if we could decrement the counters here, but that would result
-      // in us having to know the initial state of the comment, which would
-      // require another database query.
-      if (comment.parent_id != null) {
-        Comments.countByParentID.clear(comment.parent_id);
-      } else {
-        Comments.parentCountByAssetID.clear(comment.asset_id);
-      }
+  // If the loaders are present, clear the caches for these values because we
+  // just added a new comment, hence the counts should be updated. It would
+  // be nice if we could decrement the counters here, but that would result
+  // in us having to know the initial state of the comment, which would
+  // require another database query.
+  if (comment.parent_id != null) {
+    Comments.countByParentID.clear(comment.parent_id);
+  } else {
+    Comments.parentCountByAssetID.clear(comment.asset_id);
+  }
 
-      Comments.countByAssetID.clear(comment.asset_id);
+  Comments.countByAssetID.clear(comment.asset_id);
 
-      return comment;
-    });
+  return comment;
 };
 
 /**
@@ -233,29 +215,16 @@ const removeCommentTag = ({user, loaders: {Comments}}, {id, tag}) => {
  * @param {Object} edit       describes how to edit the comment
  * @param {String} edit.body  the new Comment body
  */
-const editComment = async ({user, loaders: {Comments}}, {id, asset_id, edit}) => {
-  const {body} = edit;
-  const determineStatusForComment = async ({body, asset_id}) => {
-    const [wordlist, settings] = await filterNewComment({asset_id, body});
-    const status = await resolveNewCommentStatus({asset_id, body}, wordlist, settings);    
-    return status;
-  };
-  const status = await determineStatusForComment({body, asset_id});
-  try {
-    await CommentsService.edit(id, asset_id, user.id, Object.assign({status}, edit));
-  } catch (error) {
-    switch (error.name) {
-    case 'CommentNotFound':
-      throw new errors.APIError('Comment not found', {
-        status: 404,
-        translation_key: 'NOT_FOUND',
-      });
-    case 'NotAuthorizedToEdit':
-      throw errors.ErrNotAuthorized;
-    default:
-      throw error;
-    }
-  }
+const editComment = async (context, {id, asset_id, edit: {body}}) => {
+
+  // Get the wordlist and the settings object.
+  const [wordlist, settings] = await filterNewComment(context, {asset_id, body});
+
+  // Determine the new status of the comment.
+  const status = await resolveNewCommentStatus(context, {asset_id, body}, wordlist, settings);    
+
+  await CommentsService.edit(id, context.user.id, {body, status});
+
   return {status};
 };
 
