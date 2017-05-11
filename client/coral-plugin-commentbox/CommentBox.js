@@ -74,9 +74,9 @@ class CommentBox extends React.Component {
         notifyForNewCommentStatus(addNotification, postedComment.status);
 
         if (postedComment.status === 'REJECTED') {
-          !isReply && setCommentCountCache(assetId, commentCountCache);
+          !isReply && setCommentCountCache(commentCountCache);
         } else if (postedComment.status === 'PREMOD') {
-          !isReply && setCommentCountCache(assetId, commentCountCache);
+          !isReply && setCommentCountCache(commentCountCache);
         }
 
         if (commentPostedHandler) {
