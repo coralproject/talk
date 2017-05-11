@@ -1,3 +1,5 @@
+const {decorateWithTags} = require('./util');
+
 const Asset = {
   lastComment({id}, _, {loaders: {Comments}}) {
     return Comments.getByQuery({
@@ -48,5 +50,8 @@ const Asset = {
       });
   }
 };
+
+// Decorate the Asset type resolver with a tags field.
+decorateWithTags(Asset);
 
 module.exports = Asset;

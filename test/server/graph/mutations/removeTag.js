@@ -3,13 +3,15 @@ const {graphql} = require('graphql');
 
 const schema = require('../../../../graph/schema');
 const Context = require('../../../../graph/context');
-const AssetModel = require('../../../../models/asset');
 const UserModel = require('../../../../models/user');
+const SettingModel = require('../../../../models/setting');
+
+const AssetModel = require('../../../../models/asset');
 const SettingsService = require('../../../../services/settings');
 const CommentsService = require('../../../../services/comments');
 
-describe('graph.mutations.addCommentTag', () => {
-  let comment, asset;
+describe('graph.mutations.removeTag', () => {
+  let asset, comment;
   beforeEach(async () => {
     await SettingsService.init();
     
@@ -20,8 +22,8 @@ describe('graph.mutations.addCommentTag', () => {
   });
 
   const query = `
-    mutation AddCommentTag ($id: ID!, $asset_id: ID!, $name: String!) {
-      addCommentTag(id: $id, asset_id: $asset_id, name: $name) {
+    mutation RemoveCommentTag($id: ID!, $asset_id: ID!, $name: String!) {
+      removeTag(tag: {name: $name, id: $id, item_type: COMMENTS, asset_id: $asset_id}) {
         errors {
           translation_key
         }
@@ -29,33 +31,54 @@ describe('graph.mutations.addCommentTag', () => {
     }
   `;
 
-  it('moderators can add tags to comments', async () => {
-    const user = new UserModel({roles: ['MODERATOR' ]});
+  it('moderators can add remove tags from comments', async () => {
+    const user = new UserModel({roles: ['MODERATOR']});
     const context = new Context({user});
+
+    // add a tag first
+    await CommentsService.addTag(comment.id, {tag: {name: 'BEST'}}, false);
+
     const response = await graphql(schema, query, {}, context, {id: comment.id, asset_id: asset.id, name: 'BEST'});
     if (response.errors && response.errors.length) {
       console.error(response.errors);
     }
     expect(response.errors).to.be.empty;
+    expect(response.data.removeTag.errors).to.be.null;
 
-    let {tags} = await CommentsService.findById(comment.id);
-    expect(tags).to.have.length(1);
+    let retrievedComment = await CommentsService.findById(comment.id);
+
+    expect(retrievedComment.tags).to.have.length(0);
   });
 
-  describe('users who cant add tags', () => {
+  describe('users who cant remove tags', () => {
+
+    before(() => SettingModel.findOneAndUpdate({id: 1}, {
+      $push: {
+        tags: {
+          id: 'BEST',
+          models: ['COMMENTS']
+        }
+      }
+    }));
+
     Object.entries({
       'anonymous': undefined,
       'regular commenter': new UserModel({}),
       'banned moderator': new UserModel({roles: ['MODERATOR'], status: 'BANNED'})
-    }).forEach(([ userDescription, user ]) => {
-      it(userDescription, async () => {
+    }).forEach(([userDescription, user]) => {
+      it(userDescription, async function () {
         const context = new Context({user});
+
+        // add a tag first
+        await CommentsService.addTag(comment.id, {tag: {name: 'BEST'}}, false);
+
         const response = await graphql(schema, query, {}, context, {id: comment.id, asset_id: asset.id, name: 'BEST'});
         if (response.errors && response.errors.length) {
           console.error(response.errors);
         }
         expect(response.errors).to.be.empty;
-        expect(response.data.addCommentTag.errors).to.deep.equal([{'translation_key':'NOT_AUTHORIZED'}]);
+
+        expect(response.data.removeTag.errors).to.deep.equal([{'translation_key':'NOT_AUTHORIZED'}]);
       });
     });
   });

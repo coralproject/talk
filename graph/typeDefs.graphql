@@ -39,6 +39,9 @@ type User {
   # the current roles of the user.
   roles: [USER_ROLES]
 
+  # the tags on the user
+  tags: [TagLink!]
+
   # determines whether the user can edit their username
   canEditName: Boolean
 
@@ -50,6 +53,38 @@ type User {
 
   # returns user status
   status: USER_STATUS
+}
+
+# UsersQuery allows the ability to query users by a specific fields.
+input UsersQuery {
+  action_type: ACTION_TYPE
+
+  # Limit the number of results to be returned.
+  limit: Int = 10
+
+  # Skip results from the last created_at timestamp.
+  cursor: Date
+
+  # Sort the results by created_at.
+  sort: SORT_ORDER = REVERSE_CHRONOLOGICAL
+}
+
+
+################################################################################
+## Tags
+################################################################################
+
+# Used to represent the item type for a tag.
+enum TAGGABLE_ITEM_TYPE {
+
+  # The action references a entity of type Asset.
+  ASSETS
+
+  # The action references a entity of type Comment.
+  COMMENTS
+
+  # The action references a entity of type User.
+  USERS
 }
 
 # Tag represents the underlying Tag that can be either stored in a global list
@@ -77,20 +112,6 @@ type TagLink {
   
   # The date that the TagLink was created.
   created_at: Date!
-}
-
-# UsersQuery allows the ability to query users by a specific fields.
-input UsersQuery {
-  action_type: ACTION_TYPE
-
-  # Limit the number of results to be returned.
-  limit: Int = 10
-
-  # Skip results from the last created_at timestamp.
-  cursor: Date
-
-  # Sort the results by created_at.
-  sort: SORT_ORDER = REVERSE_CHRONOLOGICAL
 }
 
 ################################################################################
@@ -459,6 +480,9 @@ type Asset {
   # The date that the asset was created.
   created_at: Date
 
+  # the tags on the asset
+  tags: [TagLink!]
+
   # The author(s) of the asset.
   author: String
 }
@@ -495,7 +519,7 @@ type ValidationUserError implements UserError {
 }
 
 ################################################################################
-## Queries;
+## Queries
 ################################################################################
 
 # Establishes the ordering of the content by their created_at time stamp.
@@ -577,7 +601,7 @@ type RootQuery {
 interface Response {
 
   # An array of errors relating to the mutation that occurred.
-  errors: [UserError]
+  errors: [UserError!]
 }
 
 # CreateCommentResponse is returned with the comment that was created and any
@@ -588,7 +612,7 @@ type CreateCommentResponse implements Response {
   comment: Comment
 
   # An array of errors relating to the mutation that occurred.
-  errors: [UserError]
+  errors: [UserError!]
 }
 
 # Used to represent the item type for an action.
@@ -653,7 +677,7 @@ type CreateFlagResponse implements Response {
   flag: FlagAction
 
   # An array of errors relating to the mutation that occurred.
-  errors: [UserError]
+  errors: [UserError!]
 }
 
 
@@ -666,7 +690,7 @@ type CreateDontAgreeResponse implements Response {
   dontagree: DontAgreeAction
 
   # An array of errors relating to the mutation that occurred.
-  errors: [UserError]
+  errors: [UserError!]
 }
 
 input CreateDontAgreeInput {
@@ -689,7 +713,7 @@ input CreateDontAgreeInput {
 type DeleteActionResponse implements Response {
 
   # An array of errors relating to the mutation that occurred.
-  errors: [UserError]
+  errors: [UserError!]
 }
 
 # SetUserStatusResponse is the response returned with possibly some errors
@@ -697,7 +721,7 @@ type DeleteActionResponse implements Response {
 type SetUserStatusResponse implements Response {
 
   # An array of errors relating to the mutation that occurred.
-  errors: [UserError]
+  errors: [UserError!]
 }
 
 # SuspendUserResponse is the response returned with possibly some errors
@@ -705,7 +729,7 @@ type SetUserStatusResponse implements Response {
 type SuspendUserResponse implements Response {
 
   # An array of errors relating to the mutation that occurred.
-  errors: [UserError]
+  errors: [UserError!]
 }
 
 # SetCommentStatusResponse is the response returned with possibly some errors
@@ -713,33 +737,43 @@ type SuspendUserResponse implements Response {
 type SetCommentStatusResponse implements Response {
 
   # An array of errors relating to the mutation that occurred.
-  errors: [UserError]
+  errors: [UserError!]
 }
 
-# Response to addCommentTag mutation
-type AddCommentTagResponse implements Response {
+# ModifyTagInput is the input used to modify a tag.
+input ModifyTagInput {
+
+  # name is the actual tag to add to the model.
+  name: String!
+
+  # id is the ID of the model in question that we are modifying the tag of.
+  id: ID!
+
+  # item_type is the type of item that we are modifying the tag if.
+  item_type: TAGGABLE_ITEM_TYPE!
+
+  # asset_id is used when the item_type is `COMMENTS`, the is needed to rectify
+  # the settings to get the asset specific tags/settings.
+  asset_id: ID
+}
+
+# Response to the addTag or removeTag mutations.
+type ModifyTagResponse implements Response {
   
   # An array of errors relating to the mutation that occured.
-  errors: [UserError]
-}
-
-# Response to removeCommentTag mutation
-type RemoveCommentTagResponse implements Response {
-
-  # An array of errors relating to the mutation that occured.
-  errors: [UserError]
+  errors: [UserError!]
 }
 
 # Response to ignoreUser mutation
 type IgnoreUserResponse implements Response {
   # An array of errors relating to the mutation that occured.
-  errors: [UserError]
+  errors: [UserError!]
 }
 
 # Response to stopIgnoringUser mutation
 type StopIgnoringUserResponse implements Response {
   # An array of errors relating to the mutation that occured.
-  errors: [UserError]
+  errors: [UserError!]
 }
 
 # All mutations for the application are defined on this object.
@@ -766,11 +800,11 @@ type RootMutation {
   # Sets Comment status. Requires the `ADMIN` role.
   setCommentStatus(id: ID!, status: COMMENT_STATUS!): SetCommentStatusResponse
 
-  # Add tag to comment.
-  addCommentTag(id: ID!, asset_id: ID!, name: String!): AddCommentTagResponse
+  # Add a tag.
+  addTag(tag: ModifyTagInput!): ModifyTagResponse!
 
-  # Remove tag from comment.
-  removeCommentTag(id: ID!, asset_id: ID!, name: String!): RemoveCommentTagResponse
+  # Removes a tag.
+  removeTag(tag: ModifyTagInput!): ModifyTagResponse!
 
   # Ignore comments by another user
   ignoreUser(id: ID!): IgnoreUserResponse

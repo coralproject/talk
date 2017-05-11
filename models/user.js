@@ -2,6 +2,7 @@ const mongoose = require('../services/mongoose');
 const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema;
 const uuid = require('uuid');
+const TagLinkSchema = require('./schema/tag_link');
 
 // USER_ROLES is the array of roles that is permissible as a user role.
 const USER_ROLES = require('./enum/user_roles');
@@ -118,6 +119,9 @@ const UserSchema = new Schema({
     type: String,
   }],
 
+  // Tags are added by the self or by administrators.
+  tags: [TagLinkSchema],
+
   // Additional metadata stored on the field.
   metadata: {
     default: {},
@@ -191,10 +195,8 @@ const USER_GRAPH_OPERATIONS = [
   'mutation:setUserStatus',
   'mutation:suspendUser',
   'mutation:setCommentStatus',
-  'mutation:addCommentTag',
-  'mutation:removeCommentTag',
-  'mutation:addUserTag',
-  'mutation:removeUserTag'
+  'mutation:addTag',
+  'mutation:removeTag'
 ];
 
 /**

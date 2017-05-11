@@ -28,11 +28,11 @@ const RootMutation = {
   setCommentStatus(_, {id, status}, {mutators: {Comment}}) {
     return wrapResponse(null)(Comment.setCommentStatus({id, status}));
   },
-  addCommentTag(_, {id, asset_id, name}, {mutators: {Comment}}) {
-    return wrapResponse('comment')(Comment.addCommentTag({id, asset_id, name}));
+  addTag(_, {tag}, {mutators: {Tag}}) {
+    return wrapResponse(null)(Tag.add(tag));
   },
-  removeCommentTag(_, {id, asset_id, name}, {mutators: {Comment}}) {
-    return wrapResponse('comment')(Comment.removeCommentTag({id, asset_id, name}));
+  removeTag(_, {tag}, {mutators: {Tag}}) {
+    return wrapResponse(null)(Tag.remove(tag));
   }
 };
 

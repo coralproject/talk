@@ -49,6 +49,8 @@ const CommentSchema = new Schema({
     default: 'NONE'
   },
   parent_id: String,
+  
+  // Tags are added by the self or by administrators.
   tags: [TagLinkSchema],
 
   // Additional metadata stored on the field.

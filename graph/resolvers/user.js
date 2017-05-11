@@ -1,3 +1,5 @@
+const {decorateWithTags} = require('./util');
+
 const User = {
   action_summaries({id}, _, {loaders: {Actions}}) {
     return Actions.getSummariesByItemID.load(id);
@@ -30,5 +32,8 @@ const User = {
     return null;
   }
 };
+
+// Decorate the User type resolver with a tags field.
+decorateWithTags(User);
 
 module.exports = User;
