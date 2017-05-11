@@ -172,7 +172,7 @@ const createPublicComment = async (context, commentInput) => {
  * @param {String} status      the new status of the comment
  */
 
-const setCommentStatus = async ({user, loaders: {Comments}}, {id, status}) => {
+const setStatus = async ({user, loaders: {Comments}}, {id, status}) => {
   let comment = await CommentsService.pushStatus(id, status, user ? user.id : null);
 
   // If the loaders are present, clear the caches for these values because we
@@ -215,7 +215,7 @@ const removeCommentTag = ({user, loaders: {Comments}}, {id, tag}) => {
  * @param {Object} edit       describes how to edit the comment
  * @param {String} edit.body  the new Comment body
  */
-const editComment = async (context, {id, asset_id, edit: {body}}) => {
+const edit = async (context, {id, asset_id, edit: {body}}) => {
 
   // Get the wordlist and the settings object.
   const [wordlist, settings] = await filterNewComment(context, {asset_id, body});
@@ -232,10 +232,10 @@ module.exports = (context) => {
   let mutators = {
     Comment: {
       create: () => Promise.reject(errors.ErrNotAuthorized),
-      setCommentStatus: () => Promise.reject(errors.ErrNotAuthorized),
+      setStatus: () => Promise.reject(errors.ErrNotAuthorized),
       addCommentTag: () => Promise.reject(errors.ErrNotAuthorized),
       removeCommentTag: () => Promise.reject(errors.ErrNotAuthorized),
-      editComment: () => Promise.reject(errors.ErrNotAuthorized),
+      edit: () => Promise.reject(errors.ErrNotAuthorized),
     }
   };
 
@@ -244,7 +244,7 @@ module.exports = (context) => {
   }
 
   if (context.user && context.user.can('mutation:setCommentStatus')) {
-    mutators.Comment.setCommentStatus = (action) => setCommentStatus(context, action);
+    mutators.Comment.setStatus = (action) => setStatus(context, action);
   }
 
   if (context.user && context.user.can('mutation:addCommentTag')) {
@@ -255,8 +255,8 @@ module.exports = (context) => {
     mutators.Comment.removeCommentTag = (action) => removeCommentTag(context, action);
   }
 
-  if (context.user) {
-    mutators.Comment.editComment = (action) => editComment(context, action);
+  if (context.user && context.user.can('mutation:editComment')) {
+    mutators.Comment.edit = (action) => edit(context, action);
   }
 
   return mutators;

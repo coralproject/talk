@@ -6,7 +6,7 @@ const RootMutation = {
     return wrapResponse('comment')(Comment.create(comment));
   },
   editComment(_, args, {mutators: {Comment}}) {
-    return wrapResponse('comment')(Comment.editComment(args));
+    return wrapResponse('comment')(Comment.edit(args));
   },
   createFlag(_, {flag: {item_id, item_type, reason, message}}, {mutators: {Action}}) {
     return wrapResponse('flag')(Action.create({item_id, item_type, action_type: 'FLAG', group_id: reason, metadata: {message}}));
@@ -30,7 +30,7 @@ const RootMutation = {
     return wrapResponse(null)(User.stopIgnoringUser({id}));
   },
   setCommentStatus(_, {id, status}, {mutators: {Comment}}) {
-    return wrapResponse(null)(Comment.setCommentStatus({id, status}));
+    return wrapResponse(null)(Comment.setStatus({id, status}));
   },
   addCommentTag(_, {id, tag}, {mutators: {Comment}}) {
     return wrapResponse('comment')(Comment.addCommentTag({id, tag}).then(() => CommentsService.findById(id)));
