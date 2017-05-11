@@ -140,7 +140,7 @@ function reduceEditCommentActionsToUpdateStreamQuery(previousResult, action) {
   if (resultHasErrors(action.result)) {
     return previousResult;
   }
-  const {variables: {id, edit}} = action;
+  const {variables: {id, edit}, result: {data: {editComment: {comment: {status}}}}} = action;
   const updateCommentWithEdit = (comment, edit) => {
     const {body} = edit;
     const editedComment = update(comment, {
@@ -151,24 +151,52 @@ function reduceEditCommentActionsToUpdateStreamQuery(previousResult, action) {
     });
     return editedComment;
   };
+  const commentIsStillVisible = (comment) => {
+    return ! ((id === comment.id) && (['PREMOD', 'REJECTED'].includes(status)));
+  };
   const resultReflectingEdit = update(previousResult, {
     asset: {
       comments: {
-        $apply: comments => comments.map(comment => {
-          if (comment.id === id) {
-            return updateCommentWithEdit(comment, edit);
-          }
-          return update(comment, {
-            replies: {
-              $apply: (comments) => comments.map(comment => {
-                if (comment.id === id) {
-                  return updateCommentWithEdit(comment, edit);                          
+        $apply: comments => {
+          return comments.filter(commentIsStillVisible).map(comment => {
+            let replyWasEditedToBeHidden = false;
+            if (comment.id === id) {
+              return updateCommentWithEdit(comment, edit);
+            }
+            const commentWithUpdatedReplies = update(comment, {
+              replies: {
+                $apply: (comments) => {
+                  return comments
+                    .filter(c => {
+                      if (commentIsStillVisible(c)) {
+                        return true;
+                      }
+                      replyWasEditedToBeHidden = true;
+                      return false;
+                    })
+                    .map(comment => {
+                      if (comment.id === id) {
+                        return updateCommentWithEdit(comment, edit);                          
+                      }
+                      return comment;
+                    });
                 }
-                return comment;
-              })
-            },
+              },
+            });
+
+            // If a reply was edited to be hdiden, then this parent needs its replyCount to be decremented.
+            if (replyWasEditedToBeHidden) {
+              return update(commentWithUpdatedReplies, {
+                replyCount: {
+                  $apply: (replyCount) => {
+                    return replyCount - 1;
+                  }
+                }
+              });
+            }
+            return commentWithUpdatedReplies;
           });
-        })
+        }
       }
     }
   });

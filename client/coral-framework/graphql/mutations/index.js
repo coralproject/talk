@@ -183,9 +183,7 @@ export const editComment = graphql(EDIT_COMMENT, {
             asset_id,
             edit,
           },
-          refetchQueries: [
-            'EmbedQuery'
-          ]
+          refetchQueries: []
         });
       }
     };

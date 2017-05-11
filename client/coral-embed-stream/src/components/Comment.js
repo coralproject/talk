@@ -43,6 +43,7 @@ class Comment extends React.Component {
     // timeout to keep track of Comment edit window expiration
     this.editWindowExpiryTimeout = null;
     this.onClickEdit = this.onClickEdit.bind(this);
+    this.stopEditing = this.stopEditing.bind(this);
     this.state = {
 
       // Whether the comment should be editable (e.g. after a commenter clicking the 'Edit' button on their own comment)
@@ -125,7 +126,14 @@ class Comment extends React.Component {
     this.setState({isEditing: true});
   }
 
+  stopEditing () {
+    if (this._isMounted) {
+      this.setState({isEditing: false});
+    }
+  }
+
   componentDidMount() {
+    this._isMounted = true;
     if (this.editWindowExpiryTimeout) {
       this.editWindowExpiryTimeout = clearTimeout(this.editWindowExpiryTimeout);
     }
@@ -143,7 +151,8 @@ class Comment extends React.Component {
   componentWillUnmount() {
     if (this.editWindowExpiryTimeout) {
       this.editWindowExpiryTimeout = clearTimeout(this.editWindowExpiryTimeout);
-    }    
+    }
+    this._isMounted = false;
   }
   render () {
     const {
@@ -287,7 +296,7 @@ class Comment extends React.Component {
                 currentUser={currentUser}
                 maxCharCount={maxCharCount}
                 parentId={parentId}
-                stopEditing={() => this.setState({isEditing: false})}
+                stopEditing={this.stopEditing}
                 />
             : <div>
                 <Content body={comment.body} />
