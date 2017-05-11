@@ -39,7 +39,7 @@ class ChangeUsernameContainer extends Component {
 
   handleChange(e) {
     const {name, value} = e.target;
-    this.setState(state => ({
+    this.setState((state) => ({
       ...state,
       formData: {
         ...state.formData,
@@ -51,7 +51,7 @@ class ChangeUsernameContainer extends Component {
   }
 
   addError(name, error) {
-    return this.setState(state => ({
+    return this.setState((state) => ({
       errors: {
         ...state.errors,
         [name]: error
@@ -69,13 +69,13 @@ class ChangeUsernameContainer extends Component {
     } else {
       const { [name]: prop, ...errors } = this.state.errors; // eslint-disable-line
       // Removes Error
-      this.setState(state => ({...state, errors}));
+      this.setState((state) => ({...state, errors}));
     }
   }
 
   isCompleted() {
     const {formData} = this.state;
-    return !Object.keys(formData).filter(prop => !formData[prop].length).length;
+    return !Object.keys(formData).filter((prop) => !formData[prop].length).length;
   }
 
   displayErrors(show = true) {
@@ -117,15 +117,15 @@ class ChangeUsernameContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth.toJS()
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   createUsername: (userid, formData) => dispatch(createUsername(userid, formData)),
   showCreateUsernameDialog: () => dispatch(showCreateUsernameDialog()),
   hideCreateUsernameDialog: () => dispatch(hideCreateUsernameDialog()),
-  invalidForm: error => dispatch(invalidForm(error)),
+  invalidForm: (error) => dispatch(invalidForm(error)),
   validForm: () => dispatch(validForm())
 });
 

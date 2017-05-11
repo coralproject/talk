@@ -239,7 +239,7 @@ module.exports = class CommentsService {
   static findIdsByActionType(action_type) {
     return ActionsService
       .findCommentsIdByActionType(action_type, 'COMMENTS')
-      .then((actions) => actions.map(a => a.item_id));
+      .then((actions) => actions.map((a) => a.item_id));
   }
 
   /**

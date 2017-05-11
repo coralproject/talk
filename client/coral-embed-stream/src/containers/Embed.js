@@ -90,7 +90,7 @@ export const withQuery = graphql(EMBED_QUERY, {
   props: ({data}) => separateDataAndRoot(data)
 });
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth.toJS(),
   commentCountCache: state.stream.commentCountCache,
   commentId: state.stream.commentId,
@@ -100,7 +100,7 @@ const mapStateToProps = state => ({
   config: state.config
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       logout,
@@ -115,7 +115,7 @@ const mapDispatchToProps = dispatch =>
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  branch(props => !props.auth.checkedInitialLogin && props.config, renderComponent(Spinner)),
+  branch((props) => !props.auth.checkedInitialLogin && props.config, renderComponent(Spinner)),
   withQuery
 )(EmbedContainer);
 
@@ -156,8 +156,8 @@ function reduceEditCommentActionsToUpdateStreamQuery(previousResult, action) {
   const resultReflectingEdit = update(previousResult, {
     asset: {
       comments: {
-        $apply: comments => {
-          return comments.filter(commentIsStillVisible).map(comment => {
+        $apply: (comments) => {
+          return comments.filter(commentIsStillVisible).map((comment) => {
             let replyWasEditedToBeHidden = false;
             if (comment.id === id) {
               return updateCommentWithEdit(comment, edit);
@@ -166,14 +166,14 @@ function reduceEditCommentActionsToUpdateStreamQuery(previousResult, action) {
               replies: {
                 $apply: (comments) => {
                   return comments
-                    .filter(c => {
+                    .filter((c) => {
                       if (commentIsStillVisible(c)) {
                         return true;
                       }
                       replyWasEditedToBeHidden = true;
                       return false;
                     })
-                    .map(comment => {
+                    .map((comment) => {
                       if (comment.id === id) {
                         return updateCommentWithEdit(comment, edit);                          
                       }

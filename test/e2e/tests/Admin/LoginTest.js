@@ -10,14 +10,14 @@ module.exports = {
     embedStreamPage
       .ready();
   },
-  'Admin logs in': client => {
+  'Admin logs in': (client) => {
     const {users} = client.globals;
     const embedStreamPage = client.page.embedStreamPage();
 
     embedStreamPage
       .login(users.admin);
   },
-  after: client => {
+  after: (client) => {
     client.end();
   }
 };

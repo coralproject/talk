@@ -12,7 +12,7 @@ const smtpRequiredProps = [
   'TALK_SMTP_HOST'
 ];
 
-if (smtpRequiredProps.some(prop => !process.env[prop])) {
+if (smtpRequiredProps.some((prop) => !process.env[prop])) {
   console.error(`${smtpRequiredProps.join(', ')} should be defined in the environment if you would like to send password reset emails from Talk`);
 }
 

@@ -20,6 +20,8 @@
         "no-template-curly-in-string": [1],
         "no-unsafe-negation": [1],
         "array-callback-return": [1],
+        "arrow-parens": ["warn", "always"],
+        "template-curly-spacing": "warn",
         "eqeqeq": [2, "smart"],
         "no-eval": [2],
         "no-global-assign": [2],

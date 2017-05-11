@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ModerationLayout = props => (
+const ModerationLayout = (props) => (
   <div>
     {props.children}
   </div>

@@ -25,7 +25,7 @@ import {getActionSummary, iPerformedThisAction} from 'coral-framework/utils';
 import {getEditableUntilDate} from './util';
 import styles from './Comment.css';
 
-const isStaff = tags => !tags.every(t => t.name !== 'STAFF');
+const isStaff = (tags) => !tags.every((t) => t.name !== 'STAFF');
 
 // hold actions links (e.g. Reply) along the comment footer
 const ActionButton = ({children}) => {
@@ -187,9 +187,9 @@ class Comment extends React.Component {
     );
     let myFlag = null;
     if (iPerformedThisAction('FlagActionSummary', comment)) {
-      myFlag = flagSummary.find(s => s.current_user);
+      myFlag = flagSummary.find((s) => s.current_user);
     } else if (iPerformedThisAction('DontAgreeActionSummary', comment)) {
-      myFlag = dontAgreeSummary.find(s => s.current_user);
+      myFlag = dontAgreeSummary.find((s) => s.current_user);
     }
 
     let commentClass = parentId
@@ -201,7 +201,7 @@ class Comment extends React.Component {
     const notifyOnError = (fn, errorToMessage) =>
       async function(...args) {
         if (typeof errorToMessage !== 'function') {
-          errorToMessage = error => error.message;
+          errorToMessage = (error) => error.message;
         }
         try {
           return await fn(...args);
@@ -375,7 +375,7 @@ class Comment extends React.Component {
             />
           : null}
         {comment.replies &&
-          comment.replies.map(reply => {
+          comment.replies.map((reply) => {
             return commentIsIgnored(reply)
               ? <IgnoredCommentTombstone key={reply.id} />
               : <Comment

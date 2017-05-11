@@ -12,7 +12,7 @@ const initialState = Map({
   ignoredUsers: Set(),
 });
 
-const purge = user => {
+const purge = (user) => {
   const {_id, created_at, updated_at, __v, roles, ...userData} = user; // eslint-disable-line
   return userData;
 };
@@ -42,9 +42,9 @@ export default function user (state = initialState, action) {
   case 'APOLLO_MUTATION_RESULT':
     switch (action.operationName) {
     case 'ignoreUser':
-      return state.updateIn(['ignoredUsers'], i => i.add(action.variables.id));        
+      return state.updateIn(['ignoredUsers'], (i) => i.add(action.variables.id));        
     case 'stopIgnoringUser':
-      return state.updateIn(['ignoredUsers'], i => i.delete(action.variables.id));
+      return state.updateIn(['ignoredUsers'], (i) => i.delete(action.variables.id));
     }
     break;
   }

@@ -9,7 +9,7 @@ import translations from '../../../translations.json';
 const lang = new I18n(translations);
 
 // Render a single user for the list
-const User = props => {
+const User = (props) => {
   const {user, modActionButtons} = props;
   let userStatus = user.status;
 

@@ -88,8 +88,8 @@ describe('graph.mutations.stopIgnoringUser', () => {
     const context = new Context({user});
 
     // ignore two users
-    const ignoreUserResponses = await Promise.all(usersToIgnore.map(u => graphql(schema, ignoreUserMutation, {}, context, {id: u.id})));
-    ignoreUserResponses.forEach(response => {
+    const ignoreUserResponses = await Promise.all(usersToIgnore.map((u) => graphql(schema, ignoreUserMutation, {}, context, {id: u.id})));
+    ignoreUserResponses.forEach((response) => {
       if (response.errors && response.errors.length) {
         console.error(response.errors);
       }

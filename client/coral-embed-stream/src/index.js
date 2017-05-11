@@ -21,7 +21,7 @@ if (store === localStore) {
 
   pym.sendMessage('getConfig');
 
-  pym.onMessage('config', config => {
+  pym.onMessage('config', (config) => {
     store.dispatch(addExternalConfig(JSON.parse(config)));
   });
 }

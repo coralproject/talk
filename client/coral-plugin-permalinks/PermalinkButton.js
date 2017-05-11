@@ -53,19 +53,19 @@ class PermalinkButton extends React.Component {
     return (
       <div className={`${name}-container`}>
         <button
-          ref={ref => this.linkButton = ref}
+          ref={(ref) => this.linkButton = ref}
           onClick={this.toggle}
           className={`${name}-button`}>
           {lang.t('permalink.permalink')}
           <i className={`${name}-icon material-icons`} aria-hidden={true}>link</i>
         </button>
         <div
-          ref={ref => this.popover = ref}
+          ref={(ref) => this.popover = ref}
           className={`${name}-popover ${styles.container} ${this.state.popoverOpen ? 'active' : ''}`}>
           <input
             className={`${name}-copy-field`}
             type='text'
-            ref={input => this.permalinkInput = input}
+            ref={(input) => this.permalinkInput = input}
             value={`${this.props.articleURL}#${this.props.commentId}`}
             onChange={() => {}} />
           <Button className={`${name}-copy-button ${copySuccessful ? styles.success : ''} ${copyFailure ? styles.failure : ''}`}

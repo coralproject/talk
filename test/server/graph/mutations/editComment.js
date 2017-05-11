@@ -42,7 +42,7 @@ describe('graph.mutations.editComment', () => {
     const comment = await CommentsService.publicCreate({
       asset_id: asset.id,
       author_id: user.id,
-      body: `hello there! ${  String(Math.random()).slice(2)}`,
+      body: `hello there! ${String(Math.random()).slice(2)}`,
     });
 
     // body_history should be there
@@ -84,7 +84,7 @@ describe('graph.mutations.editComment', () => {
     const comment = await CommentsService.publicCreate({
       asset_id: asset.id,
       author_id: user.id,
-      body: `hello there! ${  String(Math.random()).slice(2)}`,
+      body: `hello there! ${String(Math.random()).slice(2)}`,
     });
 
     const now = new Date();
@@ -116,7 +116,7 @@ describe('graph.mutations.editComment', () => {
     const comment = await CommentsService.publicCreate({
       asset_id: asset.id,
       author_id: user.id,
-      body: `hello there! ${  String(Math.random()).slice(2)}`,
+      body: `hello there! ${String(Math.random()).slice(2)}`,
     });
 
     const userB = await UsersService.createLocalUser(

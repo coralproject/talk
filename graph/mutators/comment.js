@@ -19,7 +19,7 @@ const Wordlist = require('../../services/wordlist');
 const createComment = async ({user, loaders: {Comments}, pubsub}, {body, asset_id, parent_id = null, tags = []}, status = 'NONE') => {
 
   // Building array of tags
-  tags = tags.map(tag => ({name: tag}));
+  tags = tags.map((tag) => ({name: tag}));
 
   // If admin or moderator, adding STAFF tag
   if (user.hasRoles('ADMIN') || user.hasRoles('MODERATOR')) {

@@ -7,7 +7,7 @@ import classnames from 'classnames';
 // tag string for best comments
 export const BEST_TAG = 'BEST';
 export const commentIsBest = ({tags} = {}) => {
-  const isBest = Array.isArray(tags) && tags.some(t => t.name === BEST_TAG);
+  const isBest = Array.isArray(tags) && tags.some((t) => t.name === BEST_TAG);
   return isBest;
 };
 
@@ -15,7 +15,7 @@ const name = 'coral-plugin-best';
 const lang = new I18n(translations);
 
 // It would be best if the backend/api held this business logic
-const canModifyBestTag = ({roles = []} = {}) => roles && ['ADMIN', 'MODERATOR'].some(role => roles.includes(role));
+const canModifyBestTag = ({roles = []} = {}) => roles && ['ADMIN', 'MODERATOR'].some((role) => roles.includes(role));
 
 // Put this on a comment to show that it is best
 

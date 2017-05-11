@@ -16,7 +16,7 @@ export const postComment = graphql(POST_COMMENT, {
     fragments: commentView
   }),
   props: ({ownProps, mutate}) => ({
-    postItem: comment => {
+    postItem: (comment) => {
       const {asset_id, body, parent_id, tags = []} = comment;
       return mutate({
         variables: {

@@ -45,7 +45,7 @@ class ProfileContainer extends Component {
       return <NotLoggedIn showSignInDialog={showSignInDialog} />;
     }
 
-    const localProfile = this.props.user.profiles.find(p => p.provider === 'local');
+    const localProfile = this.props.user.profiles.find((p) => p.provider === 'local');
     const emailAddress = localProfile && localProfile.id;
 
     return (
@@ -88,13 +88,13 @@ class ProfileContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.user.toJS(),
   asset: state.asset.toJS(),
   auth: state.auth.toJS()
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators({showSignInDialog, checkLogin}, dispatch);
 
 export default compose(

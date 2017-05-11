@@ -42,17 +42,17 @@ class LayoutContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth.toJS(),
   TALK_RECAPTCHA_PUBLIC: state.config.get('data').get('TALK_RECAPTCHA_PUBLIC', null)
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   checkLogin: () => dispatch(checkLogin()),
   fetchConfig: () => dispatch(fetchConfig()),
   handleLogin: (username, password, recaptchaResponse) => dispatch(handleLogin(username, password, recaptchaResponse)),
-  requestPasswordReset: email => dispatch(requestPasswordReset(email)),
-  toggleShortcutModal: toggle => dispatch(toggleShortcutModal(toggle)),
+  requestPasswordReset: (email) => dispatch(requestPasswordReset(email)),
+  toggleShortcutModal: (toggle) => dispatch(toggleShortcutModal(toggle)),
   handleLogout: () => dispatch(logout())
 });
 

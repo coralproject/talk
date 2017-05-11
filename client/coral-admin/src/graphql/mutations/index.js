@@ -56,7 +56,7 @@ export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
         updateQueries: {
           ModQueue: (oldData) => {
             const comment = views.reduce((comment, view) => {
-              return comment ? comment : oldData[view].find(c => c.id === commentId);
+              return comment ? comment : oldData[view].find((c) => c.id === commentId);
             }, null);
             let accepted;
             let acceptedCount = oldData.acceptedCount;
@@ -70,9 +70,9 @@ export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
               accepted = [comment, ...oldData.accepted];
             }
 
-            const premod = oldData.premod.filter(c => c.id !== commentId);
-            const flagged = oldData.flagged.filter(c => c.id !== commentId);
-            const rejected = oldData.rejected.filter(c => c.id !== commentId);
+            const premod = oldData.premod.filter((c) => c.id !== commentId);
+            const flagged = oldData.flagged.filter((c) => c.id !== commentId);
+            const rejected = oldData.rejected.filter((c) => c.id !== commentId);
             const premodCount = premod.length < oldData.premod.length ? oldData.premodCount - 1 : oldData.premodCount;
             const flaggedCount = flagged.length < oldData.flagged.length ? oldData.flaggedCount - 1 : oldData.flaggedCount;
             const rejectedCount = rejected.length < oldData.rejected.length ? oldData.rejectedCount - 1 : oldData.rejectedCount;
@@ -101,7 +101,7 @@ export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
         updateQueries: {
           ModQueue: (oldData) => {
             const comment = views.reduce((comment, view) => {
-              return comment ? comment : oldData[view].find(c => c.id === commentId);
+              return comment ? comment : oldData[view].find((c) => c.id === commentId);
             }, null);
             let rejected;
             let rejectedCount = oldData.rejectedCount;
@@ -115,9 +115,9 @@ export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
               rejected = [comment, ...oldData.rejected];
             }
 
-            const premod = oldData.premod.filter(c => c.id !== commentId);
-            const flagged = oldData.flagged.filter(c => c.id !== commentId);
-            const accepted = oldData.accepted.filter(c => c.id !== commentId);
+            const premod = oldData.premod.filter((c) => c.id !== commentId);
+            const flagged = oldData.flagged.filter((c) => c.id !== commentId);
+            const accepted = oldData.accepted.filter((c) => c.id !== commentId);
             const premodCount = premod.length < oldData.premod.length ? oldData.premodCount - 1 : oldData.premodCount;
             const flaggedCount = flagged.length < oldData.flagged.length ? oldData.flaggedCount - 1 : oldData.flaggedCount;
             const acceptedCount = accepted.length < oldData.accepted.length ? oldData.acceptedCount - 1 : oldData.acceptedCount;
