@@ -4,7 +4,6 @@ import * as actions from '../constants/auth';
 const initialState = Map({
   isLoading: false,
   loggedIn: false,
-  isAdmin: false,
   user: null,
   showSignInDialog: false,
   showCreateUsernameDialog: false,
@@ -79,12 +78,10 @@ export default function auth (state = initialState, action) {
     return state
       .set('checkedInitialLogin', true)
       .set('loggedIn', true)
-      .set('isAdmin', action.isAdmin)
       .set('user', purge(action.user));
   case actions.FETCH_SIGNIN_SUCCESS:
     return state
       .set('loggedIn', true)
-      .set('isAdmin', action.isAdmin)
       .set('user', purge(action.user));
   case actions.FETCH_SIGNIN_FAILURE:
     return state
@@ -120,8 +117,7 @@ export default function auth (state = initialState, action) {
     return state
       .set('user', null)
       .set('isLoading', false)
-      .set('loggedIn', false)
-      .set('isAdmin', false);
+      .set('loggedIn', false);
   case actions.INVALID_FORM:
     return state
       .set('error', action.error);

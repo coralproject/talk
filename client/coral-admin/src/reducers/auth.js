@@ -4,7 +4,6 @@ import * as actions from '../constants/auth';
 const initialState = Map({
   loggedIn: false,
   user: null,
-  isAdmin: false,
   loginError: null,
   loginMaxExceeded: false,
   passwordRequestSuccess: null
@@ -24,7 +23,6 @@ export default function auth (state = initialState, action) {
     return state
       .set('loggedIn', true)
       .set('loadingUser', false)
-      .set('isAdmin', action.isAdmin)
       .set('user', action.user);
   case actions.LOGOUT_SUCCESS:
     return initialState;

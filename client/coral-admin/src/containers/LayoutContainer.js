@@ -6,6 +6,7 @@ import {toggleModal as toggleShortcutModal} from '../actions/moderation';
 import {fetchConfig} from '../actions/config';
 import {FullLoading} from '../components/FullLoading';
 import AdminLogin from '../components/AdminLogin';
+import roleUtils from 'coral-framework/utils/roles';
 
 class LayoutContainer extends Component {
   componentWillMount () {
@@ -16,7 +17,7 @@ class LayoutContainer extends Component {
   }
   render () {
     const {
-      isAdmin,
+      user,
       loggedIn,
       loadingUser,
       loginError,
@@ -26,7 +27,7 @@ class LayoutContainer extends Component {
 
     const {handleLogout, toggleShortcutModal, TALK_RECAPTCHA_PUBLIC} = this.props;
     if (loadingUser) { return <FullLoading />; }
-    if (!isAdmin) {
+    if (roleUtils.canAccessAdmin(user)) {
       return <AdminLogin
         loginMaxExceeded={loginMaxExceeded}
         handleLogin={this.props.handleLogin}
@@ -35,7 +36,7 @@ class LayoutContainer extends Component {
         recaptchaPublic={TALK_RECAPTCHA_PUBLIC}
         errorMessage={loginError} />;
     }
-    if (isAdmin && loggedIn) {
+    if (roleUtils.canAccessAdmin(user) && loggedIn) {
       return <Layout handleLogout={handleLogout} toggleShortcutModal={toggleShortcutModal} {...this.props} />;
     }
     return <FullLoading />;

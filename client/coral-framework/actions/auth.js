@@ -108,7 +108,7 @@ export const cleanState = () => ({type: actions.CLEAN_STATE});
 const signInRequest = () => ({type: actions.FETCH_SIGNIN_REQUEST});
 
 // TODO: revisit login redux flow.
-// const signInSuccess = (user, isAdmin) => ({type: actions.FETCH_SIGNIN_SUCCESS, user, isAdmin});
+// const signInSuccess = (user) => ({type: actions.FETCH_SIGNIN_SUCCESS, user});
 //
 const signInFailure = error => ({type: actions.FETCH_SIGNIN_FAILURE, error});
 
@@ -236,7 +236,7 @@ export const invalidForm = error => ({type: actions.INVALID_FORM, error});
 // Check Login
 
 const checkLoginRequest = () => ({type: actions.CHECK_LOGIN_REQUEST});
-const checkLoginSuccess = (user, isAdmin) => ({type: actions.CHECK_LOGIN_SUCCESS, user, isAdmin});
+const checkLoginSuccess = (user) => ({type: actions.CHECK_LOGIN_SUCCESS, user});
 const checkLoginFailure = error => ({type: actions.CHECK_LOGIN_FAILURE, error});
 
 export const checkLogin = () => dispatch => {
@@ -247,8 +247,7 @@ export const checkLogin = () => dispatch => {
         throw new Error('Not logged in');
       }
 
-      const isAdmin = !!result.user.roles.filter(i => i === 'ADMIN').length;
-      dispatch(checkLoginSuccess(result.user, isAdmin));
+      dispatch(checkLoginSuccess(result.user));
     })
     .catch(error => {
       console.error(error);

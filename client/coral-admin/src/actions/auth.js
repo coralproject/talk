@@ -14,8 +14,7 @@ export const handleLogin = (email, password, recaptchaResponse) => dispatch => {
         return dispatch(checkLoginFailure('not logged in'));
       }
 
-      const isAdmin = !!user.roles.filter(i => i === 'ADMIN').length;
-      dispatch(checkLoginSuccess(user, isAdmin));
+      dispatch(checkLoginSuccess(user));
     })
     .catch(error => {
 
@@ -41,7 +40,7 @@ export const requestPasswordReset = email => dispatch => {
 // Check Login
 
 const checkLoginRequest = () => ({type: actions.CHECK_LOGIN_REQUEST});
-const checkLoginSuccess = (user, isAdmin) => ({type: actions.CHECK_LOGIN_SUCCESS, user, isAdmin});
+const checkLoginSuccess = (user) => ({type: actions.CHECK_LOGIN_SUCCESS, user});
 const checkLoginFailure = error => ({type: actions.CHECK_LOGIN_FAILURE, error});
 
 export const checkLogin = () => dispatch => {
@@ -52,8 +51,7 @@ export const checkLogin = () => dispatch => {
         return dispatch(checkLoginFailure('not logged in'));
       }
 
-      const isAdmin = !!user.roles.filter(i => i === 'ADMIN').length;
-      dispatch(checkLoginSuccess(user, isAdmin));
+      dispatch(checkLoginSuccess(user));
     })
     .catch(error => {
       console.error(error);
