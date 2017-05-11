@@ -9,6 +9,7 @@ const SettingModel = require('../../../../models/setting');
 const AssetModel = require('../../../../models/asset');
 const SettingsService = require('../../../../services/settings');
 const CommentsService = require('../../../../services/comments');
+const TagsService = require('../../../../services/tags');
 
 describe('graph.mutations.removeTag', () => {
   let asset, comment;
@@ -36,7 +37,7 @@ describe('graph.mutations.removeTag', () => {
     const context = new Context({user});
 
     // add a tag first
-    await CommentsService.addTag(comment.id, {tag: {name: 'BEST'}}, false);
+    await TagsService.add(comment.id, 'COMMENTS', {tag: {name: 'BEST'}}, false);
 
     const response = await graphql(schema, query, {}, context, {id: comment.id, asset_id: asset.id, name: 'BEST'});
     if (response.errors && response.errors.length) {
@@ -70,7 +71,7 @@ describe('graph.mutations.removeTag', () => {
         const context = new Context({user});
 
         // add a tag first
-        await CommentsService.addTag(comment.id, {tag: {name: 'BEST'}}, false);
+        await TagsService.add(comment.id, 'COMMENTS', {tag: {name: 'BEST'}}, false);
 
         const response = await graphql(schema, query, {}, context, {id: comment.id, asset_id: asset.id, name: 'BEST'});
         if (response.errors && response.errors.length) {

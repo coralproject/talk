@@ -31,55 +31,6 @@ module.exports = class CommentsService {
     return commentModel.save();
   }
 
-  static addTag(id, tagLink, verifyOwnership = false) {
-
-    // Compose the query to find the comment.
-    const query = {
-      id,
-      'tags.tag.name': {
-        $ne: tagLink.tag.name
-      }
-    };
-
-    // If ownership verification is required, ensure that the person that is
-    // assigning the tag is the same person that owns the comment.
-    if (verifyOwnership) {
-      query['author_id'] = tagLink.assigned_by;
-    }
-
-    return CommentModel.update(query, {
-      $push: {
-        tags: tagLink
-      }
-    });
-  }
-
-  static removeTag(id, {tag: {name}, assigned_by}, verifyOwnership = false) {
-
-    // Compose the query to find the comment that has the id: `id` and a tag
-    // that has the name: `name`.
-    const query = {
-      id,
-      'tags.tag.name': {
-        $eq: name
-      }
-    };
-
-    // If ownership verification is required, ensure that the person that is
-    // assigning the tag is the same person that owns the comment.
-    if (verifyOwnership) {
-      query['author_id'] = assigned_by;
-    }
-
-    return CommentModel.update(query, {
-      $pull: {
-        tags: {
-          name
-        }
-      }
-    });
-  }
-
   /**
    * Finds a comment by the id.
    * @param {String} id  identifier of comment (uuid)
