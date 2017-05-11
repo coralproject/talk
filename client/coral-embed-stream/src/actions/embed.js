@@ -7,4 +7,3 @@ export const setActiveTab = (tab) => (dispatch, getState) => {
     dispatch(viewAllComments());
   }
 };
-
