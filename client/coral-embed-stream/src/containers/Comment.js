@@ -41,6 +41,10 @@ export default withFragments({
           id
         }
       }
+      editing {
+        edited
+        editableUntil
+      }
       ${pluginFragments.spreads('comment')}
     }
     ${pluginFragments.definitions('comment')}

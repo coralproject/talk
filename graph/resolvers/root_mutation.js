@@ -5,6 +5,9 @@ const RootMutation = {
   createComment(_, {comment}, {mutators: {Comment}}) {
     return wrapResponse('comment')(Comment.create(comment));
   },
+  editComment(_, args, {mutators: {Comment}}) {
+    return wrapResponse('comment')(Comment.editComment(args));
+  },
   createFlag(_, {flag: {item_id, item_type, reason, message}}, {mutators: {Action}}) {
     return wrapResponse('flag')(Action.create({item_id, item_type, action_type: 'FLAG', group_id: reason, metadata: {message}}));
   },

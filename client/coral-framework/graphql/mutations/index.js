@@ -7,6 +7,7 @@ import ADD_COMMENT_TAG from './addCommentTag.graphql';
 import REMOVE_COMMENT_TAG from './removeCommentTag.graphql';
 import IGNORE_USER from './ignoreUser.graphql';
 import STOP_IGNORING_USER from './stopIgnoringUser.graphql';
+import EDIT_COMMENT from './editComment.graphql';
 
 import commentView from '../fragments/commentView.graphql';
 
@@ -166,6 +167,23 @@ export const stopIgnoringUser = graphql(STOP_IGNORING_USER, {
           refetchQueries: [
             'EmbedQuery', 'myIgnoredUsers',
           ]
+        });
+      }
+    };
+  }
+});
+
+export const editComment = graphql(EDIT_COMMENT, {
+  props: ({mutate}) => {
+    return {
+      editComment: (id, asset_id, edit) => {
+        return mutate({
+          variables: {
+            id,
+            asset_id,
+            edit,
+          },
+          refetchQueries: []
         });
       }
     };

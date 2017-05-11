@@ -6,7 +6,7 @@ import uniqBy from 'lodash/uniqBy';
 import sortBy from 'lodash/sortBy';
 import isNil from 'lodash/isNil';
 import {NEW_COMMENT_COUNT_POLL_INTERVAL} from '../constants/stream';
-import {postComment, postFlag, postDontAgree, deleteAction, addCommentTag, removeCommentTag, ignoreUser} from 'coral-framework/graphql/mutations';
+import {postComment, postFlag, postDontAgree, deleteAction, addCommentTag, removeCommentTag, ignoreUser, editComment} from 'coral-framework/graphql/mutations';
 import {notificationActions, authActions} from 'coral-framework';
 import {editName} from 'coral-framework/actions/user';
 import {setCommentCountCache, setActiveReplyBox} from '../actions/stream';
@@ -243,5 +243,6 @@ export default compose(
   removeCommentTag,
   ignoreUser,
   deleteAction,
+  editComment,
 )(StreamContainer);
 

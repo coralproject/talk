@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux';
 import isEqual from 'lodash/isEqual';
 import branch from 'recompose/branch';
 import renderComponent from 'recompose/renderComponent';
+import update from 'immutability-helper';
 
 import {Spinner} from 'coral-ui';
 import {authActions, assetActions, pym} from 'coral-framework';
@@ -80,8 +81,11 @@ export const withQuery = graphql(EMBED_QUERY, {
       assetUrl,
       commentId,
       hasComment: commentId !== '',
-      excludeIgnored: Boolean(auth && auth.user && auth.user.id)
-    }
+      excludeIgnored: Boolean(auth && auth.user && auth.user.id),
+    },
+    reducer: (previousResult, action, variables) => {
+      return reduceEditCommentActionsToUpdateStreamQuery(previousResult, action, variables);
+    },
   }),
   props: ({data}) => separateDataAndRoot(data)
 });
@@ -114,3 +118,86 @@ export default compose(
   branch(props => !props.auth.checkedInitialLogin && props.config, renderComponent(Spinner)),
   withQuery
 )(EmbedContainer);
+
+/**
+ * Reduce editComment mutation actions
+ * producing a new queryStream result where asset.comments reflects the edit
+ */
+function reduceEditCommentActionsToUpdateStreamQuery(previousResult, action) {
+  if ( ! (action.type === 'APOLLO_MUTATION_RESULT' && action.operationName === 'editComment')) {
+    return previousResult;
+  }
+  const resultHasErrors = (result) => {
+    try {
+      return result.data.editComment.errors.length > 0;
+    } catch (error) {
+
+      // expected if no errors;
+      return false;
+    }
+  };
+  if (resultHasErrors(action.result)) {
+    return previousResult;
+  }
+  const {variables: {id, edit}, result: {data: {editComment: {comment: {status}}}}} = action;
+  const updateCommentWithEdit = (comment, edit) => {
+    const {body} = edit;
+    const editedComment = update(comment, {
+      $merge: {
+        body
+      },
+      editing: {$merge:{edited:true}}
+    });
+    return editedComment;
+  };
+  const commentIsStillVisible = (comment) => {
+    return ! ((id === comment.id) && (['PREMOD', 'REJECTED'].includes(status)));
+  };
+  const resultReflectingEdit = update(previousResult, {
+    asset: {
+      comments: {
+        $apply: comments => {
+          return comments.filter(commentIsStillVisible).map(comment => {
+            let replyWasEditedToBeHidden = false;
+            if (comment.id === id) {
+              return updateCommentWithEdit(comment, edit);
+            }
+            const commentWithUpdatedReplies = update(comment, {
+              replies: {
+                $apply: (comments) => {
+                  return comments
+                    .filter(c => {
+                      if (commentIsStillVisible(c)) {
+                        return true;
+                      }
+                      replyWasEditedToBeHidden = true;
+                      return false;
+                    })
+                    .map(comment => {
+                      if (comment.id === id) {
+                        return updateCommentWithEdit(comment, edit);                          
+                      }
+                      return comment;
+                    });
+                }
+              },
+            });
+
+            // If a reply was edited to be hdiden, then this parent needs its replyCount to be decremented.
+            if (replyWasEditedToBeHidden) {
+              return update(commentWithUpdatedReplies, {
+                replyCount: {
+                  $apply: (replyCount) => {
+                    return replyCount - 1;
+                  }
+                }
+              });
+            }
+            return commentWithUpdatedReplies;
+          });
+        }
+      }
+    }
+  });
+  return resultReflectingEdit;
+}
