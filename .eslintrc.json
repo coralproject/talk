@@ -36,6 +36,7 @@
         "no-unneeded-ternary": [1],
         "object-curly-spacing": [1],
         "space-infix-ops": ["error"],
+        "space-in-parens": ["error", "never"],
         "no-const-assign": [2],
         "no-duplicate-imports": [2],
         "prefer-template": [1],

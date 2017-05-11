@@ -29,7 +29,7 @@ export const BestIndicator = ({children = <Icon name='star'/>}) => (
  * Component that only renders children if the provided user prop can modify best tags
  */
 export const IfUserCanModifyBest = ({user, children}) => {
-  if ( ! ( user && canModifyBestTag(user))) {return null;}
+  if (! (user && canModifyBestTag(user))) {return null;}
   return children;
 };
 
@@ -63,7 +63,7 @@ export class BestButton extends Component {
   async onClickAddBest(e) {
     e.preventDefault();
     const {addBest} = this.props;
-    if ( ! addBest) {
+    if (! addBest) {
       console.warn('BestButton#onClickAddBest called even though there is no addBest prop. doing nothing');
       return;
     }
@@ -78,7 +78,7 @@ export class BestButton extends Component {
   async onClickRemoveBest(e) {
     e.preventDefault();
     const {removeBest} = this.props;
-    if ( ! removeBest) {
+    if (! removeBest) {
       console.warn('BestButton#onClickAddBest called even though there is no removeBest prop. doing nothing');
       return;
     }
