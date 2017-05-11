@@ -37,6 +37,10 @@
         "object-curly-spacing": [1],
         "space-infix-ops": ["error"],
         "space-in-parens": ["error", "never"],
+        "space-unary-ops": ["error", {
+          "words": true,
+          "nonwords": false
+        }],
         "no-const-assign": [2],
         "no-duplicate-imports": [2],
         "prefer-template": [1],

@@ -113,7 +113,7 @@ export class EditableCommentContent extends React.Component {
 
             // should be disabled if user hasn't actually changed their
             // original comment
-            return (comment.body !== originalBody) && ! editWindowExpired;
+            return (comment.body !== originalBody) && !editWindowExpired;
           }}
           saveComment={this.editComment}
           bodyLabel={lang.t('editComment.bodyInputLabel')}

@@ -427,16 +427,16 @@ export default Comment;
 // return whether the comment is editable
 function commentIsStillEditable (comment) {
   const editing = comment && comment.editing;
-  if (! editing) {return false;}
+  if (!editing) {return false;}
   const editableUntil = getEditableUntilDate(comment);
   const editWindowExpired = (editableUntil - new Date) < 0;
-  return ! editWindowExpired;  
+  return !editWindowExpired;  
 }
 
 // return number of milliseconds before edit window expires
 function editWindowRemainingMs (comment) {
   const editableUntil = getEditableUntilDate(comment);
-  if (! editableUntil) {return;}
+  if (!editableUntil) {return;}
   const now = new Date();
   const editWindowRemainingMs = (editableUntil - now);
   return editWindowRemainingMs;

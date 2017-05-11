@@ -124,7 +124,7 @@ export default compose(
  * producing a new queryStream result where asset.comments reflects the edit
  */
 function reduceEditCommentActionsToUpdateStreamQuery(previousResult, action) {
-  if (! (action.type === 'APOLLO_MUTATION_RESULT' && action.operationName === 'editComment')) {
+  if (!(action.type === 'APOLLO_MUTATION_RESULT' && action.operationName === 'editComment')) {
     return previousResult;
   }
   const resultHasErrors = (result) => {
@@ -151,7 +151,7 @@ function reduceEditCommentActionsToUpdateStreamQuery(previousResult, action) {
     return editedComment;
   };
   const commentIsStillVisible = (comment) => {
-    return ! ((id === comment.id) && (['PREMOD', 'REJECTED'].includes(status)));
+    return !((id === comment.id) && (['PREMOD', 'REJECTED'].includes(status)));
   };
   const resultReflectingEdit = update(previousResult, {
     asset: {
