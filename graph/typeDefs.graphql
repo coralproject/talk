@@ -40,10 +40,10 @@ type User {
   username: String!
 
   # Action summaries against the user.
-  action_summaries: [ActionSummary]!
+  action_summaries: [ActionSummary!]!
 
   # Actions completed on the parent.
-  actions: [Action]
+  actions: [Action!]
 
   # the current roles of the user.
   roles: [USER_ROLES!]
@@ -199,7 +199,7 @@ type Comment {
   user: User
 
   # the recent replies made against this comment.
-  recentReplies: [Comment]
+  recentReplies: [Comment!]
 
   # the replies that were made to the comment.
   replies(sort: SORT_ORDER = CHRONOLOGICAL, limit: Int = 3, excludeIgnored: Boolean): CommentConnection
@@ -438,7 +438,7 @@ type Asset {
   lastComment: Comment
 
   # Returns recent comments
-  recentComments: [Comment]
+  recentComments: [Comment!]
 
   # The top level comments that are attached to the asset.
   comments(sort: SORT_ORDER = REVERSE_CHRONOLOGICAL, limit: Int = 10, excludeIgnored: Boolean): CommentConnection
@@ -548,7 +548,7 @@ type RootQuery {
   asset(id: ID, url: String): Asset
 
   # Comments returned based on a query.
-  comments(query: CommentsQuery!): CommentConnection!
+  comments(query: CommentsQuery!): CommentConnection
 
   # Return the count of comments satisfied by the query. Note that this edge is
   # expensive as it is not batched. Requires the `ADMIN` role.
@@ -570,7 +570,7 @@ type RootQuery {
 
   # Comment metrics related to user actions are saturated into the comments
   # returned. Parameters `from` and `to` are related to the action created_at field.
-  commentMetrics(from: Date!, to: Date!, sort: ACTION_TYPE!, limit: Int = 10): [Comment!]
+  commentMetrics(from: Date!, to: Date!, sort: ACTION_TYPE!, limit: Int = 10): CommentConnection
 }
 
 ################################################################################

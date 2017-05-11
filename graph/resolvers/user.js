@@ -15,7 +15,7 @@ const User = {
     // If the user is not an admin, only return comment list for the owner of
     // the comments.
     if (user && (user.hasRoles('ADMIN') || user.id === id)) {
-      return Comments.getByQuery({author_id: id, sort: 'REVERSE_CHRONOLOGICAL'});
+      return Comments.getConnection({author_id: id, sort: 'REVERSE_CHRONOLOGICAL'});
     }
 
     return null;

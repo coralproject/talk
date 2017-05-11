@@ -447,7 +447,6 @@ const genComments = ({user}, ids) => {
 module.exports = (context) => ({
   Comments: {
     get: new DataLoader((ids) => genComments(context, ids)),
-    getByQuery: (query) => getCommentsByQuery(context, query),
     getConnection: (query) => getCommentsConnection(context, query),
     getCountByQuery: (query) => getCommentCountByQuery(context, query),
     countByAssetID: new SharedCounterDataLoader('Comments.totalCommentCount', 3600, (ids) => getCountsByAssetID(context, ids)),

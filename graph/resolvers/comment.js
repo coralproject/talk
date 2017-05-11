@@ -15,7 +15,7 @@ const Comment = {
     return Comments.genRecentReplies.load(id);
   },
   replies({id, asset_id}, {sort, limit, excludeIgnored}, {loaders: {Comments}}) {
-    return Comments.getByQuery({
+    return Comments.getConnection({
       asset_id,
       parent_id: id,
       sort,
