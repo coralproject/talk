@@ -1,6 +1,6 @@
 # Talk [![CircleCI](https://circleci.com/gh/coralproject/talk.svg?style=svg)](https://circleci.com/gh/coralproject/talk)
 
-Talk is currently in Beta! [Read more about Talk here.](https://coralproject.net/products/talk.html)
+Online comments are broken. Our open-source Talk tool rethinks how moderation, comment display, and conversation function, creating the opportunity for safer, smarter discussions around your work. [Read more about Talk here.](https://coralproject.net/products/talk.html)
 
 Third party licenses are available via the `/client/3rdpartylicenses.txt`
 endpoint when the server is running with built assets.

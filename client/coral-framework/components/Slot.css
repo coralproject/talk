@@ -1,3 +1,7 @@
 .inline {
   display: inline-block;
 }
+
+.debug {
+  background-color: coral;
+}
