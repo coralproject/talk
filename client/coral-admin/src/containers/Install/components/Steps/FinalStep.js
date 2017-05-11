@@ -3,8 +3,8 @@ import styles from './style.css';
 import {Button} from 'coral-ui';
 import {Link} from 'react-router';
 
-const lang = new I18n(translations);
-import translations from '../../translations.json';
+const lang = new I18n();
+
 import I18n from 'coral-i18n/modules/i18n/i18n';
 
 const InitialStep = () => {

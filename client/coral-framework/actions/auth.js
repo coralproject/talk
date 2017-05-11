@@ -1,8 +1,7 @@
 import {gql} from 'react-apollo';
 import client from 'coral-framework/services/client';
 import I18n from '../../coral-i18n/modules/i18n/i18n';
-import translations from './../translations';
-const lang = new I18n(translations);
+const lang = new I18n();
 import * as actions from '../constants/auth';
 import coralApi, {base} from '../helpers/response';
 import {pym} from 'coral-framework';

@@ -4,8 +4,7 @@ import styles from './Configure.css';
 import TagsInput from 'react-tagsinput';
 
 import I18n from 'coral-i18n/modules/i18n/i18n';
-import translations from '../../translations.json';
-const lang = new I18n(translations);
+const lang = new I18n();
 
 const Domainlist = ({domains, onChangeDomainlist}) => {
   return (

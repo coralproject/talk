@@ -3,10 +3,9 @@ import {connect} from 'react-redux';
 import {SelectField, Option} from 'react-mdl-selectfield';
 import styles from './Community.css';
 import I18n from 'coral-i18n/modules/i18n/i18n';
-import translations from '../../translations';
 import {setRole, setCommenterStatus} from '../../actions/community';
 
-const lang = new I18n(translations);
+const lang = new I18n();
 
 class Table extends Component {
 

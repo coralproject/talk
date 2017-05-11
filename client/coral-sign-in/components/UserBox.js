@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './styles.css';
 import I18n from 'coral-i18n/modules/i18n/i18n';
-import translations from '../translations';
-const lang = new I18n(translations);
+
+const lang = new I18n();
 
 const UserBox = ({className, user, onLogout, onShowProfile}) => (
   <div className={`${styles.userBox} ${className ? className : ''}`}>

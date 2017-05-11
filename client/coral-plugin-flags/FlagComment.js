@@ -1,7 +1,8 @@
 import React from 'react';
 import FlagButton from './FlagButton';
-import {I18n} from '../coral-framework';
-import translations from './translations.json';
+import I18n from 'coral-i18n/modules/i18n/i18n';
+
+const lang = new I18n();
 
 const FlagComment = (props) => <FlagButton {...props} getPopupMenu={getPopupMenu} />;
 
@@ -49,5 +50,3 @@ const getPopupMenu = [
 ];
 
 export default FlagComment;
-
-const lang = new I18n(translations);

@@ -11,7 +11,6 @@ import {
 import {Button, List, Item, Card, Spinner} from 'coral-ui';
 import styles from './Configure.css';
 import I18n from 'coral-i18n/modules/i18n/i18n';
-import translations from 'coral-admin/src/translations.json';
 import StreamSettings from './StreamSettings';
 import ModerationSettings from './ModerationSettings';
 import TechSettings from './TechSettings';
@@ -176,4 +175,4 @@ const mapStateToProps = state => ({
 });
 export default connect(mapStateToProps)(Configure);
 
-const lang = new I18n(translations);
+const lang = new I18n();

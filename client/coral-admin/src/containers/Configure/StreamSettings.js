@@ -1,7 +1,7 @@
 import React from 'react';
 import {SelectField, Option} from 'react-mdl-selectfield';
 import I18n from 'coral-i18n/modules/i18n/i18n';
-import translations from '../../translations.json';
+
 import styles from './Configure.css';
 import {Checkbox, Textfield} from 'react-mdl';
 import {Card, Icon, TextArea} from 'coral-ui';
@@ -184,4 +184,4 @@ const getTimeoutMeasure = ts => {
 // obtain the amount of time
 const getTimeoutAmount = ts => ts / TIMESTAMPS[getTimeoutMeasure(ts)];
 
-const lang = new I18n(translations);
+const lang = new I18n();

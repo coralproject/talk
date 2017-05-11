@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import styles from './style.css';
 import Icon from './Icon';
 
-import {I18n} from 'coral-framework';
+import I18n from 'coral-i18n/modules/i18n/i18n';
+
 import cn from 'classnames';
 import translations from '../translations.json';
 import {getMyActionSummary, getTotalActionCount} from 'coral-framework/utils';

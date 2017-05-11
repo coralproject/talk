@@ -1,6 +1,5 @@
 import I18n from 'coral-i18n/modules/i18n/i18n';
-import translations from './../translations';
-const lang = new I18n(translations);
+const lang = new I18n();
 
 export default {
   email: lang.t('error.email'),

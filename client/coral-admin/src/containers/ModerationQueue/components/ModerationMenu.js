@@ -3,11 +3,10 @@ import CommentCount from './CommentCount';
 import styles from './styles.css';
 import {SelectField, Option} from 'react-mdl-selectfield';
 import I18n from 'coral-i18n/modules/i18n/i18n';
-import translations from 'coral-admin/src/translations.json';
 import {Icon} from 'coral-ui';
 import {Link} from 'react-router';
 
-const lang = new I18n(translations);
+const lang = new I18n();
 
 const ModerationMenu = (
   {asset, allCount, acceptedCount, premodCount, rejectedCount, flaggedCount, selectSort, sort}

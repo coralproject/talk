@@ -3,7 +3,6 @@ import {Navigation, Header, IconButton, MenuItem, Menu} from 'react-mdl';
 import {Link, IndexLink} from 'react-router';
 import styles from './Header.css';
 import I18n from 'coral-i18n/modules/i18n/i18n';
-import translations from '../../translations.json';
 import {Logo} from './Logo';
 
 const CoralHeader = ({handleLogout, showShortcuts = () => {}, restricted = false}) => (
@@ -78,6 +77,6 @@ CoralHeader.propTypes = {
   restricted: PropTypes.bool // hide elemnts from a user that's logged out
 };
 
-const lang = new I18n(translations);
+const lang = new I18n();
 
 export default CoralHeader;

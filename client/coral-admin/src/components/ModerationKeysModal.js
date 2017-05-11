@@ -1,10 +1,9 @@
 import I18n from 'coral-i18n/modules/i18n/i18n';
-import translations from '../translations.json';
 import React, {PropTypes} from 'react';
 import Modal from 'components/Modal';
 import styles from './ModerationKeysModal.css';
 
-const lang = new I18n(translations);
+const lang = new I18n();
 
 const shortcuts = [
   {

@@ -1,7 +1,10 @@
 import has from 'lodash/has';
 import get from 'lodash/get';
 
-import YAML from 'yamljs';
+const localesFiles = {
+  'en': require('json-loader!yaml-loader!../../locales/en.yml'),
+  'es': require('json-loader!yaml-loader!../../locales/es.yml')
+};
 
 /**
  * Default locales, this should be overriden by config file
@@ -9,6 +12,7 @@ import YAML from 'yamljs';
 
 class i18n {
   constructor(translations) {
+    this.locales = {'en': 'en', 'es': 'es'};
 
     /**
      * Register locales
@@ -28,17 +32,20 @@ class i18n {
   }
 
   loadTranslations = (translations) => {
-    const localesFiles = {'en': 'locales/en.yml', 'es': 'locales/es.yml'};
 
     try {
+      if (typeof translations == 'undefined'){
 
-      // Translations need to be loaded from translations or localesFiles.
-      this.translations = translations[this.language] || YAML.load(localesFiles[this.language]);
+        // Translations need to be loaded from translations or localesFiles.
+        this.translations = localesFiles[this.language];
+      } else {
+        this.translations = translations[this.language];
+      }
     }
     catch(err) {
 
       // To Do: get configuration for default translation
-      this.translations = translations['en'];
+      this.translations = localesFiles['en'];
     }
   }
 

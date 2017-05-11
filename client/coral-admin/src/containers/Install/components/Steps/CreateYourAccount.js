@@ -2,8 +2,8 @@ import React from 'react';
 import styles from './style.css';
 import {TextField, Button, Spinner} from 'coral-ui';
 
-const lang = new I18n(translations);
-import translations from '../../translations.json';
+const lang = new I18n();
+
 import I18n from 'coral-i18n/modules/i18n/i18n';
 
 const InitialStep = props => {

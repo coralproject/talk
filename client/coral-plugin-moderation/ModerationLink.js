@@ -1,8 +1,9 @@
 import React, {PropTypes} from 'react';
 import styles from './styles.css';
 
-import {I18n} from '../coral-framework';
-import translations from './translations.json';
+import I18n from 'coral-i18n/modules/i18n/i18n';
+
+const lang = new I18n();
 
 const ModerationLink = props => props.isAdmin ? (
     <div className={styles.moderationLink}>
@@ -16,7 +17,5 @@ ModerationLink.propTypes = {
   assetId: PropTypes.string.isRequired,
   isAdmin: PropTypes.bool.isRequired
 };
-
-const lang = new I18n(translations);
 
 export default ModerationLink;

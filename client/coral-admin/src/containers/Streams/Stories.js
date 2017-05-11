@@ -3,7 +3,7 @@ import styles from './Stories.css';
 import {connect} from 'react-redux';
 import I18n from 'coral-i18n/modules/i18n/i18n';
 import {fetchAssets, updateAssetState} from '../../actions/assets';
-import translations from '../../translations.json';
+
 import {Link} from 'react-router';
 
 import {Pager, Icon} from 'coral-ui';
@@ -184,4 +184,4 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(Stories);
 
-const lang = new I18n(translations);
+const lang = new I18n();

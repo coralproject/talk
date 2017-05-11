@@ -115,6 +115,11 @@ module.exports = {
         test: /\.(graphql|gql)$/,
         exclude: /node_modules/,
         loader: 'graphql-tag/loader'
+      },
+      {
+        test: /\.yaml$/,
+        include: path.resolve('locales'),
+        loader: 'yaml'
       }
     ]
   },

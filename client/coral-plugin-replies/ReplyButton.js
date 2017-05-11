@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import {I18n} from '../coral-framework';
-import translations from './translations.json';
+
 import classnames from 'classnames';
 
 const name = 'coral-plugin-replies';
@@ -24,4 +24,4 @@ ReplyButton.propTypes = {
 
 export default ReplyButton;
 
-const lang = new I18n(translations);
+const lang = new I18n();

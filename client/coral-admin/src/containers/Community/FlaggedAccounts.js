@@ -1,8 +1,7 @@
 import React from 'react';
 
 import I18n from 'coral-i18n/modules/i18n/i18n';
-import translations from 'coral-admin/src/translations.json';
-const lang = new I18n(translations);
+const lang = new I18n();
 
 import styles from './Community.css';
 

@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
 import styles from './CommentCount.css';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from 'coral-admin/src/translations.json';
-const lang = new I18n(translations);
+
+import I18n from 'coral-i18n/modules/i18n/i18n';
+const lang = new I18n();
 
 const CommentCount = ({count}) => {
   let number = count;

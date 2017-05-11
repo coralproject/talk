@@ -3,8 +3,7 @@ import coralApi from '../helpers/response';
 import {addNotification} from '../actions/notification';
 
 import I18n from 'coral-i18n/modules/i18n/i18n';
-import translations from './../translations';
-const lang = new I18n(translations);
+const lang = new I18n();
 
 export const fetchAssetRequest = () => ({type: actions.FETCH_ASSET_REQUEST});
 export const fetchAssetSuccess = asset => ({type: actions.FETCH_ASSET_SUCCESS, asset});
@@ -48,4 +47,3 @@ export const updateOpenStatus = status => dispatch => {
     dispatch(updateOpenStream({closedAt: new Date().getTime()}));
   }
 };
-

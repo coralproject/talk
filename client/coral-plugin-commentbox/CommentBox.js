@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {Button} from 'coral-ui';
 import {connect} from 'react-redux';
 import {I18n} from '../coral-framework';
-import translations from './translations.json';
+
 import Slot from 'coral-framework/components/Slot';
 
 const name = 'coral-plugin-commentbox';
@@ -205,4 +205,4 @@ const mapStateToProps = ({commentBox}) => ({commentBox});
 
 export default connect(mapStateToProps, null)(CommentBox);
 
-const lang = new I18n(translations);
+const lang = new I18n();

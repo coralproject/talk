@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {I18n} from '../coral-framework';
-import translations from './translations.json';
+
 import {Icon} from 'coral-ui';
 import classnames from 'classnames';
 
@@ -12,7 +12,7 @@ export const commentIsBest = ({tags} = {}) => {
 };
 
 const name = 'coral-plugin-best';
-const lang = new I18n(translations);
+const lang = new I18n();
 
 // It would be best if the backend/api held this business logic
 const canModifyBestTag = ({roles = []} = {}) => roles && ['ADMIN', 'MODERATOR'].some(role => roles.includes(role));

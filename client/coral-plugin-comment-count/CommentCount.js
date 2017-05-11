@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import {I18n} from '../coral-framework';
-import translations from './translations.json';
+
 const name = 'coral-plugin-comment-count';
 
 const CommentCount = ({count}) => {
@@ -15,4 +15,4 @@ CommentCount.propTypes = {
 
 export default CommentCount;
 
-const lang = new I18n(translations);
+const lang = new I18n();

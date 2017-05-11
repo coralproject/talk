@@ -5,8 +5,7 @@ import styles from './BanUserDialog.css';
 import Button from 'coral-ui/components/Button';
 
 import I18n from 'coral-i18n/modules/i18n/i18n';
-import translations from '../translations';
-const lang = new I18n(translations);
+const lang = new I18n();
 
 const onBanClick = (userId, commentId, handleBanUser, rejectComment, handleClose) => (e) => {
   e.preventDefault();

@@ -2,8 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {Icon} from 'coral-ui';
 import styles from './FlagBox.css';
 import I18n from 'coral-i18n/modules/i18n/i18n';
-import translations from 'coral-admin/src/translations.json';
-const lang = new I18n(translations);
+const lang = new I18n();
 
 const shortReasons = {
   'This comment is offensive': lang.t('modqueue.offensive'),

@@ -2,9 +2,8 @@ import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 import styles from './Widget.css';
 import I18n from 'coral-i18n/modules/i18n/i18n';
-import translations from 'coral-admin/src/translations';
 
-const lang = new I18n(translations);
+const lang = new I18n();
 
 const LikeWidget = ({assets}) => {
 

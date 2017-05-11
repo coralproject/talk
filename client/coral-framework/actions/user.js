@@ -3,8 +3,7 @@ import coralApi from '../helpers/response';
 import * as actions from '../constants/auth';
 
 import I18n from 'coral-i18n/modules/i18n/i18n';
-import translations from './../translations';
-const lang = new I18n(translations);
+const lang = new I18n();
 
 const editUsernameFailure = error => ({type: actions.EDIT_USERNAME_FAILURE, error});
 const editUsernameSuccess = () => ({type: actions.EDIT_USERNAME_SUCCESS});

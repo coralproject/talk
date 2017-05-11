@@ -4,8 +4,8 @@ import Domainlist from './Domainlist';
 import EmbedLink from './EmbedLink';
 import styles from './Configure.css';
 import I18n from 'coral-i18n/modules/i18n/i18n';
-import translations from '../../translations.json';
-const lang = new I18n(translations);
+
+const lang = new I18n();
 
 const updateCustomCssUrl = (updateSettings) => (event) => {
   const customCssUrl = event.target.value;

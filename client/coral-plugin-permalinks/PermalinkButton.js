@@ -1,12 +1,11 @@
 import React, {PropTypes} from 'react';
 import I18n from 'coral-i18n/modules/i18n/i18n';
-import translations from './translations';
 import onClickOutside from 'react-onclickoutside';
 const name = 'coral-plugin-permalinks';
 import {Button} from 'coral-ui';
 import styles from './styles.css';
 
-const lang = new I18n(translations);
+const lang = new I18n();
 
 class PermalinkButton extends React.Component {
 

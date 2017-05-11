@@ -7,8 +7,8 @@ import errorMsj from 'coral-framework/helpers/error';
 import CreateUsernameDialog from '../components/CreateUsernameDialog';
 
 import I18n from 'coral-i18n/modules/i18n/i18n';
-import translations from '../translations';
-const lang = new I18n(translations);
+
+const lang = new I18n();
 
 import {
   showCreateUsernameDialog,

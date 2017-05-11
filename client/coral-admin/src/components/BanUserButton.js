@@ -3,8 +3,7 @@ import {Button, Icon} from 'coral-ui';
 import styles from './BanUserButton.css';
 
 import I18n from 'coral-i18n/modules/i18n/i18n';
-import translations from 'coral-admin/src/translations.json';
-const lang = new I18n(translations);
+const lang = new I18n();
 
 const BanUserButton = ({user, ...props}) => (
   <div className={styles.ban}>

@@ -1,13 +1,12 @@
 import React from 'react';
 import I18n from 'coral-i18n/modules/i18n/i18n';
-import translations from 'coral-admin/src/translations.json';
 
 import styles from './Community.css';
 import Table from './Table';
 import {Pager, Icon} from 'coral-ui';
 import EmptyCard from '../../components/EmptyCard';
 
-const lang = new I18n(translations);
+const lang = new I18n();
 
 const tableHeaders = [
   {

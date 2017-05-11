@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {I18n} from '../coral-framework';
-import translations from './translations.json';
+
 import {PopupMenu, Button} from 'coral-ui';
 import onClickOutside from 'react-onclickoutside';
 
@@ -222,4 +222,4 @@ const styles = {
   }
 };
 
-const lang = new I18n(translations);
+const lang = new I18n();
