@@ -170,6 +170,34 @@ Our `style.css` should could look like this.
 }
 ```
 
+## Plugin Hooks
+The plugins injected in the CommentBox such as `commentInputDetailArea` will inherit through props tools for handling hooks.
+
+### Available hook types:
+`preSubmit` : To perform actions before submitting the comment.
+`postSubmit` : To perform actions after submitting the comment.
+
+### Register Hooks
+`registerHook` is a function that takes: the hook type, a hook function and returns the hook data.
+
+#### Usage:
+```js
+      this.addCommentTagHook = this.props.registerHook('postSubmit', (data) => {
+        const {comment} = data.createComment;
+        this.props.addCommentTag({
+          id: comment.id,
+          tag: 'OFF_TOPIC'
+        });
+      });
+```
+
+### Unregister Hooks
+
+`unregisterHook` will remove the hook.
+
+```js
+	this.props.unregisterHook(this.addCommentTagHook);
+```
 
 ### The server folder and the index file
 Read more about the `/server` and how to extend Talk here.
