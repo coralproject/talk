@@ -45,17 +45,15 @@ describe('graph.queries.asset', () => {
       query assetCommentsQuery($id: ID!) {
         asset(id: $id) {
           comments(limit: 10) {
-            edges {
-              id
-              body
-            }
+            id
+            body
           }
         }
       }
     `;
     const res = await graphql(schema, assetCommentsQuery, {}, context, {id: asset.id});
     expect(res.erros).is.empty;
-    const comments = res.data.asset.comments.edges;
+    const comments = res.data.asset.comments;
     expect(comments.length).to.equal(2);
   });
 
@@ -75,10 +73,8 @@ describe('graph.queries.asset', () => {
       query assetCommentsQuery($id: ID!, $url: String!, $excludeIgnored: Boolean!) {
         asset(id: $id, url: $url) {
           comments(limit: 10, excludeIgnored: $excludeIgnored) {
-            edges {
-              id
-              body
-            }
+            id
+            body
           }
         }
       }
@@ -94,7 +90,7 @@ describe('graph.queries.asset', () => {
         console.error(res.errors);
       }
       expect(res.errors).is.empty;
-      const comments = res.data.asset.comments.edges;
+      const comments = res.data.asset.comments;
       expect(comments.length).to.equal(1);
     }
   });

@@ -49,7 +49,7 @@ const getAssetsForMetrics = async ({loaders: {Actions, Comments}}) => {
 
   const ids = actions.map(({item_id}) => item_id);
 
-  return Comments.getConnection({ids});
+  return Comments.getByQuery({ids});
 };
 
 /**

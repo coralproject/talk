@@ -290,27 +290,6 @@ const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, a
     .limit(limit);
 };
 
-const getCommentsConnection = async ({user}, query) => {
-  let {limit} = query;
-  
-  // Increate the limit by one.
-  query.limit++;
-
-  let comments = await getCommentsByQuery({user}, query);
-
-  if (!comments) {
-    comments = [];
-  }
-
-  return {
-    edges: comments.slice(0, limit),
-    pageInfo: {
-      hasNextPage: Boolean(comments.length > limit),
-      cursor: comments.length > 0 ? comments[comments.length - 1].created_at : null
-    }
-  };
-};
-
 /**
  * Gets the recent replies.
  * @param  {Object}        context   graph context
@@ -447,7 +426,7 @@ const genComments = ({user}, ids) => {
 module.exports = (context) => ({
   Comments: {
     get: new DataLoader((ids) => genComments(context, ids)),
-    getConnection: (query) => getCommentsConnection(context, query),
+    getByQuery: (query) => getCommentsByQuery(context, query),
     getCountByQuery: (query) => getCommentCountByQuery(context, query),
     countByAssetID: new SharedCounterDataLoader('Comments.totalCommentCount', 3600, (ids) => getCountsByAssetID(context, ids)),
     countByAssetIDPersonalized: (query) => getCountsByAssetIDPersonalized(context, query),

@@ -3,7 +3,7 @@ const Asset = {
     return Comments.genRecentComments.load(id);
   },
   comments({id}, {sort, limit, excludeIgnored}, {loaders: {Comments}}) {
-    return Comments.getConnection({
+    return Comments.getByQuery({
       asset_id: id,
       sort,
       limit,

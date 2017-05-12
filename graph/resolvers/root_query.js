@@ -27,11 +27,11 @@ const RootQuery = {
         .then((ids) => {
 
           // Perform the query using the available resolver.
-          return Comments.getConnection({ids, statuses, asset_id, parent_id, limit, cursor, sort, excludeIgnored});
+          return Comments.getByQuery({ids, statuses, asset_id, parent_id, limit, cursor, sort, excludeIgnored});
         });
     }
 
-    return Comments.getConnection(query);
+    return Comments.getByQuery(query);
   },
   comment(_, {id}, {loaders: {Comments}}) {
     return Comments.get.load(id);
