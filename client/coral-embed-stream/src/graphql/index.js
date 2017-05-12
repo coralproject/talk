@@ -1,8 +1,8 @@
 import {gql} from 'react-apollo';
-import {registerConfig} from 'coral-framework/services/registry';
+import {add} from 'coral-framework/services/graphqlRegistry';
 import update from 'immutability-helper';
 
-const config = {
+const extension = {
   fragments: {
     EditCommentResponse: gql`
       fragment CoralEmbedStream_EditCommentResponse on EditCommentResponse {
@@ -267,4 +267,4 @@ const config = {
   },
 };
 
-registerConfig(config);
+add(extension);

@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {graphql} from 'react-apollo';
-import {getQueryOptions, resolveFragments} from 'coral-framework/services/registry';
+import {getQueryOptions, resolveFragments} from 'coral-framework/services/graphqlRegistry';
 import {getDefinitionName, separateDataAndRoot} from '../utils';
 
 /**
  * Exports a HOC with the same signature as `graphql`, that will
- * apply query options registered in the registry.
+ * apply query options registered in the graphRegistry.
  */
 export default (document, config) => WrappedComponent => {
   config = {

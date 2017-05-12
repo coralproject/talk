@@ -1,5 +1,5 @@
 import {getDefinitionName, mergeDocuments} from 'coral-framework/utils';
-import {getGraphQLConfigs} from 'coral-framework/helpers/plugins';
+import {getGraphQLExtensions} from 'coral-framework/helpers/plugins';
 import globalFragments from 'coral-framework/graphql/fragments';
 import uniq from 'lodash/uniq';
 
@@ -10,16 +10,16 @@ const queryOptions = {};
 const getTypeName = (ast) => ast.definitions[0].typeCondition.name.value;
 
 /**
- * Register fragment
+ * Add fragment
  *
  * Example:
- * registerFragment('MyFragment', gql`
+ * addFragment('MyFragment', gql`
  *   fragment Plugin_MyFragment on Comment {
  *     body
  *   }
  * `);
  */
-export function registerFragment(key, document) {
+export function addFragment(key, document) {
   const type = getTypeName(document);
   const name = getDefinitionName(document);
   if (!(key in fragments)) {
@@ -34,12 +34,12 @@ export function registerFragment(key, document) {
 }
 
 /**
- * Register mutation options.
+ * Add mutation options.
  *
  * Example:
  * // state is the current redux state, which is sometimes
  * // necessary to fill the optimistic response.
- * registerMutationOptions('PostComment', ({variables, state}) => ({
+ * addMutationOptions('PostComment', ({variables, state}) => ({
  *   optimisticResponse: {
  *     CreateComment: {
  *       extra: '',
@@ -55,7 +55,7 @@ export function registerFragment(key, document) {
  *   },
  * })
  */
-export function registerMutationOptions(key, config) {
+export function addMutationOptions(key, config) {
   if (!(key in mutationOptions)) {
     mutationOptions[key] = [config];
   } else {
@@ -64,14 +64,14 @@ export function registerMutationOptions(key, config) {
 }
 
 /**
- * Register query options.
+ * Add query options.
  *
  * Example:
- * registerQueryOptions('EmbedQuery', {
+ * addQueryOptions('EmbedQuery', {
  *   reducer: (previousResult, action, variables) => previousResult,
  * });
  */
-export function registerQueryOptions(key, config) {
+export function addQueryOptions(key, config) {
   if (!(key in queryOptions)) {
     queryOptions[key] = [config];
   } else {
@@ -80,10 +80,10 @@ export function registerQueryOptions(key, config) {
 }
 
 /**
- * Register all fragments, mutation options, and query options defined in the object.
+ * Add all fragments, mutation options, and query options defined in the object.
  *
  * Example:
- * registerConfig({
+ * add({
  *   fragments: {
  *     CreateCommentResponse: gql`
  *       fragment CoralRandomEmoji_CreateCommentResponse on CreateCommentResponse {
@@ -116,10 +116,10 @@ export function registerQueryOptions(key, config) {
  *   },
  * });
  */
-export function registerConfig(cfg) {
-  Object.keys(cfg.fragments || []).forEach(key => registerFragment(key, cfg.fragments[key]));
-  Object.keys(cfg.mutations || []).forEach(key => registerMutationOptions(key, cfg.mutations[key]));
-  Object.keys(cfg.queries || []).forEach(key => registerQueryOptions(key, cfg.queries[key]));
+export function add(extension) {
+  Object.keys(extension.fragments || []).forEach(key => addFragment(key, extension.fragments[key]));
+  Object.keys(extension.mutations || []).forEach(key => addMutationOptions(key, extension.mutations[key]));
+  Object.keys(extension.queries || []).forEach(key => addQueryOptions(key, extension.queries[key]));
 }
 
 /**
@@ -140,7 +140,7 @@ export function getQueryOptions(key) {
 
 /**
  * Get a document with a fragment named `key`, which contains
- * all fragments registered under this key.
+ * all fragments added under this key.
  */
 export function getFragmentDocument(key) {
   init();
@@ -162,20 +162,20 @@ export function getFragmentDocument(key) {
 }
 
 // The fragments and configs are lazily loaded to allow circular dependencies to work.
-// TODO: We might want to change this to an explicit register after we have lazy Queries and Mutations.
+// TODO: We might want to change this to an explicit add after we have lazy Queries and Mutations.
 let initialized = false;
 
 function init() {
   if (initialized) { return; }
   initialized = true;
 
-  // Register fragments from framework.
+  // Add fragments from framework.
   [globalFragments].forEach(map =>
-    Object.keys(map).forEach(key => registerFragment(key, map[key]))
+    Object.keys(map).forEach(key => addFragment(key, map[key]))
   );
 
-  // Register configs from plugins.
-  getGraphQLConfigs().forEach(cfg => registerConfig(cfg));
+  // Add configs from plugins.
+  getGraphQLExtensions().forEach(ext => add(ext));
 }
 
 export function resolveFragments(document) {

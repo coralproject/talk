@@ -4,13 +4,13 @@ import merge from 'lodash/merge';
 import uniq from 'lodash/uniq';
 import flatten from 'lodash/flatten';
 import isEmpty from 'lodash/isEmpty';
-import {getMutationOptions, resolveFragments} from 'coral-framework/services/registry';
+import {getMutationOptions, resolveFragments} from 'coral-framework/services/graphqlRegistry';
 import {store} from 'coral-framework/services/store';
 import {getDefinitionName} from '../utils';
 
 /**
  * Exports a HOC with the same signature as `graphql`, that will
- * apply mutation options registered in the registry.
+ * apply mutation options registered in the graphRegistry.
  */
 export default (document, config) => WrappedComponent => {
   config = {
@@ -80,7 +80,7 @@ export default (document, config) => WrappedComponent => {
     return config.props({...data, mutate});
   };
 
-  // Lazily resolve fragments from registry to support circular dependencies.
+  // Lazily resolve fragments from graphRegistry to support circular dependencies.
   let memoized = null;
   const getWrapped = () => {
     if (!memoized) {

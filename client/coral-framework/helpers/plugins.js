@@ -82,7 +82,7 @@ export function getSlotsFragments(slots) {
   };
 }
 
-export function getGraphQLConfigs() {
+export function getGraphQLExtensions() {
   return plugins
     .map(o => pick(o.module, ['mutations', 'queries', 'fragments']))
     .filter(o => o);
