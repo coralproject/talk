@@ -1,7 +1,0 @@
-mutation stopIgnoringUser ($id: ID!) {
-  stopIgnoringUser(id:$id) {
-    errors {
-      translation_key
-    }
-  }
-}
