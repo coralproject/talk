@@ -3,7 +3,7 @@
  */
 const decorateWithTags = (typeResolver) => {
   typeResolver.tags = ({tags = []}, _, {user}) => {
-    if (user && user.hasRoles('ADMIN')) {
+    if (user && (user.hasRoles('ADMIN') || user.hasRoles('MODERATOR'))) {
       return tags;
     }
 
