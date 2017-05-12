@@ -85,6 +85,11 @@ const filterNewComment = (context, {body, asset_id}) => {
  */
 const resolveNewCommentStatus = async (context, {asset_id, body}, wordlist = {}, settings = {}) => {
 
+  // Check to see if the body is too short, if it is, then complain about it!
+  if (body.length < 2) {
+    throw errors.ErrCommentTooShort;
+  }
+
   // Decide the status based on whether or not the current asset/settings
   // has pre-mod enabled or not. If the comment was rejected based on the
   // wordlist, then reject it, otherwise if the moderation setting is

@@ -33,6 +33,7 @@
       "unexpectedError": "Unexpected error while saving changes. Sorry!"
     },
     "error": {
+      "COMMENT_TOO_SHORT": "Your comment must have something in it",
       "EDIT_WINDOW_ENDED": "You can no longer edit this comment. The time window to do so has expired.",
       "emailNotVerified": "Email address {0} not verified.",
       "email": "Not a valid E-Mail",

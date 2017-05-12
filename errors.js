@@ -162,6 +162,12 @@ const ErrEditWindowHasEnded = new APIError('Edit window is over', {
   status: 403
 });
 
+// ErrCommentTooShort is returned when the comment is too short.
+const ErrCommentTooShort = new APIError('Comment was too short', {
+  translation_key: 'COMMENT_TOO_SHORT',
+  status: 400
+});
+
 module.exports = {
   ExtendableError,
   APIError,
@@ -185,4 +191,5 @@ module.exports = {
   ErrInstallLock,
   ErrLoginAttemptMaximumExceeded,
   ErrEditWindowHasEnded,
+  ErrCommentTooShort
 };
