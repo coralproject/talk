@@ -1,6 +1,8 @@
 query myIgnoredUsers {
-  myIgnoredUsers {
-    id,
-    username,
+  me {
+    ignoredUsers {
+      id,
+      username,
+    }
   }
 }
