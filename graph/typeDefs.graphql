@@ -42,6 +42,9 @@ type User {
   # determines whether the user can edit their username
   canEditName: Boolean
 
+  # ignored users.
+  ignoredUsers: [User!]
+
   # returns all comments based on a query.
   comments(query: CommentsQuery): [Comment!]
 
@@ -542,9 +545,6 @@ type RootQuery {
   # The currently logged in user based on the request. Requires any logged in
   # role.
   me: User
-
-  # Users that the currently logged in user ignores
-  myIgnoredUsers: [User]
 
   # Users returned based on a query.
   users(query: UsersQuery): [User]

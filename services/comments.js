@@ -1,11 +1,10 @@
 const CommentModel = require('../models/comment');
+const EDIT_WINDOW_MS = CommentModel.EDIT_WINDOW_MS;
 
 const ActionModel = require('../models/action');
 const ActionsService = require('./actions');
 
 const errors = require('../errors');
-
-const EDIT_WINDOW_MS = 30 * 1000; // 30 seconds
 
 module.exports = class CommentsService {
 

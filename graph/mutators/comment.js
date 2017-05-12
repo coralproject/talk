@@ -223,6 +223,7 @@ const edit = async (context, {id, asset_id, edit: {body}}) => {
   // Determine the new status of the comment.
   const status = await resolveNewCommentStatus(context, {asset_id, body}, wordlist, settings);    
 
+  // Execute the edit.
   await CommentsService.edit(id, context.user.id, {body, status});
 
   return {status};
