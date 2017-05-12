@@ -59,6 +59,7 @@ const createComment = async ({user, loaders: {Comments}, pubsub}, {body, asset_i
 
 /**
  * Filters the comment object and outputs wordlist results.
+ * @param  {Object} context graphql context
  * @param  {String} body        body of a comment
  * @param  {String} [asset_id]  id of asset comment is posted on
  * @return {Object}         resolves to the wordlist results
@@ -78,6 +79,7 @@ const filterNewComment = (context, {body, asset_id}) => {
 /**
  * This resolves a given comment's status to take into account moderator actions
  * are applied.
+ * @param  {Object} context graphql context
  * @param  {String} body          body of the comment
  * @param  {String} [asset_id]    asset for the comment
  * @param  {Object} [wordlist={}] the results of the wordlist scan
@@ -172,6 +174,7 @@ const createPublicComment = async (context, commentInput) => {
 
 /**
  * Sets the status of a comment
+ * @param  {Object} context graphql context
  * @param {String} comment     comment in graphql context
  * @param {String} id          identifier of the comment  (uuid)
  * @param {String} status      the new status of the comment
