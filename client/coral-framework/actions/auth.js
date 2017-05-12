@@ -1,11 +1,13 @@
 import {gql} from 'react-apollo';
-import client from 'coral-framework/services/client';
-import I18n from '../../coral-framework/modules/i18n/i18n';
-import translations from './../translations';
-const lang = new I18n(translations);
+import {pym} from 'coral-framework';
+import * as Storage from '../helpers/storage';
 import * as actions from '../constants/auth';
 import coralApi, {base} from '../helpers/response';
-import {pym} from 'coral-framework';
+import client from 'coral-framework/services/client';
+
+const lang = new I18n(translations);
+import translations from './../translations';
+import I18n from '../../coral-framework/modules/i18n/i18n';
 
 const ME_QUERY = gql`
   query Me {
@@ -72,7 +74,10 @@ export const hideCreateUsernameDialog = () => ({
   type: actions.HIDE_CREATEUSERNAME_DIALOG
 });
 
-const createUsernameSuccess = () => ({type: actions.CREATE_USERNAME_SUCCESS});
+const createUsernameSuccess = () => ({
+  type: actions.CREATE_USERNAME_SUCCESS
+});
+
 const createUsernameFailure = error => ({
   type: actions.CREATE_USERNAME_FAILURE,
   error
@@ -114,21 +119,41 @@ export const changeView = view => dispatch => {
   }
 };
 
-export const cleanState = () => ({type: actions.CLEAN_STATE});
+export const cleanState = () => ({
+  type: actions.CLEAN_STATE
+});
 
 // Sign In Actions
 
-const signInRequest = () => ({type: actions.FETCH_SIGNIN_REQUEST});
+const signInRequest = () => ({
+  type: actions.FETCH_SIGNIN_REQUEST
+});
 
-// TODO: revisit login redux flow.
-// const signInSuccess = (user, isAdmin) => ({type: actions.FETCH_SIGNIN_SUCCESS, user, isAdmin});
-//
-const signInFailure = error => ({type: actions.FETCH_SIGNIN_FAILURE, error});
+const signInFailure = error => ({
+  type: actions.FETCH_SIGNIN_FAILURE,
+  error
+});
+
+//==============================================================================
+// AUTH TOKEN
+//==============================================================================
+
+const handleAuthToken = token => dispatch => {
+  Storage.setItem('token', token);
+  dispatch({type: 'HANDLE_AUTH_TOKEN'});
+};
+
+//==============================================================================
+// SIGN IN
+//==============================================================================
 
 export const fetchSignIn = formData => dispatch => {
   dispatch(signInRequest());
   return coralApi('/auth/local', {method: 'POST', body: formData})
-    .then(() => dispatch(hideSignInDialog()))
+    .then(({token}) => {
+      dispatch(handleAuthToken(token));
+      dispatch(hideSignInDialog());
+    })
     .catch(error => {
       if (error.metadata) {
         // the user might not have a valid email. prompt the user user re-request the confirmation email
@@ -142,7 +167,9 @@ export const fetchSignIn = formData => dispatch => {
     });
 };
 
-// Sign In - Facebook
+//==============================================================================
+// SIGN IN - FACEBOOK
+//==============================================================================
 
 const signInFacebookRequest = () => ({
   type: actions.FETCH_SIGNIN_FACEBOOK_REQUEST
@@ -165,7 +192,9 @@ export const fetchSignInFacebook = () => dispatch => {
   );
 };
 
-// Sign Up Facebook
+//==============================================================================
+// SIGN UP - FACEBOOK
+//==============================================================================
 
 const signUpFacebookRequest = () => ({
   type: actions.FETCH_SIGNUP_FACEBOOK_REQUEST
@@ -197,7 +226,9 @@ export const facebookCallback = (err, data) => dispatch => {
   }
 };
 
-// Sign Up Actions
+//==============================================================================
+// SIGN UP
+//==============================================================================
 
 const signUpRequest = () => ({type: actions.FETCH_SIGNUP_REQUEST});
 const signUpSuccess = user => ({type: actions.FETCH_SIGNUP_SUCCESS, user});
@@ -225,59 +256,54 @@ export const fetchSignUp = (formData, redirectUri) => dispatch => {
     });
 };
 
-// Forgot Password Actions
+//==============================================================================
+// FORGOT PASSWORD
+//==============================================================================
 
-const forgotPassowordRequest = () => ({
+const forgotPasswordRequest = () => ({
   type: actions.FETCH_FORGOT_PASSWORD_REQUEST
 });
-const forgotPassowordSuccess = () => ({
+
+const forgotPasswordSuccess = () => ({
   type: actions.FETCH_FORGOT_PASSWORD_SUCCESS
 });
-const forgotPassowordFailure = () => ({
+
+const forgotPasswordFailure = () => ({
   type: actions.FETCH_FORGOT_PASSWORD_FAILURE
 });
 
 export const fetchForgotPassword = email => dispatch => {
-  dispatch(forgotPassowordRequest(email));
+  dispatch(forgotPasswordRequest(email));
   const redirectUri = pym.parentUrl || location.href;
   coralApi('/account/password/reset', {
     method: 'POST',
     body: {email, loc: redirectUri}
   })
-    .then(() => dispatch(forgotPassowordSuccess()))
-    .catch(error => dispatch(forgotPassowordFailure(error)));
+    .then(() => dispatch(forgotPasswordSuccess()))
+    .catch(error => dispatch(forgotPasswordFailure(error)));
 };
 
-// LogOut Actions
-
-const logOutRequest = () => ({type: actions.LOGOUT_REQUEST});
-const logOutSuccess = () => ({type: actions.LOGOUT_SUCCESS});
-const logOutFailure = () => ({type: actions.LOGOUT_FAILURE});
+//==============================================================================
+// LOGOUT
+//==============================================================================
 
 export const logout = () => dispatch => {
-  dispatch(logOutRequest());
-  return coralApi('/auth', {method: 'DELETE'})
-    .then(() => {
-      dispatch(logOutSuccess());
-      fetchMe();
-    })
-    .catch(error => dispatch(logOutFailure(error)));
+  Storage.clear();
+  dispatch({type: actions.LOGOUT});
 };
 
-// LogOut Actions
-
-export const validForm = () => ({type: actions.VALID_FORM});
-export const invalidForm = error => ({type: actions.INVALID_FORM, error});
-
-// Check Login
+//==============================================================================
+// CHECK LOGIN
+//==============================================================================
 
 const checkLoginRequest = () => ({type: actions.CHECK_LOGIN_REQUEST});
+const checkLoginFailure = error => ({type: actions.CHECK_LOGIN_FAILURE, error});
+
 const checkLoginSuccess = (user, isAdmin) => ({
   type: actions.CHECK_LOGIN_SUCCESS,
   user,
   isAdmin
 });
-const checkLoginFailure = error => ({type: actions.CHECK_LOGIN_FAILURE, error});
 
 export const checkLogin = () => dispatch => {
   dispatch(checkLoginRequest());
@@ -295,10 +321,24 @@ export const checkLogin = () => dispatch => {
       dispatch(checkLoginFailure(`${error.translation_key}`));
     });
 };
+export const validForm = () => ({type: actions.VALID_FORM});
+export const invalidForm = error => ({type: actions.INVALID_FORM, error});
 
-const verifyEmailRequest = () => ({type: actions.VERIFY_EMAIL_REQUEST});
-const verifyEmailSuccess = () => ({type: actions.VERIFY_EMAIL_SUCCESS});
-const verifyEmailFailure = () => ({type: actions.VERIFY_EMAIL_FAILURE});
+//==============================================================================
+// VERIFY EMAIL
+//==============================================================================
+
+const verifyEmailRequest = () => ({
+  type: actions.VERIFY_EMAIL_REQUEST
+});
+
+const verifyEmailSuccess = () => ({
+  type: actions.VERIFY_EMAIL_SUCCESS
+});
+
+const verifyEmailFailure = () => ({
+  type: actions.VERIFY_EMAIL_FAILURE
+});
 
 export const requestConfirmEmail = (email, redirectUri) => dispatch => {
   dispatch(verifyEmailRequest());

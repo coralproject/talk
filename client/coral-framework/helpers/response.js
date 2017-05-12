@@ -1,18 +1,22 @@
-export const base = '/api/v1';
+import * as Storage from './storage';
 
 const buildOptions = (inputOptions = {}) => {
-
   const defaultOptions = {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      Accept: 'application/json',
+      Authorization: `Bearer ${Storage.getItem('token')}`,
+      'Content-Type': 'application/json'
     },
-    credentials: 'same-origin',
+    credentials: 'same-origin'
   };
 
   let options = Object.assign({}, defaultOptions, inputOptions);
-  options.headers = Object.assign({}, defaultOptions.headers, inputOptions.headers);
+  options.headers = Object.assign(
+    {},
+    defaultOptions.headers,
+    inputOptions.headers
+  );
 
   if (options.method.toLowerCase() !== 'get') {
     options.body = JSON.stringify(options.body);
@@ -44,6 +48,8 @@ const handleResp = res => {
     return res.json();
   }
 };
+
+export const base = '/api/v1';
 
 export default (url, options) => {
   return fetch(`${base}${url}`, buildOptions(options)).then(handleResp);

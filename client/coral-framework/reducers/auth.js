@@ -113,7 +113,7 @@ export default function auth (state = initialState, action) {
     return state
       .set('isLoading', false)
       .set('successSignUp', true);
-  case actions.LOGOUT_SUCCESS:
+  case actions.LOGOUT:
     return state
       .set('user', null)
       .set('isLoading', false)
