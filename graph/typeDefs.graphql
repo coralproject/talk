@@ -104,12 +104,12 @@ type TagLink {
   # The underlying Tag that is either duplicated from the global list or created
   # uniquely for this specific model.
   tag: Tag!
-  
+
   # The user that assigned the tag. This TagLink could have been created by the
   # system, in which case this will be null. It could also be null if the
   # current user is not an Admin/Moderator.
   assigned_by: User
-  
+
   # The date that the TagLink was created.
   created_at: Date!
 }
@@ -767,7 +767,7 @@ input ModifyTagInput {
 
 # Response to the addTag or removeTag mutations.
 type ModifyTagResponse implements Response {
-  
+
   # An array of errors relating to the mutation that occured.
   errors: [UserError!]
 }
@@ -798,7 +798,7 @@ type CommentInfoAfterEdit {
 type EditCommentResponse implements Response {
   comment: CommentInfoAfterEdit!
   # An array of errors relating to the mutation that occured.
-  errors: [UserError]  
+  errors: [UserError!]
 }
 
 # All mutations for the application are defined on this object.
