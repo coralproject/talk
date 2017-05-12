@@ -1,6 +1,6 @@
 import {gql} from 'react-apollo';
 import Comment from '../components/Comment';
-import withFragments from 'coral-framework/hocs/withFragments';
+import {withFragments} from 'coral-framework/hocs';
 import {getSlotsFragments} from 'coral-framework/helpers/plugins';
 
 const pluginFragments = getSlotsFragments([
@@ -40,6 +40,10 @@ export default withFragments({
         current_user {
           id
         }
+      }
+      editing {
+        edited
+        editableUntil
       }
       ${pluginFragments.spreads('comment')}
     }

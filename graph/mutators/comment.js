@@ -61,11 +61,11 @@ const createComment = ({user, loaders: {Comments}, pubsub}, {body, asset_id, par
 
 /**
  * Filters the comment object and outputs wordlist results.
- * @param  {Object} context graphql context
- * @param  {String} body    body of a comment
+ * @param  {String} body        body of a comment
+ * @param  {String} [asset_id]  id of asset comment is posted on
  * @return {Object}         resolves to the wordlist results
  */
-const filterNewComment = (context, {body, asset_id}) => {
+const filterNewComment = ({body, asset_id}) => {
 
   // Create a new instance of the Wordlist.
   const wl = new Wordlist();
@@ -73,20 +73,19 @@ const filterNewComment = (context, {body, asset_id}) => {
   // Load the wordlist and filter the comment content.
   return Promise.all([
     wl.load().then(() => wl.scan('body', body)),
-    AssetsService.rectifySettings(AssetsService.findById(asset_id))
+    asset_id && AssetsService.rectifySettings(AssetsService.findById(asset_id))
   ]);
 };
 
 /**
  * This resolves a given comment's status to take into account moderator actions
  * are applied.
- * @param  {Object} context       graphql context
  * @param  {String} body          body of the comment
- * @param  {String} asset_id      asset for the comment
+ * @param  {String} [asset_id]    asset for the comment
  * @param  {Object} [wordlist={}] the results of the wordlist scan
  * @return {Promise}              resolves to the comment's status
  */
-const resolveNewCommentStatus = (context, {asset_id, body}, wordlist = {}, settings) => {
+const resolveNewCommentStatus = ({asset_id, body}, wordlist = {}, settings = {}) => {
 
   // Decide the status based on whether or not the current asset/settings
   // has pre-mod enabled or not. If the comment was rejected based on the
@@ -98,7 +97,7 @@ const resolveNewCommentStatus = (context, {asset_id, body}, wordlist = {}, setti
     status = Promise.resolve('REJECTED');
   } else if (settings.premodLinksEnable && linkify.test(body)) {
     status = Promise.resolve('PREMOD');
-  } else {
+  } else if (asset_id) {
     status = AssetsService
       .rectifySettings(AssetsService.findById(asset_id).then((asset) => {
         if (!asset) {
@@ -125,6 +124,8 @@ const resolveNewCommentStatus = (context, {asset_id, body}, wordlist = {}, setti
         }
         return moderation === 'PRE' ? 'PREMOD' : 'NONE';
       });
+  } else {
+    status = 'NONE';
   }
 
   return status;
@@ -142,12 +143,12 @@ const createPublicComment = (context, commentInput) => {
 
   // First we filter the comment contents to ensure that we note any validation
   // issues.
-  return filterNewComment(context, commentInput)
+  return filterNewComment(commentInput)
 
     // We then take the wordlist and the comment into consideration when
     // considering what status to assign the new comment, and resolve the new
     // status to set the comment to.
-    .then(([wordlist, settings]) => resolveNewCommentStatus(context, commentInput, wordlist, settings)
+    .then(([wordlist, settings]) => resolveNewCommentStatus(commentInput, wordlist, settings)
 
       // Then we actually create the comment with the new status.
       .then((status) => createComment(context, commentInput, status))
@@ -219,11 +220,43 @@ const addCommentTag = ({user, loaders: {Comments}}, {id, tag}) => {
 
 /**
  * Removes a tag from a Comment
- * @param {String} id          identifier of the comment  (uuid)
+ * @param {String} id      identifier of the comment  (uuid)
  * @param {String} tag     name of the tag
  */
 const removeCommentTag = ({user, loaders: {Comments}}, {id, tag}) => {
   return CommentsService.removeTag(id, tag);
+};
+
+/**
+ * Edit a Comment
+ * @param {String} id         identifier of the comment  (uuid)
+ * @param {Object} edit       describes how to edit the comment
+ * @param {String} edit.body  the new Comment body
+ */
+const editComment = async ({user, loaders: {Comments}}, {id, asset_id, edit}) => {
+  const {body} = edit;
+  const determineStatusForComment = async ({body, asset_id}) => {
+    const [wordlist, settings] = await filterNewComment({asset_id, body});
+    const status = await resolveNewCommentStatus({asset_id, body}, wordlist, settings);    
+    return status;
+  };
+  const status = await determineStatusForComment({body, asset_id});
+  try {
+    await CommentsService.edit(id, asset_id, user.id, Object.assign({status}, edit));
+  } catch (error) {
+    switch (error.name) {
+    case 'CommentNotFound':
+      throw new errors.APIError('Comment not found', {
+        status: 404,
+        translation_key: 'NOT_FOUND',
+      });
+    case 'NotAuthorizedToEdit':
+      throw errors.ErrNotAuthorized;
+    default:
+      throw error;
+    }
+  }
+  return {status};
 };
 
 module.exports = (context) => {
@@ -233,6 +266,7 @@ module.exports = (context) => {
       setCommentStatus: () => Promise.reject(errors.ErrNotAuthorized),
       addCommentTag: () => Promise.reject(errors.ErrNotAuthorized),
       removeCommentTag: () => Promise.reject(errors.ErrNotAuthorized),
+      editComment: () => Promise.reject(errors.ErrNotAuthorized),
     }
   };
 
@@ -250,6 +284,10 @@ module.exports = (context) => {
 
   if (context.user && context.user.can('mutation:removeCommentTag')) {
     mutators.Comment.removeCommentTag = (action) => removeCommentTag(context, action);
+  }
+
+  if (context.user) {
+    mutators.Comment.editComment = (action) => editComment(context, action);
   }
 
   return mutators;

@@ -1,5 +1,5 @@
 import React from 'react';
-import {compose, gql, graphql} from 'react-apollo';
+import {compose, gql} from 'react-apollo';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import isEqual from 'lodash/isEqual';
@@ -8,13 +8,13 @@ import renderComponent from 'recompose/renderComponent';
 
 import {Spinner} from 'coral-ui';
 import {authActions, assetActions, pym} from 'coral-framework';
-
-import Stream from './Stream';
+import {getDefinitionName} from 'coral-framework/utils';
+import {withQuery} from 'coral-framework/hocs';
 import Embed from '../components/Embed';
+import Stream from './Stream';
 
 import {setActiveTab} from '../actions/embed';
 import {setCommentCountCache, viewAllComments} from '../actions/stream';
-import {getDefinitionName, separateDataAndRoot} from 'coral-framework/utils';
 
 const {logout, checkLogin} = authActions;
 const {fetchAssetSuccess} = assetActions;
@@ -73,17 +73,16 @@ const EMBED_QUERY = gql`
   ${Stream.fragments.root}
 `;
 
-export const withQuery = graphql(EMBED_QUERY, {
+export const withEmbedQuery = withQuery(EMBED_QUERY, {
   options: ({auth, commentId, assetId, assetUrl}) => ({
     variables: {
       assetId,
       assetUrl,
       commentId,
       hasComment: commentId !== '',
-      excludeIgnored: Boolean(auth && auth.user && auth.user.id)
-    }
+      excludeIgnored: Boolean(auth && auth.user && auth.user.id),
+    },
   }),
-  props: ({data}) => separateDataAndRoot(data)
 });
 
 const mapStateToProps = state => ({
@@ -112,5 +111,6 @@ const mapDispatchToProps = dispatch =>
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   branch(props => !props.auth.checkedInitialLogin && props.config, renderComponent(Spinner)),
-  withQuery
+  withEmbedQuery,
 )(EmbedContainer);
+

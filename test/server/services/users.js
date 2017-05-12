@@ -170,9 +170,6 @@ describe('services.UsersService', () => {
   });
 
   describe('#ignoreUser', () => {
-
-    // @TODO: assert cannot ignore yourself
-    
     it('should add user id to ignoredUsers set', async () => {
       const user = mockUsers[0];
       const usersToIgnore = [mockUsers[1], mockUsers[2]];
