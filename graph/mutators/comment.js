@@ -22,7 +22,7 @@ const createComment = ({user, loaders: {Comments}, pubsub}, {body, asset_id, par
   tags = tags.map(tag => ({name: tag}));
 
   // If admin or moderator, adding STAFF tag
-  if (user.hasRoles('ADMIN') || user.hasRoles('MODERATOR')) {
+  if (user.isStaff()) {
     tags.push({name: 'STAFF'});
   }
 

@@ -1,6 +1,6 @@
 const RootQuery = {
   assets(_, args, {loaders: {Assets}, user}) {
-    if (user == null || !user.hasRoles('ADMIN')) {
+    if (user == null || !user.canQueryAssets()) {
       return null;
     }
 
@@ -22,7 +22,7 @@ const RootQuery = {
   comments(_, {query: {action_type, statuses, asset_id, parent_id, limit, cursor, sort, excludeIgnored}}, {user, loaders: {Comments, Actions}}) {
     let query = {statuses, asset_id, parent_id, limit, cursor, sort, excludeIgnored};
 
-    if (user != null && user.hasRoles('ADMIN') && action_type) {
+    if (user != null && user.canViewOthersComments() && action_type) {
       return Actions.getByTypes({action_type, item_type: 'COMMENTS'})
         .then((ids) => {
 
@@ -37,7 +37,7 @@ const RootQuery = {
     return Comments.get.load(id);
   },
   commentCount(_, {query: {action_type, statuses, asset_id, parent_id}}, {user, loaders: {Actions, Comments}}) {
-    if (user == null || !user.hasRoles('ADMIN')) {
+    if (user == null || !user.canViewOthersComments()) {
       return null;
     }
 
@@ -54,7 +54,7 @@ const RootQuery = {
   },
 
   assetMetrics(_, {from, to, sort, limit = 10}, {user, loaders: {Metrics: {Assets}}}) {
-    if (user == null || !user.hasRoles('ADMIN')) {
+    if (user == null || !user.canQueryAssets()) {
       return null;
     }
 
@@ -66,7 +66,7 @@ const RootQuery = {
   },
 
   commentMetrics(_, {from, to, sort, limit = 10}, {user, loaders: {Metrics: {Comments}}}) {
-    if (user == null || !user.hasRoles('ADMIN')) {
+    if (user == null || !user.canViewCommentMetrics()) {
       return null;
     }
 
@@ -100,7 +100,7 @@ const RootQuery = {
   // so hide it in the event that we aren't an admin.
   users(_, {query: {action_type, limit, cursor, sort}}, {user, loaders: {Users, Actions}}) {
 
-    if (user == null || !user.hasRoles('ADMIN')) {
+    if (user == null || !user.canViewOtherUsers()) {
       return null;
     }
 

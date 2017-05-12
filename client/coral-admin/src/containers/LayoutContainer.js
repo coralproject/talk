@@ -27,7 +27,7 @@ class LayoutContainer extends Component {
 
     const {handleLogout, toggleShortcutModal, TALK_RECAPTCHA_PUBLIC} = this.props;
     if (loadingUser) { return <FullLoading />; }
-    if (roleUtils.canAccessAdmin(user)) {
+    if (!loggedIn) {
       return <AdminLogin
         loginMaxExceeded={loginMaxExceeded}
         handleLogin={this.props.handleLogin}

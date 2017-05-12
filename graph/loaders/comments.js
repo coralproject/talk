@@ -226,7 +226,7 @@ const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, a
 
   // Only administrators can search for comments with statuses that are not
   // `null`, or `'ACCEPTED'`.
-  if (user != null && user.hasRoles('ADMIN') && statuses) {
+  if (user != null && user.canViewNonNullOrAcceptedComments() && statuses) {
     comments = comments.where({
       status: {
         $in: statuses
@@ -249,7 +249,7 @@ const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, a
   }
 
   // Only let an admin request any user or the current user request themself.
-  if (user && (user.hasRoles('ADMIN') || user.id === author_id) && author_id != null) {
+  if (user && (user.canViewOthersComments() || user.id === author_id) && author_id != null) {
     comments = comments.where({author_id});
   }
 
@@ -403,7 +403,7 @@ const genRecentComments = (_, ids) => {
  */
 const genComments = ({user}, ids) => {
   let comments;
-  if (user && user.hasRoles('ADMIN')) {
+  if (user && user.canViewOthersComments()) {
     comments = CommentModel.find({
       id: {
         $in: ids

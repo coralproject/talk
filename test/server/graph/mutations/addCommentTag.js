@@ -44,6 +44,7 @@ describe('graph.mutations.addCommentTag', () => {
     Object.entries({
       'anonymous': undefined,
       'regular commenter': new UserModel({}),
+      'staff': new UserModel({roles: ['STAFF']}),
       'banned moderator': new UserModel({roles: ['MODERATOR'], status: 'BANNED'})
     }).forEach(([ userDescription, user ]) => {
       it(userDescription, async function () {

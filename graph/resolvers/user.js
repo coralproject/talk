@@ -5,7 +5,7 @@ const User = {
   actions({id}, _, {user, loaders: {Actions}}) {
 
     // Only return the actions if the user is not an admin.
-    if (user && user.hasRoles('ADMIN')) {
+    if (user && user.canViewActions()) {
       return Actions.getByID.load(id);
     }
 
@@ -14,7 +14,7 @@ const User = {
 
     // If the user is not an admin, only return comment list for the owner of
     // the comments.
-    if (user && (user.hasRoles('ADMIN') || user.id === id)) {
+    if (user && (user.canViewOthersComments() || user.id === id)) {
       return Comments.getByQuery({author_id: id, sort: 'REVERSE_CHRONOLOGICAL'});
     }
 
@@ -23,7 +23,7 @@ const User = {
   roles({id, roles}, _, {user}) {
 
     // If the user is not an admin, only return the current user's roles.
-    if (user && (user.hasRoles('ADMIN') || user.id === id)) {
+    if (user && (user.canChangeRoles() || user.id === id)) {
       return roles;
     }
 

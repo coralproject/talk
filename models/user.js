@@ -1,6 +1,7 @@
 const mongoose = require('../services/mongoose');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
+const intersection = require('lodash/intersection');
 
 // USER_ROLES is the array of roles that is permissible as a user role.
 const USER_ROLES = [
@@ -158,14 +159,74 @@ UserSchema.index({
 });
 
 /**
- * Returns true if the user has all the roles specified.
+ * returns true if the user can look up assets through the api
  */
-UserSchema.method('hasRoles', function(...roles) {
-  return roles.every((role) => {
+UserSchema.method('canQueryAssets', function () {
+  return !!intersection(['ADMIN', 'MODERATOR'], this.roles).length;
+});
 
-    // TODO: remove toUpperCase() once we've migrated usage.
-    return this.roles.indexOf(role.toUpperCase()) >= 0;
-  });
+/**
+ * returns true if the user can view actions
+ */
+UserSchema.method('canViewActions', function () {
+  return !!intersection(['ADMIN', 'MODERATOR'], this.roles).length;
+});
+
+/**
+ * returns true if the user can view non-null or non-ACCEPTED comments
+ */
+UserSchema.method('canViewNonNullOrAcceptedComments', function () {
+  return !!intersection(['ADMIN', 'MODERATOR'], this.roles).length;
+});
+
+/**
+ * returns true when a user can view comments that are not their own
+ */
+UserSchema.method('canViewOthersComments', function () {
+  return !!intersection(['ADMIN', 'MODERATOR'], this.roles).length;
+});
+
+/**
+ * returns true when a user can view comment metrics
+ */
+UserSchema.method('canViewCommentMetrics', function () {
+  return !!intersection(['ADMIN', 'MODERATOR'], this.roles).length;
+});
+
+/**
+ * returns true if a commenter is staff
+ */
+UserSchema.method('isStaff', function () {
+  return !!intersection(['ADMIN', 'MODERATOR', 'STAFF'], this.roles).length;
+});
+
+/**
+ * returns true when a user can see other user info
+ */
+UserSchema.method('canViewOtherUsers', function () {
+  return !!intersection(['ADMIN', 'MODERATOR'], this.roles).length;
+});
+
+/**
+ * when a user can modify tags
+ */
+UserSchema.method('canModifyTags', function () {
+  return !!intersection(['ADMIN', 'MODERATOR'], this.roles).length;
+});
+
+/**
+ * when a user can change roles
+ */
+UserSchema.method('canChangeUserRoles', function () {
+  return !!intersection(['ADMIN', 'MODERATOR'], this.roles).length;
+});
+
+UserSchema.method('canSetCommentStatus', function () {
+  return !!intersection(['ADMIN', 'MODERATOR'], this.roles).length;
+});
+
+UserSchema.method('canSetUserStatus', function () {
+  return !!intersection(['ADMIN', 'MODERATOR'], this.roles).length;
 });
 
 /**
@@ -216,13 +277,12 @@ UserSchema.method('can', function(...actions) {
     return false;
   }
 
-  if (actions.some((action) => action === 'mutation:setUserStatus' || action === 'mutation:suspendUser' || action === 'mutation:setCommentStatus') && !this.hasRoles('ADMIN')) {
+  if (actions.some((action) => action === 'mutation:setUserStatus' || action === 'mutation:suspendUser' || action === 'mutation:setCommentStatus') && !this.canSetUserStatus()) {
     return false;
   }
 
   // {add,remove}CommentTag - requires admin and/or moderator role
-  const userCanModifyTags = user => ['ADMIN', 'MODERATOR'].some(r => user.hasRoles(r));
-  if (actions.some(a => ['mutation:removeCommentTag', 'mutation:addCommentTag'].includes(a)) && ! userCanModifyTags(this)) {
+  if (actions.some(a => ['mutation:removeCommentTag', 'mutation:addCommentTag'].includes(a)) && ! this.canModifyTags()) {
     return false;
   }
 
