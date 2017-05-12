@@ -1,8 +1,19 @@
 import {gql} from 'react-apollo';
 import {registerConfig} from 'coral-framework/services/registry';
+import update from 'immutability-helper';
 
 const config = {
   fragments: {
+    EditCommentResponse: gql`
+      fragment CoralEmbedStream_EditCommentResponse on EditCommentResponse {
+        comment {
+          status
+        }
+        errors {
+          translation_key
+        }
+      }
+    `,
     StopIgnoringUserResponse: gql`
       fragment CoralEmbedStream_StopIgnoringUserResponse on StopIgnoringUserResponse {
         errors {
@@ -103,6 +114,10 @@ const config = {
             created_at
           }
         }
+        editing {
+          edited
+          editableUntil
+        }
       }
     `,
   },
@@ -144,9 +159,9 @@ const config = {
         }
       },
       updateQueries: {
-        EmbedQuery: (oldData, {mutationResult: {data: {createComment: {comment}}}}) => {
-          if (oldData.asset.settings.moderation === 'PRE' || comment.status === 'PREMOD' || comment.status === 'REJECTED') {
-            return oldData;
+        EmbedQuery: (previousData, {mutationResult: {data: {createComment: {comment}}}}) => {
+          if (previousData.asset.settings.moderation === 'PRE' || comment.status === 'PREMOD' || comment.status === 'REJECTED') {
+            return previousData;
           }
 
           let updatedAsset;
@@ -154,10 +169,10 @@ const config = {
           // If posting a reply
           if (parent_id) {
             updatedAsset = {
-              ...oldData,
+              ...previousData,
               asset: {
-                ...oldData.asset,
-                comments: oldData.asset.comments.map((oldComment) => {
+                ...previousData.asset,
+                comments: previousData.asset.comments.map((oldComment) => {
                   return oldComment.id === parent_id
                     ? {...oldComment, replies: [...oldComment.replies, comment], replyCount: oldComment.replyCount + 1}
                     : oldComment;
@@ -168,11 +183,11 @@ const config = {
 
             // If posting a top-level comment
             updatedAsset = {
-              ...oldData,
+              ...previousData,
               asset: {
-                ...oldData.asset,
-                commentCount: oldData.asset.commentCount + 1,
-                comments: [comment, ...oldData.asset.comments]
+                ...previousData.asset,
+                commentCount: previousData.asset.commentCount + 1,
+                comments: [comment, ...previousData.asset.comments]
               }
             };
           }
@@ -180,7 +195,75 @@ const config = {
           return updatedAsset;
         }
       }
-    })
+    }),
+    EditComment: ({
+      variables: {id, edit},
+    }) => ({
+      updateQueries: {
+        EmbedQuery: (previousData, {mutationResult: {data: {editComment: {comment: {status}}}}}) => {
+          const updateCommentWithEdit = (comment, edit) => {
+            const {body} = edit;
+            const editedComment = update(comment, {
+              $merge: {
+                body
+              },
+              editing: {$merge:{edited:true}}
+            });
+            return editedComment;
+          };
+          const commentIsStillVisible = (comment) => {
+            return ! ((id === comment.id) && (['PREMOD', 'REJECTED'].includes(status)));
+          };
+          const resultReflectingEdit = update(previousData, {
+            asset: {
+              comments: {
+                $apply: comments => {
+                  return comments.filter(commentIsStillVisible).map(comment => {
+                    let replyWasEditedToBeHidden = false;
+                    if (comment.id === id) {
+                      return updateCommentWithEdit(comment, edit);
+                    }
+                    const commentWithUpdatedReplies = update(comment, {
+                      replies: {
+                        $apply: (comments) => {
+                          return comments
+                            .filter(c => {
+                              if (commentIsStillVisible(c)) {
+                                return true;
+                              }
+                              replyWasEditedToBeHidden = true;
+                              return false;
+                            })
+                            .map(comment => {
+                              if (comment.id === id) {
+                                return updateCommentWithEdit(comment, edit);
+                              }
+                              return comment;
+                            });
+                        }
+                      },
+                    });
+
+                    // If a reply was edited to be hdiden, then this parent needs its replyCount to be decremented.
+                    if (replyWasEditedToBeHidden) {
+                      return update(commentWithUpdatedReplies, {
+                        replyCount: {
+                          $apply: (replyCount) => {
+                            return replyCount - 1;
+                          }
+                        }
+                      });
+                    }
+                    return commentWithUpdatedReplies;
+                  });
+                }
+              }
+            }
+          });
+          return resultReflectingEdit;
+        },
+      },
+    }),
   },
 };
 

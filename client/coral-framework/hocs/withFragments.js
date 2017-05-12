@@ -1,8 +1,7 @@
 import React from 'react';
-import {getDisplayName} from 'recompose';
+import {getDisplayName} from '../helpers/hoc';
 
 // TODO: revisit `filtering` after https://github.com/apollographql/graphql-anywhere/issues/38.
-
 export default fragments => WrappedComponent => {
   class WithFragments extends React.Component {
     render() {

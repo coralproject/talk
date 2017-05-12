@@ -137,6 +137,7 @@ class Stream extends React.Component {
               comment={highlightedComment}
               charCountEnable={asset.settings.charCountEnable}
               maxCharCount={asset.settings.charCount}
+              editComment={this.props.editComment}
             />
           : <div>
               <NewCount
@@ -178,6 +179,7 @@ class Stream extends React.Component {
                           pluginProps={pluginProps}
                           charCountEnable={asset.settings.charCountEnable}
                           maxCharCount={asset.settings.charCount}
+                          editComment={this.props.editComment}
                         />)
                 )}
               </div>
@@ -205,7 +207,10 @@ Stream.propTypes = {
   removeCommentTag: PropTypes.func,
 
   // dispatch action to ignore another user
-  ignoreUser: React.PropTypes.func
+  ignoreUser: React.PropTypes.func,
+
+  // edit a comment, passed (id, asset_id, { body })
+  editComment: React.PropTypes.func,
 };
 
 export default Stream;

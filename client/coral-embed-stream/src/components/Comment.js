@@ -19,8 +19,10 @@ import Slot from 'coral-framework/components/Slot';
 import LoadMore from './LoadMore';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import {TopRightMenu} from './TopRightMenu';
+import classnames from 'classnames';
+import {EditableCommentContent} from './EditableCommentContent';
 import {getActionSummary, iPerformedThisAction} from 'coral-framework/utils';
-
+import {getEditableUntilDate} from './util';
 import styles from './Comment.css';
 
 const isStaff = tags => !tags.every(t => t.name !== 'STAFF');
@@ -37,7 +39,17 @@ const ActionButton = ({children}) => {
 class Comment extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {replyBoxVisible: false};
+
+    // timeout to keep track of Comment edit window expiration
+    this.editWindowExpiryTimeout = null;
+    this.onClickEdit = this.onClickEdit.bind(this);
+    this.stopEditing = this.stopEditing.bind(this);
+    this.state = {
+
+      // Whether the comment should be editable (e.g. after a commenter clicking the 'Edit' button on their own comment)
+      isEditing: false,
+      replyBoxVisible: false,
+    };
   }
 
   static propTypes = {
@@ -84,7 +96,13 @@ class Comment extends React.Component {
       user: PropTypes.shape({
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired
-      }).isRequired
+      }).isRequired,
+      editing: PropTypes.shape({
+        edited: PropTypes.bool,
+
+        // ISO8601
+        editableUntil: PropTypes.string,
+      })
     }).isRequired,
 
     // given a comment, return whether it should be rendered as ignored
@@ -97,10 +115,46 @@ class Comment extends React.Component {
     removeCommentTag: React.PropTypes.func,
 
     // dispatch action to ignore another user
-    ignoreUser: React.PropTypes.func
-  };
+    ignoreUser: React.PropTypes.func,
 
-  render() {
+    // edit a comment, passed (id, asset_id, { body })
+    editComment: React.PropTypes.func,
+  }
+
+  onClickEdit (e) {
+    e.preventDefault();
+    this.setState({isEditing: true});
+  }
+
+  stopEditing () {
+    if (this._isMounted) {
+      this.setState({isEditing: false});
+    }
+  }
+
+  componentDidMount() {
+    this._isMounted = true;
+    if (this.editWindowExpiryTimeout) {
+      this.editWindowExpiryTimeout = clearTimeout(this.editWindowExpiryTimeout);
+    }
+
+    // if still in the edit window, set a timeout to re-render once it expires
+    const msLeftToEdit = editWindowRemainingMs(this.props.comment);
+    if (msLeftToEdit > 0) {
+      this.editWindowExpiryTimeout = setTimeout(() => {
+
+        // re-render
+        this.setState(this.state);
+      }, msLeftToEdit);
+    }
+  }
+  componentWillUnmount() {
+    if (this.editWindowExpiryTimeout) {
+      this.editWindowExpiryTimeout = clearTimeout(this.editWindowExpiryTimeout);
+    }
+    this._isMounted = false;
+  }
+  render () {
     const {
       comment,
       parentId,
@@ -190,8 +244,17 @@ class Comment extends React.Component {
 
           {commentIsBest(comment)
             ? <TagLabel><BestIndicator /></TagLabel>
-            : null}
-          <PubDate created_at={comment.created_at} />
+            : null }
+
+          <span className={styles.bylineSecondary}>
+            <PubDate created_at={comment.created_at} />
+            {
+              (comment.editing && comment.editing.edited)
+              ? <span>&nbsp;<span className={styles.editedMarker}>(Edited)</span></span>
+              : null
+            }
+          </span>
+
           <Slot
             fill="commentInfoBar"
             data={this.props.data}
@@ -200,18 +263,47 @@ class Comment extends React.Component {
             commentId={comment.id}
             inline
           />
-          {currentUser && comment.user.id !== currentUser.id
-            ? <span className={styles.topRightMenu}>
-                <TopRightMenu
-                  comment={comment}
-                  ignoreUser={ignoreUser}
-                  addNotification={addNotification}
-                />
-              </span>
-            : null}
 
-          <Content body={comment.body} />
-          <Slot fill="commentContent" />
+          { (currentUser &&
+              (comment.user.id === currentUser.id))
+
+              /* User can edit/delete their own comment for a short window after posting */
+              ? <span className={classnames(styles.topRight)}>
+                  {
+                    commentIsStillEditable(comment) &&
+                    <a
+                      className={classnames(styles.link, {[styles.active]: this.state.isEditing})}
+                      onClick={this.onClickEdit}>Edit</a>
+                  }
+                </span>
+
+              /* TopRightMenu allows currentUser to ignore other users' comments */
+              : <span className={classnames(styles.topRight, styles.topRightMenu)}>
+                  <TopRightMenu
+                    comment={comment}
+                    ignoreUser={ignoreUser}
+                    addNotification={addNotification} />
+                </span>
+          }
+
+          {
+            this.state.isEditing
+            ? <EditableCommentContent
+                editComment={this.props.editComment.bind(null, comment.id, asset.id)}
+                addNotification={addNotification}
+                asset={asset}
+                comment={comment}
+                currentUser={currentUser}
+                maxCharCount={maxCharCount}
+                parentId={parentId}
+                stopEditing={this.stopEditing}
+                />
+            : <div>
+                <Content body={comment.body} />
+                <Slot fill="commentContent" />
+              </div>
+          }
+
           <div className="commentActionsLeft comment__action-container">
             <Slot
               fill="commentReactions"
@@ -295,6 +387,7 @@ class Comment extends React.Component {
                   addNotification={addNotification}
                   parentId={comment.id}
                   postComment={postComment}
+                  editComment={this.props.editComment}
                   depth={depth + 1}
                   asset={asset}
                   highlighted={highlighted}
@@ -330,3 +423,21 @@ class Comment extends React.Component {
 }
 
 export default Comment;
+
+// return whether the comment is editable
+function commentIsStillEditable (comment) {
+  const editing = comment && comment.editing;
+  if ( ! editing) {return false;}
+  const editableUntil = getEditableUntilDate(comment);
+  const editWindowExpired = (editableUntil - new Date) < 0;
+  return ! editWindowExpired;
+}
+
+// return number of milliseconds before edit window expires
+function editWindowRemainingMs (comment) {
+  const editableUntil = getEditableUntilDate(comment);
+  if ( ! editableUntil) {return;}
+  const now = new Date();
+  const editWindowRemainingMs = (editableUntil - now);
+  return editWindowRemainingMs;
+}

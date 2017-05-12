@@ -20,6 +20,27 @@ export const withPostComment = withMutation(
     }),
   });
 
+export const withEditComment = withMutation(
+  gql`
+    mutation EditComment($id: ID!, $asset_id: ID!, $edit: EditCommentInput) {
+      editComment(id:$id, asset_id:$asset_id, edit:$edit) {
+        ...EditCommentResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      editComment: (id, asset_id, edit)  => {
+        return mutate({
+          variables: {
+            id,
+            asset_id,
+            edit,
+          },
+        });
+      }
+    }),
+  });
+
 export const withPostFlag = withMutation(
   gql`
     mutation PostFlag($flag: CreateFlagInput!) {

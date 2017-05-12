@@ -8,8 +8,9 @@ import isNil from 'lodash/isNil';
 import {NEW_COMMENT_COUNT_POLL_INTERVAL} from '../constants/stream';
 import {
   withPostComment, withPostFlag, withPostDontAgree, withDeleteAction,
-  withAddCommentTag, withRemoveCommentTag, withIgnoreUser,
+  withAddCommentTag, withRemoveCommentTag, withIgnoreUser, withEditComment,
 } from 'coral-framework/graphql/mutations';
+
 import {notificationActions, authActions} from 'coral-framework';
 import {editName} from 'coral-framework/actions/user';
 import {setCommentCountCache, setActiveReplyBox} from '../actions/stream';
@@ -246,5 +247,6 @@ export default compose(
   withRemoveCommentTag,
   withIgnoreUser,
   withDeleteAction,
+  withEditComment,
 )(StreamContainer);
 

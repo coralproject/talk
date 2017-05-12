@@ -3,6 +3,7 @@ import {graphql} from 'react-apollo';
 import merge from 'lodash/merge';
 import uniq from 'lodash/uniq';
 import flatten from 'lodash/flatten';
+import isEmpty from 'lodash/isEmpty';
 import {getMutationOptions, resolveFragments} from 'coral-framework/services/registry';
 import {store} from 'coral-framework/services/store';
 import {getDefinitionName} from '../utils';
@@ -71,6 +72,9 @@ export default (document, config) => WrappedComponent => {
         updateQueries,
         update,
       };
+      if (isEmpty(wrappedConfig.optimisticResponse)) {
+        delete wrappedConfig.optimisticResponse;
+      }
       return data.mutate(wrappedConfig);
     };
     return config.props({...data, mutate});
