@@ -12,7 +12,7 @@ class ReplyBox extends Component {
   render() {
     const {
       styles,
-      postItem,
+      postComment,
       assetId,
       authorId,
       addNotification,
@@ -32,7 +32,7 @@ class ReplyBox extends Component {
         addNotification={addNotification}
         authorId={authorId}
         assetId={assetId}
-        postItem={postItem}
+        postComment={postComment}
         isReply={true} />
     </div>;
   }
@@ -46,7 +46,7 @@ ReplyBox.propTypes = {
   parentId: PropTypes.string,
   addNotification: PropTypes.func.isRequired,
   authorId: PropTypes.string.isRequired,
-  postItem: PropTypes.func.isRequired,
+  postComment: PropTypes.func.isRequired,
   assetId: PropTypes.string.isRequired
 };
 

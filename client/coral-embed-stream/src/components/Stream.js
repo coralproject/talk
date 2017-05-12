@@ -26,7 +26,7 @@ class Stream extends React.Component {
   render() {
     const {
       root: {asset, asset: {comments}, comment, myIgnoredUsers},
-      postItem,
+      postComment,
       addNotification,
       postFlag,
       postDontAgree,
@@ -84,7 +84,7 @@ class Stream extends React.Component {
                 {user
                   ? <CommentBox
                       addNotification={this.props.addNotification}
-                      postItem={this.props.postItem}
+                      postComment={this.props.postComment}
                       appendItemArray={this.props.appendItemArray}
                       updateItem={this.props.updateItem}
                       setCommentCountCache={this.props.setCommentCountCache}
@@ -122,7 +122,7 @@ class Stream extends React.Component {
               activeReplyBox={this.props.activeReplyBox}
               addNotification={addNotification}
               depth={0}
-              postItem={this.props.postItem}
+              postComment={this.props.postComment}
               asset={asset}
               currentUser={user}
               highlighted={comment.id}
@@ -161,7 +161,7 @@ class Stream extends React.Component {
                           activeReplyBox={this.props.activeReplyBox}
                           addNotification={addNotification}
                           depth={0}
-                          postItem={postItem}
+                          postComment={postComment}
                           asset={asset}
                           currentUser={user}
                           postFlag={postFlag}
@@ -198,7 +198,7 @@ class Stream extends React.Component {
 
 Stream.propTypes = {
   addNotification: PropTypes.func.isRequired,
-  postItem: PropTypes.func.isRequired,
+  postComment: PropTypes.func.isRequired,
 
   // dispatch action to add a tag to a comment
   addCommentTag: PropTypes.func,

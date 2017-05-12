@@ -85,8 +85,8 @@ export class CommentForm extends React.Component {
 
     const body = this.state.body;
     const length = body.length;
-    const isNotValidLength = (length) => !length || (maxCharCount && length > maxCharCount);
-    const disablePostComment = (charCountEnable && isNotValidLength(length)) || !saveCommentEnabled({body});
+    const isRespectingMaxCount = (length) => charCountEnable && maxCharCount && length > maxCharCount;
+    const disablePostComment = !length || isRespectingMaxCount(length) || !saveCommentEnabled({body});
 
     return <div>
       <div className={`${name}-container`}>
@@ -106,8 +106,8 @@ export class CommentForm extends React.Component {
           rows={3}/>
         <Slot fill='commentInputArea' />
       </div>
-      { 
-        this.props.charCountEnable && 
+      {
+        this.props.charCountEnable &&
         <div className={`${name}-char-count ${length > maxCharCount ? `${name}-char-max` : ''}`}>
           {maxCharCount && `${maxCharCount - length} ${lang.t('characters-remaining')}`}
         </div>

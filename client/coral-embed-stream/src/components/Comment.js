@@ -65,7 +65,7 @@ class Comment extends React.Component {
     parentId: PropTypes.string,
     highlighted: PropTypes.string,
     addNotification: PropTypes.func.isRequired,
-    postItem: PropTypes.func.isRequired,
+    postComment: PropTypes.func.isRequired,
     depth: PropTypes.number.isRequired,
     asset: PropTypes.shape({
       id: PropTypes.string,
@@ -145,7 +145,7 @@ class Comment extends React.Component {
 
         // re-render
         this.setState(this.state);
-      }, msLeftToEdit);      
+      }, msLeftToEdit);
     }
   }
   componentWillUnmount() {
@@ -161,7 +161,7 @@ class Comment extends React.Component {
       currentUser,
       asset,
       depth,
-      postItem,
+      postComment,
       addNotification,
       showSignInDialog,
       highlighted,
@@ -286,7 +286,7 @@ class Comment extends React.Component {
                 </span>
           }
 
-          { 
+          {
             this.state.isEditing
             ? <EditableCommentContent
                 editComment={this.props.editComment.bind(null, comment.id, asset.id)}
@@ -370,7 +370,7 @@ class Comment extends React.Component {
               parentId={parentId || comment.id}
               addNotification={addNotification}
               authorId={currentUser.id}
-              postItem={postItem}
+              postComment={postComment}
               assetId={asset.id}
             />
           : null}
@@ -386,7 +386,7 @@ class Comment extends React.Component {
                   activeReplyBox={activeReplyBox}
                   addNotification={addNotification}
                   parentId={comment.id}
-                  postItem={postItem}
+                  postComment={postComment}
                   editComment={this.props.editComment}
                   depth={depth + 1}
                   asset={asset}
@@ -430,7 +430,7 @@ function commentIsStillEditable (comment) {
   if (!editing) {return false;}
   const editableUntil = getEditableUntilDate(comment);
   const editWindowExpired = (editableUntil - new Date) < 0;
-  return !editWindowExpired;  
+  return !editWindowExpired;
 }
 
 // return number of milliseconds before edit window expires

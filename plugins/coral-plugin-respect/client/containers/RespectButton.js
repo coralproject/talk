@@ -1,15 +1,15 @@
-import {compose, gql, graphql} from 'react-apollo';
+import {compose, gql} from 'react-apollo';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import get from 'lodash/get';
-import withFragments from 'coral-framework/hocs/withFragments';
+import {withFragments, withMutation} from 'coral-framework/hocs';
 import {showSignInDialog} from 'coral-framework/actions/auth';
 import RespectButton from '../components/RespectButton';
 
 const isRespectAction = (a) => a.__typename === 'RespectActionSummary';
 
 const COMMENT_FRAGMENT = gql`
-  fragment RespectButton_updateFragment on Comment {
+  fragment CoralRespect_UpdateFragment on Comment {
     action_summaries {
       ... on RespectActionSummary {
         count
@@ -21,8 +21,8 @@ const COMMENT_FRAGMENT = gql`
   }
 `;
 
-const withDeleteAction = graphql(gql`
-  mutation deleteAction($id: ID!) {
+const withDeleteAction = withMutation(gql`
+  mutation CoralRespect_DeleteAction($id: ID!) {
       deleteAction(id:$id) {
         errors {
           translation_key
@@ -66,8 +66,8 @@ const withDeleteAction = graphql(gql`
   }),
 });
 
-const withPostRespect = graphql(gql`
-  mutation createRespect($respect: CreateRespectInput!) {
+const withPostRespect = withMutation(gql`
+  mutation CoralRespect_CreateRespect($respect: CreateRespectInput!) {
     createRespect(respect: $respect) {
       respect {
         id
@@ -137,14 +137,14 @@ const mapDispatchToProps = (dispatch) =>
 const enhance = compose(
   withFragments({
     root: gql`
-      fragment RespectButton_root on RootQuery {
+      fragment CoralRespect_RespectButton_root on RootQuery {
         me {
           status
         }
       }
     `,
     comment: gql`
-      fragment RespectButton_comment on Comment {
+      fragment CoralRespect_RespectButton_comment on Comment {
         action_summaries {
           ... on RespectActionSummary {
             count

@@ -4,6 +4,7 @@ import {ApolloProvider} from 'react-apollo';
 
 import {client} from 'coral-framework/services/client';
 import {checkLogin} from 'coral-framework/actions/auth';
+import './graphql';
 import {addExternalConfig} from 'coral-embed-stream/src/actions/config';
 
 import reducers from './reducers';
