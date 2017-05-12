@@ -2,8 +2,6 @@ export const base = '/api/v1';
 
 const buildOptions = (inputOptions = {}) => {
 
-  const csurfDOM = document.head.querySelector('[property=csrf]');
-
   const defaultOptions = {
     method: 'GET',
     headers: {
@@ -11,21 +9,10 @@ const buildOptions = (inputOptions = {}) => {
       'Accept': 'application/json'
     },
     credentials: 'same-origin',
-    _csrf: csurfDOM ? csurfDOM.content : false
   };
 
   let options = Object.assign({}, defaultOptions, inputOptions);
   options.headers = Object.assign({}, defaultOptions.headers, inputOptions.headers);
-
-  if (options._csrf) {
-    switch (options.method.toLowerCase()) {
-    case 'post':
-    case 'put':
-    case 'delete':
-      options.headers['x-csrf-token'] = options._csrf;
-      break;
-    }
-  }
 
   if (options.method.toLowerCase() !== 'get') {
     options.body = JSON.stringify(options.body);
