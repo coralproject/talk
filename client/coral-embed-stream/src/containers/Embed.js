@@ -5,26 +5,25 @@ import {bindActionCreators} from 'redux';
 import isEqual from 'lodash/isEqual';
 import branch from 'recompose/branch';
 import renderComponent from 'recompose/renderComponent';
+import update from 'immutability-helper';
 
 import {Spinner} from 'coral-ui';
 import {authActions, assetActions, pym} from 'coral-framework';
-import {getDefinitionName, separateDataAndRoot} from 'coral-framework/utils';
-import Embed from '../components/Embed';
-import {setCommentCountCache, viewAllComments} from '../actions/stream';
-import {setActiveTab} from '../actions/embed';
+
 import Stream from './Stream';
+import Embed from '../components/Embed';
+
+import {setActiveTab} from '../actions/embed';
+import {setCommentCountCache, viewAllComments} from '../actions/stream';
+import {getDefinitionName, separateDataAndRoot} from 'coral-framework/utils';
 
 const {logout, checkLogin} = authActions;
 const {fetchAssetSuccess} = assetActions;
 
 class EmbedContainer extends React.Component {
 
-  componentDidMount() {
-    pym.sendMessage('childReady');
-  }
-
   componentWillReceiveProps(nextProps) {
-    if(this.props.root.me && !nextProps.root.me) {
+    if (this.props.root.me && !nextProps.root.me) {
 
       // Refetch because on logout `excludeIgnored` becomes `false`.
       // TODO: logout via mutation and obsolete this?
@@ -32,7 +31,7 @@ class EmbedContainer extends React.Component {
     }
 
     const {fetchAssetSuccess} = this.props;
-    if(!isEqual(nextProps.root.asset, this.props.root.asset)) {
+    if (!isEqual(nextProps.root.asset, this.props.root.asset)) {
 
       // TODO: remove asset data from redux store.
       fetchAssetSuccess(nextProps.root.asset);
@@ -47,7 +46,7 @@ class EmbedContainer extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(!isEqual(prevProps.root.comment, this.props.root.comment)) {
+    if (!isEqual(prevProps.root.comment, this.props.root.comment)) {
 
       // Scroll to a permalinked comment if one is in the URL once the page is done rendering.
       setTimeout(() => pym.scrollParentToChildEl('coralStream'), 0);
@@ -84,8 +83,11 @@ export const withQuery = graphql(EMBED_QUERY, {
       hasComment: commentId !== '',
       excludeIgnored: Boolean(auth && auth.user && auth.user.id),
     },
+    reducer: (previousResult, action, variables) => {
+      return reduceEditCommentActionsToUpdateStreamQuery(previousResult, action, variables);
+    },
   }),
-  props: ({data}) => separateDataAndRoot(data),
+  props: ({data}) => separateDataAndRoot(data)
 });
 
 const mapStateToProps = state => ({
@@ -95,24 +97,107 @@ const mapStateToProps = state => ({
   assetId: state.stream.assetId,
   assetUrl: state.stream.assetUrl,
   activeTab: state.embed.activeTab,
+  config: state.config
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({
-    fetchAssetSuccess,
-    checkLogin,
-    setCommentCountCache,
-    viewAllComments,
-    logout,
-    setActiveTab,
-  }, dispatch);
+  bindActionCreators(
+    {
+      logout,
+      checkLogin,
+      setActiveTab,
+      viewAllComments,
+      fetchAssetSuccess,
+      setCommentCountCache
+    },
+    dispatch
+  );
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  branch(
-    props => !props.auth.checkedInitialLogin,
-    renderComponent(Spinner),
-  ),
-  withQuery,
+  branch(props => !props.auth.checkedInitialLogin && props.config, renderComponent(Spinner)),
+  withQuery
 )(EmbedContainer);
 
+/**
+ * Reduce editComment mutation actions
+ * producing a new queryStream result where asset.comments reflects the edit
+ */
+function reduceEditCommentActionsToUpdateStreamQuery(previousResult, action) {
+  if ( ! (action.type === 'APOLLO_MUTATION_RESULT' && action.operationName === 'editComment')) {
+    return previousResult;
+  }
+  const resultHasErrors = (result) => {
+    try {
+      return result.data.editComment.errors.length > 0;
+    } catch (error) {
+
+      // expected if no errors;
+      return false;
+    }
+  };
+  if (resultHasErrors(action.result)) {
+    return previousResult;
+  }
+  const {variables: {id, edit}, result: {data: {editComment: {comment: {status}}}}} = action;
+  const updateCommentWithEdit = (comment, edit) => {
+    const {body} = edit;
+    const editedComment = update(comment, {
+      $merge: {
+        body
+      },
+      editing: {$merge:{edited:true}}
+    });
+    return editedComment;
+  };
+  const commentIsStillVisible = (comment) => {
+    return ! ((id === comment.id) && (['PREMOD', 'REJECTED'].includes(status)));
+  };
+  const resultReflectingEdit = update(previousResult, {
+    asset: {
+      comments: {
+        $apply: comments => {
+          return comments.filter(commentIsStillVisible).map(comment => {
+            let replyWasEditedToBeHidden = false;
+            if (comment.id === id) {
+              return updateCommentWithEdit(comment, edit);
+            }
+            const commentWithUpdatedReplies = update(comment, {
+              replies: {
+                $apply: (comments) => {
+                  return comments
+                    .filter(c => {
+                      if (commentIsStillVisible(c)) {
+                        return true;
+                      }
+                      replyWasEditedToBeHidden = true;
+                      return false;
+                    })
+                    .map(comment => {
+                      if (comment.id === id) {
+                        return updateCommentWithEdit(comment, edit);                          
+                      }
+                      return comment;
+                    });
+                }
+              },
+            });
+
+            // If a reply was edited to be hdiden, then this parent needs its replyCount to be decremented.
+            if (replyWasEditedToBeHidden) {
+              return update(commentWithUpdatedReplies, {
+                replyCount: {
+                  $apply: (replyCount) => {
+                    return replyCount - 1;
+                  }
+                }
+              });
+            }
+            return commentWithUpdatedReplies;
+          });
+        }
+      }
+    }
+  });
+  return resultReflectingEdit;
+}

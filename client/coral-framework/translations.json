@@ -22,9 +22,21 @@
     "comment": "comment",
     "comments": "comments",
     "commentIsIgnored": "This comment is hidden because you ignored this user.",
+    "editComment": {
+      "bodyInputLabel": "Edit this comment",
+      "saveButton": "Save changes",
+      "editWindowExpired": "You can no longer edit this comment. The time window to do so has expired. Why not post another one?",
+      "editWindowExpiredClose": "Close",
+      "editWindowTimerPrefix": "Edit Window: ",
+      "second": "second",
+      "secondsPlural": "seconds",
+      "unexpectedError": "Unexpected error while saving changes. Sorry!"
+    },
     "error": {
+      "editWindowExpired": "You can no longer edit this comment. The time window to do so has expired.",
       "emailNotVerified": "Email address {0} not verified.",
       "email": "Not a valid E-Mail",
+      "networkError": "Failed to connect to server. Check your internet connection and try again.",
       "password": "Password must be at least 8 characters",
       "username": "Usernames can contain letters, numbers and _ only",
       "confirmPassword": "Passwords don't match. Please, check again",
@@ -61,9 +73,21 @@
     "comments": "commentarios",
     "commentIsIgnored": "Este comentario está escondido porque has ignorado al usuario.",
     "showAllComments": "Mostrar todos los comentarios",
+    "editComment": {
+      "bodyInputLabel": "Editar este comentario",
+      "saveButton": "Guardar cambios",
+      "editWindowExpired": "Ya no puedes editar este comentario. La ventana de tiempo para hacerlo ha caducado. ¿Por qué no publicar otro?",
+      "editWindowExpiredClose": "Cerca",
+      "editWindowTimerPrefix": "Ventana de edición: ",
+      "second": "segundo",
+      "secondsPlural": "segundos",
+      "unexpectedError": "Unexpected error while saving changes. Sorry!"
+    },
     "error": {
+      "editWindowExpired": "Ya no puedes editar este comentario. La ventana de tiempo para hacerlo ha caducado.",
       "emailNotVerified": "E-mail {0} no verificado.",
       "email": "No es un e-mail válido",
+      "networkError": "Error al conectar con el servidor. Compruebe su conexión a Internet y vuelva a intentarlo.",
       "password": "La contraseña debe tener por lo menos 8 caracteres",
       "username": "Los nombres pueden contener letras, números y _",
       "organizationName": "El nombre de la organización debe contener letras y/o números.",

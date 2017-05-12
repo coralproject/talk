@@ -15,4 +15,8 @@ fragment commentView on Comment {
     action_summaries {
       ...actionSummaryView
     }
+    editing {
+        edited
+        editableUntil
+    }
 }

@@ -26,6 +26,23 @@ const StatusSchema = new Schema({
 });
 
 /**
+ * A record of old body values for a Comment
+ */
+const BodyHistoryItemSchema = new Schema({
+  body: {
+    required: true,
+    type: String,
+  },
+
+  // datetime until the comment body value was this.body
+  created_at: {
+    required: true,
+    type: Date,
+    default: Date,
+  }
+});
+
+/**
  * The Mongo schema for a Comment.
  * @type {Schema}
  */
@@ -40,6 +57,7 @@ const CommentSchema = new Schema({
     required: [true, 'The body is required.'],
     minlength: 2
   },
+  body_history: [BodyHistoryItemSchema],
   asset_id: String,
   author_id: String,
   status_history: [StatusSchema],
@@ -49,7 +67,7 @@ const CommentSchema = new Schema({
     default: 'NONE'
   },
   parent_id: String,
-  
+
   // Tags are added by the self or by administrators.
   tags: [TagLinkSchema],
 

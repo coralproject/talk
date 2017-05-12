@@ -165,6 +165,12 @@ const ErrLoginAttemptMaximumExceeded = new APIError('You have made too many inco
   status: 429
 });
 
+class ErrEditWindowHasEnded extends APIError {
+  constructor(message) {
+    super(message || 'Edit window is over.', {status: 403, translation_key: 'error.editWindowExpired'});
+  }
+}
+
 module.exports = {
   ExtendableError,
   APIError,
@@ -188,5 +194,6 @@ module.exports = {
   ErrPermissionUpdateUsername,
   ErrSettingsInit,
   ErrInstallLock,
-  ErrLoginAttemptMaximumExceeded
+  ErrLoginAttemptMaximumExceeded,
+  ErrEditWindowHasEnded,
 };

@@ -1,4 +1,5 @@
 const {decorateWithTags} = require('./util');
+const CommentsService = require('../../services/comments');
 
 const Comment = {
   parent({parent_id}, _, {loaders: {Comments}}) {
@@ -47,6 +48,14 @@ const Comment = {
   },
   asset({asset_id}, _, {loaders: {Assets}}) {
     return Assets.getByID.load(asset_id);
+  },
+  editing(comment) {
+    const editableUntil = CommentsService.getEditableUntilDate(comment);
+    const edited = comment.body_history.length > 1;
+    return {
+      edited,
+      editableUntil,
+    };
   }
 };
 
