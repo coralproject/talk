@@ -191,12 +191,13 @@ hr {
 }
 
 .coral-plugin-commentbox-textarea {
+  color: #262626;
   flex: 1;
-  padding: 5px;
+  padding: 1em;
   min-height: 100px;
   margin-top: 10px;
   font-size: 16px;
-  border: 1px solid #ccc;
+  border: 1px solid #9E9E9E;
 }
 
 .coral-plugin-commentbox-button-container {
@@ -317,9 +318,7 @@ button.comment__action-button[disabled],
 }
 
 .coral-plugin-pubdate-text {
-  color: #696969;
   display: inline-block;
-  font-size: .75rem;
   margin-left: 5px;
 }
 

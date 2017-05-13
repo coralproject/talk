@@ -6,13 +6,17 @@ import uniqBy from 'lodash/uniqBy';
 import sortBy from 'lodash/sortBy';
 import isNil from 'lodash/isNil';
 import {NEW_COMMENT_COUNT_POLL_INTERVAL} from '../constants/stream';
-import {postComment, postFlag, postDontAgree, deleteAction, addCommentTag, removeCommentTag, ignoreUser} from 'coral-framework/graphql/mutations';
+import {
+  withPostComment, withPostFlag, withPostDontAgree, withDeleteAction,
+  withAddCommentTag, withRemoveCommentTag, withIgnoreUser, withEditComment,
+} from 'coral-framework/graphql/mutations';
+
 import {notificationActions, authActions} from 'coral-framework';
 import {editName} from 'coral-framework/actions/user';
 import {setCommentCountCache, setActiveReplyBox} from '../actions/stream';
 import Stream from '../components/Stream';
 import Comment from './Comment';
-import withFragments from 'coral-framework/hocs/withFragments';
+import {withFragments} from 'coral-framework/hocs';
 import {getDefinitionName} from 'coral-framework/utils';
 
 const {showSignInDialog} = authActions;
@@ -236,12 +240,13 @@ const mapDispatchToProps = dispatch =>
 export default compose(
   withFragments(fragments),
   connect(mapStateToProps, mapDispatchToProps),
-  postComment,
-  postFlag,
-  postDontAgree,
-  addCommentTag,
-  removeCommentTag,
-  ignoreUser,
-  deleteAction,
+  withPostComment,
+  withPostFlag,
+  withPostDontAgree,
+  withAddCommentTag,
+  withRemoveCommentTag,
+  withIgnoreUser,
+  withDeleteAction,
+  withEditComment,
 )(StreamContainer);
 

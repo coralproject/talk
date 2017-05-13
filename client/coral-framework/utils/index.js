@@ -1,3 +1,5 @@
+import {gql} from 'react-apollo';
+
 export const getTotalActionCount = (type, comment) => {
   return comment.action_summaries
     .filter(s => s.__typename === type)
@@ -61,3 +63,11 @@ export function separateDataAndRoot(
     root,
   };
 }
+
+export function mergeDocuments(documents) {
+  const main = typeof documents[0] === 'string' ? documents[0] : documents[0].loc.source.body;
+  const substitutions = documents.slice(1);
+  const literals = [main, ...substitutions.map(() => '\n')];
+  return gql.apply(null, [literals, ...substitutions]);
+}
+

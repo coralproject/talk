@@ -108,14 +108,14 @@ export const changeView = view => dispatch => {
   });
 
   switch (view) {
-    case 'SIGNUP':
-      window.resizeTo(500, 800);
-      break;
-    case 'FORGOT':
-      window.resizeTo(500, 400);
-      break;
-    default:
-      window.resizeTo(500, 550);
+  case 'SIGNUP':
+    window.resizeTo(500, 800);
+    break;
+  case 'FORGOT':
+    window.resizeTo(500, 400);
+    break;
+  default:
+    window.resizeTo(500, 550);
   }
 };
 
@@ -156,11 +156,13 @@ export const fetchSignIn = formData => dispatch => {
     })
     .catch(error => {
       if (error.metadata) {
+
         // the user might not have a valid email. prompt the user user re-request the confirmation email
         dispatch(
           signInFailure(lang.t('error.emailNotVerified', error.metadata))
         );
       } else {
+
         // invalid credentials
         dispatch(signInFailure(lang.t('error.emailPasswordError')));
       }
@@ -351,6 +353,7 @@ export const requestConfirmEmail = (email, redirectUri) => dispatch => {
       dispatch(verifyEmailSuccess());
     })
     .catch(err => {
+
       // email might have already been verifyed
       dispatch(verifyEmailFailure(err));
     });
