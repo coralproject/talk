@@ -10,31 +10,6 @@ const lang = new I18n(translations);
 import translations from './../translations';
 import I18n from '../../coral-framework/modules/i18n/i18n';
 
-const ME_QUERY = gql`
-  query Me {
-    me {
-      status
-      comments {
-          id
-          body
-          asset {
-            id
-            title
-            url
-          }
-          created_at
-      }
-    }
-  }
-`;
-
-function fetchMe() {
-  return client.query({
-    fetchPolicy: 'network-only',
-    query: ME_QUERY
-  });
-}
-
 // Dialog Actions
 export const showSignInDialog = () => dispatch => {
   const signInPopUp = window.open(
@@ -292,7 +267,6 @@ export const logout = () => dispatch => {
   return coralApi('/auth', {method: 'DELETE'}).then(() => {
     dispatch({type: actions.LOGOUT});
     Storage.removeItem('token');
-    fetchMe();
   });
 };
 

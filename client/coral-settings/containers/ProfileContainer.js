@@ -25,13 +25,6 @@ class ProfileContainer extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.auth.loggedIn !== nextProps.auth.loggedIn) {
-      // Refetch after login/logout.
-      this.props.data.refetch();
-    }
-  }
-
   handleTabChange = tab => {
     this.setState({
       activeTab: tab
@@ -39,15 +32,15 @@ class ProfileContainer extends Component {
   };
 
   render() {
-    const {asset, data, showSignInDialog, stopIgnoringUser} = this.props;
+    const {auth, asset, data, showSignInDialog, stopIgnoringUser} = this.props;
     const {me} = this.props.data;
+
+    if (!auth.loggedIn) {
+      return <NotLoggedIn showSignInDialog={showSignInDialog} />;
+    }
 
     if (data.loading) {
       return <Spinner />;
-    }
-
-    if (!me) {
-      return <NotLoggedIn showSignInDialog={showSignInDialog} />;
     }
 
     const localProfile = this.props.user.profiles.find(
