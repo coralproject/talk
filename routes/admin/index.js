@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const {
+  RECAPTCHA_PUBLIC
+} = require('../../config');
 
 // Get /email-confirmation expects a signed JWT in the hash
 router.get('/confirm-email', (req, res) => {
@@ -17,7 +20,7 @@ router.get('/password-reset', (req, res) => {
 
 router.get('*', (req, res) => {
   const data = {
-    TALK_RECAPTCHA_PUBLIC: process.env.TALK_RECAPTCHA_PUBLIC
+    TALK_RECAPTCHA_PUBLIC: RECAPTCHA_PUBLIC
   };
 
   res.render('admin', {basePath: '/client/coral-admin', data});
