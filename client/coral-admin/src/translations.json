@@ -161,7 +161,8 @@
       "days": "{0} days",
       "suspend_user": "Suspend User",
       "cancel": "Cancel",
-      "error_email_message_empty": "You must specify an E-Mail message."
+      "error_email_message_empty": "You must specify an E-Mail message.",
+      "notify_suspend_until": "User {0} has been temporarily suspended. This suspension will automatically end {1}."
     },
     "dashboard": {
       "next-update": "{0} minutes until next update.",

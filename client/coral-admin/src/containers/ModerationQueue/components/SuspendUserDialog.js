@@ -6,6 +6,7 @@ import styles from './SuspendUserDialog.css';
 import Button from 'coral-ui/components/Button';
 
 import I18n from 'coral-framework/modules/i18n/i18n';
+import {dateAdd} from 'coral-framework/utils';
 import translations from '../../../translations';
 const lang = new I18n(translations);
 
@@ -39,7 +40,7 @@ class SuspendUserDialog extends React.Component {
 
   handlePerform = () => {
     this.props.onPerform({
-      duration: this.state.duration,
+      until: dateAdd(new Date(), 'hour', this.state.duration),
       message: this.state.message,
     });
   };

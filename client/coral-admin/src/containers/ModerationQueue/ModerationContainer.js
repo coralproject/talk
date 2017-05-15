@@ -6,6 +6,8 @@ import {toast} from 'react-toastify';
 import key from 'keymaster';
 import isEqual from 'lodash/isEqual';
 import styles from './components/styles.css';
+import translations from 'coral-admin/src/translations';
+import I18n from 'coral-framework/modules/i18n/i18n';
 
 import {modQueueQuery, getQueueCounts} from '../../graphql/queries';
 import {banUser, setCommentStatus} from '../../graphql/mutations';
@@ -30,6 +32,8 @@ import ModerationMenu from './components/ModerationMenu';
 import ModerationHeader from './components/ModerationHeader';
 import NotFoundAsset from './components/NotFoundAsset';
 import ModerationKeysModal from '../../components/ModerationKeysModal';
+
+const lang = new I18n(translations);
 
 class ModerationContainer extends Component {
   state = {
@@ -208,7 +212,15 @@ class ModerationContainer extends Component {
           open={moderation.suspendUserDialog.show}
           username={moderation.suspendUserDialog.username}
           onCancel={props.hideSuspendUserDialog}
-          onPerform={() => toast('User admin has been suspended for 24 hours. this suspension will automatically end after 24 hours.', {type: 'success'}) && props.hideSuspendUserDialog()}
+          onPerform={(result) => {
+            toast(
+              lang.t('suspenduser.notify_suspend_until',
+                moderation.suspendUserDialog.username,
+                lang.timeago(result.until)),
+              {type: 'success'}
+            );
+            props.hideSuspendUserDialog();
+          }}
         />
       <ModerationKeysModal
           hideShortcutsNote={props.hideShortcutsNote}
