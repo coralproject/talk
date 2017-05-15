@@ -136,7 +136,7 @@ class FlagButton extends Component {
 
     return <div className={`${name}-container`}>
       <button
-        ref={ref => this.flagButton = ref}
+        ref={(ref) => this.flagButton = ref}
         onClick={!this.props.banned && !flaggedByCurrentUser && !localPost ? this.onReportClick : null}
         className={`${name}-button`}>
         {
@@ -150,7 +150,7 @@ class FlagButton extends Component {
       </button>
       {
         this.state.showMenu &&
-        <div className={`${name}-popup`} ref={ref => this.popup = ref}>
+        <div className={`${name}-popup`} ref={(ref) => this.popup = ref}>
           <PopupMenu>
             <div className={`${name}-popup-header`}>{popupMenu.header}</div>
             {

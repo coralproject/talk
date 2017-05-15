@@ -120,8 +120,8 @@ const getParentCountByAssetIDPersonalized = async (context, {assetId, excludeIgn
     const ignoredUsers = freshUser.ignoresUsers;
     query.author_id = {$nin: ignoredUsers};
   }
-  const count = await CommentModel.where(query).count();
-  return count;
+  
+  return CommentModel.where(query).count();
 };
 
 /**
@@ -263,13 +263,9 @@ const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, a
     comments = comments.where({parent_id});
   }
 
-  if (excludeIgnored && user) {
-
-    // load afresh, as `user` may be from cache and not have recent ignores
-    const freshUser = await UsersService.findById(user.id);
-    const ignoredUsers = freshUser.ignoresUsers;
+  if (excludeIgnored && user && user.ignoresUsers) {
     comments = comments.where({
-      author_id: {$nin: ignoredUsers}
+      author_id: {$nin: user.ignoresUsers}
     });
   }
 

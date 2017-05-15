@@ -25,23 +25,15 @@ class ProfileContainer extends Component {
     };
   }
 
-  handleTabChange = tab => {
+  handleTabChange = (tab) => {
     this.setState({
       activeTab: tab
     });
   };
 
   render() {
-    const {
-      auth,
-      data,
-      asset,
-      showSignInDialog,
-      stopIgnoringUser,
-      myIgnoredUsersData
-    } = this.props;
-
-    const {me} = data;
+    const {auth, asset, data, showSignInDialog, stopIgnoringUser} = this.props;
+    const {me} = this.props.data;
 
     if (!auth.loggedIn) {
       return <NotLoggedIn showSignInDialog={showSignInDialog} />;
@@ -52,9 +44,8 @@ class ProfileContainer extends Component {
     }
 
     const localProfile = this.props.user.profiles.find(
-      p => p.provider === 'local'
+      (p) => p.provider === 'local'
     );
-
     const emailAddress = localProfile && localProfile.id;
 
     return (
@@ -62,12 +53,11 @@ class ProfileContainer extends Component {
         <h2>{this.props.user.username}</h2>
         {emailAddress ? <p>{emailAddress}</p> : null}
 
-        {myIgnoredUsersData.myIgnoredUsers &&
-          myIgnoredUsersData.myIgnoredUsers.length
+        {me.ignoredUsers && me.ignoredUsers.length
           ? <div>
               <h3>Ignored users</h3>
               <IgnoredUsers
-                users={myIgnoredUsersData.myIgnoredUsers}
+                users={me.ignoredUsers}
                 stopIgnoring={stopIgnoringUser}
               />
             </div>
@@ -84,55 +74,39 @@ class ProfileContainer extends Component {
   }
 }
 
-// TODO: These currently relies on refetching (see ignoreUser and stopIgnoringUser mutations).
-//
-const withMyIgnoredUsersQuery = graphql(
+const withQuery = graphql(
   gql`
-  query myIgnoredUsers {
-    myIgnoredUsers {
-      id,
-      username,
-    }
-  }`,
-  {
-    props: ({data}) => {
-      return {
-        myIgnoredUsersData: data
-      };
-    }
-  }
-);
-
-const withMyCommentHistoryQuery = graphql(
-  gql`
-  query myCommentHistory {
+  query EmbedStreamProfileQuery {
     me {
+      ignoredUsers {
+        id,
+        username,
+      }
       comments {
+        id
+        body
+        asset {
           id
-          body
-          asset {
-            id
-            title
-            url
-          }
-          created_at
+          title
+          url
+        }
+        created_at
       }
     }
   }`
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.user.toJS(),
   asset: state.asset.toJS(),
   auth: state.auth.toJS()
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators({showSignInDialog, checkLogin}, dispatch);
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withMyCommentHistoryQuery,
-  withMyIgnoredUsersQuery,
-  withStopIgnoringUser
+  withStopIgnoringUser,
+  withQuery
 )(ProfileContainer);

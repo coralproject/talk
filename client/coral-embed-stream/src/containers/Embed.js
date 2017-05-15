@@ -22,10 +22,9 @@ const {fetchAssetSuccess} = assetActions;
 class EmbedContainer extends React.Component {
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.root.me && !nextProps.root.me) {
+    if (this.props.auth.loggedIn !== nextProps.auth.loggedIn) {
 
-      // Refetch because on logout `excludeIgnored` becomes `false`.
-      // TODO: logout via mutation and obsolete this?
+      // Refetch after login/logout.
       this.props.data.refetch();
     }
 
@@ -85,7 +84,7 @@ export const withEmbedQuery = withQuery(EMBED_QUERY, {
   }),
 });
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth.toJS(),
   commentCountCache: state.stream.commentCountCache,
   commentId: state.stream.commentId,
@@ -95,7 +94,7 @@ const mapStateToProps = state => ({
   config: state.config
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       logout,
@@ -110,7 +109,6 @@ const mapDispatchToProps = dispatch =>
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  branch(props => !props.auth.checkedInitialLogin && props.config, renderComponent(Spinner)),
+  branch((props) => !props.auth.checkedInitialLogin && props.config, renderComponent(Spinner)),
   withEmbedQuery,
 )(EmbedContainer);
-

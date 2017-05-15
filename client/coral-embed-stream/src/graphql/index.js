@@ -126,14 +126,14 @@ const extension = {
 
       // TODO: don't rely on refetching.
       refetchQueries: [
-        'EmbedQuery', 'myIgnoredUsers',
+        'EmbedQuery', 'EmbedStreamProfileQuery',
       ],
     }),
     StopIgnoringUser: () => ({
 
       // TODO: don't rely on refetching.
       refetchQueries: [
-        'EmbedQuery', 'myIgnoredUsers',
+        'EmbedQuery', 'EmbedStreamProfileQuery',
       ],
     }),
     PostComment: ({
@@ -212,13 +212,13 @@ const extension = {
             return editedComment;
           };
           const commentIsStillVisible = (comment) => {
-            return ! ((id === comment.id) && (['PREMOD', 'REJECTED'].includes(status)));
+            return !((id === comment.id) && (['PREMOD', 'REJECTED'].includes(status)));
           };
           const resultReflectingEdit = update(previousData, {
             asset: {
               comments: {
-                $apply: comments => {
-                  return comments.filter(commentIsStillVisible).map(comment => {
+                $apply: (comments) => {
+                  return comments.filter(commentIsStillVisible).map((comment) => {
                     let replyWasEditedToBeHidden = false;
                     if (comment.id === id) {
                       return updateCommentWithEdit(comment, edit);
@@ -227,14 +227,14 @@ const extension = {
                       replies: {
                         $apply: (comments) => {
                           return comments
-                            .filter(c => {
+                            .filter((c) => {
                               if (commentIsStillVisible(c)) {
                                 return true;
                               }
                               replyWasEditedToBeHidden = true;
                               return false;
                             })
-                            .map(comment => {
+                            .map((comment) => {
                               if (comment.id === id) {
                                 return updateCommentWithEdit(comment, edit);
                               }

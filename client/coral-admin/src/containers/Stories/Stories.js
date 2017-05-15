@@ -55,7 +55,7 @@ class Stories extends Component {
 
   onStatusClick = (closeStream, id, statusMenuOpen) => () => {
     if (statusMenuOpen) {
-      this.setState(prev => {
+      this.setState((prev) => {
         prev.statusMenus[id] = false;
         return prev;
       });
@@ -65,7 +65,7 @@ class Stories extends Component {
           this.props.fetchAssets(page, limit, search, sort, filter);
         });
     } else {
-      this.setState(prev => {
+      this.setState((prev) => {
         prev.statusMenus[id] = true;
         return prev;
       });

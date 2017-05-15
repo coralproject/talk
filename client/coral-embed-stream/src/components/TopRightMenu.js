@@ -72,7 +72,7 @@ class Toggleable extends React.Component {
     };
   }
   toggle() {
-    this.setState({isOpen: ! this.state.isOpen});
+    this.setState({isOpen: !this.state.isOpen});
   }
   close() {
     this.setState({isOpen: false});

@@ -25,34 +25,31 @@ const genAssetsByID = (context, ids) => AssetModel.find({
  * @param   {String} asset_url the url passed in from the query
  * @returns {Promise}          resolves to the asset
  */
-const findOrCreateAssetByURL = (context, asset_url) => {
+const findOrCreateAssetByURL = async (context, asset_url) => {
 
   // Verify that the asset_url is parsable.
   let parsed_asset_url = url.parse(asset_url);
   if (!parsed_asset_url.protocol) {
-    return Promise.reject(errors.ErrInvalidAssetURL);
+    throw errors.ErrInvalidAssetURL;
   }
 
-  return AssetsService.findOrCreateByUrl(asset_url)
-    .then((asset) => {
+  let asset = await AssetsService.findOrCreateByUrl(asset_url);
 
-      // If the asset wasn't scraped before, scrape it! Otherwise just return
-      // the asset.
-      if (!asset.scraped) {
-        return scraper.create(asset).then(() => asset);
-      }
+  // If the asset wasn't scraped before, scrape it! Otherwise just return
+  // the asset.
+  if (!asset.scraped) {
+    await scraper.create(asset);
+  }
 
-      return asset;
-    });
+  return asset;
 };
 
-const getAssetsForMetrics = ({loaders: {Actions, Comments}}) => {
-  return Actions.getByTypes({action_type: 'FLAG', item_type: 'COMMENT'})
-    .then((actions) => { // ALL ACTIONS :O
-      const ids = actions.map(({item_id}) => item_id);
+const getAssetsForMetrics = async ({loaders: {Actions, Comments}}) => {
+  let actions = await Actions.getByTypes({action_type: 'FLAG', item_type: 'COMMENT'});
 
-      return Comments.getByQuery({ids});
-    });
+  const ids = actions.map(({item_id}) => item_id);
+
+  return Comments.getByQuery({ids});
 };
 
 /**

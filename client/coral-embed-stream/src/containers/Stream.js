@@ -29,7 +29,7 @@ class StreamContainer extends React.Component {
       variables,
 
       // Apollo requires this, even though we don't use it...
-      updateQuery: data => data,
+      updateQuery: (data) => data,
     });
   };
 
@@ -79,7 +79,7 @@ class StreamContainer extends React.Component {
             ...oldData,
             asset: {
               ...oldData.asset,
-              comments: oldData.asset.comments.map(comment => {
+              comments: oldData.asset.comments.map((comment) => {
 
                 // since the dipslayed replies and the returned replies can overlap,
                 // pull out the unique ones.
@@ -203,10 +203,6 @@ const fragments = {
           }
         }
       }
-      myIgnoredUsers {
-        id,
-        username,
-      }
       me {
         status
       }
@@ -217,7 +213,7 @@ const fragments = {
   `,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth.toJS(),
   commentCountCache: state.stream.commentCountCache,
   activeReplyBox: state.stream.activeReplyBox,
@@ -228,7 +224,7 @@ const mapStateToProps = state => ({
   previousTab: state.embed.previousTab,
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
     showSignInDialog,
     addNotification,

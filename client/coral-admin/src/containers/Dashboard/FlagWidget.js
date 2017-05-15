@@ -18,10 +18,10 @@ const FlagWidget = ({assets}) => {
       <div className={styles.widgetTable}>
         {
           assets.length
-          ? assets.map(asset => {
+          ? assets.map((asset) => {
             let flagSummary = null;
             if (asset.action_summaries) {
-              flagSummary = asset.action_summaries.find(s => s.__typename === 'FlagAssetActionSummary');
+              flagSummary = asset.action_summaries.find((s) => s.__typename === 'FlagAssetActionSummary');
             }
 
             return (

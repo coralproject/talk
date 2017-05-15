@@ -1,13 +1,13 @@
 module.exports = {
   '@tags': ['signup', 'visitor'],
-  before: client => {
+  before: (client) => {
     const embedStreamPage = client.page.embedStreamPage();
 
     embedStreamPage
       .navigate()
       .ready();
   },
-  'Visitor signs up': client => {
+  'Visitor signs up': (client) => {
     const embedStreamPage = client.page.embedStreamPage();
 
     embedStreamPage
@@ -17,7 +17,7 @@ module.exports = {
         pass: 'testtest'
       });
   },
-  after: client => {
+  after: (client) => {
     client.end();
   }
 };

@@ -16,7 +16,7 @@ import {
 
 import coralApi from '../../../coral-framework/helpers/response';
 
-export const fetchAccounts = (query = {}) => dispatch => {
+export const fetchAccounts = (query = {}) => (dispatch) => {
 
   dispatch(requestFetchAccounts());
   coralApi(`/users?${qs.stringify(query)}`)
@@ -30,14 +30,14 @@ export const fetchAccounts = (query = {}) => dispatch => {
         totalPages
       });
     })
-    .catch(error => dispatch({type: FETCH_COMMENTERS_FAILURE, error}));
+    .catch((error) => dispatch({type: FETCH_COMMENTERS_FAILURE, error}));
 };
 
 const requestFetchAccounts = () => ({
   type: FETCH_COMMENTERS_REQUEST
 });
 
-export const updateSorting = sort => ({
+export const updateSorting = (sort) => ({
   type: SORT_UPDATE,
   sort
 });

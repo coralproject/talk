@@ -67,7 +67,7 @@ class SignInContainer extends Component {
 
   handleChange(e) {
     const {name, value} = e.target;
-    this.setState(state => ({
+    this.setState((state) => ({
       ...state,
       formData: {
         ...state.formData,
@@ -96,7 +96,7 @@ class SignInContainer extends Component {
   }
 
   addError(name, error) {
-    return this.setState(state => ({
+    return this.setState((state) => ({
       errors: {
         ...state.errors,
         [name]: error
@@ -117,13 +117,13 @@ class SignInContainer extends Component {
     } else {
       const { [name]: prop, ...errors } = this.state.errors; // eslint-disable-line
       // Removes Error
-      this.setState(state => ({...state, errors}));
+      this.setState((state) => ({...state, errors}));
     }
   }
 
   isCompleted() {
     const {formData} = this.state;
-    return !Object.keys(formData).filter(prop => !formData[prop].length).length;
+    return !Object.keys(formData).filter((prop) => !formData[prop].length).length;
   }
 
   displayErrors(show = true) {
@@ -169,22 +169,22 @@ class SignInContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth.toJS()
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   checkLogin: () => dispatch(checkLogin()),
   facebookCallback: (err, data) => dispatch(facebookCallback(err, data)),
   fetchSignUp: (formData, url) => dispatch(fetchSignUp(formData, url)),
-  fetchSignIn: formData => dispatch(fetchSignIn(formData)),
+  fetchSignIn: (formData) => dispatch(fetchSignIn(formData)),
   fetchSignInFacebook: () => dispatch(fetchSignInFacebook()),
   fetchSignUpFacebook: () => dispatch(fetchSignUpFacebook()),
-  fetchForgotPassword: formData => dispatch(fetchForgotPassword(formData)),
+  fetchForgotPassword: (formData) => dispatch(fetchForgotPassword(formData)),
   requestConfirmEmail: (email, url) => dispatch(requestConfirmEmail(email, url)),
-  changeView: view => dispatch(changeView(view)),
+  changeView: (view) => dispatch(changeView(view)),
   handleClose: () => dispatch(hideSignInDialog()),
-  invalidForm: error => dispatch(invalidForm(error)),
+  invalidForm: (error) => dispatch(invalidForm(error)),
   validForm: () => dispatch(validForm())
 });
 

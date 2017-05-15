@@ -17,7 +17,7 @@ const ActivityWidget = ({assets}) => {
       <div className={styles.widgetTable}>
         {
           assets.length
-          ? assets.map(asset => {
+          ? assets.map((asset) => {
             return (
               <div className={styles.rowLinkify} key={asset.id}>
                 <Link className={styles.linkToModerate} to={`/admin/moderate/flagged/${asset.id}`}>Moderate</Link>

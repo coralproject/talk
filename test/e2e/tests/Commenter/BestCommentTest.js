@@ -1,6 +1,6 @@
 module.exports = {
   '@tags': ['like', 'comments', 'commenter'],
-  before: client => {
+  before: (client) => {
     const embedStreamPage = client.page.embedStreamPage();
     const {users} = client.globals;
 
@@ -11,7 +11,7 @@ module.exports = {
     embedStreamPage
       .login(users.commenter);
   },
-  'Commenters should not see the set-best-comment button': client => {
+  'Commenters should not see the set-best-comment button': (client) => {
     const embedStreamPage = client.page.embedStreamPage();
 
     embedStreamPage
@@ -19,7 +19,7 @@ module.exports = {
       .waitForElementVisible('@likeButton')
       .expect.element('@setBestButton').to.not.be.present;
   },
-  after: client => {
+  after: (client) => {
     client.end();
   }
 };
