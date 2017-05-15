@@ -1,11 +1,12 @@
 import React from 'react';
+import timeago from 'timeago.js';
 import {I18n} from '../coral-framework';
 
 const lang = new I18n();
 const name = 'coral-plugin-pubdate';
 
 const PubDate = ({created_at}) => <div className={`${name}-text`}>
-  {lang.timeago(created_at)}
+  {timeago().format(created_at, lang.getLocale().replace('-', '_'))}
 </div>;
 
 export default PubDate;
