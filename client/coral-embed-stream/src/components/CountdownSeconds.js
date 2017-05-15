@@ -1,8 +1,7 @@
 import React, {PropTypes} from 'react';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from 'coral-framework/translations';
+import I18n from 'coral-i18n/modules/i18n/i18n';
 
-const lang = new I18n(translations);
+const lang = new I18n();
 
 /**
  * Countdown the number of seconds until a given Date
@@ -30,7 +29,7 @@ export class CountdownSeconds extends React.Component {
   componentWillUnmount() {
     if (this.countdownInterval) {
       this.countdownInterval = clearInterval(this.countdownInterval);
-    }    
+    }
   }
   render() {
     const now = new Date();

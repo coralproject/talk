@@ -6,9 +6,8 @@ import {CountdownSeconds} from './CountdownSeconds';
 import {getEditableUntilDate} from './util';
 
 import {Icon} from 'coral-ui';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from 'coral-framework/translations';
-const lang = new I18n(translations);
+import I18n from 'coral-i18n/modules/i18n/i18n';
+const lang = new I18n();
 
 /**
  * Renders a Comment's body in such a way that the end-user can edit it and save changes

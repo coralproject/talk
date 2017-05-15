@@ -4,9 +4,8 @@ import * as actions from '../constants/auth';
 import coralApi, {base} from '../helpers/response';
 import jwtDecode from 'jwt-decode';
 
-const lang = new I18n(translations);
-import translations from './../translations';
-import I18n from '../../coral-framework/modules/i18n/i18n';
+const lang = new I18n();
+import I18n from '../../coral-i18n/modules/i18n/i18n';
 
 // Dialog Actions
 export const showSignInDialog = () => (dispatch) => {
