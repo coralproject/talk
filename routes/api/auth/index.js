@@ -1,5 +1,5 @@
 const express = require('express');
-const {passport, HandleGenerateCredentials} = require('../../../services/passport');
+const {passport, HandleGenerateCredentials, HandleLogout} = require('../../../services/passport');
 
 const router = express.Router();
 
@@ -18,6 +18,11 @@ router.get('/', (req, res, next) => {
   // Send back the user object.
   res.json({user: req.user});
 });
+
+/**
+ * This blacklists the token used to authenticate.
+ */
+router.delete('/', HandleLogout);
 
 //==============================================================================
 // PASSPORT ROUTES
