@@ -5,6 +5,22 @@
 # Date represented as an ISO8601 string.
 scalar Date
 
+################################################################################
+## Reliability
+################################################################################
+
+# Reliability defines how a given user should be considered reliable for their
+# comment or flag activity.
+type Reliability {
+
+  # flagger will be `true` when the flagger is reliable, `false` if not, or
+  # `null` if the reliability cannot be determined.
+  flagger: Boolean
+
+  # commenter will be `true` when the commenter is reliable, `false` if not, or
+  # `null` if the reliability cannot be determined.
+  commenter: Boolean
+}
 
 ################################################################################
 ## Users
@@ -47,6 +63,11 @@ type User {
 
   # returns all comments based on a query.
   comments(query: CommentsQuery): [Comment!]
+
+  # reliable is the reference to a given user's Reliability. If the requesting
+  # user does not have permission to access the reliability, null will be
+  # returned.
+  reliable: Reliability
 
   # returns user status
   status: USER_STATUS

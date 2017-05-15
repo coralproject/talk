@@ -1,3 +1,5 @@
+const KarmaService = require('../../services/karma');
+
 const User = {
   action_summaries({id}, _, {loaders: {Actions}}) {
     return Actions.getSummariesByItemID.load(id);
@@ -43,6 +45,13 @@ const User = {
     }
 
     return null;
+  },
+
+  // Extract the reliability from the user metadata if they have permission.
+  reliable(user, _, {user: requestingUser}) {
+    if (requestingUser && requestingUser.hasRoles('ADMIN')) {
+      return KarmaService.model(user);
+    }
   }
 };
 
