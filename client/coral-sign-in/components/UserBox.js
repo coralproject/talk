@@ -6,9 +6,9 @@ const lang = new I18n();
 
 const UserBox = ({className, user, onLogout, onShowProfile}) => (
   <div className={`${styles.userBox} ${className ? className : ''}`}>
-    {lang.t('signIn.loggedInAs')}
-    <a onClick={onShowProfile}>{user.username}</a>. {lang.t('signIn.notYou')}
-    <a className={styles.logout} onClick={onLogout} id='logout'>{lang.t('signIn.logout')}</a>
+    {lang.t('sign_in.logged_in_as')}
+    <a onClick={onShowProfile}>{user.username}</a>. {lang.t('sign_in.not_you')}
+    <a className={styles.logout} onClick={onLogout} id='logout'>{lang.t('sign_in.logout')}</a>
   </div>
 );
 

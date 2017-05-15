@@ -237,7 +237,34 @@ settings:
   sign_in: Entrar
   to_access: para acceder a al perfil
   user_no_comment: No has dejado aún ningún comentario. ¡Únete a la conversación!
-sign_in: Entrar
+sign_in:
+  email_verify_cta: "Por favor verifique su correo."
+  request_new_verify_email: "Enviar otro correo:"
+  verify_email: "¡Gracias por crear una cuenta! Le enviamos un correo a la dirección que dio para verificar su cuenta."
+  verify_email2: "Debe verificarla antes de poder involucrarse en la comunidad."
+  not_you: "¿No eres tu?"
+  logged_in_as: "Entraste como"
+  facebook_sign_in: "Acceder con Facebook"
+  facebook_sign_up: "Registrarse con Facebook"
+  logout: "Salir"
+  sign_in: "Entrar para unirte a la conversación"
+  or: "O"
+  email: "Correo"
+  password: "Contraseña"
+  forgot_your_pass: "¿Has olvidado tu contraseña?"
+  need_an_account: "¿Necesitas una cuenta?"
+  register: "Registrar"
+  sign_up: "Registro"
+  confirm_password: "Confirmar Contraseña"
+  username: "Nombre"
+  already_have_an_account: "¿Ya tienes una cuenta?"
+  recover_password: "Recuperar contraseña"
+  email_in_use: "Este correo se encuentra en uso"
+  email_or_username_in_use: "Este correo ó nombre de usuario se encuentran en uso"
+  required_field: "Este campo es necesario"
+  passwords_dont_match: "Las contraseñas no coinciden."
+  special_characters: "Los nombres pueden contener letras, números y _"
+  check_the_form: "Formulario Inválido. Por favor, completa los campos"
 step_1_header: Reportar un problema
 step_2_header: Ayudanos a comprender
 step_3_header: Gracias por tu participación

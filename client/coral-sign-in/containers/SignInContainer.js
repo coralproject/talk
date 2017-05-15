@@ -59,7 +59,7 @@ class SignInContainer extends Component {
     window.authCallback = this.props.facebookCallback;
     const {formData} = this.state;
     const errors = Object.keys(formData).reduce((map, prop) => {
-      map[prop] = lang.t('signIn.requiredField');
+      map[prop] = lang.t('signIn.required_field');
       return map;
     }, {});
     this.setState({errors});
@@ -109,9 +109,9 @@ class SignInContainer extends Component {
     const {formData} = this.state;
 
     if (!value.length) {
-      addError(name, lang.t('signIn.requiredField'));
+      addError(name, lang.t('signIn.required_field'));
     } else if (name === 'confirmPassword' && formData.confirmPassword !== formData.password) {
-      addError('confirmPassword', lang.t('signIn.passwordsDontMatch'));
+      addError('confirmPassword', lang.t('signIn.passwords_dont_match'));
     } else if (!validate[name](value)) {
       addError(name, errorMsj[name]);
     } else {
@@ -139,7 +139,7 @@ class SignInContainer extends Component {
       fetchSignUp(this.state.formData, pym.parentUrl || location.href);
       validForm();
     } else {
-      invalidForm(lang.t('signIn.checkTheForm'));
+      invalidForm(lang.t('signIn.check_the_form'));
     }
   }
 

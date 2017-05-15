@@ -60,7 +60,7 @@ class SignUpContent extends React.Component {
       <div>
         <div className={styles.header}>
           <h1>
-            {lang.t('signIn.signUp')}
+            {lang.t('signIn.sign_up')}
           </h1>
         </div>
 
@@ -69,7 +69,7 @@ class SignUpContent extends React.Component {
           <div>
             <div className={styles.socialConnections}>
               <Button cStyle="facebook" onClick={fetchSignUpFacebook} full>
-                {lang.t('signIn.facebookSignUp')}
+                {lang.t('signIn.facebook_sign_up')}
               </Button>
             </div>
             <div className={styles.separator}>
@@ -113,7 +113,7 @@ class SignUpContent extends React.Component {
               <TextField
                 id="confirmPassword"
                 type="password"
-                label={lang.t('signIn.confirmPassword')}
+                label={lang.t('signIn.confirm_password')}
                 value={formData.confirmPassword}
                 style={{fontSize: 16}}
                 showErrors={showErrors}
@@ -123,7 +123,7 @@ class SignUpContent extends React.Component {
               />
               <div className={styles.action}>
                 <Button type="submit" cStyle="black" id='coralSignUpButton' className={styles.signInButton} full>
-                  {lang.t('signIn.signUp')}
+                  {lang.t('signIn.sign_up')}
                 </Button>
                 { auth.isLoading && <Spinner /> }
               </div>
@@ -136,12 +136,12 @@ class SignUpContent extends React.Component {
             <Success />
             {
               emailVerificationEnabled &&
-              <p>{lang.t('signIn.verifyEmail')}<br /><br />{lang.t('signIn.verifyEmail2')}</p>
+              <p>{lang.t('signIn.verify_email')}<br /><br />{lang.t('signIn.verify_email2')}</p>
             }
           </div>
         }
         <div className={styles.footer}>
-          {lang.t('signIn.alreadyHaveAnAccount')} <a id="coralSignInViewTrigger" onClick={() => changeView('SIGNIN')}>
+          {lang.t('signIn.already_have_an_account')} <a id="coralSignInViewTrigger" onClick={() => changeView('SIGNIN')}>
             {lang.t('signIn.signIn')}
           </a>
         </div>
