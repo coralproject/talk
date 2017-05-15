@@ -8,6 +8,10 @@ const LocalStrategy = require('passport-local').Strategy;
 const errors = require('../errors');
 const uuid = require('uuid');
 const debug = require('debug')('talk:passport');
+const {createClient} = require('./redis');
+
+// Create a redis client to use for authentication.
+const client = createClient();
 
 const {
   JWT_SECRET,
@@ -116,6 +120,41 @@ function ValidateUserLogin(loginProfile, user, done) {
 // JWT STRATEGY
 //==============================================================================
 
+/**
+ * Revoke the token on the request.
+ */
+const HandleLogout = (req, res, next) => {
+  const {jwt} = req;
+
+  const now = new Date();
+  const expiry = (jwt.exp - now.getTime() / 1000).toFixed(0);
+
+  client.set(`jtir[${jwt.jti}]`, now.toISOString(), 'EX', expiry, (err) => {
+    if (err) {
+      return next(err);
+    }
+
+    res.status(204).end();
+  });
+};
+
+/**
+ * Check if the given token is already blacklisted, throw an error if it is.
+ */
+const CheckBlacklisted = (jwt) => new Promise((resolve, reject) => {
+  client.get(`jtir[${jwt.jti}]`, (err, expiry) => {
+    if (err) {
+      return reject(err);
+    }
+
+    if (expiry != null) {
+      return reject(new errors.ErrAuthentication('token was revoked'));
+    }
+
+    return resolve();
+  });
+});
+
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 
@@ -136,13 +175,24 @@ passport.use(new JwtStrategy({
   audience: JWT_AUDIENCE,
 
   // Enable only the HS256 algorithm.
-  algorithms: ['HS256']
-}, async (jwt, done) => {
+  algorithms: ['HS256'],
+
+  // Pass the request objecto back to the callback so we can attach the JWT to
+  // it.
+  passReqToCallback: true
+}, async (req, jwt, done) => {
 
   // Load the user from the environment, because we just got a user from the
   // header.
   try {
+
+    // Check to see if the token has been revoked
+    await CheckBlacklisted(jwt);
+
     let user = await UsersService.findById(jwt.sub);
+
+    // Attach the JWT to the request.
+    req.jwt = jwt;
 
     return done(null, user);
   } catch(e) {
@@ -374,5 +424,7 @@ module.exports = {
   ValidateUserLogin,
   HandleFailedAttempt,
   HandleAuthPopupCallback,
-  HandleGenerateCredentials
+  HandleGenerateCredentials,
+  HandleLogout,
+  CheckBlacklisted
 };
