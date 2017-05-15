@@ -129,7 +129,7 @@ module.exports = {
       addUrl: true
     }),
     new Copy([
-      ...buildEmbeds.map(embed => ({
+      ...buildEmbeds.map((embed) => ({
         from: path.join(__dirname, 'client', `coral-embed-${embed}`, 'style'),
         to: path.join(__dirname, 'dist', 'embed', embed)
       })),
@@ -163,8 +163,8 @@ module.exports = {
     modules: [
       path.resolve(__dirname, 'plugins'),
       path.resolve(__dirname, 'client'),
-      ...buildTargets.map(target => path.join(__dirname, 'client', target, 'src')),
-      ...buildEmbeds.map(embed => path.join(__dirname, 'client', `coral-embed-${embed}`, 'src')),
+      ...buildTargets.map((target) => path.join(__dirname, 'client', target, 'src')),
+      ...buildEmbeds.map((embed) => path.join(__dirname, 'client', `coral-embed-${embed}`, 'src')),
       'node_modules'
     ]
   }

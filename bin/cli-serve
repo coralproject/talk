@@ -9,13 +9,15 @@ const kue = require('../services/kue');
 const mongoose = require('../services/mongoose');
 const util = require('./util');
 const {createSubscriptionManager} = require('../graph/subscriptions');
+const {
+  PORT
+} = require('../config');
 
 /**
 * Get port from environment and store in Express.
 */
 
-const port = normalizePort(process.env.TALK_PORT || '3000');
-
+const port = normalizePort(PORT);
 app.set('port', port);
 
 /**

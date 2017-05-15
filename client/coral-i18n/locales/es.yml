@@ -128,6 +128,7 @@ done: hecho
 embedlink:
   copy: Copy to Clipboard
 error:
+  comment_too_short: "Tu comentario debe tener algo escrito"
   NOT_AUTHORIZED: Acción no autorizada.
   NO_SPECIAL_CHARACTERS: Los nombres pueden contener letras números y _
   PASSWORD_LENGTH: La contraseña es muy corta
@@ -135,8 +136,10 @@ error:
   USERNAME_IN_USE: Nombre en uso.
   USERNAME_REQUIRED: Debe ingresar un nombre
   confirm_password: Las contraseñas no coinciden
+  edit_window_ended: "No puedes editar este comentario. El tiempo de edición ha expirado."
   edit_username_not_authorized: No tiene permiso para editar el nombre de usuario.
   email: No es un e-mail válido
+  network_error: "Error al conectar con el servidor. Compruebe su conexión a Internet y vuelva a intentarlo."
   email_in_use: El e-mail se encuentra en uso
   email_not_verified: E-mail {0} no verificado.
   email_password: "E-mail y/o contraseña incorrecta."

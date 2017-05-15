@@ -170,7 +170,7 @@ export default StreamSettings;
 
 // To see if we are talking about weeks, days or hours
 // We talk the remainder of the division and see if it's 0
-const getTimeoutMeasure = ts => {
+const getTimeoutMeasure = (ts) => {
   if (ts % TIMESTAMPS['weeks'] === 0) {
     return 'weeks';
   } else if (ts % TIMESTAMPS['days'] === 0) {
@@ -182,6 +182,6 @@ const getTimeoutMeasure = ts => {
 
 // Dividing the amount by it's measure (hours, days, weeks) we
 // obtain the amount of time
-const getTimeoutAmount = ts => ts / TIMESTAMPS[getTimeoutMeasure(ts)];
+const getTimeoutAmount = (ts) => ts / TIMESTAMPS[getTimeoutMeasure(ts)];
 
 const lang = new I18n();

@@ -170,7 +170,7 @@ class Configure extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   settings: state.settings.toJS()
 });
 export default connect(mapStateToProps)(Configure);

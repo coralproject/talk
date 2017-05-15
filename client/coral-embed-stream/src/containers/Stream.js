@@ -6,13 +6,17 @@ import uniqBy from 'lodash/uniqBy';
 import sortBy from 'lodash/sortBy';
 import isNil from 'lodash/isNil';
 import {NEW_COMMENT_COUNT_POLL_INTERVAL} from '../constants/stream';
-import {postComment, postFlag, postDontAgree, deleteAction, addCommentTag, removeCommentTag, ignoreUser} from 'coral-framework/graphql/mutations';
+import {
+  withPostComment, withPostFlag, withPostDontAgree, withDeleteAction,
+  withAddCommentTag, withRemoveCommentTag, withIgnoreUser, withEditComment,
+} from 'coral-framework/graphql/mutations';
+
 import {notificationActions, authActions} from 'coral-framework';
 import {editName} from 'coral-framework/actions/user';
 import {setCommentCountCache, setActiveReplyBox} from '../actions/stream';
 import Stream from '../components/Stream';
 import Comment from './Comment';
-import withFragments from 'coral-framework/hocs/withFragments';
+import {withFragments} from 'coral-framework/hocs';
 import {getDefinitionName} from 'coral-framework/utils';
 
 const {showSignInDialog} = authActions;
@@ -25,7 +29,7 @@ class StreamContainer extends React.Component {
       variables,
 
       // Apollo requires this, even though we don't use it...
-      updateQuery: data => data,
+      updateQuery: (data) => data,
     });
   };
 
@@ -75,7 +79,7 @@ class StreamContainer extends React.Component {
             ...oldData,
             asset: {
               ...oldData.asset,
-              comments: oldData.asset.comments.map(comment => {
+              comments: oldData.asset.comments.map((comment) => {
 
                 // since the dipslayed replies and the returned replies can overlap,
                 // pull out the unique ones.
@@ -199,10 +203,6 @@ const fragments = {
           }
         }
       }
-      myIgnoredUsers {
-        id,
-        username,
-      }
       me {
         status
       }
@@ -213,7 +213,7 @@ const fragments = {
   `,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth.toJS(),
   commentCountCache: state.stream.commentCountCache,
   activeReplyBox: state.stream.activeReplyBox,
@@ -224,7 +224,7 @@ const mapStateToProps = state => ({
   previousTab: state.embed.previousTab,
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
     showSignInDialog,
     addNotification,
@@ -236,12 +236,13 @@ const mapDispatchToProps = dispatch =>
 export default compose(
   withFragments(fragments),
   connect(mapStateToProps, mapDispatchToProps),
-  postComment,
-  postFlag,
-  postDontAgree,
-  addCommentTag,
-  removeCommentTag,
-  ignoreUser,
-  deleteAction,
+  withPostComment,
+  withPostFlag,
+  withPostDontAgree,
+  withAddCommentTag,
+  withRemoveCommentTag,
+  withIgnoreUser,
+  withDeleteAction,
+  withEditComment,
 )(StreamContainer);
 

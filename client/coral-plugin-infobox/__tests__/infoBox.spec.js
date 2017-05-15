@@ -3,7 +3,7 @@ import {shallow} from 'enzyme';
 import {expect} from 'chai';
 import InfoBox from '../InfoBox';
 
-const render = props => shallow(<InfoBox {...props} />);
+const render = (props) => shallow(<InfoBox {...props} />);
 
 describe('InfoBox', () => {
   it('should render hidden InfoBox', () => {

@@ -20,6 +20,8 @@
         "no-template-curly-in-string": [1],
         "no-unsafe-negation": [1],
         "array-callback-return": [1],
+        "arrow-parens": ["warn", "always"],
+        "template-curly-spacing": "warn",
         "eqeqeq": [2, "smart"],
         "no-eval": [2],
         "no-global-assign": [2],
@@ -36,6 +38,11 @@
         "no-unneeded-ternary": [1],
         "object-curly-spacing": [1],
         "space-infix-ops": ["error"],
+        "space-in-parens": ["error", "never"],
+        "space-unary-ops": ["error", {
+          "words": true,
+          "nonwords": false
+        }],
         "no-const-assign": [2],
         "no-duplicate-imports": [2],
         "prefer-template": [1],

@@ -7,7 +7,7 @@ const lang = new I18n();
 
 import I18n from 'coral-i18n/modules/i18n/i18n';
 
-const PermittedDomainsStep = props => {
+const PermittedDomainsStep = (props) => {
   const {finishInstall, install, handleDomainsChange} = props;
   const domains = install.data.settings.domains.whitelist;
   return (
@@ -19,8 +19,8 @@ const PermittedDomainsStep = props => {
           value={domains}
           inputProps={{placeholder: 'URL'}}
           addOnPaste={true}
-          pasteSplit={data => data.split(',').map(d => d.trim())}
-          onChange={tags => handleDomainsChange(tags)}
+          pasteSplit={(data) => data.split(',').map((d) => d.trim())}
+          onChange={(tags) => handleDomainsChange(tags)}
         />
       </Card>
       <Button cStyle='green' onClick={finishInstall} raised>{lang.t('PERMITTED_DOMAINS.SUBMIT')}</Button>

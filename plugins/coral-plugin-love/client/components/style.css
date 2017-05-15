@@ -1,0 +1,30 @@
+.love {
+  display: inline-block;
+ }
+
+.button {
+  color: #2a2a2a;
+  margin: 5px 10px 5px 0px;
+  background: none;
+  padding: 0px;
+  border: none;
+  font-size: inherit;
+
+  &:hover {
+    color: #767676;
+    cursor: pointer;
+  }
+
+  &.love {
+    color: #c98211;
+
+    &:hover {
+      color: #e59614;
+      cursor: pointer;
+    }
+  }
+}
+
+.icon {
+  padding: 0 5px;
+}

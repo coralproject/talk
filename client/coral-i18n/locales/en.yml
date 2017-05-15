@@ -128,6 +128,7 @@ done: Done
 embedlink:
   copy: "Copy to Clipboard"
 error:
+  comment_too_short: "Your comment must have something in it"
   NOT_AUTHORIZED: "Your username or password is not recognized by our system."
   NO_SPECIAL_CHARACTERS: "Usernames can contain letters numbers and _ only"
   PASSWORD_LENGTH: "Password is too short"
@@ -135,8 +136,10 @@ error:
   USERNAME_IN_USE: "Username already in use"
   USERNAME_REQUIRED: "Must input a username"
   confirm_password: "Passwords don't match. Please check again"
+  edit_window_ended: "You can no longer edit this comment. The time window to do so has expired."
   edit_username_not_authorized: "You do not have permission to update your username."
   email: "Not a valid E-Mail"
+  network_error: "Failed to connect to server. Check your internet connection and try again."
   email_in_use: "Email address already in use"
   email_not_verified: "E-mail address {0} not verified."
   email_password: "E-mail and/or password combination incorrect."

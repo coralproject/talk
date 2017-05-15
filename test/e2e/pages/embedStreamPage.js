@@ -73,7 +73,7 @@ const embedStreamCommands = {
       .waitForElementVisible('@permalinkButton')
       .click('@permalinkButton')
       .waitForElementVisible('@permalinkPopUp')
-      .getValue('@permalinkInput', result => fn(result.value));
+      .getValue('@permalinkInput', (result) => fn(result.value));
   }
 };
 

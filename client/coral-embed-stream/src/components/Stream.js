@@ -15,7 +15,7 @@ import ChangeUsernameContainer
   from 'coral-sign-in/containers/ChangeUsernameContainer';
 
 class Stream extends React.Component {
-  setActiveReplyBox = reactKey => {
+  setActiveReplyBox = (reactKey) => {
     if (!this.props.auth.user) {
       this.props.showSignInDialog();
     } else {
@@ -26,7 +26,7 @@ class Stream extends React.Component {
   render() {
     const {
       root: {asset, asset: {comments}, comment, myIgnoredUsers},
-      postItem,
+      postComment,
       addNotification,
       postFlag,
       postDontAgree,
@@ -58,7 +58,7 @@ class Stream extends React.Component {
     const firstCommentDate = asset.comments[0]
       ? asset.comments[0].created_at
       : new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString();
-    const commentIsIgnored = comment =>
+    const commentIsIgnored = (comment) =>
       myIgnoredUsers && myIgnoredUsers.includes(comment.user.id);
     return (
       <div id="stream">
@@ -84,7 +84,7 @@ class Stream extends React.Component {
                 {user
                   ? <CommentBox
                       addNotification={this.props.addNotification}
-                      postItem={this.props.postItem}
+                      postComment={this.props.postComment}
                       appendItemArray={this.props.appendItemArray}
                       updateItem={this.props.updateItem}
                       setCommentCountCache={this.props.setCommentCountCache}
@@ -122,7 +122,7 @@ class Stream extends React.Component {
               activeReplyBox={this.props.activeReplyBox}
               addNotification={addNotification}
               depth={0}
-              postItem={this.props.postItem}
+              postComment={this.props.postComment}
               asset={asset}
               currentUser={user}
               highlighted={comment.id}
@@ -137,6 +137,7 @@ class Stream extends React.Component {
               comment={highlightedComment}
               charCountEnable={asset.settings.charCountEnable}
               maxCharCount={asset.settings.charCount}
+              editComment={this.props.editComment}
             />
           : <div>
               <NewCount
@@ -149,7 +150,7 @@ class Stream extends React.Component {
               />
               <div className="embed__stream">
                 {comments.map(
-                  comment =>
+                  (comment) =>
                     (commentIsIgnored(comment)
                       ? <IgnoredCommentTombstone key={comment.id} />
                       : <Comment
@@ -160,7 +161,7 @@ class Stream extends React.Component {
                           activeReplyBox={this.props.activeReplyBox}
                           addNotification={addNotification}
                           depth={0}
-                          postItem={postItem}
+                          postComment={postComment}
                           asset={asset}
                           currentUser={user}
                           postFlag={postFlag}
@@ -178,6 +179,7 @@ class Stream extends React.Component {
                           pluginProps={pluginProps}
                           charCountEnable={asset.settings.charCountEnable}
                           maxCharCount={asset.settings.charCount}
+                          editComment={this.props.editComment}
                         />)
                 )}
               </div>
@@ -196,7 +198,7 @@ class Stream extends React.Component {
 
 Stream.propTypes = {
   addNotification: PropTypes.func.isRequired,
-  postItem: PropTypes.func.isRequired,
+  postComment: PropTypes.func.isRequired,
 
   // dispatch action to add a tag to a comment
   addCommentTag: PropTypes.func,
@@ -205,7 +207,10 @@ Stream.propTypes = {
   removeCommentTag: PropTypes.func,
 
   // dispatch action to ignore another user
-  ignoreUser: React.PropTypes.func
+  ignoreUser: React.PropTypes.func,
+
+  // edit a comment, passed (id, asset_id, { body })
+  editComment: React.PropTypes.func,
 };
 
 export default Stream;

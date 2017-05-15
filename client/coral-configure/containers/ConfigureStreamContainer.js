@@ -125,9 +125,9 @@ const mapStateToProps = (state) => ({
   asset: state.asset.toJS()
 });
 
-const mapDispatchToProps = dispatch => ({
-  updateStatus: status => dispatch(updateOpenStatus(status)),
-  updateConfiguration: newConfig => dispatch(updateConfiguration(newConfig)),
+const mapDispatchToProps = (dispatch) => ({
+  updateStatus: (status) => dispatch(updateOpenStatus(status)),
+  updateConfiguration: (newConfig) => dispatch(updateConfiguration(newConfig)),
 });
 
 export default compose(

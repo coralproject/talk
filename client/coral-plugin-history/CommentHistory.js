@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import Comment from './Comment';
 import styles from './CommentHistory.css';
 
-const CommentHistory = props => {
+const CommentHistory = (props) => {
   return (
     <div className={`${styles.header} commentHistory`}>
       <div className="commentHistory__list">

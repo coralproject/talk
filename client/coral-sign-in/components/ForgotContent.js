@@ -29,7 +29,7 @@ class ForgotContent extends React.Component {
           <div className={styles.textField}>
             <label htmlFor="email">{lang.t('sign_in.email')}</label>
             <input
-              ref={input => this.emailInput = input}
+              ref={(input) => this.emailInput = input}
               type="text"
               style={{fontSize: 16}}
               id="email"

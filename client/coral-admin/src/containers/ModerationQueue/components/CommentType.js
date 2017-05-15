@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import styles from './CommentType.css';
 import {Icon} from 'coral-ui';
 
-const CommentType = props => {
+const CommentType = (props) => {
   const typeData = getTypeData(props.type);
 
   return (
@@ -12,7 +12,7 @@ const CommentType = props => {
   );
 };
 
-const getTypeData = type => {
+const getTypeData = (type) => {
   switch (type) {
   case 'premod':
     return {icon: 'query_builder', text: 'Pre-Mod', className: 'premod'};

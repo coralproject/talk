@@ -112,10 +112,12 @@ const ErrContainsProfanity = new APIError('This username contains elements which
 });
 
 const ErrNotFound = new APIError('not found', {
+  translation_key: 'NOT_FOUND',
   status: 404
 });
 
 const ErrInvalidAssetURL = new APIError('asset_url is invalid', {
+  translation_key: 'INVALID_ASSET_URL',
   status: 400
 });
 
@@ -148,9 +150,22 @@ const ErrPermissionUpdateUsername = new APIError('You do not have permission to 
   status: 500
 });
 
+// ErrLoginAttemptMaximumExceeded is returned when the login maximum is exceeded.
 const ErrLoginAttemptMaximumExceeded = new APIError('You have made too many incorrect password attempts.', {
   translation_key: 'login_maximum_exceeded',
   status: 429
+});
+
+// ErrEditWindowHasEnded is returned when the edit window has expired.
+const ErrEditWindowHasEnded = new APIError('Edit window is over', {
+  translation_key: 'EDIT_WINDOW_ENDED',
+  status: 403
+});
+
+// ErrCommentTooShort is returned when the comment is too short.
+const ErrCommentTooShort = new APIError('Comment was too short', {
+  translation_key: 'COMMENT_TOO_SHORT',
+  status: 400
 });
 
 module.exports = {
@@ -174,5 +189,7 @@ module.exports = {
   ErrPermissionUpdateUsername,
   ErrSettingsInit,
   ErrInstallLock,
-  ErrLoginAttemptMaximumExceeded
+  ErrLoginAttemptMaximumExceeded,
+  ErrEditWindowHasEnded,
+  ErrCommentTooShort
 };

@@ -3,12 +3,11 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const path = require('path');
 const helmet = require('helmet');
+const authentication = require('./middleware/authentication');
 const {passport} = require('./services/passport');
 const plugins = require('./services/plugins');
 const enabled = require('debug').enabled;
-const csrf = require('csurf');
 const errors = require('./errors');
-const session = require('./services/session');
 const {createGraphOptions} = require('./graph');
 const apollo = require('graphql-server-express');
 
@@ -38,12 +37,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 //==============================================================================
-// SESSION MIDDLEWARE
-//==============================================================================
-
-app.use(session);
-
-//==============================================================================
 // PASSPORT MIDDLEWARE
 //==============================================================================
 
@@ -60,7 +53,10 @@ plugins.get('server', 'passport').forEach((plugin) => {
 
 // Setup the PassportJS Middleware.
 app.use(passport.initialize());
-app.use(passport.session());
+
+// Attach the authentication middleware, this will be responsible for decoding
+// (if present) the JWT on the request.
+app.use('/api', authentication);
 
 //==============================================================================
 // GraphQL Router
@@ -80,29 +76,6 @@ if (app.get('env') !== 'production') {
   // GraphQL documention.
   app.get('/admin/docs', (req, res) => {
     res.render('admin/docs');
-  });
-
-}
-
-//==============================================================================
-// CSRF MIDDLEWARE
-//==============================================================================
-
-if (process.env.TEST_MODE === 'unit') {
-
-  // Add this fake test token in the event we are in unit test mode, and don't
-  // include the CSRF protection.
-  app.locals.csrfToken = 'UNIT_TESTS';
-
-} else {
-
-  // Setup route middlewares for CSRF protection.
-  // Default ignore methods are GET, HEAD, OPTIONS
-  app.use(csrf({}));
-  app.use((req, res, next) => {
-    res.locals.csrfToken = req.csrfToken();
-
-    next();
   });
 
 }

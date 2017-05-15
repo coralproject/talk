@@ -7,14 +7,14 @@ import Button from 'coral-ui/components/Button';
 import I18n from 'coral-i18n/modules/i18n/i18n';
 const lang = new I18n();
 
-const onBanClick = (userId, commentId, handleBanUser, rejectComment, handleClose) => (e) => {
+const onBanClick = (userId, commentId, commentStatus, handleBanUser, rejectComment, handleClose) => (e) => {
   e.preventDefault();
   handleBanUser({userId})
   .then(handleClose)
-  .then(() => rejectComment({commentId}));
+  .then(() => commentStatus === 'REJECTED' ? null : rejectComment({commentId}));
 };
 
-const BanUserDialog = ({open, handleClose, handleBanUser, rejectComment, user, commentId, showRejectedNote}) => (
+const BanUserDialog = ({open, handleClose, handleBanUser, rejectComment, user, commentId, commentStatus, showRejectedNote}) => (
   <Dialog
     className={styles.dialog}
     id="banuserDialog"
@@ -35,7 +35,7 @@ const BanUserDialog = ({open, handleClose, handleBanUser, rejectComment, user, c
         <Button cStyle="cancel" className={styles.cancel} onClick={handleClose} raised>
           {lang.t('bandialog.cancel')}
         </Button>
-        <Button cStyle="black" className={styles.ban} onClick={onBanClick(user.id, commentId, handleBanUser, rejectComment, handleClose)} raised>
+        <Button cStyle="black" className={styles.ban} onClick={onBanClick(user.id, commentId, commentStatus, handleBanUser, rejectComment, handleClose)} raised>
           {lang.t('bandialog.yes_ban_user')}
         </Button>
       </div>

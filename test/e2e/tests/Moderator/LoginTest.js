@@ -1,6 +1,6 @@
 module.exports = {
   '@tags': ['login', 'MODERATOR'],
-  before: client => {
+  before: (client) => {
     const embedStreamPage = client.page.embedStreamPage();
     const {launchUrl} = client;
 
@@ -10,14 +10,14 @@ module.exports = {
     embedStreamPage
     .ready();
   },
-  'Moderator logs in': client => {
+  'Moderator logs in': (client) => {
     const {users} = client.globals;
     const embedStreamPage = client.page.embedStreamPage();
 
     embedStreamPage
       .login(users.moderator);
   },
-  after: client => {
+  after: (client) => {
     client.end();
   }
 };

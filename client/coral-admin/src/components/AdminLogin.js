@@ -13,7 +13,7 @@ class AdminLogin extends React.Component {
     this.state = {email: '', password: '', requestPassword: false};
   }
 
-  handleSignIn = e => {
+  handleSignIn = (e) => {
     e.preventDefault();
     this.props.handleLogin(this.state.email, this.state.password);
   }
@@ -27,7 +27,7 @@ class AdminLogin extends React.Component {
     this.props.handleLogin(this.state.email, this.state.password, recaptchaResponse);
   }
 
-  handleRequestPassword = e => {
+  handleRequestPassword = (e) => {
     e.preventDefault();
     this.props.requestPasswordReset(this.state.email);
   }
@@ -40,11 +40,11 @@ class AdminLogin extends React.Component {
         <TextField
           label='Email Address'
           value={this.state.email}
-          onChange={e => this.setState({email: e.target.value})} />
+          onChange={(e) => this.setState({email: e.target.value})} />
         <TextField
           label='Password'
           value={this.state.password}
-          onChange={e => this.setState({password: e.target.value})}
+          onChange={(e) => this.setState({password: e.target.value})}
           type='password' />
         <div style={{height: 10}}></div>
         <Button
@@ -53,7 +53,7 @@ class AdminLogin extends React.Component {
           full
           onClick={this.handleSignIn}>Sign In</Button>
         <p className={styles.forgotPasswordCTA}>
-          Forgot your password? <a href="#" className={styles.forgotPasswordLink} onClick={e => {
+          Forgot your password? <a href="#" className={styles.forgotPasswordLink} onClick={(e) => {
             e.preventDefault();
             this.setState({requestPassword: true});
           }}>Request a new one.</a>
@@ -81,7 +81,7 @@ class AdminLogin extends React.Component {
         <TextField
           label='Email Address'
           value={this.state.email}
-          onChange={e => this.setState({email: e.target.value})} />
+          onChange={(e) => this.setState({email: e.target.value})} />
         <Button
           type='submit'
           cStyle='black'

@@ -39,7 +39,7 @@ const fm = new IntrospectionFragmentMatcher({
             {name: 'DefaultAction'},
             {name: 'FlagAction'},
             {name: 'DontAgreeAction'}
-          ],
+          ]
         },
         {
           kind: 'INTERFACE',
@@ -48,18 +48,18 @@ const fm = new IntrospectionFragmentMatcher({
             {name: 'DefaultActionSummary'},
             {name: 'FlagActionSummary'},
             {name: 'DontAgreeActionSummary'}
-          ],
+          ]
         },
         {
           kind: 'INTERFACE',
           name: 'AssetActionSummary',
           possibleTypes: [
             {name: 'DefaultAssetActionSummary'},
-            {name: 'FlagAssetActionSummary'},
+            {name: 'FlagAssetActionSummary'}
           ]
         }
-      ],
-    },
+      ]
+    }
   }
 });
 

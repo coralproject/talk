@@ -18,9 +18,11 @@ const ignoreUserMutation = `
 
 const getMyIgnoredUsersQuery = `
   query myIgnoredUsers {
-    myIgnoredUsers {
-      id,
-      username
+    me {
+      ignoredUsers {
+        id
+        username
+      }
     }
   }
 `;
@@ -30,16 +32,21 @@ describe('graph.mutations.ignoreUser', () => {
     await SettingsService.init();
   });
 
-  // @TODO (bengo) - test a user can't ignore themselves
   it('users can ignoreUser', async () => {
-    const user = await UsersService.createLocalUser('usernameA@example.com', 'password', 'usernameA');
+    let currentUser = await UsersService.createLocalUser('usernameA@example.com', 'password', 'usernameA');
     const userToIgnore = await UsersService.createLocalUser('usernameB@example.com', 'password', 'usernameB');
-    const context = new Context({user});
+    let context = new Context({user: currentUser});
+
     const ignoreUserResponse = await graphql(schema, ignoreUserMutation, {}, context, {id: userToIgnore.id});
     if (ignoreUserResponse.errors && ignoreUserResponse.errors.length) {
       console.error(ignoreUserResponse.errors);
     }
     expect(ignoreUserResponse.errors).to.be.empty;
+
+    // Refresh the user from the database and create the new context for the
+    // request.
+    currentUser = await UsersService.findById(currentUser.id);
+    context = new Context({user: currentUser});
 
     // now check my ignored users
     const myIgnoredUsersResponse = await graphql(schema, getMyIgnoredUsersQuery, {}, context, {});
@@ -47,10 +54,11 @@ describe('graph.mutations.ignoreUser', () => {
       console.error(myIgnoredUsersResponse.errors);
     }
     expect(myIgnoredUsersResponse.errors).to.be.empty;
-    const myIgnoredUsers = myIgnoredUsersResponse.data.myIgnoredUsers;
-    expect(myIgnoredUsers.length).to.equal(1);
-    expect(myIgnoredUsers[0].id).to.equal(userToIgnore.id);
-    expect(myIgnoredUsers[0].username).to.equal(userToIgnore.username);
+
+    const ignoredUsers = myIgnoredUsersResponse.data.me.ignoredUsers;
+    expect(ignoredUsers.length).to.equal(1);
+    expect(ignoredUsers[0].id).to.equal(userToIgnore.id);
+    expect(ignoredUsers[0].username).to.equal(userToIgnore.username);
   });
 
   it('users cannot ignore themselves', async () => {
@@ -65,7 +73,7 @@ describe('graph.mutations.ignoreUser', () => {
       console.error(myIgnoredUsersResponse.errors);
     }
     expect(myIgnoredUsersResponse.errors).to.be.empty;
-    const myIgnoredUsers = myIgnoredUsersResponse.data.myIgnoredUsers;
+    const myIgnoredUsers = myIgnoredUsersResponse.data.me.ignoredUsers;
     expect(myIgnoredUsers.length).to.equal(0);
   });
 
@@ -81,21 +89,26 @@ describe('graph.mutations.stopIgnoringUser', () => {
     // We're going to ignore 2 users,
     // then stopIgnoring 1 of them
     // then assert myIgnoredUsers only lists the one remaining
-    const user = await UsersService.createLocalUser('usernameA@example.com', 'password', 'usernameA');
+    let currentUser = await UsersService.createLocalUser('usernameA@example.com', 'password', 'usernameA');
     const usersToIgnore = await Promise.all([
       UsersService.createLocalUser('usernameB@example.com', 'password', 'usernameB'),
       UsersService.createLocalUser('usernameC@example.com', 'password', 'usernameC'),
     ]);
-    const context = new Context({user});
+    let context = new Context({user: currentUser});
 
     // ignore two users
-    const ignoreUserResponses = await Promise.all(usersToIgnore.map(u => graphql(schema, ignoreUserMutation, {}, context, {id: u.id})));
-    ignoreUserResponses.forEach(response => {
+    const ignoreUserResponses = await Promise.all(usersToIgnore.map((u) => graphql(schema, ignoreUserMutation, {}, context, {id: u.id})));
+    ignoreUserResponses.forEach((response) => {
       if (response.errors && response.errors.length) {
         console.error(response.errors);
       }
       expect(response.errors).to.be.empty;
     });
+
+    // Refresh the user from the database and create the new context for the
+    // request.
+    currentUser = await UsersService.findById(currentUser.id);
+    context = new Context({user: currentUser});
 
     const stopIgnoringUserMutation = `
       mutation stopIgnoringUser ($id: ID!) {
@@ -114,13 +127,18 @@ describe('graph.mutations.stopIgnoringUser', () => {
     }
     expect(stopIgnoringUserResponse.errors).to.be.empty;
 
+    // Refresh the user from the database and create the new context for the
+    // request.
+    currentUser = await UsersService.findById(currentUser.id);
+    context = new Context({user: currentUser});
+
     // now check my ignored users
     const myIgnoredUsersResponse = await graphql(schema, getMyIgnoredUsersQuery, {}, context, {});
     if (myIgnoredUsersResponse.errors && myIgnoredUsersResponse.errors.length) {
       console.error(myIgnoredUsersResponse.errors);
     }
     expect(myIgnoredUsersResponse.errors).to.be.empty;
-    const myIgnoredUsers = myIgnoredUsersResponse.data.myIgnoredUsers;
+    const myIgnoredUsers = myIgnoredUsersResponse.data.me.ignoredUsers;
     expect(myIgnoredUsers.length).to.equal(1);
     expect(myIgnoredUsers[0].id).to.equal(usersToIgnore[1].id);
     expect(myIgnoredUsers[0].username).to.equal(usersToIgnore[1].username);

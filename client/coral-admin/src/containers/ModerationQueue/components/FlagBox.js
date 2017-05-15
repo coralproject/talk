@@ -54,7 +54,7 @@ class FlagBox extends Component {
               <ul>
                 {actionSummaries.map((summary, i) => {
 
-                  const actionList = actions.filter(a => a.reason === summary.reason);
+                  const actionList = actions.filter((a) => a.reason === summary.reason);
 
                   return (
                     <li key={i}>

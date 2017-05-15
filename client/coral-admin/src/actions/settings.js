@@ -13,19 +13,19 @@ export const SAVE_SETTINGS_FAILED = 'SAVE_SETTINGS_FAILED';
 export const WORDLIST_UPDATED = 'WORDLIST_UPDATED';
 export const DOMAINLIST_UPDATED = 'DOMAINLIST_UPDATED';
 
-export const fetchSettings = () => dispatch => {
+export const fetchSettings = () => (dispatch) => {
   dispatch({type: SETTINGS_LOADING});
   coralApi('/settings')
-    .then(settings => {
+    .then((settings) => {
       dispatch({type: SETTINGS_RECEIVED, settings});
     })
-    .catch(error => {
+    .catch((error) => {
       dispatch({type: SETTINGS_FETCH_ERROR, error});
     });
 };
 
 // for updating top-level settings
-export const updateSettings = settings => {
+export const updateSettings = (settings) => {
   return {type: SETTINGS_UPDATED, settings};
 };
 
@@ -48,7 +48,7 @@ export const saveSettingsToServer = () => (dispatch, getState) => {
     .then(() => {
       dispatch({type: SAVE_SETTINGS_SUCCESS, settings});
     })
-    .catch(error => {
+    .catch((error) => {
       dispatch({type: SAVE_SETTINGS_FAILED, error});
     });
 };

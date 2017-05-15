@@ -6,7 +6,6 @@ import {getMetrics} from 'coral-admin/src/graphql/queries';
 import FlagWidget from './FlagWidget';
 import ActivityWidget from './ActivityWidget';
 import CountdownTimer from 'coral-admin/src/components/CountdownTimer';
-import {showBanUserDialog, hideBanUserDialog} from 'coral-admin/src/actions/moderation';
 
 import {Spinner} from 'coral-ui';
 
@@ -36,19 +35,14 @@ class Dashboard extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     settings: state.settings.toJS(),
     moderation: state.moderation.toJS()
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  showBanUserDialog: (user, commentId) => dispatch(showBanUserDialog(user, commentId)),
-  hideBanUserDialog: () => dispatch(hideBanUserDialog(false))
-});
-
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps),
   getMetrics
 )(Dashboard);

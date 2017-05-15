@@ -2,6 +2,9 @@ const UsersService = require('./users');
 const SettingsService = require('./settings');
 const SettingsModel = require('../models/setting');
 const errors = require('../errors');
+const {
+  INSTALL_LOCK
+} = require('../config');
 
 /**
  * This service is used when we want to setup the application. It is consumed by
@@ -15,7 +18,7 @@ module.exports = class SetupService {
   static isAvailable() {
 
     // Check if we have an install lock present.
-    if (process.env.TALK_INSTALL_LOCK === 'TRUE') {
+    if (INSTALL_LOCK) {
       return Promise.reject(errors.ErrInstallLock);
     }
 
