@@ -23,11 +23,11 @@ class ForgotContent extends React.Component {
     return (
       <div>
         <div className={styles.header}>
-          <h1>{lang.t('signIn.recover_password')}</h1>
+          <h1>{lang.t('sign_in.recover_password')}</h1>
         </div>
         <form onSubmit={this.handleSubmit}>
           <div className={styles.textField}>
-            <label htmlFor="email">{lang.t('signIn.email')}</label>
+            <label htmlFor="email">{lang.t('sign_in.email')}</label>
             <input
               ref={input => this.emailInput = input}
               type="text"
@@ -36,7 +36,7 @@ class ForgotContent extends React.Component {
               name="email" />
           </div>
           <Button type="submit" cStyle="black" className={styles.signInButton} full>
-            {lang.t('signIn.recover_password')}
+            {lang.t('sign_in.recover_password')}
           </Button>
           {
             passwordRequestSuccess
@@ -50,8 +50,8 @@ class ForgotContent extends React.Component {
           }
         </form>
         <div className={styles.footer}>
-          <span>{lang.t('signIn.need_an_account')} <a onClick={() => changeView('SIGNUP')}>{lang.t('signIn.register')}</a></span>
-          <span>{lang.t('signIn.already_have_an_account')} <a onClick={() => changeView('SIGNIN')}>{lang.t('signIn.signIn')}</a></span>
+          <span>{lang.t('sign_in.need_an_account')} <a onClick={() => changeView('SIGNUP')}>{lang.t('sign_in.register')}</a></span>
+          <span>{lang.t('sign_in.already_have_an_account')} <a onClick={() => changeView('SIGNIN')}>{lang.t('sign_in.sign_in')}</a></span>
         </div>
       </div>
     );
