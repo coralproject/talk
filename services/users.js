@@ -1,12 +1,14 @@
 const assert = require('assert');
+const uuid = require('uuid');
 const bcrypt = require('bcrypt');
 const url = require('url');
 const jwt = require('jsonwebtoken');
 const Wordlist = require('./wordlist');
-
 const errors = require('../errors');
-
-const uuid = require('uuid');
+const {
+  JWT_SECRET,
+  ROOT_URL
+} = require('../config');
 
 const redis = require('./redis');
 const redisClient = redis.createClient();
@@ -21,14 +23,6 @@ const RECAPTCHA_INCORRECT_TRIGGER = 5; // after 3 incorrect attempts, recaptcha 
 const SettingsService = require('./settings');
 const ActionsService = require('./actions');
 const MailerService = require('./mailer');
-
-// In the event that the TALK_SESSION_SECRET is missing but we are testing, then
-// set the process.env.TALK_SESSION_SECRET.
-if (process.env.NODE_ENV === 'test' && !process.env.TALK_SESSION_SECRET) {
-  process.env.TALK_SESSION_SECRET = 'keyboard cat';
-} else if (!process.env.TALK_SESSION_SECRET) {
-  throw new Error('TALK_SESSION_SECRET must be defined to encode JSON Web Tokens and other auth functionality');
-}
 
 const EMAIL_CONFIRM_JWT_SUBJECT = 'email_confirm';
 const PASSWORD_RESET_JWT_SUBJECT = 'password_reset';
@@ -564,7 +558,7 @@ module.exports = class UsersService {
           version: user.__v
         };
 
-        return jwt.sign(payload, process.env.TALK_SESSION_SECRET, {
+        return jwt.sign(payload, JWT_SECRET, {
           algorithm: 'HS256',
           expiresIn: '1d',
           subject: PASSWORD_RESET_JWT_SUBJECT
@@ -583,7 +577,7 @@ module.exports = class UsersService {
       // Set the allowed algorithms.
       options.algorithms = ['HS256'];
 
-      jwt.verify(token, process.env.TALK_SESSION_SECRET, options, (err, decoded) => {
+      jwt.verify(token, JWT_SECRET, options, (err, decoded) => {
         if (err) {
           return reject(err);
         }
@@ -697,7 +691,7 @@ module.exports = class UsersService {
    * @param  {String} email The email that we are needing to get confirmed.
    * @return {Promise}
    */
-  static createEmailConfirmToken(userID = null, email, referer = process.env.TALK_ROOT_URL) {
+  static createEmailConfirmToken(userID = null, email, referer = ROOT_URL) {
     if (!email || typeof email !== 'string') {
       return Promise.reject('email is required when creating a JWT for resetting passord');
     }
@@ -740,7 +734,7 @@ module.exports = class UsersService {
         email,
         referer,
         userID: user.id
-      }, process.env.TALK_SESSION_SECRET, tokenOptions);
+      }, JWT_SECRET, tokenOptions);
     });
   }
 

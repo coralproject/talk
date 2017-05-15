@@ -5,16 +5,13 @@ const path = require('path');
 const fs = require('fs');
 const _ = require('lodash');
 
-const smtpRequiredProps = [
-  'TALK_SMTP_FROM_ADDRESS',
-  'TALK_SMTP_USERNAME',
-  'TALK_SMTP_PASSWORD',
-  'TALK_SMTP_HOST'
-];
-
-if (smtpRequiredProps.some((prop) => !process.env[prop])) {
-  console.error(`${smtpRequiredProps.join(', ')} should be defined in the environment if you would like to send password reset emails from Talk`);
-}
+const {
+  SMTP_HOST,
+  SMTP_USERNAME,
+  SMTP_PORT,
+  SMTP_PASSWORD,
+  SMTP_FROM_ADDRESS
+} = require('../config');
 
 // load all the templates as strings
 const templates = {
@@ -56,15 +53,15 @@ templates.render = (name, format = 'txt', context) => new Promise((resolve, reje
 });
 
 const options = {
-  host: process.env.TALK_SMTP_HOST,
+  host: SMTP_HOST,
   auth: {
-    user: process.env.TALK_SMTP_USERNAME,
-    pass: process.env.TALK_SMTP_PASSWORD
+    user: SMTP_USERNAME,
+    pass: SMTP_PASSWORD
   }
 };
 
-if (process.env.TALK_SMTP_PORT) {
-  options.port = process.env.TALK_SMTP_PORT;
+if (SMTP_PORT) {
+  options.port = SMTP_PORT;
 } else {
   options.port = 25;
 }
@@ -126,7 +123,7 @@ const mailer = module.exports = {
       debug(`Starting to send mail for Job[${id}]`);
 
       // Set the `from` field.
-      data.message.from = process.env.TALK_SMTP_FROM_ADDRESS;
+      data.message.from = SMTP_FROM_ADDRESS;
 
       // Actually send the email.
       defaultTransporter.sendMail(data.message, (err) => {

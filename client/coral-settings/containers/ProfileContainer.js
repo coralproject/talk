@@ -17,85 +17,72 @@ import translations from '../translations';
 const lang = new I18n(translations);
 
 class ProfileContainer extends Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      activeTab: 0,
-    };
+  constructor() {
+    super();
 
-    this.handleTabChange = this.handleTabChange.bind(this);
+    this.state = {
+      activeTab: 0
+    };
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.auth.loggedIn !== nextProps.auth.loggedIn) {
-
       // Refetch after login/logout.
       this.props.data.refetch();
     }
   }
 
-  handleTabChange(tab) {
+  handleTabChange = tab => {
     this.setState({
       activeTab: tab
     });
-  }
+  };
 
   render() {
     const {asset, data, showSignInDialog, stopIgnoringUser} = this.props;
     const {me} = this.props.data;
 
     if (data.loading) {
-      return <Spinner/>;
+      return <Spinner />;
     }
 
     if (!me) {
       return <NotLoggedIn showSignInDialog={showSignInDialog} />;
     }
 
-    const localProfile = this.props.user.profiles.find((p) => p.provider === 'local');
+    const localProfile = this.props.user.profiles.find(
+      p => p.provider === 'local'
+    );
     const emailAddress = localProfile && localProfile.id;
 
     return (
       <div>
         <h2>{this.props.user.username}</h2>
-        { emailAddress
-          ? <p>{ emailAddress }</p>
-          : null
-        }
+        {emailAddress ? <p>{emailAddress}</p> : null}
 
-        {
-          me.ignoredUsers && me.ignoredUsers.length
-          ? (
-            <div>
+        {me.ignoredUsers && me.ignoredUsers.length
+          ? <div>
               <h3>Ignored users</h3>
               <IgnoredUsers
                 users={me.ignoredUsers}
                 stopIgnoring={stopIgnoringUser}
               />
             </div>
-          )
-          : null
-        }
+          : null}
 
         <hr />
 
         <h3>My comments</h3>
-        {
-          me.comments.length ?
-            <CommentHistory
-              comments={me.comments}
-              asset={asset}
-              link={link}
-            />
-          :
-            <p>{lang.t('userNoComment')}</p>
-        }
+        {me.comments.length
+          ? <CommentHistory comments={me.comments} asset={asset} link={link} />
+          : <p>{lang.t('userNoComment')}</p>}
       </div>
     );
   }
 }
 
-const withQuery = graphql(gql`
+const withQuery = graphql(
+  gql`
   query EmbedStreamProfileQuery {
     me {
       ignoredUsers {
@@ -113,19 +100,20 @@ const withQuery = graphql(gql`
         created_at
       }
     }
-  }`);
+  }`
+);
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   user: state.user.toJS(),
   asset: state.asset.toJS(),
   auth: state.auth.toJS()
 });
 
-const mapDispatchToProps = (dispatch) =>
+const mapDispatchToProps = dispatch =>
   bindActionCreators({showSignInDialog, checkLogin}, dispatch);
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withStopIgnoringUser,
-  withQuery,
+  withQuery
 )(ProfileContainer);

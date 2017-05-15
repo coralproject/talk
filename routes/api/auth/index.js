@@ -1,6 +1,5 @@
 const express = require('express');
-const {passport, HandleAuthCallback} = require('../../../services/passport');
-const authorization = require('../../../middleware/authorization');
+const {passport, HandleGenerateCredentials, HandleLogout} = require('../../../services/passport');
 
 const router = express.Router();
 
@@ -21,13 +20,9 @@ router.get('/', (req, res, next) => {
 });
 
 /**
- * This destroys the session of a user, if they have one.
+ * This blacklists the token used to authenticate.
  */
-router.delete('/', authorization.needed(), (req, res) => {
-  delete req.session.passport;
-
-  res.status(204).end();
-});
+router.delete('/', HandleLogout);
 
 //==============================================================================
 // PASSPORT ROUTES
@@ -39,7 +34,7 @@ router.delete('/', authorization.needed(), (req, res) => {
 router.post('/local', (req, res, next) => {
 
   // Perform the local authentication.
-  passport.authenticate('local', HandleAuthCallback(req, res, next))(req, res, next);
+  passport.authenticate('local', {session: false}, HandleGenerateCredentials(req, res, next))(req, res, next);
 });
 
 module.exports = router;
