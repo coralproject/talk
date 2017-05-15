@@ -1,4 +1,4 @@
-import ApolloClient, {createNetworkInterface} from 'apollo-client';
+import {createNetworkInterface} from 'apollo-client';
 import * as Storage from '../helpers/storage';
 
 //==============================================================================

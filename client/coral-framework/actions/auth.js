@@ -4,6 +4,7 @@ import * as Storage from '../helpers/storage';
 import * as actions from '../constants/auth';
 import coralApi, {base} from '../helpers/response';
 import client from 'coral-framework/services/client';
+import jwtDecode from 'jwt-decode';
 
 const lang = new I18n(translations);
 import translations from './../translations';
@@ -139,6 +140,7 @@ const signInFailure = error => ({
 //==============================================================================
 
 const handleAuthToken = token => dispatch => {
+  Storage.setItem('exp', jwtDecode(token).exp);
   Storage.setItem('token', token);
   dispatch({type: 'HANDLE_AUTH_TOKEN'});
 };
@@ -290,8 +292,12 @@ export const fetchForgotPassword = email => dispatch => {
 //==============================================================================
 
 export const logout = () => dispatch => {
-  dispatch({type: actions.LOGOUT});
-  Storage.removeItem('token');
+  return coralApi('/auth', {method: 'DELETE'})
+    .then(() => {
+      dispatch({type: actions.LOGOUT});
+      Storage.removeItem('token');
+      fetchMe();
+    });
 };
 
 //==============================================================================
