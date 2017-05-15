@@ -139,7 +139,7 @@ const signInFailure = error => ({
 // AUTH TOKEN
 //==============================================================================
 
-const handleAuthToken = token => dispatch => {
+export const handleAuthToken = token => dispatch => {
   Storage.setItem('exp', jwtDecode(token).exp);
   Storage.setItem('token', token);
   dispatch({type: 'HANDLE_AUTH_TOKEN'});
