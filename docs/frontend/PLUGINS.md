@@ -3,9 +3,10 @@ We can build plugins to extend the functionality of Talk.
 
 This guide is a walkthrough of our plugin architecture and components that we provide that allow you to build on top of Core coral components without having to understand the concepts there in. It is organized into three sections:
 
-* Plugin architecture
+* [Plugin Architecture](#plugin-architecture)
 * Using our building block components
-* Styling
+* [Reactions](#reactions)
+* [Styling](#styling-plugins)
 
 Advanced users will quickly realize that our plugins have complete access to core code. If you would like to write advanced plugins that reach outside of our published API as described in this document, please see [our notes on experimental pluginss](PLUGINS-experimental.md).
 
@@ -97,11 +98,76 @@ Slots properties take an`Array` so we can add as many components as we want.
 
 In order to allow you to build more complex plugins, we have wrapped some of our functionality in higher order components that expose a simple api.
 
-### Reactions
+## Reactions
 
 Reactions provide users the ability to 'like', 'respect', etc... comments.
 
 Note: some server side work will need to accompany this client side component. See the like and respect plugins as examples.
+
+### Building Reactions
+
+#### Our `client/index.js` :
+
+```js
+import LoveButton from './LoveButton';
+
+export default {
+  slots: {
+    commentReactions: [LoveButton]
+  }
+};
+
+```
+In this example we add our reaction component to the `commentReaction` Slot
+ 
+#### Our Reaction component:
+   
+```js
+import React from 'react';
+import {withReaction} from 'coral-plugin-api';
+
+class LoveButton extends React.Component {
+  handleClick = () => {
+    const {
+      postReaction,
+      deleteReaction,
+      alreadyReacted
+    } = this.props;
+
+    if (alreadyReacted()) {
+      deleteReaction();
+    } else {
+      postReaction();
+    }
+  };
+
+  render() {
+    const {count} = this.props;
+    return (
+      <button onClick={this.handleClick}>
+        <span>Love</span>
+        <span>{count > 0 && count}</span>
+      </button>
+    );
+  }
+}
+
+export default withReaction('love')(LoveButton);
+```
+
+
+This feature introduces `withReaction` HOC.  `withReaction` takes, as argument, a reaction string and it allows our component to receive specific props for handling reactions. 
+
+	* `postReaction` - Posts the reaction
+	
+	* `deleteReaction` - Removes the reaction
+	
+	* `alreadyReacted` - A function that returns a boolean.
+	    
+	* `count` - The reaction count
+
+
+For full reference: Please, check `coral-plugin-love`: [LoveButton.js](https://github.com/coralproject/talk/blob/master/plugins/coral-plugin-love/client/LoveButton.js)
 
 ### Comment Stream
 
@@ -170,6 +236,34 @@ Our `style.css` should could look like this.
 }
 ```
 
+## Plugin Hooks
+The plugins injected in the CommentBox such as `commentInputDetailArea` will inherit through props tools for handling hooks.
+
+### Available hook types:
+`preSubmit` : To perform actions before submitting the comment.
+`postSubmit` : To perform actions after submitting the comment.
+
+### Register Hooks
+`registerHook` is a function that takes: the hook type, a hook function and returns the hook data.
+
+#### Usage:
+```js
+      this.addCommentTagHook = this.props.registerHook('postSubmit', (data) => {
+        const {comment} = data.createComment;
+        this.props.addCommentTag({
+          id: comment.id,
+          tag: 'OFF_TOPIC'
+        });
+      });
+```
+
+### Unregister Hooks
+
+`unregisterHook` will remove the hook.
+
+```js
+	this.props.unregisterHook(this.addCommentTagHook);
+```
 
 ### The server folder and the index file
 Read more about the `/server` and how to extend Talk here.
