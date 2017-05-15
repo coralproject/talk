@@ -1,9 +1,11 @@
 const redis = require('redis');
 const debug = require('debug')('talk:redis');
-const url = process.env.TALK_REDIS_URL || 'redis://localhost';
+const {
+  REDIS_URL
+} = require('../config');
 
 const connectionOptions = {
-  url,
+  url: REDIS_URL,
   retry_strategy: function(options) {
     if (options.error && options.error.code === 'ECONNREFUSED') {
 

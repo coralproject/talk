@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 const debug = require('debug')('talk:db');
+const enabled = require('debug').enabled;
 const queryDebuger = require('debug')('talk:db:query');
+
+const {
+  MONGO_URL
+} = require('../config');
 
 // Loading the formatter from Mongoose:
 //
@@ -24,18 +29,6 @@ function debugQuery(name, i, ...args) {
   queryDebuger(functionCall + params);
 }
 
-const enabled = require('debug').enabled;
-
-// Pull the mongo url out of the environment.
-let url = process.env.TALK_MONGO_URL;
-
-// Reset the mongo url in the event it hasn't been overrided and we are in a
-// testing environment. Every new mongo instance comes with a test database by
-// default, this is consistent with common testing and use case practices.
-if (process.env.NODE_ENV === 'test' && !url) {
-  url = 'mongodb://localhost/test';
-}
-
 // Use native promises
 mongoose.Promise = global.Promise;
 
@@ -48,7 +41,7 @@ if (enabled('talk:db')) {
 }
 
 // Connect to the Mongo instance.
-mongoose.connect(url, (err) => {
+mongoose.connect(MONGO_URL, (err) => {
   if (err) {
     throw err;
   }

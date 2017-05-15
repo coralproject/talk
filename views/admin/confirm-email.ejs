@@ -74,9 +74,6 @@
             url: '/api/v1/account/email/verify',
             contentType: 'application/json',
             method: 'POST',
-            headers: {
-              'X-CSRF-Token': '<%= csrfToken %>'
-            },
             data: JSON.stringify({token: location.hash.replace('#', '')})
           }).then(function (success) {
             location.href = success.redirectUri;
