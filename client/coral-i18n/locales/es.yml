@@ -1,24 +1,25 @@
+---
 bandialog:
-  are_you_sure: '¿Estás segura que quieres suspender a {0}?'
-  ban_user: ¿Quieres suspender el Usuario?
+  are_you_sure: "¿Estás segura que quieres suspender a {0}?"
+  ban_user: "¿Quieres suspender el Usuario?"
+  banned_user: "Usuario Suspendido"
   cancel: Cancelar
-  note: 'Nota: Suspender a este usuario también va a colocar este comentario en la cola de Rechazados.'
-  yes_ban_user: Si, Suspender el usuario
-bio_offensive: Esta biografia es ofensiva
+  note: "Nota: Suspender a este usuario también va a colocar este comentario en la cola de Rechazados."
+  yes_ban_user: "Si, Suspender el usuario"
+bio_offensive: "Esta biografia es ofensiva"
 cancel: Cancelar
-characters_remaining: 'carácteres restantes'
+characters_remaining: "carácteres restantes"
 comment:
   anon: Anónimo
-  ban_user: Suspender Usuario
-  ban_user: Usuario Suspendido
-  comment: Publicar un comentario
+  ban_user: "Usuario Suspendido"
+  comment: "Publicar un comentario"
   flagged: reportado
+comment_is_best: Este comentario es uno de los mejores
 comment_offensive: Este comentario es ofensivo
 comment_plural: Comentarios
 comment_post_banned_word: Tu comentario contiene una o más palabras que no estan permitidas en nuestro espacio, por lo que no será publicado. Si crees que es un error, por favor contacta a nuestro equipo de moderación.
 comment_post_notif: Tu comentario ha sido publicado.
 comment_post_notif_premod: Gracias por el comentario. Nuestro equipo de moderación va a revisarlo muy pronto.
-comment_is_best: Este comentario es uno de los mejores
 community:
   account_creation_date: Fecha de creación de la cuenta
   active: Activa
@@ -69,14 +70,12 @@ configure:
   domain_list_text: Agrega dominios permitidos a Talk, por ejemplo tu localhost, staging y ambientes de producción (ej. localhost:3000, staging.domain.com, domain.com).
   domain_list_title: Dominios Permitidos
   embed_comment_stream: Colocar Hilo de Comentarios
+  enable-premod-links-text: Moderators must approve any comment containing a link before its published.
   enable_pre_moderation: Enable pre-moderation
   enable_pre_moderation_text: Moderators must approve any comment before it is published.
   enable-premod-links: Pre-Moderar Comentarios que contienen Enlaces
-  enable-premod-links-text: Moderators must approve any comment containing a link
-    before its published.
   enable_premod: Activar Pre Moderación
-  enable_premod_description: Los y las Moderadoras deben aprobar cualquier comentario
-    antes de su publicación
+  enable_premod_description: "Los y las Moderadoras deben aprobar cualquier comentario antes de su publicación"
   enable_premod_links_description: Los y las moderadoras deben aprobar cualquier comentario que contengan enlaces antes de su publicación.
   enable_questionbox: Hacer una pregunta a los y las lectoras.
   enable_questionbox_description: Esta pregunta aparecera en la parte de arriba del hilo de comentarios.
@@ -129,23 +128,22 @@ done: hecho
 embedlink:
   copy: Copy to Clipboard
 error:
-  edit_username_not_authorized: No tiene permiso para editar el nombre de usuario.
-  email_in_use: El e-mail se encuentra en uso
-  email_required: Se requiere un e-mail
-  email_username_in_use: E-mail o Nombre en uso.
-  login_maximum_exceeded: Ha realizado demasiados intentos fallidos de colocar la contraseña. Por favor espere.
   NOT_AUTHORIZED: Acción no autorizada.
   NO_SPECIAL_CHARACTERS: Los nombres pueden contener letras números y _
   PASSWORD_LENGTH: La contraseña es muy corta
-  PASSWORD_REQUIRED: Debe ingresar una contraseña
   PROFANITY_ERROR: Los nombres no pueden contener blasfemias. Por favor contacte al o la administradora si cree que esto es un error
   USERNAME_IN_USE: Nombre en uso.
   USERNAME_REQUIRED: Debe ingresar un nombre
   confirm_password: Las contraseñas no coinciden
+  edit_username_not_authorized: No tiene permiso para editar el nombre de usuario.
   email: No es un e-mail válido
+  email_in_use: El e-mail se encuentra en uso
   email_not_verified: E-mail {0} no verificado.
-  email_password: E-mail y/o contraseña incorrecta.
-  organization_name: El nombre de la organización debe contener letras y/o números.
+  email_password: "E-mail y/o contraseña incorrecta."
+  email_required: Se requiere un e-mail
+  email_username_in_use: E-mail o Nombre en uso.
+  login_maximum_exceeded: Ha realizado demasiados intentos fallidos de colocar la contraseña. Por favor espere.
+  organization_name: "El nombre de la organización debe contener letras y/o números."
   password: La contraseña debe tener por lo menos 8 caracteres
   password_required: Debe ingresas la contraseña
   username: Los nombres pueden contener letras números y _
@@ -153,8 +151,7 @@ flag_comment: Reportar el comentario
 flag_reason: Razón por la que hacer este reporte (Opcional)
 flag_username: Reportar el nombre de usuario
 framework:
-  banned_account_msg: Tu cuenta se encuentra suspendida. Esto significa que no puedes
-    gustar marcar o escribir commentarios.
+  banned_account_msg: "Tu cuenta se encuentra suspendida. Esto significa que no puedes gustar marcar o escribir commentarios."
   comment: commentario
   comment_is_ignored: Este comentario está escondido porque has ignorado al usuario.
   comments: commentarios
@@ -260,14 +257,9 @@ streams:
   stream_status: Stream Status
 suspenduser:
   bio: bio
-  description_0: Would you like to temporarily ban this user because of their {0}?
-    Doing so will temporarily hide their comments until they rewrite their {0}.
-  description_1: Suspending this user will temporarily disable their account and hide
-    all of their comments on the site.
-  email: Another member of the community recently flagged your username for review.
-    Because of its content your user was rejected. This means you can no longer comment
-    like or flag content until you rewrite your username. Please e-mail us if you
-    have any questions or concerns.
+  description_0: "Would you like to temporarily ban this user because of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}."
+  description_1: "Suspending this user will temporarily disable their account and hide all of their comments on the site."
+  email: "Another member of the community recently flagged your username for review. Because of its content your user was rejected. This means you can no longer comment like or flag content until you rewrite your username. Please e-mail us if you have any questions or concerns."
   email_subject: Your account has been suspended
   no_cancel: No cancel
   send: Send
