@@ -39,13 +39,13 @@ export default class ModerationKeysModal extends React.Component {
       <div>
         <div className={styles.callToAction} style={{display: shortcutsNoteVisible === 'show' ? 'block' : 'none'}}>
           <div onClick={hideShortcutsNote} className={styles.closeButton}>×</div>
-          <p className={styles.ctaHeader}>{lang.t('modqueue.mod-faster')}</p>
-          <p><strong>{lang.t('modqueue.try-these')}:</strong></p>
+          <p className={styles.ctaHeader}>{lang.t('modqueue.mod_faster')}</p>
+          <p><strong>{lang.t('modqueue.try_these')}:</strong></p>
           <ul>
             <li><span>{lang.t('modqueue.approve')}</span> <span className={styles.smallKey}>t</span></li>
             <li><span>{lang.t('modqueue.reject')}</span> <span className={styles.smallKey}>r</span></li>
           </ul>
-          <p><span>{lang.t('modqueue.view-more-shortcuts')}</span> <span className={styles.smallKey}>{lang.t('modqueue.shift-key')}</span> + <span className={styles.smallKey}>/</span></p>
+          <p><span>{lang.t('modqueue.view_more_shortcuts')}</span> <span className={styles.smallKey}>{lang.t('modqueue.shift_key')}</span> + <span className={styles.smallKey}>/</span></p>
         </div>
         <Modal open={open} onClose={onClose}>
           <h3>{lang.t('modqueue.shortcuts')}</h3>

@@ -176,7 +176,7 @@ framework:
   view_all_replies_initial: ver todas las 0 respuestas
   view_more_comments: Ver commentarios más
   view_reply: ver respuesta
-fromSettingsPage: Desde la página de configuración puedes ver tu historia de comentarios.
+from_settings_page: Desde la página de configuración puedes ver tu historia de comentarios.
 like: Me gusta
 marketing: Esto parece una propaganda
 moderate_this_stream: Modera este hilo de comentarios
@@ -188,70 +188,68 @@ modqueue:
   approved: approved
   billion: B
   close: Close
-  dont-like-username: Don't like username
-  emptyqueue: No more comments to moderate! You're all caught up. Go have some ☕️
+  dont_like_username: Don't like username
+  empty_queue: No more comments to moderate! You're all caught up. Go have some ☕️
   flagged: flagged
   impersonating: Impersonating
-  less-detail: Less detail
+  less_detail: Less detail
   likes: likes
   million: M
-  mod-faster: Moderate faster with keyboard shortcuts
-  more-detail: More detail
+  mod_faster: Moderate faster with keyboard shortcuts
+  more_detail: More detail
   navigation: Navigation
-  nextcomment: Go to the next comment
+  next_comment: Go to the next comment
   offensive: Offensive
   other: Other
   premod: pre-mod
-  prevcomment: Go to the previous comment
+  prev_comment: Go to the previous comment
   reject: Reject comment
   rejected: rejected
-  shift-key: ⇧
+  shift_key: ⇧
   shortcuts: Shortcuts
-  showshortcuts: Show Shortcuts
+  show_shortcuts: Show Shortcuts
   singleview: Toggle single comment edit view
-  spam/ads: Spam/Ads
+  spam_ads: Spam/Ads
   thismenu: Open this menu
   thousand: k
-  try-these: Try these
-  view-more-shortcuts: View more shortcuts
-myCommentHistory: Mi historial de comentarios
+  try_these: Try these
+  view_more_shortcuts: View more shortcuts
+my_comment_history: Mi historial de comentarios
 name: Nombre
-no-agree-comment: No estoy de acuerdo con este comentario
-no-like-bio: No me gusta esta biografia
-no-like-username: No me gusta este nombre de usuario
+no_agree_comment: No estoy de acuerdo con este comentario
+no_like_bio: No me gusta esta biografia
+no_like_username: No me gusta este nombre de usuario
 other: Otro
-permalink:
-  permalink: Enlace
-personal-info: Este comentario muestra información personal
+permalink: Enlace
+personal_info: Este comentario muestra información personal
 post: Publicar
 profile: Perfil
 profileSettings: Configuración del perfil
 reply: Responder
 report: Reportar
-report-notif: Gracias por reportar este comentario. Nuestro equipo de moderación ha
-  sido notificado y muy pronto lo va a revisar.
-report-notif-remove: Tu reporte ha sido eliminada.
+report_notif: Gracias por reportar este comentario. Nuestro equipo de moderación ha sido notificado y muy pronto lo va a revisar.
+report_notif_remove: Tu reporte ha sido eliminada.
 reported: Reportado
-setBest: Etiquetar como el mejor
+set_best: Etiquetar como el mejor
 settings:
-  allComments: Todos los comentarios
-  fromSettingsPage: Desde la página de configuración puedes ver tu historia de comentarios.
-  myCommentHistory: Mi historial de comentarios
+  all_comments: Todos los comentarios
+  from_settings_page: Desde la página de configuración puedes ver tu historia de comentarios.
+  my_comment_history: Mi historial de comentarios
   profile: Perfil
-  profileSettings: Configuración del perfil
-  signIn: Entrar
-  toAccess: para acceder a al perfil
-  userNoComment: No has dejado aún ningún comentario. ¡Únete a la conversación!
-signIn: Entrar
-step-1-header: Reportar un problema
-step-2-header: Ayudanos a comprender
-step-3-header: Gracias por tu participación
+  profile_settings: Configuración del perfil
+  sign_in: Entrar
+  to_access: para acceder a al perfil
+  user_no_comment: No has dejado aún ningún comentario. ¡Únete a la conversación!
+sign_in: Entrar
+step_1_header: Reportar un problema
+step_2_header: Ayudanos a comprender
+step_3_header: Gracias por tu participación
 streams:
   all: All
   article: Story
   closed: Closed
   empty_result: No assets match this search. Maybe try widening your search?
-  filter-streams: Filter Streams
+  filter_streams: Filter Streams
   newest: Newest
   oldest: Oldest
   open: Open
@@ -259,7 +257,7 @@ streams:
   search: Search
   sort_by: Sort By
   status: Stream Status
-  stream-status: Stream Status
+  stream_status: Stream Status
 suspenduser:
   bio: bio
   description_0: Would you like to temporarily ban this user because of their {0}?
@@ -279,14 +277,12 @@ suspenduser:
   username: username
   write_message: Write a message
   yes_suspend: Yes suspend
-thank-you: Valoramos tanto tu seguridad en este espacio como tus comentarios. Un o
-  una moderadora van a leer tu reporte.
-toAccess: para acceder a al perfil
-unsetBest: Desetiquetar como el mejor
+thank_you: Valoramos tanto tu seguridad en este espacio como tus comentarios. Un o una moderadora van a leer tu reporte.
+unset_best: Desetiquetar como el mejor
 user:
   bio_flags: flags for this bio
   user_bio: User Bio
   username_flags: flags for this username
-user-impersonating: Este usuario suplanta a alguien
-userNoComment: No has dejado aún ningún comentario. ¡Únete a la conversación!
-username-offensive: Este nombre de usuario es ofensivo
+user_impersonating: Este usuario suplanta a alguien
+user_no_comment: No has dejado aún ningún comentario. ¡Únete a la conversación!
+username_offensive: Este nombre de usuario es ofensivo

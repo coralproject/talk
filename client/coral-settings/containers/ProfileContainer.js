@@ -80,7 +80,7 @@ class ProfileContainer extends Component {
               link={link}
             />
           :
-            <p>{lang.t('userNoComment')}</p>
+            <p>{lang.t('user_no_comment')}</p>
         }
       </div>
     );

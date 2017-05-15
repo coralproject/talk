@@ -175,11 +175,11 @@ framework:
   view_all_replies_initial: view all 0 replies
   view_more_comments: view more comments
   view_reply: view reply
-fromSettingsPage: From the Profile Page you can see your comment history.
+from_settings_page: From the Profile Page you can see your comment history.
 like: Like
 marketing: This looks like an ad/marketing
 moderate_this_stream: Moderate this stream
-modqueue:
+mo dqueue:
   account: account flags
   actions: Actions
   all: all
@@ -187,70 +187,69 @@ modqueue:
   approved: approved
   billion: B
   close: Close
-  dont-like-username: Don't like username
-  emptyqueue: No more comments to moderate! You're all caught up. Go have some ☕️
+  dont_like_username: Don't like username
+  empty_queue: No more comments to moderate! You're all caught up. Go have some ☕️
   flagged: flagged
   impersonating: Impersonating
-  less-detail: Less detail
+  less_detail: Less detail
   likes: likes
   million: M
-  mod-faster: Moderate faster with keyboard shortcuts
-  more-detail: More detail
+  mod_faster: Moderate faster with keyboard shortcuts
+  more_detail: More detail
   navigation: Navigation
-  nextcomment: Go to the next comment
+  next_comment: Go to the next comment
   offensive: Offensive
   other: Other
   premod: pre-mod
-  prevcomment: Go to the previous comment
+  prev_comment: Go to the previous comment
   reject: Reject comment
   rejected: rejected
-  shift-key: ⇧
+  shift_key: ⇧
   shortcuts: Shortcuts
-  showshortcuts: Show Shortcuts
+  show_shortcuts: Show Shortcuts
   singleview: Toggle single comment edit view
-  spam/ads: Spam/Ads
+  spam_ads: Spam/Ads
   thismenu: Open this menu
   thousand: k
-  try-these: Try these
-  view-more-shortcuts: View more shortcuts
-myCommentHistory: My comment History
+  try_these: Try these
+  view_more_shortcuts: View more shortcuts
+my_comment_history: My comment History
 name: Name
-no-agree-comment: I don't agree with this comment
-no-like-bio: I don't like this bio
-no-like-username: I don't like this username
+no_agree_comment: I don't agree with this comment
+no_like_bio: I don't like this bio
+no_like_username: I don't like this username
 other: Other
-permalink:
-  permalink: Link
-personal-info: This comment reveals personally identifiable information
+permalink: Link
+personal_info: This comment reveals personally identifiable information
 post: Post
 profile: Profile
-profileSettings: Profile Settings
+profile_settings: Profile Settings
 reply: Reply
 report: Report
-report-notif: Thank you for reporting this comment. Our moderation team has been notified
+report_notif: Thank you for reporting this comment. Our moderation team has been notified
   and will review it shortly.
-report-notif-remove: Your report has been removed.
+report_notif_remove: Your report has been removed.
 reported: Reported
-setBest: Tag as Best
+set_best: Tag as Best
 settings:
-  allComments: All Comments
-  fromSettingsPage: From the Profile Page you can see your comment history.
-  myCommentHistory: My comment History
+  all_comments: All Comments
+  from_settings_page: From the Profile Page you can see your comment history.
+  my_comment_history: My comment History
   profile: Profile
-  profileSettings: Profile Settings
-  signIn: Sign in
-  toAccess: to access Profile
-  userNoComment: You've never left a comment. Join the conversation!
-signIn: Sign in
-step-1-header: Report an issue
-step-2-header: Help us understand
-step-3-header: Thank you for your input
+  profile_settings: Profile Settings
+  sign_in: Sign in
+  to_access: to access Profile
+  user_no_comment: You've never left a comment. Join the conversation!
+sign_in: Sign in
+step_1_header: Report an issue
+step_2_header: Help us understand
+step_3_header: Thank you for your input
 streams:
   all: All
   article: Story
   closed: Closed
   empty_result: No assets match this search. Maybe try widening your search?
-  filter-streams: Filter Streams
+  filter_streams: Filter Streams
   newest: Newest
   oldest: Oldest
   open: Open
@@ -258,7 +257,7 @@ streams:
   search: Search
   sort_by: Sort By
   status: Stream Status
-  stream-status: Stream Status
+  stream_status: Stream Status
 suspenduser:
   bio: bio
   description_0: Would you like to temporarily ban this user because of their {0}?
@@ -278,13 +277,12 @@ suspenduser:
   username: username
   write_message: Write a message
   yes_suspend: Yes suspend
-thank-you: We value your safety and feedback. A moderator will review your report.
-toAccess: ' to access Profile'
-unsetBest: Untag as Best
+thank_you: We value your safety and feedback. A moderator will review your report.
+unset_best: Untag as Best
 user:
   bio_flags: flags for this bio
   user_bio: User Bio
   username_flags: flags for this username
-user-impersonating: This user is impersonating
-userNoComment: You've never left a comment. Join the conversation!
-username-offensive: This username is offensive
+user_impersonating: This user is impersonating
+user_no_comment: You've never left a comment. Join the conversation!
+username_offensive: This username is offensive

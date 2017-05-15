@@ -9,7 +9,7 @@ const FlagComment = (props) => <FlagButton {...props} getPopupMenu={getPopupMenu
 const getPopupMenu = [
   () => {
     return {
-      header: lang.t('step-1-header'),
+      header: lang.t('step_1_header'),
       options: [
         {val: 'COMMENTS', text: lang.t('flag_comment')},
         {val: 'USERS', text: lang.t('flag_username')}
@@ -23,18 +23,18 @@ const getPopupMenu = [
     [
       {val: 'This comment is offensive', text: lang.t('comment_offensive')},
       {val: 'This looks like an ad/marketing', text: lang.t('marketing')},
-      {val: 'I don\'t agree with this comment', text: lang.t('no-agree-comment')},
+      {val: 'I don\'t agree with this comment', text: lang.t('no_agree_comment')},
       {val: 'Other', text: lang.t('other')}
     ]
     : [
-      {val: 'This username is offensive', text: lang.t('username-offensive')},
-      {val: 'I don\'t like this username', text: lang.t('no-like-username')},
-      {val: 'This user is impersonating', text: lang.t('user-impersonating')},
+      {val: 'This username is offensive', text: lang.t('username_offensive')},
+      {val: 'I don\'t like this username', text: lang.t('no_like_username')},
+      {val: 'This user is impersonating', text: lang.t('user_impersonating')},
       {val: 'This looks like an ad/marketing', text: lang.t('marketing')},
       {val: 'Other', text: lang.t('other')}
     ];
     return {
-      header: lang.t('step-2-header'),
+      header: lang.t('step_2_header'),
       options,
       button: lang.t('continue'),
       sets: 'reason'
@@ -42,8 +42,8 @@ const getPopupMenu = [
   },
   () =>  {
     return {
-      header: lang.t('step-3-header'),
-      text: lang.t('thank-you'),
+      header: lang.t('step_3_header'),
+      text: lang.t('thank_you'),
       button: lang.t('done'),
     };
   }

@@ -122,8 +122,8 @@ class Stories extends Component {
               onChange={this.onSearchChange}
               placeholder={lang.t('streams.search')}/>
           </div>
-          <div className={styles.optionHeader}>{lang.t('streams.filter-streams')}</div>
-          <div className={styles.optionDetail}>{lang.t('streams.stream-status')}</div>
+          <div className={styles.optionHeader}>{lang.t('streams.filter_streams')}</div>
+          <div className={styles.optionDetail}>{lang.t('streams.stream_status')}</div>
           <RadioGroup
             name='status filter'
             value={filter}

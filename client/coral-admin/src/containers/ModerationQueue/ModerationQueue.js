@@ -56,7 +56,7 @@ class ModerationQueue extends React.Component {
                 currentAsset={props.currentAsset}
                 />;
             })
-            : <EmptyCard>{lang.t('modqueue.emptyqueue')}</EmptyCard>
+            : <EmptyCard>{lang.t('modqueue.empty_queue')}</EmptyCard>
           }
         </ul>
         <LoadMore

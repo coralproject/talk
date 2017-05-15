@@ -7,10 +7,10 @@ const lang = new I18n();
 export default ({showSignInDialog}) => (
   <div className={styles.message}>
     <div>
-      <a onClick={showSignInDialog}>{lang.t('signIn')}</a> {lang.t('toAccess')}
+      <a onClick={showSignInDialog}>{lang.t('sign_in')}</a> {lang.t('toAccess')}
     </div>
     <div>
-      {lang.t('fromSettingsPage')}
+      {lang.t('from_settings_page')}
     </div>
   </div>
 );

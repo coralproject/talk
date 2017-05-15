@@ -45,7 +45,7 @@ class FakeComment extends React.Component {
         <div className="commentActionsRight comment__action-container">
           <div className="coral-plugin-permalinks-container">
             <button className="coral-plugin-permalinks-button">
-              <span className={`comment__action-button comment__action-button--nowrap ${'coral-plugin-flags'}-button-text`}>{lang.t('permalink.permalink')}</span>
+              <span className={`comment__action-button comment__action-button--nowrap ${'coral-plugin-flags'}-button-text`}>{lang.t('permalink')}</span>
               <i className="coral-plugin-permalinks-icon material-icons" aria-hidden={true}>link</i>
             </button>
           </div>

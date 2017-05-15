@@ -6,9 +6,9 @@ const lang = new I18n();
 
 const shortReasons = {
   'This comment is offensive': lang.t('modqueue.offensive'),
-  'This looks like an ad/marketing': lang.t('modqueue.spam/ads'),
+  'This looks like an ad/marketing': lang.t('modqueue.spam_ads'),
   'This user is impersonating': lang.t('modqueue.impersonating'),
-  'I don\'t like this username': lang.t('modqueue.dont-like-username'),
+  'I don\'t like this username': lang.t('modqueue.dont_like_username'),
   'Other': lang.t('modqueue.other')
 };
 
@@ -47,7 +47,7 @@ class FlagBox extends Component {
                 <li key={i} className={styles.lessDetail}>{this.reasonMap(action.reason)} (<strong>{action.count}</strong>)</li>
               )}
             </ul>
-            <a onClick={this.toggleDetail} className={styles.moreDetail}>{showDetail ? lang.t('modqueue.less-detail') : lang.t('modqueue.more-detail')}</a>
+            <a onClick={this.toggleDetail} className={styles.moreDetail}>{showDetail ? lang.t('modqueue.less-detail') : lang.t('modqueue.more_detail')}</a>
           </div>
           {showDetail && (
             <div className={styles.detail}>

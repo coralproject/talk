@@ -55,7 +55,7 @@ class PermalinkButton extends React.Component {
           ref={ref => this.linkButton = ref}
           onClick={this.toggle}
           className={`${name}-button`}>
-          {lang.t('permalink.permalink')}
+          {lang.t('permalink')}
           <i className={`${name}-icon material-icons`} aria-hidden={true}>link</i>
         </button>
         <div
