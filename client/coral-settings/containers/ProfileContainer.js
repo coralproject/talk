@@ -25,7 +25,7 @@ class ProfileContainer extends Component {
     };
   }
 
-  handleTabChange = tab => {
+  handleTabChange = (tab) => {
     this.setState({
       activeTab: tab
     });
@@ -44,7 +44,7 @@ class ProfileContainer extends Component {
     }
 
     const localProfile = this.props.user.profiles.find(
-      p => p.provider === 'local'
+      (p) => p.provider === 'local'
     );
     const emailAddress = localProfile && localProfile.id;
 
@@ -96,13 +96,13 @@ const withQuery = graphql(
   }`
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.user.toJS(),
   asset: state.asset.toJS(),
   auth: state.auth.toJS()
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators({showSignInDialog, checkLogin}, dispatch);
 
 export default compose(
