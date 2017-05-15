@@ -205,10 +205,6 @@ const fragments = {
       }
       me {
         status
-        ignoredUsers {
-          id
-          username
-        }
       }
       ...${getDefinitionName(Comment.fragments.root)}
     }

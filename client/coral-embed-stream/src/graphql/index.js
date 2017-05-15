@@ -126,14 +126,14 @@ const extension = {
 
       // TODO: don't rely on refetching.
       refetchQueries: [
-        'EmbedQuery', 'myIgnoredUsers',
+        'EmbedQuery', 'EmbedStreamProfileQuery',
       ],
     }),
     StopIgnoringUser: () => ({
 
       // TODO: don't rely on refetching.
       refetchQueries: [
-        'EmbedQuery', 'myIgnoredUsers',
+        'EmbedQuery', 'EmbedStreamProfileQuery',
       ],
     }),
     PostComment: ({

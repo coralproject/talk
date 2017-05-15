@@ -1,35 +1,9 @@
-import {gql} from 'react-apollo';
-import client from 'coral-framework/services/client';
 import I18n from '../../coral-framework/modules/i18n/i18n';
 import translations from './../translations';
 const lang = new I18n(translations);
 import * as actions from '../constants/auth';
 import coralApi, {base} from '../helpers/response';
 import {pym} from 'coral-framework';
-
-const ME_QUERY = gql`
-  query Me {
-    me {
-      status
-      comments {
-          id
-          body
-          asset {
-            id
-            title
-            url
-          }
-          created_at
-      }
-    }
-  }
-`;
-
-function fetchMe() {
-  return client.query({
-    fetchPolicy: 'network-only',
-    query: ME_QUERY});
-}
 
 // Dialog Actions
 export const showSignInDialog = () => (dispatch) => {
@@ -50,7 +24,6 @@ export const showSignInDialog = () => (dispatch) => {
   signInPopUp.onunload = () => {
     if (loaded) {
       dispatch(checkLogin());
-      fetchMe();
     }
   };
 
@@ -223,7 +196,6 @@ export const logout = () => (dispatch) => {
   return coralApi('/auth', {method: 'DELETE'})
     .then(() => {
       dispatch(logOutSuccess());
-      fetchMe();
     })
     .catch((error) => dispatch(logOutFailure(error)));
 };

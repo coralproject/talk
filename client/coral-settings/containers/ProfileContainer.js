@@ -26,6 +26,14 @@ class ProfileContainer extends Component {
     this.handleTabChange = this.handleTabChange.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.auth.loggedIn !== nextProps.auth.loggedIn) {
+
+      // Refetch after login/logout.
+      this.props.data.refetch();
+    }
+  }
+
   handleTabChange(tab) {
     this.setState({
       activeTab: tab
@@ -33,7 +41,7 @@ class ProfileContainer extends Component {
   }
 
   render() {
-    const {asset, data, showSignInDialog, myIgnoredUsersData, stopIgnoringUser} = this.props;
+    const {asset, data, showSignInDialog, stopIgnoringUser} = this.props;
     const {me} = this.props.data;
 
     if (data.loading) {
@@ -56,12 +64,12 @@ class ProfileContainer extends Component {
         }
 
         {
-          myIgnoredUsersData.me.ignoredUsers && myIgnoredUsersData.me.ignoredUsers.length
+          me.ignoredUsers && me.ignoredUsers.length
           ? (
             <div>
               <h3>Ignored users</h3>
               <IgnoredUsers
-                users={myIgnoredUsersData.me.ignoredUsers}
+                users={me.ignoredUsers}
                 stopIgnoring={stopIgnoringUser}
               />
             </div>
@@ -87,32 +95,22 @@ class ProfileContainer extends Component {
   }
 }
 
-const withMyIgnoredUsersQuery = graphql(gql`
-  query myIgnoredUsers {
-    myIgnoredUsers {
-      id,
-      username,
-    }
-  }`, {
-    props: ({data}) => {
-      return ({
-        myIgnoredUsersData: data
-      });
-    }
-  });
-
-const withMyCommentHistoryQuery = graphql(gql`
-  query myCommentHistory {
+const withQuery = graphql(gql`
+  query EmbedStreamProfileQuery {
     me {
+      ignoredUsers {
+        id,
+        username,
+      }
       comments {
+        id
+        body
+        asset {
           id
-          body
-          asset {
-            id
-            title
-            url
-          }
-          created_at
+          title
+          url
+        }
+        created_at
       }
     }
   }`);
@@ -128,7 +126,6 @@ const mapDispatchToProps = (dispatch) =>
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withMyCommentHistoryQuery,
-  withMyIgnoredUsersQuery,
   withStopIgnoringUser,
+  withQuery,
 )(ProfileContainer);
