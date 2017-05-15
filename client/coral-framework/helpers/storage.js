@@ -32,10 +32,14 @@ function storageAvailable(type) {
   }
 }
 
-export function getItem(item = '') {
+function lazyCheckStorage() {
   if (typeof available === 'undefined') {
     available = storageAvailable('localStorage');
   }
+}
+
+export function getItem(item = '') {
+  lazyCheckStorage();
 
   if (available) {
     return localStorage.getItem(item);
@@ -45,9 +49,7 @@ export function getItem(item = '') {
 }
 
 export function setItem(item = '', value) {
-  if (typeof available === 'undefined') {
-    available = storageAvailable('localStorage');
-  }
+  lazyCheckStorage();
 
   if (available) {
     return localStorage.setItem(item, value);
@@ -56,7 +58,19 @@ export function setItem(item = '', value) {
   }
 }
 
+export function removeItem(item = '') {
+  lazyCheckStorage();
+
+  if (available) {
+    return localStorage.removeItem(item);
+  } else {
+    console.error(`Cannot remove item from localStorage. localStorage is not available. ${error}`);
+  }
+}
+
 export function clear() {
+  lazyCheckStorage();
+
   if (available) {
     return localStorage.clear();
   } else {

@@ -17,71 +17,68 @@ import translations from '../translations';
 const lang = new I18n(translations);
 
 class ProfileContainer extends Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      activeTab: 0,
-    };
+  constructor() {
+    super();
 
-    this.handleTabChange = this.handleTabChange.bind(this);
+    this.state = {
+      activeTab: 0
+    };
   }
 
-  handleTabChange(tab) {
+  handleTabChange = tab => {
     this.setState({
       activeTab: tab
     });
-  }
+  };
 
   render() {
-    const {asset, data, showSignInDialog, myIgnoredUsersData, stopIgnoringUser} = this.props;
-    const {me} = this.props.data;
+    const {
+      auth,
+      data,
+      asset,
+      showSignInDialog,
+      stopIgnoringUser,
+      myIgnoredUsersData
+    } = this.props;
 
-    if (data.loading) {
-      return <Spinner/>;
-    }
+    const {me} = data;
 
-    if (!me) {
+    if (!auth.loggedIn) {
       return <NotLoggedIn showSignInDialog={showSignInDialog} />;
     }
 
-    const localProfile = this.props.user.profiles.find(p => p.provider === 'local');
+    if (data.loading) {
+      return <Spinner />;
+    }
+
+    const localProfile = this.props.user.profiles.find(
+      p => p.provider === 'local'
+    );
+
     const emailAddress = localProfile && localProfile.id;
 
     return (
       <div>
         <h2>{this.props.user.username}</h2>
-        { emailAddress
-          ? <p>{ emailAddress }</p>
-          : null
-        }
+        {emailAddress ? <p>{emailAddress}</p> : null}
 
-        {
-          myIgnoredUsersData.myIgnoredUsers && myIgnoredUsersData.myIgnoredUsers.length
-          ? (
-            <div>
+        {myIgnoredUsersData.myIgnoredUsers &&
+          myIgnoredUsersData.myIgnoredUsers.length
+          ? <div>
               <h3>Ignored users</h3>
               <IgnoredUsers
                 users={myIgnoredUsersData.myIgnoredUsers}
                 stopIgnoring={stopIgnoringUser}
               />
             </div>
-          )
-          : null
-        }
+          : null}
 
         <hr />
 
         <h3>My comments</h3>
-        {
-          me.comments.length ?
-            <CommentHistory
-              comments={me.comments}
-              asset={asset}
-              link={link}
-            />
-          :
-            <p>{lang.t('userNoComment')}</p>
-        }
+        {me.comments.length
+          ? <CommentHistory comments={me.comments} asset={asset} link={link} />
+          : <p>{lang.t('userNoComment')}</p>}
       </div>
     );
   }
@@ -89,21 +86,25 @@ class ProfileContainer extends Component {
 
 // TODO: These currently relies on refetching (see ignoreUser and stopIgnoringUser mutations).
 //
-const withMyIgnoredUsersQuery = graphql(gql`
+const withMyIgnoredUsersQuery = graphql(
+  gql`
   query myIgnoredUsers {
     myIgnoredUsers {
       id,
       username,
     }
-  }`, {
+  }`,
+  {
     props: ({data}) => {
-      return ({
+      return {
         myIgnoredUsersData: data
-      });
+      };
     }
-  });
+  }
+);
 
-const withMyCommentHistoryQuery = graphql(gql`
+const withMyCommentHistoryQuery = graphql(
+  gql`
   query myCommentHistory {
     me {
       comments {
@@ -117,7 +118,8 @@ const withMyCommentHistoryQuery = graphql(gql`
           created_at
       }
     }
-  }`);
+  }`
+);
 
 const mapStateToProps = state => ({
   user: state.user.toJS(),
@@ -132,5 +134,5 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withMyCommentHistoryQuery,
   withMyIgnoredUsersQuery,
-  withStopIgnoringUser,
+  withStopIgnoringUser
 )(ProfileContainer);

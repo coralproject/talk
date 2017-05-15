@@ -290,8 +290,8 @@ export const fetchForgotPassword = email => dispatch => {
 //==============================================================================
 
 export const logout = () => dispatch => {
-  Storage.clear();
   dispatch({type: actions.LOGOUT});
+  Storage.removeItem('token');
 };
 
 //==============================================================================
@@ -312,6 +312,7 @@ export const checkLogin = () => dispatch => {
   coralApi('/auth')
     .then(result => {
       if (!result.user) {
+        Storage.removeItem('token');
         throw new Error('Not logged in');
       }
 
@@ -323,6 +324,7 @@ export const checkLogin = () => dispatch => {
       dispatch(checkLoginFailure(`${error.translation_key}`));
     });
 };
+
 export const validForm = () => ({type: actions.VALID_FORM});
 export const invalidForm = error => ({type: actions.INVALID_FORM, error});
 
