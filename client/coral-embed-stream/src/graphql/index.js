@@ -33,7 +33,13 @@ const extension = {
         comment {
           id
           tags {
-            name
+            tag {
+              name
+              created_at
+            }
+            assigned_by {
+              id
+            }
           }
         }
         errors {
@@ -46,7 +52,13 @@ const extension = {
         comment {
           id
           tags {
-            name
+            tag {
+              name
+              created_at
+            }
+            assigned_by {
+              id
+            }
           }
         }
         errors {
@@ -101,7 +113,13 @@ const extension = {
         status
         replyCount
         tags {
-          name
+          tag {
+            name
+            created_at
+          }
+          assigned_by {
+            id
+          }
         }
         user {
           id

@@ -28,7 +28,13 @@ export default withFragments({
       created_at
       status
       tags {
-        id
+        tag {
+          name
+          created_at
+        }
+        assigned_by {
+          id
+        }
       }
       user {
         id
