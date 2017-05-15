@@ -14,6 +14,16 @@ comment:
   ban_user: "Usuario Suspendido"
   comment: "Publicar un comentario"
   flagged: reportado
+comment_box:
+  post: "Publicar"
+  cancel: "Cancelar"
+  reply: "Responder"
+  comment: "Publicar un comentario"
+  name: "Nombre"
+  comment_post_notif: "Tu comentario ha sido publicado."
+  comment_post_notif_premod: "Gracias por el comentario. Nuestro equipo de moderación va a revisarlo muy pronto."
+  comment_post_banned_word:  "Tu comentario contiene una o más palabras que no estan permitidas en nuestro espacio, por lo que no será publicado. Si crees que es un error, por favor contacta a nuestro equipo de moderación."
+  characters_remaining: "carácteres restantes"
 comment_is_best: Este comentario es uno de los mejores
 comment_offensive: Este comentario es ofensivo
 comment_plural: Comentarios

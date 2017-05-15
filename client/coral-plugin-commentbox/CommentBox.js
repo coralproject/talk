@@ -11,9 +11,9 @@ export const name = 'coral-plugin-commentbox';
 // if needed
 export const notifyForNewCommentStatus = (addNotification, status) => {
   if (status === 'REJECTED') {
-    addNotification('error', lang.t('comment-post-banned-word'));
+    addNotification('error', lang.t('comment_box.comment_post_banned_word'));
   } else if (status === 'PREMOD') {
-    addNotification('success', lang.t('comment-post-notif-premod'));
+    addNotification('success', lang.t('comment_box.comment_post_notif-premod'));
   }
 };
 
@@ -156,7 +156,7 @@ class CommentBox extends React.Component {
         key={this.state.postedCount}
         defaultValue={this.props.defaultValue}
         bodyInputId={isReply ? 'replyText' : 'commentText'}
-        bodyLabel={isReply ? lang.t('reply') : lang.t('comment.comment')}
+        bodyLabel={isReply ? lang.t('comment_box.reply') : lang.t('comment.comment')}
         maxCharCount={maxCharCount}
         charCountEnable={this.props.charCountEnable}
         bodyPlaceholder={lang.t('comment.comment')}

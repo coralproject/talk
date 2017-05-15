@@ -14,6 +14,16 @@ comment:
   ban_user: "Ban User"
   comment: "Post a comment"
   flagged: flagged
+comment_box:
+  post: "Post"
+  cancel: "Cancel"
+  reply: "Reply"
+  comment: "Post a comment"
+  name: "Name"
+  comment_post_notif: "Your comment has been posted."
+  comment_post_notif_premod: "Thank you for posting. Our moderation team will review your comment shortly."
+  comment_post_banned_word:  "Your comment contains one or more words that are not permitted, so it will not be published. If you think this message is incorrect, please contact our moderation team."
+  characters_remaining: "characters remaining"
 comment_is_best: "This comment is one of the best"
 comment_offensive: "This comment is offensive"
 comment_plural: Comments
