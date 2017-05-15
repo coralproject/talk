@@ -10,22 +10,17 @@ function storageAvailable(type) {
     error = e;
     return (
       e instanceof DOMException &&
-
       // everything except Firefox
       (e.code === 22 ||
+        // Firefox
 
-      // Firefox
+        e.code === 1014 ||
+        // test name field too, because code might not be present
 
-      e.code === 1014 ||
-
-      // test name field too, because code might not be present
-
-      // everything except Firefox
-      e.name === 'QuotaExceededError' ||
-
-      // Firefox
-      e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
-
+        // everything except Firefox
+        e.name === 'QuotaExceededError' ||
+        // Firefox
+        e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
       // acknowledge QuotaExceededError only if there's something already stored
       storage.length !== 0
     );
@@ -39,12 +34,15 @@ function lazyCheckStorage() {
 }
 
 export function getItem(item = '') {
+  console.log(`asking for item ${item}`);
   lazyCheckStorage();
 
   if (available) {
     return localStorage.getItem(item);
   } else {
-    console.error(`Cannot get from localStorage. localStorage is not available. ${error}`);
+    console.error(
+      `Cannot get from localStorage. localStorage is not available. ${error}`
+    );
   }
 }
 
@@ -54,7 +52,9 @@ export function setItem(item = '', value) {
   if (available) {
     return localStorage.setItem(item, value);
   } else {
-    console.error(`Cannot set localStorage. localStorage is not available. ${error}`);
+    console.error(
+      `Cannot set localStorage. localStorage is not available. ${error}`
+    );
   }
 }
 
@@ -64,7 +64,9 @@ export function removeItem(item = '') {
   if (available) {
     return localStorage.removeItem(item);
   } else {
-    console.error(`Cannot remove item from localStorage. localStorage is not available. ${error}`);
+    console.error(
+      `Cannot remove item from localStorage. localStorage is not available. ${error}`
+    );
   }
 }
 
@@ -74,6 +76,13 @@ export function clear() {
   if (available) {
     return localStorage.clear();
   } else {
-    console.error(`Cannot clear localStorage. localStorage is not available. ${error}`);
+    console.error(
+      `Cannot clear localStorage. localStorage is not available. ${error}`
+    );
   }
 }
+
+window.addEventListener('storage', function(e) {
+  const msg = `${e.key} " was changed in page ${e.url} from ${e.oldValue} to ${e.newValue}`;
+  console.log(msg);
+});
