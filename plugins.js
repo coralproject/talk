@@ -4,9 +4,8 @@ const resolve = require('resolve');
 const debug = require('debug')('talk:plugins');
 const Joi = require('joi');
 const amp = require('app-module-path');
-const {
-  PLUGINS_JSON
-} = require('./config');
+
+const PLUGINS_JSON = process.env.TALK_PLUGINS_JSON;
 
 // Add the current path to the module root.
 amp.addPath(__dirname);
