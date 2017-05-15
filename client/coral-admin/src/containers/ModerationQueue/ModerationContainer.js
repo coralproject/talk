@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {compose} from 'react-apollo';
+import {toast} from 'react-toastify';
 import key from 'keymaster';
 import isEqual from 'lodash/isEqual';
 import styles from './components/styles.css';
@@ -10,10 +12,19 @@ import {banUser, setCommentStatus} from '../../graphql/mutations';
 
 import {fetchSettings} from 'actions/settings';
 import {updateAssets} from 'actions/assets';
-import {toggleModal, singleView, showBanUserDialog, hideBanUserDialog, hideShortcutsNote} from 'actions/moderation';
+import {
+  toggleModal,
+  singleView,
+  showBanUserDialog,
+  hideBanUserDialog,
+  showSuspendUserDialog,
+  hideSuspendUserDialog,
+  hideShortcutsNote,
+} from 'actions/moderation';
 
 import {Spinner} from 'coral-ui';
-import BanUserDialog from '../../components/BanUserDialog';
+import BanUserDialog from './components/BanUserDialog';
+import SuspendUserDialog from './components/SuspendUserDialog';
 import ModerationQueue from './ModerationQueue';
 import ModerationMenu from './components/ModerationMenu';
 import ModerationHeader from './components/ModerationHeader';
@@ -175,6 +186,7 @@ class ModerationContainer extends Component {
           bannedWords={settings.wordlist.banned}
           suspectWords={settings.wordlist.suspect}
           showBanUserDialog={props.showBanUserDialog}
+          showSuspendUserDialog={props.showSuspendUserDialog}
           acceptComment={props.acceptComment}
           rejectComment={props.rejectComment}
           loadMore={props.loadMore}
@@ -191,6 +203,12 @@ class ModerationContainer extends Component {
           handleBanUser={props.banUser}
           showRejectedNote={moderation.showRejectedNote}
           rejectComment={props.rejectComment}
+        />
+        <SuspendUserDialog
+          open={moderation.suspendUserDialog.show}
+          username={moderation.suspendUserDialog.username}
+          onCancel={props.hideSuspendUserDialog}
+          onPerform={() => toast('User admin has been suspended for 24 hours. this suspension will automatically end after 24 hours.', {type: 'success'}) && props.hideSuspendUserDialog()}
         />
       <ModerationKeysModal
           hideShortcutsNote={props.hideShortcutsNote}
@@ -209,14 +227,18 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  toggleModal: toggle => dispatch(toggleModal(toggle)),
   onClose: () => dispatch(toggleModal(false)),
-  singleView: () => dispatch(singleView()),
-  updateAssets: assets => dispatch(updateAssets(assets)),
-  fetchSettings: () => dispatch(fetchSettings()),
-  showBanUserDialog: (user, commentId, commentStatus, showRejectedNote) => dispatch(showBanUserDialog(user, commentId, commentStatus, showRejectedNote)),
   hideBanUserDialog: () => dispatch(hideBanUserDialog(false)),
-  hideShortcutsNote: () => dispatch(hideShortcutsNote()),
+  ...bindActionCreators({
+    toggleModal,
+    singleView,
+    updateAssets,
+    fetchSettings,
+    showBanUserDialog,
+    hideShortcutsNote,
+    showSuspendUserDialog,
+    hideSuspendUserDialog,
+  }, dispatch),
 });
 
 export default compose(

@@ -16,6 +16,7 @@ class ModerationQueue extends React.Component {
     suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired,
     currentAsset: PropTypes.object,
     showBanUserDialog: PropTypes.func.isRequired,
+    showSuspendUserDialog: PropTypes.func.isRequired,
     rejectComment: PropTypes.func.isRequired,
     acceptComment: PropTypes.func.isRequired,
     comments: PropTypes.array.isRequired
@@ -51,6 +52,7 @@ class ModerationQueue extends React.Component {
                 bannedWords={props.bannedWords}
                 actions={actionsMap[status]}
                 showBanUserDialog={props.showBanUserDialog}
+                showSuspendUserDialog={props.showSuspendUserDialog}
                 acceptComment={props.acceptComment}
                 rejectComment={props.rejectComment}
                 currentAsset={props.currentAsset}

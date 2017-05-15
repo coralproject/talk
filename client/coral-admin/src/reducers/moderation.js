@@ -1,14 +1,21 @@
-import {Map} from 'immutable';
+import {fromJS, Map} from 'immutable';
 import * as actions from '../constants/moderation';
 
-const initialState = Map({
+const initialState = fromJS({
   singleView: false,
   modalOpen: false,
-  user: Map({}),
+  user: {},
   commentId: null,
   commentStatus: null,
   banDialog: false,
-  shortcutsNoteVisible: window.localStorage.getItem('coral:shortcutsNote') || 'show'
+  shortcutsNoteVisible: window.localStorage.getItem('coral:shortcutsNote') || 'show',
+  suspendUserDialog: {
+    show: false,
+    userId: null,
+    username: '',
+    commentId: null,
+    commentStatus: '',
+  },
 });
 
 export default function moderation (state = initialState, action) {
@@ -26,6 +33,19 @@ export default function moderation (state = initialState, action) {
         showRejectedNote: action.showRejectedNote,
         banDialog: true
       });
+  case actions.SHOW_SUSPEND_USER_DIALOG:
+    return state
+      .mergeDeep({
+        suspendUserDialog: {
+          show: true,
+          username: action.username,
+          commentId: action.commentId,
+          commentStatus: action.commentStatus,
+        }
+      });
+  case actions.HIDE_SUSPEND_USER_DIALOG:
+    return state
+      .setIn(['suspendUserDialog', 'show'], false);
   case actions.SET_ACTIVE_TAB:
     return state
       .set('activeTab', action.activeTab);

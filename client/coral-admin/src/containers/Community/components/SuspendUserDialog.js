@@ -10,16 +10,16 @@ const lang = new I18n(translations);
 
 const stages = [
   {
-    title: 'suspenduser.title_0',
-    description: 'suspenduser.description_0',
+    title: 'suspenduser.title_reject',
+    description: 'suspenduser.description_reject',
     options: {
       'j': 'suspenduser.no_cancel',
       'k': 'suspenduser.yes_suspend'
     }
   },
   {
-    title: 'suspenduser.title_1',
-    description: 'suspenduser.description_1',
+    title: 'suspenduser.title_notify',
+    description: 'suspenduser.description_notify',
     options: {
       'j': 'bandialog.cancel',
       'k': 'suspenduser.send'
@@ -38,7 +38,7 @@ class SuspendUserDialog extends Component  {
   }
 
   componentDidMount() {
-    this.setState({email: lang.t('suspenduser.email'), about: lang.t('suspenduser.username')});
+    this.setState({email: lang.t('suspenduser.email_message_reject'), about: lang.t('suspenduser.username')});
   }
 
   /*

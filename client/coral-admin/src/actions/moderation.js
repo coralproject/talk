@@ -7,6 +7,12 @@ export const singleView = () => ({type: actions.SINGLE_VIEW});
 export const showBanUserDialog = (user, commentId, commentStatus, showRejectedNote) => ({type: actions.SHOW_BANUSER_DIALOG, user, commentId, commentStatus, showRejectedNote});
 export const hideBanUserDialog = (showDialog) => ({type: actions.HIDE_BANUSER_DIALOG, showDialog});
 
+// Suspend User Dialog
+export const showSuspendUserDialog = (userId, username, commentId, commentStatus) =>
+  ({type: actions.SHOW_SUSPEND_USER_DIALOG, userId, username, commentId, commentStatus});
+
+export const hideSuspendUserDialog = () => ({type: actions.HIDE_SUSPEND_USER_DIALOG});
+
 // hide shortcuts note
 export const hideShortcutsNote = () => {
   try {
