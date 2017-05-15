@@ -1,7 +1,7 @@
 import * as actions from '../constants/auth';
 import * as Storage from 'coral-framework/helpers/storage';
 import coralApi from 'coral-framework/helpers/response';
-import {handleAuthToken, logout} from 'coral-framework/actions/auth';
+import {handleAuthToken} from 'coral-framework/actions/auth';
 
 //==============================================================================
 // SIGN IN
@@ -24,7 +24,6 @@ export const handleLogin = (email, password, recaptchaResponse) => dispatch => {
       dispatch(checkLoginSuccess(user, isAdmin));
     })
     .catch(error => {
-      console.log(error);
       if (error.translation_key === 'LOGIN_MAXIMUM_EXCEEDED') {
         dispatch({
           type: actions.LOGIN_MAXIMUM_EXCEEDED,
@@ -39,7 +38,6 @@ export const handleLogin = (email, password, recaptchaResponse) => dispatch => {
 //==============================================================================
 // FORGOT PASSWORD
 //==============================================================================
-
 
 const forgotPassowordRequest = () => ({
   type: actions.FETCH_FORGOT_PASSWORD_REQUEST
