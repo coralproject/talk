@@ -73,7 +73,7 @@ class CountdownTimer extends React.Component {
         className={styles.autoUpdate}
         onClick={this.dismissNote}>
         <b>×</b>
-        <Icon name='timer' /> <strong>{lang.t('dashboard.next-update', this.formatTime())}</strong> {lang.t('dashboard.auto-update')}
+        <Icon name='timer' /> <strong>{lang.t('dashboard.next_update', this.formatTime())}</strong> {lang.t('dashboard.auto_update')}
       </p>
     );
   }

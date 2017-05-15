@@ -5,7 +5,7 @@ const name = 'coral-plugin-comment-count';
 
 const CommentCount = ({count}) => {
   return <div className={`${name}-text`}>
-    {`${count} ${count === 1 ? lang.t('comment') : lang.t('comment-plural')}`}
+    {`${count} ${count === 1 ? lang.t('comment.comment') : lang.t('comment_plural')}`}
   </div>;
 };
 

@@ -31,13 +31,13 @@ class LoadMore extends React.Component {
 
   replyCountFormat = (count) => {
     if (count === 1) {
-      return lang.t('viewReply');
+      return lang.t('framework.view_reply');
     }
 
     if (this.initialState) {
-      return lang.t('viewAllRepliesInitial', count);
+      return lang.t('framework.view_all_repliesInitial', count);
     } else {
-      return lang.t('viewAllReplies', count);
+      return lang.t('framework.view_all_replies', count);
     }
   }
 
@@ -50,7 +50,7 @@ class LoadMore extends React.Component {
             this.initialState = false;
             loadMoreComments(assetId, comments, loadMore, parentId, replyCount);
           }}>
-          {topLevel ? lang.t('viewMoreComments') : this.replyCountFormat(replyCount)}
+          {topLevel ? lang.t('framework.view_more_comments') : this.replyCountFormat(replyCount)}
         </Button>
       </div>
       : null;

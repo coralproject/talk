@@ -20,21 +20,21 @@ const CreateUsernameDialog = ({open, handleClose, formData, handleSubmitUsername
     <div>
       <div className={styles.header}>
         <h1>
-          {lang.t('createdisplay.writeyourusername')}
+          {lang.t('createdisplay.write_your_username')}
         </h1>
       </div>
       <div>
-        <p className={styles.yourusername}>{lang.t('createdisplay.yourusername')}</p>
+        <p className={styles.yourusername}>{lang.t('createdisplay.your_username')}</p>
         <FakeComment
           className={styles.fakeComment}
           username={formData.username}
           created_at={Date.now()}
-          body={lang.t('createdisplay.fakecommentbody')}
+          body={lang.t('createdisplay.fake_comment_body')}
         />
-        <p className={styles.ifyoudont}>{lang.t('createdisplay.ifyoudontchangeyourname')}</p>
+        <p className={styles.ifyoudont}>{lang.t('createdisplay.if_you_dont_change_your_name')}</p>
         { props.auth.error && <Alert>{props.auth.error}</Alert> }
         <form id="saveUsername" onSubmit={handleSubmitUsername}>
-          { props.errors.username && <span className={styles.hint}> {lang.t('createdisplay.specialCharacters')} </span> }
+          { props.errors.username && <span className={styles.hint}> {lang.t('createdisplay.special_characters')} </span> }
           <div className={styles.saveusername}>
             <TextField
               id="username"

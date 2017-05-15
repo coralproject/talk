@@ -29,8 +29,8 @@ export default ({handleChange, handleApply, changed, ...props}) => (
             onChange={handleChange}
             defaultChecked={props.premod}
             info={{
-              title: lang.t('configure.enablePremod'),
-              description: lang.t('configure.enablePremodDescription')
+              title: lang.t('configure.enable_premod'),
+              description: lang.t('configure.enable_premod_description')
             }} />
         </li>
         <li>
@@ -41,8 +41,8 @@ export default ({handleChange, handleApply, changed, ...props}) => (
             onChange={handleChange}
             defaultChecked={props.premodLinksEnable}
             info={{
-              title: lang.t('configure.enablePremodLinks'),
-              description: lang.t('configure.enablePremodLinksDescription')
+              title: lang.t('configure.enable_premod_links'),
+              description: lang.t('configure.enable_premod_links_description')
             }} />
         </li>
         <li>
@@ -53,8 +53,8 @@ export default ({handleChange, handleApply, changed, ...props}) => (
             onChange={handleChange}
             defaultChecked={props.questionBoxEnable}
             info={{
-              title: lang.t('configure.enableQuestionBox'),
-              description: lang.t('configure.enableQuestionBoxDescription')
+              title: lang.t('configure.enable_questionbox'),
+              description: lang.t('configure.enable_questionbox_description')
             }} />
           <div className={`${props.questionBoxEnable ? null : styles.hidden}`} >
             <TextField
@@ -62,7 +62,7 @@ export default ({handleChange, handleApply, changed, ...props}) => (
               onChange={handleChange}
               rows={3}
               value={props.questionBoxContent}
-              label={lang.t('configure.includeQuestionHere')}
+              label={lang.t('configure.include_question_here')}
             />
           </div>
         </li>

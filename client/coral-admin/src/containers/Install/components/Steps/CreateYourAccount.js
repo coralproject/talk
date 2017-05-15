@@ -50,7 +50,7 @@ const InitialStep = props => {
             label={lang.t('CREATE.CONFIRM_PASSWORD')}
             onChange={handleUserChange}
             showErrors={install.showErrors}
-            errorMsg={install.errors.confirmPassword}
+            errorMsg={install.errors.confirm_password}
             />
 
           {

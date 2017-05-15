@@ -182,7 +182,7 @@ class FlagButton extends Component {
                 {
                   this.state.reason && <div>
                   <label htmlFor={'message'} className={`${name}-popup-radio-label`}>
-                    {lang.t('flag-reason')}
+                    {lang.t('flag_reason')}
                   </label><br/>
                   <textarea
                       className={`${name}-reason-text`}

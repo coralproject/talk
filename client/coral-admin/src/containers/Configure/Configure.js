@@ -104,11 +104,11 @@ class Configure extends Component {
   getPageTitle (section) {
     switch(section) {
     case 'stream':
-      return lang.t('configure.stream-settings');
+      return lang.t('configure.stream_settings');
     case 'moderation':
-      return lang.t('configure.moderation-settings');
+      return lang.t('configure.moderation_settings');
     case 'tech':
-      return lang.t('configure.tech-settings');
+      return lang.t('configure.tech_settings');
     default:
       return '';
     }
@@ -126,13 +126,13 @@ class Configure extends Component {
           <div className={styles.leftColumn}>
             <List onChange={this.changeSection} activeItem={activeSection}>
               <Item itemId='stream' icon='speaker_notes'>
-                {lang.t('configure.stream-settings')}
+                {lang.t('configure.stream_settings')}
               </Item>
               <Item itemId='moderation' icon='thumbs_up_down'>
-                {lang.t('configure.moderation-settings')}
+                {lang.t('configure.moderation_settings')}
               </Item>
               <Item itemId='tech' icon='code'>
-                {lang.t('configure.tech-settings')}
+                {lang.t('configure.tech_settings')}
               </Item>
             </List>
             <div className={styles.saveBox}>
@@ -145,7 +145,7 @@ class Configure extends Component {
                   icon='check'
                   full
                 >
-                  {lang.t('configure.save-changes')}
+                  {lang.t('configure.save_changes')}
                 </Button>
               :
                 <Button
@@ -154,7 +154,7 @@ class Configure extends Component {
                   icon='check'
                   full
                 >
-                {lang.t('configure.save-changes')}
+                {lang.t('configure.save_changes')}
                </Button>
             }
             </div>

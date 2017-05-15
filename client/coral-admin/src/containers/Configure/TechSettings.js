@@ -21,8 +21,8 @@ const TechSettings = ({settings, onChangeDomainlist, updateSettings}) => {
       <EmbedLink />
       <Card className={styles.configSetting}>
         <div className={styles.wrapper}>
-          <div className={styles.settingsHeader}>{lang.t('configure.custom-css-url')}</div>
-          <p>{lang.t('configure.custom-css-url-desc')}</p>
+          <div className={styles.settingsHeader}>{lang.t('configure.custom_css_url')}</div>
+          <p>{lang.t('configure.custom_css_url_desc')}</p>
           <input
             className={styles.customCSSInput}
             value={settings.customCssUrl}

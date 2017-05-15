@@ -1,61 +1,290 @@
-framework:
-  profile: Profile
-  my_profile: My profile
-  successUpdateSettings: The changes you have made have been applied to the comment stream on this article
-  successNameUpdate: Your username has been updated
-  contentNotAvailable: This content is not available
-  bannedAccountMsg: Your account is currently suspended. This means that you cannot Like Report or write comments. Please contact us if you have any questions.
-  editName:
-    msg: Your account is currently suspended because your username has been deemed inappropriate. To restore your account please enter a new username. Please contact us if you have any questions.
-    label: New Username
-    button: Submit
-    error: Usernames can contain letters numbers and _ only
-  viewMoreComments: view more comments
-  showAllComments: Show all comments
-  viewReply: view reply
-  viewAllRepliesInitial: view all 0 replies
-  viewAllReplies: view 0 replies
-  newCount: View 0 new 1
-  comment: comment
-  comments: comments
-  commentIsIgnored: This comment is hidden because you ignored this user.
-  my_comments: My Comments
+bandialog:
+  are_you_sure: Are you sure you would like to ban {0}?
+  ban_user: Ban User?
+  cancel: Cancel
+  note: 'Note: Banning this user will also place this comment in the Rejected queue.'
+  yes_ban_user: Yes Ban User
+bio_offensive: This bio is offensive
+cancel: Cancel
+characters_remaining: characters remaining
+comment:
+  anon: Anonymous
+  ban_user: Ban User
+  banned_user: Banned User
+  comment: Post a comment
+  flagged: flagged
+comment_offensive: This comment is offensive
+comment_plural: Comments
+comment_post_banned_word: Your comment contains one or more words that are not permitted, so it will not be published. If you think this message is incorrect, please contact our moderation team.
+comment_post_notif: Your comment has been posted.
+comment_post_notif_premod: Thank you for posting. Our moderation team will review your comment shortly.
+comment_is_best: This comment is one of the best
+community:
+  account_creation_date: Account Creation Date
+  active: Active
+  admin: Administrator
+  are_you_sure: Are you sure you would like to ban {0}?
+  ban_user: Ban User?
+  banned: Banned
+  banned-user: Banned User
+  cancel: Cancel
+  flaggedaccounts: Flagged Usernames
+  flags: Flags
+  loading: Loading results
+  moderator: Moderator
+  newsroom_role: Newsroom Role
+  no-flagged-accounts: The Account Flags queue is currently empty.
+  no-results: No users found with that user name or email address. They're hiding!
+  note: 'Note: Banning this user will not let them edit comment or remove anything.'
+  other: Other
+  people: People
+  role: Select role...
+  select-status: Select status...
+  status: Status
+  username_and_email: Username and Email
+  yes_ban_user: Yes Ban User
+configure:
+  apply: Apply
+  banned_word_text: Comments which contain these words or phrases (not case-sensitive) will be automatically removed from the comment stream. Type a word and press Enter or Tab to add. Optionally paste a comma-separated list.
+  banned_words_title: Banned words list
+  close_after: Close comments after
+  close_stream: Close Stream
+  close_stream_configuration: This comment stream is currently closed. By opening this comment stream new comments may be submitted and displayed
+  closed_comments_desc: Write a message to be displayed when when your comment stream is closed and no longer accepting comments.
+  closed_comments_label: Write a message...
+  closed_stream_settings: Closed Stream Message
+  comment_count_error: Please enter a valid number.
+  comment_count_header: Limit Comment Length
+  comment_count_text_post: characters
+  comment_count_text_pre: Comments will be limited to
+  comment_settings: Settings
+  community: Community
+  configure: Configure
+  copy_and_paste: Copy and paste code below into your CMS to embed your comment box in your articles
+  custom_css_url: Custom CSS URL
+  custom_css_url_desc: URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external.
+  dashboard: Dashboard
+  days: Days
+  description: As an admin you may customize the settings for the comment stream for this asset
+  domain_list_text: Enter the domains you would like to permit for Talk e.g. your local staging and production environments (ex. localhost:3000 staging.domain.com domain.com).
+  domain_list_title: Permitted Domains
+  embed_comment_stream: Embed Stream
+  enable_pre_moderation: Enable pre-moderation
+  enable_pre_moderation_text: Moderators must approve any comment before it is published.
+  enable_premod_links: Pre-Moderate Comments Containing Links
+  enable-premod-links-text: Moderators must approve any comment containing a link
+    before its published.
+  enable_premod: Enable Premoderation
+  enable_premod_description: Moderators must approve any comment before its published.
+  enable_premod_links: Pre-Moderate Comments Containing Links
+  enable_premod_links_description: Moderators must approve any comment containing a link before its published.
+  enable_questionbox: Ask readers a question
+  enable_questionbox_description: This question will appear at the top of this comment stream. Ask readers about a certain issue in the article or pose discussion questions etc.
+  hours: Hours
+  include_comment_stream: Include Comment Stream Description for Readers
+  include_comment_stream-desc: Write a message to be added to the top of your comment stream. Pose a topic include community guidelines etc.
+  include_text: Include your text here.
+  include_question_here: Write your question here.
+  moderate: Moderate
+  moderation_settings: Moderation Settings
+  open_stream: Open Stream
+  open_stream_configuration: This comment stream is currently open. By closing this comment stream no new comments may be submitted and all previous comments will still be displayed.
+  require_email_verification: Require Email Verification
+  require_email_verification_text: New Users must verify their email before commenting
+  save_changes: Save Changes
+  shortcuts: Shortcuts
+  sign_out: Sign Out
+  stories: Stories
+  stream_settings: Stream Settings
+  suspect_words_title: Comments which contain these words or phrases (not case-sensitive) will be highlighted in the comment stream. Type a word and press Enter or Tab to add. Optionally paste a comma-separated list.
+  suspect-words-title: Suspect words list
+  tech_settings: Tech Settings
+  title: Configure Comment Stream
+  weeks: Weeks
+  wordlist: Banned Words
+continue: Continue
+createdisplay:
+  check_the_form: Invalid Form. Please check the fields
+  continue: Continue with the same Facebook username
+  error_create: Error when changing username
+  fake_comment_body: This is an example comment. Readers can share their thoughts and opinions with newsrooms in the comments section.
+  fake_comment_date: 1 minute ago
+  if_you_dont_change_your_name: If you don't change your username at this step your Facebook display name will appear alongside of all your comments.
+  required_field: Required field
+  save: Save
+  special_characters: Usernames can contain letters numbers and _ only
+  username: Username
+  write_your_username: Edit your username
+  your_username: Your username appears on every comment you post.
+dashboard:
+  auto_update: Data automatically updates every five minutes or when you Reload.
+  comment_count: comments
+  flags: Flags
+  most_flags: Articles with the most flags
+  next_update: '{0} minutes until next update.'
+  no_activity: There haven't been any comments anywhere in the last five minutes.
+  no_flags: There have been no flags in the last 5 minutes! Hooray!
+  no_likes: There have been no likes in the last 5 minutes. All quiet.
+done: Done
+embedlink:
+  copy: Copy to Clipboard
 error:
-  emailNotVerified: Email address {0} not verified.
-  email: Not a valid E-Mail
-  password: Password must be at least 8 characters
-  username: Usernames can contain letters numbers and _ only
-  confirmPassword: Passwords don't match. Please check again
-  organizationName: Organization name must only contain letters or numbers.
-  emailPasswordError: Email and/or password combination incorrect.
-  EMAIL_REQUIRED: An email address is required
-  PASSWORD_REQUIRED: Must input a password
+  edit_username_not_authorized: You do not have permission to update your username.
+  email_in_use: Email address already in use
+  email_required: An email address is required
+  email_username_in_use: Email address or username already in use
+  login_maximum_exceeded: You have made too many unsuccessful password attempts. Please
+    wait.
+  NOT_AUTHORIZED: Your username or password is not recognized by our system.
+  NO_SPECIAL_CHARACTERS: Usernames can contain letters numbers and _ only
   PASSWORD_LENGTH: Password is too short
-  EMAIL_IN_USE: Email address already in use
-  EMAIL_USERNAME_IN_USE: Email address or username already in use
+  PROFANITY_ERROR: Usernames must not contain profanity. Please contact the administrator if you believe this to be in error.
   USERNAME_IN_USE: Username already in use
   USERNAME_REQUIRED: Must input a username
-  NO_SPECIAL_CHARACTERS: Usernames can contain letters numbers and _ only
-  PROFANITY_ERROR: Usernames must not contain profanity. Please contact the administrator if you believe this to be in error.
-  NOT_AUTHORIZED: Not authorized.
-  EDIT_USERNAME_NOT_AUTHORIZED: You do not have permission to update your username.
-configure:
-    apply: Apply
-    title: Configure Comment Stream
-    description: As an admin you may customize the settings for the comment stream for this asset
-    enablePremod: Enable Premoderation
-    enablePremodDescription: Moderators must approve any comment before its published.
-    enablePremodLinks: Pre-Moderate Comments Containing Links
-    enablePremodLinksDescription: Moderators must approve any comment containing a link before its published.
-    enableQuestionBox: Ask readers a question
-    enableQuestionBoxDescription: This question will appear at the top of this comment stream. Ask readers about a certain issue in the article or pose discussion questions etc.
-    includeQuestionHere: Write your question here.
+  confirm_password: Passwords don't match. Please check again
+  email: Not a valid E-Mail
+  email_not_verified: Email address {0} not verified.
+  email_password: Email and/or password combination incorrect.
+  organization_name: Organization name must only contain letters or numbers.
+  password: Password must be at least 8 characters
+  password_required: Must input a password
+  username: Usernames can contain letters numbers and _ only
+flag_comment: Report comment
+flag_reason: Reason for reporting (Optional)
+flag_username: Report username
+framework:
+  banned_account_msg: Your account is currently suspended. This means that you cannot Like Report or write comments. Please contact us if you have any questions.
+  comment: comment
+  comment_is_ignored: This comment is hidden because you ignored this user.
+  comments: comments
+  content_not_available: This content is not available
+  edit_name:
+    button: Submit
+    error: Usernames can contain letters numbers and _ only
+    label: New Username
+    msg: Your account is currently suspended because your username has been deemed inappropriate. To restore your account please enter a new username. Please contact us if you have any questions.
+  my_comments: My Comments
+  my_profile: My profile
+  new_count: View 0 new 1
+  profile: Profile
+  show_all_comments: Show all comments
+  success_bio_update: Your biography has been updated
+  success_name_update: Your username has been updated
+  success_update_settings: The changes you have made have been applied to the comment stream on this article
+  view_all_replies: view 0 replies
+  view_all_replies_initial: view all 0 replies
+  view_more_comments: view more comments
+  view_reply: view reply
+fromSettingsPage: From the Profile Page you can see your comment history.
+like: Like
+marketing: This looks like an ad/marketing
+moderate_this_stream: Moderate this stream
+modqueue:
+  account: account flags
+  actions: Actions
+  all: all
+  approve: Approve comment
+  approved: approved
+  billion: B
+  close: Close
+  dont-like-username: Don't like username
+  emptyqueue: No more comments to moderate! You're all caught up. Go have some ☕️
+  flagged: flagged
+  impersonating: Impersonating
+  less-detail: Less detail
+  likes: likes
+  million: M
+  mod-faster: Moderate faster with keyboard shortcuts
+  more-detail: More detail
+  navigation: Navigation
+  nextcomment: Go to the next comment
+  offensive: Offensive
+  other: Other
+  premod: pre-mod
+  prevcomment: Go to the previous comment
+  reject: Reject comment
+  rejected: rejected
+  shift-key: ⇧
+  shortcuts: Shortcuts
+  showshortcuts: Show Shortcuts
+  singleview: Toggle single comment edit view
+  spam/ads: Spam/Ads
+  thismenu: Open this menu
+  thousand: k
+  try-these: Try these
+  view-more-shortcuts: View more shortcuts
+myCommentHistory: My comment History
+name: Name
+no-agree-comment: I don't agree with this comment
+no-like-bio: I don't like this bio
+no-like-username: I don't like this username
+other: Other
+permalink:
+  permalink: Link
+personal-info: This comment reveals personally identifiable information
+post: Post
+profile: Profile
+profileSettings: Profile Settings
+reply: Reply
+report: Report
+report-notif: Thank you for reporting this comment. Our moderation team has been notified
+  and will review it shortly.
+report-notif-remove: Your report has been removed.
+reported: Reported
+setBest: Tag as Best
 settings:
-    profile: Profile
-    userNoComment: You've never left a comment. Join the conversation!
-    allComments: All Comments
-    profileSettings: Profile Settings
-    myCommentHistory: My comment History
-    signIn: Sign in
-    toAccess:  to access Profile
-    fromSettingsPage: From the Profile Page you can see your comment history.
+  allComments: All Comments
+  fromSettingsPage: From the Profile Page you can see your comment history.
+  myCommentHistory: My comment History
+  profile: Profile
+  profileSettings: Profile Settings
+  signIn: Sign in
+  toAccess: to access Profile
+  userNoComment: You've never left a comment. Join the conversation!
+signIn: Sign in
+step-1-header: Report an issue
+step-2-header: Help us understand
+step-3-header: Thank you for your input
+streams:
+  all: All
+  article: Story
+  closed: Closed
+  empty_result: No assets match this search. Maybe try widening your search?
+  filter-streams: Filter Streams
+  newest: Newest
+  oldest: Oldest
+  open: Open
+  pubdate: Publication Date
+  search: Search
+  sort_by: Sort By
+  status: Stream Status
+  stream-status: Stream Status
+suspenduser:
+  bio: bio
+  description_0: Would you like to temporarily ban this user because of their {0}?
+    Doing so will temporarily hide their comments until they rewrite their {0}.
+  description_1: Suspending this user will temporarily disable their account and hide
+    all of their comments on the site.
+  email: Another member of the community recently flagged your username for review.
+    Because of its content your user was rejected. This means you can no longer comment
+    like or flag content until you rewrite your username. Please e-mail us if you
+    have any questions or concerns.
+  email_subject: Your account has been suspended
+  no_cancel: No cancel
+  send: Send
+  title: Suspend a user
+  title_0: We noticed you rejected a username
+  title_1: Notify the user of their temporary suspension
+  username: username
+  write_message: Write a message
+  yes_suspend: Yes suspend
+thank-you: We value your safety and feedback. A moderator will review your report.
+toAccess: ' to access Profile'
+unsetBest: Untag as Best
+user:
+  bio_flags: flags for this bio
+  user_bio: User Bio
+  username_flags: flags for this username
+user-impersonating: This user is impersonating
+userNoComment: You've never left a comment. Join the conversation!
+username-offensive: This username is offensive

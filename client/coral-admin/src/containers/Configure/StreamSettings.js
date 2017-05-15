@@ -77,9 +77,9 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
             checked={settings.charCountEnable} />
         </div>
         <div className={styles.content}>
-          <div className={styles.settingsHeader}>{lang.t('configure.comment-count-header')}</div>
+          <div className={styles.settingsHeader}>{lang.t('configure.comment_count_header')}</div>
           <p className={settings.charCountEnable ? '' : styles.disabledSettingText}>
-            <span>{lang.t('configure.comment-count-text-pre')}</span>
+            <span>{lang.t('configure.comment_count_text_pre')}</span>
             <input type='text'
               className={`${styles.charCountTexfield} ${settings.charCountEnable && styles.charCountTexfieldEnabled}`}
               htmlFor='charCount'
@@ -87,13 +87,13 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
               value={settings.charCount}
               disabled={settings.charCountEnable ? '' : 'disabled'}
             />
-            <span>{lang.t('configure.comment-count-text-post')}</span>
+          <span>{lang.t('configure.comment_count_text_post')}</span>
               {
                 errors.charCount &&
                 <span className={styles.settingsError}>
                   <br/>
                   <Icon name="error_outline"/>
-                  {lang.t('configure.comment-count-error')}
+                  {lang.t('configure.comment_count_error')}
                 </span>
               }
           </p>
@@ -107,10 +107,10 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
         </div>
         <div className={styles.content}>
           <div className={styles.settingsHeader}>
-            {lang.t('configure.include-comment-stream')}
+            {lang.t('configure.include_comment_stream')}
           </div>
           <p className={settings.infoBoxEnable ? '' : styles.disabledSettingText}>
-            {lang.t('configure.include-comment-stream-desc')}
+            {lang.t('configure.include_comment_stream_desc')}
           </p>
           <div className={`${styles.configSettingInfoBox} ${settings.infoBoxEnable ? null : styles.hidden}`} >
             <MarkdownEditor
@@ -123,8 +123,8 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
       </Card>
       <Card className={`${styles.configSetting} ${styles.configSettingInfoBox}`}>
         <div className={styles.wrapper}>
-          <div className={styles.settingsHeader}>{lang.t('configure.closed-stream-settings')}</div>
-          <p>{lang.t('configure.closed-comments-desc')}</p>
+          <div className={styles.settingsHeader}>{lang.t('configure.closed_stream_settings')}</div>
+          <p>{lang.t('configure.closed_comments_desc')}</p>
           <div>
             <TextArea className={styles.descriptionBox}
               onChange={updateClosedMessage(updateSettings)}
@@ -140,7 +140,7 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
             checked={settings.autoCloseStream} />
         </div>
         <div className={styles.content}>
-          {lang.t('configure.close-after')}
+          {lang.t('configure.close_after')}
           <br />
           <Textfield
             type='number'
@@ -148,7 +148,7 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
             style={{width: 50}}
             onChange={updateClosedTimeout(updateSettings, settings.closedTimeout)}
             value={getTimeoutAmount(settings.closedTimeout)}
-            label={lang.t('configure.closed-comments-label')} />
+            label={lang.t('configure.closed_comments_label')} />
           <div className={styles.configTimeoutSelect}>
             <SelectField
               label="comments closed time window"

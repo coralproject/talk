@@ -119,11 +119,11 @@ export const fetchSignIn = (formData) => (dispatch) => {
       if (error.metadata) {
 
         // the user might not have a valid email. prompt the user user re-request the confirmation email
-        dispatch(signInFailure(lang.t('error.emailNotVerified', error.metadata)));
+        dispatch(signInFailure(lang.t('error.email_not_verified', error.metadata)));
       } else {
 
         // invalid credentials
-        dispatch(signInFailure(lang.t('error.emailPasswordError')));
+        dispatch(signInFailure(lang.t('error.email_password')));
       }
     });
 };

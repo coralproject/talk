@@ -57,7 +57,7 @@ export default class Embed extends React.Component {
                 style={{float: 'right'}}
                 onClick={viewAllComments}
               >
-                {lang.t('showAllComments')}
+                {lang.t('framework.show_all_comments')}
               </Button>
           }
           <TabContent show={activeTab === 'stream'}>

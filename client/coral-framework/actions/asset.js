@@ -18,7 +18,7 @@ export const updateConfiguration = newConfig => (dispatch, getState) => {
   dispatch(updateAssetSettingsRequest());
   coralApi(`/assets/${assetId}/settings`, {method: 'PUT', body: newConfig})
     .then(() => {
-      dispatch(addNotification('success', lang.t('successUpdateSettings')));
+      dispatch(addNotification('success', lang.t('framework.success_update_settings')));
       dispatch(updateAssetSettingsSuccess(newConfig));
     })
     .catch(error => dispatch(updateAssetSettingsFailure(error)));
@@ -29,7 +29,7 @@ export const updateOpenStream = closedBody => (dispatch, getState) => {
   dispatch(fetchAssetRequest());
   coralApi(`/assets/${assetId}/status`, {method: 'PUT', body: closedBody})
     .then(() => {
-      dispatch(addNotification('success', lang.t('successUpdateSettings')));
+      dispatch(addNotification('success', lang.t('framework.success_update_settings')));
       dispatch(fetchAssetSuccess(closedBody));
     })
     .catch(error => dispatch(fetchAssetFailure(error)));

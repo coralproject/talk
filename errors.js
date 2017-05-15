@@ -40,7 +40,7 @@ const ErrPasswordTooShort = new APIError('password must be at least 8 characters
 });
 
 const ErrMissingEmail = new APIError('email is required', {
-  translation_key: 'EMAIL_REQUIRED',
+  translation_key: 'email_required',
   status: 400
 });
 
@@ -50,7 +50,7 @@ const ErrMissingPassword = new APIError('password is required', {
 });
 
 const ErrEmailTaken = new APIError('Email address already in use', {
-  translation_key: 'EMAIL_IN_USE',
+  translation_key: 'email_in_use',
   status: 400
 });
 
@@ -144,12 +144,12 @@ const ErrInstallLock = new APIError('install lock active', {
 
 // ErrPermissionUpdateUsername is returned when the user does not have permission to update their username.
 const ErrPermissionUpdateUsername = new APIError('You do not have permission to update your username.', {
-  translation_key: 'EDIT_USERNAME_NOT_AUTHORIZED',
+  translation_key: 'edit_username_not_authorized',
   status: 500
 });
 
 const ErrLoginAttemptMaximumExceeded = new APIError('You have made too many incorrect password attempts.', {
-  translation_key: 'LOGIN_MAXIMUM_EXCEEDED',
+  translation_key: 'login_maximum_exceeded',
   status: 429
 });
 

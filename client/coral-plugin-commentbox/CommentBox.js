@@ -54,10 +54,10 @@ class CommentBox extends React.Component {
         this.state.hooks.postSubmit.forEach(hook => hook(data));
 
         if (postedComment.status === 'REJECTED') {
-          addNotification('error', lang.t('comment-post-banned-word'));
+          addNotification('error', lang.t('comment_post_banned_word'));
           !isReply && setCommentCountCache(commentCountCache);
         } else if (postedComment.status === 'PREMOD') {
-          addNotification('success', lang.t('comment-post-notif-premod'));
+          addNotification('success', lang.t('comment_post_notif_premod'));
           !isReply && setCommentCountCache(commentCountCache);
         }
 
@@ -141,20 +141,20 @@ class CommentBox extends React.Component {
             htmlFor={ isReply ? 'replyText' : 'commentText'}
             className="screen-reader-text"
             aria-hidden={true}>
-            {isReply ? lang.t('reply') : lang.t('comment')}
+            {isReply ? lang.t('reply') : lang.t('comment.comment')}
           </label>
           <textarea
             className={`${name}-textarea`}
             style={styles && styles.textarea}
             value={this.state.body}
-            placeholder={lang.t('comment')}
+            placeholder={lang.t('comment.comment')}
             id={isReply ? 'replyText' : 'commentText'}
             onChange={this.handleChange}
             rows={3}/>
           <Slot fill='commentInputArea' />
         </div>
         <div className={`${name}-char-count ${length > maxCharCount ? `${name}-char-max` : ''}`}>
-          {maxCharCount && `${maxCharCount - length} ${lang.t('characters-remaining')}`}
+          {maxCharCount && `${maxCharCount - length} ${lang.t('characters_remaining')}`}
         </div>
         <div className={`${name}-button-container`}>
           <Slot

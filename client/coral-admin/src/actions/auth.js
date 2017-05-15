@@ -19,7 +19,7 @@ export const handleLogin = (email, password, recaptchaResponse) => dispatch => {
     })
     .catch(error => {
 
-      if (error.translation_key === 'LOGIN_MAXIMUM_EXCEEDED') {
+      if (error.translation_key === 'login_maximum_exceeded') {
         dispatch({type: actions.LOGIN_MAXIMUM_EXCEEDED, message: error.translation_key});
       } else {
         dispatch({type: actions.LOGIN_FAILURE, message: error.translation_key});

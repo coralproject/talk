@@ -12,7 +12,7 @@ export const editName = (username) => (dispatch) => {
   return coralApi('/account/username', {method: 'PUT', body: {username}})
     .then(() => {
       dispatch(editUsernameSuccess());
-      dispatch(addNotification('success', lang.t('successNameUpdate')));
+      dispatch(addNotification('success', lang.t('framework.success_name_update')));
     })
     .catch(error => {
       dispatch(editUsernameFailure(lang.t(`error.${error.translation_key}`)));

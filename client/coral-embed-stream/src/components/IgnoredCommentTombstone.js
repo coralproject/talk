@@ -13,7 +13,7 @@ const IgnoredCommentTombstone = () => (
       padding: '1em',
       color: '#3E4F71',
     }}>
-      {lang.t('commentIsIgnored')}
+      {lang.t('framework.comment_is_ignored')}
     </p>
   </div>
 );

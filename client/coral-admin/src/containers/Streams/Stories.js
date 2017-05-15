@@ -131,7 +131,7 @@ class Stories extends Component {
             <Radio value='open'>{lang.t('streams.open')}</Radio>
             <Radio value='closed'>{lang.t('streams.closed')}</Radio>
           </RadioGroup>
-          <div className={styles.optionHeader}>{lang.t('streams.sort-by')}</div>
+          <div className={styles.optionHeader}>{lang.t('streams.sort_by')}</div>
             <RadioGroup
               name='sort by'
               value={sort}

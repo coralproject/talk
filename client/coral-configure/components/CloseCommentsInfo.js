@@ -8,16 +8,16 @@ export default ({status, onClick}) => (
   status === 'open' ? (
     <div className="close-comments-intro-wrapper">
       <p>
-        {lang.t('configure.open-stream-configuration')}
+        {lang.t('configure.open_stream_configuration')}
       </p>
-      <Button onClick={onClick}>{lang.t('configure.close-stream')}</Button>
+      <Button onClick={onClick}>{lang.t('configure.close_stream')}</Button>
     </div>
   ) : (
     <div className="close-comments-intro-wrapper">
       <p>
-        {lang.t('configure.close-stream-configuration')}
+        {lang.t('configure.close_stream_configuration')}
       </p>
-      <Button onClick={onClick}>{lang.t('configure.open-stream')}</Button>
+      <Button onClick={onClick}>{lang.t('configure.open_stream')}</Button>
     </div>
   )
 );

@@ -8,7 +8,7 @@ const lang = new I18n();
 const ModerationLink = props => props.isAdmin ? (
     <div className={styles.moderationLink}>
       <a href={`/admin/moderate/${props.assetId}`} target="_blank">
-        {lang.t('MODERATE_THIS_STREAM')}
+        {lang.t('moderate_this_stream')}
       </a>
     </div>
   ) : null;

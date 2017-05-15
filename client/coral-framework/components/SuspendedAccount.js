@@ -31,7 +31,7 @@ class SuspendedAccount extends Component {
           this.setState({alert: lang.t(`error.${error.translation_key}`)});
         });
     } else {
-      this.setState({alert: lang.t('editName.error')});
+      this.setState({alert: lang.t('framework.edit_name.error')});
     }
 
   }
@@ -43,8 +43,8 @@ class SuspendedAccount extends Component {
     return <div className={styles.message}>
       <span>{
           canEditName ?
-          lang.t('editName.msg')
-          : lang.t('bannedAccountMsg')
+          lang.t('framework.edit_name.msg')
+          : lang.t('framework.banned_account_msg')
         }</span>
       {
         canEditName ?
@@ -56,20 +56,20 @@ class SuspendedAccount extends Component {
             htmlFor='username'
             className="screen-reader-text"
             aria-hidden={true}>
-            {lang.t('editName.label')}
+            {lang.t('framework.edit_name.label')}
           </label>
           <input
             type='text'
             className={styles.editNameInput}
             value={username}
-            placeholder={lang.t('editName.label')}
+            placeholder={lang.t('framework.edit_name.label')}
             id='username'
             onChange={(e) => this.setState({username: e.target.value})}
             rows={3}/><br/>
           <Button
             onClick={this.onSubmitClick}>
             {
-              lang.t('editName.button')
+              lang.t('framework.edit_name.button')
             }
           </Button>
         </div> : null

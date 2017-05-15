@@ -36,9 +36,9 @@ const ModerationSettings = ({settings, updateSettings, onChangeWordlist}) => {
             checked={settings.requireEmailConfirmation} />
         </div>
         <div className={styles.content}>
-          <div className={styles.settingsHeader}>{lang.t('configure.require-email-verification')}</div>
+          <div className={styles.settingsHeader}>{lang.t('configure.require_email_verification')}</div>
           <p className={settings.requireEmailConfirmation ? '' : styles.disabledSettingText}>
-            {lang.t('configure.require-email-verification-text')}
+            {lang.t('configure.require_email_verification_text')}
           </p>
         </div>
       </Card>
@@ -49,9 +49,9 @@ const ModerationSettings = ({settings, updateSettings, onChangeWordlist}) => {
             checked={settings.moderation === 'PRE'} />
         </div>
         <div className={styles.content}>
-          <div className={styles.settingsHeader}>{lang.t('configure.enable-pre-moderation')}</div>
+          <div className={styles.settingsHeader}>{lang.t('configure.enable_pre_moderation')}</div>
           <p className={settings.moderation === 'PRE' ? '' : styles.disabledSettingText}>
-            {lang.t('configure.enable-pre-moderation-text')}
+            {lang.t('configure.enable_pre_moderation_text')}
           </p>
         </div>
       </Card>
@@ -62,9 +62,9 @@ const ModerationSettings = ({settings, updateSettings, onChangeWordlist}) => {
             checked={settings.premodLinksEnable} />
         </div>
         <div className={styles.content}>
-          <div className={styles.settingsHeader}>{lang.t('configure.enable-premod-links')}</div>
+          <div className={styles.settingsHeader}>{lang.t('configure.enable_premod_links')}</div>
           <p>
-            {lang.t('configure.enable-premod-links-text')}
+            {lang.t('configure.enable_premod_links_text')}
           </p>
         </div>
       </Card>

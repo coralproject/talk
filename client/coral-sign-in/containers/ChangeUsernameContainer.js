@@ -63,7 +63,7 @@ class ChangeUsernameContainer extends Component {
     const {addError} = this;
 
     if (!value.length) {
-      addError(name, lang.t('createdisplay.requiredField'));
+      addError(name, lang.t('createdisplay.required_field'));
     } else if (!validate[name](value)) {
       addError(name, errorMsj[name]);
     } else {
@@ -91,7 +91,7 @@ class ChangeUsernameContainer extends Component {
       this.props.createUsername(this.props.user.id, this.state.formData);
       validForm();
     } else {
-      invalidForm(lang.t('createdisplay.checkTheForm'));
+      invalidForm(lang.t('createdisplay.check_the_form'));
     }
   }
 

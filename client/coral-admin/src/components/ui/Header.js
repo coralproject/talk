@@ -55,7 +55,7 @@ const CoralHeader = ({handleLogout, showShortcuts = () => {}, restricted = false
                 <IconButton name="settings" id="menu-settings"/>
                 <Menu target="menu-settings" align="right">
                   <MenuItem onClick={() => showShortcuts(true)}>{lang.t('configure.shortcuts')}</MenuItem>
-                  <MenuItem onClick={handleLogout}>{lang.t('configure.sign-out')}</MenuItem>
+                  <MenuItem onClick={handleLogout}>{lang.t('configure.sign_out')}</MenuItem>
                 </Menu>
               </div>
             </li>
