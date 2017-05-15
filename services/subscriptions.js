@@ -1,12 +1,18 @@
-const session = require('./session');
 const passport = require('./passport');
+const authentication = require('../middleware/authentication');
 
 // Session data does not automatically attach to websocket req objects.
 // This middleware code looks for a user in the session and, if it exists,
 // attaches it to the graph req.
 const deserializeUser = (req) => {
   return new Promise((resolve, reject) => {
-    session(req, {}, () => {
+
+    // This uses the authentication connect middleware to establish the session
+    // user details from the headers.
+    authentication(req, null, (err) => {
+      if (err) {
+        return reject(err);
+      }
 
       if ('session' in req && 'passport' in req.session && 'user' in req.session.passport) {
         passport.deserializeUser(req.session.passport.user, (err, user) => {

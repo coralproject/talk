@@ -3,11 +3,6 @@ const dotenv = require('dotenv');
 const fs = require('fs');
 const program = require('commander');
 
-// Perform rewrites to the runtime environment variables based on the contents
-// of the process.env.REWRITE_ENV if it exists. This is done here as it is the
-// entrypoint for the entire application.
-require('env-rewrite').rewrite();
-
 //==============================================================================
 // Setting up the program command line arguments.
 //==============================================================================
