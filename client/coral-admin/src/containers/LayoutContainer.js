@@ -38,6 +38,8 @@ class LayoutContainer extends Component {
     }
     if (roleUtils.canAccessAdmin(user) && loggedIn) {
       return <Layout handleLogout={handleLogout} toggleShortcutModal={toggleShortcutModal} {...this.props} />;
+    } else if (loggedIn) {
+      return <p>you do not have permission to see this page.</p>;
     }
     return <FullLoading />;
   }

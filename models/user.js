@@ -2,6 +2,7 @@ const mongoose = require('../services/mongoose');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
 const intersection = require('lodash/intersection');
+const can = require('../perms');
 
 // USER_ROLES is the array of roles that is permissible as a user role.
 const USER_ROLES = [
@@ -269,13 +270,7 @@ const USER_GRAPH_OPERATIONS = [
  * operation.
  */
 UserSchema.method('can', function(...actions) {
-  if (actions.some((action) => USER_GRAPH_OPERATIONS.indexOf(action) === -1)) {
-    throw new Error(`invalid actions: ${actions}`);
-  }
-
-  if (this.status === 'BANNED') {
-    return false;
-  }
+  return can(this, null, actions);
 
   if (actions.some((action) => action === 'mutation:setUserStatus' || action === 'mutation:suspendUser' || action === 'mutation:setCommentStatus') && !this.canSetUserStatus()) {
     return false;

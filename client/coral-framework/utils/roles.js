@@ -1,10 +1,30 @@
-import includes from 'lodash/includes';
+import intersection from 'lodash/intersection';
 
-export default {
-  canAccessConfig: (user) => includes(user.roles, 'ADMIN'),
-  canChangeRoles: user => includes(user.roles, 'ADMIN'),
-  hasStaffTag: user => includes(user.roles, 'ADMIN', 'MODERATOR', 'STAFF'),
-  canViewUserEmails: user => includes(user.roles, 'ADMIN'),
-  canModerate: user => includes(user.roles, 'ADMIN', 'MODERATOR'),
-  canAccessAdmin: user => includes(user.roles, 'ADMIN', 'MODERATOR')
+const basicRoles = {
+  hasStaffTag: ['ADMIN', 'MODERATOR', 'STAFF']
+};
+
+const queryRoles = {
+  canAccessConfig: ['ADMIN', 'MODERATOR'],
+  canAccessAdmin: ['ADMIN', 'MODERATOR'],
+  canViewUserEmails: ['ADMIN']
+};
+
+const mutationRoles = {
+  canChangeRoles: ['ADMIN'],
+  canModerateComments: ['ADMIN', 'MODERATOR']
+};
+
+const roles = {...basicRoles, ...queryRoles, ...mutationRoles};
+
+export const can = (user, perms) => {
+  for (let perm in perms) {
+    const role = roles[perm];
+    if (typeof role === 'undefined') {
+      continue;
+    }
+    let grant = intersection(role, user.roles).length > 0;
+    return grant;
+  }
+  return false;
 };
