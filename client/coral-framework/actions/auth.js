@@ -4,6 +4,7 @@ import * as Storage from '../helpers/storage';
 import * as actions from '../constants/auth';
 import coralApi, {base} from '../helpers/response';
 import client from 'coral-framework/services/client';
+import jwtDecode from 'jwt-decode';
 
 const lang = new I18n(translations);
 import translations from './../translations';
@@ -108,14 +109,14 @@ export const changeView = view => dispatch => {
   });
 
   switch (view) {
-    case 'SIGNUP':
-      window.resizeTo(500, 800);
-      break;
-    case 'FORGOT':
-      window.resizeTo(500, 400);
-      break;
-    default:
-      window.resizeTo(500, 550);
+  case 'SIGNUP':
+    window.resizeTo(500, 800);
+    break;
+  case 'FORGOT':
+    window.resizeTo(500, 400);
+    break;
+  default:
+    window.resizeTo(500, 550);
   }
 };
 
@@ -138,7 +139,8 @@ const signInFailure = error => ({
 // AUTH TOKEN
 //==============================================================================
 
-const handleAuthToken = token => dispatch => {
+export const handleAuthToken = token => dispatch => {
+  Storage.setItem('exp', jwtDecode(token).exp);
   Storage.setItem('token', token);
   dispatch({type: 'HANDLE_AUTH_TOKEN'});
 };
@@ -156,11 +158,13 @@ export const fetchSignIn = formData => dispatch => {
     })
     .catch(error => {
       if (error.metadata) {
+
         // the user might not have a valid email. prompt the user user re-request the confirmation email
         dispatch(
           signInFailure(lang.t('error.emailNotVerified', error.metadata))
         );
       } else {
+
         // invalid credentials
         dispatch(signInFailure(lang.t('error.emailPasswordError')));
       }
@@ -288,8 +292,12 @@ export const fetchForgotPassword = email => dispatch => {
 //==============================================================================
 
 export const logout = () => dispatch => {
-  Storage.clear();
-  dispatch({type: actions.LOGOUT});
+  return coralApi('/auth', {method: 'DELETE'})
+    .then(() => {
+      dispatch({type: actions.LOGOUT});
+      Storage.removeItem('token');
+      fetchMe();
+    });
 };
 
 //==============================================================================
@@ -310,6 +318,7 @@ export const checkLogin = () => dispatch => {
   coralApi('/auth')
     .then(result => {
       if (!result.user) {
+        Storage.removeItem('token');
         throw new Error('Not logged in');
       }
 
@@ -321,6 +330,7 @@ export const checkLogin = () => dispatch => {
       dispatch(checkLoginFailure(`${error.translation_key}`));
     });
 };
+
 export const validForm = () => ({type: actions.VALID_FORM});
 export const invalidForm = error => ({type: actions.INVALID_FORM, error});
 
@@ -351,6 +361,7 @@ export const requestConfirmEmail = (email, redirectUri) => dispatch => {
       dispatch(verifyEmailSuccess());
     })
     .catch(err => {
+
       // email might have already been verifyed
       dispatch(verifyEmailFailure(err));
     });

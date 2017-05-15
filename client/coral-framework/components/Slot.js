@@ -1,12 +1,13 @@
 import React from 'react';
 import cn from 'classnames';
 import styles from './Slot.css';
+import {connect} from 'react-redux';
 import {getSlotElements} from 'coral-framework/helpers/plugins';
 
-export default function Slot ({fill, inline = false, ...rest}) {
+function Slot ({fill, inline = false, plugin_config: config, ...rest}) {
   return (
-    <div className={cn({[styles.inline]: inline})}>
-      {getSlotElements(fill, rest)}
+    <div className={cn({[styles.inline]: inline, [styles.debug]: config.debug})}>
+      {getSlotElements(fill, {...rest, config})}
     </div>
   );
 }
@@ -14,3 +15,8 @@ export default function Slot ({fill, inline = false, ...rest}) {
 Slot.propTypes = {
   fill: React.PropTypes.string
 };
+
+const mapStateToProps = ({config: {plugin_config = {}}}) => ({plugin_config});
+
+export default connect(mapStateToProps, null)(Slot);
+

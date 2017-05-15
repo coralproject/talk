@@ -1,5 +1,5 @@
 import ApolloClient, {addTypename} from 'apollo-client';
-import getNetworkInterface from './transport';
+import {networkInterface} from 'coral-framework/services/transport';
 import fragmentMatcher from './fragmentMatcher';
 
 export const client = new ApolloClient({
@@ -12,5 +12,5 @@ export const client = new ApolloClient({
     }
     return null;
   },
-  networkInterface: getNetworkInterface()
+  networkInterface
 });

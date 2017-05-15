@@ -1,11 +1,10 @@
 import {connect} from 'react-redux';
-import {compose} from 'react-apollo';
+import {compose, graphql, gql} from 'react-apollo';
 import React, {Component} from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import {bindActionCreators} from 'redux';
 
-import {myCommentHistory, myIgnoredUsers} from 'coral-framework/graphql/queries';
-import {stopIgnoringUser} from 'coral-framework/graphql/mutations';
+import {withStopIgnoringUser} from 'coral-framework/graphql/mutations';
 
 import {link} from 'coral-framework/services/PymConnection';
 import NotLoggedIn from '../components/NotLoggedIn';
@@ -18,75 +17,109 @@ import translations from '../translations';
 const lang = new I18n(translations);
 
 class ProfileContainer extends Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      activeTab: 0,
-    };
+  constructor() {
+    super();
 
-    this.handleTabChange = this.handleTabChange.bind(this);
+    this.state = {
+      activeTab: 0
+    };
   }
 
-  handleTabChange(tab) {
+  handleTabChange = tab => {
     this.setState({
       activeTab: tab
     });
-  }
+  };
 
   render() {
-    const {asset, data, showSignInDialog, myIgnoredUsersData, stopIgnoringUser} = this.props;
-    const {me} = this.props.data;
+    const {
+      auth,
+      data,
+      asset,
+      showSignInDialog,
+      stopIgnoringUser,
+      myIgnoredUsersData
+    } = this.props;
 
-    if (data.loading) {
-      return <Spinner/>;
-    }
+    const {me} = data;
 
-    if (!me) {
+    if (!auth.loggedIn) {
       return <NotLoggedIn showSignInDialog={showSignInDialog} />;
     }
 
-    const localProfile = this.props.user.profiles.find(p => p.provider === 'local');
+    if (data.loading) {
+      return <Spinner />;
+    }
+
+    const localProfile = this.props.user.profiles.find(
+      p => p.provider === 'local'
+    );
+
     const emailAddress = localProfile && localProfile.id;
 
     return (
       <div>
         <h2>{this.props.user.username}</h2>
-        { emailAddress
-          ? <p>{ emailAddress }</p>
-          : null
-        }
+        {emailAddress ? <p>{emailAddress}</p> : null}
 
-        {
-          myIgnoredUsersData.myIgnoredUsers && myIgnoredUsersData.myIgnoredUsers.length
-          ? (
-            <div>
+        {myIgnoredUsersData.myIgnoredUsers &&
+          myIgnoredUsersData.myIgnoredUsers.length
+          ? <div>
               <h3>Ignored users</h3>
               <IgnoredUsers
                 users={myIgnoredUsersData.myIgnoredUsers}
                 stopIgnoring={stopIgnoringUser}
               />
             </div>
-          )
-          : null
-        }
+          : null}
 
         <hr />
 
         <h3>My comments</h3>
-        {
-          me.comments.length ?
-            <CommentHistory
-              comments={me.comments}
-              asset={asset}
-              link={link}
-            />
-          :
-            <p>{lang.t('userNoComment')}</p>
-        }
+        {me.comments.length
+          ? <CommentHistory comments={me.comments} asset={asset} link={link} />
+          : <p>{lang.t('userNoComment')}</p>}
       </div>
     );
   }
 }
+
+// TODO: These currently relies on refetching (see ignoreUser and stopIgnoringUser mutations).
+//
+const withMyIgnoredUsersQuery = graphql(
+  gql`
+  query myIgnoredUsers {
+    myIgnoredUsers {
+      id,
+      username,
+    }
+  }`,
+  {
+    props: ({data}) => {
+      return {
+        myIgnoredUsersData: data
+      };
+    }
+  }
+);
+
+const withMyCommentHistoryQuery = graphql(
+  gql`
+  query myCommentHistory {
+    me {
+      comments {
+          id
+          body
+          asset {
+            id
+            title
+            url
+          }
+          created_at
+      }
+    }
+  }`
+);
 
 const mapStateToProps = state => ({
   user: state.user.toJS(),
@@ -99,7 +132,7 @@ const mapDispatchToProps = dispatch =>
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  myCommentHistory,
-  myIgnoredUsers,
-  stopIgnoringUser,
+  withMyCommentHistoryQuery,
+  withMyIgnoredUsersQuery,
+  withStopIgnoringUser
 )(ProfileContainer);

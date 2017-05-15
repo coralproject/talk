@@ -13,13 +13,87 @@
   pointer-events: none;
 }
 
-.topRightMenu {
+.bylineSecondary {
+  color: #696969;
+  font-size: 12px;
+}
+
+.editedMarker {
+  font-style: italic;
+}
+
+/* element in the top right of the Comment */
+.topRight {
   float: right;
+  margin-top: 10px;
   text-align: right;
+}
+
+.topRight > * {
+  text-align: initial;
+}
+
+.topRight .popover {
+  margin-top: 1em;
+  right: 0px;
+}
+
+.topRight .link.active,
+.topRight .active .link {
+  padding-bottom: 0.125em;
+  border-bottom: 2px solid currentColor;
+}
+
+.topRightMenu {
   cursor: pointer;
   margin-top: 5px;
 }
 
-.topRightMenu > * {
-  text-align: initial;
+.editCommentForm {
+  margin-bottom: 10px;
+}
+
+.editCommentForm .buttonContainerLeft {
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.editCommentForm .buttonContainerLeft .editWindowRemaining {
+  margin-right: 1em;
+}
+
+.editCommentForm .button {
+  flex-shrink: 0;
+}
+
+.editWindowAlmostOver {
+  font-weight: bold;
+}
+
+.link {
+  color: #2376D8;
+  cursor: pointer;
+}
+
+.popover {
+  position: absolute;
+  z-index: 1;
+}
+
+/* Wizard used for Ignore User, Delete Comment confirmations */
+.Wizard {
+  background-color: #2E343B;
+  color: white;
+  padding: 1em;
+  max-width: 220px; /* consider moving to better class */
+}
+
+.Wizard header {
+  font-weight: bold;
+}
+
+.Wizard .textAlignRight {
+  text-align: right;
 }

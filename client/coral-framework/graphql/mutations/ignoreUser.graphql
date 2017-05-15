@@ -1,7 +1,0 @@
-mutation ignoreUser ($id: ID!) {
-  ignoreUser(id:$id) {
-    errors {
-      translation_key
-    }
-  }
-}

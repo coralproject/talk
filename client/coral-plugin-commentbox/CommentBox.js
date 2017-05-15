@@ -1,31 +1,49 @@
 import React, {PropTypes} from 'react';
-import {Button} from 'coral-ui';
-import {connect} from 'react-redux';
 import {I18n} from '../coral-framework';
 import translations from './translations.json';
 import Slot from 'coral-framework/components/Slot';
+import {connect} from 'react-redux';
+import {CommentForm} from './CommentForm';
 
-const name = 'coral-plugin-commentbox';
+export const name = 'coral-plugin-commentbox';
 
+// Given a newly posted comment's status, show a notification to the user
+// if needed
+export const notifyForNewCommentStatus = (addNotification, status) => {
+  if (status === 'REJECTED') {
+    addNotification('error', lang.t('comment-post-banned-word'));
+  } else if (status === 'PREMOD') {
+    addNotification('success', lang.t('comment-post-notif-premod'));
+  }
+};
+
+/**
+ * Container for posting a new Comment
+ */
 class CommentBox extends React.Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
       username: '',
-      body: '',
+
+      // incremented on successful post to clear form
+      postedCount: 0,
       hooks: {
         preSubmit: [],
         postSubmit: []
       }
     };
   }
-
-  postComment = () => {
+  static get defaultProps() {
+    return {
+      setCommentCountCache: () => {}
+    };
+  }
+  postComment = ({body}) => {
     const {
       commentPostedHandler,
-      postItem,
+      postComment,
       setCommentCountCache,
       commentCountCache,
       isReply,
@@ -37,7 +55,7 @@ class CommentBox extends React.Component {
     let comment = {
       asset_id: assetId,
       parent_id: parentId,
-      body: this.state.body,
+      body,
       ...this.props.commentBox
     };
 
@@ -46,18 +64,18 @@ class CommentBox extends React.Component {
     // Execute preSubmit Hooks
     this.state.hooks.preSubmit.forEach(hook => hook());
 
-    postItem(comment, 'comments')
+    postComment(comment, 'comments')
       .then(({data}) => {
         const postedComment = data.createComment.comment;
 
         // Execute postSubmit Hooks
         this.state.hooks.postSubmit.forEach(hook => hook(data));
 
+        notifyForNewCommentStatus(addNotification, postedComment.status);
+
         if (postedComment.status === 'REJECTED') {
-          addNotification('error', lang.t('comment-post-banned-word'));
           !isReply && setCommentCountCache(commentCountCache);
         } else if (postedComment.status === 'PREMOD') {
-          addNotification('success', lang.t('comment-post-notif-premod'));
           !isReply && setCommentCountCache(commentCountCache);
         }
 
@@ -69,7 +87,8 @@ class CommentBox extends React.Component {
         console.error(err);
         !isReply && setCommentCountCache(commentCountCache);
       });
-    this.setState({body: ''});
+
+    this.setState({postedCount: this.state.postedCount + 1});
   }
 
   registerHook = (hookType = '', hook = () => {}) => {
@@ -126,79 +145,50 @@ class CommentBox extends React.Component {
     const {styles, isReply, authorId, maxCharCount} = this.props;
     let {cancelButtonClicked} = this.props;
 
-    const length = this.state.body.length;
-    const enablePostComment = !length || (maxCharCount && length > maxCharCount);
-
     if (isReply && typeof cancelButtonClicked !== 'function') {
       console.warn('the CommentBox component should have a cancelButtonClicked callback defined if it lives in a Reply');
       cancelButtonClicked = () => {};
     }
 
     return <div>
-      <div
-        className={`${name}-container`}>
-          <label
-            htmlFor={ isReply ? 'replyText' : 'commentText'}
-            className="screen-reader-text"
-            aria-hidden={true}>
-            {isReply ? lang.t('reply') : lang.t('comment')}
-          </label>
-          <textarea
-            className={`${name}-textarea`}
-            style={styles && styles.textarea}
-            value={this.state.body}
-            placeholder={lang.t('comment')}
-            id={isReply ? 'replyText' : 'commentText'}
-            onChange={this.handleChange}
-            rows={3}/>
-          <Slot fill='commentInputArea' />
-        </div>
-        <div className={`${name}-char-count ${length > maxCharCount ? `${name}-char-max` : ''}`}>
-          {maxCharCount && `${maxCharCount - length} ${lang.t('characters-remaining')}`}
-        </div>
-        <div className={`${name}-button-container`}>
-          <Slot
-            fill="commentInputDetailArea"
-            registerHook={this.registerHook}
-            unregisterHook={this.unregisterHook}
-            inline
-          />
-          {
-            isReply && (
-              <Button
-                cStyle='darkGrey'
-                className={`${name}-cancel-button`}
-                onClick={() => cancelButtonClicked('')}>
-                {lang.t('cancel')}
-              </Button>
-            )
-          }
-          { authorId && (
-              <Button
-                cStyle={enablePostComment ? 'lightGrey' : 'darkGrey'}
-                className={`${name}-button`}
-                onClick={this.postComment}
-                disabled={enablePostComment ? 'disabled' : ''}>
-                {lang.t('post')}
-              </Button>
-            )
-          }
-      </div>
+      <CommentForm
+        styles={styles}
+        key={this.state.postedCount}
+        defaultValue={this.props.defaultValue}
+        bodyInputId={isReply ? 'replyText' : 'commentText'}
+        bodyLabel={isReply ? lang.t('reply') : lang.t('comment')}
+        maxCharCount={maxCharCount}
+        charCountEnable={this.props.charCountEnable}
+        bodyPlaceholder={lang.t('comment')}
+        bodyInputId={isReply ? 'replyText' : 'commentText'}
+        saveComment={authorId && this.postComment}
+        buttonContainerStart={<Slot
+          fill="commentInputDetailArea"
+          registerHook={this.registerHook}
+          unregisterHook={this.unregisterHook}
+          inline
+        />}
+        cancelButtonClicked={cancelButtonClicked}
+      />
     </div>;
   }
 }
 
 CommentBox.propTypes = {
+
+  // Initial value for underlying comment body textarea
+  defaultValue: PropTypes.string,
   charCountEnable: PropTypes.bool.isRequired,
   maxCharCount: PropTypes.number,
   commentPostedHandler: PropTypes.func,
-  postItem: PropTypes.func.isRequired,
+  postComment: PropTypes.func.isRequired,
   cancelButtonClicked: PropTypes.func,
   assetId: PropTypes.string.isRequired,
   parentId: PropTypes.string,
   authorId: PropTypes.string.isRequired,
   isReply: PropTypes.bool.isRequired,
   canPost: PropTypes.bool,
+  setCommentCountCache: PropTypes.func,
 };
 
 const mapStateToProps = ({commentBox}) => ({commentBox});

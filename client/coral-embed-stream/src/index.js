@@ -4,10 +4,13 @@ import {ApolloProvider} from 'react-apollo';
 
 import {client} from 'coral-framework/services/client';
 import {checkLogin} from 'coral-framework/actions/auth';
+import './graphql';
+import {addExternalConfig} from 'coral-embed-stream/src/actions/config';
 
 import reducers from './reducers';
 import localStore, {injectReducers} from 'coral-framework/services/store';
 import AppRouter from './AppRouter';
+import {pym} from 'coral-framework';
 
 injectReducers(reducers);
 
@@ -16,6 +19,12 @@ const store = (window.opener && window.opener.coralStore) ? window.opener.coralS
 // Don't run this in the popup.
 if (store === localStore) {
   store.dispatch(checkLogin());
+
+  pym.sendMessage('getConfig');
+
+  pym.onMessage('config', config => {
+    store.dispatch(addExternalConfig(JSON.parse(config)));
+  });
 }
 
 render(
