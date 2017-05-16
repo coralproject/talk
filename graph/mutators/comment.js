@@ -99,7 +99,7 @@ const resolveNewCommentStatus = async (context, {asset_id, body}, wordlist = {},
   if (wordlist.banned) {
     return 'REJECTED';
   }
-  
+
   if (settings.premodLinksEnable && linkify.test(body)) {
     return 'PREMOD';
   }
@@ -229,7 +229,7 @@ const edit = async (context, {id, asset_id, edit: {body}}) => {
   const [wordlist, settings] = await filterNewComment(context, {asset_id, body});
 
   // Determine the new status of the comment.
-  const status = await resolveNewCommentStatus(context, {asset_id, body}, wordlist, settings);    
+  const status = await resolveNewCommentStatus(context, {asset_id, body}, wordlist, settings);
 
   // Execute the edit.
   await CommentsService.edit(id, context.user.id, {body, status});
@@ -264,7 +264,7 @@ module.exports = (context) => {
     mutators.Comment.removeCommentTag = (action) => removeCommentTag(context, action);
   }
 
-  if (context.user && context.user.can('mutation:editComment')) {
+  if (context.user && context.user.can('EDIT_COMMENT')) {
     mutators.Comment.edit = (action) => edit(context, action);
   }
 

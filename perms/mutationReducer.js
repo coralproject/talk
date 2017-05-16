@@ -8,6 +8,7 @@ module.exports = {
   CREATE_ACTION: 'CREATE_ACTION',
   DELETE_ACTION: 'DELETE_ACTION',
   EDIT_NAME: 'EDIT_NAME',
+  EDIT_COMMENT: 'EDIT_COMMENT',
   SET_USER_STATUS: 'SET_USER_STATUS',
   SUSPEND_USER: 'SUSPEND_USER',
   SET_COMMENT_STATUS: 'SET_COMMENT_STATUS',
@@ -24,6 +25,8 @@ module.exports = {
     case this.DELETE_ACTION:
       return true;
     case this.EDIT_NAME:
+      return true;
+    case this.EDIT_COMMENT:
       return true;
     case this.UPDATE_USER_ROLES:
       return check(user, ['ADMIN']);
