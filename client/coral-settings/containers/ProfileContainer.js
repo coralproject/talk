@@ -86,6 +86,7 @@ const withQuery = graphql(
   gql`
   query EmbedStreamProfileQuery {
     me {
+      id
       ignoredUsers {
         id,
         username,

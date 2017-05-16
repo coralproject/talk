@@ -65,6 +65,7 @@ const EMBED_QUERY = gql`
       totalCommentCount(excludeIgnored: $excludeIgnored)
     }
     me {
+      id
       status
     }
     ...${getDefinitionName(Stream.fragments.root)}
