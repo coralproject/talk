@@ -8,7 +8,8 @@ const reducers = [
   mutations.reducer
 ];
 
-const allPermissions = [...root.constants, ...queries.constants, ...mutations.constants];
+// this will make 'reducer' a key in this array. hm.
+const allPermissions = [...Object.keys(root), ...Object.keys(queries), ...Object.keys(mutations)];
 
 const findGrant = (user, perms, context, initialState) => {
   return perms.every(perm => {

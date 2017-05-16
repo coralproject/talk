@@ -3,31 +3,26 @@ const check = (user, roles) => {
   return !!intersection(roles, user.roles).length;
 };
 
-const SEARCH_ASSETS = 'SEARCH_ASSETS';
-const SEARCH_OTHER_USERS = 'SEARCH_OTHER_USERS';
-const SEARCH_ACTIONS = 'SEARCH_ACTIONS';
-const SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS = 'SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS';
-const SEARCH_OTHERS_COMMENTS = 'SEARCH_OTHERS_COMMENTS';
-const SEARCH_COMMENT_METRICS = 'SEARCH_COMMENT_METRICS';
-
 module.exports = {
-  constants: [
-    SEARCH_ASSETS, SEARCH_OTHER_USERS, SEARCH_ACTIONS, SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS,
-    SEARCH_OTHERS_COMMENTS, SEARCH_COMMENT_METRICS
-  ],
-  reducer: (perm, user, context, initialState) => {
+  SEARCH_ASSETS: 'SEARCH_ASSETS',
+  SEARCH_OTHER_USERS: 'SEARCH_OTHER_USERS',
+  SEARCH_ACTIONS: 'SEARCH_ACTIONS',
+  SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS: 'SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS',
+  SEARCH_OTHERS_COMMENTS: 'SEARCH_OTHERS_COMMENTS',
+  SEARCH_COMMENT_METRICS: 'SEARCH_COMMENT_METRICS',
+  reducer: function (perm, user, context, initialState) {
     switch (perm) {
-    case SEARCH_ASSETS:
+    case this.SEARCH_ASSETS:
       return check(user, ['ADMIN', 'MODERATOR']);
-    case SEARCH_OTHER_USERS:
+    case this.SEARCH_OTHER_USERS:
       return check(user, ['ADMIN', 'MODERATOR']);
-    case SEARCH_ACTIONS:
+    case this.SEARCH_ACTIONS:
       return check(user, ['ADMIN', 'MODERATOR']);
-    case SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS:
+    case this.SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS:
       return check(user, ['ADMIN', 'MODERATOR']);
-    case SEARCH_OTHERS_COMMENTS:
+    case this.SEARCH_OTHERS_COMMENTS:
       return check(user, ['ADMIN', 'MODERATOR']);
-    case SEARCH_COMMENT_METRICS:
+    case this.SEARCH_COMMENT_METRICS:
       return check(user, ['ADMIN', 'MODERATOR']);
     default:
       return initialState;

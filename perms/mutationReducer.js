@@ -3,23 +3,18 @@ const check = (user, roles) => {
   return !!intersection(roles, user.roles).length;
 };
 
-const CREATE_COMMENT = 'CREATE_COMMENT';
-const CREATE_ACTION = 'CREATE_ACTION';
-const DELETE_ACTION = 'DELETE_ACTION';
-const EDIT_NAME = 'EDIT_NAME';
-const SET_USER_STATUS = 'SET_USER_STATUS';
-const SUSPEND_USER = 'SUSPEND_USER';
-const SET_COMMENT_STATUS = 'SET_COMMENT_STATUS';
-const ADD_COMMENT_TAG = 'ADD_COMMENT_TAG';
-const REMOVE_COMMENT_TAG = 'REMOVE_COMMENT_TAG';
-const UPDATE_CONFIG = 'UPDATE_CONFIG';
-
 module.exports = {
-  constants: [
-    CREATE_COMMENT, CREATE_ACTION, DELETE_ACTION, EDIT_NAME, SET_USER_STATUS,
-    SUSPEND_USER, SET_COMMENT_STATUS, ADD_COMMENT_TAG, REMOVE_COMMENT_TAG, UPDATE_CONFIG
-  ],
-  reducer: (user, perm, context, initialState) => {
+  CREATE_COMMENT: 'CREATE_COMMENT',
+  CREATE_ACTION: 'CREATE_ACTION',
+  DELETE_ACTION: 'DELETE_ACTION',
+  EDIT_NAME: 'EDIT_NAME',
+  SET_USER_STATUS: 'SET_USER_STATUS',
+  SUSPEND_USER: 'SUSPEND_USER',
+  SET_COMMENT_STATUS: 'SET_COMMENT_STATUS',
+  ADD_COMMENT_TAG: 'ADD_COMMENT_TAG',
+  REMOVE_COMMENT_TAG: 'REMOVE_COMMENT_TAG',
+  UPDATE_CONFIG: 'UPDATE_CONFIG',
+  reducer: function (user, perm, context, initialState) {
     switch (perm) {
     case 'muation:createComment':
       return true;
