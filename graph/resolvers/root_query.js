@@ -34,7 +34,7 @@ const RootQuery = {
   comment(_, {id}, {loaders: {Comments}}) {
     return Comments.get.load(id);
   },
-  async commentCount(_, {query: {action_type, statuses, asset_id, parent_id}}, {user, loaders: {Actions, Comments}}) {
+  async commentCount(_, {query: {action_type, statuses, asset_id, parent_id, author_id}}, {user, loaders: {Actions, Comments}}) {
     if (user == null || !user.hasRoles('ADMIN')) {
       return null;
     }
@@ -43,10 +43,10 @@ const RootQuery = {
       let ids = await Actions.getByTypes({action_type, item_type: 'COMMENTS'});
 
       // Perform the query using the available resolver.
-      return Comments.getCountByQuery({ids, statuses, asset_id, parent_id});
+      return Comments.getCountByQuery({ids, statuses, asset_id, parent_id, author_id});
     }
 
-    return Comments.getCountByQuery({statuses, asset_id, parent_id});
+    return Comments.getCountByQuery({statuses, asset_id, parent_id, author_id});
   },
 
   assetMetrics(_, {from, to, sort, limit = 10}, {user, loaders: {Metrics: {Assets}}}) {

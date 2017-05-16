@@ -1,6 +1,7 @@
 const {SubscriptionManager} = require('graphql-subscriptions');
 const {SubscriptionServer} = require('subscriptions-transport-ws');
 const _ = require('lodash');
+const debug = require('debug')('talk:graph:subscriptions');
 
 const pubsub = require('./pubsub');
 const schema = require('./schema');
@@ -9,24 +10,22 @@ const plugins = require('../services/plugins');
 
 const {deserializeUser} = require('../services/subscriptions');
 
-// Core setup functions
-let setupFunctions = {
-  commentAdded: (options, args) => ({
-    commentAdded: {
-      filter: (comment) => comment.asset_id === args.asset_id
-    },
-  }),
-};
-
 /**
  * Plugin support requires that we merge in existing setupFunctions with our new
  * plugin based ones. This allows plugins to extend existing setupFunctions as well
  * as provide new ones.
  */
-setupFunctions = plugins.get('server', 'setupFunctions').reduce((acc, {setupFunctions}) => {
+const setupFunctions = plugins.get('server', 'setupFunctions').reduce((acc, {plugin, setupFunctions}) => {
+  debug(`added plugin '${plugin.name}'`);
 
   return _.merge(acc, setupFunctions);
-}, setupFunctions);
+}, {
+  commentAdded: (options, args) => ({
+    commentAdded: {
+      filter: (comment) => comment.asset_id === args.asset_id
+    },
+  }),
+});
 
 /**
  * This creates a new subscription manager.
