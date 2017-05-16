@@ -190,7 +190,7 @@ UserSchema.method('verifyPassword', function(password) {
  * operation.
  */
 UserSchema.method('can', function(...actions) {
-  return can(this, null, ...actions);
+  return can(this, ...actions);
 });
 
 // Create the User model.

@@ -10,7 +10,7 @@ module.exports = {
   SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS: 'SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS',
   SEARCH_OTHERS_COMMENTS: 'SEARCH_OTHERS_COMMENTS',
   SEARCH_COMMENT_METRICS: 'SEARCH_COMMENT_METRICS',
-  checkRoles: function (user, perm, context) {
+  checkRoles: function (user, perm) {
     switch (perm) {
     case this.SEARCH_ASSETS:
       return check(user, ['ADMIN', 'MODERATOR']);

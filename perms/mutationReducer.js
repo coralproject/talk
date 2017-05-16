@@ -15,7 +15,7 @@ module.exports = {
   REMOVE_COMMENT_TAG: 'REMOVE_COMMENT_TAG',
   UPDATE_USER_ROLES: 'UPDATE_USER_ROLES',
   UPDATE_CONFIG: 'UPDATE_CONFIG',
-  checkRoles: function (user, perm, context) {
+  checkRoles: function (user, perm) {
     switch (perm) {
     case this.CREATE_COMMENT:
       return true;
