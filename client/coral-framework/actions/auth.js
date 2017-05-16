@@ -267,8 +267,8 @@ export const fetchForgotPassword = (email) => (dispatch) => {
 
 export const logout = () => (dispatch) => {
   return coralApi('/auth', {method: 'DELETE'}).then(() => {
-    dispatch({type: actions.LOGOUT});
     Storage.removeItem('token');
+    dispatch({type: actions.LOGOUT});
   });
 };
 
