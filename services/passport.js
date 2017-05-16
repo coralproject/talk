@@ -3,33 +3,39 @@ const UsersService = require('./users');
 const SettingsService = require('./settings');
 const fetch = require('node-fetch');
 const FormData = require('form-data');
+const JWT = require('jsonwebtoken');
 const LocalStrategy = require('passport-local').Strategy;
 const errors = require('../errors');
+const uuid = require('uuid');
 const debug = require('debug')('talk:passport');
+const {createClient} = require('./redis');
 
-//==============================================================================
-// SESSION SERIALIZATION
-//==============================================================================
+// Create a redis client to use for authentication.
+const client = createClient();
 
-passport.serializeUser((user, done) => {
-  done(null, user.id);
+const {
+  JWT_SECRET,
+  JWT_ISSUER,
+  JWT_EXPIRY,
+  JWT_AUDIENCE,
+  RECAPTCHA_SECRET,
+  RECAPTCHA_ENABLED
+} = require('../config');
+
+// GenerateToken will sign a token to include all the authorization information
+// needed for the front end.
+const GenerateToken = (user) => JWT.sign({}, JWT_SECRET, {
+  jwtid: uuid.v4(),
+  expiresIn: JWT_EXPIRY,
+  issuer: JWT_ISSUER,
+  subject: user.id,
+  audience: JWT_AUDIENCE
 });
 
-passport.deserializeUser((id, done) => {
-  UsersService
-    .findById(id)
-    .then((user) => {
-      done(null, user);
-    })
-    .catch((err) => {
-      done(err);
-    });
-});
-
-/**
- * This sends back the user data as JSON.
- */
-const HandleAuthCallback = (req, res, next) => (err, user) => {
+// HandleGenerateCredentials validates that an authentication scheme did indeed
+// return a user, if it did, then sign and return the user and token to be used
+// by the frontend to display and update the UI.
+const HandleGenerateCredentials = (req, res, next) => (err, user) => {
   if (err) {
     return next(err);
   }
@@ -38,15 +44,11 @@ const HandleAuthCallback = (req, res, next) => (err, user) => {
     return next(errors.ErrNotAuthorized);
   }
 
-  // Perform the login of the user!
-  req.logIn(user, (err) => {
-    if (err) {
-      return next(err);
-    }
+  // Generate the token to re-issue to the frontend.
+  const token = GenerateToken(user);
 
-    // We logged in the user! Let's send back the user data and the CSRF token.
-    res.json({user});
-  });
+  // Send back the details!
+  res.json({user, token});
 };
 
 /**
@@ -54,22 +56,18 @@ const HandleAuthCallback = (req, res, next) => (err, user) => {
  */
 const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
   if (err) {
-    return res.render('auth-callback', {err: JSON.stringify(err), data: null});
+    return res.render('auth-callback', {auth: JSON.stringify({err, data: null})});
   }
 
   if (!user) {
-    return res.render('auth-callback', {err: JSON.stringify(errors.ErrNotAuthorized), data: null});
+    return res.render('auth-callback', {auth: JSON.stringify({err: errors.ErrNotAuthorized, data: null})});
   }
 
-  // Perform the login of the user!
-  req.logIn(user, (err) => {
-    if (err) {
-      return res.render('auth-callback', {err: JSON.stringify(err), data: null});
-    }
+  // Generate the token to re-issue to the frontend.
+  const token = GenerateToken(user);
 
-    // We logged in the user! Let's send back the user data.
-    res.render('auth-callback', {err: null, data: JSON.stringify(user)});
-  });
+  // We logged in the user! Let's send back the user data.
+  res.render('auth-callback', {auth: JSON.stringify({err: null, data: {user, token}})});
 };
 
 /**
@@ -119,7 +117,91 @@ function ValidateUserLogin(loginProfile, user, done) {
 }
 
 //==============================================================================
-// STRATEGIES
+// JWT STRATEGY
+//==============================================================================
+
+/**
+ * Revoke the token on the request.
+ */
+const HandleLogout = (req, res, next) => {
+  const {jwt} = req;
+
+  const now = new Date();
+  const expiry = (jwt.exp - now.getTime() / 1000).toFixed(0);
+
+  client.set(`jtir[${jwt.jti}]`, now.toISOString(), 'EX', expiry, (err) => {
+    if (err) {
+      return next(err);
+    }
+
+    res.status(204).end();
+  });
+};
+
+/**
+ * Check if the given token is already blacklisted, throw an error if it is.
+ */
+const CheckBlacklisted = (jwt) => new Promise((resolve, reject) => {
+  client.get(`jtir[${jwt.jti}]`, (err, expiry) => {
+    if (err) {
+      return reject(err);
+    }
+
+    if (expiry != null) {
+      return reject(new errors.ErrAuthentication('token was revoked'));
+    }
+
+    return resolve();
+  });
+});
+
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
+
+// Extract the JWT from the 'Authorization' header with the 'Bearer' scheme.
+passport.use(new JwtStrategy({
+
+  // Prepare the extractor from the header.
+  jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
+
+  // Use the secret passed in which is loaded from the environment. This can be
+  // a certificate (loaded) or a HMAC key.
+  secretOrKey: JWT_SECRET,
+
+  // Verify the issuer.
+  issuer: JWT_ISSUER,
+
+  // Verify the audience.
+  audience: JWT_AUDIENCE,
+
+  // Enable only the HS256 algorithm.
+  algorithms: ['HS256'],
+
+  // Pass the request objecto back to the callback so we can attach the JWT to
+  // it.
+  passReqToCallback: true
+}, async (req, jwt, done) => {
+
+  // Load the user from the environment, because we just got a user from the
+  // header.
+  try {
+
+    // Check to see if the token has been revoked
+    await CheckBlacklisted(jwt);
+
+    let user = await UsersService.findById(jwt.sub);
+
+    // Attach the JWT to the request.
+    req.jwt = jwt;
+
+    return done(null, user);
+  } catch(e) {
+    return done(e);
+  }
+}));
+
+//==============================================================================
+// LOCAL STRATEGY
 //==============================================================================
 
 /**
@@ -156,21 +238,6 @@ const CheckIfNeedsRecaptcha = (user, email) => {
 
   return false;
 };
-
-/**
- * This stores the Recaptcha secret.
- */
-const RECAPTCHA_SECRET = process.env.TALK_RECAPTCHA_SECRET;
-const RECAPTCHA_PUBLIC = process.env.TALK_RECAPTCHA_PUBLIC;
-
-/**
- * This is true when the recaptcha secret is provided and the Recaptcha feature
- * is to be enabled.
- */
-const RECAPTCHA_ENABLED = RECAPTCHA_SECRET && RECAPTCHA_SECRET.length > 0 && RECAPTCHA_PUBLIC && RECAPTCHA_PUBLIC.length > 0;
-if (!RECAPTCHA_ENABLED) {
-  console.log('Recaptcha is not enabled for login/signup abuse prevention, set TALK_RECAPTCHA_SECRET and TALK_RECAPTCHA_PUBLIC to enable Recaptcha.');
-}
 
 /**
  * This sends the request details down Google to check to see if the response is
@@ -356,6 +423,8 @@ module.exports = {
   passport,
   ValidateUserLogin,
   HandleFailedAttempt,
-  HandleAuthCallback,
-  HandleAuthPopupCallback
+  HandleAuthPopupCallback,
+  HandleGenerateCredentials,
+  HandleLogout,
+  CheckBlacklisted
 };

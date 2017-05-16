@@ -2,7 +2,7 @@ let permalink = '';
 
 module.exports = {
   '@tags': ['permalink', 'commenter'],
-  before: client => {
+  before: (client) => {
     const embedStreamPage = client.page.embedStreamPage();
     const {users} = client.globals;
 
@@ -13,21 +13,21 @@ module.exports = {
     embedStreamPage
       .login(users.commenter);
   },
-  'Commenter gets the permalink of a comment': client => {
+  'Commenter gets the permalink of a comment': (client) => {
     const embedStreamPage = client.page.embedStreamPage();
     embedStreamPage
-      .getPermalink(value => {
+      .getPermalink((value) => {
         permalink = value;
       });
   },
-  'Commenter navigates to the permalink': client => {
+  'Commenter navigates to the permalink': (client) => {
     const embedStreamPage = client.page.embedStreamPage();
     embedStreamPage
       .navigate(permalink);
 
     client.assert.urlContains(permalink);
   },
-  after: client => {
+  after: (client) => {
     client.end();
   }
 };

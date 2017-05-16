@@ -76,14 +76,14 @@ class ModerationContainer extends Component {
 
   select = (next) => () => {
     if (next) {
-      this.setState(prevState =>
+      this.setState((prevState) =>
         ({
           ...prevState,
           selectedIndex: prevState.selectedIndex < this.getComments().length - 1
             ? prevState.selectedIndex + 1 : prevState.selectedIndex
         }));
     } else {
-      this.setState(prevState =>
+      this.setState((prevState) =>
         ({
           ...prevState,
           selectedIndex: prevState.selectedIndex > 0 ?
@@ -141,7 +141,7 @@ class ModerationContainer extends Component {
     }
 
     if (providedAssetId) {
-      asset = assets.find(asset => asset.id === this.props.params.id);
+      asset = assets.find((asset) => asset.id === this.props.params.id);
 
       if (!asset) {
         return <NotFoundAsset assetId={providedAssetId} />;
@@ -232,7 +232,7 @@ class ModerationContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   moderation: state.moderation.toJS(),
   settings: state.settings.toJS(),
   assets: state.assets.get('assets')

@@ -1,31 +1,22 @@
-export const base = '/api/v1';
+import * as Storage from './storage';
 
 const buildOptions = (inputOptions = {}) => {
-
-  const csurfDOM = document.head.querySelector('[property=csrf]');
-
   const defaultOptions = {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      Accept: 'application/json',
+      Authorization: `Bearer ${Storage.getItem('token')}`,
+      'Content-Type': 'application/json'
     },
-    credentials: 'same-origin',
-    _csrf: csurfDOM ? csurfDOM.content : false
+    credentials: 'same-origin'
   };
 
   let options = Object.assign({}, defaultOptions, inputOptions);
-  options.headers = Object.assign({}, defaultOptions.headers, inputOptions.headers);
-
-  if (options._csrf) {
-    switch (options.method.toLowerCase()) {
-    case 'post':
-    case 'put':
-    case 'delete':
-      options.headers['x-csrf-token'] = options._csrf;
-      break;
-    }
-  }
+  options.headers = Object.assign(
+    {},
+    defaultOptions.headers,
+    inputOptions.headers
+  );
 
   if (options.method.toLowerCase() !== 'get') {
     options.body = JSON.stringify(options.body);
@@ -34,9 +25,9 @@ const buildOptions = (inputOptions = {}) => {
   return options;
 };
 
-const handleResp = res => {
+const handleResp = (res) => {
   if (res.status > 399) {
-    return res.json().then(err => {
+    return res.json().then((err) => {
       let message = err.message || res.status;
       const error = new Error();
 
@@ -57,6 +48,8 @@ const handleResp = res => {
     return res.json();
   }
 };
+
+export const base = '/api/v1';
 
 export default (url, options) => {
   return fetch(`${base}${url}`, buildOptions(options)).then(handleResp);

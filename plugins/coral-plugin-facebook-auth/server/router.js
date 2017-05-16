@@ -15,6 +15,6 @@ module.exports = (router) => {
   router.get('/api/v1/auth/facebook/callback', (req, res, next) => {
 
     // Perform the facebook login flow and pass the data back through the opener.
-    passport.authenticate('facebook', HandleAuthPopupCallback(req, res, next))(req, res, next);
+    passport.authenticate('facebook', {session: false}, HandleAuthPopupCallback(req, res, next))(req, res, next);
   });
 };

@@ -53,17 +53,17 @@ export default function community (state = initialState, action) {
   }
   case SET_ROLE : {
     const commenters = state.get('accounts');
-    const idx = commenters.findIndex(el => el.id === action.id);
+    const idx = commenters.findIndex((el) => el.id === action.id);
 
     commenters[idx].roles[0] = action.role;
-    return state.set('accounts', commenters.map(id => id));
+    return state.set('accounts', commenters.map((id) => id));
   }
   case SET_COMMENTER_STATUS: {
     const commenters = state.get('accounts');
-    const idx = commenters.findIndex(el => el.id === action.id);
+    const idx = commenters.findIndex((el) => el.id === action.id);
 
     commenters[idx].status = action.status;
-    return state.set('accounts', commenters.map(id => id));
+    return state.set('accounts', commenters.map((id) => id));
 
   }
   case SORT_UPDATE :

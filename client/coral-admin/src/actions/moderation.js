@@ -1,6 +1,6 @@
 import * as actions from 'constants/moderation';
 
-export const toggleModal = open => ({type: actions.TOGGLE_MODAL, open});
+export const toggleModal = (open) => ({type: actions.TOGGLE_MODAL, open});
 export const singleView = () => ({type: actions.SINGLE_VIEW});
 
 // Ban User Dialog

@@ -4,7 +4,7 @@ import styles from './Comment.css';
 import PubDate from '../coral-plugin-pubdate/PubDate';
 import Content from '../coral-plugin-commentcontent/CommentContent';
 
-const Comment = props => {
+const Comment = (props) => {
   return (
     <div className={styles.myComment}>
       <div>
