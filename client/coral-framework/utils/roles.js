@@ -1,30 +1,29 @@
 import intersection from 'lodash/intersection';
 
 const basicRoles = {
-  hasStaffTag: ['ADMIN', 'MODERATOR', 'STAFF']
+  HAS_STAFF_TAG: ['ADMIN', 'MODERATOR', 'STAFF']
 };
 
 const queryRoles = {
-  canAccessConfig: ['ADMIN', 'MODERATOR'],
-  canAccessAdmin: ['ADMIN', 'MODERATOR'],
-  canViewUserEmails: ['ADMIN']
+  UPDATE_CONFIG: ['ADMIN', 'MODERATOR'],
+  ACCESS_ADMIN: ['ADMIN', 'MODERATOR'],
+  VIEW_USER_EMAILS: ['ADMIN']
 };
 
 const mutationRoles = {
-  canChangeRoles: ['ADMIN'],
-  canModerateComments: ['ADMIN', 'MODERATOR']
+  CHANGE_ROLES: ['ADMIN'],
+  MODERATE_COMMENTS: ['ADMIN', 'MODERATOR']
 };
 
 const roles = {...basicRoles, ...queryRoles, ...mutationRoles};
 
-export const can = (user, perms) => {
-  for (let perm in perms) {
+export const can = (user, ...perms) => {
+  return perms.every(perm => {
     const role = roles[perm];
     if (typeof role === 'undefined') {
-      continue;
+      throw new Error(`${perm} is not a valid role`);
     }
-    let grant = intersection(role, user.roles).length > 0;
-    return grant;
-  }
-  return false;
+
+    return intersection(role, user.roles).length > 0;
+  });
 };

@@ -3,19 +3,21 @@ const queries = require('./queryReducer');
 const mutations = require('./mutationReducer');
 
 const reducers = [
-  root.reducer,
-  queries.reducer,
-  mutations.reducer
+  root,
+  queries,
+  mutations
 ];
 
 // this will make 'reducer' a key in this array. hm.
 const allPermissions = [...Object.keys(root), ...Object.keys(queries), ...Object.keys(mutations)];
 
-const findGrant = (user, perms, context, initialState) => {
+const findGrant = (user, perms, context) => {
+
   return perms.every(perm => {
 
-    for (let reducer in reducers) {
-      const grant = reducer(user, perm, context, initialState);
+    for (let key in reducers) {
+      const reducer = reducers[key];
+      const grant = reducer.checkRoles(user, perm, context);
 
       if (grant !== null && typeof grant !== 'undefined') {
         return grant;
@@ -38,12 +40,14 @@ module.exports = (user, context, ...perms) => {
 
   // make sure all the passed permissions are not typos
   const missingPerms = perms.filter(perm => {
-    return typeof allPermissions[perm] === 'undefined';
+    return allPermissions.indexOf(perm) === -1;
   });
 
   if (missingPerms.length) {
+
+    // not sure if this is working.
     throw new Error(`${missingPerms.join(' ')} are not valid permissions.`);
   }
 
-  return findGrant(user, perms, context, null);
+  return findGrant(user, perms, context);
 };

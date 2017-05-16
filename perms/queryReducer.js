@@ -10,7 +10,7 @@ module.exports = {
   SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS: 'SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS',
   SEARCH_OTHERS_COMMENTS: 'SEARCH_OTHERS_COMMENTS',
   SEARCH_COMMENT_METRICS: 'SEARCH_COMMENT_METRICS',
-  reducer: function (perm, user, context, initialState) {
+  checkRoles: function (user, perm, context) {
     switch (perm) {
     case this.SEARCH_ASSETS:
       return check(user, ['ADMIN', 'MODERATOR']);
@@ -25,7 +25,7 @@ module.exports = {
     case this.SEARCH_COMMENT_METRICS:
       return check(user, ['ADMIN', 'MODERATOR']);
     default:
-      return initialState;
+      break;
     }
   }
 };

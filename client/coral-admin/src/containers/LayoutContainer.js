@@ -6,7 +6,7 @@ import {toggleModal as toggleShortcutModal} from '../actions/moderation';
 import {fetchConfig} from '../actions/config';
 import {FullLoading} from '../components/FullLoading';
 import AdminLogin from '../components/AdminLogin';
-import roleUtils from 'coral-framework/utils/roles';
+import {can} from 'coral-framework/utils/roles';
 
 class LayoutContainer extends Component {
   componentWillMount () {
@@ -36,7 +36,7 @@ class LayoutContainer extends Component {
         recaptchaPublic={TALK_RECAPTCHA_PUBLIC}
         errorMessage={loginError} />;
     }
-    if (roleUtils.canAccessAdmin(user) && loggedIn) {
+    if (can(user, 'ACCESS_ADMIN') && loggedIn) {
       return <Layout handleLogout={handleLogout} toggleShortcutModal={toggleShortcutModal} {...this.props} />;
     } else if (loggedIn) {
       return <p>you do not have permission to see this page.</p>;

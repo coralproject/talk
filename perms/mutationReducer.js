@@ -15,7 +15,7 @@ module.exports = {
   REMOVE_COMMENT_TAG: 'REMOVE_COMMENT_TAG',
   UPDATE_USER_ROLES: 'UPDATE_USER_ROLES',
   UPDATE_CONFIG: 'UPDATE_CONFIG',
-  reducer: function (user, perm, context, initialState) {
+  checkRoles: function (user, perm, context) {
     switch (perm) {
     case this.CREATE_COMMENT:
       return true;
@@ -40,7 +40,7 @@ module.exports = {
     case this.UPDATE_CONFIG:
       return check(user, ['ADMIN', 'MODERATOR']);
     default:
-      return initialState;
+      break;
     }
   }
 };
