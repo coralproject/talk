@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CommunityLayout = props => (
+const CommunityLayout = (props) => (
   <div>
     {props.children}
   </div>

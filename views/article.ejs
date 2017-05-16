@@ -28,7 +28,11 @@
       Coral.Talk.render(document.getElementById('coralStreamEmbed'), {
         talk: '/',
         asset_url: '<%= asset_url ? asset_url : '' %>',
-        asset_id: '<%= asset_id ? asset_id : '' %>'
+        asset_id: '<%= asset_id ? asset_id : '' %>',
+        plugin_config: {
+          test: 'data',
+          debug: false
+        }
       })
     "></script>
   </main>

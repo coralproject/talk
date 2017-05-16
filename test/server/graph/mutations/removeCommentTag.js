@@ -11,7 +11,7 @@ describe('graph.mutations.removeCommentTag', () => {
   let comment;
   beforeEach(async () => {
     await SettingsService.init();
-    comment = await CommentsService.publicCreate({body: `hello there! ${  String(Math.random()).slice(2)}`});
+    comment = await CommentsService.publicCreate({body: `hello there! ${String(Math.random()).slice(2)}`});
   });
 
   const query = `

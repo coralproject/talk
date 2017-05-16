@@ -1,6 +1,6 @@
 module.exports = {
   '@tags': ['flag', 'comments', 'commenter'],
-  before: client => {
+  before: (client) => {
     const embedStreamPage = client.page.embedStreamPage();
     const {users} = client.globals;
 
@@ -11,7 +11,7 @@ module.exports = {
     embedStreamPage
       .login(users.commenter);
   },
-  'Commenter flags a comment': client => {
+  'Commenter flags a comment': (client) => {
     const embedStreamPage = client.page.embedStreamPage();
 
     embedStreamPage
@@ -28,7 +28,7 @@ module.exports = {
       .click('@flagDoneButton')
       .expect.element('@flagButtonText').text.to.equal('Reported');
   },
-  after: client => {
+  after: (client) => {
     client.end();
   }
 };

@@ -3,7 +3,7 @@ import {Link} from 'react-router';
 import {Icon} from 'coral-ui';
 import styles from './styles.css';
 
-const ModerationHeader = props => (
+const ModerationHeader = (props) => (
     <div className=''>
       <div className={`mdl-tabs ${styles.header}`}>
         {

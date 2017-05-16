@@ -148,12 +148,12 @@ class CommunityContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   community: state.community.toJS()
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchAccounts: query => dispatch(fetchAccounts(query)),
+const mapDispatchToProps = (dispatch) => ({
+  fetchAccounts: (query) => dispatch(fetchAccounts(query)),
   showBanUserDialog: (user) => dispatch(showBanUserDialog(user)),
   hideBanUserDialog: () => dispatch(hideBanUserDialog(false)),
   showSuspendUserDialog: (user) => dispatch(showSuspendUserDialog(user)),

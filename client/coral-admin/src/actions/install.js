@@ -5,14 +5,14 @@ import errorMsj from 'coral-framework/helpers/error';
 
 export const nextStep = () => ({type: actions.NEXT_STEP});
 export const previousStep = () => ({type: actions.PREVIOUS_STEP});
-export const goToStep = step => ({type: actions.GO_TO_STEP, step});
+export const goToStep = (step) => ({type: actions.GO_TO_STEP, step});
 
 const installRequest = () => ({type: actions.INSTALL_REQUEST});
 const installSuccess = () => ({type: actions.INSTALL_SUCCESS});
-const installFailure = error => ({type: actions.INSTALL_FAILURE, error});
+const installFailure = (error) => ({type: actions.INSTALL_FAILURE, error});
 
 const addError = (name, error) => ({type: actions.ADD_ERROR, name, error});
-const hasError = error => ({type: actions.HAS_ERROR, error});
+const hasError = (error) => ({type: actions.HAS_ERROR, error});
 const clearErrors = () => ({type: actions.CLEAR_ERRORS});
 
 const validation = (formData, dispatch, next) => {
@@ -21,11 +21,11 @@ const validation = (formData, dispatch, next) => {
   }
 
   const validKeys = Object.keys(formData)
-    .filter(name => name !== 'domains');
+    .filter((name) => name !== 'domains');
 
   // Required Validation
   const empty = validKeys
-  .filter(name => {
+  .filter((name) => {
     const cond = !formData[name].length;
 
     if (cond) {
@@ -45,7 +45,7 @@ const validation = (formData, dispatch, next) => {
 
   // RegExp Validation
   const validation = validKeys
-    .filter(name => {
+    .filter((name) => {
       const cond = !validate[name](formData[name]);
       if (cond) {
 
@@ -88,7 +88,7 @@ export const finishInstall = () => (dispatch, getState) => {
       dispatch(installSuccess());
       dispatch(nextStep());
     })
-    .catch(error => {
+    .catch((error) => {
       console.error(error);
       dispatch(installFailure(`${error.translation_key}`));
     });
@@ -99,10 +99,10 @@ export const updateUserFormData = (name, value) => ({type: actions.UPDATE_FORMDA
 export const updatePermittedDomains = (value) => ({type: actions.UPDATE_PERMITTED_DOMAINS_SETTINGS, value});
 
 const checkInstallRequest = () => ({type: actions.CHECK_INSTALL_REQUEST});
-const checkInstallSuccess = installed => ({type: actions.CHECK_INSTALL_SUCCESS, installed});
-const checkInstallFailure = error => ({type: actions.CHECK_INSTALL_FAILURE, error});
+const checkInstallSuccess = (installed) => ({type: actions.CHECK_INSTALL_SUCCESS, installed});
+const checkInstallFailure = (error) => ({type: actions.CHECK_INSTALL_FAILURE, error});
 
-export const checkInstall = next => dispatch => {
+export const checkInstall = (next) => (dispatch) => {
   dispatch(checkInstallRequest());
   coralApi('/setup')
     .then(({installed}) => {
@@ -111,7 +111,7 @@ export const checkInstall = next => dispatch => {
         next();
       }
     })
-    .catch(error => {
+    .catch((error) => {
       console.error(error);
       dispatch(checkInstallFailure(`${error.translation_key}`));
     });

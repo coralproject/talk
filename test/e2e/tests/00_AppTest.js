@@ -1,6 +1,6 @@
 module.exports = {
   '@tags': ['app'],
-  'Base url and Hostname': browser => {
+  'Base url and Hostname': (browser) => {
     const {baseUrl} = browser.globals;
     browser
       .url(baseUrl)

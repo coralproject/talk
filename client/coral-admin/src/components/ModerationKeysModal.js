@@ -59,8 +59,8 @@ export default class ModerationKeysModal extends React.Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {Object.keys(shortcut.shortcuts).map(key => (
-                    <tr key={`${key  }tr`}>
+                  {Object.keys(shortcut.shortcuts).map((key) => (
+                    <tr key={`${key}tr`}>
                       <td className={styles.shortcut}><span className={styles.key}>{key}</span></td>
                       <td>{lang.t(shortcut.shortcuts[key])}</td>
                     </tr>

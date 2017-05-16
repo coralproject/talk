@@ -29,7 +29,7 @@ class UserDetail extends React.Component {
     }
 
     const {user} = data;
-    const localProfile = user.profiles.find(p => p.provider === 'local');
+    const localProfile = user.profiles.find((p) => p.provider === 'local');
     let profile;
     if (localProfile) {
       profile = localProfile.id;
@@ -39,7 +39,7 @@ class UserDetail extends React.Component {
       <Drawer handleClickOutside={hideUserDetail}>
         <h3>{user.username}</h3>
         <Button className={styles.copyButton}>Copy</Button>
-        {profile && <p ref={ref => this.profile = ref} contentEditable="true">{profile}</p>}
+        {profile && <p ref={(ref) => this.profile = ref} contentEditable="true">{profile}</p>}
         <Slot fill="userProfile" user={user} />
         <p className={styles.memberSince}><strong>Member since</strong> {new Date(user.created_at).toLocaleString()}</p>
         <hr/>

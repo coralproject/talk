@@ -54,7 +54,7 @@ class Table extends Component {
                 <SelectField label={'Select me'} value={row.status || ''}
                   className={styles.selectField}
                   label={lang.t('community.status')}
-                  onChange={status => this.onCommenterStatusChange(row.id, status)}>
+                  onChange={(status) => this.onCommenterStatusChange(row.id, status)}>
                   <Option value={'ACTIVE'}>{lang.t('community.active')}</Option>
                   <Option value={'BANNED'}>{lang.t('community.banned')}</Option>
                 </SelectField>
@@ -63,7 +63,7 @@ class Table extends Component {
                 <SelectField label={'Select me'} value={row.roles[0] || ''}
                   className={styles.selectField}
                   label={lang.t('community.role')}
-                  onChange={role => this.onRoleChange(row.id, role)}>
+                  onChange={(role) => this.onRoleChange(row.id, role)}>
                   <Option value={''}>.</Option>
                   <Option value={'MODERATOR'}>{lang.t('community.moderator')}</Option>
                   <Option value={'ADMIN'}>{lang.t('community.admin')}</Option>
@@ -77,4 +77,4 @@ class Table extends Component {
   }
 }
 
-export default connect(state => ({commenters: state.community.get('accounts')}))(Table);
+export default connect((state) => ({commenters: state.community.get('accounts')}))(Table);

@@ -13,8 +13,8 @@ export default class Dialog extends Component {
   };
 
   static defaultProps = {
-    onCancel: e => e.preventDefault(),
-    onClose: e => e.preventDefault()
+    onCancel: (e) => e.preventDefault(),
+    onClose: (e) => e.preventDefault()
   };
 
   componentDidMount(){
@@ -52,7 +52,7 @@ export default class Dialog extends Component {
 
     return (
       <dialog
-        ref={el => { this.dialog = el; }}
+        ref={(el) => { this.dialog = el; }}
         className={`mdl-dialog ${className}`}
         {...rest}
       >

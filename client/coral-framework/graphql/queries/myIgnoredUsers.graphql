@@ -1,6 +1,0 @@
-query myIgnoredUsers {
-  myIgnoredUsers {
-    id,
-    username,
-  }
-}
