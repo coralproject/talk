@@ -86,7 +86,6 @@ export function clear() {
   }
 }
 
-// Enable this to debug WEB Storage events
 // window.addEventListener('storage', function(e) {
 //   const msg = `${e.key} " was changed in page ${e.url} from ${e.oldValue} to ${e.newValue}`;
 //   console.log(msg);

@@ -39,24 +39,26 @@ class SignInContainer extends Component {
   constructor(props) {
     super(props);
     this.state = this.initialState;
+    this.addError = this.addError.bind(this);
+    this.handleAuth = this.handleAuth.bind(this);
+    this.handleSignUp = this.handleSignUp.bind(this);
+    this.handleSignIn = this.handleSignIn.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
     this.handleResendVerification = this.handleResendVerification.bind(this);
-    this.handleSignUp = this.handleSignUp.bind(this);
-    this.handleSignIn = this.handleSignIn.bind(this);
-    this.addError = this.addError.bind(this);
   }
 
   static propTypes = {
     requireEmailConfirmation: PropTypes.bool.isRequired
-  }
+  };
 
-  componentWillMount () {
+  componentWillMount() {
     this.props.checkLogin();
   }
 
   componentDidMount() {
-    window.authCallback = this.props.facebookCallback;
+    window.addEventListener('storage', this.handleAuth);
+
     const {formData} = this.state;
     const errors = Object.keys(formData).reduce((map, prop) => {
       map[prop] = lang.t('signIn.requiredField');
@@ -65,17 +67,36 @@ class SignInContainer extends Component {
     this.setState({errors});
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('storage', this.handleAuth);
+  }
+
+  handleAuth(e) {
+
+    // Listening to FB changes
+    // FB localStorage key is 'auth'
+    const authCallback = this.props.facebookCallback;
+
+    if (e.key === 'auth') {
+      const {err, data} = JSON.parse(e.newValue);
+      authCallback(err, data);
+    }
+  }
+
   handleChange(e) {
     const {name, value} = e.target;
-    this.setState((state) => ({
-      ...state,
-      formData: {
-        ...state.formData,
-        [name]: value
+    this.setState(
+      (state) => ({
+        ...state,
+        formData: {
+          ...state.formData,
+          [name]: value
+        }
+      }),
+      () => {
+        this.validation(name, value);
       }
-    }), () => {
-      this.validation(name, value);
-    });
+    );
   }
 
   handleChangeEmail(e) {
@@ -85,7 +106,11 @@ class SignInContainer extends Component {
 
   handleResendVerification(e) {
     e.preventDefault();
-    this.props.requestConfirmEmail(this.state.emailToBeResent, pym.parentUrl || location.href)
+    this.props
+      .requestConfirmEmail(
+        this.state.emailToBeResent,
+        pym.parentUrl || location.href
+      )
       .then(() => {
         setTimeout(() => {
 
@@ -110,12 +135,15 @@ class SignInContainer extends Component {
 
     if (!value.length) {
       addError(name, lang.t('signIn.requiredField'));
-    } else if (name === 'confirmPassword' && formData.confirmPassword !== formData.password) {
+    } else if (
+      name === 'confirmPassword' &&
+      formData.confirmPassword !== formData.password
+    ) {
       addError('confirmPassword', lang.t('signIn.passwordsDontMatch'));
     } else if (!validate[name](value)) {
       addError(name, errorMsj[name]);
     } else {
-      const { [name]: prop, ...errors } = this.state.errors; // eslint-disable-line
+      const {[name]: prop, ...errors} = this.state.errors; // eslint-disable-line
       // Removes Error
       this.setState((state) => ({...state, errors}));
     }
@@ -181,14 +209,12 @@ const mapDispatchToProps = (dispatch) => ({
   fetchSignInFacebook: () => dispatch(fetchSignInFacebook()),
   fetchSignUpFacebook: () => dispatch(fetchSignUpFacebook()),
   fetchForgotPassword: (formData) => dispatch(fetchForgotPassword(formData)),
-  requestConfirmEmail: (email, url) => dispatch(requestConfirmEmail(email, url)),
+  requestConfirmEmail: (email, url) =>
+    dispatch(requestConfirmEmail(email, url)),
   changeView: (view) => dispatch(changeView(view)),
   handleClose: () => dispatch(hideSignInDialog()),
   invalidForm: (error) => dispatch(invalidForm(error)),
   validForm: () => dispatch(validForm())
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SignInContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(SignInContainer);
