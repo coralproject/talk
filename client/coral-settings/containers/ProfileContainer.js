@@ -26,9 +26,9 @@ class ProfileContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.auth.loggedIn !== nextProps.auth.loggedIn) {
+    if (!this.props.auth.loggedIn && nextProps.auth.loggedIn) {
 
-      // Refetch after login/logout.
+      // Refetch after login.
       this.props.data.refetch();
     }
   }
