@@ -29,7 +29,7 @@ const Comment = {
   },
   actions({id}, _, {user, loaders: {Actions}}) {
 
-    if (user && user.canViewActions()) {
+    if (user && user.can('SEARCH_ACTIONS')) {
       return Actions.getByID.load(id);
     }
 

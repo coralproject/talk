@@ -236,19 +236,19 @@ module.exports = (context) => {
     }
   };
 
-  if (context.user && context.user.can('mutation:createComment')) {
+  if (context.user && context.user.can('CREATE_COMMENT')) {
     mutators.Comment.create = (comment) => createPublicComment(context, comment);
   }
 
-  if (context.user && context.user.can('mutation:setCommentStatus')) {
+  if (context.user && context.user.can('SET_COMMENT_STATUS')) {
     mutators.Comment.setCommentStatus = (action) => setCommentStatus(context, action);
   }
 
-  if (context.user && context.user.can('mutation:addCommentTag')) {
+  if (context.user && context.user.can('ADD_COMMENT_TAG')) {
     mutators.Comment.addCommentTag = (action) => addCommentTag(context, action);
   }
 
-  if (context.user && context.user.can('mutation:removeCommentTag')) {
+  if (context.user && context.user.can('REMOVE_COMMENT_TAG')) {
     mutators.Comment.removeCommentTag = (action) => removeCommentTag(context, action);
   }
 

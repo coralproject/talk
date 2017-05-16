@@ -160,74 +160,10 @@ UserSchema.index({
 });
 
 /**
- * returns true if the user can look up assets through the api
- */
-UserSchema.method('canQueryAssets', function () {
-  return !!intersection(['ADMIN', 'MODERATOR'], this.roles).length;
-});
-
-/**
- * returns true if the user can view actions
- */
-UserSchema.method('canViewActions', function () {
-  return !!intersection(['ADMIN', 'MODERATOR'], this.roles).length;
-});
-
-/**
- * returns true if the user can view non-null or non-ACCEPTED comments
- */
-UserSchema.method('canViewNonNullOrAcceptedComments', function () {
-  return !!intersection(['ADMIN', 'MODERATOR'], this.roles).length;
-});
-
-/**
- * returns true when a user can view comments that are not their own
- */
-UserSchema.method('canViewOthersComments', function () {
-  return !!intersection(['ADMIN', 'MODERATOR'], this.roles).length;
-});
-
-/**
- * returns true when a user can view comment metrics
- */
-UserSchema.method('canViewCommentMetrics', function () {
-  return !!intersection(['ADMIN', 'MODERATOR'], this.roles).length;
-});
-
-/**
  * returns true if a commenter is staff
  */
 UserSchema.method('isStaff', function () {
   return !!intersection(['ADMIN', 'MODERATOR', 'STAFF'], this.roles).length;
-});
-
-/**
- * returns true when a user can see other user info
- */
-UserSchema.method('canViewOtherUsers', function () {
-  return !!intersection(['ADMIN', 'MODERATOR'], this.roles).length;
-});
-
-/**
- * when a user can modify tags
- */
-UserSchema.method('canModifyTags', function () {
-  return !!intersection(['ADMIN', 'MODERATOR'], this.roles).length;
-});
-
-/**
- * when a user can change roles
- */
-UserSchema.method('canChangeUserRoles', function () {
-  return !!intersection(['ADMIN', 'MODERATOR'], this.roles).length;
-});
-
-UserSchema.method('canSetCommentStatus', function () {
-  return !!intersection(['ADMIN', 'MODERATOR'], this.roles).length;
-});
-
-UserSchema.method('canSetUserStatus', function () {
-  return !!intersection(['ADMIN', 'MODERATOR'], this.roles).length;
 });
 
 /**
@@ -250,38 +186,11 @@ UserSchema.method('verifyPassword', function(password) {
 });
 
 /**
- * All the graph operations that are available for a user.
- * @type {Array}
- */
-const USER_GRAPH_OPERATIONS = [
-  'mutation:createComment',
-  'mutation:createAction',
-  'mutation:deleteAction',
-  'mutation:editName',
-  'mutation:setUserStatus',
-  'mutation:suspendUser',
-  'mutation:setCommentStatus',
-  'mutation:addCommentTag',
-  'mutation:removeCommentTag'
-];
-
-/**
  * Can returns true if the user is allowed to perform a specific graph
  * operation.
  */
 UserSchema.method('can', function(...actions) {
   return can(this, null, actions);
-
-  if (actions.some((action) => action === 'mutation:setUserStatus' || action === 'mutation:suspendUser' || action === 'mutation:setCommentStatus') && !this.canSetUserStatus()) {
-    return false;
-  }
-
-  // {add,remove}CommentTag - requires admin and/or moderator role
-  if (actions.some(a => ['mutation:removeCommentTag', 'mutation:addCommentTag'].includes(a)) && ! this.canModifyTags()) {
-    return false;
-  }
-
-  return true;
 });
 
 // Create the User model.

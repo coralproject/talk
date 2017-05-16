@@ -13,28 +13,31 @@ module.exports = {
   SET_COMMENT_STATUS: 'SET_COMMENT_STATUS',
   ADD_COMMENT_TAG: 'ADD_COMMENT_TAG',
   REMOVE_COMMENT_TAG: 'REMOVE_COMMENT_TAG',
+  UPDATE_USER_ROLES: 'UPDATE_USER_ROLES',
   UPDATE_CONFIG: 'UPDATE_CONFIG',
   reducer: function (user, perm, context, initialState) {
     switch (perm) {
-    case 'muation:createComment':
+    case this.CREATE_COMMENT:
       return true;
-    case 'mutation:createAction':
+    case this.CREATE_ACTION:
       return true;
-    case 'mutation:deleteAction':
+    case this.DELETE_ACTION:
       return true;
-    case 'mutation:editName':
+    case this.EDIT_NAME:
       return true;
-    case 'mutation:setUserStatus':
+    case this.UPDATE_USER_ROLES:
+      return check(user, ['ADMIN']);
+    case this.SET_USER_STATUS:
       return check(user, ['ADMIN', 'MODERATOR']);
-    case 'mutation:suspendUser':
+    case this.SUSPEND_USER:
       return check(user, ['ADMIN', 'MODERATOR']);
-    case 'mutation:setCommentStatus':
+    case this.SET_COMMENT_STATUS:
       return check(user, ['ADMIN', 'MODERATOR']);
-    case 'mutation:addCommentTag':
+    case this.ADD_COMMENT_TAG:
       return check(user, ['ADMIN', 'MODERATOR']);
-    case 'mutation:removeCommentTag':
+    case this.REMOVE_COMMENT_TAG:
       return check(user, ['ADMIN', 'MODERATOR']);
-    case 'mutation:updateConfig':
+    case this.UPDATE_CONFIG:
       return check(user, ['ADMIN', 'MODERATOR']);
     default:
       return initialState;

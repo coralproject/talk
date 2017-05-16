@@ -45,7 +45,7 @@ const deleteAction = ({user}, {id}) => {
 };
 
 module.exports = (context) => {
-  if (context.user && context.user.can('mutation:createAction', 'mutation:deleteAction')) {
+  if (context.user && context.user.can('CREATE_ACTION', 'DELETE_ACTION')) {
     return {
       Action: {
         create: (action) => createAction(context, action),
