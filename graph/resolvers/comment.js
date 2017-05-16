@@ -22,6 +22,8 @@ const Comment = {
     });
   },
   replyCount({id}, {excludeIgnored}, {user, loaders: {Comments}}) {
+
+    // TODO: remove
     if (user && excludeIgnored) {
       return Comments.countByParentIDPersonalized({id, excludeIgnored});
     }
@@ -44,6 +46,12 @@ const Comment = {
   },
   asset({asset_id}, _, {loaders: {Assets}}) {
     return Assets.getByID.load(asset_id);
+  },
+  editing(comment) {
+    return {
+      edited: comment.edited,
+      editableUntil: comment.editableUntil
+    };
   }
 };
 

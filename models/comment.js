@@ -2,6 +2,8 @@ const mongoose = require('../services/mongoose');
 const Schema = mongoose.Schema;
 const uuid = require('uuid');
 
+const EDIT_WINDOW_MS = 30 * 1000; // 30 seconds
+
 const STATUSES = [
   'ACCEPTED',
   'REJECTED',
@@ -52,6 +54,23 @@ const TagSchema = new Schema({
 });
 
 /**
+ * A record of old body values for a Comment
+ */
+const BodyHistoryItemSchema = new Schema({
+  body: {
+    required: true,
+    type: String,
+  },
+
+  // datetime until the comment body value was this.body
+  created_at: {
+    required: true,
+    type: Date,
+    default: Date,
+  }
+});
+
+/**
  * The Mongo schema for a Comment.
  * @type {Schema}
  */
@@ -66,6 +85,7 @@ const CommentSchema = new Schema({
     required: [true, 'The body is required.'],
     minlength: 2
   },
+  body_history: [BodyHistoryItemSchema],
   asset_id: String,
   author_id: String,
   status_history: [StatusSchema],
@@ -89,7 +109,16 @@ const CommentSchema = new Schema({
   }
 });
 
+CommentSchema.virtual('edited').get(function() {
+  return this.body_history.length > 1;
+});
+
+CommentSchema.virtual('editableUntil').get(function() {
+  return new Date(Number(this.created_at) + EDIT_WINDOW_MS);
+});
+
 // Comment model.
 const Comment = mongoose.model('Comment', CommentSchema);
 
 module.exports = Comment;
+module.exports.EDIT_WINDOW_MS = EDIT_WINDOW_MS;

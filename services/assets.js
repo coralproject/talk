@@ -129,7 +129,7 @@ module.exports = class AssetsService {
    * @return {Promise}     resolves to list of Assets
    */
   static findMultipleById(ids) {
-    const query = ids.map(id => ({id}));
+    const query = ids.map((id) => ({id}));
     return AssetModel.find(query);
   }
 

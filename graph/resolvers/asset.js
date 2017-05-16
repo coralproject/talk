@@ -4,7 +4,7 @@ const Asset = {
       asset_id: id,
       limit: 1,
       parent_id: null
-    }).then(data => data[0]);
+    }).then((data) => data[0]);
   },
   recentComments({id}, _, {loaders: {Comments}}) {
     return Comments.genRecentComments.load(id);
@@ -19,6 +19,8 @@ const Asset = {
     });
   },
   commentCount({id, commentCount}, {excludeIgnored}, {user, loaders: {Comments}}) {
+
+    // TODO: remove
     if (user && excludeIgnored) {
       return Comments.parentCountByAssetIDPersonalized({assetId: id, excludeIgnored});
     }
@@ -28,6 +30,8 @@ const Asset = {
     return Comments.parentCountByAssetID.load(id);
   },
   totalCommentCount({id, totalCommentCount}, {excludeIgnored}, {user, loaders: {Comments}}) {
+
+    // TODO: remove
     if (user && excludeIgnored) {
       return Comments.countByAssetIDPersonalized({assetId: id, excludeIgnored});
     }
@@ -36,16 +40,18 @@ const Asset = {
     }
     return Comments.countByAssetID.load(id);
   },
-  settings({settings = null}, _, {loaders: {Settings}}) {
-    return Settings.load()
-      .then((globalSettings) => {
-        if (settings) {
-          settings = Object.assign({}, globalSettings.toObject(), settings);
-        } else {
-          settings = globalSettings.toObject();
-        }
-        return settings;
-      });
+  async settings({settings = null}, _, {loaders: {Settings}}) {
+
+    // Load the global settings, and merge them into the asset specific settings
+    // if we have some.
+    let globalSettings = await Settings.load();
+    if (settings !== null) {
+      settings = Object.assign({}, globalSettings.toObject(), settings);
+    } else {
+      settings = globalSettings.toObject();
+    }
+
+    return settings;
   }
 };
 

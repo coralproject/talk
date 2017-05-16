@@ -19,7 +19,7 @@ const initialState = Map({
   fromSignUp: false
 });
 
-const purge = user => {
+const purge = (user) => {
   const {settings, profiles, ...userData} = user; // eslint-disable-line
   return fromJS(userData);
 };
@@ -63,9 +63,6 @@ export default function auth (state = initialState, action) {
       .set('view', action.view);
   case actions.CLEAN_STATE:
     return initialState;
-  case actions.CHECK_CSRF_TOKEN:
-    return state
-      .set('_csrf', action._csrf);
   case actions.FETCH_SIGNIN_REQUEST:
     return state
       .set('isLoading', true);
@@ -113,7 +110,7 @@ export default function auth (state = initialState, action) {
     return state
       .set('isLoading', false)
       .set('successSignUp', true);
-  case actions.LOGOUT_SUCCESS:
+  case actions.LOGOUT:
     return state
       .set('user', null)
       .set('isLoading', false)

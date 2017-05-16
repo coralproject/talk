@@ -204,7 +204,7 @@ describe('services.CommentsService', () => {
     it('should return all comments if admin', () => {
       return CommentsService
         .findByUserId('456', true)
-        .then(comments => {
+        .then((comments) => {
           expect(comments).to.have.length(4);
         });
     });
@@ -212,7 +212,7 @@ describe('services.CommentsService', () => {
     it('should not return premod and rejected comments if not admin', () => {
       return CommentsService
         .findByUserId('456')
-        .then(comments => {
+        .then((comments) => {
           expect(comments).to.have.length(1);
         });
     });

@@ -10,7 +10,7 @@ import {showSignInDialog} from 'coral-framework/actions/auth';
 import {capitalize} from 'coral-framework/helpers/strings';
 import {getMyActionSummary, getTotalActionCount} from 'coral-framework/utils';
 
-export default reaction => WrappedComponent => {
+export default (reaction) => (WrappedComponent) => {
   if (typeof reaction !== 'string') {
     console.error('Reaction must be a valid string');
     return null;
@@ -40,7 +40,7 @@ export default reaction => WrappedComponent => {
     }
   }
 
-  const isReaction = a =>
+  const isReaction = (a) =>
     a.__typename === `${capitalize(reaction)}ActionSummary`;
 
   const COMMENT_FRAGMENT = gql`
@@ -88,7 +88,7 @@ export default reaction => WrappedComponent => {
                 errors: null
               }
             },
-            update: proxy => {
+            update: (proxy) => {
               const fragmentId = `Comment_${reactionData.commentId}`;
 
               // Read the data from our cache for this query.
@@ -208,7 +208,7 @@ export default reaction => WrappedComponent => {
     }
   );
 
-  const mapDispatchToProps = dispatch =>
+  const mapDispatchToProps = (dispatch) =>
     bindActionCreators({showSignInDialog}, dispatch);
 
   const enhance = compose(

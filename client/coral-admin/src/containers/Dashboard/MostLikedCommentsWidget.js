@@ -7,7 +7,7 @@ import BanUserDialog from 'coral-admin/src/components/BanUserDialog';
 
 const lang = new I18n(translations);
 
-const MostLikedCommentsWidget = props => {
+const MostLikedCommentsWidget = (props) => {
   const {
     comments,
     moderation,

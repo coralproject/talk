@@ -18,8 +18,8 @@ const Domainlist = ({domains, onChangeDomainlist}) => {
             value={domains}
             inputProps={{placeholder: 'URL'}}
             addOnPaste={true}
-            pasteSplit={data => data.split(',').map(d => d.trim())}
-            onChange={tags => onChangeDomainlist('whitelist', tags)}
+            pasteSplit={(data) => data.split(',').map((d) => d.trim())}
+            onChange={(tags) => onChangeDomainlist('whitelist', tags)}
           />
         </div>
       </div>

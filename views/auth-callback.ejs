@@ -2,7 +2,10 @@
 <html>
   <body>
     <script type="text/javascript">
-      window.opener.authCallback(<% if (err) { %>'<%- err %>'<% } else { %>null<% } %>, '<%- data %>');
+      <%/* set the auth data in localStorage, this will ensure that only
+           javascript on the same domain can access the data, they can listen
+           for updates by attaching to localStorage event changes */%>
+      localStorage.setItem('auth', '<%- auth %>');
       setTimeout(function() { window.close(); }, 50);
     </script>
   </body>

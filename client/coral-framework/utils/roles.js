@@ -18,7 +18,7 @@ const mutationRoles = {
 const roles = {...basicRoles, ...queryRoles, ...mutationRoles};
 
 export const can = (user, ...perms) => {
-  return perms.every(perm => {
+  return perms.every((perm) => {
     const role = roles[perm];
     if (typeof role === 'undefined') {
       throw new Error(`${perm} is not a valid role`);

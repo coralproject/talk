@@ -15,8 +15,7 @@ class FlagButton extends Component {
     message: '',
     step: 0,
     posted: false,
-    localPost: null,
-    localDelete: false
+    localPost: null
   }
 
   componentDidUpdate () {
@@ -27,17 +26,12 @@ class FlagButton extends Component {
 
   // When the "report" button is clicked expand the menu
   onReportClick = () => {
-    const {currentUser, deleteAction, flaggedByCurrentUser, flag} = this.props;
-    const {localPost, localDelete} = this.state;
-    const localFlagged = (flaggedByCurrentUser && !localDelete) || localPost;
+    const {currentUser} = this.props;
     if (!currentUser) {
       this.props.showSignInDialog();
       return;
     }
-    if (localFlagged) {
-      this.setState((prev) => prev.localPost ? {...prev, localPost: null, step: 0} : {...prev, localDelete: true});
-      deleteAction(localPost || flag.current_user.id);
-    } else if (this.state.showMenu){
+    if (this.state.showMenu) {
       this.closeMenu();
     } else {
       this.setState({showMenu: true});
@@ -136,14 +130,14 @@ class FlagButton extends Component {
 
   render () {
     const {getPopupMenu, flaggedByCurrentUser} = this.props;
-    const {localPost, localDelete} = this.state;
-    const flagged = (flaggedByCurrentUser && !localDelete) || localPost;
+    const {localPost} = this.state;
+    const flagged = flaggedByCurrentUser || localPost;
     const popupMenu = getPopupMenu[this.state.step](this.state.itemType);
 
     return <div className={`${name}-container`}>
       <button
-        ref={ref => this.flagButton = ref}
-        onClick={!this.props.banned ? this.onReportClick : null}
+        ref={(ref) => this.flagButton = ref}
+        onClick={!this.props.banned && !flaggedByCurrentUser && !localPost ? this.onReportClick : null}
         className={`${name}-button`}>
         {
           flagged
@@ -156,7 +150,7 @@ class FlagButton extends Component {
       </button>
       {
         this.state.showMenu &&
-        <div className={`${name}-popup`} ref={ref => this.popup = ref}>
+        <div className={`${name}-popup`} ref={(ref) => this.popup = ref}>
           <PopupMenu>
             <div className={`${name}-popup-header`}>{popupMenu.header}</div>
             {

@@ -24,10 +24,8 @@ export default function auth (state = initialState, action) {
       .set('loggedIn', true)
       .set('loadingUser', false)
       .set('user', action.user);
-  case actions.LOGOUT_SUCCESS:
+  case actions.LOGOUT:
     return initialState;
-  case actions.LOGIN_REQUEST:
-    return state.set('loginError', null);
   case actions.LOGIN_SUCCESS:
     return state.set('loginMaxExceeded', false).set('loginError', null);
   case actions.LOGIN_FAILURE:

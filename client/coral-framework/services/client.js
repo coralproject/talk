@@ -1,5 +1,5 @@
 import ApolloClient, {addTypename} from 'apollo-client';
-import getNetworkInterface from './transport';
+import {networkInterface} from './transport';
 
 // import {SubscriptionClient, addGraphQLSubscriptions} from 'subscriptions-transport-ws';
 
@@ -11,8 +11,6 @@ import getNetworkInterface from './transport';
 //   getNetworkInterface(),
 //   wsClient,
 // );
-const networkInterface = getNetworkInterface();
-
 export const client = new ApolloClient({
   connectToDevTools: true,
   queryTransformer: addTypename,

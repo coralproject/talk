@@ -64,32 +64,32 @@ InstallContainer.contextTypes = {
   router: React.PropTypes.object
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   install: state.install.toJS()
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   nextStep: () => dispatch(nextStep()),
-  goToStep: step => dispatch(goToStep(step)),
+  goToStep: (step) => dispatch(goToStep(step)),
   previousStep: () => dispatch(previousStep()),
   finishInstall: () => dispatch(finishInstall()),
-  checkInstall: next => dispatch(checkInstall(next)),
-  handleDomainsChange: value => {
+  checkInstall: (next) => dispatch(checkInstall(next)),
+  handleDomainsChange: (value) => {
     dispatch(updatePermittedDomains(value));
   },
-  handleSettingsChange: e => {
+  handleSettingsChange: (e) => {
     const {name, value} = e.currentTarget;
     dispatch(updateSettingsFormData(name, value));
   },
-  handleUserChange: e => {
+  handleUserChange: (e) => {
     const {name, value} = e.currentTarget;
     dispatch(updateUserFormData(name, value));
   },
-  handleSettingsSubmit: e => {
+  handleSettingsSubmit: (e) => {
     e.preventDefault();
     dispatch(submitSettings());
   },
-  handleUserSubmit: e => {
+  handleUserSubmit: (e) => {
     e.preventDefault();
     dispatch(submitUser());
   }
