@@ -19,34 +19,32 @@ const RootQuery = {
 
   // This endpoint is used for loading moderation queues, so hide it in the
   // event that we aren't an admin.
-  async comments(_, {query: {action_type, statuses, asset_id, parent_id, limit, cursor, sort, excludeIgnored}}, {user, loaders: {Comments, Actions}}) {
-    let query = {statuses, asset_id, parent_id, limit, cursor, sort, excludeIgnored};
+  async comments(_, {query}, {user, loaders: {Comments, Actions}}) {
+    let {action_type} = query;
 
     if (user != null && user.hasRoles('ADMIN') && action_type) {
-      let ids = await Actions.getByTypes({action_type, item_type: 'COMMENTS'});
-
-      // Perform the query using the available resolver.
-      return Comments.getByQuery({ids, statuses, asset_id, parent_id, limit, cursor, sort, excludeIgnored});
+      query.ids = await Actions.getByTypes({action_type, item_type: 'COMMENTS'});
     }
 
     return Comments.getByQuery(query);
   },
+
   comment(_, {id}, {loaders: {Comments}}) {
     return Comments.get.load(id);
   },
-  async commentCount(_, {query: {action_type, statuses, asset_id, parent_id, author_id}}, {user, loaders: {Actions, Comments}}) {
+
+  async commentCount(_, {query}, {user, loaders: {Actions, Comments}}) {
     if (user == null || !user.hasRoles('ADMIN')) {
       return null;
     }
 
-    if (action_type) {
-      let ids = await Actions.getByTypes({action_type, item_type: 'COMMENTS'});
+    const {action_type} = query;
 
-      // Perform the query using the available resolver.
-      return Comments.getCountByQuery({ids, statuses, asset_id, parent_id, author_id});
+    if (action_type) {
+      query.ids = await Actions.getByTypes({action_type, item_type: 'COMMENTS'});
     }
 
-    return Comments.getCountByQuery({statuses, asset_id, parent_id, author_id});
+    return Comments.getCountByQuery(query);
   },
 
   assetMetrics(_, {from, to, sort, limit = 10}, {user, loaders: {Metrics: {Assets}}}) {
@@ -90,19 +88,16 @@ const RootQuery = {
 
   // This endpoint is used for loading the user moderation queues (users whose username has been flagged),
   // so hide it in the event that we aren't an admin.
-  async users(_, {query: {action_type, limit, cursor, sort}}, {user, loaders: {Users, Actions}}) {
-
+  async users(_, {query}, {user, loaders: {Users, Actions}}) {
     if (user == null || !user.hasRoles('ADMIN')) {
       return null;
     }
 
-    const query = {limit, cursor, sort};
+    const {action_type} = query;
 
     if (action_type) {
-      let ids = await Actions.getByTypes({action_type, item_type: 'USERS'});
-
-      // Perform the query using the available resolver.
-      return Users.getByQuery({ids, limit, cursor, sort}).find({status: 'PENDING'});
+      query.ids = await Actions.getByTypes({action_type, item_type: 'USERS'});
+      query.statuses = ['PENDING'];
     }
 
     return Users.getByQuery(query);
