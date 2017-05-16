@@ -4604,9 +4604,9 @@ jwt-decode@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-2.2.0.tgz#7d86bd56679f58ce6a84704a657dd392bba81a79"
 
-kareem@1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/kareem/-/kareem-1.4.0.tgz#640285bc0174f10d4bf2127bb30e861bc0372c1c"
+kareem@1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/kareem/-/kareem-1.4.1.tgz#ed76200044fa041ef32b4da8261e2553f1173531"
 
 keymaster@^1.6.2:
   version "1.6.2"
@@ -5250,14 +5250,14 @@ mongodb@2.2.26:
     mongodb-core "2.1.10"
     readable-stream "2.2.7"
 
-mongoose@^4.9.1:
-  version "4.9.6"
-  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-4.9.6.tgz#8485879893a33fe4b8c8b596950cfa9a8d597ec1"
+mongoose@^4.9.8:
+  version "4.9.9"
+  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-4.9.9.tgz#8671fbe06c945f55fba7ad03797bc02f19516762"
   dependencies:
     async "2.1.4"
     bson "~1.0.4"
     hooks-fixed "2.0.0"
-    kareem "1.4.0"
+    kareem "1.4.1"
     mongodb "2.2.26"
     mpath "0.2.1"
     mpromise "0.5.5"
