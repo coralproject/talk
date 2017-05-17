@@ -9,7 +9,7 @@ import translations from '../../../translations.json';
 const lang = new I18n(translations);
 
 // Render a single user for the list
-const User = props => {
+const User = (props) => {
   const {user, modActionButtons} = props;
   let userStatus = user.status;
 
@@ -37,7 +37,7 @@ const User = props => {
             <div className={styles.flaggedByCount}>
               <i className="material-icons">flag</i><span className={styles.flaggedByLabel}>{lang.t('community.flags')}({ user.actions.length })</span>:
                 { user.action_summaries.map(
-                (action, i ) => {
+                (action, i) => {
                   return <span className={styles.flaggedBy} key={i}>
                     {lang.t(`community.${action.reason}`)} ({action.count})
                   </span>;
@@ -46,7 +46,7 @@ const User = props => {
             </div>
             <div className={styles.flaggedReasons}>
               { user.action_summaries.map(
-                (action_sum, i ) => {
+                (action_sum, i) => {
                   return <div key={i}>
                     <span className={styles.flaggedByLabel}>
                       {lang.t(`community.${action_sum.reason}`)} ({action_sum.count})

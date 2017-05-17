@@ -117,9 +117,9 @@ export function addQueryOptions(key, config) {
  * });
  */
 export function add(extension) {
-  Object.keys(extension.fragments || []).forEach(key => addFragment(key, extension.fragments[key]));
-  Object.keys(extension.mutations || []).forEach(key => addMutationOptions(key, extension.mutations[key]));
-  Object.keys(extension.queries || []).forEach(key => addQueryOptions(key, extension.queries[key]));
+  Object.keys(extension.fragments || []).forEach((key) => addFragment(key, extension.fragments[key]));
+  Object.keys(extension.mutations || []).forEach((key) => addMutationOptions(key, extension.mutations[key]));
+  Object.keys(extension.queries || []).forEach((key) => addQueryOptions(key, extension.queries[key]));
 }
 
 /**
@@ -170,12 +170,12 @@ function init() {
   initialized = true;
 
   // Add fragments from framework.
-  [globalFragments].forEach(map =>
-    Object.keys(map).forEach(key => addFragment(key, map[key]))
+  [globalFragments].forEach((map) =>
+    Object.keys(map).forEach((key) => addFragment(key, map[key]))
   );
 
   // Add configs from plugins.
-  getGraphQLExtensions().forEach(ext => add(ext));
+  getGraphQLExtensions().forEach((ext) => add(ext));
 }
 
 export function resolveFragments(document) {
@@ -184,9 +184,9 @@ export function resolveFragments(document) {
     // resolve fragments from registry
     const matchedSubFragments = document.loc.source.body.match(/\.\.\.(.*)/g) || [];
     const subFragments =
-      uniq(matchedSubFragments.map(f => f.replace('...', '')))
-      .map(key => getFragmentDocument(key))
-      .filter(i => i);
+      uniq(matchedSubFragments.map((f) => f.replace('...', '')))
+      .map((key) => getFragmentDocument(key))
+      .filter((i) => i);
 
     if (subFragments.length > 0) {
       return mergeDocuments([document, ...subFragments]);

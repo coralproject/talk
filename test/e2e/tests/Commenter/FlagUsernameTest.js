@@ -1,6 +1,6 @@
 module.exports = {
   '@tags': ['flag', 'commenter'],
-  before: client => {
+  before: (client) => {
     const embedStreamPage = client.page.embedStreamPage();
     const {users} = client.globals;
 
@@ -11,7 +11,7 @@ module.exports = {
     embedStreamPage
       .login(users.commenter);
   },
-  'Commenter flags a username': client => {
+  'Commenter flags a username': (client) => {
     const embedStreamPage = client.page.embedStreamPage();
 
     embedStreamPage
@@ -28,7 +28,7 @@ module.exports = {
       .click('@flagDoneButton')
       .click('@flagDoneButton');
   },
-  after: client => {
+  after: (client) => {
     client.end();
   }
 };

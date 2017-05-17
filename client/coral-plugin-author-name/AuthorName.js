@@ -6,7 +6,7 @@ export default class AuthorName extends Component {
   state = {showTooltip: false}
 
   handleClick = () => {
-    this.setState(state => ({
+    this.setState((state) => ({
       showTooltip: !state.showTooltip
     }));
   }

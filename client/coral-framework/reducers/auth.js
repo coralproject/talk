@@ -20,7 +20,7 @@ const initialState = Map({
   fromSignUp: false
 });
 
-const purge = user => {
+const purge = (user) => {
   const {settings, profiles, ...userData} = user; // eslint-disable-line
   return fromJS(userData);
 };

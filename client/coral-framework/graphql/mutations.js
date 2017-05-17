@@ -10,7 +10,7 @@ export const withPostComment = withMutation(
     }
   `, {
     props: ({mutate}) => ({
-      postComment: comment => {
+      postComment: (comment) => {
         return mutate({
           variables: {
             comment

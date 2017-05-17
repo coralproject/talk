@@ -24,7 +24,7 @@ export const fetchAssets = (skip = '', limit = '', search = '', sort = '', filte
       assets: result,
       count
     }))
-    .catch(error => dispatch({type: FETCH_ASSETS_FAILURE, error}));
+    .catch((error) => dispatch({type: FETCH_ASSETS_FAILURE, error}));
 };
 
 // Update an asset state
@@ -34,9 +34,9 @@ export const updateAssetState = (id, closedAt) => (dispatch) => {
   return coralApi(`/assets/${id}/status`, {method: 'PUT', body: {closedAt}})
   .then(() =>
     dispatch({type: UPDATE_ASSET_STATE_SUCCESS}))
-    .catch(error => dispatch({type: UPDATE_ASSET_STATE_FAILURE, error}));
+    .catch((error) => dispatch({type: UPDATE_ASSET_STATE_FAILURE, error}));
 };
 
-export const updateAssets = assets => dispatch => {
+export const updateAssets = (assets) => (dispatch) => {
   dispatch({type: UPDATE_ASSETS, assets});
 };

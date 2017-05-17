@@ -12,46 +12,46 @@ import {getDefinitionName} from '../utils';
  * Exports a HOC with the same signature as `graphql`, that will
  * apply mutation options registered in the graphRegistry.
  */
-export default (document, config) => WrappedComponent => {
+export default (document, config) => (WrappedComponent) => {
   config = {
     ...config,
     options: config.options || {},
-    props: config.props || (data => ({mutate: data.mutate()})),
+    props: config.props || ((data) => ({mutate: data.mutate()})),
   };
   const wrappedProps = (data) => {
     const name = getDefinitionName(document);
     const callbacks = getMutationOptions(name);
     const mutate = (base) => {
       const variables = base.variables || config.options.variables;
-      const configs = callbacks.map(cb => cb({variables, state: store.getState()}));
+      const configs = callbacks.map((cb) => cb({variables, state: store.getState()}));
 
       const optimisticResponse = merge(
         base.optimisticResponse || config.options.optimisticResponse,
-        ...configs.map(cfg => cfg.optimisticResponse),
+        ...configs.map((cfg) => cfg.optimisticResponse),
       );
 
       const refetchQueries = flatten(uniq([
         base.refetchQueries || config.options.refetchQueries,
-        ...configs.map(cfg => cfg.refetchQueries),
-      ].filter(i => i)));
+        ...configs.map((cfg) => cfg.refetchQueries),
+      ].filter((i) => i)));
 
       const updateCallbacks =
         [base.update || config.options.update]
-        .concat(...configs.map(cfg => cfg.update))
-        .filter(i => i);
+        .concat(...configs.map((cfg) => cfg.update))
+        .filter((i) => i);
 
       const update = (proxy, result) => {
-        updateCallbacks.forEach(cb => cb(proxy, result));
+        updateCallbacks.forEach((cb) => cb(proxy, result));
       };
 
       const updateQueries =
         [
           base.updateQueries || config.options.updateQueries,
-          ...configs.map(cfg => cfg.updateQueries)
+          ...configs.map((cfg) => cfg.updateQueries)
         ]
-        .filter(i => i)
+        .filter((i) => i)
         .reduce((res, map) => {
-          Object.keys(map).forEach(key => {
+          Object.keys(map).forEach((key) => {
             if (!(key in res)) {
               res[key] = map[key];
             } else {

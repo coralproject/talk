@@ -65,7 +65,7 @@ export class EditableCommentContent extends React.Component {
   componentWillUnmount() {
     if (this.editWindowExpiryTimeout) {
       this.editWindowExpiryTimeout = clearTimeout(this.editWindowExpiryTimeout);
-    }    
+    }
   }
   async editComment(edit) {
     const {editComment, addNotification, stopEditing} = this.props;
@@ -83,7 +83,7 @@ export class EditableCommentContent extends React.Component {
       successfullyEdited = true;
     } catch (error) {
       if (error.translation_key) {
-        addNotification('error', lang.t(error.translation_key) || error.translation_key);
+        addNotification('error', lang.t(`error.${error.translation_key}`));
       } else if (error.networkError) {
         addNotification('error', lang.t('error.networkError'));
       } else {
@@ -113,7 +113,7 @@ export class EditableCommentContent extends React.Component {
 
             // should be disabled if user hasn't actually changed their
             // original comment
-            return (comment.body !== originalBody) && ! editWindowExpired;
+            return (comment.body !== originalBody) && !editWindowExpired;
           }}
           saveComment={this.editComment}
           bodyLabel={lang.t('editComment.bodyInputLabel')}

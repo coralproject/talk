@@ -6,7 +6,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from './../translations';
 const lang = new I18n(translations);
 
-const editUsernameFailure = error => ({type: actions.EDIT_USERNAME_FAILURE, error});
+const editUsernameFailure = (error) => ({type: actions.EDIT_USERNAME_FAILURE, error});
 const editUsernameSuccess = () => ({type: actions.EDIT_USERNAME_SUCCESS});
 
 export const editName = (username) => (dispatch) => {
@@ -15,7 +15,7 @@ export const editName = (username) => (dispatch) => {
       dispatch(editUsernameSuccess());
       dispatch(addNotification('success', lang.t('successNameUpdate')));
     })
-    .catch(error => {
+    .catch((error) => {
       dispatch(editUsernameFailure(lang.t(`error.${error.translation_key}`)));
     });
 };

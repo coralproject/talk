@@ -9,8 +9,8 @@ import {getDefinitionName, mergeDocuments} from 'coral-framework/utils';
 
 export const pluginReducers = merge(
   ...plugins
-    .filter(o => o.module.reducer)
-    .map(o => ({...o.module.reducer}))
+    .filter((o) => o.module.reducer)
+    .map((o) => ({...o.module.reducer}))
 );
 
 /**
@@ -18,18 +18,18 @@ export const pluginReducers = merge(
  */
 export function getSlotElements(slot, props = {}) {
   const components = flatten(plugins
-    .filter(o => o.module.slots[slot])
-    .map(o => o.module.slots[slot]));
+    .filter((o) => o.module.slots[slot])
+    .map((o) => o.module.slots[slot]));
   return components
     .map((component, i) => React.createElement(component, {key: i, ...props}));
 }
 
 function getComponentFragments(components) {
   const res = components
-    .map(c => c.fragments)
-    .filter(fragments => fragments)
+    .map((c) => c.fragments)
+    .filter((fragments) => fragments)
     .reduce((res, fragments) => {
-      Object.keys(fragments).forEach(key => {
+      Object.keys(fragments).forEach((key) => {
         if (!(key in res)) {
           res[key] = {spreads: [], definitions: []};
         }
@@ -39,7 +39,7 @@ function getComponentFragments(components) {
       return res;
     }, {});
 
-  Object.keys(res).forEach(key => {
+  Object.keys(res).forEach((key) => {
 
     // Assemble arguments for `gql` to call it directly without using template literals.
     res[key].spreads = `...${res[key].spreads.join('\n...')}\n`;
@@ -65,10 +65,10 @@ export function getSlotsFragments(slots) {
   if (!Array.isArray(slots)) {
     slots = [slots];
   }
-  const components = uniq(flattenDeep(slots.map(slot => {
+  const components = uniq(flattenDeep(slots.map((slot) => {
     return plugins
-    .filter(o => o.module.slots[slot])
-    .map(o => o.module.slots[slot]);
+    .filter((o) => o.module.slots[slot])
+    .map((o) => o.module.slots[slot]);
   })));
 
   const fragments = getComponentFragments(components);
@@ -84,7 +84,7 @@ export function getSlotsFragments(slots) {
 
 export function getGraphQLExtensions() {
   return plugins
-    .map(o => pick(o.module, ['mutations', 'queries', 'fragments']))
-    .filter(o => o);
+    .map((o) => pick(o.module, ['mutations', 'queries', 'fragments']))
+    .filter((o) => o);
 }
 

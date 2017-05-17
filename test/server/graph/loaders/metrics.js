@@ -24,7 +24,7 @@ describe('graph.loaders.Metrics', () => {
     describe('different comment states', () => {
 
       beforeEach(() =>[
-        CommentModel.create( {id: '1', body: 'a new comment!'}),
+        CommentModel.create({id: '1', body: 'a new comment!'}),
         CommentModel.create({id: '2', body: 'a new comment!'}),
         CommentModel.create({id: '3', body: 'a new comment!'})
       ]);

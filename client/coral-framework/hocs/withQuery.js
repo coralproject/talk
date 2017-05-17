@@ -7,7 +7,7 @@ import {getDefinitionName, separateDataAndRoot} from '../utils';
  * Exports a HOC with the same signature as `graphql`, that will
  * apply query options registered in the graphRegistry.
  */
-export default (document, config) => WrappedComponent => {
+export default (document, config) => (WrappedComponent) => {
   config = {
     ...config,
     options: config.options || {},
@@ -19,9 +19,9 @@ export default (document, config) => WrappedComponent => {
     const name = getDefinitionName(document);
     const configs = getQueryOptions(name);
     const reducerCallbacks =
-      [base.reducer || (i => i)]
-      .concat(...configs.map(cfg => cfg.reducer))
-      .filter(i => i);
+      [base.reducer || ((i) => i)]
+      .concat(...configs.map((cfg) => cfg.reducer))
+      .filter((i) => i);
 
     const reducer = reducerCallbacks.reduce(
       (a, b) => (prev, ...rest) =>

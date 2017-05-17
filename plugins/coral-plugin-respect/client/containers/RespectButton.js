@@ -131,7 +131,7 @@ const withPostRespect = withMutation(gql`
   }),
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators({showSignInDialog}, dispatch);
 
 const enhance = compose(

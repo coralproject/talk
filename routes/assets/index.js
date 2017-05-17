@@ -8,7 +8,7 @@ const body = 'Lorem ipsum dolor sponge amet, consectetur adipiscing clam. Ut lob
 router.get('/id/:asset_id', (req, res, next) => {
 
   return Assets.findById(req.params.asset_id)
-    .then(asset => {
+    .then((asset) => {
       if (asset === null) {
         return res.json({'message': 'Asset not found'});
       }
@@ -38,12 +38,12 @@ router.get('/', (req, res, next) => {
   let limit = req.query.limit ? parseInt(req.query.limit) : 25;
 
   return Assets.all(skip, limit)
-    .then(assets => {
+    .then((assets) => {
       res.render('articles', {
         assets: assets
       });
     })
-    .catch(err => next(err));
+    .catch((err) => next(err));
 });
 
 module.exports = router;

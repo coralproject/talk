@@ -4,7 +4,7 @@ import marked from 'marked';
 const renderer = new marked.Renderer();
 
 // Set link target to `_parent` to work properly in an embed.
-renderer.link = ( href, title, text ) =>
+renderer.link = (href, title, text) =>
   `<a target="_parent" href="${href}" title="${title}">${text}</a>`;
 
 marked.setOptions({renderer});

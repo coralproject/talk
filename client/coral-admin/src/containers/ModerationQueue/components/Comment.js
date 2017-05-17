@@ -27,11 +27,11 @@ const Comment = ({
   ...props
 }) => {
   const links = linkify.getMatches(comment.body);
-  const linkText = links ? links.map(link => link.raw) : [];
+  const linkText = links ? links.map((link) => link.raw) : [];
   const flagActionSummaries = getActionSummary('FlagActionSummary', comment);
   const flagActions =
     comment.actions &&
-    comment.actions.filter(a => a.__typename === 'FlagAction');
+    comment.actions.filter((a) => a.__typename === 'FlagAction');
   let commentType = '';
   if (comment.status === 'PREMOD') {
     commentType = 'premod';
@@ -43,7 +43,7 @@ const Comment = ({
   // this should be the behavior on the front end as well.
   // currently the highlighter plugin does not support this out of the box.
   const searchWords = [...suspectWords, ...bannedWords]
-    .filter(w => {
+    .filter((w) => {
       return new RegExp(`(^|\\s)${w}(\\s|$)`).test(comment.body);
     })
     .concat(linkText);

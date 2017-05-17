@@ -1,6 +1,6 @@
 module.exports = {
   '@tags': ['like', 'comments', 'commenter'],
-  before: client => {
+  before: (client) => {
     const embedStreamPage = client.page.embedStreamPage();
     const {users} = client.globals;
 
@@ -11,7 +11,7 @@ module.exports = {
     embedStreamPage
       .login(users.moderator);
   },
-  'Moderator marks/unmarks their comment as BEST': client => {
+  'Moderator marks/unmarks their comment as BEST': (client) => {
     const embedStreamPage = client.page.embedStreamPage();
 
     const setBestCommentButton = '.e2e__set-best-comment';
@@ -44,7 +44,7 @@ module.exports = {
       .waitForElementVisible(setBestCommentButton);
 
   },
-  after: client => {
+  after: (client) => {
     client.end();
   }
 };

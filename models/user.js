@@ -196,7 +196,8 @@ const USER_GRAPH_OPERATIONS = [
   'mutation:suspendUser',
   'mutation:setCommentStatus',
   'mutation:addTag',
-  'mutation:removeTag'
+  'mutation:removeTag',
+  'mutation:editComment'
 ];
 
 /**
