@@ -19,12 +19,12 @@ const Wordlist = require('../../services/wordlist');
 const createComment = ({user, loaders: {Comments}, pubsub}, {tags = [], body, asset_id, parent_id = null}, status = 'NONE') => {
 
   // Handle Tags
-  if (!!tags.length) {
+  if (tags.length) {
     tags = tags.map(tag => ({
       tag: {
         name: tag
       }
-    }))
+    }));
   }
 
   // Add the staff tag for comments created as a staff member.
