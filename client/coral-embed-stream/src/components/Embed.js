@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-framework/translations';
-import rolesHelper from 'coral-framework/utils/roles';
+import {can} from 'coral-framework/utils/roles';
 const lang = new I18n(translations);
 
 import {TabBar, Tab, TabContent, Button} from 'coral-ui';
@@ -49,7 +49,7 @@ export default class Embed extends React.Component {
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count count={totalCommentCount}/></Tab>
             <Tab>{lang.t('myProfile')}</Tab>
-            <Tab restricted={!rolesHelper.canAccessConfig(user)}>Configure Stream</Tab>
+            <Tab restricted={!can(user, 'UPDATE_CONFIG')}>Configure Stream</Tab>
           </TabBar>
           {
             commentId &&

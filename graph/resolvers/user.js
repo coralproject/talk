@@ -14,7 +14,7 @@ const User = {
 
     // If the user is not an admin, only return comment list for the owner of
     // the comments.
-    if (user && (user.can('SEARCH_OTHERS_COMMENTZ') || user.id === id)) {
+    if (user && (user.can('SEARCH_OTHERS_COMMENTS') || user.id === id)) {
       return Comments.getByQuery({author_id: id, sort: 'REVERSE_CHRONOLOGICAL'});
     }
 

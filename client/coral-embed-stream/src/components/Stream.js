@@ -11,7 +11,7 @@ import QuestionBox from 'coral-plugin-questionbox/QuestionBox';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import SuspendedAccount from 'coral-framework/components/SuspendedAccount';
 import RestrictedContent from 'coral-framework/components/RestrictedContent';
-import rolesHelper from 'coral-framework/utils/roles';
+import {can} from 'coral-framework/utils/roles';
 import ChangeUsernameContainer
   from 'coral-sign-in/containers/ChangeUsernameContainer';
 
@@ -112,7 +112,7 @@ class Stream extends React.Component {
         {loggedIn &&
           user &&
           <ChangeUsernameContainer loggedIn={loggedIn} user={user} />}
-        {loggedIn && <ModerationLink assetId={asset.id} isAdmin={rolesHelper.canModerate(user)} />}
+        {loggedIn && <ModerationLink assetId={asset.id} isAdmin={can(user, 'MODERATE_COMMENTS')} />}
 
         {/* the highlightedComment is isolated after the user followed a permalink */}
         {highlightedComment

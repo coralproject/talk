@@ -18,6 +18,11 @@ const mutationRoles = {
 const roles = {...basicRoles, ...queryRoles, ...mutationRoles};
 
 export const can = (user, ...perms) => {
+
+  if (!user) {
+    return false;
+  }
+
   return perms.every((perm) => {
     const role = roles[perm];
     if (typeof role === 'undefined') {
