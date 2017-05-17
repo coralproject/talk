@@ -69,9 +69,11 @@ app.use('/api/v1/graph/ql', apollo.graphqlExpress(createGraphOptions));
 if (app.get('env') !== 'production') {
 
   // Interactive graphiql interface.
-  app.use('/api/v1/graph/iql', apollo.graphiqlExpress({
-    endpointURL: '/api/v1/graph/ql'
-  }));
+  app.use('/api/v1/graph/iql', (req, res) => {
+    res.render('graphiql', {
+      endpointURL: '/api/v1/graph/ql'
+    });
+  });
 
   // GraphQL documention.
   app.get('/admin/docs', (req, res) => {

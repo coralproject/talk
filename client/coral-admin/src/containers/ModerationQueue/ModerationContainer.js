@@ -10,7 +10,15 @@ import {banUser, setCommentStatus} from '../../graphql/mutations';
 
 import {fetchSettings} from 'actions/settings';
 import {updateAssets} from 'actions/assets';
-import {toggleModal, singleView, showBanUserDialog, hideBanUserDialog, hideShortcutsNote} from 'actions/moderation';
+import {
+  toggleModal,
+  singleView,
+  showBanUserDialog,
+  hideBanUserDialog,
+  hideShortcutsNote,
+  viewUserDetail,
+  hideUserDetail
+} from 'actions/moderation';
 
 import {Spinner} from 'coral-ui';
 import BanUserDialog from '../../components/BanUserDialog';
@@ -19,6 +27,7 @@ import ModerationMenu from './components/ModerationMenu';
 import ModerationHeader from './components/ModerationHeader';
 import NotFoundAsset from './components/NotFoundAsset';
 import ModerationKeysModal from '../../components/ModerationKeysModal';
+import UserDetail from './UserDetail';
 
 class ModerationContainer extends Component {
   state = {
@@ -111,7 +120,7 @@ class ModerationContainer extends Component {
   }
 
   render () {
-    const {data, moderation, settings, assets, onClose, ...props} = this.props;
+    const {data, moderation, settings, assets, onClose, viewUserDetail, hideUserDetail, ...props} = this.props;
     const providedAssetId = this.props.params.id;
     const activeTab = this.props.route.path === ':id' ? 'premod' : this.props.route.path;
 
@@ -181,6 +190,8 @@ class ModerationContainer extends Component {
           assetId={providedAssetId}
           sort={this.state.sort}
           commentCount={activeTabCount}
+          viewUserDetail={viewUserDetail}
+          hideUserDetail={hideUserDetail}
         />
         <BanUserDialog
           open={moderation.banDialog}
@@ -192,11 +203,16 @@ class ModerationContainer extends Component {
           showRejectedNote={moderation.showRejectedNote}
           rejectComment={props.rejectComment}
         />
-      <ModerationKeysModal
+        <ModerationKeysModal
           hideShortcutsNote={props.hideShortcutsNote}
           shortcutsNoteVisible={moderation.shortcutsNoteVisible}
           open={moderation.modalOpen}
           onClose={onClose}/>
+        {moderation.userDetailId && (
+          <UserDetail
+            id={moderation.userDetailId}
+            hideUserDetail={hideUserDetail} />
+        )}
       </div>
     );
   }
@@ -214,6 +230,8 @@ const mapDispatchToProps = (dispatch) => ({
   singleView: () => dispatch(singleView()),
   updateAssets: (assets) => dispatch(updateAssets(assets)),
   fetchSettings: () => dispatch(fetchSettings()),
+  viewUserDetail: (id) => dispatch(viewUserDetail(id)),
+  hideUserDetail: () => dispatch(hideUserDetail()),
   showBanUserDialog: (user, commentId, commentStatus, showRejectedNote) => dispatch(showBanUserDialog(user, commentId, commentStatus, showRejectedNote)),
   hideBanUserDialog: () => dispatch(hideBanUserDialog(false)),
   hideShortcutsNote: () => dispatch(hideShortcutsNote()),
