@@ -11,7 +11,7 @@ class UserDetail extends React.Component {
     hideUserDetail: PropTypes.func.isRequired
   }
 
-  copyPermalink () {
+  copyPermalink = () => {
     this.profile.select();
     try {
       document.execCommand('copy');
@@ -45,8 +45,8 @@ class UserDetail extends React.Component {
     return (
       <Drawer handleClickOutside={hideUserDetail}>
         <h3>{user.username}</h3>
-        <Button className={styles.copyButton}>Copy</Button>
-        {profile && <p ref={(ref) => this.profile = ref} contentEditable="true">{profile}</p>}
+        <Button className={styles.copyButton} onClick={this.copyPermalink}>Copy</Button>
+        {profile && <input className={styles.profileEmail} type="text" ref={(ref) => this.profile = ref} value={profile} />}
         <Slot fill="userProfile" user={user} />
         <p className={styles.memberSince}><strong>Member since</strong> {new Date(user.created_at).toLocaleString()}</p>
         <hr/>
