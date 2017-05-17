@@ -33,8 +33,8 @@ class Stream extends React.Component {
       loadMore,
       deleteAction,
       showSignInDialog,
-      addCommentTag,
-      removeCommentTag,
+      addTag,
+      removeTag,
       pluginProps,
       ignoreUser,
       auth: {loggedIn, isAdmin, user},
@@ -166,8 +166,8 @@ class Stream extends React.Component {
                           currentUser={user}
                           postFlag={postFlag}
                           postDontAgree={postDontAgree}
-                          addCommentTag={addCommentTag}
-                          removeCommentTag={removeCommentTag}
+                          addTag={addTag}
+                          removeTag={removeTag}
                           ignoreUser={ignoreUser}
                           commentIsIgnored={commentIsIgnored}
                           loadMore={loadMore}
@@ -201,10 +201,10 @@ Stream.propTypes = {
   postComment: PropTypes.func.isRequired,
 
   // dispatch action to add a tag to a comment
-  addCommentTag: PropTypes.func,
+  addTag: PropTypes.func,
 
   // dispatch action to remove a tag from a comment
-  removeCommentTag: PropTypes.func,
+  removeTag: PropTypes.func,
 
   // dispatch action to ignore another user
   ignoreUser: React.PropTypes.func,

@@ -28,39 +28,8 @@ const extension = {
         }
       }
     `,
-    RemoveCommentTagResponse: gql`
-      fragment CoralEmbedStream_RemoveCommentTagResponse on RemoveCommentTagResponse {
-        comment {
-          id
-          tags {
-            tag {
-              name
-              created_at
-            }
-            assigned_by {
-              id
-            }
-          }
-        }
-        errors {
-          translation_key
-        }
-      }
-    `,
-    AddCommentTagResponse: gql`
-      fragment CoralEmbedStream_AddCommentTagResponse on AddCommentTagResponse {
-        comment {
-          id
-          tags {
-            tag {
-              name
-              created_at
-            }
-            assigned_by {
-              id
-            }
-          }
-        }
+    ModifyTagResponse: gql`
+      fragment CoralEmbedStream_ModifyTagResponse on ModifyTagResponse {
         errors {
           translation_key
         }

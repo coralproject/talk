@@ -95,39 +95,43 @@ export const withDeleteAction = withMutation(
       }}),
   });
 
-export const withAddCommentTag = withMutation(
+export const withAddTag = withMutation(
   gql`
-    mutation AddCommentTag($id: ID!, $tag: String!) {
-      addCommentTag(id:$id, tag:$tag) {
-        ...AddCommentTagResponse
+    mutation AddCommentTag($id: ID!, $asset_id: ID!, $name: String!) {
+      addTag(tag: {name: $name, id: $id, item_type: COMMENTS, asset_id: $asset_id}) {
+        ...ModifyTagResponse
       }
     }
   `, {
     props: ({mutate}) => ({
-      addCommentTag: ({id, tag}) => {
+      addTag: ({id, name, asset_id}) => {
         return mutate({
           variables: {
             id,
-            tag
+            name,
+            asset_id
           }
         });
       }}),
   });
 
-export const withRemoveCommentTag = withMutation(
+export const withRemoveTag = withMutation(
   gql`
-    mutation RemoveCommentTag($id: ID!, $tag: String!) {
-      removeCommentTag(id:$id, tag:$tag) {
-        ...RemoveCommentTagResponse
+    mutation RemoveCommentTag($id: ID!, $asset_id: ID!, $name: String!) {
+      removeTag(tag: {name: $name, id: $id, item_type: COMMENTS, asset_id: $asset_id}) {
+        errors {
+          translation_key
+        }
       }
     }
   `, {
     props: ({mutate}) => ({
-      removeCommentTag: ({id, tag}) => {
+      removeTag: ({id, name, asset_id}) => {
         return mutate({
           variables: {
             id,
-            tag
+            name,
+            asset_id
           }
         });
       }}),

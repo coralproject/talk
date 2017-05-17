@@ -109,10 +109,10 @@ class Comment extends React.Component {
     commentIsIgnored: React.PropTypes.func,
 
     // dispatch action to add a tag to a comment
-    addCommentTag: React.PropTypes.func,
+    addTag: React.PropTypes.func,
 
     // dispatch action to remove a tag from a comment
-    removeCommentTag: React.PropTypes.func,
+    removeTag: React.PropTypes.func,
 
     // dispatch action to ignore another user
     ignoreUser: React.PropTypes.func,
@@ -171,8 +171,8 @@ class Comment extends React.Component {
       setActiveReplyBox,
       activeReplyBox,
       deleteAction,
-      addCommentTag,
-      removeCommentTag,
+      addTag,
+      removeTag,
       ignoreUser,
       disableReply,
       commentIsIgnored,
@@ -213,18 +213,20 @@ class Comment extends React.Component {
 
     const addBestTag = notifyOnError(
       () =>
-        addCommentTag({
+        addTag({
           id: comment.id,
-          tag: BEST_TAG
+          name: BEST_TAG,
+          asset_id: asset.id
         }),
       () => 'Failed to tag comment as best'
     );
 
     const removeBestTag = notifyOnError(
       () =>
-        removeCommentTag({
+        removeTag({
           id: comment.id,
-          tag: BEST_TAG
+          name: BEST_TAG,
+          asset_id: asset.id
         }),
       () => 'Failed to remove best comment tag'
     );
@@ -394,8 +396,8 @@ class Comment extends React.Component {
                   currentUser={currentUser}
                   postFlag={postFlag}
                   deleteAction={deleteAction}
-                  addCommentTag={addCommentTag}
-                  removeCommentTag={removeCommentTag}
+                  addTag={addTag}
+                  removeTag={removeTag}
                   ignoreUser={ignoreUser}
                   charCountEnable={charCountEnable}
                   maxCharCount={maxCharCount}
