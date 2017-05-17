@@ -111,6 +111,18 @@ const UserSchema = new mongoose.Schema({
     default: false
   },
 
+  // User's suspension details.
+  suspensionDetails: {
+    mustChangeUsername: {
+      type: Boolean,
+      default: false,
+    },
+    until: {
+      type: Date,
+      default: null,
+    },
+  },
+
   // User's settings
   settings: {
     bio: {
@@ -139,12 +151,17 @@ const UserSchema = new mongoose.Schema({
   },
 
   toJSON: {
+    virtuals: true,
     transform: function (doc, ret) {
       delete ret.password;
       delete ret._id;
       delete ret.__v;
     }
   }
+});
+
+UserSchema.virtual('suspended').get(function() {
+  return this.suspensionDetails.mustChangeUsername || this.suspensionDetails.until > new Date();
 });
 
 // Add the indixies on the user profile data.

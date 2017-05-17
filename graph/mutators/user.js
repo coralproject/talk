@@ -5,8 +5,8 @@ const setUserStatus = ({user}, {id, status}) => {
   return UsersService.setStatus(id, status);
 };
 
-const suspendUser = ({user}, {id, message}) => {
-  return UsersService.suspendUser(id, message);
+const suspendUser = ({user}, {id, message, mustChangeUsername, until}) => {
+  return UsersService.suspendUser(id, message, mustChangeUsername, until);
 };
 
 const ignoreUser = ({user}, userToIgnore) => {

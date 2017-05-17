@@ -52,7 +52,7 @@ class SuspendUserDialog extends Component  {
     const cancel = this.props.handleClose;
     const next = () => this.setState({stage: stage + 1});
     const suspend = () => {
-      suspendUser({userId: user.user.id, message: this.state.email})
+      suspendUser({id: user.user.id, message: this.state.email, mustChangeUsername: true})
       .then(() => {
         this.props.handleClose();
       });
@@ -79,7 +79,7 @@ class SuspendUserDialog extends Component  {
             open={open}
             onClose={handleClose}
             onCancel={handleClose}
-            title={lang.t('suspenduser.title')}>
+            title={lang.t('suspenduser.suspend_user')}>
             <div className={styles.title}>
               {lang.t(stages[stage].title, lang.t('suspenduser.username'))}
             </div>

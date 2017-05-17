@@ -451,40 +451,48 @@ module.exports = class UsersService {
 
   /**
    * Suspend a user. It changes the status to BANNED and canEditName to True.
-   * @param  {String}   id   id of a user
-   * @param  {Function} done callback after the operation is complete
+   * @param  {String}   id                  id of a user
+   * @param  {String}   message             message to be send to the user
+   * @param  {Boolean}  mustChangeUsername  if set the suspension lasts at least until user changed its username.
+   * @param  {Date}     until               if set the suspension lasts at least until date.
    */
-  static suspendUser(id, message) {
-    return UserModel.findOneAndUpdate({
-      id
-    }, {
+  static suspendUser(id, message, mustChangeUsername, until) {
+    const changes = {
       $set: {
-        status: 'BANNED',
-        canEditName: true
+        suspensionDetails: {},
       }
-    })
-    .then((user) => {
-      if (message) {
-        let localProfile = user.profiles.find((profile) => profile.provider === 'local');
+    };
+    if (mustChangeUsername) {
+      changes.$set.status = 'BANNED';
+      changes.$set.canEditName = true;
+      changes.$set.suspensionDetails.mustChangeUsername = true;
+    }
+    if (until) {
+      changes.$set.suspensionDetails.until = until;
+    }
+    return UserModel.findOneAndUpdate({id}, changes)
+      .then((user) => {
+        if (message) {
+          let localProfile = user.profiles.find((profile) => profile.provider === 'local');
 
-        if (localProfile) {
-          const options =
-            {
-              template: 'suspension',              // needed to know which template to render!
-              locals: {                                  // specifies the template locals.
-                body: message
-              },
-              subject: 'Email Suspension',
-              to: localProfile.id  // This only works if the user has registered via e-mail.
-                                   // We may want a standard way to access a user's e-mail address in the future
-            };
+          if (localProfile) {
+            const options =
+              {
+                template: 'suspension',              // needed to know which template to render!
+                locals: {                            // specifies the template locals.
+                  body: message
+                },
+                subject: 'Email Suspension',
+                to: localProfile.id  // This only works if the user has registered via e-mail.
+                                     // We may want a standard way to access a user's e-mail address in the future
+              };
 
-          return MailerService.sendSimple(options);
-        } else {
-          return Promise.reject(errors.ErrMissingEmail);
+            return MailerService.sendSimple(options);
+          } else {
+            return Promise.reject(errors.ErrMissingEmail);
+          }
         }
-      }
-    });
+      });
   }
 
   /**
@@ -813,13 +821,15 @@ module.exports = class UsersService {
         username: username,
         lowercaseUsername: username.toLowerCase(),
         canEditName: false,
-        status: 'PENDING'
+        status: 'PENDING',
+        'suspensionDetails.mustChangeUsername': false,
       }
     })
     .then((result) => {
       if (result.nModified <= 0) {
         return Promise.reject(errors.ErrPermissionUpdateUsername);
       }
+      console.log(result);
 
       return result;
     })
