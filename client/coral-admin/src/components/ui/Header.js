@@ -5,8 +5,14 @@ import styles from './Header.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations.json';
 import {Logo} from './Logo';
+import {can} from 'coral-framework/utils/roles';
 
-const CoralHeader = ({handleLogout, showShortcuts = () => {}, restricted = false}) => (
+const CoralHeader = ({
+  handleLogout,
+  showShortcuts = () => {},
+  restricted = false,
+  auth
+}) => (
   <Header className={styles.header}>
     <Logo className={styles.logo} />
     {
@@ -41,13 +47,17 @@ const CoralHeader = ({handleLogout, showShortcuts = () => {}, restricted = false
             activeClassName={styles.active}>
             {lang.t('configure.community')}
           </Link>
-          <Link
-            id='configureNav'
-            className={styles.navLink}
-            to="/admin/configure"
-            activeClassName={styles.active}>
-            {lang.t('configure.configure')}
-          </Link>
+          {
+            auth.user && can(auth.user, 'UPDATE_CONFIG') && (
+              <Link
+                id='configureNav'
+                className={styles.navLink}
+                to="/admin/configure"
+                activeClassName={styles.active}>
+                {lang.t('configure.configure')}
+              </Link>
+            )
+          }
         </Navigation>
         <div className={styles.rightPanel}>
           <ul>
@@ -73,6 +83,7 @@ const CoralHeader = ({handleLogout, showShortcuts = () => {}, restricted = false
 );
 
 CoralHeader.propTypes = {
+  auth: PropTypes.object.isRequired,
   showShortcuts: PropTypes.func,
   handleLogout: PropTypes.func.isRequired,
   restricted: PropTypes.bool // hide elemnts from a user that's logged out

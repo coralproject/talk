@@ -5,7 +5,7 @@ const basicRoles = {
 };
 
 const queryRoles = {
-  UPDATE_CONFIG: ['ADMIN', 'MODERATOR'],
+  UPDATE_CONFIG: ['ADMIN'],
   ACCESS_ADMIN: ['ADMIN', 'MODERATOR'],
   VIEW_USER_EMAILS: ['ADMIN']
 };

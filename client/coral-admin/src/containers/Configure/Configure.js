@@ -15,6 +15,7 @@ import translations from 'coral-admin/src/translations.json';
 import StreamSettings from './StreamSettings';
 import ModerationSettings from './ModerationSettings';
 import TechSettings from './TechSettings';
+import {can} from 'coral-framework/utils/roles';
 
 class Configure extends Component {
   constructor (props) {
@@ -118,6 +119,11 @@ class Configure extends Component {
   render () {
     const {activeSection} = this.state;
     const section = this.getSection(activeSection);
+    const {auth: user} = this.props;
+
+    if (!can(user, 'UPDATE_CONFIG')) {
+      return <p>You must be an administrator to access config settings. Please find the nearest Admin and ask them to level you up!</p>;
+    }
 
     const showSave = Object.keys(this.state.errors).reduce(
       (bool, error) => this.state.errors[error] ? false : bool, this.state.changed);
@@ -172,6 +178,7 @@ class Configure extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  auth: state.auth.toJS(),
   settings: state.settings.toJS()
 });
 export default connect(mapStateToProps)(Configure);

@@ -4,7 +4,12 @@ import Header from './Header';
 import Drawer from './Drawer';
 import styles from './Layout.css';
 
-const Layout = ({children, handleLogout = () => {}, toggleShortcutModal, restricted = false, ...props}) => (
+const Layout = ({
+  children,
+  handleLogout = () => {},
+  toggleShortcutModal,
+  restricted = false,
+  ...props}) => (
   <LayoutMDL fixedDrawer>
     <Header
       handleLogout={handleLogout}
