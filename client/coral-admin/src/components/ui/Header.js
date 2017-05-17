@@ -48,7 +48,7 @@ const CoralHeader = ({
             {lang.t('configure.community')}
           </Link>
           {
-            auth.user && can(auth.user, 'UPDATE_CONFIG') && (
+            auth && auth.user && can(auth.user, 'UPDATE_CONFIG') && (
               <Link
                 id='configureNav'
                 className={styles.navLink}
@@ -83,7 +83,7 @@ const CoralHeader = ({
 );
 
 CoralHeader.propTypes = {
-  auth: PropTypes.object.isRequired,
+  auth: PropTypes.object,
   showShortcuts: PropTypes.func,
   handleLogout: PropTypes.func.isRequired,
   restricted: PropTypes.bool // hide elemnts from a user that's logged out
