@@ -30,10 +30,6 @@ export default withFragments({
       tags {
         tag {
           name
-          created_at
-        }
-        assigned_by {
-          id
         }
       }
       user {
