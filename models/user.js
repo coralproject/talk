@@ -221,7 +221,7 @@ UserSchema.method('can', function(...actions) {
     throw new Error(`invalid actions: ${actions}`);
   }
 
-  if (this.status === 'BANNED') {
+  if (this.status === 'BANNED' || this.suspension.until && this.suspension.until > new Date()) {
     return false;
   }
 
