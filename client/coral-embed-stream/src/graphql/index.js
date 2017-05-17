@@ -170,7 +170,15 @@ const extension = {
             parent_id,
             asset_id,
             action_summaries: [],
-            tags,
+            tags: tags.map(tag => ({
+              tag: {
+                name: tag,
+                created_at: new Date().toISOString(),
+              },
+              assigned_by: {
+                id: auth.toJS().user.id,
+              },
+            })),
             status: null,
             id: 'pending'
           }
