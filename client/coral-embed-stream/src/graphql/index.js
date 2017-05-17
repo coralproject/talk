@@ -200,7 +200,11 @@ const extension = {
       variables: {id, edit},
     }) => ({
       updateQueries: {
-        EmbedQuery: (previousData, {mutationResult: {data: {editComment: {comment: {status}}}}}) => {
+        EmbedQuery: (previousData, {mutationResult: {data: {editComment: {comment, errors}}}}) => {
+          if (errors && errors.length) {
+            return previousData;
+          }
+          const {status} = comment;
           const updateCommentWithEdit = (comment, edit) => {
             const {body} = edit;
             const editedComment = update(comment, {
