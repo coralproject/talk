@@ -10,10 +10,10 @@ import {
 
 import {Button, List, Item, Card, Spinner} from 'coral-ui';
 import styles from './Configure.css';
-import I18n from 'coral-i18n/modules/i18n/i18n';
 import StreamSettings from './StreamSettings';
 import ModerationSettings from './ModerationSettings';
 import TechSettings from './TechSettings';
+import t from 'coral-i18n/services/i18n';
 
 class Configure extends Component {
   constructor (props) {
@@ -104,11 +104,11 @@ class Configure extends Component {
   getPageTitle (section) {
     switch(section) {
     case 'stream':
-      return lang.t('configure.stream_settings');
+      return t('configure.stream_settings');
     case 'moderation':
-      return lang.t('configure.moderation_settings');
+      return t('configure.moderation_settings');
     case 'tech':
-      return lang.t('configure.tech_settings');
+      return t('configure.tech_settings');
     default:
       return '';
     }
@@ -126,13 +126,13 @@ class Configure extends Component {
           <div className={styles.leftColumn}>
             <List onChange={this.changeSection} activeItem={activeSection}>
               <Item itemId='stream' icon='speaker_notes'>
-                {lang.t('configure.stream_settings')}
+                {t('configure.stream_settings')}
               </Item>
               <Item itemId='moderation' icon='thumbs_up_down'>
-                {lang.t('configure.moderation_settings')}
+                {t('configure.moderation_settings')}
               </Item>
               <Item itemId='tech' icon='code'>
-                {lang.t('configure.tech_settings')}
+                {t('configure.tech_settings')}
               </Item>
             </List>
             <div className={styles.saveBox}>
@@ -145,7 +145,7 @@ class Configure extends Component {
                   icon='check'
                   full
                 >
-                  {lang.t('configure.save_changes')}
+                  {t('configure.save_changes')}
                 </Button>
               :
                 <Button
@@ -154,7 +154,7 @@ class Configure extends Component {
                   icon='check'
                   full
                 >
-                {lang.t('configure.save_changes')}
+                {t('configure.save_changes')}
                </Button>
             }
             </div>
@@ -174,5 +174,3 @@ const mapStateToProps = (state) => ({
   settings: state.settings.toJS()
 });
 export default connect(mapStateToProps)(Configure);
-
-const lang = new I18n();

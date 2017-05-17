@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import styles from './Stories.css';
 import {connect} from 'react-redux';
-import I18n from 'coral-i18n/modules/i18n/i18n';
+import t from 'coral-i18n/services/i18n';
 import {fetchAssets, updateAssetState} from 'coral-admin/src/actions/assets';
 import {Link} from 'react-router';
 
@@ -81,14 +81,14 @@ class Stories extends Component {
         className={closed ? styles.statusMenuClosed : styles.statusMenuOpen}
         onClick={this.onStatusClick(closed, id, statusMenuOpen)}>
         {!statusMenuOpen && <Icon className={styles.statusMenuIcon} name='keyboard_arrow_down'/>}
-        {closed ? lang.t('streams.closed') : lang.t('streams.open')}
+        {closed ? t('streams.closed') : t('streams.open')}
       </div>
       {
         statusMenuOpen &&
         <div
           className={!closed ? styles.statusMenuClosed : styles.statusMenuOpen}
           onClick={this.onStatusClick(!closed, id, statusMenuOpen)}>
-          {!closed ? lang.t('streams.closed') : lang.t('streams.open')}
+          {!closed ? t('streams.closed') : t('streams.open')}
         </div>
       }
     </div>;
@@ -120,10 +120,10 @@ class Stories extends Component {
               value={search}
               className={styles.searchBoxInput}
               onChange={this.onSearchChange}
-              placeholder={lang.t('streams.search')}/>
+              placeholder={t('streams.search')}/>
           </div>
-          <div className={styles.optionHeader}>{lang.t('streams.filter_streams')}</div>
-          <div className={styles.optionDetail}>{lang.t('streams.stream_status')}</div>
+          <div className={styles.optionHeader}>{t('streams.filter_streams')}</div>
+          <div className={styles.optionDetail}>{t('streams.stream_status')}</div>
           <RadioGroup
             name='status filter'
             value={filter}
@@ -131,11 +131,11 @@ class Stories extends Component {
             onChange={this.onSettingChange('filter')}
             className={styles.radioGroup}
           >
-            <Radio value='all'>{lang.t('streams.all')}</Radio>
-            <Radio value='open'>{lang.t('streams.open')}</Radio>
-            <Radio value='closed'>{lang.t('streams.closed')}</Radio>
+            <Radio value='all'>{t('streams.all')}</Radio>
+            <Radio value='open'>{t('streams.open')}</Radio>
+            <Radio value='closed'>{t('streams.closed')}</Radio>
           </RadioGroup>
-          <div className={styles.optionHeader}>{lang.t('streams.sort_by')}</div>
+          <div className={styles.optionHeader}>{t('streams.sort_by')}</div>
             <RadioGroup
               name='sort by'
               value={sort}
@@ -143,20 +143,20 @@ class Stories extends Component {
               onChange={this.onSettingChange('sort')}
               className={styles.radioGroup}
             >
-              <Radio value='desc'>{lang.t('streams.newest')}</Radio>
-              <Radio value='asc'>{lang.t('streams.oldest')}</Radio>
+              <Radio value='desc'>{t('streams.newest')}</Radio>
+              <Radio value='asc'>{t('streams.oldest')}</Radio>
             </RadioGroup>
           </div>
         {
           assetsIds.length
           ? <div className={styles.mainContent}>
               <DataTable className={styles.streamsTable} rows={assetsIds} onClick={this.goToModeration}>
-                <TableHeader name="title" cellFormatter={this.renderTitle}>{lang.t('streams.article')}</TableHeader>
+                <TableHeader name="title" cellFormatter={this.renderTitle}>{t('streams.article')}</TableHeader>
                 <TableHeader name="publication_date" cellFormatter={this.renderDate}>
-                  {lang.t('streams.pubdate')}
+                  {t('streams.pubdate')}
                 </TableHeader>
                 <TableHeader name="closedAt" cellFormatter={this.renderStatus} className={styles.status}>
-                  {lang.t('streams.status')}
+                  {t('streams.status')}
                 </TableHeader>
               </DataTable>
               <Pager
@@ -164,7 +164,7 @@ class Stories extends Component {
                 page={this.state.page}
                 onNewPageHandler={this.onPageClick} />
             </div>
-          : <EmptyCard>{lang.t('streams.empty_result')}</EmptyCard>
+          : <EmptyCard>{t('streams.empty_result')}</EmptyCard>
         }
       </div>
     );
@@ -187,5 +187,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Stories);
-
-const lang = new I18n();

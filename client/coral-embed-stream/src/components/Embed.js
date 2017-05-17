@@ -1,7 +1,5 @@
 import React from 'react';
-
-import I18n from 'coral-i18n/modules/i18n/i18n';
-const lang = new I18n();
+import t from 'coral-i18n/services/i18n';
 
 import {TabBar, Tab, TabContent, Button} from 'coral-ui';
 
@@ -47,7 +45,7 @@ export default class Embed extends React.Component {
         <div className="commentStream">
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count count={totalCommentCount}/></Tab>
-            <Tab>{lang.t('framework.my_profile')}</Tab>
+            <Tab>{t('framework.my_profile')}</Tab>
             <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>
           {
@@ -57,7 +55,7 @@ export default class Embed extends React.Component {
                 style={{float: 'right'}}
                 onClick={viewAllComments}
               >
-                {lang.t('framework.show_all_comments')}
+                {t('framework.show_all_comments')}
               </Button>
           }
           <TabContent show={activeTab === 'stream'}>

@@ -117,9 +117,9 @@ module.exports = {
         loader: 'graphql-tag/loader'
       },
       {
-        test: /\.yaml$/,
+        loader: 'yaml',
         include: path.resolve('locales'),
-        loader: 'yaml'
+        test: /\.yml$/,
       }
     ]
   },

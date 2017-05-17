@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 
-import I18n from 'coral-i18n/modules/i18n/i18n';
-const lang = new I18n();
+import t from 'coral-i18n/services/i18n';
 
 import styles from './RestrictedContent.css';
 import {Button} from 'coral-ui';
@@ -28,10 +27,10 @@ class SuspendedAccount extends Component {
       editName(username)
         .then(() => location.reload())
         .catch((error) => {
-          this.setState({alert: lang.t(`error.${error.translation_key}`)});
+          this.setState({alert: t(`error.${error.translation_key}`)});
         });
     } else {
-      this.setState({alert: lang.t('framework.edit_name.error')});
+      this.setState({alert: t('framework.edit_name.error')});
     }
 
   }
@@ -43,8 +42,8 @@ class SuspendedAccount extends Component {
     return <div className={styles.message}>
       <span>{
           canEditName ?
-          lang.t('framework.edit_name.msg')
-          : lang.t('framework.banned_account_msg')
+          t('framework.edit_name.msg')
+          : t('framework.banned_account_msg')
         }</span>
       {
         canEditName ?
@@ -56,20 +55,20 @@ class SuspendedAccount extends Component {
             htmlFor='username'
             className="screen-reader-text"
             aria-hidden={true}>
-            {lang.t('framework.edit_name.label')}
+            {t('framework.edit_name.label')}
           </label>
           <input
             type='text'
             className={styles.editNameInput}
             value={username}
-            placeholder={lang.t('framework.edit_name.label')}
+            placeholder={t('framework.edit_name.label')}
             id='username'
             onChange={(e) => this.setState({username: e.target.value})}
             rows={3}/><br/>
           <Button
             onClick={this.onSubmitClick}>
             {
-              lang.t('framework.edit_name.button')
+              t('framework.edit_name.button')
             }
           </Button>
         </div> : null

@@ -3,9 +3,7 @@ import styles from './Configure.css';
 import {Card} from 'coral-ui';
 import {Checkbox} from 'react-mdl';
 import Wordlist from './Wordlist';
-import I18n from 'coral-i18n/modules/i18n/i18n';
-
-const lang = new I18n();
+import t from 'coral-i18n/services/i18n';
 
 const updateModeration = (updateSettings, mod) => () => {
   const moderation = mod === 'PRE' ? 'POST' : 'PRE';
@@ -36,9 +34,9 @@ const ModerationSettings = ({settings, updateSettings, onChangeWordlist}) => {
             checked={settings.requireEmailConfirmation} />
         </div>
         <div className={styles.content}>
-          <div className={styles.settingsHeader}>{lang.t('configure.require_email_verification')}</div>
+          <div className={styles.settingsHeader}>{t('configure.require_email_verification')}</div>
           <p className={settings.requireEmailConfirmation ? '' : styles.disabledSettingText}>
-            {lang.t('configure.require_email_verification_text')}
+            {t('configure.require_email_verification_text')}
           </p>
         </div>
       </Card>
@@ -49,9 +47,9 @@ const ModerationSettings = ({settings, updateSettings, onChangeWordlist}) => {
             checked={settings.moderation === 'PRE'} />
         </div>
         <div className={styles.content}>
-          <div className={styles.settingsHeader}>{lang.t('configure.enable_pre_moderation')}</div>
+          <div className={styles.settingsHeader}>{t('configure.enable_pre_moderation')}</div>
           <p className={settings.moderation === 'PRE' ? '' : styles.disabledSettingText}>
-            {lang.t('configure.enable_pre_moderation_text')}
+            {t('configure.enable_pre_moderation_text')}
           </p>
         </div>
       </Card>
@@ -62,9 +60,9 @@ const ModerationSettings = ({settings, updateSettings, onChangeWordlist}) => {
             checked={settings.premodLinksEnable} />
         </div>
         <div className={styles.content}>
-          <div className={styles.settingsHeader}>{lang.t('configure.enable_premod_links')}</div>
+          <div className={styles.settingsHeader}>{t('configure.enable_premod_links')}</div>
           <p>
-            {lang.t('configure.enable_premod_links_text')}
+            {t('configure.enable_premod_links_text')}
           </p>
         </div>
       </Card>

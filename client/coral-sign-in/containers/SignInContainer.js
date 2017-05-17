@@ -3,10 +3,9 @@ import {connect} from 'react-redux';
 import SignDialog from '../components/SignDialog';
 import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
-import I18n from 'coral-i18n/modules/i18n/i18n';
 
 import {pym} from 'coral-framework';
-const lang = new I18n();
+import t from 'coral-i18n/services/i18n';
 
 import {
   changeView,
@@ -59,7 +58,7 @@ class SignInContainer extends Component {
     window.authCallback = this.props.facebookCallback;
     const {formData} = this.state;
     const errors = Object.keys(formData).reduce((map, prop) => {
-      map[prop] = lang.t('sign_in.required_field');
+      map[prop] = t('sign_in.required_field');
       return map;
     }, {});
     this.setState({errors});
@@ -109,9 +108,9 @@ class SignInContainer extends Component {
     const {formData} = this.state;
 
     if (!value.length) {
-      addError(name, lang.t('sign_in.required_field'));
+      addError(name, t('sign_in.required_field'));
     } else if (name === 'confirmPassword' && formData.confirmPassword !== formData.password) {
-      addError('confirmPassword', lang.t('sign_in.passwords_dont_match'));
+      addError('confirmPassword', t('sign_in.passwords_dont_match'));
     } else if (!validate[name](value)) {
       addError(name, errorMsj[name]);
     } else {
@@ -139,7 +138,7 @@ class SignInContainer extends Component {
       fetchSignUp(this.state.formData, pym.parentUrl || location.href);
       validForm();
     } else {
-      invalidForm(lang.t('sign_in.check_the_form'));
+      invalidForm(t('sign_in.check_the_form'));
     }
   }
 

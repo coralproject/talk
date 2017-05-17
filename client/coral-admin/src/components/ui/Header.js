@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {Navigation, Header, IconButton, MenuItem, Menu} from 'react-mdl';
 import {Link, IndexLink} from 'react-router';
 import styles from './Header.css';
-import I18n from 'coral-i18n/modules/i18n/i18n';
+import t from 'coral-i18n/services/i18n';
 import {Logo} from './Logo';
 
 const CoralHeader = ({handleLogout, showShortcuts = () => {}, restricted = false}) => (
@@ -17,35 +17,35 @@ const CoralHeader = ({handleLogout, showShortcuts = () => {}, restricted = false
             className={styles.navLink}
             to="/admin/dashboard"
             activeClassName={styles.active}>
-            {lang.t('configure.dashboard')}
+            {t('configure.dashboard')}
           </IndexLink>
           <Link
             id='moderateNav'
             className={styles.navLink}
             to="/admin/moderate"
             activeClassName={styles.active}>
-            {lang.t('configure.moderate')}
+            {t('configure.moderate')}
           </Link>
           <Link
             id='streamsNav'
             className={styles.navLink}
             to="/admin/stories"
             activeClassName={styles.active}>
-            {lang.t('configure.stories')}
+            {t('configure.stories')}
           </Link>
           <Link
             id='communityNav'
             className={styles.navLink}
             to="/admin/community"
             activeClassName={styles.active}>
-            {lang.t('configure.community')}
+            {t('configure.community')}
           </Link>
           <Link
             id='configureNav'
             className={styles.navLink}
             to="/admin/configure"
             activeClassName={styles.active}>
-            {lang.t('configure.configure')}
+            {t('configure.configure')}
           </Link>
         </Navigation>
         <div className={styles.rightPanel}>
@@ -54,8 +54,8 @@ const CoralHeader = ({handleLogout, showShortcuts = () => {}, restricted = false
               <div>
                 <IconButton name="settings" id="menu-settings"/>
                 <Menu target="menu-settings" align="right">
-                  <MenuItem onClick={() => showShortcuts(true)}>{lang.t('configure.shortcuts')}</MenuItem>
-                  <MenuItem onClick={handleLogout}>{lang.t('configure.sign_out')}</MenuItem>
+                  <MenuItem onClick={() => showShortcuts(true)}>{t('configure.shortcuts')}</MenuItem>
+                  <MenuItem onClick={handleLogout}>{t('configure.sign_out')}</MenuItem>
                 </Menu>
               </div>
             </li>
@@ -76,7 +76,5 @@ CoralHeader.propTypes = {
   handleLogout: PropTypes.func.isRequired,
   restricted: PropTypes.bool // hide elemnts from a user that's logged out
 };
-
-const lang = new I18n();
 
 export default CoralHeader;

@@ -6,8 +6,7 @@ import {CountdownSeconds} from './CountdownSeconds';
 import {getEditableUntilDate} from './util';
 
 import {Icon} from 'coral-ui';
-import I18n from 'coral-i18n/modules/i18n/i18n';
-const lang = new I18n();
+import t from 'coral-i18n/services/i18n';
 
 /**
  * Renders a Comment's body in such a way that the end-user can edit it and save changes
@@ -82,11 +81,11 @@ export class EditableCommentContent extends React.Component {
       successfullyEdited = true;
     } catch (error) {
       if (error.translation_key) {
-        addNotification('error', lang.t(`error.${error.translation_key}`));
+        addNotification('error', t(`error.${error.translation_key}`));
       } else if (error.networkError) {
-        addNotification('error', lang.t('error.networkError'));
+        addNotification('error', t('error.networkError'));
       } else {
-        addNotification('error', lang.t('editComment.unexpectedError'));
+        addNotification('error', t('editComment.unexpectedError'));
         throw error;
       }
     }
@@ -115,9 +114,9 @@ export class EditableCommentContent extends React.Component {
             return (comment.body !== originalBody) && !editWindowExpired;
           }}
           saveComment={this.editComment}
-          bodyLabel={lang.t('editComment.bodyInputLabel')}
+          bodyLabel={t('editComment.bodyInputLabel')}
           bodyPlaceholder=""
-          submitText={<span>{lang.t('editComment.saveButton')}</span>}
+          submitText={<span>{t('editComment.saveButton')}</span>}
           saveButtonCStyle="green"
           cancelButtonClicked={this.props.stopEditing}
           buttonClass={styles.button}
@@ -127,15 +126,15 @@ export class EditableCommentContent extends React.Component {
                 {
                   editWindowExpired
                   ? <span>
-                      {lang.t('editComment.editWindowExpired')}
+                      {t('editComment.editWindowExpired')}
                       {
                         typeof this.props.stopEditing === 'function'
-                        ? <span>&nbsp;<a className={styles.link} onClick={this.props.stopEditing}>{lang.t('editComment.editWindowExpiredClose')}</a></span>
+                        ? <span>&nbsp;<a className={styles.link} onClick={this.props.stopEditing}>{t('editComment.editWindowExpiredClose')}</a></span>
                         : null
                       }
                     </span>
                   : <span>
-                      <Icon name="timer"/> {lang.t('editComment.editWindowTimerPrefix')}
+                      <Icon name="timer"/> {t('editComment.editWindowTimerPrefix')}
                       <CountdownSeconds
                         until={editableUntil}
                         classNameForMsRemaining={(remainingMs) => (remainingMs <= 10 * 1000) ? styles.editWindowAlmostOver : '' }

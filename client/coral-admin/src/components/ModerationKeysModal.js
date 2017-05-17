@@ -1,9 +1,7 @@
-import I18n from 'coral-i18n/modules/i18n/i18n';
 import React, {PropTypes} from 'react';
 import Modal from 'components/Modal';
 import styles from './ModerationKeysModal.css';
-
-const lang = new I18n();
+import t from 'coral-i18n/services/i18n';
 
 const shortcuts = [
   {
@@ -39,29 +37,29 @@ export default class ModerationKeysModal extends React.Component {
       <div>
         <div className={styles.callToAction} style={{display: shortcutsNoteVisible === 'show' ? 'block' : 'none'}}>
           <div onClick={hideShortcutsNote} className={styles.closeButton}>×</div>
-          <p className={styles.ctaHeader}>{lang.t('modqueue.mod_faster')}</p>
-          <p><strong>{lang.t('modqueue.try_these')}:</strong></p>
+          <p className={styles.ctaHeader}>{t('modqueue.mod_faster')}</p>
+          <p><strong>{t('modqueue.try_these')}:</strong></p>
           <ul>
-            <li><span>{lang.t('modqueue.approve')}</span> <span className={styles.smallKey}>t</span></li>
-            <li><span>{lang.t('modqueue.reject')}</span> <span className={styles.smallKey}>r</span></li>
+            <li><span>{t('modqueue.approve')}</span> <span className={styles.smallKey}>t</span></li>
+            <li><span>{t('modqueue.reject')}</span> <span className={styles.smallKey}>r</span></li>
           </ul>
-          <p><span>{lang.t('modqueue.view_more_shortcuts')}</span> <span className={styles.smallKey}>{lang.t('modqueue.shift_key')}</span> + <span className={styles.smallKey}>/</span></p>
+          <p><span>{t('modqueue.view_more_shortcuts')}</span> <span className={styles.smallKey}>{t('modqueue.shift_key')}</span> + <span className={styles.smallKey}>/</span></p>
         </div>
         <Modal open={open} onClose={onClose}>
-          <h3>{lang.t('modqueue.shortcuts')}</h3>
+          <h3>{t('modqueue.shortcuts')}</h3>
           <div className={styles.container}>
             {shortcuts.map((shortcut, i) => (
               <table className={styles.table} key={i}>
                 <thead>
                   <tr>
-                    <th>{lang.t(shortcut.title)}</th>
+                    <th>{t(shortcut.title)}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {Object.keys(shortcut.shortcuts).map((key) => (
                     <tr key={`${key}tr`}>
                       <td className={styles.shortcut}><span className={styles.key}>{key}</span></td>
-                      <td>{lang.t(shortcut.shortcuts[key])}</td>
+                      <td>{t(shortcut.shortcuts[key])}</td>
                     </tr>
                   ))}
                 </tbody>

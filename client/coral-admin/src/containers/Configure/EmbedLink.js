@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import I18n from 'coral-i18n/modules/i18n/i18n';
+import t from 'coral-i18n/services/i18n';
 import styles from './Configure.css';
 import {Button, Card} from 'coral-ui';
 
@@ -47,11 +47,11 @@ class EmbedLink extends Component {
       <Card shadow="2" className={styles.configSetting}>
         <div className={styles.wrapper}>
           <div className={styles.settingsHeader}>Embed Comment Stream</div>
-          <p>{lang.t('configure.copy_and_paste')}</p>
+          <p>{t('configure.copy_and_paste')}</p>
           <textarea rows={5} type='text' className={styles.embedInput} value={embedText} readOnly={true}/>
           <div className={styles.actions}>
             <Button raised className={styles.copyButton} onClick={this.copyToClipBoard} cStyle="black">
-              {lang.t('embedlink.copy')}
+              {t('embedlink.copy')}
             </Button>
             <div className={styles.copiedText}>
               {this.state.copied && 'Copied!'}
@@ -64,5 +64,3 @@ class EmbedLink extends Component {
 }
 
 export default EmbedLink;
-
-const lang = new I18n();

@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import styles from './style.css';
 import Icon from './Icon';
 
-import { I18n } from 'coral-framework';
+import t from 'coral-i18n/services/i18n';
 import cn from 'classnames';
 import translations from '../translations.json';
 import { getMyActionSummary, getTotalActionCount } from 'coral-framework/utils';
 
-const lang = new I18n(translations);
 const name = 'coral-plugin-like';
 
 class LikeButton extends Component {
@@ -62,7 +61,7 @@ class LikeButton extends Component {
           onClick={this.handleClick}
         >
           <span className={`${name}-button-text`}>
-            {lang.t(myLike ? 'liked' : 'like')}
+            {t(myLike ? 'liked' : 'like')}
           </span>
           <i
             className={cn(

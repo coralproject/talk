@@ -6,9 +6,7 @@ import errorMsj from 'coral-framework/helpers/error';
 
 import CreateUsernameDialog from '../components/CreateUsernameDialog';
 
-import I18n from 'coral-i18n/modules/i18n/i18n';
-
-const lang = new I18n();
+import t from 'coral-i18n/services/i18n';
 
 import {
   showCreateUsernameDialog,
@@ -63,7 +61,7 @@ class ChangeUsernameContainer extends Component {
     const {addError} = this;
 
     if (!value.length) {
-      addError(name, lang.t('createdisplay.required_field'));
+      addError(name, t('createdisplay.required_field'));
     } else if (!validate[name](value)) {
       addError(name, errorMsj[name]);
     } else {
@@ -91,7 +89,7 @@ class ChangeUsernameContainer extends Component {
       this.props.createUsername(this.props.user.id, this.state.formData);
       validForm();
     } else {
-      invalidForm(lang.t('createdisplay.check_the_form'));
+      invalidForm(t('createdisplay.check_the_form'));
     }
   }
 

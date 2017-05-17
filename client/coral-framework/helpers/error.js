@@ -1,10 +1,9 @@
-import I18n from 'coral-i18n/modules/i18n/i18n';
-const lang = new I18n();
+import t from 'coral-i18n/services/i18n';
 
 export default {
-  email: lang.t('error.email'),
-  password: lang.t('error.password'),
-  username: lang.t('error.username'),
-  confirmPassword: lang.t('error.confirm_password'),
-  organizationName: lang.t('error.organization_name'),
+  email: t('error.email'),
+  password: t('error.password'),
+  username: t('error.username'),
+  confirmPassword: t('error.confirm_password'),
+  organizationName: t('error.organization_name'),
 };

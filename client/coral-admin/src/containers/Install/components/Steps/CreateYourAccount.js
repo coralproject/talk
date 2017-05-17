@@ -2,9 +2,7 @@ import React from 'react';
 import styles from './style.css';
 import {TextField, Button, Spinner} from 'coral-ui';
 
-const lang = new I18n();
-
-import I18n from 'coral-i18n/modules/i18n/i18n';
+import t from 'coral-i18n/services/i18n';
 
 const InitialStep = (props) => {
   const {handleUserChange, handleUserSubmit, install} = props;
@@ -16,7 +14,7 @@ const InitialStep = (props) => {
             className={styles.textField}
             id="email"
             type="email"
-            label={lang.t('CREATE.EMAIL')}
+            label={t('CREATE.EMAIL')}
             onChange={handleUserChange}
             showErrors={install.showErrors}
             errorMsg={install.errors.email}
@@ -27,7 +25,7 @@ const InitialStep = (props) => {
             className={styles.textField}
             id="username"
             type="text"
-            label={lang.t('CREATE.USERNAME')}
+            label={t('CREATE.USERNAME')}
             onChange={handleUserChange}
             showErrors={install.showErrors}
             errorMsg={install.errors.username}
@@ -37,7 +35,7 @@ const InitialStep = (props) => {
             className={styles.textField}
             id="password"
             type="password"
-            label={lang.t('CREATE.PASSWORD')}
+            label={t('CREATE.PASSWORD')}
             onChange={handleUserChange}
             showErrors={install.showErrors}
             errorMsg={install.errors.password}
@@ -47,7 +45,7 @@ const InitialStep = (props) => {
             className={styles.textField}
             id="confirmPassword"
             type="password"
-            label={lang.t('CREATE.CONFIRM_PASSWORD')}
+            label={t('CREATE.CONFIRM_PASSWORD')}
             onChange={handleUserChange}
             showErrors={install.showErrors}
             errorMsg={install.errors.confirm_password}
@@ -55,7 +53,7 @@ const InitialStep = (props) => {
 
           {
             !props.install.isLoading ?
-            <Button cStyle='black' type="submit" full>{lang.t('CREATE.SAVE')}</Button>
+            <Button cStyle='black' type="submit" full>{t('CREATE.SAVE')}</Button>
             :
             <Spinner />
           }

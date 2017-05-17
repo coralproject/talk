@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {I18n} from '../coral-framework';
+
+import t from 'coral-i18n/services/i18n';
 
 import {PopupMenu, Button} from 'coral-ui';
 import onClickOutside from 'react-onclickoutside';
@@ -141,8 +142,8 @@ class FlagButton extends Component {
         className={`${name}-button`}>
         {
           flagged
-          ? <span className={`${name}-button-text`}>{lang.t('reported')}</span>
-          : <span className={`${name}-button-text`}>{lang.t('report')}</span>
+          ? <span className={`${name}-button-text`}>{t('reported')}</span>
+          : <span className={`${name}-button-text`}>{t('report')}</span>
         }
         <i className={`${name}-icon material-icons ${flagged && 'flaggedIcon'}`}
           style={flagged ? styles.flaggedIcon : {}}
@@ -176,7 +177,7 @@ class FlagButton extends Component {
                 {
                   this.state.reason && <div>
                   <label htmlFor={'message'} className={`${name}-popup-radio-label`}>
-                    {lang.t('flag_reason')}
+                    {t('flag_reason')}
                   </label><br/>
                   <textarea
                       className={`${name}-reason-text`}
@@ -215,5 +216,3 @@ const styles = {
     color: 'inherit'
   }
 };
-
-const lang = new I18n();

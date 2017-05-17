@@ -1,9 +1,7 @@
 import React from 'react';
 import styles from './styles.css';
 import Button from 'coral-ui/components/Button';
-import I18n from 'coral-i18n/modules/i18n/i18n';
-
-const lang = new I18n();
+import t from 'coral-i18n/services/i18n';
 
 class ForgotContent extends React.Component {
   constructor (props) {
@@ -23,11 +21,11 @@ class ForgotContent extends React.Component {
     return (
       <div>
         <div className={styles.header}>
-          <h1>{lang.t('sign_in.recover_password')}</h1>
+          <h1>{t('sign_in.recover_password')}</h1>
         </div>
         <form onSubmit={this.handleSubmit}>
           <div className={styles.textField}>
-            <label htmlFor="email">{lang.t('sign_in.email')}</label>
+            <label htmlFor="email">{t('sign_in.email')}</label>
             <input
               ref={(input) => this.emailInput = input}
               type="text"
@@ -36,7 +34,7 @@ class ForgotContent extends React.Component {
               name="email" />
           </div>
           <Button type="submit" cStyle="black" className={styles.signInButton} full>
-            {lang.t('sign_in.recover_password')}
+            {t('sign_in.recover_password')}
           </Button>
           {
             passwordRequestSuccess
@@ -50,8 +48,8 @@ class ForgotContent extends React.Component {
           }
         </form>
         <div className={styles.footer}>
-          <span>{lang.t('sign_in.need_an_account')} <a onClick={() => changeView('SIGNUP')}>{lang.t('sign_in.register')}</a></span>
-          <span>{lang.t('sign_in.already_have_an_account')} <a onClick={() => changeView('SIGNIN')}>{lang.t('sign_in.sign_in')}</a></span>
+          <span>{t('sign_in.need_an_account')} <a onClick={() => changeView('SIGNUP')}>{t('sign_in.register')}</a></span>
+          <span>{t('sign_in.already_have_an_account')} <a onClick={() => changeView('SIGNIN')}>{t('sign_in.sign_in')}</a></span>
         </div>
       </div>
     );

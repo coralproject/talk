@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react';
-import timeago from 'timeago.js';
 import {Link} from 'react-router';
 import Linkify from 'react-linkify';
 
@@ -15,8 +14,7 @@ import BanUserButton from 'coral-admin/src/components/BanUserButton';
 
 const linkify = new Linkify();
 
-import I18n from 'coral-i18n/modules/i18n/i18n';
-const lang = new I18n();
+import {t, timeago} from 'coral-i18n/services/i18n';
 
 const Comment = ({
   actions = [],
@@ -59,10 +57,7 @@ const Comment = ({
               {comment.user.name}
             </span>
             <span className={styles.created}>
-              {timeago().format(
-                comment.created_at || Date.now() - props.index * 60 * 1000,
-                lang.getLocale().replace('-', '_')
-              )}
+              {timeago(comment.created_at || Date.now() - props.index * 60 * 1000)}
             </span>
             <BanUserButton
               user={comment.user}
@@ -79,7 +74,7 @@ const Comment = ({
           {comment.user.status === 'banned'
             ? <span className={styles.banned}>
                 <Icon name="error_outline" />
-                {lang.t('comment.banned_user')}
+                {t('comment.banned_user')}
               </span>
             : null}
           <Slot fill="adminCommentInfoBar" comment={comment} />
@@ -101,7 +96,7 @@ const Comment = ({
               href={`${comment.asset.url}#${comment.id}`}
               target="_blank"
             >
-              <Icon name="open_in_new" /> {lang.t('comment.view_context')}
+              <Icon name="open_in_new" /> {t('comment.view_context')}
             </a>
           </p>
           <Slot fill="adminCommentContent" comment={comment} />

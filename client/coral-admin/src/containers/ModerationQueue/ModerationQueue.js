@@ -4,11 +4,10 @@ import Comment from './components/Comment';
 import styles from './components/styles.css';
 import EmptyCard from '../../components/EmptyCard';
 import {actionsMap} from './helpers/moderationQueueActionsMap';
-import I18n from 'coral-i18n/modules/i18n/i18n';
+import t from 'coral-i18n/services/i18n';
 
 import LoadMore from './components/LoadMore';
 
-const lang = new I18n();
 class ModerationQueue extends React.Component {
 
   static propTypes = {
@@ -56,7 +55,7 @@ class ModerationQueue extends React.Component {
                 currentAsset={props.currentAsset}
                 />;
             })
-            : <EmptyCard>{lang.t('modqueue.empty_queue')}</EmptyCard>
+            : <EmptyCard>{t('modqueue.empty_queue')}</EmptyCard>
           }
         </ul>
         <LoadMore

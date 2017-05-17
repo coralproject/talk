@@ -1,7 +1,6 @@
 import React from 'react';
 
-import I18n from 'coral-i18n/modules/i18n/i18n';
-const lang = new I18n();
+import t from 'coral-i18n/services/i18n';
 
 // Render in place of a Comment when the author of the comment is ignored
 const IgnoredCommentTombstone = () => (
@@ -13,7 +12,7 @@ const IgnoredCommentTombstone = () => (
       padding: '1em',
       color: '#3E4F71',
     }}>
-      {lang.t('framework.comment_is_ignored')}
+      {t('framework.comment_is_ignored')}
     </p>
   </div>
 );

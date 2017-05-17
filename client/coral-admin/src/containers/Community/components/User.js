@@ -3,8 +3,7 @@ import styles from '../Community.css';
 
 import ActionButton from './ActionButton';
 
-import I18n from 'coral-i18n/modules/i18n/i18n';
-const lang = new I18n();
+import t from 'coral-i18n/services/i18n';
 
 // Render a single user for the list
 const User = (props) => {
@@ -33,11 +32,11 @@ const User = (props) => {
         <div className={styles.itemBody}>
           <div className={styles.body}>
             <div className={styles.flaggedByCount}>
-              <i className="material-icons">flag</i><span className={styles.flaggedByLabel}>{lang.t('community.flags')}({ user.actions.length })</span>:
+              <i className="material-icons">flag</i><span className={styles.flaggedByLabel}>{t('community.flags')}({ user.actions.length })</span>:
                 { user.action_summaries.map(
                 (action, i) => {
                   return <span className={styles.flaggedBy} key={i}>
-                    {lang.t(`community.${action.reason}`)} ({action.count})
+                    {t(`community.${action.reason}`)} ({action.count})
                   </span>;
                 }
               )}
@@ -47,7 +46,7 @@ const User = (props) => {
                 (action_sum, i) => {
                   return <div key={i}>
                     <span className={styles.flaggedByLabel}>
-                      {lang.t(`community.${action_sum.reason}`)} ({action_sum.count})
+                      {t(`community.${action_sum.reason}`)} ({action_sum.count})
                     </span>
                     {user.actions.map(
 

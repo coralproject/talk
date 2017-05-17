@@ -1,15 +1,14 @@
 import React, {Component, PropTypes} from 'react';
 import {Icon} from 'coral-ui';
 import styles from './FlagBox.css';
-import I18n from 'coral-i18n/modules/i18n/i18n';
-const lang = new I18n();
+import t from 'coral-i18n/services/i18n';
 
 const shortReasons = {
-  'This comment is offensive': lang.t('modqueue.offensive'),
-  'This looks like an ad/marketing': lang.t('modqueue.spam_ads'),
-  'This user is impersonating': lang.t('modqueue.impersonating'),
-  'I don\'t like this username': lang.t('modqueue.dont_like_username'),
-  'Other': lang.t('modqueue.other')
+  'This comment is offensive': t('modqueue.offensive'),
+  'This looks like an ad/marketing': t('modqueue.spam_ads'),
+  'This user is impersonating': t('modqueue.impersonating'),
+  'I don\'t like this username': t('modqueue.dont_like_username'),
+  'Other': t('modqueue.other')
 };
 
 class FlagBox extends Component {
@@ -47,7 +46,7 @@ class FlagBox extends Component {
                 <li key={i} className={styles.lessDetail}>{this.reasonMap(action.reason)} (<strong>{action.count}</strong>)</li>
               )}
             </ul>
-            <a onClick={this.toggleDetail} className={styles.moreDetail}>{showDetail ? lang.t('modqueue.less-detail') : lang.t('modqueue.more_detail')}</a>
+            <a onClick={this.toggleDetail} className={styles.moreDetail}>{showDetail ? t('modqueue.less-detail') : t('modqueue.more_detail')}</a>
           </div>
           {showDetail && (
             <div className={styles.detail}>

@@ -3,18 +3,16 @@ import styles from './style.css';
 import {Button, Card} from 'coral-ui';
 import TagsInput from 'react-tagsinput';
 
-const lang = new I18n();
-
-import I18n from 'coral-i18n/modules/i18n/i18n';
+import t from 'coral-i18n/services/i18n';
 
 const PermittedDomainsStep = (props) => {
   const {finishInstall, install, handleDomainsChange} = props;
   const domains = install.data.settings.domains.whitelist;
   return (
     <div className={styles.step}>
-      <h3>{lang.t('PERMITTED_DOMAINS.TITLE')}</h3>
+      <h3>{t('PERMITTED_DOMAINS.TITLE')}</h3>
       <Card className={styles.card}>
-        <p>{lang.t('PERMITTED_DOMAINS.DESCRIPTION')}</p>
+        <p>{t('PERMITTED_DOMAINS.DESCRIPTION')}</p>
         <TagsInput
           value={domains}
           inputProps={{placeholder: 'URL'}}
@@ -23,7 +21,7 @@ const PermittedDomainsStep = (props) => {
           onChange={(tags) => handleDomainsChange(tags)}
         />
       </Card>
-      <Button cStyle='green' onClick={finishInstall} raised>{lang.t('PERMITTED_DOMAINS.SUBMIT')}</Button>
+      <Button cStyle='green' onClick={finishInstall} raised>{t('PERMITTED_DOMAINS.SUBMIT')}</Button>
     </div>
   );
 };

@@ -2,8 +2,7 @@ import React, {PropTypes} from 'react';
 import {Button, Icon} from 'coral-ui';
 import styles from './BanUserButton.css';
 
-import I18n from 'coral-i18n/modules/i18n/i18n';
-const lang = new I18n();
+import t from 'coral-i18n/services/i18n';
 
 const BanUserButton = ({user, ...props}) => (
   <div className={styles.ban}>
@@ -13,7 +12,7 @@ const BanUserButton = ({user, ...props}) => (
       onClick={props.onClick}
       raised>
       <Icon name='not_interested' />
-      {lang.t('comment.ban_user')}
+      {t('comment.ban_user')}
     </Button>
   </div>
 );

@@ -1,6 +1,5 @@
 import React from 'react';
-import I18n from 'coral-i18n/modules/i18n/i18n';
-
+import t from 'coral-i18n/services/i18n';
 import TagsInput from 'react-tagsinput';
 import styles from './Configure.css';
 import {Card} from 'coral-ui';
@@ -8,8 +7,8 @@ import {Card} from 'coral-ui';
 const Wordlist = ({suspectWords, bannedWords, onChangeWordlist}) => (
   <div>
     <Card id={styles.bannedWordlist} className={styles.configSetting}>
-      <div className={styles.settingsHeader}>{lang.t('configure.banned_words_title')}</div>
-      <p className={styles.wordlistDesc}>{lang.t('configure.banned_word_text')}</p>
+      <div className={styles.settingsHeader}>{t('configure.banned_words_title')}</div>
+      <p className={styles.wordlistDesc}>{t('configure.banned_word_text')}</p>
       <div className={styles.wrapper}>
         <TagsInput
           value={bannedWords}
@@ -21,8 +20,8 @@ const Wordlist = ({suspectWords, bannedWords, onChangeWordlist}) => (
       </div>
     </Card>
     <Card id={styles.suspectWordlist} className={styles.configSetting}>
-      <div className={styles.settingsHeader}>{lang.t('configure.suspect_words_title')}</div>
-      <p className={styles.wordlistDesc}>{lang.t('configure.suspect_word_text')}</p>
+      <div className={styles.settingsHeader}>{t('configure.suspect_words_title')}</div>
+      <p className={styles.wordlistDesc}>{t('configure.suspect_word_text')}</p>
       <div className={styles.wrapper}>
         <TagsInput
           value={suspectWords}
@@ -36,5 +35,3 @@ const Wordlist = ({suspectWords, bannedWords, onChangeWordlist}) => (
 );
 
 export default Wordlist;
-
-const lang = new I18n();
