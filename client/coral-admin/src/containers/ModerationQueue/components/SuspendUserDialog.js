@@ -40,8 +40,9 @@ class SuspendUserDialog extends React.Component {
 
   handlePerform = () => {
     this.props.onPerform({
-      until: dateAdd(new Date(), 'hour', this.state.duration),
+      id: this.props.userId,
       message: this.state.message,
+      until: dateAdd(new Date(), 'hour', this.state.duration),
     });
   };
 

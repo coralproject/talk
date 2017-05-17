@@ -112,11 +112,7 @@ const UserSchema = new mongoose.Schema({
   },
 
   // User's suspension details.
-  suspensionDetails: {
-    mustChangeUsername: {
-      type: Boolean,
-      default: false,
-    },
+  suspension: {
     until: {
       type: Date,
       default: null,
@@ -151,17 +147,12 @@ const UserSchema = new mongoose.Schema({
   },
 
   toJSON: {
-    virtuals: true,
     transform: function (doc, ret) {
       delete ret.password;
       delete ret._id;
       delete ret.__v;
     }
   }
-});
-
-UserSchema.virtual('suspended').get(function() {
-  return this.suspensionDetails.mustChangeUsername || this.suspensionDetails.until > new Date();
 });
 
 // Add the indixies on the user profile data.
@@ -214,6 +205,7 @@ const USER_GRAPH_OPERATIONS = [
   'mutation:editName',
   'mutation:setUserStatus',
   'mutation:suspendUser',
+  'mutation:rejectUsername',
   'mutation:setCommentStatus',
   'mutation:addCommentTag',
   'mutation:removeCommentTag',
@@ -233,7 +225,8 @@ UserSchema.method('can', function(...actions) {
     return false;
   }
 
-  if (actions.some((action) => action === 'mutation:setUserStatus' || action === 'mutation:suspendUser' || action === 'mutation:setCommentStatus') && !this.hasRoles('ADMIN')) {
+  const adminOnlyActions = ['mutation:setUserStatus', 'mutation:suspendUser', 'mutation:rejectUsername', 'mutation:setCommentStatus'];
+  if (actions.some((action) => adminOnlyActions.indexOf(action) > 0 && !this.hasRoles('ADMIN'))) {
     return false;
   }
 

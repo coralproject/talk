@@ -679,11 +679,19 @@ input SuspendUserInput {
   # TODO: should this be required?
   message: String
 
-  # If set, the user is requested to change its username.
-  mustChangeUsername: Boolean
-
   # If set, the suspension lasts at least until specified date.
   until: Date
+}
+
+# Input for rejectUsername mutation.
+input RejectUsernameInput {
+
+  # id of target user.
+  id: ID!
+
+  # message to be sent to the user.
+  # TODO: should this be required?
+  message: String
 }
 
 # DeleteActionResponse is the response returned with possibly some errors
@@ -705,6 +713,14 @@ type SetUserStatusResponse implements Response {
 # SuspendUserResponse is the response returned with possibly some errors
 # relating to the suspend action attempt.
 type SuspendUserResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError]
+}
+
+# RejectUsernameResponse is the response returned with possibly some errors
+# relating to the reject username action attempt.
+type RejectUsernameResponse implements Response {
 
   # An array of errors relating to the mutation that occurred.
   errors: [UserError]
@@ -784,6 +800,9 @@ type RootMutation {
 
   # Suspends a user. Requires the `ADMIN` role.
   suspendUser(input: SuspendUserInput!): SuspendUserResponse
+
+  # Suspends a user. Requires the `ADMIN` role.
+  rejectUsername(input: RejectUsernameInput!): RejectUsernameResponse
 
   # Sets Comment status. Requires the `ADMIN` role.
   setCommentStatus(id: ID!, status: COMMENT_STATUS!): SetCommentStatusResponse

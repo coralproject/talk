@@ -196,8 +196,8 @@ export const facebookCallback = (err, data) => (dispatch, getState) => {
     dispatch(handleAuthToken(data.token));
     dispatch(signInFacebookSuccess(data.user));
     dispatch(hideSignInDialog());
-    const {user: {canEditName, suspension}} = getState().auth.toJS();
-    if (canEditName && !suspension.mustChangeUsername) {
+    const {user: {canEditName, status}} = getState().auth.toJS();
+    if (canEditName && status !== 'BANNED') {
       dispatch(showCreateUsernameDialog());
     }
   } catch (err) {

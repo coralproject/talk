@@ -34,7 +34,7 @@ class SuspendUserDialog extends Component  {
   static propTypes = {
     stage: PropTypes.number,
     handleClose: PropTypes.func.isRequired,
-    suspendUser: PropTypes.func.isRequired
+    rejectUsername: PropTypes.func.isRequired
   }
 
   componentDidMount() {
@@ -46,13 +46,13 @@ class SuspendUserDialog extends Component  {
   * handles the possible actions for that dialog.
   */
   onActionClick = (stage, menuOption) => () => {
-    const {suspendUser, user} = this.props;
+    const {rejectUsername, user} = this.props;
     const {stage} = this.state;
 
     const cancel = this.props.handleClose;
     const next = () => this.setState({stage: stage + 1});
     const suspend = () => {
-      suspendUser({id: user.user.id, message: this.state.email, mustChangeUsername: true})
+      rejectUsername({id: user.user.id, message: this.state.email})
       .then(() => {
         this.props.handleClose();
       });

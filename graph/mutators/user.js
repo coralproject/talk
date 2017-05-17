@@ -5,8 +5,12 @@ const setUserStatus = ({user}, {id, status}) => {
   return UsersService.setStatus(id, status);
 };
 
-const suspendUser = ({user}, {id, message, mustChangeUsername, until}) => {
-  return UsersService.suspendUser(id, message, mustChangeUsername, until);
+const suspendUser = ({user}, {id, message, until}) => {
+  return UsersService.suspendUser(id, message, until);
+};
+
+const rejectUsername = ({user}, {id, message}) => {
+  return UsersService.rejectUsername(id, message);
 };
 
 const ignoreUser = ({user}, userToIgnore) => {
@@ -22,6 +26,7 @@ module.exports = (context) => {
     User: {
       setUserStatus: () => Promise.reject(errors.ErrNotAuthorized),
       suspendUser: () => Promise.reject(errors.ErrNotAuthorized),
+      rejectUsername: () => Promise.reject(errors.ErrNotAuthorized),
       ignoreUser: (action) => ignoreUser(context, action),
       stopIgnoringUser: (action) => stopIgnoringUser(context, action),
     }
@@ -33,6 +38,10 @@ module.exports = (context) => {
 
   if (context.user && context.user.can('mutation:suspendUser')) {
     mutators.User.suspendUser = (action) => suspendUser(context, action);
+  }
+
+  if (context.user && context.user.can('mutation:rejectUsername')) {
+    mutators.User.rejectUsername = (action) => rejectUsername(context, action);
   }
 
   return mutators;

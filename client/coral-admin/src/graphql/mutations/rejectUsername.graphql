@@ -1,0 +1,7 @@
+mutation rejectUsername($input: RejectUsernameInput!) {
+  rejectUsername(input: $input) {
+    errors {
+      translation_key
+    }
+  }
+}

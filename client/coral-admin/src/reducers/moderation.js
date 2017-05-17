@@ -38,6 +38,7 @@ export default function moderation (state = initialState, action) {
       .mergeDeep({
         suspendUserDialog: {
           show: true,
+          userId: action.userId,
           username: action.username,
           commentId: action.commentId,
           commentStatus: action.commentStatus,

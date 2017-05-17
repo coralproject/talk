@@ -10,7 +10,7 @@ import translations from 'coral-admin/src/translations';
 import I18n from 'coral-framework/modules/i18n/i18n';
 
 import {modQueueQuery, getQueueCounts} from '../../graphql/queries';
-import {banUser, setCommentStatus} from '../../graphql/mutations';
+import {banUser, setCommentStatus, suspendUser} from '../../graphql/mutations';
 
 import {fetchSettings} from 'actions/settings';
 import {updateAssets} from 'actions/assets';
@@ -211,14 +211,24 @@ class ModerationContainer extends Component {
         <SuspendUserDialog
           open={moderation.suspendUserDialog.show}
           username={moderation.suspendUserDialog.username}
+          userId={moderation.suspendUserDialog.userId}
           onCancel={props.hideSuspendUserDialog}
-          onPerform={(result) => {
-            toast(
-              lang.t('suspenduser.notify_suspend_until',
-                moderation.suspendUserDialog.username,
-                lang.timeago(result.until)),
-              {type: 'success'}
-            );
+          onPerform={(args) => {
+            props.suspendUser(args)
+              .then(() => {
+                toast(
+                  lang.t('suspenduser.notify_suspend_until',
+                    moderation.suspendUserDialog.username,
+                    lang.timeago(args.until)),
+                  {type: 'success'}
+                );
+              })
+              .catch((err) => {
+                toast(
+                  err,
+                  {type: 'error'}
+                );
+              });
             props.hideSuspendUserDialog();
           }}
         />
@@ -238,7 +248,7 @@ const mapStateToProps = (state) => ({
   assets: state.assets.get('assets')
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   onClose: () => dispatch(toggleModal(false)),
   hideBanUserDialog: () => dispatch(hideBanUserDialog(false)),
   ...bindActionCreators({
@@ -257,6 +267,7 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   setCommentStatus,
   getQueueCounts,
+  banUser,
+  suspendUser,
   modQueueQuery,
-  banUser
 )(ModerationContainer);
