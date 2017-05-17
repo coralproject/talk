@@ -1,5 +1,5 @@
-query UserDetail ($id: ID!) {
-  user(id: $id) {
+query UserDetail ($author_id: ID!) {
+  user(id: $author_id) {
     id
     username
     created_at
@@ -8,4 +8,6 @@ query UserDetail ($id: ID!) {
       provider
     }
   }
+  totalComments: commentCount(query: {author_id: $author_id})
+  rejectedComments: commentCount(query: {author_id: $author_id, statuses: [REJECTED]})
 }

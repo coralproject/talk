@@ -28,11 +28,18 @@ class UserDetail extends React.Component {
       return null;
     }
 
-    const {user} = data;
+    const {user, totalComments, rejectedComments} = data;
     const localProfile = user.profiles.find((p) => p.provider === 'local');
     let profile;
     if (localProfile) {
       profile = localProfile.id;
+    }
+
+    let rejectedPercent = rejectedComments / totalComments;
+    if (rejectedPercent === Infinity || isNaN(rejectedPercent)) {
+
+      // if totalComments is 0, you're dividing by zero, which is naughty
+      rejectedPercent = 0;
     }
 
     return (
@@ -48,6 +55,14 @@ class UserDetail extends React.Component {
           <br/><small className={styles.small}>Data represents the last six months of activity</small>
         </p>
         <div className={styles.stats}>
+          <div className={styles.stat}>
+            <p>Total Comments</p>
+            <p>{totalComments}</p>
+          </div>
+          <div className={styles.stat}>
+            <p>Reject Rate</p>
+            <p>{`${(rejectedPercent).toFixed(1)}%`}</p>
+          </div>
         </div>
       </Drawer>
     );

@@ -99,7 +99,7 @@ export const modQueueResort = (id, fetchMore) => (sort) => {
 export const getUserDetail = graphql(USER_DETAIL, {
   options: ({id}) => {
     return {
-      variables: {id}
+      variables: {author_id: id}
     };
   }
 });

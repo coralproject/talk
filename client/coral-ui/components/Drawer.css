@@ -1,5 +1,6 @@
 .drawer {
   max-width: 700px;
+  min-width: 400px;
   padding: 20px;
   position: fixed;
   top: 0;
@@ -8,6 +9,7 @@
   background-color: white;
   transition: transform 500ms ease-in-out;
   box-shadow: -3px 0px 4px 0px rgba(0,0,0,0.15);
+  z-index: 10000;
 }
 
 .closeButton {

@@ -208,7 +208,11 @@ class ModerationContainer extends Component {
           shortcutsNoteVisible={moderation.shortcutsNoteVisible}
           open={moderation.modalOpen}
           onClose={onClose}/>
-        {moderation.userDetailId && <UserDetail id={moderation.userDetailId} hideUserDetail={hideUserDetail}/>}
+        {moderation.userDetailId && (
+          <UserDetail
+            id={moderation.userDetailId}
+            hideUserDetail={hideUserDetail} />
+        )}
       </div>
     );
   }
