@@ -75,18 +75,6 @@ const ErrMissingToken = new APIError('token is required', {
   status: 400
 });
 
-// ErrNoCommentFound is returned when trying to add a tag to a comment that does not exist.
-const ErrNoCommentFound = new APIError('comment does not exist', {
-  translation_key: 'COMMENT_NOT_FOUND',
-  status: 400
-});
-
-// ErrNoCommentFound is returned when trying to add a tag to a comment that does not exist.
-const ErrTagNotAllowed = new APIError('tag not allowed', {
-  translation_key: 'TAG_NOT_ALLOWED',
-  status: 400
-});
-
 // ErrAssetCommentingClosed is returned when a comment or action is attempted on
 // a stream where commenting has been closed.
 class ErrAssetCommentingClosed extends APIError {
@@ -179,8 +167,6 @@ module.exports = {
   ErrMissingEmail,
   ErrMissingPassword,
   ErrMissingToken,
-  ErrNoCommentFound,
-  ErrTagNotAllowed,
   ErrEmailTaken,
   ErrSpecialChars,
   ErrMissingUsername,
