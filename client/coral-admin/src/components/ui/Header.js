@@ -26,13 +26,17 @@ const CoralHeader = ({
             activeClassName={styles.active}>
             {lang.t('configure.dashboard')}
           </IndexLink>
-          <Link
-            id='moderateNav'
-            className={styles.navLink}
-            to="/admin/moderate"
-            activeClassName={styles.active}>
-            {lang.t('configure.moderate')}
-          </Link>
+          {
+            auth && auth.user && can(auth.user, 'MODERATE_COMMENTS') && (
+              <Link
+                id='moderateNav'
+                className={styles.navLink}
+                to="/admin/moderate"
+                activeClassName={styles.active}>
+                {lang.t('configure.moderate')}
+              </Link>
+            )
+          }
           <Link
             id='streamsNav'
             className={styles.navLink}
