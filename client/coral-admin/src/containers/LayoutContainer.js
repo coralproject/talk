@@ -55,7 +55,7 @@ class LayoutContainer extends Component {
         />
       );
     } else if (loggedIn) {
-      return <p>you do not have permission to see this page.</p>;
+      return <p>This page is for team use only. Please contact an administrator if you want to join this team.</p>;
     }
     return <FullLoading />;
   }
