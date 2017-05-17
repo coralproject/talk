@@ -148,10 +148,12 @@ export const fetchSignIn = (formData) => (dispatch) => {
 const signInFacebookRequest = () => ({
   type: actions.FETCH_SIGNIN_FACEBOOK_REQUEST
 });
+
 const signInFacebookSuccess = (user) => ({
   type: actions.FETCH_SIGNIN_FACEBOOK_SUCCESS,
   user
 });
+
 const signInFacebookFailure = (error) => ({
   type: actions.FETCH_SIGNIN_FACEBOOK_FAILURE,
   error
@@ -189,8 +191,8 @@ export const facebookCallback = (err, data) => (dispatch) => {
     return;
   }
   try {
-    const user = JSON.parse(data);
-    dispatch(signInFacebookSuccess(user));
+    dispatch(handleAuthToken(data.token));
+    dispatch(signInFacebookSuccess(data.user));
     dispatch(hideSignInDialog());
     dispatch(showCreateUsernameDialog());
     dispatch(hideSignInDialog());
@@ -263,8 +265,8 @@ export const fetchForgotPassword = (email) => (dispatch) => {
 
 export const logout = () => (dispatch) => {
   return coralApi('/auth', {method: 'DELETE'}).then(() => {
-    dispatch({type: actions.LOGOUT});
     Storage.removeItem('token');
+    dispatch({type: actions.LOGOUT});
   });
 };
 

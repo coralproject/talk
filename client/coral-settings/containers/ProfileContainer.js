@@ -23,6 +23,14 @@ class ProfileContainer extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.auth.loggedIn && nextProps.auth.loggedIn) {
+
+      // Refetch after login.
+      this.props.data.refetch();
+    }
+  }
+
   handleTabChange = (tab) => {
     this.setState({
       activeTab: tab
@@ -37,7 +45,7 @@ class ProfileContainer extends Component {
       return <NotLoggedIn showSignInDialog={showSignInDialog} />;
     }
 
-    if (data.loading) {
+    if (!me || data.loading) {
       return <Spinner />;
     }
 
@@ -76,6 +84,7 @@ const withQuery = graphql(
   gql`
   query EmbedStreamProfileQuery {
     me {
+      id
       ignoredUsers {
         id,
         username,
