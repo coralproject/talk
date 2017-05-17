@@ -867,6 +867,5 @@ module.exports = class UsersService {
         ignoresUsers: usersToStopIgnoring
       }
     });
-    console.log('Mongo wrote stopIgnoringUsers', usersToStopIgnoring);
   }
 };
