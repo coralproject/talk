@@ -38,14 +38,14 @@ en:
     are_you_sure: "Are you sure you would like to ban {0}?"
     ban_user: "Ban User?"
     banned: Banned
-    banned-user: "Banned User"
+    banned_user: "Banned User"
     cancel: Cancel
     flaggedaccounts: "Flagged Usernames"
     flags: Flags
     loading: "Loading results"
     moderator: Moderator
     newsroom_role: "Newsroom Role"
-    no-flagged-accounts: "The Account Flags queue is currently empty."
+    no_flagged_accounts: "The Account Flags queue is currently empty."
     no-results: "No users found with that user name or email address. They're hiding!"
     note: "Note: Banning this user will not let them edit comment or remove anything."
     other: Other
@@ -83,7 +83,7 @@ en:
     domain_list_text: "Enter the domains you would like to permit for Talk e.g. your local staging and production environments (ex. localhost:3000 staging.domain.com domain.com)."
     domain_list_title: "Permitted Domains"
     embed_comment_stream: "Embed Stream"
-    enable-premod-links-text: "Moderators must approve any comment containing a link before its published."
+    enable_premod_links_text: "Moderators must approve any comment containing a link before its published."
     enable_pre_moderation: "Enable pre-moderation"
     enable_pre_moderation_text: "Moderators must approve any comment before it is published."
     enable_premod_links: "Pre-Moderate Comments Containing Links"

@@ -30,7 +30,7 @@ const FlaggedAccounts = ({...props}) => {
               suspendUser={props.suspendUser}
               />;
           })
-          : <EmptyCard>{t('community.no-flagged-accounts')}</EmptyCard>
+          : <EmptyCard>{t('community.no_flagged_accounts')}</EmptyCard>
         }
       </div>
     </div>

@@ -38,14 +38,14 @@ es:
     are_you_sure: '¿Estas segura que quieres suspender a {0}?'
     ban_user: ¿Quieres suspender al Usuario?
     banned: Suspendido
-    banned-user: Usuarix Suspendido
+    banned_user: Usuarix Suspendido
     cancel: Cancelar
     flaggedaccounts: Nombres de Usuarix Reportados
     flags: Reportes
     loading: Cargando resultados
     moderator: Moderatora
     newsroom_role: Rol en la redacción
-    no-flagged-accounts: No hay ninguna cuenta reportada en este momento.
+    no_flagged_accounts: No hay ninguna cuenta reportada en este momento.
     no-results: No se encontraron usuarixs con ese nombre o correo.
     note: 'Nota: Suspender a este usuario no le va a permitir (al usuario) borrar ni editar ni comentar.'
     other: Otro
@@ -81,10 +81,10 @@ es:
     domain_list_text: Agrega dominios permitidos a Talk, por ejemplo tu localhost, staging y ambientes de producción (ej. localhost:3000, staging.domain.com, domain.com).
     domain_list_title: Dominios Permitidos
     embed_comment_stream: Colocar Hilo de Comentarios
-    enable-premod-links-text: Moderators must approve any comment containing a link before its published.
+    enable_premod_links_text: Moderators must approve any comment containing a link before its published.
     enable_pre_moderation: Enable pre-moderation
     enable_pre_moderation_text: Moderators must approve any comment before it is published.
-    enable-premod-links: Pre-Moderar Comentarios que contienen Enlaces
+    enable_premod_links: Pre-Moderar Comentarios que contienen Enlaces
     enable_premod: Activar Pre Moderación
     enable_premod_description: "Los y las Moderadoras deben aprobar cualquier comentario antes de su publicación"
     enable_premod_links_description: Los y las moderadoras deben aprobar cualquier comentario que contengan enlaces antes de su publicación.

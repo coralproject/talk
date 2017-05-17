@@ -20,7 +20,7 @@ const Wordlist = ({suspectWords, bannedWords, onChangeWordlist}) => (
       </div>
     </Card>
     <Card id={styles.suspectWordlist} className={styles.configSetting}>
-      <div className={styles.settingsHeader}>{t('configure.suspect_words_title')}</div>
+      <div className={styles.settingsHeader}>{t('configure.suspect_word_title')}</div>
       <p className={styles.wordlistDesc}>{t('configure.suspect_word_text')}</p>
       <div className={styles.wrapper}>
         <TagsInput
