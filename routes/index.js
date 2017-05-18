@@ -8,8 +8,18 @@ const router = express.Router();
 router.use('/api/v1', require('./api'));
 router.use('/admin', require('./admin'));
 router.use('/embed', require('./embed'));
-router.get('/embed.js', (req, res) => res.sendFile(path.join(__dirname, '../dist/embed.js')));
-router.get('/embed.js.map', (req, res) => res.sendFile(path.join(__dirname, '../dist/embed.js.map')));
+
+/**
+ * Serves a file based on a relative path.
+ */
+const serveFile = (filename) => (req, res) => res.sendFile(path.join(__dirname, filename));
+
+/**
+ * Serves the embed javascript files.
+ */
+router.get('/embed.js', serveFile('../dist/embed.js'));
+router.get('/embed.js.gz', serveFile('../dist/embed.js.gz'));
+router.get('/embed.js.map', serveFile('../dist/embed.js.map'));
 
 if (process.env.NODE_ENV !== 'production') {
   router.use('/assets', require('./assets'));
