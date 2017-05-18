@@ -32,17 +32,32 @@ app.use(helmet({
   frameguard: false
 }));
 app.use(bodyParser.json());
-app.get('*.js', (req, res, next) => {
-  const accept = accepts(req);
-  if (accept.encoding(['gzip']) === 'gzip') {
-    req.url = `${req.url}.gz`;
-    res.set('Content-Encoding', 'gzip');
-  }
 
-  next();
-});
+//==============================================================================
+// STATIC FILES
+//==============================================================================
+
+// If the application is in production mode, then add gzip rewriting for the
+// content.
+if (process.env.NODE_ENV === 'production') {
+  app.get('*.js', (req, res, next) => {
+    const accept = accepts(req);
+    if (accept.encoding(['gzip']) === 'gzip') {
+      req.url = `${req.url}.gz`;
+      res.set('Content-Encoding', 'gzip');
+    }
+
+    next();
+  });
+}
+
 app.use('/client', express.static(path.join(__dirname, 'dist')));
 app.use('/public', express.static(path.join(__dirname, 'public')));
+
+//==============================================================================
+// VIEW CONFIGURATION
+//==============================================================================
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 

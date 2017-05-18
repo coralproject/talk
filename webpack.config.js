@@ -37,7 +37,7 @@ const buildEmbeds = [
   'stream'
 ];
 
-module.exports = {
+const config = {
   devtool: 'cheap-module-source-map',
   entry: Object.assign({}, {
     'embed': [
@@ -142,13 +142,6 @@ module.exports = {
     }),
     new webpack.EnvironmentPlugin({
       'TALK_PLUGINS_JSON': '{}'
-    }),
-    new CompressionPlugin({
-      asset: '[path].gz[query]',
-      algorithm: 'gzip',
-      test: /\.(js)$/,
-      threshold: 10240,
-      minRatio: 0.8
     })
   ],
   resolveLoader: {
@@ -168,3 +161,15 @@ module.exports = {
     ]
   }
 };
+
+if (process.env.NODE_ENV === 'production') {
+  config.plugins.push(new CompressionPlugin({
+    asset: '[path].gz[query]',
+    algorithm: 'gzip',
+    test: /\.(js)$/,
+    threshold: 10240,
+    minRatio: 0.8
+  }));
+}
+
+module.exports = config;
