@@ -95,8 +95,8 @@ export const withDeleteAction = withMutation(
       }}),
   });
 
-  const COMMENT_FRAGMENT = gql`
-    fragment CoralRespect_UpdateFragment on Comment {
+const COMMENT_FRAGMENT = gql`
+    fragment CoraBest_UpdateFragment on Comment {
       tags {
         tag {
           name
@@ -135,9 +135,10 @@ export const withAddTag = withMutation(
 
             data.tags.push({
               tag: {
-                __typename: 'TagLink',
-                name
-              }
+                __typename: 'Tag',
+                name: "BEST"
+              },
+              __typename: 'TagLink'
             });
 
             // Write our data back to the cache.
@@ -171,7 +172,9 @@ export const withRemoveTag = withMutation(
             // Read the data from our cache for this query.
             const data = proxy.readFragment({fragment: COMMENT_FRAGMENT, id: fragmentId});
 
-            console.log('remove', data);
+            const idx = data.tags.findIndex(i => i.tag.name === 'BEST');
+
+            data.tags = [...data.tags.slice(0, idx), ...data.tags.slice(idx + 1)];
 
             // Write our data back to the cache.
             proxy.writeFragment({fragment: COMMENT_FRAGMENT, id: fragmentId, data});

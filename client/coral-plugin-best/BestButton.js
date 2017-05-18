@@ -6,12 +6,8 @@ import classnames from 'classnames';
 
 // tag string for best comments
 export const BEST_TAG = 'BEST';
-<<<<<<< HEAD
 
-export const commentIsBest = ({tags} = {}) => tags.some(t => t.tag.name === BEST_TAG);
-=======
 export const commentIsBest = ({tags} = {}) => tags.some((t) => t.tag.name === BEST_TAG);
->>>>>>> 7a256bdd2b62c5bdf6f20df76baa910ab0b44166
 
 const name = 'coral-plugin-best';
 const lang = new I18n(translations);
