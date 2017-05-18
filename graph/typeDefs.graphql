@@ -404,6 +404,7 @@ type Settings {
   charCountEnable: Boolean
   charCount: Int
 
+  organizationName: String
 }
 
 ################################################################################

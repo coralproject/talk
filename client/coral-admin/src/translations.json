@@ -1,7 +1,7 @@
 {
   "en": {
     "errors": {
-      "NOT_AUTHORIZED": "Your username or password is not recognized by our system.",
+      "NOT_AUTHORIZED": "You are not authorized to perform this action.",
       "LOGIN_MAXIMUM_EXCEEDED": "You have made too many unsuccessful password attempts. Please wait."
     },
     "community": {
@@ -155,8 +155,9 @@
       "username": "username",
       "email_subject": "Your account has been suspended",
       "email_message_reject": "Another member of the community recently flagged your username for review. Because of its content your user was rejected. This means you can no longer comment, like, or flag content until you rewrite your username. Please e-mail us if you have any questions or concerns.",
-      "email_message_suspend": "Your user account has been suspended. This means you can no longer comment, like, or flag content until you rewrite your username. Please e-mail us if you have any questions or concerns.",
+      "email_message_suspend": "Dear {0},\n\nIn accordance with {1}’s community guidelines, your account has been temporarily suspended. During the suspension, you will be unable to comment, flag or engage with fellow commenters. Please rejoin the conversation {2}.",
       "write_message": "Write a message",
+      "one_hour": "1 hour",
       "hours": "{0} hours",
       "days": "{0} days",
       "suspend_user": "Suspend User",
@@ -240,6 +241,7 @@
       "email_message_reject": "Otra persona de la comunidad recientemente marcó su nombre de usuario para ser revisado. Por su contenido, el nombre de usuario ha sido rechazado. Esto quiere decir que no puede comentar, gustar o marcar contenido hasta que modifique su nombre de usuario. Por favor, envienos un correo a moderator@newsorg.com si tiene alguna pregunta o preocupación",
       "write_message": "Escribir un mensaje",
       "loading": "Cargando resultados",
+      "hour": "una hora",
       "hours": "{0} horas",
       "days": "{0} días",
       "suspend_user": "Suspender",

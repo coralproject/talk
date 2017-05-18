@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {compose} from 'react-apollo';
-import {toast} from 'react-toastify';
+import * as notification from 'coral-admin/src/services/notification';
 import key from 'keymaster';
 import isEqual from 'lodash/isEqual';
 import styles from './components/styles.css';
@@ -96,6 +96,31 @@ class ModerationContainer extends Component {
     this.setState({sort});
     this.props.modQueueResort(sort);
   }
+
+  suspendUser = (args) => {
+    this.props.suspendUser(args)
+      .then((result) => {
+        if (result.data.suspendUser.errors) {
+          throw result.data.suspendUser.errors;
+        }
+        notification.success(
+          lang.t('suspenduser.notify_suspend_until',
+            this.props.moderation.suspendUserDialog.username,
+            lang.timeago(args.until)),
+        );
+        const {commentStatus, commentId} = this.props.moderation.suspendUserDialog;
+        if (commentStatus !== 'REJECTED') {
+          return this.props.rejectComment({commentId})
+            .then((result) => {
+              if (result.data.setCommentStatus.errors) {
+                throw result.data.setCommentStatus.errors;
+              }
+            });
+        }
+      })
+      .catch(notification.handleMutationErrors);
+    this.props.hideSuspendUserDialog();
+  };
 
   componentWillUnmount() {
     key.unbind('s');
@@ -197,6 +222,7 @@ class ModerationContainer extends Component {
           assetId={providedAssetId}
           sort={this.state.sort}
           commentCount={activeTabCount}
+          currentUserId={this.props.auth.user.id}
         />
         <BanUserDialog
           open={moderation.banDialog}
@@ -212,25 +238,9 @@ class ModerationContainer extends Component {
           open={moderation.suspendUserDialog.show}
           username={moderation.suspendUserDialog.username}
           userId={moderation.suspendUserDialog.userId}
+          organizationName={data.settings.organizationName}
           onCancel={props.hideSuspendUserDialog}
-          onPerform={(args) => {
-            props.suspendUser(args)
-              .then(() => {
-                toast(
-                  lang.t('suspenduser.notify_suspend_until',
-                    moderation.suspendUserDialog.username,
-                    lang.timeago(args.until)),
-                  {type: 'success'}
-                );
-              })
-              .catch((err) => {
-                toast(
-                  err,
-                  {type: 'error'}
-                );
-              });
-            props.hideSuspendUserDialog();
-          }}
+          onPerform={this.suspendUser}
         />
       <ModerationKeysModal
           hideShortcutsNote={props.hideShortcutsNote}
@@ -245,6 +255,7 @@ class ModerationContainer extends Component {
 const mapStateToProps = (state) => ({
   moderation: state.moderation.toJS(),
   settings: state.settings.toJS(),
+  auth: state.auth.toJS(),
   assets: state.assets.get('assets')
 });
 

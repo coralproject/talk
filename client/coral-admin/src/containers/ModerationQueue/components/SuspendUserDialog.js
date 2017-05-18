@@ -10,7 +10,13 @@ import {dateAdd} from 'coral-framework/utils';
 import translations from '../../../translations';
 const lang = new I18n(translations);
 
-const initialState = {step: 0, duration: '3', message: lang.t('suspenduser.email_message_suspend')};
+const initialState = {step: 0, duration: '3'};
+
+function durationsToDate(hours) {
+
+  // Add 1 minute more to help `timeago.js` to display the correct duration.
+  return dateAdd(new Date(), 'minute', hours * 60 + 1);
+}
 
 class SuspendUserDialog extends React.Component {
 
@@ -30,12 +36,16 @@ class SuspendUserDialog extends React.Component {
     this.setState({message: event.target.value});
   }
 
-  increaseStep = () => {
-    this.setState({step: this.state.step + 1});
-  }
-
-  resetStep = () => {
-    this.setState({step: 0});
+  goToStep1 = () => {
+    this.setState({
+      step: 1,
+      message: lang.t(
+        'suspenduser.email_message_suspend',
+        this.props.username,
+        this.props.organizationName,
+        lang.timeago(durationsToDate(this.state.duration)),
+      ),
+    });
   }
 
   handlePerform = () => {
@@ -45,7 +55,7 @@ class SuspendUserDialog extends React.Component {
       message: this.state.message,
 
       // Add 1 minute more to help `timeago.js` to display the correct duration.
-      until: dateAdd(new Date(), 'minute', this.state.duration * 60 + 1),
+      until: durationsToDate(this.state.duration),
     });
   };
 
@@ -69,6 +79,7 @@ class SuspendUserDialog extends React.Component {
             onChange={this.handleDurationChange}
             className={styles.radioGroup}
           >
+            <Radio value='1'>{lang.t('suspenduser.one_hour')}</Radio>
             <Radio value='3'>{lang.t('suspenduser.hours', 3)}</Radio>
             <Radio value='24'>{lang.t('suspenduser.hours', 24)}</Radio>
             <Radio value='168'>{lang.t('suspenduser.days', 7)}</Radio>
@@ -78,7 +89,7 @@ class SuspendUserDialog extends React.Component {
           <Button cStyle="white" className={styles.cancel} onClick={onCancel} raised>
             {lang.t('suspenduser.cancel')}
           </Button>
-          <Button cStyle="black" className={styles.perform} onClick={this.increaseStep} raised>
+          <Button cStyle="black" className={styles.perform} onClick={this.goToStep1} raised>
             {lang.t('suspenduser.suspend_user')}
           </Button>
         </div>
@@ -146,7 +157,9 @@ SuspendUserDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onCancel: PropTypes.func.isRequired,
   onPerform: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired,
+  username: PropTypes.string,
+  userId: PropTypes.string,
+  organizationName: PropTypes.string,
 };
 
 export default SuspendUserDialog;

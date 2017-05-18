@@ -456,7 +456,6 @@ module.exports = class UsersService {
    * @param  {Date}     until               date until the suspension is valid.
    */
   static suspendUser(id, message, until) {
-    console.log('SUSPEND');
     return UserModel.findOneAndUpdate(
       {id}, {
         $set: {
@@ -466,7 +465,6 @@ module.exports = class UsersService {
         }
       })
       .then((user) => {
-        console.log(user);
         if (message) {
           let localProfile = user.profiles.find((profile) => profile.provider === 'local');
 
@@ -477,14 +475,13 @@ module.exports = class UsersService {
                 locals: {                            // specifies the template locals.
                   body: message
                 },
-                subject: 'Email Suspension',
+                subject: 'Your account has been suspended',
                 to: localProfile.id  // This only works if the user has registered via e-mail.
                                      // We may want a standard way to access a user's e-mail address in the future
               };
 
+            console.log(options);
             return MailerService.sendSimple(options);
-          } else {
-            return Promise.reject(errors.ErrMissingEmail);
           }
         }
       });

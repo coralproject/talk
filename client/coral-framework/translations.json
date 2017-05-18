@@ -7,6 +7,8 @@
     "successNameUpdate": "Your username has been updated",
     "contentNotAvailable": "This content is not available",
     "bannedAccountMsg": "Your account is currently suspended. This means that you cannot Like, Report, or write comments. Please contact us if you have any questions.",
+
+    "temporarilySuspended": "In accordance with {0}'s community guidlines, your account has been temporarily suspended. Please rejoin the conversation {1}.",
     "editName": {
       "msg": "Your account is currently suspended because your username has been deemed inappropriate. To restore your account, please enter a new username. Please contact us if you have any questions.",
       "label": "New Username",

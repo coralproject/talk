@@ -56,6 +56,7 @@ class ModerationQueue extends React.Component {
                 acceptComment={props.acceptComment}
                 rejectComment={props.rejectComment}
                 currentAsset={props.currentAsset}
+                currentUserId={this.props.currentUserId}
                 />;
             })
             : <EmptyCard>{lang.t('modqueue.emptyqueue')}</EmptyCard>
