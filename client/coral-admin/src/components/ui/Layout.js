@@ -14,7 +14,6 @@ const Layout = ({
     <Header
       handleLogout={handleLogout}
       showShortcuts={toggleShortcutModal}
-      restricted={restricted}
       {...props} />
     <Drawer handleLogout={handleLogout} restricted={restricted} {...props} />
     <div className={styles.layout}>

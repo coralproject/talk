@@ -26,7 +26,7 @@ const CoralHeader = ({
               {lang.t('configure.dashboard')}
             </IndexLink>
             {
-              auth && auth.user && can(auth.user, 'MODERATE_COMMENTS') && (
+              can(auth.user, 'MODERATE_COMMENTS') && (
                 <Link
                   id='moderateNav'
                   className={styles.navLink}
@@ -51,7 +51,7 @@ const CoralHeader = ({
               {lang.t('configure.community')}
             </Link>
             {
-              auth && auth.user && can(auth.user, 'UPDATE_CONFIG') && (
+              can(auth.user, 'UPDATE_CONFIG') && (
                 <Link
                   id='configureNav'
                   className={styles.navLink}
