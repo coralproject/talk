@@ -7,7 +7,7 @@ import {updateOpenStatus, updateConfiguration} from 'coral-framework/actions/ass
 import CloseCommentsInfo from '../components/CloseCommentsInfo';
 import ConfigureCommentStream from '../components/ConfigureCommentStream';
 
-import {t, timeago} from 'coral-i18n/services/i18n';
+import {t, timeAgo} from 'coral-i18n/services/i18n';
 
 class ConfigureStreamContainer extends Component {
   constructor (props) {
@@ -86,7 +86,7 @@ class ConfigureStreamContainer extends Component {
     const {closedTimeout} = this.props.asset.settings;
     const {created_at} = this.props.asset;
 
-    return timeago(new Date(created_at).getTime() + (1000 * closedTimeout));
+    return timeAgo(new Date(created_at).getTime() + (1000 * closedTimeout));
   }
 
   render () {

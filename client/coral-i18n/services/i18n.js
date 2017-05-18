@@ -1,9 +1,16 @@
+const time = require('timeago.js');
 const has = require('lodash/has');
 const get = require('lodash/get');
+
+const esTA = require('../../../node_modules/timeago.js/locales/es');
 
 const defaultLanguage = 'en';
 
 let translations = {};
+
+// Add es timeago locale for the timeago registration.
+time.register('es', esTA);
+let timeagoInstance = time();
 
 const fetchTranslations = (locale) => {
   translations = require(`json-loader!yaml-loader!../locales/${locale}.yml`)[locale];
@@ -24,8 +31,11 @@ export const loadTranslations = (translations) => {
     const locale = getLocale();
     setLocale(locale);
 
+    // If we have a translations file, let's use that one.
+    // Otherwise get the core translations.
     if (translations !== undefined) {
       translations = translations[locale];
+      return translations;
     }
 
     return fetchTranslations(locale);
@@ -36,7 +46,9 @@ export const loadTranslations = (translations) => {
   }
 };
 
-export const timeago = (date) => timeago().format(date, getLocale().replace('-', '_'));
+export const timeago = (time) => {
+  return timeagoInstance.format(new Date(time), getLocale());
+};
 
 /**
  * Expose the translation function

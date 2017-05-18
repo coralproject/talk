@@ -1,5 +1,5 @@
 import React from 'react';
-import timeago from 'coral-i18n/services/i18n';
+import {timeago} from 'coral-i18n/services/i18n';
 
 const name = 'coral-plugin-pubdate';
 

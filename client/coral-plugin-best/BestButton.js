@@ -98,7 +98,7 @@ export class BestButton extends Component {
       <button onClick={isBest ? this.onClickRemoveBest : this.onClickAddBest}
               disabled={disabled}
               className={classnames(`${name}-button`, `e2e__${isBest ? 'unset' : 'set'}-best-comment`)}
-              aria-label={t(isBest ? 'unsetBest' : 'setBest')}>
+              aria-label={t(isBest ? 'unset_best' : 'set_best')}>
         <Icon name={ isBest ? 'star' : 'star_border' } />
       </button>
     );
