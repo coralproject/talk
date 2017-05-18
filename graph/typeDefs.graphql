@@ -679,8 +679,8 @@ input SuspendUserInput {
   # message to be sent to the user.
   message: String!
 
-  # If set, the suspension lasts at least until specified date.
-  until: Date
+  # target user will be suspended until this date.
+  until: Date!
 }
 
 # Input for rejectUsername mutation.
