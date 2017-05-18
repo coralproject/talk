@@ -113,7 +113,9 @@ class StreamContainer extends React.Component {
   componentDidMount() {
     if (this.props.previousTab) {
       this.props.data.refetch()
-        .then(() => this.props.setCommentCountCache(0));
+        .then(({data: {asset: {commentCount}}}) => {
+          return this.props.setCommentCountCache(commentCount);
+        });
     }
     this.countPoll = setInterval(() => {
       this.getCounts(this.props.data.variables);
