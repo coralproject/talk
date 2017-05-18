@@ -55,7 +55,7 @@ module.exports = class CommentsService {
     // original query.
     let lastEditableCommentCreatedAt;
     if (!ignoreEditWindow) {
-      const editWindowMs = (await SettingsService.retrieve()).editCommentWindowLength;
+      const {editCommentWindowLength: editWindowMs} = await SettingsService.retrieve();
       lastEditableCommentCreatedAt = new Date((new Date()).getTime() - editWindowMs);
       query.created_at = {
         $gt: lastEditableCommentCreatedAt,

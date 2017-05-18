@@ -201,6 +201,8 @@ const extension = {
     }) => ({
       updateQueries: {
         EmbedQuery: (previousData, {mutationResult: {data: {editComment: {comment, errors}}}}) => {
+
+          // @TODO (kiwi) revisit after streamlining error handling
           if (errors && errors.length) {
             return previousData;
           }
