@@ -4,6 +4,8 @@ const get = require('lodash/get');
 
 const esTA = require('../../../node_modules/timeago.js/locales/es');
 
+// Translations are happening at https://www.transifex.com/the-coral-project/talk-1/dashboard/.
+
 const defaultLanguage = 'en';
 
 let translations = {};
