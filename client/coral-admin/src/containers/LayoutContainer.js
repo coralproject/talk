@@ -57,7 +57,7 @@ class LayoutContainer extends Component {
     } else if (loggedIn) {
       return (
         <Layout {...this.props}>
-          <p>This page is for team use only. Please contact an administrator if you want to join this team.</p>;
+          <p>This page is for team use only. Please contact an administrator if you want to join this team.</p>
         </Layout>
       );
     }

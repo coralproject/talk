@@ -10,59 +10,61 @@ import {can} from 'coral-framework/utils/roles';
 const CoralHeader = ({
   handleLogout,
   showShortcuts = () => {},
-  restricted = false,
   auth
 }) => (
   <Header className={styles.header}>
     <Logo className={styles.logo} />
-    {
-      !restricted ?
       <div>
-        <Navigation className={styles.nav}>
-          <IndexLink
-            id='dashboardNav'
-            className={styles.navLink}
-            to="/admin/dashboard"
-            activeClassName={styles.active}>
-            {lang.t('configure.dashboard')}
-          </IndexLink>
-          {
-            auth && auth.user && can(auth.user, 'MODERATE_COMMENTS') && (
-              <Link
-                id='moderateNav'
-                className={styles.navLink}
-                to="/admin/moderate"
-                activeClassName={styles.active}>
-                {lang.t('configure.moderate')}
-              </Link>
-            )
-          }
-          <Link
-            id='streamsNav'
-            className={styles.navLink}
-            to="/admin/stories"
-            activeClassName={styles.active}>
-            {lang.t('configure.stories')}
-          </Link>
-          <Link
-            id='communityNav'
-            className={styles.navLink}
-            to="/admin/community"
-            activeClassName={styles.active}>
-            {lang.t('configure.community')}
-          </Link>
-          {
-            auth && auth.user && can(auth.user, 'UPDATE_CONFIG') && (
-              <Link
-                id='configureNav'
-                className={styles.navLink}
-                to="/admin/configure"
-                activeClassName={styles.active}>
-                {lang.t('configure.configure')}
-              </Link>
-            )
-          }
-        </Navigation>
+        {
+          auth && auth.user && can(auth.user, 'ACCESS_ADMIN') ?
+          <Navigation className={styles.nav}>
+            <IndexLink
+              id='dashboardNav'
+              className={styles.navLink}
+              to="/admin/dashboard"
+              activeClassName={styles.active}>
+              {lang.t('configure.dashboard')}
+            </IndexLink>
+            {
+              auth && auth.user && can(auth.user, 'MODERATE_COMMENTS') && (
+                <Link
+                  id='moderateNav'
+                  className={styles.navLink}
+                  to="/admin/moderate"
+                  activeClassName={styles.active}>
+                  {lang.t('configure.moderate')}
+                </Link>
+              )
+            }
+            <Link
+              id='streamsNav'
+              className={styles.navLink}
+              to="/admin/stories"
+              activeClassName={styles.active}>
+              {lang.t('configure.stories')}
+            </Link>
+            <Link
+              id='communityNav'
+              className={styles.navLink}
+              to="/admin/community"
+              activeClassName={styles.active}>
+              {lang.t('configure.community')}
+            </Link>
+            {
+              auth && auth.user && can(auth.user, 'UPDATE_CONFIG') && (
+                <Link
+                  id='configureNav'
+                  className={styles.navLink}
+                  to="/admin/configure"
+                  activeClassName={styles.active}>
+                  {lang.t('configure.configure')}
+                </Link>
+              )
+            }
+          </Navigation>
+          :
+          null
+        }
         <div className={styles.rightPanel}>
           <ul>
             <li className={styles.settings}>
@@ -80,17 +82,13 @@ const CoralHeader = ({
           </ul>
         </div>
       </div>
-    :
-    null
-  }
   </Header>
 );
 
 CoralHeader.propTypes = {
   auth: PropTypes.object,
   showShortcuts: PropTypes.func,
-  handleLogout: PropTypes.func.isRequired,
-  restricted: PropTypes.bool // hide elemnts from a user that's logged out
+  handleLogout: PropTypes.func.isRequired
 };
 
 const lang = new I18n(translations);

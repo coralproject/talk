@@ -119,7 +119,7 @@ class Configure extends Component {
   render () {
     const {activeSection} = this.state;
     const section = this.getSection(activeSection);
-    const {auth: user} = this.props;
+    const {auth: {user}} = this.props;
 
     if (!can(user, 'UPDATE_CONFIG')) {
       return <p>You must be an administrator to access config settings. Please find the nearest Admin and ask them to level you up!</p>;
