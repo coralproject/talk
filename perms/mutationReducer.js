@@ -1,7 +1,4 @@
-const intersection = require('lodash/intersection');
-const check = (user, roles) => {
-  return !!intersection(roles, user.roles).length;
-};
+const {check} = require('./utils');
 
 module.exports = {
   CREATE_COMMENT: 'CREATE_COMMENT',

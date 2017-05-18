@@ -163,7 +163,7 @@ UserSchema.index({
  * returns true if a commenter is staff
  */
 UserSchema.method('isStaff', function () {
-  return !!intersection(['ADMIN', 'MODERATOR', 'STAFF'], this.roles).length;
+  return intersection(['ADMIN', 'MODERATOR', 'STAFF'], this.roles).length !== 0;
 });
 
 /**

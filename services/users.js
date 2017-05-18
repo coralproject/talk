@@ -389,9 +389,6 @@ module.exports = class UsersService {
       return Promise.reject(new Error(`role ${role} is not supported`));
     }
 
-    // 5.11.2017 - Restricting this to a hierarchical system like WordPress
-    // where you can only set one role at a time.
-    // I'm not changing the data structure here, because I don't want a migration
     return UserModel.update({id}, {$set: {roles: [role]}});
   }
 
