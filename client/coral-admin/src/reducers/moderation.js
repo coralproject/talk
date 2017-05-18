@@ -7,6 +7,7 @@ const initialState = fromJS({
   user: {},
   commentId: null,
   commentStatus: null,
+  userDetailId: null,
   banDialog: false,
   shortcutsNoteVisible: window.localStorage.getItem('coral:shortcutsNote') || 'show',
   suspendUserDialog: {
@@ -59,6 +60,10 @@ export default function moderation (state = initialState, action) {
   case actions.HIDE_SHORTCUTS_NOTE:
     return state
       .set('shortcutsNoteVisible', 'hide');
+  case actions.VIEW_USER_DETAIL:
+    return state.set('userDetailId', action.userId);
+  case actions.HIDE_USER_DETAIL:
+    return state.set('userDetailId', null);
   default :
     return state;
   }

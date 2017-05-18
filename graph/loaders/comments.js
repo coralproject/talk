@@ -120,7 +120,7 @@ const getParentCountByAssetIDPersonalized = async (context, {assetId, excludeIgn
     const ignoredUsers = freshUser.ignoresUsers;
     query.author_id = {$nin: ignoredUsers};
   }
-  
+
   return CommentModel.where(query).count();
 };
 
@@ -191,7 +191,7 @@ const getCountByParentIDPersonalized = async (context, {id, excludeIgnored}) => 
  * @return {Promise}          resolves to the counts of the comments from the
  *                            query
  */
-const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id}) => {
+const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id, author_id}) => {
   let query = CommentModel.find();
 
   if (ids) {
@@ -208,6 +208,10 @@ const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id}) =
 
   if (parent_id !== undefined) {
     query = query.where({parent_id});
+  }
+
+  if (author_id) {
+    query = query.where({author_id});
   }
 
   return CommentModel

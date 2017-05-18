@@ -22,6 +22,8 @@ import {
   showSuspendUserDialog,
   hideSuspendUserDialog,
   hideShortcutsNote,
+  viewUserDetail,
+  hideUserDetail
 } from 'actions/moderation';
 
 import {Spinner} from 'coral-ui';
@@ -32,6 +34,7 @@ import ModerationMenu from './components/ModerationMenu';
 import ModerationHeader from './components/ModerationHeader';
 import NotFoundAsset from './components/NotFoundAsset';
 import ModerationKeysModal from '../../components/ModerationKeysModal';
+import UserDetail from './UserDetail';
 
 const lang = new I18n(translations);
 
@@ -153,7 +156,7 @@ class ModerationContainer extends Component {
   }
 
   render () {
-    const {data, moderation, settings, assets, onClose, ...props} = this.props;
+    const {data, moderation, settings, assets, onClose, viewUserDetail, hideUserDetail, ...props} = this.props;
     const providedAssetId = this.props.params.id;
     const activeTab = this.props.route.path === ':id' ? 'premod' : this.props.route.path;
 
@@ -225,6 +228,8 @@ class ModerationContainer extends Component {
           sort={this.state.sort}
           commentCount={activeTabCount}
           currentUserId={this.props.auth.user.id}
+          viewUserDetail={viewUserDetail}
+          hideUserDetail={hideUserDetail}
         />
         <BanUserDialog
           open={moderation.banDialog}
@@ -244,11 +249,16 @@ class ModerationContainer extends Component {
           onCancel={props.hideSuspendUserDialog}
           onPerform={this.suspendUser}
         />
-      <ModerationKeysModal
+        <ModerationKeysModal
           hideShortcutsNote={props.hideShortcutsNote}
           shortcutsNoteVisible={moderation.shortcutsNoteVisible}
           open={moderation.modalOpen}
           onClose={onClose}/>
+        {moderation.userDetailId && (
+          <UserDetail
+            id={moderation.userDetailId}
+            hideUserDetail={hideUserDetail} />
+        )}
       </div>
     );
   }
@@ -273,6 +283,8 @@ const mapDispatchToProps = (dispatch) => ({
     hideShortcutsNote,
     showSuspendUserDialog,
     hideSuspendUserDialog,
+    viewUserDetail,
+    hideUserDetail,
   }, dispatch),
 });
 

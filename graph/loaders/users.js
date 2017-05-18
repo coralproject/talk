@@ -15,7 +15,7 @@ const genUserByIDs = (context, ids) => UsersService
  * @param  {Object} context   graph context
  * @param  {Object} query     query terms to apply to the users query
  */
-const getUsersByQuery = ({user}, {ids, limit, cursor, sort}) => {
+const getUsersByQuery = ({user}, {ids, limit, cursor, statuses = null, sort}) => {
 
   let users = UserModel.find();
 
@@ -23,6 +23,14 @@ const getUsersByQuery = ({user}, {ids, limit, cursor, sort}) => {
     users = users.find({
       id: {
         $in: ids
+      }
+    });
+  }
+
+  if (statuses != null) {
+    users = users.where({
+      status: {
+        $in: statuses
       }
     });
   }

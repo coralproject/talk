@@ -5,6 +5,22 @@
 # Date represented as an ISO8601 string.
 scalar Date
 
+################################################################################
+## Reliability
+################################################################################
+
+# Reliability defines how a given user should be considered reliable for their
+# comment or flag activity.
+type Reliability {
+
+  # flagger will be `true` when the flagger is reliable, `false` if not, or
+  # `null` if the reliability cannot be determined.
+  flagger: Boolean
+
+  # commenter will be `true` when the commenter is reliable, `false` if not, or
+  # `null` if the reliability cannot be determined.
+  commenter: Boolean
+}
 
 ################################################################################
 ## Users
@@ -20,6 +36,14 @@ enum USER_ROLES {
   MODERATOR
 }
 
+type UserProfile {
+  # the id is an identifier for the user profile (email, facebook id, etc)
+  id: String!
+
+  # name of the provider attached to the authentication mode
+  provider: String!
+}
+
 # Any person who can author comments, create actions, and view comments on a
 # stream.
 type User {
@@ -30,6 +54,9 @@ type User {
   # Username of a user.
   username: String!
 
+  # creation date of user
+  created_at: String!
+
   # Action summaries against the user.
   action_summaries: [ActionSummary!]!
 
@@ -39,6 +66,9 @@ type User {
   # the current roles of the user.
   roles: [USER_ROLES!]
 
+  # the current profiles of the user.
+  profiles: [UserProfile]
+
   # determines whether the user can edit their username
   canEditName: Boolean
 
@@ -47,6 +77,11 @@ type User {
 
   # returns all comments based on a query.
   comments(query: CommentsQuery): [Comment!]
+
+  # reliable is the reference to a given user's Reliability. If the requesting
+  # user does not have permission to access the reliability, null will be
+  # returned.
+  reliable: Reliability
 
   # returns user status
   status: USER_STATUS
@@ -158,6 +193,10 @@ input CommentCountQuery {
   # comments returned will only be ones which have at least one action of this
   # type.
   action_type: ACTION_TYPE
+
+  # author_id allows the querying of comment counts based on the author of the
+  # comments.
+  author_id: ID
 
   # Filter by a specific tag name.
   tag: [String]
@@ -549,6 +588,9 @@ type RootQuery {
 
   # Users returned based on a query.
   users(query: UsersQuery): [User]
+
+  # a single User by id
+  user(id: ID!): User
 
   # Asset metrics related to user actions are saturated into the assets
   # returned. Parameters `from` and `to` are related to the action created_at field.

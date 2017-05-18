@@ -24,3 +24,6 @@ export const hideShortcutsNote = () => {
 
   return {type: actions.HIDE_SHORTCUTS_NOTE};
 };
+
+export const viewUserDetail = (userId) => ({type: actions.VIEW_USER_DETAIL, userId});
+export const hideUserDetail = () => ({type: actions.HIDE_USER_DETAIL});
