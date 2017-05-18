@@ -139,9 +139,6 @@ const extension = {
       }
     }),
     StopIgnoringUser: ({variables}) => ({
-      refetchQueries: [
-        'EmbedQuery',
-      ],
       updateQueries: {
         EmbedStreamProfileQuery: (previousData, {mutationResult}) => {
           const noLongerIgnoredUserId = variables.id;
