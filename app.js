@@ -43,8 +43,15 @@ if (process.env.NODE_ENV === 'production') {
   app.get('*.js', (req, res, next) => {
     const accept = accepts(req);
     if (accept.encoding(['gzip']) === 'gzip') {
-      req.url = `${req.url}.gz`;
+
+      // Adjsut the headers on the request by adding a content type header
+      // because express won't be able to detect the mime-type with the .gz
+      // extension and we need to decalre support for the gzip encoding.
+      res.set('Content-Type', 'application/javascript');
       res.set('Content-Encoding', 'gzip');
+
+      // Rewrite the url so that the gzip version will be served instead.
+      req.url = `${req.url}.gz`;
     }
 
     next();
