@@ -95,6 +95,16 @@ export const withDeleteAction = withMutation(
       }}),
   });
 
+  const COMMENT_FRAGMENT = gql`
+    fragment CoralRespect_UpdateFragment on Comment {
+      tags {
+        tag {
+          name
+        }
+      }
+    }
+  `;
+
 export const withAddTag = withMutation(
   gql`
     mutation AddCommentTag($id: ID!, $asset_id: ID!, $name: String!) {
@@ -104,13 +114,35 @@ export const withAddTag = withMutation(
     }
   `, {
     props: ({mutate}) => ({
-      addTag: ({id, name, asset_id}) => {
+      addTag: ({id, name, assetId}) => {
         return mutate({
           variables: {
             id,
             name,
-            asset_id
-          }
+            asset_id: assetId
+          },
+          optimisticResponse: {
+            deleteAction: {
+              __typename: 'DeleteActionResponse',
+              errors: null,
+            }
+          },
+          update: (proxy) => {
+            const fragmentId = `Comment_${id}`;
+
+            // Read the data from our cache for this query.
+            const data = proxy.readFragment({fragment: COMMENT_FRAGMENT, id: fragmentId});
+
+            data.tags.push({
+              tag: {
+                __typename: 'TagLink',
+                name
+              }
+            });
+
+            // Write our data back to the cache.
+            proxy.writeFragment({fragment: COMMENT_FRAGMENT, id: fragmentId, data});
+          },
         });
       }}),
   });
@@ -132,6 +164,17 @@ export const withRemoveTag = withMutation(
             id,
             name,
             asset_id
+          },
+          update: (proxy) => {
+            const fragmentId = `Comment_${id}`;
+
+            // Read the data from our cache for this query.
+            const data = proxy.readFragment({fragment: COMMENT_FRAGMENT, id: fragmentId});
+
+            console.log('remove', data);
+
+            // Write our data back to the cache.
+            proxy.writeFragment({fragment: COMMENT_FRAGMENT, id: fragmentId, data});
           }
         });
       }}),

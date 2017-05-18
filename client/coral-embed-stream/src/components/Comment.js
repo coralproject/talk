@@ -216,7 +216,7 @@ class Comment extends React.Component {
         addTag({
           id: comment.id,
           name: BEST_TAG,
-          asset_id: asset.id
+          assetId: asset.id
         }),
       () => 'Failed to tag comment as best'
     );

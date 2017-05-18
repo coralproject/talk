@@ -9,8 +9,6 @@ export const BEST_TAG = 'BEST';
 
 export const commentIsBest = ({tags} = {}) => tags.some(t => t.tag.name === BEST_TAG);
 
-// const commentIsBest = tags => !!tags.filter(i => i.tag.name === 'BEST_TAG).length;
-
 const name = 'coral-plugin-best';
 const lang = new I18n(translations);
 
