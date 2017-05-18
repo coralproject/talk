@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const CompressionPlugin = require('compression-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');
 const Copy = require('copy-webpack-plugin');
@@ -145,6 +146,13 @@ module.exports = {
     }),
     new webpack.EnvironmentPlugin({
       'TALK_PLUGINS_JSON': '{}'
+    }),
+    new CompressionPlugin({
+      asset: '[path].gz[query]',
+      algorithm: 'gzip',
+      test: /\.(js)$/,
+      threshold: 10240,
+      minRatio: 0.8
     })
   ],
   resolveLoader: {
