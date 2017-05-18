@@ -97,29 +97,31 @@ class ModerationContainer extends Component {
     this.props.modQueueResort(sort);
   }
 
-  suspendUser = (args) => {
-    this.props.suspendUser(args)
-      .then((result) => {
-        if (result.data.suspendUser.errors) {
-          throw result.data.suspendUser.errors;
-        }
-        notification.success(
-          lang.t('suspenduser.notify_suspend_until',
-            this.props.moderation.suspendUserDialog.username,
-            lang.timeago(args.until)),
-        );
-        const {commentStatus, commentId} = this.props.moderation.suspendUserDialog;
-        if (commentStatus !== 'REJECTED') {
-          return this.props.rejectComment({commentId})
-            .then((result) => {
-              if (result.data.setCommentStatus.errors) {
-                throw result.data.setCommentStatus.errors;
-              }
-            });
-        }
-      })
-      .catch(notification.handleMutationErrors);
+  suspendUser = async (args) => {
     this.props.hideSuspendUserDialog();
+    try {
+      const result = await this.props.suspendUser(args);
+      if (result.data.suspendUser.errors) {
+        throw result.data.suspendUser.errors;
+      }
+      notification.success(
+        lang.t('suspenduser.notify_suspend_until',
+          this.props.moderation.suspendUserDialog.username,
+          lang.timeago(args.until)),
+      );
+      const {commentStatus, commentId} = this.props.moderation.suspendUserDialog;
+      if (commentStatus !== 'REJECTED') {
+        return this.props.rejectComment({commentId})
+          .then((result) => {
+            if (result.data.setCommentStatus.errors) {
+              throw result.data.setCommentStatus.errors;
+            }
+          });
+      }
+    }
+    catch(err) {
+      notification.handleMutationErrors(err);
+    }
   };
 
   componentWillUnmount() {
