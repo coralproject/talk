@@ -128,11 +128,7 @@ module.exports = {
       ...buildEmbeds.map((embed) => ({
         from: path.join(__dirname, 'client', `coral-embed-${embed}`, 'style'),
         to: path.join(__dirname, 'dist', 'embed', embed)
-      })),
-      {
-        from: path.join(__dirname, 'client', 'lib'),
-        to: path.join(__dirname, 'dist', 'embed', 'stream')
-      }
+      }))
     ]),
     autoprefixer,
     precss,
