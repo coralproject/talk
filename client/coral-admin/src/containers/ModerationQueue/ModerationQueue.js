@@ -11,6 +11,7 @@ import LoadMore from './components/LoadMore';
 class ModerationQueue extends React.Component {
 
   static propTypes = {
+    viewUserDetail: PropTypes.func.isRequired,
     bannedWords: PropTypes.arrayOf(PropTypes.string).isRequired,
     suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired,
     currentAsset: PropTypes.object,
@@ -32,7 +33,17 @@ class ModerationQueue extends React.Component {
   }
 
   render () {
-    const {comments, selectedIndex, commentCount, singleView, loadMore, activeTab, sort, ...props} = this.props;
+    const {
+      comments,
+      selectedIndex,
+      commentCount,
+      singleView,
+      loadMore,
+      activeTab,
+      sort,
+      viewUserDetail,
+      ...props
+    } = this.props;
 
     return (
       <div id="moderationList" className={`${styles.list} ${singleView ? styles.singleView : ''}`}>
@@ -48,6 +59,7 @@ class ModerationQueue extends React.Component {
                 selected={i === selectedIndex}
                 suspectWords={props.suspectWords}
                 bannedWords={props.bannedWords}
+                viewUserDetail={viewUserDetail}
                 actions={actionsMap[status]}
                 showBanUserDialog={props.showBanUserDialog}
                 acceptComment={props.acceptComment}

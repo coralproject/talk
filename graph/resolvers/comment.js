@@ -48,10 +48,12 @@ const Comment = {
   asset({asset_id}, _, {loaders: {Assets}}) {
     return Assets.getByID.load(asset_id);
   },
-  editing(comment) {
+  async editing(comment, _, {loaders: {Settings}}) {
+    const settings = await Settings.load();
+    const editableUntil = new Date(Number(comment.created_at) + settings.editCommentWindowLength);
     return {
       edited: comment.edited,
-      editableUntil: comment.editableUntil
+      editableUntil: editableUntil
     };
   }
 };

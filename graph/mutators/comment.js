@@ -1,11 +1,90 @@
+const debug = require('debug')('talk:graph:mutators:comment');
 const errors = require('../../errors');
 
+const ActionModel = require('../../models/action');
 const AssetsService = require('../../services/assets');
 const ActionsService = require('../../services/actions');
 const CommentsService = require('../../services/comments');
+const KarmaService = require('../../services/karma');
 const linkify = require('linkify-it')();
 
 const Wordlist = require('../../services/wordlist');
+
+/**
+ * adjustKarma will adjust the affected user's karma depending on the moderators
+ * action.
+ */
+const adjustKarma = (Comments, id, status) => async () => {
+  try {
+
+    // Use the dataloader to get the comment that was just moderated and
+    // get the flag user's id's so we can adjust their karma too.
+    let [
+      comment,
+      flagUserIDs
+    ] = await Promise.all([
+
+      // Load the comment that was just made/updated by the setCommentStatus
+      // operation.
+      Comments.get.load(id),
+
+      // Find all the flag actions that were referenced by this comment
+      // at this point in time.
+      ActionModel.find({
+        item_id: id,
+        item_type: 'COMMENTS',
+        action_type: 'FLAG'
+      }).then((actions) => {
+
+        // This is to ensure that this is always an array.
+        if (!actions) {
+          return [];
+        }
+
+        return actions.map(({user_id}) => user_id);
+      })
+    ]);
+
+    debug(`Comment[${id}] by User[${comment.author_id}] was Status[${status}]`);
+
+    switch (status) {
+    case 'REJECTED':
+
+      // Reduce the user's karma.
+      debug(`CommentUser[${comment.author_id}] had their karma reduced`);
+
+      // Decrease the flag user's karma, the moderator disagreed with this
+      // action.
+      debug(`FlaggingUser[${flagUserIDs.join(', ')}] had their karma increased`);
+      await Promise.all([
+        KarmaService.modifyUser(comment.author_id, -1, 'comment'),
+        KarmaService.modifyUser(flagUserIDs, 1, 'flag', true)
+      ]);
+
+      break;
+
+    case 'ACCEPTED':
+
+      // Increase the user's karma.
+      debug(`CommentUser[${comment.author_id}] had their karma increased`);
+
+      // Increase the flag user's karma, the moderator agreed with this
+      // action.
+      debug(`FlaggingUser[${flagUserIDs.join(', ')}] had their karma reduced`);
+      await Promise.all([
+        KarmaService.modifyUser(comment.author_id, 1, 'comment'),
+        KarmaService.modifyUser(flagUserIDs, -1, 'flag', true)
+      ]);
+
+      break;
+
+    }
+
+    return;
+  } catch (e) {
+    console.error(e);
+  }
+};
 
 /**
  * Creates a new comment.
@@ -86,6 +165,7 @@ const filterNewComment = (context, {body, asset_id}) => {
  * @return {Promise}              resolves to the comment's status
  */
 const resolveNewCommentStatus = async (context, {asset_id, body}, wordlist = {}, settings = {}) => {
+  let {user} = context;
 
   // Check to see if the body is too short, if it is, then complain about it!
   if (body.length < 2) {
@@ -121,6 +201,22 @@ const resolveNewCommentStatus = async (context, {asset_id, body}, wordlist = {},
   // Reject if the comment is too long
   if (charCountEnable && body.length > charCount) {
     return 'REJECTED';
+  }
+
+  if (user && user.metadata) {
+
+    // If the user is not a reliable commenter (passed the unreliability
+    // threshold by having too many rejected comments) then we can change the
+    // status of the comment to `PREMOD`, therefore pushing the user's comments
+    // away from the public eye until a moderator can manage them. This of
+    // course can only be applied if the comment's current status is `NONE`,
+    // we don't want to interfere if the comment was rejected.
+    if (KarmaService.isReliable('comment', user.metadata.trust) === false) {
+
+      // Update the response from the comment creation to add the PREMOD so that
+      // that user's UI will reflect the fact that their comment is in pre-mod.
+      return 'PREMOD';
+    }
   }
 
   return moderation === 'PRE' ? 'PREMOD' : 'NONE';
@@ -179,7 +275,6 @@ const createPublicComment = async (context, commentInput) => {
  * @param {String} id          identifier of the comment  (uuid)
  * @param {String} status      the new status of the comment
  */
-
 const setStatus = async ({user, loaders: {Comments}}, {id, status}) => {
   let comment = await CommentsService.pushStatus(id, status, user ? user.id : null);
 
@@ -195,6 +290,10 @@ const setStatus = async ({user, loaders: {Comments}}, {id, status}) => {
   }
 
   Comments.countByAssetID.clear(comment.asset_id);
+
+  // postSetCommentStatus will use the arguments from the mutation and
+  // adjust the affected user's karma in the next tick.
+  process.nextTick(adjustKarma(Comments, id, status));
 
   return comment;
 };

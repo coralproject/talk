@@ -80,7 +80,7 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
           <p className={settings.charCountEnable ? '' : styles.disabledSettingText}>
             <span>{t('configure.comment_count_text_pre')}</span>
             <input type='text'
-              className={`${styles.charCountTexfield} ${settings.charCountEnable && styles.charCountTexfieldEnabled}`}
+              className={`${styles.inlineTextfield} ${styles.charCountTexfield} ${settings.charCountEnable && styles.charCountTexfieldEnabled}`}
               htmlFor='charCount'
               onChange={updateCharCount(updateSettings, settingsError)}
               value={settings.charCount}

@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const CompressionPlugin = require('compression-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');
 const Copy = require('copy-webpack-plugin');
@@ -36,7 +37,7 @@ const buildEmbeds = [
   'stream'
 ];
 
-module.exports = {
+const config = {
   devtool: 'cheap-module-source-map',
   entry: Object.assign({}, {
     'embed': [
@@ -132,11 +133,7 @@ module.exports = {
       ...buildEmbeds.map((embed) => ({
         from: path.join(__dirname, 'client', `coral-embed-${embed}`, 'style'),
         to: path.join(__dirname, 'dist', 'embed', embed)
-      })),
-      {
-        from: path.join(__dirname, 'client', 'lib'),
-        to: path.join(__dirname, 'dist', 'embed', 'stream')
-      }
+      }))
     ]),
     autoprefixer,
     precss,
@@ -169,3 +166,15 @@ module.exports = {
     ]
   }
 };
+
+if (process.env.NODE_ENV === 'production') {
+  config.plugins.push(new CompressionPlugin({
+    asset: '[path].gz[query]',
+    algorithm: 'gzip',
+    test: /\.(js)$/,
+    threshold: 10240,
+    minRatio: 0.8
+  }));
+}
+
+module.exports = config;

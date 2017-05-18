@@ -424,6 +424,17 @@ span {
   top: 7px;
 }
 
+.username {
+  color: blue;
+  text-decoration: underline;
+  padding: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(255, 0, 0, .1);
+  }
+}
+
 .external {
   font-size: .7em;
   text-decoration: none;

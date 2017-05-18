@@ -19,6 +19,7 @@ import t, {timeago} from 'coral-i18n/services/i18n';
 const Comment = ({
   actions = [],
   comment,
+  viewUserDetail,
   suspectWords,
   bannedWords,
   ...props
@@ -53,7 +54,7 @@ const Comment = ({
       <div className={styles.container}>
         <div className={styles.itemHeader}>
           <div className={styles.author}>
-            <span>
+            <span className={styles.username} onClick={() => viewUserDetail(comment.user.id)}>
               {comment.user.name}
             </span>
             <span className={styles.created}>
@@ -148,6 +149,7 @@ const Comment = ({
 };
 
 Comment.propTypes = {
+  viewUserDetail: PropTypes.func.isRequired,
   acceptComment: PropTypes.func.isRequired,
   rejectComment: PropTypes.func.isRequired,
   suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -159,8 +161,9 @@ Comment.propTypes = {
     actions: PropTypes.array,
     created_at: PropTypes.string.isRequired,
     user: PropTypes.shape({
+      id: PropTypes.string,
       status: PropTypes.string
-    }),
+    }).isRequired,
     asset: PropTypes.shape({
       title: PropTypes.string,
       url: PropTypes.string,

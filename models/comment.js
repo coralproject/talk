@@ -2,8 +2,6 @@ const mongoose = require('../services/mongoose');
 const Schema = mongoose.Schema;
 const uuid = require('uuid');
 
-const EDIT_WINDOW_MS = 30 * 1000; // 30 seconds
-
 const STATUSES = [
   'ACCEPTED',
   'REJECTED',
@@ -113,12 +111,7 @@ CommentSchema.virtual('edited').get(function() {
   return this.body_history.length > 1;
 });
 
-CommentSchema.virtual('editableUntil').get(function() {
-  return new Date(Number(this.created_at) + EDIT_WINDOW_MS);
-});
-
 // Comment model.
 const Comment = mongoose.model('Comment', CommentSchema);
 
 module.exports = Comment;
-module.exports.EDIT_WINDOW_MS = EDIT_WINDOW_MS;

@@ -25,6 +25,12 @@ const ModerationSettings = ({settings, updateSettings, onChangeWordlist}) => {
   const on = styles.enabledSetting;
   const off = styles.disabledSetting;
 
+  const onChangeEditCommentWindowLength = (e) => {
+    const value = e.target.value;
+    const valueAsNumber = parseFloat(value);
+    const milliseconds = (!isNaN(valueAsNumber)) && (valueAsNumber * 1000);
+    updateSettings({editCommentWindowLength: milliseconds || value});
+  };
   return (
     <div className={styles.Configure}>
       <Card className={`${styles.configSetting} ${settings.requireEmailConfirmation ? on : off}`}>
@@ -70,6 +76,27 @@ const ModerationSettings = ({settings, updateSettings, onChangeWordlist}) => {
         bannedWords={settings.wordlist.banned}
         suspectWords={settings.wordlist.suspect}
         onChangeWordlist={onChangeWordlist} />
+
+      {/* Edit Comment Timeframe */}
+      <Card className={styles.configSetting}>
+        <div className={styles.settingsHeader}>{t('configure.edit-comment-timeframe-heading')}</div>
+        <p>
+          {t('configure.edit-comment-timeframe-text-pre')}
+          &nbsp;
+          <input
+            style={{width: '3em'}}
+            className={styles.inlineTextfield}
+            type="number"
+            min="0"
+            onChange={onChangeEditCommentWindowLength}
+            placeholder="30"
+            defaultValue={(settings.editCommentWindowLength / 1000) /* saved as ms, rendered as seconds */}
+            pattern='[0-9]+([\.][0-9]*)?'
+          />
+          &nbsp;
+          {t('configure.edit-comment-timeframe-text-post')}
+        </p>
+      </Card>
     </div>
   );
 };
