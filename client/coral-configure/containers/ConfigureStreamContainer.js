@@ -7,7 +7,7 @@ import {updateOpenStatus, updateConfiguration} from 'coral-framework/actions/ass
 import CloseCommentsInfo from '../components/CloseCommentsInfo';
 import ConfigureCommentStream from '../components/ConfigureCommentStream';
 
-import {t, timeAgo} from 'coral-i18n/services/i18n';
+import t, {timeago} from 'coral-i18n/services/i18n';
 
 class ConfigureStreamContainer extends Component {
   constructor (props) {
@@ -86,7 +86,7 @@ class ConfigureStreamContainer extends Component {
     const {closedTimeout} = this.props.asset.settings;
     const {created_at} = this.props.asset;
 
-    return timeAgo(new Date(created_at).getTime() + (1000 * closedTimeout));
+    return timeago(new Date(created_at).getTime() + (1000 * closedTimeout));
   }
 
   render () {
@@ -108,7 +108,7 @@ class ConfigureStreamContainer extends Component {
         />
         <hr />
         <h3>{closedAt === 'open' ? 'Close' : 'Open'} {t('configure.comment_stream')}</h3>
-        {(closedAt === 'open' && closedTimeout) ? <p>{t('configure.comment_stream_will_close')} {this.getClosedIn()}.</p> : ''}
+          {(closedAt === 'open' && closedTimeout) ? <p>{t('configure.comment_stream_will_close')} {this.getClosedIn()}.</p> : ''}
         <CloseCommentsInfo
           onClick={this.toggleStatus}
           status={closedAt}

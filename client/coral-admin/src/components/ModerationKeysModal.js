@@ -7,8 +7,8 @@ const shortcuts = [
   {
     title: 'modqueue.navigation',
     shortcuts: {
-      'j': 'modqueue.nextcomment',
-      'k': 'modqueue.prevcomment',
+      'j': 'modqueue.next_comment',
+      'k': 'modqueue.prev_comment',
       's': 'modqueue.singleview',
       '?': 'modqueue.thismenu'
     }

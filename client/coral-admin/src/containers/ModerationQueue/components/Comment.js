@@ -14,7 +14,7 @@ import BanUserButton from 'coral-admin/src/components/BanUserButton';
 
 const linkify = new Linkify();
 
-import {t, timeAgo} from 'coral-i18n/services/i18n';
+import t, {timeago} from 'coral-i18n/services/i18n';
 
 const Comment = ({
   actions = [],
@@ -57,7 +57,7 @@ const Comment = ({
               {comment.user.name}
             </span>
             <span className={styles.created}>
-              {timeAgo(comment.created_at || Date.now() - props.index * 60 * 1000)}
+              {timeago(comment.created_at || Date.now() - props.index * 60 * 1000)}
             </span>
             <BanUserButton
               user={comment.user}
