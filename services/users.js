@@ -480,7 +480,6 @@ module.exports = class UsersService {
                                      // We may want a standard way to access a user's e-mail address in the future
               };
 
-            console.log(options);
             return MailerService.sendSimple(options);
           }
         }
@@ -857,7 +856,6 @@ module.exports = class UsersService {
       if (result.nModified <= 0) {
         return Promise.reject(errors.ErrPermissionUpdateUsername);
       }
-      console.log(result);
 
       return result;
     })
