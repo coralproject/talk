@@ -88,6 +88,13 @@ const SettingSchema = new Schema({
       type: Array,
       default: ['localhost']
     }
+  },
+
+  // Length of time (in milliseconds) after a comment is posted that it can still be edited by the author
+  editCommentWindowLength: {
+    type: Number,
+    min: [0, 'Edit Comment Window length must be greater than zero'],
+    default: 30 * 1000,
   }
 }, {
   timestamps: {
