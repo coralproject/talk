@@ -15,7 +15,7 @@ describe('graph.mutations.removeTag', () => {
   let asset, comment;
   beforeEach(async () => {
     await SettingsService.init();
-    
+
     asset = new AssetModel({url: 'http://new.test.com/'});
     await asset.save();
 

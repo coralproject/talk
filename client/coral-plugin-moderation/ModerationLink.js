@@ -4,7 +4,7 @@ import styles from './styles.css';
 import {I18n} from '../coral-framework';
 import translations from './translations.json';
 
-const ModerationLink = props => props.isAdmin ? (
+const ModerationLink = (props) => props.isAdmin ? (
     <div className={styles.moderationLink}>
       <a href={`/admin/moderate/${props.assetId}`} target="_blank">
         {lang.t('MODERATE_THIS_STREAM')}

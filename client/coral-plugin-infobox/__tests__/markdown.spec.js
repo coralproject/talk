@@ -3,7 +3,7 @@ import {shallow} from 'enzyme';
 import {expect} from 'chai';
 import Markdown from '../Markdown';
 
-const render = props => shallow(<Markdown {...props} />);
+const render = (props) => shallow(<Markdown {...props} />);
 
 describe('Markdown', () => {
   it('should convert Markdown to html', () => {

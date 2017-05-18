@@ -1,5 +1,4 @@
 const {decorateWithTags} = require('./util');
-const CommentsService = require('../../services/comments');
 
 const Comment = {
   parent({parent_id}, _, {loaders: {Comments}}) {
@@ -25,6 +24,8 @@ const Comment = {
     });
   },
   replyCount({id}, {excludeIgnored}, {user, loaders: {Comments}}) {
+
+    // TODO: remove
     if (user && excludeIgnored) {
       return Comments.countByParentIDPersonalized({id, excludeIgnored});
     }
@@ -50,11 +51,9 @@ const Comment = {
     return Assets.getByID.load(asset_id);
   },
   editing(comment) {
-    const editableUntil = CommentsService.getEditableUntilDate(comment);
-    const edited = comment.body_history.length > 1;
     return {
-      edited,
-      editableUntil,
+      edited: comment.edited,
+      editableUntil: comment.editableUntil
     };
   }
 };

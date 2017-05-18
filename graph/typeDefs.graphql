@@ -31,13 +31,13 @@ type User {
   username: String!
 
   # Action summaries against the user.
-  action_summaries: [ActionSummary]!
+  action_summaries: [ActionSummary!]!
 
   # Actions completed on the parent.
-  actions: [Action]
+  actions: [Action!]
 
   # the current roles of the user.
-  roles: [USER_ROLES]
+  roles: [USER_ROLES!]
 
   # the tags on the user
   tags: [TagLink!]
@@ -45,11 +45,11 @@ type User {
   # determines whether the user can edit their username
   canEditName: Boolean
 
-  # returns all comments based on a query.
-  comments(query: CommentsQuery): [Comment]
+  # ignored users.
+  ignoredUsers: [User!]
 
-  # returns all users based on a query.
-  users(query: UsersQuery): [User]
+  # returns all comments based on a query.
+  comments(query: CommentsQuery): [Comment!]
 
   # returns user status
   status: USER_STATUS
@@ -224,10 +224,10 @@ type Comment {
   user: User
 
   # the recent replies made against this comment.
-  recentReplies: [Comment]
+  recentReplies: [Comment!]
 
   # the replies that were made to the comment.
-  replies(sort: SORT_ORDER = CHRONOLOGICAL, limit: Int = 3, excludeIgnored: Boolean): [Comment]
+  replies(sort: SORT_ORDER = CHRONOLOGICAL, limit: Int = 3, excludeIgnored: Boolean): [Comment!]
 
   # The count of replies on a comment.
   replyCount(excludeIgnored: Boolean): Int
@@ -463,10 +463,10 @@ type Asset {
   lastComment: Comment
 
   # Returns recent comments
-  recentComments: [Comment]
+  recentComments: [Comment!]
 
   # The top level comments that are attached to the asset.
-  comments(sort: SORT_ORDER = REVERSE_CHRONOLOGICAL, limit: Int = 10, excludeIgnored: Boolean): [Comment]
+  comments(sort: SORT_ORDER = REVERSE_CHRONOLOGICAL, limit: Int = 10, excludeIgnored: Boolean): [Comment!]
 
   # The count of top level comments on the asset.
   commentCount(excludeIgnored: Boolean): Int
@@ -576,7 +576,7 @@ type RootQuery {
   asset(id: ID, url: String): Asset
 
   # Comments returned based on a query.
-  comments(query: CommentsQuery!): [Comment]
+  comments(query: CommentsQuery!): [Comment!]
 
   # Return the count of comments satisfied by the query. Note that this edge is
   # expensive as it is not batched. Requires the `ADMIN` role.
@@ -585,9 +585,6 @@ type RootQuery {
   # The currently logged in user based on the request. Requires any logged in
   # role.
   me: User
-
-  # Users that the currently logged in user ignores
-  myIgnoredUsers: [User]
 
   # Users returned based on a query.
   users(query: UsersQuery): [User]
@@ -645,6 +642,7 @@ input CreateLikeInput {
   item_type: ACTION_ITEM_TYPE!
 }
 
+# CreateCommentInput is the input content used to create a new comment.
 input CreateCommentInput {
 
   # The asset id
@@ -784,19 +782,19 @@ type StopIgnoringUserResponse implements Response {
   errors: [UserError!]
 }
 
-# Input to editComment mutation
+# Input to editComment mutation.
 input EditCommentInput {
+
   # Update body of the comment
   body: String!
 }
 
-type CommentInfoAfterEdit {
-  # New status of the edited comment
-  status: COMMENT_STATUS!
-}
-
+# EditCommentResponse contains the updated comment and any errors that occured.
 type EditCommentResponse implements Response {
-  comment: CommentInfoAfterEdit!
+
+  # The edited comment.
+  comment: Comment
+
   # An array of errors relating to the mutation that occured.
   errors: [UserError!]
 }

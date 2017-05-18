@@ -1,6 +1,6 @@
 module.exports = {
   '@tags': ['like', 'comments', 'commenter'],
-  before: client => {
+  before: (client) => {
     const embedStreamPage = client.page.embedStreamPage();
     const {users} = client.globals;
 
@@ -11,7 +11,7 @@ module.exports = {
     embedStreamPage
       .login(users.commenter);
   },
-  'Commenter likes a comment': client => {
+  'Commenter likes a comment': (client) => {
     const embedStreamPage = client.page.embedStreamPage();
 
     embedStreamPage
@@ -21,7 +21,7 @@ module.exports = {
       .expect.element('@likeText').text.to.equal('Liked');
 
   },
-  after: client => {
+  after: (client) => {
     client.end();
   }
 };

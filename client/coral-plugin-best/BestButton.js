@@ -6,14 +6,18 @@ import classnames from 'classnames';
 
 // tag string for best comments
 export const BEST_TAG = 'BEST';
+<<<<<<< HEAD
 
 export const commentIsBest = ({tags} = {}) => tags.some(t => t.tag.name === BEST_TAG);
+=======
+export const commentIsBest = ({tags} = {}) => tags.some((t) => t.tag.name === BEST_TAG);
+>>>>>>> 7a256bdd2b62c5bdf6f20df76baa910ab0b44166
 
 const name = 'coral-plugin-best';
 const lang = new I18n(translations);
 
 // It would be best if the backend/api held this business logic
-const canModifyBestTag = ({roles = []} = {}) => roles && ['ADMIN', 'MODERATOR'].some(role => roles.includes(role));
+const canModifyBestTag = ({roles = []} = {}) => roles && ['ADMIN', 'MODERATOR'].some((role) => roles.includes(role));
 
 // Put this on a comment to show that it is best
 
@@ -27,7 +31,7 @@ export const BestIndicator = ({children = <Icon name='star'/>}) => (
  * Component that only renders children if the provided user prop can modify best tags
  */
 export const IfUserCanModifyBest = ({user, children}) => {
-  if ( ! ( user && canModifyBestTag(user))) {return null;}
+  if (!(user && canModifyBestTag(user))) {return null;}
   return children;
 };
 
@@ -61,7 +65,7 @@ export class BestButton extends Component {
   async onClickAddBest(e) {
     e.preventDefault();
     const {addBest} = this.props;
-    if ( ! addBest) {
+    if (!addBest) {
       console.warn('BestButton#onClickAddBest called even though there is no addBest prop. doing nothing');
       return;
     }
@@ -76,7 +80,7 @@ export class BestButton extends Component {
   async onClickRemoveBest(e) {
     e.preventDefault();
     const {removeBest} = this.props;
-    if ( ! removeBest) {
+    if (!removeBest) {
       console.warn('BestButton#onClickAddBest called even though there is no removeBest prop. doing nothing');
       return;
     }
@@ -91,7 +95,7 @@ export class BestButton extends Component {
   render() {
     const {isBest, addBest, removeBest} = this.props;
     const {isSaving} = this.state;
-    const disabled = isSaving || ! (isBest ? removeBest : addBest);
+    const disabled = isSaving || !(isBest ? removeBest : addBest);
     return (
       <button onClick={isBest ? this.onClickRemoveBest : this.onClickAddBest}
               disabled={disabled}

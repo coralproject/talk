@@ -57,7 +57,7 @@ const ModerationMenu = (
           className={styles.selectField}
           label="Sort"
           value={sort}
-          onChange={sort => selectSort(sort)}>
+          onChange={(sort) => selectSort(sort)}>
           <Option value={'REVERSE_CHRONOLOGICAL'}>Newest First</Option>
           <Option value={'CHRONOLOGICAL'}>Oldest First</Option>
         </SelectField>

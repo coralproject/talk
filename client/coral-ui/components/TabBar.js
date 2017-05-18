@@ -19,7 +19,7 @@ class TabBar extends React.Component {
       <div>
         <ul className={`${styles.base} ${cStyle ? styles[cStyle] : ''}`}>
           {React.Children.toArray(children)
-            .filter(child => !child.props.restricted)
+            .filter((child) => !child.props.restricted)
             .map((child, tabId) =>
               React.cloneElement(child, {
                 tabId,

@@ -15,8 +15,8 @@ const Wordlist = ({suspectWords, bannedWords, onChangeWordlist}) => (
           value={bannedWords}
           inputProps={{placeholder: 'word or phrase'}}
           addOnPaste={true}
-          pasteSplit={data => data.split(',').map(d => d.trim())}
-          onChange={tags => onChangeWordlist('banned', tags)}
+          pasteSplit={(data) => data.split(',').map((d) => d.trim())}
+          onChange={(tags) => onChangeWordlist('banned', tags)}
         />
       </div>
     </Card>
@@ -28,8 +28,8 @@ const Wordlist = ({suspectWords, bannedWords, onChangeWordlist}) => (
           value={suspectWords}
           inputProps={{placeholder: 'word or phrase'}}
           addOnPaste={true}
-          pasteSplit={data => data.split(',').map(d => d.trim())}
-          onChange={tags => onChangeWordlist('suspect', tags)} />
+          pasteSplit={(data) => data.split(',').map((d) => d.trim())}
+          onChange={(tags) => onChangeWordlist('suspect', tags)} />
       </div>
     </Card>
   </div>

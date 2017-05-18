@@ -18,7 +18,7 @@ export default class List extends Component {
     return (
       <ul className={`${styles.base} ${className}`}>
         {React.Children.toArray(children)
-          .filter(child => !child.props.restricted)
+          .filter((child) => !child.props.restricted)
           .map((child, i) =>
             React.cloneElement(child, {
               i,

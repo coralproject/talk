@@ -20,7 +20,7 @@ module.exports = {
       }
     });
   },
-  'User registers and posts a comment with premod off': client => {
+  'User registers and posts a comment with premod off': (client) => {
     client.perform((client, done) => {
       mocks.settings({moderation: 'POST'})
       .then(() => {
@@ -60,7 +60,7 @@ module.exports = {
       });
     });
   },
-  'User posts a comment with premod on': client => {
+  'User posts a comment with premod on': (client) => {
     client.perform((client, done) => {
       mocks.settings({moderation: 'PRE'})
       .then(() => {
@@ -81,7 +81,7 @@ module.exports = {
       });
     });
   },
-  'User replies to a comment with premod off': client => {
+  'User replies to a comment with premod off': (client) => {
     client.perform((client, done) => {
       mocks.settings({moderation: 'POST'})
       .then(() => {
@@ -160,7 +160,7 @@ module.exports = {
   //     });
   //   });
   // },
-  'Total comment count premod on': client => {
+  'Total comment count premod on': (client) => {
     client.perform((client, done) => {
       client.url(client.globals.baseUrl)
         .frame('coralStreamEmbed_iframe');
@@ -171,7 +171,7 @@ module.exports = {
       done();
     });
   },
-  after: client => {
+  after: (client) => {
     mongoose.disconnect(function(err) {
       if (err) {
         console.error(err);

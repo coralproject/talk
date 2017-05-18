@@ -839,7 +839,7 @@ module.exports = class UsersService {
    */
   static ignoreUsers(userId, usersToIgnore) {
     assert(Array.isArray(usersToIgnore), 'usersToIgnore is an array');
-    assert(usersToIgnore.every(u => typeof u === 'string'), 'usersToIgnore is an array of string user IDs');
+    assert(usersToIgnore.every((u) => typeof u === 'string'), 'usersToIgnore is an array of string user IDs');
     if (usersToIgnore.includes(userId)) {
       throw new Error('Users cannot ignore themselves');
     }
@@ -861,7 +861,7 @@ module.exports = class UsersService {
    */
   static async stopIgnoringUsers(userId, usersToStopIgnoring) {
     assert(Array.isArray(usersToStopIgnoring), 'usersToStopIgnoring is an array');
-    assert(usersToStopIgnoring.every(u => typeof u === 'string'), 'usersToStopIgnoring is an array of string user IDs');
+    assert(usersToStopIgnoring.every((u) => typeof u === 'string'), 'usersToStopIgnoring is an array of string user IDs');
     await UserModel.update({id: userId}, {
       $pullAll:  {
         ignoresUsers: usersToStopIgnoring

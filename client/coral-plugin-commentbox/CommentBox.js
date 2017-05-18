@@ -62,14 +62,14 @@ class CommentBox extends React.Component {
     !isReply && setCommentCountCache(commentCountCache + 1);
 
     // Execute preSubmit Hooks
-    this.state.hooks.preSubmit.forEach(hook => hook());
+    this.state.hooks.preSubmit.forEach((hook) => hook());
 
     postComment(comment, 'comments')
       .then(({data}) => {
         const postedComment = data.createComment.comment;
 
         // Execute postSubmit Hooks
-        this.state.hooks.postSubmit.forEach(hook => hook(data));
+        this.state.hooks.postSubmit.forEach((hook) => hook(data));
 
         notifyForNewCommentStatus(addNotification, postedComment.status);
 
@@ -95,7 +95,7 @@ class CommentBox extends React.Component {
     if (typeof hook !== 'function') {
       return console.warn(`Hooks must be functions. Please check your ${hookType} hooks`);
     } else if (typeof hookType === 'string') {
-      this.setState(state => ({
+      this.setState((state) => ({
         hooks: {
           ...state.hooks,
           [hookType]: [
@@ -115,10 +115,10 @@ class CommentBox extends React.Component {
     }
   }
 
-  unregisterHook = hookData => {
+  unregisterHook = (hookData) => {
     const {hookType, hook} = hookData;
 
-    this.setState(state => {
+    this.setState((state) => {
       let newHooks = state.hooks[newHooks];
       const idx = state.hooks[hookType].indexOf(hook);
 
@@ -139,7 +139,7 @@ class CommentBox extends React.Component {
     });
   }
 
-  handleChange = e => this.setState({body: e.target.value});
+  handleChange = (e) => this.setState({body: e.target.value});
 
   render () {
     const {styles, isReply, authorId, maxCharCount} = this.props;

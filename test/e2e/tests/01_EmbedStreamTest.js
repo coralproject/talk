@@ -2,7 +2,7 @@ const mocks = require('../mocks');
 
 module.exports = {
   '@tags': ['embedStream'],
-  before: client => {
+  before: (client) => {
     client.perform((client, done) => {
       mocks.settings({moderation: 'PRE'})
         .then(() => {
@@ -14,29 +14,29 @@ module.exports = {
         });
     });
   },
-  'Login as commenter': client => {
+  'Login as commenter': (client) => {
     const embedStreamPage = client.page.embedStreamPage();
     const {users} = client.globals;
     embedStreamPage
       .login(users.commenter);
   },
-  'Add test comment': client => {
+  'Add test comment': (client) => {
     const embedStreamPage = client.page.embedStreamPage();
     embedStreamPage
       .postComment('Test Comment');
   },
-  'Logout': client => {
+  'Logout': (client) => {
     const embedStreamPage = client.page.embedStreamPage();
     embedStreamPage
       .logout();
   },
-  'Login as admin': client => {
+  'Login as admin': (client) => {
     const embedStreamPage = client.page.embedStreamPage();
     const {users} = client.globals;
     embedStreamPage
       .login(users.admin);
   },
-  'Approve test comment': client => {
+  'Approve test comment': (client) => {
     const adminPage = client.page.adminPage();
 
     adminPage
@@ -46,7 +46,7 @@ module.exports = {
     adminPage
       .approveComment();
   },
-  after: client => {
+  after: (client) => {
     client.end();
   }
 };

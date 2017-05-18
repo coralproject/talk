@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Layout from '../components/ui/Layout';
 import {fetchConfig} from '../actions/config';
+import AdminLogin from '../components/AdminLogin';
 import {logout} from 'coral-framework/actions/auth';
 import {FullLoading} from '../components/FullLoading';
-import AdminLogin from '../components/AdminLogin';
 import {toggleModal as toggleShortcutModal} from '../actions/moderation';
 import {checkLogin, handleLogin, requestPasswordReset} from '../actions/auth';
 
@@ -58,20 +58,20 @@ class LayoutContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth.toJS(),
   TALK_RECAPTCHA_PUBLIC: state.config
     .get('data')
     .get('TALK_RECAPTCHA_PUBLIC', null)
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   checkLogin: () => dispatch(checkLogin()),
   fetchConfig: () => dispatch(fetchConfig()),
   handleLogin: (username, password, recaptchaResponse) =>
     dispatch(handleLogin(username, password, recaptchaResponse)),
-  requestPasswordReset: email => dispatch(requestPasswordReset(email)),
-  toggleShortcutModal: toggle => dispatch(toggleShortcutModal(toggle)),
+  requestPasswordReset: (email) => dispatch(requestPasswordReset(email)),
+  toggleShortcutModal: (toggle) => dispatch(toggleShortcutModal(toggle)),
   handleLogout: () => dispatch(logout())
 });
 

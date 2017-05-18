@@ -25,7 +25,7 @@ import {getActionSummary, iPerformedThisAction} from 'coral-framework/utils';
 import {getEditableUntilDate} from './util';
 import styles from './Comment.css';
 
-const isStaff = tags => !!tags.filter(i => i.tag.name === 'STAFF').length;
+const isStaff = (tags) => !!tags.filter((i) => i.tag.name === 'STAFF').length;
 
 // hold actions links (e.g. Reply) along the comment footer
 const ActionButton = ({children}) => {
@@ -187,9 +187,9 @@ class Comment extends React.Component {
     );
     let myFlag = null;
     if (iPerformedThisAction('FlagActionSummary', comment)) {
-      myFlag = flagSummary.find(s => s.current_user);
+      myFlag = flagSummary.find((s) => s.current_user);
     } else if (iPerformedThisAction('DontAgreeActionSummary', comment)) {
-      myFlag = dontAgreeSummary.find(s => s.current_user);
+      myFlag = dontAgreeSummary.find((s) => s.current_user);
     }
 
     let commentClass = parentId
@@ -201,7 +201,7 @@ class Comment extends React.Component {
     const notifyOnError = (fn, errorToMessage) =>
       async function(...args) {
         if (typeof errorToMessage !== 'function') {
-          errorToMessage = error => error.message;
+          errorToMessage = (error) => error.message;
         }
         try {
           return await fn(...args);
@@ -377,7 +377,7 @@ class Comment extends React.Component {
             />
           : null}
         {comment.replies &&
-          comment.replies.map(reply => {
+          comment.replies.map((reply) => {
             return commentIsIgnored(reply)
               ? <IgnoredCommentTombstone key={reply.id} />
               : <Comment
@@ -429,16 +429,16 @@ export default Comment;
 // return whether the comment is editable
 function commentIsStillEditable (comment) {
   const editing = comment && comment.editing;
-  if ( ! editing) {return false;}
+  if (!editing) {return false;}
   const editableUntil = getEditableUntilDate(comment);
   const editWindowExpired = (editableUntil - new Date) < 0;
-  return ! editWindowExpired;
+  return !editWindowExpired;
 }
 
 // return number of milliseconds before edit window expires
 function editWindowRemainingMs (comment) {
   const editableUntil = getEditableUntilDate(comment);
-  if ( ! editableUntil) {return;}
+  if (!editableUntil) {return;}
   const now = new Date();
   const editWindowRemainingMs = (editableUntil - now);
   return editWindowRemainingMs;
