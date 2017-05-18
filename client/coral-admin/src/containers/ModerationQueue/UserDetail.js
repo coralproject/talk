@@ -46,7 +46,7 @@ class UserDetail extends React.Component {
       <Drawer handleClickOutside={hideUserDetail}>
         <h3>{user.username}</h3>
         <Button className={styles.copyButton} onClick={this.copyPermalink}>Copy</Button>
-        {profile && <input className={styles.profileEmail} type="text" ref={(ref) => this.profile = ref} value={profile} />}
+        {profile && <input className={styles.profileEmail} readOnly type="text" ref={(ref) => this.profile = ref} value={profile} />}
         <Slot fill="userProfile" user={user} />
         <p className={styles.memberSince}><strong>Member since</strong> {new Date(user.created_at).toLocaleString()}</p>
         <hr/>
