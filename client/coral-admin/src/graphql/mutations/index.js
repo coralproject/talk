@@ -38,7 +38,6 @@ export const suspendUser = graphql(SUSPEND_USER, {
         variables: {
           input,
         },
-        refetchQueries: ['Users']
       });
     }
   })
