@@ -677,8 +677,7 @@ input SuspendUserInput {
   id: ID!
 
   # message to be sent to the user.
-  # TODO: should this be required?
-  message: String
+  message: String!
 
   # If set, the suspension lasts at least until specified date.
   until: Date
@@ -691,8 +690,7 @@ input RejectUsernameInput {
   id: ID!
 
   # message to be sent to the user.
-  # TODO: should this be required?
-  message: String
+  message: String!
 }
 
 # DeleteActionResponse is the response returned with possibly some errors
