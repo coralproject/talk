@@ -123,7 +123,7 @@ class ModerationContainer extends Component {
       }
     }
     catch(err) {
-      notification.handleMutationErrors(err);
+      notification.showMutationErrors(err);
     }
   };
 

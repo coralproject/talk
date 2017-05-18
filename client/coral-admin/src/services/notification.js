@@ -16,7 +16,7 @@ export function info(msg) {
   return toast(msg, {type: 'info'});
 }
 
-export function handleMutationErrors(err) {
+export function showMutationErrors(err) {
   const errors = Array.isArray(err) ? err : [err];
   errors.forEach((err) => {
     console.error(err);
