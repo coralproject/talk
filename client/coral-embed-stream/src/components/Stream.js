@@ -4,6 +4,7 @@ import {Button} from 'coral-ui';
 import LoadMore from './LoadMore';
 import NewCount from './NewCount';
 import Comment from '../containers/Comment';
+import Slot from 'coral-framework/components/Slot';
 import InfoBox from 'coral-plugin-infobox/InfoBox';
 import {ModerationLink} from 'coral-plugin-moderation';
 import CommentBox from 'coral-plugin-commentbox/CommentBox';
@@ -15,7 +16,7 @@ import ChangeUsernameContainer
   from 'coral-sign-in/containers/ChangeUsernameContainer';
 
 class Stream extends React.Component {
-  setActiveReplyBox = (reactKey) => {
+  setActiveReplyBox = reactKey => {
     if (!this.props.auth.user) {
       this.props.showSignInDialog();
     } else {
@@ -58,11 +59,20 @@ class Stream extends React.Component {
     const firstCommentDate = asset.comments[0]
       ? asset.comments[0].created_at
       : new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString();
-    const commentIsIgnored = (comment) => {
-      return me && me.ignoredUsers && me.ignoredUsers.find((u) => u.id === comment.user.id);
+    const commentIsIgnored = comment => {
+      return (
+        me &&
+        me.ignoredUsers &&
+        me.ignoredUsers.find(u => u.id === comment.user.id)
+      );
     };
     return (
       <div id="stream">
+
+        <Slot
+          fill="stream"
+        />
+
         {open
           ? <div id="commentBox">
               <InfoBox
@@ -101,20 +111,11 @@ class Stream extends React.Component {
               </RestrictedContent>
             </div>
           : <p>{asset.settings.closedMessage}</p>}
-        {!loggedIn &&
-          <Button
-            id="coralSignInButton"
-            onClick={this.props.showSignInDialog}
-            full
-          >
-            Sign in to comment
-          </Button>}
         {loggedIn &&
           user &&
           <ChangeUsernameContainer loggedIn={loggedIn} user={user} />}
         {loggedIn && <ModerationLink assetId={asset.id} isAdmin={isAdmin} />}
 
-        {/* the highlightedComment is isolated after the user followed a permalink */}
         {highlightedComment
           ? <Comment
               data={this.props.data}
@@ -150,41 +151,38 @@ class Stream extends React.Component {
                 setCommentCountCache={this.props.setCommentCountCache}
               />
               <div className="embed__stream">
-                {comments.map(
-                  (comment) => {
-                    return (commentIsIgnored(comment)
-                      ? <IgnoredCommentTombstone key={comment.id} />
-                      : <Comment
-                          data={this.props.data}
-                          root={this.props.root}
-                          disableReply={!open}
-                          setActiveReplyBox={this.setActiveReplyBox}
-                          activeReplyBox={this.props.activeReplyBox}
-                          addNotification={addNotification}
-                          depth={0}
-                          postComment={postComment}
-                          asset={asset}
-                          currentUser={user}
-                          postFlag={postFlag}
-                          postDontAgree={postDontAgree}
-                          addCommentTag={addCommentTag}
-                          removeCommentTag={removeCommentTag}
-                          ignoreUser={ignoreUser}
-                          commentIsIgnored={commentIsIgnored}
-                          loadMore={loadMore}
-                          deleteAction={deleteAction}
-                          showSignInDialog={showSignInDialog}
-                          key={comment.id}
-                          reactKey={comment.id}
-                          comment={comment}
-                          pluginProps={pluginProps}
-                          charCountEnable={asset.settings.charCountEnable}
-                          maxCharCount={asset.settings.charCount}
-                          editComment={this.props.editComment}
-                        />
-                    );
-                  }
-                )}
+                {comments.map(comment => {
+                  return commentIsIgnored(comment)
+                    ? <IgnoredCommentTombstone key={comment.id} />
+                    : <Comment
+                        data={this.props.data}
+                        root={this.props.root}
+                        disableReply={!open}
+                        setActiveReplyBox={this.setActiveReplyBox}
+                        activeReplyBox={this.props.activeReplyBox}
+                        addNotification={addNotification}
+                        depth={0}
+                        postComment={postComment}
+                        asset={asset}
+                        currentUser={user}
+                        postFlag={postFlag}
+                        postDontAgree={postDontAgree}
+                        addCommentTag={addCommentTag}
+                        removeCommentTag={removeCommentTag}
+                        ignoreUser={ignoreUser}
+                        commentIsIgnored={commentIsIgnored}
+                        loadMore={loadMore}
+                        deleteAction={deleteAction}
+                        showSignInDialog={showSignInDialog}
+                        key={comment.id}
+                        reactKey={comment.id}
+                        comment={comment}
+                        pluginProps={pluginProps}
+                        charCountEnable={asset.settings.charCountEnable}
+                        maxCharCount={asset.settings.charCount}
+                        editComment={this.props.editComment}
+                      />;
+                })}
               </div>
               <LoadMore
                 topLevel={true}
@@ -213,7 +211,7 @@ Stream.propTypes = {
   ignoreUser: React.PropTypes.func,
 
   // edit a comment, passed (id, asset_id, { body })
-  editComment: React.PropTypes.func,
+  editComment: React.PropTypes.func
 };
 
 export default Stream;

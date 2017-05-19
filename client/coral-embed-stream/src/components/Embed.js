@@ -1,13 +1,12 @@
 import React from 'react';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from 'coral-framework/translations';
 const lang = new I18n(translations);
-
-import {TabBar, Tab, TabContent, Button} from 'coral-ui';
-
 import Stream from '../containers/Stream';
-import Count from 'coral-plugin-comment-count/CommentCount';
+import Slot from 'coral-framework/components/Slot';
+import I18n from 'coral-framework/modules/i18n/i18n';
 import UserBox from 'coral-sign-in/components/UserBox';
+import translations from 'coral-framework/translations';
+import {TabBar, Tab, TabContent, Button} from 'coral-ui';
+import Count from 'coral-plugin-comment-count/CommentCount';
 import ProfileContainer from 'coral-settings/containers/ProfileContainer';
 import RestrictedContent from 'coral-framework/components/RestrictedContent';
 import ConfigureStreamContainer from 'coral-configure/containers/ConfigureStreamContainer';
