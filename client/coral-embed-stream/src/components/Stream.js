@@ -80,7 +80,7 @@ class Stream extends React.Component {
               {!banned && temporarilySuspended &&
                 <RestrictedMessageBox>
                   {
-                    t('temporarilySuspended',
+                    t('sign_in.temporaly_suspended',
                       this.props.root.settings.organizationName,
                       timeago(user.suspension.until),
                     )
@@ -117,7 +117,7 @@ class Stream extends React.Component {
             onClick={this.props.showSignInDialog}
             full
           >
-            Sign in to comment
+            {t('sign_in.sign_in_to_comment')}Sign in to comment
           </Button>}
         {loggedIn &&
           user &&

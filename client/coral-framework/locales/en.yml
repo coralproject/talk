@@ -283,6 +283,8 @@ en:
     required_field: "This field is required"
     passwords_dont_match: "Passwords don't match."
     special_characters: "Usernames can contain letters, numbers and _ only"
+    sign_in_to_comment: "Sign in to comment"
+    temporarily_suspended: "In accordance with {0}'s community guidlines, your account has been temporarily suspended. Please rejoin the conversation {1}."
     check_the_form: "Invalid Form. Please, check the fields"
   step_1_header: "Report an issue"
   step_2_header: "Help us understand"
