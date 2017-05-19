@@ -467,7 +467,6 @@ module.exports = class UsersService {
       .then((user) => {
         if (message) {
           let localProfile = user.profiles.find((profile) => profile.provider === 'local');
-
           if (localProfile) {
             const options =
               {
@@ -493,34 +492,35 @@ module.exports = class UsersService {
    * @param  {Date}     until               date until the suspension is valid.
    */
   static rejectUsername(id, message) {
-    return UserModel.findOneAndUpdate(
-      {id}, {
-        $set: {
-          status: 'BANNED',
-          canEditName: true,
-        }
-      }).then((user) => {
-        if (message) {
-          let localProfile = user.profiles.find((profile) => profile.provider === 'local');
+    return UserModel.findOneAndUpdate({
+      id
+    }, {
+      $set: {
+        status: 'BANNED',
+        canEditName: true,
+      }
+    })
+    .then((user) => {
+      if (message) {
+        let localProfile = user.profiles.find((profile) => profile.provider === 'local');
+        if (localProfile) {
+          const options =
+            {
+              template: 'suspension',              // needed to know which template to render!
+              locals: {                            // specifies the template locals.
+                body: message
+              },
+              subject: 'Email Suspension',
+              to: localProfile.id  // This only works if the user has registered via e-mail.
+                                   // We may want a standard way to access a user's e-mail address in the future
+            };
 
-          if (localProfile) {
-            const options =
-              {
-                template: 'suspension',              // needed to know which template to render!
-                locals: {                            // specifies the template locals.
-                  body: message
-                },
-                subject: 'Email Suspension',
-                to: localProfile.id  // This only works if the user has registered via e-mail.
-                                     // We may want a standard way to access a user's e-mail address in the future
-              };
-
-            return MailerService.sendSimple(options);
-          } else {
-            return Promise.reject(errors.ErrMissingEmail);
-          }
+          return MailerService.sendSimple(options);
+        } else {
+          return Promise.reject(errors.ErrMissingEmail);
         }
-      });
+      }
+    });
   }
 
   /**
