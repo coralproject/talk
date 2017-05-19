@@ -4,7 +4,7 @@ import {IndexLink, Link} from 'react-router';
 import styles from './Drawer.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations.json';
-import {can} from 'coral-framework/utils/roles';
+import {can} from 'coral-framework/services/perms';
 
 const CoralDrawer = ({handleLogout, auth}) => (
   <Drawer className={styles.header}>

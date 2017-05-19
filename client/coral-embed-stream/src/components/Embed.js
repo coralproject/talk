@@ -1,7 +1,7 @@
 import React from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-framework/translations';
-import {can} from 'coral-framework/utils/roles';
+import {can} from 'coral-framework/services/perms';
 const lang = new I18n(translations);
 
 import {TabBar, Tab, TabContent, Button} from 'coral-ui';

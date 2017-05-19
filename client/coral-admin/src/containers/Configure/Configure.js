@@ -15,7 +15,7 @@ import translations from 'coral-admin/src/translations.json';
 import StreamSettings from './StreamSettings';
 import ModerationSettings from './ModerationSettings';
 import TechSettings from './TechSettings';
-import {can} from 'coral-framework/utils/roles';
+import {can} from 'coral-framework/services/perms';
 
 class Configure extends Component {
   constructor (props) {

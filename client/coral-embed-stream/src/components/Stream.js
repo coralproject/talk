@@ -11,7 +11,7 @@ import QuestionBox from 'coral-plugin-questionbox/QuestionBox';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import SuspendedAccount from 'coral-framework/components/SuspendedAccount';
 import RestrictedContent from 'coral-framework/components/RestrictedContent';
-import {can} from 'coral-framework/utils/roles';
+import {can} from 'coral-framework/services/perms';
 import ChangeUsernameContainer
   from 'coral-sign-in/containers/ChangeUsernameContainer';
 

@@ -5,7 +5,7 @@ import styles from './Header.css';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../../translations.json';
 import {Logo} from './Logo';
-import {can} from 'coral-framework/utils/roles';
+import {can} from 'coral-framework/services/perms';
 
 const CoralHeader = ({
   handleLogout,

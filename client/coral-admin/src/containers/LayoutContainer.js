@@ -7,7 +7,7 @@ import {logout} from 'coral-framework/actions/auth';
 import {FullLoading} from '../components/FullLoading';
 import {toggleModal as toggleShortcutModal} from '../actions/moderation';
 import {checkLogin, handleLogin, requestPasswordReset} from '../actions/auth';
-import {can} from 'coral-framework/utils/roles';
+import {can} from 'coral-framework/services/perms';
 
 class LayoutContainer extends Component {
   componentWillMount() {
