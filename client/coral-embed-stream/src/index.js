@@ -14,7 +14,7 @@ import {pym} from 'coral-framework';
 
 import {loadTranslations} from 'coral-i18n/services/i18n';
 
-Promise.all([loadTranslations()]);
+loadTranslations();
 
 injectReducers(reducers);
 

@@ -4,7 +4,7 @@ import {loadTranslations} from '../coral-i18n/services/i18n';
 
 // TODO (bc): Deprecate old actions. Spreading actions is now needed.
 
-Promise.all([loadTranslations()]);
+loadTranslations();
 
 export default {
   pym,
