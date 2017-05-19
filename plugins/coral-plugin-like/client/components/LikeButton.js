@@ -4,7 +4,6 @@ import Icon from './Icon';
 
 import t from 'coral-framework/services/i18n';
 import cn from 'classnames';
-import translations from '../translations.json';
 import { getMyActionSummary, getTotalActionCount } from 'coral-framework/utils';
 
 const name = 'coral-plugin-like';

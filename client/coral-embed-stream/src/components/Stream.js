@@ -15,10 +15,7 @@ import RestrictedMessageBox
 import {can} from 'coral-framework/services/perms';
 import ChangeUsernameContainer
   from 'coral-sign-in/containers/ChangeUsernameContainer';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from 'coral-framework/translations';
-
-const lang = new I18n(translations);
+import t, {timeago} from 'coral-framework/services/i18n';
 
 class Stream extends React.Component {
   setActiveReplyBox = (reactKey) => {
@@ -83,9 +80,9 @@ class Stream extends React.Component {
               {!banned && temporarilySuspended &&
                 <RestrictedMessageBox>
                   {
-                    lang.t('temporarilySuspended',
+                    t('temporarilySuspended',
                       this.props.root.settings.organizationName,
-                      lang.timeago(user.suspension.until),
+                      timeago(user.suspension.until),
                     )
                   }
                 </RestrictedMessageBox>
