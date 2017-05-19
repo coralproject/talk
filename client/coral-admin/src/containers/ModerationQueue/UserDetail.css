@@ -34,7 +34,6 @@
 .profileEmail {
   border: none;
   background-color: transparent;
-  pointer-events: none;
   font-size: 16px;
   position: absolute;
   width: 100%;

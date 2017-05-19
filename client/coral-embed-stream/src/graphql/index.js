@@ -122,19 +122,40 @@ const extension = {
     `,
   },
   mutations: {
-    IgnoreUser: () => ({
-
-      // TODO: don't rely on refetching.
-      refetchQueries: [
-        'EmbedQuery', 'EmbedStreamProfileQuery',
-      ],
+    IgnoreUser: ({variables}) => ({
+      updateQueries: {
+        EmbedQuery: (previousData, {mutationResult}) => {
+          const ignoredUserId = variables.id;
+          const response = mutationResult.data.ignoreUser;
+          if (ignoredUserId && !response.errors) {
+            const updated = update(previousData, {me: {ignoredUsers: {$push: [{
+              id: ignoredUserId,
+              __typename: 'User',
+            }]}}});
+            return updated;
+          }
+          return previousData;
+        }
+      }
     }),
-    StopIgnoringUser: () => ({
+    StopIgnoringUser: ({variables}) => ({
+      updateQueries: {
+        EmbedStreamProfileQuery: (previousData, {mutationResult}) => {
+          const noLongerIgnoredUserId = variables.id;
+          const response = mutationResult.data.stopIgnoringUser;
+          if (noLongerIgnoredUserId && !response.errors) {
 
-      // TODO: don't rely on refetching.
-      refetchQueries: [
-        'EmbedQuery', 'EmbedStreamProfileQuery',
-      ],
+            // remove noLongerIgnoredUserId from ignoredUsers
+            const updated = update(previousData, {me: {ignoredUsers: {
+              $apply: (ignoredUsers) => {
+                return ignoredUsers.filter((u) => u.id !== noLongerIgnoredUserId);
+              }
+            }}});
+            return updated;
+          }
+          return previousData;
+        }
+      }
     }),
     PostComment: ({
       variables: {comment: {asset_id, body, parent_id, tags = []}},
@@ -200,7 +221,13 @@ const extension = {
       variables: {id, edit},
     }) => ({
       updateQueries: {
-        EmbedQuery: (previousData, {mutationResult: {data: {editComment: {comment: {status}}}}}) => {
+        EmbedQuery: (previousData, {mutationResult: {data: {editComment: {comment, errors}}}}) => {
+
+          // @TODO (kiwi) revisit after streamlining error handling
+          if (errors && errors.length) {
+            return previousData;
+          }
+          const {status} = comment;
           const updateCommentWithEdit = (comment, edit) => {
             const {body} = edit;
             const editedComment = update(comment, {

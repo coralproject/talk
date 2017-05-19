@@ -30,7 +30,7 @@ class Stream extends React.Component {
 
   render() {
     const {
-      root: {asset, asset: {comments}, comment, myIgnoredUsers},
+      root: {asset, asset: {comments}, comment, me},
       postComment,
       addNotification,
       postFlag,
@@ -64,8 +64,9 @@ class Stream extends React.Component {
     const firstCommentDate = asset.comments[0]
       ? asset.comments[0].created_at
       : new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString();
-    const commentIsIgnored = (comment) =>
-      myIgnoredUsers && myIgnoredUsers.includes(comment.user.id);
+    const commentIsIgnored = (comment) => {
+      return me && me.ignoredUsers && me.ignoredUsers.find((u) => u.id === comment.user.id);
+    };
     return (
       <div id="stream">
         {open
@@ -162,8 +163,8 @@ class Stream extends React.Component {
               />
               <div className="embed__stream">
                 {comments.map(
-                  (comment) =>
-                    (commentIsIgnored(comment)
+                  (comment) => {
+                    return (commentIsIgnored(comment)
                       ? <IgnoredCommentTombstone key={comment.id} />
                       : <Comment
                           data={this.props.data}
@@ -192,7 +193,9 @@ class Stream extends React.Component {
                           charCountEnable={asset.settings.charCountEnable}
                           maxCharCount={asset.settings.charCount}
                           editComment={this.props.editComment}
-                        />)
+                        />
+                    );
+                  }
                 )}
               </div>
               <LoadMore
