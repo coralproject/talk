@@ -12,7 +12,7 @@ describe('graph.mutations.addTag', () => {
   let comment, asset;
   beforeEach(async () => {
     await SettingsService.init();
-    
+
     asset = new AssetModel({url: 'http://new.test.com/'});
     await asset.save();
 

@@ -1,7 +1,8 @@
 {
   "server": [
     "coral-plugin-respect",
-    "coral-plugin-facebook-auth"
+    "coral-plugin-facebook-auth",
+    "coral-plugin-offtopic"
   ],
   "client": [
     "coral-plugin-respect"

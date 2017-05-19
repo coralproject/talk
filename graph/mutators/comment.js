@@ -2,10 +2,60 @@ const errors = require('../../errors');
 
 const AssetsService = require('../../services/assets');
 const ActionsService = require('../../services/actions');
+const TagsService = require('../../services/tags');
 const CommentsService = require('../../services/comments');
 const linkify = require('linkify-it')();
-
 const Wordlist = require('../../services/wordlist');
+
+const debug = require('debug')('talk:graph:mutators:tags');
+const plugins = require('../../services/plugins');
+
+const pluginTags = plugins.get('server', 'tags').reduce((acc, {plugin, tags}) => {
+  debug(`added plugin '${plugin.name}'`);
+
+  acc = acc.concat(tags);
+
+  return acc;
+}, []);
+
+const resolveTagsForComment = async ({user, loaders: {Tags}}, {asset_id, tags = []}) => {
+  const item_type = 'COMMENTS';
+
+  // Handle Tags
+  if (tags.length) {
+
+    // Get the global list of tags from the dataloader.
+    let globalTags = await Tags.getAll.load({
+      item_type,
+      asset_id
+    });
+    if (!Array.isArray(globalTags)) {
+      globalTags = [];
+    }
+
+    globalTags = globalTags.concat(pluginTags);
+
+    // Merge in the tags for the given comment.
+    tags = tags.map((name) => {
+
+      // Resolve the TagLink that we can use for the comment.
+      let {tagLink} = TagsService.resolveLink(user, globalTags, {name, item_type});
+
+      // Return the tagLink for tag insertion.
+      return tagLink;
+    });
+  }
+
+  // Add the staff tag for comments created as a staff member.
+  if (user.hasRoles('ADMIN') || user.hasRoles('MODERATOR')) {
+    tags.push(TagsService.newTagLink(user, {
+      name: 'STAFF',
+      item_type
+    }));
+  }
+
+  return tags;
+};
 
 /**
  * Creates a new comment.
@@ -16,25 +66,11 @@ const Wordlist = require('../../services/wordlist');
  * @param  {String} [status='NONE'] the status of the new comment
  * @return {Promise}              resolves to the created comment
  */
-const createComment = async ({user, loaders: {Comments}, pubsub}, {tags = [], body, asset_id, parent_id = null}, status = 'NONE') => {
+const createComment = async (context, {tags = [], body, asset_id, parent_id = null}, status = 'NONE') => {
+  const {user, loaders: {Comments}, pubsub} = context;
 
-  // Handle Tags
-  if (tags.length) {
-    tags = tags.map((tag) => ({
-      tag: {
-        name: tag
-      }
-    }));
-  }
-
-  // Add the staff tag for comments created as a staff member.
-  if (user.hasRoles('ADMIN') || user.hasRoles('MODERATOR')) {
-    tags.push({
-      tag: {
-        name: 'STAFF'
-      }
-    });
-  }
+  // Resolve the tags for the comment.
+  tags = await resolveTagsForComment(context, {asset_id, tags});
 
   let comment = await CommentsService.publicCreate({
     body,

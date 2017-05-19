@@ -307,6 +307,30 @@ module.exports = {
 }
 ```
 
+#### Field: `tags`
+
+The tags hook allows a plugin to define tags that are code controlled (added
+or enabled by code). Below is an example pulled from the core off topic plugin
+on how to create a hook for the `OFF_TOPIC` name:
+
+```js
+[
+  {
+    name: 'OFF_TOPIC',
+    permissions: {
+      public: true,
+      self: true,
+      roles: []
+    },
+    models: ['COMMENTS'],
+    created_at: new Date()
+  }
+]
+```
+
+You can refer to `models/schema/tag.js` for the available schema to match when
+creating models to enable/disable specific features.
+
 #### Field: `passport`
 
 ```js
