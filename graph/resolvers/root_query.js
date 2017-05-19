@@ -1,6 +1,13 @@
+const {
+  SEARCH_ASSETS,
+  SEARCH_OTHERS_COMMENTS,
+  SEARCH_COMMENT_METRICS,
+  SEARCH_OTHER_USERS
+} = require('../../perms/constants');
+
 const RootQuery = {
   assets(_, args, {loaders: {Assets}, user}) {
-    if (user == null || !user.hasRoles('ADMIN')) {
+    if (user == null || !user.can(SEARCH_ASSETS)) {
       return null;
     }
 
@@ -22,7 +29,7 @@ const RootQuery = {
   async comments(_, {query}, {user, loaders: {Comments, Actions}}) {
     let {action_type} = query;
 
-    if (user != null && user.hasRoles('ADMIN') && action_type) {
+    if (user != null && user.can(SEARCH_OTHERS_COMMENTS) && action_type) {
       query.ids = await Actions.getByTypes({action_type, item_type: 'COMMENTS'});
     }
 
@@ -34,7 +41,7 @@ const RootQuery = {
   },
 
   async commentCount(_, {query}, {user, loaders: {Actions, Comments}}) {
-    if (user == null || !user.hasRoles('ADMIN')) {
+    if (user == null || !user.can(SEARCH_OTHERS_COMMENTS)) {
       return null;
     }
 
@@ -48,7 +55,7 @@ const RootQuery = {
   },
 
   assetMetrics(_, {from, to, sort, limit = 10}, {user, loaders: {Metrics: {Assets}}}) {
-    if (user == null || !user.hasRoles('ADMIN')) {
+    if (user == null || !user.can(SEARCH_ASSETS)) {
       return null;
     }
 
@@ -60,7 +67,7 @@ const RootQuery = {
   },
 
   commentMetrics(_, {from, to, sort, limit = 10}, {user, loaders: {Metrics: {Comments}}}) {
-    if (user == null || !user.hasRoles('ADMIN')) {
+    if (user == null || !user.can(SEARCH_COMMENT_METRICS)) {
       return null;
     }
 
@@ -89,7 +96,7 @@ const RootQuery = {
   // This endpoint is used for loading the user moderation queues (users whose username has been flagged),
   // so hide it in the event that we aren't an admin.
   async users(_, {query}, {user, loaders: {Users, Actions}}) {
-    if (user == null || !user.hasRoles('ADMIN')) {
+    if (user == null || !user.can(SEARCH_OTHER_USERS)) {
       return null;
     }
 

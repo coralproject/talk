@@ -13,7 +13,7 @@ const Button = ({cStyle = 'local', children, className, raised = false, full = f
     `}
     {...props}
   >
-    {icon && <Icon name={icon} />}
+    {icon && <Icon name={icon} className={styles.icon} />}
     {children}
   </button>
 );

@@ -9,6 +9,13 @@ const KarmaService = require('../../services/karma');
 const linkify = require('linkify-it')();
 
 const Wordlist = require('../../services/wordlist');
+const {
+  CREATE_COMMENT,
+  SET_COMMENT_STATUS,
+  ADD_COMMENT_TAG,
+  REMOVE_COMMENT_TAG,
+  EDIT_COMMENT
+} = require('../../perms/constants');
 
 /**
  * adjustKarma will adjust the affected user's karma depending on the moderators
@@ -101,7 +108,7 @@ const createComment = async ({user, loaders: {Comments}, pubsub}, {body, asset_i
   tags = tags.map((tag) => ({name: tag}));
 
   // If admin or moderator, adding STAFF tag
-  if (user.hasRoles('ADMIN') || user.hasRoles('MODERATOR')) {
+  if (user.isStaff()) {
     tags.push({name: 'STAFF'});
   }
 
@@ -179,7 +186,7 @@ const resolveNewCommentStatus = async (context, {asset_id, body}, wordlist = {},
   if (wordlist.banned) {
     return 'REJECTED';
   }
-  
+
   if (settings.premodLinksEnable && linkify.test(body)) {
     return 'PREMOD';
   }
@@ -328,7 +335,7 @@ const edit = async (context, {id, asset_id, edit: {body}}) => {
   const [wordlist, settings] = await filterNewComment(context, {asset_id, body});
 
   // Determine the new status of the comment.
-  const status = await resolveNewCommentStatus(context, {asset_id, body}, wordlist, settings);    
+  const status = await resolveNewCommentStatus(context, {asset_id, body}, wordlist, settings);
 
   // Execute the edit.
   await CommentsService.edit(id, context.user.id, {body, status});
@@ -347,23 +354,23 @@ module.exports = (context) => {
     }
   };
 
-  if (context.user && context.user.can('mutation:createComment')) {
+  if (context.user && context.user.can(CREATE_COMMENT)) {
     mutators.Comment.create = (comment) => createPublicComment(context, comment);
   }
 
-  if (context.user && context.user.can('mutation:setCommentStatus')) {
+  if (context.user && context.user.can(SET_COMMENT_STATUS)) {
     mutators.Comment.setStatus = (action) => setStatus(context, action);
   }
 
-  if (context.user && context.user.can('mutation:addCommentTag')) {
+  if (context.user && context.user.can(ADD_COMMENT_TAG)) {
     mutators.Comment.addCommentTag = (action) => addCommentTag(context, action);
   }
 
-  if (context.user && context.user.can('mutation:removeCommentTag')) {
+  if (context.user && context.user.can(REMOVE_COMMENT_TAG)) {
     mutators.Comment.removeCommentTag = (action) => removeCommentTag(context, action);
   }
 
-  if (context.user && context.user.can('mutation:editComment')) {
+  if (context.user && context.user.can(EDIT_COMMENT)) {
     mutators.Comment.edit = (action) => edit(context, action);
   }
 

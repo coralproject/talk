@@ -185,7 +185,7 @@ export const fetchSignUpFacebook = () => (dispatch) => {
   );
 };
 
-export const facebookCallback = (err, data) => (dispatch) => {
+export const facebookCallback = (err, data) => (dispatch, getState) => {
   if (err) {
     dispatch(signInFacebookFailure(err));
     return;
@@ -194,8 +194,10 @@ export const facebookCallback = (err, data) => (dispatch) => {
     dispatch(handleAuthToken(data.token));
     dispatch(signInFacebookSuccess(data.user));
     dispatch(hideSignInDialog());
-    dispatch(showCreateUsernameDialog());
-    dispatch(hideSignInDialog());
+    const {user: {canEditName, status}} = getState().auth.toJS();
+    if (canEditName && status !== 'BANNED') {
+      dispatch(showCreateUsernameDialog());
+    }
   } catch (err) {
     dispatch(signInFacebookFailure(err));
     return;
@@ -292,8 +294,7 @@ export const checkLogin = () => (dispatch) => {
         throw new Error('Not logged in');
       }
 
-      const isAdmin = !!result.user.roles.filter((i) => i === 'ADMIN').length;
-      dispatch(checkLoginSuccess(result.user, isAdmin));
+      dispatch(checkLoginSuccess(result.user));
     })
     .catch((error) => {
       console.error(error);

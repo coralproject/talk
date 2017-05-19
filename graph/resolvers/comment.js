@@ -25,14 +25,13 @@ const Comment = {
 
     // TODO: remove
     if (user && excludeIgnored) {
-      return Comments.countByParentIDPersonalized({id, excludeIgnored});      
+      return Comments.countByParentIDPersonalized({id, excludeIgnored});
     }
-    return Comments.countByParentID.load(id);      
+    return Comments.countByParentID.load(id);
   },
   actions({id}, _, {user, loaders: {Actions}}) {
 
-    // Only return the actions if the user is not an admin.
-    if (user && user.hasRoles('ADMIN')) {
+    if (user && user.can('SEARCH_ACTIONS')) {
       return Actions.getByID.load(id);
     }
 

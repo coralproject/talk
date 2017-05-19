@@ -63,6 +63,7 @@ class Table extends Component {
                   label={t('community.role')}
                   onChange={(role) => this.onRoleChange(row.id, role)}>
                   <Option value={''}>.</Option>
+                  <Option value={'STAFF'}>{t('community.staff')}</Option>
                   <Option value={'MODERATOR'}>{t('community.moderator')}</Option>
                   <Option value={'ADMIN'}>{t('community.admin')}</Option>
                 </SelectField>

@@ -52,6 +52,7 @@ en:
     people: People
     role: "Select role..."
     select-status: "Select status..."
+    staff: "Staff"
     status: Status
     username_and_email: "Username and Email"
     yes_ban_user: "Yes Ban User"
@@ -306,8 +307,10 @@ en:
     description_1: "Suspending this user will temporarily disable their account and hide all of their comments on the site."
     email: "Another member of the community recently flagged your username for review. Because of its content your user was rejected. This means you can no longer comment like or flag content until you rewrite your username. Please e-mail us if you have any questions or concerns."
     email_subject: "Your account has been suspended"
+    email_message_reject: "Another member of the community recently flagged your username for review. Because of its content your user was rejected. This means you can no longer comment, like, or flag content until you rewrite your username. Please e-mail us if you have any questions or concerns."
     no_cancel: "No cancel"
     send: Send
+    suspend_user: "Suspend User"
     title: "Suspend a user"
     title_0: "We noticed you rejected a username"
     title_1: "Notify the user of their temporary suspension"

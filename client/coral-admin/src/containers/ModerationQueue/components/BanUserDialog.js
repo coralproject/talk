@@ -3,7 +3,6 @@ import {Dialog} from 'coral-ui';
 import styles from './BanUserDialog.css';
 
 import Button from 'coral-ui/components/Button';
-
 import t from 'coral-framework/services/i18n';
 
 const onBanClick = (userId, commentId, commentStatus, handleBanUser, rejectComment, handleClose) => (e) => {

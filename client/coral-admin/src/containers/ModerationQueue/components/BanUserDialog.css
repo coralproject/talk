@@ -152,13 +152,14 @@ input.error{
 
 .cancel {
   margin-right: 10px;
-  width: 47%;
+  width: 48%;
 }
 
 .ban {
-  width: 47%;
+  width: 48%;
 }
 
 .buttons {
-  margin: 20px 0;
+  margin: 20px;
+  text-align: center;
 }

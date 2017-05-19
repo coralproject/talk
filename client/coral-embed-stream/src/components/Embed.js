@@ -1,5 +1,6 @@
 import React from 'react';
 import t from 'coral-framework/services/i18n';
+import {can} from 'coral-framework/services/perms';
 
 import {TabBar, Tab, TabContent, Button} from 'coral-ui';
 
@@ -7,7 +8,6 @@ import Stream from '../containers/Stream';
 import Count from 'coral-plugin-comment-count/CommentCount';
 import UserBox from 'coral-sign-in/components/UserBox';
 import ProfileContainer from 'coral-settings/containers/ProfileContainer';
-import RestrictedContent from 'coral-framework/components/RestrictedContent';
 import ConfigureStreamContainer from 'coral-configure/containers/ConfigureStreamContainer';
 
 export default class Embed extends React.Component {
@@ -36,7 +36,7 @@ export default class Embed extends React.Component {
   render () {
     const {activeTab, logout, viewAllComments, commentId} = this.props;
     const {asset: {totalCommentCount}} = this.props.root;
-    const {loggedIn, isAdmin, user} = this.props.auth;
+    const {loggedIn, user} = this.props.auth;
 
     const userBox = <UserBox user={user} onLogout={logout} onShowProfile={this.handleShowProfile}/>;
 
@@ -45,8 +45,8 @@ export default class Embed extends React.Component {
         <div className="commentStream">
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count count={totalCommentCount}/></Tab>
-            <Tab>{t('framework.my_profile')}</Tab>
-            <Tab restricted={!isAdmin}>Configure Stream</Tab>
+            <Tab>{t('myProfile')}</Tab>
+            <Tab restricted={!can(user, 'UPDATE_CONFIG')}>Configure Stream</Tab>
           </TabBar>
           {
             commentId &&
@@ -66,10 +66,8 @@ export default class Embed extends React.Component {
             <ProfileContainer />
           </TabContent>
           <TabContent show={activeTab === 'config'}>
-            <RestrictedContent restricted={!loggedIn}>
-              { loggedIn ? userBox : null }
-              <ConfigureStreamContainer />
-            </RestrictedContent>
+            { loggedIn ? userBox : null }
+            <ConfigureStreamContainer />
           </TabContent>
         </div>
       </div>

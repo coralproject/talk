@@ -1,11 +1,11 @@
 import React from 'react';
-import styles from './RestrictedContent.css';
 
 import t from 'coral-framework/services/i18n';
+import RestrictedMessageBox from './RestrictedMessageBox';
 
 export default ({children, restricted, message = t('framework.content_not_available'), restrictedComp}) => {
   if (restricted) {
-    return restrictedComp ? restrictedComp : messageBox(message);
+    return restrictedComp ? restrictedComp : <RestrictedMessageBox message={message} />;
   } else {
     return (
       <div>
@@ -14,5 +14,3 @@ export default ({children, restricted, message = t('framework.content_not_availa
     );
   }
 };
-
-const messageBox = (message) => <div className={styles.message}>{message}</div>;
