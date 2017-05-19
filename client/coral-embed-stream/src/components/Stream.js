@@ -1,6 +1,4 @@
 import React, {PropTypes} from 'react';
-
-import {Button} from 'coral-ui';
 import LoadMore from './LoadMore';
 import NewCount from './NewCount';
 import Comment from '../containers/Comment';
@@ -16,7 +14,7 @@ import ChangeUsernameContainer
   from 'coral-sign-in/containers/ChangeUsernameContainer';
 
 class Stream extends React.Component {
-  setActiveReplyBox = reactKey => {
+  setActiveReplyBox = (reactKey) => {
     if (!this.props.auth.user) {
       this.props.showSignInDialog();
     } else {
@@ -59,11 +57,11 @@ class Stream extends React.Component {
     const firstCommentDate = asset.comments[0]
       ? asset.comments[0].created_at
       : new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString();
-    const commentIsIgnored = comment => {
+    const commentIsIgnored = (comment) => {
       return (
         me &&
         me.ignoredUsers &&
-        me.ignoredUsers.find(u => u.id === comment.user.id)
+        me.ignoredUsers.find((u) => u.id === comment.user.id)
       );
     };
     return (
@@ -151,7 +149,7 @@ class Stream extends React.Component {
                 setCommentCountCache={this.props.setCommentCountCache}
               />
               <div className="embed__stream">
-                {comments.map(comment => {
+                {comments.map((comment) => {
                   return commentIsIgnored(comment)
                     ? <IgnoredCommentTombstone key={comment.id} />
                     : <Comment

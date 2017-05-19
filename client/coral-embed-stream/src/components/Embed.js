@@ -1,7 +1,6 @@
 import React from 'react';
 const lang = new I18n(translations);
 import Stream from '../containers/Stream';
-import Slot from 'coral-framework/components/Slot';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import UserBox from 'coral-sign-in/components/UserBox';
 import translations from 'coral-framework/translations';

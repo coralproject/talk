@@ -4,17 +4,19 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {showSignInDialog} from 'coral-framework/actions/auth';
 
-class SignInButton extends React.Component {
-  render() {
-    return (
-      <Button id="coralSignInButton" onClick={this.props.showSignInDialog} full>
-        Sign in to comment
-      </Button>
-    );
-  }
-}
+const SignInButton = ({loggedIn, showSignInDialog}) => (
+  <div>
+    {
+      !loggedIn ? (
+        <Button id="coralSignInButton" onClick={showSignInDialog} full>
+          Sign in to comment
+        </Button>
+      ) : null
+    }
+  </div>
+);
 
-const mapStateToProps = ({auth}) => ({auth});
+const mapStateToProps = ({auth}) => ({loggedIn: auth.loggedIn});
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators({showSignInDialog}, dispatch);
