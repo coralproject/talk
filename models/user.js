@@ -111,6 +111,14 @@ const UserSchema = new mongoose.Schema({
     default: false
   },
 
+  // User's suspension details.
+  suspension: {
+    until: {
+      type: Date,
+      default: null,
+    },
+  },
+
   // User's settings
   settings: {
     bio: {
@@ -197,6 +205,7 @@ const USER_GRAPH_OPERATIONS = [
   'mutation:editName',
   'mutation:setUserStatus',
   'mutation:suspendUser',
+  'mutation:rejectUsername',
   'mutation:setCommentStatus',
   'mutation:addCommentTag',
   'mutation:removeCommentTag',
@@ -212,11 +221,12 @@ UserSchema.method('can', function(...actions) {
     throw new Error(`invalid actions: ${actions}`);
   }
 
-  if (this.status === 'BANNED') {
+  if (this.status === 'BANNED' || (this.suspension.until && this.suspension.until > new Date())) {
     return false;
   }
 
-  if (actions.some((action) => action === 'mutation:setUserStatus' || action === 'mutation:suspendUser' || action === 'mutation:setCommentStatus') && !this.hasRoles('ADMIN')) {
+  const adminOnlyActions = ['mutation:setUserStatus', 'mutation:suspendUser', 'mutation:rejectUsername', 'mutation:setCommentStatus'];
+  if (actions.some((action) => adminOnlyActions.indexOf(action) > 0 && !this.hasRoles('ADMIN'))) {
     return false;
   }
 

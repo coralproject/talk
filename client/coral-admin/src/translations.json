@@ -1,7 +1,7 @@
 {
   "en": {
     "errors": {
-      "NOT_AUTHORIZED": "Your username or password is not recognized by our system.",
+      "NOT_AUTHORIZED": "You are not authorized to perform this action.",
       "LOGIN_MAXIMUM_EXCEEDED": "You have made too many unsuccessful password attempts. Please wait."
     },
     "community": {
@@ -143,19 +143,30 @@
       "yes_ban_user": "Yes, Ban User"
     },
     "suspenduser": {
-      "title": "Suspend a user",
-      "title_0": "We noticed you rejected a username",
-      "description_0": "Would you like to temporarily ban this user because of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}.",
-      "title_1": "Notify the user of their temporary suspension",
-      "description_1": "Suspending this user will temporarily disable their account and hide all of their comments on the site.",
+      "title_suspend": "Suspend User",
+      "description_suspend": "You are suspending {0}. This comment will go to the Rejected queue, and {0} will not be allowed to like, report, reply or post until the suspension time is complete.",
+      "select_duration": "Select suspension duration",
+      "title_reject": "We noticed you rejected a username",
+      "description_reject": "Would you like to temporarily ban this user because of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}.",
+
+      "title_notify": "Notify the user of their temporary suspension",
+      "description_notify": "Suspending this user will temporarily disable their account and hide all of their comments on the site.",
       "no_cancel": "No, cancel",
       "yes_suspend": "Yes, suspend",
       "send": "Send",
       "bio": "bio",
       "username": "username",
       "email_subject": "Your account has been suspended",
-      "email": "Another member of the community recently flagged your username for review. Because of its content your user was rejected. This means you can no longer comment, like, or flag content until you rewrite your username. Please e-mail us if you have any questions or concerns.",
-      "write_message": "Write a message"
+      "email_message_reject": "Another member of the community recently flagged your username for review. Because of its content your user was rejected. This means you can no longer comment, like, or flag content until you rewrite your username. Please e-mail us if you have any questions or concerns.",
+      "email_message_suspend": "Dear {0},\n\nIn accordance with {1}’s community guidelines, your account has been temporarily suspended. During the suspension, you will be unable to comment, flag or engage with fellow commenters. Please rejoin the conversation {2}.",
+      "write_message": "Write a message",
+      "one_hour": "1 hour",
+      "hours": "{0} hours",
+      "days": "{0} days",
+      "suspend_user": "Suspend User",
+      "cancel": "Cancel",
+      "error_email_message_empty": "You must specify an E-Mail message.",
+      "notify_suspend_until": "User {0} has been temporarily suspended. This suspension will automatically end {1}."
     },
     "dashboard": {
       "next-update": "{0} minutes until next update.",
@@ -220,19 +231,24 @@
       "yes_ban_user": "Si, Suspendan el usuario"
     },
     "suspenduser": {
-      "title": "Suspendiendo un usuario",
-      "title_0": "Esta queriendo suspender un usuario?",
-      "description_0": "Le gustaria suspender a esta usuaria temporarianmente por su nombre de usuario? Si lo hace sus comentarios serán escondidos temporariamente hasta que puedan reescribir su nombre de usuario.",
-      "title_1": "Enviarle una nota al usuario sobre su cuenta suspendida",
-      "description_1": "Si suspende a este usuario, su cuenta va a ser deshabilitada y todos sus comentarios escondidos del sitio.",
+      "title_suspend": "Suspender Usuario",
+      "title_reject": "Esta queriendo suspender un usuario?",
+      "description_reject": "Le gustaria suspender a esta usuaria temporarianmente por su nombre de usuario? Si lo hace sus comentarios serán escondidos temporariamente hasta que puedan reescribir su nombre de usuario.",
+      "title_notify": "Enviarle una nota al usuario sobre su cuenta suspendida",
+      "description_notify": "Si suspende a este usuario, su cuenta va a ser deshabilitada y todos sus comentarios escondidos del sitio.",
       "no_cancel": "No, cancelar",
       "yes_suspend": "Si, suspender",
       "send": "Enviar",
       "username": "nombre de usuario",
       "email_subject": "Su cuenta ha sido suspendida temporariamente",
-      "email": "Otra persona de la comunidad recientemente marcó su nombre de usuario para ser revisado. Por su contenido, el nombre de usuario ha sido rechazado. Esto quiere decir que no puede comentar, gustar o marcar contenido hasta que modifique su nombre de usuario. Por favor, envienos un correo a moderator@newsorg.com si tiene alguna pregunta o preocupación",
+      "email_message_reject": "Otra persona de la comunidad recientemente marcó su nombre de usuario para ser revisado. Por su contenido, el nombre de usuario ha sido rechazado. Esto quiere decir que no puede comentar, gustar o marcar contenido hasta que modifique su nombre de usuario. Por favor, envienos un correo a moderator@newsorg.com si tiene alguna pregunta o preocupación",
       "write_message": "Escribir un mensaje",
-      "loading": "Cargando resultados"
+      "loading": "Cargando resultados",
+      "hour": "una hora",
+      "hours": "{0} horas",
+      "days": "{0} días",
+      "suspend_user": "Suspender",
+      "cancel": "Cancelar"
     },
     "modqueue": {
       "all": "todos",

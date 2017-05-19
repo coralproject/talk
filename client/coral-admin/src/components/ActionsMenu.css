@@ -1,0 +1,53 @@
+.button {
+  -webkit-transform: scale(.8);
+  transform: scale(.8);
+  margin: 0;
+}
+
+.root {
+  color: black;
+  > :global(.mdl-menu__container) {
+    margin-left: 10px;
+    > :global(.mdl-menu__outline) {
+      box-shadow: none;
+    }
+  }
+}
+
+.buttonOpen {
+  box-shadow: none;
+  color: white;
+  background-color: #616161;
+}
+
+.arrowIcon {
+  margin-left: 6px;
+  margin-right: 0;
+  vertical-align: middle;
+  margin-right: 0;
+  font-size: 14px;
+}
+
+.menu {
+  padding: 0;
+}
+
+.menuItem {
+  background-color: #2a2a2a;
+  color: white;
+  &:first-child {
+    margin-bottom: 1px;
+    border-radius: 2px 2px 0px 0px;
+  }
+  &:last-child {
+    border-radius: 0px 0px 2px 2px;
+  }
+  &:hover, &:active, &:focus {
+    background-color: #767676;
+  }
+  &[disabled], &[disabled]:hover, &[disabled]:focus, &[disabled]:active {
+    background-color: #262626;
+    color: rgba(255, 255, 255, 0.5);
+  }
+}
+

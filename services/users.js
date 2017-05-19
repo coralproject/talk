@@ -450,28 +450,64 @@ module.exports = class UsersService {
   }
 
   /**
-   * Suspend a user. It changes the status to BANNED and canEditName to True.
-   * @param  {String}   id   id of a user
-   * @param  {Function} done callback after the operation is complete
+   * Suspend a user until specified time.
+   * @param  {String}   id                  id of a user
+   * @param  {String}   message             message to be send to the user
+   * @param  {Date}     until               date until the suspension is valid.
    */
-  static suspendUser(id, message) {
+  static suspendUser(id, message, until) {
+    return UserModel.findOneAndUpdate(
+      {id}, {
+        $set: {
+          suspension: {
+            until,
+          },
+        }
+      })
+      .then((user) => {
+        if (message) {
+          let localProfile = user.profiles.find((profile) => profile.provider === 'local');
+          if (localProfile) {
+            const options =
+              {
+                template: 'suspension',              // needed to know which template to render!
+                locals: {                            // specifies the template locals.
+                  body: message
+                },
+                subject: 'Your account has been suspended',
+                to: localProfile.id  // This only works if the user has registered via e-mail.
+                                     // We may want a standard way to access a user's e-mail address in the future
+              };
+
+            return MailerService.sendSimple(options);
+          }
+        }
+      });
+  }
+
+  /**
+   * Reject username. It changes the status to BANNED and canEditName to True.
+   * @param  {String}   id                  id of a user
+   * @param  {String}   message             message to be send to the user
+   * @param  {Date}     until               date until the suspension is valid.
+   */
+  static rejectUsername(id, message) {
     return UserModel.findOneAndUpdate({
       id
     }, {
       $set: {
         status: 'BANNED',
-        canEditName: true
+        canEditName: true,
       }
     })
     .then((user) => {
       if (message) {
         let localProfile = user.profiles.find((profile) => profile.provider === 'local');
-
         if (localProfile) {
           const options =
             {
               template: 'suspension',              // needed to know which template to render!
-              locals: {                                  // specifies the template locals.
+              locals: {                            // specifies the template locals.
                 body: message
               },
               subject: 'Email Suspension',
@@ -480,8 +516,6 @@ module.exports = class UsersService {
             };
 
           return MailerService.sendSimple(options);
-        } else {
-          return Promise.reject(errors.ErrMissingEmail);
         }
       }
     });
@@ -813,7 +847,7 @@ module.exports = class UsersService {
         username: username,
         lowercaseUsername: username.toLowerCase(),
         canEditName: false,
-        status: 'PENDING'
+        status: 'PENDING',
       }
     })
     .then((result) => {

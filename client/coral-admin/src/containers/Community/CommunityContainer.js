@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {compose} from 'react-apollo';
 
 import {modUserFlaggedQuery} from 'coral-admin/src/graphql/queries';
-import {banUser, setUserStatus, suspendUser} from 'coral-admin/src/graphql/mutations';
+import {banUser, setUserStatus, rejectUsername} from 'coral-admin/src/graphql/mutations';
 
 import {
   fetchAccounts,
@@ -113,7 +113,7 @@ class CommunityContainer extends Component {
           error={data.error}
           showBanUserDialog={props.showBanUserDialog}
           approveUser={props.approveUser}
-          suspendUser={props.suspendUser}
+          rejectUsername={props.rejectUsername}
           showSuspendUserDialog={props.showSuspendUserDialog}
         />
         <BanUserDialog
@@ -126,7 +126,7 @@ class CommunityContainer extends Component {
           open={community.suspendDialog}
           handleClose={props.hideSuspendUserDialog}
           user={community.user}
-          suspendUser={props.suspendUser}
+          rejectUsername={props.rejectUsername}
         />
       </div>
     );
@@ -165,5 +165,5 @@ export default compose(
   modUserFlaggedQuery,
   banUser,
   setUserStatus,
-  suspendUser
+  rejectUsername
 )(CommunityContainer);

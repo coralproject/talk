@@ -1,12 +1,16 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {compose} from 'react-apollo';
+import * as notification from 'coral-admin/src/services/notification';
 import key from 'keymaster';
 import isEqual from 'lodash/isEqual';
 import styles from './components/styles.css';
+import translations from 'coral-admin/src/translations';
+import I18n from 'coral-framework/modules/i18n/i18n';
 
 import {modQueueQuery, getQueueCounts} from '../../graphql/queries';
-import {banUser, setCommentStatus} from '../../graphql/mutations';
+import {banUser, setCommentStatus, suspendUser} from '../../graphql/mutations';
 
 import {fetchSettings} from 'actions/settings';
 import {updateAssets} from 'actions/assets';
@@ -15,19 +19,24 @@ import {
   singleView,
   showBanUserDialog,
   hideBanUserDialog,
+  showSuspendUserDialog,
+  hideSuspendUserDialog,
   hideShortcutsNote,
   viewUserDetail,
   hideUserDetail
 } from 'actions/moderation';
 
 import {Spinner} from 'coral-ui';
-import BanUserDialog from '../../components/BanUserDialog';
+import BanUserDialog from './components/BanUserDialog';
+import SuspendUserDialog from './components/SuspendUserDialog';
 import ModerationQueue from './ModerationQueue';
 import ModerationMenu from './components/ModerationMenu';
 import ModerationHeader from './components/ModerationHeader';
 import NotFoundAsset from './components/NotFoundAsset';
 import ModerationKeysModal from '../../components/ModerationKeysModal';
 import UserDetail from './UserDetail';
+
+const lang = new I18n(translations);
 
 class ModerationContainer extends Component {
   state = {
@@ -90,6 +99,33 @@ class ModerationContainer extends Component {
     this.setState({sort});
     this.props.modQueueResort(sort);
   }
+
+  suspendUser = async (args) => {
+    this.props.hideSuspendUserDialog();
+    try {
+      const result = await this.props.suspendUser(args);
+      if (result.data.suspendUser.errors) {
+        throw result.data.suspendUser.errors;
+      }
+      notification.success(
+        lang.t('suspenduser.notify_suspend_until',
+          this.props.moderation.suspendUserDialog.username,
+          lang.timeago(args.until)),
+      );
+      const {commentStatus, commentId} = this.props.moderation.suspendUserDialog;
+      if (commentStatus !== 'REJECTED') {
+        return this.props.rejectComment({commentId})
+          .then((result) => {
+            if (result.data.setCommentStatus.errors) {
+              throw result.data.setCommentStatus.errors;
+            }
+          });
+      }
+    }
+    catch(err) {
+      notification.showMutationErrors(err);
+    }
+  };
 
   componentWillUnmount() {
     key.unbind('s');
@@ -184,12 +220,14 @@ class ModerationContainer extends Component {
           bannedWords={settings.wordlist.banned}
           suspectWords={settings.wordlist.suspect}
           showBanUserDialog={props.showBanUserDialog}
+          showSuspendUserDialog={props.showSuspendUserDialog}
           acceptComment={props.acceptComment}
           rejectComment={props.rejectComment}
           loadMore={props.loadMore}
           assetId={providedAssetId}
           sort={this.state.sort}
           commentCount={activeTabCount}
+          currentUserId={this.props.auth.user.id}
           viewUserDetail={viewUserDetail}
           hideUserDetail={hideUserDetail}
         />
@@ -202,6 +240,14 @@ class ModerationContainer extends Component {
           handleBanUser={props.banUser}
           showRejectedNote={moderation.showRejectedNote}
           rejectComment={props.rejectComment}
+        />
+        <SuspendUserDialog
+          open={moderation.suspendUserDialog.show}
+          username={moderation.suspendUserDialog.username}
+          userId={moderation.suspendUserDialog.userId}
+          organizationName={data.settings.organizationName}
+          onCancel={props.hideSuspendUserDialog}
+          onPerform={this.suspendUser}
         />
         <ModerationKeysModal
           hideShortcutsNote={props.hideShortcutsNote}
@@ -221,26 +267,32 @@ class ModerationContainer extends Component {
 const mapStateToProps = (state) => ({
   moderation: state.moderation.toJS(),
   settings: state.settings.toJS(),
+  auth: state.auth.toJS(),
   assets: state.assets.get('assets')
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  toggleModal: (toggle) => dispatch(toggleModal(toggle)),
   onClose: () => dispatch(toggleModal(false)),
-  singleView: () => dispatch(singleView()),
-  updateAssets: (assets) => dispatch(updateAssets(assets)),
-  fetchSettings: () => dispatch(fetchSettings()),
-  viewUserDetail: (id) => dispatch(viewUserDetail(id)),
-  hideUserDetail: () => dispatch(hideUserDetail()),
-  showBanUserDialog: (user, commentId, commentStatus, showRejectedNote) => dispatch(showBanUserDialog(user, commentId, commentStatus, showRejectedNote)),
   hideBanUserDialog: () => dispatch(hideBanUserDialog(false)),
-  hideShortcutsNote: () => dispatch(hideShortcutsNote()),
+  ...bindActionCreators({
+    toggleModal,
+    singleView,
+    updateAssets,
+    fetchSettings,
+    showBanUserDialog,
+    hideShortcutsNote,
+    showSuspendUserDialog,
+    hideSuspendUserDialog,
+    viewUserDetail,
+    hideUserDetail,
+  }, dispatch),
 });
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   setCommentStatus,
   getQueueCounts,
+  banUser,
+  suspendUser,
   modQueueQuery,
-  banUser
 )(ModerationContainer);

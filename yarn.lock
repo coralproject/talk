@@ -1480,6 +1480,10 @@ chai@^3.5.0:
     deep-eql "^0.1.3"
     type-detect "^1.0.0"
 
+chain-function@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/chain-function/-/chain-function-1.0.0.tgz#0d4ab37e7e18ead0bdc47b920764118ce58733dc"
+
 chalk@1.1.3, chalk@^1.0.0, chalk@^1.1.0, chalk@^1.1.1, chalk@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-1.1.3.tgz#a8115c55e4a702fe4d150abd3872822a7e09fc98"
@@ -2440,6 +2444,10 @@ doctrine@^2.0.0:
 doctypes@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/doctypes/-/doctypes-1.1.0.tgz#ea80b106a87538774e8a3a4a5afe293de489e0a9"
+
+dom-helpers@^3.2.0:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-3.2.1.tgz#3203e07fed217bd1f424b019735582fc37b2825a"
 
 dom-serializer@0, dom-serializer@~0.1.0:
   version "0.1.0"
@@ -6861,6 +6869,22 @@ react-router@^3.0.0:
 react-tagsinput@^3.14.0:
   version "3.16.1"
   resolved "https://registry.yarnpkg.com/react-tagsinput/-/react-tagsinput-3.16.1.tgz#dfb3bcbe5fc4430f60c145716c17cdc2613ce117"
+
+react-toastify@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-1.5.0.tgz#e9857e0b5d640064e5ba6caf7a96bb1578273de7"
+  dependencies:
+    prop-types "^15.5.8"
+    react-transition-group "^1.1.2"
+
+react-transition-group@^1.1.2:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-1.1.3.tgz#5e02cf6e44a863314ff3c68a0c826c2d9d70b221"
+  dependencies:
+    chain-function "^1.0.0"
+    dom-helpers "^3.2.0"
+    prop-types "^15.5.6"
+    warning "^3.0.0"
 
 react@^15.3.1, react@^15.4.2:
   version "15.5.4"

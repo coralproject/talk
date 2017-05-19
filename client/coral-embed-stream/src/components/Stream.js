@@ -9,10 +9,15 @@ import {ModerationLink} from 'coral-plugin-moderation';
 import CommentBox from 'coral-plugin-commentbox/CommentBox';
 import QuestionBox from 'coral-plugin-questionbox/QuestionBox';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
-import SuspendedAccount from 'coral-framework/components/SuspendedAccount';
-import RestrictedContent from 'coral-framework/components/RestrictedContent';
+import SuspendedAccount from './SuspendedAccount';
+import RestrictedMessageBox
+  from 'coral-framework/components/RestrictedMessageBox';
 import ChangeUsernameContainer
   from 'coral-sign-in/containers/ChangeUsernameContainer';
+import I18n from 'coral-framework/modules/i18n/i18n';
+import translations from 'coral-framework/translations';
+
+const lang = new I18n(translations);
 
 class Stream extends React.Component {
   setActiveReplyBox = (reactKey) => {
@@ -49,6 +54,7 @@ class Stream extends React.Component {
       : comment;
 
     const banned = user && user.status === 'BANNED';
+    const temporarilySuspended = user && user.suspension.until && new Date(user.suspension.until) > new Date();
 
     const hasOlderComments = !!(asset &&
       asset.lastComment &&
@@ -73,32 +79,38 @@ class Stream extends React.Component {
                 content={asset.settings.questionBoxContent}
                 enable={asset.settings.questionBoxEnable}
               />
-              <RestrictedContent
-                restricted={banned}
-                restrictedComp={
-                  <SuspendedAccount
-                    canEditName={user && user.canEditName}
-                    editName={editName}
+              {!banned && temporarilySuspended &&
+                <RestrictedMessageBox>
+                  {
+                    lang.t('temporarilySuspended',
+                      this.props.root.settings.organizationName,
+                      lang.timeago(user.suspension.until),
+                    )
+                  }
+                </RestrictedMessageBox>
+              }
+              {banned &&
+                <SuspendedAccount
+                  canEditName={user && user.canEditName}
+                  editName={editName}
+                />
+              }
+              {loggedIn && !banned && !temporarilySuspended &&
+                <CommentBox
+                    addNotification={this.props.addNotification}
+                    postComment={this.props.postComment}
+                    appendItemArray={this.props.appendItemArray}
+                    updateItem={this.props.updateItem}
+                    setCommentCountCache={this.props.setCommentCountCache}
+                    commentCountCache={commentCountCache}
+                    assetId={asset.id}
+                    premod={asset.settings.moderation}
+                    isReply={false}
+                    authorId={user.id}
+                    charCountEnable={asset.settings.charCountEnable}
+                    maxCharCount={asset.settings.charCount}
                   />
-                }
-              >
-                {user
-                  ? <CommentBox
-                      addNotification={this.props.addNotification}
-                      postComment={this.props.postComment}
-                      appendItemArray={this.props.appendItemArray}
-                      updateItem={this.props.updateItem}
-                      setCommentCountCache={this.props.setCommentCountCache}
-                      commentCountCache={commentCountCache}
-                      assetId={asset.id}
-                      premod={asset.settings.moderation}
-                      isReply={false}
-                      authorId={user.id}
-                      charCountEnable={asset.settings.charCountEnable}
-                      maxCharCount={asset.settings.charCount}
-                    />
-                  : null}
-              </RestrictedContent>
+              }
             </div>
           : <p>{asset.settings.closedMessage}</p>}
         {!loggedIn &&

@@ -25,9 +25,9 @@ const Comment = {
 
     // TODO: remove
     if (user && excludeIgnored) {
-      return Comments.countByParentIDPersonalized({id, excludeIgnored});      
+      return Comments.countByParentIDPersonalized({id, excludeIgnored});
     }
-    return Comments.countByParentID.load(id);      
+    return Comments.countByParentID.load(id);
   },
   actions({id}, _, {user, loaders: {Actions}}) {
 
