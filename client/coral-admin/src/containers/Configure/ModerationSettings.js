@@ -79,7 +79,7 @@ const ModerationSettings = ({settings, updateSettings, onChangeWordlist}) => {
 
       {/* Edit Comment Timeframe */}
       <Card className={styles.configSetting}>
-        <div className={styles.settingsHeader}>{t('configure.edit-comment-timeframe-heading')}</div>
+        <div className={styles.settingsHeader}>{t('configure.edit_comment_timeframe_heading')}</div>
         <p>
           {t('configure.edit-comment-timeframe-text-pre')}
           &nbsp;

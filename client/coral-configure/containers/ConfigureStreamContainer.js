@@ -107,7 +107,7 @@ class ConfigureStreamContainer extends Component {
           questionBoxContent={dirtySettings.questionBoxContent}
         />
         <hr />
-        <h3>{closedAt === 'open' ? 'Close' : 'Open'} {t('configure.comment_stream')}</h3>
+        <h3>{closedAt === 'open' ? t('configure.close') : t('configure.open')} {t('configure.comment_stream')}</h3>
           {(closedAt === 'open' && closedTimeout) ? <p>{t('configure.comment_stream_will_close')} {this.getClosedIn()}.</p> : ''}
         <CloseCommentsInfo
           onClick={this.toggleStatus}

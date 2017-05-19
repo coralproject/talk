@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from './styles.css';
 
+import t from 'coral-framework/services/i18n';
+
 const isOffTopic = (tags) => {
   return !!tags.filter(tag => tag.name === 'OFF_TOPIC').length
 }
@@ -10,7 +12,7 @@ export default (props) => (
     {
       isOffTopic(props.comment.tags) ? (
         <span className={styles.tag}>
-          Off-topic
+          {t('off_topic')}
         </span>
       ) : null
     }

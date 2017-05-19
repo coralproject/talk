@@ -52,6 +52,7 @@ es:
     people: Gente
     role: "Seleccionar rol..."
     select-status: "Seleccionar estado..."
+    staff: "Staff"
     status: Estado
     username_and_email: "Usuario y E-mail"
     yes_ban_user: "Si, Suspendan el usuario"
@@ -59,6 +60,7 @@ es:
     apply: Aplicar
     banned_word_text: "Comentarios que contengan estas palabras o frases, no separadas por comas y en mayusculas o minusuculas, serán automaticamente marcadas para separar los comentarios publicados."
     banned_words_title: "Lista de palabras prohibidas"
+    close: "Cerrar"
     close_after: "Cerrar comentarios luego de"
     close_stream: "Cerrar comentarios"
     close_stream_configuration: "Este hilo de comentario está en este momento cerrado. Al abrirlo, nuevos comentarios serán publicados y mostrados."
@@ -83,9 +85,12 @@ es:
     domain_list_text: "Agrega dominios permitidos a Talk, por ejemplo tu localhost, staging y ambientes de producción (ej. localhost:3000, staging.domain.com, domain.com)."
     domain_list_title: "Dominios Permitidos"
     embed_comment_stream: "Colocar Hilo de Comentarios"
-    enable_premod_links_text: "Moderators must approve any comment containing a link before its published."
-    enable_pre_moderation: "Enable pre-moderation"
-    enable_pre_moderation_text: "Moderators must approve any comment before it is published."
+    edit_comment_timeframe_heading: "Periodo de Tiempo de edición del Comentario"
+    edit-comment-timeframe-text-pre: "Comentarios tendrán"
+    edit-comment-timeframe-text-post: "segundos para editar sus comentarios."
+    enable_premod_links_text: "Moderadores deben aprobar todo comentario que contenga un enlace antes de que sea publicado."
+    enable_pre_moderation: "Permitir pre-moderación"
+    enable_pre_moderation_text: "Moderadores deben aprobar todo comentario antes que sea publicado."
     enable_premod_links: "Pre-Moderar Comentarios que contienen Enlaces"
     enable_premod: "Activar Pre Moderación"
     enable_premod_description: "Los y las Moderadoras deben aprobar cualquier comentario antes de su publicación"
@@ -97,8 +102,9 @@ es:
     include_comment_stream_desc: "Escribir un mensaje para ser incluido al principio del hilo de comentarios. Un tema podria ser incluir la guia de comunidad, etc."
     include_text: "Agregar tu texto aquí."
     include_question_here: "Escribir la pregunta aquí."
-    moderate: Moderate
+    moderate: Moderar
     moderation_settings: "Configuración de la Moderación"
+    open: "Abrir"
     open_stream: "Abrir Hilo de Comentarios"
     open_stream_configuration: "Este hilo de comentarios está abierto. Al cerrarlo no se podran publicar nuevos comentarios pero todos los comentarios anteriores aún serán mostrados."
     require_email_verification: "Necesita confirmación de e-mail"
@@ -129,17 +135,17 @@ es:
     write_your_username: "Edita tu nombre"
     your_username: "Tu nombre aparece en cada comentario que publiques."
   dashboard:
-    auto_update: "Data automatically updates every five minutes or when you Reload."
-    comment_count: comments
-    flags: Flags
-    most_flags: "Articles with the most flags"
+    auto_update: "Los datos se actualizan automaticamente cada cinco minutos o cuando refresca el navegador."
+    comment_count: "comentarios"
+    flags: "Marcas"
+    most_flags: "Articulos con la mayor cantidad de marcas"
     next_update: "{0} minutos hasta la próxima actualización."
-    no_activity: "There haven't been any comments anywhere in the last five minutes."
-    no_flags: "There have been no flags in the last 5 minutes! Hooray!"
-    no_likes: "There have been no likes in the last 5 minutes. All quiet."
+    no_activity: "No hay habido comentarios en ningún lado en los últimos 5 minutos."
+    no_flags: "No ha habido ningún reporte en los últimos 5 minutos! Bravo!"
+    no_likes: "No ha habido ningún 'me gusta' en los últimos 5 minutos. Todo tranquilo."
   done: hecho
   embedlink:
-    copy: "Copy to Clipboard"
+    copy: "Copiar al portapapeles"
   error:
     comment_too_short: "Tu comentario debe tener algo escrito"
     NOT_AUTHORIZED: "Acción no autorizada."
@@ -177,6 +183,7 @@ es:
       error: "Nombres de usuarios pueden sólamente incluir letras, números y _"
       label: "Nuevo Nombre"
       msg: "Tu cuenta está suspendida porque tu nombre de usuario ha sido considerado no apropiado para el espacio. Para recuperar la cuenta, por favor ingresar un nuevo nombre de usuario. Contactactanos si tienes alguna pregunta."
+    ignored_users: "Usuarios ignorados"
     my_comments: "Mis Comentarios"
     my_profile: "Mi pérfil"
     new_count: "Ver 0 1 más"
@@ -196,38 +203,41 @@ es:
   moderate_this_stream: "Modera este hilo de comentarios"
   modqueue:
     account: "account flags"
-    actions: Actions
-    all: all
-    approve: "Approve comment"
-    approved: approved
+    actions: Acciones
+    all: todo
+    all_streams: "Todos los Hilos"
+    approve: "Aprobar commentario"
+    approved: aprobado
     billion: B
-    close: Close
-    dont_like_username: "Don't like username"
-    empty_queue: "No more comments to moderate! You're all caught up. Go have some ☕️"
+    close: Cerrar
+    dont_like_username: "No me gusta el nombre"
+    empty_queue: "¡No hay más comentarios para moderar! Tiempo para un ☕️"
     flagged: flagged
     impersonating: Impersonating
-    less_detail: "Less detail"
+    less_detail: "Menos detalles"
     likes: likes
     million: M
-    mod_faster: "Moderate faster with keyboard shortcuts"
-    more_detail: "More detail"
-    navigation: Navigation
-    next_comment: "Go to the next comment"
-    offensive: Offensive
-    other: Other
+    mod_faster: "Moderar más rápido con atajos de teclado"
+    moderate: "Moderar →"
+    more_detail: "Más detalles"
+    navigation: Navegación
+    next_comment: "Ir al siguiente comentario"
+    offensive: Ofensivo
+    other: Otro
     premod: pre-mod
-    prev_comment: "Go to the previous comment"
-    reject: "Reject comment"
-    rejected: rejected
+    prev_comment: "Ir al comentario interior"
+    reject: "Rechazar comentario"
+    rejected: rechazado
+    select_stream: "Seleccionar hilo de comentarios"
     shift_key: ⇧
-    shortcuts: Shortcuts
-    show_shortcuts: "Show Shortcuts"
-    singleview: "Toggle single comment edit view"
-    spam_ads: Spam/Ads
-    thismenu: "Open this menu"
+    shortcuts: Atajos
+    show_shortcuts: "Mostrar Atajos"
+    singleview: "Colocar vista de edición de comentario único"
+    spam_ads: "Spam/Publicidad"
+    thismenu: "Abrir este menu"
     thousand: k
-    try_these: "Try these"
-    view_more_shortcuts: "View more shortcuts"
+    try_these: "Intentar estos"
+    view_more_shortcuts: "Ver más atajos"
   my_comment_history: "Mi historial de comentarios"
   name: Nombre
   no_agree_comment: "No estoy de acuerdo con este comentario"
@@ -282,21 +292,23 @@ es:
     required_field: "Este campo es necesario"
     passwords_dont_match: "Las contraseñas no coinciden."
     special_characters: "Los nombres pueden contener letras, números y _"
+    sign_in_to_comment: "Acceder para comentar"
+    temporarily_suspended: "De acuerdo con la guia de la comunidad de {0}, su cuenta ha sido temporalmente suspendida. Por favor unirse a la conversación {1}."
     check_the_form: "Formulario Inválido. Por favor, completa los campos"
   step_1_header: "Reportar un problema"
   step_2_header: "Ayudanos a comprender"
   step_3_header: "Gracias por tu participación"
   streams:
     all: All
-    article: Story
+    article: Artículo
     closed: Closed
     empty_result: "No assets match this search. Maybe try widening your search?"
     filter_streams: "Filter Streams"
     newest: Newest
     oldest: Oldest
     open: Open
-    pubdate: "Publication Date"
-    search: Search
+    pubdate: "Fecha Publicación"
+    search: Buscar
     sort_by: "Sort By"
     status: "Stream Status"
     stream_status: "Stream Status"
@@ -304,22 +316,24 @@ es:
     bio: bio
     description_0: "Would you like to temporarily ban this user because of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}."
     description_1: "Suspending this user will temporarily disable their account and hide all of their comments on the site."
-    email: "Another member of the community recently flagged your username for review. Because of its content your user was rejected. This means you can no longer comment like or flag content until you rewrite your username. Please e-mail us if you have any questions or concerns."
-    email_subject: "Your account has been suspended"
-    no_cancel: "No cancel"
-    send: Send
-    title: "Suspend a user"
-    title_0: "We noticed you rejected a username"
-    title_1: "Notify the user of their temporary suspension"
-    username: username
-    write_message: "Write a message"
-    yes_suspend: "Yes suspend"
+    email: "Otro miembro de la comunidad acaba de marcar su nombre de usuario para ser revisado.  Y ha sido rechazado por su contenido. Esto significa que no puede comentar, gustar o marcar contenido hasta que reescriba su nombre de usuario. Envienos un correo si tiene preguntas o preocupaciones."
+    email_subject: "Su cuenta ha sido suspendida"
+    email_message_reject: "Otro miembro de la comunidad hace poco ha marcado su nombre de usuario para revisar. Y ha sido rechazado por su contenido. Esto significa que no puede comentar, gustar o marcar contenido hasta que reescribe su nombre de usuario. Envienos un correo si tiene alguna preocupación o pregunta."
+    no_cancel: "No cancelar"
+    send: Enviar
+    suspend_user: "Suspender Usuario"
+    title: "Suspender un usuario"
+    title_0: "Nos dimos cuenta que ha rechazado un nombre de usuario"
+    title_1: "Notificar al usuario de su suspensión temporal"
+    username: nombre de usuario
+    write_message: "Escribir un mensaje"
+    yes_suspend: "Si, suspender"
   thank_you: "Valoramos tanto tu seguridad en este espacio como tus comentarios. Un o una moderadora van a leer tu reporte."
   unset_best: "Desetiquetar como el mejor"
   user:
     bio_flags: "flags for this bio"
     user_bio: "User Bio"
-    username_flags: "flags for this username"
+    username_flags: "reportes para este nombre de usuario"
   user_impersonating: "Este usuario suplanta a alguien"
   user_no_comment: "No has dejado aún ningún comentario. ¡Únete a la conversación!"
   username_offensive: "Este nombre de usuario es ofensivo"

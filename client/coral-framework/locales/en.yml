@@ -60,6 +60,7 @@ en:
     apply: Apply
     banned_word_text: "Comments which contain these words or phrases (not case-sensitive) will be automatically removed from the comment stream. Type a word and press Enter or Tab to add. Optionally paste a comma-separated list."
     banned_words_title: "Banned words list"
+    close: "Close"
     close_after: "Close comments after"
     close_stream: "Close Stream"
     close_stream_configuration: "This comment stream is currently closed. By opening this comment stream new comments may be submitted and displayed"
@@ -83,6 +84,9 @@ en:
     description: "As an admin you may customize the settings for the comment stream for this asset"
     domain_list_text: "Enter the domains you would like to permit for Talk e.g. your local staging and production environments (ex. localhost:3000 staging.domain.com domain.com)."
     domain_list_title: "Permitted Domains"
+    edit_comment_timeframe_heading: "Edit Comment Timeframe"
+    edit-comment-timeframe-text-pre: "Commenters will have"
+    edit-comment-timeframe-text-post: "seconds to edit their comments."
     embed_comment_stream: "Embed Stream"
     enable_premod_links_text: "Moderators must approve any comment containing a link before its published."
     enable_pre_moderation: "Enable pre-moderation"
@@ -100,6 +104,7 @@ en:
     include_question_here: "Write your question here."
     moderate: Moderate
     moderation_settings: "Moderation Settings"
+    open: "Open"
     open_stream: "Open Stream"
     open_stream_configuration: "This comment stream is currently open. By closing this comment stream no new comments may be submitted and all previous comments will still be displayed."
     require_email_verification: "Require Email Verification"
@@ -178,6 +183,7 @@ en:
       error: "Usernames can contain letters numbers and _ only"
       label: "New Username"
       msg: "Your account is currently suspended because your username has been deemed inappropriate. To restore your account please enter a new username. Please contact us if you have any questions."
+    ignored_users: "Ignored users"
     my_comments: "My Comments"
     my_profile: "My profile"
     new_count: "View 0 new 1"
@@ -199,6 +205,7 @@ en:
     account: "account flags"
     actions: Actions
     all: all
+    all_streams: "All Streams"
     approve: "Approve comment"
     approved: approved
     billion: B
@@ -211,6 +218,7 @@ en:
     likes: likes
     million: M
     mod_faster: "Moderate faster with keyboard shortcuts"
+    moderate: "Moderate →"
     more_detail: "More detail"
     navigation: Navigation
     next_comment: "Go to the next comment"
@@ -220,6 +228,7 @@ en:
     prev_comment: "Go to the previous comment"
     reject: "Reject comment"
     rejected: rejected
+    select_stream: "Select Stream"
     shift_key: ⇧
     shortcuts: Shortcuts
     show_shortcuts: "Show Shortcuts"
