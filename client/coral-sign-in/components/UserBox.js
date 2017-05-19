@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './styles.css';
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 const UserBox = ({className, user, onLogout, onShowProfile}) => (
   <div className={`${styles.userBox} ${className ? className : ''}`}>

@@ -4,7 +4,7 @@ import Comment from './components/Comment';
 import styles from './components/styles.css';
 import EmptyCard from '../../components/EmptyCard';
 import {actionsMap} from './helpers/moderationQueueActionsMap';
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 import LoadMore from './components/LoadMore';
 

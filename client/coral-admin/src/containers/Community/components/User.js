@@ -3,7 +3,7 @@ import styles from '../Community.css';
 
 import ActionButton from './ActionButton';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 // Render a single user for the list
 const User = (props) => {

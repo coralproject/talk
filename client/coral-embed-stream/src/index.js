@@ -12,7 +12,7 @@ import localStore, {injectReducers} from 'coral-framework/services/store';
 import AppRouter from './AppRouter';
 import {pym} from 'coral-framework';
 
-import {loadTranslations} from 'coral-i18n/services/i18n';
+import {loadTranslations} from 'coral-framework/services/i18n';
 
 loadTranslations();
 

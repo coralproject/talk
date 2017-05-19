@@ -3,7 +3,7 @@ import {Button, Checkbox, TextField} from 'coral-ui';
 
 import styles from './ConfigureCommentStream.css';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 export default ({handleChange, handleApply, changed, ...props}) => (
   <form onSubmit={handleApply}>

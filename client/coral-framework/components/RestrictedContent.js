@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './RestrictedContent.css';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 export default ({children, restricted, message = t('framework.content_not_available'), restrictedComp}) => {
   if (restricted) {

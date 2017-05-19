@@ -3,7 +3,7 @@ import {Card} from 'coral-ui';
 import Domainlist from './Domainlist';
 import EmbedLink from './EmbedLink';
 import styles from './Configure.css';
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 const updateCustomCssUrl = (updateSettings) => (event) => {
   const customCssUrl = event.target.value;

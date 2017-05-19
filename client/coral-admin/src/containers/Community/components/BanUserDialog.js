@@ -4,7 +4,7 @@ import styles from './BanUserDialog.css';
 
 import Button from 'coral-ui/components/Button';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 const BanUserDialog = ({open, handleClose, handleBanUser, user}) => (
   <Dialog

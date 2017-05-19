@@ -4,7 +4,7 @@ import {SelectField, Option} from 'react-mdl-selectfield';
 import styles from './Community.css';
 import {setRole, setCommenterStatus} from '../../actions/community';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 class Table extends Component {
 

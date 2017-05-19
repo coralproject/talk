@@ -14,7 +14,7 @@ import BanUserButton from 'coral-admin/src/components/BanUserButton';
 
 const linkify = new Linkify();
 
-import t, {timeago} from 'coral-i18n/services/i18n';
+import t, {timeago} from 'coral-framework/services/i18n';
 
 const Comment = ({
   actions = [],

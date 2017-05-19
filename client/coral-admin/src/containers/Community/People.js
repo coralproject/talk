@@ -4,7 +4,7 @@ import styles from './Community.css';
 import Table from './Table';
 import {Pager, Icon} from 'coral-ui';
 import EmptyCard from '../../components/EmptyCard';
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 const tableHeaders = [
   {

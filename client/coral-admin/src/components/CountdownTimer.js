@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import styles from 'coral-admin/src/containers/Dashboard/Dashboard.css';
 import {Icon} from 'coral-ui';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 const refreshIntervalSeconds = 60 * 5;
 
 class CountdownTimer extends React.Component {

@@ -3,7 +3,7 @@ import React, {Component, PropTypes} from 'react';
 import {Dialog, Button} from 'coral-ui';
 import styles from './SuspendUserDialog.css';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 const stages = [
   {

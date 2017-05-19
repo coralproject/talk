@@ -24,6 +24,8 @@ if (process.env.TALK_PLUGINS_JSON && process.env.TALK_PLUGINS_JSON.length > 0) {
   pluginsConfigPath = defaultPlugins;
 }
 
+let localesPath = path.join(__dirname, 'locales');
+
 console.log(`Using ${pluginsConfigPath} as the plugin configuration path`);
 
 // Edit the build targets and embeds below.
@@ -119,7 +121,7 @@ const config = {
       },
       {
         loader: 'yaml',
-        include: path.resolve('locales'),
+        include: localesPath,
         test: /\.yml$/,
       }
     ]

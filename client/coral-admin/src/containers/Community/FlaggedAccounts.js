@@ -1,6 +1,6 @@
 import React from 'react';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 import styles from './Community.css';
 import Loading from './Loading';
 import EmptyCard from 'coral-admin/src/components/EmptyCard';

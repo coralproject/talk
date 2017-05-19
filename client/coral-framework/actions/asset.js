@@ -2,7 +2,7 @@ import * as actions from '../constants/asset';
 import coralApi from '../helpers/response';
 import {addNotification} from '../actions/notification';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 export const fetchAssetRequest = () => ({type: actions.FETCH_ASSET_REQUEST});
 export const fetchAssetSuccess = (asset) => ({type: actions.FETCH_ASSET_SUCCESS, asset});

@@ -2,7 +2,7 @@ import React from 'react';
 import {Card} from 'coral-ui';
 import styles from './Configure.css';
 import TagsInput from 'react-tagsinput';
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 const Domainlist = ({domains, onChangeDomainlist}) => {
   return (

@@ -6,7 +6,7 @@ import FakeComment from './FakeComment';
 
 import styles from './styles.css';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 const CreateUsernameDialog = ({open, handleClose, formData, handleSubmitUsername, handleChange, ...props}) => {
   return (

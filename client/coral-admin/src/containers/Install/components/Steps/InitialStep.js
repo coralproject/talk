@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './style.css';
 import {Button} from 'coral-ui';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 const InitialStep = (props) => {
   const {nextStep} = props;

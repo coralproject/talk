@@ -5,7 +5,7 @@ import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
 
 import {pym} from 'coral-framework';
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 import {
   changeView,

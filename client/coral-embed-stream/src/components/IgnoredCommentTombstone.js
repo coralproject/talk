@@ -1,6 +1,6 @@
 import React from 'react';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 // Render in place of a Comment when the author of the comment is ignored
 const IgnoredCommentTombstone = () => (

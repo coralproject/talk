@@ -7,7 +7,7 @@ import {updateOpenStatus, updateConfiguration} from 'coral-framework/actions/ass
 import CloseCommentsInfo from '../components/CloseCommentsInfo';
 import ConfigureCommentStream from '../components/ConfigureCommentStream';
 
-import t, {timeago} from 'coral-i18n/services/i18n';
+import t, {timeago} from 'coral-framework/services/i18n';
 
 class ConfigureStreamContainer extends Component {
   constructor (props) {

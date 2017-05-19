@@ -1,6 +1,6 @@
 import React from 'react';
 import {SelectField, Option} from 'react-mdl-selectfield';
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 import styles from './Configure.css';
 import {Checkbox, Textfield} from 'react-mdl';
 import {Card, Icon, TextArea} from 'coral-ui';

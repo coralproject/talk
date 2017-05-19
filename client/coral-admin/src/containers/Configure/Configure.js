@@ -13,7 +13,7 @@ import styles from './Configure.css';
 import StreamSettings from './StreamSettings';
 import ModerationSettings from './ModerationSettings';
 import TechSettings from './TechSettings';
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 class Configure extends Component {
   constructor (props) {

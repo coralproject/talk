@@ -3,7 +3,7 @@ import styles from './style.css';
 import {Button, Card} from 'coral-ui';
 import TagsInput from 'react-tagsinput';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 const PermittedDomainsStep = (props) => {
   const {finishInstall, install, handleDomainsChange} = props;

@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import styles from './CommentCount.css';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 const CommentCount = ({count}) => {
   let number = count;

@@ -3,7 +3,7 @@ import styles from './style.css';
 import {Button} from 'coral-ui';
 import {Link} from 'react-router';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 const InitialStep = () => {
   return (

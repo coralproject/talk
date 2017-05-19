@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button} from 'coral-ui';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 export default ({status, onClick}) => (
   status === 'open' ? (

@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {Navigation, Header, IconButton, MenuItem, Menu} from 'react-mdl';
 import {Link, IndexLink} from 'react-router';
 import styles from './Header.css';
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 import {Logo} from './Logo';
 
 const CoralHeader = ({handleLogout, showShortcuts = () => {}, restricted = false}) => (

@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {ADDTL_COMMENTS_ON_LOAD_MORE} from '../constants/stream';
 import {Button} from 'coral-ui';
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 const loadMoreComments = (assetId, comments, loadMore, parentId, replyCount) => {
 

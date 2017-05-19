@@ -1,4 +1,4 @@
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 export default {
   email: t('error.email'),

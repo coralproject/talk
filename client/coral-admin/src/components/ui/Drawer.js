@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {Navigation, Drawer} from 'react-mdl';
 import {IndexLink, Link} from 'react-router';
 import styles from './Drawer.css';
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 const CoralDrawer = ({handleLogout, restricted = false}) => (
   <Drawer className={styles.header}>

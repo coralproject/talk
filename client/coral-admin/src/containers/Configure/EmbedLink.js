@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 import styles from './Configure.css';
 import {Button, Card} from 'coral-ui';
 

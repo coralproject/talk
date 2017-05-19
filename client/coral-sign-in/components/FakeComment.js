@@ -5,7 +5,7 @@ import AuthorName from 'coral-plugin-author-name/AuthorName';
 import Content from 'coral-plugin-commentcontent/CommentContent';
 import PubDate from 'coral-plugin-pubdate/PubDate';
 import {ReplyButton} from 'coral-plugin-replies';
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 class FakeComment extends React.Component {
   constructor (props) {

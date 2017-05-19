@@ -12,7 +12,7 @@ import {Spinner} from 'coral-ui';
 import CommentHistory from 'coral-plugin-history/CommentHistory';
 import {showSignInDialog, checkLogin} from 'coral-framework/actions/auth';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 class ProfileContainer extends Component {
   constructor() {

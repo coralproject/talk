@@ -1,7 +1,7 @@
 import React from 'react';
 import FlagButton from './FlagButton';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 const FlagComment = (props) => <FlagButton {...props} getPopupMenu={getPopupMenu} />;
 

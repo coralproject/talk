@@ -3,7 +3,7 @@ import styles from './Configure.css';
 import {Card} from 'coral-ui';
 import {Checkbox} from 'react-mdl';
 import Wordlist from './Wordlist';
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 const updateModeration = (updateSettings, mod) => () => {
   const moderation = mod === 'PRE' ? 'POST' : 'PRE';

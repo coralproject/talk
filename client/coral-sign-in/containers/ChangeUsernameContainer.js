@@ -6,7 +6,7 @@ import errorMsj from 'coral-framework/helpers/error';
 
 import CreateUsernameDialog from '../components/CreateUsernameDialog';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 import {
   showCreateUsernameDialog,

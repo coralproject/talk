@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {Icon} from 'coral-ui';
 import styles from './FlagBox.css';
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 const shortReasons = {
   'This comment is offensive': t('modqueue.offensive'),

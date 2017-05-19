@@ -4,7 +4,7 @@ const name = 'coral-plugin-permalinks';
 import {Button} from 'coral-ui';
 import styles from './styles.css';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 class PermalinkButton extends React.Component {
 

@@ -3,7 +3,7 @@ import React from 'react';
 import ModerationQueue from 'coral-admin/src/containers/ModerationQueue/ModerationQueue';
 import styles from './Widget.css';
 import BanUserDialog from 'coral-admin/src/components/BanUserDialog';
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 const MostLikedCommentsWidget = (props) => {
   const {

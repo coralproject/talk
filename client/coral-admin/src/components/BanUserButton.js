@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {Button, Icon} from 'coral-ui';
 import styles from './BanUserButton.css';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 const BanUserButton = ({user, ...props}) => (
   <div className={styles.ban}>

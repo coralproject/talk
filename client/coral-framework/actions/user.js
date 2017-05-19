@@ -2,7 +2,7 @@ import {addNotification} from '../actions/notification';
 import coralApi from '../helpers/response';
 import * as actions from '../constants/auth';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 const editUsernameFailure = (error) => ({type: actions.EDIT_USERNAME_FAILURE, error});
 const editUsernameSuccess = () => ({type: actions.EDIT_USERNAME_SUCCESS});

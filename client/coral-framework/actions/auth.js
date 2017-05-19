@@ -4,7 +4,7 @@ import * as actions from '../constants/auth';
 import coralApi, {base} from '../helpers/response';
 import jwtDecode from 'jwt-decode';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 // Dialog Actions
 export const showSignInDialog = () => (dispatch) => {

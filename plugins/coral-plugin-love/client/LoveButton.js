@@ -1,7 +1,7 @@
 import React from 'react';
 import {Icon} from 'coral-ui';
 import styles from './styles.css';
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 import {withReaction} from 'coral-plugin-api';
 
 class LoveButton extends React.Component {

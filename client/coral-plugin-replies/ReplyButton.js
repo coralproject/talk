@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 
-import t from 'coral-i18n/services/i18n';
+import t from 'coral-framework/services/i18n';
 
 import classnames from 'classnames';
 
