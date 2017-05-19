@@ -10,8 +10,6 @@ import QuestionBox from 'coral-plugin-questionbox/QuestionBox';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import SuspendedAccount from 'coral-framework/components/SuspendedAccount';
 import RestrictedContent from 'coral-framework/components/RestrictedContent';
-import ChangeUsernameContainer
-  from 'coral-sign-in/containers/ChangeUsernameContainer';
 
 class Stream extends React.Component {
   setActiveReplyBox = (reactKey) => {
@@ -109,9 +107,6 @@ class Stream extends React.Component {
               </RestrictedContent>
             </div>
           : <p>{asset.settings.closedMessage}</p>}
-        {loggedIn &&
-          user &&
-          <ChangeUsernameContainer loggedIn={loggedIn} user={user} />}
         {loggedIn && <ModerationLink assetId={asset.id} isAdmin={isAdmin} />}
 
         {highlightedComment

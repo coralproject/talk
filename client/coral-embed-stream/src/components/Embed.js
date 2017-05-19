@@ -1,8 +1,8 @@
 import React from 'react';
 const lang = new I18n(translations);
 import Stream from '../containers/Stream';
+import Slot from 'coral-framework/components/Slot';
 import I18n from 'coral-framework/modules/i18n/i18n';
-import UserBox from 'coral-sign-in/components/UserBox';
 import translations from 'coral-framework/translations';
 import {TabBar, Tab, TabContent, Button} from 'coral-ui';
 import Count from 'coral-plugin-comment-count/CommentCount';
@@ -34,11 +34,9 @@ export default class Embed extends React.Component {
   handleShowProfile = () => this.props.setActiveTab('profile');
 
   render () {
-    const {activeTab, logout, viewAllComments, commentId} = this.props;
+    const {activeTab, viewAllComments, commentId} = this.props;
     const {asset: {totalCommentCount}} = this.props.root;
     const {loggedIn, isAdmin, user} = this.props.auth;
-
-    const userBox = <UserBox user={user} onLogout={logout} onShowProfile={this.handleShowProfile}/>;
 
     return (
       <div>
@@ -48,6 +46,7 @@ export default class Embed extends React.Component {
             <Tab>{lang.t('myProfile')}</Tab>
             <Tab restricted={!isAdmin}>Configure Stream</Tab>
           </TabBar>
+
           {
             commentId &&
               <Button
@@ -58,8 +57,8 @@ export default class Embed extends React.Component {
                 {lang.t('showAllComments')}
               </Button>
           }
+          <Slot fill="embed"/>
           <TabContent show={activeTab === 'stream'}>
-            { loggedIn ? userBox : null }
             <Stream data={this.props.data} root={this.props.root} />
           </TabContent>
           <TabContent show={activeTab === 'profile'}>
@@ -67,7 +66,6 @@ export default class Embed extends React.Component {
           </TabContent>
           <TabContent show={activeTab === 'config'}>
             <RestrictedContent restricted={!loggedIn}>
-              { loggedIn ? userBox : null }
               <ConfigureStreamContainer />
             </RestrictedContent>
           </TabContent>

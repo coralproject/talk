@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
 
-import CreateUsernameDialog from '../components/CreateUsernameDialog';
+import CreateUsernameDialog from './CreateUsernameDialog';
 
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from '../translations';
@@ -16,12 +16,12 @@ import {
   invalidForm,
   validForm,
   createUsername
-} from '../../coral-framework/actions/auth';
+} from 'coral-framework/actions/auth';
 
 class ChangeUsernameContainer extends Component {
   initialState = {
     formData: {
-      username: '',
+      username: ''
     },
     errors: {},
     showErrors: false
@@ -39,19 +39,22 @@ class ChangeUsernameContainer extends Component {
 
   handleChange(e) {
     const {name, value} = e.target;
-    this.setState((state) => ({
-      ...state,
-      formData: {
-        ...state.formData,
-        [name]: value
+    this.setState(
+      state => ({
+        ...state,
+        formData: {
+          ...state.formData,
+          [name]: value
+        }
+      }),
+      () => {
+        this.validation(name, value);
       }
-    }), () => {
-      this.validation(name, value);
-    });
+    );
   }
 
   addError(name, error) {
-    return this.setState((state) => ({
+    return this.setState(state => ({
       errors: {
         ...state.errors,
         [name]: error
@@ -67,15 +70,15 @@ class ChangeUsernameContainer extends Component {
     } else if (!validate[name](value)) {
       addError(name, errorMsj[name]);
     } else {
-      const { [name]: prop, ...errors } = this.state.errors; // eslint-disable-line
+      const {[name]: prop, ...errors} = this.state.errors; // eslint-disable-line
       // Removes Error
-      this.setState((state) => ({...state, errors}));
+      this.setState(state => ({...state, errors}));
     }
   }
 
   isCompleted() {
     const {formData} = this.state;
-    return !Object.keys(formData).filter((prop) => !formData[prop].length).length;
+    return !Object.keys(formData).filter(prop => !formData[prop].length).length;
   }
 
   displayErrors(show = true) {
@@ -117,19 +120,17 @@ class ChangeUsernameContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  auth: state.auth.toJS()
-});
+const mapStateToProps = ({auth, user}) => ({auth, user});
 
-const mapDispatchToProps = (dispatch) => ({
-  createUsername: (userid, formData) => dispatch(createUsername(userid, formData)),
+const mapDispatchToProps = dispatch => ({
+  createUsername: (userid, formData) =>
+    dispatch(createUsername(userid, formData)),
   showCreateUsernameDialog: () => dispatch(showCreateUsernameDialog()),
   hideCreateUsernameDialog: () => dispatch(hideCreateUsernameDialog()),
-  invalidForm: (error) => dispatch(invalidForm(error)),
+  invalidForm: error => dispatch(invalidForm(error)),
   validForm: () => dispatch(validForm())
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ChangeUsernameContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  ChangeUsernameContainer
+);

@@ -16,7 +16,9 @@ const SignInButton = ({loggedIn, showSignInDialog}) => (
   </div>
 );
 
-const mapStateToProps = ({auth}) => ({loggedIn: auth.loggedIn});
+const mapStateToProps = ({auth}) => ({
+  loggedIn: auth.toJS().loggedIn
+});
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators({showSignInDialog}, dispatch);

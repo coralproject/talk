@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
+import SignDialog from './SignDialog';
 import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
 import I18n from 'coral-framework/modules/i18n/i18n';
@@ -181,7 +182,16 @@ class SignInContainer extends Component {
 
     return (
       <div>
-        This is my login
+        <SignDialog
+          open={true}
+          view={auth.view}
+          emailVerificationEnabled={requireEmailConfirmation}
+          emailVerificationLoading={emailVerificationLoading}
+          emailVerificationSuccess={emailVerificationSuccess}
+          {...this}
+          {...this.state}
+          {...this.props}
+        />
       </div>
     );
   }
