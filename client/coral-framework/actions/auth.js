@@ -296,8 +296,7 @@ export const checkLogin = () => (dispatch) => {
         throw new Error('Not logged in');
       }
 
-      const isAdmin = !!result.user.roles.filter((i) => i === 'ADMIN').length;
-      dispatch(checkLoginSuccess(result.user, isAdmin));
+      dispatch(checkLoginSuccess(result.user));
     })
     .catch((error) => {
       console.error(error);

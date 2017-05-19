@@ -389,13 +389,7 @@ module.exports = class UsersService {
       return Promise.reject(new Error(`role ${role} is not supported`));
     }
 
-    return UserModel.update({
-      id: id
-    }, {
-      $addToSet: {
-        roles: role
-      }
-    });
+    return UserModel.update({id}, {$set: {roles: [role]}});
   }
 
   /**
