@@ -10,7 +10,6 @@ import Stream from '../containers/Stream';
 import Count from 'coral-plugin-comment-count/CommentCount';
 import UserBox from 'coral-sign-in/components/UserBox';
 import ProfileContainer from 'coral-settings/containers/ProfileContainer';
-import RestrictedContent from 'coral-framework/components/RestrictedContent';
 import ConfigureStreamContainer from 'coral-configure/containers/ConfigureStreamContainer';
 
 export default class Embed extends React.Component {
@@ -69,10 +68,8 @@ export default class Embed extends React.Component {
             <ProfileContainer />
           </TabContent>
           <TabContent show={activeTab === 'config'}>
-            <RestrictedContent restricted={!loggedIn}>
-              { loggedIn ? userBox : null }
-              <ConfigureStreamContainer />
-            </RestrictedContent>
+            { loggedIn ? userBox : null }
+            <ConfigureStreamContainer />
           </TabContent>
         </div>
       </div>

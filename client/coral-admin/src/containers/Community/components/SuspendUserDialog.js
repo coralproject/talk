@@ -10,16 +10,16 @@ const lang = new I18n(translations);
 
 const stages = [
   {
-    title: 'suspenduser.title_0',
-    description: 'suspenduser.description_0',
+    title: 'suspenduser.title_reject',
+    description: 'suspenduser.description_reject',
     options: {
       'j': 'suspenduser.no_cancel',
       'k': 'suspenduser.yes_suspend'
     }
   },
   {
-    title: 'suspenduser.title_1',
-    description: 'suspenduser.description_1',
+    title: 'suspenduser.title_notify',
+    description: 'suspenduser.description_notify',
     options: {
       'j': 'bandialog.cancel',
       'k': 'suspenduser.send'
@@ -34,11 +34,11 @@ class SuspendUserDialog extends Component  {
   static propTypes = {
     stage: PropTypes.number,
     handleClose: PropTypes.func.isRequired,
-    suspendUser: PropTypes.func.isRequired
+    rejectUsername: PropTypes.func.isRequired
   }
 
   componentDidMount() {
-    this.setState({email: lang.t('suspenduser.email'), about: lang.t('suspenduser.username')});
+    this.setState({email: lang.t('suspenduser.email_message_reject'), about: lang.t('suspenduser.username')});
   }
 
   /*
@@ -46,13 +46,13 @@ class SuspendUserDialog extends Component  {
   * handles the possible actions for that dialog.
   */
   onActionClick = (stage, menuOption) => () => {
-    const {suspendUser, user} = this.props;
+    const {rejectUsername, user} = this.props;
     const {stage} = this.state;
 
     const cancel = this.props.handleClose;
     const next = () => this.setState({stage: stage + 1});
     const suspend = () => {
-      suspendUser({userId: user.user.id, message: this.state.email})
+      rejectUsername({id: user.user.id, message: this.state.email})
       .then(() => {
         this.props.handleClose();
       });
@@ -79,7 +79,7 @@ class SuspendUserDialog extends Component  {
             open={open}
             onClose={handleClose}
             onCancel={handleClose}
-            title={lang.t('suspenduser.title')}>
+            title={lang.t('suspenduser.suspend_user')}>
             <div className={styles.title}>
               {lang.t(stages[stage].title, lang.t('suspenduser.username'))}
             </div>

@@ -9,6 +9,13 @@ const KarmaService = require('../../services/karma');
 const linkify = require('linkify-it')();
 
 const Wordlist = require('../../services/wordlist');
+const {
+  CREATE_COMMENT,
+  SET_COMMENT_STATUS,
+  ADD_COMMENT_TAG,
+  REMOVE_COMMENT_TAG,
+  EDIT_COMMENT
+} = require('../../perms/constants');
 
 /**
  * adjustKarma will adjust the affected user's karma depending on the moderators
@@ -347,23 +354,23 @@ module.exports = (context) => {
     }
   };
 
-  if (context.user && context.user.can('CREATE_COMMENT')) {
+  if (context.user && context.user.can(CREATE_COMMENT)) {
     mutators.Comment.create = (comment) => createPublicComment(context, comment);
   }
 
-  if (context.user && context.user.can('SET_COMMENT_STATUS')) {
+  if (context.user && context.user.can(SET_COMMENT_STATUS)) {
     mutators.Comment.setStatus = (action) => setStatus(context, action);
   }
 
-  if (context.user && context.user.can('ADD_COMMENT_TAG')) {
+  if (context.user && context.user.can(ADD_COMMENT_TAG)) {
     mutators.Comment.addCommentTag = (action) => addCommentTag(context, action);
   }
 
-  if (context.user && context.user.can('REMOVE_COMMENT_TAG')) {
+  if (context.user && context.user.can(REMOVE_COMMENT_TAG)) {
     mutators.Comment.removeCommentTag = (action) => removeCommentTag(context, action);
   }
 
-  if (context.user && context.user.can('EDIT_COMMENT')) {
+  if (context.user && context.user.can(EDIT_COMMENT)) {
     mutators.Comment.edit = (action) => edit(context, action);
   }
 

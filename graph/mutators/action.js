@@ -2,6 +2,7 @@ const ActionModel = require('../../models/action');
 const ActionsService = require('../../services/actions');
 const UsersService = require('../../services/users');
 const errors = require('../../errors');
+const {CREATE_ACTION, DELETE_ACTION} = require('../../perms/constants');
 
 /**
  * Creates an action on a item. If the item is a user flag, sets the user's status to
@@ -45,7 +46,7 @@ const deleteAction = ({user}, {id}) => {
 };
 
 module.exports = (context) => {
-  if (context.user && context.user.can('CREATE_ACTION', 'DELETE_ACTION')) {
+  if (context.user && context.user.can(CREATE_ACTION, DELETE_ACTION)) {
     return {
       Action: {
         create: (action) => createAction(context, action),

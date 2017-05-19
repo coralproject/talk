@@ -1,3 +1,4 @@
+const constants = require('./constants');
 const root = require('./rootReducer');
 const queries = require('./queryReducer');
 const mutations = require('./mutationReducer');
@@ -9,7 +10,7 @@ const reducers = [
 ];
 
 // this will make 'reducer' a key in this array. hm.
-const allPermissions = [...Object.keys(root), ...Object.keys(queries), ...Object.keys(mutations)];
+const allPermissions = Object.keys(constants);
 
 const findGrant = (user, perms) => {
 
@@ -17,7 +18,7 @@ const findGrant = (user, perms) => {
 
     for (let key in reducers) {
       const reducer = reducers[key];
-      const grant = reducer.checkRoles(user, perm);
+      const grant = reducer(user, perm);
 
       if (grant !== null && typeof grant !== 'undefined') {
         return grant;

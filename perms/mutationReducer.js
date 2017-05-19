@@ -1,46 +1,35 @@
 const {check} = require('./utils');
+const types = require('./constants');
 
-module.exports = {
-  CREATE_COMMENT: 'CREATE_COMMENT',
-  CREATE_ACTION: 'CREATE_ACTION',
-  DELETE_ACTION: 'DELETE_ACTION',
-  EDIT_NAME: 'EDIT_NAME',
-  EDIT_COMMENT: 'EDIT_COMMENT',
-  SET_USER_STATUS: 'SET_USER_STATUS',
-  SUSPEND_USER: 'SUSPEND_USER',
-  SET_COMMENT_STATUS: 'SET_COMMENT_STATUS',
-  ADD_COMMENT_TAG: 'ADD_COMMENT_TAG',
-  REMOVE_COMMENT_TAG: 'REMOVE_COMMENT_TAG',
-  UPDATE_USER_ROLES: 'UPDATE_USER_ROLES',
-  UPDATE_CONFIG: 'UPDATE_CONFIG',
-  checkRoles: function (user, perm) {
-    switch (perm) {
-    case this.CREATE_COMMENT:
-      return true;
-    case this.CREATE_ACTION:
-      return true;
-    case this.DELETE_ACTION:
-      return true;
-    case this.EDIT_NAME:
-      return true;
-    case this.EDIT_COMMENT:
-      return true;
-    case this.UPDATE_USER_ROLES:
-      return check(user, ['ADMIN']);
-    case this.SET_USER_STATUS:
-      return check(user, ['ADMIN', 'MODERATOR']);
-    case this.SUSPEND_USER:
-      return check(user, ['ADMIN', 'MODERATOR']);
-    case this.SET_COMMENT_STATUS:
-      return check(user, ['ADMIN', 'MODERATOR']);
-    case this.ADD_COMMENT_TAG:
-      return check(user, ['ADMIN', 'MODERATOR']);
-    case this.REMOVE_COMMENT_TAG:
-      return check(user, ['ADMIN', 'MODERATOR']);
-    case this.UPDATE_CONFIG:
-      return check(user, ['ADMIN', 'MODERATOR']);
-    default:
-      break;
-    }
+module.exports = (user, perm) => {
+  switch (perm) {
+  case types.CREATE_COMMENT:
+    return true;
+  case types.CREATE_ACTION:
+    return true;
+  case types.DELETE_ACTION:
+    return true;
+  case types.EDIT_NAME:
+    return true;
+  case types.EDIT_COMMENT:
+    return true;
+  case types.UPDATE_USER_ROLES:
+    return check(user, ['ADMIN']);
+  case types.REJECT_USERNAME:
+    return check(user, ['ADMIN', 'MODERATOR']);
+  case types.SET_USER_STATUS:
+    return check(user, ['ADMIN', 'MODERATOR']);
+  case types.SUSPEND_USER:
+    return check(user, ['ADMIN', 'MODERATOR']);
+  case types.SET_COMMENT_STATUS:
+    return check(user, ['ADMIN', 'MODERATOR']);
+  case types.ADD_COMMENT_TAG:
+    return check(user, ['ADMIN', 'MODERATOR']);
+  case types.REMOVE_COMMENT_TAG:
+    return check(user, ['ADMIN', 'MODERATOR']);
+  case types.UPDATE_CONFIG:
+    return check(user, ['ADMIN', 'MODERATOR']);
+  default:
+    break;
   }
 };

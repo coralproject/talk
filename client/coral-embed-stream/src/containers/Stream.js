@@ -212,6 +212,9 @@ const fragments = {
           id
         }
       }
+      settings {
+        organizationName
+      }
       ...${getDefinitionName(Comment.fragments.root)}
     }
     ${Comment.fragments.root}

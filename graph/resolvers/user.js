@@ -1,4 +1,5 @@
 const KarmaService = require('../../services/karma');
+const {SEARCH_ACTIONS, SEARCH_OTHERS_COMMENTS, UPDATE_USER_ROLES} = require('../../perms/constants');
 
 const User = {
   action_summaries({id}, _, {loaders: {Actions}}) {
@@ -7,7 +8,7 @@ const User = {
   actions({id}, _, {user, loaders: {Actions}}) {
 
     // Only return the actions if the user is not an admin.
-    if (user && user.can('SEARCH_ACTIONS')) {
+    if (user && user.can(SEARCH_ACTIONS)) {
       return Actions.getByID.load(id);
     }
 
@@ -23,7 +24,7 @@ const User = {
 
     // If the user is not an admin, only return comment list for the owner of
     // the comments.
-    if (user && (user.can('SEARCH_OTHERS_COMMENTS') || user.id === id)) {
+    if (user && (user.can(SEARCH_OTHERS_COMMENTS) || user.id === id)) {
       return Comments.getByQuery({author_id: id, sort: 'REVERSE_CHRONOLOGICAL'});
     }
 
@@ -56,7 +57,7 @@ const User = {
   roles({id, roles}, _, {user}) {
 
     // If the user is not an admin, only return the current user's roles.
-    if (user && (user.can('UPDATE_USER_ROLES') || user.id === id)) {
+    if (user && (user.can(UPDATE_USER_ROLES) || user.id === id)) {
       return roles;
     }
 

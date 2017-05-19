@@ -114,6 +114,14 @@ const UserSchema = new mongoose.Schema({
     default: false
   },
 
+  // User's suspension details.
+  suspension: {
+    until: {
+      type: Date,
+      default: null,
+    },
+  },
+
   // User's settings
   settings: {
     bio: {

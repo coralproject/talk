@@ -11,7 +11,8 @@ import Highlighter from 'react-highlight-words';
 import Slot from 'coral-framework/components/Slot';
 import {getActionSummary} from 'coral-framework/utils';
 import ActionButton from 'coral-admin/src/components/ActionButton';
-import BanUserButton from 'coral-admin/src/components/BanUserButton';
+import ActionsMenu from 'coral-admin/src/components/ActionsMenu';
+import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
 
 const linkify = new Linkify();
 
@@ -66,16 +67,19 @@ const Comment = ({
                 lang.getLocale().replace('-', '_')
               )}
             </span>
-            <BanUserButton
-              user={comment.user}
-              onClick={() =>
-                props.showBanUserDialog(
-                  comment.user,
-                  comment.id,
-                  comment.status,
-                  comment.status !== 'REJECTED'
-                )}
-            />
+            {props.currentUserId !== comment.user.id &&
+              <ActionsMenu icon="not_interested">
+                <ActionsMenuItem
+                  disabled={comment.user.status === 'BANNED'}
+                  onClick={() => props.showSuspendUserDialog(comment.user.id, comment.user.name, comment.id, comment.status)}>
+                  Suspend User</ActionsMenuItem>
+                <ActionsMenuItem
+                  disabled={comment.user.status === 'BANNED'}
+                  onClick={() => props.showBanUserDialog(comment.user, comment.id, comment.status, comment.status !== 'REJECTED')}>
+                  Ban User
+                </ActionsMenuItem>
+              </ActionsMenu>
+            }
             <CommentType type={commentType} />
           </div>
           {comment.user.status === 'banned'
@@ -161,6 +165,9 @@ Comment.propTypes = {
   suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired,
   bannedWords: PropTypes.arrayOf(PropTypes.string).isRequired,
   currentAsset: PropTypes.object,
+  showBanUserDialog: PropTypes.func.isRequired,
+  showSuspendUserDialog: PropTypes.func.isRequired,
+  currentUserId: PropTypes.string.isRequired,
   comment: PropTypes.shape({
     body: PropTypes.string.isRequired,
     action_summaries: PropTypes.array,

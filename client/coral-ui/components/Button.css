@@ -25,12 +25,6 @@
     letter-spacing: 0.7px;
     font-weight: 400;
 
-    i {
-      margin-right: 13px;
-      font-size: 18px;
-      vertical-align: middle;
-    }
-
     &:disabled {
       background: #E0E0E0;
       color: #4f5c67;
@@ -38,9 +32,20 @@
     }
 }
 
+.icon {
+  margin-right: 13px;
+  font-size: 18px;
+  vertical-align: middle;
+}
+
 .type--black {
-    color: #E0E0E0;
+    color: white;
     background: #212121;
+}
+
+.type--white {
+    color: #212121;
+    background: white;
 }
 
 .type--local {
@@ -163,7 +168,7 @@
   cursor: not-allowed;
 }
 
-.type--ban {
+.type--ban, .type--actions {
   display: block;
   color: #616161;
   border: solid 1px rgba(97, 97, 97, 0.77);
@@ -179,11 +184,16 @@
   font-size: 14px;
   width: auto;
 
-&:hover {
-   box-shadow: none;
-   color: white;
-   background-color: #616161;
- }
+  &:hover {
+     box-shadow: none;
+     color: white;
+     background-color: #616161;
+  }
+
+  > .icon {
+    margin-right: 5px;
+    font-size: 14px;
+  }
 }
 
 .full {
