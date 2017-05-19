@@ -36,7 +36,7 @@ export default class Embed extends React.Component {
   render () {
     const {activeTab, viewAllComments, commentId} = this.props;
     const {asset: {totalCommentCount}} = this.props.root;
-    const {loggedIn, isAdmin, user} = this.props.auth;
+    const {loggedIn, isAdmin} = this.props.auth;
 
     return (
       <div>
