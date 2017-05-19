@@ -516,8 +516,6 @@ module.exports = class UsersService {
             };
 
           return MailerService.sendSimple(options);
-        } else {
-          return Promise.reject(errors.ErrMissingEmail);
         }
       }
     });
