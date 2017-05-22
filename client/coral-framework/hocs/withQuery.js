@@ -1,7 +1,14 @@
 import * as React from 'react';
 import {graphql} from 'react-apollo';
 import {getQueryOptions, resolveFragments} from 'coral-framework/services/graphqlRegistry';
-import {getDefinitionName, separateDataAndRoot} from '../utils';
+import {getDefinitionName, separateDataAndRoot, getResponseErrors} from '../utils';
+
+const withSkipOnErrors = (reducer) => (prev, action, ...rest) => {
+  if (action.type === 'APOLLO_MUTATION_RESULT' && getResponseErrors(action.result)) {
+    return prev;
+  }
+  return reducer(prev, action, ...rest);
+};
 
 /**
  * Exports a HOC with the same signature as `graphql`, that will
@@ -23,10 +30,11 @@ export default (document, config) => (WrappedComponent) => {
       .concat(...configs.map((cfg) => cfg.reducer))
       .filter((i) => i);
 
-    const reducer = reducerCallbacks.reduce(
-      (a, b) => (prev, ...rest) =>
-        b(a(prev, ...rest), ...rest),
-    );
+    const reducer = withSkipOnErrors(
+      reducerCallbacks.reduce(
+        (a, b) => (prev, ...rest) =>
+          b(a(prev, ...rest), ...rest),
+      ));
 
     return {
       ...base,
