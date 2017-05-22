@@ -1,5 +1,6 @@
 const TagsService = require('../../services/tags');
 const errors = require('../../errors');
+const {ADD_COMMENT_TAG, REMOVE_COMMENT_TAG} = require('../../perms/constants');
 
 /**
  * Modifies the targeted model with the specified operation to add/remove a tag.
@@ -26,11 +27,11 @@ module.exports = (context) => {
     }
   };
 
-  if (context.user && context.user.can('mutation:addTag')) {
+  if (context.user && context.user.can(ADD_COMMENT_TAG)) {
     mutators.Tag.add = (tag) => modify(context, TagsService.add, tag);
   }
 
-  if (context.user && context.user.can('mutation:removeTag')) {
+  if (context.user && context.user.can(REMOVE_COMMENT_TAG)) {
     mutators.Tag.remove = (tag) => modify(context, TagsService.remove, tag);
   }
 

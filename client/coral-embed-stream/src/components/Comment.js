@@ -25,7 +25,7 @@ import {getActionSummary, iPerformedThisAction} from 'coral-framework/utils';
 import {getEditableUntilDate} from './util';
 import styles from './Comment.css';
 
-const isStaff = (tags) => !!tags.filter((i) => i.tag.name === 'STAFF').length;
+const isStaff = (tags) => tags.some((i) => i.tag.name === 'STAFF');
 
 // hold actions links (e.g. Reply) along the comment footer
 const ActionButton = ({children}) => {

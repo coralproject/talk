@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema;
 const uuid = require('uuid');
 const TagLinkSchema = require('./schema/tag_link');
+const intersection = require('lodash/intersection');
+const can = require('../perms');
 
 // USER_ROLES is the array of roles that is permissible as a user role.
 const USER_ROLES = require('./enum/user_roles');
@@ -105,6 +107,14 @@ const UserSchema = new Schema({
     default: false
   },
 
+  // User's suspension details.
+  suspension: {
+    until: {
+      type: Date,
+      default: null,
+    },
+  },
+
   // User's settings
   settings: {
     bio: {
@@ -154,14 +164,10 @@ UserSchema.index({
 });
 
 /**
- * Returns true if the user has all the roles specified.
+ * returns true if a commenter is staff
  */
-UserSchema.method('hasRoles', function(...roles) {
-  return roles.every((role) => {
-
-    // TODO: remove toUpperCase() once we've migrated usage.
-    return this.roles.indexOf(role.toUpperCase()) >= 0;
-  });
+UserSchema.method('isStaff', function () {
+  return intersection(['ADMIN', 'MODERATOR', 'STAFF'], this.roles).length !== 0;
 });
 
 /**
@@ -184,40 +190,11 @@ UserSchema.method('verifyPassword', function(password) {
 });
 
 /**
- * All the graph operations that are available for a user.
- * @type {Array}
- */
-const USER_GRAPH_OPERATIONS = [
-  'mutation:createComment',
-  'mutation:createAction',
-  'mutation:deleteAction',
-  'mutation:editName',
-  'mutation:setUserStatus',
-  'mutation:suspendUser',
-  'mutation:setCommentStatus',
-  'mutation:addTag',
-  'mutation:removeTag',
-  'mutation:editComment'
-];
-
-/**
  * Can returns true if the user is allowed to perform a specific graph
  * operation.
  */
 UserSchema.method('can', function(...actions) {
-  if (actions.some((action) => USER_GRAPH_OPERATIONS.indexOf(action) === -1)) {
-    throw new Error(`invalid actions: ${actions}`);
-  }
-
-  if (this.status === 'BANNED') {
-    return false;
-  }
-
-  if (actions.some((action) => action === 'mutation:setUserStatus' || action === 'mutation:suspendUser' || action === 'mutation:setCommentStatus') && !this.hasRoles('ADMIN')) {
-    return false;
-  }
-
-  return true;
+  return can(this, ...actions);
 });
 
 // Create the User model.

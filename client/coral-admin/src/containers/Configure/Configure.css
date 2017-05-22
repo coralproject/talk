@@ -96,22 +96,25 @@
   }
 }
 
+.inlineTextfield {
+  border-color: #ccc;
+  border-style: solid;
+  border-width: 0px 0px 1px 0px;  
+  text-align: center;
+  font-size: inherit;
+}
+
+.inlineTextfield:focus {
+  outline: none;
+}
+
 .charCountTexfield {
   width: 4em;
   padding: 0px;
-  border-color: #ccc;
-  border-style: solid;
-  border-width: 0px 0px 1px 0px;
-  font-size: 14px;
-  text-align: center;
 }
 
 .charCountTexfieldEnabled {
   border-color: #00796b;
-}
-
-.charCountTexfield:focus {
-  outline: none;
 }
 
 .changedSave {

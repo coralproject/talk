@@ -19,8 +19,11 @@ const RootMutation = {
   setUserStatus(_, {id, status}, {mutators: {User}}) {
     return wrapResponse(null)(User.setUserStatus({id, status}));
   },
-  suspendUser(_, {id, message}, {mutators: {User}}) {
-    return wrapResponse(null)(User.suspendUser({id, message}));
+  suspendUser(_, {input: {id, message, until}}, {mutators: {User}}) {
+    return wrapResponse(null)(User.suspendUser({id, message, until}));
+  },
+  rejectUsername(_, {input: {id, message}}, {mutators: {User}}) {
+    return wrapResponse(null)(User.rejectUsername({id, message}));
   },
   ignoreUser(_, {id}, {mutators: {User}}) {
     return wrapResponse(null)(User.ignoreUser({id}));

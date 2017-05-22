@@ -12,10 +12,12 @@ const lang = new I18n(translations);
 class ModerationQueue extends React.Component {
 
   static propTypes = {
+    viewUserDetail: PropTypes.func.isRequired,
     bannedWords: PropTypes.arrayOf(PropTypes.string).isRequired,
     suspectWords: PropTypes.arrayOf(PropTypes.string).isRequired,
     currentAsset: PropTypes.object,
     showBanUserDialog: PropTypes.func.isRequired,
+    showSuspendUserDialog: PropTypes.func.isRequired,
     rejectComment: PropTypes.func.isRequired,
     acceptComment: PropTypes.func.isRequired,
     comments: PropTypes.array.isRequired
@@ -33,7 +35,17 @@ class ModerationQueue extends React.Component {
   }
 
   render () {
-    const {comments, selectedIndex, commentCount, singleView, loadMore, activeTab, sort, ...props} = this.props;
+    const {
+      comments,
+      selectedIndex,
+      commentCount,
+      singleView,
+      loadMore,
+      activeTab,
+      sort,
+      viewUserDetail,
+      ...props
+    } = this.props;
 
     return (
       <div id="moderationList" className={`${styles.list} ${singleView ? styles.singleView : ''}`}>
@@ -49,11 +61,14 @@ class ModerationQueue extends React.Component {
                 selected={i === selectedIndex}
                 suspectWords={props.suspectWords}
                 bannedWords={props.bannedWords}
+                viewUserDetail={viewUserDetail}
                 actions={actionsMap[status]}
                 showBanUserDialog={props.showBanUserDialog}
+                showSuspendUserDialog={props.showSuspendUserDialog}
                 acceptComment={props.acceptComment}
                 rejectComment={props.rejectComment}
                 currentAsset={props.currentAsset}
+                currentUserId={this.props.currentUserId}
                 />;
             })
             : <EmptyCard>{lang.t('modqueue.emptyqueue')}</EmptyCard>

@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from '../Community.css';
-import BanUserButton from '../../../components/BanUserButton';
+import BanUserButton from './BanUserButton';
 import {Button} from 'coral-ui';
 import {menuActionsMap} from '../../../containers/ModerationQueue/helpers/moderationQueueActionsMap';
 

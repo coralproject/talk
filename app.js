@@ -10,6 +10,7 @@ const enabled = require('debug').enabled;
 const errors = require('./errors');
 const {createGraphOptions} = require('./graph');
 const apollo = require('graphql-server-express');
+const accepts = require('accepts');
 
 const app = express();
 
@@ -31,8 +32,39 @@ app.use(helmet({
   frameguard: false
 }));
 app.use(bodyParser.json());
+
+//==============================================================================
+// STATIC FILES
+//==============================================================================
+
+// If the application is in production mode, then add gzip rewriting for the
+// content.
+if (process.env.NODE_ENV === 'production') {
+  app.get('*.js', (req, res, next) => {
+    const accept = accepts(req);
+    if (accept.encoding(['gzip']) === 'gzip') {
+
+      // Adjsut the headers on the request by adding a content type header
+      // because express won't be able to detect the mime-type with the .gz
+      // extension and we need to decalre support for the gzip encoding.
+      res.set('Content-Type', 'application/javascript');
+      res.set('Content-Encoding', 'gzip');
+
+      // Rewrite the url so that the gzip version will be served instead.
+      req.url = `${req.url}.gz`;
+    }
+
+    next();
+  });
+}
+
 app.use('/client', express.static(path.join(__dirname, 'dist')));
 app.use('/public', express.static(path.join(__dirname, 'public')));
+
+//==============================================================================
+// VIEW CONFIGURATION
+//==============================================================================
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -69,9 +101,11 @@ app.use('/api/v1/graph/ql', apollo.graphqlExpress(createGraphOptions));
 if (app.get('env') !== 'production') {
 
   // Interactive graphiql interface.
-  app.use('/api/v1/graph/iql', apollo.graphiqlExpress({
-    endpointURL: '/api/v1/graph/ql'
-  }));
+  app.use('/api/v1/graph/iql', (req, res) => {
+    res.render('graphiql', {
+      endpointURL: '/api/v1/graph/ql'
+    });
+  });
 
   // GraphQL documention.
   app.get('/admin/docs', (req, res) => {

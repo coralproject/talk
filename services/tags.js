@@ -4,6 +4,7 @@ const UserModel = require('../models/user');
 
 const AssetsService = require('./assets');
 const SettingsService = require('./settings');
+const {ADD_COMMENT_TAG} = require('../perms/constants');
 
 const errors = require('../errors');
 
@@ -114,7 +115,7 @@ class TagsService {
 
     // Only admin/moderators can modify unique tags, these are tags that are not
     // in the global list.
-    if (!(user.hasRoles('ADMIN') || user.hasRoles('MODERATOR'))) {
+    if (!user.can(ADD_COMMENT_TAG)) {
       throw errors.ErrNotAuthorized;
     }
 

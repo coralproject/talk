@@ -36,6 +36,8 @@ describe('graph.mutations.addTag', () => {
     if (res.errors && res.errors.length) {
       console.error(res.errors);
     }
+
+    console.log('res.errors', res.errors);
     expect(res.errors).to.be.empty;
 
     let {tags} = await CommentsService.findById(comment.id);

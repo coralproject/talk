@@ -62,4 +62,7 @@ query ModQueue ($asset_id: ID, $sort: SORT_ORDER) {
       asset_id: $asset_id,
       statuses: [NONE, PREMOD]
     })
+    settings {
+      organizationName
+    }
 }

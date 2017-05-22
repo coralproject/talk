@@ -1,4 +1,4 @@
-import {Map, Set} from 'immutable';
+import {Map} from 'immutable';
 import * as authActions from '../constants/auth';
 import * as actions from '../constants/user';
 import * as assetActions from '../constants/assets';
@@ -9,7 +9,6 @@ const initialState = Map({
   settings: {},
   myComments: [],
   myAssets: [], // the assets from which myComments (above) originated
-  ignoredUsers: Set(),
 });
 
 const purge = (user) => {
@@ -39,14 +38,6 @@ export default function user (state = initialState, action) {
     return state.set('myAssets', action.assets);
   case actions.LOGOUT_SUCCESS:
     return initialState;
-  case 'APOLLO_MUTATION_RESULT':
-    switch (action.operationName) {
-    case 'ignoreUser':
-      return state.updateIn(['ignoredUsers'], (i) => i.add(action.variables.id));        
-    case 'stopIgnoringUser':
-      return state.updateIn(['ignoredUsers'], (i) => i.delete(action.variables.id));
-    }
-    break;
   }
   return state;
 }

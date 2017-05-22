@@ -1,0 +1,41 @@
+.copyButton {
+  float: right;
+  top: -10px;
+}
+
+.memberSince {
+  clear: both;
+}
+
+.small {
+  color: #aaa;
+}
+
+.stats {
+  display: flex;
+
+  .stat {
+    margin: 0 4px 12px;
+  }
+
+  .stat:last-child {
+    margin-right: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .stat p:first-child {
+    font-weight: bold;
+  }
+}
+
+.profileEmail {
+  border: none;
+  background-color: transparent;
+  font-size: 16px;
+  position: absolute;
+  width: 100%;
+  outline: none;
+}

@@ -5,6 +5,22 @@
 # Date represented as an ISO8601 string.
 scalar Date
 
+################################################################################
+## Reliability
+################################################################################
+
+# Reliability defines how a given user should be considered reliable for their
+# comment or flag activity.
+type Reliability {
+
+  # flagger will be `true` when the flagger is reliable, `false` if not, or
+  # `null` if the reliability cannot be determined.
+  flagger: Boolean
+
+  # commenter will be `true` when the commenter is reliable, `false` if not, or
+  # `null` if the reliability cannot be determined.
+  commenter: Boolean
+}
 
 ################################################################################
 ## Users
@@ -20,6 +36,14 @@ enum USER_ROLES {
   MODERATOR
 }
 
+type UserProfile {
+  # the id is an identifier for the user profile (email, facebook id, etc)
+  id: String!
+
+  # name of the provider attached to the authentication mode
+  provider: String!
+}
+
 # Any person who can author comments, create actions, and view comments on a
 # stream.
 type User {
@@ -30,6 +54,9 @@ type User {
   # Username of a user.
   username: String!
 
+  # creation date of user
+  created_at: String!
+
   # Action summaries against the user.
   action_summaries: [ActionSummary!]!
 
@@ -38,6 +65,9 @@ type User {
 
   # the current roles of the user.
   roles: [USER_ROLES!]
+
+  # the current profiles of the user.
+  profiles: [UserProfile]
 
   # the tags on the user
   tags: [TagLink!]
@@ -50,6 +80,11 @@ type User {
 
   # returns all comments based on a query.
   comments(query: CommentsQuery): [Comment!]
+
+  # reliable is the reference to a given user's Reliability. If the requesting
+  # user does not have permission to access the reliability, null will be
+  # returned.
+  reliable: Reliability
 
   # returns user status
   status: USER_STATUS
@@ -195,6 +230,10 @@ input CommentCountQuery {
   # comments returned will only be ones which have at least one action of this
   # type.
   action_type: ACTION_TYPE
+
+  # author_id allows the querying of comment counts based on the author of the
+  # comments.
+  author_id: ID
 
   # Filter by a specific tag name.
   tag: [String]
@@ -441,6 +480,7 @@ type Settings {
   charCountEnable: Boolean
   charCount: Int
 
+  organizationName: String
 }
 
 ################################################################################
@@ -589,6 +629,9 @@ type RootQuery {
   # Users returned based on a query.
   users(query: UsersQuery): [User]
 
+  # a single User by id
+  user(id: ID!): User
+
   # Asset metrics related to user actions are saturated into the assets
   # returned. Parameters `from` and `to` are related to the action created_at field.
   assetMetrics(from: Date!, to: Date!, sort: ASSET_METRICS_SORT!, limit: Int = 10): [Asset!]
@@ -714,6 +757,29 @@ input CreateDontAgreeInput {
   message: String
 }
 
+# Input for suspendUser mutation.
+input SuspendUserInput {
+
+  # id of target user.
+  id: ID!
+
+  # message to be sent to the user.
+  message: String!
+
+  # target user will be suspended until this date.
+  until: Date!
+}
+
+# Input for rejectUsername mutation.
+input RejectUsernameInput {
+
+  # id of target user.
+  id: ID!
+
+  # message to be sent to the user.
+  message: String!
+}
+
 # DeleteActionResponse is the response returned with possibly some errors
 # relating to the delete action attempt.
 type DeleteActionResponse implements Response {
@@ -733,6 +799,14 @@ type SetUserStatusResponse implements Response {
 # SuspendUserResponse is the response returned with possibly some errors
 # relating to the suspend action attempt.
 type SuspendUserResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
+# RejectUsernameResponse is the response returned with possibly some errors
+# relating to the reject username action attempt.
+type RejectUsernameResponse implements Response {
 
   # An array of errors relating to the mutation that occurred.
   errors: [UserError!]
@@ -820,8 +894,11 @@ type RootMutation {
   # Sets User status. Requires the `ADMIN` role.
   setUserStatus(id: ID!, status: USER_STATUS!): SetUserStatusResponse
 
-  # Sets User status to BANNED and canEditName to true. It sends a message to the banned User. Requires the `ADMIN` role.
-  suspendUser(id: ID!, message: String): SuspendUserResponse
+  # Suspends a user. Requires the `ADMIN` role.
+  suspendUser(input: SuspendUserInput!): SuspendUserResponse
+
+  # Suspends a user. Requires the `ADMIN` role.
+  rejectUsername(input: RejectUsernameInput!): RejectUsernameResponse
 
   # Sets Comment status. Requires the `ADMIN` role.
   setCommentStatus(id: ID!, status: COMMENT_STATUS!): SetCommentStatusResponse

@@ -1,8 +1,8 @@
 const CommentModel = require('../models/comment');
-const EDIT_WINDOW_MS = CommentModel.EDIT_WINDOW_MS;
 
 const ActionModel = require('../models/action');
 const ActionsService = require('./actions');
+const SettingsService = require('./settings');
 
 const errors = require('../errors');
 
@@ -53,8 +53,10 @@ module.exports = class CommentsService {
 
     // Establish the edit window (if it exists) and add the condition to the
     // original query.
-    const lastEditableCommentCreatedAt = new Date((new Date()).getTime() - EDIT_WINDOW_MS);
+    let lastEditableCommentCreatedAt;
     if (!ignoreEditWindow) {
+      const {editCommentWindowLength: editWindowMs} = await SettingsService.retrieve();
+      lastEditableCommentCreatedAt = new Date((new Date()).getTime() - editWindowMs);
       query.created_at = {
         $gt: lastEditableCommentCreatedAt,
       };
