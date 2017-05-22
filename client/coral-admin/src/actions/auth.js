@@ -20,8 +20,7 @@ export const handleLogin = (email, password, recaptchaResponse) => (dispatch) =>
         return dispatch(checkLoginFailure('not logged in'));
       }
       dispatch(handleAuthToken(token));
-      const isAdmin = !!user.roles.filter((i) => i === 'ADMIN').length;
-      dispatch(checkLoginSuccess(user, isAdmin));
+      dispatch(checkLoginSuccess(user));
     })
     .catch((error) => {
       if (error.translation_key === 'LOGIN_MAXIMUM_EXCEEDED') {
@@ -86,8 +85,7 @@ export const checkLogin = () => (dispatch) => {
         return dispatch(checkLoginFailure('not logged in'));
       }
 
-      const isAdmin = !!user.roles.filter((i) => i === 'ADMIN').length;
-      dispatch(checkLoginSuccess(user, isAdmin));
+      dispatch(checkLoginSuccess(user));
     })
     .catch((error) => {
       console.error(error);

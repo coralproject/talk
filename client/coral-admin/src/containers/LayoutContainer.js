@@ -7,6 +7,7 @@ import {logout} from 'coral-framework/actions/auth';
 import {FullLoading} from '../components/FullLoading';
 import {toggleModal as toggleShortcutModal} from '../actions/moderation';
 import {checkLogin, handleLogin, requestPasswordReset} from '../actions/auth';
+import {can} from 'coral-framework/services/perms';
 
 class LayoutContainer extends Component {
   componentWillMount() {
@@ -17,7 +18,7 @@ class LayoutContainer extends Component {
   }
   render() {
     const {
-      isAdmin,
+      user,
       loggedIn,
       loadingUser,
       loginError,
@@ -33,7 +34,7 @@ class LayoutContainer extends Component {
     if (loadingUser) {
       return <FullLoading />;
     }
-    if (!isAdmin) {
+    if (!loggedIn) {
       return (
         <AdminLogin
           loginMaxExceeded={loginMaxExceeded}
@@ -45,13 +46,19 @@ class LayoutContainer extends Component {
         />
       );
     }
-    if (isAdmin && loggedIn) {
+    if (can(user, 'ACCESS_ADMIN') && loggedIn) {
       return (
         <Layout
           handleLogout={handleLogout}
           toggleShortcutModal={toggleShortcutModal}
           {...this.props}
         />
+      );
+    } else if (loggedIn) {
+      return (
+        <Layout {...this.props}>
+          <p>This page is for team use only. Please contact an administrator if you want to join this team.</p>
+        </Layout>
       );
     }
     return <FullLoading />;

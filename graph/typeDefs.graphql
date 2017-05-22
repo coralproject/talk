@@ -443,6 +443,7 @@ type Settings {
   charCountEnable: Boolean
   charCount: Int
 
+  organizationName: String
 }
 
 ################################################################################
@@ -711,6 +712,29 @@ input CreateDontAgreeInput {
   message: String
 }
 
+# Input for suspendUser mutation.
+input SuspendUserInput {
+
+  # id of target user.
+  id: ID!
+
+  # message to be sent to the user.
+  message: String!
+
+  # target user will be suspended until this date.
+  until: Date!
+}
+
+# Input for rejectUsername mutation.
+input RejectUsernameInput {
+
+  # id of target user.
+  id: ID!
+
+  # message to be sent to the user.
+  message: String!
+}
+
 # DeleteActionResponse is the response returned with possibly some errors
 # relating to the delete action attempt.
 type DeleteActionResponse implements Response {
@@ -730,6 +754,14 @@ type SetUserStatusResponse implements Response {
 # SuspendUserResponse is the response returned with possibly some errors
 # relating to the suspend action attempt.
 type SuspendUserResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError]
+}
+
+# RejectUsernameResponse is the response returned with possibly some errors
+# relating to the reject username action attempt.
+type RejectUsernameResponse implements Response {
 
   # An array of errors relating to the mutation that occurred.
   errors: [UserError]
@@ -807,8 +839,11 @@ type RootMutation {
   # Sets User status. Requires the `ADMIN` role.
   setUserStatus(id: ID!, status: USER_STATUS!): SetUserStatusResponse
 
-  # Sets User status to BANNED and canEditName to true. It sends a message to the banned User. Requires the `ADMIN` role.
-  suspendUser(id: ID!, message: String): SuspendUserResponse
+  # Suspends a user. Requires the `ADMIN` role.
+  suspendUser(input: SuspendUserInput!): SuspendUserResponse
+
+  # Suspends a user. Requires the `ADMIN` role.
+  rejectUsername(input: RejectUsernameInput!): RejectUsernameResponse
 
   # Sets Comment status. Requires the `ADMIN` role.
   setCommentStatus(id: ID!, status: COMMENT_STATUS!): SetCommentStatusResponse

@@ -2,9 +2,10 @@ import React, {Component, PropTypes} from 'react';
 import I18n from 'coral-framework/modules/i18n/i18n';
 import translations from 'coral-framework/translations.json';
 const lang = new I18n(translations);
-import styles from './RestrictedContent.css';
+import styles from './SuspendAccount.css';
 import {Button} from 'coral-ui';
-import validate from '../helpers/validate';
+import validate from 'coral-framework/helpers/validate';
+import RestrictedMessageBox from 'coral-framework/components/RestrictedMessageBox';
 
 class SuspendedAccount extends Component {
 
@@ -38,7 +39,7 @@ class SuspendedAccount extends Component {
     const {canEditName} = this.props;
     const {username, alert} = this.state;
 
-    return <div className={styles.message}>
+    return <RestrictedMessageBox>
       <span>{
           canEditName ?
           lang.t('editName.msg')
@@ -72,7 +73,7 @@ class SuspendedAccount extends Component {
           </Button>
         </div> : null
       }
-    </div>;
+    </RestrictedMessageBox>;
   }
 }
 
