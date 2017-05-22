@@ -6,13 +6,11 @@ import {showSignInDialog} from 'coral-framework/actions/auth';
 
 const SignInButton = ({loggedIn, showSignInDialog}) => (
   <div>
-    {
-      !loggedIn ? (
-        <Button id="coralSignInButton" onClick={showSignInDialog} full>
+    {!loggedIn
+      ? <Button id="coralSignInButton" onClick={showSignInDialog} full>
           Sign in to comment
         </Button>
-      ) : null
-    }
+      : null}
   </div>
 );
 

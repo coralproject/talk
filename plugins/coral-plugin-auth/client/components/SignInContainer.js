@@ -169,18 +169,16 @@ class SignInContainer extends React.Component {
     const {emailVerificationLoading, emailVerificationSuccess} = auth;
 
     return (
-      <div>
-        <SignDialog
-          open={true}
-          view={auth.view}
-          emailVerificationEnabled={requireEmailConfirmation}
-          emailVerificationLoading={emailVerificationLoading}
-          emailVerificationSuccess={emailVerificationSuccess}
-          {...this}
-          {...this.state}
-          {...this.props}
-        />
-      </div>
+      <SignDialog
+        open={true}
+        view={auth.view}
+        emailVerificationEnabled={requireEmailConfirmation}
+        emailVerificationLoading={emailVerificationLoading}
+        emailVerificationSuccess={emailVerificationSuccess}
+        {...this}
+        {...this.state}
+        {...this.props}
+      />
     );
   }
 }
