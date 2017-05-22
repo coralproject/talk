@@ -13,8 +13,6 @@ import translations from 'coral-framework/translations';
 import CommentBox from 'coral-plugin-commentbox/CommentBox';
 import QuestionBox from 'coral-plugin-questionbox/QuestionBox';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
-import ChangeUsernameContainer
-  from 'coral-sign-in/containers/ChangeUsernameContainer';
 
 const lang = new I18n(translations);
 
@@ -75,9 +73,7 @@ class Stream extends React.Component {
     };
     return (
       <div id="stream">
-
         <Slot fill="stream" />
-
         {open
           ? <div id="commentBox">
               <InfoBox
@@ -121,17 +117,6 @@ class Stream extends React.Component {
                 />}
             </div>
           : <p>{asset.settings.closedMessage}</p>}
-        {!loggedIn &&
-          <Button
-            id="coralSignInButton"
-            onClick={this.props.showSignInDialog}
-            full
-          >
-            Sign in to comment
-          </Button>}
-        {loggedIn &&
-          user &&
-          <ChangeUsernameContainer loggedIn={loggedIn} user={user} />}
         {loggedIn &&
           <ModerationLink
             assetId={asset.id}
