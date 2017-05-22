@@ -19,7 +19,7 @@ import ChangeUsernameContainer
 const lang = new I18n(translations);
 
 class Stream extends React.Component {
-  setActiveReplyBox = (reactKey) => {
+  setActiveReplyBox = reactKey => {
     if (!this.props.auth.user) {
       this.props.showSignInDialog();
     } else {
@@ -53,7 +53,10 @@ class Stream extends React.Component {
       : comment;
 
     const banned = user && user.status === 'BANNED';
-    const temporarilySuspended = user && user.suspension.until && new Date(user.suspension.until) > new Date();
+    const temporarilySuspended =
+      user &&
+      user.suspension.until &&
+      new Date(user.suspension.until) > new Date();
 
     const hasOlderComments = !!(asset &&
       asset.lastComment &&
@@ -63,8 +66,12 @@ class Stream extends React.Component {
     const firstCommentDate = asset.comments[0]
       ? asset.comments[0].created_at
       : new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString();
-    const commentIsIgnored = (comment) => {
-      return me && me.ignoredUsers && me.ignoredUsers.find((u) => u.id === comment.user.id);
+    const commentIsIgnored = comment => {
+      return (
+        me &&
+        me.ignoredUsers &&
+        me.ignoredUsers.find(u => u.id === comment.user.id)
+      );
     };
     return (
       <div id="stream">
@@ -81,38 +88,37 @@ class Stream extends React.Component {
                 content={asset.settings.questionBoxContent}
                 enable={asset.settings.questionBoxEnable}
               />
-              {!banned && temporarilySuspended &&
+              {!banned &&
+                temporarilySuspended &&
                 <RestrictedMessageBox>
-                  {
-                    lang.t('temporarilySuspended',
-                      this.props.root.settings.organizationName,
-                      lang.timeago(user.suspension.until),
-                    )
-                  }
-                </RestrictedMessageBox>
-              }
+                  {lang.t(
+                    'temporarilySuspended',
+                    this.props.root.settings.organizationName,
+                    lang.timeago(user.suspension.until)
+                  )}
+                </RestrictedMessageBox>}
               {banned &&
                 <SuspendedAccount
                   canEditName={user && user.canEditName}
                   editName={editName}
-                />
-              }
-              {loggedIn && !banned && !temporarilySuspended &&
+                />}
+              {loggedIn &&
+                !banned &&
+                !temporarilySuspended &&
                 <CommentBox
-                    addNotification={this.props.addNotification}
-                    postComment={this.props.postComment}
-                    appendItemArray={this.props.appendItemArray}
-                    updateItem={this.props.updateItem}
-                    setCommentCountCache={this.props.setCommentCountCache}
-                    commentCountCache={commentCountCache}
-                    assetId={asset.id}
-                    premod={asset.settings.moderation}
-                    isReply={false}
-                    authorId={user.id}
-                    charCountEnable={asset.settings.charCountEnable}
-                    maxCharCount={asset.settings.charCount}
-                  />
-              }
+                  addNotification={this.props.addNotification}
+                  postComment={this.props.postComment}
+                  appendItemArray={this.props.appendItemArray}
+                  updateItem={this.props.updateItem}
+                  setCommentCountCache={this.props.setCommentCountCache}
+                  commentCountCache={commentCountCache}
+                  assetId={asset.id}
+                  premod={asset.settings.moderation}
+                  isReply={false}
+                  authorId={user.id}
+                  charCountEnable={asset.settings.charCountEnable}
+                  maxCharCount={asset.settings.charCount}
+                />}
             </div>
           : <p>{asset.settings.closedMessage}</p>}
         {!loggedIn &&
@@ -126,7 +132,11 @@ class Stream extends React.Component {
         {loggedIn &&
           user &&
           <ChangeUsernameContainer loggedIn={loggedIn} user={user} />}
-        {loggedIn && <ModerationLink assetId={asset.id} isAdmin={can(user, 'MODERATE_COMMENTS')} />}
+        {loggedIn &&
+          <ModerationLink
+            assetId={asset.id}
+            isAdmin={can(user, 'MODERATE_COMMENTS')}
+          />}
 
         {/* the highlightedComment is isolated after the user followed a permalink */}
         {highlightedComment
@@ -164,41 +174,38 @@ class Stream extends React.Component {
                 setCommentCountCache={this.props.setCommentCountCache}
               />
               <div className="embed__stream">
-                {comments.map(
-                  (comment) => {
-                    return (commentIsIgnored(comment)
-                      ? <IgnoredCommentTombstone key={comment.id} />
-                      : <Comment
-                          data={this.props.data}
-                          root={this.props.root}
-                          disableReply={!open}
-                          setActiveReplyBox={this.setActiveReplyBox}
-                          activeReplyBox={this.props.activeReplyBox}
-                          addNotification={addNotification}
-                          depth={0}
-                          postComment={postComment}
-                          asset={asset}
-                          currentUser={user}
-                          postFlag={postFlag}
-                          postDontAgree={postDontAgree}
-                          addCommentTag={addCommentTag}
-                          removeCommentTag={removeCommentTag}
-                          ignoreUser={ignoreUser}
-                          commentIsIgnored={commentIsIgnored}
-                          loadMore={loadMore}
-                          deleteAction={deleteAction}
-                          showSignInDialog={showSignInDialog}
-                          key={comment.id}
-                          reactKey={comment.id}
-                          comment={comment}
-                          pluginProps={pluginProps}
-                          charCountEnable={asset.settings.charCountEnable}
-                          maxCharCount={asset.settings.charCount}
-                          editComment={this.props.editComment}
-                        />
-                    );
-                  }
-                )}
+                {comments.map(comment => {
+                  return commentIsIgnored(comment)
+                    ? <IgnoredCommentTombstone key={comment.id} />
+                    : <Comment
+                        data={this.props.data}
+                        root={this.props.root}
+                        disableReply={!open}
+                        setActiveReplyBox={this.setActiveReplyBox}
+                        activeReplyBox={this.props.activeReplyBox}
+                        addNotification={addNotification}
+                        depth={0}
+                        postComment={postComment}
+                        asset={asset}
+                        currentUser={user}
+                        postFlag={postFlag}
+                        postDontAgree={postDontAgree}
+                        addCommentTag={addCommentTag}
+                        removeCommentTag={removeCommentTag}
+                        ignoreUser={ignoreUser}
+                        commentIsIgnored={commentIsIgnored}
+                        loadMore={loadMore}
+                        deleteAction={deleteAction}
+                        showSignInDialog={showSignInDialog}
+                        key={comment.id}
+                        reactKey={comment.id}
+                        comment={comment}
+                        pluginProps={pluginProps}
+                        charCountEnable={asset.settings.charCountEnable}
+                        maxCharCount={asset.settings.charCount}
+                        editComment={this.props.editComment}
+                      />;
+                })}
               </div>
               <LoadMore
                 topLevel={true}
@@ -227,7 +234,7 @@ Stream.propTypes = {
   ignoreUser: React.PropTypes.func,
 
   // edit a comment, passed (id, asset_id, { body })
-  editComment: React.PropTypes.func,
+  editComment: React.PropTypes.func
 };
 
 export default Stream;
