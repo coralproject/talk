@@ -1,6 +1,7 @@
-import time from 'timeago.js';
+import ta from 'timeago.js';
 import has from 'lodash/has';
 import get from 'lodash/get';
+import merge from 'lodash/merge';
 
 import esTA from '../../../node_modules/timeago.js/locales/es';
 import en from '../../../locales/en.yml';
@@ -9,65 +10,46 @@ import es from '../../../locales/es.yml';
 // Translations are happening at https://www.transifex.com/the-coral-project/talk-1/dashboard/.
 
 const defaultLanguage = 'en';
+const translations = {...en, ...es};
 
-const locales = [en, es];
-
-let translations = {};
+let lang;
 let timeagoInstance;
 
-const fetchTranslations = (lang) => {
-  translations = locales[lang];
-};
-
-const setLocale = (locale) => {
+function setLocale(locale) {
   try {
     localStorage.setItem('locale', locale);
   } catch (err) {
     console.error(err);
   }
-};
+}
 
-const getLocale = () => (localStorage.getItem('locale') || navigator.language || defaultLanguage).split('-')[0];
+function getLocale() {
+  return (localStorage.getItem('locale') || navigator.language || defaultLanguage).split('-')[0];
+}
 
-const extend = (obj, src) => {
+function init() {
+  const locale = getLocale();
+  setLocale(locale);
 
-  for (let key in src) {
-    if (src.hasOwnProperty(key)) {
-      obj[key] = src[key];
-    }
+  // Extract language key.
+  lang = locale.split('-')[0];
+
+  // Check if we have a translation in this language.
+  if (!(lang in translations)) {
+    lang = defaultLanguage;
   }
-  return obj;
-};
 
-export const loadTranslations = (new_translations) => {
-  try {
-    const locale = getLocale();
-    setLocale(locale);
+  ta.register('es', esTA);
+  timeagoInstance = ta();
+}
 
-    // ToDo: Get this into the load translations to not load everything the whole time ->>
-    // Add es timeago locale for the timeago registration.
-    time.register('es', esTA);
-    timeagoInstance = time();
+export function loadTranslations(newTranslations) {
+  merge(translations, newTranslations);
+}
 
-    // If we have a translations file, let's use that one.
-    // Otherwise get the core translations.
-    if (new_translations !== undefined) {
-      translations = extend(translations, new_translations[locale]);
-
-      return translations;
-    }
-
-    return fetchTranslations(locale);
-
-  } catch (err) {
-    console.error(err);
-    return fetchTranslations(defaultLanguage);
-  }
-};
-
-export const timeago = (time) => {
+export function timeago(time) {
   return timeagoInstance.format(new Date(time), getLocale());
-};
+}
 
 /**
  * Expose the translation function
@@ -78,10 +60,10 @@ export const timeago = (time) => {
  *
  * any extra parameters are optional and replace a variable marked by {0}, {1}, etc in the translation.
  */
-const t = (key, ...replacements) => {
-
-  if (has(translations, key)) {
-    let translation = get(translations, key);
+export function t(key, ...replacements) {
+  const fullKey = `${lang}.${key}`;
+  if (has(translations, fullKey)) {
+    let translation = get(translations, fullKey);
 
     // replace any {n} with the arguments passed to this method
     replacements.forEach((str, i) => {
@@ -89,9 +71,11 @@ const t = (key, ...replacements) => {
     });
     return translation;
   } else {
-    console.warn(`${key} language key not set`);
+    console.warn(`${fullKey} language key not set`);
     return key;
   }
-};
+}
 
 export default t;
+
+init();

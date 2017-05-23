@@ -12,10 +12,6 @@ import localStore, {injectReducers} from 'coral-framework/services/store';
 import AppRouter from './AppRouter';
 import {pym} from 'coral-framework';
 
-import {loadTranslations} from 'coral-framework/services/i18n';
-
-loadTranslations();
-
 injectReducers(reducers);
 
 const store = (window.opener && window.opener.coralStore) ? window.opener.coralStore : localStore;
