@@ -9,8 +9,8 @@ const esTA = require('../../../node_modules/timeago.js/locales/es');
 const defaultLanguage = 'en';
 
 const locales = Object.assign(
-  require('../locales/en.yml'),
-  require('../locales/es.yml')
+  require('../../../locales/en.yml'),
+  require('../../../locales/es.yml')
 );
 
 let translations = {};
