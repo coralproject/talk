@@ -139,6 +139,7 @@ es:
     comment_count: "comentarios"
     flags: "Marcas"
     most_flags: "Articulos con la mayor cantidad de marcas"
+    most_conversations: "Articulos con las mayores conversaciones"
     next_update: "{0} minutos hasta la próxima actualización."
     no_activity: "No hay habido comentarios en ningún lado en los últimos 5 minutos."
     no_flags: "No ha habido ningún reporte en los últimos 5 minutos! Bravo!"

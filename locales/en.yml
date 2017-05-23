@@ -139,6 +139,7 @@ en:
     comment_count: comments
     flags: Flags
     most_flags: "Articles with the most flags"
+    most_conversations: "Articles with the most conversations"
     next_update: "{0} minutes until next update."
     no_activity: "There haven't been any comments anywhere in the last five minutes."
     no_flags: "There have been no flags in the last 5 minutes! Hooray!"

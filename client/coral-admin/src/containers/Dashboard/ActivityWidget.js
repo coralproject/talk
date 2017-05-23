@@ -6,7 +6,7 @@ import t from 'coral-framework/services/i18n';
 const ActivityWidget = ({assets}) => {
   return (
     <div className={styles.widget}>
-      <h2 className={styles.heading}>Articles with the most conversations</h2>
+      <h2 className={styles.heading}>{t('dashboard.most_conversations')}</h2>
       <div className={styles.widgetHead}>
         <p>{t('streams.article')}</p>
         <p>{t('dashboard.comment_count')}</p>
