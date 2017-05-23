@@ -117,7 +117,7 @@ class Stream extends React.Component {
             onClick={this.props.showSignInDialog}
             full
           >
-            {t('sign_in.sign_in_to_comment')}Sign in to comment
+            {t('sign_in.sign_in_to_comment')}
           </Button>}
         {loggedIn &&
           user &&
