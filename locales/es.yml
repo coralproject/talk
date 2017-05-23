@@ -66,7 +66,7 @@ es:
     close_stream_configuration: "Este hilo de comentario está en este momento cerrado. Al abrirlo, nuevos comentarios serán publicados y mostrados."
     closed_comments_desc: "Escribe un mensaje que será mostrado cuando los comentarios estén cerrados y no se acepten más comentarios."
     closed_comments_label: "Escribe un mensaje..."
-    closed_stream_settings: "Mensaje que se meustra cuando los comentarios están cerrados en el articulo"
+    closed_stream_settings: "Mensaje que se muestra cuando los comentarios están cerrados en el articulo"
     comment_count_error: "Por favor escribir un número válido"
     comment_count_header: "Limitar el largo del comentario"
     comment_count_text_post: cáracteres
@@ -216,14 +216,14 @@ es:
     actions: Acciones
     all: todo
     all_streams: "Todos los Hilos"
-    approve: "Aprobar commentario"
-    approved: aprobado
+    approve: "Aprobar"
+    approved: "Aprobado"
     billion: B
     close: Cerrar
     dont_like_username: "No me gusta el nombre"
     empty_queue: "¡No hay más comentarios para moderar! Tiempo para un ☕️"
-    flagged: flagged
-    impersonating: Impersonating
+    flagged: "Reportado"
+    impersonating: "Impersonando"
     less_detail: "Menos detalles"
     likes: likes
     million: M
@@ -231,12 +231,14 @@ es:
     moderate: "Moderar →"
     more_detail: "Más detalles"
     navigation: Navegación
+    newest_first: "Primero el más nuevo"
     next_comment: "Ir al siguiente comentario"
     offensive: Ofensivo
+    oldest_first: "Primero el más antiguo"
     other: Otro
     premod: pre-mod
     prev_comment: "Ir al comentario interior"
-    reject: "Rechazar comentario"
+    reject: "Rechazar"
     rejected: rechazado
     select_stream: "Seleccionar hilo de comentarios"
     shift_key: ⇧
@@ -309,32 +311,46 @@ es:
   step_2_header: "Ayudanos a comprender"
   step_3_header: "Gracias por tu participación"
   streams:
-    all: All
-    article: Artículo
-    closed: Closed
-    empty_result: "No assets match this search. Maybe try widening your search?"
-    filter_streams: "Filter Streams"
-    newest: Newest
-    oldest: Oldest
-    open: Open
+    all: "Todo"
+    article: "Artículo"
+    closed: "Cerrado"
+    empty_result: "Ningún articulo coincide con esta busqueda. Intente expandir su busqueda."
+    filter_streams: "Filtrar Hilos"
+    newest: "Más nuevo"
+    oldest: "Más antiguo"
+    open: "Abierto"
     pubdate: "Fecha Publicación"
     search: Buscar
-    sort_by: "Sort By"
-    status: "Stream Status"
-    stream_status: "Stream Status"
+    sort_by: "Ordenar por"
+    status: "Estado del Hilo"
+    stream_status: "Estado del Hilo"
   suspenduser:
     bio: bio
-    description_0: "Would you like to temporarily ban this user because of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}."
-    description_1: "Suspending this user will temporarily disable their account and hide all of their comments on the site."
-    email: "Otro miembro de la comunidad acaba de marcar su nombre de usuario para ser revisado.  Y ha sido rechazado por su contenido. Esto significa que no puede comentar, gustar o marcar contenido hasta que reescriba su nombre de usuario. Envienos un correo si tiene preguntas o preocupaciones."
+    cancel: "Cancelar"
+    days: "{0} días"
+    description_0: "¿Quiere suspender temporalmente a este usuario por su {0}? Hacerlo va a ocultar temporalmente sus comentarios hasta que sobreescriban su {0}."
+    description_1: "Suspender a este usuario va a deshabilitar temporalmente su cuenta y ocultar todos sus comentarios en el sitio."
+    description_notify: "Suspender a este usuario va a deshabilitar temporalmente su cuenta y ocultar todos sus comentarios en el sitio."
+    description_reject: "¿Quiere suspender temporalmente a este usuario por su {0}? Hacerlo va a ocultar temporalmente sus comentarios hasta que sobreescriban su {0}."
+    description_suspend: "Esta suspendiendo a {0}. Este comentario va a ir a la fila de Rechazados, y {0} no se le va a permitir gustar, marcar, responder o publicar hasta que el tiempo de suspendido halla concluido."
+    email: "Otro miembro de la comunidad recientemente marco su nombre de usuario para revisarlo. Por su contenido su usuario ha sido rechazado. Esto significa que no puede comentar o marcar contenido hasta que edite su nombre de usuario. Envienos un correo si tiene preguntas o comentarios."
     email_subject: "Su cuenta ha sido suspendida"
     email_message_reject: "Otro miembro de la comunidad hace poco ha marcado su nombre de usuario para revisar. Y ha sido rechazado por su contenido. Esto significa que no puede comentar, gustar o marcar contenido hasta que reescribe su nombre de usuario. Envienos un correo si tiene alguna preocupación o pregunta."
+    email_message_suspend: "Querida {0},\n\nDe acuerdo a la guia comunitaria de {1}, su cuenta ha sido temporalmente suspendida. Durante este tiempo, no podra comentar, marcar o involucrarse con otros comentaristas. Por favor reunirse a la conversación {2}."
+    error_email_message_empty: "Debe especificar un mensaje de correo."
+    hours: "{0} horas"
     no_cancel: "No cancelar"
+    notify_suspend_until: "Usuario {0} ha sido temporalmente suspendido. Esta suspension va a terminar automaticamente {1}."
+    one_hour: "1 hora"
     send: Enviar
+    select_duration: "Seleccionar la duración de la suspensión"
     suspend_user: "Suspender Usuario"
     title: "Suspender un usuario"
     title_0: "Nos dimos cuenta que ha rechazado un nombre de usuario"
     title_1: "Notificar al usuario de su suspensión temporal"
+    title_notify: "Notificar al usuario de su suspensión temporal"
+    title_reject: "Vimos que ha rechazado un nombre de usuario"
+    title_suspend: "Suspender Usuario"
     username: nombre de usuario
     write_message: "Escribir un mensaje"
     yes_suspend: "Si, suspender"

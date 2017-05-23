@@ -4,6 +4,7 @@ import styles from './styles.css';
 import {SelectField, Option} from 'react-mdl-selectfield';
 import {Icon} from 'coral-ui';
 import {Link} from 'react-router';
+
 import t from 'coral-framework/services/i18n';
 
 const ModerationMenu = (
@@ -55,8 +56,8 @@ const ModerationMenu = (
           label="Sort"
           value={sort}
           onChange={(sort) => selectSort(sort)}>
-          <Option value={'REVERSE_CHRONOLOGICAL'}>Newest First</Option>
-          <Option value={'CHRONOLOGICAL'}>Oldest First</Option>
+          <Option value={'REVERSE_CHRONOLOGICAL'}>{t('modqueue.newest_first')}</Option>
+          <Option value={'CHRONOLOGICAL'}>{t('modqueue.oldest_first')}</Option>
         </SelectField>
       </div>
     </div>

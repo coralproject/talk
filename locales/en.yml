@@ -216,8 +216,8 @@ en:
     actions: Actions
     all: all
     all_streams: "All Streams"
-    approve: "Approve comment"
-    approved: approved
+    approve: "Approve"
+    approved: "Approved"
     billion: B
     close: Close
     dont_like_username: "Don't like username"
@@ -230,14 +230,16 @@ en:
     mod_faster: "Moderate faster with keyboard shortcuts"
     moderate: "Moderate →"
     more_detail: "More detail"
+    newest_first: "Newest First"
     navigation: Navigation
     next_comment: "Go to the next comment"
     offensive: Offensive
+    oldest_first: "Oldest First"
     other: Other
     premod: pre-mod
     prev_comment: "Go to the previous comment"
-    reject: "Reject comment"
-    rejected: rejected
+    reject: "Reject"
+    rejected: "Rejected"
     select_stream: "Select Stream"
     shift_key: ⇧
     shortcuts: Shortcuts
@@ -324,17 +326,31 @@ en:
     stream_status: "Stream Status"
   suspenduser:
     bio: bio
+    cancel: "Cancel"
+    days: "{0} days"
     description_0: "Would you like to temporarily ban this user because of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}."
     description_1: "Suspending this user will temporarily disable their account and hide all of their comments on the site."
+    description_notify: "Suspending this user will temporarily disable their account and hide all of their comments on the site."
+    description_reject: "Would you like to temporarily ban this user because of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}."
+    description_suspend: "You are suspending {0}. This comment will go to the Rejected queue, and {0} will not be allowed to like, report, reply or post until the suspension time is complete."
     email: "Another member of the community recently flagged your username for review. Because of its content your user was rejected. This means you can no longer comment like or flag content until you rewrite your username. Please e-mail us if you have any questions or concerns."
     email_subject: "Your account has been suspended"
     email_message_reject: "Another member of the community recently flagged your username for review. Because of its content your user was rejected. This means you can no longer comment, like, or flag content until you rewrite your username. Please e-mail us if you have any questions or concerns."
+    email_message_suspend: "Dear {0},\n\nIn accordance with {1}’s community guidelines, your account has been temporarily suspended. During the suspension, you will be unable to comment, flag or engage with fellow commenters. Please rejoin the conversation {2}."
+    error_email_message_empty: "You must specify an E-Mail message."
+    hours: "{0} hours"
     no_cancel: "No cancel"
+    notify_suspend_until: "User {0} has been temporarily suspended. This suspension will automatically end {1}."
+    one_hour: "1 hour"
     send: Send
+    select_duration: "Select suspension duration"
     suspend_user: "Suspend User"
     title: "Suspend a user"
     title_0: "We noticed you rejected a username"
     title_1: "Notify the user of their temporary suspension"
+    title_notify: "Notify the user of their temporary suspension"
+    title_reject: "We noticed you rejected a username"
+    title_suspend: "Suspend User"
     username: username
     write_message: "Write a message"
     yes_suspend: "Yes suspend"
