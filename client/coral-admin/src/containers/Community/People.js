@@ -50,7 +50,7 @@ const People = ({commenters, searchValue, onSearchChange, ...props}) => {
               commenters={commenters}
               onHeaderClickHandler={props.onHeaderClickHandler}
             />
-          : <EmptyCard>{t('community.no-results')}</EmptyCard>
+          : <EmptyCard>{t('community.no_results')}</EmptyCard>
         }
         <Pager
           totalPages={props.totalPages}

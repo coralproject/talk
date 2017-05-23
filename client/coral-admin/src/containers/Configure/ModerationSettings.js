@@ -81,7 +81,7 @@ const ModerationSettings = ({settings, updateSettings, onChangeWordlist}) => {
       <Card className={styles.configSetting}>
         <div className={styles.settingsHeader}>{t('configure.edit_comment_timeframe_heading')}</div>
         <p>
-          {t('configure.edit-comment-timeframe-text-pre')}
+          {t('configure.edit_comment_timeframe_text_pre')}
           &nbsp;
           <input
             style={{width: '3em'}}
@@ -94,7 +94,7 @@ const ModerationSettings = ({settings, updateSettings, onChangeWordlist}) => {
             pattern='[0-9]+([\.][0-9]*)?'
           />
           &nbsp;
-          {t('configure.edit-comment-timeframe-text-post')}
+          {t('configure.edit_comment_timeframe_text_post')}
         </p>
       </Card>
     </div>
