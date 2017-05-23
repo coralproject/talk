@@ -1,17 +1,16 @@
-const time = require('timeago.js');
-const has = require('lodash/has');
-const get = require('lodash/get');
+import time from 'timeago.js';
+import has from 'lodash/has';
+import get from 'lodash/get';
 
-const esTA = require('../../../node_modules/timeago.js/locales/es');
+import esTA from '../../../node_modules/timeago.js/locales/es';
+import en from '../../../locales/en.yml';
+import es from '../../../locales/es.yml';
 
 // Translations are happening at https://www.transifex.com/the-coral-project/talk-1/dashboard/.
 
 const defaultLanguage = 'en';
 
-const locales = Object.assign(
-  require('../../../locales/en.yml'),
-  require('../../../locales/es.yml')
-);
+const locales = [en, es];
 
 let translations = {};
 let timeagoInstance;
