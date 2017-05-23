@@ -1,5 +1,11 @@
 const KarmaService = require('../../services/karma');
-const {SEARCH_ACTIONS, SEARCH_OTHERS_COMMENTS, UPDATE_USER_ROLES} = require('../../perms/constants');
+const {
+  SEARCH_ACTIONS,
+  SEARCH_OTHER_USERS,
+  SEARCH_OTHERS_COMMENTS,
+  UPDATE_USER_ROLES,
+  SEARCH_COMMENT_METRICS
+} = require('../../perms/constants');
 
 const User = {
   action_summaries({id}, _, {loaders: {Actions}}) {
@@ -14,7 +20,7 @@ const User = {
 
   },
   created_at({roles, created_at}, _, {user}) {
-    if (user && user.hasRoles('ADMIN')) {
+    if (user && user.can(SEARCH_OTHER_USERS)) {
       return created_at;
     }
 
@@ -33,7 +39,7 @@ const User = {
   profiles({profiles}, _, {user}) {
 
     // if the user is not an admin, do not return the profiles
-    if (user && user.hasRoles('ADMIN')) {
+    if (user && user.can(SEARCH_OTHER_USERS)) {
       return profiles;
     }
 
@@ -43,7 +49,7 @@ const User = {
 
     // Only allow a logged in user that is either the current user or is a staff
     // member to access the ignoredUsers of a given user.
-    if (!user || ((user.id !== id) && !(user.hasRoles('ADMIN') || user.hasRoles('MODERATOR')))) {
+    if (!user || ((user.id !== id) && !user.can(SEARCH_OTHER_USERS))) {
       return null;
     }
 
@@ -66,7 +72,7 @@ const User = {
 
   // Extract the reliability from the user metadata if they have permission.
   reliable(user, _, {user: requestingUser}) {
-    if (requestingUser && requestingUser.hasRoles('ADMIN')) {
+    if (requestingUser && requestingUser.can(SEARCH_COMMENT_METRICS)) {
       return KarmaService.model(user);
     }
   }
