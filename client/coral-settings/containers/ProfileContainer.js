@@ -71,7 +71,7 @@ class ProfileContainer extends Component {
 
         <hr />
 
-        <h3>t('framework.my_comments')</h3>
+        <h3>{t('framework.my_comments')}</h3>
         {me.comments.length
           ? <CommentHistory comments={me.comments} asset={asset} link={link} />
           : <p>{t('user_no_comment')}</p>}
