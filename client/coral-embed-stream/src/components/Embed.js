@@ -46,7 +46,7 @@ export default class Embed extends React.Component {
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count count={totalCommentCount}/></Tab>
             <Tab>{t('framework.my_profile')}</Tab>
-            <Tab restricted={!can(user, 'UPDATE_CONFIG')}>Configure Stream</Tab>
+            <Tab restricted={!can(user, 'UPDATE_CONFIG')}>{t('framework.configure_stream')}</Tab>
           </TabBar>
           {
             commentId &&

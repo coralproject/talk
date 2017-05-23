@@ -144,6 +144,15 @@ en:
     no_flags: "There have been no flags in the last 5 minutes! Hooray!"
     no_likes: "There have been no likes in the last 5 minutes. All quiet."
   done: Done
+  editComment:
+    bodyInputLabel: "Edit this comment"
+    save_button: "Save changes"
+    editWindowExpired: "You can no longer edit this comment. The time window to do so has expired. Why not post another one?"
+    editWindowExpiredClose: "Close"
+    editWindowTimerPrefix: "Edit Window: "
+    second: "second"
+    secondsPlural: "seconds"
+    unexpectedError: "Unexpected error while saving changes. Sorry!"
   embedlink:
     copy: "Copy to Clipboard"
   error:
@@ -177,6 +186,7 @@ en:
     comment: comment
     comment_is_ignored: "This comment is hidden because you ignored this user."
     comments: comments
+    configure_stream: "Configure Stream"
     content_not_available: "This content is not available"
     edit_name:
       button: Submit
@@ -337,6 +347,7 @@ en:
   user_impersonating: "This user is impersonating"
   user_no_comment: "You've never left a comment. Join the conversation!"
   username_offensive: "This username is offensive"
+  view_conversation: "View Conversation"
   install:
     INITIAL:
       DESCRIPTION: "Let's set up your Talk community in just a few short steps."

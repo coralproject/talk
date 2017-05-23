@@ -144,6 +144,15 @@ es:
     no_flags: "No ha habido ningún reporte en los últimos 5 minutos! Bravo!"
     no_likes: "No ha habido ningún 'me gusta' en los últimos 5 minutos. Todo tranquilo."
   done: hecho
+  edit_comment:
+    bodyInputLabel: "Editar este comentario"
+    saveButton: "Guardar cambios"
+    editWindowExpired: "Ya no puedes editar este comentario. La ventana de tiempo para hacerlo ha caducado. ¿Por qué no publicar otro?"
+    editWindowExpiredClose: "Cerca"
+    editWindowTimerPrefix: "Ventana de edición: "
+    second: "segundo"
+    secondsPlural: "segundos"
+    unexpectedError: "Unexpected error while saving changes. Sorry!"
   embedlink:
     copy: "Copiar al portapapeles"
   error:
@@ -177,6 +186,7 @@ es:
     comment: commentario
     comment_is_ignored: "Este comentario está escondido porque has ignorado al usuario."
     comments: commentarios
+    configure_stream: "Configurar Hilo de Comentarios"
     content_not_available: "El contenido no se encuentra disponible"
     edit_name:
       button: Enviar
@@ -337,6 +347,7 @@ es:
   user_impersonating: "Este usuario suplanta a alguien"
   user_no_comment: "No has dejado aún ningún comentario. ¡Únete a la conversación!"
   username_offensive: "Este nombre de usuario es ofensivo"
+  view_conversation: "Ver Conversación"
   install:
     INITIAL:
       DESCRIPTION: "Creemos tu comunidad Talk en unos pocos pasos."
