@@ -17,7 +17,6 @@ To set up a development environment or build from source, see [INSTALL.md](https
 
 To launch a Talk server of your own from your browser without any need to muck about in a terminal or think about engineering concepts, stay tuned. We will launch [our installer](https://github.com/coralproject/talk-install) shortly!
 
-
 ### Configuration
 
 The Talk application looks for the following configuration values either as environment variables:
@@ -44,6 +43,10 @@ sign and verify tokens via a `HS256` algorithm.
 
 Refer to the wiki page on [Configuration Loading](https://github.com/coralproject/talk/wiki/Configuration-Loading) for
 alternative methods of loading configuration during development.
+
+## Plugins
+
+Talk ships with a plugin architecture that allows developers to significantly extend the platform. For more information, see our [plugin documentation](docs/PLUGINS.md).
 
 ## Supported Browsers
 
