@@ -24,8 +24,6 @@ if (process.env.TALK_PLUGINS_JSON && process.env.TALK_PLUGINS_JSON.length > 0) {
   pluginsConfigPath = defaultPlugins;
 }
 
-let localesPath = path.join(__dirname, 'locales');
-
 console.log(`Using ${pluginsConfigPath} as the plugin configuration path`);
 
 // Edit the build targets and embeds below.
@@ -91,8 +89,13 @@ const config = {
       },
       {
         loader: 'json-loader',
-        test: /\.json$/,
+        test: /\.(json|yml)$/,
         exclude: /node_modules/
+      },
+      {
+        loader: 'yaml-loader',
+        exclude: /node_modules/,
+        test: /\.yml$/,
       },
       {
         loaders: [
@@ -118,11 +121,6 @@ const config = {
         test: /\.(graphql|gql)$/,
         exclude: /node_modules/,
         loader: 'graphql-tag/loader'
-      },
-      {
-        loader: 'yaml',
-        include: localesPath,
-        test: /\.yml$/,
       }
     ]
   },
