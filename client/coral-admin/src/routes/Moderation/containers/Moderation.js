@@ -6,7 +6,7 @@ import isEqual from 'lodash/isEqual';
 import withQuery from 'coral-framework/hocs/withQuery';
 import {getDefinitionName} from 'coral-framework/utils';
 
-import {banUser, setCommentStatus, suspendUser} from '../../../graphql/mutations';
+import {withSetUserStatus, withSuspendUser, withSetCommentStatus} from 'coral-framework/graphql/mutations';
 
 import {fetchSettings} from 'actions/settings';
 import {updateAssets} from 'actions/assets';
@@ -37,6 +37,18 @@ class ModerationContainer extends Component {
     if(!isEqual(nextProps.root.assets, this.props.root.assets)) {
       updateAssets(nextProps.root.assets);
     }
+  }
+
+  banUser = ({userId}) => {
+    return this.props.setUserStatus({userId, status: 'BANNED'});
+  }
+
+  acceptComment = ({commentId}) => {
+    return this.props.setCommentStatus({commentId, status: 'ACCEPTED'});
+  }
+
+  rejectComment = ({commentId}) => {
+    return this.props.setCommentStatus({commentId, status: 'REJECTED'});
   }
 
   loadMore = ({limit = 10, cursor, sort, tab, asset_id}) => {
@@ -90,7 +102,13 @@ class ModerationContainer extends Component {
       return <div><Spinner/></div>;
     }
 
-    return <Moderation {...this.props} loadMore={this.loadMore} />;
+    return <Moderation
+      {...this.props}
+      loadMore={this.loadMore}
+      banUser={this.banUser}
+      acceptComment={this.acceptComment}
+      rejectComment={this.rejectComment}
+    />;
   }
 }
 
@@ -248,9 +266,9 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  setCommentStatus,
-  banUser,
-  suspendUser,
+  withSetCommentStatus,
+  withSetUserStatus,
+  withSuspendUser,
   withQueueCountPolling,
   withModQueueQuery,
 )(ModerationContainer);

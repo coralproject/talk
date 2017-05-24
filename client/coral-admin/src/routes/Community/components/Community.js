@@ -57,7 +57,6 @@ export default class Community extends Component {
   getTabContent(searchValue, props) {
     const {community, root: {users}} = props;
     const activeTab = props.route.path === ':id' ? 'flagged' : props.route.path;
-    console.log(props);
 
     if (activeTab === 'people') {
       return (

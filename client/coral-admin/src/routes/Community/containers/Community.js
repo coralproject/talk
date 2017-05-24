@@ -5,7 +5,7 @@ import {compose, gql} from 'react-apollo';
 import withQuery from 'coral-framework/hocs/withQuery';
 import {Spinner} from 'coral-ui';
 
-import {banUser, setUserStatus, rejectUsername} from 'coral-admin/src/graphql/mutations';
+import {withSetUserStatus, withRejectUsername} from 'coral-framework/graphql/mutations';
 
 import {
   fetchAccounts,
@@ -25,6 +25,14 @@ class CommunityContainer extends Component {
     this.props.fetchAccounts({});
   }
 
+  approveUser = ({userId}) => {
+    return this.props.setUserStatus({userId, status: 'APPROVED'});
+  }
+
+  banUser = ({userId}) => {
+    return this.props.setUserStatus({userId, status: 'BANNED'});
+  }
+
   render() {
     if (this.props.data.error) {
       return <div>{this.props.data.error.message}</div>;
@@ -34,7 +42,7 @@ class CommunityContainer extends Component {
       return <div><Spinner/></div>;
     }
     return (
-      <Community {...this.props} />
+      <Community {...this.props} approveUser={this.approveUser} banUser={this.banUser}/>
     );
   }
 }
@@ -94,7 +102,6 @@ const mapDispatchToProps = (dispatch) =>
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withCommunityQuery,
-  banUser,
-  setUserStatus,
-  rejectUsername
+  withSetUserStatus,
+  withRejectUsername,
 )(CommunityContainer);
