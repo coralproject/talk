@@ -219,6 +219,7 @@ es:
     all_streams: "Todos los Hilos"
     approve: "Aprobar"
     approved: "Aprobado"
+    ban_user: "Suspender"
     billion: B
     close: Cerrar
     dont_like_username: "No me gusta el nombre"
