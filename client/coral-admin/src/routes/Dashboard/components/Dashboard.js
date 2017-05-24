@@ -4,7 +4,7 @@ import ActivityWidget from './ActivityWidget';
 import CountdownTimer from './CountdownTimer';
 import styles from './Dashboard.css';
 
-export default ({data: {assetsByActivity, assetsByFlag}, reloadData}) => (
+export default ({root: {assetsByActivity, assetsByFlag}, reloadData}) => (
   <div>
     <CountdownTimer handleTimeout={reloadData} />
     <div className={styles.Dashboard}>

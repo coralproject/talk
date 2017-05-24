@@ -1,7 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Dashboard from '../components/Dashboard';
-import {compose, graphql, gql} from 'react-apollo';
+import {compose,  gql} from 'react-apollo';
+import withQuery from 'coral-framework/hocs/withQuery';
 
 import {Spinner} from 'coral-ui';
 
@@ -12,23 +13,23 @@ class DashboardContainer extends React.Component {
   }
 
   render () {
-    if (this.props.data && this.props.data.loading) {
+    if (this.props.data.loading) {
       return <Spinner />;
     }
     return <Dashboard {...this.props} reloadData={this.reloadData} />;
   }
 }
 
-export const withQuery = graphql(gql`
-  query Metrics($from: Date!, $to: Date!) {
+export const witDashboardQuery = withQuery(gql`
+  query CoralAdmin_Metrics($from: Date!, $to: Date!) {
     assetsByFlag: assetMetrics(from: $from, to: $to, sort: FLAG) {
-      ...metrics
+      ...CoralAdmin_Metrics
     }
     assetsByActivity: assetMetrics(from: $from, to: $to, sort: ACTIVITY) {
-      ...metrics
+      ...CoralAdmin_Metrics
     }
   }
-  fragment metrics on Asset {
+  fragment CoralAdmin_Metrics on Asset {
     id
     title
     url
@@ -60,5 +61,5 @@ const mapStateToProps = (state) => {
 
 export default compose(
   connect(mapStateToProps),
-  withQuery,
+  witDashboardQuery,
 )(DashboardContainer);

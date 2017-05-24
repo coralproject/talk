@@ -55,11 +55,12 @@ export function separateDataAndRoot(
     subscribeToMore,
     updateQuery,
     variables,
+    error,
     ...root,
   }) {
   return {
     data: {fetchMore, loading, networkStatus, refetch, startPolling,
-      stopPolling, subscribeToMore, updateQuery, variables},
+      stopPolling, subscribeToMore, updateQuery, variables, error},
     root,
   };
 }

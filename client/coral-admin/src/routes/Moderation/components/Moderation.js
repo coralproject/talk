@@ -52,9 +52,9 @@ export default class Moderation extends Component {
   }
 
   getComments = () => {
-    const {data, route} = this.props;
+    const {root, route} = this.props;
     const activeTab = route.path === ':id' ? 'premod' : route.path;
-    return data[activeTab];
+    return root[activeTab];
   }
 
   select = (next) => () => {
@@ -124,7 +124,7 @@ export default class Moderation extends Component {
   }
 
   render () {
-    const {data, moderation, settings, assets, viewUserDetail, hideUserDetail, ...props} = this.props;
+    const {root, moderation, settings, assets, viewUserDetail, hideUserDetail, ...props} = this.props;
     const providedAssetId = this.props.params.id;
     const activeTab = this.props.route.path === ':id' ? 'premod' : this.props.route.path;
 
@@ -138,23 +138,23 @@ export default class Moderation extends Component {
       }
     }
 
-    const comments = data[activeTab];
+    const comments = root[activeTab];
     let activeTabCount;
     switch(activeTab) {
     case 'all':
-      activeTabCount = data.allCount;
+      activeTabCount = root.allCount;
       break;
     case 'accepted':
-      activeTabCount = data.acceptedCount;
+      activeTabCount = root.acceptedCount;
       break;
     case 'premod':
-      activeTabCount = data.premodCount;
+      activeTabCount = root.premodCount;
       break;
     case 'flagged':
-      activeTabCount = data.flaggedCount;
+      activeTabCount = root.flaggedCount;
       break;
     case 'rejected':
-      activeTabCount = data.rejectedCount;
+      activeTabCount = root.rejectedCount;
       break;
     }
 
@@ -163,11 +163,11 @@ export default class Moderation extends Component {
         <ModerationHeader asset={asset} />
         <ModerationMenu
           asset={asset}
-          allCount={data.allCount}
-          acceptedCount={data.acceptedCount}
-          premodCount={data.premodCount}
-          rejectedCount={data.rejectedCount}
-          flaggedCount={data.flaggedCount}
+          allCount={root.allCount}
+          acceptedCount={root.acceptedCount}
+          premodCount={root.premodCount}
+          rejectedCount={root.rejectedCount}
+          flaggedCount={root.flaggedCount}
           selectSort={this.props.setSortOrder}
           sort={this.props.moderation.sortOrder}
         />
@@ -205,7 +205,7 @@ export default class Moderation extends Component {
           open={moderation.suspendUserDialog.show}
           username={moderation.suspendUserDialog.username}
           userId={moderation.suspendUserDialog.userId}
-          organizationName={data.settings.organizationName}
+          organizationName={root.settings.organizationName}
           onCancel={props.hideSuspendUserDialog}
           onPerform={this.suspendUser}
         />

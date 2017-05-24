@@ -7,7 +7,7 @@ export default class UserDetail extends React.Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     hideUserDetail: PropTypes.func.isRequired,
-    data: PropTypes.object.isRequired,
+    root: PropTypes.object.isRequired,
   }
 
   copyPermalink = () => {
@@ -21,13 +21,7 @@ export default class UserDetail extends React.Component {
   }
 
   render () {
-    const {data, hideUserDetail} = this.props;
-
-    if (!('user' in data)) {
-      return null;
-    }
-
-    const {user, totalComments, rejectedComments} = data;
+    const {root: {user, totalComments, rejectedComments}, hideUserDetail} = this.props;
     const localProfile = user.profiles.find((p) => p.provider === 'local');
     let profile;
     if (localProfile) {

@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {compose, graphql, gql} from 'react-apollo';
+import {compose, gql} from 'react-apollo';
 import isEqual from 'lodash/isEqual';
+import withQuery from 'coral-framework/hocs/withQuery';
 
 import {banUser, setCommentStatus, suspendUser} from '../../../graphql/mutations';
 
@@ -31,8 +32,8 @@ class ModerationContainer extends Component {
 
   componentWillReceiveProps(nextProps) {
     const {updateAssets} = this.props;
-    if(!isEqual(nextProps.data.assets, this.props.data.assets)) {
-      updateAssets(nextProps.data.assets);
+    if(!isEqual(nextProps.root.assets, this.props.root.assets)) {
+      updateAssets(nextProps.root.assets);
     }
   }
 
@@ -77,15 +78,16 @@ class ModerationContainer extends Component {
   };
 
   render () {
-    const {data} = this.props;
-
-    if (!('premodCount' in data)) {
-      return <div><Spinner/></div>;
-    }
+    const {root, data} = this.props;
 
     if (data.error) {
       return <div>Error</div>;
     }
+
+    if (!('premodCount' in root)) {
+      return <div><Spinner/></div>;
+    }
+
     return <Moderation {...this.props} loadMore={this.loadMore} />;
   }
 }
@@ -139,7 +141,7 @@ const LOAD_MORE_QUERY = gql`
   ${commentView}
 `;
 
-const withQuery = graphql(gql`
+const withModQueueQuery = withQuery(gql`
   query ModQueue($asset_id: ID, $sort: SORT_ORDER) {
     all: comments(query: {
       statuses: [NONE, PREMOD, ACCEPTED, REJECTED],
@@ -218,7 +220,7 @@ const withQuery = graphql(gql`
   },
 });
 
-const withQueueCountPolling = graphql(gql`
+const withQueueCountPolling = withQuery(gql`
   query Counts($asset_id: ID) {
     allCount: commentCount(query: {
       asset_id: $asset_id
@@ -282,5 +284,5 @@ export default compose(
   banUser,
   suspendUser,
   withQueueCountPolling,
-  withQuery,
+  withModQueueQuery,
 )(ModerationContainer);

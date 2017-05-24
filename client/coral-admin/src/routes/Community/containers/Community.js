@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {compose, graphql, gql} from 'react-apollo';
+import {compose, gql} from 'react-apollo';
+import withQuery from 'coral-framework/hocs/withQuery';
+import {Spinner} from 'coral-ui';
 
 import {banUser, setUserStatus, rejectUsername} from 'coral-admin/src/graphql/mutations';
 
@@ -24,13 +26,20 @@ class CommunityContainer extends Component {
   }
 
   render() {
+    if (this.props.data.error) {
+      return <div>{this.props.data.error.message}</div>;
+    }
+
+    if (!('users' in this.props.root)) {
+      return <div><Spinner/></div>;
+    }
     return (
       <Community {...this.props} />
     );
   }
 }
 
-export const withQuery = graphql(gql`
+export const withCommunityQuery = withQuery(gql`
   query Users($action_type: ACTION_TYPE) {
     users(query:{action_type: $action_type}){
       id
@@ -84,7 +93,7 @@ const mapDispatchToProps = (dispatch) =>
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withQuery,
+  withCommunityQuery,
   banUser,
   setUserStatus,
   rejectUsername

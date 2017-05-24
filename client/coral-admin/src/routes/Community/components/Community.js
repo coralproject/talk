@@ -55,8 +55,9 @@ export default class Community extends Component {
   }
 
   getTabContent(searchValue, props) {
-    const {community, data} = props;
+    const {community, root: {users}} = props;
     const activeTab = props.route.path === ':id' ? 'flagged' : props.route.path;
+    console.log(props);
 
     if (activeTab === 'people') {
       return (
@@ -78,9 +79,7 @@ export default class Community extends Component {
     return (
       <div>
         <FlaggedAccounts
-          commenters={data.users}
-          isFetching={data.loading}
-          error={data.error}
+          commenters={users}
           showBanUserDialog={props.showBanUserDialog}
           approveUser={props.approveUser}
           rejectUsername={props.rejectUsername}

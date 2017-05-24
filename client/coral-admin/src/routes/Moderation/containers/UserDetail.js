@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
-import {compose, graphql, gql} from 'react-apollo';
+import {compose, gql} from 'react-apollo';
 import UserDetail from '../components/UserDetail';
+import withQuery from 'coral-framework/hocs/withQuery';
 
 class UserDetailContainer extends React.Component {
   static propTypes = {
@@ -9,11 +10,15 @@ class UserDetailContainer extends React.Component {
   }
 
   render () {
+    if (!('user' in this.props.root)) {
+      return null;
+    }
+
     return <UserDetail {...this.props}/>;
   }
 }
 
-export const withQuery = graphql(gql`
+export const withUserDetailQuery = withQuery(gql`
   query UserDetail($author_id: ID!) {
     user(id: $author_id) {
       id
@@ -36,5 +41,5 @@ export const withQuery = graphql(gql`
 });
 
 export default compose(
-  withQuery,
+  withUserDetailQuery,
 )(UserDetailContainer);
