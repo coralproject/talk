@@ -1,14 +1,14 @@
-import {pym} from 'coral-framework';
-import * as Storage from '../helpers/storage';
-import * as actions from '../constants/auth';
-import coralApi, {base} from '../helpers/response';
 import jwtDecode from 'jwt-decode';
+import {pym} from 'coral-framework';
+import browser from 'detect-browser';
+import * as actions from '../constants/auth';
+import * as Storage from '../helpers/storage';
+import coralApi, {base} from '../helpers/response';
 
 const lang = new I18n(translations);
 import translations from './../translations';
 import I18n from '../../coral-framework/modules/i18n/i18n';
 
-// Dialog Actions
 export const showSignInDialog = () => (dispatch) => {
   const signInPopUp = window.open(
     '/embed/stream/login',
@@ -112,8 +112,10 @@ const signInFailure = (error) => ({
 //==============================================================================
 
 export const handleAuthToken = (token) => (dispatch) => {
-  Storage.setItem('exp', jwtDecode(token).exp);
-  Storage.setItem('token', token);
+  if (!browser || browser.name !== 'safari') {
+    Storage.setItem('exp', jwtDecode(token).exp);
+    Storage.setItem('token', token);
+  }
   dispatch({type: 'HANDLE_AUTH_TOKEN'});
 };
 
@@ -269,7 +271,9 @@ export const fetchForgotPassword = (email) => (dispatch) => {
 
 export const logout = () => (dispatch) => {
   return coralApi('/auth', {method: 'DELETE'}).then(() => {
-    Storage.removeItem('token');
+    if (!browser || browser.name !== 'safari') {
+      Storage.removeItem('token');
+    }
     dispatch({type: actions.LOGOUT});
   });
 };
@@ -292,7 +296,9 @@ export const checkLogin = () => (dispatch) => {
   coralApi('/auth')
     .then((result) => {
       if (!result.user) {
-        Storage.removeItem('token');
+        if (!browser || browser.name !== 'safari') {
+          Storage.removeItem('token');
+        }
         throw new Error('Not logged in');
       }
 

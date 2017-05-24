@@ -1,22 +1,29 @@
-import * as Storage from './storage';
+import browser from 'detect-browser';
 
 const buildOptions = (inputOptions = {}) => {
   const defaultOptions = {
     method: 'GET',
     headers: {
       Accept: 'application/json',
-      Authorization: `Bearer ${Storage.getItem('token')}`,
       'Content-Type': 'application/json'
     },
     credentials: 'same-origin'
   };
 
-  let options = Object.assign({}, defaultOptions, inputOptions);
-  options.headers = Object.assign(
-    {},
-    defaultOptions.headers,
-    inputOptions.headers
-  );
+  let options = {
+    defaultOptions,
+    ...inputOptions
+  };
+
+  if (!browser || browser.name !== 'safari') {
+    let authorization = localStorage.getItem('token');
+
+    if (authorization) {
+      options.headers = {
+        Authorization: `Bearer ${authorization}`
+      };
+    }
+  }
 
   if (options.method.toLowerCase() !== 'get') {
     options.body = JSON.stringify(options.body);
@@ -25,9 +32,9 @@ const buildOptions = (inputOptions = {}) => {
   return options;
 };
 
-const handleResp = (res) => {
+const handleResp = res => {
   if (res.status > 399) {
-    return res.json().then((err) => {
+    return res.json().then(err => {
       let message = err.message || res.status;
       const error = new Error();
 
