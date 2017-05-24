@@ -42,8 +42,8 @@ const Comment = ({
   }
 
   // since words are checked against word boundaries on the backend,
-  // this should be the behavior on the front end as well.
-  // currently the highlighter plugin does not support this out of the box.
+  // should be the behavior on the front end as well.
+  // currently the highlighter plugin does not support out of the box.
   const searchWords = [...suspectWords, ...bannedWords]
     .filter((w) => {
       return new RegExp(`(^|\\s)${w}(\\s|$)`).test(comment.body);
@@ -88,7 +88,12 @@ const Comment = ({
                 {lang.t('comment.banned_user')}
               </span>
             : null}
-          <Slot fill="adminCommentInfoBar" comment={comment} />
+            <Slot
+              data={props.data}
+              root={props.root}
+              fill="adminCommentInfoBar"
+              comment={comment}
+            />
         </div>
         <div className={styles.moderateArticle}>
           Story: {comment.asset.title}
@@ -110,7 +115,12 @@ const Comment = ({
               <Icon name="open_in_new" /> {lang.t('comment.view_context')}
             </a>
           </p>
-          <Slot fill="adminCommentContent" comment={comment} />
+          <Slot
+            data={props.data}
+            root={props.root}
+            fill="adminCommentContent"
+            comment={comment}
+          />
           <div className={styles.sideActions}>
             {links
               ? <span className={styles.hasLinks}>
@@ -141,12 +151,22 @@ const Comment = ({
                 );
               })}
             </div>
-            <Slot fill="adminSideActions" comment={comment} />
+            <Slot
+              data={props.data}
+              root={props.root}
+              fill="adminSideActions"
+              comment={comment}
+            />
           </div>
         </div>
       </div>
       <div>
-        <Slot fill="adminCommentDetailArea" comment={comment} />
+        <Slot
+          data={props.data}
+          root={props.root}
+          fill="adminCommentDetailArea"
+          comment={comment}
+        />
       </div>
       {flagActions && flagActions.length
         ? <FlagBox

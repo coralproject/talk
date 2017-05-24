@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 
-import Comment from './Comment';
+import Comment from '../containers/Comment';
 import styles from './styles.css';
 import EmptyCard from '../../../components/EmptyCard';
 import {actionsMap} from '../helpers/moderationQueueActionsMap';
@@ -55,6 +55,8 @@ class ModerationQueue extends React.Component {
             ? comments.map((comment, i) => {
               const status = comment.action_summaries ? 'FLAGGED' : comment.status;
               return <Comment
+                data={this.props.data}
+                root={this.props.root}
                 key={i}
                 index={i}
                 comment={comment}

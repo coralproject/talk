@@ -172,6 +172,8 @@ export default class Moderation extends Component {
           sort={this.props.moderation.sortOrder}
         />
         <ModerationQueue
+          data={this.props.data}
+          root={this.props.root}
           currentAsset={asset}
           comments={comments}
           activeTab={activeTab}

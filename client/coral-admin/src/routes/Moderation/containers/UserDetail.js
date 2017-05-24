@@ -2,6 +2,11 @@ import React, {PropTypes} from 'react';
 import {compose, gql} from 'react-apollo';
 import UserDetail from '../components/UserDetail';
 import withQuery from 'coral-framework/hocs/withQuery';
+import {getSlotsFragments} from 'coral-framework/helpers/plugins';
+
+const pluginFragments = getSlotsFragments([
+  'userProfile',
+]);
 
 class UserDetailContainer extends React.Component {
   static propTypes = {
@@ -28,10 +33,14 @@ export const withUserDetailQuery = withQuery(gql`
         id
         provider
       }
+      ${pluginFragments.spreads('user')}
     }
     totalComments: commentCount(query: {author_id: $author_id})
     rejectedComments: commentCount(query: {author_id: $author_id, statuses: [REJECTED]})
+    ${pluginFragments.spreads('root')}
   }
+  ${pluginFragments.definitions('user')}
+  ${pluginFragments.definitions('root')}
 `, {
   options: ({id}) => {
     return {

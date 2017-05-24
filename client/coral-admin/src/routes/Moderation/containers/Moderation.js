@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import {compose, gql} from 'react-apollo';
 import isEqual from 'lodash/isEqual';
 import withQuery from 'coral-framework/hocs/withQuery';
+import {getDefinitionName} from 'coral-framework/utils';
 
 import {banUser, setCommentStatus, suspendUser} from '../../../graphql/mutations';
 
@@ -24,6 +25,7 @@ import {
 
 import {Spinner} from 'coral-ui';
 import Moderation from '../components/Moderation';
+import Comment from './Comment';
 
 class ModerationContainer extends Component {
   componentWillMount() {
@@ -92,44 +94,10 @@ class ModerationContainer extends Component {
   }
 }
 
-const commentView = gql`
-  fragment commentView on Comment {
-    id
-    body
-    created_at
-    status
-    user {
-      id
-      name: username
-      status
-    }
-    asset {
-      id
-      title
-      url
-    }
-    action_summaries {
-      count
-      ... on FlagActionSummary {
-        reason
-      }
-    }
-    actions {
-      ... on FlagAction {
-        reason
-        message
-        user {
-          username
-        }
-      }
-    }
-  }
-`;
-
 const LOAD_MORE_QUERY = gql`
   query LoadMoreModQueue($limit: Int = 10, $cursor: Date, $sort: SORT_ORDER, $asset_id: ID, $statuses:[COMMENT_STATUS!], $action_type: ACTION_TYPE) {
     comments(query: {limit: $limit, cursor: $cursor, asset_id: $asset_id, statuses: $statuses, sort: $sort, action_type: $action_type}) {
-      ...commentView
+      ...${getDefinitionName(Comment.fragments.comment)}
       action_summaries {
         count
         ... on FlagActionSummary {
@@ -138,7 +106,7 @@ const LOAD_MORE_QUERY = gql`
       }
     }
   }
-  ${commentView}
+  ${Comment.fragments.comment}
 `;
 
 const withModQueueQuery = withQuery(gql`
@@ -148,21 +116,21 @@ const withModQueueQuery = withQuery(gql`
       asset_id: $asset_id,
       sort: $sort
     }) {
-      ...commentView
+      ...${getDefinitionName(Comment.fragments.comment)}
     }
     accepted: comments(query: {
       statuses: [ACCEPTED],
       asset_id: $asset_id,
       sort: $sort
     }) {
-      ...commentView
+      ...${getDefinitionName(Comment.fragments.comment)}
     }
     premod: comments(query: {
         statuses: [PREMOD],
         asset_id: $asset_id,
         sort: $sort
     }) {
-        ...commentView
+        ...${getDefinitionName(Comment.fragments.comment)}
     }
     flagged: comments(query: {
         action_type: FLAG,
@@ -170,14 +138,14 @@ const withModQueueQuery = withQuery(gql`
         statuses: [NONE, PREMOD],
         sort: $sort
     }) {
-        ...commentView
+        ...${getDefinitionName(Comment.fragments.comment)}
     }
     rejected: comments(query: {
         statuses: [REJECTED],
         asset_id: $asset_id,
         sort: $sort
     }) {
-        ...commentView
+        ...${getDefinitionName(Comment.fragments.comment)}
     }
     assets: assets {
       id
@@ -208,7 +176,7 @@ const withModQueueQuery = withQuery(gql`
       organizationName
     }
   }
-  ${commentView}
+  ${Comment.fragments.comment}
 `, {
   options: ({params: {id = null}, moderation: {sortOrder}}) => {
     return {
