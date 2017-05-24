@@ -48,7 +48,7 @@ export function loadTranslations(newTranslations) {
 }
 
 export function timeago(time) {
-  return timeagoInstance.format(new Date(time), getLocale());
+  return timeagoInstance.format(new Date(time), lang);
 }
 
 /**
