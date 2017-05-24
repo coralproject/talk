@@ -12,14 +12,13 @@ import ModerationMenu from './ModerationMenu';
 import ModerationHeader from './ModerationHeader';
 import NotFoundAsset from './NotFoundAsset';
 import ModerationKeysModal from '../../../components/ModerationKeysModal';
-import UserDetail from './UserDetail';
+import UserDetail from '../containers/UserDetail';
 
 const lang = new I18n(translations);
 
 export default class Moderation extends Component {
   state = {
     selectedIndex: 0,
-    sort: 'REVERSE_CHRONOLOGICAL'
   }
 
   componentWillMount() {
@@ -74,11 +73,6 @@ export default class Moderation extends Component {
             prevState.selectedIndex - 1 : prevState.selectedIndex
         }));
     }
-  }
-
-  selectSort = (sort) => {
-    this.setState({sort});
-    this.props.modQueueResort(sort);
   }
 
   suspendUser = async (args) => {
@@ -174,8 +168,8 @@ export default class Moderation extends Component {
           premodCount={data.premodCount}
           rejectedCount={data.rejectedCount}
           flaggedCount={data.flaggedCount}
-          selectSort={this.selectSort}
-          sort={this.state.sort}
+          selectSort={this.props.setSortOrder}
+          sort={this.props.moderation.sortOrder}
         />
         <ModerationQueue
           currentAsset={asset}
@@ -191,7 +185,7 @@ export default class Moderation extends Component {
           rejectComment={props.rejectComment}
           loadMore={props.loadMore}
           assetId={providedAssetId}
-          sort={this.state.sort}
+          sort={this.props.moderation.sortOrder}
           commentCount={activeTabCount}
           currentUserId={this.props.auth.user.id}
           viewUserDetail={viewUserDetail}

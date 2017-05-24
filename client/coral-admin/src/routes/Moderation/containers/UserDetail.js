@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
-import {compose} from 'react-apollo';
-import {getUserDetail} from 'coral-admin/src/graphql/queries';
+import {compose, graphql, gql} from 'react-apollo';
 import UserDetail from '../components/UserDetail';
 
 class UserDetailContainer extends React.Component {
@@ -14,6 +13,28 @@ class UserDetailContainer extends React.Component {
   }
 }
 
+export const withQuery = graphql(gql`
+  query UserDetail($author_id: ID!) {
+    user(id: $author_id) {
+      id
+      username
+      created_at
+      profiles {
+        id
+        provider
+      }
+    }
+    totalComments: commentCount(query: {author_id: $author_id})
+    rejectedComments: commentCount(query: {author_id: $author_id, statuses: [REJECTED]})
+  }
+`, {
+  options: ({id}) => {
+    return {
+      variables: {author_id: id}
+    };
+  }
+});
+
 export default compose(
-  getUserDetail
+  withQuery,
 )(UserDetailContainer);

@@ -27,3 +27,9 @@ export const hideShortcutsNote = () => {
 
 export const viewUserDetail = (userId) => ({type: actions.VIEW_USER_DETAIL, userId});
 export const hideUserDetail = () => ({type: actions.HIDE_USER_DETAIL});
+
+export const setSortOrder = (order) => ({
+  type: actions.SET_SORT_ORDER,
+  order
+});
+

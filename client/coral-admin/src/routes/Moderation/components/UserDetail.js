@@ -7,7 +7,7 @@ export default class UserDetail extends React.Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     hideUserDetail: PropTypes.func.isRequired,
-    data: PropTypes.string.isRequired,
+    data: PropTypes.object.isRequired,
   }
 
   copyPermalink = () => {

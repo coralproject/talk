@@ -1,1 +1,1 @@
-export {default} from './containers/InstallContainer.js';
+export {default} from './containers/Install.js';
