@@ -12,14 +12,14 @@ const pluginFragments = getSlotsFragments([
 
 export default withFragments({
   root: gql`
-    fragment Comment_root on RootQuery {
+    fragment Admin_Moderation_Comment_root on RootQuery {
       __typename
       ${pluginFragments.spreads('root')}
     }
     ${pluginFragments.definitions('root')}
     `,
   comment: gql`
-    fragment Comment_comment on Comment {
+    fragment Admin_Moderation_Comment_comment on Comment {
       id
       body
       created_at

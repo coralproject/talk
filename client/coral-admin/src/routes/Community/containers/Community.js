@@ -40,7 +40,7 @@ class CommunityContainer extends Component {
 }
 
 export const withCommunityQuery = withQuery(gql`
-  query Users($action_type: ACTION_TYPE) {
+  query Admin_Community($action_type: ACTION_TYPE) {
     users(query:{action_type: $action_type}){
       id
       username

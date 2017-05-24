@@ -12,7 +12,7 @@ export const banUser = graphql(SET_USER_STATUS, {
           userId,
           status: 'BANNED'
         },
-        refetchQueries: ['Users']
+        refetchQueries: ['Admin_Community']
       });
     }}),
 });
@@ -25,7 +25,7 @@ export const setUserStatus = graphql(SET_USER_STATUS, {
           userId,
           status: 'APPROVED'
         },
-        refetchQueries: ['Users']
+        refetchQueries: ['Admin_Community']
       });
     }
   })
@@ -50,7 +50,7 @@ export const rejectUsername = graphql(REJECT_USERNAME, {
         variables: {
           input,
         },
-        refetchQueries: ['Users']
+        refetchQueries: ['Admin_Community']
       });
     }
   })
@@ -66,7 +66,7 @@ export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
           status: 'ACCEPTED'
         },
         updateQueries: {
-          ModQueue: (oldData) => {
+          Admin_Moderation: (oldData) => {
             const comment = views.reduce((comment, view) => {
               return comment ? comment : oldData[view].find((c) => c.id === commentId);
             }, null);
@@ -111,7 +111,7 @@ export const setCommentStatus = graphql(SET_COMMENT_STATUS, {
           status: 'REJECTED'
         },
         updateQueries: {
-          ModQueue: (oldData) => {
+          Admin_Moderation: (oldData) => {
             const comment = views.reduce((comment, view) => {
               return comment ? comment : oldData[view].find((c) => c.id === commentId);
             }, null);
