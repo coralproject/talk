@@ -88,3 +88,9 @@ export function getGraphQLExtensions() {
     .filter((o) => o);
 }
 
+export function getTranslations() {
+  return plugins
+    .map((o) => o.module.translations)
+    .filter((o) => o);
+}
+
