@@ -47,8 +47,10 @@ es:
     banned: Suspendido
     banned_user: "Usuario Suspendido"
     cancel: Cancelar
+    dont_like_username: "No me gusta este nombre de usuario"
     flaggedaccounts: "Nombres de Usuario Reportados"
     flags: Reportes
+    impersonating: "El usuario esta suplantando identidad"
     loading: "Cargando resultados"
     moderator: Moderator
     newsroom_role: "Rol en la redacción"
@@ -56,10 +58,12 @@ es:
     no_results: "No se encontraron usuarios con ese nombre o correo."
     note: "Nota: Suspender a este usuario no le va a permitir (al usuario) borrar\
       \ ni editar ni comentar."
+    offensive: "Este comentario es ofensivo"
     other: Otro
     people: Gente
     role: "Seleccionar rol..."
     select_status: "Seleccionar estado..."
+    spam_ads: "Spam/Publicidad"
     staff: "Personal"
     status: Estado
     username_and_email: "Usuario y Correo"

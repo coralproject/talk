@@ -40,10 +40,10 @@ class FlagBox extends Component {
       <div className={styles.flagBox}>
         <div className={styles.container}>
           <div className={styles.header}>
-            <Icon name='flag'/><h3>Flags ({actionSummaries.length}):</h3>
+            <Icon name='flag'/><h3>{t('community.Flags')} ({actionSummaries.length}):</h3>
             <ul>
               {actionSummaries.map((action, i) =>
-                <li key={i} className={styles.lessDetail}>{this.reasonMap(action.reason)} (<strong>{action.count}</strong>)</li>
+                <li key={i} className={styles.lessDetail}> {this.reasonMap(action.reason)} (<strong>{action.count}</strong>)</li>
               )}
             </ul>
             <a onClick={this.toggleDetail} className={styles.moreDetail}>{showDetail ? t('modqueue.less-detail') : t('modqueue.more_detail')}</a>

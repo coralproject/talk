@@ -5,6 +5,14 @@ import ActionButton from './ActionButton';
 
 import t from 'coral-framework/services/i18n';
 
+const shortReasons = {
+  'This comment is offensive': t('community.offensive'),
+  'This looks like an ad/marketing': t('community.spam_ads'),
+  'This user is impersonating': t('community.impersonating'),
+  'I don\'t like this username': t('community.dont_like_username'),
+  'Other': t('community.other')
+};
+
 // Render a single user for the list
 const User = (props) => {
   const {user, modActionButtons} = props;
@@ -36,7 +44,7 @@ const User = (props) => {
                 { user.action_summaries.map(
                 (action, i) => {
                   return <span className={styles.flaggedBy} key={i}>
-                    {t(`community.${action.reason}`)} ({action.count})
+                    {shortReasons[action.reason]} ({action.count})
                   </span>;
                 }
               )}
@@ -46,7 +54,7 @@ const User = (props) => {
                 (action_sum, i) => {
                   return <div key={i}>
                     <span className={styles.flaggedByLabel}>
-                      {t(`community.${action_sum.reason}`)} ({action_sum.count})
+                      {shortReasons[action_sum.reason]} ({action_sum.count})
                     </span>
                     {user.actions.map(
 

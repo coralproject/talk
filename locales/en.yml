@@ -35,23 +35,28 @@ en:
     account_creation_date: "Account Creation Date"
     active: Active
     admin: Administrator
+    ads_marketing: "This looks like an ad/marketing"
     are_you_sure: "Are you sure you would like to ban {0}?"
     ban_user: "Ban User?"
     banned: Banned
     banned_user: "Banned User"
     cancel: Cancel
+    dont_like_username: "I don't like this username"
     flaggedaccounts: "Flagged Usernames"
     flags: Flags
+    impersonating: "This user is impersonating"
     loading: "Loading results"
     moderator: Moderator
     newsroom_role: "Newsroom Role"
     no_flagged_accounts: "The Account Flags queue is currently empty."
     no_results: "No users found with that user name or email address. They're hiding!"
     note: "Note: Banning this user will not let them edit comment or remove anything."
+    offensive: "This comment is offensive"
     other: Other
     people: People
     role: "Select role..."
     select_status: "Select status..."
+    spam_ads: "Spam/Ads"
     staff: "Staff"
     status: Status
     username_and_email: "Username and Email"
