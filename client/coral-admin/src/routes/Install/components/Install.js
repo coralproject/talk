@@ -63,7 +63,7 @@ export default class Install extends Component {
                   <PermittedDomainsStep
                     install={install}
                     handleDomainsChange={this.handleDomainsChange}
-                    finishInstall={this.finishInstall}
+                    finishInstall={this.props.finishInstall}
                   />
                   <FinalStep/>
                 </Wizard>
