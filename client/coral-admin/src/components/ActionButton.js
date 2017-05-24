@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import styles from './ModerationList.css';
 import {Button} from 'coral-ui';
-import {menuActionsMap} from '../containers/ModerationQueue/helpers/moderationQueueActionsMap';
+import {menuActionsMap} from '../routes/Moderation/helpers/moderationQueueActionsMap';
 
 const ActionButton = ({type = '', active, ...props}) => {
   const typeName = type.toLowerCase();
