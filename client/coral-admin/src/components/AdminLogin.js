@@ -35,7 +35,7 @@ class AdminLogin extends React.Component {
     const {errorMessage, loginMaxExceeded, recaptchaPublic} = this.props;
     const signInForm = (
       <form onSubmit={this.handleSignIn}>
-        {errorMessage && <Alert>{t(`errors.${errorMessage}`)}</Alert>}
+        {errorMessage && <Alert>{t(`error.${errorMessage}`)}</Alert>}
         <TextField
           label='Email Address'
           value={this.state.email}

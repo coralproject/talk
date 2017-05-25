@@ -18,7 +18,7 @@ export function showMutationErrors(err) {
   errors.forEach((err) => {
     console.error(err);
     toast(
-      err.translation_key ? t(`errors.${err.translation_key}`) : err,
+      err.translation_key ? t(`error.${err.translation_key}`) : err,
       {type: 'error'}
     );
   });
