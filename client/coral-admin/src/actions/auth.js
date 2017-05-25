@@ -1,4 +1,3 @@
-import {pym} from 'coral-framework';
 import * as actions from '../constants/auth';
 import coralApi from 'coral-framework/helpers/response';
 import * as Storage from 'coral-framework/helpers/storage';
