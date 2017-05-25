@@ -185,19 +185,19 @@ es:
     no_likes: "¡No ha habido ningún 'me gusta' en los últimos 5 minutos. Todo tranquilo."
   done: Hecho
   edit_comment:
-    bodyInputLabel: "Editar este comentario"
+    body_input_label: "Editar este comentario"
     save_button: "Guardar cambios"
-    editWindowExpired: "No se puede editar este comentario. El periodo de edición\
+    edit_window_expired: "No se puede editar este comentario. El periodo de edición\
       \ ya ha concluido. Podrías publicar uno nuevo :-)"
-    editWindowExpiredClose: "Cerrar"
-    editWindowTimerPrefix: "Ventana Edición:"
+    edit_window_expired_close: "Cerrar"
+    edit_window_timer_prefix: "Ventana Edición:"
     second: "segundo"
-    secondsPlural: "segundos"
-    unexpectedError: "Lo siento. Ha habido un error no previsto al guardar los cambios."
+    seconds_plural: "segundos"
+    unexpected_error: "Lo siento. Ha habido un error no previsto al guardar los cambios."
   embedlink:
     copy: "Copiar al portapapeles"
   error:
-    comment_too_short: "Tu comentario debe tener algo escrito"
+    COMMENT_TOO_SHORT: "Tu comentario debe tener algo escrito"
     NOT_AUTHORIZED: "Acción no autorizada."
     NO_SPECIAL_CHARACTERS: "Los nombres pueden contener letras números y _"
     PASSWORD_LENGTH: "Contraseña es muy corta"
@@ -205,23 +205,25 @@ es:
       \ al o la administradora si cree que esto es un error"
     USERNAME_IN_USE: "Este nombre ya está siendo usado."
     USERNAME_REQUIRED: "Debe ingresar un nombre"
-    confirm_password: "Las contraseñas no coinciden. Inténtelo nuevamente"
-    edit_window_ended: "No puedes editar este comentario. El tiempo de edición ha\
+    EDIT_WINDOW_ENDED: "No puedes editar este comentario. El tiempo de edición ha\
       \ expirado."
-    edit_username_not_authorized: "No tiene permiso para editar el nombre de usuario."
+    EDIT_USERNAME_NOT_AUTHORIZED: "No tiene permiso para editar el nombre de usuario."
+    EMAIL_IN_USE: "Este correo se encuentra en uso"
+    EMAIL_REQUIRED: "Se requiere un correo"
+    LOGIN_MAXIMUM_EXCEEDED: "Ha realizado demasiados intentos fallidos de usar la\
+      \ contraseña. Por favor espere."
+    PASSWORD_REQUIRED: "Debe ingresar la contraseña"
+    COMMENTING_CLOSED: "Los comentarios ya estan cerrados"
+    NOT_FOUND: "Recurso no encontrado"
+    INVALID_ASSET_URL: "La URL del articulo no es valida"
     email: "No es un correo válido"
+    confirm_password: "Las contraseñas no coinciden. Inténtelo nuevamente"
     network_error: "Error al conectar con el servidor. Compruebe su conexión a Internet\
       \ y vuelva a intentarlo."
-    email_in_use: "Este correo se encuentra en uso"
     email_not_verified: "Correo {0} no confirmado."
     email_password: "Correo y/o contraseña incorrecta."
-    email_required: "Se requiere un correo"
-    email_username_in_use: "Correo o nombre en uso."
-    login_maximum_exceeded: "Ha realizado demasiados intentos fallidos de usar la\
-      \ contraseña. Por favor espere."
     organization_name: "El nombre de la organización debe contener letras y/o números."
     password: "La contraseña debe tener por lo menos 8 caracteres"
-    password_required: "Debe ingresar la contraseña"
     username: "Los nombres pueden contener letras números y _"
   flag_comment: "Reportar este comentario"
   flag_reason: "Razón por la que hacer este reporte (Opcional)"
