@@ -13,6 +13,7 @@ import {networkInterface} from './transport';
 // );
 export const client = new ApolloClient({
   connectToDevTools: true,
+  addTypename: true,
   queryTransformer: addTypename,
   dataIdFromObject: (result) => {
     if (result.id && result.__typename) { // eslint-disable-line no-underscore-dangle
@@ -24,3 +25,4 @@ export const client = new ApolloClient({
 });
 
 export default client;
+
