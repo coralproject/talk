@@ -174,7 +174,37 @@ const ExtractJwt = require('passport-jwt').ExtractJwt;
 passport.use(new JwtStrategy({
 
   // Prepare the extractor from the header.
-  jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
+  jwtFromRequest: (req, res) => {
+
+    const browser = bowser._detect(req.headers['user-agent']);
+
+    if (browser.name === 'Safari') {
+      const lookup = (i) => {
+        switch (i) {
+          case 0: return 'header';
+          case 1: return 'cookie';
+          case 2: return 'query';
+        }
+      }
+
+      // Adding custom extractor
+      const authorizations = [
+        req.headers.authorization,
+        req.cookies.authorization,
+        req.query.authorization
+      ];
+
+      let i = authorizations.findIndex((source) => source !== null && typeof source != 'undefined' && source.length > 0);
+
+      if (i >= 0) {
+        let authorization = authorizations[i];
+        let source = lookup(i);
+        return authorization;
+      }
+    } else {
+      return ExtractJwt.fromAuthHeaderWithScheme('Bearer')(req)
+    }
+},
 
   // Use the secret passed in which is loaded from the environment. This can be
   // a certificate (loaded) or a HMAC key.

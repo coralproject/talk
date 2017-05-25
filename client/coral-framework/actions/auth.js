@@ -112,10 +112,8 @@ const signInFailure = (error) => ({
 //==============================================================================
 
 export const handleAuthToken = (token) => (dispatch) => {
-  if (!browser || browser.name !== 'Safari') {
-    Storage.setItem('exp', jwtDecode(token).exp);
-    Storage.setItem('token', token);
-  }
+  Storage.setItem('exp', jwtDecode(token).exp);
+  Storage.setItem('token', token);
   dispatch({type: 'HANDLE_AUTH_TOKEN'});
 };
 
@@ -129,7 +127,9 @@ export const fetchSignIn = (formData) => {
 
     return coralApi('/auth/local', {method: 'POST', body: formData})
       .then(({token}) => {
-        dispatch(handleAuthToken(token));
+        if (!browser || browser.name !== 'Safari') {
+          dispatch(handleAuthToken(token));
+        }
         dispatch(hideSignInDialog());
       })
       .catch((error) => {
