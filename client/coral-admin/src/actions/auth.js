@@ -1,6 +1,7 @@
+import {pym} from 'coral-framework';
 import * as actions from '../constants/auth';
-import * as Storage from 'coral-framework/helpers/storage';
 import coralApi from 'coral-framework/helpers/response';
+import * as Storage from 'coral-framework/helpers/storage';
 import {handleAuthToken} from 'coral-framework/actions/auth';
 
 //==============================================================================
@@ -52,7 +53,9 @@ const forgotPassowordFailure = () => ({
 
 export const requestPasswordReset = (email) => (dispatch) => {
   dispatch(forgotPassowordRequest(email));
-  return coralApi('/account/password/reset', {method: 'POST', body: {email}})
+  const redirectUri = location.href;
+
+  return coralApi('/account/password/reset', {method: 'POST', body: {email,  loc: redirectUri}})
     .then(() => dispatch(forgotPassowordSuccess()))
     .catch((error) => dispatch(forgotPassowordFailure(error)));
 };
