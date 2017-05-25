@@ -8,7 +8,6 @@ const router = express.Router();
  * This returns the user if they are logged in.
  */
 router.get('/', (req, res, next) => {
-  console.log('REQ.USER', req.user);
 
   if (req.user) {
     return next();

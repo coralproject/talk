@@ -210,7 +210,6 @@ passport.use(new JwtStrategy({
   // Load the user from the environment, because we just got a user from the
   // header.
   try {
-    console.log(req.cookies, req.headers)
 
     // Check to see if the token has been revoked
     await CheckBlacklisted(jwt);
