@@ -6,6 +6,9 @@ export const withSetCommentStatus = withMutation(
     mutation SetCommentStatus($commentId: ID!, $status: COMMENT_STATUS!){
       setCommentStatus(id: $commentId, status: $status) {
         ...SetCommentStatusResponse
+        errors {
+          translation_key
+        }
       }
     }
   `, {
@@ -26,6 +29,9 @@ export const withSuspendUser = withMutation(
     mutation SuspendUser($input: SuspendUserInput!) {
       suspendUser(input: $input) {
         ...SuspendUserResponse
+        errors {
+          translation_key
+        }
       }
     }
   `, {
@@ -45,6 +51,9 @@ export const withRejectUsername = withMutation(
     mutation RejectUsername($input: RejectUsernameInput!) {
       rejectUsername(input: $input) {
         ...RejectUsernameResponse
+        errors {
+          translation_key
+        }
       }
     }
   `, {
@@ -64,6 +73,9 @@ export const withSetUserStatus = withMutation(
     mutation SetUserStatus($userId: ID!, $status: USER_STATUS!) {
       setUserStatus(id: $userId, status: $status) {
         ...SetUserStatusResponse
+        errors {
+          translation_key
+        }
       }
     }
   `, {
@@ -84,6 +96,9 @@ export const withPostComment = withMutation(
     mutation PostComment($comment: CreateCommentInput!) {
       createComment(comment: $comment) {
         ...CreateCommentResponse
+        errors {
+          translation_key
+        }
       }
     }
   `, {
@@ -103,6 +118,9 @@ export const withEditComment = withMutation(
     mutation EditComment($id: ID!, $asset_id: ID!, $edit: EditCommentInput) {
       editComment(id:$id, asset_id:$asset_id, edit:$edit) {
         ...EditCommentResponse
+        errors {
+          translation_key
+        }
       }
     }
   `, {
@@ -124,6 +142,9 @@ export const withPostFlag = withMutation(
     mutation PostFlag($flag: CreateFlagInput!) {
       createFlag(flag: $flag) {
         ...CreateFlagResponse
+        errors {
+          translation_key
+        }
       }
     }
   `, {
@@ -142,6 +163,9 @@ export const withPostDontAgree = withMutation(
     mutation CreateDontAgree($dontagree: CreateDontAgreeInput!) {
       createDontAgree(dontagree: $dontagree) {
         ...CreateDontAgreeResponse
+        errors {
+          translation_key
+        }
       }
     }
   `, {
@@ -160,6 +184,9 @@ export const withDeleteAction = withMutation(
     mutation DeleteAction($id: ID!) {
       deleteAction(id:$id) {
         ...DeleteActionResponse
+        errors {
+          translation_key
+        }
       }
     }
   `, {
@@ -178,6 +205,9 @@ export const withAddCommentTag = withMutation(
     mutation AddCommentTag($id: ID!, $tag: String!) {
       addCommentTag(id:$id, tag:$tag) {
         ...AddCommentTagResponse
+        errors {
+          translation_key
+        }
       }
     }
   `, {
@@ -197,6 +227,9 @@ export const withRemoveCommentTag = withMutation(
     mutation RemoveCommentTag($id: ID!, $tag: String!) {
       removeCommentTag(id:$id, tag:$tag) {
         ...RemoveCommentTagResponse
+        errors {
+          translation_key
+        }
       }
     }
   `, {
@@ -216,6 +249,9 @@ export const withIgnoreUser = withMutation(
     mutation IgnoreUser($id: ID!) {
       ignoreUser(id:$id) {
         ...IgnoreUserResponse
+        errors {
+          translation_key
+        }
       }
     }
   `, {
@@ -234,6 +270,9 @@ export const withStopIgnoringUser = withMutation(
     mutation StopIgnoringUser($id: ID!) {
       stopIgnoringUser(id:$id) {
         ...StopIgnoringUserResponse
+        errors {
+          translation_key
+        }
       }
     }
   `, {

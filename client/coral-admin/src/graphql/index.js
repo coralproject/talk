@@ -1,39 +1,7 @@
 import {add} from 'coral-framework/services/graphqlRegistry';
-import {gql} from 'react-apollo';
-
 const queues = ['all', 'premod', 'flagged', 'accepted', 'rejected'];
 
 const extension = {
-  fragments: {
-    SetUserStatusResponse: gql`
-      fragment Admin_SetUserStatusResponse on SetUserStatusResponse {
-        errors {
-          translation_key
-        }
-      }
-    `,
-    SuspendUserResponse: gql`
-      fragment Admin_SuspendUserResponse on SuspendUserResponse {
-        errors {
-          translation_key
-        }
-      }
-    `,
-    RejectUsernameResponse: gql`
-      fragment Admin_RejectUsernameResponse on RejectUsernameResponse {
-        errors {
-          translation_key
-        }
-      }
-    `,
-    SetCommentStatusResponse: gql`
-      fragment Admin_SetCommentStatusResponse on SetCommentStatusResponse {
-        errors {
-          translation_key
-        }
-      }
-    `,
-  },
   mutations: {
     SetUserStatus: () => ({
       refetchQueries: ['Admin_Community'],

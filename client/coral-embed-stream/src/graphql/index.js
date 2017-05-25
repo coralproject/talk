@@ -9,23 +9,6 @@ const extension = {
         comment {
           status
         }
-        errors {
-          translation_key
-        }
-      }
-    `,
-    StopIgnoringUserResponse: gql`
-      fragment CoralEmbedStream_StopIgnoringUserResponse on StopIgnoringUserResponse {
-        errors {
-          translation_key
-        }
-      }
-    `,
-    IgnoreUserResponse: gql`
-      fragment CoralEmbedStream_IgnoreUserResponse on IgnoreUserResponse {
-        errors {
-          translation_key
-        }
       }
     `,
     RemoveCommentTagResponse: gql`
@@ -35,9 +18,6 @@ const extension = {
           tags {
             name
           }
-        }
-        errors {
-          translation_key
         }
       }
     `,
@@ -49,16 +29,6 @@ const extension = {
             name
           }
         }
-        errors {
-          translation_key
-        }
-      }
-    `,
-    DeleteActionResponse: gql`
-      fragment CoralEmbedStream_DeleteActionResponse on DeleteActionResponse {
-        errors {
-          translation_key
-        }
       }
     `,
     CreateFlagResponse: gql`
@@ -66,18 +36,12 @@ const extension = {
         flag {
           id
         }
-        errors {
-          translation_key
-        }
       }
     `,
     CreateDontAgreeResponse : gql`
       fragment CoralEmbedStream_CreateDontAgreeResponse on CreateDontAgreeResponse {
         dontagree {
           id
-        }
-        errors {
-          translation_key
         }
       }
     `,
@@ -88,9 +52,6 @@ const extension = {
           replies {
             ...CoralEmbedStream_CreateCommentResponse_Comment
           }
-        }
-        errors {
-          translation_key
         }
       }
 
