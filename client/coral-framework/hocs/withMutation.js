@@ -5,7 +5,7 @@ import uniq from 'lodash/uniq';
 import flatten from 'lodash/flatten';
 import isEmpty from 'lodash/isEmpty';
 import {getMutationOptions, resolveFragments} from 'coral-framework/services/graphqlRegistry';
-import {store} from 'coral-framework/services/store';
+import {getStore} from 'coral-framework/services/store';
 import {getDefinitionName} from '../utils';
 
 /**
@@ -23,7 +23,7 @@ export default (document, config) => (WrappedComponent) => {
     const callbacks = getMutationOptions(name);
     const mutate = (base) => {
       const variables = base.variables || config.options.variables;
-      const configs = callbacks.map((cb) => cb({variables, state: store.getState()}));
+      const configs = callbacks.map((cb) => cb({variables, state: getStore().getState()}));
 
       const optimisticResponse = merge(
         base.optimisticResponse || config.options.optimisticResponse,
