@@ -18,6 +18,7 @@
     box-sizing: border-box;
     border-radius: 2px;
     margin: 5px auto;
+    font-size: 14px;
 }
 
 input.error{

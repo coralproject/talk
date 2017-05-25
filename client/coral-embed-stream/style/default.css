@@ -170,6 +170,7 @@ hr {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: 400;
 }
 
 .hidden  {
@@ -240,6 +241,8 @@ hr {
 .coral-plugin-commentcontent-text {
   margin-bottom: 7px;
   font-size: 16px;
+  font-weight: 100;
+  line-height: 1.4;
 }
 
 .coral-plugin-author-name-text {
@@ -319,7 +322,6 @@ button.comment__action-button[disabled],
 
 .coral-plugin-pubdate-text {
   display: inline-block;
-  margin-left: 5px;
 }
 
 .coral-plugin-permalinks-container {
@@ -367,7 +369,7 @@ button.comment__action-button[disabled],
 
 .coral-plugin-flags-popup-radio-label {
   margin:5px;
-  font-weight: 700;
+  font-weight: 400;
   font-size: .9rem;
 }
 
