@@ -85,7 +85,7 @@ const extension = {
   mutations: {
     IgnoreUser: ({variables}) => ({
       updateQueries: {
-        EmbedQuery: (previousData, {mutationResult}) => {
+        CoralEmbedStream_Embed: (previousData, {mutationResult}) => {
           const ignoredUserId = variables.id;
           const response = mutationResult.data.ignoreUser;
           if (ignoredUserId && !response.errors) {
@@ -101,7 +101,7 @@ const extension = {
     }),
     StopIgnoringUser: ({variables}) => ({
       updateQueries: {
-        EmbedStreamProfileQuery: (previousData, {mutationResult}) => {
+        CoralEmbedStream_Profile: (previousData, {mutationResult}) => {
           const noLongerIgnoredUserId = variables.id;
           const response = mutationResult.data.stopIgnoringUser;
           if (noLongerIgnoredUserId && !response.errors) {
@@ -141,7 +141,7 @@ const extension = {
         }
       },
       updateQueries: {
-        EmbedQuery: (previousData, {mutationResult: {data: {createComment: {comment}}}}) => {
+        CoralEmbedStream_Embed: (previousData, {mutationResult: {data: {createComment: {comment}}}}) => {
           if (previousData.asset.settings.moderation === 'PRE' || comment.status === 'PREMOD' || comment.status === 'REJECTED') {
             return previousData;
           }
@@ -182,7 +182,7 @@ const extension = {
       variables: {id, edit},
     }) => ({
       updateQueries: {
-        EmbedQuery: (previousData, {mutationResult: {data: {editComment: {comment, errors}}}}) => {
+        CoralEmbedStream_Embed: (previousData, {mutationResult: {data: {editComment: {comment, errors}}}}) => {
 
           // @TODO (kiwi) revisit after streamlining error handling
           if (errors && errors.length) {

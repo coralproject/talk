@@ -4,14 +4,14 @@ const queues = ['all', 'premod', 'flagged', 'accepted', 'rejected'];
 const extension = {
   mutations: {
     SetUserStatus: () => ({
-      refetchQueries: ['Admin_Community'],
+      refetchQueries: ['CoralAdmin_Community'],
     }),
     RejectUsername: () => ({
-      refetchQueries: ['Admin_Community'],
+      refetchQueries: ['CoralAdmin_Community'],
     }),
     SetCommentStatus: ({variables: {commentId, status}}) => ({
       updateQueries: {
-        Admin_Moderation: (oldData) => {
+        CoralAdmin_Moderation: (oldData) => {
           const comment = queues.reduce((comment, queue) => {
             return comment ? comment : oldData[queue].find((c) => c.id === commentId);
           }, null);

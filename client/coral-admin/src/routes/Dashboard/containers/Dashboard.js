@@ -21,15 +21,15 @@ class DashboardContainer extends React.Component {
 }
 
 export const witDashboardQuery = withQuery(gql`
-  query Admin_Dashboard($from: Date!, $to: Date!) {
+  query CoralAdmin_Dashboard($from: Date!, $to: Date!) {
     assetsByFlag: assetMetrics(from: $from, to: $to, sort: FLAG) {
-      ...Admin_Metrics
+      ...CoralAdmin_Metrics
     }
     assetsByActivity: assetMetrics(from: $from, to: $to, sort: ACTIVITY) {
-      ...Admin_Metrics
+      ...CoralAdmin_Metrics
     }
   }
-  fragment Admin_Metrics on Asset {
+  fragment CoralAdmin_Metrics on Asset {
     id
     title
     url

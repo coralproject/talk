@@ -24,7 +24,7 @@ class UserDetailContainer extends React.Component {
 }
 
 export const withUserDetailQuery = withQuery(gql`
-  query Admin_UserDetail($author_id: ID!) {
+  query CoralAdmin_UserDetail($author_id: ID!) {
     user(id: $author_id) {
       id
       username

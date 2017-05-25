@@ -113,7 +113,7 @@ class ModerationContainer extends Component {
 }
 
 const LOAD_MORE_QUERY = gql`
-  query Admin_Moderation_LoadMore($limit: Int = 10, $cursor: Date, $sort: SORT_ORDER, $asset_id: ID, $statuses:[COMMENT_STATUS!], $action_type: ACTION_TYPE) {
+  query CoralAdmin_Moderation_LoadMore($limit: Int = 10, $cursor: Date, $sort: SORT_ORDER, $asset_id: ID, $statuses:[COMMENT_STATUS!], $action_type: ACTION_TYPE) {
     comments(query: {limit: $limit, cursor: $cursor, asset_id: $asset_id, statuses: $statuses, sort: $sort, action_type: $action_type}) {
       ...${getDefinitionName(Comment.fragments.comment)}
       action_summaries {
@@ -128,7 +128,7 @@ const LOAD_MORE_QUERY = gql`
 `;
 
 const withModQueueQuery = withQuery(gql`
-  query Admin_Moderation($asset_id: ID, $sort: SORT_ORDER) {
+  query CoralAdmin_Moderation($asset_id: ID, $sort: SORT_ORDER) {
     all: comments(query: {
       statuses: [NONE, PREMOD, ACCEPTED, REJECTED],
       asset_id: $asset_id,
@@ -207,7 +207,7 @@ const withModQueueQuery = withQuery(gql`
 });
 
 const withQueueCountPolling = withQuery(gql`
-  query Admin_Moderation_CountPoll($asset_id: ID) {
+  query CoralAdmin_ModerationCountPoll($asset_id: ID) {
     allCount: commentCount(query: {
       asset_id: $asset_id
     })

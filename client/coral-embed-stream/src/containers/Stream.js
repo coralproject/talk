@@ -132,7 +132,7 @@ class StreamContainer extends React.Component {
 }
 
 const LOAD_COMMENT_COUNTS_QUERY = gql`
-  query LoadCommentCounts($assetUrl: String, $assetId: ID, $excludeIgnored: Boolean) {
+  query CoralEmbedStream_LoadCommentCounts($assetUrl: String, $assetId: ID, $excludeIgnored: Boolean) {
     asset(id: $assetId, url: $assetUrl) {
       id
       commentCount(excludeIgnored: $excludeIgnored)
@@ -145,7 +145,7 @@ const LOAD_COMMENT_COUNTS_QUERY = gql`
 `;
 
 const LOAD_MORE_QUERY = gql`
-  query LoadMoreComments($limit: Int = 5, $cursor: Date, $parent_id: ID, $asset_id: ID, $sort: SORT_ORDER, $excludeIgnored: Boolean) {
+  query CoralEmbedStream_LoadMoreComments($limit: Int = 5, $cursor: Date, $parent_id: ID, $asset_id: ID, $sort: SORT_ORDER, $excludeIgnored: Boolean) {
     new_top_level_comments: comments(query: {limit: $limit, cursor: $cursor, parent_id: $parent_id, asset_id: $asset_id, sort: $sort, excludeIgnored: $excludeIgnored}) {
       ...${getDefinitionName(Comment.fragments.comment)}
       replyCount(excludeIgnored: $excludeIgnored)
@@ -159,7 +159,7 @@ const LOAD_MORE_QUERY = gql`
 
 const fragments = {
   root: gql`
-    fragment Stream_root on RootQuery {
+    fragment CoralEmbedStream_Stream_root on RootQuery {
       comment(id: $commentId) @include(if: $hasComment) {
         ...${getDefinitionName(Comment.fragments.comment)}
         replyCount(excludeIgnored: $excludeIgnored)
