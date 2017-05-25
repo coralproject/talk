@@ -568,7 +568,7 @@ module.exports = class UsersService {
         }
         let redirectDomain;
         try {
-          redirectDomain = url.parse(loc).host;
+          redirectDomain = url.parse(loc).hostname;
         } catch (e) {
           return Promise.reject('redirect location is invalid');
         }
