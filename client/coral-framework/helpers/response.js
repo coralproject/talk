@@ -5,13 +5,13 @@ const buildOptions = (inputOptions = {}) => {
     method: 'GET',
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     credentials: 'same-origin'
   };
 
   let options = {
-    defaultOptions,
+    ...defaultOptions,
     ...inputOptions
   };
 

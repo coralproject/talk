@@ -47,6 +47,12 @@ const HandleGenerateCredentials = (req, res, next) => (err, user) => {
   // Generate the token to re-issue to the frontend.
   const token = GenerateToken(user);
 
+  // handling cookie
+  res.cookie('authorization', token, {
+    httpOnly: true,
+    expires: new Date(Date.now() + 900000)
+  });
+
   // Send back the details!
   res.json({user, token});
 };
@@ -134,6 +140,7 @@ const HandleLogout = (req, res, next) => {
       return next(err);
     }
 
+    res.clearCookie('authorization');
     res.status(204).end();
   });
 };
