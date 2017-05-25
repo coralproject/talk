@@ -61,7 +61,7 @@ class ProfileContainer extends Component {
 
         {me.ignoredUsers && me.ignoredUsers.length
           ? <div>
-              <h3>t('framework.ignored_users')</h3>
+              <h3>{t('framework.ignored_users')}</h3>
               <IgnoredUsers
                 users={me.ignoredUsers}
                 stopIgnoring={stopIgnoringUser}

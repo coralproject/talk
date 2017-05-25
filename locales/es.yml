@@ -184,7 +184,7 @@ es:
     no_flags: "¡No ha habido ningún reporte en los últimos 5 minutos! Bravo!"
     no_likes: "¡No ha habido ningún 'me gusta' en los últimos 5 minutos. Todo tranquilo."
   done: Hecho
-  editComment:
+  edit_comment:
     bodyInputLabel: "Editar este comentario"
     save_button: "Guardar cambios"
     editWindowExpired: "No se puede editar este comentario. El periodo de edición\

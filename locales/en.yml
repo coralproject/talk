@@ -150,7 +150,7 @@ en:
     no_flags: "There have been no flags in the last 5 minutes! Hooray!"
     no_likes: "There have been no likes in the last 5 minutes. All quiet."
   done: Done
-  editComment:
+  edit_comment:
     bodyInputLabel: "Edit this comment"
     save_button: "Save changes"
     editWindowExpired: "You can no longer edit this comment. The time window to do so has expired. Why not post another one?"
