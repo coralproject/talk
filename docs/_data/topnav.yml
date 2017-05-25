@@ -5,11 +5,13 @@ topnav:
   items:
     - title: Github
       external_url: https://github.com/coralproject
-    - title: The Coral Project
-      external_url: https://coralproject.net
     - title: CircleCI
       external_url: https://circleci.com/gh/coralproject/talk
     - title: Docker
       external_url: https://hub.docker.com/r/coralproject/talk/
     - title: Roadmap
       external_url: https://www.pivotaltracker.com/n/projects/1863625
+    - title: Home
+      external_url: https://coralproject.net
+    - title: Blog
+      external_url: https://coralproject.net
