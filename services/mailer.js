@@ -18,7 +18,7 @@ const templates = {
   data: {}
 };
 
-// load the temlates per request during development
+// load the templates per request during development
 templates.render = (name, format = 'txt', context) => new Promise((resolve, reject) => {
 
   // If we are in production mode, check the view cache.
@@ -50,7 +50,7 @@ templates.render = (name, format = 'txt', context) => new Promise((resolve, reje
 
     return resolve(view(context));
   });
-});
+}); // ends templates.render
 
 const options = {
   host: SMTP_HOST,
