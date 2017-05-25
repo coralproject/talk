@@ -119,7 +119,7 @@ en:
     sign_out: "Sign Out"
     stories: Stories
     stream_settings: "Stream Settings"
-    suspect_word_title: "Suspect wåords list"
+    suspect_word_title: "Suspect words list"
     suspect_word_text: "Comments which contain these words or phrases (not case-sensitive) will be highlighted in the comment stream. Type a word and press Enter or Tab to add. Optionally paste a comma-separated list."
     tech_settings: "Tech Settings"
     title: "Configure Comment Stream"
@@ -202,14 +202,14 @@ en:
     ignored_users: "Ignored users"
     my_comments: "My Comments"
     my_profile: "My profile"
-    new_count: "View 0 new 1"
+    new_count: "View {0} new {1}"
     profile: Profile
     show_all_comments: "Show all comments"
     success_bio_update: "Your biography has been updated"
     success_name_update: "Your username has been updated"
     success_update_settings: "The changes you have made have been applied to the comment stream on this article"
-    view_all_replies: "view 0 replies"
-    view_all_replies_initial: "view all 0 replies"
+    view_all_replies: "view {0} replies"
+    view_all_replies_initial: "view all {0} replies"
     view_more_comments: "view more comments"
     view_reply: "view reply"
   from_settings_page: "From the Profile Page you can see your comment history."
@@ -372,24 +372,24 @@ en:
   username_offensive: "This username is offensive"
   view_conversation: "View Conversation"
   install:
-    INITIAL:
-      DESCRIPTION: "Let's set up your Talk community in just a few short steps."
-      SUBMIT: "Get Started"
-    ADD_ORGANIZATION:
-      DESCRIPTION: "Please tell us the name of your organization. This will appear in emails when inviting new team members."
-      LABEL: "Organization Name"
-      SAVE: "Save"
-    CREATE:
-      EMAIL: "Email address"
-      USERNAME: "Username"
-      PASSWORD: "Password"
-      CONFIRM_PASSWORD: "Confirm Password"
-      SAVE: "Save"
-    PERMITTED_DOMAINS:
-      TITLE: "Permitted domains"
-      DESCRIPTION: "Enter the domains you would like to permit for Talk, e.g. your local, staging and production environments (ex. localhost:3000, staging.domain.com, domain.com)."
-      SUBMIT: "Finish install"
-    FINAL:
-      DESCRIPTION: "Thanks for installing Talk! We sent an email to verify your email address. While you finish setting up the account, you can start engaging with your readers now."
-      LAUNCH: "Launch Talk"
-      CLOSE: "Close this Installer"
+    initial:
+      description: "Let's set up your Talk community in just a few short steps."
+      submit: "Get Started"
+    add_organization:
+      description: "Please tell us the name of your organization. This will appear in emails when inviting new team members."
+      label: "Organization Name"
+      save: "Save"
+    create:
+      email: "Email address"
+      username: "Username"
+      password: "Password"
+      confirm_password: "Confirm Password"
+      save: "Save"
+    permitted_domains:
+      title: "Permitted domains"
+      description: "Enter the domains you would like to permit for Talk, e.g. your local, staging and production environments (ex. localhost:3000, staging.domain.com, domain.com)."
+      submit: "Finish install"
+    final:
+      description: "Thanks for installing Talk! We sent an email to verify your email address. While you finish setting up the account, you can start engaging with your readers now."
+      launch: "Launch Talk"
+      close: "Close this Installer"

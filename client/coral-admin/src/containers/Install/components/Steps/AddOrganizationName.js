@@ -8,18 +8,18 @@ const AddOrganizationName = (props) => {
   const {handleSettingsChange, handleSettingsSubmit, install} = props;
   return (
     <div className={styles.step}>
-      <p>{t('ADD_ORGANIZATION.DESCRIPTION')}</p>
+      <p>{t('install.add_organization.description')}</p>
       <div className={styles.form}>
         <form onSubmit={handleSettingsSubmit}>
           <TextField
             className={styles.TextField}
             id="organizationName"
             type="text"
-            label={t('ADD_ORGANIZATION.LABEL')}
+            label={t('install.add_organization.label')}
             onChange={handleSettingsChange}
             showErrors={install.showErrors}
             errorMsg={install.errors.organizationName} />
-          <Button type="submit" cStyle='black' full>{t('ADD_ORGANIZATION.SAVE')}</Button>
+          <Button type="submit" cStyle='black' full>{t('install.add_organization.save')}</Button>
         </form>
       </div>
     </div>

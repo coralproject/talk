@@ -244,14 +244,14 @@ es:
     ignored_users: "Usuarios ignorados"
     my_comments: "Mis Comentarios"
     my_profile: "Mi perfil"
-    new_count: "Ver 0 1 nuevo"
+    new_count: "Ver {0} {1} nuevo"
     profile: Perfil
     show_all_comments: "Mostrar todos los comentarios"
     success_bio_update: "Tu biografia fue actualizada"
     success_name_update: "Tu nombre de usuario ha sido actualizado"
     success_update_settings: "La configuración de este articulo fue actualizada"
-    view_all_replies: "ver 0 respuestas"
-    view_all_replies_initial: "ver todas las 0 respuestas"
+    view_all_replies: "ver {0} respuestas"
+    view_all_replies_initial: "ver todas las {0} respuestas"
     view_more_comments: "Ver más comentarios"
     view_reply: "ver respuesta"
   from_settings_page: "Desde la página de configuración puedes ver tu historia de\
@@ -437,29 +437,29 @@ es:
   username_offensive: "Este nombre de usuario es ofensivo"
   view_conversation: "Ver Conversación"
   install:
-    INITIAL:
-      DESCRIPTION: "Vamos a crear su comunidad Talk en unos pocos pasos."
-      SUBMIT: "Empecemos"
-    ADD_ORGANIZATION:
-      DESCRIPTION: "Por favor díganos el nombre de su organización. Esta aparecerá\
+    initial:
+      description: "Vamos a crear su comunidad Talk en unos pocos pasos."
+      submit: "Empecemos"
+    add_organization:
+      description: "Por favor díganos el nombre de su organización. Esta aparecerá\
         \ en correos cuando se inviten a nuevos miembros del equipo."
-      LABEL: "Nombre de la Organización"
-      SAVE: "Guardar"
-    CREATE:
-      EMAIL: "Dirección de correo"
-      USERNAME: "Nombre de Usuario"
-      PASSWORD: "Contraseña"
-      CONFIRM_PASSWORD: "Confirmar Contraseña"
-      SAVE: "Guardar"
-    PERMITTED_DOMAINS:
-      TITLE: "Dominios permitidos"
-      DESCRIPTION: "Ingresar los dominios en donde estará Talk, por ejemplo sus ambientes\
+      label: "Nombre de la Organización"
+      save: "Guardar"
+    create:
+      email: "Dirección de correo"
+      username: "Nombre de Usuario"
+      password: "Contraseña"
+      confirm_password: "Confirmar Contraseña"
+      save: "Guardar"
+    permitted_domains:
+      title: "Dominios permitidos"
+      description: "Ingresar los dominios en donde estará Talk, por ejemplo sus ambientes\
         \ locales, de staging y producción (ej. localhost:3000, staging.domain.com,\
         \ domain.com)."
-      SUBMIT: "Terminar la Instalación"
-    FINAL:
-      DESCRIPTION: "¡Gracias por instalar Talk! Enviamos un correo para verificar\
+      submit: "Terminar la Instalación"
+    final:
+      description: "¡Gracias por instalar Talk! Enviamos un correo para verificar\
         \ su dirección de correo. Mientras esta terminando de configurar su cuenta,\
         \ ya puede comenzar a involucrarse con sus lectores."
-      LAUNCH: "Iniciar Talk"
-      CLOSE: "Cerrar este instalador"
+      launch: "Iniciar Talk"
+      close: "Cerrar este instalador"

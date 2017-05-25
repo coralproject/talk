@@ -14,7 +14,7 @@ const InitialStep = (props) => {
             className={styles.textField}
             id="email"
             type="email"
-            label={t('CREATE.EMAIL')}
+            label={t('install.create.email')}
             onChange={handleUserChange}
             showErrors={install.showErrors}
             errorMsg={install.errors.email}
@@ -25,7 +25,7 @@ const InitialStep = (props) => {
             className={styles.textField}
             id="username"
             type="text"
-            label={t('CREATE.USERNAME')}
+            label={t('install.create.username')}
             onChange={handleUserChange}
             showErrors={install.showErrors}
             errorMsg={install.errors.username}
@@ -35,7 +35,7 @@ const InitialStep = (props) => {
             className={styles.textField}
             id="password"
             type="password"
-            label={t('CREATE.PASSWORD')}
+            label={t('install.create.password')}
             onChange={handleUserChange}
             showErrors={install.showErrors}
             errorMsg={install.errors.password}
@@ -45,7 +45,7 @@ const InitialStep = (props) => {
             className={styles.textField}
             id="confirmPassword"
             type="password"
-            label={t('CREATE.CONFIRM_PASSWORD')}
+            label={t('install.create.confirm_password')}
             onChange={handleUserChange}
             showErrors={install.showErrors}
             errorMsg={install.errors.confirm_password}
@@ -53,7 +53,7 @@ const InitialStep = (props) => {
 
           {
             !props.install.isLoading ?
-            <Button cStyle='black' type="submit" full>{t('CREATE.SAVE')}</Button>
+            <Button cStyle='black' type="submit" full>{t('install.create.save')}</Button>
             :
             <Spinner />
           }

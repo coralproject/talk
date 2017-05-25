@@ -33,7 +33,7 @@ class LoadMore extends React.Component {
     }
 
     if (this.initialState) {
-      return t('framework.view_all_repliesInitial', count);
+      return t('framework.view_all_replies_initial', count);
     } else {
       return t('framework.view_all_replies', count);
     }

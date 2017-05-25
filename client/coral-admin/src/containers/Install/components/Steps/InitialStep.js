@@ -8,8 +8,8 @@ const InitialStep = (props) => {
   const {nextStep} = props;
   return (
     <div className={styles.step}>
-      <p>{t('INITIAL.DESCRIPTION')}</p>
-      <Button cStyle='green' onClick={nextStep} raised>{t('INITIAL.SUBMIT')}</Button>
+      <p>{t('install.initial.description')}</p>
+      <Button cStyle='green' onClick={nextStep} raised>{t('install.initial.submit')}</Button>
     </div>
   );
 };
