@@ -21,8 +21,8 @@ const NewCount = (props) => {
       props.commentCountCache && newComments > 0 ?
       <button onClick={onLoadMoreClick(props)}>
         {newComments === 1
-          ? t('framework.new_count', newComments, t('comment'))
-          : t('framework.new_count', newComments, t('comments'))}
+          ? t('framework.new_count', newComments, t('framework.comment'))
+          : t('framework.new_count', newComments, t('framework.comments'))}
       </button>
       : null
     }

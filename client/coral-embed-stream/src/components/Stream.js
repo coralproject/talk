@@ -80,7 +80,7 @@ class Stream extends React.Component {
               {!banned && temporarilySuspended &&
                 <RestrictedMessageBox>
                   {
-                    t('sign_in.temporaly_suspended',
+                    t('sign_in.temporarily_suspended',
                       this.props.root.settings.organizationName,
                       timeago(user.suspension.until),
                     )
