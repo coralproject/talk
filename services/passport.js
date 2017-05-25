@@ -170,41 +170,24 @@ const CheckBlacklisted = (jwt) => new Promise((resolve, reject) => {
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 
+let cookieExtractor = function(req) {
+  let token = null;
+
+  if (req && req.cookies) {
+    token = req.cookies['authorization'];
+  }
+
+  return token;
+};
+
 // Extract the JWT from the 'Authorization' header with the 'Bearer' scheme.
 passport.use(new JwtStrategy({
 
   // Prepare the extractor from the header.
-  jwtFromRequest: (req, res) => {
-
-    const browser = bowser._detect(req.headers['user-agent']);
-
-    if (browser.name === 'Safari') {
-      const lookup = (i) => {
-        switch (i) {
-          case 0: return 'header';
-          case 1: return 'cookie';
-          case 2: return 'query';
-        }
-      }
-
-      // Adding custom extractor
-      const authorizations = [
-        req.headers.authorization,
-        req.cookies.authorization,
-        req.query.authorization
-      ];
-
-      let i = authorizations.findIndex((source) => source !== null && typeof source != 'undefined' && source.length > 0);
-
-      if (i >= 0) {
-        let authorization = authorizations[i];
-        let source = lookup(i);
-        return authorization;
-      }
-    } else {
-      return ExtractJwt.fromAuthHeaderWithScheme('Bearer')(req)
-    }
-},
+  jwtFromRequest: ExtractJwt.fromExtractors([
+    cookieExtractor,
+    ExtractJwt.fromAuthHeaderWithScheme('Bearer')
+  ]),
 
   // Use the secret passed in which is loaded from the environment. This can be
   // a certificate (loaded) or a HMAC key.
@@ -227,6 +210,7 @@ passport.use(new JwtStrategy({
   // Load the user from the environment, because we just got a user from the
   // header.
   try {
+    console.log(req.cookies, req.headers)
 
     // Check to see if the token has been revoked
     await CheckBlacklisted(jwt);

@@ -1,4 +1,4 @@
-import browser from 'detect-browser';
+import browser from 'bowser';
 
 const buildOptions = (inputOptions = {}) => {
   const defaultOptions = {
@@ -15,7 +15,7 @@ const buildOptions = (inputOptions = {}) => {
     ...inputOptions
   };
 
-  if (!browser || browser.name !== 'safari') {
+  if (!browser || browser.name !== 'Safari') {
     let authorization = localStorage.getItem('token');
 
     if (authorization) {

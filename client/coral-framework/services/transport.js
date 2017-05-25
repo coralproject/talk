@@ -1,5 +1,6 @@
 import {createNetworkInterface} from 'apollo-client';
 import * as Storage from '../helpers/storage';
+import browser from 'bowser';
 
 //==============================================================================
 // NETWORK INTERFACE
@@ -21,7 +22,11 @@ networkInterface.use([{
     if (!req.options.headers) {
       req.options.headers = {};  // Create the header object if needed.
     }
-    req.options.headers['authorization'] = `Bearer ${Storage.getItem('token')}`;
+
+    if (!browser || browser.name !== 'Safari') {
+      req.options.headers['authorization'] = `Bearer ${Storage.getItem('token')}`;
+    }
+
     next();
   }
 }]);
