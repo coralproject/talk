@@ -9,6 +9,7 @@ const errors = require('../errors');
 const uuid = require('uuid');
 const debug = require('debug')('talk:passport');
 const {createClient} = require('./redis');
+const bowser = require('bowser');
 
 // Create a redis client to use for authentication.
 const client = createClient();
@@ -47,11 +48,15 @@ const HandleGenerateCredentials = (req, res, next) => (err, user) => {
   // Generate the token to re-issue to the frontend.
   const token = GenerateToken(user);
 
-  // handling cookie
-  res.cookie('authorization', token, {
-    httpOnly: true,
-    expires: new Date(Date.now() + 900000)
-  });
+  // If the user is Safari, let's send a cookie
+  const browser = bowser._detect(req.headers['user-agent']);
+
+  if (browser.name === 'Safari') {
+    res.cookie('authorization', token, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 900000)
+    });
+  }
 
   // Send back the details!
   res.json({user, token});

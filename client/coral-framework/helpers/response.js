@@ -32,9 +32,9 @@ const buildOptions = (inputOptions = {}) => {
   return options;
 };
 
-const handleResp = res => {
+const handleResp = (res) => {
   if (res.status > 399) {
-    return res.json().then(err => {
+    return res.json().then((err) => {
       let message = err.message || res.status;
       const error = new Error();
 

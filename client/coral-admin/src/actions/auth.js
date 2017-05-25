@@ -1,4 +1,4 @@
-import browser from 'detect-browser';
+import browser from 'bowser';
 import * as actions from '../constants/auth';
 import coralApi from 'coral-framework/helpers/response';
 import * as Storage from 'coral-framework/helpers/storage';
@@ -8,7 +8,7 @@ import {handleAuthToken} from 'coral-framework/actions/auth';
 // SIGN IN
 //==============================================================================
 
-export const handleLogin = (email, password, recaptchaResponse) => dispatch => {
+export const handleLogin = (email, password, recaptchaResponse) => (dispatch) => {
   dispatch({type: actions.LOGIN_REQUEST});
 
   const params = {
@@ -29,7 +29,7 @@ export const handleLogin = (email, password, recaptchaResponse) => dispatch => {
     .then(({user, token}) => {
 
       if (!user) {
-        if (!browser || browser.name !== 'safari') {
+        if (!browser || browser.name !== 'Safari') {
           Storage.removeItem('token');
         }
         return dispatch(checkLoginFailure('not logged in'));
@@ -38,7 +38,7 @@ export const handleLogin = (email, password, recaptchaResponse) => dispatch => {
       dispatch(handleAuthToken(token));
       dispatch(checkLoginSuccess(user));
     })
-    .catch(error => {
+    .catch((error) => {
       if (error.translation_key === 'LOGIN_MAXIMUM_EXCEEDED') {
         dispatch({
           type: actions.LOGIN_MAXIMUM_EXCEEDED,
@@ -66,11 +66,11 @@ const forgotPassowordFailure = () => ({
   type: actions.FETCH_FORGOT_PASSWORD_FAILURE
 });
 
-export const requestPasswordReset = email => dispatch => {
+export const requestPasswordReset = (email) => (dispatch) => {
   dispatch(forgotPassowordRequest(email));
   return coralApi('/account/password/reset', {method: 'POST', body: {email}})
     .then(() => dispatch(forgotPassowordSuccess()))
-    .catch(error => dispatch(forgotPassowordFailure(error)));
+    .catch((error) => dispatch(forgotPassowordFailure(error)));
 };
 
 //==============================================================================
@@ -87,17 +87,17 @@ const checkLoginSuccess = (user, isAdmin) => ({
   isAdmin
 });
 
-const checkLoginFailure = error => ({
+const checkLoginFailure = (error) => ({
   type: actions.CHECK_LOGIN_FAILURE,
   error
 });
 
-export const checkLogin = () => dispatch => {
+export const checkLogin = () => (dispatch) => {
   dispatch(checkLoginRequest());
   return coralApi('/auth')
     .then(({user}) => {
       if (!user) {
-        if (!browser || browser.name !== 'safari') {
+        if (!browser || browser.name !== 'Safari') {
           Storage.removeItem('token');
         }
         return dispatch(checkLoginFailure('not logged in'));
@@ -105,7 +105,7 @@ export const checkLogin = () => dispatch => {
 
       dispatch(checkLoginSuccess(user));
     })
-    .catch(error => {
+    .catch((error) => {
       console.error(error);
       dispatch(checkLoginFailure(`${error.translation_key}`));
     });

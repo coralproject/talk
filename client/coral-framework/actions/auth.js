@@ -1,6 +1,6 @@
 import jwtDecode from 'jwt-decode';
 import {pym} from 'coral-framework';
-import browser from 'detect-browser';
+import browser from 'bowser';
 import * as actions from '../constants/auth';
 import * as Storage from '../helpers/storage';
 import coralApi, {base} from '../helpers/response';
@@ -9,7 +9,7 @@ const lang = new I18n(translations);
 import translations from './../translations';
 import I18n from '../../coral-framework/modules/i18n/i18n';
 
-export const showSignInDialog = () => dispatch => {
+export const showSignInDialog = () => (dispatch) => {
   const signInPopUp = window.open(
     '/embed/stream/login',
     'Login',
@@ -32,7 +32,7 @@ export const showSignInDialog = () => dispatch => {
 
   dispatch({type: actions.SHOW_SIGNIN_DIALOG});
 };
-export const hideSignInDialog = () => dispatch => {
+export const hideSignInDialog = () => (dispatch) => {
   dispatch({type: actions.HIDE_SIGNIN_DIALOG});
   window.close();
 };
@@ -51,7 +51,7 @@ const createUsernameSuccess = () => ({
   type: actions.CREATE_USERNAME_SUCCESS
 });
 
-const createUsernameFailure = error => ({
+const createUsernameFailure = (error) => ({
   type: actions.CREATE_USERNAME_FAILURE,
   error
 });
@@ -61,7 +61,7 @@ export const updateUsername = ({username}) => ({
   username
 });
 
-export const createUsername = (userId, formData) => dispatch => {
+export const createUsername = (userId, formData) => (dispatch) => {
   dispatch(createUsernameRequest());
   coralApi('/account/username', {method: 'PUT', body: formData})
     .then(() => {
@@ -69,26 +69,26 @@ export const createUsername = (userId, formData) => dispatch => {
       dispatch(hideCreateUsernameDialog());
       dispatch(updateUsername(formData));
     })
-    .catch(error => {
+    .catch((error) => {
       dispatch(createUsernameFailure(lang.t(`error.${error.translation_key}`)));
     });
 };
 
-export const changeView = view => dispatch => {
+export const changeView = (view) => (dispatch) => {
   dispatch({
     type: actions.CHANGE_VIEW,
     view
   });
 
   switch (view) {
-    case 'SIGNUP':
-      window.resizeTo(500, 800);
-      break;
-    case 'FORGOT':
-      window.resizeTo(500, 400);
-      break;
-    default:
-      window.resizeTo(500, 550);
+  case 'SIGNUP':
+    window.resizeTo(500, 800);
+    break;
+  case 'FORGOT':
+    window.resizeTo(500, 400);
+    break;
+  default:
+    window.resizeTo(500, 550);
   }
 };
 
@@ -102,7 +102,7 @@ const signInRequest = () => ({
   type: actions.FETCH_SIGNIN_REQUEST
 });
 
-const signInFailure = error => ({
+const signInFailure = (error) => ({
   type: actions.FETCH_SIGNIN_FAILURE,
   error
 });
@@ -111,8 +111,8 @@ const signInFailure = error => ({
 // AUTH TOKEN
 //==============================================================================
 
-export const handleAuthToken = token => dispatch => {
-  if (!browser || browser.name !== 'safari') {
+export const handleAuthToken = (token) => (dispatch) => {
+  if (!browser || browser.name !== 'Safari') {
     Storage.setItem('exp', jwtDecode(token).exp);
     Storage.setItem('token', token);
   }
@@ -123,8 +123,8 @@ export const handleAuthToken = token => dispatch => {
 // SIGN IN
 //==============================================================================
 
-export const fetchSignIn = formData => {
-  return dispatch => {
+export const fetchSignIn = (formData) => {
+  return (dispatch) => {
     dispatch(signInRequest());
 
     return coralApi('/auth/local', {method: 'POST', body: formData})
@@ -132,7 +132,7 @@ export const fetchSignIn = formData => {
         dispatch(handleAuthToken(token));
         dispatch(hideSignInDialog());
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.metadata) {
 
           // the user might not have a valid email. prompt the user user re-request the confirmation email
@@ -156,17 +156,17 @@ const signInFacebookRequest = () => ({
   type: actions.FETCH_SIGNIN_FACEBOOK_REQUEST
 });
 
-const signInFacebookSuccess = user => ({
+const signInFacebookSuccess = (user) => ({
   type: actions.FETCH_SIGNIN_FACEBOOK_SUCCESS,
   user
 });
 
-const signInFacebookFailure = error => ({
+const signInFacebookFailure = (error) => ({
   type: actions.FETCH_SIGNIN_FACEBOOK_FAILURE,
   error
 });
 
-export const fetchSignInFacebook = () => dispatch => {
+export const fetchSignInFacebook = () => (dispatch) => {
   dispatch(signInFacebookRequest());
   window.open(
     `${base}/auth/facebook`,
@@ -183,7 +183,7 @@ const signUpFacebookRequest = () => ({
   type: actions.FETCH_SIGNUP_FACEBOOK_REQUEST
 });
 
-export const fetchSignUpFacebook = () => dispatch => {
+export const fetchSignUpFacebook = () => (dispatch) => {
   dispatch(signUpFacebookRequest());
   window.open(
     `${base}/auth/facebook`,
@@ -216,10 +216,10 @@ export const facebookCallback = (err, data) => (dispatch, getState) => {
 //==============================================================================
 
 const signUpRequest = () => ({type: actions.FETCH_SIGNUP_REQUEST});
-const signUpSuccess = user => ({type: actions.FETCH_SIGNUP_SUCCESS, user});
-const signUpFailure = error => ({type: actions.FETCH_SIGNUP_FAILURE, error});
+const signUpSuccess = (user) => ({type: actions.FETCH_SIGNUP_SUCCESS, user});
+const signUpFailure = (error) => ({type: actions.FETCH_SIGNUP_FAILURE, error});
 
-export const fetchSignUp = (formData, redirectUri) => dispatch => {
+export const fetchSignUp = (formData, redirectUri) => (dispatch) => {
   dispatch(signUpRequest());
 
   coralApi('/users', {
@@ -230,7 +230,7 @@ export const fetchSignUp = (formData, redirectUri) => dispatch => {
     .then(({user}) => {
       dispatch(signUpSuccess(user));
     })
-    .catch(error => {
+    .catch((error) => {
       let errorMessage = lang.t(`error.${error.message}`);
 
       // if there is no translation defined, just show the error string
@@ -257,7 +257,7 @@ const forgotPasswordFailure = () => ({
   type: actions.FETCH_FORGOT_PASSWORD_FAILURE
 });
 
-export const fetchForgotPassword = email => dispatch => {
+export const fetchForgotPassword = (email) => (dispatch) => {
   dispatch(forgotPasswordRequest(email));
   const redirectUri = pym.parentUrl || location.href;
   coralApi('/account/password/reset', {
@@ -265,16 +265,16 @@ export const fetchForgotPassword = email => dispatch => {
     body: {email, loc: redirectUri}
   })
     .then(() => dispatch(forgotPasswordSuccess()))
-    .catch(error => dispatch(forgotPasswordFailure(error)));
+    .catch((error) => dispatch(forgotPasswordFailure(error)));
 };
 
 //==============================================================================
 // LOGOUT
 //==============================================================================
 
-export const logout = () => dispatch => {
+export const logout = () => (dispatch) => {
   return coralApi('/auth', {method: 'DELETE'}).then(() => {
-    if (!browser || browser.name !== 'safari') {
+    if (!browser || browser.name !== 'Safari') {
       Storage.removeItem('token');
     }
     dispatch({type: actions.LOGOUT});
@@ -286,7 +286,7 @@ export const logout = () => dispatch => {
 //==============================================================================
 
 const checkLoginRequest = () => ({type: actions.CHECK_LOGIN_REQUEST});
-const checkLoginFailure = error => ({type: actions.CHECK_LOGIN_FAILURE, error});
+const checkLoginFailure = (error) => ({type: actions.CHECK_LOGIN_FAILURE, error});
 
 const checkLoginSuccess = (user, isAdmin) => ({
   type: actions.CHECK_LOGIN_SUCCESS,
@@ -294,12 +294,12 @@ const checkLoginSuccess = (user, isAdmin) => ({
   isAdmin
 });
 
-export const checkLogin = () => dispatch => {
+export const checkLogin = () => (dispatch) => {
   dispatch(checkLoginRequest());
   coralApi('/auth')
-    .then(result => {
+    .then((result) => {
       if (!result.user) {
-        if (!browser || browser.name !== 'safari') {
+        if (!browser || browser.name !== 'Safari') {
           Storage.removeItem('token');
         }
         throw new Error('Not logged in');
@@ -307,14 +307,14 @@ export const checkLogin = () => dispatch => {
 
       dispatch(checkLoginSuccess(result.user));
     })
-    .catch(error => {
+    .catch((error) => {
       console.error(error);
       dispatch(checkLoginFailure(`${error.translation_key}`));
     });
 };
 
 export const validForm = () => ({type: actions.VALID_FORM});
-export const invalidForm = error => ({type: actions.INVALID_FORM, error});
+export const invalidForm = (error) => ({type: actions.INVALID_FORM, error});
 
 //==============================================================================
 // VERIFY EMAIL
@@ -332,7 +332,7 @@ const verifyEmailFailure = () => ({
   type: actions.VERIFY_EMAIL_FAILURE
 });
 
-export const requestConfirmEmail = (email, redirectUri) => dispatch => {
+export const requestConfirmEmail = (email, redirectUri) => (dispatch) => {
   dispatch(verifyEmailRequest());
   return coralApi('/users/resend-verify', {
     method: 'POST',
@@ -342,7 +342,8 @@ export const requestConfirmEmail = (email, redirectUri) => dispatch => {
     .then(() => {
       dispatch(verifyEmailSuccess());
     })
-    .catch(err => {
+    .catch((err) => {
+
       // email might have already been verifyed
       dispatch(verifyEmailFailure(err));
     });
