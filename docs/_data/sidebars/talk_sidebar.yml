@@ -14,9 +14,6 @@ entries:
     - title: FAQ
       url: /faq.html
       output: web
-    - title: Tools
-      url: /tools.html
-      output: web
 
   - title: Installation
     output: web
@@ -45,4 +42,14 @@ entries:
       output: web
     - title: Experimental
       url: /plugins-experimental.html
+      output: web
+
+  - title: Development
+    output: web
+    folderitems:
+    - title: Client Architecture
+      url: /client-architecture.html
+      output: web
+    - title: Tools
+      url: /tools.html
       output: web

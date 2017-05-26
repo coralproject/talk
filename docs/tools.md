@@ -2,7 +2,7 @@
 title: Tooling
 keywords: homepage
 sidebar: talk_sidebar
-permalink: plugins-client.html
+permalink: tools.html
 summary:
 ---
 
