@@ -33,6 +33,17 @@ const GenerateToken = (user) => JWT.sign({}, JWT_SECRET, {
   audience: JWT_AUDIENCE
 });
 
+// SetTokenForSafari sends the token in a cookie for Safari clients.
+const SetTokenForSafari = (req, res, token) => {
+  const browser = bowser._detect(req.headers['user-agent']);
+  if (browser.ios || browser.safari) {
+    res.cookie('authorization', token, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 900000)
+    });
+  }
+};
+
 // HandleGenerateCredentials validates that an authentication scheme did indeed
 // return a user, if it did, then sign and return the user and token to be used
 // by the frontend to display and update the UI.
@@ -48,15 +59,7 @@ const HandleGenerateCredentials = (req, res, next) => (err, user) => {
   // Generate the token to re-issue to the frontend.
   const token = GenerateToken(user);
 
-  // If the user is Safari, let's send a cookie
-  const browser = bowser._detect(req.headers['user-agent']);
-
-  if (browser.ios || browser.safari) {
-    res.cookie('authorization', token, {
-      httpOnly: true,
-      expires: new Date(Date.now() + 900000)
-    });
-  }
+  SetTokenForSafari(req, res, token);
 
   // Send back the details!
   res.json({user, token});
@@ -76,6 +79,8 @@ const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
 
   // Generate the token to re-issue to the frontend.
   const token = GenerateToken(user);
+
+  SetTokenForSafari(req, res, token);
 
   // We logged in the user! Let's send back the user data.
   res.render('auth-callback', {auth: JSON.stringify({err: null, data: {user, token}})});
