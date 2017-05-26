@@ -11,6 +11,9 @@ entries:
     - title: About
       url: /index.html
       output: web
+    - title: FAQ
+      url: /faq.html
+      output: web
 
   - title: Installation
     output: web
