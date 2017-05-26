@@ -100,7 +100,7 @@ class ChangeUsernameContainer extends React.Component {
     return (
       <div>
         <CreateUsernameDialog
-          open={auth.showCreateUsernameDialog && auth.user.canEditName}
+          open={auth.showCreateUsernameDialog}
           handleClose={this.handleClose}
           loggedIn={loggedIn}
           handleSubmitUsername={this.handleSubmitUsername}

@@ -192,7 +192,7 @@ export const fetchSignUpFacebook = () => (dispatch) => {
   );
 };
 
-export const facebookCallback = (err, data) => (dispatch, getState) => {
+export const facebookCallback = (err, data) => (dispatch) => {
   if (err) {
     dispatch(signInFacebookFailure(err));
     return;
@@ -201,10 +201,6 @@ export const facebookCallback = (err, data) => (dispatch, getState) => {
     dispatch(handleAuthToken(data.token));
     dispatch(signInFacebookSuccess(data.user));
     dispatch(hideSignInDialog());
-    const {user: {canEditName, status}} = getState().auth.toJS();
-    if (canEditName && status !== 'BANNED') {
-      dispatch(showCreateUsernameDialog());
-    }
   } catch (err) {
     dispatch(signInFacebookFailure(err));
     return;
@@ -306,6 +302,11 @@ export const checkLogin = () => (dispatch) => {
       }
 
       dispatch(checkLoginSuccess(result.user));
+
+      // Display create username dialog if necessary.
+      if (result.user.canEditName && result.user.status !== 'BANNED') {
+        dispatch(showCreateUsernameDialog());
+      }
     })
     .catch((error) => {
       console.error(error);

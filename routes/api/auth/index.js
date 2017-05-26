@@ -1,5 +1,4 @@
 const express = require('express');
-const bowser = require('bowser');
 const {passport, HandleGenerateCredentials, HandleLogout} = require('../../../services/passport');
 
 const router = express.Router();
