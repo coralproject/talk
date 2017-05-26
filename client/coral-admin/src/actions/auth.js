@@ -68,7 +68,9 @@ const forgotPassowordFailure = () => ({
 
 export const requestPasswordReset = (email) => (dispatch) => {
   dispatch(forgotPassowordRequest(email));
-  return coralApi('/account/password/reset', {method: 'POST', body: {email}})
+  const redirectUri = location.href;
+
+  return coralApi('/account/password/reset', {method: 'POST', body: {email,  loc: redirectUri}})
     .then(() => dispatch(forgotPassowordSuccess()))
     .catch((error) => dispatch(forgotPassowordFailure(error)));
 };

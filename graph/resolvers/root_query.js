@@ -86,7 +86,7 @@ const RootQuery = {
 
   // this returns an arbitrary user
   user(_, {id}, {user, loaders: {Users}}) {
-    if (user == null || !user.hasRoles('ADMIN')) {
+    if (user == null || !user.can(SEARCH_OTHER_USERS)) {
       return null;
     }
 
