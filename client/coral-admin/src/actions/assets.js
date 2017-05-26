@@ -8,7 +8,7 @@ import {
   UPDATE_ASSETS
 } from '../constants/assets';
 
-import coralApi from '../../../coral-framework/helpers/response';
+import coralApi from '../../../coral-framework/helpers/request';
 
 /**
  * Action disptacher related to assets

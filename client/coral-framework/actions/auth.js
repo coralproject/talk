@@ -3,7 +3,7 @@ import {pym} from 'coral-framework';
 import bowser from 'bowser';
 import * as actions from '../constants/auth';
 import * as Storage from '../helpers/storage';
-import coralApi, {base} from '../helpers/response';
+import coralApi, {base} from '../helpers/request';
 
 const lang = new I18n(translations);
 import translations from './../translations';

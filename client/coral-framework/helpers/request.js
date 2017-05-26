@@ -1,4 +1,6 @@
 import bowser from 'bowser';
+import * as Storage from './storage';
+import merge from 'lodash/merge';
 
 const buildOptions = (inputOptions = {}) => {
   const defaultOptions = {
@@ -10,18 +12,13 @@ const buildOptions = (inputOptions = {}) => {
     credentials: 'same-origin'
   };
 
-  let options = {
-    ...defaultOptions,
-    ...inputOptions
-  };
+  let options = merge({}, defaultOptions, inputOptions);
 
   if (!bowser.safari && !bowser.ios) {
-    let authorization = localStorage.getItem('token');
+    let authorization = Storage.getItem('token');
 
     if (authorization) {
-      options.headers = {
-        Authorization: `Bearer ${authorization}`
-      };
+      options.headers.Authorization = `Bearer ${authorization}`;
     }
   }
 

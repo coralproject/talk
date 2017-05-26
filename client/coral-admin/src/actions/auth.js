@@ -1,6 +1,6 @@
 import bowser from 'bowser';
 import * as actions from '../constants/auth';
-import coralApi from 'coral-framework/helpers/response';
+import coralApi from 'coral-framework/helpers/request';
 import * as Storage from 'coral-framework/helpers/storage';
 import {handleAuthToken} from 'coral-framework/actions/auth';
 
