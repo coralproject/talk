@@ -1,4 +1,4 @@
-import browser from 'bowser';
+import bowser from 'bowser';
 import * as actions from '../constants/auth';
 import coralApi from 'coral-framework/helpers/response';
 import * as Storage from 'coral-framework/helpers/storage';
@@ -29,7 +29,7 @@ export const handleLogin = (email, password, recaptchaResponse) => (dispatch) =>
     .then(({user, token}) => {
 
       if (!user) {
-        if (!browser || browser.name !== 'Safari') {
+        if (!bowser.safari && !bowser.ios) {
           Storage.removeItem('token');
         }
         return dispatch(checkLoginFailure('not logged in'));
@@ -97,7 +97,7 @@ export const checkLogin = () => (dispatch) => {
   return coralApi('/auth')
     .then(({user}) => {
       if (!user) {
-        if (!browser || browser.name !== 'Safari') {
+        if (!bowser.safari && !bowser.ios) {
           Storage.removeItem('token');
         }
         return dispatch(checkLoginFailure('not logged in'));

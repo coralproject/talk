@@ -1,4 +1,4 @@
-import browser from 'bowser';
+import bowser from 'bowser';
 
 const buildOptions = (inputOptions = {}) => {
   const defaultOptions = {
@@ -15,7 +15,7 @@ const buildOptions = (inputOptions = {}) => {
     ...inputOptions
   };
 
-  if (!browser || browser.name !== 'Safari') {
+  if (!bowser.safari && !bowser.ios) {
     let authorization = localStorage.getItem('token');
 
     if (authorization) {

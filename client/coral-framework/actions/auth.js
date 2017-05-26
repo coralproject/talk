@@ -1,6 +1,6 @@
 import jwtDecode from 'jwt-decode';
 import {pym} from 'coral-framework';
-import browser from 'bowser';
+import bowser from 'bowser';
 import * as actions from '../constants/auth';
 import * as Storage from '../helpers/storage';
 import coralApi, {base} from '../helpers/response';
@@ -127,7 +127,7 @@ export const fetchSignIn = (formData) => {
 
     return coralApi('/auth/local', {method: 'POST', body: formData})
       .then(({token}) => {
-        if (!browser || browser.name !== 'Safari') {
+        if (!bowser.safari && !bowser.ios) {
           dispatch(handleAuthToken(token));
         }
         dispatch(hideSignInDialog());
@@ -270,7 +270,7 @@ export const fetchForgotPassword = (email) => (dispatch) => {
 
 export const logout = () => (dispatch) => {
   return coralApi('/auth', {method: 'DELETE'}).then(() => {
-    if (!browser || browser.name !== 'Safari') {
+    if (!bowser.safari && !bowser.ios) {
       Storage.removeItem('token');
     }
     dispatch({type: actions.LOGOUT});
@@ -295,7 +295,7 @@ export const checkLogin = () => (dispatch) => {
   coralApi('/auth')
     .then((result) => {
       if (!result.user) {
-        if (!browser || browser.name !== 'Safari') {
+        if (!bowser.safari && !bowser.ios) {
           Storage.removeItem('token');
         }
         throw new Error('Not logged in');
