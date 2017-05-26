@@ -30,6 +30,16 @@ class ChangeUsernameContainer extends React.Component {
     };
   }
 
+  componentWillReceiveProps(next) {
+    if (!this.props.auth.showCreateUsernameDialog && next.auth.showCreateUsernameDialog) {
+      this.setState({
+        formData: {
+          username: (this.props.auth.user && this.props.auth.user.username) || '',
+        },
+      });
+    }
+  }
+
   handleChange = e => {
     const {name, value} = e.target;
     this.setState(
