@@ -25,7 +25,7 @@ const UserBox = ({loggedIn, user, logout, onShowProfile}) => (
 
 const mapStateToProps = ({auth, user}) => ({
   loggedIn: auth.toJS().loggedIn,
-  user: user.toJS()
+  user: auth.toJS().user
 });
 
 const mapDispatchToProps = dispatch =>
