@@ -18,17 +18,17 @@ const SignInContent = ({
   auth,
   fetchSignInFacebook
 }) => {
-
   return (
     <div className="coral-sign-in">
       <div className={`${styles.header} header`}>
         <h1>
-          {auth.emailVerificationFailure ? lang.t('signIn.emailVerifyCTA') : lang.t('signIn.signIn')}
+          {auth.emailVerificationFailure
+            ? lang.t('signIn.emailVerifyCTA')
+            : lang.t('signIn.signIn')}
         </h1>
       </div>
-      { auth.error && <Alert>{auth.error}</Alert> }
-      {
-        auth.emailVerificationFailure
+      {auth.error && <Alert>{auth.error}</Alert>}
+      {auth.emailVerificationFailure
         ? <form onSubmit={handleResendVerification}>
             <p>{lang.t('signIn.requestNewVerifyEmail')}</p>
             <TextField
@@ -36,8 +36,11 @@ const SignInContent = ({
               type="email"
               label={lang.t('signIn.email')}
               value={emailToBeResent}
-              onChange={handleChangeEmail} />
-            <Button id='resendConfirmEmail' type='submit' cStyle='black' full>Send Email</Button>
+              onChange={handleChangeEmail}
+            />
+            <Button id="resendConfirmEmail" type="submit" cStyle="black" full>
+              Send Email
+            </Button>
             {emailVerificationLoading && <Spinner />}
             {emailVerificationSuccess && <Success />}
           </form>
@@ -70,23 +73,29 @@ const SignInContent = ({
                 onChange={handleChange}
               />
               <div className={styles.action}>
-                {
-                  !auth.isLoading ?
-                  <Button id='coralLogInButton' type="submit" cStyle="black" className={styles.signInButton} full>
-                    {lang.t('signIn.signIn')}
-                  </Button>
-                  :
-                  <Spinner />
-                }
+                {!auth.isLoading
+                  ? <Button
+                      id="coralLogInButton"
+                      type="submit"
+                      cStyle="black"
+                      className={styles.signInButton}
+                      full
+                    >
+                      {lang.t('signIn.signIn')}
+                    </Button>
+                  : <Spinner />}
               </div>
             </form>
-          </div>
-      }
+          </div>}
       <div className={`${styles.footer} footer`}>
-        <span><a onClick={() => changeView('FORGOT')}>{lang.t('signIn.forgotYourPass')}</a></span>
+        <span>
+          <a onClick={() => changeView('FORGOT')}>
+            {lang.t('signIn.forgotYourPass')}
+          </a>
+        </span>
         <span>
           {lang.t('signIn.needAnAccount')}
-          <a onClick={() => changeView('SIGNUP')} id='coralRegister'>
+          <a onClick={() => changeView('SIGNUP')} id="coralRegister">
             {lang.t('signIn.register')}
           </a>
         </span>

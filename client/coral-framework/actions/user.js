@@ -1,5 +1,5 @@
 import {addNotification} from '../actions/notification';
-import coralApi from '../helpers/response';
+import coralApi from '../helpers/request';
 import * as actions from '../constants/auth';
 
 import I18n from 'coral-framework/modules/i18n/i18n';

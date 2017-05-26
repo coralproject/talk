@@ -61,6 +61,8 @@ Talk ships with a plugin architecture that allows developers to significantly ex
 
 - iPad
 - iPad Pro
+- iPhone 7 Plus
+- iPhone 7
 - iPhone 6 Plus
 - iPhone 6
 - iPhone 5

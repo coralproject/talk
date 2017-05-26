@@ -1,39 +1,26 @@
-import React, {PropTypes} from 'react';
-import {Button, TextField, Spinner, Success, Alert} from 'coral-ui';
 import styles from './styles.css';
-import I18n from 'coral-framework/modules/i18n/i18n';
+import React from 'react';
 import translations from '../translations';
+import I18n from 'coral-framework/modules/i18n/i18n';
+import {Button, TextField, Spinner, Success, Alert} from 'coral-ui';
+
 const lang = new I18n(translations);
 
 class SignUpContent extends React.Component {
 
-  constructor (props) {
-    super(props);
-    this.successfulSignup = false;
+  componentWillReceiveProps(next) {
+    if (
+      !this.props.emailVerificationEnabled &&
+      !this.props.auth.successSignUp &&
+      next.auth.successSignUp
+    ) {
+      setTimeout(() => {
+        this.props.changeView('SIGNIN');
+      }, 2000);
+    }
   }
 
-  static propTypes = {
-    emailVerificationEnabled: PropTypes.bool.isRequired,
-    fetchSignUpFacebook: PropTypes.func.isRequired,
-    changeView: PropTypes.func.isRequired,
-    handleSignUp: PropTypes.func.isRequired,
-    showErrors: PropTypes.bool,
-    errors: PropTypes.shape({
-      email: PropTypes.string,
-      username: PropTypes.string,
-      password: PropTypes.string,
-      confirmPassword: PropTypes.string,
-    }),
-    formData: PropTypes.shape({
-      email: PropTypes.string,
-      username: PropTypes.string,
-      password: PropTypes.string,
-      confirmPassword: PropTypes.string
-    })
-  }
-
-  render () {
-
+  render() {
     const {
       handleChange,
       formData,
@@ -43,18 +30,8 @@ class SignUpContent extends React.Component {
       showErrors,
       changeView,
       handleSignUp,
-      fetchSignUpFacebook} = this.props;
-
-    const beforeSignup = !auth.isLoading && !auth.successSignUp;
-    const successfulSignup = !auth.isLoading && auth.successSignUp;
-
-    // the first time we render a successfulSignup, trigger a timer
-    if ((this.successfulSignup ^ successfulSignup) && !emailVerificationEnabled) {
-      setTimeout(() => {
-        changeView('SIGNIN');
-      }, 1000);
-      this.successfulSignup = true;
-    }
+      fetchSignUpFacebook
+    } = this.props;
 
     return (
       <div>
@@ -64,8 +41,8 @@ class SignUpContent extends React.Component {
           </h1>
         </div>
 
-        { auth.error && <Alert>{auth.error}</Alert> }
-        { beforeSignup &&
+        {auth.error && <Alert>{auth.error}</Alert>}
+        {!auth.successSignUp &&
           <div>
             <div className={styles.socialConnections}>
               <Button cStyle="facebook" onClick={fetchSignUpFacebook} full>
@@ -109,7 +86,10 @@ class SignUpContent extends React.Component {
                 onChange={handleChange}
                 minLength="8"
               />
-              { errors.password && <span className={styles.hint}> Password must be at least 8 characters. </span> }
+              {errors.password &&
+                <span className={styles.hint}>
+                  {' '}Password must be at least 8 characters.{' '}
+                </span>}
               <TextField
                 id="confirmPassword"
                 type="password"
@@ -122,26 +102,35 @@ class SignUpContent extends React.Component {
                 minLength="8"
               />
               <div className={styles.action}>
-                <Button type="submit" cStyle="black" id='coralSignUpButton' className={styles.signInButton} full>
+                <Button
+                  type="submit"
+                  cStyle="black"
+                  id="coralSignUpButton"
+                  className={styles.signInButton}
+                  full
+                >
                   {lang.t('signIn.signUp')}
                 </Button>
-                { auth.isLoading && <Spinner /> }
+                {auth.isLoading && <Spinner />}
               </div>
             </form>
-          </div>
-        }
-        {
-          successfulSignup &&
+          </div>}
+        {auth.successSignUp &&
           <div>
             <Success />
-            {
-              emailVerificationEnabled &&
-              <p>{lang.t('signIn.verifyEmail')}<br /><br />{lang.t('signIn.verifyEmail2')}</p>
-            }
-          </div>
-        }
+            {emailVerificationEnabled &&
+              <p>
+                {lang.t('signIn.verifyEmail')}
+                <br />
+                <br />
+                {lang.t('signIn.verifyEmail2')}
+              </p>}
+          </div>}
         <div className={styles.footer}>
-          {lang.t('signIn.alreadyHaveAnAccount')} <a id="coralSignInViewTrigger" onClick={() => changeView('SIGNIN')}>
+          {lang.t('signIn.alreadyHaveAnAccount')} <a
+            id="coralSignInViewTrigger"
+            onClick={() => changeView('SIGNIN')}
+          >
             {lang.t('signIn.signIn')}
           </a>
         </div>

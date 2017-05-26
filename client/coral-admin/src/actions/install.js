@@ -1,4 +1,4 @@
-import coralApi from 'coral-framework/helpers/response';
+import coralApi from 'coral-framework/helpers/request';
 import * as actions from '../constants/install';
 import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
