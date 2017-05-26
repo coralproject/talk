@@ -7,12 +7,17 @@ import {Button, TextField, Spinner, Success, Alert} from 'coral-ui';
 const lang = new I18n(translations);
 
 class SignUpContent extends React.Component {
-  constructor() {
-    super();
 
-    this.state = {
-      successfulSignup: false
-    };
+  componentWillReceiveProps(next) {
+    if (
+      !this.props.emailVerificationEnabled &&
+      !this.props.auth.successSignUp &&
+      next.auth.successSignUp
+    ) {
+      setTimeout(() => {
+        this.props.changeView('SIGNIN');
+      }, 2000);
+    }
   }
 
   render() {
@@ -28,19 +33,6 @@ class SignUpContent extends React.Component {
       fetchSignUpFacebook
     } = this.props;
 
-    const beforeSignup = !auth.isLoading && !auth.successSignUp;
-    const successfulSignup = !auth.isLoading && auth.successSignUp;
-
-    // the first time we render a successfulSignup, trigger a timer
-    if (this.successfulSignup ^ successfulSignup && !emailVerificationEnabled) {
-      setTimeout(() => {
-        changeView('SIGNIN');
-      }, 1000);
-      this.setState({
-        successfulSignup: true
-      });
-    }
-
     return (
       <div>
         <div className={styles.header}>
@@ -50,7 +42,7 @@ class SignUpContent extends React.Component {
         </div>
 
         {auth.error && <Alert>{auth.error}</Alert>}
-        {beforeSignup &&
+        {!auth.successSignUp &&
           <div>
             <div className={styles.socialConnections}>
               <Button cStyle="facebook" onClick={fetchSignUpFacebook} full>
@@ -123,7 +115,7 @@ class SignUpContent extends React.Component {
               </div>
             </form>
           </div>}
-        {successfulSignup &&
+        {auth.successSignUp &&
           <div>
             <Success />
             {emailVerificationEnabled &&
