@@ -51,7 +51,7 @@ const HandleGenerateCredentials = (req, res, next) => (err, user) => {
   // If the user is Safari, let's send a cookie
   const browser = bowser._detect(req.headers['user-agent']);
 
-  if (browser.name === 'Safari') {
+  if (browser.ios || browser.safari) {
     res.cookie('authorization', token, {
       httpOnly: true,
       expires: new Date(Date.now() + 900000)
