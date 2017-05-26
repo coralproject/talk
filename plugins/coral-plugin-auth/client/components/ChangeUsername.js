@@ -23,17 +23,27 @@ class ChangeUsernameContainer extends React.Component {
 
     this.state = {
       formData: {
-        username: props.user.username
+        username: (props.auth.user && props.auth.user.username) || ''
       },
       errors: {},
       showErrors: false
     };
   }
 
-  handleChange = e => {
+  componentWillReceiveProps(next) {
+    if (!this.props.auth.showCreateUsernameDialog && next.auth.showCreateUsernameDialog) {
+      this.setState({
+        formData: {
+          username: (this.props.auth.user && this.props.auth.user.username) || '',
+        },
+      });
+    }
+  }
+
+  handleChange = (e) => {
     const {name, value} = e.target;
     this.setState(
-      state => ({
+      (state) => ({
         ...state,
         formData: {
           ...state.formData,
@@ -47,7 +57,7 @@ class ChangeUsernameContainer extends React.Component {
   };
 
   addError = (name, error) => {
-    return this.setState(state => ({
+    return this.setState((state) => ({
       errors: {
         ...state.errors,
         [name]: error
@@ -65,26 +75,26 @@ class ChangeUsernameContainer extends React.Component {
     } else {
       const {[name]: prop, ...errors} = this.state.errors; // eslint-disable-line
       // Removes Error
-      this.setState(state => ({...state, errors}));
+      this.setState((state) => ({...state, errors}));
     }
   };
 
   isCompleted = () => {
     const {formData} = this.state;
-    return !Object.keys(formData).filter(prop => !formData[prop].length).length;
+    return !Object.keys(formData).filter((prop) => !formData[prop].length).length;
   };
 
   displayErrors = (show = true) => {
     this.setState({showErrors: show});
   };
 
-  handleSubmitUsername = e => {
+  handleSubmitUsername = (e) => {
     e.preventDefault();
     const {errors} = this.state;
     const {validForm, invalidForm} = this.props;
     this.displayErrors();
     if (this.isCompleted() && !Object.keys(errors).length) {
-      this.props.createUsername(this.props.user.id, this.state.formData);
+      this.props.createUsername(this.props.auth.user.id, this.state.formData);
       validForm();
     } else {
       invalidForm(lang.t('createdisplay.checkTheForm'));
@@ -100,7 +110,7 @@ class ChangeUsernameContainer extends React.Component {
     return (
       <div>
         <CreateUsernameDialog
-          open={auth.showCreateUsernameDialog && auth.user.canEditName}
+          open={auth.showCreateUsernameDialog}
           handleClose={this.handleClose}
           loggedIn={loggedIn}
           handleSubmitUsername={this.handleSubmitUsername}
@@ -113,9 +123,11 @@ class ChangeUsernameContainer extends React.Component {
   }
 }
 
-const mapStateToProps = ({auth, user}) => ({auth, user});
+const mapStateToProps = ({auth}) => ({
+  auth: auth.toJS()
+});
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       createUsername,

@@ -70,3 +70,4 @@ export const FakeComment = ({username, created_at, body}) => (
     </div>
   </div>
 );
+

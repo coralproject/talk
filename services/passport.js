@@ -9,6 +9,7 @@ const errors = require('../errors');
 const uuid = require('uuid');
 const debug = require('debug')('talk:passport');
 const {createClient} = require('./redis');
+const bowser = require('bowser');
 
 // Create a redis client to use for authentication.
 const client = createClient();
@@ -32,6 +33,17 @@ const GenerateToken = (user) => JWT.sign({}, JWT_SECRET, {
   audience: JWT_AUDIENCE
 });
 
+// SetTokenForSafari sends the token in a cookie for Safari clients.
+const SetTokenForSafari = (req, res, token) => {
+  const browser = bowser._detect(req.headers['user-agent']);
+  if (browser.ios || browser.safari) {
+    res.cookie('authorization', token, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 900000)
+    });
+  }
+};
+
 // HandleGenerateCredentials validates that an authentication scheme did indeed
 // return a user, if it did, then sign and return the user and token to be used
 // by the frontend to display and update the UI.
@@ -46,6 +58,8 @@ const HandleGenerateCredentials = (req, res, next) => (err, user) => {
 
   // Generate the token to re-issue to the frontend.
   const token = GenerateToken(user);
+
+  SetTokenForSafari(req, res, token);
 
   // Send back the details!
   res.json({user, token});
@@ -65,6 +79,8 @@ const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
 
   // Generate the token to re-issue to the frontend.
   const token = GenerateToken(user);
+
+  SetTokenForSafari(req, res, token);
 
   // We logged in the user! Let's send back the user data.
   res.render('auth-callback', {auth: JSON.stringify({err: null, data: {user, token}})});
@@ -134,6 +150,7 @@ const HandleLogout = (req, res, next) => {
       return next(err);
     }
 
+    res.clearCookie('authorization');
     res.status(204).end();
   });
 };
@@ -158,11 +175,24 @@ const CheckBlacklisted = (jwt) => new Promise((resolve, reject) => {
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 
+let cookieExtractor = function(req) {
+  let token = null;
+
+  if (req && req.cookies) {
+    token = req.cookies['authorization'];
+  }
+
+  return token;
+};
+
 // Extract the JWT from the 'Authorization' header with the 'Bearer' scheme.
 passport.use(new JwtStrategy({
 
   // Prepare the extractor from the header.
-  jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
+  jwtFromRequest: ExtractJwt.fromExtractors([
+    cookieExtractor,
+    ExtractJwt.fromAuthHeaderWithScheme('Bearer')
+  ]),
 
   // Use the secret passed in which is loaded from the environment. This can be
   // a certificate (loaded) or a HMAC key.

@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import translations from '../translations';
 import I18n from 'coral-framework/modules/i18n/i18n';
-import {showSignInDialog, logout} from 'coral-framework/actions/auth';
+import {logout} from 'coral-framework/actions/auth';
 const lang = new I18n(translations);
 
 const UserBox = ({loggedIn, user, logout, onShowProfile}) => (
@@ -23,12 +23,12 @@ const UserBox = ({loggedIn, user, logout, onShowProfile}) => (
   </div>
 );
 
-const mapStateToProps = ({auth, user}) => ({
+const mapStateToProps = ({auth}) => ({
   loggedIn: auth.toJS().loggedIn,
-  user: user.toJS()
+  user: auth.toJS().user
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators({logout}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserBox);

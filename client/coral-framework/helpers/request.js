@@ -1,22 +1,26 @@
+import bowser from 'bowser';
 import * as Storage from './storage';
+import merge from 'lodash/merge';
 
 const buildOptions = (inputOptions = {}) => {
   const defaultOptions = {
     method: 'GET',
     headers: {
       Accept: 'application/json',
-      Authorization: `Bearer ${Storage.getItem('token')}`,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     credentials: 'same-origin'
   };
 
-  let options = Object.assign({}, defaultOptions, inputOptions);
-  options.headers = Object.assign(
-    {},
-    defaultOptions.headers,
-    inputOptions.headers
-  );
+  let options = merge({}, defaultOptions, inputOptions);
+
+  if (!bowser.safari && !bowser.ios) {
+    let authorization = Storage.getItem('token');
+
+    if (authorization) {
+      options.headers.Authorization = `Bearer ${authorization}`;
+    }
+  }
 
   if (options.method.toLowerCase() !== 'get') {
     options.body = JSON.stringify(options.body);
