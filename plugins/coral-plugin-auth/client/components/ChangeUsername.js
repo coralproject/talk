@@ -23,7 +23,7 @@ class ChangeUsernameContainer extends React.Component {
 
     this.state = {
       formData: {
-        username: props.user.username
+        username: (props.auth.user && props.auth.user.username) || ''
       },
       errors: {},
       showErrors: false
@@ -84,7 +84,7 @@ class ChangeUsernameContainer extends React.Component {
     const {validForm, invalidForm} = this.props;
     this.displayErrors();
     if (this.isCompleted() && !Object.keys(errors).length) {
-      this.props.createUsername(this.props.user.id, this.state.formData);
+      this.props.createUsername(this.props.auth.user.id, this.state.formData);
       validForm();
     } else {
       invalidForm(lang.t('createdisplay.checkTheForm'));
@@ -113,7 +113,9 @@ class ChangeUsernameContainer extends React.Component {
   }
 }
 
-const mapStateToProps = ({auth, user}) => ({auth, user});
+const mapStateToProps = ({auth}) => ({
+  auth: auth.toJS()
+});
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
