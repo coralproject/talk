@@ -1,11 +1,13 @@
-import React, {Component, PropTypes} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
-import SignDialog from '../components/SignDialog';
-import validate from 'coral-framework/helpers/validate';
-import errorMsj from 'coral-framework/helpers/error';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from '../translations';
 import {pym} from 'coral-framework';
+import SignDialog from './SignDialog';
+import {bindActionCreators} from 'redux';
+import translations from '../translations';
+import I18n from 'coral-framework/modules/i18n/i18n';
+import errorMsj from 'coral-framework/helpers/error';
+import validate from 'coral-framework/helpers/validate';
+
 const lang = new I18n(translations);
 
 import {
@@ -23,34 +25,22 @@ import {
   checkLogin
 } from 'coral-framework/actions/auth';
 
-class SignInContainer extends Component {
-  initialState = {
-    formData: {
-      email: '',
-      username: '',
-      password: '',
-      confirmPassword: ''
-    },
-    emailToBeResent: '',
-    errors: {},
-    showErrors: false
-  };
-
+class SignInContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = this.initialState;
-    this.addError = this.addError.bind(this);
-    this.handleAuth = this.handleAuth.bind(this);
-    this.handleSignUp = this.handleSignUp.bind(this);
-    this.handleSignIn = this.handleSignIn.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleChangeEmail = this.handleChangeEmail.bind(this);
-    this.handleResendVerification = this.handleResendVerification.bind(this);
-  }
 
-  static propTypes = {
-    requireEmailConfirmation: PropTypes.bool.isRequired
-  };
+    this.state = {
+      formData: {
+        email: '',
+        username: '',
+        password: '',
+        confirmPassword: ''
+      },
+      emailToBeResent: '',
+      errors: {},
+      showErrors: false
+    };
+  }
 
   componentWillMount() {
     this.props.checkLogin();
@@ -71,7 +61,7 @@ class SignInContainer extends Component {
     window.removeEventListener('storage', this.handleAuth);
   }
 
-  handleAuth(e) {
+  handleAuth = (e) => {
 
     // Listening to FB changes
     // FB localStorage key is 'auth'
@@ -81,9 +71,9 @@ class SignInContainer extends Component {
       const {err, data} = JSON.parse(e.newValue);
       authCallback(err, data);
     }
-  }
+  };
 
-  handleChange(e) {
+  handleChange = (e) => {
     const {name, value} = e.target;
     this.setState(
       (state) => ({
@@ -97,14 +87,14 @@ class SignInContainer extends Component {
         this.validation(name, value);
       }
     );
-  }
+  };
 
-  handleChangeEmail(e) {
+  handleChangeEmail = (e) => {
     const {value} = e.target;
     this.setState({emailToBeResent: value});
-  }
+  };
 
-  handleResendVerification(e) {
+  handleResendVerification = (e) => {
     e.preventDefault();
     this.props
       .requestConfirmEmail(
@@ -115,21 +105,21 @@ class SignInContainer extends Component {
         setTimeout(() => {
 
           // allow success UI to be shown for a second, and then close the modal
-          this.props.handleClose();
+          this.props.hideSignInDialog();
         }, 2500);
       });
-  }
+  };
 
-  addError(name, error) {
+  addError = (name, error) => {
     return this.setState((state) => ({
       errors: {
         ...state.errors,
         [name]: error
       }
     }));
-  }
+  };
 
-  validation(name, value) {
+  validation = (name, value) => {
     const {addError} = this;
     const {formData} = this.state;
 
@@ -147,18 +137,18 @@ class SignInContainer extends Component {
       // Removes Error
       this.setState((state) => ({...state, errors}));
     }
-  }
+  };
 
-  isCompleted() {
+  isCompleted = () => {
     const {formData} = this.state;
     return !Object.keys(formData).filter((prop) => !formData[prop].length).length;
-  }
+  };
 
-  displayErrors(show = true) {
+  displayErrors = (show = true) => {
     this.setState({showErrors: show});
-  }
+  };
 
-  handleSignUp(e) {
+  handleSignUp = (e) => {
     e.preventDefault();
     const {errors} = this.state;
     const {fetchSignUp, validForm, invalidForm} = this.props;
@@ -169,30 +159,28 @@ class SignInContainer extends Component {
     } else {
       invalidForm(lang.t('signIn.checkTheForm'));
     }
-  }
+  };
 
-  handleSignIn(e) {
+  handleSignIn = (e) => {
     e.preventDefault();
     this.props.fetchSignIn(this.state.formData);
-  }
+  };
 
   render() {
-    const {auth, requireEmailConfirmation} = this.props;
-    const {emailVerificationLoading, emailVerificationSuccess} = auth;
+    const {auth} = this.props;
+    const {requireEmailConfirmation, emailVerificationLoading, emailVerificationSuccess} = auth;
 
     return (
-      <div>
-        <SignDialog
-          open={true}
-          view={auth.view}
-          emailVerificationEnabled={requireEmailConfirmation}
-          emailVerificationLoading={emailVerificationLoading}
-          emailVerificationSuccess={emailVerificationSuccess}
-          {...this}
-          {...this.state}
-          {...this.props}
-        />
-      </div>
+      <SignDialog
+        open={true}
+        view={auth.view}
+        emailVerificationEnabled={requireEmailConfirmation}
+        emailVerificationLoading={emailVerificationLoading}
+        emailVerificationSuccess={emailVerificationSuccess}
+        {...this}
+        {...this.state}
+        {...this.props}
+      />
     );
   }
 }
@@ -201,20 +189,23 @@ const mapStateToProps = (state) => ({
   auth: state.auth.toJS()
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  checkLogin: () => dispatch(checkLogin()),
-  facebookCallback: (err, data) => dispatch(facebookCallback(err, data)),
-  fetchSignUp: (formData, url) => dispatch(fetchSignUp(formData, url)),
-  fetchSignIn: (formData) => dispatch(fetchSignIn(formData)),
-  fetchSignInFacebook: () => dispatch(fetchSignInFacebook()),
-  fetchSignUpFacebook: () => dispatch(fetchSignUpFacebook()),
-  fetchForgotPassword: (formData) => dispatch(fetchForgotPassword(formData)),
-  requestConfirmEmail: (email, url) =>
-    dispatch(requestConfirmEmail(email, url)),
-  changeView: (view) => dispatch(changeView(view)),
-  handleClose: () => dispatch(hideSignInDialog()),
-  invalidForm: (error) => dispatch(invalidForm(error)),
-  validForm: () => dispatch(validForm())
-});
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      checkLogin,
+      facebookCallback,
+      fetchSignUp,
+      fetchSignIn,
+      fetchSignInFacebook,
+      fetchSignUpFacebook,
+      fetchForgotPassword,
+      requestConfirmEmail,
+      changeView,
+      hideSignInDialog,
+      invalidForm,
+      validForm
+    },
+    dispatch
+  );
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignInContainer);
