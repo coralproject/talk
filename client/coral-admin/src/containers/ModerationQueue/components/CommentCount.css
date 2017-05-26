@@ -3,12 +3,13 @@
   background: #989797;
   margin: 2px;
   vertical-align: middle;
-  padding: 4px 7px;
+  padding: 1px 7px;
   border-radius: 2px;
-  margin-left: 10px;
+  margin-left: 2px;
   line-height: 20px;
   box-sizing: border-box;
-  height: 27px;
+  height: 21px;
   right: 0;
   margin-top: -2px;
+  font-size: 12px;
 }
