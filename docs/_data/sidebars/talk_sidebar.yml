@@ -5,7 +5,7 @@ entries:
   levels: one
   folders:
 
-  - title: Quickstart
+  - title: Talk
     output: web
     folderitems:
     - title: About
