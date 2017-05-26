@@ -58,6 +58,8 @@ alternative methods of loading configuration during development.
 
 - iPad
 - iPad Pro
+- iPhone 7 Plus
+- iPhone 7
 - iPhone 6 Plus
 - iPhone 6
 - iPhone 5
