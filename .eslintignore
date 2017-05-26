@@ -1,4 +1,5 @@
 dist
+docs
 client/lib
 **/*.html
 plugins/*
