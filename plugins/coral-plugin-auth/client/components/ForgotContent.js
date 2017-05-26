@@ -7,7 +7,7 @@ import I18n from 'coral-framework/modules/i18n/i18n';
 const lang = new I18n(translations);
 
 class ForgotContent extends React.Component {
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
     this.props.fetchForgotPassword(this.emailInput.value);
   };
@@ -25,7 +25,7 @@ class ForgotContent extends React.Component {
           <div className={styles.textField}>
             <label htmlFor="email">{lang.t('signIn.email')}</label>
             <input
-              ref={input => (this.emailInput = input)}
+              ref={(input) => (this.emailInput = input)}
               type="text"
               style={{fontSize: 16}}
               id="email"

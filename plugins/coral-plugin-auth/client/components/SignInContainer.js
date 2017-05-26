@@ -61,7 +61,8 @@ class SignInContainer extends React.Component {
     window.removeEventListener('storage', this.handleAuth);
   }
 
-  handleAuth = e => {
+  handleAuth = (e) => {
+
     // Listening to FB changes
     // FB localStorage key is 'auth'
     const authCallback = this.props.facebookCallback;
@@ -72,10 +73,10 @@ class SignInContainer extends React.Component {
     }
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     const {name, value} = e.target;
     this.setState(
-      state => ({
+      (state) => ({
         ...state,
         formData: {
           ...state.formData,
@@ -88,12 +89,12 @@ class SignInContainer extends React.Component {
     );
   };
 
-  handleChangeEmail = e => {
+  handleChangeEmail = (e) => {
     const {value} = e.target;
     this.setState({emailToBeResent: value});
   };
 
-  handleResendVerification = e => {
+  handleResendVerification = (e) => {
     e.preventDefault();
     this.props
       .requestConfirmEmail(
@@ -102,6 +103,7 @@ class SignInContainer extends React.Component {
       )
       .then(() => {
         setTimeout(() => {
+
           // allow success UI to be shown for a second, and then close the modal
           this.props.hideSignInDialog();
         }, 2500);
@@ -109,7 +111,7 @@ class SignInContainer extends React.Component {
   };
 
   addError = (name, error) => {
-    return this.setState(state => ({
+    return this.setState((state) => ({
       errors: {
         ...state.errors,
         [name]: error
@@ -133,20 +135,20 @@ class SignInContainer extends React.Component {
     } else {
       const {[name]: prop, ...errors} = this.state.errors; // eslint-disable-line
       // Removes Error
-      this.setState(state => ({...state, errors}));
+      this.setState((state) => ({...state, errors}));
     }
   };
 
   isCompleted = () => {
     const {formData} = this.state;
-    return !Object.keys(formData).filter(prop => !formData[prop].length).length;
+    return !Object.keys(formData).filter((prop) => !formData[prop].length).length;
   };
 
   displayErrors = (show = true) => {
     this.setState({showErrors: show});
   };
 
-  handleSignUp = e => {
+  handleSignUp = (e) => {
     e.preventDefault();
     const {errors} = this.state;
     const {fetchSignUp, validForm, invalidForm} = this.props;
@@ -159,7 +161,7 @@ class SignInContainer extends React.Component {
     }
   };
 
-  handleSignIn = e => {
+  handleSignIn = (e) => {
     e.preventDefault();
     this.props.fetchSignIn(this.state.formData);
   };
@@ -183,16 +185,15 @@ class SignInContainer extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth.toJS()
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       checkLogin,
       facebookCallback,
-      fetchSignUp,
       fetchSignUp,
       fetchSignIn,
       fetchSignInFacebook,

@@ -40,10 +40,10 @@ class ChangeUsernameContainer extends React.Component {
     }
   }
 
-  handleChange = e => {
+  handleChange = (e) => {
     const {name, value} = e.target;
     this.setState(
-      state => ({
+      (state) => ({
         ...state,
         formData: {
           ...state.formData,
@@ -57,7 +57,7 @@ class ChangeUsernameContainer extends React.Component {
   };
 
   addError = (name, error) => {
-    return this.setState(state => ({
+    return this.setState((state) => ({
       errors: {
         ...state.errors,
         [name]: error
@@ -75,20 +75,20 @@ class ChangeUsernameContainer extends React.Component {
     } else {
       const {[name]: prop, ...errors} = this.state.errors; // eslint-disable-line
       // Removes Error
-      this.setState(state => ({...state, errors}));
+      this.setState((state) => ({...state, errors}));
     }
   };
 
   isCompleted = () => {
     const {formData} = this.state;
-    return !Object.keys(formData).filter(prop => !formData[prop].length).length;
+    return !Object.keys(formData).filter((prop) => !formData[prop].length).length;
   };
 
   displayErrors = (show = true) => {
     this.setState({showErrors: show});
   };
 
-  handleSubmitUsername = e => {
+  handleSubmitUsername = (e) => {
     e.preventDefault();
     const {errors} = this.state;
     const {validForm, invalidForm} = this.props;
@@ -127,7 +127,7 @@ const mapStateToProps = ({auth}) => ({
   auth: auth.toJS()
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       createUsername,

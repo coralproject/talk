@@ -18,7 +18,7 @@ const mapStateToProps = ({auth}) => ({
   loggedIn: auth.toJS().loggedIn
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators({showSignInDialog}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignInButton);
