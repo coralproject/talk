@@ -9,7 +9,7 @@ const lang = new I18n(translations);
 import translations from './../translations';
 import I18n from '../../coral-framework/modules/i18n/i18n';
 
-export const showSignInDialog = () => (dispatch) => {
+export const showSignInDialog = () => (dispatch, getState) => {
   const signInPopUp = window.open(
     '/embed/stream/login',
     'Login',
@@ -21,6 +21,10 @@ export const showSignInDialog = () => (dispatch) => {
   let loaded = false;
   signInPopUp.onload = () => {
     loaded = true;
+
+    // Fire some actions inside the popups reducer, to initialize required state.
+    const required = getState().asset.toJS().settings.requireEmailConfirmation;
+    signInPopUp.coralStore.dispatch(setRequireEmailVerification(required));
   };
 
   // Use `onunload` instead of `onbeforeunload` which is not supported in IOS Safari.
@@ -94,6 +98,11 @@ export const changeView = (view) => (dispatch) => {
 
 export const cleanState = () => ({
   type: actions.CLEAN_STATE
+});
+
+export const setRequireEmailVerification = (required) => ({
+  type: actions.SET_REQUIRE_EMAIL_VERIFICATION,
+  required,
 });
 
 // Sign In Actions

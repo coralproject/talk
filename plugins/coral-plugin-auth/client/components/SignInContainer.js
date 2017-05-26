@@ -167,8 +167,8 @@ class SignInContainer extends React.Component {
   };
 
   render() {
-    const {auth, requireEmailConfirmation} = this.props;
-    const {emailVerificationLoading, emailVerificationSuccess} = auth;
+    const {auth} = this.props;
+    const {requireEmailConfirmation, emailVerificationLoading, emailVerificationSuccess} = auth;
 
     return (
       <SignDialog
