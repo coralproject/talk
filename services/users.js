@@ -566,7 +566,6 @@ module.exports = class UsersService {
           // endpoint.
           return;
         }
-
         let redirectDomain;
         try {
           redirectDomain = url.parse(loc).hostname;

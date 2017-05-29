@@ -16,7 +16,8 @@ const initialState = Map({
   emailVerificationLoading: false,
   emailVerificationSuccess: false,
   successSignUp: false,
-  fromSignUp: false
+  fromSignUp: false,
+  requireEmailConfirmation: false,
 });
 
 const purge = (user) => {
@@ -142,6 +143,9 @@ export default function auth (state = initialState, action) {
     return state
       .set('emailVerificationSuccess', true)
       .set('emailVerificationLoading', false);
+  case actions.SET_REQUIRE_EMAIL_VERIFICATION:
+    return state
+      .set('requireEmailConfirmation', action.required);
   default :
     return state;
   }

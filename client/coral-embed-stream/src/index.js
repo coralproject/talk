@@ -8,16 +8,16 @@ import './graphql';
 import {addExternalConfig} from 'coral-embed-stream/src/actions/config';
 
 import reducers from './reducers';
-import localStore, {injectReducers} from 'coral-framework/services/store';
+import store, {injectReducers} from 'coral-framework/services/store';
 import AppRouter from './AppRouter';
 import {pym} from 'coral-framework';
+import {loadPluginsTranslations} from 'coral-framework/helpers/plugins';
 
+loadPluginsTranslations();
 injectReducers(reducers);
 
-const store = (window.opener && window.opener.coralStore) ? window.opener.coralStore : localStore;
-
 // Don't run this in the popup.
-if (store === localStore) {
+if (!window.opener) {
   store.dispatch(checkLogin());
 
   pym.sendMessage('getConfig');

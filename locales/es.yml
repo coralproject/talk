@@ -157,21 +157,6 @@ es:
     weeks: Semanas
     wordlist: "Palabras Suspendidas"
   continue: Continuar
-  createdisplay:
-    check_the_form: "Formulario Inválido. Por favor verifica los campos"
-    continue: "Continuar con el mismo nombre que aparece en Facebook"
-    error_create: "Hubo un error al cambiar el nombre de usuario"
-    fake_comment_body: "Este es un comentario de ejemplo. Las lectoras pueden compartir\
-      \ sus ideas  y opiniones con los periodistas en la sección de comentarios."
-    fake_comment_date: "hace un minuto"
-    if_you_dont_change_your_name: "Si no modificas tu nombre de usuario en este paso\
-      \ tu nombre de Facebook aparecerá al lado de cada comentario que publiques."
-    required_field: "Campo requerido"
-    save: Guardar
-    special_characters: "Los nombres sólo pueden contener letras números y _"
-    username: Nombre
-    write_your_username: "Edita tu nombre"
-    your_username: "Tu nombre aparece en cada comentario que publiques."
   dashboard:
     auto_update: "Los datos se actualizan automáticamente cada cinco minutos o cuando\
       \ refresca el navegador."
@@ -330,42 +315,12 @@ es:
     to_access: "para acceder al perfil"
     user_no_comment: "No has dejado aún ningún comentario. ¡Únete a la conversació\
       n!"
-  sign_in:
-    email_verify_cta: "Por favor confirme su correo."
-    request_new_verify_email: "Enviar otro correo:"
-    verify_email: "¡Gracias por crear una cuenta! Le enviamos un correo a la direcció\
-      n que dio para confirmar su cuenta."
-    verify_email2: "Debe confirmarla antes de poder involucrarse en la comunidad."
-    not_you: "¿No eres tu?"
-    logged_in_as: "Entraste como"
-    facebook_sign_in: "Entrar con Facebook"
-    facebook_sign_up: "Registrarse con Facebook"
-    logout: "Salir"
-    sign_in: "Entrar"
-    sign_in_to_join: "Entrar para unirte a la conversación"
-    or: "O"
-    email: "Dirección de Correo"
-    password: "Contraseña"
-    forgot_your_pass: "¿Has olvidado tu contraseña?"
-    need_an_account: "¿Necesitas una cuenta?"
-    register: "Registrar"
-    sign_up: "Registro"
-    confirm_password: "Confirmar Contraseña"
-    username: "Nombre"
-    already_have_an_account: "¿Ya tienes una cuenta?"
-    recover_password: "Recuperar la contraseña"
-    email_in_use: "Este correo se encuentra en uso"
-    email_or_username_in_use: "Este correo ó nombre de usuario se encuentran en uso"
-    required_field: "Este campo es requerido"
-    passwords_dont_match: "Las contraseñas no coinciden."
-    special_characters: "Los nombres pueden contener letras, números y _"
-    sign_in_to_comment: "Entrar para comentar"
-    temporarily_suspended: "De acuerdo con la guía de la comunidad de {0}, su cuenta\
-      \ ha sido temporalmente suspendida. Por favor unirse a la conversación {1}."
-    check_the_form: "Formulario Inválido. Por favor, completa los campos"
   step_1_header: "Reportar un problema"
   step_2_header: "Ayúdanos a comprender"
   step_3_header: "Gracias por tu participación"
+  stream:
+    temporarily_suspended: "De acuerdo con la guía de la comunidad de {0}, su cuenta\
+      \ ha sido temporalmente suspendida. Por favor unirse a la conversación {1}."
   streams:
     all: Todos
     article: Artículo

@@ -1,17 +1,16 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import styles from './style.css';
-import Icon from './Icon';
 
-import t from 'coral-framework/services/i18n';
 import cn from 'classnames';
-import { getMyActionSummary, getTotalActionCount } from 'coral-framework/utils';
+import {getMyActionSummary, getTotalActionCount} from 'coral-framework/utils';
+import t from 'coral-framework/services/i18n';
 
 const name = 'coral-plugin-like';
 
 class LikeButton extends Component {
   handleClick = () => {
-    const { postLike, showSignInDialog, deleteAction } = this.props;
-    const { root: { me }, comment } = this.props;
+    const {postLike, showSignInDialog, deleteAction} = this.props;
+    const {root: {me}, comment} = this.props;
 
     const myLikeActionSummary = getMyActionSummary(
       'LikeActionSummary',
@@ -40,7 +39,7 @@ class LikeButton extends Component {
   };
 
   render() {
-    const { comment } = this.props;
+    const {comment} = this.props;
 
     if (!comment) {
       return null;
@@ -54,7 +53,7 @@ class LikeButton extends Component {
         <button
           className={cn(
             styles.button,
-            { [styles.liked]: myLike },
+            {[styles.liked]: myLike},
             `${name}-button`
           )}
           onClick={this.handleClick}
@@ -66,7 +65,7 @@ class LikeButton extends Component {
             className={cn(
               styles.icon,
               'material-icons',
-              { [styles.liked]: myLike },
+              {[styles.liked]: myLike},
               `${name}-icon`
             )}
             aria-hidden={true}

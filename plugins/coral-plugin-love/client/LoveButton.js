@@ -12,7 +12,7 @@ class LoveButton extends React.Component {
       showSignInDialog,
       alreadyReacted
     } = this.props;
-    const {root: {me}, comment} = this.props;
+    const {root: {me}} = this.props;
 
     // If the current user does not exist, trigger sign in dialog.
     if (!me) {

@@ -11,7 +11,7 @@ const ModerationHeader = (props) => (
           props.asset ?
             <div className={`mdl-tabs__tab-bar ${styles.moderateAsset}`}>
               <Link className="mdl-tabs__tab" to="/admin/moderate">{t('modqueue.all_streams')}</Link>
-              <a className="mdl-tabs__tab" href={props.asset.url}>
+              <a className="mdl-tabs__tab" href={props.asset.url} target="_blank">
                 <span>{props.asset.title}</span>
                 <Icon className={styles.settingsButton} name="open_in_new"/>
               </a>

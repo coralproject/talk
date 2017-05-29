@@ -14,7 +14,7 @@ import {
   HIDE_SUSPENDUSER_DIALOG
 } from '../constants/community';
 
-import coralApi from '../../../coral-framework/helpers/response';
+import coralApi from '../../../coral-framework/helpers/request';
 
 export const fetchAccounts = (query = {}) => (dispatch) => {
 

@@ -126,19 +126,6 @@ en:
     weeks: Weeks
     wordlist: "Banned Words"
   continue: Continue
-  createdisplay:
-    check_the_form: "Invalid Form. Please check the fields"
-    continue: "Continue with the same Facebook username"
-    error_create: "Error when changing username"
-    fake_comment_body: "This is an example comment. Readers can share their thoughts and opinions with newsrooms in the comments section."
-    fake_comment_date: "1 minute ago"
-    if_you_dont_change_your_name: "If you don't change your username at this step your Facebook display name will appear alongside of all your comments."
-    required_field: "Required field"
-    save: Save
-    special_characters: "Usernames can contain letters numbers and _ only"
-    username: Username
-    write_your_username: "Edit your username"
-    your_username: "Your username appears on every comment you post."
   dashboard:
     auto_update: "Data automatically updates every five minutes or when you Reload."
     comment_count: comments
@@ -285,37 +272,8 @@ en:
     sign_in: "Sign in"
     to_access: "to access Profile"
     user_no_comment: "You've never left a comment. Join the conversation!"
-  sign_in:
-    email_verify_cta: "Please verify your email address."
-    request_new_verify_email: "Request another email:"
-    verify_email: "Thank you for creating an account! We sent an email to the address you provided to verify your account."
-    verify_email2: "You must verify your account before engaging with the community."
-    not_you: "Not you?"
-    logged_in_as: "Logged in as"
-    facebook_sign_in: "Sign in with Facebook"
-    facebook_sign_up: "Sign up with Facebook"
-    logout: "Logout"
-    sign_in: "Sign in"
-    sign_in_to_join: "Sign in to join the conversation"
-    or: "Or"
-    email: "E-mail Address"
-    password: "Password"
-    forgot_your_pass: "Forgot your password?"
-    need_an_account: "Need an account?"
-    register: "Register"
-    sign_up: "Sign Up"
-    confirm_password: "Confirm Password"
-    username: "Username"
-    already_have_an_account: "Already have an account?"
-    recover_password: "Recover password"
-    email_in_use: "Email address already in use"
-    email_or_username_in_use: "Email address or Username already in use"
-    required_field: "This field is required"
-    passwords_dont_match: "Passwords don't match."
-    special_characters: "Usernames can contain letters, numbers and _ only"
-    sign_in_to_comment: "Sign in to comment"
+  stream:
     temporarily_suspended: "In accordance with {0}'s community guidlines, your account has been temporarily suspended. Please rejoin the conversation {1}."
-    check_the_form: "Invalid Form. Please, check the fields"
   step_1_header: "Report an issue"
   step_2_header: "Help us understand"
   step_3_header: "Thank you for your input"

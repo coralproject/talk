@@ -11,6 +11,8 @@ const errors = require('./errors');
 const {createGraphOptions} = require('./graph');
 const apollo = require('graphql-server-express');
 const accepts = require('accepts');
+const compression = require('compression');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
@@ -31,6 +33,8 @@ app.set('trust proxy', 1);
 app.use(helmet({
   frameguard: false
 }));
+app.use(compression());
+app.use(cookieParser());
 app.use(bodyParser.json());
 
 //==============================================================================

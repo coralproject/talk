@@ -13,10 +13,10 @@
 }
 
 .assetURL {
-  font-size: 16px;
-  color: black;
   text-decoration: none;
   font-weight: bold;
+  font-size: 12px;
+  color: #2c3e50;
 }
 
 .commentBody {
@@ -32,7 +32,7 @@
   }
 
   li {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 
     &:nth-child(1) {
       color: #5394D7;
@@ -46,7 +46,6 @@
     i {
       margin-right: 5px;
       font-size: 15px;
-      vertical-align: bottom;
     }
 
     a:hover {
