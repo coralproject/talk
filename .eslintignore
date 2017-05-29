@@ -1,7 +1,13 @@
 dist
+docs
 client/lib
 **/*.html
 plugins/*
 !plugins/coral-plugin-facebook-auth
+!plugins/coral-plugin-auth
 !plugins/coral-plugin-respect
+!plugins/coral-plugin-offtopic
+!plugins/coral-plugin-like
+!plugins/coral-plugin-mod
+!plugins/coral-plugin-love
 node_modules

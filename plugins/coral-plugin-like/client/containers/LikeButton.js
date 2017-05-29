@@ -1,12 +1,12 @@
 import get from 'lodash/get';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { compose, gql, graphql } from 'react-apollo';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {compose, gql, graphql} from 'react-apollo';
 import LikeButton from '../components/LikeButton';
 import withFragments from 'coral-framework/hocs/withFragments';
-import { showSignInDialog } from 'coral-framework/actions/auth';
+import{showSignInDialog} from 'coral-framework/actions/auth';
 
-const isLikeAction = a => a.__typename === 'LikeActionSummary';
+const isLikeAction = (a) => a.__typename === 'LikeActionSummary';
 
 const COMMENT_FRAGMENT = gql`
   fragment LikeButton_updateFragment on Comment {
@@ -32,17 +32,17 @@ const withDeleteAction = graphql(
   }
 `,
   {
-    props: ({ mutate }) => ({
+    props: ({mutate}) => ({
       deleteAction: (id, commentId) => {
         return mutate({
-          variables: { id },
+          variables: {id},
           optimisticResponse: {
             deleteAction: {
               __typename: 'DeleteActionResponse',
               errors: null
             }
           },
-          update: proxy => {
+          update: (proxy) => {
             const fragmentId = `Comment_${commentId}`;
 
             // Read the data from our cache for this query.
@@ -93,10 +93,10 @@ const withPostLike = graphql(
   }
 `,
   {
-    props: ({ mutate }) => ({
-      postLike: like => {
+    props: ({mutate}) => ({
+      postLike: (like) => {
         return mutate({
-          variables: { like },
+          variables: {like},
           optimisticResponse: {
             createLike: {
               __typename: 'CreateLikeResponse',
@@ -125,6 +125,7 @@ const withPostLike = graphql(
             }
 
             if (idx < 0) {
+
               // Add initial action when it doesn't exist.
               data.action_summaries.push({
                 __typename: 'LikeActionSummary',
@@ -153,8 +154,8 @@ const withPostLike = graphql(
   }
 );
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ showSignInDialog }, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({showSignInDialog}, dispatch);
 
 const enhance = compose(
   withFragments({

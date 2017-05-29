@@ -14,9 +14,10 @@ import {pym} from 'coral-framework';
 
 const store = getStore();
 
+injectReducers(reducers);
+
 // Don't run this in the popup.
 if (!window.opener) {
-  injectReducers(reducers);
   store.dispatch(checkLogin());
 
   pym.sendMessage('getConfig');

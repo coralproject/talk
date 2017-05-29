@@ -1,4 +1,4 @@
-import coralApi from '../../../coral-framework/helpers/response';
+import coralApi from '../../../coral-framework/helpers/request';
 import * as userTypes from '../constants/users';
 
 /**
