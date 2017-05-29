@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {pym} from 'coral-framework';
 import SignDialog from './SignDialog';
 import {bindActionCreators} from 'redux';
 import translations from '../translations';
@@ -99,7 +98,6 @@ class SignInContainer extends React.Component {
     this.props
       .requestConfirmEmail(
         this.state.emailToBeResent,
-        pym.parentUrl || location.href
       )
       .then(() => {
         setTimeout(() => {
@@ -154,7 +152,7 @@ class SignInContainer extends React.Component {
     const {fetchSignUp, validForm, invalidForm} = this.props;
     this.displayErrors();
     if (this.isCompleted() && !Object.keys(errors).length) {
-      fetchSignUp(this.state.formData, pym.parentUrl || location.href);
+      fetchSignUp(this.state.formData);
       validForm();
     } else {
       invalidForm(lang.t('signIn.checkTheForm'));
