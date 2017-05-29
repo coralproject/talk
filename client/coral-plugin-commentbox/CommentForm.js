@@ -1,13 +1,11 @@
 import React, {PropTypes} from 'react';
 import {Button} from 'coral-ui';
 import classnames from 'classnames';
-import {I18n} from '../coral-framework';
-import translations from './translations.json';
 import Slot from 'coral-framework/components/Slot';
 
 import {name} from './CommentBox';
 
-const lang = new I18n(translations);
+import t from 'coral-framework/services/i18n';
 
 /**
  * Common UI for Creating or Editing a Comment
@@ -56,9 +54,9 @@ export class CommentForm extends React.Component {
   }
   static get defaultProps() {
     return {
-      bodyLabel: lang.t('comment'),
-      bodyPlaceholder: lang.t('comment'),
-      submitText: lang.t('post'),
+      bodyLabel: t('comment_box.comment'),
+      bodyPlaceholder: t('comment_box.comment'),
+      submitText: t('comment_box.post'),
       saveButtonCStyle: 'darkGrey',
       saveCommentEnabled: () => true,
     };
@@ -109,7 +107,7 @@ export class CommentForm extends React.Component {
       {
         this.props.charCountEnable &&
         <div className={`${name}-char-count ${length > maxCharCount ? `${name}-char-max` : ''}`}>
-          {maxCharCount && `${maxCharCount - length} ${lang.t('characters-remaining')}`}
+          {maxCharCount && `${maxCharCount - length} ${t('comment_box.characters_remaining')}`}
         </div>
       }
       <div className={`${name}-button-container`}>
@@ -120,7 +118,7 @@ export class CommentForm extends React.Component {
               cStyle='darkGrey'
               className={classnames(`${name}-cancel-button`, buttonClass)}
               onClick={this.props.cancelButtonClicked}>
-              {lang.t('cancel')}
+              {t('comment_box.cancel')}
             </Button>
           )
         }

@@ -3,9 +3,7 @@ import styles from './Configure.css';
 import {Card} from 'coral-ui';
 import {Checkbox} from 'react-mdl';
 import Wordlist from './Wordlist';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from '../../translations.json';
-const lang = new I18n(translations);
+import t from 'coral-framework/services/i18n';
 
 const updateModeration = (updateSettings, mod) => () => {
   const moderation = mod === 'PRE' ? 'POST' : 'PRE';
@@ -42,9 +40,9 @@ const ModerationSettings = ({settings, updateSettings, onChangeWordlist}) => {
             checked={settings.requireEmailConfirmation} />
         </div>
         <div className={styles.content}>
-          <div className={styles.settingsHeader}>{lang.t('configure.require-email-verification')}</div>
+          <div className={styles.settingsHeader}>{t('configure.require_email_verification')}</div>
           <p className={settings.requireEmailConfirmation ? '' : styles.disabledSettingText}>
-            {lang.t('configure.require-email-verification-text')}
+            {t('configure.require_email_verification_text')}
           </p>
         </div>
       </Card>
@@ -55,9 +53,9 @@ const ModerationSettings = ({settings, updateSettings, onChangeWordlist}) => {
             checked={settings.moderation === 'PRE'} />
         </div>
         <div className={styles.content}>
-          <div className={styles.settingsHeader}>{lang.t('configure.enable-pre-moderation')}</div>
+          <div className={styles.settingsHeader}>{t('configure.enable_pre_moderation')}</div>
           <p className={settings.moderation === 'PRE' ? '' : styles.disabledSettingText}>
-            {lang.t('configure.enable-pre-moderation-text')}
+            {t('configure.enable_pre_moderation_text')}
           </p>
         </div>
       </Card>
@@ -68,9 +66,9 @@ const ModerationSettings = ({settings, updateSettings, onChangeWordlist}) => {
             checked={settings.premodLinksEnable} />
         </div>
         <div className={styles.content}>
-          <div className={styles.settingsHeader}>{lang.t('configure.enable-premod-links')}</div>
+          <div className={styles.settingsHeader}>{t('configure.enable_premod_links')}</div>
           <p>
-            {lang.t('configure.enable-premod-links-text')}
+            {t('configure.enable_premod_links_text')}
           </p>
         </div>
       </Card>
@@ -81,9 +79,9 @@ const ModerationSettings = ({settings, updateSettings, onChangeWordlist}) => {
 
       {/* Edit Comment Timeframe */}
       <Card className={styles.configSetting}>
-        <div className={styles.settingsHeader}>{lang.t('configure.edit-comment-timeframe-heading')}</div>
+        <div className={styles.settingsHeader}>{t('configure.edit_comment_timeframe_heading')}</div>
         <p>
-          {lang.t('configure.edit-comment-timeframe-text-pre')}
+          {t('configure.edit_comment_timeframe_text_pre')}
           &nbsp;
           <input
             style={{width: '3em'}}
@@ -96,9 +94,9 @@ const ModerationSettings = ({settings, updateSettings, onChangeWordlist}) => {
             pattern='[0-9]+([\.][0-9]*)?'
           />
           &nbsp;
-          {lang.t('configure.edit-comment-timeframe-text-post')}
+          {t('configure.edit_comment_timeframe_text_post')}
         </p>
-      </Card>      
+      </Card>
     </div>
   );
 };

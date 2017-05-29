@@ -1,13 +1,8 @@
 import React from 'react';
 
 import styles from './styles.css';
-
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from 'coral-admin/src/translations.json';
-
+import t from 'coral-framework/services/i18n';
 import {Link} from 'react-router';
-
-const lang = new I18n(translations);
 
 const CommunityMenu = () => {
   const flaggedPath = '/admin/community/flagged';
@@ -17,10 +12,10 @@ const CommunityMenu = () => {
       <div className={`mdl-tabs__tab-bar ${styles.tabBar}`}>
         <div>
           <Link to={flaggedPath} className={`mdl-tabs__tab ${styles.tab}`} activeClassName={styles.active}>
-            {lang.t('community.flaggedaccounts')}
+            {t('community.flaggedaccounts')}
           </Link>
           <Link to={peoplePath} className={`mdl-tabs__tab ${styles.tab}`} activeClassName={styles.active}>
-            {lang.t('community.people')}
+            {t('community.people')}
           </Link>
         </div>
       </div>

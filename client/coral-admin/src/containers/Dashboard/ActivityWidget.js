@@ -1,18 +1,15 @@
 import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 import styles from './Widget.css';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from 'coral-admin/src/translations';
-
-const lang = new I18n(translations);
+import t from 'coral-framework/services/i18n';
 
 const ActivityWidget = ({assets}) => {
   return (
     <div className={styles.widget}>
-      <h2 className={styles.heading}>Articles with the most conversations</h2>
+      <h2 className={styles.heading}>{t('dashboard.most_conversations')}</h2>
       <div className={styles.widgetHead}>
-        <p>{lang.t('streams.article')}</p>
-        <p>{lang.t('dashboard.comment_count')}</p>
+        <p>{t('streams.article')}</p>
+        <p>{t('dashboard.comment_count')}</p>
       </div>
       <div className={styles.widgetTable}>
         {
@@ -29,7 +26,7 @@ const ActivityWidget = ({assets}) => {
               </div>
             );
           })
-          : <div className={styles.rowLinkify}>{lang.t('dashboard.no_activity')}</div>
+          : <div className={styles.rowLinkify}>{t('dashboard.no_activity')}</div>
         }
       </div>
     </div>

@@ -1,29 +1,26 @@
 import React from 'react';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from 'coral-admin/src/translations.json';
 
 import styles from './Community.css';
 import Table from './Table';
 import {Pager, Icon} from 'coral-ui';
 import EmptyCard from '../../components/EmptyCard';
-
-const lang = new I18n(translations);
+import t from 'coral-framework/services/i18n';
 
 const tableHeaders = [
   {
-    title: lang.t('community.username_and_email'),
+    title: t('community.username_and_email'),
     field: 'username'
   },
   {
-    title: lang.t('community.account_creation_date'),
+    title: t('community.account_creation_date'),
     field: 'created_at'
   },
   {
-    title: lang.t('community.status'),
+    title: t('community.status'),
     field: 'status'
   },
   {
-    title: lang.t('community.newsroom_role'),
+    title: t('community.newsroom_role'),
     field: 'role'
   }
 ];
@@ -41,7 +38,7 @@ const People = ({commenters, searchValue, onSearchChange, ...props}) => {
             className={styles.searchBoxInput}
             value={searchValue}
             onChange={onSearchChange}
-            placeholder={lang.t('streams.search')}
+            placeholder={t('streams.search')}
           />
         </div>
       </div>
@@ -53,7 +50,7 @@ const People = ({commenters, searchValue, onSearchChange, ...props}) => {
               commenters={commenters}
               onHeaderClickHandler={props.onHeaderClickHandler}
             />
-          : <EmptyCard>{lang.t('community.no-results')}</EmptyCard>
+          : <EmptyCard>{t('community.no_results')}</EmptyCard>
         }
         <Pager
           totalPages={props.totalPages}

@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
-import {I18n} from '../coral-framework';
-import translations from './translations.json';
+
+import t from 'coral-framework/services/i18n';
+
 import Slot from 'coral-framework/components/Slot';
 import {connect} from 'react-redux';
 import {CommentForm} from './CommentForm';
@@ -11,9 +12,9 @@ export const name = 'coral-plugin-commentbox';
 // if needed
 export const notifyForNewCommentStatus = (addNotification, status) => {
   if (status === 'REJECTED') {
-    addNotification('error', lang.t('comment-post-banned-word'));
+    addNotification('error', t('comment_box.comment_post_banned_word'));
   } else if (status === 'PREMOD') {
-    addNotification('success', lang.t('comment-post-notif-premod'));
+    addNotification('success', t('comment_box.comment_post_notif_premod'));
   }
 };
 
@@ -156,10 +157,10 @@ class CommentBox extends React.Component {
         key={this.state.postedCount}
         defaultValue={this.props.defaultValue}
         bodyInputId={isReply ? 'replyText' : 'commentText'}
-        bodyLabel={isReply ? lang.t('reply') : lang.t('comment')}
+        bodyLabel={isReply ? t('comment_box.reply') : t('comment.comment')}
         maxCharCount={maxCharCount}
         charCountEnable={this.props.charCountEnable}
-        bodyPlaceholder={lang.t('comment')}
+        bodyPlaceholder={t('comment.comment')}
         bodyInputId={isReply ? 'replyText' : 'commentText'}
         saveComment={authorId && this.postComment}
         buttonContainerStart={<Slot
@@ -194,5 +195,3 @@ CommentBox.propTypes = {
 const mapStateToProps = ({commentBox}) => ({commentBox});
 
 export default connect(mapStateToProps, null)(CommentBox);
-
-const lang = new I18n(translations);

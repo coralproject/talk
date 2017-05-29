@@ -1,8 +1,5 @@
-import translations from 'coral-admin/src/translations';
-import I18n from 'coral-framework/modules/i18n/i18n';
+import t from 'coral-framework/services/i18n';
 import {toast} from 'react-toastify';
-
-const lang = new I18n(translations);
 
 export function success(msg) {
   return toast(msg, {type: 'success'});
@@ -21,7 +18,7 @@ export function showMutationErrors(err) {
   errors.forEach((err) => {
     console.error(err);
     toast(
-      err.translation_key ? lang.t(`errors.${err.translation_key}`) : err,
+      err.translation_key ? t(`error.${err.translation_key}`) : err,
       {type: 'error'}
     );
   });

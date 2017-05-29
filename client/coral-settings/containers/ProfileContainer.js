@@ -1,7 +1,6 @@
 import {connect} from 'react-redux';
 import {compose, graphql, gql} from 'react-apollo';
 import React, {Component} from 'react';
-import I18n from 'coral-framework/modules/i18n/i18n';
 import {bindActionCreators} from 'redux';
 
 import {withStopIgnoringUser} from 'coral-framework/graphql/mutations';
@@ -13,8 +12,7 @@ import {Spinner} from 'coral-ui';
 import CommentHistory from 'coral-plugin-history/CommentHistory';
 import {showSignInDialog, checkLogin} from 'coral-framework/actions/auth';
 
-import translations from '../translations';
-const lang = new I18n(translations);
+import t from 'coral-framework/services/i18n';
 
 class ProfileContainer extends Component {
   constructor() {
@@ -63,7 +61,7 @@ class ProfileContainer extends Component {
 
         {me.ignoredUsers && me.ignoredUsers.length
           ? <div>
-              <h3>Ignored users</h3>
+              <h3>{t('framework.ignored_users')}</h3>
               <IgnoredUsers
                 users={me.ignoredUsers}
                 stopIgnoring={stopIgnoringUser}
@@ -73,10 +71,10 @@ class ProfileContainer extends Component {
 
         <hr />
 
-        <h3>My comments</h3>
+        <h3>{t('framework.my_comments')}</h3>
         {me.comments.length
           ? <CommentHistory comments={me.comments} asset={asset} link={link} />
-          : <p>{lang.t('userNoComment')}</p>}
+          : <p>{t('user_no_comment')}</p>}
       </div>
     );
   }

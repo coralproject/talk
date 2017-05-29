@@ -3,16 +3,14 @@ import styles from './style.css';
 import {Button} from 'coral-ui';
 import {Link} from 'react-router';
 
-const lang = new I18n(translations);
-import translations from '../../translations.json';
-import I18n from 'coral-framework/modules/i18n/i18n';
+import t from 'coral-framework/services/i18n';
 
 const InitialStep = () => {
   return (
     <div className={`${styles.step} ${styles.finalStep}`}>
-      <p>{lang.t('FINAL.DESCRIPTION')}</p>
-      <Button raised><Link to='/admin'>{lang.t('FINAL.LAUNCH')}</Link></Button>
-      <Button cStyle='black' raised><a href="http://coralproject.net">{lang.t('FINAL.CLOSE')}</a></Button>
+      <p>{t('install.final.description')}</p>
+      <Button raised><Link to='/admin'>{t('install.final.launch')}</Link></Button>
+      <Button cStyle='black' raised><a href="http://coralproject.net">{t('install.final.close')}</a></Button>
     </div>
   );
 };

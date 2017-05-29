@@ -4,6 +4,8 @@ import BanUserButton from './BanUserButton';
 import {Button} from 'coral-ui';
 import {menuActionsMap} from '../../../containers/ModerationQueue/helpers/moderationQueueActionsMap';
 
+import t from 'coral-framework/services/i18n';
+
 const ActionButton = ({type = '', user, ...props}) => {
   if (type === 'BAN') {
     return <BanUserButton icon='not interested' user={user} onClick={() => props.showBanUserDialog(user)} />;
@@ -17,7 +19,7 @@ const ActionButton = ({type = '', user, ...props}) => {
       onClick={() => {
         type === 'APPROVE' ? props.approveUser({userId: user.id}) : props.showSuspendUserDialog({user: user});
       }}
-    >{menuActionsMap[type].text}</Button>
+    >{t(`modqueue.${menuActionsMap[type].text}`)}</Button>
   );
 };
 

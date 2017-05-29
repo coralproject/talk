@@ -1,11 +1,9 @@
 import React from 'react';
 
+import t from 'coral-framework/services/i18n';
 import RestrictedMessageBox from './RestrictedMessageBox';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from 'coral-framework/translations.json';
-const lang = new I18n(translations);
 
-export default ({children, restricted, message = lang.t('contentNotAvailable'), restrictedComp}) => {
+export default ({children, restricted, message = t('framework.content_not_available'), restrictedComp}) => {
   if (restricted) {
     return restrictedComp ? restrictedComp : <RestrictedMessageBox message={message} />;
   } else {
@@ -16,4 +14,3 @@ export default ({children, restricted, message = lang.t('contentNotAvailable'), 
     );
   }
 };
-
