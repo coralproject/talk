@@ -7,9 +7,7 @@ import isEmpty from 'lodash/isEmpty';
 import {getMutationOptions, resolveFragments} from 'coral-framework/services/graphqlRegistry';
 import {store} from 'coral-framework/services/store';
 import {getDefinitionName, getResponseErrors} from '../utils';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from 'coral-framework/translations.json';
-const lang = new I18n(translations);
+import t from 'coral-framework/services/i18n';
 
 class ResponseErrors extends Error {
   constructor(errors) {
@@ -24,7 +22,7 @@ class ResponseError {
   }
 
   translate(...args) {
-    return lang.t(`error.${this.translation_key}`, ...args);
+    return t(`error.${this.translation_key}`, ...args);
   }
 }
 
