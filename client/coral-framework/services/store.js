@@ -34,9 +34,6 @@ export function getStore() {
   if (window.coralStore) {
     return window.coralStore;
   }
-  if (window.opener && window.opener.coralStore) {
-    return window.opener.coralStore;
-  }
 
   const coralReducers = {
     ...mainReducer,
