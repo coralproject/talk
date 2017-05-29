@@ -1,10 +1,7 @@
 import styles from './styles.css';
 import React from 'react';
-import translations from '../translations';
-import I18n from 'coral-framework/modules/i18n/i18n';
 import {Button, TextField, Spinner, Success, Alert} from 'coral-ui';
-
-const lang = new I18n(translations);
+import t from 'coral-framework/services/i18n';
 
 class SignUpContent extends React.Component {
 
@@ -37,7 +34,7 @@ class SignUpContent extends React.Component {
       <div>
         <div className={styles.header}>
           <h1>
-            {lang.t('signIn.signUp')}
+            {t('sign_in.sign_up')}
           </h1>
         </div>
 
@@ -46,19 +43,19 @@ class SignUpContent extends React.Component {
           <div>
             <div className={styles.socialConnections}>
               <Button cStyle="facebook" onClick={fetchSignUpFacebook} full>
-                {lang.t('signIn.facebookSignUp')}
+                {t('sign_in.facebook_sign_up')}
               </Button>
             </div>
             <div className={styles.separator}>
               <h1>
-                {lang.t('signIn.or')}
+                {t('sign_in.or')}
               </h1>
             </div>
             <form onSubmit={handleSignUp}>
               <TextField
                 id="email"
                 type="email"
-                label={lang.t('signIn.email')}
+                label={t('sign_in.email')}
                 value={formData.email}
                 style={{fontSize: 16}}
                 showErrors={showErrors}
@@ -68,7 +65,7 @@ class SignUpContent extends React.Component {
               <TextField
                 id="username"
                 type="text"
-                label={lang.t('signIn.username')}
+                label={t('sign_in.username')}
                 value={formData.username}
                 showErrors={showErrors}
                 style={{fontSize: 16}}
@@ -78,7 +75,7 @@ class SignUpContent extends React.Component {
               <TextField
                 id="password"
                 type="password"
-                label={lang.t('signIn.password')}
+                label={t('sign_in.password')}
                 value={formData.password}
                 showErrors={showErrors}
                 style={{fontSize: 16}}
@@ -93,7 +90,7 @@ class SignUpContent extends React.Component {
               <TextField
                 id="confirmPassword"
                 type="password"
-                label={lang.t('signIn.confirmPassword')}
+                label={t('sign_in.confirm_password')}
                 value={formData.confirmPassword}
                 style={{fontSize: 16}}
                 showErrors={showErrors}
@@ -109,7 +106,7 @@ class SignUpContent extends React.Component {
                   className={styles.signInButton}
                   full
                 >
-                  {lang.t('signIn.signUp')}
+                  {t('sign_in.sign_up')}
                 </Button>
                 {auth.isLoading && <Spinner />}
               </div>
@@ -120,18 +117,18 @@ class SignUpContent extends React.Component {
             <Success />
             {emailVerificationEnabled &&
               <p>
-                {lang.t('signIn.verifyEmail')}
+                {t('sign_in.verify_email')}
                 <br />
                 <br />
-                {lang.t('signIn.verifyEmail2')}
+                {t('sign_in.verify_email2')}
               </p>}
           </div>}
         <div className={styles.footer}>
-          {lang.t('signIn.alreadyHaveAnAccount')} <a
+          {t('sign_in.already_have_an_account')} <a
             id="coralSignInViewTrigger"
             onClick={() => changeView('SIGNIN')}
           >
-            {lang.t('signIn.signIn')}
+            {t('sign_in.sign_in')}
           </a>
         </div>
       </div>

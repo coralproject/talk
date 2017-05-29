@@ -1,11 +1,7 @@
 import React from 'react';
 
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from 'coral-admin/src/translations.json';
-const lang = new I18n(translations);
-
+import t from 'coral-framework/services/i18n';
 import styles from './Community.css';
-
 import EmptyCard from 'coral-admin/src/components/EmptyCard';
 import User from './User';
 
@@ -32,7 +28,7 @@ const FlaggedAccounts = ({...props}) => {
               suspendUser={props.suspendUser}
               />;
           })
-          : <EmptyCard>{lang.t('community.no-flagged-accounts')}</EmptyCard>
+          : <EmptyCard>{t('community.no_flagged_accounts')}</EmptyCard>
         }
       </div>
     </div>

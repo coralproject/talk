@@ -1,7 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from 'coral-framework/translations.json';
-const lang = new I18n(translations);
+import t from 'coral-framework/services/i18n';
 import styles from './SuspendAccount.css';
 import {Button} from 'coral-ui';
 import validate from 'coral-framework/helpers/validate';
@@ -27,10 +25,10 @@ class SuspendedAccount extends Component {
       editName(username)
         .then(() => location.reload())
         .catch((error) => {
-          this.setState({alert: lang.t(`error.${error.translation_key}`)});
+          this.setState({alert: t(`error.${error.translation_key}`)});
         });
     } else {
-      this.setState({alert: lang.t('editName.error')});
+      this.setState({alert: t('framework.edit_name.error')});
     }
 
   }
@@ -42,8 +40,8 @@ class SuspendedAccount extends Component {
     return <RestrictedMessageBox>
       <span>{
           canEditName ?
-          lang.t('editName.msg')
-          : lang.t('bannedAccountMsg')
+          t('framework.edit_name.msg')
+          : t('framework.banned_account_msg')
         }</span>
       {
         canEditName ?
@@ -55,20 +53,20 @@ class SuspendedAccount extends Component {
             htmlFor='username'
             className="screen-reader-text"
             aria-hidden={true}>
-            {lang.t('editName.label')}
+            {t('framework.edit_name.label')}
           </label>
           <input
             type='text'
             className={styles.editNameInput}
             value={username}
-            placeholder={lang.t('editName.label')}
+            placeholder={t('framework.edit_name.label')}
             id='username'
             onChange={(e) => this.setState({username: e.target.value})}
             rows={3}/><br/>
           <Button
             onClick={this.onSubmitClick}>
             {
-              lang.t('editName.button')
+              t('framework.edit_name.button')
             }
           </Button>
         </div> : null

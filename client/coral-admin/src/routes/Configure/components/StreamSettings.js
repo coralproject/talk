@@ -1,7 +1,6 @@
 import React from 'react';
 import {SelectField, Option} from 'react-mdl-selectfield';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from '../../../translations.json';
+import t from 'coral-framework/services/i18n';
 import styles from './Configure.css';
 import {Checkbox, Textfield} from 'react-mdl';
 import {Card, Icon, TextArea} from 'coral-ui';
@@ -77,9 +76,9 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
             checked={settings.charCountEnable} />
         </div>
         <div className={styles.content}>
-          <div className={styles.settingsHeader}>{lang.t('configure.comment-count-header')}</div>
+          <div className={styles.settingsHeader}>{t('configure.comment_count_header')}</div>
           <p className={settings.charCountEnable ? '' : styles.disabledSettingText}>
-            <span>{lang.t('configure.comment-count-text-pre')}</span>
+            <span>{t('configure.comment_count_text_pre')}</span>
             <input type='text'
               className={`${styles.inlineTextfield} ${styles.charCountTexfield} ${settings.charCountEnable && styles.charCountTexfieldEnabled}`}
               htmlFor='charCount'
@@ -87,13 +86,13 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
               value={settings.charCount}
               disabled={settings.charCountEnable ? '' : 'disabled'}
             />
-            <span>{lang.t('configure.comment-count-text-post')}</span>
+          <span>{t('configure.comment_count_text_post')}</span>
               {
                 errors.charCount &&
                 <span className={styles.settingsError}>
                   <br/>
                   <Icon name="error_outline"/>
-                  {lang.t('configure.comment-count-error')}
+                  {t('configure.comment_count_error')}
                 </span>
               }
           </p>
@@ -107,10 +106,10 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
         </div>
         <div className={styles.content}>
           <div className={styles.settingsHeader}>
-            {lang.t('configure.include-comment-stream')}
+            {t('configure.include_comment_stream')}
           </div>
           <p className={settings.infoBoxEnable ? '' : styles.disabledSettingText}>
-            {lang.t('configure.include-comment-stream-desc')}
+            {t('configure.include_comment_stream_desc')}
           </p>
           <div className={`${styles.configSettingInfoBox} ${settings.infoBoxEnable ? null : styles.hidden}`} >
             <MarkdownEditor
@@ -123,8 +122,8 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
       </Card>
       <Card className={`${styles.configSetting} ${styles.configSettingInfoBox}`}>
         <div className={styles.wrapper}>
-          <div className={styles.settingsHeader}>{lang.t('configure.closed-stream-settings')}</div>
-          <p>{lang.t('configure.closed-comments-desc')}</p>
+          <div className={styles.settingsHeader}>{t('configure.closed_stream_settings')}</div>
+          <p>{t('configure.closed_comments_desc')}</p>
           <div>
             <TextArea className={styles.descriptionBox}
               onChange={updateClosedMessage(updateSettings)}
@@ -140,7 +139,7 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
             checked={settings.autoCloseStream} />
         </div>
         <div className={styles.content}>
-          {lang.t('configure.close-after')}
+          {t('configure.close_after')}
           <br />
           <Textfield
             type='number'
@@ -148,15 +147,15 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
             style={{width: 50}}
             onChange={updateClosedTimeout(updateSettings, settings.closedTimeout)}
             value={getTimeoutAmount(settings.closedTimeout)}
-            label={lang.t('configure.closed-comments-label')} />
+            label={t('configure.closed_comments_label')} />
           <div className={styles.configTimeoutSelect}>
             <SelectField
               label="comments closed time window"
               value={getTimeoutMeasure(settings.closedTimeout)}
               onChange={updateClosedTimeout(updateSettings, settings.closedTimeout, true)}>
-              <Option value={'hours'}>{lang.t('configure.hours')}</Option>
-              <Option value={'days'}>{lang.t('configure.days')}</Option>
-              <Option value={'weeks'}>{lang.t('configure.weeks')}</Option>
+              <Option value={'hours'}>{t('configure.hours')}</Option>
+              <Option value={'days'}>{t('configure.days')}</Option>
+              <Option value={'weeks'}>{t('configure.weeks')}</Option>
             </SelectField>
           </div>
         </div>
@@ -183,5 +182,3 @@ const getTimeoutMeasure = (ts) => {
 // Dividing the amount by it's measure (hours, days, weeks) we
 // obtain the amount of time
 const getTimeoutAmount = (ts) => ts / TIMESTAMPS[getTimeoutMeasure(ts)];
-
-const lang = new I18n(translations);

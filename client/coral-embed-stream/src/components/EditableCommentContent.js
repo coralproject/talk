@@ -6,9 +6,7 @@ import {CountdownSeconds} from './CountdownSeconds';
 import {getEditableUntilDate} from './util';
 
 import {Icon} from 'coral-ui';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from 'coral-framework/translations';
-const lang = new I18n(translations);
+import t from 'coral-framework/services/i18n';
 
 /**
  * Renders a Comment's body in such a way that the end-user can edit it and save changes
@@ -83,11 +81,11 @@ export class EditableCommentContent extends React.Component {
       successfullyEdited = true;
     } catch (error) {
       if (error.translation_key) {
-        addNotification('error', lang.t(`error.${error.translation_key}`));
+        addNotification('error', t(`error.${error.translation_key}`));
       } else if (error.networkError) {
-        addNotification('error', lang.t('error.networkError'));
+        addNotification('error', t('error.network_error'));
       } else {
-        addNotification('error', lang.t('editComment.unexpectedError'));
+        addNotification('error', t('edit_comment.unexpected_error'));
         throw error;
       }
     }
@@ -116,9 +114,9 @@ export class EditableCommentContent extends React.Component {
             return (comment.body !== originalBody) && !editWindowExpired;
           }}
           saveComment={this.editComment}
-          bodyLabel={lang.t('editComment.bodyInputLabel')}
+          bodyLabel={t('edit_comment.body_input_label')}
           bodyPlaceholder=""
-          submitText={<span>{lang.t('editComment.saveButton')}</span>}
+          submitText={<span>{t('edit_comment.save_button')}</span>}
           saveButtonCStyle="green"
           cancelButtonClicked={this.props.stopEditing}
           buttonClass={styles.button}
@@ -128,15 +126,15 @@ export class EditableCommentContent extends React.Component {
                 {
                   editWindowExpired
                   ? <span>
-                      {lang.t('editComment.editWindowExpired')}
+                      {t('edit_comment.edit_window_expired')}
                       {
                         typeof this.props.stopEditing === 'function'
-                        ? <span>&nbsp;<a className={styles.link} onClick={this.props.stopEditing}>{lang.t('editComment.editWindowExpiredClose')}</a></span>
+                        ? <span>&nbsp;<a className={styles.link} onClick={this.props.stopEditing}>{t('edit_comment.edit_window_expired_close')}</a></span>
                         : null
                       }
                     </span>
                   : <span>
-                      <Icon name="timer"/> {lang.t('editComment.editWindowTimerPrefix')}
+                      <Icon name="timer"/> {t('edit_comment.edit_window_timer_prefix')}
                       <CountdownSeconds
                         until={editableUntil}
                         classNameForMsRemaining={(remainingMs) => (remainingMs <= 10 * 1000) ? styles.editWindowAlmostOver : '' }

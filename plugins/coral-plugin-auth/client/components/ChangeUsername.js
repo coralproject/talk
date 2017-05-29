@@ -1,13 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import translations from '../translations';
-import I18n from 'coral-framework/modules/i18n/i18n';
 import errorMsj from 'coral-framework/helpers/error';
 import validate from 'coral-framework/helpers/validate';
 import CreateUsernameDialog from './CreateUsernameDialog';
 
-const lang = new I18n(translations);
+import t from 'coral-framework/services/i18n';
 
 import {
   showCreateUsernameDialog,
@@ -69,7 +67,7 @@ class ChangeUsernameContainer extends React.Component {
     const {addError} = this;
 
     if (!value.length) {
-      addError(name, lang.t('createdisplay.requiredField'));
+      addError(name, t('createdisplay.required_field'));
     } else if (!validate[name](value)) {
       addError(name, errorMsj[name]);
     } else {
@@ -97,7 +95,7 @@ class ChangeUsernameContainer extends React.Component {
       this.props.createUsername(this.props.auth.user.id, this.state.formData);
       validForm();
     } else {
-      invalidForm(lang.t('createdisplay.checkTheForm'));
+      invalidForm(t('createdisplay.check_the_form'));
     }
   };
 

@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react';
-import timeago from 'timeago.js';
 import {Link} from 'react-router';
 import Linkify from 'react-linkify';
 
@@ -16,9 +15,7 @@ import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
 
 const linkify = new Linkify();
 
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from 'coral-admin/src/translations.json';
-const lang = new I18n(translations);
+import t, {timeago} from 'coral-framework/services/i18n';
 
 const Comment = ({
   actions = [],
@@ -62,10 +59,7 @@ const Comment = ({
               {comment.user.name}
             </span>
             <span className={styles.created}>
-              {timeago().format(
-                comment.created_at || Date.now() - props.index * 60 * 1000,
-                lang.getLocale().replace('-', '_')
-              )}
+              {timeago(comment.created_at || Date.now() - props.index * 60 * 1000)}
             </span>
             {props.currentUserId !== comment.user.id &&
               <ActionsMenu icon="not_interested">
@@ -85,7 +79,7 @@ const Comment = ({
           {comment.user.status === 'banned'
             ? <span className={styles.banned}>
                 <Icon name="error_outline" />
-                {lang.t('comment.banned_user')}
+                {t('comment.banned_user')}
               </span>
             : null}
             <Slot
@@ -98,7 +92,7 @@ const Comment = ({
         <div className={styles.moderateArticle}>
           Story: {comment.asset.title}
           {!props.currentAsset &&
-            <Link to={`/admin/moderate/${comment.asset.id}`}>Moderate →</Link>}
+            <Link to={`/admin/moderate/${comment.asset.id}`}>{t('modqueue.moderate')}</Link>}
         </div>
         <div className={styles.itemBody}>
           <p className={styles.body}>
@@ -112,7 +106,7 @@ const Comment = ({
               href={`${comment.asset.url}#${comment.id}`}
               target="_blank"
             >
-              <Icon name="open_in_new" /> {lang.t('comment.view_context')}
+              <Icon name="open_in_new" /> {t('comment.view_context')}
             </a>
           </p>
           <Slot

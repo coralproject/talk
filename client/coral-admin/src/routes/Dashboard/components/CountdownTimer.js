@@ -1,10 +1,8 @@
 import React, {PropTypes} from 'react';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from 'coral-admin/src/translations';
 import styles from './Dashboard.css';
 import {Icon} from 'coral-ui';
 
-const lang = new I18n(translations);
+import t from 'coral-framework/services/i18n';
 const refreshIntervalSeconds = 60 * 5;
 
 class CountdownTimer extends React.Component {
@@ -74,7 +72,7 @@ class CountdownTimer extends React.Component {
         className={styles.autoUpdate}
         onClick={this.dismissNote}>
         <b>×</b>
-        <Icon name='timer' /> <strong>{lang.t('dashboard.next-update', this.formatTime())}</strong> {lang.t('dashboard.auto-update')}
+        <Icon name='timer' /> <strong>{t('dashboard.next_update', this.formatTime())}</strong> {t('dashboard.auto_update')}
       </p>
     );
   }

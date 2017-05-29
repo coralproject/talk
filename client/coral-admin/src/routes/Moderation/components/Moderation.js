@@ -2,8 +2,7 @@ import React, {Component} from 'react';
 import * as notification from 'coral-admin/src/services/notification';
 import key from 'keymaster';
 import styles from './styles.css';
-import translations from 'coral-admin/src/translations';
-import I18n from 'coral-framework/modules/i18n/i18n';
+import t, {timeago} from 'coral-framework/services/i18n';
 
 import BanUserDialog from './BanUserDialog';
 import SuspendUserDialog from './SuspendUserDialog';
@@ -13,8 +12,6 @@ import ModerationHeader from './ModerationHeader';
 import NotFoundAsset from './NotFoundAsset';
 import ModerationKeysModal from '../../../components/ModerationKeysModal';
 import UserDetail from '../containers/UserDetail';
-
-const lang = new I18n(translations);
 
 export default class Moderation extends Component {
   state = {
@@ -83,9 +80,9 @@ export default class Moderation extends Component {
         throw result.data.suspendUser.errors;
       }
       notification.success(
-        lang.t('suspenduser.notify_suspend_until',
+        t('suspenduser.notify_suspend_until',
           this.props.moderation.suspendUserDialog.username,
-          lang.timeago(args.until)),
+          timeago(args.until)),
       );
       const {commentStatus, commentId} = this.props.moderation.suspendUserDialog;
       if (commentStatus !== 'REJECTED') {

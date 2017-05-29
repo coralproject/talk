@@ -5,9 +5,7 @@ import cn from 'classnames';
 import {findDOMNode} from 'react-dom';
 import styles from './ActionsMenu.css';
 
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from 'coral-admin/src/translations.json';
-const lang = new I18n(translations);
+import t from 'coral-framework/services/i18n';
 
 let count = 0;
 
@@ -43,7 +41,7 @@ class ActionsMenu extends React.Component {
           onClick={this.syncOpenState}
           icon={this.props.icon}
           raised>
-          {lang.t('modqueue.actions')}
+          {t('modqueue.actions')}
           <Icon
             name={this.state.open ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}
             className={styles.arrowIcon}

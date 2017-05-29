@@ -3,14 +3,16 @@ import styles from './ModerationList.css';
 import {Button} from 'coral-ui';
 import {menuActionsMap} from '../routes/Moderation/helpers/moderationQueueActionsMap';
 
+import t from 'coral-framework/services/i18n';
+
 const ActionButton = ({type = '', active, ...props}) => {
   const typeName = type.toLowerCase();
   let text = menuActionsMap[type].text;
 
-  if (text === 'Approve' && active) {
-    text = 'Approved';
-  } else if (text === 'Reject' && active) {
-    text = 'Rejected';
+  if (text === 'approve' && active) {
+    text = 'approved';
+  } else if (text === 'reject' && active) {
+    text = 'rejected';
   }
 
   return (
@@ -19,7 +21,7 @@ const ActionButton = ({type = '', active, ...props}) => {
       cStyle={typeName}
       icon={menuActionsMap[type].icon}
       onClick={type === 'APPROVE' ? props.acceptComment : props.rejectComment}
-    >{text}</Button>
+    >{t(`modqueue.${text}`)}</Button>
   );
 };
 

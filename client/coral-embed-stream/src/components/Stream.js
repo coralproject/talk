@@ -4,17 +4,16 @@ import NewCount from './NewCount';
 
 import Comment from '../containers/Comment';
 import SuspendedAccount from './SuspendedAccount';
+import RestrictedMessageBox
+  from 'coral-framework/components/RestrictedMessageBox';
 import Slot from 'coral-framework/components/Slot';
 import InfoBox from 'coral-plugin-infobox/InfoBox';
 import {can} from 'coral-framework/services/perms';
-import I18n from 'coral-framework/modules/i18n/i18n';
 import {ModerationLink} from 'coral-plugin-moderation';
-import translations from 'coral-framework/translations';
 import CommentBox from 'coral-plugin-commentbox/CommentBox';
 import QuestionBox from 'coral-plugin-questionbox/QuestionBox';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
-
-const lang = new I18n(translations);
+import t, {timeago} from 'coral-framework/services/i18n';
 
 class Stream extends React.Component {
   setActiveReplyBox = (reactKey) => {
@@ -87,10 +86,10 @@ class Stream extends React.Component {
               {!banned &&
                 temporarilySuspended &&
                 <RestrictedMessageBox>
-                  {lang.t(
-                    'temporarilySuspended',
+                  {t(
+                    'stream.temporarily_suspended',
                     this.props.root.settings.organizationName,
-                    lang.timeago(user.suspension.until)
+                    timeago(user.suspension.until)
                   )}
                 </RestrictedMessageBox>}
               {banned &&

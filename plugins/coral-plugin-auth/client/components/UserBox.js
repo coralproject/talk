@@ -2,20 +2,18 @@ import React from 'react';
 import styles from './styles.css';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import translations from '../translations';
-import I18n from 'coral-framework/modules/i18n/i18n';
+import t from 'coral-framework/services/i18n';
 import {logout} from 'coral-framework/actions/auth';
-const lang = new I18n(translations);
 
 const UserBox = ({loggedIn, user, logout, onShowProfile}) => (
   <div>
     {
       loggedIn ? (
         <div className={styles.userBox}>
-          {lang.t('signIn.loggedInAs')}
-          <a onClick={onShowProfile}>{user.username}</a>. {lang.t('signIn.notYou')}
+          {t('sign_in.logged_in_as')}
+          <a onClick={onShowProfile}>{user.username}</a>. {t('sign_in.not_you')}
           <a className={styles.logout} onClick={() => logout()}>
-            {lang.t('signIn.logout')}
+            {t('sign_in.logout')}
           </a>
         </div>
       ) : null

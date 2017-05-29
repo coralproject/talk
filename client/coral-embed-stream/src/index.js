@@ -11,9 +11,11 @@ import reducers from './reducers';
 import {getStore, injectReducers} from 'coral-framework/services/store';
 import AppRouter from './AppRouter';
 import {pym} from 'coral-framework';
+import {loadPluginsTranslations} from 'coral-framework/helpers/plugins';
 
 const store = getStore();
 
+loadPluginsTranslations();
 injectReducers(reducers);
 
 // Don't run this in the popup.

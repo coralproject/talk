@@ -5,10 +5,8 @@ import styles from './SuspendUserDialog.css';
 
 import Button from 'coral-ui/components/Button';
 
-import I18n from 'coral-framework/modules/i18n/i18n';
+import t, {timeago} from 'coral-framework/services/i18n';
 import {dateAdd} from 'coral-framework/utils';
-import translations from '../../../translations';
-const lang = new I18n(translations);
 
 const initialState = {step: 0, duration: '3'};
 
@@ -39,11 +37,11 @@ class SuspendUserDialog extends React.Component {
   goToStep1 = () => {
     this.setState({
       step: 1,
-      message: lang.t(
+      message: t(
         'suspenduser.email_message_suspend',
         this.props.username,
         this.props.organizationName,
-        lang.timeago(durationsToDate(this.state.duration)),
+        timeago(durationsToDate(this.state.duration)),
       ),
     });
   }
@@ -65,13 +63,13 @@ class SuspendUserDialog extends React.Component {
     return (
       <section>
         <h1 className={styles.header}>
-          {lang.t('suspenduser.title_suspend')}
+          {t('suspenduser.title_suspend')}
         </h1>
         <p className={styles.description}>
-         {lang.t('suspenduser.description_suspend', username)}
+         {t('suspenduser.description_suspend', username)}
         </p>
         <fieldset>
-          <legend className={styles.legend}>{lang.t('suspenduser.select_duration')}</legend>
+          <legend className={styles.legend}>{t('suspenduser.select_duration')}</legend>
           <RadioGroup
             name='status filter'
             value={duration}
@@ -79,18 +77,18 @@ class SuspendUserDialog extends React.Component {
             onChange={this.handleDurationChange}
             className={styles.radioGroup}
           >
-            <Radio value='1'>{lang.t('suspenduser.one_hour')}</Radio>
-            <Radio value='3'>{lang.t('suspenduser.hours', 3)}</Radio>
-            <Radio value='24'>{lang.t('suspenduser.hours', 24)}</Radio>
-            <Radio value='168'>{lang.t('suspenduser.days', 7)}</Radio>
+            <Radio value='1'>{t('suspenduser.one_hour')}</Radio>
+            <Radio value='3'>{t('suspenduser.hours', 3)}</Radio>
+            <Radio value='24'>{t('suspenduser.hours', 24)}</Radio>
+            <Radio value='168'>{t('suspenduser.days', 7)}</Radio>
           </RadioGroup>
         </fieldset>
         <div className={styles.buttons}>
           <Button cStyle="white" className={styles.cancel} onClick={onCancel} raised>
-            {lang.t('suspenduser.cancel')}
+            {t('suspenduser.cancel')}
           </Button>
           <Button cStyle="black" className={styles.perform} onClick={this.goToStep1} raised>
-            {lang.t('suspenduser.suspend_user')}
+            {t('suspenduser.suspend_user')}
           </Button>
         </div>
       </section>
@@ -103,13 +101,13 @@ class SuspendUserDialog extends React.Component {
     return (
       <section>
         <h1 className={styles.header}>
-          {lang.t('suspenduser.title_notify')}
+          {t('suspenduser.title_notify')}
         </h1>
         <p className={styles.description}>
-         {lang.t('suspenduser.description_notify', username)}
+         {t('suspenduser.description_notify', username)}
         </p>
         <fieldset>
-          <legend className={styles.legend}>{lang.t('suspenduser.write_message')}</legend>
+          <legend className={styles.legend}>{t('suspenduser.write_message')}</legend>
           <textarea
             rows={5}
             className={styles.messageInput}
@@ -118,7 +116,7 @@ class SuspendUserDialog extends React.Component {
         </fieldset>
         <div className={styles.buttons}>
           <Button cStyle="white" className={styles.cancel} onClick={onCancel} raised>
-            {lang.t('suspenduser.cancel')}
+            {t('suspenduser.cancel')}
           </Button>
           <Button
             cStyle="black"
@@ -127,7 +125,7 @@ class SuspendUserDialog extends React.Component {
             disabled={this.state.message.length === 0}
             raised
           >
-            {lang.t('suspenduser.send')}
+            {t('suspenduser.send')}
           </Button>
         </div>
       </section>

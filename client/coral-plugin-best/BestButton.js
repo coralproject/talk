@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
-import {I18n} from '../coral-framework';
-import translations from './translations.json';
+
+import t from 'coral-framework/services/i18n';
+
 import {Icon} from 'coral-ui';
 import classnames from 'classnames';
 
@@ -12,7 +13,6 @@ export const commentIsBest = ({tags} = {}) => {
 };
 
 const name = 'coral-plugin-best';
-const lang = new I18n(translations);
 
 // It would be best if the backend/api held this business logic
 const canModifyBestTag = ({roles = []} = {}) => roles && ['ADMIN', 'MODERATOR'].some((role) => roles.includes(role));
@@ -20,7 +20,7 @@ const canModifyBestTag = ({roles = []} = {}) => roles && ['ADMIN', 'MODERATOR'].
 // Put this on a comment to show that it is best
 
 export const BestIndicator = ({children = <Icon name='star'/>}) => (
-  <span aria-label={lang.t('commentIsBest')}>
+  <span aria-label={t('comment_is_best')}>
     { children }
   </span>
 );
@@ -98,7 +98,7 @@ export class BestButton extends Component {
       <button onClick={isBest ? this.onClickRemoveBest : this.onClickAddBest}
               disabled={disabled}
               className={classnames(`${name}-button`, `e2e__${isBest ? 'unset' : 'set'}-best-comment`)}
-              aria-label={lang.t(isBest ? 'unsetBest' : 'setBest')}>
+              aria-label={t(isBest ? 'unset_best' : 'set_best')}>
         <Icon name={ isBest ? 'star' : 'star_border' } />
       </button>
     );

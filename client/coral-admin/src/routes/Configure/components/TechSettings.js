@@ -3,9 +3,7 @@ import {Card} from 'coral-ui';
 import Domainlist from './Domainlist';
 import EmbedLink from './EmbedLink';
 import styles from './Configure.css';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from '../../../translations.json';
-const lang = new I18n(translations);
+import t from 'coral-framework/services/i18n';
 
 const updateCustomCssUrl = (updateSettings) => (event) => {
   const customCssUrl = event.target.value;
@@ -21,8 +19,8 @@ const TechSettings = ({settings, onChangeDomainlist, updateSettings}) => {
       <EmbedLink />
       <Card className={styles.configSetting}>
         <div className={styles.wrapper}>
-          <div className={styles.settingsHeader}>{lang.t('configure.custom-css-url')}</div>
-          <p>{lang.t('configure.custom-css-url-desc')}</p>
+          <div className={styles.settingsHeader}>{t('configure.custom_css_url')}</div>
+          <p>{t('configure.custom_css_url_desc')}</p>
           <input
             className={styles.customCSSInput}
             value={settings.customCssUrl}

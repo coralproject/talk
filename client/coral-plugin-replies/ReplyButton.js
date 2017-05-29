@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
-import {I18n} from '../coral-framework';
-import translations from './translations.json';
+
+import t from 'coral-framework/services/i18n';
+
 import classnames from 'classnames';
 
 const name = 'coral-plugin-replies';
@@ -10,7 +11,7 @@ const ReplyButton = ({banned, onClick}) => {
     <button
       className={classnames(`${name}-reply-button`)}
       onClick={onClick}>
-      {lang.t('reply')}
+      {t('reply')}
       <i className={`${name}-icon material-icons`}
         aria-hidden={true}>{banned ? 'BANNED' : 'reply'}</i>
     </button>
@@ -23,5 +24,3 @@ ReplyButton.propTypes = {
 };
 
 export default ReplyButton;
-
-const lang = new I18n(translations);
