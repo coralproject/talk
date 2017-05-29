@@ -5,9 +5,7 @@ import * as actions from '../constants/auth';
 import * as Storage from '../helpers/storage';
 import coralApi, {base} from '../helpers/request';
 
-const lang = new I18n(translations);
-import translations from './../translations';
-import I18n from '../../coral-framework/modules/i18n/i18n';
+import t from 'coral-framework/services/i18n';
 
 export const showSignInDialog = () => (dispatch, getState) => {
   const signInPopUp = window.open(
@@ -74,7 +72,7 @@ export const createUsername = (userId, formData) => (dispatch) => {
       dispatch(updateUsername(formData));
     })
     .catch((error) => {
-      dispatch(createUsernameFailure(lang.t(`error.${error.translation_key}`)));
+      dispatch(createUsernameFailure(t(`error.${error.translation_key}`)));
     });
 };
 
@@ -146,12 +144,12 @@ export const fetchSignIn = (formData) => {
 
           // the user might not have a valid email. prompt the user user re-request the confirmation email
           dispatch(
-            signInFailure(lang.t('error.emailNotVerified', error.metadata))
+            signInFailure(t('error.email_not_verified', error.metadata))
           );
         } else {
 
           // invalid credentials
-          dispatch(signInFailure(lang.t('error.emailPasswordError')));
+          dispatch(signInFailure(t('error.email_password')));
         }
       });
   };
@@ -236,7 +234,7 @@ export const fetchSignUp = (formData, redirectUri) => (dispatch) => {
       dispatch(signUpSuccess(user));
     })
     .catch((error) => {
-      let errorMessage = lang.t(`error.${error.message}`);
+      let errorMessage = t(`error.${error.message}`);
 
       // if there is no translation defined, just show the error string
       if (errorMessage === `error.${error.message}`) {

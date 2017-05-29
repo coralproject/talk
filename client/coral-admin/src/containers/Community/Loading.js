@@ -1,7 +1,9 @@
 import React from 'react';
 
+import t from 'coral-framework/services/i18n';
+
 const Loading = () => (
-  <h1> Loading results </h1>
+  <h1> {t('loading_results')}</h1>
 );
 
 export default Loading;

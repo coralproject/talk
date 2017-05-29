@@ -1,53 +1,51 @@
 import React from 'react';
 import FlagButton from './FlagButton';
-import {I18n} from '../coral-framework';
-import translations from './translations.json';
+
+import t from 'coral-framework/services/i18n';
 
 const FlagComment = (props) => <FlagButton {...props} getPopupMenu={getPopupMenu} />;
 
 const getPopupMenu = [
   () => {
     return {
-      header: lang.t('step-1-header'),
+      header: t('step_1_header'),
       options: [
-        {val: 'COMMENTS', text: lang.t('flag-comment')},
-        {val: 'USERS', text: lang.t('flag-username')}
+        {val: 'COMMENTS', text: t('flag_comment')},
+        {val: 'USERS', text: t('flag_username')}
       ],
-      button: lang.t('continue'),
+      button: t('continue'),
       sets: 'itemType'
     };
   },
   (itemType) => {
     const options = itemType === 'COMMENTS' ?
     [
-      {val: 'This comment is offensive', text: lang.t('comment-offensive')},
-      {val: 'This looks like an ad/marketing', text: lang.t('marketing')},
-      {val: 'I don\'t agree with this comment', text: lang.t('no-agree-comment')},
-      {val: 'Other', text: lang.t('other')}
+      {val: 'This comment is offensive', text: t('comment_offensive')},
+      {val: 'This looks like an ad/marketing', text: t('marketing')},
+      {val: 'I don\'t agree with this comment', text: t('no_agree_comment')},
+      {val: 'Other', text: t('other')}
     ]
     : [
-      {val: 'This username is offensive', text: lang.t('username-offensive')},
-      {val: 'I don\'t like this username', text: lang.t('no-like-username')},
-      {val: 'This user is impersonating', text: lang.t('user-impersonating')},
-      {val: 'This looks like an ad/marketing', text: lang.t('marketing')},
-      {val: 'Other', text: lang.t('other')}
+      {val: 'This username is offensive', text: t('username_offensive')},
+      {val: 'I don\'t like this username', text: t('no_like_username')},
+      {val: 'This user is impersonating', text: t('user_impersonating')},
+      {val: 'This looks like an ad/marketing', text: t('marketing')},
+      {val: 'Other', text: t('other')}
     ];
     return {
-      header: lang.t('step-2-header'),
+      header: t('step_2_header'),
       options,
-      button: lang.t('continue'),
+      button: t('continue'),
       sets: 'reason'
     };
   },
   () =>  {
     return {
-      header: lang.t('step-3-header'),
-      text: lang.t('thank-you'),
-      button: lang.t('done'),
+      header: t('step_3_header'),
+      text: t('thank_you'),
+      button: t('done'),
     };
   }
 ];
 
 export default FlagComment;
-
-const lang = new I18n(translations);

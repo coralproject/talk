@@ -1,9 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Button, TextField, Spinner, Success, Alert} from 'coral-ui';
 import styles from './styles.css';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from '../translations';
-const lang = new I18n(translations);
+import t from 'coral-framework/services/i18n';
 
 const SignInContent = ({
   handleChange,
@@ -23,18 +21,18 @@ const SignInContent = ({
       <div className={`${styles.header} header`}>
         <h1>
           {auth.emailVerificationFailure
-            ? lang.t('signIn.emailVerifyCTA')
-            : lang.t('signIn.signIn')}
+            ? t('sign_in.email_verify_cta')
+            : t('sign_in.sign_in_to_join')}
         </h1>
       </div>
       {auth.error && <Alert>{auth.error}</Alert>}
       {auth.emailVerificationFailure
         ? <form onSubmit={handleResendVerification}>
-            <p>{lang.t('signIn.requestNewVerifyEmail')}</p>
+            <p>{t('sign_in.request_new_verify_email')}</p>
             <TextField
               id="confirm-email"
               type="email"
-              label={lang.t('signIn.email')}
+              label={t('sign_in.email')}
               value={emailToBeResent}
               onChange={handleChangeEmail}
             />
@@ -47,19 +45,19 @@ const SignInContent = ({
         : <div>
             <div className={`${styles.socialConnections} social-connections`}>
               <Button cStyle="facebook" onClick={fetchSignInFacebook} full>
-                {lang.t('signIn.facebookSignIn')}
+                {t('sign_in.facebook_sign_in')}
               </Button>
             </div>
             <div className={styles.separator}>
               <h1>
-                {lang.t('signIn.or')}
+                {t('sign_in.or')}
               </h1>
             </div>
             <form onSubmit={handleSignIn}>
               <TextField
                 id="email"
                 type="email"
-                label={lang.t('signIn.email')}
+                label={t('sign_in.email')}
                 value={formData.email}
                 style={{fontSize: 16}}
                 onChange={handleChange}
@@ -67,7 +65,7 @@ const SignInContent = ({
               <TextField
                 id="password"
                 type="password"
-                label={lang.t('signIn.password')}
+                label={t('sign_in.password')}
                 value={formData.password}
                 style={{fontSize: 16}}
                 onChange={handleChange}
@@ -81,7 +79,7 @@ const SignInContent = ({
                       className={styles.signInButton}
                       full
                     >
-                      {lang.t('signIn.signIn')}
+                      {t('sign_in.sign_in')}
                     </Button>
                   : <Spinner />}
               </div>
@@ -90,13 +88,13 @@ const SignInContent = ({
       <div className={`${styles.footer} footer`}>
         <span>
           <a onClick={() => changeView('FORGOT')}>
-            {lang.t('signIn.forgotYourPass')}
+            {t('sign_in.forgot_your_pass')}
           </a>
         </span>
         <span>
-          {lang.t('signIn.needAnAccount')}
+          {t('sign_in.need_an_account')}
           <a onClick={() => changeView('SIGNUP')} id="coralRegister">
-            {lang.t('signIn.register')}
+            {t('sign_in.register')}
           </a>
         </span>
       </div>

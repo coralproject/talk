@@ -1,0 +1,355 @@
+en:
+  bandialog:
+    are_you_sure: "Are you sure you would like to ban {0}?"
+    ban_user: "Ban User?"
+    banned_user: "Banned User"
+    cancel: Cancel
+    note: "Note: Banning this user will also place this comment in the Rejected queue."
+    yes_ban_user: "Yes, Ban User"
+  bio_offensive: "This bio is offensive"
+  cancel: Cancel
+  characters_remaining: "characters remaining"
+  comment:
+    anon: Anonymous
+    ban_user: "Ban User"
+    comment: "Post a comment"
+    flagged: flagged
+    view_context: "View context"
+  comment_box:
+    post: "Post"
+    cancel: "Cancel"
+    reply: "Reply"
+    comment: "Post a comment"
+    name: "Name"
+    comment_post_notif: "Your comment has been posted."
+    comment_post_notif_premod: "Thank you for posting. Our moderation team will review your comment shortly."
+    comment_post_banned_word:  "Your comment contains one or more words that are not permitted, so it will not be published. If you think this message is incorrect, please contact our moderation team."
+    characters_remaining: "characters remaining"
+  comment_is_best: "This comment is one of the best"
+  comment_offensive: "This comment is offensive"
+  comment_plural: Comments
+  comment_post_banned_word: "Your comment contains one or more words that are not permitted, so it will not be published. If you think this message is incorrect, please contact our moderation team."
+  comment_post_notif: "Your comment has been posted."
+  comment_post_notif_premod: "Thank you for posting. Our moderation team will review your comment shortly."
+  community:
+    account_creation_date: "Account Creation Date"
+    active: Active
+    admin: Administrator
+    ads_marketing: "This looks like an ad/marketing"
+    are_you_sure: "Are you sure you would like to ban {0}?"
+    ban_user: "Ban User?"
+    banned: Banned
+    banned_user: "Banned User"
+    cancel: Cancel
+    dont_like_username: "I don't like this username"
+    flaggedaccounts: "Flagged Usernames"
+    flags: Flags
+    impersonating: "This user is impersonating"
+    loading: "Loading results"
+    moderator: Moderator
+    newsroom_role: "Newsroom Role"
+    no_flagged_accounts: "The Account Flags queue is currently empty."
+    no_results: "No users found with that user name or email address. They're hiding!"
+    note: "Note: Banning this user will not let them edit comment or remove anything."
+    offensive: "This comment is offensive"
+    other: Other
+    people: People
+    role: "Select role..."
+    select_status: "Select status..."
+    spam_ads: "Spam/Ads"
+    staff: "Staff"
+    status: Status
+    username_and_email: "Username and Email"
+    yes_ban_user: "Yes Ban User"
+  configure:
+    apply: Apply
+    banned_word_text: "Comments which contain these words or phrases (not case-sensitive) will be automatically removed from the comment stream. Type a word and press Enter or Tab to add. Optionally paste a comma-separated list."
+    banned_words_title: "Banned words list"
+    close: "Close"
+    close_after: "Close comments after"
+    close_stream: "Close Stream"
+    close_stream_configuration: "This comment stream is currently closed. By opening this comment stream new comments may be submitted and displayed"
+    closed_comments_desc: "Write a message to be displayed when when your comment stream is closed and no longer accepting comments."
+    closed_comments_label: "Write a message..."
+    closed_stream_settings: "Closed Stream Message"
+    comment_count_error: "Please enter a valid number."
+    comment_count_header: "Limit Comment Length"
+    comment_count_text_post: characters
+    comment_count_text_pre: "Comments will be limited to"
+    comment_settings: Settings
+    comment_stream: "Comment Stream"
+    comment_stream_will_close: "The comment stream will close in"
+    community: Community
+    configure: Configure
+    copy_and_paste: "Copy and paste code below into your CMS to embed your comment box in your articles"
+    custom_css_url: "Custom CSS URL"
+    custom_css_url_desc: "URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external."
+    dashboard: Dashboard
+    days: Days
+    description: "As an admin you may customize the settings for the comment stream for this asset"
+    domain_list_text: "Enter the domains you would like to permit for Talk e.g. your local staging and production environments (ex. localhost:3000 staging.domain.com domain.com)."
+    domain_list_title: "Permitted Domains"
+    edit_comment_timeframe_heading: "Edit Comment Timeframe"
+    edit_comment_timeframe_text_pre: "Commenters will have"
+    edit_comment_timeframe_text_post: "seconds to edit their comments."
+    embed_comment_stream: "Embed Stream"
+    enable_premod_links_text: "Moderators must approve any comment containing a link before its published."
+    enable_pre_moderation: "Enable pre-moderation"
+    enable_pre_moderation_text: "Moderators must approve any comment before it is published."
+    enable_premod_links: "Pre-Moderate Comments Containing Links"
+    enable_premod: "Enable Premoderation"
+    enable_premod_description: "Moderators must approve any comment before its published."
+    enable_premod_links_description: "Moderators must approve any comment containing a link before its published."
+    enable_questionbox: "Ask readers a question"
+    enable_questionbox_description: "This question will appear at the top of this comment stream. Ask readers about a certain issue in the article or pose discussion questions etc."
+    hours: Hours
+    include_comment_stream: "Include Comment Stream Description for Readers"
+    include_comment_stream_desc: "Write a message to be added to the top of your comment stream. Pose a topic include community guidelines etc."
+    include_text: "Include your text here."
+    include_question_here: "Write your question here."
+    moderate: Moderate
+    moderation_settings: "Moderation Settings"
+    open: "Open"
+    open_stream: "Open Stream"
+    open_stream_configuration: "This comment stream is currently open. By closing this comment stream no new comments may be submitted and all previous comments will still be displayed."
+    require_email_verification: "Require Email Verification"
+    require_email_verification_text: "New Users must verify their email before commenting"
+    save_changes: "Save Changes"
+    shortcuts: Shortcuts
+    sign_out: "Sign Out"
+    stories: Stories
+    stream_settings: "Stream Settings"
+    suspect_word_title: "Suspect words list"
+    suspect_word_text: "Comments which contain these words or phrases (not case-sensitive) will be highlighted in the comment stream. Type a word and press Enter or Tab to add. Optionally paste a comma-separated list."
+    tech_settings: "Tech Settings"
+    title: "Configure Comment Stream"
+    weeks: Weeks
+    wordlist: "Banned Words"
+  continue: Continue
+  dashboard:
+    auto_update: "Data automatically updates every five minutes or when you Reload."
+    comment_count: comments
+    flags: Flags
+    most_flags: "Articles with the most flags"
+    most_conversations: "Articles with the most conversations"
+    next_update: "{0} minutes until next update."
+    no_activity: "There haven't been any comments anywhere in the last five minutes."
+    no_flags: "There have been no flags in the last 5 minutes! Hooray!"
+    no_likes: "There have been no likes in the last 5 minutes. All quiet."
+  done: Done
+  edit_comment:
+    body_input_label: "Edit this comment"
+    save_button: "Save changes"
+    edit_window_expired: "You can no longer edit this comment. The time window to do so has expired. Why not post another one?"
+    edit_window_expired_close: "Close"
+    edit_window_timer_prefix: "Edit Window: "
+    second: "second"
+    seconds_plural: "seconds"
+    unexpected_error: "Unexpected error while saving changes. Sorry!"
+  embedlink:
+    copy: "Copy to Clipboard"
+  error:
+    COMMENT_TOO_SHORT: "Your comment must have something in it"
+    NOT_AUTHORIZED: "You are not authorized to perform this action."
+    NO_SPECIAL_CHARACTERS: "Usernames can contain letters numbers and _ only"
+    PASSWORD_LENGTH: "Password is too short"
+    PROFANITY_ERROR: "Usernames must not contain profanity. Please contact the administrator if you believe this to be in error."
+    USERNAME_IN_USE: "Username already in use"
+    USERNAME_REQUIRED: "Must input a username"
+    EDIT_WINDOW_ENDED: "You can no longer edit this comment. The time window to do so has expired."
+    EDIT_USERNAME_NOT_AUTHORIZED: "You do not have permission to update your username."
+    EMAIL_IN_USE: "Email address already in use"
+    EMAIL_REQUIRED: "An email address is required"
+    LOGIN_MAXIMUM_EXCEEDED: "You have made too many unsuccessful password attempts. Please wait."
+    PASSWORD_REQUIRED: "Must input a password"
+    COMMENTING_CLOSED: "Commenting is already closed"
+    NOT_FOUND: "Resource not found"
+    INVALID_ASSET_URL: "Assert URL is invalid"
+    email: "Not a valid E-Mail"
+    confirm_password: "Passwords don't match. Please check again"
+    network_error: "Failed to connect to server. Check your internet connection and try again."
+    email_not_verified: "E-mail address {0} not verified."
+    email_password: "E-mail and/or password combination incorrect."
+    organization_name: "Organization name must only contain letters or numbers."
+    password: "Password must be at least 8 characters"
+    username: "Usernames can contain letters numbers and _ only"
+  flag_comment: "Report comment"
+  flag_reason: "Reason for reporting (Optional)"
+  flag_username: "Report username"
+  framework:
+    banned_account_msg: "Your account is currently suspended. This means that you cannot Like Report or write comments. Please contact us if you have any questions."
+    comment: comment
+    comment_is_ignored: "This comment is hidden because you ignored this user."
+    comments: comments
+    configure_stream: "Configure Stream"
+    content_not_available: "This content is not available"
+    edit_name:
+      button: Submit
+      error: "Usernames can contain letters numbers and _ only"
+      label: "New Username"
+      msg: "Your account is currently suspended because your username has been deemed inappropriate. To restore your account please enter a new username. Please contact us if you have any questions."
+    ignored_users: "Ignored users"
+    my_comments: "My Comments"
+    my_profile: "My profile"
+    new_count: "View {0} new {1}"
+    profile: Profile
+    show_all_comments: "Show all comments"
+    success_bio_update: "Your biography has been updated"
+    success_name_update: "Your username has been updated"
+    success_update_settings: "The changes you have made have been applied to the comment stream on this article"
+    view_all_replies: "view {0} replies"
+    view_all_replies_initial: "view all {0} replies"
+    view_more_comments: "view more comments"
+    view_reply: "view reply"
+  from_settings_page: "From the Profile Page you can see your comment history."
+  like: Like
+  loading_results: "Loading Results"
+  marketing: "This looks like an ad/marketing"
+  moderate_this_stream: "Moderate this stream"
+  modqueue:
+    account: "account flags"
+    actions: Actions
+    all: all
+    all_streams: "All Streams"
+    approve: "Approve"
+    approved: "Approved"
+    ban_user: "Ban"
+    billion: B
+    close: Close
+    dont_like_username: "Don't like username"
+    empty_queue: "No more comments to moderate! You're all caught up. Go have some ☕️"
+    flagged: flagged
+    impersonating: Impersonating
+    less_detail: "Less detail"
+    likes: likes
+    million: M
+    mod_faster: "Moderate faster with keyboard shortcuts"
+    moderate: "Moderate →"
+    more_detail: "More detail"
+    newest_first: "Newest First"
+    navigation: Navigation
+    next_comment: "Go to the next comment"
+    offensive: Offensive
+    oldest_first: "Oldest First"
+    other: Other
+    premod: pre-mod
+    prev_comment: "Go to the previous comment"
+    reject: "Reject"
+    rejected: "Rejected"
+    select_stream: "Select Stream"
+    shift_key: ⇧
+    shortcuts: Shortcuts
+    show_shortcuts: "Show Shortcuts"
+    singleview: "Toggle single comment edit view"
+    spam_ads: Spam/Ads
+    thismenu: "Open this menu"
+    thousand: k
+    try_these: "Try these"
+    view_more_shortcuts: "View more shortcuts"
+  my_comment_history: "My comment History"
+  name: Name
+  no_agree_comment: "I don't agree with this comment"
+  no_like_bio: "I don't like this bio"
+  no_like_username: "I don't like this username"
+  other: Other
+  permalink: Link
+  personal_info: "This comment reveals personally identifiable information"
+  post: Post
+  profile: Profile
+  profile_settings: "Profile Settings"
+  reply: Reply
+  report: Report
+  report_notif: "Thank you for reporting this comment. Our moderation team has been notified and will review it shortly."
+  report_notif_remove: "Your report has been removed."
+  reported: Reported
+  set_best: "Tag as Best"
+  settings:
+    all_comments: "All Comments"
+    from_settings_page: "From the Profile Page you can see your comment history."
+    my_comment_history: "My comment History"
+    profile: Profile
+    profile_settings: "Profile Settings"
+    sign_in: "Sign in"
+    to_access: "to access Profile"
+    user_no_comment: "You've never left a comment. Join the conversation!"
+  stream:
+    temporarily_suspended: "In accordance with {0}'s community guidlines, your account has been temporarily suspended. Please rejoin the conversation {1}."
+  step_1_header: "Report an issue"
+  step_2_header: "Help us understand"
+  step_3_header: "Thank you for your input"
+  streams:
+    all: All
+    article: Story
+    closed: Closed
+    empty_result: "No assets match this search. Maybe try widening your search?"
+    filter_streams: "Filter Streams"
+    newest: Newest
+    oldest: Oldest
+    open: Open
+    pubdate: "Publication Date"
+    search: Search
+    sort_by: "Sort By"
+    status: "Stream Status"
+    stream_status: "Stream Status"
+  suspenduser:
+    bio: bio
+    cancel: "Cancel"
+    days: "{0} days"
+    description_0: "Would you like to temporarily ban this user because of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}."
+    description_1: "Suspending this user will temporarily disable their account and hide all of their comments on the site."
+    description_notify: "Suspending this user will temporarily disable their account and hide all of their comments on the site."
+    description_reject: "Would you like to temporarily ban this user because of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}."
+    description_suspend: "You are suspending {0}. This comment will go to the Rejected queue, and {0} will not be allowed to like, report, reply or post until the suspension time is complete."
+    email: "Another member of the community recently flagged your username for review. Because of its content your user was rejected. This means you can no longer comment like or flag content until you rewrite your username. Please e-mail us if you have any questions or concerns."
+    email_subject: "Your account has been suspended"
+    email_message_reject: "Another member of the community recently flagged your username for review. Because of its content your user was rejected. This means you can no longer comment, like, or flag content until you rewrite your username. Please e-mail us if you have any questions or concerns."
+    email_message_suspend: "Dear {0},\n\nIn accordance with {1}’s community guidelines, your account has been temporarily suspended. During the suspension, you will be unable to comment, flag or engage with fellow commenters. Please rejoin the conversation {2}."
+    error_email_message_empty: "You must specify an E-Mail message."
+    hours: "{0} hours"
+    no_cancel: "No cancel"
+    notify_suspend_until: "User {0} has been temporarily suspended. This suspension will automatically end {1}."
+    one_hour: "1 hour"
+    send: Send
+    select_duration: "Select suspension duration"
+    suspend_user: "Suspend User"
+    title: "Suspend a user"
+    title_0: "We noticed you rejected a username"
+    title_1: "Notify the user of their temporary suspension"
+    title_notify: "Notify the user of their temporary suspension"
+    title_reject: "We noticed you rejected a username"
+    title_suspend: "Suspend User"
+    username: username
+    write_message: "Write a message"
+    yes_suspend: "Yes suspend"
+  thank_you: "We value your safety and feedback. A moderator will review your report."
+  unset_best: "Untag as Best"
+  user:
+    bio_flags: "flags for this bio"
+    user_bio: "User Bio"
+    username_flags: "flags for this username"
+  user_impersonating: "This user is impersonating"
+  user_no_comment: "You've never left a comment. Join the conversation!"
+  username_offensive: "This username is offensive"
+  view_conversation: "View Conversation"
+  install:
+    initial:
+      description: "Let's set up your Talk community in just a few short steps."
+      submit: "Get Started"
+    add_organization:
+      description: "Please tell us the name of your organization. This will appear in emails when inviting new team members."
+      label: "Organization Name"
+      save: "Save"
+    create:
+      email: "Email address"
+      username: "Username"
+      password: "Password"
+      confirm_password: "Confirm Password"
+      save: "Save"
+    permitted_domains:
+      title: "Permitted domains"
+      description: "Enter the domains you would like to permit for Talk, e.g. your local, staging and production environments (ex. localhost:3000, staging.domain.com, domain.com)."
+      submit: "Finish install"
+    final:
+      description: "Thanks for installing Talk! We sent an email to verify your email address. While you finish setting up the account, you can start engaging with your readers now."
+      launch: "Launch Talk"
+      close: "Close this Installer"

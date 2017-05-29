@@ -1,10 +1,7 @@
 import React from 'react';
 import styles from './styles.css';
-import translations from '../translations';
 import Button from 'coral-ui/components/Button';
-import I18n from 'coral-framework/modules/i18n/i18n';
-
-const lang = new I18n(translations);
+import t from 'coral-framework/services/i18n';
 
 class ForgotContent extends React.Component {
   handleSubmit = (e) => {
@@ -19,11 +16,11 @@ class ForgotContent extends React.Component {
     return (
       <div>
         <div className={styles.header}>
-          <h1>{lang.t('signIn.recoverPassword')}</h1>
+          <h1>{t('sign_in.recover_password')}</h1>
         </div>
         <form onSubmit={this.handleSubmit}>
           <div className={styles.textField}>
-            <label htmlFor="email">{lang.t('signIn.email')}</label>
+            <label htmlFor="email">{t('sign_in.email')}</label>
             <input
               ref={(input) => (this.emailInput = input)}
               type="text"
@@ -38,7 +35,7 @@ class ForgotContent extends React.Component {
             className={styles.signInButton}
             full
           >
-            {lang.t('signIn.recoverPassword')}
+            {t('sign_in.recover_password')}
           </Button>
           {passwordRequestSuccess
             ? <p className={styles.passwordRequestSuccess}>
@@ -53,17 +50,17 @@ class ForgotContent extends React.Component {
         </form>
         <div className={styles.footer}>
           <span>
-            {lang.t('signIn.needAnAccount')}
+            {t('sign_in.need_an_account')}
             {' '}
             <a onClick={() => changeView('SIGNUP')}>
-              {lang.t('signIn.register')}
+              {t('sign_in.register')}
             </a>
           </span>
           <span>
-            {lang.t('signIn.alreadyHaveAnAccount')}
+            {t('sign_in.already_have_an_account')}
             {' '}
             <a onClick={() => changeView('SIGNIN')}>
-              {lang.t('signIn.signIn')}
+              {t('sign_in.sign_in')}
             </a>
           </span>
         </div>

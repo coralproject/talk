@@ -1,10 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 import styles from './Widget.css';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from 'coral-admin/src/translations';
-
-const lang = new I18n(translations);
+import t from 'coral-framework/services/i18n';
 
 const LikeWidget = ({assets}) => {
 
@@ -12,8 +9,8 @@ const LikeWidget = ({assets}) => {
     <div className={styles.widget}>
       <h2 className={styles.heading}>Articles with the most likes</h2>
       <div className={styles.widgetHead}>
-        <p>{lang.t('streams.article')}</p>
-        <p>{lang.t('modqueue.likes')}</p>
+        <p>{t('streams.article')}</p>
+        <p>{t('modqueue.likes')}</p>
       </div>
       <div className={styles.widgetTable}>
         {
@@ -31,7 +28,7 @@ const LikeWidget = ({assets}) => {
               </div>
             );
           })
-          : <div className={styles.rowLinkify}>{lang.t('dashboard.no_likes')}</div>
+          : <div className={styles.rowLinkify}>{t('dashboard.no_likes')}</div>
         }
       </div>
     </div>

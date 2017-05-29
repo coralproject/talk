@@ -1,9 +1,7 @@
 import React, {PropTypes} from 'react';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from 'coral-framework/translations.json';
 import {ADDTL_COMMENTS_ON_LOAD_MORE} from '../constants/stream';
 import {Button} from 'coral-ui';
-const lang = new I18n(translations);
+import t from 'coral-framework/services/i18n';
 
 const loadMoreComments = (assetId, comments, loadMore, parentId, replyCount) => {
 
@@ -31,13 +29,13 @@ class LoadMore extends React.Component {
 
   replyCountFormat = (count) => {
     if (count === 1) {
-      return lang.t('viewReply');
+      return t('framework.view_reply');
     }
 
     if (this.initialState) {
-      return lang.t('viewAllRepliesInitial', count);
+      return t('framework.view_all_replies_initial', count);
     } else {
-      return lang.t('viewAllReplies', count);
+      return t('framework.view_all_replies', count);
     }
   }
 
@@ -50,7 +48,7 @@ class LoadMore extends React.Component {
             this.initialState = false;
             loadMoreComments(assetId, comments, loadMore, parentId, replyCount);
           }}>
-          {topLevel ? lang.t('viewMoreComments') : this.replyCountFormat(replyCount)}
+          {topLevel ? t('framework.view_more_comments') : this.replyCountFormat(replyCount)}
         </Button>
       </div>
       : null;

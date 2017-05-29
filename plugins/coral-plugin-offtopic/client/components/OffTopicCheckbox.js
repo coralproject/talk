@@ -4,6 +4,8 @@ import {bindActionCreators} from 'redux';
 import {addTag, removeTag} from 'coral-plugin-commentbox/actions';
 import styles from './styles.css';
 
+import t from 'coral-framework/services/i18n';
+
 class OffTopicCheckbox extends React.Component {
 
   label = 'OFF_TOPIC';
@@ -22,7 +24,7 @@ class OffTopicCheckbox extends React.Component {
       <div className={styles.offTopic}>
         <label className={styles.offTopicLabel}>
           <input type="checkbox" onChange={this.handleChange}/>
-          Off-Topic
+          {t('off_topic')}
         </label>
       </div>
     );

@@ -111,7 +111,8 @@
     "simplemde": "^1.11.2",
     "subscriptions-transport-ws": "^0.5.5-alpha.0",
     "timekeeper": "^1.0.0",
-    "uuid": "^3.0.1"
+    "uuid": "^3.0.1",
+    "yaml-loader": "^0.4.0"
   },
   "devDependencies": {
     "apollo-client": "^1.0.4",

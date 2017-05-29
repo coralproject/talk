@@ -2,11 +2,9 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {SelectField, Option} from 'react-mdl-selectfield';
 import styles from './Community.css';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from '../../translations';
 import {setRole, setCommenterStatus} from '../../actions/community';
 
-const lang = new I18n(translations);
+import t from 'coral-framework/services/i18n';
 
 class Table extends Component {
 
@@ -53,21 +51,21 @@ class Table extends Component {
               <td className="mdl-data-table__cell--non-numeric">
                 <SelectField label={'Select me'} value={row.status || ''}
                   className={styles.selectField}
-                  label={lang.t('community.status')}
+                  label={t('community.status')}
                   onChange={(status) => this.onCommenterStatusChange(row.id, status)}>
-                  <Option value={'ACTIVE'}>{lang.t('community.active')}</Option>
-                  <Option value={'BANNED'}>{lang.t('community.banned')}</Option>
+                  <Option value={'ACTIVE'}>{t('community.active')}</Option>
+                  <Option value={'BANNED'}>{t('community.banned')}</Option>
                 </SelectField>
               </td>
               <td className="mdl-data-table__cell--non-numeric">
                 <SelectField label={'Select me'} value={row.roles[0] || ''}
                   className={styles.selectField}
-                  label={lang.t('community.role')}
+                  label={t('community.role')}
                   onChange={(role) => this.onRoleChange(row.id, role)}>
                   <Option value={''}>.</Option>
-                  <Option value={'STAFF'}>{lang.t('community.staff')}</Option>
-                  <Option value={'MODERATOR'}>{lang.t('community.moderator')}</Option>
-                  <Option value={'ADMIN'}>{lang.t('community.admin')}</Option>
+                  <Option value={'STAFF'}>{t('community.staff')}</Option>
+                  <Option value={'MODERATOR'}>{t('community.moderator')}</Option>
+                  <Option value={'ADMIN'}>{t('community.admin')}</Option>
                 </SelectField>
               </td>
             </tr>

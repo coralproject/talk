@@ -3,10 +3,7 @@ import React, {Component, PropTypes} from 'react';
 import {Dialog, Button} from 'coral-ui';
 import styles from './SuspendUserDialog.css';
 
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from 'coral-admin/src/translations.json';
-
-const lang = new I18n(translations);
+import t from 'coral-framework/services/i18n';
 
 const stages = [
   {
@@ -38,7 +35,7 @@ class SuspendUserDialog extends Component  {
   }
 
   componentDidMount() {
-    this.setState({email: lang.t('suspenduser.email_message_reject'), about: lang.t('suspenduser.username')});
+    this.setState({email: t('suspenduser.email_message_reject'), about: t('suspenduser.username')});
   }
 
   /*
@@ -79,18 +76,18 @@ class SuspendUserDialog extends Component  {
             open={open}
             onClose={handleClose}
             onCancel={handleClose}
-            title={lang.t('suspenduser.suspend_user')}>
+            title={t('suspenduser.suspend_user')}>
             <div className={styles.title}>
-              {lang.t(stages[stage].title, lang.t('suspenduser.username'))}
+              {t(stages[stage].title, t('suspenduser.username'))}
             </div>
             <div className={styles.container}>
               <div className={styles.description}>
-                {lang.t(stages[stage].description, lang.t('suspenduser.username'))}
+                {t(stages[stage].description, t('suspenduser.username'))}
               </div>
               {
                 stage === 1 &&
                 <div className={styles.writeContainer}>
-                  <div className={styles.emailMessage}>{lang.t('suspenduser.write_message')}</div>
+                  <div className={styles.emailMessage}>{t('suspenduser.write_message')}</div>
                   <div className={styles.emailContainer}>
                     <textarea
                       rows={5}
@@ -103,7 +100,7 @@ class SuspendUserDialog extends Component  {
               <div className={styles.modalButtons}>
                 {Object.keys(stages[stage].options).map((key, i) => (
                   <Button key={i} onClick={this.onActionClick(stage, i)}>
-                    {lang.t(stages[stage].options[key], lang.t('suspenduser.username'))}
+                    {t(stages[stage].options[key], t('suspenduser.username'))}
                   </Button>
                 ))}
               </div>

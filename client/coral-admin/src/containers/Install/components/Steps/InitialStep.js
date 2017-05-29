@@ -2,16 +2,14 @@ import React from 'react';
 import styles from './style.css';
 import {Button} from 'coral-ui';
 
-const lang = new I18n(translations);
-import translations from '../../translations.json';
-import I18n from 'coral-framework/modules/i18n/i18n';
+import t from 'coral-framework/services/i18n';
 
 const InitialStep = (props) => {
   const {nextStep} = props;
   return (
     <div className={styles.step}>
-      <p>{lang.t('INITIAL.DESCRIPTION')}</p>
-      <Button cStyle='green' onClick={nextStep} raised>{lang.t('INITIAL.SUBMIT')}</Button>
+      <p>{t('install.initial.description')}</p>
+      <Button cStyle='green' onClick={nextStep} raised>{t('install.initial.submit')}</Button>
     </div>
   );
 };
