@@ -5,10 +5,10 @@ export const actionsMap = {
 };
 
 export const menuActionsMap = {
-  'REJECT': {status: 'REJECTED', text: 'Reject', icon: 'close', key: 'r'},
-  'REJECTED': {status: 'REJECTED', text: 'Rejected', icon: 'close'},
-  'APPROVE': {status: 'ACCEPTED', text: 'Approve', icon: 'done', key: 't'},
-  'FLAGGED': {status: 'FLAGGED', text: 'Flag', icon: 'flag', filter: 'Untouched'},
-  'BAN': {status: 'BANNED', text: 'Ban User', icon: 'not interested'},
+  'REJECT': {status: 'REJECTED', text: 'reject', icon: 'close', key: 'r'},
+  'REJECTED': {status: 'REJECTED', text: 'rejected', icon: 'close'},
+  'APPROVE': {status: 'ACCEPTED', text: 'approve', icon: 'done', key: 't'},
+  'FLAGGED': {status: 'FLAGGED', text: 'flag', icon: 'flag', filter: 'Untouched'},
+  'BAN': {status: 'BANNED', text: 'ban_user', icon: 'not interested'},
   '': {icon: 'done'}
 };

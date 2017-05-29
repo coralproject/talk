@@ -2,12 +2,9 @@ import React from 'react';
 import {connect} from 'react-redux';
 import SignDialog from './SignDialog';
 import {bindActionCreators} from 'redux';
-import translations from '../translations';
-import I18n from 'coral-framework/modules/i18n/i18n';
+import t from 'coral-framework/services/i18n';
 import errorMsj from 'coral-framework/helpers/error';
 import validate from 'coral-framework/helpers/validate';
-
-const lang = new I18n(translations);
 
 import {
   changeView,
@@ -50,7 +47,7 @@ class SignInContainer extends React.Component {
 
     const {formData} = this.state;
     const errors = Object.keys(formData).reduce((map, prop) => {
-      map[prop] = lang.t('signIn.requiredField');
+      map[prop] = t('sign_in.required_field');
       return map;
     }, {});
     this.setState({errors});
@@ -122,12 +119,12 @@ class SignInContainer extends React.Component {
     const {formData} = this.state;
 
     if (!value.length) {
-      addError(name, lang.t('signIn.requiredField'));
+      addError(name, t('sign_in.required_field'));
     } else if (
       name === 'confirmPassword' &&
       formData.confirmPassword !== formData.password
     ) {
-      addError('confirmPassword', lang.t('signIn.passwordsDontMatch'));
+      addError('confirmPassword', t('sign_in.passwords_dont_match'));
     } else if (!validate[name](value)) {
       addError(name, errorMsj[name]);
     } else {
@@ -155,7 +152,7 @@ class SignInContainer extends React.Component {
       fetchSignUp(this.state.formData);
       validForm();
     } else {
-      invalidForm(lang.t('signIn.checkTheForm'));
+      invalidForm(t('sign_in.check_the_form'));
     }
   };
 

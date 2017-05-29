@@ -1,10 +1,9 @@
 import React from 'react';
-const lang = new I18n(translations);
 import Stream from '../containers/Stream';
 import Slot from 'coral-framework/components/Slot';
 import {can} from 'coral-framework/services/perms';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from 'coral-framework/translations';
+import t from 'coral-framework/services/i18n';
+
 import {TabBar, Tab, TabContent, Button} from 'coral-ui';
 import Count from 'coral-plugin-comment-count/CommentCount';
 import ProfileContainer from 'coral-settings/containers/ProfileContainer';
@@ -44,8 +43,8 @@ export default class Embed extends React.Component {
         <div className="commentStream">
           <TabBar onChange={this.changeTab} activeTab={activeTab}>
             <Tab><Count count={totalCommentCount} /></Tab>
-            <Tab>{lang.t('myProfile')}</Tab>
-            <Tab restricted={!can(user, 'UPDATE_CONFIG')}>Configure Stream</Tab>
+            <Tab>{t('framework.my_profile')}</Tab>
+            <Tab restricted={!can(user, 'UPDATE_CONFIG')}>{t('framework.configure_stream')}</Tab>
           </TabBar>
           {commentId &&
             <Button
@@ -53,7 +52,7 @@ export default class Embed extends React.Component {
               style={{float: 'right'}}
               onClick={viewAllComments}
             >
-              {lang.t('showAllComments')}
+              {t('framework.show_all_comments')}
             </Button>}
           <Slot fill="embed" />
           <TabContent show={activeTab === 'stream'}>

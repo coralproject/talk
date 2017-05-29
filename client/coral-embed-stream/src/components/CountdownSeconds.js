@@ -1,8 +1,5 @@
 import React, {PropTypes} from 'react';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from 'coral-framework/translations';
-
-const lang = new I18n(translations);
+import t from 'coral-framework/services/i18n';
 
 /**
  * Countdown the number of seconds until a given Date
@@ -30,7 +27,7 @@ export class CountdownSeconds extends React.Component {
   componentWillUnmount() {
     if (this.countdownInterval) {
       this.countdownInterval = clearInterval(this.countdownInterval);
-    }    
+    }
   }
   render() {
     const now = new Date();
@@ -39,7 +36,7 @@ export class CountdownSeconds extends React.Component {
     const secRemaining = msRemaining / 1000;
     const wholeSecRemaining = Math.floor(secRemaining);
     const plural = secRemaining !== 1;
-    const units = lang.t(plural ? 'editComment.secondsPlural' : 'editComment.second');
+    const units = t(plural ? 'edit_comment.seconds_plural' : 'edit_comment.second');
     let classFromProp;
     if (typeof classNameForMsRemaining === 'function') {
       classFromProp = classNameForMsRemaining(msRemaining);
