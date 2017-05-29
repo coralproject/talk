@@ -150,7 +150,7 @@ en:
     copy: "Copy to Clipboard"
   error:
     COMMENT_TOO_SHORT: "Your comment must have something in it"
-    NOT_AUTHORIZED: "Your username or password is not recognized by our system."
+    NOT_AUTHORIZED: "You are not authorized to perform this action."
     NO_SPECIAL_CHARACTERS: "Usernames can contain letters numbers and _ only"
     PASSWORD_LENGTH: "Password is too short"
     PROFANITY_ERROR: "Usernames must not contain profanity. Please contact the administrator if you believe this to be in error."
