@@ -1,5 +1,6 @@
 import {Map, fromJS} from 'immutable';
 import * as actions from '../constants/auth';
+import {pym} from 'coral-framework';
 
 const initialState = Map({
   isLoading: false,
@@ -18,6 +19,7 @@ const initialState = Map({
   successSignUp: false,
   fromSignUp: false,
   requireEmailConfirmation: false,
+  redirectUri: pym.parentUrl || location.href,
 });
 
 const purge = (user) => {
@@ -146,6 +148,9 @@ export default function auth (state = initialState, action) {
   case actions.SET_REQUIRE_EMAIL_VERIFICATION:
     return state
       .set('requireEmailConfirmation', action.required);
+  case actions.SET_REDIRECT_URI:
+    return state
+      .set('redirectUri', action.uri);
   default :
     return state;
   }
