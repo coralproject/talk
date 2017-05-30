@@ -1,7 +1,0 @@
-mutation setUserStatus($userId: ID!, $status: USER_STATUS!) {
-  setUserStatus(id: $userId, status: $status) {
-    errors {
-      translation_key
-    }
-  }
-}
