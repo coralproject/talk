@@ -5,6 +5,8 @@ import {compose, gql} from 'react-apollo';
 import isEqual from 'lodash/isEqual';
 import withQuery from 'coral-framework/hocs/withQuery';
 import {getDefinitionName} from 'coral-framework/utils';
+import * as notification from 'coral-admin/src/services/notification';
+import t, {timeago} from 'coral-framework/services/i18n';
 
 import {withSetUserStatus, withSuspendUser, withSetCommentStatus} from 'coral-framework/graphql/mutations';
 
@@ -38,6 +40,33 @@ class ModerationContainer extends Component {
       updateAssets(nextProps.root.assets);
     }
   }
+
+  suspendUser = async (args) => {
+    this.props.hideSuspendUserDialog();
+    try {
+      const result = await this.props.suspendUser(args);
+      if (result.data.suspendUser.errors) {
+        throw result.data.suspendUser.errors;
+      }
+      notification.success(
+        t('suspenduser.notify_suspend_until',
+          this.props.moderation.suspendUserDialog.username,
+          timeago(args.until)),
+      );
+      const {commentStatus, commentId} = this.props.moderation.suspendUserDialog;
+      if (commentStatus !== 'REJECTED') {
+        return this.props.rejectComment({commentId})
+          .then((result) => {
+            if (result.data.setCommentStatus.errors) {
+              throw result.data.setCommentStatus.errors;
+            }
+          });
+      }
+    }
+    catch(err) {
+      notification.showMutationErrors(err);
+    }
+  };
 
   banUser = ({userId}) => {
     return this.props.setUserStatus({userId, status: 'BANNED'});
@@ -108,6 +137,7 @@ class ModerationContainer extends Component {
       banUser={this.banUser}
       acceptComment={this.acceptComment}
       rejectComment={this.rejectComment}
+      suspendUser={this.suspendUser}
     />;
   }
 }

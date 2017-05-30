@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
-import * as notification from 'coral-admin/src/services/notification';
 import key from 'keymaster';
 import styles from './styles.css';
-import t, {timeago} from 'coral-framework/services/i18n';
 
 import BanUserDialog from './BanUserDialog';
 import SuspendUserDialog from './SuspendUserDialog';
@@ -71,33 +69,6 @@ export default class Moderation extends Component {
         }));
     }
   }
-
-  suspendUser = async (args) => {
-    this.props.hideSuspendUserDialog();
-    try {
-      const result = await this.props.suspendUser(args);
-      if (result.data.suspendUser.errors) {
-        throw result.data.suspendUser.errors;
-      }
-      notification.success(
-        t('suspenduser.notify_suspend_until',
-          this.props.moderation.suspendUserDialog.username,
-          timeago(args.until)),
-      );
-      const {commentStatus, commentId} = this.props.moderation.suspendUserDialog;
-      if (commentStatus !== 'REJECTED') {
-        return this.props.rejectComment({commentId})
-          .then((result) => {
-            if (result.data.setCommentStatus.errors) {
-              throw result.data.setCommentStatus.errors;
-            }
-          });
-      }
-    }
-    catch(err) {
-      notification.showMutationErrors(err);
-    }
-  };
 
   componentWillUnmount() {
     key.unbind('s');
@@ -206,7 +177,7 @@ export default class Moderation extends Component {
           userId={moderation.suspendUserDialog.userId}
           organizationName={root.settings.organizationName}
           onCancel={props.hideSuspendUserDialog}
-          onPerform={this.suspendUser}
+          onPerform={this.props.suspendUser}
         />
         <ModerationKeysModal
           hideShortcutsNote={props.hideShortcutsNote}
