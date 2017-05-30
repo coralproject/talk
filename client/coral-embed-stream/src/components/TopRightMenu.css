@@ -21,3 +21,51 @@
   transform: rotate(180deg);
   top: 0;
 }
+
+/**
+ * Wraps all things in the menu dropdown itself
+ */
+.menu {
+  background-color: white;
+  border: 1px solid rgba(0,0,0,0.1);
+  position: absolute;
+  right: 0;
+  z-index: 1;
+}
+
+/**
+ * menu list items
+ */
+.menuItemList {
+  list-style-type: none;
+  max-width: 220px;
+  margin: 0;
+  padding: 0;
+}
+
+.menuItem {
+  padding: 1em;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  header {
+    font-weight: bold;
+  }
+}
+
+/* Wizard used for Ignore User, Delete Comment confirmations */
+.Wizard {
+  padding: 1em;
+  max-width: 220px;
+}
+
+.Wizard header {
+  font-weight: bold;
+}
+
+.Wizard .textAlignRight {
+  text-align: right;
+}

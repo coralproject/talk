@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
-import styles from './Comment.css';
-import {Button} from 'coral-ui';
+import styles from './TopRightMenu.css';
+import {Button, Icon} from 'coral-ui';
 
 // Guides the user through ignoring another user, including confirming their decision
 export class IgnoreUserWizard extends React.Component {
@@ -33,11 +33,20 @@ export class IgnoreUserWizard extends React.Component {
     const goToStep = (stepNum) => this.setState({step: stepNum});
     const step1 = (
       <div>
-        <header>Ignore User</header>
+        <header>
+          <Icon name="mic off" />
+          &nbsp;
+          Ignore User
+        </header>
         <p>When you ignore a user, all comments they wrote on the site will be hidden from you. You can undo this later from the Profile tab.</p>
-        <div className={styles.textAlignRight}>
-          <Button cStyle='cancel' onClick={this.onClickCancel}>Cancel</Button>
-          <Button onClick={() => goToStep(2)}>Ignore user</Button>
+        <div>
+          <Button cStyle='success'
+                  onClick={() => goToStep(2)}
+                  full={true}>Ignore user</Button>
+          <Button onClick={this.onClickCancel}
+                  full={true}
+                  style={{color: '#2376d8', backgroundColor: 'inherit'}}
+                  >Cancel</Button>
         </div>
       </div>
     );
@@ -48,9 +57,14 @@ export class IgnoreUserWizard extends React.Component {
       <div>
         <header>Ignore User</header>
         <p>Are you sure you want to ignore { user.name }?</p>
-        <div className={styles.textAlignRight}>
-          <Button cStyle='cancel' onClick={this.onClickCancel}>Cancel</Button>
-          <Button onClick={onClickIgnoreUser}>Ignore user</Button>
+        <div>
+          <Button cStyle='success'
+                  onClick={onClickIgnoreUser}
+                  full={true}>Ignore user</Button>
+          <Button onClick={this.onClickCancel}
+                  full={true}
+                  style={{color: '#2376d8', backgroundColor: 'inherit'}}
+                  >Cancel</Button>
         </div>
       </div>
     );
