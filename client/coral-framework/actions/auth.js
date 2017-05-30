@@ -1,5 +1,4 @@
 import jwtDecode from 'jwt-decode';
-import {pym} from 'coral-framework';
 import bowser from 'bowser';
 import * as actions from '../constants/auth';
 import * as Storage from '../helpers/storage';
@@ -22,7 +21,9 @@ export const showSignInDialog = () => (dispatch, getState) => {
 
     // Fire some actions inside the popups reducer, to initialize required state.
     const required = getState().asset.toJS().settings.requireEmailConfirmation;
+    const redirectUri = getState().auth.toJS().redirectUri;
     signInPopUp.coralStore.dispatch(setRequireEmailVerification(required));
+    signInPopUp.coralStore.dispatch(setRedirectUri(redirectUri));
   };
 
   // Use `onunload` instead of `onbeforeunload` which is not supported in IOS Safari.
@@ -96,11 +97,6 @@ export const changeView = (view) => (dispatch) => {
 
 export const cleanState = () => ({
   type: actions.CLEAN_STATE
-});
-
-export const setRequireEmailVerification = (required) => ({
-  type: actions.SET_REQUIRE_EMAIL_VERIFICATION,
-  required,
 });
 
 // Sign In Actions
@@ -222,7 +218,8 @@ const signUpRequest = () => ({type: actions.FETCH_SIGNUP_REQUEST});
 const signUpSuccess = (user) => ({type: actions.FETCH_SIGNUP_SUCCESS, user});
 const signUpFailure = (error) => ({type: actions.FETCH_SIGNUP_FAILURE, error});
 
-export const fetchSignUp = (formData, redirectUri) => (dispatch) => {
+export const fetchSignUp = (formData) => (dispatch, getState) => {
+  const redirectUri = getState().auth.toJS().redirectUri;
   dispatch(signUpRequest());
 
   coralApi('/users', {
@@ -260,9 +257,9 @@ const forgotPasswordFailure = () => ({
   type: actions.FETCH_FORGOT_PASSWORD_FAILURE
 });
 
-export const fetchForgotPassword = (email) => (dispatch) => {
+export const fetchForgotPassword = (email) => (dispatch, getState) => {
   dispatch(forgotPasswordRequest(email));
-  const redirectUri = pym.parentUrl || location.href;
+  const redirectUri = getState().auth.toJS().redirectUri;
   coralApi('/account/password/reset', {
     method: 'POST',
     body: {email, loc: redirectUri}
@@ -340,7 +337,8 @@ const verifyEmailFailure = () => ({
   type: actions.VERIFY_EMAIL_FAILURE
 });
 
-export const requestConfirmEmail = (email, redirectUri) => (dispatch) => {
+export const requestConfirmEmail = (email) => (dispatch, getState) => {
+  const redirectUri = getState().auth.toJS().redirectUri;
   dispatch(verifyEmailRequest());
   return coralApi('/users/resend-verify', {
     method: 'POST',
@@ -354,5 +352,17 @@ export const requestConfirmEmail = (email, redirectUri) => (dispatch) => {
 
       // email might have already been verifyed
       dispatch(verifyEmailFailure(err));
+      throw err;
     });
 };
+
+// Login Popup actions.
+export const setRequireEmailVerification = (required) => ({
+  type: actions.SET_REQUIRE_EMAIL_VERIFICATION,
+  required,
+});
+
+export const setRedirectUri = (uri) => ({
+  type: actions.SET_REDIRECT_URI,
+  uri,
+});
