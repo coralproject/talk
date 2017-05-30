@@ -85,36 +85,28 @@ const extension = {
   mutations: {
     IgnoreUser: ({variables}) => ({
       updateQueries: {
-        CoralEmbedStream_Embed: (previousData, {mutationResult}) => {
+        CoralEmbedStream_Embed: (previousData) => {
           const ignoredUserId = variables.id;
-          const response = mutationResult.data.ignoreUser;
-          if (ignoredUserId && !response.errors) {
-            const updated = update(previousData, {me: {ignoredUsers: {$push: [{
-              id: ignoredUserId,
-              __typename: 'User',
-            }]}}});
-            return updated;
-          }
-          return previousData;
+          const updated = update(previousData, {me: {ignoredUsers: {$push: [{
+            id: ignoredUserId,
+            __typename: 'User',
+          }]}}});
+          return updated;
         }
       }
     }),
     StopIgnoringUser: ({variables}) => ({
       updateQueries: {
-        CoralEmbedStream_Profile: (previousData, {mutationResult}) => {
+        CoralEmbedStream_Profile: (previousData) => {
           const noLongerIgnoredUserId = variables.id;
-          const response = mutationResult.data.stopIgnoringUser;
-          if (noLongerIgnoredUserId && !response.errors) {
 
-            // remove noLongerIgnoredUserId from ignoredUsers
-            const updated = update(previousData, {me: {ignoredUsers: {
-              $apply: (ignoredUsers) => {
-                return ignoredUsers.filter((u) => u.id !== noLongerIgnoredUserId);
-              }
-            }}});
-            return updated;
-          }
-          return previousData;
+          // remove noLongerIgnoredUserId from ignoredUsers
+          const updated = update(previousData, {me: {ignoredUsers: {
+            $apply: (ignoredUsers) => {
+              return ignoredUsers.filter((u) => u.id !== noLongerIgnoredUserId);
+            }
+          }}});
+          return updated;
         }
       }
     }),
@@ -182,12 +174,7 @@ const extension = {
       variables: {id, edit},
     }) => ({
       updateQueries: {
-        CoralEmbedStream_Embed: (previousData, {mutationResult: {data: {editComment: {comment, errors}}}}) => {
-
-          // @TODO (kiwi) revisit after streamlining error handling
-          if (errors && errors.length) {
-            return previousData;
-          }
+        CoralEmbedStream_Embed: (previousData, {mutationResult: {data: {editComment: {comment}}}}) => {
           const {status} = comment;
           const updateCommentWithEdit = (comment, edit) => {
             const {body} = edit;
