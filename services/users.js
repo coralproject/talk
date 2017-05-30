@@ -571,7 +571,11 @@ module.exports = class UsersService {
         }
         let redirectDomain;
         try {
-          redirectDomain = url.parse(loc).hostname;
+          const {hostname, port} = url.parse(loc);
+          redirectDomain = hostname;
+          if (port) {
+            redirectDomain += `:${port}`;
+          }
         } catch (e) {
           return Promise.reject('redirect location is invalid');
         }
