@@ -6,7 +6,25 @@ import flatten from 'lodash/flatten';
 import isEmpty from 'lodash/isEmpty';
 import {getMutationOptions, resolveFragments} from 'coral-framework/services/graphqlRegistry';
 import {store} from 'coral-framework/services/store';
-import {getDefinitionName} from '../utils';
+import {getDefinitionName, getResponseErrors} from '../utils';
+import t from 'coral-framework/services/i18n';
+
+class ResponseErrors extends Error {
+  constructor(errors) {
+    super(`Response Errors ${JSON.stringify(errors)}`);
+    this.errors = errors.map((e) => new ResponseError(e));
+  }
+}
+
+class ResponseError {
+  constructor(error) {
+    Object.assign(this, error);
+  }
+
+  translate(...args) {
+    return t(`error.${this.translation_key}`, ...args);
+  }
+}
 
 /**
  * Exports a HOC with the same signature as `graphql`, that will
@@ -41,6 +59,11 @@ export default (document, config) => (WrappedComponent) => {
         .filter((i) => i);
 
       const update = (proxy, result) => {
+        if (getResponseErrors(result)) {
+
+          // Do not run updates when we have mutation errors.
+          return;
+        }
         updateCallbacks.forEach((cb) => cb(proxy, result));
       };
 
@@ -53,7 +76,14 @@ export default (document, config) => (WrappedComponent) => {
         .reduce((res, map) => {
           Object.keys(map).forEach((key) => {
             if (!(key in res)) {
-              res[key] = map[key];
+              res[key] = (prev, result) => {
+                if (getResponseErrors(result.mutationResult)) {
+
+                  // Do not run updates when we have mutation errors.
+                  return prev;
+                }
+                return map[key](prev, result);
+              };
             } else {
               const existing = res[key];
               res[key] = (prev, result) => {
@@ -75,7 +105,14 @@ export default (document, config) => (WrappedComponent) => {
       if (isEmpty(wrappedConfig.optimisticResponse)) {
         delete wrappedConfig.optimisticResponse;
       }
-      return data.mutate(wrappedConfig);
+      return data.mutate(wrappedConfig)
+        .then((res) => {
+          const errors = getResponseErrors(res);
+          if (errors) {
+            throw new ResponseErrors(errors);
+          }
+          return Promise.resolve(res);
+        });
     };
     return config.props({...data, mutate});
   };

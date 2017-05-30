@@ -100,3 +100,14 @@ export function mergeDocuments(documents) {
   const literals = [main, ...substitutions.map(() => '\n')];
   return gql.apply(null, [literals, ...substitutions]);
 }
+
+export function getResponseErrors(mutationResult) {
+  const result = [];
+  Object.keys(mutationResult.data).forEach((response) => {
+    const errors = mutationResult.data[response].errors;
+    if (errors && errors.length) {
+      result.push(...errors);
+    }
+  });
+  return result.length ? result : false;
+}
