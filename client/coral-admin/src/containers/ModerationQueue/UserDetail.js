@@ -4,10 +4,18 @@ import styles from './UserDetail.css';
 import {compose} from 'react-apollo';
 import {getUserDetail} from 'coral-admin/src/graphql/queries';
 import Slot from 'coral-framework/components/Slot';
+import Comment from './components/Comment';
+import {actionsMap} from './helpers/moderationQueueActionsMap';
 
 class UserDetail extends React.Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
+    bannedWords: PropTypes.array.isRequired,
+    suspectWords: PropTypes.array.isRequired,
+    showBanUserDialog: PropTypes.func.isRequired,
+    showSuspendUserDialog: PropTypes.func.isRequired,
+    acceptComment: PropTypes.func.isRequired,
+    rejectComment: PropTypes.func.isRequired,
     hideUserDetail: PropTypes.func.isRequired
   }
 
@@ -22,13 +30,22 @@ class UserDetail extends React.Component {
   }
 
   render () {
-    const {data, hideUserDetail} = this.props;
+    const {
+      data,
+      hideUserDetail,
+      bannedWords,
+      suspectWords,
+      showBanUserDialog,
+      showSuspendUserDialog,
+      acceptComment,
+      rejectComment
+    } = this.props;
 
     if (!('user' in data)) {
       return null;
     }
 
-    const {user, totalComments, rejectedComments} = data;
+    const {user, comments, totalComments, rejectedComments} = data;
     const localProfile = user.profiles.find((p) => p.provider === 'local');
     let profile;
     if (localProfile) {
@@ -63,6 +80,29 @@ class UserDetail extends React.Component {
             <p>Reject Rate</p>
             <p>{`${(rejectedPercent).toFixed(1)}%`}</p>
           </div>
+        </div>
+        <div>
+          {
+            comments.map((comment, i) => {
+              const status = comment.action_summaries ? 'FLAGGED' : comment.status;
+              return <Comment
+                key={i}
+                index={i}
+                comment={comment}
+                selected={false}
+                suspectWords={suspectWords}
+                bannedWords={bannedWords}
+                viewUserDetail={() => {}}
+                actions={actionsMap[status]}
+                showBanUserDialog={showBanUserDialog}
+                showSuspendUserDialog={showSuspendUserDialog}
+                acceptComment={acceptComment}
+                rejectComment={rejectComment}
+                currentAsset={null}
+                currentUserId={this.props.id}
+                minimal={true} />;
+            })
+          }
         </div>
       </Drawer>
     );

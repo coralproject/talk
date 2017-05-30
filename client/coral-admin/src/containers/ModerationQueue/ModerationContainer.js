@@ -254,7 +254,13 @@ class ModerationContainer extends Component {
         {moderation.userDetailId && (
           <UserDetail
             id={moderation.userDetailId}
-            hideUserDetail={hideUserDetail} />
+            hideUserDetail={hideUserDetail}
+            bannedWords={settings.wordlist.banned}
+            suspectWords={settings.wordlist.suspect}
+            showBanUserDialog={props.showBanUserDialog}
+            showSuspendUserDialog={props.showSuspendUserDialog}
+            acceptComment={props.acceptComment}
+            rejectComment={props.rejectComment} />
         )}
       </div>
     );

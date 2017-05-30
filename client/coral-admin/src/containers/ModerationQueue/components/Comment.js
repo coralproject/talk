@@ -23,6 +23,7 @@ const Comment = ({
   viewUserDetail,
   suspectWords,
   bannedWords,
+  minimal,
   ...props
 }) => {
   const links = linkify.getMatches(comment.body);
@@ -118,6 +119,7 @@ const Comment = ({
                   (action === 'APPROVE' && comment.status === 'ACCEPTED');
                 return (
                   <ActionButton
+                    minimal={minimal}
                     key={i}
                     type={action}
                     user={comment.user}
@@ -153,6 +155,7 @@ const Comment = ({
 };
 
 Comment.propTypes = {
+  minimal: PropTypes.bool,
   viewUserDetail: PropTypes.func.isRequired,
   acceptComment: PropTypes.func.isRequired,
   rejectComment: PropTypes.func.isRequired,

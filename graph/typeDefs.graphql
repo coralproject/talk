@@ -148,6 +148,9 @@ enum ACTION_TYPE {
 # CommentsQuery allows the ability to query comments by a specific methods.
 input CommentsQuery {
 
+  # Author of the comments
+  author_id: ID
+
   # Current status of a comment. Requires the `ADMIN` role.
   statuses: [COMMENT_STATUS!]
 
