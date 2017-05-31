@@ -5,6 +5,8 @@ const path = require('path');
 const fs = require('fs');
 const _ = require('lodash');
 
+const i18n = require('./i18n');
+
 const {
   SMTP_HOST,
   SMTP_USERNAME,
@@ -87,7 +89,9 @@ const mailer = module.exports = {
     }
 
     // Prefix the subject with `[Talk]`.
-    subject = `[Talk] ${subject}`;
+    subject = `[Talk] {t(${subject})}`;
+
+    locals['t'] = i18n.t;
 
     return Promise.all([
 

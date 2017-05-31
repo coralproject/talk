@@ -109,12 +109,12 @@ const SendEmailConfirmation = (app, userID, email, referer) => UsersService
   .then((token) => {
     return mailer.sendSimple({
       template: 'email-confirm',              // needed to know which template to render!
-      locals: {                                     // specifies the template locals.
+      locals: {                               // specifies the template locals.
         token,
         rootURL: ROOT_URL,
         email
       },
-      subject: 'Email Confirmation',
+      subject: 'email.confirm.subject',
       to: email
     });
   });

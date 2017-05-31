@@ -3,17 +3,17 @@ en:
     are_you_sure: "Are you sure you would like to ban {0}?"
     ban_user: "Ban User?"
     banned_user: "Banned User"
-    cancel: Cancel
+    cancel: "Cancel"
     note: "Note: Banning this user will also place this comment in the Rejected queue."
     yes_ban_user: "Yes, Ban User"
   bio_offensive: "This bio is offensive"
-  cancel: Cancel
+  cancel: "Cancel"
   characters_remaining: "characters remaining"
   comment:
-    anon: Anonymous
+    anon: "Anonymous"
     ban_user: "Ban User"
     comment: "Post a comment"
-    flagged: flagged
+    flagged: "flagged"
     view_context: "View context"
   comment_box:
     post: "Post"
@@ -125,7 +125,7 @@ en:
     title: "Configure Comment Stream"
     weeks: Weeks
     wordlist: "Banned Words"
-  continue: Continue
+  continue: "Continue"
   createdisplay:
     check_the_form: "Invalid Form. Please check the fields"
     continue: "Continue with the same Facebook username"
@@ -159,6 +159,13 @@ en:
     second: "second"
     secondsPlural: "seconds"
     unexpectedError: "Unexpected error while saving changes. Sorry!"
+  email:
+    confirm:
+      has_been_requested: "A email confirmation has been requested for the following account:"
+      to_confirm: "To confirm the account, please visit the following link:"
+      confirm_email: "Confirm Email"
+      if_you_did_not: "If you did not request this, you can safely ignore this email."
+      subject: "Email Confirmation"
   embedlink:
     copy: "Copy to Clipboard"
   error:
@@ -248,8 +255,8 @@ en:
     reject: "Reject"
     rejected: "Rejected"
     select_stream: "Select Stream"
-    shift_key: ⇧
-    shortcuts: Shortcuts
+    shift_key: "⇧"
+    shortcuts: "Shortcuts"
     show_shortcuts: "Show Shortcuts"
     singleview: "Toggle single comment edit view"
     spam_ads: Spam/Ads

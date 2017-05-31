@@ -8,7 +8,7 @@ import en from '../../../locales/en.yml';
 import es from '../../../locales/es.yml';
 import * as plugins from '../helpers/plugins';
 
-// Translations are happening at https://www.transifex.com/the-coral-project/talk-1/dashboard/.
+// Translations are happening at https://translate.lingohub.com/the-coral-project/dashboard
 
 const defaultLanguage = 'en';
 const translations = {...en, ...es};
