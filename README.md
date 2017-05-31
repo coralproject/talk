@@ -50,7 +50,6 @@ Talk ships with core components we call "Trust". This allows Talk to automate ce
 
 Our first feature is the notion of Karma. Talk will automatically pre-moderate comments of users who have a negative karma score. You can [see more how karma works here](/services/karma.js).
 
-
 ## Supported Browsers
 
 ### Web
