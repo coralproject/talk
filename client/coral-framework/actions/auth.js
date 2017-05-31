@@ -114,10 +114,19 @@ const signInFailure = (error) => ({
 // AUTH TOKEN
 //==============================================================================
 
-export const handleAuthToken = (token) => (dispatch) => {
+/**
+ * handleAuthToken stores an auth token and exparation date to be used in all
+ * future requests.
+ *
+ * @param  {token} token a jwt token representing the user's session
+ * @return {action} an HANDLE_AUTH_TOKEN action
+ */
+export const handleAuthToken = (token) => {
+
   Storage.setItem('exp', jwtDecode(token).exp);
   Storage.setItem('token', token);
-  dispatch({type: 'HANDLE_AUTH_TOKEN'});
+
+  return {type: 'HANDLE_AUTH_TOKEN'};
 };
 
 //==============================================================================
