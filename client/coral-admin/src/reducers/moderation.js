@@ -10,6 +10,7 @@ const initialState = fromJS({
   userDetailId: null,
   banDialog: false,
   shortcutsNoteVisible: window.localStorage.getItem('coral:shortcutsNote') || 'show',
+  sortOrder: 'REVERSE_CHRONOLOGICAL',
   suspendUserDialog: {
     show: false,
     userId: null,
@@ -64,6 +65,8 @@ export default function moderation (state = initialState, action) {
     return state.set('userDetailId', action.userId);
   case actions.HIDE_USER_DETAIL:
     return state.set('userDetailId', null);
+  case actions.SET_SORT_ORDER:
+    return state.set('sortOrder', action.order);
   default :
     return state;
   }

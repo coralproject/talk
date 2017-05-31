@@ -381,15 +381,18 @@ module.exports = class UsersService {
    * @param  {Function} done callback after the operation is complete
    */
   static addRoleToUser(id, role) {
+    const roles = [];
 
     // Check to see if the user role is in the allowable set of roles.
-    if (USER_ROLES.indexOf(role) === -1) {
+    if (role && USER_ROLES.indexOf(role) === -1) {
 
       // User role is not supported! Error out here.
       return Promise.reject(new Error(`role ${role} is not supported`));
+    } else if(role) {
+      roles.push(role);
     }
 
-    return UserModel.update({id}, {$set: {roles: [role]}});
+    return UserModel.update({id}, {$set: {roles}});
   }
 
   /**
@@ -566,10 +569,13 @@ module.exports = class UsersService {
           // endpoint.
           return;
         }
-
         let redirectDomain;
         try {
-          redirectDomain = url.parse(loc).hostname;
+          const {hostname, port} = url.parse(loc);
+          redirectDomain = hostname;
+          if (port) {
+            redirectDomain += `:${port}`;
+          }
         } catch (e) {
           return Promise.reject('redirect location is invalid');
         }

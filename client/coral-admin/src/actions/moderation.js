@@ -5,7 +5,7 @@ export const singleView = () => ({type: actions.SINGLE_VIEW});
 
 // Ban User Dialog
 export const showBanUserDialog = (user, commentId, commentStatus, showRejectedNote) => ({type: actions.SHOW_BANUSER_DIALOG, user, commentId, commentStatus, showRejectedNote});
-export const hideBanUserDialog = (showDialog) => ({type: actions.HIDE_BANUSER_DIALOG, showDialog});
+export const hideBanUserDialog = () => ({type: actions.HIDE_BANUSER_DIALOG});
 
 // Suspend User Dialog
 export const showSuspendUserDialog = (userId, username, commentId, commentStatus) =>
@@ -27,3 +27,9 @@ export const hideShortcutsNote = () => {
 
 export const viewUserDetail = (userId) => ({type: actions.VIEW_USER_DETAIL, userId});
 export const hideUserDetail = () => ({type: actions.HIDE_USER_DETAIL});
+
+export const setSortOrder = (order) => ({
+  type: actions.SET_SORT_ORDER,
+  order
+});
+

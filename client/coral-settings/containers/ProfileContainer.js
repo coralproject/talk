@@ -82,7 +82,7 @@ class ProfileContainer extends Component {
 
 const withQuery = graphql(
   gql`
-  query EmbedStreamProfileQuery {
+  query CoralEmbedStream_Profile {
     me {
       id
       ignoredUsers {

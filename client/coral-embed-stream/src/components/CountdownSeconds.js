@@ -36,7 +36,7 @@ export class CountdownSeconds extends React.Component {
     const secRemaining = msRemaining / 1000;
     const wholeSecRemaining = Math.floor(secRemaining);
     const plural = secRemaining !== 1;
-    const units = t(plural ? 'edit_comment.secondsPlural' : 'edit_comment.second');
+    const units = t(plural ? 'edit_comment.seconds_plural' : 'edit_comment.second');
     let classFromProp;
     if (typeof classNameForMsRemaining === 'function') {
       classFromProp = classNameForMsRemaining(msRemaining);

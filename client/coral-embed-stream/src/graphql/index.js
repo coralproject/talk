@@ -9,23 +9,6 @@ const extension = {
         comment {
           status
         }
-        errors {
-          translation_key
-        }
-      }
-    `,
-    StopIgnoringUserResponse: gql`
-      fragment CoralEmbedStream_StopIgnoringUserResponse on StopIgnoringUserResponse {
-        errors {
-          translation_key
-        }
-      }
-    `,
-    IgnoreUserResponse: gql`
-      fragment CoralEmbedStream_IgnoreUserResponse on IgnoreUserResponse {
-        errors {
-          translation_key
-        }
       }
     `,
     RemoveCommentTagResponse: gql`
@@ -35,9 +18,6 @@ const extension = {
           tags {
             name
           }
-        }
-        errors {
-          translation_key
         }
       }
     `,
@@ -49,16 +29,6 @@ const extension = {
             name
           }
         }
-        errors {
-          translation_key
-        }
-      }
-    `,
-    DeleteActionResponse: gql`
-      fragment CoralEmbedStream_DeleteActionResponse on DeleteActionResponse {
-        errors {
-          translation_key
-        }
       }
     `,
     CreateFlagResponse: gql`
@@ -66,18 +36,12 @@ const extension = {
         flag {
           id
         }
-        errors {
-          translation_key
-        }
       }
     `,
     CreateDontAgreeResponse : gql`
       fragment CoralEmbedStream_CreateDontAgreeResponse on CreateDontAgreeResponse {
         dontagree {
           id
-        }
-        errors {
-          translation_key
         }
       }
     `,
@@ -88,9 +52,6 @@ const extension = {
           replies {
             ...CoralEmbedStream_CreateCommentResponse_Comment
           }
-        }
-        errors {
-          translation_key
         }
       }
 
@@ -124,36 +85,28 @@ const extension = {
   mutations: {
     IgnoreUser: ({variables}) => ({
       updateQueries: {
-        EmbedQuery: (previousData, {mutationResult}) => {
+        CoralEmbedStream_Embed: (previousData) => {
           const ignoredUserId = variables.id;
-          const response = mutationResult.data.ignoreUser;
-          if (ignoredUserId && !response.errors) {
-            const updated = update(previousData, {me: {ignoredUsers: {$push: [{
-              id: ignoredUserId,
-              __typename: 'User',
-            }]}}});
-            return updated;
-          }
-          return previousData;
+          const updated = update(previousData, {me: {ignoredUsers: {$push: [{
+            id: ignoredUserId,
+            __typename: 'User',
+          }]}}});
+          return updated;
         }
       }
     }),
     StopIgnoringUser: ({variables}) => ({
       updateQueries: {
-        EmbedStreamProfileQuery: (previousData, {mutationResult}) => {
+        CoralEmbedStream_Profile: (previousData) => {
           const noLongerIgnoredUserId = variables.id;
-          const response = mutationResult.data.stopIgnoringUser;
-          if (noLongerIgnoredUserId && !response.errors) {
 
-            // remove noLongerIgnoredUserId from ignoredUsers
-            const updated = update(previousData, {me: {ignoredUsers: {
-              $apply: (ignoredUsers) => {
-                return ignoredUsers.filter((u) => u.id !== noLongerIgnoredUserId);
-              }
-            }}});
-            return updated;
-          }
-          return previousData;
+          // remove noLongerIgnoredUserId from ignoredUsers
+          const updated = update(previousData, {me: {ignoredUsers: {
+            $apply: (ignoredUsers) => {
+              return ignoredUsers.filter((u) => u.id !== noLongerIgnoredUserId);
+            }
+          }}});
+          return updated;
         }
       }
     }),
@@ -180,7 +133,7 @@ const extension = {
         }
       },
       updateQueries: {
-        EmbedQuery: (previousData, {mutationResult: {data: {createComment: {comment}}}}) => {
+        CoralEmbedStream_Embed: (previousData, {mutationResult: {data: {createComment: {comment}}}}) => {
           if (previousData.asset.settings.moderation === 'PRE' || comment.status === 'PREMOD' || comment.status === 'REJECTED') {
             return previousData;
           }
@@ -221,12 +174,7 @@ const extension = {
       variables: {id, edit},
     }) => ({
       updateQueries: {
-        EmbedQuery: (previousData, {mutationResult: {data: {editComment: {comment, errors}}}}) => {
-
-          // @TODO (kiwi) revisit after streamlining error handling
-          if (errors && errors.length) {
-            return previousData;
-          }
+        CoralEmbedStream_Embed: (previousData, {mutationResult: {data: {editComment: {comment}}}}) => {
           const {status} = comment;
           const updateCommentWithEdit = (comment, edit) => {
             const {body} = edit;

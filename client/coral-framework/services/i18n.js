@@ -6,7 +6,6 @@ import merge from 'lodash/merge';
 import esTA from '../../../node_modules/timeago.js/locales/es';
 import en from '../../../locales/en.yml';
 import es from '../../../locales/es.yml';
-import * as plugins from '../helpers/plugins';
 
 // Translations are happening at https://translate.lingohub.com/the-coral-project/dashboard
 
@@ -15,7 +14,6 @@ const translations = {...en, ...es};
 
 let lang;
 let timeagoInstance;
-let loadedPluginsTranslations = false;
 
 function setLocale(locale) {
   try {
@@ -45,10 +43,6 @@ function init() {
   timeagoInstance = ta();
 }
 
-function loadPluginsTranslations() {
-  plugins.getTranslations().forEach((t) => loadTranslations(t));
-}
-
 export function loadTranslations(newTranslations) {
   merge(translations, newTranslations);
 }
@@ -67,10 +61,6 @@ export function timeago(time) {
  * any extra parameters are optional and replace a variable marked by {0}, {1}, etc in the translation.
  */
 export function t(key, ...replacements) {
-  if (!loadedPluginsTranslations) {
-    loadPluginsTranslations();
-    loadedPluginsTranslations = true;
-  }
   const fullKey = `${lang}.${key}`;
   if (has(translations, fullKey)) {
     let translation = get(translations, fullKey);

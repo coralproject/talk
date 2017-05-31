@@ -17,7 +17,6 @@ To set up a development environment or build from source, see [INSTALL.md](https
 
 To launch a Talk server of your own from your browser without any need to muck about in a terminal or think about engineering concepts, stay tuned. We will launch [our installer](https://github.com/coralproject/talk-install) shortly!
 
-
 ### Configuration
 
 The Talk application looks for the following configuration values either as environment variables:
@@ -45,6 +44,12 @@ sign and verify tokens via a `HS256` algorithm.
 Refer to the wiki page on [Configuration Loading](https://github.com/coralproject/talk/wiki/Configuration-Loading) for
 alternative methods of loading configuration during development.
 
+### Using Trust
+
+Talk ships with core components we call "Trust". This allows Talk to automate certain actions based on previous user behavior.
+
+Our first feature is the notion of Karma. Talk will automatically pre-moderate comments of users who have a negative karma score. You can [see more how karma works here](/services/karma.js).
+
 ## Supported Browsers
 
 ### Web
@@ -58,6 +63,8 @@ alternative methods of loading configuration during development.
 
 - iPad
 - iPad Pro
+- iPhone 7 Plus
+- iPhone 7
 - iPhone 6 Plus
 - iPhone 6
 - iPhone 5

@@ -6,7 +6,7 @@ import t from 'coral-framework/services/i18n';
 export default ({showSignInDialog}) => (
   <div className={styles.message}>
     <div>
-      <a onClick={showSignInDialog}>{t('sign_in')}</a> {t('toAccess')}
+      <a onClick={showSignInDialog}>{t('settings.sign_in')}</a> {t('settings.to_access')}
     </div>
     <div>
       {t('from_settings_page')}

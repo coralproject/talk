@@ -13,13 +13,14 @@ export function info(msg) {
   return toast(msg, {type: 'info'});
 }
 
-export function showMutationErrors(err) {
-  const errors = Array.isArray(err) ? err : [err];
-  errors.forEach((err) => {
-    console.error(err);
-    toast(
-      err.translation_key ? t(`errors.${err.translation_key}`) : err,
-      {type: 'error'}
-    );
-  });
+export function showMutationErrors(error) {
+  console.error(error);
+  if (error.errors) {
+    error.errors.forEach((err) => {
+      toast(
+        err.translation_key ? t(`error.${err.translation_key}`) : err,
+        {type: 'error'}
+      );
+    });
+  }
 }

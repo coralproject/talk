@@ -60,7 +60,7 @@ class EmbedContainer extends React.Component {
 }
 
 const EMBED_QUERY = gql`
-  query EmbedQuery($assetId: ID, $assetUrl: String, $commentId: ID!, $hasComment: Boolean!, $excludeIgnored: Boolean) {
+  query CoralEmbedStream_Embed($assetId: ID, $assetUrl: String, $commentId: ID!, $hasComment: Boolean!, $excludeIgnored: Boolean) {
     asset(id: $assetId, url: $assetUrl) {
       totalCommentCount(excludeIgnored: $excludeIgnored)
     }

@@ -1,6 +1,0 @@
-query Assets {
-  assets {
-    id
-    title
-  }
-}

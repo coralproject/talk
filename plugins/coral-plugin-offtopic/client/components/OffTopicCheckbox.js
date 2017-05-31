@@ -12,7 +12,7 @@ class OffTopicCheckbox extends React.Component {
 
   handleChange = (e) => {
     if (e.target.checked) {
-      this.props.addTag(this.label)
+      this.props.addTag(this.label);
     } else {
       const idx = this.props.commentBox.tags.indexOf(this.label);
       this.props.removeTag(idx);
@@ -27,14 +27,13 @@ class OffTopicCheckbox extends React.Component {
           {t('off_topic')}
         </label>
       </div>
-    )
+    );
   }
 }
 
-
 const mapStateToProps = ({commentBox}) => ({commentBox});
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators({addTag, removeTag}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(OffTopicCheckbox);

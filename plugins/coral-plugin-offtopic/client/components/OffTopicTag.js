@@ -4,8 +4,8 @@ import styles from './styles.css';
 import t from 'coral-framework/services/i18n';
 
 const isOffTopic = (tags) => {
-  return !!tags.filter(tag => tag.name === 'OFF_TOPIC').length
-}
+  return !!tags.filter((tag) => tag.name === 'OFF_TOPIC').length;
+};
 
 export default (props) => (
   <span>

@@ -1,4 +1,4 @@
-import coralApi from '../../../coral-framework/helpers/response';
+import coralApi from '../../../coral-framework/helpers/request';
 
 export const SETTINGS_LOADING = 'SETTINGS_LOADING';
 export const SETTINGS_RECEIVED = 'SETTINGS_RECEIVED';

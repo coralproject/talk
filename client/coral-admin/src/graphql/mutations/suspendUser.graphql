@@ -1,7 +1,0 @@
-mutation suspendUser($input: SuspendUserInput!) {
-  suspendUser(input: $input) {
-    errors {
-      translation_key
-    }
-  }
-}

@@ -83,9 +83,9 @@ export class EditableCommentContent extends React.Component {
       if (error.translation_key) {
         addNotification('error', t(`error.${error.translation_key}`));
       } else if (error.networkError) {
-        addNotification('error', t('error.networkError'));
+        addNotification('error', t('error.network_error'));
       } else {
-        addNotification('error', t('edit_comment.unexpectedError'));
+        addNotification('error', t('edit_comment.unexpected_error'));
         throw error;
       }
     }
@@ -114,7 +114,7 @@ export class EditableCommentContent extends React.Component {
             return (comment.body !== originalBody) && !editWindowExpired;
           }}
           saveComment={this.editComment}
-          bodyLabel={t('edit_comment.bodyInputLabel')}
+          bodyLabel={t('edit_comment.body_input_label')}
           bodyPlaceholder=""
           submitText={<span>{t('edit_comment.save_button')}</span>}
           saveButtonCStyle="green"
@@ -126,15 +126,15 @@ export class EditableCommentContent extends React.Component {
                 {
                   editWindowExpired
                   ? <span>
-                      {t('edit_comment.editWindowExpired')}
+                      {t('edit_comment.edit_window_expired')}
                       {
                         typeof this.props.stopEditing === 'function'
-                        ? <span>&nbsp;<a className={styles.link} onClick={this.props.stopEditing}>{t('edit_comment.editWindowExpiredClose')}</a></span>
+                        ? <span>&nbsp;<a className={styles.link} onClick={this.props.stopEditing}>{t('edit_comment.edit_window_expired_close')}</a></span>
                         : null
                       }
                     </span>
                   : <span>
-                      <Icon name="timer"/> {t('edit_comment.editWindowTimerPrefix')}
+                      <Icon name="timer"/> {t('edit_comment.edit_window_timer_prefix')}
                       <CountdownSeconds
                         until={editableUntil}
                         classNameForMsRemaining={(remainingMs) => (remainingMs <= 10 * 1000) ? styles.editWindowAlmostOver : '' }

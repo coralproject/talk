@@ -6,6 +6,7 @@ import uniq from 'lodash/uniq';
 import pick from 'lodash/pick';
 import plugins from 'pluginsConfig';
 import {getDefinitionName, mergeDocuments} from 'coral-framework/utils';
+import {loadTranslations} from 'coral-framework/services/i18n';
 
 export const pluginReducers = merge(
   ...plugins
@@ -88,9 +89,12 @@ export function getGraphQLExtensions() {
     .filter((o) => o);
 }
 
-export function getTranslations() {
+function getTranslations() {
   return plugins
     .map((o) => o.module.translations)
     .filter((o) => o);
 }
 
+export function loadPluginsTranslations() {
+  getTranslations().forEach((t) => loadTranslations(t));
+}
