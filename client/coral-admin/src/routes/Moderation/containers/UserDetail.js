@@ -45,8 +45,11 @@ export const withUserDetailQuery = withQuery(gql`
     }) {
       ...${getDefinitionName(Comment.fragments.comment)}
     }
+    ...${getDefinitionName(Comment.fragments.root)}
     ${pluginFragments.spreads('root')}
   }
+  ${Comment.fragments.root}
+  ${Comment.fragments.comment}
   ${pluginFragments.definitions('user')}
   ${pluginFragments.definitions('root')}
 `, {
