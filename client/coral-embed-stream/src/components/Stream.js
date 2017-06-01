@@ -54,10 +54,6 @@ class Stream extends React.Component {
       user.suspension.until &&
       new Date(user.suspension.until) > new Date();
 
-    // Find the created_at date of the first comment. If no comments exist, set the date to a week ago.
-    const firstCommentDate = comments.nodes[0]
-      ? comments.nodes[0].created_at
-      : new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString();
     const commentIsIgnored = (comment) => {
       return (
         me &&
@@ -148,13 +144,11 @@ class Stream extends React.Component {
               <NewCount
                 commentCount={asset.commentCount}
                 commentCountCache={commentCountCache}
-                loadMore={this.props.loadNewComments}
-                firstCommentDate={firstCommentDate}
-                assetId={asset.id}
                 setCommentCountCache={this.props.setCommentCountCache}
+                loadMore={this.props.loadNewComments}
               />
               <div className="embed__stream">
-                {comments.nodes.map((comment) => {
+                {comments && comments.nodes.map((comment) => {
                   return commentIsIgnored(comment)
                     ? <IgnoredCommentTombstone key={comment.id} />
                     : <Comment

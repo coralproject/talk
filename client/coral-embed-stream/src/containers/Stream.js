@@ -194,11 +194,19 @@ const ascending = (a, b) => {
 const descending = (a, b) => ascending(a, b) * -1;
 
 const LOAD_COMMENT_COUNTS_QUERY = gql`
-  query CoralEmbedStream_LoadCommentCounts($assetUrl: String, $assetId: ID, $excludeIgnored: Boolean) {
+  query CoralEmbedStream_LoadCommentCounts($assetUrl: String, , $commentId: ID!, $assetId: ID, $hasComment: Boolean!, $excludeIgnored: Boolean) {
+    comment(id: $commentId) @include(if: $hasComment) {
+      id
+      parent {
+        id
+        replyCount(excludeIgnored: $excludeIgnored)
+      }
+      replyCount(excludeIgnored: $excludeIgnored)
+    }
     asset(id: $assetId, url: $assetUrl) {
       id
       commentCount(excludeIgnored: $excludeIgnored)
-      comments(limit: 10) {
+      comments(limit: 10) @skip(if: $hasComment) {
         nodes {
           id
           replyCount(excludeIgnored: $excludeIgnored)
@@ -277,7 +285,7 @@ const fragments = {
         }
         commentCount(excludeIgnored: $excludeIgnored)
         totalCommentCount(excludeIgnored: $excludeIgnored)
-        comments(limit: 10, excludeIgnored: $excludeIgnored) {
+        comments(limit: 10, excludeIgnored: $excludeIgnored) @skip(if: $hasComment) {
           nodes {
             ...CoralEmbedStream_Stream_comment
           }

@@ -128,8 +128,11 @@ const extension = {
     }) => ({
       optimisticResponse: {
         createComment: {
+          __typename: 'CreateCommentResponse',
           comment: {
+            __typename: 'Comment',
             user: {
+              __typename: 'User',
               id: auth.toJS().user.id,
               name: auth.toJS().user.username
             },
@@ -140,6 +143,19 @@ const extension = {
             action_summaries: [],
             tags,
             status: null,
+            replyCount: 0,
+            replies: {
+              __typename: 'CommentConnection',
+              nodes: [],
+              hasNextPage: false,
+              startCursor: new Date().toISOString(),
+              endCursor: new Date().toISOString(),
+            },
+            editing: {
+              __typename: 'EditInfo',
+              editableUntil: new Date().toISOString(),
+              edited: false,
+            },
             id: `pending-${uuid()}`,
           }
         }
