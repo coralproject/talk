@@ -1,5 +1,8 @@
 import {ADD_EXTERNAL_CONFIG} from '../constants/config';
 import {handleAuthToken} from 'coral-framework/actions/auth';
+import {getStore} from 'coral-framework/services/store';
+
+const store = getStore();
 
 export const addExternalConfig = (config) => {
 
@@ -10,7 +13,7 @@ export const addExternalConfig = (config) => {
    * the Talk session.
    */
   if (config.auth_token) {
-    handleAuthToken(config.auth_token);
+    store.dispatch(handleAuthToken(config.auth_token));
   }
 
   return {
