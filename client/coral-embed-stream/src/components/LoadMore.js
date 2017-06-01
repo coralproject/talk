@@ -1,25 +1,6 @@
 import React, {PropTypes} from 'react';
-import {ADDTL_COMMENTS_ON_LOAD_MORE} from '../constants/stream';
 import {Button} from 'coral-ui';
 import t from 'coral-framework/services/i18n';
-
-const loadMoreComments = (assetId, comments, loadMore, parentId, replyCount) => {
-
-  let cursor = null;
-  if (comments.length) {
-    cursor = parentId
-      ? comments[0].created_at
-      : comments[comments.length - 1].created_at;
-  }
-
-  loadMore({
-    limit: parentId ? replyCount : ADDTL_COMMENTS_ON_LOAD_MORE,
-    cursor,
-    asset_id: assetId,
-    parent_id: parentId,
-    sort: parentId ? 'CHRONOLOGICAL' : 'REVERSE_CHRONOLOGICAL'
-  });
-};
 
 class LoadMore extends React.Component {
 
@@ -40,13 +21,13 @@ class LoadMore extends React.Component {
   }
 
   render () {
-    const {assetId, comments, loadMore, moreComments, parentId, replyCount, topLevel} = this.props;
+    const {topLevel, moreComments, loadMore, replyCount} = this.props;
     return moreComments
       ? <div className='coral-load-more'>
         <Button
           onClick={() => {
             this.initialState = false;
-            loadMoreComments(assetId, comments, loadMore, parentId, replyCount);
+            loadMore();
           }}>
           {topLevel ? t('framework.view_more_comments') : this.replyCountFormat(replyCount)}
         </Button>
@@ -56,11 +37,8 @@ class LoadMore extends React.Component {
 }
 
 LoadMore.propTypes = {
-  assetId: PropTypes.string.isRequired,
-  comments: PropTypes.array.isRequired,
-  moreComments: PropTypes.bool.isRequired,
-  topLevel: PropTypes.bool.isRequired,
   replyCount: PropTypes.number,
+  topLevel: PropTypes.bool.isRequired,
   loadMore: PropTypes.func.isRequired
 };
 

@@ -45,16 +45,25 @@ describe('graph.queries.asset', () => {
       query assetCommentsQuery($id: ID!) {
         asset(id: $id) {
           comments(limit: 10) {
-            id
-            body
+            nodes {
+              id
+              body
+              created_at
+            }
+            startCursor
+            endCursor
+            hasNextPage
           }
         }
       }
     `;
     const res = await graphql(schema, assetCommentsQuery, {}, context, {id: asset.id});
     expect(res.erros).is.empty;
-    const comments = res.data.asset.comments;
-    expect(comments.length).to.equal(2);
+    const {nodes, startCursor, endCursor, hasNextPage} = res.data.asset.comments;
+    expect(nodes.length).to.equal(2);
+    expect(startCursor).to.equal(nodes[0].created_at);
+    expect(endCursor).to.equal(nodes[1].created_at);
+    expect(hasNextPage).to.be.false;
   });
 
   it('can query comments edge to exclude comments ignored by user', async () => {
@@ -65,7 +74,7 @@ describe('graph.queries.asset', () => {
       asset_id: asset.id,
       body: `hello there! ${String(Math.random()).slice(2)}`,
     })));
-    
+
     // Add the second user to the list of ignored users.
     context.user.ignoresUsers.push(users[1].id);
 
@@ -73,8 +82,10 @@ describe('graph.queries.asset', () => {
       query assetCommentsQuery($id: ID!, $url: String!, $excludeIgnored: Boolean!) {
         asset(id: $id, url: $url) {
           comments(limit: 10, excludeIgnored: $excludeIgnored) {
-            id
-            body
+            nodes {
+              id
+              body
+            }
           }
         }
       }
@@ -90,8 +101,8 @@ describe('graph.queries.asset', () => {
         console.error(res.errors);
       }
       expect(res.errors).is.empty;
-      const comments = res.data.asset.comments;
-      expect(comments.length).to.equal(1);
+      const nodes = res.data.asset.comments.nodes;
+      expect(nodes.length).to.equal(1);
     }
   });
 
