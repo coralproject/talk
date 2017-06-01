@@ -30,6 +30,8 @@ See our [Contribution Guide](https://github.com/coralproject/talk/blob/master/CO
 
 - iPad
 - iPad Pro
+- iPhone 7 Plus
+- iPhone 7
 - iPhone 6 Plus
 - iPhone 6
 - iPhone 5
@@ -42,7 +44,7 @@ See our [Contribution Guide](https://github.com/coralproject/talk/blob/master/CO
 
 ### Android Devices
 
-- Galaxy S5
+- Galaxy S5x
 - Nexus 5X
 - Nexus 6P
 
