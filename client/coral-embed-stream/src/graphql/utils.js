@@ -28,6 +28,14 @@ function findAndInsertComment(parent, id, comment) {
 }
 
 export function insertCommentIntoEmbedQuery(root, id, comment) {
+
+  // Increase total comment count by one.
+  root = update(root, {
+    asset: {
+      totalCommentCount: {$apply: (c) => c + 1},
+    },
+  });
+
   if (root.comment) {
     if (root.comment.parent) {
       return update(root, {
@@ -76,6 +84,14 @@ function findAndRemoveComment(parent, id) {
 }
 
 export function removeCommentFromEmbedQuery(root, id) {
+
+  // Decrease total comment by one.
+  root = update(root, {
+    asset: {
+      totalCommentCount: {$apply: (c) => c - 1},
+    },
+  });
+
   if (root.comment) {
     if (root.comment.parent) {
       return update(root, {
