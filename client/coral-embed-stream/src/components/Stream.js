@@ -95,6 +95,7 @@ class Stream extends React.Component {
               {loggedIn &&
                 !banned &&
                 !temporarilySuspended &&
+                !highlightedComment &&
                 <CommentBox
                   addNotification={this.props.addNotification}
                   postComment={this.props.postComment}
