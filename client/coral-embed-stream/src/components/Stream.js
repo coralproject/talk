@@ -31,7 +31,6 @@ class Stream extends React.Component {
       addNotification,
       postFlag,
       postDontAgree,
-      loadMore,
       deleteAction,
       showSignInDialog,
       addCommentTag,
@@ -55,14 +54,6 @@ class Stream extends React.Component {
       user.suspension.until &&
       new Date(user.suspension.until) > new Date();
 
-    const hasOlderComments = !!(asset &&
-      asset.lastComment &&
-      asset.lastComment.id !== asset.comments[asset.comments.length - 1].id);
-
-    // Find the created_at date of the first comment. If no comments exist, set the date to a week ago.
-    const firstCommentDate = asset.comments[0]
-      ? asset.comments[0].created_at
-      : new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString();
     const commentIsIgnored = (comment) => {
       return (
         me &&
@@ -138,7 +129,7 @@ class Stream extends React.Component {
               highlighted={comment.id}
               postFlag={this.props.postFlag}
               postDontAgree={this.props.postDontAgree}
-              loadMore={this.props.loadMore}
+              loadMore={this.props.loadNewReplies}
               deleteAction={this.props.deleteAction}
               showSignInDialog={this.props.showSignInDialog}
               key={highlightedComment.id}
@@ -153,13 +144,11 @@ class Stream extends React.Component {
               <NewCount
                 commentCount={asset.commentCount}
                 commentCountCache={commentCountCache}
-                loadMore={this.props.loadMore}
-                firstCommentDate={firstCommentDate}
-                assetId={asset.id}
                 setCommentCountCache={this.props.setCommentCountCache}
+                loadMore={this.props.loadNewComments}
               />
               <div className="embed__stream">
-                {comments.map((comment) => {
+                {comments && comments.nodes.map((comment) => {
                   return commentIsIgnored(comment)
                     ? <IgnoredCommentTombstone key={comment.id} />
                     : <Comment
@@ -179,7 +168,7 @@ class Stream extends React.Component {
                         removeCommentTag={removeCommentTag}
                         ignoreUser={ignoreUser}
                         commentIsIgnored={commentIsIgnored}
-                        loadMore={loadMore}
+                        loadMore={this.props.loadNewReplies}
                         deleteAction={deleteAction}
                         showSignInDialog={showSignInDialog}
                         key={comment.id}
@@ -194,10 +183,8 @@ class Stream extends React.Component {
               </div>
               <LoadMore
                 topLevel={true}
-                assetId={asset.id}
-                comments={asset.comments}
-                moreComments={hasOlderComments}
-                loadMore={this.props.loadMore}
+                moreComments={asset.comments.hasNextPage}
+                loadMore={this.props.loadMoreComments}
               />
             </div>}
       </div>

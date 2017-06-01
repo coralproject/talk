@@ -21,14 +21,18 @@ class ModerationQueue extends React.Component {
     comments: PropTypes.array.isRequired
   }
 
+  loadMore = () => {
+    this.props.loadMore(this.props.activeTab);
+  }
+
   componentDidUpdate (prev) {
-    const {loadMore, comments, commentCount, sort, activeTab: tab, assetId: asset_id} = this.props;
+    const {comments, commentCount} = this.props;
 
     // if the user just moderated the last (visible) comment
     // AND there are more comments available on the server,
     // go ahead and load more comments
     if (prev.comments.length > 0 && comments.length === 0 && commentCount > 0) {
-      loadMore({sort, tab, asset_id});
+      this.loadMore();
     }
   }
 
@@ -38,9 +42,6 @@ class ModerationQueue extends React.Component {
       selectedIndex,
       commentCount,
       singleView,
-      loadMore,
-      activeTab,
-      sort,
       viewUserDetail,
       ...props
     } = this.props;
@@ -75,12 +76,8 @@ class ModerationQueue extends React.Component {
           }
         </ul>
         <LoadMore
-          comments={comments}
-          loadMore={loadMore}
-          sort={sort}
-          tab={activeTab}
+          loadMore={this.loadMore}
           showLoadMore={comments.length < commentCount}
-          assetId={props.assetId}
           />
       </div>
     );

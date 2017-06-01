@@ -27,6 +27,7 @@ en:
     characters_remaining: "characters remaining"
   comment_is_best: "This comment is one of the best"
   comment_offensive: "This comment is offensive"
+  comment_singular: Comment
   comment_plural: Comments
   comment_post_banned_word: "Your comment contains one or more words that are not permitted, so it will not be published. If you think this message is incorrect, please contact our moderation team."
   comment_post_notif: "Your comment has been posted."
