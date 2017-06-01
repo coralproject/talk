@@ -27,7 +27,7 @@ function findAndInsertComment(parent, id, comment) {
   });
 }
 
-export function insertComment(root, id, comment) {
+export function insertCommentIntoEmbedQuery(root, id, comment) {
   if (root.comment) {
     if (root.comment.parent) {
       return update(root, {
@@ -75,24 +75,24 @@ function findAndRemoveComment(parent, id) {
   return update(parent, changes);
 }
 
-export function removeComment(root, id, comment) {
+export function removeCommentFromEmbedQuery(root, id) {
   if (root.comment) {
     if (root.comment.parent) {
       return update(root, {
         comment: {
           parent: {
-            $apply: (node) => findAndRemoveComment(node, id, comment),
+            $apply: (node) => findAndRemoveComment(node, id),
           },
         },
       });
     }
     return update(root, {
       comment: {
-        $apply: (node) => findAndRemoveComment(node, id, comment),
+        $apply: (node) => findAndRemoveComment(node, id),
       },
     });
   }
   return update(root, {
-    asset: {$apply: (asset) => findAndRemoveComment(asset, id, comment)},
+    asset: {$apply: (asset) => findAndRemoveComment(asset, id)},
   });
 }

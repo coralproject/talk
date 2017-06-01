@@ -2,7 +2,7 @@ import {gql} from 'react-apollo';
 import {add} from 'coral-framework/services/graphqlRegistry';
 import update from 'immutability-helper';
 import uuid from 'uuid/v4';
-import {insertComment, removeComment} from './utils';
+import {insertCommentIntoEmbedQuery, removeCommentFromEmbedQuery} from './utils';
 
 const extension = {
   fragments: {
@@ -165,7 +165,7 @@ const extension = {
           if (prev.asset.settings.moderation === 'PRE' || comment.status === 'PREMOD' || comment.status === 'REJECTED') {
             return prev;
           }
-          return insertComment(prev, parent_id, comment);
+          return insertCommentIntoEmbedQuery(prev, parent_id, comment);
         },
       }
     }),
@@ -175,7 +175,7 @@ const extension = {
           if (!['PREMOD', 'REJECTED'].includes(comment.status)) {
             return null;
           }
-          return removeComment(prev, comment.id);
+          return removeCommentFromEmbedQuery(prev, comment.id);
         },
       },
     }),
