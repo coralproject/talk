@@ -31,6 +31,7 @@ es:
     characters_remaining: "carácteres restantes"
   comment_is_best: "Este comentario es uno de los mejores"
   comment_offensive: "Este comentario es ofensivo"
+  comment_singular: Comentario
   comment_plural: Comentarios
   comment_post_banned_word: "Tu comentario contiene una o más palabras que no está\
     n permitidas en nuestro espacio, por lo que no será publicado. Si crees que es\
