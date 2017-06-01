@@ -87,12 +87,7 @@ class Comment extends React.Component {
           name: PropTypes.string
         })
       ),
-      replies: PropTypes.arrayOf(
-        PropTypes.shape({
-          body: PropTypes.string.isRequired,
-          id: PropTypes.string.isRequired
-        })
-      ),
+      replies: PropTypes.object,
       user: PropTypes.shape({
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired
@@ -195,7 +190,7 @@ class Comment extends React.Component {
     let commentClass = parentId
       ? `reply ${styles.Reply}`
       : `comment ${styles.Comment}`;
-    commentClass += comment.id === 'pending' ? ` ${styles.pendingComment}` : '';
+    commentClass += comment.id.indexOf('pending') >= 0 ? ` ${styles.pendingComment}` : '';
 
     // call a function, and if it errors, call addNotification('error', ...) (e.g. to show user a snackbar)
     const notifyOnError = (fn, errorToMessage) =>
@@ -375,7 +370,7 @@ class Comment extends React.Component {
             />
           : null}
         {comment.replies &&
-          comment.replies.map((reply) => {
+          comment.replies.nodes.map((reply) => {
             return commentIsIgnored(reply)
               ? <IgnoredCommentTombstone key={reply.id} />
               : <Comment
@@ -408,13 +403,10 @@ class Comment extends React.Component {
         {comment.replies &&
           <div className="coral-load-more-replies">
             <LoadMore
-              assetId={asset.id}
-              comments={comment.replies}
-              parentId={comment.id}
               topLevel={false}
               replyCount={comment.replyCount}
-              moreComments={comment.replyCount > comment.replies.length}
-              loadMore={loadMore}
+              moreComments={comment.replyCount > comment.replies.nodes.length}
+              loadMore={() => loadMore(comment.id)}
             />
           </div>}
       </div>

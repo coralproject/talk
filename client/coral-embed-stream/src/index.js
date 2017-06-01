@@ -8,10 +8,12 @@ import './graphql';
 import {addExternalConfig} from 'coral-embed-stream/src/actions/config';
 
 import reducers from './reducers';
-import store, {injectReducers} from 'coral-framework/services/store';
+import {getStore, injectReducers} from 'coral-framework/services/store';
 import AppRouter from './AppRouter';
 import {pym} from 'coral-framework';
 import {loadPluginsTranslations} from 'coral-framework/helpers/plugins';
+
+const store = getStore();
 
 loadPluginsTranslations();
 injectReducers(reducers);

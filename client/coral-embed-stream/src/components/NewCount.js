@@ -2,15 +2,10 @@ import React, {PropTypes} from 'react';
 
 import t from 'coral-framework/services/i18n';
 
-const onLoadMoreClick = ({loadMore, commentCount, firstCommentDate, assetId, setCommentCountCache}) => (e) => {
+const onLoadMoreClick = ({loadMore, commentCount, setCommentCountCache}) => (e) => {
   e.preventDefault();
   setCommentCountCache(commentCount);
-  loadMore({
-    asset_id: assetId,
-    limit: 500,
-    cursor: firstCommentDate,
-    sort: 'CHRONOLOGICAL'
-  }, true);
+  loadMore();
 };
 
 const NewCount = (props) => {
@@ -33,8 +28,6 @@ NewCount.propTypes = {
   commentCount: PropTypes.number.isRequired,
   commentCountCache: PropTypes.number,
   loadMore: PropTypes.func.isRequired,
-  assetId: PropTypes.string.isRequired,
-  firstCommentDate: PropTypes.string.isRequired
 };
 
 export default NewCount;

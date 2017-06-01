@@ -55,11 +55,12 @@ export function separateDataAndRoot(
     subscribeToMore,
     updateQuery,
     variables,
+    error,
     ...root,
   }) {
   return {
     data: {fetchMore, loading, networkStatus, refetch, startPolling,
-      stopPolling, subscribeToMore, updateQuery, variables},
+      stopPolling, subscribeToMore, updateQuery, variables, error},
     root,
   };
 }
@@ -99,4 +100,15 @@ export function mergeDocuments(documents) {
   const substitutions = documents.slice(1);
   const literals = [main, ...substitutions.map(() => '\n')];
   return gql.apply(null, [literals, ...substitutions]);
+}
+
+export function getResponseErrors(mutationResult) {
+  const result = [];
+  Object.keys(mutationResult.data).forEach((response) => {
+    const errors = mutationResult.data[response].errors;
+    if (errors && errors.length) {
+      result.push(...errors);
+    }
+  });
+  return result.length ? result : false;
 }

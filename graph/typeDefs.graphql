@@ -76,7 +76,7 @@ type User {
   ignoredUsers: [User!]
 
   # returns all comments based on a query.
-  comments(query: CommentsQuery): [Comment!]
+  comments(query: CommentsQuery): CommentConnection!
 
   # reliable is the reference to a given user's Reliability. If the requesting
   # user does not have permission to access the reliability, null will be
@@ -229,7 +229,7 @@ type Comment {
   recentReplies: [Comment!]
 
   # the replies that were made to the comment.
-  replies(sort: SORT_ORDER = CHRONOLOGICAL, limit: Int = 3, excludeIgnored: Boolean): [Comment!]
+  replies(sort: SORT_ORDER = CHRONOLOGICAL, limit: Int = 3, excludeIgnored: Boolean): CommentConnection!
 
   # The count of replies on a comment.
   replyCount(excludeIgnored: Boolean): Int
@@ -251,6 +251,22 @@ type Comment {
 
   # describes how the comment can be edited
   editing: EditInfo
+}
+
+# CommentConnection represents a paginable subset of a comment list.
+type CommentConnection {
+
+  # Indicates that there are more comments after this subset.
+  hasNextPage: Boolean!
+
+  # Cursor of first comment in subset.
+  startCursor: Date
+
+  # Cursor of last comment in subset.
+  endCursor: Date
+
+  # Subset of comments.
+  nodes: [Comment!]!
 }
 
 ################################################################################
@@ -462,14 +478,11 @@ type Asset {
   # The URL that the asset is located on.
   url: String
 
-  # Returns last comment
-  lastComment: Comment
-
   # Returns recent comments
   recentComments: [Comment!]
 
   # The top level comments that are attached to the asset.
-  comments(sort: SORT_ORDER = REVERSE_CHRONOLOGICAL, limit: Int = 10, excludeIgnored: Boolean): [Comment!]
+  comments(sort: SORT_ORDER = REVERSE_CHRONOLOGICAL, limit: Int = 10, excludeIgnored: Boolean): CommentConnection!
 
   # The count of top level comments on the asset.
   commentCount(excludeIgnored: Boolean): Int
@@ -576,7 +589,7 @@ type RootQuery {
   asset(id: ID, url: String): Asset
 
   # Comments returned based on a query.
-  comments(query: CommentsQuery!): [Comment!]
+  comments(query: CommentsQuery!): CommentConnection
 
   # Return the count of comments satisfied by the query. Note that this edge is
   # expensive as it is not batched. Requires the `ADMIN` role.
