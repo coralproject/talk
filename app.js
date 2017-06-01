@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const authentication = require('./middleware/authentication');
 const {passport} = require('./services/passport');
 const plugins = require('./services/plugins');
+const i18n = require('./services/i18n');
 const enabled = require('debug').enabled;
 const errors = require('./errors');
 const {createGraphOptions} = require('./graph');
@@ -157,6 +158,8 @@ app.use('/', (err, req, res, next) => {
     console.error(err);
   }
 
+  i18n.init(req);
+  
   if (err instanceof errors.APIError) {
     res.status(err.status);
     res.render('error', {

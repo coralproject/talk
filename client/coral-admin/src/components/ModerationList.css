@@ -189,6 +189,12 @@
   width: 140px;
 }
 
+.minimal {
+  width: 45px;
+  min-width: 0;
+  float: left;
+}
+
 .approve__active {
   box-shadow: none;
   color: white;

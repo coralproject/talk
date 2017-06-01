@@ -1,6 +1,6 @@
 {
   "name": "talk",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "A better commenting experience from Mozilla, The New York Times, and the Washington Post. https://coralproject.net",
   "main": "app.js",
   "scripts": {
@@ -112,7 +112,8 @@
     "subscriptions-transport-ws": "^0.5.5-alpha.0",
     "timekeeper": "^1.0.0",
     "uuid": "^3.0.1",
-    "yaml-loader": "^0.4.0"
+    "yaml-loader": "^0.4.0",
+    "yamljs": "^0.2.10"
   },
   "devDependencies": {
     "apollo-client": "^1.0.4",
