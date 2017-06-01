@@ -6,7 +6,8 @@ const es = yaml.load('./locales/es.yml');
 const en = yaml.load('./locales/en.yml');
 
 // default language
-let language = 'en';
+let defaultLanguage = 'en';
+let language = defaultLanguage;
 const translations = Object.assign(en, es);
 
 /**
@@ -15,15 +16,44 @@ const translations = Object.assign(en, es);
 const guessLanguage = (request) => {
 
   if (typeof request === 'object') {
-    language = 'en';
-    
-    // console.log('debug 1', request.headers['accept-language']);
-    // console.log('debug 2', request.language);
-    // let languageHeader = request.headers? request.headers['accept-language'] : undefined;
 
+    let languageHeader = request.headers ? request.headers['accept-language'] : undefined;
+    const acceptedLanguages = getAcceptedLanguagesFromHeader(languageHeader);
+
+    let lang;
+    for (let i = 0; i < acceptedLanguages.length; i++) {
+      lang = acceptedLanguages[i].split('-', 2)[0];
+    }
+    return lang;
   }
 
-  return 'en';
+  return defaultLanguage;
+};
+
+/**
+ * Get a sorted list of accepted languages from the HTTP Accept-Language header
+ */
+const getAcceptedLanguagesFromHeader = (header) => {
+  let languages = header.split(',');
+  let preferences = {};
+  return languages.map((item) => {
+    let preferenceParts = item.trim().split(';q=');
+    if (preferenceParts.length < 2) {
+      preferenceParts[1] = 1.0;
+    } else {
+      let quality = parseFloat(preferenceParts[1]);
+      preferenceParts[1] = quality ? quality : 0.0;
+    }
+    preferences[preferenceParts[0]] = preferenceParts[1];
+
+    return preferenceParts[0];
+  })
+  .filter(function(lang) {
+    return preferences[lang] > 0;
+  })
+  .sort(function sortLanguages(a, b) {
+    return preferences[b] - preferences[a];
+  });
 };
 
 /**
