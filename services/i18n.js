@@ -6,8 +6,25 @@ const es = yaml.load('./locales/es.yml');
 const en = yaml.load('./locales/en.yml');
 
 // default language
-const language = 'en';
+let language = 'en';
 const translations = Object.assign(en, es);
+
+/**
+* guess language setting based on http headers
+*/
+const guessLanguage = (request) => {
+
+  if (typeof request === 'object') {
+    language = 'en';
+    
+    // console.log('debug 1', request.headers['accept-language']);
+    // console.log('debug 2', request.language);
+    // let languageHeader = request.headers? request.headers['accept-language'] : undefined;
+
+  }
+
+  return 'en';
+};
 
 /**
  * Exposes a service object to allow translations.
@@ -18,10 +35,8 @@ const i18n = {
   /**
    * Create the new Task kue.
    */
-  init() {
-
-    // To Do - set language and retrieve it
-    return 'set it';
+  init(req) {
+    language = guessLanguage(req);
   },
 
   /**
@@ -44,7 +59,6 @@ const i18n = {
       return key;
     }
   },
-
 };
 
 module.exports = i18n;
