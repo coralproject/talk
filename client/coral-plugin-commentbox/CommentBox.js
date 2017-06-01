@@ -167,6 +167,7 @@ class CommentBox extends React.Component {
           fill="commentInputDetailArea"
           registerHook={this.registerHook}
           unregisterHook={this.unregisterHook}
+          isReply={isReply}
           inline
         />}
         cancelButtonClicked={cancelButtonClicked}
