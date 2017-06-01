@@ -143,7 +143,7 @@ export default class Moderation extends Component {
           data={this.props.data}
           root={this.props.root}
           currentAsset={asset}
-          comments={comments}
+          comments={comments.nodes}
           activeTab={activeTab}
           singleView={moderation.singleView}
           selectedIndex={this.state.selectedIndex}
