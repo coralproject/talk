@@ -8,7 +8,7 @@ summary:
 
 [![CircleCI](https://circleci.com/gh/coralproject/talk.svg?style=svg)](https://circleci.com/gh/coralproject/talk)
 
-Online comments are broken. Our open-source Talk tool rethinks how moderation, comment display, and conversation function, creating the opportunity for safer, smarter discussions around your work. [Read more about Talk here.](https://coralproject.net/products/talk.html)
+Online comments are broken. Mozilla's open-source, plugin-based tool Talk rethinks how moderation, comment display, and conversation function online, creating the opportunity for better, smarter discussions designed to fit your needs. [Read more about Talk here.](https://coralproject.net/products/talk.html)
 
 Third party licenses are available via the `/client/3rdpartylicenses.txt`
 endpoint when the server is running with built assets.
@@ -30,6 +30,8 @@ See our [Contribution Guide](https://github.com/coralproject/talk/blob/master/CO
 
 - iPad
 - iPad Pro
+- iPhone 7 Plus
+- iPhone 7
 - iPhone 6 Plus
 - iPhone 6
 - iPhone 5
@@ -42,7 +44,7 @@ See our [Contribution Guide](https://github.com/coralproject/talk/blob/master/CO
 
 ### Android Devices
 
-- Galaxy S5
+- Galaxy S5x
 - Nexus 5X
 - Nexus 6P
 
