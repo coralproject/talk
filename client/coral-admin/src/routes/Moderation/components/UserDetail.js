@@ -34,7 +34,7 @@ export default class UserDetail extends React.Component {
         user,
         totalComments,
         rejectedComments,
-        comments
+        comments: {nodes}
       },
       bannedWords,
       suspectWords,
@@ -87,7 +87,7 @@ export default class UserDetail extends React.Component {
         </div>
         <div>
           {
-            comments.map((comment, i) => {
+            nodes.map((comment, i) => {
               const status = comment.action_summaries ? 'FLAGGED' : comment.status;
               return <Comment
                 key={i}
