@@ -7,6 +7,7 @@ import withQuery from 'coral-framework/hocs/withQuery';
 import {getDefinitionName} from 'coral-framework/utils';
 import * as notification from 'coral-admin/src/services/notification';
 import t, {timeago} from 'coral-framework/services/i18n';
+import update from 'immutability-helper';
 
 import {withSetUserStatus, withSuspendUser, withSetCommentStatus} from 'coral-framework/graphql/mutations';
 
@@ -80,12 +81,12 @@ class ModerationContainer extends Component {
     return this.props.setCommentStatus({commentId, status: 'REJECTED'});
   }
 
-  loadMore = ({limit = 10, cursor, sort, tab, asset_id}) => {
-    let variables = {
-      limit,
-      cursor,
-      sort,
-      asset_id
+  loadMore = (tab) => {
+    const variables = {
+      limit: 10,
+      cursor: this.props.root[tab].endCursor,
+      sort: this.props.data.variables.sort,
+      asset_id: this.props.data.variables.asset_id,
     };
     switch(tab) {
     case 'all':
@@ -108,14 +109,12 @@ class ModerationContainer extends Component {
     return this.props.data.fetchMore({
       query: LOAD_MORE_QUERY,
       variables,
-      updateQuery: (oldData, {fetchMoreResult:{comments}}) => {
-        return {
-          ...oldData,
-          [tab]: [
-            ...oldData[tab],
-            ...comments
-          ]
-        };
+      updateQuery: (prev, {fetchMoreResult:{comments}}) => {
+        return update(prev, {
+          [tab]: {
+            nodes: {$push: comments.nodes},
+          },
+        });
       }
     });
   };
@@ -145,14 +144,28 @@ class ModerationContainer extends Component {
 const LOAD_MORE_QUERY = gql`
   query CoralAdmin_Moderation_LoadMore($limit: Int = 10, $cursor: Date, $sort: SORT_ORDER, $asset_id: ID, $statuses:[COMMENT_STATUS!], $action_type: ACTION_TYPE) {
     comments(query: {limit: $limit, cursor: $cursor, asset_id: $asset_id, statuses: $statuses, sort: $sort, action_type: $action_type}) {
-      ...${getDefinitionName(Comment.fragments.comment)}
-      action_summaries {
-        count
-        ... on FlagActionSummary {
-          reason
+      nodes {
+        ...${getDefinitionName(Comment.fragments.comment)}
+        action_summaries {
+          count
+          ... on FlagActionSummary {
+            reason
+          }
         }
       }
     }
+  }
+  ${Comment.fragments.comment}
+`;
+
+const commentConnectionFragment = gql`
+  fragment CoralAdmin_Moderation_CommentConnection on CommentConnection {
+    nodes {
+      ...${getDefinitionName(Comment.fragments.comment)}
+    }
+    hasNextPage
+    startCursor
+    endCursor
   }
   ${Comment.fragments.comment}
 `;
@@ -164,21 +177,21 @@ const withModQueueQuery = withQuery(gql`
       asset_id: $asset_id,
       sort: $sort
     }) {
-      ...${getDefinitionName(Comment.fragments.comment)}
+      ...CoralAdmin_Moderation_CommentConnection
     }
     accepted: comments(query: {
       statuses: [ACCEPTED],
       asset_id: $asset_id,
       sort: $sort
     }) {
-      ...${getDefinitionName(Comment.fragments.comment)}
+      ...CoralAdmin_Moderation_CommentConnection
     }
     premod: comments(query: {
         statuses: [PREMOD],
         asset_id: $asset_id,
         sort: $sort
     }) {
-        ...${getDefinitionName(Comment.fragments.comment)}
+      ...CoralAdmin_Moderation_CommentConnection
     }
     flagged: comments(query: {
         action_type: FLAG,
@@ -186,14 +199,14 @@ const withModQueueQuery = withQuery(gql`
         statuses: [NONE, PREMOD],
         sort: $sort
     }) {
-        ...${getDefinitionName(Comment.fragments.comment)}
+      ...CoralAdmin_Moderation_CommentConnection
     }
     rejected: comments(query: {
         statuses: [REJECTED],
         asset_id: $asset_id,
         sort: $sort
     }) {
-        ...${getDefinitionName(Comment.fragments.comment)}
+      ...CoralAdmin_Moderation_CommentConnection
     }
     assets: assets {
       id
@@ -224,7 +237,7 @@ const withModQueueQuery = withQuery(gql`
       organizationName
     }
   }
-  ${Comment.fragments.comment}
+  ${commentConnectionFragment}
 `, {
   options: ({params: {id = null}, moderation: {sortOrder}}) => {
     return {

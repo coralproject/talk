@@ -1,11 +1,4 @@
 const Asset = {
-  lastComment({id}, _, {loaders: {Comments}}) {
-    return Comments.getByQuery({
-      asset_id: id,
-      limit: 1,
-      parent_id: null
-    }).then((data) => data[0]);
-  },
   recentComments({id}, _, {loaders: {Comments}}) {
     return Comments.genRecentComments.load(id);
   },

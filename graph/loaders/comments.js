@@ -293,9 +293,24 @@ const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, a
     }
   }
 
-  return comments
-    .sort({created_at: sort === 'REVERSE_CHRONOLOGICAL' ? -1 : 1})
-    .limit(limit);
+  let query = comments
+    .sort({created_at: sort === 'REVERSE_CHRONOLOGICAL' ? -1 : 1});
+  if (limit) {
+    query = query.limit(limit + 1);
+  }
+  return query.then((nodes) => {
+    let hasNextPage = false;
+    if (limit && nodes.length > limit) {
+      hasNextPage = true;
+      nodes.splice(limit, 1);
+    }
+    return Promise.resolve({
+      startCursor: nodes.length ? nodes[0].created_at : null,
+      endCursor: nodes.length ? nodes[nodes.length - 1].created_at : null,
+      hasNextPage,
+      nodes,
+    });
+  });
 };
 
 /**
