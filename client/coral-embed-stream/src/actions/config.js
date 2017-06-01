@@ -4,13 +4,13 @@ import {handleAuthToken} from 'coral-framework/actions/auth';
 export const addExternalConfig = (config) => {
 
   /**
-   * If an authToken is present and not falsey, handle it.
+   * If an auth_token is present and not falsey, handle it.
    *
-   * This allows the host page to pass in an authToken in order to control
+   * This allows the host page to pass in an auth_token in order to control
    * the Talk session.
    */
-  if (config.authToken) {
-    handleAuthToken(config.authToken);
+  if (config.auth_token) {
+    handleAuthToken(config.auth_token);
   }
 
   return {
