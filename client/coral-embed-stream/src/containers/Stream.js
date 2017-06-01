@@ -220,10 +220,12 @@ const LOAD_MORE_QUERY = gql`
   query CoralEmbedStream_LoadMoreComments($limit: Int = 5, $cursor: Date, $parent_id: ID, $asset_id: ID, $sort: SORT_ORDER, $excludeIgnored: Boolean) {
     comments(query: {limit: $limit, cursor: $cursor, parent_id: $parent_id, asset_id: $asset_id, sort: $sort, excludeIgnored: $excludeIgnored}) {
       nodes {
+        id
         ...${getDefinitionName(Comment.fragments.comment)}
         replyCount(excludeIgnored: $excludeIgnored)
         replies(limit: 3, excludeIgnored: $excludeIgnored) {
           nodes {
+            id
             ...${getDefinitionName(Comment.fragments.comment)}
           }
           hasNextPage
@@ -241,10 +243,12 @@ const LOAD_MORE_QUERY = gql`
 
 const commentFragment = gql`
   fragment CoralEmbedStream_Stream_comment on Comment {
+    id
     ...${getDefinitionName(Comment.fragments.comment)}
     replyCount(excludeIgnored: $excludeIgnored)
     replies {
       nodes {
+        id
         ...${getDefinitionName(Comment.fragments.comment)}
       }
       hasNextPage
