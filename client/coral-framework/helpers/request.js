@@ -1,6 +1,31 @@
 import bowser from 'bowser';
 import * as Storage from './storage';
 import merge from 'lodash/merge';
+import {getStore} from 'coral-framework/services/store';
+
+/**
+ * getAuthToken returns the active auth token or null
+ *   Note: this method does not have access to the cookie based token used by
+ *   browsers that don't allow us to use cross domain iframe local storage.
+ * @return {string|null}
+ */
+const getAuthToken = () => {
+  let state = getStore().getState();
+
+  if (state.config.auth_token) {
+
+    // if an auth_token exists in config, use it.
+    return state.config.auth_token;
+
+  } else if (!bowser.safari && !bowser.ios) {
+
+    // Use local storage auth tokens where there's a stable api.
+    return Storage.getItem('token');
+
+  }
+
+  return null;
+};
 
 const buildOptions = (inputOptions = {}) => {
   const defaultOptions = {
@@ -14,12 +39,10 @@ const buildOptions = (inputOptions = {}) => {
 
   let options = merge({}, defaultOptions, inputOptions);
 
-  if (!bowser.safari && !bowser.ios) {
-    let authorization = Storage.getItem('token');
-
-    if (authorization) {
-      options.headers.Authorization = `Bearer ${authorization}`;
-    }
+  // Apply authToken header
+  let authToken = getAuthToken();
+  if (authToken) {
+    options.headers.Authorization = `Bearer ${authToken}`;
   }
 
   if (options.method.toLowerCase() !== 'get') {
