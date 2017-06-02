@@ -3,12 +3,13 @@ import {Button} from 'coral-ui';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {showSignInDialog} from 'coral-framework/actions/auth';
+import t from 'coral-framework/services/i18n';
 
 const SignInButton = ({loggedIn, showSignInDialog}) => (
   <div>
     {!loggedIn
       ? <Button id="coralSignInButton" onClick={showSignInDialog} full>
-          Sign in to comment
+          {t('sign_in.sign_in_to_comment')}
         </Button>
       : null}
   </div>
