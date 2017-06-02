@@ -29,7 +29,7 @@ export class IgnoredUsers extends Component {
                 <dd className={styles.stopListening}>
                   <a
                     onClick={() => stopIgnoring({id})}
-                    className={styles.link}>{t('framwork.stop_ignoring')}</a>
+                    className={styles.link}>{t('framework.stop_ignoring')}</a>
                 </dd>
               </span>
             ))
