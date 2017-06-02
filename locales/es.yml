@@ -159,6 +159,13 @@ es:
     second: "segundo"
     seconds_plural: "segundos"
     unexpected_error: "Lo siento. Ha habido un error no previsto al guardar los cambios."
+  email:
+    confirm:
+      has_been_requested: "Un correo de confirmación ha sido pedido para la siguiente cuenta:"
+      to_confirm: "Para confirmar la cuenta, por favor visitar el siguiente enlace:"
+      confirm_email: "Confirmar Correo"
+      if_you_did_not: "Si no has pedido esto, puedes ignorar el correo."
+      subject: "Confirmación de Correo"
   embedlink:
     copy: "Copiar al portapapeles"
   error:
