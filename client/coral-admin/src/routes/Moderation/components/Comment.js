@@ -96,7 +96,7 @@ const Comment = ({
         </div>
         <div className={styles.moderateArticle}>
           Story: {comment.asset.title}
-          {!props.currentAsset && !minimal &&
+          {!props.currentAsset &&
             <Link to={`/admin/moderate/${comment.asset.id}`}>{t('modqueue.moderate')}</Link>}
         </div>
         <div className={styles.itemBody}>
@@ -160,14 +160,12 @@ const Comment = ({
           </div>
         </div>
       </div>
-      <div>
-        <Slot
-          data={props.data}
-          root={props.root}
-          fill="adminCommentDetailArea"
-          comment={comment}
-        />
-      </div>
+      <Slot
+        data={props.data}
+        root={props.root}
+        fill="adminCommentDetailArea"
+        comment={comment}
+      />
       {flagActions && flagActions.length
         ? <FlagBox
             actions={flagActions}
