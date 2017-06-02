@@ -167,6 +167,10 @@ en:
       confirm_email: "Confirm Email"
       if_you_did_not: "If you did not request this, you can safely ignore this email."
       subject: "Email Confirmation"
+    password_reset:
+      we_received_a_request: "We received a request to reset your password. If you did not request this change, you can ignore this email."
+      if_you_did: "If you did,"
+      please_click: "please click here to reset password"
   embedlink:
     copy: "Copy to Clipboard"
   error:

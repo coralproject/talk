@@ -166,6 +166,10 @@ es:
       confirm_email: "Confirmar Correo"
       if_you_did_not: "Si no has pedido esto, puedes ignorar el correo."
       subject: "Confirmación de Correo"
+    password_reset:
+      we_received_a_request: "Recibimos un pedido para resetear su contraseña. Si no ha pedido ese cambio, por favor ignorar el correo. "
+      if_you_did: "Si lo hizo,"
+      please_click: "por favor cliquea aqui para resetear la contraseña."
   embedlink:
     copy: "Copiar al portapapeles"
   error:
