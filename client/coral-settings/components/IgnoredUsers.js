@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-
+import t from 'coral-framework/services/i18n';
 import styles from './IgnoredUsers.css';
 
 export class IgnoredUsers extends Component {
@@ -18,7 +18,7 @@ export class IgnoredUsers extends Component {
       <div>
         {
           users.length
-            ? <p>Because you ignored these, you do not see their comments.</p>
+            ? <p>{t('framework.because_you_ignored')}</p>
             : null
         }
         <dl className={styles.ignoredUserList}>
@@ -29,7 +29,7 @@ export class IgnoredUsers extends Component {
                 <dd className={styles.stopListening}>
                   <a
                     onClick={() => stopIgnoring({id})}
-                    className={styles.link}>Stop ignoring</a>
+                    className={styles.link}>{t('framework.stop_ignoring')}</a>
                 </dd>
               </span>
             ))

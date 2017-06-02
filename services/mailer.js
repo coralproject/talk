@@ -5,6 +5,8 @@ const path = require('path');
 const fs = require('fs');
 const _ = require('lodash');
 
+const i18n = require('./i18n');
+
 const {
   SMTP_HOST,
   SMTP_USERNAME,
@@ -18,7 +20,7 @@ const templates = {
   data: {}
 };
 
-// load the temlates per request during development
+// load the templates per request during development
 templates.render = (name, format = 'txt', context) => new Promise((resolve, reject) => {
 
   // If we are in production mode, check the view cache.
@@ -50,7 +52,7 @@ templates.render = (name, format = 'txt', context) => new Promise((resolve, reje
 
     return resolve(view(context));
   });
-});
+}); // ends templates.render
 
 const options = {
   host: SMTP_HOST,
@@ -78,6 +80,7 @@ const mailer = module.exports = {
   }),
 
   sendSimple({template, locals, to, subject}) {
+
     if (!to) {
       return Promise.reject('sendSimple requires a comma-separated list of "to" addresses');
     }
@@ -88,6 +91,8 @@ const mailer = module.exports = {
 
     // Prefix the subject with `[Talk]`.
     subject = `[Talk] ${subject}`;
+
+    locals['t'] = i18n.t;
 
     return Promise.all([
 
