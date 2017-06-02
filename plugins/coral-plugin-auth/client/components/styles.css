@@ -70,6 +70,10 @@ input.error{
   letter-spacing: 0.1px;
 }
 
+.userBoxLoggedIn {
+  font-weight: bold;
+}
+
 .userBox a {
     color: black;
     font-weight: bold;
