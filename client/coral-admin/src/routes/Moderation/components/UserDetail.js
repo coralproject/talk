@@ -2,12 +2,20 @@ import React, {PropTypes} from 'react';
 import {Button, Drawer} from 'coral-ui';
 import styles from './UserDetail.css';
 import Slot from 'coral-framework/components/Slot';
+import Comment from './Comment';
+import {actionsMap} from '../helpers/moderationQueueActionsMap';
 
 export default class UserDetail extends React.Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     hideUserDetail: PropTypes.func.isRequired,
     root: PropTypes.object.isRequired,
+    bannedWords: PropTypes.array.isRequired,
+    suspectWords: PropTypes.array.isRequired,
+    showBanUserDialog: PropTypes.func.isRequired,
+    showSuspendUserDialog: PropTypes.func.isRequired,
+    acceptComment: PropTypes.func.isRequired,
+    rejectComment: PropTypes.func.isRequired,
   }
 
   copyPermalink = () => {
@@ -20,9 +28,33 @@ export default class UserDetail extends React.Component {
     }
   }
 
+  changeStatus = (tab) => {
+    if (tab === 'all') {
+      this.props.changeStatus('all');
+    } else if (tab === 'rejected') {
+      this.props.changeStatus('rejected');
+    }
+  }
+
   render () {
-    const {root: {user, totalComments, rejectedComments}, hideUserDetail} = this.props;
+    const {
+      root: {
+        user,
+        totalComments,
+        rejectedComments,
+        comments: {nodes}
+      },
+      moderation: {userDetailActiveTab: tab},
+      bannedWords,
+      suspectWords,
+      showBanUserDialog,
+      showSuspendUserDialog,
+      acceptComment,
+      rejectComment,
+      hideUserDetail
+    } = this.props;
     const localProfile = user.profiles.find((p) => p.provider === 'local');
+
     let profile;
     if (localProfile) {
       profile = localProfile.id;
@@ -62,8 +94,34 @@ export default class UserDetail extends React.Component {
             <p>{`${(rejectedPercent).toFixed(1)}%`}</p>
           </div>
         </div>
+        <ul className={styles.commentStatuses}>
+          <li className={tab === 'all' ? styles.active : ''} onClick={this.changeStatus.bind(this, 'all')}>All</li>
+          <li className={tab === 'rejected' ? styles.active : ''} onClick={this.changeStatus.bind(this, 'rejected')}>Rejected</li>
+        </ul>
+        <div>
+          {
+            nodes.map((comment, i) => {
+              const status = comment.action_summaries ? 'FLAGGED' : comment.status;
+              return <Comment
+                key={i}
+                index={i}
+                comment={comment}
+                selected={false}
+                suspectWords={suspectWords}
+                bannedWords={bannedWords}
+                viewUserDetail={() => {}}
+                actions={actionsMap[status]}
+                showBanUserDialog={showBanUserDialog}
+                showSuspendUserDialog={showSuspendUserDialog}
+                acceptComment={acceptComment}
+                rejectComment={rejectComment}
+                currentAsset={null}
+                currentUserId={this.props.id}
+                minimal={true} />;
+            })
+          }
+        </div>
       </Drawer>
     );
   }
 }
-

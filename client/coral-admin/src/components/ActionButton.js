@@ -17,11 +17,11 @@ const ActionButton = ({type = '', active, ...props}) => {
 
   return (
     <Button
-      className={`${typeName} ${styles.actionButton} ${active ? styles[`${typeName}__active`] : ''}`}
+      className={`${typeName} ${styles.actionButton} ${props.minimal ? styles.minimal : ''} ${active ? styles[`${typeName}__active`] : ''}`}
       cStyle={typeName}
       icon={menuActionsMap[type].icon}
       onClick={type === 'APPROVE' ? props.acceptComment : props.rejectComment}
-    >{t(`modqueue.${text}`)}</Button>
+    >{props.minimal ? '' : t(`modqueue.${text}`)}</Button>
   );
 };
 

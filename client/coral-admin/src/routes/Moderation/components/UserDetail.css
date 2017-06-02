@@ -36,6 +36,23 @@
   background-color: transparent;
   font-size: 16px;
   position: absolute;
-  width: 100%;
+  width: 90%;
   outline: none;
+}
+
+.commentStatuses {
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: inline-block;
+    margin: 0 10px;
+    cursor: pointer;
+    padding: 0 10px;
+  }
+}
+
+.active {
+  font-weight: bold;
+  border-bottom: 3px solid #F36451;
 }
