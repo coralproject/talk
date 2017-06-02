@@ -217,6 +217,7 @@ es:
   framework:
     banned_account_msg: "Tu cuenta se encuentra suspendida. Esto significa que no\
       \ puedes gustar, marcar o escribir comentarios."
+    because_you_ignored: "Porque has ignorado a los siguientes comentadores, sus comentarios estan escondidos."
     comment: comentario
     comment_is_ignored: "Este comentario está escondido porque has ignorado al usuario."
     comments: comentarios
@@ -235,6 +236,7 @@ es:
     new_count: "Ver {0} {1} nuevo"
     profile: Perfil
     show_all_comments: "Mostrar todos los comentarios"
+    stop_ignoring: "No ignorar más"
     success_bio_update: "Tu biografia fue actualizada"
     success_name_update: "Tu nombre de usuario ha sido actualizado"
     success_update_settings: "La configuración de este articulo fue actualizada"
