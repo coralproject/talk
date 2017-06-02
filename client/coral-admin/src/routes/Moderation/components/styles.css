@@ -247,6 +247,7 @@ span {
   }
 
   .created {
+    padding: 5px;
     color: #262626;
     font-size: 14px;
     margin-left: 15px;
@@ -433,7 +434,6 @@ span {
 .username {
   color: blue;
   text-decoration: underline;
-  padding: 5px;
   cursor: pointer;
 
   &:hover {
