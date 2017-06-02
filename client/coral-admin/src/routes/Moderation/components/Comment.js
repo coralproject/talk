@@ -96,7 +96,7 @@ const Comment = ({
         </div>
         <div className={styles.moderateArticle}>
           Story: {comment.asset.title}
-          {!props.currentAsset &&
+          {!props.currentAsset && !minimal &&
             <Link to={`/admin/moderate/${comment.asset.id}`}>{t('modqueue.moderate')}</Link>}
         </div>
         <div className={styles.itemBody}>
