@@ -5,6 +5,7 @@ const CommentsService = require('../../../services/comments');
 const mailer = require('../../../services/mailer');
 const errors = require('../../../errors');
 const authorization = require('../../../middleware/authorization');
+const i18n = require('../../../services/i18n');
 const {
   ROOT_URL
 } = require('../../../config');
@@ -114,7 +115,7 @@ const SendEmailConfirmation = (app, userID, email, referer) => UsersService
         rootURL: ROOT_URL,
         email
       },
-      subject: 'email.confirm.subject',
+      subject: i18n.t('email.confirm.subject'),
       to: email
     });
   });

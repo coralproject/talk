@@ -80,6 +80,7 @@ const mailer = module.exports = {
   }),
 
   sendSimple({template, locals, to, subject}) {
+
     if (!to) {
       return Promise.reject('sendSimple requires a comma-separated list of "to" addresses');
     }
@@ -89,7 +90,7 @@ const mailer = module.exports = {
     }
 
     // Prefix the subject with `[Talk]`.
-    subject = `[Talk] {t(${subject})}`;
+    subject = `[Talk] ${subject}`;
 
     locals['t'] = i18n.t;
 
