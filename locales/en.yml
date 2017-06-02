@@ -3,17 +3,17 @@ en:
     are_you_sure: "Are you sure you would like to ban {0}?"
     ban_user: "Ban User?"
     banned_user: "Banned User"
-    cancel: Cancel
+    cancel: "Cancel"
     note: "Note: Banning this user will also place this comment in the Rejected queue."
     yes_ban_user: "Yes, Ban User"
   bio_offensive: "This bio is offensive"
-  cancel: Cancel
+  cancel: "Cancel"
   characters_remaining: "characters remaining"
   comment:
-    anon: Anonymous
+    anon: "Anonymous"
     ban_user: "Ban User"
     comment: "Post a comment"
-    flagged: flagged
+    flagged: "flagged"
     view_context: "View context"
   comment_box:
     post: "Post"
@@ -126,7 +126,20 @@ en:
     title: "Configure Comment Stream"
     weeks: Weeks
     wordlist: "Banned Words"
-  continue: Continue
+  continue: "Continue"
+  createdisplay:
+    check_the_form: "Invalid Form. Please check the fields"
+    continue: "Continue with the same Facebook username"
+    error_create: "Error when changing username"
+    fake_comment_body: "This is an example comment. Readers can share their thoughts and opinions with newsrooms in the comments section."
+    fake_comment_date: "1 minute ago"
+    if_you_dont_change_your_name: "If you don't change your username at this step your Facebook display name will appear alongside of all your comments."
+    required_field: "Required field"
+    save: Save
+    special_characters: "Usernames can contain letters numbers and _ only"
+    username: Username
+    write_your_username: "Edit your username"
+    your_username: "Your username appears on every comment you post."
   dashboard:
     auto_update: "Data automatically updates every five minutes or when you Reload."
     comment_count: comments
@@ -145,8 +158,19 @@ en:
     edit_window_expired_close: "Close"
     edit_window_timer_prefix: "Edit Window: "
     second: "second"
-    seconds_plural: "seconds"
-    unexpected_error: "Unexpected error while saving changes. Sorry!"
+    secondsPlural: "seconds"
+    unexpectedError: "Unexpected error while saving changes. Sorry!"
+  email:
+    confirm:
+      has_been_requested: "A email confirmation has been requested for the following account:"
+      to_confirm: "To confirm the account, please visit the following link:"
+      confirm_email: "Confirm Email"
+      if_you_did_not: "If you did not request this, you can safely ignore this email."
+      subject: "Email Confirmation"
+    password_reset:
+      we_received_a_request: "We received a request to reset your password. If you did not request this change, you can ignore this email."
+      if_you_did: "If you did,"
+      please_click: "please click here to reset password"
   embedlink:
     copy: "Copy to Clipboard"
   error:
@@ -240,8 +264,8 @@ en:
     reject: "Reject"
     rejected: "Rejected"
     select_stream: "Select Stream"
-    shift_key: ⇧
-    shortcuts: Shortcuts
+    shift_key: "⇧"
+    shortcuts: "Shortcuts"
     show_shortcuts: "Show Shortcuts"
     singleview: "Toggle single comment edit view"
     spam_ads: Spam/Ads
