@@ -179,6 +179,7 @@ en:
   flag_username: "Report username"
   framework:
     banned_account_msg: "Your account is currently suspended. This means that you cannot Like Report or write comments. Please contact us if you have any questions."
+    because_you_ignored: "Because you ignored the following commenters, their comments are hidden."
     comment: comment
     comment_is_ignored: "This comment is hidden because you ignored this user."
     comments: comments
@@ -195,6 +196,7 @@ en:
     new_count: "View {0} new {1}"
     profile: Profile
     show_all_comments: "Show all comments"
+    stop_ignoring: "Stop ignoring"
     success_bio_update: "Your biography has been updated"
     success_name_update: "Your username has been updated"
     success_update_settings: "The changes you have made have been applied to the comment stream on this article"
