@@ -33,3 +33,12 @@ export const setSortOrder = (order) => ({
   order
 });
 
+export const changeUserDetailStatuses = (tab) => {
+  let statuses;
+  if (tab === 'all') {
+    statuses = ['NONE', 'ACCEPTED', 'REJECTED', 'PREMOD'];
+  } else if (tab === 'rejected') {
+    statuses = ['REJECTED'];
+  }
+  return {type: actions.CHANGE_USER_DETAIL_STATUSES, tab, statuses};
+};

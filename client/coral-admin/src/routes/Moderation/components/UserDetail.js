@@ -28,6 +28,14 @@ export default class UserDetail extends React.Component {
     }
   }
 
+  changeStatus = (tab) => {
+    if (tab === 'all') {
+      this.props.changeStatus('all');
+    } else if (tab === 'rejected') {
+      this.props.changeStatus('rejected');
+    }
+  }
+
   render () {
     const {
       root: {
@@ -36,6 +44,7 @@ export default class UserDetail extends React.Component {
         rejectedComments,
         comments: {nodes}
       },
+      moderation: {userDetailActiveTab: tab},
       bannedWords,
       suspectWords,
       showBanUserDialog,
@@ -85,6 +94,10 @@ export default class UserDetail extends React.Component {
             <p>{`${(rejectedPercent).toFixed(1)}%`}</p>
           </div>
         </div>
+        <ul className={styles.commentStatuses}>
+          <li className={tab === 'all' ? styles.active : ''} onClick={this.changeStatus.bind(this, 'all')}>All</li>
+          <li className={tab === 'rejected' ? styles.active : ''} onClick={this.changeStatus.bind(this, 'rejected')}>Rejected</li>
+        </ul>
         <div>
           {
             nodes.map((comment, i) => {
