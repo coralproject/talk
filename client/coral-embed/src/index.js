@@ -147,6 +147,7 @@ function configurePymParent(pymParent, opts) {
  * @param {String} [opts.title] - Title of Stream (rendered in iframe)
  * @param {String} [opts.asset_url] - Asset URL
  * @param {String} [opts.asset_id] - Asset ID
+ * @param {String} [opts.auth_token] - (optional) A jwt representing the session
  */
 Talk.render = function(el, opts) {
   if (!el) {

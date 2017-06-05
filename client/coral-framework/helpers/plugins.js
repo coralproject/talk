@@ -7,12 +7,7 @@ import pick from 'lodash/pick';
 import plugins from 'pluginsConfig';
 import {getDefinitionName, mergeDocuments} from 'coral-framework/utils';
 import {loadTranslations} from 'coral-framework/services/i18n';
-
-export const pluginReducers = merge(
-  ...plugins
-    .filter((o) => o.module.reducer)
-    .map((o) => ({...o.module.reducer}))
-);
+import {injectReducers} from 'coral-framework/services/store';
 
 /**
  * Returns React Elements for given slot.
@@ -97,4 +92,13 @@ function getTranslations() {
 
 export function loadPluginsTranslations() {
   getTranslations().forEach((t) => loadTranslations(t));
+}
+
+export function injectPluginsReducers() {
+  const reducers = merge(
+    ...plugins
+      .filter((o) => o.module.reducer)
+      .map((o) => ({...o.module.reducer}))
+  );
+  injectReducers(reducers);
 }
