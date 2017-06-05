@@ -41,7 +41,7 @@ export default class Embed extends React.Component {
     return (
       <div>
         <div className="commentStream">
-          <TabBar onChange={this.changeTab} activeTab={activeTab} cNames="tabbar">
+          <TabBar onChange={this.changeTab} activeTab={activeTab} cNames={'tabbar'}>
             <Tab cNames={`comment-count`}><Count count={totalCommentCount} /></Tab>
             <Tab cNames={`my-comments`}>{t('framework.my_profile')}</Tab>
             <Tab cNames={`comment-configuration`} restricted={!can(user, 'UPDATE_CONFIG')}>{t('framework.configure_stream')}</Tab>
