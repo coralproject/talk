@@ -129,6 +129,9 @@ class StreamContainer extends React.Component {
   };
 
   componentDidMount() {
+    if (this.props.previousTab) {
+      this.props.data.refetch();
+    }
     this.subscribeToUpdates();
   }
 
