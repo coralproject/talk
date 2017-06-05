@@ -40,7 +40,7 @@ const buildOptions = (inputOptions = {}) => {
 
   // Apply authToken header
   let authToken = getAuthToken();
-  if (authToken) {
+  if (authToken !== null) {
     options.headers.Authorization = `Bearer ${authToken}`;
   }
 
