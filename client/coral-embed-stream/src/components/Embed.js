@@ -10,7 +10,7 @@ import ProfileContainer from 'coral-settings/containers/ProfileContainer';
 import ConfigureStreamContainer
   from 'coral-configure/containers/ConfigureStreamContainer';
 
-export default class Embed extends React.Component { 
+export default class Embed extends React.Component {
   changeTab = (tab) => {
     switch (tab) {
     case 0:
@@ -41,10 +41,10 @@ export default class Embed extends React.Component {
     return (
       <div>
         <div className="commentStream">
-          <TabBar onChange={this.changeTab} activeTab={activeTab}>
-            <Tab cNames={'comment-count'}><Count count={totalCommentCount} /></Tab>
-            <Tab cNames={'comment-profile'}>{t('framework.my_profile')}</Tab>
-            <Tab cNames={'comment-configuration'} restricted={!can(user, 'UPDATE_CONFIG')}>{t('framework.configure_stream')}</Tab>
+          <TabBar onChange={this.changeTab} activeTab={activeTab} className='talk-embed-tabbar'>
+            <Tab className={'talk-embed-comment-count'}><Count count={totalCommentCount}/></Tab>
+            <Tab className={'talk-embed-comment-profile'}>{t('framework.my_profile')}</Tab>
+            <Tab className={'talk-embed-comment-configuration'} restricted={!can(user, 'UPDATE_CONFIG')}>{t('framework.configure_stream')}</Tab>
           </TabBar>
           {commentId &&
             <Button
