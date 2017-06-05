@@ -20,12 +20,11 @@ injectReducers(reducers);
 
 // Don't run this in the popup.
 if (!window.opener) {
-  store.dispatch(checkLogin());
-
   pym.sendMessage('getConfig');
 
   pym.onMessage('config', (config) => {
     store.dispatch(addExternalConfig(JSON.parse(config)));
+    store.dispatch(checkLogin());
   });
 }
 
