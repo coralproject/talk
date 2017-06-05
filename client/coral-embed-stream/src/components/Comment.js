@@ -8,6 +8,9 @@ import Content from 'coral-plugin-commentcontent/CommentContent';
 import PubDate from 'coral-plugin-pubdate/PubDate';
 import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
 import FlagComment from 'coral-plugin-flags/FlagComment';
+import {TransitionGroup} from 'react-transition-group';
+import cn from 'classnames';
+
 import {
   BestButton,
   IfUserCanModifyBest,
@@ -19,7 +22,6 @@ import Slot from 'coral-framework/components/Slot';
 import LoadMore from './LoadMore';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import {TopRightMenu} from './TopRightMenu';
-import classnames from 'classnames';
 import {EditableCommentContent} from './EditableCommentContent';
 import {getActionSummary, iPerformedThisAction} from 'coral-framework/utils';
 import {getEditableUntilDate} from './util';
@@ -85,9 +87,9 @@ class Comment extends React.Component {
       // Whether the comment should be editable (e.g. after a commenter clicking the 'Edit' button on their own comment)
       isEditing: false,
       replyBoxVisible: false,
+      animateEnter: false,
       ...resetCursors({}, props),
     };
-
   }
 
   componentWillReceiveProps(next) {
@@ -108,6 +110,28 @@ class Comment extends React.Component {
         this.setState(invalidateCursor(1, this.state, next));
       }
     }
+  }
+
+  componentWillAppear(callback) {
+    callback();
+  }
+  componentWillEnter(callback) {
+    callback();
+    const userId = this.props.currentUser ? this.props.currentUser.id : null;
+    if (this.props.comment.id.indexOf('pending') >= 0) {
+      return;
+    }
+    if (userId && this.props.comment.user.id === userId) {
+
+      // This comment was just added by currentUser.
+      if (Date.now() - Number(new Date(this.props.comment.created_at)) < 30 * 1000) {
+        return;
+      }
+    }
+    this.setState({animateEnter: true});
+  }
+  componentWillLeave(callback) {
+    callback();
   }
 
   static propTypes = {
@@ -325,7 +349,7 @@ class Comment extends React.Component {
 
     return (
       <div
-        className={commentClass}
+        className={cn(commentClass, {[styles.enter]: this.state.animateEnter})}
         id={`c_${comment.id}`}
         style={{marginLeft: depth * 30}}
       >
@@ -362,17 +386,17 @@ class Comment extends React.Component {
               (comment.user.id === currentUser.id))
 
               /* User can edit/delete their own comment for a short window after posting */
-              ? <span className={classnames(styles.topRight)}>
+              ? <span className={cn(styles.topRight)}>
                   {
                     commentIsStillEditable(comment) &&
                     <a
-                      className={classnames(styles.link, {[styles.active]: this.state.isEditing})}
+                      className={cn(styles.link, {[styles.active]: this.state.isEditing})}
                       onClick={this.onClickEdit}>Edit</a>
                   }
                 </span>
 
               /* TopRightMenu allows currentUser to ignore other users' comments */
-              : <span className={classnames(styles.topRight, styles.topRightMenu)}>
+              : <span className={cn(styles.topRight, styles.topRightMenu)}>
                   <TopRightMenu
                     comment={comment}
                     ignoreUser={ignoreUser}
@@ -468,6 +492,8 @@ class Comment extends React.Component {
               assetId={asset.id}
             />
           : null}
+
+        <TransitionGroup>
         {view.map((reply) => {
           return commentIsIgnored(reply)
             ? <IgnoredCommentTombstone key={reply.id} />
@@ -499,6 +525,7 @@ class Comment extends React.Component {
                 comment={reply}
               />;
         })}
+        </TransitionGroup>
         <div className="coral-load-more-replies">
           <LoadMore
             topLevel={false}

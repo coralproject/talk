@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import LoadMore from './LoadMore';
 
-import Comment from '../containers/Comment';
+import Comment from '../components/Comment';
 import SuspendedAccount from './SuspendedAccount';
 import RestrictedMessageBox
   from 'coral-framework/components/RestrictedMessageBox';
@@ -14,6 +14,7 @@ import QuestionBox from 'coral-plugin-questionbox/QuestionBox';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import NewCount from './NewCount';
 import t, {timeago} from 'coral-framework/services/i18n';
+import {TransitionGroup} from 'react-transition-group';
 
 const hasComment = (nodes, id) => nodes.some((node) => node.id === id);
 
@@ -239,7 +240,7 @@ class Stream extends React.Component {
                 count={comments.nodes.length - view.length}
                 loadMore={this.viewNewComments}
               />
-              <div className="embed__stream">
+              <TransitionGroup component='div' className="embed__stream">
                 {view.map((comment) => {
                   return commentIsIgnored(comment)
                     ? <IgnoredCommentTombstone key={comment.id} />
@@ -273,7 +274,7 @@ class Stream extends React.Component {
                         liveUpdates={false}
                       />;
                 })}
-              </div>
+              </TransitionGroup>
               <LoadMore
                 topLevel={true}
                 moreComments={asset.comments.hasNextPage}
