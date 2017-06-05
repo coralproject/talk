@@ -97,7 +97,6 @@
     "node-emoji": "^1.5.1",
     "node-fetch": "^1.6.3",
     "nodemailer": "^2.6.4",
-    "parse-duration": "^0.1.1",
     "passport": "^0.3.2",
     "passport-jwt": "^2.2.1",
     "passport-local": "^1.0.0",
