@@ -308,15 +308,6 @@ class Comment extends React.Component {
               commentId={comment.id}
               inline
             />
-            {!disableReply &&
-              <ActionButton>
-                <ReplyButton
-                  onClick={() => setActiveReplyBox(comment.id)}
-                  parentCommentId={parentId || comment.id}
-                  currentUserId={currentUser && currentUser.id}
-                  banned={false}
-                />
-              </ActionButton>}
             <ActionButton>
               <IfUserCanModifyBest user={currentUser}>
                 <BestButton
@@ -326,6 +317,15 @@ class Comment extends React.Component {
                 />
               </IfUserCanModifyBest>
             </ActionButton>
+            {!disableReply &&
+              <ActionButton>
+                <ReplyButton
+                  onClick={() => setActiveReplyBox(comment.id)}
+                  parentCommentId={parentId || comment.id}
+                  currentUserId={currentUser && currentUser.id}
+                  banned={false}
+                />
+              </ActionButton>}
             <Slot
               fill="commentActions"
               data={this.props.data}

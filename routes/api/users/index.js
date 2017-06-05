@@ -5,6 +5,7 @@ const CommentsService = require('../../../services/comments');
 const mailer = require('../../../services/mailer');
 const errors = require('../../../errors');
 const authorization = require('../../../middleware/authorization');
+const i18n = require('../../../services/i18n');
 const {
   ROOT_URL
 } = require('../../../config');
@@ -109,12 +110,12 @@ const SendEmailConfirmation = (app, userID, email, referer) => UsersService
   .then((token) => {
     return mailer.sendSimple({
       template: 'email-confirm',              // needed to know which template to render!
-      locals: {                                     // specifies the template locals.
+      locals: {                               // specifies the template locals.
         token,
         rootURL: ROOT_URL,
         email
       },
-      subject: 'Email Confirmation',
+      subject: i18n.t('email.confirm.subject'),
       to: email
     });
   });

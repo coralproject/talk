@@ -10,7 +10,7 @@ const UserBox = ({loggedIn, user, logout, onShowProfile}) => (
     {
       loggedIn ? (
         <div className={styles.userBox}>
-          {t('sign_in.logged_in_as')}
+          <span className={styles.userBoxLoggedIn}>{t('sign_in.logged_in_as')}</span>
           <a onClick={onShowProfile}>{user.username}</a>. {t('sign_in.not_you')}
           <a className={styles.logout} onClick={() => logout()}>
             {t('sign_in.logout')}

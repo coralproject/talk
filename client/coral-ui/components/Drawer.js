@@ -6,7 +6,9 @@ const Drawer = ({children, handleClickOutside}) => {
   return (
     <div className={styles.drawer}>
       <div className={styles.closeButton} onClick={handleClickOutside}>×</div>
-      {children}
+      <div className={styles.content}>
+        {children}
+      </div>
     </div>
   );
 };

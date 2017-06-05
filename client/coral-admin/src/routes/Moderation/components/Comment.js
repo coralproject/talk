@@ -23,6 +23,7 @@ const Comment = ({
   viewUserDetail,
   suspectWords,
   bannedWords,
+  minimal,
   ...props
 }) => {
   const links = linkify.getMatches(comment.body);
@@ -55,9 +56,13 @@ const Comment = ({
       <div className={styles.container}>
         <div className={styles.itemHeader}>
           <div className={styles.author}>
-            <span className={styles.username} onClick={() => viewUserDetail(comment.user.id)}>
-              {comment.user.name}
-            </span>
+            {
+              !minimal && (
+                <span className={styles.username} onClick={() => viewUserDetail(comment.user.id)}>
+                  {comment.user.name}
+                </span>
+              )
+            }
             <span className={styles.created}>
               {timeago(comment.created_at || Date.now() - props.index * 60 * 1000)}
             </span>
@@ -128,6 +133,7 @@ const Comment = ({
                   (action === 'APPROVE' && comment.status === 'ACCEPTED');
                 return (
                   <ActionButton
+                    minimal={minimal}
                     key={i}
                     type={action}
                     user={comment.user}
@@ -154,14 +160,12 @@ const Comment = ({
           </div>
         </div>
       </div>
-      <div>
-        <Slot
-          data={props.data}
-          root={props.root}
-          fill="adminCommentDetailArea"
-          comment={comment}
-        />
-      </div>
+      <Slot
+        data={props.data}
+        root={props.root}
+        fill="adminCommentDetailArea"
+        comment={comment}
+      />
       {flagActions && flagActions.length
         ? <FlagBox
             actions={flagActions}
@@ -173,6 +177,7 @@ const Comment = ({
 };
 
 Comment.propTypes = {
+  minimal: PropTypes.bool,
   viewUserDetail: PropTypes.func.isRequired,
   acceptComment: PropTypes.func.isRequired,
   rejectComment: PropTypes.func.isRequired,
