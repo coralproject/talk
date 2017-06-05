@@ -5,7 +5,7 @@
  */
 
 const program = require('./commander');
-const parseDuration = require('parse-duration');
+const parseDuration = require('ms');
 const Table = require('cli-table');
 const AssetModel = require('../models/asset');
 const mongoose = require('../services/mongoose');
