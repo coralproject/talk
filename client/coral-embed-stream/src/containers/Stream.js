@@ -7,7 +7,6 @@ import {
   withPostComment, withPostFlag, withPostDontAgree, withDeleteAction,
   withAddCommentTag, withRemoveCommentTag, withIgnoreUser, withEditComment,
 } from 'coral-framework/graphql/mutations';
-import update from 'immutability-helper';
 
 import {notificationActions, authActions} from 'coral-framework';
 import {editName} from 'coral-framework/actions/user';
@@ -16,7 +15,12 @@ import Stream from '../components/Stream';
 import Comment from './Comment';
 import {withFragments} from 'coral-framework/hocs';
 import {getDefinitionName} from 'coral-framework/utils';
-import {findCommentInEmbedQuery, insertCommentIntoEmbedQuery, removeCommentFromEmbedQuery} from '../graphql/utils';
+import {
+  findCommentInEmbedQuery,
+  insertCommentIntoEmbedQuery,
+  removeCommentFromEmbedQuery,
+  insertFetchedCommentsIntoEmbedQuery,
+} from '../graphql/utils';
 
 const {showSignInDialog} = authActions;
 const {addNotification} = notificationActions;
@@ -92,50 +96,7 @@ class StreamContainer extends React.Component {
         excludeIgnored: this.props.data.variables.excludeIgnored,
       },
       updateQuery: (prev, {fetchMoreResult:{comments}}) => {
-        if (!comments.nodes.length) {
-          return prev;
-        }
-
-        const updateNode = (node) =>
-          update(node, {
-            replies: {
-              endCursor: {$set: comments.endCursor},
-              nodes: {$apply: (nodes) => nodes
-                .concat(comments.nodes.filter(
-                  (comment) => !nodes.some((node) => node.id === comment.id)
-                ))
-                .sort(ascending)
-              },
-            },
-          });
-
-        // highlighted comment.
-        if (prev.comment) {
-          if (prev.comment.parent) {
-            return update(prev, {
-              comment: {
-                parent: {$apply: (comment) => updateNode(comment)},
-              }
-            });
-          }
-          return update(prev, {
-            comment: {$apply: (comment) => updateNode(comment)},
-          });
-        }
-
-        return update(prev, {
-          asset: {
-            comments: {
-              nodes: {
-                $apply: (nodes) => nodes.map(
-                  (node) => node.id !== parent_id
-                    ? node
-                    : updateNode(node)
-                  )
-              },
-            },
-          },
-        });
+        return insertFetchedCommentsIntoEmbedQuery(prev, comments, parent_id);
       },
     });
   }
@@ -152,19 +113,7 @@ class StreamContainer extends React.Component {
         excludeIgnored: this.props.data.variables.excludeIgnored,
       },
       updateQuery: (prev, {fetchMoreResult:{comments}}) => {
-        if (!comments.nodes.length) {
-          return prev;
-        }
-
-        return update(prev, {
-          asset: {
-            comments: {
-              hasNextPage: {$set: comments.hasNextPage},
-              endCursor: {$set: comments.endCursor},
-              nodes: {$push: comments.nodes},
-            },
-          },
-        });
+        return insertFetchedCommentsIntoEmbedQuery(prev, comments);
       },
     });
   };
@@ -186,14 +135,6 @@ class StreamContainer extends React.Component {
     />;
   }
 }
-
-const ascending = (a, b) => {
-  const dateA = new Date(a.created_at);
-  const dateB = new Date(b.created_at);
-  if (dateA < dateB) { return -1; }
-  if (dateA > dateB) { return 1; }
-  return 0;
-};
 
 const commentFragment = gql`
   fragment CoralEmbedStream_Stream_comment on Comment {

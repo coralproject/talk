@@ -115,6 +115,7 @@ class Comment extends React.Component {
   componentWillAppear(callback) {
     callback();
   }
+
   componentWillEnter(callback) {
     callback();
     const userId = this.props.currentUser ? this.props.currentUser.id : null;
@@ -130,6 +131,7 @@ class Comment extends React.Component {
     }
     this.setState({animateEnter: true});
   }
+
   componentWillLeave(callback) {
     callback();
   }
