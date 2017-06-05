@@ -9,7 +9,7 @@ import {getStore} from 'coral-framework/services/store';
  *   browsers that don't allow us to use cross domain iframe local storage.
  * @return {string|null}
  */
-const getAuthToken = () => {
+export const getAuthToken = () => {
   let state = getStore().getState();
 
   if (state.config.auth_token) {
@@ -21,7 +21,6 @@ const getAuthToken = () => {
 
     // Use local storage auth tokens where there's a stable api.
     return Storage.getItem('token');
-
   }
 
   return null;
