@@ -173,6 +173,7 @@ const CheckBlacklisted = (jwt) => new Promise((resolve, reject) => {
   });
 });
 
+const jwt = require('jsonwebtoken');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 
@@ -184,6 +185,19 @@ let cookieExtractor = function(req) {
   }
 
   return token;
+};
+
+// Override the JwtVerifier method on the JwtStrategy so we can pack the
+// original token into the payload.
+JwtStrategy.JwtVerifier = (token, secretOrKey, options, callback) => {
+  return jwt.verify(token, secretOrKey, options, (err, jwt) => {
+    if (err) {
+      return callback(err);
+    }
+
+    // Attach the original token onto the payload.
+    return callback(false, {token, jwt});
+  });
 };
 
 // Extract the JWT from the 'Authorization' header with the 'Bearer' scheme.
@@ -208,10 +222,10 @@ passport.use(new JwtStrategy({
   // Enable only the HS256 algorithm.
   algorithms: ['HS256'],
 
-  // Pass the request objecto back to the callback so we can attach the JWT to
+  // Pass the request object back to the callback so we can attach the JWT to
   // it.
   passReqToCallback: true
-}, async (req, jwt, done) => {
+}, async (req, {token, jwt}, done) => {
 
   // Load the user from the environment, because we just got a user from the
   // header.
@@ -220,7 +234,9 @@ passport.use(new JwtStrategy({
     // Check to see if the token has been revoked
     await CheckBlacklisted(jwt);
 
-    let user = await UsersService.findById(jwt.sub);
+    // Try to get the user from the database or crack it from the token and
+    // plugin integrations.
+    let user = await UsersService.findOrCreateByIDToken(jwt.sub, {token, jwt});
 
     // Attach the JWT to the request.
     req.jwt = jwt;
