@@ -26,8 +26,10 @@ const {showSignInDialog} = authActions;
 const {addNotification} = notificationActions;
 
 class StreamContainer extends React.Component {
-  subscribeToUpdates = () => {
-    this.props.data.subscribeToMore({
+  subscriptions = [];
+
+  subscribeToUpdates() {
+    const sub1 = this.props.data.subscribeToMore({
       document: COMMENTS_EDITED_SUBSCRIPTION,
       variables: {
         assetId: this.props.root.asset.id,
@@ -50,7 +52,8 @@ class StreamContainer extends React.Component {
         }
       },
     });
-    this.props.data.subscribeToMore({
+
+    const sub2 = this.props.data.subscribeToMore({
       document: COMMENTS_ADDED_SUBSCRIPTION,
       variables: {
         assetId: this.props.root.asset.id,
@@ -78,7 +81,14 @@ class StreamContainer extends React.Component {
         return insertCommentIntoEmbedQuery(prev, commentAdded);
       }
     });
-  };
+
+    this.subscriptions.push(sub1, sub2);
+  }
+
+  unsubscribe() {
+    this.subscriptions.forEach((unsubscribe) => unsubscribe());
+    this.subscriptions = [];
+  }
 
   loadNewReplies = (parent_id) => {
     const comment = this.props.root.comment
@@ -123,6 +133,7 @@ class StreamContainer extends React.Component {
   }
 
   componentWillUnmount() {
+    this.unsubscribe();
     clearInterval(this.countPoll);
   }
 
