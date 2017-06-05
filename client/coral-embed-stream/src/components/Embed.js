@@ -42,9 +42,9 @@ export default class Embed extends React.Component {
       <div>
         <div className="commentStream">
           <TabBar onChange={this.changeTab} activeTab={activeTab} className='talk-embed-tabbar'>
-            <Tab className={'talk-embed-comment-count'}><Count count={totalCommentCount}/></Tab>
-            <Tab className={'talk-embed-comment-profile'}>{t('framework.my_profile')}</Tab>
-            <Tab className={'talk-embed-comment-configuration'} restricted={!can(user, 'UPDATE_CONFIG')}>{t('framework.configure_stream')}</Tab>
+            <Tab className={'talk-embed-comment-count-tab'}><Count count={totalCommentCount}/></Tab>
+            <Tab className={'talk-embed-profile-tab'}>{t('framework.my_profile')}</Tab>
+            <Tab className={'talk-embed-stream-configuration-tab'} restricted={!can(user, 'UPDATE_CONFIG')}>{t('framework.configure_stream')}</Tab>
           </TabBar>
           {commentId &&
             <Button
