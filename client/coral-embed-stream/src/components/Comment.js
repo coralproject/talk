@@ -224,7 +224,7 @@ class Comment extends React.Component {
   };
 
   // getVisibileReplies returns a list containing comments
-  // which were authored by `userId` or comes before the `idCursor`.
+  // which were authored by current user or comes before the `idCursor`.
   getVisibileReplies() {
     const {comment: {replies}, currentUser, liveUpdates} = this.props;
     const idCursor = this.state.idCursors[0];
