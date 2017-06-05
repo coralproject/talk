@@ -38,13 +38,15 @@ export default class Embed extends React.Component {
     const {asset: {totalCommentCount}} = this.props.root;
     const {user} = this.props.auth;
 
+    console.log('activeTab', activeTab);
+
     return (
       <div>
         <div className="commentStream">
           <TabBar onChange={this.changeTab} activeTab={activeTab} className='talk-stream-tabbar'>
-            <Tab className={'talk-stream-comment-count-tab'}><Count count={totalCommentCount}/></Tab>
-            <Tab className={'talk-stream-profile-tab'}>{t('framework.my_profile')}</Tab>
-            <Tab className={'talk-stream-configuration-tab'} restricted={!can(user, 'UPDATE_CONFIG')}>{t('framework.configure_stream')}</Tab>
+            <Tab className={'talk-stream-comment-count-tab'} id='stream'><Count count={totalCommentCount}/></Tab>
+            <Tab className={'talk-stream-profile-tab'} id='profile'>{t('framework.my_profile')}</Tab>
+            <Tab className={'talk-stream-configuration-tab'} id='config' restricted={!can(user, 'UPDATE_CONFIG')}>{t('framework.configure_stream')}</Tab>
           </TabBar>
           {commentId &&
             <Button
