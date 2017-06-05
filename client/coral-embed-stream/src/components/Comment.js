@@ -226,7 +226,7 @@ class Comment extends React.Component {
 
     return (
       <div
-        className={commentClass}
+        className={`${commentClass} talk-stream-comment-wrapper`}
         id={`c_${comment.id}`}
         style={{marginLeft: depth * 30}}
       >
@@ -234,15 +234,15 @@ class Comment extends React.Component {
         <div
           className={highlighted === comment.id ? 'highlighted-comment' : ''}
         >
-          <AuthorName author={comment.user} />
+          <AuthorName author={comment.user} className={'talk-stream-comment-user-name'} />
           {isStaff(comment.tags) ? <TagLabel>Staff</TagLabel> : null}
 
           {commentIsBest(comment)
             ? <TagLabel><BestIndicator /></TagLabel>
             : null }
 
-          <span className={styles.bylineSecondary}>
-            <PubDate created_at={comment.created_at} />
+          <span className={`${styles.bylineSecondary} talk-stream-comment-user-byline`} >
+            <PubDate created_at={comment.created_at} className={'talk-stream-comment-published-date'} />
             {
               (comment.editing && comment.editing.edited)
               ? <span>&nbsp;<span className={styles.editedMarker}>(Edited)</span></span>
