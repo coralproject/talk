@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from './Tab.css';
 
-export default ({children, tabId, active, onTabClick, cStyle = 'base'}) => (
+export default ({children, tabId, active, onTabClick, cStyle = 'base', cNames}) => (
   <li
     key={tabId}
-    className={active ? styles[`${cStyle}--active`] : ''}
+    className={`${active ? styles[`${cStyle}--active`] : ''} tab ${cNames}`}
     onClick={() => onTabClick(tabId)}
   >
     {children}
