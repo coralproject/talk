@@ -18,7 +18,6 @@ import {
   facebookCallback,
   invalidForm,
   validForm,
-  checkLogin
 } from 'coral-framework/actions/auth';
 
 class SignInContainer extends React.Component {
@@ -36,10 +35,6 @@ class SignInContainer extends React.Component {
       errors: {},
       showErrors: false
     };
-  }
-
-  componentWillMount() {
-    this.props.checkLogin();
   }
 
   componentDidMount() {
@@ -187,7 +182,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      checkLogin,
       facebookCallback,
       fetchSignUp,
       fetchSignIn,
