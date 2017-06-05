@@ -10,6 +10,7 @@ const uuid = require('uuid');
 const debug = require('debug')('talk:passport');
 const {createClient} = require('./redis');
 const bowser = require('bowser');
+const ms = require('ms');
 
 // Create a redis client to use for authentication.
 const client = createClient();
@@ -39,7 +40,7 @@ const SetTokenForSafari = (req, res, token) => {
   if (browser.ios || browser.safari) {
     res.cookie('authorization', token, {
       httpOnly: true,
-      expires: new Date(Date.now() + 900000)
+      expires: new Date(Date.now() + ms(JWT_EXPIRY))
     });
   }
 };
