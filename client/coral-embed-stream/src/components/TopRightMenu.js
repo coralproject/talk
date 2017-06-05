@@ -25,18 +25,32 @@ export class TopRightMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      stacked: null,
       timesReset: 0
     };
   }
+
+  // Stack a new UI over the menu (like when you 'click into' something)
+  stack(node) {
+    this.setState({
+      stacked: node
+    });
+  }
   render() {
     const {comment, ignoreUser, addNotification} = this.props;
+    const {stacked} = this.state;
 
     // timesReset is used as Toggleable key so it re-renders on reset (closing the toggleable)
-    const reset = () => this.setState({timesReset: this.state.timesReset + 1});
-    const ignoreUserAndCloseMenuAndNotifyOnError = async ({id}) => {
+    const closeMenu = () => this.setState({
+      timesReset: this.state.timesReset + 1
+    });
 
-      // close menu
-      reset();
+    // unstack to return to the menuItems
+    const unstack = () => this.setState({
+      stacked: null,
+    });
+    const ignoreUserAndCloseMenuAndNotifyOnError = async ({id}) => {
+      closeMenu();
 
       // ignore user
       try {
@@ -46,14 +60,35 @@ export class TopRightMenu extends React.Component {
         throw error;
       }
     };
+    const menuItems = <ul className={styles.menuItemList}>
+      <li className={styles.menuItem}
+          onClick={() => this.stack(
+            <div className={styles.Wizard}>
+              <p>Report Username Wizard goes here</p>
+              <button onClick={() => unstack()}>Cancel</button>
+            </div>
+          )}>
+        <header>Report display name</header>
+        <span>Report a display name to our moderation team</span>
+      </li>
+      <li className={styles.menuItem}
+          onClick={() => this.stack(
+            <IgnoreUserWizard
+              user={comment.user}
+              cancel={unstack}
+              ignoreUser={ignoreUserAndCloseMenuAndNotifyOnError}
+            />
+          )}>
+        <header>Ignore commenter</header>
+        <span>Hide comments from a specific commenter. Can be undone.</span>
+      </li>
+    </ul>;
     return (
       <Toggleable key={this.state.timesReset}>
-        <div style={{position: 'absolute', right: 0, zIndex: 1}}>
-          <IgnoreUserWizard
-            user={comment.user}
-            cancel={reset}
-            ignoreUser={ignoreUserAndCloseMenuAndNotifyOnError}
-            />
+        <div className={styles.menu}>
+          { stacked
+            ? stacked
+            : menuItems }
         </div>
       </Toggleable>
     );        
