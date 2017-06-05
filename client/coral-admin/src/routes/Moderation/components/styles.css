@@ -185,10 +185,6 @@ span {
     padding: 0 14px;
   }
 
-  &:hover {
-     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  }
-
   &:last-child {
     border-bottom: none;
   }
@@ -291,7 +287,6 @@ span {
 
 @media (--big-viewport) {
   .listItem {
-    border: 1px solid #e0e0e0;
     margin-bottom: 30px;
 
     &:last-child {
@@ -459,4 +454,12 @@ span {
     top: 2px;
     position: relative;
   }
+}
+
+.minimal {
+  margin: 0;
+}
+
+.minimalSelection {
+  background-color: #ecf4ff;
 }

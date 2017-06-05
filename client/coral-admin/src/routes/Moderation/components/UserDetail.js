@@ -16,6 +16,9 @@ export default class UserDetail extends React.Component {
     showSuspendUserDialog: PropTypes.func.isRequired,
     acceptComment: PropTypes.func.isRequired,
     rejectComment: PropTypes.func.isRequired,
+    changeStatus: PropTypes.func.isRequired,
+    toggleSelect: PropTypes.func.isRequired,
+    bulkSetCommentStatus: PropTypes.func.isRequired,
   }
 
   copyPermalink = () => {
@@ -44,9 +47,14 @@ export default class UserDetail extends React.Component {
         rejectedComments,
         comments: {nodes}
       },
-      moderation: {userDetailActiveTab: tab},
+      moderation: {
+        userDetailActiveTab: tab,
+        userDetailSelectedIds: selectedIds
+      },
       bannedWords,
       suspectWords,
+      toggleSelect,
+      bulkSetCommentStatus,
       showBanUserDialog,
       showSuspendUserDialog,
       acceptComment,
@@ -94,14 +102,38 @@ export default class UserDetail extends React.Component {
             <p>{`${(rejectedPercent).toFixed(1)}%`}</p>
           </div>
         </div>
-        <ul className={styles.commentStatuses}>
-          <li className={tab === 'all' ? styles.active : ''} onClick={this.changeStatus.bind(this, 'all')}>All</li>
-          <li className={tab === 'rejected' ? styles.active : ''} onClick={this.changeStatus.bind(this, 'rejected')}>Rejected</li>
-        </ul>
+        {
+          selectedIds.length === 0
+          ? (
+            <ul className={styles.commentStatuses}>
+              <li className={tab === 'all' ? styles.active : ''} onClick={this.changeStatus.bind(this, 'all')}>All</li>
+              <li className={tab === 'rejected' ? styles.active : ''} onClick={this.changeStatus.bind(this, 'rejected')}>Rejected</li>
+            </ul>
+          )
+          : (
+            <div className={styles.bulkActionGroup}>
+              <Button
+                onClick={() => bulkSetCommentStatus('ACCEPTED')}
+                className={styles.bulkAction}
+                cStyle='approve'
+                icon='done'>
+              </Button>
+              <Button
+                onClick={() => bulkSetCommentStatus('REJECTED')}
+                className={styles.bulkAction}
+                cStyle='reject'
+                icon='close'>
+              </Button>
+              {`${selectedIds.length} comments selected`}
+            </div>
+          )
+        }
+
         <div>
           {
             nodes.map((comment, i) => {
               const status = comment.action_summaries ? 'FLAGGED' : comment.status;
+              const selected = selectedIds.indexOf(comment.id) !== -1;
               return <Comment
                 key={i}
                 index={i}
@@ -115,6 +147,8 @@ export default class UserDetail extends React.Component {
                 showSuspendUserDialog={showSuspendUserDialog}
                 acceptComment={acceptComment}
                 rejectComment={rejectComment}
+                selected={selected}
+                toggleSelect={toggleSelect}
                 currentAsset={null}
                 currentUserId={this.props.id}
                 minimal={true} />;
