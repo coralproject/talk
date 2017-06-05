@@ -67,7 +67,9 @@ export default function moderation (state = initialState, action) {
   case actions.VIEW_USER_DETAIL:
     return state.set('userDetailId', action.userId);
   case actions.HIDE_USER_DETAIL:
-    return state.set('userDetailId', null);
+    return state
+      .set('userDetailId', null)
+      .update('userDetailSelectedIds', (set) => set.clear());
   case actions.CHANGE_USER_DETAIL_STATUSES:
     return state
       .set('userDetailActiveTab', action.tab)

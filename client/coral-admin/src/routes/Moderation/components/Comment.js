@@ -75,6 +75,7 @@ const Comment = ({
             {
               minimal && typeof selected === 'boolean' && typeof toggleSelect === 'function' && (
                 <input
+                  className={styles.bulkSelectInput}
                   type='checkbox'
                   value={comment.id}
                   checked={selected}

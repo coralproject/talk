@@ -463,3 +463,7 @@ span {
 .minimalSelection {
   background-color: #ecf4ff;
 }
+
+.bulkSelectInput {
+  cursor: pointer;
+}
