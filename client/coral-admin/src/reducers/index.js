@@ -13,5 +13,5 @@ export default {
   community,
   moderation,
   install,
-  config
+  config,
 };

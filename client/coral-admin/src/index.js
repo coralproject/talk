@@ -9,9 +9,10 @@ import App from './components/App';
 
 import 'react-mdl/extra/material.js';
 import './graphql';
-import {loadPluginsTranslations} from 'coral-framework/helpers/plugins';
+import {loadPluginsTranslations, injectPluginsReducers} from 'coral-framework/helpers/plugins';
 
 loadPluginsTranslations();
+injectPluginsReducers();
 
 render(
   <ApolloProvider client={client} store={store}>
