@@ -158,8 +158,8 @@ en:
     edit_window_expired_close: "Close"
     edit_window_timer_prefix: "Edit Window: "
     second: "second"
-    secondsPlural: "seconds"
-    unexpectedError: "Unexpected error while saving changes. Sorry!"
+    seconds_plural: "seconds"
+    unexpected_error: "Unexpected error while saving changes. Sorry!"
   email:
     confirm:
       has_been_requested: "A email confirmation has been requested for the following account:"
