@@ -14,7 +14,7 @@ import Embed from '../components/Embed';
 import Stream from './Stream';
 
 import {setActiveTab} from '../actions/embed';
-import {setCommentCountCache, viewAllComments} from '../actions/stream';
+import {viewAllComments} from '../actions/stream';
 
 const {logout, checkLogin} = authActions;
 const {fetchAssetSuccess} = assetActions;
@@ -33,13 +33,6 @@ class EmbedContainer extends React.Component {
 
       // TODO: remove asset data from redux store.
       fetchAssetSuccess(nextProps.root.asset);
-
-      const {setCommentCountCache, commentCountCache} = this.props;
-      const {asset} = nextProps.root;
-
-      if (commentCountCache === -1) {
-        setCommentCountCache(asset.commentCount);
-      }
     }
   }
 
@@ -87,7 +80,6 @@ export const withEmbedQuery = withQuery(EMBED_QUERY, {
 
 const mapStateToProps = (state) => ({
   auth: state.auth.toJS(),
-  commentCountCache: state.stream.commentCountCache,
   commentId: state.stream.commentId,
   assetId: state.stream.assetId,
   assetUrl: state.stream.assetUrl,
@@ -103,7 +95,6 @@ const mapDispatchToProps = (dispatch) =>
       setActiveTab,
       viewAllComments,
       fetchAssetSuccess,
-      setCommentCountCache
     },
     dispatch
   );

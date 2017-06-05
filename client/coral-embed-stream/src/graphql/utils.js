@@ -1,11 +1,11 @@
 import update from 'immutability-helper';
 
-function findAndInsertComment(parent, id, comment) {
+function findAndInsertComment(parent, comment) {
   const [connectionField, countField, action] = parent.comments
     ? ['comments', 'commentCount', '$unshift']
     : ['replies', 'replyCount', '$push'];
 
-  if (!id || parent.id === id) {
+  if (!comment.parent || parent.id === comment.parent.id) {
     return update(parent, {
       [connectionField]: {
         nodes: {[action]: [comment]},
@@ -21,13 +21,13 @@ function findAndInsertComment(parent, id, comment) {
     [connectionField]: {
       nodes: {
         $apply: (nodes) =>
-         nodes.map((node) => findAndInsertComment(node, id, comment))
+         nodes.map((node) => findAndInsertComment(node, comment))
       },
     },
   });
 }
 
-export function insertCommentIntoEmbedQuery(root, id, comment) {
+export function insertCommentIntoEmbedQuery(root, comment) {
 
   // Increase total comment count by one.
   root = update(root, {
@@ -41,19 +41,19 @@ export function insertCommentIntoEmbedQuery(root, id, comment) {
       return update(root, {
         comment: {
           parent: {
-            $apply: (node) => findAndInsertComment(node, id, comment),
+            $apply: (node) => findAndInsertComment(node, comment),
           },
         },
       });
     }
     return update(root, {
       comment: {
-        $apply: (node) => findAndInsertComment(node, id, comment),
+        $apply: (node) => findAndInsertComment(node, comment),
       },
     });
   }
   return update(root, {
-    asset: {$apply: (asset) => findAndInsertComment(asset, id, comment)},
+    asset: {$apply: (asset) => findAndInsertComment(asset, comment)},
   });
 }
 
@@ -78,7 +78,7 @@ function findAndRemoveComment(parent, id) {
   };
 
   if (parent[countField] && next.length !== connection.nodes.length) {
-    changes[countField] = {$set: changes[countField] - 1};
+    changes[countField] = {$set: parent[countField] - 1};
   }
   return update(parent, changes);
 }
@@ -111,4 +111,39 @@ export function removeCommentFromEmbedQuery(root, id) {
   return update(root, {
     asset: {$apply: (asset) => findAndRemoveComment(asset, id)},
   });
+}
+
+function findComment(nodes, callback) {
+  for (let i = 0; i < nodes.length; i++) {
+    const node = nodes[i];
+    if (callback(node)) {
+      return node;
+    }
+    if (node.replies) {
+      const find = findComment(node.replies.nodes, callback);
+      if (find){
+        return find;
+      }
+    }
+  }
+  return false;
+}
+
+export function findCommentInEmbedQuery(root, callbackOrId) {
+  let callback = callbackOrId;
+  if (typeof callbackOrId === 'string') {
+    callback = (node) => node.id === callbackOrId;
+  }
+  if (root.comment) {
+    if (callback(root.comment)) {
+      return root.comment;
+    }
+    if (root.comment.parent && callback(root.comment.parent)) {
+      return root.comment.parent;
+    }
+  }
+  if (!root.asset.comments) {
+    return false;
+  }
+  return findComment(root.asset.comments.nodes, callback);
 }

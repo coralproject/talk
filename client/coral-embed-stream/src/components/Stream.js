@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
 import LoadMore from './LoadMore';
-import NewCount from './NewCount';
 
 import Comment from '../containers/Comment';
 import SuspendedAccount from './SuspendedAccount';
@@ -13,9 +12,81 @@ import {ModerationLink} from 'coral-plugin-moderation';
 import CommentBox from 'coral-plugin-commentbox/CommentBox';
 import QuestionBox from 'coral-plugin-questionbox/QuestionBox';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
+import NewCount from './NewCount';
 import t, {timeago} from 'coral-framework/services/i18n';
 
+const hasComment = (nodes, id) => nodes.some((node) => node.id === id);
+
+// resetCursors will return the id cursors of the first and second comment of
+// the current comment list. The cursors are used to dertermine which
+// comments to show. The spare cursor functions as a backup in case one
+// of the comments gets deleted.
+function resetCursors(state, props) {
+  const comments = props.root.asset.comments;
+  if (comments && comments.nodes.length) {
+    const idCursors = [comments.nodes[0].id];
+    if (comments.nodes[1]) {
+      idCursors.push(comments.nodes[1].id);
+    }
+    return {idCursors};
+  }
+  return {idCursors: []};
+}
+
+// invalidateCursor is called whenever a comment is removed which is referenced
+// by one of the 2 id cursors. It returns a new set of id cursors calculated
+// using the help of the backup cursor.
+function invalidateCursor(invalidated, state, props) {
+  const alt = invalidated === 1 ? 0 : 1;
+  const comments = props.root.asset.comments;
+  const idCursors = [];
+  if (state.idCursors[alt]) {
+    idCursors.push(state.idCursors[alt]);
+    const index = comments.nodes.findIndex((node) => node.id === idCursors[0]);
+    const nextInLine = comments.nodes[index + 1];
+    if (nextInLine) {
+      idCursors.push(nextInLine.id);
+    }
+  }
+  return {idCursors};
+}
+
 class Stream extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = resetCursors(this.state, props);
+  }
+
+  componentWillReceiveProps(next) {
+    const {root: {asset: {comments: prevComments}}} = this.props;
+    const {root: {asset: {comments: nextComments}}} = next;
+
+    if (!prevComments && nextComments) {
+      this.setState(resetCursors);
+      return;
+    }
+    if (
+        prevComments && nextComments &&
+        nextComments.nodes.length < prevComments.nodes.length
+    ) {
+
+      // Invalidate first cursor if referenced comment was removed.
+      if (this.state.idCursors[0] && !hasComment(nextComments.nodes, this.state.idCursors[0])) {
+        this.setState(invalidateCursor(0, this.state, next));
+      }
+
+      // Invalidate second cursor if referenced comment was removed.
+      if (this.state.idCursors[1] && !hasComment(nextComments.nodes, this.state.idCursors[1])) {
+        this.setState(invalidateCursor(1, this.state, next));
+      }
+    }
+  }
+
+  viewNewComments = () => {
+    this.setState(resetCursors);
+  };
+
   setActiveReplyBox = (reactKey) => {
     if (!this.props.auth.user) {
       this.props.showSignInDialog();
@@ -23,6 +94,30 @@ class Stream extends React.Component {
       this.props.setActiveReplyBox(reactKey);
     }
   };
+
+  // getVisibileComments returns a list containing comments
+  // which were authored by current user or comes after the `idCursor`.
+  getVisibleComments() {
+    const {root: {asset: {comments}}, auth: {user}} = this.props;
+    const idCursor = this.state.idCursors[0];
+    const userId = user ? user.id : null;
+
+    if (!comments) {
+      return [];
+    }
+
+    const view = [];
+    let pastCursor = false;
+    comments.nodes.forEach((comment) => {
+      if (comment.id === idCursor) {
+        pastCursor = true;
+      }
+      if (pastCursor || comment.user.id === userId) {
+        view.push(comment);
+      }
+    });
+    return view;
+  }
 
   render() {
     const {
@@ -38,9 +133,9 @@ class Stream extends React.Component {
       pluginProps,
       ignoreUser,
       auth: {loggedIn, user},
-      commentCountCache,
       editName
     } = this.props;
+    const view = this.getVisibleComments();
     const open = asset.closedAt === null;
 
     // even though the permalinked comment is the highlighted one, we're displaying its parent + replies
@@ -97,8 +192,6 @@ class Stream extends React.Component {
                   postComment={this.props.postComment}
                   appendItemArray={this.props.appendItemArray}
                   updateItem={this.props.updateItem}
-                  setCommentCountCache={this.props.setCommentCountCache}
-                  commentCountCache={commentCountCache}
                   assetId={asset.id}
                   premod={asset.settings.moderation}
                   isReply={false}
@@ -139,16 +232,15 @@ class Stream extends React.Component {
               charCountEnable={asset.settings.charCountEnable}
               maxCharCount={asset.settings.charCount}
               editComment={this.props.editComment}
+              liveUpdates={true}
             />
           : <div>
               <NewCount
-                commentCount={asset.commentCount}
-                commentCountCache={commentCountCache}
-                setCommentCountCache={this.props.setCommentCountCache}
-                loadMore={this.props.loadNewComments}
+                count={comments.nodes.length - view.length}
+                loadMore={this.viewNewComments}
               />
               <div className="embed__stream">
-                {comments && comments.nodes.map((comment) => {
+                {view.map((comment) => {
                   return commentIsIgnored(comment)
                     ? <IgnoredCommentTombstone key={comment.id} />
                     : <Comment
@@ -178,6 +270,7 @@ class Stream extends React.Component {
                         charCountEnable={asset.settings.charCountEnable}
                         maxCharCount={asset.settings.charCount}
                         editComment={this.props.editComment}
+                        liveUpdates={false}
                       />;
                 })}
               </div>
