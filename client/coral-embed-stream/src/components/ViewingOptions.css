@@ -10,6 +10,8 @@
     background: white;
     position: absolute;
     box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.15);
+    right: 3px;
+    top: 20px;
 }
 
 .streamViewingOptionsList ul, .streamViewingOptionsList li {

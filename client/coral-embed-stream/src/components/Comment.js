@@ -1,4 +1,6 @@
 import React, {PropTypes} from 'react';
+import {connect} from 'react-redux';
+import cn from 'classnames';
 import PermalinkButton from 'coral-plugin-permalinks/PermalinkButton';
 
 import AuthorName from 'coral-plugin-author-name/AuthorName';
@@ -19,7 +21,6 @@ import Slot from 'coral-framework/components/Slot';
 import LoadMore from './LoadMore';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import {TopRightMenu} from './TopRightMenu';
-import classnames from 'classnames';
 import {EditableCommentContent} from './EditableCommentContent';
 import {getActionSummary, iPerformedThisAction} from 'coral-framework/utils';
 import {getEditableUntilDate} from './util';
@@ -151,28 +152,29 @@ class Comment extends React.Component {
   }
   render () {
     const {
-      comment,
-      parentId,
-      currentUser,
       asset,
       depth,
-      postComment,
-      addNotification,
-      showSignInDialog,
-      highlighted,
+      comment,
       postFlag,
-      postDontAgree,
+      parentId,
       loadMore,
-      setActiveReplyBox,
-      activeReplyBox,
-      deleteAction,
-      addCommentTag,
-      removeCommentTag,
       ignoreUser,
+      highlighted,
+      postComment,
+      currentUser,
+      deleteAction,
       disableReply,
-      commentIsIgnored,
       maxCharCount,
-      charCountEnable
+      postDontAgree,
+      addCommentTag,
+      activeReplyBox,
+      addNotification,
+      charCountEnable,
+      classNames = [],
+      showSignInDialog,
+      removeCommentTag,
+      commentIsIgnored,
+      setActiveReplyBox,
     } = this.props;
 
     const flagSummary = getActionSummary('FlagActionSummary', comment);
@@ -226,7 +228,7 @@ class Comment extends React.Component {
 
     return (
       <div
-        className={commentClass}
+        className={cn([commentClass, classNames])}
         id={`c_${comment.id}`}
         style={{marginLeft: depth * 30}}
       >
@@ -265,17 +267,17 @@ class Comment extends React.Component {
               (comment.user.id === currentUser.id))
 
               /* User can edit/delete their own comment for a short window after posting */
-              ? <span className={classnames(styles.topRight)}>
+              ? <span className={cn(styles.topRight)}>
                   {
                     commentIsStillEditable(comment) &&
                     <a
-                      className={classnames(styles.link, {[styles.active]: this.state.isEditing})}
+                      className={cn(styles.link, {[styles.active]: this.state.isEditing})}
                       onClick={this.onClickEdit}>Edit</a>
                   }
                 </span>
 
               /* TopRightMenu allows currentUser to ignore other users' comments */
-              : <span className={classnames(styles.topRight, styles.topRightMenu)}>
+              : <span className={cn(styles.topRight, styles.topRightMenu)}>
                   <TopRightMenu
                     comment={comment}
                     ignoreUser={ignoreUser}
@@ -416,7 +418,9 @@ class Comment extends React.Component {
   }
 }
 
-export default Comment;
+const mapStateToProps = ({comment}) => ({classNames: comment.classNames});
+
+export default connect(mapStateToProps, null)(Comment);
 
 // return whether the comment is editable
 function commentIsStillEditable (comment) {

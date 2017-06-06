@@ -24,7 +24,7 @@ export default class ViewingOptions extends React.Component {
           <a onClick={this.toggleOpen}>Viewing Options</a>
         </div>
         {
-          this.state.open ? (
+          true ? (
             <div className={cn([styles.streamViewingOptionsList, 'streamViewingOptionsList'])}>
               <ul>
                 {

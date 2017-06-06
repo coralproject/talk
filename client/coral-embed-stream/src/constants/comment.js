@@ -1,0 +1,2 @@
+export const ADD_CLASSNAME = 'ADD_CLASSNAME';
+export const REMOVE_CLASSNAME = 'REMOVE_CLASSNAME';
