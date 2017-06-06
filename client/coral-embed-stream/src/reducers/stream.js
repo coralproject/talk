@@ -20,10 +20,27 @@ const initialState = {
   assetId: getQueryVariable('asset_id'),
   assetUrl: getQueryVariable('asset_url'),
   commentId: getQueryVariable('comment_id'),
+  viewingOption: {
+    open: false
+  }
 };
 
 export default function stream(state = initialState, action) {
   switch (action.type) {
+  case actions.OPEN_VIEWING_OPTIONS:
+    return {
+      ...state,
+      viewingOption: {
+        open: true
+      }
+    };
+  case actions.CLOSE_VIEWING_OPTIONS:
+    return {
+      ...state,
+      viewingOption: {
+        open: false
+      }
+    };
   case actions.SET_ACTIVE_REPLY_BOX:
     return {
       ...state,

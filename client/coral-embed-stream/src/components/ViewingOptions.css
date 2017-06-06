@@ -6,6 +6,10 @@
     min-width: 220px;
 }
 
+.viewingOptions {
+    cursor: pointer;
+}
+
 .streamViewingOptionsList {
     background: white;
     position: absolute;

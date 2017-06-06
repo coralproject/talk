@@ -3,11 +3,10 @@ import styles from './styles.css';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {addClassName, removeClassName} from 'coral-embed-stream/src/actions/comment';
-import {closeViewingOptions} from 'coral-embed-stream/src/actions/stream';
 
-class OffTopicFilter extends React.Component {
+class StaffFilter extends React.Component {
 
-  tag = 'OFF_TOPIC';
+  tag = 'STAFF';
   className = 'offTopicComment';
   cn = {[this.className] : {tags: [this.tag]}};
 
@@ -18,7 +17,6 @@ class OffTopicFilter extends React.Component {
       const idx = this.props.comment.classNames.indexOf(this.cn);
       this.props.removeClassName(idx);
     }
-    props.closeViewingOptions();
   }
 
   render() {
@@ -26,7 +24,7 @@ class OffTopicFilter extends React.Component {
       <div className={styles.viewingOption}>
         <label>
           <input type="checkbox" onChange={this.handleChange}/>
-          Hide Off-Topic Comments
+          Hide Staff Comments
         </label>
       </div>
     );
@@ -36,6 +34,6 @@ class OffTopicFilter extends React.Component {
 const mapStateToProps = ({comment}) => ({comment});
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({addClassName, removeClassName, closeViewingOptions}, dispatch);
+  bindActionCreators({addClassName, removeClassName}, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(OffTopicFilter);
+export default connect(mapStateToProps, mapDispatchToProps)(StaffFilter);

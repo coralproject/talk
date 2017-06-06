@@ -38,3 +38,11 @@ export const viewAllComments = () => {
 
   return {type: actions.VIEW_ALL_COMMENTS};
 };
+
+export const openViewingOptions = () => ({
+  type: actions.OPEN_VIEWING_OPTIONS
+});
+
+export const closeViewingOptions = () => ({
+  type: actions.CLOSE_VIEWING_OPTIONS
+});
