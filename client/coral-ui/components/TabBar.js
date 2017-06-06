@@ -23,7 +23,7 @@ class TabBar extends React.Component {
             .map((child, tabId) =>
               React.cloneElement(child, {
                 tabId,
-                active: tabId === activeTab,
+                active: child.props.id === activeTab,
                 onTabClick: this.handleClickTab,
                 cStyle
               })
