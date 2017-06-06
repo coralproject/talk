@@ -1,11 +1,7 @@
 import {ADD_CLASSNAME, REMOVE_CLASSNAME} from '../constants/comment';
 
 const initialState = {
-  classNames: [{
-    'wapoOff' : {
-      tags: ['OFF_TOPIC']
-    }
-  }]
+  classNames: []
 };
 
 export default function comment (state = initialState, action) {
