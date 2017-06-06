@@ -9,7 +9,8 @@ export function getClient() {
     return client;
   }
 
-  const wsClient = new SubscriptionClient(`ws://${location.host}/api/v1/live`, {
+  const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+  const wsClient = new SubscriptionClient(`${protocol}://${location.host}/api/v1/live`, {
     reconnect: true
   });
 
