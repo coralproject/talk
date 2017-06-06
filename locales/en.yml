@@ -87,7 +87,7 @@ en:
     custom_css_url_desc: "URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external."
     dashboard: Dashboard
     days: Days
-    description: "As an admin you may customize the settings for the comment stream for this asset"
+    description: "As an admin, you can customize the settings for the comment stream for this story:"
     domain_list_text: "Enter the domains you would like to permit for Talk e.g. your local staging and production environments (ex. localhost:3000 staging.domain.com domain.com)."
     domain_list_title: "Permitted Domains"
     edit_comment_timeframe_heading: "Edit Comment Timeframe"
@@ -101,13 +101,13 @@ en:
     enable_premod: "Enable Premoderation"
     enable_premod_description: "Moderators must approve any comment before its published."
     enable_premod_links_description: "Moderators must approve any comment containing a link before its published."
-    enable_questionbox: "Ask readers a question"
+    enable_questionbox: "Ask Readers a Question"
     enable_questionbox_description: "This question will appear at the top of this comment stream. Ask readers about a certain issue in the article or pose discussion questions etc."
     hours: Hours
     include_comment_stream: "Include Comment Stream Description for Readers"
     include_comment_stream_desc: "Write a message to be added to the top of your comment stream. Pose a topic include community guidelines etc."
     include_text: "Include your text here."
-    include_question_here: "Write your question here."
+    include_question_here: "Write your question here:"
     moderate: Moderate
     moderation_settings: "Moderation Settings"
     open: "Open"

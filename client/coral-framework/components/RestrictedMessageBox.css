@@ -1,6 +1,8 @@
 .message {
-  background: #D8D8D8;
   padding: 25px;
   margin-bottom: 8px;
+  background-color: white;
+  border: 1px #F0F0F0 solid;
+  text-align: center;
+  font-weight: 100;
 }
-
