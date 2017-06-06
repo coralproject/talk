@@ -55,7 +55,9 @@ function configurePymParent(pymParent, opts) {
   }
 
   pymParent.onMessage('checkLogin', function(result) {
-    console.log(JSON.parse(result));
+    if (opts.onAuthChange) {
+      opts.onAuthChange(JSON.parse(result));
+    }
   });
 
   // Sends config to the child
