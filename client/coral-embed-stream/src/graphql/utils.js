@@ -177,8 +177,5 @@ function findAndInsertFetchedComments(parent, comments, parent_id) {
 }
 
 export function insertFetchedCommentsIntoEmbedQuery(root, comments, parent_id) {
-  if (!comments.nodes.length) {
-    return root;
-  }
   return applyToCommentsOrigin(root, (origin) => findAndInsertFetchedComments(origin, comments, parent_id));
 }

@@ -159,7 +159,7 @@ const commentFragment = gql`
     id
     ...${getDefinitionName(Comment.fragments.comment)}
     replyCount(excludeIgnored: $excludeIgnored)
-    replies {
+    replies(excludeIgnored: $excludeIgnored) {
       nodes {
         id
         ...${getDefinitionName(Comment.fragments.comment)}

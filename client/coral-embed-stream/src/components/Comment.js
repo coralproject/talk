@@ -204,6 +204,11 @@ class Comment extends React.Component {
     }
   }
 
+  hasIgnoredReplies() {
+    return this.props.comment.replies &&
+      this.props.comment.replies.nodes.some((reply) => this.props.commentIsIgnored(reply));
+  }
+
   loadNewReplies = () => {
     const {replies, replyCount, id} = this.props.comment;
     if (replyCount > replies.nodes.length) {
@@ -292,6 +297,8 @@ class Comment extends React.Component {
     } = this.props;
 
     const view = this.getVisibileReplies();
+    const hasMoreComments = comment.replies && (comment.replies.hasNextPage || comment.replies.nodes.length > view.length);
+    const replyCount = this.hasIgnoredReplies() ? '' : comment.replyCount;
     const flagSummary = getActionSummary('FlagActionSummary', comment);
     const dontAgreeSummary = getActionSummary(
       'DontAgreeActionSummary',
@@ -524,8 +531,8 @@ class Comment extends React.Component {
         <div className="coral-load-more-replies">
           <LoadMore
             topLevel={false}
-            replyCount={comment.replyCount}
-            moreComments={comment.replyCount > view.length}
+            replyCount={replyCount}
+            moreComments={hasMoreComments}
             loadMore={this.loadNewReplies}
           />
         </div>
