@@ -1,21 +1,19 @@
 import React, {PropTypes} from 'react';
 import LoadMore from './LoadMore';
 import NewCount from './NewCount';
-
 import Comment from '../containers/Comment';
-import SuspendedAccount from './SuspendedAccount';
-import RestrictedMessageBox
-  from 'coral-framework/components/RestrictedMessageBox';
 import ViewingOptions from './ViewingOptions';
+import SuspendedAccount from './SuspendedAccount';
 import Slot from 'coral-framework/components/Slot';
 import InfoBox from 'coral-plugin-infobox/InfoBox';
 import {can} from 'coral-framework/services/perms';
 import {ModerationLink} from 'coral-plugin-moderation';
+import RestrictedMessageBox
+  from 'coral-framework/components/RestrictedMessageBox';
+import t, {timeago} from 'coral-framework/services/i18n';
 import CommentBox from 'coral-plugin-commentbox/CommentBox';
 import QuestionBox from 'coral-plugin-questionbox/QuestionBox';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
-
-import t, {timeago} from 'coral-framework/services/i18n';
 
 class Stream extends React.Component {
   setActiveReplyBox = (reactKey) => {
@@ -28,6 +26,7 @@ class Stream extends React.Component {
 
   render() {
     const {
+      classNames,
       root: {asset, asset: {comments}, comment, me},
       postComment,
       addNotification,
@@ -36,10 +35,10 @@ class Stream extends React.Component {
       deleteAction,
       showSignInDialog,
       addCommentTag,
-      removeCommentTag,
-      pluginProps,
       ignoreUser,
       auth: {loggedIn, user},
+      removeCommentTag,
+      pluginProps,
       commentCountCache,
       editName
     } = this.props;
@@ -159,6 +158,7 @@ class Stream extends React.Component {
                   return commentIsIgnored(comment)
                     ? <IgnoredCommentTombstone key={comment.id} />
                     : <Comment
+                        classNames={classNames}
                         data={this.props.data}
                         root={this.props.root}
                         disableReply={!open}

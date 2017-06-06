@@ -18,14 +18,14 @@ class OffTopicFilter extends React.Component {
       const idx = this.props.comment.classNames.indexOf(this.cn);
       this.props.removeClassName(idx);
     }
-    props.closeViewingOptions();
+    this.props.closeViewingOptions();
   }
 
   render() {
     return (
       <div className={styles.viewingOption}>
         <label>
-          <input type="checkbox" onChange={this.handleChange}/>
+          <input type="checkbox" onChange={this.handleChange} checked={true}/>
           Hide Off-Topic Comments
         </label>
       </div>
@@ -33,7 +33,7 @@ class OffTopicFilter extends React.Component {
   }
 }
 
-const mapStateToProps = ({comment}) => ({comment});
+const mapStateToProps = ({comment, offTopicFilter}) => ({comment, offTopicFilter});
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({addClassName, removeClassName, closeViewingOptions}, dispatch);

@@ -323,6 +323,7 @@ const mapStateToProps = (state) => ({
   assetUrl: state.stream.assetUrl,
   activeTab: state.embed.activeTab,
   previousTab: state.embed.previousTab,
+  classNames: state.comment.classNames
 });
 
 const mapDispatchToProps = (dispatch) =>

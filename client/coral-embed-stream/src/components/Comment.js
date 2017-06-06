@@ -1,10 +1,8 @@
 import React, {PropTypes} from 'react';
-import {connect} from 'react-redux';
 import cn from 'classnames';
+
 import PermalinkButton from 'coral-plugin-permalinks/PermalinkButton';
-
 import AuthorName from 'coral-plugin-author-name/AuthorName';
-
 import TagLabel from 'coral-plugin-tag-label/TagLabel';
 import Content from 'coral-plugin-commentcontent/CommentContent';
 import PubDate from 'coral-plugin-pubdate/PubDate';
@@ -19,8 +17,8 @@ import {
 } from 'coral-plugin-best/BestButton';
 import Slot from 'coral-framework/components/Slot';
 import LoadMore from './LoadMore';
-import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import {TopRightMenu} from './TopRightMenu';
+import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import {EditableCommentContent} from './EditableCommentContent';
 import {getActionSummary, iPerformedThisAction} from 'coral-framework/utils';
 import {getEditableUntilDate} from './util';
@@ -38,7 +36,7 @@ const ActionButton = ({children}) => {
   );
 };
 
-class Comment extends React.Component {
+export default class Comment extends React.Component {
   constructor(props) {
     super(props);
 
@@ -448,10 +446,6 @@ class Comment extends React.Component {
     );
   }
 }
-
-const mapStateToProps = ({comment}) => ({classNames: comment.classNames});
-
-export default connect(mapStateToProps, null)(Comment);
 
 // return whether the comment is editable
 function commentIsStillEditable (comment) {
