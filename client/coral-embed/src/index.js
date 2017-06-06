@@ -54,6 +54,10 @@ function configurePymParent(pymParent, opts) {
     pymParent.sendMessage('config', JSON.stringify(config));
   }
 
+  pymParent.onMessage('checkLogin', function(result) {
+    console.log(JSON.parse(result));
+  });
+
   // Sends config to the child
   pymParent.onMessage('getConfig', function() {
     sendConfig(opts || {});

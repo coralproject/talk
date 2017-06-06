@@ -3,6 +3,7 @@ import bowser from 'bowser';
 import * as actions from '../constants/auth';
 import * as Storage from '../helpers/storage';
 import coralApi, {base} from '../helpers/request';
+import pym from '../services/PymConnection';
 
 import {resetWebsocket} from 'coral-framework/services/client';
 import t from 'coral-framework/services/i18n';
@@ -300,7 +301,7 @@ const checkLoginSuccess = (user, isAdmin) => ({
   isAdmin
 });
 
-export const checkLogin = () => (dispatch) => {
+export const checkLogin = () => (dispatch, getState) => {
   dispatch(checkLoginRequest());
   coralApi('/auth')
     .then((result) => {
@@ -324,6 +325,9 @@ export const checkLogin = () => (dispatch) => {
     .catch((error) => {
       console.error(error);
       dispatch(checkLoginFailure(`${error.translation_key}`));
+    })
+    .then(() => {
+      pym.sendMessage('checkLogin', JSON.stringify(getState().auth));
     });
 };
 
