@@ -11,9 +11,7 @@ import {loadTranslations} from 'coral-framework/services/i18n';
 export const pluginReducers = merge(
   ...plugins
     .filter((o) => o.module.reducer)
-    .map(o => ({
-      [o.plugin] : o.module.reducer
-    }))
+    .map((o) => ({[o.module.reducer.name] : o.module.reducer}))
 );
 
 /**
