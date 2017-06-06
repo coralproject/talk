@@ -61,6 +61,13 @@ const updateClosedTimeout = (updateSettings, ts, isMeasure) => (event) => {
   }
 };
 
+const updateEditCommentWindowLength = (updateSettings) => (e) => {
+  const value = e.target.value;
+  const valueAsNumber = parseFloat(value);
+  const milliseconds = (!isNaN(valueAsNumber)) && (valueAsNumber * 1000);
+  updateSettings({editCommentWindowLength: milliseconds || value});
+};
+
 const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
 
   // just putting this here for shorthand below
@@ -131,6 +138,25 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
             />
           </div>
         </div>
+      </Card>
+      {/* Edit Comment Timeframe */}
+      <Card className={styles.configSetting}>
+        <div className={styles.settingsHeader}>{t('configure.edit_comment_timeframe_heading')}</div>
+        <p>
+          {t('configure.edit_comment_timeframe_text_pre')}
+          &nbsp;
+          <input
+            className={`${styles.inlineTextfield} ${styles.editCommentTimeframeTextfield}`}
+            type="number"
+            min="0"
+            onChange={updateEditCommentWindowLength(updateSettings)}
+            placeholder="30"
+            defaultValue={(settings.editCommentWindowLength / 1000) /* saved as ms, rendered as seconds */}
+            pattern='[0-9]+([\.][0-9]*)?'
+          />
+          &nbsp;
+          {t('configure.edit_comment_timeframe_text_post')}
+        </p>
       </Card>
       <Card className={`${styles.configSetting} ${styles.configSettingInfoBox}`}>
         <div className={styles.action}>
