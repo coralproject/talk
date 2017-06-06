@@ -14,6 +14,7 @@ import {setActiveReplyBox} from '../actions/stream';
 import Stream from '../components/Stream';
 import Comment from './Comment';
 import {withFragments} from 'coral-framework/hocs';
+import {Spinner} from 'coral-ui';
 import {getDefinitionName} from 'coral-framework/utils';
 import {
   findCommentInEmbedQuery,
@@ -141,6 +142,9 @@ class StreamContainer extends React.Component {
   }
 
   render() {
+    if (this.props.refetching) {
+      return <Spinner />;
+    }
     return <Stream
       {...this.props}
       loadMore={this.loadMore}
@@ -278,6 +282,7 @@ const fragments = {
 
 const mapStateToProps = (state) => ({
   auth: state.auth.toJS(),
+  refetching: state.embed.refetching,
   commentCountCache: state.stream.commentCountCache,
   activeReplyBox: state.stream.activeReplyBox,
   commentId: state.stream.commentId,
