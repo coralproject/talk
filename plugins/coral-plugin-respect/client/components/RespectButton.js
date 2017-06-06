@@ -7,6 +7,8 @@ import cn from 'classnames';
 
 import {getMyActionSummary, getTotalActionCount} from 'coral-framework/utils';
 
+const name = 'coral-plugin-respect';
+
 class RespectButton extends Component {
 
   handleClick = () => {
@@ -47,13 +49,13 @@ class RespectButton extends Component {
     let count = getTotalActionCount('RespectActionSummary', comment);
 
     return (
-      <div className={styles.respect}>
+      <div className={cn(styles.respect, `${name}-container`)}>
         <button
-          className={cn(styles.button, {[styles.respected]: myRespect})}
+          className={cn(styles.button, {[styles.respected]: myRespect}, `${name}-button`)}
           onClick={this.handleClick} >
-          <span>{t(myRespect ? 'respected' : 'respect')}</span>
-          <Icon className={cn(styles.icon, {[styles.respected]: myRespect})} />
-          {count > 0 && count}
+          <span className={`${name}-button-text`}>{t(myRespect ? 'respected' : 'respect')}</span>
+          <Icon className={cn(styles.icon, {[styles.respected]: myRespect}, `${name}-icon`)} />
+          <span className={`${name}-count`}>{count > 0 && count}</span>
         </button>
       </div>
     );

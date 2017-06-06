@@ -91,6 +91,9 @@ const extension = {
           edited
           editableUntil
         }
+        parent {
+          id
+        }
       }
     `,
   },
@@ -144,6 +147,9 @@ const extension = {
             tags,
             status: null,
             replyCount: 0,
+            parent: parent_id
+              ? {id: parent_id}
+              : null,
             replies: {
               __typename: 'CommentConnection',
               nodes: [],
@@ -165,7 +171,7 @@ const extension = {
           if (prev.asset.settings.moderation === 'PRE' || comment.status === 'PREMOD' || comment.status === 'REJECTED') {
             return prev;
           }
-          return insertCommentIntoEmbedQuery(prev, parent_id, comment);
+          return insertCommentIntoEmbedQuery(prev, comment);
         },
       }
     }),
