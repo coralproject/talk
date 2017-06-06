@@ -18,7 +18,8 @@ export default class UserDetail extends React.Component {
     rejectComment: PropTypes.func.isRequired,
     changeStatus: PropTypes.func.isRequired,
     toggleSelect: PropTypes.func.isRequired,
-    bulkSetCommentStatus: PropTypes.func.isRequired,
+    bulkAccept: PropTypes.func.isRequired,
+    bulkReject: PropTypes.func.isRequired,
   }
 
   copyPermalink = () => {
@@ -28,14 +29,6 @@ export default class UserDetail extends React.Component {
     } catch (e) {
 
       /* nothing */
-    }
-  }
-
-  changeStatus = (tab) => {
-    if (tab === 'all') {
-      this.props.changeStatus('all');
-    } else if (tab === 'rejected') {
-      this.props.changeStatus('rejected');
     }
   }
 
@@ -49,6 +42,14 @@ export default class UserDetail extends React.Component {
     this.props.acceptComment(info).then(() => {
       this.props.data.refetch();
     });
+  }
+
+  showAll = () => {
+    this.props.changeStatus('all');
+  }
+
+  showRejected = () => {
+    this.props.changeStatus('rejected');
   }
 
   render () {
@@ -66,7 +67,8 @@ export default class UserDetail extends React.Component {
       bannedWords,
       suspectWords,
       toggleSelect,
-      bulkSetCommentStatus,
+      bulkAccept,
+      bulkReject,
       showBanUserDialog,
       showSuspendUserDialog,
       hideUserDetail
@@ -116,20 +118,20 @@ export default class UserDetail extends React.Component {
           selectedIds.length === 0
           ? (
             <ul className={styles.commentStatuses}>
-              <li className={tab === 'all' ? styles.active : ''} onClick={this.changeStatus.bind(this, 'all')}>All</li>
-              <li className={tab === 'rejected' ? styles.active : ''} onClick={this.changeStatus.bind(this, 'rejected')}>Rejected</li>
+              <li className={tab === 'all' ? styles.active : ''} onClick={this.showAll}>All</li>
+              <li className={tab === 'rejected' ? styles.active : ''} onClick={this.showRejected}>Rejected</li>
             </ul>
           )
           : (
             <div className={styles.bulkActionGroup}>
               <Button
-                onClick={() => bulkSetCommentStatus('ACCEPTED')}
+                onClick={bulkAccept}
                 className={styles.bulkAction}
                 cStyle='approve'
                 icon='done'>
               </Button>
               <Button
-                onClick={() => bulkSetCommentStatus('REJECTED')}
+                onClick={bulkReject}
                 className={styles.bulkAction}
                 cStyle='reject'
                 icon='close'>

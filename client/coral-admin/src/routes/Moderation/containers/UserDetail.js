@@ -48,13 +48,22 @@ class UserDetailContainer extends React.Component {
     });
   }
 
+  bulkReject = () => {
+    this.bulkSetCommentStatus('REJECTED');
+  }
+
+  bulkAccept = () => {
+    this.bulkSetCommentStatus('ACCEPTED');
+  }
+
   render () {
     if (!('user' in this.props.root)) {
       return null;
     }
 
     return <UserDetail
-      bulkSetCommentStatus={this.bulkSetCommentStatus}
+      bulkReject={this.bulkReject}
+      bulkAccept={this.bulkAccept}
       changeStatus={this.props.changeUserDetailStatuses}
       toggleSelect={this.props.toggleSelectCommentInUserDetail}
       {...this.props} />;
