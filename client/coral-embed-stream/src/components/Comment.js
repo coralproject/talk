@@ -521,6 +521,7 @@ class Comment extends React.Component {
                 charCountEnable={charCountEnable}
                 maxCharCount={maxCharCount}
                 showSignInDialog={showSignInDialog}
+                commentIsIgnored={commentIsIgnored}
                 liveUpdates={liveUpdates}
                 reactKey={reply.id}
                 key={reply.id}
