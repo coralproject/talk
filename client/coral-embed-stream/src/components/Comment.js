@@ -252,11 +252,13 @@ class Comment extends React.Component {
 
           <Slot
             fill="commentInfoBar"
-            data={this.props.data}
-            root={this.props.root}
+            depth={depth}
             comment={comment}
             commentId={comment.id}
+            data={this.props.data}
+            root={this.props.root}
             inline
+            right
           />
 
           { (currentUser &&

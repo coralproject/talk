@@ -2,6 +2,10 @@
   display: inline-block;
 }
 
+.right {
+  float: right;
+}
+
 .debug {
   background-color: coral;
 }

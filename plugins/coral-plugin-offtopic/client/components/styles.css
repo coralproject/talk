@@ -8,7 +8,10 @@
 }
 
 .tag {
-  background: rgba(245, 188, 168, 0.6);
+  background: #3D73D5;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
   display: inline-block;
   margin: 0px 5px;
   padding: 5px 5px;

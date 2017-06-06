@@ -10,7 +10,7 @@ const isOffTopic = (tags) => {
 export default (props) => (
   <span>
     {
-      isOffTopic(props.comment.tags) ? (
+      isOffTopic(props.comment.tags) && props.depth === 0 ? (
         <span className={styles.tag}>
           {t('off_topic')}
         </span>

@@ -22,10 +22,14 @@ class OffTopicCheckbox extends React.Component {
   render() {
     return (
       <div className={styles.offTopic}>
-        <label className={styles.offTopicLabel}>
-          <input type="checkbox" onChange={this.handleChange}/>
-          {t('off_topic')}
-        </label>
+        {
+          !this.props.isReply ? (
+            <label className={styles.offTopicLabel}>
+              <input type="checkbox" onChange={this.handleChange}/>
+              {t('off_topic')}
+            </label>
+          ) : null
+        }
       </div>
     );
   }
