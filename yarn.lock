@@ -5028,6 +5028,10 @@ loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.2.0:
   dependencies:
     js-tokens "^3.0.0"
 
+lower-case@^1.1.1:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/lower-case/-/lower-case-1.1.4.tgz#9a2cabd1b9e8e0ae993a4bf7d5875c39c42e8eac"
+
 lowercase-keys@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/lowercase-keys/-/lowercase-keys-1.0.0.tgz#4e3366b39e7f5457e35f1324bdf6f88d0bfc7306"
@@ -5408,6 +5412,12 @@ nightwatch@^0.9.11:
     optimist "0.6.1"
     proxy-agent "2.0.0"
     q "1.4.1"
+
+no-case@^2.2.0:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/no-case/-/no-case-2.3.1.tgz#7aeba1c73a52184265554b7dc03baf720df80081"
+  dependencies:
+    lower-case "^1.1.1"
 
 nocache@2.0.0:
   version "2.0.0"
@@ -7532,6 +7542,12 @@ smtp-connection@2.12.0:
   dependencies:
     httpntlm "1.6.1"
     nodemailer-shared "1.1.0"
+
+snake-case@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/snake-case/-/snake-case-2.1.0.tgz#41bdb1b73f30ec66a04d4e2cad1b76387d4d6d9f"
+  dependencies:
+    no-case "^2.2.0"
 
 sntp@1.x.x:
   version "1.0.9"
