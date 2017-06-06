@@ -8,6 +8,7 @@ const program = require('./commander');
 const inquirer = require('inquirer');
 const mongoose = require('../services/mongoose');
 const SettingModel = require('../models/setting');
+const MODERATION_OPTIONS = require('../models/enum/moderation_options');
 const SettingsService = require('../services/settings');
 const SetupService = require('../services/setup');
 const UsersService = require('../services/users');
@@ -90,7 +91,7 @@ const performSetup = () => {
         },
         {
           type: 'list',
-          choices: SettingModel.MODERATION_OPTIONS,
+          choices: MODERATION_OPTIONS,
           name: 'moderation',
           default: settings.moderation,
           message: 'Select a moderation mode'
