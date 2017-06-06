@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from './ViewingOptions.css';
 import cn from 'classnames';
+import styles from './ViewingOptions.css';
 import Slot from 'coral-framework/components/Slot';
 
 export default class ViewingOptions extends React.Component {

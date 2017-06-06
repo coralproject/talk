@@ -27,6 +27,7 @@ import {getEditableUntilDate} from './util';
 import styles from './Comment.css';
 
 const isStaff = (tags) => !tags.every((t) => t.name !== 'STAFF');
+const hasTag = (tags, lookupTag) => !!tags.filter((tag) => tag.name === lookupTag).length;
 
 // hold actions links (e.g. Reply) along the comment footer
 const ActionButton = ({children}) => {
@@ -226,11 +227,41 @@ class Comment extends React.Component {
       () => 'Failed to remove best comment tag'
     );
 
+    /**
+     * classNamesToAdd
+     * adds classNames based on condition
+     * classnames is an array of objects with key as classnames and value as conditions
+     * i.e:
+     * {
+     *  'myClassName': { tags: ['STAFF']}
+     * }
+     *
+     * This will add myClassName to comments tagged with STAFF TAG.
+     * **/
+
+    const classNamesToAdd = classNames.reduce((acc, className) => {
+      let res = [];
+
+      // Adding classNames based on tags
+      Object.keys(className).map(cn => {
+        const condition = className[cn];
+        condition.tags.forEach(tag => {
+          if (hasTag(comment.tags, tag)) {
+            res = [...res, cn];
+          }
+        });
+      });
+
+      // TODO: Compare rest of the comment obj to the condition if needed
+
+      return [...acc, ...res];
+    }, []);
+
     return (
       <div
-        className={cn([commentClass, classNames])}
         id={`c_${comment.id}`}
         style={{marginLeft: depth * 30}}
+        className={cn([commentClass, classNamesToAdd])}
       >
         <hr aria-hidden={true} />
         <div

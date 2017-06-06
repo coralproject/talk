@@ -6,11 +6,14 @@ import {addClassName, removeClassName} from 'coral-embed-stream/src/actions/comm
 
 class OffTopicFilter extends React.Component {
 
-  className = 'OFF_TOPIC';
+  tag = 'OFF_TOPIC';
+  className = 'wapoOfftopic';
 
   handleChange = (e) => {
     if (e.target.checked) {
-      this.props.addClassName(this.className);
+      this.props.addClassName({
+        [this.className] : {tags: [this.tag]}
+      });
     } else {
       const idx = this.props.comment.classNames.indexOf(this.className);
       this.props.removeClassName(idx);
