@@ -39,6 +39,18 @@ export default class UserDetail extends React.Component {
     }
   }
 
+  rejectThenReload = (info) => {
+    this.props.rejectComment(info).then(() => {
+      this.props.data.refetch();
+    });
+  }
+
+  acceptThenReload = (info) => {
+    this.props.acceptComment(info).then(() => {
+      this.props.data.refetch();
+    });
+  }
+
   render () {
     const {
       root: {
@@ -57,8 +69,6 @@ export default class UserDetail extends React.Component {
       bulkSetCommentStatus,
       showBanUserDialog,
       showSuspendUserDialog,
-      acceptComment,
-      rejectComment,
       hideUserDetail
     } = this.props;
     const localProfile = user.profiles.find((p) => p.provider === 'local');
@@ -145,8 +155,8 @@ export default class UserDetail extends React.Component {
                 actions={actionsMap[status]}
                 showBanUserDialog={showBanUserDialog}
                 showSuspendUserDialog={showSuspendUserDialog}
-                acceptComment={acceptComment}
-                rejectComment={rejectComment}
+                acceptComment={this.acceptThenReload}
+                rejectComment={this.rejectThenReload}
                 selected={selected}
                 toggleSelect={toggleSelect}
                 currentAsset={null}

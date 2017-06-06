@@ -70,6 +70,8 @@ export default function moderation (state = initialState, action) {
     return state
       .set('userDetailId', null)
       .update('userDetailSelectedIds', (set) => set.clear());
+  case actions.CLEAR_USER_DETAIL_SELECTIONS:
+    return state.update('userDetailSelectedIds', (set) => set.clear());
   case actions.CHANGE_USER_DETAIL_STATUSES:
     return state
       .set('userDetailActiveTab', action.tab)

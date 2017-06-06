@@ -6,7 +6,11 @@ import UserDetail from '../components/UserDetail';
 import withQuery from 'coral-framework/hocs/withQuery';
 import {getSlotsFragments} from 'coral-framework/helpers/plugins';
 import {getDefinitionName} from 'coral-framework/utils';
-import {changeUserDetailStatuses, toggleSelectCommentInUserDetail} from 'coral-admin/src/actions/moderation';
+import {
+  changeUserDetailStatuses,
+  clearUserDetailSelections,
+  toggleSelectCommentInUserDetail
+} from 'coral-admin/src/actions/moderation';
 import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
 import Comment from './Comment';
 
@@ -34,8 +38,13 @@ class UserDetailContainer extends React.Component {
 
   // status can be 'ACCEPTED' or 'REJECTED'
   bulkSetCommentStatus = (status) => {
-    this.props.moderation.userDetailSelectedIds.forEach((commentId) => {
-      this.props.setCommentStatus({commentId, status});
+    const changes = this.props.moderation.userDetailSelectedIds.map((commentId) => {
+      return this.props.setCommentStatus({commentId, status});
+    });
+
+    Promise.all(changes).then(() => {
+      this.props.data.refetch(); // some comments may have moved out of this tab
+      this.props.clearUserDetailSelections(); // un-select everything
     });
   }
 
@@ -93,6 +102,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   ...bindActionCreators({
     changeUserDetailStatuses,
+    clearUserDetailSelections,
     toggleSelectCommentInUserDetail
   }, dispatch)
 });
