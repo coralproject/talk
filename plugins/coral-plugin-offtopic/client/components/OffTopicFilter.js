@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './styles.css';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {toggleCheckbox} from '../actions';
 import {addClassName, removeClassName} from 'coral-embed-stream/src/actions/comment';
 import {closeViewingOptions} from 'coral-embed-stream/src/actions/stream';
 
@@ -14,9 +15,11 @@ class OffTopicFilter extends React.Component {
   handleChange = (e) => {
     if (e.target.checked) {
       this.props.addClassName(this.cn);
+      this.props.toggleCheckbox();
     } else {
-      const idx = this.props.comment.classNames.indexOf(this.cn);
+      const idx = this.props.classNames.findIndex((i) => i[this.className]);
       this.props.removeClassName(idx);
+      this.props.toggleCheckbox();
     }
     this.props.closeViewingOptions();
   }
@@ -25,7 +28,7 @@ class OffTopicFilter extends React.Component {
     return (
       <div className={styles.viewingOption}>
         <label>
-          <input type="checkbox" onChange={this.handleChange} checked={true}/>
+          <input type="checkbox" onChange={this.handleChange} checked={this.props.checked} />
           Hide Off-Topic Comments
         </label>
       </div>
@@ -33,9 +36,12 @@ class OffTopicFilter extends React.Component {
   }
 }
 
-const mapStateToProps = ({comment, offTopicFilter}) => ({comment, offTopicFilter});
+const mapStateToProps = ({comment, offTopic}) => ({
+  classNames: comment.classNames,
+  checked: offTopic.checked
+});
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({addClassName, removeClassName, closeViewingOptions}, dispatch);
+  bindActionCreators({addClassName, removeClassName, toggleCheckbox, closeViewingOptions}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(OffTopicFilter);
