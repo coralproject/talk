@@ -6,12 +6,12 @@ const initialState = {
 
 export default function offTopic (state = initialState, action) {
   switch (action.type) {
-    case TOGGLE_CHECKBOX: {
-      return {
-        ...state,
-        checked: !state.checked
-      }
-    }
+  case TOGGLE_CHECKBOX: {
+    return {
+      ...state,
+      checked: !state.checked
+    };
+  }
   default :
     return state;
   }

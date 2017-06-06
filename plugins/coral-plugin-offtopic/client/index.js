@@ -1,7 +1,7 @@
-import OffTopicCheckbox from './components/OffTopicCheckbox';
-import OffTopicTag from './components/OffTopicTag';
-import OffTopicFilter from './components/OffTopicFilter';
 import translations from './translations.json';
+import OffTopicTag from './components/OffTopicTag';
+import OffTopicFilter from './containers/OffTopicFilter';
+import OffTopicCheckbox from './containers/OffTopicCheckbox';
 import reducer from './reducer';
 
 export default {

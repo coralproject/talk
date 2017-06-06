@@ -1,12 +1,9 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {addTag, removeTag} from 'coral-plugin-commentbox/actions';
 import styles from './styles.css';
 
 import t from 'coral-framework/services/i18n';
 
-class OffTopicCheckbox extends React.Component {
+export default class OffTopicCheckbox extends React.Component {
 
   label = 'OFF_TOPIC';
 
@@ -34,10 +31,3 @@ class OffTopicCheckbox extends React.Component {
     );
   }
 }
-
-const mapStateToProps = ({commentBox}) => ({commentBox});
-
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({addTag, removeTag}, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(OffTopicCheckbox);
