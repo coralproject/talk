@@ -243,9 +243,9 @@ class Comment extends React.Component {
       let res = [];
 
       // Adding classNames based on tags
-      Object.keys(className).map(cn => {
+      Object.keys(className).map((cn) => {
         const condition = className[cn];
-        condition.tags.forEach(tag => {
+        condition.tags.forEach((tag) => {
           if (hasTag(comment.tags, tag)) {
             res = [...res, cn];
           }

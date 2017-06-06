@@ -2,6 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import styles from './ViewingOptions.css';
 import Slot from 'coral-framework/components/Slot';
+import {Icon} from 'coral-ui';
 
 export default class ViewingOptions extends React.Component {
   constructor() {
@@ -21,7 +22,9 @@ export default class ViewingOptions extends React.Component {
     return (
       <div className={cn([styles.viewingOptions, 'streamViewingOptions'])}>
         <div>
-          <a onClick={this.toggleOpen}>Viewing Options</a>
+          <a onClick={this.toggleOpen}>Viewing Options
+            {this.state.open ? <Icon name="arrow_drop_up"/> : <Icon name="arrow_drop_down"/>}
+          </a>
         </div>
         {
           this.state.open ? (
