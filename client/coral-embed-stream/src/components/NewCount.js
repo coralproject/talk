@@ -2,22 +2,14 @@ import React, {PropTypes} from 'react';
 
 import t from 'coral-framework/services/i18n';
 
-const onLoadMoreClick = ({loadMore, commentCount, setCommentCountCache}) => (e) => {
-  e.preventDefault();
-  setCommentCountCache(commentCount);
-  loadMore();
-};
-
-const NewCount = (props) => {
-  const newComments = props.commentCount - props.commentCountCache;
-
+const NewCount = ({count, loadMore}) => {
   return <div className='coral-new-comments coral-load-more'>
     {
-      props.commentCountCache && newComments > 0 ?
-      <button onClick={onLoadMoreClick(props)}>
-        {newComments === 1
-          ? t('framework.new_count', newComments, t('framework.comment'))
-          : t('framework.new_count', newComments, t('framework.comments'))}
+      count ?
+      <button onClick={loadMore}>
+        {count === 1
+          ? t('framework.new_count', count, t('framework.comment'))
+          : t('framework.new_count', count, t('framework.comments'))}
       </button>
       : null
     }
@@ -25,8 +17,7 @@ const NewCount = (props) => {
 };
 
 NewCount.propTypes = {
-  commentCount: PropTypes.number.isRequired,
-  commentCountCache: PropTypes.number,
+  count: PropTypes.number.isRequired,
   loadMore: PropTypes.func.isRequired,
 };
 

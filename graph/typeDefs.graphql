@@ -883,6 +883,7 @@ type RootMutation {
 
 type Subscription {
   commentAdded(asset_id: ID!): Comment
+  commentEdited(asset_id: ID!): Comment
 }
 
 ################################################################################

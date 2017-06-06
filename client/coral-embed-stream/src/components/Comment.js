@@ -8,6 +8,9 @@ import Content from 'coral-plugin-commentcontent/CommentContent';
 import PubDate from 'coral-plugin-pubdate/PubDate';
 import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
 import FlagComment from 'coral-plugin-flags/FlagComment';
+import {TransitionGroup} from 'react-transition-group';
+import cn from 'classnames';
+
 import {
   BestButton,
   IfUserCanModifyBest,
@@ -19,13 +22,47 @@ import Slot from 'coral-framework/components/Slot';
 import LoadMore from './LoadMore';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import {TopRightMenu} from './TopRightMenu';
-import classnames from 'classnames';
 import {EditableCommentContent} from './EditableCommentContent';
 import {getActionSummary, iPerformedThisAction} from 'coral-framework/utils';
 import {getEditableUntilDate} from './util';
 import styles from './Comment.css';
 
 const isStaff = (tags) => !tags.every((t) => t.name !== 'STAFF');
+const hasComment = (nodes, id) => nodes.some((node) => node.id === id);
+
+// resetCursors will return the id cursors of the first and second newest comment in
+// the current reply list. The cursors are used to dertermine which
+// comments to show. The spare cursor functions as a backup in case one
+// of the comments gets deleted.
+function resetCursors(state, props) {
+  const replies = props.comment.replies;
+  if (replies && replies.nodes.length) {
+    const idCursors = [replies.nodes[replies.nodes.length - 1].id];
+    if (replies.nodes.length >= 2) {
+      idCursors.push(replies.nodes[replies.nodes.length - 2].id);
+    }
+    return {idCursors};
+  }
+  return {idCursors: []};
+}
+
+// invalidateCursor is called whenever a comment is removed which is referenced
+// by one of the 2 id cursors. It returns a new set of id cursors calculated
+// using the help of the backup cursor.
+function invalidateCursor(invalidated, state, props) {
+  const alt = invalidated === 1 ? 0 : 1;
+  const replies = props.comment.replies;
+  const idCursors = [];
+  if (state.idCursors[alt]) {
+    idCursors.push(state.idCursors[alt]);
+    const index = replies.nodes.findIndex((node) => node.id === idCursors[0]);
+    const prevInLine = replies.nodes[index - 1];
+    if (prevInLine) {
+      idCursors.push(prevInLine.id);
+    }
+  }
+  return {idCursors};
+}
 
 // hold actions links (e.g. Reply) along the comment footer
 const ActionButton = ({children}) => {
@@ -37,6 +74,7 @@ const ActionButton = ({children}) => {
 };
 
 class Comment extends React.Component {
+
   constructor(props) {
     super(props);
 
@@ -49,7 +87,45 @@ class Comment extends React.Component {
       // Whether the comment should be editable (e.g. after a commenter clicking the 'Edit' button on their own comment)
       isEditing: false,
       replyBoxVisible: false,
+      animateEnter: false,
+      ...resetCursors({}, props),
     };
+  }
+
+  componentWillReceiveProps(next) {
+    const {comment: {replies: prevReplies}} = this.props;
+    const {comment: {replies: nextReplies}} = next;
+    if (
+        prevReplies && nextReplies &&
+        nextReplies.nodes.length < prevReplies.nodes.length
+    ) {
+
+      // Invalidate first cursor if referenced comment was removed.
+      if (this.state.idCursors[0] && !hasComment(nextReplies.nodes, this.state.idCursors[0])) {
+        this.setState(invalidateCursor(0, this.state, next));
+      }
+
+      // Invalidate second cursor if referenced comment was removed.
+      if (this.state.idCursors[1] && !hasComment(nextReplies.nodes, this.state.idCursors[1])) {
+        this.setState(invalidateCursor(1, this.state, next));
+      }
+    }
+  }
+
+  componentWillEnter(callback) {
+    callback();
+    const userId = this.props.currentUser ? this.props.currentUser.id : null;
+    if (this.props.comment.id.indexOf('pending') >= 0) {
+      return;
+    }
+    if (userId && this.props.comment.user.id === userId) {
+
+      // This comment was just added by currentUser.
+      if (Date.now() - Number(new Date(this.props.comment.created_at)) < 30 * 1000) {
+        return;
+      }
+    }
+    this.setState({animateEnter: true});
   }
 
   static propTypes = {
@@ -67,6 +143,7 @@ class Comment extends React.Component {
     addNotification: PropTypes.func.isRequired,
     postComment: PropTypes.func.isRequired,
     depth: PropTypes.number.isRequired,
+    liveUpdates: PropTypes.bool.isRequired,
     asset: PropTypes.shape({
       id: PropTypes.string,
       title: PropTypes.string,
@@ -127,6 +204,50 @@ class Comment extends React.Component {
     }
   }
 
+  hasIgnoredReplies() {
+    return this.props.comment.replies &&
+      this.props.comment.replies.nodes.some((reply) => this.props.commentIsIgnored(reply));
+  }
+
+  loadNewReplies = () => {
+    const {replies, replyCount, id} = this.props.comment;
+    if (replyCount > replies.nodes.length) {
+      this.props.loadMore(id).then(() => {
+        this.setState(resetCursors(this.state, this.props));
+      });
+      return;
+    }
+    this.setState(resetCursors);
+  };
+
+  // getVisibileReplies returns a list containing comments
+  // which were authored by current user or comes before the `idCursor`.
+  getVisibileReplies() {
+    const {comment: {replies}, currentUser, liveUpdates} = this.props;
+    const idCursor = this.state.idCursors[0];
+    const userId = currentUser ? currentUser.id : null;
+
+    if (!replies) {
+      return [];
+    }
+
+    if (liveUpdates) {
+      return replies.nodes;
+    }
+
+    const view = [];
+    let pastCursor = false;
+    replies.nodes.forEach((comment) => {
+      if (idCursor && !pastCursor || comment.user.id === userId) {
+        view.push(comment);
+      }
+      if (comment.id === idCursor) {
+        pastCursor = true;
+      }
+    });
+    return view;
+  }
+
   componentDidMount() {
     this._isMounted = true;
     if (this.editWindowExpiryTimeout) {
@@ -162,19 +283,22 @@ class Comment extends React.Component {
       highlighted,
       postFlag,
       postDontAgree,
-      loadMore,
       setActiveReplyBox,
       activeReplyBox,
       deleteAction,
       addCommentTag,
       removeCommentTag,
       ignoreUser,
+      liveUpdates,
       disableReply,
       commentIsIgnored,
       maxCharCount,
       charCountEnable
     } = this.props;
 
+    const view = this.getVisibileReplies();
+    const hasMoreComments = comment.replies && (comment.replies.hasNextPage || comment.replies.nodes.length > view.length);
+    const replyCount = this.hasIgnoredReplies() ? '' : comment.replyCount;
     const flagSummary = getActionSummary('FlagActionSummary', comment);
     const dontAgreeSummary = getActionSummary(
       'DontAgreeActionSummary',
@@ -226,7 +350,7 @@ class Comment extends React.Component {
 
     return (
       <div
-        className={commentClass}
+        className={cn(commentClass, 'talk-stream-comment-wrapper', {[styles.enter]: this.state.animateEnter})}
         id={`c_${comment.id}`}
         style={{marginLeft: depth * 30}}
       >
@@ -234,15 +358,15 @@ class Comment extends React.Component {
         <div
           className={highlighted === comment.id ? 'highlighted-comment' : ''}
         >
-          <AuthorName author={comment.user} />
+          <AuthorName author={comment.user} className={'talk-stream-comment-user-name'} />
           {isStaff(comment.tags) ? <TagLabel>Staff</TagLabel> : null}
 
           {commentIsBest(comment)
             ? <TagLabel><BestIndicator /></TagLabel>
             : null }
 
-          <span className={styles.bylineSecondary}>
-            <PubDate created_at={comment.created_at} />
+          <span className={`${styles.bylineSecondary} talk-stream-comment-user-byline`} >
+            <PubDate created_at={comment.created_at} className={'talk-stream-comment-published-date'} />
             {
               (comment.editing && comment.editing.edited)
               ? <span>&nbsp;<span className={styles.editedMarker}>(Edited)</span></span>
@@ -263,17 +387,17 @@ class Comment extends React.Component {
               (comment.user.id === currentUser.id))
 
               /* User can edit/delete their own comment for a short window after posting */
-              ? <span className={classnames(styles.topRight)}>
+              ? <span className={cn(styles.topRight)}>
                   {
                     commentIsStillEditable(comment) &&
                     <a
-                      className={classnames(styles.link, {[styles.active]: this.state.isEditing})}
+                      className={cn(styles.link, {[styles.active]: this.state.isEditing})}
                       onClick={this.onClickEdit}>Edit</a>
                   }
                 </span>
 
               /* TopRightMenu allows currentUser to ignore other users' comments */
-              : <span className={classnames(styles.topRight, styles.topRightMenu)}>
+              : <span className={cn(styles.topRight, styles.topRightMenu)}>
                   <TopRightMenu
                     comment={comment}
                     ignoreUser={ignoreUser}
@@ -369,46 +493,49 @@ class Comment extends React.Component {
               assetId={asset.id}
             />
           : null}
-        {comment.replies &&
-          comment.replies.nodes.map((reply) => {
-            return commentIsIgnored(reply)
-              ? <IgnoredCommentTombstone key={reply.id} />
-              : <Comment
-                  data={this.props.data}
-                  root={this.props.root}
-                  setActiveReplyBox={setActiveReplyBox}
-                  disableReply={disableReply}
-                  activeReplyBox={activeReplyBox}
-                  addNotification={addNotification}
-                  parentId={comment.id}
-                  postComment={postComment}
-                  editComment={this.props.editComment}
-                  depth={depth + 1}
-                  asset={asset}
-                  highlighted={highlighted}
-                  currentUser={currentUser}
-                  postFlag={postFlag}
-                  deleteAction={deleteAction}
-                  addCommentTag={addCommentTag}
-                  removeCommentTag={removeCommentTag}
-                  ignoreUser={ignoreUser}
-                  charCountEnable={charCountEnable}
-                  maxCharCount={maxCharCount}
-                  showSignInDialog={showSignInDialog}
-                  reactKey={reply.id}
-                  key={reply.id}
-                  comment={reply}
-                />;
-          })}
-        {comment.replies &&
-          <div className="coral-load-more-replies">
-            <LoadMore
-              topLevel={false}
-              replyCount={comment.replyCount}
-              moreComments={comment.replyCount > comment.replies.nodes.length}
-              loadMore={() => loadMore(comment.id)}
-            />
-          </div>}
+
+        <TransitionGroup>
+        {view.map((reply) => {
+          return commentIsIgnored(reply)
+            ? <IgnoredCommentTombstone key={reply.id} />
+            : <Comment
+                data={this.props.data}
+                root={this.props.root}
+                setActiveReplyBox={setActiveReplyBox}
+                disableReply={disableReply}
+                activeReplyBox={activeReplyBox}
+                addNotification={addNotification}
+                parentId={comment.id}
+                postComment={postComment}
+                editComment={this.props.editComment}
+                depth={depth + 1}
+                asset={asset}
+                highlighted={highlighted}
+                currentUser={currentUser}
+                postFlag={postFlag}
+                deleteAction={deleteAction}
+                addCommentTag={addCommentTag}
+                removeCommentTag={removeCommentTag}
+                ignoreUser={ignoreUser}
+                charCountEnable={charCountEnable}
+                maxCharCount={maxCharCount}
+                showSignInDialog={showSignInDialog}
+                commentIsIgnored={commentIsIgnored}
+                liveUpdates={liveUpdates}
+                reactKey={reply.id}
+                key={reply.id}
+                comment={reply}
+              />;
+        })}
+        </TransitionGroup>
+        <div className="coral-load-more-replies">
+          <LoadMore
+            topLevel={false}
+            replyCount={replyCount}
+            moreComments={hasMoreComments}
+            loadMore={this.loadNewReplies}
+          />
+        </div>
       </div>
     );
   }

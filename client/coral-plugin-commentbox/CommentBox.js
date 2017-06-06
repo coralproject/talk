@@ -36,18 +36,10 @@ class CommentBox extends React.Component {
       }
     };
   }
-  static get defaultProps() {
-    return {
-      setCommentCountCache: () => {}
-    };
-  }
   postComment = ({body}) => {
     const {
       commentPostedHandler,
       postComment,
-      setCommentCountCache,
-      commentCountCache,
-      isReply,
       assetId,
       parentId,
       addNotification,
@@ -59,8 +51,6 @@ class CommentBox extends React.Component {
       body,
       ...this.props.commentBox
     };
-
-    !isReply && setCommentCountCache(commentCountCache + 1);
 
     // Execute preSubmit Hooks
     this.state.hooks.preSubmit.forEach((hook) => hook());
@@ -74,19 +64,12 @@ class CommentBox extends React.Component {
 
         notifyForNewCommentStatus(addNotification, postedComment.status);
 
-        if (postedComment.status === 'REJECTED') {
-          !isReply && setCommentCountCache(commentCountCache);
-        } else if (postedComment.status === 'PREMOD') {
-          !isReply && setCommentCountCache(commentCountCache);
-        }
-
         if (commentPostedHandler) {
           commentPostedHandler();
         }
       })
       .catch((err) => {
         console.error(err);
-        !isReply && setCommentCountCache(commentCountCache);
       });
 
     this.setState({postedCount: this.state.postedCount + 1});
@@ -190,7 +173,6 @@ CommentBox.propTypes = {
   authorId: PropTypes.string.isRequired,
   isReply: PropTypes.bool.isRequired,
   canPost: PropTypes.bool,
-  setCommentCountCache: PropTypes.func,
 };
 
 const mapStateToProps = ({commentBox}) => ({commentBox});

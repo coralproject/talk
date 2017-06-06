@@ -49,7 +49,7 @@ const Comment = {
   },
   async editing(comment, _, {loaders: {Settings}}) {
     const settings = await Settings.load();
-    const editableUntil = new Date(Number(comment.created_at) + settings.editCommentWindowLength);
+    const editableUntil = new Date(Number(new Date(comment.created_at)) + settings.editCommentWindowLength);
     return {
       edited: comment.edited,
       editableUntil: editableUntil
