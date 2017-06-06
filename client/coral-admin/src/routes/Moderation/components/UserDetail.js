@@ -16,6 +16,10 @@ export default class UserDetail extends React.Component {
     showSuspendUserDialog: PropTypes.func.isRequired,
     acceptComment: PropTypes.func.isRequired,
     rejectComment: PropTypes.func.isRequired,
+    changeStatus: PropTypes.func.isRequired,
+    toggleSelect: PropTypes.func.isRequired,
+    bulkAccept: PropTypes.func.isRequired,
+    bulkReject: PropTypes.func.isRequired,
   }
 
   copyPermalink = () => {
@@ -28,12 +32,24 @@ export default class UserDetail extends React.Component {
     }
   }
 
-  changeStatus = (tab) => {
-    if (tab === 'all') {
-      this.props.changeStatus('all');
-    } else if (tab === 'rejected') {
-      this.props.changeStatus('rejected');
-    }
+  rejectThenReload = (info) => {
+    this.props.rejectComment(info).then(() => {
+      this.props.data.refetch();
+    });
+  }
+
+  acceptThenReload = (info) => {
+    this.props.acceptComment(info).then(() => {
+      this.props.data.refetch();
+    });
+  }
+
+  showAll = () => {
+    this.props.changeStatus('all');
+  }
+
+  showRejected = () => {
+    this.props.changeStatus('rejected');
   }
 
   render () {
@@ -44,13 +60,17 @@ export default class UserDetail extends React.Component {
         rejectedComments,
         comments: {nodes}
       },
-      moderation: {userDetailActiveTab: tab},
+      moderation: {
+        userDetailActiveTab: tab,
+        userDetailSelectedIds: selectedIds
+      },
       bannedWords,
       suspectWords,
+      toggleSelect,
+      bulkAccept,
+      bulkReject,
       showBanUserDialog,
       showSuspendUserDialog,
-      acceptComment,
-      rejectComment,
       hideUserDetail
     } = this.props;
     const localProfile = user.profiles.find((p) => p.provider === 'local');
@@ -94,14 +114,38 @@ export default class UserDetail extends React.Component {
             <p>{`${(rejectedPercent).toFixed(1)}%`}</p>
           </div>
         </div>
-        <ul className={styles.commentStatuses}>
-          <li className={tab === 'all' ? styles.active : ''} onClick={this.changeStatus.bind(this, 'all')}>All</li>
-          <li className={tab === 'rejected' ? styles.active : ''} onClick={this.changeStatus.bind(this, 'rejected')}>Rejected</li>
-        </ul>
+        {
+          selectedIds.length === 0
+          ? (
+            <ul className={styles.commentStatuses}>
+              <li className={tab === 'all' ? styles.active : ''} onClick={this.showAll}>All</li>
+              <li className={tab === 'rejected' ? styles.active : ''} onClick={this.showRejected}>Rejected</li>
+            </ul>
+          )
+          : (
+            <div className={styles.bulkActionGroup}>
+              <Button
+                onClick={bulkAccept}
+                className={styles.bulkAction}
+                cStyle='approve'
+                icon='done'>
+              </Button>
+              <Button
+                onClick={bulkReject}
+                className={styles.bulkAction}
+                cStyle='reject'
+                icon='close'>
+              </Button>
+              {`${selectedIds.length} comments selected`}
+            </div>
+          )
+        }
+
         <div>
           {
             nodes.map((comment, i) => {
               const status = comment.action_summaries ? 'FLAGGED' : comment.status;
+              const selected = selectedIds.indexOf(comment.id) !== -1;
               return <Comment
                 key={i}
                 index={i}
@@ -113,8 +157,10 @@ export default class UserDetail extends React.Component {
                 actions={actionsMap[status]}
                 showBanUserDialog={showBanUserDialog}
                 showSuspendUserDialog={showSuspendUserDialog}
-                acceptComment={acceptComment}
-                rejectComment={rejectComment}
+                acceptComment={this.acceptThenReload}
+                rejectComment={this.rejectThenReload}
+                selected={selected}
+                toggleSelect={toggleSelect}
                 currentAsset={null}
                 currentUserId={this.props.id}
                 minimal={true} />;

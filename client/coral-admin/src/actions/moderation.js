@@ -42,3 +42,12 @@ export const changeUserDetailStatuses = (tab) => {
   }
   return {type: actions.CHANGE_USER_DETAIL_STATUSES, tab, statuses};
 };
+
+export const clearUserDetailSelections = () => ({type: actions.CLEAR_USER_DETAIL_SELECTIONS});
+
+export const toggleSelectCommentInUserDetail = (id, active) => {
+  return {
+    type: active ? actions.SELECT_USER_DETAIL_COMMENT : actions.UNSELECT_USER_DETAIL_COMMENT,
+    id
+  };
+};
