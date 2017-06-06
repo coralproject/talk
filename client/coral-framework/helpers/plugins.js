@@ -8,11 +8,12 @@ import plugins from 'pluginsConfig';
 import {getDefinitionName, mergeDocuments} from 'coral-framework/utils';
 import {loadTranslations} from 'coral-framework/services/i18n';
 
-console.log(plugins)
 export const pluginReducers = merge(
   ...plugins
     .filter((o) => o.module.reducer)
-    .map((o) => ({...o.module.reducer}))
+    .map(o => ({
+      [o.plugin] : o.module.reducer
+    }))
 );
 
 /**
