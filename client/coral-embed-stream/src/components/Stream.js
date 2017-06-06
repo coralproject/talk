@@ -2,7 +2,6 @@ import React, {PropTypes} from 'react';
 import LoadMore from './LoadMore';
 import NewCount from './NewCount';
 import Comment from '../containers/Comment';
-import ViewingOptions from './ViewingOptions';
 import SuspendedAccount from './SuspendedAccount';
 import Slot from 'coral-framework/components/Slot';
 import InfoBox from 'coral-plugin-infobox/InfoBox';
@@ -110,14 +109,15 @@ class Stream extends React.Component {
             </div>
           : <p>{asset.settings.closedMessage}</p>}
 
-        <div className="streamBox">
-          {loggedIn &&
-            <ModerationLink
-              assetId={asset.id}
-              isAdmin={can(user, 'MODERATE_COMMENTS')}
-            />}
+        {loggedIn && (
+          <ModerationLink
+            assetId={asset.id}
+            isAdmin={can(user, 'MODERATE_COMMENTS')}
+          />
+        )}
 
-          <ViewingOptions />
+        <div className="streamBox">
+          <Slot fill="streamBox" />
         </div>
 
         {/* the highlightedComment is isolated after the user followed a permalink */}

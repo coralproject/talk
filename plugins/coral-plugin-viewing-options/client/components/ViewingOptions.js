@@ -1,11 +1,8 @@
 import React from 'react';
 import cn from 'classnames';
 import {Icon} from 'coral-ui';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import styles from './ViewingOptions.css';
 import Slot from 'coral-framework/components/Slot';
-import {openViewingOptions, closeViewingOptions} from 'coral-embed-stream/src/actions/stream';
 
 const ViewingOptions = (props) => {
   const toggleOpen = () => {
@@ -42,9 +39,4 @@ const ViewingOptions = (props) => {
   );
 };
 
-const mapStateToProps = ({stream}) => ({open: stream.viewingOption.open});
-
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({openViewingOptions, closeViewingOptions}, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(ViewingOptions);
+export default ViewingOptions;
