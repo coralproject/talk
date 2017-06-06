@@ -38,8 +38,6 @@ export default class Embed extends React.Component {
     const {asset: {totalCommentCount}} = this.props.root;
     const {user} = this.props.auth;
 
-    console.log('activeTab', activeTab);
-
     return (
       <div>
         <div className="commentStream">
