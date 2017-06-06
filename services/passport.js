@@ -40,6 +40,7 @@ const SetTokenForSafari = (req, res, token) => {
   if (browser.ios || browser.safari) {
     res.cookie('authorization', token, {
       httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
       expires: new Date(Date.now() + ms(JWT_EXPIRY))
     });
   }
