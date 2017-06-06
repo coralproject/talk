@@ -6,6 +6,7 @@ import Comment from '../containers/Comment';
 import SuspendedAccount from './SuspendedAccount';
 import RestrictedMessageBox
   from 'coral-framework/components/RestrictedMessageBox';
+import ViewingOptions from './ViewingOptions';
 import Slot from 'coral-framework/components/Slot';
 import InfoBox from 'coral-plugin-infobox/InfoBox';
 import {can} from 'coral-framework/services/perms';
@@ -13,6 +14,7 @@ import {ModerationLink} from 'coral-plugin-moderation';
 import CommentBox from 'coral-plugin-commentbox/CommentBox';
 import QuestionBox from 'coral-plugin-questionbox/QuestionBox';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
+
 import t, {timeago} from 'coral-framework/services/i18n';
 
 class Stream extends React.Component {
@@ -108,11 +110,16 @@ class Stream extends React.Component {
                 />}
             </div>
           : <p>{asset.settings.closedMessage}</p>}
-        {loggedIn &&
-          <ModerationLink
-            assetId={asset.id}
-            isAdmin={can(user, 'MODERATE_COMMENTS')}
-          />}
+
+        <div className="streamBox">
+          {loggedIn &&
+            <ModerationLink
+              assetId={asset.id}
+              isAdmin={can(user, 'MODERATE_COMMENTS')}
+            />}
+
+          <ViewingOptions />
+        </div>
 
         {/* the highlightedComment is isolated after the user followed a permalink */}
         {highlightedComment
@@ -140,7 +147,7 @@ class Stream extends React.Component {
               maxCharCount={asset.settings.charCount}
               editComment={this.props.editComment}
             />
-          : <div>
+          : <div className="commentStreamContainer">
               <NewCount
                 commentCount={asset.commentCount}
                 commentCountCache={commentCountCache}

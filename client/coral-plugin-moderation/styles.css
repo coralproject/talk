@@ -1,4 +1,6 @@
 .moderationLink {
+  display: inline;
+
   a {
     color: #679af3;
     text-decoration: none;

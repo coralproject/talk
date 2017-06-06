@@ -178,6 +178,15 @@ hr {
   display: none;
 }
 
+.streamBox {
+  padding: 10px 0;
+}
+
+.commentStreamContainer {
+  position: relative;
+  z-index: -1;
+}
+
 .commentStream {
   /* prevent absolutely positioned final permalink popover from being clipped */
   padding-bottom: 50px;
