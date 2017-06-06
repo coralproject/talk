@@ -224,6 +224,7 @@ en:
     success_bio_update: "Your biography has been updated"
     success_name_update: "Your username has been updated"
     success_update_settings: "The changes you have made have been applied to the comment stream on this article"
+    view_all_replies_unknown_number: "view all replies"
     view_all_replies: "view {0} replies"
     view_all_replies_initial: "view all {0} replies"
     view_more_comments: "view more comments"

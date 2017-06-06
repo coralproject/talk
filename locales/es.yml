@@ -223,6 +223,7 @@ es:
     success_bio_update: "Tu biografia fue actualizada"
     success_name_update: "Tu nombre de usuario ha sido actualizado"
     success_update_settings: "La configuración de este articulo fue actualizada"
+    view_all_replies_unknown_number: "ver todas las respuestas"
     view_all_replies: "ver {0} respuestas"
     view_all_replies_initial: "ver todas las {0} respuestas"
     view_more_comments: "Ver más comentarios"

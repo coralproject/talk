@@ -9,6 +9,9 @@ class LoadMore extends React.Component {
   }
 
   replyCountFormat = (count) => {
+    if (!count) {
+      return t('framework.view_all_replies_unknown_number');
+    }
     if (count === 1) {
       return t('framework.view_reply');
     }

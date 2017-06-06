@@ -104,7 +104,10 @@ const CommentSchema = new Schema({
   timestamps: {
     createdAt: 'created_at',
     updatedAt: 'updated_at'
-  }
+  },
+  toJSON: {
+    virtuals: true,
+  },
 });
 
 CommentSchema.virtual('edited').get(function() {
