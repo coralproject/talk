@@ -930,16 +930,21 @@ module.exports = class UsersService {
 
 // Extract all the tokenUserNotFound plugins so we can integrate with other 
 // providers.
-const tokenUserNotFoundHooks = require('./plugins')
-  .get('server', 'tokenUserNotFound')
-  .map(({plugin, tokenUserNotFound}) => {
-    debug(`added plugin '${plugin.name}' to tokenUserNotFound hooks`);
+let tokenUserNotFoundHooks = null;
 
-    return tokenUserNotFound;
-  });
-
-// Provide a function that 
+// Provide a function that can loop over the hooks and search for a provider
+// can crack the token to a user.
 const lookupUserNotFound = async (token) => {
+  if (!Array.isArray(tokenUserNotFoundHooks)) {
+    tokenUserNotFoundHooks = require('./plugins')
+      .get('server', 'tokenUserNotFound')
+      .map(({plugin, tokenUserNotFound}) => {
+        debug(`added plugin '${plugin.name}' to tokenUserNotFound hooks`);
+
+        return tokenUserNotFound;
+      });
+  }
+
   for (let hook of tokenUserNotFoundHooks) {
     let user = await hook(token);
     if (user !== null && typeof user !== 'undefined') {
