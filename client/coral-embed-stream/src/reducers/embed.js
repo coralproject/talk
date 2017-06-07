@@ -4,6 +4,7 @@ const initialState = {
   activeTab: 'stream',
   previousTab: '',
   refetching: false,
+  refetchRequestId: 0,
 };
 
 export default function stream(state = initialState, action) {
@@ -18,7 +19,8 @@ export default function stream(state = initialState, action) {
     if (action.queryString.indexOf('query CoralEmbedStream_Embed(') >= 0) {
       return {
         ...state,
-        refetching: action.isRefetch,
+        refetching: action.isRefetch ? true : state.refetching,
+        refetchRequestId: action.isRefetch ? action.requestId : state.refetchRequestId,
       };
     }
     return state;
@@ -26,7 +28,7 @@ export default function stream(state = initialState, action) {
     if (action.operationName === 'CoralEmbedStream_Embed') {
       return {
         ...state,
-        refetching: false,
+        refetching: action.requestId === state.refetchRequestId ? false : state.refetching,
       };
     }
     return state;
