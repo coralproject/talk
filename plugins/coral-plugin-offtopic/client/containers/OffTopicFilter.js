@@ -10,7 +10,7 @@ import {
   removeCommentClassName
 } from 'plugin-api/alpha/client/actions';
 
-const mapStateToProps = ({comment, ['coral-plugin-offtopic']: offTopic}) => ({
+const mapStateToProps = ({comment, coralPluginOfftopic: offTopic}) => ({
   commentClassNames: comment.commentClassNames,
   checked: offTopic.checked
 });

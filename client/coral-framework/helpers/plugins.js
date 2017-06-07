@@ -8,6 +8,7 @@ import flattenDeep from 'lodash/flattenDeep';
 import {getDefinitionName, mergeDocuments} from 'coral-framework/utils';
 import {loadTranslations} from 'coral-framework/services/i18n';
 import {injectReducers} from 'coral-framework/services/store';
+import camelize from './camelize';
 
 /**
  * Returns React Elements for given slot.
@@ -98,7 +99,7 @@ export function injectPluginsReducers() {
   const reducers = merge(
     ...plugins
       .filter((o) => o.module.reducer)
-      .map((o) => ({[o.plugin] : o.module.reducer}))
+      .map((o) => ({[camelize(o.plugin)] : o.module.reducer}))
   );
   injectReducers(reducers);
 }
