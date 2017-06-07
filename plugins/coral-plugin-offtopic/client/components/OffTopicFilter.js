@@ -9,11 +9,11 @@ export default class OffTopicFilter extends React.Component {
 
   handleChange = (e) => {
     if (e.target.checked) {
-      this.props.addClassName(this.cn);
+      this.props.addCommentClassName(this.cn);
       this.props.toggleCheckbox();
     } else {
-      const idx = this.props.classNames.findIndex((i) => i[this.className]);
-      this.props.removeClassName(idx);
+      const idx = this.props.commentClassNames.findIndex((i) => i[this.className]);
+      this.props.removeCommentClassName(idx);
       this.props.toggleCheckbox();
     }
     this.props.closeViewingOptions();

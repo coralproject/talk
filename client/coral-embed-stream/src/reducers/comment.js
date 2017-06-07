@@ -1,22 +1,22 @@
-import {ADD_CLASSNAME, REMOVE_CLASSNAME} from '../constants/comment';
+import {ADD_COMMENT_CLASSNAME, REMOVE_COMMENT_CLASSNAME} from '../constants/comment';
 
 const initialState = {
-  classNames: []
+  commentClassNames: []
 };
 
 export default function comment (state = initialState, action) {
   switch (action.type) {
-  case ADD_CLASSNAME :
+  case ADD_COMMENT_CLASSNAME :
     return {
       ...state,
-      classNames: [...state.classNames, action.className]
+      commentClassNames: [...state.commentClassNames, action.className]
     };
-  case REMOVE_CLASSNAME :
+  case REMOVE_COMMENT_CLASSNAME :
     return {
       ...state,
-      classNames: [
-        ...state.classNames.slice(0, action.idx),
-        ...state.classNames.slice(action.idx + 1)
+      commentClassNames: [
+        ...state.commentClassNames.slice(0, action.idx),
+        ...state.commentClassNames.slice(action.idx + 1)
       ]
     };
   default :

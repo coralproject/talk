@@ -1,11 +1,11 @@
-import {ADD_CLASSNAME, REMOVE_CLASSNAME} from '../constants/comment';
+import {ADD_COMMENT_CLASSNAME, REMOVE_COMMENT_CLASSNAME} from '../constants/comment';
 
-export const addClassName = (className) => ({
-  type: ADD_CLASSNAME,
+export const addCommentClassName = (className) => ({
+  type: ADD_COMMENT_CLASSNAME,
   className
 });
 
-export const removeClassName = (idx) => ({
-  type: REMOVE_CLASSNAME,
+export const removeCommentClassName = (idx) => ({
+  type: REMOVE_COMMENT_CLASSNAME,
   idx
 });

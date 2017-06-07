@@ -169,11 +169,11 @@ export default class Comment extends React.Component {
       activeReplyBox,
       addNotification,
       charCountEnable,
-      classNames = [],
       showSignInDialog,
       removeCommentTag,
       commentIsIgnored,
       setActiveReplyBox,
+      commentClassNames = []
     } = this.props;
 
     const flagSummary = getActionSummary('FlagActionSummary', comment);
@@ -237,7 +237,7 @@ export default class Comment extends React.Component {
      * This will add myClassName to comments tagged with STAFF TAG.
      * **/
 
-    const classNamesToAdd = classNames.reduce((acc, className) => {
+    const classNamesToAdd = commentClassNames.reduce((acc, className) => {
       let res = [];
 
       // Adding classNames based on tags

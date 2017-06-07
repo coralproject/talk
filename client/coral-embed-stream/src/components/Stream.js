@@ -25,7 +25,7 @@ class Stream extends React.Component {
 
   render() {
     const {
-      classNames,
+      commentClassNames,
       root: {asset, asset: {comments}, comment, me},
       postComment,
       addNotification,
@@ -158,7 +158,7 @@ class Stream extends React.Component {
                   return commentIsIgnored(comment)
                     ? <IgnoredCommentTombstone key={comment.id} />
                     : <Comment
-                        classNames={classNames}
+                        commentClassNames={commentClassNames}
                         data={this.props.data}
                         root={this.props.root}
                         disableReply={!open}
