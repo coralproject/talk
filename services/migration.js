@@ -157,34 +157,24 @@ class MigrationService {
     return latestMigration[0].version;
   }
 
-  static async verify(requiredVersion) {
+  static async verify() {
 
     // If the requiredVersion isn't specified or is 0, then don't complain.
-    if (typeof requiredVersion !== 'number' || requiredVersion === 0) {
+    if (typeof minVersion !== 'number' || minVersion === 0) {
       return;
     }
 
     // If the latest migration does not match the required version, then error
     // out.
     let latestVersion = await MigrationService.latestVersion();
-    if (!latestVersion || latestVersion < requiredVersion) {
-      throw new Error(`A database migration is required, version required ${requiredVersion}, found ${latestVersion}. Please run \`./bin/cli migration run\``);
+    if (!latestVersion || latestVersion < minVersion) {
+      throw new Error(`A database migration is required, version required ${minVersion}, found ${latestVersion}. Please run \`./bin/cli migration run\``);
     }
+
+    debug(`minimum migration version ${minVersion} was met with version ${latestVersion}`);
 
     return latestVersion;
   }
 }
-
-// Verify that the minimum migration version is met.
-MigrationService
-  .verify(minVersion)
-  .then((latestVersion) => {
-    debug(`minimum migration version ${minVersion} was met with version ${latestVersion}`);
-  })
-  .catch((e) => {
-
-    // Throw the error in the catch block.
-    throw e;
-  });
 
 module.exports = MigrationService;

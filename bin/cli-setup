@@ -12,6 +12,7 @@ const MODERATION_OPTIONS = require('../models/enum/moderation_options');
 const SettingsService = require('../services/settings');
 const SetupService = require('../services/setup');
 const UsersService = require('../services/users');
+const MigrationService = require('../services/migration');
 const util = require('./util');
 const errors = require('../errors');
 
@@ -33,166 +34,186 @@ program
 // Setup the application
 //==============================================================================
 
-const performSetup = () => {
+const performSetup = async () => {
 
   if (program.defaults) {
-    return SettingsService
-      .init()
-      .then(() => {
-        console.log('Settings created.');
-        console.log('\nTalk is now installed!');
-        util.shutdown();
-      })
-      .catch((err) => {
-        console.error(err);
-        util.shutdown(1);
-      });
+    await SettingsService.init();
+
+    console.log('Settings created.');
+    console.log('\nTalk is now installed!');
+
+    return;
   }
 
   // Get the current settings, we are expecing an error here.
-  return SettingsService
-    .retrieve()
-    .then(() => {
+  try {
 
-      // We should NOT have gotten a settings object, this means that the
-      // application is already setup. Error out here.
-      throw errors.ErrSettingsInit;
+    // Try to get the settings.
+    await SettingsService.retrieve();
 
-    })
-    .catch((err) => {
+    // We should NOT have gotten a settings object, this means that the
+    // application is already setup. Error out here.
+    throw errors.ErrSettingsInit;
 
-      // If the error is `not init`, then we're good, otherwise, it's something
-      // else.
-      if (err !== errors.ErrSettingsNotInit) {
-        throw err;
+  } catch (e) {
+
+    // If the error is `not init`, then we're good, otherwise, it's something
+    // else.
+    if (e !== errors.ErrSettingsNotInit) {
+      throw e;
+    }
+  }
+
+  // Get the migrations to run.
+  let migrations = await MigrationService.listPending();
+  if (migrations.length > 0) {
+
+    console.log('Now going to run the following migrations:\n');
+
+    for (let {filename} of migrations) {
+      console.log(`\tmigrations/${filename}`);
+    }
+
+    console.log('');
+
+    let {confirm} = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'confirm',
+        message: 'Proceed with migrations',
+        default: false
       }
+    ]);
 
-    })
-    .then(() => {
+    if (!confirm) {
+      throw new Error('migrations are needed to complete setup');
+    }
 
-      // Create the base settings model.
-      let settings = new SettingModel();
+    // Perform all migrations.
+    await MigrationService.run(migrations);
+  } else {
+    console.log('No migrations have to be run.');
+  }
 
-      console.log('We\'ll ask you some questions in order to setup your installation of Talk.\n');
+  // Create the base settings model.
+  let settings = new SettingModel();
 
-      return inquirer.prompt([
-        {
-          type: 'input',
-          name: 'organizationName',
-          message: 'Organization Name',
-          default: settings.organizationName,
-          validate: (input) => {
-            if (input && input.length > 0) {
-              return true;
-            }
+  console.log('\nWe\'ll ask you some questions in order to setup your installation of Talk.\n');
 
-            return 'Organization Name is required.';
-          }
-        },
-        {
-          type: 'list',
-          choices: MODERATION_OPTIONS,
-          name: 'moderation',
-          default: settings.moderation,
-          message: 'Select a moderation mode'
-        },
-        {
-          type: 'confirm',
-          name: 'requireEmailConfirmation',
-          default: settings.requireEmailConfirmation,
-          message: 'Should emails always be confirmed'
-        }
-      ])
-      .then((answers) => {
-
-        // Update the settings that were changed.
-        Object.keys(answers).forEach((key) => {
-          if (answers[key] !== undefined) {
-            settings[key] = answers[key];
-          }
-        });
-
-        console.log('\nWe\'ll ask you some questions about your first admin user.\n');
-
-        return inquirer.prompt([
-          {
-            type: 'input',
-            name: 'username',
-            message: 'Username',
-            filter: (username) => {
-              return UsersService
-                .isValidUsername(username, false)
-                .catch((err) => {
-                  throw err.message;
-                });
-            }
-          },
-          {
-            name: 'email',
-            message: 'Email',
-            format: 'email',
-            validate: (value) => {
-              if (value && value.length >= 3) {
-                return true;
-              }
-
-              return 'Email is required';
-            }
-          },
-          {
-            name: 'password',
-            message: 'Password',
-            type: 'password',
-            filter: (password) => {
-              return UsersService
-                .isValidPassword(password)
-                .catch((err) => {
-                  throw err.message;
-                });
-            }
-          },
-          {
-            name: 'confirmPassword',
-            message: 'Confirm Password',
-            type: 'password',
-            filter: (confirmPassword) => {
-              return UsersService
-                .isValidPassword(confirmPassword)
-                .catch((err) => {
-                  throw err.message;
-                });
-            }
-          },
-        ]);
-      })
-      .then((user) => {
-
-        if (user.password !== user.confirmPassword) {
-          return Promise.reject(new Error('Passwords do not match'));
+  let answers = await inquirer.prompt([
+    {
+      type: 'input',
+      name: 'organizationName',
+      message: 'Organization Name',
+      default: settings.organizationName,
+      validate: (input) => {
+        if (input && input.length > 0) {
+          return true;
         }
 
-        return SetupService.setup({
-          settings: settings.toObject(),
-          user: {
-            email: user.email,
-            username: user.username,
-            password: user.password
-          }
-        });
-      });
-    })
-    .then(({user}) => {
-      console.log('Settings created.');
-      console.log(`User ${user.id} created.`);
-      console.log('\nTalk is now installed!');
-      console.log('\nWe recommend adding TALK_INSTALL_LOCK=TRUE to your environment to turn off the dynamic setup.');
-      util.shutdown();
-    })
-    .catch((err) => {
-      console.error(err);
-      util.shutdown(1);
-    });
+        return 'Organization Name is required.';
+      }
+    },
+    {
+      type: 'list',
+      choices: MODERATION_OPTIONS,
+      name: 'moderation',
+      default: settings.moderation,
+      message: 'Select a moderation mode'
+    },
+    {
+      type: 'confirm',
+      name: 'requireEmailConfirmation',
+      default: settings.requireEmailConfirmation,
+      message: 'Should emails always be confirmed'
+    }
+  ]);
+
+  // Update the settings that were changed.
+  Object.keys(answers).forEach((key) => {
+    if (answers[key] !== undefined) {
+      settings[key] = answers[key];
+    }
+  });
+
+  console.log('\nWe\'ll ask you some questions about your first admin user.\n');
+
+  let user = await inquirer.prompt([
+    {
+      type: 'input',
+      name: 'username',
+      message: 'Username',
+      filter: (username) => {
+        return UsersService
+          .isValidUsername(username, false)
+          .catch((err) => {
+            throw err.message;
+          });
+      }
+    },
+    {
+      name: 'email',
+      message: 'Email',
+      format: 'email',
+      validate: (value) => {
+        if (value && value.length >= 3) {
+          return true;
+        }
+
+        return 'Email is required';
+      }
+    },
+    {
+      name: 'password',
+      message: 'Password',
+      type: 'password',
+      filter: (password) => {
+        return UsersService
+          .isValidPassword(password)
+          .catch((err) => {
+            throw err.message;
+          });
+      }
+    },
+    {
+      name: 'confirmPassword',
+      message: 'Confirm Password',
+      type: 'password',
+      filter: (confirmPassword) => {
+        return UsersService
+          .isValidPassword(confirmPassword)
+          .catch((err) => {
+            throw err.message;
+          });
+      }
+    },
+  ]);
+
+  if (user.password !== user.confirmPassword) {
+    return Promise.reject(new Error('Passwords do not match'));
+  }
+
+  let {user: newUser} = await SetupService.setup({
+    settings: settings.toObject(),
+    user: {
+      email: user.email,
+      username: user.username,
+      password: user.password
+    }
+  });
+    
+  console.log('Settings created.');
+  console.log(`User ${newUser.id} created.`);
+  console.log('\nTalk is now installed!');
+  console.log('\nWe recommend adding TALK_INSTALL_LOCK=TRUE to your environment to turn off the dynamic setup.');
 };
 
 // Start tthe setup process.
-performSetup();
+performSetup()
+  .then(() => {
+    util.shutdown();
+  })
+  .catch((e) => {
+    console.error(e);
+    util.shutdown(1);
+  });
