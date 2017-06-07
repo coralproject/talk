@@ -22,6 +22,6 @@
   padding: 5px 0;
 }
 
-:global(.offTopicComment) {
+:global(.coral-plugin-off-topic-comment) {
   display: none;
 }

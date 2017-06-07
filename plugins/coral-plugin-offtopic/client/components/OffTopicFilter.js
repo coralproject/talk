@@ -4,7 +4,7 @@ import styles from './styles.css';
 export default class OffTopicFilter extends React.Component {
 
   tag = 'OFF_TOPIC';
-  className = 'offTopicComment';
+  className = 'coral-plugin-off-topic-comment';
   cn = {[this.className] : {tags: [this.tag]}};
 
   handleChange = (e) => {

@@ -210,7 +210,7 @@ class Stream extends React.Component {
           />
         )}
 
-        <div className="streamBox">
+        <div className="talk-stream-wrapper-box">
           <Slot fill="streamBox" />
         </div>
 
