@@ -154,6 +154,7 @@ const config = {
   },
   resolve: {
     alias: {
+      'plugin-api': path.resolve(__dirname, 'plugin-api/'),
       plugins: path.resolve(__dirname, 'plugins/'),
       pluginsConfig: pluginsConfigPath
     },
