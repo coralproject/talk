@@ -1,8 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
-import {Icon} from 'coral-ui';
 import styles from './ViewingOptions.css';
-import {Slot} from 'plugin-api/beta/client/components';
+import {Slot, Icon} from 'plugin-api/beta/client/components';
 
 const ViewingOptions = (props) => {
   const toggleOpen = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './styles.css';
 
-import t from 'coral-framework/services/i18n';
+import {t} from 'plugin-api/beta/client/services';
 
 export default class OffTopicCheckbox extends React.Component {
 
