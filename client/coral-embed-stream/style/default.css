@@ -177,6 +177,15 @@ hr {
   display: none;
 }
 
+.talk-stream-wrapper-box {
+  padding: 10px 0;
+}
+
+.talk-stream-comments-container {
+  position: relative;
+  z-index: 0;
+}
+
 .commentStream {
   /* prevent absolutely positioned final permalink popover from being clipped */
   padding-bottom: 50px;
