@@ -134,17 +134,17 @@ hr {
 
 .coral-plugin-questionbox-icon.bubble{
   position: absolute;
-  top: 11px;
+  top: 8px;
   left: 10px;
   color: #9E9E9E;
-  font-size: 20px;
+  font-size: 24px;
   z-index: 0;
 }
 
 .coral-plugin-questionbox-icon.person{
   z-index: 2;
-  top: 20px;
-  left: 15px;
+  top: 12px;
+  left: 12px;
   position: absolute;
   font-size: 33px;
   color: #262626;

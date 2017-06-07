@@ -202,7 +202,8 @@ en:
   flag_reason: "Reason for reporting (Optional)"
   flag_username: "Report username"
   framework:
-    banned_account_msg: "Your account is currently banned. This means that you cannot Like, Report, or write comments. Please contact us if you have any questions."
+    banned_account_header: "Your account is currently banned."
+    banned_account_body: "This means that you cannot Like, Report, or write comments."
     because_you_ignored: "Because you ignored the following commenters, their comments are hidden."
     comment: comment
     comment_is_ignored: "This comment is hidden because you ignored this user."
