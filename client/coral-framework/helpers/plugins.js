@@ -5,14 +5,9 @@ import merge from 'lodash/merge';
 import plugins from 'pluginsConfig';
 import flatten from 'lodash/flatten';
 import flattenDeep from 'lodash/flattenDeep';
-import {loadTranslations} from 'coral-framework/services/i18n';
 import {getDefinitionName, mergeDocuments} from 'coral-framework/utils';
-
-export const pluginReducers = merge(
-  ...plugins
-    .filter((o) => o.module.reducer)
-    .map((o) => ({[o.plugin] : o.module.reducer}))
-);
+import {loadTranslations} from 'coral-framework/services/i18n';
+import {injectReducers} from 'coral-framework/services/store';
 
 /**
  * Returns React Elements for given slot.
@@ -97,4 +92,13 @@ function getTranslations() {
 
 export function loadPluginsTranslations() {
   getTranslations().forEach((t) => loadTranslations(t));
+}
+
+export function injectPluginsReducers() {
+  const reducers = merge(
+    ...plugins
+      .filter((o) => o.module.reducer)
+      .map((o) => ({[o.plugin] : o.module.reducer}))
+  );
+  injectReducers(reducers);
 }

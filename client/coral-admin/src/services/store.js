@@ -14,14 +14,18 @@ if (window.devToolsExtension) {
   middlewares.push(window.devToolsExtension());
 }
 
+const coralReducers = {
+  ...mainReducer,
+  apollo: client.reducer()
+};
+
 const store = createStore(
-  combineReducers({
-    ...mainReducer,
-    apollo: client.reducer()
-  }),
+  combineReducers(coralReducers),
   {},
   compose(...middlewares)
 );
+
+store.coralReducers = coralReducers;
 
 window.coralStore = store;
 export default store;

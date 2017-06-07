@@ -25,6 +25,11 @@ const setupFunctions = plugins.get('server', 'setupFunctions').reduce((acc, {plu
       filter: (comment) => comment.asset_id === args.asset_id
     },
   }),
+  commentEdited: (options, args) => ({
+    commentEdited: {
+      filter: (comment) => comment.asset_id === args.asset_id
+    },
+  }),
 });
 
 /**

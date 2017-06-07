@@ -158,8 +158,8 @@ en:
     edit_window_expired_close: "Close"
     edit_window_timer_prefix: "Edit Window: "
     second: "second"
-    secondsPlural: "seconds"
-    unexpectedError: "Unexpected error while saving changes. Sorry!"
+    seconds_plural: "seconds"
+    unexpected_error: "Unexpected error while saving changes. Sorry!"
   email:
     confirm:
       has_been_requested: "A email confirmation has been requested for the following account:"
@@ -202,7 +202,7 @@ en:
   flag_reason: "Reason for reporting (Optional)"
   flag_username: "Report username"
   framework:
-    banned_account_msg: "Your account is currently suspended. This means that you cannot Like Report or write comments. Please contact us if you have any questions."
+    banned_account_msg: "Your account is currently banned. This means that you cannot Like, Report, or write comments. Please contact us if you have any questions."
     because_you_ignored: "Because you ignored the following commenters, their comments are hidden."
     comment: comment
     comment_is_ignored: "This comment is hidden because you ignored this user."
@@ -224,6 +224,7 @@ en:
     success_bio_update: "Your biography has been updated"
     success_name_update: "Your username has been updated"
     success_update_settings: "The changes you have made have been applied to the comment stream on this article"
+    view_all_replies_unknown_number: "view all replies"
     view_all_replies: "view {0} replies"
     view_all_replies_initial: "view all {0} replies"
     view_more_comments: "view more comments"
@@ -322,7 +323,7 @@ en:
     bio: bio
     cancel: "Cancel"
     days: "{0} days"
-    description_0: "Would you like to temporarily ban this user because of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}."
+    description_0: "Would you like to temporarily suspend this user because of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}."
     description_1: "Suspending this user will temporarily disable their account and hide all of their comments on the site."
     description_notify: "Suspending this user will temporarily disable their account and hide all of their comments on the site."
     description_reject: "Would you like to temporarily ban this user because of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}."

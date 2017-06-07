@@ -340,6 +340,12 @@ const edit = async (context, {id, asset_id, edit: {body}}) => {
   // Execute the edit.
   const comment = await CommentsService.edit(id, context.user.id, {body, status});
 
+  if (context.pubsub) {
+
+    // Publish the edited comment via the subscription.
+    context.pubsub.publish('commentEdited', comment);
+  }
+
   return comment;
 };
 
