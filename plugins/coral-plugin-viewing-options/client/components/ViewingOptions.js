@@ -13,7 +13,7 @@ const ViewingOptions = (props) => {
     }
   };
   return (
-    <div className={cn([styles.viewingOptions, 'coral-plugin-viewing-options'])}>
+    <div className={cn([styles.root, 'coral-plugin-viewing-options'])}>
       <div>
         <a onClick={toggleOpen}>Viewing Options
           {props.open ? <Icon name="arrow_drop_up"/> : <Icon name="arrow_drop_down"/>}
@@ -21,7 +21,7 @@ const ViewingOptions = (props) => {
       </div>
       {
         props.open ? (
-          <div className={cn([styles.streamViewingOptionsList, 'coral-plugin-viewing-options-list'])}>
+          <div className={cn([styles.list, 'coral-plugin-viewing-options-list'])}>
             <ul>
               {
                 React.Children.map(<Slot fill="viewingOptions" />, (component) => {
