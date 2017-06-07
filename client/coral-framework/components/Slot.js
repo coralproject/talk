@@ -4,9 +4,9 @@ import styles from './Slot.css';
 import {connect} from 'react-redux';
 import {getSlotElements} from 'coral-framework/helpers/plugins';
 
-function Slot ({fill, inline = false, right = false, plugin_config: config, ...rest}) {
+function Slot ({fill, inline = false, className, plugin_config: config, ...rest}) {
   return (
-    <div className={cn({[styles.inline]: inline, [styles.right]: right, [styles.debug]: config.debug})}>
+    <div className={cn({[styles.inline]: inline, [styles.debug]: config.debug}, className)}>
       {getSlotElements(fill, {...rest, config})}
     </div>
   );

@@ -6,15 +6,15 @@ const initialState = {
 
 export default function offTopic (state = initialState, action) {
   switch (action.type) {
-    case OPEN_VIEWING_OPTIONS:
-      return {
-        ...state,
-        open: true
-      };
-    case CLOSE_VIEWING_OPTIONS:
-      return {
-        ...state,
-        open: false
+  case OPEN_VIEWING_OPTIONS:
+    return {
+      ...state,
+      open: true
+    };
+  case CLOSE_VIEWING_OPTIONS:
+    return {
+      ...state,
+      open: false
     };
   default :
     return state;

@@ -141,7 +141,7 @@ const extension = {
             parent_id,
             asset_id,
             action_summaries: [],
-            tags,
+            tags: tags.map((t) => ({name: t, __typename: 'Tag'})),
             status: null,
             replyCount: 0,
             replies: {

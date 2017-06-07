@@ -97,3 +97,7 @@
 .Wizard .textAlignRight {
   text-align: right;
 }
+
+.commentInfoBar {
+ float: right;
+}

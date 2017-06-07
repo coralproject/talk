@@ -494,7 +494,3 @@ button.comment__action-button[disabled],
     visibility: visible;
   }
 }
-
-.offTopicComment {
-  display: none;
-}

@@ -282,6 +282,7 @@ export default class Comment extends React.Component {
           </span>
 
           <Slot
+            className={styles.commentInfoBar}
             fill="commentInfoBar"
             depth={depth}
             comment={comment}
@@ -289,7 +290,6 @@ export default class Comment extends React.Component {
             data={this.props.data}
             root={this.props.root}
             inline
-            right
           />
 
           { (currentUser &&

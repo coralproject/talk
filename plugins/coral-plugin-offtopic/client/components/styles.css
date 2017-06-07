@@ -22,4 +22,6 @@
   padding: 5px 0;
 }
 
-
+:global(.offTopicComment) {
+  display: none;
+}
