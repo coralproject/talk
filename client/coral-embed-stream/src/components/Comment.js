@@ -297,6 +297,7 @@ class Comment extends React.Component {
     } = this.props;
 
     const view = this.getVisibileReplies();
+
     const hasMoreComments = comment.replies && (comment.replies.hasNextPage || comment.replies.nodes.length > view.length);
     const replyCount = this.hasIgnoredReplies() ? '' : comment.replyCount;
     const flagSummary = getActionSummary('FlagActionSummary', comment);
