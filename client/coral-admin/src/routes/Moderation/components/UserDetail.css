@@ -41,8 +41,11 @@
 }
 
 .commentStatuses {
-  padding: 0;
+  padding: 10px 0 0 0;
+  margin: 0;
+  height: 52px;
   list-style: none;
+  box-sizing: border-box;
 
   li {
     display: inline-block;
@@ -55,4 +58,25 @@
 .active {
   font-weight: bold;
   border-bottom: 3px solid #F36451;
+}
+
+.bulkActionGroup {
+  height: 52px;
+  background-color: #efefef;
+
+  i {
+    margin-right: 0;
+  }
+
+  .bulkAction {
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    transform: scale(.7);
+    min-width: 0;
+  }
+
+  .bulkAction:last-child {
+    margin-left: -10px;
+  }
 }

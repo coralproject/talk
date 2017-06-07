@@ -2,34 +2,94 @@ import React from 'react';
 import {gql, compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {NEW_COMMENT_COUNT_POLL_INTERVAL, ADDTL_COMMENTS_ON_LOAD_MORE} from '../constants/stream';
+import {ADDTL_COMMENTS_ON_LOAD_MORE} from '../constants/stream';
 import {
   withPostComment, withPostFlag, withPostDontAgree, withDeleteAction,
   withAddCommentTag, withRemoveCommentTag, withIgnoreUser, withEditComment,
 } from 'coral-framework/graphql/mutations';
-import update from 'immutability-helper';
 
 import {notificationActions, authActions} from 'coral-framework';
 import {editName} from 'coral-framework/actions/user';
-import {setCommentCountCache, setActiveReplyBox} from '../actions/stream';
+import {setActiveReplyBox} from '../actions/stream';
 import Stream from '../components/Stream';
 import Comment from './Comment';
 import {withFragments} from 'coral-framework/hocs';
+import {Spinner} from 'coral-ui';
 import {getDefinitionName} from 'coral-framework/utils';
+import {
+  findCommentInEmbedQuery,
+  insertCommentIntoEmbedQuery,
+  removeCommentFromEmbedQuery,
+  insertFetchedCommentsIntoEmbedQuery,
+} from '../graphql/utils';
 
 const {showSignInDialog} = authActions;
 const {addNotification} = notificationActions;
 
 class StreamContainer extends React.Component {
-  getCounts = (variables) => {
-    return this.props.data.fetchMore({
-      query: LOAD_COMMENT_COUNTS_QUERY,
-      variables,
+  subscriptions = [];
 
-      // Apollo requires this, even though we don't use it...
-      updateQuery: (data) => data,
+  subscribeToUpdates() {
+    const sub1 = this.props.data.subscribeToMore({
+      document: COMMENTS_EDITED_SUBSCRIPTION,
+      variables: {
+        assetId: this.props.root.asset.id,
+      },
+      updateQuery: (prev, {subscriptionData: {data: {commentEdited}}}) => {
+
+        // Ignore mutations from me.
+        // TODO: need way to detect mutations created by this client, and allow mutations from other clients.
+        if (this.props.auth.user && commentEdited.user.id === this.props.auth.user.id) {
+          return prev;
+        }
+
+        // Exit when comment is not in the query.
+        if (!findCommentInEmbedQuery(prev, commentEdited.id)) {
+          return prev;
+        }
+
+        if (['PREMOD', 'REJECTED'].includes(commentEdited.status)) {
+          return removeCommentFromEmbedQuery(prev, commentEdited.id);
+        }
+      },
     });
-  };
+
+    const sub2 = this.props.data.subscribeToMore({
+      document: COMMENTS_ADDED_SUBSCRIPTION,
+      variables: {
+        assetId: this.props.root.asset.id,
+      },
+      updateQuery: (prev, {subscriptionData: {data: {commentAdded}}}) => {
+
+        // Ignore mutations from me.
+        // TODO: need way to detect mutations created by this client, and allow mutations from other clients.
+        if (this.props.auth.user && commentAdded.user.id === this.props.auth.user.id) {
+          return prev;
+        }
+
+        // Exit if author is ignored.
+        if (
+          this.props.root.me &&
+          this.props.root.me.ignoredUsers.some(({id}) => id === commentAdded.user.id)) {
+          return prev;
+        }
+
+        // Exit when comment is already in the query.
+        if (findCommentInEmbedQuery(prev, commentAdded.id)) {
+          return prev;
+        }
+
+        return insertCommentIntoEmbedQuery(prev, commentAdded);
+      }
+    });
+
+    this.subscriptions.push(sub1, sub2);
+  }
+
+  unsubscribe() {
+    this.subscriptions.forEach((unsubscribe) => unsubscribe());
+    this.subscriptions = [];
+  }
 
   loadNewReplies = (parent_id) => {
     const comment = this.props.root.comment
@@ -47,85 +107,10 @@ class StreamContainer extends React.Component {
         excludeIgnored: this.props.data.variables.excludeIgnored,
       },
       updateQuery: (prev, {fetchMoreResult:{comments}}) => {
-        if (!comments.nodes.length) {
-          return prev;
-        }
-
-        const updateNode = (node) =>
-          update(node, {
-            replies: {
-              endCursor: {$set: comments.endCursor},
-              nodes: {$apply: (nodes) => nodes
-                .concat(comments.nodes.filter(
-                  (comment) => !nodes.some((node) => node.id === comment.id)
-                ))
-                .sort(ascending)
-              },
-            },
-          });
-
-        // highlighted comment.
-        if (prev.comment) {
-          if (prev.comment.parent) {
-            return update(prev, {
-              comment: {
-                parent: {$apply: (comment) => updateNode(comment)},
-              }
-            });
-          }
-          return update(prev, {
-            comment: {$apply: (comment) => updateNode(comment)},
-          });
-        }
-
-        return update(prev, {
-          asset: {
-            comments: {
-              nodes: {
-                $apply: (nodes) => nodes.map(
-                  (node) => node.id !== parent_id
-                    ? node
-                    : updateNode(node)
-                  )
-              },
-            },
-          },
-        });
+        return insertFetchedCommentsIntoEmbedQuery(prev, comments, parent_id);
       },
     });
   }
-
-  loadNewComments = () => {
-    return this.props.data.fetchMore({
-      query: LOAD_MORE_QUERY,
-      variables: {
-        limit: ADDTL_COMMENTS_ON_LOAD_MORE,
-        cursor: this.props.root.asset.comments.startCursor,
-        parent_id: null,
-        asset_id: this.props.root.asset.id,
-        sort: 'CHRONOLOGICAL',
-        excludeIgnored: this.props.data.variables.excludeIgnored,
-      },
-      updateQuery: (prev, {fetchMoreResult:{comments}}) => {
-        if (!comments.nodes.length) {
-          return prev;
-        }
-        return update(prev, {
-          asset: {
-            comments: {
-              startCursor: {$set: comments.endCursor},
-              nodes: {$apply: (nodes) => comments.nodes.filter(
-                  (comment) => !nodes.some((node) => node.id === comment.id)
-                )
-                .concat(nodes)
-                .sort(descending)
-              },
-            },
-          },
-        });
-      },
-    });
-  };
 
   loadMoreComments = () => {
     return this.props.data.fetchMore({
@@ -139,78 +124,77 @@ class StreamContainer extends React.Component {
         excludeIgnored: this.props.data.variables.excludeIgnored,
       },
       updateQuery: (prev, {fetchMoreResult:{comments}}) => {
-        if (!comments.nodes.length) {
-          return prev;
-        }
-
-        return update(prev, {
-          asset: {
-            comments: {
-              hasNextPage: {$set: comments.hasNextPage},
-              endCursor: {$set: comments.endCursor},
-              nodes: {$push: comments.nodes},
-            },
-          },
-        });
+        return insertFetchedCommentsIntoEmbedQuery(prev, comments);
       },
     });
   };
 
   componentDidMount() {
     if (this.props.previousTab) {
-      this.props.data.refetch()
-        .then(({data: {asset: {commentCount}}}) => {
-          return this.props.setCommentCountCache(commentCount);
-        });
+      this.props.data.refetch();
     }
-    this.countPoll = setInterval(() => {
-      this.getCounts(this.props.data.variables);
-    }, NEW_COMMENT_COUNT_POLL_INTERVAL);
+    this.subscribeToUpdates();
   }
 
   componentWillUnmount() {
+    this.unsubscribe();
     clearInterval(this.countPoll);
   }
 
   render() {
+    if (this.props.refetching) {
+      return <Spinner />;
+    }
     return <Stream
       {...this.props}
       loadMore={this.loadMore}
       loadMoreComments={this.loadMoreComments}
-      loadNewComments={this.loadNewComments}
       loadNewReplies={this.loadNewReplies}
     />;
   }
 }
 
-const ascending = (a, b) => {
-  const dateA = new Date(a.created_at);
-  const dateB = new Date(b.created_at);
-  if (dateA < dateB) { return -1; }
-  if (dateA > dateB) { return 1; }
-  return 0;
-};
+const commentFragment = gql`
+  fragment CoralEmbedStream_Stream_comment on Comment {
+    id
+    ...${getDefinitionName(Comment.fragments.comment)}
+    replyCount(excludeIgnored: $excludeIgnored)
+    replies(excludeIgnored: $excludeIgnored) {
+      nodes {
+        id
+        ...${getDefinitionName(Comment.fragments.comment)}
+      }
+      hasNextPage
+      startCursor
+      endCursor
+    }
+  }
+  ${Comment.fragments.comment}
+`;
 
-const descending = (a, b) => ascending(a, b) * -1;
-
-const LOAD_COMMENT_COUNTS_QUERY = gql`
-  query CoralEmbedStream_LoadCommentCounts($assetUrl: String, , $commentId: ID!, $assetId: ID, $hasComment: Boolean!, $excludeIgnored: Boolean) {
-    comment(id: $commentId) @include(if: $hasComment) {
-      id
+const COMMENTS_ADDED_SUBSCRIPTION = gql`
+  subscription onCommentAdded($assetId: ID!, $excludeIgnored: Boolean){
+    commentAdded(asset_id: $assetId){
       parent {
         id
-        replyCount(excludeIgnored: $excludeIgnored)
       }
-      replyCount(excludeIgnored: $excludeIgnored)
+      ...CoralEmbedStream_Stream_comment
     }
-    asset(id: $assetId, url: $assetUrl) {
+  }
+  ${commentFragment}
+`;
+
+const COMMENTS_EDITED_SUBSCRIPTION = gql`
+  subscription onCommentEdited($assetId: ID!){
+    commentEdited(asset_id: $assetId){
       id
-      commentCount(excludeIgnored: $excludeIgnored)
-      comments(limit: 10) @skip(if: $hasComment) {
-        nodes {
-          id
-          replyCount(excludeIgnored: $excludeIgnored)
-        }
+      body
+      status
+      editing {
+        edited
+      }
+      user {
+        id
       }
     }
   }
@@ -232,24 +216,6 @@ const LOAD_MORE_QUERY = gql`
           startCursor
           endCursor
         }
-      }
-      hasNextPage
-      startCursor
-      endCursor
-    }
-  }
-  ${Comment.fragments.comment}
-`;
-
-const commentFragment = gql`
-  fragment CoralEmbedStream_Stream_comment on Comment {
-    id
-    ...${getDefinitionName(Comment.fragments.comment)}
-    replyCount(excludeIgnored: $excludeIgnored)
-    replies {
-      nodes {
-        id
-        ...${getDefinitionName(Comment.fragments.comment)}
       }
       hasNextPage
       startCursor
@@ -316,6 +282,7 @@ const fragments = {
 
 const mapStateToProps = (state) => ({
   auth: state.auth.toJS(),
+  refetching: state.embed.refetching,
   commentCountCache: state.stream.commentCountCache,
   activeReplyBox: state.stream.activeReplyBox,
   commentId: state.stream.commentId,
@@ -332,7 +299,6 @@ const mapDispatchToProps = (dispatch) =>
     addNotification,
     setActiveReplyBox,
     editName,
-    setCommentCountCache,
   }, dispatch);
 
 export default compose(

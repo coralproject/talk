@@ -24,6 +24,8 @@ const Comment = ({
   suspectWords,
   bannedWords,
   minimal,
+  selected,
+  toggleSelect,
   ...props
 }) => {
   const links = linkify.getMatches(comment.body);
@@ -48,10 +50,17 @@ const Comment = ({
     })
     .concat(linkText);
 
+  let selectionStateCSS;
+  if (minimal) {
+    selectionStateCSS = selected ? styles.minimalSelection : '';
+  } else {
+    selectionStateCSS = selected ? 'mdl-shadow--16dp' : 'mdl-shadow--2dp';
+  }
+
   return (
     <li
       tabIndex={props.index}
-      className={`mdl-card ${props.selected ? 'mdl-shadow--16dp' : 'mdl-shadow--2dp'} ${styles.Comment} ${styles.listItem} ${props.selected ? styles.selected : ''}`}
+      className={`mdl-card ${selectionStateCSS} ${styles.Comment} ${styles.listItem} ${minimal ? styles.minimal : ''}`}
     >
       <div className={styles.container}>
         <div className={styles.itemHeader}>
@@ -61,6 +70,16 @@ const Comment = ({
                 <span className={styles.username} onClick={() => viewUserDetail(comment.user.id)}>
                   {comment.user.name}
                 </span>
+              )
+            }
+            {
+              minimal && typeof selected === 'boolean' && typeof toggleSelect === 'function' && (
+                <input
+                  className={styles.bulkSelectInput}
+                  type='checkbox'
+                  value={comment.id}
+                  checked={selected}
+                  onChange={(e) => toggleSelect(e.target.value, e.target.checked)} />
               )
             }
             <span className={styles.created}>
@@ -187,6 +206,7 @@ Comment.propTypes = {
   showBanUserDialog: PropTypes.func.isRequired,
   showSuspendUserDialog: PropTypes.func.isRequired,
   currentUserId: PropTypes.string.isRequired,
+  toggleSelect: PropTypes.func,
   comment: PropTypes.shape({
     body: PropTypes.string.isRequired,
     action_summaries: PropTypes.array,

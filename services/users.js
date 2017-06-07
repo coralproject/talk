@@ -9,6 +9,7 @@ const {
   JWT_SECRET,
   ROOT_URL
 } = require('../config');
+const debug = require('debug')('talk:services:users');
 
 const redis = require('./redis');
 const redisClient = redis.createClient();
@@ -527,6 +528,29 @@ module.exports = class UsersService {
   }
 
   /**
+   * 
+   * @param {String} id  the id of the current user
+   * @param {Object} token  a jwt token used to sign in the user
+   */
+  static async findOrCreateByIDToken(id, token) {
+
+    // Try to get the user.
+    let user = await UserModel.findOne({
+      id
+    });
+
+    // If the user was not found, try to look it up.
+    if (user === null) {
+
+      // If the user wasn't found, it will return null and the variable will be
+      // unchanged.
+      user = await lookupUserNotFound(token);
+    }
+
+    return user;
+  }
+
+  /**
    * Finds users in an array of ids.
    * @param {Array} ids  array of user identifiers (uuid)
   */
@@ -902,4 +926,31 @@ module.exports = class UsersService {
       }
     });
   }
+};
+
+// Extract all the tokenUserNotFound plugins so we can integrate with other 
+// providers.
+let tokenUserNotFoundHooks = null;
+
+// Provide a function that can loop over the hooks and search for a provider
+// can crack the token to a user.
+const lookupUserNotFound = async (token) => {
+  if (!Array.isArray(tokenUserNotFoundHooks)) {
+    tokenUserNotFoundHooks = require('./plugins')
+      .get('server', 'tokenUserNotFound')
+      .map(({plugin, tokenUserNotFound}) => {
+        debug(`added plugin '${plugin.name}' to tokenUserNotFound hooks`);
+
+        return tokenUserNotFound;
+      });
+  }
+
+  for (let hook of tokenUserNotFoundHooks) {
+    let user = await hook(token);
+    if (user !== null && typeof user !== 'undefined') {
+      return user;
+    }
+  }
+
+  return null;
 };

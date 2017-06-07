@@ -6,7 +6,12 @@ import UserDetail from '../components/UserDetail';
 import withQuery from 'coral-framework/hocs/withQuery';
 import {getSlotsFragments} from 'coral-framework/helpers/plugins';
 import {getDefinitionName} from 'coral-framework/utils';
-import {changeUserDetailStatuses} from 'coral-admin/src/actions/moderation';
+import {
+  changeUserDetailStatuses,
+  clearUserDetailSelections,
+  toggleSelectCommentInUserDetail
+} from 'coral-admin/src/actions/moderation';
+import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
 import Comment from './Comment';
 
 const commentConnectionFragment = gql`
@@ -31,12 +36,37 @@ class UserDetailContainer extends React.Component {
     hideUserDetail: PropTypes.func.isRequired
   }
 
+  // status can be 'ACCEPTED' or 'REJECTED'
+  bulkSetCommentStatus = (status) => {
+    const changes = this.props.moderation.userDetailSelectedIds.map((commentId) => {
+      return this.props.setCommentStatus({commentId, status});
+    });
+
+    Promise.all(changes).then(() => {
+      this.props.data.refetch(); // some comments may have moved out of this tab
+      this.props.clearUserDetailSelections(); // un-select everything
+    });
+  }
+
+  bulkReject = () => {
+    this.bulkSetCommentStatus('REJECTED');
+  }
+
+  bulkAccept = () => {
+    this.bulkSetCommentStatus('ACCEPTED');
+  }
+
   render () {
     if (!('user' in this.props.root)) {
       return null;
     }
 
-    return <UserDetail changeStatus={this.props.changeUserDetailStatuses} {...this.props}/>;
+    return <UserDetail
+      bulkReject={this.bulkReject}
+      bulkAccept={this.bulkAccept}
+      changeStatus={this.props.changeUserDetailStatuses}
+      toggleSelect={this.props.toggleSelectCommentInUserDetail}
+      {...this.props} />;
   }
 }
 
@@ -79,10 +109,15 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  ...bindActionCreators({changeUserDetailStatuses}, dispatch)
+  ...bindActionCreators({
+    changeUserDetailStatuses,
+    clearUserDetailSelections,
+    toggleSelectCommentInUserDetail
+  }, dispatch)
 });
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withUserDetailQuery,
+  withSetCommentStatus,
 )(UserDetailContainer);

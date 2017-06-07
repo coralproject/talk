@@ -280,6 +280,41 @@ send data to the client. If the type in question contains args, clients may subs
 
 For more information, see the [Apollo Docs](https://github.com/apollographql/graphql-subscriptions).
 
+#### Field: `tokenUserNotFound`
+
+```js
+tokenUserNotFound: async ({jwt, token}) => {
+  let profile = await someExternalService(token);
+  if (!profile) {
+    return null;
+  }
+
+  let user = await UserModel.findOneAndUpdate({
+    id: profile.id
+  }, {
+    id: profile.id,
+    username: profile.username,
+    lowercaseUsername: profile.username.toLowerCase(),
+    roles: [],
+    profiles: []
+  }, {
+    setDefaultsOnInsert: true,
+    new: true,
+    upsert: true
+  });
+
+  return user;
+}
+```
+
+The `tokenUserNotFound` hook allows auth integrations to hook into the event
+when a valid token is provided but a user can't be found in the database that
+matches the provided id.
+
+The function is async, and should return the user object that was created in the
+database, or null if the user wasn't found. The `jwt` paramenter of the object
+is the unpacked token, while `token` is the original jwt token string.
+
 #### Field: `router`
 
 ```js
