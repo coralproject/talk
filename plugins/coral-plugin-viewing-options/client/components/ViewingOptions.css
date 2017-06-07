@@ -1,30 +1,30 @@
 .viewingOptions {
-    float: right;
-    text-align: right;
-    position: relative;
-    display: inline-block;
-    min-width: 220px;
+  float: right;
+  text-align: right;
+  position: relative;
+  display: inline-block;
+  min-width: 220px;
 }
 
 .viewingOptions {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .streamViewingOptionsList {
-    z-index: 10;
-    background: white;
-    position: absolute;
-    box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.15);
-    right: 3px;
-    top: 20px;
+  z-index: 10;
+  background: white;
+  position: absolute;
+  box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.15);
+  right: 3px;
+  top: 20px;
 }
 
 .streamViewingOptionsList ul, .streamViewingOptionsList li {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 .streamViewingOptionsList li {
-    padding: 10px;
-    list-style: none;
+  padding: 10px;
+  list-style: none;
 }
