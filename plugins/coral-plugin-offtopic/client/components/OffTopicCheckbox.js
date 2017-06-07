@@ -7,12 +7,24 @@ export default class OffTopicCheckbox extends React.Component {
 
   label = 'OFF_TOPIC';
 
-  handleChange = (e) => {
-    if (e.target.checked) {
-      this.props.addTag(this.label);
-    } else {
+  componentDidMount() {
+    this.clearTagsHook = this.props.registerHook('postSubmit', () => {
       const idx = this.props.commentBox.tags.indexOf(this.label);
       this.props.removeTag(idx);
+    });
+  }
+
+  componentWillUnmount() {
+    this.props.unregisterHook(this.clearTagsHook);
+  }
+
+  handleChange = (e) => {
+    const {addTag, removeTag} = this.props;
+    if (e.target.checked) {
+      addTag(this.label);
+    } else {
+      const idx = this.props.commentBox.tags.indexOf(this.label);
+      removeTag(idx);
     }
   }
 

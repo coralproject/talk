@@ -1,4 +1,4 @@
-import {TOGGLE_CHECKBOX} from './constants';
+import {OFFTOPIC_TOGGLE_CHECKBOX} from './constants';
 
 const initialState = {
   checked: false
@@ -6,7 +6,7 @@ const initialState = {
 
 export default function offTopic (state = initialState, action) {
   switch (action.type) {
-  case TOGGLE_CHECKBOX: {
+  case OFFTOPIC_TOGGLE_CHECKBOX: {
     return {
       ...state,
       checked: !state.checked

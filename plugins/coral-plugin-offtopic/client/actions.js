@@ -1,5 +1,5 @@
-import {TOGGLE_CHECKBOX} from './constants';
+import {OFFTOPIC_TOGGLE_CHECKBOX} from './constants';
 
 export const toggleCheckbox = () => ({
-  type: TOGGLE_CHECKBOX
+  type: OFFTOPIC_TOGGLE_CHECKBOX
 });
