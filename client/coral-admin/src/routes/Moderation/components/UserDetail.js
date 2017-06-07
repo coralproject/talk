@@ -80,7 +80,7 @@ export default class UserDetail extends React.Component {
       profile = localProfile.id;
     }
 
-    let rejectedPercent = rejectedComments / totalComments;
+    let rejectedPercent = (rejectedComments / totalComments) * 100;
     if (rejectedPercent === Infinity || isNaN(rejectedPercent)) {
 
       // if totalComments is 0, you're dividing by zero, which is naughty
