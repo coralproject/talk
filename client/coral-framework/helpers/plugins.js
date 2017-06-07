@@ -1,17 +1,17 @@
 import React from 'react';
-import merge from 'lodash/merge';
-import flatten from 'lodash/flatten';
-import flattenDeep from 'lodash/flattenDeep';
 import uniq from 'lodash/uniq';
 import pick from 'lodash/pick';
+import merge from 'lodash/merge';
 import plugins from 'pluginsConfig';
-import {getDefinitionName, mergeDocuments} from 'coral-framework/utils';
+import flatten from 'lodash/flatten';
+import flattenDeep from 'lodash/flattenDeep';
 import {loadTranslations} from 'coral-framework/services/i18n';
+import {getDefinitionName, mergeDocuments} from 'coral-framework/utils';
 
 export const pluginReducers = merge(
   ...plugins
     .filter((o) => o.module.reducer)
-    .map((o) => ({[o.module.reducer.name] : o.module.reducer}))
+    .map((o) => ({[o.plugin] : o.module.reducer}))
 );
 
 /**

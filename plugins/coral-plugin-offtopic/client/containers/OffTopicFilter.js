@@ -6,9 +6,9 @@ import {
   removeCommentClassName
 } from 'coral-embed-stream/src/actions/comment';
 import OffTopicFilter from '../components/OffTopicFilter';
-import {closeViewingOptions} from 'coral-embed-stream/src/actions/stream';
+import {closeViewingOptions} from 'plugins/coral-plugin-viewing-options/client/actions';
 
-const mapStateToProps = ({comment, offTopic}) => ({
+const mapStateToProps = ({comment, ['coral-plugin-offtopic'] : offTopic}) => ({
   commentClassNames: comment.commentClassNames,
   checked: offTopic.checked
 });
