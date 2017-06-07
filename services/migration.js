@@ -2,10 +2,11 @@ const MigrationModel = require('../models/migration');
 const fs = require('fs');
 const path = require('path');
 const Joi = require('joi');
+const debug = require('debug')('talk:services:migration');
 const sc = require('snake-case');
+const {talk: {migration: {minVersion}}} = require('../package.json');
 
-const migrationTemplate = `
-module.exports = {
+const migrationTemplate = `module.exports = {
   async up() {
     
   }
@@ -13,12 +14,19 @@ module.exports = {
 
 `;
 
-module.exports = class MigrationService {
+class MigrationService {
+
+  /**
+   * Creates a new migration file.
+   * 
+   * @param {String} name name of the migration
+   */
   static async create(name) {
     if (!name || typeof name !== 'string' || name.length === 0) {
       throw new Error('name must be defined');
     }
 
+    // Create a new Migration based on the current time.
     let version = Math.round(Date.now() / 1000, 0);
     let filename = path.join(__dirname, '..', 'migrations', `${version}_${sc(name)}.js`);
     fs.writeFileSync(filename, migrationTemplate, 'utf8');
@@ -26,6 +34,9 @@ module.exports = class MigrationService {
     console.log(`Created migration ${version} in ${filename}`);
   }
 
+  /**
+   * Returns a list of all pending migrations.
+   */
   static async listPending() {
 
     // Get all the migration files.
@@ -85,27 +96,48 @@ module.exports = class MigrationService {
     return migrations;
   }
 
+  /**
+   * Runs an list of migrations.
+   * 
+   * @param {Array} migrations a list of migrations returned by `listPending`
+   */
   static async run(migrations) {
     if (migrations.length === 0) {
       console.log('No migrations to run!');
       return;
     }
 
-    for (let {version, migration} of migrations) {
-      console.log(`Starting migration ${version}.js`);
-      await migration.up();
-      console.log(`Finished migration ${version}.js`);
+    for (let {filename, version, migration} of migrations) {
+      try {
+        console.log(`Starting migration ${filename}`);
+        await migration.up();
+        console.log(`Finished migration ${filename}`);
+      } catch (e) {
+        console.error(`Migration ${filename} failed`);
+        throw e;
+      }
       
-      console.log(`Recording migration ${version}.js`);
+      try {
+        console.log(`Recording migration ${filename}`);
 
-      // Record that the migration was finished.
-      let m = new MigrationModel({version});
-      await m.save();
+        // Record that the migration was finished.
+        let m = new MigrationModel({version});
+        await m.save();
 
-      console.log(`Finished recording migration ${version}.js`);
+        console.log(`Finished recording migration ${filename}`);
+      } catch (e) {
+        console.error(`Migration ${filename} could not be recorded`);
+        throw e;
+      }
     }
+
+    console.log(`Database now at migration version ${migrations[migrations.length - 1].version}`);
   }
 
+  /**
+   * Returns the latest migration version number that has been applied to the
+   * database, null if none were found.
+   */
   static async latestVersion() {
 
     // Load the latest migration details from the database.
@@ -138,5 +170,21 @@ module.exports = class MigrationService {
     if (!latestVersion || latestVersion < requiredVersion) {
       throw new Error(`A database migration is required, version required ${requiredVersion}, found ${latestVersion}. Please run \`./bin/cli migration run\``);
     }
+
+    return latestVersion;
   }
-};
+}
+
+// Verify that the minimum migration version is met.
+MigrationService
+  .verify(minVersion)
+  .then((latestVersion) => {
+    debug(`minimum migration version ${minVersion} was met with version ${latestVersion}`);
+  })
+  .catch((e) => {
+
+    // Throw the error in the catch block.
+    throw e;
+  });
+
+module.exports = MigrationService;

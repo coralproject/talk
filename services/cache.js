@@ -1,5 +1,5 @@
 const redis = require('./redis');
-const debug = require('debug')('talk:cache');
+const debug = require('debug')('talk:services:cache');
 const crypto = require('crypto');
 
 const cache = module.exports = {

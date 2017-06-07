@@ -19,6 +19,11 @@
     "embed-start": "NODE_ENV=development yarn build && ./bin/cli serve --jobs",
     "heroku-postbuild": "./bin/cli plugins reconcile && yarn build"
   },
+  "talk": {
+    "migration": {
+      "minVersion": 1496771633
+    }
+  },
   "config": {
     "pre-git": {
       "commit-msg": [],

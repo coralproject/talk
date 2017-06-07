@@ -17,6 +17,11 @@ module.exports = {
       }}
     ]);
 
+    // If no comments were found, nothing needes to be done!
+    if (comments.length <= 0) {
+      return;
+    }
+
     // Create a new batch operation.
     let batch = CommentModel.collection.initializeUnorderedBulkOp();
 
