@@ -7,11 +7,6 @@
   z-index: 10;
   position: relative;
   cursor: pointer;
-  &::after {
-    display: block;
-    content: "";
-    clear: both;
-  }
 }
 
 .list {
