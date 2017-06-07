@@ -6,6 +6,7 @@ const can = require('../perms');
 
 // USER_ROLES is the array of roles that is permissible as a user role.
 const USER_ROLES = [
+  '',
   'ADMIN',
   'MODERATOR',
   'STAFF'
