@@ -9,7 +9,7 @@ export default class OffTopicCheckbox extends React.Component {
 
   componentDidMount() {
     this.clearTagsHook = this.props.registerHook('postSubmit', () => {
-      const idx = this.props.commentBox.tags.indexOf(this.label);
+      const idx = this.props.tags.indexOf(this.label);
       this.props.removeTag(idx);
     });
   }
@@ -23,7 +23,7 @@ export default class OffTopicCheckbox extends React.Component {
     if (e.target.checked) {
       addTag(this.label);
     } else {
-      const idx = this.props.commentBox.tags.indexOf(this.label);
+      const idx = this.props.tags.indexOf(this.label);
       removeTag(idx);
     }
   }

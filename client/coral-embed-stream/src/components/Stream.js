@@ -241,7 +241,7 @@ class Stream extends React.Component {
               editComment={this.props.editComment}
               liveUpdates={true}
             />
-          : <div className="commentStreamContainer">
+          : <div className="talk-stream-comments-container">
               <NewCount
                 count={comments.nodes.length - view.length}
                 loadMore={this.viewNewComments}

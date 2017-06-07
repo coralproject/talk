@@ -14,7 +14,7 @@ export default {
   reducer,
   slots: {
     commentInputDetailArea: [OffTopicCheckbox],
-    streamViewingOptions: [OffTopicFilter],
-    commentInfoBar: [OffTopicTag]
+    commentInfoBar: [OffTopicTag],
+    viewingOptions: [OffTopicFilter]
   }
 };

@@ -1,6 +1,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {toggleCheckbox} from '../actions';
+import {commentClassNamesSelector} from 'plugin-api/alpha/client/selectors';
 import OffTopicFilter from '../components/OffTopicFilter';
 import {
   closeViewingOptions
@@ -10,9 +11,9 @@ import {
   removeCommentClassName
 } from 'plugin-api/alpha/client/actions';
 
-const mapStateToProps = ({comment, coralPluginOfftopic: offTopic}) => ({
-  commentClassNames: comment.commentClassNames,
-  checked: offTopic.checked
+const mapStateToProps = (state) => ({
+  commentClassNames: commentClassNamesSelector(state),
+  checked: state.coralPluginOfftopic.checked
 });
 
 const mapDispatchToProps = (dispatch) =>

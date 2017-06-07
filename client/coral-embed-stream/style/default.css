@@ -182,7 +182,7 @@ hr {
   padding: 10px 0;
 }
 
-.commentStreamContainer {
+.talk-stream-comments-container {
   position: relative;
   z-index: 0;
 }

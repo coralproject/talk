@@ -20,6 +20,7 @@ const initialState = {
   assetId: getQueryVariable('asset_id'),
   assetUrl: getQueryVariable('asset_url'),
   commentId: getQueryVariable('comment_id'),
+  commentClassNames: []
 };
 
 export default function stream(state = initialState, action) {
@@ -38,6 +39,19 @@ export default function stream(state = initialState, action) {
     return {
       ...state,
       commentId: '',
+    };
+  case actions.ADD_COMMENT_CLASSNAME :
+    return {
+      ...state,
+      commentClassNames: [...state.commentClassNames, action.className]
+    };
+  case actions.REMOVE_COMMENT_CLASSNAME :
+    return {
+      ...state,
+      commentClassNames: [
+        ...state.commentClassNames.slice(0, action.idx),
+        ...state.commentClassNames.slice(action.idx + 1)
+      ]
     };
   default:
     return state;

@@ -381,10 +381,9 @@ export default class Comment extends React.Component {
 
     return (
       <div
-        className={cn(commentClass, 'talk-stream-comment-wrapper', {[styles.enter]: this.state.animateEnter})}
+        className={cn(commentClass, 'talk-stream-comment-wrapper', classNamesToAdd, {[styles.enter]: this.state.animateEnter})}
         id={`c_${comment.id}`}
         style={{marginLeft: depth * 30}}
-        className={cn([commentClass, classNamesToAdd])}
       >
         <hr aria-hidden={true} />
         <div
