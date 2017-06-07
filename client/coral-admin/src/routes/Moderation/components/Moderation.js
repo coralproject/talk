@@ -32,8 +32,14 @@ export default class Moderation extends Component {
     this.toggleModal(false);
   }
 
-  openSearch = () => {
+  closeSearch = () => {
+    console.log('closeSearch');
+    this.props.toggleStorySearch(false);
+  }
 
+  openSearch = () => {
+    console.log('openSearch');
+    this.props.toggleStorySearch(true);
   }
 
   moderate = (accept) => () => {
@@ -132,7 +138,11 @@ export default class Moderation extends Component {
 
     return (
       <div>
-        <ModerationHeader openSearch={this.openSearch} asset={asset} />
+        <ModerationHeader
+          searchVisible={this.props.moderation.storySearchVisible}
+          openSearch={this.openSearch}
+          closeSearch={this.closeSearch}
+          asset={asset} />
         <ModerationMenu
           asset={asset}
           allCount={root.allCount}

@@ -4,19 +4,18 @@ import {Icon} from 'coral-ui';
 import styles from './styles.css';
 import t from 'coral-framework/services/i18n';
 
-const ModerationHeader = (props) => {
+const ModerationHeader = ({asset, searchVisible, openSearch, closeSearch}) => {
 
-  const allStreams = props.asset
+  const trigger = searchVisible ? closeSearch : openSearch;
+  const searchTriggerIcon = <Icon className={styles.searchTrigger} name={searchVisible ? 'arrow_drop_up' : 'arrow_drop_down'} />;
+
+  const allStreams = asset
     ? <Link className="mdl-tabs__tab" to="/admin/moderate">{t('modqueue.all_streams')}</Link>
     : <a className="mdl-tabs__tab" />;
 
-  const title = props.asset
-    ? (
-      <Link className="mdl-tabs__tab" to={`/admin/moderate/${props.asset.id}`}>
-        {props.asset.title} <Icon className={styles.searchTrigger} name="keyboard_arrow_down" />
-      </Link>
-    )
-    : <a className="mdl-tabs__tab">{t('modqueue.all_streams')} <Icon className={styles.searchTrigger} name="keyboard_arrow_down" /></a>;
+  const title = asset
+    ? <span onClick={trigger} className="mdl-tabs__tab">{asset.title} {searchTriggerIcon}</span>
+    : <span onClick={trigger} className="mdl-tabs__tab">{t('modqueue.all_streams')} {searchTriggerIcon}</span>;
 
   return (
     <div className=''>
@@ -32,7 +31,12 @@ const ModerationHeader = (props) => {
 };
 
 ModerationHeader.propTypes = {
-  openSearch: PropTypes.func.isRequired
+  asset: PropTypes.shape({
+    title: PropTypes.string,
+    id: PropTypes.string
+  }),
+  openSearch: PropTypes.func.isRequired,
+  closeSearch: PropTypes.func.isRequired
 };
 
 export default ModerationHeader;

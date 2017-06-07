@@ -471,4 +471,5 @@ span {
 .searchTrigger {
   position: relative;
   top: .3em;
+  background-color: blue;
 }

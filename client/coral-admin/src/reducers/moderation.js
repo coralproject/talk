@@ -12,6 +12,8 @@ const initialState = fromJS({
   userDetailStatuses: ['NONE', 'ACCEPTED', 'REJECTED', 'PREMOD'],
   userDetailSelectedIds: new Set(),
   banDialog: false,
+  storySearchVisible: false,
+  storySearchString: '',
   shortcutsNoteVisible: window.localStorage.getItem('coral:shortcutsNote') || 'show',
   sortOrder: 'REVERSE_CHRONOLOGICAL',
   suspendUserDialog: {
@@ -80,6 +82,10 @@ export default function moderation (state = initialState, action) {
     return state.update('userDetailSelectedIds', (set) => set.add(action.id));
   case actions.UNSELECT_USER_DETAIL_COMMENT:
     return state.update('userDetailSelectedIds', (set) => set.delete(action.id));
+  case actions.SHOW_STORY_SEARCH:
+    return state.set('storySearchVisible', true);
+  case actions.HIDE_STORY_SEARCH:
+    return state.set('storySearchVisible', false);
   case actions.SET_SORT_ORDER:
     return state.set('sortOrder', action.order);
   default :
