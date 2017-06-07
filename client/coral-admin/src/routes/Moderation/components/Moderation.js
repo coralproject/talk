@@ -32,6 +32,10 @@ export default class Moderation extends Component {
     this.toggleModal(false);
   }
 
+  openSearch = () => {
+
+  }
+
   moderate = (accept) => () => {
     const {acceptComment, rejectComment} = this.props;
     const {selectedIndex} = this.state;
@@ -128,7 +132,7 @@ export default class Moderation extends Component {
 
     return (
       <div>
-        <ModerationHeader asset={asset} />
+        <ModerationHeader openSearch={this.openSearch} asset={asset} />
         <ModerationMenu
           asset={asset}
           allCount={root.allCount}
