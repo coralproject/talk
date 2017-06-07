@@ -80,7 +80,10 @@ const CommentSchema = new Schema({
   timestamps: {
     createdAt: 'created_at',
     updatedAt: 'updated_at'
-  }
+  },
+  toJSON: {
+    virtuals: true,
+  },
 });
 
 // Add the indexes for the id of the comment.

@@ -1,15 +1,25 @@
 .drawer {
   max-width: 700px;
-  min-width: 400px;
-  padding: 20px;
+  min-width: 550px;
   position: fixed;
   top: 0;
-  right: 0;
+  right: -17px;
   bottom: 0;
   background-color: white;
   transition: transform 500ms ease-in-out;
   box-shadow: -3px 0px 4px 0px rgba(0,0,0,0.15);
   z-index: 10000;
+
+  .content {
+    position: absolute;
+    padding: 20px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
 }
 
 .closeButton {

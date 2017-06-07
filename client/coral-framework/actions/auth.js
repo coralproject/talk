@@ -1,15 +1,12 @@
-import {pym} from 'coral-framework';
-import * as Storage from '../helpers/storage';
-import * as actions from '../constants/auth';
-import coralApi, {base} from '../helpers/response';
 import jwtDecode from 'jwt-decode';
+import bowser from 'bowser';
+import * as actions from '../constants/auth';
+import * as Storage from '../helpers/storage';
+import coralApi, {base} from '../helpers/request';
 
-const lang = new I18n(translations);
-import translations from './../translations';
-import I18n from '../../coral-framework/modules/i18n/i18n';
+import t from 'coral-framework/services/i18n';
 
-// Dialog Actions
-export const showSignInDialog = () => (dispatch) => {
+export const showSignInDialog = () => (dispatch, getState) => {
   const signInPopUp = window.open(
     '/embed/stream/login',
     'Login',
@@ -21,6 +18,12 @@ export const showSignInDialog = () => (dispatch) => {
   let loaded = false;
   signInPopUp.onload = () => {
     loaded = true;
+
+    // Fire some actions inside the popups reducer, to initialize required state.
+    const required = getState().asset.toJS().settings.requireEmailConfirmation;
+    const redirectUri = getState().auth.toJS().redirectUri;
+    signInPopUp.coralStore.dispatch(setRequireEmailVerification(required));
+    signInPopUp.coralStore.dispatch(setRedirectUri(redirectUri));
   };
 
   // Use `onunload` instead of `onbeforeunload` which is not supported in IOS Safari.
@@ -70,7 +73,7 @@ export const createUsername = (userId, formData) => (dispatch) => {
       dispatch(updateUsername(formData));
     })
     .catch((error) => {
-      dispatch(createUsernameFailure(lang.t(`error.${error.translation_key}`)));
+      dispatch(createUsernameFailure(t(`error.${error.translation_key}`)));
     });
 };
 
@@ -121,26 +124,31 @@ export const handleAuthToken = (token) => (dispatch) => {
 // SIGN IN
 //==============================================================================
 
-export const fetchSignIn = (formData) => (dispatch) => {
-  dispatch(signInRequest());
-  return coralApi('/auth/local', {method: 'POST', body: formData})
-    .then(({token}) => {
-      dispatch(handleAuthToken(token));
-      dispatch(hideSignInDialog());
-    })
-    .catch((error) => {
-      if (error.metadata) {
+export const fetchSignIn = (formData) => {
+  return (dispatch) => {
+    dispatch(signInRequest());
 
-        // the user might not have a valid email. prompt the user user re-request the confirmation email
-        dispatch(
-          signInFailure(lang.t('error.emailNotVerified', error.metadata))
-        );
-      } else {
+    return coralApi('/auth/local', {method: 'POST', body: formData})
+      .then(({token}) => {
+        if (!bowser.safari && !bowser.ios) {
+          dispatch(handleAuthToken(token));
+        }
+        dispatch(hideSignInDialog());
+      })
+      .catch((error) => {
+        if (error.metadata) {
 
-        // invalid credentials
-        dispatch(signInFailure(lang.t('error.emailPasswordError')));
-      }
-    });
+          // the user might not have a valid email. prompt the user user re-request the confirmation email
+          dispatch(
+            signInFailure(t('error.email_not_verified', error.metadata))
+          );
+        } else {
+
+          // invalid credentials
+          dispatch(signInFailure(t('error.email_password')));
+        }
+      });
+  };
 };
 
 //==============================================================================
@@ -187,7 +195,7 @@ export const fetchSignUpFacebook = () => (dispatch) => {
   );
 };
 
-export const facebookCallback = (err, data) => (dispatch, getState) => {
+export const facebookCallback = (err, data) => (dispatch) => {
   if (err) {
     dispatch(signInFacebookFailure(err));
     return;
@@ -196,10 +204,6 @@ export const facebookCallback = (err, data) => (dispatch, getState) => {
     dispatch(handleAuthToken(data.token));
     dispatch(signInFacebookSuccess(data.user));
     dispatch(hideSignInDialog());
-    const {user: {canEditName, status}} = getState().auth.toJS();
-    if (canEditName && status !== 'BANNED') {
-      dispatch(showCreateUsernameDialog());
-    }
   } catch (err) {
     dispatch(signInFacebookFailure(err));
     return;
@@ -214,7 +218,8 @@ const signUpRequest = () => ({type: actions.FETCH_SIGNUP_REQUEST});
 const signUpSuccess = (user) => ({type: actions.FETCH_SIGNUP_SUCCESS, user});
 const signUpFailure = (error) => ({type: actions.FETCH_SIGNUP_FAILURE, error});
 
-export const fetchSignUp = (formData, redirectUri) => (dispatch) => {
+export const fetchSignUp = (formData) => (dispatch, getState) => {
+  const redirectUri = getState().auth.toJS().redirectUri;
   dispatch(signUpRequest());
 
   coralApi('/users', {
@@ -226,7 +231,7 @@ export const fetchSignUp = (formData, redirectUri) => (dispatch) => {
       dispatch(signUpSuccess(user));
     })
     .catch((error) => {
-      let errorMessage = lang.t(`error.${error.message}`);
+      let errorMessage = t(`error.${error.message}`);
 
       // if there is no translation defined, just show the error string
       if (errorMessage === `error.${error.message}`) {
@@ -252,9 +257,9 @@ const forgotPasswordFailure = () => ({
   type: actions.FETCH_FORGOT_PASSWORD_FAILURE
 });
 
-export const fetchForgotPassword = (email) => (dispatch) => {
+export const fetchForgotPassword = (email) => (dispatch, getState) => {
   dispatch(forgotPasswordRequest(email));
-  const redirectUri = pym.parentUrl || location.href;
+  const redirectUri = getState().auth.toJS().redirectUri;
   coralApi('/account/password/reset', {
     method: 'POST',
     body: {email, loc: redirectUri}
@@ -269,7 +274,9 @@ export const fetchForgotPassword = (email) => (dispatch) => {
 
 export const logout = () => (dispatch) => {
   return coralApi('/auth', {method: 'DELETE'}).then(() => {
-    Storage.removeItem('token');
+    if (!bowser.safari && !bowser.ios) {
+      Storage.removeItem('token');
+    }
     dispatch({type: actions.LOGOUT});
   });
 };
@@ -292,11 +299,18 @@ export const checkLogin = () => (dispatch) => {
   coralApi('/auth')
     .then((result) => {
       if (!result.user) {
-        Storage.removeItem('token');
+        if (!bowser.safari && !bowser.ios) {
+          Storage.removeItem('token');
+        }
         throw new Error('Not logged in');
       }
 
       dispatch(checkLoginSuccess(result.user));
+
+      // Display create username dialog if necessary.
+      if (result.user.canEditName && result.user.status !== 'BANNED') {
+        dispatch(showCreateUsernameDialog());
+      }
     })
     .catch((error) => {
       console.error(error);
@@ -323,7 +337,8 @@ const verifyEmailFailure = () => ({
   type: actions.VERIFY_EMAIL_FAILURE
 });
 
-export const requestConfirmEmail = (email, redirectUri) => (dispatch) => {
+export const requestConfirmEmail = (email) => (dispatch, getState) => {
+  const redirectUri = getState().auth.toJS().redirectUri;
   dispatch(verifyEmailRequest());
   return coralApi('/users/resend-verify', {
     method: 'POST',
@@ -337,5 +352,17 @@ export const requestConfirmEmail = (email, redirectUri) => (dispatch) => {
 
       // email might have already been verifyed
       dispatch(verifyEmailFailure(err));
+      throw err;
     });
 };
+
+// Login Popup actions.
+export const setRequireEmailVerification = (required) => ({
+  type: actions.SET_REQUIRE_EMAIL_VERIFICATION,
+  required,
+});
+
+export const setRedirectUri = (uri) => ({
+  type: actions.SET_REDIRECT_URI,
+  uri,
+});

@@ -1,6 +1,84 @@
 import {gql} from 'react-apollo';
 import withMutation from '../hocs/withMutation';
 
+export const withSetCommentStatus = withMutation(
+  gql`
+    mutation SetCommentStatus($commentId: ID!, $status: COMMENT_STATUS!){
+      setCommentStatus(id: $commentId, status: $status) {
+        ...SetCommentStatusResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      setCommentStatus: ({commentId, status}) => {
+        return mutate({
+          variables: {
+            commentId,
+            status,
+          },
+        });
+      }
+    })
+  });
+
+export const withSuspendUser = withMutation(
+  gql`
+    mutation SuspendUser($input: SuspendUserInput!) {
+      suspendUser(input: $input) {
+        ...SuspendUserResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      suspendUser: (input) => {
+        return mutate({
+          variables: {
+            input,
+          },
+        });
+      }
+    })
+  });
+
+export const withRejectUsername = withMutation(
+  gql`
+    mutation RejectUsername($input: RejectUsernameInput!) {
+      rejectUsername(input: $input) {
+        ...RejectUsernameResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      rejectUsername: (input) => {
+        return mutate({
+          variables: {
+            input,
+          },
+        });
+      }
+    })
+  });
+
+export const withSetUserStatus = withMutation(
+  gql`
+    mutation SetUserStatus($userId: ID!, $status: USER_STATUS!) {
+      setUserStatus(id: $userId, status: $status) {
+        ...SetUserStatusResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      setUserStatus: ({userId, status}) => {
+        return mutate({
+          variables: {
+            userId,
+            status
+          },
+        });
+      }
+    }),
+  });
+
 export const withPostComment = withMutation(
   gql`
     mutation PostComment($comment: CreateCommentInput!) {

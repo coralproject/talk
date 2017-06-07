@@ -6,12 +6,8 @@ import uniq from 'lodash/uniq';
 import pick from 'lodash/pick';
 import plugins from 'pluginsConfig';
 import {getDefinitionName, mergeDocuments} from 'coral-framework/utils';
-
-export const pluginReducers = merge(
-  ...plugins
-    .filter((o) => o.module.reducer)
-    .map((o) => ({...o.module.reducer}))
-);
+import {loadTranslations} from 'coral-framework/services/i18n';
+import {injectReducers} from 'coral-framework/services/store';
 
 /**
  * Returns React Elements for given slot.
@@ -88,3 +84,21 @@ export function getGraphQLExtensions() {
     .filter((o) => o);
 }
 
+function getTranslations() {
+  return plugins
+    .map((o) => o.module.translations)
+    .filter((o) => o);
+}
+
+export function loadPluginsTranslations() {
+  getTranslations().forEach((t) => loadTranslations(t));
+}
+
+export function injectPluginsReducers() {
+  const reducers = merge(
+    ...plugins
+      .filter((o) => o.module.reducer)
+      .map((o) => ({...o.module.reducer}))
+  );
+  injectReducers(reducers);
+}

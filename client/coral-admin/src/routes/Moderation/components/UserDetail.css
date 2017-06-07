@@ -1,0 +1,82 @@
+.copyButton {
+  float: right;
+  top: -10px;
+}
+
+.memberSince {
+  clear: both;
+}
+
+.small {
+  color: #aaa;
+}
+
+.stats {
+  display: flex;
+
+  .stat {
+    margin: 0 4px 12px;
+  }
+
+  .stat:last-child {
+    margin-right: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .stat p:first-child {
+    font-weight: bold;
+  }
+}
+
+.profileEmail {
+  border: none;
+  background-color: transparent;
+  font-size: 16px;
+  position: absolute;
+  width: 90%;
+  outline: none;
+}
+
+.commentStatuses {
+  padding: 10px 0 0 0;
+  margin: 0;
+  height: 52px;
+  list-style: none;
+  box-sizing: border-box;
+
+  li {
+    display: inline-block;
+    margin: 0 10px;
+    cursor: pointer;
+    padding: 0 10px;
+  }
+}
+
+.active {
+  font-weight: bold;
+  border-bottom: 3px solid #F36451;
+}
+
+.bulkActionGroup {
+  height: 52px;
+  background-color: #efefef;
+
+  i {
+    margin-right: 0;
+  }
+
+  .bulkAction {
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    transform: scale(.7);
+    min-width: 0;
+  }
+
+  .bulkAction:last-child {
+    margin-left: -10px;
+  }
+}

@@ -16,8 +16,8 @@ module.exports = {
       __resolveType: {
         post({action_type}) {
           switch (action_type) {
-            case 'LOVE':
-              return 'LoveAction';
+          case 'LOVE':
+            return 'LoveAction';
           }
         }
       }
@@ -26,12 +26,11 @@ module.exports = {
       __resolveType: {
         post({action_type}) {
           switch (action_type) {
-            case 'LOVE':
-              return 'LoveActionSummary';
+          case 'LOVE':
+            return 'LoveActionSummary';
           }
         }
       }
     }
   }
 };
-

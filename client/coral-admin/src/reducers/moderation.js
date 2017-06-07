@@ -1,4 +1,4 @@
-import {fromJS, Map} from 'immutable';
+import {fromJS, Map, Set} from 'immutable';
 import * as actions from '../constants/moderation';
 
 const initialState = fromJS({
@@ -8,8 +8,12 @@ const initialState = fromJS({
   commentId: null,
   commentStatus: null,
   userDetailId: null,
+  userDetailActiveTab: 'all',
+  userDetailStatuses: ['NONE', 'ACCEPTED', 'REJECTED', 'PREMOD'],
+  userDetailSelectedIds: new Set(),
   banDialog: false,
   shortcutsNoteVisible: window.localStorage.getItem('coral:shortcutsNote') || 'show',
+  sortOrder: 'REVERSE_CHRONOLOGICAL',
   suspendUserDialog: {
     show: false,
     userId: null,
@@ -63,7 +67,21 @@ export default function moderation (state = initialState, action) {
   case actions.VIEW_USER_DETAIL:
     return state.set('userDetailId', action.userId);
   case actions.HIDE_USER_DETAIL:
-    return state.set('userDetailId', null);
+    return state
+      .set('userDetailId', null)
+      .update('userDetailSelectedIds', (set) => set.clear());
+  case actions.CLEAR_USER_DETAIL_SELECTIONS:
+    return state.update('userDetailSelectedIds', (set) => set.clear());
+  case actions.CHANGE_USER_DETAIL_STATUSES:
+    return state
+      .set('userDetailActiveTab', action.tab)
+      .set('userDetailStatuses', action.statuses);
+  case actions.SELECT_USER_DETAIL_COMMENT:
+    return state.update('userDetailSelectedIds', (set) => set.add(action.id));
+  case actions.UNSELECT_USER_DETAIL_COMMENT:
+    return state.update('userDetailSelectedIds', (set) => set.delete(action.id));
+  case actions.SET_SORT_ORDER:
+    return state.set('sortOrder', action.order);
   default :
     return state;
   }

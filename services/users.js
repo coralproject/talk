@@ -9,6 +9,7 @@ const {
   JWT_SECRET,
   ROOT_URL
 } = require('../config');
+const debug = require('debug')('talk:services:users');
 
 const redis = require('./redis');
 const redisClient = redis.createClient();
@@ -381,15 +382,18 @@ module.exports = class UsersService {
    * @param  {Function} done callback after the operation is complete
    */
   static addRoleToUser(id, role) {
+    const roles = [];
 
     // Check to see if the user role is in the allowable set of roles.
-    if (USER_ROLES.indexOf(role) === -1) {
+    if (role && USER_ROLES.indexOf(role) === -1) {
 
       // User role is not supported! Error out here.
       return Promise.reject(new Error(`role ${role} is not supported`));
+    } else if(role) {
+      roles.push(role);
     }
 
-    return UserModel.update({id}, {$set: {roles: [role]}});
+    return UserModel.update({id}, {$set: {roles}});
   }
 
   /**
@@ -524,6 +528,29 @@ module.exports = class UsersService {
   }
 
   /**
+   * 
+   * @param {String} id  the id of the current user
+   * @param {Object} token  a jwt token used to sign in the user
+   */
+  static async findOrCreateByIDToken(id, token) {
+
+    // Try to get the user.
+    let user = await UserModel.findOne({
+      id
+    });
+
+    // If the user was not found, try to look it up.
+    if (user === null) {
+
+      // If the user wasn't found, it will return null and the variable will be
+      // unchanged.
+      user = await lookupUserNotFound(token);
+    }
+
+    return user;
+  }
+
+  /**
    * Finds users in an array of ids.
    * @param {Array} ids  array of user identifiers (uuid)
   */
@@ -566,10 +593,13 @@ module.exports = class UsersService {
           // endpoint.
           return;
         }
-
         let redirectDomain;
         try {
-          redirectDomain = url.parse(loc).hostname;
+          const {hostname, port} = url.parse(loc);
+          redirectDomain = hostname;
+          if (port) {
+            redirectDomain += `:${port}`;
+          }
         } catch (e) {
           return Promise.reject('redirect location is invalid');
         }
@@ -896,4 +926,31 @@ module.exports = class UsersService {
       }
     });
   }
+};
+
+// Extract all the tokenUserNotFound plugins so we can integrate with other 
+// providers.
+let tokenUserNotFoundHooks = null;
+
+// Provide a function that can loop over the hooks and search for a provider
+// can crack the token to a user.
+const lookupUserNotFound = async (token) => {
+  if (!Array.isArray(tokenUserNotFoundHooks)) {
+    tokenUserNotFoundHooks = require('./plugins')
+      .get('server', 'tokenUserNotFound')
+      .map(({plugin, tokenUserNotFound}) => {
+        debug(`added plugin '${plugin.name}' to tokenUserNotFound hooks`);
+
+        return tokenUserNotFound;
+      });
+  }
+
+  for (let hook of tokenUserNotFoundHooks) {
+    let user = await hook(token);
+    if (user !== null && typeof user !== 'undefined') {
+      return user;
+    }
+  }
+
+  return null;
 };

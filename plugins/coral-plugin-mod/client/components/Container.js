@@ -1,6 +1,6 @@
 import React from 'react';
 import Box from './Box';
-import {Button} from 'coral-ui'
+import {Button} from 'coral-ui';
 import styles from './styles.css';
 
 export default class Footer extends React.Component {
@@ -13,9 +13,9 @@ export default class Footer extends React.Component {
   }
 
   handleClick = () => {
-    this.setState(state => ({
+    this.setState((state) => ({
       show: !state.show
-    }))
+    }));
   }
 
   render() {

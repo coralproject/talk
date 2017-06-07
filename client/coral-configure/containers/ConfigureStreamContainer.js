@@ -2,13 +2,12 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {compose} from 'react-apollo';
 
-import {I18n} from 'coral-framework';
 import {updateOpenStatus, updateConfiguration} from 'coral-framework/actions/asset';
 
 import CloseCommentsInfo from '../components/CloseCommentsInfo';
 import ConfigureCommentStream from '../components/ConfigureCommentStream';
 
-const lang = new I18n();
+import t, {timeago} from 'coral-framework/services/i18n';
 
 class ConfigureStreamContainer extends Component {
   constructor (props) {
@@ -87,7 +86,7 @@ class ConfigureStreamContainer extends Component {
     const {closedTimeout} = this.props.asset.settings;
     const {created_at} = this.props.asset;
 
-    return lang.timeago(new Date(created_at).getTime() + (1000 * closedTimeout));
+    return timeago(new Date(created_at).getTime() + (1000 * closedTimeout));
   }
 
   render () {
@@ -108,8 +107,8 @@ class ConfigureStreamContainer extends Component {
           questionBoxContent={dirtySettings.questionBoxContent}
         />
         <hr />
-        <h3>{closedAt === 'open' ? 'Close' : 'Open'} Comment Stream</h3>
-        {(closedAt === 'open' && closedTimeout) ? <p>The comment stream will close in {this.getClosedIn()}.</p> : ''}
+        <h3>{closedAt === 'open' ? t('configure.close') : t('configure.open')} {t('configure.comment_stream')}</h3>
+          {(closedAt === 'open' && closedTimeout) ? <p>{t('configure.comment_stream_will_close')} {this.getClosedIn()}.</p> : ''}
         <CloseCommentsInfo
           onClick={this.toggleStatus}
           status={closedAt}

@@ -364,9 +364,15 @@ const edit = async (context, {id, asset_id, edit: {body}}) => {
   const status = await resolveNewCommentStatus(context, {asset_id, body}, wordlist, settings);
 
   // Execute the edit.
-  await CommentsService.edit(id, context.user.id, {body, status});
+  const comment = await CommentsService.edit(id, context.user.id, {body, status});
 
-  return {status};
+  if (context.pubsub) {
+
+    // Publish the edited comment via the subscription.
+    context.pubsub.publish('commentEdited', comment);
+  }
+
+  return comment;
 };
 
 module.exports = (context) => {

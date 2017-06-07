@@ -1,12 +1,10 @@
 import React, {PropTypes} from 'react';
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from './translations';
 import onClickOutside from 'react-onclickoutside';
 const name = 'coral-plugin-permalinks';
 import {Button} from 'coral-ui';
 import styles from './styles.css';
 
-const lang = new I18n(translations);
+import t from 'coral-framework/services/i18n';
 
 class PermalinkButton extends React.Component {
 
@@ -56,7 +54,7 @@ class PermalinkButton extends React.Component {
           ref={(ref) => this.linkButton = ref}
           onClick={this.toggle}
           className={`${name}-button`}>
-          {lang.t('permalink.permalink')}
+          {t('permalink')}
           <i className={`${name}-icon material-icons`} aria-hidden={true}>link</i>
         </button>
         <div

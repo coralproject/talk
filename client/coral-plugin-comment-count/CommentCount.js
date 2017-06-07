@@ -1,11 +1,12 @@
 import React, {PropTypes} from 'react';
-import {I18n} from '../coral-framework';
-import translations from './translations.json';
+
+import t from 'coral-framework/services/i18n';
+
 const name = 'coral-plugin-comment-count';
 
 const CommentCount = ({count}) => {
   return <div className={`${name}-text`}>
-    {`${count} ${count === 1 ? lang.t('comment') : lang.t('comment-plural')}`}
+    {`${count} ${count === 1 ? t('comment_singular') : t('comment_plural')}`}
   </div>;
 };
 
@@ -14,5 +15,3 @@ CommentCount.propTypes = {
 };
 
 export default CommentCount;
-
-const lang = new I18n(translations);

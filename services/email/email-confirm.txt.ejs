@@ -1,9 +1,9 @@
-A email confirmation has been requested for the following account:
+<%= t('email.confirm.has_been_requested') %>
 
     <%= email %>
 
-To confirm the account, please visit the following link:
+<%= t('email.confirm.to_confirm') %>
 
     <%= rootURL %>/confirm/endpoint#<%= token %>
 
-If you did not request this, you can safely ignore this email.
+<%= t('email.confirm.if_you_did_not') %>

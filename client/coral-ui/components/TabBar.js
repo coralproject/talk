@@ -17,13 +17,13 @@ class TabBar extends React.Component {
     const {children, activeTab, cStyle = 'base'} = this.props;
     return (
       <div>
-        <ul className={`${styles.base} ${cStyle ? styles[cStyle] : ''}`}>
+        <ul className={`${styles.base} ${cStyle ? styles[cStyle] : ''} ${this.props.className}`}>
           {React.Children.toArray(children)
             .filter((child) => !child.props.restricted)
             .map((child, tabId) =>
               React.cloneElement(child, {
                 tabId,
-                active: tabId === activeTab,
+                active: child.props.id === activeTab,
                 onTabClick: this.handleClickTab,
                 cStyle
               })

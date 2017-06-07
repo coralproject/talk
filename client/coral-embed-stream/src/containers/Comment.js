@@ -15,14 +15,14 @@ const pluginFragments = getSlotsFragments([
 
 export default withFragments({
   root: gql`
-    fragment Comment_root on RootQuery {
+    fragment CoralEmbedStream_Comment_root on RootQuery {
       __typename
       ${pluginFragments.spreads('root')}
     }
     ${pluginFragments.definitions('root')}
     `,
   comment: gql`
-    fragment Comment_comment on Comment {
+    fragment CoralEmbedStream_Comment_comment on Comment {
       id
       body
       created_at

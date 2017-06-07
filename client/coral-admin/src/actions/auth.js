@@ -1,6 +1,7 @@
+import bowser from 'bowser';
 import * as actions from '../constants/auth';
+import coralApi from 'coral-framework/helpers/request';
 import * as Storage from 'coral-framework/helpers/storage';
-import coralApi from 'coral-framework/helpers/response';
 import {handleAuthToken} from 'coral-framework/actions/auth';
 
 //==============================================================================
@@ -9,16 +10,31 @@ import {handleAuthToken} from 'coral-framework/actions/auth';
 
 export const handleLogin = (email, password, recaptchaResponse) => (dispatch) => {
   dispatch({type: actions.LOGIN_REQUEST});
-  const params = {method: 'POST', body: {email, password}};
+
+  const params = {
+    method: 'POST',
+    body: {
+      email,
+      password
+    }
+  };
+
   if (recaptchaResponse) {
-    params.headers = {'X-Recaptcha-Response': recaptchaResponse};
+    params.headers = {
+      'X-Recaptcha-Response': recaptchaResponse
+    };
   }
+
   return coralApi('/auth/local', params)
     .then(({user, token}) => {
+
       if (!user) {
-        Storage.removeItem('token');
+        if (!bowser.safari && !bowser.ios) {
+          Storage.removeItem('token');
+        }
         return dispatch(checkLoginFailure('not logged in'));
       }
+
       dispatch(handleAuthToken(token));
       dispatch(checkLoginSuccess(user));
     })
@@ -52,7 +68,9 @@ const forgotPassowordFailure = () => ({
 
 export const requestPasswordReset = (email) => (dispatch) => {
   dispatch(forgotPassowordRequest(email));
-  return coralApi('/account/password/reset', {method: 'POST', body: {email}})
+  const redirectUri = location.href;
+
+  return coralApi('/account/password/reset', {method: 'POST', body: {email,  loc: redirectUri}})
     .then(() => dispatch(forgotPassowordSuccess()))
     .catch((error) => dispatch(forgotPassowordFailure(error)));
 };
@@ -81,7 +99,9 @@ export const checkLogin = () => (dispatch) => {
   return coralApi('/auth')
     .then(({user}) => {
       if (!user) {
-        Storage.removeItem('token');
+        if (!bowser.safari && !bowser.ios) {
+          Storage.removeItem('token');
+        }
         return dispatch(checkLoginFailure('not logged in'));
       }
 

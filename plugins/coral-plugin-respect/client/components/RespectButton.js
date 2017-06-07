@@ -2,12 +2,12 @@ import React, {Component} from 'react';
 import styles from './style.css';
 import Icon from './Icon';
 
-import {I18n} from 'coral-framework';
+import t from 'coral-framework/services/i18n';
 import cn from 'classnames';
-import translations from '../translations.json';
+
 import {getMyActionSummary, getTotalActionCount} from 'coral-framework/utils';
 
-const lang = new I18n(translations);
+const name = 'coral-plugin-respect';
 
 class RespectButton extends Component {
 
@@ -49,13 +49,13 @@ class RespectButton extends Component {
     let count = getTotalActionCount('RespectActionSummary', comment);
 
     return (
-      <div className={styles.respect}>
+      <div className={cn(styles.respect, `${name}-container`)}>
         <button
-          className={cn(styles.button, {[styles.respected]: myRespect})}
+          className={cn(styles.button, {[styles.respected]: myRespect}, `${name}-button`)}
           onClick={this.handleClick} >
-          <span>{lang.t(myRespect ? 'respected' : 'respect')}</span>
-          <Icon className={cn(styles.icon, {[styles.respected]: myRespect})} />
-          {count > 0 && count}
+          <span className={`${name}-button-text`}>{t(myRespect ? 'respected' : 'respect')}</span>
+          <Icon className={cn(styles.icon, {[styles.respected]: myRespect}, `${name}-icon`)} />
+          <span className={`${name}-count`}>{count > 0 && count}</span>
         </button>
       </div>
     );

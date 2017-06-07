@@ -1,10 +1,8 @@
 import * as actions from '../constants/asset';
-import coralApi from '../helpers/response';
+import coralApi from '../helpers/request';
 import {addNotification} from '../actions/notification';
 
-import I18n from 'coral-framework/modules/i18n/i18n';
-import translations from './../translations';
-const lang = new I18n(translations);
+import t from 'coral-framework/services/i18n';
 
 export const fetchAssetRequest = () => ({type: actions.FETCH_ASSET_REQUEST});
 export const fetchAssetSuccess = (asset) => ({type: actions.FETCH_ASSET_SUCCESS, asset});
@@ -19,7 +17,7 @@ export const updateConfiguration = (newConfig) => (dispatch, getState) => {
   dispatch(updateAssetSettingsRequest());
   coralApi(`/assets/${assetId}/settings`, {method: 'PUT', body: newConfig})
     .then(() => {
-      dispatch(addNotification('success', lang.t('successUpdateSettings')));
+      dispatch(addNotification('success', t('framework.success_update_settings')));
       dispatch(updateAssetSettingsSuccess(newConfig));
     })
     .catch((error) => dispatch(updateAssetSettingsFailure(error)));
@@ -30,7 +28,7 @@ export const updateOpenStream = (closedBody) => (dispatch, getState) => {
   dispatch(fetchAssetRequest());
   coralApi(`/assets/${assetId}/status`, {method: 'PUT', body: closedBody})
     .then(() => {
-      dispatch(addNotification('success', lang.t('successUpdateSettings')));
+      dispatch(addNotification('success', t('framework.success_update_settings')));
       dispatch(fetchAssetSuccess(closedBody));
     })
     .catch((error) => dispatch(fetchAssetFailure(error)));
@@ -48,4 +46,3 @@ export const updateOpenStatus = (status) => (dispatch) => {
     dispatch(updateOpenStream({closedAt: new Date().getTime()}));
   }
 };
-

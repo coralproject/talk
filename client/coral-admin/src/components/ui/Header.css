@@ -73,6 +73,8 @@
   font-weight: 500;
   background-color: transparent;
   transition: background-color 200ms;
+  font-weight: 100;
+  letter-spacing: .8;
 
   &:hover {
     background-color: #232323;
@@ -80,6 +82,7 @@
 
   &.active {
     background-color: #232323;
+    font-weight: 400;
   }
 }
 

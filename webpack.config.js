@@ -89,8 +89,13 @@ const config = {
       },
       {
         loader: 'json-loader',
-        test: /\.json$/,
+        test: /\.(json|yml)$/,
         exclude: /node_modules/
+      },
+      {
+        loader: 'yaml-loader',
+        exclude: /node_modules/,
+        test: /\.yml$/,
       },
       {
         loaders: [

@@ -9,6 +9,8 @@ const errors = require('../errors');
 const uuid = require('uuid');
 const debug = require('debug')('talk:services:passport');
 const {createClient} = require('./redis');
+const bowser = require('bowser');
+const ms = require('ms');
 
 // Create a redis client to use for authentication.
 const client = createClient();
@@ -32,6 +34,18 @@ const GenerateToken = (user) => JWT.sign({}, JWT_SECRET, {
   audience: JWT_AUDIENCE
 });
 
+// SetTokenForSafari sends the token in a cookie for Safari clients.
+const SetTokenForSafari = (req, res, token) => {
+  const browser = bowser._detect(req.headers['user-agent']);
+  if (browser.ios || browser.safari) {
+    res.cookie('authorization', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      expires: new Date(Date.now() + ms(JWT_EXPIRY))
+    });
+  }
+};
+
 // HandleGenerateCredentials validates that an authentication scheme did indeed
 // return a user, if it did, then sign and return the user and token to be used
 // by the frontend to display and update the UI.
@@ -46,6 +60,8 @@ const HandleGenerateCredentials = (req, res, next) => (err, user) => {
 
   // Generate the token to re-issue to the frontend.
   const token = GenerateToken(user);
+
+  SetTokenForSafari(req, res, token);
 
   // Send back the details!
   res.json({user, token});
@@ -65,6 +81,8 @@ const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
 
   // Generate the token to re-issue to the frontend.
   const token = GenerateToken(user);
+
+  SetTokenForSafari(req, res, token);
 
   // We logged in the user! Let's send back the user data.
   res.render('auth-callback', {auth: JSON.stringify({err: null, data: {user, token}})});
@@ -134,6 +152,7 @@ const HandleLogout = (req, res, next) => {
       return next(err);
     }
 
+    res.clearCookie('authorization');
     res.status(204).end();
   });
 };
@@ -155,14 +174,41 @@ const CheckBlacklisted = (jwt) => new Promise((resolve, reject) => {
   });
 });
 
+const jwt = require('jsonwebtoken');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
+
+let cookieExtractor = function(req) {
+  let token = null;
+
+  if (req && req.cookies) {
+    token = req.cookies['authorization'];
+  }
+
+  return token;
+};
+
+// Override the JwtVerifier method on the JwtStrategy so we can pack the
+// original token into the payload.
+JwtStrategy.JwtVerifier = (token, secretOrKey, options, callback) => {
+  return jwt.verify(token, secretOrKey, options, (err, jwt) => {
+    if (err) {
+      return callback(err);
+    }
+
+    // Attach the original token onto the payload.
+    return callback(false, {token, jwt});
+  });
+};
 
 // Extract the JWT from the 'Authorization' header with the 'Bearer' scheme.
 passport.use(new JwtStrategy({
 
   // Prepare the extractor from the header.
-  jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
+  jwtFromRequest: ExtractJwt.fromExtractors([
+    cookieExtractor,
+    ExtractJwt.fromAuthHeaderWithScheme('Bearer')
+  ]),
 
   // Use the secret passed in which is loaded from the environment. This can be
   // a certificate (loaded) or a HMAC key.
@@ -177,10 +223,10 @@ passport.use(new JwtStrategy({
   // Enable only the HS256 algorithm.
   algorithms: ['HS256'],
 
-  // Pass the request objecto back to the callback so we can attach the JWT to
+  // Pass the request object back to the callback so we can attach the JWT to
   // it.
   passReqToCallback: true
-}, async (req, jwt, done) => {
+}, async (req, {token, jwt}, done) => {
 
   // Load the user from the environment, because we just got a user from the
   // header.
@@ -189,7 +235,9 @@ passport.use(new JwtStrategy({
     // Check to see if the token has been revoked
     await CheckBlacklisted(jwt);
 
-    let user = await UsersService.findById(jwt.sub);
+    // Try to get the user from the database or crack it from the token and
+    // plugin integrations.
+    let user = await UsersService.findOrCreateByIDToken(jwt.sub, {token, jwt});
 
     // Attach the JWT to the request.
     req.jwt = jwt;

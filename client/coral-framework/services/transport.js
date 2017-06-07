@@ -1,5 +1,5 @@
 import {createNetworkInterface} from 'apollo-client';
-import * as Storage from '../helpers/storage';
+import {getAuthToken} from '../helpers/request';
 
 //==============================================================================
 // NETWORK INTERFACE
@@ -21,7 +21,12 @@ networkInterface.use([{
     if (!req.options.headers) {
       req.options.headers = {};  // Create the header object if needed.
     }
-    req.options.headers['authorization'] = `Bearer ${Storage.getItem('token')}`;
+
+    let authToken = getAuthToken();
+    if (authToken) {
+      req.options.headers['authorization'] = `Bearer ${authToken}`;
+    }
+
     next();
   }
 }]);

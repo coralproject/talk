@@ -6,11 +6,14 @@ const helmet = require('helmet');
 const authentication = require('./middleware/authentication');
 const {passport} = require('./services/passport');
 const plugins = require('./services/plugins');
+const i18n = require('./services/i18n');
 const enabled = require('debug').enabled;
 const errors = require('./errors');
 const {createGraphOptions} = require('./graph');
 const apollo = require('graphql-server-express');
 const accepts = require('accepts');
+const compression = require('compression');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
@@ -31,6 +34,8 @@ app.set('trust proxy', 1);
 app.use(helmet({
   frameguard: false
 }));
+app.use(compression());
+app.use(cookieParser());
 app.use(bodyParser.json());
 
 //==============================================================================
@@ -153,6 +158,8 @@ app.use('/', (err, req, res, next) => {
     console.error(err);
   }
 
+  i18n.init(req);
+  
   if (err instanceof errors.APIError) {
     res.status(err.status);
     res.render('error', {

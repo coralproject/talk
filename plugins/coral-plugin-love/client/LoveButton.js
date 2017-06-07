@@ -1,10 +1,8 @@
 import React from 'react';
 import {Icon} from 'coral-ui';
 import styles from './styles.css';
-import {I18n} from 'coral-framework';
-import translations from './translations.json';
+import t from 'coral-framework/services/i18n';
 import {withReaction} from 'coral-plugin-api';
-const lang = new I18n(translations);
 
 class LoveButton extends React.Component {
   handleClick = () => {
@@ -14,7 +12,7 @@ class LoveButton extends React.Component {
       showSignInDialog,
       alreadyReacted
     } = this.props;
-    const {root: {me}, comment} = this.props;
+    const {root: {me}} = this.props;
 
     // If the current user does not exist, trigger sign in dialog.
     if (!me) {
@@ -41,7 +39,7 @@ class LoveButton extends React.Component {
         className={`${styles.button} ${alreadyReacted() ? styles.loved : ''}`}
         onClick={this.handleClick}
       >
-        <span>{lang.t(alreadyReacted() ? 'loved' : 'love')}</span>
+        <span>{t(alreadyReacted() ? 'loved' : 'love')}</span>
         <Icon name="favorite" />
         <span>{count > 0 && count}</span>
       </button>
