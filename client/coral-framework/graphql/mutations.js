@@ -252,7 +252,7 @@ export const withRemoveTag = withMutation(
             // Read the data from our cache for this query.
             const data = proxy.readFragment({fragment: COMMENT_FRAGMENT, id: fragmentId});
 
-            const idx = data.tags.findIndex(i => i.tag.name === 'BEST');
+            const idx = data.tags.findIndex((i) => i.tag.name === 'BEST');
 
             data.tags = [...data.tags.slice(0, idx), ...data.tags.slice(idx + 1)];
 
