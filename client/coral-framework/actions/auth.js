@@ -285,6 +285,7 @@ export const logout = () => (dispatch) => {
     resetWebsocket();
 
     dispatch({type: actions.LOGOUT});
+    pym.sendMessage('coral-logout');
   });
 };
 
@@ -305,7 +306,6 @@ export const checkLogin = () => (dispatch) => {
   dispatch(checkLoginRequest());
   coralApi('/auth')
     .then((result) => {
-      pym.sendMessage('coral-check-login', JSON.stringify(result));
 
       if (!result.user) {
         if (!bowser.safari && !bowser.ios) {
@@ -318,6 +318,7 @@ export const checkLogin = () => (dispatch) => {
       resetWebsocket();
 
       dispatch(checkLoginSuccess(result.user));
+      pym.sendMessage('coral-login', JSON.stringify(result.user));
 
       // Display create username dialog if necessary.
       if (result.user.canEditName && result.user.status !== 'BANNED') {

@@ -54,11 +54,15 @@ function configurePymParent(pymParent, opts) {
     pymParent.sendMessage('config', JSON.stringify(config));
   }
 
-  pymParent.onMessage('coral-check-login', function(result) {
-    if (opts.onCheckLogin) {
-      opts.onCheckLogin(JSON.parse(result));
+  function onAuthChanged(message) {
+    if (opts.onAuthChanged) {
+      opts.onAuthChanged(message ? JSON.parse(message) : null);
     }
-  });
+  }
+
+  pymParent.onMessage('coral-login', onAuthChanged);
+
+  pymParent.onMessage('coral-logout', onAuthChanged);
 
   // Sends config to the child
   pymParent.onMessage('getConfig', function() {
