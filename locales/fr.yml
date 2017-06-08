@@ -22,21 +22,15 @@ fr:
     comment: "Publier un commentaire"
     name: "Nom"
     comment_post_notif: "Votre commentaire a été publié."
-    comment_post_notif_premod: "Merci d'avoir envoyé un commentaire. Notre équipe\
-      \ de modération passera en revue votre commentaire sous peu."
-    comment_post_banned_word: "Votre commentaire contient un ou plusieurs mots qui\
-      \ ne sont pas autorisés, il ne sera pas publié. Si vous pensez qu'il y a une\
-      \ erreur, contactez notre équipe de modération."
+    comment_post_notif_premod: "Merci d'avoir envoyé un commentaire. Notre équipe de modération passera en revue votre commentaire sous peu."
+    comment_post_banned_word: "Votre commentaire contient un ou plusieurs mots qui ne sont pas autorisés, il ne sera pas publié. Si vous pensez qu'il y a une erreur, contactez notre équipe de modération."
     characters_remaining: "caractères restants"
   comment_is_best: "Ce commentaire est l'un des meilleurs"
   comment_offensive: "Ce commentaire est offensant"
   comment_plural: Commentaires
-  comment_post_banned_word: "Votre commentaire contient un ou plusieurs mots qui ne\
-    \ sont pas autorisés, il ne sera pas publié. Si vous pensez qu'il y a une erreur,\
-    \ contactez notre équipe de modération."
+  comment_post_banned_word: "Votre commentaire contient un ou plusieurs mots qui ne sont pas autorisés, il ne sera pas publié. Si vous pensez qu'il y a une erreur, contactez notre équipe de modération."
   comment_post_notif: "Votre commentaire a été publié."
-  comment_post_notif_premod: "Merci d'avoir envoyé un commentaire. Notre équipe de\
-    \ modération passera en revue votre commentaire sous peu."
+  comment_post_notif_premod: "Merci d'avoir envoyé un commentaire. Notre équipe de modération passera en revue votre commentaire sous peu."
   community:
     account_creation_date: "Date de création du compte"
     active: Actif
@@ -55,10 +49,8 @@ fr:
     moderator: Modérateur
     newsroom_role: "Rôle de la salle de presse"
     no_flagged_accounts: "La liste des comptes signalés est vide."
-    no_results: "Aucun utilisateur n'a été trouvé avec ce nom d'utilisateur ou cette\
-      \ adresse de messagerie. Ils se cachent !"
-    note: "Remarque: bannir cet utilisateur ne lui permettra pas de modifier les commentaires\
-      \ ou de supprimer quoi que ce soit."
+    no_results: "Aucun utilisateur n'a été trouvé avec ce nom d'utilisateur ou cette adresse de messagerie. Ils se cachent !"
+    note: "Remarque: bannir cet utilisateur ne lui permettra pas de modifier les commentaires ou de supprimer quoi que ce soit."
     offensive: "Ce commentaire est offensant"
     other: Autre
     people: Gens
@@ -71,19 +63,13 @@ fr:
     yes_ban_user: "Oui bannir l'utilisateur"
   configure:
     apply: Appliquer
-    banned_word_text: "Les commentaires qui contiennent ces mots ou ces expressions\
-      \ (non sensibles à la casse) seront automatiquement supprimés du flux de commentaires.\
-      \ Tapez un mot et appuyez sur Entrée ou Tabulation pour ajouter. En option,\
-      \ envoyez une liste séparée par des virgules."
+    banned_word_text: "Les commentaires qui contiennent ces mots ou ces expressions (non sensibles à la casse) seront automatiquement supprimés du flux de commentaires. Tapez un mot et appuyez sur Entrée ou Tabulation pour ajouter. En option, envoyez une liste séparée par des virgules."
     banned_words_title: "Liste des mots interdits"
     close: "Fermer"
     close_after: "Fermer les commentaires après"
     close_stream: "Fermer le fil"
-    close_stream_configuration: "Ce fil de commentaires est actuellement fermé. En\
-      \ ouvrant ce fil commentaire, de nouveaux commentaires peuvent être soumis et\
-      \ publiés."
-    closed_comments_desc: "Écrivez un message à afficher lorsque votre fil de commentaires\
-      \ est fermé et n'accepte plus de nouveaux commentaires."
+    close_stream_configuration: "Ce fil de commentaires est actuellement fermé. En ouvrant ce fil commentaire, de nouveaux commentaires peuvent être soumis et publiés."
+    closed_comments_desc: "Écrivez un message à afficher lorsque votre fil de commentaires est fermé et n'accepte plus de nouveaux commentaires."
     closed_comments_label: "Écrire un message..."
     closed_stream_settings: "Message de fil de commentaires fermé"
     comment_count_error: "S'il vous plait, entrez un nombre valide."
@@ -95,139 +81,103 @@ fr:
     comment_stream_will_close: "Le fil de commentaires va se fermer dans"
     community: Communauté
     configure: Configurer
-    copy_and_paste: "Copiez et collez le code ci-dessous dans votre CMS pour inté\
-      grer votre boîte de commentaires dans vos articles."
+    copy_and_paste: "Copiez et collez le code ci-dessous dans votre CMS pour intégrer votre boîte de commentaires dans vos articles."
     custom_css_url: "URL CSS personnalisée"
-    custom_css_url_desc: "URL d'une feuille de style CSS qui remplacera les styles\
-      \ par défaut d'intégration des commentaires. Peut être interne ou externe."
+    custom_css_url_desc: "URL d'une feuille de style CSS qui remplacera les styles par défaut d'intégration des commentaires. Peut être interne ou externe."
     dashboard: Tableau de bord
     days: Journées
-    description: "En tant qu'administrateur, vous pouvez personnaliser les paramè\
-      tres du fil de commentaires pour cet élément."
-    domain_list_text: "Entrez les domaines que vous souhaitez autoriser pour Talk,\
-      \ par exemple vos environnements locaux de production et de production (ex :\
-      \ localhost: 3000 staging.domain.com domain.com)."
+    description: "En tant qu'administrateur, vous pouvez personnaliser les paramètres du fil de commentaires pour cet élément."
+    domain_list_text: "Entrez les domaines que vous souhaitez autoriser pour Talk, par exemple vos environnements locaux de production et de production (ex : localhost: 3000 staging.domain.com domain.com)."
     domain_list_title: "Domaines autorisés"
     edit_comment_timeframe_heading: "Modifier l'horodatage des commentaires"
     edit_comment_timeframe_text_pre: "Les commentateurs auront"
     edit_comment_timeframe_text_post: "secondes pour modifier leurs commentaires."
     embed_comment_stream: "Intégrer le fil"
-    enable_premod_links_text: "Les modérateurs doivent approuver tout commentaire\
-      \ contenant un lien avant sa publication."
+    enable_premod_links_text: "Les modérateurs doivent approuver tout commentaire contenant un lien avant sa publication."
     enable_pre_moderation: "Activer modération a priori"
-    enable_pre_moderation_text: "Les modérateurs doivent approuver tout commentaire\
-      \ avant qu'il ne soit publié."
+    enable_pre_moderation_text: "Les modérateurs doivent approuver tout commentaire avant qu'il ne soit publié."
     enable_premod_links: "Modérer les commentaires contenant des liens"
     enable_premod: "Activer la modération a priori"
-    enable_premod_description: "Les modérateurs doivent approuver tout commentaire\
-      \ avant sa publication."
-    enable_premod_links_description: "Les modérateurs doivent approuver tout commentaire\
-      \ contenant un lien avant sa publication."
+    enable_premod_description: "Les modérateurs doivent approuver tout commentaire avant sa publication."
+    enable_premod_links_description: "Les modérateurs doivent approuver tout commentaire contenant un lien avant sa publication."
     enable_questionbox: "Posez une question aux lecteurs."
-    enable_questionbox_description: "Cette question apparaîtra en haut de ce fil de\
-      \ commentaires. Demandez aux lecteurs de s'exprimer sur un sujet évoqué dans\
-      \ l'article ou posez les termes de la discussion, etc."
+    enable_questionbox_description: "Cette question apparaîtra en haut de ce fil de commentaires. Demandez aux lecteurs de s'exprimer sur un sujet évoqué dans l'article ou posez les termes de la discussion, etc."
     hours: Heures
-    include_comment_stream: "Inclure la description du fil de commentaires pour les\
-      \ lecteurs"
-    include_comment_stream_desc: "Écrivez un message à ajouter au haut de votre flux\
-      \ de commentaires. Publiez un sujet de discussion, avec des suggestion sur la\
-      \ tenue des débats, etc."
+    include_comment_stream: "Inclure la description du fil de commentaires pour les lecteurs"
+    include_comment_stream_desc: "Écrivez un message à ajouter au haut de votre flux de commentaires. Publiez un sujet de discussion, avec des suggestion sur la tenue des débats, etc."
     include_text: "Entrez votre texte ici."
     include_question_here: "Écrivez votre question ici."
     moderate: Modérer
     moderation_settings: "Paramètres de la modération"
     open: "Ouvert"
     open_stream: "Ouvrir le fil"
-    open_stream_configuration: "Ce fil de commentaires est actuellement ouvert. En\
-      \ fermant ce fil de commentaires, aucun nouveau commentaire ne pourra être envoyé\
-      , les commentaires précédents seront toujours affichés."
+    open_stream_configuration: "Ce fil de commentaires est actuellement ouvert. En fermant ce fil de commentaires, aucun nouveau commentaire ne pourra être envoyé, les commentaires précédents seront toujours affichés."
     require_email_verification: "Exiger une vérification de l'e-mail"
-    require_email_verification_text: "Les nouveaux utilisateurs doivent vérifier leur\
-      \ adresse e-mail avant de commenter."
+    require_email_verification_text: "Les nouveaux utilisateurs doivent vérifier leur adresse e-mail avant de commenter."
     save_changes: "Sauvegarder les changements"
     shortcuts: Raccourcis
     sign_out: "Se Déconnecter"
     stories: Histoires
     stream_settings: "Paramètres du fil"
     suspect_word_title: "Liste des mots suspects"
-    suspect_word_text: "Les commentaires contenant ces mots ou expressions (non sensibles\
-      \ à la casse) seront mis en évidence dans le flux de commentaires. Tapez un\
-      \ mot et appuyez sur Entrée ou Tabulation pour ajouter. En option, entrez une\
-      \ liste séparée par des virgules."
+    suspect_word_text: "Les commentaires contenant ces mots ou expressions (non sensibles à la casse) seront mis en évidence dans le flux de commentaires. Tapez un mot et appuyez sur Entrée ou Tabulation pour ajouter. En option, entrez une liste séparée par des virgules."
     tech_settings: "Paramètres techniques"
     title: "Configurer le fil de commentaires"
     weeks: Semaines
     wordlist: "Mots interdits"
   continue: Continuer
   dashboard:
-    auto_update: "Les données sont automatiquement mises à jour toutes les cinq minutes\
-      \ ou lorsque vous rechargez."
+    auto_update: "Les données sont automatiquement mises à jour toutes les cinq minutes ou lorsque vous rechargez."
     comment_count: commentaires
     flags: signalements
     most_flags: "Articles avec le plus de signalements"
     most_conversations: "Articles avec le plus de conversations"
     next_update: "{0} minutes jusqu'à la prochaine mise à jour."
-    no_activity: "Il n'y a eu aucun commentaire nulle part dans les cinq dernières\
-      \ minutes."
-    no_flags: "Il n'y a pas eu aucun signalement au cours des 5 dernières minutes\
-      \ ! Hooray !"
-    no_likes: "Il n'y a pas eu de \"J'aime\" au cours des 5 dernières minutes. Tout\
-      \ est calme."
+    no_activity: "Il n'y a eu aucun commentaire nulle part dans les cinq dernières minutes."
+    no_flags: "Il n'y a pas eu aucun signalement au cours des 5 dernières minutes! Hooray !"
+    no_likes: "Il n'y a pas eu de \"J'aime\" au cours des 5 dernières minutes. Tout est calme."
   done: Terminé
   edit_comment:
     body_input_label: "Modifier ce commentaire"
     save_button: "Sauvegarder les changements"
-    edit_window_expired: "Vous ne pouvez plus modifier ce commentaire. La fenêtre\
-      \ de temps pour le faire a expiré. Pourquoi ne pas en publier un autre ?"
+    edit_window_expired: "Vous ne pouvez plus modifier ce commentaire. La fenêtre de temps pour le faire a expiré. Pourquoi ne pas en publier un autre ?"
     edit_window_expired_close: "Fermer"
     edit_window_timer_prefix: "Fenêtre d'édition :"
     second: "seconde"
     seconds_plural: "secondes"
-    unexpected_error: "Erreur inattendue lors de l'enregistrement des modifications.\
-      \ Désolé !"
+    unexpected_error: "Erreur inattendue lors de l'enregistrement des modifications. Désolé !"
   embedlink:
     copy: "Copier dans le presse-papier"
   error:
     COMMENT_TOO_SHORT: "Votre commentaire doit contenir quelque chose"
     NOT_AUTHORIZED: "Vous n'êtes pas autorisé à effectuer cette action."
-    NO_SPECIAL_CHARACTERS: "Les noms d'utilisateur ne peuvent contenir que des lettres,\
-      \ des chiffres et \"_\" seulement"
+    NO_SPECIAL_CHARACTERS: "Les noms d'utilisateur ne peuvent contenir que des lettres, des chiffres et \"_\" seulement"
     PASSWORD_LENGTH: "Le mot de passe est trop court"
-    PROFANITY_ERROR: "Les noms d'utilisateur ne doivent pas contenir de mots offensants.\
-      \ Veuillez contacter l'administrateur si vous pensez qu'il y a une erreur."
+    PROFANITY_ERROR: "Les noms d'utilisateur ne doivent pas contenir de mots offensants. Veuillez contacter l'administrateur si vous pensez qu'il y a une erreur."
     USERNAME_IN_USE: "Ce nom d'utilisateur est déjà pris"
     USERNAME_REQUIRED: "Doit entrer un nom d'utilisateur"
-    EDIT_WINDOW_ENDED: "Vous ne pouvez plus modifier ce commentaire. La fenêtre de\
-      \ temps pour le faire a expiré."
-    EDIT_USERNAME_NOT_AUTHORIZED: "Vous n'avez pas la permission de mettre à jour\
-      \ votre nom d'utilisateur."
+    EDIT_WINDOW_ENDED: "Vous ne pouvez plus modifier ce commentaire. La fenêtre de temps pour le faire a expiré."
+    EDIT_USERNAME_NOT_AUTHORIZED: "Vous n'avez pas la permission de mettre à jour votre nom d'utilisateur."
     EMAIL_IN_USE: "Adresse e-mail déjà utilisée"
     EMAIL_REQUIRED: "Une adresse email est requise"
-    LOGIN_MAXIMUM_EXCEEDED: "Vous avez effectué trop de tentatives infructueuses pour\
-      \ entrer votre mot de passe. S'il vous plaît, attendez."
+    LOGIN_MAXIMUM_EXCEEDED: "Vous avez effectué trop de tentatives infructueuses pour entrer votre mot de passe. S'il vous plaît, attendez."
     PASSWORD_REQUIRED: "Doit entrer un mot de passe"
     COMMENTING_CLOSED: "Les commentaires sont déjà fermés"
     NOT_FOUND: "Ressource introuvable"
     INVALID_ASSET_URL: "L'URL est invalide"
     email: "Pas une adresse e-mail valide"
     confirm_password: "Les mots de passe ne correspondent pas. Vérifiez à nouveau"
-    network_error: "Échec de connexion au serveur. Vérifiez votre connexion Internet\
-      \ et réessayez."
+    network_error: "Échec de connexion au serveur. Vérifiez votre connexion Internet et réessayez."
     email_not_verified: "L'adresse e-mail {0} n'est pas vérifiée."
     email_password: "Combinaison e-mail / mot de passe incorrecte."
-    organization_name: "Le nom de l'organisation ne peut contenir que des lettres\
-      \ ou des chiffres."
+    organization_name: "Le nom de l'organisation ne peut contenir que des lettres ou des chiffres."
     password: "Le mot de passe doit être d'au moins 8 caractères"
-    username: "Les noms d'utilisateur ne peuvent contenir que des chiffres, des lettres\
-      \ et \"_\""
+    username: "Les noms d'utilisateur ne peuvent contenir que des chiffres, des lettres et \"_\""
   flag_comment: "Signaler un commentaire"
   flag_reason: "Motif du signalement (facultatif)"
   flag_username: "Signaler un nom d'utilisateur"
   framework:
-    banned_account_msg: "Votre compte est actuellement suspendu. Cela signifie que\
-      \ vous ne pouvez pas Aimer Signaler ou Écrire des commentaires. Contactez-nous\
-      \ si vous avez des questions."
+    banned_account_msg: "Votre compte est actuellement suspendu. Cela signifie que vous ne pouvez pas Aimer Signaler ou Écrire des commentaires. Contactez-nous si vous avez des questions."
     comment: commentaire
     comment_is_ignored: "Ce commentaire est caché car vous avez ignoré cet utilisateur."
     comments: commentaires
@@ -235,12 +185,9 @@ fr:
     content_not_available: "Ce contenu n'est pas disponible"
     edit_name:
       button: Soumettre
-      error: "Les noms d'utilisateur ne peuvent contenir que des chiffres, des lettres\
-        \ et \"_\""
+      error: "Les noms d'utilisateur ne peuvent contenir que des chiffres, des lettres et \"_\""
       label: "Nouveau nom d'utilisateur"
-      msg: "Votre compte est actuellement suspendu car votre nom d'utilisateur a é\
-        té jugé inapproprié. Pour restaurer votre compte, entrez un nouveau nom d'utilisateur.\
-        \ Contactez-nous si vous avez des questions."
+      msg: "Votre compte est actuellement suspendu car votre nom d'utilisateur a été jugé inapproprié. Pour restaurer votre compte, entrez un nouveau nom d'utilisateur. Contactez-nous si vous avez des questions."
     ignored_users: "Utilisateurs ignorés"
     my_comments: "Mes commentaires"
     my_profile: "Mon profil"
@@ -249,8 +196,7 @@ fr:
     show_all_comments: "Afficher tous les commentaires"
     success_bio_update: "Votre biographie a été mise à jour"
     success_name_update: "Votre nom d'utilisateur a été mis à jour"
-    success_update_settings: "Les modifications que vous avez apportées ont été appliqué\
-      es au fil de commentaires sur cet article"
+    success_update_settings: "Les modifications que vous avez apportées ont été appliqué es au fil de commentaires sur cet article"
     view_all_replies: "Voir {0} réponses"
     view_all_replies_initial: "Voir toutes les {0} réponses"
     view_more_comments: "Voir plus de commentaires"
@@ -271,8 +217,7 @@ fr:
     billion: B
     close: Fermer
     dont_like_username: "N'aime pas le nom d'utilisateur"
-    empty_queue: "Plus de commentaires à modérer ! Vous avez terminé, allez prendre\
-      \ un ☕️"
+    empty_queue: "Plus de commentaires à modérer ! Vous avez terminé, allez prendre un ☕️"
     flagged: signalé
     impersonating: "problème d'identité"
     less_detail: "Moins de détails"
@@ -314,26 +259,21 @@ fr:
   profile_settings: "Paramètres du profil"
   reply: Répondre
   report: Signaler
-  report_notif: "Merci de signaler ce commentaire. Notre équipe de modération a é\
-    té informée."
+  report_notif: "Merci de signaler ce commentaire. Notre équipe de modération a é té informée."
   report_notif_remove: "Votre signalement a été supprimé."
   reported: Signalé
   set_best: "Sélectionner comme le meilleur"
   settings:
     all_comments: "Tous les commentaires"
-    from_settings_page: "Dans la page Profil, vous pouvez voir l'historique de vos\
-      \ commentaires."
+    from_settings_page: "Dans la page Profil, vous pouvez voir l'historique de vos commentaires."
     my_comment_history: "Mon historique de commentaires"
     profile: Profil
     profile_settings: "Paramètres du profil"
     sign_in: "Se connecter"
     to_access: "Accéder au profil"
-    user_no_comment: "Vous n'avez jamais laissé de commentaire. Rejoignez la conversation\
-      \ !"
+    user_no_comment: "Vous n'avez jamais laissé de commentaire. Rejoignez la conversation!"
   stream:
-    temporarily_suspended: "Conformément à la charte d'utilisation des commentaires\
-      \ de {0}, votre compte a été temporairement suspendu. Merci de revenir dans\
-      \ la conversation {1}."
+    temporarily_suspended: "Conformément à la charte d'utilisation des commentaires de {0}, votre compte a été temporairement suspendu. Merci de revenir dans la conversation {1}."
   step_1_header: "Signaler un problème"
   step_2_header: "Aidez-nous à comprendre"
   step_3_header: "Merci pour votre participation"
@@ -341,8 +281,7 @@ fr:
     all: Tous
     article: Récit
     closed: Fermé
-    empty_result: "Aucun contenu ne correspond à cette recherche. Peut-être essayer\
-      \ d'élargir votre recherche ?"
+    empty_result: "Aucun contenu ne correspond à cette recherche. Peut-être essayer d'élargir votre recherche ?"
     filter_streams: "Filtrer les flux"
     newest: Le plus récent
     oldest: Le plus ancien
@@ -356,39 +295,19 @@ fr:
     bio: Bio
     cancel: "Annuler"
     days: "{0} jours"
-    description_0: "Voulez-vous interdire temporairement cet utilisateur en raison\
-      \ de leur {0} ? Cela dissimulera temporairement leurs commentaires jusqu'à ce\
-      \ qu'ils réécrivent leurs {0}."
-    description_1: "Suspendre cet utilisateur désactivera temporairement son compte\
-      \ et cachera tous ses commentaires sur le site."
-    description_notify: "Suspendre cet utilisateur désactivera temporairement son\
-      \ compte et cachera tous ses commentaires sur le site."
-    description_reject: "Voulez-vous interdire temporairement cet utilisateur en raison\
-      \ de leur {0}? Cela dissimulera temporairement leurs commentaires jusqu'à ce\
-      \ qu'ils réécrivent leurs {0}."
-    description_suspend: "Vous suspendez {0}. Ce commentaire sera rejeté, et {0} ne\
-      \ sera pas autorisé à aimer, à signaler, à répondre ou à publier jusqu'à ce\
-      \ que la suspension soit levée."
-    email: "Un autre membre de la communauté a récemment signalé votre nom d'utilisateur\
-      \ pour examen. En raison de son contenu, votre utilisateur a été rejeté. Cela\
-      \ signifie que vous ne pouvez plus commenter ou signaler du contenu jusqu'à\
-      \ ce que vous changiez votre nom d'utilisateur. Veuillez nous envoyer un e-mail\
-      \ si vous avez des questions ou des préoccupations."
+    description_0: "Voulez-vous interdire temporairement cet utilisateur en raison de leur {0} ? Cela dissimulera temporairement leurs commentaires jusqu'à ce qu'ils réécrivent leurs {0}."
+    description_1: "Suspendre cet utilisateur désactivera temporairement son compte et cachera tous ses commentaires sur le site."
+    description_notify: "Suspendre cet utilisateur désactivera temporairement son compte et cachera tous ses commentaires sur le site."
+    description_reject: "Voulez-vous interdire temporairement cet utilisateur en raison de leur {0}? Cela dissimulera temporairement leurs commentaires jusqu'à ce qu'ils réécrivent leurs {0}."
+    description_suspend: "Vous suspendez {0}. Ce commentaire sera rejeté, et {0} ne sera pas autorisé à aimer, à signaler, à répondre ou à publier jusqu'à ce que la suspension soit levée."
+    email: "Un autre membre de la communauté a récemment signalé votre nom d'utilisateur pour examen. En raison de son contenu, votre utilisateur a été rejeté. Cela signifie que vous ne pouvez plus commenter ou signaler du contenu jusqu'à ce que vous changiez votre nom d'utilisateur. Veuillez nous envoyer un e-mail si vous avez des questions ou des préoccupations."
     email_subject: "Votre compte a été suspendu"
-    email_message_reject: "Un autre membre de la communauté a récemment signalé votre\
-      \ nom d'utilisateur pour examen. En raison de son contenu, votre nom d'utilisateur\
-      \ a été rejeté. Cela signifie que vous ne pouvez plus commenter, ni signaler\
-      \ du contenu jusqu'à ce que vous changiez votre nom d'utilisateur. Veuillez\
-      \ nous envoyer un e-mail si vous avez des questions ou des préoccupations."
-    email_message_suspend: "Cher {0},\n\nConformément à la charte des commentaires\
-      \ de {1}, votre compte a été temporairement suspendu. Pendant cette période,\
-      \ vous ne pourrez pas commenter, signaler ou participer à d'autres commentaires.\
-      \ \n\nMerci de revenir dans la conversation {2}."
+    email_message_reject: "Un autre membre de la communauté a récemment signalé votre nom d'utilisateur pour examen. En raison de son contenu, votre nom d'utilisateur a été rejeté. Cela signifie que vous ne pouvez plus commenter, ni signaler du contenu jusqu'à ce que vous changiez votre nom d'utilisateur. Veuillez nous envoyer un e-mail si vous avez des questions ou des préoccupations."
+    email_message_suspend: "Cher {0},\n\nConformément à la charte des commentaires de {1}, votre compte a été temporairement suspendu. Pendant cette période, vous ne pourrez pas commenter, signaler ou participer à d'autres commentaires. \n\nMerci de revenir dans la conversation {2}."
     error_email_message_empty: "Vous devez spécifier un message dans l'e-mail."
     hours: "{0} heures"
     no_cancel: "Pas d'annulation"
-    notify_suspend_until: "L'utilisateur {0} a été temporairement suspendu. Cette\
-      \ suspension se terminera automatiquement {1}."
+    notify_suspend_until: "L'utilisateur {0} a été temporairement suspendu. Cette suspension se terminera automatiquement {1}."
     one_hour: "1 heure"
     send: Envoyer
     select_duration: "Sélectionnez la durée de la suspension"
@@ -402,16 +321,14 @@ fr:
     username: "Nom d'utilisateur"
     write_message: "Écrire un message"
     yes_suspend: "Oui suspendre"
-  thank_you: "Nous apprécions vos commentaires. Un modérateur passera en revue votre\
-    \ signalement. Merci pour votre aide."
+  thank_you: "Nous apprécions vos commentaires. Un modérateur passera en revue votre signalement. Merci pour votre aide."
   unset_best: "Déselectionner comme le meilleur"
   user:
     bio_flags: "Signaler pour cette biographie"
     user_bio: "Bio de l'utilisateur"
     username_flags: "Signaler pour ce nom d'utilisateur"
   user_impersonating: "Cet utilisateur se fait passer pour quelqu'un d'autre"
-  user_no_comment: "Vous n'avez jamais laissé de commentaire. Rejoignez la conversation\
-    \ !"
+  user_no_comment: "Vous n'avez jamais laissé de commentaire. Rejoignez la conversation !"
   username_offensive: "Ce nom d'utilisateur est offensant"
   view_conversation: "Afficher la conversation"
   install:
@@ -419,8 +336,7 @@ fr:
       description: "Configurez votre communauté Talk en quelques petites étapes."
       submit: "Commencer"
     add_organization:
-      description: "Veuillez nous indiquer le nom de votre organisation. Cela apparaî\
-        tra dans les e-mails lors de l'invitation de nouveaux membres dans l'équipe."
+      description: "Veuillez nous indiquer le nom de votre organisation. Cela apparaîtra dans les e-mails lors de l'invitation de nouveaux membres dans l'équipe."
       label: "Nom de l'organisation"
       save: "Sauvegarder"
     create:
@@ -431,13 +347,9 @@ fr:
       save: "Sauvegarder"
     permitted_domains:
       title: "Domaines autorisés"
-      description: "Entrez les domaines que vous souhaitez autoriser pour Talk, par\
-        \ ex. vos environnements locaux, de déploiement et de production (ex localhost:\
-        \ 3000, staging.domain.com, domain.com)."
+      description: "Entrez les domaines que vous souhaitez autoriser pour Talk, par ex. vos environnements locaux, de déploiement et de production (ex localhost:3000, staging.domain.com, domain.com)."
       submit: "Terminer l'installation"
     final:
-      description: "Merci d'avoir installé Talk ! Nous avons envoyé un e-mail pour\
-        \ vérifier votre adresse électronique. Pendant que vous terminez la configuration,\
-        \ vous pouvez commencer à engager vos lecteurs dès maintenant."
+      description: "Merci d'avoir installé Talk ! Nous avons envoyé un e-mail pour vérifier votre adresse électronique. Pendant que vous terminez la configuration, vous pouvez commencer à engager vos lecteurs dès maintenant."
       launch: "Lancer Talk"
       close: "Fermez cet installateur"
