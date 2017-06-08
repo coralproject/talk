@@ -36,18 +36,6 @@ const extension = {
             name
           }
         }
-    ModifyTagResponse: gql`
-      fragment CoralEmbedStream_ModifyTagResponse on ModifyTagResponse {
-        errors {
-          translation_key
-        }
-      }
-    `,
-    DeleteActionResponse: gql`
-      fragment CoralEmbedStream_DeleteActionResponse on DeleteActionResponse {
-        errors {
-          translation_key
-        }
       }
     `,
     CreateFlagResponse: gql`
