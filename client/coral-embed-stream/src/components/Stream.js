@@ -223,6 +223,7 @@ class Stream extends React.Component {
               activeReplyBox={this.props.activeReplyBox}
               addNotification={addNotification}
               depth={0}
+              disableReply={!open}
               postComment={this.props.postComment}
               asset={asset}
               currentUser={user}
