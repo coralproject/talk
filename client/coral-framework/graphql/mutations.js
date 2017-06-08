@@ -187,9 +187,7 @@ export const withAddTag = withMutation(
   gql`
     mutation AddTag($id: ID!, $asset_id: ID!, $name: String!) {
       addTag(tag: {name: $name, id: $id, item_type: COMMENTS, asset_id: $asset_id}) {
-          errors {
-              translation_key
-          }
+        ...ModifyTagResponse
       }
     }
   `, {
@@ -232,9 +230,7 @@ export const withRemoveTag = withMutation(
   gql`
     mutation RemoveTag($id: ID!, $asset_id: ID!, $name: String!) {
       removeTag(tag: {name: $name, id: $id, item_type: COMMENTS, asset_id: $asset_id}) {
-        errors {
-          translation_key
-        }
+        ...ModifyTagResponse
       }
     }
   `, {
