@@ -10,6 +10,11 @@ const webpack = require('webpack');
 // Possibly load the config from the .env file (if there is one).
 require('dotenv').config();
 
+const {plugins, PluginManager} = require('./plugins');
+
+const pluginManager = new PluginManager(plugins);
+const targetPlugins = pluginManager.section('targets').plugins;
+
 let pluginsConfigPath;
 
 let envPlugins = path.join(__dirname, 'plugins.env.js');
@@ -59,6 +64,13 @@ const config = {
     entry[`embed/${embed}/bundle`] = [
       'babel-polyfill',
       path.join(__dirname, 'client/', `coral-embed-${embed}`, '/src/index')
+    ];
+
+    return entry;
+  }, {}), targetPlugins.reduce((entry, plugin) => {
+    entry[`${plugin.name}/bundle`] = [
+      'babel-polyfill',
+      plugin.path
     ];
 
     return entry;
@@ -127,7 +139,8 @@ const config = {
   plugins: [
     new LicenseWebpackPlugin({
       pattern: /^(MIT|ISC|BSD.*)$/,
-      addUrl: true
+      addUrl: true,
+      suppressErrors: true
     }),
     new Copy([
       ...buildEmbeds.map((embed) => ({

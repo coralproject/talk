@@ -78,7 +78,11 @@ function isInternal(name) {
  */
 function pluginPath(name) {
   if (isInternal(name)) {
-    return path.join(__dirname, 'plugins', name);
+    try {
+      return resolve.sync(name, {moduleDirectory: 'plugins', basedir: process.cwd()});
+    } catch (e) {
+      return undefined;
+    }
   }
 
   try {
@@ -88,15 +92,8 @@ function pluginPath(name) {
   }
 }
 
-/**
- * Itterates over the plugins and gets the plugin path's, version, and name.
- *
- * @param {Array<Object|String>} plugins
- * @returns {Array<Object>}
- */
-function itteratePlugins(plugins) {
-  return plugins.map((p) => {
-    let plugin = {};
+class Plugin {
+  constructor(entry) {
 
     // This checks to see if the structure for this entry is an object:
     //
@@ -106,22 +103,46 @@ function itteratePlugins(plugins) {
     //
     // "people"
     //
-    if (typeof p === 'object') {
-      plugin.name = Object.keys(p).find((name) => name !== null);
-      plugin.version = p[plugin.name];
-    } else if (typeof p === 'string') {
-      plugin.name = p;
-      plugin.version = `file:./plugins/${plugin.name}`;
+    if (typeof entry === 'object') {
+      this.name = Object.keys(entry).find((name) => name !== null);
+      this.version = entry[this.name];
+    } else if (typeof entry === 'string') {
+      this.name = entry;
+      this.version = `file:./plugins/${this.name}`;
     } else {
-      throw new Error(`plugins.json is malformed, refer to PLUGINS.md for formatting, expected a string or an object for a plugin entry, found a ${typeof p}`);
+      throw new Error(`plugins.json is malformed, refer to PLUGINS.md for formatting, expected a string or an object for a plugin entry, found a ${typeof entry}`);
     }
 
     // Get the path for the plugin.
-    plugin.path = pluginPath(plugin.name);
+    this.path = pluginPath(this.name);
+  }
 
-    return plugin;
-  });
+  require() {
+    if (typeof this.path === 'undefined') {
+      throw new Error(`plugin '${this.name}' is not local and is not resolvable, plugin reconsiliation may be required`);
+    }
+
+    try {
+      this.module = require(this.path);
+    } catch (e) {
+      if (e && e.code && e.code === 'MODULE_NOT_FOUND' && isInternal(this.name)) {
+        console.error(new Error(`plugin '${this.name}' could not be loaded due to missing dependencies, plugin reconsiliation may be required`));
+        throw e;
+      }
+
+      console.error(new Error(`plugin '${this.name}' could not be required from '${this.path}': ${e.message}`));
+      throw e;
+    }
+  }
 }
+
+/**
+ * Itterates over the plugins and gets the plugin path's, version, and name.
+ *
+ * @param {Array<Object|String>} plugins
+ * @returns {Array<Object>}
+ */
+const itteratePlugins = (plugins) => plugins.map((p) => new Plugin(p));
 
 // Add each plugin folder to the allowed import path so that they can import our
 // internal dependancies.
@@ -139,22 +160,20 @@ Object.keys(plugins).forEach((type) => itteratePlugins(plugins[type]).forEach((p
  */
 class PluginSection {
   constructor(plugins) {
-    this.plugins = itteratePlugins(plugins).map((plugin) => {
-      if (typeof plugin.path === 'undefined') {
-        throw new Error(`plugin '${plugin.name}' is not local and is not resolvable, plugin reconsiliation may be required`);
-      }
+    this.required = false;
+    this.plugins = itteratePlugins(plugins);
+  }
 
-      try {
-        plugin.module = require(plugin.path);
-      } catch (e) {
-        if (e && e.code && e.code === 'MODULE_NOT_FOUND' && isInternal(plugin.name)) {
-          console.error(new Error(`plugin '${plugin.name}' could not be loaded due to missing dependencies, plugin reconsiliation may be required`));
-          throw e;
-        }
+  require() {
+    if (this.required) {
+      return;
+    }
+    
+    this.required = true;
+    this.plugins.forEach((plugin) => {
 
-        console.error(new Error(`plugin '${plugin.name}' could not be required from '${plugin.path}': ${e.message}`));
-        throw e;
-      }
+      // Load the plugin.
+      plugin.require();
 
       if (isInternal(plugin.name)) {
         debug(`loading internal plugin '${plugin.name}' from '${plugin.path}'`);
@@ -171,6 +190,10 @@ class PluginSection {
    * available.
    */
   hook(hook) {
+
+    // Load the plugin source if we haven't already.
+    this.require();
+
     return this.plugins
       .filter(({module}) => hook in module)
       .filter((plugin) => {
