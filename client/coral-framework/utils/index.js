@@ -112,3 +112,18 @@ export function getResponseErrors(mutationResult) {
   });
   return result.length ? result : false;
 }
+
+export function createDefaultResponseFragments(...names) {
+  const result = {};
+  names.forEach((name) => {
+    const response = `${name}Response`;
+    result[response] = gql`
+      fragment Coral_${response} on ${response} {
+        errors {
+          translation_key
+        }
+      }
+    `;
+  });
+  return result;
+}
