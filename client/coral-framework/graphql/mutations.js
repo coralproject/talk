@@ -200,8 +200,8 @@ export const withAddTag = withMutation(
             asset_id: assetId
           },
           optimisticResponse: {
-            deleteAction: {
-              __typename: 'DeleteActionResponse',
+            addTag: {
+              __typename: 'ModifyTagResponse',
               errors: null,
             }
           },
@@ -241,6 +241,12 @@ export const withRemoveTag = withMutation(
             id,
             name,
             asset_id: assetId
+          },
+          optimisticResponse: {
+            removeTag: {
+              __typename: 'ModifyTagResponse',
+              errors: null,
+            }
           },
           update: (proxy) => {
             const fragmentId = `Comment_${id}`;
