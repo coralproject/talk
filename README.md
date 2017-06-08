@@ -46,7 +46,7 @@ alternative methods of loading configuration during development.
 
 ### Running Migrations
 
-We have a migration tool that can be run using `bin/cli-migration run`. This will detect new migrations available and prompt you to backup your database before proceeding with the migration. Migrations are required with major version releases.
+We have a migration tool that can be run using `bin/cli migration run`. This will detect new migrations available and prompt you to backup your database before proceeding with the migration. Migrations are required with major version releases.
 
 ### Using Trust
 
