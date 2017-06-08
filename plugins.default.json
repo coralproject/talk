@@ -1,10 +1,10 @@
 {
   "server": [
-    "coral-plugin-respect",
-    "coral-plugin-like",
-    "coral-plugin-facebook-auth",
     "coral-plugin-auth",
-    "coral-plugin-offtopic"
+    "coral-plugin-like",
+    "coral-plugin-respect",
+    "coral-plugin-offtopic",
+    "coral-plugin-facebook-auth"
   ],
   "client": [
     "coral-plugin-respect",

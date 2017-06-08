@@ -1,3 +1,4 @@
+const {decorateWithTags} = require('./util');
 const KarmaService = require('../../services/karma');
 const {
   SEARCH_ACTIONS,
@@ -77,5 +78,8 @@ const User = {
     }
   }
 };
+
+// Decorate the User type resolver with a tags field.
+decorateWithTags(User);
 
 module.exports = User;

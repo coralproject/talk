@@ -26,8 +26,8 @@ import {getActionSummary, iPerformedThisAction} from 'coral-framework/utils';
 import {getEditableUntilDate} from './util';
 import styles from './Comment.css';
 
-const isStaff = (tags) => !tags.every((t) => t.name !== 'STAFF');
-const hasTag = (tags, lookupTag) => !!tags.filter((tag) => tag.name === lookupTag).length;
+const isStaff = (tags) => !tags.every((t) => t.tag.name !== 'STAFF');
+const hasTag = (tags, lookupTag) => !!tags.filter((t) => t.tag.name === lookupTag).length;
 const hasComment = (nodes, id) => nodes.some((node) => node.id === id);
 
 // resetCursors will return the id cursors of the first and second newest comment in
@@ -180,10 +180,10 @@ export default class Comment extends React.Component {
     commentIsIgnored: React.PropTypes.func,
 
     // dispatch action to add a tag to a comment
-    addCommentTag: React.PropTypes.func,
+    addTag: React.PropTypes.func,
 
     // dispatch action to remove a tag from a comment
-    removeCommentTag: React.PropTypes.func,
+    removeTag: React.PropTypes.func,
 
     // dispatch action to ignore another user
     ignoreUser: React.PropTypes.func,
@@ -286,11 +286,11 @@ export default class Comment extends React.Component {
       deleteAction,
       disableReply,
       maxCharCount,
-      addCommentTag,
       addNotification,
       charCountEnable,
       showSignInDialog,
-      removeCommentTag,
+      addTag,
+      removeTag,
       liveUpdates,
       commentIsIgnored,
       commentClassNames = []
@@ -333,18 +333,20 @@ export default class Comment extends React.Component {
 
     const addBestTag = notifyOnError(
       () =>
-        addCommentTag({
+        addTag({
           id: comment.id,
-          tag: BEST_TAG
+          name: BEST_TAG,
+          assetId: asset.id
         }),
       () => 'Failed to tag comment as best'
     );
 
     const removeBestTag = notifyOnError(
       () =>
-        removeCommentTag({
+        removeTag({
           id: comment.id,
-          tag: BEST_TAG
+          name: BEST_TAG,
+          assetId: asset.id
         }),
       () => 'Failed to remove best comment tag'
     );
@@ -547,8 +549,8 @@ export default class Comment extends React.Component {
                 currentUser={currentUser}
                 postFlag={postFlag}
                 deleteAction={deleteAction}
-                addCommentTag={addCommentTag}
-                removeCommentTag={removeCommentTag}
+                addTag={addTag}
+                removeTag={removeTag}
                 ignoreUser={ignoreUser}
                 charCountEnable={charCountEnable}
                 maxCharCount={maxCharCount}

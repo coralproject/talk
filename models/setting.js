@@ -1,10 +1,7 @@
 const mongoose = require('../services/mongoose');
 const Schema = mongoose.Schema;
-
-const MODERATION_OPTIONS = [
-  'PRE',
-  'POST'
-];
+const TagSchema = require('./schema/tag');
+const MODERATION_OPTIONS = require('./enum/moderation_options');
 
 /**
  * SettingSchema manages application settings that get used on front and backend.
@@ -95,7 +92,8 @@ const SettingSchema = new Schema({
     type: Number,
     min: [0, 'Edit Comment Window length must be greater than zero'],
     default: 30 * 1000,
-  }
+  },
+  tags: [TagSchema]
 }, {
   timestamps: {
     createdAt: 'created_at',
@@ -127,4 +125,3 @@ SettingSchema.method('merge', function(src) {
 const Setting = mongoose.model('Setting', SettingSchema);
 
 module.exports = Setting;
-module.exports.MODERATION_OPTIONS = MODERATION_OPTIONS;
