@@ -1,4 +1,5 @@
 import * as actions from '../constants/stream';
+import * as authActions from 'coral-framework/constants/auth';
 
 function getQueryVariable(variable) {
   let query = window.location.search.substring(1);
@@ -16,7 +17,6 @@ function getQueryVariable(variable) {
 
 const initialState = {
   activeReplyBox: '',
-  commentCountCache: -1,
   assetId: getQueryVariable('asset_id'),
   assetUrl: getQueryVariable('asset_url'),
   commentId: getQueryVariable('comment_id'),
@@ -25,15 +25,15 @@ const initialState = {
 
 export default function stream(state = initialState, action) {
   switch (action.type) {
+  case authActions.LOGOUT:
+    return {
+      ...state,
+      activeReplyBox: '',
+    };
   case actions.SET_ACTIVE_REPLY_BOX:
     return {
       ...state,
       activeReplyBox: action.id,
-    };
-  case actions.SET_COMMENT_COUNT_CACHE:
-    return {
-      ...state,
-      commentCountCache: action.amount,
     };
   case actions.VIEW_ALL_COMMENTS:
     return {
