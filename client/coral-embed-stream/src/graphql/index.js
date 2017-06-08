@@ -171,6 +171,7 @@ const extension = {
                 id: auth.toJS().user.id,
               },
             })),
+            tags: tags.map((t) => ({name: t, __typename: 'Tag'})),
             status: null,
             replyCount: 0,
             parent: parent_id

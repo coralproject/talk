@@ -37,3 +37,13 @@ export const viewAllComments = () => {
 
   return {type: actions.VIEW_ALL_COMMENTS};
 };
+
+export const addCommentClassName = (className) => ({
+  type: actions.ADD_COMMENT_CLASSNAME,
+  className
+});
+
+export const removeCommentClassName = (idx) => ({
+  type: actions.REMOVE_COMMENT_CLASSNAME,
+  idx
+});

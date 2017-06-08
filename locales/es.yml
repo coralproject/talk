@@ -202,7 +202,8 @@ es:
   flag_reason: "Razón por la que hacer este reporte (Opcional)"
   flag_username: "Reportar el nombre de usuario"
   framework:
-    banned_account_msg: "Tu cuenta se encuentra suspendida. Esto significa que no puedes gustar, marcar o escribir comentarios."
+    banned_account_header: "Tu cuenta se encuentra suspendida."
+    banned_account_body: "Esto significa que no puedes gustar, marcar o escribir comentarios."
     comment: "comentario"
     comment_is_ignored: "Este comentario está escondido porque has ignorado al usuario."
     comments: "comentarios"
