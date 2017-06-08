@@ -154,11 +154,13 @@ const extension = {
               tag: {
                 name: tag,
                 created_at: new Date().toISOString(),
+                __typename: 'Tag'
               },
               assigned_by: {
                 id: auth.toJS().user.id,
+                __typename: 'User'
               },
-              __typename: 'Tag'
+              __typename: 'TagLink'
             })),
             status: null,
             replyCount: 0,
