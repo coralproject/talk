@@ -166,34 +166,34 @@ const applyConfig = (entries, root = {}) => _.merge({}, config, {
 module.exports = [
 
   // Coral Embed
-  // applyConfig([
+  applyConfig([
 
-  //   // Load in the root embed.
-  //   {
-  //     name: 'embed',
-  //     path: path.join(__dirname, 'client/coral-embed/src/index')
-  //   }
+    // Load in the root embed.
+    {
+      name: 'embed',
+      path: path.join(__dirname, 'client/coral-embed/src/index')
+    }
 
-  // ], {
-  //   output: {
-  //     library: 'Coral'
-  //   }
-  // }),
+  ], {
+    output: {
+      library: 'Coral'
+    }
+  }),
 
   // All framework targets/embeds/plugins.
   applyConfig([
 
     // // Load in all the targets.
-    // ...buildTargets.map((target) => ({
-    //   name: `${target}/bundle`,
-    //   path: path.join(__dirname, 'client/', target, '/src/index')
-    // })),
+    ...buildTargets.map((target) => ({
+      name: `${target}/bundle`,
+      path: path.join(__dirname, 'client/', target, '/src/index')
+    })),
 
-    // // Load in all the embeds.
-    // ...buildEmbeds.map((embed) => ({
-    //   name: `embed/${embed}/bundle`,
-    //   path: path.join(__dirname, 'client/', `coral-embed-${embed}`, '/src/index')
-    // })),
+    // Load in all the embeds.
+    ...buildEmbeds.map((embed) => ({
+      name: `embed/${embed}/bundle`,
+      path: path.join(__dirname, 'client/', `coral-embed-${embed}`, '/src/index')
+    })),
 
     // Load in all the plugin entries.
     ...targetPlugins.reduce((entries, plugin) => {
