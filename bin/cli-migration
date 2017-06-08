@@ -32,15 +32,6 @@ async function runMigrations() {
 
   try {
 
-    // Get the migrations to run.
-    let migrations = await MigrationService.listPending();
-
-    console.log('Now going to run the following migrations:\n');
-
-    for (let {filename} of migrations) {
-      console.log(`\tmigrations/${filename}`);
-    }
-
     let {backedUp} = await inquirer.prompt([
       {
         type: 'confirm',
@@ -52,6 +43,15 @@ async function runMigrations() {
 
     if (!backedUp) {
       throw new Error('Please backup your databases prior to migrations occuring');
+    }
+
+    // Get the migrations to run.
+    let migrations = await MigrationService.listPending();
+
+    console.log('Now going to run the following migrations:\n');
+
+    for (let {filename} of migrations) {
+      console.log(`\tmigrations/${filename}`);
     }
 
     let {confirm} = await inquirer.prompt([
