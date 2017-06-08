@@ -41,7 +41,20 @@ async function runMigrations() {
       console.log(`\tmigrations/${filename}`);
     }
 
-    let answers = await inquirer.prompt([
+    let {backedUp} = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'backedUp',
+        message: 'Did you perform a database backup',
+        default: false
+      }
+    ]);
+
+    if (!backedUp) {
+      throw new Error('Please backup your databases prior to migrations occuring');
+    }
+
+    let {confirm} = await inquirer.prompt([
       {
         type: 'confirm',
         name: 'confirm',
@@ -50,7 +63,7 @@ async function runMigrations() {
       }
     ]);
 
-    if (answers.confirm) {
+    if (confirm) {
 
       // Run the migrations.
       await MigrationService.run(migrations);
