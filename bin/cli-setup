@@ -35,15 +35,6 @@ program
 
 const performSetup = async () => {
 
-  if (program.defaults) {
-    await SettingsService.init();
-
-    console.log('Settings created.');
-    console.log('\nTalk is now installed!');
-
-    return;
-  }
-
   // Get the current settings, we are expecing an error here.
   try {
 
@@ -61,6 +52,15 @@ const performSetup = async () => {
     if (e !== errors.ErrSettingsNotInit) {
       throw e;
     }
+  }
+
+  if (program.defaults) {
+    await SettingsService.init();
+
+    console.log('Settings created.');
+    console.log('\nTalk is now installed!');
+
+    return;
   }
 
   // Create the base settings model.
