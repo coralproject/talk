@@ -1,5 +1,4 @@
 const path = require('path');
-const fs = require('fs');
 const CompressionPlugin = require('compression-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');
@@ -10,26 +9,11 @@ const webpack = require('webpack');
 // Possibly load the config from the .env file (if there is one).
 require('dotenv').config();
 
-const {plugins, PluginManager} = require('./plugins');
+const {plugins, pluginsPath, PluginManager} = require('./plugins');
+const manager = new PluginManager(plugins);
+const targetPlugins = manager.section('targets').plugins;
 
-const pluginManager = new PluginManager(plugins);
-const targetPlugins = pluginManager.section('targets').plugins;
-
-let pluginsConfigPath;
-
-let envPlugins = path.join(__dirname, 'plugins.env.js');
-let customPlugins = path.join(__dirname, 'plugins.json');
-let defaultPlugins = path.join(__dirname, 'plugins.default.json');
-
-if (process.env.TALK_PLUGINS_JSON && process.env.TALK_PLUGINS_JSON.length > 0) {
-  pluginsConfigPath = envPlugins;
-} else if (fs.existsSync(customPlugins)) {
-  pluginsConfigPath = customPlugins;
-} else {
-  pluginsConfigPath = defaultPlugins;
-}
-
-console.log(`Using ${pluginsConfigPath} as the plugin configuration path`);
+console.log(`Using ${pluginsPath} as the plugin configuration path`);
 
 // Edit the build targets and embeds below.
 
@@ -89,7 +73,7 @@ const config = {
       {
         loader: 'plugins-loader',
         test: /\.(json|js)$/,
-        include: pluginsConfigPath
+        include: pluginsPath
       },
       {
         loader: 'babel-loader',
@@ -168,7 +152,7 @@ const config = {
   resolve: {
     alias: {
       plugins: path.resolve(__dirname, 'plugins/'),
-      pluginsConfig: pluginsConfigPath
+      pluginsConfig: pluginsPath
     },
     modules: [
       path.resolve(__dirname, 'plugins'),

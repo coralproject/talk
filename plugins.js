@@ -10,6 +10,7 @@ const PLUGINS_JSON = process.env.TALK_PLUGINS_JSON;
 // Add the current path to the module root.
 amp.addPath(__dirname);
 
+let pluginsPath;
 let plugins = {};
 
 // Try to parse the plugins.json file, logging out an error if the plugins.json
@@ -22,14 +23,16 @@ try {
 
   if (PLUGINS_JSON && PLUGINS_JSON.length > 0) {
     debug('Now using TALK_PLUGINS_JSON environment variable for plugins');
-    plugins = require(envPlugins);
+    pluginsPath = envPlugins;
   } else if (fs.existsSync(customPlugins)) {
     debug(`Now using ${customPlugins} for plugins`);
-    plugins = JSON.parse(fs.readFileSync(customPlugins, 'utf8'));
+    pluginsPath = customPlugins;
   } else {
     debug(`Now using ${defaultPlugins} for plugins`);
-    plugins = JSON.parse(fs.readFileSync(defaultPlugins, 'utf8'));
+    pluginsPath = defaultPlugins;
   }
+
+  plugins = require(pluginsPath);
 } catch (err) {
   if (err.code === 'ENOENT') {
     console.error('plugins.json and plugins.default.json not found, plugins will not be active');
@@ -249,6 +252,7 @@ class PluginManager {
 
 module.exports = {
   plugins,
+  pluginsPath,
   PluginManager,
   isInternal,
   pluginPath,
