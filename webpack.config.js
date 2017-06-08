@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const CompressionPlugin = require('compression-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');
@@ -163,37 +164,70 @@ const applyConfig = (entries, root = {}) => _.merge({}, config, {
 }, root);
 
 module.exports = [
+
+  // Coral Embed
+  // applyConfig([
+
+  //   // Load in the root embed.
+  //   {
+  //     name: 'embed',
+  //     path: path.join(__dirname, 'client/coral-embed/src/index')
+  //   }
+
+  // ], {
+  //   output: {
+  //     library: 'Coral'
+  //   }
+  // }),
+
+  // All framework targets/embeds/plugins.
   applyConfig([
 
-    // Load in the root embed.
-    {
-      name: 'embed',
-      path: path.join(__dirname, 'client/coral-embed/src/index')
-    }
+    // // Load in all the targets.
+    // ...buildTargets.map((target) => ({
+    //   name: `${target}/bundle`,
+    //   path: path.join(__dirname, 'client/', target, '/src/index')
+    // })),
 
-  ], {
-    output: {
-      library: 'Coral'
-    }
-  }),
-  applyConfig([
-
-    // Load in all the targets.
-    ...buildTargets.map((target) => ({
-      name: `${target}/bundle`,
-      path: path.join(__dirname, 'client/', target, '/src/index')
-    })),
-
-    // Load in all the embeds.
-    ...buildEmbeds.map((embed) => ({
-      name: `embed/${embed}/bundle`,
-      path: path.join(__dirname, 'client/', `coral-embed-${embed}`, '/src/index')
-    })),
+    // // Load in all the embeds.
+    // ...buildEmbeds.map((embed) => ({
+    //   name: `embed/${embed}/bundle`,
+    //   path: path.join(__dirname, 'client/', `coral-embed-${embed}`, '/src/index')
+    // })),
 
     // Load in all the plugin entries.
-    ...targetPlugins.map(({name, path}) => ({
-      name: `${name}/bundle`,
-      path
-    }))
+    ...targetPlugins.reduce((entries, plugin) => {
+
+      // Introspect the path to find a targets folder.
+      let folder = path.dirname(plugin.path);
+      let files = fs.readdirSync(folder);
+
+      // While the folder does not contain the targets folder...
+      while (!files.includes('targets')) {
+
+        // Try to go up a folder.
+        folder = path.normalize(path.join(folder, '..'));
+
+        // And as long as we haven't gone too high
+        if (!(folder.includes(path.join(__dirname, 'node_modules')) || !folder.includes(path.join(__dirname, 'plugins')))) {
+          throw new Error(`target plugin ${plugin.name} does not have a 'targets' folder`);
+        }
+
+        files = fs.readdirSync(folder);
+      }
+
+      // List all targets available in that folder.
+      folder = path.join(folder, 'targets');
+
+      let targets = fs.readdirSync(folder);
+      if (targets.length === 0) {
+        throw new Error(`target plugin ${plugin.name} has no targets in it's target folder ${folder}`);
+      }
+
+      return entries.concat(targets.map((target) => ({
+        name: `plugin/${plugin.name}/${target}/bundle`,
+        path: path.join(folder, target, 'index')
+      })));
+    }, [])
   ])
 ];
