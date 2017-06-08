@@ -44,6 +44,10 @@ sign and verify tokens via a `HS256` algorithm.
 Refer to the wiki page on [Configuration Loading](https://github.com/coralproject/talk/wiki/Configuration-Loading) for
 alternative methods of loading configuration during development.
 
+### Running Migrations
+
+We have a migration tool that can be run using `bin/cli-migration run`. This will detect new migrations available and prompt you to backup your database before proceeding with the migration. Migrations are required with major version releases.
+
 ### Using Trust
 
 Talk ships with core components we call "Trust". This allows Talk to automate certain actions based on previous user behavior.
