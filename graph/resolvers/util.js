@@ -9,7 +9,7 @@ const decorateWithTags = (typeResolver) => {
       return tags;
     }
 
-    return tags.filter((tag) => tag.public);
+    return tags.filter((t) => t.tag.permissions.public);
   };
 };
 
