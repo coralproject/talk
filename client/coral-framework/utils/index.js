@@ -115,8 +115,7 @@ export function getResponseErrors(mutationResult) {
 
 export function createDefaultResponseFragments(...names) {
   const result = {};
-  names.forEach((name) => {
-    const response = `${name}Response`;
+  names.forEach((response) => {
     result[response] = gql`
       fragment Coral_${response} on ${response} {
         errors {
