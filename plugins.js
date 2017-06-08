@@ -84,6 +84,7 @@ function pluginPath(name) {
     try {
       return resolve.sync(name, {moduleDirectory: 'plugins', basedir: process.cwd()});
     } catch (e) {
+      console.warn(e);
       return undefined;
     }
   }

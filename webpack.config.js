@@ -2,6 +2,7 @@ const path = require('path');
 const CompressionPlugin = require('compression-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');
+const _ = require('lodash');
 const Copy = require('copy-webpack-plugin');
 const LicenseWebpackPlugin = require('license-webpack-plugin');
 const webpack = require('webpack');
@@ -15,8 +16,6 @@ const targetPlugins = manager.section('targets').plugins;
 
 console.log(`Using ${pluginsPath} as the plugin configuration path`);
 
-// Edit the build targets and embeds below.
-
 const buildTargets = [
   'coral-admin',
   'coral-docs'
@@ -26,47 +25,16 @@ const buildEmbeds = [
   'stream'
 ];
 
+//==============================================================================
+// Base Webpack Config
+//==============================================================================
+
 const config = {
   devtool: 'cheap-module-source-map',
-  entry: Object.assign({}, {
-    'embed': [
-      'babel-polyfill',
-      path.join(__dirname, 'client/coral-embed/src/index')
-    ]
-  }, buildTargets.reduce((entry, target) => {
-
-    // Add the entry for the bundle.
-    entry[`${target}/bundle`] = [
-      'babel-polyfill',
-      path.join(__dirname, 'client/', target, '/src/index')
-    ];
-
-    return entry;
-  }, {}), buildEmbeds.reduce((entry, embed) => {
-
-    // Add the entry for the bundle.
-    entry[`embed/${embed}/bundle`] = [
-      'babel-polyfill',
-      path.join(__dirname, 'client/', `coral-embed-${embed}`, '/src/index')
-    ];
-
-    return entry;
-  }, {}), targetPlugins.reduce((entry, plugin) => {
-    entry[`${plugin.name}/bundle`] = [
-      'babel-polyfill',
-      plugin.path
-    ];
-
-    return entry;
-  }, {})),
   output: {
     path: path.join(__dirname, 'dist'),
     publicPath: '/client/',
-    filename: '[name].js',
-
-    // NOTE: this causes all exports to override the global.Coral, so no more
-    // than one bundle.js can be included on a page.
-    library: 'Coral'
+    filename: '[name].js'
   },
   module: {
     rules: [
@@ -164,6 +132,10 @@ const config = {
   }
 };
 
+//==============================================================================
+// Production configuration overrides
+//==============================================================================
+
 if (process.env.NODE_ENV === 'production') {
   config.plugins.push(new CompressionPlugin({
     asset: '[path].gz[query]',
@@ -174,4 +146,54 @@ if (process.env.NODE_ENV === 'production') {
   }));
 }
 
-module.exports = config;
+//==============================================================================
+// Entries
+//==============================================================================
+
+// Applies the base configuration to the following entries.
+const applyConfig = (entries, root = {}) => _.merge({}, config, {
+  entry: entries.reduce((entry, {name, path}) => {
+    entry[name] = [
+      'babel-polyfill',
+      path
+    ];
+
+    return entry;
+  }, {})
+}, root);
+
+module.exports = [
+  applyConfig([
+
+    // Load in the root embed.
+    {
+      name: 'embed',
+      path: path.join(__dirname, 'client/coral-embed/src/index')
+    }
+
+  ], {
+    output: {
+      library: 'Coral'
+    }
+  }),
+  applyConfig([
+
+    // Load in all the targets.
+    ...buildTargets.map((target) => ({
+      name: `${target}/bundle`,
+      path: path.join(__dirname, 'client/', target, '/src/index')
+    })),
+
+    // Load in all the embeds.
+    ...buildEmbeds.map((embed) => ({
+      name: `embed/${embed}/bundle`,
+      path: path.join(__dirname, 'client/', `coral-embed-${embed}`, '/src/index')
+    })),
+
+    // Load in all the plugin entries.
+    ...targetPlugins.map(({name, path}) => ({
+      name: `${name}/bundle`,
+      path
+    }))
+  ])
+];
