@@ -158,8 +158,8 @@ const extension = {
               assigned_by: {
                 id: auth.toJS().user.id,
               },
+              __typename: 'Tag'
             })),
-            tags: tags.map((t) => ({name: t, __typename: 'Tag'})),
             status: null,
             replyCount: 0,
             parent: parent_id
