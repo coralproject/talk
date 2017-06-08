@@ -9,6 +9,10 @@ class ReplyBox extends Component {
     document.getElementById('replyText').focus();
   }
 
+  cancelReply = () => {
+    this.props.setActiveReplyBox('');
+  };
+
   render() {
     const {
       styles,
@@ -18,7 +22,6 @@ class ReplyBox extends Component {
       addNotification,
       parentId,
       commentPostedHandler,
-      setActiveReplyBox,
       maxCharCount,
       charCountEnable
     } = this.props;
@@ -28,7 +31,7 @@ class ReplyBox extends Component {
         charCountEnable={charCountEnable}
         commentPostedHandler={commentPostedHandler}
         parentId={parentId}
-        cancelButtonClicked={setActiveReplyBox}
+        cancelButtonClicked={this.cancelReply}
         addNotification={addNotification}
         authorId={authorId}
         assetId={assetId}
