@@ -72,6 +72,10 @@ services:
     environment:
       - TALK_MONGO_URL=mongodb://mongo/talk
       - TALK_REDIS_URL=redis://redis
+      - TALK_SESSION_SECRET=this_is_a_secret_string
+      - TALK_ROOT_URL=http://localhost
+      - TALK_PLUGINS_JSON={}
+      - NODE_ENV=development
   mongo:
     image: mongo:3.2
     restart: always
@@ -116,6 +120,10 @@ services:
     environment:
       - TALK_MONGO_URL=mongodb://mongo/talk
       - TALK_REDIS_URL=redis://redis
+      - TALK_SESSION_SECRET=this_is_a_secret_string
+      - TALK_ROOT_URL=http://localhost
+      - TALK_PLUGINS_JSON={}
+      - NODE_ENV=development
   talk-jobs:
     image: coralproject/talk:1.5
     command: cli jobs process
@@ -128,6 +136,10 @@ services:
     environment:
       - TALK_MONGO_URL=mongodb://mongo/talk
       - TALK_REDIS_URL=redis://redis
+      - TALK_SESSION_SECRET=this_is_a_secret_string
+      - TALK_ROOT_URL=http://localhost
+      - TALK_PLUGINS_JSON={}
+      - NODE_ENV=development
   mongo:
     image: mongo:3.2
     restart: always
