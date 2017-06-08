@@ -9,6 +9,8 @@
   "client": [
     "coral-plugin-respect",
     "coral-plugin-like",
-    "coral-plugin-auth"
+    "coral-plugin-auth",
+    "coral-plugin-offtopic",
+    "coral-plugin-viewing-options"
   ]
 }
