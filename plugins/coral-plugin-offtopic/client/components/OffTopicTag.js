@@ -1,11 +1,8 @@
 import React from 'react';
 import styles from './styles.css';
-
 import {t} from 'plugin-api/beta/client/services';
 
-const isOffTopic = (tags) => {
-  return !!tags.filter((tag) => tag.name === 'OFF_TOPIC').length;
-};
+const isOffTopic = (tags) => !!tags.filter((t) => t.tag.name === 'OFF_TOPIC').length;
 
 export default (props) => (
   <span>

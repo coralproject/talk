@@ -1,0 +1,101 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+const program = require('./commander');
+const util = require('./util');
+const inquirer = require('inquirer');
+const mongoose = require('../services/mongoose');
+const MigrationService = require('../services/migration');
+
+// Register shutdown hooks.
+util.onshutdown([
+  () => mongoose.disconnect()
+]);
+
+async function createMigration(name) {
+  try {
+
+    // Create the migration.
+    await MigrationService.create(name);
+
+    util.shutdown();
+  } catch (e) {
+    console.error(e);
+    util.shutdown(1);
+  }
+}
+
+async function runMigrations() {
+
+  try {
+
+    let {backedUp} = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'backedUp',
+        message: 'Did you perform a database backup',
+        default: false
+      }
+    ]);
+
+    if (!backedUp) {
+      throw new Error('Please backup your databases prior to migrations occuring');
+    }
+
+    // Get the migrations to run.
+    let migrations = await MigrationService.listPending();
+
+    console.log('Now going to run the following migrations:\n');
+
+    for (let {filename} of migrations) {
+      console.log(`\tmigrations/${filename}`);
+    }
+
+    let {confirm} = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'confirm',
+        message: 'Proceed with migrations',
+        default: false
+      }
+    ]);
+
+    if (confirm) {
+
+      // Run the migrations.
+      await MigrationService.run(migrations);
+    } else {
+      console.warn('Skipping migrations');
+    }
+
+    util.shutdown();
+  } catch (e) {
+    console.error(e);
+    util.shutdown(1);
+  }
+}
+
+//==============================================================================
+// Setting up the program command line arguments.
+//==============================================================================
+
+program
+  .command('create <name>')
+  .description('creates a new migration')
+  .action(createMigration);
+
+program
+  .command('run')
+  .description('runs all pending migrations')
+  .action(runMigrations);
+
+program.parse(process.argv);
+
+// If there is no command listed, output help.
+if (process.argv.length <= 2) {
+  program.outputHelp();
+  util.shutdown();
+}
