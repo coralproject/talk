@@ -12,7 +12,6 @@ const MODERATION_OPTIONS = require('../models/enum/moderation_options');
 const SettingsService = require('../services/settings');
 const SetupService = require('../services/setup');
 const UsersService = require('../services/users');
-const MigrationService = require('../services/migration');
 const util = require('./util');
 const errors = require('../errors');
 
@@ -62,37 +61,6 @@ const performSetup = async () => {
     if (e !== errors.ErrSettingsNotInit) {
       throw e;
     }
-  }
-
-  // Get the migrations to run.
-  let migrations = await MigrationService.listPending();
-  if (migrations.length > 0) {
-
-    console.log('Now going to run the following migrations:\n');
-
-    for (let {filename} of migrations) {
-      console.log(`\tmigrations/${filename}`);
-    }
-
-    console.log('');
-
-    let {confirm} = await inquirer.prompt([
-      {
-        type: 'confirm',
-        name: 'confirm',
-        message: 'Proceed with migrations',
-        default: false
-      }
-    ]);
-
-    if (!confirm) {
-      throw new Error('migrations are needed to complete setup');
-    }
-
-    // Perform all migrations.
-    await MigrationService.run(migrations);
-  } else {
-    console.log('No migrations have to be run.');
   }
 
   // Create the base settings model.
