@@ -23,7 +23,7 @@ describe('graph.mutations.removeTag', () => {
   });
 
   const query = `
-    mutation RemoveCommentTag($id: ID!, $asset_id: ID!, $name: String!) {
+    mutation RemoveTag($id: ID!, $asset_id: ID!, $name: String!) {
       removeTag(tag: {name: $name, id: $id, item_type: COMMENTS, asset_id: $asset_id}) {
         errors {
           translation_key

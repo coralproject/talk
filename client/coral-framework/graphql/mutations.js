@@ -174,7 +174,7 @@ export const withDeleteAction = withMutation(
   });
 
 const COMMENT_FRAGMENT = gql`
-    fragment CoraBest_UpdateFragment on Comment {
+    fragment CoralBest_UpdateFragment on Comment {
       tags {
         tag {
           name
@@ -185,9 +185,11 @@ const COMMENT_FRAGMENT = gql`
 
 export const withAddTag = withMutation(
   gql`
-    mutation AddCommentTag($id: ID!, $asset_id: ID!, $name: String!) {
+    mutation AddTag($id: ID!, $asset_id: ID!, $name: String!) {
       addTag(tag: {name: $name, id: $id, item_type: COMMENTS, asset_id: $asset_id}) {
-        ...ModifyTagResponse
+          errors {
+              translation_key
+          }
       }
     }
   `, {
@@ -228,7 +230,7 @@ export const withAddTag = withMutation(
 
 export const withRemoveTag = withMutation(
   gql`
-    mutation RemoveCommentTag($id: ID!, $asset_id: ID!, $name: String!) {
+    mutation RemoveTag($id: ID!, $asset_id: ID!, $name: String!) {
       removeTag(tag: {name: $name, id: $id, item_type: COMMENTS, asset_id: $asset_id}) {
         errors {
           translation_key
@@ -237,12 +239,12 @@ export const withRemoveTag = withMutation(
     }
   `, {
     props: ({mutate}) => ({
-      removeTag: ({id, name, asset_id}) => {
+      removeTag: ({id, name, assetId}) => {
         return mutate({
           variables: {
             id,
             name,
-            asset_id
+            asset_id: assetId
           },
           update: (proxy) => {
             const fragmentId = `Comment_${id}`;
@@ -250,7 +252,7 @@ export const withRemoveTag = withMutation(
             // Read the data from our cache for this query.
             const data = proxy.readFragment({fragment: COMMENT_FRAGMENT, id: fragmentId});
 
-            const idx = data.tags.findIndex((i) => i.tag.name === 'BEST');
+            const idx = data.tags.findIndex(i => i.tag.name === 'BEST');
 
             data.tags = [...data.tags.slice(0, idx), ...data.tags.slice(idx + 1)];
 

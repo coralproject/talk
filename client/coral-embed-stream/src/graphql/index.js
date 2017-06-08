@@ -18,8 +18,8 @@ const extension = {
         }
       }
     `,
-    RemoveCommentTagResponse: gql`
-      fragment CoralEmbedStream_RemoveCommentTagResponse on RemoveCommentTagResponse {
+    RemoveTagResponse: gql`
+      fragment CoralEmbedStream_RemoveTagResponse on RemoveTagResponse {
         comment {
           id
           tags {
@@ -28,8 +28,8 @@ const extension = {
         }
       }
     `,
-    AddCommentTagResponse: gql`
-      fragment CoralEmbedStream_AddCommentTagResponse on AddCommentTagResponse {
+    AddTagResponse: gql`
+      fragment CoralEmbedStream_AddTagResponse on AddTagResponse {
         comment {
           id
           tags {
