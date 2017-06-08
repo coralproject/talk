@@ -54,9 +54,9 @@ function configurePymParent(pymParent, opts) {
     pymParent.sendMessage('config', JSON.stringify(config));
   }
 
-  pymParent.onMessage('checkLogin', function(result) {
-    if (opts.onAuthChange) {
-      opts.onAuthChange(JSON.parse(result));
+  pymParent.onMessage('coral-check-login', function(result) {
+    if (opts.onCheckLogin) {
+      opts.onCheckLogin(JSON.parse(result));
     }
   });
 

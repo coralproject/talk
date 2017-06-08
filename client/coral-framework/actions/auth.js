@@ -301,10 +301,12 @@ const checkLoginSuccess = (user, isAdmin) => ({
   isAdmin
 });
 
-export const checkLogin = () => (dispatch, getState) => {
+export const checkLogin = () => (dispatch) => {
   dispatch(checkLoginRequest());
   coralApi('/auth')
     .then((result) => {
+      pym.sendMessage('coral-check-login', JSON.stringify(result));
+
       if (!result.user) {
         if (!bowser.safari && !bowser.ios) {
           Storage.removeItem('token');
@@ -325,9 +327,6 @@ export const checkLogin = () => (dispatch, getState) => {
     .catch((error) => {
       console.error(error);
       dispatch(checkLoginFailure(`${error.translation_key}`));
-    })
-    .then(() => {
-      pym.sendMessage('checkLogin', JSON.stringify(getState().auth));
     });
 };
 
