@@ -1,19 +1,18 @@
 import React, {PropTypes} from 'react';
 import LoadMore from './LoadMore';
-
 import Comment from '../components/Comment';
 import SuspendedAccount from './SuspendedAccount';
-import RestrictedMessageBox
-  from 'coral-framework/components/RestrictedMessageBox';
 import Slot from 'coral-framework/components/Slot';
 import InfoBox from 'coral-plugin-infobox/InfoBox';
 import {can} from 'coral-framework/services/perms';
 import {ModerationLink} from 'coral-plugin-moderation';
+import RestrictedMessageBox
+  from 'coral-framework/components/RestrictedMessageBox';
+import t, {timeago} from 'coral-framework/services/i18n';
 import CommentBox from 'coral-plugin-commentbox/CommentBox';
 import QuestionBox from 'coral-plugin-questionbox/QuestionBox';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import NewCount from './NewCount';
-import t, {timeago} from 'coral-framework/services/i18n';
 import {TransitionGroup} from 'react-transition-group';
 
 const hasComment = (nodes, id) => nodes.some((node) => node.id === id);
@@ -122,6 +121,7 @@ class Stream extends React.Component {
 
   render() {
     const {
+      commentClassNames,
       root: {asset, asset: {comments}, comment, me},
       postComment,
       addNotification,
@@ -129,11 +129,11 @@ class Stream extends React.Component {
       postDontAgree,
       deleteAction,
       showSignInDialog,
-      addCommentTag,
-      removeCommentTag,
-      pluginProps,
+      addTag,
       ignoreUser,
       auth: {loggedIn, user},
+      removeTag,
+      pluginProps,
       editName
     } = this.props;
     const view = this.getVisibleComments();
@@ -202,11 +202,17 @@ class Stream extends React.Component {
                 />}
             </div>
           : <p>{asset.settings.closedMessage}</p>}
-        {loggedIn &&
+
+        {loggedIn && (
           <ModerationLink
             assetId={asset.id}
             isAdmin={can(user, 'MODERATE_COMMENTS')}
-          />}
+          />
+        )}
+
+        <div className="talk-stream-wrapper-box">
+          <Slot fill="streamBox" />
+        </div>
 
         {/* the highlightedComment is isolated after the user followed a permalink */}
         {highlightedComment
@@ -235,7 +241,7 @@ class Stream extends React.Component {
               editComment={this.props.editComment}
               liveUpdates={true}
             />
-          : <div>
+          : <div className="talk-stream-comments-container">
               <NewCount
                 count={comments.nodes.length - view.length}
                 loadMore={this.viewNewComments}
@@ -245,6 +251,7 @@ class Stream extends React.Component {
                   return commentIsIgnored(comment)
                     ? <IgnoredCommentTombstone key={comment.id} />
                     : <Comment
+                        commentClassNames={commentClassNames}
                         data={this.props.data}
                         root={this.props.root}
                         disableReply={!open}
@@ -257,8 +264,8 @@ class Stream extends React.Component {
                         currentUser={user}
                         postFlag={postFlag}
                         postDontAgree={postDontAgree}
-                        addCommentTag={addCommentTag}
-                        removeCommentTag={removeCommentTag}
+                        addTag={addTag}
+                        removeTag={removeTag}
                         ignoreUser={ignoreUser}
                         commentIsIgnored={commentIsIgnored}
                         loadMore={this.props.loadNewReplies}
@@ -291,10 +298,10 @@ Stream.propTypes = {
   postComment: PropTypes.func.isRequired,
 
   // dispatch action to add a tag to a comment
-  addCommentTag: PropTypes.func,
+  addTag: PropTypes.func,
 
   // dispatch action to remove a tag from a comment
-  removeCommentTag: PropTypes.func,
+  removeTag: PropTypes.func,
 
   // dispatch action to ignore another user
   ignoreUser: React.PropTypes.func,

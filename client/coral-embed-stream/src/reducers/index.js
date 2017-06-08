@@ -4,6 +4,6 @@ import stream from './stream';
 
 export default {
   embed,
-  stream,
   config,
+  stream,
 };

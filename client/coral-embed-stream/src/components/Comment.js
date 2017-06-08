@@ -1,8 +1,7 @@
 import React, {PropTypes} from 'react';
+
 import PermalinkButton from 'coral-plugin-permalinks/PermalinkButton';
-
 import AuthorName from 'coral-plugin-author-name/AuthorName';
-
 import TagLabel from 'coral-plugin-tag-label/TagLabel';
 import Content from 'coral-plugin-commentcontent/CommentContent';
 import PubDate from 'coral-plugin-pubdate/PubDate';
@@ -20,14 +19,15 @@ import {
 } from 'coral-plugin-best/BestButton';
 import Slot from 'coral-framework/components/Slot';
 import LoadMore from './LoadMore';
-import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import {TopRightMenu} from './TopRightMenu';
+import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import {EditableCommentContent} from './EditableCommentContent';
 import {getActionSummary, iPerformedThisAction} from 'coral-framework/utils';
 import {getEditableUntilDate} from './util';
 import styles from './Comment.css';
 
-const isStaff = (tags) => !tags.every((t) => t.name !== 'STAFF');
+const isStaff = (tags) => !tags.every((t) => t.tag.name !== 'STAFF');
+const hasTag = (tags, lookupTag) => !!tags.filter((t) => t.tag.name === lookupTag).length;
 const hasComment = (nodes, id) => nodes.some((node) => node.id === id);
 
 // resetCursors will return the id cursors of the first and second newest comment in
@@ -73,8 +73,7 @@ const ActionButton = ({children}) => {
   );
 };
 
-class Comment extends React.Component {
-
+export default class Comment extends React.Component {
   constructor(props) {
     super(props);
 
@@ -181,10 +180,10 @@ class Comment extends React.Component {
     commentIsIgnored: React.PropTypes.func,
 
     // dispatch action to add a tag to a comment
-    addCommentTag: React.PropTypes.func,
+    addTag: React.PropTypes.func,
 
     // dispatch action to remove a tag from a comment
-    removeCommentTag: React.PropTypes.func,
+    removeTag: React.PropTypes.func,
 
     // dispatch action to ignore another user
     ignoreUser: React.PropTypes.func,
@@ -272,28 +271,29 @@ class Comment extends React.Component {
   }
   render () {
     const {
-      comment,
-      parentId,
-      currentUser,
       asset,
       depth,
-      postComment,
-      addNotification,
-      showSignInDialog,
-      highlighted,
+      comment,
       postFlag,
+      parentId,
+      ignoreUser,
+      highlighted,
+      postComment,
+      currentUser,
       postDontAgree,
       setActiveReplyBox,
       activeReplyBox,
       deleteAction,
-      addCommentTag,
-      removeCommentTag,
-      ignoreUser,
-      liveUpdates,
       disableReply,
-      commentIsIgnored,
       maxCharCount,
-      charCountEnable
+      addNotification,
+      charCountEnable,
+      showSignInDialog,
+      addTag,
+      removeTag,
+      liveUpdates,
+      commentIsIgnored,
+      commentClassNames = []
     } = this.props;
 
     const view = this.getVisibileReplies();
@@ -333,25 +333,57 @@ class Comment extends React.Component {
 
     const addBestTag = notifyOnError(
       () =>
-        addCommentTag({
+        addTag({
           id: comment.id,
-          tag: BEST_TAG
+          name: BEST_TAG,
+          assetId: asset.id
         }),
       () => 'Failed to tag comment as best'
     );
 
     const removeBestTag = notifyOnError(
       () =>
-        removeCommentTag({
+        removeTag({
           id: comment.id,
-          tag: BEST_TAG
+          name: BEST_TAG,
+          assetId: asset.id
         }),
       () => 'Failed to remove best comment tag'
     );
 
+    /**
+     * classNamesToAdd
+     * adds classNames based on condition
+     * classnames is an array of objects with key as classnames and value as conditions
+     * i.e:
+     * {
+     *  'myClassName': { tags: ['STAFF']}
+     * }
+     *
+     * This will add myClassName to comments tagged with STAFF TAG.
+     * **/
+
+    const classNamesToAdd = commentClassNames.reduce((acc, className) => {
+      let res = [];
+
+      // Adding classNames based on tags
+      Object.keys(className).forEach((cn) => {
+        const condition = className[cn];
+        condition.tags.forEach((tag) => {
+          if (hasTag(comment.tags, tag)) {
+            res = [...res, cn];
+          }
+        });
+      });
+
+      // TODO: Compare rest of the comment obj to the condition if needed
+
+      return [...acc, ...res];
+    }, []);
+
     return (
       <div
-        className={cn(commentClass, 'talk-stream-comment-wrapper', {[styles.enter]: this.state.animateEnter})}
+        className={cn(commentClass, 'talk-stream-comment-wrapper', classNamesToAdd, {[styles.enter]: this.state.animateEnter})}
         id={`c_${comment.id}`}
         style={{marginLeft: depth * 30}}
       >
@@ -376,11 +408,13 @@ class Comment extends React.Component {
           </span>
 
           <Slot
+            className={styles.commentInfoBar}
             fill="commentInfoBar"
-            data={this.props.data}
-            root={this.props.root}
+            depth={depth}
             comment={comment}
             commentId={comment.id}
+            data={this.props.data}
+            root={this.props.root}
             inline
           />
 
@@ -515,8 +549,8 @@ class Comment extends React.Component {
                 currentUser={currentUser}
                 postFlag={postFlag}
                 deleteAction={deleteAction}
-                addCommentTag={addCommentTag}
-                removeCommentTag={removeCommentTag}
+                addTag={addTag}
+                removeTag={removeTag}
                 ignoreUser={ignoreUser}
                 charCountEnable={charCountEnable}
                 maxCharCount={maxCharCount}
@@ -541,8 +575,6 @@ class Comment extends React.Component {
     );
   }
 }
-
-export default Comment;
 
 // return whether the comment is editable
 function commentIsStillEditable (comment) {

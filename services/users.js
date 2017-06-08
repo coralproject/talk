@@ -15,8 +15,8 @@ const redis = require('./redis');
 const redisClient = redis.createClient();
 
 const UserModel = require('../models/user');
-const USER_STATUS = require('../models/user').USER_STATUS;
-const USER_ROLES = require('../models/user').USER_ROLES;
+const USER_STATUS = require('../models/enum/user_status');
+const USER_ROLES = require('../models/enum/user_roles');
 
 const RECAPTCHA_WINDOW_SECONDS = 60 * 10; // 10 minutes.
 const RECAPTCHA_INCORRECT_TRIGGER = 5; // after 3 incorrect attempts, recaptcha will be required.

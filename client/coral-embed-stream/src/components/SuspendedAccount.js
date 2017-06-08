@@ -41,7 +41,10 @@ class SuspendedAccount extends Component {
       <span>{
           canEditName ?
           t('framework.edit_name.msg')
-          : t('framework.banned_account_msg')
+          :
+          <span>
+            <b>{t('framework.banned_account_header')}</b><br/> {t('framework.banned_account_body')}
+          </span>
         }</span>
       {
         canEditName ?

@@ -1,16 +1,13 @@
 import React from 'react';
 import styles from './styles.css';
+import {t} from 'plugin-api/beta/client/services';
 
-import t from 'coral-framework/services/i18n';
-
-const isOffTopic = (tags) => {
-  return !!tags.filter((tag) => tag.name === 'OFF_TOPIC').length;
-};
+const isOffTopic = (tags) => !!tags.filter((t) => t.tag.name === 'OFF_TOPIC').length;
 
 export default (props) => (
   <span>
     {
-      isOffTopic(props.comment.tags) ? (
+      isOffTopic(props.comment.tags) && props.depth === 0 ? (
         <span className={styles.tag}>
           {t('off_topic')}
         </span>

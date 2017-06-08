@@ -1,6 +1,7 @@
 const mongoose = require('../services/mongoose');
 const Schema = mongoose.Schema;
 const uuid = require('uuid');
+const TagLinkSchema = require('./schema/tag_link');
 
 const AssetSchema = new Schema({
   id: {
@@ -46,6 +47,9 @@ const AssetSchema = new Schema({
     type: Schema.Types.Mixed,
     default: null
   },
+
+  // Tags are added by the self or by administrators.
+  tags: [TagLinkSchema],
 
   // Additional metadata stored on the field.
   metadata: {

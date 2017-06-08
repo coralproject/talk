@@ -23,5 +23,6 @@ plugins/*
 !plugins/coral-plugin-like
 !plugins/coral-plugin-mod
 !plugins/coral-plugin-love
+!plugins/coral-plugin-viewing-options
 
 **/node_modules/*

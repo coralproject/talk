@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import {ADDTL_COMMENTS_ON_LOAD_MORE} from '../constants/stream';
 import {
   withPostComment, withPostFlag, withPostDontAgree, withDeleteAction,
-  withAddCommentTag, withRemoveCommentTag, withIgnoreUser, withEditComment,
+  withAddTag, withRemoveTag, withIgnoreUser, withEditComment,
 } from 'coral-framework/graphql/mutations';
 
 import {notificationActions, authActions} from 'coral-framework';
@@ -290,6 +290,7 @@ const mapStateToProps = (state) => ({
   assetUrl: state.stream.assetUrl,
   activeTab: state.embed.activeTab,
   previousTab: state.embed.previousTab,
+  commentClassNames: state.stream.commentClassNames
 });
 
 const mapDispatchToProps = (dispatch) =>
@@ -306,10 +307,9 @@ export default compose(
   withPostComment,
   withPostFlag,
   withPostDontAgree,
-  withAddCommentTag,
-  withRemoveCommentTag,
+  withAddTag,
+  withRemoveTag,
   withIgnoreUser,
   withDeleteAction,
   withEditComment,
 )(StreamContainer);
-
