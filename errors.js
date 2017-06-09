@@ -168,6 +168,13 @@ const ErrCommentTooShort = new APIError('Comment was too short', {
   status: 400
 });
 
+// ErrAssetURLAlreadyExists is returned when a rename operation is requested
+// but an asset already exists with the new url.
+const ErrAssetURLAlreadyExists = new APIError('Asset URL already exists, cannot rename', {
+  translation_key: 'ASSET_URL_ALREADY_EXISTS',
+  status: 409
+});
+
 module.exports = {
   ExtendableError,
   APIError,
@@ -191,5 +198,6 @@ module.exports = {
   ErrInstallLock,
   ErrLoginAttemptMaximumExceeded,
   ErrEditWindowHasEnded,
-  ErrCommentTooShort
+  ErrCommentTooShort,
+  ErrAssetURLAlreadyExists
 };

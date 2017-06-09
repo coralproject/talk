@@ -1,22 +1,29 @@
 const AssetModel = require('../../../models/asset');
+const CommentModel = require('../../../models/comment');
 const AssetsService = require('../../../services/assets');
+const CommentsService = require('../../../services/comments');
 const SettingsService = require('../../../services/settings');
 
+const url = require('url');
 const chai = require('chai');
 const expect = chai.expect;
+const chaiAsPromised = require('chai-as-promised');
+
+chai.use(chaiAsPromised);
 
 // Use the chai should.
 chai.should();
 
+const settings = {id: '1', moderation: 'PRE', domains: {whitelist: ['new.test.com', 'test.com', 'override.test.com']}};
+const defaults = {url:'http://test.com'};
+
 describe('services.AssetsService', () => {
 
-  beforeEach(() => {
-    const settings = {id: '1', moderation: 'PRE', domains: {whitelist: ['new.test.com', 'test.com', 'override.test.com']}};
-    const defaults = {url:'http://test.com'};
+  let asset;
+  beforeEach(async () => {
+    await SettingsService.init(settings);
 
-    return SettingsService.init(settings).then(() => {
-      return AssetModel.update({id: '1'}, {$setOnInsert: defaults}, {upsert: true});
-    });
+    asset = await AssetModel.findOneAndUpdate({id: '1'}, {$setOnInsert: defaults}, {upsert: true, new: true});
   });
 
   describe('#findById', ()=> {
@@ -119,5 +126,80 @@ describe('services.AssetsService', () => {
             .and.to.not.equal(1);
         });
     });
+  });
+
+  describe('#updateURL', () => {
+
+    it('should change the url if the asset was found, and there was no conflict', async () => {
+      let newURL = url.resolve(asset.url, '/new-url');
+
+      // Update the asset.
+      await AssetsService.updateURL(asset.id, newURL);
+
+      // Check that the url was updated.
+      let {url: databaseURL} = await AssetsService.findById(asset.id);
+
+      expect(databaseURL).to.equal(newURL);
+    });
+
+    it('should error if the new url already exists', async () => {
+      let newURL = url.resolve(asset.url, '/new-url');
+
+      // Create a new asset with our new URL.
+      await AssetModel.findOneAndUpdate({id: '2'}, {$setOnInsert: {url: newURL}}, {upsert: true, new: true});
+
+      return AssetsService.updateURL(asset.id, newURL).should.eventually.be.rejected;
+    });
+
+  });
+
+  describe('#merge', () => {
+
+    it('should error if either the src or the dst is missing', () => {
+      return AssetsService.merge('not-found', asset.id).should.eventually.be.rejected;
+    });
+
+    it('should merge the assets', async () => {
+      let newURL = url.resolve(asset.url, '/new-url');
+
+      // Create a new asset with our new URL.
+      await AssetModel.findOneAndUpdate({id: '2'}, {$setOnInsert: {url: newURL}}, {upsert: true, new: true});
+
+      // Create some comments on both assets.
+      await CommentsService.publicCreate([
+        {
+          asset_id: '1',
+          body: 'This is a comment!',
+          status: 'ACCEPTED'
+        },
+        {
+          asset_id: '1',
+          body: 'This is a comment!',
+          status: 'ACCEPTED'
+        },
+        {
+          asset_id: '2',
+          body: 'This is a comment!',
+          status: 'ACCEPTED'
+        },
+        {
+          asset_id: '2',
+          body: 'This is a comment!',
+          status: 'ACCEPTED'
+        }
+      ]);
+
+      // Merge all the comments from asset 1 into asset 2, followed by deleting
+      // asset 1.
+      await AssetsService.merge('1', '2');
+
+      // Check to see if the comments are moved.
+      expect(await CommentModel.find({asset_id: '1'}).count()).to.equal(0);
+      expect(await CommentModel.find({asset_id: '2'}).count()).to.equal(4);
+
+      // Check to see if the asset was removed.
+      expect(await AssetModel.findOne({id: '1'})).to.equal(null);
+    });
+
   });
 });
