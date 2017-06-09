@@ -41,16 +41,34 @@ const createSubscriptionManager = (server) => new SubscriptionServer({
     pubsub,
     setupFunctions,
   }),
+  onConnect: ({token}, connection) => {
+
+    // Attach the token from the connection options if it was provided.
+    if (token) {
+
+      // Attach it to the upgrade request.
+      connection.upgradeReq.headers['authorization'] = `Bearer ${token}`;
+    }
+  },
   onSubscribe: (parsedMessage, baseParams, connection) => {
 
+    // Cache the upgrade request.
+    let upgradeReq = connection.upgradeReq;
+
     // Attach the context per request.
-    baseParams.context = () => deserializeUser(connection.upgradeReq)
-      .then((req) => new Context(req, pubsub))
-      .catch((err) => {
-        console.error(err);
+    baseParams.context = async () => {
+      let req;
+      
+      try {
+        req = await deserializeUser(upgradeReq);
+      } catch (e) {
+        console.error(e);
 
         return new Context({}, pubsub);
-      });
+      }
+      
+      return new Context(req, pubsub);
+    };
 
     return baseParams;
   }
