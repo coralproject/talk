@@ -30,7 +30,6 @@ export const FakeComment = ({username, created_at, body}) => (
         onClick={() => {}}
         parentCommentId={'commentID'}
         currentUserId={{}}
-        banned={false}
       />
     </div>
     <div className="commentActionsRight comment__action-container">
