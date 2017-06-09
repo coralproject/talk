@@ -1,27 +1,20 @@
 const mongoose = require('../services/mongoose');
 const bcrypt = require('bcrypt');
+const Schema = mongoose.Schema;
 const uuid = require('uuid');
+const TagLinkSchema = require('./schema/tag_link');
 const intersection = require('lodash/intersection');
 const can = require('../perms');
 
 // USER_ROLES is the array of roles that is permissible as a user role.
-const USER_ROLES = [
-  'ADMIN',
-  'MODERATOR',
-  'STAFF'
-];
+const USER_ROLES = require('./enum/user_roles');
 
 // USER_STATUS is the list of statuses that are permitted for the user status.
-const USER_STATUS = [
-  'ACTIVE',
-  'BANNED',
-  'PENDING',
-  'APPROVED' // Indicates that the users' username has been approved
-];
+const USER_STATUS = require('./enum/user_status');
 
 // ProfileSchema is the mongoose schema defined as the representation of a
 // User's profile stored in MongoDB.
-const ProfileSchema = new mongoose.Schema({
+const ProfileSchema = new Schema({
 
   // ID provides the identifier for the user profile, in the case of a local
   // provider, the id would be an email, in the case of a social provider,
@@ -44,7 +37,7 @@ const ProfileSchema = new mongoose.Schema({
   // used by the `local` provider to indicate when the email address was
   // confirmed.
   metadata: {
-    type: mongoose.Schema.Types.Mixed
+    type: Schema.Types.Mixed
   }
 }, {
   _id: false
@@ -52,7 +45,7 @@ const ProfileSchema = new mongoose.Schema({
 
 // UserSchema is the mongoose schema defined as the representation of a User in
 // MongoDB.
-const UserSchema = new mongoose.Schema({
+const UserSchema = new Schema({
 
   // This ID represents the most unique identifier for a user, it is generated
   // when the user is created as a random uuid.
@@ -136,6 +129,9 @@ const UserSchema = new mongoose.Schema({
     type: String,
   }],
 
+  // Tags are added by the self or by administrators.
+  tags: [TagLinkSchema],
+
   // Additional metadata stored on the field.
   metadata: {
     default: {},
@@ -205,5 +201,3 @@ UserSchema.method('can', function(...actions) {
 const UserModel = mongoose.model('User', UserSchema);
 
 module.exports = UserModel;
-module.exports.USER_ROLES = USER_ROLES;
-module.exports.USER_STATUS = USER_STATUS;
