@@ -38,32 +38,39 @@
 
 .storyList {
   padding: 10px;
-  margin: 0;
-  list-style: none;
   border-top: 1px solid #ddd;
 }
 
 .story {
   padding: 10px;
   border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+
+  &:hover {
+    background-color: #efefef;
+  }
 }
 
 .title, .meta {
   margin: 0;
+  color: black;
 }
 
 .author, .createdAt, .status {
   display: inline-block;
   font-size: .8em;
-  color: #aaa;
 }
 
 .author {
   display: inline-block;
   width: 200px;
+  color: #aaa;
 }
 
 .createdAt {
   display: inline-block;
   width: 200px;
+  color: #aaa;
 }

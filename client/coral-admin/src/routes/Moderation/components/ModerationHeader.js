@@ -14,8 +14,8 @@ const ModerationHeader = ({asset, searchVisible, openSearch, closeSearch}) => {
     : <a className="mdl-tabs__tab" />;
 
   const title = asset
-    ? <span onClick={trigger} className="mdl-tabs__tab">{asset.title} {searchTriggerIcon}</span>
-    : <span onClick={trigger} className="mdl-tabs__tab">{t('modqueue.all_streams')} {searchTriggerIcon}</span>;
+    ? <a onClick={trigger} className="mdl-tabs__tab">{asset.title} {searchTriggerIcon}</a>
+    : <a onClick={trigger} className="mdl-tabs__tab">{t('modqueue.all_streams')} {searchTriggerIcon}</a>;
 
   return (
     <div className=''>

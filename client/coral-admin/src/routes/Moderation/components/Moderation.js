@@ -210,7 +210,7 @@ export default class Moderation extends Component {
             acceptComment={props.acceptComment}
             rejectComment={props.rejectComment} />
         )}
-        <StorySearch />
+        <StorySearch visible={this.props.moderation.storySearchVisible} />
       </div>
     );
   }
