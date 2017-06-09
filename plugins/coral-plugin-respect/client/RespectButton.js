@@ -1,13 +1,13 @@
 import React from 'react';
+import Icon from './Icon';
 import styles from './styles.css';
 import {withReaction} from 'plugin-api/beta/client/hocs';
 import {t, can} from 'plugin-api/beta/client/services';
-import {Icon} from 'plugin-api/beta/client/components';
 import cn from 'classnames';
 
-const plugin = 'coral-plugin-love';
+const plugin = 'coral-plugin-respect';
 
-class LoveButton extends React.Component {
+class RespectButton extends React.Component {
   handleClick = () => {
     const {
       postReaction,
@@ -40,16 +40,18 @@ class LoveButton extends React.Component {
     return (
       <div className={cn(styles.container, `${plugin}-container`)}>
         <button
-          className={cn(styles.button, {[styles.loved]: alreadyReacted()}, `${plugin}-button`)}
+          className={cn(styles.button, {[styles.respected]: alreadyReacted()}, `${plugin}-button`)}
           onClick={this.handleClick}
         >
-          <span>{t(alreadyReacted() ? 'coral-plugin-love.loved' : 'coral-plugin-love.love')}</span>
-          <Icon name="favorite" className={`${plugin}-icon`} />
-          <span className={`${plugin}-count`}>{count > 0 && count}</span>
+          <span className={`${plugin}-button-text`}>
+            {t(alreadyReacted() ? 'coral-plugin-respect.respected' : 'coral-plugin-respect.respect')}
+          </span>
+          <Icon className={cn(styles.icon, `${plugin}-icon`)} />
+          <span className={cn(styles.icon, `${plugin}-count`)}>{count > 0 && count}</span>
         </button>
       </div>
     );
   }
 }
 
-export default withReaction('love')(LoveButton);
+export default withReaction('respect')(RespectButton);
