@@ -1,8 +1,8 @@
 import React from 'react';
 import {Icon} from 'coral-ui';
 import styles from './styles.css';
-import t from 'coral-framework/services/i18n';
 import {withReaction} from 'plugin-api/beta/client/hocs';
+import {t, can} from 'plugin-api/beta/client/services';
 
 class LoveButton extends React.Component {
   handleClick = () => {
@@ -10,18 +10,18 @@ class LoveButton extends React.Component {
       postReaction,
       deleteReaction,
       showSignInDialog,
-      alreadyReacted
+      alreadyReacted,
+      user,
     } = this.props;
-    const {root: {me}} = this.props;
 
     // If the current user does not exist, trigger sign in dialog.
-    if (!me) {
+    if (!user) {
       showSignInDialog();
       return;
     }
 
-    // If the current user is banned, do nothing.
-    if (me.status === 'BANNED') {
+    // If the current user is suspended, do nothing.
+    if (!can(user, 'INTERACT_WITH_COMMUNITY')) {
       return;
     }
 
