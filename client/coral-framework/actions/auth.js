@@ -4,6 +4,7 @@ import * as actions from '../constants/auth';
 import * as Storage from '../helpers/storage';
 import coralApi, {base} from '../helpers/request';
 
+import {resetWebsocket} from 'coral-framework/services/client';
 import t from 'coral-framework/services/i18n';
 
 export const showSignInDialog = () => (dispatch, getState) => {
@@ -117,6 +118,7 @@ const signInFailure = (error) => ({
 export const handleAuthToken = (token) => (dispatch) => {
   Storage.setItem('exp', jwtDecode(token).exp);
   Storage.setItem('token', token);
+
   dispatch({type: 'HANDLE_AUTH_TOKEN'});
 };
 
@@ -277,6 +279,10 @@ export const logout = () => (dispatch) => {
     if (!bowser.safari && !bowser.ios) {
       Storage.removeItem('token');
     }
+
+    // Reset the websocket.
+    resetWebsocket();
+
     dispatch({type: actions.LOGOUT});
   });
 };
@@ -306,6 +312,9 @@ export const checkLogin = () => (dispatch) => {
       }
 
       dispatch(checkLoginSuccess(result.user));
+
+      // Reset the websocket.
+      resetWebsocket();
 
       // Display create username dialog if necessary.
       if (result.user.canEditName && result.user.status !== 'BANNED') {
