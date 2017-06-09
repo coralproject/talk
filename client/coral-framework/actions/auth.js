@@ -119,11 +119,6 @@ export const handleAuthToken = (token) => (dispatch) => {
   Storage.setItem('exp', jwtDecode(token).exp);
   Storage.setItem('token', token);
 
-  alert('handled the auth token!');
-
-  // Reset the websocket.
-  resetWebsocket();
-
   dispatch({type: 'HANDLE_AUTH_TOKEN'});
 };
 
@@ -317,6 +312,9 @@ export const checkLogin = () => (dispatch) => {
       }
 
       dispatch(checkLoginSuccess(result.user));
+
+      // Reset the websocket.
+      resetWebsocket();
 
       // Display create username dialog if necessary.
       if (result.user.canEditName && result.user.status !== 'BANNED') {
