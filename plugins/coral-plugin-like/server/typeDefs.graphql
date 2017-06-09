@@ -60,7 +60,7 @@ type CreateLikeResponse implements Response {
   like: LikeAction
 
   # An array of errors relating to the mutation that occurred.
-  errors: [UserError]
+  errors: [UserError!]
 }
 
 type RootMutation {

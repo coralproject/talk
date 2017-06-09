@@ -1,3 +1,5 @@
+const {decorateWithTags} = require('./util');
+
 const Comment = {
   parent({parent_id}, _, {loaders: {Comments}}) {
     if (parent_id == null) {
@@ -56,5 +58,8 @@ const Comment = {
     };
   }
 };
+
+// Decorate the Comment type resolver with a tags field.
+decorateWithTags(Comment);
 
 module.exports = Comment;

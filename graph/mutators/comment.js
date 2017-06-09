@@ -1,21 +1,69 @@
-const debug = require('debug')('talk:graph:mutators:comment');
 const errors = require('../../errors');
 
 const ActionModel = require('../../models/action');
 const AssetsService = require('../../services/assets');
 const ActionsService = require('../../services/actions');
+const TagsService = require('../../services/tags');
 const CommentsService = require('../../services/comments');
 const KarmaService = require('../../services/karma');
 const linkify = require('linkify-it')();
-
 const Wordlist = require('../../services/wordlist');
 const {
   CREATE_COMMENT,
   SET_COMMENT_STATUS,
   ADD_COMMENT_TAG,
-  REMOVE_COMMENT_TAG,
   EDIT_COMMENT
 } = require('../../perms/constants');
+
+const debug = require('debug')('talk:graph:mutators:tags');
+const plugins = require('../../services/plugins');
+
+const pluginTags = plugins.get('server', 'tags').reduce((acc, {plugin, tags}) => {
+  debug(`added plugin '${plugin.name}'`);
+
+  acc = acc.concat(tags);
+
+  return acc;
+}, []);
+
+const resolveTagsForComment = async ({user, loaders: {Tags}}, {asset_id, tags = []}) => {
+  const item_type = 'COMMENTS';
+
+  // Handle Tags
+  if (tags.length) {
+
+    // Get the global list of tags from the dataloader.
+    let globalTags = await Tags.getAll.load({
+      item_type,
+      asset_id
+    });
+    if (!Array.isArray(globalTags)) {
+      globalTags = [];
+    }
+
+    globalTags = globalTags.concat(pluginTags);
+
+    // Merge in the tags for the given comment.
+    tags = tags.map((name) => {
+
+      // Resolve the TagLink that we can use for the comment.
+      let {tagLink} = TagsService.resolveLink(user, globalTags, {name, item_type});
+
+      // Return the tagLink for tag insertion.
+      return tagLink;
+    });
+  }
+
+  // Add the staff tag for comments created as a staff member.
+  if (user.can(ADD_COMMENT_TAG)) {
+    tags.push(TagsService.newTagLink(user, {
+      name: 'STAFF',
+      item_type
+    }));
+  }
+
+  return tags;
+};
 
 /**
  * adjustKarma will adjust the affected user's karma depending on the moderators
@@ -102,15 +150,11 @@ const adjustKarma = (Comments, id, status) => async () => {
  * @param  {String} [status='NONE'] the status of the new comment
  * @return {Promise}              resolves to the created comment
  */
-const createComment = async ({user, loaders: {Comments}, pubsub}, {body, asset_id, parent_id = null, tags = []}, status = 'NONE') => {
+const createComment = async (context, {tags = [], body, asset_id, parent_id = null}, status = 'NONE') => {
+  const {user, loaders: {Comments}, pubsub} = context;
 
-  // Building array of tags
-  tags = tags.map((tag) => ({name: tag}));
-
-  // If admin or moderator, adding STAFF tag
-  if (user.isStaff()) {
-    tags.push({name: 'STAFF'});
-  }
+  // Resolve the tags for the comment.
+  tags = await resolveTagsForComment(context, {asset_id, tags});
 
   let comment = await CommentsService.publicCreate({
     body,
@@ -306,24 +350,6 @@ const setStatus = async ({user, loaders: {Comments}}, {id, status}) => {
 };
 
 /**
- * Adds a tag to a Comment
- * @param {String} id          identifier of the comment  (uuid)
- * @param {String} tag     name of the tag
- */
-const addCommentTag = ({user, loaders: {Comments}}, {id, tag}) => {
-  return CommentsService.addTag(id, tag, user.id);
-};
-
-/**
- * Removes a tag from a Comment
- * @param {String} id      identifier of the comment  (uuid)
- * @param {String} tag     name of the tag
- */
-const removeCommentTag = ({user, loaders: {Comments}}, {id, tag}) => {
-  return CommentsService.removeTag(id, tag);
-};
-
-/**
  * Edit a Comment
  * @param {String} id         identifier of the comment  (uuid)
  * @param {Object} edit       describes how to edit the comment
@@ -354,9 +380,7 @@ module.exports = (context) => {
     Comment: {
       create: () => Promise.reject(errors.ErrNotAuthorized),
       setStatus: () => Promise.reject(errors.ErrNotAuthorized),
-      addCommentTag: () => Promise.reject(errors.ErrNotAuthorized),
-      removeCommentTag: () => Promise.reject(errors.ErrNotAuthorized),
-      edit: () => Promise.reject(errors.ErrNotAuthorized),
+      edit: () => Promise.reject(errors.ErrNotAuthorized)
     }
   };
 
@@ -366,14 +390,6 @@ module.exports = (context) => {
 
   if (context.user && context.user.can(SET_COMMENT_STATUS)) {
     mutators.Comment.setStatus = (action) => setStatus(context, action);
-  }
-
-  if (context.user && context.user.can(ADD_COMMENT_TAG)) {
-    mutators.Comment.addCommentTag = (action) => addCommentTag(context, action);
-  }
-
-  if (context.user && context.user.can(REMOVE_COMMENT_TAG)) {
-    mutators.Comment.removeCommentTag = (action) => removeCommentTag(context, action);
   }
 
   if (context.user && context.user.can(EDIT_COMMENT)) {
