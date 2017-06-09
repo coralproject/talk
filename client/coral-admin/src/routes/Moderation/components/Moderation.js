@@ -10,6 +10,7 @@ import ModerationHeader from './ModerationHeader';
 import NotFoundAsset from './NotFoundAsset';
 import ModerationKeysModal from '../../../components/ModerationKeysModal';
 import UserDetail from '../containers/UserDetail';
+import StorySearch from '../containers/StorySearch';
 
 export default class Moderation extends Component {
   state = {
@@ -209,6 +210,7 @@ export default class Moderation extends Component {
             acceptComment={props.acceptComment}
             rejectComment={props.rejectComment} />
         )}
+        <StorySearch />
       </div>
     );
   }

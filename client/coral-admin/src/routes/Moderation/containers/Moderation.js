@@ -209,7 +209,7 @@ const withModQueueQuery = withQuery(gql`
     }) {
       ...CoralAdmin_Moderation_CommentConnection
     }
-    assets: assets {
+    assets: assets(query: {}) {
       id
       title
       url
