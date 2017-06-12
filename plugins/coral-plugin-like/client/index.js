@@ -1,5 +1,5 @@
-import LikeButton from './containers/LikeButton';
-import translations from './translations.json';
+import LikeButton from './LikeButton';
+import translations from './translations.yml';
 
 export default {
   translations,
