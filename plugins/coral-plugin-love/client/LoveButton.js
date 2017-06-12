@@ -28,7 +28,7 @@ class LoveButton extends React.Component {
       return;
     }
 
-    if (alreadyReacted()) {
+    if (alreadyReacted) {
       deleteReaction();
     } else {
       postReaction();
@@ -40,10 +40,10 @@ class LoveButton extends React.Component {
     return (
       <div className={cn(styles.container, `${plugin}-container`)}>
         <button
-          className={cn(styles.button, {[styles.loved]: alreadyReacted()}, `${plugin}-button`)}
+          className={cn(styles.button, {[styles.loved]: alreadyReacted}, `${plugin}-button`)}
           onClick={this.handleClick}
         >
-          <span>{t(alreadyReacted() ? 'coral-plugin-love.loved' : 'coral-plugin-love.love')}</span>
+          <span>{t(alreadyReacted ? 'coral-plugin-love.loved' : 'coral-plugin-love.love')}</span>
           <Icon name="favorite" className={`${plugin}-icon`} />
           <span className={`${plugin}-count`}>{count > 0 && count}</span>
         </button>

@@ -28,7 +28,7 @@ class LikeButton extends React.Component {
       return;
     }
 
-    if (alreadyReacted()) {
+    if (alreadyReacted) {
       deleteReaction();
     } else {
       postReaction();
@@ -40,10 +40,10 @@ class LikeButton extends React.Component {
     return (
       <div className={cn(styles.container, `${plugin}-container`)}>
         <button
-          className={cn(styles.button, {[styles.liked]: alreadyReacted()}, `${plugin}-button`)}
+          className={cn(styles.button, {[styles.liked]: alreadyReacted}, `${plugin}-button`)}
           onClick={this.handleClick}
         >
-          <span>{t(alreadyReacted() ? 'coral-plugin-like.liked' : 'coral-plugin-like.like')}</span>
+          <span>{t(alreadyReacted ? 'coral-plugin-like.liked' : 'coral-plugin-like.like')}</span>
           <Icon name="thumb_up" className={`${plugin}-icon`} />
           <span className={`${plugin}-count`}>{count > 0 && count}</span>
         </button>

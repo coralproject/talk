@@ -1,7 +1,7 @@
 import ApolloClient, {addTypename} from 'apollo-client';
 import {networkInterface} from './transport';
 import {SubscriptionClient, addGraphQLSubscriptions} from 'subscriptions-transport-ws';
-import {SUBSCRIPTION_END} from 'subscriptions-transport-ws/dist/messageTypes';
+import MessageTypes from 'subscriptions-transport-ws/dist/message-types';
 import {getAuthToken} from '../helpers/request';
 
 let client, wsClient = null, wsClientToken = null;
@@ -13,18 +13,17 @@ export function resetWebsocket() {
     return;
   }
 
-  // Unsubscribe from all the active subscriptions.
-  Object.keys(wsClient.subscriptions).forEach((id) => {
-
-    // Create the message.
-    let message = {id: parseInt(id), type: SUBSCRIPTION_END};
-
-    // Send the unsubscribe message.
-    wsClient.client.send(JSON.stringify(message));
-  });
-
-  // Close the client, this will trigger a reconnect.
+  // Close socket connection which will also unregister subscriptions on the server-side.
   wsClient.close();
+
+  // Reconnect to the server.
+  wsClient.connect();
+
+  // Reregister all subscriptions (uses non public api).
+  // See: https://github.com/apollographql/subscriptions-transport-ws/issues/171
+  Object.keys(wsClient.operations).forEach((id) => {
+    wsClient.sendMessage(id, MessageTypes.GQL_START, wsClient.operations[id].options);
+  });
 }
 
 export function getClient() {
@@ -35,6 +34,7 @@ export function getClient() {
   const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
   wsClient = new SubscriptionClient(`${protocol}://${location.host}/api/v1/live`, {
     reconnect: true,
+    lazy: true,
     connectionParams: {
       get token() {
 

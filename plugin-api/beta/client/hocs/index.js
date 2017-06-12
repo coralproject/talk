@@ -1,1 +1,1 @@
-export {withReaction} from 'coral-framework/hocs';
+export {default as withReaction} from './withReaction';
