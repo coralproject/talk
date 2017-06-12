@@ -4,8 +4,9 @@ import uuid from 'uuid/v4';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getDisplayName} from 'coral-framework/helpers/hoc';
-import {compose, gql, graphql} from 'react-apollo';
+import {compose, gql} from 'react-apollo';
 import withFragments from 'coral-framework/hocs/withFragments';
+import withMutation from 'coral-framework/hocs/withMutation';
 import {showSignInDialog} from 'coral-framework/actions/auth';
 import {capitalize} from 'coral-framework/helpers/strings';
 import {getMyActionSummary, getTotalActionCount} from 'coral-framework/utils';
@@ -219,7 +220,7 @@ export default (reaction) => (WrappedComponent) => {
     }
   }
 
-  const withDeleteReaction = graphql(
+  const withDeleteReaction = withMutation(
     gql`
       mutation Delete${Reaction}Action($input: Delete${Reaction}ActionInput!) {
         delete${Reaction}Action(input: $input) {
@@ -259,7 +260,7 @@ export default (reaction) => (WrappedComponent) => {
     }
   );
 
-  const withPostReaction = graphql(
+  const withPostReaction = withMutation(
     gql`
         mutation Create${Reaction}Action($input: Create${Reaction}ActionInput!) {
           create${Reaction}Action(input: $input) {
