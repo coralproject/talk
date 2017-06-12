@@ -5,9 +5,9 @@ import {t, can} from 'plugin-api/beta/client/services';
 import {Icon} from 'plugin-api/beta/client/components';
 import cn from 'classnames';
 
-const plugin = 'coral-plugin-love';
+const plugin = 'coral-plugin-like';
 
-class LoveButton extends React.Component {
+class LikeButton extends React.Component {
   handleClick = () => {
     const {
       postReaction,
@@ -40,11 +40,11 @@ class LoveButton extends React.Component {
     return (
       <div className={cn(styles.container, `${plugin}-container`)}>
         <button
-          className={cn(styles.button, {[styles.loved]: alreadyReacted}, `${plugin}-button`)}
+          className={cn(styles.button, {[styles.liked]: alreadyReacted}, `${plugin}-button`)}
           onClick={this.handleClick}
         >
-          <span>{t(alreadyReacted ? 'coral-plugin-love.loved' : 'coral-plugin-love.love')}</span>
-          <Icon name="favorite" className={`${plugin}-icon`} />
+          <span>{t(alreadyReacted ? 'coral-plugin-like.liked' : 'coral-plugin-like.like')}</span>
+          <Icon name="thumb_up" className={`${plugin}-icon`} />
           <span className={`${plugin}-count`}>{count > 0 && count}</span>
         </button>
       </div>
@@ -52,4 +52,4 @@ class LoveButton extends React.Component {
   }
 }
 
-export default withReaction('love')(LoveButton);
+export default withReaction('like')(LikeButton);

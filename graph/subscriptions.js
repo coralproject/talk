@@ -50,7 +50,7 @@ const createSubscriptionManager = (server) => new SubscriptionServer({
       connection.upgradeReq.headers['authorization'] = `Bearer ${token}`;
     }
   },
-  onSubscribe: (parsedMessage, baseParams, connection) => {
+  onOperation: (parsedMessage, baseParams, connection) => {
 
     // Cache the upgrade request.
     let upgradeReq = connection.upgradeReq;
@@ -58,7 +58,7 @@ const createSubscriptionManager = (server) => new SubscriptionServer({
     // Attach the context per request.
     baseParams.context = async () => {
       let req;
-      
+
       try {
         req = await deserializeUser(upgradeReq);
       } catch (e) {
@@ -66,7 +66,7 @@ const createSubscriptionManager = (server) => new SubscriptionServer({
 
         return new Context({}, pubsub);
       }
-      
+
       return new Context(req, pubsub);
     };
 
