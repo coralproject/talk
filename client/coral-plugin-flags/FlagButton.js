@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import t from 'coral-framework/services/i18n';
+import {can} from 'coral-framework/services/perms';
 
 import {PopupMenu, Button} from 'coral-ui';
 import onClickOutside from 'react-onclickoutside';
@@ -32,10 +33,12 @@ class FlagButton extends Component {
       this.props.showSignInDialog();
       return;
     }
-    if (this.state.showMenu) {
-      this.closeMenu();
-    } else {
-      this.setState({showMenu: true});
+    if (can(currentUser, 'INTERACT_WITH_COMMUNITY')) {
+      if (this.state.showMenu) {
+        this.closeMenu();
+      } else {
+        this.setState({showMenu: true});
+      }
     }
   }
 

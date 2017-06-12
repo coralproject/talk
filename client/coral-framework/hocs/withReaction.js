@@ -208,18 +208,15 @@ export default (reaction) => (WrappedComponent) => {
     }
   );
 
+  const mapStateToProps = (state) => ({
+    user: state.auth.toJS().user,
+  });
+
   const mapDispatchToProps = (dispatch) =>
     bindActionCreators({showSignInDialog}, dispatch);
 
   const enhance = compose(
     withFragments({
-      root: gql`
-          fragment ${capitalize(reaction)}Button_root on RootQuery {
-            me {
-                status
-            }
-          }
-      `,
       comment: gql`
           fragment ${capitalize(reaction)}Button_comment on Comment {
             action_summaries {
@@ -232,7 +229,7 @@ export default (reaction) => (WrappedComponent) => {
             }
           }`
     }),
-    connect(null, mapDispatchToProps),
+    connect(mapStateToProps, mapDispatchToProps),
     withDeleteReaction,
     withPostReaction
   );
