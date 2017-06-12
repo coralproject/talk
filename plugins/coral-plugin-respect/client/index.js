@@ -1,9 +1,9 @@
-import RespectButton from './containers/RespectButton';
-import translations from './translations.json';
+import RespectButton from './RespectButton';
+import translations from './translations.yml';
 
 export default {
   translations,
   slots: {
-    commentActions: [RespectButton],
+    commentReactions: [RespectButton]
   }
 };

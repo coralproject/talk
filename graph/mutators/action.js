@@ -39,7 +39,7 @@ const createAction = async ({user = {}}, {item_id, item_type, action_type, group
  * @return {Promise}     resolves when the action is deleted
  */
 const deleteAction = ({user}, {id}) => {
-  return ActionModel.remove({
+  return ActionModel.findOneAndRemove({
     id,
     user_id: user.id
   });
