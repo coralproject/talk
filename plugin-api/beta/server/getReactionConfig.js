@@ -2,6 +2,8 @@ const wrapResponse = require('../../../graph/helpers/response');
 const {SEARCH_OTHER_USERS} = require('../../../perms/constants');
 
 function getReactionConfig(reaction) {
+  reaction = reaction.toLowerCase();
+
   const Reaction = reaction.charAt(0).toUpperCase() + reaction.slice(1);
   const REACTION = reaction.toUpperCase();
   const typeDefs = `

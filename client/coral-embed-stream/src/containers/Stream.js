@@ -83,7 +83,7 @@ class StreamContainer extends React.Component {
       }
     });
 
-    this.subscriptions = [sub1, sub2];
+    this.subscriptions.push(sub1, sub2);
   }
 
   unsubscribe() {

@@ -62,7 +62,7 @@ const createSubscriptionManager = (server) => new SubscriptionServer({
       try {
         req = await deserializeUser(upgradeReq);
       } catch (e) {
-        console.error(connection);
+        console.error(e);
 
         return new Context({}, pubsub);
       }
