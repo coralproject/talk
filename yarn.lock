@@ -30,11 +30,7 @@
   version "0.8.6"
   resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-0.8.6.tgz#b34fb880493ba835b0c067024ee70130d6f9bb68"
 
-"@types/graphql@^0.9.0":
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-0.9.0.tgz#fccf859f0d2817687f210737dc3be48a18b1d754"
-
-"@types/graphql@^0.9.1":
+"@types/graphql@^0.9.0", "@types/graphql@^0.9.1":
   version "0.9.1"
   resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-0.9.1.tgz#b04ebe84bc997cc60dbea2ed4d0d4342c737f99d"
 
@@ -3638,14 +3634,6 @@ graphql-subscriptions@^0.2.0:
   resolved "https://registry.yarnpkg.com/graphql-subscriptions/-/graphql-subscriptions-0.2.3.tgz#75f9a02cb6d2b456b1703ce95670f793dacee607"
   dependencies:
     es6-promise "^3.2.1"
-
-graphql-subscriptions@^0.4.1:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/graphql-subscriptions/-/graphql-subscriptions-0.4.2.tgz#a1a41cebdb95103be348c409d0ed6096ad858455"
-  dependencies:
-    "@types/graphql" "^0.9.1"
-    es6-promise "^4.0.5"
-    iterall "^1.1.1"
 
 graphql-subscriptions@^0.4.3:
   version "0.4.3"
@@ -7852,14 +7840,14 @@ stylus@0.54.5, stylus@~0.54.5:
     sax "0.5.x"
     source-map "0.1.x"
 
-subscriptions-transport-ws@^0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/subscriptions-transport-ws/-/subscriptions-transport-ws-0.7.1.tgz#32d6a0ab2e29e2246b48952a6ff431774c08c93d"
+subscriptions-transport-ws@^0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/subscriptions-transport-ws/-/subscriptions-transport-ws-0.7.2.tgz#26917fd4ba23fa37fcd28accb6fe36a040b3bbe9"
   dependencies:
     "@types/ws" "^3.0.0"
     backo2 "^1.0.2"
     eventemitter3 "^2.0.3"
-    graphql-subscriptions "^0.4.1"
+    graphql-subscriptions "^0.4.3"
     graphql-tag "^2.0.0"
     iterall "^1.1.1"
     lodash.assign "^4.2.0"

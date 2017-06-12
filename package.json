@@ -116,7 +116,7 @@
     "semver": "^5.3.0",
     "simplemde": "^1.11.2",
     "snake-case": "^2.1.0",
-    "subscriptions-transport-ws": "^0.7.1",
+    "subscriptions-transport-ws": "^0.7.2",
     "timekeeper": "^1.0.0",
     "uuid": "^3.0.1",
     "yaml-loader": "^0.4.0",
