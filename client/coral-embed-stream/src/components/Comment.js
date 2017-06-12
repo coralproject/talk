@@ -3,7 +3,6 @@ import React, {PropTypes} from 'react';
 import PermalinkButton from 'coral-plugin-permalinks/PermalinkButton';
 import AuthorName from 'coral-plugin-author-name/AuthorName';
 import TagLabel from 'coral-plugin-tag-label/TagLabel';
-import Content from 'coral-plugin-commentcontent/CommentContent';
 import PubDate from 'coral-plugin-pubdate/PubDate';
 import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
 import FlagComment from 'coral-plugin-flags/FlagComment';
@@ -466,8 +465,7 @@ export default class Comment extends React.Component {
                 stopEditing={this.stopEditing}
                 />
             : <div>
-                <Content body={comment.body} />
-                <Slot fill="commentContent" />
+                <Slot fill="commentContent" comment={comment} />
               </div>
           }
 
