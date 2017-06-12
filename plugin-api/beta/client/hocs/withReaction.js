@@ -18,7 +18,10 @@ export default (reaction) => (WrappedComponent) => {
     return null;
   }
 
+  // Global instance counter for each `reaction` type.
   let instances = 0;
+
+  // Track current subscriptions.
   let createdSubscription = null;
   let deletedSubscription = null;
 
@@ -148,6 +151,8 @@ export default (reaction) => (WrappedComponent) => {
 
     constructor(props, context) {
       super(props, context);
+
+      // Start subscriptions when it is first needed.
       if (instances === 0) {
         createdSubscription = context.client.subscribe({
           query: REACTION_CREATED_SUBSCRIPTION,
@@ -172,6 +177,7 @@ export default (reaction) => (WrappedComponent) => {
       instances++;
     }
 
+    // onReactionCreated handles live updates through the subscriptions.
     onReactionCreated = ({[`${reaction}ActionCreated`]: action}) => {
       if (this.props.user && action.user && this.props.user.id === action.user.id) {
         return;
@@ -179,6 +185,7 @@ export default (reaction) => (WrappedComponent) => {
       addReactionToStore(this.context.client, {action, self: false});
     };
 
+    // onReactionDeleted handles live updates through the subscriptions.
     onReactionDeleted = ({[`${reaction}ActionDeleted`]: action}) => {
       if (this.props.user && action.user && this.props.user.id === action.user.id) {
         return;
@@ -188,6 +195,8 @@ export default (reaction) => (WrappedComponent) => {
 
     componentWillUnmount() {
       instances--;
+
+      // End subscriptions when last component will be unmounted.
       if (instances === 0) {
         try {
           createdSubscription.unsubscribe();
