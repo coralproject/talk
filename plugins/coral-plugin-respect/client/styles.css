@@ -1,6 +1,6 @@
-.like {
+.container {
   display: inline-block;
- }
+}
 
 .button {
   color: #2a2a2a;
@@ -15,11 +15,11 @@
     cursor: pointer;
   }
 
-  &.liked {
-    color: rgb(0,134,227);
+  &.respected {
+    color: #c98211;
 
     &:hover {
-      color: rgb(0,134,227);
+      color: #e59614;
       cursor: pointer;
     }
   }
