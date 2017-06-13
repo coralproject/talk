@@ -44,14 +44,14 @@ es:
     dont_like_username: "No me gusta este nombre de usuario"
     flaggedaccounts: "Nombres de Usuario Reportados"
     flags: Reportes
-    impersonating: "El usuario esta suplantando identidad"
+    impersonating: Impersonando
     loading: "Cargando resultados"
     moderator: Moderator
     newsroom_role: "Rol en la redacción"
-    no_flagged_accounts: "No hay ninguna cuenta reportada en este momento."
+    no_flagged_accounts: "No hay ningún nombre de usario reportado en este momento."
     no_results: "No se encontraron usuarios con ese nombre o correo."
     note: "Nota: Suspender a este usuario no le va a permitir (al usuario) borrar ni editar ni comentar."
-    offensive: "Este comentario es ofensivo"
+    offensive: Ofensivo
     other: Otro
     people: Gente
     role: "Seleccionar rol..."
