@@ -10,7 +10,7 @@ const CommentContent = ({comment}) => {
       textbreaks.map((line, i) => {
         return (
           <span key={i} className={`${name}-line`}>
-            <Linkify>
+            <Linkify properties={{target: '_parent'}}>
               {line}
             </Linkify>
             <br className={`${name}-linebreak`}/>
