@@ -36,7 +36,7 @@ const createAction = async ({user = {}}, {item_id, item_type, action_type, group
  * Deletes an action based on the user id if the user owns that action.
  * @param  {Object} user the user performing the request
  * @param  {String} id   the id of the action to delete
- * @return {Promise}     resolves when the action is deleted
+ * @return {Promise}     resolves to the deleted action, or null if not found.
  */
 const deleteAction = ({user}, {id}) => {
   return ActionModel.findOneAndRemove({

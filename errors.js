@@ -104,6 +104,20 @@ class ErrAuthentication extends APIError {
   }
 }
 
+/**
+ * ErrAlreadyExists is returned when an attempt to create a resource failed due to an existing one.
+ */
+class ErrAlreadyExists extends APIError {
+  constructor(existing = null) {
+    super('authentication error occured', {
+      translation_key: 'ALREADY_EXISTS',
+      status: 400
+    }, {
+      existing
+    });
+  }
+}
+
 // ErrContainsProfanity is returned in the event that the middleware detects
 // profanity/wordlisted words in the payload.
 const ErrContainsProfanity = new APIError('This username contains elements which are not permitted in our community. If you think this is in error, please contact us or try again.', {
@@ -171,6 +185,7 @@ const ErrCommentTooShort = new APIError('Comment was too short', {
 module.exports = {
   ExtendableError,
   APIError,
+  ErrAlreadyExists,
   ErrPasswordTooShort,
   ErrSettingsNotInit,
   ErrMissingEmail,
