@@ -42,17 +42,17 @@ en:
     banned: Banned
     banned_user: "Banned User"
     cancel: Cancel
-    dont_like_username: "I don't like this username"
+    dont_like_username: "Dislike username"
     flaggedaccounts: "Flagged Usernames"
     flags: Flags
-    impersonating: "This user is impersonating"
+    impersonating: "Impersonation"
     loading: "Loading results"
     moderator: Moderator
     newsroom_role: "Newsroom Role"
-    no_flagged_accounts: "The Account Flags queue is currently empty."
+    no_flagged_accounts: "The Flagged Usernames queue is currently empty."
     no_results: "No users found with that user name or email address. They're hiding!"
     note: "Note: Banning this user will not let them edit comment or remove anything."
-    offensive: "This comment is offensive"
+    offensive: "Offensive"
     other: Other
     people: People
     role: "Select role..."
