@@ -1,6 +1,6 @@
-.respect {
+.container {
   display: inline-block;
- }
+}
 
 .button {
   color: #2a2a2a;
@@ -15,16 +15,11 @@
     cursor: pointer;
   }
 
-  &.respected {
-    color: #c98211;
-
+  &.liked {
+    color: rgb(0,134,227);
     &:hover {
-      color: #e59614;
+      color: rgb(0,134,227);
       cursor: pointer;
     }
   }
-}
-
-.icon {
-  padding: 0 5px;
 }
