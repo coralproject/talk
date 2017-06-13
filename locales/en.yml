@@ -189,6 +189,7 @@ en:
     PASSWORD_REQUIRED: "Must input a password"
     COMMENTING_CLOSED: "Commenting is already closed"
     NOT_FOUND: "Resource not found"
+    ALREADY_EXISTS: "Resource already exists"
     INVALID_ASSET_URL: "Assert URL is invalid"
     email: "Not a valid E-Mail"
     confirm_password: "Passwords don't match. Please check again"

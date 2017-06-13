@@ -149,6 +149,9 @@ export default (reaction) => (WrappedComponent) => {
       client: PropTypes.object.isRequired,
     };
 
+    // Whether or not a mutation is currently active.
+    duringMutation = false;
+
     constructor(props, context) {
       super(props, context);
 
@@ -208,6 +211,26 @@ export default (reaction) => (WrappedComponent) => {
       }
     }
 
+    postReaction = () => {
+      if (this.duringMutation) {
+        return;
+      }
+      this.duringMutation = true;
+      return this.props.postReaction(this.props.comment)
+        .then((result) => {this.duringMutation = false; return Promise.resolve(result); })
+        .catch((err) => {this.duringMutation = false; throw err; });
+    }
+
+    deleteReaction = () => {
+      if (this.duringMutation) {
+        return;
+      }
+      this.duringMutation = true;
+      return this.props.deleteReaction(this.props.comment)
+        .then((result) => {this.duringMutation = false; return Promise.resolve(result); })
+        .catch((err) => {this.duringMutation = false; throw err; });
+    }
+
     render() {
       const {comment} = this.props;
 
@@ -223,9 +246,16 @@ export default (reaction) => (WrappedComponent) => {
 
       const alreadyReacted = !!reactionSummary;
 
-      const withReactionProps = {reactionSummary, count, alreadyReacted};
-
-      return <WrappedComponent {...this.props} {...withReactionProps} />;
+      return <WrappedComponent
+        showSignInDialog={this.props.showSignInDialog}
+        user={this.props.user}
+        comment={comment}
+        reactionSummary={reactionSummary}
+        count={count}
+        alreadyReacted={alreadyReacted}
+        postReaction={this.postReaction}
+        deleteReaction={this.deleteReaction}
+      />;
     }
   }
 
@@ -240,16 +270,16 @@ export default (reaction) => (WrappedComponent) => {
       }
     `,
     {
-      props: ({mutate, ownProps}) => ({
-        deleteReaction: () => {
+      props: ({mutate}) => ({
+        deleteReaction: (comment) => {
 
           const reactionSummary = getMyActionSummary(
             `${Reaction}ActionSummary`,
-            ownProps.comment
+            comment
           );
 
           const id = reactionSummary.current_user.id;
-          const item_id = ownProps.comment.id;
+          const item_id = comment.id;
 
           const input = {id};
           return mutate({
@@ -283,11 +313,11 @@ export default (reaction) => (WrappedComponent) => {
         }
     `,
     {
-      props: ({mutate, ownProps}) => ({
-        postReaction: () => {
+      props: ({mutate}) => ({
+        postReaction: (comment) => {
 
           const input = {
-            item_id: ownProps.comment.id,
+            item_id: comment.id,
           };
 
           return mutate({
