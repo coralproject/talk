@@ -109,9 +109,9 @@ class ErrAuthentication extends APIError {
  */
 class ErrAlreadyExists extends APIError {
   constructor(existing = null) {
-    super('authentication error occured', {
+    super('resource already exists', {
       translation_key: 'ALREADY_EXISTS',
-      status: 400
+      status: 409
     }, {
       existing
     });
