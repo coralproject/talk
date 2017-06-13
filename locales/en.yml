@@ -144,8 +144,8 @@ en:
     auto_update: "Data automatically updates every five minutes or when you Reload."
     comment_count: comments
     flags: Flags
-    most_flags: "Articles with the most flags"
-    most_conversations: "Articles with the most conversations"
+    most_flags: "Stories with the most flags"
+    most_conversations: "Stories with the most conversations"
     next_update: "{0} minutes until next update."
     no_activity: "There haven't been any comments anywhere in the last five minutes."
     no_flags: "There have been no flags in the last 5 minutes! Hooray!"
@@ -189,6 +189,7 @@ en:
     PASSWORD_REQUIRED: "Must input a password"
     COMMENTING_CLOSED: "Commenting is already closed"
     NOT_FOUND: "Resource not found"
+    ALREADY_EXISTS: "Resource already exists"
     INVALID_ASSET_URL: "Assert URL is invalid"
     email: "Not a valid E-Mail"
     confirm_password: "Passwords don't match. Please check again"

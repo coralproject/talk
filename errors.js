@@ -104,6 +104,20 @@ class ErrAuthentication extends APIError {
   }
 }
 
+/**
+ * ErrAlreadyExists is returned when an attempt to create a resource failed due to an existing one.
+ */
+class ErrAlreadyExists extends APIError {
+  constructor(existing = null) {
+    super('resource already exists', {
+      translation_key: 'ALREADY_EXISTS',
+      status: 409
+    }, {
+      existing
+    });
+  }
+}
+
 // ErrContainsProfanity is returned in the event that the middleware detects
 // profanity/wordlisted words in the payload.
 const ErrContainsProfanity = new APIError('This username contains elements which are not permitted in our community. If you think this is in error, please contact us or try again.', {
@@ -168,9 +182,17 @@ const ErrCommentTooShort = new APIError('Comment was too short', {
   status: 400
 });
 
+// ErrAssetURLAlreadyExists is returned when a rename operation is requested
+// but an asset already exists with the new url.
+const ErrAssetURLAlreadyExists = new APIError('Asset URL already exists, cannot rename', {
+  translation_key: 'ASSET_URL_ALREADY_EXISTS',
+  status: 409
+});
+
 module.exports = {
   ExtendableError,
   APIError,
+  ErrAlreadyExists,
   ErrPasswordTooShort,
   ErrSettingsNotInit,
   ErrMissingEmail,
@@ -191,5 +213,6 @@ module.exports = {
   ErrInstallLock,
   ErrLoginAttemptMaximumExceeded,
   ErrEditWindowHasEnded,
-  ErrCommentTooShort
+  ErrCommentTooShort,
+  ErrAssetURLAlreadyExists
 };
