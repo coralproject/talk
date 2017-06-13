@@ -104,6 +104,20 @@ class ErrAuthentication extends APIError {
   }
 }
 
+/**
+ * ErrAlreadyExists is returned when an attempt to create a resource failed due to an existing one.
+ */
+class ErrAlreadyExists extends APIError {
+  constructor(existing = null) {
+    super('resource already exists', {
+      translation_key: 'ALREADY_EXISTS',
+      status: 409
+    }, {
+      existing
+    });
+  }
+}
+
 // ErrContainsProfanity is returned in the event that the middleware detects
 // profanity/wordlisted words in the payload.
 const ErrContainsProfanity = new APIError('This username contains elements which are not permitted in our community. If you think this is in error, please contact us or try again.', {
@@ -178,6 +192,7 @@ const ErrAssetURLAlreadyExists = new APIError('Asset URL already exists, cannot 
 module.exports = {
   ExtendableError,
   APIError,
+  ErrAlreadyExists,
   ErrPasswordTooShort,
   ErrSettingsNotInit,
   ErrMissingEmail,
