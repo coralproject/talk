@@ -1,15 +1,21 @@
 import React, {PropTypes} from 'react';
-import {Link} from 'react-router';
 import styles from './StorySearch.css';
 
-const Story = ({author, title, createdAt, open, id}) => {
+const formatDate = (date) => {
+  const d = new Date(date);
+  return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
+};
+
+const Story = ({author, title, createdAt, open, id, goToStory}) => {
   return (
-    <Link className={styles.story} to={`/admin/moderate/${id}`}>
+    <li className={styles.story} onClick={() => goToStory(id)}>
       <p className={styles.title}>{title}</p>
       <p className={styles.meta}>
-        <span className={styles.author}>By {author}</span><span className={styles.createdAt}>{createdAt}</span><span className={styles.status}>{open ? 'Open' : 'Closed'}</span>
+        <span className={styles.author}>By {author}</span>
+        <span className={styles.createdAt}>{formatDate(createdAt)}</span>
+        <span className={styles.status}>{open ? 'Open' : 'Closed'}</span>
       </p>
-    </Link>
+    </li>
   );
 };
 

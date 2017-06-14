@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import styles from './StorySearch.css';
-import {Button, Spinner} from 'coral-ui';
+import {Button, Spinner, Icon} from 'coral-ui';
+import {withRouter} from 'react-router';
 import Story from './Story';
 
 const StorySearch = (props) => {
@@ -14,16 +15,25 @@ const StorySearch = (props) => {
     return null;
   }
 
+  const goToStory = (id) => {
+    props.router.push(`/admin/moderate/${id}`);
+    props.closeSearch();
+  };
+  
   return (
     <div className={styles.container}>
       <div className={styles.positionShim}>
         <div className={styles.headInput}>
           <input className={styles.searchInput} onChange={props.storySearchChange} />
-          <Button cStyle='facebook'>Search</Button>
+          <Button cStyle='blue' className={styles.searchButton} raised>Search</Button>
         </div>
         <div className={styles.results}>
           <p className={styles.cta}>Moderate comments on All Stories</p>
           <div className={styles.storyList}>
+            <div className={styles.recentStories}>
+              <Icon name="access_time" />
+              <span className={styles.headlineRecent}>Most Recent Stories</span>
+            </div>
             {
               loading
               ? <Spinner />
@@ -35,7 +45,9 @@ const StorySearch = (props) => {
                   title={story.title}
                   createdAt={new Date(story.created_at).toISOString()}
                   open={storyOpen}
-                  author={story.author} />;
+                  author={story.author}
+                  goToStory={goToStory}
+                />;
               })
             }
           </div>
@@ -49,4 +61,4 @@ StorySearch.propTypes = {
   storySearchChange: PropTypes.func.isRequired
 };
 
-export default StorySearch;
+export default withRouter(StorySearch);

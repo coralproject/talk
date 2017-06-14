@@ -34,12 +34,10 @@ export default class Moderation extends Component {
   }
 
   closeSearch = () => {
-    console.log('closeSearch');
     this.props.toggleStorySearch(false);
   }
 
   openSearch = () => {
-    console.log('openSearch');
     this.props.toggleStorySearch(true);
   }
 
@@ -210,7 +208,7 @@ export default class Moderation extends Component {
             acceptComment={props.acceptComment}
             rejectComment={props.rejectComment} />
         )}
-        <StorySearch visible={this.props.moderation.storySearchVisible} />
+        <StorySearch visible={this.props.moderation.storySearchVisible} closeSearch={this.closeSearch}/>
       </div>
     );
   }
