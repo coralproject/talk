@@ -1,0 +1,76 @@
+.container {
+  position: fixed;
+  background-color: white;
+  top: 100px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.15);
+}
+
+.positionShim {
+  left: -50%;
+}
+
+.headInput {
+  background-color: #efefef;
+  padding: 10px 30px;
+}
+
+.searchInput {
+  width: calc(100% - 100px);
+  padding: 8px;
+  height: 100%;
+  font-size: 16px;
+  margin-right: 10px;
+  position: relative;
+  top: 2px;
+}
+
+.cta {
+  padding: 15px;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0;
+}
+
+.storyList {
+  padding: 10px;
+  border-top: 1px solid #ddd;
+}
+
+.story {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+
+  &:hover {
+    background-color: #efefef;
+  }
+}
+
+.title, .meta {
+  margin: 0;
+  color: black;
+}
+
+.author, .createdAt, .status {
+  display: inline-block;
+  font-size: .8em;
+}
+
+.author {
+  display: inline-block;
+  width: 200px;
+  color: #aaa;
+}
+
+.createdAt {
+  display: inline-block;
+  width: 200px;
+  color: #aaa;
+}

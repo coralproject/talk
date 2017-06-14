@@ -51,3 +51,7 @@ export const toggleSelectCommentInUserDetail = (id, active) => {
     id
   };
 };
+
+export const toggleStorySearch = (active) => ({type: active ? actions.SHOW_STORY_SEARCH : actions.HIDE_STORY_SEARCH});
+
+export const storySearchChange = (e) => ({type: actions.CHANGE_ASSET_SEARCH_STRING, value: e.target.value});

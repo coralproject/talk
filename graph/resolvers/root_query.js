@@ -6,12 +6,14 @@ const {
 } = require('../../perms/constants');
 
 const RootQuery = {
-  assets(_, args, {loaders: {Assets}, user}) {
+  assets(_, {query}, {loaders: {Assets}, user}) {
     if (user == null || !user.can(SEARCH_ASSETS)) {
       return null;
     }
 
-    return Assets.getAll.load();
+    const {value = '', limit} = query;
+
+    return Assets.search(value, limit);
   },
   asset(_, query, {loaders: {Assets}}) {
     if (query.id) {

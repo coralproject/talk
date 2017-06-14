@@ -10,6 +10,7 @@ import ModerationHeader from './ModerationHeader';
 import NotFoundAsset from './NotFoundAsset';
 import ModerationKeysModal from '../../../components/ModerationKeysModal';
 import UserDetail from '../containers/UserDetail';
+import StorySearch from '../containers/StorySearch';
 
 export default class Moderation extends Component {
   state = {
@@ -30,6 +31,16 @@ export default class Moderation extends Component {
 
   onClose = () => {
     this.toggleModal(false);
+  }
+
+  closeSearch = () => {
+    console.log('closeSearch');
+    this.props.toggleStorySearch(false);
+  }
+
+  openSearch = () => {
+    console.log('openSearch');
+    this.props.toggleStorySearch(true);
   }
 
   moderate = (accept) => () => {
@@ -128,7 +139,11 @@ export default class Moderation extends Component {
 
     return (
       <div>
-        <ModerationHeader asset={asset} />
+        <ModerationHeader
+          searchVisible={this.props.moderation.storySearchVisible}
+          openSearch={this.openSearch}
+          closeSearch={this.closeSearch}
+          asset={asset} />
         <ModerationMenu
           asset={asset}
           allCount={root.allCount}
@@ -195,6 +210,7 @@ export default class Moderation extends Component {
             acceptComment={props.acceptComment}
             rejectComment={props.rejectComment} />
         )}
+        <StorySearch visible={this.props.moderation.storySearchVisible} />
       </div>
     );
   }

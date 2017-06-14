@@ -479,3 +479,8 @@ span {
 .bulkSelectInput {
   cursor: pointer;
 }
+
+.searchTrigger {
+  position: relative;
+  top: .3em;
+}

@@ -21,6 +21,7 @@ import {
   showSuspendUserDialog,
   hideSuspendUserDialog,
   hideShortcutsNote,
+  toggleStorySearch,
   viewUserDetail,
   hideUserDetail,
   setSortOrder,
@@ -208,7 +209,7 @@ const withModQueueQuery = withQuery(gql`
     }) {
       ...CoralAdmin_Moderation_CommentConnection
     }
-    assets: assets {
+    assets: assets(query: {}) {
       id
       title
       url
@@ -299,6 +300,7 @@ const mapDispatchToProps = (dispatch) => ({
     showBanUserDialog,
     hideBanUserDialog,
     hideShortcutsNote,
+    toggleStorySearch,
     showSuspendUserDialog,
     hideSuspendUserDialog,
     viewUserDetail,

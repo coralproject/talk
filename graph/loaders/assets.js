@@ -20,6 +20,17 @@ const genAssetsByID = (context, ids) => AssetModel.find({
 }).then(util.singleJoinBy(ids, 'id'));
 
 /**
+ * [getAssetsByQuery description]
+ * @param  {Object} context  the context of the request
+ * @param  {String} value    text string to search agains the documents
+ * @param  {Number} limit    limit the number of results
+ * @return {Promise}         resolves the assets
+ */
+const getAssetsByQuery = (context, value, limit) => {
+  return AssetsService.search(value, null, limit);
+};
+
+/**
  * This endpoint find or creates an asset at the given url when it is loaded.
  * @param   {Object} context   the context of the request
  * @param   {String} asset_url the url passed in from the query
@@ -65,6 +76,7 @@ module.exports = (context) => ({
     // this operation create a new asset if one isn't found.
     getByURL: (url) => findOrCreateAssetByURL(context, url),
 
+    search: (value, limit) => getAssetsByQuery(context, value, limit),
     getByID: new DataLoader((ids) => genAssetsByID(context, ids)),
     getForMetrics: () => getAssetsForMetrics(context),
     getAll: new util.SingletonResolver(() => AssetModel.find({}))
