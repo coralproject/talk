@@ -1,8 +1,7 @@
 import React from 'react';
 import styles from './styles.css';
-import {Dialog, Alert, TextField} from 'plugin-api/beta/client/components/ui';
+import {Dialog, Alert, TextField, Button} from 'plugin-api/beta/client/components/ui';
 import {FakeComment} from './FakeComment';
-import {Button} from 'plugin-api/beta/client/components/ui';
 import t from 'coral-framework/services/i18n';
 
 const CreateUsernameDialog = ({
