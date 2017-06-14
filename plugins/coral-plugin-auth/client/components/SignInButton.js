@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button} from 'coral-ui';
+import {Button} from 'plugin-api/beta/client/components/ui';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {showSignInDialog} from 'coral-framework/actions/auth';
