@@ -1,6 +1,6 @@
 import React from 'react';
 import Box from './Box';
-import {Button} from 'coral-ui';
+import {Button} from 'plugin-api/beta/client/components/ui';
 import styles from './styles.css';
 
 export default class Footer extends React.Component {
