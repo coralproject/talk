@@ -1,17 +1,17 @@
 import React from 'react';
+import t from 'coral-framework/services/i18n';
 import {ReplyButton} from 'coral-plugin-replies';
 import PubDate from 'coral-plugin-pubdate/PubDate';
+import Slot from 'coral-framework/components/Slot';
 import AuthorName from 'coral-plugin-author-name/AuthorName';
-import Content from 'coral-plugin-commentcontent/CommentContent';
 import styles from 'coral-embed-stream/src/components/Comment.css';
-import t from 'coral-framework/services/i18n';
 
-export const FakeComment = ({username, created_at, body}) => (
+export const FakeComment = ({username, created_at, comment}) => (
   <div className={`comment ${styles.Comment}`} style={{marginLeft: 0 * 30}}>
     <hr aria-hidden={true} />
     <AuthorName author={{name: username}} />
     <PubDate created_at={created_at} />
-    <Content body={body} />
+    <Slot comment={comment} />
     <div className="commentActionsLeft comment__action-container">
       <div className={`${'coral-plugin-likes'}-container`}>
         <button className={'coral-plugin-likes-button'}>
