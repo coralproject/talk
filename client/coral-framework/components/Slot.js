@@ -4,10 +4,15 @@ import styles from './Slot.css';
 import {connect} from 'react-redux';
 import {getSlotElements} from 'coral-framework/helpers/plugins';
 
-function Slot ({fill, inline = false, className, plugin_config: config, defaultComponent = () => {}, ...rest}) {
+function Slot ({fill, inline = false, className, plugin_config: config, defaultComponent: DefaultComponent, ...rest}) {
+  let children = getSlotElements(fill, {...rest, config});
+  if (children.length === 0 && DefaultComponent) {
+    children = <DefaultComponent {...rest} />;
+  }
+
   return (
     <div className={cn({[styles.inline]: inline, [styles.debug]: config.debug}, className)}>
-      {getSlotElements(fill).length ? getSlotElements(fill, {...rest, config}) : defaultComponent({...rest})}
+      {children}
     </div>
   );
 }
