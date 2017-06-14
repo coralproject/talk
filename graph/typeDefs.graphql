@@ -936,9 +936,17 @@ type RootMutation {
 ## Subscriptions
 ################################################################################
 
+# Response to ignoreUser mutation
+type CommentStatusChangedUpdate {
+  user: User
+  comment: Comment
+  previous: Comment
+}
+
 type Subscription {
   commentAdded(asset_id: ID!): Comment
   commentEdited(asset_id: ID!): Comment
+  commentStatusChanged(asset_id: ID): CommentStatusChangedUpdate
 }
 
 ################################################################################

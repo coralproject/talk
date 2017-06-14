@@ -31,7 +31,13 @@ const RootMutation = {
   stopIgnoringUser(_, {id}, {mutators: {User}}) {
     return wrapResponse(null)(User.stopIgnoringUser({id}));
   },
-  setCommentStatus(_, {id, status}, {mutators: {Comment}}) {
+  setCommentStatus: async (_, {id, status}, {loaders: {Comments}, mutators: {Comment}, user, pubsub}) => {
+    const previous = await Comments.get.load(id);
+    const comment = await Comment.setStatus({id, status});
+
+    // Publish the comment status change via the subscription.
+    pubsub.publish('commentStatusChanged', {user, comment, previous});
+
     return wrapResponse(null)(Comment.setStatus({id, status}));
   },
   addTag(_, {tag}, {mutators: {Tag}}) {

@@ -479,3 +479,21 @@ span {
 .bulkSelectInput {
   cursor: pointer;
 }
+
+.commentLeave {
+  opacity: 1.0;
+  transition: opacity 800ms;
+}
+
+.commentLeaveActive {
+  opacity: 0;
+}
+
+.commentEnter {
+  opacity: 0;
+  transition: opacity 800ms;
+}
+
+.commentEnterActive {
+  opacity: 1.0;
+}

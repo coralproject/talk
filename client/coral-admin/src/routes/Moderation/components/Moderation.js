@@ -92,9 +92,8 @@ export default class Moderation extends Component {
   }
 
   render () {
-    const {root, moderation, settings, assets, viewUserDetail, hideUserDetail, ...props} = this.props;
+    const {root, moderation, settings, assets, viewUserDetail, hideUserDetail, activeTab, ...props} = this.props;
     const providedAssetId = this.props.params.id;
-    const activeTab = this.props.route.path === ':id' ? 'premod' : this.props.route.path;
 
     let asset;
 

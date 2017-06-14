@@ -4,7 +4,10 @@ const Subscription = {
   },
   commentEdited(comment) {
     return comment;
-  }
+  },
+  commentStatusChanged(data) {
+    return data;
+  },
 };
 
 module.exports = Subscription;

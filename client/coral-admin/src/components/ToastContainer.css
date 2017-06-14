@@ -133,7 +133,7 @@
     animation-fill-mode: both; }
 
   .toastify {
-    z-index: 999;
+    z-index: 99999;
     position: fixed;
     padding: 4px;
     width: 350px;
@@ -197,7 +197,7 @@
     border-radius: 2px;
     box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1), 0 3px 20px 0 rgba(0, 0, 0, 0.05); }
     .toastify-content--info {
-      background: #2488cb; }
+      background: #404040; }
     .toastify-content--success {
       background: #008577; }
     .toastify-content--warning {

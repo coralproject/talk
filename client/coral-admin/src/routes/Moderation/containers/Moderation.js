@@ -10,6 +10,7 @@ import t, {timeago} from 'coral-framework/services/i18n';
 import update from 'immutability-helper';
 
 import {withSetUserStatus, withSuspendUser, withSetCommentStatus} from 'coral-framework/graphql/mutations';
+import {handleCommentStatusChange, findCommentInModQueues} from '../../../graphql/utils';
 
 import {fetchSettings} from 'actions/settings';
 import {updateAssets} from 'actions/assets';
@@ -30,15 +31,76 @@ import {Spinner} from 'coral-ui';
 import Moderation from '../components/Moderation';
 import Comment from './Comment';
 
+function truncate(s, length = 10) {
+  return (s.length > length) ? `${s.substring(0, length)}...` : s;
+}
+
 class ModerationContainer extends Component {
+  unsubscribe = null;
+
+  get activeTab() { return this.props.route.path === ':id' ? 'premod' : this.props.route.path; }
+
+  subscribeToUpdates() {
+    this.unsubscribe = this.props.data.subscribeToMore({
+      document: STATUS_CHANGED_SUBSCRIPTION,
+      variables: {
+        asset_id: this.props.data.variables.asset_id,
+      },
+      updateQuery: (prev, {subscriptionData: {data: {commentStatusChanged: {user, comment, previous}}}}) => {
+        const activeTab = this.activeTab;
+
+        // Status changed was caused by a different user.
+        if (user && user.id !== this.props.auth.user.id) {
+          if (findCommentInModQueues(prev, comment.id) && (
+              activeTab === 'all' && findCommentInModQueues(prev, comment.id, ['all'])
+              || activeTab === 'premod' && previous.status === 'PREMOD'
+              || activeTab === 'flagged' && findCommentInModQueues(prev, comment.id, ['flagged'])
+              || comment.status === 'ACCEPTED' && activeTab === 'accepted'
+              || comment.status !== 'ACCEPTED' && previous.status === 'ACCEPTED' && activeTab === 'accepted'
+              || comment.status === 'REJECTED' && activeTab === 'rejected'
+              || comment.status !== 'REJECTED' && previous.status === 'REJECTED' && activeTab === 'rejected'
+            )
+          ) {
+            const text = `${user.username} ${comment.status.toLowerCase()} comment "${truncate(comment.body, 50)}"`;
+            notification.info(text);
+          }
+        }
+        return handleCommentStatusChange(prev, comment, previous.status, user);
+      },
+    });
+  }
+
+  unsubscribe() {
+    if (!this.unsubscribe) {
+      return;
+    }
+    this.unsubscribe();
+    this.unsubscribe = null;
+  }
+
+  resubscribe() {
+    this.unsubscribe();
+    this.subscribeToUpdates();
+  }
+
   componentWillMount() {
     this.props.fetchSettings();
+    this.subscribeToUpdates();
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
   componentWillReceiveProps(nextProps) {
     const {updateAssets} = this.props;
     if(!isEqual(nextProps.root.assets, this.props.root.assets)) {
       updateAssets(nextProps.root.assets);
+    }
+
+    // Resubscribe when we change between assets.
+    if(this.props.data.variables.asset_id !== nextProps.data.variables.asset_id) {
+      this.resubscribe();
     }
   }
 
@@ -113,6 +175,9 @@ class ModerationContainer extends Component {
         return update(prev, {
           [tab]: {
             nodes: {$push: comments.nodes},
+            hasNextPage: {$set: comments.hasNextPage},
+            startCursor: {$set: comments.startCursor},
+            endCursor: {$set: comments.endCursor},
           },
         });
       }
@@ -137,9 +202,29 @@ class ModerationContainer extends Component {
       acceptComment={this.acceptComment}
       rejectComment={this.rejectComment}
       suspendUser={this.suspendUser}
+      activeTab={this.activeTab}
     />;
   }
 }
+
+const STATUS_CHANGED_SUBSCRIPTION = gql`
+  subscription CommentStatusChanged($asset_id: ID){
+    commentStatusChanged(asset_id: $asset_id){
+      user {
+        id
+        username
+      }
+      comment {
+        id
+        status
+        body
+      }
+      previous {
+        status
+      }
+    }
+  }
+`;
 
 const LOAD_MORE_QUERY = gql`
   query CoralAdmin_Moderation_LoadMore($limit: Int = 10, $cursor: Date, $sort: SORT_ORDER, $asset_id: ID, $statuses:[COMMENT_STATUS!], $action_type: ACTION_TYPE) {
@@ -153,6 +238,9 @@ const LOAD_MORE_QUERY = gql`
           }
         }
       }
+      hasNextPage
+      startCursor
+      endCursor
     }
   }
   ${Comment.fragments.comment}

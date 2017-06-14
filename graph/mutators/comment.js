@@ -326,7 +326,7 @@ const createPublicComment = async (context, commentInput) => {
  * @param {String} id          identifier of the comment  (uuid)
  * @param {String} status      the new status of the comment
  */
-const setStatus = async ({user, loaders: {Comments}}, {id, status}) => {
+const setStatus = async ({user, loaders: {Comments}, pubsub}, {id, status}) => {
   let comment = await CommentsService.pushStatus(id, status, user ? user.id : null);
 
   // If the loaders are present, clear the caches for these values because we
@@ -370,6 +370,9 @@ const edit = async (context, {id, asset_id, edit: {body}}) => {
 
     // Publish the edited comment via the subscription.
     context.pubsub.publish('commentEdited', comment);
+
+    // Publish the comment status change via the subscription.
+    context.pubsub.publish('commentStatusChanged', comment);
   }
 
   return comment;

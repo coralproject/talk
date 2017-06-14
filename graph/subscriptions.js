@@ -10,6 +10,10 @@ const plugins = require('../services/plugins');
 
 const {deserializeUser} = require('../services/subscriptions');
 
+const {
+  SUBSCRIBE_COMMENT_STATUS,
+} = require('../perms/constants');
+
 /**
  * Plugin support requires that we merge in existing setupFunctions with our new
  * plugin based ones. This allows plugins to extend existing setupFunctions as well
@@ -28,6 +32,16 @@ const setupFunctions = plugins.get('server', 'setupFunctions').reduce((acc, {plu
   commentEdited: (options, args) => ({
     commentEdited: {
       filter: (comment) => comment.asset_id === args.asset_id
+    },
+  }),
+  commentStatusChanged: (options, args) => ({
+    commentStatusChanged: {
+      filter: ({comment}, context) => {
+        if (!context.user || !context.user.can(SUBSCRIBE_COMMENT_STATUS)) {
+          return false;
+        }
+        return !args.asset_id || comment.asset_id === args.asset_id;
+      }
     },
   }),
 });
