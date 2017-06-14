@@ -1,3 +1,4 @@
+const CommentModel = require('../models/comment');
 const AssetModel = require('../models/asset');
 const SettingsService = require('./settings');
 const domainlist = require('./domainlist');
@@ -128,9 +129,61 @@ module.exports = class AssetsService {
    * @param  {Array} ids an array of Strings of asset_id
    * @return {Promise}     resolves to list of Assets
    */
-  static findMultipleById(ids) {
-    const query = ids.map((id) => ({id}));
-    return AssetModel.find(query);
+  static async findByIDs(ids) {
+
+    // Find the assets.
+    let assets = await AssetModel.find({
+      id: {
+        $in: ids
+      }
+    });
+
+    // Return them in the right order.
+    return ids.map((id) => assets.find((asset) => asset.id === id));
+  }
+
+  static async updateURL(id, url) {
+
+    // Try to see if an asset already exists with the given url.
+    let asset = await AssetsService.findByUrl(url);
+    if (asset !== null) {
+      throw errors.ErrAssetURLAlreadyExists;
+    }
+
+    // Seems that there was no other asset with the same url, try and perform
+    // the rename operation! An error may be thrown from this if the operation
+    // fails. This is ok.
+    await AssetModel.update({id}, {$set: {url}});
+  }
+
+  static async merge(srcAssetID, dstAssetID) {
+
+    // Fetch both assets.
+    let [srcAsset, dstAsset] = await AssetsService.findByIDs([srcAssetID, dstAssetID]);
+    if (!srcAsset || !dstAsset) {
+      throw errors.ErrNotFound;
+    }
+
+    // Resolve the merge operation, this invloves moving all resources attached
+    // to the src asset to the dst asset, and then removing the src asset.
+
+    // First, update all the old comments to the new asset.
+    await CommentModel.update({
+      asset_id: srcAssetID
+    }, {
+      $set: {
+        asset_id: dstAssetID
+      }
+    }, {
+      multi: true
+    });
+
+    // Second remove the old asset.
+    await AssetModel.remove({
+      id: srcAssetID
+    });
+
+    // That's it!
   }
 
   static all(skip = null, limit = null) {

@@ -7,7 +7,7 @@ export default {
     'SuspendUserResponse',
     'RejectUsernameResponse',
     'SetUserStatusResponse',
-    'PostCommentResponse',
+    'CreateFlagResponse',
     'EditCommentResponse',
     'PostFlagResponse',
     'CreateDontAgreeResponse',
@@ -17,3 +17,4 @@ export default {
     'StopIgnoringUserResponse',
   )
 };
+

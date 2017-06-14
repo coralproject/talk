@@ -52,6 +52,10 @@ span {
   }
 }
 
+.approve {
+  margin-top: 10px;
+}
+
 .notFound {
   position: relative;
   margin: 20px auto;
@@ -193,7 +197,7 @@ span {
      top: 0;
      padding: 40px 18px;
      box-sizing: border-box;
-   }
+  }
 
   .itemHeader {
     display: flex;
@@ -254,6 +258,8 @@ span {
   }
 
 }
+
+
 
 .empty {
   color: #444;

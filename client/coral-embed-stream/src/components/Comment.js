@@ -7,6 +7,7 @@ import Content from 'coral-plugin-commentcontent/CommentContent';
 import PubDate from 'coral-plugin-pubdate/PubDate';
 import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
 import FlagComment from 'coral-plugin-flags/FlagComment';
+import {can} from 'coral-framework/services/perms';
 import {TransitionGroup} from 'react-transition-group';
 import cn from 'classnames';
 
@@ -218,6 +219,18 @@ export default class Comment extends React.Component {
     }
     this.setState(resetCursors);
   };
+
+  showReplyBox = () => {
+    if (!this.props.currentUser) {
+      this.props.showSignInDialog();
+      return;
+    }
+    if (can(this.props.currentUser, 'INTERACT_WITH_COMMUNITY')) {
+      this.props.setActiveReplyBox(this.props.comment.id);
+      return;
+    }
+    return;
+  }
 
   // getVisibileReplies returns a list containing comments
   // which were authored by current user or comes before the `idCursor`.
@@ -479,10 +492,9 @@ export default class Comment extends React.Component {
             {!disableReply &&
               <ActionButton>
                 <ReplyButton
-                  onClick={() => setActiveReplyBox(comment.id)}
+                  onClick={this.showReplyBox}
                   parentCommentId={parentId || comment.id}
                   currentUserId={currentUser && currentUser.id}
-                  banned={false}
                 />
               </ActionButton>}
             <Slot

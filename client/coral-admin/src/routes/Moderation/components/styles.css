@@ -18,14 +18,20 @@
 
 .tab {
   flex: 1;
-  color: #EEEEEE;
+  color: #C0C0C0;
   text-transform: capitalize;
   font-weight: 100;
-  font-size: 15px;
+  font-size: 14px;
   letter-spacing: 1px;
   transition: border-bottom 200ms;
-  padding: 0px 5px;
-  margin-right: 30px;
+  transition: color 200ms;
+  padding: 0px 10px;
+  margin-right: 20px;
+  &:hover {
+    color: white;
+    border-bottom: solid 2px #F36451;
+    box-sizing: border-box;
+  }
 }
 
 .active {
@@ -33,6 +39,10 @@
   box-sizing: border-box;
   border-bottom: solid 4px #F36451;
   font-weight: 400;
+  &:hover {
+    border-bottom: solid 4px #F36451;
+    font-weight: 400;
+  }
 }
 
 .active > span {
@@ -103,19 +113,18 @@ span {
       font-weight: 400;
       font-size: 15px;
       letter-spacing: 1px;
-      transition: opacity 200ms;
+      transition: background-color 200ms;
       opacity: 1;
-
-      &:hover {
-          opacity: .8;
-         cursor: pointer;
-      }
 
       &:first-child {
         text-align: left;
       }
 
       &:nth-child(2) {
+        &:hover {
+           cursor: pointer;
+           background-color: #212121;
+        }
         span {
           text-align: center;
           text-overflow: ellipsis;
@@ -245,7 +254,6 @@ span {
     padding: 5px;
     color: #262626;
     font-size: 14px;
-    margin-left: 15px;
     line-height: 1px;
     font-weight: 300;
   }
@@ -421,17 +429,21 @@ span {
 
 .tabIcon {
   position: relative;
-  top: 2px;
+  top: 3px;
   font-size: 16px;
 }
 
 .username {
-  color: blue;
-  text-decoration: underline;
+  color: #393B44;
+  text-decoration: none;
   cursor: pointer;
-
+  font-weight: 600;
+  padding: 2px 5px;
+  border-radius: 2px;
+  margin-left: -5px;
+  transition: background-color 200ms ease;
   &:hover {
-    background-color: rgba(255, 0, 0, .1);
+    background-color: #E0E0E0;
   }
 }
 
