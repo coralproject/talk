@@ -77,7 +77,7 @@
   letter-spacing: .8;
 
   &:hover {
-    background-color: #232323;
+    background-color: #404040;
   }
 
   &.active {

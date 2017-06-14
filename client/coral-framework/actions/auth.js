@@ -311,10 +311,10 @@ export const checkLogin = () => (dispatch) => {
         throw new Error('Not logged in');
       }
 
-      dispatch(checkLoginSuccess(result.user));
-
       // Reset the websocket.
       resetWebsocket();
+
+      dispatch(checkLoginSuccess(result.user));
 
       // Display create username dialog if necessary.
       if (result.user.canEditName && result.user.status !== 'BANNED') {
