@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './styles.css';
 import {withReaction} from 'plugin-api/beta/client/hocs';
 import {t, can} from 'plugin-api/beta/client/services';
-import {Icon} from 'plugin-api/beta/client/components';
+import {Icon} from 'plugin-api/beta/client/components/ui';
 import cn from 'classnames';
 
 const plugin = 'coral-plugin-like';

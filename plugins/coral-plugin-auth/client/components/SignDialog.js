@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dialog} from 'coral-ui';
+import {Dialog} from 'plugin-api/beta/client/components/ui';
 import styles from './styles.css';
 
 import SignInContent from './SignInContent';
