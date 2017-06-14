@@ -1,6 +1,5 @@
 import React from 'react';
-import isLink from '../helpers/isLink';
-import Link from './Link';
+import Linkify from 'react-linkify';
 
 const name = 'coral-plugin-comment-content';
 
@@ -11,7 +10,9 @@ const CommentContent = ({comment}) => {
       textbreaks.map((line, i) => {
         return (
           <span key={i} className={`${name}-line`}>
-            {line.split(' ').map((w) => isLink(w) ? <Link url={w} key={i} /> : ` ${w}`)}
+            <Linkify properties={{target: '_blank'}}>
+              {line}
+            </Linkify>
             <br className={`${name}-linebreak`}/>
           </span>
         );
