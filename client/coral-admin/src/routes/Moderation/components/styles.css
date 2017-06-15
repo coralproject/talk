@@ -480,6 +480,10 @@ span {
   cursor: pointer;
 }
 
+.emptyCardContainer {
+  margin-top: 16px;
+}
+
 .commentLeave {
   opacity: 1.0;
   transition: opacity 800ms;

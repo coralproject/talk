@@ -93,7 +93,11 @@ class ModerationQueue extends React.Component {
             })
           }
         </CSSTransitionGroup>
-        {comments.length === 0 && <p><EmptyCard>{t('modqueue.empty_queue')}</EmptyCard></p>}
+        {comments.length === 0 &&
+            <div className={styles.emptyCardContainer}>
+              <EmptyCard>{t('modqueue.empty_queue')}</EmptyCard>
+            </div>
+        }
 
         <LoadMore
           loadMore={this.loadMore}
