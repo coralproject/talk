@@ -34,7 +34,9 @@ export default class Moderation extends Component {
   }
 
   closeSearch = () => {
-    this.props.toggleStorySearch(false);
+    const {storySearchClear, toggleStorySearch} = this.props;
+    toggleStorySearch(false);
+    storySearchClear();
   }
 
   openSearch = () => {
@@ -208,7 +210,10 @@ export default class Moderation extends Component {
             acceptComment={props.acceptComment}
             rejectComment={props.rejectComment} />
         )}
-        <StorySearch visible={this.props.moderation.storySearchVisible} closeSearch={this.closeSearch}/>
+        <StorySearch
+          visible={this.props.moderation.storySearchVisible}
+          closeSearch={this.closeSearch}
+        />
       </div>
     );
   }

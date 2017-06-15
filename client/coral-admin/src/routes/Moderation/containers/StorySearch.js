@@ -8,7 +8,8 @@ import {storySearchChange} from 'coral-admin/src/actions/moderation';
 
 class StorySearchContainer extends React.Component {
   searchChange = (e) => {
-    this.props.storySearchChange(e.target.value);
+    const value = e.target.value;
+    this.props.storySearchChange(value);
     this.props.data.refetch();
   }
 

@@ -19,7 +19,7 @@ const StorySearch = (props) => {
     props.router.push(`/admin/moderate/${id}`);
     props.closeSearch();
   };
-  
+
   return (
     <div className={styles.container}>
       <div className={styles.positionShim}>
