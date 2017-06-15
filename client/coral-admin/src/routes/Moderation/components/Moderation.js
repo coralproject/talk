@@ -143,7 +143,8 @@ export default class Moderation extends Component {
           searchVisible={this.props.moderation.storySearchVisible}
           openSearch={this.openSearch}
           closeSearch={this.closeSearch}
-          asset={asset} />
+          asset={asset}
+        />
         <ModerationMenu
           asset={asset}
           allCount={root.allCount}

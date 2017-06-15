@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './StorySearch.css';
 import {Button, Spinner, Icon} from 'coral-ui';
 import {withRouter} from 'react-router';
@@ -69,8 +70,10 @@ const StorySearch = (props) => {
   );
 };
 
-// StorySearch.propTypes = {
-//   storySearchChange: PropTypes.func.isRequired
-// };
+StorySearch.propTypes = {
+  handleSearchChange: PropTypes.func.isRequired,
+  search: PropTypes.func.isRequired,
+  moderation: PropTypes.object.isRequired
+};
 
 export default withRouter(StorySearch);
