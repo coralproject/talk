@@ -1,5 +1,6 @@
 const wrapResponse = require('../../../graph/helpers/response');
 const {SEARCH_OTHER_USERS} = require('../../../perms/constants');
+const errors = require('../../../errors');
 
 function getReactionConfig(reaction) {
   reaction = reaction.toLowerCase();
@@ -134,13 +135,24 @@ function getReactionConfig(reaction) {
                 // The comment is needed to allow better filtering e.g. by asset_id.
                 pubsub.publish(`${reaction}ActionCreated`, {action, comment});
                 return Promise.resolve(action);
-              });
+              })
+            .catch((err) => {
+              if (err instanceof errors.ErrAlreadyExists) {
+                return Promise.resolve(err.metadata.existing);
+              }
+              throw err;
+            });
           });
           return wrapResponse(reaction)(response);
         },
         [`delete${Reaction}Action`]: (_, {input: {id}}, {mutators: {Action}, pubsub, loaders: {Comments}}) => {
           const response = Action.delete({id})
             .then((action) => {
+
+              // Action doesn't exist or was already deleted.
+              if (!action) {
+                return Promise.resolve(null);
+              }
               return Comments.get.load(action.item_id).then((comment) => {
 
                 // The comment is needed to allow better filtering e.g. by asset_id.
@@ -148,6 +160,7 @@ function getReactionConfig(reaction) {
                 return Promise.resolve(action);
               });
             });
+
           return wrapResponse(reaction)(response);
         }
       },

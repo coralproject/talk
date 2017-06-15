@@ -11,6 +11,7 @@
     "coral-plugin-like",
     "coral-plugin-auth",
     "coral-plugin-offtopic",
-    "coral-plugin-viewing-options"
+    "coral-plugin-viewing-options",
+    "coral-plugin-comment-content"
   ]
 }
