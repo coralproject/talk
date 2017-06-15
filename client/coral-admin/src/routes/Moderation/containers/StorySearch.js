@@ -1,10 +1,7 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import {compose, gql} from 'react-apollo';
 import StorySearch from '../components/StorySearch';
 import withQuery from 'coral-framework/hocs/withQuery';
-import {storySearchChange} from 'coral-admin/src/actions/moderation';
 
 class StorySearchContainer extends React.Component {
 
@@ -57,17 +54,6 @@ export const withAssetSearchQuery = withQuery(gql`
   }
 });
 
-const mapStateToProps = (state) => ({
-  moderation: state.moderation.toJS()
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  ...bindActionCreators({
-    storySearchChange
-  }, dispatch)
-});
-
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
   withAssetSearchQuery
 )(StorySearchContainer);

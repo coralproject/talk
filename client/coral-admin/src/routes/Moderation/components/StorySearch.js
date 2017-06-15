@@ -7,11 +7,13 @@ import Story from './Story';
 const StorySearch = (props) => {
 
   const {
-    root: {assets = []},
+    root: {
+      assets = []
+    },
     data: {loading}
   } = props;
 
-  if (!props.visible) {
+  if (!props.moderation.storySearchVisible) {
     return null;
   }
 
@@ -27,6 +29,7 @@ const StorySearch = (props) => {
           <input
             className={styles.searchInput}
             onChange={props.handleSearchChange}
+            value={props.moderation.storySearchString}
           />
           <Button
             cStyle='blue'
