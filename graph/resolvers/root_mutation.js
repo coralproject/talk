@@ -31,16 +31,18 @@ const RootMutation = {
   stopIgnoringUser(_, {id}, {mutators: {User}}) {
     return wrapResponse(null)(User.stopIgnoringUser({id}));
   },
-  setCommentStatus: async (_, {id, status}, {mutators: {Comment}, user, pubsub}) => {
-    const comment = await Comment.setStatus({id, status});
+  setCommentStatus(_, {id, status}, {mutators: {Comment}, user, pubsub}) {
+    const response = Comment.setStatus({id, status})
+      .then((comment) => {
+        if (pubsub) {
 
-    if (pubsub) {
+          // Publish the comment status change via the subscription.
+          pubsub.publish('commentStatusChanged', {user, comment});
+        }
+        return Promise.resolve(comment);
+      });
 
-      // Publish the comment status change via the subscription.
-      pubsub.publish('commentStatusChanged', {user, comment});
-    }
-
-    return wrapResponse(null)(comment);
+    return wrapResponse(null)(response);
   },
   addTag(_, {tag}, {mutators: {Tag}}) {
     return wrapResponse(null)(Tag.add(tag));

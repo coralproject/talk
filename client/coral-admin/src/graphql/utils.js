@@ -2,6 +2,7 @@ import update from 'immutability-helper';
 import * as notification from 'coral-admin/src/services/notification';
 
 const queues = ['all', 'premod', 'flagged', 'accepted', 'rejected'];
+const limit = 10;
 
 const ascending = (a, b) => {
   const dateA = new Date(a.created_at);
@@ -25,7 +26,6 @@ function removeCommentFromQueue(root, queue, id) {
   if (!queueHasComment(root, queue, id)) {
     return root;
   }
-
   return update(root, {
     [`${queue}Count`]: {$set: root[`${queue}Count`] - 1},
     [queue]: {
@@ -34,7 +34,12 @@ function removeCommentFromQueue(root, queue, id) {
   });
 }
 
-function isCommentInCursor(root, queue, comment, sort) {
+function shouldCommentBeAdded(root, queue, comment, sort) {
+  if (root[`${queue}Count`] < limit) {
+
+    // Adding all comments until first limit has reached.
+    return true;
+  }
   const cursor = new Date(root[queue].endCursor);
   return sort === 'CHRONOLOGICAL'
     ? new Date(comment.created_at) <= cursor
@@ -51,9 +56,12 @@ function addCommentToQueue(root, queue, comment, sort) {
     [`${queue}Count`]: {$set: root[`${queue}Count`] + 1},
   };
 
-  if (isCommentInCursor(root, queue, comment, sort)) {
+  if (shouldCommentBeAdded(root, queue, comment, sort)) {
+    const nodes = root[queue].nodes.concat(comment).sort(sortAlgo);
     changes[queue] = {
-      nodes: {$apply: (nodes) => nodes.concat(comment).sort(sortAlgo)},
+      nodes: {$set: nodes},
+      startCursor: {$set: nodes[0].created_at},
+      endCursor: {$set: nodes[nodes.length - 1].created_at},
     };
   }
 
@@ -93,7 +101,7 @@ export function handleCommentStatusChange(root, comment, {sort, notify, user, ac
     if (nextQueues.indexOf(queue) >= 0) {
       if (!queueHasComment(next, queue, comment.id)) {
         next = addCommentToQueue(next, queue, comment, sort);
-        if (notify && activeQueue === queue && isCommentInCursor(next, queue, comment, sort)) {
+        if (notify && activeQueue === queue && shouldCommentBeAdded(next, queue, comment, sort)) {
           showNotification(queue, comment, user);
         }
       }
@@ -114,7 +122,6 @@ export function handleCommentStatusChange(root, comment, {sort, notify, user, ac
     }
 
     // TODO: Flagged notification
-    // TODO: Edited notification
   });
   return next;
 }
@@ -122,6 +129,7 @@ export function handleCommentStatusChange(root, comment, {sort, notify, user, ac
 export function handleCommentEdit(root, comment, {sort, activeQueue}) {
   if (
     queueHasComment(root, activeQueue, comment.id)
+    || comment.status === 'PREMOD' && root[`${activeQueue}Count`] < limit
   ) {
     const text = `${comment.user.username} edited comment to "${truncate(comment.body, 50)}"`;
     notification.info(text);

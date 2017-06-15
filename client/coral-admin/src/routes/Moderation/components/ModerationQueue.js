@@ -28,10 +28,6 @@ class ModerationQueue extends React.Component {
 
   constructor(props) {
     super(props);
-
-    if (props.comments.length === 0 && props.commentCount > 0) {
-      this.loadMore();
-    }
   }
 
   componentDidUpdate (prev) {

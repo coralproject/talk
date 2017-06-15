@@ -231,28 +231,11 @@ const STATUS_CHANGED_SUBSCRIPTION = gql`
         username
       }
       comment {
-        id
-        status
-        body
-        created_at
-        action_summaries {
-          count
-          ... on FlagActionSummary {
-            reason
-          }
-        }
-        actions {
-          ... on FlagAction {
-            reason
-            message
-            user {
-              username
-            }
-          }
-        }
+        ...${getDefinitionName(Comment.fragments.comment)}
       }
     }
   }
+  ${Comment.fragments.comment}
 `;
 
 const LOAD_MORE_QUERY = gql`
@@ -260,12 +243,6 @@ const LOAD_MORE_QUERY = gql`
     comments(query: {limit: $limit, cursor: $cursor, asset_id: $asset_id, statuses: $statuses, sort: $sort, action_type: $action_type}) {
       nodes {
         ...${getDefinitionName(Comment.fragments.comment)}
-        action_summaries {
-          count
-          ... on FlagActionSummary {
-            reason
-          }
-        }
       }
       hasNextPage
       startCursor
