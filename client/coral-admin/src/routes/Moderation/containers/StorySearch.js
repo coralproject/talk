@@ -4,10 +4,19 @@ import StorySearch from '../components/StorySearch';
 import withQuery from 'coral-framework/hocs/withQuery';
 
 class StorySearchContainer extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      searchValue: props.moderation.storySearchString
+    };
+  }
 
   handleSearchChange = (e) => {
-    const value = e.target.value;
-    this.props.storySearchChange(value);
+    const {value} = e.target;
+    this.setState({
+      searchValue: value
+    });
   }
 
   handleEnter = (e) => {
@@ -18,15 +27,17 @@ class StorySearchContainer extends React.Component {
   }
 
   search = () => {
-    this.props.data.refetch();
+    const {searchValue} = this.state;
+    this.props.storySearchChange(searchValue);
   }
 
   render () {
     return (
       <StorySearch
         search={this.search}
+        searchValue={this.state.searchValue}
+        handleEnter={this.handleEnter}
         handleSearchChange={this.handleSearchChange}
-        onKeyDownHandler={this.handleEnter}
         {...this.props}
       />
     );

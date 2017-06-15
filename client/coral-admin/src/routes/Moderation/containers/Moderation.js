@@ -26,7 +26,7 @@ import {
   hideUserDetail,
   setSortOrder,
   storySearchChange,
-  storySearchClear
+  clearState
 } from 'actions/moderation';
 
 import {Spinner} from 'coral-ui';
@@ -35,6 +35,7 @@ import Comment from './Comment';
 
 class ModerationContainer extends Component {
   componentWillMount() {
+    this.props.clearState();
     this.props.fetchSettings();
   }
 
@@ -309,7 +310,7 @@ const mapDispatchToProps = (dispatch) => ({
     hideUserDetail,
     setSortOrder,
     storySearchChange,
-    storySearchClear
+    clearState
   }, dispatch),
 });
 

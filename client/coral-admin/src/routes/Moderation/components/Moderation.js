@@ -34,9 +34,8 @@ export default class Moderation extends Component {
   }
 
   closeSearch = () => {
-    const {storySearchClear, toggleStorySearch} = this.props;
+    const {toggleStorySearch} = this.props;
     toggleStorySearch(false);
-    storySearchClear();
   }
 
   openSearch = () => {

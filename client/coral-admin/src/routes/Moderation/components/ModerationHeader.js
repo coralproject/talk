@@ -9,10 +9,6 @@ const ModerationHeader = ({asset, searchVisible, openSearch, closeSearch}) => {
   const trigger = searchVisible ? closeSearch : openSearch;
   const searchTriggerIcon = <Icon className={styles.searchTrigger} name={searchVisible ? 'arrow_drop_up' : 'arrow_drop_down'} />;
 
-  const allStreams = asset
-    ? <Link className="mdl-tabs__tab" to="/admin/moderate">{t('modqueue.all_streams')}</Link>
-    : <a className="mdl-tabs__tab" />;
-
   const title = asset
     ? <a onClick={trigger} className="mdl-tabs__tab">{asset.title} {searchTriggerIcon}</a>
     : <a onClick={trigger} className="mdl-tabs__tab">{t('modqueue.all_streams')} {searchTriggerIcon}</a>;
@@ -21,9 +17,7 @@ const ModerationHeader = ({asset, searchVisible, openSearch, closeSearch}) => {
     <div className=''>
       <div className={`mdl-tabs ${styles.header}`}>
         <div className={`mdl-tabs__tab-bar ${styles.moderateAsset}`}>
-          {allStreams}
           {title}
-          <Link className="mdl-tabs__tab" to="/admin/stories">{t('modqueue.select_stream')}</Link>
         </div>
       </div>
     </div>

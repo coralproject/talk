@@ -27,6 +27,8 @@ const initialState = fromJS({
 
 export default function moderation (state = initialState, action) {
   switch (action.type) {
+  case actions.MODERATION_CLEAR_STATE:
+    return initialState;
   case actions.HIDE_BANUSER_DIALOG:
     return state
       .set('banDialog', false)
@@ -88,8 +90,6 @@ export default function moderation (state = initialState, action) {
     return state.set('storySearchVisible', false);
   case actions.STORY_SEARCH_CHANGE_VALUE:
     return state.set('storySearchString', action.value);
-  case actions.STORY_SEARCH_CLEAR:
-    return state.set('storySearchString', '');
   case actions.SET_SORT_ORDER:
     return state.set('sortOrder', action.order);
   default :

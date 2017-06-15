@@ -30,7 +30,8 @@ const StorySearch = (props) => {
           <input
             className={styles.searchInput}
             onChange={props.handleSearchChange}
-            value={props.moderation.storySearchString}
+            onKeyDown={props.handleEnter}
+            value={props.searchValue}
           />
           <Button
             cStyle='blue'

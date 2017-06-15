@@ -61,6 +61,6 @@ export const storySearchChange = (value) => ({
   value
 });
 
-export const storySearchClear = () => ({
-  type: actions.STORY_SEARCH_CLEAR
+export const clearState = () => ({
+  type: actions.MODERATION_CLEAR_STATE
 });
