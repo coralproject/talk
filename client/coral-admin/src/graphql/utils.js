@@ -97,18 +97,27 @@ export function handleCommentStatusChange(root, comment, {sort, notify, user, ac
   let next = root;
   const nextQueues = getCommentQueues(comment);
 
+  let notificationShown = false;
+  const showNotificationOnce = (...args) => {
+    if (notificationShown) {
+      return;
+    }
+    showNotification(...args);
+    notificationShown = true;
+  };
+
   queues.forEach((queue) => {
     if (nextQueues.indexOf(queue) >= 0) {
       if (!queueHasComment(next, queue, comment.id)) {
         next = addCommentToQueue(next, queue, comment, sort);
         if (notify && activeQueue === queue && shouldCommentBeAdded(next, queue, comment, sort)) {
-          showNotification(queue, comment, user);
+          showNotificationOnce(queue, comment, user);
         }
       }
     } else if(queueHasComment(next, queue, comment.id)){
       next = removeCommentFromQueue(next, queue, comment.id);
       if (notify && activeQueue === queue) {
-        showNotification(queue, comment, user);
+        showNotificationOnce(queue, comment, user);
       }
     }
 
@@ -118,7 +127,7 @@ export function handleCommentStatusChange(root, comment, {sort, notify, user, ac
       && notify
       && activeQueue === queue
     ) {
-      showNotification(queue, comment, user);
+      showNotificationOnce(queue, comment, user);
     }
 
     // TODO: Flagged notification
