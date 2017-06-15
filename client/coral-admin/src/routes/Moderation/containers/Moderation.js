@@ -10,7 +10,7 @@ import t, {timeago} from 'coral-framework/services/i18n';
 import update from 'immutability-helper';
 
 import {withSetUserStatus, withSuspendUser, withSetCommentStatus} from 'coral-framework/graphql/mutations';
-import {handleCommentStatusChange} from '../../../graphql/utils';
+import {handleCommentStatusChange, handleCommentEdit} from '../../../graphql/utils';
 
 import {fetchSettings} from 'actions/settings';
 import {updateAssets} from 'actions/assets';
@@ -32,24 +32,23 @@ import Moderation from '../components/Moderation';
 import Comment from './Comment';
 
 class ModerationContainer extends Component {
-  unsubscribe = null;
+  subscriptions = [];
 
   get activeTab() { return this.props.route.path === ':id' ? 'premod' : this.props.route.path; }
 
   subscribeToUpdates() {
-    this.unsubscribe = this.props.data.subscribeToMore({
+    const sub1 = this.props.data.subscribeToMore({
       document: STATUS_CHANGED_SUBSCRIPTION,
       variables: {
         asset_id: this.props.data.variables.asset_id,
       },
-      updateQuery: (prev, {subscriptionData: {data: {commentStatusChanged: {user, comment, previous}}}}) => {
+      updateQuery: (prev, {subscriptionData: {data: {commentStatusChanged: {user, comment}}}}) => {
         const extraParams = this.props.auth.user.id === user.id
           ? {}
           : {
             notify: true,
             user,
             activeQueue: this.activeTab,
-            previous,
           };
         return handleCommentStatusChange(prev, comment, {
           sort: this.props.moderation.sortOrder,
@@ -57,14 +56,25 @@ class ModerationContainer extends Component {
         });
       },
     });
+
+    const sub2 = this.props.data.subscribeToMore({
+      document: COMMENTS_EDITED_SUBSCRIPTION,
+      variables: {
+        asset_id: this.props.data.variables.asset_id,
+      },
+      updateQuery: (prev, {subscriptionData: {data: {commentEdited}}}) => {
+        return handleCommentEdit(prev, commentEdited, {
+          activeQueue: this.activeTab,
+        });
+      },
+    });
+
+    this.subscriptions.push(sub1, sub2);
   }
 
   unsubscribe() {
-    if (!this.unsubscribe) {
-      return;
-    }
-    this.unsubscribe();
-    this.unsubscribe = null;
+    this.subscriptions.forEach((unsubscribe) => unsubscribe());
+    this.subscriptions = [];
   }
 
   resubscribe() {
@@ -196,6 +206,23 @@ class ModerationContainer extends Component {
   }
 }
 
+const COMMENTS_EDITED_SUBSCRIPTION = gql`
+  subscription CommentEdited($asset_id: ID){
+    commentEdited(asset_id: $asset_id){
+      id
+      body
+      status
+      editing {
+        edited
+      }
+      user {
+        id
+        username
+      }
+    }
+  }
+`;
+
 const STATUS_CHANGED_SUBSCRIPTION = gql`
   subscription CommentStatusChanged($asset_id: ID){
     commentStatusChanged(asset_id: $asset_id){
@@ -223,9 +250,6 @@ const STATUS_CHANGED_SUBSCRIPTION = gql`
             }
           }
         }
-      }
-      previous {
-        status
       }
     }
   }

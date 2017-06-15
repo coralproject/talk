@@ -132,8 +132,11 @@ function getReactionConfig(reaction) {
             return Action.create({item_id, item_type: 'COMMENTS', action_type: REACTION})
               .then((action) => {
 
-                // The comment is needed to allow better filtering e.g. by asset_id.
-                pubsub.publish(`${reaction}ActionCreated`, {action, comment});
+                if (pubsub) {
+
+                  // The comment is needed to allow better filtering e.g. by asset_id.
+                  pubsub.publish(`${reaction}ActionCreated`, {action, comment});
+                }
                 return Promise.resolve(action);
               })
             .catch((err) => {
@@ -155,8 +158,11 @@ function getReactionConfig(reaction) {
               }
               return Comments.get.load(action.item_id).then((comment) => {
 
-                // The comment is needed to allow better filtering e.g. by asset_id.
-                pubsub.publish(`${reaction}ActionDeleted`, {action, comment});
+                if (pubsub) {
+
+                  // The comment is needed to allow better filtering e.g. by asset_id.
+                  pubsub.publish(`${reaction}ActionDeleted`, {action, comment});
+                }
                 return Promise.resolve(action);
               });
             });

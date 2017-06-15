@@ -13,6 +13,8 @@ import ActionButton from 'coral-admin/src/components/ActionButton';
 import ActionsMenu from 'coral-admin/src/components/ActionsMenu';
 import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
 import cn from 'classnames';
+import {murmur3} from 'murmurhash-js';
+import {CSSTransitionGroup} from 'react-transition-group';
 
 const linkify = new Linkify();
 
@@ -91,6 +93,11 @@ class Comment extends React.Component {
               <span className={styles.created}>
                 {timeago(comment.created_at || Date.now() - props.index * 60 * 1000)}
               </span>
+              {
+                (comment.editing && comment.editing.edited)
+                ? <span>&nbsp;<span className={styles.editedMarker}>(Edited)</span></span>
+                : null
+              }
               {props.currentUserId !== comment.user.id &&
                 <ActionsMenu icon="not_interested">
                   <ActionsMenuItem
@@ -124,66 +131,81 @@ class Comment extends React.Component {
             {!props.currentAsset &&
               <Link to={`/admin/moderate/${comment.asset.id}`}>{t('modqueue.moderate')}</Link>}
           </div>
-          <div className={styles.itemBody}>
-            <p className={styles.body}>
-              <Highlighter
-                searchWords={searchWords}
-                textToHighlight={comment.body}
-              />
-              {' '}
-              <a
-                className={styles.external}
-                href={`${comment.asset.url}#${comment.id}`}
-                target="_blank"
-              >
-                <Icon name="open_in_new" /> {t('comment.view_context')}
-              </a>
-            </p>
-            <Slot
-              data={props.data}
-              root={props.root}
-              fill="adminCommentContent"
-              comment={comment}
-            />
-            <div className={styles.sideActions}>
-              {links
-                ? <span className={styles.hasLinks}>
-                    <Icon name="error_outline" /> Contains Link
-                  </span>
-                : null}
-              <div className={`actions ${styles.actions}`}>
-                {actions.map((action, i) => {
-                  const active =
-                    (action === 'REJECT' && comment.status === 'REJECTED') ||
-                    (action === 'APPROVE' && comment.status === 'ACCEPTED');
-                  return (
-                    <ActionButton
-                      minimal={minimal}
-                      key={i}
-                      type={action}
-                      user={comment.user}
-                      status={comment.status}
-                      active={active}
-                      acceptComment={() =>
-                        (comment.status === 'ACCEPTED'
-                          ? null
-                          : props.acceptComment({commentId: comment.id}))}
-                      rejectComment={() =>
-                        (comment.status === 'REJECTED'
-                          ? null
-                          : props.rejectComment({commentId: comment.id}))}
-                    />
-                  );
-                })}
-              </div>
+          <CSSTransitionGroup
+            component={'div'}
+            style={{position: 'relative'}}
+            transitionName={{
+              enter: styles.bodyEnter,
+              enterActive: styles.bodyEnterActive,
+              leave: styles.bodyLeave,
+              leaveActive: styles.bodyLeaveActive,
+            }}
+            transitionEnter={true}
+            transitionLeave={true}
+            transitionEnterTimeout={3600}
+            transitionLeaveTimeout={2800}
+          >
+            <div className={styles.itemBody} key={murmur3(comment.body)}>
+              <p className={styles.body}>
+                <Highlighter
+                  searchWords={searchWords}
+                  textToHighlight={comment.body}
+                />
+                {' '}
+                <a
+                  className={styles.external}
+                  href={`${comment.asset.url}#${comment.id}`}
+                  target="_blank"
+                >
+                  <Icon name="open_in_new" /> {t('comment.view_context')}
+                </a>
+              </p>
               <Slot
                 data={props.data}
                 root={props.root}
-                fill="adminSideActions"
+                fill="adminCommentContent"
                 comment={comment}
               />
+              <div className={styles.sideActions}>
+                {links
+                  ? <span className={styles.hasLinks}>
+                      <Icon name="error_outline" /> Contains Link
+                    </span>
+                  : null}
+                <div className={`actions ${styles.actions}`}>
+                  {actions.map((action, i) => {
+                    const active =
+                      (action === 'REJECT' && comment.status === 'REJECTED') ||
+                      (action === 'APPROVE' && comment.status === 'ACCEPTED');
+                    return (
+                      <ActionButton
+                        minimal={minimal}
+                        key={i}
+                        type={action}
+                        user={comment.user}
+                        status={comment.status}
+                        active={active}
+                        acceptComment={() =>
+                          (comment.status === 'ACCEPTED'
+                            ? null
+                            : props.acceptComment({commentId: comment.id}))}
+                        rejectComment={() =>
+                          (comment.status === 'REJECTED'
+                            ? null
+                            : props.rejectComment({commentId: comment.id}))}
+                      />
+                    );
+                  })}
+                </div>
+                <Slot
+                  data={props.data}
+                  root={props.root}
+                  fill="adminSideActions"
+                  comment={comment}
+                />
+              </div>
             </div>
-          </div>
+          </CSSTransitionGroup>
         </div>
         <Slot
           data={props.data}

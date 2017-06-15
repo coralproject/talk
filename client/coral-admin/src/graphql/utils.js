@@ -90,10 +90,12 @@ export function handleCommentStatusChange(root, comment, {sort, notify, user, ac
   const nextQueues = getCommentQueues(comment);
 
   queues.forEach((queue) => {
-    if (nextQueues.indexOf(queue) >= 0 && !queueHasComment(next, queue, comment.id)) {
-      next = addCommentToQueue(next, queue, comment, sort);
-      if (notify && activeQueue === queue && isCommentInCursor(next, queue, comment, sort)) {
-        showNotification(queue, comment, user);
+    if (nextQueues.indexOf(queue) >= 0) {
+      if (!queueHasComment(next, queue, comment.id)) {
+        next = addCommentToQueue(next, queue, comment, sort);
+        if (notify && activeQueue === queue && isCommentInCursor(next, queue, comment, sort)) {
+          showNotification(queue, comment, user);
+        }
       }
     } else if(queueHasComment(next, queue, comment.id)){
       next = removeCommentFromQueue(next, queue, comment.id);
@@ -102,10 +104,27 @@ export function handleCommentStatusChange(root, comment, {sort, notify, user, ac
       }
     }
 
-    // TODO: All notification
+    if (
+      queue === 'all'
+      && queueHasComment(next, queue, comment.id)
+      && notify
+      && activeQueue === queue
+    ) {
+      showNotification(queue, comment, user);
+    }
+
     // TODO: Flagged notification
     // TODO: Edited notification
   });
   return next;
 }
 
+export function handleCommentEdit(root, comment, {sort, activeQueue}) {
+  if (
+    queueHasComment(root, activeQueue, comment.id)
+  ) {
+    const text = `${comment.user.username} edited comment to "${truncate(comment.body, 50)}"`;
+    notification.info(text);
+  }
+  return handleCommentStatusChange(root, comment, {sort, activeQueue});
+}

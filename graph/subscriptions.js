@@ -12,6 +12,7 @@ const {deserializeUser} = require('../services/subscriptions');
 
 const {
   SUBSCRIBE_COMMENT_STATUS,
+  SUBSCRIBE_ALL_COMMENT_EDITS,
 } = require('../perms/constants');
 
 /**
@@ -31,7 +32,12 @@ const setupFunctions = plugins.get('server', 'setupFunctions').reduce((acc, {plu
   }),
   commentEdited: (options, args) => ({
     commentEdited: {
-      filter: (comment) => comment.asset_id === args.asset_id
+      filter: (comment, context) => {
+        if (!args.asset_id && (!context.user || !context.user.can(SUBSCRIBE_ALL_COMMENT_EDITS))) {
+          return false;
+        }
+        return !args.asset_id || comment.asset_id === args.asset_id;
+      }
     },
   }),
   commentStatusChanged: (options, args) => ({

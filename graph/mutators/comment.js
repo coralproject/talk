@@ -370,11 +370,7 @@ const edit = async (context, {id, asset_id, edit: {body}}) => {
 
     // Publish the edited comment via the subscription.
     context.pubsub.publish('commentEdited', comment);
-
-    // Publish the comment status change via the subscription.
-    context.pubsub.publish('commentStatusChanged', comment);
   }
-
   return comment;
 };
 

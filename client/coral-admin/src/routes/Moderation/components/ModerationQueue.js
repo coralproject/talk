@@ -26,6 +26,14 @@ class ModerationQueue extends React.Component {
     this.props.loadMore(this.props.activeTab);
   }
 
+  constructor(props) {
+    super(props);
+
+    if (props.comments.length === 0 && props.commentCount > 0) {
+      this.loadMore();
+    }
+  }
+
   componentDidUpdate (prev) {
     const {comments, commentCount} = this.props;
 
@@ -66,8 +74,7 @@ class ModerationQueue extends React.Component {
           transitionLeaveTimeout={1000}
         >
           {
-            comments.length
-            ? comments.map((comment, i) => {
+            comments.map((comment, i) => {
               const status = comment.action_summaries ? 'FLAGGED' : comment.status;
               return <Comment
                 data={this.props.data}
@@ -88,9 +95,10 @@ class ModerationQueue extends React.Component {
                 currentUserId={this.props.currentUserId}
                 />;
             })
-            : <EmptyCard>{t('modqueue.empty_queue')}</EmptyCard>
           }
         </CSSTransitionGroup>
+        {comments.length === 0 && <p><EmptyCard>{t('modqueue.empty_queue')}</EmptyCard></p>}
+
         <LoadMore
           loadMore={this.loadMore}
           showLoadMore={comments.length < commentCount}
