@@ -1,0 +1,98 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+const program = require('./commander');
+const mongoose = require('../services/mongoose');
+const TokensService = require('../services/tokens');
+const util = require('./util');
+const Table = require('cli-table');
+
+// Regeister the shutdown criteria.
+util.onshutdown([
+  () => mongoose.disconnect()
+]);
+
+async function listTokens(userID) {
+  try {
+    let tokens = await TokensService.list(userID);
+
+    let table = new Table({
+      head: [
+        'ID',
+        'Name',
+        'Status'
+      ]
+    });
+
+    tokens.forEach((token) => {
+      table.push([
+        token.id,
+        token.name,
+        token.active ? 'Active' : 'Revoked'
+      ]);
+    });
+
+    console.log(table.toString());
+
+    util.shutdown();
+  } catch (e) {
+    console.error(e);
+    util.shutdown(1);
+  }
+}
+
+async function revokeToken(tokenID) {
+  try {
+
+    await TokensService.revoke(null, tokenID);
+
+    util.shutdown();
+  } catch (e) {
+    console.error(e);
+    util.shutdown(1);
+  }
+}
+
+async function createToken(userID, tokenName) {
+  try {
+
+    let {pat: {id}, jwt} = await TokensService.create(userID, tokenName);
+
+    console.log(`Created Token[${id}] for User[${userID}] = ${jwt}`);
+
+    util.shutdown();
+  } catch (e) {
+    console.error(e);
+    util.shutdown(1);
+  }
+}
+
+//==============================================================================
+// Setting up the program command line arguments.
+//==============================================================================
+
+program
+  .command('list <userID>')
+  .description('list tokens for a user')
+  .action(listTokens);
+
+program
+  .command('revoke <tokenID>')
+  .description('revokes a token with a given id')
+  .action(revokeToken);
+
+program
+  .command('create <userID> <tokenName>')
+  .description('create a token for a user with a given name')
+  .action(createToken);
+
+program.parse(process.argv);
+
+// If there is no command listed, output help.
+if (!process.argv.slice(2).length) {
+  program.outputHelp();
+  util.shutdown();
+}

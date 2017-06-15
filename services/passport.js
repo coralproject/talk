@@ -34,6 +34,23 @@ const GenerateToken = (user) => JWT.sign({}, JWT_SECRET, {
   audience: JWT_AUDIENCE
 });
 
+// GeneratePersonalAccessToken will sign a token to include all the
+// authorization information needed for the front end for headless access.
+const GeneratePersonalAccessToken = (userID) => {
+  const payload = {
+    jti: uuid.v4(),
+    iss: JWT_ISSUER,
+    aud: JWT_AUDIENCE,
+    sub: userID,
+    pat: true
+  };
+
+  // Sign the payload.
+  const jwt = JWT.sign(payload, JWT_SECRET, {});
+
+  return {payload, jwt};
+};
+
 // SetTokenForSafari sends the token in a cookie for Safari clients.
 const SetTokenForSafari = (req, res, token) => {
   const browser = bowser._detect(req.headers['user-agent']);
@@ -474,5 +491,6 @@ module.exports = {
   HandleAuthPopupCallback,
   HandleGenerateCredentials,
   HandleLogout,
+  GeneratePersonalAccessToken,
   CheckBlacklisted
 };
