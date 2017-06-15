@@ -209,18 +209,10 @@ class ModerationContainer extends Component {
 const COMMENTS_EDITED_SUBSCRIPTION = gql`
   subscription CommentEdited($asset_id: ID){
     commentEdited(asset_id: $asset_id){
-      id
-      body
-      status
-      editing {
-        edited
-      }
-      user {
-        id
-        username
-      }
+      ...${getDefinitionName(Comment.fragments.comment)}
     }
   }
+  ${Comment.fragments.comment}
 `;
 
 const STATUS_CHANGED_SUBSCRIPTION = gql`

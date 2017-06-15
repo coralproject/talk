@@ -76,7 +76,7 @@ class Comment extends React.Component {
               {
                 !minimal && (
                   <span className={styles.username} onClick={() => viewUserDetail(comment.user.id)}>
-                    {comment.user.name}
+                    {comment.user.username}
                   </span>
                 )
               }
@@ -102,7 +102,7 @@ class Comment extends React.Component {
                 <ActionsMenu icon="not_interested">
                   <ActionsMenuItem
                     disabled={comment.user.status === 'BANNED'}
-                    onClick={() => props.showSuspendUserDialog(comment.user.id, comment.user.name, comment.id, comment.status)}>
+                    onClick={() => props.showSuspendUserDialog(comment.user.id, comment.user.username, comment.id, comment.status)}>
                     Suspend User</ActionsMenuItem>
                   <ActionsMenuItem
                     disabled={comment.user.status === 'BANNED'}

@@ -26,7 +26,7 @@ export default withFragments({
       status
       user {
         id
-        name: username
+        username
         status
       }
       asset {
