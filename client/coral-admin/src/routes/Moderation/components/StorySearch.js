@@ -24,8 +24,17 @@ const StorySearch = (props) => {
     <div className={styles.container}>
       <div className={styles.positionShim}>
         <div className={styles.headInput}>
-          <input className={styles.searchInput} onChange={props.storySearchChange} />
-          <Button cStyle='blue' className={styles.searchButton} raised>Search</Button>
+          <input
+            className={styles.searchInput}
+            onChange={props.handleSearchChange}
+          />
+          <Button
+            cStyle='blue'
+            className={styles.searchButton}
+            onClick={props.search}
+            raised >
+            Search
+          </Button>
         </div>
         <div className={styles.results}>
           <p className={styles.cta}>Moderate comments on All Stories</p>
@@ -57,8 +66,8 @@ const StorySearch = (props) => {
   );
 };
 
-StorySearch.propTypes = {
-  storySearchChange: PropTypes.func.isRequired
-};
+// StorySearch.propTypes = {
+//   storySearchChange: PropTypes.func.isRequired
+// };
 
 export default withRouter(StorySearch);

@@ -57,11 +57,10 @@ export const toggleStorySearch = (active) => ({
 });
 
 export const storySearchChange = (value) => ({
-  type: actions.CHANGE_ASSET_SEARCH_STRING,
+  type: actions.STORY_SEARCH_CHANGE_VALUE,
   value
 });
 
 export const storySearchClear = () => ({
-  type: actions.CHANGE_ASSET_SEARCH_STRING,
-  value: ''
+  type: actions.STORY_SEARCH_CLEAR
 });

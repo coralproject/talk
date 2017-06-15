@@ -86,8 +86,10 @@ export default function moderation (state = initialState, action) {
     return state.set('storySearchVisible', true);
   case actions.HIDE_STORY_SEARCH:
     return state.set('storySearchVisible', false);
-  case actions.CHANGE_ASSET_SEARCH_STRING:
+  case actions.STORY_SEARCH_CHANGE_VALUE:
     return state.set('storySearchString', action.value);
+  case actions.STORY_SEARCH_CLEAR:
+    return state.set('storySearchString', '');
   case actions.SET_SORT_ORDER:
     return state.set('sortOrder', action.order);
   default :

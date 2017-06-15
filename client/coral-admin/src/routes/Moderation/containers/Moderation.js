@@ -25,7 +25,6 @@ import {
   viewUserDetail,
   hideUserDetail,
   setSortOrder,
-  storySearchClear
 } from 'actions/moderation';
 
 import {Spinner} from 'coral-ui';
@@ -307,7 +306,6 @@ const mapDispatchToProps = (dispatch) => ({
     viewUserDetail,
     hideUserDetail,
     setSortOrder,
-    storySearchClear
   }, dispatch),
 });
 

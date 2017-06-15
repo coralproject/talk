@@ -7,20 +7,32 @@ import withQuery from 'coral-framework/hocs/withQuery';
 import {storySearchChange} from 'coral-admin/src/actions/moderation';
 
 class StorySearchContainer extends React.Component {
-  searchChange = (e) => {
+
+  handleSearchChange = (e) => {
     const value = e.target.value;
     this.props.storySearchChange(value);
-    this.props.data.refetch();
   }
 
-  componentDidUpdate (prevProps) {
-    if (prevProps.moderation.storySearchString !== this.props.moderation.storySearchString) {
-      this.props.data.refetch();
+  handleEnter = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      this.search();
     }
   }
 
+  search = () => {
+    this.props.data.refetch();
+  }
+
   render () {
-    return <StorySearch searchChange={this.searchChange} {...this.props} />;
+    return (
+      <StorySearch
+        search={this.search}
+        handleSearchChange={this.handleSearchChange}
+        onKeyDownHandler={this.handleEnter}
+        {...this.props}
+      />
+    );
   }
 }
 

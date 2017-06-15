@@ -28,7 +28,7 @@
   padding: 8px;
   height: 100%;
   font-size: 16px;
-  margin-right: 10px;
+  margin-right: 5px;
   position: relative;
   top: 2px;
   box-sizing: border-box;
@@ -39,13 +39,16 @@
 }
 
 .cta {
-  padding: 32px 30px;
   letter-spacing: 1px;
   font-weight: bold;
-  font-size: 17px;
+  font-size: 15px;
   margin: 0;
-  height: 74px;
+  height: 50px;
   box-sizing: border-box;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 12px 30px;
+  letter-spacing: 0.7px;
 }
 
 .storyList {
@@ -58,7 +61,7 @@
   cursor: pointer;
   display: block;
   text-decoration: none;
-  height: 66px;
+  height: 50px;
 
   &:hover {
     background-color: #efefef;
@@ -69,7 +72,6 @@
   margin: 0;
   color: black;
   font-size: 17px;
-  /* margin: 0 0 -4px; */
 }
 
 .author, .createdAt, .status {
@@ -104,8 +106,8 @@
 }
 
 .recentStories i {
-  font-size: 20px;
-  line-height: 26px;
+  font-size: 16px;
+  vertical-align: middle;
 }
 
 .accessStories {
@@ -113,9 +115,10 @@
 }
 
 .headlineRecent {
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 500;
-  padding: 17px;
   letter-spacing: 0.7px;
+  vertical-align: middle;
+  margin-left: 10px;
 }
 
