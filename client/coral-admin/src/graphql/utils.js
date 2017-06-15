@@ -138,7 +138,7 @@ export function handleCommentStatusChange(root, comment, {sort, notify, user, ac
 export function handleCommentEdit(root, comment, {sort, activeQueue}) {
   if (
     queueHasComment(root, activeQueue, comment.id)
-    || comment.status === 'PREMOD' && root[`${activeQueue}Count`] < limit
+    || comment.status.toLowerCase() === activeQueue && shouldCommentBeAdded(root, activeQueue, comment, sort)
   ) {
     const text = `${comment.user.username} edited comment to "${truncate(comment.body, 50)}"`;
     notification.info(text);
