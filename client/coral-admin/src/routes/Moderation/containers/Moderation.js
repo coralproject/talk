@@ -10,7 +10,7 @@ import t, {timeago} from 'coral-framework/services/i18n';
 import update from 'immutability-helper';
 
 import {withSetUserStatus, withSuspendUser, withSetCommentStatus} from 'coral-framework/graphql/mutations';
-import {handleCommentStatusChange, findCommentInModQueues} from '../../../graphql/utils';
+import {handleCommentStatusChange} from '../../../graphql/utils';
 
 import {fetchSettings} from 'actions/settings';
 import {updateAssets} from 'actions/assets';
@@ -31,10 +31,6 @@ import {Spinner} from 'coral-ui';
 import Moderation from '../components/Moderation';
 import Comment from './Comment';
 
-function truncate(s, length = 10) {
-  return (s.length > length) ? `${s.substring(0, length)}...` : s;
-}
-
 class ModerationContainer extends Component {
   unsubscribe = null;
 
@@ -47,25 +43,18 @@ class ModerationContainer extends Component {
         asset_id: this.props.data.variables.asset_id,
       },
       updateQuery: (prev, {subscriptionData: {data: {commentStatusChanged: {user, comment, previous}}}}) => {
-        const activeTab = this.activeTab;
-
-        // Status changed was caused by a different user.
-        if (user && user.id !== this.props.auth.user.id) {
-          if (findCommentInModQueues(prev, comment.id) && (
-              activeTab === 'all' && findCommentInModQueues(prev, comment.id, ['all'])
-              || activeTab === 'premod' && previous.status === 'PREMOD'
-              || activeTab === 'flagged' && findCommentInModQueues(prev, comment.id, ['flagged'])
-              || comment.status === 'ACCEPTED' && activeTab === 'accepted'
-              || comment.status !== 'ACCEPTED' && previous.status === 'ACCEPTED' && activeTab === 'accepted'
-              || comment.status === 'REJECTED' && activeTab === 'rejected'
-              || comment.status !== 'REJECTED' && previous.status === 'REJECTED' && activeTab === 'rejected'
-            )
-          ) {
-            const text = `${user.username} ${comment.status.toLowerCase()} comment "${truncate(comment.body, 50)}"`;
-            notification.info(text);
-          }
-        }
-        return handleCommentStatusChange(prev, comment, previous.status, user);
+        const extraParams = this.props.auth.user.id === user.id
+          ? {}
+          : {
+            notify: true,
+            user,
+            activeQueue: this.activeTab,
+            previous,
+          };
+        return handleCommentStatusChange(prev, comment, {
+          sort: this.props.moderation.sortOrder,
+          ...extraParams,
+        });
       },
     });
   }
@@ -218,6 +207,22 @@ const STATUS_CHANGED_SUBSCRIPTION = gql`
         id
         status
         body
+        created_at
+        action_summaries {
+          count
+          ... on FlagActionSummary {
+            reason
+          }
+        }
+        actions {
+          ... on FlagAction {
+            reason
+            message
+            user {
+              username
+            }
+          }
+        }
       }
       previous {
         status
