@@ -22,8 +22,7 @@ const genAssetsByID = (context, ids) => AssetModel.find({
 /**
  * [getAssetsByQuery description]
  * @param  {Object} context  the context of the request
- * @param  {String} value    text string to search agains the documents
- * @param  {Number} limit    limit the number of results
+ * @param  {Object} query    the query
  * @return {Promise}         resolves the assets
  */
 const getAssetsByQuery = (context, query) => {
@@ -76,7 +75,7 @@ module.exports = (context) => ({
     // this operation create a new asset if one isn't found.
     getByURL: (url) => findOrCreateAssetByURL(context, url),
 
-    search: (value, limit) => getAssetsByQuery(context, value, limit),
+    search: (query) => getAssetsByQuery(context, query),
     getByID: new DataLoader((ids) => genAssetsByID(context, ids)),
     getForMetrics: () => getAssetsForMetrics(context),
     getAll: new util.SingletonResolver(() => AssetModel.find({}))

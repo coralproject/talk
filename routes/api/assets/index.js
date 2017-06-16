@@ -48,13 +48,13 @@ router.get('/', (req, res, next) => {
   Promise.all([
 
     // Find the actuall assets.
-    FilterOpenAssets(AssetsService.search(search), filter)
+    FilterOpenAssets(AssetsService.search({value: search}), filter)
       .sort({[field]: (sort === 'asc') ? 1 : -1})
       .skip(parseInt(skip))
       .limit(parseInt(limit)),
 
     // Get the count of actual assets.
-    FilterOpenAssets(AssetsService.search(search), filter)
+    FilterOpenAssets(AssetsService.search({value: search}), filter)
       .count()
   ])
   .then(([result, count]) => {
