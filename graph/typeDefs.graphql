@@ -948,12 +948,19 @@ type RootMutation {
 type Subscription {
 
   # Get an update whenever a comment was added.
-  commentAdded(asset_id: ID!): Comment
+  # `asset_id` is required except for users with the `ADMIN` or `MODERATOR` role.
+  commentAdded(asset_id: ID): Comment
 
   # Get an update whenever a comment was edited.
+  # `asset_id` is required except for users with the `ADMIN` or `MODERATOR` role.
   commentEdited(asset_id: ID): Comment
 
+  # Get an update whenever a comment was flagged.
+  # Requires the `ADMIN` or `MODERATOR` role.
+  commentFlagged(asset_id: ID): Comment
+
   # Get an update whenever the status of a comment changed due to a moderator action.
+  # Requires the `ADMIN` or `MODERATOR` role.
   commentStatusChanged(asset_id: ID): Comment
 }
 

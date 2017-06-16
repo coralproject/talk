@@ -8,6 +8,9 @@ const Subscription = {
   commentStatusChanged(comment) {
     return comment;
   },
+  commentFlagged(comment) {
+    return comment;
+  },
 };
 
 module.exports = Subscription;

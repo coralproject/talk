@@ -12,7 +12,9 @@ const {deserializeUser} = require('../services/subscriptions');
 
 const {
   SUBSCRIBE_COMMENT_STATUS,
+  SUBSCRIBE_COMMENT_FLAGS,
   SUBSCRIBE_ALL_COMMENT_EDITS,
+  SUBSCRIBE_ALL_COMMENT_ADDITIONS,
 } = require('../perms/constants');
 
 /**
@@ -27,13 +29,28 @@ const setupFunctions = plugins.get('server', 'setupFunctions').reduce((acc, {plu
 }, {
   commentAdded: (options, args) => ({
     commentAdded: {
-      filter: (comment) => comment.asset_id === args.asset_id
+      filter: (comment, context) => {
+        if (!args.asset_id && (!context.user || !context.user.can(SUBSCRIBE_ALL_COMMENT_ADDITIONS))) {
+          return false;
+        }
+        return !args.asset_id || comment.asset_id === args.asset_id;
+      }
     },
   }),
   commentEdited: (options, args) => ({
     commentEdited: {
       filter: (comment, context) => {
         if (!args.asset_id && (!context.user || !context.user.can(SUBSCRIBE_ALL_COMMENT_EDITS))) {
+          return false;
+        }
+        return !args.asset_id || comment.asset_id === args.asset_id;
+      }
+    },
+  }),
+  commentFlagged: (options, args) => ({
+    commentFlagged: {
+      filter: ({comment}, context) => {
+        if (!context.user || !context.user.can(SUBSCRIBE_COMMENT_FLAGS)) {
           return false;
         }
         return !args.asset_id || comment.asset_id === args.asset_id;

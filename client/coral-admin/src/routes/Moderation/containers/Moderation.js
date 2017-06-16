@@ -8,9 +8,10 @@ import {getDefinitionName} from 'coral-framework/utils';
 import * as notification from 'coral-admin/src/services/notification';
 import t, {timeago} from 'coral-framework/services/i18n';
 import update from 'immutability-helper';
+import truncate from 'lodash/truncate';
 
 import {withSetUserStatus, withSuspendUser, withSetCommentStatus} from 'coral-framework/graphql/mutations';
-import {handleCommentStatusChange, handleCommentEdit} from '../../../graphql/utils';
+import {handleCommentStatusChange} from '../../../graphql/utils';
 
 import {fetchSettings} from 'actions/settings';
 import {updateAssets} from 'actions/assets';
@@ -44,16 +45,16 @@ class ModerationContainer extends Component {
       },
       updateQuery: (prev, {subscriptionData: {data: {commentStatusChanged: comment}}}) => {
         const user = comment.status_history[comment.status_history.length - 1].assigned_by;
-
-        const extraParams = this.props.auth.user.id === user.id
+        const notify = this.props.auth.user.id === user.id
           ? {}
           : {
-            notify: true,
             activeQueue: this.activeTab,
+            text: `${user.username} ${comment.status.toLowerCase()} comment "${truncate(comment.body, {lenght: 50})}"`,
+            anyQueue: false,
           };
         return handleCommentStatusChange(prev, comment, {
           sort: this.props.moderation.sortOrder,
-          ...extraParams,
+          notify,
         });
       },
     });
@@ -63,14 +64,37 @@ class ModerationContainer extends Component {
       variables: {
         asset_id: this.props.data.variables.asset_id,
       },
-      updateQuery: (prev, {subscriptionData: {data: {commentEdited}}}) => {
-        return handleCommentEdit(prev, commentEdited, {
-          activeQueue: this.activeTab,
+      updateQuery: (prev, {subscriptionData: {data: {commentEdited: comment}}}) => {
+        return handleCommentStatusChange(prev, comment, {
+          sort: this.props.moderation.sortOrder,
+          notify: {
+            activeQueue: this.activeTab,
+            text: `${comment.user.username} edited comment to "${truncate(comment.body, {lenght: 50})}"`,
+            anyQueue: false,
+          },
         });
       },
     });
 
-    this.subscriptions.push(sub1, sub2);
+    const sub3 = this.props.data.subscribeToMore({
+      document: COMMENTS_FLAGGED_SUBSCRIPTION,
+      variables: {
+        asset_id: this.props.data.variables.asset_id,
+      },
+      updateQuery: (prev, {subscriptionData: {data: {commentFlagged: comment}}}) => {
+        const user = comment.actions[comment.actions.length - 1].user;
+        return handleCommentStatusChange(prev, comment, {
+          sort: this.props.moderation.sortOrder,
+          notify: {
+            activeQueue: this.activeTab,
+            text: `${user.username} flagged comment "${truncate(comment.body, {lenght: 50})}"`,
+            anyQueue: true,
+          },
+        });
+      },
+    });
+
+    this.subscriptions.push(sub1, sub2, sub3);
   }
 
   unsubscribe() {
@@ -210,6 +234,15 @@ class ModerationContainer extends Component {
 const COMMENTS_EDITED_SUBSCRIPTION = gql`
   subscription CommentEdited($asset_id: ID){
     commentEdited(asset_id: $asset_id){
+      ...${getDefinitionName(Comment.fragments.comment)}
+    }
+  }
+  ${Comment.fragments.comment}
+`;
+
+const COMMENTS_FLAGGED_SUBSCRIPTION = gql`
+  subscription CommentFlagged($asset_id: ID){
+    commentFlagged(asset_id: $asset_id){
       ...${getDefinitionName(Comment.fragments.comment)}
     }
   }

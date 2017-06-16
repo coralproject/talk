@@ -14,10 +14,6 @@ const ascending = (a, b) => {
 
 const descending = (a, b) => -ascending(a, b);
 
-function truncate(s, length = 10) {
-  return (s.length > length) ? `${s.substring(0, length)}...` : s;
-}
-
 function queueHasComment(root, queue, id) {
   return root[queue].nodes.find((c) => c.id === id);
 }
@@ -88,22 +84,16 @@ function getCommentQueues(comment) {
   return queues;
 }
 
-function showNotification(queue, comment, user) {
-  const text = `${user.username} ${comment.status.toLowerCase()} comment "${truncate(comment.body, 50)}"`;
-  notification.info(text);
-}
-
-export function handleCommentStatusChange(root, comment, {sort, notify, activeQueue}) {
+export function handleCommentStatusChange(root, comment, {sort, notify}) {
   let next = root;
   const nextQueues = getCommentQueues(comment);
 
   let notificationShown = false;
-  const showNotificationOnce = (...args) => {
+  const showNotificationOnce = () => {
     if (notificationShown) {
       return;
     }
-    const user = comment.status_history[comment.status_history.length - 1].assigned_by;
-    showNotification(...[...args, user]);
+    notification.info(notify.text);
     notificationShown = true;
   };
 
@@ -111,38 +101,25 @@ export function handleCommentStatusChange(root, comment, {sort, notify, activeQu
     if (nextQueues.indexOf(queue) >= 0) {
       if (!queueHasComment(next, queue, comment.id)) {
         next = addCommentToQueue(next, queue, comment, sort);
-        if (notify && activeQueue === queue && shouldCommentBeAdded(next, queue, comment, sort)) {
-          showNotificationOnce(queue, comment);
+        if (notify && notify.activeQueue === queue && shouldCommentBeAdded(next, queue, comment, sort)) {
+          showNotificationOnce(comment);
         }
       }
     } else if(queueHasComment(next, queue, comment.id)){
       next = removeCommentFromQueue(next, queue, comment.id);
-      if (notify && activeQueue === queue) {
-        showNotificationOnce(queue, comment);
+      if (notify && notify.activeQueue === queue) {
+        showNotificationOnce(comment);
       }
     }
 
     if (
-      queue === 'all'
+      notify
+      && (queue === 'all' || notify.anyQueue)
       && queueHasComment(next, queue, comment.id)
-      && notify
-      && activeQueue === queue
+      && notify.activeQueue === queue
     ) {
-      showNotificationOnce(queue, comment);
+      showNotificationOnce(comment);
     }
-
-    // TODO: Flagged notification
   });
   return next;
-}
-
-export function handleCommentEdit(root, comment, {sort, activeQueue}) {
-  if (
-    queueHasComment(root, activeQueue, comment.id)
-    || comment.status.toLowerCase() === activeQueue && shouldCommentBeAdded(root, activeQueue, comment, sort)
-  ) {
-    const text = `${comment.user.username} edited comment to "${truncate(comment.body, 50)}"`;
-    notification.info(text);
-  }
-  return handleCommentStatusChange(root, comment, {sort, activeQueue});
 }
