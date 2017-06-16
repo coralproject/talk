@@ -19,7 +19,7 @@ const StorySearch = (props) => {
 
   return (
     <div>
-      <div className={styles.container} role='alertdialog'>
+      <div className={styles.container} role='alertdialog' onKeyDown={props.handleEsc}>
         <div className={styles.positionShim}>
           <div className={styles.headInput}>
             <input
