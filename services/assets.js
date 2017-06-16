@@ -109,7 +109,7 @@ module.exports = class AssetsService {
    * @param  {String} value string to search by.
    * @return {Promise}
    */
-  static search(value = '', skip = null, limit = null) {
+  static search({value = '', skip = null, limit = null}) {
     if (value.length === 0) {
       return AssetsService.all(skip, limit);
     } else {

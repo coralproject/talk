@@ -26,8 +26,8 @@ const genAssetsByID = (context, ids) => AssetModel.find({
  * @param  {Number} limit    limit the number of results
  * @return {Promise}         resolves the assets
  */
-const getAssetsByQuery = (context, value, limit) => {
-  return AssetsService.search(value, null, limit);
+const getAssetsByQuery = (context, query) => {
+  return AssetsService.search(query);
 };
 
 /**
