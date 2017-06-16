@@ -1,12 +1,12 @@
 .overlay {
   position: absolute;
-  background-color: transparent;
-  top: 0;
+  top: 58px;
   left: 0;
   right: 0;
   bottom: 0;
   width: 100%;
   z-index: 99;
+  opacity: 0;
 }
 
 .container {
@@ -77,6 +77,10 @@
   &:hover {
     background-color: #efefef;
   }
+
+  &:last-child {
+    border-bottom: none;
+  }
 }
 
 .title, .meta {
@@ -112,11 +116,11 @@
   height: 35px;
 }
 
-.recentStories {
+.searchResults {
   padding: 10px 24px;
 }
 
-.recentStories i {
+.searchResults i {
   font-size: 16px;
   vertical-align: middle;
 }
@@ -131,5 +135,9 @@
   letter-spacing: 0.7px;
   vertical-align: middle;
   margin-left: 10px;
+}
+
+.noResults {
+  padding: 10px 24px 15px 49px;
 }
 

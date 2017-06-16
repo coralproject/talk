@@ -18,8 +18,8 @@ const StorySearch = (props) => {
   }
 
   return (
-    <div className={styles.overlay} onClick={props.closeSearch}>
-      <div className={styles.container}>
+    <div>
+      <div className={styles.container} role='alertdialog'>
         <div className={styles.positionShim}>
           <div className={styles.headInput}>
             <input
@@ -27,6 +27,7 @@ const StorySearch = (props) => {
               onChange={props.handleSearchChange}
               onKeyDown={props.handleEnter}
               value={props.searchValue}
+              autoFocus
             />
             <Button
               cStyle='blue'
@@ -39,10 +40,21 @@ const StorySearch = (props) => {
           <div className={styles.results}>
             <p className={styles.cta}>Moderate comments on All Stories</p>
             <div className={styles.storyList}>
-              <div className={styles.recentStories}>
-                <Icon name="access_time" />
-                <span className={styles.headlineRecent}>Most Recent Stories</span>
-              </div>
+
+              {
+                props.moderation.storySearchString ? (
+                  <div className={styles.searchResults}>
+                    <Icon name="search" />
+                    <span className={styles.headlineRecent}>Search Results</span>
+                  </div>
+                ) : (
+                  <div className={styles.searchResults}>
+                    <Icon name="access_time" />
+                    <span className={styles.headlineRecent}>Most Recent Stories</span>
+                  </div>
+                )
+              }
+
               {
                 loading
                 ? <Spinner />
@@ -59,10 +71,13 @@ const StorySearch = (props) => {
                   />;
                 })
               }
+
+              {assets.length === 0 && <div className={styles.noResults}>No results</div>}
             </div>
           </div>
         </div>
       </div>
+      <div className={styles.overlay} onClick={props.closeSearch} />
     </div>
   );
 };

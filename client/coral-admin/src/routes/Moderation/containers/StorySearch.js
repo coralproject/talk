@@ -74,6 +74,6 @@ export const withAssetSearchQuery = withQuery(gql`
 });
 
 export default compose(
-  withAssetSearchQuery,
-  withRouter
+  withRouter,
+  withAssetSearchQuery
 )(StorySearchContainer);
