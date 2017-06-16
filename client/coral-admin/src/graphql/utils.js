@@ -84,7 +84,19 @@ function getCommentQueues(comment) {
   return queues;
 }
 
-export function handleCommentStatusChange(root, comment, {sort, notify}) {
+/**
+ * Assimilate comment changes into current store.
+ * @param  {Object} root               current state of the store
+ * @param  {Object} comment            comment that was changed
+ * @param  {string} sort               current sort order of the queues
+ * @param  {Object} [notify]           show know notifications if set
+ * @param  {string} notify.activeQueue current active queue
+ * @param  {string} notify.text        notification text to show
+ * @param  {bool}   notify.anyQueue    if true show the notification when the comment is shown
+ *                                     in the current active queue besides the 'all' queue.
+ * @return {Object}                    next state of the store
+ */
+export function handleCommentChange(root, comment, sort, notify) {
   let next = root;
   const nextQueues = getCommentQueues(comment);
 

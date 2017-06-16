@@ -11,7 +11,7 @@ import update from 'immutability-helper';
 import truncate from 'lodash/truncate';
 
 import {withSetUserStatus, withSuspendUser, withSetCommentStatus} from 'coral-framework/graphql/mutations';
-import {handleCommentStatusChange} from '../../../graphql/utils';
+import {handleCommentChange} from '../../../graphql/utils';
 
 import {fetchSettings} from 'actions/settings';
 import {updateAssets} from 'actions/assets';
@@ -45,6 +45,7 @@ class ModerationContainer extends Component {
       },
       updateQuery: (prev, {subscriptionData: {data: {commentStatusChanged: comment}}}) => {
         const user = comment.status_history[comment.status_history.length - 1].assigned_by;
+        const sort = this.props.moderation.sortOrder;
         const notify = this.props.auth.user.id === user.id
           ? {}
           : {
@@ -52,10 +53,7 @@ class ModerationContainer extends Component {
             text: `${user.username} ${comment.status.toLowerCase()} comment "${truncate(comment.body, {lenght: 50})}"`,
             anyQueue: false,
           };
-        return handleCommentStatusChange(prev, comment, {
-          sort: this.props.moderation.sortOrder,
-          notify,
-        });
+        return handleCommentChange(prev, comment, sort, notify);
       },
     });
 
@@ -65,14 +63,13 @@ class ModerationContainer extends Component {
         asset_id: this.props.data.variables.asset_id,
       },
       updateQuery: (prev, {subscriptionData: {data: {commentEdited: comment}}}) => {
-        return handleCommentStatusChange(prev, comment, {
-          sort: this.props.moderation.sortOrder,
-          notify: {
-            activeQueue: this.activeTab,
-            text: `${comment.user.username} edited comment to "${truncate(comment.body, {lenght: 50})}"`,
-            anyQueue: false,
-          },
-        });
+        const sort = this.props.moderation.sortOrder;
+        const notify = {
+          activeQueue: this.activeTab,
+          text: `${comment.user.username} edited comment to "${truncate(comment.body, {lenght: 50})}"`,
+          anyQueue: false,
+        };
+        return handleCommentChange(prev, comment, sort, notify);
       },
     });
 
@@ -83,14 +80,13 @@ class ModerationContainer extends Component {
       },
       updateQuery: (prev, {subscriptionData: {data: {commentFlagged: comment}}}) => {
         const user = comment.actions[comment.actions.length - 1].user;
-        return handleCommentStatusChange(prev, comment, {
-          sort: this.props.moderation.sortOrder,
-          notify: {
-            activeQueue: this.activeTab,
-            text: `${user.username} flagged comment "${truncate(comment.body, {lenght: 50})}"`,
-            anyQueue: true,
-          },
-        });
+        const sort = this.props.moderation.sortOrder;
+        const notify = {
+          activeQueue: this.activeTab,
+          text: `${user.username} flagged comment "${truncate(comment.body, {lenght: 50})}"`,
+          anyQueue: true,
+        };
+        return handleCommentChange(prev, comment, sort, notify);
       },
     });
 
