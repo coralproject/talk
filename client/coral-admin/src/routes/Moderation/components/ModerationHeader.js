@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react';
-import {Link} from 'react-router';
 import {Icon} from 'coral-ui';
 import styles from './styles.css';
 import t from 'coral-framework/services/i18n';
