@@ -11,10 +11,11 @@ const plugins = require('../services/plugins');
 const {deserializeUser} = require('../services/subscriptions');
 
 const {
-  SUBSCRIBE_COMMENT_STATUS,
-  SUBSCRIBE_COMMENT_FLAGS,
-  SUBSCRIBE_ALL_COMMENT_EDITS,
-  SUBSCRIBE_ALL_COMMENT_ADDITIONS,
+  SUBSCRIBE_COMMENT_ACCEPTED,
+  SUBSCRIBE_COMMENT_REJECTED,
+  SUBSCRIBE_COMMENT_FLAGGED,
+  SUBSCRIBE_ALL_COMMENT_EDITED,
+  SUBSCRIBE_ALL_COMMENT_ADDED,
 } = require('../perms/constants');
 
 /**
@@ -30,7 +31,7 @@ const setupFunctions = plugins.get('server', 'setupFunctions').reduce((acc, {plu
   commentAdded: (options, args) => ({
     commentAdded: {
       filter: (comment, context) => {
-        if (!args.asset_id && (!context.user || !context.user.can(SUBSCRIBE_ALL_COMMENT_ADDITIONS))) {
+        if (!args.asset_id && (!context.user || !context.user.can(SUBSCRIBE_ALL_COMMENT_ADDED))) {
           return false;
         }
         return !args.asset_id || comment.asset_id === args.asset_id;
@@ -40,7 +41,7 @@ const setupFunctions = plugins.get('server', 'setupFunctions').reduce((acc, {plu
   commentEdited: (options, args) => ({
     commentEdited: {
       filter: (comment, context) => {
-        if (!args.asset_id && (!context.user || !context.user.can(SUBSCRIBE_ALL_COMMENT_EDITS))) {
+        if (!args.asset_id && (!context.user || !context.user.can(SUBSCRIBE_ALL_COMMENT_EDITED))) {
           return false;
         }
         return !args.asset_id || comment.asset_id === args.asset_id;
@@ -50,7 +51,7 @@ const setupFunctions = plugins.get('server', 'setupFunctions').reduce((acc, {plu
   commentFlagged: (options, args) => ({
     commentFlagged: {
       filter: ({comment}, context) => {
-        if (!context.user || !context.user.can(SUBSCRIBE_COMMENT_FLAGS)) {
+        if (!context.user || !context.user.can(SUBSCRIBE_COMMENT_FLAGGED)) {
           return false;
         }
         return !args.asset_id || comment.asset_id === args.asset_id;
@@ -60,7 +61,7 @@ const setupFunctions = plugins.get('server', 'setupFunctions').reduce((acc, {plu
   commentAccepted: (options, args) => ({
     commentAccepted: {
       filter: ({comment}, context) => {
-        if (!context.user || !context.user.can(SUBSCRIBE_COMMENT_STATUS)) {
+        if (!context.user || !context.user.can(SUBSCRIBE_COMMENT_ACCEPTED)) {
           return false;
         }
         return !args.asset_id || comment.asset_id === args.asset_id;
@@ -70,7 +71,7 @@ const setupFunctions = plugins.get('server', 'setupFunctions').reduce((acc, {plu
   commentRejected: (options, args) => ({
     commentRejected: {
       filter: ({comment}, context) => {
-        if (!context.user || !context.user.can(SUBSCRIBE_COMMENT_STATUS)) {
+        if (!context.user || !context.user.can(SUBSCRIBE_COMMENT_REJECTED)) {
           return false;
         }
         return !args.asset_id || comment.asset_id === args.asset_id;
