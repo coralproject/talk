@@ -348,8 +348,15 @@ const setStatus = async ({user, loaders: {Comments}, pubsub}, {id, status}) => {
 
   if (pubsub) {
 
-    // Publish the comment status change via the subscription.
-    pubsub.publish('commentStatusChanged', comment);
+    if (status === 'ACCEPTED') {
+
+      // Publish the comment status change via the subscription.
+      pubsub.publish('commentAccepted', comment);
+    } else if (status === 'REJECTED') {
+
+      // Publish the comment status change via the subscription.
+      pubsub.publish('commentRejected', comment);
+    }
   }
 
   return comment;

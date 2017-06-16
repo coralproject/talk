@@ -39,18 +39,18 @@ class ModerationContainer extends Component {
 
   subscribeToUpdates() {
     const sub1 = this.props.data.subscribeToMore({
-      document: STATUS_CHANGED_SUBSCRIPTION,
+      document: COMMENT_ACCEPTED_SUBSCRIPTION,
       variables: {
         asset_id: this.props.data.variables.asset_id,
       },
-      updateQuery: (prev, {subscriptionData: {data: {commentStatusChanged: comment}}}) => {
+      updateQuery: (prev, {subscriptionData: {data: {commentAccepted: comment}}}) => {
         const user = comment.status_history[comment.status_history.length - 1].assigned_by;
         const sort = this.props.moderation.sortOrder;
         const notify = this.props.auth.user.id === user.id
           ? {}
           : {
             activeQueue: this.activeTab,
-            text: `${user.username} ${comment.status.toLowerCase()} comment "${truncate(comment.body, {lenght: 50})}"`,
+            text: `${user.username} accepted comment "${truncate(comment.body, {lenght: 50})}"`,
             anyQueue: false,
           };
         return handleCommentChange(prev, comment, sort, notify);
@@ -58,7 +58,26 @@ class ModerationContainer extends Component {
     });
 
     const sub2 = this.props.data.subscribeToMore({
-      document: COMMENTS_EDITED_SUBSCRIPTION,
+      document: COMMENT_REJECTED_SUBSCRIPTION,
+      variables: {
+        asset_id: this.props.data.variables.asset_id,
+      },
+      updateQuery: (prev, {subscriptionData: {data: {commentRejected: comment}}}) => {
+        const user = comment.status_history[comment.status_history.length - 1].assigned_by;
+        const sort = this.props.moderation.sortOrder;
+        const notify = this.props.auth.user.id === user.id
+          ? {}
+          : {
+            activeQueue: this.activeTab,
+            text: `${user.username} rejected comment "${truncate(comment.body, {lenght: 50})}"`,
+            anyQueue: false,
+          };
+        return handleCommentChange(prev, comment, sort, notify);
+      },
+    });
+
+    const sub3 = this.props.data.subscribeToMore({
+      document: COMMENT_EDITED_SUBSCRIPTION,
       variables: {
         asset_id: this.props.data.variables.asset_id,
       },
@@ -73,8 +92,8 @@ class ModerationContainer extends Component {
       },
     });
 
-    const sub3 = this.props.data.subscribeToMore({
-      document: COMMENTS_FLAGGED_SUBSCRIPTION,
+    const sub4 = this.props.data.subscribeToMore({
+      document: COMMENT_FLAGGED_SUBSCRIPTION,
       variables: {
         asset_id: this.props.data.variables.asset_id,
       },
@@ -90,7 +109,7 @@ class ModerationContainer extends Component {
       },
     });
 
-    this.subscriptions.push(sub1, sub2, sub3);
+    this.subscriptions.push(sub1, sub2, sub3, sub4);
   }
 
   unsubscribe() {
@@ -227,7 +246,7 @@ class ModerationContainer extends Component {
   }
 }
 
-const COMMENTS_EDITED_SUBSCRIPTION = gql`
+const COMMENT_EDITED_SUBSCRIPTION = gql`
   subscription CommentEdited($asset_id: ID){
     commentEdited(asset_id: $asset_id){
       ...${getDefinitionName(Comment.fragments.comment)}
@@ -236,7 +255,7 @@ const COMMENTS_EDITED_SUBSCRIPTION = gql`
   ${Comment.fragments.comment}
 `;
 
-const COMMENTS_FLAGGED_SUBSCRIPTION = gql`
+const COMMENT_FLAGGED_SUBSCRIPTION = gql`
   subscription CommentFlagged($asset_id: ID){
     commentFlagged(asset_id: $asset_id){
       ...${getDefinitionName(Comment.fragments.comment)}
@@ -245,9 +264,26 @@ const COMMENTS_FLAGGED_SUBSCRIPTION = gql`
   ${Comment.fragments.comment}
 `;
 
-const STATUS_CHANGED_SUBSCRIPTION = gql`
-  subscription CommentStatusChanged($asset_id: ID){
-    commentStatusChanged(asset_id: $asset_id){
+const COMMENT_ACCEPTED_SUBSCRIPTION = gql`
+  subscription CommentAccepted($asset_id: ID){
+    commentAccepted(asset_id: $asset_id){
+      ...${getDefinitionName(Comment.fragments.comment)}
+      status_history {
+        type
+        created_at
+        assigned_by {
+          id
+          username
+        }
+      }
+    }
+  }
+  ${Comment.fragments.comment}
+`;
+
+const COMMENT_REJECTED_SUBSCRIPTION = gql`
+  subscription CommentRejected($asset_id: ID){
+    commentRejected(asset_id: $asset_id){
       ...${getDefinitionName(Comment.fragments.comment)}
       status_history {
         type

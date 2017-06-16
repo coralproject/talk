@@ -5,7 +5,10 @@ const Subscription = {
   commentEdited(comment) {
     return comment;
   },
-  commentStatusChanged(comment) {
+  commentAccepted(comment) {
+    return comment;
+  },
+  commentRejected(comment) {
     return comment;
   },
   commentFlagged(comment) {

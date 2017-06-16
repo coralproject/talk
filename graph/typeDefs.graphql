@@ -959,9 +959,13 @@ type Subscription {
   # Requires the `ADMIN` or `MODERATOR` role.
   commentFlagged(asset_id: ID): Comment
 
-  # Get an update whenever the status of a comment changed due to a moderator action.
+  # Get an update whenever a comment has been accepted.
   # Requires the `ADMIN` or `MODERATOR` role.
-  commentStatusChanged(asset_id: ID): Comment
+  commentAccepted(asset_id: ID): Comment
+
+  # Get an update whenever a comment has been rejected.
+  # Requires the `ADMIN` or `MODERATOR` role.
+  commentRejected(asset_id: ID): Comment
 }
 
 ################################################################################

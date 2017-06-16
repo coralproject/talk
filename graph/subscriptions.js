@@ -57,8 +57,18 @@ const setupFunctions = plugins.get('server', 'setupFunctions').reduce((acc, {plu
       }
     },
   }),
-  commentStatusChanged: (options, args) => ({
-    commentStatusChanged: {
+  commentAccepted: (options, args) => ({
+    commentAccepted: {
+      filter: ({comment}, context) => {
+        if (!context.user || !context.user.can(SUBSCRIBE_COMMENT_STATUS)) {
+          return false;
+        }
+        return !args.asset_id || comment.asset_id === args.asset_id;
+      }
+    },
+  }),
+  commentRejected: (options, args) => ({
+    commentRejected: {
       filter: ({comment}, context) => {
         if (!context.user || !context.user.can(SUBSCRIBE_COMMENT_STATUS)) {
           return false;
