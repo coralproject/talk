@@ -62,18 +62,19 @@
   letter-spacing: 0.7px;
 }
 
-.storyList {
+/*.storyList {
   border-top: 1px solid #ddd;
-}
+}*/
 
 .story {
-  padding: 7px 63px;
+  padding: 7px 50px;
   border-bottom: 1px solid #ddd;
   cursor: pointer;
   display: block;
   text-decoration: none;
   height: 50px;
   box-sizing: border-box;
+  transition: background-color 400ms;
 
   &:hover {
     background-color: #efefef;
@@ -118,7 +119,8 @@
 }
 
 .searchResults {
-  padding: 7px 24px;
+  padding: 7px 27px;
+  background: #F5F5F5;
 }
 
 .searchResults i {
@@ -135,10 +137,9 @@
   font-weight: 500;
   letter-spacing: 0.7px;
   vertical-align: middle;
-  margin-left: 10px;
+  margin-left: 8px;
 }
 
 .noResults {
   padding: 10px 24px 15px 49px;
 }
-
