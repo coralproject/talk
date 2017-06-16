@@ -214,7 +214,6 @@ export default class Moderation extends Component {
           moderation={this.props.moderation}
           closeSearch={this.closeSearch}
           storySearchChange={this.props.storySearchChange}
-          storySearchClear={this.props.storySearchClear}
         />
       </div>
     );

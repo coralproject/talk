@@ -1,6 +1,7 @@
 import React from 'react';
 import {compose, gql} from 'react-apollo';
 import StorySearch from '../components/StorySearch';
+import {withRouter} from 'react-router';
 import withQuery from 'coral-framework/hocs/withQuery';
 
 class StorySearchContainer extends React.Component {
@@ -31,12 +32,19 @@ class StorySearchContainer extends React.Component {
     this.props.storySearchChange(searchValue);
   }
 
+  goToStory = (id) => {
+    const {router, closeSearch} = this.props;
+    router.push(`/admin/moderate/${id}`);
+    closeSearch();
+  }
+
   render () {
     return (
       <StorySearch
         search={this.search}
-        searchValue={this.state.searchValue}
+        goToStory={this.goToStory}
         handleEnter={this.handleEnter}
+        searchValue={this.state.searchValue}
         handleSearchChange={this.handleSearchChange}
         {...this.props}
       />
@@ -66,5 +74,6 @@ export const withAssetSearchQuery = withQuery(gql`
 });
 
 export default compose(
-  withAssetSearchQuery
+  withAssetSearchQuery,
+  withRouter
 )(StorySearchContainer);
