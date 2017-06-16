@@ -12,7 +12,7 @@
 .container {
   position: absolute;
   background-color: white;
-  top: 100px;
+  top: 106px;
   left: 0;
   right: 0;
   margin-left: auto;
@@ -59,7 +59,7 @@
   font-size: 15px;
   font-weight: 500;
   padding: 12px 30px;
-  letter-spacing: 0.7px;
+  letter-spacing: 0.25px;
 }
 
 /*.storyList {
@@ -135,7 +135,7 @@
 .headlineRecent {
   font-size: 15px;
   font-weight: 500;
-  letter-spacing: 0.7px;
+  letter-spacing: 0.25px;
   vertical-align: middle;
   margin-left: 8px;
 }
