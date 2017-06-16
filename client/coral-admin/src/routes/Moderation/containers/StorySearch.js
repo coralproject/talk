@@ -54,7 +54,7 @@ class StorySearchContainer extends React.Component {
 
 export const withAssetSearchQuery = withQuery(gql`
   query SearchStories($value: String = "") {
-    assets(query: {value: $value}) {
+    assets(query: {value: $value, limit: 10}) {
       id
       title
       url
