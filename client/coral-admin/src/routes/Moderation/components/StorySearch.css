@@ -67,12 +67,13 @@
 }
 
 .story {
-  padding: 10px 63px;
+  padding: 5px 63px;
   border-bottom: 1px solid #ddd;
   cursor: pointer;
   display: block;
   text-decoration: none;
   height: 50px;
+  box-sizing: border-box;
 
   &:hover {
     background-color: #efefef;
@@ -86,7 +87,7 @@
 .title, .meta {
   margin: 0;
   color: black;
-  font-size: 17px;
+  font-size: 15px;
 }
 
 .author, .createdAt, .status {
@@ -117,7 +118,7 @@
 }
 
 .searchResults {
-  padding: 10px 24px;
+  padding: 7px 24px;
 }
 
 .searchResults i {

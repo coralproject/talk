@@ -9,12 +9,12 @@ const formatDate = (date) => {
 const Story = ({author, title, createdAt, open, id, goToStory}) => {
   return (
     <li className={styles.story} onClick={() => goToStory(id)}>
-      <p className={styles.title}>{title}</p>
-      <p className={styles.meta}>
+      <span className={styles.title}>{title}</span>
+      <div className={styles.meta}>
         <span className={styles.author}>By {author}</span>
         <span className={styles.createdAt}>{formatDate(createdAt)}</span>
         <span className={styles.status}>{open ? 'Open' : 'Closed'}</span>
-      </p>
+      </div>
     </li>
   );
 };
