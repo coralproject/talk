@@ -3,6 +3,7 @@ import * as actions from '../constants/auth';
 import coralApi from 'coral-framework/helpers/request';
 import * as Storage from 'coral-framework/helpers/storage';
 import {handleAuthToken} from 'coral-framework/actions/auth';
+import {resetWebsocket} from 'coral-framework/services/client';
 
 //==============================================================================
 // SIGN IN
@@ -36,6 +37,7 @@ export const handleLogin = (email, password, recaptchaResponse) => (dispatch) =>
       }
 
       dispatch(handleAuthToken(token));
+      resetWebsocket();
       dispatch(checkLoginSuccess(user));
     })
     .catch((error) => {
@@ -105,6 +107,7 @@ export const checkLogin = () => (dispatch) => {
         return dispatch(checkLoginFailure('not logged in'));
       }
 
+      resetWebsocket();
       dispatch(checkLoginSuccess(user));
     })
     .catch((error) => {
