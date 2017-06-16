@@ -346,6 +346,12 @@ const setStatus = async ({user, loaders: {Comments}, pubsub}, {id, status}) => {
   // adjust the affected user's karma in the next tick.
   process.nextTick(adjustKarma(Comments, id, status));
 
+  if (pubsub) {
+
+    // Publish the comment status change via the subscription.
+    pubsub.publish('commentStatusChanged', comment);
+  }
+
   return comment;
 };
 

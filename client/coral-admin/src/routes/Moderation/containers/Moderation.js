@@ -42,12 +42,13 @@ class ModerationContainer extends Component {
       variables: {
         asset_id: this.props.data.variables.asset_id,
       },
-      updateQuery: (prev, {subscriptionData: {data: {commentStatusChanged: {user, comment}}}}) => {
+      updateQuery: (prev, {subscriptionData: {data: {commentStatusChanged: comment}}}) => {
+        const user = comment.status_history[comment.status_history.length - 1].assigned_by;
+
         const extraParams = this.props.auth.user.id === user.id
           ? {}
           : {
             notify: true,
-            user,
             activeQueue: this.activeTab,
           };
         return handleCommentStatusChange(prev, comment, {
@@ -218,12 +219,14 @@ const COMMENTS_EDITED_SUBSCRIPTION = gql`
 const STATUS_CHANGED_SUBSCRIPTION = gql`
   subscription CommentStatusChanged($asset_id: ID){
     commentStatusChanged(asset_id: $asset_id){
-      user {
-        id
-        username
-      }
-      comment {
-        ...${getDefinitionName(Comment.fragments.comment)}
+      ...${getDefinitionName(Comment.fragments.comment)}
+      status_history {
+        type
+        created_at
+        assigned_by {
+          id
+          username
+        }
       }
     }
   }

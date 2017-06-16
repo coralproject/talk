@@ -5,8 +5,8 @@ const Subscription = {
   commentEdited(comment) {
     return comment;
   },
-  commentStatusChanged(data) {
-    return data;
+  commentStatusChanged(comment) {
+    return comment;
   },
 };
 

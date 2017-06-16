@@ -93,7 +93,7 @@ function showNotification(queue, comment, user) {
   notification.info(text);
 }
 
-export function handleCommentStatusChange(root, comment, {sort, notify, user, activeQueue}) {
+export function handleCommentStatusChange(root, comment, {sort, notify, activeQueue}) {
   let next = root;
   const nextQueues = getCommentQueues(comment);
 
@@ -102,7 +102,8 @@ export function handleCommentStatusChange(root, comment, {sort, notify, user, ac
     if (notificationShown) {
       return;
     }
-    showNotification(...args);
+    const user = comment.status_history[comment.status_history.length - 1].assigned_by;
+    showNotification(...[...args, user]);
     notificationShown = true;
   };
 
@@ -111,13 +112,13 @@ export function handleCommentStatusChange(root, comment, {sort, notify, user, ac
       if (!queueHasComment(next, queue, comment.id)) {
         next = addCommentToQueue(next, queue, comment, sort);
         if (notify && activeQueue === queue && shouldCommentBeAdded(next, queue, comment, sort)) {
-          showNotificationOnce(queue, comment, user);
+          showNotificationOnce(queue, comment);
         }
       }
     } else if(queueHasComment(next, queue, comment.id)){
       next = removeCommentFromQueue(next, queue, comment.id);
       if (notify && activeQueue === queue) {
-        showNotificationOnce(queue, comment, user);
+        showNotificationOnce(queue, comment);
       }
     }
 
@@ -127,7 +128,7 @@ export function handleCommentStatusChange(root, comment, {sort, notify, user, ac
       && notify
       && activeQueue === queue
     ) {
-      showNotificationOnce(queue, comment, user);
+      showNotificationOnce(queue, comment);
     }
 
     // TODO: Flagged notification
