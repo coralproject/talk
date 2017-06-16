@@ -3,6 +3,7 @@ import bowser from 'bowser';
 import * as actions from '../constants/auth';
 import * as Storage from '../helpers/storage';
 import coralApi, {base} from '../helpers/request';
+import pym from '../services/PymConnection';
 
 import {resetWebsocket} from 'coral-framework/services/client';
 import t from 'coral-framework/services/i18n';
@@ -284,6 +285,7 @@ export const logout = () => (dispatch) => {
     resetWebsocket();
 
     dispatch({type: actions.LOGOUT});
+    pym.sendMessage('coral-auth-changed');
   });
 };
 
@@ -315,6 +317,7 @@ export const checkLogin = () => (dispatch) => {
       resetWebsocket();
 
       dispatch(checkLoginSuccess(result.user));
+      pym.sendMessage('coral-auth-changed', JSON.stringify(result.user));
 
       // Display create username dialog if necessary.
       if (result.user.canEditName && result.user.status !== 'BANNED') {
