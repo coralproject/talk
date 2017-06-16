@@ -29,8 +29,7 @@
 
 .headInput {
   background-color: #efefef;
-  padding: 17px 56px;
-  height: 80px;
+  padding: 10px 27px;
   box-sizing: border-box;
 }
 
@@ -41,12 +40,13 @@
   font-size: 16px;
   margin-right: 5px;
   position: relative;
-  top: 2px;
+  top: 3px;
   box-sizing: border-box;
   border-radius: 3px;
   border: solid 1px #dfdfdf;
   max-height: 45px;
   max-width: 600px;
+  font-weight: 300;
 }
 
 .cta {
