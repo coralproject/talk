@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './styles.css';
-import Button from 'coral-ui/components/Button';
+import {Button} from 'plugin-api/beta/client/components/ui';
 import t from 'coral-framework/services/i18n';
 
 class ForgotContent extends React.Component {

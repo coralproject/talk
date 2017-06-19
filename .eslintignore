@@ -11,4 +11,5 @@ plugins/*
 !plugins/coral-plugin-mod
 !plugins/coral-plugin-love
 !plugins/coral-plugin-viewing-options
+!plugins/coral-plugin-comment-content
 node_modules

@@ -1,8 +1,9 @@
 import React, {PropTypes} from 'react';
 import {Icon} from '../coral-ui';
 import styles from './Comment.css';
+import Slot from 'coral-framework/components/Slot';
 import PubDate from '../coral-plugin-pubdate/PubDate';
-import Content from '../coral-plugin-commentcontent/CommentContent';
+import CommentContent from '../coral-embed-stream/src/components/CommentContent';
 
 import t from 'coral-framework/services/i18n';
 
@@ -10,9 +11,11 @@ const Comment = (props) => {
   return (
     <div className={styles.myComment}>
       <div>
-        <Content
+        <Slot
+          fill="commentContent"
+          defaultComponent={CommentContent}
           className={`${styles.commentBody} myCommentBody`}
-          body={props.comment.body}
+          comment={props.comment}
         />
         <p className="myCommentAsset">
           <a

@@ -3,13 +3,13 @@ import React, {PropTypes} from 'react';
 import PermalinkButton from 'coral-plugin-permalinks/PermalinkButton';
 import AuthorName from 'coral-plugin-author-name/AuthorName';
 import TagLabel from 'coral-plugin-tag-label/TagLabel';
-import Content from 'coral-plugin-commentcontent/CommentContent';
 import PubDate from 'coral-plugin-pubdate/PubDate';
 import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
 import FlagComment from 'coral-plugin-flags/FlagComment';
 import {can} from 'coral-framework/services/perms';
 import {TransitionGroup} from 'react-transition-group';
 import cn from 'classnames';
+import styles from './Comment.css';
 
 import {
   BestButton,
@@ -18,14 +18,14 @@ import {
   commentIsBest,
   BestIndicator
 } from 'coral-plugin-best/BestButton';
-import Slot from 'coral-framework/components/Slot';
 import LoadMore from './LoadMore';
+import {getEditableUntilDate} from './util';
 import {TopRightMenu} from './TopRightMenu';
+import CommentContent from './CommentContent';
+import Slot from 'coral-framework/components/Slot';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import {EditableCommentContent} from './EditableCommentContent';
 import {getActionSummary, iPerformedThisAction} from 'coral-framework/utils';
-import {getEditableUntilDate} from './util';
-import styles from './Comment.css';
 
 const isStaff = (tags) => !tags.every((t) => t.tag.name !== 'STAFF');
 const hasTag = (tags, lookupTag) => !!tags.filter((t) => t.tag.name === lookupTag).length;
@@ -466,8 +466,7 @@ export default class Comment extends React.Component {
                 stopEditing={this.stopEditing}
                 />
             : <div>
-                <Content body={comment.body} />
-                <Slot fill="commentContent" />
+                <Slot fill="commentContent" comment={comment} defaultComponent={CommentContent} />
               </div>
           }
 
