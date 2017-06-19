@@ -3,28 +3,28 @@ import Clipboard from 'clipboard';
 
 export default class Copy extends Component {
 
- constructor(props) {
-   super(props);
-   this.refCopyButton = this.refCopyButton.bind(this);
- }
+  constructor(props) {
+    super(props);
+    this.refCopyButton = this.refCopyButton.bind(this);
+  }
 
- componentDidMount() {
-   const clipboard = new Clipboard(this.copyButtonEl);
+  componentDidMount() {
+    const clipboard = new Clipboard(this.copyButtonEl);
 
-   clipboard.on('success', (e) => {
-     this.props.onCopy();
-     e.clearSelection();
-   });
- }
+    clipboard.on('success', (e) => {
+      this.props.onCopy();
+      e.clearSelection();
+    });
+  }
 
- refCopyButton(button) {
-   this.copyButtonEl = button;
- }
+  refCopyButton(button) {
+    this.copyButtonEl = button;
+  }
 
- render() {
-   const { children, target = '', text = '' } = this.props;
+  render() {
+    const {children, target = '', text = ''} = this.props;
 
-   return (
+    return (
      <span
        ref={this.refCopyButton}
        data-clipboard-action="copy"
@@ -33,6 +33,6 @@ export default class Copy extends Component {
      >
      {children}
      </span>
-   );
- }
+    );
+  }
 }
