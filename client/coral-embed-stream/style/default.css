@@ -17,6 +17,10 @@ body {
   height: auto !important;
 }
 
+#coralStream {
+  padding: 4px;
+}
+
 .expandForSignin {
   min-height: 600px;
 }
