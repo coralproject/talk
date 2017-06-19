@@ -11,6 +11,7 @@ import NotFoundAsset from './NotFoundAsset';
 import ModerationKeysModal from '../../../components/ModerationKeysModal';
 import UserDetail from '../containers/UserDetail';
 import StorySearch from '../containers/StorySearch';
+import {Spinner} from 'coral-ui';
 
 export default class Moderation extends Component {
   state = {
@@ -102,17 +103,21 @@ export default class Moderation extends Component {
   }
 
   render () {
-    const {root, moderation, settings, assets, viewUserDetail, hideUserDetail, ...props} = this.props;
+    const {root, moderation, settings, viewUserDetail, hideUserDetail, ...props} = this.props;
     const providedAssetId = this.props.params.id;
     const activeTab = this.props.route.path === ':id' ? 'premod' : this.props.route.path;
-
-    let asset;
+    const {asset} = root;
 
     if (providedAssetId) {
-      asset = assets.find((asset) => asset.id === this.props.params.id);
+      if (asset === null) {
 
-      if (!asset) {
+        // Not found.
         return <NotFoundAsset assetId={providedAssetId} />;
+      }
+      if (asset === undefined || asset.id !== providedAssetId) {
+
+        // Still loading.
+        return <Spinner />;
       }
     }
 

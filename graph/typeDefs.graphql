@@ -634,7 +634,7 @@ type RootQuery {
   comment(id: ID!): Comment
 
   # All assets. Requires the `ADMIN` role.
-  assets(query: AssetsQuery!): [Asset]
+  assets(query: AssetsQuery): [Asset]
 
   # Find or create an asset by url, or just find with the ID.
   asset(id: ID, url: String): Asset

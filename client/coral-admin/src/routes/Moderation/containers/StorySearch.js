@@ -20,6 +20,13 @@ class StorySearchContainer extends React.Component {
     });
   }
 
+  handleEsc = (e) => {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      this.props.closeSearch();
+    }
+  }
+
   handleEnter = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -43,6 +50,7 @@ class StorySearchContainer extends React.Component {
       <StorySearch
         search={this.search}
         goToStory={this.goToStory}
+        handleEsc={this.handleEsc}
         handleEnter={this.handleEnter}
         searchValue={this.state.searchValue}
         handleSearchChange={this.handleSearchChange}
@@ -54,7 +62,7 @@ class StorySearchContainer extends React.Component {
 
 export const withAssetSearchQuery = withQuery(gql`
   query SearchStories($value: String = "") {
-    assets(query: {value: $value}) {
+    assets(query: {value: $value, limit: 10}) {
       id
       title
       url

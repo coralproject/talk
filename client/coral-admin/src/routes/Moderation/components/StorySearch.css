@@ -12,7 +12,7 @@
 .container {
   position: absolute;
   background-color: white;
-  top: 100px;
+  top: 106px;
   left: 0;
   right: 0;
   margin-left: auto;
@@ -29,8 +29,7 @@
 
 .headInput {
   background-color: #efefef;
-  padding: 17px 56px;
-  height: 80px;
+  padding: 10px 27px;
   box-sizing: border-box;
 }
 
@@ -41,12 +40,13 @@
   font-size: 16px;
   margin-right: 5px;
   position: relative;
-  top: 2px;
+  top: 3px;
   box-sizing: border-box;
   border-radius: 3px;
   border: solid 1px #dfdfdf;
   max-height: 45px;
   max-width: 600px;
+  font-weight: 300;
 }
 
 .cta {
@@ -59,20 +59,22 @@
   font-size: 15px;
   font-weight: 500;
   padding: 12px 30px;
-  letter-spacing: 0.7px;
+  letter-spacing: 0.25px;
 }
 
-.storyList {
+/*.storyList {
   border-top: 1px solid #ddd;
-}
+}*/
 
 .story {
-  padding: 10px 63px;
+  padding: 7px 50px;
   border-bottom: 1px solid #ddd;
   cursor: pointer;
   display: block;
   text-decoration: none;
   height: 50px;
+  box-sizing: border-box;
+  transition: background-color 400ms;
 
   &:hover {
     background-color: #efefef;
@@ -86,7 +88,7 @@
 .title, .meta {
   margin: 0;
   color: black;
-  font-size: 17px;
+  font-size: 15px;
 }
 
 .author, .createdAt, .status {
@@ -117,7 +119,8 @@
 }
 
 .searchResults {
-  padding: 10px 24px;
+  padding: 7px 27px;
+  background: #F5F5F5;
 }
 
 .searchResults i {
@@ -132,12 +135,11 @@
 .headlineRecent {
   font-size: 15px;
   font-weight: 500;
-  letter-spacing: 0.7px;
+  letter-spacing: 0.25px;
   vertical-align: middle;
-  margin-left: 10px;
+  margin-left: 8px;
 }
 
 .noResults {
   padding: 10px 24px 15px 49px;
 }
-
