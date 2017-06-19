@@ -8,6 +8,7 @@ import * as notification from 'coral-admin/src/services/notification';
 import t, {timeago} from 'coral-framework/services/i18n';
 import update from 'immutability-helper';
 import truncate from 'lodash/truncate';
+import NotFoundAsset from '../components/NotFoundAsset';
 
 import {withSetUserStatus, withSuspendUser, withSetCommentStatus} from 'coral-framework/graphql/mutations';
 import {handleCommentChange} from '../../../graphql/utils';
@@ -214,14 +215,27 @@ class ModerationContainer extends Component {
   };
 
   render () {
-    const {root, data} = this.props;
+    const {root, root: {asset}, data, params: {id: assetId}} = this.props;
 
     if (data.error) {
       return <div>Error</div>;
     }
 
-    if (!('premodCount' in root)) {
-      return <div><Spinner/></div>;
+    if (assetId) {
+      if (asset === null) {
+
+        // Not found.
+        return <NotFoundAsset assetId={assetId} />;
+      }
+      if (asset === undefined || asset.id !== assetId) {
+
+        // Still loading.
+        return <Spinner />;
+      }
+    } else if(asset !== undefined || !('premodCount' in root)) {
+
+      // loading.
+      return <Spinner />;
     }
 
     return <Moderation

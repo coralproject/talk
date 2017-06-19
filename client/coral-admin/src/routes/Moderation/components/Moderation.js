@@ -7,11 +7,9 @@ import SuspendUserDialog from './SuspendUserDialog';
 import ModerationQueue from './ModerationQueue';
 import ModerationMenu from './ModerationMenu';
 import ModerationHeader from './ModerationHeader';
-import NotFoundAsset from './NotFoundAsset';
 import ModerationKeysModal from '../../../components/ModerationKeysModal';
 import UserDetail from '../containers/UserDetail';
 import StorySearch from '../containers/StorySearch';
-import {Spinner} from 'coral-ui';
 
 export default class Moderation extends Component {
   state = {
@@ -105,21 +103,8 @@ export default class Moderation extends Component {
   render () {
 
     const {root, moderation, settings, viewUserDetail, hideUserDetail, activeTab, ...props} = this.props;
-    const providedAssetId = this.props.params.id;
+    const assetId = this.props.params.id;
     const {asset} = root;
-
-    if (providedAssetId) {
-      if (asset === null) {
-
-        // Not found.
-        return <NotFoundAsset assetId={providedAssetId} />;
-      }
-      if (asset === undefined || asset.id !== providedAssetId) {
-
-        // Still loading.
-        return <Spinner />;
-      }
-    }
 
     const comments = root[activeTab];
     let activeTabCount;
@@ -174,7 +159,7 @@ export default class Moderation extends Component {
           acceptComment={props.acceptComment}
           rejectComment={props.rejectComment}
           loadMore={props.loadMore}
-          assetId={providedAssetId}
+          assetId={assetId}
           sort={this.props.moderation.sortOrder}
           commentCount={activeTabCount}
           currentUserId={this.props.auth.user.id}
