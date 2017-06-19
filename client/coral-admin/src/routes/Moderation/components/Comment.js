@@ -95,7 +95,7 @@ class Comment extends React.Component {
               </span>
               {
                 (comment.editing && comment.editing.edited)
-                ? <span>&nbsp;<span className={styles.editedMarker}>(Edited)</span></span>
+                ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
                 : null
               }
               {props.currentUserId !== comment.user.id &&

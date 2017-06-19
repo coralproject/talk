@@ -34,6 +34,10 @@ import {Spinner} from 'coral-ui';
 import Moderation from '../components/Moderation';
 import Comment from './Comment';
 
+function prepareNotificationText(text) {
+  return truncate(text, {length: 50}).replace('\n', ' ');
+}
+
 class ModerationContainer extends Component {
   subscriptions = [];
 
@@ -50,7 +54,7 @@ class ModerationContainer extends Component {
           ? {}
           : {
             activeQueue: this.activeTab,
-            text: `${user.username} accepted comment "${truncate(comment.body, {lenght: 50})}"`,
+            text: t('modqueue.notify_accepted', user.username, prepareNotificationText(comment.body)),
             anyQueue: false,
           };
         return handleCommentChange(prev, comment, sort, notify);
@@ -67,7 +71,7 @@ class ModerationContainer extends Component {
           ? {}
           : {
             activeQueue: this.activeTab,
-            text: `${user.username} rejected comment "${truncate(comment.body, {lenght: 50})}"`,
+            text: t('modqueue.notify_rejected', user.username, prepareNotificationText(comment.body)),
             anyQueue: false,
           };
         return handleCommentChange(prev, comment, sort, notify);
@@ -81,7 +85,7 @@ class ModerationContainer extends Component {
         const sort = this.props.moderation.sortOrder;
         const notify = {
           activeQueue: this.activeTab,
-          text: `${comment.user.username} edited comment to "${truncate(comment.body, {lenght: 50})}"`,
+          text: t('modqueue.notify_edited', comment.user.username, prepareNotificationText(comment.body)),
           anyQueue: false,
         };
         return handleCommentChange(prev, comment, sort, notify);
@@ -96,7 +100,7 @@ class ModerationContainer extends Component {
         const sort = this.props.moderation.sortOrder;
         const notify = {
           activeQueue: this.activeTab,
-          text: `${user.username} flagged comment "${truncate(comment.body, {lenght: 50})}"`,
+          text: t('modqueue.notify_flagged', user.username, prepareNotificationText(comment.body)),
           anyQueue: true,
         };
         return handleCommentChange(prev, comment, sort, notify);
