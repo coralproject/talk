@@ -1,5 +1,13 @@
+const errors = require('../errors');
 const UserModel = require('../models/user');
-const {GeneratePersonalAccessToken} = require('./passport');
+const JWT = require('jsonwebtoken');
+const uuid = require('uuid');
+
+const {
+  JWT_SECRET,
+  JWT_ISSUER,
+  JWT_AUDIENCE
+} = require('../config');
 
 /**
  * TokenService manages Personal Access Tokens for users. These tokens are
@@ -16,7 +24,16 @@ module.exports = class TokenService {
   static async create(userID, tokenName) {
 
     // Create the token.
-    let {payload, jwt} = GeneratePersonalAccessToken(userID);
+    const payload = {
+      jti: uuid.v4(),
+      iss: JWT_ISSUER,
+      aud: JWT_AUDIENCE,
+      sub: userID,
+      pat: true
+    };
+
+    // Sign the payload.
+    const jwt = JWT.sign(payload, JWT_SECRET, {});
 
     // Create the PAT.
     let pat = {
@@ -61,6 +78,34 @@ module.exports = class TokenService {
         'tokens.$.active': false
       }
     });
+  }
+
+  /**
+   * Validate that a given Token is valid.
+   *
+   * @param {String} userID the user's id that owns the token
+   * @param {String} tokenID the id of the token
+   */
+  static async validate(userID, tokenID) {
+
+    // Find the user.
+    let user = await UserModel.findOne({
+      id: userID
+    }).select('tokens');
+    if (!user || !user.tokens) {
+      throw new errors.ErrAuthentication('user does not exist');
+    }
+
+    // Extract the token from the user.
+    let token = user.tokens.find(({id}) => id === tokenID);
+    if (!token) {
+      throw new errors.ErrAuthentication('token does not exist');
+    }
+
+    // Check to see if it is active.
+    if (!token.active) {
+      throw new errors.ErrAuthentication('token is not active');
+    }
   }
 
   /**

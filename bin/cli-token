@@ -49,6 +49,8 @@ async function revokeToken(tokenID) {
 
     await TokensService.revoke(null, tokenID);
 
+    console.log(`Revoked Token[${tokenID}]`);
+
     util.shutdown();
   } catch (e) {
     console.error(e);
