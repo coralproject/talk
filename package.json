@@ -106,7 +106,7 @@
     "passport": "^0.3.2",
     "passport-jwt": "^2.2.1",
     "passport-local": "^1.0.0",
-    "prop-types": "^15.5.8",
+    "prop-types": "^15.5.10",
     "react-apollo": "^1.1.0",
     "react-recaptcha": "^2.2.6",
     "react-toastify": "^1.5.0",

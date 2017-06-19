@@ -91,6 +91,7 @@ span {
 
   .moderateAsset {
     a {
+      text-align: center;
       -webkit-box-flex: 1;
       -ms-flex: 1;
       flex: 1;
@@ -103,20 +104,8 @@ span {
       opacity: 1;
 
       &:hover {
-          opacity: .8;
+         opacity: .8;
          cursor: pointer;
-      }
-
-      &:first-child {
-        text-align: left;
-      }
-
-      &:nth-child(2) {
-       text-align: center;
-      }
-
-      &:last-child {
-        text-align: right;
       }
     }
   }

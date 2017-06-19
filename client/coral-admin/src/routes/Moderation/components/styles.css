@@ -116,29 +116,20 @@ span {
       transition: background-color 200ms;
       opacity: 1;
 
-      &:first-child {
-        text-align: left;
+      &:hover {
+         cursor: pointer;
+         background-color: #212121;
+      }
+      span {
+        text-align: center;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        max-width: 344px;
+        display: inline-block;
+        vertical-align: top;
       }
 
-      &:nth-child(2) {
-        &:hover {
-           cursor: pointer;
-           background-color: #212121;
-        }
-        span {
-          text-align: center;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          overflow: hidden;
-          max-width: 344px;
-          display: inline-block;
-          vertical-align: top;
-        }
-      }
-
-      &:last-child {
-        text-align: right;
-      }
     }
   }
 }
@@ -533,4 +524,9 @@ span {
   font-size: 12px;
   line-height: 1px;
   font-weight: 300;
+}
+
+.searchTrigger {
+  position: relative;
+  top: .3em;
 }

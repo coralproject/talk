@@ -10,6 +10,8 @@ import ModerationHeader from './ModerationHeader';
 import NotFoundAsset from './NotFoundAsset';
 import ModerationKeysModal from '../../../components/ModerationKeysModal';
 import UserDetail from '../containers/UserDetail';
+import StorySearch from '../containers/StorySearch';
+import {Spinner} from 'coral-ui';
 
 export default class Moderation extends Component {
   state = {
@@ -30,6 +32,15 @@ export default class Moderation extends Component {
 
   onClose = () => {
     this.toggleModal(false);
+  }
+
+  closeSearch = () => {
+    const {toggleStorySearch} = this.props;
+    toggleStorySearch(false);
+  }
+
+  openSearch = () => {
+    this.props.toggleStorySearch(true);
   }
 
   moderate = (accept) => () => {
@@ -92,16 +103,21 @@ export default class Moderation extends Component {
   }
 
   render () {
-    const {root, moderation, settings, assets, viewUserDetail, hideUserDetail, activeTab, ...props} = this.props;
-    const providedAssetId = this.props.params.id;
 
-    let asset;
+    const {root, moderation, settings, viewUserDetail, hideUserDetail, activeTab, ...props} = this.props;
+    const providedAssetId = this.props.params.id;
+    const {asset} = root;
 
     if (providedAssetId) {
-      asset = assets.find((asset) => asset.id === this.props.params.id);
+      if (asset === null) {
 
-      if (!asset) {
+        // Not found.
         return <NotFoundAsset assetId={providedAssetId} />;
+      }
+      if (asset === undefined || asset.id !== providedAssetId) {
+
+        // Still loading.
+        return <Spinner />;
       }
     }
 
@@ -127,7 +143,12 @@ export default class Moderation extends Component {
 
     return (
       <div>
-        <ModerationHeader asset={asset} />
+        <ModerationHeader
+          searchVisible={this.props.moderation.storySearchVisible}
+          openSearch={this.openSearch}
+          closeSearch={this.closeSearch}
+          asset={asset}
+        />
         <ModerationMenu
           asset={asset}
           allCount={root.allCount}
@@ -194,6 +215,11 @@ export default class Moderation extends Component {
             acceptComment={props.acceptComment}
             rejectComment={props.rejectComment} />
         )}
+        <StorySearch
+          moderation={this.props.moderation}
+          closeSearch={this.closeSearch}
+          storySearchChange={this.props.storySearchChange}
+        />
       </div>
     );
   }

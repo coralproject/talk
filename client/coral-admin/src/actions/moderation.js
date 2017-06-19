@@ -51,3 +51,16 @@ export const toggleSelectCommentInUserDetail = (id, active) => {
     id
   };
 };
+
+export const toggleStorySearch = (active) => ({
+  type: active ? actions.SHOW_STORY_SEARCH : actions.HIDE_STORY_SEARCH
+});
+
+export const storySearchChange = (value) => ({
+  type: actions.STORY_SEARCH_CHANGE_VALUE,
+  value
+});
+
+export const clearState = () => ({
+  type: actions.MODERATION_CLEAR_STATE
+});

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {compose, gql} from 'react-apollo';
-import isEqual from 'lodash/isEqual';
 import withQuery from 'coral-framework/hocs/withQuery';
 import {getDefinitionName} from 'coral-framework/utils';
 import * as notification from 'coral-admin/src/services/notification';
@@ -14,7 +13,6 @@ import {withSetUserStatus, withSuspendUser, withSetCommentStatus} from 'coral-fr
 import {handleCommentChange} from '../../../graphql/utils';
 
 import {fetchSettings} from 'actions/settings';
-import {updateAssets} from 'actions/assets';
 import {
   toggleModal,
   singleView,
@@ -23,9 +21,12 @@ import {
   showSuspendUserDialog,
   hideSuspendUserDialog,
   hideShortcutsNote,
+  toggleStorySearch,
   viewUserDetail,
   hideUserDetail,
   setSortOrder,
+  storySearchChange,
+  clearState
 } from 'actions/moderation';
 
 import {Spinner} from 'coral-ui';
@@ -123,6 +124,7 @@ class ModerationContainer extends Component {
   }
 
   componentWillMount() {
+    this.props.clearState();
     this.props.fetchSettings();
     this.subscribeToUpdates();
   }
@@ -132,11 +134,6 @@ class ModerationContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {updateAssets} = this.props;
-    if(!isEqual(nextProps.root.assets, this.props.root.assets)) {
-      updateAssets(nextProps.root.assets);
-    }
-
     // Resubscribe when we change between assets.
     if(this.props.data.variables.asset_id !== nextProps.data.variables.asset_id) {
       this.resubscribe();
@@ -325,7 +322,7 @@ const commentConnectionFragment = gql`
 `;
 
 const withModQueueQuery = withQuery(gql`
-  query CoralAdmin_Moderation($asset_id: ID, $sort: SORT_ORDER) {
+  query CoralAdmin_Moderation($asset_id: ID, $sort: SORT_ORDER, $allAssets: Boolean!) {
     all: comments(query: {
       statuses: [NONE, PREMOD, ACCEPTED, REJECTED],
       asset_id: $asset_id,
@@ -362,7 +359,7 @@ const withModQueueQuery = withQuery(gql`
     }) {
       ...CoralAdmin_Moderation_CommentConnection
     }
-    assets: assets {
+    asset(id: $asset_id) @skip(if: $allAssets) {
       id
       title
       url
@@ -398,6 +395,7 @@ const withModQueueQuery = withQuery(gql`
       variables: {
         asset_id: id,
         sort: sortOrder,
+        allAssets: id === null
       }
     };
   },
@@ -441,23 +439,24 @@ const mapStateToProps = (state) => ({
   moderation: state.moderation.toJS(),
   settings: state.settings.toJS(),
   auth: state.auth.toJS(),
-  assets: state.assets.get('assets')
 });
 
 const mapDispatchToProps = (dispatch) => ({
   ...bindActionCreators({
     toggleModal,
     singleView,
-    updateAssets,
     fetchSettings,
     showBanUserDialog,
     hideBanUserDialog,
     hideShortcutsNote,
+    toggleStorySearch,
     showSuspendUserDialog,
     hideSuspendUserDialog,
     viewUserDetail,
     hideUserDetail,
     setSortOrder,
+    storySearchChange,
+    clearState
   }, dispatch),
 });
 
