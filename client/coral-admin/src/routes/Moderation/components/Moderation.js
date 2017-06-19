@@ -31,7 +31,7 @@ export default class Moderation extends Component {
   }
 
   onClose = () => {
-    this.toggleModal(false);
+    this.props.toggleModal(false);
   }
 
   closeSearch = () => {
