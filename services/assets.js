@@ -104,13 +104,12 @@ module.exports = class AssetsService {
   }
 
   /**
-   * Finds assets matching keywords on the model. If `value` is an empty string,
-   * then it will not even perform a text search query.
+   * Finds assets matching keywords on the model.
    * @param  {String} value string to search by.
    * @return {Promise}
    */
-  static search({value = '', skip = null, limit = null}) {
-    if (value.length === 0) {
+  static search({value, skip, limit} = {}) {
+    if (!value) {
       return AssetsService.all(skip, limit);
     } else {
       return AssetModel
