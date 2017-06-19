@@ -104,7 +104,15 @@ input UsersQuery {
   sort: SORT_ORDER = REVERSE_CHRONOLOGICAL
 }
 
+# AssetsQuery allows teh ability to query assets by specific fields
+input AssetsQuery {
 
+  # a search string to match against titles, authors, urls, etc.
+  value: String = ""
+
+  # Limit the number of results to be returned
+  limit: Int = 10
+}
 ################################################################################
 ## Tags
 ################################################################################
@@ -626,7 +634,7 @@ type RootQuery {
   comment(id: ID!): Comment
 
   # All assets. Requires the `ADMIN` role.
-  assets: [Asset]
+  assets(query: AssetsQuery): [Asset]
 
   # Find or create an asset by url, or just find with the ID.
   asset(id: ID, url: String): Asset

@@ -84,6 +84,16 @@
   background: #4f5c67;
 }
 
+.type--blue {
+    color: white;
+    background: #083b97;
+}
+
+.type--blue:hover {
+    color: white;
+    background: #083b97;
+}
+
 .type--darkGrey {
   color: white;
   background: #616161;
