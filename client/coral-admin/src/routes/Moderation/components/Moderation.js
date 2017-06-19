@@ -108,16 +108,17 @@ export default class Moderation extends Component {
     const activeTab = this.props.route.path === ':id' ? 'premod' : this.props.route.path;
     const {asset} = root;
 
-    if (providedAssetId && asset === null) {
+    if (providedAssetId) {
+      if (asset === null) {
 
-      // Not found.
-      return <NotFoundAsset assetId={providedAssetId} />;
-    }
+        // Not found.
+        return <NotFoundAsset assetId={providedAssetId} />;
+      }
+      if (asset === undefined || asset.id !== providedAssetId) {
 
-    if (providedAssetId && (asset === undefined || asset.id !== providedAssetId)) {
-
-      // Still loading.
-      return <Spinner />;
+        // Still loading.
+        return <Spinner />;
+      }
     }
 
     const comments = root[activeTab];
