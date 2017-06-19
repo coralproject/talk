@@ -159,7 +159,7 @@ class Stream extends React.Component {
     };
     return (
       <div id="stream">
-        <Slot fill="stream" />
+
         {open
           ? <div id="commentBox">
               <InfoBox
@@ -202,6 +202,8 @@ class Stream extends React.Component {
                 />}
             </div>
           : <p>{asset.settings.closedMessage}</p>}
+
+        <Slot fill="stream" />
 
         {loggedIn && (
           <ModerationLink
