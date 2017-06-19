@@ -38,12 +38,10 @@ class ModerationContainer extends Component {
 
   get activeTab() { return this.props.route.path === ':id' ? 'premod' : this.props.route.path; }
 
-  subscribeToUpdates() {
+  subscribeToUpdates(variables = this.props.data.variables) {
     const sub1 = this.props.data.subscribeToMore({
       document: COMMENT_ACCEPTED_SUBSCRIPTION,
-      variables: {
-        asset_id: this.props.data.variables.asset_id,
-      },
+      variables,
       updateQuery: (prev, {subscriptionData: {data: {commentAccepted: comment}}}) => {
         const user = comment.status_history[comment.status_history.length - 1].assigned_by;
         const sort = this.props.moderation.sortOrder;
@@ -60,9 +58,7 @@ class ModerationContainer extends Component {
 
     const sub2 = this.props.data.subscribeToMore({
       document: COMMENT_REJECTED_SUBSCRIPTION,
-      variables: {
-        asset_id: this.props.data.variables.asset_id,
-      },
+      variables,
       updateQuery: (prev, {subscriptionData: {data: {commentRejected: comment}}}) => {
         const user = comment.status_history[comment.status_history.length - 1].assigned_by;
         const sort = this.props.moderation.sortOrder;
@@ -79,9 +75,7 @@ class ModerationContainer extends Component {
 
     const sub3 = this.props.data.subscribeToMore({
       document: COMMENT_EDITED_SUBSCRIPTION,
-      variables: {
-        asset_id: this.props.data.variables.asset_id,
-      },
+      variables,
       updateQuery: (prev, {subscriptionData: {data: {commentEdited: comment}}}) => {
         const sort = this.props.moderation.sortOrder;
         const notify = {
@@ -95,9 +89,7 @@ class ModerationContainer extends Component {
 
     const sub4 = this.props.data.subscribeToMore({
       document: COMMENT_FLAGGED_SUBSCRIPTION,
-      variables: {
-        asset_id: this.props.data.variables.asset_id,
-      },
+      variables,
       updateQuery: (prev, {subscriptionData: {data: {commentFlagged: comment}}}) => {
         const user = comment.actions[comment.actions.length - 1].user;
         const sort = this.props.moderation.sortOrder;
@@ -118,9 +110,9 @@ class ModerationContainer extends Component {
     this.subscriptions = [];
   }
 
-  resubscribe() {
+  resubscribe(variables) {
     this.unsubscribe();
-    this.subscribeToUpdates();
+    this.subscribeToUpdates(variables);
   }
 
   componentWillMount() {
@@ -134,9 +126,10 @@ class ModerationContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+
     // Resubscribe when we change between assets.
     if(this.props.data.variables.asset_id !== nextProps.data.variables.asset_id) {
-      this.resubscribe();
+      this.resubscribe(nextProps.data.variables);
     }
   }
 

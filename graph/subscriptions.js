@@ -50,7 +50,7 @@ const setupFunctions = plugins.get('server', 'setupFunctions').reduce((acc, {plu
   }),
   commentFlagged: (options, args) => ({
     commentFlagged: {
-      filter: ({comment}, context) => {
+      filter: (comment, context) => {
         if (!context.user || !context.user.can(SUBSCRIBE_COMMENT_FLAGGED)) {
           return false;
         }
@@ -60,7 +60,7 @@ const setupFunctions = plugins.get('server', 'setupFunctions').reduce((acc, {plu
   }),
   commentAccepted: (options, args) => ({
     commentAccepted: {
-      filter: ({comment}, context) => {
+      filter: (comment, context) => {
         if (!context.user || !context.user.can(SUBSCRIBE_COMMENT_ACCEPTED)) {
           return false;
         }
@@ -70,7 +70,7 @@ const setupFunctions = plugins.get('server', 'setupFunctions').reduce((acc, {plu
   }),
   commentRejected: (options, args) => ({
     commentRejected: {
-      filter: ({comment}, context) => {
+      filter: (comment, context) => {
         if (!context.user || !context.user.can(SUBSCRIBE_COMMENT_REJECTED)) {
           return false;
         }
