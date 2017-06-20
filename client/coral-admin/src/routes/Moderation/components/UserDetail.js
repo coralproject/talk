@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
-import {Button, Drawer, Copy} from 'coral-ui';
-import styles from './UserDetail.css';
-import Slot from 'coral-framework/components/Slot';
 import Comment from './Comment';
+import styles from './UserDetail.css';
+import {Button, Drawer} from 'coral-ui';
+import {Slot, Copy} from 'coral-framework/components';
 import {actionsMap} from '../helpers/moderationQueueActionsMap';
 
 export default class UserDetail extends React.Component {
@@ -98,13 +98,16 @@ export default class UserDetail extends React.Component {
     return (
       <Drawer handleClickOutside={hideUserDetail}>
         <h3>{user.username}</h3>
-        {profile && <input className={styles.profileEmail} readOnly type="text" ref={(ref) => this.profile = ref} value={profile} />}
 
-        <Copy onCopy={() => this.showCopied()} text={profile} className={styles.profileEmail}>
-          <Button className={styles.copyButton}>
-            {this.state.emailCopied ? 'Copied!' : 'Copy'}
-          </Button>
-        </Copy>
+        <div>
+          {profile && <input className={styles.profileEmail} readOnly type="text" ref={(ref) => this.profile = ref} value={profile} />}
+
+          <Copy onCopy={() => this.showCopied()} text={profile} className={styles.profileEmail}>
+            <Button className={styles.copyButton}>
+              {this.state.emailCopied ? 'Copied!' : 'Copy'}
+            </Button>
+          </Copy>
+        </div>
 
         <Slot
           fill="userProfile"

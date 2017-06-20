@@ -22,10 +22,11 @@ export default class Copy extends Component {
   }
 
   render() {
-    const {children, target = '', text = ''} = this.props;
+    const {children, target = '', text = '', className = ''} = this.props;
 
     return (
      <span
+       className={className}
        ref={this.refCopyButton}
        data-clipboard-action="copy"
        data-clipboard-text={text}
