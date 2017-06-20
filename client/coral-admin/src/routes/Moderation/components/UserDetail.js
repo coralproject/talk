@@ -1,11 +1,19 @@
 import React, {PropTypes} from 'react';
-import {Button, Drawer} from 'coral-ui';
+import {Button, Drawer, Copy} from 'coral-ui';
 import styles from './UserDetail.css';
 import Slot from 'coral-framework/components/Slot';
 import Comment from './Comment';
 import {actionsMap} from '../helpers/moderationQueueActionsMap';
 
 export default class UserDetail extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {
+      emailCopied: false
+    };
+  }
+
   static propTypes = {
     id: PropTypes.string.isRequired,
     hideUserDetail: PropTypes.func.isRequired,
@@ -20,16 +28,6 @@ export default class UserDetail extends React.Component {
     toggleSelect: PropTypes.func.isRequired,
     bulkAccept: PropTypes.func.isRequired,
     bulkReject: PropTypes.func.isRequired,
-  }
-
-  copyPermalink = () => {
-    this.profile.select();
-    try {
-      document.execCommand('copy');
-    } catch (e) {
-
-      /* nothing */
-    }
   }
 
   rejectThenReload = (info) => {
@@ -50,6 +48,16 @@ export default class UserDetail extends React.Component {
 
   showRejected = () => {
     this.props.changeStatus('rejected');
+  }
+
+  showCopied() {
+    this.setState({
+      emailCopied: true
+    }, () => {
+      setTimeout(() => this.setState({
+        emailCopied: false
+      }), 3000);
+    });
   }
 
   render () {
@@ -90,8 +98,14 @@ export default class UserDetail extends React.Component {
     return (
       <Drawer handleClickOutside={hideUserDetail}>
         <h3>{user.username}</h3>
-        <Button className={styles.copyButton} onClick={this.copyPermalink}>Copy</Button>
         {profile && <input className={styles.profileEmail} readOnly type="text" ref={(ref) => this.profile = ref} value={profile} />}
+
+        <Copy onCopy={() => this.showCopied()} text={profile} className={styles.profileEmail}>
+          <Button className={styles.copyButton}>
+            {this.state.emailCopied ? 'Copied!' : 'Copy'}
+          </Button>
+        </Copy>
+
         <Slot
           fill="userProfile"
           data={this.props.data}

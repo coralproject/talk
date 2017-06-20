@@ -71,12 +71,24 @@ const CoralHeader = ({
                 <IconButton name="settings" id="menu-settings"/>
                 <Menu target="menu-settings" align="right">
                   <MenuItem onClick={() => showShortcuts(true)}>{t('configure.shortcuts')}</MenuItem>
-                  <MenuItem onClick={handleLogout}>{t('configure.sign_out')}</MenuItem>
+                  <MenuItem>
+                    <a href="https://github.com/coralproject/talk/releases" target="_blank">
+                      View latest version
+                    </a>
+                  </MenuItem>
+                  <MenuItem>
+                    <a href="https://coralproject.net/contribute.html#other-ideas-and-bug-reports" target="_blank">
+                      Report a bug or give feedback
+                    </a>
+                  </MenuItem>
+                  <MenuItem onClick={handleLogout}>
+                    {t('configure.sign_out')}
+                  </MenuItem>
+                  <MenuItem>
+                    Talk {`v${process.env.VERSION}`}
+                  </MenuItem>
                 </Menu>
               </div>
-            </li>
-            <li>
-              {`v${process.env.VERSION}`}
             </li>
           </ul>
         </div>
