@@ -207,6 +207,7 @@ export default class Moderation extends Component {
           shortcutsNoteVisible={moderation.shortcutsNoteVisible}
           open={moderation.modalOpen}
           onClose={this.onClose}/>
+
         {moderation.userDetailId && (
           <UserDetail
             id={moderation.userDetailId}
@@ -218,6 +219,7 @@ export default class Moderation extends Component {
             acceptComment={props.acceptComment}
             rejectComment={props.rejectComment} />
         )}
+
         <StorySearch
           moderation={this.props.moderation}
           closeSearch={this.closeSearch}

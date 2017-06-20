@@ -1,30 +1,30 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Clipboard from 'clipboard';
 
-export default (config) => (WrappedComponent) => {
-  console.log(config, WrappedComponent)
+export default (WrappedComponent) => {
 
   class withCopyToClipboard extends React.Component {
-
     componentDidMount() {
-      const node = ReactDOM.findDOMNode(WrappedComponent);
-      const clipboard = new Clipboard(node);
+      const clipboard = new Clipboard(ReactDOM.findDOMNode(this));
 
       clipboard.on('success', (e) => {
-        this.props.onCopy();
+        if (this.props.onCopy) {
+          this.props.onCopy();
+        }
         e.clearSelection();
       });
     }
 
     render() {
-      const {target = '', text = ''} = config;
+      const {target = '', text = '', className = '', ...rest} = this.props;
 
       return <WrappedComponent
         className={className}
         data-clipboard-action="copy"
         data-clipboard-text={text}
         data-clipboard-target={target}
-        {...this.props}
+        {...rest}
       />;
     }
   }

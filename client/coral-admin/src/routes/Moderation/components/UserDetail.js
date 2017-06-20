@@ -2,19 +2,11 @@ import React, {PropTypes} from 'react';
 import Comment from './Comment';
 import styles from './UserDetail.css';
 import {Button, Drawer} from 'coral-ui';
-import t from 'coral-framework/services/i18n';
 import {Slot} from 'coral-framework/components';
-import {withCopyToClipboard} from 'coral-framework/hocs';
+import ButtonCopyToClipboard from './ButtonCopyToClipboard';
 import {actionsMap} from '../helpers/moderationQueueActionsMap';
 
 export default class UserDetail extends React.Component {
-
-  constructor() {
-    super();
-    this.state = {
-      emailCopied: false
-    };
-  }
 
   static propTypes = {
     id: PropTypes.string.isRequired,
@@ -97,20 +89,13 @@ export default class UserDetail extends React.Component {
       rejectedPercent = 0;
     }
 
-    const CopyToClipboard = withCopyToClipboard({ text: profile })(
-      <button className={styles.copyButton}>
-        {this.state.emailCopied ? t('common.copied') : t('common.copy')}
-      </button>
-    );
-
-    console.log(CopyToClipboard)
-
     return (
       <Drawer handleClickOutside={hideUserDetail}>
         <h3>{user.username}</h3>
 
         <div>
           {profile && <input className={styles.profileEmail} readOnly type="text" ref={(ref) => this.profile = ref} value={profile} />}
+          <ButtonCopyToClipboard className={styles.copyButton} text={profile} />
         </div>
 
         <Slot
