@@ -7,7 +7,17 @@ endpoint when the server is running with built assets.
 
 ## Contributing to Talk
 
-See our [Contribution Guide](https://github.com/coralproject/talk/blob/master/CONTRIBUTING.md)!
+See our [Contribution Guide](https://github.com/coralproject/talk/blob/master/CONTRIBUTING.md).
+
+## Documentation
+
+### General
+
+See our [Talk Documentation & Guides](https://coralproject.github.io/talk/index.html).
+
+### Plugins
+
+See our guide to using and building [Talk Plugins](https://github.com/coralproject/talk/blob/master/PLUGINS.md).
 
 ## Usage
 
