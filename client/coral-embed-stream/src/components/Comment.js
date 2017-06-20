@@ -75,6 +75,8 @@ const ActionButton = ({children}) => {
 };
 
 export default class Comment extends React.Component {
+  isLoadingReplies = false;
+
   constructor(props) {
     super(props);
 
@@ -210,14 +212,24 @@ export default class Comment extends React.Component {
   }
 
   loadNewReplies = () => {
-    const {replies, replyCount, id} = this.props.comment;
-    if (replyCount > replies.nodes.length) {
-      this.props.loadMore(id).then(() => {
-        this.setState(resetCursors(this.state, this.props));
-      });
-      return;
+    if (!this.isLoadingReplies) {
+      this.isLoadingReplies = true;
+      const {replies, replyCount, id} = this.props.comment;
+      if (replyCount > replies.nodes.length) {
+        this.props.loadMore(id)
+          .then(() => {
+            this.setState(resetCursors(this.state, this.props));
+            this.isLoadingReplies = false;
+          })
+          .catch((e) => {
+            this.isLoadingReplies = false;
+            throw e;
+          });
+        return;
+      }
+      this.setState(resetCursors);
+      this.isLoadingReplies = false;
     }
-    this.setState(resetCursors);
   };
 
   showReplyBox = () => {

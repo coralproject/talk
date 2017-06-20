@@ -8,6 +8,7 @@ import LoadMore from './LoadMore';
 import t from 'coral-framework/services/i18n';
 
 class ModerationQueue extends React.Component {
+  isLoadingMore = false;
 
   static propTypes = {
     viewUserDetail: PropTypes.func.isRequired,
@@ -22,7 +23,15 @@ class ModerationQueue extends React.Component {
   }
 
   loadMore = () => {
-    this.props.loadMore(this.props.activeTab);
+    if (!this.isLoadingMore) {
+      this.isLoadingMore = true;
+      this.props.loadMore(this.props.activeTab)
+        .then(() => this.isLoadingMore = false)
+        .catch((e) => {
+          this.isLoadingMore = false;
+          throw e;
+        });
+    }
   }
 
   componentDidUpdate (prev) {
