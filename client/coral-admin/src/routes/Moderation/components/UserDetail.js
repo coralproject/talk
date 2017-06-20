@@ -44,16 +44,6 @@ export default class UserDetail extends React.Component {
     this.props.changeStatus('rejected');
   }
 
-  showCopied() {
-    this.setState({
-      emailCopied: true
-    }, () => {
-      setTimeout(() => this.setState({
-        emailCopied: false
-      }), 3000);
-    });
-  }
-
   render () {
     const {
       root: {
@@ -95,7 +85,7 @@ export default class UserDetail extends React.Component {
 
         <div>
           {profile && <input className={styles.profileEmail} readOnly type="text" ref={(ref) => this.profile = ref} value={profile} />}
-          <ButtonCopyToClipboard className={styles.copyButton} text={profile} />
+          <ButtonCopyToClipboard className={styles.copyButton} copyText={profile} />
         </div>
 
         <Slot

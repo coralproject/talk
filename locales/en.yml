@@ -33,7 +33,6 @@ en:
   comment_post_notif: "Your comment has been posted."
   comment_post_notif_premod: "Thank you for posting. Our moderation team will review your comment shortly."
   common:
-    copied: 'Copied'
     copy: 'Copy'
   community:
     account_creation_date: "Account Creation Date"
