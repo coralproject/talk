@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import Comment from './Comment';
 import styles from './UserDetail.css';
 import {Button, Drawer} from 'coral-ui';
+import t from 'coral-framework/services/i18n';
 import {Slot, Copy} from 'coral-framework/components';
 import {actionsMap} from '../helpers/moderationQueueActionsMap';
 
@@ -102,9 +103,9 @@ export default class UserDetail extends React.Component {
         <div>
           {profile && <input className={styles.profileEmail} readOnly type="text" ref={(ref) => this.profile = ref} value={profile} />}
 
-          <Copy onCopy={() => this.showCopied()} text={profile} className={styles.profileEmail}>
+          <Copy onCopy={() => this.showCopied()} text={profile}>
             <Button className={styles.copyButton}>
-              {this.state.emailCopied ? 'Copied!' : 'Copy'}
+              {this.state.emailCopied ? t('common.copied') : t('common.copy')}
             </Button>
           </Copy>
         </div>

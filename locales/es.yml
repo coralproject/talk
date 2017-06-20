@@ -32,6 +32,9 @@ es:
   comment_post_banned_word: "Tu comentario contiene una o más palabras que no están permitidas en nuestro espacio, por lo que no será publicado. Si crees que es un error, por favor contacta a nuestro equipo de moderación."
   comment_post_notif: "Tu comentario ha sido publicado."
   comment_post_notif_premod: "Gracias por el comentario. Nuestro equipo de moderación va a revisarlo muy pronto."
+  common:
+    copied: 'Copiado'
+    copy: 'Copiar'
   community:
     account_creation_date: "Fecha de creación de la cuenta"
     active: Activa
