@@ -68,7 +68,7 @@ class Comment extends React.Component {
     return (
       <li
         tabIndex={props.index}
-        className={cn(className, 'mdl-card', selectionStateCSS, styles.Comment, styles.listItem, {[styles.minimal] : minimal})}
+        className={cn(className, 'mdl-card', selectionStateCSS, styles.Comment, styles.listItem, {[styles.minimal]: minimal, [styles.selected]: selected})}
       >
         <div className={styles.container}>
           <div className={styles.itemHeader}>

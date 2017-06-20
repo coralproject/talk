@@ -12,8 +12,13 @@ import UserDetail from '../containers/UserDetail';
 import StorySearch from '../containers/StorySearch';
 
 export default class Moderation extends Component {
-  state = {
-    selectedIndex: 0,
+  constructor() {
+    super();
+
+    this.state = {
+      selectedIndex: 0
+    };
+
   }
 
   componentWillMount() {
@@ -29,7 +34,7 @@ export default class Moderation extends Component {
   }
 
   onClose = () => {
-    this.toggleModal(false);
+    this.props.toggleModal(false);
   }
 
   closeSearch = () => {
@@ -58,24 +63,22 @@ export default class Moderation extends Component {
   getComments = () => {
     const {root, route} = this.props;
     const activeTab = route.path === ':id' ? 'premod' : route.path;
-    return root[activeTab];
+    return root[activeTab].nodes;
   }
 
   select = (next) => () => {
     if (next) {
-      this.setState((prevState) =>
-        ({
-          ...prevState,
-          selectedIndex: prevState.selectedIndex < this.getComments().length - 1
-            ? prevState.selectedIndex + 1 : prevState.selectedIndex
-        }));
+      this.setState((state) => ({
+        ...state,
+        selectedIndex: state.selectedIndex < this.getComments().length - 1
+          ? state.selectedIndex + 1 : state.selectedIndex
+      }));
     } else {
-      this.setState((prevState) =>
-        ({
-          ...prevState,
-          selectedIndex: prevState.selectedIndex > 0 ?
-            prevState.selectedIndex - 1 : prevState.selectedIndex
-        }));
+      this.setState((state) => ({
+        ...state,
+        selectedIndex: state.selectedIndex > 0
+          ? state.selectedIndex - 1 : state.selectedIndex
+      }));
     }
   }
 
