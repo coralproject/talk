@@ -53,7 +53,7 @@ function invalidateCursor(invalidated, state, props) {
 
 class Stream extends React.Component {
 
-  isLoadingMoreMore = false;
+  isLoadingMore = false;
 
   constructor(props) {
     super(props);
