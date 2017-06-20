@@ -60,7 +60,7 @@ const Comment = ({
   return (
     <li
       tabIndex={props.index}
-      className={`mdl-card ${selectionStateCSS} ${styles.Comment} ${styles.listItem} ${minimal ? styles.minimal : ''}`}
+      className={`mdl-card ${selectionStateCSS} ${selected ? styles.selected : ''} ${styles.Comment} ${styles.listItem} ${minimal ? styles.minimal : ''}`}
     >
       <div className={styles.container}>
         <div className={styles.itemHeader}>
