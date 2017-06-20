@@ -40,18 +40,24 @@
   height: 100%;
 }
 
-.rightPanel ul {
+.rightPanel > ul {
   list-style: none;
   margin-right: 20px;
 }
 
-.rightPanel li {
+.rightPanel > ul > li {
   display: inline-block;
   float: right;
   margin-left: 15px;
   font-size: 15px;
   font-weight: 500;
   line-height: 33px;
+}
+
+.rightPanel a {
+  color: black;
+  text-decoration: none;
+  font-weight: 400;
 }
 
 .rightPanel .settings {
