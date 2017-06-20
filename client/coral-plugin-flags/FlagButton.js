@@ -4,11 +4,11 @@ import t from 'coral-framework/services/i18n';
 import {can} from 'coral-framework/services/perms';
 
 import {PopupMenu, Button} from 'coral-ui';
-import onClickOutside from 'react-onclickoutside';
+import ClickOutside from 'coral-framework/components/ClickOutside';
 
 const name = 'coral-plugin-flags';
 
-class FlagButton extends Component {
+export default class FlagButton extends Component {
 
   state = {
     showMenu: false,
@@ -128,7 +128,7 @@ class FlagButton extends Component {
     this.setState({message: e.target.value});
   }
 
-  handleClickOutside () {
+  handleClickOutside = () => {
     this.closeMenu();
   }
 
@@ -138,78 +138,80 @@ class FlagButton extends Component {
     const flagged = flaggedByCurrentUser || localPost;
     const popupMenu = getPopupMenu[this.state.step](this.state.itemType);
 
-    return <div className={`${name}-container`}>
-      <button
-        ref={(ref) => this.flagButton = ref}
-        onClick={!this.props.banned && !flaggedByCurrentUser && !localPost ? this.onReportClick : null}
-        className={`${name}-button`}>
-        {
-          flagged
-          ? <span className={`${name}-button-text`}>{t('reported')}</span>
-          : <span className={`${name}-button-text`}>{t('report')}</span>
-        }
-        <i className={`${name}-icon material-icons ${flagged && 'flaggedIcon'}`}
-          style={flagged ? styles.flaggedIcon : {}}
-          aria-hidden={true}>flag</i>
-      </button>
-      {
-        this.state.showMenu &&
-        <div className={`${name}-popup`} ref={(ref) => this.popup = ref}>
-          <PopupMenu>
-            <div className={`${name}-popup-header`}>{popupMenu.header}</div>
+    return (
+      <ClickOutside onClickOutside={this.handleClickOutside}>
+        <div className={`${name}-container`}>
+          <button
+            ref={(ref) => this.flagButton = ref}
+            onClick={!this.props.banned && !flaggedByCurrentUser && !localPost ? this.onReportClick : null}
+            className={`${name}-button`}>
             {
-              popupMenu.text &&
-              <div className={`${name}-popup-text`}>{popupMenu.text}</div>
+              flagged
+              ? <span className={`${name}-button-text`}>{t('reported')}</span>
+              : <span className={`${name}-button-text`}>{t('report')}</span>
             }
-            {
-              popupMenu.options && <form className={`${name}-popup-form`}>
+            <i className={`${name}-icon material-icons ${flagged && 'flaggedIcon'}`}
+              style={flagged ? styles.flaggedIcon : {}}
+              aria-hidden={true}>flag</i>
+          </button>
+          {
+            this.state.showMenu &&
+            <div className={`${name}-popup`} ref={(ref) => this.popup = ref}>
+              <PopupMenu>
+                <div className={`${name}-popup-header`}>{popupMenu.header}</div>
                 {
-                  popupMenu.options.map((option) =>
-                    <div key={option.val}>
-                      <input
-                        className={`${name}-popup-radio`}
-                        type="radio"
-                        id={option.val}
-                        checked={this.state[popupMenu.sets] === option.val}
-                        onClick={this.onPopupOptionClick(popupMenu.sets)}
-                        value={option.val}/>
-                      <label htmlFor={option.val} className={`${name}-popup-radio-label`}>{option.text}</label><br/>
-                    </div>
-                  )
+                  popupMenu.text &&
+                  <div className={`${name}-popup-text`}>{popupMenu.text}</div>
                 }
                 {
-                  this.state.reason && <div>
-                  <label htmlFor={'message'} className={`${name}-popup-radio-label`}>
-                    {t('flag_reason')}
-                  </label><br/>
-                  <textarea
-                      className={`${name}-reason-text`}
-                      id="message"
-                      rows={4}
-                      onChange={this.onNoteTextChange}
-                      value={this.state.message}/>
-                  </div>
+                  popupMenu.options && <form className={`${name}-popup-form`}>
+                    {
+                      popupMenu.options.map((option) =>
+                        <div key={option.val}>
+                          <input
+                            className={`${name}-popup-radio`}
+                            type="radio"
+                            id={option.val}
+                            checked={this.state[popupMenu.sets] === option.val}
+                            onClick={this.onPopupOptionClick(popupMenu.sets)}
+                            value={option.val}/>
+                          <label htmlFor={option.val} className={`${name}-popup-radio-label`}>{option.text}</label><br/>
+                        </div>
+                      )
+                    }
+                    {
+                      this.state.reason && <div>
+                      <label htmlFor={'message'} className={`${name}-popup-radio-label`}>
+                        {t('flag_reason')}
+                      </label><br/>
+                      <textarea
+                          className={`${name}-reason-text`}
+                          id="message"
+                          rows={4}
+                          onChange={this.onNoteTextChange}
+                          value={this.state.message}/>
+                      </div>
+                    }
+                  </form>
                 }
-              </form>
-            }
-            <div className={`${name}-popup-counter`}>
-              {this.state.step + 1} of {getPopupMenu.length}
+                <div className={`${name}-popup-counter`}>
+                  {this.state.step + 1} of {getPopupMenu.length}
+                </div>
+                {
+                  popupMenu.button && <Button
+                  className={`${name}-popup-button`}
+                  onClick={this.onPopupContinue}>
+                    {popupMenu.button}
+                  </Button>
+                }
+              </PopupMenu>
             </div>
-            {
-              popupMenu.button && <Button
-              className={`${name}-popup-button`}
-              onClick={this.onPopupContinue}>
-                {popupMenu.button}
-              </Button>
-            }
-          </PopupMenu>
+          }
         </div>
-      }
-    </div>;
+      </ClickOutside>
+    );
   }
 }
-
-export default onClickOutside(FlagButton);
 
 const styles = {
   flaggedIcon: {
