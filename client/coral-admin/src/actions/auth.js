@@ -4,6 +4,7 @@ import coralApi from 'coral-framework/helpers/request';
 import * as Storage from 'coral-framework/helpers/storage';
 import {handleAuthToken} from 'coral-framework/actions/auth';
 import {resetWebsocket} from 'coral-framework/services/client';
+import t from 'coral-framework/services/i18n';
 
 //==============================================================================
 // SIGN IN
@@ -41,6 +42,7 @@ export const handleLogin = (email, password, recaptchaResponse) => (dispatch) =>
       dispatch(checkLoginSuccess(user));
     })
     .catch((error) => {
+      console.error(error);
       if (error.translation_key === 'LOGIN_MAXIMUM_EXCEEDED') {
         dispatch({
           type: actions.LOGIN_MAXIMUM_EXCEEDED,
@@ -64,8 +66,9 @@ const forgotPassowordSuccess = () => ({
   type: actions.FETCH_FORGOT_PASSWORD_SUCCESS
 });
 
-const forgotPassowordFailure = () => ({
-  type: actions.FETCH_FORGOT_PASSWORD_FAILURE
+const forgotPassowordFailure = (error) => ({
+  type: actions.FETCH_FORGOT_PASSWORD_FAILURE,
+  error,
 });
 
 export const requestPasswordReset = (email) => (dispatch) => {
@@ -74,7 +77,11 @@ export const requestPasswordReset = (email) => (dispatch) => {
 
   return coralApi('/account/password/reset', {method: 'POST', body: {email,  loc: redirectUri}})
     .then(() => dispatch(forgotPassowordSuccess()))
-    .catch((error) => dispatch(forgotPassowordFailure(error)));
+    .catch((error) => {
+      console.error(error);
+      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+      dispatch(forgotPassowordFailure(errorMessage));
+    });
 };
 
 //==============================================================================
@@ -112,6 +119,7 @@ export const checkLogin = () => (dispatch) => {
     })
     .catch((error) => {
       console.error(error);
-      dispatch(checkLoginFailure(`${error.translation_key}`));
+      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+      dispatch(checkLoginFailure(errorMessage));
     });
 };

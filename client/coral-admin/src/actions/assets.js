@@ -9,6 +9,7 @@ import {
 } from '../constants/assets';
 
 import coralApi from '../../../coral-framework/helpers/request';
+import t from 'coral-framework/services/i18n';
 
 /**
  * Action disptacher related to assets
@@ -18,23 +19,30 @@ import coralApi from '../../../coral-framework/helpers/request';
 // Get comments to fill each of the three lists on the mod queue
 export const fetchAssets = (skip = '', limit = '', search = '', sort = '', filter = '') => (dispatch) => {
   dispatch({type: FETCH_ASSETS_REQUEST});
-  return coralApi(`/assets?skip=${skip}&limit=${limit}&sort=${sort}&search=${search}&filter=${filter}`)
-  .then(({result, count}) =>
-    dispatch({type: FETCH_ASSETS_SUCCESS,
-      assets: result,
-      count
-    }))
-    .catch((error) => dispatch({type: FETCH_ASSETS_FAILURE, error}));
+  coralApi(`/assets?skip=${skip}&limit=${limit}&sort=${sort}&search=${search}&filter=${filter}`)
+    .then(({result, count}) =>
+      dispatch({type: FETCH_ASSETS_SUCCESS,
+        assets: result,
+        count
+      }))
+    .catch((error) => {
+      console.error(error);
+      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+      dispatch({type: FETCH_ASSETS_FAILURE, error: errorMessage});
+    });
 };
 
 // Update an asset state
 // Get comments to fill each of the three lists on the mod queue
 export const updateAssetState = (id, closedAt) => (dispatch) => {
   dispatch({type: UPDATE_ASSET_STATE_REQUEST});
-  return coralApi(`/assets/${id}/status`, {method: 'PUT', body: {closedAt}})
-  .then(() =>
-    dispatch({type: UPDATE_ASSET_STATE_SUCCESS}))
-    .catch((error) => dispatch({type: UPDATE_ASSET_STATE_FAILURE, error}));
+  coralApi(`/assets/${id}/status`, {method: 'PUT', body: {closedAt}})
+    .then(() => dispatch({type: UPDATE_ASSET_STATE_SUCCESS}))
+    .catch((error) => {
+      console.error(error);
+      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+      dispatch({type: UPDATE_ASSET_STATE_FAILURE, error: errorMessage});
+    });
 };
 
 export const updateAssets = (assets) => (dispatch) => {
