@@ -340,6 +340,9 @@ passport.use(new LocalStrategy({
   passReqToCallback: true
 }, async (req, email, password, done) => {
 
+  // Normalize email
+  email = email.toLowerCase();
+
   // We need to check if this request has a recaptcha on it at all, if it does,
   // we must verify it first. If verification fails, we fail the request early.
   // We can only do this obviously when recaptcha is enabled.
