@@ -4,6 +4,7 @@ const debug = require('debug')('talk:graph:mutators');
 const Comment = require('./comment');
 const Action = require('./action');
 const Tag = require('./tag');
+const Token = require('./token');
 const User = require('./user');
 
 const plugins = require('../../services/plugins');
@@ -14,6 +15,7 @@ let mutators = [
   Comment,
   Action,
   Tag,
+  Token,
   User,
 
   // Load the plugin mutators from the manager.
