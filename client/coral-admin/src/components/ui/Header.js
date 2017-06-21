@@ -84,11 +84,11 @@ const CoralHeader = ({
                   <MenuItem onClick={handleLogout}>
                     {t('configure.sign_out')}
                   </MenuItem>
-                  <MenuItem>
-                    Talk {`v${process.env.VERSION}`}
-                  </MenuItem>
                 </Menu>
               </div>
+            </li>
+            <li>        
+             {`v${process.env.VERSION}`}        
             </li>
           </ul>
         </div>

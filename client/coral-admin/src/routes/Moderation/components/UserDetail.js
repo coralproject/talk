@@ -143,7 +143,7 @@ export default class UserDetail extends React.Component {
               const status = comment.action_summaries ? 'FLAGGED' : comment.status;
               const selected = selectedIds.indexOf(comment.id) !== -1;
               return <Comment
-                key={i}
+                key={comment.id}
                 index={i}
                 comment={comment}
                 selected={false}

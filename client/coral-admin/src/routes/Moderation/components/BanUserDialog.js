@@ -26,7 +26,7 @@ const BanUserDialog = ({open, handleClose, handleBanUser, rejectComment, user, c
         <h2>{t('bandialog.ban_user')}</h2>
       </div>
       <div className={styles.separator}>
-        <h3>{t('bandialog.are_you_sure', user.name)}</h3>
+        <h3>{t('bandialog.are_you_sure', user.username)}</h3>
         <i>{showRejectedNote && t('bandialog.note')}</i>
       </div>
       <div className={styles.buttons}>
