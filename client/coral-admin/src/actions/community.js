@@ -52,17 +52,16 @@ export const newPage = () => ({
 });
 
 export const setRole = (id, role) => (dispatch) => {
-
-  coralApi(`/users/${id}/role`, {method: 'POST', body: {role}})
+  return coralApi(`/users/${id}/role`, {method: 'POST', body: {role}})
   .then(() => {
-    dispatch({type: SET_ROLE, id, role});
+    return dispatch({type: SET_ROLE, id, role});
   });
 };
 
 export const setCommenterStatus = (id, status) => (dispatch) => {
-  coralApi(`/users/${id}/status`, {method: 'POST', body: {status}})
+  return coralApi(`/users/${id}/status`, {method: 'POST', body: {status}})
   .then(() => {
-    dispatch({type: SET_COMMENTER_STATUS, id, status});
+    return dispatch({type: SET_COMMENTER_STATUS, id, status});
   });
 };
 

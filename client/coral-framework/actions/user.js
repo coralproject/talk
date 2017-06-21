@@ -8,7 +8,7 @@ const editUsernameFailure = (error) => ({type: actions.EDIT_USERNAME_FAILURE, er
 const editUsernameSuccess = () => ({type: actions.EDIT_USERNAME_SUCCESS});
 
 export const editName = (username) => (dispatch) => {
-  coralApi('/account/username', {method: 'PUT', body: {username}})
+  return coralApi('/account/username', {method: 'PUT', body: {username}})
     .then(() => {
       dispatch(editUsernameSuccess());
       dispatch(addNotification('success', t('framework.success_name_update')));

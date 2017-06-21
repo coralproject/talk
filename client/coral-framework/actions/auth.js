@@ -133,7 +133,7 @@ export const fetchSignIn = (formData) => {
   return (dispatch) => {
     dispatch(signInRequest());
 
-    coralApi('/auth/local', {method: 'POST', body: formData})
+    return coralApi('/auth/local', {method: 'POST', body: formData})
       .then(({token}) => {
         if (!bowser.safari && !bowser.ios) {
           dispatch(handleAuthToken(token));
@@ -360,7 +360,7 @@ const verifyEmailFailure = () => ({
 export const requestConfirmEmail = (email) => (dispatch, getState) => {
   const redirectUri = getState().auth.toJS().redirectUri;
   dispatch(verifyEmailRequest());
-  coralApi('/users/resend-verify', {
+  return coralApi('/users/resend-verify', {
     method: 'POST',
     body: {email},
     headers: {'X-Pym-Url': redirectUri}

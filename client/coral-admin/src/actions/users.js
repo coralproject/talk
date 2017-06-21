@@ -9,7 +9,7 @@ import t from 'coral-framework/services/i18n';
 export const userStatusUpdate = (status, userId, commentId) => {
   return (dispatch) => {
     dispatch({type: userTypes.UPDATE_STATUS_REQUEST});
-    coralApi(`/users/${userId}/status`, {method: 'POST', body: {status: status, comment_id: commentId}})
+    return coralApi(`/users/${userId}/status`, {method: 'POST', body: {status: status, comment_id: commentId}})
       .then((res) => dispatch({type: userTypes.UPDATE_STATUS_SUCCESS, res}))
       .catch((error) => {
         console.error(error);
@@ -22,7 +22,7 @@ export const userStatusUpdate = (status, userId, commentId) => {
 // change status of a user
 export const sendNotificationEmail = (userId, subject, body) => {
   return (dispatch) => {
-    coralApi(`/users/${userId}/email`, {method: 'POST', body: {subject, body}})
+    return coralApi(`/users/${userId}/email`, {method: 'POST', body: {subject, body}})
       .catch((error) => {
         console.error(error);
         const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
@@ -34,7 +34,7 @@ export const sendNotificationEmail = (userId, subject, body) => {
 // let a user edit their username
 export const enableUsernameEdit = (userId) => {
   return (dispatch) => {
-    coralApi(`/users/${userId}/username-enable`, {method: 'POST'})
+    return coralApi(`/users/${userId}/username-enable`, {method: 'POST'})
       .catch((error) => {
         console.error(error);
         const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();

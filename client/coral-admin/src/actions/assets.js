@@ -19,7 +19,7 @@ import t from 'coral-framework/services/i18n';
 // Get comments to fill each of the three lists on the mod queue
 export const fetchAssets = (skip = '', limit = '', search = '', sort = '', filter = '') => (dispatch) => {
   dispatch({type: FETCH_ASSETS_REQUEST});
-  coralApi(`/assets?skip=${skip}&limit=${limit}&sort=${sort}&search=${search}&filter=${filter}`)
+  return coralApi(`/assets?skip=${skip}&limit=${limit}&sort=${sort}&search=${search}&filter=${filter}`)
     .then(({result, count}) =>
       dispatch({type: FETCH_ASSETS_SUCCESS,
         assets: result,
@@ -36,7 +36,7 @@ export const fetchAssets = (skip = '', limit = '', search = '', sort = '', filte
 // Get comments to fill each of the three lists on the mod queue
 export const updateAssetState = (id, closedAt) => (dispatch) => {
   dispatch({type: UPDATE_ASSET_STATE_REQUEST});
-  coralApi(`/assets/${id}/status`, {method: 'PUT', body: {closedAt}})
+  return coralApi(`/assets/${id}/status`, {method: 'PUT', body: {closedAt}})
     .then(() => dispatch({type: UPDATE_ASSET_STATE_SUCCESS}))
     .catch((error) => {
       console.error(error);
