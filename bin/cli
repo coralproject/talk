@@ -12,6 +12,7 @@ program
   .command('assets', 'interact with assets')
   .command('setup', 'setup the application')
   .command('jobs', 'work with the job queues')
+  .command('token', 'work with the access tokens')
   .command('users', 'work with the application auth')
   .command('migration', 'provides utilities for migrating the database')
   .command('plugins', 'provides utilities for interacting with the plugin system')
