@@ -183,6 +183,7 @@ class Stream extends React.Component {
                 <SuspendedAccount
                   canEditName={user && user.canEditName}
                   editName={editName}
+                  currentUsername={user.username}
                 />}
               {loggedIn &&
                 !banned &&
