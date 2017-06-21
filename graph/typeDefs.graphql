@@ -255,6 +255,12 @@ type EditInfo {
   editableUntil: Date
 }
 
+type CommentStatusHistory {
+  type: COMMENT_STATUS!
+  created_at: Date!
+  assigned_by: User
+}
+
 # Comment is the base representation of user interaction in Talk.
 type Comment {
 
@@ -293,6 +299,9 @@ type Comment {
 
   # The current status of a comment.
   status: COMMENT_STATUS!
+
+  # The status history of the comment. Requires the `ADMIN` or `MODERATOR` role.
+  status_history: [CommentStatusHistory!]
 
   # The time when the comment was created
   created_at: Date!
@@ -945,8 +954,26 @@ type RootMutation {
 ################################################################################
 
 type Subscription {
-  commentAdded(asset_id: ID!): Comment
-  commentEdited(asset_id: ID!): Comment
+
+  # Get an update whenever a comment was added.
+  # `asset_id` is required except for users with the `ADMIN` or `MODERATOR` role.
+  commentAdded(asset_id: ID): Comment
+
+  # Get an update whenever a comment was edited.
+  # `asset_id` is required except for users with the `ADMIN` or `MODERATOR` role.
+  commentEdited(asset_id: ID): Comment
+
+  # Get an update whenever a comment was flagged.
+  # Requires the `ADMIN` or `MODERATOR` role.
+  commentFlagged(asset_id: ID): Comment
+
+  # Get an update whenever a comment has been accepted.
+  # Requires the `ADMIN` or `MODERATOR` role.
+  commentAccepted(asset_id: ID): Comment
+
+  # Get an update whenever a comment has been rejected.
+  # Requires the `ADMIN` or `MODERATOR` role.
+  commentRejected(asset_id: ID): Comment
 }
 
 ################################################################################

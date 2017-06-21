@@ -1,10 +1,10 @@
 import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
 import mainReducer from '../reducers';
-import {client} from './client';
+import {getClient} from './client';
 
 const middlewares = [
-  applyMiddleware(client.middleware()),
+  applyMiddleware(getClient().middleware()),
   applyMiddleware(thunk)
 ];
 
@@ -16,7 +16,7 @@ if (window.devToolsExtension) {
 
 const coralReducers = {
   ...mainReducer,
-  apollo: client.reducer()
+  apollo: getClient().reducer()
 };
 
 const store = createStore(

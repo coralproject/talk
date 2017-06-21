@@ -2,11 +2,13 @@ const constants = require('./constants');
 const root = require('./rootReducer');
 const queries = require('./queryReducer');
 const mutations = require('./mutationReducer');
+const subscriptions = require('./subscriptionReducer');
 
 const reducers = [
   root,
   queries,
-  mutations
+  mutations,
+  subscriptions,
 ];
 
 // this will make 'reducer' a key in this array. hm.

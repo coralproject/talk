@@ -26,6 +26,7 @@ import Slot from 'coral-framework/components/Slot';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import {EditableCommentContent} from './EditableCommentContent';
 import {getActionSummary, iPerformedThisAction} from 'coral-framework/utils';
+import t from 'coral-framework/services/i18n';
 
 const isStaff = (tags) => !tags.every((t) => t.tag.name !== 'STAFF');
 const hasTag = (tags, lookupTag) => !!tags.filter((t) => t.tag.name === lookupTag).length;
@@ -427,7 +428,7 @@ export default class Comment extends React.Component {
             <PubDate created_at={comment.created_at} className={'talk-stream-comment-published-date'} />
             {
               (comment.editing && comment.editing.edited)
-              ? <span>&nbsp;<span className={styles.editedMarker}>(Edited)</span></span>
+              ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
               : null
             }
           </span>
