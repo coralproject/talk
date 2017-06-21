@@ -10,7 +10,7 @@ const TokensService = require('../services/tokens');
 const util = require('./util');
 const Table = require('cli-table');
 
-// Regeister the shutdown criteria.
+// Register the shutdown criteria.
 util.onshutdown([
   () => mongoose.disconnect()
 ]);
