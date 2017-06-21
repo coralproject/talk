@@ -58,29 +58,29 @@ export const handleLogin = (email, password, recaptchaResponse) => (dispatch) =>
 // FORGOT PASSWORD
 //==============================================================================
 
-const forgotPassowordRequest = () => ({
+const forgotPasswordRequest = () => ({
   type: actions.FETCH_FORGOT_PASSWORD_REQUEST
 });
 
-const forgotPassowordSuccess = () => ({
+const forgotPasswordSuccess = () => ({
   type: actions.FETCH_FORGOT_PASSWORD_SUCCESS
 });
 
-const forgotPassowordFailure = (error) => ({
+const forgotPasswordFailure = (error) => ({
   type: actions.FETCH_FORGOT_PASSWORD_FAILURE,
   error,
 });
 
 export const requestPasswordReset = (email) => (dispatch) => {
-  dispatch(forgotPassowordRequest(email));
+  dispatch(forgotPasswordRequest(email));
   const redirectUri = location.href;
 
   return coralApi('/account/password/reset', {method: 'POST', body: {email,  loc: redirectUri}})
-    .then(() => dispatch(forgotPassowordSuccess()))
+    .then(() => dispatch(forgotPasswordSuccess()))
     .catch((error) => {
       console.error(error);
       const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
-      dispatch(forgotPassowordFailure(errorMessage));
+      dispatch(forgotPasswordFailure(errorMessage));
     });
 };
 
