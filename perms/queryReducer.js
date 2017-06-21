@@ -17,6 +17,8 @@ module.exports = (user, perm) => {
     return check(user, ['ADMIN', 'MODERATOR']);
   case types.LIST_OWN_TOKENS:
     return check(user, ['ADMIN']);
+  case types.SEARCH_COMMENT_STATUS_HISTORY:
+    return check(user, ['ADMIN', 'MODERATOR']);
   default:
     break;
   }

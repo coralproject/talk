@@ -6,6 +6,7 @@ import EmptyCard from '../../../components/EmptyCard';
 import {actionsMap} from '../helpers/moderationQueueActionsMap';
 import LoadMore from './LoadMore';
 import t from 'coral-framework/services/i18n';
+import {CSSTransitionGroup} from 'react-transition-group';
 
 class ModerationQueue extends React.Component {
 
@@ -23,6 +24,10 @@ class ModerationQueue extends React.Component {
 
   loadMore = () => {
     this.props.loadMore(this.props.activeTab);
+  }
+
+  constructor(props) {
+    super(props);
   }
 
   componentDidUpdate (prev) {
@@ -43,20 +48,34 @@ class ModerationQueue extends React.Component {
       commentCount,
       singleView,
       viewUserDetail,
+      activeTab,
       ...props
     } = this.props;
 
     return (
       <div id="moderationList" className={`${styles.list} ${singleView ? styles.singleView : ''}`}>
-        <ul style={{paddingLeft: 0}}>
+        <CSSTransitionGroup
+          key={activeTab}
+          component={'ul'}
+          style={{paddingLeft: 0}}
+          transitionName={{
+            enter: styles.commentEnter,
+            enterActive: styles.commentEnterActive,
+            leave: styles.commentLeave,
+            leaveActive: styles.commentLeaveActive,
+          }}
+          transitionEnter={true}
+          transitionLeave={true}
+          transitionEnterTimeout={1000}
+          transitionLeaveTimeout={1000}
+        >
           {
-            comments.length
-            ? comments.map((comment, i) => {
+            comments.map((comment, i) => {
               const status = comment.action_summaries ? 'FLAGGED' : comment.status;
               return <Comment
                 data={this.props.data}
                 root={this.props.root}
-                key={i}
+                key={comment.id}
                 index={i}
                 comment={comment}
                 selected={i === selectedIndex}
@@ -72,9 +91,14 @@ class ModerationQueue extends React.Component {
                 currentUserId={this.props.currentUserId}
                 />;
             })
-            : <EmptyCard>{t('modqueue.empty_queue')}</EmptyCard>
           }
-        </ul>
+        </CSSTransitionGroup>
+        {comments.length === 0 &&
+            <div className={styles.emptyCardContainer}>
+              <EmptyCard>{t('modqueue.empty_queue')}</EmptyCard>
+            </div>
+        }
+
         <LoadMore
           loadMore={this.loadMore}
           showLoadMore={comments.length < commentCount}
