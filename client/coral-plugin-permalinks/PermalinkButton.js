@@ -1,12 +1,12 @@
 import React, {PropTypes} from 'react';
-import onClickOutside from 'react-onclickoutside';
 const name = 'coral-plugin-permalinks';
 import {Button} from 'coral-ui';
 import styles from './styles.css';
+import ClickOutside from 'coral-framework/components/ClickOutside';
 
 import t from 'coral-framework/services/i18n';
 
-class PermalinkButton extends React.Component {
+export default class PermalinkButton extends React.Component {
 
   static propTypes = {
     articleURL: PropTypes.string.isRequired,
@@ -28,7 +28,7 @@ class PermalinkButton extends React.Component {
     this.setState({popoverOpen: !this.state.popoverOpen});
   }
 
-  handleClickOutside () {
+  handleClickOutside = () => {
     this.setState({popoverOpen: false});
   }
 
@@ -49,33 +49,33 @@ class PermalinkButton extends React.Component {
   render () {
     const {copySuccessful, copyFailure} = this.state;
     return (
-      <div className={`${name}-container`}>
-        <button
-          ref={(ref) => this.linkButton = ref}
-          onClick={this.toggle}
-          className={`${name}-button`}>
-          {t('permalink')}
-          <i className={`${name}-icon material-icons`} aria-hidden={true}>link</i>
-        </button>
-        <div
-          ref={(ref) => this.popover = ref}
-          className={`${name}-popover ${styles.container} ${this.state.popoverOpen ? 'active' : ''}`}>
-          <input
-            className={`${name}-copy-field`}
-            type='text'
-            ref={(input) => this.permalinkInput = input}
-            value={`${this.props.articleURL}#${this.props.commentId}`}
-            onChange={() => {}} />
-          <Button className={`${name}-copy-button ${copySuccessful ? styles.success : ''} ${copyFailure ? styles.failure : ''}`}
-                  onClick={this.copyPermalink} >
-            {!copyFailure && !copySuccessful && 'Copy'}
-            {copySuccessful && 'Copied'}
-            {copyFailure && 'Not supported'}
-          </Button>
+      <ClickOutside onClickOutside={this.handleClickOutside}>
+        <div className={`${name}-container`}>
+          <button
+            ref={(ref) => this.linkButton = ref}
+            onClick={this.toggle}
+            className={`${name}-button`}>
+            {t('permalink')}
+            <i className={`${name}-icon material-icons`} aria-hidden={true}>link</i>
+          </button>
+          <div
+            ref={(ref) => this.popover = ref}
+            className={`${name}-popover ${styles.container} ${this.state.popoverOpen ? 'active' : ''}`}>
+            <input
+              className={`${name}-copy-field`}
+              type='text'
+              ref={(input) => this.permalinkInput = input}
+              value={`${this.props.articleURL}#${this.props.commentId}`}
+              onChange={() => {}} />
+            <Button className={`${name}-copy-button ${copySuccessful ? styles.success : ''} ${copyFailure ? styles.failure : ''}`}
+                    onClick={this.copyPermalink} >
+              {!copyFailure && !copySuccessful && 'Copy'}
+              {copySuccessful && 'Copied'}
+              {copyFailure && 'Not supported'}
+            </Button>
+          </div>
         </div>
-      </div>
+      </ClickOutside>
     );
   }
 }
-
-export default onClickOutside(PermalinkButton);
