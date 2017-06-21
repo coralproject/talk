@@ -10,7 +10,7 @@ export const fetchAssetFailure = (error) => ({type: actions.FETCH_ASSET_FAILURE,
 
 const updateAssetSettingsRequest = () => ({type: actions.UPDATE_ASSET_SETTINGS_REQUEST});
 const updateAssetSettingsSuccess = (settings) => ({type: actions.UPDATE_ASSET_SETTINGS_SUCCESS, settings});
-const updateAssetSettingsFailure = () => ({type: actions.UPDATE_ASSET_SETTINGS_FAILURE});
+const updateAssetSettingsFailure = (error) => ({type: actions.UPDATE_ASSET_SETTINGS_FAILURE, error});
 
 export const updateConfiguration = (newConfig) => (dispatch, getState) => {
   const assetId = getState().asset.toJS().id;
@@ -20,7 +20,10 @@ export const updateConfiguration = (newConfig) => (dispatch, getState) => {
       dispatch(addNotification('success', t('framework.success_update_settings')));
       dispatch(updateAssetSettingsSuccess(newConfig));
     })
-    .catch((error) => dispatch(updateAssetSettingsFailure(error)));
+    .catch((error) => {
+      console.error(error);
+      dispatch(updateAssetSettingsFailure(error));
+    });
 };
 
 export const updateOpenStream = (closedBody) => (dispatch, getState) => {
@@ -31,7 +34,10 @@ export const updateOpenStream = (closedBody) => (dispatch, getState) => {
       dispatch(addNotification('success', t('framework.success_update_settings')));
       dispatch(fetchAssetSuccess(closedBody));
     })
-    .catch((error) => dispatch(fetchAssetFailure(error)));
+    .catch((error) => {
+      console.error(error);
+      dispatch(fetchAssetFailure(error));
+    });
 };
 
 const openStream = () => ({type: actions.OPEN_COMMENTS});

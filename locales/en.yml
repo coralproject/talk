@@ -186,6 +186,7 @@ en:
     USERNAME_REQUIRED: "Must input a username"
     EDIT_WINDOW_ENDED: "You can no longer edit this comment. The time window to do so has expired."
     EDIT_USERNAME_NOT_AUTHORIZED: "You do not have permission to update your username."
+    SAME_USERNAME_PROVIDED: "You must submit a different username."
     EMAIL_IN_USE: "Email address already in use"
     EMAIL_REQUIRED: "An email address is required"
     LOGIN_MAXIMUM_EXCEEDED: "You have made too many unsuccessful password attempts. Please wait."
