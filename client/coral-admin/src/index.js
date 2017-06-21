@@ -2,7 +2,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import {ApolloProvider} from 'react-apollo';
 
-import {client} from './services/client';
+import {getClient} from './services/client';
 import store from './services/store';
 
 import App from './components/App';
@@ -15,7 +15,7 @@ loadPluginsTranslations();
 injectPluginsReducers();
 
 render(
-  <ApolloProvider client={client} store={store}>
+  <ApolloProvider client={getClient()} store={store}>
     <App />
   </ApolloProvider>
   , document.querySelector('#root')
