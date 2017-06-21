@@ -49,8 +49,9 @@
   font-weight: 300;
 }
 
-.cta {
-  letter-spacing: 1px;
+.cta a {
+  color: #000;
+  text-decoration: none;
   font-weight: bold;
   font-size: 15px;
   margin: 0;

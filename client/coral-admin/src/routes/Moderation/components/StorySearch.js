@@ -38,7 +38,9 @@ const StorySearch = (props) => {
             </Button>
           </div>
           <div className={styles.results}>
-            <p className={styles.cta}>Moderate comments on All Stories</p>
+            <p className={styles.cta}>
+              <a href={'moderate/all'}>Moderate comments on All Stories</a>
+            </p>
             <div className={styles.storyList}>
 
               {
