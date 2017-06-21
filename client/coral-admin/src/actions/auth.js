@@ -43,13 +43,26 @@ export const handleLogin = (email, password, recaptchaResponse) => (dispatch) =>
     })
     .catch((error) => {
       console.error(error);
-      if (error.translation_key === 'LOGIN_MAXIMUM_EXCEEDED') {
+      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+
+      if (error.translation_key === 'NOT_AUTHORIZED') {
+
+        // invalid credentials
+        dispatch({
+          type: actions.LOGIN_FAILURE,
+          message: t('error.email_password')
+        });
+      }
+      else if (error.translation_key === 'LOGIN_MAXIMUM_EXCEEDED') {
         dispatch({
           type: actions.LOGIN_MAXIMUM_EXCEEDED,
-          message: error.translation_key
+          message: t(`error.${error.translation_key}`),
         });
       } else {
-        dispatch({type: actions.LOGIN_FAILURE, message: error.translation_key});
+        dispatch({
+          type: actions.LOGIN_FAILURE,
+          message: errorMessage,
+        });
       }
     });
 };
