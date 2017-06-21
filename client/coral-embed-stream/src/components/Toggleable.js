@@ -5,16 +5,16 @@ import classnames from 'classnames';
 
 const upArrow = <span className={classnames(styles.chevron, styles.up)}></span>;
 const downArrow = <span className={classnames(styles.chevron, styles.down)}></span>;
+
 export default class Toggleable extends React.Component {
   constructor(props) {
     super(props);
-    this.toggle = this.toggle.bind(this);
-    this.close = this.close.bind(this);
     this.state = {
       isOpen: false
     };
   }
-  toggle() {
+
+  toggle = () => {
     this.setState({isOpen: !this.state.isOpen});
   }
 
