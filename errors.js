@@ -164,7 +164,7 @@ const ErrPermissionUpdateUsername = new APIError('You do not have permission to 
   status: 403
 });
 
-// ErrSameUsernameProvided returned attempts to update their username with the same username.
+// ErrSameUsernameProvided is returned when attempting to update a username to the same username.
 const ErrSameUsernameProvided = new APIError('Same username provided.', {
   translation_key: 'SAME_USERNAME_PROVIDED',
   status: 400
