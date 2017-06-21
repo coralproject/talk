@@ -3,19 +3,15 @@ const types = require('./constants');
 
 module.exports = (user, perm) => {
   switch (perm) {
-  case types.SEARCH_ASSETS:
+  case types.SUBSCRIBE_COMMENT_FLAGGED:
     return check(user, ['ADMIN', 'MODERATOR']);
-  case types.SEARCH_OTHER_USERS:
+  case types.SUBSCRIBE_COMMENT_ACCEPTED:
     return check(user, ['ADMIN', 'MODERATOR']);
-  case types.SEARCH_ACTIONS:
+  case types.SUBSCRIBE_COMMENT_REJECTED:
     return check(user, ['ADMIN', 'MODERATOR']);
-  case types.SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS:
+  case types.SUBSCRIBE_ALL_COMMENT_EDITED:
     return check(user, ['ADMIN', 'MODERATOR']);
-  case types.SEARCH_OTHERS_COMMENTS:
-    return check(user, ['ADMIN', 'MODERATOR']);
-  case types.SEARCH_COMMENT_METRICS:
-    return check(user, ['ADMIN', 'MODERATOR']);
-  case types.SEARCH_COMMENT_STATUS_HISTORY:
+  case types.SUBSCRIBE_ALL_COMMENT_ADDED:
     return check(user, ['ADMIN', 'MODERATOR']);
   default:
     break;

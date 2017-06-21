@@ -10,6 +10,14 @@ const plugins = require('../services/plugins');
 
 const {deserializeUser} = require('../services/subscriptions');
 
+const {
+  SUBSCRIBE_COMMENT_ACCEPTED,
+  SUBSCRIBE_COMMENT_REJECTED,
+  SUBSCRIBE_COMMENT_FLAGGED,
+  SUBSCRIBE_ALL_COMMENT_EDITED,
+  SUBSCRIBE_ALL_COMMENT_ADDED,
+} = require('../perms/constants');
+
 /**
  * Plugin support requires that we merge in existing setupFunctions with our new
  * plugin based ones. This allows plugins to extend existing setupFunctions as well
@@ -22,12 +30,52 @@ const setupFunctions = plugins.get('server', 'setupFunctions').reduce((acc, {plu
 }, {
   commentAdded: (options, args) => ({
     commentAdded: {
-      filter: (comment) => comment.asset_id === args.asset_id
+      filter: (comment, context) => {
+        if (!args.asset_id && (!context.user || !context.user.can(SUBSCRIBE_ALL_COMMENT_ADDED))) {
+          return false;
+        }
+        return !args.asset_id || comment.asset_id === args.asset_id;
+      }
     },
   }),
   commentEdited: (options, args) => ({
     commentEdited: {
-      filter: (comment) => comment.asset_id === args.asset_id
+      filter: (comment, context) => {
+        if (!args.asset_id && (!context.user || !context.user.can(SUBSCRIBE_ALL_COMMENT_EDITED))) {
+          return false;
+        }
+        return !args.asset_id || comment.asset_id === args.asset_id;
+      }
+    },
+  }),
+  commentFlagged: (options, args) => ({
+    commentFlagged: {
+      filter: (comment, context) => {
+        if (!context.user || !context.user.can(SUBSCRIBE_COMMENT_FLAGGED)) {
+          return false;
+        }
+        return !args.asset_id || comment.asset_id === args.asset_id;
+      }
+    },
+  }),
+  commentAccepted: (options, args) => ({
+    commentAccepted: {
+      filter: (comment, context) => {
+        if (!context.user || !context.user.can(SUBSCRIBE_COMMENT_ACCEPTED)) {
+          return false;
+        }
+        return !args.asset_id || comment.asset_id === args.asset_id;
+      }
+    },
+  }),
+  commentRejected: (options, args) => ({
+    commentRejected: {
+      filter: (comment, context) => {
+        if (!context.user || !context.user.can(SUBSCRIBE_COMMENT_REJECTED)) {
+          return false;
+        }
+        return !args.asset_id || comment.asset_id === args.asset_id;
+      }
     },
   }),
 });
