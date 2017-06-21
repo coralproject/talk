@@ -45,11 +45,18 @@ class StorySearchContainer extends React.Component {
     closeSearch();
   }
 
+  goToModerateAll = () => {
+    const {router, closeSearch} = this.props;
+    router.push('/admin/moderate/all');
+    closeSearch();
+  }
+
   render () {
     return (
       <StorySearch
         search={this.search}
         goToStory={this.goToStory}
+        goToModerateAll={this.goToModerateAll}
         handleEsc={this.handleEsc}
         handleEnter={this.handleEnter}
         searchValue={this.state.searchValue}

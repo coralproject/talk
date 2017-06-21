@@ -38,9 +38,11 @@ const StorySearch = (props) => {
             </Button>
           </div>
           <div className={styles.results}>
-            <p className={styles.cta}>
-              <a href={'moderate/all'}>Moderate comments on All Stories</a>
-            </p>
+            {props.assetId &&
+              <div className={styles.cta}>
+                <a onClick={props.goToModerateAll}>Moderate comments on All Stories</a>
+              </div>
+            }
             <div className={styles.storyList}>
 
               {

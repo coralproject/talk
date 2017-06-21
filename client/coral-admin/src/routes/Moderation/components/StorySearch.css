@@ -49,13 +49,14 @@
   font-weight: 300;
 }
 
-.cta a {
+.cta > a {
+  display: inline-block;
+  cursor: pointer;
   color: #000;
   text-decoration: none;
   font-weight: bold;
   font-size: 15px;
   margin: 0;
-  height: 50px;
   box-sizing: border-box;
   font-size: 15px;
   font-weight: 500;

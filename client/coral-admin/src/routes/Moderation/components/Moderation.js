@@ -204,6 +204,7 @@ export default class Moderation extends Component {
             rejectComment={props.rejectComment} />
         )}
         <StorySearch
+          assetId={assetId}
           moderation={this.props.moderation}
           closeSearch={this.closeSearch}
           storySearchChange={this.props.storySearchChange}
