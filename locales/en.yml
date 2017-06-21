@@ -13,6 +13,7 @@ en:
     anon: "Anonymous"
     ban_user: "Ban User"
     comment: "Post a comment"
+    edited: Edited
     flagged: "flagged"
     view_context: "View context"
   comment_box:
@@ -243,6 +244,10 @@ en:
     actions: Actions
     all: all
     all_streams: "All Streams"
+    notify_edited: '{0} edited comment "{1}"'
+    notify_accepted: '{0} accepted comment "{1}"'
+    notify_rejected: '{0} rejected comment "{1}"'
+    notify_flagged: '{0} flagged comment "{1}"'
     approve: "Approve"
     approved: "Approved"
     ban_user: "Ban"

@@ -26,7 +26,7 @@ export function resetWebsocket() {
   });
 }
 
-export function getClient() {
+export function getClient(options = {}) {
   if (client) {
     return client;
   }
@@ -56,6 +56,7 @@ export function getClient() {
   );
 
   client = new ApolloClient({
+    ...options,
     connectToDevTools: true,
     addTypename: true,
     queryTransformer: addTypename,

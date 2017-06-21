@@ -215,6 +215,10 @@ module.exports = class CommentsService {
         }
       },
       $set: {status}
+    }, {
+
+      // return modified comment.
+      new: true,
     });
   }
 

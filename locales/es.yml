@@ -13,6 +13,7 @@ es:
     anon: Anónimo
     ban_user: "Usuario Suspendido"
     comment: "Publicar un comentario"
+    edited: Editado
     flagged: reportado
     view_context: "Ver contexto"
   comment_box:

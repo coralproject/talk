@@ -471,6 +471,61 @@ span {
   cursor: pointer;
 }
 
+.emptyCardContainer {
+  margin-top: 16px;
+}
+
+.commentLeave {
+  opacity: 1.0;
+  transition: opacity 800ms;
+}
+
+.commentLeaveActive {
+  opacity: 0;
+}
+
+.commentEnter {
+  opacity: 0;
+  transition: opacity 800ms;
+}
+
+.commentEnterActive {
+  opacity: 1.0;
+}
+
+.bodyLeave {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  background-color: white;
+  opacity: 1.0;
+  transition: background 400ms, opacity 800ms 1600ms;
+  pointer-events: none;
+}
+
+.bodyLeaveActive {
+  opacity: 0;
+  background-color: rgba(255,255,0, 0.2);
+}
+
+.bodyEnter {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bodyEnterActive {
+  opacity: 1.0;
+  transition: opacity 800ms 2400ms;
+}
+
+.editedMarker {
+  font-style: italic;
+  color: #666;
+  font-size: 12px;
+  line-height: 1px;
+  font-weight: 300;
+}
+
 .searchTrigger {
   position: relative;
   top: .3em;
