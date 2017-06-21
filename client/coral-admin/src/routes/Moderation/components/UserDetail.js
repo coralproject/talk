@@ -1,19 +1,13 @@
 import React, {PropTypes} from 'react';
-import {Button, Drawer, Copy} from 'coral-ui';
-import styles from './UserDetail.css';
-import Slot from 'coral-framework/components/Slot';
 import Comment from './Comment';
+import styles from './UserDetail.css';
+import {Button, Drawer} from 'coral-ui';
+import {Slot} from 'coral-framework/components';
+import ButtonCopyToClipboard from './ButtonCopyToClipboard';
 import {actionsMap} from '../helpers/moderationQueueActionsMap';
 import ClickOutside from 'coral-framework/components/ClickOutside';
 
 export default class UserDetail extends React.Component {
-
-  constructor() {
-    super();
-    this.state = {
-      emailCopied: false
-    };
-  }
 
   static propTypes = {
     id: PropTypes.string.isRequired,
@@ -49,16 +43,6 @@ export default class UserDetail extends React.Component {
 
   showRejected = () => {
     this.props.changeStatus('rejected');
-  }
-
-  showCopied() {
-    this.setState({
-      emailCopied: true
-    }, () => {
-      setTimeout(() => this.setState({
-        emailCopied: false
-      }), 3000);
-    });
   }
 
   render () {
@@ -100,13 +84,11 @@ export default class UserDetail extends React.Component {
       <ClickOutside onClickOutside={hideUserDetail}>
         <Drawer onClose={hideUserDetail}>
           <h3>{user.username}</h3>
-          {profile && <input className={styles.profileEmail} readOnly type="text" ref={(ref) => this.profile = ref} value={profile} />}
 
-          <Copy onCopy={() => this.showCopied()} text={profile} className={styles.profileEmail}>
-            <Button className={styles.copyButton}>
-              {this.state.emailCopied ? 'Copied!' : 'Copy'}
-            </Button>
-          </Copy>
+          <div>
+            {profile && <input className={styles.profileEmail} readOnly type="text" ref={(ref) => this.profile = ref} value={profile} />}
+            <ButtonCopyToClipboard className={styles.copyButton} copyText={profile} />
+          </div>
 
           <Slot
             fill="userProfile"
