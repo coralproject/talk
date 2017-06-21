@@ -39,6 +39,12 @@ const RootMutation = {
   },
   removeTag(_, {tag}, {mutators: {Tag}}) {
     return wrapResponse(null)(Tag.remove(tag));
+  },
+  createToken(_, {input}, {mutators: {Token}}) {
+    return wrapResponse('token')(Token.create(input));
+  },
+  revokeToken(_, {input}, {mutators: {Token}}) {
+    return wrapResponse(null)(Token.revoke(input));
   }
 };
 
