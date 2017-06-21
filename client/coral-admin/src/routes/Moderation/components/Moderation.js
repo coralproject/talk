@@ -31,8 +31,8 @@ export default class Moderation extends Component {
     key('esc', () => toggleModal(false));
     key('j', this.select(true));
     key('k', this.select(false));
-    key('r', this.moderate(false));
-    key('t', this.moderate(true));
+    key('f', this.moderate(false));
+    key('d', this.moderate(true));
   }
 
   onClose = () => {
