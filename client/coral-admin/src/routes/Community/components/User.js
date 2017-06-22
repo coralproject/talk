@@ -40,17 +40,19 @@ const User = (props) => {
             <span>
               {user.username}
             </span>
-            <ActionsMenu icon="not_interested">
-              <ActionsMenuItem
-                disabled={user.status === 'BANNED'}
-                onClick={showSuspenUserDialog}>
-                Suspend User</ActionsMenuItem>
-              <ActionsMenuItem
-                disabled={user.status === 'BANNED'}
-                onClick={showBanUserDialog}>
-                Ban User
-              </ActionsMenuItem>
-            </ActionsMenu>
+            {props.currentUser.id !== user.id &&
+              <ActionsMenu icon="not_interested">
+                <ActionsMenuItem
+                  disabled={user.status === 'BANNED'}
+                  onClick={showSuspenUserDialog}>
+                  Suspend User</ActionsMenuItem>
+                <ActionsMenuItem
+                  disabled={user.status === 'BANNED'}
+                  onClick={showBanUserDialog}>
+                  Ban User
+                </ActionsMenuItem>
+              </ActionsMenu>
+            }
           </div>
         </div>
 

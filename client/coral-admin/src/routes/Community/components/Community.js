@@ -83,6 +83,7 @@ export default class Community extends Component {
           showRejectUsernameDialog={props.showRejectUsernameDialog}
           approveUser={props.approveUser}
           rejectUsername={props.rejectUsername}
+          currentUser={this.props.currentUser}
         />
         <RejectUsernameDialog
           open={community.rejectUsernameDialog}

@@ -24,6 +24,7 @@ const FlaggedAccounts = ({...props}) => {
               showSuspendUserDialog={props.showSuspendUserDialog}
               showRejectUsernameDialog={props.showRejectUsernameDialog}
               approveUser={props.approveUser}
+              currentUser={props.currentUser}
               />;
           })
           : <EmptyCard>{t('community.no_flagged_accounts')}</EmptyCard>

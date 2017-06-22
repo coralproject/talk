@@ -86,7 +86,8 @@ export const withCommunityQuery = withQuery(gql`
 });
 
 const mapStateToProps = (state) => ({
-  community: state.community.toJS()
+  community: state.community.toJS(),
+  currentUser: state.auth.toJS().user,
 });
 
 const mapDispatchToProps = (dispatch) =>
