@@ -37,11 +37,11 @@ entries:
   - title: Plugins
     output: web
     folderitems:
+    - title: Overview
+      url: /plugins.html
+      output: web
     - title: Quickstart
       url: /plugins-quickstart.html
-      output: web
-    - title: Overview
-      url: /plugins-overview.html
       output: web
     - title: Client API
       url: /plugins-client.html
