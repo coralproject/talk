@@ -18,6 +18,9 @@ entries:
   - title: Installation
     output: web
     folderitems:
+    - title: Getting Started
+      output: web
+      url: /install.html
     - title: Configuration
       output: web
       url: /configuration.html
@@ -34,6 +37,12 @@ entries:
   - title: Plugins
     output: web
     folderitems:
+    - title: Quickstart
+      url: /plugins-quickstart.html
+      output: web
+    - title: Overview
+      url: /plugins-overview.html
+      output: web
     - title: Client API
       url: /plugins-client.html
       output: web

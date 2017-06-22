@@ -1,7 +1,5 @@
 # Talk Plugins
 
-Plugins for Talk can take various forms, currently we are only supporting server
-side plugins.
 
 ## Plugin Registration
 
