@@ -3,6 +3,7 @@ import {compose, gql} from 'react-apollo';
 import StorySearch from '../components/StorySearch';
 import {withRouter} from 'react-router';
 import withQuery from 'coral-framework/hocs/withQuery';
+import {isEmpty} from 'lodash';
 
 class StorySearchContainer extends React.Component {
   constructor(props) {
@@ -24,7 +25,9 @@ class StorySearchContainer extends React.Component {
   }
 
   clearAndCloseSearch = () => {
-    this.clearSearch();
+    if (!isEmpty(this.state.searchValue)) {
+      this.clearSearch();
+    }
     this.props.closeSearch();
   }
 
