@@ -1,0 +1,147 @@
+.overlay {
+  position: absolute;
+  top: 58px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 99;
+  opacity: 0;
+}
+
+.container {
+  position: absolute;
+  background-color: white;
+  top: 106px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.15);
+  z-index: 100;
+  max-width: 820px;
+}
+
+.positionShim {
+  left: -50%;
+}
+
+.headInput {
+  background-color: #efefef;
+  padding: 10px 27px;
+  box-sizing: border-box;
+}
+
+.searchInput {
+  width: calc(100% - 100px);
+  padding: 8px;
+  height: 100%;
+  font-size: 16px;
+  margin-right: 5px;
+  position: relative;
+  top: 3px;
+  box-sizing: border-box;
+  border-radius: 3px;
+  border: solid 1px #dfdfdf;
+  max-height: 45px;
+  max-width: 600px;
+  font-weight: 300;
+}
+
+.cta > a {
+  display: inline-block;
+  cursor: pointer;
+  color: #000;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 15px;
+  margin: 0;
+  box-sizing: border-box;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 12px 30px;
+  letter-spacing: 0.25px;
+}
+
+/*.storyList {
+  border-top: 1px solid #ddd;
+}*/
+
+.story {
+  padding: 7px 50px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+  height: 50px;
+  box-sizing: border-box;
+  transition: background-color 400ms;
+
+  &:hover {
+    background-color: #efefef;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.title, .meta {
+  margin: 0;
+  color: black;
+  font-size: 15px;
+}
+
+.author, .createdAt, .status {
+  font-size: 17px;
+  display: inline-block;
+  font-size: .8em;
+}
+
+.createdAt {
+  text-align: center;
+}
+
+.author {
+  display: inline-block;
+  width: 200px;
+  color: #aaa;
+}
+
+.createdAt {
+  display: inline-block;
+  width: 200px;
+  color: #aaa;
+}
+
+.searchButton {
+  width: 90px;
+  height: 35px;
+}
+
+.searchResults {
+  padding: 7px 27px;
+  background: #F5F5F5;
+}
+
+.searchResults i {
+  font-size: 16px;
+  vertical-align: middle;
+}
+
+.accessStories {
+  font-size: 18px;
+}
+
+.headlineRecent {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.25px;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+
+.noResults {
+  padding: 10px 24px 15px 49px;
+}

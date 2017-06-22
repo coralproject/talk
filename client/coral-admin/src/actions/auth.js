@@ -3,6 +3,8 @@ import * as actions from '../constants/auth';
 import coralApi from 'coral-framework/helpers/request';
 import * as Storage from 'coral-framework/helpers/storage';
 import {handleAuthToken} from 'coral-framework/actions/auth';
+import {resetWebsocket} from 'coral-framework/services/client';
+import t from 'coral-framework/services/i18n';
 
 //==============================================================================
 // SIGN IN
@@ -36,16 +38,31 @@ export const handleLogin = (email, password, recaptchaResponse) => (dispatch) =>
       }
 
       dispatch(handleAuthToken(token));
+      resetWebsocket();
       dispatch(checkLoginSuccess(user));
     })
     .catch((error) => {
-      if (error.translation_key === 'LOGIN_MAXIMUM_EXCEEDED') {
+      console.error(error);
+      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+
+      if (error.translation_key === 'NOT_AUTHORIZED') {
+
+        // invalid credentials
+        dispatch({
+          type: actions.LOGIN_FAILURE,
+          message: t('error.email_password')
+        });
+      }
+      else if (error.translation_key === 'LOGIN_MAXIMUM_EXCEEDED') {
         dispatch({
           type: actions.LOGIN_MAXIMUM_EXCEEDED,
-          message: error.translation_key
+          message: t(`error.${error.translation_key}`),
         });
       } else {
-        dispatch({type: actions.LOGIN_FAILURE, message: error.translation_key});
+        dispatch({
+          type: actions.LOGIN_FAILURE,
+          message: errorMessage,
+        });
       }
     });
 };
@@ -54,25 +71,30 @@ export const handleLogin = (email, password, recaptchaResponse) => (dispatch) =>
 // FORGOT PASSWORD
 //==============================================================================
 
-const forgotPassowordRequest = () => ({
+const forgotPasswordRequest = () => ({
   type: actions.FETCH_FORGOT_PASSWORD_REQUEST
 });
 
-const forgotPassowordSuccess = () => ({
+const forgotPasswordSuccess = () => ({
   type: actions.FETCH_FORGOT_PASSWORD_SUCCESS
 });
 
-const forgotPassowordFailure = () => ({
-  type: actions.FETCH_FORGOT_PASSWORD_FAILURE
+const forgotPasswordFailure = (error) => ({
+  type: actions.FETCH_FORGOT_PASSWORD_FAILURE,
+  error,
 });
 
 export const requestPasswordReset = (email) => (dispatch) => {
-  dispatch(forgotPassowordRequest(email));
+  dispatch(forgotPasswordRequest(email));
   const redirectUri = location.href;
 
   return coralApi('/account/password/reset', {method: 'POST', body: {email,  loc: redirectUri}})
-    .then(() => dispatch(forgotPassowordSuccess()))
-    .catch((error) => dispatch(forgotPassowordFailure(error)));
+    .then(() => dispatch(forgotPasswordSuccess()))
+    .catch((error) => {
+      console.error(error);
+      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+      dispatch(forgotPasswordFailure(errorMessage));
+    });
 };
 
 //==============================================================================
@@ -105,10 +127,12 @@ export const checkLogin = () => (dispatch) => {
         return dispatch(checkLoginFailure('not logged in'));
       }
 
+      resetWebsocket();
       dispatch(checkLoginSuccess(user));
     })
     .catch((error) => {
       console.error(error);
-      dispatch(checkLoginFailure(`${error.translation_key}`));
+      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+      dispatch(checkLoginFailure(errorMessage));
     });
 };

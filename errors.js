@@ -161,7 +161,13 @@ const ErrInstallLock = new APIError('install lock active', {
 // ErrPermissionUpdateUsername is returned when the user does not have permission to update their username.
 const ErrPermissionUpdateUsername = new APIError('You do not have permission to update your username.', {
   translation_key: 'EDIT_USERNAME_NOT_AUTHORIZED',
-  status: 500
+  status: 403
+});
+
+// ErrSameUsernameProvided is returned when attempting to update a username to the same username.
+const ErrSameUsernameProvided = new APIError('Same username provided.', {
+  translation_key: 'SAME_USERNAME_PROVIDED',
+  status: 400
 });
 
 // ErrLoginAttemptMaximumExceeded is returned when the login maximum is exceeded.
@@ -209,6 +215,7 @@ module.exports = {
   ErrAuthentication,
   ErrNotAuthorized,
   ErrPermissionUpdateUsername,
+  ErrSameUsernameProvided,
   ErrSettingsInit,
   ErrInstallLock,
   ErrLoginAttemptMaximumExceeded,

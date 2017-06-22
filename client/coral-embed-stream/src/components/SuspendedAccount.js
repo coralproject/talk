@@ -9,7 +9,8 @@ class SuspendedAccount extends Component {
 
   static propTypes = {
     canEditName: PropTypes.bool,
-    editName: PropTypes.func.isRequired
+    editName: PropTypes.func.isRequired,
+    currentUsername: PropTypes.string.isRequired,
   }
 
   state = {
@@ -21,7 +22,11 @@ class SuspendedAccount extends Component {
     const {editName} = this.props;
     const {username} = this.state;
     e.preventDefault();
-    if (validate.username(username)) {
+
+    if (username === this.props.currentUsername) {
+      this.setState({alert: t('error.SAME_USERNAME_PROVIDED')});
+    }
+    else if (validate.username(username)) {
       editName(username)
         .then(() => location.reload())
         .catch((error) => {

@@ -53,6 +53,16 @@
     color: #212121;
 }
 
+.type--local:hover {
+    background: #d6d5d5;
+    color: #212121;
+}
+
+.type--local:active {
+    background: #cccccc;
+    color: #212121;
+}
+
 .type--facebook {
     background-color: #4267b2;
     border-color: #4267b2;
@@ -82,6 +92,16 @@
 .type--cancel:hover {
   color: white;
   background: #4f5c67;
+}
+
+.type--blue {
+    color: white;
+    background: #083b97;
+}
+
+.type--blue:hover {
+    color: white;
+    background: #083b97;
 }
 
 .type--darkGrey {

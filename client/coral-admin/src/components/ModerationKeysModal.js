@@ -16,8 +16,8 @@ const shortcuts = [
   {
     title: 'modqueue.actions',
     shortcuts: {
-      't': 'modqueue.approve',
-      'r': 'modqueue.reject'
+      'd': 'modqueue.approve',
+      'f': 'modqueue.reject'
     }
   }
 ];
@@ -40,8 +40,8 @@ export default class ModerationKeysModal extends React.Component {
           <p className={styles.ctaHeader}>{t('modqueue.mod_faster')}</p>
           <p><strong>{t('modqueue.try_these')}:</strong></p>
           <ul>
-            <li><span>{t('modqueue.approve')}</span> <span className={styles.smallKey}>t</span></li>
-            <li><span>{t('modqueue.reject')}</span> <span className={styles.smallKey}>r</span></li>
+            <li><span>{t('modqueue.approve')}</span> <span className={styles.smallKey}>d</span></li>
+            <li><span>{t('modqueue.reject')}</span> <span className={styles.smallKey}>f</span></li>
           </ul>
           <p><span>{t('modqueue.view_more_shortcuts')}</span> <span className={styles.smallKey}>{t('modqueue.shift_key')}</span> + <span className={styles.smallKey}>/</span></p>
         </div>

@@ -26,6 +26,7 @@ import Slot from 'coral-framework/components/Slot';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import {EditableCommentContent} from './EditableCommentContent';
 import {getActionSummary, iPerformedThisAction} from 'coral-framework/utils';
+import t from 'coral-framework/services/i18n';
 
 const isStaff = (tags) => !tags.every((t) => t.tag.name !== 'STAFF');
 const hasTag = (tags, lookupTag) => !!tags.filter((t) => t.tag.name === lookupTag).length;
@@ -75,6 +76,8 @@ const ActionButton = ({children}) => {
 };
 
 export default class Comment extends React.Component {
+  isLoadingReplies = false;
+
   constructor(props) {
     super(props);
 
@@ -210,14 +213,24 @@ export default class Comment extends React.Component {
   }
 
   loadNewReplies = () => {
-    const {replies, replyCount, id} = this.props.comment;
-    if (replyCount > replies.nodes.length) {
-      this.props.loadMore(id).then(() => {
-        this.setState(resetCursors(this.state, this.props));
-      });
-      return;
+    if (!this.isLoadingReplies) {
+      this.isLoadingReplies = true;
+      const {replies, replyCount, id} = this.props.comment;
+      if (replyCount > replies.nodes.length) {
+        this.props.loadMore(id)
+          .then(() => {
+            this.setState(resetCursors(this.state, this.props));
+            this.isLoadingReplies = false;
+          })
+          .catch((e) => {
+            this.isLoadingReplies = false;
+            throw e;
+          });
+        return;
+      }
+      this.setState(resetCursors);
+      this.isLoadingReplies = false;
     }
-    this.setState(resetCursors);
   };
 
   showReplyBox = () => {
@@ -415,7 +428,7 @@ export default class Comment extends React.Component {
             <PubDate created_at={comment.created_at} className={'talk-stream-comment-published-date'} />
             {
               (comment.editing && comment.editing.edited)
-              ? <span>&nbsp;<span className={styles.editedMarker}>(Edited)</span></span>
+              ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
               : null
             }
           </span>
@@ -431,28 +444,28 @@ export default class Comment extends React.Component {
             inline
           />
 
-          { (currentUser &&
-              (comment.user.id === currentUser.id))
+          { (currentUser && (comment.user.id === currentUser.id)) &&
 
-              /* User can edit/delete their own comment for a short window after posting */
-              ? <span className={cn(styles.topRight)}>
-                  {
-                    commentIsStillEditable(comment) &&
-                    <a
-                      className={cn(styles.link, {[styles.active]: this.state.isEditing})}
-                      onClick={this.onClickEdit}>Edit</a>
-                  }
-                </span>
+            /* User can edit/delete their own comment for a short window after posting */
+            <span className={cn(styles.topRight)}>
+              {
+                commentIsStillEditable(comment) &&
+                <a
+                  className={cn(styles.link, {[styles.active]: this.state.isEditing})}
+                  onClick={this.onClickEdit}>Edit</a>
+              }
+            </span>
+          }
+          { (currentUser && (comment.user.id !== currentUser.id)) &&
 
               /* TopRightMenu allows currentUser to ignore other users' comments */
-              : <span className={cn(styles.topRight, styles.topRightMenu)}>
-                  <TopRightMenu
-                    comment={comment}
-                    ignoreUser={ignoreUser}
-                    addNotification={addNotification} />
-                </span>
+              <span className={cn(styles.topRight, styles.topRightMenu)}>
+                <TopRightMenu
+                  comment={comment}
+                  ignoreUser={ignoreUser}
+                  addNotification={addNotification} />
+              </span>
           }
-
           {
             this.state.isEditing
             ? <EditableCommentContent

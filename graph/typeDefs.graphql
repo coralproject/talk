@@ -36,6 +36,23 @@ enum USER_ROLES {
   MODERATOR
 }
 
+# Token is a personal access token associated with a given user.
+type Token {
+
+  # ID is the unique identifier for the token.
+  id: ID!
+
+  # Name is the description for the token.
+  name: String!
+
+  # Active determines if the token is available to hit the API.
+  active: Boolean!
+
+  # JWT is the actual token to use for authentication, this is only available
+  # on token creation, otherwise it will be null.
+  jwt: String
+}
+
 type UserProfile {
   # the id is an identifier for the user profile (email, facebook id, etc)
   id: String!
@@ -78,6 +95,9 @@ type User {
   # ignored users.
   ignoredUsers: [User!]
 
+  # Tokens are the personal access tokens for a given user.
+  tokens: [Token!]
+
   # returns all comments based on a query.
   comments(query: CommentsQuery): CommentConnection!
 
@@ -104,7 +124,15 @@ input UsersQuery {
   sort: SORT_ORDER = REVERSE_CHRONOLOGICAL
 }
 
+# AssetsQuery allows teh ability to query assets by specific fields
+input AssetsQuery {
 
+  # a search string to match against titles, authors, urls, etc.
+  value: String = ""
+
+  # Limit the number of results to be returned
+  limit: Int = 10
+}
 ################################################################################
 ## Tags
 ################################################################################
@@ -247,6 +275,12 @@ type EditInfo {
   editableUntil: Date
 }
 
+type CommentStatusHistory {
+  type: COMMENT_STATUS!
+  created_at: Date!
+  assigned_by: User
+}
+
 # Comment is the base representation of user interaction in Talk.
 type Comment {
 
@@ -285,6 +319,9 @@ type Comment {
 
   # The current status of a comment.
   status: COMMENT_STATUS!
+
+  # The status history of the comment. Requires the `ADMIN` or `MODERATOR` role.
+  status_history: [CommentStatusHistory!]
 
   # The time when the comment was created
   created_at: Date!
@@ -626,7 +663,7 @@ type RootQuery {
   comment(id: ID!): Comment
 
   # All assets. Requires the `ADMIN` role.
-  assets: [Asset]
+  assets(query: AssetsQuery): [Asset]
 
   # Find or create an asset by url, or just find with the ID.
   asset(id: ID, url: String): Asset
@@ -889,6 +926,37 @@ type EditCommentResponse implements Response {
   errors: [UserError!]
 }
 
+# CreateTokenInput contains the input to create the token.
+input CreateTokenInput {
+
+  # Name is the description for the token.
+  name: String!
+}
+
+# CreateTokenResponse contains the errors related to creating a token.
+type CreateTokenResponse implements Response {
+
+  # Token is the Token that was created, or null if it failed.
+  token: Token
+
+  # An array of errors relating to the mutation that occured.
+  errors: [UserError!]
+}
+
+# RevokeTokenInput contains the input to revoke the token.
+input RevokeTokenInput {
+
+  # ID is the JTI for the token.
+  id: ID!
+}
+
+# RevokeTokenResponse contains the errors related to revoking a token.
+type RevokeTokenResponse implements Response {
+
+  # An array of errors relating to the mutation that occured.
+  errors: [UserError!]
+}
+
 # All mutations for the application are defined on this object.
 type RootMutation {
 
@@ -928,6 +996,12 @@ type RootMutation {
   # Ignore comments by another user
   ignoreUser(id: ID!): IgnoreUserResponse
 
+  # CreateToken will create a token that is attached to the current user.
+  createToken(input: CreateTokenInput!): CreateTokenResponse!
+
+  # RevokeToken will revoke an existing token.
+  revokeToken(input: RevokeTokenInput!): RevokeTokenResponse!
+
   # Stop Ignoring comments by another user
   stopIgnoringUser(id: ID!): StopIgnoringUserResponse
 }
@@ -937,8 +1011,26 @@ type RootMutation {
 ################################################################################
 
 type Subscription {
-  commentAdded(asset_id: ID!): Comment
-  commentEdited(asset_id: ID!): Comment
+
+  # Get an update whenever a comment was added.
+  # `asset_id` is required except for users with the `ADMIN` or `MODERATOR` role.
+  commentAdded(asset_id: ID): Comment
+
+  # Get an update whenever a comment was edited.
+  # `asset_id` is required except for users with the `ADMIN` or `MODERATOR` role.
+  commentEdited(asset_id: ID): Comment
+
+  # Get an update whenever a comment was flagged.
+  # Requires the `ADMIN` or `MODERATOR` role.
+  commentFlagged(asset_id: ID): Comment
+
+  # Get an update whenever a comment has been accepted.
+  # Requires the `ADMIN` or `MODERATOR` role.
+  commentAccepted(asset_id: ID): Comment
+
+  # Get an update whenever a comment has been rejected.
+  # Requires the `ADMIN` or `MODERATOR` role.
+  commentRejected(asset_id: ID): Comment
 }
 
 ################################################################################

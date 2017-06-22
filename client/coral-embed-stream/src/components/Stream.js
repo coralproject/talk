@@ -53,6 +53,8 @@ function invalidateCursor(invalidated, state, props) {
 
 class Stream extends React.Component {
 
+  isLoadingMore = false;
+
   constructor(props) {
     super(props);
     this.state = resetCursors(this.state, props);
@@ -94,6 +96,18 @@ class Stream extends React.Component {
       this.props.setActiveReplyBox(reactKey);
     }
   };
+
+  loadMoreComments = () => {
+    if (!this.isLoadingMore) {
+      this.isLoadingMore = true;
+      this.props.loadMoreComments()
+        .then(() => this.isLoadingMore = false)
+        .catch((e) => {
+          this.isLoadingMore = false;
+          throw e;
+        });
+    }
+  }
 
   // getVisibileComments returns a list containing comments
   // which were authored by current user or comes after the `idCursor`.
@@ -159,7 +173,7 @@ class Stream extends React.Component {
     };
     return (
       <div id="stream">
-        <Slot fill="stream" />
+
         {open
           ? <div id="commentBox">
               <InfoBox
@@ -183,6 +197,7 @@ class Stream extends React.Component {
                 <SuspendedAccount
                   canEditName={user && user.canEditName}
                   editName={editName}
+                  currentUsername={user.username}
                 />}
               {loggedIn &&
                 !banned &&
@@ -202,6 +217,8 @@ class Stream extends React.Component {
                 />}
             </div>
           : <p>{asset.settings.closedMessage}</p>}
+
+        <Slot fill="stream" />
 
         {loggedIn && (
           <ModerationLink
@@ -286,7 +303,7 @@ class Stream extends React.Component {
               <LoadMore
                 topLevel={true}
                 moreComments={asset.comments.hasNextPage}
-                loadMore={this.props.loadMoreComments}
+                loadMore={this.loadMoreComments}
               />
             </div>}
       </div>

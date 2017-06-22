@@ -13,7 +13,16 @@ const {CREATE_ACTION, DELETE_ACTION} = require('../../perms/constants');
  * @param  {String} action_type type of the action
  * @return {Promise}            resolves to the action created
  */
-const createAction = async ({user = {}}, {item_id, item_type, action_type, group_id, metadata = {}}) => {
+const createAction = async ({user = {}, pubsub, loaders: {Comments}}, {item_id, item_type, action_type, group_id, metadata = {}}) => {
+
+  let comment;
+  if (pubsub && item_type === 'COMMENTS') {
+    comment = await Comments.get.load(item_id);
+    if (!comment) {
+      throw new Error('Comment not found');
+    }
+  }
+
   let action = await ActionsService.insertUserAction({
     item_id,
     item_type,
@@ -27,6 +36,10 @@ const createAction = async ({user = {}}, {item_id, item_type, action_type, group
 
     // Set the user as pending if it was a user flag.
     await UsersService.setStatus(item_id, 'PENDING');
+  }
+
+  if (pubsub && comment) {
+    pubsub.publish('commentFlagged', comment);
   }
 
   return action;

@@ -17,6 +17,10 @@ body {
   height: auto !important;
 }
 
+#coralStream {
+  padding: 4px;
+}
+
 .expandForSignin {
   min-height: 600px;
 }
@@ -183,7 +187,6 @@ hr {
 
 .talk-stream-comments-container {
   position: relative;
-  z-index: 0;
 }
 
 .commentStream {
@@ -479,11 +482,6 @@ button.comment__action-button[disabled],
 }
 
 @media (min-device-width : 300px) and (max-device-width : 420px) {
-  .commentActionsLeft.comment__action-container .coral-plugin-likes-button-text,
-  .commentActionsLeft.comment__action-container > div span {
-    display: none;
-  }
-
   .commentActionsLeft.comment__action-container .coral-plugin-replies-reply-button {
     visibility: collapse;
     margin-left: -30px;

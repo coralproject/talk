@@ -20,7 +20,7 @@ describe('CommentBox', () => {
   });
 
   it('should render the CommentBox appropriately', () => {
-    expect(render.contains('<div class="CommentBox"')).to.be.truthy;
-    expect(render.contains('<button class="postCommentButton"')).to.be.truthy;
+    expect(render.contains('<div class="CommentBox"')).to.be.true;
+    expect(render.contains('<button class="postCommentButton"')).to.be.true;
   });
 });

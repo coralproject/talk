@@ -43,7 +43,7 @@ describe('/api/v1/assets', () => {
         .set(passport.inject({roles: ['ADMIN']}))
         .then((res) => {
           const body = res.body;
-
+          
           expect(body).to.have.property('count', 2);
           expect(body).to.have.property('result');
 

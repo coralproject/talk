@@ -54,6 +54,12 @@ function configurePymParent(pymParent, opts) {
     pymParent.sendMessage('config', JSON.stringify(config));
   }
 
+  pymParent.onMessage('coral-auth-changed', function(message) {
+    if (opts.onAuthChanged) {
+      opts.onAuthChanged(message ? JSON.parse(message) : null);
+    }
+  });
+
   // Sends config to the child
   pymParent.onMessage('getConfig', function() {
     sendConfig(opts || {});
@@ -66,6 +72,11 @@ function configurePymParent(pymParent, opts) {
   }
 
   window.document.body.appendChild(snackbar);
+
+  // Notify embed that there was a click outside.
+  document.addEventListener('click', () => {
+    pymParent.sendMessage('click');
+  }, true);
 
   // Workaround: IOS Safari ignores `width` but respects `min-width` value.
   pymParent.el.firstChild.style.width = '1px';

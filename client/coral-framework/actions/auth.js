@@ -3,6 +3,7 @@ import bowser from 'bowser';
 import * as actions from '../constants/auth';
 import * as Storage from '../helpers/storage';
 import coralApi, {base} from '../helpers/request';
+import pym from '../services/PymConnection';
 
 import {resetWebsocket} from 'coral-framework/services/client';
 import t from 'coral-framework/services/i18n';
@@ -74,7 +75,9 @@ export const createUsername = (userId, formData) => (dispatch) => {
       dispatch(updateUsername(formData));
     })
     .catch((error) => {
-      dispatch(createUsernameFailure(t(`error.${error.translation_key}`)));
+      console.error(error);
+      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+      dispatch(createUsernameFailure(errorMessage));
     });
 };
 
@@ -138,16 +141,20 @@ export const fetchSignIn = (formData) => {
         dispatch(hideSignInDialog());
       })
       .catch((error) => {
+        console.error(error);
         if (error.metadata) {
 
           // the user might not have a valid email. prompt the user user re-request the confirmation email
           dispatch(
             signInFailure(t('error.email_not_verified', error.metadata))
           );
-        } else {
+        } else if (error.translation_key === 'NOT_AUTHORIZED') {
 
           // invalid credentials
-          dispatch(signInFailure(t('error.email_password')));
+          dispatch(signInFailure(t('error.email_password'), error.metadata));
+        } else {
+          const str = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+          dispatch(signInFailure(str));
         }
       });
   };
@@ -233,12 +240,8 @@ export const fetchSignUp = (formData) => (dispatch, getState) => {
       dispatch(signUpSuccess(user));
     })
     .catch((error) => {
-      let errorMessage = t(`error.${error.message}`);
-
-      // if there is no translation defined, just show the error string
-      if (errorMessage === `error.${error.message}`) {
-        errorMessage = error.message;
-      }
+      console.error(error);
+      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
       dispatch(signUpFailure(errorMessage));
     });
 };
@@ -255,8 +258,9 @@ const forgotPasswordSuccess = () => ({
   type: actions.FETCH_FORGOT_PASSWORD_SUCCESS
 });
 
-const forgotPasswordFailure = () => ({
-  type: actions.FETCH_FORGOT_PASSWORD_FAILURE
+const forgotPasswordFailure = (error) => ({
+  type: actions.FETCH_FORGOT_PASSWORD_FAILURE,
+  error,
 });
 
 export const fetchForgotPassword = (email) => (dispatch, getState) => {
@@ -267,7 +271,11 @@ export const fetchForgotPassword = (email) => (dispatch, getState) => {
     body: {email, loc: redirectUri}
   })
     .then(() => dispatch(forgotPasswordSuccess()))
-    .catch((error) => dispatch(forgotPasswordFailure(error)));
+    .catch((error) => {
+      console.error(error);
+      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+      dispatch(forgotPasswordFailure(errorMessage));
+    });
 };
 
 //==============================================================================
@@ -284,6 +292,7 @@ export const logout = () => (dispatch) => {
     resetWebsocket();
 
     dispatch({type: actions.LOGOUT});
+    pym.sendMessage('coral-auth-changed');
   });
 };
 
@@ -315,6 +324,7 @@ export const checkLogin = () => (dispatch) => {
       resetWebsocket();
 
       dispatch(checkLoginSuccess(result.user));
+      pym.sendMessage('coral-auth-changed', JSON.stringify(result.user));
 
       // Display create username dialog if necessary.
       if (result.user.canEditName && result.user.status !== 'BANNED') {
@@ -323,7 +333,8 @@ export const checkLogin = () => (dispatch) => {
     })
     .catch((error) => {
       console.error(error);
-      dispatch(checkLoginFailure(`${error.translation_key}`));
+      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+      dispatch(checkLoginFailure(errorMessage));
     });
 };
 
@@ -357,11 +368,10 @@ export const requestConfirmEmail = (email) => (dispatch, getState) => {
     .then(() => {
       dispatch(verifyEmailSuccess());
     })
-    .catch((err) => {
-
-      // email might have already been verifyed
-      dispatch(verifyEmailFailure(err));
-      throw err;
+    .catch((error) => {
+      console.error(error);
+      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+      dispatch(verifyEmailFailure(errorMessage));
     });
 };
 
