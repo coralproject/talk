@@ -368,7 +368,7 @@ es:
     description_notify: "Suspender a este usuario va a deshabilitar temporalmente su cuenta y ocultar todos sus comentarios en el sitio."
     write_message: "Escribir un mensaje"
     send: "Enviar"
-  rejectUsername:
+  reject_username:
     username: nombre de usuario
     no_cancel: "No cancelar"
     description_reject: "¿Quiere suspender temporalmente a este usuario por su {0}? Hacerlo va a ocultar temporalmente sus comentarios hasta que edite su {0}."

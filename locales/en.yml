@@ -345,7 +345,7 @@ en:
     description_notify: "Suspending this user will temporarily disable their account and hide all of their comments on the site."
     write_message: "Write a message"
     send: Send
-  rejectUsername:
+  reject_username:
     username: username
     no_cancel: "No cancel"
     description_reject: "Would you like to temporarily ban this user because of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}."

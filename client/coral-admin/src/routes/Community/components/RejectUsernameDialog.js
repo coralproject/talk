@@ -7,19 +7,19 @@ import t from 'coral-framework/services/i18n';
 
 const stages = [
   {
-    title: 'rejectUsername.title_reject',
-    description: 'rejectUsername.description_reject',
+    title: 'reject_username.title_reject',
+    description: 'reject_username.description_reject',
     options: {
-      'j': 'rejectUsername.no_cancel',
-      'k': 'rejectUsername.yes_suspend'
+      'j': 'reject_username.no_cancel',
+      'k': 'reject_username.yes_suspend'
     }
   },
   {
-    title: 'rejectUsername.title_notify',
-    description: 'rejectUsername.description_notify',
+    title: 'reject_username.title_notify',
+    description: 'reject_username.description_notify',
     options: {
       'j': 'bandialog.cancel',
-      'k': 'rejectUsername.send'
+      'k': 'reject_username.send'
     }
   }
 ];
@@ -35,7 +35,7 @@ class RejectUsernameDialog extends Component  {
   }
 
   componentDidMount() {
-    this.setState({email: t('rejectUsername.email_message_reject'), about: t('rejectUsername.username')});
+    this.setState({email: t('reject_username.email_message_reject'), about: t('reject_username.username')});
   }
 
   /*
@@ -76,18 +76,18 @@ class RejectUsernameDialog extends Component  {
             open={open}
             onClose={handleClose}
             onCancel={handleClose}
-            title={t('rejectUsername.suspend_user')}>
+            title={t('reject_username.suspend_user')}>
             <div className={styles.title}>
-              {t(stages[stage].title, t('rejectUsername.username'))}
+              {t(stages[stage].title, t('reject_username.username'))}
             </div>
             <div className={styles.container}>
               <div className={styles.description}>
-                {t(stages[stage].description, t('rejectUsername.username'))}
+                {t(stages[stage].description, t('reject_username.username'))}
               </div>
               {
                 stage === 1 &&
                 <div className={styles.writeContainer}>
-                  <div className={styles.emailMessage}>{t('rejectUsername.write_message')}</div>
+                  <div className={styles.emailMessage}>{t('reject_username.write_message')}</div>
                   <div className={styles.emailContainer}>
                     <textarea
                       rows={5}
@@ -100,7 +100,7 @@ class RejectUsernameDialog extends Component  {
               <div className={styles.modalButtons}>
                 {Object.keys(stages[stage].options).map((key, i) => (
                   <Button key={i} onClick={this.onActionClick(stage, i)}>
-                    {t(stages[stage].options[key], t('rejectUsername.username'))}
+                    {t(stages[stage].options[key], t('reject_username.username'))}
                   </Button>
                 ))}
               </div>
