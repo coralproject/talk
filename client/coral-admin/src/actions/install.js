@@ -2,6 +2,7 @@ import coralApi from 'coral-framework/helpers/request';
 import * as actions from '../constants/install';
 import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
+import t from 'coral-framework/services/i18n';
 
 export const nextStep = () => ({type: actions.NEXT_STEP});
 export const previousStep = () => ({type: actions.PREVIOUS_STEP});
@@ -17,7 +18,8 @@ const clearErrors = () => ({type: actions.CLEAR_ERRORS});
 
 const validation = (formData, dispatch, next) => {
   if (!(formData != null)) {
-    return dispatch(hasError());
+    dispatch(hasError());
+    return;
   }
 
   const validKeys = Object.keys(formData)
@@ -40,7 +42,8 @@ const validation = (formData, dispatch, next) => {
   });
 
   if (empty.length) {
-    return dispatch(hasError());
+    dispatch(hasError());
+    return;
   }
 
   // RegExp Validation
@@ -59,7 +62,8 @@ const validation = (formData, dispatch, next) => {
     });
 
   if (validation.length) {
-    return dispatch(hasError());
+    dispatch(hasError());
+    return;
   }
 
   dispatch(clearErrors());
@@ -90,7 +94,8 @@ export const finishInstall = () => (dispatch, getState) => {
     })
     .catch((error) => {
       console.error(error);
-      dispatch(installFailure(`${error.translation_key}`));
+      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+      dispatch(installFailure(errorMessage));
     });
 };
 
@@ -113,6 +118,7 @@ export const checkInstall = (next) => (dispatch) => {
     })
     .catch((error) => {
       console.error(error);
-      dispatch(checkInstallFailure(`${error.translation_key}`));
+      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+      dispatch(checkInstallFailure(errorMessage));
     });
 };

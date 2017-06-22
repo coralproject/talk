@@ -50,7 +50,7 @@ const routes = (
           <Route path=':id' components={Moderation} />
         </Route>
         <Route path=':id' components={Moderation} />
-        <IndexRedirect to='premod' />
+        <IndexRedirect to='all' />
       </Route>
     </Route>
   </div>

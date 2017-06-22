@@ -246,7 +246,7 @@ describe('services.UsersService', () => {
           done(new Error('Error expected'));
         })
         .catch((err) => {
-          expect(err).to.be.truthy;
+          expect(err).to.be.ok;
           done();
         });
     });
@@ -260,7 +260,7 @@ describe('services.UsersService', () => {
         done(new Error('Error expected'));
       })
       .catch((err) => {
-        expect(err).to.be.truthy;
+        expect(err).to.be.ok;
         done();
       });
     });
@@ -272,7 +272,7 @@ describe('services.UsersService', () => {
           expect(false).to.be.true;
         })
         .catch((err) => {
-          expect(err).to.be.truthy;
+          expect(err).to.be.ok;
         });
     });
   });

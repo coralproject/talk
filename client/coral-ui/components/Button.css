@@ -53,6 +53,16 @@
     color: #212121;
 }
 
+.type--local:hover {
+    background: #d6d5d5;
+    color: #212121;
+}
+
+.type--local:active {
+    background: #cccccc;
+    color: #212121;
+}
+
 .type--facebook {
     background-color: #4267b2;
     border-color: #4267b2;

@@ -80,14 +80,17 @@ export class EditableCommentContent extends React.Component {
       }
       successfullyEdited = true;
     } catch (error) {
-      if (error.translation_key) {
-        addNotification('error', t(`error.${error.translation_key}`));
-      } else if (error.networkError) {
-        addNotification('error', t('error.network_error'));
-      } else {
-        addNotification('error', t('edit_comment.unexpected_error'));
-        throw error;
-      }
+      const errors = error.errors || [error];
+      errors.forEach((e) => {
+        if (e.translation_key) {
+          addNotification('error', t(`error.${e.translation_key}`));
+        } else if (error.networkError) {
+          addNotification('error', t('error.network_error'));
+        } else {
+          addNotification('error', t('edit_comment.unexpected_error'));
+          console.error(e);
+        }
+      });
     }
     if (successfullyEdited) {
       const status = response.data.editComment.comment.status;

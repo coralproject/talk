@@ -528,7 +528,7 @@ module.exports = class UsersService {
   }
 
   /**
-   * 
+   *
    * @param {String} id  the id of the current user
    * @param {Object} token  a jwt token used to sign in the user
    */
@@ -858,36 +858,52 @@ module.exports = class UsersService {
 
   /**
    * Updates the user's username.
-   * @param  {String} id the id of the user to be enabled.
-   * @param  {String}  username The new username for the user.
+   * @param  {String} id       The id of the user.
+   * @param  {String} username The new username for the user.
    * @return {Promise}
    */
-  static editName(id, username) {
-    return UserModel.update({
-      id,
-      canEditName: true
-    }, {
-      $set: {
-        username: username,
-        lowercaseUsername: username.toLowerCase(),
-        canEditName: false,
-        status: 'PENDING',
-      }
-    })
-    .then((result) => {
-      if (result.nModified <= 0) {
-        return Promise.reject(errors.ErrPermissionUpdateUsername);
+  static async editName(id, username) {
+    try {
+      const result = await UserModel.findOneAndUpdate({
+        id,
+        username: {$ne: username},
+        canEditName: true
+      }, {
+        $set: {
+          username: username,
+          lowercaseUsername: username.toLowerCase(),
+          canEditName: false,
+          status: 'PENDING',
+        }
+      }, {
+        new: true,
+      });
+
+      if (!result) {
+        const user = await UsersService.findById(id);
+        if (user === null) {
+          throw errors.ErrNotFound;
+        }
+
+        if (!user.canEditName) {
+          throw errors.ErrPermissionUpdateUsername;
+        }
+
+        if (user.username === username) {
+          throw errors.ErrSameUsernameProvided;
+        }
+
+        throw new Error('edit username failed for an unexpected reason');
       }
 
       return result;
-    })
-    .catch((err) => {
+    }
+    catch(err) {
       if (err.code === 11000) {
         throw errors.ErrUsernameTaken;
       }
-
       throw err;
-    });
+    }
   }
 
   /**
@@ -928,7 +944,7 @@ module.exports = class UsersService {
   }
 };
 
-// Extract all the tokenUserNotFound plugins so we can integrate with other 
+// Extract all the tokenUserNotFound plugins so we can integrate with other
 // providers.
 let tokenUserNotFoundHooks = null;
 
