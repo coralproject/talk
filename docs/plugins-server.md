@@ -189,6 +189,41 @@ send data to the client. If the type in question contains args, clients may subs
 
 For more information, see the [Apollo Docs](https://github.com/apollographql/graphql-subscriptions).
 
+#### Field: `tokenUserNotFound`
+
+```js
+tokenUserNotFound: async ({jwt, token}) => {
+  let profile = await someExternalService(token);
+  if (!profile) {
+    return null;
+  }
+
+  let user = await UserModel.findOneAndUpdate({
+    id: profile.id
+  }, {
+    id: profile.id,
+    username: profile.username,
+    lowercaseUsername: profile.username.toLowerCase(),
+    roles: [],
+    profiles: []
+  }, {
+    setDefaultsOnInsert: true,
+    new: true,
+    upsert: true
+  });
+
+  return user;
+}
+```
+
+The `tokenUserNotFound` hook allows auth integrations to hook into the event
+when a valid token is provided but a user can't be found in the database that
+matches the provided id.
+
+The function is async, and should return the user object that was created in the
+database, or null if the user wasn't found. The `jwt` paramenter of the object
+is the unpacked token, while `token` is the original jwt token string.
+
 ### Routes
 
 #### Field: `router`
@@ -204,6 +239,30 @@ For more information, see the [Apollo Docs](https://github.com/apollographql/gra
 The Router hook allows you to create a function that accepts the base express
 router where you can mount any amount of middleware/routes to do any form of
 action needed by external applications.
+
+#### Field: `tags`
+
+The tags hook allows a plugin to define tags that are code controlled (added
+or enabled by code). Below is an example pulled from the core off topic plugin
+on how to create a hook for the `OFF_TOPIC` name:
+
+```js
+[
+  {
+    name: 'OFF_TOPIC',
+    permissions: {
+      public: true,
+      self: true,
+      roles: []
+    },
+    models: ['COMMENTS'],
+    created_at: new Date()
+  }
+]
+```
+
+You can refer to `models/schema/tag.js` for the available schema to match when
+creating models to enable/disable specific features.
 
 ### Authorization middleware
 

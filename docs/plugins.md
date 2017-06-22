@@ -2,7 +2,7 @@
 title: Plugins Overview
 keywords: plugins
 sidebar: talk_sidebar
-permalink: plugins-overview.html
+permalink: plugins.html
 summary:
 ---
 
