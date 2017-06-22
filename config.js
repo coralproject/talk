@@ -56,7 +56,11 @@ const CONFIG = {
 
   // The URL for this Talk Instance as viewable from the outside.
   ROOT_URL: process.env.TALK_ROOT_URL,
-  
+
+  // The keepalive timeout (in ms) that should be used to send keep alive
+  // messages through the websocket to keep the socket alive.
+  KEEP_ALIVE: process.env.TALK_KEEP_ALIVE || '30s',
+
   //------------------------------------------------------------------------------
   // Recaptcha configuration
   //------------------------------------------------------------------------------
