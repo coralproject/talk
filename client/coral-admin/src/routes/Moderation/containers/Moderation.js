@@ -4,23 +4,20 @@ import {bindActionCreators} from 'redux';
 import {compose, gql} from 'react-apollo';
 import withQuery from 'coral-framework/hocs/withQuery';
 import {getDefinitionName} from 'coral-framework/utils';
-import * as notification from 'coral-admin/src/services/notification';
-import t, {timeago} from 'coral-framework/services/i18n';
+import t from 'coral-framework/services/i18n';
 import update from 'immutability-helper';
 import truncate from 'lodash/truncate';
 import NotFoundAsset from '../components/NotFoundAsset';
 
-import {withSetUserStatus, withSuspendUser, withSetCommentStatus} from 'coral-framework/graphql/mutations';
+import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
 import {handleCommentChange} from '../../../graphql/utils';
 
 import {fetchSettings} from 'actions/settings';
+import {showBanUserDialog} from 'actions/banUserDialog';
+import {showSuspendUserDialog} from 'actions/suspendUserDialog';
 import {
   toggleModal,
   singleView,
-  showBanUserDialog,
-  hideBanUserDialog,
-  showSuspendUserDialog,
-  hideSuspendUserDialog,
   hideShortcutsNote,
   toggleStorySearch,
   viewUserDetail,
@@ -138,37 +135,6 @@ class ModerationContainer extends Component {
     }
   }
 
-  suspendUser = async (args) => {
-    this.props.hideSuspendUserDialog();
-    try {
-      const result = await this.props.suspendUser(args);
-      if (result.data.suspendUser.errors) {
-        throw result.data.suspendUser.errors;
-      }
-      notification.success(
-        t('suspenduser.notify_suspend_until',
-          this.props.moderation.suspendUserDialog.username,
-          timeago(args.until)),
-      );
-      const {commentStatus, commentId} = this.props.moderation.suspendUserDialog;
-      if (commentStatus !== 'REJECTED') {
-        return this.props.rejectComment({commentId})
-          .then((result) => {
-            if (result.data.setCommentStatus.errors) {
-              throw result.data.setCommentStatus.errors;
-            }
-          });
-      }
-    }
-    catch(err) {
-      notification.showMutationErrors(err);
-    }
-  };
-
-  banUser = ({userId}) => {
-    return this.props.setUserStatus({userId, status: 'BANNED'});
-  }
-
   acceptComment = ({commentId}) => {
     return this.props.setCommentStatus({commentId, status: 'ACCEPTED'});
   }
@@ -245,10 +211,8 @@ class ModerationContainer extends Component {
     return <Moderation
       {...this.props}
       loadMore={this.loadMore}
-      banUser={this.banUser}
       acceptComment={this.acceptComment}
       rejectComment={this.rejectComment}
-      suspendUser={this.suspendUser}
       activeTab={this.activeTab}
     />;
   }
@@ -458,11 +422,9 @@ const mapDispatchToProps = (dispatch) => ({
     singleView,
     fetchSettings,
     showBanUserDialog,
-    hideBanUserDialog,
     hideShortcutsNote,
     toggleStorySearch,
     showSuspendUserDialog,
-    hideSuspendUserDialog,
     viewUserDetail,
     hideUserDetail,
     setSortOrder,
@@ -474,8 +436,6 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withSetCommentStatus,
-  withSetUserStatus,
-  withSuspendUser,
   withQueueCountPolling,
   withModQueueQuery,
 )(ModerationContainer);

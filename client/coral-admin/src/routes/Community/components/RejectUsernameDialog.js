@@ -1,30 +1,30 @@
 import React, {Component, PropTypes} from 'react';
 
 import {Dialog, Button} from 'coral-ui';
-import styles from './SuspendUserDialog.css';
+import styles from './RejectUsernameDialog.css';
 
 import t from 'coral-framework/services/i18n';
 
 const stages = [
   {
-    title: 'suspenduser.title_reject',
-    description: 'suspenduser.description_reject',
+    title: 'rejectUsername.title_reject',
+    description: 'rejectUsername.description_reject',
     options: {
-      'j': 'suspenduser.no_cancel',
-      'k': 'suspenduser.yes_suspend'
+      'j': 'rejectUsername.no_cancel',
+      'k': 'rejectUsername.yes_suspend'
     }
   },
   {
-    title: 'suspenduser.title_notify',
-    description: 'suspenduser.description_notify',
+    title: 'rejectUsername.title_notify',
+    description: 'rejectUsername.description_notify',
     options: {
       'j': 'bandialog.cancel',
-      'k': 'suspenduser.send'
+      'k': 'rejectUsername.send'
     }
   }
 ];
 
-class SuspendUserDialog extends Component  {
+class RejectUsernameDialog extends Component  {
 
   state = {email: '', stage: 0}
 
@@ -35,7 +35,7 @@ class SuspendUserDialog extends Component  {
   }
 
   componentDidMount() {
-    this.setState({email: t('suspenduser.email_message_reject'), about: t('suspenduser.username')});
+    this.setState({email: t('rejectUsername.email_message_reject'), about: t('rejectUsername.username')});
   }
 
   /*
@@ -72,22 +72,22 @@ class SuspendUserDialog extends Component  {
 
     return <Dialog
             className={styles.suspendDialog}
-            id="suspendUserDialog"
+            id="rejectUsernameDialog"
             open={open}
             onClose={handleClose}
             onCancel={handleClose}
-            title={t('suspenduser.suspend_user')}>
+            title={t('rejectUsername.suspend_user')}>
             <div className={styles.title}>
-              {t(stages[stage].title, t('suspenduser.username'))}
+              {t(stages[stage].title, t('rejectUsername.username'))}
             </div>
             <div className={styles.container}>
               <div className={styles.description}>
-                {t(stages[stage].description, t('suspenduser.username'))}
+                {t(stages[stage].description, t('rejectUsername.username'))}
               </div>
               {
                 stage === 1 &&
                 <div className={styles.writeContainer}>
-                  <div className={styles.emailMessage}>{t('suspenduser.write_message')}</div>
+                  <div className={styles.emailMessage}>{t('rejectUsername.write_message')}</div>
                   <div className={styles.emailContainer}>
                     <textarea
                       rows={5}
@@ -100,7 +100,7 @@ class SuspendUserDialog extends Component  {
               <div className={styles.modalButtons}>
                 {Object.keys(stages[stage].options).map((key, i) => (
                   <Button key={i} onClick={this.onActionClick(stage, i)}>
-                    {t(stages[stage].options[key], t('suspenduser.username'))}
+                    {t(stages[stage].options[key], t('rejectUsername.username'))}
                   </Button>
                 ))}
               </div>
@@ -109,4 +109,4 @@ class SuspendUserDialog extends Component  {
   }
 }
 
-export default SuspendUserDialog;
+export default RejectUsernameDialog;

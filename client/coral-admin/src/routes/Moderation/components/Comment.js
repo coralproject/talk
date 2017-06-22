@@ -65,6 +65,20 @@ class Comment extends React.Component {
       selectionStateCSS = selected ? 'mdl-shadow--16dp' : 'mdl-shadow--2dp';
     }
 
+    const showSuspenUserDialog = () => props.showSuspendUserDialog({
+      userId: comment.user.id,
+      username: comment.user.username,
+      commentId: comment.id,
+      commentStatus: comment.status,
+    });
+
+    const showBanUserDialog = () => props.showBanUserDialog({
+      userId: comment.user.id,
+      username: comment.user.username,
+      commentId: comment.id,
+      commentStatus: comment.status,
+    });
+
     return (
       <li
         tabIndex={props.index}
@@ -102,11 +116,11 @@ class Comment extends React.Component {
                 <ActionsMenu icon="not_interested">
                   <ActionsMenuItem
                     disabled={comment.user.status === 'BANNED'}
-                    onClick={() => props.showSuspendUserDialog(comment.user.id, comment.user.username, comment.id, comment.status)}>
+                    onClick={showSuspenUserDialog}>
                     Suspend User</ActionsMenuItem>
                   <ActionsMenuItem
                     disabled={comment.user.status === 'BANNED'}
-                    onClick={() => props.showBanUserDialog(comment.user, comment.id, comment.status, comment.status !== 'REJECTED')}>
+                    onClick={showBanUserDialog}>
                     Ban User
                   </ActionsMenuItem>
                 </ActionsMenu>

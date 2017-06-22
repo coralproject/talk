@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 
 import CommunityMenu from './CommunityMenu';
-import BanUserDialog from './BanUserDialog';
-import SuspendUserDialog from './SuspendUserDialog';
 import People from './People';
 import FlaggedAccounts from './FlaggedAccounts';
+import RejectUsernameDialog from './RejectUsernameDialog';
 
 export default class Community extends Component {
 
@@ -80,19 +79,14 @@ export default class Community extends Component {
         <FlaggedAccounts
           commenters={users}
           showBanUserDialog={props.showBanUserDialog}
+          showSuspendUserDialog={props.showSuspendUserDialog}
+          showRejectUsernameDialog={props.showRejectUsernameDialog}
           approveUser={props.approveUser}
           rejectUsername={props.rejectUsername}
-          showSuspendUserDialog={props.showSuspendUserDialog}
         />
-        <BanUserDialog
-          open={community.banDialog}
-          user={community.user}
-          handleClose={props.hideBanUserDialog}
-          handleBanUser={props.banUser}
-        />
-        <SuspendUserDialog
-          open={community.suspendDialog}
-          handleClose={props.hideSuspendUserDialog}
+        <RejectUsernameDialog
+          open={community.rejectUsernameDialog}
+          handleClose={props.hideRejectUsernameDialog}
           user={community.user}
           rejectUsername={props.rejectUsername}
         />

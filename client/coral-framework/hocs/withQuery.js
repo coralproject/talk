@@ -14,7 +14,7 @@ const withSkipOnErrors = (reducer) => (prev, action, ...rest) => {
  * Exports a HOC with the same signature as `graphql`, that will
  * apply query options registered in the graphRegistry.
  */
-export default (document, config) => (WrappedComponent) => {
+export default (document, config = {}) => (WrappedComponent) => {
   config = {
     ...config,
     options: config.options || {},
