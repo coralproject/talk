@@ -10,6 +10,11 @@ const plugins = require('../services/plugins');
 
 const {deserializeUser} = require('../services/subscriptions');
 
+const ms = require('ms');
+const {
+  KEEP_ALIVE
+} = require('../config');
+
 const {
   SUBSCRIBE_COMMENT_ACCEPTED,
   SUBSCRIBE_COMMENT_REJECTED,
@@ -119,7 +124,8 @@ const createSubscriptionManager = (server) => new SubscriptionServer({
     };
 
     return baseParams;
-  }
+  },
+  keepAlive: ms(KEEP_ALIVE)
 }, {
   server,
   path: '/api/v1/live'
