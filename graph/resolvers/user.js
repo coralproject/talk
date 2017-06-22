@@ -5,7 +5,8 @@ const {
   SEARCH_OTHER_USERS,
   SEARCH_OTHERS_COMMENTS,
   UPDATE_USER_ROLES,
-  SEARCH_COMMENT_METRICS
+  SEARCH_COMMENT_METRICS,
+  LIST_OWN_TOKENS
 } = require('../../perms/constants');
 
 const User = {
@@ -45,6 +46,13 @@ const User = {
     }
 
     return null;
+  },
+  tokens({id, tokens}, args, {user}) {
+    if (!user ||  ((user.id !== id) && !user.can(LIST_OWN_TOKENS))) {
+      return null;
+    }
+
+    return tokens;
   },
   ignoredUsers({id}, args, {user, loaders: {Users}}) {
 

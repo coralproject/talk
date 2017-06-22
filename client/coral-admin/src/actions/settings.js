@@ -1,4 +1,5 @@
 import coralApi from '../../../coral-framework/helpers/request';
+import t from 'coral-framework/services/i18n';
 
 export const SETTINGS_LOADING = 'SETTINGS_LOADING';
 export const SETTINGS_RECEIVED = 'SETTINGS_RECEIVED';
@@ -20,7 +21,9 @@ export const fetchSettings = () => (dispatch) => {
       dispatch({type: SETTINGS_RECEIVED, settings});
     })
     .catch((error) => {
-      dispatch({type: SETTINGS_FETCH_ERROR, error});
+      console.error(error);
+      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+      dispatch({type: SETTINGS_FETCH_ERROR, error: errorMessage});
     });
 };
 
@@ -49,6 +52,8 @@ export const saveSettingsToServer = () => (dispatch, getState) => {
       dispatch({type: SAVE_SETTINGS_SUCCESS, settings});
     })
     .catch((error) => {
-      dispatch({type: SAVE_SETTINGS_FAILED, error});
+      console.error(error);
+      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+      dispatch({type: SAVE_SETTINGS_FAILED, error: errorMessage});
     });
 };

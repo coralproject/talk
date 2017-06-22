@@ -1,6 +1,7 @@
 const passport = require('passport');
 const UsersService = require('./users');
 const SettingsService = require('./settings');
+const TokensService = require('./tokens');
 const fetch = require('node-fetch');
 const FormData = require('form-data');
 const JWT = require('jsonwebtoken');
@@ -157,10 +158,7 @@ const HandleLogout = (req, res, next) => {
   });
 };
 
-/**
- * Check if the given token is already blacklisted, throw an error if it is.
- */
-const CheckBlacklisted = (jwt) => new Promise((resolve, reject) => {
+const checkGeneralTokenBlacklist = (jwt) => new Promise((resolve, reject) => {
   client.get(`jtir[${jwt.jti}]`, (err, expiry) => {
     if (err) {
       return reject(err);
@@ -173,6 +171,20 @@ const CheckBlacklisted = (jwt) => new Promise((resolve, reject) => {
     return resolve();
   });
 });
+
+/**
+ * Check if the given token is already blacklisted, throw an error if it is.
+ */
+const CheckBlacklisted = async (jwt) => {
+
+  // Check to see if this is a PAT.
+  if (jwt.pat) {
+    return TokensService.validate(jwt.sub, jwt.jti);
+  }
+
+  // It wasn't a PAT! Check to see if it is valid anyways.
+  return checkGeneralTokenBlacklist(jwt);
+};
 
 const jwt = require('jsonwebtoken');
 const JwtStrategy = require('passport-jwt').Strategy;
@@ -339,6 +351,9 @@ passport.use(new LocalStrategy({
   passwordField: 'password',
   passReqToCallback: true
 }, async (req, email, password, done) => {
+
+  // Normalize email
+  email = email.toLowerCase();
 
   // We need to check if this request has a recaptcha on it at all, if it does,
   // we must verify it first. If verification fails, we fail the request early.

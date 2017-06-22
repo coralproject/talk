@@ -73,6 +73,11 @@ function configurePymParent(pymParent, opts) {
 
   window.document.body.appendChild(snackbar);
 
+  // Notify embed that there was a click outside.
+  document.addEventListener('click', () => {
+    pymParent.sendMessage('click');
+  }, true);
+
   // Workaround: IOS Safari ignores `width` but respects `min-width` value.
   pymParent.el.firstChild.style.width = '1px';
   pymParent.el.firstChild.style.minWidth = '100%';

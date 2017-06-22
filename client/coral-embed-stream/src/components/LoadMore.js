@@ -23,15 +23,17 @@ class LoadMore extends React.Component {
     }
   }
 
+  loadMore = () => {
+    this.initialState = false;
+    this.props.loadMore();
+  }
+
   render () {
-    const {topLevel, moreComments, loadMore, replyCount} = this.props;
+    const {topLevel, moreComments, replyCount} = this.props;
     return moreComments
       ? <div className='coral-load-more'>
         <Button
-          onClick={() => {
-            this.initialState = false;
-            loadMore();
-          }}>
+          onClick={this.loadMore}>
           {topLevel ? t('framework.view_more_comments') : this.replyCountFormat(replyCount)}
         </Button>
       </div>

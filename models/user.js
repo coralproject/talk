@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema;
 const uuid = require('uuid');
 const TagLinkSchema = require('./schema/tag_link');
+const TokenSchema = require('./schema/token');
 const intersection = require('lodash/intersection');
 const can = require('../perms');
 
@@ -85,6 +86,9 @@ const UserSchema = new Schema({
   // can have multiple profiles associated with them, including multiple email
   // addresses.
   profiles: [ProfileSchema],
+
+  // Tokens are the individual personal access tokens for a given user.
+  tokens: [TokenSchema],
 
   // Roles provides an array of roles (as strings) that is associated with a
   // user.

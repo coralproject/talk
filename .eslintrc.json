@@ -53,7 +53,8 @@
         "no-lonely-if": [2],
         "curly": [2],
         "no-unused-vars": ["error", {
-            "argsIgnorePattern": "next"
+            "argsIgnorePattern": "^_|next",
+            "varsIgnorePattern": "^_"
         }],
         "no-multiple-empty-lines": ["error", {
             "max": 1
