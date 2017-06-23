@@ -143,7 +143,7 @@ class Comment extends React.Component {
           <div className={styles.moderateArticle}>
             Story: {comment.asset.title}
             {!props.currentAsset &&
-              <Link to={`/admin/moderate/${comment.asset.id}`}>{t('modqueue.moderate')}</Link>}
+              <Link to={`/admin/moderate/all/${comment.asset.id}`}>{t('modqueue.moderate')}</Link>}
           </div>
           <CSSTransitionGroup
             component={'div'}
