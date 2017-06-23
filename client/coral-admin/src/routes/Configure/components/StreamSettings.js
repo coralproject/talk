@@ -165,7 +165,7 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
             checked={settings.autoCloseStream} />
         </div>
         <div className={styles.content}>
-          <div className={styles.settingsHeader}>{t('configure.comment_count_header')}</div>
+          <div className={styles.settingsHeader}>{t('configure.close_after')}</div>
           <br />
           <Textfield
             type='number'
