@@ -16,6 +16,7 @@ const PermittedDomainsStep = (props) => {
         <TagsInput
           value={domains}
           inputProps={{placeholder: 'URL'}}
+          addOnBlur={true}
           addOnPaste={true}
           pasteSplit={(data) => data.split(',').map((d) => d.trim())}
           onChange={(tags) => handleDomainsChange(tags)}
