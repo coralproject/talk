@@ -38,7 +38,11 @@ const StorySearch = (props) => {
             </Button>
           </div>
           <div className={styles.results}>
-            <p className={styles.cta}>Moderate comments on All Stories</p>
+            {props.assetId &&
+              <div className={styles.cta}>
+                <a onClick={props.goToModerateAll}>Moderate comments on All Stories</a>
+              </div>
+            }
             <div className={styles.storyList}>
 
               {
@@ -77,7 +81,7 @@ const StorySearch = (props) => {
           </div>
         </div>
       </div>
-      <div className={styles.overlay} onClick={props.closeSearch} />
+      <div className={styles.overlay} onClick={props.clearAndCloseSearch} />
     </div>
   );
 };
@@ -85,9 +89,10 @@ const StorySearch = (props) => {
 StorySearch.propTypes = {
   search: PropTypes.func.isRequired,
   goToStory: PropTypes.func.isRequired,
-  closeSearch: PropTypes.func.isRequired,
+  clearAndCloseSearch: PropTypes.func.isRequired,
   moderation: PropTypes.object.isRequired,
-  handleSearchChange: PropTypes.func.isRequired
+  handleSearchChange: PropTypes.func.isRequired,
+  assetId: PropTypes.string
 };
 
 export default StorySearch;

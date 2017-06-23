@@ -3,6 +3,7 @@ import {compose, gql} from 'react-apollo';
 import StorySearch from '../components/StorySearch';
 import {withRouter} from 'react-router';
 import withQuery from 'coral-framework/hocs/withQuery';
+import {isEmpty} from 'lodash';
 
 class StorySearchContainer extends React.Component {
   constructor(props) {
@@ -11,6 +12,23 @@ class StorySearchContainer extends React.Component {
     this.state = {
       searchValue: props.moderation.storySearchString
     };
+  }
+
+  componentWillUnmount() {
+    this.props.storySearchChange('');
+  }
+
+  clearSearch = () => {
+    this.setState({searchValue: ''}, () => {
+      this.search();
+    });
+  }
+
+  clearAndCloseSearch = () => {
+    if (!isEmpty(this.state.searchValue)) {
+      this.clearSearch();
+    }
+    this.props.closeSearch();
   }
 
   handleSearchChange = (e) => {
@@ -23,7 +41,7 @@ class StorySearchContainer extends React.Component {
   handleEsc = (e) => {
     if (e.key === 'Escape') {
       e.preventDefault();
-      this.props.closeSearch();
+      this.clearAndCloseSearch();
     }
   }
 
@@ -40,9 +58,15 @@ class StorySearchContainer extends React.Component {
   }
 
   goToStory = (id) => {
-    const {router, closeSearch} = this.props;
-    router.push(`/admin/moderate/${id}`);
-    closeSearch();
+    const {router} = this.props;
+    router.push(`/admin/moderate/all/${id}`);
+    this.clearAndCloseSearch();
+  }
+
+  goToModerateAll = () => {
+    const {router} = this.props;
+    router.push('/admin/moderate/all');
+    this.clearAndCloseSearch();
   }
 
   render () {
@@ -50,10 +74,12 @@ class StorySearchContainer extends React.Component {
       <StorySearch
         search={this.search}
         goToStory={this.goToStory}
+        goToModerateAll={this.goToModerateAll}
         handleEsc={this.handleEsc}
         handleEnter={this.handleEnter}
         searchValue={this.state.searchValue}
         handleSearchChange={this.handleSearchChange}
+        clearAndCloseSearch={this.clearAndCloseSearch}
         {...this.props}
       />
     );
