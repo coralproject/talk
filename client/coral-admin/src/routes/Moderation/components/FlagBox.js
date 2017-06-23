@@ -33,7 +33,7 @@ class FlagBox extends Component {
   }
 
   render() {
-    const {actionSummaries, actions} = this.props;
+    const {actionSummaries, actions, viewUserDetail} = this.props;
     const {showDetail} = this.state;
 
     return (
@@ -59,9 +59,14 @@ class FlagBox extends Component {
                     <li key={i}>
                       {this.reasonMap(summary.reason)} (<strong>{summary.count}</strong>)
                       <ul>
-                        {
-                          actionList.map((action, j) => <li key={`${i}_${j}`} className={styles.subDetail}><span>{action.user.username}</span> {action.message}</li>)
-                        }
+                        {actionList.map((action, j) =>
+                          <li key={`${i}_${j}`} className={styles.subDetail}>
+                            <a className={styles.username} onClick={viewUserDetail}>
+                              {action.user.username}
+                            </a>
+                            {action.message}
+                          </li>
+                        )}
                       </ul>
                     </li>
                   );

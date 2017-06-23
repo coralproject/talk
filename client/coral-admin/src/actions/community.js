@@ -10,8 +10,8 @@ import {
   SET_COMMENTER_STATUS,
   SHOW_BANUSER_DIALOG,
   HIDE_BANUSER_DIALOG,
-  SHOW_SUSPENDUSER_DIALOG,
-  HIDE_SUSPENDUSER_DIALOG
+  SHOW_REJECT_USERNAME_DIALOG,
+  HIDE_REJECT_USERNAME_DIALOG
 } from '../constants/community';
 
 import coralApi from '../../../coral-framework/helpers/request';
@@ -69,6 +69,6 @@ export const setCommenterStatus = (id, status) => (dispatch) => {
 export const showBanUserDialog = (user) => ({type: SHOW_BANUSER_DIALOG, user});
 export const hideBanUserDialog = () => ({type: HIDE_BANUSER_DIALOG});
 
-// Suspend User Dialog
-export const showSuspendUserDialog = (user) => ({type: SHOW_SUSPENDUSER_DIALOG, user});
-export const hideSuspendUserDialog = () => ({type: HIDE_SUSPENDUSER_DIALOG});
+// Reject Username Dialog
+export const showRejectUsernameDialog = (user) => ({type: SHOW_REJECT_USERNAME_DIALOG, user});
+export const hideRejectUsernameDialog = () => ({type: HIDE_REJECT_USERNAME_DIALOG});

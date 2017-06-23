@@ -2,8 +2,6 @@ import React, {Component} from 'react';
 import key from 'keymaster';
 import styles from './styles.css';
 
-import BanUserDialog from './BanUserDialog';
-import SuspendUserDialog from './SuspendUserDialog';
 import ModerationQueue from './ModerationQueue';
 import ModerationMenu from './ModerationMenu';
 import ModerationHeader from './ModerationHeader';
@@ -29,8 +27,8 @@ export default class Moderation extends Component {
     key('esc', () => toggleModal(false));
     key('j', this.select(true));
     key('k', this.select(false));
-    key('r', this.moderate(false));
-    key('t', this.moderate(true));
+    key('f', this.moderate(false));
+    key('d', this.moderate(true));
   }
 
   onClose = () => {
@@ -88,8 +86,8 @@ export default class Moderation extends Component {
     key.unbind('esc');
     key.unbind('j');
     key.unbind('k');
-    key.unbind('r');
-    key.unbind('t');
+    key.unbind('f');
+    key.unbind('d');
   }
 
   componentDidUpdate(_, prevState) {
@@ -168,24 +166,6 @@ export default class Moderation extends Component {
           currentUserId={this.props.auth.user.id}
           viewUserDetail={viewUserDetail}
           hideUserDetail={hideUserDetail}
-        />
-        <BanUserDialog
-          open={moderation.banDialog}
-          user={moderation.user}
-          commentId={moderation.commentId}
-          commentStatus={moderation.commentStatus}
-          handleClose={props.hideBanUserDialog}
-          handleBanUser={props.banUser}
-          showRejectedNote={moderation.showRejectedNote}
-          rejectComment={props.rejectComment}
-        />
-        <SuspendUserDialog
-          open={moderation.suspendUserDialog.show}
-          username={moderation.suspendUserDialog.username}
-          userId={moderation.suspendUserDialog.userId}
-          organizationName={root.settings.organizationName}
-          onCancel={props.hideSuspendUserDialog}
-          onPerform={this.props.suspendUser}
         />
         <ModerationKeysModal
           hideShortcutsNote={props.hideShortcutsNote}
