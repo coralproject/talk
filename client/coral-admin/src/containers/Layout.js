@@ -5,6 +5,8 @@ import {fetchConfig} from '../actions/config';
 import AdminLogin from '../components/AdminLogin';
 import {logout} from 'coral-framework/actions/auth';
 import {FullLoading} from '../components/FullLoading';
+import BanUserDialog from './BanUserDialog';
+import SuspendUserDialog from './SuspendUserDialog';
 import {toggleModal as toggleShortcutModal} from '../actions/moderation';
 import {checkLogin, handleLogin, requestPasswordReset} from '../actions/auth';
 import {can} from 'coral-framework/services/perms';
@@ -52,7 +54,11 @@ class LayoutContainer extends Component {
           handleLogout={handleLogout}
           toggleShortcutModal={toggleShortcutModal}
           {...this.props}
-        />
+        >
+        <BanUserDialog />
+        <SuspendUserDialog />
+        {this.props.children}
+        </Layout>
       );
     } else if (loggedIn) {
       return (
