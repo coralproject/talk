@@ -7,14 +7,15 @@ import {Spinner} from 'coral-ui';
 
 import {withSetUserStatus, withRejectUsername} from 'coral-framework/graphql/mutations';
 
+import {showBanUserDialog} from 'actions/banUserDialog';
+import {showSuspendUserDialog} from 'actions/suspendUserDialog';
+
 import {
   fetchAccounts,
   updateSorting,
   newPage,
-  showBanUserDialog,
-  hideBanUserDialog,
-  showSuspendUserDialog,
-  hideSuspendUserDialog
+  showRejectUsernameDialog,
+  hideRejectUsernameDialog
 } from '../../../actions/community';
 
 import Community from '../components/Community';
@@ -85,16 +86,17 @@ export const withCommunityQuery = withQuery(gql`
 });
 
 const mapStateToProps = (state) => ({
-  community: state.community.toJS()
+  community: state.community.toJS(),
+  currentUser: state.auth.toJS().user,
 });
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
     fetchAccounts,
     showBanUserDialog,
-    hideBanUserDialog,
     showSuspendUserDialog,
-    hideSuspendUserDialog,
+    showRejectUsernameDialog,
+    hideRejectUsernameDialog,
     updateSorting,
     newPage,
   }, dispatch);

@@ -1,61 +1,23 @@
-import {fromJS, Map, Set} from 'immutable';
+import {fromJS, Set} from 'immutable';
 import * as actions from '../constants/moderation';
 
 const initialState = fromJS({
   singleView: false,
   modalOpen: false,
-  user: {},
-  commentId: null,
-  commentStatus: null,
   userDetailId: null,
   userDetailActiveTab: 'all',
   userDetailStatuses: ['NONE', 'ACCEPTED', 'REJECTED', 'PREMOD'],
   userDetailSelectedIds: new Set(),
-  banDialog: false,
   storySearchVisible: false,
   storySearchString: '',
   shortcutsNoteVisible: window.localStorage.getItem('coral:shortcutsNote') || 'show',
   sortOrder: 'REVERSE_CHRONOLOGICAL',
-  suspendUserDialog: {
-    show: false,
-    userId: null,
-    username: '',
-    commentId: null,
-    commentStatus: '',
-  },
 });
 
 export default function moderation (state = initialState, action) {
   switch (action.type) {
   case actions.MODERATION_CLEAR_STATE:
     return initialState;
-  case actions.HIDE_BANUSER_DIALOG:
-    return state
-      .set('banDialog', false)
-      .set('commentStatus', null);
-  case actions.SHOW_BANUSER_DIALOG:
-    return state
-      .merge({
-        user: Map(action.user),
-        commentId: action.commentId,
-        commentStatus: action.commentStatus,
-        showRejectedNote: action.showRejectedNote,
-        banDialog: true
-      });
-  case actions.SHOW_SUSPEND_USER_DIALOG:
-    return state
-      .mergeDeep({
-        suspendUserDialog: {
-          show: true,
-          userId: action.userId,
-          username: action.username,
-          commentId: action.commentId,
-          commentStatus: action.commentStatus,
-        }
-      });
-  case actions.HIDE_SUSPEND_USER_DIALOG:
-    return state
-      .setIn(['suspendUserDialog', 'show'], false);
   case actions.SET_ACTIVE_TAB:
     return state
       .set('activeTab', action.activeTab);
