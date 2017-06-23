@@ -6,7 +6,9 @@ permalink: plugins-quickstart.html
 summary:
 ---
 
-I would like to create a plugin that allows my CMS to update asset information.
+This tutorial walks through the mechanics of creating and publishing a Talk plugin. Along the way I call out some particular habits and techniques that I employ. If you have other practices that you find valuable, please don't hesitate to [contribute!](faq.html#how-do-i-contribue-to-these-docs)
+
+We will create a plugin that exposes a route that allows assets to be created or updated.
 
 ## Setup the environment
 
@@ -14,19 +16,17 @@ Before I begin working on the plugin, I've installed [Talk from source](/install
 
 ### Watch the Server
 
-In a terminal, I run `yarn dev-start`. This command:
+In a terminal, I run `yarn dev-start`. This:
 
 * starts my server, showing plugin and configuration information
 * restarts it when I save files
-* shows my temporary `console.log()` statements here
+* shows my temporary `console.log()` statements
 * shows real time access logs
 * shows verbose debug output if enabled (more on this later)
 
-
-
 ### Watch the Client build process
 
-In another window I run `yarn build-watch`. This command:
+In a separate terminal I run `yarn build-watch`. This:
 
 * builds the client side javascript bundles
 * watches relevant files and rebuilds the bundle on change
@@ -36,7 +36,7 @@ If you need to run `yarn install`, you will see missing module error messages he
 
 ### Watch from the Browser
 
-I open up `http://localhost:3000` in a web browser and see the default comment stream. I then open the dev tools console which:
+I open up `http://localhost:3000` in a web browser and see the default comment stream. I then open the dev tools console, which:
 
 * shows any _run time_ errors/warnings generated on the front end.
 * shows any temporary `console.log()` statements I add during development.
@@ -46,9 +46,15 @@ I also often toggle to the Network Tab to see:
 * which files are being loaded
 * requests sent from my front end code, including headers, the payload/queries sent and the data returned
 
+I strongly recommend taking the time to fully explore all the features of your browser's dev tools!
+
 ## Create a home for my new plugin
 
-I want to build this plugin locally, using source control and eventually publish it to npm.
+My goals for this tutorial are to:
+
+* build this plugin locally
+* use source control and publish for collaboration
+* publish the plugin as an npm library
 
 ### Create a repo
 
@@ -58,10 +64,16 @@ _make sure to respect the naming convention `talk-plugin-*`. This will allow for
 
 ### Set up a local file structure
 
+In a blatant rip off from the Golang community, I create an environment var to hold the path to the root of my Coral directory. This allows absolute pathing.
+
+```
+export CORALPATH=/path/to/my/coral/root/dir
+```
+
 I like to put my plugins in a directory next to talk, but you could put this anywhere.
 
 ```
-cd ..
+cd $CORALPATH
 git clone https://github.com/jde/talk-plugin-asset-manager.git
 ```
 
@@ -91,15 +103,8 @@ This would make it _a little_ easier to register, but _a lot_ harder to cleanly 
 As a user of a Linux_y_ os, I prefer to create a symbolic link.
 
 ```
-cd /path/to/talk/plugins
-ln -s /path/to/your/plugin
-```
-
-or in this case, from the directory create above:
-
-```
-cd ../talk/plugins
-ln -s ../../talk-plugin-asset-manager
+cd $CORALPATH/talk/plugins
+ln -s $CORALPATH/talk-plugin-asset-manager
 ```
 
 Now, as far as Talk knows, our plugin is right there in the folder. Git is wise, however, and will not include it in the Talk repo. Best of all, our `yarn dev-start` based watch statement follows symbolic links and will restart our sever each time a file is saved.
@@ -146,12 +151,12 @@ $ curl -H "Content-Type: application/json" -X POST -d '{"url":"http://localhost:
 {"url":"http://localhost:3000/my-article.html","title":"My Article"}
 ```
 
-After hitting the endpoint, I can also look at the terminal running `yarn dev-start` and see the access log and my `console.log()` statement:
+After hitting the endpoint, I can also look at the terminal running `yarn dev-start` and see my `console.log()` and the access log:
 
 ```
 { url: 'http://localhost:3000/my-article.html',
   title: 'My Article' }
-POST /api/v1/asset-manager 200 1.379 ms - 682309
+POST /api/v1/asset-manager 200 1.379 ms - 68
 ```
 
 ### Save the asset
@@ -183,7 +188,11 @@ module.exports = {
 }
 ```
 
-I can now run the `curl` command as before, then see my new asset in my db!
+I can now run the `curl` command as before and see that the response contains a complete asset document!
+
+In addition, I can change the title in the json payload and verify that the id is the same, indicating that the record was updated!
+
+Lastly, I can see the asset in the admin panel at `http://localhost:3000/admin` as well as in my database.
 
 We have an alpha version of our plugin!
 
@@ -193,17 +202,16 @@ The purpose of this tutorial is to follow the full lifecycle of a plugin, from c
 
 Some things to make this production ready:
 
-* refactoring to separate concerns,
-* commenting,
-* adding tests,
-* validating data,
+* refactoring to separate concerns
+* commenting
+* adding tests
+* validating data
 * [adding security](https://github.com/coralproject/talk/blob/b805451d376d2892c81c58d8822a85563e469b88/routes/api/users/index.js#L14)  
 * incorporating [domain whitelisting](https://github.com/coralproject/talk/blob/b805451d376d2892c81c58d8822a85563e469b88/services/assets.js#L60).
 
 It is important to realize that when you're writing a Talk plugin you are writing a program that may be touched by other devs and could grow in size and complexity. Bring your best engineering sensibilities to bear.
 
 ## Publishing the plugin
-
 
 ### Publish to npm
 
@@ -226,6 +234,8 @@ Finally, run the `reconcile` script to install the plugin from npm.
 ```
 $ bin/cli plugins reconcile
 ```
+
+Once you've taken this step, anyone can register your plugin into their Talk server! Thank you for contributing to the open source community!
 
 ### Publish to version control
 
