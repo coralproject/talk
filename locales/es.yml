@@ -362,7 +362,7 @@ es:
     days: "{0} días"
     cancel: "Cancelar"
     suspend_user: "Suspender Usuario"
-    email_message_suspend: "Querida {0}, De acuerdo a la guía comunitaria de {1}, su cuenta ha sido temporalmente suspendida. Durante este tiempo, no podrá comentar, marcar o involucrarse con otros comentaristas. Por favor unirse a la conversación {2}."
+    email_message_suspend: "Querido/a {0}, De acuerdo a la guía comunitaria de {1}, su cuenta ha sido temporalmente suspendida. Durante este tiempo, no podrá comentar, marcar o involucrarse con otros comentaristas. Por favor unirse a la conversación {2}."
     title_notify: "Notificar al usuario de su suspensión temporal"
     notify_suspend_until: "Usuario {0} ha sido temporalmente suspendido. Esta suspension va a terminar automáticamente en {1}."
     description_notify: "Suspender a este usuario va a deshabilitar temporalmente su cuenta y ocultar todos sus comentarios en el sitio."
