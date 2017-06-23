@@ -27,8 +27,8 @@ export default class Moderation extends Component {
     key('esc', () => toggleModal(false));
     key('j', this.select(true));
     key('k', this.select(false));
-    key('r', this.moderate(false));
-    key('t', this.moderate(true));
+    key('f', this.moderate(false));
+    key('d', this.moderate(true));
   }
 
   onClose = () => {
@@ -86,8 +86,8 @@ export default class Moderation extends Component {
     key.unbind('esc');
     key.unbind('j');
     key.unbind('k');
-    key.unbind('r');
-    key.unbind('t');
+    key.unbind('f');
+    key.unbind('d');
   }
 
   componentDidUpdate(_, prevState) {

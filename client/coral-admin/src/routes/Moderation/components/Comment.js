@@ -231,6 +231,7 @@ class Comment extends React.Component {
           ? <FlagBox
               actions={flagActions}
               actionSummaries={flagActionSummaries}
+              viewUserDetail={() => viewUserDetail(comment.user.id)}
             />
           : null}
       </li>
