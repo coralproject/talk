@@ -88,8 +88,8 @@ export default class Moderation extends Component {
     key.unbind('esc');
     key.unbind('j');
     key.unbind('k');
-    key.unbind('r');
-    key.unbind('t');
+    key.unbind('f');
+    key.unbind('d');
   }
 
   componentDidUpdate(_, prevState) {
