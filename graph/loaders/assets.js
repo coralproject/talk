@@ -71,9 +71,7 @@ const findByUrl = async (context, asset_url) => {
     throw errors.ErrInvalidAssetURL;
   }
 
-  let asset = await AssetsService.findByUrl(asset_url);
-
-  return asset;
+  return AssetsService.findByUrl(asset_url);
 };
 
 /**

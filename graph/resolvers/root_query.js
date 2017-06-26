@@ -53,11 +53,10 @@ const RootQuery = {
     }
 
     if (asset_url) {
-      return Assets.findByUrl(asset_url)
-        .then((asset) => {
-          const newQuery = Object.assign({}, query, {asset_id: asset.id});
-          return Comments.getCountByQuery(newQuery);
-        });
+      let asset = await Assets.findByUrl(asset_url);
+      if (asset) {
+        query.asset_id = asset.id;
+      }
     }
 
     return Comments.getCountByQuery(query);
