@@ -54,7 +54,7 @@ class Comment extends React.Component {
     // currently the highlighter plugin does not support out of the box.
     const searchWords = [...suspectWords, ...bannedWords]
       .filter((w) => {
-        return new RegExp(`(^|\\s)${w}(\\s|$)`).test(comment.body);
+        return new RegExp(`(^|\\s)${w}(\\s|$)`, 'i').test(comment.body);
       })
       .concat(linkText);
 
