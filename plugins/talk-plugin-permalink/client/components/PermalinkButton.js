@@ -48,12 +48,16 @@ export default class PermalinkButton extends React.Component {
       });
     }
 
-    setTimeout(() => {
+    this.timeout = window.setTimeout(() => {
       this.setState({
         copyFailure: null,
         copySuccessful: null
       });
     }, 3000);
+  }
+
+  componentWillUnmount() {
+    window.clearTimeout(this.timeout);
   }
 
   render () {
