@@ -9,8 +9,8 @@ import {
   SET_COMMENTER_STATUS,
   SHOW_BANUSER_DIALOG,
   HIDE_BANUSER_DIALOG,
-  SHOW_SUSPENDUSER_DIALOG,
-  HIDE_SUSPENDUSER_DIALOG
+  SHOW_REJECT_USERNAME_DIALOG,
+  HIDE_REJECT_USERNAME_DIALOG
 } from '../constants/community';
 
 const initialState = Map({
@@ -24,7 +24,7 @@ const initialState = Map({
   pagePeople: 0,
   user: Map({}),
   banDialog: false,
-  suspendDialog: false
+  rejectUsernameDialog: false
 });
 
 export default function community (state = initialState, action) {
@@ -79,14 +79,14 @@ export default function community (state = initialState, action) {
         user: Map(action.user),
         banDialog: true
       });
-  case HIDE_SUSPENDUSER_DIALOG:
+  case HIDE_REJECT_USERNAME_DIALOG:
     return state
-      .set('suspendDialog', false);
-  case SHOW_SUSPENDUSER_DIALOG:
+      .set('rejectUsernameDialog', false);
+  case SHOW_REJECT_USERNAME_DIALOG:
     return state
       .merge({
         user: Map(action.user),
-        suspendDialog: true
+        rejectUsernameDialog: true
       });
   default :
     return state;

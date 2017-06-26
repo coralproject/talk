@@ -50,6 +50,7 @@ sign and verify tokens via a `HS256` algorithm.
 - `TALK_RECAPTCHA_SECRET` (*required for reCAPTCHA support*) - server secret used for enabling reCAPTCHA powered logins. If not provided it will instead default to providing only a time based lockout.
 - `TALK_RECAPTCHA_PUBLIC` (*required for reCAPTCHA support*) - client secret used for enabling reCAPTCHA powered logins. If not provided it will instead default to providing only a time based lockout.
 - `TALK_PLUGINS_JSON` (_optional_) - used to specify the plugin config via the environment
+- `TALK_KEEP_ALIVE` (_optional_) - The keepalive timeout that should be used to send keep alive messages through the websocket to keep the socket alive. (Default `30s`)
 
 Refer to the wiki page on [Configuration Loading](https://github.com/coralproject/talk/wiki/Configuration-Loading) for
 alternative methods of loading configuration during development.
