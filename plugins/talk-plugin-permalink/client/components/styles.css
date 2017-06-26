@@ -1,0 +1,66 @@
+.container {
+  border-radius: 3px;
+  padding: 15px 10px;
+  box-sizing: border-box;
+  border: solid 1px rgba(153, 153, 153, 0.33);
+  left: 0;
+  width: 100%;
+  z-index: 10;
+}
+.container::before {
+  content: '';
+  border: 10px solid transparent;
+  border-top-color: white;
+  position: absolute;
+  right: 7em;
+  bottom: -20px;
+  z-index: 2;
+}
+
+.container::after{
+  content: '';
+  border: 10px solid transparent;
+  border-top-color: rgba(153, 153, 153, 0.33);
+  position: absolute;
+  right: 7em;
+  bottom: -21px;
+  z-index: 1;
+}
+
+.input {
+  display: inline-block;
+  width: calc(100% - 78px);
+  padding: 8px;
+  border-radius: 3px;
+  border: solid 1px #e0e0e0;
+  height: 32px;
+  box-sizing: border-box;
+  font-size: 1em;
+}
+
+.button {
+  display: inline-block;
+  float: right;
+  box-sizing: border-box;
+  margin: 0;
+  background-color: #e0e0e0;
+  font-size: 1em;
+  width: auto;
+  height: auto;
+  padding: 2px;
+  transition: background-color 0.4s ease;
+}
+
+.button:hover{
+  color: black;
+}
+
+.button.success {
+  background-color: #00897B;
+  color: white;
+}
+
+.button.failure {
+  background-color: #FF5252;
+  color: white;
+}
