@@ -1,9 +1,9 @@
 import React from 'react';
-import {Button} from 'coral-ui';
-import styles from './styles.css';
-import t from 'coral-framework/services/i18n';
-import ClickOutside from 'coral-framework/components/ClickOutside';
 import cn from 'classnames';
+import styles from './styles.css';
+import {t} from 'plugin-api/beta/client/services';
+import {ClickOutside} from 'plugin-api/beta/client/components';
+import {Icon, Button} from 'plugin-api/beta/client/components/ui';
 
 const name = 'talk-plugin-permalink';
 
@@ -66,12 +66,13 @@ export default class PermalinkButton extends React.Component {
     return (
       <ClickOutside onClickOutside={this.handleClickOutside}>
         <div className={cn(`${name}-container`, styles.container)}>
+          
           <button
             ref={(ref) => this.linkButton = ref}
             onClick={this.toggle}
             className={`${name}-button`}>
-            {t('permalink')}
-            <i className={`${name}-icon material-icons`} aria-hidden={true}>link</i>
+              {t('permalink')}
+            <Icon name="link" />
           </button>
 
           <div
