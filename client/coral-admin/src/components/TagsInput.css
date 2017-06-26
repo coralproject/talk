@@ -1,0 +1,51 @@
+.root {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  padding-left: 5px;
+  padding-top: 5px;
+
+}
+
+.rootFocuesd {
+  border-color: rgb(142, 76, 65);
+}
+
+.tag {
+  background-color: rgb(255, 220, 214);
+  border-radius: 2px;
+  border: 1px solid rgb(244, 126, 107);
+  color: rgb(244, 126, 107);
+  display: inline-block;
+  font-family: sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  padding: 5px;
+}
+
+.tagRemove {
+  cursor: pointer;
+  font-weight: bold;
+  color: rgb(101, 24, 23);
+
+  &::before {
+    content: " ×";
+  }
+}
+
+.input > input {
+  background: transparent;
+  border: 0;
+  color: #777;
+  font-family: sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  margin-bottom: 6px;
+  margin-top: 1px;
+  outline: none;
+  padding: 5px;
+}
+
+

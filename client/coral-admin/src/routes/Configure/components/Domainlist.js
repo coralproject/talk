@@ -1,7 +1,7 @@
 import React from 'react';
 import {Card} from 'coral-ui';
 import styles from './Configure.css';
-import TagsInput from 'react-tagsinput';
+import TagsInput from 'coral-admin/src/components/TagsInput';
 import t from 'coral-framework/services/i18n';
 
 const Domainlist = ({domains, onChangeDomainlist}) => {
@@ -14,8 +14,6 @@ const Domainlist = ({domains, onChangeDomainlist}) => {
           <TagsInput
             value={domains}
             inputProps={{placeholder: 'URL'}}
-            addOnPaste={true}
-            pasteSplit={(data) => data.split(',').map((d) => d.trim())}
             onChange={(tags) => onChangeDomainlist('whitelist', tags)}
           />
         </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './style.css';
 import {Button, Card} from 'coral-ui';
-import TagsInput from 'react-tagsinput';
+import TagsInput from 'coral-admin/src/components/TagsInput';
 
 import t from 'coral-framework/services/i18n';
 
@@ -16,9 +16,6 @@ const PermittedDomainsStep = (props) => {
         <TagsInput
           value={domains}
           inputProps={{placeholder: 'URL'}}
-          addOnBlur={true}
-          addOnPaste={true}
-          pasteSplit={(data) => data.split(',').map((d) => d.trim())}
           onChange={(tags) => handleDomainsChange(tags)}
         />
       </Card>
