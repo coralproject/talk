@@ -63,18 +63,33 @@ const getAssetsForMetrics = async ({loaders: {Actions, Comments}}) => {
     .then((connection) => connection.nodes);
 };
 
+const findByUrl = async (context, asset_url) => {
+
+  // Verify that the asset_url is parsable.
+  let parsed_asset_url = url.parse(asset_url);
+  if (!parsed_asset_url.protocol) {
+    throw errors.ErrInvalidAssetURL;
+  }
+
+  let asset = await AssetsService.findByUrl(asset_url);
+
+  return asset;
+};
+
 /**
  * Creates a set of loaders based on a GraphQL context.
  * @param  {Object} context the context of the GraphQL request
  * @return {Object}         object of loaders
  */
+
 module.exports = (context) => ({
   Assets: {
 
     // TODO: decide whether we want to move these to mutators or not, as in fact
     // this operation create a new asset if one isn't found.
     getByURL: (url) => findOrCreateAssetByURL(context, url),
-
+    
+    findByUrl: (url) => findByUrl(context, url),
     search: (query) => getAssetsByQuery(context, query),
     getByID: new DataLoader((ids) => genAssetsByID(context, ids)),
     getForMetrics: () => getAssetsForMetrics(context),

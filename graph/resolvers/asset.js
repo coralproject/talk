@@ -14,7 +14,7 @@ const Asset = {
     });
   },
   commentCount({id, commentCount}, {excludeIgnored}, {user, loaders: {Comments}}) {
-
+    
     // TODO: remove
     if (user && excludeIgnored) {
       return Comments.parentCountByAssetIDPersonalized({assetId: id, excludeIgnored});
