@@ -981,7 +981,7 @@ type RootMutation {
   # Suspends a user. Requires the `ADMIN` role.
   suspendUser(input: SuspendUserInput!): SuspendUserResponse
 
-  # Suspends a user. Requires the `ADMIN` role.
+  # Reject a username. Requires the `ADMIN` role.
   rejectUsername(input: RejectUsernameInput!): RejectUsernameResponse
 
   # Sets Comment status. Requires the `ADMIN` role.

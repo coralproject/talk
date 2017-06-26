@@ -81,7 +81,7 @@ const StorySearch = (props) => {
           </div>
         </div>
       </div>
-      <div className={styles.overlay} onClick={props.closeSearch} />
+      <div className={styles.overlay} onClick={props.clearAndCloseSearch} />
     </div>
   );
 };
@@ -89,7 +89,7 @@ const StorySearch = (props) => {
 StorySearch.propTypes = {
   search: PropTypes.func.isRequired,
   goToStory: PropTypes.func.isRequired,
-  closeSearch: PropTypes.func.isRequired,
+  clearAndCloseSearch: PropTypes.func.isRequired,
   moderation: PropTypes.object.isRequired,
   handleSearchChange: PropTypes.func.isRequired,
   assetId: PropTypes.string
