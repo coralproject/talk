@@ -66,6 +66,28 @@ const validation = (formData, dispatch, next) => {
     return;
   }
 
+  // Confirm Validation
+  const prefixLength = 'confirm'.length;
+  const confirm = validKeys
+    .filter((name) => {
+      if (!name.startsWith('confirm')) {
+        return false;
+      }
+
+      // Check that 'confirmX' equals 'X'.
+      const other = name.substr(prefixLength, 1).toLowerCase() + name.substr(prefixLength + 1);
+      const cond = formData[other] !== formData[name];
+      if (cond) {
+        dispatch(addError(name, errorMsj[name]));
+      }
+      return cond;
+    });
+
+  if (confirm.length) {
+    dispatch(hasError());
+    return;
+  }
+
   dispatch(clearErrors());
   next();
 };
