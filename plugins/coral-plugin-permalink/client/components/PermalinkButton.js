@@ -1,53 +1,64 @@
-import React, {PropTypes} from 'react';
-const name = 'coral-plugin-permalinks';
+import React from 'react';
 import {Button} from 'coral-ui';
 import styles from './styles.css';
-import ClickOutside from 'coral-framework/components/ClickOutside';
-
 import t from 'coral-framework/services/i18n';
+import ClickOutside from 'coral-framework/components/ClickOutside';
+import cn from 'classnames';
+
+const name = 'coral-plugin-permalinks';
 
 export default class PermalinkButton extends React.Component {
-
-  static propTypes = {
-    articleURL: PropTypes.string.isRequired,
-    commentId: PropTypes.string.isRequired
-  }
-
   constructor (props) {
     super(props);
-    this.state = {popoverOpen: false, copySuccessful: null, copyFailure: null};
-    this.toggle = this.toggle.bind(this);
-    this.copyPermalink = this.copyPermalink.bind(this);
+
+    this.state = {
+      popoverOpen: false,
+      copySuccessful: null,
+      copyFailure: null
+    };
+
   }
 
-  toggle () {
-
-    // I wish I could position this with a stylesheet, but top-level comments with
-    // nested replies throws everything off, as well as very long comments
+  toggle = () => {
     this.popover.style.top = `${this.linkButton.offsetTop - 80}px`;
-    this.setState({popoverOpen: !this.state.popoverOpen});
+
+    this.setState({
+      popoverOpen: !this.state.popoverOpen
+    });
   }
 
   handleClickOutside = () => {
-    this.setState({popoverOpen: false});
+    this.setState({
+      popoverOpen: false
+    });
   }
 
-  copyPermalink () {
+  copyPermalink = () => {
     this.permalinkInput.select();
     try {
       document.execCommand('copy');
-      this.setState({copySuccessful: true, copyFailure: null});
+      this.setState({
+        copySuccessful: true,
+        copyFailure: null
+      });
     } catch (err) {
-      this.setState({copyFailure: true, copySuccessful: null});
+      this.setState({
+        copyFailure: true,
+        copySuccessful: null
+      });
     }
 
     setTimeout(() => {
-      this.setState({copyFailure: null, copySuccessful: null});
+      this.setState({
+        copyFailure: null,
+        copySuccessful: null
+      });
     }, 3000);
   }
 
   render () {
-    const {copySuccessful, copyFailure} = this.state;
+    const {copySuccessful, copyFailure, popoverOpen} = this.state;
+    const {asset} = this.props;
     return (
       <ClickOutside onClickOutside={this.handleClickOutside}>
         <div className={`${name}-container`}>
@@ -60,15 +71,18 @@ export default class PermalinkButton extends React.Component {
           </button>
           <div
             ref={(ref) => this.popover = ref}
-            className={`${name}-popover ${styles.container} ${this.state.popoverOpen ? 'active' : ''}`}>
+            className={cn([`${name}-popover`, styles.container, {active: popoverOpen}])}>
             <input
               className={`${name}-copy-field`}
               type='text'
               ref={(input) => this.permalinkInput = input}
-              value={`${this.props.articleURL}#${this.props.commentId}`}
-              onChange={() => {}} />
-            <Button className={`${name}-copy-button ${copySuccessful ? styles.success : ''} ${copyFailure ? styles.failure : ''}`}
-                    onClick={this.copyPermalink} >
+              value={`${asset.url}#${this.props.commentId}`}
+            />
+
+            <Button
+              onClick={this.copyPermalink}
+              className={cn([`${name}-copy-button`, {[style.success]:copySuccessful, [styles.failure]: copyFailure}])}
+            >
               {!copyFailure && !copySuccessful && 'Copy'}
               {copySuccessful && 'Copied'}
               {copyFailure && 'Not supported'}

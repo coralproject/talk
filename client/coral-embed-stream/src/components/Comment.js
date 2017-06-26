@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
 
-import PermalinkButton from 'coral-plugin-permalinks/PermalinkButton';
 import AuthorName from 'coral-plugin-author-name/AuthorName';
 import TagLabel from 'coral-plugin-tag-label/TagLabel';
 import PubDate from 'coral-plugin-pubdate/PubDate';
@@ -509,19 +508,18 @@ export default class Comment extends React.Component {
                   currentUserId={currentUser && currentUser.id}
                 />
               </ActionButton>}
+          </div>
+          <div className="commentActionsRight comment__action-container">
             <Slot
               fill="commentActions"
+              wrapperComponent={ActionButton}
               data={this.props.data}
               root={this.props.root}
+              asset={asset}
               comment={comment}
               commentId={comment.id}
               inline
             />
-          </div>
-          <div className="commentActionsRight comment__action-container">
-            <ActionButton>
-              <PermalinkButton articleURL={asset.url} commentId={comment.id} />
-            </ActionButton>
             <ActionButton>
               <FlagComment
                 flaggedByCurrentUser={!!myFlag}
