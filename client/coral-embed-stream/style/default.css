@@ -335,33 +335,6 @@ button.comment__action-button[disabled],
   display: inline-block;
 }
 
-.coral-plugin-permalinks-container {
-  /*position: relative;*/
-  z-index: 2;
-}
-
-.coral-plugin-permalinks-popover {
-  display: none;
-  background-color: white;
-  border: 1px solid black;
-  position: absolute;
-  padding: 5px;
-}
-
-.coral-plugin-permalinks-popover.active {
-  display: block;
-}
-
-.coral-plugin-permalinks-copy-field {
-  display: block;
-  width: calc(100% - 5px);
-}
-
-.coral-plugin-permalinks-copied-text {
-  float: right;
-  margin: 8px;
-}
-
 /* Flag Styles */
 
 .coral-plugin-flags-popup-form {

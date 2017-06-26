@@ -61,7 +61,7 @@ export default class PermalinkButton extends React.Component {
     const {asset} = this.props;
     return (
       <ClickOutside onClickOutside={this.handleClickOutside}>
-        <div className={`${name}-container`}>
+        <div className={cn(`${name}-container`, styles.container)}>
           <button
             ref={(ref) => this.linkButton = ref}
             onClick={this.toggle}
@@ -69,15 +69,16 @@ export default class PermalinkButton extends React.Component {
             {t('permalink')}
             <i className={`${name}-icon material-icons`} aria-hidden={true}>link</i>
           </button>
+
           <div
             ref={(ref) => this.popover = ref}
-            className={cn([`${name}-popover`, styles.container, {active: popoverOpen}])}>
+            className={cn([`${name}-popover`, styles.popover, {[styles.active]: popoverOpen}])}>
 
             <input
               className={cn(styles.input, `${name}-copy-field`)}
               type='text'
               ref={(input) => this.permalinkInput = input}
-              value={`${asset.url}#${this.props.commentId}`}
+              defaultValue={`${asset.url}#${this.props.commentId}`}
             />
 
             <Button

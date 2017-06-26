@@ -1,4 +1,8 @@
-.container {
+.popover {
+  display: none;
+  background-color: white;
+  position: absolute;
+
   border-radius: 3px;
   padding: 15px 10px;
   box-sizing: border-box;
@@ -7,7 +11,7 @@
   width: 100%;
   z-index: 10;
 }
-.container::before {
+.popover::before {
   content: '';
   border: 10px solid transparent;
   border-top-color: white;
@@ -17,7 +21,7 @@
   z-index: 2;
 }
 
-.container::after{
+.popover::after{
   content: '';
   border: 10px solid transparent;
   border-top-color: rgba(153, 153, 153, 0.33);
@@ -63,4 +67,12 @@
 .button.failure {
   background-color: #FF5252;
   color: white;
+}
+
+.container {
+  z-index: 2;
+}
+
+.active {
+  display: block;
 }
