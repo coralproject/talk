@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Community.css';
 
 import ActionButton from './ActionButton';
-import {username} from 'coral-plugin-flags/helpers/flagMap';
+import {username} from 'coral-plugin-flags/helpers/flagReasons';
 import ActionsMenu from 'coral-admin/src/components/ActionsMenu';
 import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
 
