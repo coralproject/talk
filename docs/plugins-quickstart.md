@@ -6,7 +6,7 @@ permalink: plugins-quickstart.html
 summary:
 ---
 
-This tutorial walks through the mechanics of creating and publishing a Talk plugin. Along the way I call out some particular habits and techniques that I employ. If you have other practices that you find valuable, please don't hesitate to [contribute!](faq.html#how-do-i-contribue-to-these-docs)
+This tutorial walks through the mechanics of creating and publishing a Talk plugin. Along the way I call out some particular habits and techniques that I employ. If you have other practices that you find valuable, please don't hesitate to [contribute!](faq.html#how-do-i-contribute-to-these-docs)
 
 We will create a plugin that exposes a route that allows assets to be created or updated.
 

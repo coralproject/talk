@@ -19,4 +19,4 @@ While Talk can be installed in many ways, we support two install paths:
 * [Install from Source](install-source.html) (development)
 * [Install via Docker](install-docker.html) (deployment)
 
-If you have success installing Talk in another way, please consider [contributing to this documentation](faq.html#how-do-i-contribue-to-these-docs)!
+If you have success installing Talk in another way, please consider [contributing to this documentation](faq.html#how-do-i-contribute-to-these-docs)!

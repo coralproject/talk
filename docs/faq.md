@@ -52,7 +52,7 @@ We strive for clear inline documentation across our codebase, but have gaps. Con
 
 If you are considering changing a core component (aka, one that is not in a plugin), you are entering the realm of a core developer. We strongly ask that you reach out the coral team before forking and changing core code. We are glad to help talk through your product need and come up with a strategy for implementing as a plugin, or working with you to extend the plugin API for your use case.
 
-### How do I contribue to these docs?
+### How do I contribute to these docs?
 
 Contributions to the docs are much appreciated and a great way to get involved in the project.
 
