@@ -30,11 +30,8 @@ class StreamContainer extends React.Component {
   subscriptions = [];
 
   subscribeToUpdates() {
-    const sub1 = this.props.data.subscribeToMore({
+    const newSubscriptions = [{
       document: COMMENTS_EDITED_SUBSCRIPTION,
-      variables: {
-        assetId: this.props.root.asset.id,
-      },
       updateQuery: (prev, {subscriptionData: {data: {commentEdited}}}) => {
 
         // Ignore mutations from me.
@@ -52,13 +49,9 @@ class StreamContainer extends React.Component {
           return removeCommentFromEmbedQuery(prev, commentEdited.id);
         }
       },
-    });
-
-    const sub2 = this.props.data.subscribeToMore({
+    },
+    {
       document: COMMENTS_ADDED_SUBSCRIPTION,
-      variables: {
-        assetId: this.props.root.asset.id,
-      },
       updateQuery: (prev, {subscriptionData: {data: {commentAdded}}}) => {
 
         // Ignore mutations from me.
@@ -81,9 +74,15 @@ class StreamContainer extends React.Component {
 
         return insertCommentIntoEmbedQuery(prev, commentAdded);
       }
-    });
+    }];
 
-    this.subscriptions.push(sub1, sub2);
+    this.subscriptions = newSubscriptions.map((s) => this.props.data.subscribeToMore({
+      document: s.document,
+      variables: {
+        assetId: this.props.root.asset.id,
+      },
+      updateQuery: s.updateQuery,
+    }));
   }
 
   unsubscribe() {

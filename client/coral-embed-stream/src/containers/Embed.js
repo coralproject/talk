@@ -26,41 +26,32 @@ class EmbedContainer extends React.Component {
 
   subscribeToUpdates(props = this.props) {
     if (props.auth.loggedIn) {
-      let sub = props.data.subscribeToMore({
+      const newSubscriptions = [{
         document: USER_BANNED_SUBSCRIPTION,
-        variables: {
-          user_id: props.auth.user.id,
-        },
         updateQuery: () => {
           addNotification('info', t('your_account_has_been_banned'));
         },
-      });
-
-      this.subscriptions.push(sub);
-
-      sub = props.data.subscribeToMore({
+      },
+      {
         document: USER_SUSPENDED_SUBSCRIPTION,
-        variables: {
-          user_id: props.auth.user.id,
-        },
         updateQuery: () => {
           addNotification('info', t('your_account_has_been_suspended'));
         },
-      });
-
-      this.subscriptions.push(sub);
-
-      sub = props.data.subscribeToMore({
+      },
+      {
         document: USERNAME_REJECTED_SUBSCRIPTION,
-        variables: {
-          user_id: props.auth.user.id,
-        },
         updateQuery: () => {
           addNotification('info', t('your_username_has_been_rejected'));
         },
-      });
+      }];
 
-      this.subscriptions.push(sub);
+      this.subscriptions = newSubscriptions.map((s) => props.data.subscribeToMore({
+        document: s.document,
+        variables: {
+          user_id: props.auth.user.id,
+        },
+        updateQuery: s.updateQuery,
+      }));
     }
   }
 
