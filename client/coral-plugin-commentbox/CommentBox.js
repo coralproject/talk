@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 
 import t from 'coral-framework/services/i18n';
+import {can} from 'coral-framework/services/perms';
 
 import Slot from 'coral-framework/components/Slot';
 import {connect} from 'react-redux';
@@ -43,7 +44,13 @@ class CommentBox extends React.Component {
       assetId,
       parentId,
       addNotification,
+      currentUser,
     } = this.props;
+
+    if (!can(currentUser, 'INTERACT_WITH_COMMUNITY')) {
+      addNotification('error', t('error.NOT_AUTHORIZED'));
+      return;
+    }
 
     let comment = {
       asset_id: assetId,

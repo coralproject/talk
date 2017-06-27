@@ -196,8 +196,16 @@ export default class Comment extends React.Component {
     editComment: React.PropTypes.func,
   }
 
+  editComment = () => {
+    return this.props.editComment(this.props.comment.id, this.props.asset.id);
+  }
+
   onClickEdit (e) {
     e.preventDefault();
+    if (!can(this.props.currentUser, 'INTERACT_WITH_COMMUNITY')) {
+      this.props.addNotification('error', t('error.NOT_AUTHORIZED'));
+      return;
+    }
     this.setState({isEditing: true});
   }
 
@@ -240,7 +248,8 @@ export default class Comment extends React.Component {
     }
     if (can(this.props.currentUser, 'INTERACT_WITH_COMMUNITY')) {
       this.props.setActiveReplyBox(this.props.comment.id);
-      return;
+    } else {
+      this.props.addNotification('error', t('error.NOT_AUTHORIZED'));
     }
     return;
   }
@@ -469,7 +478,7 @@ export default class Comment extends React.Component {
           {
             this.state.isEditing
             ? <EditableCommentContent
-                editComment={this.props.editComment.bind(null, comment.id, asset.id)}
+                editComment={this.editComment}
                 addNotification={addNotification}
                 asset={asset}
                 comment={comment}
@@ -529,6 +538,7 @@ export default class Comment extends React.Component {
                 id={comment.id}
                 author_id={comment.user.id}
                 postFlag={postFlag}
+                addNotification={addNotification}
                 postDontAgree={postDontAgree}
                 deleteAction={deleteAction}
                 showSignInDialog={showSignInDialog}

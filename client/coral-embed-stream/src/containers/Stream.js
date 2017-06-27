@@ -173,7 +173,7 @@ const commentFragment = gql`
 `;
 
 const COMMENTS_ADDED_SUBSCRIPTION = gql`
-  subscription onCommentAdded($assetId: ID!, $excludeIgnored: Boolean){
+  subscription CommentAdded($assetId: ID!, $excludeIgnored: Boolean){
     commentAdded(asset_id: $assetId){
       parent {
         id
@@ -185,7 +185,7 @@ const COMMENTS_ADDED_SUBSCRIPTION = gql`
 `;
 
 const COMMENTS_EDITED_SUBSCRIPTION = gql`
-  subscription onCommentEdited($assetId: ID!){
+  subscription CommentEdited($assetId: ID!){
     commentEdited(asset_id: $assetId){
       id
       body
