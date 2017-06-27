@@ -1,6 +1,6 @@
 import React from 'react';
 import t from 'coral-framework/services/i18n';
-import TagsInput from 'react-tagsinput';
+import TagsInput from 'coral-admin/src/components/TagsInput';
 import styles from './Configure.css';
 import {Card} from 'coral-ui';
 
@@ -13,8 +13,6 @@ const Wordlist = ({suspectWords, bannedWords, onChangeWordlist}) => (
         <TagsInput
           value={bannedWords}
           inputProps={{placeholder: 'word or phrase'}}
-          addOnPaste={true}
-          pasteSplit={(data) => data.split(',').map((d) => d.trim())}
           onChange={(tags) => onChangeWordlist('banned', tags)}
         />
       </div>
@@ -26,8 +24,6 @@ const Wordlist = ({suspectWords, bannedWords, onChangeWordlist}) => (
         <TagsInput
           value={suspectWords}
           inputProps={{placeholder: 'word or phrase'}}
-          addOnPaste={true}
-          pasteSplit={(data) => data.split(',').map((d) => d.trim())}
           onChange={(tags) => onChangeWordlist('suspect', tags)} />
       </div>
     </Card>
