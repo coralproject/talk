@@ -255,6 +255,9 @@ input CommentCountQuery {
   # Asset that a comment is on.
   asset_id: ID
 
+  # The URL that the asset is located on.
+  asset_url: String
+
   # the parent of the comment that we want to retrieve.
   parent_id: ID
 
