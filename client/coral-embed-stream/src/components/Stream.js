@@ -57,7 +57,10 @@ class Stream extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = resetCursors(this.state, props);
+    this.state = {
+      ...resetCursors(this.state, props),
+      keepCommentBox: false,
+    };
   }
 
   componentWillReceiveProps(next) {
@@ -68,6 +71,12 @@ class Stream extends React.Component {
       this.setState(resetCursors);
       return;
     }
+
+    // Keep comment box when user was live suspended, banned, ...
+    if (!this.userIsDegraged(this.props) && this.userIsDegraged(next)) {
+      this.setState({keepCommentBox: true});
+    }
+
     if (
         prevComments && nextComments &&
         nextComments.nodes.length < prevComments.nodes.length
@@ -133,6 +142,10 @@ class Stream extends React.Component {
     return view;
   }
 
+  userIsDegraged({auth: {user}} = this.props) {
+    return !can(user, 'INTERACT_WITH_COMMUNITY');
+  }
+
   render() {
     const {
       commentClassNames,
@@ -150,6 +163,7 @@ class Stream extends React.Component {
       pluginProps,
       editName
     } = this.props;
+    const {keepCommentBox} = this.state;
     const view = this.getVisibleComments();
     const open = asset.closedAt === null;
 
@@ -171,6 +185,8 @@ class Stream extends React.Component {
         me.ignoredUsers.find((u) => u.id === comment.user.id)
       );
     };
+
+    const showCommentBox = loggedIn && ((!banned && !temporarilySuspended && !highlightedComment) || keepCommentBox);
     return (
       <div id="stream">
 
@@ -199,10 +215,7 @@ class Stream extends React.Component {
                   editName={editName}
                   currentUsername={user.username}
                 />}
-              {loggedIn &&
-                !banned &&
-                !temporarilySuspended &&
-                !highlightedComment &&
+              {showCommentBox &&
                 <CommentBox
                   addNotification={this.props.addNotification}
                   postComment={this.props.postComment}
