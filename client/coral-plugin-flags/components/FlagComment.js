@@ -2,6 +2,7 @@ import React from 'react';
 import FlagButton from './FlagButton';
 
 import t from 'coral-framework/services/i18n';
+import * as flagReason from '../helpers/flagMap';
 
 const FlagComment = (props) => <FlagButton {...props} getPopupMenu={getPopupMenu} />;
 
@@ -20,17 +21,17 @@ const getPopupMenu = [
   (itemType) => {
     const options = itemType === 'COMMENTS' ?
     [
-      {val: 'This comment is offensive', text: t('comment_offensive')},
-      {val: 'This looks like an ad/marketing', text: t('marketing')},
-      {val: 'I don\'t agree with this comment', text: t('no_agree_comment')},
-      {val: 'Other', text: t('other')}
+      {val: flagReason.commment.offensive, text: t('comment_offensive')},
+      {val: flagReason.commment.spam, text: t('marketing')},
+      {val: flagReason.commment.noagree, text: t('no_agree_comment')},
+      {val: flagReason.commment.other, text: t('other')}
     ]
     : [
-      {val: 'This username is offensive', text: t('username_offensive')},
-      {val: 'I don\'t like this username', text: t('no_like_username')},
-      {val: 'This user is impersonating', text: t('user_impersonating')},
-      {val: 'This looks like an ad/marketing', text: t('marketing')},
-      {val: 'Other', text: t('other')}
+      {val: flagReason.username.offensive, text: t('username_offensive')},
+      {val: flagReason.username.nolike, text: t('no_like_username')},
+      {val: flagReason.username.impersonating, text: t('user_impersonating')},
+      {val: flagReason.username.spam, text: t('marketing')},
+      {val: flagReason.username.other, text: t('other')}
     ];
     return {
       header: t('step_2_header'),

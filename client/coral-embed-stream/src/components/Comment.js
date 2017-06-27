@@ -5,7 +5,7 @@ import AuthorName from 'coral-plugin-author-name/AuthorName';
 import TagLabel from 'coral-plugin-tag-label/TagLabel';
 import PubDate from 'coral-plugin-pubdate/PubDate';
 import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
-import FlagComment from 'coral-plugin-flags/FlagComment';
+import {FlagComment} from 'coral-plugin-flags';
 import {can} from 'coral-framework/services/perms';
 import {TransitionGroup} from 'react-transition-group';
 import cn from 'classnames';
