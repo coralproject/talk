@@ -196,8 +196,8 @@ export default class Comment extends React.Component {
     editComment: React.PropTypes.func,
   }
 
-  editComment = () => {
-    return this.props.editComment(this.props.comment.id, this.props.asset.id);
+  editComment = (...args) => {
+    return this.props.editComment(this.props.comment.id, this.props.asset.id, ...args);
   }
 
   onClickEdit (e) {
