@@ -54,7 +54,7 @@ class Comment extends React.Component {
     // currently the highlighter plugin does not support out of the box.
     const searchWords = [...suspectWords, ...bannedWords]
       .filter((w) => {
-        return new RegExp(`(^|\\s)${w}(\\s|$)`).test(comment.body);
+        return new RegExp(`(^|\\s)${w}(\\s|$)`, 'i').test(comment.body);
       })
       .concat(linkText);
 
@@ -64,6 +64,20 @@ class Comment extends React.Component {
     } else {
       selectionStateCSS = selected ? 'mdl-shadow--16dp' : 'mdl-shadow--2dp';
     }
+
+    const showSuspenUserDialog = () => props.showSuspendUserDialog({
+      userId: comment.user.id,
+      username: comment.user.username,
+      commentId: comment.id,
+      commentStatus: comment.status,
+    });
+
+    const showBanUserDialog = () => props.showBanUserDialog({
+      userId: comment.user.id,
+      username: comment.user.username,
+      commentId: comment.id,
+      commentStatus: comment.status,
+    });
 
     return (
       <li
@@ -102,11 +116,11 @@ class Comment extends React.Component {
                 <ActionsMenu icon="not_interested">
                   <ActionsMenuItem
                     disabled={comment.user.status === 'BANNED'}
-                    onClick={() => props.showSuspendUserDialog(comment.user.id, comment.user.username, comment.id, comment.status)}>
+                    onClick={showSuspenUserDialog}>
                     Suspend User</ActionsMenuItem>
                   <ActionsMenuItem
                     disabled={comment.user.status === 'BANNED'}
-                    onClick={() => props.showBanUserDialog(comment.user, comment.id, comment.status, comment.status !== 'REJECTED')}>
+                    onClick={showBanUserDialog}>
                     Ban User
                   </ActionsMenuItem>
                 </ActionsMenu>
@@ -217,6 +231,7 @@ class Comment extends React.Component {
           ? <FlagBox
               actions={flagActions}
               actionSummaries={flagActionSummaries}
+              viewUserDetail={() => viewUserDetail(comment.user.id)}
             />
           : null}
       </li>

@@ -67,3 +67,17 @@
     color: black;
   }
 }
+
+.username {
+  color: #393B44;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 2px 5px;
+  border-radius: 2px;
+  margin-left: -5px;
+  transition: background-color 200ms ease;
+&:hover {
+   background-color: #E0E0E0;
+ }
+}

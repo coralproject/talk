@@ -8,8 +8,8 @@ import SuspendUserModal from './SuspendUserModal';
 
 // Each action has different meaning and configuration
 const menuOptionsMap = {
-  'reject': {status: 'REJECTED', icon: 'close', key: 'r'},
-  'approve': {status: 'ACCEPTED', icon: 'done', key: 't'},
+  'reject': {status: 'REJECTED', icon: 'close', key: 'f'},
+  'approve': {status: 'ACCEPTED', icon: 'done', key: 'd'},
   'flag': {status: 'FLAGGED', icon: 'flag', filter: 'Untouched'},
   'ban': {status: 'BANNED', icon: 'not interested'}
 };

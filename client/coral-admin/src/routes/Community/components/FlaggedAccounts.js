@@ -9,8 +9,6 @@ const FlaggedAccounts = ({...props}) => {
   const {commenters} = props;
   const hasResults = commenters && !!commenters.length;
 
-// if (commenter.status === 'PENDING' && commenter.actions.length > 0) {
-
   return (
     <div className={styles.container}>
       <div className={styles.mainFlaggedContent}>
@@ -24,8 +22,9 @@ const FlaggedAccounts = ({...props}) => {
               modActionButtons={['APPROVE', 'REJECT']}
               showBanUserDialog={props.showBanUserDialog}
               showSuspendUserDialog={props.showSuspendUserDialog}
+              showRejectUsernameDialog={props.showRejectUsernameDialog}
               approveUser={props.approveUser}
-              suspendUser={props.suspendUser}
+              currentUser={props.currentUser}
               />;
           })
           : <EmptyCard>{t('community.no_flagged_accounts')}</EmptyCard>

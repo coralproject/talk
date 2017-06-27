@@ -263,6 +263,9 @@ input CommentCountQuery {
   # Asset that a comment is on.
   asset_id: ID
 
+  # The URL that the asset is located on.
+  asset_url: String
+
   # the parent of the comment that we want to retrieve.
   parent_id: ID
 
@@ -989,7 +992,7 @@ type RootMutation {
   # Suspends a user. Requires the `ADMIN` role.
   suspendUser(input: SuspendUserInput!): SuspendUserResponse
 
-  # Suspends a user. Requires the `ADMIN` role.
+  # Reject a username. Requires the `ADMIN` role.
   rejectUsername(input: RejectUsernameInput!): RejectUsernameResponse
 
   # Sets Comment status. Requires the `ADMIN` role.

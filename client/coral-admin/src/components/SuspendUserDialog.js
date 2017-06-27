@@ -49,7 +49,6 @@ class SuspendUserDialog extends React.Component {
   handlePerform = () => {
 
     this.props.onPerform({
-      id: this.props.userId,
       message: this.state.message,
 
       // Add 1 minute more to help `timeago.js` to display the correct duration.
@@ -153,11 +152,10 @@ class SuspendUserDialog extends React.Component {
 
 SuspendUserDialog.propTypes = {
   open: PropTypes.bool.isRequired,
-  onCancel: PropTypes.func.isRequired,
   onPerform: PropTypes.func.isRequired,
-  username: PropTypes.string,
-  userId: PropTypes.string,
+  onCancel: PropTypes.func.isRequired,
   organizationName: PropTypes.string,
+  username: PropTypes.string,
 };
 
 export default SuspendUserDialog;
