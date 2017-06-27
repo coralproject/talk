@@ -133,7 +133,7 @@ class CommentBox extends React.Component {
   handleChange = (e) => this.setState({body: e.target.value});
 
   render () {
-    const {styles, isReply, authorId, maxCharCount} = this.props;
+    const {styles, isReply, currentUser, maxCharCount} = this.props;
     let {cancelButtonClicked} = this.props;
 
     if (isReply && typeof cancelButtonClicked !== 'function') {
@@ -152,7 +152,7 @@ class CommentBox extends React.Component {
         charCountEnable={this.props.charCountEnable}
         bodyPlaceholder={t('comment.comment')}
         bodyInputId={isReply ? 'replyText' : 'commentText'}
-        saveComment={authorId && this.postComment}
+        saveComment={currentUser && this.postComment}
         buttonContainerStart={<Slot
           fill="commentInputDetailArea"
           registerHook={this.registerHook}
@@ -177,7 +177,7 @@ CommentBox.propTypes = {
   cancelButtonClicked: PropTypes.func,
   assetId: PropTypes.string.isRequired,
   parentId: PropTypes.string,
-  authorId: PropTypes.string.isRequired,
+  currentUser: PropTypes.object.isRequired,
   isReply: PropTypes.bool.isRequired,
   canPost: PropTypes.bool,
 };

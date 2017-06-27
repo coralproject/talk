@@ -224,7 +224,7 @@ class Stream extends React.Component {
                   assetId={asset.id}
                   premod={asset.settings.moderation}
                   isReply={false}
-                  authorId={user.id}
+                  currentUser={user}
                   charCountEnable={asset.settings.charCountEnable}
                   maxCharCount={asset.settings.charCount}
                 />}

@@ -557,8 +557,8 @@ export default class Comment extends React.Component {
               setActiveReplyBox={setActiveReplyBox}
               parentId={parentId || comment.id}
               addNotification={addNotification}
-              authorId={currentUser.id}
               postComment={postComment}
+              currentUser={currentUser}
               assetId={asset.id}
             />
           : null}
