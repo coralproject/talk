@@ -2,7 +2,7 @@
 title: Contributor's Guide
 keywords: homepage
 sidebar: talk_sidebar
-permalink: contributions.html
+permalink: contribute.html
 summary:
 ---
 
@@ -74,7 +74,7 @@ If you'd like to make a significant contribution, please [file an issue](https:/
 
 Talk's tranlations are stored in `.yml` files [here](https://github.com/coralproject/talk/tree/master/locales). 
 
-Translations can be submitted via pull request. If you do not use github, you can use 'en.yml' as a template and email the translations to us and we can import it into the repo.  
+Translations can be submitted via pull request. localIf you do not use github, you can use 'en.yml' as a template and email the translations to us and we can import it into the repo.  
 
 ## I want to contribute but I'm not sure what to do!
 
