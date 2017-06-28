@@ -18,7 +18,7 @@ class ReplyBox extends Component {
       styles,
       postComment,
       assetId,
-      authorId,
+      currentUser,
       addNotification,
       parentId,
       commentPostedHandler,
@@ -33,7 +33,7 @@ class ReplyBox extends Component {
         parentId={parentId}
         cancelButtonClicked={this.cancelReply}
         addNotification={addNotification}
-        authorId={authorId}
+        currentUser={currentUser}
         assetId={assetId}
         postComment={postComment}
         isReply={true} />

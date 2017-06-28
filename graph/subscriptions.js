@@ -3,7 +3,7 @@ const {SubscriptionServer} = require('subscriptions-transport-ws');
 const _ = require('lodash');
 const debug = require('debug')('talk:graph:subscriptions');
 
-const pubsub = require('./pubsub');
+const pubsub = require('../services/pubsub');
 const schema = require('./schema');
 const Context = require('./context');
 const plugins = require('../services/plugins');
@@ -21,6 +21,9 @@ const {
   SUBSCRIBE_COMMENT_FLAGGED,
   SUBSCRIBE_ALL_COMMENT_EDITED,
   SUBSCRIBE_ALL_COMMENT_ADDED,
+  SUBSCRIBE_ALL_USER_SUSPENDED,
+  SUBSCRIBE_ALL_USER_BANNED,
+  SUBSCRIBE_ALL_USERNAME_REJECTED,
 } = require('../perms/constants');
 
 /**
@@ -83,6 +86,45 @@ const setupFunctions = plugins.get('server', 'setupFunctions').reduce((acc, {plu
       }
     },
   }),
+  userSuspended: (options, args) => ({
+    userSuspended: {
+      filter: (user, context) => {
+        if (
+          !context.user
+          || args.user_id !== user.id && !context.user.can(SUBSCRIBE_ALL_USER_SUSPENDED)
+        ) {
+          return false;
+        }
+        return !args.user_id || user.id === args.user_id;
+      }
+    },
+  }),
+  userBanned: (options, args) => ({
+    userBanned: {
+      filter: (user, context) => {
+        if (
+          !context.user
+          || args.user_id !== user.id && !context.user.can(SUBSCRIBE_ALL_USER_BANNED)
+        ) {
+          return false;
+        }
+        return !args.user_id || user.id === args.user_id;
+      }
+    },
+  }),
+  usernameRejected: (options, args) => ({
+    usernameRejected: {
+      filter: (user, context) => {
+        if (
+          !context.user
+          || args.user_id !== user.id && !context.user.can(SUBSCRIBE_ALL_USERNAME_REJECTED)
+        ) {
+          return false;
+        }
+        return !args.user_id || user.id === args.user_id;
+      }
+    },
+  }),
 });
 
 /**
@@ -117,10 +159,10 @@ const createSubscriptionManager = (server) => new SubscriptionServer({
       } catch (e) {
         console.error(e);
 
-        return new Context({}, pubsub);
+        return new Context({});
       }
 
-      return new Context(req, pubsub);
+      return new Context(req);
     };
 
     return baseParams;

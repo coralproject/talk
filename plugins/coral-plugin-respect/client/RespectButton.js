@@ -14,6 +14,7 @@ class RespectButton extends React.Component {
       deleteReaction,
       showSignInDialog,
       alreadyReacted,
+      addNotification,
       user,
     } = this.props;
 
@@ -25,6 +26,7 @@ class RespectButton extends React.Component {
 
     // If the current user is suspended, do nothing.
     if (!can(user, 'INTERACT_WITH_COMMUNITY')) {
+      addNotification('error', t('error.NOT_AUTHORIZED'));
       return;
     }
 
