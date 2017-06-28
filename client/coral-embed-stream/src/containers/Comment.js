@@ -34,7 +34,7 @@ export default withFragments({
       }
       user {
         id
-        name: username
+        username
       }
       action_summaries {
         __typename
