@@ -1,6 +1,7 @@
 import React from 'react';
 import {render} from 'react-dom';
 import {ApolloProvider} from 'react-apollo';
+import smoothscroll from 'smoothscroll-polyfill';
 
 import {getClient} from './services/client';
 import store from './services/store';
@@ -13,6 +14,7 @@ import {loadPluginsTranslations, injectPluginsReducers} from 'coral-framework/he
 
 loadPluginsTranslations();
 injectPluginsReducers();
+smoothscroll.polyfill();
 
 render(
   <ApolloProvider client={getClient()} store={store}>
