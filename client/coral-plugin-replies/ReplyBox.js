@@ -48,7 +48,6 @@ ReplyBox.propTypes = {
   commentPostedHandler: PropTypes.func,
   parentId: PropTypes.string,
   addNotification: PropTypes.func.isRequired,
-  authorId: PropTypes.string.isRequired,
   postComment: PropTypes.func.isRequired,
   assetId: PropTypes.string.isRequired
 };

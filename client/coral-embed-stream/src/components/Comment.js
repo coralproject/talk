@@ -169,7 +169,7 @@ export default class Comment extends React.Component {
       replies: PropTypes.object,
       user: PropTypes.shape({
         id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
+        username: PropTypes.string.isRequired
       }).isRequired,
       editing: PropTypes.shape({
         edited: PropTypes.bool,
