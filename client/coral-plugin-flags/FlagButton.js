@@ -39,6 +39,8 @@ export default class FlagButton extends Component {
       } else {
         this.setState({showMenu: true});
       }
+    } else {
+      this.props.addNotification('error', t('error.NOT_AUTHORIZED'));
     }
   }
 

@@ -16,7 +16,7 @@ const {CREATE_ACTION, DELETE_ACTION} = require('../../perms/constants');
 const createAction = async ({user = {}, pubsub, loaders: {Comments}}, {item_id, item_type, action_type, group_id, metadata = {}}) => {
 
   let comment;
-  if (pubsub && item_type === 'COMMENTS') {
+  if (item_type === 'COMMENTS') {
     comment = await Comments.get.load(item_id);
     if (!comment) {
       throw new Error('Comment not found');
@@ -38,7 +38,7 @@ const createAction = async ({user = {}, pubsub, loaders: {Comments}}, {item_id, 
     await UsersService.setStatus(item_id, 'PENDING');
   }
 
-  if (pubsub && comment) {
+  if (comment) {
     pubsub.publish('commentFlagged', comment);
   }
 

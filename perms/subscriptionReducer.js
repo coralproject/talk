@@ -13,6 +13,12 @@ module.exports = (user, perm) => {
     return check(user, ['ADMIN', 'MODERATOR']);
   case types.SUBSCRIBE_ALL_COMMENT_ADDED:
     return check(user, ['ADMIN', 'MODERATOR']);
+  case types.SUBSCRIBE_ALL_USER_SUSPENDED:
+    return check(user, ['ADMIN', 'MODERATOR']);
+  case types.SUBSCRIBE_ALL_USER_BANNED:
+    return check(user, ['ADMIN', 'MODERATOR']);
+  case types.SUBSCRIBE_ALL_USERNAME_REJECTED:
+    return check(user, ['ADMIN', 'MODERATOR']);
   default:
     break;
   }

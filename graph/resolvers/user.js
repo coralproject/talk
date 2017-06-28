@@ -6,6 +6,7 @@ const {
   SEARCH_OTHERS_COMMENTS,
   UPDATE_USER_ROLES,
   SEARCH_COMMENT_METRICS,
+  VIEW_SUSPENSION_INFO,
   LIST_OWN_TOKENS
 } = require('../../perms/constants');
 
@@ -84,6 +85,13 @@ const User = {
     if (requestingUser && requestingUser.can(SEARCH_COMMENT_METRICS)) {
       return KarmaService.model(user);
     }
+  },
+
+  suspension({id, suspension}, _, {user}) {
+    if (user.id !== id && !user.can(VIEW_SUSPENSION_INFO)) {
+      return null;
+    }
+    return suspension;
   }
 };
 
