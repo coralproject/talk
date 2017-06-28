@@ -61,6 +61,10 @@ type UserProfile {
   provider: String!
 }
 
+type SuspensionInfo {
+  until: Date
+}
+
 # Any person who can author comments, create actions, and view comments on a
 # stream.
 type User {
@@ -108,6 +112,10 @@ type User {
 
   # returns user status
   status: USER_STATUS
+
+  # returns suspension info. Only available to Admins and Moderators
+  # or on own logged in User.
+  suspension: SuspensionInfo
 }
 
 # UsersQuery allows the ability to query users by a specific fields.
@@ -1034,6 +1042,21 @@ type Subscription {
   # Get an update whenever a comment has been rejected.
   # Requires the `ADMIN` or `MODERATOR` role.
   commentRejected(asset_id: ID): Comment
+
+  # Get an update whenever a user has been suspended.
+  # `user_id` must match id of current user except for
+  # users with the `ADMIN` or `MODERATOR` role.
+  userSuspended(user_id: ID): User
+
+  # Get an update whenever a user has been banned.
+  # `user_id` must match id of current user except for
+  # users with the `ADMIN` or `MODERATOR` role.
+  userBanned(user_id: ID): User
+
+  # Get an update whenever a username has been rejected.
+  # `user_id` must match id of current user except for
+  # users with the `ADMIN` or `MODERATOR` role.
+  usernameRejected(user_id: ID): User
 }
 
 ################################################################################

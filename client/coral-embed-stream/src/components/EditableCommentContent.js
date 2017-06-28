@@ -4,6 +4,7 @@ import {CommentForm} from 'coral-plugin-commentbox/CommentForm';
 import styles from './Comment.css';
 import {CountdownSeconds} from './CountdownSeconds';
 import {getEditableUntilDate} from './util';
+import {can} from 'coral-framework/services/perms';
 
 import {Icon} from 'coral-ui';
 import t from 'coral-framework/services/i18n';
@@ -47,7 +48,6 @@ export class EditableCommentContent extends React.Component {
   }
   constructor(props) {
     super(props);
-    this.editComment = this.editComment.bind(this);
     this.editWindowExpiryTimeout = null;
   }
   componentDidMount() {
@@ -65,7 +65,12 @@ export class EditableCommentContent extends React.Component {
       this.editWindowExpiryTimeout = clearTimeout(this.editWindowExpiryTimeout);
     }
   }
-  async editComment(edit) {
+  editComment = async (edit) => {
+    if (!can(this.props.currentUser, 'INTERACT_WITH_COMMUNITY')) {
+      this.props.addNotification('error', t('error.NOT_AUTHORIZED'));
+      return;
+    }
+
     const {editComment, addNotification, stopEditing} = this.props;
     if (typeof editComment !== 'function') {return;}
     let response;

@@ -24,7 +24,7 @@ export default class AuthorName extends Component {
     return (
       <div
         className={`${packagename}-text`}>
-        {author && author.name}
+        {author && author.username}
       </div>
     );
   }

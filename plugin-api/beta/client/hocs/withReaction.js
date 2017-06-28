@@ -8,6 +8,7 @@ import {compose, gql} from 'react-apollo';
 import withFragments from 'coral-framework/hocs/withFragments';
 import withMutation from 'coral-framework/hocs/withMutation';
 import {showSignInDialog} from 'coral-framework/actions/auth';
+import {addNotification} from 'coral-framework/actions/notification';
 import {capitalize} from 'coral-framework/helpers/strings';
 import {getMyActionSummary, getTotalActionCount} from 'coral-framework/utils';
 import * as PropTypes from 'prop-types';
@@ -248,6 +249,7 @@ export default (reaction) => (WrappedComponent) => {
 
       return <WrappedComponent
         showSignInDialog={this.props.showSignInDialog}
+        addNotification={this.props.addNotification}
         user={this.props.user}
         comment={comment}
         reactionSummary={reactionSummary}
@@ -350,7 +352,7 @@ export default (reaction) => (WrappedComponent) => {
   });
 
   const mapDispatchToProps = (dispatch) =>
-    bindActionCreators({showSignInDialog}, dispatch);
+    bindActionCreators({showSignInDialog, addNotification}, dispatch);
 
   const enhance = compose(
     withFragments({
