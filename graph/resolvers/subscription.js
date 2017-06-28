@@ -14,6 +14,15 @@ const Subscription = {
   commentFlagged(comment) {
     return comment;
   },
+  userBanned(user) {
+    return user;
+  },
+  userSuspended(user) {
+    return user;
+  },
+  usernameRejected(user) {
+    return user;
+  },
 };
 
 module.exports = Subscription;
