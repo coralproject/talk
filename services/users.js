@@ -874,11 +874,24 @@ module.exports = class UsersService {
    * @return {Promise}
    */
   static async editName(id, username) {
+
+    // TODO: Revisit this when we revamped User status workflows.
+    const queryUsernameRejected = {
+      id,
+      username: {$ne: username},
+      status: 'BANNED',
+      canEditName: true
+    };
+
+    const queryCreateUsername = {
+      id,
+      status: 'ACTIVE',
+      canEditName: true
+    };
+
     try {
       const result = await UserModel.findOneAndUpdate({
-        id,
-        username: {$ne: username},
-        canEditName: true
+        $or: [queryUsernameRejected, queryCreateUsername],
       }, {
         $set: {
           username: username,
