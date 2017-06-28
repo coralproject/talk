@@ -238,6 +238,32 @@ describe('services.UsersService', () => {
         });
     });
 
+    it('should let the user submit the same username if user is not banned (create username)', () => {
+      return UsersService
+        .toggleNameEdit(mockUsers[0].id, true)
+        .then(() => UsersService.editName(mockUsers[0].id, mockUsers[0].username))
+        .then(() => UsersService.findById(mockUsers[0].id))
+        .then((user) => {
+          expect(user).to.have.property('username', mockUsers[0].username);
+          expect(user).to.have.property('canEditName', false);
+        });
+    });
+
+    it('should return error when a banned user submits the same username (rejected username)', () => {
+      return UsersService
+        .toggleNameEdit(mockUsers[0].id, true)
+        .then(() => UsersService.setStatus(mockUsers[0].id, 'BANNED'))
+        .then(() => UsersService.editName(mockUsers[0].id, mockUsers[0].username))
+        .then(() => UsersService.findById(mockUsers[0].id))
+        .then(() => {
+          throw new Error('Error expected');
+        })
+        .catch((err) => {
+          expect(err.status).to.equal(400);
+          expect(err.translation_key).to.equal('SAME_USERNAME_PROVIDED');
+        });
+    });
+
     it('should return an error if canEditName is false', (done) => {
       UsersService
         .editName(mockUsers[0].id, 'Jojo')
