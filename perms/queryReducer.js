@@ -19,6 +19,8 @@ module.exports = (user, perm) => {
     return check(user, ['ADMIN']);
   case types.SEARCH_COMMENT_STATUS_HISTORY:
     return check(user, ['ADMIN', 'MODERATOR']);
+  case types.VIEW_SUSPENSION_INFO:
+    return check(user, ['ADMIN', 'MODERATOR']);
   default:
     break;
   }

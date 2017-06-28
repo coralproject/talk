@@ -3,6 +3,7 @@ const mutators = require('./mutators');
 const uuid = require('uuid');
 
 const plugins = require('../services/plugins');
+const pubsub = require('../services/pubsub');
 const debug = require('debug')('talk:graph:context');
 
 /**
@@ -32,7 +33,7 @@ const decorateContextPlugins = (context, contextPlugins) => contextPlugins.reduc
  * Stores the request context.
  */
 class Context {
-  constructor({user = null}, pubsub) {
+  constructor({user = null}) {
 
     // Generate a new context id for the request.
     this.id = uuid.v4();

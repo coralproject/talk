@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const UsersService = require('../../../services/users');
-const CommentsService = require('../../../services/comments');
 const mailer = require('../../../services/mailer');
+const pubsub = require('../../../services/pubsub');
 const errors = require('../../../errors');
 const authorization = require('../../../middleware/authorization');
 const i18n = require('../../../services/i18n');
@@ -53,11 +53,16 @@ router.post('/:user_id/role', authorization.needed('ADMIN'), (req, res, next) =>
 router.post('/:user_id/status', authorization.needed('ADMIN'), (req, res, next) => {
   UsersService
     .setStatus(req.params.user_id, req.body.status)
-    .then((status) => {
-      res.status(201).json(status);
+    .then((user) => {
 
-      if (status === 'BANNED' && req.body.comment_id) {
-        return CommentsService.pushStatus(req.body.comment_id, 'rejected', req.params.user_id);
+      // TODO: current updating status behavior is weird.
+      if (user) {
+        if (user.status === 'BANNED') {
+          pubsub.publish('userBanned', user);
+        }
+        res.status(201).json(user.status);
+      } else {
+        res.status(500).json();
       }
     })
     .catch(next);

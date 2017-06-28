@@ -3,14 +3,16 @@ const expect = require('chai').expect;
 const User = require('../../../models/user');
 const Context = require('../../../graph/context');
 const errors = require('../../../errors');
+const SettingsService = require('../../../services/settings');
 
 describe('graph.Context', () => {
+  beforeEach(() => SettingsService.init());
 
   describe('#constructor: with a user', () => {
     let c;
 
     beforeEach(() => {
-      c = new Context({user: new User({id: '1'})});
+      c = new Context({user: new User({id: '1', roles: ['ADMIN']})});
     });
 
     it('creates a context with a user', (done) => {
@@ -21,15 +23,10 @@ describe('graph.Context', () => {
     });
 
     it('does have access to mutators', () => {
-      return c.mutators.Action.create({
-        item_id: '1',
-        item_type: 'COMMENTS',
-        action_type: 'LIKE'
-      })
-      .then((action) => {
-        expect(action).to.have.property('item_id', '1');
-        expect(action).to.have.property('item_type', 'COMMENTS');
-        expect(action).to.have.property('action_type', 'LIKE');
+      return c.mutators.Tag.add({
+        item_type: 'USERS',
+        id: '1',
+        name: 'Tag',
       });
     });
   });
@@ -48,13 +45,13 @@ describe('graph.Context', () => {
     });
 
     it('does not have access to mutators', () => {
-      return c.mutators.Action.create({
-        item_id: '1',
+      return c.mutators.Tag.add({
         item_type: 'COMMENTS',
-        action_type: 'LIKE'
+        id: '1',
+        name: 'Tag',
       })
-      .then((action) => {
-        expect(action).to.be.null;
+      .then(() => {
+        throw new Error('should not reach this point');
       })
       .catch((err) => {
         expect(err).to.be.equal(errors.ErrNotAuthorized);
