@@ -177,11 +177,8 @@ const createComment = async (context, {tags = [], body, asset_id, parent_id = nu
     }
     Comments.countByAssetID.incr(asset_id);
 
-    if (pubsub) {
-
-      // Publish the newly added comment via the subscription.
-      pubsub.publish('commentAdded', comment);
-    }
+    // Publish the newly added comment via the subscription.
+    pubsub.publish('commentAdded', comment);
   }
 
   return comment;
@@ -346,17 +343,14 @@ const setStatus = async ({user, loaders: {Comments}, pubsub}, {id, status}) => {
   // adjust the affected user's karma in the next tick.
   process.nextTick(adjustKarma(Comments, id, status));
 
-  if (pubsub) {
+  if (status === 'ACCEPTED') {
 
-    if (status === 'ACCEPTED') {
+    // Publish the comment status change via the subscription.
+    pubsub.publish('commentAccepted', comment);
+  } else if (status === 'REJECTED') {
 
-      // Publish the comment status change via the subscription.
-      pubsub.publish('commentAccepted', comment);
-    } else if (status === 'REJECTED') {
-
-      // Publish the comment status change via the subscription.
-      pubsub.publish('commentRejected', comment);
-    }
+    // Publish the comment status change via the subscription.
+    pubsub.publish('commentRejected', comment);
   }
 
   return comment;
@@ -379,11 +373,9 @@ const edit = async (context, {id, asset_id, edit: {body}}) => {
   // Execute the edit.
   const comment = await CommentsService.edit(id, context.user.id, {body, status});
 
-  if (context.pubsub) {
+  // Publish the edited comment via the subscription.
+  context.pubsub.publish('commentEdited', comment);
 
-    // Publish the edited comment via the subscription.
-    context.pubsub.publish('commentEdited', comment);
-  }
   return comment;
 };
 

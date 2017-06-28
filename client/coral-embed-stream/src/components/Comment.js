@@ -1,11 +1,10 @@
 import React, {PropTypes} from 'react';
 
-import PermalinkButton from 'coral-plugin-permalinks/PermalinkButton';
 import AuthorName from 'coral-plugin-author-name/AuthorName';
 import TagLabel from 'coral-plugin-tag-label/TagLabel';
 import PubDate from 'coral-plugin-pubdate/PubDate';
 import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
-import FlagComment from 'coral-plugin-flags/FlagComment';
+import {FlagComment} from 'coral-plugin-flags';
 import {can} from 'coral-framework/services/perms';
 import {TransitionGroup} from 'react-transition-group';
 import cn from 'classnames';
@@ -170,7 +169,7 @@ export default class Comment extends React.Component {
       replies: PropTypes.object,
       user: PropTypes.shape({
         id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
+        username: PropTypes.string.isRequired
       }).isRequired,
       editing: PropTypes.shape({
         edited: PropTypes.bool,
@@ -196,8 +195,16 @@ export default class Comment extends React.Component {
     editComment: React.PropTypes.func,
   }
 
+  editComment = (...args) => {
+    return this.props.editComment(this.props.comment.id, this.props.asset.id, ...args);
+  }
+
   onClickEdit (e) {
     e.preventDefault();
+    if (!can(this.props.currentUser, 'INTERACT_WITH_COMMUNITY')) {
+      this.props.addNotification('error', t('error.NOT_AUTHORIZED'));
+      return;
+    }
     this.setState({isEditing: true});
   }
 
@@ -240,7 +247,8 @@ export default class Comment extends React.Component {
     }
     if (can(this.props.currentUser, 'INTERACT_WITH_COMMUNITY')) {
       this.props.setActiveReplyBox(this.props.comment.id);
-      return;
+    } else {
+      this.props.addNotification('error', t('error.NOT_AUTHORIZED'));
     }
     return;
   }
@@ -469,7 +477,7 @@ export default class Comment extends React.Component {
           {
             this.state.isEditing
             ? <EditableCommentContent
-                editComment={this.props.editComment.bind(null, comment.id, asset.id)}
+                editComment={this.editComment}
                 addNotification={addNotification}
                 asset={asset}
                 comment={comment}
@@ -509,19 +517,18 @@ export default class Comment extends React.Component {
                   currentUserId={currentUser && currentUser.id}
                 />
               </ActionButton>}
+          </div>
+          <div className="commentActionsRight comment__action-container">
             <Slot
               fill="commentActions"
+              wrapperComponent={ActionButton}
               data={this.props.data}
               root={this.props.root}
+              asset={asset}
               comment={comment}
               commentId={comment.id}
               inline
             />
-          </div>
-          <div className="commentActionsRight comment__action-container">
-            <ActionButton>
-              <PermalinkButton articleURL={asset.url} commentId={comment.id} />
-            </ActionButton>
             <ActionButton>
               <FlagComment
                 flaggedByCurrentUser={!!myFlag}
@@ -529,6 +536,7 @@ export default class Comment extends React.Component {
                 id={comment.id}
                 author_id={comment.user.id}
                 postFlag={postFlag}
+                addNotification={addNotification}
                 postDontAgree={postDontAgree}
                 deleteAction={deleteAction}
                 showSignInDialog={showSignInDialog}
@@ -547,8 +555,8 @@ export default class Comment extends React.Component {
               setActiveReplyBox={setActiveReplyBox}
               parentId={parentId || comment.id}
               addNotification={addNotification}
-              authorId={currentUser.id}
               postComment={postComment}
+              currentUser={currentUser}
               assetId={asset.id}
             />
           : null}

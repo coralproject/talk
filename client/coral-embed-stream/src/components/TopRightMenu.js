@@ -12,7 +12,7 @@ export class TopRightMenu extends React.Component {
     comment: PropTypes.shape({
       user: PropTypes.shape({
         id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
+        username: PropTypes.string.isRequired
       }).isRequired
     }).isRequired,
     ignoreUser: PropTypes.func,

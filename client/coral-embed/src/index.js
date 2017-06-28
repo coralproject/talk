@@ -28,6 +28,7 @@ const snackbarStyles = {
 // This function should return value of window.Coral
 const Coral = {};
 const Talk = (Coral.Talk = {});
+let notificationTimeout = null;
 
 // build the URL to load in the pym iframe
 function buildStreamIframeUrl(talkBaseUrl, query) {
@@ -110,14 +111,15 @@ function configurePymParent(pymParent, opts) {
     snackbar.className = `coral-notif-${type}`;
     snackbar.textContent = text;
 
-    setTimeout(() => {
+    clearTimeout(notificationTimeout);
+    notificationTimeout = setTimeout(() => {
       snackbar.style.transform = 'translate(-50%, 0)';
       snackbar.style.opacity = 1;
-    }, 0);
 
-    setTimeout(() => {
-      snackbar.style.opacity = 0;
-    }, 5000);
+      notificationTimeout = setTimeout(() => {
+        snackbar.style.opacity = 0;
+      }, 7000);
+    }, 0);
   });
 
   // Helps child show notifications at the right scrollTop
