@@ -2,17 +2,18 @@ import React from 'react';
 import styles from './Community.css';
 
 import ActionButton from './ActionButton';
+import {username} from 'coral-plugin-flags/helpers/flagReasons';
 import ActionsMenu from 'coral-admin/src/components/ActionsMenu';
 import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
 
 import t from 'coral-framework/services/i18n';
 
 const shortReasons = {
-  'This comment is offensive': t('community.offensive'),
-  'This looks like an ad/marketing': t('community.spam_ads'),
-  'This user is impersonating': t('community.impersonating'),
-  'I don\'t like this username': t('community.dont_like_username'),
-  'Other': t('community.other')
+  [username.other]: t('community.other'),
+  [username.spam]: t('community.spam_ads'),
+  [username.offensive]: t('community.offensive'),
+  [username.nolike]: t('community.dont_like_username'),
+  [username.impersonating]: t('community.impersonating'),
 };
 
 // Render a single user for the list
