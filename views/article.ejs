@@ -31,7 +31,15 @@
         asset_id: '<%= asset_id ? asset_id : '' %>',
         auth_token: '',
         plugin_config: {
-          test: 'data',
+          'coral-plugin-offtopic': {
+            enabled: true,
+            action_style: 'link',
+            use_tooltip: true
+          },
+          'coral-plugin-streamtopper': {
+            enabled: true,
+            plugins: ['coral-plugin-offtopic']
+          },
           debug: false
         }
       })

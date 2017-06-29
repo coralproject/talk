@@ -22,7 +22,7 @@ const ViewingOptions = (props) => {
   return (
     <div className={cn([styles.root, 'coral-plugin-viewing-options'])}>
       <div>
-        <a onClick={toggleOpen}>{props.title}
+        <a onClick={toggleOpen}>{(!props.title) ?  pluginConfig.title : props.title}
           {props.open ? <Icon name="arrow_drop_up"/> : <Icon name="arrow_drop_down"/>}
         </a>
       </div>

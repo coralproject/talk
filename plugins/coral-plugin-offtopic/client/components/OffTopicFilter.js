@@ -14,8 +14,11 @@ import {PLUGIN_NAME, DEFAULT_CONFIG} from '../constants';
 */
 
 export default class OffTopicFilter extends React.Component {
-  config = this.props.config;
-  pluginConfig = {...DEFAULT_CONFIG, ...(this.config && this.config[`${PLUGIN_NAME}`])};
+
+  getPluginConfig({config} = this.props) {
+    return {...DEFAULT_CONFIG, ...(config && config[`${PLUGIN_NAME}`])};
+  }
+
   tag = 'OFF_TOPIC';
   className = 'coral-plugin-off-topic-comment';
   cn = {[this.className] : {tags: [this.tag]}};
@@ -35,7 +38,9 @@ export default class OffTopicFilter extends React.Component {
   }
 
   render() {
-    if (!this.pluginConfig.enabled) {return (null);}
+    let pluginConfig = this.getPluginConfig(this.props);
+
+    if (!pluginConfig.enabled) {return (null);}
 
     const offTopicState = this.props.offTopicState;
     const actionCheckbox = (
@@ -55,7 +60,7 @@ export default class OffTopicFilter extends React.Component {
     );
     return (
       <div>
-        {this.pluginConfig.action_style === 'checkbox' ? actionCheckbox : actionLink}
+        {pluginConfig.action_style === 'checkbox' ? actionCheckbox : actionLink}
       </div>
     );
   }

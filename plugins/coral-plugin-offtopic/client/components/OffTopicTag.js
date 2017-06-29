@@ -13,8 +13,9 @@ export default class OffTopicTag extends React.Component {
     };
   }
 
-  config = this.props.config;
-  pluginConfig = {...DEFAULT_CONFIG, ...(this.config && this.config[`${PLUGIN_NAME}`])};
+  getPluginConfig({config} = this.props) {
+    return {...DEFAULT_CONFIG, ...(config && config[`${PLUGIN_NAME}`])};
+  }
 
   handleClose= () => {
     this.setState({offTopicTipDisplayed: false});
@@ -33,7 +34,9 @@ export default class OffTopicTag extends React.Component {
   }
 
   render() {
-    if (!this.pluginConfig.enabled) {return (null);}
+    let pluginConfig = this.getPluginConfig(this.props);
+
+    if (!pluginConfig.enabled) {return (null);}
 
     const offTopicTip = <div className={styles.tooltipContainer}>
       {this.state.offTopicTipDisplayed ? (
@@ -56,7 +59,7 @@ export default class OffTopicTag extends React.Component {
               onMouseLeave={this.handleMouseLeave}>
               {t('off_topic_tag')}
             </div>
-            {this.pluginConfig.use_tooltip ? offTopicTip  : null }
+            {pluginConfig.use_tooltip ? offTopicTip  : null }
           </div>
 
         ) : null

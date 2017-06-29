@@ -5,17 +5,17 @@ import {PLUGIN_NAME, DEFAULT_CONFIG} from '../constants';
 
 export default class OffTopicCheckbox extends React.Component {
 
-  config = this.props.config;
-  pluginConfig = {...DEFAULT_CONFIG, ...(this.config && this.config[`${PLUGIN_NAME}`])};
+  getPluginConfig({config} = this.props) {
+    return {...DEFAULT_CONFIG, ...(config && config[`${PLUGIN_NAME}`])};
+  }
+
   label = 'OFF_TOPIC';
 
   componentWillUnmount() {
-    this._isMounted = false;
     this.props.unregisterHook(this.clearTagsHook);
   }
 
   componentDidMount() {
-    this._isMounted = true;
     this.clearTagsHook = this.props.registerHook('postSubmit', () => {
       const idx = this.props.tags.indexOf(this.label);
       this.props.removeTag(idx);
@@ -33,7 +33,9 @@ export default class OffTopicCheckbox extends React.Component {
   }
 
   render() {
-    if (!this.pluginConfig.enabled) {return (null);}
+    let pluginConfig = this.getPluginConfig(this.props);
+
+    if (!pluginConfig.enabled) {return (null);}
 
     return (
         <div className={`${name} ${styles.offTopic}`}>
