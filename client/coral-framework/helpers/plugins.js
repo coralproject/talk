@@ -15,7 +15,10 @@ import camelize from './camelize';
  */
 export function getSlotElements(slot, props = {}) {
   const components = flatten(plugins
-    .filter((o) => o.module.slots[slot])
+    .filter((o) => {
+      let isEnabled = !!o.module.slots[slot] && (!o.module.isEnabled || (!!o.module.isEnabled && o.module.isEnabled(props)));
+      return isEnabled;
+    })
     .map((o) => o.module.slots[slot]));
   return components
     .map((component, i) => React.createElement(component, {key: i, ...props}));
