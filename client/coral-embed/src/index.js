@@ -190,7 +190,10 @@ Talk.render = function(el, opts) {
   // Compose the query to send down to the Talk API so it knows what to load.
   let query = {};
 
-  query.comment_id = window.location.hash.slice(1);
+  let urlParams = new URLSearchParams(window.location.search);
+
+  query.comment_id = urlParams.get('commentId');
+
   query.asset_id = opts.asset_id;
 
   query.asset_url = opts.asset_url;
