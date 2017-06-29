@@ -17,7 +17,7 @@ class TabBar extends React.Component {
     const {children, activeTab, cStyle = 'base'} = this.props;
     return (
       <div>
-        <ul className={`${styles.base} ${cStyle ? styles[cStyle] : ''} ${this.props.className}`}>
+        <ul className={`${styles.base} ${cStyle ? styles[cStyle] : ''} talk-tab-bar ${this.props.className}`}>
           {React.Children.toArray(children)
             .filter((child) => !child.props.restricted)
             .map((child, tabId) =>
