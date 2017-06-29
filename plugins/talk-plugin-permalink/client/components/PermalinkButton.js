@@ -83,7 +83,7 @@ export default class PermalinkButton extends React.Component {
               className={cn(styles.input, `${name}-copy-field`)}
               type='text'
               ref={(input) => this.permalinkInput = input}
-              defaultValue={`${asset.url}#${this.props.commentId}`}
+              defaultValue={`${asset.url}?commentId=${this.props.commentId}`}
             />
 
             <Button
