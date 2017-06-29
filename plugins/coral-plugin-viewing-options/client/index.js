@@ -1,9 +1,8 @@
-import ViewingOptions from './containers/ViewingOptions';
 import reducer from './reducer';
+import isEnabled from './containers/ViewingOptions';
 
 export default {
   reducer,
-  slots: {
-    streamBox: [ViewingOptions]
-  }
+  slots: {},
+  isEnabled
 };
