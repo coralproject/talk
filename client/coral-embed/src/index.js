@@ -1,4 +1,5 @@
 import pym from 'pym.js';
+import URLSearchParams from 'url-search-params';
 
 import {stringify} from 'querystring';
 
