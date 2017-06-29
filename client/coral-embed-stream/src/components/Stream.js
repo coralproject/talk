@@ -163,6 +163,7 @@ class Stream extends React.Component {
       pluginProps,
       editName
     } = this.props;
+
     const {keepCommentBox} = this.state;
     const view = this.getVisibleComments();
     const open = asset.closedAt === null;
@@ -187,6 +188,12 @@ class Stream extends React.Component {
     };
 
     const showCommentBox = loggedIn && ((!banned && !temporarilySuspended && !highlightedComment) || keepCommentBox);
+
+    if (!comment && !comments) {
+      console.error('No comments came back from the graph given that query. Please, check the query params.');
+      return <div> An error has occured! </div>;
+    }
+
     return (
       <div id="stream">
 
