@@ -1,8 +1,9 @@
 import React from 'react';
 import styles from './StreamError.css';
+import t from 'coral-framework/services/i18n';
 
 export const StreamError = () => (
   <div className={styles.streamError}>
-    An error has occured!
+    {t('common.error')}
   </div>
 );
