@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import LoadMore from './LoadMore';
+import {StreamError} from './StreamError';
 import Comment from '../components/Comment';
 import SuspendedAccount from './SuspendedAccount';
 import Slot from 'coral-framework/components/Slot';
@@ -189,9 +190,9 @@ class Stream extends React.Component {
 
     const showCommentBox = loggedIn && ((!banned && !temporarilySuspended && !highlightedComment) || keepCommentBox);
 
-    if (!comment && !comments) {
-      console.error('No comments came back from the graph given that query. Please, check the query params.');
-      return <div> An error has occured! </div>;
+    if (!comment && !comments) { 
+      console.error('Talk: No comments came back from the graph given that query. Please, check the query params.'); 
+      return <StreamError />;
     }
 
     return (
