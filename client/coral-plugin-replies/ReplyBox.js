@@ -31,7 +31,7 @@ class ReplyBox extends Component {
         charCountEnable={charCountEnable}
         commentPostedHandler={commentPostedHandler}
         parentId={parentId}
-        cancelButtonClicked={this.cancelReply}
+        onCancel={this.cancelReply}
         addNotification={addNotification}
         currentUser={currentUser}
         assetId={assetId}

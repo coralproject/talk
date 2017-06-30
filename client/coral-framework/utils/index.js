@@ -1,4 +1,5 @@
 import {gql} from 'react-apollo';
+import t from 'coral-framework/services/i18n';
 
 export const getTotalActionCount = (type, comment) => {
   return comment.action_summaries
@@ -125,4 +126,21 @@ export function createDefaultResponseFragments(...names) {
     `;
   });
   return result;
+}
+
+export function forEachError(error, callback) {
+  const errors = error.errors || [error];
+  errors.forEach((e) => {
+    console.error(e);
+
+    let msg = '';
+    if (e.translation_key) {
+      msg = t(`error.${e.translation_key}`);
+    } else if (error.networkError) {
+      msg = t('error.network_error');
+    } else {
+      msg = t('error.unexpected');
+    }
+    callback({error: e, msg});
+  });
 }
