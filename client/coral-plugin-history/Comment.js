@@ -29,7 +29,7 @@ const Comment = (props) => {
       <div className={styles.sidebar}>
         <ul>
           <li>
-            <a onClick={props.link(`${props.asset.url}#${props.comment.id}`)}>
+            <a onClick={props.link(`${props.asset.url}?commentId=${props.comment.id}`)}>
               <Icon name="open_in_new" />{t('view_conversation')}
             </a>
           </li>

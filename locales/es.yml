@@ -40,6 +40,7 @@ es:
   comment_post_notif_premod: "Gracias por el comentario. Nuestro equipo de moderación va a revisarlo muy pronto."
   common:
     copy: 'Copiar'
+    error: 'Ha ocurrido un error.'
   community:
     account_creation_date: "Fecha de creación de la cuenta"
     active: Activa
