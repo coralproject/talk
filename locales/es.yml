@@ -166,7 +166,6 @@ es:
     edit_window_timer_prefix: "Ventana Edición:"
     second: "segundo"
     seconds_plural: "segundos"
-    unexpected_error: "Lo siento. Ha habido un error no previsto al guardar los cambios."
   email:
     confirm:
       has_been_requested: "Un correo de confirmación ha sido pedido para la siguiente cuenta:"
@@ -193,6 +192,7 @@ es:
     email_required: "Se requiere un correo"
     email_username_in_use: "Correo o nombre en uso."
     INVALID_ASSET_URL: "La URL del articulo no es valida"
+    unexpected: "Lo siento. Ha habido un error no previsto."
     login_maximum_exceeded: "Ha realizado demasiados intentos fallidos de usar la contraseña. Por favor espere."
     network_error: "Error al conectar con el servidor. Compruebe su conexión a Internet y vuelva a intentarlo."
     NOT_AUTHORIZED: "Acción no autorizada."

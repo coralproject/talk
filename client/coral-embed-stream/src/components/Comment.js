@@ -24,7 +24,7 @@ import CommentContent from './CommentContent';
 import Slot from 'coral-framework/components/Slot';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import {EditableCommentContent} from './EditableCommentContent';
-import {getActionSummary, iPerformedThisAction} from 'coral-framework/utils';
+import {getActionSummary, iPerformedThisAction, forEachError} from 'coral-framework/utils';
 import t from 'coral-framework/services/i18n';
 
 const isStaff = (tags) => !tags.every((t) => t.tag.name !== 'STAFF');
@@ -75,7 +75,6 @@ const ActionButton = ({children}) => {
 };
 
 export default class Comment extends React.Component {
-  isLoadingReplies = false;
 
   constructor(props) {
     super(props);
@@ -90,6 +89,7 @@ export default class Comment extends React.Component {
       isEditing: false,
       replyBoxVisible: false,
       animateEnter: false,
+      loadingState: '',
       ...resetCursors({}, props),
     };
   }
@@ -220,24 +220,23 @@ export default class Comment extends React.Component {
   }
 
   loadNewReplies = () => {
-    if (!this.isLoadingReplies) {
-      this.isLoadingReplies = true;
-      const {replies, replyCount, id} = this.props.comment;
-      if (replyCount > replies.nodes.length) {
-        this.props.loadMore(id)
-          .then(() => {
-            this.setState(resetCursors(this.state, this.props));
-            this.isLoadingReplies = false;
-          })
-          .catch((e) => {
-            this.isLoadingReplies = false;
-            throw e;
+    const {replies, replyCount, id} = this.props.comment;
+    if (replyCount > replies.nodes.length) {
+      this.setState({loadingState: 'loading'});
+      this.props.loadMore(id)
+        .then(() => {
+          this.setState({
+            ...resetCursors(this.state, this.props),
+            loadingState: 'success',
           });
-        return;
-      }
-      this.setState(resetCursors);
-      this.isLoadingReplies = false;
+        })
+        .catch((error) => {
+          this.setState({loadingState: 'error'});
+          forEachError(error, ({msg}) => {this.props.addNotification('error', msg);});
+        });
+      return;
     }
+    this.setState(resetCursors);
   };
 
   showReplyBox = () => {
@@ -331,6 +330,7 @@ export default class Comment extends React.Component {
     } = this.props;
 
     const view = this.getVisibileReplies();
+    const {loadingState} = this.state;
 
     const hasMoreComments = comment.replies && (comment.replies.hasNextPage || comment.replies.nodes.length > view.length);
     const replyCount = this.hasIgnoredReplies() ? '' : comment.replyCount;
@@ -595,12 +595,13 @@ export default class Comment extends React.Component {
               />;
         })}
         </TransitionGroup>
-        <div className="coral-load-more-replies">
+        <div className="talk-load-more-replies">
           <LoadMore
             topLevel={false}
             replyCount={replyCount}
             moreComments={hasMoreComments}
             loadMore={this.loadNewReplies}
+            loadingState={loadingState}
           />
         </div>
       </div>

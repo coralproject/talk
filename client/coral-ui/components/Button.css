@@ -24,12 +24,6 @@
     margin: 2px;
     letter-spacing: 0.7px;
     font-weight: 400;
-
-    &:disabled {
-      background: #E0E0E0;
-      color: #4f5c67;
-      font-weight: bold;
-    }
 }
 
 .icon {
@@ -223,4 +217,12 @@
 
 .raised {
   box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+}
+
+
+.button:disabled {
+  background: #E0E0E0;
+  color: #4f5c67;
+  font-weight: bold;
+  cursor: default;
 }

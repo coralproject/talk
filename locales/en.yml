@@ -167,7 +167,6 @@ en:
     edit_window_timer_prefix: "Edit Window: "
     second: "second"
     seconds_plural: "seconds"
-    unexpected_error: "Unexpected error while saving changes. Sorry!"
   email:
     confirm:
       has_been_requested: "A email confirmation has been requested for the following account:"
@@ -208,6 +207,7 @@ en:
     organization_name: "Organization name must only contain letters or numbers."
     password: "Password must be at least 8 characters"
     username: "Usernames can contain letters numbers and _ only"
+    unexpected: "Unexpected error occurred. Sorry!"
   flag_comment: "Report comment"
   flag_reason: "Reason for reporting (Optional)"
   flag_username: "Report username"

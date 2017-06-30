@@ -15,6 +15,7 @@ import QuestionBox from 'coral-plugin-questionbox/QuestionBox';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import NewCount from './NewCount';
 import {TransitionGroup} from 'react-transition-group';
+import {forEachError} from 'coral-framework/utils';
 
 const hasComment = (nodes, id) => nodes.some((node) => node.id === id);
 
@@ -54,13 +55,12 @@ function invalidateCursor(invalidated, state, props) {
 
 class Stream extends React.Component {
 
-  isLoadingMore = false;
-
   constructor(props) {
     super(props);
     this.state = {
       ...resetCursors(this.state, props),
       keepCommentBox: false,
+      loadingState: '',
     };
   }
 
@@ -108,15 +108,15 @@ class Stream extends React.Component {
   };
 
   loadMoreComments = () => {
-    if (!this.isLoadingMore) {
-      this.isLoadingMore = true;
-      this.props.loadMoreComments()
-        .then(() => this.isLoadingMore = false)
-        .catch((e) => {
-          this.isLoadingMore = false;
-          throw e;
-        });
-    }
+    this.setState({loadingState: 'loading'});
+    this.props.loadMoreComments()
+      .then(() => {
+        this.setState({loadingState: 'success'});
+      })
+      .catch((error) => {
+        this.setState({loadingState: 'error'});
+        forEachError(error, ({msg}) => {this.props.addNotification('error', msg);});
+      });
   }
 
   // getVisibileComments returns a list containing comments
@@ -164,8 +164,7 @@ class Stream extends React.Component {
       pluginProps,
       editName
     } = this.props;
-
-    const {keepCommentBox} = this.state;
+    const {keepCommentBox, loadingState} = this.state;
     const view = this.getVisibleComments();
     const open = asset.closedAt === null;
 
@@ -190,8 +189,8 @@ class Stream extends React.Component {
 
     const showCommentBox = loggedIn && ((!banned && !temporarilySuspended && !highlightedComment) || keepCommentBox);
 
-    if (!comment && !comments) { 
-      console.error('Talk: No comments came back from the graph given that query. Please, check the query params.'); 
+    if (!comment && !comments) {
+      console.error('Talk: No comments came back from the graph given that query. Please, check the query params.');
       return <StreamError />;
     }
 
@@ -325,6 +324,7 @@ class Stream extends React.Component {
                 topLevel={true}
                 moreComments={asset.comments.hasNextPage}
                 loadMore={this.loadMoreComments}
+                loadingState={loadingState}
               />
             </div>}
       </div>
