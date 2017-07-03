@@ -1,0 +1,33 @@
+.button {
+  color: #2a2a2a;
+  margin: 5px 10px 5px 0px;
+  background: none;
+  padding: 0px;
+  border: none;
+  font-size: inherit;
+}
+
+.button:hover {
+  color: #767676;
+  cursor: pointer;
+}
+
+.button.featured {
+  color: #f7917a;
+}
+
+.button.featured:hover {
+  color: #f7917a;
+  cursor: pointer;
+}
+
+.tag {
+  background: #f7917a;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  display: inline-block;
+  margin: 0px 5px;
+  padding: 5px 5px;
+  border-radius: 2px;
+}

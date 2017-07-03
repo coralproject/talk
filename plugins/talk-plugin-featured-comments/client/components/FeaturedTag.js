@@ -9,7 +9,7 @@ export default (props) => (
     {
       isFeatured(props.comment.tags) && props.depth === 0 ? (
         <span className={styles.tag}>
-          Featured
+          {t('featured')}
         </span>
       ) : null
     }

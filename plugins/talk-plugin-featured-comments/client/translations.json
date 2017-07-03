@@ -1,3 +1,10 @@
 {
-  
+  "en" : {
+    "feature": "Feature",
+    "featured": "Featured"
+  },
+  "es" : {
+    "feature" : "Remarcar",
+    "featured": "Remarcado"
+  }
 }

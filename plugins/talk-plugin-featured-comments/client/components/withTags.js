@@ -113,8 +113,6 @@ export default (tag) => (WrappedComponent) => {
   class WithTags extends React.Component {
 
     postTag = () => {
-      console.log(this.props);
-
       const {comment, asset} = this.props;
       
       this.props.addTag({
@@ -122,8 +120,6 @@ export default (tag) => (WrappedComponent) => {
         name: Tag.toUpperCase(),
         assetId: asset.id
       });
-
-      console.log('Post Tag');
     }
 
     deleteTag = () => {
@@ -134,12 +130,8 @@ export default (tag) => (WrappedComponent) => {
         name: Tag.toUpperCase(),
         assetId: asset.id
       });
-      
-      console.log('delete Tag');
     }
-
-
-
+    
     render() {
       const {comment} = this.props;
 
