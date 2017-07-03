@@ -151,6 +151,20 @@ export default function auth (state = initialState, action) {
   case actions.SET_REDIRECT_URI:
     return state
       .set('redirectUri', action.uri);
+  case 'APOLLO_SUBSCRIPTION_RESULT':
+    if (action.operationName === 'UserBanned' && state.getIn(['user', 'id']) === action.variables.user_id) {
+      return state
+        .mergeIn(['user'], action.result.data.userBanned);
+    }
+    if (action.operationName === 'UserSuspended' && state.getIn(['user', 'id']) === action.variables.user_id) {
+      return state
+        .mergeIn(['user'], action.result.data.userSuspended);
+    }
+    if (action.operationName === 'UsernameRejected' && state.getIn(['user', 'id']) === action.variables.user_id) {
+      return state
+        .mergeIn(['user'], action.result.data.usernameRejected);
+    }
+    return state;
   default :
     return state;
   }

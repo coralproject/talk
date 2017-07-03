@@ -136,13 +136,6 @@
   resize: none;
 }
 
-#bannedWordlist, #suspectWordlist {
-  display: block;
-  input {
-    width: 100%;
-  }
-}
-
 .customCSSInput {
   width: 100%;
   font-size: 14px;

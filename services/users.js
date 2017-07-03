@@ -435,7 +435,10 @@ module.exports = class UsersService {
       return Promise.reject(new Error(`status ${status} is not supported`));
     }
 
-    return UserModel.update({
+    // TODO: current updating status behavior is weird.
+    // once a user has been `APPROVED` its status cannot be
+    // changed anymore.
+    return UserModel.findOneAndUpdate({
       id,
       status: {
         $ne: 'APPROVED'
@@ -444,6 +447,8 @@ module.exports = class UsersService {
       $set: {
         status
       }
+    }, {
+      new: true,
     });
   }
 
@@ -453,34 +458,37 @@ module.exports = class UsersService {
    * @param  {String}   message             message to be send to the user
    * @param  {Date}     until               date until the suspension is valid.
    */
-  static suspendUser(id, message, until) {
-    return UserModel.findOneAndUpdate(
+  static async suspendUser(id, message, until) {
+    const user = await UserModel.findOneAndUpdate(
       {id}, {
         $set: {
           suspension: {
             until,
           },
         }
-      })
-      .then((user) => {
-        if (message) {
-          let localProfile = user.profiles.find((profile) => profile.provider === 'local');
-          if (localProfile) {
-            const options =
-              {
-                template: 'suspension',              // needed to know which template to render!
-                locals: {                            // specifies the template locals.
-                  body: message
-                },
-                subject: 'Your account has been suspended',
-                to: localProfile.id  // This only works if the user has registered via e-mail.
-                                     // We may want a standard way to access a user's e-mail address in the future
-              };
-
-            return MailerService.sendSimple(options);
-          }
-        }
+      }, {
+        new: true,
       });
+
+    if (message) {
+      let localProfile = user.profiles.find((profile) => profile.provider === 'local');
+      if (localProfile) {
+        const options =
+          {
+            template: 'suspension',              // needed to know which template to render!
+            locals: {                            // specifies the template locals.
+              body: message
+            },
+            subject: 'Your account has been suspended',
+            to: localProfile.id  // This only works if the user has registered via e-mail.
+                                 // We may want a standard way to access a user's e-mail address in the future
+          };
+
+        await MailerService.sendSimple(options);
+      }
+    }
+
+    return user;
   }
 
   /**
@@ -489,34 +497,37 @@ module.exports = class UsersService {
    * @param  {String}   message             message to be send to the user
    * @param  {Date}     until               date until the suspension is valid.
    */
-  static rejectUsername(id, message) {
-    return UserModel.findOneAndUpdate({
+  static async rejectUsername(id, message) {
+    const user = await UserModel.findOneAndUpdate({
       id
     }, {
       $set: {
         status: 'BANNED',
         canEditName: true,
       }
-    })
-    .then((user) => {
-      if (message) {
-        let localProfile = user.profiles.find((profile) => profile.provider === 'local');
-        if (localProfile) {
-          const options =
-            {
-              template: 'suspension',              // needed to know which template to render!
-              locals: {                            // specifies the template locals.
-                body: message
-              },
-              subject: 'Email Suspension',
-              to: localProfile.id  // This only works if the user has registered via e-mail.
-                                   // We may want a standard way to access a user's e-mail address in the future
-            };
-
-          return MailerService.sendSimple(options);
-        }
-      }
+    }, {
+      new: true,
     });
+
+    if (message) {
+      let localProfile = user.profiles.find((profile) => profile.provider === 'local');
+      if (localProfile) {
+        const options =
+          {
+            template: 'suspension',              // needed to know which template to render!
+            locals: {                            // specifies the template locals.
+              body: message
+            },
+            subject: 'Email Suspension',
+            to: localProfile.id  // This only works if the user has registered via e-mail.
+                                 // We may want a standard way to access a user's e-mail address in the future
+          };
+
+        await MailerService.sendSimple(options);
+      }
+    }
+
+    return user;
   }
 
   /**
@@ -863,11 +874,24 @@ module.exports = class UsersService {
    * @return {Promise}
    */
   static async editName(id, username) {
+
+    // TODO: Revisit this when we revamped User status workflows.
+    const queryUsernameRejected = {
+      id,
+      username: {$ne: username},
+      status: 'BANNED',
+      canEditName: true
+    };
+
+    const queryCreateUsername = {
+      id,
+      status: 'ACTIVE',
+      canEditName: true
+    };
+
     try {
       const result = await UserModel.findOneAndUpdate({
-        id,
-        username: {$ne: username},
-        canEditName: true
+        $or: [queryUsernameRejected, queryCreateUsername],
       }, {
         $set: {
           username: username,

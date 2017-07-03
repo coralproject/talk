@@ -1,4 +1,7 @@
 es:
+  your_account_has_been_suspended: Su cuenta ha sido temporalmente suspendida.
+  your_account_has_been_banned: Su cuenta ha sido suspendida.
+  your_username_has_been_rejected: Su cuenta ha sido suspendida porque tu nombre de usuario ha sido considerado no apropiado para el espacio. Para recuperar la cuenta, por favor ingresar un nuevo nombre de usuario.
   bandialog:
     are_you_sure: "¿Estás segura que quieres suspender a {0}?"
     ban_user: "¿Quieres suspender el Usuario?"
@@ -37,6 +40,7 @@ es:
   comment_post_notif_premod: "Gracias por el comentario. Nuestro equipo de moderación va a revisarlo muy pronto."
   common:
     copy: 'Copiar'
+    error: 'Ha ocurrido un error.'
   community:
     account_creation_date: "Fecha de creación de la cuenta"
     active: Activa
@@ -162,7 +166,6 @@ es:
     edit_window_timer_prefix: "Ventana Edición:"
     second: "segundo"
     seconds_plural: "segundos"
-    unexpected_error: "Lo siento. Ha habido un error no previsto al guardar los cambios."
   email:
     confirm:
       has_been_requested: "Un correo de confirmación ha sido pedido para la siguiente cuenta:"
@@ -189,6 +192,7 @@ es:
     email_required: "Se requiere un correo"
     email_username_in_use: "Correo o nombre en uso."
     INVALID_ASSET_URL: "La URL del articulo no es valida"
+    unexpected: "Lo siento. Ha habido un error no previsto."
     login_maximum_exceeded: "Ha realizado demasiados intentos fallidos de usar la contraseña. Por favor espere."
     network_error: "Error al conectar con el servidor. Compruebe su conexión a Internet y vuelva a intentarlo."
     NOT_AUTHORIZED: "Acción no autorizada."

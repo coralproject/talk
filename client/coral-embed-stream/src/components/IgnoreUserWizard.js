@@ -9,7 +9,7 @@ export class IgnoreUserWizard extends React.Component {
     // comment on which this menu appears
     user: PropTypes.shape({
       id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired
+      username: PropTypes.string.isRequired
     }).isRequired,
     cancel: PropTypes.func.isRequired,
 
@@ -47,7 +47,7 @@ export class IgnoreUserWizard extends React.Component {
     const step2Confirmation = (
       <div>
         <header>Ignore User</header>
-        <p>Are you sure you want to ignore { user.name }?</p>
+        <p>Are you sure you want to ignore { user.username }?</p>
         <div className={styles.textAlignRight}>
           <Button cStyle='cancel' onClick={this.onClickCancel}>Cancel</Button>
           <Button onClick={onClickIgnoreUser}>Ignore user</Button>

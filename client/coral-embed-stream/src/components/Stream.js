@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import LoadMore from './LoadMore';
+import {StreamError} from './StreamError';
 import Comment from '../components/Comment';
 import SuspendedAccount from './SuspendedAccount';
 import Slot from 'coral-framework/components/Slot';
@@ -14,6 +15,7 @@ import QuestionBox from 'coral-plugin-questionbox/QuestionBox';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import NewCount from './NewCount';
 import {TransitionGroup} from 'react-transition-group';
+import {forEachError} from 'coral-framework/utils';
 
 const hasComment = (nodes, id) => nodes.some((node) => node.id === id);
 
@@ -53,11 +55,13 @@ function invalidateCursor(invalidated, state, props) {
 
 class Stream extends React.Component {
 
-  isLoadingMore = false;
-
   constructor(props) {
     super(props);
-    this.state = resetCursors(this.state, props);
+    this.state = {
+      ...resetCursors(this.state, props),
+      keepCommentBox: false,
+      loadingState: '',
+    };
   }
 
   componentWillReceiveProps(next) {
@@ -68,6 +72,12 @@ class Stream extends React.Component {
       this.setState(resetCursors);
       return;
     }
+
+    // Keep comment box when user was live suspended, banned, ...
+    if (!this.userIsDegraged(this.props) && this.userIsDegraged(next)) {
+      this.setState({keepCommentBox: true});
+    }
+
     if (
         prevComments && nextComments &&
         nextComments.nodes.length < prevComments.nodes.length
@@ -98,15 +108,15 @@ class Stream extends React.Component {
   };
 
   loadMoreComments = () => {
-    if (!this.isLoadingMore) {
-      this.isLoadingMore = true;
-      this.props.loadMoreComments()
-        .then(() => this.isLoadingMore = false)
-        .catch((e) => {
-          this.isLoadingMore = false;
-          throw e;
-        });
-    }
+    this.setState({loadingState: 'loading'});
+    this.props.loadMoreComments()
+      .then(() => {
+        this.setState({loadingState: 'success'});
+      })
+      .catch((error) => {
+        this.setState({loadingState: 'error'});
+        forEachError(error, ({msg}) => {this.props.addNotification('error', msg);});
+      });
   }
 
   // getVisibileComments returns a list containing comments
@@ -133,6 +143,10 @@ class Stream extends React.Component {
     return view;
   }
 
+  userIsDegraged({auth: {user}} = this.props) {
+    return !can(user, 'INTERACT_WITH_COMMUNITY');
+  }
+
   render() {
     const {
       commentClassNames,
@@ -150,6 +164,7 @@ class Stream extends React.Component {
       pluginProps,
       editName
     } = this.props;
+    const {keepCommentBox, loadingState} = this.state;
     const view = this.getVisibleComments();
     const open = asset.closedAt === null;
 
@@ -171,6 +186,14 @@ class Stream extends React.Component {
         me.ignoredUsers.find((u) => u.id === comment.user.id)
       );
     };
+
+    const showCommentBox = loggedIn && ((!banned && !temporarilySuspended && !highlightedComment) || keepCommentBox);
+
+    if (!comment && !comments) {
+      console.error('Talk: No comments came back from the graph given that query. Please, check the query params.');
+      return <StreamError />;
+    }
+
     return (
       <div id="stream">
 
@@ -199,10 +222,7 @@ class Stream extends React.Component {
                   editName={editName}
                   currentUsername={user.username}
                 />}
-              {loggedIn &&
-                !banned &&
-                !temporarilySuspended &&
-                !highlightedComment &&
+              {showCommentBox &&
                 <CommentBox
                   addNotification={this.props.addNotification}
                   postComment={this.props.postComment}
@@ -211,7 +231,7 @@ class Stream extends React.Component {
                   assetId={asset.id}
                   premod={asset.settings.moderation}
                   isReply={false}
-                  authorId={user.id}
+                  currentUser={user}
                   charCountEnable={asset.settings.charCountEnable}
                   maxCharCount={asset.settings.charCount}
                 />}
@@ -304,6 +324,7 @@ class Stream extends React.Component {
                 topLevel={true}
                 moreComments={asset.comments.hasNextPage}
                 loadMore={this.loadMoreComments}
+                loadingState={loadingState}
               />
             </div>}
       </div>

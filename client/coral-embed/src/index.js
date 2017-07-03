@@ -1,4 +1,5 @@
 import pym from 'pym.js';
+import URLSearchParams from 'url-search-params';
 
 import {stringify} from 'querystring';
 
@@ -28,6 +29,7 @@ const snackbarStyles = {
 // This function should return value of window.Coral
 const Coral = {};
 const Talk = (Coral.Talk = {});
+let notificationTimeout = null;
 
 // build the URL to load in the pym iframe
 function buildStreamIframeUrl(talkBaseUrl, query) {
@@ -110,14 +112,15 @@ function configurePymParent(pymParent, opts) {
     snackbar.className = `coral-notif-${type}`;
     snackbar.textContent = text;
 
-    setTimeout(() => {
+    clearTimeout(notificationTimeout);
+    notificationTimeout = setTimeout(() => {
       snackbar.style.transform = 'translate(-50%, 0)';
       snackbar.style.opacity = 1;
-    }, 0);
 
-    setTimeout(() => {
-      snackbar.style.opacity = 0;
-    }, 5000);
+      notificationTimeout = setTimeout(() => {
+        snackbar.style.opacity = 0;
+      }, 7000);
+    }, 0);
   });
 
   // Helps child show notifications at the right scrollTop
@@ -188,7 +191,10 @@ Talk.render = function(el, opts) {
   // Compose the query to send down to the Talk API so it knows what to load.
   let query = {};
 
-  query.comment_id = window.location.hash.slice(1);
+  let urlParams = new URLSearchParams(window.location.search);
+
+  query.comment_id = urlParams.get('commentId');
+
   query.asset_id = opts.asset_id;
 
   query.asset_url = opts.asset_url;

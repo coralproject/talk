@@ -13,6 +13,7 @@ class LoveButton extends React.Component {
       postReaction,
       deleteReaction,
       showSignInDialog,
+      addNotification,
       alreadyReacted,
       user,
     } = this.props;
@@ -25,6 +26,7 @@ class LoveButton extends React.Component {
 
     // If the current user is suspended, do nothing.
     if (!can(user, 'INTERACT_WITH_COMMUNITY')) {
+      addNotification('error', t('error.NOT_AUTHORIZED'));
       return;
     }
 
