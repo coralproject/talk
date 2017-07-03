@@ -7,8 +7,12 @@ import pym from '../services/PymConnection';
 
 import {resetWebsocket} from 'coral-framework/services/client';
 import t from 'coral-framework/services/i18n';
+import {isSlotEmpty} from 'plugin-api/beta/client/services';
 
 export const showSignInDialog = () => (dispatch, getState) => {
+  if (isSlotEmpty('login')) {
+    return;
+  }
   const signInPopUp = window.open(
     '/embed/stream/login',
     'Login',
