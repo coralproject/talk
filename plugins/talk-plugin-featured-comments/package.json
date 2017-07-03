@@ -1,0 +1,8 @@
+{
+  "name": "talk-plugin-featured-comments",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "Belen Curcio <curciobelen@gmail.com>",
+  "license": "ISC"
+}
