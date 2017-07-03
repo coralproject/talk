@@ -9,6 +9,7 @@ import {can} from 'coral-framework/services/perms';
 import {TransitionGroup} from 'react-transition-group';
 import cn from 'classnames';
 import styles from './Comment.css';
+import {THREADING_LEVEL} from '../constants/stream';
 
 import {
   BestButton,
@@ -316,6 +317,7 @@ export default class Comment extends React.Component {
       postDontAgree,
       setActiveReplyBox,
       activeReplyBox,
+      loadMore,
       deleteAction,
       disableReply,
       maxCharCount,
@@ -553,7 +555,7 @@ export default class Comment extends React.Component {
               charCountEnable={charCountEnable}
               maxCharCount={maxCharCount}
               setActiveReplyBox={setActiveReplyBox}
-              parentId={parentId || comment.id}
+              parentId={(depth < THREADING_LEVEL) ? comment.id : parentId}
               addNotification={addNotification}
               postComment={postComment}
               currentUser={currentUser}
@@ -583,6 +585,7 @@ export default class Comment extends React.Component {
                 deleteAction={deleteAction}
                 addTag={addTag}
                 removeTag={removeTag}
+                loadMore={loadMore}
                 ignoreUser={ignoreUser}
                 charCountEnable={charCountEnable}
                 maxCharCount={maxCharCount}
