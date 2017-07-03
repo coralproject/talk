@@ -1,8 +1,13 @@
 {
   "en": {
-    "off_topic": "Off Topic"
+    "off_topic_checkbox": "Mark comment as Off-topic",
+    "off_topic_tag": "Off-topic",
+    "off_topic_filter_hidden": "Show Off-topic comments",
+    "off_topic_filter_shown": "Hide Off-topic comments",
+    "off_topic_info_header" : "Off-topic comment",
+    "off_topic_info_description" : "This marker means that a reader posted a comment and marked it as Off-topic.  You can hide off-topic comments from the Viewing Options dropdown."
   },
   "es": {
-    "off_topic": "Fuera de Topico"
+    "off_topic": "Fuera de topico"
   }
 }

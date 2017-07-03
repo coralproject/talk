@@ -1,9 +1,23 @@
+@custom-media --big-viewport (min-width: 780px);
+
 .offTopic {
   height: 100%;
+  order: 2;
+  text-align: right;
 }
 
+.offTopicFilter {
+  white-space: nowrap;
+}
+
+.offTopicFilter a {
+  cursor: pointer;
+}
+
+
+
 .offTopicLabel {
-  padding: 10px 20px;
+  padding: 10px 0px;
   display: block;
 }
 
@@ -18,10 +32,48 @@
   border-radius: 2px;
 }
 
-.viewingOption {
-  padding: 5px 0;
-}
-
 :global(.coral-plugin-off-topic-comment) {
   display: none;
+}
+
+.tooltipContainer {
+  position:  relative;
+}
+.tooltip {
+  display: inline-block;
+  position: absolute;
+  background: white;
+  padding: 10px;
+  border-radius: 2px;
+  border: 1px solid #D5D5D5;
+  -webkit-box-shadow:  0px 0px 8px 0px #D5D5D5;
+  -moz-box-shadow:  0px 0px 8px 0px #D5D5D5;
+  box-shadow:  0px 0px 8px 0px #D5D5D5;
+  width: 300px;
+  right: 0;
+  z-index: 5;
+  margin-top: 2px;
+
+}
+
+.tooltipHeader {
+  display: inline;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.tooltipClose {
+  display: none;
+  color: #D5D5D5;
+}
+
+@custom-media --mobile-viewport (max-width: 480px);
+
+@media (--mobile-viewport) {
+  .tooltipClose {
+    float: right;
+    display: inline;
+
+  }
+
 }

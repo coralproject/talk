@@ -1,7 +1,9 @@
-import {OFFTOPIC_TOGGLE_CHECKBOX} from './constants';
+import {OFFTOPIC_TOGGLE_CHECKBOX, OFFTOPIC_TOGGLE_STATE} from './constants';
 
 const initialState = {
-  checked: false
+  checked: false,
+  offTopicState: 'shown',
+  offTopicTipDisplayed: false
 };
 
 export default function offTopic (state = initialState, action) {
@@ -10,6 +12,12 @@ export default function offTopic (state = initialState, action) {
     return {
       ...state,
       checked: !state.checked
+    };
+  }
+  case OFFTOPIC_TOGGLE_STATE: {
+    return {
+      ...state,
+      offTopicState: (state.offTopicState === 'shown') ? 'hiding' : 'shown'
     };
   }
   default :
