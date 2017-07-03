@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import AuthorName from 'coral-plugin-author-name/AuthorName';
 import TagLabel from 'coral-plugin-tag-label/TagLabel';
@@ -10,13 +11,6 @@ import {TransitionGroup} from 'react-transition-group';
 import cn from 'classnames';
 import styles from './Comment.css';
 
-import {
-  BestButton,
-  IfUserCanModifyBest,
-  BEST_TAG,
-  commentIsBest,
-  BestIndicator
-} from 'coral-plugin-best/BestButton';
 import LoadMore from './LoadMore';
 import {getEditableUntilDate} from './util';
 import {TopRightMenu} from './TopRightMenu';
@@ -180,19 +174,13 @@ export default class Comment extends React.Component {
     }).isRequired,
 
     // given a comment, return whether it should be rendered as ignored
-    commentIsIgnored: React.PropTypes.func,
-
-    // dispatch action to add a tag to a comment
-    addTag: React.PropTypes.func,
-
-    // dispatch action to remove a tag from a comment
-    removeTag: React.PropTypes.func,
+    commentIsIgnored: PropTypes.func,
 
     // dispatch action to ignore another user
-    ignoreUser: React.PropTypes.func,
+    ignoreUser: PropTypes.func,
 
     // edit a comment, passed (id, asset_id, { body })
-    editComment: React.PropTypes.func,
+    editComment: PropTypes.func,
   }
 
   editComment = (...args) => {
@@ -322,8 +310,6 @@ export default class Comment extends React.Component {
       addNotification,
       charCountEnable,
       showSignInDialog,
-      addTag,
-      removeTag,
       liveUpdates,
       commentIsIgnored,
       commentClassNames = []
@@ -350,40 +336,6 @@ export default class Comment extends React.Component {
       ? `reply ${styles.Reply}`
       : `comment ${styles.Comment}`;
     commentClass += comment.id.indexOf('pending') >= 0 ? ` ${styles.pendingComment}` : '';
-
-    // call a function, and if it errors, call addNotification('error', ...) (e.g. to show user a snackbar)
-    const notifyOnError = (fn, errorToMessage) =>
-      async function(...args) {
-        if (typeof errorToMessage !== 'function') {
-          errorToMessage = (error) => error.message;
-        }
-        try {
-          return await fn(...args);
-        } catch (error) {
-          addNotification('error', errorToMessage(error));
-          throw error;
-        }
-      };
-
-    const addBestTag = notifyOnError(
-      () =>
-        addTag({
-          id: comment.id,
-          name: BEST_TAG,
-          assetId: asset.id
-        }),
-      () => 'Failed to tag comment as best'
-    );
-
-    const removeBestTag = notifyOnError(
-      () =>
-        removeTag({
-          id: comment.id,
-          name: BEST_TAG,
-          assetId: asset.id
-        }),
-      () => 'Failed to remove best comment tag'
-    );
 
     /**
      * classNamesToAdd
@@ -427,10 +379,6 @@ export default class Comment extends React.Component {
         >
           <AuthorName author={comment.user} className={'talk-stream-comment-user-name'} />
           {isStaff(comment.tags) ? <TagLabel>Staff</TagLabel> : null}
-
-          {commentIsBest(comment)
-            ? <TagLabel><BestIndicator /></TagLabel>
-            : null }
 
           <span className={`${styles.bylineSecondary} talk-stream-comment-user-byline`} >
             <PubDate created_at={comment.created_at} className={'talk-stream-comment-published-date'} />
@@ -501,15 +449,6 @@ export default class Comment extends React.Component {
               commentId={comment.id}
               inline
             />
-            <ActionButton>
-              <IfUserCanModifyBest user={currentUser}>
-                <BestButton
-                  isBest={commentIsBest(comment)}
-                  addBest={addBestTag}
-                  removeBest={removeBestTag}
-                />
-              </IfUserCanModifyBest>
-            </ActionButton>
             {!disableReply &&
               <ActionButton>
                 <ReplyButton
@@ -582,8 +521,6 @@ export default class Comment extends React.Component {
                 currentUser={currentUser}
                 postFlag={postFlag}
                 deleteAction={deleteAction}
-                addTag={addTag}
-                removeTag={removeTag}
                 ignoreUser={ignoreUser}
                 charCountEnable={charCountEnable}
                 maxCharCount={maxCharCount}

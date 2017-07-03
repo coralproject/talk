@@ -157,10 +157,8 @@ class Stream extends React.Component {
       postDontAgree,
       deleteAction,
       showSignInDialog,
-      addTag,
       ignoreUser,
       auth: {loggedIn, user},
-      removeTag,
       pluginProps,
       editName
     } = this.props;
@@ -307,8 +305,6 @@ class Stream extends React.Component {
                         currentUser={user}
                         postFlag={postFlag}
                         postDontAgree={postDontAgree}
-                        addTag={addTag}
-                        removeTag={removeTag}
                         ignoreUser={ignoreUser}
                         commentIsIgnored={commentIsIgnored}
                         loadMore={this.props.loadNewReplies}

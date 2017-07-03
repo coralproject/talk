@@ -4,8 +4,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {ADDTL_COMMENTS_ON_LOAD_MORE} from '../constants/stream';
 import {
-  withPostComment, withPostFlag, withPostDontAgree, withDeleteAction,
-  withAddTag, withRemoveTag, withIgnoreUser, withEditComment,
+  withPostComment, withPostFlag, withPostDontAgree,
+  withDeleteAction, withIgnoreUser, withEditComment
 } from 'coral-framework/graphql/mutations';
 
 import {notificationActions, authActions} from 'coral-framework';
@@ -306,8 +306,6 @@ export default compose(
   withPostComment,
   withPostFlag,
   withPostDontAgree,
-  withAddTag,
-  withRemoveTag,
   withIgnoreUser,
   withDeleteAction,
   withEditComment,
