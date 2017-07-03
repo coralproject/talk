@@ -31,6 +31,13 @@
         asset_id: '<%= asset_id ? asset_id : '' %>',
         auth_token: '',
         plugin_config: {
+          /**
+           *  You can disable rendering slot components of a plugin by doing:
+           *
+           *  'coral-plugin-love': {
+           *    disable_components: true,
+           *  },
+           */
           test: 'data',
           debug: false
         }
