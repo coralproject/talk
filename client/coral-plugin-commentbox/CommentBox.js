@@ -2,12 +2,13 @@ import React, {PropTypes} from 'react';
 
 import t from 'coral-framework/services/i18n';
 import {can} from 'coral-framework/services/perms';
+import {forEachError} from 'coral-framework/utils';
 
 import Slot from 'coral-framework/components/Slot';
 import {connect} from 'react-redux';
 import {CommentForm} from './CommentForm';
 
-export const name = 'coral-plugin-commentbox';
+export const name = 'talk-plugin-commentbox';
 
 // Given a newly posted comment's status, show a notification to the user
 // if needed
@@ -28,16 +29,17 @@ class CommentBox extends React.Component {
 
     this.state = {
       username: '',
+      body: '',
+      loadingState: '',
 
-      // incremented on successful post to clear form
-      postedCount: 0,
       hooks: {
         preSubmit: [],
         postSubmit: []
       }
     };
   }
-  postComment = ({body}) => {
+
+  handleSubmit = () => {
     const {
       commentPostedHandler,
       postComment,
@@ -55,15 +57,17 @@ class CommentBox extends React.Component {
     let comment = {
       asset_id: assetId,
       parent_id: parentId,
-      body,
+      body: this.state.body,
       ...this.props.commentBox
     };
 
     // Execute preSubmit Hooks
     this.state.hooks.preSubmit.forEach((hook) => hook());
+    this.setState({loadingState: 'loading'});
 
     postComment(comment, 'comments')
       .then(({data}) => {
+        this.setState({loadingState: 'success'});
         const postedComment = data.createComment.comment;
 
         // Execute postSubmit Hooks
@@ -74,12 +78,17 @@ class CommentBox extends React.Component {
         if (commentPostedHandler) {
           commentPostedHandler();
         }
+
+        this.setState({body: ''});
       })
       .catch((err) => {
-        console.error(err);
+        this.setState({loadingState: 'error'});
+        forEachError(err, ({msg}) => addNotification('error', msg));
       });
+  }
 
-    this.setState({postedCount: this.state.postedCount + 1});
+  handleBodyChange = (body) => {
+    this.setState({body});
   }
 
   registerHook = (hookType = '', hook = () => {}) => {
@@ -130,21 +139,17 @@ class CommentBox extends React.Component {
     });
   }
 
-  handleChange = (e) => this.setState({body: e.target.value});
-
   render () {
-    const {styles, isReply, currentUser, maxCharCount} = this.props;
-    let {cancelButtonClicked} = this.props;
+    const {isReply, maxCharCount} = this.props;
+    let {onCancel} = this.props;
 
-    if (isReply && typeof cancelButtonClicked !== 'function') {
-      console.warn('the CommentBox component should have a cancelButtonClicked callback defined if it lives in a Reply');
-      cancelButtonClicked = () => {};
+    if (isReply && typeof onCancel !== 'function') {
+      console.warn('the CommentBox component should have a onCancel callback defined if it lives in a Reply');
+      onCancel = () => {};
     }
 
     return <div>
       <CommentForm
-        styles={styles}
-        key={this.state.postedCount}
         defaultValue={this.props.defaultValue}
         bodyInputId={isReply ? 'replyText' : 'commentText'}
         bodyLabel={isReply ? t('comment_box.reply') : t('comment.comment')}
@@ -152,7 +157,7 @@ class CommentBox extends React.Component {
         charCountEnable={this.props.charCountEnable}
         bodyPlaceholder={t('comment.comment')}
         bodyInputId={isReply ? 'replyText' : 'commentText'}
-        saveComment={currentUser && this.postComment}
+        body={this.state.body}
         buttonContainerStart={<Slot
           fill="commentInputDetailArea"
           registerHook={this.registerHook}
@@ -160,7 +165,10 @@ class CommentBox extends React.Component {
           isReply={isReply}
           inline
         />}
-        cancelButtonClicked={cancelButtonClicked}
+        onBodyChange={this.handleBodyChange}
+        loadingState={this.state.loadingState}
+        onCancel={onCancel}
+        onSubmit={this.handleSubmit}
       />
     </div>;
   }
@@ -174,12 +182,13 @@ CommentBox.propTypes = {
   maxCharCount: PropTypes.number,
   commentPostedHandler: PropTypes.func,
   postComment: PropTypes.func.isRequired,
-  cancelButtonClicked: PropTypes.func,
+  onCancel: PropTypes.func,
   assetId: PropTypes.string.isRequired,
   parentId: PropTypes.string,
   currentUser: PropTypes.object.isRequired,
   isReply: PropTypes.bool.isRequired,
   canPost: PropTypes.bool,
+  addNotification: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({commentBox}) => ({commentBox});

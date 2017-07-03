@@ -1,12 +1,11 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {Button} from 'coral-ui';
 import t from 'coral-framework/services/i18n';
+import cn from 'classnames';
 
 class LoadMore extends React.Component {
-
-  componentDidMount () {
-    this.initialState = true;
-  }
+  initialState = true;
 
   replyCountFormat = (count) => {
     if (!count) {
@@ -23,17 +22,22 @@ class LoadMore extends React.Component {
     }
   }
 
-  loadMore = () => {
-    this.initialState = false;
-    this.props.loadMore();
+  componentWillReceiveProps(nextProps) {
+    if (['success', 'error'].indexOf(nextProps.loadingState) >= 0) {
+      this.initialState = false;
+    }
   }
 
   render () {
-    const {topLevel, moreComments, replyCount} = this.props;
+    const {topLevel, moreComments, replyCount, loadingState, loadMore} = this.props;
+    const disabled = loadingState === 'loading';
     return moreComments
-      ? <div className='coral-load-more'>
+      ? <div className='talk-load-more'>
         <Button
-          onClick={this.loadMore}>
+          onClick={loadMore}
+          className={cn('talk-load-more-button', {[`talk-load-more-button-${loadingState}`]: loadingState})}
+          disabled={disabled}
+        >
           {topLevel ? t('framework.view_more_comments') : this.replyCountFormat(replyCount)}
         </Button>
       </div>
@@ -44,7 +48,9 @@ class LoadMore extends React.Component {
 LoadMore.propTypes = {
   replyCount: PropTypes.number,
   topLevel: PropTypes.bool.isRequired,
-  loadMore: PropTypes.func.isRequired
+  loadMore: PropTypes.func.isRequired,
+  moreComments: PropTypes.bool,
+  loadingState: PropTypes.oneOf(['', 'loading', 'success', 'error']),
 };
 
 export default LoadMore;
