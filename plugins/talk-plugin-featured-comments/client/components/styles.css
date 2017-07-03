@@ -22,7 +22,7 @@
 }
 
 .tag {
-  background: #f7917a;
+  background-color: #f7917a;
   font-size: 12px;
   font-weight: bold;
   color: white;
@@ -30,4 +30,10 @@
   margin: 0px 5px;
   padding: 5px 5px;
   border-radius: 2px;
+}
+
+.featuredComments {
+  padding: 20px;
+  background-color: #f9f9f9;
+  margin: 10px 0;
 }

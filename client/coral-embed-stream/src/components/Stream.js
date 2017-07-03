@@ -238,7 +238,12 @@ class Stream extends React.Component {
             </div>
           : <p>{asset.settings.closedMessage}</p>}
 
-        <Slot fill="stream" />
+        <Slot 
+          fill="stream"
+          data={this.props.data}
+          root={this.props.root}
+          view={view}
+        />
 
         {loggedIn && (
           <ModerationLink
