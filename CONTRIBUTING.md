@@ -8,30 +8,27 @@ By contributing to this project you agree to the [Code of Conduct](https://coral
 
 ## What should I Contribute?
 
-There are four main ways to contribute to Talk:
+There are at least three ways to contribute to Talk:
 
 * Writing Code
 * Writing Docs
-* Participating in conversation
 * Providing Translations
 
-## Contributing Code
-
-### Create an Issue
+## Writing Code
 
 Conversation surrounding contributions begins in [issues](https://github.com/coralproject/talk/issues).
 
-#### When should I file?
+### When should I Create an Issue?
 
-File early, preferably before beginning any programming in earnest.
+File an issue as soon as you have an idea of something you'd like to contribute. We would love to hear what you're thinking and help refine the idea to make it into the Talk ecosystem.
 
 Please file issues if:
 
 * you would like to contribute to Talk Core.
 * you are building a Plugin that the current Plugin API doesn't support.
-* you are building a Plugin and want advice
+* you are building a Plugin and want advice.
 
-#### What should I include?
+### What should I include?
 
 Coral has adopted an iterative, agile development philosophy. All contributions that make it into the Talk repo should start with a story or this form:
 
