@@ -173,16 +173,6 @@ export const withDeleteAction = withMutation(
       }}),
   });
 
-const COMMENT_FRAGMENT = gql`
-    fragment CoralBest_UpdateFragment on Comment {
-      tags {
-        tag {
-          name
-        }
-      }
-    }
-  `;
-
 export const withIgnoreUser = withMutation(
   gql`
     mutation IgnoreUser($id: ID!) {
