@@ -450,7 +450,7 @@ button.comment__action-button[disabled],
   border-radius: 2px;
 }
 
-.talk-load-more-replies .talk-load-more-button:hover {
+.talk-load-more-replies .talk-load-more:hover button {
   background-color: #979797;
   color: white;
 }
