@@ -12,17 +12,19 @@ import camelize from './camelize';
 
 function getSlotComponents(slot) {
   const pluginConfig = getStore().getState().config.plugin_config;
+
+    // Filter out components that have been disabled in `plugin_config`
   return flatten(plugins
 
     // Filter out components that have been disabled in `plugin_config`
-    .filter((o) => !pluginConfig[o.plugin] || !pluginConfig[o.plugin].disable_components)
+    .filter((o) => !pluginConfig || !pluginConfig[o.plugin] || !pluginConfig[o.plugin].disable_components)
 
     .filter((o) => o.module.slots[slot])
     .map((o) => o.module.slots[slot]));
 }
 
 export function isSlotEmpty(slot) {
-  return !!getSlotComponents(slot).length;
+  return getSlotComponents(slot).length === 0;
 }
 
 /**
