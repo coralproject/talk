@@ -432,6 +432,7 @@ export default class Comment extends React.Component {
             {
               [styles.pendingComment]: isPending,
               [styles.highlightedComment]: isHighlighted,
+              'talk-stream-pending-comment': isPending,
               'talk-stream-highlighted-comment': isHighlighted,
             }
           )}
