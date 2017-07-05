@@ -4,13 +4,15 @@ import get from 'lodash/get';
 import merge from 'lodash/merge';
 
 import esTA from '../../../node_modules/timeago.js/locales/es';
+import frTA from '../../../node_modules/timeago.js/locales/fr';
 import en from '../../../locales/en.yml';
 import es from '../../../locales/es.yml';
+import fr from '../../../locales/fr.yml';
 
 // Translations are happening at https://translate.lingohub.com/the-coral-project/dashboard
 
 const defaultLanguage = 'en';
-const translations = {...en, ...es};
+const translations = {...en, ...es, ...fr};
 
 let lang;
 let timeagoInstance;
@@ -40,6 +42,7 @@ function init() {
   }
 
   ta.register('es', esTA);
+  ta.register('fr', frTA);
   timeagoInstance = ta();
 }
 

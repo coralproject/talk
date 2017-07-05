@@ -5,27 +5,15 @@ import t from 'coral-framework/services/i18n';
 import cn from 'classnames';
 
 class LoadMore extends React.Component {
-  initialState = true;
-
   replyCountFormat = (count) => {
     if (!count) {
-      return t('framework.view_all_replies_unknown_number');
+      return t('framework.show_all_replies');
     }
     if (count === 1) {
-      return t('framework.view_reply');
+      return t('framework.show_1_more_reply');
     }
 
-    if (this.initialState) {
-      return t('framework.view_all_replies_initial', count);
-    } else {
-      return t('framework.view_all_replies', count);
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (['success', 'error'].indexOf(nextProps.loadingState) >= 0) {
-      this.initialState = false;
-    }
+    return t('framework.show_x_more_replies', count);
   }
 
   render () {

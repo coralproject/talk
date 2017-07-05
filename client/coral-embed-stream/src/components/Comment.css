@@ -1,11 +1,41 @@
-.Reply {
-  position: relative;
+.root {
+  margin-top: 16px;
+  margin-left: 20px;
   margin-bottom: 15px;
+  position: relative;
 }
 
-.Comment {
-  margin-bottom: 15px;
-  position: relative;
+.rootLevel0 {
+  margin-left: 0px;
+}
+
+.comment {
+  padding-left: 20px;
+}
+
+.commentLevel0 {
+  padding-left: 0px;
+}
+
+.commentLevel1 {
+  border-left: 3px #212121 solid;
+}
+
+.commentLevel2 {
+  border-left: 2px #6a6a6a solid;
+}
+
+.commentLevel3 {
+  border-left: 2px #9e9e9e solid;
+}
+
+.commentLevel4 {
+  border-left: 2px #c1c1c1 solid;
+}
+
+.highlightedComment {
+  padding-left: 20px;
+  border-left: 3px solid rgb(35,118,216);
 }
 
 .pendingComment {
