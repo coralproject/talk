@@ -358,7 +358,7 @@ export default class Comment extends React.Component {
         return false;
       });
 
-    const rootClassNames = [
+    const rootClassName = cn(
       'talk-stream-comment-wrapper',
       `talk-stream-comment-wrapper-level-${depth}`,
       styles.root,
@@ -367,28 +367,28 @@ export default class Comment extends React.Component {
         ...conditionalClassNames,
         [styles.enter]: this.state.animateEnter,
       },
-    ];
+    );
+
+    const commentClassName = cn(
+      'talk-stream-comment',
+      `talk-stream-comment-level-${depth}`,
+      styles.comment,
+      styles[`commentLevel${depth}`],
+      {
+        [styles.pendingComment]: isPending,
+        [styles.highlightedComment]: isHighlighted,
+        'talk-stream-pending-comment': isPending,
+        'talk-stream-highlighted-comment': isHighlighted,
+      }
+    );
 
     return (
       <div
-        className={cn(...rootClassNames)}
+        className={rootClassName}
         id={`c_${comment.id}`}
       >
         {!isReply && <hr aria-hidden={true} />}
-        <div
-          className={cn(
-            'talk-stream-comment',
-            `talk-stream-comment-level-${depth}`,
-            styles.comment,
-            styles[`commentLevel${depth}`],
-            {
-              [styles.pendingComment]: isPending,
-              [styles.highlightedComment]: isHighlighted,
-              'talk-stream-pending-comment': isPending,
-              'talk-stream-highlighted-comment': isHighlighted,
-            }
-          )}
-        >
+        <div className={commentClassName}>
           <AuthorName author={comment.user} className={'talk-stream-comment-user-name'} />
           {isStaff(comment.tags) ? <TagLabel>Staff</TagLabel> : null}
 

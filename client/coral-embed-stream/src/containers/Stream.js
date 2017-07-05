@@ -21,6 +21,7 @@ import {
   insertCommentIntoEmbedQuery,
   removeCommentFromEmbedQuery,
   insertFetchedCommentsIntoEmbedQuery,
+  nest,
 } from '../graphql/utils';
 
 const {showSignInDialog} = authActions;
@@ -150,18 +151,6 @@ class StreamContainer extends React.Component {
     />;
   }
 }
-
-const nest = (def, level) => {
-  let result = '';
-  for (let x = 0; x < level; x++) {
-    if (x === 0) {
-      result += def;
-      continue;
-    }
-    result = result.replace('...nest', def);
-  }
-  return result.replace('...nest', '');
-};
 
 const commentFragment = gql`
   fragment CoralEmbedStream_Stream_comment on Comment {
