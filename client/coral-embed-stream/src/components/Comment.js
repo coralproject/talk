@@ -9,6 +9,9 @@ import {can} from 'coral-framework/services/perms';
 import {TransitionGroup} from 'react-transition-group';
 import cn from 'classnames';
 import styles from './Comment.css';
+import {THREADING_LEVEL} from '../constants/stream';
+import merge from 'lodash/merge';
+import mapValues from 'lodash/mapValues';
 
 import {
   BestButton,
@@ -316,6 +319,7 @@ export default class Comment extends React.Component {
       postDontAgree,
       setActiveReplyBox,
       activeReplyBox,
+      loadMore,
       deleteAction,
       disableReply,
       maxCharCount,
@@ -331,9 +335,12 @@ export default class Comment extends React.Component {
 
     const view = this.getVisibileReplies();
     const {loadingState} = this.state;
+    const isReply = !!parentId;
+    const isPending = comment.id.indexOf('pending') >= 0;
+    const isHighlighted = highlighted === comment.id;
 
     const hasMoreComments = comment.replies && (comment.replies.hasNextPage || comment.replies.nodes.length > view.length);
-    const replyCount = this.hasIgnoredReplies() ? '' : comment.replyCount;
+    const moreRepliesCount = this.hasIgnoredReplies() ? -1 : comment.replyCount - view.length;
     const flagSummary = getActionSummary('FlagActionSummary', comment);
     const dontAgreeSummary = getActionSummary(
       'DontAgreeActionSummary',
@@ -345,11 +352,6 @@ export default class Comment extends React.Component {
     } else if (iPerformedThisAction('DontAgreeActionSummary', comment)) {
       myFlag = dontAgreeSummary.find((s) => s.current_user);
     }
-
-    let commentClass = parentId
-      ? `reply ${styles.Reply}`
-      : `comment ${styles.Comment}`;
-    commentClass += comment.id.indexOf('pending') >= 0 ? ` ${styles.pendingComment}` : '';
 
     // call a function, and if it errors, call addNotification('error', ...) (e.g. to show user a snackbar)
     const notifyOnError = (fn, errorToMessage) =>
@@ -386,7 +388,7 @@ export default class Comment extends React.Component {
     );
 
     /**
-     * classNamesToAdd
+     * conditionClassNames
      * adds classNames based on condition
      * classnames is an array of objects with key as classnames and value as conditions
      * i.e:
@@ -396,34 +398,44 @@ export default class Comment extends React.Component {
      *
      * This will add myClassName to comments tagged with STAFF TAG.
      * **/
-
-    const classNamesToAdd = commentClassNames.reduce((acc, className) => {
-      let res = [];
-
-      // Adding classNames based on tags
-      Object.keys(className).forEach((cn) => {
-        const condition = className[cn];
-        condition.tags.forEach((tag) => {
-          if (hasTag(comment.tags, tag)) {
-            res = [...res, cn];
-          }
-        });
+    const conditionalClassNames =
+      mapValues(merge({}, ...commentClassNames), (condition) => {
+        if (condition.tags) {
+          return condition.tags.some((tag) => hasTag(comment.tags, tag));
+        }
+        return false;
       });
 
-      // TODO: Compare rest of the comment obj to the condition if needed
-
-      return [...acc, ...res];
-    }, []);
+    const rootClassNames = [
+      'talk-stream-comment-wrapper',
+      `talk-stream-comment-wrapper-level-${depth}`,
+      styles.root,
+      styles[`rootLevel${depth}`],
+      {
+        ...conditionalClassNames,
+        [styles.enter]: this.state.animateEnter,
+      },
+    ];
 
     return (
       <div
-        className={cn(commentClass, 'talk-stream-comment-wrapper', classNamesToAdd, {[styles.enter]: this.state.animateEnter})}
+        className={cn(...rootClassNames)}
         id={`c_${comment.id}`}
-        style={{marginLeft: depth * 30}}
       >
-        <hr aria-hidden={true} />
+        {!isReply && <hr aria-hidden={true} />}
         <div
-          className={highlighted === comment.id ? 'highlighted-comment' : ''}
+          className={cn(
+            'talk-stream-comment',
+            `talk-stream-comment-level-${depth}`,
+            styles.comment,
+            styles[`commentLevel${depth}`],
+            {
+              [styles.pendingComment]: isPending,
+              [styles.highlightedComment]: isHighlighted,
+              'talk-stream-pending-comment': isPending,
+              'talk-stream-highlighted-comment': isHighlighted,
+            }
+          )}
         >
           <AuthorName author={comment.user} className={'talk-stream-comment-user-name'} />
           {isStaff(comment.tags) ? <TagLabel>Staff</TagLabel> : null}
@@ -553,7 +565,7 @@ export default class Comment extends React.Component {
               charCountEnable={charCountEnable}
               maxCharCount={maxCharCount}
               setActiveReplyBox={setActiveReplyBox}
-              parentId={parentId || comment.id}
+              parentId={(depth < THREADING_LEVEL) ? comment.id : parentId}
               addNotification={addNotification}
               postComment={postComment}
               currentUser={currentUser}
@@ -583,6 +595,7 @@ export default class Comment extends React.Component {
                 deleteAction={deleteAction}
                 addTag={addTag}
                 removeTag={removeTag}
+                loadMore={loadMore}
                 ignoreUser={ignoreUser}
                 charCountEnable={charCountEnable}
                 maxCharCount={maxCharCount}
@@ -598,7 +611,7 @@ export default class Comment extends React.Component {
         <div className="talk-load-more-replies">
           <LoadMore
             topLevel={false}
-            replyCount={replyCount}
+            replyCount={moreRepliesCount}
             moreComments={hasMoreComments}
             loadMore={this.loadNewReplies}
             loadingState={loadingState}

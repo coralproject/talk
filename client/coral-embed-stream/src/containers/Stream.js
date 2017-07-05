@@ -2,7 +2,7 @@ import React from 'react';
 import {gql, compose} from 'react-apollo';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {ADDTL_COMMENTS_ON_LOAD_MORE} from '../constants/stream';
+import {ADDTL_COMMENTS_ON_LOAD_MORE, THREADING_LEVEL} from '../constants/stream';
 import {
   withPostComment, withPostFlag, withPostDontAgree, withDeleteAction,
   withAddTag, withRemoveTag, withIgnoreUser, withEditComment,
@@ -91,9 +91,7 @@ class StreamContainer extends React.Component {
   }
 
   loadNewReplies = (parent_id) => {
-    const comment = this.props.root.comment
-      ? this.props.root.comment.parent || this.props.root.comment // highlighted comment.
-      : this.props.root.asset.comments.nodes.filter((comment) => comment.id === parent_id)[0];
+    const comment = findCommentInEmbedQuery(this.props.root, parent_id);
 
     return this.props.data.fetchMore({
       query: LOAD_MORE_QUERY,
@@ -153,20 +151,35 @@ class StreamContainer extends React.Component {
   }
 }
 
+const nest = (def, level) => {
+  let result = '';
+  for (let x = 0; x < level; x++) {
+    if (x === 0) {
+      result += def;
+      continue;
+    }
+    result = result.replace('...nest', def);
+  }
+  return result.replace('...nest', '');
+};
+
 const commentFragment = gql`
   fragment CoralEmbedStream_Stream_comment on Comment {
     id
     ...${getDefinitionName(Comment.fragments.comment)}
-    replyCount(excludeIgnored: $excludeIgnored)
-    replies(excludeIgnored: $excludeIgnored) {
-      nodes {
-        id
-        ...${getDefinitionName(Comment.fragments.comment)}
+    ${nest(`
+      replyCount(excludeIgnored: $excludeIgnored)
+      replies(excludeIgnored: $excludeIgnored) {
+        nodes {
+          id
+          ...${getDefinitionName(Comment.fragments.comment)}
+          ...nest
+        }
+        hasNextPage
+        startCursor
+        endCursor
       }
-      hasNextPage
-      startCursor
-      endCursor
-    }
+    `, THREADING_LEVEL)}
   }
   ${Comment.fragments.comment}
 `;
@@ -205,16 +218,19 @@ const LOAD_MORE_QUERY = gql`
       nodes {
         id
         ...${getDefinitionName(Comment.fragments.comment)}
-        replyCount(excludeIgnored: $excludeIgnored)
-        replies(limit: 3, excludeIgnored: $excludeIgnored) {
-          nodes {
-            id
-            ...${getDefinitionName(Comment.fragments.comment)}
+        ${nest(`
+          replyCount(excludeIgnored: $excludeIgnored)
+          replies(limit: 3, excludeIgnored: $excludeIgnored) {
+            nodes {
+              id
+              ...${getDefinitionName(Comment.fragments.comment)}
+              ...nest
+            }
+            hasNextPage
+            startCursor
+            endCursor
           }
-          hasNextPage
-          startCursor
-          endCursor
-        }
+        `, THREADING_LEVEL)}
       }
       hasNextPage
       startCursor
@@ -229,9 +245,12 @@ const fragments = {
     fragment CoralEmbedStream_Stream_root on RootQuery {
       comment(id: $commentId) @include(if: $hasComment) {
         ...CoralEmbedStream_Stream_comment
-        parent {
-          ...CoralEmbedStream_Stream_comment
-        }
+        ${nest(`
+          parent {
+            ...CoralEmbedStream_Stream_comment
+            ...nest
+          }
+        `, THREADING_LEVEL)}
       }
       asset(id: $assetId, url: $assetUrl) {
         id

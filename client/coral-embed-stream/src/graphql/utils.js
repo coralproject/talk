@@ -1,21 +1,23 @@
 import update from 'immutability-helper';
+import {THREADING_LEVEL} from '../constants/stream';
 
 function applyToCommentsOrigin(root, callback) {
   if (root.comment) {
-    if (root.comment.parent) {
-      return update(root, {
-        comment: {
-          parent: {
-            $apply: (node) => callback(node),
-          },
-        },
-      });
+    let comment = root.comment;
+    console.log(comment);
+    for (let depth = 0; depth <= THREADING_LEVEL; depth++) {
+      let changes = {$apply: (node) => node ? callback(node) : node};
+      for (let i = 0; i < depth; i++) {
+        changes = {parent: changes};
+      }
+      console.log(changes);
+      comment = update(comment, changes);
     }
-    return update(root, {
-      comment: {
-        $apply: (node) => callback(node),
-      },
-    });
+
+    return {
+      ...root,
+      comment,
+    };
   }
   return update(root, {
     asset: {$apply: (asset) => callback(asset)},
@@ -97,6 +99,13 @@ export function removeCommentFromEmbedQuery(root, id) {
   return applyToCommentsOrigin(root, (origin) => findAndRemoveComment(origin, id));
 }
 
+export function getTopLevelParent(comment) {
+  if (comment.parent) {
+    return getTopLevelParent(comment.parent);
+  }
+  return comment;
+}
+
 function findComment(nodes, callback) {
   for (let i = 0; i < nodes.length; i++) {
     const node = nodes[i];
@@ -119,12 +128,7 @@ export function findCommentInEmbedQuery(root, callbackOrId) {
     callback = (node) => node.id === callbackOrId;
   }
   if (root.comment) {
-    if (callback(root.comment)) {
-      return root.comment;
-    }
-    if (root.comment.parent && callback(root.comment.parent)) {
-      return root.comment.parent;
-    }
+    return findComment([getTopLevelParent(root.comment)], callback);
   }
   if (!root.asset.comments) {
     return false;
