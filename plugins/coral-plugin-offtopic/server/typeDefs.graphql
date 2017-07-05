@@ -1,4 +1,0 @@
-## Extending TAG_TYPE by adding OFF_TOPIC Tag
-enum TAG_TYPE {
-  OFF_TOPIC
-}

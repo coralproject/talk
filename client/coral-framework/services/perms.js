@@ -23,7 +23,13 @@ export const can = (user, ...perms) => {
     return false;
   }
 
+  const banned = user.status === 'BANNED';
+  const suspended = user.suspension.until && new Date(user.suspension.until) > new Date();
+
   return perms.every((perm) => {
+    if (perm === 'INTERACT_WITH_COMMUNITY') {
+      return !banned && !suspended;
+    }
     const role = roles[perm];
     if (typeof role === 'undefined') {
       throw new Error(`${perm} is not a valid role`);

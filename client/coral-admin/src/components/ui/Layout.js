@@ -10,7 +10,7 @@ const Layout = ({
   toggleShortcutModal,
   restricted = false,
   ...props}) => (
-  <LayoutMDL fixedDrawer>
+  <LayoutMDL className={styles.layout} fixedDrawer>
     <Header
       handleLogout={handleLogout}
       showShortcuts={toggleShortcutModal}

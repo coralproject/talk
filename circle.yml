@@ -52,5 +52,6 @@ deployment:
 
   latest:
     branch: master
+    owner: coralproject
     commands:
       - bash ./scripts/docker.sh deploy

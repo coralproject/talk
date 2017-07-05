@@ -13,7 +13,16 @@ const {CREATE_ACTION, DELETE_ACTION} = require('../../perms/constants');
  * @param  {String} action_type type of the action
  * @return {Promise}            resolves to the action created
  */
-const createAction = async ({user = {}}, {item_id, item_type, action_type, group_id, metadata = {}}) => {
+const createAction = async ({user = {}, pubsub, loaders: {Comments}}, {item_id, item_type, action_type, group_id, metadata = {}}) => {
+
+  let comment;
+  if (item_type === 'COMMENTS') {
+    comment = await Comments.get.load(item_id);
+    if (!comment) {
+      throw new Error('Comment not found');
+    }
+  }
+
   let action = await ActionsService.insertUserAction({
     item_id,
     item_type,
@@ -29,6 +38,10 @@ const createAction = async ({user = {}}, {item_id, item_type, action_type, group
     await UsersService.setStatus(item_id, 'PENDING');
   }
 
+  if (comment) {
+    pubsub.publish('commentFlagged', comment);
+  }
+
   return action;
 };
 
@@ -36,10 +49,10 @@ const createAction = async ({user = {}}, {item_id, item_type, action_type, group
  * Deletes an action based on the user id if the user owns that action.
  * @param  {Object} user the user performing the request
  * @param  {String} id   the id of the action to delete
- * @return {Promise}     resolves when the action is deleted
+ * @return {Promise}     resolves to the deleted action, or null if not found.
  */
 const deleteAction = ({user}, {id}) => {
-  return ActionModel.remove({
+  return ActionModel.findOneAndRemove({
     id,
     user_id: user.id
   });

@@ -36,12 +36,33 @@ enum USER_ROLES {
   MODERATOR
 }
 
+# Token is a personal access token associated with a given user.
+type Token {
+
+  # ID is the unique identifier for the token.
+  id: ID!
+
+  # Name is the description for the token.
+  name: String!
+
+  # Active determines if the token is available to hit the API.
+  active: Boolean!
+
+  # JWT is the actual token to use for authentication, this is only available
+  # on token creation, otherwise it will be null.
+  jwt: String
+}
+
 type UserProfile {
   # the id is an identifier for the user profile (email, facebook id, etc)
   id: String!
 
   # name of the provider attached to the authentication mode
   provider: String!
+}
+
+type SuspensionInfo {
+  until: Date
 }
 
 # Any person who can author comments, create actions, and view comments on a
@@ -69,11 +90,17 @@ type User {
   # the current profiles of the user.
   profiles: [UserProfile]
 
+  # the tags on the user
+  tags: [TagLink!]
+
   # determines whether the user can edit their username
   canEditName: Boolean
 
   # ignored users.
   ignoredUsers: [User!]
+
+  # Tokens are the personal access tokens for a given user.
+  tokens: [Token!]
 
   # returns all comments based on a query.
   comments(query: CommentsQuery): CommentConnection!
@@ -85,17 +112,10 @@ type User {
 
   # returns user status
   status: USER_STATUS
-}
 
-type Tag {
-  # the actual tag for the comment.
-  name: String!
-
-  # the user that assigned the tag. If NULL then the system automatically tagged it.
-  assigned_by: String
-
-  # the time when the tag was assigned.
-  created_at: Date!
+  # returns suspension info. Only available to Admins and Moderators
+  # or on own logged in User.
+  suspension: SuspensionInfo
 }
 
 # UsersQuery allows the ability to query users by a specific fields.
@@ -110,6 +130,59 @@ input UsersQuery {
 
   # Sort the results by created_at.
   sort: SORT_ORDER = REVERSE_CHRONOLOGICAL
+}
+
+# AssetsQuery allows teh ability to query assets by specific fields
+input AssetsQuery {
+
+  # a search string to match against titles, authors, urls, etc.
+  value: String = ""
+
+  # Limit the number of results to be returned
+  limit: Int = 10
+}
+################################################################################
+## Tags
+################################################################################
+
+# Used to represent the item type for a tag.
+enum TAGGABLE_ITEM_TYPE {
+
+  # The action references a entity of type Asset.
+  ASSETS
+
+  # The action references a entity of type Comment.
+  COMMENTS
+
+  # The action references a entity of type User.
+  USERS
+}
+
+# Tag represents the underlying Tag that can be either stored in a global list
+# or added uniquely to the entity.
+type Tag {
+
+  # The actual name of the tag entry.
+  name: String!
+
+  # The time that this Tag was created.
+  created_at: Date!
+}
+
+# TagLink is used to associate a given Tag with a Model via a TagLink.
+type TagLink {
+
+  # The underlying Tag that is either duplicated from the global list or created
+  # uniquely for this specific model.
+  tag: Tag!
+
+  # The user that assigned the tag. This TagLink could have been created by the
+  # system, in which case this will be null. It could also be null if the
+  # current user is not an Admin/Moderator.
+  assigned_by: User
+
+  # The date that the TagLink was created.
+  created_at: Date!
 }
 
 ################################################################################
@@ -190,6 +263,9 @@ input CommentCountQuery {
   # Asset that a comment is on.
   asset_id: ID
 
+  # The URL that the asset is located on.
+  asset_url: String
+
   # the parent of the comment that we want to retrieve.
   parent_id: ID
 
@@ -210,6 +286,12 @@ type EditInfo {
   editableUntil: Date
 }
 
+type CommentStatusHistory {
+  type: COMMENT_STATUS!
+  created_at: Date!
+  assigned_by: User
+}
+
 # Comment is the base representation of user interaction in Talk.
 type Comment {
 
@@ -223,7 +305,7 @@ type Comment {
   body: String!
 
   # the tags on the comment
-  tags: [Tag]
+  tags: [TagLink!]
 
   # the user who authored the comment.
   user: User
@@ -248,6 +330,9 @@ type Comment {
 
   # The current status of a comment.
   status: COMMENT_STATUS!
+
+  # The status history of the comment. Requires the `ADMIN` or `MODERATOR` role.
+  status_history: [CommentStatusHistory!]
 
   # The time when the comment was created
   created_at: Date!
@@ -507,6 +592,9 @@ type Asset {
   # The date that the asset was created.
   created_at: Date
 
+  # the tags on the asset
+  tags: [TagLink!]
+
   # The author(s) of the asset.
   author: String
 }
@@ -543,7 +631,7 @@ type ValidationUserError implements UserError {
 }
 
 ################################################################################
-## Queries;
+## Queries
 ################################################################################
 
 # Establishes the ordering of the content by their created_at time stamp.
@@ -586,7 +674,7 @@ type RootQuery {
   comment(id: ID!): Comment
 
   # All assets. Requires the `ADMIN` role.
-  assets: [Asset]
+  assets(query: AssetsQuery): [Asset]
 
   # Find or create an asset by url, or just find with the ID.
   asset(id: ID, url: String): Asset
@@ -625,7 +713,7 @@ type RootQuery {
 interface Response {
 
   # An array of errors relating to the mutation that occurred.
-  errors: [UserError]
+  errors: [UserError!]
 }
 
 # CreateCommentResponse is returned with the comment that was created and any
@@ -636,7 +724,7 @@ type CreateCommentResponse implements Response {
   comment: Comment
 
   # An array of errors relating to the mutation that occurred.
-  errors: [UserError]
+  errors: [UserError!]
 }
 
 # Used to represent the item type for an action.
@@ -652,8 +740,13 @@ enum ACTION_ITEM_TYPE {
   USERS
 }
 
-enum TAG_TYPE {
-  STAFF
+input CreateLikeInput {
+
+  # The item's id for which we are to create a like.
+  item_id: ID!
+
+  # The type of the item for which we are to create the like.
+  item_type: ACTION_ITEM_TYPE!
 }
 
 # CreateCommentInput is the input content used to create a new comment.
@@ -669,7 +762,7 @@ input CreateCommentInput {
   body: String!
 
   # Tags
-  tags: [TAG_TYPE]
+  tags: [String]
 
 }
 
@@ -697,7 +790,7 @@ type CreateFlagResponse implements Response {
   flag: FlagAction
 
   # An array of errors relating to the mutation that occurred.
-  errors: [UserError]
+  errors: [UserError!]
 }
 
 
@@ -710,7 +803,7 @@ type CreateDontAgreeResponse implements Response {
   dontagree: DontAgreeAction
 
   # An array of errors relating to the mutation that occurred.
-  errors: [UserError]
+  errors: [UserError!]
 }
 
 input CreateDontAgreeInput {
@@ -756,7 +849,7 @@ input RejectUsernameInput {
 type DeleteActionResponse implements Response {
 
   # An array of errors relating to the mutation that occurred.
-  errors: [UserError]
+  errors: [UserError!]
 }
 
 # SetUserStatusResponse is the response returned with possibly some errors
@@ -764,7 +857,7 @@ type DeleteActionResponse implements Response {
 type SetUserStatusResponse implements Response {
 
   # An array of errors relating to the mutation that occurred.
-  errors: [UserError]
+  errors: [UserError!]
 }
 
 # SuspendUserResponse is the response returned with possibly some errors
@@ -772,7 +865,7 @@ type SetUserStatusResponse implements Response {
 type SuspendUserResponse implements Response {
 
   # An array of errors relating to the mutation that occurred.
-  errors: [UserError]
+  errors: [UserError!]
 }
 
 # RejectUsernameResponse is the response returned with possibly some errors
@@ -780,7 +873,7 @@ type SuspendUserResponse implements Response {
 type RejectUsernameResponse implements Response {
 
   # An array of errors relating to the mutation that occurred.
-  errors: [UserError]
+  errors: [UserError!]
 }
 
 # SetCommentStatusResponse is the response returned with possibly some errors
@@ -788,33 +881,43 @@ type RejectUsernameResponse implements Response {
 type SetCommentStatusResponse implements Response {
 
   # An array of errors relating to the mutation that occurred.
-  errors: [UserError]
+  errors: [UserError!]
 }
 
-# Response to addCommentTag mutation
-type AddCommentTagResponse implements Response {
-  # An array of errors relating to the mutation that occured.
-  comment: Comment
-  errors: [UserError]
+# ModifyTagInput is the input used to modify a tag.
+input ModifyTagInput {
+
+  # name is the actual tag to add to the model.
+  name: String!
+
+  # id is the ID of the model in question that we are modifying the tag of.
+  id: ID!
+
+  # item_type is the type of item that we are modifying the tag if.
+  item_type: TAGGABLE_ITEM_TYPE!
+
+  # asset_id is used when the item_type is `COMMENTS`, the is needed to rectify
+  # the settings to get the asset specific tags/settings.
+  asset_id: ID
 }
 
-# Response to removeCommentTag mutation
-type RemoveCommentTagResponse implements Response {
+# Response to the addTag or removeTag mutations.
+type ModifyTagResponse implements Response {
+
   # An array of errors relating to the mutation that occured.
-  comment: Comment
-  errors: [UserError]
+  errors: [UserError!]
 }
 
 # Response to ignoreUser mutation
 type IgnoreUserResponse implements Response {
   # An array of errors relating to the mutation that occured.
-  errors: [UserError]
+  errors: [UserError!]
 }
 
 # Response to stopIgnoringUser mutation
 type StopIgnoringUserResponse implements Response {
   # An array of errors relating to the mutation that occured.
-  errors: [UserError]
+  errors: [UserError!]
 }
 
 # Input to editComment mutation.
@@ -831,7 +934,38 @@ type EditCommentResponse implements Response {
   comment: Comment
 
   # An array of errors relating to the mutation that occured.
-  errors: [UserError]
+  errors: [UserError!]
+}
+
+# CreateTokenInput contains the input to create the token.
+input CreateTokenInput {
+
+  # Name is the description for the token.
+  name: String!
+}
+
+# CreateTokenResponse contains the errors related to creating a token.
+type CreateTokenResponse implements Response {
+
+  # Token is the Token that was created, or null if it failed.
+  token: Token
+
+  # An array of errors relating to the mutation that occured.
+  errors: [UserError!]
+}
+
+# RevokeTokenInput contains the input to revoke the token.
+input RevokeTokenInput {
+
+  # ID is the JTI for the token.
+  id: ID!
+}
+
+# RevokeTokenResponse contains the errors related to revoking a token.
+type RevokeTokenResponse implements Response {
+
+  # An array of errors relating to the mutation that occured.
+  errors: [UserError!]
 }
 
 # All mutations for the application are defined on this object.
@@ -858,20 +992,26 @@ type RootMutation {
   # Suspends a user. Requires the `ADMIN` role.
   suspendUser(input: SuspendUserInput!): SuspendUserResponse
 
-  # Suspends a user. Requires the `ADMIN` role.
+  # Reject a username. Requires the `ADMIN` role.
   rejectUsername(input: RejectUsernameInput!): RejectUsernameResponse
 
   # Sets Comment status. Requires the `ADMIN` role.
   setCommentStatus(id: ID!, status: COMMENT_STATUS!): SetCommentStatusResponse
 
-  # Add tag to comment.
-  addCommentTag(id: ID!, tag: String!): AddCommentTagResponse
+  # Add a tag.
+  addTag(tag: ModifyTagInput!): ModifyTagResponse!
 
-  # Remove tag from comment.
-  removeCommentTag(id: ID!, tag: String!): RemoveCommentTagResponse
+  # Removes a tag.
+  removeTag(tag: ModifyTagInput!): ModifyTagResponse!
 
   # Ignore comments by another user
   ignoreUser(id: ID!): IgnoreUserResponse
+
+  # CreateToken will create a token that is attached to the current user.
+  createToken(input: CreateTokenInput!): CreateTokenResponse!
+
+  # RevokeToken will revoke an existing token.
+  revokeToken(input: RevokeTokenInput!): RevokeTokenResponse!
 
   # Stop Ignoring comments by another user
   stopIgnoringUser(id: ID!): StopIgnoringUserResponse
@@ -882,8 +1022,41 @@ type RootMutation {
 ################################################################################
 
 type Subscription {
-  commentAdded(asset_id: ID!): Comment
-  commentEdited(asset_id: ID!): Comment
+
+  # Get an update whenever a comment was added.
+  # `asset_id` is required except for users with the `ADMIN` or `MODERATOR` role.
+  commentAdded(asset_id: ID): Comment
+
+  # Get an update whenever a comment was edited.
+  # `asset_id` is required except for users with the `ADMIN` or `MODERATOR` role.
+  commentEdited(asset_id: ID): Comment
+
+  # Get an update whenever a comment was flagged.
+  # Requires the `ADMIN` or `MODERATOR` role.
+  commentFlagged(asset_id: ID): Comment
+
+  # Get an update whenever a comment has been accepted.
+  # Requires the `ADMIN` or `MODERATOR` role.
+  commentAccepted(asset_id: ID): Comment
+
+  # Get an update whenever a comment has been rejected.
+  # Requires the `ADMIN` or `MODERATOR` role.
+  commentRejected(asset_id: ID): Comment
+
+  # Get an update whenever a user has been suspended.
+  # `user_id` must match id of current user except for
+  # users with the `ADMIN` or `MODERATOR` role.
+  userSuspended(user_id: ID): User
+
+  # Get an update whenever a user has been banned.
+  # `user_id` must match id of current user except for
+  # users with the `ADMIN` or `MODERATOR` role.
+  userBanned(user_id: ID): User
+
+  # Get an update whenever a username has been rejected.
+  # `user_id` must match id of current user except for
+  # users with the `ADMIN` or `MODERATOR` role.
+  usernameRejected(user_id: ID): User
 }
 
 ################################################################################

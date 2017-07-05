@@ -1,4 +1,4 @@
-import {ADD_TAG, REMOVE_TAG} from './constants';
+import {ADD_TAG, REMOVE_TAG, CLEAR_TAGS} from './constants';
 
 const initialState = {
   tags: []
@@ -19,6 +19,8 @@ export default function commentBox (state = initialState, action) {
         ...state.tags.slice(action.idx + 1)
       ]
     };
+  case CLEAR_TAGS :
+    return initialState;
   default :
     return state;
   }

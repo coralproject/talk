@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import {ADDTL_COMMENTS_ON_LOAD_MORE} from '../constants/stream';
 import {
   withPostComment, withPostFlag, withPostDontAgree, withDeleteAction,
-  withAddCommentTag, withRemoveCommentTag, withIgnoreUser, withEditComment,
+  withAddTag, withRemoveTag, withIgnoreUser, withEditComment,
 } from 'coral-framework/graphql/mutations';
 
 import {notificationActions, authActions} from 'coral-framework';
@@ -30,11 +30,8 @@ class StreamContainer extends React.Component {
   subscriptions = [];
 
   subscribeToUpdates() {
-    const sub1 = this.props.data.subscribeToMore({
+    const newSubscriptions = [{
       document: COMMENTS_EDITED_SUBSCRIPTION,
-      variables: {
-        assetId: this.props.root.asset.id,
-      },
       updateQuery: (prev, {subscriptionData: {data: {commentEdited}}}) => {
 
         // Ignore mutations from me.
@@ -52,13 +49,9 @@ class StreamContainer extends React.Component {
           return removeCommentFromEmbedQuery(prev, commentEdited.id);
         }
       },
-    });
-
-    const sub2 = this.props.data.subscribeToMore({
+    },
+    {
       document: COMMENTS_ADDED_SUBSCRIPTION,
-      variables: {
-        assetId: this.props.root.asset.id,
-      },
       updateQuery: (prev, {subscriptionData: {data: {commentAdded}}}) => {
 
         // Ignore mutations from me.
@@ -81,9 +74,15 @@ class StreamContainer extends React.Component {
 
         return insertCommentIntoEmbedQuery(prev, commentAdded);
       }
-    });
+    }];
 
-    this.subscriptions.push(sub1, sub2);
+    this.subscriptions = newSubscriptions.map((s) => this.props.data.subscribeToMore({
+      document: s.document,
+      variables: {
+        assetId: this.props.root.asset.id,
+      },
+      updateQuery: s.updateQuery,
+    }));
   }
 
   unsubscribe() {
@@ -173,7 +172,7 @@ const commentFragment = gql`
 `;
 
 const COMMENTS_ADDED_SUBSCRIPTION = gql`
-  subscription onCommentAdded($assetId: ID!, $excludeIgnored: Boolean){
+  subscription CommentAdded($assetId: ID!, $excludeIgnored: Boolean){
     commentAdded(asset_id: $assetId){
       parent {
         id
@@ -185,7 +184,7 @@ const COMMENTS_ADDED_SUBSCRIPTION = gql`
 `;
 
 const COMMENTS_EDITED_SUBSCRIPTION = gql`
-  subscription onCommentEdited($assetId: ID!){
+  subscription CommentEdited($assetId: ID!){
     commentEdited(asset_id: $assetId){
       id
       body
@@ -307,10 +306,9 @@ export default compose(
   withPostComment,
   withPostFlag,
   withPostDontAgree,
-  withAddCommentTag,
-  withRemoveCommentTag,
+  withAddTag,
+  withRemoveTag,
   withIgnoreUser,
   withDeleteAction,
   withEditComment,
 )(StreamContainer);
-

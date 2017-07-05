@@ -2,7 +2,6 @@ import React, {PropTypes} from 'react';
 import Layout from 'coral-admin/src/components/ui/Layout';
 import styles from './NotFound.css';
 import {Button, TextField, Alert, Success} from 'coral-ui';
-import t from 'coral-framework/services/i18n';
 import Recaptcha from 'react-recaptcha';
 
 class AdminLogin extends React.Component {
@@ -35,7 +34,7 @@ class AdminLogin extends React.Component {
     const {errorMessage, loginMaxExceeded, recaptchaPublic} = this.props;
     const signInForm = (
       <form onSubmit={this.handleSignIn}>
-        {errorMessage && <Alert>{t(`error.${errorMessage}`)}</Alert>}
+        {errorMessage && <Alert>{errorMessage}</Alert>}
         <TextField
           label='Email Address'
           value={this.state.email}

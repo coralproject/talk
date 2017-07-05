@@ -46,10 +46,10 @@ describe('/api/v1/account/username', () => {
           .set(passport.inject({id: 'wrongid', roles: []}))
           .send({username: 'MojoJojo'}))
         .then(() => {
-          done(new Error('Exected Error'));
+          done(new Error('Expected Error'));
         })
         .catch((err) => {
-          expect(err).to.be.truthy;
+          expect(err).to.be.ok;
           done();
         });
     });
@@ -60,10 +60,10 @@ describe('/api/v1/account/username', () => {
         .set(passport.inject({id: mockUser.id, roles: []}))
         .send({username: 'MojoJojo'})
         .then(() => {
-          done(new Error('Exected Error'));
+          done(new Error('Expected Error'));
         })
         .catch((err) => {
-          expect(err).to.be.truthy;
+          expect(err).to.be.ok;
           done();
         });
     });

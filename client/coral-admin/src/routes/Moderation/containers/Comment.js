@@ -26,7 +26,7 @@ export default withFragments({
       status
       user {
         id
-        name: username
+        username
         status
       }
       asset {
@@ -48,6 +48,9 @@ export default withFragments({
             username
           }
         }
+      }
+      editing {
+        edited
       }
       ${pluginFragments.spreads('comment')}
     }

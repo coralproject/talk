@@ -8,6 +8,7 @@ const program = require('./commander');
 const inquirer = require('inquirer');
 const UsersService = require('../services/users');
 const UserModel = require('../models/user');
+const USER_ROLES = require('../models/enum/user_roles');
 const mongoose = require('../services/mongoose');
 const util = require('./util');
 const Table = require('cli-table');
@@ -36,7 +37,7 @@ function getUserCreateAnswers(options) {
       roles: []
     };
 
-    if (options.role && UserModel.USER_ROLES.indexOf(options.role) > -1) {
+    if (options.role && USER_ROLES.indexOf(options.role) > -1) {
       user.roles = [options.role];
     }
 
@@ -89,7 +90,7 @@ function getUserCreateAnswers(options) {
       name: 'roles',
       message: 'User Role',
       type: 'checkbox',
-      choices: UserModel.USER_ROLES
+      choices: USER_ROLES
     }
   ]);
 }
@@ -291,8 +292,8 @@ function mergeUsers(dstUserID, srcUserID) {
  */
 function addRole(userID, role) {
 
-  if (UserModel.USER_ROLES.indexOf(role) === -1) {
-    console.error(`Role '${role}' is not supported. Supported roles are ${UserModel.USER_ROLES.join(', ')}.`);
+  if (USER_ROLES.indexOf(role) === -1) {
+    console.error(`Role '${role}' is not supported. Supported roles are ${USER_ROLES.join(', ')}.`);
     util.shutdown(1);
     return;
   }
@@ -316,8 +317,8 @@ function addRole(userID, role) {
  */
 function removeRole(userID, role) {
 
-  if (UserModel.USER_ROLES.indexOf(role) === -1) {
-    console.error(`Role '${role}' is not supported. Supported roles are ${UserModel.USER_ROLES.join(', ')}.`);
+  if (USER_ROLES.indexOf(role) === -1) {
+    console.error(`Role '${role}' is not supported. Supported roles are ${USER_ROLES.join(', ')}.`);
     util.shutdown(1);
     return;
   }

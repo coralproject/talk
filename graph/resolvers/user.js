@@ -1,10 +1,13 @@
+const {decorateWithTags} = require('./util');
 const KarmaService = require('../../services/karma');
 const {
   SEARCH_ACTIONS,
   SEARCH_OTHER_USERS,
   SEARCH_OTHERS_COMMENTS,
   UPDATE_USER_ROLES,
-  SEARCH_COMMENT_METRICS
+  SEARCH_COMMENT_METRICS,
+  VIEW_SUSPENSION_INFO,
+  LIST_OWN_TOKENS
 } = require('../../perms/constants');
 
 const User = {
@@ -45,6 +48,13 @@ const User = {
 
     return null;
   },
+  tokens({id, tokens}, args, {user}) {
+    if (!user ||  ((user.id !== id) && !user.can(LIST_OWN_TOKENS))) {
+      return null;
+    }
+
+    return tokens;
+  },
   ignoredUsers({id}, args, {user, loaders: {Users}}) {
 
     // Only allow a logged in user that is either the current user or is a staff
@@ -75,7 +85,17 @@ const User = {
     if (requestingUser && requestingUser.can(SEARCH_COMMENT_METRICS)) {
       return KarmaService.model(user);
     }
+  },
+
+  suspension({id, suspension}, _, {user}) {
+    if (user.id !== id && !user.can(VIEW_SUSPENSION_INFO)) {
+      return null;
+    }
+    return suspension;
   }
 };
+
+// Decorate the User type resolver with a tags field.
+decorateWithTags(User);
 
 module.exports = User;

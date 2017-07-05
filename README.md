@@ -7,7 +7,17 @@ endpoint when the server is running with built assets.
 
 ## Contributing to Talk
 
-See our [Contribution Guide](https://github.com/coralproject/talk/blob/master/CONTRIBUTING.md)!
+See our [Contribution Guide](https://github.com/coralproject/talk/blob/master/CONTRIBUTING.md).
+
+## Documentation
+
+### General
+
+See our [Talk Documentation & Guides](https://coralproject.github.io/talk/index.html).
+
+### Plugins
+
+See our guide to using and building [Talk Plugins](https://github.com/coralproject/talk/blob/master/PLUGINS.md).
 
 ## Usage
 
@@ -40,9 +50,14 @@ sign and verify tokens via a `HS256` algorithm.
 - `TALK_RECAPTCHA_SECRET` (*required for reCAPTCHA support*) - server secret used for enabling reCAPTCHA powered logins. If not provided it will instead default to providing only a time based lockout.
 - `TALK_RECAPTCHA_PUBLIC` (*required for reCAPTCHA support*) - client secret used for enabling reCAPTCHA powered logins. If not provided it will instead default to providing only a time based lockout.
 - `TALK_PLUGINS_JSON` (_optional_) - used to specify the plugin config via the environment
+- `TALK_KEEP_ALIVE` (_optional_) - The keepalive timeout that should be used to send keep alive messages through the websocket to keep the socket alive. (Default `30s`)
 
 Refer to the wiki page on [Configuration Loading](https://github.com/coralproject/talk/wiki/Configuration-Loading) for
 alternative methods of loading configuration during development.
+
+### Running Migrations
+
+We have a migration tool that can be run using `bin/cli migration run`. This will detect new migrations available and prompt you to backup your database before proceeding with the migration. Migrations are required with major version releases.
 
 ### Using Trust
 

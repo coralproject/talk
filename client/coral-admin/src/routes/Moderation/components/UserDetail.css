@@ -15,7 +15,7 @@
   display: flex;
 
   .stat {
-    margin: 0 4px 12px;
+    margin: 0 4px 10px 0px;
   }
 
   .stat:last-child {
@@ -35,9 +35,8 @@
   border: none;
   background-color: transparent;
   font-size: 16px;
-  position: absolute;
-  width: 90%;
   outline: none;
+  width: calc(100% - 90px);
 }
 
 .commentStatuses {
@@ -49,7 +48,7 @@
 
   li {
     display: inline-block;
-    margin: 0 10px;
+    margin-right: 10px;
     cursor: pointer;
     padding: 0 10px;
   }

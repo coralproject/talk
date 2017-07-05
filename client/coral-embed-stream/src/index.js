@@ -19,14 +19,29 @@ loadPluginsTranslations();
 injectPluginsReducers();
 injectReducers(reducers);
 
+function inIframe() {
+  try {
+    return window.self !== window.top;
+  } catch (e) {
+    return true;
+  }
+}
+
+function init(config = {}) {
+  store.dispatch(addExternalConfig(config));
+  store.dispatch(checkLogin());
+}
+
 // Don't run this in the popup.
 if (!window.opener) {
-  pym.sendMessage('getConfig');
-
-  pym.onMessage('config', (config) => {
-    store.dispatch(addExternalConfig(JSON.parse(config)));
-    store.dispatch(checkLogin());
-  });
+  if (inIframe()) {
+    pym.sendMessage('getConfig');
+    pym.onMessage('config', (config) => {
+      init(JSON.parse(config));
+    });
+  } else {
+    init();
+  }
 }
 
 render(

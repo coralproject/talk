@@ -1,6 +1,6 @@
 import styles from './styles.css';
 import React from 'react';
-import {Button, TextField, Spinner, Success, Alert} from 'coral-ui';
+import {Button, TextField, Spinner, Success, Alert} from 'plugin-api/beta/client/components/ui';
 import t from 'coral-framework/services/i18n';
 
 class SignUpContent extends React.Component {

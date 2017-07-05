@@ -1,5 +1,6 @@
 const ActionModel = require('../models/action');
 const _ = require('lodash');
+const errors = require('../errors');
 
 module.exports = class ActionsService {
 
@@ -12,10 +13,10 @@ module.exports = class ActionsService {
   }
 
   /**
-   * Add an action.
-   * @param {String} item_id  identifier of the comment  (uuid)
+   * Inserts an action.
+   * @param {String} item_id  identifier of the item (uuid)
    * @param {String} user_id  user id of the action (uuid)
-   * @param {String} action the new action to the comment
+   * @param {String} action   the new action to the item
    * @return {Promise}
    */
   static insertUserAction(action) {
@@ -31,16 +32,32 @@ module.exports = class ActionsService {
     };
 
     // Create/Update the action.
-    return ActionModel.findOneAndUpdate(query, action, {
+    return new Promise((resolve, reject) => {
+      ActionModel.findOneAndUpdate(
+        query, {
 
-      // Ensure that if it's new, we return the new object created.
-      new: true,
+          // Only set when not existing.
+          $setOnInsert: action,
+        }, {
 
-      // Perform an upsert in the event that this doesn't exist.
-      upsert: true,
+          // Ensure that if it's new, we return the new object created.
+          new: true,
 
-      // Set the default values if not provided based on the mongoose models.
-      setDefaultsOnInsert: true
+          // Use raw result to get `updatedExisting`.
+          passRawResult: true,
+
+          // Perform an upsert in the event that this doesn't exist.
+          upsert: true,
+
+          // Set the default values if not provided based on the mongoose models.
+          setDefaultsOnInsert: true
+        }, (err, doc, raw) => {
+          if (err) { return reject(err); }
+          if (raw.lastErrorObject.updatedExisting) {
+            return reject(new errors.ErrAlreadyExists(raw.value));
+          }
+          return resolve(raw.value);
+        });
     });
   }
 

@@ -1,5 +1,4 @@
 const wrapResponse = require('../helpers/response');
-const CommentsService = require('../../services/comments');
 
 const RootMutation = {
   createComment(_, {comment}, {mutators: {Comment}}) {
@@ -35,12 +34,18 @@ const RootMutation = {
   setCommentStatus(_, {id, status}, {mutators: {Comment}}) {
     return wrapResponse(null)(Comment.setStatus({id, status}));
   },
-  addCommentTag(_, {id, tag}, {mutators: {Comment}}) {
-    return wrapResponse('comment')(Comment.addCommentTag({id, tag}).then(() => CommentsService.findById(id)));
+  addTag(_, {tag}, {mutators: {Tag}}) {
+    return wrapResponse(null)(Tag.add(tag));
   },
-  removeCommentTag(_, {id, tag}, {mutators: {Comment}}) {
-    return wrapResponse('comment')(Comment.removeCommentTag({id, tag}).then(() => CommentsService.findById(id)));
+  removeTag(_, {tag}, {mutators: {Tag}}) {
+    return wrapResponse(null)(Tag.remove(tag));
   },
+  createToken(_, {input}, {mutators: {Token}}) {
+    return wrapResponse('token')(Token.create(input));
+  },
+  revokeToken(_, {input}, {mutators: {Token}}) {
+    return wrapResponse(null)(Token.revoke(input));
+  }
 };
 
 module.exports = RootMutation;

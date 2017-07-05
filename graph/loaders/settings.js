@@ -1,5 +1,4 @@
 const SettingsService = require('../../services/settings');
-
 const util = require('./util');
 
 /**

@@ -11,6 +11,9 @@ entries:
     - title: About
       url: /index.html
       output: web
+    - title: Contribute
+      url: /contribute.html
+      output: web
     - title: FAQ
       url: /faq.html
       output: web
@@ -18,6 +21,9 @@ entries:
   - title: Installation
     output: web
     folderitems:
+    - title: Getting Started
+      output: web
+      url: /install.html
     - title: Configuration
       output: web
       url: /configuration.html
@@ -34,6 +40,12 @@ entries:
   - title: Plugins
     output: web
     folderitems:
+    - title: Overview
+      url: /plugins.html
+      output: web
+    - title: Quickstart
+      url: /plugins-quickstart.html
+      output: web
     - title: Client API
       url: /plugins-client.html
       output: web

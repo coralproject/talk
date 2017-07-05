@@ -1,10 +1,15 @@
 es:
+  your_account_has_been_suspended: Su cuenta ha sido temporalmente suspendida.
+  your_account_has_been_banned: Su cuenta ha sido suspendida.
+  your_username_has_been_rejected: Su cuenta ha sido suspendida porque tu nombre de usuario ha sido considerado no apropiado para el espacio. Para recuperar la cuenta, por favor ingresar un nuevo nombre de usuario.
   bandialog:
     are_you_sure: "¿Estás segura que quieres suspender a {0}?"
     ban_user: "¿Quieres suspender el Usuario?"
     banned_user: "Usuario Suspendido"
     cancel: Cancelar
-    note: "Nota: Suspender a este usuario también va a colocar este comentario en la cola de Rechazados."
+    note: "Nota: {0}"
+    note_reject_comment: "Suspender a este usuario también va a colocar este comentario en la cola de Rechazados."
+    note_ban_user: "Suspender a este usuario no le va a permitir (al usuario) borrar ni editar ni comentar."
     yes_ban_user: "Si, Suspender al usuario"
   bio_offensive: "Esta biografia es ofensiva"
   cancel: Cancelar
@@ -13,6 +18,7 @@ es:
     anon: Anónimo
     ban_user: "Usuario Suspendido"
     comment: "Publicar un comentario"
+    edited: Editado
     flagged: reportado
     view_context: "Ver contexto"
   comment_box:
@@ -32,6 +38,9 @@ es:
   comment_post_banned_word: "Tu comentario contiene una o más palabras que no están permitidas en nuestro espacio, por lo que no será publicado. Si crees que es un error, por favor contacta a nuestro equipo de moderación."
   comment_post_notif: "Tu comentario ha sido publicado."
   comment_post_notif_premod: "Gracias por el comentario. Nuestro equipo de moderación va a revisarlo muy pronto."
+  common:
+    copy: 'Copiar'
+    error: 'Ha ocurrido un error.'
   community:
     account_creation_date: "Fecha de creación de la cuenta"
     active: Activa
@@ -44,14 +53,13 @@ es:
     dont_like_username: "No me gusta este nombre de usuario"
     flaggedaccounts: "Nombres de Usuario Reportados"
     flags: Reportes
-    impersonating: "El usuario esta suplantando identidad"
+    impersonating: Impersonando
     loading: "Cargando resultados"
     moderator: Moderator
     newsroom_role: "Rol en la redacción"
-    no_flagged_accounts: "No hay ninguna cuenta reportada en este momento."
+    no_flagged_accounts: "No hay ningún nombre de usario reportado en este momento."
     no_results: "No se encontraron usuarios con ese nombre o correo."
-    note: "Nota: Suspender a este usuario no le va a permitir (al usuario) borrar ni editar ni comentar."
-    offensive: "Este comentario es ofensivo"
+    offensive: Ofensivo
     other: Otro
     people: Gente
     role: "Seleccionar rol..."
@@ -158,7 +166,6 @@ es:
     edit_window_timer_prefix: "Ventana Edición:"
     second: "segundo"
     seconds_plural: "segundos"
-    unexpected_error: "Lo siento. Ha habido un error no previsto al guardar los cambios."
   email:
     confirm:
       has_been_requested: "Un correo de confirmación ha sido pedido para la siguiente cuenta:"
@@ -185,6 +192,7 @@ es:
     email_required: "Se requiere un correo"
     email_username_in_use: "Correo o nombre en uso."
     INVALID_ASSET_URL: "La URL del articulo no es valida"
+    unexpected: "Lo siento. Ha habido un error no previsto."
     login_maximum_exceeded: "Ha realizado demasiados intentos fallidos de usar la contraseña. Por favor espere."
     network_error: "Error al conectar con el servidor. Compruebe su conexión a Internet y vuelva a intentarlo."
     NOT_AUTHORIZED: "Acción no autorizada."
@@ -350,35 +358,32 @@ es:
     status: "Estado del Hilo"
     stream_status: "Estado del Hilo"
   suspenduser:
-    bio: "bio"
-    cancel: "Cancelar"
-    days: "{0} días"
-    description_0: "¿Quiere suspender temporalmente a este usuario por su {0}? Hacerlo va a ocultar temporalmente todos sus comentarios hasta que edite su {0}."
-    description_1: "Suspender a este usuario va a deshabilitar temporalmente su cuenta y ocultar todos sus comentarios en el sitio."
-    description_notify: "Suspender a este usuario va a deshabilitar temporalmente su cuenta y ocultar todos sus comentarios en el sitio."
-    description_reject: "¿Quiere suspender temporalmente a este usuario por su {0}? Hacerlo va a ocultar temporalmente sus comentarios hasta que edite su {0}."
-    description_suspend: "Esta suspendiendo a {0}. Este comentario va a ir a la fila de Rechazados, y a {0} no se le va a permitir gustar, marcar, responder o publicar hasta que el tiempo de suspendido halla concluido."
-    email: "Otro miembro de la comunidad recientemente marco su nombre de usuario para revisarlo. Por su contenido su nombre de usuario ha sido rechazado. Esto significa que no puede comentar o marcar contenido hasta que edite su nombre de usuario. Envíenos un correo si tiene preguntas o comentarios."
-    email_subject: "Su cuenta ha sido suspendida"
-    email_message_reject: "Otro miembro de la comunidad hace poco ha marcado su nombre de usuario para revisar. Y este ha sido rechazado por su contenido. Esto significa que no puede comentar, gustar o marcar contenido hasta que edite su nombre de usuario. Envíenos un correo si tiene alguna preocupación o pregunta."
-    email_message_suspend: "Querida {0}, De acuerdo a la guía comunitaria de {1}, su cuenta ha sido temporalmente suspendida. Durante este tiempo, no podrá comentar, marcar o involucrarse con otros comentaristas. Por favor unirse a la conversación {2}."
-    error_email_message_empty: "Debe especificar un mensaje de correo."
-    hours: "{0} horas"
-    no_cancel: "No cancelar"
-    notify_suspend_until: "Usuario {0} ha sido temporalmente suspendido. Esta suspension va a terminar automáticamente en {1}."
-    one_hour: "1 hora"
-    send: "Enviar"
-    select_duration: "Seleccionar la duración de la suspensión"
-    suspend_user: "Suspender Usuario"
-    title: "Suspender un usuario"
-    title_0: "Nos dimos cuenta que ha rechazado un nombre de usuario"
-    title_1: "Notificar al usuario de su suspensión temporal"
-    title_notify: "Notificar al usuario de su suspensión temporal"
-    title_reject: "Vimos que ha rechazado un nombre de usuario"
     title_suspend: "Suspender Usuario"
-    username: nombre de usuario
+    description_suspend: "Esta suspendiendo a {0}. Este comentario va a ir a la fila de Rechazados, y a {0} no se le va a permitir gustar, marcar, responder o publicar hasta que el tiempo de suspendido halla concluido."
+    select_duration: "Seleccionar la duración de la suspensión"
+    one_hour: "1 hora"
+    hours: "{0} horas"
+    days: "{0} días"
+    cancel: "Cancelar"
+    suspend_user: "Suspender Usuario"
+    email_message_suspend: "Querido/a {0}, De acuerdo a la guía comunitaria de {1}, su cuenta ha sido temporalmente suspendida. Durante este tiempo, no podrá comentar, marcar o involucrarse con otros comentaristas. Por favor unirse a la conversación {2}."
+    title_notify: "Notificar al usuario de su suspensión temporal"
+    notify_suspend_until: "Usuario {0} ha sido temporalmente suspendido. Esta suspension va a terminar automáticamente en {1}."
+    description_notify: "Suspender a este usuario va a deshabilitar temporalmente su cuenta y ocultar todos sus comentarios en el sitio."
     write_message: "Escribir un mensaje"
+    send: "Enviar"
+  reject_username:
+    username: nombre de usuario
+    no_cancel: "No cancelar"
+    description_reject: "¿Quiere suspender temporalmente a este usuario por su {0}? Hacerlo va a ocultar temporalmente sus comentarios hasta que edite su {0}."
+    title_notify: "Notificar al usuario de su suspensión temporal"
+    description_notify: "Suspender a este usuario va a deshabilitar temporalmente su cuenta y ocultar todos sus comentarios en el sitio."
+    title_reject: "Vimos que ha rechazado un nombre de usuario"
+    suspend_user: "Suspender Usuario"
     yes_suspend: "Si, suspender"
+    email_message_reject: "Otro miembro de la comunidad hace poco ha marcado su nombre de usuario para revisar. Y este ha sido rechazado por su contenido. Esto significa que no puede comentar, gustar o marcar contenido hasta que edite su nombre de usuario. Envíenos un correo si tiene alguna preocupación o pregunta."
+    write_message: "Escribir un mensaje"
+    send: "Enviar"
   thank_you: "Valoramos tanto su seguridad en este espacio como sus comentarios. Un o una moderadora va a leer su reporte."
   unset_best: "Des-etiquetar como el mejor"
   user:

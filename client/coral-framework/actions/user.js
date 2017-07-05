@@ -14,6 +14,8 @@ export const editName = (username) => (dispatch) => {
       dispatch(addNotification('success', t('framework.success_name_update')));
     })
     .catch((error) => {
-      dispatch(editUsernameFailure(t(`error.${error.translation_key}`)));
+      console.error(error);
+      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+      dispatch(editUsernameFailure(errorMessage));
     });
 };

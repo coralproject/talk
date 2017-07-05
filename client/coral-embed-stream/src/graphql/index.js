@@ -18,8 +18,8 @@ const extension = {
         }
       }
     `,
-    RemoveCommentTagResponse: gql`
-      fragment CoralEmbedStream_RemoveCommentTagResponse on RemoveCommentTagResponse {
+    RemoveTagResponse: gql`
+      fragment CoralEmbedStream_RemoveTagResponse on RemoveTagResponse {
         comment {
           id
           tags {
@@ -28,8 +28,8 @@ const extension = {
         }
       }
     `,
-    AddCommentTagResponse: gql`
-      fragment CoralEmbedStream_AddCommentTagResponse on AddCommentTagResponse {
+    AddTagResponse: gql`
+      fragment CoralEmbedStream_AddTagResponse on AddTagResponse {
         comment {
           id
           tags {
@@ -74,7 +74,13 @@ const extension = {
         status
         replyCount
         tags {
-          name
+          tag {
+            name
+            created_at
+          }
+          assigned_by {
+            id
+          }
         }
         user {
           id
@@ -144,7 +150,18 @@ const extension = {
             parent_id,
             asset_id,
             action_summaries: [],
-            tags: tags.map((t) => ({name: t, __typename: 'Tag'})),
+            tags: tags.map((tag) => ({
+              tag: {
+                name: tag,
+                created_at: new Date().toISOString(),
+                __typename: 'Tag'
+              },
+              assigned_by: {
+                id: auth.toJS().user.id,
+                __typename: 'User'
+              },
+              __typename: 'TagLink'
+            })),
             status: null,
             replyCount: 0,
             parent: parent_id

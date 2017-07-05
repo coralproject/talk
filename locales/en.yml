@@ -1,10 +1,15 @@
 en:
+  your_account_has_been_suspended: Your account has been temporarily suspended.
+  your_account_has_been_banned: Your account has been banned.
+  your_username_has_been_rejected: Your account has been suspended because your username has been deemed inappropriate. To restore your account please enter a new username.
   bandialog:
     are_you_sure: "Are you sure you would like to ban {0}?"
     ban_user: "Ban User?"
     banned_user: "Banned User"
     cancel: "Cancel"
-    note: "Note: Banning this user will also place this comment in the Rejected queue."
+    note: "Note: {0}"
+    note_reject_comment: "Banning this user will also place this comment in the Rejected queue."
+    note_ban_user: "Banning this user will not let them edit comment or remove anything."
     yes_ban_user: "Yes, Ban User"
   bio_offensive: "This bio is offensive"
   cancel: "Cancel"
@@ -13,6 +18,7 @@ en:
     anon: "Anonymous"
     ban_user: "Ban User"
     comment: "Post a comment"
+    edited: Edited
     flagged: "flagged"
     view_context: "View context"
   comment_box:
@@ -32,6 +38,9 @@ en:
   comment_post_banned_word: "Your comment contains one or more words that are not permitted, so it will not be published. If you think this message is incorrect, please contact our moderation team."
   comment_post_notif: "Your comment has been posted."
   comment_post_notif_premod: "Thank you for posting. Our moderation team will review your comment shortly."
+  common:
+    copy: 'Copy'
+    error: 'An error has occurred.'
   community:
     account_creation_date: "Account Creation Date"
     active: Active
@@ -42,17 +51,16 @@ en:
     banned: Banned
     banned_user: "Banned User"
     cancel: Cancel
-    dont_like_username: "I don't like this username"
+    dont_like_username: "Dislike username"
     flaggedaccounts: "Flagged Usernames"
     flags: Flags
-    impersonating: "This user is impersonating"
+    impersonating: "Impersonation"
     loading: "Loading results"
     moderator: Moderator
     newsroom_role: "Newsroom Role"
-    no_flagged_accounts: "The Account Flags queue is currently empty."
+    no_flagged_accounts: "The Flagged Usernames queue is currently empty."
     no_results: "No users found with that user name or email address. They're hiding!"
-    note: "Note: Banning this user will not let them edit comment or remove anything."
-    offensive: "This comment is offensive"
+    offensive: "Offensive"
     other: Other
     people: People
     role: "Select role..."
@@ -94,13 +102,13 @@ en:
     edit_comment_timeframe_text_pre: "Commenters will have"
     edit_comment_timeframe_text_post: "seconds to edit their comments."
     embed_comment_stream: "Embed Stream"
-    enable_premod_links_text: "Moderators must approve any comment containing a link before its published."
+    enable_premod_links_text: "Moderators must approve any comment containing a link before it is published."
     enable_pre_moderation: "Enable pre-moderation"
     enable_pre_moderation_text: "Moderators must approve any comment before it is published."
     enable_premod_links: "Pre-Moderate Comments Containing Links"
     enable_premod: "Enable Premoderation"
-    enable_premod_description: "Moderators must approve any comment before its published."
-    enable_premod_links_description: "Moderators must approve any comment containing a link before its published."
+    enable_premod_description: "Moderators must approve any comment before it is published."
+    enable_premod_links_description: "Moderators must approve any comment containing a link before it is published."
     enable_questionbox: "Ask Readers a Question"
     enable_questionbox_description: "This question will appear at the top of this comment stream. Ask readers about a certain issue in the article or pose discussion questions etc."
     hours: Hours
@@ -144,8 +152,8 @@ en:
     auto_update: "Data automatically updates every five minutes or when you Reload."
     comment_count: comments
     flags: Flags
-    most_flags: "Articles with the most flags"
-    most_conversations: "Articles with the most conversations"
+    most_flags: "Stories with the most flags"
+    most_conversations: "Stories with the most conversations"
     next_update: "{0} minutes until next update."
     no_activity: "There haven't been any comments anywhere in the last five minutes."
     no_flags: "There have been no flags in the last 5 minutes! Hooray!"
@@ -159,7 +167,6 @@ en:
     edit_window_timer_prefix: "Edit Window: "
     second: "second"
     seconds_plural: "seconds"
-    unexpected_error: "Unexpected error while saving changes. Sorry!"
   email:
     confirm:
       has_been_requested: "A email confirmation has been requested for the following account:"
@@ -183,12 +190,14 @@ en:
     USERNAME_REQUIRED: "Must input a username"
     EDIT_WINDOW_ENDED: "You can no longer edit this comment. The time window to do so has expired."
     EDIT_USERNAME_NOT_AUTHORIZED: "You do not have permission to update your username."
+    SAME_USERNAME_PROVIDED: "You must submit a different username."
     EMAIL_IN_USE: "Email address already in use"
     EMAIL_REQUIRED: "An email address is required"
     LOGIN_MAXIMUM_EXCEEDED: "You have made too many unsuccessful password attempts. Please wait."
     PASSWORD_REQUIRED: "Must input a password"
     COMMENTING_CLOSED: "Commenting is already closed"
     NOT_FOUND: "Resource not found"
+    ALREADY_EXISTS: "Resource already exists"
     INVALID_ASSET_URL: "Assert URL is invalid"
     email: "Not a valid E-Mail"
     confirm_password: "Passwords don't match. Please check again"
@@ -198,6 +207,7 @@ en:
     organization_name: "Organization name must only contain letters or numbers."
     password: "Password must be at least 8 characters"
     username: "Usernames can contain letters numbers and _ only"
+    unexpected: "Unexpected error occurred. Sorry!"
   flag_comment: "Report comment"
   flag_reason: "Reason for reporting (Optional)"
   flag_username: "Report username"
@@ -240,6 +250,10 @@ en:
     actions: Actions
     all: all
     all_streams: "All Streams"
+    notify_edited: '{0} edited comment "{1}"'
+    notify_accepted: '{0} accepted comment "{1}"'
+    notify_rejected: '{0} rejected comment "{1}"'
+    notify_flagged: '{0} flagged comment "{1}"'
     approve: "Approve"
     approved: "Approved"
     ban_user: "Ban"
@@ -321,35 +335,32 @@ en:
     status: "Stream Status"
     stream_status: "Stream Status"
   suspenduser:
-    bio: bio
-    cancel: "Cancel"
-    days: "{0} days"
-    description_0: "Would you like to temporarily suspend this user because of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}."
-    description_1: "Suspending this user will temporarily disable their account and hide all of their comments on the site."
-    description_notify: "Suspending this user will temporarily disable their account and hide all of their comments on the site."
-    description_reject: "Would you like to temporarily ban this user because of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}."
-    description_suspend: "You are suspending {0}. This comment will go to the Rejected queue, and {0} will not be allowed to like, report, reply or post until the suspension time is complete."
-    email: "Another member of the community recently flagged your username for review. Because of its content your user was rejected. This means you can no longer comment like or flag content until you rewrite your username. Please e-mail us if you have any questions or concerns."
-    email_subject: "Your account has been suspended"
-    email_message_reject: "Another member of the community recently flagged your username for review. Because of its content your user was rejected. This means you can no longer comment, like, or flag content until you rewrite your username. Please e-mail us if you have any questions or concerns."
-    email_message_suspend: "Dear {0},\n\nIn accordance with {1}’s community guidelines, your account has been temporarily suspended. During the suspension, you will be unable to comment, flag or engage with fellow commenters. Please rejoin the conversation {2}."
-    error_email_message_empty: "You must specify an E-Mail message."
-    hours: "{0} hours"
-    no_cancel: "No cancel"
-    notify_suspend_until: "User {0} has been temporarily suspended. This suspension will automatically end {1}."
-    one_hour: "1 hour"
-    send: Send
-    select_duration: "Select suspension duration"
-    suspend_user: "Suspend User"
-    title: "Suspend a user"
-    title_0: "We noticed you rejected a username"
-    title_1: "Notify the user of their temporary suspension"
-    title_notify: "Notify the user of their temporary suspension"
-    title_reject: "We noticed you rejected a username"
     title_suspend: "Suspend User"
-    username: username
+    description_suspend: "You are suspending {0}. This comment will go to the Rejected queue, and {0} will not be allowed to like, report, reply or post until the suspension time is complete."
+    select_duration: "Select suspension duration"
+    one_hour: "1 hour"
+    hours: "{0} hours"
+    days: "{0} days"
+    cancel: "Cancel"
+    suspend_user: "Suspend User"
+    email_message_suspend: "Dear {0},\n\nIn accordance with {1}’s community guidelines, your account has been temporarily suspended. During the suspension, you will be unable to comment, flag or engage with fellow commenters. Please rejoin the conversation {2}."
+    title_notify: "Notify the user of their temporary suspension"
+    notify_suspend_until: "User {0} has been temporarily suspended. This suspension will automatically end {1}."
+    description_notify: "Suspending this user will temporarily disable their account and hide all of their comments on the site."
     write_message: "Write a message"
+    send: Send
+  reject_username:
+    username: username
+    no_cancel: "No cancel"
+    description_reject: "Would you like to temporarily ban this user because of their {0}? Doing so will temporarily hide their comments until they rewrite their {0}."
+    title_notify: "Notify the user of their temporary suspension"
+    description_notify: "Suspending this user will temporarily disable their account and hide all of their comments on the site."
+    title_reject: "We noticed you rejected a username"
+    suspend_user: "Suspend User"
     yes_suspend: "Yes suspend"
+    email_message_reject: "Another member of the community recently flagged your username for review. Because of its content your user was rejected. This means you can no longer comment, like, or flag content until you rewrite your username. Please e-mail us if you have any questions or concerns."
+    write_message: "Write a message"
+    send: Send
   thank_you: "We value your safety and feedback. A moderator will review your report."
   unset_best: "Untag as Best"
   user:

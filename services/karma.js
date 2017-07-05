@@ -1,4 +1,4 @@
-const debug = require('debug')('talk:trust');
+const debug = require('debug')('talk:services:karma');
 const UserModel = require('../models/user');
 
 /**

@@ -26,8 +26,7 @@ const fm = new IntrospectionFragmentMatcher({
             {name: 'SetUserStatusResponse'},
             {name: 'SuspendUserResponse'},
             {name: 'SetCommentStatusResponse'},
-            {name: 'AddCommentTagResponse'},
-            {name: 'RemoveCommentTagResponse'},
+            {name: 'ModifyTagResponse'},
             {name: 'IgnoreUserResponse'},
             {name: 'StopIgnoringUserResponse'}
           ]

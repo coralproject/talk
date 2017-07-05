@@ -2,9 +2,13 @@
 
 const program = require('./commander');
 const app = require('../app');
+const debug = require('debug')('talk:cli:serve');
+const errors = require('../errors');
 const {createServer} = require('http');
 const scraper = require('../services/scraper');
 const mailer = require('../services/mailer');
+const MigrationService = require('../services/migration');
+const SetupService = require('../services/setup');
 const kue = require('../services/kue');
 const mongoose = require('../services/mongoose');
 const util = require('./util');
@@ -87,7 +91,46 @@ function onListening() {
 /**
  * Start the app.
  */
-function startApp(program) {
+async function startApp(program) {
+
+  try {
+
+    // Check to see if the application is installed. If the application
+    // has been installed, then it will throw errors.ErrSettingsNotInit, this
+    // just means we don't have to check that the migrations have run.
+    await SetupService.isAvailable();
+
+    debug('setup is currently available, migrations not being checked');
+
+  } catch (e) {
+
+    // Check the error.
+    switch (e) {
+    case errors.ErrInstallLock, errors.ErrSettingsInit:
+
+      debug('setup is not currently available, migrations now being checked');
+
+      // The error was expected, just continue.
+      break;
+    default:
+
+      // The error was not expected, throw the error!
+      throw e;
+    }
+
+    // Now try and check the migration status.
+    try {
+
+      // Verify that the minimum migration version is met.
+      await MigrationService.verify();
+
+    } catch (e) {
+      console.error(e);
+      process.exit(1);
+    }
+
+    debug('migrations do not have to be run');
+  }
 
   /**
   * Listen on provided port, on all network interfaces.

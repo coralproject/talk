@@ -6,6 +6,7 @@ const Action = require('./action');
 const AssetActionSummary = require('./asset_action_summary');
 const Asset = require('./asset');
 const Comment = require('./comment');
+const CommentStatusHistory = require('./comment_status_history');
 const Date = require('./date');
 const FlagActionSummary = require('./flag_action_summary');
 const FlagAction = require('./flag_action');
@@ -16,6 +17,8 @@ const RootMutation = require('./root_mutation');
 const RootQuery = require('./root_query');
 const Settings = require('./settings');
 const Subscription = require('./subscription');
+const TagLink = require('./tag_link');
+const Tag = require('./tag');
 const UserError = require('./user_error');
 const User = require('./user');
 const ValidationUserError = require('./validation_user_error');
@@ -29,6 +32,7 @@ let resolvers = {
   AssetActionSummary,
   Asset,
   Comment,
+  CommentStatusHistory,
   Date,
   FlagActionSummary,
   FlagAction,
@@ -39,6 +43,8 @@ let resolvers = {
   RootQuery,
   Settings,
   Subscription,
+  TagLink,
+  Tag,
   UserError,
   User,
   ValidationUserError,

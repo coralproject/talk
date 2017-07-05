@@ -59,3 +59,4 @@ require('../models/asset');
 require('../models/comment');
 require('../models/setting');
 require('../models/user');
+require('./migration');

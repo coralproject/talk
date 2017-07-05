@@ -7,17 +7,31 @@ import flatten from 'lodash/flatten';
 import flattenDeep from 'lodash/flattenDeep';
 import {getDefinitionName, mergeDocuments} from 'coral-framework/utils';
 import {loadTranslations} from 'coral-framework/services/i18n';
-import {injectReducers} from 'coral-framework/services/store';
+import {injectReducers, getStore} from 'coral-framework/services/store';
 import camelize from './camelize';
+
+function getSlotComponents(slot) {
+  const pluginConfig = getStore().getState().config.plugin_config;
+
+    // Filter out components that have been disabled in `plugin_config`
+  return flatten(plugins
+
+    // Filter out components that have been disabled in `plugin_config`
+    .filter((o) => !pluginConfig || !pluginConfig[o.plugin] || !pluginConfig[o.plugin].disable_components)
+
+    .filter((o) => o.module.slots[slot])
+    .map((o) => o.module.slots[slot]));
+}
+
+export function isSlotEmpty(slot) {
+  return getSlotComponents(slot).length === 0;
+}
 
 /**
  * Returns React Elements for given slot.
  */
 export function getSlotElements(slot, props = {}) {
-  const components = flatten(plugins
-    .filter((o) => o.module.slots[slot])
-    .map((o) => o.module.slots[slot]));
-  return components
+  return getSlotComponents(slot)
     .map((component, i) => React.createElement(component, {key: i, ...props}));
 }
 

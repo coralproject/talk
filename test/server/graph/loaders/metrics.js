@@ -23,11 +23,11 @@ describe('graph.loaders.Metrics', () => {
 
     describe('different comment states', () => {
 
-      beforeEach(() => CommentModel.create([
-        {id: '1', body: 'a new comment!'},
-        {id: '2', body: 'a new comment!'},
-        {id: '3', body: 'a new comment!'}
-      ]));
+      beforeEach(() =>[
+        CommentModel.create({id: '1', body: 'a new comment!'}),
+        CommentModel.create({id: '2', body: 'a new comment!'}),
+        CommentModel.create({id: '3', body: 'a new comment!'})
+      ]);
 
       [
         {flagged: 0, actions: []},
@@ -52,7 +52,6 @@ describe('graph.loaders.Metrics', () => {
               to: (new Date()).setMinutes((new Date()).getMinutes() + 5)
             })
               .then(({data, errors}) => {
-                console.log(errors);
                 expect(errors).to.be.undefined;
                 expect(data.flagged).to.have.length(flagged);
               });

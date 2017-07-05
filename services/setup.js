@@ -1,5 +1,6 @@
 const UsersService = require('./users');
 const SettingsService = require('./settings');
+const MigrationService = require('./migration');
 const SettingsModel = require('../models/setting');
 const errors = require('../errors');
 const {
@@ -15,34 +16,32 @@ module.exports = class SetupService {
   /**
    * This returns a promise which resolves if the setup is available.
    */
-  static isAvailable() {
+  static async isAvailable() {
 
     // Check if we have an install lock present.
     if (INSTALL_LOCK) {
-      return Promise.reject(errors.ErrInstallLock);
+      throw errors.ErrInstallLock;
     }
 
-    // Get the current settings, we are expecing an error here.
-    return SettingsService
-      .retrieve()
-      .then(() => {
+    try {
 
-        // We should NOT have gotten a settings object, this means that the
-        // application is already setup. Error out here.
-        return Promise.reject(errors.ErrSettingsInit);
+      // Get the current settings, we are expecing an error here.
+      await SettingsService.retrieve();
+      
+      // We should NOT have gotten a settings object, this means that the
+      // application is already setup. Error out here.
+      throw errors.ErrSettingsInit;
+    } catch (e) {
 
-      })
-      .catch((err) => {
+      // If the error is `not init`, then we're good, otherwise, it's something
+      // else.
+      if (e !== errors.ErrSettingsNotInit) {
+        throw e;
+      }
 
-        // If the error is `not init`, then we're good, otherwise, it's something
-        // else.
-        if (err !== errors.ErrSettingsNotInit) {
-          return Promise.reject(err);
-        }
-
-        // Allow the request to keep going here.
-        return;
-      });
+      // Allow the request to keep going here.
+      return;
+    }
   }
 
   /**
@@ -69,35 +68,34 @@ module.exports = class SetupService {
   /**
    * This will perform the setup.
    */
-  static setup({settings, user: {email, password, username}}) {
+  static async setup({settings, user: {email, password, username}}) {
 
     // Validate the settings first.
-    return SetupService
-      .validate({settings, user: {email, password, username}})
-      .then(() => {
-        return SettingsService.update(settings);
-      })
-      .then((settings) => {
+    await SetupService.validate({settings, user: {email, password, username}});
 
-        // Settings are created! Create the user.
+    // Get the migrations to run.
+    let migrations = await MigrationService.listPending();
 
-        // Create the user.
-        return UsersService
-          .createLocalUser(email, password, username)
+    // Perform all migrations.
+    await MigrationService.run(migrations);
 
-          // Grant them administrative privileges and confirm the email account.
-          .then((user) => {
+    settings = await SettingsService.update(settings);
 
-            return Promise.all([
-              UsersService.addRoleToUser(user.id, 'ADMIN'),
-              UsersService.confirmEmail(user.id, email)
-            ])
-            .then(() => ({
-              settings,
-              user
-            }));
-          });
-      });
+    // Settings are created! Create the user.
+
+    // Create the user.
+    let user = await UsersService.createLocalUser(email, password, username);
+
+    // Grant them administrative privileges and confirm the email account.
+    await Promise.all([
+      UsersService.addRoleToUser(user.id, 'ADMIN'),
+      UsersService.confirmEmail(user.id, email)
+    ]);
+    
+    return {
+      settings,
+      user
+    };
   }
 
 };

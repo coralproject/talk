@@ -104,6 +104,20 @@ class ErrAuthentication extends APIError {
   }
 }
 
+/**
+ * ErrAlreadyExists is returned when an attempt to create a resource failed due to an existing one.
+ */
+class ErrAlreadyExists extends APIError {
+  constructor(existing = null) {
+    super('resource already exists', {
+      translation_key: 'ALREADY_EXISTS',
+      status: 409
+    }, {
+      existing
+    });
+  }
+}
+
 // ErrContainsProfanity is returned in the event that the middleware detects
 // profanity/wordlisted words in the payload.
 const ErrContainsProfanity = new APIError('This username contains elements which are not permitted in our community. If you think this is in error, please contact us or try again.', {
@@ -147,7 +161,13 @@ const ErrInstallLock = new APIError('install lock active', {
 // ErrPermissionUpdateUsername is returned when the user does not have permission to update their username.
 const ErrPermissionUpdateUsername = new APIError('You do not have permission to update your username.', {
   translation_key: 'EDIT_USERNAME_NOT_AUTHORIZED',
-  status: 500
+  status: 403
+});
+
+// ErrSameUsernameProvided is returned when attempting to update a username to the same username.
+const ErrSameUsernameProvided = new APIError('Same username provided.', {
+  translation_key: 'SAME_USERNAME_PROVIDED',
+  status: 400
 });
 
 // ErrLoginAttemptMaximumExceeded is returned when the login maximum is exceeded.
@@ -168,9 +188,17 @@ const ErrCommentTooShort = new APIError('Comment was too short', {
   status: 400
 });
 
+// ErrAssetURLAlreadyExists is returned when a rename operation is requested
+// but an asset already exists with the new url.
+const ErrAssetURLAlreadyExists = new APIError('Asset URL already exists, cannot rename', {
+  translation_key: 'ASSET_URL_ALREADY_EXISTS',
+  status: 409
+});
+
 module.exports = {
   ExtendableError,
   APIError,
+  ErrAlreadyExists,
   ErrPasswordTooShort,
   ErrSettingsNotInit,
   ErrMissingEmail,
@@ -187,9 +215,11 @@ module.exports = {
   ErrAuthentication,
   ErrNotAuthorized,
   ErrPermissionUpdateUsername,
+  ErrSameUsernameProvided,
   ErrSettingsInit,
   ErrInstallLock,
   ErrLoginAttemptMaximumExceeded,
   ErrEditWindowHasEnded,
-  ErrCommentTooShort
+  ErrCommentTooShort,
+  ErrAssetURLAlreadyExists
 };

@@ -6,21 +6,20 @@ import classnames from 'classnames';
 
 const name = 'coral-plugin-replies';
 
-const ReplyButton = ({banned, onClick}) => {
+const ReplyButton = ({onClick}) => {
   return (
     <button
       className={classnames(`${name}-reply-button`)}
       onClick={onClick}>
       {t('reply')}
       <i className={`${name}-icon material-icons`}
-        aria-hidden={true}>{banned ? 'BANNED' : 'reply'}</i>
+        aria-hidden={true}>reply</i>
     </button>
   );
 };
 
 ReplyButton.propTypes = {
   onClick: PropTypes.func.isRequired,
-  banned: PropTypes.bool.isRequired
 };
 
 export default ReplyButton;

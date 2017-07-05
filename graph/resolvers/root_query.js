@@ -6,12 +6,12 @@ const {
 } = require('../../perms/constants');
 
 const RootQuery = {
-  assets(_, args, {loaders: {Assets}, user}) {
+  assets(_, {query}, {loaders: {Assets}, user}) {
     if (user == null || !user.can(SEARCH_ASSETS)) {
       return null;
     }
 
-    return Assets.getAll.load();
+    return Assets.search(query);
   },
   asset(_, query, {loaders: {Assets}}) {
     if (query.id) {
@@ -40,15 +40,23 @@ const RootQuery = {
     return Comments.get.load(id);
   },
 
-  async commentCount(_, {query}, {user, loaders: {Actions, Comments}}) {
+  async commentCount(_, {query}, {user, loaders: {Actions, Comments, Assets}}) {
+
     if (user == null || !user.can(SEARCH_OTHERS_COMMENTS)) {
       return null;
     }
-
-    const {action_type} = query;
+    
+    const {action_type, asset_url} = query;
 
     if (action_type) {
       query.ids = await Actions.getByTypes({action_type, item_type: 'COMMENTS'});
+    }
+
+    if (asset_url) {
+      let asset = await Assets.findByUrl(asset_url);
+      if (asset) {
+        query.asset_id = asset.id;
+      }
     }
 
     return Comments.getCountByQuery(query);

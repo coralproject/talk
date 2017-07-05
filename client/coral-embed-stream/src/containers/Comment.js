@@ -28,11 +28,13 @@ export default withFragments({
       created_at
       status
       tags {
-        name
+        tag {
+          name
+        }
       }
       user {
         id
-        name: username
+        username
       }
       action_summaries {
         __typename

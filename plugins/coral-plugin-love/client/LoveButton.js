@@ -1,8 +1,11 @@
 import React from 'react';
-import {Icon} from 'coral-ui';
 import styles from './styles.css';
-import t from 'coral-framework/services/i18n';
 import {withReaction} from 'plugin-api/beta/client/hocs';
+import {t, can} from 'plugin-api/beta/client/services';
+import {Icon} from 'plugin-api/beta/client/components/ui';
+import cn from 'classnames';
+
+const plugin = 'coral-plugin-love';
 
 class LoveButton extends React.Component {
   handleClick = () => {
@@ -10,22 +13,24 @@ class LoveButton extends React.Component {
       postReaction,
       deleteReaction,
       showSignInDialog,
-      alreadyReacted
+      addNotification,
+      alreadyReacted,
+      user,
     } = this.props;
-    const {root: {me}} = this.props;
 
     // If the current user does not exist, trigger sign in dialog.
-    if (!me) {
+    if (!user) {
       showSignInDialog();
       return;
     }
 
-    // If the current user is banned, do nothing.
-    if (me.status === 'BANNED') {
+    // If the current user is suspended, do nothing.
+    if (!can(user, 'INTERACT_WITH_COMMUNITY')) {
+      addNotification('error', t('error.NOT_AUTHORIZED'));
       return;
     }
 
-    if (alreadyReacted()) {
+    if (alreadyReacted) {
       deleteReaction();
     } else {
       postReaction();
@@ -35,14 +40,16 @@ class LoveButton extends React.Component {
   render() {
     const {count, alreadyReacted} = this.props;
     return (
-      <button
-        className={`${styles.button} ${alreadyReacted() ? styles.loved : ''}`}
-        onClick={this.handleClick}
-      >
-        <span>{t(alreadyReacted() ? 'loved' : 'love')}</span>
-        <Icon name="favorite" />
-        <span>{count > 0 && count}</span>
-      </button>
+      <div className={cn(styles.container, `${plugin}-container`)}>
+        <button
+          className={cn(styles.button, {[styles.loved]: alreadyReacted}, `${plugin}-button`)}
+          onClick={this.handleClick}
+        >
+          <span>{t(alreadyReacted ? 'coral-plugin-love.loved' : 'coral-plugin-love.love')}</span>
+          <Icon name="favorite" className={`${plugin}-icon`} />
+          <span className={`${plugin}-count`}>{count > 0 && count}</span>
+        </button>
+      </div>
     );
   }
 }

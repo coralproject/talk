@@ -1,8 +1,9 @@
 import React, {PropTypes} from 'react';
 import {Icon} from '../coral-ui';
 import styles from './Comment.css';
+import Slot from 'coral-framework/components/Slot';
 import PubDate from '../coral-plugin-pubdate/PubDate';
-import Content from '../coral-plugin-commentcontent/CommentContent';
+import CommentContent from '../coral-embed-stream/src/components/CommentContent';
 
 import t from 'coral-framework/services/i18n';
 
@@ -10,9 +11,11 @@ const Comment = (props) => {
   return (
     <div className={styles.myComment}>
       <div>
-        <Content
+        <Slot
+          fill="commentContent"
+          defaultComponent={CommentContent}
           className={`${styles.commentBody} myCommentBody`}
-          body={props.comment.body}
+          comment={props.comment}
         />
         <p className="myCommentAsset">
           <a
@@ -26,7 +29,7 @@ const Comment = (props) => {
       <div className={styles.sidebar}>
         <ul>
           <li>
-            <a onClick={props.link(`${props.asset.url}#${props.comment.id}`)}>
+            <a onClick={props.link(`${props.asset.url}?commentId=${props.comment.id}`)}>
               <Icon name="open_in_new" />{t('view_conversation')}
             </a>
           </li>

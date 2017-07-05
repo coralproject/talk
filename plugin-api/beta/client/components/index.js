@@ -1,2 +1,2 @@
 export {Slot} from 'coral-framework/components';
-export {Icon} from 'coral-ui';
+export {default as ClickOutside} from 'coral-framework/components/ClickOutside';

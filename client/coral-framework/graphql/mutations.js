@@ -173,39 +173,93 @@ export const withDeleteAction = withMutation(
       }}),
   });
 
-export const withAddCommentTag = withMutation(
+const COMMENT_FRAGMENT = gql`
+    fragment CoralBest_UpdateFragment on Comment {
+      tags {
+        tag {
+          name
+        }
+      }
+    }
+  `;
+
+export const withAddTag = withMutation(
   gql`
-    mutation AddCommentTag($id: ID!, $tag: String!) {
-      addCommentTag(id:$id, tag:$tag) {
-        ...AddCommentTagResponse
+    mutation AddTag($id: ID!, $asset_id: ID!, $name: String!) {
+      addTag(tag: {name: $name, id: $id, item_type: COMMENTS, asset_id: $asset_id}) {
+        ...ModifyTagResponse
       }
     }
   `, {
     props: ({mutate}) => ({
-      addCommentTag: ({id, tag}) => {
+      addTag: ({id, name, assetId}) => {
         return mutate({
           variables: {
             id,
-            tag
-          }
+            name,
+            asset_id: assetId
+          },
+          optimisticResponse: {
+            addTag: {
+              __typename: 'ModifyTagResponse',
+              errors: null,
+            }
+          },
+          update: (proxy) => {
+            const fragmentId = `Comment_${id}`;
+
+            // Read the data from our cache for this query.
+            const data = proxy.readFragment({fragment: COMMENT_FRAGMENT, id: fragmentId});
+
+            data.tags.push({
+              tag: {
+                __typename: 'Tag',
+                name: 'BEST'
+              },
+              __typename: 'TagLink'
+            });
+
+            // Write our data back to the cache.
+            proxy.writeFragment({fragment: COMMENT_FRAGMENT, id: fragmentId, data});
+          },
         });
       }}),
   });
 
-export const withRemoveCommentTag = withMutation(
+export const withRemoveTag = withMutation(
   gql`
-    mutation RemoveCommentTag($id: ID!, $tag: String!) {
-      removeCommentTag(id:$id, tag:$tag) {
-        ...RemoveCommentTagResponse
+    mutation RemoveTag($id: ID!, $asset_id: ID!, $name: String!) {
+      removeTag(tag: {name: $name, id: $id, item_type: COMMENTS, asset_id: $asset_id}) {
+        ...ModifyTagResponse
       }
     }
   `, {
     props: ({mutate}) => ({
-      removeCommentTag: ({id, tag}) => {
+      removeTag: ({id, name, assetId}) => {
         return mutate({
           variables: {
             id,
-            tag
+            name,
+            asset_id: assetId
+          },
+          optimisticResponse: {
+            removeTag: {
+              __typename: 'ModifyTagResponse',
+              errors: null,
+            }
+          },
+          update: (proxy) => {
+            const fragmentId = `Comment_${id}`;
+
+            // Read the data from our cache for this query.
+            const data = proxy.readFragment({fragment: COMMENT_FRAGMENT, id: fragmentId});
+
+            const idx = data.tags.findIndex((i) => i.tag.name === 'BEST');
+
+            data.tags = [...data.tags.slice(0, idx), ...data.tags.slice(idx + 1)];
+
+            // Write our data back to the cache.
+            proxy.writeFragment({fragment: COMMENT_FRAGMENT, id: fragmentId, data});
           }
         });
       }}),
@@ -246,4 +300,3 @@ export const withStopIgnoringUser = withMutation(
         });
       }}),
   });
-

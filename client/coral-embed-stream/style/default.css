@@ -17,6 +17,10 @@ body {
   height: auto !important;
 }
 
+#coralStream {
+  padding: 4px;
+}
+
 .expandForSignin {
   min-height: 600px;
 }
@@ -183,7 +187,6 @@ hr {
 
 .talk-stream-comments-container {
   position: relative;
-  z-index: 0;
 }
 
 .commentStream {
@@ -194,12 +197,12 @@ hr {
 }
 
 /* Comment Box Styles */
-.coral-plugin-commentbox-container {
+.talk-plugin-commentbox-container {
   display: flex;
   width: 100%;
 }
 
-.coral-plugin-commentbox-textarea {
+.talk-plugin-commentbox-textarea {
   color: #262626;
   flex: 1;
   padding: 1em;
@@ -209,13 +212,13 @@ hr {
   border: 1px solid #9E9E9E;
 }
 
-.coral-plugin-commentbox-button-container {
+.talk-plugin-commentbox-button-container {
   display: flex;
   justify-content: flex-end;
   margin-top: 10px;
 }
 
-.coral-plugin-commentbox-button {
+.talk-plugin-commentbox-button {
   float: right;
   margin-top: 10px;
   padding: 5px 10px;
@@ -225,18 +228,18 @@ hr {
   border-radius: 2px;
 }
 
-.coral-plugin-commentbox-username {
+.talk-plugin-commentbox-username {
   width: 50%;
   padding-left: 5px;
   margin-bottom: 5px;
 }
 
-.coral-plugin-commentbox-char-count {
+.talk-plugin-commentbox-char-count {
   color: #ccc;
   text-align: right;
 }
 
-.coral-plugin-commentbox-char-max {
+.talk-plugin-commentbox-char-max {
   color: #d50000;
 }
 
@@ -332,33 +335,6 @@ button.comment__action-button[disabled],
   display: inline-block;
 }
 
-.coral-plugin-permalinks-container {
-  /*position: relative;*/
-  z-index: 2;
-}
-
-.coral-plugin-permalinks-popover {
-  display: none;
-  background-color: white;
-  border: 1px solid black;
-  position: absolute;
-  padding: 5px;
-}
-
-.coral-plugin-permalinks-popover.active {
-  display: block;
-}
-
-.coral-plugin-permalinks-copy-field {
-  display: block;
-  width: calc(100% - 5px);
-}
-
-.coral-plugin-permalinks-copied-text {
-  float: right;
-  margin: 8px;
-}
-
 /* Flag Styles */
 
 .coral-plugin-flags-popup-form {
@@ -441,11 +417,11 @@ button.comment__action-button[disabled],
 
 /* Load More */
 
-.coral-load-more {
+.talk-load-more {
   text-align: center;
 }
 
-.coral-load-more button {
+.talk-load-more button {
   text-align: center;
   color: #FFF;
   background-color: #2376D8;
@@ -457,11 +433,11 @@ button.comment__action-button[disabled],
   display: inline-block;
 }
 
-.coral-load-more:hover button {
+.talk-load-more:hover button {
   background-color: #4399FF;
 }
 
-.coral-load-more-replies, .coral-new-comments {
+.talk-load-more-replies, .coral-new-comments {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -474,16 +450,11 @@ button.comment__action-button[disabled],
   z-index: 100;
 }
 
-.coral-load-more-replies button.coral-load-more, .coral-new-comments  button.coral-load-more{
+.talk-load-more-replies button.talk-load-more, .coral-new-comments  button.talk-load-more{
   width: initial;
 }
 
 @media (min-device-width : 300px) and (max-device-width : 420px) {
-  .commentActionsLeft.comment__action-container .coral-plugin-likes-button-text,
-  .commentActionsLeft.comment__action-container > div span {
-    display: none;
-  }
-
   .commentActionsLeft.comment__action-container .coral-plugin-replies-reply-button {
     visibility: collapse;
     margin-left: -30px;

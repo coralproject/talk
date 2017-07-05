@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import LoadMore from './LoadMore';
+import {StreamError} from './StreamError';
 import Comment from '../components/Comment';
 import SuspendedAccount from './SuspendedAccount';
 import Slot from 'coral-framework/components/Slot';
@@ -14,6 +15,7 @@ import QuestionBox from 'coral-plugin-questionbox/QuestionBox';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import NewCount from './NewCount';
 import {TransitionGroup} from 'react-transition-group';
+import {forEachError} from 'coral-framework/utils';
 
 const hasComment = (nodes, id) => nodes.some((node) => node.id === id);
 
@@ -55,7 +57,11 @@ class Stream extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = resetCursors(this.state, props);
+    this.state = {
+      ...resetCursors(this.state, props),
+      keepCommentBox: false,
+      loadingState: '',
+    };
   }
 
   componentWillReceiveProps(next) {
@@ -66,6 +72,12 @@ class Stream extends React.Component {
       this.setState(resetCursors);
       return;
     }
+
+    // Keep comment box when user was live suspended, banned, ...
+    if (!this.userIsDegraged(this.props) && this.userIsDegraged(next)) {
+      this.setState({keepCommentBox: true});
+    }
+
     if (
         prevComments && nextComments &&
         nextComments.nodes.length < prevComments.nodes.length
@@ -95,6 +107,18 @@ class Stream extends React.Component {
     }
   };
 
+  loadMoreComments = () => {
+    this.setState({loadingState: 'loading'});
+    this.props.loadMoreComments()
+      .then(() => {
+        this.setState({loadingState: 'success'});
+      })
+      .catch((error) => {
+        this.setState({loadingState: 'error'});
+        forEachError(error, ({msg}) => {this.props.addNotification('error', msg);});
+      });
+  }
+
   // getVisibileComments returns a list containing comments
   // which were authored by current user or comes after the `idCursor`.
   getVisibleComments() {
@@ -119,6 +143,10 @@ class Stream extends React.Component {
     return view;
   }
 
+  userIsDegraged({auth: {user}} = this.props) {
+    return !can(user, 'INTERACT_WITH_COMMUNITY');
+  }
+
   render() {
     const {
       commentClassNames,
@@ -129,13 +157,14 @@ class Stream extends React.Component {
       postDontAgree,
       deleteAction,
       showSignInDialog,
-      addCommentTag,
+      addTag,
       ignoreUser,
       auth: {loggedIn, user},
-      removeCommentTag,
+      removeTag,
       pluginProps,
       editName
     } = this.props;
+    const {keepCommentBox, loadingState} = this.state;
     const view = this.getVisibleComments();
     const open = asset.closedAt === null;
 
@@ -157,9 +186,17 @@ class Stream extends React.Component {
         me.ignoredUsers.find((u) => u.id === comment.user.id)
       );
     };
+
+    const showCommentBox = loggedIn && ((!banned && !temporarilySuspended && !highlightedComment) || keepCommentBox);
+
+    if (!comment && !comments) {
+      console.error('Talk: No comments came back from the graph given that query. Please, check the query params.');
+      return <StreamError />;
+    }
+
     return (
       <div id="stream">
-        <Slot fill="stream" />
+
         {open
           ? <div id="commentBox">
               <InfoBox
@@ -183,11 +220,9 @@ class Stream extends React.Component {
                 <SuspendedAccount
                   canEditName={user && user.canEditName}
                   editName={editName}
+                  currentUsername={user.username}
                 />}
-              {loggedIn &&
-                !banned &&
-                !temporarilySuspended &&
-                !highlightedComment &&
+              {showCommentBox &&
                 <CommentBox
                   addNotification={this.props.addNotification}
                   postComment={this.props.postComment}
@@ -196,12 +231,14 @@ class Stream extends React.Component {
                   assetId={asset.id}
                   premod={asset.settings.moderation}
                   isReply={false}
-                  authorId={user.id}
+                  currentUser={user}
                   charCountEnable={asset.settings.charCountEnable}
                   maxCharCount={asset.settings.charCount}
                 />}
             </div>
           : <p>{asset.settings.closedMessage}</p>}
+
+        <Slot fill="stream" />
 
         {loggedIn && (
           <ModerationLink
@@ -223,6 +260,7 @@ class Stream extends React.Component {
               activeReplyBox={this.props.activeReplyBox}
               addNotification={addNotification}
               depth={0}
+              disableReply={!open}
               postComment={this.props.postComment}
               asset={asset}
               currentUser={user}
@@ -264,8 +302,8 @@ class Stream extends React.Component {
                         currentUser={user}
                         postFlag={postFlag}
                         postDontAgree={postDontAgree}
-                        addCommentTag={addCommentTag}
-                        removeCommentTag={removeCommentTag}
+                        addTag={addTag}
+                        removeTag={removeTag}
                         ignoreUser={ignoreUser}
                         commentIsIgnored={commentIsIgnored}
                         loadMore={this.props.loadNewReplies}
@@ -285,7 +323,8 @@ class Stream extends React.Component {
               <LoadMore
                 topLevel={true}
                 moreComments={asset.comments.hasNextPage}
-                loadMore={this.props.loadMoreComments}
+                loadMore={this.loadMoreComments}
+                loadingState={loadingState}
               />
             </div>}
       </div>
@@ -298,10 +337,10 @@ Stream.propTypes = {
   postComment: PropTypes.func.isRequired,
 
   // dispatch action to add a tag to a comment
-  addCommentTag: PropTypes.func,
+  addTag: PropTypes.func,
 
   // dispatch action to remove a tag from a comment
-  removeCommentTag: PropTypes.func,
+  removeTag: PropTypes.func,
 
   // dispatch action to ignore another user
   ignoreUser: React.PropTypes.func,

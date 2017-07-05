@@ -1,7 +1,8 @@
 import React from 'react';
 import cn from 'classnames';
 import styles from './ViewingOptions.css';
-import {Slot, Icon} from 'plugin-api/beta/client/components';
+import {Slot} from 'plugin-api/beta/client/components';
+import {Icon} from 'plugin-api/beta/client/components/ui';
 
 const ViewingOptions = (props) => {
   const toggleOpen = () => {

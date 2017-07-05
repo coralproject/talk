@@ -4,6 +4,8 @@ import {CommentForm} from 'coral-plugin-commentbox/CommentForm';
 import styles from './Comment.css';
 import {CountdownSeconds} from './CountdownSeconds';
 import {getEditableUntilDate} from './util';
+import {can} from 'coral-framework/services/perms';
+import {forEachError} from 'coral-framework/utils';
 
 import {Icon} from 'coral-ui';
 import t from 'coral-framework/services/i18n';
@@ -45,10 +47,14 @@ export class EditableCommentContent extends React.Component {
     // called when editing should be stopped
     stopEditing: React.PropTypes.func,
   }
+
   constructor(props) {
     super(props);
-    this.editComment = this.editComment.bind(this);
     this.editWindowExpiryTimeout = null;
+    this.state = {
+      body: props.comment.body,
+      loadingState: '',
+    };
   }
   componentDidMount() {
     const editableUntil = getEditableUntilDate(this.props.comment);
@@ -65,66 +71,75 @@ export class EditableCommentContent extends React.Component {
       this.editWindowExpiryTimeout = clearTimeout(this.editWindowExpiryTimeout);
     }
   }
-  async editComment(edit) {
+
+  handleBodyChange = (body) => {
+    this.setState({body});
+  }
+
+  handleSubmit = async () => {
+    if (!can(this.props.currentUser, 'INTERACT_WITH_COMMUNITY')) {
+      this.props.addNotification('error', t('error.NOT_AUTHORIZED'));
+      return;
+    }
+
+    this.setState({loadingState: 'loading'});
+
     const {editComment, addNotification, stopEditing} = this.props;
     if (typeof editComment !== 'function') {return;}
     let response;
-    let successfullyEdited = false;
     try {
-      response = await editComment(edit);
-      const errors = (response && response.data && response.data.editComment)
-        ? response.data.editComment.errors
-        : null;
-      if (errors && (errors.length === 1)) {
-        throw errors[0];
-      }
-      successfullyEdited = true;
-    } catch (error) {
-      if (error.translation_key) {
-        addNotification('error', t(`error.${error.translation_key}`));
-      } else if (error.networkError) {
-        addNotification('error', t('error.network_error'));
-      } else {
-        addNotification('error', t('edit_comment.unexpected_error'));
-        throw error;
-      }
-    }
-    if (successfullyEdited) {
+      response = await editComment({body: this.state.body});
+      this.setState({loadingState: 'success'});
       const status = response.data.editComment.comment.status;
       notifyForNewCommentStatus(this.props.addNotification, status);
-    }
-    if (successfullyEdited && typeof stopEditing === 'function') {
-      stopEditing();
+      if (typeof stopEditing === 'function') {
+        stopEditing();
+      }
+    } catch (error) {
+      this.setState({loadingState: 'error'});
+      forEachError(error, ({msg}) => addNotification('error', msg));
     }
   }
+
+  getEditableUntil = (props = this.props) => {
+    return getEditableUntilDate(props.comment);
+  }
+
+  isEditWindowExpired = (props = this.props) => {
+    return (this.getEditableUntil(props) - new Date()) < 0;
+  }
+
+  isSubmitEnabled = (comment) => {
+
+    // should be disabled if user hasn't actually changed their
+    // original comment
+    return (comment.body !== this.props.comment.body) && !this.isEditWindowExpired();
+  }
+
   render() {
-    const originalBody = this.props.comment.body;
-    const editableUntil = getEditableUntilDate(this.props.comment);
-    const editWindowExpired = (editableUntil - new Date()) < 0;
     return (
       <div className={styles.editCommentForm}>
         <CommentForm
           defaultValue={this.props.comment.body}
           charCountEnable={this.props.asset.settings.charCountEnable}
           maxCharCount={this.props.maxCharCount}
-          saveCommentEnabled={(comment) => {
-
-            // should be disabled if user hasn't actually changed their
-            // original comment
-            return (comment.body !== originalBody) && !editWindowExpired;
-          }}
-          saveComment={this.editComment}
+          submitEnabled={this.isSubmitEnabled}
+          body={this.state.body}
+          onBodyChange={this.handleBodyChange}
+          onSubmit={this.handleSubmit}
           bodyLabel={t('edit_comment.body_input_label')}
           bodyPlaceholder=""
           submitText={<span>{t('edit_comment.save_button')}</span>}
-          saveButtonCStyle="green"
-          cancelButtonClicked={this.props.stopEditing}
-          buttonClass={styles.button}
+          submitButtonCStyle="green"
+          onCancel={this.props.stopEditing}
+          submitButtonClassName={styles.button}
+          cancelButtonClassName={styles.button}
+          loadingState={this.state.loadingState}
           buttonContainerStart={
             <div className={styles.buttonContainerLeft}>
               <span className={styles.editWindowRemaining}>
                 {
-                  editWindowExpired
+                  this.isEditWindowExpired()
                   ? <span>
                       {t('edit_comment.edit_window_expired')}
                       {
@@ -136,7 +151,7 @@ export class EditableCommentContent extends React.Component {
                   : <span>
                       <Icon name="timer"/> {t('edit_comment.edit_window_timer_prefix')}
                       <CountdownSeconds
-                        until={editableUntil}
+                        until={this.getEditableUntil()}
                         classNameForMsRemaining={(remainingMs) => (remainingMs <= 10 * 1000) ? styles.editWindowAlmostOver : '' }
                       />
                     </span>

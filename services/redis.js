@@ -1,5 +1,5 @@
 const redis = require('redis');
-const debug = require('debug')('talk:redis');
+const debug = require('debug')('talk:services:redis');
 const {
   REDIS_URL
 } = require('../config');

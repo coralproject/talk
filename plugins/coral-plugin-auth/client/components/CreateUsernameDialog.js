@@ -1,8 +1,7 @@
 import React from 'react';
 import styles from './styles.css';
-import {Dialog, Alert, TextField} from 'coral-ui';
+import {Dialog, Alert, TextField, Button} from 'plugin-api/beta/client/components/ui';
 import {FakeComment} from './FakeComment';
-import Button from 'coral-ui/components/Button';
 import t from 'coral-framework/services/i18n';
 
 const CreateUsernameDialog = ({
@@ -33,7 +32,7 @@ const CreateUsernameDialog = ({
           className={styles.fakeComment}
           username={formData.username}
           created_at={Date.now()}
-          body={t('createdisplay.fake_comment_body')}
+          comment={{body:t('createdisplay.fake_comment_body')}}
         />
         <p className={styles.ifyoudont}>
           {t('createdisplay.if_you_dont_change_your_name')}

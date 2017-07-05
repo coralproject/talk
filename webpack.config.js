@@ -3,6 +3,7 @@ const fs = require('fs');
 const CompressionPlugin = require('compression-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');
+const _ = require('lodash');
 const Copy = require('copy-webpack-plugin');
 const LicenseWebpackPlugin = require('license-webpack-plugin');
 const webpack = require('webpack');
@@ -10,23 +11,11 @@ const webpack = require('webpack');
 // Possibly load the config from the .env file (if there is one).
 require('dotenv').config();
 
-let pluginsConfigPath;
+const {plugins, pluginsPath, PluginManager} = require('./plugins');
+const manager = new PluginManager(plugins);
+const targetPlugins = manager.section('targets').plugins;
 
-let envPlugins = path.join(__dirname, 'plugins.env.js');
-let customPlugins = path.join(__dirname, 'plugins.json');
-let defaultPlugins = path.join(__dirname, 'plugins.default.json');
-
-if (process.env.TALK_PLUGINS_JSON && process.env.TALK_PLUGINS_JSON.length > 0) {
-  pluginsConfigPath = envPlugins;
-} else if (fs.existsSync(customPlugins)) {
-  pluginsConfigPath = customPlugins;
-} else {
-  pluginsConfigPath = defaultPlugins;
-}
-
-console.log(`Using ${pluginsConfigPath} as the plugin configuration path`);
-
-// Edit the build targets and embeds below.
+console.log(`Using ${pluginsPath} as the plugin configuration path`);
 
 const buildTargets = [
   'coral-admin',
@@ -37,47 +26,23 @@ const buildEmbeds = [
   'stream'
 ];
 
+//==============================================================================
+// Base Webpack Config
+//==============================================================================
+
 const config = {
   devtool: 'cheap-module-source-map',
-  entry: Object.assign({}, {
-    'embed': [
-      'babel-polyfill',
-      path.join(__dirname, 'client/coral-embed/src/index')
-    ]
-  }, buildTargets.reduce((entry, target) => {
-
-    // Add the entry for the bundle.
-    entry[`${target}/bundle`] = [
-      'babel-polyfill',
-      path.join(__dirname, 'client/', target, '/src/index')
-    ];
-
-    return entry;
-  }, {}), buildEmbeds.reduce((entry, embed) => {
-
-    // Add the entry for the bundle.
-    entry[`embed/${embed}/bundle`] = [
-      'babel-polyfill',
-      path.join(__dirname, 'client/', `coral-embed-${embed}`, '/src/index')
-    ];
-
-    return entry;
-  }, {})),
   output: {
     path: path.join(__dirname, 'dist'),
     publicPath: '/client/',
-    filename: '[name].js',
-
-    // NOTE: this causes all exports to override the global.Coral, so no more
-    // than one bundle.js can be included on a page.
-    library: 'Coral'
+    filename: '[name].js'
   },
   module: {
     rules: [
       {
         loader: 'plugins-loader',
         test: /\.(json|js)$/,
-        include: pluginsConfigPath
+        include: pluginsPath
       },
       {
         loader: 'babel-loader',
@@ -127,7 +92,8 @@ const config = {
   plugins: [
     new LicenseWebpackPlugin({
       pattern: /^(MIT|ISC|BSD.*)$/,
-      addUrl: true
+      addUrl: true,
+      suppressErrors: true
     }),
     new Copy([
       ...buildEmbeds.map((embed) => ({
@@ -156,7 +122,7 @@ const config = {
     alias: {
       'plugin-api': path.resolve(__dirname, 'plugin-api/'),
       plugins: path.resolve(__dirname, 'plugins/'),
-      pluginsConfig: pluginsConfigPath
+      pluginsConfig: pluginsPath
     },
     modules: [
       path.resolve(__dirname, 'plugins'),
@@ -168,6 +134,10 @@ const config = {
   }
 };
 
+//==============================================================================
+// Production configuration overrides
+//==============================================================================
+
 if (process.env.NODE_ENV === 'production') {
   config.plugins.push(new CompressionPlugin({
     asset: '[path].gz[query]',
@@ -178,4 +148,87 @@ if (process.env.NODE_ENV === 'production') {
   }));
 }
 
-module.exports = config;
+//==============================================================================
+// Entries
+//==============================================================================
+
+// Applies the base configuration to the following entries.
+const applyConfig = (entries, root = {}) => _.merge({}, config, {
+  entry: entries.reduce((entry, {name, path}) => {
+    entry[name] = [
+      'babel-polyfill',
+      path
+    ];
+
+    return entry;
+  }, {})
+}, root);
+
+module.exports = [
+
+  // Coral Embed
+  applyConfig([
+
+    // Load in the root embed.
+    {
+      name: 'embed',
+      path: path.join(__dirname, 'client/coral-embed/src/index')
+    }
+
+  ], {
+    output: {
+      library: 'Coral'
+    }
+  }),
+
+  // All framework targets/embeds/plugins.
+  applyConfig([
+
+    // // Load in all the targets.
+    ...buildTargets.map((target) => ({
+      name: `${target}/bundle`,
+      path: path.join(__dirname, 'client/', target, '/src/index')
+    })),
+
+    // Load in all the embeds.
+    ...buildEmbeds.map((embed) => ({
+      name: `embed/${embed}/bundle`,
+      path: path.join(__dirname, 'client/', `coral-embed-${embed}`, '/src/index')
+    })),
+
+    // Load in all the plugin entries.
+    ...targetPlugins.reduce((entries, plugin) => {
+
+      // Introspect the path to find a targets folder.
+      let folder = path.dirname(plugin.path);
+      let files = fs.readdirSync(folder);
+
+      // While the folder does not contain the targets folder...
+      while (!files.includes('targets')) {
+
+        // Try to go up a folder.
+        folder = path.normalize(path.join(folder, '..'));
+
+        // And as long as we haven't gone too high
+        if (!(folder.includes(path.join(__dirname, 'node_modules')) || !folder.includes(path.join(__dirname, 'plugins')))) {
+          throw new Error(`target plugin ${plugin.name} does not have a 'targets' folder`);
+        }
+
+        files = fs.readdirSync(folder);
+      }
+
+      // List all targets available in that folder.
+      folder = path.join(folder, 'targets');
+
+      let targets = fs.readdirSync(folder);
+      if (targets.length === 0) {
+        throw new Error(`target plugin ${plugin.name} has no targets in it's target folder ${folder}`);
+      }
+
+      return entries.concat(targets.map((target) => ({
+        name: `plugin/${plugin.name}/${target}/bundle`,
+        path: path.join(folder, target, 'index')
+      })));
+    }, [])
+  ])
+];
