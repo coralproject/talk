@@ -35,9 +35,31 @@
 .featuredComments {
   padding: 20px;
   background-color: #f9f9f9;
+  margin: 10px 0 30px;
+}
+
+.featuredComment {
+  margin: 10px 0 35px;
+}
+
+.featuredComment:last-child {
   margin: 10px 0;
 }
 
-.featuredComments .goTo {
-  color: #2d3fb9;
+.featuredComment .goTo {
+  color: #1d5294;
+  font-size: 13px;
+  padding: 5px 0;
+  display: inline-block;
+}
+
+.featuredComment .goTo:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.featuredComment .body {
+  line-height: 20px;
+  text-align: left;
+  letter-spacing: 0.1px;
 }

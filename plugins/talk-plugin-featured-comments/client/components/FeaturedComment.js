@@ -7,20 +7,20 @@ import {Icon} from 'plugin-api/beta/client/components/ui';
 
 const FeaturedComment = ({comment}) => {
   return (
-    <div className={cn(`${name}__featured-comment`, styles.featuredComment)}>
-      <p className={cn(`${name}__featured-comment__comment-body`)}>
+    <div className={cn(styles.featuredComment, `${name}__featured-comment`)}>
+      <p className={cn(styles.body, `${name}__featured-comment__comment-body`)}>
         "{comment.body}"
       </p>
       <footer>
         <div>
-          <strong className={cn(`${name}__featured-comment__username`, styles.username)}>
+          <strong className={cn(styles.username, `${name}__featured-comment__username`)}>
             {comment.user.username}
           </strong>
-          <span className={cn(`${name}__featured-comment__timeago`, styles.timeago)}>
+          <span className={cn(styles.timeago, `${name}__featured-comment__timeago`)}>
             ,{' '}{timeago(comment.created_at)}
           </span>
         </div>
-        <a className={cn(`${name}__featured-comment__go-to`, styles.goTo)}>
+        <a className={cn(styles.goTo, `${name}__featured-comment__go-to`)}>
           Go to conversation<Icon name="keyboard_arrow_right" />
         </a>
       </footer>
