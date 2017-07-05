@@ -16,7 +16,6 @@ import {addNotification} from 'coral-framework/actions/notification';
 import t from 'coral-framework/services/i18n';
 
 import {setActiveTab} from '../actions/embed';
-import {viewAllComments} from '../actions/stream';
 
 const {logout, checkLogin} = authActions;
 const {fetchAssetSuccess} = assetActions;
@@ -185,7 +184,6 @@ const mapDispatchToProps = (dispatch) =>
       logout,
       checkLogin,
       setActiveTab,
-      viewAllComments,
       fetchAssetSuccess,
       addNotification,
     },

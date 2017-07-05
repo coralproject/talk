@@ -1,9 +1,64 @@
-li.base--active {
-  background: white;
-  font-weight: bold;
+.root {
+  display: inline-block;
+  margin-right: -1px;
+  margin-bottom: -1px;
 }
 
-li.material--active {
-  font-weight: bold;
-  border-bottom: solid 2px black;
+.rootActive {
+
 }
+
+.rootSub {
+  display: inline-block;
+  margin-bottom: -2px;
+}
+
+.rootSubActive {
+
+}
+
+.button {
+  composes: buttonReset from "coral-framework/styles/reset.css";
+  padding: 8px 10px;
+  color: #4E5259;
+  border: solid 1px #D8D8D8;
+  background: #F0F0F0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  font-size: 13px;
+  outline: none;
+}
+
+.button:hover, .button:focus {
+  background: #d5d5d5;
+  border-bottom: 1px solid #d5d5d5;
+}
+
+.buttonActive, .buttonActive:hover, .buttonActive:focus {
+  background: white;
+  font-weight: bold;
+  border-bottom: 1px solid white;
+}
+
+.buttonSub {
+  composes: buttonReset from "coral-framework/styles/reset.css";
+  color: black;
+  border: none;
+  background: transparent;
+  padding: 6px 12px;
+  margin-bottom: 3px;
+  outline: none;
+}
+
+.buttonSub:hover, .buttonSub:focus {
+  background: transparent;
+  border-bottom: solid 3px #d5d5d5;
+  margin-bottom: 0px;
+}
+
+.buttonSubActive, .buttonSubActive:hover, .buttonSubActive:focus {
+  font-weight: bold;
+  border-bottom: solid 3px #10589b;
+  margin-bottom: 0px;
+}
+

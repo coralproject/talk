@@ -10,7 +10,7 @@ import {
 
 import {notificationActions, authActions} from 'coral-framework';
 import {editName} from 'coral-framework/actions/user';
-import {setActiveReplyBox} from '../actions/stream';
+import {setActiveReplyBox, setActiveTab, viewAllComments} from '../actions/stream';
 import Stream from '../components/Stream';
 import Comment from './Comment';
 import {withFragments} from 'coral-framework/hocs';
@@ -308,6 +308,8 @@ const mapStateToProps = (state) => ({
   assetUrl: state.stream.assetUrl,
   activeTab: state.embed.activeTab,
   previousTab: state.embed.previousTab,
+  activeStreamTab: state.stream.activeTab,
+  previousStreamTab: state.stream.previousTab,
   commentClassNames: state.stream.commentClassNames
 });
 
@@ -317,6 +319,8 @@ const mapDispatchToProps = (dispatch) =>
     addNotification,
     setActiveReplyBox,
     editName,
+    viewAllComments,
+    setActiveStreamTab: setActiveTab,
   }, dispatch);
 
 export default compose(

@@ -46,7 +46,7 @@ class LikeButton extends React.Component {
           onClick={this.handleClick}
         >
           <span>{t(alreadyReacted ? 'coral-plugin-like.liked' : 'coral-plugin-like.like')}</span>
-          <Icon name="thumb_up" className={`${plugin}-icon`} />
+          <Icon name="thumb_up" className={cn(`${plugin}-icon`, styles.icon)} />
           <span className={`${plugin}-count`}>{count > 0 && count}</span>
         </button>
       </div>

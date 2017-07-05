@@ -1,11 +1,9 @@
 .root {
-  float: right;
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
   position: relative;
-  display: inline-block;
-  min-width: 220px;
+  width: 100%;
   z-index: 10;
-  position: relative;
   cursor: pointer;
 }
 

@@ -25,24 +25,24 @@ body {
   min-height: 600px;
 }
 
-button {
-  margin: 5px 0px 5px 0px;
+.coralButton {
+  margin: 5px 10px 5px 0px;
   background: none;
   padding: 0px;
   border: none;
   font-size: inherit;
 }
 
-button:hover {
+.coralButton:hover {
   border-radius: 2px;
   color: #767676;
 }
 
-button i {
+.coralButton i {
   margin-right: 3px;
 }
 
-hr {
+.coralHr {
   border: 0;
   height: 0;
   border-top: 1px solid rgba(0, 0, 0, 0.1);

@@ -46,7 +46,7 @@ class LoveButton extends React.Component {
           onClick={this.handleClick}
         >
           <span>{t(alreadyReacted ? 'coral-plugin-love.loved' : 'coral-plugin-love.love')}</span>
-          <Icon name="favorite" className={`${plugin}-icon`} />
+          <Icon name="favorite" className={cn(`${plugin}-icon`, styles.icon)} />
           <span className={`${plugin}-count`}>{count > 0 && count}</span>
         </button>
       </div>

@@ -1,0 +1,12 @@
+.root {
+  margin-top: 6px;
+}
+
+.viewAllButton {
+  position: absolute;
+  right: 0px;
+}
+
+.tabPanel {
+  margin-top: 8px;
+}

@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react';
-import LoadMore from './LoadMore';
 import {StreamError} from './StreamError';
 import Comment from '../components/Comment';
 import SuspendedAccount from './SuspendedAccount';
@@ -12,137 +11,37 @@ import RestrictedMessageBox
 import t, {timeago} from 'coral-framework/services/i18n';
 import CommentBox from 'coral-plugin-commentbox/CommentBox';
 import QuestionBox from 'coral-plugin-questionbox/QuestionBox';
-import IgnoredCommentTombstone from './IgnoredCommentTombstone';
-import NewCount from './NewCount';
-import {TransitionGroup} from 'react-transition-group';
-import {forEachError} from 'coral-framework/utils';
+import {Button, TabBar, Tab, TabCount, TabContent, TabPane} from 'coral-ui';
+
 import {getTopLevelParent} from '../graphql/utils';
+import AllCommentsPane from './AllCommentsPane';
 
-const hasComment = (nodes, id) => nodes.some((node) => node.id === id);
-
-// resetCursors will return the id cursors of the first and second comment of
-// the current comment list. The cursors are used to dertermine which
-// comments to show. The spare cursor functions as a backup in case one
-// of the comments gets deleted.
-function resetCursors(state, props) {
-  const comments = props.root.asset.comments;
-  if (comments && comments.nodes.length) {
-    const idCursors = [comments.nodes[0].id];
-    if (comments.nodes[1]) {
-      idCursors.push(comments.nodes[1].id);
-    }
-    return {idCursors};
-  }
-  return {idCursors: []};
-}
-
-// invalidateCursor is called whenever a comment is removed which is referenced
-// by one of the 2 id cursors. It returns a new set of id cursors calculated
-// using the help of the backup cursor.
-function invalidateCursor(invalidated, state, props) {
-  const alt = invalidated === 1 ? 0 : 1;
-  const comments = props.root.asset.comments;
-  const idCursors = [];
-  if (state.idCursors[alt]) {
-    idCursors.push(state.idCursors[alt]);
-    const index = comments.nodes.findIndex((node) => node.id === idCursors[0]);
-    const nextInLine = comments.nodes[index + 1];
-    if (nextInLine) {
-      idCursors.push(nextInLine.id);
-    }
-  }
-  return {idCursors};
-}
+import styles from './Stream.css';
 
 class Stream extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      ...resetCursors(this.state, props),
       keepCommentBox: false,
-      loadingState: '',
     };
   }
 
   componentWillReceiveProps(next) {
-    const {root: {asset: {comments: prevComments}}} = this.props;
-    const {root: {asset: {comments: nextComments}}} = next;
-
-    if (!prevComments && nextComments) {
-      this.setState(resetCursors);
-      return;
-    }
 
     // Keep comment box when user was live suspended, banned, ...
     if (!this.userIsDegraged(this.props) && this.userIsDegraged(next)) {
       this.setState({keepCommentBox: true});
     }
-
-    if (
-        prevComments && nextComments &&
-        nextComments.nodes.length < prevComments.nodes.length
-    ) {
-
-      // Invalidate first cursor if referenced comment was removed.
-      if (this.state.idCursors[0] && !hasComment(nextComments.nodes, this.state.idCursors[0])) {
-        this.setState(invalidateCursor(0, this.state, next));
-      }
-
-      // Invalidate second cursor if referenced comment was removed.
-      if (this.state.idCursors[1] && !hasComment(nextComments.nodes, this.state.idCursors[1])) {
-        this.setState(invalidateCursor(1, this.state, next));
-      }
-    }
   }
 
-  viewNewComments = () => {
-    this.setState(resetCursors);
-  };
-
-  setActiveReplyBox = (reactKey) => {
+  setActiveReplyBox = (id) => {
     if (!this.props.auth.user) {
       this.props.showSignInDialog();
     } else {
-      this.props.setActiveReplyBox(reactKey);
+      this.props.setActiveReplyBox(id);
     }
   };
-
-  loadMoreComments = () => {
-    this.setState({loadingState: 'loading'});
-    this.props.loadMoreComments()
-      .then(() => {
-        this.setState({loadingState: 'success'});
-      })
-      .catch((error) => {
-        this.setState({loadingState: 'error'});
-        forEachError(error, ({msg}) => {this.props.addNotification('error', msg);});
-      });
-  }
-
-  // getVisibileComments returns a list containing comments
-  // which were authored by current user or comes after the `idCursor`.
-  getVisibleComments() {
-    const {root: {asset: {comments}}, auth: {user}} = this.props;
-    const idCursor = this.state.idCursors[0];
-    const userId = user ? user.id : null;
-
-    if (!comments) {
-      return [];
-    }
-
-    const view = [];
-    let pastCursor = false;
-    comments.nodes.forEach((comment) => {
-      if (comment.id === idCursor) {
-        pastCursor = true;
-      }
-      if (pastCursor || comment.user.id === userId) {
-        view.push(comment);
-      }
-    });
-    return view;
-  }
 
   userIsDegraged({auth: {user}} = this.props) {
     return !can(user, 'INTERACT_WITH_COMMUNITY');
@@ -150,23 +49,33 @@ class Stream extends React.Component {
 
   render() {
     const {
+      data,
+      root,
+      activeReplyBox,
+      setActiveReplyBox,
+      appendItemArray,
       commentClassNames,
-      root: {asset, asset: {comments}, comment, me},
+      root: {asset, asset: {comments, totalCommentCount}, comment, me},
       postComment,
       addNotification,
+      editComment,
       postFlag,
       postDontAgree,
       deleteAction,
       showSignInDialog,
+      updateItem,
       addTag,
       ignoreUser,
+      activeStreamTab,
+      setActiveStreamTab,
+      loadNewReplies,
+      loadMoreComments,
+      viewAllComments,
       auth: {loggedIn, user},
       removeTag,
-      pluginProps,
       editName
     } = this.props;
-    const {keepCommentBox, loadingState} = this.state;
-    const view = this.getVisibleComments();
+    const {keepCommentBox} = this.state;
     const open = asset.closedAt === null;
 
     // even though the permalinked comment is the highlighted one, we're displaying its parent + replies
@@ -194,7 +103,15 @@ class Stream extends React.Component {
     }
 
     return (
-      <div id="stream">
+      <div id="stream" className={styles.root}>
+        {comment &&
+          <Button
+            cStyle="darkGrey"
+            className={styles.viewAllButton}
+            onClick={viewAllComments}
+          >
+            {t('framework.show_all_comments')}
+          </Button>}
 
         {open
           ? <div id="commentBox">
@@ -211,7 +128,7 @@ class Stream extends React.Component {
                 <RestrictedMessageBox>
                   {t(
                     'stream.temporarily_suspended',
-                    this.props.root.settings.organizationName,
+                    root.settings.organizationName,
                     timeago(user.suspension.until)
                   )}
                 </RestrictedMessageBox>}
@@ -223,10 +140,10 @@ class Stream extends React.Component {
                 />}
               {showCommentBox &&
                 <CommentBox
-                  addNotification={this.props.addNotification}
-                  postComment={this.props.postComment}
-                  appendItemArray={this.props.appendItemArray}
-                  updateItem={this.props.updateItem}
+                  addNotification={addNotification}
+                  postComment={postComment}
+                  appendItemArray={appendItemArray}
+                  updateItem={updateItem}
                   assetId={asset.id}
                   premod={asset.settings.moderation}
                   isReply={false}
@@ -253,79 +170,78 @@ class Stream extends React.Component {
         {/* the highlightedComment is isolated after the user followed a permalink */}
         {highlightedComment
           ? <Comment
-              data={this.props.data}
-              root={this.props.root}
-              setActiveReplyBox={this.setActiveReplyBox}
-              activeReplyBox={this.props.activeReplyBox}
+              data={data}
+              root={root}
+              commentClassNames={commentClassNames}
+              addTag={addTag}
+              removeTag={removeTag}
+              ignoreUser={ignoreUser}
+              setActiveReplyBox={setActiveReplyBox}
+              activeReplyBox={activeReplyBox}
               addNotification={addNotification}
               depth={0}
               disableReply={!open}
-              postComment={this.props.postComment}
+              postComment={postComment}
               asset={asset}
               currentUser={user}
               highlighted={comment.id}
-              postFlag={this.props.postFlag}
-              postDontAgree={this.props.postDontAgree}
-              loadMore={this.props.loadNewReplies}
-              deleteAction={this.props.deleteAction}
-              showSignInDialog={this.props.showSignInDialog}
+              postFlag={postFlag}
+              postDontAgree={postDontAgree}
+              loadMore={loadNewReplies}
+              deleteAction={deleteAction}
+              showSignInDialog={showSignInDialog}
               key={highlightedComment.id}
               commentIsIgnored={commentIsIgnored}
-              reactKey={highlightedComment.id}
               comment={highlightedComment}
               charCountEnable={asset.settings.charCountEnable}
               maxCharCount={asset.settings.charCount}
-              editComment={this.props.editComment}
+              editComment={editComment}
               liveUpdates={true}
             />
-          : <div className="talk-stream-comments-container">
-              <NewCount
-                count={comments.nodes.length - view.length}
-                loadMore={this.viewNewComments}
-              />
-              <TransitionGroup component='div' className="embed__stream">
-                {view.map((comment) => {
-                  return commentIsIgnored(comment)
-                    ? <IgnoredCommentTombstone key={comment.id} />
-                    : <Comment
-                        commentClassNames={commentClassNames}
-                        data={this.props.data}
-                        root={this.props.root}
-                        disableReply={!open}
-                        setActiveReplyBox={this.setActiveReplyBox}
-                        activeReplyBox={this.props.activeReplyBox}
-                        addNotification={addNotification}
-                        depth={0}
-                        postComment={postComment}
-                        asset={asset}
-                        currentUser={user}
-                        postFlag={postFlag}
-                        postDontAgree={postDontAgree}
-                        addTag={addTag}
-                        removeTag={removeTag}
-                        ignoreUser={ignoreUser}
-                        commentIsIgnored={commentIsIgnored}
-                        loadMore={this.props.loadNewReplies}
-                        deleteAction={deleteAction}
-                        showSignInDialog={showSignInDialog}
-                        key={comment.id}
-                        reactKey={comment.id}
-                        comment={comment}
-                        pluginProps={pluginProps}
-                        charCountEnable={asset.settings.charCountEnable}
-                        maxCharCount={asset.settings.charCount}
-                        editComment={this.props.editComment}
-                        liveUpdates={false}
-                      />;
-                })}
-              </TransitionGroup>
-              <LoadMore
-                topLevel={true}
-                moreComments={asset.comments.hasNextPage}
-                loadMore={this.loadMoreComments}
-                loadingState={loadingState}
-              />
-            </div>}
+          : <div>
+              <TabBar activeTab={activeStreamTab} onTabClick={setActiveStreamTab} sub>
+                <Tab tabId={'featured'}>
+                 Featured
+                </Tab>
+                <Tab tabId={'all'}>
+                  All Comments <TabCount active={activeStreamTab === 'all'} sub>{totalCommentCount}</TabCount>
+                </Tab>
+              </TabBar>
+              <TabContent activeTab={activeStreamTab} sub>
+                <TabPane tabId={'featured'}>
+                  TODO
+                </TabPane>
+                <TabPane tabId={'all'}>
+                  <AllCommentsPane
+                    data={data}
+                    root={root}
+                    comments={comments}
+                    commentClassNames={commentClassNames}
+                    addTag={addTag}
+                    removeTag={removeTag}
+                    ignoreUser={ignoreUser}
+                    setActiveReplyBox={setActiveReplyBox}
+                    activeReplyBox={activeReplyBox}
+                    addNotification={addNotification}
+                    disableReply={!open}
+                    postComment={postComment}
+                    asset={asset}
+                    currentUser={user}
+                    postFlag={postFlag}
+                    postDontAgree={postDontAgree}
+                    loadMore={loadMoreComments}
+                    loadNewReplies={loadNewReplies}
+                    deleteAction={deleteAction}
+                    showSignInDialog={showSignInDialog}
+                    commentIsIgnored={commentIsIgnored}
+                    charCountEnable={asset.settings.charCountEnable}
+                    maxCharCount={asset.settings.charCount}
+                    editComment={editComment}
+                  />
+                </TabPane>
+              </TabContent>
+            </div>
+          }
       </div>
     );
   }

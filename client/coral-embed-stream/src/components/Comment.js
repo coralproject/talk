@@ -134,7 +134,6 @@ export default class Comment extends React.Component {
   }
 
   static propTypes = {
-    reactKey: PropTypes.string.isRequired,
 
     // id of currently opened ReplyBox. tracked in Stream.js
     activeReplyBox: PropTypes.string.isRequired,
@@ -148,12 +147,8 @@ export default class Comment extends React.Component {
     addNotification: PropTypes.func.isRequired,
     postComment: PropTypes.func.isRequired,
     depth: PropTypes.number.isRequired,
-    liveUpdates: PropTypes.bool.isRequired,
-    asset: PropTypes.shape({
-      id: PropTypes.string,
-      title: PropTypes.string,
-      url: PropTypes.string
-    }).isRequired,
+    liveUpdates: PropTypes.bool,
+    asset: PropTypes.object.isRequired,
     currentUser: PropTypes.shape({
       id: PropTypes.string.isRequired
     }),
@@ -335,7 +330,6 @@ export default class Comment extends React.Component {
 
     const view = this.getVisibileReplies();
     const {loadingState} = this.state;
-    const isReply = !!parentId;
     const isPending = comment.id.indexOf('pending') >= 0;
     const isHighlighted = highlighted === comment.id;
 
@@ -372,7 +366,7 @@ export default class Comment extends React.Component {
         addTag({
           id: comment.id,
           name: BEST_TAG,
-          assetId: asset.id
+          assetId: asset.id,
         }),
       () => 'Failed to tag comment as best'
     );
@@ -382,7 +376,7 @@ export default class Comment extends React.Component {
         removeTag({
           id: comment.id,
           name: BEST_TAG,
-          assetId: asset.id
+          assetId: asset.id,
         }),
       () => 'Failed to remove best comment tag'
     );
@@ -422,7 +416,6 @@ export default class Comment extends React.Component {
         className={cn(...rootClassNames)}
         id={`c_${comment.id}`}
       >
-        {!isReply && <hr aria-hidden={true} />}
         <div
           className={cn(
             'talk-stream-comment',
@@ -491,9 +484,9 @@ export default class Comment extends React.Component {
             ? <EditableCommentContent
                 editComment={this.editComment}
                 addNotification={addNotification}
-                asset={asset}
                 comment={comment}
                 currentUser={currentUser}
+                charCountEnable={charCountEnable}
                 maxCharCount={maxCharCount}
                 parentId={parentId}
                 stopEditing={this.stopEditing}
@@ -602,7 +595,6 @@ export default class Comment extends React.Component {
                 showSignInDialog={showSignInDialog}
                 commentIsIgnored={commentIsIgnored}
                 liveUpdates={liveUpdates}
-                reactKey={reply.id}
                 key={reply.id}
                 comment={reply}
               />;
