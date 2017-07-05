@@ -3,7 +3,7 @@ import React, {PropTypes} from 'react';
 import t from 'coral-framework/services/i18n';
 
 const NewCount = ({count, loadMore}) => {
-  return <div className='coral-new-comments coral-load-more'>
+  return <div className='talk-new-comments talk-load-more'>
     {
       count ?
       <button onClick={loadMore}>

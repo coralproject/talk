@@ -66,11 +66,11 @@ export default class PermalinkButton extends React.Component {
     return (
       <ClickOutside onClickOutside={this.handleClickOutside}>
         <div className={cn(`${name}-container`, styles.container)}>
-          
+
           <button
             ref={(ref) => this.linkButton = ref}
             onClick={this.toggle}
-            className={`${name}-button`}>
+            className={cn(`${name}-button`, styles.button)}>
               {t('permalink')}
             <Icon name="link" />
           </button>
@@ -89,7 +89,7 @@ export default class PermalinkButton extends React.Component {
             <Button
               onClick={this.copyPermalink}
               className={cn([
-                styles.button,
+                styles.copyButton,
                 `${name}-copy-button`, {
                   [styles.success]:copySuccessful,
                   [styles.failure]: copyFailure
@@ -98,7 +98,7 @@ export default class PermalinkButton extends React.Component {
               {copySuccessful && 'Copied'}
               {copyFailure && 'Not supported'}
             </Button>
-            
+
           </div>
         </div>
       </ClickOutside>

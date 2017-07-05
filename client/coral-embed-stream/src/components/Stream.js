@@ -16,6 +16,7 @@ import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import NewCount from './NewCount';
 import {TransitionGroup} from 'react-transition-group';
 import {forEachError} from 'coral-framework/utils';
+import {getTopLevelParent} from '../graphql/utils';
 
 const hasComment = (nodes, id) => nodes.some((node) => node.id === id);
 
@@ -169,9 +170,7 @@ class Stream extends React.Component {
     const open = asset.closedAt === null;
 
     // even though the permalinked comment is the highlighted one, we're displaying its parent + replies
-    const highlightedComment = comment && comment.parent
-      ? comment.parent
-      : comment;
+    const highlightedComment = comment && getTopLevelParent(comment);
 
     const banned = user && user.status === 'BANNED';
     const temporarilySuspended =

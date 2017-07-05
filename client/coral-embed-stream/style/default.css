@@ -26,7 +26,7 @@ body {
 }
 
 button {
-  margin: 5px 10px 5px 0px;
+  margin: 5px 0px 5px 0px;
   background: none;
   padding: 0px;
   border: none;
@@ -266,11 +266,6 @@ hr {
   float: right;
 }
 
-.highlighted-comment {
-  padding-left: 10px;
-  border-left: 3px solid rgb(35,118,216);
-}
-
 /* Tag Labels */
 
 .coral-plugin-tag-label {
@@ -282,26 +277,16 @@ hr {
   border-radius: 2px;
 }
 
-
-
-/* Reply styles */
-
-.comment .reply {
-  margin: 0px 0px 10px 20px;
-}
-
 /* Comment Action Styles */
 
 .commentActionsRight, .replyActionsRight {
   display: flex;
   justify-content: flex-end;
-  width: 30%;
 }
 .commentActionsLeft, .replyActionsLeft {
   display: flex;
   justify-content: flex-start;
   float: left;
-  width: 70%;
 }
 
 .comment__action-container .material-icons {
@@ -422,9 +407,11 @@ button.comment__action-button[disabled],
 }
 
 .talk-load-more button {
+  width: 100%;
   text-align: center;
   color: #FFF;
   background-color: #2376D8;
+  border-radius: 2px;
   cursor: pointer;
   padding: 10px;
   border-radius: 2px;
@@ -437,22 +424,41 @@ button.comment__action-button[disabled],
   background-color: #4399FF;
 }
 
-.talk-load-more-replies, .coral-new-comments {
+.talk-new-comments {
   width: 100%;
   display: flex;
   justify-content: center;
   cursor: pointer;
 }
 
-.coral-new-comments {
+.talk-load-more-replies {
+  width: 100%;
+  padding-left: 20px;
+  box-sizing: border-box;
+}
+
+.talk-new-comments {
   position: relative;
   top: 1.8em;
   z-index: 100;
 }
 
-.talk-load-more-replies button.talk-load-more, .coral-new-comments  button.talk-load-more{
+.talk-load-more-replies .talk-load-more-button {
+  background-color: transparent;
+  color: #979797;
+  border: #979797 solid 1px;
+  border-radius: 2px;
+}
+
+.talk-load-more-replies .talk-load-more:hover button {
+  background-color: #979797;
+  color: white;
+}
+
+.talk-new-comments  button.talk-load-more{
   width: initial;
 }
+
 
 @media (min-device-width : 300px) and (max-device-width : 420px) {
   .commentActionsLeft.comment__action-container .coral-plugin-replies-reply-button {
