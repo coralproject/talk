@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './styles.css';
 import cn from 'classnames';
-import {can} from 'plugin-api/beta/client/services';
+import styles from './styles.css';
 import {name} from '../../package.json';
+import {can} from 'plugin-api/beta/client/services';
 import {withTags} from 'plugin-api/beta/client/hocs';
 import {Icon} from 'plugin-api/beta/client/components/ui';
 

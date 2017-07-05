@@ -1,24 +1,27 @@
 import React from 'react';
+import cn from 'classnames';
 import styles from './styles.css';
+import {name} from '../../package.json';
 import {timeago} from 'coral-framework/services/i18n';
+import {Icon} from 'plugin-api/beta/client/components/ui';
 
 const FeaturedComment = ({comment}) => {
   return (
-    <div className={styles.featuredComment}>
-      <p>
-        {comment.body}
+    <div className={cn(`${name}__featured-comment`, styles.featuredComment)}>
+      <p className={cn(`${name}__featured-comment__comment-body`)}>
+        "{comment.body}"
       </p>
       <footer>
         <div>
-          <strong>
+          <strong className={cn(`${name}__featured-comment__username`, styles.username)}>
             {comment.user.username}
           </strong>
-          <span>
-            ,{timeago(comment.created_at)}
+          <span className={cn(`${name}__featured-comment__timeago`, styles.timeago)}>
+            ,{' '}{timeago(comment.created_at)}
           </span>
         </div>
-        <a>
-          Go to Coneversation >
+        <a className={cn(`${name}__featured-comment__go-to`, styles.goTo)}>
+          Go to conversation<Icon name="keyboard_arrow_right" />
         </a>
       </footer>
     </div>
