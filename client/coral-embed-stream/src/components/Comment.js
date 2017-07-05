@@ -533,6 +533,7 @@ export default class Comment extends React.Component {
                 currentUser={currentUser}
                 postFlag={postFlag}
                 deleteAction={deleteAction}
+                loadMore={loadMore}
                 ignoreUser={ignoreUser}
                 charCountEnable={charCountEnable}
                 maxCharCount={maxCharCount}
