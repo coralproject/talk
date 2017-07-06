@@ -1,6 +1,6 @@
 
 /**
-  This is a client index example file and it should look like this:
+  This is a client index example file and it could look like this:
   
   ```
   import LoveButton from './components/LoveButton';
@@ -17,4 +17,10 @@
   To read more info on how to build client plugins. Please, go to: https://coralproject.github.io/talk/plugins-client.html
  */
 
-export default {};
+import MyPluginComponent from './components/MyPluginComponent';
+
+export default {
+  slots: {
+    stream: [MyPluginComponent]
+  }
+};

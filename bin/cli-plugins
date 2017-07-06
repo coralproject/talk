@@ -286,7 +286,7 @@ async function createSeedPlugin() {
     {
       type: 'input',
       name: 'pluginName',
-      message: 'Plugin Name: i.e talk-plugin-permalink',
+      message: 'Plugin Name:',
       validate: (input) => {
 
         if (pluginNameExists(input)) {
@@ -299,18 +299,47 @@ async function createSeedPlugin() {
 
         return 'Plugin Name is required.';
       }
+    },
+    {
+      type: 'confirm',
+      name: 'server',
+      message: 'Is this a server-side plugin?'
+    },
+    {
+      type: 'confirm',
+      name: 'client',
+      message: 'Is this a client-side plugin?'
+    },
+    {
+      type: 'confirm',
+      name: 'client',
+      message: 'Should we add it to the plugins.json?'
     }
   ]);
 
+  //==============================================================================
   // Creating plugin seed
+  //==============================================================================
 
   const seedTemplatePlugin = path.join(dir, 'scripts/templates/plugin');
   const newPluginPath = path.join(pluginsDir, answers.pluginName);
   
   try {
-    fs.copySync(seedTemplatePlugin, newPluginPath);
+    fs.copySync(seedTemplatePlugin, newPluginPath, {
+      filter: (p) => {
+        if (!answers.server) {
+          return /templates\/plugin\/server/.test(p);
+        } 
 
-    console.log('Success!');
+        if (!answers.client) {
+          return /templates\/plugin\/client/.test(p);
+        }
+
+        return true;
+      }
+    });
+
+    console.log(`✨ Yay! Talk Plugin Seed created! Find your plugin in the /plugins folder`);
   } catch (err) {
     console.error(err);
   }
