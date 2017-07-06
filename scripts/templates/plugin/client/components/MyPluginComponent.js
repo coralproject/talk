@@ -1,5 +1,5 @@
 import React from 'react';
-import {Icon} from 'plugin-api/beta/client/components/ui';
+import {CoralLogo} from 'plugin-api/beta/client/components/ui';
 
 class MyPluginComponent extends React.Component {
   render() {

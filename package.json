@@ -90,7 +90,6 @@
     "immutability-helper": "^2.2.0",
     "inquirer": "^3.0.6",
     "joi": "^10.4.1",
-    "json-stringify-pretty-compact": "^1.0.4",
     "jsonwebtoken": "^7.3.0",
     "jwt-decode": "^2.2.0",
     "kue": "^0.11.5",

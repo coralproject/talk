@@ -20,7 +20,6 @@ const path = require('path');
 const spawn = require('cross-spawn');
 const semver = require('semver');
 const resolve = require('resolve');
-const stringify = require("json-stringify-pretty-compact");
 const {plugins, itteratePlugins, isInternal} = require('../plugins');
 
 function existsInNodeModules(name) {
@@ -359,13 +358,13 @@ async function createSeedPlugin() {
       const pluginsJson = path.join(dir, 'plugins.json');
 
       fs.readJson(pluginsJson)
-        .then(j => {
+        .then((j) => {
 
           // This is a client-side plugin, let's push this.
           if (answers.client) {
             j.client.push(answers.pluginName);
             
-            const output = stringify(j);
+            const output = JSON.stringify(j, null, 2);
             fs.writeFileSync(pluginsJson, output);
           }
 
@@ -373,11 +372,11 @@ async function createSeedPlugin() {
           if (answers.server) {
             j.server.push(answers.pluginName);
 
-            const output = stringify(j);
+            const output = JSON.stringify(j, null, 2);
             fs.writeFileSync(pluginsJson, output);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
         });
     }
