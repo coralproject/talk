@@ -20,6 +20,7 @@ const path = require('path');
 const spawn = require('cross-spawn');
 const semver = require('semver');
 const resolve = require('resolve');
+const stringify = require("json-stringify-pretty-compact");
 const {plugins, itteratePlugins, isInternal} = require('../plugins');
 
 function existsInNodeModules(name) {
@@ -312,7 +313,7 @@ async function createSeedPlugin() {
     },
     {
       type: 'confirm',
-      name: 'client',
+      name: 'addPluginsJson',
       message: 'Should we add it to the plugins.json?'
     }
   ]);
@@ -321,28 +322,69 @@ async function createSeedPlugin() {
   // Creating plugin seed
   //==============================================================================
 
-  const seedTemplatePlugin = path.join(dir, 'scripts/templates/plugin');
+  const seedPlugin = path.join(dir, 'scripts/templates/plugin');
   const newPluginPath = path.join(pluginsDir, answers.pluginName);
-  
-  try {
-    fs.copySync(seedTemplatePlugin, newPluginPath, {
-      filter: (p) => {
-        if (!answers.server) {
-          return /templates\/plugin\/server/.test(p);
-        } 
 
-        if (!answers.client) {
-          return /templates\/plugin\/client/.test(p);
+  if (fs.existsSync(seedPlugin)) {
+
+    if (answers.server && answers.client) {
+
+      // This is a server-side and client-side plugin!, let's copy the template
+      fs.copySync(seedPlugin, newPluginPath);
+    } else  {
+
+      fs.copySync(seedPlugin, newPluginPath, {filter: (p) => {
+
+        // Allowing plugin folder and files with no subfolders
+        const rootRx = /plugin$|plugin\/[^/]*(\.).{2,3}/igm;
+        if (rootRx.test(p) && (fs.lstatSync(p).isDirectory() || fs.lstatSync(p).isFile())) {
+          return true;
         }
 
-        return true;
-      }
-    });
+        // If it's a client-side plugin, copying client folder
+        if (answers.client) {
+          return /client/.test(p);
+        }
 
-    console.log(`✨ Yay! Talk Plugin Seed created! Find your plugin in the /plugins folder`);
-  } catch (err) {
-    console.error(err);
-  }
+        // If it's a server-side plugin, copying server folder
+        if (answers.server) {
+          return /server/.test(p);
+        }
+
+      }});
+    }
+
+    // Let's add this to the plugins.json
+    if (answers.addPluginsJson) {
+      const pluginsJson = path.join(dir, 'plugins.json');
+
+      fs.readJson(pluginsJson)
+        .then(j => {
+
+          // This is a client-side plugin, let's push this.
+          if (answers.client) {
+            j.client.push(answers.pluginName);
+            
+            const output = stringify(j);
+            fs.writeFileSync(pluginsJson, output);
+          }
+
+          // This is a server-side plugin, let's push this.
+          if (answers.server) {
+            j.server.push(answers.pluginName);
+
+            const output = stringify(j);
+            fs.writeFileSync(pluginsJson, output);
+          }
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
+
+    console.log(`✨ Yay! Plugin created! Find your plugin: ${answers.pluginName} in the /plugins folder`);
+  } 
+
 }
 
 //==============================================================================
