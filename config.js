@@ -29,7 +29,7 @@ const CONFIG = {
   // JWT_ISSUER is the value for the issuer for the tokens that will be verified
   // when decoding. If `JWT_ISSUER` is not in the environment, then it will try
   // `TALK_ROOT_URL`, otherwise, it will be undefined.
-  JWT_ISSUER: process.env.TALK_JWT_ISSUER || process.env.TALK_ROOT_URL || undefined,
+  JWT_ISSUER: process.env.TALK_JWT_ISSUER || process.env.TALK_ROOT_URL,
 
   // JWT_EXPIRY is the time for which a given token is valid for.
   JWT_EXPIRY: process.env.TALK_JWT_EXPIRY || '1 day',
@@ -91,7 +91,9 @@ const CONFIG = {
 if (process.env.NODE_ENV === 'test' && !CONFIG.JWT_SECRET) {
   CONFIG.JWT_SECRET = 'keyboard cat';
 } else if (!CONFIG.JWT_SECRET) {
-  throw new Error('TALK_JWT_SECRET must be provided in the environment to sign/verify tokens');
+  throw new Error(
+    'TALK_JWT_SECRET must be provided in the environment to sign/verify tokens'
+  );
 }
 
 //------------------------------------------------------------------------------
@@ -108,7 +110,7 @@ if (process.env.NODE_ENV === 'test' && !CONFIG.MONGO_URL) {
 // Reset the redis url in the event it hasn't been overrided and we are in a
 // testing environment.
 if (process.env.NODE_ENV === 'test' && !CONFIG.REDIS_URL) {
-  CONFIG.REDIS_URL = 'redis://localhost';
+  CONFIG.REDIS_URL = 'redis://localhost/1';
 }
 
 //------------------------------------------------------------------------------
@@ -119,10 +121,15 @@ if (process.env.NODE_ENV === 'test' && !CONFIG.REDIS_URL) {
  * This is true when the recaptcha secret is provided and the Recaptcha feature
  * is to be enabled.
  */
-CONFIG.RECAPTCHA_ENABLED = CONFIG.RECAPTCHA_SECRET && CONFIG.RECAPTCHA_SECRET.length > 0 &&
-                           CONFIG.RECAPTCHA_PUBLIC && CONFIG.RECAPTCHA_PUBLIC.length > 0;
+CONFIG.RECAPTCHA_ENABLED =
+  CONFIG.RECAPTCHA_SECRET &&
+  CONFIG.RECAPTCHA_SECRET.length > 0 &&
+  CONFIG.RECAPTCHA_PUBLIC &&
+  CONFIG.RECAPTCHA_PUBLIC.length > 0;
 if (!CONFIG.RECAPTCHA_ENABLED) {
-  console.warn('Recaptcha is not enabled for login/signup abuse prevention, set TALK_RECAPTCHA_SECRET and TALK_RECAPTCHA_PUBLIC to enable Recaptcha.');
+  console.warn(
+    'Recaptcha is not enabled for login/signup abuse prevention, set TALK_RECAPTCHA_SECRET and TALK_RECAPTCHA_PUBLIC to enable Recaptcha.'
+  );
 }
 
 //------------------------------------------------------------------------------
@@ -138,7 +145,13 @@ if (!CONFIG.RECAPTCHA_ENABLED) {
   ];
 
   if (requiredProps.some((prop) => !CONFIG[prop])) {
-    console.warn(`${requiredProps.map((v) => `TALK_${v}`).join(', ')} should be defined in the environment if you would like to send password reset emails from Talk`);
+    console.warn(
+      `${requiredProps
+        .map((v) => `TALK_${v}`)
+        .join(
+          ', '
+        )} should be defined in the environment if you would like to send password reset emails from Talk`
+    );
   }
 }
 
