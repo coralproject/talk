@@ -303,12 +303,12 @@ async function createSeedPlugin() {
     {
       type: 'confirm',
       name: 'server',
-      message: 'Is this a server-side plugin?'
+      message: 'Is this plugin extending the server capabilities?'
     },
     {
       type: 'confirm',
       name: 'client',
-      message: 'Is this a client-side plugin?'
+      message: 'Is this plugin extending the client capabilities?'
     },
     {
       type: 'confirm',
