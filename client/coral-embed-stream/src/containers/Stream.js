@@ -8,7 +8,8 @@ import {
   withAddTag, withRemoveTag, withIgnoreUser, withEditComment,
 } from 'coral-framework/graphql/mutations';
 
-import {notificationActions, authActions} from 'coral-framework';
+import * as authActions from 'coral-framework/actions/auth';
+import * as notificationActions from 'coral-framework/actions/notification';
 import {editName} from 'coral-framework/actions/user';
 import {setActiveReplyBox} from '../actions/stream';
 import Stream from '../components/Stream';
