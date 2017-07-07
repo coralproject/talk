@@ -1,4 +1,4 @@
-import {pym} from 'coral-framework';
+import pym from 'coral-framework/services/pym';
 import * as actions from '../constants/stream';
 
 export const setActiveReplyBox = (id) => ({type: actions.SET_ACTIVE_REPLY_BOX, id});
