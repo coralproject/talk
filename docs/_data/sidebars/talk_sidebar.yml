@@ -37,6 +37,14 @@ entries:
       url: /install-setup.html
       output: web
 
+  - title: Architecture
+    output: web
+    folderitems:
+    - title: Overview
+      url: /architecture.html
+      output: web
+
+
   - title: Plugins
     output: web
     folderitems:
