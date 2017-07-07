@@ -9,13 +9,17 @@ const program = require('./commander');
 
 program
   .command('serve', 'serve the application')
+  .command('settings', 'interact with the application settings')
   .command('assets', 'interact with assets')
   .command('setup', 'setup the application')
   .command('jobs', 'work with the job queues')
   .command('token', 'work with the access tokens')
   .command('users', 'work with the application auth')
   .command('migration', 'provides utilities for migrating the database')
-  .command('plugins', 'provides utilities for interacting with the plugin system')
+  .command(
+    'plugins',
+    'provides utilities for interacting with the plugin system'
+  )
   .parse(process.argv);
 
 /**
@@ -25,7 +29,10 @@ program
  * labled with the PID written out by the parent process.
  */
 process.once('exit', () => {
-  if ((program.runningCommand.killed === false) && (program.runningCommand.exitCode === null)) {
+  if (
+    program.runningCommand.killed === false &&
+    program.runningCommand.exitCode === null
+  ) {
     program.runningCommand.kill('SIGINT');
   }
 });
