@@ -1,12 +1,22 @@
 import React from 'react';
 import {CoralLogo} from 'plugin-api/beta/client/components/ui';
+import styles from './MyPluginComponent.css';
 
 class MyPluginComponent extends React.Component {
   render() {
     return (
-      <div>
-        <CoralLogo />
-        Plugin Created by Talk CLI
+      <div className={styles.myPluginContainer}>
+        <CoralLogo className={styles.logo}/>
+        <div className={styles.description}>
+          <h3>Plugin created by Talk CLI</h3>
+
+          <small>
+            To read more about client plugins check{' '}
+            <a href="https://coralproject.github.io/talk/plugins-client.html">
+              our docs and guides!
+            </a>
+          </small>
+        </div>
       </div>
     );
   }
