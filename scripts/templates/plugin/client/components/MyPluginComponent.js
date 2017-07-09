@@ -11,7 +11,7 @@ class MyPluginComponent extends React.Component {
           <h3>Plugin created by Talk CLI</h3>
 
           <small>
-            To read more about client plugins check{' '}
+            To read more about plugins check{' '}
             <a href="https://coralproject.github.io/talk/plugins-client.html">
               our docs and guides!
             </a>
