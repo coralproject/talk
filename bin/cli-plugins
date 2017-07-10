@@ -274,7 +274,7 @@ async function reconcilePluginDeps({skipLocal, skipRemote, dryRun, upgradeRemote
 }
 
 async function createSeedPlugin() {
-  const pluginsDir = path.join(dir, 'plugins');
+  const pluginsDir = path.join(__dirname, 'plugins');
 
   function pluginNameExists(pluginName) {
     const pluginNames = fs.readdirSync(pluginsDir);
@@ -321,7 +321,7 @@ async function createSeedPlugin() {
   // Creating plugin seed
   //==============================================================================
 
-  const seedPlugin = path.join(dir, 'scripts/templates/plugin');
+  const seedPlugin = path.join(__dirname, 'bin/templates/plugin');
   const newPluginPath = path.join(pluginsDir, answers.pluginName);
 
   if (fs.existsSync(seedPlugin)) {
@@ -363,7 +363,7 @@ async function createSeedPlugin() {
           // This is a client-side plugin, let's push this.
           if (answers.client) {
             j.client.push(answers.pluginName);
-            
+
             const output = JSON.stringify(j, null, 2);
             fs.writeFileSync(pluginsJson, output);
           }
@@ -381,8 +381,8 @@ async function createSeedPlugin() {
         });
     }
 
-    console.log(`✨ Yay! Plugin created! Find your plugin: ${answers.pluginName} in the /plugins folder`);
-  } 
+    console.log(`✨ Yay! Plugin created! Find your plugin: ${answers.pluginName} in the ./plugins folder`);
+  }
 
 }
 
