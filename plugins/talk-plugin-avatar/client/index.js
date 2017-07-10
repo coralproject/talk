@@ -4,4 +4,4 @@ export default {
   slots: {
     commentAvatar: [UserAvatar]
   }
-}
+};

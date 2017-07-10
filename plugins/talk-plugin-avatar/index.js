@@ -47,7 +47,6 @@ module.exports = {
       //   ...
       // }
 
-
       // Extract the data from the payload.
       let {
         id,
@@ -69,7 +68,7 @@ module.exports = {
 
       // Respond with a `202 Accepted` to indicate that we were able to process
       // the update.
-      res.status(202).end()
+      res.status(202).end();
     });
   }
 };
