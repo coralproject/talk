@@ -7,8 +7,8 @@ import './graphql';
 import {addExternalConfig} from 'coral-embed-stream/src/actions/config';
 import {getStore, injectReducers} from 'coral-framework/services/store';
 import {getClient} from 'coral-framework/services/client';
+import pym from 'coral-framework/services/pym';
 import AppRouter from './AppRouter';
-import {pym} from 'coral-framework';
 import {loadPluginsTranslations, injectPluginsReducers} from 'coral-framework/helpers/plugins';
 import reducers from './reducers';
 
