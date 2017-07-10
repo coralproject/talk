@@ -13,4 +13,5 @@ plugins/*
 !plugins/coral-plugin-viewing-options
 !plugins/coral-plugin-comment-content
 !plugins/talk-plugin-permalink
+!plugins/talk-plugin-avatar
 node_modules

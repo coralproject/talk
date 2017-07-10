@@ -1,0 +1,11 @@
+{
+  "name": "talk-plugin-avatar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Belen Curcio <curciobelen@gmail.com>",
+  "license": "ISC"
+}
