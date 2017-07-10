@@ -167,35 +167,39 @@ class Stream extends React.Component {
 
         {/* the highlightedComment is isolated after the user followed a permalink */}
         {highlightedComment
-          ? <Comment
-              data={data}
-              root={root}
-              commentClassNames={commentClassNames}
-              addTag={addTag}
-              removeTag={removeTag}
-              ignoreUser={ignoreUser}
-              setActiveReplyBox={setActiveReplyBox}
-              activeReplyBox={activeReplyBox}
-              addNotification={addNotification}
-              depth={0}
-              disableReply={!open}
-              postComment={postComment}
-              asset={asset}
-              currentUser={user}
-              highlighted={comment.id}
-              postFlag={postFlag}
-              postDontAgree={postDontAgree}
-              loadMore={loadNewReplies}
-              deleteAction={deleteAction}
-              showSignInDialog={showSignInDialog}
-              key={highlightedComment.id}
-              commentIsIgnored={commentIsIgnored}
-              comment={highlightedComment}
-              charCountEnable={asset.settings.charCountEnable}
-              maxCharCount={asset.settings.charCount}
-              editComment={editComment}
-              liveUpdates={true}
-            />
+          ? (
+            <div className={cn('talk-stream-highlighted-container', styles.highlightedContainer)}>
+              <Comment
+                data={data}
+                root={root}
+                commentClassNames={commentClassNames}
+                addTag={addTag}
+                removeTag={removeTag}
+                ignoreUser={ignoreUser}
+                setActiveReplyBox={setActiveReplyBox}
+                activeReplyBox={activeReplyBox}
+                addNotification={addNotification}
+                depth={0}
+                disableReply={!open}
+                postComment={postComment}
+                asset={asset}
+                currentUser={user}
+                highlighted={comment.id}
+                postFlag={postFlag}
+                postDontAgree={postDontAgree}
+                loadMore={loadNewReplies}
+                deleteAction={deleteAction}
+                showSignInDialog={showSignInDialog}
+                key={highlightedComment.id}
+                commentIsIgnored={commentIsIgnored}
+                comment={highlightedComment}
+                charCountEnable={asset.settings.charCountEnable}
+                maxCharCount={asset.settings.charCount}
+                editComment={editComment}
+                liveUpdates={true}
+              />
+            </div>
+            )
           : <div className={cn('talk-stream-tab-container', styles.tabContainer)}>
               <div
                 className={cn('talk-stream-filter-wrapper', styles.filterWrapper)}
