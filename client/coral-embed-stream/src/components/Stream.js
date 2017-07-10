@@ -12,6 +12,7 @@ import t, {timeago} from 'coral-framework/services/i18n';
 import CommentBox from 'coral-plugin-commentbox/CommentBox';
 import QuestionBox from 'coral-plugin-questionbox/QuestionBox';
 import {Button, TabBar, Tab, TabCount, TabContent, TabPane} from 'coral-ui';
+import cn from 'classnames';
 
 import {getTopLevelParent} from '../graphql/utils';
 import AllCommentsPane from './AllCommentsPane';
@@ -163,10 +164,6 @@ class Stream extends React.Component {
           />
         )}
 
-        <div className="talk-stream-wrapper-box">
-          <Slot fill="streamBox" />
-        </div>
-
         {/* the highlightedComment is isolated after the user followed a permalink */}
         {highlightedComment
           ? <Comment
@@ -199,6 +196,11 @@ class Stream extends React.Component {
               liveUpdates={true}
             />
           : <div>
+              <div
+                className={cn('talk-stream-filter-wrapper', styles.filterWrapper)}
+              >
+                <Slot fill="streamFilter" />
+              </div>
               <TabBar activeTab={activeStreamTab} onTabClick={setActiveStreamTab} sub>
                 <Tab tabId={'featured'}>
                  Featured

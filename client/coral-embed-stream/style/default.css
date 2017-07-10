@@ -181,10 +181,6 @@ body {
   display: none;
 }
 
-.talk-stream-wrapper-box {
-  padding: 10px 0;
-}
-
 .talk-stream-comments-container {
   position: relative;
 }

@@ -10,3 +10,9 @@
 .tabPanel {
   margin-top: 8px;
 }
+
+.filterWrapper {
+  position: absolute;
+  right: 0;
+  margin-top: 6px;
+}
