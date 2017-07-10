@@ -11,6 +11,7 @@
 
 .comment {
   padding-left: 20px;
+  flex: auto;
 }
 
 .commentLevel0 {
@@ -140,4 +141,14 @@
 
 .enter {
   animation: enter 1000ms;
+}
+
+.commentRow {
+  display: flex;
+  flex-flow: row;
+}
+
+.commentAvatar {
+  max-width: 50px;
+  margin-right: 10px;
 }
