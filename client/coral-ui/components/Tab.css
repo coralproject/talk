@@ -60,6 +60,7 @@
   font-weight: bold;
   border-bottom: solid 3px #10589b;
   margin-bottom: 0px;
+  padding: 6px 10px;
 }
 
 .root:only-child .button, .rootSub:only-child .buttonSub {

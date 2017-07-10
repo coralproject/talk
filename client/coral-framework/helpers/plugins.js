@@ -10,17 +10,16 @@ import {loadTranslations} from 'coral-framework/services/i18n';
 import {injectReducers, getStore} from 'coral-framework/services/store';
 import camelize from './camelize';
 
-function getSlotComponents(slot) {
+export function getSlotComponents(slot) {
   const pluginConfig = getStore().getState().config.plugin_config;
 
-    // Filter out components that have been disabled in `plugin_config`
   return flatten(plugins
 
     // Filter out components that have been disabled in `plugin_config`
-    .filter((o) => !pluginConfig || !pluginConfig[o.plugin] || !pluginConfig[o.plugin].disable_components)
-
+    .filter((o) => !pluginConfig || !pluginConfig[o.name] || !pluginConfig[o.name].disable_components)
     .filter((o) => o.module.slots[slot])
-    .map((o) => o.module.slots[slot]));
+    .map((o) => o.module.slots[slot])
+  );
 }
 
 export function isSlotEmpty(slot) {
@@ -113,7 +112,22 @@ export function injectPluginsReducers() {
   const reducers = merge(
     ...plugins
       .filter((o) => o.module.reducer)
-      .map((o) => ({[camelize(o.plugin)] : o.module.reducer}))
+      .map((o) => ({[camelize(o.name)] : o.module.reducer}))
   );
   injectReducers(reducers);
 }
+
+function addMetaDataToSlotComponents() {
+
+  // Add talkPluginName to Slot Components.
+  plugins.forEach((plugin) => {
+    const slots = plugin.module.slots;
+    slots && Object.keys(slots).forEach((slot) => {
+      slots[slot].forEach((component) => {
+        component.talkPluginName = plugin.name;
+      });
+    });
+  });
+}
+
+addMetaDataToSlotComponents();

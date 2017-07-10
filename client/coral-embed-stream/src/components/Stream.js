@@ -9,6 +9,7 @@ import {ModerationLink} from 'coral-plugin-moderation';
 import RestrictedMessageBox
   from 'coral-framework/components/RestrictedMessageBox';
 import t, {timeago} from 'coral-framework/services/i18n';
+import {getSlotComponents} from 'coral-framework/helpers/plugins';
 import CommentBox from 'coral-plugin-commentbox/CommentBox';
 import QuestionBox from 'coral-plugin-questionbox/QuestionBox';
 import {Button, TabBar, Tab, TabCount, TabContent, TabPane} from 'coral-ui';
@@ -202,17 +203,30 @@ class Stream extends React.Component {
                 <Slot fill="streamFilter" />
               </div>
               <TabBar activeTab={activeStreamTab} onTabClick={setActiveStreamTab} sub>
-                <Tab tabId={'featured'}>
-                 Featured
-                </Tab>
+                {getSlotComponents('streamTabs').map((PluginComponent) => (
+                  <Tab tabId={PluginComponent.talkPluginName} key={PluginComponent.talkPluginName}>
+                    <PluginComponent
+                      active={activeStreamTab === PluginComponent.talkPluginName}
+                      data={data}
+                      root={root}
+                      asset={asset}
+                    />
+                  </Tab>
+                ))}
                 <Tab tabId={'all'}>
                   All Comments <TabCount active={activeStreamTab === 'all'} sub>{totalCommentCount}</TabCount>
                 </Tab>
               </TabBar>
               <TabContent activeTab={activeStreamTab} sub>
-                <TabPane tabId={'featured'}>
-                  TODO
-                </TabPane>
+                {getSlotComponents('streamTabPanes').map((PluginComponent) => (
+                  <TabPane tabId={PluginComponent.talkPluginName} key={PluginComponent.talkPluginName}>
+                    <PluginComponent
+                      data={data}
+                      root={root}
+                      asset={asset}
+                    />
+                  </TabPane>
+                ))}
                 <TabPane tabId={'all'}>
                   <AllCommentsPane
                     data={data}

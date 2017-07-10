@@ -14,6 +14,7 @@ import {setActiveReplyBox, setActiveTab, viewAllComments} from '../actions/strea
 import Stream from '../components/Stream';
 import Comment from './Comment';
 import {withFragments} from 'coral-framework/hocs';
+import {getSlotsFragments} from 'coral-framework/helpers/plugins';
 import {Spinner} from 'coral-ui';
 import {getDefinitionName} from 'coral-framework/utils';
 import {
@@ -240,6 +241,11 @@ const LOAD_MORE_QUERY = gql`
   ${Comment.fragments.comment}
 `;
 
+const pluginFragments = getSlotsFragments([
+  'streamTabs',
+  'streamTabPanes',
+]);
+
 const fragments = {
   root: gql`
     fragment CoralEmbedStream_Stream_root on RootQuery {
@@ -281,6 +287,7 @@ const fragments = {
           startCursor
           endCursor
         }
+        ${pluginFragments.spreads('asset')}
       }
       me {
         status
@@ -291,8 +298,11 @@ const fragments = {
       settings {
         organizationName
       }
+      ${pluginFragments.spreads('root')}
       ...${getDefinitionName(Comment.fragments.root)}
     }
+    ${pluginFragments.definitions('asset')}
+    ${pluginFragments.definitions('root')}
     ${Comment.fragments.root}
     ${commentFragment}
   `,
