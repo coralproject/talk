@@ -195,7 +195,7 @@ class Stream extends React.Component {
               editComment={editComment}
               liveUpdates={true}
             />
-          : <div>
+          : <div className={cn('talk-stream-tab-container', styles.tabContainer)}>
               <div
                 className={cn('talk-stream-filter-wrapper', styles.filterWrapper)}
               >
