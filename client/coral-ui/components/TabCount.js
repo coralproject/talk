@@ -1,6 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 import styles from './TabCount.css';
+import PropTypes from 'prop-types';
 
 function getNumber(no) {
   let result = Number.parseInt(no);
@@ -24,6 +25,23 @@ function getRootClassName({className, active, sub}) {
   );
 }
 
-export default ({children, active, sub, className}) => (
+/**
+ * The `TabCount` renders a count number next to a tab name.
+ */
+const TabCount = ({children, active, sub, className}) => (
   <span className={getRootClassName({className, active, sub})}>{getNumber(children)}</span>
 );
+
+TabCount.propTypes = {
+
+  // className to be added to the root element.
+  className: PropTypes.string,
+
+  // active indicates that the related tab is currently active.
+  active: PropTypes.bool,
+
+  // Sub indicates that this component belongs to a sub-tab-panel.
+  sub: PropTypes.bool,
+};
+
+export default TabCount;
