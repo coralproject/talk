@@ -62,3 +62,8 @@
   margin-bottom: 0px;
 }
 
+.root:only-child .button, .rootSub:only-child .buttonSub {
+  cursor: default;
+  pointer-events: none;
+}
+
