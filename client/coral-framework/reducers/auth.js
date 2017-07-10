@@ -1,6 +1,6 @@
 import {Map, fromJS} from 'immutable';
 import * as actions from '../constants/auth';
-import {pym} from 'coral-framework';
+import pym from 'coral-framework/services/pym';
 
 const initialState = Map({
   isLoading: false,

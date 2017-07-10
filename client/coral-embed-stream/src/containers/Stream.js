@@ -8,7 +8,8 @@ import {
   withAddTag, withRemoveTag, withIgnoreUser, withEditComment,
 } from 'coral-framework/graphql/mutations';
 
-import {notificationActions, authActions} from 'coral-framework';
+import * as authActions from 'coral-framework/actions/auth';
+import * as notificationActions from 'coral-framework/actions/notification';
 import {editName} from 'coral-framework/actions/user';
 import {setActiveReplyBox, setActiveTab, viewAllComments} from '../actions/stream';
 import Stream from '../components/Stream';
@@ -22,6 +23,7 @@ import {
   insertCommentIntoEmbedQuery,
   removeCommentFromEmbedQuery,
   insertFetchedCommentsIntoEmbedQuery,
+  nest,
 } from '../graphql/utils';
 
 const {showSignInDialog} = authActions;
@@ -151,18 +153,6 @@ class StreamContainer extends React.Component {
     />;
   }
 }
-
-const nest = (def, level) => {
-  let result = '';
-  for (let x = 0; x < level; x++) {
-    if (x === 0) {
-      result += def;
-      continue;
-    }
-    result = result.replace('...nest', def);
-  }
-  return result.replace('...nest', '');
-};
 
 const commentFragment = gql`
   fragment CoralEmbedStream_Stream_comment on Comment {
