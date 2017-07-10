@@ -1,0 +1,59 @@
+#!/usr/bin/env node
+
+const program = require('./commander');
+const inquirer = require('inquirer');
+const mongoose = require('../services/mongoose');
+const SettingsService = require('../services/settings');
+const util = require('./util');
+
+// Register the shutdown criteria.
+util.onshutdown([() => mongoose.disconnect()]);
+
+/**
+ * Change the organization name
+ */
+async function changeOrgName() {
+  try {
+    let settings = await SettingsService.retrieve();
+
+    let {organizationName} = await inquirer.prompt([
+      {
+        name: 'organizationName',
+        message: 'Organization Name',
+        default: settings.organizationName
+      }
+    ]);
+
+    if (settings.organizationName !== organizationName) {
+      settings.organizationName = organizationName;
+
+      await SettingsService.update(settings);
+
+      console.log('Settings were updated.');
+    } else {
+      console.log('No update needed, no change was made.');
+    }
+  } catch (err) {
+    console.error(err);
+    util.shutdown(1);
+  }
+
+  util.shutdown();
+}
+
+//==============================================================================
+// Setting up the program command line arguments.
+//==============================================================================
+
+program
+  .command('change-org-name')
+  .description('change the organization name')
+  .action(changeOrgName);
+
+program.parse(process.argv);
+
+// If there is no command listed, output help.
+if (!process.argv.slice(2).length) {
+  program.outputHelp();
+  util.shutdown();
+}
