@@ -1,5 +1,6 @@
 import React from 'react';
 
+// TODO: This is just example code, and needs to replaced by an actual implementation.
 export default ({asset: {recentComments}}) => (
   <div>
     {recentComments.map((comment) => (
