@@ -51,6 +51,7 @@ export default class Embed extends React.Component {
               cStyle="darkGrey"
               style={{float: 'right'}}
               onClick={viewAllComments}
+              className={'talk-stream-show-all-comments-button'}
             >
               {t('framework.show_all_comments')}
             </Button>}
