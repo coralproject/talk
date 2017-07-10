@@ -422,21 +422,14 @@ button.comment__action-button[disabled],
 
 .talk-new-comments {
   width: 100%;
-  display: flex;
-  justify-content: center;
-  cursor: pointer;
+  text-align: center;
+  margin: 4px 0;
 }
 
 .talk-load-more-replies {
   width: 100%;
   padding-left: 20px;
   box-sizing: border-box;
-}
-
-.talk-new-comments {
-  position: relative;
-  top: 1.8em;
-  z-index: 100;
 }
 
 .talk-load-more-replies .talk-load-more-button {
@@ -450,11 +443,6 @@ button.comment__action-button[disabled],
   background-color: #979797;
   color: white;
 }
-
-.talk-new-comments  button.talk-load-more{
-  width: initial;
-}
-
 
 @media (min-device-width : 300px) and (max-device-width : 420px) {
   .commentActionsLeft.comment__action-container .coral-plugin-replies-reply-button {
