@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 
 import {withStopIgnoringUser} from 'coral-framework/graphql/mutations';
 
-import {link} from 'coral-framework/services/PymConnection';
+import {link} from 'coral-framework/services/pym';
 import NotLoggedIn from '../components/NotLoggedIn';
 import IgnoredUsers from '../components/IgnoredUsers';
 import {Spinner} from 'coral-ui';

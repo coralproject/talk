@@ -1,7 +1,7 @@
 import {Component, cloneElement, Children} from 'react';
 import PropTypes from 'prop-types';
 import {findDOMNode} from 'react-dom';
-import {pym} from 'coral-framework';
+import pym from 'coral-framework/services/pym';
 
 export default class ClickOutside extends Component {
   static propTypes = {
