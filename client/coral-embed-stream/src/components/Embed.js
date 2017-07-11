@@ -35,7 +35,7 @@ export default class Embed extends React.Component {
             onTabClick={this.changeTab}
             activeTab={activeTab}
             className='talk-stream-tabbar'
-            aria-controls='talk-embed-tab'
+            aria-controls='talk-embed-stream-tab-content'
           >
             <Tab tabId={'stream'} className={'talk-stream-comment-count-tab'}>
               {t('embed_comments_tab')}
@@ -53,7 +53,7 @@ export default class Embed extends React.Component {
 
           <TabContent
             activeTab={activeTab}
-            id='talk-embed-tab-content'
+            id='talk-embed-stream-tab-content'
           >
             <TabPane tabId={'stream'}>
               <Stream data={this.props.data} root={this.props.root} />
