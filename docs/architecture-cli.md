@@ -124,6 +124,8 @@ This is accomplished by running the cli tool on any box using the mongo/redis/et
 
 The cli tool will connect directly with the install's db and redis instance(s) so ensure that your box can reach those servers on the appropriate ports.
 
+Also, _please ensure your cli and the server(s) in an environment are using the same version of Talk._ 
+
 Please secure your environments and credentials or the cli tool becomes a convenient way for someone to own your system.
 
 ## Extending the cli
