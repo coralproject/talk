@@ -23,10 +23,12 @@ In a terminal, try:
 Commonly, you'll be in the `talk/` folder, in which case you can:
 
 ```
-bin cli [options] [commands] [arguments]
+bin/cli [options] [commands] [arguments]
 ```
 
-If you're a heavy cli user, consider adding the `bin` folder to your path so you can run `cli` from anywhere!
+If you're a heavy cli user, consider adding the `bin` folder to your PATH so you can run `cli` from anywhere!
+
+If you are using [our Docker environment](install-docker.html), the bin folder will already be in the PATH.
 
 ## What can I do with the cli?
 
@@ -34,8 +36,10 @@ The Talk cli ships with 'unix style' help. To access the docs, simply run the cl
 
 Let's say I wanted to figure out how to change a user's password. I'd start be seeing what the cli has for me.
 
+(Note: the following output may change, please reference at the `--help` output for your version as you use the cli.)
+
 ```
-talk :) ]$ bin/cli
+talk :) ]$ bin/cli --help
 
   Usage: cli [options] [command]
 
@@ -124,7 +128,7 @@ This is accomplished by running the cli tool on any box using the mongo/redis/et
 
 The cli tool will connect directly with the install's db and redis instance(s) so ensure that your box can reach those servers on the appropriate ports.
 
-Also, _please ensure your cli and the server(s) in an environment are using the same version of Talk._ 
+Also, _please ensure your cli and the server(s) in an environment are using the same version of Talk._
 
 Please secure your environments and credentials or the cli tool becomes a convenient way for someone to own your system.
 
