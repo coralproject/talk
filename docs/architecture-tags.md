@@ -25,7 +25,9 @@ See [Plugin API Documentation](plugins-server.html#field-tags) for more informat
 
 ### Creating a Tag Definition
 
-Tag Definitions must be created before tags can be used. This ensures that users cannot push arbitrary tags to hack the system. It also allows devs to specify the behavioral characteristics of the tag.
+Tag Definitions must be created in order for the system to determine what tags are permitted on the server side.
+
+Tag Definitions do not contain any logic themselves but provide information that other parts of the system can use to specify which models a tag can be applied to (models) and perform authorization logic (permissions).
 
 Take the tag created by `coral-plugin-offtopic` as an example.
 

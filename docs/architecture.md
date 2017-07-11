@@ -42,9 +42,9 @@ Now, ask these questions:
 
 ### Is it a Plugin?
 
-Most work for Talk these days happens in the Plugin space. If the answers to any of these questions is Yes, then you're thinking of a Plugin.
+Most work for Talk happens in the Plugin space. If the answers to any of these questions is Yes, then you're thinking of a Plugin.
 
-* Does Talk's exiting Plugin APIs support the thing you want to build?
+* Does Talk's existing Plugin APIs support the thing you want to build?
 * Is this something that only some users will want/need?
 * Is this something that we want devs to iterate on widely?
 
@@ -62,7 +62,7 @@ Note: we are stabilizing the process by which new Plugin API bindings are create
 
 ### Does it need updates to the Plugin API _and_ Core?
 
-3) What, if any, changes need to be made to Core so that the API can be extended?
+What, if any, changes need to be made to Core so that the API can be extended?
 
 Quite often the only things missing from Core are things like _events_, _slots_, _CSS classes_, etc... Adding these is a great way to become a Core Contributor and break new ground as a Plugin Developer.
 
