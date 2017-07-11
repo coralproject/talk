@@ -42,7 +42,13 @@
 }
 
 .button {
+  margin: 5px 0px 5px 10px;
+  cursor: pointer;
+}
+
+.copyButton {
   display: inline-block;
+  margin: 5px 10px 5px 0px;
   float: right;
   box-sizing: border-box;
   margin: 0;
@@ -52,18 +58,19 @@
   height: auto;
   padding: 2px;
   transition: background-color 0.4s ease;
+  cursor: pointer;
 }
 
-.button:hover{
+.copyButton:hover{
   color: black;
 }
 
-.button.success {
+.copyButton.success {
   background-color: #00897B;
   color: white;
 }
 
-.button.failure {
+.copyButton.failure {
   background-color: #FF5252;
   color: white;
 }

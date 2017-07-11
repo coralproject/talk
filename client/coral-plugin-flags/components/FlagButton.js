@@ -5,6 +5,8 @@ import {can} from 'coral-framework/services/perms';
 
 import {PopupMenu, Button} from 'coral-ui';
 import ClickOutside from 'coral-framework/components/ClickOutside';
+import cn from 'classnames';
+import styles from './styles.css';
 
 const name = 'coral-plugin-flags';
 
@@ -146,14 +148,17 @@ export default class FlagButton extends Component {
           <button
             ref={(ref) => this.flagButton = ref}
             onClick={!this.props.banned && !flaggedByCurrentUser && !localPost ? this.onReportClick : null}
-            className={`${name}-button`}>
+            className={cn(`${name}-button`, styles.button)}>
             {
               flagged
               ? <span className={`${name}-button-text`}>{t('reported')}</span>
               : <span className={`${name}-button-text`}>{t('report')}</span>
             }
-            <i className={`${name}-icon material-icons ${flagged && 'flaggedIcon'}`}
-              style={flagged ? styles.flaggedIcon : {}}
+            <i className={
+              cn(`${name}-icon`, 'material-icons', {
+                flaggedIcon: flagged,
+                [styles.flaggedIcon]: flagged,
+              })}
               aria-hidden={true}>flag</i>
           </button>
           {
@@ -214,12 +219,3 @@ export default class FlagButton extends Component {
     );
   }
 }
-
-const styles = {
-  flaggedIcon: {
-    color: '#F00'
-  },
-  unflaggedIcon: {
-    color: 'inherit'
-  }
-};
