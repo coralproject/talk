@@ -28,3 +28,9 @@
 .icon {
   padding: 0 5px;
 }
+
+@media (max-width: 425px) {
+  .label {
+    display: none;
+  }
+}
