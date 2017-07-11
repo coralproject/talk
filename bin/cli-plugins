@@ -8,13 +8,14 @@
 // https://yarnpkg.com/
 
 const program = require('./commander');
+const inquirer = require('inquirer');
 
 // Make things colorful!
 require('colors');
 const emoji = require('node-emoji');
 
 const dir = process.cwd();
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 const spawn = require('cross-spawn');
 const semver = require('semver');
@@ -272,9 +273,127 @@ async function reconcilePluginDeps({skipLocal, skipRemote, dryRun, upgradeRemote
   console.log(`✨ Done in ${totalTime}s.`);
 }
 
+async function createSeedPlugin() {
+  const pluginsDir = path.join(__dirname, 'plugins');
+
+  function pluginNameExists(pluginName) {
+    const pluginNames = fs.readdirSync(pluginsDir);
+    return !!pluginNames
+      .filter((pn) => pn === pluginName).length;
+  }
+
+  let answers = await inquirer.prompt([
+    {
+      type: 'input',
+      name: 'pluginName',
+      message: 'Plugin Name:',
+      validate: (input) => {
+
+        if (pluginNameExists(input)) {
+          return 'Please, choose another name. That name already exists';
+        }
+
+        if (input && input.length > 0) {
+          return true;
+        }
+
+        return 'Plugin Name is required.';
+      }
+    },
+    {
+      type: 'confirm',
+      name: 'server',
+      message: 'Is this plugin extending the server capabilities?'
+    },
+    {
+      type: 'confirm',
+      name: 'client',
+      message: 'Is this plugin extending the client capabilities?'
+    },
+    {
+      type: 'confirm',
+      name: 'addPluginsJson',
+      message: 'Should we add it to the plugins.json?'
+    }
+  ]);
+
+  //==============================================================================
+  // Creating plugin seed
+  //==============================================================================
+
+  const seedPlugin = path.join(__dirname, 'bin/templates/plugin');
+  const newPluginPath = path.join(pluginsDir, answers.pluginName);
+
+  if (fs.existsSync(seedPlugin)) {
+
+    if (answers.server && answers.client) {
+
+      // This is a server-side and client-side plugin!, let's copy the template
+      fs.copySync(seedPlugin, newPluginPath);
+    } else  {
+
+      fs.copySync(seedPlugin, newPluginPath, {filter: (p) => {
+
+        // Allowing plugin folder and files with no subfolders
+        const rootRx = /plugin$|plugin\/[^/]*(\.).{2,3}/igm;
+        if (rootRx.test(p) && (fs.lstatSync(p).isDirectory() || fs.lstatSync(p).isFile())) {
+          return true;
+        }
+
+        // If it's a client-side plugin, copying client folder
+        if (answers.client) {
+          return /client/.test(p);
+        }
+
+        // If it's a server-side plugin, copying server folder
+        if (answers.server) {
+          return /server/.test(p);
+        }
+
+      }});
+    }
+
+    // Let's add this to the plugins.json
+    if (answers.addPluginsJson) {
+      const pluginsJson = path.join(dir, 'plugins.json');
+
+      fs.readJson(pluginsJson)
+        .then((j) => {
+
+          // This is a client-side plugin, let's push this.
+          if (answers.client) {
+            j.client.push(answers.pluginName);
+
+            const output = JSON.stringify(j, null, 2);
+            fs.writeFileSync(pluginsJson, output);
+          }
+
+          // This is a server-side plugin, let's push this.
+          if (answers.server) {
+            j.server.push(answers.pluginName);
+
+            const output = JSON.stringify(j, null, 2);
+            fs.writeFileSync(pluginsJson, output);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+
+    console.log(`✨ Yay! Plugin created! Find your plugin: ${answers.pluginName} in the ./plugins folder`);
+  }
+
+}
+
 //==============================================================================
 // Setting up the program command line arguments.
 //==============================================================================
+
+program
+  .command('create')
+  .description('creates a seed plugin')
+  .action(createSeedPlugin);
 
 program
   .command('list')
