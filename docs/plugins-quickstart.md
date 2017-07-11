@@ -215,7 +215,7 @@ It is important to realize that when you're writing a Talk plugin you are writin
 
 ### Publish to npm
 
-In order to [register](http://localhost:4000/plugins.html#plugin-registration) your _published_ plugin, you will need to [publish it to npm](https://docs.npmjs.com/getting-started/publishing-npm-packages).
+In order to [register](plugins.html#plugin-registration) your _published_ plugin, you will need to [publish it to npm](https://docs.npmjs.com/getting-started/publishing-npm-packages).
 
 Once the package is published, update `plugins.json` to use the published plugin:
 
