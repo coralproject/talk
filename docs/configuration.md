@@ -30,3 +30,4 @@ sign and verify tokens via a `HS256` algorithm.
 
 Refer to the wiki page on [Configuration Loading](https://github.com/coralproject/talk/wiki/Configuration-Loading) for
 alternative methods of loading configuration during development.
+

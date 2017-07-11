@@ -59,9 +59,19 @@ entries:
   - title: Development
     output: web
     folderitems:
+    - title: Setup Development Environment
+      url: /setup-development-environment.html
+      output: web
+    - title: Fork, Clone and Pullrequest
+      url: /fork-clone-pullrequest.html
+      output: web
     - title: Client Architecture
       url: /client-architecture.html
+      output: web
+    - title: GraphQL API
+      url: /graphql-api.html
       output: web
     - title: Tools
       url: /tools.html
       output: web
+
