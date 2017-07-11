@@ -9,6 +9,7 @@ import Count from 'coral-plugin-comment-count/CommentCount';
 import ProfileContainer from 'coral-settings/containers/ProfileContainer';
 import ConfigureStreamContainer
   from 'coral-configure/containers/ConfigureStreamContainer';
+import cn from 'classnames';
 
 export default class Embed extends React.Component {
   changeTab = (tab) => {
@@ -37,34 +38,36 @@ export default class Embed extends React.Component {
     const {activeTab, viewAllComments, commentId} = this.props;
     const {asset: {totalCommentCount}} = this.props.root;
     const {user} = this.props.auth;
+    const hasHighlightedComment = !!commentId;
 
     return (
-      <div>
-        <div className="commentStream">
-          <TabBar onChange={this.changeTab} activeTab={activeTab} className='talk-stream-tabbar'>
-            <Tab className={'talk-stream-comment-count-tab'} id='stream'><Count count={totalCommentCount}/></Tab>
-            <Tab className={'talk-stream-profile-tab'} id='profile'>{t('framework.my_profile')}</Tab>
-            <Tab className={'talk-stream-configuration-tab'} id='config' restricted={!can(user, 'UPDATE_CONFIG')}>{t('framework.configure_stream')}</Tab>
-          </TabBar>
-          {commentId &&
-            <Button
-              cStyle="darkGrey"
-              style={{float: 'right'}}
-              onClick={viewAllComments}
-            >
-              {t('framework.show_all_comments')}
-            </Button>}
-          <Slot fill="embed" />
-          <TabContent show={activeTab === 'stream'}>
-            <Stream data={this.props.data} root={this.props.root} />
-          </TabContent>
-          <TabContent show={activeTab === 'profile'}>
-            <ProfileContainer />
-          </TabContent>
-          <TabContent show={activeTab === 'config'}>
-            <ConfigureStreamContainer />
-          </TabContent>
-        </div>
+      <div className={cn('talk-embed-stream', {'talk-embed-stream-highlight-comment': hasHighlightedComment})}>
+        <TabBar onChange={this.changeTab} activeTab={activeTab} className='talk-embed-stream-tab-bar'>
+          <Tab className={'talk-embed-stream-comments-tab'} id='stream'><Count count={totalCommentCount}/></Tab>
+          <Tab className={'talk-embed-stream-profile-tab'} id='profile'>{t('framework.my_profile')}</Tab>
+          <Tab className={'talk-embed-stream-configuration-tab'} id='config' restricted={!can(user, 'UPDATE_CONFIG')}>
+            {t('framework.configure_stream')}
+          </Tab>
+        </TabBar>
+        {commentId &&
+          <Button
+            cStyle="darkGrey"
+            style={{float: 'right'}}
+            onClick={viewAllComments}
+            className={'talk-stream-show-all-comments-button'}
+          >
+            {t('framework.show_all_comments')}
+          </Button>}
+        <Slot fill="embed" />
+        <TabContent show={activeTab === 'stream'}>
+          <Stream data={this.props.data} root={this.props.root} />
+        </TabContent>
+        <TabContent show={activeTab === 'profile'}>
+          <ProfileContainer />
+        </TabContent>
+        <TabContent show={activeTab === 'config'}>
+          <ConfigureStreamContainer />
+        </TabContent>
       </div>
     );
   }
