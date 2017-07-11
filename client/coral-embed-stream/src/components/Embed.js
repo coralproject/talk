@@ -42,7 +42,7 @@ export default class Embed extends React.Component {
 
     return (
       <div className={cn('talk-embed-stream', {'talk-embed-stream-highlight-comment': hasHighlightedComment})}>
-        <TabBar onChange={this.changeTab} activeTab={activeTab} className='talk-embed-stream-tabbar'>
+        <TabBar onChange={this.changeTab} activeTab={activeTab} className='talk-embed-stream-tab-bar'>
           <Tab className={'talk-embed-stream-comments-tab'} id='stream'><Count count={totalCommentCount}/></Tab>
           <Tab className={'talk-embed-stream-profile-tab'} id='profile'>{t('framework.my_profile')}</Tab>
           <Tab className={'talk-embed-stream-configuration-tab'} id='config' restricted={!can(user, 'UPDATE_CONFIG')}>
@@ -54,7 +54,7 @@ export default class Embed extends React.Component {
             cStyle="darkGrey"
             style={{float: 'right'}}
             onClick={viewAllComments}
-            className={'talk-embed-stream-show-all-comments-button'}
+            className={'talk-stream-show-all-comments-button'}
           >
             {t('framework.show_all_comments')}
           </Button>}
