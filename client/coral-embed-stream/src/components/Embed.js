@@ -40,7 +40,7 @@ export default class Embed extends React.Component {
 
     return (
       <div>
-        <div className="commentStream">
+        <div className={`commentStream ${commentId ? 'talk-permalink-stream' : ''}`}>
           <TabBar onChange={this.changeTab} activeTab={activeTab} className='talk-stream-tabbar'>
             <Tab className={'talk-stream-comment-count-tab'} id='stream'><Count count={totalCommentCount}/></Tab>
             <Tab className={'talk-stream-profile-tab'} id='profile'>{t('framework.my_profile')}</Tab>
@@ -51,6 +51,7 @@ export default class Embed extends React.Component {
               cStyle="darkGrey"
               style={{float: 'right'}}
               onClick={viewAllComments}
+              className={'talk-stream-show-all-comments-button'}
             >
               {t('framework.show_all_comments')}
             </Button>}
