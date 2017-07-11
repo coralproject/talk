@@ -6,13 +6,14 @@ permalink: architecture.html
 summary:
 ---
 
-## Talk's Plugin/Plugin API/Core Architecture
+## Talk's Architecture
 
-Talk consists of three distinct layers of code:
+Talk consists of four distinct layers of code:
 
 * Plugins
 * Plugin API
 * Core
+* cli
 
 ### Plugins
 
@@ -28,11 +29,15 @@ Talk core consists of architecture and functionality that deliver stability, sec
 
 Our goal is to continually extend our plugin infrastructure making the Core as pluggable as possible. Ultimately, a day may come where the Core of Talk is simply a framework for delivering a certain flavor of web applications.
 
+### cli
+
+Talk ships with a cli tool that exposes functionality to the command line. We seek to provide cli functionality for all features that could need to be accomplished programmatically or prior to the server's startup.
+
 ## Thinking about Plugins, the Plugin API and Core?
 
 The following is a template for a thought process that may help clarify your ideas against the backdrop of Talk's architecture.
 
-Think of a feature of capability. It could be something that's already in Talk or not. It could be something you want to build, or something you'd think would be a terrible idea. The important part here is to have something to interrogate.
+Think of a feature or capability. It could be something that's already in Talk or not. It could be something you want to build, or something you'd think would be a terrible idea. The important part here is to have something to interrogate.
 
 ```
 wait(60000);
@@ -60,7 +65,7 @@ Often times all the functionality a plugin needs is in the Core, but the Plugin 
 
 Note: we are stabilizing the process by which new Plugin API bindings are created, agreed upon and ultimately made part of our Plugins Contract. If you are interested in this process, please reach out to us.
 
-### Does it need updates to the Plugin API _and_ Core?
+### Does it require updates to the Plugin API _and_ Core?
 
 What, if any, changes need to be made to Core so that the API can be extended?
 
@@ -72,4 +77,4 @@ We seek to keep Core as lean as possible.
 
 Amazing! We are always looking to extend the capabilities of Talk. We look forward to discussing what you've got to bring!
 
-Please see our [contributing guide](](https://github.com/coralproject/talk/blob/master/CONTRIBUTING.md)) for more information about contributing Core code.
+Please see our [contributing guide](](https://github.com/coralproject/talk/blob/master/CONTRIBUTING.md)) for more information.

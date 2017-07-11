@@ -6,7 +6,7 @@ permalink: architecture-tags.html
 summary:
 ---
 
-Tags can be added to Users, Comments and Assets.
+Tags are essentially strings that can be added to models. Currently, tags can be added to [Users, Comments and Assets](https://github.com/coralproject/talk/blob/ced449a1489d47c25d604020fa2e0b3b7a741353/graph/typeDefs.graphql#L144). If you would like to add tags to other models, you can extend this schema using [GraphQL hooks](plugins-server.html#graphql-hooks).
 
 ## Tag Definitions
 
@@ -53,12 +53,12 @@ This plugin allows users to self-report that their comment is "off topic" at the
 
 To accomplish this, the plugin creates the tag `OFF_TOPIC` with:
 
-* `public: true` - will be sent over the wire to the client side)
-* `self: true` - can be added by the active user to themselves or assets they own
-* `roles: []` - cannot be added by anyone based on their roles
+* `permissions.public: true` - will be sent over the wire to the client side
+* `permissions.self: true` - can be added by the active user to themselves or assets they own
+* `permissions.roles: []` - cannot be added by anyone based on their roles
 * `models: ['COMMENTS']` - can only be added to COMMENTS (not to users/assets/etc...)
 
-And viola! This tag is something that can only be created by the logged in user on their own comments and is sent over the wire to the client so it can display the badge.
+And [viola](https://youtu.be/Q0O9gFf-tiI?t=23s)! This tag is something that can only be created by the logged in user on their own comments and is sent over the wire to the client so it can display the badge.
 
 ## Tag Links
 
@@ -68,4 +68,4 @@ A TagLinks says that `tag` was `assigned_by` a specific user at a specific time 
 
 Note that the `tag` field in the TagLinkSchema is the full TagSchema itself. This allows for another level of flexibility. Server code may generate Tags on the fly, complete with programmatically generated permissions and item behaviors.
 
-If a Tag definitions exists in the global/asset context then that definition will be used regardless of what is stored here. This allows high level controls on the behavior of tags.
+If a Tag definitions exists in the global/asset context then that definition will be used regardless of what is stored here. This allows high level controls on the behavior of tags, ensuring that plugins cannot produce unexpected definitions for already defined tags.
