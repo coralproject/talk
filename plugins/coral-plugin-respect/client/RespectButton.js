@@ -45,11 +45,11 @@ class RespectButton extends React.Component {
           className={cn(styles.button, {[styles.respected]: alreadyReacted}, `${plugin}-button`)}
           onClick={this.handleClick}
         >
-          <span className={`${plugin}-button-text`}>
+          <span className={cn(`${plugin}-label`, styles.label)}>
             {t(alreadyReacted ? 'coral-plugin-respect.respected' : 'coral-plugin-respect.respect')}
           </span>
           <Icon className={cn(styles.icon, `${plugin}-icon`)} />
-          <span className={cn(styles.icon, `${plugin}-count`)}>{count > 0 && count}</span>
+          <span className={cn(`${plugin}-count`)}>{count > 0 && count}</span>
         </button>
       </div>
     );
