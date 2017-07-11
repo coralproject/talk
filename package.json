@@ -78,6 +78,7 @@
     "express": "^4.15.2",
     "express-session": "^1.15.1",
     "form-data": "^2.1.2",
+    "fs-extra": "^3.0.1",
     "gql-merge": "^0.0.4",
     "graphql": "^0.9.1",
     "graphql-errors": "^2.1.0",
