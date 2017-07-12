@@ -147,9 +147,6 @@ const USERNAME_REJECTED_SUBSCRIPTION = gql`
 
 const EMBED_QUERY = gql`
   query CoralEmbedStream_Embed($assetId: ID, $assetUrl: String, $commentId: ID!, $hasComment: Boolean!, $excludeIgnored: Boolean) {
-    asset(id: $assetId, url: $assetUrl) {
-      totalCommentCount(excludeIgnored: $excludeIgnored)
-    }
     me {
       id
       status

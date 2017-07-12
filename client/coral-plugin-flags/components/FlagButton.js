@@ -148,7 +148,7 @@ export default class FlagButton extends Component {
           <button
             ref={(ref) => this.flagButton = ref}
             onClick={!this.props.banned && !flaggedByCurrentUser && !localPost ? this.onReportClick : null}
-            className={cn(`${name}-button`, styles.button)}>
+            className={cn(`${name}-button`, {[`${name}-button-flagged`]: flagged}, styles.button)}>
             {
               flagged
               ? <span className={`${name}-button-text`}>{t('reported')}</span>

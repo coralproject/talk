@@ -8,6 +8,7 @@ import {TabBar, Tab, TabContent, TabPane} from 'coral-ui';
 import ProfileContainer from 'coral-settings/containers/ProfileContainer';
 import ConfigureStreamContainer
   from 'coral-configure/containers/ConfigureStreamContainer';
+import cn from 'classnames';
 
 export default class Embed extends React.Component {
   changeTab = (tab) => {
@@ -25,47 +26,46 @@ export default class Embed extends React.Component {
   };
 
   render() {
-    const {activeTab} = this.props;
+    const {activeTab, commentId} = this.props;
     const {user} = this.props.auth;
+    const hasHighlightedComment = !!commentId;
 
     return (
-      <div>
-        <div className="commentStream">
-          <TabBar
-            onTabClick={this.changeTab}
-            activeTab={activeTab}
-            className='talk-stream-tabbar'
-            aria-controls='talk-embed-stream-tab-content'
-          >
-            <Tab tabId={'stream'} className={'talk-stream-comment-count-tab'}>
-              {t('embed_comments_tab')}
+      <div className={cn('talk-embed-stream', {'talk-embed-stream-highlight-comment': hasHighlightedComment})}>
+        <TabBar
+          onTabClick={this.changeTab}
+          activeTab={activeTab}
+          className='talk-embed-stream-tab-bar'
+          aria-controls='talk-embed-stream-tab-content'
+        >
+          <Tab tabId={'stream'} className={'talk-embed-stream-comments-tab'}>
+            {t('embed_comments_tab')}
+          </Tab>
+          <Tab tabId={'profile'} className={'talk-embed-stream-profile-tab'}>
+            {t('framework.my_profile')}
+          </Tab>
+          {can(user, 'UPDATE_CONFIG') &&
+            <Tab tabId={'config'} className={'talk-embed-stream-configuration-tab'}>
+              {t('framework.configure_stream')}
             </Tab>
-            <Tab tabId={'profile'} className={'talk-stream-profile-tab'}>
-              {t('framework.my_profile')}
-            </Tab>
-            {can(user, 'UPDATE_CONFIG') &&
-              <Tab tabId={'config'} className={'talk-stream-configuration-tab'}>
-                {t('framework.configure_stream')}
-              </Tab>
-            }
-          </TabBar>
-          <Slot fill="embed" />
+          }
+        </TabBar>
+        <Slot fill="embed" />
 
-          <TabContent
-            activeTab={activeTab}
-            id='talk-embed-stream-tab-content'
-          >
-            <TabPane tabId={'stream'}>
-              <Stream data={this.props.data} root={this.props.root} />
-            </TabPane>
-            <TabPane tabId={'profile'}>
-              <ProfileContainer />
-            </TabPane>
-            <TabPane tabId={'config'}>
-              <ConfigureStreamContainer />
-            </TabPane>
-          </TabContent>
-        </div>
+        <TabContent
+          activeTab={activeTab}
+          id='talk-embed-stream-tab-content'
+        >
+          <TabPane tabId={'stream'}>
+            <Stream data={this.props.data} root={this.props.root} />
+          </TabPane>
+          <TabPane tabId={'profile'}>
+            <ProfileContainer />
+          </TabPane>
+          <TabPane tabId={'config'}>
+            <ConfigureStreamContainer />
+          </TabPane>
+        </TabContent>
       </div>
     );
   }

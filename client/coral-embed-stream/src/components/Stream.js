@@ -109,7 +109,7 @@ class Stream extends React.Component {
         {comment &&
           <Button
             cStyle="darkGrey"
-            className={styles.viewAllButton}
+            className={cn('talk-stream-show-all-comments-button', styles.viewAllButton)}
             onClick={viewAllComments}
           >
             {t('framework.show_all_comments')}
