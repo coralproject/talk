@@ -22,7 +22,7 @@ module.exports = function(source) {
   const config = this.exec(source, this.resourcePath);
   const plugins = getPluginList(config).map((plugin) => `{
     module: require('${plugin}/client'),
-    plugin: '${plugin}'
+    name: '${plugin}'
   }`);
 
   return stripIndent`

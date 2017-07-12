@@ -3,7 +3,8 @@ import React, {Component, PropTypes} from 'react';
 import t from 'coral-framework/services/i18n';
 
 import {Icon} from 'coral-ui';
-import classnames from 'classnames';
+import cn from 'classnames';
+import styles from './BestButton.css';
 
 // tag string for best comments
 export const BEST_TAG = 'BEST';
@@ -95,7 +96,7 @@ export class BestButton extends Component {
     return (
       <button onClick={isBest ? this.onClickRemoveBest : this.onClickAddBest}
               disabled={disabled}
-              className={classnames(`${name}-button`, `e2e__${isBest ? 'unset' : 'set'}-best-comment`)}
+              className={cn(styles.button, `${name}-button`, `e2e__${isBest ? 'unset' : 'set'}-best-comment`)}
               aria-label={t(isBest ? 'unset_best' : 'set_best')}>
         <Icon name={ isBest ? 'star' : 'star_border' } />
       </button>

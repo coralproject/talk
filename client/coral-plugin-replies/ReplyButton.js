@@ -10,7 +10,7 @@ const name = 'coral-plugin-replies';
 const ReplyButton = ({onClick}) => {
   return (
     <button
-      className={cn(`${name}-reply-button`)}
+      className={cn(`${name}-reply-button`, styles.button)}
       onClick={onClick}>
       <span className={cn(`${name}-label`, styles.label)}>
         {t('reply')}
