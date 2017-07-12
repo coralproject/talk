@@ -134,7 +134,6 @@ export default class Comment extends React.Component {
   }
 
   static propTypes = {
-    reactKey: PropTypes.string.isRequired,
 
     // id of currently opened ReplyBox. tracked in Stream.js
     activeReplyBox: PropTypes.string.isRequired,
@@ -148,12 +147,8 @@ export default class Comment extends React.Component {
     addNotification: PropTypes.func.isRequired,
     postComment: PropTypes.func.isRequired,
     depth: PropTypes.number.isRequired,
-    liveUpdates: PropTypes.bool.isRequired,
-    asset: PropTypes.shape({
-      id: PropTypes.string,
-      title: PropTypes.string,
-      url: PropTypes.string
-    }).isRequired,
+    liveUpdates: PropTypes.bool,
+    asset: PropTypes.object.isRequired,
     currentUser: PropTypes.shape({
       id: PropTypes.string.isRequired
     }),
@@ -335,7 +330,6 @@ export default class Comment extends React.Component {
 
     const view = this.getVisibileReplies();
     const {loadingState} = this.state;
-    const isReply = !!parentId;
     const isPending = comment.id.indexOf('pending') >= 0;
     const isHighlighted = highlighted === comment.id;
 
@@ -372,7 +366,7 @@ export default class Comment extends React.Component {
         addTag({
           id: comment.id,
           name: BEST_TAG,
-          assetId: asset.id
+          assetId: asset.id,
         }),
       () => 'Failed to tag comment as best'
     );
@@ -382,7 +376,7 @@ export default class Comment extends React.Component {
         removeTag({
           id: comment.id,
           name: BEST_TAG,
-          assetId: asset.id
+          assetId: asset.id,
         }),
       () => 'Failed to remove best comment tag'
     );
@@ -435,141 +429,127 @@ export default class Comment extends React.Component {
         className={rootClassName}
         id={`c_${comment.id}`}
       >
-        {!isReply && <hr aria-hidden={true} />}
-        
-        <div className={styles.commentRow}>
+        <div className={commentClassName}>
+          <AuthorName author={comment.user} className={'talk-stream-comment-user-name'} />
+          {isStaff(comment.tags) ? <TagLabel>Staff</TagLabel> : null}
+
+          {commentIsBest(comment)
+            ? <TagLabel><BestIndicator /></TagLabel>
+            : null }
+
+          <span className={`${styles.bylineSecondary} talk-stream-comment-user-byline`} >
+            <PubDate created_at={comment.created_at} className={'talk-stream-comment-published-date'} />
+            {
+              (comment.editing && comment.editing.edited)
+              ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
+              : null
+            }
+          </span>
+
           <Slot
-            className={styles.commentAvatar}
-            fill="commentAvatar"
+            className={styles.commentInfoBar}
+            fill="commentInfoBar"
+            depth={depth}
             comment={comment}
             commentId={comment.id}
             data={this.props.data}
             root={this.props.root}
             inline
           />
-          <div className={commentClassName}>
-            <AuthorName author={comment.user} className={'talk-stream-comment-user-name'} />
-            {isStaff(comment.tags) ? <TagLabel>Staff</TagLabel> : null}
 
-            {commentIsBest(comment)
-              ? <TagLabel><BestIndicator /></TagLabel>
-              : null }
+          { (currentUser && (comment.user.id === currentUser.id)) &&
 
-            <span className={`${styles.bylineSecondary} talk-stream-comment-user-byline`} >
-              <PubDate created_at={comment.created_at} className={'talk-stream-comment-published-date'} />
+            /* User can edit/delete their own comment for a short window after posting */
+            <span className={cn(styles.topRight)}>
               {
-                (comment.editing && comment.editing.edited)
-                ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
-                : null
+                commentIsStillEditable(comment) &&
+                <a
+                  className={cn(styles.link, {[styles.active]: this.state.isEditing})}
+                  onClick={this.onClickEdit}>Edit</a>
               }
             </span>
+          }
+          { (currentUser && (comment.user.id !== currentUser.id)) &&
 
+              /* TopRightMenu allows currentUser to ignore other users' comments */
+              <span className={cn(styles.topRight, styles.topRightMenu)}>
+                <TopRightMenu
+                  comment={comment}
+                  ignoreUser={ignoreUser}
+                  addNotification={addNotification} />
+              </span>
+          }
+          {
+            this.state.isEditing
+            ? <EditableCommentContent
+                editComment={this.editComment}
+                addNotification={addNotification}
+                comment={comment}
+                currentUser={currentUser}
+                charCountEnable={charCountEnable}
+                maxCharCount={maxCharCount}
+                parentId={parentId}
+                stopEditing={this.stopEditing}
+                />
+            : <div>
+                <Slot fill="commentContent" comment={comment} defaultComponent={CommentContent} />
+              </div>
+          }
+
+          <div className="commentActionsLeft comment__action-container">
             <Slot
-              className={styles.commentInfoBar}
-              fill="commentInfoBar"
-              depth={depth}
-              comment={comment}
-              commentId={comment.id}
+              fill="commentReactions"
               data={this.props.data}
               root={this.props.root}
+              comment={comment}
+              commentId={comment.id}
               inline
             />
-
-            { (currentUser && (comment.user.id === currentUser.id)) &&
-
-              /* User can edit/delete their own comment for a short window after posting */
-              <span className={cn(styles.topRight)}>
-                {
-                  commentIsStillEditable(comment) &&
-                  <a
-                    className={cn(styles.link, {[styles.active]: this.state.isEditing})}
-                    onClick={this.onClickEdit}>Edit</a>
-                }
-              </span>
-            }
-            { (currentUser && (comment.user.id !== currentUser.id)) &&
-
-                /* TopRightMenu allows currentUser to ignore other users' comments */
-                <span className={cn(styles.topRight, styles.topRightMenu)}>
-                  <TopRightMenu
-                    comment={comment}
-                    ignoreUser={ignoreUser}
-                    addNotification={addNotification} />
-                </span>
-            }
-            {
-              this.state.isEditing
-              ? <EditableCommentContent
-                  editComment={this.editComment}
-                  addNotification={addNotification}
-                  asset={asset}
-                  comment={comment}
-                  currentUser={currentUser}
-                  maxCharCount={maxCharCount}
-                  parentId={parentId}
-                  stopEditing={this.stopEditing}
-                  />
-              : <div>
-                  <Slot fill="commentContent" comment={comment} defaultComponent={CommentContent} />
-                </div>
-            }
-
-            <div className="commentActionsLeft comment__action-container">
-              <Slot
-                fill="commentReactions"
-                data={this.props.data}
-                root={this.props.root}
-                comment={comment}
-                commentId={comment.id}
-                inline
-              />
-              <ActionButton>
-                <IfUserCanModifyBest user={currentUser}>
-                  <BestButton
-                    isBest={commentIsBest(comment)}
-                    addBest={addBestTag}
-                    removeBest={removeBestTag}
-                  />
-                </IfUserCanModifyBest>
-              </ActionButton>
-              {!disableReply &&
-                <ActionButton>
-                  <ReplyButton
-                    onClick={this.showReplyBox}
-                    parentCommentId={parentId || comment.id}
-                    currentUserId={currentUser && currentUser.id}
-                  />
-                </ActionButton>}
-            </div>
-            <div className="commentActionsRight comment__action-container">
-              <Slot
-                fill="commentActions"
-                wrapperComponent={ActionButton}
-                data={this.props.data}
-                root={this.props.root}
-                asset={asset}
-                comment={comment}
-                commentId={comment.id}
-                inline
-              />
-              <ActionButton>
-                <FlagComment
-                  flaggedByCurrentUser={!!myFlag}
-                  flag={myFlag}
-                  id={comment.id}
-                  author_id={comment.user.id}
-                  postFlag={postFlag}
-                  addNotification={addNotification}
-                  postDontAgree={postDontAgree}
-                  deleteAction={deleteAction}
-                  showSignInDialog={showSignInDialog}
-                  currentUser={currentUser}
+            <ActionButton>
+              <IfUserCanModifyBest user={currentUser}>
+                <BestButton
+                  isBest={commentIsBest(comment)}
+                  addBest={addBestTag}
+                  removeBest={removeBestTag}
                 />
-              </ActionButton>
-            </div>
+              </IfUserCanModifyBest>
+            </ActionButton>
+            {!disableReply &&
+              <ActionButton>
+                <ReplyButton
+                  onClick={this.showReplyBox}
+                  parentCommentId={parentId || comment.id}
+                  currentUserId={currentUser && currentUser.id}
+                />
+              </ActionButton>}
+          </div>
+          <div className="commentActionsRight comment__action-container">
+            <Slot
+              fill="commentActions"
+              wrapperComponent={ActionButton}
+              data={this.props.data}
+              root={this.props.root}
+              asset={asset}
+              comment={comment}
+              commentId={comment.id}
+              inline
+            />
+            <ActionButton>
+              <FlagComment
+                flaggedByCurrentUser={!!myFlag}
+                flag={myFlag}
+                id={comment.id}
+                author_id={comment.user.id}
+                postFlag={postFlag}
+                addNotification={addNotification}
+                postDontAgree={postDontAgree}
+                deleteAction={deleteAction}
+                showSignInDialog={showSignInDialog}
+                currentUser={currentUser}
+              />
+            </ActionButton>
           </div>
         </div>
-
         {activeReplyBox === comment.id
           ? <ReplyBox
               commentPostedHandler={() => {
@@ -615,7 +595,6 @@ export default class Comment extends React.Component {
                 showSignInDialog={showSignInDialog}
                 commentIsIgnored={commentIsIgnored}
                 liveUpdates={liveUpdates}
-                reactKey={reply.id}
                 key={reply.id}
                 comment={reply}
               />;

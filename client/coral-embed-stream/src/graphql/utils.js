@@ -1,10 +1,18 @@
 import update from 'immutability-helper';
-import {THREADING_LEVEL} from '../constants/stream';
+function determineCommentDepth(comment) {
+  let depth = 0;
+  let cur = comment;
+  while (cur.parent) {
+    cur = cur.parent;
+    depth++;
+  }
+  return depth;
+}
 
 function applyToCommentsOrigin(root, callback) {
   if (root.comment) {
     let comment = root.comment;
-    for (let depth = 0; depth <= THREADING_LEVEL; depth++) {
+    for (let depth = 0; depth <= determineCommentDepth(comment); depth++) {
       let changes = {$apply: (node) => node ? callback(node) : node};
       for (let i = 0; i < depth; i++) {
         changes = {parent: changes};

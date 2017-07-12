@@ -47,3 +47,7 @@ export const removeCommentClassName = (idx) => ({
   type: actions.REMOVE_COMMENT_CLASSNAME,
   idx
 });
+
+export const setActiveTab = (tab) => (dispatch) => {
+  dispatch({type: actions.SET_ACTIVE_TAB, tab});
+};
