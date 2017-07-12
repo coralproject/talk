@@ -4,31 +4,32 @@ const Asset = {
   recentComments({id}, _, {loaders: {Comments}}) {
     return Comments.genRecentComments.load(id);
   },
-  comments({id}, {sort, limit, excludeIgnored}, {loaders: {Comments}}) {
+  comments({id}, {sort, limit, deep, excludeIgnored, tags}, {loaders: {Comments}}) {
     return Comments.getByQuery({
       asset_id: id,
       sort,
       limit,
-      parent_id: null,
+      parent_id: deep ? undefined : null,
+      tags,
       excludeIgnored,
     });
   },
-  commentCount({id, commentCount}, {excludeIgnored}, {user, loaders: {Comments}}) {
-    
+  commentCount({id, commentCount}, {excludeIgnored, tags}, {user, loaders: {Comments}}) {
+
     // TODO: remove
-    if (user && excludeIgnored) {
-      return Comments.parentCountByAssetIDPersonalized({assetId: id, excludeIgnored});
+    if ((user && excludeIgnored) || tags) {
+      return Comments.parentCountByAssetIDPersonalized({assetId: id, excludeIgnored, tags});
     }
     if (commentCount != null) {
       return commentCount;
     }
     return Comments.parentCountByAssetID.load(id);
   },
-  totalCommentCount({id, totalCommentCount}, {excludeIgnored}, {user, loaders: {Comments}}) {
+  totalCommentCount({id, totalCommentCount}, {excludeIgnored, tags}, {user, loaders: {Comments}}) {
 
     // TODO: remove
-    if (user && excludeIgnored) {
-      return Comments.countByAssetIDPersonalized({assetId: id, excludeIgnored});
+    if ((user && excludeIgnored) || tags) {
+      return Comments.countByAssetIDPersonalized({assetId: id, excludeIgnored, tags});
     }
     if (totalCommentCount != null) {
       return totalCommentCount;
