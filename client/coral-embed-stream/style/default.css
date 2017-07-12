@@ -17,8 +17,20 @@ body {
   height: auto !important;
 }
 
-#coralStream {
+#talk-embed-stream-container {
   padding: 4px;
+}
+
+.talk-stream-tab-container {
+  padding-bottom: 50px;
+  min-height: 600px;
+}
+
+.talk-stream-tab-container .material-icons {
+  vertical-align: middle;
+  width: 1em;
+  font-size: 1em;
+  overflow: hidden;
 }
 
 .expandForSignin {
@@ -112,13 +124,6 @@ body {
   color: #2a2a2a;
 }
 
-.commentStream .material-icons {
-  vertical-align: middle;
-  width: 1em;
-  font-size: 1em;
-  overflow: hidden;
-}
-
 /* Question Box Styles */
 .coral-plugin-questionbox-info {
   top: 0;
@@ -182,13 +187,6 @@ body {
 }
 
 .talk-stream-comments-container {
-  position: relative;
-}
-
-.commentStream {
-  /* prevent absolutely positioned final permalink popover from being clipped */
-  padding-bottom: 50px;
-  min-height: 600px;
   position: relative;
 }
 
