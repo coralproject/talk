@@ -24,6 +24,10 @@
   }
 }
 
+.icon {
+  padding: 0 2px;
+}
+
 @media (max-width: 425px) {
   .label {
     display: none;

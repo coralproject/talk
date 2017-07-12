@@ -11,10 +11,11 @@ import {
 import * as authActions from 'coral-framework/actions/auth';
 import * as notificationActions from 'coral-framework/actions/notification';
 import {editName} from 'coral-framework/actions/user';
-import {setActiveReplyBox} from '../actions/stream';
+import {setActiveReplyBox, setActiveTab, viewAllComments} from '../actions/stream';
 import Stream from '../components/Stream';
 import Comment from './Comment';
 import {withFragments} from 'coral-framework/hocs';
+import {getSlotsFragments} from 'coral-framework/helpers/plugins';
 import {Spinner} from 'coral-ui';
 import {getDefinitionName} from 'coral-framework/utils';
 import {
@@ -230,6 +231,11 @@ const LOAD_MORE_QUERY = gql`
   ${Comment.fragments.comment}
 `;
 
+const pluginFragments = getSlotsFragments([
+  'streamTabs',
+  'streamTabPanes',
+]);
+
 const fragments = {
   root: gql`
     fragment CoralEmbedStream_Stream_root on RootQuery {
@@ -271,6 +277,7 @@ const fragments = {
           startCursor
           endCursor
         }
+        ${pluginFragments.spreads('asset')}
       }
       me {
         status
@@ -281,8 +288,11 @@ const fragments = {
       settings {
         organizationName
       }
+      ${pluginFragments.spreads('root')}
       ...${getDefinitionName(Comment.fragments.root)}
     }
+    ${pluginFragments.definitions('asset')}
+    ${pluginFragments.definitions('root')}
     ${Comment.fragments.root}
     ${commentFragment}
   `,
@@ -298,6 +308,8 @@ const mapStateToProps = (state) => ({
   assetUrl: state.stream.assetUrl,
   activeTab: state.embed.activeTab,
   previousTab: state.embed.previousTab,
+  activeStreamTab: state.stream.activeTab,
+  previousStreamTab: state.stream.previousTab,
   commentClassNames: state.stream.commentClassNames
 });
 
@@ -307,6 +319,8 @@ const mapDispatchToProps = (dispatch) =>
     addNotification,
     setActiveReplyBox,
     editName,
+    viewAllComments,
+    setActiveStreamTab: setActiveTab,
   }, dispatch);
 
 export default compose(

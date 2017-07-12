@@ -20,11 +20,19 @@ const initialState = {
   assetId: getQueryVariable('asset_id'),
   assetUrl: getQueryVariable('asset_url'),
   commentId: getQueryVariable('comment_id'),
-  commentClassNames: []
+  commentClassNames: [],
+  activeTab: 'all',
+  previousTab: '',
 };
 
 export default function stream(state = initialState, action) {
   switch (action.type) {
+  case actions.SET_ACTIVE_TAB:
+    return {
+      ...state,
+      activeTab: action.tab,
+      previousTab: state.activeTab,
+    };
   case authActions.LOGOUT:
     return {
       ...state,

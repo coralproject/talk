@@ -1,0 +1,26 @@
+.root {
+  margin-top: 6px;
+}
+
+.viewAllButton {
+  position: absolute;
+  right: 0px;
+}
+
+.tabPanel {
+  margin-top: 8px;
+}
+
+.filterWrapper {
+  position: absolute;
+  right: 0;
+  margin-top: 6px;
+}
+
+.highlightedContainer {
+  margin-top: 28px;
+}
+
+.tabContainer {
+  margin-top: 28px;
+}
