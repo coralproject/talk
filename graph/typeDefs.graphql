@@ -243,11 +243,11 @@ input CommentsQuery {
   # Skip results from the last created_at timestamp.
   cursor: Date
 
-  # Filter by a specific tag name.
-  tag: [String]
-
   # Sort the results by created_at.
   sort: SORT_ORDER = REVERSE_CHRONOLOGICAL
+
+  # Filter by a specific tag name.
+  tags: [String!]
 
   # Exclude comments ignored by the requesting user
   excludeIgnored: Boolean
@@ -278,7 +278,7 @@ input CommentCountQuery {
   author_id: ID
 
   # Filter by a specific tag name.
-  tag: [String]
+  tags: [String!]
 }
 
 type EditInfo {
@@ -569,14 +569,22 @@ type Asset {
   # Returns recent comments
   recentComments: [Comment!]
 
-  # The top level comments that are attached to the asset.
-  comments(sort: SORT_ORDER = REVERSE_CHRONOLOGICAL, limit: Int = 10, excludeIgnored: Boolean): CommentConnection!
+  # The comments that are attached to the asset.
+  # If `deep` is true, it will return comments of all depths,
+  # otherwise only top-level comments are returned.
+  comments(
+    sort: SORT_ORDER = REVERSE_CHRONOLOGICAL,
+    limit: Int = 10,
+    excludeIgnored: Boolean,
+    tags: [String!]
+    deep: Boolean,
+  ): CommentConnection!
 
   # The count of top level comments on the asset.
-  commentCount(excludeIgnored: Boolean): Int
+  commentCount(excludeIgnored: Boolean, tags: [String!]): Int
 
   # The total count of all comments made on the asset.
-  totalCommentCount(excludeIgnored: Boolean): Int
+  totalCommentCount(excludeIgnored: Boolean, tags: [String!]): Int
 
   # The settings (rectified with the global settings) that should be applied to
   # this asset.
