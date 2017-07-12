@@ -569,13 +569,15 @@ type Asset {
   # Returns recent comments
   recentComments: [Comment!]
 
-  # The top level comments that are attached to the asset.
+  # The comments that are attached to the asset.
+  # If `deep` is true, it will return comments of all depths,
+  # otherwise only top-level comments are returned.
   comments(
     sort: SORT_ORDER = REVERSE_CHRONOLOGICAL,
     limit: Int = 10,
-    deep: Boolean,
     excludeIgnored: Boolean,
     tags: [String!]
+    deep: Boolean,
   ): CommentConnection!
 
   # The count of top level comments on the asset.
