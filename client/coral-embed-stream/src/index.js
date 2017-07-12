@@ -48,5 +48,5 @@ render(
   <ApolloProvider client={client} store={store}>
     <AppRouter />
   </ApolloProvider>
-  , document.querySelector('#coralStream')
+  , document.querySelector('#talk-embed-stream-container')
 );
