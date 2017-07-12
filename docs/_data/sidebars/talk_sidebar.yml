@@ -46,6 +46,9 @@ entries:
     - title: Tags
       url: /architecture-tags.html
       output: web
+    - title: cli
+      url: /architecture-cli.html
+      output: web
 
 
   - title: Plugins

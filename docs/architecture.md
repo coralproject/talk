@@ -31,7 +31,7 @@ Our goal is to continually extend our plugin infrastructure making the Core as p
 
 ### cli
 
-Talk ships with a cli tool that exposes functionality to the command line. We seek to provide cli functionality for all features that could need to be accomplished programmatically or prior to the server's startup.
+Talk ships with [a cli tool](architecture-cli.html) that exposes functionality to the command line. We seek to provide cli functionality for all features that could need to be accomplished programmatically or prior to the server's startup.
 
 ## Thinking about Plugins, the Plugin API and Core?
 
