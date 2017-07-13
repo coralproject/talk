@@ -24,7 +24,7 @@ const ViewingOptions = (props) => {
       <div className={cn([styles.root, 'coral-plugin-viewing-options'])}>
         <div>
           <button className={styles.button} onClick={toggleOpen}>Viewing Options
-            {props.open ? <Icon name="arrow_drop_up"/> : <Icon name="arrow_drop_down"/>}
+            {props.open ? <Icon name="arrow_drop_up" className={styles.icon}/> : <Icon name="arrow_drop_down" className={styles.icon}/>}
           </button>
         </div>
         {
