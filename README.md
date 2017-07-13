@@ -19,6 +19,10 @@ See our [Talk Documentation & Guides](https://coralproject.github.io/talk/index.
 
 See our guide to using and building [Talk Plugins](https://github.com/coralproject/talk/blob/master/PLUGINS.md).
 
+### Recipes
+
+Recipes are plugin templates provided by the Coral Core team. Developers can use these recipes to build their own plugins. You can find all the Talk recipes here: https://github.com/coralproject/talk-recipes/
+
 ## Usage
 
 ### Installation
