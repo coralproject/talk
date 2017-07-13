@@ -155,7 +155,7 @@ export default class FlagButton extends Component {
               : <span className={`${name}-button-text`}>{t('report')}</span>
             }
             <i className={
-              cn(`${name}-icon`, 'material-icons', {
+              cn(`${name}-icon`, 'material-icons', styles.icon, {
                 flaggedIcon: flagged,
                 [styles.flaggedIcon]: flagged,
               })}

@@ -145,7 +145,7 @@ export class EditableCommentContent extends React.Component {
                       }
                     </span>
                   : <span>
-                      <Icon name="timer"/> {t('edit_comment.edit_window_timer_prefix')}
+                      <Icon name="timer" className={styles.timerIcon}/> {t('edit_comment.edit_window_timer_prefix')}
                       <CountdownSeconds
                         until={this.getEditableUntil()}
                         classNameForMsRemaining={(remainingMs) => (remainingMs <= 10 * 1000) ? styles.editWindowAlmostOver : '' }

@@ -26,7 +26,8 @@
 }
 
 .icon {
-  padding: 0 2px;
+  font-size: 12px;
+  padding: 0 3px;
 }
 
 @media (max-width: 425px) {

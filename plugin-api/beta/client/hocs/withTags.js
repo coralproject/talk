@@ -115,7 +115,7 @@ export default (tag) => (WrappedComponent) => {
   
   class WithTags extends React.Component {
 
-    postTag() {
+    postTag = () => {
       const {comment, asset} = this.props;
       
       this.props.addTag({
@@ -125,7 +125,7 @@ export default (tag) => (WrappedComponent) => {
       });
     }
 
-    deleteTag() {
+    deleteTag = () => {
       const {comment, asset} = this.props;
 
       this.props.removeTag({

@@ -1,16 +1,8 @@
 import React from 'react';
+import FeaturedComment from './FeaturedComment';
 
-// TODO: This is just example code, and needs to replaced by an actual implementation.
-export default ({asset: {recentComments}}) => (
+export default ({asset: {featuredComments}}) => (
   <div>
-    {recentComments.map((comment) => (
-      <div key={comment.id}>
-        <div><strong>{comment.user.username}</strong></div>
-        <div>
-          {comment.body}
-        </div>
-        <hr />
-      </div>
-    ))}
+    {featuredComments.nodes.map((comment) => <FeaturedComment key={comment.id} comment={comment} />)}
   </div>
 );
