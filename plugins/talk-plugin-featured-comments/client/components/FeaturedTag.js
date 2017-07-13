@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './styles.css';
+import styles from './FeaturedTag.css';
 import {t} from 'plugin-api/beta/client/services';
 
 const isFeatured = (tags) => !!tags.filter((t) => t.tag.name === 'FEATURED').length;

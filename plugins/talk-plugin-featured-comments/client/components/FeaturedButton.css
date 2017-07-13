@@ -1,0 +1,27 @@
+.button {
+  color: #2a2a2a;
+  background: none;
+  padding: 0px;
+  border: none;
+  margin-right: 10px;
+}
+
+.button:hover {
+  color: #767676;
+  cursor: pointer;
+}
+
+.button.featured {
+  color: #10589b;
+}
+
+.button.featured:hover {
+  color: #10589b;
+  cursor: pointer;
+}
+
+.icon {
+  font-size: 18px;
+  padding: 0 5px;
+  vertical-align: middle;
+}

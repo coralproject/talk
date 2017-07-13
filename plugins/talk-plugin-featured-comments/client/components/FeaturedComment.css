@@ -1,0 +1,43 @@
+.featuredComment {
+  margin: 10px 0 35px;
+}
+
+.featuredComment:last-child {
+  margin: 10px 0;
+}
+
+.featuredComment .goTo {
+  color: #1d5294;
+  font-size: 13px;
+  padding: 5px 0;
+  display: inline-block;
+}
+
+.featuredComment .goToIcon {
+  font-size: 16px;
+  vertical-align: middle;
+  line-height: 13px;
+  font-weight: bold;
+}
+
+.featuredComment .goTo:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.featuredComment .quote {
+  line-height: 20px;
+  text-align: left;
+  letter-spacing: 0.1px;
+  margin: 0;
+  quotes: '\201c' '\201d';
+  margin-bottom: 10px;
+}
+
+.featuredComment .quote:before {
+  content: open-quote; 
+}
+
+.featuredComment .quote:after  {
+  content: close-quote;
+}

@@ -13,6 +13,7 @@ const enhance = compose(
                   created_at
                   user {
                     id
+                    username
                   }
               }
           }
