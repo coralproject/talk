@@ -30,11 +30,11 @@ const Comment = (props) => {
         <ul>
           <li>
             <a onClick={props.link(`${props.asset.url}?commentId=${props.comment.id}`)}>
-              <Icon name="open_in_new" />{t('view_conversation')}
+              <Icon name="open_in_new" className={styles.iconView}/>{t('view_conversation')}
             </a>
           </li>
           <li>
-            <Icon name="schedule" />
+            <Icon name="schedule" className={styles.iconDate}/>
             <PubDate
               className={styles.pubdate}
               created_at={props.comment.created_at}
