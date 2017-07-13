@@ -1,20 +1,17 @@
 .root {
-  float: right;
-  text-align: right;
-  position: relative;
-  display: inline-block;
-  min-width: 220px;
-  z-index: 10;
-  position: relative;
-  cursor: pointer;
+}
+
+.button {
+  composes: buttonReset from "coral-framework/styles/reset.css";
 }
 
 .list {
   background: white;
   position: absolute;
   box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.15);
-  right: 3px;
+  right: 0px;
   top: 20px;
+  z-index: 10;
 }
 
 .list > ul, .list > ul > li {
@@ -25,4 +22,5 @@
 .list > ul > li {
   padding: 10px;
   list-style: none;
+  white-space: nowrap;
 }

@@ -18,11 +18,6 @@ export class EditableCommentContent extends React.Component {
 
     // show notification to the user (e.g. for errors)
     addNotification: PropTypes.func.isRequired,
-    asset: PropTypes.shape({
-      settings: PropTypes.shape({
-        charCountEnable: PropTypes.bool,
-      }),
-    }).isRequired,
 
     // comment that is being edited
     comment: PropTypes.shape({
@@ -39,6 +34,7 @@ export class EditableCommentContent extends React.Component {
     currentUser: PropTypes.shape({
       id: PropTypes.string.isRequired
     }),
+    charCountEnable: PropTypes.bool,
     maxCharCount: PropTypes.number,
 
     // edit a comment, passed {{ body }}
@@ -121,7 +117,7 @@ export class EditableCommentContent extends React.Component {
       <div className={styles.editCommentForm}>
         <CommentForm
           defaultValue={this.props.comment.body}
-          charCountEnable={this.props.asset.settings.charCountEnable}
+          charCountEnable={this.props.charCountEnable}
           maxCharCount={this.props.maxCharCount}
           submitEnabled={this.isSubmitEnabled}
           body={this.state.body}

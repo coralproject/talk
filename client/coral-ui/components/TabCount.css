@@ -1,0 +1,18 @@
+
+.root, .rootSub {
+  display: inline-block;
+  position: relative;
+  top: -2px;
+  background: #616161;
+  color: white;
+  font-weight: normal;
+  font-size: 10px;
+  padding: 2px;
+  margin-left: 2px;
+  margin-top: -2px;
+  min-width: 20px;
+}
+
+.rootSubActive {
+  background: #10589b;
+}
