@@ -17,7 +17,7 @@ Talk consists of four distinct layers of code:
 
 ### Plugins
 
-Talk plugins deliver the features and functionality that can be changed or removed. Much of the default functionality is delivered by plugins allowing developers to change behavior along product lines that we've found to be important.
+Talk plugins deliver the features and functionality that can be changed or removed. Much of the default functionality is delivered by core plugins allowing developers to have control over any non-essential functionality. 
 
 ### Plugin API
 
