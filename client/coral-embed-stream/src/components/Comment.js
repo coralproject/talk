@@ -443,51 +443,53 @@ export default class Comment extends React.Component {
                 <Slot fill="commentContent" comment={comment} defaultComponent={CommentContent} />
               </div>
           }
-
-          <div className="commentActionsLeft comment__action-container">
-            <Slot
-              fill="commentReactions"
-              data={this.props.data}
-              root={this.props.root}
-              asset={asset}
-              comment={comment}
-              commentId={comment.id}
-              inline
-            />
-            {!disableReply &&
-              <ActionButton>
-                <ReplyButton
-                  onClick={this.showReplyBox}
-                  parentCommentId={parentId || comment.id}
-                  currentUserId={currentUser && currentUser.id}
-                />
-              </ActionButton>}
-          </div>
-          <div className="commentActionsRight comment__action-container">
-            <Slot
-              fill="commentActions"
-              wrapperComponent={ActionButton}
-              data={this.props.data}
-              root={this.props.root}
-              asset={asset}
-              comment={comment}
-              commentId={comment.id}
-              inline
-            />
-            <ActionButton>
-              <FlagComment
-                flaggedByCurrentUser={!!myFlag}
-                flag={myFlag}
-                id={comment.id}
-                author_id={comment.user.id}
-                postFlag={postFlag}
-                addNotification={addNotification}
-                postDontAgree={postDontAgree}
-                deleteAction={deleteAction}
-                showSignInDialog={showSignInDialog}
-                currentUser={currentUser}
+            
+          <div className={cn(styles.commentFooter, 'talk-stream-comment-footer')}>       
+            <div className="commentActionsLeft comment__action-container">
+              <Slot
+                fill="commentReactions"
+                data={this.props.data}
+                root={this.props.root}
+                asset={asset}
+                comment={comment}
+                commentId={comment.id}
+                inline
               />
-            </ActionButton>
+              {!disableReply &&
+                <ActionButton>
+                  <ReplyButton
+                    onClick={this.showReplyBox}
+                    parentCommentId={parentId || comment.id}
+                    currentUserId={currentUser && currentUser.id}
+                  />
+                </ActionButton>}
+            </div>
+            <div className="commentActionsRight comment__action-container">
+              <Slot
+                fill="commentActions"
+                wrapperComponent={ActionButton}
+                data={this.props.data}
+                root={this.props.root}
+                asset={asset}
+                comment={comment}
+                commentId={comment.id}
+                inline
+              />
+              <ActionButton>
+                <FlagComment
+                  flaggedByCurrentUser={!!myFlag}
+                  flag={myFlag}
+                  id={comment.id}
+                  author_id={comment.user.id}
+                  postFlag={postFlag}
+                  addNotification={addNotification}
+                  postDontAgree={postDontAgree}
+                  deleteAction={deleteAction}
+                  showSignInDialog={showSignInDialog}
+                  currentUser={currentUser}
+                />
+              </ActionButton>
+            </div>
           </div>
         </div>
         {activeReplyBox === comment.id
