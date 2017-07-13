@@ -18,7 +18,7 @@ const canModifyBestTag = ({roles = []} = {}) => roles && ['ADMIN', 'MODERATOR'].
 
 // Put this on a comment to show that it is best
 
-export const BestIndicator = ({children = <Icon name='star'/>}) => (
+export const BestIndicator = ({children = <Icon name='star' className={styles.tagIcon} />}) => (
   <span aria-label={t('comment_is_best')}>
     { children }
   </span>
