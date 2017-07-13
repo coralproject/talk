@@ -1,4 +1,4 @@
-import {pym} from 'coral-framework';
+import pym from 'coral-framework/services/pym';
 import * as actions from '../constants/stream';
 
 export const setActiveReplyBox = (id) => ({type: actions.SET_ACTIVE_REPLY_BOX, id});
@@ -47,3 +47,7 @@ export const removeCommentClassName = (idx) => ({
   type: actions.REMOVE_COMMENT_CLASSNAME,
   idx
 });
+
+export const setActiveTab = (tab) => (dispatch) => {
+  dispatch({type: actions.SET_ACTIVE_TAB, tab});
+};

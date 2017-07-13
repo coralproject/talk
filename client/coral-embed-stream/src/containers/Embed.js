@@ -7,7 +7,9 @@ import branch from 'recompose/branch';
 import renderComponent from 'recompose/renderComponent';
 
 import {Spinner} from 'coral-ui';
-import {authActions, assetActions, pym} from 'coral-framework';
+import * as authActions from 'coral-framework/actions/auth';
+import * as assetActions from 'coral-framework/actions/asset';
+import pym from 'coral-framework/services/pym';
 import {getDefinitionName} from 'coral-framework/utils';
 import {withQuery} from 'coral-framework/hocs';
 import Embed from '../components/Embed';
@@ -16,7 +18,6 @@ import {addNotification} from 'coral-framework/actions/notification';
 import t from 'coral-framework/services/i18n';
 
 import {setActiveTab} from '../actions/embed';
-import {viewAllComments} from '../actions/stream';
 
 const {logout, checkLogin} = authActions;
 const {fetchAssetSuccess} = assetActions;
@@ -146,9 +147,6 @@ const USERNAME_REJECTED_SUBSCRIPTION = gql`
 
 const EMBED_QUERY = gql`
   query CoralEmbedStream_Embed($assetId: ID, $assetUrl: String, $commentId: ID!, $hasComment: Boolean!, $excludeIgnored: Boolean) {
-    asset(id: $assetId, url: $assetUrl) {
-      totalCommentCount(excludeIgnored: $excludeIgnored)
-    }
     me {
       id
       status
@@ -185,7 +183,6 @@ const mapDispatchToProps = (dispatch) =>
       logout,
       checkLogin,
       setActiveTab,
-      viewAllComments,
       fetchAssetSuccess,
       addNotification,
     },

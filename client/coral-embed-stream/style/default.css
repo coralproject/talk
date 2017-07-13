@@ -17,32 +17,44 @@ body {
   height: auto !important;
 }
 
-#coralStream {
+#talk-embed-stream-container {
   padding: 4px;
+}
+
+.talk-stream-tab-container {
+  padding-bottom: 50px;
+  min-height: 600px;
+}
+
+.talk-stream-tab-container .material-icons {
+  vertical-align: middle;
+  width: 1em;
+  font-size: 1em;
+  overflow: hidden;
 }
 
 .expandForSignin {
   min-height: 600px;
 }
 
-button {
-  margin: 5px 0px 5px 0px;
+.coralButton {
+  margin: 5px 10px 5px 0px;
   background: none;
   padding: 0px;
   border: none;
   font-size: inherit;
 }
 
-button:hover {
+.coralButton:hover {
   border-radius: 2px;
   color: #767676;
 }
 
-button i {
+.coralButton i {
   margin-right: 3px;
 }
 
-hr {
+.coralHr {
   border: 0;
   height: 0;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -112,13 +124,6 @@ hr {
   color: #2a2a2a;
 }
 
-.commentStream .material-icons {
-  vertical-align: middle;
-  width: 1em;
-  font-size: 1em;
-  overflow: hidden;
-}
-
 /* Question Box Styles */
 .coral-plugin-questionbox-info {
   top: 0;
@@ -181,18 +186,7 @@ hr {
   display: none;
 }
 
-.talk-stream-wrapper-box {
-  padding: 10px 0;
-}
-
 .talk-stream-comments-container {
-  position: relative;
-}
-
-.commentStream {
-  /* prevent absolutely positioned final permalink popover from being clipped */
-  padding-bottom: 50px;
-  min-height: 600px;
   position: relative;
 }
 
@@ -426,21 +420,14 @@ button.comment__action-button[disabled],
 
 .talk-new-comments {
   width: 100%;
-  display: flex;
-  justify-content: center;
-  cursor: pointer;
+  text-align: center;
+  margin: 4px 0;
 }
 
 .talk-load-more-replies {
   width: 100%;
   padding-left: 20px;
   box-sizing: border-box;
-}
-
-.talk-new-comments {
-  position: relative;
-  top: 1.8em;
-  z-index: 100;
 }
 
 .talk-load-more-replies .talk-load-more-button {
@@ -455,18 +442,4 @@ button.comment__action-button[disabled],
   color: white;
 }
 
-.talk-new-comments  button.talk-load-more{
-  width: initial;
-}
 
-
-@media (min-device-width : 300px) and (max-device-width : 420px) {
-  .commentActionsLeft.comment__action-container .coral-plugin-replies-reply-button {
-    visibility: collapse;
-    margin-left: -30px;
-  }
-
-  .commentActionsLeft.comment__action-container .coral-plugin-replies-reply-button .coral-plugin-replies-icon {
-    visibility: visible;
-  }
-}

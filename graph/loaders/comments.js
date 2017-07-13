@@ -50,13 +50,20 @@ const getCountsByAssetID = (context, asset_ids) => {
  * @param {Array<String>} id The ID of the asset
  * @param {Array<String>} excludeIgnored Exclude comments ignored by the requesting user
  */
-const getCountsByAssetIDPersonalized = async (context, {assetId, excludeIgnored}) => {
+const getCountsByAssetIDPersonalized = async (context, {assetId, excludeIgnored, tags}) => {
   const query = {
     asset_id: assetId,
     status: {
       $in: ['NONE', 'ACCEPTED'],
     },
   };
+
+  if (tags) {
+    query['tags.tag.name'] = {
+      $in: tags,
+    };
+  }
+
   const user = context.user;
   if (excludeIgnored && user) {
 
@@ -108,7 +115,7 @@ const getParentCountsByAssetID = (context, asset_ids) => {
  * @param {Array<String>} id The ID of the asset
  * @param {Array<String>} excludeIgnored Exclude comments ignored by the requesting user
  */
-const getParentCountByAssetIDPersonalized = async (context, {assetId, excludeIgnored}) => {
+const getParentCountByAssetIDPersonalized = async (context, {assetId, excludeIgnored, tags}) => {
   const query = {
     asset_id: assetId,
     parent_id: null,
@@ -116,6 +123,13 @@ const getParentCountByAssetIDPersonalized = async (context, {assetId, excludeIgn
       $in: ['NONE', 'ACCEPTED'],
     },
   };
+
+  if (tags) {
+    query['tags.tag.name'] = {
+      $in: tags,
+    };
+  }
+
   const user = context.user;
   if (excludeIgnored && user) {
 
@@ -195,7 +209,7 @@ const getCountByParentIDPersonalized = async (context, {id, excludeIgnored}) => 
  * @return {Promise}          resolves to the counts of the comments from the
  *                            query
  */
-const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id, author_id}) => {
+const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id, author_id, tags}) => {
   let query = CommentModel.find();
 
   if (ids) {
@@ -218,6 +232,14 @@ const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id, au
     query = query.where({author_id});
   }
 
+  if (tags) {
+    query = query.find({
+      'tags.tag.name': {
+        $in: tags,
+      },
+    });
+  }
+
   return CommentModel
     .find(query)
     .count();
@@ -229,7 +251,7 @@ const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id, au
  * @param  {Object} context   graph context
  * @param  {Object} query     query terms to apply to the comments query
  */
-const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, author_id, limit, cursor, sort, excludeIgnored}) => {
+const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, author_id, limit, cursor, sort, excludeIgnored, tags}) => {
   let comments = CommentModel.find();
 
   // Only administrators can search for comments with statuses that are not
@@ -253,6 +275,14 @@ const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, a
       id: {
         $in: ids
       }
+    });
+  }
+
+  if (tags) {
+    comments = comments.find({
+      'tags.tag.name': {
+        $in: tags,
+      },
     });
   }
 

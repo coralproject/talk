@@ -1,4 +1,4 @@
-import pym from '../services/PymConnection';
+import pym from '../services/pym';
 import * as actions from '../constants/notification';
 
 export const addNotification = (notifType, text) => {

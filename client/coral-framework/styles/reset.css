@@ -1,0 +1,29 @@
+.buttonReset {
+
+  /* reset button */
+  user-select: none;
+  outline: invert none medium;
+  border: none;
+  touch-action: manipulation;
+  padding: 0;
+
+  position: relative;
+  overflow: hidden;
+
+  /* Unify anchor and button. */
+  cursor: pointer;
+  display: inline-block;
+  box-sizing: border-box;
+  text-align: center;
+  text-decoration: none;
+  align-items: flex-start;
+  vertical-align: middle;
+  whiteSpace: nowrap;
+  background: transparent;
+  font-size: inherit;
+
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+  &::-moz-focus-inner: {
+    border: 0;
+  }
+}

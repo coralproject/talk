@@ -128,7 +128,6 @@ export default class Comment extends React.Component {
   }
 
   static propTypes = {
-    reactKey: PropTypes.string.isRequired,
 
     // id of currently opened ReplyBox. tracked in Stream.js
     activeReplyBox: PropTypes.string.isRequired,
@@ -142,12 +141,8 @@ export default class Comment extends React.Component {
     addNotification: PropTypes.func.isRequired,
     postComment: PropTypes.func.isRequired,
     depth: PropTypes.number.isRequired,
-    liveUpdates: PropTypes.bool.isRequired,
-    asset: PropTypes.shape({
-      id: PropTypes.string,
-      title: PropTypes.string,
-      url: PropTypes.string
-    }).isRequired,
+    liveUpdates: PropTypes.bool,
+    asset: PropTypes.object.isRequired,
     currentUser: PropTypes.shape({
       id: PropTypes.string.isRequired
     }),
@@ -321,7 +316,6 @@ export default class Comment extends React.Component {
 
     const view = this.getVisibileReplies();
     const {loadingState} = this.state;
-    const isReply = !!parentId;
     const isPending = comment.id.indexOf('pending') >= 0;
     const isHighlighted = highlighted === comment.id;
 
@@ -358,7 +352,7 @@ export default class Comment extends React.Component {
         return false;
       });
 
-    const rootClassNames = [
+    const rootClassName = cn(
       'talk-stream-comment-wrapper',
       `talk-stream-comment-wrapper-level-${depth}`,
       styles.root,
@@ -367,28 +361,27 @@ export default class Comment extends React.Component {
         ...conditionalClassNames,
         [styles.enter]: this.state.animateEnter,
       },
-    ];
+    );
+
+    const commentClassName = cn(
+      'talk-stream-comment',
+      `talk-stream-comment-level-${depth}`,
+      styles.comment,
+      styles[`commentLevel${depth}`],
+      {
+        [styles.pendingComment]: isPending,
+        [styles.highlightedComment]: isHighlighted,
+        'talk-stream-pending-comment': isPending,
+        'talk-stream-highlighted-comment': isHighlighted,
+      }
+    );
 
     return (
       <div
-        className={cn(...rootClassNames)}
+        className={rootClassName}
         id={`c_${comment.id}`}
       >
-        {!isReply && <hr aria-hidden={true} />}
-        <div
-          className={cn(
-            'talk-stream-comment',
-            `talk-stream-comment-level-${depth}`,
-            styles.comment,
-            styles[`commentLevel${depth}`],
-            {
-              [styles.pendingComment]: isPending,
-              [styles.highlightedComment]: isHighlighted,
-              'talk-stream-pending-comment': isPending,
-              'talk-stream-highlighted-comment': isHighlighted,
-            }
-          )}
-        >
+        <div className={commentClassName}>
           <AuthorName author={comment.user} className={'talk-stream-comment-user-name'} />
           {isStaff(comment.tags) ? <TagLabel>Staff</TagLabel> : null}
 
@@ -439,9 +432,9 @@ export default class Comment extends React.Component {
             ? <EditableCommentContent
                 editComment={this.editComment}
                 addNotification={addNotification}
-                asset={asset}
                 comment={comment}
                 currentUser={currentUser}
+                charCountEnable={charCountEnable}
                 maxCharCount={maxCharCount}
                 parentId={parentId}
                 stopEditing={this.stopEditing}
@@ -540,7 +533,6 @@ export default class Comment extends React.Component {
                 showSignInDialog={showSignInDialog}
                 commentIsIgnored={commentIsIgnored}
                 liveUpdates={liveUpdates}
-                reactKey={reply.id}
                 key={reply.id}
                 comment={reply}
               />;
