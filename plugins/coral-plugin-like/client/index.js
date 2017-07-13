@@ -4,6 +4,7 @@ import translations from './translations.yml';
 export default {
   translations,
   slots: {
-    commentReactions: [LikeButton]
+    commentReactions: [LikeButton],
+    featuredCommentsReactions: [LikeButton]
   }
 };

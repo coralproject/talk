@@ -20,6 +20,15 @@ const enhance = compose(
                   id
                   body
                   created_at
+                  replyCount
+                  action_summaries {
+                    ... on LikeActionSummary {
+                      count
+                      current_user {
+                        id
+                      }
+                    }
+                  }
                   user {
                     id
                     username

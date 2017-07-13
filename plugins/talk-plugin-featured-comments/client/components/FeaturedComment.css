@@ -13,6 +13,13 @@
   display: inline-block;
 }
 
+.featuredComment .repliesIcon {
+  font-size: 16px;
+  vertical-align: middle;
+  line-height: 13px;
+  font-weight: bold;
+}
+
 .featuredComment .goToIcon {
   font-size: 16px;
   vertical-align: middle;
@@ -40,4 +47,16 @@
 
 .featuredComment .quote:after  {
   content: close-quote;
+}
+
+.footer {
+  display: flex;
+}
+
+.reactionsContainer, .actionsContainer {
+  flex: auto;
+}
+
+.actionsContainer {
+  text-align: right;
 }
