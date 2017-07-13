@@ -5,4 +5,10 @@
 
 .tagIcon {
   font-size: 12px;
+  vertical-align: middle;
+}
+
+.icon {
+  font-size: 12px;
+  vertical-align: middle;
 }

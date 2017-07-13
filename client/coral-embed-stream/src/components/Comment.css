@@ -157,3 +157,8 @@
 .enter {
   animation: enter 1000ms;
 }
+
+.timerIcon {
+  vertical-align: middle;
+  font-size: 14px;
+}

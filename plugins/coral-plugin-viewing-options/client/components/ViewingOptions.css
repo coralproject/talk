@@ -24,3 +24,8 @@
   list-style: none;
   white-space: nowrap;
 }
+
+.icon {
+  font-size: 14px;
+  vertical-align: middle;
+}

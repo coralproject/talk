@@ -98,7 +98,7 @@ export class BestButton extends Component {
               disabled={disabled}
               className={cn(styles.button, `${name}-button`, `e2e__${isBest ? 'unset' : 'set'}-best-comment`)}
               aria-label={t(isBest ? 'unset_best' : 'set_best')}>
-        <Icon name={ isBest ? 'star' : 'star_border' } />
+        <Icon name={ isBest ? 'star' : 'star_border' } className={styles.icon} />
       </button>
     );
   }

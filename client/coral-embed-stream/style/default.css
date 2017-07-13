@@ -271,11 +271,6 @@ body {
   float: left;
 }
 
-.comment__action-container .material-icons {
-  font-size: 12px;
-  margin-left: 3px;
-}
-
 button.comment__action-button,
 .comment__action-button button {
   cursor: pointer;
