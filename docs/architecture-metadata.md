@@ -21,7 +21,7 @@ Metadata is represented by an [subdocument in our Schemas](https://github.com/co
 
 ### Setting Metadata
 
-Talk provides [a service layer](https://github.com/coralproject/talk/blob/c59c09e1f42c51eed3b0d57b7c2882fc7b5edc13/services/metadata.js) allowing developer to `set` and `unset` metadata on objects in a way similar to key-value stores.
+Talk provides [a service layer](https://github.com/coralproject/talk/blob/c59c09e1f42c51eed3b0d57b7c2882fc7b5edc13/services/metadata.js) allowing developers to `set` and `unset` metadata on objects in a way similar to key-value stores.
 
 Let's say that I want to add a custom field called `potency` to a comment.
 
@@ -45,7 +45,7 @@ One of the first principles of GraphQL is that the shape of the graph does not n
 
 This enables us to treat metadata fields in any way that makes sense as we design our Graph. The fact that a value is stored in the metadata object is an implementation detail invisible to the front end.
 
-Take for example, the `reason` field in the `FlagAction` type. This stores the user provided reason that they flagged a comment. As far as the front end knows, it's [just another field](https://github.com/coralproject/talk/blob/c59c09e1f42c51eed3b0d57b7c2882fc7b5edc13/graph/typeDefs.graphql#L453) alongside the core fields:
+Take for example, the `reason` field in the `FlagAction` type. This stores the user provided reason why they flagged a comment. As far as the front end knows, it's [just another field](https://github.com/coralproject/talk/blob/c59c09e1f42c51eed3b0d57b7c2882fc7b5edc13/graph/typeDefs.graphql#L453) alongside the core fields:
 
 ```
 # graph/typeDefs.graphql
@@ -60,7 +60,7 @@ type FlagAction implements Action {
 }
 ```
 
-If, however, we [look at the resolver](https://github.com/coralproject/talk/blob/a47e2378e96f34f25447782f3e7ce59fa48ec791/graph/resolvers/dont_agree_action.js) for that field, we see that `message` is [destructured](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) from the metadata object and returned.
+If, however, we [look at the resolver](https://github.com/coralproject/talk/blob/a47e2378e96f34f25447782f3e7ce59fa48ec791/graph/resolvers/dont_agree_action.js) for that field, we see that `reason` is [destructured](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) from the metadata object and returned.
 
 ```
 // graph/resolvers/dont_agree_action.js
@@ -75,7 +75,7 @@ const DontAgreeAction = {
 module.exports = DontAgreeAction;
 ```
 
-This is an extremely powerful pattern as it allows us absolute freedom in designing our graph and complete isolation of the added values in the database.
+This is an extremely powerful pattern as it allows us absolute freedom in designing our graph and complete isolation of the added fields in the database.
 
 ## Some things to keep in mind
 
