@@ -2,24 +2,23 @@
   margin-left: 20px;
   margin-bottom: 16px;
   position: relative;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
   padding-top: 12px;
 }
 
 .rootLevel0:first-child {
   padding-top: 0;
-}
-
-.root:first-child {
   border: 0;
 }
 
 .rootLevel0 {
   margin-left: 0px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .comment {
-  padding-left: 20px;
+  padding-left: 15px;
+  display: flex;
+  flex-flow: row;
 }
 
 .commentLevel0 {
@@ -43,7 +42,7 @@
 }
 
 .highlightedComment {
-  padding-left: 20px;
+  padding-left: 15px;
   border-left: 3px solid rgb(35,118,216);
 }
 
@@ -156,6 +155,18 @@
 
 .enter {
   animation: enter 1000ms;
+}
+
+.commentContainer {
+  flex: auto;
+}
+
+.commentAvatar {
+  max-width: 60px;
+}
+
+.commentAvatar:empty {
+  display: none;
 }
 
 .timerIcon {

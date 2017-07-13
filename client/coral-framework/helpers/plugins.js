@@ -16,10 +16,10 @@ export function getSlotComponents(slot) {
   return flatten(plugins
 
     // Filter out components that have slots and have been disabled in `plugin_config`
-    .filter((o) => o.module.slots && (!pluginConfig || !pluginConfig[o.name] || !pluginConfig[o.name].disable_components))
+      .filter((o) => o.module.slots && (!pluginConfig || !pluginConfig[o.name] || !pluginConfig[o.name].disable_components))
 
-    .filter((o) => o.module.slots[slot])
-    .map((o) => o.module.slots[slot])
+      .filter((o) => o.module.slots[slot])
+      .map((o) => o.module.slots[slot])
   );
 }
 
@@ -78,8 +78,8 @@ export function getSlotsFragments(slots) {
   }
   const components = uniq(flattenDeep(slots.map((slot) => {
     return plugins
-    .filter((o) => o.module.slots ? o.module.slots[slot] : false)
-    .map((o) => o.module.slots[slot]);
+      .filter((o) => o.module.slots ? o.module.slots[slot] : false)
+      .map((o) => o.module.slots[slot]);
   })));
 
   const fragments = getComponentFragments(components);
