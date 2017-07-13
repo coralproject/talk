@@ -67,7 +67,7 @@ class CommentBox extends React.Component {
 
     postComment(comment, 'comments')
       .then(({data}) => {
-        this.setState({loadingState: 'success'});
+        this.setState({loadingState: 'success', body: ''});
         const postedComment = data.createComment.comment;
 
         // Execute postSubmit Hooks
@@ -78,8 +78,6 @@ class CommentBox extends React.Component {
         if (commentPostedHandler) {
           commentPostedHandler();
         }
-
-        this.setState({body: ''});
       })
       .catch((err) => {
         this.setState({loadingState: 'error'});
