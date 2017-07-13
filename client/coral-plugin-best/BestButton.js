@@ -18,7 +18,7 @@ const canModifyBestTag = ({roles = []} = {}) => roles && ['ADMIN', 'MODERATOR'].
 
 // Put this on a comment to show that it is best
 
-export const BestIndicator = ({children = <Icon name='star'/>}) => (
+export const BestIndicator = ({children = <Icon name='star' className={styles.tagIcon} />}) => (
   <span aria-label={t('comment_is_best')}>
     { children }
   </span>
@@ -98,7 +98,7 @@ export class BestButton extends Component {
               disabled={disabled}
               className={cn(styles.button, `${name}-button`, `e2e__${isBest ? 'unset' : 'set'}-best-comment`)}
               aria-label={t(isBest ? 'unset_best' : 'set_best')}>
-        <Icon name={ isBest ? 'star' : 'star_border' } />
+        <Icon name={ isBest ? 'star' : 'star_border' } className={styles.icon} />
       </button>
     );
   }

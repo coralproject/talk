@@ -25,7 +25,9 @@
 }
 
 .icon {
-  padding: 0 2px;
+  font-size: 12px;
+  padding: 0 2px 0 5px;
+  vertical-align: middle;
 }
 
 @media (max-width: 425px) {

@@ -15,7 +15,7 @@ const ReplyButton = ({onClick}) => {
       <span className={cn(`${name}-label`, styles.label)}>
         {t('reply')}
       </span>
-      <i className={`${name}-icon material-icons`}
+      <i className={cn(`${name}-icon`, 'material-icons', styles.icon)}
         aria-hidden={true}>reply</i>
     </button>
   );

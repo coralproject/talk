@@ -72,7 +72,7 @@ export default class PermalinkButton extends React.Component {
             onClick={this.toggle}
             className={cn(`${name}-button`, styles.button)}>
               {t('permalink')}
-            <Icon name="link" />
+            <Icon name="link" className={styles.icon}/>
           </button>
 
           <div

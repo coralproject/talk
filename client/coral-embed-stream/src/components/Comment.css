@@ -171,3 +171,8 @@
 .commentAvatar:empty {
   display: none;
 }
+
+.timerIcon {
+  vertical-align: middle;
+  font-size: 14px;
+}
