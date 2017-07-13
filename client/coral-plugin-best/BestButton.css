@@ -2,3 +2,13 @@
   composes: buttonReset from "coral-framework/styles/reset.css";
   margin: 5px 10px 5px 0px;
 }
+
+.tagIcon {
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+.icon {
+  font-size: 12px;
+  vertical-align: middle;
+}

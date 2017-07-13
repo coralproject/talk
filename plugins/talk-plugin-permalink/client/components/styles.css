@@ -82,3 +82,9 @@
 .active {
   display: block;
 }
+
+.icon {
+  padding: 0 2px;
+  font-size: 12px;
+  vertical-align: middle;
+}

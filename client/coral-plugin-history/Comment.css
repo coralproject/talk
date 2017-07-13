@@ -75,3 +75,8 @@
   margin: inherit;
   color: inherit;
 }
+
+.iconView, .iconDate {
+  vertical-align: middle;
+  padding-bottom: 1px;
+}

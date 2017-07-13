@@ -1,8 +1,10 @@
 import React, {PropTypes} from 'react';
 import {Icon as IconMDL}  from 'react-mdl';
+import cn from 'classnames';
+import styles from './Icon.css';
 
 const Icon = ({className = '', name}) => (
-  <IconMDL className={className} name={name} />
+  <IconMDL className={cn(styles.root, className)} name={name} />
 );
 
 Icon.propTypes = {
