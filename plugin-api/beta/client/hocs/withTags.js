@@ -27,7 +27,10 @@ export default (tag) => (WrappedComponent) => {
       }
     }
   `;
-
+  
+  const isTagged = (tags) =>
+  !!tags.filter((t) => t.tag.name === Tag.toUpperCase()).length;
+  
   const withAddTag = withMutation(
     gql`
       mutation AddTag($id: ID!, $asset_id: ID!, $name: String!) {
@@ -112,7 +115,7 @@ export default (tag) => (WrappedComponent) => {
   
   class WithTags extends React.Component {
 
-    postTag = () => {
+    postTag() {
       const {comment, asset} = this.props;
       
       this.props.addTag({
@@ -122,7 +125,7 @@ export default (tag) => (WrappedComponent) => {
       });
     }
 
-    deleteTag = () => {
+    deleteTag() {
       const {comment, asset} = this.props;
 
       this.props.removeTag({
@@ -134,8 +137,6 @@ export default (tag) => (WrappedComponent) => {
     
     render() {
       const {comment} = this.props;
-
-      const isTagged = (tags) => !!tags.filter((t) => t.tag.name === Tag.toUpperCase()).length;
 
       const alreadyTagged = isTagged(comment.tags);
 
