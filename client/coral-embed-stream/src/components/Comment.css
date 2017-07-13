@@ -19,8 +19,9 @@
 }
 
 .comment {
-  padding-left: 20px;
-  flex: auto;
+  padding-left: 15px;
+  display: flex;
+  flex-flow: row;
 }
 
 .commentLevel0 {
@@ -44,7 +45,7 @@
 }
 
 .highlightedComment {
-  padding-left: 20px;
+  padding-left: 15px;
   border-left: 3px solid rgb(35,118,216);
 }
 
@@ -159,9 +160,8 @@
   animation: enter 1000ms;
 }
 
-.commentRow {
-  display: flex;
-  flex-flow: row;
+.commentContainer {
+  flex: auto;
 }
 
 .commentAvatar {

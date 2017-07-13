@@ -429,7 +429,8 @@ export default class Comment extends React.Component {
         className={rootClassName}
         id={`c_${comment.id}`}
       >
-        <div className={styles.commentRow}>
+        <div className={commentClassName}>
+
           <Slot
             className={styles.commentAvatar}
             fill="commentAvatar"
@@ -440,7 +441,8 @@ export default class Comment extends React.Component {
             inline
           />
 
-          <div className={commentClassName}>
+          <div className={styles.commentContainer}>
+            
             <AuthorName author={comment.user} className={'talk-stream-comment-user-name'} />
             {isStaff(comment.tags) ? <TagLabel>Staff</TagLabel> : null}
 
