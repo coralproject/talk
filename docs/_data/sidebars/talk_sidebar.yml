@@ -36,6 +36,9 @@ entries:
     - title: Setup
       url: /install-setup.html
       output: web
+    - title: Troubleshooting
+      url: /install-troubleshooting.html
+      output: web
 
   - title: Architecture
     output: web
