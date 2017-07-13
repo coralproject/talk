@@ -37,6 +37,22 @@ entries:
       url: /install-setup.html
       output: web
 
+  - title: Architecture
+    output: web
+    folderitems:
+    - title: Overview
+      url: /architecture.html
+      output: web
+    - title: Tags
+      url: /architecture-tags.html
+      output: web
+    - title: Metadata API
+      url: /architecture-metadata.html
+      output: web
+    - title: cli
+      url: /architecture-cli.html
+      output: web
+
   - title: Plugins
     output: web
     folderitems:
@@ -54,22 +70,6 @@ entries:
       output: web
     - title: Experimental
       url: /plugins-experimental.html
-      output: web
-
-  - title: Architecture
-    output: web
-    folderitems:
-    - title: Overview
-      url: /architecture.html
-      output: web
-    - title: Tags
-      url: /architecture-tags.html
-      output: web
-    - title: Metadata API
-      url: /architecture-metadata.html
-      output: web
-    - title: cli
-      url: /architecture-cli.html
       output: web
 
   - title: Development

@@ -1,12 +1,12 @@
 ---
-title: Metadata API
+title: Metadata
 keywords: architecture
 sidebar: talk_sidebar
 permalink: architecture-metadata.html
 summary:
 ---
 
-The _metadata api_ allows you to add fields to models that are not represented in the core schema. Most core models ship with metadata enabled. If you would like to add metadata to a model that does not support it, [please let us know](https://github.com/coralproject/talk/blob/master/CONTRIBUTING.md#writing-code).
+_Metadata_ allows you to add fields to models that are not represented in the core schema.
 
 ## Goals
 
@@ -29,19 +29,17 @@ Let's say that I want to add a custom field called `potency` to a comment.
 const MetadataService = require('services/metadata');
 const CommentModel = require('models/comment');
 
-// Sets the property `loaded` on the comment with `id=1`.
+// Sets the property `potency` on the comment with `id=1`.
 MetadataService.set(CommentModel, '1', 'potency', 42);
 ```
 
-Note that the model passed here is the Model itself and not a loaded comment. This allows us to update the value on that document [in an atomic manner](https://github.com/coralproject/talk/blob/c59c09e1f42c51eed3b0d57b7c2882fc7b5edc13/services/metadata.js#L60) for efficiency and to prevent race conditions.
+Note that the model passed here is the Model itself and not an individual comment object. This allows us to update the value on that document [in an atomic manner](https://github.com/coralproject/talk/blob/c59c09e1f42c51eed3b0d57b7c2882fc7b5edc13/services/metadata.js#L60) for efficiency and to prevent race conditions.
 
 ### Accessing Metadata
 
-The metadata api does not contain a `get` method. This is so because the metadata object is retrieved through database queries. It is up to the code that accesses the objects from the database to handle relevant metadata fields.
+The metadata api does not contain a `get` method. The metadata object is retrieved via database queries along with the rest of the data.
 
-The metadata object can be queried as any other subdocument without restriction.
-
-#### Accessing via the Graph
+## Metadata and the Graph
 
 One of the first principles of GraphQL is that the shape of the graph does not need to be the same as the shape of the data in the database. In fact, it probably shouldn't be.
 
@@ -62,7 +60,7 @@ type FlagAction implements Action {
 }
 ```
 
-If, however, we [look at the resolver](https://github.com/coralproject/talk/blob/a47e2378e96f34f25447782f3e7ce59fa48ec791/graph/resolvers/dont_agree_action.js) for that field, we see that `message` is destructured from the metadata object and returned.
+If, however, we [look at the resolver](https://github.com/coralproject/talk/blob/a47e2378e96f34f25447782f3e7ce59fa48ec791/graph/resolvers/dont_agree_action.js) for that field, we see that `message` is [destructured](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) from the metadata object and returned.
 
 ```
 // graph/resolvers/dont_agree_action.js
