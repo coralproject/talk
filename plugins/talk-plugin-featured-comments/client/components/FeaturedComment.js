@@ -5,7 +5,7 @@ import {name} from '../../package.json';
 import {timeago} from 'coral-framework/services/i18n';
 import {Icon} from 'plugin-api/beta/client/components/ui';
 
-const FeaturedComment = ({comment}) => {
+const FeaturedComment = ({comment, setActiveTab}) => {
   return (
     <div className={cn(styles.featuredComment, `${name}__featured-comment`)}>
       <blockquote className={cn(styles.quote, `${name}__featured-comment__comment-body`)}>
@@ -20,7 +20,10 @@ const FeaturedComment = ({comment}) => {
             ,{' '}{timeago(comment.created_at)}
           </span>
         </div>
-        <a className={cn(styles.goTo, `${name}__featured-comment__go-to`)}>
+        <a 
+          className={cn(styles.goTo, `${name}__featured-comment__go-to`)}
+          onClick={() => setActiveTab('all')}
+        >
           Go to conversation<Icon name="keyboard_arrow_right" className={styles.goToIcon} />
         </a>
       </footer>

@@ -1,8 +1,17 @@
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {compose, gql} from 'react-apollo';
-import withFragments from 'coral-framework/hocs/withFragments';
 import TabPane from '../components/TabPane';
+import {withFragments} from 'plugin-api/beta/client/hocs';
+import {setActiveTab} from 'plugin-api/beta/client/actions/stream';
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({
+    setActiveTab,
+  }, dispatch);
 
 const enhance = compose(
+  connect(null, mapDispatchToProps),
   withFragments({
     asset: gql`
       fragment TalkFeatured_TabPane_asset on Asset {
