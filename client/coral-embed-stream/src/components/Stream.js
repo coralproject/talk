@@ -67,7 +67,6 @@ class Stream extends React.Component {
       deleteAction,
       showSignInDialog,
       updateItem,
-      addTag,
       ignoreUser,
       activeStreamTab,
       setActiveStreamTab,
@@ -160,7 +159,6 @@ class Stream extends React.Component {
           fill="stream"
           data={this.props.data}
           root={this.props.root}
-          view={view}
         />
 
         {loggedIn && (
