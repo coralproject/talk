@@ -462,6 +462,7 @@ export default class Comment extends React.Component {
                 fill="commentReactions"
                 data={this.props.data}
                 root={this.props.root}
+                asset={asset}
                 comment={comment}
                 commentId={comment.id}
                 inline
