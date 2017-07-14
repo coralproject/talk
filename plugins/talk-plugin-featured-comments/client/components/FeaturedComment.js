@@ -6,7 +6,7 @@ import {timeago} from 'coral-framework/services/i18n';
 import {Slot} from 'plugin-api/beta/client/components';
 import {Icon} from 'plugin-api/beta/client/components/ui';
 
-const FeaturedComment = ({comment, setActiveTab}) => {
+const FeaturedComment = ({comment, asset, setActiveTab}) => {
   return (
     <div className={cn(styles.featuredComment, `${name}__featured-comment`)}>
 
@@ -25,10 +25,12 @@ const FeaturedComment = ({comment, setActiveTab}) => {
 
       <footer className={cn(styles.footer, `${name}__featured-comment__footer`)}>
         <div className={cn(styles.reactionsContainer, `${name}__featured-comment__reactions`)}>
+
           <Slot
-            fill="featuredCommentsReactions"
+            fill="commentReactions"
             comment={comment}
             commentId={comment.id}
+            asset={asset}
             inline
           />
         </div>

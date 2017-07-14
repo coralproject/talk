@@ -15,12 +15,18 @@ const enhance = compose(
   withFragments({
     asset: gql`
       fragment TalkFeatured_TabPane_asset on Asset {
+        id
         featuredComments: comments(tags: ["FEATURED"]) {
               nodes {
                   id
                   body
                   created_at
                   replyCount
+                  tags {
+                    tag {
+                      name
+                    }
+                  }
                   action_summaries {
                     ... on LikeActionSummary {
                       count
