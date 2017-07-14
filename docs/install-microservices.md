@@ -6,6 +6,12 @@ permalink: install-microservices.html
 summary:
 ---
 
+In Talk, we seek to deliver the simplicity of a monolith with the advantages of a microservice based infrastructure for those who want them.
+
+To accomplish this, Talk has the ability to run with subsets of its overall functionality and contains architecture that allows them to operate logically as microservices when running in a single environment.
+
+## Talk Server Functionalities
+
 The Talk server serves several logically/architecturally distinct functions:
 
 * A web server that
@@ -19,7 +25,9 @@ In the documentation so far, we've discussed how to deploy all of these function
 
 ## Separating Talk into Microservices
 
-Talk can be run as three separate clusters of servers: webserver, socket server and jobs server.
+Talk can be run as three separate clusters of servers by enabling/disabling different bits of functionality: webserver, socket server and jobs server.
+
+Each microservice would deploy with the same codebase and configuration.
 
 Note that the `cli serve` command, which is responsible for starting the server, contains flags that control whether `jobs` and `websockets` are enabled.
 
