@@ -19,7 +19,7 @@ import t from 'coral-framework/services/i18n';
 
 import {setActiveTab} from '../actions/embed';
 
-const {logout, checkLogin} = authActions;
+const {logout, checkLogin, focusSignInDialog, blurSignInDialog, hideSignInDialog} = authActions;
 const {fetchAssetSuccess} = assetActions;
 
 class EmbedContainer extends React.Component {
@@ -185,6 +185,9 @@ const mapDispatchToProps = (dispatch) =>
       setActiveTab,
       fetchAssetSuccess,
       addNotification,
+      focusSignInDialog,
+      blurSignInDialog,
+      hideSignInDialog,
     },
     dispatch
   );
