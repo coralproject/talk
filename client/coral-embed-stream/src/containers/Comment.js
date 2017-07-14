@@ -10,7 +10,8 @@ const pluginFragments = getSlotsFragments([
   'commentInfoBar',
   'commentActions',
   'commentContent',
-  'commentReactions'
+  'commentReactions',
+  'commentAvatar'
 ]);
 
 export default withFragments({
