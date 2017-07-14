@@ -25,7 +25,7 @@ In the documentation so far, we've discussed how to deploy all of these function
 
 ## Separating Talk into Microservices
 
-Talk can be run as three separate clusters of servers by enabling/disabling different bits of functionality: webserver, socket server and jobs server.
+Talk can be run in two or more separate clusters of servers by enabling/disabling different bits of functionality: webserver, socket server and jobs server.
 
 Each microservice would deploy with the same codebase and configuration.
 
