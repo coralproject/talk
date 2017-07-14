@@ -16,7 +16,7 @@ const enhance = compose(
     asset: gql`
       fragment TalkFeatured_TabPane_asset on Asset {
         id
-        featuredComments: comments(tags: ["FEATURED"]) {
+        featuredComments: comments(tags: ["FEATURED"], deep: true) {
               nodes {
                   id
                   body

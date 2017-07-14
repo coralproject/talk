@@ -150,6 +150,19 @@ const ascending = (a, b) => {
   return 0;
 };
 
+const descending = (a, b) => ascending(a, b) * -1;
+
+export function insertSorted(nodes, comment, sortOrder = 'CHRONOLOGICAL') {
+  const added = nodes.concat(comment);
+  if (sortOrder === 'CHRONOLOGICAL') {
+    return added.sort(ascending);
+  }
+  if (sortOrder === 'REVERSE_CHRONOLOGICAL') {
+    return added.sort(descending);
+  }
+  throw new Error(`Unknown sort order ${sortOrder}`);
+}
+
 function findAndInsertFetchedComments(parent, comments, parent_id) {
   const isAsset = parent.__typename === 'Asset';
   const connectionField = isAsset ? 'comments' : 'replies';

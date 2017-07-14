@@ -6,7 +6,7 @@ const enhance = compose(
   withFragments({
     asset: gql`
       fragment TalkFeatured_Tab_asset on Asset {
-          featuredCommentCount: commentCount(tags: ["FEATURED"])
+          featuredCommentsCount: totalCommentCount(tags: ["FEATURED"])
       }`,
   }),
 );
