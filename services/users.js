@@ -11,9 +11,6 @@ const {
 } = require('../config');
 const debug = require('debug')('talk:services:users');
 
-const redis = require('./redis');
-const redisClient = redis.createClient();
-
 const UserModel = require('../models/user');
 const USER_STATUS = require('../models/enum/user_status');
 const USER_ROLES = require('../models/enum/user_roles');
@@ -31,6 +28,19 @@ const PASSWORD_RESET_JWT_SUBJECT = 'password_reset';
 // SALT_ROUNDS is the number of rounds that the bcrypt algorithm will run
 // through during the salting process.
 const SALT_ROUNDS = 10;
+
+// Create a redis client to use for authentication.
+const {createClient} = require('./redis');
+let _client = null;
+const getClient = () => {
+  if (_client) {
+    return _client;
+  }
+
+  _client = createClient();
+
+  return _client;
+};
 
 // UsersService is the interface for the application to interact with the
 // UserModel through.
@@ -67,7 +77,7 @@ module.exports = class UsersService {
     const rdskey = `la[${email.toLowerCase().trim()}]`;
 
     return new Promise((resolve, reject) => {
-      redisClient
+      getClient()
         .multi()
         .incr(rdskey)
         .expire(rdskey, RECAPTCHA_WINDOW_SECONDS)
@@ -80,7 +90,7 @@ module.exports = class UsersService {
           if (replies[0] === 1 || replies[1] === -1) {
 
             // then expire it after the timeout
-            redisClient.expire(rdskey, RECAPTCHA_WINDOW_SECONDS);
+            getClient().expire(rdskey, RECAPTCHA_WINDOW_SECONDS);
           }
 
           if (replies[0] >= RECAPTCHA_INCORRECT_TRIGGER) {
@@ -102,7 +112,7 @@ module.exports = class UsersService {
     const rdskey = `la[${email.toLowerCase().trim()}]`;
 
     return new Promise((resolve, reject) => {
-      redisClient
+      getClient()
         .get(rdskey, (err, reply) => {
           if (err) {
             return reject(err);

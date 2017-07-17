@@ -75,9 +75,18 @@ const mailer = module.exports = {
   /**
    * Create the new Task kue.
    */
-  task: new kue.Task({
-    name: 'mailer'
-  }),
+  _task: null,
+  get task() {
+    if (mailer._task) {
+      return mailer._task;
+    }
+
+    mailer._task = new kue.Task({
+      name: 'mailer'
+    });
+
+    return mailer._task;
+  },
 
   sendSimple({template, locals, to, subject}) {
 

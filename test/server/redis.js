@@ -1,3 +1,4 @@
 const redis = require('../helpers/redis');
+const cache = require('../../services/cache');
 
-beforeEach(() => redis.clearDB());
+beforeEach(() => Promise.all([redis.clearDB(), cache.init()]));

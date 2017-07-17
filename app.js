@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const authentication = require('./middleware/authentication');
 const {passport} = require('./services/passport');
 const plugins = require('./services/plugins');
+const pubsub = require('./services/pubsub');
 const i18n = require('./services/i18n');
 const enabled = require('debug').enabled;
 const errors = require('./errors');
@@ -95,6 +96,17 @@ app.use(passport.initialize());
 // (if present) the JWT on the request.
 app.use('/api', authentication);
 
+// To handle dependancy injection safer, we inject the pubsub handle onto the
+// request object.
+app.use('/api', (req, res, next) => {
+
+  // Attach the pubsub handle to the requests.
+  req.pubsub = pubsub();
+
+  // Forward on the request.
+  next();
+});
+
 //==============================================================================
 // GraphQL Router
 //==============================================================================
@@ -159,7 +171,7 @@ app.use('/', (err, req, res, next) => {
   }
 
   i18n.init(req);
-  
+
   if (err instanceof errors.APIError) {
     res.status(err.status);
     res.render('error', {

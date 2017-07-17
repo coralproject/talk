@@ -13,6 +13,9 @@ require('env-rewrite').rewrite();
 
 const CONFIG = {
 
+  // WEBPACK indicates when webpack is currently building.
+  WEBPACK: process.env.WEBPACK === 'true',
+
   //------------------------------------------------------------------------------
   // JWT based configuration
   //------------------------------------------------------------------------------

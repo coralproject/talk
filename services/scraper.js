@@ -12,11 +12,20 @@ const metascraper = require('metascraper');
 const scraper = {
 
   /**
-   * Create the new Task kue.
+   * Create the new Task kue singleton.
    */
-  task: new kue.Task({
-    name: 'scraper'
-  }),
+  _task: null,
+  get task() {
+    if (scraper._task) {
+      return scraper._task;
+    }
+
+    scraper._task = new kue.Task({
+      name: 'scraper'
+    });
+
+    return scraper._task;
+  },
 
   /**
    * Creates a new scraper job and scrapes the url when it gets processed.
