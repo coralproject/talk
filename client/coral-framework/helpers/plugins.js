@@ -10,7 +10,8 @@ import {loadTranslations} from 'coral-framework/services/i18n';
 import {injectReducers} from 'coral-framework/services/store';
 import camelize from './camelize';
 
-export function getSlotComponents(slot, pluginConfig, props = {}) {
+export function getSlotComponents(slot, reduxState, props = {}) {
+  const pluginConfig = reduxState.config.pluginConfig || {};
   return flatten(plugins
 
       // Filter out components that have slots and have been disabled in `plugin_config`
@@ -19,18 +20,28 @@ export function getSlotComponents(slot, pluginConfig, props = {}) {
       .filter((o) => o.module.slots[slot])
       .map((o) => o.module.slots[slot])
   )
-    .filter((component) => !component.isExcluded || !component.isExcluded({...props, config: pluginConfig}));
+    .filter((component) => {
+      if(!component.isExcluded) {
+        return true;
+      }
+      let resolvedProps = {...props, config: pluginConfig};
+      if (component.mapStateToProps) {
+        resolvedProps = {...resolvedProps, ...component.mapStateToProps(reduxState)};
+      }
+      return !component.isExcluded(resolvedProps);
+    });
 }
 
-export function isSlotEmpty(slot, pluginConfig, props) {
-  return getSlotComponents(slot, pluginConfig, props).length === 0;
+export function isSlotEmpty(slot, reduxState, props) {
+  return getSlotComponents(slot, reduxState, props).length === 0;
 }
 
 /**
  * Returns React Elements for given slot.
  */
-export function getSlotElements(slot, pluginConfig, props = {}) {
-  return getSlotComponents(slot, pluginConfig, props)
+export function getSlotElements(slot, reduxState, props = {}) {
+  const pluginConfig = reduxState.config.pluginConfig || {};
+  return getSlotComponents(slot, reduxState, props)
     .map((component, i) => React.createElement(component, {key: i, ...props, config: pluginConfig}));
 }
 

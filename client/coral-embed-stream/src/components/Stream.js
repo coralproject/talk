@@ -75,7 +75,7 @@ class Stream extends React.Component {
       viewAllComments,
       auth: {loggedIn, user},
       removeTag,
-      pluginConfig,
+      reduxState,
       editName
     } = this.props;
     const {keepCommentBox} = this.state;
@@ -209,7 +209,7 @@ class Stream extends React.Component {
                 <Slot fill="streamFilter" />
               </div>
               <TabBar activeTab={activeStreamTab} onTabClick={setActiveStreamTab} sub>
-                {getSlotComponents('streamTabs', pluginConfig, streamTabProps).map((PluginComponent) => (
+                {getSlotComponents('streamTabs', reduxState, streamTabProps).map((PluginComponent) => (
                   <Tab tabId={PluginComponent.talkPluginName} key={PluginComponent.talkPluginName}>
                     <PluginComponent
                       {...streamTabProps}
@@ -222,7 +222,7 @@ class Stream extends React.Component {
                 </Tab>
               </TabBar>
               <TabContent activeTab={activeStreamTab} sub>
-                {getSlotComponents('streamTabPanes', pluginConfig, streamTabProps).map((PluginComponent) => (
+                {getSlotComponents('streamTabPanes', reduxState, streamTabProps).map((PluginComponent) => (
                   <TabPane tabId={PluginComponent.talkPluginName} key={PluginComponent.talkPluginName}>
                     <PluginComponent
                       {...streamTabProps}
