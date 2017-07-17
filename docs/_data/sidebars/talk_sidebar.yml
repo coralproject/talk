@@ -36,6 +36,9 @@ entries:
     - title: Setup
       url: /install-setup.html
       output: web
+    - title: Admin Application Configuration
+      url: /admin-applic-config.html
+      output: web
 
   - title: Plugins
     output: web

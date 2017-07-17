@@ -88,11 +88,7 @@ If you now edit and save client files the changes will be reflected in the UI.
 ## [Setup the application]({% link install-setup.md %})  
 
 
-## Application Configuration
-
-TODO: create link 
+## [Admin Application Configuration]({% link admin-applic-config.md %})
 
 ## [GraphQL API]({% link graphql-api.md %}) 
 Explore the GraphQL API with GraphiQL
-
-
