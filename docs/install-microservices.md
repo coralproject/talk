@@ -15,8 +15,7 @@ To accomplish this, Talk has the ability to run with subsets of its overall func
 The Talk server serves several logically/architecturally distinct functions:
 
 * A web server that
-  * serves "public" assets (aka, the comment embed)  
-  * "protected" assets (aka, the admin console) over http(s)
+  * serves "public" assets (aka, the comment embed)
   * the GraphQL endpoints
 * A web socket server that handles subscriptions.
 * A jobs processor that handles queued operations.
@@ -50,9 +49,9 @@ With routing logic in front of the webserver cluster, separation between public 
 
 Consider a microservice deployment if:
 
-* you want to put access to admin routes behind a firewall
 * you are running plugins that require intensive job processing
 * you do not want to simplicity of single cluster horizontal scaling and want to tune the economy and performance of your install.
+* You run into scaling issues serving websockets
 
 At scale, combining separate concerns in a single process makes it very difficult to understand what is taking up resources. With microservices, each server could be configured to sit behind it's own load balance and scale independently. Each variety of process can always have just enough resources.
 
