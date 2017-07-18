@@ -22,6 +22,13 @@ export default withFragments({
     }
     ${pluginFragments.definitions('root')}
     `,
+  asset: gql`
+    fragment CoralEmbedStream_Comment_asset on Asset {
+      __typename
+      ${pluginFragments.spreads('asset')}
+    }
+    ${pluginFragments.definitions('asset')}
+    `,
   comment: gql`
     fragment CoralEmbedStream_Comment_comment on Comment {
       id

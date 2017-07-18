@@ -291,6 +291,8 @@ export default class Comment extends React.Component {
   render () {
     const {
       asset,
+      data,
+      root,
       depth,
       comment,
       postFlag,
@@ -376,6 +378,15 @@ export default class Comment extends React.Component {
       }
     );
 
+    // props that are passed down the slots.
+    const slotProps = {
+      data,
+      root,
+      asset,
+      comment,
+      depth,
+    };
+
     return (
       <div
         className={rootClassName}
@@ -386,10 +397,7 @@ export default class Comment extends React.Component {
           <Slot
             className={styles.commentAvatar}
             fill="commentAvatar"
-            comment={comment}
-            commentId={comment.id}
-            data={this.props.data}
-            root={this.props.root}
+            {...slotProps}
             inline
           />
 
@@ -410,11 +418,7 @@ export default class Comment extends React.Component {
             <Slot
               className={styles.commentInfoBar}
               fill="commentInfoBar"
-              depth={depth}
-              comment={comment}
-              commentId={comment.id}
-              data={this.props.data}
-              root={this.props.root}
+              {...slotProps}
               inline
             />
 
@@ -453,18 +457,18 @@ export default class Comment extends React.Component {
                   stopEditing={this.stopEditing}
                   />
               : <div>
-                  <Slot fill="commentContent" comment={comment} defaultComponent={CommentContent} />
+                <Slot
+                  fill="commentContent"
+                  defaultComponent={CommentContent}
+                  {...slotProps}
+                />
                 </div>
             }
 
             <div className="commentActionsLeft comment__action-container">
               <Slot
                 fill="commentReactions"
-                data={this.props.data}
-                root={this.props.root}
-                asset={asset}
-                comment={comment}
-                commentId={comment.id}
+                {...slotProps}
                 inline
               />
               {!disableReply &&
@@ -480,11 +484,7 @@ export default class Comment extends React.Component {
               <Slot
                 fill="commentActions"
                 wrapperComponent={ActionButton}
-                data={this.props.data}
-                root={this.props.root}
-                asset={asset}
-                comment={comment}
-                commentId={comment.id}
+                {...slotProps}
                 inline
               />
               <ActionButton>

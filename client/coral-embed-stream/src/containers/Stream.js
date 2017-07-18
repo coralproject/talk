@@ -278,6 +278,7 @@ const fragments = {
           endCursor
         }
         ${pluginFragments.spreads('asset')}
+        ...${getDefinitionName(Comment.fragments.asset)}
       }
       me {
         status
@@ -293,6 +294,7 @@ const fragments = {
     }
     ${pluginFragments.definitions('asset')}
     ${pluginFragments.definitions('root')}
+    ${Comment.fragments.asset}
     ${Comment.fragments.root}
     ${commentFragment}
   `,
