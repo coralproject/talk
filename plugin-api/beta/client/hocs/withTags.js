@@ -8,6 +8,7 @@ import withMutation from 'coral-framework/hocs/withMutation';
 import withFragments from 'coral-framework/hocs/withFragments';
 import {showSignInDialog} from 'coral-framework/actions/auth';
 import {addNotification} from 'coral-framework/actions/notification';
+import {forEachError} from 'coral-framework/utils';
 
 export default (tag) => (WrappedComponent) => {
   if (typeof tag !== 'string') {
@@ -27,10 +28,10 @@ export default (tag) => (WrappedComponent) => {
       }
     }
   `;
-  
+
   const isTagged = (tags) =>
   !!tags.filter((t) => t.tag.name === Tag.toUpperCase()).length;
-  
+
   const withAddTag = withMutation(
     gql`
       mutation AddTag($id: ID!, $asset_id: ID!, $name: String!) {
@@ -112,29 +113,35 @@ export default (tag) => (WrappedComponent) => {
           });
         }}),
     });
-  
+
   class WithTags extends React.Component {
 
     postTag = () => {
-      const {comment, asset} = this.props;
-      
+      const {comment, asset, addNotification} = this.props;
+
       this.props.addTag({
         id: comment.id,
         name: Tag.toUpperCase(),
         assetId: asset.id
+      })
+      .catch((err) => {
+        forEachError(err, ({msg}) => addNotification('error', msg));
       });
     }
 
     deleteTag = () => {
-      const {comment, asset} = this.props;
+      const {comment, asset, addNotification} = this.props;
 
       this.props.removeTag({
         id: comment.id,
         name: Tag.toUpperCase(),
         assetId: asset.id
+      })
+      .catch((err) => {
+        forEachError(err, ({msg}) => addNotification('error', msg));
       });
     }
-    
+
     render() {
       const {comment} = this.props;
 
