@@ -403,165 +403,169 @@ export default class Comment extends React.Component {
 
           <div className={styles.commentContainer}>
 
-            <AuthorName author={comment.user} className={'talk-stream-comment-user-name'} />
-            {isStaff(comment.tags) ? <TagLabel>Staff</TagLabel> : null}
+            <div className={styles.header}>
+              <AuthorName author={comment.user} className={'talk-stream-comment-user-name'} />
+              {isStaff(comment.tags) ? <TagLabel>Staff</TagLabel> : null}
 
-            <span className={`${styles.bylineSecondary} talk-stream-comment-user-byline`} >
-              <PubDate created_at={comment.created_at} className={'talk-stream-comment-published-date'} />
-              {
-                (comment.editing && comment.editing.edited)
-                ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
-                : null
-              }
-            </span>
-
-            <Slot
-              className={styles.commentInfoBar}
-              fill="commentInfoBar"
-              {...slotProps}
-              inline
-            />
-
-            { (currentUser && (comment.user.id === currentUser.id)) &&
-
-              /* User can edit/delete their own comment for a short window after posting */
-              <span className={cn(styles.topRight)}>
+              <span className={`${styles.bylineSecondary} talk-stream-comment-user-byline`} >
+                <PubDate created_at={comment.created_at} className={'talk-stream-comment-published-date'} />
                 {
-                  commentIsStillEditable(comment) &&
-                  <a
-                    className={cn(styles.link, {[styles.active]: this.state.isEditing})}
-                    onClick={this.onClickEdit}>Edit</a>
+                  (comment.editing && comment.editing.edited)
+                  ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
+                  : null
                 }
               </span>
-            }
-            { (currentUser && (comment.user.id !== currentUser.id)) &&
 
-                /* TopRightMenu allows currentUser to ignore other users' comments */
-                <span className={cn(styles.topRight, styles.topRightMenu)}>
-                  <TopRightMenu
-                    comment={comment}
-                    ignoreUser={ignoreUser}
-                    addNotification={addNotification} />
+              <Slot
+                className={styles.commentInfoBar}
+                fill="commentInfoBar"
+                {...slotProps}
+              />
+
+              { (currentUser && (comment.user.id === currentUser.id)) &&
+
+                /* User can edit/delete their own comment for a short window after posting */
+                <span className={cn(styles.topRight)}>
+                  {
+                    commentIsStillEditable(comment) &&
+                    <a
+                      className={cn(styles.link, {[styles.active]: this.state.isEditing})}
+                      onClick={this.onClickEdit}>Edit</a>
+                  }
                 </span>
-            }
-            {
-              this.state.isEditing
-              ? <EditableCommentContent
-                  editComment={this.editComment}
-                  addNotification={addNotification}
-                  comment={comment}
-                  currentUser={currentUser}
-                  charCountEnable={charCountEnable}
-                  maxCharCount={maxCharCount}
-                  parentId={parentId}
-                  stopEditing={this.stopEditing}
-                  />
-              : <div>
-                <Slot
-                  fill="commentContent"
-                  defaultComponent={CommentContent}
-                  {...slotProps}
-                />
-                </div>
-            }
+              }
+              { (currentUser && (comment.user.id !== currentUser.id)) &&
 
-            <div className="commentActionsLeft comment__action-container">
-              <Slot
-                fill="commentReactions"
-                {...slotProps}
-                inline
-              />
-              {!disableReply &&
-                <ActionButton>
-                  <ReplyButton
-                    onClick={this.showReplyBox}
-                    parentCommentId={parentId || comment.id}
-                    currentUserId={currentUser && currentUser.id}
-                  />
-                </ActionButton>}
+                  /* TopRightMenu allows currentUser to ignore other users' comments */
+                  <span className={cn(styles.topRight, styles.topRightMenu)}>
+                    <TopRightMenu
+                      comment={comment}
+                      ignoreUser={ignoreUser}
+                      addNotification={addNotification} />
+                  </span>
+              }
             </div>
-            <div className="commentActionsRight comment__action-container">
-              <Slot
-                fill="commentActions"
-                wrapperComponent={ActionButton}
-                {...slotProps}
-                inline
-              />
-              <ActionButton>
-                <FlagComment
-                  flaggedByCurrentUser={!!myFlag}
-                  flag={myFlag}
-                  id={comment.id}
-                  author_id={comment.user.id}
-                  postFlag={postFlag}
-                  addNotification={addNotification}
-                  postDontAgree={postDontAgree}
-                  deleteAction={deleteAction}
-                  showSignInDialog={showSignInDialog}
-                  currentUser={currentUser}
+            <div className={styles.content}>
+              {
+                this.state.isEditing
+                ? <EditableCommentContent
+                    editComment={this.editComment}
+                    addNotification={addNotification}
+                    comment={comment}
+                    currentUser={currentUser}
+                    charCountEnable={charCountEnable}
+                    maxCharCount={maxCharCount}
+                    parentId={parentId}
+                    stopEditing={this.stopEditing}
+                    />
+                : <div>
+                  <Slot
+                    fill="commentContent"
+                    defaultComponent={CommentContent}
+                    {...slotProps}
+                  />
+                  </div>
+              }
+            </div>
+            <div className={styles.footer}>
+              <div className="commentActionsLeft comment__action-container">
+                <Slot
+                  fill="commentReactions"
+                  {...slotProps}
+                  inline
                 />
-              </ActionButton>
+                {!disableReply &&
+                  <ActionButton>
+                    <ReplyButton
+                      onClick={this.showReplyBox}
+                      parentCommentId={parentId || comment.id}
+                      currentUserId={currentUser && currentUser.id}
+                    />
+                  </ActionButton>}
+              </div>
+              <div className="commentActionsRight comment__action-container">
+                <Slot
+                  fill="commentActions"
+                  wrapperComponent={ActionButton}
+                  {...slotProps}
+                  inline
+                />
+                <ActionButton>
+                  <FlagComment
+                    flaggedByCurrentUser={!!myFlag}
+                    flag={myFlag}
+                    id={comment.id}
+                    author_id={comment.user.id}
+                    postFlag={postFlag}
+                    addNotification={addNotification}
+                    postDontAgree={postDontAgree}
+                    deleteAction={deleteAction}
+                    showSignInDialog={showSignInDialog}
+                    currentUser={currentUser}
+                  />
+                </ActionButton>
+              </div>
             </div>
           </div>
         </div>
 
-          {activeReplyBox === comment.id
-            ? <ReplyBox
-                commentPostedHandler={() => {
-                  setActiveReplyBox('');
-                }}
+        {activeReplyBox === comment.id
+          ? <ReplyBox
+              commentPostedHandler={() => {
+                setActiveReplyBox('');
+              }}
+              charCountEnable={charCountEnable}
+              maxCharCount={maxCharCount}
+              setActiveReplyBox={setActiveReplyBox}
+              parentId={(depth < THREADING_LEVEL) ? comment.id : parentId}
+              addNotification={addNotification}
+              postComment={postComment}
+              currentUser={currentUser}
+              assetId={asset.id}
+            />
+          : null}
+
+        <TransitionGroup>
+        {view.map((reply) => {
+          return commentIsIgnored(reply)
+            ? <IgnoredCommentTombstone key={reply.id} />
+            : <Comment
+                data={this.props.data}
+                root={this.props.root}
+                setActiveReplyBox={setActiveReplyBox}
+                disableReply={disableReply}
+                activeReplyBox={activeReplyBox}
+                addNotification={addNotification}
+                parentId={comment.id}
+                postComment={postComment}
+                editComment={this.props.editComment}
+                depth={depth + 1}
+                asset={asset}
+                highlighted={highlighted}
+                currentUser={currentUser}
+                postFlag={postFlag}
+                deleteAction={deleteAction}
+                loadMore={loadMore}
+                ignoreUser={ignoreUser}
                 charCountEnable={charCountEnable}
                 maxCharCount={maxCharCount}
-                setActiveReplyBox={setActiveReplyBox}
-                parentId={(depth < THREADING_LEVEL) ? comment.id : parentId}
-                addNotification={addNotification}
-                postComment={postComment}
-                currentUser={currentUser}
-                assetId={asset.id}
-              />
-            : null}
-
-          <TransitionGroup>
-          {view.map((reply) => {
-            return commentIsIgnored(reply)
-              ? <IgnoredCommentTombstone key={reply.id} />
-              : <Comment
-                  data={this.props.data}
-                  root={this.props.root}
-                  setActiveReplyBox={setActiveReplyBox}
-                  disableReply={disableReply}
-                  activeReplyBox={activeReplyBox}
-                  addNotification={addNotification}
-                  parentId={comment.id}
-                  postComment={postComment}
-                  editComment={this.props.editComment}
-                  depth={depth + 1}
-                  asset={asset}
-                  highlighted={highlighted}
-                  currentUser={currentUser}
-                  postFlag={postFlag}
-                  deleteAction={deleteAction}
-                  loadMore={loadMore}
-                  ignoreUser={ignoreUser}
-                  charCountEnable={charCountEnable}
-                  maxCharCount={maxCharCount}
-                  showSignInDialog={showSignInDialog}
-                  commentIsIgnored={commentIsIgnored}
-                  liveUpdates={liveUpdates}
-                  reactKey={reply.id}
-                  key={reply.id}
-                  comment={reply}
-                />;
-          })}
-          </TransitionGroup>
-          <div className="talk-load-more-replies">
-            <LoadMore
-              topLevel={false}
-              replyCount={moreRepliesCount}
-              moreComments={hasMoreComments}
-              loadMore={this.loadNewReplies}
-              loadingState={loadingState}
-            />
+                showSignInDialog={showSignInDialog}
+                commentIsIgnored={commentIsIgnored}
+                liveUpdates={liveUpdates}
+                reactKey={reply.id}
+                key={reply.id}
+                comment={reply}
+              />;
+        })}
+        </TransitionGroup>
+        <div className="talk-load-more-replies">
+          <LoadMore
+            topLevel={false}
+            replyCount={moreRepliesCount}
+            moreComments={hasMoreComments}
+            loadMore={this.loadNewReplies}
+            loadingState={loadingState}
+          />
         </div>
       </div>
     );
