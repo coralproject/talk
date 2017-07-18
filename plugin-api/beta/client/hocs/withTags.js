@@ -6,7 +6,6 @@ import {getDisplayName} from 'coral-framework/helpers/hoc';
 import {capitalize} from 'coral-framework/helpers/strings';
 import withMutation from 'coral-framework/hocs/withMutation';
 import withFragments from 'coral-framework/hocs/withFragments';
-import {showSignInDialog} from 'coral-framework/actions/auth';
 import {addNotification} from 'coral-framework/actions/notification';
 import {forEachError} from 'coral-framework/utils';
 
@@ -181,7 +180,7 @@ export default (tag) => (WrappedComponent) => {
   });
 
   const mapDispatchToProps = (dispatch) =>
-    bindActionCreators({showSignInDialog, addNotification}, dispatch);
+    bindActionCreators({addNotification}, dispatch);
 
   const enhance = compose(
     withFragments({
