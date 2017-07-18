@@ -77,7 +77,15 @@ const CONFIG = {
   SMTP_HOST: process.env.TALK_SMTP_HOST,
   SMTP_PASSWORD: process.env.TALK_SMTP_PASSWORD,
   SMTP_PORT: process.env.TALK_SMTP_PORT,
-  SMTP_USERNAME: process.env.TALK_SMTP_USERNAME
+  SMTP_USERNAME: process.env.TALK_SMTP_USERNAME,
+
+  //------------------------------------------------------------------------------
+  // Flagging Config
+  //------------------------------------------------------------------------------
+
+  // DISABLE_AUTOFLAG_SUSPECT_WORDS is true when the suspect words that are
+  // matched should not be flagged.
+  DISABLE_AUTOFLAG_SUSPECT_WORDS: process.env.TALK_DISABLE_AUTOFLAG_SUSPECT_WORDS === 'TRUE'
 };
 
 //==============================================================================
