@@ -152,7 +152,7 @@ const ascending = (a, b) => {
 
 const descending = (a, b) => ascending(a, b) * -1;
 
-export function insertSorted(nodes, comment, sortOrder = 'CHRONOLOGICAL') {
+export function insertCommentSorted(nodes, comment, sortOrder = 'CHRONOLOGICAL') {
   const added = nodes.concat(comment);
   if (sortOrder === 'CHRONOLOGICAL') {
     return added.sort(ascending);

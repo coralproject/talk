@@ -5,7 +5,7 @@ import FeaturedButton from './components/FeaturedButton';
 import translations from './translations.json';
 import update from 'immutability-helper';
 
-import {findCommentInEmbedQuery, insertSorted} from 'plugin-api/beta/client/utils/stream';
+import {findCommentInEmbedQuery, insertCommentSorted} from 'plugin-api/beta/client/utils/stream';
 
 export default {
   translations,
@@ -51,7 +51,7 @@ export default {
             asset: {
               featuredComments: {
                 nodes: {
-                  $apply: (nodes) => insertSorted(nodes, comment, 'REVERSE_CHRONOLOGICAL')
+                  $apply: (nodes) => insertCommentSorted(nodes, comment, 'REVERSE_CHRONOLOGICAL')
                 }
               },
               featuredCommentsCount: {
