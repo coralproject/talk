@@ -159,7 +159,6 @@ const commentFragment = gql`
     id
     ...${getDefinitionName(Comment.fragments.comment)}
     ${nest(`
-      replyCount(excludeIgnored: $excludeIgnored)
       replies(excludeIgnored: $excludeIgnored) {
         nodes {
           id
@@ -210,7 +209,6 @@ const LOAD_MORE_QUERY = gql`
         id
         ...${getDefinitionName(Comment.fragments.comment)}
         ${nest(`
-          replyCount(excludeIgnored: $excludeIgnored)
           replies(limit: 3, excludeIgnored: $excludeIgnored) {
             nodes {
               id

@@ -35,6 +35,7 @@ export default withFragments({
       body
       created_at
       status
+      replyCount
       tags {
         tag {
           name
