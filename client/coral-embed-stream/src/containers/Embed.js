@@ -94,7 +94,7 @@ class EmbedContainer extends React.Component {
     if (!prevProps.root.comment && this.props.root.comment) {
 
       // Scroll to a permalinked comment if one is in the URL once the page is done rendering.
-      setTimeout(() => pym.scrollParentToChildEl('coralStream'), 0);
+      setTimeout(() => pym.scrollParentToChildEl('talk-embed-stream-container'), 0);
     }
   }
 
