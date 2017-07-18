@@ -144,3 +144,25 @@ export function forEachError(error, callback) {
     callback({error: e, msg});
   });
 }
+
+const ascending = (a, b) => {
+  const dateA = new Date(a.created_at);
+  const dateB = new Date(b.created_at);
+  if (dateA < dateB) { return -1; }
+  if (dateA > dateB) { return 1; }
+  return 0;
+};
+
+const descending = (a, b) => ascending(a, b) * -1;
+
+export function insertCommentsSorted(nodes, comments, sortOrder = 'CHRONOLOGICAL') {
+  const added = nodes.concat(comments);
+  if (sortOrder === 'CHRONOLOGICAL') {
+    return added.sort(ascending);
+  }
+  if (sortOrder === 'REVERSE_CHRONOLOGICAL') {
+    return added.sort(descending);
+  }
+  throw new Error(`Unknown sort order ${sortOrder}`);
+}
+

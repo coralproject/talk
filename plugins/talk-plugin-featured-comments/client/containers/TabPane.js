@@ -3,7 +3,7 @@ import {bindActionCreators} from 'redux';
 import {compose, gql} from 'react-apollo';
 import TabPane from '../components/TabPane';
 import {withFragments} from 'plugin-api/beta/client/hocs';
-import {setActiveTab} from 'plugin-api/beta/client/actions/stream';
+import {setActiveTab} from 'coral-embed-stream/src/actions/stream';
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
