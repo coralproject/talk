@@ -15,6 +15,10 @@ const {
   EDIT_COMMENT
 } = require('../../perms/constants');
 
+const {
+  DISABLE_AUTOFLAG_SUSPECT_WORDS
+} = require('../../config');
+
 const debug = require('debug')('talk:graph:mutators:tags');
 const plugins = require('../../services/plugins');
 
@@ -297,7 +301,10 @@ const createPublicComment = async (context, commentInput) => {
   // Otherwise just return the new comment.
 
   // TODO: Check why the wordlist is undefined
-  if (wordlist != null && wordlist.suspect != null) {
+
+  // If the wordlist has matched the suspect word filter and we haven't disabled
+  // auto-flagging suspect words, then we should flag the comment!
+  if (wordlist != null && wordlist.suspect != null && !DISABLE_AUTOFLAG_SUSPECT_WORDS) {
 
     // TODO: this is kind of fragile, we should refactor this to resolve
     // all these const's that we're using like 'COMMENTS', 'FLAG' to be

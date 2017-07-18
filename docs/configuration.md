@@ -17,7 +17,7 @@ sign and verify tokens via a `HS256` algorithm.
 - `TALK_JWT_EXPIRY` (_optional_) - the expiry duration (`exp`) for the tokens issued for logged in sessions (Default `1 day`)
 - `TALK_JWT_ISSUER` (_optional_) - the issuer (`iss`) claim for login JWT tokens (Default `process.env.TALK_ROOT_URL`)
 - `TALK_JWT_AUDIENCE` (_optional_) - the audience (`aud`) claim for login JWT tokens (Default `talk`)
-- `TALK_SMTP_EMAIL` (*required for email*) - the address to send emails from using the
+- `TALK_SMTP_FROM_ADDRESS` (*required for email*) - the address to send emails from using the
   SMTP provider.
 - `TALK_SMTP_USERNAME` (*required for email*) - username of the SMTP provider you are using.
 - `TALK_SMTP_PASSWORD` (*required for email*) - password for the SMTP provider you are using.
