@@ -1,8 +1,8 @@
 {
-  "name": "talk-plugin-featured-comments",
-  "version": "1.0.0",
-  "description": "",
+  "name": "@coralproject/talk-plugin-featured-comments",
+  "version": "0.0.1",
+  "description": "Provides support for featured comments",
   "main": "index.js",
-  "author": "Belen Curcio <curciobelen@gmail.com>",
-  "license": "ISC"
+  "author": "The Coral Project Team <coral@mozillafoundation.org>",
+  "license": "Apache-2.0"
 }
