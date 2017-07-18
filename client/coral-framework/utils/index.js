@@ -166,3 +166,4 @@ export function insertCommentsSorted(nodes, comments, sortOrder = 'CHRONOLOGICAL
   throw new Error(`Unknown sort order ${sortOrder}`);
 }
 
+export const isTagged = (tags, which) => tags.some((t) => t.tag.name === which);

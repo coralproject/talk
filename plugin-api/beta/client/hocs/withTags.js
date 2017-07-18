@@ -7,7 +7,7 @@ import {capitalize} from 'coral-framework/helpers/strings';
 import withMutation from 'coral-framework/hocs/withMutation';
 import withFragments from 'coral-framework/hocs/withFragments';
 import {addNotification} from 'coral-framework/actions/notification';
-import {forEachError} from 'coral-framework/utils';
+import {forEachError, isTagged} from 'coral-framework/utils';
 
 export default (tag) => (WrappedComponent) => {
   if (typeof tag !== 'string') {
@@ -27,9 +27,6 @@ export default (tag) => (WrappedComponent) => {
       }
     }
   `;
-
-  const isTagged = (tags) =>
-  !!tags.filter((t) => t.tag.name === Tag.toUpperCase()).length;
 
   const withAddTag = withMutation(
     gql`
@@ -163,7 +160,7 @@ export default (tag) => (WrappedComponent) => {
     render() {
       const {comment} = this.props;
 
-      const alreadyTagged = isTagged(comment.tags);
+      const alreadyTagged = isTagged(comment.tags, Tag.toUpperCase());
 
       return <WrappedComponent
         user={this.props.user}
