@@ -50,11 +50,12 @@ sign and verify tokens via a `HS256` algorithm.
 - `TALK_SMTP_PASSWORD` (*required for email*) - password for the SMTP provider you are using.
 - `TALK_SMTP_HOST` (*required for email*) - SMTP host url with format `smtp.domain.com`.
 - `TALK_SMTP_PORT` (*required for email*) - SMTP port.
-- `TALK_INSTALL_LOCK` (_optional for dynamic setup_) - Defaults to `FALSE`. When `TRUE`, disables the dynamic setup endpoint.
+- `TALK_INSTALL_LOCK` (_optional for dynamic setup_) - When `TRUE`, disables the dynamic setup endpoint. (Default `FALSE`)
 - `TALK_RECAPTCHA_SECRET` (*required for reCAPTCHA support*) - server secret used for enabling reCAPTCHA powered logins. If not provided it will instead default to providing only a time based lockout.
 - `TALK_RECAPTCHA_PUBLIC` (*required for reCAPTCHA support*) - client secret used for enabling reCAPTCHA powered logins. If not provided it will instead default to providing only a time based lockout.
 - `TALK_PLUGINS_JSON` (_optional_) - used to specify the plugin config via the environment
 - `TALK_KEEP_ALIVE` (_optional_) - The keepalive timeout that should be used to send keep alive messages through the websocket to keep the socket alive. (Default `30s`)
+- `TALK_DISABLE_AUTOFLAG_SUSPECT_WORDS` (_optional_)  When `TRUE`, disables flagging of comments that match the suspect word filter. (Default `FALSE`)
 
 Refer to the wiki page on [Configuration Loading](https://github.com/coralproject/talk/wiki/Configuration-Loading) for
 alternative methods of loading configuration during development.
