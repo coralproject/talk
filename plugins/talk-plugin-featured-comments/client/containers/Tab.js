@@ -1,5 +1,5 @@
 import {compose, gql} from 'react-apollo';
-import withFragments from 'coral-framework/hocs/withFragments';
+import {withFragments} from 'plugin-api/beta/client/hocs';
 import Tab from '../components/Tab';
 
 const enhance = compose(
