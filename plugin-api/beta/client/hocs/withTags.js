@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import {compose, gql} from 'react-apollo';
 import {getDisplayName} from 'coral-framework/helpers/hoc';
 import {capitalize} from 'coral-framework/helpers/strings';
-import withMutation from 'coral-framework/hocs/withMutation';
+import {withAddTag, withRemoveTag} from 'coral-framework/graphql/mutations';
 import withFragments from 'coral-framework/hocs/withFragments';
 import {addNotification} from 'coral-framework/actions/notification';
 import {forEachError, isTagged} from 'coral-framework/utils';
@@ -15,100 +15,8 @@ export default (tag) => (WrappedComponent) => {
     return null;
   }
 
-  tag = tag.toLowerCase();
   const Tag = capitalize(tag);
-
-  const COMMENT_FRAGMENT = gql`
-    fragment Coral_UpdateFragment on Comment {
-      tags {
-        tag {
-          name
-        }
-      }
-    }
-  `;
-
-  const withAddTag = withMutation(
-    gql`
-      mutation AddTag($id: ID!, $asset_id: ID!, $name: String!) {
-        addTag(tag: {name: $name, id: $id, item_type: COMMENTS, asset_id: $asset_id}) {
-          ...ModifyTagResponse
-        }
-      }
-    `, {
-      props: ({mutate}) => ({
-        addTag: ({id, name, assetId}) => {
-          return mutate({
-            variables: {
-              id,
-              name,
-              asset_id: assetId
-            },
-            optimisticResponse: {
-              addTag: {
-                __typename: 'ModifyTagResponse',
-                errors: null,
-              }
-            },
-            update: (proxy) => {
-              const fragmentId = `Comment_${id}`;
-
-              // Read the data from our cache for this query.
-              const data = proxy.readFragment({fragment: COMMENT_FRAGMENT, id: fragmentId});
-
-              data.tags.push({
-                tag: {
-                  __typename: 'Tag',
-                  name: Tag.toUpperCase()
-                },
-                __typename: 'TagLink'
-              });
-
-              // Write our data back to the cache.
-              proxy.writeFragment({fragment: COMMENT_FRAGMENT, id: fragmentId, data});
-            },
-          });
-        }}),
-    });
-
-  const withRemoveTag = withMutation(
-    gql`
-      mutation RemoveTag($id: ID!, $asset_id: ID!, $name: String!) {
-        removeTag(tag: {name: $name, id: $id, item_type: COMMENTS, asset_id: $asset_id}) {
-          ...ModifyTagResponse
-        }
-      }
-    `, {
-      props: ({mutate}) => ({
-        removeTag: ({id, name, assetId}) => {
-          return mutate({
-            variables: {
-              id,
-              name,
-              asset_id: assetId
-            },
-            optimisticResponse: {
-              removeTag: {
-                __typename: 'ModifyTagResponse',
-                errors: null,
-              }
-            },
-            update: (proxy) => {
-              const fragmentId = `Comment_${id}`;
-
-              // Read the data from our cache for this query.
-              const data = proxy.readFragment({fragment: COMMENT_FRAGMENT, id: fragmentId});
-
-              const idx = data.tags.findIndex((i) => i.tag.name === Tag.toUpperCase());
-
-              data.tags = [...data.tags.slice(0, idx), ...data.tags.slice(idx + 1)];
-
-              // Write our data back to the cache.
-              proxy.writeFragment({fragment: COMMENT_FRAGMENT, id: fragmentId, data});
-            }
-          });
-        }}),
-    });
+  const TAG = tag.toUpperCase();
 
   class WithTags extends React.Component {
     loading = false;
@@ -124,8 +32,9 @@ export default (tag) => (WrappedComponent) => {
 
       this.props.addTag({
         id: comment.id,
-        name: Tag.toUpperCase(),
-        assetId: asset.id
+        name: TAG,
+        assetId: asset.id,
+        itemType: 'COMMENTS',
       })
       .then(() => {
         this.loading = false;
@@ -145,8 +54,9 @@ export default (tag) => (WrappedComponent) => {
 
       this.props.removeTag({
         id: comment.id,
-        name: Tag.toUpperCase(),
-        assetId: asset.id
+        name: TAG,
+        assetId: asset.id,
+        itemType: 'COMMENTS',
       })
       .then(() => {
         this.loading = false;
@@ -160,7 +70,7 @@ export default (tag) => (WrappedComponent) => {
     render() {
       const {comment} = this.props;
 
-      const alreadyTagged = isTagged(comment.tags, Tag.toUpperCase());
+      const alreadyTagged = isTagged(comment.tags, TAG);
 
       return <WrappedComponent
         user={this.props.user}

@@ -1,6 +1,117 @@
 import {gql} from 'react-apollo';
 import withMutation from '../hocs/withMutation';
 
+function convertItemType(item_type) {
+  switch (item_type) {
+  case 'COMMENTS':
+    return 'Comment';
+  case 'USERS':
+    return 'User';
+  case 'ASSETS':
+    return 'Asset';
+  default:
+    throw new Error(`Unknown item_type ${item_type}`);
+  }
+}
+
+function getTagFragment(item_type) {
+  return gql`
+    fragment Coral_UpdateFragment on ${convertItemType(item_type)} {
+      tags {
+        tag {
+          name
+        }
+      }
+    }
+  `;
+}
+
+export const withAddTag = withMutation(
+  gql`
+    mutation AddTag($id: ID!, $asset_id: ID!, $name: String!, $item_type: TAGGABLE_ITEM_TYPE!) {
+      addTag(tag: {name: $name, id: $id, item_type: $item_type, asset_id: $asset_id}) {
+        ...ModifyTagResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      addTag: ({id, name, assetId, itemType}) => {
+        return mutate({
+          variables: {
+            id,
+            name,
+            asset_id: assetId,
+            item_type: itemType,
+          },
+          optimisticResponse: {
+            addTag: {
+              __typename: 'ModifyTagResponse',
+              errors: null,
+            }
+          },
+          update: (proxy) => {
+            const fragmentId = `${convertItemType(itemType)}_${id}`;
+            const fragment = getTagFragment(itemType);
+
+            // Read the data from our cache for this query.
+            const data = proxy.readFragment({fragment, id: fragmentId});
+
+            data.tags.push({
+              tag: {
+                __typename: 'Tag',
+                name
+              },
+              __typename: 'TagLink'
+            });
+
+            // Write our data back to the cache.
+            proxy.writeFragment({fragment, id: fragmentId, data});
+          },
+        });
+      }}),
+  });
+
+export const withRemoveTag = withMutation(
+  gql`
+    mutation RemoveTag($id: ID!, $asset_id: ID!, $name: String!, $item_type: TAGGABLE_ITEM_TYPE!) {
+      removeTag(tag: {name: $name, id: $id, item_type: $item_type, asset_id: $asset_id}) {
+        ...ModifyTagResponse
+      }
+    }
+  `, {
+    props: ({mutate}) => ({
+      removeTag: ({id, name, assetId, itemType}) => {
+        return mutate({
+          variables: {
+            id,
+            name,
+            asset_id: assetId,
+            item_type: itemType,
+          },
+          optimisticResponse: {
+            removeTag: {
+              __typename: 'ModifyTagResponse',
+              errors: null,
+            }
+          },
+          update: (proxy) => {
+            const fragmentId = `${convertItemType(itemType)}_${id}`;
+            const fragment = getTagFragment(itemType);
+
+            // Read the data from our cache for this query.
+            const data = proxy.readFragment({fragment, id: fragmentId});
+
+            const idx = data.tags.findIndex((i) => i.tag.name === name);
+
+            data.tags = [...data.tags.slice(0, idx), ...data.tags.slice(idx + 1)];
+
+            // Write our data back to the cache.
+            proxy.writeFragment({fragment, id: fragmentId, data});
+          }
+        });
+      }}),
+  });
+
 export const withSetCommentStatus = withMutation(
   gql`
     mutation SetCommentStatus($commentId: ID!, $status: COMMENT_STATUS!){
