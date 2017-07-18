@@ -17,9 +17,9 @@ function getQueryVariable(variable) {
 
 const initialState = {
   activeReplyBox: '',
-  assetId: getQueryVariable('asset_id'),
-  assetUrl: getQueryVariable('asset_url'),
-  commentId: getQueryVariable('comment_id'),
+  assetId: getQueryVariable('asset_id') || '',
+  assetUrl: getQueryVariable('asset_url') || '',
+  commentId: getQueryVariable('comment_id') || '',
   commentClassNames: [],
   activeTab: 'all',
   previousTab: '',
@@ -47,6 +47,11 @@ export default function stream(state = initialState, action) {
     return {
       ...state,
       commentId: '',
+    };
+  case actions.VIEW_COMMENT:
+    return {
+      ...state,
+      commentId: action.id,
     };
   case actions.ADD_COMMENT_CLASSNAME :
     return {

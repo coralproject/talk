@@ -6,7 +6,7 @@ import {timeago} from 'coral-framework/services/i18n';
 import {Slot} from 'plugin-api/beta/client/components';
 import {Icon} from 'plugin-api/beta/client/components/ui';
 
-const FeaturedComment = ({comment, asset, setActiveTab}) => {
+const FeaturedComment = ({comment, asset, viewComment}) => {
   return (
     <div className={cn(styles.featuredComment, `${name}__featured-comment`)}>
 
@@ -36,7 +36,7 @@ const FeaturedComment = ({comment, asset, setActiveTab}) => {
         </div>
         <div className={cn(styles.actionsContainer, `${name}__featured-comment__actions`)}>
           <a className={cn(styles.goTo, `${name}__featured-comment__go-to`)}
-            onClick={() => setActiveTab('all')} >
+            onClick={() => viewComment(comment.id)} >
             <Icon name="forum" className={styles.repliesIcon} /> {comment.replyCount} |
             Go to conversation<Icon name="keyboard_arrow_right" className={styles.goToIcon} />
           </a>

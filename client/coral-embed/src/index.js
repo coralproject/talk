@@ -1,7 +1,8 @@
 import pym from 'pym.js';
 import URLSearchParams from 'url-search-params';
 
-import {stringify} from 'querystring';
+import {buildUrl} from 'coral-framework/utils';
+import queryString from 'query-string';
 
 // TODO: Styles should live in a separate file
 const snackbarStyles = {
@@ -39,7 +40,7 @@ function buildStreamIframeUrl(talkBaseUrl, query) {
     'embed/stream?'
   ].join('');
 
-  url += stringify(query);
+  url += queryString.stringify(query);
 
   return url;
 }
@@ -98,10 +99,37 @@ function configurePymParent(pymParent, opts) {
 
   // remove the permalink comment id from the hash
   pymParent.onMessage('coral-view-all-comments', function() {
+
+    const search = queryString.stringify({
+      ...queryString.parse(location.search),
+      commentId: undefined,
+    });
+
+    // remove the commentId url param
+    const url = buildUrl({...location, search});
+
     window.history.replaceState(
       {},
       document.title,
-      location.origin + location.pathname + location.search
+      url,
+    );
+  });
+
+  // remove the permalink comment id from the hash
+  pymParent.onMessage('coral-view-comment', function(id) {
+
+    const search = queryString.stringify({
+      ...queryString.parse(location.search),
+      commentId: id,
+    });
+
+    // remove the commentId url param
+    const url = buildUrl({...location, search});
+
+    window.history.replaceState(
+      {},
+      document.title,
+      url,
     );
   });
 
@@ -193,12 +221,18 @@ Talk.render = function(el, opts) {
 
   let urlParams = new URLSearchParams(window.location.search);
 
-  query.comment_id = urlParams.get('commentId');
+  if (urlParams.get('commentId')) {
+    query.comment_id = urlParams.get('commentId');
+  }
 
-  query.asset_id = opts.asset_id;
+  if (opts.asset_id) {
+    query.asset_id = opts.asset_id;
+  }
 
-  query.asset_url = opts.asset_url;
-  if (!query.asset_url) {
+  if (opts.asset_url) {
+    query.asset_url = opts.asset_url;
+  }
+  else {
     try {
       query.asset_url = document.querySelector('link[rel="canonical"]').href;
     } catch (e) {

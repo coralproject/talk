@@ -1560,6 +1560,10 @@ check-types@1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/check-types/-/check-types-1.4.0.tgz#eed63bbac9ea49a0e26a096314058b03b08dd62b"
 
+check-valid-url@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/check-valid-url/-/check-valid-url-0.0.2.tgz#938fc545fc90b71edf800f7345bfd36f3aa0a057"
+
 cheerio@^0.20.0:
   version "0.20.0"
   resolved "https://registry.yarnpkg.com/cheerio/-/cheerio-0.20.0.tgz#5c710f2bab95653272842ba01c6ea61b3545ec35"
@@ -4628,10 +4632,6 @@ json-stable-stringify@^1.0.0, json-stable-stringify@^1.0.1:
   dependencies:
     jsonify "~0.0.0"
 
-json-stringify-pretty-compact@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/json-stringify-pretty-compact/-/json-stringify-pretty-compact-1.0.4.tgz#d5161131be27fd9748391360597fcca250c6c5ce"
-
 json-stringify-safe@~5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
@@ -6805,6 +6805,12 @@ query-string@^4.1.0, query-string@^4.2.2:
   dependencies:
     object-assign "^4.1.0"
     strict-uri-encode "^1.0.0"
+
+query-strings@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/query-strings/-/query-strings-0.0.1.tgz#d22bab97c9d39e2267b3b8e5f78592424b3e58cd"
+  dependencies:
+    check-valid-url "0.0.2"
 
 querystring-es3@^0.2.0:
   version "0.2.1"
