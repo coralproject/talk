@@ -115,16 +115,27 @@ export default (tag) => (WrappedComponent) => {
     });
 
   class WithTags extends React.Component {
+    loading = false;
 
     postTag = () => {
       const {comment, asset, addNotification} = this.props;
+
+      if (this.loading) {
+        return;
+      }
+
+      this.loading = true;
 
       this.props.addTag({
         id: comment.id,
         name: Tag.toUpperCase(),
         assetId: asset.id
       })
+      .then(() => {
+        this.loading = false;
+      })
       .catch((err) => {
+        this.loading = false;
         forEachError(err, ({msg}) => addNotification('error', msg));
       });
     }
@@ -132,12 +143,20 @@ export default (tag) => (WrappedComponent) => {
     deleteTag = () => {
       const {comment, asset, addNotification} = this.props;
 
+      if (this.loading) {
+        return;
+      }
+
       this.props.removeTag({
         id: comment.id,
         name: Tag.toUpperCase(),
         assetId: asset.id
       })
+      .then(() => {
+        this.loading = false;
+      })
       .catch((err) => {
+        this.loading = false;
         forEachError(err, ({msg}) => addNotification('error', msg));
       });
     }
