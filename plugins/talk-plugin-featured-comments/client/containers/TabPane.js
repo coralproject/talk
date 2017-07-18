@@ -16,31 +16,31 @@ const enhance = compose(
     asset: gql`
       fragment TalkFeatured_TabPane_asset on Asset {
         id
-        featuredComments: comments(tags: ["FEATURED"], deep: true) {
-              nodes {
-                  id
-                  body
-                  created_at
-                  replyCount
-                  tags {
-                    tag {
-                      name
-                    }
-                  }
-                  action_summaries {
-                    ... on LikeActionSummary {
-                      count
-                      current_user {
-                        id
-                      }
-                    }
-                  }
-                  user {
-                    id
-                    username
-                  }
+        featuredComments: comments(tags: ["FEATURED"], excludeIgnored: $excludeIgnored, deep: true) {
+          nodes {
+            id
+            body
+            created_at
+            replyCount
+            tags {
+              tag {
+                name
               }
+            }
+            action_summaries {
+              ... on LikeActionSummary {
+                count
+                current_user {
+                  id
+                }
+              }
+            }
+            user {
+              id
+              username
+            }
           }
+        }
       }`,
   }),
 );

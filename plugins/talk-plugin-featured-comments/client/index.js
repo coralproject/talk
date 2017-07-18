@@ -16,10 +16,31 @@ export default {
     commentReactions: [FeaturedButton]
   },
   mutations: {
+    IgnoreUser: ({variables}) => ({
+      updateQueries: {
+        CoralEmbedStream_Embed: (previous) => {
+          const ignoredUserId = variables.id;
+          const updated = update(previous, {
+            asset: {
+              featuredComments: {
+                nodes: {
+                  $apply: (nodes) =>
+                    nodes.filter((n) => n.user.id !== ignoredUserId)
+                }
+              },
+              featuredCommentsCount: {
+                $apply: (value) => value - 1
+              }
+            }
+          });
+          return updated;
+        }
+      }
+    }),
     AddTag: ({variables}) => ({
       updateQueries: {
         CoralEmbedStream_Embed: (previous) => {
-        
+
           if (variables.name !== 'FEATURED') {
             return;
           }
@@ -55,7 +76,7 @@ export default {
             asset: {
               featuredComments: {
                 nodes: {
-                  $apply: (nodes) => 
+                  $apply: (nodes) =>
                     nodes.filter((n) => n.id !== variables.id)
                 }
               },
