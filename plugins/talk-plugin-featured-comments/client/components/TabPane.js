@@ -1,5 +1,5 @@
 import React from 'react';
-import FeaturedComment from './FeaturedComment';
+import FeaturedComment from '../containers/FeaturedComment';
 
 export default ({root, data, asset: {featuredComments, ...asset}, viewComment}) => (
   <div>

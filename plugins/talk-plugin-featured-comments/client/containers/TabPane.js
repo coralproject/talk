@@ -3,13 +3,10 @@ import {bindActionCreators} from 'redux';
 import {compose, gql} from 'react-apollo';
 import TabPane from '../components/TabPane';
 import {withFragments} from 'plugin-api/beta/client/hocs';
-import {getSlotFragmentSpreads} from 'plugin-api/beta/client/utils';
+import FeaturedComment from '../containers/FeaturedComment';
+import {getDefinitionName} from 'coral-framework/utils';
 
 import {viewComment} from 'coral-embed-stream/src/actions/stream';
-
-const slots = [
-  'commentReactions',
-];
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
@@ -22,32 +19,25 @@ const enhance = compose(
     root: gql`
       fragment TalkFeaturedComments_TabPane_root on RootQuery {
         __typename
-        ${getSlotFragmentSpreads(slots, 'root')}
+        ...${getDefinitionName(FeaturedComment.fragments.root)}
       }
+      ${FeaturedComment.fragments.root}
     `,
     asset: gql`
       fragment TalkFeaturedComments_TabPane_asset on Asset {
         id
         featuredComments: comments(tags: ["FEATURED"], excludeIgnored: $excludeIgnored, deep: true) {
           nodes {
-            id
-            body
-            created_at
-            replyCount
-            tags {
-              tag {
-                name
-              }
-            }
-            user {
-              id
-              username
-            }
-            ${getSlotFragmentSpreads(slots, 'comment')}
+            ...${getDefinitionName(FeaturedComment.fragments.comment)}
           }
+          hasNextPage
+          startCursor
+          endCursor
         }
-        ${getSlotFragmentSpreads(slots, 'asset')}
+        ...${getDefinitionName(FeaturedComment.fragments.asset)}
       }
+      ${FeaturedComment.fragments.comment}
+      ${FeaturedComment.fragments.asset}
     `,
   }),
 );
