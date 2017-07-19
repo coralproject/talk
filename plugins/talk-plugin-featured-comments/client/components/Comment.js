@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import styles from './Comment.css';
 import {name} from '../../package.json';
-import {timeago} from 'plugin-api/beta/client/services';
+import {t, timeago} from 'plugin-api/beta/client/services';
 import {Slot} from 'plugin-api/beta/client/components';
 import {Icon} from 'plugin-api/beta/client/components/ui';
 
@@ -46,7 +46,7 @@ class Comment extends React.Component {
             <a className={cn(styles.goTo, `${name}__featured-comment__go-to`)}
               onClick={this.viewComment}>
               <Icon name="forum" className={styles.repliesIcon} /> {comment.replyCount} |
-              Go to conversation<Icon name="keyboard_arrow_right" className={styles.goToIcon} />
+              {t('talk-plugin-featured-comments.go_to_conversation')} <Icon name="keyboard_arrow_right" className={styles.goToIcon} />
             </a>
           </div>
         </footer>

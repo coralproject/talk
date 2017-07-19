@@ -2,7 +2,7 @@ import Tab from './containers/Tab';
 import TabPane from './containers/TabPane';
 import Tag from './components/Tag';
 import Button from './components/Button';
-import translations from './translations.json';
+import translations from './translations.yml';
 import update from 'immutability-helper';
 
 import {findCommentInEmbedQuery} from 'coral-embed-stream/src/graphql/utils';

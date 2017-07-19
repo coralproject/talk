@@ -4,6 +4,6 @@ import {t} from 'plugin-api/beta/client/services';
 
 export default ({active, asset: {featuredCommentsCount}}) => (
   <span>
-    {t('featured')} <TabCount active={active} sub>{featuredCommentsCount}</TabCount>
+    {t('talk-plugin-featured-comments.featured')} <TabCount active={active} sub>{featuredCommentsCount}</TabCount>
   </span>
 );

@@ -8,7 +8,7 @@ export default (props) => (
     {
       isTagged(props.comment.tags, 'FEATURED') && props.depth === 0 ? (
         <span className={styles.tag}>
-          {t('featured')}
+          {t('talk-plugin-featured-comments.featured')}
         </span>
       ) : null
     }
