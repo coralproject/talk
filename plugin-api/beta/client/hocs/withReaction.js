@@ -1,7 +1,7 @@
 import React from 'react';
 import get from 'lodash/get';
 import uuid from 'uuid/v4';
-import {connect} from 'react-redux';
+import {connect} from 'plugin-api/beta/client/hocs';
 import {bindActionCreators} from 'redux';
 import {getDisplayName} from 'coral-framework/helpers/hoc';
 import {compose, gql} from 'react-apollo';
