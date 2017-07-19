@@ -7,6 +7,7 @@ const initialState = Map({
   loggedIn: false,
   user: null,
   showSignInDialog: false,
+  signInDialogFocus: false,
   showCreateUsernameDialog: false,
   checkedInitialLogin: false,
   view: 'SIGNIN',
@@ -29,13 +30,21 @@ const purge = (user) => {
 
 export default function auth (state = initialState, action) {
   switch (action.type) {
+  case actions.FOCUS_SIGNIN_DIALOG:
+    return state
+      .set('signInDialogFocus', true);
+  case actions.BLUR_SIGNIN_DIALOG:
+    return state
+      .set('signInDialogFocus', false);
   case actions.SHOW_SIGNIN_DIALOG :
     return state
-      .set('showSignInDialog', true);
+      .set('showSignInDialog', true)
+      .set('signInDialogFocus', true);
   case actions.HIDE_SIGNIN_DIALOG :
     return state.merge(Map({
       isLoading: false,
       showSignInDialog: false,
+      signInDialogFocus: false,
       view: 'SIGNIN',
       error: '',
       passwordRequestFailure: null,

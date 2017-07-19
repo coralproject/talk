@@ -74,6 +74,7 @@ class Stream extends React.Component {
       loadMoreComments,
       viewAllComments,
       auth: {loggedIn, user},
+      reduxState,
       editName
     } = this.props;
     const {keepCommentBox} = this.state;
@@ -97,6 +98,7 @@ class Stream extends React.Component {
     };
 
     const showCommentBox = loggedIn && ((!banned && !temporarilySuspended && !highlightedComment) || keepCommentBox);
+    const streamTabProps = {data, root, asset};
 
     if (!comment && !comments) {
       console.error('Talk: No comments came back from the graph given that query. Please, check the query params.');
@@ -208,13 +210,11 @@ class Stream extends React.Component {
                 <Slot fill="streamFilter" />
               </div>
               <TabBar activeTab={activeStreamTab} onTabClick={setActiveStreamTab} sub>
-                {getSlotComponents('streamTabs').map((PluginComponent) => (
+                {getSlotComponents('streamTabs', reduxState, streamTabProps).map((PluginComponent) => (
                   <Tab tabId={PluginComponent.talkPluginName} key={PluginComponent.talkPluginName}>
                     <PluginComponent
+                      {...streamTabProps}
                       active={activeStreamTab === PluginComponent.talkPluginName}
-                      data={data}
-                      root={root}
-                      asset={asset}
                     />
                   </Tab>
                 ))}
@@ -223,12 +223,10 @@ class Stream extends React.Component {
                 </Tab>
               </TabBar>
               <TabContent activeTab={activeStreamTab} sub>
-                {getSlotComponents('streamTabPanes').map((PluginComponent) => (
+                {getSlotComponents('streamTabPanes', reduxState, streamTabProps).map((PluginComponent) => (
                   <TabPane tabId={PluginComponent.talkPluginName} key={PluginComponent.talkPluginName}>
                     <PluginComponent
-                      data={data}
-                      root={root}
-                      asset={asset}
+                      {...streamTabProps}
                     />
                   </TabPane>
                 ))}

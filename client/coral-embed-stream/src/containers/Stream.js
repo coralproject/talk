@@ -24,6 +24,7 @@ import {
   insertFetchedCommentsIntoEmbedQuery,
   nest,
 } from '../graphql/utils';
+import omit from 'lodash/omit';
 
 const {showSignInDialog} = authActions;
 const {addNotification} = notificationActions;
@@ -307,7 +308,9 @@ const mapStateToProps = (state) => ({
   previousTab: state.embed.previousTab,
   activeStreamTab: state.stream.activeTab,
   previousStreamTab: state.stream.previousTab,
-  commentClassNames: state.stream.commentClassNames
+  commentClassNames: state.stream.commentClassNames,
+  pluginConfig: state.config.plugin_config,
+  reduxState: omit(state, 'apollo'),
 });
 
 const mapDispatchToProps = (dispatch) =>

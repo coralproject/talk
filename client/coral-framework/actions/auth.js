@@ -7,44 +7,32 @@ import pym from '../services/pym';
 
 import {resetWebsocket} from 'coral-framework/services/client';
 import t from 'coral-framework/services/i18n';
-import {isSlotEmpty} from 'plugin-api/beta/client/services';
 
-export const showSignInDialog = () => (dispatch, getState) => {
-  if (isSlotEmpty('login')) {
-    return;
-  }
-  const signInPopUp = window.open(
-    '/embed/stream/login',
-    'Login',
-    'menubar=0,resizable=0,width=500,height=550,top=200,left=500'
-  );
+export const showSignInDialog = () => ({
+  type: actions.SHOW_SIGNIN_DIALOG,
+});
 
-  // Workaround odd behavior in older WebKit versions, where
-  // onunload is called twice. (Encountered in IOS 8.3)
-  let loaded = false;
-  signInPopUp.onload = () => {
-    loaded = true;
-
-    // Fire some actions inside the popups reducer, to initialize required state.
-    const required = getState().asset.toJS().settings.requireEmailConfirmation;
-    const redirectUri = getState().auth.toJS().redirectUri;
-    signInPopUp.coralStore.dispatch(setRequireEmailVerification(required));
-    signInPopUp.coralStore.dispatch(setRedirectUri(redirectUri));
-  };
-
-  // Use `onunload` instead of `onbeforeunload` which is not supported in IOS Safari.
-  signInPopUp.onunload = () => {
-    if (loaded) {
-      dispatch(checkLogin());
-    }
-  };
-
-  dispatch({type: actions.SHOW_SIGNIN_DIALOG});
-};
 export const hideSignInDialog = () => (dispatch) => {
+  if (window.opener && window.opener !== window) {
+
+    // TODO: We need to address this when we refactor the
+    // login popup out of the embed.
+
+    // we are in a popup
+    window.close();
+  } else {
+    dispatch(checkLogin());
+  }
   dispatch({type: actions.HIDE_SIGNIN_DIALOG});
-  window.close();
 };
+
+export const focusSignInDialog = () => ({
+  type: actions.FOCUS_SIGNIN_DIALOG,
+});
+
+export const blurSignInDialog = () => ({
+  type: actions.BLUR_SIGNIN_DIALOG,
+});
 
 export const createUsernameRequest = () => ({
   type: actions.CREATE_USERNAME_REQUEST
