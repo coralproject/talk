@@ -1,15 +1,14 @@
 .button {
+
+  /* TODO: figure out the best location to include the `reset.css` */
+  composes: buttonReset from "coral-framework/styles/reset.css";
+
   color: #2a2a2a;
-  background: none;
-  padding: 0px;
-  border: none;
   margin-right: 10px;
-  vertical-align: middle;
 }
 
-.button:hover {
+.button {
   color: #767676;
-  cursor: pointer;
 }
 
 .button.featured {
@@ -18,11 +17,9 @@
 
 .button.featured:hover {
   color: #10589b;
-  cursor: pointer;
 }
 
 .icon {
   font-size: 18px;
-  padding: 0 5px;
   vertical-align: top;
 }
