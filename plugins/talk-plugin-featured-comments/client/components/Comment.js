@@ -45,8 +45,7 @@ class Comment extends React.Component {
           <div className={cn(styles.actionsContainer, `${name}__featured-comment__actions`)}>
             <a className={cn(styles.goTo, `${name}__featured-comment__go-to`)}
               onClick={this.viewComment}>
-              <Icon name="forum" className={styles.repliesIcon} /> {comment.replyCount} |
-              {t('talk-plugin-featured-comments.go_to_conversation')} <Icon name="keyboard_arrow_right" className={styles.goToIcon} />
+              <Icon name="forum" className={styles.repliesIcon} /> {comment.replyCount} | {t('talk-plugin-featured-comments.go_to_conversation')} <Icon name="keyboard_arrow_right" className={styles.goToIcon} />
             </a>
           </div>
         </footer>
