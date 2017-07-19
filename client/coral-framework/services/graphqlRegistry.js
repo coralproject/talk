@@ -225,26 +225,47 @@ function init() {
 export function resolveFragments(document) {
   if (document.loc.source) {
 
+    // Remember keys that we have already resolved.
+    const resolvedKeys = [];
+
+    // Spreads from slots that are empty and need to be removed.
+    // (works around the issue that we don't know the resource type
+    // if we don't have a fragment)
+    const spreadsToBeRemoved = [];
+
+    // fragments to be attached.
     const subFragments = [];
+
+    // body contains the final result.
     let body = document.loc.source.body;
 
-    const matchedSubFragments = body.match(/\.\.\.(.*)/g) || [];
+    let done = false;
+    while (!done) {
+      done = true;
 
-    uniq(matchedSubFragments.map((f) => f.replace('...', '')))
-      .forEach((key) => {
-        const doc = getFragmentDocument(key);
-        if (doc) {
-          subFragments.push(doc);
-        } else if(key.startsWith('TalkSlot_')) {
+      const matchedSubFragments = body.match(/\.\.\.([_a-zA-Z][_a-zA-Z0-9]*)/g) || [];
+      uniq(matchedSubFragments.map((f) => f.replace('...', '')))
+        .filter((key) => resolvedKeys.indexOf(key) === -1)
+        .forEach((key) => {
+          const doc = getFragmentDocument(key);
+          if (doc) {
+            subFragments.push(doc);
 
-          // Remove fragment spread of slots with zero fragments.
-          body = body.replace(`...${key}\n`, '');
-        }
-      });
+            // We found a new fragment, so we are not done yet.
+            done = false;
+          } else if(key.startsWith('TalkSlot_')) {
+            spreadsToBeRemoved.push(key);
+          }
+          resolvedKeys.push(key);
+        });
 
-    if (subFragments.length > 0) {
-      return mergeDocuments([body, ...subFragments]);
+      body = mergeDocuments([body, ...subFragments]).loc.source.body;
     }
+
+    spreadsToBeRemoved.forEach((key) => {
+      const regex = new RegExp(`\\.\\.\\.${key}\n`, 'g');
+      body = body.replace(regex, '');
+    });
 
     return gql`${body}`;
   } else {
