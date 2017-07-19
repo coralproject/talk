@@ -6,6 +6,8 @@ import t from 'coral-framework/services/i18n';
 
 import {TabBar, Tab, TabContent, TabPane} from 'coral-ui';
 import ProfileContainer from 'coral-settings/containers/ProfileContainer';
+import Popup from 'coral-framework/components/Popup';
+import IfSlotIsNotEmpty from 'coral-framework/components/IfSlotIsNotEmpty';
 import ConfigureStreamContainer
   from 'coral-configure/containers/ConfigureStreamContainer';
 import cn from 'classnames';
@@ -26,12 +28,24 @@ export default class Embed extends React.Component {
   };
 
   render() {
-    const {activeTab, commentId} = this.props;
+    const {activeTab, commentId, auth: {showSignInDialog, signInDialogFocus}, blurSignInDialog, focusSignInDialog, hideSignInDialog} = this.props;
     const {user} = this.props.auth;
     const hasHighlightedComment = !!commentId;
 
     return (
       <div className={cn('talk-embed-stream', {'talk-embed-stream-highlight-comment': hasHighlightedComment})}>
+        <IfSlotIsNotEmpty slot="login">
+          <Popup
+            href='/embed/stream/login'
+            title='Login'
+            features='menubar=0,resizable=0,width=500,height=550,top=200,left=500'
+            open={showSignInDialog}
+            focus={signInDialogFocus}
+            onFocus={focusSignInDialog}
+            onBlur={blurSignInDialog}
+            onClose={hideSignInDialog}
+          />
+        </IfSlotIsNotEmpty>
         <TabBar
           onTabClick={this.changeTab}
           activeTab={activeTab}
