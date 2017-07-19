@@ -1,4 +1,4 @@
-import {connect} from 'react-redux';
+import {connect} from 'plugin-api/beta/client/hocs';
 import {bindActionCreators} from 'redux';
 import {toggleCheckbox} from '../actions';
 import {commentClassNamesSelector} from 'plugin-api/alpha/client/selectors';

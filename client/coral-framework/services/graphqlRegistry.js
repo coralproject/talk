@@ -1,7 +1,8 @@
 import {getDefinitionName, mergeDocuments} from 'coral-framework/utils';
-import {getGraphQLExtensions} from 'coral-framework/helpers/plugins';
+import {getGraphQLExtensions, getSlotFragments} from 'coral-framework/helpers/plugins';
 import globalFragments from 'coral-framework/graphql/fragments';
 import uniq from 'lodash/uniq';
+import {gql} from 'react-apollo';
 
 const fragments = {};
 const mutationOptions = {};
@@ -139,18 +140,47 @@ export function getQueryOptions(key) {
 }
 
 /**
- * Get a document with a fragment named `key`, which contains
- * all fragments added under this key.
+ * getSlotFragmentDocument handles `key`s in the form of TalkSlot_SlotName_Resource.
+ * It parses the slot name and the resource and usees the plugin API to assemble
+ * the fragment document.
  */
-export function getFragmentDocument(key) {
-  init();
+function getSlotFragmentDocument(key) {
+  const match = key.match(/TalkSlot_(.*)_(.*)/);
+  if (!match) {
+    return '';
+  }
 
+  const slot = match[1][0].toLowerCase() + match[1].substr(1);
+  const resource = match[2];
+  const documents = getSlotFragments(slot, resource);
+
+  if (documents.length === 0) {
+    return '';
+  }
+
+  const names = documents.map((d) => getDefinitionName(d));
+  const typeName = getTypeName(documents[0]);
+
+  // Assemble arguments for `gql` to call it directly without using template literals.
+  const main = `
+    fragment ${key} on ${typeName} {
+      ...${names.join('\n...')}\n
+    }
+  `;
+  return mergeDocuments([main, ...documents]);
+}
+
+/**
+ * getRegistryFragmentDocument assembles a fragment document using
+ * all registered fragment under given `key`.
+ */
+function getRegistryFragmentDocument(key) {
   if (!(key in fragments)) {
     return '';
   }
 
-  let documents = fragments[key] ? fragments[key].documents : [];
-  let fields =  fragments[key] ? `...${fragments[key].names.join('\n...')}\n` : ' __typename';
+  let documents = fragments[key].documents;
+  let fields =  `...${fragments[key].names.join('\n...')}\n`;
 
   // Assemble arguments for `gql` to call it directly without using template literals.
   const main = `
@@ -159,6 +189,16 @@ export function getFragmentDocument(key) {
     }
   `;
   return mergeDocuments([main, ...documents]);
+}
+
+/**
+ * getFragmentDocument returns a fragment that assembles all registered
+ * fragments under given `key` or if `key` refers to Slot fragments it will
+ * return the slot fragments specified by this key.
+ */
+export function getFragmentDocument(key) {
+  init();
+  return getRegistryFragmentDocument(key) || getSlotFragmentDocument(key);
 }
 
 // The fragments and configs are lazily loaded to allow circular dependencies to work.
@@ -178,19 +218,35 @@ function init() {
   getGraphQLExtensions().forEach((ext) => add(ext));
 }
 
+/**
+ * resolveFragments finds fragment spread names and attachs
+ * the related fragment document to the given root document.
+ */
 export function resolveFragments(document) {
   if (document.loc.source) {
 
-    // resolve fragments from registry
-    const matchedSubFragments = document.loc.source.body.match(/\.\.\.(.*)/g) || [];
-    const subFragments =
-      uniq(matchedSubFragments.map((f) => f.replace('...', '')))
-      .map((key) => getFragmentDocument(key))
-      .filter((i) => i);
+    const subFragments = [];
+    let body = document.loc.source.body;
+
+    const matchedSubFragments = body.match(/\.\.\.(.*)/g) || [];
+
+    uniq(matchedSubFragments.map((f) => f.replace('...', '')))
+      .forEach((key) => {
+        const doc = getFragmentDocument(key);
+        if (doc) {
+          subFragments.push(doc);
+        } else if(key.startsWith('TalkSlot_')) {
+
+          // Remove fragment spread of slots with zero fragments.
+          body = body.replace(`...${key}\n`, '');
+        }
+      });
 
     if (subFragments.length > 0) {
-      return mergeDocuments([document, ...subFragments]);
+      return mergeDocuments([body, ...subFragments]);
     }
+
+    return gql`${body}`;
   } else {
     console.warn('Can only resolve fragments from documents definied using the gql tag.');
   }
