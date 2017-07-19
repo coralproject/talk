@@ -1,9 +1,8 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {compose, gql} from 'react-apollo';
 import TabPane from '../components/TabPane';
-import {withFragments} from 'plugin-api/beta/client/hocs';
+import {withFragments, connect} from 'plugin-api/beta/client/hocs';
 import Comment from '../containers/Comment';
 import {getDefinitionName} from 'coral-framework/utils';
 import {addNotification} from 'plugin-api/beta/client/actions/notification';
