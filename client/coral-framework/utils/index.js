@@ -149,7 +149,7 @@ export function forEachError(error, callback) {
 /**
  * getSlotFragmentSpreads will return a string in the
  * expected format for slot fragments, given `slots` and  `resource`.
- * e.g. `getSlotsFragmentSpreads(['slotName'], 'root')` returns
+ * e.g. `getSlotFragmentSpreads(['slotName'], 'root')` returns
  * `...TalkSlot_SlotName_root`.
  */
 export function getSlotFragmentSpreads(slots, resource) {
