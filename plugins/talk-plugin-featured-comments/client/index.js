@@ -21,16 +21,15 @@ export default {
       updateQueries: {
         CoralEmbedStream_Embed: (previous) => {
           const ignoredUserId = variables.id;
+          const newNodes = previous.asset.featuredComments.nodes.filter((n) => n.user.id !== ignoredUserId);
+          const removedCount =  previous.asset.featuredComments.nodes.length - newNodes.length;
           const updated = update(previous, {
             asset: {
               featuredComments: {
-                nodes: {
-                  $apply: (nodes) =>
-                    nodes.filter((n) => n.user.id !== ignoredUserId)
-                }
+                nodes: {$set: newNodes}
               },
               featuredCommentsCount: {
-                $apply: (value) => value - 1
+                $apply: (value) => value - removedCount,
               }
             }
           });
