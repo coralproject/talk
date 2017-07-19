@@ -15,14 +15,42 @@ const withSkipOnErrors = (reducer) => (prev, action, ...rest) => {
  * apply query options registered in the graphRegistry.
  */
 export default (document, config = {}) => (WrappedComponent) => {
-  config = {
+  const wrappedConfig = {
     ...config,
     options: config.options || {},
-    props: config.props || (({data}) => separateDataAndRoot(data)),
+    props: (args) => {
+      const wrappedArgs = {
+        ...args,
+        data: {
+          ...args.data,
+          subscribeToMore(stmArgs) {
+
+            // Resolve document fragments before passing it to `apollo-client`.
+            return args.data.subscribeToMore({
+              ...stmArgs,
+              document: resolveFragments(stmArgs.document),
+            });
+          },
+          fetchMore(lmArgs) {
+
+            // Resolve document fragments before passing it to `apollo-client`.
+            return args.data.fetchMore({
+              ...lmArgs,
+              query: resolveFragments(lmArgs.query),
+            });
+          },
+        },
+      };
+      return config.props
+        ? config.props(wrappedArgs)
+        : separateDataAndRoot(wrappedArgs.data);
+    },
   };
 
   const wrappedOptions = (data) => {
-    const base = (typeof config.options === 'function') ? config.options(data) : config.options;
+    const base = (typeof wrappedConfig.options === 'function')
+      ? wrappedConfig.options(data)
+      : wrappedConfig.options;
     const name = getDefinitionName(document);
     const configs = getQueryOptions(name);
     const reducerCallbacks =
@@ -45,7 +73,7 @@ export default (document, config = {}) => (WrappedComponent) => {
   let memoized = null;
   const getWrapped = () => {
     if (!memoized) {
-      memoized = graphql(resolveFragments(document), {...config, options: wrappedOptions})(WrappedComponent);
+      memoized = graphql(resolveFragments(document), {...wrappedConfig, options: wrappedOptions})(WrappedComponent);
     }
     return memoized;
   };

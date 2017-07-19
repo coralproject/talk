@@ -1,5 +1,6 @@
 import {gql} from 'react-apollo';
 import t from 'coral-framework/services/i18n';
+import {capitalize} from 'coral-framework/helpers/strings';
 
 export const getTotalActionCount = (type, comment) => {
   return comment.action_summaries
@@ -175,4 +176,14 @@ export function buildUrl({protocol, hostname, port, pathname, search, hash} = wi
     search = '';
   }
   return `${protocol}//${hostname}${port ? `:${port}` : ''}${pathname}${search}${hash}`;
+}
+
+/**
+ * getSlotFragmentSpreads will return a string in the
+ * expected format for slot fragments, given `slots` and  `resource`.
+ * e.g. `getSlotFragmentSpreads(['slotName'], 'root')` returns
+ * `...TalkSlot_SlotName_root`.
+ */
+export function getSlotFragmentSpreads(slots, resource) {
+  return `...${slots.map((s) => `TalkSlot_${capitalize(s)}_${resource}`).join('\n...')}\n`;
 }

@@ -1,22 +1,21 @@
 import {gql} from 'react-apollo';
 import Comment from '../components/Comment';
-import {getSlotsFragments} from 'coral-framework/helpers/plugins';
 import withFragments from 'coral-framework/hocs/withFragments';
+import {getSlotFragmentSpreads} from 'coral-framework/utils';
 
-const pluginFragments = getSlotsFragments([
+const slots = [
   'adminCommentInfoBar',
   'adminCommentContent',
   'adminSideActions',
   'adminCommentDetailArea',
-]);
+];
 
 export default withFragments({
   root: gql`
     fragment CoralAdmin_ModerationComment_root on RootQuery {
       __typename
-      ${pluginFragments.spreads('root')}
+      ${getSlotFragmentSpreads(slots, 'root')}
     }
-    ${pluginFragments.definitions('root')}
     `,
   comment: gql`
     fragment CoralAdmin_ModerationComment_comment on Comment {
@@ -52,8 +51,7 @@ export default withFragments({
       editing {
         edited
       }
-      ${pluginFragments.spreads('comment')}
+      ${getSlotFragmentSpreads(slots, 'comment')}
     }
-    ${pluginFragments.definitions('comment')}
   `
 })(Comment);
