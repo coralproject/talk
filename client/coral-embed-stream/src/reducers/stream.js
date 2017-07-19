@@ -21,7 +21,7 @@ const initialState = {
   assetUrl: getQueryVariable('asset_url') || '',
   commentId: getQueryVariable('comment_id') || '',
   commentClassNames: [],
-  activeTab: 'all',
+  activeTab: process.env.TALK_DEFAULT_STEAM_TAB,
   previousTab: '',
 };
 

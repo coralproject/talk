@@ -37,10 +37,18 @@ class Stream extends React.Component {
       this.setState({keepCommentBox: true});
     }
 
-    if (next.activeStreamTab !== 'all') {
-      const slotPlugins = this.getSlotComponents('streamTabs', next).map((c) => c.talkPluginName);
-      if (slotPlugins.indexOf(next.activeStreamTab) === -1) {
-        next.setActiveStreamTab('all');
+    this.fallbackAllTab(next);
+  }
+
+  componentDidMount() {
+    this.fallbackAllTab();
+  }
+
+  fallbackAllTab(props = this.props) {
+    if (props.activeStreamTab !== 'all') {
+      const slotPlugins = this.getSlotComponents('streamTabs', props).map((c) => c.talkPluginName);
+      if (slotPlugins.indexOf(props.activeStreamTab) === -1) {
+        props.setActiveStreamTab('all');
       }
     }
   }
