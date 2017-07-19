@@ -5,7 +5,6 @@ import merge from 'lodash/merge';
 import plugins from 'pluginsConfig';
 import flatten from 'lodash/flatten';
 import flattenDeep from 'lodash/flattenDeep';
-import {getDefinitionName, mergeDocuments} from 'coral-framework/utils';
 import {loadTranslations} from 'coral-framework/services/i18n';
 import {injectReducers, getStore} from 'coral-framework/services/store';
 import camelize from './camelize';
@@ -35,62 +34,21 @@ export function getSlotElements(slot, props = {}) {
     .map((component, i) => React.createElement(component, {key: i, ...props}));
 }
 
-function getComponentFragments(components) {
-  const res = components
+export function getSlotFragments(slot, part) {
+  const components = uniq(flattenDeep(plugins
+    .filter((o) => o.module.slots ? o.module.slots[slot] : false)
+    .map((o) => o.module.slots[slot])
+  ));
+
+  const documents = components
     .map((c) => c.fragments)
-    .filter((fragments) => fragments)
+    .filter((fragments) => fragments && fragments[part])
     .reduce((res, fragments) => {
-      Object.keys(fragments).forEach((key) => {
-        if (!(key in res)) {
-          res[key] = {spreads: [], definitions: []};
-        }
-        res[key].spreads.push(getDefinitionName(fragments[key]));
-        res[key].definitions.push(fragments[key]);
-      });
+      res.push(fragments[part]);
       return res;
-    }, {});
+    }, []);
 
-  Object.keys(res).forEach((key) => {
-
-    // Assemble arguments for `gql` to call it directly without using template literals.
-    res[key].spreads = `...${res[key].spreads.join('\n...')}\n`;
-    res[key].definitions = mergeDocuments(res[key].definitions);
-  });
-
-  return res;
-}
-
-/**
- * Returns an object that can be used to compose fragments or queries.
- *
- * Example:
- * const pluginFragments = getSlotsFragments(['commentInfoBar', 'commentActions']);
- * const rootFragment = gql`
- *   fragment Comment_root on RootQuery {
- +     ${pluginFragments.spreads('root')}
- *   }
- *   ${pluginFragments.definitions('root')}
- * `;
- */
-export function getSlotsFragments(slots) {
-  if (!Array.isArray(slots)) {
-    slots = [slots];
-  }
-  const components = uniq(flattenDeep(slots.map((slot) => {
-    return plugins
-      .filter((o) => o.module.slots ? o.module.slots[slot] : false)
-      .map((o) => o.module.slots[slot]);
-  })));
-
-  const fragments = getComponentFragments(components);
-  return {
-    spreads(key) {
-      return (fragments[key] && fragments[key].spreads) || '';
-    },
-    definitions(key) {
-      return (fragments[key] && fragments[key].definitions) || '';
-    },
-  };
+  return documents;
 }
 
 export function getGraphQLExtensions() {

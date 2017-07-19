@@ -1,5 +1,6 @@
 import {gql} from 'react-apollo';
 import t from 'coral-framework/services/i18n';
+import {capitalize} from 'coral-framework/helpers/strings';
 
 export const getTotalActionCount = (type, comment) => {
   return comment.action_summaries
@@ -143,4 +144,8 @@ export function forEachError(error, callback) {
     }
     callback({error: e, msg});
   });
+}
+
+export function getSlotFragmentSpreads(slots, part) {
+  return `...${slots.map((s) => `TalkSlot_${capitalize(s)}_${part}`).join('\n...')}\n`;
 }
