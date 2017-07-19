@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import styles from './Comment.css';
 import {name} from '../../package.json';
-import {timeago} from 'coral-framework/services/i18n';
+import {timeago} from 'plugin-api/beta/client/services';
 import {Slot} from 'plugin-api/beta/client/components';
 import {Icon} from 'plugin-api/beta/client/components/ui';
 
