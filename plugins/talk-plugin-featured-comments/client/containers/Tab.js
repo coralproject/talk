@@ -1,5 +1,5 @@
 import {compose, gql} from 'react-apollo';
-import {withFragments} from 'plugin-api/beta/client/hocs';
+import {withFragments, excludeIf} from 'plugin-api/beta/client/hocs';
 import Tab from '../components/Tab';
 
 const enhance = compose(
@@ -9,6 +9,7 @@ const enhance = compose(
           featuredCommentsCount: totalCommentCount(tags: ["FEATURED"], excludeIgnored: $excludeIgnored)
       }`,
   }),
+  excludeIf((props) => props.asset.featuredCommentsCount === 0),
 );
 
 export default enhance(Tab);

@@ -36,6 +36,21 @@ class Stream extends React.Component {
     if (!this.userIsDegraged(this.props) && this.userIsDegraged(next)) {
       this.setState({keepCommentBox: true});
     }
+
+    if (next.activeStreamTab !== 'all') {
+      const slotPlugins = this.getSlotComponents('streamTabs', next).map((c) => c.talkPluginName);
+      if (slotPlugins.indexOf(next.activeStreamTab) === -1) {
+        next.setActiveStreamTab('all');
+      }
+    }
+  }
+
+  getSlotProps({data, root, root: {asset}} = this.props) {
+    return {data, root, asset};
+  }
+
+  getSlotComponents(slot, props = this.props) {
+    return getSlotComponents(slot, props.reduxState, this.getSlotProps(props));
   }
 
   setActiveReplyBox = (id) => {
@@ -74,7 +89,6 @@ class Stream extends React.Component {
       loadMoreComments,
       viewAllComments,
       auth: {loggedIn, user},
-      reduxState,
       editName
     } = this.props;
     const {keepCommentBox} = this.state;
@@ -98,7 +112,7 @@ class Stream extends React.Component {
     };
 
     const showCommentBox = loggedIn && ((!banned && !temporarilySuspended && !highlightedComment) || keepCommentBox);
-    const streamTabProps = {data, root, asset};
+    const slotProps = this.getSlotProps();
 
     if (!comment && !comments) {
       console.error('Talk: No comments came back from the graph given that query. Please, check the query params.');
@@ -159,8 +173,7 @@ class Stream extends React.Component {
 
         <Slot
           fill="stream"
-          data={this.props.data}
-          root={this.props.root}
+          {...slotProps}
         />
 
         {loggedIn && (
@@ -207,13 +220,16 @@ class Stream extends React.Component {
               <div
                 className={cn('talk-stream-filter-wrapper', styles.filterWrapper)}
               >
-                <Slot fill="streamFilter" />
+                <Slot
+                  fill="streamFilter"
+                  {...slotProps}
+                />
               </div>
               <TabBar activeTab={activeStreamTab} onTabClick={setActiveStreamTab} sub>
-                {getSlotComponents('streamTabs', reduxState, streamTabProps).map((PluginComponent) => (
+                {this.getSlotComponents('streamTabs').map((PluginComponent) => (
                   <Tab tabId={PluginComponent.talkPluginName} key={PluginComponent.talkPluginName}>
                     <PluginComponent
-                      {...streamTabProps}
+                      {...slotProps}
                       active={activeStreamTab === PluginComponent.talkPluginName}
                     />
                   </Tab>
@@ -223,10 +239,10 @@ class Stream extends React.Component {
                 </Tab>
               </TabBar>
               <TabContent activeTab={activeStreamTab} sub>
-                {getSlotComponents('streamTabPanes', reduxState, streamTabProps).map((PluginComponent) => (
+                {this.getSlotComponents('streamTabPanes').map((PluginComponent) => (
                   <TabPane tabId={PluginComponent.talkPluginName} key={PluginComponent.talkPluginName}>
                     <PluginComponent
-                      {...streamTabProps}
+                      {...slotProps}
                     />
                   </TabPane>
                 ))}
