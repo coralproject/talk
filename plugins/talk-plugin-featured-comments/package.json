@@ -1,5 +1,6 @@
 {
   "name": "@coralproject/talk-plugin-featured-comments",
+  "pluginName": "talk-plugin-featured-comments",
   "version": "0.0.1",
   "description": "Provides support for featured comments",
   "main": "index.js",

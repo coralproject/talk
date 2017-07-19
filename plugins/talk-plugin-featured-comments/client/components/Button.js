@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 import styles from './Button.css';
-import {name} from '../../package.json';
+import {pluginName} from '../../package.json';
 import {can} from 'plugin-api/beta/client/services';
 import {withTags} from 'plugin-api/beta/client/hocs';
 import {Icon} from 'plugin-api/beta/client/components/ui';
@@ -11,7 +11,7 @@ const Button = (props) => {
 
   return can(user, 'MODERATE_COMMENTS') ? (
     <button
-      className={cn([name, styles.button, {[styles.featured] : alreadyTagged}])}
+      className={cn([`${pluginName}-tag-button`, styles.button, {[styles.featured] : alreadyTagged}])}
       onClick={alreadyTagged ? deleteTag : postTag} >
 
       {alreadyTagged ?
