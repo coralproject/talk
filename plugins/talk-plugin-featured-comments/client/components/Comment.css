@@ -1,38 +1,43 @@
-.featuredComment {
+.root {
   margin: 10px 0 35px;
 }
 
-.featuredComment:last-child {
+.root:last-child {
   margin: 10px 0;
 }
 
-.featuredComment .goTo {
+.goTo {
   color: #1d5294;
   font-size: 13px;
   padding: 5px 0;
   display: inline-block;
 }
 
-.featuredComment .repliesIcon {
+.repliesIcon {
   font-size: 16px;
   vertical-align: middle;
   line-height: 13px;
   font-weight: bold;
 }
 
-.featuredComment .goToIcon {
+.goToIcon {
   font-size: 16px;
   vertical-align: middle;
   line-height: 13px;
   font-weight: bold;
 }
 
-.featuredComment .goTo:hover {
-  cursor: pointer;
+.goTo {
+
+  /* TODO: figure out the best location to include the `reset.css` */
+  composes: buttonReset from "coral-framework/styles/reset.css";
+}
+
+.goTo:hover {
   text-decoration: underline;
 }
 
-.featuredComment .quote {
+.quote {
   line-height: 20px;
   text-align: left;
   letter-spacing: 0.1px;
@@ -41,11 +46,11 @@
   margin-bottom: 10px;
 }
 
-.featuredComment .quote:before {
-  content: open-quote; 
+.quote:before {
+  content: open-quote;
 }
 
-.featuredComment .quote:after  {
+.quote:after  {
   content: close-quote;
 }
 

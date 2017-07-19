@@ -15,7 +15,7 @@ class Comment extends React.Component {
   render() {
     const {comment, asset, root, data} = this.props;
     return (
-      <div className={cn(styles.featuredComment, `${pluginName}-comment`)}>
+      <div className={cn(styles.root, `${pluginName}-comment`)}>
 
         <blockquote className={cn(styles.quote, `${pluginName}-comment-body`)}>
           {comment.body}
@@ -43,10 +43,9 @@ class Comment extends React.Component {
             />
           </div>
           <div className={cn(styles.actionsContainer, `${pluginName}-comment-actions`)}>
-            <a className={cn(styles.goTo, `${pluginName}-comment-go-to`)}
-              onClick={this.viewComment}>
+            <button className={cn(styles.goTo, `${pluginName}-comment-go-to`)} onClick={this.viewComment}>
               <Icon name="forum" className={styles.repliesIcon} /> {comment.replyCount} | {t('talk-plugin-featured-comments.go_to_conversation')} <Icon name="keyboard_arrow_right" className={styles.goToIcon} />
-            </a>
+            </button>
           </div>
         </footer>
       </div>
