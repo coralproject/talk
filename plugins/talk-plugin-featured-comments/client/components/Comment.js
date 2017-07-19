@@ -1,12 +1,12 @@
 import React from 'react';
 import cn from 'classnames';
-import styles from './FeaturedComment.css';
+import styles from './Comment.css';
 import {name} from '../../package.json';
 import {timeago} from 'coral-framework/services/i18n';
 import {Slot} from 'plugin-api/beta/client/components';
 import {Icon} from 'plugin-api/beta/client/components/ui';
 
-class FeaturedComment extends React.Component {
+class Comment extends React.Component {
 
   viewComment = () => {
     this.props.viewComment(this.props.comment.id);
@@ -55,4 +55,4 @@ class FeaturedComment extends React.Component {
   }
 }
 
-export default FeaturedComment;
+export default Comment;

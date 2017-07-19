@@ -1,10 +1,10 @@
 import React from 'react';
-import FeaturedComment from '../containers/FeaturedComment';
+import Comment from '../containers/Comment';
 
 export default ({root, data, asset: {featuredComments, ...asset}, viewComment}) => (
   <div>
     {featuredComments.nodes.map((comment) =>
-      <FeaturedComment
+      <Comment
         key={comment.id}
         root={root}
         data={data}

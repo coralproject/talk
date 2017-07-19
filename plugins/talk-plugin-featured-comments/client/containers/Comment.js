@@ -1,5 +1,5 @@
 import {gql} from 'react-apollo';
-import FeaturedComment from '../components/FeaturedComment';
+import Comment from '../components/Comment';
 import {withFragments} from 'plugin-api/beta/client/hocs';
 import {getSlotFragmentSpreads} from 'plugin-api/beta/client/utils';
 
@@ -38,4 +38,4 @@ export default withFragments({
       ${getSlotFragmentSpreads(slots, 'comment')}
     }
   `
-})(FeaturedComment);
+})(Comment);

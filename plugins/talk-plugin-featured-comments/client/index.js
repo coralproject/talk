@@ -1,7 +1,7 @@
 import Tab from './containers/Tab';
 import TabPane from './containers/TabPane';
-import FeaturedTag from './components/FeaturedTag';
-import FeaturedButton from './components/FeaturedButton';
+import Tag from './components/Tag';
+import Button from './components/Button';
 import translations from './translations.json';
 import update from 'immutability-helper';
 
@@ -13,8 +13,8 @@ export default {
   slots: {
     streamTabs: [Tab],
     streamTabPanes: [TabPane],
-    commentInfoBar: [FeaturedTag],
-    commentReactions: [FeaturedButton]
+    commentInfoBar: [Tag],
+    commentReactions: [Button]
   },
   mutations: {
     IgnoreUser: ({variables}) => ({

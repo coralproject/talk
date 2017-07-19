@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './FeaturedTag.css';
+import styles from './Tag.css';
 import {t} from 'plugin-api/beta/client/services';
 import {isTagged} from 'plugin-api/beta/client/utils';
 
