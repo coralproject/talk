@@ -13,7 +13,7 @@ class FeaturedComment extends React.Component {
   }
 
   render() {
-    const {comment, asset} = this.props;
+    const {comment, asset, root, data} = this.props;
     return (
       <div className={cn(styles.featuredComment, `${name}__featured-comment`)}>
 
@@ -35,8 +35,9 @@ class FeaturedComment extends React.Component {
 
             <Slot
               fill="commentReactions"
+              root={root}
+              data={data}
               comment={comment}
-              commentId={comment.id}
               asset={asset}
               inline
             />
