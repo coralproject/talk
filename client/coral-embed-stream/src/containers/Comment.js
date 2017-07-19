@@ -1,9 +1,9 @@
 import {gql} from 'react-apollo';
 import Comment from '../components/Comment';
 import {withFragments} from 'coral-framework/hocs';
-import {getSlotsFragments} from 'coral-framework/helpers/plugins';
+import {getSlotFragmentSpreads} from 'coral-framework/utils';
 
-const pluginFragments = getSlotsFragments([
+const slots = [
   'streamQuestionArea',
   'commentInputArea',
   'commentInputDetailArea',
@@ -12,15 +12,14 @@ const pluginFragments = getSlotsFragments([
   'commentContent',
   'commentReactions',
   'commentAvatar'
-]);
+];
 
 export default withFragments({
   root: gql`
     fragment CoralEmbedStream_Comment_root on RootQuery {
       __typename
-      ${pluginFragments.spreads('root')}
+      ${getSlotFragmentSpreads(slots, 'root')}
     }
-    ${pluginFragments.definitions('root')}
     `,
   comment: gql`
     fragment CoralEmbedStream_Comment_comment on Comment {
@@ -48,8 +47,7 @@ export default withFragments({
         edited
         editableUntil
       }
-      ${pluginFragments.spreads('comment')}
+      ${getSlotFragmentSpreads(slots, 'comment')}
     }
-    ${pluginFragments.definitions('comment')}
   `
 })(Comment);

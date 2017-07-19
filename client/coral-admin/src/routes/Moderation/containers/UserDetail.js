@@ -4,8 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import UserDetail from '../components/UserDetail';
 import withQuery from 'coral-framework/hocs/withQuery';
-import {getSlotsFragments} from 'coral-framework/helpers/plugins';
-import {getDefinitionName} from 'coral-framework/utils';
+import {getDefinitionName, getSlotFragmentSpreads} from 'coral-framework/utils';
 import {
   changeUserDetailStatuses,
   clearUserDetailSelections,
@@ -26,9 +25,9 @@ const commentConnectionFragment = gql`
   ${Comment.fragments.comment}
 `;
 
-const pluginFragments = getSlotsFragments([
+const slots = [
   'userProfile',
-]);
+];
 
 class UserDetailContainer extends React.Component {
   static propTypes = {
@@ -80,7 +79,7 @@ export const withUserDetailQuery = withQuery(gql`
         id
         provider
       }
-      ${pluginFragments.spreads('user')}
+      ${getSlotFragmentSpreads(slots, 'user')}
     }
     totalComments: commentCount(query: {author_id: $author_id})
     rejectedComments: commentCount(query: {author_id: $author_id, statuses: [REJECTED]})
@@ -90,11 +89,8 @@ export const withUserDetailQuery = withQuery(gql`
     }) {
       ...CoralAdmin_Moderation_CommentConnection
     }
-    ${pluginFragments.spreads('root')}
+    ${getSlotFragmentSpreads(slots, 'root')}
   }
-  ${Comment.fragments.comment}
-  ${pluginFragments.definitions('user')}
-  ${pluginFragments.definitions('root')}
   ${commentConnectionFragment}
 `, {
   options: ({id, moderation: {userDetailStatuses: statuses}}) => {
