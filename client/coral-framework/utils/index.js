@@ -146,6 +146,12 @@ export function forEachError(error, callback) {
   });
 }
 
-export function getSlotFragmentSpreads(slots, part) {
-  return `...${slots.map((s) => `TalkSlot_${capitalize(s)}_${part}`).join('\n...')}\n`;
+/**
+ * getSlotFragmentSpreads will return a string in the
+ * expected format for slot fragments, given `slots` and  `resource`.
+ * e.g. `getSlotsFragmentSpreads(['slotName'], 'root')` returns
+ * `...TalkSlot_SlotName_root`.
+ */
+export function getSlotFragmentSpreads(slots, resource) {
+  return `...${slots.map((s) => `TalkSlot_${capitalize(s)}_${resource}`).join('\n...')}\n`;
 }
