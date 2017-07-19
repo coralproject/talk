@@ -84,6 +84,7 @@ export default class PermalinkButton extends React.Component {
               type='text'
               ref={(input) => this.permalinkInput = input}
               defaultValue={`${asset.url}?commentId=${comment.id}`}
+              readOnly
             />
 
             <Button
