@@ -4,6 +4,16 @@ import globalFragments from 'coral-framework/graphql/fragments';
 import uniq from 'lodash/uniq';
 import {gql} from 'react-apollo';
 
+/*
+ * Disable false-positive warning below, as it doesn't work well with how we currently
+ * assemble the queries.
+ *
+ * Warning: fragment with name {fragment name} already exists.
+ * graphql-tag enforces all fragment names across your application to be unique; read more about
+ * this in the docs: http://dev.apollodata.com/core/fragments.html#unique-names
+ */
+gql.disableFragmentWarnings();
+
 const fragments = {};
 const mutationOptions = {};
 const queryOptions = {};
