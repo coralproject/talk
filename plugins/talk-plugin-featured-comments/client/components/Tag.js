@@ -6,7 +6,7 @@ import {isTagged} from 'plugin-api/beta/client/utils';
 export default (props) => (
   <span>
     {
-      isTagged(props.comment.tags, 'FEATURED') && props.depth === 0 ? (
+      isTagged(props.comment.tags, 'FEATURED') ? (
         <span className={styles.tag}>
           {t('talk-plugin-featured-comments.featured')}
         </span>
