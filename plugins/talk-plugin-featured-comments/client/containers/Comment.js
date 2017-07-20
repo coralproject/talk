@@ -31,6 +31,20 @@ export default withFragments({
           name
         }
       }
+
+      ##
+      # Figure out why do we need this.
+      # Currently without this loading more featured comments
+      # brings apollo into an inconsistent state.
+      action_summaries {
+        __typename
+        count
+        current_user {
+          id
+        }
+      }
+      ##
+
       user {
         id
         username
