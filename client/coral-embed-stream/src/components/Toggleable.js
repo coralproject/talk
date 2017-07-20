@@ -27,9 +27,8 @@ export default class Toggleable extends React.Component {
     const {isOpen} = this.state;
     return (
       <ClickOutside onClickOutside={this.close}>
-        <span className={styles.Toggleable} tabIndex="0" >
-          <span className={styles.toggler}
-                onClick={this.toggle}>{isOpen ? upArrow : downArrow}</span>
+        <span className={styles.Toggleable}>
+          <button className={styles.toggler} onClick={this.toggle}>{isOpen ? upArrow : downArrow}</button>
           {isOpen ? children : null}
         </span>
       </ClickOutside>

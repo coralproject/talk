@@ -1,4 +1,4 @@
-export {t} from 'coral-framework/services/i18n';
+export {t, timeago} from 'coral-framework/services/i18n';
 export {can} from 'coral-framework/services/perms';
 import {isSlotEmpty as ise} from 'coral-framework/helpers/plugins';
 

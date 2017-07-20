@@ -32,7 +32,6 @@ en:
     comment_post_notif_premod: "Thank you for posting. Our moderation team will review your comment shortly."
     comment_post_banned_word:  "Your comment contains one or more words that are not permitted, so it will not be published. If you think this message is incorrect, please contact our moderation team."
     characters_remaining: "characters remaining"
-  comment_is_best: "This comment is one of the best"
   comment_offensive: "This comment is offensive"
   comment_singular: Comment
   comment_plural: Comments
@@ -306,7 +305,6 @@ en:
   report_notif: "Thank you for reporting this comment. Our moderation team has been notified and will review it shortly."
   report_notif_remove: "Your report has been removed."
   reported: Reported
-  set_best: "Tag as Best"
   settings:
     all_comments: "All Comments"
     from_settings_page: "From the Profile Page you can see your comment history."
@@ -363,7 +361,6 @@ en:
     write_message: "Write a message"
     send: Send
   thank_you: "We value your safety and feedback. A moderator will review your report."
-  unset_best: "Untag as Best"
   user:
     bio_flags: "flags for this bio"
     user_bio: "User Bio"

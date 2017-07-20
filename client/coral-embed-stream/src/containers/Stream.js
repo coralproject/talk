@@ -4,8 +4,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {ADDTL_COMMENTS_ON_LOAD_MORE, THREADING_LEVEL} from '../constants/stream';
 import {
-  withPostComment, withPostFlag, withPostDontAgree, withDeleteAction,
-  withAddTag, withRemoveTag, withIgnoreUser, withEditComment,
+  withPostComment, withPostFlag, withPostDontAgree,
+  withDeleteAction, withIgnoreUser, withEditComment
 } from 'coral-framework/graphql/mutations';
 
 import * as authActions from 'coral-framework/actions/auth';
@@ -159,7 +159,6 @@ const commentFragment = gql`
     id
     ...${getDefinitionName(Comment.fragments.comment)}
     ${nest(`
-      replyCount(excludeIgnored: $excludeIgnored)
       replies(excludeIgnored: $excludeIgnored) {
         nodes {
           id
@@ -210,7 +209,6 @@ const LOAD_MORE_QUERY = gql`
         id
         ...${getDefinitionName(Comment.fragments.comment)}
         ${nest(`
-          replyCount(excludeIgnored: $excludeIgnored)
           replies(limit: 3, excludeIgnored: $excludeIgnored) {
             nodes {
               id
@@ -278,6 +276,7 @@ const fragments = {
           endCursor
         }
         ${getSlotFragmentSpreads(slots, 'asset')}
+        ...${getDefinitionName(Comment.fragments.asset)}
       }
       me {
         status
@@ -291,6 +290,7 @@ const fragments = {
       ${getSlotFragmentSpreads(slots, 'root')}
       ...${getDefinitionName(Comment.fragments.root)}
     }
+    ${Comment.fragments.asset}
     ${Comment.fragments.root}
     ${commentFragment}
   `,
@@ -329,8 +329,6 @@ export default compose(
   withPostComment,
   withPostFlag,
   withPostDontAgree,
-  withAddTag,
-  withRemoveTag,
   withIgnoreUser,
   withDeleteAction,
   withEditComment,
