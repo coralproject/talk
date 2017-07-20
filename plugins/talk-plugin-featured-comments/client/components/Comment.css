@@ -1,0 +1,67 @@
+.root {
+  margin: 10px 0 35px;
+}
+
+.root:last-child {
+  margin: 10px 0;
+}
+
+.goTo {
+  color: #1d5294;
+  font-size: 13px;
+  padding: 5px 0;
+  display: inline-block;
+}
+
+.repliesIcon {
+  font-size: 16px;
+  vertical-align: middle;
+  line-height: 13px;
+  font-weight: bold;
+}
+
+.goToIcon {
+  font-size: 16px;
+  vertical-align: middle;
+  line-height: 13px;
+  font-weight: bold;
+}
+
+.goTo {
+
+  /* TODO: figure out the best location to include the `reset.css` */
+  composes: buttonReset from "coral-framework/styles/reset.css";
+}
+
+.goTo:hover {
+  text-decoration: underline;
+}
+
+.quote {
+  line-height: 20px;
+  text-align: left;
+  letter-spacing: 0.1px;
+  margin: 0;
+  quotes: '\201c' '\201d';
+  margin-bottom: 10px;
+}
+
+.quote:before {
+  content: open-quote;
+}
+
+.quote:after  {
+  content: close-quote;
+}
+
+.footer {
+  display: flex;
+}
+
+.reactionsContainer, .actionsContainer {
+  flex: auto;
+}
+
+.actionsContainer {
+  text-align: right;
+}

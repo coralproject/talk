@@ -109,7 +109,8 @@ const config = {
     }),
     new webpack.EnvironmentPlugin({
       'TALK_PLUGINS_JSON': '{}',
-      'TALK_THREADING_LEVEL': '3'
+      'TALK_THREADING_LEVEL': '3',
+      'TALK_DEFAULT_STREAM_TAB': 'all',
     })
   ],
   resolveLoader: {

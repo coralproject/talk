@@ -1,1 +1,7 @@
-export {getSlotFragmentSpreads} from 'coral-framework/utils';
+export {
+  isTagged,
+  insertCommentsSorted,
+  getSlotFragmentSpreads,
+  forEachError,
+  getDefinitionName,
+} from 'coral-framework/utils';

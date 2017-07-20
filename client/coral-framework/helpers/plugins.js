@@ -2,12 +2,12 @@ import React from 'react';
 import uniq from 'lodash/uniq';
 import pick from 'lodash/pick';
 import merge from 'lodash/merge';
-import plugins from 'pluginsConfig';
-import flatten from 'lodash/flatten';
 import flattenDeep from 'lodash/flattenDeep';
+import flatten from 'lodash/flatten';
 import {loadTranslations} from 'coral-framework/services/i18n';
 import {injectReducers} from 'coral-framework/services/store';
 import camelize from './camelize';
+import plugins from 'pluginsConfig';
 
 export function getSlotComponents(slot, reduxState, props = {}) {
   const pluginConfig = reduxState.config.pluginConfig || {};

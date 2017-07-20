@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {StreamError} from './StreamError';
 import Comment from '../components/Comment';
 import SuspendedAccount from './SuspendedAccount';
@@ -35,6 +36,29 @@ class Stream extends React.Component {
     if (!this.userIsDegraged(this.props) && this.userIsDegraged(next)) {
       this.setState({keepCommentBox: true});
     }
+
+    this.fallbackAllTab(next);
+  }
+
+  componentDidMount() {
+    this.fallbackAllTab();
+  }
+
+  fallbackAllTab(props = this.props) {
+    if (props.activeStreamTab !== 'all') {
+      const slotPlugins = this.getSlotComponents('streamTabs', props).map((c) => c.talkPluginName);
+      if (slotPlugins.indexOf(props.activeStreamTab) === -1) {
+        props.setActiveStreamTab('all');
+      }
+    }
+  }
+
+  getSlotProps({data, root, root: {asset}} = this.props) {
+    return {data, root, asset};
+  }
+
+  getSlotComponents(slot, props = this.props) {
+    return getSlotComponents(slot, props.reduxState, this.getSlotProps(props));
   }
 
   setActiveReplyBox = (id) => {
@@ -66,7 +90,6 @@ class Stream extends React.Component {
       deleteAction,
       showSignInDialog,
       updateItem,
-      addTag,
       ignoreUser,
       activeStreamTab,
       setActiveStreamTab,
@@ -74,8 +97,6 @@ class Stream extends React.Component {
       loadMoreComments,
       viewAllComments,
       auth: {loggedIn, user},
-      removeTag,
-      reduxState,
       editName
     } = this.props;
     const {keepCommentBox} = this.state;
@@ -99,7 +120,7 @@ class Stream extends React.Component {
     };
 
     const showCommentBox = loggedIn && ((!banned && !temporarilySuspended && !highlightedComment) || keepCommentBox);
-    const streamTabProps = {data, root, asset};
+    const slotProps = this.getSlotProps();
 
     if (!comment && !comments) {
       console.error('Talk: No comments came back from the graph given that query. Please, check the query params.');
@@ -158,7 +179,10 @@ class Stream extends React.Component {
             </div>
           : <p>{asset.settings.closedMessage}</p>}
 
-        <Slot fill="stream" />
+        <Slot
+          fill="stream"
+          {...slotProps}
+        />
 
         {loggedIn && (
           <ModerationLink
@@ -175,8 +199,6 @@ class Stream extends React.Component {
                 data={data}
                 root={root}
                 commentClassNames={commentClassNames}
-                addTag={addTag}
-                removeTag={removeTag}
                 ignoreUser={ignoreUser}
                 setActiveReplyBox={setActiveReplyBox}
                 activeReplyBox={activeReplyBox}
@@ -206,13 +228,16 @@ class Stream extends React.Component {
               <div
                 className={cn('talk-stream-filter-wrapper', styles.filterWrapper)}
               >
-                <Slot fill="streamFilter" />
+                <Slot
+                  fill="streamFilter"
+                  {...slotProps}
+                />
               </div>
               <TabBar activeTab={activeStreamTab} onTabClick={setActiveStreamTab} sub>
-                {getSlotComponents('streamTabs', reduxState, streamTabProps).map((PluginComponent) => (
+                {this.getSlotComponents('streamTabs').map((PluginComponent) => (
                   <Tab tabId={PluginComponent.talkPluginName} key={PluginComponent.talkPluginName}>
                     <PluginComponent
-                      {...streamTabProps}
+                      {...slotProps}
                       active={activeStreamTab === PluginComponent.talkPluginName}
                     />
                   </Tab>
@@ -222,10 +247,10 @@ class Stream extends React.Component {
                 </Tab>
               </TabBar>
               <TabContent activeTab={activeStreamTab} sub>
-                {getSlotComponents('streamTabPanes', reduxState, streamTabProps).map((PluginComponent) => (
+                {this.getSlotComponents('streamTabPanes').map((PluginComponent) => (
                   <TabPane tabId={PluginComponent.talkPluginName} key={PluginComponent.talkPluginName}>
                     <PluginComponent
-                      {...streamTabProps}
+                      {...slotProps}
                     />
                   </TabPane>
                 ))}
@@ -235,8 +260,6 @@ class Stream extends React.Component {
                     root={root}
                     comments={comments}
                     commentClassNames={commentClassNames}
-                    addTag={addTag}
-                    removeTag={removeTag}
                     ignoreUser={ignoreUser}
                     setActiveReplyBox={setActiveReplyBox}
                     activeReplyBox={activeReplyBox}
@@ -268,12 +291,6 @@ class Stream extends React.Component {
 Stream.propTypes = {
   addNotification: PropTypes.func.isRequired,
   postComment: PropTypes.func.isRequired,
-
-  // dispatch action to add a tag to a comment
-  addTag: PropTypes.func,
-
-  // dispatch action to remove a tag from a comment
-  removeTag: PropTypes.func,
 
   // dispatch action to ignore another user
   ignoreUser: React.PropTypes.func,

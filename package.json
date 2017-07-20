@@ -1,6 +1,6 @@
 {
   "name": "talk",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "description": "A better commenting experience from Mozilla, The New York Times, and the Washington Post. https://coralproject.net",
   "main": "app.js",
   "scripts": {
@@ -111,6 +111,7 @@
     "passport-jwt": "^2.2.1",
     "passport-local": "^1.0.0",
     "prop-types": "^15.5.10",
+    "query-strings": "^0.0.1",
     "react-apollo": "^1.1.0",
     "react-input-autosize": "^1.1.4",
     "react-recaptcha": "^2.2.6",

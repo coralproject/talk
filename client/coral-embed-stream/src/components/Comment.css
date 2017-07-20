@@ -17,8 +17,6 @@
 
 .comment {
   padding-left: 15px;
-  display: flex;
-  flex-flow: row;
 }
 
 .commentLevel0 {
@@ -67,17 +65,6 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-/* element in the top right of the Comment */
-.topRight {
-  float: right;
-  margin-top: 10px;
-  text-align: right;
-}
-
-.topRight > * {
-  text-align: initial;
-}
-
 .topRight .popover {
   margin-top: 1em;
   right: 0px;
@@ -87,11 +74,6 @@
 .topRight .active .link {
   padding-bottom: 0.125em;
   border-bottom: 2px solid currentColor;
-}
-
-.topRightMenu {
-  cursor: pointer;
-  margin-top: 5px;
 }
 
 .editCommentForm {
@@ -144,7 +126,7 @@
 }
 
 .commentInfoBar {
-  float: right;
+  margin-left: auto;
 }
 
 @keyframes enter {
@@ -158,7 +140,6 @@
 }
 
 .commentContainer {
-  flex: auto;
 }
 
 .commentAvatar {
@@ -172,4 +153,20 @@
 .timerIcon {
   vertical-align: middle;
   font-size: 14px;
+}
+
+.commentFooter {
+  padding-top: 8px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.content {
+}
+
+.footer {
+
 }

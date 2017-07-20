@@ -3,7 +3,8 @@
     "coral-plugin-auth",
     "coral-plugin-respect",
     "coral-plugin-offtopic",
-    "coral-plugin-facebook-auth"
+    "coral-plugin-facebook-auth",
+    "talk-plugin-featured-comments"
   ],
   "client": [
     "coral-plugin-respect",
@@ -11,6 +12,7 @@
     "coral-plugin-offtopic",
     "coral-plugin-viewing-options",
     "coral-plugin-comment-content",
-    "talk-plugin-permalink"
+    "talk-plugin-permalink",
+    "talk-plugin-featured-comments"
   ]
 }

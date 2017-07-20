@@ -1,4 +1,6 @@
 import update from 'immutability-helper';
+import {insertCommentsSorted} from 'coral-framework/utils';
+
 function determineCommentDepth(comment) {
   let depth = 0;
   let cur = comment;
@@ -142,14 +144,6 @@ export function findCommentInEmbedQuery(root, callbackOrId) {
   return findComment(root.asset.comments.nodes, callback);
 }
 
-const ascending = (a, b) => {
-  const dateA = new Date(a.created_at);
-  const dateB = new Date(b.created_at);
-  if (dateA < dateB) { return -1; }
-  if (dateA > dateB) { return 1; }
-  return 0;
-};
-
 function findAndInsertFetchedComments(parent, comments, parent_id) {
   const isAsset = parent.__typename === 'Asset';
   const connectionField = isAsset ? 'comments' : 'replies';
@@ -162,11 +156,9 @@ function findAndInsertFetchedComments(parent, comments, parent_id) {
           if (isAsset) {
             return nodes.concat(comments.nodes);
           }
-          return nodes
-          .concat(comments.nodes.filter(
+          return insertCommentsSorted(nodes, comments.nodes.filter(
             (comment) => !nodes.some((node) => node.id === comment.id)
-          ))
-          .sort(ascending);
+          ));
         }},
       },
     });
