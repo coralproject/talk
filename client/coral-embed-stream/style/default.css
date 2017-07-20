@@ -79,7 +79,7 @@ body {
 }
 
 /* Info Box Styles */
-.coral-plugin-infobox-info {
+.talk-plugin-infobox-info {
   top: 0;
   border: 0;
   background: #DEEDFF;
@@ -94,26 +94,26 @@ body {
 }
 
 
-.coral-plugin-infobox-info em{
+.talk-plugin-infobox-info em{
   font-style: italic;
 }
 
-.coral-plugin-infobox-info strong{
+.talk-plugin-infobox-info strong{
   font-weight: bold;
 }
 
-.coral-plugin-infobox-info blockquote{
+.talk-plugin-infobox-info blockquote{
   border-left: solid 2px #2a2a2a;
   padding-left: 10px;
 }
 
 
-.coral-plugin-infobox-info a{
+.talk-plugin-infobox-info a{
   color: #2a2a2a;
 }
 
 /* Question Box Styles */
-.coral-plugin-questionbox-info {
+.talk-plugin-questionbox-info {
   top: 0;
   border: 0;
   background: #F0F0F0;
@@ -129,7 +129,7 @@ body {
   display: flex;
 }
 
-.coral-plugin-questionbox-icon.bubble{
+.talk-plugin-questionbox-icon.bubble{
   position: absolute;
   top: 8px;
   left: 10px;
@@ -138,7 +138,7 @@ body {
   z-index: 0;
 }
 
-.coral-plugin-questionbox-icon.person{
+.talk-plugin-questionbox-icon.person{
   z-index: 2;
   top: 12px;
   left: 12px;
@@ -147,7 +147,7 @@ body {
   color: #262626;
 }
 
-.coral-plugin-questionbox-box {
+.talk-plugin-questionbox-box {
   position: relative;
   border: 0;
   color: white;
@@ -161,7 +161,7 @@ body {
   vertical-align: middle;
 }
 
-.coral-plugin-questionbox-content {
+.talk-plugin-questionbox-content {
   padding: 5px;
   display: flex;
   align-items: center;
@@ -231,26 +231,26 @@ body {
   position: relative;
 }
 
-.coral-plugin-commentcontent-text {
+.talk-plugin-commentcontent-text {
   margin-bottom: 7px;
   font-size: 16px;
   font-weight: 100;
   line-height: 1.3;
 }
 
-.coral-plugin-author-name-text {
+.talk-plugin-author-name-text {
   display: inline-block;
   margin: 10px 5px 10px 0;
   font-weight: bold;
 }
 
-.coral-plugin-author-name-bio-flag {
+.talk-plugin-author-name-bio-flag {
   float: right;
 }
 
 /* Tag Labels */
 
-.coral-plugin-tag-label {
+.talk-plugin-tag-label {
   background-color: #4C1066;
   color: white;
   display: inline-block;
@@ -293,44 +293,44 @@ button.comment__action-button[disabled],
   color: #F00;
 }
 
-.coral-plugin-pubdate-text {
+.talk-plugin-pubdate-text {
   display: inline-block;
 }
 
 /* Flag Styles */
 
-.coral-plugin-flags-popup-form {
+.talk-plugin-flags-popup-form {
   margin-bottom: 10px;
 }
 
-.coral-plugin-flags-popup-header {
+.talk-plugin-flags-popup-header {
   font-weight: bolder;
   font-size: 1.33rem;
   margin-bottom: 10px;
 }
 
-.coral-plugin-flags-popup-radio {
+.talk-plugin-flags-popup-radio {
   margin:5px;
 }
 
-.coral-plugin-flags-popup-radio-label {
+.talk-plugin-flags-popup-radio-label {
   margin:5px;
   font-weight: 400;
   font-size: .9rem;
 }
 
-.coral-plugin-flags-popup-counter {
+.talk-plugin-flags-popup-counter {
   float: left;
   margin-top: 21px;
   color: #999;
 }
 
-.coral-plugin-flags-popup-button {
+.talk-plugin-flags-popup-button {
   float: right;
   margin-top: 10px;
 }
 
-.coral-plugin-flags-reason-text {
+.talk-plugin-flags-reason-text {
   margin-left: 20px;
   margin-top: 5px;
   width: 75%;

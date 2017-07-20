@@ -5,7 +5,7 @@ import {t, can} from 'plugin-api/beta/client/services';
 import {Icon} from 'plugin-api/beta/client/components/ui';
 import cn from 'classnames';
 
-const plugin = 'coral-plugin-love';
+const plugin = 'talk-plugin-love';
 
 class LoveButton extends React.Component {
   handleClick = () => {
@@ -46,7 +46,7 @@ class LoveButton extends React.Component {
           onClick={this.handleClick}
         >
           <span className={cn(`${plugin}-label`, styles.label)}>
-            {t(alreadyReacted ? 'coral-plugin-love.loved' : 'coral-plugin-love.love')}
+            {t(alreadyReacted ? 'talk-plugin-love.loved' : 'talk-plugin-love.love')}
           </span>
           <Icon name="favorite" className={cn(`${plugin}-icon`, styles.icon)} />
           <span className={`${plugin}-count`}>{count > 0 && count}</span>

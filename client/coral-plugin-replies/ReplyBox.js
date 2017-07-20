@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
-import CommentBox from '../coral-plugin-commentbox/CommentBox';
+import CommentBox from '../talk-plugin-commentbox/CommentBox';
 
-const name = 'coral-plugin-replies';
+const name = 'talk-plugin-replies';
 
 class ReplyBox extends Component {
 

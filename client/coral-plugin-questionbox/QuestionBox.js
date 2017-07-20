@@ -1,5 +1,5 @@
 import React from 'react';
-const packagename = 'coral-plugin-questionbox';
+const packagename = 'talk-plugin-questionbox';
 import Slot from 'coral-framework/components/Slot';
 
 const QuestionBox = ({enable, content}) =>

@@ -8,7 +8,7 @@ import ClickOutside from 'coral-framework/components/ClickOutside';
 import cn from 'classnames';
 import styles from './styles.css';
 
-const name = 'coral-plugin-flags';
+const name = 'talk-plugin-flags';
 
 export default class FlagButton extends Component {
 

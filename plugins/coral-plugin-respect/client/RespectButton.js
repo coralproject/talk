@@ -5,7 +5,7 @@ import {withReaction} from 'plugin-api/beta/client/hocs';
 import {t, can} from 'plugin-api/beta/client/services';
 import cn from 'classnames';
 
-const plugin = 'coral-plugin-respect';
+const plugin = 'talk-plugin-respect';
 
 class RespectButton extends React.Component {
   handleClick = () => {
@@ -46,7 +46,7 @@ class RespectButton extends React.Component {
           onClick={this.handleClick}
         >
           <span className={cn(`${plugin}-label`, styles.label)}>
-            {t(alreadyReacted ? 'coral-plugin-respect.respected' : 'coral-plugin-respect.respect')}
+            {t(alreadyReacted ? 'talk-plugin-respect.respected' : 'talk-plugin-respect.respect')}
           </span>
           <Icon className={cn(styles.icon, `${plugin}-icon`)} />
           <span className={cn(`${plugin}-count`)}>{count > 0 && count}</span>

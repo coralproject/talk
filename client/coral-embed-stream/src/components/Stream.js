@@ -4,15 +4,15 @@ import {StreamError} from './StreamError';
 import Comment from '../components/Comment';
 import SuspendedAccount from './SuspendedAccount';
 import Slot from 'coral-framework/components/Slot';
-import InfoBox from 'coral-plugin-infobox/InfoBox';
+import InfoBox from 'talk-plugin-infobox/InfoBox';
 import {can} from 'coral-framework/services/perms';
-import {ModerationLink} from 'coral-plugin-moderation';
+import {ModerationLink} from 'talk-plugin-moderation';
 import RestrictedMessageBox
   from 'coral-framework/components/RestrictedMessageBox';
 import t, {timeago} from 'coral-framework/services/i18n';
 import {getSlotComponents} from 'coral-framework/helpers/plugins';
-import CommentBox from 'coral-plugin-commentbox/CommentBox';
-import QuestionBox from 'coral-plugin-questionbox/QuestionBox';
+import CommentBox from 'talk-plugin-commentbox/CommentBox';
+import QuestionBox from 'talk-plugin-questionbox/QuestionBox';
 import {Button, TabBar, Tab, TabCount, TabContent, TabPane} from 'coral-ui';
 import cn from 'classnames';
 

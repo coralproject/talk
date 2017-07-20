@@ -1,7 +1,7 @@
 import React from 'react';
 import Linkify from 'react-linkify';
 
-const name = 'coral-plugin-comment-content';
+const name = 'talk-plugin-comment-content';
 
 const CommentContent = ({comment}) => {
   const textbreaks = comment.body.split('\n');

@@ -1,7 +1,7 @@
 import React from 'react';
 import Markdown from './Markdown';
 
-const packagename = 'coral-plugin-infobox';
+const packagename = 'talk-plugin-infobox';
 
 const InfoBox = ({enable, content}) =>
 <div

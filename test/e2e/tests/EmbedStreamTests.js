@@ -43,15 +43,15 @@ module.exports = {
           .click('#coralSignUpButton')
           .waitForElementVisible('#coralLogInButton', 10000)
           .click('#coralLogInButton')
-          .waitForElementVisible('.coral-plugin-commentbox-button', 4000)
+          .waitForElementVisible('.talk-plugin-commentbox-button', 4000)
 
           // Post a comment
-          .setValue('.coral-plugin-commentbox-textarea', mockComment)
-          .click('.coral-plugin-commentbox-button')
-          .waitForElementVisible('.embed__stream .coral-plugin-commentcontent-text', 1000)
+          .setValue('.talk-plugin-commentbox-textarea', mockComment)
+          .click('.talk-plugin-commentbox-button')
+          .waitForElementVisible('.embed__stream .talk-plugin-commentcontent-text', 1000)
 
           // Verify that it appears
-          .assert.containsText('.embed__stream .coral-plugin-commentcontent-text', mockComment);
+          .assert.containsText('.embed__stream .talk-plugin-commentcontent-text', mockComment);
         done();
       })
       .catch((err) => {
@@ -70,9 +70,9 @@ module.exports = {
           .frame('coralStreamEmbed_iframe');
 
           // Post a comment
-        client.waitForElementVisible('.coral-plugin-commentbox-button', 2000)
-          .setValue('.coral-plugin-commentbox-textarea', mockComment)
-          .click('.coral-plugin-commentbox-button');
+        client.waitForElementVisible('.talk-plugin-commentbox-button', 2000)
+          .setValue('.talk-plugin-commentbox-textarea', mockComment)
+          .click('.talk-plugin-commentbox-button');
         done();
       })
       .catch((err) => {
@@ -92,17 +92,17 @@ module.exports = {
           .frame('coralStreamEmbed_iframe');
 
           // Post a comment
-        client.waitForElementVisible('.coral-plugin-commentbox-button', 2000)
-          .setValue('.coral-plugin-commentbox-textarea', mockComment)
-          .click('.coral-plugin-commentbox-button')
+        client.waitForElementVisible('.talk-plugin-commentbox-button', 2000)
+          .setValue('.talk-plugin-commentbox-textarea', mockComment)
+          .click('.talk-plugin-commentbox-button')
 
           // Post a reply
 
-          .waitForElementVisible('.embed__stream .coral-plugin-replies-reply-button', 5000)
-          .click('.embed__stream .coral-plugin-replies-reply-button')
+          .waitForElementVisible('.embed__stream .talk-plugin-replies-reply-button', 5000)
+          .click('.embed__stream .talk-plugin-replies-reply-button')
           .waitForElementVisible('#replyText')
           .setValue('#replyText', mockReply)
-          .click('.embed__stream .coral-plugin-replies-textarea .coral-plugin-commentbox-button')
+          .click('.embed__stream .talk-plugin-replies-textarea .talk-plugin-commentbox-button')
           .waitForElementVisible('.embed__stream .reply', 20000)
 
           // Verify that it appears
@@ -143,11 +143,11 @@ module.exports = {
   //         .frame('coralStreamEmbed_iframe');
   //
   //         // Post a reply
-  //       client.waitForElementVisible('.coral-plugin-replies-reply-button', 5000)
-  //         .click('.coral-plugin-replies-reply-button')
+  //       client.waitForElementVisible('.talk-plugin-replies-reply-button', 5000)
+  //         .click('.talk-plugin-replies-reply-button')
   //         .waitForElementVisible('#replyText')
   //         .setValue('#replyText', mockReply)
-  //         .click('.coral-plugin-replies-textarea button')
+  //         .click('.talk-plugin-replies-textarea button')
   //         .waitForElementVisible('#coral-notif', 1000)
   //
   //         // Verify that it appears
@@ -166,8 +166,8 @@ module.exports = {
         .frame('coralStreamEmbed_iframe');
 
         // Verify that comment count is correct
-      client.waitForElementVisible('.coral-plugin-comment-count-text', 2000)
-        .assert.containsText('.coral-plugin-comment-count-text', '5 Comments');
+      client.waitForElementVisible('.talk-plugin-comment-count-text', 2000)
+        .assert.containsText('.talk-plugin-comment-count-text', '5 Comments');
       done();
     });
   },

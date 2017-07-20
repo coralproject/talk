@@ -5,7 +5,7 @@ import t from 'coral-framework/services/i18n';
 import cn from 'classnames';
 import styles from './ReplyButton.css';
 
-const name = 'coral-plugin-replies';
+const name = 'talk-plugin-replies';
 
 const ReplyButton = ({onClick}) => {
   return (

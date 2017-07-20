@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-const packagename = 'coral-plugin-author-name';
+const packagename = 'talk-plugin-author-name';
 
 export default class AuthorName extends Component {
 

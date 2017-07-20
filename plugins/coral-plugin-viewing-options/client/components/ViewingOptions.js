@@ -21,7 +21,7 @@ const ViewingOptions = (props) => {
 
   return (
     <ClickOutside onClickOutside={handleClickOutside}>
-      <div className={cn([styles.root, 'coral-plugin-viewing-options'])}>
+      <div className={cn([styles.root, 'talk-plugin-viewing-options'])}>
         <div>
           <button className={styles.button} onClick={toggleOpen}>Viewing Options
             {props.open ? <Icon name="arrow_drop_up" className={styles.icon}/> : <Icon name="arrow_drop_down" className={styles.icon}/>}
@@ -29,12 +29,12 @@ const ViewingOptions = (props) => {
         </div>
         {
           props.open ? (
-            <div className={cn([styles.list, 'coral-plugin-viewing-options-list'])}>
+            <div className={cn([styles.list, 'talk-plugin-viewing-options-list'])}>
               <ul>
                 {
                   React.Children.map(<Slot fill="viewingOptions" />, (component) => {
                     return React.createElement('li', {
-                      className: 'coral-plugin-viewing-options-item'
+                      className: 'talk-plugin-viewing-options-item'
                     }, component);
                   })
                 }

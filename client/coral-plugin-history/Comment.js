@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {Icon} from '../coral-ui';
 import styles from './Comment.css';
 import Slot from 'coral-framework/components/Slot';
-import PubDate from '../coral-plugin-pubdate/PubDate';
+import PubDate from '../talk-plugin-pubdate/PubDate';
 import CommentContent from '../coral-embed-stream/src/components/CommentContent';
 
 import t from 'coral-framework/services/i18n';

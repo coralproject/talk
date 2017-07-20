@@ -5,7 +5,7 @@ import OffTopicCheckbox from './containers/OffTopicCheckbox';
 import reducer from './reducer';
 
 /**
- * coral-plugin-offtopic depends on coral-plugin-viewing-options
+ * talk-plugin-offtopic depends on talk-plugin-viewing-options
  * in other to display filter and use the streamViewingOptions slot
  */
 

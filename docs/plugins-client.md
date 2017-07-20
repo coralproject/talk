@@ -132,7 +132,7 @@ In this example we add our reaction component to the `commentReaction` Slot
 
 ```js
 import React from 'react';
-import {withReaction} from 'coral-plugin-api';
+import {withReaction} from 'talk-plugin-api';
 
 class LoveButton extends React.Component {
   handleClick = () => {
@@ -175,7 +175,7 @@ This feature introduces `withReaction` HOC.  `withReaction` takes, as argument, 
 	* `count` - The reaction count
 
 
-For full reference: Please, check `coral-plugin-love`: [LoveButton.js](https://github.com/coralproject/talk/blob/master/plugins/coral-plugin-love/client/LoveButton.js)
+For full reference: Please, check `talk-plugin-love`: [LoveButton.js](https://github.com/coralproject/talk/blob/master/plugins/talk-plugin-love/client/LoveButton.js)
 
 ### Comment Stream
 

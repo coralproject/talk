@@ -1,4 +1,4 @@
-# coral-plugin-facebook-auth
+# talk-plugin-facebook-auth
 
 This plugin provides facebook authentication support for Talk.
 

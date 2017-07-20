@@ -5,7 +5,7 @@ import {t, can} from 'plugin-api/beta/client/services';
 import {Icon} from 'plugin-api/beta/client/components/ui';
 import cn from 'classnames';
 
-const plugin = 'coral-plugin-like';
+const plugin = 'talk-plugin-like';
 
 class LikeButton extends React.Component {
   handleClick = () => {
@@ -46,7 +46,7 @@ class LikeButton extends React.Component {
           onClick={this.handleClick}
         >
           <span className={cn(`${plugin}-label`, styles.label)}>
-            {t(alreadyReacted ? 'coral-plugin-like.liked' : 'coral-plugin-like.like')}
+            {t(alreadyReacted ? 'talk-plugin-like.liked' : 'talk-plugin-like.like')}
           </span>
           <Icon name="thumb_up" className={cn(`${plugin}-icon`, styles.icon)} />
           <span className={`${plugin}-count`}>{count > 0 && count}</span>

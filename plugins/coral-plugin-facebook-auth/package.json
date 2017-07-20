@@ -1,5 +1,5 @@
 {
-  "name": "coral-plugin-facebook-auth",
+  "name": "talk-plugin-facebook-auth",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
