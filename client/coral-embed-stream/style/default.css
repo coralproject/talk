@@ -21,18 +21,6 @@ body {
   padding: 4px;
 }
 
-.talk-stream-tab-container {
-  padding-bottom: 50px;
-  min-height: 600px;
-}
-
-.talk-stream-tab-container .material-icons {
-  vertical-align: middle;
-  width: 1em;
-  font-size: 1em;
-  overflow: hidden;
-}
-
 .expandForSignin {
   min-height: 600px;
 }
@@ -281,11 +269,6 @@ body {
   display: flex;
   justify-content: flex-start;
   float: left;
-}
-
-.comment__action-container .material-icons {
-  font-size: 12px;
-  margin-left: 3px;
 }
 
 button.comment__action-button,

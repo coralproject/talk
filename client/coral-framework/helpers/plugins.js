@@ -5,92 +5,60 @@ import merge from 'lodash/merge';
 import plugins from 'pluginsConfig';
 import flatten from 'lodash/flatten';
 import flattenDeep from 'lodash/flattenDeep';
-import {getDefinitionName, mergeDocuments} from 'coral-framework/utils';
 import {loadTranslations} from 'coral-framework/services/i18n';
-import {injectReducers, getStore} from 'coral-framework/services/store';
+import {injectReducers} from 'coral-framework/services/store';
 import camelize from './camelize';
 
-export function getSlotComponents(slot) {
-  const pluginConfig = getStore().getState().config.plugin_config;
-
+export function getSlotComponents(slot, reduxState, props = {}) {
+  const pluginConfig = reduxState.config.pluginConfig || {};
   return flatten(plugins
 
-    // Filter out components that have slots and have been disabled in `plugin_config`
-    .filter((o) => o.module.slots && (!pluginConfig || !pluginConfig[o.name] || !pluginConfig[o.name].disable_components))
+      // Filter out components that have slots and have been disabled in `plugin_config`
+      .filter((o) => o.module.slots && (!pluginConfig || !pluginConfig[o.name] || !pluginConfig[o.name].disable_components))
 
-    .filter((o) => o.module.slots[slot])
-    .map((o) => o.module.slots[slot])
-  );
+      .filter((o) => o.module.slots[slot])
+      .map((o) => o.module.slots[slot])
+  )
+    .filter((component) => {
+      if(!component.isExcluded) {
+        return true;
+      }
+      let resolvedProps = {...props, config: pluginConfig};
+      if (component.mapStateToProps) {
+        resolvedProps = {...resolvedProps, ...component.mapStateToProps(reduxState)};
+      }
+      return !component.isExcluded(resolvedProps);
+    });
 }
 
-export function isSlotEmpty(slot) {
-  return getSlotComponents(slot).length === 0;
+export function isSlotEmpty(slot, reduxState, props) {
+  return getSlotComponents(slot, reduxState, props).length === 0;
 }
 
 /**
  * Returns React Elements for given slot.
  */
-export function getSlotElements(slot, props = {}) {
-  return getSlotComponents(slot)
-    .map((component, i) => React.createElement(component, {key: i, ...props}));
+export function getSlotElements(slot, reduxState, props = {}) {
+  const pluginConfig = reduxState.config.pluginConfig || {};
+  return getSlotComponents(slot, reduxState, props)
+    .map((component, i) => React.createElement(component, {key: i, ...props, config: pluginConfig}));
 }
 
-function getComponentFragments(components) {
-  const res = components
-    .map((c) => c.fragments)
-    .filter((fragments) => fragments)
-    .reduce((res, fragments) => {
-      Object.keys(fragments).forEach((key) => {
-        if (!(key in res)) {
-          res[key] = {spreads: [], definitions: []};
-        }
-        res[key].spreads.push(getDefinitionName(fragments[key]));
-        res[key].definitions.push(fragments[key]);
-      });
-      return res;
-    }, {});
-
-  Object.keys(res).forEach((key) => {
-
-    // Assemble arguments for `gql` to call it directly without using template literals.
-    res[key].spreads = `...${res[key].spreads.join('\n...')}\n`;
-    res[key].definitions = mergeDocuments(res[key].definitions);
-  });
-
-  return res;
-}
-
-/**
- * Returns an object that can be used to compose fragments or queries.
- *
- * Example:
- * const pluginFragments = getSlotsFragments(['commentInfoBar', 'commentActions']);
- * const rootFragment = gql`
- *   fragment Comment_root on RootQuery {
- +     ${pluginFragments.spreads('root')}
- *   }
- *   ${pluginFragments.definitions('root')}
- * `;
- */
-export function getSlotsFragments(slots) {
-  if (!Array.isArray(slots)) {
-    slots = [slots];
-  }
-  const components = uniq(flattenDeep(slots.map((slot) => {
-    return plugins
+export function getSlotFragments(slot, part) {
+  const components = uniq(flattenDeep(plugins
     .filter((o) => o.module.slots ? o.module.slots[slot] : false)
-    .map((o) => o.module.slots[slot]);
-  })));
+    .map((o) => o.module.slots[slot])
+  ));
 
-  const fragments = getComponentFragments(components);
-  return {
-    spreads(key) {
-      return (fragments[key] && fragments[key].spreads) || '';
-    },
-    definitions(key) {
-      return (fragments[key] && fragments[key].definitions) || '';
-    },
-  };
+  const documents = components
+    .map((c) => c.fragments)
+    .filter((fragments) => fragments && fragments[part])
+    .reduce((res, fragments) => {
+      res.push(fragments[part]);
+      return res;
+    }, []);
+
+  return documents;
 }
 
 export function getGraphQLExtensions() {

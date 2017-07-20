@@ -71,10 +71,6 @@ const config = {
         test: /.css$/,
       },
       {
-        loader: 'url-loader?limit=100000',
-        test: /\.png$/
-      },
-      {
         loader: 'file-loader',
         test: /\.(jpg|png|gif|svg)$/
       },

@@ -62,7 +62,7 @@ export default class PermalinkButton extends React.Component {
 
   render () {
     const {copySuccessful, copyFailure, popoverOpen} = this.state;
-    const {asset} = this.props;
+    const {asset, comment} = this.props;
     return (
       <ClickOutside onClickOutside={this.handleClickOutside}>
         <div className={cn(`${name}-container`, styles.container)}>
@@ -72,7 +72,7 @@ export default class PermalinkButton extends React.Component {
             onClick={this.toggle}
             className={cn(`${name}-button`, styles.button)}>
               {t('permalink')}
-            <Icon name="link" />
+            <Icon name="link" className={styles.icon}/>
           </button>
 
           <div
@@ -83,7 +83,8 @@ export default class PermalinkButton extends React.Component {
               className={cn(styles.input, `${name}-copy-field`)}
               type='text'
               ref={(input) => this.permalinkInput = input}
-              defaultValue={`${asset.url}?commentId=${this.props.commentId}`}
+              defaultValue={`${asset.url}?commentId=${comment.id}`}
+              readOnly
             />
 
             <Button

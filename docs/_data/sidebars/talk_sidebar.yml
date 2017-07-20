@@ -36,6 +36,12 @@ entries:
     - title: Setup
       url: /install-setup.html
       output: web
+    - title: Microservice Deployments
+      url: /install-microservices.html
+      output: web
+    - title: Troubleshooting
+      url: /install-troubleshooting.html
+      output: web
 
   - title: Architecture
     output: web
@@ -46,10 +52,12 @@ entries:
     - title: Tags
       url: /architecture-tags.html
       output: web
+    - title: Metadata API
+      url: /architecture-metadata.html
+      output: web
     - title: cli
       url: /architecture-cli.html
       output: web
-
 
   - title: Plugins
     output: web
