@@ -33,7 +33,7 @@ export default withFragments({
       }
 
       ##
-      # Figure out why do we need this.
+      # TODO: Remove this when we have the IntrospectionFragmentMatcher.
       # Currently without this loading more featured comments
       # brings apollo into an inconsistent state.
       action_summaries {
