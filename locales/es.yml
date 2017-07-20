@@ -32,7 +32,6 @@ es:
     comment_post_notif_premod: "Gracias por el comentario. Nuestro equipo de moderación va a revisarlo muy pronto."
     comment_post_banned_word: "Tu comentario contiene una o más palabras que no están permitidas en nuestro espacio, por lo que no será publicado. Si crees que es un error, por favor contacta a nuestro equipo de moderación."
     characters_remaining: "carácteres restantes"
-  comment_is_best: "Este comentario es uno de los mejores"
   comment_offensive: "Este comentario es ofensivo"
   comment_singular: Comentario
   comment_plural: Comentarios
@@ -298,7 +297,6 @@ es:
   report_notif: "Gracias por reportar este comentario. Nuestro equipo de moderación ha sido notificado y muy pronto lo va a revisar."
   report_notif_remove: "Tu reporte ha sido eliminado."
   reported: "Reportado"
-  set_best: "Etiquetar como el mejor"
   settings:
     all_comments: "Todos los comentarios"
     from_settings_page: "Desde la página de configuración puedes ver tu historial de comentarios."
@@ -386,7 +384,6 @@ es:
     write_message: "Escribir un mensaje"
     send: "Enviar"
   thank_you: "Valoramos tanto su seguridad en este espacio como sus comentarios. Un o una moderadora va a leer su reporte."
-  unset_best: "Des-etiquetar como el mejor"
   user:
     bio_flags: "reportes para este bio"
     user_bio: "Bio de Usuario"

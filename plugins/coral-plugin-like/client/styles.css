@@ -9,6 +9,7 @@
   padding: 0px;
   border: none;
   font-size: inherit;
+  vertical-align: middle;
 
   &:hover {
     color: #767676;

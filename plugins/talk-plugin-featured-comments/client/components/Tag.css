@@ -1,0 +1,20 @@
+.tagIcon {
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+.icon {
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+.tag {
+  background-color: #10589b;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  display: inline-block;
+  margin: 0px 5px;
+  padding: 5px 5px;
+  border-radius: 2px;
+}

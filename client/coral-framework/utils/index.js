@@ -146,6 +146,38 @@ export function forEachError(error, callback) {
   });
 }
 
+const ascending = (a, b) => {
+  const dateA = new Date(a.created_at);
+  const dateB = new Date(b.created_at);
+  if (dateA < dateB) { return -1; }
+  if (dateA > dateB) { return 1; }
+  return 0;
+};
+
+const descending = (a, b) => ascending(a, b) * -1;
+
+export function insertCommentsSorted(nodes, comments, sortOrder = 'CHRONOLOGICAL') {
+  const added = nodes.concat(comments);
+  if (sortOrder === 'CHRONOLOGICAL') {
+    return added.sort(ascending);
+  }
+  if (sortOrder === 'REVERSE_CHRONOLOGICAL') {
+    return added.sort(descending);
+  }
+  throw new Error(`Unknown sort order ${sortOrder}`);
+}
+
+export const isTagged = (tags, which) => tags.some((t) => t.tag.name === which);
+
+export function buildUrl({protocol, hostname, port, pathname, search, hash} = window.location) {
+  if (search && search[0] !== '?') {
+    search = `?${search}`;
+  } else if (search === '?') {
+    search = '';
+  }
+  return `${protocol}//${hostname}${port ? `:${port}` : ''}${pathname}${search}${hash}`;
+}
+
 /**
  * getSlotFragmentSpreads will return a string in the
  * expected format for slot fragments, given `slots` and  `resource`.

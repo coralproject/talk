@@ -21,12 +21,19 @@ export default withFragments({
       ${getSlotFragmentSpreads(slots, 'root')}
     }
     `,
+  asset: gql`
+    fragment CoralEmbedStream_Comment_asset on Asset {
+      __typename
+      ${getSlotFragmentSpreads(slots, 'asset')}
+    }
+    `,
   comment: gql`
     fragment CoralEmbedStream_Comment_comment on Comment {
       id
       body
       created_at
       status
+      replyCount
       tags {
         tag {
           name
