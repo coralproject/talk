@@ -3,7 +3,7 @@ import {bindActionCreators} from 'redux';
 import ViewingOptions from '../components/ViewingOptions';
 import {openViewingOptions, closeViewingOptions} from '../actions';
 
-const mapStateToProps = ({coralPluginViewingOptions: state}) => ({
+const mapStateToProps = ({talkPluginViewingOptions: state}) => ({
   open: state.open
 });
 
