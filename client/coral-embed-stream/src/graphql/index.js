@@ -84,7 +84,7 @@ const extension = {
         }
         user {
           id
-          name: username
+          username
         }
         action_summaries {
           count
@@ -143,7 +143,7 @@ const extension = {
             user: {
               __typename: 'User',
               id: auth.toJS().user.id,
-              name: auth.toJS().user.username
+              username: auth.toJS().user.username
             },
             created_at: new Date().toISOString(),
             body,
