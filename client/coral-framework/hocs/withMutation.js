@@ -6,8 +6,8 @@ import flatten from 'lodash/flatten';
 import isEmpty from 'lodash/isEmpty';
 import {getMutationOptions, resolveFragments} from 'coral-framework/services/graphqlRegistry';
 import {getDefinitionName, getResponseErrors} from '../utils';
+import PropTypes from 'prop-types';
 import t from 'coral-framework/services/i18n';
-const PropTypes = require('prop-types');
 
 class ResponseErrors extends Error {
   constructor(errors) {
@@ -41,10 +41,6 @@ export default (document, config = {}) => (WrappedComponent) => {
     static contextTypes = {
       eventEmitter: PropTypes.object,
       store: PropTypes.object,
-    };
-
-    emit = (eventName, value, context) => {
-      this.context.eventEmitter.emit(eventName, value, context);
     };
 
     // Lazily resolve fragments from graphRegistry to support circular dependencies.
@@ -119,13 +115,21 @@ export default (document, config = {}) => (WrappedComponent) => {
         if (isEmpty(wrappedConfig.optimisticResponse)) {
           delete wrappedConfig.optimisticResponse;
         }
+
+        this.context.eventEmitter.emit(`mutation.${name}.begin`, {variables});
+
         return data.mutate(wrappedConfig)
           .then((res) => {
             const errors = getResponseErrors(res);
             if (errors) {
               throw new ResponseErrors(errors);
             }
+            this.context.eventEmitter.emit(`mutation.${name}.success`, {variables});
             return Promise.resolve(res);
+          })
+          .catch((error) => {
+            this.context.eventEmitter.emit(`mutation.${name}.error`, {variables, error});
+            throw new error;
           });
       };
       return config.props({...data, mutate});

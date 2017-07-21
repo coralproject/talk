@@ -3,6 +3,9 @@ import URLSearchParams from 'url-search-params';
 
 import {buildUrl} from 'coral-framework/utils';
 import queryString from 'query-string';
+import EventEmitter from 'eventemitter2';
+
+const eventEmitter = new EventEmitter();
 
 // TODO: Styles should live in a separate file
 const snackbarStyles = {
@@ -55,6 +58,10 @@ function configurePymParent(pymParent, opts) {
   // Sends config to pymChild
   function sendConfig(config) {
     pymParent.sendMessage('config', JSON.stringify(config));
+  }
+
+  if (opts.events) {
+    opts.events(eventEmitter);
   }
 
   pymParent.onMessage('coral-auth-changed', function(message) {
@@ -165,6 +172,11 @@ function configurePymParent(pymParent, opts) {
   // When end-user clicks link in iframe, open it in parent context
   pymParent.onMessage('navigate', function(url) {
     window.open(url, '_blank').focus();
+  });
+
+  pymParent.onMessage('eventEmitter', (raw) => {
+    const {eventName, value} = JSON.parse(raw);
+    eventEmitter.emit(eventName, value);
   });
 
   // get dimensions of viewport

@@ -30,6 +30,11 @@
         asset_url: '<%= asset_url ? asset_url : '' %>',
         asset_id: '<%= asset_id ? asset_id : '' %>',
         auth_token: '',
+        events: function(events) {
+          events.onAny(function(eventName, data) {
+            console.log(eventName, data);
+          });
+        },
         plugin_config: {
           /**
            *  You can disable rendering slot components of a plugin by doing:
