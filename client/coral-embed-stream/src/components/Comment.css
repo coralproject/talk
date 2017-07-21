@@ -16,6 +16,7 @@
 }
 
 .comment {
+  position: relative;
   padding-left: 15px;
 }
 
