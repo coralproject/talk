@@ -59,7 +59,7 @@ if (!window.opener) {
       return;
     }
 
-    eventEmitter.emit(`redux.action.${action.type}`, {action});
+    eventEmitter.emit(`action.${action.type}`, {action});
   });
 }
 
