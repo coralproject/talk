@@ -2,7 +2,7 @@ import React from 'react';
 const PropTypes = require('prop-types');
 
 export default (WrappedComponent) => {
-  class WithCopyToClipboard extends React.Component {
+  class WithEmit extends React.Component {
     static contextTypes = {
       eventEmitter: PropTypes.object,
     };
@@ -19,5 +19,5 @@ export default (WrappedComponent) => {
     }
   }
 
-  return WithCopyToClipboard;
+  return WithEmit;
 };
