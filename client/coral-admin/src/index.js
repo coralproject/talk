@@ -2,6 +2,8 @@ import React from 'react';
 import {render} from 'react-dom';
 import {ApolloProvider} from 'react-apollo';
 import smoothscroll from 'smoothscroll-polyfill';
+import EventEmitter from 'eventemitter2';
+import EventEmitterProvider from 'coral-framework/components/EventEmitterProvider';
 
 import {getClient} from './services/client';
 import store from './services/store';
@@ -12,13 +14,17 @@ import 'react-mdl/extra/material.js';
 import './graphql';
 import {loadPluginsTranslations, injectPluginsReducers} from 'coral-framework/helpers/plugins';
 
+const eventEmitter = new EventEmitter();
+
 loadPluginsTranslations();
 injectPluginsReducers();
 smoothscroll.polyfill();
 
 render(
-  <ApolloProvider client={getClient()} store={store}>
-    <App />
-  </ApolloProvider>
+  <EventEmitterProvider eventEmitter={eventEmitter}>
+    <ApolloProvider client={getClient()} store={store}>
+      <App />
+    </ApolloProvider>
+  </EventEmitterProvider>
   , document.querySelector('#root')
 );
