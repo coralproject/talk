@@ -5,9 +5,9 @@ import uniq from 'lodash/uniq';
 import flatten from 'lodash/flatten';
 import isEmpty from 'lodash/isEmpty';
 import {getMutationOptions, resolveFragments} from 'coral-framework/services/graphqlRegistry';
-import {getStore} from 'coral-framework/services/store';
 import {getDefinitionName, getResponseErrors} from '../utils';
 import t from 'coral-framework/services/i18n';
+const PropTypes = require('prop-types');
 
 class ResponseErrors extends Error {
   constructor(errors) {
@@ -36,98 +36,111 @@ export default (document, config = {}) => (WrappedComponent) => {
     options: config.options || {},
     props: config.props || ((data) => ({mutate: data.mutate()})),
   };
-  const wrappedProps = (data) => {
-    const name = getDefinitionName(document);
-    const callbacks = getMutationOptions(name);
-    const mutate = (base) => {
-      const variables = base.variables || config.options.variables;
-      const configs = callbacks.map((cb) => cb({variables, state: getStore().getState()}));
 
-      const optimisticResponse = merge(
-        base.optimisticResponse || config.options.optimisticResponse,
-        ...configs.map((cfg) => cfg.optimisticResponse),
-      );
-
-      const refetchQueries = flatten(uniq([
-        base.refetchQueries || config.options.refetchQueries,
-        ...configs.map((cfg) => cfg.refetchQueries),
-      ].filter((i) => i)));
-
-      const updateCallbacks =
-        [base.update || config.options.update]
-        .concat(...configs.map((cfg) => cfg.update))
-        .filter((i) => i);
-
-      const update = (proxy, result) => {
-        if (getResponseErrors(result)) {
-
-          // Do not run updates when we have mutation errors.
-          return;
-        }
-        updateCallbacks.forEach((cb) => cb(proxy, result));
-      };
-
-      const updateQueries =
-        [
-          base.updateQueries || config.options.updateQueries,
-          ...configs.map((cfg) => cfg.updateQueries)
-        ]
-        .filter((i) => i)
-        .reduce((res, map) => {
-          Object.keys(map).forEach((key) => {
-            if (!(key in res)) {
-              res[key] = (prev, result) => {
-                if (getResponseErrors(result.mutationResult)) {
-
-                  // Do not run updates when we have mutation errors.
-                  return prev;
-                }
-                return map[key](prev, result);
-              };
-            } else {
-              const existing = res[key];
-              res[key] = (prev, result) => {
-                const next = existing(prev, result);
-                return map[key](next, result);
-              };
-            }
-          });
-          return res;
-        }, {});
-
-      const wrappedConfig = {
-        variables,
-        optimisticResponse,
-        refetchQueries,
-        updateQueries,
-        update,
-      };
-      if (isEmpty(wrappedConfig.optimisticResponse)) {
-        delete wrappedConfig.optimisticResponse;
-      }
-      return data.mutate(wrappedConfig)
-        .then((res) => {
-          const errors = getResponseErrors(res);
-          if (errors) {
-            throw new ResponseErrors(errors);
-          }
-          return Promise.resolve(res);
-        });
+  return class WithMutation extends React.Component {
+    static contextTypes = {
+      eventEmitter: PropTypes.object,
+      store: PropTypes.object,
     };
-    return config.props({...data, mutate});
-  };
 
-  // Lazily resolve fragments from graphRegistry to support circular dependencies.
-  let memoized = null;
-  const getWrapped = () => {
-    if (!memoized) {
-      memoized = graphql(resolveFragments(document), {...config, props: wrappedProps})(WrappedComponent);
+    emit = (eventName, value, context) => {
+      this.context.eventEmitter.emit(eventName, value, context);
+    };
+
+    // Lazily resolve fragments from graphRegistry to support circular dependencies.
+    memoized = null;
+
+    wrappedProps = (data) => {
+      const name = getDefinitionName(document);
+      const callbacks = getMutationOptions(name);
+      const mutate = (base) => {
+        const variables = base.variables || config.options.variables;
+        const configs = callbacks.map((cb) => cb({variables, state: this.context.store.getState()}));
+
+        const optimisticResponse = merge(
+          base.optimisticResponse || config.options.optimisticResponse,
+          ...configs.map((cfg) => cfg.optimisticResponse),
+        );
+
+        const refetchQueries = flatten(uniq([
+          base.refetchQueries || config.options.refetchQueries,
+          ...configs.map((cfg) => cfg.refetchQueries),
+        ].filter((i) => i)));
+
+        const updateCallbacks =
+          [base.update || config.options.update]
+          .concat(...configs.map((cfg) => cfg.update))
+          .filter((i) => i);
+
+        const update = (proxy, result) => {
+          if (getResponseErrors(result)) {
+
+            // Do not run updates when we have mutation errors.
+            return;
+          }
+          updateCallbacks.forEach((cb) => cb(proxy, result));
+        };
+
+        const updateQueries =
+          [
+            base.updateQueries || config.options.updateQueries,
+            ...configs.map((cfg) => cfg.updateQueries)
+          ]
+          .filter((i) => i)
+          .reduce((res, map) => {
+            Object.keys(map).forEach((key) => {
+              if (!(key in res)) {
+                res[key] = (prev, result) => {
+                  if (getResponseErrors(result.mutationResult)) {
+
+                    // Do not run updates when we have mutation errors.
+                    return prev;
+                  }
+                  return map[key](prev, result);
+                };
+              } else {
+                const existing = res[key];
+                res[key] = (prev, result) => {
+                  const next = existing(prev, result);
+                  return map[key](next, result);
+                };
+              }
+            });
+            return res;
+          }, {});
+
+        const wrappedConfig = {
+          variables,
+          optimisticResponse,
+          refetchQueries,
+          updateQueries,
+          update,
+        };
+        if (isEmpty(wrappedConfig.optimisticResponse)) {
+          delete wrappedConfig.optimisticResponse;
+        }
+        return data.mutate(wrappedConfig)
+          .then((res) => {
+            const errors = getResponseErrors(res);
+            if (errors) {
+              throw new ResponseErrors(errors);
+            }
+            return Promise.resolve(res);
+          });
+      };
+      return config.props({...data, mutate});
+    };
+
+    getWrapped = () => {
+      if (!this.memoized) {
+        this.memoized = graphql(resolveFragments(document), {...config, props: this.wrappedProps})(WrappedComponent);
+      }
+      return this.memoized;
+    };
+
+    render() {
+      const Wrapped = this.getWrapped();
+      return <Wrapped {...this.props} />;
     }
-    return memoized;
-  };
-
-  return (props) => {
-    const Wrapped = getWrapped();
-    return <Wrapped {...props} />;
   };
 };
