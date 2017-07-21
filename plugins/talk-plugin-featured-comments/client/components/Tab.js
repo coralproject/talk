@@ -2,7 +2,7 @@ import React from 'react';
 import {TabCount} from 'plugin-api/beta/client/components/ui';
 import InfoIcon from './InfoIcon';
 import {t} from 'plugin-api/beta/client/services';
-import Tooltip from '../containers/Tooltip';
+import Tooltip from './Tooltip';
 
 export default ({active, asset: {featuredCommentsCount}, tooltip, ...props}) => { 
   return (
@@ -12,7 +12,7 @@ export default ({active, asset: {featuredCommentsCount}, tooltip, ...props}) => 
       {t('talk-plugin-featured-comments.featured')}
       <TabCount active={active} sub>{featuredCommentsCount}</TabCount>
       <InfoIcon /> 
-       {tooltip && <Tooltip />} 
+      {tooltip && <Tooltip />} 
     </span>
   );
 };
