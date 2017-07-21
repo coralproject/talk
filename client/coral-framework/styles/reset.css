@@ -7,7 +7,6 @@
   touch-action: manipulation;
   padding: 0;
 
-  position: relative;
   overflow: hidden;
 
   /* Unify anchor and button. */
@@ -18,7 +17,7 @@
   text-decoration: none;
   align-items: flex-start;
   vertical-align: middle;
-  whiteSpace: nowrap;
+  white-space: nowrap;
   background: transparent;
   font-size: inherit;
 
