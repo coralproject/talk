@@ -5,6 +5,6 @@
   margin-left: 5px;
 }
 
-/* .infoIcon:hover {
+ .infoIcon.on {
   color: #1d5294;
-} */
+} 

@@ -11,7 +11,7 @@ export default ({active, asset: {featuredCommentsCount}, tooltip, ...props}) => 
       onMouseLeave={props.hideTooltip} >
       {t('talk-plugin-featured-comments.featured')}
       <TabCount active={active} sub>{featuredCommentsCount}</TabCount>
-      <InfoIcon /> 
+      <InfoIcon tooltip={tooltip} /> 
       {tooltip && <Tooltip />} 
     </span>
   );
