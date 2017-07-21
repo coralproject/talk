@@ -174,7 +174,8 @@ function configurePymParent(pymParent, opts) {
     window.open(url, '_blank').focus();
   });
 
-  pymParent.onMessage('eventEmitter', (raw) => {
+  // Pass events from iframe to the event emitter
+  pymParent.onMessage('event', (raw) => {
     const {eventName, value} = JSON.parse(raw);
     eventEmitter.emit(eventName, value);
   });

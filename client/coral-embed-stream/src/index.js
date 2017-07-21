@@ -48,7 +48,7 @@ if (!window.opener) {
 
   // Pass any events through our parent.
   eventEmitter.onAny((eventName, value) => {
-    pym.sendMessage('eventEmitter', JSON.stringify({eventName, value}));
+    pym.sendMessage('event', JSON.stringify({eventName, value}));
   });
 
   // Add a redux listener to pass through all actions to our event emitter.

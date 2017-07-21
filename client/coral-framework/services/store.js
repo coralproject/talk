@@ -11,6 +11,10 @@ export function injectReducers(reducers) {
   store.replaceReducer(combineReducers(store.coralReducers));
 }
 
+/**
+ * Add a action listener to the redux store.
+ * The action is passed as the first argument to the callback.
+ */
 export function addListener(cb) {
   listeners.push(cb);
 }
