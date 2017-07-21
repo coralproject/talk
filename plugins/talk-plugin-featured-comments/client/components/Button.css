@@ -3,12 +3,8 @@
   /* TODO: figure out the best location to include the `reset.css` */
   composes: buttonReset from "coral-framework/styles/reset.css";
 
-  color: #2a2a2a;
-  margin-right: 10px;
-}
-
-.button {
   color: #767676;
+  margin-right: 10px;
 }
 
 .button.featured {

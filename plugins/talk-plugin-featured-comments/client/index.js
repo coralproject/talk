@@ -1,14 +1,16 @@
 import Tab from './containers/Tab';
-import TabPane from './containers/TabPane';
 import Tag from './components/Tag';
 import Button from './components/Button';
+import TabPane from './containers/TabPane';
 import translations from './translations.yml';
 import update from 'immutability-helper';
+import reducer from './reducer';
 
 import {findCommentInEmbedQuery} from 'coral-embed-stream/src/graphql/utils';
 import {insertCommentsSorted} from 'plugin-api/beta/client/utils';
 
 export default {
+  reducer,
   translations,
   slots: {
     streamTabs: [Tab],
