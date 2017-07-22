@@ -18,3 +18,25 @@
   padding: 5px 5px;
   border-radius: 2px;
 }
+
+.tag.on {
+  background-color: #1862a7;
+  cursor: pointer;
+}
+
+.tooltip {
+  top: 36px;
+  left: auto;
+  right: 10px;
+}
+
+.tooltip::before{
+  left: auto;
+  right: 16px;
+}
+
+.tooltip::after{
+  left: auto;
+  right: 16px;
+  top: -20px;
+}
