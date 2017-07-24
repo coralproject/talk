@@ -4,11 +4,13 @@ const Asset = {
   recentComments({id}, _, {loaders: {Comments}}) {
     return Comments.genRecentComments.load(id);
   },
-  comment({id}, {id: commentId}, {loaders: {Comments}}) {
-    return Comments.getByQuery({
+  async comment({id}, {id: commentId}, {loaders: {Comments}}) {
+    const comments = await Comments.getByQuery({
       asset_id: id,
       ids: commentId
-    }).then((c) => c.nodes[0]);
+    });
+
+    return comments.nodes[0];
   },
   comments({id}, {sort, limit, deep, excludeIgnored, tags}, {loaders: {Comments}}) {
     return Comments.getByQuery({
