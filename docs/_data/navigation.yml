@@ -1,0 +1,66 @@
+# main links
+main:
+  - title: "Github"
+    url: https://github.com/coralproject/talk/
+  - title: "CircleCI"
+    url: https://circleci.com/gh/coralproject/talk/
+  - title: "Docker"
+    url: https://hub.docker.com/r/coralproject/talk/
+  - title: "Roadmap"
+    url: https://www.pivotaltracker.com/n/projects/1863625
+  - title: "Blog"
+    url: https://coralproject.net/
+
+
+docs:
+  - title: "FAQ"
+    url: /docs/faq
+  - title: "Installation"
+    url: /docs/install/
+    children:
+      - title: "Source"
+        url: /docs/install/source/
+      - title: "Docker"
+        url: /docs/install/docker/
+      - title: "First Setup"
+        url: /docs/install/setup/
+      - title: "Microservices"
+        url: /docs/install/microservices/
+      - title: "Troubleshooting"
+        url: /docs/install/troubleshooting/
+  - title: "Running"
+    children:
+      - title: "Configuration"
+        url: /docs/running/configuration/
+      - title: "Database Migrations"
+        url: /docs/running/migrations/
+  - title: "Architecture"
+    url: /docs/architecture/
+    children:
+      - title: "Tags"
+        url: /docs/architecture/tags/
+      - title: "Metadata"
+        url: /docs/architecture/metadata/
+      - title: "Command Line Interface"
+        url: /docs/architecture/cli/
+      - title: "Client"
+        url: /docs/architecture/client
+  - title: "Plugins"
+    url: /docs/plugins/
+    children:
+      - title: "Quickstart"
+        url: /docs/plugins/quickstart/
+      - title: "Client API"
+        url: /docs/plugins/client/
+      - title: "Server API"
+        url: /docs/plugins/server/
+      - title: "Experimental"
+        url: /docs/plugins/experimental/
+  - title: "Development"
+    children:
+      - title: "Tools"
+        url: /docs/development/tools/
+      - title: "Contributor's Guide"
+        url: /docs/development/contributing/
+      - title: "REST API"
+        url: /docs/development/rest/
