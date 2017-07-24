@@ -580,6 +580,9 @@ type Asset {
     deep: Boolean,
   ): CommentConnection!
 
+  # A Comment from the Asset by comment's ID
+  comment(id: ID!): Comment
+
   # The count of top level comments on the asset.
   commentCount(excludeIgnored: Boolean, tags: [String!]): Int
 

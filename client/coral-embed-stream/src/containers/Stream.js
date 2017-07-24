@@ -237,16 +237,16 @@ const slots = [
 const fragments = {
   root: gql`
     fragment CoralEmbedStream_Stream_root on RootQuery {
-      comment(id: $commentId) @include(if: $hasComment) {
-        ...CoralEmbedStream_Stream_comment
-        ${nest(`
-          parent {
-            ...CoralEmbedStream_Stream_comment
-            ...nest
-          }
-        `, THREADING_LEVEL)}
-      }
       asset(id: $assetId, url: $assetUrl) {
+        comment(id: $commentId) @include(if: $hasComment) {
+          ...CoralEmbedStream_Stream_comment
+          ${nest(`
+            parent {
+              ...CoralEmbedStream_Stream_comment
+              ...nest
+            }
+          `, THREADING_LEVEL)}
+        }
         id
         title
         url
