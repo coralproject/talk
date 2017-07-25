@@ -3,10 +3,20 @@ import thunk from 'redux-thunk';
 import mainReducer from '../reducers';
 import {getClient} from './client';
 
+let listeners = [];
+
 export function injectReducers(reducers) {
   const store = getStore();
   store.coralReducers = {...store.coralReducers, ...reducers};
   store.replaceReducer(combineReducers(store.coralReducers));
+}
+
+/**
+ * Add a action listener to the redux store.
+ * The action is passed as the first argument to the callback.
+ */
+export function addListener(cb) {
+  listeners.push(cb);
 }
 
 export function getStore() {
@@ -21,11 +31,17 @@ export function getStore() {
     return next(action);
   };
 
+  const customListener = () => (next) => (action) => {
+    listeners.forEach((cb) => {cb(action);});
+    return next(action);
+  };
+
   const middlewares = [
     applyMiddleware(
       getClient().middleware(),
       thunk,
       apolloErrorReporter,
+      customListener,
     ),
   ];
 
