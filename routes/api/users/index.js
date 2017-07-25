@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const UsersService = require('../../../services/users');
 const mailer = require('../../../services/mailer');
-const pubsub = require('../../../services/pubsub');
 const errors = require('../../../errors');
 const authorization = require('../../../middleware/authorization');
 const i18n = require('../../../services/i18n');
@@ -11,7 +10,7 @@ const {
 } = require('../../../config');
 
 // get a list of users.
-router.get('/', authorization.needed('ADMIN'), (req, res, next) => {
+router.get('/', authorization.needed('ADMIN'), async (req, res, next) => {
   const {
     value = '',
     field = 'created_at',
@@ -20,15 +19,17 @@ router.get('/', authorization.needed('ADMIN'), (req, res, next) => {
     limit = 50 // Total Per Page
   } = req.query;
 
-  Promise.all([
-    UsersService
+  try {
+
+    let [result, count] = await Promise.all([
+      UsersService
       .search(value)
       .sort({[field]: (asc === 'true') ? 1 : -1})
       .skip((page - 1) * limit)
       .limit(limit),
-    UsersService.count()
-  ])
-  .then(([result, count]) => {
+      UsersService.count()
+    ]);
+
     res.json({
       result,
       limit: Number(limit),
@@ -36,72 +37,74 @@ router.get('/', authorization.needed('ADMIN'), (req, res, next) => {
       page: Number(page),
       totalPages: Math.ceil(count / (limit === 0 ? 1 : limit))
     });
-  })
-  .catch(next);
+
+  } catch (e) {
+    next(e);
+  }
+
 });
 
-router.post('/:user_id/role', authorization.needed('ADMIN'), (req, res, next) => {
-  UsersService
-    .addRoleToUser(req.params.user_id, req.body.role)
-    .then(() => {
-      res.status(204).end();
-    })
-    .catch(next);
+router.post('/:user_id/role', authorization.needed('ADMIN'), async (req, res, next) => {
+  try {
+    await UsersService.addRoleToUser(req.params.user_id, req.body.role);
+    res.status(204).end();
+  } catch (e) {
+    next(e);
+  }
 });
 
 // update the status of a user
-router.post('/:user_id/status', authorization.needed('ADMIN'), (req, res, next) => {
-  UsersService
-    .setStatus(req.params.user_id, req.body.status)
-    .then((user) => {
+router.post('/:user_id/status', authorization.needed('ADMIN'), async (req, res, next) => {
+  let {status} = req.body;
 
-      // TODO: current updating status behavior is weird.
-      if (user) {
-        if (user.status === 'BANNED') {
-          pubsub.publish('userBanned', user);
-        }
-        res.status(201).json(user.status);
-      } else {
-        res.status(500).json();
-      }
-    })
-    .catch(next);
+  try {
+    let user = await UsersService.setStatus(req.params.user_id, status);
+    if (!user) {
+      return next(errors.ErrNotFound);
+    }
+
+    if (user.status === 'BANNED') {
+      req.pubsub.publish('userBanned', user);
+    }
+
+    // TODO: investigate why this is returning a value? Also why is this a POST vs PUT?
+    res.status(201).json(user.status);
+  } catch (e) {
+    next(e);
+  }
 });
 
-router.post('/:user_id/username-enable', authorization.needed('ADMIN'), (req, res, next) => {
-  UsersService
-    .toggleNameEdit(req.params.user_id, true)
-    .then(() => {
-      res.status(204).end();
+router.post('/:user_id/username-enable', authorization.needed('ADMIN'), async (req, res, next) => {
+  try {
+    await UsersService.toggleNameEdit(req.params.user_id, true);
+    res.status(204).end();
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.post('/:user_id/email', authorization.needed('ADMIN'), async (req, res, next) => {
+  try {
+    let user = await UsersService.findById(req.params.user_id);
+
+    let localProfile = user.profiles.find((profile) => profile.provider === 'local');
+    if (!localProfile) {
+      return next(errors.ErrMissingEmail);
+    }
+
+    await mailer.sendSimple({
+      template: 'notification',  // needed to know which template to render!
+      locals: {                  // specifies the template locals.
+        body: req.body.body
+      },
+      subject: req.body.subject,
+      to: localProfile.id        // This only works if the user has registered via e-mail.
     });
-});
 
-router.post('/:user_id/email', authorization.needed('ADMIN'), (req, res, next) => {
-
-  UsersService.findById(req.params.user_id)
-    .then((user) => {
-      let localProfile = user.profiles.find((profile) => profile.provider === 'local');
-
-      if (localProfile) {
-        const options =
-          {
-            template: 'notification',                     // needed to know which template to render!
-            locals: {                                     // specifies the template locals.
-              body: req.body.body
-            },
-            subject: req.body.subject,
-            to: localProfile.id      // This only works if the user has registered via e-mail.
-                                        // We may want a standard way to access a user's e-mail address in the future
-          };
-        return mailer.sendSimple(options);
-      } else {
-        res.json({error: 'User does not have an e-mail address.'});
-      }
-    })
-    .then(() => {
-      res.status(204).end();
-    })
-    .catch(next);
+    res.status(204).end();
+  } catch (e) {
+    next(e);
+  }
 });
 
 /**
@@ -110,72 +113,61 @@ router.post('/:user_id/email', authorization.needed('ADMIN'), (req, res, next) =
  * @param {String}     userID  the id for the user to send the email to
  * @param {String}     email   the email for the user to send the email to
  */
-const SendEmailConfirmation = (app, userID, email, referer) => UsersService
-  .createEmailConfirmToken(userID, email, referer)
-  .then((token) => {
-    return mailer.sendSimple({
-      template: 'email-confirm',              // needed to know which template to render!
-      locals: {                               // specifies the template locals.
-        token,
-        rootURL: ROOT_URL,
-        email
-      },
-      subject: i18n.t('email.confirm.subject'),
-      to: email
-    });
+const SendEmailConfirmation = async (app, userID, email, referer) => {
+  let token = await UsersService.createEmailConfirmToken(userID, email, referer);
+
+  return mailer.sendSimple({
+    template: 'email-confirm',              // needed to know which template to render!
+    locals: {                               // specifies the template locals.
+      token,
+      rootURL: ROOT_URL,
+      email
+    },
+    subject: i18n.t('email.confirm.subject'),
+    to: email
   });
+};
 
 // create a local user.
-router.post('/', (req, res, next) => {
+router.post('/', async (req, res, next) => {
   const {email, password, username} = req.body;
   const redirectUri = req.header('X-Pym-Url') || req.header('Referer');
 
-  UsersService
-    .createLocalUser(email, password, username)
-    .then((user) => {
+  try {
+    let user = await UsersService.createLocalUser(email, password, username);
 
       // Send an email confirmation. The Front end will know about the
       // requireEmailConfirmation as it's included in the settings get endpoint.
-      return SendEmailConfirmation(req.app, user.id, email, redirectUri)
-        .then(() => {
+    await SendEmailConfirmation(req.app, user.id, email, redirectUri);
 
-          // Then send back the user.
-          res.status(201).json(user);
-        });
-    })
-    .catch((err) => {
-      next(err);
-    });
+    res.status(201).json(user);
+  } catch (e) {
+    return next(e);
+  }
 });
 
-router.post('/:user_id/actions', authorization.needed(), (req, res, next) => {
+router.post('/:user_id/actions', authorization.needed(), async (req, res, next) => {
   const {
     action_type,
     metadata
   } = req.body;
 
-  UsersService
-    .addAction(req.params.user_id, req.user.id, action_type, metadata)
-    .then((action) => {
+  try {
+    let action = await UsersService.addAction(req.params.user_id, req.user.id, action_type, metadata);
 
-      // Set the user status to "pending" for review by moderators
-      if (action_type === 'FLAG') {
-        return UsersService.setStatus(req.params.user_id, 'PENDING')
-          .then(() => action);
-      } else {
-        return action;
-      }
-    })
-    .then((action) => {
-      res.status(201).json(action);
-    })
-    .catch((err) => {
-      next(err);
-    });
+    // Set the user status to "pending" for review by moderators
+    if (action_type === 'FLAG') {
+      await UsersService.setStatus(req.params.user_id, 'PENDING');
+    }
+
+    res.status(201).json(action);
+  } catch (e) {
+    return next(e);
+  }
 });
 
 // trigger an email confirmation re-send by a new user
-router.post('/resend-verify', (req, res, next) => {
+router.post('/resend-verify', async (req, res, next) => {
   const {email} = req.body;
   const redirectUri = req.header('X-Pym-Url') || req.header('Referer');
 
@@ -183,48 +175,45 @@ router.post('/resend-verify', (req, res, next) => {
     return next(errors.ErrMissingEmail);
   }
 
-  // find user by email.
-  // if the local profile is verified, return an error code?
-  // send a 204 after the email is re-sent
-  SendEmailConfirmation(req.app, null, email, redirectUri)
-    .then(() => {
-      res.status(204).end();
-    })
-    .catch(next);
+  try {
+
+    // find user by email.
+    // if the local profile is verified, return an error code?
+    // send a 204 after the email is re-sent
+    await SendEmailConfirmation(req.app, null, email, redirectUri);
+
+    res.status(204).end();
+  } catch (e) {
+    return next(e);
+  }
 });
 
 // trigger an email confirmation re-send from the admin panel
-router.post('/:user_id/email/confirm', authorization.needed('ADMIN'), (req, res, next) => {
+router.post('/:user_id/email/confirm', authorization.needed('ADMIN'), async (req, res, next) => {
   const {
     user_id
   } = req.params;
 
-  UsersService
-    .findById(user_id)
-    .then((user) => {
-      if (!user) {
-        res.status(404).end();
-        return;
-      }
+  try {
 
-      // Find the first local profile.
-      let localProfile = user.profiles.find((profile) => profile.provider === 'local');
+    let user = await UsersService.findById(user_id);
+    if (!user) {
+      return next(errors.ErrNotFound);
+    }
 
-      // If there was no local profile for the user, error out.
-      if (!localProfile) {
-        res.status(404).end();
-        return;
-      }
+    // Find the first local profile.
+    let localProfile = user.profiles.find((profile) => profile.provider === 'local');
+    if (!localProfile) {
+      return next(errors.ErrMissingEmail);
+    }
 
-      // Send the email to the first local profile that was found.
-      return SendEmailConfirmation(req.app, user.id, localProfile.id)
-        .then(() => {
-          res.status(204).end();
-        });
-    })
-    .catch((err) => {
-      next(err);
-    });
+    // Send the email to the first local profile that was found.
+    await SendEmailConfirmation(req.app, user.id, localProfile.id);
+
+    res.status(204).end();
+  } catch (e) {
+    return next(e);
+  }
 });
 
 module.exports = router;
