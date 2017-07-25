@@ -4,7 +4,8 @@ const enabled = require('debug').enabled;
 const queryDebuger = require('debug')('talk:db:query');
 
 const {
-  MONGO_URL
+  MONGO_URL,
+  WEBPACK
 } = require('../config');
 
 // Loading the formatter from Mongoose:
@@ -40,14 +41,27 @@ if (enabled('talk:db')) {
   mongoose.set('debug', debugQuery);
 }
 
-// Connect to the Mongo instance.
-mongoose.connect(MONGO_URL, (err) => {
-  if (err) {
-    throw err;
-  }
+if (WEBPACK) {
 
-  debug('connection established');
-});
+  console.warn('Not connecting to mongodb during webpack build');
+
+  // @wyattjoh: We didn't call connect, but because we include mongoose, it will hold the socket ready,
+  // preventing node from exiting. Calling disconnect here just ensures that the application
+  // can quit correctly.
+  mongoose.disconnect();
+
+} else {
+
+  // Connect to the Mongo instance.
+  mongoose.connect(MONGO_URL, (err) => {
+    if (err) {
+      throw err;
+    }
+
+    debug('connection established');
+  });
+
+}
 
 module.exports = mongoose;
 

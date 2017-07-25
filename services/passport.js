@@ -9,12 +9,12 @@ const LocalStrategy = require('passport-local').Strategy;
 const errors = require('../errors');
 const uuid = require('uuid');
 const debug = require('debug')('talk:services:passport');
-const {createClient} = require('./redis');
 const bowser = require('bowser');
 const ms = require('ms');
 
 // Create a redis client to use for authentication.
-const client = createClient();
+const {createClientFactory} = require('./redis');
+const client = createClientFactory();
 
 const {
   JWT_SECRET,
@@ -149,7 +149,7 @@ const HandleLogout = (req, res, next) => {
   const now = new Date();
   const expiry = (jwt.exp - now.getTime() / 1000).toFixed(0);
 
-  client.set(`jtir[${jwt.jti}]`, now.toISOString(), 'EX', expiry, (err) => {
+  client().set(`jtir[${jwt.jti}]`, now.toISOString(), 'EX', expiry, (err) => {
     if (err) {
       return next(err);
     }
@@ -160,7 +160,7 @@ const HandleLogout = (req, res, next) => {
 };
 
 const checkGeneralTokenBlacklist = (jwt) => new Promise((resolve, reject) => {
-  client.get(`jtir[${jwt.jti}]`, (err, expiry) => {
+  client().get(`jtir[${jwt.jti}]`, (err, expiry) => {
     if (err) {
       return reject(err);
     }
