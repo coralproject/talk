@@ -53,7 +53,7 @@ class Context {
     this.plugins = decorateContextPlugins(this, contextPlugins);
 
     // Bind the publish/subscribe to the context.
-    this.pubsub = pubsub();
+    this.pubsub = pubsub.createClient();
   }
 }
 

@@ -13,17 +13,7 @@ const bowser = require('bowser');
 const ms = require('ms');
 
 // Create a redis client to use for authentication.
-const {createClient} = require('./redis');
-let _client = null;
-const getClient = () => {
-  if (_client) {
-    return _client;
-  }
-
-  _client = createClient();
-
-  return _client;
-};
+const {createClientFactory} = require('./redis');
 
 const {
   JWT_SECRET,
@@ -157,7 +147,7 @@ const HandleLogout = (req, res, next) => {
   const now = new Date();
   const expiry = (jwt.exp - now.getTime() / 1000).toFixed(0);
 
-  getClient().set(`jtir[${jwt.jti}]`, now.toISOString(), 'EX', expiry, (err) => {
+  createClientFactory().set(`jtir[${jwt.jti}]`, now.toISOString(), 'EX', expiry, (err) => {
     if (err) {
       return next(err);
     }
@@ -168,7 +158,7 @@ const HandleLogout = (req, res, next) => {
 };
 
 const checkGeneralTokenBlacklist = (jwt) => new Promise((resolve, reject) => {
-  getClient().get(`jtir[${jwt.jti}]`, (err, expiry) => {
+  createClientFactory().get(`jtir[${jwt.jti}]`, (err, expiry) => {
     if (err) {
       return reject(err);
     }

@@ -5,6 +5,8 @@ const AssetsService = require('./assets');
 
 const metascraper = require('metascraper');
 
+let taskInstance = null;
+
 /**
  * Exposes a service object to allow operations to execute against the scraper.
  * @type {Object}
@@ -14,17 +16,16 @@ const scraper = {
   /**
    * Create the new Task kue singleton.
    */
-  _task: null,
   get task() {
-    if (scraper._task) {
-      return scraper._task;
+    if (taskInstance) {
+      return taskInstance;
     }
 
-    scraper._task = new kue.Task({
+    taskInstance = new kue.Task({
       name: 'scraper'
     });
 
-    return scraper._task;
+    return taskInstance;
   },
 
   /**

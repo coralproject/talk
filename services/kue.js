@@ -8,7 +8,7 @@ const kue = module.exports.kue = require('kue');
 // Note that unlike what the name createQueue suggests, it currently returns a
 // singleton Queue instance. So you can configure and use only a single Queue
 // object within your node.js process.
-let Queue = module.exports.queue;
+let Queue = module.exports.queue = null;
 
 class Task {
 
@@ -22,7 +22,7 @@ class Task {
     if (!Queue) {
       module.exports.queue = Queue = kue.createQueue({
         redis: {
-          createClientFactory: () => redis.createClient()
+          createClientFactory: redis.createClientFactory()
         }
       });
     }

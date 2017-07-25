@@ -2,13 +2,15 @@ const {RedisPubSub} = require('graphql-redis-subscriptions');
 
 const {connectionOptions} = require('./redis');
 
-let pubsub = null;
-module.exports = () => {
-  if (pubsub) {
-    return pubsub;
+let pubsubInstance = null;
+module.exports = {
+  createClient: () => {
+    if (pubsubInstance) {
+      return pubsubInstance;
+    }
+
+    pubsubInstance = new RedisPubSub({connection: connectionOptions});
+
+    return pubsubInstance;
   }
-
-  pubsub = new RedisPubSub({connection: connectionOptions});
-
-  return pubsub;
 };

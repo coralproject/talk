@@ -133,7 +133,7 @@ const setupFunctions = plugins.get('server', 'setupFunctions').reduce((acc, {plu
 const createSubscriptionManager = (server) => new SubscriptionServer({
   subscriptionManager: new SubscriptionManager({
     schema,
-    pubsub: pubsub(),
+    pubsub: pubsub.createClient(),
     setupFunctions,
   }),
   onConnect: ({token}, connection) => {

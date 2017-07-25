@@ -69,6 +69,7 @@ if (SMTP_PORT) {
 }
 
 const defaultTransporter = nodemailer.createTransport(options);
+let taskInstance = null;
 
 const mailer = module.exports = {
 
@@ -77,15 +78,15 @@ const mailer = module.exports = {
    */
   _task: null,
   get task() {
-    if (mailer._task) {
-      return mailer._task;
+    if (taskInstance) {
+      return taskInstance;
     }
 
-    mailer._task = new kue.Task({
+    taskInstance = new kue.Task({
       name: 'mailer'
     });
 
-    return mailer._task;
+    return taskInstance;
   },
 
   sendSimple({template, locals, to, subject}) {
