@@ -5,7 +5,7 @@ import {buildUrl} from 'coral-framework/utils';
 import queryString from 'query-string';
 import EventEmitter from 'eventemitter2';
 
-const eventEmitter = new EventEmitter();
+const eventEmitter = new EventEmitter({wildcard: true});
 
 // TODO: Styles should live in a separate file
 const snackbarStyles = {
