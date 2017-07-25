@@ -56,7 +56,7 @@ export default (document, config = {}) => (WrappedComponent) => {
 
       const status = networkStatusToString(networkStatus);
 
-      this.context.eventEmitter.emit(`query.${name}.${status}`, {variables, networkStatus});
+      this.context.eventEmitter.emit(`query.${name}.${status}`, {variables});
     }
 
     wrappedConfig = {
