@@ -5,7 +5,7 @@ import smoothscroll from 'smoothscroll-polyfill';
 import EventEmitter from 'eventemitter2';
 import EventEmitterProvider from 'coral-framework/components/EventEmitterProvider';
 
-import {getClient} from './services/client';
+import {getClient} from 'coral-framework/services/client';
 import store from './services/store';
 
 import App from './components/App';
