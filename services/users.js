@@ -32,6 +32,8 @@ const SALT_ROUNDS = 10;
 // Create a redis client to use for authentication.
 const {createClientFactory} = require('./redis');
 
+const client = createClientFactory();
+
 // UsersService is the interface for the application to interact with the
 // UserModel through.
 module.exports = class UsersService {
@@ -67,7 +69,7 @@ module.exports = class UsersService {
     const rdskey = `la[${email.toLowerCase().trim()}]`;
 
     return new Promise((resolve, reject) => {
-      createClientFactory()
+      client()
         .multi()
         .incr(rdskey)
         .expire(rdskey, RECAPTCHA_WINDOW_SECONDS)
@@ -80,7 +82,7 @@ module.exports = class UsersService {
           if (replies[0] === 1 || replies[1] === -1) {
 
             // then expire it after the timeout
-            createClientFactory().expire(rdskey, RECAPTCHA_WINDOW_SECONDS);
+            client().expire(rdskey, RECAPTCHA_WINDOW_SECONDS);
           }
 
           if (replies[0] >= RECAPTCHA_INCORRECT_TRIGGER) {
@@ -102,7 +104,7 @@ module.exports = class UsersService {
     const rdskey = `la[${email.toLowerCase().trim()}]`;
 
     return new Promise((resolve, reject) => {
-      createClientFactory()
+      client()
         .get(rdskey, (err, reply) => {
           if (err) {
             return reject(err);

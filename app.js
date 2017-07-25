@@ -101,7 +101,7 @@ app.use('/api', authentication);
 app.use('/api', (req, res, next) => {
 
   // Attach the pubsub handle to the requests.
-  req.pubsub = pubsub();
+  req.pubsub = pubsub.createClient();
 
   // Forward on the request.
   next();
