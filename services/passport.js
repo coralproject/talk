@@ -21,6 +21,7 @@ const {
   JWT_ISSUER,
   JWT_EXPIRY,
   JWT_AUDIENCE,
+  JWT_ALG,
   RECAPTCHA_SECRET,
   RECAPTCHA_ENABLED
 } = require('../config');
@@ -219,6 +220,7 @@ passport.use(new JwtStrategy({
   // Prepare the extractor from the header.
   jwtFromRequest: ExtractJwt.fromExtractors([
     cookieExtractor,
+    ExtractJwt.fromUrlQueryParameter('access_token'),
     ExtractJwt.fromAuthHeaderWithScheme('Bearer')
   ]),
 
@@ -233,7 +235,7 @@ passport.use(new JwtStrategy({
   audience: JWT_AUDIENCE,
 
   // Enable only the HS256 algorithm.
-  algorithms: ['HS256'],
+  algorithms: [JWT_ALG],
 
   // Pass the request object back to the callback so we can attach the JWT to
   // it.
