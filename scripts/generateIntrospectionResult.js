@@ -15,6 +15,8 @@ graphql(schema, introspectionQuery)
 
     // Write the introspection result to the filesystem.
     fs.writeFileSync(introspectionFilename, introspectionResult, 'utf8');
+
+    console.log(`Outputted result of introspectionQuery to ${introspectionFilename}`);
   })
   .catch((err) => {
     console.error(err);
