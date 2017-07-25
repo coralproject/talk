@@ -1,11 +1,10 @@
 const kue = require('./kue');
+const taskFactory = kue.createTaskFactory();
 const debug = require('debug')('talk:services:scraper');
 const AssetModel = require('../models/asset');
 const AssetsService = require('./assets');
 
 const metascraper = require('metascraper');
-
-let taskInstance = null;
 
 /**
  * Exposes a service object to allow operations to execute against the scraper.
@@ -17,15 +16,9 @@ const scraper = {
    * Create the new Task kue singleton.
    */
   get task() {
-    if (taskInstance) {
-      return taskInstance;
-    }
-
-    taskInstance = new kue.Task({
+    return taskFactory({
       name: 'scraper'
     });
-
-    return taskInstance;
   },
 
   /**

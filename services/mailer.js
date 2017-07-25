@@ -1,6 +1,7 @@
 const debug = require('debug')('talk:services:mailer');
 const nodemailer = require('nodemailer');
 const kue = require('./kue');
+const taskFactory = kue.createTaskFactory();
 const path = require('path');
 const fs = require('fs');
 const _ = require('lodash');
@@ -69,7 +70,6 @@ if (SMTP_PORT) {
 }
 
 const defaultTransporter = nodemailer.createTransport(options);
-let taskInstance = null;
 
 const mailer = module.exports = {
 
@@ -77,15 +77,9 @@ const mailer = module.exports = {
    * Create the new Task kue.
    */
   get task() {
-    if (taskInstance) {
-      return taskInstance;
-    }
-
-    taskInstance = new kue.Task({
+    return taskFactory({
       name: 'mailer'
     });
-
-    return taskInstance;
   },
 
   sendSimple({template, locals, to, subject}) {

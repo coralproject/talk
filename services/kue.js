@@ -138,3 +138,19 @@ if (process.env.NODE_ENV === 'test') {
 } else {
   module.exports.Task = Task;
 }
+
+module.exports.createTaskFactory = () => {
+  let taskInstance = null;
+
+  return (options) => {
+    if (taskInstance) {
+      return taskInstance;
+    }
+
+    options = Object.assign({}, options);
+
+    taskInstance = new module.exports.Task(options);
+
+    return taskInstance;
+  };
+};
