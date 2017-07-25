@@ -274,7 +274,7 @@ async function reconcilePluginDeps({skipLocal, skipRemote, dryRun, upgradeRemote
 }
 
 async function createSeedPlugin() {
-  const pluginsDir = path.join(__dirname, 'plugins');
+  const pluginsDir = path.resolve(__dirname, '..', 'plugins');
 
   function pluginNameExists(pluginName) {
     const pluginNames = fs.readdirSync(pluginsDir);
@@ -321,7 +321,7 @@ async function createSeedPlugin() {
   // Creating plugin seed
   //==============================================================================
 
-  const seedPlugin = path.join(__dirname, 'bin/templates/plugin');
+  const seedPlugin = path.join(__dirname, 'templates/plugin');
   const newPluginPath = path.join(pluginsDir, answers.pluginName);
 
   if (fs.existsSync(seedPlugin)) {
@@ -355,7 +355,7 @@ async function createSeedPlugin() {
 
     // Let's add this to the plugins.json
     if (answers.addPluginsJson) {
-      const pluginsJson = path.join(dir, 'plugins.json');
+      const pluginsJson = path.resolve(__dirname, '..', 'plugins.json');
 
       fs.readJson(pluginsJson)
         .then((j) => {
