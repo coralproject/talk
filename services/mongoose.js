@@ -44,6 +44,10 @@ if (enabled('talk:db')) {
 if (WEBPACK) {
 
   console.warn('Not connecting to mongodb during webpack build');
+
+  // @wyattjoh: We didn't call connect, but because we include mongoose, it will hold the socket ready,
+  // preventing node from exiting. Calling disconnect here just ensures that the application
+  // can quit correctly.
   mongoose.disconnect();
 
 } else {
