@@ -1,5 +1,5 @@
 const mongoose = require('../services/mongoose');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const Schema = mongoose.Schema;
 const uuid = require('uuid');
 const TagLinkSchema = require('./schema/tag_link');
