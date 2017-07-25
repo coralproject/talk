@@ -7,6 +7,7 @@ import './graphql';
 import {addExternalConfig} from 'coral-embed-stream/src/actions/config';
 import {getStore, injectReducers, addListener} from 'coral-framework/services/store';
 import {getClient} from 'coral-framework/services/client';
+import {createReduxEmitter} from 'coral-framework/services/events';
 import pym from 'coral-framework/services/pym';
 import AppRouter from './AppRouter';
 import {loadPluginsTranslations, injectPluginsReducers} from 'coral-framework/helpers/plugins';
@@ -52,18 +53,7 @@ if (!window.opener) {
   });
 
   // Add a redux listener to pass through all actions to our event emitter.
-  addListener((action) => {
-
-    // Handle apollo actions.
-    if (action.type.startsWith('APOLLO_')) {
-      if (action.type === 'APOLLO_SUBSCRIPTION_RESULT') {
-        const {operationName, variables, result: {data}} = action;
-        eventEmitter.emit(`subscription.${operationName}.data`, {variables, data});
-      }
-      return;
-    }
-    eventEmitter.emit(`action.${action.type}`, {action});
-  });
+  addListener(createReduxEmitter(eventEmitter));
 }
 
 render(

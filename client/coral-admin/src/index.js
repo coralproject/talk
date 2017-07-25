@@ -16,6 +16,8 @@ import {loadPluginsTranslations, injectPluginsReducers} from 'coral-framework/he
 
 const eventEmitter = new EventEmitter();
 
+// TODO: pass redux actions through the emitter.
+
 loadPluginsTranslations();
 injectPluginsReducers();
 smoothscroll.polyfill();
