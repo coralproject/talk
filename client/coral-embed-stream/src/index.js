@@ -16,7 +16,7 @@ import EventEmitterProvider from 'coral-framework/components/EventEmitterProvide
 
 const store = getStore();
 const client = getClient();
-const eventEmitter = new EventEmitter();
+const eventEmitter = new EventEmitter({wildcard: true});
 
 loadPluginsTranslations();
 injectPluginsReducers();
@@ -54,11 +54,14 @@ if (!window.opener) {
   // Add a redux listener to pass through all actions to our event emitter.
   addListener((action) => {
 
-    // Ignore apollo actions.
+    // Handle apollo actions.
     if (action.type.startsWith('APOLLO_')) {
+      if (action.type === 'APOLLO_SUBSCRIPTION_RESULT') {
+        const {operationName, variables, result: {data}} = action;
+        eventEmitter.emit(`subscription.${operationName}.data`, {variables, data});
+      }
       return;
     }
-
     eventEmitter.emit(`action.${action.type}`, {action});
   });
 }
