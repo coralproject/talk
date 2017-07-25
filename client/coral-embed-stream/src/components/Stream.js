@@ -81,7 +81,7 @@ class Stream extends React.Component {
       setActiveReplyBox,
       appendItemArray,
       commentClassNames,
-      root: {asset, asset: {comments, totalCommentCount}, comment, me},
+      root: {asset, asset: {comment, comments, totalCommentCount}, me},
       postComment,
       addNotification,
       editComment,

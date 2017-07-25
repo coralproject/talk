@@ -32,19 +32,6 @@ export default withFragments({
         }
       }
 
-      ##
-      # TODO: Remove this when we have the IntrospectionFragmentMatcher.
-      # Currently without this loading more featured comments
-      # brings apollo into an inconsistent state.
-      action_summaries {
-        __typename
-        count
-        current_user {
-          id
-        }
-      }
-      ##
-
       user {
         id
         username
