@@ -27,5 +27,6 @@ plugins/*
 !plugins/coral-plugin-comment-content
 !plugins/talk-plugin-permalink
 !plugins/talk-plugin-featured-comments
+!plugins/talk-plugin-translations
 
 **/node_modules/*
