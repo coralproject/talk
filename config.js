@@ -34,6 +34,9 @@ const CONFIG = {
   // JWT_EXPIRY is the time for which a given token is valid for.
   JWT_EXPIRY: process.env.TALK_JWT_EXPIRY || '1 day',
 
+  // JWT_ALG is the algorithm used for signing jwt tokens.
+  JWT_ALG: process.env.TALK_JWT_ALG || 'HS256',
+
   //------------------------------------------------------------------------------
   // Installation locks
   //------------------------------------------------------------------------------
