@@ -3,7 +3,7 @@ import {render} from 'react-dom';
 import {ApolloProvider} from 'react-apollo';
 import smoothscroll from 'smoothscroll-polyfill';
 
-import {getClient} from './services/client';
+import {getClient} from 'coral-framework/services/client';
 import store from './services/store';
 
 import App from './components/App';
