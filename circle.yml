@@ -23,8 +23,6 @@ dependencies:
     - yarn --version
     - yarn global add node-gyp --force
     - yarn
-  cache_directories:
-    - ~/.cache/yarn
   post:
     # Build the static assets.
     - yarn build
