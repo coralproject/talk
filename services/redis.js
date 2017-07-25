@@ -29,21 +29,36 @@ const connectionOptions = {
   }
 };
 
+const createClient = () => {
+  let client = redis.createClient(connectionOptions);
+
+  client.ping((err) => {
+    if (err) {
+      console.error('Can\'t ping the redis server!');
+
+      throw err;
+    }
+
+    debug('connection established');
+  });
+
+  return client;
+};
+
 module.exports = {
   connectionOptions,
-  createClient() {
-    let client = redis.createClient(connectionOptions);
+  createClient,
+  createClientFactory: () => {
+    let client = null;
 
-    client.ping((err) => {
-      if (err) {
-        console.error('Can\'t ping the redis server!');
-
-        throw err;
+    return () => {
+      if (client) {
+        return client;
       }
 
-      debug('connection established');
-    });
+      client = createClient();
 
-    return client;
+      return client;
+    };
   }
 };

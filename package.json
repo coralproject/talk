@@ -1,14 +1,16 @@
 {
   "name": "talk",
-  "version": "2.5.0",
+  "version": "3.0.0",
   "description": "A better commenting experience from Mozilla, The New York Times, and the Washington Post. https://coralproject.net",
   "main": "app.js",
   "scripts": {
     "postinstall": "./bin/cli plugins reconcile --skip-remote",
     "start": "./bin/cli serve -j -w",
-    "dev-start": "nodemon -w . -w bin/cli -w bin/cli-serve --config .nodemon.json --exec \"./bin/cli -c .env serve -j -w\"",
-    "build": "NODE_ENV=production webpack -p --config webpack.config.js --bail",
-    "build-watch": "NODE_ENV=development webpack --progress --config webpack.config.js --watch",
+    "dev-start": "nodemon -w . -w bin/cli -w bin/cli-serve --config .nodemon.json --exec \"yarn generate-introspection && ./bin/cli -c .env serve -j -w\"",
+    "prebuild": "yarn generate-introspection",
+    "build": "WEBPACK=true NODE_ENV=production webpack -p --config webpack.config.js --bail",
+    "prebuild-watch": "yarn generate-introspection",
+    "build-watch": "WEBPACK=true NODE_ENV=development webpack --progress --config webpack.config.js --watch",
     "lint": "eslint bin/* .",
     "lint-fix": "eslint bin/* . --fix",
     "test": "TEST_MODE=unit NODE_ENV=test mocha -R ${MOCHA_REPORTER:-spec}",
@@ -17,7 +19,8 @@
     "e2e": "NODE_ENV=test nightwatch",
     "poste2e": "NODE_ENV=test scripts/poste2e.sh",
     "embed-start": "NODE_ENV=development yarn build && ./bin/cli serve --jobs",
-    "heroku-postbuild": "./bin/cli plugins reconcile && yarn build"
+    "heroku-postbuild": "./bin/cli plugins reconcile && yarn build",
+    "generate-introspection": "WEBPACK=true NODE_ENV=test ./scripts/generateIntrospectionResult.js"
   },
   "talk": {
     "migration": {
@@ -58,7 +61,7 @@
     "accepts": "^1.3.3",
     "app-module-path": "^2.2.0",
     "async": "^2.5.0",
-    "bcrypt": "^1.0.2",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.1",
     "bowser": "^1.7.0",
     "cli-table": "^0.3.1",
@@ -215,6 +218,6 @@
     "webpack": "^2.3.1"
   },
   "engines": {
-    "node": "^7.10.1"
+    "node": "^8"
   }
 }
