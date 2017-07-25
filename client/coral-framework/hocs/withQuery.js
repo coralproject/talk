@@ -70,20 +70,12 @@ export default (document, config = {}) => (WrappedComponent) => {
           data: {
             ...args.data,
             subscribeToMore: (stmArgs) => {
-              const subscrName = getDefinitionName(stmArgs.document);
-              this.context.eventEmitter.emit(
-                `query.${name}.subscribeToMore.${subscrName}`,
-                {variables: stmArgs.variables});
 
               // Resolve document fragments before passing it to `apollo-client`.
               return args.data.subscribeToMore({
                 ...stmArgs,
                 document: resolveFragments(stmArgs.document),
                 onError: (err) => {
-                  this.context.eventEmitter.emit(
-                    `query.${name}.subscribeToMore.${subscrName}.error`,
-                    {variables: stmArgs.variables});
-
                   if (stmArgs.onErr) {
                     return stmArgs.onErr(err);
                   }
