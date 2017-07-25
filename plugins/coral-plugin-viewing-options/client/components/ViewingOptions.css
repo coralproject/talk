@@ -29,3 +29,27 @@
   font-size: 14px;
   vertical-align: middle;
 }
+
+
+@custom-media --small-viewport (max-width: 425px);
+
+.filterText {
+  display: inline-block;
+}
+
+.filterIcon {
+  vertical-align: middle;
+  display: none;
+}
+
+@media (--small-viewport) {
+  .filterText {
+    display: none;
+  }
+  .filterIcon {
+    display: inline-block;
+  }
+}
+
+
+
