@@ -3,6 +3,7 @@ import {compose, gql} from 'react-apollo';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import isEqual from 'lodash/isEqual';
+import get from 'lodash/get';
 import branch from 'recompose/branch';
 import renderComponent from 'recompose/renderComponent';
 
@@ -91,7 +92,7 @@ class EmbedContainer extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (!prevProps.root.comment && this.props.root.comment) {
+    if (!get(prevProps, 'root.asset.comment') && get(this.props, 'root.asset.comment')) {
 
       // Scroll to a permalinked comment if one is in the URL once the page is done rendering.
       setTimeout(() => pym.scrollParentToChildEl('talk-embed-stream-container'), 0);

@@ -2,9 +2,7 @@ const redis = require('./redis');
 const debug = require('debug')('talk:services:cache');
 const crypto = require('crypto');
 
-const cache = module.exports = {
-  client: redis.createClient()
-};
+const cache = module.exports = {};
 
 /**
  * This collects a key that may either be an array or a string and creates a
@@ -70,9 +68,6 @@ if redis.call('GET', KEYS[1]) ~= false then
 end
 `;
 
-// Stores the SHA1 hash of INCR_SCRIPT, used for executing via EVALSHA.
-let INCR_SCRIPT_HASH;
-
 // This is designed to decrement a key and add an expiry iff the key already
 // exists.
 const DECR_SCRIPT = `
@@ -81,9 +76,6 @@ if redis.call('GET', KEYS[1]) ~= false then
   redis.call('EXPIRE', KEYS[1], ARGV[1])
 end
 `;
-
-// Stores the SHA1 hash of DECR_SCRIPT, used for executing via EVALSHA.
-let DECR_SCRIPT_HASH;
 
 // Load the script into redis and track the script hash that we will use to exec
 // increments on.
@@ -121,18 +113,24 @@ const loadScript = (name, script) => new Promise((resolve, reject) => {
     });
 });
 
-// Load the INCR_SCRIPT and DECR_SCRIPT into Redis.
-Promise.all([
-  loadScript('INCR_SCRIPT', INCR_SCRIPT),
-  loadScript('DECR_SCRIPT', DECR_SCRIPT)
-])
-.then(([incrScriptHash, decrScriptHash]) => {
-  INCR_SCRIPT_HASH = incrScriptHash;
-  DECR_SCRIPT_HASH = decrScriptHash;
-})
-.catch((err) => {
-  throw err;
-});
+/**
+ * Init sets up the scripts used in Redis with the incr/decr commands.
+ */
+cache.init = async () => {
+
+  // Create the redis instance.
+  cache.client = redis.createClient();
+
+  // Load the INCR_SCRIPT and DECR_SCRIPT into Redis.
+  let [incrScriptHash, decrScriptHash] = await Promise.all([
+    loadScript('INCR_SCRIPT', INCR_SCRIPT),
+    loadScript('DECR_SCRIPT', DECR_SCRIPT)
+  ]);
+
+  // Set the globally scoped cache hashes.
+  cache.INCR_SCRIPT_HASH = incrScriptHash;
+  cache.DECR_SCRIPT_HASH = decrScriptHash;
+};
 
 /**
  * This will increment a key in redis and update the expiry iff it already
@@ -140,7 +138,7 @@ Promise.all([
  */
 cache.incr = (key, expiry, kf = keyfunc) => new Promise((resolve, reject) => {
   cache.client
-    .evalsha(INCR_SCRIPT_HASH, 1, kf(key), expiry, (err) => {
+    .evalsha(cache.INCR_SCRIPT_HASH, 1, kf(key), expiry, (err) => {
       if (err) {
         return reject(err);
       }
@@ -155,7 +153,7 @@ cache.incr = (key, expiry, kf = keyfunc) => new Promise((resolve, reject) => {
  */
 cache.decr = (key, expiry, kf = keyfunc) => new Promise((resolve, reject) => {
   cache.client
-    .evalsha(DECR_SCRIPT_HASH, 1, kf(key), expiry, (err) => {
+    .evalsha(cache.DECR_SCRIPT_HASH, 1, kf(key), expiry, (err) => {
       if (err) {
         return reject(err);
       }
@@ -174,7 +172,7 @@ cache.incrMany = (keys, expiry, kf = keyfunc) => {
   keys.forEach((key) => {
 
     // Queue up the evalsha command.
-    multi.evalsha(INCR_SCRIPT_HASH, 1, kf(key), expiry);
+    multi.evalsha(cache.INCR_SCRIPT_HASH, 1, kf(key), expiry);
   });
 
   return new Promise((resolve, reject) => {
@@ -198,7 +196,7 @@ cache.decrMany = (keys, expiry, kf = keyfunc) => {
   keys.forEach((key) => {
 
     // Queue up the evalsha command.
-    multi.evalsha(DECR_SCRIPT_HASH, 1, kf(key), expiry);
+    multi.evalsha(cache.DECR_SCRIPT_HASH, 1, kf(key), expiry);
   });
 
   return new Promise((resolve, reject) => {

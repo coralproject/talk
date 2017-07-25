@@ -8,18 +8,24 @@ const kue = module.exports.kue = require('kue');
 // Note that unlike what the name createQueue suggests, it currently returns a
 // singleton Queue instance. So you can configure and use only a single Queue
 // object within your node.js process.
-const Queue = module.exports.queue = kue.createQueue({
-  redis: {
-    createClientFactory: () => redis.createClient()
-  }
-});
+let Queue = module.exports.queue = null;
 
 class Task {
 
   constructor({name, attempts = 3, delay = 1000}) {
+    debug(`Created new Task[${name}]`);
+
     this.name = name;
     this.attempts = attempts;
     this.delay = delay;
+
+    if (!Queue) {
+      module.exports.queue = Queue = kue.createQueue({
+        redis: {
+          createClientFactory: redis.createClientFactory()
+        }
+      });
+    }
   }
 
   /**
@@ -132,3 +138,19 @@ if (process.env.NODE_ENV === 'test') {
 } else {
   module.exports.Task = Task;
 }
+
+module.exports.createTaskFactory = () => {
+  let taskInstance = null;
+
+  return (options) => {
+    if (taskInstance) {
+      return taskInstance;
+    }
+
+    options = Object.assign({}, options);
+
+    taskInstance = new module.exports.Task(options);
+
+    return taskInstance;
+  };
+};
