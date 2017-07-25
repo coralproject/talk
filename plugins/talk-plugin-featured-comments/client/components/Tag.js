@@ -15,13 +15,15 @@ export default class Tag extends React.Component {
 
   }
 
-  showTooltip = () => {
+  showTooltip = e => {
+    e.preventDefault();
     this.setState({
       tooltip: true
     });
   }
 
-  hideTooltip = () => {
+  hideTooltip = (e) => {
+    e.preventDefault();
     this.setState({
       tooltip: false
     });
@@ -30,10 +32,13 @@ export default class Tag extends React.Component {
   render() {
     const {tooltip} = this.state;
     return(
-      <div onMouseEnter={this.showTooltip} onMouseLeave={this.hideTooltip} >
+      <div className={styles.noSelect} onMouseEnter={this.showTooltip}
+          onMouseLeave={this.hideTooltip} onTouchStart={this.showTooltip}
+          onTouchEnd={this.hideTooltip}>
           {
             isTagged(this.props.comment.tags, 'FEATURED') ? (
-              <span className={cn(styles.tag, {[styles.on]: tooltip})}>
+              <span 
+                className={cn(styles.tag, styles.noSelect, {[styles.on]: tooltip})}>
                 {t('talk-plugin-featured-comments.featured')}
               </span>
             ) : null

@@ -68,3 +68,13 @@
   pointer-events: none;
 }
 
+
+@custom-media --small-viewport (max-width: 320px);
+
+@media (--small-viewport) {
+  .buttonSub, .buttonSubActive, .buttonSubActive:hover, .buttonSubActive:focus {
+    font-size: 0.96em;
+    padding-right: 5px;
+    padding-right: 5px;
+  }
+}
