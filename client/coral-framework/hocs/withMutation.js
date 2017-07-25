@@ -124,7 +124,7 @@ export default (document, config = {}) => (WrappedComponent) => {
             if (errors) {
               throw new ResponseErrors(errors);
             }
-            this.context.eventEmitter.emit(`mutation.${name}.success`, {variables});
+            this.context.eventEmitter.emit(`mutation.${name}.success`, {variables, data: res.data});
             return Promise.resolve(res);
           })
           .catch((error) => {

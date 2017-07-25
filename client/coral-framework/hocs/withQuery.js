@@ -56,7 +56,8 @@ export default (document, config = {}) => (WrappedComponent) => {
 
       const status = networkStatusToString(networkStatus);
 
-      this.context.eventEmitter.emit(`query.${name}.${status}`, {variables});
+      const {root} = separateDataAndRoot(data);
+      this.context.eventEmitter.emit(`query.${name}.${status}`, {variables, data: root});
     }
 
     wrappedConfig = {
@@ -86,13 +87,25 @@ export default (document, config = {}) => (WrappedComponent) => {
             fetchMore: (lmArgs) => {
               const fetchName = getDefinitionName(lmArgs.query);
               this.context.eventEmitter.emit(
-                `query.${name}.fetchMore.${fetchName}`,
+                `query.${name}.fetchMore.${fetchName}.begin`,
                 {variables: lmArgs.variables});
 
               // Resolve document fragments before passing it to `apollo-client`.
               return args.data.fetchMore({
                 ...lmArgs,
                 query: resolveFragments(lmArgs.query),
+              })
+              .then((res) => {
+                this.context.eventEmitter.emit(
+                  `query.${name}.fetchMore.${fetchName}.success`,
+                  {variables: lmArgs.variables, data: res.data});
+                return Promise.resolve(res);
+              })
+              .catch((err) => {
+                this.context.eventEmitter.emit(
+                  `query.${name}.fetchMore.${fetchName}.error`,
+                  {variables: lmArgs.variables, error: err});
+                throw err;
               });
             },
           },
