@@ -1,0 +1,9 @@
+# This file overrides core translations
+#
+# This will override the first tab of the embed - "Comments" with "Override Comment Tab"
+# Go to locales/ to check all the core translations
+
+en:
+  embed_comments_tab: Override Comment Tab
+es:
+  embed_comments_tab: Override Tab de Comentarios
