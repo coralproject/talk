@@ -1,4 +1,4 @@
-FROM node:7.10.1
+FROM node:latest
 
 # Create app directory
 RUN mkdir -p /usr/src/app
@@ -13,11 +13,9 @@ EXPOSE 5000
 COPY . /usr/src/app
 
 # Install app dependencies and build static assets.
-RUN yarn global add node-gyp && \
-    yarn install --frozen-lockfile && \
+RUN yarn install --frozen-lockfile && \
     cli plugins reconcile && \
     yarn build && \
-    yarn install --production && \
     yarn cache clean
 
 # Ensure the runtime of the container is in production mode.

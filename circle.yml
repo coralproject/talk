@@ -1,6 +1,6 @@
 machine:
   node:
-    version: 7.10.1
+    version: 8
   services:
     - docker
     - redis
