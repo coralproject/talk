@@ -445,12 +445,12 @@ const genRecentComments = (_, ids) => {
 };
 
 /**
- * genComments returns the comments by the id's. Only admins can see non-public comments.
+ * getComments returns the comments by the id's. Only admins can see non-public comments.
  * @param  {Object}        context graph context
  * @param  {Array<String>} ids     the comment id's to fetch
  * @return {Promise}       resolves to the comments
  */
-const genComments = ({user}, ids) => {
+const getComments = ({user}, ids) => {
   let comments;
   if (user && user.can(SEARCH_OTHERS_COMMENTS)) {
     comments = CommentModel.find({
@@ -478,7 +478,7 @@ const genComments = ({user}, ids) => {
  */
 module.exports = (context) => ({
   Comments: {
-    get: new DataLoader((ids) => genComments(context, ids)),
+    get: new DataLoader((ids) => getComments(context, ids)),
     getByQuery: (query) => getCommentsByQuery(context, query),
     getCountByQuery: (query) => getCommentCountByQuery(context, query),
     countByAssetID: new SharedCounterDataLoader('Comments.totalCommentCount', 3600, (ids) => getCountsByAssetID(context, ids)),

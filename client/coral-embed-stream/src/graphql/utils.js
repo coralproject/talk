@@ -12,8 +12,8 @@ function determineCommentDepth(comment) {
 }
 
 function applyToCommentsOrigin(root, callback) {
-  if (root.comment) {
-    let comment = root.comment;
+  if (root.asset.comment) {
+    let comment = root.asset.comment;
     for (let depth = 0; depth <= determineCommentDepth(comment); depth++) {
       let changes = {$apply: (node) => node ? callback(node) : node};
       for (let i = 0; i < depth; i++) {
@@ -24,7 +24,10 @@ function applyToCommentsOrigin(root, callback) {
 
     return {
       ...root,
-      comment,
+      asset: {
+        ...root.asset,
+        comment,
+      },
     };
   }
   return update(root, {
@@ -135,8 +138,8 @@ export function findCommentInEmbedQuery(root, callbackOrId) {
   if (typeof callbackOrId === 'string') {
     callback = (node) => node.id === callbackOrId;
   }
-  if (root.comment) {
-    return findComment([getTopLevelParent(root.comment)], callback);
+  if (root.asset.comment) {
+    return findComment([getTopLevelParent(root.asset.comment)], callback);
   }
   if (!root.asset.comments) {
     return false;
