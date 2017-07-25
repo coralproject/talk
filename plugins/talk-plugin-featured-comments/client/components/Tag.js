@@ -4,7 +4,6 @@ import styles from './Tag.css';
 import Tooltip from './Tooltip';
 import {t} from 'plugin-api/beta/client/services';
 import {isTagged} from 'plugin-api/beta/client/utils';
-import bowser from 'bowser';
 
 export default class Tag extends React.Component {
   constructor() {
@@ -16,27 +15,15 @@ export default class Tag extends React.Component {
 
   }
 
-  componentDidMount() {
-    if (bowser.mobile) {
-      this.tagEl.addEventListener('touchstart', this.showTooltip);
-      this.tagEl.addEventListener('touchend', this.hideTooltip);
-    }
-  }
-
-  componentWillUnmount() {
-    if (bowser.mobile) {
-      this.tagEl.removeEventListener('touchstart', this.showTooltip);
-      this.tagEl.removeEventListener('touchend', this.hideTooltip);
-    }
-  }
-
-  showTooltip = () => {
+  showTooltip = e => {
+    e.preventDefault();
     this.setState({
       tooltip: true
     });
   }
 
-  hideTooltip = () => {
+  hideTooltip = (e) => {
+    e.preventDefault();
     this.setState({
       tooltip: false
     });
@@ -45,10 +32,9 @@ export default class Tag extends React.Component {
   render() {
     const {tooltip} = this.state;
     return(
-      <div ref={(ref) => this.tagEl = ref} 
-          onMouseEnter={this.showTooltip}
-          onMouseLeave={this.hideTooltip}
-          className={styles.noSelect }>
+      <div className={styles.noSelect} onMouseEnter={this.showTooltip}
+          onMouseLeave={this.hideTooltip} onTouchStart={this.showTooltip}
+          onTouchEnd={this.hideTooltip}>
           {
             isTagged(this.props.comment.tags, 'FEATURED') ? (
               <span 
