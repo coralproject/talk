@@ -1,7 +1,7 @@
 import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
 import mainReducer from '../reducers';
-import {getClient} from './client';
+import {getClient} from 'coral-framework/services/client';
 
 const middlewares = [
   applyMiddleware(getClient().middleware()),

@@ -1,4 +1,5 @@
 const kue = require('./kue');
+const taskFactory = kue.createTaskFactory();
 const debug = require('debug')('talk:services:scraper');
 const AssetModel = require('../models/asset');
 const AssetsService = require('./assets');
@@ -12,11 +13,13 @@ const metascraper = require('metascraper');
 const scraper = {
 
   /**
-   * Create the new Task kue.
+   * Create the new Task kue singleton.
    */
-  task: new kue.Task({
-    name: 'scraper'
-  }),
+  get task() {
+    return taskFactory({
+      name: 'scraper'
+    });
+  },
 
   /**
    * Creates a new scraper job and scrapes the url when it gets processed.
