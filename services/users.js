@@ -1,6 +1,6 @@
 const assert = require('assert');
 const uuid = require('uuid');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const url = require('url');
 const jwt = require('jsonwebtoken');
 const Wordlist = require('./wordlist');
