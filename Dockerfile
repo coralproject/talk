@@ -1,4 +1,4 @@
-FROM node:7.10.1
+FROM node:8
 
 # Create app directory
 RUN mkdir -p /usr/src/app
@@ -17,7 +17,6 @@ RUN yarn global add node-gyp && \
     yarn install --frozen-lockfile && \
     cli plugins reconcile && \
     yarn build && \
-    yarn install --production && \
     yarn cache clean
 
 # Ensure the runtime of the container is in production mode.
