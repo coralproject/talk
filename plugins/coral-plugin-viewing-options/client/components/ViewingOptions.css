@@ -5,6 +5,10 @@
   composes: buttonReset from "coral-framework/styles/reset.css";
 }
 
+.button:hover {
+  cursor: pointer;
+}
+
 .list {
   background: white;
   position: absolute;
