@@ -1,9 +1,9 @@
 import {OPEN_MENU, CLOSE_MENU} from './constants';
 
-export const openViewingOptions = () => ({
+export const openMenu = () => ({
   type: OPEN_MENU,
 });
 
-export const closeViewingOptions = () => ({
+export const closeMenu = () => ({
   type: CLOSE_MENU,
 });

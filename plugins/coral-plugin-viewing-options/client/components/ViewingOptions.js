@@ -7,15 +7,15 @@ import {Icon} from 'plugin-api/beta/client/components/ui';
 const ViewingOptions = (props) => {
   const toggleOpen = () => {
     if (!props.open) {
-      props.openViewingOptions();
+      props.openMenu();
     } else {
-      props.closeViewingOptions();
+      props.closeMenu();
     }
   };
 
   const handleClickOutside = () => {
     if (props.open) {
-      props.closeViewingOptions();
+      props.closeMenu();
     }
   };
 
