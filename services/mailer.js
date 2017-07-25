@@ -76,7 +76,6 @@ const mailer = module.exports = {
   /**
    * Create the new Task kue.
    */
-  _task: null,
   get task() {
     if (taskInstance) {
       return taskInstance;
