@@ -41,9 +41,11 @@ export default withFragments({
       }
       actions {
         ... on FlagAction {
+          id
           reason
           message
           user {
+            id
             username
           }
         }
