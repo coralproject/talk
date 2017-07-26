@@ -1,17 +1,17 @@
-import {VIEWING_OPTIONS_OPEN, VIEWING_OPTIONS_CLOSE} from './constants';
+import {OPEN_MENU, CLOSE_MENU} from './constants';
 
 const initialState = {
   open: false
 };
 
-export default function offTopic (state = initialState, action) {
+export default function reducer(state = initialState, action) {
   switch (action.type) {
-  case VIEWING_OPTIONS_OPEN:
+  case OPEN_MENU:
     return {
       ...state,
       open: true
     };
-  case VIEWING_OPTIONS_CLOSE:
+  case CLOSE_MENU:
     return {
       ...state,
       open: false
