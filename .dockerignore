@@ -1,9 +1,10 @@
 # excluded because we'll likely need to rebuild this.
 node_modules
 
-# scripts are used during development and testing, not
+# most scripts are used during development and testing, not
 # production.
 scripts
+!scripts/generateIntrospectionResult.js
 
 # documentation should not be visable in production.
 docs

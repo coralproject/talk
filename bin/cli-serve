@@ -12,6 +12,7 @@ const SetupService = require('../services/setup');
 const kue = require('../services/kue');
 const mongoose = require('../services/mongoose');
 const util = require('./util');
+const cache = require('../services/cache');
 const {createSubscriptionManager} = require('../graph/subscriptions');
 const {
   PORT
@@ -80,7 +81,11 @@ function normalizePort(val) {
  * Event listener for HTTP server "listening" event.
  */
 
-function onListening() {
+async function onListening() {
+
+  // Start the cache instance.
+  await cache.init();
+
   let addr = server.address();
   let bind = typeof addr === 'string'
     ? `pipe ${addr}`
@@ -135,6 +140,11 @@ async function startApp(program) {
   /**
   * Listen on provided port, on all network interfaces.
   */
+  server.on('error', onError);
+  server.on('listening', onListening);
+  server.on('listening', () => {
+
+  });
   server.listen(port, () => {
 
     // Mount the websocket server if requested.
@@ -145,8 +155,6 @@ async function startApp(program) {
       createSubscriptionManager(server);
     }
   });
-  server.on('error', onError);
-  server.on('listening', onListening);
 }
 
 //==============================================================================

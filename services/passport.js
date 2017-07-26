@@ -9,18 +9,19 @@ const LocalStrategy = require('passport-local').Strategy;
 const errors = require('../errors');
 const uuid = require('uuid');
 const debug = require('debug')('talk:services:passport');
-const {createClient} = require('./redis');
 const bowser = require('bowser');
 const ms = require('ms');
 
 // Create a redis client to use for authentication.
-const client = createClient();
+const {createClientFactory} = require('./redis');
+const client = createClientFactory();
 
 const {
   JWT_SECRET,
   JWT_ISSUER,
   JWT_EXPIRY,
   JWT_AUDIENCE,
+  JWT_ALG,
   RECAPTCHA_SECRET,
   RECAPTCHA_ENABLED
 } = require('../config');
@@ -148,7 +149,7 @@ const HandleLogout = (req, res, next) => {
   const now = new Date();
   const expiry = (jwt.exp - now.getTime() / 1000).toFixed(0);
 
-  client.set(`jtir[${jwt.jti}]`, now.toISOString(), 'EX', expiry, (err) => {
+  client().set(`jtir[${jwt.jti}]`, now.toISOString(), 'EX', expiry, (err) => {
     if (err) {
       return next(err);
     }
@@ -159,7 +160,7 @@ const HandleLogout = (req, res, next) => {
 };
 
 const checkGeneralTokenBlacklist = (jwt) => new Promise((resolve, reject) => {
-  client.get(`jtir[${jwt.jti}]`, (err, expiry) => {
+  client().get(`jtir[${jwt.jti}]`, (err, expiry) => {
     if (err) {
       return reject(err);
     }
@@ -219,6 +220,7 @@ passport.use(new JwtStrategy({
   // Prepare the extractor from the header.
   jwtFromRequest: ExtractJwt.fromExtractors([
     cookieExtractor,
+    ExtractJwt.fromUrlQueryParameter('access_token'),
     ExtractJwt.fromAuthHeaderWithScheme('Bearer')
   ]),
 
@@ -233,7 +235,7 @@ passport.use(new JwtStrategy({
   audience: JWT_AUDIENCE,
 
   // Enable only the HS256 algorithm.
-  algorithms: ['HS256'],
+  algorithms: [JWT_ALG],
 
   // Pass the request object back to the callback so we can attach the JWT to
   // it.
