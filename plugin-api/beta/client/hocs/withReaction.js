@@ -54,6 +54,13 @@ export default (reaction) => (WrappedComponent) => {
       id: fragmentId
     });
 
+    if (!data) {
+      if (self) {
+        throw new Error(`Comment ${action.item_id} was not found`);
+      }
+      return;
+    }
+
     // Add our comment from the mutation to the end.
     let idx = data.action_summaries.findIndex(isReaction);
 
@@ -95,6 +102,13 @@ export default (reaction) => (WrappedComponent) => {
       fragment: COMMENT_FRAGMENT,
       id: fragmentId
     });
+
+    if (!data) {
+      if (self) {
+        throw new Error(`Comment ${action.item_id} was not found`);
+      }
+      return;
+    }
 
     // Check whether we liked this comment.
     const idx = data.action_summaries.findIndex(isReaction);
