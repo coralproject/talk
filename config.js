@@ -126,14 +126,14 @@ if (CONFIG.JWT_SECRETS) {
 
     // HMAC secrets do not have public/private keys.
     if (CONFIG.JWT_ALG.startsWith('HS')) {
-      return new jwt.SharedSecret(secret);
+      return new jwt.SharedSecret(secret, CONFIG.JWT_ALG);
     }
 
     if (!('public' in secret)) {
       throw new Error('all symetric keys must provide a PEM encoded public key');
     }
 
-    return new jwt.AsymmetricSecret(secret);
+    return new jwt.AsymmetricSecret(secret, CONFIG.JWT_ALG);
   }));
 
   debug(`loaded ${CONFIG.JWT_SECRET.length} secrets`);
@@ -141,9 +141,9 @@ if (CONFIG.JWT_SECRETS) {
   if (CONFIG.JWT_ALG.startsWith('HS')) {
     CONFIG.JWT_SECRET = new jwt.SharedSecret({
       secret: CONFIG.JWT_SECRET
-    });
+    }, CONFIG.JWT_ALG);
   } else {
-    CONFIG.JWT_SECRET = new jwt.AsymmetricSecret(JSON.parse(CONFIG.JWT_SECRET));
+    CONFIG.JWT_SECRET = new jwt.AsymmetricSecret(JSON.parse(CONFIG.JWT_SECRET), CONFIG.JWT_ALG);
   }
 
   debug('loaded 1 secret');
@@ -152,7 +152,7 @@ if (CONFIG.JWT_SECRETS) {
 if (process.env.NODE_ENV === 'test' && !CONFIG.JWT_SECRET) {
   CONFIG.JWT_SECRET = new jwt.SharedSecret({
     secret: 'keyboard cat'
-  });
+  }, CONFIG.JWT_ALG);
 } else if (!CONFIG.JWT_SECRET) {
   throw new Error(
     'TALK_JWT_SECRET must be provided in the environment to sign/verify tokens'

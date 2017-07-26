@@ -1,6 +1,5 @@
 const errors = require('../errors');
 const UserModel = require('../models/user');
-const JWT = require('jsonwebtoken');
 const uuid = require('uuid');
 
 const {
@@ -33,7 +32,7 @@ module.exports = class TokenService {
     };
 
     // Sign the payload.
-    const jwt = JWT.sign(payload, JWT_SECRET, {});
+    const jwt = JWT_SECRET.sign(payload, {});
 
     // Create the PAT.
     let pat = {

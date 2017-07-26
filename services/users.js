@@ -2,7 +2,6 @@ const assert = require('assert');
 const uuid = require('uuid');
 const bcrypt = require('bcryptjs');
 const url = require('url');
-const jwt = require('jsonwebtoken');
 const Wordlist = require('./wordlist');
 const errors = require('../errors');
 const {
@@ -354,7 +353,7 @@ module.exports = class UsersService {
    */
   static disableUser(id) {
     return UserModel.update({
-      id: id
+      id
     }, {
       $set: {
         disabled: true
@@ -369,7 +368,7 @@ module.exports = class UsersService {
    */
   static enableUser(id) {
     return UserModel.update({
-      id: id
+      id
     }, {
       $set: {
         disabled: false
@@ -413,9 +412,7 @@ module.exports = class UsersService {
       return Promise.reject(new Error(`role ${role} is not supported`));
     }
 
-    return UserModel.update({
-      id: id
-    }, {
+    return UserModel.update({id}, {
       $pull: {
         roles: role
       }
@@ -461,16 +458,15 @@ module.exports = class UsersService {
    * @param  {Date}     until               date until the suspension is valid.
    */
   static async suspendUser(id, message, until) {
-    const user = await UserModel.findOneAndUpdate(
-      {id}, {
-        $set: {
-          suspension: {
-            until,
-          },
-        }
-      }, {
-        new: true,
-      });
+    const user = await UserModel.findOneAndUpdate({id}, {
+      $set: {
+        suspension: {
+          until,
+        },
+      }
+    }, {
+      new: true,
+    });
 
     if (message) {
       let localProfile = user.profiles.find((profile) => profile.provider === 'local');
@@ -500,9 +496,7 @@ module.exports = class UsersService {
    * @param  {Date}     until               date until the suspension is valid.
    */
   static async rejectUsername(id, message) {
-    const user = await UserModel.findOneAndUpdate({
-      id
-    }, {
+    const user = await UserModel.findOneAndUpdate({id}, {
       $set: {
         status: 'BANNED',
         canEditName: true,
@@ -512,18 +506,17 @@ module.exports = class UsersService {
     });
 
     if (message) {
-      let localProfile = user.profiles.find((profile) => profile.provider === 'local');
+      let localProfile = user.profiles.find(({provider}) => provider === 'local');
       if (localProfile) {
-        const options =
-          {
-            template: 'suspension',              // needed to know which template to render!
-            locals: {                            // specifies the template locals.
-              body: message
-            },
-            subject: 'Email Suspension',
-            to: localProfile.id  // This only works if the user has registered via e-mail.
-                                 // We may want a standard way to access a user's e-mail address in the future
-          };
+        const options = {
+          template: 'suspension',              // needed to know which template to render!
+          locals: {                            // specifies the template locals.
+            body: message
+          },
+          subject: 'Email Suspension',
+          to: localProfile.id  // This only works if the user has registered via e-mail.
+                                // We may want a standard way to access a user's e-mail address in the future
+        };
 
         await MailerService.sendSimple(options);
       }
@@ -548,9 +541,7 @@ module.exports = class UsersService {
   static async findOrCreateByIDToken(id, token) {
 
     // Try to get the user.
-    let user = await UserModel.findOne({
-      id
-    });
+    let user = await UserModel.findOne({id});
 
     // If the user was not found, try to look it up.
     if (user === null) {
@@ -629,8 +620,7 @@ module.exports = class UsersService {
           version: user.__v
         };
 
-        return jwt.sign(payload, JWT_SECRET, {
-          algorithm: 'HS256',
+        return JWT_SECRET.sign(payload, {
           expiresIn: '1d',
           subject: PASSWORD_RESET_JWT_SUBJECT
         });
@@ -644,11 +634,7 @@ module.exports = class UsersService {
    */
   static verifyToken(token, options = {}) {
     return new Promise((resolve, reject) => {
-
-      // Set the allowed algorithms.
-      options.algorithms = ['HS256'];
-
-      jwt.verify(token, JWT_SECRET, options, (err, decoded) => {
+      JWT_SECRET.verify(token, options, (err, decoded) => {
         if (err) {
           return reject(err);
         }
@@ -762,7 +748,7 @@ module.exports = class UsersService {
    * @param  {String} email The email that we are needing to get confirmed.
    * @return {Promise}
    */
-  static createEmailConfirmToken(userID = null, email, referer = ROOT_URL) {
+  static async createEmailConfirmToken(userID = null, email, referer = ROOT_URL) {
     if (!email || typeof email !== 'string') {
       return Promise.reject('email is required when creating a JWT for resetting passord');
     }
@@ -772,41 +758,37 @@ module.exports = class UsersService {
 
     const tokenOptions = {
       jwtid: uuid.v4(),
-      algorithm: 'HS256',
       expiresIn: '1d',
       subject: EMAIL_CONFIRM_JWT_SUBJECT
     };
 
-    let userPromise;
-
+    let user;
     if (!userID) {
 
       // If there is no userID, we're coming from the endpoint where a new user
       // is re-requesting a confirmation email and we don't know the userID.
-      userPromise = UserModel.findOne({profiles: {$elemMatch: {id: email, provider: 'local'}}});
+      user = await UserModel.findOne({profiles: {$elemMatch: {id: email, provider: 'local'}}});
     } else {
-      userPromise = UsersService.findById(userID);
+      user = await UsersService.findById(userID);
     }
 
-    return userPromise.then((user) => {
-      if (!user) {
-        return Promise.reject(errors.ErrNotFound);
-      }
+    if (!user) {
+      throw errors.ErrNotFound;
+    }
 
-      // Get the profile representing the local account.
-      let profile = user.profiles.find((profile) => profile.id === email && profile.provider === 'local');
+    // Get the profile representing the local account.
+    let profile = user.profiles.find((profile) => profile.id === email && profile.provider === 'local');
 
-      // Ensure that the user email hasn't already been verified.
-      if (profile && profile.metadata && profile.metadata.confirmed_at) {
-        return Promise.reject(new Error('email address already confirmed'));
-      }
+    // Ensure that the user email hasn't already been verified.
+    if (profile && profile.metadata && profile.metadata.confirmed_at) {
+      throw new Error('email address already confirmed');
+    }
 
-      return jwt.sign({
-        email,
-        referer,
-        userID: user.id
-      }, JWT_SECRET, tokenOptions);
-    });
+    return JWT_SECRET.sign({
+      email,
+      referer,
+      userID: user.id
+    }, tokenOptions);
   }
 
   /**
@@ -816,17 +798,14 @@ module.exports = class UsersService {
    *                        signed with our secret.
    * @return {Promise}
    */
-  static verifyEmailConfirmation(token) {
-    return UsersService
-      .verifyToken(token, {
-        subject: EMAIL_CONFIRM_JWT_SUBJECT
-      })
-      .then(({userID, email, referer}) => {
-        return UsersService
-          .confirmEmail(userID, email)
-          .then(() => ({userID, email, referer}));
-      });
+  static async verifyEmailConfirmation(token) {
+    let {userID, email, referer} = await UsersService.verifyToken(token, {
+      subject: EMAIL_CONFIRM_JWT_SUBJECT
+    });
 
+    await UsersService.confirmEmail(userID, email);
+
+    return {userID, email, referer};
   }
 
   /**
@@ -835,7 +814,7 @@ module.exports = class UsersService {
   static confirmEmail(id, email) {
     return UserModel
       .update({
-        id: id,
+        id,
         profiles: {
           $elemMatch: {
             id: email,
@@ -934,18 +913,18 @@ module.exports = class UsersService {
 
   /**
    * Ignore another user
-   * @param  {String} userId the id of the user that is ignoring another users
-   * @param  {String[]} usersToIgnore Array of user IDs to ignore
+   * @param  {String} id the id of the user that is ignoring another users
+   * @param  {Array<String>} usersToIgnore Array of user IDs to ignore
    */
-  static ignoreUsers(userId, usersToIgnore) {
+  static ignoreUsers(id, usersToIgnore) {
     assert(Array.isArray(usersToIgnore), 'usersToIgnore is an array');
     assert(usersToIgnore.every((u) => typeof u === 'string'), 'usersToIgnore is an array of string user IDs');
-    if (usersToIgnore.includes(userId)) {
+    if (usersToIgnore.includes(id)) {
       throw new Error('Users cannot ignore themselves');
     }
 
     // TODO: For each usersToIgnore, make sure they exist?
-    return UserModel.update({id: userId}, {
+    return UserModel.update({id}, {
       $addToSet:  {
         ignoresUsers: {
           $each: usersToIgnore
@@ -957,12 +936,12 @@ module.exports = class UsersService {
   /**
    * Stop ignoring other users
    * @param  {String} userId the id of the user that is ignoring another users
-   * @param  {String[]} usersToStopIgnoring Array of user IDs to stop ignoring
+   * @param  {Array<String>} usersToStopIgnoring Array of user IDs to stop ignoring
    */
-  static async stopIgnoringUsers(userId, usersToStopIgnoring) {
+  static async stopIgnoringUsers(id, usersToStopIgnoring) {
     assert(Array.isArray(usersToStopIgnoring), 'usersToStopIgnoring is an array');
     assert(usersToStopIgnoring.every((u) => typeof u === 'string'), 'usersToStopIgnoring is an array of string user IDs');
-    await UserModel.update({id: userId}, {
+    await UserModel.update({id}, {
       $pullAll:  {
         ignoresUsers: usersToStopIgnoring
       }

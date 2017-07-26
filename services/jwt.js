@@ -9,10 +9,17 @@ class MultiSecret {
     this.secrets = secrets;
   }
 
+  /**
+   * Sign will sign with the first secret.
+   */
   sign(payload, options) {
     return this.secrets[0].sign(payload, options);
   }
 
+  /**
+   * Verify will parse the token and determine the kid, then match it to the
+   * available secrets, using that to perform the verification.
+   */
   verify(token, options, callback) {
     let header = null;
     try {
@@ -35,43 +42,73 @@ class MultiSecret {
   }
 }
 
-class SharedSecret {
-  constructor({kid = undefined, secret}) {
+/**
+ * Secret wraps the capabilities expected of a Secret, signing and verifying.
+ */
+class Secret {
+  constructor({kid, signingKey, verifiyingKey, algorithm}) {
     this.kid = kid;
-    this.secret = secret;
+    this.signingKey = signingKey;
+    this.verifiyingKey = verifiyingKey;
+    this.algorithm = algorithm;
   }
 
+  /**
+   * Sign will sign the payload with the secret.
+   *
+   * @param {Object} payload the object to sign
+   * @param {Object} options the signing options
+   */
   sign(payload, options) {
-    return jwt.sign(payload, this.secret, Object.assign({}, options, {
-      keyid: this.kid
+    if (!this.signingKey) {
+      throw new Error('no signing key on secret, cannot sign');
+    }
+
+    return jwt.sign(payload, this.signingKey, Object.assign({}, options, {
+      keyid: this.kid,
+      algorithm: this.algorithm
     }));
   }
 
+  /**
+   * Verify will ensure that the given token was indeed signed with this secret.
+   * @param {String} token the token to verify
+   * @param {Object} options the verification options
+   * @param {Function} callback the function to call with the verification results
+   */
   verify(token, options, callback) {
-    jwt.verify(token, this.secret, options, callback);
+    jwt.verify(token, this.verifiyingKey, Object.assign({}, options, {
+      algorithms: [this.algorithm]
+    }), callback);
   }
 }
 
-class AsymmetricSecret {
-  constructor({kid = undefined, private: privateKey, public: publicKey}) {
-    this.kid = kid;
-    this.public = Buffer.from(publicKey.replace(/\\n/g, '\n'));
-    this.private = privateKey ? Buffer.from(privateKey.replace(/\\n/g, '\n')) : null;
-  }
+/**
+ * SharedSecret is the HMAC based secret that's used for signing/verifying.
+ */
+function SharedSecret({kid = undefined, secret}, algorithm) {
+  return new Secret({
+    kid,
+    signingKey: secret,
+    verifiyingKey: secret,
+    algorithm
+  });
+}
 
-  sign(payload, options) {
-    if (!this.private) {
-      throw new Error('no private key on secret, cannot sign');
-    }
+/**
+ * AsymmetricSecret is the Asymmetric based key, where a private key is optional
+ * and the public key is required.
+ */
+function AsymmetricSecret({kid = undefined, private: privateKey, public: publicKey}, algorithm) {
+  publicKey = Buffer.from(publicKey.replace(/\\n/g, '\n'));
+  privateKey = privateKey ? Buffer.from(privateKey.replace(/\\n/g, '\n')) : null;
 
-    return jwt.sign(payload, this.private, Object.assign({}, options, {
-      keyid: this.kid
-    }));
-  }
-
-  verify(token, options, callback) {
-    jwt.verify(token, this.public, options, callback);
-  }
+  return new Secret({
+    kid,
+    signingKey: privateKey,
+    verifiyingKey: publicKey,
+    algorithm
+  });
 }
 
 module.exports = {
