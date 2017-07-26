@@ -4,7 +4,6 @@ const SettingsService = require('./settings');
 const TokensService = require('./tokens');
 const fetch = require('node-fetch');
 const FormData = require('form-data');
-const JWT = require('jsonwebtoken');
 const LocalStrategy = require('passport-local').Strategy;
 const errors = require('../errors');
 const uuid = require('uuid');
@@ -28,13 +27,16 @@ const {
 
 // GenerateToken will sign a token to include all the authorization information
 // needed for the front end.
-const GenerateToken = (user) => JWT.sign({}, JWT_SECRET, {
-  jwtid: uuid.v4(),
-  expiresIn: JWT_EXPIRY,
-  issuer: JWT_ISSUER,
-  subject: user.id,
-  audience: JWT_AUDIENCE
-});
+const GenerateToken = (user) => {
+  return JWT_SECRET.sign({}, {
+    jwtid: uuid.v4(),
+    expiresIn: JWT_EXPIRY,
+    issuer: JWT_ISSUER,
+    subject: user.id,
+    audience: JWT_AUDIENCE,
+    algorithm: JWT_ALG
+  });
+};
 
 // SetTokenForSafari sends the token in a cookie for Safari clients.
 const SetTokenForSafari = (req, res, token) => {
@@ -187,7 +189,6 @@ const CheckBlacklisted = async (jwt) => {
   return checkGeneralTokenBlacklist(jwt);
 };
 
-const jwt = require('jsonwebtoken');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 
@@ -204,7 +205,7 @@ let cookieExtractor = function(req) {
 // Override the JwtVerifier method on the JwtStrategy so we can pack the
 // original token into the payload.
 JwtStrategy.JwtVerifier = (token, secretOrKey, options, callback) => {
-  return jwt.verify(token, secretOrKey, options, (err, jwt) => {
+  return JWT_SECRET.verify(token, options, (err, jwt) => {
     if (err) {
       return callback(err);
     }
