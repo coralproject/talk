@@ -3,7 +3,10 @@ title: Configuration
 permalink: /docs/running/configuration/
 ---
 
+{% include toc %}
+
 ## Overview
+{:.no_toc}
 
 Talk, like many web applications, requires manual configuration via environment
 variables to configure the server for your specific needs. This is following the
@@ -49,25 +52,21 @@ see how the configuration is parsed.
 
 ### JWT
 
-If a non-HMAC based signing method is used (such as `RS256` or `ES256`) as your
-choice for `TALK_JWT_ALG`, you must use a PEM encoded certificate.
-If you are using the core auth method, then a private key must be provided as we
-then perform key signing.
-If you are using an external mechanism to handle key signing by passing the auth
-details through the PYM bridge (documentation on the way!) then you can instead
-provide a public key.
+The following are configuration shared with every type of secret used.
 
 - `TALK_JWT_ALG` (_optional_) - the algorithm used to sign/verify JWT's used for
   session management. Read up about alternative algorithms on the
   [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken#algorithms-supported) package. (Default `HS256`)
-- `TALK_JWT_SECRET` (*required*) - The shared secret or certificate (depending
-  on your choice of `TALK_JWT_ALG`) used for jwt tokens.
 - `TALK_JWT_EXPIRY` (_optional_) - the expiry duration (`exp`) for the tokens
   issued for logged in sessions. (Default `1 day`)
 - `TALK_JWT_ISSUER` (_optional_) - the issuer (`iss`) claim for login JWT
   tokens. (Default `process.env.TALK_ROOT_URL`)
 - `TALK_JWT_AUDIENCE` (_optional_) - the audience (`aud`) claim for login JWT
   tokens. (Default `talk`)
+
+**You must also specify secrets as either the `TALK_JWT_SECRET` or the `TALK_JWT_SECRETS`
+variable. Refer to the [Secrets Documentation]({{ "/docs/running/secrets/" | absolute_url }})
+on the contents of those variables.**
 
 ### Email
 

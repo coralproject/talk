@@ -32,6 +32,8 @@ docs:
     children:
       - title: "Configuration"
         url: /docs/running/configuration/
+      - title: "Secrets"
+        url: /docs/running/secrets/
       - title: "Database Migrations"
         url: /docs/running/migrations/
   - title: "Architecture"
@@ -62,5 +64,7 @@ docs:
         url: /docs/development/tools/
       - title: "Contributor's Guide"
         url: /docs/development/contributing/
+      - title: "Code of Conduct"
+        url: /docs/development/code-of-conduct/
       - title: "REST API"
         url: /docs/development/rest/

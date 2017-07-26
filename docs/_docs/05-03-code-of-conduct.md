@@ -1,4 +1,7 @@
-# Contributor Covenant Code of Conduct
+---
+title: Contributor Covenant Code of Conduct
+permalink: /docs/development/code-of-conduct/
+---
 
 ## Our Pledge
 
@@ -9,8 +12,7 @@ We commit to enforce and evolve this code over the duration of the project.
 
 ## Expected behavior
 
-
-* Be supportive of each other. 
+* Be supportive of each other.
 * Be collaborative. Involve others in brainstorms, sketching sessions, code reviews, planning documents, and the like. It’s not only okay to ask for help or feedback often, it’s unacceptable not to do so.
 * Be generous and kind in both giving and accepting critique. Critique is a natural and important part of our culture. Good critiques are kind, respectful, clear, and constructive, focused on goals and requirements rather than personal preferences. You are expected to give and receive criticism with grace.
 * Be humane. Be polite and friendly in all forms of communication, especially remote communication, where opportunities for misunderstanding are greater. Use sarcasm carefully. Tone is hard to decipher online; make judicious use of emoji to aid in communication.
@@ -19,8 +21,8 @@ We commit to enforce and evolve this code over the duration of the project.
 * Respect people’s boundaries.
 * Do not make it personal.
 * Use welcoming and inclusive language.
-* Offer to help if you see someone struggling or otherwise in need of assistance (taking care not to be patronizing or disrespectful). 
-* If someone approaches you looking for help, be generous with your time; if you’re under a deadline, direct them to someone else who may be of assistance. 
+* Offer to help if you see someone struggling or otherwise in need of assistance (taking care not to be patronizing or disrespectful).
+* If someone approaches you looking for help, be generous with your time; if you’re under a deadline, direct them to someone else who may be of assistance.
 * Go out of your way to include people in jokes or memes, recognizing that we want to build an environment free of cliques.
 * Show empathy towards other community members
 
@@ -34,6 +36,7 @@ Harassment includes, but is not limited to: deliberate intimidation; stalking; u
 Furthermore, any behavior or language which is unwelcoming—whether or not it rises to the level of harassment—is also strongly discouraged. Much exclusionary behavior takes the form of microaggressions—subtle put-downs which may be unconsciously delivered. Regardless of intent, microaggressions can have a significant negative impact on victims and have no place on our team.
 
 Other inappropriate behavior:
+
 *	Threats
 *	Slurs
 *	Pornography
@@ -43,7 +46,7 @@ Other inappropriate behavior:
 *	Impersonation of someone else
 *	Violating someone’s privacy
 
-If you feel that someone has harassed you or otherwise treated you or someone else inappropriately, please alert the project lead at andrewl@mozillafoundation.org.
+If you feel that someone has harassed you or otherwise treated you or someone else inappropriately, please alert the project lead at [andrewl@mozillafoundation.org](mailto:andrewl@mozillafoundation.org).
 
 
 ## Our Responsibilities
@@ -61,13 +64,14 @@ This Code of Conduct applies both within project spaces and in public spaces whe
 These guidelines are ambitious, and we’re not always going to succeed in meeting them. When something goes wrong—whether it’s a microaggression or an instance of harassment — there are a number of things you can do to address the situation. Depending on your comfort level and the severity of the situation, here are some suggestions:
 
 * Address it directly. If you’re comfortable bringing up the incident with the person who instigated it, pull them aside to discuss how it affected you. Be sure to approach these conversations in a forgiving spirit: an angry or tense conversation will not do either of you any good. If you’re unsure how to go about that, try discussing with your manager or with the people and culture team first—they might have some advice about how to make this conversation happen.
+
 If you’re too frustrated to have a direct conversation, there are a number of alternate routes you can take.
 
 * Talk to a peer or mentor. Your colleagues are likely to have personal and professional experience on which to draw that could be of use to you. If you have someone you’re comfortable approaching, reach out and discuss the situation with them. They may be able to advise on how they would handle it, or direct you to someone who can. The flip side of this, of course, is that you should also be available when your colleagues reach out to you.
 
-* Contact the project lead, Andrew Losowsky, andrewl@mozillafoundation.org, or the technical lead. We will work with you to help you figure out how to ensure that any conflict doesn’t interfere with your work, in confidence if you would prefer.
+* Contact the project lead, Andrew Losowsky, [andrewl@mozillafoundation.org](mailto:andrewl@mozillafoundation.org), or the technical lead. We will work with you to help you figure out how to ensure that any conflict doesn’t interfere with your work, in confidence if you would prefer.
 
-* Talk to Chris Lawrence. Chris oversees the project. He can be contacted at clawrence@mozillafoundation.org.
+* Talk to Chris Lawrence. Chris oversees the project. He can be contacted at [clawrence@mozillafoundation.org](mailto:clawrence@mozillafoundation.org).
 
 If you feel you have been unfairly accused of violating this code of conduct, you should contact Chris with a concise description of your grievance.
 
