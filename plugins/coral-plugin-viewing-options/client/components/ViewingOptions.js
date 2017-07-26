@@ -1,8 +1,9 @@
 import React from 'react';
 import cn from 'classnames';
 import styles from './ViewingOptions.css';
-import {Slot, ClickOutside} from 'plugin-api/beta/client/components';
+import {t} from 'plugin-api/beta/client/services';
 import {Icon} from 'plugin-api/beta/client/components/ui';
+import {Slot, ClickOutside} from 'plugin-api/beta/client/components';
 
 const ViewingOptions = (props) => {
   const toggleOpen = () => {
@@ -23,7 +24,9 @@ const ViewingOptions = (props) => {
     <ClickOutside onClickOutside={handleClickOutside}>
       <div className={cn([styles.root, 'coral-plugin-viewing-options'])}>
         <div>
-          <button className={styles.button} onClick={toggleOpen}>Viewing Options
+          <button className={styles.button} onClick={toggleOpen}>
+            <Icon className={styles.filterIcon} name="filter_list" />
+            <span className={styles.filterText}>{t('viewing_options')}</span> 
             {props.open ? <Icon name="arrow_drop_up" className={styles.icon}/> : <Icon name="arrow_drop_down" className={styles.icon}/>}
           </button>
         </div>

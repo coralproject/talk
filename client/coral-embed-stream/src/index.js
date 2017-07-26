@@ -5,15 +5,19 @@ import {ApolloProvider} from 'react-apollo';
 import {checkLogin} from 'coral-framework/actions/auth';
 import './graphql';
 import {addExternalConfig} from 'coral-embed-stream/src/actions/config';
-import {getStore, injectReducers} from 'coral-framework/services/store';
+import {getStore, injectReducers, addListener} from 'coral-framework/services/store';
 import {getClient} from 'coral-framework/services/client';
+import {createReduxEmitter} from 'coral-framework/services/events';
 import pym from 'coral-framework/services/pym';
 import AppRouter from './AppRouter';
 import {loadPluginsTranslations, injectPluginsReducers} from 'coral-framework/helpers/plugins';
 import reducers from './reducers';
+import EventEmitter from 'eventemitter2';
+import EventEmitterProvider from 'coral-framework/components/EventEmitterProvider';
 
 const store = getStore();
 const client = getClient();
+const eventEmitter = new EventEmitter({wildcard: true});
 
 loadPluginsTranslations();
 injectPluginsReducers();
@@ -42,11 +46,21 @@ if (!window.opener) {
   } else {
     init();
   }
+
+  // Pass any events through our parent.
+  eventEmitter.onAny((eventName, value) => {
+    pym.sendMessage('event', JSON.stringify({eventName, value}));
+  });
+
+  // Add a redux listener to pass through all actions to our event emitter.
+  addListener(createReduxEmitter(eventEmitter));
 }
 
 render(
-  <ApolloProvider client={client} store={store}>
-    <AppRouter />
-  </ApolloProvider>
+  <EventEmitterProvider eventEmitter={eventEmitter}>
+    <ApolloProvider client={client} store={store}>
+      <AppRouter />
+    </ApolloProvider>
+  </EventEmitterProvider>
   , document.querySelector('#talk-embed-stream-container')
 );
