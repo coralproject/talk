@@ -74,7 +74,7 @@
   cursor: pointer;
   display: block;
   text-decoration: none;
-  height: 50px;
+  min-height: 50px;
   box-sizing: border-box;
   transition: background-color 400ms;
 

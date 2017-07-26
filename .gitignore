@@ -5,6 +5,8 @@ dist
 npm-debug.log*
 dump.rdb
 
+client/coral-framework/graphql/introspection.json
+
 .env
 *.cfg
 

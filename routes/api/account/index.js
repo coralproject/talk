@@ -19,7 +19,7 @@ router.get('/', authorization.needed(), (req, res, next) => {
 // POST /email/confirm takes the password confirmation token available as a
 // payload parameter and if it verifies, it updates the confirmed_at date on the
 // local profile.
-router.post('/email/verify', (req, res, next) => {
+router.post('/email/verify', async (req, res, next) => {
 
   const {
     token
@@ -29,57 +29,47 @@ router.post('/email/verify', (req, res, next) => {
     return next(errors.ErrMissingToken);
   }
 
-  UsersService
-    .verifyEmailConfirmation(token)
-    .then(({referer}) => {
-      res.json({redirectUri: referer});
-    })
-    .catch((err) => {
-      next(err);
-    });
+  try {
+    let {referer} = await UsersService.verifyEmailConfirmation(token);
+    res.json({redirectUri: referer});
+  } catch (e) {
+    return next(e);
+  }
 });
 
 /**
  * this endpoint takes an email (username) and checks if it belongs to a User account
  * if it does, create a JWT and send an email
  */
-router.post('/password/reset', (req, res, next) => {
+router.post('/password/reset', async (req, res, next) => {
   const {email, loc} = req.body;
 
   if (!email) {
-    return next('you must submit an email when requesting a password.');
+    return next(errors.ErrMissingEmail);
   }
 
-  UsersService
-    .createPasswordResetToken(email, loc)
-    .then((token) => {
-
-      // Check to see if the token isn't defined.
-      if (!token) {
-
-        // As it isn't, don't send any emails!
-        return;
-      }
-
-      return mailer.sendSimple({
-        template: 'password-reset',             // needed to know which template to render!
-        locals: {                                     // specifies the template locals.
-          token,
-          rootURL: ROOT_URL
-        },
-        subject: 'Password Reset',
-        to: email
-      });
-    })
-    .then(() => {
-
-      // we want to send a 204 regardless of the user being found in the db
-      // if we fail on missing emails, it would reveal if people are registered or not.
+  try {
+    let token = await UsersService.createPasswordResetToken(email, loc);
+    if (!token) {
       res.status(204).end();
-    })
-    .catch((err) => {
-      next(err);
+      return;
+    }
+
+    // Send the password reset email.
+    await mailer.sendSimple({
+      template: 'password-reset',             // needed to know which template to render!
+      locals: {                                     // specifies the template locals.
+        token,
+        rootURL: ROOT_URL
+      },
+      subject: 'Password Reset',
+      to: email
     });
+
+    res.status(204).end();
+  } catch (e) {
+    return next(e);
+  }
 });
 
 /**
@@ -87,7 +77,7 @@ router.post('/password/reset', (req, res, next) => {
  * 1) the token that was in the url of the email link {String}
  * 2) the new password {String}
  */
-router.put('/password/reset', (req, res, next) => {
+router.put('/password/reset', async (req, res, next) => {
 
   const {
     token,
@@ -102,28 +92,26 @@ router.put('/password/reset', (req, res, next) => {
     return next(errors.ErrPasswordTooShort);
   }
 
-  UsersService
-    .verifyPasswordResetToken(token)
-    .then(([user, loc]) => {
-      return Promise.all([UsersService.changePassword(user.id, password), loc]);
-    })
-    .then(([ , loc]) => {
-      res.json({redirect: loc});
-    })
-    .catch(() => {
-      next(authorization.ErrNotAuthorized);
-    });
+  try {
+    let [user, loc] = await UsersService.verifyPasswordResetToken(token);
+
+    // Change the users' password.
+    await UsersService.changePassword(user.id, password);
+
+    res.json({redirect: loc});
+  } catch (e) {
+    console.error(e);
+    return next(errors.ErrNotAuthorized);
+  }
 });
 
-router.put('/username', authorization.needed(), (req, res, next) => {
-  UsersService
-    .editName(req.user.id, req.body.username)
-    .then(() => {
-      res.status(204).end();
-    })
-    .catch((err) => {
-      next(err);
-    });
+router.put('/username', authorization.needed(), async (req, res, next) => {
+  try {
+    await UsersService.editName(req.user.id, req.body.username);
+    res.status(204).end();
+  } catch (e) {
+    return next(e);
+  }
 });
 
 module.exports = router;

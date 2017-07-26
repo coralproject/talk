@@ -1,0 +1,10 @@
+.infoIcon {
+  color: #616161;
+  vertical-align: middle;
+  font-size: 16px;
+  margin-left: 5px;
+}
+
+ .infoIcon.on {
+  color: #1d5294;
+} 

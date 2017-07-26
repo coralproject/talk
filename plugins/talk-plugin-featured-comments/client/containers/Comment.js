@@ -31,6 +31,7 @@ export default withFragments({
           name
         }
       }
+
       user {
         id
         username
