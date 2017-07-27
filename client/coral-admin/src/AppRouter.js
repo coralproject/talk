@@ -40,7 +40,7 @@ const routes = (
         <Route path='new' components={Moderation}>
           <Route path=':id' components={Moderation} />
         </Route>
-        <Route path='accepted' components={Moderation}>
+        <Route path='approved' components={Moderation}>
           <Route path=':id' components={Moderation} />
         </Route>
         <Route path='premod' components={Moderation}>

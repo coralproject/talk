@@ -29,10 +29,10 @@ const ModerationMenu = ({
         <div className={styles.tabBarPadding} />
         <div>
           <Link
-            to={getPath('all')}
+            to={getPath('premod')}
             className={`mdl-tabs__tab ${styles.tab}`}
             activeClassName={styles.active}>
-            <Icon name='question_answer' className={styles.tabIcon} /> {t('modqueue.all')} <CommentCount count={allCount} />
+            <Icon name='access_time' className={styles.tabIcon} /> {t('modqueue.premod')} <CommentCount count={premodCount} />
           </Link>
           <Link
             to={getPath('new')}
@@ -41,19 +41,13 @@ const ModerationMenu = ({
             <Icon name='question_answer' className={styles.tabIcon} /> {t('modqueue.new')} <CommentCount count={newCount} />
           </Link>
           <Link
-            to={getPath('premod')}
-            className={`mdl-tabs__tab ${styles.tab}`}
-            activeClassName={styles.active}>
-            <Icon name='access_time' className={styles.tabIcon} /> {t('modqueue.premod')} <CommentCount count={premodCount} />
-          </Link>
-          <Link
             to={getPath('reported')}
             className={`mdl-tabs__tab ${styles.tab}`}
             activeClassName={styles.active}>
             <Icon name='flag' className={styles.tabIcon} /> {t('modqueue.reported')} <CommentCount count={reportedCount} />
           </Link>
           <Link
-            to={getPath('accepted')}
+            to={getPath('approved')}
             className={`mdl-tabs__tab ${styles.tab}`}
             activeClassName={styles.active}>
             <Icon name='check' className={styles.tabIcon} /> {t('modqueue.approved')} <CommentCount count={acceptedCount} />
@@ -63,6 +57,12 @@ const ModerationMenu = ({
             className={`mdl-tabs__tab ${styles.tab}`}
             activeClassName={styles.active}>
             <Icon name='close' className={styles.tabIcon} /> {t('modqueue.rejected')} <CommentCount count={rejectedCount} />
+          </Link>
+          <Link
+            to={getPath('all')}
+            className={`mdl-tabs__tab ${styles.tab}`}
+            activeClassName={styles.active}>
+            <Icon name='question_answer' className={styles.tabIcon} /> {t('modqueue.all')} <CommentCount count={allCount} />
           </Link>
         </div>
         <SelectField
