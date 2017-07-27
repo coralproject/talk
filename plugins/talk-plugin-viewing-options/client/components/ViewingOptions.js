@@ -26,7 +26,7 @@ const ViewingOptions = (props) => {
         <div>
           <button className={styles.button} onClick={toggleOpen}>
             <Icon className={styles.filterIcon} name="filter_list" />
-            <span className={styles.filterText}>{t('viewing_options')}</span> 
+            <span className={styles.filterText}>{t('talk-plugin-viewing-options.viewing_options')}</span> 
             {props.open ? <Icon name="arrow_drop_up" className={styles.icon}/> : <Icon name="arrow_drop_down" className={styles.icon}/>}
           </button>
         </div>
