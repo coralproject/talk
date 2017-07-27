@@ -17,16 +17,17 @@
       }
     </style>
     <title><%= title %></title>
+    <base href="<%= BASE_URL %>"/>
   </head>
   <body>
   <main>
     <h1><%= title %></h1>
     <p><%= body %></p>
-    <p><a href="/admin">Admin</a> - <a href="/assets">All Assets</a></p>
+    <p><a href="admin">Admin</a> - <a href="assets">All Assets</a></p>
     <div id='coralStreamEmbed'></div>
-    <script src="/embed.js" async onload="
+    <script src="embed.js" async onload="
       Coral.Talk.render(document.getElementById('coralStreamEmbed'), {
-        talk: '/',
+        talk: '<%= BASE_URL %>',
         asset_url: '<%= asset_url ? asset_url : '' %>',
         asset_id: '<%= asset_id ? asset_id : '' %>',
         auth_token: '',
