@@ -111,52 +111,52 @@ module.exports = {
       selector: '#coralStream #logout'
     },
     commentBox: {
-      selector: '.coral-plugin-commentbox-textarea'
+      selector: '.talk-plugin-commentbox-textarea'
     },
     postButton: {
-      selector: '#commentBox .coral-plugin-commentbox-button'
+      selector: '#commentBox .talk-plugin-commentbox-button'
     },
     likeButton: {
-      selector: '.embed__stream .comment .coral-plugin-likes-container .coral-plugin-likes-button'
+      selector: '.embed__stream .comment .talk-plugin-likes-container .talk-plugin-likes-button'
     },
     likeText: {
-      selector: '.embed__stream .comment .coral-plugin-likes-container .coral-plugin-likes-button .coral-plugin-likes-button-text'
+      selector: '.embed__stream .comment .talk-plugin-likes-container .talk-plugin-likes-button .talk-plugin-likes-button-text'
     },
     likesCount: {
-      selector: '.embed__stream .comment .coral-plugin-likes-container .coral-plugin-likes-button .coral-plugin-likes-like-count'
+      selector: '.embed__stream .comment .talk-plugin-likes-container .talk-plugin-likes-button .talk-plugin-likes-like-count'
     },
     flagButton: {
-      selector: '.embed__stream .comment .coral-plugin-flags-container .coral-plugin-flags-button'
+      selector: '.embed__stream .comment .talk-plugin-flags-container .talk-plugin-flags-button'
     },
     flagPopUp: {
-      selector: '.embed__stream .comment .coral-plugin-flags-popup'
+      selector: '.embed__stream .comment .talk-plugin-flags-popup'
     },
     flagCommentOption: {
-      selector: '.embed__stream .comment .coral-plugin-flags-popup .coral-plugin-flags-popup-radio-label[for="COMMENTS"]'
+      selector: '.embed__stream .comment .talk-plugin-flags-popup .talk-plugin-flags-popup-radio-label[for="COMMENTS"]'
     },
     flagUsernameOption: {
-      selector: '.embed__stream .comment .coral-plugin-flags-popup .coral-plugin-flags-popup-radio-label[for="USERS"]'
+      selector: '.embed__stream .comment .talk-plugin-flags-popup .talk-plugin-flags-popup-radio-label[for="USERS"]'
     },
     flagOtherOption: {
-      selector: '.embed__stream .comment .coral-plugin-flags-popup .coral-plugin-flags-popup-radio-label[for="other"]'
+      selector: '.embed__stream .comment .talk-plugin-flags-popup .talk-plugin-flags-popup-radio-label[for="other"]'
     },
     flagHeaderMessage: {
-      selector: '.embed__stream .comment .coral-plugin-flags-popup .coral-plugin-flags-popup-header'
+      selector: '.embed__stream .comment .talk-plugin-flags-popup .talk-plugin-flags-popup-header'
     },
     flagButtonText: {
-      selector: '.embed__stream .comment .coral-plugin-flags-button-text'
+      selector: '.embed__stream .comment .talk-plugin-flags-button-text'
     },
     flagDoneButton: {
-      selector: '.embed__stream .comment .coral-plugin-flags-popup .coral-plugin-flags-popup-button'
+      selector: '.embed__stream .comment .talk-plugin-flags-popup .talk-plugin-flags-popup-button'
     },
     permalinkButton: {
-      selector: '.embed__stream .comment .coral-plugin-permalinks-button'
+      selector: '.embed__stream .comment .talk-plugin-permalinks-button'
     },
     permalinkPopUp: {
-      selector: '.embed__stream .comment .coral-plugin-permalinks-popover.active'
+      selector: '.embed__stream .comment .talk-plugin-permalinks-popover.active'
     },
     permalinkInput: {
-      selector: '.embed__stream .comment .coral-plugin-permalinks-popover.active input'
+      selector: '.embed__stream .comment .talk-plugin-permalinks-popover.active input'
     },
     registerButton: {
       selector: '#signInDialog #coralRegister'

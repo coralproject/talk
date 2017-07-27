@@ -6,11 +6,11 @@
   "scripts": {
     "postinstall": "./bin/cli plugins reconcile --skip-remote",
     "start": "./bin/cli serve -j -w",
-    "dev-start": "nodemon -w . -w bin/cli -w bin/cli-serve --config .nodemon.json --exec \"yarn generate-introspection && ./bin/cli -c .env serve -j -w\"",
+    "dev-start": "nodemon -w . -w bin/cli -w bin/cli-serve --config .nodemon.json --exec \"WEBPACK=TRUE NODE_ENV=test ./scripts/generateIntrospectionResult.js && ./bin/cli -c .env serve -j -w\"",
     "prebuild": "yarn generate-introspection",
-    "build": "WEBPACK=true NODE_ENV=production webpack -p --config webpack.config.js --bail",
+    "build": "WEBPACK=TRUE NODE_ENV=production webpack -p --config webpack.config.js --bail",
     "prebuild-watch": "yarn generate-introspection",
-    "build-watch": "WEBPACK=true NODE_ENV=development webpack --progress --config webpack.config.js --watch",
+    "build-watch": "WEBPACK=TRUE NODE_ENV=development webpack --progress --config webpack.config.js --watch",
     "lint": "eslint bin/* .",
     "lint-fix": "eslint bin/* . --fix",
     "test": "TEST_MODE=unit NODE_ENV=test mocha -R ${MOCHA_REPORTER:-spec}",
@@ -20,7 +20,7 @@
     "poste2e": "NODE_ENV=test scripts/poste2e.sh",
     "embed-start": "NODE_ENV=development yarn build && ./bin/cli serve --jobs",
     "heroku-postbuild": "./bin/cli plugins reconcile && yarn build",
-    "generate-introspection": "WEBPACK=true NODE_ENV=test ./scripts/generateIntrospectionResult.js"
+    "generate-introspection": "WEBPACK=TRUE NODE_ENV=test ./scripts/generateIntrospectionResult.js"
   },
   "talk": {
     "migration": {
