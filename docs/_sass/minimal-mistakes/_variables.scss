@@ -91,7 +91,7 @@ $xing-color                 : #006567 !default;
 
 
 /* links */
-$link-color                 : $info-color !default;
+$link-color                 : #f67150 !default;
 $link-color-hover           : mix(#000, $link-color, 25%) !default;
 $link-color-visited         : mix(#fff, $link-color, 25%) !default;
 $masthead-link-color        : $primary-color !default;
@@ -126,4 +126,4 @@ $border-radius              : 4px !default;
 $box-shadow                 : 0 1px 1px rgba(0, 0, 0, 0.125) !default;
 $navicon-width              : 1.5rem !default;
 $navicon-height             : 0.25rem !default;
-$global-transition          : all 0.2s ease-in-out !default;
+$global-transition          : none !default;
