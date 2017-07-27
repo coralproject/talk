@@ -13,7 +13,7 @@ import {
 
 const mapStateToProps = (state) => ({
   commentClassNames: commentClassNamesSelector(state),
-  checked: state.coralPluginOfftopic.checked
+  checked: state.talkPluginOfftopic.checked
 });
 
 const mapDispatchToProps = (dispatch) =>
