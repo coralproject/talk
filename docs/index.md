@@ -1,21 +1,23 @@
 ---
-title: Talk
-keywords: homepage
-sidebar: talk_sidebar
-permalink: index.html
-summary:
+title: Overview
+seo_title: Coral Talk Documentaion
+layout: single
+read_time: false
+author_profile: false
+share: false
+comments: false
+sidebar:
+    nav: "docs"
 ---
 
-[![CircleCI](https://circleci.com/gh/coralproject/talk.svg?style=svg)](https://circleci.com/gh/coralproject/talk)
-
-Online comments are broken. Mozilla's open-source, plugin-based tool Talk rethinks how moderation, comment display, and conversation function online, creating the opportunity for better, smarter discussions designed to fit your needs. [Read more about Talk here.](https://coralproject.net/products/talk.html)
+Online comments are broken. Mozilla's open-source, plugin-based tool Talk rethinks how moderation, comment display, and conversation function online, creating the opportunity for better, smarter discussions designed to fit your needs. [Read more about Talk here.](https://coralproject.net/products/talk)
 
 Third party licenses are available via the `/client/3rdpartylicenses.txt`
 endpoint when the server is running with built assets.
 
 ## Contributing to Talk
 
-See our [Contribution Guide](https://github.com/coralproject/talk/blob/master/CONTRIBUTING.md)!
+See our [Contribution Guide]({{ "/docs/development/contributing" | absolute_url }})!
 
 ## Supported Browsers
 
@@ -44,7 +46,7 @@ See our [Contribution Guide](https://github.com/coralproject/talk/blob/master/CO
 
 ### Android Devices
 
-- Galaxy S5x
+- Galaxy S5
 - Nexus 5X
 - Nexus 6P
 

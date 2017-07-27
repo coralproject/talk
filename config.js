@@ -125,6 +125,12 @@ if (process.env.NODE_ENV === 'test' && !CONFIG.JWT_SECRET) {
   );
 }
 
+// If this is not employing a HMAC based signing method, then we need to turn
+// the secret into a buffer.
+if (!CONFIG.JWT_ALG.startsWith('HS')) {
+  CONFIG.JWT_SECRET = Buffer.from(CONFIG.JWT_SECRET);
+}
+
 //------------------------------------------------------------------------------
 // External database url's
 //------------------------------------------------------------------------------
