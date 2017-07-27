@@ -1,2 +1,5 @@
-export const VIEWING_OPTIONS_OPEN = 'VIEWING_OPTIONS_OPEN';
-export const VIEWING_OPTIONS_CLOSE = 'VIEWING_OPTIONS_CLOSE';
+const prefix = 'TALK_VIEWING_OPTIONS';
+
+export const OPEN_MENU = `${prefix}_OPEN_MENU`;
+export const CLOSE_MENU = `${prefix}_CLOSE_MENU`;
+
