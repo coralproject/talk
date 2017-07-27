@@ -96,12 +96,14 @@ app.use(passport.initialize());
 // (if present) the JWT on the request.
 app.use('/api', authentication);
 
+const pubsubClient = pubsub.createClientFactory();
+
 // To handle dependancy injection safer, we inject the pubsub handle onto the
 // request object.
 app.use('/api', (req, res, next) => {
 
   // Attach the pubsub handle to the requests.
-  req.pubsub = pubsub.createClient();
+  req.pubsub = pubsubClient();
 
   // Forward on the request.
   next();

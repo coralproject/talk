@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import AuthorName from 'coral-plugin-author-name/AuthorName';
-import TagLabel from 'coral-plugin-tag-label/TagLabel';
-import PubDate from 'coral-plugin-pubdate/PubDate';
-import {ReplyBox, ReplyButton} from 'coral-plugin-replies';
-import {FlagComment} from 'coral-plugin-flags';
+import AuthorName from 'talk-plugin-author-name/AuthorName';
+import TagLabel from 'talk-plugin-tag-label/TagLabel';
+import PubDate from 'talk-plugin-pubdate/PubDate';
+import {ReplyBox, ReplyButton} from 'talk-plugin-replies';
+import {FlagComment} from 'talk-plugin-flags';
 import {can} from 'coral-framework/services/perms';
 import {TransitionGroup} from 'react-transition-group';
 import cn from 'classnames';

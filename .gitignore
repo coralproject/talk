@@ -12,21 +12,22 @@ client/coral-framework/graphql/introspection.json
 
 .idea/
 *.swp
+*.DS_STORE
 
 test/e2e/reports
 coverage/
 
 plugins.json
 plugins/*
-!plugins/coral-plugin-facebook-auth
-!plugins/coral-plugin-auth
-!plugins/coral-plugin-respect
-!plugins/coral-plugin-offtopic
-!plugins/coral-plugin-like
-!plugins/coral-plugin-mod
-!plugins/coral-plugin-love
-!plugins/coral-plugin-viewing-options
-!plugins/coral-plugin-comment-content
+!plugins/talk-plugin-facebook-auth
+!plugins/talk-plugin-auth
+!plugins/talk-plugin-respect
+!plugins/talk-plugin-offtopic
+!plugins/talk-plugin-like
+!plugins/talk-plugin-mod
+!plugins/talk-plugin-love
+!plugins/talk-plugin-viewing-options
+!plugins/talk-plugin-comment-content
 !plugins/talk-plugin-permalink
 !plugins/talk-plugin-featured-comments
 
