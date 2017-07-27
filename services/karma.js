@@ -1,22 +1,25 @@
 const debug = require('debug')('talk:services:karma');
 const UserModel = require('../models/user');
+const {
+  TRUST_THRESHOLDS
+} = require('../config');
 
 /**
  * This will create an object with the property name of the action type as the
  * key and an object as it's value. This will contain a RELIABLE, and UNRELIABLE
  * property with the number of karma points associated with their particular
  * state.
- * 
+ *
  * If only the RELIABLE variable is provided, then it will also be used as the
  * UNRELIABLE variable.
- * 
+ *
  * The form of the environment variable is:
- * 
+ *
  *  <name>:<RELIABLE>,<UNRELIABLE>;<name>:<RELIABLE>,<UNRELIABLE>;...
- * 
+ *
  * The default used is:
- * 
- *  comment:1,1;flag:-1,-1
+ *
+ *  comment:-1,-1;flag:-1,-1
  */
 const parseThresholds = (thresholds) => thresholds
   .split(';')
@@ -50,16 +53,16 @@ const parseThresholds = (thresholds) => thresholds
     return acc;
   }, {
     comment: {
-      RELIABLE: -1,
-      UNRELIABLE: -1
+      RELIABLE: 0,
+      UNRELIABLE: 0
     },
     flag: {
-      RELIABLE: -1,
-      UNRELIABLE: -1
+      RELIABLE: 0,
+      UNRELIABLE: 0
     }
   });
 
-const THRESHOLDS = parseThresholds(process.env.TRUST_THRESHOLDS || '');
+const THRESHOLDS = parseThresholds(TRUST_THRESHOLDS);
 
 debug('using thresholds: ', THRESHOLDS);
 
