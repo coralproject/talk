@@ -4,6 +4,7 @@ import {SubscriptionClient, addGraphQLSubscriptions} from 'subscriptions-transpo
 import MessageTypes from 'subscriptions-transport-ws/dist/message-types';
 import {getAuthToken} from '../helpers/request';
 import introspectionQueryResultData from '../graphql/introspection.json';
+import {BASE_PATH} from 'coral-framework/constants/url';
 
 let client, wsClient = null, wsClientToken = null;
 
@@ -33,7 +34,7 @@ export function getClient(options = {}) {
   }
 
   const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  wsClient = new SubscriptionClient(`${protocol}://${location.host}/api/v1/live`, {
+  wsClient = new SubscriptionClient(`${protocol}://${location.host}${BASE_PATH}api/v1/live`, {
     reconnect: true,
     lazy: true,
     connectionParams: {
