@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import t from 'coral-framework/services/i18n';
 import styles from './Configure.css';
 import {Button, Card} from 'coral-ui';
+import {BASE_URL} from 'coral-framework/constants/url';
 
 class EmbedLink extends Component {
 
@@ -24,21 +25,14 @@ class EmbedLink extends Component {
   }
 
   render () {
-    const location = window.location;
-    const talkBaseUrl = [
-      location.protocol,
-      '//',
-      location.hostname,
-      location.port ? (`:${window.location.port}`) : ''
-    ].join('');
-    const coralJsUrl = [talkBaseUrl, '/embed.js'].join('');
+    const coralJsUrl = [BASE_URL, '/embed.js'].join('');
     const nonce = String(Math.random()).slice(2);
     const streamElementId = `coral_talk_${nonce}`;
     const embedText = `
 <div id="${streamElementId}"></div>
 <script src="${coralJsUrl}" async onload="
   Coral.Talk.render(document.getElementById('${streamElementId}'), {
-    talk: '${talkBaseUrl}'
+    talk: '${BASE_URL}'
   });
 "></script>
     `.trim();

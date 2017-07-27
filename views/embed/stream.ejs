@@ -12,10 +12,11 @@
     <% if (data != null) { %>
       <script id="data" type="application/json"><%- JSON.stringify(data) %></script>
     <% } %>
+    <base href="<%= BASE_URL %>"/>
   </head>
   <body>
 
     <div id="talk-embed-stream-container"></div>
-    <script src="/client/embed/stream/bundle.js"></script>
+    <script src="client/embed/stream/bundle.js"></script>
   </body>
 </html>

@@ -15,6 +15,7 @@ const apollo = require('graphql-server-express');
 const accepts = require('accepts');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
+const {ROOT_URL} = require('./config');
 
 const app = express();
 
@@ -73,6 +74,12 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+// Set the BASE_URL as the ROOT_URL.
+app.locals.BASE_URL = ROOT_URL;
+if (app.locals.BASE_URL[app.locals.BASE_URL.length - 1] !== '/') {
+  app.locals.BASE_URL += '/';
+}
 
 //==============================================================================
 // PASSPORT MIDDLEWARE
