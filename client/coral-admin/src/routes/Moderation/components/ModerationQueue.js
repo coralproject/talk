@@ -85,7 +85,6 @@ class ModerationQueue extends React.Component {
                 data={this.props.data}
                 root={this.props.root}
                 key={comment.id}
-                index={i}
                 comment={comment}
                 selected={i === selectedIndex}
                 suspectWords={props.suspectWords}

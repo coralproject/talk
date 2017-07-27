@@ -5,25 +5,24 @@ import {bindActionCreators} from 'redux';
 import UserDetail from '../components/UserDetail';
 import withQuery from 'coral-framework/hocs/withQuery';
 import {getDefinitionName, getSlotFragmentSpreads} from 'coral-framework/utils';
-import {viewUserDetail, hideUserDetail} from 'actions/moderation';
 import {
   changeUserDetailStatuses,
   clearUserDetailSelections,
-  toggleSelectCommentInUserDetail,
+  toggleSelectCommentInUserDetail
 } from 'coral-admin/src/actions/moderation';
 import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
-import UserDetailComment from './UserDetailComment';
+import Comment from './Comment';
 
 const commentConnectionFragment = gql`
   fragment CoralAdmin_Moderation_CommentConnection on CommentConnection {
     nodes {
-      ...${getDefinitionName(UserDetailComment.fragments.comment)}
+      ...${getDefinitionName(Comment.fragments.comment)}
     }
     hasNextPage
     startCursor
     endCursor
   }
-  ${UserDetailComment.fragments.comment}
+  ${Comment.fragments.comment}
 `;
 
 const slots = [
@@ -33,11 +32,12 @@ const slots = [
 class UserDetailContainer extends React.Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
+    hideUserDetail: PropTypes.func.isRequired
   }
 
   // status can be 'ACCEPTED' or 'REJECTED'
   bulkSetCommentStatus = (status) => {
-    const changes = this.props.selectedIds.map((commentId) => {
+    const changes = this.props.moderation.userDetailSelectedIds.map((commentId) => {
       return this.props.setCommentStatus({commentId, status});
     });
 
@@ -55,14 +55,6 @@ class UserDetailContainer extends React.Component {
     this.bulkSetCommentStatus('ACCEPTED');
   }
 
-  acceptComment = ({commentId}) => {
-    return this.props.setCommentStatus({commentId, status: 'ACCEPTED'});
-  }
-
-  rejectComment = ({commentId}) => {
-    return this.props.setCommentStatus({commentId, status: 'REJECTED'});
-  }
-
   render () {
     if (!('user' in this.props.root)) {
       return null;
@@ -73,8 +65,6 @@ class UserDetailContainer extends React.Component {
       bulkAccept={this.bulkAccept}
       changeStatus={this.props.changeUserDetailStatuses}
       toggleSelect={this.props.toggleSelectCommentInUserDetail}
-      acceptComment={this.acceptComment}
-      rejectComment={this.rejectComment}
       {...this.props} />;
   }
 }
@@ -103,7 +93,7 @@ export const withUserDetailQuery = withQuery(gql`
   }
   ${commentConnectionFragment}
 `, {
-  options: ({id, statuses}) => {
+  options: ({id, moderation: {userDetailStatuses: statuses}}) => {
     return {
       variables: {author_id: id, statuses}
     };
@@ -111,20 +101,14 @@ export const withUserDetailQuery = withQuery(gql`
 });
 
 const mapStateToProps = (state) => ({
-  selectedIds: state.moderation.toJS().userDetailSelectedIds,
-  statuses: state.moderation.toJS().userDetailStatuses,
-  activeTab: state.moderation.toJS().userDetailActiveTab,
-  bannedWords: state.settings.toJS().wordlist.banned,
-  suspectWords: state.settings.toJS().wordlist.suspect,
+  moderation: state.moderation.toJS()
 });
 
 const mapDispatchToProps = (dispatch) => ({
   ...bindActionCreators({
     changeUserDetailStatuses,
     clearUserDetailSelections,
-    toggleSelectCommentInUserDetail,
-    viewUserDetail,
-    hideUserDetail,
+    toggleSelectCommentInUserDetail
   }, dispatch)
 });
 
