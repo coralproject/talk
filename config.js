@@ -102,7 +102,10 @@ const CONFIG = {
 
   // DISABLE_AUTOFLAG_SUSPECT_WORDS is true when the suspect words that are
   // matched should not be flagged.
-  DISABLE_AUTOFLAG_SUSPECT_WORDS: process.env.TALK_DISABLE_AUTOFLAG_SUSPECT_WORDS === 'TRUE'
+  DISABLE_AUTOFLAG_SUSPECT_WORDS: process.env.TALK_DISABLE_AUTOFLAG_SUSPECT_WORDS === 'TRUE',
+
+  // TRUST_THRESHOLDS defines the thresholds used for automoderation.
+  TRUST_THRESHOLDS: process.env.TRUST_THRESHOLDS || 'comment:-1,-1;flag:-1,-1'
 };
 
 //==============================================================================
