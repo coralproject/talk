@@ -33,7 +33,7 @@ const CONFIG = {
 
   // JWT_CLEAR_COOKIE_LOGOUT specifies whether the named cookie should be
   // cleared when the user is logged out.
-  JWT_CLEAR_COOKIE_LOGOUT: process.env.JWT_CLEAR_COOKIE_LOGOUT ? process.env.JWT_CLEAR_COOKIE_LOGOUT !== 'FALSE' : true,
+  JWT_CLEAR_COOKIE_LOGOUT: process.env.TALK_JWT_CLEAR_COOKIE_LOGOUT ? process.env.TALK_JWT_CLEAR_COOKIE_LOGOUT !== 'FALSE' : true,
 
   // JWT_AUDIENCE is the value for the audience claim for the tokens that will be
   // verified when decoding. If `JWT_AUDIENCE` is not in the environment, then it
