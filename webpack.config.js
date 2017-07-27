@@ -7,6 +7,7 @@ const _ = require('lodash');
 const Copy = require('copy-webpack-plugin');
 const LicenseWebpackPlugin = require('license-webpack-plugin');
 const webpack = require('webpack');
+const debug = require('debug')('talk:webpack');
 
 // Possibly load the config from the .env file (if there is one).
 require('dotenv').config();
@@ -15,7 +16,7 @@ const {plugins, pluginsPath, PluginManager} = require('./plugins');
 const manager = new PluginManager(plugins);
 const targetPlugins = manager.section('targets').plugins;
 
-console.log(`Using ${pluginsPath} as the plugin configuration path`);
+debug(`Using ${pluginsPath} as the plugin configuration path`);
 
 const buildTargets = [
   'coral-admin',
