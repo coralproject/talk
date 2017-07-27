@@ -4,7 +4,6 @@ const SettingsService = require('./settings');
 const TokensService = require('./tokens');
 const fetch = require('node-fetch');
 const FormData = require('form-data');
-const JWT = require('jsonwebtoken');
 const LocalStrategy = require('passport-local').Strategy;
 const errors = require('../errors');
 const uuid = require('uuid');
@@ -17,30 +16,38 @@ const {createClientFactory} = require('./redis');
 const client = createClientFactory();
 
 const {
-  JWT_SECRET,
   JWT_ISSUER,
   JWT_EXPIRY,
   JWT_AUDIENCE,
   JWT_ALG,
   RECAPTCHA_SECRET,
-  RECAPTCHA_ENABLED
+  RECAPTCHA_ENABLED,
+  JWT_COOKIE_NAME,
+  JWT_CLEAR_COOKIE_LOGOUT
 } = require('../config');
+
+const {
+  jwt: JWT_SECRET
+} = require('../secrets');
 
 // GenerateToken will sign a token to include all the authorization information
 // needed for the front end.
-const GenerateToken = (user) => JWT.sign({}, JWT_SECRET, {
-  jwtid: uuid.v4(),
-  expiresIn: JWT_EXPIRY,
-  issuer: JWT_ISSUER,
-  subject: user.id,
-  audience: JWT_AUDIENCE
-});
+const GenerateToken = (user) => {
+  return JWT_SECRET.sign({}, {
+    jwtid: uuid.v4(),
+    expiresIn: JWT_EXPIRY,
+    issuer: JWT_ISSUER,
+    subject: user.id,
+    audience: JWT_AUDIENCE,
+    algorithm: JWT_ALG
+  });
+};
 
 // SetTokenForSafari sends the token in a cookie for Safari clients.
 const SetTokenForSafari = (req, res, token) => {
   const browser = bowser._detect(req.headers['user-agent']);
   if (browser.ios || browser.safari) {
-    res.cookie('authorization', token, {
+    res.cookie(JWT_COOKIE_NAME, token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       expires: new Date(Date.now() + ms(JWT_EXPIRY))
@@ -154,7 +161,11 @@ const HandleLogout = (req, res, next) => {
       return next(err);
     }
 
-    res.clearCookie('authorization');
+    // Only clear the cookie on logout if enabled.
+    if (JWT_CLEAR_COOKIE_LOGOUT) {
+      res.clearCookie(JWT_COOKIE_NAME);
+    }
+
     res.status(204).end();
   });
 };
@@ -187,7 +198,6 @@ const CheckBlacklisted = async (jwt) => {
   return checkGeneralTokenBlacklist(jwt);
 };
 
-const jwt = require('jsonwebtoken');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 
@@ -195,7 +205,7 @@ let cookieExtractor = function(req) {
   let token = null;
 
   if (req && req.cookies) {
-    token = req.cookies['authorization'];
+    token = req.cookies[JWT_COOKIE_NAME];
   }
 
   return token;
@@ -204,7 +214,7 @@ let cookieExtractor = function(req) {
 // Override the JwtVerifier method on the JwtStrategy so we can pack the
 // original token into the payload.
 JwtStrategy.JwtVerifier = (token, secretOrKey, options, callback) => {
-  return jwt.verify(token, secretOrKey, options, (err, jwt) => {
+  return JWT_SECRET.verify(token, options, (err, jwt) => {
     if (err) {
       return callback(err);
     }

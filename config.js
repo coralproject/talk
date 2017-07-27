@@ -14,7 +14,7 @@ require('env-rewrite').rewrite();
 const CONFIG = {
 
   // WEBPACK indicates when webpack is currently building.
-  WEBPACK: process.env.WEBPACK === 'true',
+  WEBPACK: process.env.WEBPACK === 'TRUE',
 
   //------------------------------------------------------------------------------
   // JWT based configuration
@@ -23,6 +23,17 @@ const CONFIG = {
   // JWT_SECRET is the secret used to sign and verify tokens issued by this
   // application.
   JWT_SECRET: process.env.TALK_JWT_SECRET || null,
+
+  // JWT_SECRETS is used when key rotation is available.
+  JWT_SECRETS: process.env.TALK_JWT_SECRETS || null,
+
+  // JWT_COOKIE_NAME is the name of the cookie optionally containing the JWT
+  // token.
+  JWT_COOKIE_NAME: process.env.TALK_JWT_COOKIE_NAME || 'authorization',
+
+  // JWT_CLEAR_COOKIE_LOGOUT specifies whether the named cookie should be
+  // cleared when the user is logged out.
+  JWT_CLEAR_COOKIE_LOGOUT: process.env.TALK_JWT_CLEAR_COOKIE_LOGOUT ? process.env.TALK_JWT_CLEAR_COOKIE_LOGOUT !== 'FALSE' : true,
 
   // JWT_AUDIENCE is the value for the audience claim for the tokens that will be
   // verified when decoding. If `JWT_AUDIENCE` is not in the environment, then it
@@ -101,6 +112,10 @@ const CONFIG = {
 //------------------------------------------------------------------------------
 // JWT based configuration
 //------------------------------------------------------------------------------
+
+if (CONFIG.JWT_SECRETS) {
+  CONFIG.JWT_SECRETS = JSON.parse(CONFIG.JWT_SECRETS);
+}
 
 if (process.env.NODE_ENV === 'test' && !CONFIG.JWT_SECRET) {
   CONFIG.JWT_SECRET = 'keyboard cat';
