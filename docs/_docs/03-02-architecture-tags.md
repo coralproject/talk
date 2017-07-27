@@ -26,10 +26,10 @@ Tag Definitions must be created in order for the system to determine what tags a
 
 Tag Definitions do not contain any logic themselves but provide information that other parts of the system can use to specify which models a tag can be applied to (models) and perform authorization logic (permissions).
 
-Take the tag created by `coral-plugin-offtopic` as an example.
+Take the tag created by `talk-plugin-offtopic` as an example.
 
 ```
-// coral-plugin-offtopic/index.js
+// talk-plugin-offtopic/index.js
 module.exports = {
   tags: [
     {

@@ -127,13 +127,15 @@ const setupFunctions = plugins.get('server', 'setupFunctions').reduce((acc, {plu
   }),
 });
 
+const pubsubClient = pubsub.createClientFactory();
+
 /**
  * This creates a new subscription manager.
  */
 const createSubscriptionManager = (server) => new SubscriptionServer({
   subscriptionManager: new SubscriptionManager({
     schema,
-    pubsub: pubsub.createClient(),
+    pubsub: pubsubClient(),
     setupFunctions,
   }),
   onConnect: ({token}, connection) => {
