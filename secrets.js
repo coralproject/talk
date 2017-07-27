@@ -34,7 +34,7 @@ if (JWT_SECRETS) {
     return new jwt.AsymmetricSecret(secret, JWT_ALG);
   }));
 
-  debug(`loaded ${JWT_SECRET.length} secrets`);
+  debug(`loaded ${JWT_SECRET.length} ${JWT_ALG.startsWith('HS') ? 'shared' : 'asymmetric'} secrets`);
 } else if (JWT_SECRET) {
   if (JWT_ALG.startsWith('HS')) {
     module.exports.jwt = new jwt.SharedSecret({
@@ -44,5 +44,5 @@ if (JWT_SECRETS) {
     module.exports.jwt = new jwt.AsymmetricSecret(JSON.parse(JWT_SECRET), JWT_ALG);
   }
 
-  debug('loaded 1 secret');
+  debug(`loaded a ${JWT_ALG.startsWith('HS') ? 'shared' : 'asymmetric'} secret`);
 }
