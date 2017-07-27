@@ -63,6 +63,11 @@ The following are configuration shared with every type of secret used.
   tokens. (Default `process.env.TALK_ROOT_URL`)
 - `TALK_JWT_AUDIENCE` (_optional_) - the audience (`aud`) claim for login JWT
   tokens. (Default `talk`)
+- `TALK_JWT_COOKIE_NAME` (_optional_) - the name of the cookie to extract the
+  JWT from (Default `authorization`)
+- `TALK_JWT_CLEAR_COOKIE_LOGOUT` (_optional_) - when `FALSE`, Talk will not
+  clear the cookie with name `TALK_JWT_COOKIE_NAME` when logging out (Default
+  `TRUE`)
 
 **You must also specify secrets as either the `TALK_JWT_SECRET` or the `TALK_JWT_SECRETS`
 variable. Refer to the [Secrets Documentation]({{ "/docs/running/secrets/" | absolute_url }})
