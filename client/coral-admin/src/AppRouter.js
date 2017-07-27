@@ -46,7 +46,7 @@ const routes = (
         <Route path='rejected' components={Moderation}>
           <Route path=':id' components={Moderation} />
         </Route>
-        <Route path='flagged' components={Moderation}>
+        <Route path='reported' components={Moderation}>
           <Route path=':id' components={Moderation} />
         </Route>
         <Redirect from=':id' to='all/:id' />

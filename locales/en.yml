@@ -262,6 +262,7 @@ en:
     dont_like_username: "Don't like username"
     empty_queue: "No more comments to moderate! You're all caught up. Go have some ☕️"
     flagged: flagged
+    reported: reported
     impersonating: Impersonating
     less_detail: "Less detail"
     likes: likes

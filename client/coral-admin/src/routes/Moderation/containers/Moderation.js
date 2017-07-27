@@ -305,6 +305,13 @@ const withModQueueQuery = withQuery(gql`
     }) {
       ...CoralAdmin_Moderation_CommentConnection
     }
+    new: comments(query: {
+      statuses: [NONE, PREMOD],
+      asset_id: $asset_id,
+      sort: $sort
+    }) {
+      ...CoralAdmin_Moderation_CommentConnection
+    }
     accepted: comments(query: {
       statuses: [ACCEPTED],
       asset_id: $asset_id,
@@ -340,6 +347,10 @@ const withModQueueQuery = withQuery(gql`
       url
     }
     allCount: commentCount(query: {
+      asset_id: $asset_id
+    })
+    newCount: commentCount(query: {
+      statuses: [NONE, PREMOD],
       asset_id: $asset_id
     })
     acceptedCount: commentCount(query: {
@@ -379,6 +390,10 @@ const withModQueueQuery = withQuery(gql`
 const withQueueCountPolling = withQuery(gql`
   query CoralAdmin_ModerationCountPoll($asset_id: ID) {
     allCount: commentCount(query: {
+      asset_id: $asset_id
+    })
+    newCount: commentCount(query: {
+      statuses: [NONE, PREMOD],
       asset_id: $asset_id
     })
     acceptedCount: commentCount(query: {

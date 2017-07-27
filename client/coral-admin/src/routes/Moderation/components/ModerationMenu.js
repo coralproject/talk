@@ -7,9 +7,17 @@ import {Link} from 'react-router';
 
 import t from 'coral-framework/services/i18n';
 
-const ModerationMenu = (
-  {asset, allCount, acceptedCount, premodCount, rejectedCount, flaggedCount, selectSort, sort}
-) => {
+const ModerationMenu = ({
+  asset, 
+  allCount,
+  acceptedCount,
+  premodCount,
+  newCount,
+  rejectedCount,
+  reportedCount,
+  selectSort,
+  sort
+}) => {
 
   function getPath (type) {
     return asset ? `/admin/moderate/${type}/${asset.id}` : `/admin/moderate/${type}`;
@@ -27,16 +35,22 @@ const ModerationMenu = (
             <Icon name='question_answer' className={styles.tabIcon} /> {t('modqueue.all')} <CommentCount count={allCount} />
           </Link>
           <Link
+            to={getPath('new')}
+            className={`mdl-tabs__tab ${styles.tab}`}
+            activeClassName={styles.active}>
+            <Icon name='question_answer' className={styles.tabIcon} /> {t('modqueue.new')} <CommentCount count={newCount} />
+          </Link>
+          <Link
             to={getPath('premod')}
             className={`mdl-tabs__tab ${styles.tab}`}
             activeClassName={styles.active}>
             <Icon name='access_time' className={styles.tabIcon} /> {t('modqueue.premod')} <CommentCount count={premodCount} />
           </Link>
           <Link
-            to={getPath('flagged')}
+            to={getPath('reported')}
             className={`mdl-tabs__tab ${styles.tab}`}
             activeClassName={styles.active}>
-            <Icon name='flag' className={styles.tabIcon} /> {t('modqueue.flagged')} <CommentCount count={flaggedCount} />
+            <Icon name='flag' className={styles.tabIcon} /> {t('modqueue.reported')} <CommentCount count={reportedCount} />
           </Link>
           <Link
             to={getPath('accepted')}
