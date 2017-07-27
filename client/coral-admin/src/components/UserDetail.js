@@ -1,10 +1,10 @@
 import React, {PropTypes} from 'react';
 import Comment from './UserDetailComment';
 import styles from './UserDetail.css';
-import {Button, Drawer} from 'coral-ui';
+import {Button, Drawer, Spinner} from 'coral-ui';
 import {Slot} from 'coral-framework/components';
 import ButtonCopyToClipboard from './ButtonCopyToClipboard';
-import {actionsMap} from '../helpers/moderationQueueActionsMap';
+import {actionsMap} from '../utils/moderationQueueActionsMap';
 import ClickOutside from 'coral-framework/components/ClickOutside';
 
 export default class UserDetail extends React.Component {
@@ -43,7 +43,17 @@ export default class UserDetail extends React.Component {
     this.props.changeStatus('rejected');
   }
 
-  render () {
+  renderLoading() {
+    return (
+      <ClickOutside onClickOutside={this.props.hideUserDetail}>
+        <Drawer onClose={this.props.hideUserDetail}>
+          <Spinner />
+        </Drawer>
+      </ClickOutside>
+    );
+  }
+
+  renderLoaded() {
     const {
       root: {
         user,
@@ -61,6 +71,7 @@ export default class UserDetail extends React.Component {
       hideUserDetail,
       viewUserDetail,
     } = this.props;
+
     const localProfile = user.profiles.find((p) => p.provider === 'local');
 
     let profile;
@@ -159,5 +170,12 @@ export default class UserDetail extends React.Component {
         </Drawer>
       </ClickOutside>
     );
+  }
+
+  render () {
+    if (this.props.loading) {
+      return this.renderLoading();
+    }
+    return this.renderLoaded();
   }
 }

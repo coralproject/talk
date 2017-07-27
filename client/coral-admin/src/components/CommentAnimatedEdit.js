@@ -1,7 +1,7 @@
 import React from 'react';
 import {murmur3} from 'murmurhash-js';
 import {CSSTransitionGroup} from 'react-transition-group';
-import styles from './styles.css';
+import styles from './CommentAnimatedEdit.css';
 
 export default ({children, body}) => {
   return (

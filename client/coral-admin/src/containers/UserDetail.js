@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 import {compose, gql} from 'react-apollo';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -6,23 +6,25 @@ import UserDetail from '../components/UserDetail';
 import withQuery from 'coral-framework/hocs/withQuery';
 import {getDefinitionName, getSlotFragmentSpreads} from 'coral-framework/utils';
 import {
+  viewUserDetail,
+  hideUserDetail,
   changeUserDetailStatuses,
   clearUserDetailSelections,
-  toggleSelectCommentInUserDetail
-} from 'coral-admin/src/actions/moderation';
+  toggleSelectCommentInUserDetail,
+} from 'coral-admin/src/actions/userDetail';
 import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
-import Comment from './Comment';
+import UserDetailComment from './UserDetailComment';
 
 const commentConnectionFragment = gql`
   fragment CoralAdmin_Moderation_CommentConnection on CommentConnection {
     nodes {
-      ...${getDefinitionName(Comment.fragments.comment)}
+      ...${getDefinitionName(UserDetailComment.fragments.comment)}
     }
     hasNextPage
     startCursor
     endCursor
   }
-  ${Comment.fragments.comment}
+  ${UserDetailComment.fragments.comment}
 `;
 
 const slots = [
@@ -30,14 +32,10 @@ const slots = [
 ];
 
 class UserDetailContainer extends React.Component {
-  static propTypes = {
-    id: PropTypes.string.isRequired,
-    hideUserDetail: PropTypes.func.isRequired
-  }
 
   // status can be 'ACCEPTED' or 'REJECTED'
   bulkSetCommentStatus = (status) => {
-    const changes = this.props.moderation.userDetailSelectedIds.map((commentId) => {
+    const changes = this.props.selectedIds.map((commentId) => {
       return this.props.setCommentStatus({commentId, status});
     });
 
@@ -55,16 +53,29 @@ class UserDetailContainer extends React.Component {
     this.bulkSetCommentStatus('ACCEPTED');
   }
 
+  acceptComment = ({commentId}) => {
+    return this.props.setCommentStatus({commentId, status: 'ACCEPTED'});
+  }
+
+  rejectComment = ({commentId}) => {
+    return this.props.setCommentStatus({commentId, status: 'REJECTED'});
+  }
+
   render () {
-    if (!('user' in this.props.root)) {
+    if (!this.props.id) {
       return null;
     }
+
+    const loading = !('user' in this.props.root) || this.props.root.user.id !== this.props.id;
 
     return <UserDetail
       bulkReject={this.bulkReject}
       bulkAccept={this.bulkAccept}
       changeStatus={this.props.changeUserDetailStatuses}
       toggleSelect={this.props.toggleSelectCommentInUserDetail}
+      acceptComment={this.acceptComment}
+      rejectComment={this.rejectComment}
+      loading={loading}
       {...this.props} />;
   }
 }
@@ -93,22 +104,30 @@ export const withUserDetailQuery = withQuery(gql`
   }
   ${commentConnectionFragment}
 `, {
-  options: ({id, moderation: {userDetailStatuses: statuses}}) => {
+  options: ({id, statuses}) => {
     return {
       variables: {author_id: id, statuses}
     };
-  }
+  },
+  skip: (ownProps) => !ownProps.id,
 });
 
 const mapStateToProps = (state) => ({
-  moderation: state.moderation.toJS()
+  id: state.userDetail.userDetailId,
+  selectedIds: state.userDetail.userDetailSelectedIds,
+  statuses: state.userDetail.userDetailStatuses,
+  activeTab: state.userDetail.userDetailActiveTab,
+  bannedWords: state.settings.toJS().wordlist.banned,
+  suspectWords: state.settings.toJS().wordlist.suspect,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   ...bindActionCreators({
     changeUserDetailStatuses,
     clearUserDetailSelections,
-    toggleSelectCommentInUserDetail
+    toggleSelectCommentInUserDetail,
+    viewUserDetail,
+    hideUserDetail,
   }, dispatch)
 });
 

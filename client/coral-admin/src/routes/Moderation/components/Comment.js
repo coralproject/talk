@@ -2,10 +2,10 @@ import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 
 import {Icon} from 'coral-ui';
-import FlagBox from './FlagBox';
+import FlagBox from 'coral-admin/src/components/FlagBox';
 import styles from './styles.css';
-import CommentType from './CommentType';
-import CommentAnimatedEdit from './CommentAnimatedEdit';
+import CommentType from 'coral-admin/src/components/CommentType';
+import CommentAnimatedEdit from 'coral-admin/src/components/CommentAnimatedEdit';
 import Slot from 'coral-framework/components/Slot';
 import {getActionSummary} from 'coral-framework/utils';
 import ActionButton from 'coral-admin/src/components/ActionButton';

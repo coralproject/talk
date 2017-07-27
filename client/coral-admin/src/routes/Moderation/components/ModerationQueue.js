@@ -3,7 +3,7 @@ import React, {PropTypes} from 'react';
 import Comment from '../containers/Comment';
 import styles from './styles.css';
 import EmptyCard from '../../../components/EmptyCard';
-import {actionsMap} from '../helpers/moderationQueueActionsMap';
+import {actionsMap} from '../../../utils/moderationQueueActionsMap';
 import LoadMore from './LoadMore';
 import t from 'coral-framework/services/i18n';
 import {CSSTransitionGroup} from 'react-transition-group';
