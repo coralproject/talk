@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
-import {notifyForNewCommentStatus} from 'coral-plugin-commentbox/CommentBox';
-import {CommentForm} from 'coral-plugin-commentbox/CommentForm';
+import {notifyForNewCommentStatus} from 'talk-plugin-commentbox/CommentBox';
+import {CommentForm} from 'talk-plugin-commentbox/CommentForm';
 import styles from './Comment.css';
 import {CountdownSeconds} from './CountdownSeconds';
 import {getEditableUntilDate} from './util';

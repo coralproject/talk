@@ -9,7 +9,7 @@ import {link} from 'coral-framework/services/pym';
 import NotLoggedIn from '../components/NotLoggedIn';
 import IgnoredUsers from '../components/IgnoredUsers';
 import {Spinner} from 'coral-ui';
-import CommentHistory from 'coral-plugin-history/CommentHistory';
+import CommentHistory from 'talk-plugin-history/CommentHistory';
 import {showSignInDialog, checkLogin} from 'coral-framework/actions/auth';
 
 import t from 'coral-framework/services/i18n';

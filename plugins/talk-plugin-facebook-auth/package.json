@@ -1,0 +1,9 @@
+{
+  "name": "talk-plugin-facebook-auth",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "passport-facebook": "^2.1.1"
+  }
+}
