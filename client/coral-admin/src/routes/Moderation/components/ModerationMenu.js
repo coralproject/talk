@@ -16,7 +16,8 @@ const ModerationMenu = ({
   rejectedCount,
   reportedCount,
   selectSort,
-  sort
+  sort,
+  premodEnabled
 }) => {
 
   function getPath (type) {
@@ -28,18 +29,25 @@ const ModerationMenu = ({
       <div className={`mdl-tabs__tab-bar ${styles.tabBar}`}>
         <div className={styles.tabBarPadding} />
         <div>
-          <Link
-            to={getPath('premod')}
-            className={`mdl-tabs__tab ${styles.tab}`}
-            activeClassName={styles.active}>
-            <Icon name='access_time' className={styles.tabIcon} /> {t('modqueue.premod')} <CommentCount count={premodCount} />
-          </Link>
-          <Link
-            to={getPath('new')}
-            className={`mdl-tabs__tab ${styles.tab}`}
-            activeClassName={styles.active}>
-            <Icon name='question_answer' className={styles.tabIcon} /> {t('modqueue.new')} <CommentCount count={newCount} />
-          </Link>
+
+          {
+            premodEnabled ? (
+              <Link
+                to={getPath('premod')}
+                className={`mdl-tabs__tab ${styles.tab}`}
+                activeClassName={styles.active}>
+                <Icon name='access_time' className={styles.tabIcon} /> {t('modqueue.premod')} <CommentCount count={premodCount} />
+              </Link>
+            ) : (
+              <Link
+                to={getPath('new')}
+                className={`mdl-tabs__tab ${styles.tab}`}
+                activeClassName={styles.active}>
+                <Icon name='question_answer' className={styles.tabIcon} /> {t('modqueue.new')} <CommentCount count={newCount} />
+              </Link>
+            )
+          }
+
           <Link
             to={getPath('reported')}
             className={`mdl-tabs__tab ${styles.tab}`}

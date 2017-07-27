@@ -154,7 +154,7 @@ class ModerationContainer extends Component {
     case 'all':
       variables.statuses = null;
       break;
-    case 'accepted':
+    case 'approved':
       variables.statuses = ['ACCEPTED'];
       break;
     case 'premod':
@@ -312,7 +312,7 @@ const withModQueueQuery = withQuery(gql`
     }) {
       ...CoralAdmin_Moderation_CommentConnection
     }
-    accepted: comments(query: {
+    approved: comments(query: {
       statuses: [ACCEPTED],
       asset_id: $asset_id,
       sort: $sort
@@ -345,6 +345,9 @@ const withModQueueQuery = withQuery(gql`
       id
       title
       url
+      settings {
+        moderation
+      }
     }
     allCount: commentCount(query: {
       asset_id: $asset_id
