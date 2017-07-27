@@ -1,9 +1,9 @@
 import React from 'react';
 import {SelectField, Option} from 'react-mdl-selectfield';
-import styles from '../components/Community.css';
+import styles from '../components/Table.css';
 import t from 'coral-framework/services/i18n';
 
-export default ({headers, commenters, onHeaderClickHandler, onRoleChange, onCommenterStatusChange}) => (
+export default ({headers, commenters, onHeaderClickHandler, onRoleChange, onCommenterStatusChange, viewUserDetail}) => (
   <table className={`mdl-data-table ${styles.dataTable}`}>
     <thead>
       <tr>
@@ -21,7 +21,7 @@ export default ({headers, commenters, onHeaderClickHandler, onRoleChange, onComm
       {commenters.map((row, i)=> (
         <tr key={i}>
           <td className="mdl-data-table__cell--non-numeric">
-            {row.username}
+            <button onClick={() => {viewUserDetail(row.id);}} className={styles.button}>{row.username}</button>
             <span className={styles.email}>{row.profiles.map(({id}) => id)}</span>
           </td>
           <td className="mdl-data-table__cell--non-numeric">

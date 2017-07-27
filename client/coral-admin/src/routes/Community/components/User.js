@@ -38,9 +38,7 @@ const User = (props) => {
       <div className={styles.container}>
         <div className={styles.itemHeader}>
           <div className={styles.author}>
-            <span>
-              {user.username}
-            </span>
+            <button onClick={() => {props.viewUserDetail(user.id);}} className={styles.button}>{user.username}</button>
             {props.currentUser.id !== user.id &&
               <ActionsMenu icon="not_interested">
                 <ActionsMenuItem
@@ -82,7 +80,12 @@ const User = (props) => {
                       (action, j) => {
                         if (action.reason === action_sum.reason) {
                           return <p className={styles.flaggedByReason} key={j}>
-                            {action.user && action.user.username}: {action.message ? action.message : 'n/a'}
+                            {action.user &&
+                              <button onClick={() => {props.viewUserDetail(action.user.id);}} className={styles.button}>
+                                {action.user.username}
+                              </button>
+                            }
+                            : {action.message ? action.message : 'n/a'}
                           </p>;
                         }
                         return null;
