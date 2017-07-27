@@ -12,6 +12,7 @@ client/coral-framework/graphql/introspection.json
 
 .idea/
 *.swp
+*.DS_STORE
 
 test/e2e/reports
 coverage/
