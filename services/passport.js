@@ -21,7 +21,9 @@ const {
   JWT_AUDIENCE,
   JWT_ALG,
   RECAPTCHA_SECRET,
-  RECAPTCHA_ENABLED
+  RECAPTCHA_ENABLED,
+  JWT_COOKIE_NAME,
+  JWT_CLEAR_COOKIE_LOGOUT
 } = require('../config');
 
 const {
@@ -45,7 +47,7 @@ const GenerateToken = (user) => {
 const SetTokenForSafari = (req, res, token) => {
   const browser = bowser._detect(req.headers['user-agent']);
   if (browser.ios || browser.safari) {
-    res.cookie('authorization', token, {
+    res.cookie(JWT_COOKIE_NAME, token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       expires: new Date(Date.now() + ms(JWT_EXPIRY))
@@ -159,7 +161,11 @@ const HandleLogout = (req, res, next) => {
       return next(err);
     }
 
-    res.clearCookie('authorization');
+    // Only clear the cookie on logout if enabled.
+    if (JWT_CLEAR_COOKIE_LOGOUT) {
+      res.clearCookie(JWT_COOKIE_NAME);
+    }
+
     res.status(204).end();
   });
 };
@@ -199,7 +205,7 @@ let cookieExtractor = function(req) {
   let token = null;
 
   if (req && req.cookies) {
-    token = req.cookies['authorization'];
+    token = req.cookies[JWT_COOKIE_NAME];
   }
 
   return token;
