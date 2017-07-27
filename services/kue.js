@@ -3,12 +3,26 @@ const redis = require('./redis');
 
 module.exports = {};
 
-const kue = module.exports.kue = require('kue');
+const kue = require('kue');
 
 // Note that unlike what the name createQueue suggests, it currently returns a
 // singleton Queue instance. So you can configure and use only a single Queue
 // object within your node.js process.
-let Queue = module.exports.queue = null;
+let queue = null;
+const getQueue = () => {
+  if (queue) {
+    return queue;
+  }
+
+  debug('init the queue');
+  queue = kue.createQueue({
+    redis: {
+      createClientFactory: () => redis.createClient()
+    }
+  });
+
+  return queue;
+};
 
 class Task {
 
@@ -18,14 +32,6 @@ class Task {
     this.name = name;
     this.attempts = attempts;
     this.delay = delay;
-
-    if (!Queue) {
-      module.exports.queue = Queue = kue.createQueue({
-        redis: {
-          createClientFactory: redis.createClientFactory()
-        }
-      });
-    }
   }
 
   /**
@@ -36,7 +42,7 @@ class Task {
     debug(`Creating new job for Queue[${this.name}]`);
 
     return new Promise((resolve, reject) => {
-      let job = Queue
+      let job = getQueue()
         .create(this.name, data)
         .attempts(this.attempts)
         .delay(this.delay)
@@ -57,7 +63,7 @@ class Task {
    * Process jobs for the queue.
    */
   process(callback) {
-    return Queue.process(this.name, callback);
+    return getQueue().process(this.name, callback);
   }
 
   /**
@@ -71,7 +77,7 @@ class Task {
 
       // Shutdown and give the queue 5 seconds to shutdown before we start
       // killing jobs.
-      Queue.shutdown(5000, (err) => {
+      getQueue().shutdown(5000, (err) => {
         if (err) {
           return reject(err);
         }
@@ -139,18 +145,3 @@ if (process.env.NODE_ENV === 'test') {
   module.exports.Task = Task;
 }
 
-module.exports.createTaskFactory = () => {
-  let taskInstance = null;
-
-  return (options) => {
-    if (taskInstance) {
-      return taskInstance;
-    }
-
-    options = Object.assign({}, options);
-
-    taskInstance = new module.exports.Task(options);
-
-    return taskInstance;
-  };
-};

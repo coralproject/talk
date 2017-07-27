@@ -43,7 +43,7 @@ We can easily trigger `Talk` actions in our plugin Components.
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {addTag, removeTag} from 'coral-plugin-commentbox/actions';
+import {addTag, removeTag} from 'talk-plugin-commentbox/actions';
 
 class MyButton extends Component {
   render() {

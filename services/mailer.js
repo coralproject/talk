@@ -1,7 +1,6 @@
 const debug = require('debug')('talk:services:mailer');
 const nodemailer = require('nodemailer');
 const kue = require('./kue');
-const taskFactory = kue.createTaskFactory();
 const path = require('path');
 const fs = require('fs');
 const _ = require('lodash');
@@ -76,11 +75,9 @@ const mailer = module.exports = {
   /**
    * Create the new Task kue.
    */
-  get task() {
-    return taskFactory({
-      name: 'mailer'
-    });
-  },
+  task: new kue.Task({
+    name: 'mailer'
+  }),
 
   sendSimple({template, locals, to, subject}) {
 
