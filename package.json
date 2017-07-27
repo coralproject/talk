@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "./bin/cli plugins reconcile --skip-remote",
     "start": "./bin/cli serve -j -w",
-    "dev-start": "nodemon -w . -w bin/cli -w bin/cli-serve --config .nodemon.json --exec \"yarn generate-introspection && ./bin/cli -c .env serve -j -w\"",
+    "dev-start": "nodemon -w . -w bin/cli -w bin/cli-serve --config .nodemon.json --exec \"WEBPACK=TRUE NODE_ENV=test ./scripts/generateIntrospectionResult.js && ./bin/cli -c .env serve -j -w\"",
     "prebuild": "yarn generate-introspection",
     "build": "WEBPACK=TRUE NODE_ENV=production webpack -p --config webpack.config.js --bail",
     "prebuild-watch": "yarn generate-introspection",
