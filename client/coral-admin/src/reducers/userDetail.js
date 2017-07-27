@@ -1,10 +1,10 @@
 import * as actions from '../constants/userDetail';
 
 const initialState = {
-  userDetailId: null,
-  userDetailActiveTab: 'all',
-  userDetailStatuses: ['NONE', 'ACCEPTED', 'REJECTED', 'PREMOD'],
-  userDetailSelectedIds: [],
+  userId: null,
+  activeTab: 'all',
+  statuses: ['NONE', 'ACCEPTED', 'REJECTED', 'PREMOD'],
+  selectedCommentIds: [],
 };
 
 export default function banUserDialog(state = initialState, action) {
@@ -12,34 +12,34 @@ export default function banUserDialog(state = initialState, action) {
   case actions.VIEW_USER_DETAIL:
     return {
       ...state,
-      userDetailId: action.userId,
+      userId: action.userId,
     };
   case actions.HIDE_USER_DETAIL:
     return {
       ...state,
-      userDetailId: null,
-      userDetailSelectedIds: [],
+      userId: null,
+      selectedCommentIds: [],
     };
   case actions.CLEAR_USER_DETAIL_SELECTIONS:
     return {
       ...state,
-      userDetailSelectedIds: [],
+      selectedCommentIds: [],
     };
   case actions.CHANGE_USER_DETAIL_STATUSES:
     return {
       ...state,
-      userDetailActiveTab: action.tab,
-      userDetailStatuses: action.statuses,
+      activeTab: action.tab,
+      statuses: action.statuses,
     };
   case actions.SELECT_USER_DETAIL_COMMENT:
     return {
       ...state,
-      userDetailSelectedIds: [...state.userDetailSelectedIds, action.id],
+      selectedCommentIds: [...state.selectedCommentIds, action.id],
     };
   case actions.UNSELECT_USER_DETAIL_COMMENT:
     return {
       ...state,
-      userDetailSelectedIds: state.userDetailSelectedIds.filter((id) => id !== action.id),
+      selectedCommentIds: state.selectedCommentIds.filter((id) => id !== action.id),
     };
   default:
     return state;

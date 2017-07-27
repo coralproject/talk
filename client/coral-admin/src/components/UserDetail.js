@@ -10,7 +10,7 @@ import ClickOutside from 'coral-framework/components/ClickOutside';
 export default class UserDetail extends React.Component {
 
   static propTypes = {
-    id: PropTypes.string.isRequired,
+    userId: PropTypes.string.isRequired,
     hideUserDetail: PropTypes.func.isRequired,
     root: PropTypes.object.isRequired,
     bannedWords: PropTypes.array.isRequired,
@@ -62,7 +62,7 @@ export default class UserDetail extends React.Component {
         comments: {nodes}
       },
       activeTab,
-      selectedIds,
+      selectedCommentIds,
       bannedWords,
       suspectWords,
       toggleSelect,
@@ -119,7 +119,7 @@ export default class UserDetail extends React.Component {
             </div>
           </div>
           {
-            selectedIds.length === 0
+            selectedCommentIds.length === 0
             ? (
               <ul className={styles.commentStatuses}>
                 <li className={activeTab === 'all' ? styles.active : ''} onClick={this.showAll}>All</li>
@@ -140,7 +140,7 @@ export default class UserDetail extends React.Component {
                   cStyle='reject'
                   icon='close'>
                 </Button>
-                {`${selectedIds.length} comments selected`}
+                {`${selectedCommentIds.length} comments selected`}
               </div>
             )
           }
@@ -149,7 +149,7 @@ export default class UserDetail extends React.Component {
             {
               nodes.map((comment) => {
                 const status = comment.action_summaries ? 'FLAGGED' : comment.status;
-                const selected = selectedIds.indexOf(comment.id) !== -1;
+                const selected = selectedCommentIds.indexOf(comment.id) !== -1;
                 return <Comment
                   key={comment.id}
                   user={user}

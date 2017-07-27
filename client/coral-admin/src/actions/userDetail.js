@@ -1,4 +1,4 @@
-import * as actions from 'constants/moderation';
+import * as actions from 'constants/userDetail';
 
 export const viewUserDetail = (userId) => ({type: actions.VIEW_USER_DETAIL, userId});
 export const hideUserDetail = () => ({type: actions.HIDE_USER_DETAIL});

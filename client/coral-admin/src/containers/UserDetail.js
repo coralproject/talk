@@ -35,7 +35,7 @@ class UserDetailContainer extends React.Component {
 
   // status can be 'ACCEPTED' or 'REJECTED'
   bulkSetCommentStatus = (status) => {
-    const changes = this.props.selectedIds.map((commentId) => {
+    const changes = this.props.selectedCommentIds.map((commentId) => {
       return this.props.setCommentStatus({commentId, status});
     });
 
@@ -62,11 +62,11 @@ class UserDetailContainer extends React.Component {
   }
 
   render () {
-    if (!this.props.id) {
+    if (!this.props.userId) {
       return null;
     }
 
-    const loading = !('user' in this.props.root) || this.props.root.user.id !== this.props.id;
+    const loading = !('user' in this.props.root) || this.props.root.user.id !== this.props.userId;
 
     return <UserDetail
       bulkReject={this.bulkReject}
@@ -104,19 +104,19 @@ export const withUserDetailQuery = withQuery(gql`
   }
   ${commentConnectionFragment}
 `, {
-  options: ({id, statuses}) => {
+  options: ({userId, statuses}) => {
     return {
-      variables: {author_id: id, statuses}
+      variables: {author_id: userId, statuses}
     };
   },
-  skip: (ownProps) => !ownProps.id,
+  skip: (ownProps) => !ownProps.userId,
 });
 
 const mapStateToProps = (state) => ({
-  id: state.userDetail.userDetailId,
-  selectedIds: state.userDetail.userDetailSelectedIds,
-  statuses: state.userDetail.userDetailStatuses,
-  activeTab: state.userDetail.userDetailActiveTab,
+  userId: state.userDetail.userId,
+  selectedCommentIds: state.userDetail.selectedCommentIds,
+  statuses: state.userDetail.statuses,
+  activeTab: state.userDetail.activeTab,
   bannedWords: state.settings.toJS().wordlist.banned,
   suspectWords: state.settings.toJS().wordlist.suspect,
 });
