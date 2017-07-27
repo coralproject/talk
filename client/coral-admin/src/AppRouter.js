@@ -37,6 +37,9 @@ const routes = (
         <Route path='all' components={Moderation}>
           <Route path=':id' components={Moderation} />
         </Route>
+        <Route path='new' components={Moderation}>
+          <Route path=':id' components={Moderation} />
+        </Route>
         <Route path='accepted' components={Moderation}>
           <Route path=':id' components={Moderation} />
         </Route>

@@ -160,7 +160,7 @@ class ModerationContainer extends Component {
     case 'premod':
       variables.statuses = ['PREMOD'];
       break;
-    case 'flagged':
+    case 'reported':
       variables.statuses = ['NONE', 'PREMOD'];
       variables.action_type = 'FLAG';
       break;
@@ -326,7 +326,7 @@ const withModQueueQuery = withQuery(gql`
     }) {
       ...CoralAdmin_Moderation_CommentConnection
     }
-    flagged: comments(query: {
+    reported: comments(query: {
         action_type: FLAG,
         asset_id: $asset_id,
         statuses: [NONE, PREMOD],
@@ -365,7 +365,7 @@ const withModQueueQuery = withQuery(gql`
        statuses: [REJECTED],
        asset_id: $asset_id
     })
-    flaggedCount: commentCount(query: {
+    reportedCount: commentCount(query: {
       action_type: FLAG,
       asset_id: $asset_id,
       statuses: [NONE, PREMOD]
@@ -408,7 +408,7 @@ const withQueueCountPolling = withQuery(gql`
        statuses: [REJECTED],
        asset_id: $asset_id
     })
-    flaggedCount: commentCount(query: {
+    reportedCount: commentCount(query: {
       action_type: FLAG,
       asset_id: $asset_id,
       statuses: [NONE, PREMOD]

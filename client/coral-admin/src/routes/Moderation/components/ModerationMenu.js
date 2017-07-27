@@ -82,7 +82,7 @@ ModerationMenu.propTypes = {
   allCount: PropTypes.number.isRequired,
   premodCount: PropTypes.number.isRequired,
   rejectedCount: PropTypes.number.isRequired,
-  flaggedCount: PropTypes.number.isRequired,
+  reportedCount: PropTypes.number.isRequired,
   asset: PropTypes.shape({
     id: PropTypes.string
   })

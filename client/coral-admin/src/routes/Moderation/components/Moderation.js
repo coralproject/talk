@@ -113,14 +113,17 @@ export default class Moderation extends Component {
     case 'all':
       activeTabCount = root.allCount;
       break;
+    case 'new':
+      activeTabCount = root.newCount;
+      break;
     case 'accepted':
       activeTabCount = root.acceptedCount;
       break;
     case 'premod':
       activeTabCount = root.premodCount;
       break;
-    case 'flagged':
-      activeTabCount = root.flaggedCount;
+    case 'reported':
+      activeTabCount = root.reportedCount;
       break;
     case 'rejected':
       activeTabCount = root.rejectedCount;
@@ -138,10 +141,11 @@ export default class Moderation extends Component {
         <ModerationMenu
           asset={asset}
           allCount={root.allCount}
+          newCount={root.newCount}
           acceptedCount={root.acceptedCount}
           premodCount={root.premodCount}
           rejectedCount={root.rejectedCount}
-          flaggedCount={root.flaggedCount}
+          reportedCount={root.reportedCount}
           selectSort={this.props.setSortOrder}
           sort={this.props.moderation.sortOrder}
         />
