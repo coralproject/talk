@@ -16,7 +16,6 @@ const {createClientFactory} = require('./redis');
 const client = createClientFactory();
 
 const {
-  JWT_SECRET,
   JWT_ISSUER,
   JWT_EXPIRY,
   JWT_AUDIENCE,
@@ -24,6 +23,10 @@ const {
   RECAPTCHA_SECRET,
   RECAPTCHA_ENABLED
 } = require('../config');
+
+const {
+  jwt: JWT_SECRET
+} = require('../secrets');
 
 // GenerateToken will sign a token to include all the authorization information
 // needed for the front end.

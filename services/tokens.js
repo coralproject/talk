@@ -3,10 +3,13 @@ const UserModel = require('../models/user');
 const uuid = require('uuid');
 
 const {
-  JWT_SECRET,
   JWT_ISSUER,
   JWT_AUDIENCE
 } = require('../config');
+
+const {
+  jwt: JWT_SECRET
+} = require('../secrets');
 
 /**
  * TokenService manages Personal Access Tokens for users. These tokens are

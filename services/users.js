@@ -4,10 +4,15 @@ const bcrypt = require('bcryptjs');
 const url = require('url');
 const Wordlist = require('./wordlist');
 const errors = require('../errors');
+
 const {
-  JWT_SECRET,
   ROOT_URL
 } = require('../config');
+
+const {
+  jwt: JWT_SECRET
+} = require('../secrets');
+
 const debug = require('debug')('talk:services:users');
 
 const UserModel = require('../models/user');

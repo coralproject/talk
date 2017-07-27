@@ -7,8 +7,6 @@
 // entrypoint for the entire applications configuration.
 require('env-rewrite').rewrite();
 
-const debug = require('debug')('talk:config');
-
 //==============================================================================
 // CONFIG INITIALIZATION
 //==============================================================================
@@ -106,53 +104,12 @@ const CONFIG = {
 // JWT based configuration
 //------------------------------------------------------------------------------
 
-const jwt = require('./services/jwt');
-
 if (CONFIG.JWT_SECRETS) {
   CONFIG.JWT_SECRETS = JSON.parse(CONFIG.JWT_SECRETS);
-  if (!Array.isArray(CONFIG.JWT_SECRETS)) {
-    throw new Error('TALK_JWT_SECRETS must be a JSON array in the form [{"kid": kid, ["secret": secret | "private": private, "public": public]}, ...]');
-  }
-
-  if (CONFIG.JWT_SECRETS.length === 0) {
-    throw new Error('TALK_JWT_SECRETS must be a JSON array with non zero length');
-  }
-
-  // Wrap a multi-secret around the available secrets.
-  CONFIG.JWT_SECRET = new jwt.MultiSecret(CONFIG.JWT_SECRETS.map((secret) => {
-    if (!('kid' in secret)) {
-      throw new Error('when multiple keys are specified, kid\'s must be specified');
-    }
-
-    // HMAC secrets do not have public/private keys.
-    if (CONFIG.JWT_ALG.startsWith('HS')) {
-      return new jwt.SharedSecret(secret, CONFIG.JWT_ALG);
-    }
-
-    if (!('public' in secret)) {
-      throw new Error('all symetric keys must provide a PEM encoded public key');
-    }
-
-    return new jwt.AsymmetricSecret(secret, CONFIG.JWT_ALG);
-  }));
-
-  debug(`loaded ${CONFIG.JWT_SECRET.length} secrets`);
-} else if (CONFIG.JWT_SECRET) {
-  if (CONFIG.JWT_ALG.startsWith('HS')) {
-    CONFIG.JWT_SECRET = new jwt.SharedSecret({
-      secret: CONFIG.JWT_SECRET
-    }, CONFIG.JWT_ALG);
-  } else {
-    CONFIG.JWT_SECRET = new jwt.AsymmetricSecret(JSON.parse(CONFIG.JWT_SECRET), CONFIG.JWT_ALG);
-  }
-
-  debug('loaded 1 secret');
 }
 
 if (process.env.NODE_ENV === 'test' && !CONFIG.JWT_SECRET) {
-  CONFIG.JWT_SECRET = new jwt.SharedSecret({
-    secret: 'keyboard cat'
-  }, CONFIG.JWT_ALG);
+  CONFIG.JWT_SECRET = 'keyboard cat';
 } else if (!CONFIG.JWT_SECRET) {
   throw new Error(
     'TALK_JWT_SECRET must be provided in the environment to sign/verify tokens'
