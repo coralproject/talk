@@ -1,22 +1,19 @@
 .commentType {
-  position: absolute;
-  right: 15px;
-  top: 11px;
+  display: inline-block;
   color: white;
   background: grey;
   height: 32px;
   box-sizing: border-box;
   line-height: 29px;
-  padding: 2px 8px 2px 26px;
+  padding: 2px 8px;
   border-radius: 2px;
   font-size: 12px;
 
-  i {
+  > i {
     font-size: 14px;
-    position: absolute;
-    left: 6px;
-    top: 8px;
+    vertical-align: text-top;
     margin: 0;
+    margin-right: 4px;
   }
 
   &.premod {

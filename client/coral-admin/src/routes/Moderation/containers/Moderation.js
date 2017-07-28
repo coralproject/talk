@@ -15,13 +15,12 @@ import {handleCommentChange} from '../../../graphql/utils';
 import {fetchSettings} from 'actions/settings';
 import {showBanUserDialog} from 'actions/banUserDialog';
 import {showSuspendUserDialog} from 'actions/suspendUserDialog';
+import {viewUserDetail} from '../../../actions/userDetail';
 import {
   toggleModal,
   singleView,
   hideShortcutsNote,
   toggleStorySearch,
-  viewUserDetail,
-  hideUserDetail,
   setSortOrder,
   storySearchChange,
   clearState
@@ -426,7 +425,6 @@ const mapDispatchToProps = (dispatch) => ({
     toggleStorySearch,
     showSuspendUserDialog,
     viewUserDetail,
-    hideUserDetail,
     setSortOrder,
     storySearchChange,
     clearState

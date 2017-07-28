@@ -5,7 +5,7 @@ import styles from './Community.css';
 import EmptyCard from 'coral-admin/src/components/EmptyCard';
 import User from './User';
 
-const FlaggedAccounts = ({...props}) => {
+const FlaggedAccounts = (props) => {
   const {commenters} = props;
   const hasResults = commenters && !!commenters.length;
 
@@ -25,6 +25,7 @@ const FlaggedAccounts = ({...props}) => {
               showRejectUsernameDialog={props.showRejectUsernameDialog}
               approveUser={props.approveUser}
               currentUser={props.currentUser}
+              viewUserDetail={props.viewUserDetail}
               />;
           })
           : <EmptyCard>{t('community.no_flagged_accounts')}</EmptyCard>

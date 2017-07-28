@@ -6,7 +6,6 @@ import ModerationQueue from './ModerationQueue';
 import ModerationMenu from './ModerationMenu';
 import ModerationHeader from './ModerationHeader';
 import ModerationKeysModal from '../../../components/ModerationKeysModal';
-import UserDetail from '../containers/UserDetail';
 import StorySearch from '../containers/StorySearch';
 
 export default class Moderation extends Component {
@@ -172,18 +171,6 @@ export default class Moderation extends Component {
           shortcutsNoteVisible={moderation.shortcutsNoteVisible}
           open={moderation.modalOpen}
           onClose={this.onClose}/>
-
-        {moderation.userDetailId && (
-          <UserDetail
-            id={moderation.userDetailId}
-            hideUserDetail={hideUserDetail}
-            bannedWords={settings.wordlist.banned}
-            suspectWords={settings.wordlist.suspect}
-            showBanUserDialog={props.showBanUserDialog}
-            showSuspendUserDialog={props.showSuspendUserDialog}
-            acceptComment={props.acceptComment}
-            rejectComment={props.rejectComment} />
-        )}
 
         <StorySearch
           assetId={assetId}
