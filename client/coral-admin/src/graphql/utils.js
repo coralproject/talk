@@ -1,7 +1,7 @@
 import update from 'immutability-helper';
 import * as notification from 'coral-admin/src/services/notification';
 
-const queues = ['all', 'premod', 'flagged', 'accepted', 'rejected'];
+const queues = ['all', 'premod', 'reported', 'approved', 'rejected', 'new'];
 const limit = 10;
 
 const ascending = (a, b) => {
@@ -66,21 +66,27 @@ function addCommentToQueue(root, queue, comment, sort) {
 
 function getCommentQueues(comment) {
   const queues = ['all'];
+
   if (comment.status === 'ACCEPTED') {
     queues.push('accepted');
   }
   else if (comment.status === 'REJECTED') {
     queues.push('rejected');
   }
-  else if (comment.status === 'PREMOD') {
-    queues.push('premod');
-  }
-  if (
+  else if (
     ['NONE', 'PREMOD'].indexOf(comment.status) >= 0
     && comment.actions && comment.actions.some((a) => a.__typename === 'FlagAction')
   ) {
     queues.push('flagged');
   }
+  else if (comment.status === 'PREMOD') {
+    queues.push('premod');
+    queues.push('new');
+  } 
+  if (comment.status === 'NONE') {
+    queues.push('new');
+  }
+
   return queues;
 }
 
@@ -98,6 +104,7 @@ function getCommentQueues(comment) {
  */
 export function handleCommentChange(root, comment, sort, notify) {
   let next = root;
+
   const nextQueues = getCommentQueues(comment);
 
   let notificationShown = false;

@@ -61,7 +61,6 @@ const routes = (
 );
 
 const AppRouter = () => <Router history={useBasename(() => browserHistory)({
-  basename: '/talk/'
 })} routes={routes}/>;
 
 export default AppRouter;

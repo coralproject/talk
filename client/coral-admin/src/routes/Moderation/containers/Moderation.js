@@ -154,6 +154,9 @@ class ModerationContainer extends Component {
     case 'all':
       variables.statuses = null;
       break;
+    case 'new':
+      variables.statuses = ['NONE', 'PREMOD'];
+      break;
     case 'approved':
       variables.statuses = ['ACCEPTED'];
       break;
