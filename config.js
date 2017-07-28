@@ -72,7 +72,7 @@ const CONFIG = {
   PORT: process.env.TALK_PORT || '3000',
 
   // The URL for this Talk Instance as viewable from the outside.
-  ROOT_URL: process.env.TALK_ROOT_URL,
+  ROOT_URL: process.env.TALK_ROOT_URL || null,
 
   // The keepalive timeout (in ms) that should be used to send keep alive
   // messages through the websocket to keep the socket alive.
@@ -111,6 +111,12 @@ const CONFIG = {
 //==============================================================================
 // CONFIG VALIDATION
 //==============================================================================
+
+if (process.env.NODE_ENV === 'test' && !CONFIG.ROOT_URL) {
+  CONFIG.ROOT_URL = 'http://localhost:3000';
+} else if (!CONFIG.ROOT_URL) {
+  throw new Error('TALK_ROOT_URL must be provided');
+}
 
 //------------------------------------------------------------------------------
 // JWT based configuration
