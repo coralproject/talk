@@ -57,15 +57,15 @@ class StorySearchContainer extends React.Component {
     this.props.storySearchChange(searchValue);
   }
 
-  goToStory = (id) => {
+  goToStory = (id, premod) => {
     const {router} = this.props;
-    router.push(`/admin/moderate/all/${id}`);
+    router.push(`/admin/moderate/${premod ? 'premod' : 'new'}/${id}`);
     this.clearAndCloseSearch();
   }
 
   goToModerateAll = () => {
     const {router} = this.props;
-    router.push('/admin/moderate/all');
+    router.push('/admin/moderate');
     this.clearAndCloseSearch();
   }
 
@@ -95,6 +95,9 @@ export const withAssetSearchQuery = withQuery(gql`
       created_at
       closedAt
       author
+      settings {
+        moderation
+      }
     }
   }
 `, {

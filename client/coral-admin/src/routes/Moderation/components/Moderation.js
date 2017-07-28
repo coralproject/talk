@@ -8,8 +8,7 @@ import ModerationHeader from './ModerationHeader';
 import ModerationKeysModal from '../../../components/ModerationKeysModal';
 import UserDetail from '../containers/UserDetail';
 import StorySearch from '../containers/StorySearch';
-
-const preModEnabled = (moderationSetting) => moderationSetting === 'PRE'; 
+import {isPremod} from '../../../utils';
 
 export default class Moderation extends Component {
   constructor() {
@@ -150,7 +149,7 @@ export default class Moderation extends Component {
           reportedCount={root.reportedCount}
           selectSort={this.props.setSortOrder}
           sort={this.props.moderation.sortOrder}
-          premodEnabled={assetId ? preModEnabled(root.asset.settings.moderation) : preModEnabled(settings.moderation)}
+          premodEnabled={assetId ? isPremod(root.asset.settings.moderation) : isPremod(settings.moderation)}
         />
         <ModerationQueue
           data={this.props.data}

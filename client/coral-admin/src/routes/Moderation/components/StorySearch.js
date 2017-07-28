@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './StorySearch.css';
 import {Button, Spinner, Icon} from 'coral-ui';
 import Story from './Story';
+import {isPremod} from '../../../utils';
 
 const StorySearch = (props) => {
 
@@ -64,6 +65,7 @@ const StorySearch = (props) => {
                 ? <Spinner />
                 : assets.map((story, i) => {
                   const storyOpen = story.closedAt === null || new Date(story.closedAt) > new Date();
+
                   return <Story
                     key={i}
                     id={story.id}
@@ -71,7 +73,7 @@ const StorySearch = (props) => {
                     createdAt={new Date(story.created_at).toISOString()}
                     open={storyOpen}
                     author={story.author}
-                    goToStory={props.goToStory}
+                    goToStory={() => props.goToStory(story.id, isPremod(story.settings.moderation))}
                   />;
                 })
               }
