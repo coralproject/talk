@@ -54,7 +54,7 @@ export default class Community extends Component {
   }
 
   getTabContent(searchValue, props) {
-    const {community, root: {users}} = props;
+    const {community, root: {users}, viewUserDetail} = props;
     const activeTab = props.route.path === ':id' ? 'flagged' : props.route.path;
 
     if (activeTab === 'people') {
@@ -84,6 +84,7 @@ export default class Community extends Component {
           approveUser={props.approveUser}
           rejectUsername={props.rejectUsername}
           currentUser={this.props.currentUser}
+          viewUserDetail={viewUserDetail}
         />
         <RejectUsernameDialog
           open={community.rejectUsernameDialog}

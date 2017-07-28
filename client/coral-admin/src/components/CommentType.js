@@ -1,12 +1,13 @@
 import React, {PropTypes} from 'react';
 import styles from './CommentType.css';
 import {Icon} from 'coral-ui';
+import cn from 'classnames';
 
 const CommentType = (props) => {
   const typeData = getTypeData(props.type);
 
   return (
-    <span className={`${styles.commentType} ${styles[typeData.className]}`}>
+    <span className={cn(styles.commentType, styles[typeData.className], props.className)}>
       <Icon name={typeData.icon}/>{typeData.text}
     </span>
   );
