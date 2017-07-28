@@ -20,12 +20,14 @@ export default class Moderation extends Component {
   }
 
   componentWillMount() {
-    const {router, root: {settings}} = this.props;
+    const {router, root: {settings, reportedCount}} = this.props;
 
     // Will update the URL to premod or new based on the moderation of All Streams
-    if (!router.params.id) {      
+    // If there is a reported comments, reported queue has priority!
+    if (!router.params.id) {    
+      const queue = isPremod(settings.moderation) ? 'premod' : 'new';
       router.push(
-        getModPath(isPremod(settings.moderation) ? 'premod' : 'new')
+        getModPath(reportedCount ? 'reported' : queue)
       );
     }
 
@@ -41,12 +43,14 @@ export default class Moderation extends Component {
   }
 
   componentWillUpdate() {
-    const {router, route, root: {asset}} = this.props;  
+    const {router, route, root: {asset, reportedCount}} = this.props;  
 
     // Will update the URL to premod or new based on the moderation of the *asset*
+    // If there is a reported comments, reported queue has priority!
     if (route.path === ':id') {
+      const queue = isPremod(asset.settings.moderation) ? 'premod' : 'new';
       router.push(
-        getModPath(isPremod(asset.settings.moderation) ? 'premod' : 'new', asset.id)
+        getModPath(reportedCount ? 'reported' :  queue, asset.id)
       );
     }
   }
