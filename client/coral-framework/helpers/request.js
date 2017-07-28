@@ -67,6 +67,7 @@ const handleResp = (res) => {
       }
 
       error.message = message;
+      error.status = res.status;
       throw error;
     });
   } else if (res.status === 204) {

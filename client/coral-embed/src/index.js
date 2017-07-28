@@ -5,8 +5,6 @@ import {buildUrl} from 'coral-framework/utils';
 import queryString from 'query-string';
 import EventEmitter from 'eventemitter2';
 
-const eventEmitter = new EventEmitter({wildcard: true});
-
 // TODO: Styles should live in a separate file
 const snackbarStyles = {
   position: 'fixed',
@@ -50,7 +48,7 @@ function buildStreamIframeUrl(talkBaseUrl, query) {
 
 // Set up postMessage listeners/handlers on the pymParent
 // e.g. to resize the iframe, and navigate the host page
-function configurePymParent(pymParent, opts) {
+function configurePymParent(pymParent, eventEmitter, opts) {
   let notificationOffset = 200;
   let cachedHeight;
   const snackbar = document.createElement('div');
@@ -203,6 +201,23 @@ function configurePymParent(pymParent, opts) {
  * @param {String} [opts.asset_url] - Asset URL
  * @param {String} [opts.asset_id] - Asset ID
  * @param {String} [opts.auth_token] - (optional) A jwt representing the session
+ * @return {Object}
+ *
+ * Example:
+ * ```
+ *   const embed = Talk.render(document.getElementById('talkStreamEmbed'), opts);
+ *
+ *   // trigger a login with optional token.
+ *   embed.login(token);
+ *
+ *   // trigger a logout.
+ *   embed.logout();
+ *
+ *   // listen to events (in this case all events).
+ *   embed.on('**', function(value) {
+ *     console.log(this.event, value);
+ *   });
+ * ```
  */
 Talk.render = function(el, opts) {
   if (!el) {
@@ -256,14 +271,31 @@ Talk.render = function(el, opts) {
     }
   }
 
+  const pymParent = new pym.Parent(el.id, buildStreamIframeUrl(opts.talk, query), {
+    title: opts.title,
+    id: `${el.id}_iframe`,
+    name: `${el.id}_iframe`
+  });
+
+  const eventEmitter = new EventEmitter({wildcard: true});
+
   configurePymParent(
-    new pym.Parent(el.id, buildStreamIframeUrl(opts.talk, query), {
-      title: opts.title,
-      id: `${el.id}_iframe`,
-      name: `${el.id}_iframe`
-    }),
+    pymParent,
+    eventEmitter,
     opts
   );
+
+  return {
+    on(eventName, callback) {
+      eventEmitter.on(eventName, callback);
+    },
+    login(token) {
+      pymParent.sendMessage('login', token);
+    },
+    logout() {
+      pymParent.sendMessage('logout');
+    }
+  };
 };
 
 export default Coral;
