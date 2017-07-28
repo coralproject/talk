@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import {compose} from 'react-apollo';
 import {setRole, setCommenterStatus} from '../../../actions/community';
 import Table from '../components/Table';
+import {viewUserDetail} from '../../../actions/userDetail';
 
 class TableContainer extends Component {
 
@@ -29,6 +30,7 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
     setCommenterStatus,
     setRole,
+    viewUserDetail,
   }, dispatch);
 
 export default compose(

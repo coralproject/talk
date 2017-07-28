@@ -1,13 +1,21 @@
 const {decorateWithTags} = require('./util');
+const {
+  SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS,
+} = require('../../perms/constants');
 
 const Asset = {
   recentComments({id}, _, {loaders: {Comments}}) {
     return Comments.genRecentComments.load(id);
   },
-  async comment({id}, {id: commentId}, {loaders: {Comments}}) {
+  async comment({id}, {id: commentId}, {loaders: {Comments}, user}) {
+    const statuses = user && user.can(SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS)
+      ? ['NONE', 'ACCEPTED', 'PREMOD', 'REJECTED']
+      : ['NONE', 'ACCEPTED'];
+
     const comments = await Comments.getByQuery({
       asset_id: id,
-      ids: commentId
+      ids: commentId,
+      statuses,
     });
 
     return comments.nodes[0];
