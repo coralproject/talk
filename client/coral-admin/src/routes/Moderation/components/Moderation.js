@@ -8,7 +8,7 @@ import ModerationHeader from './ModerationHeader';
 import ModerationKeysModal from '../../../components/ModerationKeysModal';
 import UserDetail from '../containers/UserDetail';
 import StorySearch from '../containers/StorySearch';
-import {isPremod} from '../../../utils';
+import {isPremod, getModPath} from '../../../utils';
 
 export default class Moderation extends Component {
   constructor() {
@@ -21,6 +21,15 @@ export default class Moderation extends Component {
   }
 
   componentWillMount() {
+    const {router, root: {settings}} = this.props;
+
+    // Will update the URL to premod or new based on the moderation of All Streams
+    if (!router.params.id) {      
+      router.push(
+        getModPath(isPremod(settings.moderation) ? 'premod' : 'new')
+      );
+    }
+
     const {toggleModal, singleView} = this.props;
 
     key('s', () => singleView());
@@ -30,6 +39,17 @@ export default class Moderation extends Component {
     key('k', this.select(false));
     key('f', this.moderate(false));
     key('d', this.moderate(true));
+  }
+
+  componentWillUpdate() {
+    const {router, route, root: {asset}} = this.props;  
+
+    // Will update the URL to premod or new based on the moderation of the *asset*
+    if (route.path === ':id') {
+      router.push(
+        getModPath(isPremod(asset.settings.moderation) ? 'premod' : 'new', asset.id)
+      );
+    }
   }
 
   onClose = () => {
@@ -60,8 +80,14 @@ export default class Moderation extends Component {
   }
 
   getComments = () => {
-    const {root, route} = this.props;
-    const activeTab = route.path === ':id' ? 'premod' : route.path;
+    const {root, root: {asset, settings}, router, route} = this.props;
+
+    // Grab premod from asset or from settings
+    const premod = !router.params.id ? settings.moderation : asset.settings.moderation;
+
+    const queue = isPremod(premod) ? 'premod' : 'new';
+    const activeTab = router.params.id ? queue : route.path;
+
     return root[activeTab].nodes;
   }
 
@@ -103,7 +129,6 @@ export default class Moderation extends Component {
   }
 
   render () {
-
     const {root, moderation, settings, viewUserDetail, hideUserDetail, activeTab, ...props} = this.props;
     const assetId = this.props.params.id;
     const {asset} = root;

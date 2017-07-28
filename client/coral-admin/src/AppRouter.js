@@ -1,5 +1,5 @@
 import React from 'react';
-import {Router, Route, IndexRedirect, browserHistory, Redirect} from 'react-router';
+import {Router, Route, IndexRedirect, browserHistory} from 'react-router';
 import {useBasename} from 'history';
 
 import Configure from 'routes/Configure';
@@ -35,6 +35,7 @@ const routes = (
       {/* Moderation Routes */}
 
       <Route path='moderate' component={ModerationLayout}>
+
         <Route path='all' components={Moderation}>
           <Route path=':id' components={Moderation} />
         </Route>
@@ -53,7 +54,9 @@ const routes = (
         <Route path='reported' components={Moderation}>
           <Route path=':id' components={Moderation} />
         </Route>
-        <Redirect from=':id' to='all/:id' />
+
+        <Route path=':id' components={Moderation} />
+
         <IndexRedirect to='all' />
       </Route>
     </Route>

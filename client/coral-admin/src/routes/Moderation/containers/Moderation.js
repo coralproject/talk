@@ -38,7 +38,10 @@ function prepareNotificationText(text) {
 class ModerationContainer extends Component {
   subscriptions = [];
 
-  get activeTab() { return this.props.route.path; }
+  get activeTab() { 
+    const {route} = this.props;
+    return route.path === ':id' ? 'new' : route.path;
+  }
 
   subscribeToUpdates(variables = this.props.data.variables) {
     const sub1 = this.props.data.subscribeToMore({
@@ -378,6 +381,7 @@ const withModQueueQuery = withQuery(gql`
     })
     settings {
       organizationName
+      moderation
     }
   }
   ${commentConnectionFragment}
