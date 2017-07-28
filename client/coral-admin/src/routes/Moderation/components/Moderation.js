@@ -9,7 +9,7 @@ import ModerationKeysModal from '../../../components/ModerationKeysModal';
 import UserDetail from '../containers/UserDetail';
 import StorySearch from '../containers/StorySearch';
 
-const preModEnabled = (moderationSetting) => moderationSetting === "PRE" 
+const preModEnabled = (moderationSetting) => moderationSetting === 'PRE'; 
 
 export default class Moderation extends Component {
   constructor() {
