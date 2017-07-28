@@ -16,7 +16,7 @@ import QuestionBox from 'talk-plugin-questionbox/QuestionBox';
 import {Button, TabBar, Tab, TabCount, TabContent, TabPane} from 'coral-ui';
 import cn from 'classnames';
 
-import {getTopLevelParent} from '../graphql/utils';
+import {getTopLevelParent, attachCommentToParent} from '../graphql/utils';
 import AllCommentsPane from './AllCommentsPane';
 
 import styles from './Stream.css';
@@ -103,7 +103,14 @@ class Stream extends React.Component {
     const open = asset.closedAt === null;
 
     // even though the permalinked comment is the highlighted one, we're displaying its parent + replies
-    const highlightedComment = comment && getTopLevelParent(comment);
+    let highlightedComment = comment && getTopLevelParent(comment);
+
+    if (highlightedComment && comment.parent && ['NONE', 'ACCEPTED'].indexOf(comment.status) === -1) {
+
+      // the highlighted comment is not active and as such not in the replies, so we
+      // attach it to the right parent.
+      highlightedComment = attachCommentToParent(highlightedComment, comment);
+    }
 
     const banned = user && user.status === 'BANNED';
     const temporarilySuspended =

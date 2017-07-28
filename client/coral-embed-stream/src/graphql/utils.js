@@ -186,6 +186,32 @@ export function insertFetchedCommentsIntoEmbedQuery(root, comments, parent_id) {
 }
 
 /**
+ * attachCommentToParent recurses through the comment tree starting at `topLevelComment`
+ * to find the parent of `comment` and attach it to the replies.
+ */
+export function attachCommentToParent(topLevelComment, comment) {
+  if (topLevelComment.id === comment.parent.id) {
+    return update(topLevelComment, {
+      replies: {
+        nodes: {
+          $apply: (nodes) => insertCommentsSorted(nodes, comment),
+        },
+      },
+      replyCount: {
+        $set: (count) => count + 1,
+      }
+    });
+  }
+  return update(topLevelComment, {
+    replies: {
+      nodes: {
+        $apply: (nodes) => nodes.map((node) => attachCommentToParent(node, comment)),
+      },
+    },
+  });
+}
+
+/**
  * Nest a string in itself repeatly until `level` has been reached.
  *
  * Example:
