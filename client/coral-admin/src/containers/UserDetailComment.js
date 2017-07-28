@@ -1,33 +1,14 @@
 import {gql} from 'react-apollo';
-import Comment from '../components/Comment';
+import UserDetailComment from '../components/UserDetailComment';
 import withFragments from 'coral-framework/hocs/withFragments';
-import {getSlotFragmentSpreads} from 'coral-framework/utils';
-
-const slots = [
-  'adminCommentInfoBar',
-  'adminCommentContent',
-  'adminSideActions',
-  'adminCommentDetailArea',
-];
 
 export default withFragments({
-  root: gql`
-    fragment CoralAdmin_ModerationComment_root on RootQuery {
-      __typename
-      ${getSlotFragmentSpreads(slots, 'root')}
-    }
-    `,
   comment: gql`
-    fragment CoralAdmin_ModerationComment_comment on Comment {
+    fragment CoralAdmin_UserDetail_comment on Comment {
       id
       body
       created_at
       status
-      user {
-        id
-        username
-        status
-      }
       asset {
         id
         title
@@ -53,7 +34,6 @@ export default withFragments({
       editing {
         edited
       }
-      ${getSlotFragmentSpreads(slots, 'comment')}
     }
   `
-})(Comment);
+})(UserDetailComment);
