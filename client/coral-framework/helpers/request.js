@@ -2,6 +2,7 @@ import bowser from 'bowser';
 import * as Storage from './storage';
 import merge from 'lodash/merge';
 import {getStore} from 'coral-framework/services/store';
+import {BASE_PATH} from 'coral-framework/constants/url';
 
 /**
  * getAuthToken returns the active auth token or null
@@ -75,7 +76,7 @@ const handleResp = (res) => {
   }
 };
 
-export const base = '/api/v1';
+export const base = `${BASE_PATH}api/v1`;
 
 export default (url, options) => {
   return fetch(`${base}${url}`, buildOptions(options)).then(handleResp);
