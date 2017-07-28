@@ -317,6 +317,7 @@ export default class Comment extends React.Component {
     } = this.props;
 
     const view = this.getVisibileReplies();
+    const isActive = ['NONE', 'ACCEPTED'].indexOf(comment.status) >= 0;
     const {loadingState} = this.state;
     const isPending = comment.id.indexOf('pending') >= 0;
     const isHighlighted = highlighted === comment.id;
@@ -422,7 +423,7 @@ export default class Comment extends React.Component {
                 {...slotProps}
               />
 
-              { (currentUser && (comment.user.id === currentUser.id)) &&
+              { isActive && (currentUser && (comment.user.id === currentUser.id)) &&
 
                 /* User can edit/delete their own comment for a short window after posting */
                 <span className={cn(styles.topRight)}>
@@ -467,44 +468,48 @@ export default class Comment extends React.Component {
                   </div>
               }
             </div>
-            <div className={styles.footer}>
-              <div className="commentActionsLeft comment__action-container">
-                <Slot
-                  fill="commentReactions"
-                  {...slotProps}
-                  inline
-                />
-                {!disableReply &&
-                  <ActionButton>
-                    <ReplyButton
-                      onClick={this.showReplyBox}
-                      parentCommentId={parentId || comment.id}
-                      currentUserId={currentUser && currentUser.id}
+            <div className={cn(styles.footer, 'talk-stream-comment-footer')}>
+              {isActive &&
+                <div className={'talk-stream-comment-actions-container'}>
+                  <div className="commentActionsLeft comment__action-container">
+                    <Slot
+                      fill="commentReactions"
+                      {...slotProps}
+                      inline
                     />
-                  </ActionButton>}
-              </div>
-              <div className="commentActionsRight comment__action-container">
-                <Slot
-                  fill="commentActions"
-                  wrapperComponent={ActionButton}
-                  {...slotProps}
-                  inline
-                />
-                <ActionButton>
-                  <FlagComment
-                    flaggedByCurrentUser={!!myFlag}
-                    flag={myFlag}
-                    id={comment.id}
-                    author_id={comment.user.id}
-                    postFlag={postFlag}
-                    addNotification={addNotification}
-                    postDontAgree={postDontAgree}
-                    deleteAction={deleteAction}
-                    showSignInDialog={showSignInDialog}
-                    currentUser={currentUser}
-                  />
-                </ActionButton>
-              </div>
+                    {!disableReply &&
+                      <ActionButton>
+                        <ReplyButton
+                          onClick={this.showReplyBox}
+                          parentCommentId={parentId || comment.id}
+                          currentUserId={currentUser && currentUser.id}
+                        />
+                      </ActionButton>}
+                  </div>
+                  <div className="commentActionsRight comment__action-container">
+                    <Slot
+                      fill="commentActions"
+                      wrapperComponent={ActionButton}
+                      {...slotProps}
+                      inline
+                    />
+                    <ActionButton>
+                      <FlagComment
+                        flaggedByCurrentUser={!!myFlag}
+                        flag={myFlag}
+                        id={comment.id}
+                        author_id={comment.user.id}
+                        postFlag={postFlag}
+                        addNotification={addNotification}
+                        postDontAgree={postDontAgree}
+                        deleteAction={deleteAction}
+                        showSignInDialog={showSignInDialog}
+                        currentUser={currentUser}
+                      />
+                    </ActionButton>
+                  </div>
+                </div>
+              }
             </div>
           </div>
         </div>
