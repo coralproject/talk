@@ -1,5 +1,6 @@
 import React from 'react';
 import {Router, Route, IndexRedirect, browserHistory, Redirect} from 'react-router';
+import {useBasename} from 'history';
 
 import Configure from 'routes/Configure';
 import Dashboard from 'routes/Dashboard';
@@ -59,6 +60,8 @@ const routes = (
   </div>
 );
 
-const AppRouter = () => <Router history={browserHistory} routes={routes} />;
+const AppRouter = () => <Router history={useBasename(() => browserHistory)({
+  basename: '/talk/'
+})} routes={routes}/>;
 
 export default AppRouter;

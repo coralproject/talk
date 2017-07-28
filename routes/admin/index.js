@@ -23,7 +23,7 @@ router.get('*', (req, res) => {
     TALK_RECAPTCHA_PUBLIC: RECAPTCHA_PUBLIC
   };
 
-  res.render('admin', {basePath: '/client/coral-admin', data});
+  res.render('admin', {data});
 });
 
 module.exports = router;

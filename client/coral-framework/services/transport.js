@@ -1,12 +1,13 @@
 import {createNetworkInterface} from 'apollo-client';
 import {getAuthToken} from '../helpers/request';
+import {BASE_PATH} from 'coral-framework/constants/url';
 
 //==============================================================================
 // NETWORK INTERFACE
 //==============================================================================
 
 const networkInterface = createNetworkInterface({
-  uri: '/api/v1/graph/ql',
+  uri: `${BASE_PATH}api/v1/graph/ql`,
   opts: {
     credentials: 'same-origin'
   }
