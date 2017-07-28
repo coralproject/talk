@@ -37,6 +37,15 @@ environment variables. Refer to the
 [config.js](https://github.com/coralproject/talk/blob/master/config.js) file to
 see how the configuration is parsed.
 
+### Webpack
+
+These are only used during the webpack build.
+
+- `TALK_THREADING_LEVEL` (_optional_) - specify the maximum depth of the comment
+  thread. (Default `3`)
+- `TALK_DEFAULT_STREAM_TAB` (_optional_) - specify the default stream tab in the
+  admin. (Default `all`)
+
 ### Database
 
 - `TALK_MONGO_URL` (*required*) - the database connection string for the MongoDB database.
@@ -90,6 +99,29 @@ on the contents of those variables.**
 
 - `TALK_RECAPTCHA_SECRET` (*required for reCAPTCHA support*) - server secret used for enabling reCAPTCHA powered logins. If not provided it will instead default to providing only a time based lockout.
 - `TALK_RECAPTCHA_PUBLIC` (*required for reCAPTCHA support*) - client secret used for enabling reCAPTCHA powered logins. If not provided it will instead default to providing only a time based lockout.
+
+### Trust
+
+Trust can automoderate comments based on user history. By specifying this
+option, the beheviour can be changed to offer different results.
+
+- `TRUST_THRESHOLDS` (_optional_) - configure the reliability thresholds for
+  flagging and commenting. (Default `comment:-1,-1;flag:-1,-1`)
+
+The form of the environment variable:
+
+```
+<name>:<RELIABLE>,<UNRELIABLE>;<name>:<RELIABLE>,<UNRELIABLE>;...
+```
+
+The default could be read as:
+
+- When a commenter has one comment rejected, their next comment must be
+  premoderated once in order to post freely again. If they instead get rejected
+  again, then they must have two of their comments approved in order to get
+  added back to the queue.
+- At the moment of writing, beheviour is not attached to the flagging
+  reliability, but it is recorded.
 
 ### Plugins
 

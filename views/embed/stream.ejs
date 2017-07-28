@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <link rel="stylesheet" type="text/css" href="/client/embed/stream/default.css">
+    <link rel="stylesheet" type="text/css" href="<%= BASE_URL %>client/embed/stream/default.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <% if (locals.customCssUrl) { %>
@@ -12,10 +12,11 @@
     <% if (data != null) { %>
       <script id="data" type="application/json"><%- JSON.stringify(data) %></script>
     <% } %>
+    <base href="<%= BASE_URL %>"/>
   </head>
   <body>
 
     <div id="talk-embed-stream-container"></div>
-    <script src="/client/embed/stream/bundle.js"></script>
+    <script src="<%= BASE_URL %>client/embed/stream/bundle.js"></script>
   </body>
 </html>
