@@ -1,0 +1,128 @@
+.root {
+  display: block;
+  margin: 0;
+  border-bottom: 1px solid #e0e0e0;
+  width: 100%;
+  transition: all 200ms;
+  padding: 10px 0px;
+  min-height: 0;
+}
+
+.rootSelected {
+  background-color: #ecf4ff;
+}
+
+.container {
+  padding: 0px 14px;
+}
+
+.story {
+  font-size: 14px;
+  margin: 10px 0;
+  font-weight: 500;
+  line-height: 1.2;
+  max-width: 500px;
+}
+
+.story > a {
+  display: inline-block;
+  color: #063b9a;
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: .5px;
+  margin-left: 10px;
+  font-size: 13px;
+  margin-left: 5px;
+  padding-bottom: 0px;
+  border-bottom: solid 1px;
+  line-height: 16px;
+}
+
+.bodyContainer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 300;
+  margin-bottom: 8px;
+}
+
+.header {
+  position: relative;
+}
+
+.commentType {
+  position: absolute;
+  right: 0px;
+}
+
+.created {
+  padding: 5px;
+  color: #262626;
+  font-size: 14px;
+  line-height: 1px;
+  font-weight: 300;
+}
+
+.body {
+  margin-top: 0px;
+  flex: 1;
+  color: black;
+  max-width: 500px;
+  word-wrap: break-word;
+  font-weight: 300;
+  font-size: 16px;
+  max-width: 360px;
+}
+
+.sideActions {
+}
+
+.editedMarker {
+  font-style: italic;
+  color: #666;
+  font-size: 12px;
+  line-height: 1px;
+  font-weight: 300;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.bulkSelectInput {
+  cursor: pointer;
+}
+
+.external {
+  font-size: .7em;
+  text-decoration: none;
+  color: #063b9a;
+  cursor: pointer;
+  font-weight: normal;
+  margin-left: 10px;
+  white-space: nowrap;
+
+  &:hover {
+    text-decoration: underline;
+    opacity: .9;
+  }
+
+  > i {
+    font-size: 12px;
+    top: 2px;
+    position: relative;
+  }
+}
+
+.hasLinks {
+  color: #f00;
+  text-align: right;
+  display: flex;
+  align-items: center;
+
+  > i {
+    margin-right: 5px;
+  }
+}

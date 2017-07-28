@@ -10,6 +10,7 @@ import SuspendUserDialog from './SuspendUserDialog';
 import {toggleModal as toggleShortcutModal} from '../actions/moderation';
 import {checkLogin, handleLogin, requestPasswordReset} from '../actions/auth';
 import {can} from 'coral-framework/services/perms';
+import UserDetail from 'coral-admin/src/containers/UserDetail';
 
 class LayoutContainer extends Component {
   componentWillMount() {
@@ -57,6 +58,7 @@ class LayoutContainer extends Component {
         >
         <BanUserDialog />
         <SuspendUserDialog />
+        <UserDetail />
         {this.props.children}
         </Layout>
       );

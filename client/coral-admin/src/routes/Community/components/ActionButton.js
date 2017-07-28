@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Community.css';
 import {Button} from 'coral-ui';
-import {menuActionsMap} from '../../Moderation/helpers/moderationQueueActionsMap';
+import {menuActionsMap} from '../../../utils/moderationQueueActionsMap';
 
 import t from 'coral-framework/services/i18n';
 
