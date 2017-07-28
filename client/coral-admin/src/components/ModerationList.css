@@ -192,7 +192,6 @@
 .minimal {
   width: 45px;
   min-width: 0;
-  float: left;
 }
 
 .approve__active {

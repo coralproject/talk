@@ -17,6 +17,7 @@ import {
   showRejectUsernameDialog,
   hideRejectUsernameDialog
 } from '../../../actions/community';
+import {viewUserDetail} from '../../../actions/userDetail';
 
 import Community from '../components/Community';
 
@@ -99,6 +100,7 @@ const mapDispatchToProps = (dispatch) =>
     hideRejectUsernameDialog,
     updateSorting,
     newPage,
+    viewUserDetail,
   }, dispatch);
 
 export default compose(

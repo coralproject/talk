@@ -1,22 +1,20 @@
 import React, {PropTypes} from 'react';
-import Comment from './Comment';
+import Comment from './UserDetailComment';
 import styles from './UserDetail.css';
-import {Button, Drawer} from 'coral-ui';
+import {Button, Drawer, Spinner} from 'coral-ui';
 import {Slot} from 'coral-framework/components';
 import ButtonCopyToClipboard from './ButtonCopyToClipboard';
-import {actionsMap} from '../helpers/moderationQueueActionsMap';
+import {actionsMap} from '../utils/moderationQueueActionsMap';
 import ClickOutside from 'coral-framework/components/ClickOutside';
 
 export default class UserDetail extends React.Component {
 
   static propTypes = {
-    id: PropTypes.string.isRequired,
+    userId: PropTypes.string.isRequired,
     hideUserDetail: PropTypes.func.isRequired,
     root: PropTypes.object.isRequired,
     bannedWords: PropTypes.array.isRequired,
     suspectWords: PropTypes.array.isRequired,
-    showBanUserDialog: PropTypes.func.isRequired,
-    showSuspendUserDialog: PropTypes.func.isRequired,
     acceptComment: PropTypes.func.isRequired,
     rejectComment: PropTypes.func.isRequired,
     changeStatus: PropTypes.func.isRequired,
@@ -45,7 +43,17 @@ export default class UserDetail extends React.Component {
     this.props.changeStatus('rejected');
   }
 
-  render () {
+  renderLoading() {
+    return (
+      <ClickOutside onClickOutside={this.props.hideUserDetail}>
+        <Drawer onClose={this.props.hideUserDetail}>
+          <Spinner />
+        </Drawer>
+      </ClickOutside>
+    );
+  }
+
+  renderLoaded() {
     const {
       root: {
         user,
@@ -53,19 +61,17 @@ export default class UserDetail extends React.Component {
         rejectedComments,
         comments: {nodes}
       },
-      moderation: {
-        userDetailActiveTab: tab,
-        userDetailSelectedIds: selectedIds
-      },
+      activeTab,
+      selectedCommentIds,
       bannedWords,
       suspectWords,
       toggleSelect,
       bulkAccept,
       bulkReject,
-      showBanUserDialog,
-      showSuspendUserDialog,
-      hideUserDetail
+      hideUserDetail,
+      viewUserDetail,
     } = this.props;
+
     const localProfile = user.profiles.find((p) => p.provider === 'local');
 
     let profile;
@@ -113,11 +119,11 @@ export default class UserDetail extends React.Component {
             </div>
           </div>
           {
-            selectedIds.length === 0
+            selectedCommentIds.length === 0
             ? (
               <ul className={styles.commentStatuses}>
-                <li className={tab === 'all' ? styles.active : ''} onClick={this.showAll}>All</li>
-                <li className={tab === 'rejected' ? styles.active : ''} onClick={this.showRejected}>Rejected</li>
+                <li className={activeTab === 'all' ? styles.active : ''} onClick={this.showAll}>All</li>
+                <li className={activeTab === 'rejected' ? styles.active : ''} onClick={this.showRejected}>Rejected</li>
               </ul>
             )
             : (
@@ -134,39 +140,42 @@ export default class UserDetail extends React.Component {
                   cStyle='reject'
                   icon='close'>
                 </Button>
-                {`${selectedIds.length} comments selected`}
+                {`${selectedCommentIds.length} comments selected`}
               </div>
             )
           }
 
           <div>
             {
-              nodes.map((comment, i) => {
+              nodes.map((comment) => {
                 const status = comment.action_summaries ? 'FLAGGED' : comment.status;
-                const selected = selectedIds.indexOf(comment.id) !== -1;
+                const selected = selectedCommentIds.indexOf(comment.id) !== -1;
                 return <Comment
                   key={comment.id}
-                  index={i}
+                  user={user}
                   comment={comment}
                   selected={false}
                   suspectWords={suspectWords}
                   bannedWords={bannedWords}
-                  viewUserDetail={() => {}}
                   actions={actionsMap[status]}
-                  showBanUserDialog={showBanUserDialog}
-                  showSuspendUserDialog={showSuspendUserDialog}
                   acceptComment={this.acceptThenReload}
                   rejectComment={this.rejectThenReload}
                   selected={selected}
                   toggleSelect={toggleSelect}
-                  currentAsset={null}
-                  currentUserId={this.props.id}
-                  minimal={true} />;
+                  viewUserDetail={viewUserDetail}
+                />;
               })
             }
           </div>
         </Drawer>
       </ClickOutside>
     );
+  }
+
+  render () {
+    if (this.props.loading) {
+      return this.renderLoading();
+    }
+    return this.renderLoaded();
   }
 }
