@@ -104,12 +104,14 @@ class Stream extends React.Component {
 
     // even though the permalinked comment is the highlighted one, we're displaying its parent + replies
     let highlightedComment = comment && getTopLevelParent(comment);
+    if (highlightedComment) {
+      const isInactive = ['NONE', 'ACCEPTED'].indexOf(comment.status) === -1;
+      if (comment.parent && isInactive) {
 
-    if (highlightedComment && comment.parent && ['NONE', 'ACCEPTED'].indexOf(comment.status) === -1) {
-
-      // the highlighted comment is not active and as such not in the replies, so we
-      // attach it to the right parent.
-      highlightedComment = attachCommentToParent(highlightedComment, comment);
+        // the highlighted comment is not active and as such not in the replies, so we
+        // attach it to the right parent.
+        highlightedComment = attachCommentToParent(highlightedComment, comment);
+      }
     }
 
     const banned = user && user.status === 'BANNED';
