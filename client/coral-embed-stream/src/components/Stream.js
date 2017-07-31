@@ -106,6 +106,8 @@ class Stream extends React.Component {
     // even though the permalinked comment is the highlighted one, we're displaying its parent + replies
     let highlightedComment = comment && getTopLevelParent(comment);
     if (highlightedComment) {
+
+      // Inactive comments can be viewed by moderators and admins (e.g. using permalinks).
       const isInactive = !isCommentActive(comment.status);
       if (comment.parent && isInactive) {
 

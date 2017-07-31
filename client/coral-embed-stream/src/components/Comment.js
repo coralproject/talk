@@ -317,7 +317,10 @@ export default class Comment extends React.Component {
     } = this.props;
 
     const view = this.getVisibileReplies();
+
+      // Inactive comments can be viewed by moderators and admins (e.g. using permalinks).
     const isActive = isCommentActive(comment.status);
+
     const {loadingState} = this.state;
     const isPending = comment.id.indexOf('pending') >= 0;
     const isHighlighted = highlighted === comment.id;
