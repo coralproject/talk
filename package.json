@@ -110,6 +110,7 @@
     "natural": "^0.5.0",
     "node-emoji": "^1.5.1",
     "node-fetch": "^1.6.3",
+    "node-gyp": "^3.6.2",
     "nodemailer": "^2.6.4",
     "passport": "^0.3.2",
     "passport-jwt": "^2.2.1",
@@ -221,5 +222,8 @@
   },
   "engines": {
     "node": "^8"
+  },
+  "release": {
+    "analyzeCommits": "simple-commit-message"
   }
 }
