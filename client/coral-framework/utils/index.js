@@ -187,3 +187,7 @@ export function buildUrl({protocol, hostname, port, pathname, search, hash} = wi
 export function getSlotFragmentSpreads(slots, resource) {
   return `...${slots.map((s) => `TalkSlot_${capitalize(s)}_${resource}`).join('\n...')}\n`;
 }
+
+export function isCommentActive(commentStatus) {
+  return ['NONE', 'ACCEPTED'].indexOf(commentStatus) >= 0;
+}
