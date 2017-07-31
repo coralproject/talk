@@ -9,7 +9,6 @@ import update from 'immutability-helper';
 import truncate from 'lodash/truncate';
 import NotFoundAsset from '../components/NotFoundAsset';
 import {isPremod, getModPath} from '../../../utils';
-import {withRouter} from 'react-router';
 
 import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
 import {handleCommentChange} from '../../../graphql/utils';
@@ -140,6 +139,7 @@ class ModerationContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+
     // Resubscribe when we change between assets.
     if(this.props.data.variables.asset_id !== nextProps.data.variables.asset_id) {
       this.resubscribe(nextProps.data.variables);
@@ -468,7 +468,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
   withSetCommentStatus,
   withQueueCountPolling,
