@@ -83,14 +83,7 @@ export default class Moderation extends Component {
   }
 
   getComments = () => {
-    const {root, root: {asset, settings}, router, route} = this.props;
-
-    // Grab premod from asset or from settings
-    const premod = !router.params.id ? settings.moderation : asset.settings.moderation;
-
-    const queue = isPremod(premod) ? 'premod' : 'new';
-    const activeTab = router.params.id ? queue : route.path;
-
+    const {activeTab} = this.props;
     return root[activeTab].nodes;
   }
 

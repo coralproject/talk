@@ -8,7 +8,7 @@ import t from 'coral-framework/services/i18n';
 import update from 'immutability-helper';
 import truncate from 'lodash/truncate';
 import NotFoundAsset from '../components/NotFoundAsset';
-import {getModPath} from '../../../utils';
+import {isPremod, getModPath} from '../../../utils';
 
 import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
 import {handleCommentChange} from '../../../graphql/utils';
@@ -39,8 +39,16 @@ class ModerationContainer extends Component {
   subscriptions = [];
 
   get activeTab() { 
-    const {route} = this.props;
-    return route.path === ':id' ? 'new' : route.path;
+
+    const {root: {asset, settings}, router, route} = this.props;
+
+    // Grab premod from asset or from settings
+    const premod = !router.params.id ? settings.moderation : asset.settings.moderation;
+
+    const queue = isPremod(premod) ? 'premod' : 'new';
+    const activeTab = router.params.id ? queue : route.path;
+
+    return activeTab;
   }
 
   subscribeToUpdates(variables = this.props.data.variables) {
