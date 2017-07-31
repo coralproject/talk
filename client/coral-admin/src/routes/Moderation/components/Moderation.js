@@ -132,7 +132,7 @@ export default class Moderation extends Component {
   }
 
   render () {
-    const {root, moderation, settings, viewUserDetail, hideUserDetail, activeTab, ...props} = this.props;
+    const {root, moderation, settings, viewUserDetail, hideUserDetail, activeTab, getModPath, ...props} = this.props;
     const assetId = this.props.params.id;
     const {asset} = root;
 
@@ -171,6 +171,7 @@ export default class Moderation extends Component {
           asset={asset}
           allCount={root.allCount}
           newCount={root.newCount}
+          getModPath={getModPath}
           approvedCount={root.approvedCount}
           premodCount={root.premodCount}
           rejectedCount={root.rejectedCount}

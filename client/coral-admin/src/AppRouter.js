@@ -1,5 +1,5 @@
 import React from 'react';
-import {Router, Route, IndexRedirect, Redirect} from 'react-router';
+import {Router, Route, IndexRedirect} from 'react-router';
 import {history} from 'coral-framework/helpers/router';
 
 import Configure from 'routes/Configure';

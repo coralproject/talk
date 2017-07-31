@@ -8,6 +8,7 @@ import t from 'coral-framework/services/i18n';
 import update from 'immutability-helper';
 import truncate from 'lodash/truncate';
 import NotFoundAsset from '../components/NotFoundAsset';
+import {getModPath} from '../../../utils';
 
 import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
 import {handleCommentChange} from '../../../graphql/utils';
@@ -215,6 +216,7 @@ class ModerationContainer extends Component {
 
     return <Moderation
       {...this.props}
+      getModPath={getModPath}
       loadMore={this.loadMore}
       acceptComment={this.acceptComment}
       rejectComment={this.rejectComment}

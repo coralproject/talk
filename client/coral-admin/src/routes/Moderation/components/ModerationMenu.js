@@ -4,7 +4,6 @@ import styles from './styles.css';
 import {SelectField, Option} from 'react-mdl-selectfield';
 import {Icon} from 'coral-ui';
 import {Link} from 'react-router';
-import {getModPath} from '../../../utils';
 
 import t from 'coral-framework/services/i18n';
 
@@ -18,7 +17,8 @@ const ModerationMenu = ({
   reportedCount,
   selectSort,
   sort,
-  premodEnabled
+  premodEnabled,
+  getModPath
 }) => {
   return (
     <div className="mdl-tabs">

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styles from './StorySearch.css';
 import {Button, Spinner, Icon} from 'coral-ui';
 import Story from './Story';
-import {isPremod} from '../../../utils';
 
 const StorySearch = (props) => {
 
