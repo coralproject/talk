@@ -13,6 +13,7 @@ import t, {timeago} from 'coral-framework/services/i18n';
 import {getSlotComponents} from 'coral-framework/helpers/plugins';
 import CommentBox from 'talk-plugin-commentbox/CommentBox';
 import QuestionBox from 'talk-plugin-questionbox/QuestionBox';
+import {isCommentActive} from 'coral-framework/utils';
 import {Button, TabBar, Tab, TabCount, TabContent, TabPane} from 'coral-ui';
 import cn from 'classnames';
 
@@ -105,7 +106,9 @@ class Stream extends React.Component {
     // even though the permalinked comment is the highlighted one, we're displaying its parent + replies
     let highlightedComment = comment && getTopLevelParent(comment);
     if (highlightedComment) {
-      const isInactive = ['NONE', 'ACCEPTED'].indexOf(comment.status) === -1;
+
+      // Inactive comments can be viewed by moderators and admins (e.g. using permalinks).
+      const isInactive = !isCommentActive(comment.status);
       if (comment.parent && isInactive) {
 
         // the highlighted comment is not active and as such not in the replies, so we
