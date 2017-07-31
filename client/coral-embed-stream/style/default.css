@@ -257,6 +257,8 @@ body {
   margin: 0px 5px;
   padding: 5px 5px;
   border-radius: 2px;
+  font-size: 12px;
+  font-weight: bold;
 }
 
 /* Comment Action Styles */

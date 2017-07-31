@@ -34,6 +34,8 @@ docs:
         url: /docs/running/configuration/
       - title: "Secrets"
         url: /docs/running/secrets/
+      - title: "Plugins"
+        url: /docs/running/plugins/
       - title: "Database Migrations"
         url: /docs/running/migrations/
   - title: "Architecture"
