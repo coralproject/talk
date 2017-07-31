@@ -36,7 +36,7 @@ export default class Embed extends React.Component {
       <div className={cn('talk-embed-stream', {'talk-embed-stream-highlight-comment': hasHighlightedComment})}>
         <IfSlotIsNotEmpty slot="login">
           <Popup
-            href='/embed/stream/login'
+            href='embed/stream/login'
             title='Login'
             features='menubar=0,resizable=0,width=500,height=550,top=200,left=500'
             open={showSignInDialog}
