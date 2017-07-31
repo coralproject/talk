@@ -57,9 +57,9 @@ class StorySearchContainer extends React.Component {
     this.props.storySearchChange(searchValue);
   }
 
-  goToStory = (id, premod) => {
+  goToStory = (id) => {
     const {router} = this.props;
-    router.push(`/admin/moderate/${premod ? 'premod' : 'new'}/${id}`);
+    router.push(`/admin/moderate/${id}`);
     this.clearAndCloseSearch();
   }
 

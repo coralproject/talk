@@ -35,7 +35,7 @@ const routes = (
       {/* Moderation Routes */}
 
       <Route path='moderate' component={ModerationLayout}>
-
+        <IndexRoute component={Moderation} />
         <Route path='all' components={Moderation}>
           <Route path=':id' components={Moderation} />
         </Route>
