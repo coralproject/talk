@@ -20,17 +20,6 @@ export default class Moderation extends Component {
   }
 
   componentWillMount() {
-    const {router, root: {settings, reportedCount}} = this.props;
-
-    // Will update the URL to premod or new based on the moderation of All Streams
-    // If there is a reported comments, reported queue has priority!
-    if (!router.params.id) {    
-      const queue = isPremod(settings.moderation) ? 'premod' : 'new';
-      router.push(
-        getModPath(reportedCount ? 'reported' : queue)
-      );
-    }
-
     const {toggleModal, singleView} = this.props;
 
     key('s', () => singleView());
@@ -40,19 +29,6 @@ export default class Moderation extends Component {
     key('k', this.select(false));
     key('f', this.moderate(false));
     key('d', this.moderate(true));
-  }
-
-  componentWillUpdate() {
-    const {router, route, root: {asset, reportedCount}} = this.props;  
-
-    // Will update the URL to premod or new based on the moderation of the *asset*
-    // If there is a reported comments, reported queue has priority!
-    if (route.path === ':id') {
-      const queue = isPremod(asset.settings.moderation) ? 'premod' : 'new';
-      router.push(
-        getModPath(reportedCount ? 'reported' :  queue, asset.id)
-      );
-    }
   }
 
   onClose = () => {
@@ -83,7 +59,7 @@ export default class Moderation extends Component {
   }
 
   getComments = () => {
-    const {activeTab} = this.props;
+    const {root, activeTab} = this.props;
     return root[activeTab].nodes;
   }
 
@@ -128,8 +104,9 @@ export default class Moderation extends Component {
     const {root, moderation, settings, viewUserDetail, hideUserDetail, activeTab, getModPath, ...props} = this.props;
     const assetId = this.props.params.id;
     const {asset} = root;
-
+    console.log(activeTab)
     const comments = root[activeTab];
+
     let activeTabCount;
     switch(activeTab) {
     case 'all':

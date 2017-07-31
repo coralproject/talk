@@ -35,8 +35,7 @@ const routes = (
       {/* Moderation Routes */}
 
       <Route path='moderate' component={ModerationLayout}>
-        <Route path=':id' components={Moderation} />
-        <IndexRedirect to=':id' />
+        <IndexRoute components={Moderation} />
 
         <Route path='all' components={Moderation}>
           <Route path=':id' components={Moderation} />
@@ -56,6 +55,9 @@ const routes = (
         <Route path='reported' components={Moderation}>
           <Route path=':id' components={Moderation} />
         </Route>
+        
+        <Route path=':id' components={Moderation} />
+
       </Route>
     </Route>
   </div>

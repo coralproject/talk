@@ -9,6 +9,7 @@ import update from 'immutability-helper';
 import truncate from 'lodash/truncate';
 import NotFoundAsset from '../components/NotFoundAsset';
 import {isPremod, getModPath} from '../../../utils';
+import {withRouter} from 'react-router';
 
 import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
 import {handleCommentChange} from '../../../graphql/utils';
@@ -46,8 +47,8 @@ class ModerationContainer extends Component {
     const premod = !router.params.id ? settings.moderation : asset.settings.moderation;
 
     const queue = isPremod(premod) ? 'premod' : 'new';
-    const activeTab = router.params.id ? queue : route.path;
-
+    const activeTab = route.path && route.path !== ':id' ? route.path : queue;
+    
     return activeTab;
   }
 
@@ -144,6 +145,17 @@ class ModerationContainer extends Component {
     if(this.props.data.variables.asset_id !== nextProps.data.variables.asset_id) {
       this.resubscribe(nextProps.data.variables);
     }
+
+    //     const {router, route, root: {asset, reportedCount}} = this.props;  
+
+    // // Will update the URL to premod or new based on the moderation of the *asset*
+    // // If there is a reported comments, reported queue has priority!
+    // if (route.path === ':id') {
+    //   const queue = isPremod(asset.settings.moderation) ? 'premod' : 'new';
+    //   router.push(
+    //     getModPath(reportedCount ? 'reported' :  queue, asset.id)
+    //   );
+    // }
   }
 
   acceptComment = ({commentId}) => {
@@ -467,6 +479,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
+  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
   withSetCommentStatus,
   withQueueCountPolling,
