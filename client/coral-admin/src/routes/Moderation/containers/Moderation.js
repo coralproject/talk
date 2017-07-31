@@ -361,7 +361,7 @@ const withModQueueQuery = withQuery(gql`
       statuses: [NONE, PREMOD],
       asset_id: $asset_id
     })
-    acceptedCount: commentCount(query: {
+    approvedCount: commentCount(query: {
       statuses: [ACCEPTED],
       asset_id: $asset_id
     })
@@ -405,7 +405,7 @@ const withQueueCountPolling = withQuery(gql`
       statuses: [NONE, PREMOD],
       asset_id: $asset_id
     })
-    acceptedCount: commentCount(query: {
+    approvedCount: commentCount(query: {
       statuses: [ACCEPTED],
       asset_id: $asset_id
     })

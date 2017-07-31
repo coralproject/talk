@@ -11,7 +11,7 @@ import t from 'coral-framework/services/i18n';
 const ModerationMenu = ({
   asset = {}, 
   allCount,
-  acceptedCount,
+  approvedCount,
   premodCount,
   newCount,
   rejectedCount,
@@ -54,7 +54,7 @@ const ModerationMenu = ({
             to={getModPath('approved', asset.id)}
             className={`mdl-tabs__tab ${styles.tab}`}
             activeClassName={styles.active}>
-            <Icon name='check' className={styles.tabIcon} /> {t('modqueue.approved')} <CommentCount count={acceptedCount} />
+            <Icon name='check' className={styles.tabIcon} /> {t('modqueue.approved')} <CommentCount count={approvedCount} />
           </Link>
           <Link
             to={getModPath('rejected', asset.id)}

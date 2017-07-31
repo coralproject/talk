@@ -145,8 +145,8 @@ export default class Moderation extends Component {
     case 'new':
       activeTabCount = root.newCount;
       break;
-    case 'accepted':
-      activeTabCount = root.acceptedCount;
+    case 'approved':
+      activeTabCount = root.approvedCount;
       break;
     case 'premod':
       activeTabCount = root.premodCount;
@@ -171,7 +171,7 @@ export default class Moderation extends Component {
           asset={asset}
           allCount={root.allCount}
           newCount={root.newCount}
-          acceptedCount={root.acceptedCount}
+          approvedCount={root.approvedCount}
           premodCount={root.premodCount}
           rejectedCount={root.rejectedCount}
           reportedCount={root.reportedCount}
