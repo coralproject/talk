@@ -7,7 +7,6 @@ import ModerationMenu from './ModerationMenu';
 import ModerationHeader from './ModerationHeader';
 import ModerationKeysModal from '../../../components/ModerationKeysModal';
 import StorySearch from '../containers/StorySearch';
-import {isPremod} from '../../../utils';
 
 export default class Moderation extends Component {
   constructor() {
@@ -101,7 +100,7 @@ export default class Moderation extends Component {
   }
 
   render () {
-    const {root, moderation, settings, viewUserDetail, hideUserDetail, activeTab, getModPath, ...props} = this.props;
+    const {root, moderation, settings, viewUserDetail, hideUserDetail, activeTab, getModPath, premodEnabled, ...props} = this.props;
     const assetId = this.props.params.id;
     const {asset} = root;
 
@@ -148,7 +147,7 @@ export default class Moderation extends Component {
           reportedCount={root.reportedCount}
           selectSort={this.props.setSortOrder}
           sort={this.props.moderation.sortOrder}
-          premodEnabled={assetId ? isPremod(root.asset.settings.moderation) : isPremod(settings.moderation)}
+          premodEnabled={premodEnabled}
         />
         <ModerationQueue
           data={this.props.data}

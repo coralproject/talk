@@ -150,18 +150,13 @@ class ModerationContainer extends Component {
       if (router.location.pathname === 'admin/moderate' && root.settings) {
         const queue = isPremod(root.settings.moderation) ? 'premod' : 'new';
 
-        console.log('PUSHING ROUTE', getModPath(root.reportedCount ? 'reported' : queue));
-
         router.push(
           getModPath(root.reportedCount ? 'reported' : queue)
         );
       }
 
       if (route.path === ':id' && root.asset) {
-        console.log(root.asset.settings.moderation)
         const queue = isPremod(root.asset.settings.moderation) ? 'premod' : 'new';
-
-        console.log('PUSHING ROUTE', getModPath(root.reportedCount ? 'reported' : queue));
 
         router.push(
           getModPath(root.reportedCount ? 'reported' : queue, router.params.id)
@@ -228,7 +223,7 @@ class ModerationContainer extends Component {
   };
 
   render () {
-    const {root, root: {asset}, data, params: {id: assetId}} = this.props;
+    const {root, root: {asset, settings}, data, params: {id: assetId}} = this.props;
 
     if (data.error) {
       return <div>Error</div>;
@@ -258,6 +253,7 @@ class ModerationContainer extends Component {
       acceptComment={this.acceptComment}
       rejectComment={this.rejectComment}
       activeTab={this.activeTab}
+      premodEnabled={assetId ? isPremod(asset.settings.moderation) : isPremod(settings.moderation)}
     />;
   }
 }
