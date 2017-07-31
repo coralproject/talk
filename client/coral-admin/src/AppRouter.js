@@ -1,5 +1,5 @@
 import React from 'react';
-import {Router, Route, IndexRedirect} from 'react-router';
+import {Router, Route, IndexRedirect, IndexRoute} from 'react-router';
 import {history} from 'coral-framework/helpers/router';
 
 import Configure from 'routes/Configure';
@@ -54,6 +54,7 @@ const routes = (
         <Route path='reported' components={Moderation}>
           <Route path=':id' components={Moderation} />
         </Route>
+        <Route path=':id' components={Moderation} />
       </Route>
     </Route>
   </div>
