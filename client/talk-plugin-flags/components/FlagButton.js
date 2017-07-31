@@ -91,7 +91,7 @@ export default class FlagButton extends Component {
         reason: null,
         message
       };
-      if (reason === 'I don\'t agree with this comment') {
+      if (reason === 'COMMENT_NOAGREE') {
         postDontAgree(action)
         .then(({data}) => {
           if (itemType === 'COMMENTS') {
