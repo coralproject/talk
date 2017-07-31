@@ -21,7 +21,7 @@ import CommentContent from './CommentContent';
 import Slot from 'coral-framework/components/Slot';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import {EditableCommentContent} from './EditableCommentContent';
-import {getActionSummary, iPerformedThisAction, forEachError} from 'coral-framework/utils';
+import {getActionSummary, iPerformedThisAction, forEachError, isCommentActive} from 'coral-framework/utils';
 import t from 'coral-framework/services/i18n';
 
 const isStaff = (tags) => !tags.every((t) => t.tag.name !== 'STAFF');
@@ -317,7 +317,7 @@ export default class Comment extends React.Component {
     } = this.props;
 
     const view = this.getVisibileReplies();
-    const isActive = ['NONE', 'ACCEPTED'].indexOf(comment.status) >= 0;
+    const isActive = isCommentActive(comment.status);
     const {loadingState} = this.state;
     const isPending = comment.id.indexOf('pending') >= 0;
     const isHighlighted = highlighted === comment.id;
