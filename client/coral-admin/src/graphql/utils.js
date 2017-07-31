@@ -67,8 +67,8 @@ function addCommentToQueue(root, queue, comment, sort) {
 function getCommentQueues(comment) {
   const queues = ['all'];
 
-  if (comment.status === 'ACCEPTED') {
-    queues.push('accepted');
+  if (comment.status === 'APPROVED') {
+    queues.push('approved');
   }
   else if (comment.status === 'REJECTED') {
     queues.push('rejected');
@@ -83,7 +83,7 @@ function getCommentQueues(comment) {
     queues.push('premod');
     queues.push('new');
   } 
-  if (comment.status === 'NONE') {
+  else if (comment.status === 'NONE') {
     queues.push('new');
   }
 
