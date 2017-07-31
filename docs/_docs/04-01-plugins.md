@@ -5,7 +5,7 @@ permalink: /docs/plugins/
 
 ## Recipes
 
-Recipes are plugin templates provided by the Coral Core team. Developers can use these recipes to build their own plugins. You can find all the Talk recipes here: https://github.com/coralproject/talk-recipes/
+Recipes are plugin templates provided by the Coral Core team. Developers can use these recipes to build their own plugins. You can find all the Talk recipes here: [https://github.com/coralproject/talk-recipes/](https://github.com/coralproject/talk-recipes/).
 
 ## Plugin Registration
 

@@ -59,6 +59,10 @@ These are only used during the webpack build.
   send keep alive messages through the websocket to keep the socket alive. (Default `30s`)
 - `TALK_INSTALL_LOCK` (_optional for dynamic setup_) - When `TRUE`, disables the dynamic setup endpoint. (Default `FALSE`)
 
+### Word Filter
+
+- `TALK_DISABLE_AUTOFLAG_SUSPECT_WORDS` (_optional_)  When `TRUE`, disables flagging of comments that match the suspect word filter. (Default `FALSE`)
+
 ### JWT
 
 The following are configuration shared with every type of secret used.
@@ -125,6 +129,4 @@ The default could be read as:
 
 ### Plugins
 
-- `TALK_PLUGINS_JSON` (_optional_) - used to specify the plugin config via the
-  environment.
-- `TALK_DISABLE_AUTOFLAG_SUSPECT_WORDS` (_optional_)  When `TRUE`, disables flagging of comments that match the suspect word filter. (Default `FALSE`)
+Plugins configuration can be found on the [Plugins]({{ "/docs/running/plugins/" | absolute_url }}) page.
