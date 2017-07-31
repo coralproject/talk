@@ -1,7 +1,6 @@
 const http = require('axios');
 const boom = require('express-boom');
 const bodyParser = require('body-parser');
-var count = 0;
 
 module.exports = (router) => {
 
@@ -14,32 +13,44 @@ module.exports = (router) => {
   router.use(boom());
   router.use(bodyParser.text());
 
-  router.get('/api/v1/toxicity', (req, res) => {
-    var comment = req.query.comment;
+  /**
+   * POST /api/v1/toxicity/score
+   * args:
+   *  - provide the comment in the request body
+   */
+  router.post('/api/v1/toxicity/score', (req, res) => {
+    var comment = req.body;
     if(comment) {
       var body = {
         comment: {
           text: comment,
-          languages: ["en"],
-          requestedAttributes: {
-            TOXICITY: {}
-          }
+        },
+        languages: ["en"],
+        requestedAttributes: {
+          TOXICITY: {}
         }
       };
       var headers = {
         'Content-Type': 'application/json',
       };
-      http.post('https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key='+key, body)
+      http.post(
+        'https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key='+key,
+        body)
       .then(function(response) {
-        return res.json(response);
+        var data = response.data;
+        var score = {
+          comment: comment,
+          score: data.attributeScores.TOXICITY.summaryScore.value
+        }
+        return res.json(score);
       })
       .catch(function(err) {
         console.log(err);
-        return res.json(err);
+        res.boom.badRequest('The Perspective API returned an error. Please check the server logs for details.');
       })
     }
     else {
-      res.boom.notFound();
+      res.boom.badRequest('No comment provided');
     }
   });
 
