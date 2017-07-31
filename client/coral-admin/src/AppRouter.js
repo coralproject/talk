@@ -1,6 +1,6 @@
 import React from 'react';
-import {Router, Route, IndexRedirect, browserHistory, Redirect} from 'react-router';
-import {useBasename} from 'history';
+import {Router, Route, IndexRedirect, Redirect} from 'react-router';
+import {history} from 'coral-framework/helpers/router';
 
 import Configure from 'routes/Configure';
 import Dashboard from 'routes/Dashboard';
@@ -57,8 +57,6 @@ const routes = (
   </div>
 );
 
-const AppRouter = () => <Router history={useBasename(() => browserHistory)({
-  basename: '/talk/'
-})} routes={routes}/>;
+const AppRouter = () => <Router history={history} routes={routes}/>;
 
 export default AppRouter;
