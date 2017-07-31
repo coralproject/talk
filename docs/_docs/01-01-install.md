@@ -18,4 +18,4 @@ While Talk can be installed in many ways, we support two install paths:
 * [Install via Docker](docker) (deployment)
 
 If you have success installing Talk in another way, please consider
-[contributing to this documentation](faq#how-do-i-contribute-to-these-docs)!
+[contributing to this documentation]({{ "/docs/faq/" | absolute_url }}#how-do-i-contribute-to-these-docs)!
