@@ -4,14 +4,22 @@ const bodyParser = require('body-parser');
 var count = 0;
 
 module.exports = (router) => {
+
+  const key = process.env.TALK_PERSPECTIVE_API_KEY;
+  if(!key) {
+    throw new Error('Please set the TALK_PERSPECTIVE_API_KEY environment variable to use the toxic-comments plugin. Visit https://www.perspectiveapi.com/ to request API access.');
+  }
+
+
   router.use(boom());
   router.use(bodyParser.text());
-  router.post('/api/v1/toxicity/comments', (req, res) => {
-    console.log(req.body);
-    if(req.body) {
+
+  router.get('/api/v1/toxicity', (req, res) => {
+    var comment = req.query.comment;
+    if(comment) {
       var body = {
         comment: {
-          text: req.body,
+          text: comment,
           languages: ["en"],
           requestedAttributes: {
             TOXICITY: {}
@@ -20,16 +28,13 @@ module.exports = (router) => {
       };
       var headers = {
         'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(data)
       };
-      http.post('https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key='+process.env.PERSPECTIVE_API_KEY, {
-        headers: headers,
-        body: body
-      })
+      http.post('https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key='+key, body)
       .then(function(response) {
         return res.json(response);
       })
       .catch(function(err) {
+        console.log(err);
         return res.json(err);
       })
     }
@@ -37,4 +42,5 @@ module.exports = (router) => {
       res.boom.notFound();
     }
   });
+
 };
