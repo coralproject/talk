@@ -54,7 +54,6 @@ const routes = (
         <Route path='reported' components={Moderation}>
           <Route path=':id' components={Moderation} />
         </Route>
-        <Route path=':id' components={Moderation} />
       </Route>
     </Route>
   </div>
