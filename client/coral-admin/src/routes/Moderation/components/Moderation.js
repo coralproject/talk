@@ -148,6 +148,7 @@ export default class Moderation extends Component {
           selectSort={this.props.setSortOrder}
           sort={this.props.moderation.sortOrder}
           premodEnabled={premodEnabled}
+          activeTab={activeTab}
         />
         <ModerationQueue
           data={this.props.data}
