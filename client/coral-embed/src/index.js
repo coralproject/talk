@@ -267,6 +267,11 @@ Talk.render = function(el, opts) {
       console.warn(
         'This page does not include a canonical link tag. Talk has inferred this asset_url from the window object. Query params have been stripped, which may cause a single thread to be present across multiple pages.'
       );
+      
+      if (!window.location.origin) {
+        window.location.origin = `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`;
+      }
+
       query.asset_url = window.location.origin + window.location.pathname;
     }
   }
