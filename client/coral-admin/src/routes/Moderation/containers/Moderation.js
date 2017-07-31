@@ -141,21 +141,38 @@ class ModerationContainer extends Component {
 
   componentWillReceiveProps(nextProps) {
 
+    // Will update the URL to `premod` or `new` based on the moderation of the *asset*
+    // If there are a reported comments, the `reported` queue has priority!
+
+    if (nextProps.root) {
+      const {router, route, root} = nextProps;
+
+      if (router.location.pathname === 'admin/moderate' && root.settings) {
+        const queue = isPremod(root.settings.moderation) ? 'premod' : 'new';
+
+        console.log('PUSHING ROUTE', getModPath(root.reportedCount ? 'reported' : queue));
+
+        router.push(
+          getModPath(root.reportedCount ? 'reported' : queue)
+        );
+      }
+
+      if (route.path === ':id' && root.asset) {
+        console.log(root.asset.settings.moderation)
+        const queue = isPremod(root.asset.settings.moderation) ? 'premod' : 'new';
+
+        console.log('PUSHING ROUTE', getModPath(root.reportedCount ? 'reported' : queue));
+
+        router.push(
+          getModPath(root.reportedCount ? 'reported' : queue, router.params.id)
+        );
+      }
+    }
+
     // Resubscribe when we change between assets.
     if(this.props.data.variables.asset_id !== nextProps.data.variables.asset_id) {
       this.resubscribe(nextProps.data.variables);
     }
-
-    //     const {router, route, root: {asset, reportedCount}} = this.props;  
-
-    // // Will update the URL to premod or new based on the moderation of the *asset*
-    // // If there is a reported comments, reported queue has priority!
-    // if (route.path === ':id') {
-    //   const queue = isPremod(asset.settings.moderation) ? 'premod' : 'new';
-    //   router.push(
-    //     getModPath(reportedCount ? 'reported' :  queue, asset.id)
-    //   );
-    // }
   }
 
   acceptComment = ({commentId}) => {

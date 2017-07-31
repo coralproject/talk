@@ -7,7 +7,7 @@ import ModerationMenu from './ModerationMenu';
 import ModerationHeader from './ModerationHeader';
 import ModerationKeysModal from '../../../components/ModerationKeysModal';
 import StorySearch from '../containers/StorySearch';
-import {isPremod, getModPath} from '../../../utils';
+import {isPremod} from '../../../utils';
 
 export default class Moderation extends Component {
   constructor() {
@@ -104,7 +104,7 @@ export default class Moderation extends Component {
     const {root, moderation, settings, viewUserDetail, hideUserDetail, activeTab, getModPath, ...props} = this.props;
     const assetId = this.props.params.id;
     const {asset} = root;
-    console.log(activeTab)
+
     const comments = root[activeTab];
 
     let activeTabCount;
