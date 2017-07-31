@@ -20,6 +20,7 @@ import {TopRightMenu} from './TopRightMenu';
 import CommentContent from './CommentContent';
 import Slot from 'coral-framework/components/Slot';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
+import InactiveCommentLabel from './InactiveCommentLabel';
 import {EditableCommentContent} from './EditableCommentContent';
 import {getActionSummary, iPerformedThisAction, forEachError, isCommentActive} from 'coral-framework/utils';
 import t from 'coral-framework/services/i18n';
@@ -438,7 +439,7 @@ export default class Comment extends React.Component {
                   }
                 </span>
               }
-              { (currentUser && (comment.user.id !== currentUser.id)) &&
+              { isActive && (currentUser && (comment.user.id !== currentUser.id)) &&
 
                   /* TopRightMenu allows currentUser to ignore other users' comments */
                   <span className={cn(styles.topRight, styles.topRightMenu)}>
@@ -447,6 +448,9 @@ export default class Comment extends React.Component {
                       ignoreUser={ignoreUser}
                       addNotification={addNotification} />
                   </span>
+              }
+              { !isActive &&
+                <InactiveCommentLabel status={comment.status}/>
               }
             </div>
             <div className={styles.content}>
