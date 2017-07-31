@@ -1,6 +1,6 @@
 import React from 'react';
-import {Router, Route, IndexRedirect, browserHistory} from 'react-router';
-import {useBasename} from 'history';
+import {Router, Route, IndexRedirect, Redirect} from 'react-router';
+import {history} from 'coral-framework/helpers/router';
 
 import Configure from 'routes/Configure';
 import Dashboard from 'routes/Dashboard';
@@ -54,16 +54,11 @@ const routes = (
         <Route path='reported' components={Moderation}>
           <Route path=':id' components={Moderation} />
         </Route>
-
-        <Route path=':id' components={Moderation} />
-
-        <IndexRedirect to='all' />
       </Route>
     </Route>
   </div>
 );
 
-const AppRouter = () => <Router history={useBasename(() => browserHistory)({
-})} routes={routes}/>;
+const AppRouter = () => <Router history={history} routes={routes}/>;
 
 export default AppRouter;

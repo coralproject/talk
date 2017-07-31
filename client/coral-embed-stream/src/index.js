@@ -2,7 +2,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import {ApolloProvider} from 'react-apollo';
 
-import {checkLogin} from 'coral-framework/actions/auth';
+import {checkLogin, handleAuthToken, logout} from 'coral-framework/actions/auth';
 import './graphql';
 import {addExternalConfig} from 'coral-embed-stream/src/actions/config';
 import {getStore, injectReducers, addListener} from 'coral-framework/services/store';
@@ -42,6 +42,17 @@ if (!window.opener) {
     pym.sendMessage('getConfig');
     pym.onMessage('config', (config) => {
       init(JSON.parse(config));
+    });
+
+    pym.onMessage('login', (token) => {
+      if (token) {
+        store.dispatch(handleAuthToken(token));
+      }
+      store.dispatch(checkLogin());
+    });
+
+    pym.onMessage('logout', () => {
+      store.dispatch(logout());
     });
   } else {
     init();

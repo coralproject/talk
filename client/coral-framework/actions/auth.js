@@ -276,9 +276,7 @@ export const fetchForgotPassword = (email) => (dispatch, getState) => {
 
 export const logout = () => (dispatch) => {
   return coralApi('/auth', {method: 'DELETE'}).then(() => {
-    if (!bowser.safari && !bowser.ios) {
-      Storage.removeItem('token');
-    }
+    Storage.removeItem('token');
 
     // Reset the websocket.
     resetWebsocket();
@@ -306,9 +304,7 @@ export const checkLogin = () => (dispatch) => {
   coralApi('/auth')
     .then((result) => {
       if (!result.user) {
-        if (!bowser.safari && !bowser.ios) {
-          Storage.removeItem('token');
-        }
+        Storage.removeItem('token');
         throw new Error('Not logged in');
       }
 
@@ -325,6 +321,11 @@ export const checkLogin = () => (dispatch) => {
     })
     .catch((error) => {
       console.error(error);
+      if (error.status && error.status === 401) {
+
+        // Unauthorized.
+        Storage.removeItem('token');
+      }
       const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
       dispatch(checkLoginFailure(errorMessage));
     });
