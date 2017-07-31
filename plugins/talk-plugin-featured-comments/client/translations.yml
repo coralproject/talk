@@ -1,11 +1,15 @@
 en:
   talk-plugin-featured-comments:
+    un_feature: Un-Feature
+    feature: Feature
     featured: Featured
     featured_comments: Featured Comments
     go_to_conversation: Go to conversation
     tooltip_description: Comments selected by our team as worth reading
 es:
   talk-plugin-featured-comments:
+    un_feature: Desmarcar
+    feature: Remarcar
     featured: Remarcado
     featured_comments: Comentarios Remarcados
     go_to_conversation: Ir al comentario

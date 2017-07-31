@@ -2,12 +2,11 @@
   display: inline-block;
   color: white;
   background: grey;
-  height: 32px;
   box-sizing: border-box;
-  line-height: 29px;
   padding: 2px 8px;
   border-radius: 2px;
   font-size: 12px;
+  height: 28px;
 
   > i {
     font-size: 14px;

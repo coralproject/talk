@@ -15,7 +15,7 @@ export default class Tag extends React.Component {
 
   }
 
-  showTooltip = e => {
+  showTooltip = (e) => {
     e.preventDefault();
     this.setState({
       tooltip: true

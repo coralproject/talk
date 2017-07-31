@@ -88,15 +88,17 @@ class Comment extends React.Component {
                   </ActionsMenuItem>
                 </ActionsMenu>
               }
-              <CommentType type={commentType} className={styles.commentType}/>
+              <div className={styles.adminCommentInfoBar}>
+                <CommentType type={commentType} className={styles.commentType}/>
+                <Slot
+                  data={props.data}
+                  root={props.root}
+                  fill="adminCommentInfoBar"
+                  comment={comment} />
+              </div>
             </div>
-            <Slot
-              data={props.data}
-              root={props.root}
-              fill="adminCommentInfoBar"
-              comment={comment}
-            />
           </div>
+
           <div className={styles.moderateArticle}>
             Story: {comment.asset.title}
             {!props.currentAsset &&
