@@ -67,17 +67,11 @@ function addCommentToQueue(root, queue, comment, sort) {
 function getCommentQueues(comment) {
   const queues = ['all'];
 
-  if (comment.status === 'APPROVED') {
+  if (comment.status === 'ACCEPTED') {
     queues.push('approved');
   }
   else if (comment.status === 'REJECTED') {
     queues.push('rejected');
-  }
-  else if (
-    ['NONE', 'PREMOD'].indexOf(comment.status) >= 0
-    && comment.actions && comment.actions.some((a) => a.__typename === 'FlagAction')
-  ) {
-    queues.push('flagged');
   }
   else if (comment.status === 'PREMOD') {
     queues.push('premod');
@@ -85,6 +79,12 @@ function getCommentQueues(comment) {
   } 
   else if (comment.status === 'NONE') {
     queues.push('new');
+  }
+  else if (
+    ['NONE', 'PREMOD'].indexOf(comment.status) >= 0
+    && comment.actions && comment.actions.some((a) => a.__typename === 'FlagAction')
+  ) {
+    queues.push('flagged');
   }
 
   return queues;
