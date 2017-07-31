@@ -1,5 +1,6 @@
 import React from 'react';
-import {Router, Route, browserHistory} from 'react-router';
+import {Router, Route} from 'react-router';
+import {history} from 'coral-framework/helpers/router';
 
 import Embed from './containers/Embed';
 import {LoginContainer} from 'coral-sign-in/containers/LoginContainer';
@@ -11,6 +12,6 @@ const routes = (
   </div>
 );
 
-const AppRouter = () => <Router history={browserHistory} routes={routes} />;
+const AppRouter = () => <Router history={history} routes={routes} />;
 
 export default AppRouter;
