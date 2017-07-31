@@ -1,0 +1,32 @@
+.root {
+  display: inline-block;
+  color: white;
+  background: grey;
+  height: 22px;
+  box-sizing: border-box;
+  line-height: 19px;
+  padding: 2px 6px 2px 4px;
+  border-radius: 2px;
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.icon {
+  font-size: 14px;
+  vertical-align: text-top;
+  margin: 0;
+  margin-right: 4px;
+}
+
+.label {
+  display: inline-block;
+}
+
+.premod {
+  background: #063B9A;
+}
+
+.rejected {
+  background: #d03235;
+}
+
