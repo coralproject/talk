@@ -25,7 +25,7 @@ en:
   comment_box:
     post: "Publicar"
     cancel: "Cancelar"
-    reply: "Responda"
+    reply: "Responder"
     comment: "Publicar um comentário"
     name: "Nome"
     comment_post_notif: "Seu comentário foi postado."
@@ -143,7 +143,7 @@ en:
     fake_comment_date: "1 minuto atrás"
     if_you_dont_change_your_name: "Se você não alterar seu nome de usuário nesta etapa, seu nome de exibição do Facebook aparecerá ao lado de todos os seus comentários."
     required_field: "Requerido"
-    save: Salve
+    save: Salvar
     special_characters: "Nomes de usuários podem conter números de letras e _ somente"
     username: Nome de usuário
     write_your_username: "Edite seu nome de usuário"
@@ -218,7 +218,7 @@ en:
     comment: comentário
     comment_is_ignored: "Este comentário está oculto porque você ignorou esse usuário."
     comments: comentários
-    configure_stream: "Configure"
+    configure_stream: "Configurar"
     content_not_available: "Este conteúdo não está disponível"
     edit_name:
       button: Enviar
@@ -300,7 +300,7 @@ en:
   post: Publicar
   profile: Perfil
   profile_settings: "Configurações de perfil"
-  reply: Respostar
+  reply: Responder
   report: Reportar
   report_notif: "Obrigado por reportar este comentário. Nossa equipe de moderação foi notificada e irá revisá-la em breve."
   report_notif_remove: "Seu marcado foi removido."
