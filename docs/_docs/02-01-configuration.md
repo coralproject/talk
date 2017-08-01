@@ -127,6 +127,11 @@ The default could be read as:
 - At the moment of writing, beheviour is not attached to the flagging
   reliability, but it is recorded.
 
+### Cache
+
+- `TALK_CACHE_EXPIRY_COMMENT_COUNT` (_optional_) - configure the duration for which
+  comment counts are cached for. (Default `1hr`)
+
 ### Plugins
 
 Plugins configuration can be found on the [Plugins]({{ "/docs/running/plugins/" | absolute_url }}) page.
