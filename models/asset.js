@@ -61,7 +61,7 @@ const AssetSchema = new Schema({
   timestamps: {
     createdAt: 'created_at',
     updatedAt: 'updated_at'
-  }
+  },
 });
 
 AssetSchema.index({
@@ -79,7 +79,7 @@ AssetSchema.index({
  * Returns true if the asset is closed, false else.
  */
 AssetSchema.virtual('isClosed').get(function() {
-  return this.closedAt && this.closedAt.getTime() <= new Date().getTime();
+  return Boolean(this.closedAt && this.closedAt.getTime() <= new Date().getTime());
 });
 
 const Asset = mongoose.model('Asset', AssetSchema);

@@ -101,7 +101,7 @@ class Stream extends React.Component {
       editName
     } = this.props;
     const {keepCommentBox} = this.state;
-    const open = asset.closedAt === null;
+    const open = !asset.isClosed;
 
     // even though the permalinked comment is the highlighted one, we're displaying its parent + replies
     let highlightedComment = comment && getTopLevelParent(comment);
