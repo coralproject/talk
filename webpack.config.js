@@ -154,8 +154,16 @@ if (process.env.NODE_ENV === 'production') {
 
 // Applies the base configuration to the following entries.
 const applyConfig = (entries, root = {}) => _.merge({}, config, {
-  entry: entries.reduce((entry, {name, path}) => {
-    entry[name] = path;
+  entry: entries.reduce((entry, {name, path, disablePolyfill = false}) => {
+    if (disablePolyfill) {
+      entry[name] = path;
+    } else {
+      entry[name] = [
+        'babel-polyfill',
+        path
+      ];
+    }
+
     return entry;
   }, {})
 }, root);
@@ -168,7 +176,8 @@ module.exports = [
     // Load in the root embed.
     {
       name: 'embed',
-      path: path.join(__dirname, 'client/coral-embed/src/index')
+      path: path.join(__dirname, 'client/coral-embed/src/index'),
+      disablePolyfill: process.env.TALK_DISABLE_EMBED_POLYFILL === 'TRUE'
     }
 
   ], {
@@ -189,10 +198,7 @@ module.exports = [
     // Load in all the embeds.
     ...buildEmbeds.map((embed) => ({
       name: `embed/${embed}/bundle`,
-      path: [
-        'babel-polyfill',
-        path.join(__dirname, 'client/', `coral-embed-${embed}`, '/src/index')
-      ]
+      path: path.join(__dirname, 'client/', `coral-embed-${embed}`, '/src/index')
     })),
 
     // Load in all the plugin entries.

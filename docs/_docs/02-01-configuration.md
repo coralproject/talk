@@ -45,6 +45,7 @@ These are only used during the webpack build.
   thread. (Default `3`)
 - `TALK_DEFAULT_STREAM_TAB` (_optional_) - specify the default stream tab in the
   admin. (Default `all`)
+- `TALK_DISABLE_EMBED_POLYFILL` (_optional_) - when set to `TRUE`, the build process will not include the [babel-polyfill](https://babeljs.io/docs/usage/polyfill/) in the embed.js target. (Default `FALSE`)
 
 ### Database
 
