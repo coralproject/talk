@@ -74,7 +74,7 @@ en:
     apply: Aplicar
     banned_word_text: "Os comentários que contenham essas palavras ou frases (não sensíveis a maiúsculas e minúsculas) serão automaticamente removidos do hilo de comentários. Digite uma palavra e pressione Enter ou Tab para adicionar. Opcionalmente cole uma lista separada por vírgulas."
     banned_words_title: "Lista de palavras proibidas"
-    close: "Feche"
+    close: "Fechar"
     close_after: "Feche os comentários após"
     close_stream: "Feche hilo de comentários"
     close_stream_configuration: "Esse hilo de comentários está fechado no momento. Ao abrir esse hilo de comentários, novos comentários podem ser enviados e exibidos."
@@ -163,7 +163,7 @@ en:
     body_input_label: "Edite este comentário"
     save_button: "Salvar alterações"
     edit_window_expired: "Você não pode mais editar esse comentário. A janela de tempo para fazê-lo expirou. Por que não publicar outro?"
-    edit_window_expired_close: "Feche"
+    edit_window_expired_close: "Fechar"
     edit_window_timer_prefix: "Para editar:"
     second: "segundo"
     seconds_plural: "segundos"
@@ -258,7 +258,7 @@ en:
     approved: "Aprovado"
     ban_user: "Prohibi-lo"
     billion: B
-    close: Feche
+    close: Fechar
     dont_like_username: "Eu não gosto desse nome de usuário"
     empty_queue: "Não há mais comentários para moderar! Você está todo apanhado. Vá tomar um ☕️"
     flagged: marcado
