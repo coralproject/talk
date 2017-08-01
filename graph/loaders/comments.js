@@ -8,6 +8,10 @@ const {
   SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS,
   SEARCH_OTHERS_COMMENTS
 } = require('../../perms/constants');
+const {
+  CACHE_EXPIRY_COMMENT_COUNT
+} = require('../../config');
+const ms = require('ms');
 
 const CommentModel = require('../../models/comment');
 const UsersService = require('../../services/users');
@@ -481,11 +485,11 @@ module.exports = (context) => ({
     get: new DataLoader((ids) => getComments(context, ids)),
     getByQuery: (query) => getCommentsByQuery(context, query),
     getCountByQuery: (query) => getCommentCountByQuery(context, query),
-    countByAssetID: new SharedCounterDataLoader('Comments.totalCommentCount', 3600, (ids) => getCountsByAssetID(context, ids)),
+    countByAssetID: new SharedCounterDataLoader('Comments.totalCommentCount', ms(CACHE_EXPIRY_COMMENT_COUNT), (ids) => getCountsByAssetID(context, ids)),
     countByAssetIDPersonalized: (query) => getCountsByAssetIDPersonalized(context, query),
-    parentCountByAssetID: new SharedCounterDataLoader('Comments.countByAssetID', 3600, (ids) => getParentCountsByAssetID(context, ids)),
+    parentCountByAssetID: new SharedCounterDataLoader('Comments.countByAssetID', ms(CACHE_EXPIRY_COMMENT_COUNT), (ids) => getParentCountsByAssetID(context, ids)),
     parentCountByAssetIDPersonalized: (query) => getParentCountByAssetIDPersonalized(context, query),
-    countByParentID: new SharedCounterDataLoader('Comments.countByParentID', 3600, (ids) => getCountsByParentID(context, ids)),
+    countByParentID: new SharedCounterDataLoader('Comments.countByParentID', ms(CACHE_EXPIRY_COMMENT_COUNT), (ids) => getCountsByParentID(context, ids)),
     countByParentIDPersonalized: (query) => getCountByParentIDPersonalized(context, query),
     genRecentReplies: new DataLoader((ids) => genRecentReplies(context, ids)),
     genRecentComments: new DataLoader((ids) => genRecentComments(context, ids))
