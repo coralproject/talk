@@ -15,7 +15,7 @@ const routes = (
   <div>
     <Route exact path="/admin/install" component={Install}/>
     <Route path='/admin' component={Layout}>
-      <IndexRedirect to='/admin/moderate/all' />
+      <IndexRedirect to='/admin/moderate' />
       <Route path='configure' component={Configure} />
       <Route path='stories' component={Stories} />
       <Route path='dashboard' component={Dashboard} />
@@ -55,7 +55,7 @@ const routes = (
         <Route path='reported' components={Moderation}>
           <Route path=':id' components={Moderation} />
         </Route>
-        
+
         <Route path=':id' components={Moderation} />
 
       </Route>
