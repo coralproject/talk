@@ -26,6 +26,14 @@
   color: white;
 }
 
+.tag.featured:hover {
+  background-color: white;
+  border-color: #5384B2;
+  color: #5384B2;
+  cursor: pointer;
+}
+
+
 .tagIcon {
   margin-right: 5px;
   font-size: 15px;

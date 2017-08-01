@@ -5,7 +5,7 @@ import TabPane from './containers/TabPane';
 import translations from './translations.yml';
 import update from 'immutability-helper';
 import reducer from './reducer';
-import ModTag from './components/ModTag';
+import ModTag from './containers/ModTag';
 
 import {findCommentInEmbedQuery} from 'coral-embed-stream/src/graphql/utils';
 import {insertCommentsSorted} from 'plugin-api/beta/client/utils';
