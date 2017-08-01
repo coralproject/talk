@@ -1,7 +1,7 @@
 import update from 'immutability-helper';
 import * as notification from 'coral-admin/src/services/notification';
 
-const queues = ['all', 'premod', 'flagged', 'accepted', 'rejected'];
+const queues = ['all', 'premod', 'reported', 'approved', 'rejected', 'new'];
 const limit = 10;
 
 const ascending = (a, b) => {
@@ -64,23 +64,35 @@ function addCommentToQueue(root, queue, comment, sort) {
   return update(root, changes);
 }
 
+/**
+ * getCommentQueues determines in which queues a comment should be placed.
+ */
 function getCommentQueues(comment) {
   const queues = ['all'];
-  if (comment.status === 'ACCEPTED') {
-    queues.push('accepted');
-  }
-  else if (comment.status === 'REJECTED') {
+  const isFlagged = comment.actions && comment.actions.some((a) => a.__typename === 'FlagAction');
+
+  switch(comment.status) {
+  case 'ACCEPTED':
+    queues.push('approved');
+    break;
+  case 'REJECTED':
     queues.push('rejected');
-  }
-  else if (comment.status === 'PREMOD') {
+    break;
+  case 'PREMOD':
     queues.push('premod');
+    queues.push('new');
+    if (isFlagged) {
+      queues.push('reported');
+    }
+    break;
+  case 'NONE':
+    queues.push('new');
+    if (isFlagged) {
+      queues.push('reported');
+    }
+    break;
   }
-  if (
-    ['NONE', 'PREMOD'].indexOf(comment.status) >= 0
-    && comment.actions && comment.actions.some((a) => a.__typename === 'FlagAction')
-  ) {
-    queues.push('flagged');
-  }
+
   return queues;
 }
 
@@ -98,6 +110,7 @@ function getCommentQueues(comment) {
  */
 export function handleCommentChange(root, comment, sort, notify) {
   let next = root;
+
   const nextQueues = getCommentQueues(comment);
 
   let notificationShown = false;
