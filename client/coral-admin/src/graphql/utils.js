@@ -64,29 +64,33 @@ function addCommentToQueue(root, queue, comment, sort) {
   return update(root, changes);
 }
 
+/**
+ * getCommentQueues determines in which queues a comment should be placed.
+ */
 function getCommentQueues(comment) {
   const queues = ['all'];
+  const isFlagged = comment.actions && comment.actions.some((a) => a.__typename === 'FlagAction');
 
-  if (comment.status === 'ACCEPTED') {
+  switch(comment.status) {
+  case 'ACCEPTED':
     queues.push('approved');
-  }
-  else if (comment.status === 'REJECTED') {
+    break;
+  case 'REJECTED':
     queues.push('rejected');
-  }
-  else if (comment.status === 'PREMOD') {
+    break;
+  case 'PREMOD':
     queues.push('premod');
     queues.push('new');
-  }
-  else if (comment.status === 'NONE') {
+    if (isFlagged) {
+      queues.push('reported');
+    }
+    break;
+  case 'NONE':
     queues.push('new');
-  }
-
-  // Additionally populate the `flagged` queue.
-  if (
-    ['NONE', 'PREMOD'].indexOf(comment.status) >= 0
-    && comment.actions && comment.actions.some((a) => a.__typename === 'FlagAction')
-  ) {
-    queues.push('flagged');
+    if (isFlagged) {
+      queues.push('reported');
+    }
+    break;
   }
 
   return queues;
