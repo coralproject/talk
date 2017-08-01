@@ -76,11 +76,13 @@ function getCommentQueues(comment) {
   else if (comment.status === 'PREMOD') {
     queues.push('premod');
     queues.push('new');
-  } 
+  }
   else if (comment.status === 'NONE') {
     queues.push('new');
   }
-  else if (
+
+  // Additionally populate the `flagged` queue.
+  if (
     ['NONE', 'PREMOD'].indexOf(comment.status) >= 0
     && comment.actions && comment.actions.some((a) => a.__typename === 'FlagAction')
   ) {
