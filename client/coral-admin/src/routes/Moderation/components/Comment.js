@@ -93,8 +93,10 @@ class Comment extends React.Component {
                 <Slot
                   data={props.data}
                   root={props.root}
+                  comment={comment}
+                  asset={comment.asset}
                   fill="adminCommentInfoBar"
-                  comment={comment} />
+                />
               </div>
             </div>
           </div>

@@ -1,15 +1,4 @@
-import {gql} from 'react-apollo';
 import ModTag from '../components/ModTag';
-import {withFragments} from 'plugin-api/beta/client/hocs';
+import {withTags} from 'plugin-api/beta/client/hocs';
 
-export default withFragments({
-  comment: gql`
-    fragment TalkFeaturedComments_ModTab_comment on Comment {
-      tags {
-        tag {
-          name
-        }
-      }
-    }
-  `
-})(ModTag);
+export default withTags('featured')(ModTag);
