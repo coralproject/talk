@@ -42,14 +42,14 @@ export default class Popup extends Component {
       this.onUnload();
 
       const interval = setInterval(() => {
-        if (this.ref.onload === null) {
+        if (this.ref && this.ref.onload === null) {
           this.setCallbacks();
           clearInterval(interval);
         }
       }, 50);
 
       this.detectCloseInterval = setInterval(() => {
-        if (this.ref.closed) {
+        if (!this.ref || this.ref.closed) {
           clearInterval(this.detectCloseInterval);
           this.onClose();
         }
