@@ -325,8 +325,7 @@ While building your plugin you need to specify a `.eslintrc.json` file and a`.ba
     "transform-object-assign",
     "transform-object-rest-spread",
     "transform-async-to-generator",
-    "transform-react-jsx",
-    ["transform-runtime", {"polyfill": false}]
+    "transform-react-jsx"
   ]
 }
 ```
