@@ -18,15 +18,15 @@ en:
   comment:
     anon: "Anônimo"
     ban_user: "Proibir o usuário"
-    comment: "Publique um comentário"
+    comment: "Publicar um comentário"
     edited: Editado
     flagged: "marcado"
     view_context: "Veja o contexto"
   comment_box:
-    post: "Publique"
+    post: "Publicar"
     cancel: "Cancelar"
     reply: "Responda"
-    comment: "Publique um comentário"
+    comment: "Publicar um comentário"
     name: "Nome"
     comment_post_notif: "Seu comentário foi postado."
     comment_post_notif_premod: "Obrigado por publicar seu comentário. Nossa equipe de moderação analisará seu comentário em breve."
