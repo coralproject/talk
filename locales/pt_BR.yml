@@ -1,0 +1,394 @@
+en:
+  your_account_has_been_suspended: Sua conta foi temporariamente suspensa.
+  your_account_has_been_banned: Sua conta foi banida.
+  your_username_has_been_rejected: Sua conta foi suspensa porque seu nome de usuário foi considerado inapropriado. Para restaurar sua conta, insira um novo nome de usuário.
+  embed_comments_tab: Comentários
+  bandialog:
+    are_you_sure: "Tem certeza de que gostaria de proibir a {0}?"
+    ban_user: "Proibir o usuário?"
+    banned_user: "Usuário proibido"
+    cancel: "Cancelar"
+    note: "Nota: {0}"
+    note_reject_comment: "Proibir esse usuário também colocará esse comentário na fila rejeitada."
+    note_ban_user: "Proibir este usuário não os permitirá editar comentários ou remover qualquer coisa."
+    yes_ban_user: "Sim, proiber o usuário"
+  bio_offensive: "Essa bio é ofensiva"
+  cancel: "Cancelar"
+  characters_remaining: "caracteres restantes"
+  comment:
+    anon: "Anônimo"
+    ban_user: "Proibir o usuário"
+    comment: "Publicar um comentário"
+    edited: Editado
+    flagged: "marcado"
+    view_context: "Veja o contexto"
+  comment_box:
+    post: "Publicar"
+    cancel: "Cancelar"
+    reply: "Responder"
+    comment: "Publicar um comentário"
+    name: "Nome"
+    comment_post_notif: "Seu comentário foi postado."
+    comment_post_notif_premod: "Obrigado por publicar seu comentário. Nossa equipe de moderação analisará seu comentário em breve."
+    comment_post_banned_word:  "O seu comentário contém uma ou mais palavras que não são permitidas, portanto, não serão publicadas. Se você acha que esta mensagem está incorreta, contate nossa equipe de moderação."
+    characters_remaining: "caracteres restantes"
+  comment_offensive: "Este comentário é ofensivo"
+  comment_singular: Comentário
+  comment_plural: Comentários
+  comment_post_banned_word: "O seu comentário contém uma ou mais palavras que não são permitidas, portanto, não serão publicadas. Se você acha que esta mensagem está incorret    a, contate nossa equipe de moderação."
+  comment_post_notif: "Seu comentário foi postado."
+  comment_post_notif_premod: "Obrigado por publicar seu comentário. Nossa equipe de moderação analisará seu comentário em breve."
+  common:
+    copy: 'Copie'
+    error: 'Ocorreu um erro.'
+  community:
+    account_creation_date: "Data de criação da conta"
+    active: Ativo
+    admin: Administrador
+    ads_marketing: "Isso parece anúncio/marketing"
+    are_you_sure: "Você tem certeza de que gostaria de proibir a {0}?"
+    ban_user: "Proibir o usuário?"
+    banned: Proibida
+    banned_user: "Usuário proibido"
+    cancel: Cancelar
+    dont_like_username: "Não gostei do nome de usuário"
+    flaggedaccounts: "Nomes de usuários marcados"
+    flags: Marcadas
+    impersonating: "Representação"
+    loading: "Carregando resultados"
+    moderator: Moderador
+    newsroom_role: "Papel de empresa"
+    no_flagged_accounts: "A fila de nomes de usuários marcados está atualmente vazia."
+    no_results: "Nenhum usuário encontrado com esse nome de usuário ou e-mail. Eles estão se escondendo!"
+    offensive: "Ofensiva"
+    other: Outra
+    people: Pessoas
+    role: "Selecione um papel..."
+    select_status: "Selecione um status..."
+    spam_ads: "Spam/anúncios"
+    staff: "Funcionários"
+    status: Status
+    username_and_email: "Nome de usuário e email"
+    yes_ban_user: "Sim, proibir esse usuário"
+  configure:
+    apply: Aplicar
+    banned_word_text: "Os comentários que contenham essas palavras ou frases (não sensíveis a maiúsculas e minúsculas) serão automaticamente removidos do hilo de comentários. Digite uma palavra e pressione Enter ou Tab para adicionar. Opcionalmente cole uma lista separada por vírgulas."
+    banned_words_title: "Lista de palavras proibidas"
+    close: "Fechar"
+    close_after: "Feche os comentários após"
+    close_stream: "Feche hilo de comentários"
+    close_stream_configuration: "Esse hilo de comentários está fechado no momento. Ao abrir esse hilo de comentários, novos comentários podem ser enviados e exibidos."
+    closed_comments_desc: "Escreva uma mensagem a ser exibida quando o seu hilo de comentários for fechado e deixando de aceitar comentários."
+    closed_comments_label: "Escreve uma mensagem..."
+    closed_stream_settings: "Mensagem de comentários fechados"
+    comment_count_error: "Por favor insira um número válido."
+    comment_count_header: "Limite o comprimento do comentário"
+    comment_count_text_post: caracteres
+    comment_count_text_pre: "Os comentários serão limitados a"
+    comment_settings: Configurações
+    comment_stream: "Hilo de comentários"
+    comment_stream_will_close: "O hilo de comentários será fechado em"
+    community: Comunidade
+    configure: Configurar
+    copy_and_paste: "Copie e cole o código abaixo em seu CMS para incorporar sua caixa de comentários em seus artigos."
+    custom_css_url: "URL personalizado do CSS"
+    custom_css_url_desc: "URL de uma folha de estilo CSS que irá substituir os estilos padrão dos comentários embutidos. Pode ser interno ou externo."
+    dashboard: Painel de controle
+    days: Dias
+    description: "Como administrador, você pode personalizar as configurações do hilo de comentários para esta história:"
+    domain_list_text: "Insira os domínios que você gostaria de permitir para o Talk, como o seu site de preparação ou site de produção (ej. localhost:3000 staging.domain.com domain.com)."
+    domain_list_title: "Domínios permitidos"
+    edit_comment_timeframe_heading: "Período de tempo para editar comentários"
+    edit_comment_timeframe_text_pre: "Os comentadores terão"
+    edit_comment_timeframe_text_post: "segundos para editar seus comentários."
+    embed_comment_stream: "Comentários embutidos"
+    enable_premod_links_text: "Os moderadores devem aprovar qualquer comentário contendo um link antes de ser publicado."
+    enable_pre_moderation: "Habilitar pré-moderação"
+    enable_pre_moderation_text: "Os moderadores devem aprovar qualquer comentário antes de ser publicado."
+    enable_premod_links: "Os moderadores devem aprovar qualquer comentário antes de ser publicado."
+    enable_premod: "Habilitar pré-moderação"
+    enable_premod_description: "Moderators must approve any comment before it is published."
+    enable_premod_links_description: "Os moderadores devem aprovar qualquer comentário antes de ser publicado."
+    enable_questionbox: "Faça uma pergunta aos leitores"
+    enable_questionbox_description: "Esta pergunta aparecerá no topo deste hilo de comentários. Pergunte aos leitores sobre um determinado problema no artigo ou coloca questões de discussão, etc."
+    hours: Horas
+    include_comment_stream: "Incluir descrição de hilo de comentários para leitores"
+    include_comment_stream_desc: "Escreva uma mensagem para adicionar ao topo do seu hilo de comentários. Posicionar um tópico, incluem diretrizes comunitárias, etc."
+    include_text: "Inclua seu texto aqui:"
+    include_question_here: "Escreva sua pergunta aqui:"
+    moderate: Moderar
+    moderation_settings: "Configurações de moderação"
+    open: "Abra"
+    open_stream: "Abra hilo de comentários"
+    open_stream_configuration: "Esse hilo de comentários está aberto no momento. Ao fechar este hilo de comentários, nenhum novo comentário pode ser enviado e todos os comentários anteriores ainda serão exibidos."
+    require_email_verification: "Requerer verificação de email"
+    require_email_verification_text: "Novos usuários devem verificar seu e-mail antes de comentar"
+    save_changes: "Salvar alterações"
+    shortcuts: Atalhos
+    sign_out: "Sair"
+    stories: Histórias
+    stream_settings: "Configurações de comentários"
+    suspect_word_title: "Lista de palavras suspeitas"
+    suspect_word_text: "Os comentários que contenham essas palavras ou frases (não sensíveis a maiúsculas e minúsculas) serão destacados no hilo de comentários. Digite uma palavra e pressione Enter ou Tab para adicionar. Opcionalmente cole uma lista separada por vírgulas."
+    tech_settings: "Configurações técnicas"
+    title: "Configurar comentários"
+    weeks: Semanas
+    wordlist: "Palavras Proibidas"
+  continue: "Continua"
+  createdisplay:
+    check_the_form: "Formulário inválido. Verifique as entradas do formulário."
+    continue: "Continue com o mesmo nome de usuário do Facebook"
+    error_create: "Erro ao alterar o nome de usuário"
+    fake_comment_body: "Este é um exemplo de comentário. Os leitores podem compartilhar seus pensamentos e opiniões com as salas de redação na seção de comentários."
+    fake_comment_date: "1 minuto atrás"
+    if_you_dont_change_your_name: "Se você não alterar seu nome de usuário nesta etapa, seu nome de exibição do Facebook aparecerá ao lado de todos os seus comentários."
+    required_field: "Requerido"
+    save: Salvar
+    special_characters: "Nomes de usuários podem conter números de letras e _ somente"
+    username: Nome de usuário
+    write_your_username: "Edite seu nome de usuário"
+    your_username: "Nosso nome de usuário aparece em todos os comentários que você publica."
+  dashboard:
+    auto_update: "Data automatically updates every five minutes or when you Reload."
+    comment_count: comentários
+    flags: Marcadas
+    most_flags: "Histórias com a maioria das marcadas"
+    most_conversations: "Histórias com a maioria das conversas"
+    next_update: "{0} minutos até a próxima atualização."
+    no_activity: "Não houve nenhum comentário nos últimos cinco minutos."
+    no_flags: "Não houve nenhuma marcada em nenhum lugar nos últimos 5 minutos. Hip Hip Uha!"
+    no_likes: "Não houve gostos nos últimos 5 minutos."
+  done: Feito
+  edit_comment:
+    body_input_label: "Edite este comentário"
+    save_button: "Salvar alterações"
+    edit_window_expired: "Você não pode mais editar esse comentário. A janela de tempo para fazê-lo expirou. Por que não publicar outro?"
+    edit_window_expired_close: "Fechar"
+    edit_window_timer_prefix: "Para editar:"
+    second: "segundo"
+    seconds_plural: "segundos"
+  email:
+    confirm:
+      has_been_requested: "Uma confirmação de e-mail foi solicitada para a seguinte conta:"
+      to_confirm: "Para confirmar a conta, visite o seguinte link: "
+      confirm_email: "Confirme e-mail"
+      if_you_did_not: "Se você não solicitou isso, você pode ignorar este e-mail com segurança."
+      subject: "Confirmação de e-mail"
+    password_reset:
+      we_received_a_request: "Recebemos um pedido para redefinir sua senha. Se você não solicitou esta alteração, pode ignorar este e-mail."
+      if_you_did: "Se você solicitou isso, "
+      please_click: "clique aqui para redefinir sua senha."
+  embedlink:
+    copy: "Copiar para área de transferência"
+  error:
+    COMMENT_TOO_SHORT: "Seu comentário deve conter palavras."
+    NOT_AUTHORIZED: "Você não está autorizado a executar esta ação."
+    NO_SPECIAL_CHARACTERS: "Nomes de usuários podem conter números de letras e _ somente"
+    PASSWORD_LENGTH: "A senha é muito curta"
+    PROFANITY_ERROR: "Os nomes de usuários não devem conter palavrões. Entre em contato com o administrador se você acredita que isso seja incorreto."
+    USERNAME_IN_USE: "Nome de usuário já em uso"
+    USERNAME_REQUIRED: "Must input a username"
+    EDIT_WINDOW_ENDED: "Você não pode mais editar esse comentário. O tempo expirou."
+    EDIT_USERNAME_NOT_AUTHORIZED: "Você não tem permissão para revisar seu nome de usuário."
+    SAME_USERNAME_PROVIDED: "Você deve enviar um nome de usuário diferente."
+    EMAIL_IN_USE: "Endereço de e-mail já está em uso."
+    EMAIL_REQUIRED: "É necessário o endereço de e-mail."
+    LOGIN_MAXIMUM_EXCEEDED: "Você fez muitas tentativas de senha mal sucedidas. Por favor, espere."
+    PASSWORD_REQUIRED: "Você deve inserir uma senha."
+    COMMENTING_CLOSED: "Os comentários já estão fechados."
+    NOT_FOUND: "Recurso não encontrado"
+    ALREADY_EXISTS: "O recurso já existe"
+    INVALID_ASSET_URL: "O URL do recurso é inválido"
+    email: "Não é um e-mail válido"
+    confirm_password: "Suas senhas não coincidem. Por favor, tente novamente."
+    network_error: "Falha ao conectar-se ao servidor. Verifique a sua conexão com a internet e tente novamente."
+    email_not_verified: "O endereço de e-mail {0} não é verificado."
+    email_password: "Combinação de e-mail e/ou senha incorreta."
+    organization_name: "O nome da organização só deve conter letras ou números."
+    password: "A senha deve conter pelo menos 8 caracteres"
+    username: "Nomes de usuários podem conter números de letras e _ somente"
+    unexpected: "Ocorreu um erro inesperado. Desculpa!"
+  flag_comment: "Informe o comentário"
+  flag_reason: "Motivo do relatório (opcional)"
+  flag_username: "Informe o nome de usuário"
+  framework:
+    banned_account_header: "Sua conta está atualmente proibida."
+    banned_account_body: "Isso significa que você não pode gostar, informar ou escrever comentários."
+    because_you_ignored: "Porque você ignorou os seguintes comentadores, seus comentários estão ocultos."
+    comment: comentário
+    comment_is_ignored: "Este comentário está oculto porque você ignorou esse usuário."
+    comments: comentários
+    configure_stream: "Configurar"
+    content_not_available: "Este conteúdo não está disponível"
+    edit_name:
+      button: Enviar
+      error: "Nomes de usuários podem conter números de letras e _ somente"
+      label: "Novo usuário"
+      msg: "Sua conta está suspensa porque seu nome de usuário foi considerado inapropriado. Para restaurar sua conta, insira um novo nome de usuário. Entre em contato conosco se você tiver alguma dúvida."
+    ignored_users: "Usuários ignorados"
+    my_comments: "Meus comentários"
+    my_profile: "Meu perfil"
+    new_count: "Ver {0} {1}"
+    profile: Perfil
+    show_all_comments: "Exibir todos os comentários"
+    stop_ignoring: "Pare de ignorar"
+    success_bio_update: "Sua biografia foi atualizada"
+    success_name_update: "Seu nome de usuário foi atualizado"
+    success_update_settings: "As alterações que você fez foram aplicadas no hilo de comentários neste artigo"
+    show_all_replies: Exibir todas as respostas
+    show_1_more_reply: Exibir mais 1 resposta
+    show_x_more_replies: Exibir mais {0} respostas
+    view_more_comments: "ver mais comentários"
+    view_reply: "ver resposta"
+  from_settings_page: "Na página de Perfil, você pode ver seu histórico de comentários."
+  like: Gostar
+  loading_results: "Carregando resultados"
+  marketing: "Isso parece um anúncio/marketing"
+  moderate_this_stream: "Moderar comentários"
+  modqueue:
+    account: "contas marcadas"
+    actions: Ações
+    all: todos
+    all_streams: "Todos os hilos"
+    notify_edited: '{0} editou o comentário "{1}"'
+    notify_accepted: '{0} aprovou o comentário "{1}"'
+    notify_rejected: '{0} rejeitou o comentário "{1}"'
+    notify_flagged: '{0} marcou o comentário "{1}"'
+    approve: "Aprovar"
+    approved: "Aprovado"
+    ban_user: "Prohibi-lo"
+    billion: B
+    close: Fechar
+    dont_like_username: "Eu não gosto desse nome de usuário"
+    empty_queue: "Não há mais comentários para moderar! Você está todo apanhado. Vá tomar um ☕️"
+    flagged: marcado
+    impersonating: Representação
+    less_detail: "Menos detalhes"
+    likes: gostos
+    million: M
+    mod_faster: "Moderado mais rápido com atalhos de teclado"
+    moderate: "Moderar →"
+    more_detail: "Mais detalhes"
+    newest_first: "Mais novo primeiro"
+    navigation: Navegação
+    next_comment: "Vá para o próximo comentário"
+    offensive: Ofensiva
+    oldest_first: "Mais velhos primeiro"
+    other: Outro
+    premod: pré-moderação
+    prev_comment: "Vá para o comentário anterior"
+    reject: "Rejeitar"
+    rejected: "Rejeitado"
+    select_stream: "Selecione hilo"
+    shift_key: "⇧"
+    shortcuts: "Atalhos"
+    show_shortcuts: "Ver atalhos"
+    singleview: "Alternar vista de edição de comentário único"
+    spam_ads: Spam/Anuncios
+    thismenu: "Abra este menu"
+    thousand: k
+    try_these: "Tente esse"
+    view_more_shortcuts: "Ver mais atalhos"
+  my_comment_history: "Histórico de comentários"
+  name: Nome
+  no_agree_comment: "Eu não concordo com este comentário"
+  no_like_bio: "Eu não gosto dessa biografia"
+  no_like_username: "Eu não gosto desse nome de usuário"
+  other: Outro
+  permalink: Link
+  personal_info: "Este comentário revela informações de identificação pessoal"
+  post: Publicar
+  profile: Perfil
+  profile_settings: "Configurações de perfil"
+  reply: Responder
+  report: Reportar
+  report_notif: "Obrigado por reportar este comentário. Nossa equipe de moderação foi notificada e irá revisá-la em breve."
+  report_notif_remove: "Seu marcado foi removido."
+  reported: Reportado
+  settings:
+    all_comments: "Todos os comentários"
+    from_settings_page: "Na página de Perfil, você pode ver seu histórico de comentários."
+    my_comment_history: "Histórico de comentários"
+    profile: Perfil
+    profile_settings: "Configurações de perfil"
+    sign_in: "Entre"
+    to_access: "para acessar o perfil"
+    user_no_comment: "Você nunca deixou um comentário. Participe da conversa!"
+  stream:
+    temporarily_suspended: "
+    De acordo com as diretrizes da comunidade de {0}, sua conta foi temporariamente suspensa. Por favor, volte para a conversa {1}."
+  step_1_header: "Relatar um problema"
+  step_2_header: "Ajude-nos a entender"
+  step_3_header: "Obrigdo por sua contribuição"
+  streams:
+    all: Todos
+    article: História
+    closed: Fechado
+    empty_result: "Nenhum recurso corresponde a esta pesquisa. Talvez tente alargar a sua pesquisa?"
+    filter_streams: "Filtra os hilos"
+    newest: O mais novo
+    oldest: O mais velho
+    open: Aberto
+    pubdate: "Data de publicação"
+    search: Pesquisar
+    sort_by: "Ordenar por"
+    status: "Status do hilo"
+    stream_status: "Status do hilo"
+  suspenduser:
+    title_suspend: "Suspender usuário"
+    description_suspend: "Você está suspendendo {0}. Este comentário irá para a fila Rejeitada, e {0} não poderá gostar, reportar, responder ou publicar até que o tempo de suspensão seja concluído."
+    select_duration: "Selecione a duração da suspensão"
+    one_hour: "1 hora"
+    hours: "{0} horas"
+    days: "{0} dias"
+    cancel: "Cancelar"
+    suspend_user: "Suspender usuário"
+    email_message_suspend: "Querido/a {0},\n\nDe acordo com as diretrizes da comunidade de {1}, sua conta foi temporariamente suspensa. Durante a suspensão, você não poderá comentar, reportar ou se envolver com outros comentaristas. Por favor, volte para a conversa {2}."
+    title_notify: "Notificar o usuário da suspensão temporária"
+    notify_suspend_until: "O usuário {0} foi temporariamente suspenso. Esta suspensão terminará automaticamente {1}."
+    description_notify: "Suspender este usuário temporariamente desativará sua conta e esconderá todos os seus comentários no site"
+    write_message: "Escrive uma mensagem"
+    send: Enviar
+  reject_username:
+    username: nome de usuário
+    no_cancel: "Não cancelar"
+    description_reject: "Gostaria de proibir temporariamente este usuário por causa de seu {0}? Isso ocultará temporariamente seus comentários até que eles reescrevam seu {0}."
+    title_notify: "Notificar o usuário da suspensão temporária"
+    description_notify: "Suspender este usuário temporariamente desativará sua conta e esconderá todos os seus comentários no site."
+    title_reject: "Percebemos que você rejeitou um nome de usuário"
+    suspend_user: "Suspender usuário"
+    yes_suspend: "Sim suspender"
+    email_message_reject: "Outro membro da comunidade recentemente sinalizou seu nome de usuário para revisão. Por causa do seu conteúdo, seu nome de usuário foi rejeitado. Isso significa que você não pode mais comentar, gostar, ou reportar conteúdo até que você reescreva seu nome de usuário. Por favor envie-nos um e-mail se tiver dúvidas ou preocupações."
+    write_message: "Escreve uma mensagem"
+    send: Enviar
+  thank_you: "Nós valorizamos sua segurança e feedback. Um moderador irá rever o seu relatório."
+  user:
+    bio_flags: "Marcadas para esta biografia"
+    user_bio: "Biografia do usuário"
+    username_flags: "Marcadas para este nome de usuário"
+  user_impersonating: "Este usuário está representando"
+  user_no_comment: "Você nunca deixou um comentário. Participe da conversa!"
+  username_offensive: "Esse nome de usuário é ofensivo"
+  view_conversation: "Ver conversa"
+  install:
+    initial:
+      description: "Vamos configurar sua comunidade do Talk em apenas alguns pequenos passos."
+      submit: "Vamos começar"
+    add_organization:
+      description: "Por favor, conte-nos o nome da sua organização. Isso aparecerá em e-mails ao convidar novos membros da equipe."
+      label: "Nome da organização"
+      save: "Salvar"
+    create:
+      email: "Endereço de e-mail"
+      username: "Nome de usuário"
+      password: "Senha"
+      confirm_password: "Confirme a senha"
+      save: "Salvar"
+    permitted_domains:
+      title: "Domínios permitidos"
+      description: "Insira os domínios que você gostaria de permitir para o Talk, como o seu site de preparação ou site de produção (ej. localhost:3000 staging.domain.com dom    ain.com)."
+      submit: "Completar a instalação"
+    final:
+      description: "Obrigado por instalar o Talk! Enviamos um e-mail para verificar seu endereço de e-mail. Enquanto você terminar de configurar a conta, você pode começar a se envolver com seus leitores agora."
+      launch: "Iniciar Talk"
+      close: "Feche este instalador"
