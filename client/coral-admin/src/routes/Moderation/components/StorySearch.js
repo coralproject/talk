@@ -64,6 +64,7 @@ const StorySearch = (props) => {
                 ? <Spinner />
                 : assets.map((story, i) => {
                   const storyOpen = story.closedAt === null || new Date(story.closedAt) > new Date();
+
                   return <Story
                     key={i}
                     id={story.id}
