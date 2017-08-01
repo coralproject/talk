@@ -95,9 +95,6 @@ export const withAssetSearchQuery = withQuery(gql`
       created_at
       closedAt
       author
-      settings {
-        moderation
-      }
     }
   }
 `, {
