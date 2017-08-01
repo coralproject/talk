@@ -33,6 +33,7 @@ const buildEmbeds = [
 
 const config = {
   devtool: 'cheap-module-source-map',
+  target: 'web',
   output: {
     path: path.join(__dirname, 'dist'),
     publicPath: '/client/',
@@ -153,11 +154,15 @@ if (process.env.NODE_ENV === 'production') {
 
 // Applies the base configuration to the following entries.
 const applyConfig = (entries, root = {}) => _.merge({}, config, {
-  entry: entries.reduce((entry, {name, path}) => {
-    entry[name] = [
-      'babel-polyfill',
-      path
-    ];
+  entry: entries.reduce((entry, {name, path, disablePolyfill = false}) => {
+    if (disablePolyfill) {
+      entry[name] = path;
+    } else {
+      entry[name] = [
+        'babel-polyfill',
+        path
+      ];
+    }
 
     return entry;
   }, {})
@@ -171,7 +176,8 @@ module.exports = [
     // Load in the root embed.
     {
       name: 'embed',
-      path: path.join(__dirname, 'client/coral-embed/src/index')
+      path: path.join(__dirname, 'client/coral-embed/src/index'),
+      disablePolyfill: process.env.TALK_DISABLE_EMBED_POLYFILL === 'TRUE'
     }
 
   ], {
@@ -183,7 +189,7 @@ module.exports = [
   // All framework targets/embeds/plugins.
   applyConfig([
 
-    // // Load in all the targets.
+    // Load in all the targets.
     ...buildTargets.map((target) => ({
       name: `${target}/bundle`,
       path: path.join(__dirname, 'client/', target, '/src/index')
