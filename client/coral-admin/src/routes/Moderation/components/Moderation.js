@@ -58,8 +58,7 @@ export default class Moderation extends Component {
   }
 
   getComments = () => {
-    const {root, route} = this.props;
-    const activeTab = route.path === ':id' ? 'premod' : route.path;
+    const {root, activeTab} = this.props;
     return root[activeTab].nodes;
   }
 
@@ -101,25 +100,28 @@ export default class Moderation extends Component {
   }
 
   render () {
-
-    const {root, moderation, settings, viewUserDetail, hideUserDetail, activeTab, ...props} = this.props;
+    const {root, moderation, settings, viewUserDetail, hideUserDetail, activeTab, getModPath, premodEnabled, ...props} = this.props;
     const assetId = this.props.params.id;
     const {asset} = root;
 
     const comments = root[activeTab];
+
     let activeTabCount;
     switch(activeTab) {
     case 'all':
       activeTabCount = root.allCount;
       break;
-    case 'accepted':
-      activeTabCount = root.acceptedCount;
+    case 'new':
+      activeTabCount = root.newCount;
+      break;
+    case 'approved':
+      activeTabCount = root.approvedCount;
       break;
     case 'premod':
       activeTabCount = root.premodCount;
       break;
-    case 'flagged':
-      activeTabCount = root.flaggedCount;
+    case 'reported':
+      activeTabCount = root.reportedCount;
       break;
     case 'rejected':
       activeTabCount = root.rejectedCount;
@@ -137,12 +139,16 @@ export default class Moderation extends Component {
         <ModerationMenu
           asset={asset}
           allCount={root.allCount}
-          acceptedCount={root.acceptedCount}
+          newCount={root.newCount}
+          getModPath={getModPath}
+          approvedCount={root.approvedCount}
           premodCount={root.premodCount}
           rejectedCount={root.rejectedCount}
-          flaggedCount={root.flaggedCount}
+          reportedCount={root.reportedCount}
           selectSort={this.props.setSortOrder}
           sort={this.props.moderation.sortOrder}
+          premodEnabled={premodEnabled}
+          activeTab={activeTab}
         />
         <ModerationQueue
           data={this.props.data}

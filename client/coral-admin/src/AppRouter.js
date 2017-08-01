@@ -1,5 +1,5 @@
 import React from 'react';
-import {Router, Route, IndexRedirect, Redirect} from 'react-router';
+import {Router, Route, IndexRedirect, IndexRoute} from 'react-router';
 import {history} from 'coral-framework/helpers/router';
 
 import Configure from 'routes/Configure';
@@ -15,7 +15,7 @@ const routes = (
   <div>
     <Route exact path="/admin/install" component={Install}/>
     <Route path='/admin' component={Layout}>
-      <IndexRedirect to='/admin/moderate/all' />
+      <IndexRedirect to='/admin/moderate' />
       <Route path='configure' component={Configure} />
       <Route path='stories' component={Stories} />
       <Route path='dashboard' component={Dashboard} />
@@ -35,10 +35,15 @@ const routes = (
       {/* Moderation Routes */}
 
       <Route path='moderate' component={ModerationLayout}>
+        <IndexRoute components={Moderation} />
+
         <Route path='all' components={Moderation}>
           <Route path=':id' components={Moderation} />
         </Route>
-        <Route path='accepted' components={Moderation}>
+        <Route path='new' components={Moderation}>
+          <Route path=':id' components={Moderation} />
+        </Route>
+        <Route path='approved' components={Moderation}>
           <Route path=':id' components={Moderation} />
         </Route>
         <Route path='premod' components={Moderation}>
@@ -47,11 +52,12 @@ const routes = (
         <Route path='rejected' components={Moderation}>
           <Route path=':id' components={Moderation} />
         </Route>
-        <Route path='flagged' components={Moderation}>
+        <Route path='reported' components={Moderation}>
           <Route path=':id' components={Moderation} />
         </Route>
-        <Redirect from=':id' to='all/:id' />
-        <IndexRedirect to='all' />
+
+        <Route path=':id' components={Moderation} />
+
       </Route>
     </Route>
   </div>
