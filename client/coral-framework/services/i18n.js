@@ -8,11 +8,12 @@ import frTA from '../../../node_modules/timeago.js/locales/fr';
 import en from '../../../locales/en.yml';
 import es from '../../../locales/es.yml';
 import fr from '../../../locales/fr.yml';
+import pr from '../../../locales/pr.yml';
 
 // Translations are happening at https://translate.lingohub.com/the-coral-project/dashboard
 
 const defaultLanguage = 'en';
-const translations = {...en, ...es, ...fr};
+const translations = {...en, ...es, ...fr, ...pr};
 
 let lang;
 let timeagoInstance;

@@ -6,15 +6,16 @@ const yaml = require('yamljs');
 const es = yaml.load('./locales/es.yml');
 const en = yaml.load('./locales/en.yml');
 const fr = yaml.load('./locales/fr.yml');
+const pr = yaml.load('./locales/pr.yml');
 
 const accepts = require('accepts');
 
 // default language
 let defaultLanguage = 'en';
 let language = defaultLanguage;
-const languages = ['en', 'es', 'fr'];
+const languages = ['en', 'es', 'fr', 'pr'];
 
-const translations = Object.assign(en, es, fr);
+const translations = Object.assign(en, es, fr, pr);
 
 /**
  * Exposes a service object to allow translations.
