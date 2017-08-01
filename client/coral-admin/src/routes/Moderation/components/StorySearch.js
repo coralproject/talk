@@ -72,7 +72,7 @@ const StorySearch = (props) => {
                     createdAt={new Date(story.created_at).toISOString()}
                     open={storyOpen}
                     author={story.author}
-                    goToStory={() => props.goToStory(story.id)}
+                    goToStory={props.goToStory}
                   />;
                 })
               }
