@@ -8,6 +8,7 @@ import t from 'coral-framework/services/i18n';
 import update from 'immutability-helper';
 import truncate from 'lodash/truncate';
 import NotFoundAsset from '../components/NotFoundAsset';
+import {isPremod, getModPath} from '../../../utils';
 
 import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
 import {handleCommentChange} from '../../../graphql/utils';
@@ -37,7 +38,18 @@ function prepareNotificationText(text) {
 class ModerationContainer extends Component {
   subscriptions = [];
 
-  get activeTab() { return this.props.route.path; }
+  get activeTab() { 
+
+    const {root: {asset, settings}, router, route} = this.props;
+
+    // Grab premod from asset or from settings
+    const premod = !router.params.id ? settings.moderation : asset.settings.moderation;
+
+    const queue = isPremod(premod) ? 'premod' : 'new';
+    const activeTab = route.path && route.path !== ':id' ? route.path : queue;
+    
+    return activeTab;
+  }
 
   subscribeToUpdates(variables = this.props.data.variables) {
     const sub1 = this.props.data.subscribeToMore({
@@ -153,13 +165,16 @@ class ModerationContainer extends Component {
     case 'all':
       variables.statuses = null;
       break;
-    case 'accepted':
+    case 'new':
+      variables.statuses = ['NONE', 'PREMOD'];
+      break;
+    case 'approved':
       variables.statuses = ['ACCEPTED'];
       break;
     case 'premod':
       variables.statuses = ['PREMOD'];
       break;
-    case 'flagged':
+    case 'reported':
       variables.statuses = ['NONE', 'PREMOD'];
       variables.action_type = 'FLAG';
       break;
@@ -184,7 +199,7 @@ class ModerationContainer extends Component {
   };
 
   render () {
-    const {root, root: {asset}, data, params: {id: assetId}} = this.props;
+    const {root, root: {asset, settings}, data, params: {id: assetId}} = this.props;
 
     if (data.error) {
       return <div>Error</div>;
@@ -209,10 +224,12 @@ class ModerationContainer extends Component {
 
     return <Moderation
       {...this.props}
+      getModPath={getModPath}
       loadMore={this.loadMore}
       acceptComment={this.acceptComment}
       rejectComment={this.rejectComment}
       activeTab={this.activeTab}
+      premodEnabled={assetId ? isPremod(asset.settings.moderation) : isPremod(settings.moderation)}
     />;
   }
 }
@@ -304,7 +321,14 @@ const withModQueueQuery = withQuery(gql`
     }) {
       ...CoralAdmin_Moderation_CommentConnection
     }
-    accepted: comments(query: {
+    new: comments(query: {
+      statuses: [NONE, PREMOD],
+      asset_id: $asset_id,
+      sort: $sort
+    }) {
+      ...CoralAdmin_Moderation_CommentConnection
+    }
+    approved: comments(query: {
       statuses: [ACCEPTED],
       asset_id: $asset_id,
       sort: $sort
@@ -318,7 +342,7 @@ const withModQueueQuery = withQuery(gql`
     }) {
       ...CoralAdmin_Moderation_CommentConnection
     }
-    flagged: comments(query: {
+    reported: comments(query: {
         action_type: FLAG,
         asset_id: $asset_id,
         statuses: [NONE, PREMOD],
@@ -337,11 +361,18 @@ const withModQueueQuery = withQuery(gql`
       id
       title
       url
+      settings {
+        moderation
+      }
     }
     allCount: commentCount(query: {
       asset_id: $asset_id
     })
-    acceptedCount: commentCount(query: {
+    newCount: commentCount(query: {
+      statuses: [NONE, PREMOD],
+      asset_id: $asset_id
+    })
+    approvedCount: commentCount(query: {
       statuses: [ACCEPTED],
       asset_id: $asset_id
     })
@@ -353,13 +384,14 @@ const withModQueueQuery = withQuery(gql`
        statuses: [REJECTED],
        asset_id: $asset_id
     })
-    flaggedCount: commentCount(query: {
+    reportedCount: commentCount(query: {
       action_type: FLAG,
       asset_id: $asset_id,
       statuses: [NONE, PREMOD]
     })
     settings {
       organizationName
+      moderation
     }
   }
   ${commentConnectionFragment}
@@ -380,7 +412,11 @@ const withQueueCountPolling = withQuery(gql`
     allCount: commentCount(query: {
       asset_id: $asset_id
     })
-    acceptedCount: commentCount(query: {
+    newCount: commentCount(query: {
+      statuses: [NONE, PREMOD],
+      asset_id: $asset_id
+    })
+    approvedCount: commentCount(query: {
       statuses: [ACCEPTED],
       asset_id: $asset_id
     })
@@ -392,7 +428,7 @@ const withQueueCountPolling = withQuery(gql`
        statuses: [REJECTED],
        asset_id: $asset_id
     })
-    flaggedCount: commentCount(query: {
+    reportedCount: commentCount(query: {
       action_type: FLAG,
       asset_id: $asset_id,
       statuses: [NONE, PREMOD]

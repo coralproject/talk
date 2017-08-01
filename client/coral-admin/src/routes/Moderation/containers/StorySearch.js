@@ -59,13 +59,13 @@ class StorySearchContainer extends React.Component {
 
   goToStory = (id) => {
     const {router} = this.props;
-    router.push(`/admin/moderate/all/${id}`);
+    router.push(`/admin/moderate/${id}`);
     this.clearAndCloseSearch();
   }
 
   goToModerateAll = () => {
     const {router} = this.props;
-    router.push('/admin/moderate/all');
+    router.push('/admin/moderate');
     this.clearAndCloseSearch();
   }
 
