@@ -103,7 +103,21 @@ class ModerationContainer extends Component {
       },
     });
 
-    this.subscriptions.push(sub1, sub2, sub3, sub4);
+    const sub5 = this.props.data.subscribeToMore({
+      document: COMMENT_FEATURED_SUBSCRIPTION,
+      variables,
+      updateQuery: (prev, {subscriptionData: {data: {commentFeatured: comment}}}) => {
+        const sort = this.props.moderation.sortOrder;
+        const notify = {
+          activeQueue: this.activeTab,
+          text: 'New Featured Comment',
+          anyQueue: true,
+        };
+        return handleCommentChange(prev, comment, sort, notify);
+      },
+    });
+
+    this.subscriptions.push(sub1, sub2, sub3, sub4, sub5);
   }
 
   unsubscribe() {
@@ -216,6 +230,15 @@ class ModerationContainer extends Component {
     />;
   }
 }
+
+const COMMENT_FEATURED_SUBSCRIPTION = gql`
+  subscription CommentFeatured($asset_id: ID){
+    commentFeatured(asset_id: $asset_id){
+      ...${getDefinitionName(Comment.fragments.comment)}
+    }
+  }
+  ${Comment.fragments.comment}
+`;
 
 const COMMENT_EDITED_SUBSCRIPTION = gql`
   subscription CommentEdited($asset_id: ID){

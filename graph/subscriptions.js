@@ -24,6 +24,7 @@ const {
   SUBSCRIBE_ALL_USER_SUSPENDED,
   SUBSCRIBE_ALL_USER_BANNED,
   SUBSCRIBE_ALL_USERNAME_REJECTED,
+  SUBSCRIBE_COMMENT_FEATURED
 } = require('../perms/constants');
 
 /**
@@ -80,6 +81,16 @@ const setupFunctions = plugins.get('server', 'setupFunctions').reduce((acc, {plu
     commentRejected: {
       filter: (comment, context) => {
         if (!context.user || !context.user.can(SUBSCRIBE_COMMENT_REJECTED)) {
+          return false;
+        }
+        return !args.asset_id || comment.asset_id === args.asset_id;
+      }
+    },
+  }),
+  commentFeatured: (options, args) => ({
+    commentFeatured: {
+      filter: (comment, context) => {
+        if (!args.asset_id && (!context.user || !context.user.can(SUBSCRIBE_COMMENT_FEATURED))) {
           return false;
         }
         return !args.asset_id || comment.asset_id === args.asset_id;
