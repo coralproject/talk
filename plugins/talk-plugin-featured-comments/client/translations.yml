@@ -6,6 +6,7 @@ en:
     featured_comments: Featured Comments
     go_to_conversation: Go to conversation
     tooltip_description: Comments selected by our team as worth reading
+    notify_featured: '{0} featured and approved comment "{1}"'
 es:
   talk-plugin-featured-comments:
     un_feature: Desmarcar
