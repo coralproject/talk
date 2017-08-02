@@ -45,6 +45,7 @@ These are only used during the webpack build.
   thread. (Default `3`)
 - `TALK_DEFAULT_STREAM_TAB` (_optional_) - specify the default stream tab in the
   admin. (Default `all`)
+- `TALK_DISABLE_EMBED_POLYFILL` (_optional_) - when set to `TRUE`, the build process will not include the [babel-polyfill](https://babeljs.io/docs/usage/polyfill/) in the embed.js target. (Default `FALSE`)
 
 ### Database
 
@@ -126,6 +127,11 @@ The default could be read as:
   added back to the queue.
 - At the moment of writing, beheviour is not attached to the flagging
   reliability, but it is recorded.
+
+### Cache
+
+- `TALK_CACHE_EXPIRY_COMMENT_COUNT` (_optional_) - configure the duration for which
+  comment counts are cached for. (Default `1hr`)
 
 ### Plugins
 
