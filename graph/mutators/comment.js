@@ -350,16 +350,6 @@ const setStatus = async ({user, loaders: {Comments}, pubsub}, {id, status}) => {
   // adjust the affected user's karma in the next tick.
   process.nextTick(adjustKarma(Comments, id, status));
 
-  if (status === 'ACCEPTED') {
-
-    // Publish the comment status change via the subscription.
-    pubsub.publish('commentAccepted', comment);
-  } else if (status === 'REJECTED') {
-
-    // Publish the comment status change via the subscription.
-    pubsub.publish('commentRejected', comment);
-  }
-
   return comment;
 };
 
