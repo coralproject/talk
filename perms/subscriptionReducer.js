@@ -19,8 +19,6 @@ module.exports = (user, perm) => {
     return check(user, ['ADMIN', 'MODERATOR']);
   case types.SUBSCRIBE_ALL_USERNAME_REJECTED:
     return check(user, ['ADMIN', 'MODERATOR']);
-  case types.SUBSCRIBE_COMMENT_FEATURED:
-    return check(user, ['ADMIN', 'MODERATOR']);
   default:
     break;
   }

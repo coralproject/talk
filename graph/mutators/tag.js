@@ -7,10 +7,6 @@ const {ADD_COMMENT_TAG, REMOVE_COMMENT_TAG} = require('../../perms/constants');
  */
 const modify = async ({user, loaders: {Tags}, pubsub}, operation, {name, id, item_type, asset_id}) => {
 
-  if (operation.name === 'add') {
-    pubsub.publish('commentFeatured', {});
-  }
-
   // Get the global list of tags from the dataloader.
   const tags = await Tags.getAll.load({id, item_type, asset_id});
 

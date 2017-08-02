@@ -1046,10 +1046,6 @@ type Subscription {
   # Requires the `ADMIN` or `MODERATOR` role.
   commentFlagged(asset_id: ID): Comment
 
-  # Get an update whenever a comment is featured.
-  # Requires the `ADMIN` or `MODERATOR` role.
-  commentFeatured(asset_id: ID): Comment
-
   # Get an update whenever a comment has been accepted.
   # Requires the `ADMIN` or `MODERATOR` role.
   commentAccepted(asset_id: ID): Comment

@@ -14,9 +14,6 @@ const Subscription = {
   commentFlagged(comment) {
     return comment;
   },
-  commentFeatured(comment) {
-    return comment;
-  },
   userBanned(user) {
     return user;
   },
