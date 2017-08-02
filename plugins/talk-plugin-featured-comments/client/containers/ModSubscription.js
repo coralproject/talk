@@ -12,33 +12,60 @@ function prepareNotificationText(text) {
 }
 
 class ModSubscription extends React.Component {
-  unsubscribe = null;
+  subscriptions = null;
 
   componentWillMount() {
-    this.unsubscribe = this.props.data.subscribeToMore({
-      document: COMMENT_FEATURED_SUBSCRIPTION,
-      variables: {
-        assetId: this.props.data.variables.asset_id,
+    const configs = [
+      {
+        document: COMMENT_FEATURED_SUBSCRIPTION,
+        variables: {
+          assetId: this.props.data.variables.asset_id,
+        },
+        updateQuery: (prev, {subscriptionData: {data: {commentFeatured: {user, comment}}}}) => {
+          const sort = this.props.data.variables.sort;
+          const text = this.props.user.id === user.id
+            ? {}
+            : t(
+              'talk-plugin-featured-comments.notify_featured',
+              user.username,
+              prepareNotificationText(comment.body),
+            );
+          const notify = {
+            activeQueue: this.props.activeTab,
+            text,
+            anyQueue: true,
+          };
+          return handleCommentChange(prev, comment, sort, notify);
+        },
       },
-      updateQuery: (prev, {subscriptionData: {data: {commentFeatured: comment}}}) => {
-        const sort = this.props.data.variables.sort;
-        const user = comment.status_history[comment.status_history.length - 1].assigned_by;
-        const notify = {
-          activeQueue: this.props.activeTab,
-          text: t(
-            'talk-plugin-featured-comments.notify_featured',
-            user.username,
-            prepareNotificationText(comment.body)
-          ),
-          anyQueue: true,
-        };
-        return handleCommentChange(prev, comment, sort, notify);
+      {
+        document: COMMENT_UNFEATURED_SUBSCRIPTION,
+        variables: {
+          assetId: this.props.data.variables.asset_id,
+        },
+        updateQuery: (prev, {subscriptionData: {data: {commentUnfeatured: {user, comment}}}}) => {
+          const sort = this.props.data.variables.sort;
+          const text = this.props.user.id === user.id
+            ? {}
+            : t(
+              'talk-plugin-featured-comments.notify_unfeatured',
+              user.username,
+              prepareNotificationText(comment.body),
+            );
+          const notify = {
+            activeQueue: this.props.activeTab,
+            text,
+            anyQueue: true,
+          };
+          return handleCommentChange(prev, comment, sort, notify);
+        }
       },
-    });
+    ];
+    this.subscriptions = configs.map((config) => this.props.data.subscribeToMore(config));
   }
 
   componentWillUnmount() {
-    this.unsubscribe();
+    this.subscriptions.forEach((unsubscribe) => unsubscribe());
   }
 
   render() {
@@ -48,15 +75,28 @@ class ModSubscription extends React.Component {
 
 const COMMENT_FEATURED_SUBSCRIPTION = gql`
   subscription CommentFeatured($assetId: ID){
-    commentFeatured(asset_id: $assetId){
-      ...${getDefinitionName(Comment.fragments.comment)}
-      status_history {
-        type
-        created_at
-        assigned_by {
-          id
-          username
-        }
+    commentFeatured(asset_id: $assetId) {
+      comment {
+        ...${getDefinitionName(Comment.fragments.comment)}
+      }
+      user {
+        id
+        username
+      }
+    }
+  }
+  ${Comment.fragments.comment}
+`;
+
+const COMMENT_UNFEATURED_SUBSCRIPTION = gql`
+  subscription CommentUnfeatured($assetId: ID){
+    commentUnfeatured(asset_id: $assetId){
+      comment {
+        ...${getDefinitionName(Comment.fragments.comment)}
+      }
+      user {
+        id
+        username
       }
     }
   }
@@ -64,7 +104,7 @@ const COMMENT_FEATURED_SUBSCRIPTION = gql`
 `;
 
 const mapStateToProps = (state) => ({
-  sortOrder: state.moderation.toJS().sortOrder,
+  user: state.auth.toJS().user,
 });
 
 export default connect(mapStateToProps, null)(ModSubscription);
