@@ -5,6 +5,8 @@ import TabPane from './containers/TabPane';
 import translations from './translations.yml';
 import update from 'immutability-helper';
 import reducer from './reducer';
+import ModTag from './containers/ModTag';
+import ModSubscription from './containers/ModSubscription';
 
 import {findCommentInEmbedQuery} from 'coral-embed-stream/src/graphql/utils';
 import {insertCommentsSorted} from 'plugin-api/beta/client/utils';
@@ -16,7 +18,9 @@ export default {
     streamTabs: [Tab],
     streamTabPanes: [TabPane],
     commentInfoBar: [Tag],
-    commentReactions: [Button]
+    commentReactions: [Button],
+    adminModeration: [ModSubscription],
+    adminCommentInfoBar: [ModTag],
   },
   mutations: {
     IgnoreUser: ({variables}) => ({

@@ -38,7 +38,7 @@ function prepareNotificationText(text) {
 class ModerationContainer extends Component {
   subscriptions = [];
 
-  get activeTab() { 
+  get activeTab() {
 
     const {root: {asset, settings}, router, route} = this.props;
 
@@ -47,7 +47,7 @@ class ModerationContainer extends Component {
 
     const queue = isPremod(premod) ? 'premod' : 'new';
     const activeTab = route.path && route.path !== ':id' ? route.path : queue;
-    
+
     return activeTab;
   }
 

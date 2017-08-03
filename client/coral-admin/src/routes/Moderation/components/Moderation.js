@@ -7,6 +7,7 @@ import ModerationMenu from './ModerationMenu';
 import ModerationHeader from './ModerationHeader';
 import ModerationKeysModal from '../../../components/ModerationKeysModal';
 import StorySearch from '../containers/StorySearch';
+import Slot from 'coral-framework/components/Slot';
 
 export default class Moderation extends Component {
   constructor() {
@@ -100,7 +101,7 @@ export default class Moderation extends Component {
   }
 
   render () {
-    const {root, moderation, settings, viewUserDetail, hideUserDetail, activeTab, getModPath, premodEnabled, ...props} = this.props;
+    const {root, data, moderation, settings, viewUserDetail, hideUserDetail, activeTab, getModPath, premodEnabled, ...props} = this.props;
     const assetId = this.props.params.id;
     const {asset} = root;
 
@@ -183,6 +184,14 @@ export default class Moderation extends Component {
           moderation={this.props.moderation}
           closeSearch={this.closeSearch}
           storySearchChange={this.props.storySearchChange}
+        />
+
+        <Slot
+          data={data}
+          root={root}
+          assset={asset}
+          activeTab={activeTab}
+          fill='adminModeration'
         />
       </div>
     );

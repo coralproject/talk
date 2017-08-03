@@ -129,7 +129,7 @@ export default (document, config = {}) => (WrappedComponent) => {
           })
           .catch((error) => {
             this.context.eventEmitter.emit(`mutation.${name}.error`, {variables, error});
-            throw new error;
+            throw error;
           });
       };
       return config.props({...data, mutate});

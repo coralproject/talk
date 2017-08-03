@@ -1,0 +1,42 @@
+.tag {
+  border: 1px solid #696969;
+  display: inline-block;
+  color: #696969;
+  background-color: white;
+  box-sizing: border-box;
+  padding: 2px 8px;
+  border-radius: 2px;
+  font-size: 12px;
+  height: 28px;
+  transition: background-color .2s cubic-bezier(.4,0,.2,1), color .2s cubic-bezier(.4,0,.2,1), border-color .2s cubic-bezier(.4,0,.2,1);
+  margin: 2px 0px;
+  letter-spacing: 0.4px;
+}
+
+.tag:hover {
+  background-color: #5384B2;
+  border-color: #5384B2;
+  color: white;
+  cursor: pointer;
+}
+
+.tag.featured {
+  background-color: #10589b;
+  border-color: #10589b;
+  color: white;
+}
+
+.tag.featured:hover {
+  background-color: white;
+  border-color: #5384B2;
+  color: #5384B2;
+  cursor: pointer;
+}
+
+
+.tagIcon {
+  margin-right: 5px;
+  font-size: 15px;
+  vertical-align: text-bottom;
+}
+ 
