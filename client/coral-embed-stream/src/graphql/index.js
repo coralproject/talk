@@ -162,7 +162,7 @@ const extension = {
               },
               __typename: 'TagLink'
             })),
-            status: null,
+            status: 'NONE',
             replyCount: 0,
             parent: parent_id
               ? {id: parent_id}
