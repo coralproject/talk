@@ -13,6 +13,10 @@ function getFragmentId(assetId) {
   return `Asset_${assetId}`;
 }
 
+/**
+ * AutomaticAssetClosure updates the graphql state of the provide asset
+ * to `isClosed=true` when passed `closedAt`.
+ */
 class AutomaticAssetClosure extends React.Component {
   static contextTypes = {
     client: PropTypes.object.isRequired,
