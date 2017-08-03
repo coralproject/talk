@@ -250,6 +250,7 @@ const fragments = {
         id
         title
         url
+        closedAt
         isClosed
         created_at
         settings {
