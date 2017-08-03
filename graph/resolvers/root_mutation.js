@@ -31,8 +31,18 @@ const RootMutation = {
   stopIgnoringUser(_, {id}, {mutators: {User}}) {
     return wrapResponse(null)(User.stopIgnoringUser({id}));
   },
-  setCommentStatus(_, {id, status}, {mutators: {Comment}}) {
-    return wrapResponse(null)(Comment.setStatus({id, status}));
+  async setCommentStatus(_, {id, status}, {mutators: {Comment}, pubsub}) {
+    const comment = await Comment.setStatus({id, status});
+    if (status === 'ACCEPTED') {
+
+      // Publish the comment status change via the subscription.
+      pubsub.publish('commentAccepted', comment);
+    } else if (status === 'REJECTED') {
+
+      // Publish the comment status change via the subscription.
+      pubsub.publish('commentRejected', comment);
+    }
+    return wrapResponse(null)(comment);
   },
   addTag(_, {tag}, {mutators: {Tag}}) {
     return wrapResponse(null)(Tag.add(tag));

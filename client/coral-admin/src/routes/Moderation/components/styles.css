@@ -493,7 +493,10 @@ span {
   top: .3em;
 }
 
-.commentType {
+.adminCommentInfoBar {
+  min-width: 100px;
   position: absolute;
   right: 0px;
+  top: 0px;
+  text-align: right;
 }

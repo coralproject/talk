@@ -1,4 +1,87 @@
+const {check} = require('perms/utils');
+
 module.exports = {
+  typeDefs: `
+
+    type CommentFeaturedData {
+      comment: Comment!
+      user: User!
+    }
+
+    type CommentUnfeaturedData {
+      comment: Comment!
+      user: User!
+    }
+
+    type Subscription {
+
+      # Subscribe to featured comments.
+      commentFeatured(asset_id: ID): CommentFeaturedData
+
+      # Subscribe to featured comments.
+      commentUnfeatured(asset_id: ID): CommentUnfeaturedData
+    }
+  `,
+  resolvers: {
+    Subscription: {
+      commentFeatured: ({user, comment}) => {
+        return {user, comment};
+      },
+      commentUnfeatured: ({user, comment}) => {
+        return {user, comment};
+      },
+    },
+  },
+  setupFunctions: {
+    commentFeatured: (options, args) => ({
+      commentFeatured: {
+        filter: ({comment}, {user}) => {
+          if (args.asset_id === null) {
+            return check(user, ['ADMIN', 'MODERATOR']);
+          }
+          return comment.asset_id === args.asset_id;
+        },
+      },
+    }),
+    commentUnfeatured: (options, args) => ({
+      commentUnfeatured: {
+        filter: ({comment}, {user}) => {
+          if (args.asset_id === null) {
+            return check(user, ['ADMIN', 'MODERATOR']);
+          }
+          return comment.asset_id === args.asset_id;
+        },
+      },
+    }),
+  },
+  hooks: {
+    RootMutation: {
+      addTag: {
+        async post(obj, {tag: {name, id, item_type}}, {user, mutators: {Comment}, pubsub}, info, result) {
+          if (name === 'FEATURED' && item_type === 'COMMENTS') {
+            const comment = await Comment.setStatus({id: id, status: 'ACCEPTED'});
+            if (comment) {
+              pubsub.publish('commentFeatured', {comment, user});
+            }
+            return result;
+          }
+          return result;
+        },
+      },
+      removeTag: {
+        async post(obj, {tag: {name, id, item_type}}, {user, loaders: {Comments}, pubsub}, info, result) {
+          if (name === 'FEATURED' && item_type === 'COMMENTS') {
+            const comment = await Comments.get.load(id);
+            if (comment) {
+              pubsub.publish('commentUnfeatured', {comment, user});
+            }
+            return result;
+          }
+          return result;
+        },
+      },
+    },
+  },
   tags: [
     {
       name: 'FEATURED',
