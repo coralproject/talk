@@ -147,14 +147,13 @@ export default class Stream {
   remove() {
 
     // Remove the event listeners.
-
     document.removeEventListener('click', this.handleClick.bind(this));
+    this.emitter.removeAllListeners();
 
     // Remove the snackbar.
     this.snackBar.remove();
 
     // Remove the pym parent.
-
     this.pym.remove();
   }
 
