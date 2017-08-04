@@ -19,6 +19,7 @@ import cn from 'classnames';
 
 import {getTopLevelParent, attachCommentToParent} from '../graphql/utils';
 import AllCommentsPane from './AllCommentsPane';
+import AutomaticAssetClosure from '../containers/AutomaticAssetClosure';
 
 import styles from './Stream.css';
 
@@ -101,7 +102,7 @@ class Stream extends React.Component {
       editName
     } = this.props;
     const {keepCommentBox} = this.state;
-    const open = asset.closedAt === null;
+    const open = !asset.isClosed;
 
     // even though the permalinked comment is the highlighted one, we're displaying its parent + replies
     let highlightedComment = comment && getTopLevelParent(comment);
@@ -141,6 +142,7 @@ class Stream extends React.Component {
 
     return (
       <div id="stream" className={styles.root}>
+        <AutomaticAssetClosure assetId={asset.id} closedAt={asset.closedAt}/>
         {comment &&
           <Button
             cStyle="darkGrey"

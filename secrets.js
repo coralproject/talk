@@ -22,6 +22,10 @@ if (JWT_SECRETS) {
       throw new Error('when multiple keys are specified, kid\'s must be specified');
     }
 
+    if (typeof secret.kid !== 'string' || secret.kid.length === 0) {
+      throw new Error('kid must be a unique string');
+    }
+
     // HMAC secrets do not have public/private keys.
     if (JWT_ALG.startsWith('HS')) {
       return new jwt.SharedSecret(secret, JWT_ALG);
@@ -34,7 +38,7 @@ if (JWT_SECRETS) {
     return new jwt.AsymmetricSecret(secret, JWT_ALG);
   }));
 
-  debug(`loaded ${JWT_SECRET.length} ${JWT_ALG.startsWith('HS') ? 'shared' : 'asymmetric'} secrets`);
+  debug(`loaded ${JWT_SECRETS.length} ${JWT_ALG.startsWith('HS') ? 'shared' : 'asymmetric'} secrets`);
 } else if (JWT_SECRET) {
   if (JWT_ALG.startsWith('HS')) {
     module.exports.jwt = new jwt.SharedSecret({
