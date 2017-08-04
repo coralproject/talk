@@ -1,6 +1,6 @@
 import pym from 'coral-framework/services/pym';
 import * as actions from '../constants/stream';
-import {buildUrl} from 'coral-framework/utils';
+import {buildUrl} from 'coral-framework/utils/url';
 import queryString from 'query-string';
 
 export const setActiveReplyBox = (id) => ({type: actions.SET_ACTIVE_REPLY_BOX, id});
