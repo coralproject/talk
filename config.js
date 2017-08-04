@@ -35,10 +35,21 @@ const CONFIG = {
   // cleared when the user is logged out.
   JWT_CLEAR_COOKIE_LOGOUT: process.env.TALK_JWT_CLEAR_COOKIE_LOGOUT ? process.env.TALK_JWT_CLEAR_COOKIE_LOGOUT !== 'FALSE' : true,
 
+  // JWT_DISABLE_AUDIENCE when TRUE will disable the issuer claim (iss) from tokens.
+  JWT_DISABLE_AUDIENCE: process.env.TALK_JWT_DISABLE_AUDIENCE === 'TRUE',
+
   // JWT_AUDIENCE is the value for the audience claim for the tokens that will be
   // verified when decoding. If `JWT_AUDIENCE` is not in the environment, then it
   // will default to `talk`.
   JWT_AUDIENCE: process.env.TALK_JWT_AUDIENCE || 'talk',
+
+  // JWT_DISABLE_ISSUER when TRUE will disable the issuer claim (iss) from tokens.
+  JWT_DISABLE_ISSUER: process.env.TALK_JWT_DISABLE_ISSUER === 'TRUE',
+
+  // JWT_USER_ID_CLAIM is the claim which stores the user's id. This may be a deep
+  // object delimited using dot notation. Example `user.id` would store it like:
+  // {user: {id}} on the claims object. (Default `sub`)
+  JWT_USER_ID_CLAIM: process.env.TALK_JWT_USER_ID_CLAIM || 'sub',
 
   // JWT_ISSUER is the value for the issuer for the tokens that will be verified
   // when decoding. If `JWT_ISSUER` is not in the environment, then it will try
@@ -142,6 +153,16 @@ if (CONFIG.JWT_SECRETS) {
       'TALK_JWT_SECRET must be provided in the environment to sign/verify tokens'
     );
   }
+}
+
+// Disable the audience claim if requested.
+if (CONFIG.JWT_DISABLE_AUDIENCE) {
+  CONFIG.JWT_AUDIENCE = undefined;
+}
+
+// Disable the issuer claim if requested.
+if (CONFIG.JWT_DISABLE_ISSUER) {
+  CONFIG.JWT_ISSUER = undefined;
 }
 
 //------------------------------------------------------------------------------

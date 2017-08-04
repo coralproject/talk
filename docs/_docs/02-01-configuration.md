@@ -77,15 +77,28 @@ The following are configuration shared with every type of secret used.
   tokens. (Default `process.env.TALK_ROOT_URL`)
 - `TALK_JWT_AUDIENCE` (_optional_) - the audience (`aud`) claim for login JWT
   tokens. (Default `talk`)
+
+**You must also specify secrets as either the `TALK_JWT_SECRET` or the `TALK_JWT_SECRETS`
+variable. Refer to the [Secrets Documentation]({{ "/docs/running/secrets/" | absolute_url }})
+on the contents of those variables.**
+
+#### Advanced
+
+These are advanced settings for fine tuning the auth integration, and
+is not needed in most situations.
+
 - `TALK_JWT_COOKIE_NAME` (_optional_) - the name of the cookie to extract the
   JWT from (Default `authorization`)
 - `TALK_JWT_CLEAR_COOKIE_LOGOUT` (_optional_) - when `FALSE`, Talk will not
   clear the cookie with name `TALK_JWT_COOKIE_NAME` when logging out (Default
   `TRUE`)
-
-**You must also specify secrets as either the `TALK_JWT_SECRET` or the `TALK_JWT_SECRETS`
-variable. Refer to the [Secrets Documentation]({{ "/docs/running/secrets/" | absolute_url }})
-on the contents of those variables.**
+- `TALK_JWT_DISABLE_AUDIENCE` (_optional_) - when `TRUE`, Talk will not verify or sign JWT's
+  with an audience (`aud`) claim, even if the `TALK_JWT_AUDIENCE` config is set. (Default `FALSE`)
+- `TALK_JWT_DISABLE_ISSUER` (_optional_) - when `TRUE`, Talk will not verify or sign JWT's
+  with an issuer (`iss`) claim, even if the `TALK_JWT_ISSUER` config is set. (Default `FALSE`)
+- `TALK_JWT_USER_ID_CLAIM` (_optional_) - specify the claim using dot notation for where the
+  user id should be stored/read to/from. Example `user.id` would store it like: `{user: {id}}`
+  on the claims object. (Default `sub`)
 
 ### Email
 
