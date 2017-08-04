@@ -3,10 +3,11 @@
   color: white;
   background: grey;
   box-sizing: border-box;
-  padding: 2px 8px;
+  padding: 0px 5px;
   border-radius: 2px;
   font-size: 12px;
-  height: 28px;
+  height: 24px;
+  letter-spacing: 0.4px;
 
   > i {
     font-size: 14px;
