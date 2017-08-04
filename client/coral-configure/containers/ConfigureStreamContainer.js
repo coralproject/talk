@@ -16,7 +16,7 @@ class ConfigureStreamContainer extends Component {
     this.state = {
       changed: false,
       dirtySettings: props.asset.settings,
-      closedAt: (props.asset.closedAt === null ? 'open' : 'closed')
+      closedAt: !props.asset.isClosed ? 'open' : 'closed'
     };
 
     this.toggleStatus = this.toggleStatus.bind(this);
