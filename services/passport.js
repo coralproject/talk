@@ -195,7 +195,9 @@ const CheckBlacklisted = async (jwt) => {
   }
 
   // It wasn't a PAT! Check to see if it is valid anyways.
-  return checkGeneralTokenBlacklist(jwt);
+  await checkGeneralTokenBlacklist(jwt);
+
+  return null;
 };
 
 const JwtStrategy = require('passport-jwt').Strategy;
@@ -257,11 +259,14 @@ passport.use(new JwtStrategy({
   try {
 
     // Check to see if the token has been revoked
-    await CheckBlacklisted(jwt);
+    let user = await CheckBlacklisted(jwt);
 
-    // Try to get the user from the database or crack it from the token and
-    // plugin integrations.
-    let user = await UsersService.findOrCreateByIDToken(jwt.sub, {token, jwt});
+    if (user === null) {
+
+      // Try to get the user from the database or crack it from the token and
+      // plugin integrations.
+      user = await UsersService.findOrCreateByIDToken(jwt.sub, {token, jwt});
+    }
 
     // Attach the JWT to the request.
     req.jwt = jwt;

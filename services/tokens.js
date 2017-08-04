@@ -93,7 +93,7 @@ module.exports = class TokenService {
     // Find the user.
     let user = await UserModel.findOne({
       id: userID
-    }).select('tokens');
+    });
     if (!user || !user.tokens) {
       throw new errors.ErrAuthentication('user does not exist');
     }
@@ -108,6 +108,8 @@ module.exports = class TokenService {
     if (!token.active) {
       throw new errors.ErrAuthentication('token is not active');
     }
+
+    return user;
   }
 
   /**

@@ -130,20 +130,18 @@ if (process.env.NODE_ENV === 'test' && !CONFIG.ROOT_URL) {
 
 if (CONFIG.JWT_SECRETS) {
   CONFIG.JWT_SECRETS = JSON.parse(CONFIG.JWT_SECRETS);
-}
-
-if (process.env.NODE_ENV === 'test' && !CONFIG.JWT_SECRET) {
-  CONFIG.JWT_SECRET = 'keyboard cat';
 } else if (!CONFIG.JWT_SECRET) {
-  throw new Error(
-    'TALK_JWT_SECRET must be provided in the environment to sign/verify tokens'
-  );
-}
+  if (process.env.NODE_ENV === 'test') {
+    if (!CONFIG.JWT_ALG.startsWith('HS')) {
+      throw new Error('Providing a asymmetric signing/verfying algorithm without a corresponding secret is not permitted');
+    }
 
-// If this is not employing a HMAC based signing method, then we need to turn
-// the secret into a buffer.
-if (!CONFIG.JWT_ALG.startsWith('HS')) {
-  CONFIG.JWT_SECRET = Buffer.from(CONFIG.JWT_SECRET);
+    CONFIG.JWT_SECRET = 'keyboard cat';
+  } else {
+    throw new Error(
+      'TALK_JWT_SECRET must be provided in the environment to sign/verify tokens'
+    );
+  }
 }
 
 //------------------------------------------------------------------------------
