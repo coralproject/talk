@@ -596,6 +596,9 @@ type Asset {
   # The date that the asset was closed at.
   closedAt: Date
 
+  # True if asset is closed.
+  isClosed: Boolean!
+
   # Summary of all Actions against all entities associated with the Asset.
   # (likes, flags, etc.). Requires the `ADMIN` role.
   action_summaries: [AssetActionSummary!]
