@@ -1,10 +1,12 @@
 const errors = require('../errors');
 const UserModel = require('../models/user');
 const uuid = require('uuid');
+const {set} = require('lodash');
 
 const {
   JWT_ISSUER,
-  JWT_AUDIENCE
+  JWT_AUDIENCE,
+  JWT_USER_ID_CLAIM,
 } = require('../config');
 
 const {
@@ -30,9 +32,10 @@ module.exports = class TokenService {
       jti: uuid.v4(),
       iss: JWT_ISSUER,
       aud: JWT_AUDIENCE,
-      sub: userID,
       pat: true
     };
+
+    set(payload, JWT_USER_ID_CLAIM, userID);
 
     // Sign the payload.
     const jwt = JWT_SECRET.sign(payload, {});
@@ -93,7 +96,7 @@ module.exports = class TokenService {
     // Find the user.
     let user = await UserModel.findOne({
       id: userID
-    }).select('tokens');
+    });
     if (!user || !user.tokens) {
       throw new errors.ErrAuthentication('user does not exist');
     }
@@ -108,6 +111,8 @@ module.exports = class TokenService {
     if (!token.active) {
       throw new errors.ErrAuthentication('token is not active');
     }
+
+    return user;
   }
 
   /**
