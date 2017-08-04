@@ -112,7 +112,7 @@ function SharedSecret({kid = undefined, secret = null}, algorithm) {
  */
 function AsymmetricSecret({kid = undefined, private: privateKey, public: publicKey}, algorithm) {
   publicKey = Buffer.from(publicKey.replace(/\\n/g, '\n'));
-  privateKey = privateKey ? Buffer.from(privateKey.replace(/\\n/g, '\n')) : null;
+  privateKey = privateKey && privateKey.length > 0 ? Buffer.from(privateKey.replace(/\\n/g, '\n')) : null;
 
   return new Secret({
     kid,
