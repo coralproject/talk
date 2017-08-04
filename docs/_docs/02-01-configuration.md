@@ -100,6 +100,21 @@ is not needed in most situations.
   user id should be stored/read to/from. Example `user.id` would store it like: `{user: {id}}`
   on the claims object. (Default `sub`)
 
+When integrating with an external authentication system, the following JWT claims
+will be used:
+
+```js
+{
+  "jti": "<the unique token identifier>",    // *required* unique id used for blacklisting
+  "aud": TALK_JWT_AUDIENCE,                  // *optional* if TALK_JWT_DISABLE_AUDIENCE === 'TRUE', *required* otherwise
+  "iss": TALK_JWT_ISSUER,                    // *optional* if TALK_JWT_DISABLE_ISSUER === 'TRUE', *required* otherwise
+
+  [TALK_JWT_USER_ID_CLAIM]: "<the user id>", // *required* the id of the user
+  // Note, if TALK_JWT_USER_ID_CLAIM contains '.', it will be used to deliniate an object, for example
+  // `user.id` would store it like: `{user: {id}}`
+}
+```
+
 ### Email
 
 - `TALK_SMTP_EMAIL` (*required for email*) - the address to send emails from
