@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const uniq = require('lodash/uniq');
 
 /**
  * MultiSecret will take many secrets and provide a unified interface for
@@ -6,6 +7,12 @@ const jwt = require('jsonwebtoken');
  */
 class MultiSecret {
   constructor(secrets) {
+    this.kids = secrets.map(({kid}) => kid);
+
+    if (uniq(this.kids).length !== secrets.length) {
+      throw new Error('Duplicate kid\'s cannot be used to construct a MultiSecret');
+    }
+
     this.secrets = secrets;
   }
 
@@ -86,7 +93,11 @@ class Secret {
 /**
  * SharedSecret is the HMAC based secret that's used for signing/verifying.
  */
-function SharedSecret({kid = undefined, secret}, algorithm) {
+function SharedSecret({kid = undefined, secret = null}, algorithm) {
+  if (secret === null || secret.length === 0) {
+    throw new Error('Secret cannot have a zero length');
+  }
+
   return new Secret({
     kid,
     signingKey: secret,
@@ -101,7 +112,7 @@ function SharedSecret({kid = undefined, secret}, algorithm) {
  */
 function AsymmetricSecret({kid = undefined, private: privateKey, public: publicKey}, algorithm) {
   publicKey = Buffer.from(publicKey.replace(/\\n/g, '\n'));
-  privateKey = privateKey ? Buffer.from(privateKey.replace(/\\n/g, '\n')) : null;
+  privateKey = privateKey && privateKey.length > 0 ? Buffer.from(privateKey.replace(/\\n/g, '\n')) : null;
 
   return new Secret({
     kid,

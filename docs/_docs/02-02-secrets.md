@@ -60,6 +60,11 @@ must have their newlines replaced with `\\n`, this is to ensure that the
 newlines are preserved after JSON decoding. Not doing so will result in parsing
 errors.
 
+To assist with this process, we have developed a tool that can generate new
+certificates that match our required format: [coralcert](https://github.com/coralproject/coralcert).
+This tool can generate RSA and ECDSA certificates, check it's [README](https://github.com/coralproject/coralcert)
+for more details.
+
 ## Authentication Types
 
 Talk also supports two methods of providing authenticationd details.
