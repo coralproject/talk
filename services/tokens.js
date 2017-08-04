@@ -1,7 +1,7 @@
 const errors = require('../errors');
 const UserModel = require('../models/user');
 const uuid = require('uuid');
-const {set, get} = require('lodash');
+const {set} = require('lodash');
 
 const {
   JWT_ISSUER,
