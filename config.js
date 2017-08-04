@@ -35,7 +35,7 @@ const CONFIG = {
   // cleared when the user is logged out.
   JWT_CLEAR_COOKIE_LOGOUT: process.env.TALK_JWT_CLEAR_COOKIE_LOGOUT ? process.env.TALK_JWT_CLEAR_COOKIE_LOGOUT !== 'FALSE' : true,
 
-  // JWT_DISABLE_AUDIENCE when TRUE will disable the issuer claim (iss) from tokens.
+  // JWT_DISABLE_AUDIENCE when TRUE will disable the audience claim (aud) from tokens.
   JWT_DISABLE_AUDIENCE: process.env.TALK_JWT_DISABLE_AUDIENCE === 'TRUE',
 
   // JWT_AUDIENCE is the value for the audience claim for the tokens that will be
