@@ -170,6 +170,7 @@ export default class UserDetail extends React.Component {
             }
           </div>
           <LoadMore
+            className={styles.loadMore}
             loadMore={loadMore}
             showLoadMore={hasNextPage}
             />
