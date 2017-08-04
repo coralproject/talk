@@ -43,7 +43,7 @@ describe('/api/v1/assets', () => {
         .set(passport.inject({roles: ['ADMIN']}))
         .then((res) => {
           const body = res.body;
-          
+
           expect(body).to.have.property('count', 2);
           expect(body).to.have.property('result');
 
@@ -129,7 +129,7 @@ describe('/api/v1/assets', () => {
 
       return AssetsService.findOrCreateByUrl('http://test.com')
         .then((asset) => {
-          expect(asset).to.have.property('isClosed', null);
+          expect(asset).to.have.property('isClosed', false);
           expect(asset).to.have.property('closedAt', null);
 
           return chai.request(app)

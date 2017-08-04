@@ -251,6 +251,7 @@ const fragments = {
         title
         url
         closedAt
+        isClosed
         created_at
         settings {
           moderation
