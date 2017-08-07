@@ -111,7 +111,7 @@ span {
       color: white;
       text-transform: capitalize;
       font-weight: 400;
-      font-size: 15px;
+      font-size: 20px;
       letter-spacing: 1px;
       transition: background-color 200ms;
       opacity: 1;
@@ -490,7 +490,7 @@ span {
 
 .searchTrigger {
   position: relative;
-  top: .3em;
+  top: .2em;
 }
 
 .adminCommentInfoBar {
