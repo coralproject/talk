@@ -8,7 +8,8 @@
   font-size: 12px;
   height: 24px;
   letter-spacing: 0.4px;
-
+  margin-bottom: 1px;
+  
   > i {
     font-size: 14px;
     vertical-align: text-top;
