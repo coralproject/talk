@@ -174,7 +174,7 @@ module.exports = class ActionsService {
       {$match},
       {$group},
       {$project},
-      {$sort: {count: -1, action_type: 1, group_id: 1}},
+      {$sort: {action_type: 1, group_id: 1}},
     ]);
   }
 
