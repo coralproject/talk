@@ -6,15 +6,17 @@ const {Error: {ValidationError}} = require('mongoose');
  * keyed at `key` or an error caught at `errors`.
  */
 
-const wrapResponse = (key) => (promiseOrValue) => {
-  return Promise.resolve(promiseOrValue).then((value) => {
+const wrapResponse = (key) => async (promise) => {
+  try {
+    let value = await promise;
+    
     let res = {};
     if (key) {
       res[key] = value;
     }
+
     return res;
-  })
-  .catch((err) => {
+  } catch (err) {
     if (err instanceof errors.APIError) {
       return {
         errors: [err]
@@ -26,7 +28,7 @@ const wrapResponse = (key) => (promiseOrValue) => {
     }
 
     throw err;
-  });
+  }
 };
 
 module.exports = wrapResponse;
