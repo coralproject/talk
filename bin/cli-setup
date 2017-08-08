@@ -115,6 +115,7 @@ const performSetup = async () => {
       type: 'input',
       name: 'whitelistedDomain',
       message: 'Whitelisted Domain',
+      when: ({inputWhitelistedDomains}) => inputWhitelistedDomains,
       validate: (input) => {
         if (input && input.length > 0) {
           return true;
