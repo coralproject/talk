@@ -61,9 +61,11 @@ class FlagBox extends Component {
                       <ul>
                         {actionList.map((action, j) =>
                           <li key={`${i}_${j}`} className={styles.subDetail}>
-                            <a className={styles.username} onClick={() => viewUserDetail(action.user.id)}>
-                              {action.user.username}
-                            </a>
+                            {action.user &&
+                              <a className={styles.username} onClick={() => viewUserDetail(action.user.id)}>
+                                {action.user.username}
+                              </a>
+                            }
                             {action.message}
                           </li>
                         )}
