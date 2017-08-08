@@ -79,3 +79,12 @@
     margin-left: -10px;
   }
 }
+
+.loadMore > button {
+  background-color: #696969;
+
+  &:hover {
+    background-color: #404040;
+    color: white;
+  }
+}
