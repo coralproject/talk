@@ -45,7 +45,7 @@ export class TopRightMenu extends React.Component {
       }
     };
     return (
-      <Toggleable key={this.state.timesReset}>
+      <Toggleable key={this.state.timesReset} className="talk-stream-comment-chevron">
         <div style={{position: 'absolute', right: 0, zIndex: 1}}>
           <IgnoreUserWizard
             user={comment.user}
