@@ -224,6 +224,7 @@ export default class Comment extends React.Component {
       return;
     }
     this.setState(resetCursors);
+    this.props.emit('ui.Comment.showMoreReplies');
   };
 
   showReplyBox = () => {

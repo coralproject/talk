@@ -292,6 +292,7 @@ class Stream extends React.Component {
                     charCountEnable={asset.settings.charCountEnable}
                     maxCharCount={asset.settings.charCount}
                     editComment={editComment}
+                    emit={this.props.emit}
                   />
                 </TabPane>
               </TabContent>
