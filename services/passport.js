@@ -1,4 +1,5 @@
 const passport = require('passport');
+const {set, get} = require('lodash');
 const UsersService = require('./users');
 const SettingsService = require('./settings');
 const TokensService = require('./tokens');
@@ -23,21 +24,26 @@ const {
   RECAPTCHA_SECRET,
   RECAPTCHA_ENABLED,
   JWT_COOKIE_NAME,
-  JWT_CLEAR_COOKIE_LOGOUT
+  JWT_CLEAR_COOKIE_LOGOUT,
+  JWT_USER_ID_CLAIM,
 } = require('../config');
 
 const {
-  jwt: JWT_SECRET
+  jwt
 } = require('../secrets');
 
 // GenerateToken will sign a token to include all the authorization information
 // needed for the front end.
 const GenerateToken = (user) => {
-  return JWT_SECRET.sign({}, {
+  const claims = {};
+
+  // Set the user id.
+  set(claims, JWT_USER_ID_CLAIM, user.id);
+
+  return jwt.sign(claims, {
     jwtid: uuid.v4(),
     expiresIn: JWT_EXPIRY,
     issuer: JWT_ISSUER,
-    subject: user.id,
     audience: JWT_AUDIENCE,
     algorithm: JWT_ALG
   });
@@ -191,11 +197,13 @@ const CheckBlacklisted = async (jwt) => {
 
   // Check to see if this is a PAT.
   if (jwt.pat) {
-    return TokensService.validate(jwt.sub, jwt.jti);
+    return TokensService.validate(get(jwt, JWT_USER_ID_CLAIM), jwt.jti);
   }
 
   // It wasn't a PAT! Check to see if it is valid anyways.
-  return checkGeneralTokenBlacklist(jwt);
+  await checkGeneralTokenBlacklist(jwt);
+
+  return null;
 };
 
 const JwtStrategy = require('passport-jwt').Strategy;
@@ -214,7 +222,7 @@ let cookieExtractor = function(req) {
 // Override the JwtVerifier method on the JwtStrategy so we can pack the
 // original token into the payload.
 JwtStrategy.JwtVerifier = (token, secretOrKey, options, callback) => {
-  return JWT_SECRET.verify(token, options, (err, jwt) => {
+  return jwt.verify(token, options, (err, jwt) => {
     if (err) {
       return callback(err);
     }
@@ -236,7 +244,7 @@ passport.use(new JwtStrategy({
 
   // Use the secret passed in which is loaded from the environment. This can be
   // a certificate (loaded) or a HMAC key.
-  secretOrKey: JWT_SECRET,
+  secretOrKey: jwt,
 
   // Verify the issuer.
   issuer: JWT_ISSUER,
@@ -257,11 +265,14 @@ passport.use(new JwtStrategy({
   try {
 
     // Check to see if the token has been revoked
-    await CheckBlacklisted(jwt);
+    let user = await CheckBlacklisted(jwt);
 
-    // Try to get the user from the database or crack it from the token and
-    // plugin integrations.
-    let user = await UsersService.findOrCreateByIDToken(jwt.sub, {token, jwt});
+    if (user === null) {
+
+      // Try to get the user from the database or crack it from the token and
+      // plugin integrations.
+      user = await UsersService.findOrCreateByIDToken(get(jwt, JWT_USER_ID_CLAIM), {token, jwt});
+    }
 
     // Attach the JWT to the request.
     req.jwt = jwt;
