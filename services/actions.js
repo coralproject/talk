@@ -173,7 +173,8 @@ module.exports = class ActionsService {
     return ActionModel.aggregate([
       {$match},
       {$group},
-      {$project}
+      {$project},
+      {$sort: {action_type: 1, group_id: 1}},
     ]);
   }
 

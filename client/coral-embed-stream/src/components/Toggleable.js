@@ -1,10 +1,10 @@
 import React from 'react';
 import ClickOutside from 'coral-framework/components/ClickOutside';
 import styles from './Toggleable.css';
-import classnames from 'classnames';
+import cn from 'classnames';
 
-const upArrow = <span className={classnames(styles.chevron, styles.up)}></span>;
-const downArrow = <span className={classnames(styles.chevron, styles.down)}></span>;
+const upArrow = <span className={cn(styles.chevron, styles.up)}></span>;
+const downArrow = <span className={cn(styles.chevron, styles.down)}></span>;
 
 export default class Toggleable extends React.Component {
   constructor(props) {
@@ -23,11 +23,11 @@ export default class Toggleable extends React.Component {
   }
 
   render() {
-    const {children} = this.props;
+    const {children, className, ...rest} = this.props;
     const {isOpen} = this.state;
     return (
       <ClickOutside onClickOutside={this.close}>
-        <span className={styles.Toggleable}>
+        <span {...rest} className={cn(className, styles.Toggleable)} >
           <button className={styles.toggler} onClick={this.toggle}>{isOpen ? upArrow : downArrow}</button>
           {isOpen ? children : null}
         </span>
