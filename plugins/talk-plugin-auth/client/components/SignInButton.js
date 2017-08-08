@@ -6,7 +6,7 @@ import {showSignInDialog} from 'coral-framework/actions/auth';
 import t from 'coral-framework/services/i18n';
 
 const SignInButton = ({loggedIn, showSignInDialog}) => (
-  <div>
+  <div className="talk-stream-auth-sign-in-button">
     {!loggedIn
       ? <Button id="coralSignInButton" onClick={showSignInDialog} full>
           {t('sign_in.sign_in_to_comment')}
