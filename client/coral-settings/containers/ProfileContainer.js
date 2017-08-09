@@ -1,7 +1,8 @@
 import {connect} from 'react-redux';
-import {compose, graphql, gql} from 'react-apollo';
+import {compose, gql} from 'react-apollo';
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
+import {withQuery} from 'coral-framework/hocs';
 
 import {withStopIgnoringUser} from 'coral-framework/graphql/mutations';
 
@@ -11,18 +12,12 @@ import IgnoredUsers from '../components/IgnoredUsers';
 import {Spinner} from 'coral-ui';
 import CommentHistory from 'talk-plugin-history/CommentHistory';
 import {showSignInDialog, checkLogin} from 'coral-framework/actions/auth';
+import {insertCommentsSorted} from 'plugin-api/beta/client/utils';
+import update from 'immutability-helper';
 
 import t from 'coral-framework/services/i18n';
 
 class ProfileContainer extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      activeTab: 0
-    };
-  }
-
   componentWillReceiveProps(nextProps) {
     if (!this.props.auth.loggedIn && nextProps.auth.loggedIn) {
 
@@ -31,21 +26,40 @@ class ProfileContainer extends Component {
     }
   }
 
-  handleTabChange = (tab) => {
-    this.setState({
-      activeTab: tab
+  loadMore = () => {
+    return this.props.data.fetchMore({
+      query: LOAD_MORE_QUERY,
+      variables: {
+        limit: 5,
+        cursor: this.props.root.me.comments.endCursor,
+      },
+      updateQuery: (previous, {fetchMoreResult:{comments}}) => {
+        const updated = update(previous, {
+          me: {
+            comments: {
+              nodes: {
+                $apply: (nodes) => insertCommentsSorted(nodes, comments.nodes, 'REVERSE_CHRONOLOGICAL'),
+              },
+              hasNextPage: {$set: comments.hasNextPage},
+              endCursor: {$set: comments.endCursor},
+            },
+          }
+        });
+        return updated;
+      },
     });
   };
 
   render() {
-    const {auth, asset, data, showSignInDialog, stopIgnoringUser} = this.props;
-    const {me} = this.props.data;
+    const {auth, asset, showSignInDialog, stopIgnoringUser} = this.props;
+    const {me} = this.props.root;
+    const loading = [1, 2, 4].indexOf(this.props.data.networkStatus) >= 0;
 
     if (!auth.loggedIn) {
       return <NotLoggedIn showSignInDialog={showSignInDialog} />;
     }
 
-    if (!me || data.loading) {
+    if (loading) {
       return <Spinner />;
     }
 
@@ -73,14 +87,40 @@ class ProfileContainer extends Component {
 
         <h3>{t('framework.my_comments')}</h3>
         {me.comments.nodes.length
-          ? <CommentHistory comments={me.comments.nodes} asset={asset} link={link} />
+          ? <CommentHistory comments={me.comments} asset={asset} link={link} loadMore={this.loadMore}/>
           : <p>{t('user_no_comment')}</p>}
       </div>
     );
   }
 }
 
-const withQuery = graphql(
+const CommentFragment = gql`
+  fragment TalkSettings_CommentConnectionFragment on CommentConnection {
+    nodes {
+      id
+      body
+      asset {
+        id
+        title
+        url
+      }
+      created_at
+    }
+    endCursor
+    hasNextPage
+  }
+`;
+
+const LOAD_MORE_QUERY = gql`
+  query TalkSettings_LoadMoreComments($limit: Int, $cursor: Date) {
+    comments(query: {limit: $limit, cursor: $cursor}) {
+      ...TalkSettings_CommentConnectionFragment
+    }
+  }
+  ${CommentFragment}
+`;
+
+const withProfileQuery = withQuery(
   gql`
   query CoralEmbedStream_Profile {
     me {
@@ -89,21 +129,13 @@ const withQuery = graphql(
         id,
         username,
       }
-      comments {
-        nodes {
-          id
-          body
-          asset {
-            id
-            title
-            url
-          }
-          created_at
-        }
+      comments(query: {limit: 10}) {
+        ...TalkSettings_CommentConnectionFragment
       }
     }
-  }`
-);
+  }
+  ${CommentFragment}
+`);
 
 const mapStateToProps = (state) => ({
   user: state.user.toJS(),
@@ -117,5 +149,5 @@ const mapDispatchToProps = (dispatch) =>
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withStopIgnoringUser,
-  withQuery
+  withProfileQuery
 )(ProfileContainer);
