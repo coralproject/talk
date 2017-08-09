@@ -6,6 +6,7 @@ import {Slot} from 'coral-framework/components';
 import ButtonCopyToClipboard from './ButtonCopyToClipboard';
 import {actionsMap} from '../utils/moderationQueueActionsMap';
 import ClickOutside from 'coral-framework/components/ClickOutside';
+import LoadMore from '../components/LoadMore';
 
 export default class UserDetail extends React.Component {
 
@@ -59,7 +60,7 @@ export default class UserDetail extends React.Component {
         user,
         totalComments,
         rejectedComments,
-        comments: {nodes}
+        comments: {nodes, hasNextPage}
       },
       activeTab,
       selectedCommentIds,
@@ -70,6 +71,7 @@ export default class UserDetail extends React.Component {
       bulkReject,
       hideUserDetail,
       viewUserDetail,
+      loadMore,
     } = this.props;
 
     const localProfile = user.profiles.find((p) => p.provider === 'local');
@@ -167,6 +169,11 @@ export default class UserDetail extends React.Component {
               })
             }
           </div>
+          <LoadMore
+            className={styles.loadMore}
+            loadMore={loadMore}
+            showLoadMore={hasNextPage}
+            />
         </Drawer>
       </ClickOutside>
     );

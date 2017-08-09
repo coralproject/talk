@@ -400,13 +400,13 @@ export default class Comment extends React.Component {
         <div className={commentClassName}>
 
           <Slot
-            className={styles.commentAvatar}
+            className={`${styles.commentAvatar} talk-stream-comment-avatar`}
             fill="commentAvatar"
             {...slotProps}
             inline
           />
 
-          <div className={styles.commentContainer}>
+          <div className={`${styles.commentContainer} talk-stream-comment-container`}>
 
             <div className={styles.header}>
               <AuthorName author={comment.user} className={'talk-stream-comment-user-name'} />

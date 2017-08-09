@@ -73,6 +73,11 @@ const extension = {
         created_at
         status
         replyCount
+        asset {
+          id
+          title
+          url
+        }
         tags {
           tag {
             name
@@ -189,6 +194,15 @@ const extension = {
             return prev;
           }
           return insertCommentIntoEmbedQuery(prev, comment);
+        },
+        CoralEmbedStream_Profile: (prev, {mutationResult: {data: {createComment: {comment}}}}) => {
+          return update(prev, {
+            me: {
+              comments: {
+                nodes: {$unshift: [comment]},
+              },
+            },
+          });
         },
       }
     }),
