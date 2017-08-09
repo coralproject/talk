@@ -406,7 +406,7 @@ export default class Comment extends React.Component {
             inline
           />
 
-          <div className={styles.commentContainer}>
+          <div className={`${styles.commentContainer} talk-stream-comment-container`}>
 
             <div className={styles.header}>
               <AuthorName author={comment.user} className={'talk-stream-comment-user-name'} />
