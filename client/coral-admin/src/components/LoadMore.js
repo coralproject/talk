@@ -1,9 +1,10 @@
 import React, {PropTypes} from 'react';
 import {Button} from 'coral-ui';
-import styles from './styles.css';
+import styles from './LoadMore.css';
+import cn from 'classnames';
 
-const LoadMore = ({loadMore, showLoadMore}) =>
-  <div className={styles.loadMoreContainer}>
+const LoadMore = ({loadMore, showLoadMore, className, ...rest}) =>
+  <div {...rest} className={cn(className, styles.loadMoreContainer)}>
     {
       showLoadMore && <Button
         className={styles.loadMore}

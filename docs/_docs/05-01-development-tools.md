@@ -1,6 +1,6 @@
 ---
 title: Development Tooling
-permalink: /docs/development/tools
+permalink: /docs/development/tools/
 ---
 
 ## Debugging

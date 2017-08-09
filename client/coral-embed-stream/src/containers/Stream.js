@@ -14,7 +14,7 @@ import {editName} from 'coral-framework/actions/user';
 import {setActiveReplyBox, setActiveTab, viewAllComments} from '../actions/stream';
 import Stream from '../components/Stream';
 import Comment from './Comment';
-import {withFragments} from 'coral-framework/hocs';
+import {withFragments, withEmit} from 'coral-framework/hocs';
 import {getDefinitionName, getSlotFragmentSpreads} from 'coral-framework/utils';
 import {Spinner} from 'coral-ui';
 import {
@@ -326,6 +326,7 @@ const mapDispatchToProps = (dispatch) =>
 
 export default compose(
   withFragments(fragments),
+  withEmit,
   connect(mapStateToProps, mapDispatchToProps),
   withPostComment,
   withPostFlag,
