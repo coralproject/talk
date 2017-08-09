@@ -10,7 +10,7 @@ import camelize from './camelize';
 import plugins from 'pluginsConfig';
 
 export function getSlotComponents(slot, reduxState, props = {}) {
-  const pluginConfig = reduxState.config.pluginConfig || {};
+  const pluginConfig = reduxState.config.plugin_config || {};
   return flatten(plugins
 
       // Filter out components that have slots and have been disabled in `plugin_config`
@@ -39,7 +39,7 @@ export function isSlotEmpty(slot, reduxState, props) {
  * Returns React Elements for given slot.
  */
 export function getSlotElements(slot, reduxState, props = {}) {
-  const pluginConfig = reduxState.config.pluginConfig || {};
+  const pluginConfig = reduxState.config.plugin_config || {};
   return getSlotComponents(slot, reduxState, props)
     .map((component, i) => React.createElement(component, {key: i, ...props, config: pluginConfig}));
 }

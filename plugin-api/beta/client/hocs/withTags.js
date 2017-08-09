@@ -68,16 +68,17 @@ export default (tag) => (WrappedComponent) => {
     }
 
     render() {
-      const {comment} = this.props;
+      const {comment, user, config} = this.props;
 
       const alreadyTagged = isTagged(comment.tags, TAG);
 
       return <WrappedComponent
-        user={this.props.user}
+        user={user}
         comment={comment}
         alreadyTagged={alreadyTagged}
         postTag={this.postTag}
         deleteTag={this.deleteTag}
+        config={config}
       />;
     }
   }
