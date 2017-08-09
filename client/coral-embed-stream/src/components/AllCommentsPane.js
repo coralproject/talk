@@ -93,6 +93,7 @@ class AllCommentsPane extends React.Component {
 
   viewNewComments = () => {
     this.setState(resetCursors);
+    this.props.emit('ui.AllCommentsPane.viewNewComments');
   };
 
   // getVisibileComments returns a list containing comments
@@ -142,6 +143,7 @@ class AllCommentsPane extends React.Component {
       charCountEnable,
       maxCharCount,
       editComment,
+      emit,
     } = this.props;
 
     const {loadingState} = this.state;
@@ -181,6 +183,7 @@ class AllCommentsPane extends React.Component {
                   charCountEnable={charCountEnable}
                   maxCharCount={maxCharCount}
                   editComment={editComment}
+                  emit={emit}
                 />;
           })}
         </TransitionGroup>
