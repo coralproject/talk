@@ -10,16 +10,18 @@
 .logo span {
   display: inline-block;
   margin-left: 10px;
-  font-size: 18px;
+  font-size: 26px;
   vertical-align: middle;
   font-weight: 500;
+  color: white;
 }
 
 .logo {
-  background: #E5E5E5;
+  background: #696969;
   height: 100%;
   width: 128px;
   z-index: 10;
+  border-right: 1px #757575 solid;
 }
 
 .base {

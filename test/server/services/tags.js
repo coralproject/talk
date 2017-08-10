@@ -27,7 +27,7 @@ describe('services.TagsService', () => {
       const id = comment.id;
       const name = 'BEST';
       const assigned_by = user.id;
-      
+
       await TagsService.add(id, 'COMMENTS', {
         tag: {
           name
@@ -45,7 +45,7 @@ describe('services.TagsService', () => {
       const id = comment.id;
       const name = 'BEST';
       const assigned_by = user.id;
-      
+
       await TagsService.add(id, 'COMMENTS', {
         tag: {
           name
@@ -101,6 +101,44 @@ describe('services.TagsService', () => {
       {
         const {tags} = await CommentsService.findById(id);
         expect(tags.length).to.equal(0);
+      }
+    });
+    it('removes a tag out of 2', async () => {
+      const id = comment.id;
+      const name = 'BEST';
+      const assigned_by = user.id;
+
+      await TagsService.add(id, 'COMMENTS', {
+        tag: {
+          name: 'ANOTHER'
+        },
+        assigned_by
+      });
+
+      await TagsService.add(id, 'COMMENTS', {
+        tag: {
+          name
+        },
+        assigned_by
+      });
+
+      {
+        const {tags} = await CommentsService.findById(id);
+        expect(tags.length).to.equal(2);
+      }
+
+      // ok now to remove it
+      await TagsService.remove(id, 'COMMENTS', {
+        tag: {
+          name
+        },
+        assigned_by
+      });
+
+      {
+        const {tags} = await CommentsService.findById(id);
+        expect(tags.length).to.equal(1);
+        expect(tags[0].tag.name).to.equal('ANOTHER');
       }
     });
   });
