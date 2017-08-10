@@ -1,4 +1,5 @@
 import t from 'coral-framework/services/i18n';
+import {getModQueueConfigs} from 'coral-framework/helpers/plugins';
 
 export default {
   premod: {
@@ -31,5 +32,6 @@ export default {
     statuses: ['NONE', 'PREMOD', 'ACCEPTED', 'REJECTED'],
     icon: 'question_answer',
     name: t('modqueue.all'),
-  }
+  },
+  ...getModQueueConfigs(),
 };
