@@ -2,7 +2,6 @@ import React from 'react';
 import {gql} from 'react-apollo';
 import {connect} from 'react-redux';
 import Comment from 'coral-admin/src/routes/Moderation/containers/Comment';
-import {handleCommentChange} from 'coral-admin/src/graphql/utils';
 import {getDefinitionName} from 'coral-framework/utils';
 import truncate from 'lodash/truncate';
 import t from 'coral-framework/services/i18n';
@@ -22,20 +21,14 @@ class ModSubscription extends React.Component {
           assetId: this.props.data.variables.asset_id,
         },
         updateQuery: (prev, {subscriptionData: {data: {commentFeatured: {user, comment}}}}) => {
-          const sort = this.props.data.variables.sort;
-          const text = this.props.user.id === user.id
-            ? {}
+          const notify = this.props.user.id === user.id
+            ? ''
             : t(
               'talk-plugin-featured-comments.notify_featured',
               user.username,
               prepareNotificationText(comment.body),
             );
-          const notify = {
-            activeQueue: this.props.activeTab,
-            text,
-            anyQueue: true,
-          };
-          return handleCommentChange(prev, comment, sort, notify);
+          return this.props.handleCommentChange(prev, comment, notify);
         },
       },
       {
@@ -44,20 +37,14 @@ class ModSubscription extends React.Component {
           assetId: this.props.data.variables.asset_id,
         },
         updateQuery: (prev, {subscriptionData: {data: {commentUnfeatured: {user, comment}}}}) => {
-          const sort = this.props.data.variables.sort;
-          const text = this.props.user.id === user.id
-            ? {}
+          const notify = this.props.user.id === user.id
+            ? ''
             : t(
               'talk-plugin-featured-comments.notify_unfeatured',
               user.username,
               prepareNotificationText(comment.body),
             );
-          const notify = {
-            activeQueue: this.props.activeTab,
-            text,
-            anyQueue: true,
-          };
-          return handleCommentChange(prev, comment, sort, notify);
+          return this.props.handleCommentChange(prev, comment, notify);
         }
       },
     ];
