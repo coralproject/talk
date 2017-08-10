@@ -36,7 +36,7 @@ class TabPane extends React.Component {
         {featuredComments.hasNextPage &&
           <LoadMore
             loadMore={this.loadMore}
-            loadingState={this.loadingState}
+            loadingState={this.state.loadingState}
           />
         }
       </div>

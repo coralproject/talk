@@ -8,6 +8,10 @@
   min-height: 0;
 }
 
+.root:last-child {
+  border: 0;
+}
+
 .rootSelected {
   background-color: #ecf4ff;
 }

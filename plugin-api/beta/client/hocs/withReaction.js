@@ -271,6 +271,7 @@ export default (reaction) => (WrappedComponent) => {
         alreadyReacted={alreadyReacted}
         postReaction={this.postReaction}
         deleteReaction={this.deleteReaction}
+        config={this.props.config}
       />;
     }
   }
