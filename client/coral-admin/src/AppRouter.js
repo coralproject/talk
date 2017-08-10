@@ -37,27 +37,11 @@ const routes = (
       <Route path='moderate' component={ModerationLayout}>
         <IndexRoute components={Moderation} />
 
-        <Route path='all' components={Moderation}>
-          <Route path=':id' components={Moderation} />
-        </Route>
-        <Route path='new' components={Moderation}>
-          <Route path=':id' components={Moderation} />
-        </Route>
-        <Route path='approved' components={Moderation}>
-          <Route path=':id' components={Moderation} />
-        </Route>
-        <Route path='premod' components={Moderation}>
-          <Route path=':id' components={Moderation} />
-        </Route>
-        <Route path='rejected' components={Moderation}>
-          <Route path=':id' components={Moderation} />
-        </Route>
-        <Route path='reported' components={Moderation}>
-          <Route path=':id' components={Moderation} />
-        </Route>
+        <Route path=':tabOrId' components={Moderation} />
 
-        <Route path=':id' components={Moderation} />
-
+        <Route path=':tab' components={Moderation}>
+          <Route path=':id' components={Moderation} />
+        </Route>
       </Route>
     </Route>
   </div>
