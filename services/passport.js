@@ -23,7 +23,8 @@ const {
   JWT_ALG,
   RECAPTCHA_SECRET,
   RECAPTCHA_ENABLED,
-  JWT_COOKIE_NAME,
+  JWT_SIGNING_COOKIE_NAME,
+  JWT_COOKIE_NAMES,
   JWT_CLEAR_COOKIE_LOGOUT,
   JWT_USER_ID_CLAIM,
 } = require('../config');
@@ -53,7 +54,7 @@ const GenerateToken = (user) => {
 const SetTokenForSafari = (req, res, token) => {
   const browser = bowser._detect(req.headers['user-agent']);
   if (browser.ios || browser.safari) {
-    res.cookie(JWT_COOKIE_NAME, token, {
+    res.cookie(JWT_SIGNING_COOKIE_NAME, token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       expires: new Date(Date.now() + ms(JWT_EXPIRY))
@@ -169,7 +170,7 @@ const HandleLogout = (req, res, next) => {
 
     // Only clear the cookie on logout if enabled.
     if (JWT_CLEAR_COOKIE_LOGOUT) {
-      res.clearCookie(JWT_COOKIE_NAME);
+      res.clearCookie(JWT_SIGNING_COOKIE_NAME);
     }
 
     res.status(204).end();
@@ -209,14 +210,20 @@ const CheckBlacklisted = async (jwt) => {
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 
-let cookieExtractor = function(req) {
-  let token = null;
-
+let cookieExtractor = (req) => {
   if (req && req.cookies) {
-    token = req.cookies[JWT_COOKIE_NAME];
+
+    // Walk over all the cookie names in JWT_COOKIE_NAMES.
+    for (const cookieName of JWT_COOKIE_NAMES) {
+
+      // Check to see if that cookie is set.
+      if (cookieName in req.cookies && req.cookies[cookieName] !== null && req.cookies[cookieName].length > 0) {
+        return req.cookies[cookieName];
+      }
+    }
   }
 
-  return token;
+  return null;
 };
 
 // Override the JwtVerifier method on the JwtStrategy so we can pack the
