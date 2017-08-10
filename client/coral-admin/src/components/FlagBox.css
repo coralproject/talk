@@ -1,6 +1,6 @@
 .flagBox {
   border-top: 1px solid rgba(66, 66, 66, 0.12);
-
+  margin-top: 10px;
   .container {
     padding: 0 14px;
   }

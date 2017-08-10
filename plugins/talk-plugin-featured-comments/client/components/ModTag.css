@@ -4,13 +4,14 @@
   color: #696969;
   background-color: white;
   box-sizing: border-box;
-  padding: 2px 8px;
+  padding: 0px 5px;
   border-radius: 2px;
   font-size: 12px;
-  height: 28px;
+  height: 24px;
   transition: background-color .2s cubic-bezier(.4,0,.2,1), color .2s cubic-bezier(.4,0,.2,1), border-color .2s cubic-bezier(.4,0,.2,1);
   margin: 2px 0px;
   letter-spacing: 0.4px;
+
 }
 
 .tag:hover {
@@ -39,4 +40,3 @@
   font-size: 15px;
   vertical-align: text-bottom;
 }
- 
