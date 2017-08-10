@@ -27,9 +27,10 @@
 }
 
 .icon {
-  margin-right: 13px;
+  margin-right: 5px;
   font-size: 18px;
   vertical-align: middle;
+  margin-top: -3px;
 }
 
 .type--black {
@@ -143,7 +144,7 @@
   border-radius: 3px;
   text-transform: capitalize;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.03), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.09);
-  width: 128px;
+  width: 129px;
 
   &:hover {
    box-shadow: none;
@@ -166,7 +167,7 @@
   border-radius: 3px;
   text-transform: capitalize;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.03), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.09);
-  width: 128px;
+  width: 129px;
 
   &:hover {
    color: white;
