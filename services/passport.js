@@ -210,14 +210,20 @@ const CheckBlacklisted = async (jwt) => {
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 
-let cookieExtractor = (cookieName) => (req) => {
-  let token = null;
-
+let cookieExtractor = (req) => {
   if (req && req.cookies) {
-    token = req.cookies[cookieName];
+
+    // Walk over all the cookie names in JWT_COOKIE_NAMES.
+    for (const cookieName of JWT_COOKIE_NAMES) {
+
+      // Check to see if that cookie is set.
+      if (cookieName in req.cookies && req.cookies[cookieName] !== null && req.cookies[cookieName].length > 0) {
+        return req.cookies[cookieName];
+      }
+    }
   }
 
-  return token;
+  return null;
 };
 
 // Override the JwtVerifier method on the JwtStrategy so we can pack the
@@ -238,7 +244,7 @@ passport.use(new JwtStrategy({
 
   // Prepare the extractor from the header.
   jwtFromRequest: ExtractJwt.fromExtractors([
-    ...JWT_COOKIE_NAMES.map(cookieExtractor),
+    cookieExtractor,
     ExtractJwt.fromUrlQueryParameter('access_token'),
     ExtractJwt.fromAuthHeaderWithScheme('Bearer')
   ]),

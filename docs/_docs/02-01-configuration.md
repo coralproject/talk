@@ -123,6 +123,14 @@ will be used:
 }
 ```
 
+When our passport middleware checks for JWT tokens, it searches in the following
+order:
+
+1. Custom cookies named from the list in `TALK_JWT_COOKIE_NAMES`.
+2. Default cookies named `TALK_JWT_COOKIE_NAME` then `TALK_JWT_SIGNING_COOKIE_NAME`.
+3. Query parameter `?access_token={TOKEN}`.
+4. Header: `Authorization: Bearer {TOKEN}`.
+
 ### Email
 
 - `TALK_SMTP_EMAIL` (*required for email*) - the address to send emails from
