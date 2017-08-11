@@ -170,7 +170,7 @@ export const withEmbedQuery = withQuery(EMBED_QUERY, {
 });
 
 const mapStateToProps = (state) => ({
-  auth: state.auth.toJS(),
+  auth: state.auth,
   commentId: state.stream.commentId,
   assetId: state.stream.assetId,
   assetUrl: state.stream.assetUrl,

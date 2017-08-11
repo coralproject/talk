@@ -363,7 +363,7 @@ export default (reaction) => (WrappedComponent) => {
   );
 
   const mapStateToProps = (state) => ({
-    user: state.auth.toJS().user,
+    user: state.auth.user,
   });
 
   const mapDispatchToProps = (dispatch) =>
