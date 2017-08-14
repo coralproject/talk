@@ -35,7 +35,7 @@ InstallContainer.contextTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  install: state.install.toJS()
+  install: state.install
 });
 
 const mapDispatchToProps = (dispatch) =>

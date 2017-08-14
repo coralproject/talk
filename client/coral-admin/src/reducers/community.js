@@ -1,5 +1,3 @@
-import {Map} from 'immutable';
-
 import {
   FETCH_COMMENTERS_REQUEST,
   FETCH_COMMENTERS_FAILURE,
@@ -13,8 +11,8 @@ import {
   HIDE_REJECT_USERNAME_DIALOG
 } from '../constants/community';
 
-const initialState = Map({
-  community: Map(),
+const initialState = {
+  community: {},
   isFetchingPeople: false,
   errorPeople: '',
   accounts: [],
@@ -22,72 +20,87 @@ const initialState = Map({
   ascPeople: false,
   totalPagesPeople: 0,
   pagePeople: 0,
-  user: Map({}),
+  user: {},
   banDialog: false,
   rejectUsernameDialog: false
-});
+};
 
 export default function community (state = initialState, action) {
   switch (action.type) {
   case FETCH_COMMENTERS_REQUEST :
-    return state
-      .set('isFetchingPeople', true);
+    return {
+      ...state,
+      isFetchingPeople: true,
+    };
   case FETCH_COMMENTERS_FAILURE :
-    return state
-      .set('isFetchingPeople', false)
-      .set('errorPeople', action.error);
-
+    return {
+      ...state,
+      isFetchingPeople: false,
+      errorPeople: action.error,
+    };
   case FETCH_COMMENTERS_SUCCESS : {
     const {accounts, type, page, count, limit, totalPages, ...rest} = action; // eslint-disable-line
-    return state
-      .merge({
-        isFetchingPeople: false,
-        errorPeople: '',
-        pagePeople: page,
-        countPeople: count,
-        limitPeople: limit,
-        totalPagesPeople: totalPages,
-        ...rest
-      })
-      .set('accounts', accounts); // Sets to normal array
+    return {
+      ...state,
+      isFetchingPeople: false,
+      errorPeople: '',
+      pagePeople: page,
+      countPeople: count,
+      limitPeople: limit,
+      totalPagesPeople: totalPages,
+      ...rest,
+      accounts, // Sets to normal array
+    };
   }
   case SET_ROLE : {
-    const commenters = state.get('accounts');
+    const commenters = state.accounts;
     const idx = commenters.findIndex((el) => el.id === action.id);
 
     commenters[idx].roles[0] = action.role;
-    return state.set('accounts', commenters.map((id) => id));
+    return {
+      ...state,
+      accounts: commenters.map((id) => id),
+    };
   }
   case SET_COMMENTER_STATUS: {
-    const commenters = state.get('accounts');
+    const commenters = state.accounts;
     const idx = commenters.findIndex((el) => el.id === action.id);
 
     commenters[idx].status = action.status;
-    return state.set('accounts', commenters.map((id) => id));
+    return {
+      ...state,
+      accounts: commenters.map((id) => id),
+    };
 
   }
   case SORT_UPDATE :
-    return state
-      .set('fieldPeople', action.sort.field)
-      .set('ascPeople', !state.get('ascPeople'));
+    return {
+      ...state,
+      fieldPeople: action.sort.field,
+      ascPeople: !state.ascPeople,
+    };
   case HIDE_BANUSER_DIALOG:
-    return state
-      .set('banDialog', false);
+    return {
+      ...state,
+      banDialog: false,
+    };
   case SHOW_BANUSER_DIALOG:
-    return state
-      .merge({
-        user: Map(action.user),
-        banDialog: true
-      });
+    return {
+      ...state,
+      user: action.user,
+      banDialog: true,
+    };
   case HIDE_REJECT_USERNAME_DIALOG:
-    return state
-      .set('rejectUsernameDialog', false);
+    return {
+      ...state,
+      rejectUsernameDialog: false,
+    };
   case SHOW_REJECT_USERNAME_DIALOG:
-    return state
-      .merge({
-        user: Map(action.user),
-        rejectUsernameDialog: true
-      });
+    return {
+      ...state,
+      user: action.user,
+      rejectUsernameDialog: true
+    };
   default :
     return state;
   }

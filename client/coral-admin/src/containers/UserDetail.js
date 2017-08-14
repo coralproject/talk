@@ -169,8 +169,8 @@ const mapStateToProps = (state) => ({
   selectedCommentIds: state.userDetail.selectedCommentIds,
   statuses: state.userDetail.statuses,
   activeTab: state.userDetail.activeTab,
-  bannedWords: state.settings.toJS().wordlist.banned,
-  suspectWords: state.settings.toJS().wordlist.suspect,
+  bannedWords: state.settings.wordlist.banned,
+  suspectWords: state.settings.wordlist.suspect,
 });
 
 const mapDispatchToProps = (dispatch) => ({
