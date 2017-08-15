@@ -23,8 +23,8 @@ class ConfigureContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  auth: state.auth.toJS(),
-  settings: state.settings.toJS()
+  auth: state.auth,
+  settings: state.settings
 });
 
 const mapDispatchToProps = (dispatch) =>

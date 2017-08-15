@@ -147,13 +147,11 @@ const extension = {
             __typename: 'Comment',
             user: {
               __typename: 'User',
-              id: auth.toJS().user.id,
-              username: auth.toJS().user.username
+              id: auth.user.id,
+              username: auth.user.username
             },
             created_at: new Date().toISOString(),
             body,
-            parent_id,
-            asset_id,
             action_summaries: [],
             tags: tags.map((tag) => ({
               tag: {
@@ -162,15 +160,21 @@ const extension = {
                 __typename: 'Tag'
               },
               assigned_by: {
-                id: auth.toJS().user.id,
+                id: auth.user.id,
                 __typename: 'User'
               },
               __typename: 'TagLink'
             })),
             status: 'NONE',
             replyCount: 0,
+            asset: {
+              __typename: 'Asset',
+              id: asset_id,
+              title: '',
+              url: '',
+            },
             parent: parent_id
-              ? {id: parent_id}
+              ? {__typename: 'Comment', id: parent_id}
               : null,
             replies: {
               __typename: 'CommentConnection',

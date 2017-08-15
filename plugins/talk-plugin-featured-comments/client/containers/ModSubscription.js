@@ -91,7 +91,7 @@ const COMMENT_UNFEATURED_SUBSCRIPTION = gql`
 `;
 
 const mapStateToProps = (state) => ({
-  user: state.auth.toJS().user,
+  user: state.auth.user,
 });
 
 export default connect(mapStateToProps, null)(ModSubscription);

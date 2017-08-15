@@ -122,7 +122,7 @@ class ChangeUsernameContainer extends React.Component {
 }
 
 const mapStateToProps = ({auth}) => ({
-  auth: auth.toJS()
+  auth: auth
 });
 
 const mapDispatchToProps = (dispatch) =>

@@ -119,7 +119,7 @@ class ConfigureStreamContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  asset: state.asset.toJS()
+  asset: state.asset
 });
 
 const mapDispatchToProps = (dispatch) => ({

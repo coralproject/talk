@@ -4,6 +4,7 @@ import * as actions from '../constants/auth';
 import * as Storage from '../helpers/storage';
 import coralApi, {base} from '../helpers/request';
 import pym from '../services/pym';
+import {addNotification} from '../actions/notification';
 
 import {resetWebsocket} from 'coral-framework/services/client';
 import t from 'coral-framework/services/i18n';
@@ -220,7 +221,7 @@ const signUpSuccess = (user) => ({type: actions.FETCH_SIGNUP_SUCCESS, user});
 const signUpFailure = (error) => ({type: actions.FETCH_SIGNUP_FAILURE, error});
 
 export const fetchSignUp = (formData) => (dispatch, getState) => {
-  const redirectUri = getState().auth.toJS().redirectUri;
+  const redirectUri = getState().auth.redirectUri;
   dispatch(signUpRequest());
 
   coralApi('/users', {
@@ -257,7 +258,7 @@ const forgotPasswordFailure = (error) => ({
 
 export const fetchForgotPassword = (email) => (dispatch, getState) => {
   dispatch(forgotPasswordRequest(email));
-  const redirectUri = getState().auth.toJS().redirectUri;
+  const redirectUri = getState().auth.redirectUri;
   coralApi('/account/password/reset', {
     method: 'POST',
     body: {email, loc: redirectUri}
@@ -351,7 +352,7 @@ const verifyEmailFailure = () => ({
 });
 
 export const requestConfirmEmail = (email) => (dispatch, getState) => {
-  const redirectUri = getState().auth.toJS().redirectUri;
+  const redirectUri = getState().auth.redirectUri;
   dispatch(verifyEmailRequest());
   return coralApi('/users/resend-verify', {
     method: 'POST',
@@ -378,3 +379,23 @@ export const setRedirectUri = (uri) => ({
   type: actions.SET_REDIRECT_URI,
   uri,
 });
+
+//==============================================================================
+// Edit Username
+//==============================================================================
+
+const editUsernameFailure = (error) => ({type: actions.EDIT_USERNAME_FAILURE, error});
+const editUsernameSuccess = () => ({type: actions.EDIT_USERNAME_SUCCESS});
+
+export const editName = (username) => (dispatch) => {
+  return coralApi('/account/username', {method: 'PUT', body: {username}})
+    .then(() => {
+      dispatch(editUsernameSuccess());
+      dispatch(addNotification('success', t('framework.success_name_update')));
+    })
+    .catch((error) => {
+      console.error(error);
+      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+      dispatch(editUsernameFailure(errorMessage));
+    });
+};

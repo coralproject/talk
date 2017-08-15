@@ -93,21 +93,21 @@ const validation = (formData, dispatch, next) => {
 };
 
 export const submitSettings = () => (dispatch, getState) => {
-  const settingsFormData = getState().install.toJS().data.settings;
+  const settingsFormData = getState().install.data.settings;
   validation(settingsFormData, dispatch, function() {
     dispatch(nextStep());
   });
 };
 
 export const submitUser = () => (dispatch, getState) => {
-  const userFormData = getState().install.toJS().data.user;
+  const userFormData = getState().install.data.user;
   validation(userFormData, dispatch, function() {
     dispatch(nextStep());
   });
 };
 
 export const finishInstall = () => (dispatch, getState) => {
-  const data = getState().install.toJS().data;
+  const data = getState().install.data;
   dispatch(installRequest());
   return coralApi('/setup', {method: 'POST', body: data})
     .then(() => {
