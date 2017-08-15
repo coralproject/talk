@@ -32,7 +32,7 @@ It basically consist in having two types of components:
 ### Container Components
 * __How things work__
 * They don’t have markup nor styles
-* They provide data and behaviour to Presentational or Container Components
+* They provide data and behavior to Presentational or Container Components
 * They connect via `react-redux`’s `connect()` to the state.
 * They `mapStateToProps` the state to the Presentational Container.
 * They `mapDispatchToProps` to send actions to the Presentational Container.

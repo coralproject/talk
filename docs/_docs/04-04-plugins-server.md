@@ -220,7 +220,7 @@ when a valid token is provided but a user can't be found in the database that
 matches the provided id.
 
 The function is async, and should return the user object that was created in the
-database, or null if the user wasn't found. The `jwt` paramenter of the object
+database, or null if the user wasn't found. The `jwt` parameter of the object
 is the unpacked token, while `token` is the original jwt token string.
 
 ### Routes
@@ -314,14 +314,14 @@ module.exports = {
     const {passport} = require('services/passport');
 
     /**
-     * Facebook auth endpoint, this will redirect the user immediatly to facebook
+     * Facebook auth endpoint, this will redirect the user immediately to facebook
      * for authorization.
      */
     router.get('/facebook', passport.authenticate('facebook', {display: 'popup', authType: 'rerequest', scope: ['public_profile']}));
 
     /**
      * Facebook callback endpoint, this will send the user a html page designed to
-     * send back the user credentials upon sucesfull login.
+     * send back the user credentials upon successful login.
      */
     router.get('/facebook/callback', (req, res, next) => {
 

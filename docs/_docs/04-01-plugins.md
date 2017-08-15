@@ -82,7 +82,7 @@ need to reconcile the plugins and build the static assets:
 # get plugin dependancies and remote plugins
 ./bin/cli plugins reconcile
 
-# build staic assets (including enabled client side plugins)
+# build static assets (including enabled client side plugins)
 yarn build
 ```
 

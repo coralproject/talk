@@ -85,6 +85,10 @@ const CONFIG = {
   // The URL for this Talk Instance as viewable from the outside.
   ROOT_URL: process.env.TALK_ROOT_URL || null,
 
+  // ROOT_URL_MOUNT_PATH when TRUE will extract the pathname from the
+  // TALK_ROOT_URL and use it to mount the paths on.
+  ROOT_URL_MOUNT_PATH: process.env.TALK_ROOT_URL_MOUNT_PATH === 'TRUE',
+
   // The keepalive timeout (in ms) that should be used to send keep alive
   // messages through the websocket to keep the socket alive.
   KEEP_ALIVE: process.env.TALK_KEEP_ALIVE || '30s',
@@ -129,6 +133,10 @@ const CONFIG = {
 // CONFIG VALIDATION
 //==============================================================================
 
+if (CONFIG.ROOT_URL_MOUNT_PATH && !CONFIG.ROOT_URL) {
+  throw new Error('TALK_ROOT_URL must be specified if TALK_ROOT_URL_MOUNT_PATH is set to TRUE');
+}
+
 if (process.env.NODE_ENV === 'test' && !CONFIG.ROOT_URL) {
   CONFIG.ROOT_URL = 'http://localhost:3000';
 } else if (!CONFIG.ROOT_URL) {
@@ -169,14 +177,14 @@ if (CONFIG.JWT_DISABLE_ISSUER) {
 // External database url's
 //------------------------------------------------------------------------------
 
-// Reset the mongo url in the event it hasn't been overrided and we are in a
+// Reset the mongo url in the event it hasn't been overridden and we are in a
 // testing environment. Every new mongo instance comes with a test database by
 // default, this is consistent with common testing and use case practices.
 if (process.env.NODE_ENV === 'test' && !CONFIG.MONGO_URL) {
   CONFIG.MONGO_URL = 'mongodb://localhost/test';
 }
 
-// Reset the redis url in the event it hasn't been overrided and we are in a
+// Reset the redis url in the event it hasn't been overridden and we are in a
 // testing environment.
 if (process.env.NODE_ENV === 'test' && !CONFIG.REDIS_URL) {
   CONFIG.REDIS_URL = 'redis://localhost/1';

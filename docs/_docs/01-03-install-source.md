@@ -36,7 +36,7 @@ git clone https://github.com/coralproject/talk.git
 We now have to install the dependencies and build the static assets.
 
 ```bash
-# Install package dependancies
+# Install package dependencies
 yarn
 
 # Build static files
