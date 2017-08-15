@@ -94,7 +94,7 @@ const performSetup = async () => {
       name: 'requireEmailConfirmation',
       default: settings.requireEmailConfirmation,
       message: 'Should emails always be confirmed'
-    }
+    },
   ]);
 
   // Update the settings that were changed.
@@ -103,6 +103,32 @@ const performSetup = async () => {
       settings[key] = answers[key];
     }
   });
+
+  answers = await inquirer.prompt([
+    {
+      type: 'confirm',
+      name: 'inputWhitelistedDomains',
+      default: true,
+      message: 'Would you like to specify a whitelisted domain'
+    },
+    {
+      type: 'input',
+      name: 'whitelistedDomain',
+      message: 'Whitelisted Domain',
+      when: ({inputWhitelistedDomains}) => inputWhitelistedDomains,
+      validate: (input) => {
+        if (input && input.length > 0) {
+          return true;
+        }
+
+        return 'Whitelisted Domain cannot be empty.';
+      }
+    }
+  ]);
+
+  if (answers.inputWhitelistedDomains) {
+    settings.domains.whitelist = [answers.whitelistedDomain];
+  }
 
   console.log('\nWe\'ll ask you some questions about your first admin user.\n');
 
@@ -147,7 +173,11 @@ const performSetup = async () => {
       name: 'confirmPassword',
       message: 'Confirm Password',
       type: 'password',
-      filter: (confirmPassword) => {
+      filter: (confirmPassword, {password}) => {
+        if (password !== confirmPassword) {
+          return Promise.reject(new Error('Passwords do not match'));
+        }
+
         return UsersService
           .isValidPassword(confirmPassword)
           .catch((err) => {
@@ -156,10 +186,6 @@ const performSetup = async () => {
       }
     },
   ]);
-
-  if (user.password !== user.confirmPassword) {
-    return Promise.reject(new Error('Passwords do not match'));
-  }
 
   let {user: newUser} = await SetupService.setup({
     settings: settings.toObject(),

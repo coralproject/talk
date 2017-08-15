@@ -3,6 +3,7 @@ import uniq from 'lodash/uniq';
 import pick from 'lodash/pick';
 import merge from 'lodash/merge';
 import flattenDeep from 'lodash/flattenDeep';
+import isEmpty from 'lodash/isEmpty';
 import flatten from 'lodash/flatten';
 import {loadTranslations} from 'coral-framework/services/i18n';
 import {injectReducers} from 'coral-framework/services/store';
@@ -64,7 +65,13 @@ export function getSlotFragments(slot, part) {
 export function getGraphQLExtensions() {
   return plugins
     .map((o) => pick(o.module, ['mutations', 'queries', 'fragments']))
-    .filter((o) => o);
+    .filter((o) => !isEmpty(o));
+}
+
+export function getModQueueConfigs() {
+  return merge(...plugins
+    .map((o) => o.module.modQueues)
+    .filter((o) => o));
 }
 
 function getTranslations() {

@@ -17,11 +17,11 @@ const ActivityWidget = ({assets}) => {
           ? assets.map((asset) => {
             return (
               <div className={styles.rowLinkify} key={asset.id}>
-                <Link className={styles.linkToModerate} to={`/admin/moderate/flagged/${asset.id}`}>Moderate</Link>
+                <Link className={styles.linkToModerate} to={`/admin/moderate/${asset.id}`}>Moderate</Link>
                 <p className={styles.widgetCount}>{asset.commentCount}</p>
-                <Link className={styles.linkToAsset} to={`${asset.url}#coralStreamEmbed_iframe`} target="_blank">
+                <a className={styles.linkToAsset} href={`${asset.url}`} target="_blank">
                   <p className={styles.assetTitle}>{asset.title}</p>
-                </Link>
+                </a>
                 <p className={styles.lede}>{asset.author} — Published: {new Date(asset.created_at).toLocaleDateString()}</p>
               </div>
             );

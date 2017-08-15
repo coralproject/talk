@@ -7,6 +7,8 @@
 // entrypoint for the entire applications configuration.
 require('env-rewrite').rewrite();
 
+const uniq = require('lodash/uniq');
+
 //==============================================================================
 // CONFIG INITIALIZATION
 //==============================================================================
@@ -30,6 +32,13 @@ const CONFIG = {
   // JWT_COOKIE_NAME is the name of the cookie optionally containing the JWT
   // token.
   JWT_COOKIE_NAME: process.env.TALK_JWT_COOKIE_NAME || 'authorization',
+
+  // JWT_SIGNING_COOKIE_NAME will be the cookie set when cookies are issued.
+  // This defaults to the TALK_JWT_COOKIE_NAME value.
+  JWT_SIGNING_COOKIE_NAME: process.env.TALK_JWT_SIGNING_COOKIE_NAME || process.env.TALK_JWT_COOKIE_NAME || 'authorization',
+
+  // JWT_COOKIE_NAMES declares the many cookie names used for verification.
+  JWT_COOKIE_NAMES: process.env.TALK_JWT_COOKIE_NAMES || null,
 
   // JWT_CLEAR_COOKIE_LOGOUT specifies whether the named cookie should be
   // cleared when the user is logged out.
@@ -172,6 +181,16 @@ if (CONFIG.JWT_DISABLE_AUDIENCE) {
 if (CONFIG.JWT_DISABLE_ISSUER) {
   CONFIG.JWT_ISSUER = undefined;
 }
+
+// Parse and handle cookie names.
+if (CONFIG.JWT_COOKIE_NAMES) {
+  CONFIG.JWT_COOKIE_NAMES = CONFIG.JWT_COOKIE_NAMES.split(',');
+} else {
+  CONFIG.JWT_COOKIE_NAMES = [];
+}
+
+// Add in the default cookie names and strip duplicates.
+CONFIG.JWT_COOKIE_NAMES = uniq(CONFIG.JWT_COOKIE_NAMES.concat([CONFIG.JWT_COOKIE_NAME, CONFIG.JWT_SIGNING_COOKIE_NAME]));
 
 //------------------------------------------------------------------------------
 // External database url's

@@ -54,8 +54,8 @@ export const witDashboardQuery = withQuery(gql`
 
 const mapStateToProps = (state) => {
   return {
-    settings: state.settings.toJS(),
-    moderation: state.moderation.toJS()
+    settings: state.settings,
+    moderation: state.moderation
   };
 };
 

@@ -1,30 +1,29 @@
-import {Map, List} from 'immutable';
-
 import * as actions from '../constants/install';
+import update from 'immutability-helper';
 
-const initialState = Map({
+const initialState = {
   isLoading: false,
-  data: Map({
-    settings: Map({
+  data: {
+    settings: {
       organizationName: '',
-      domains: Map({
-        whitelist: List()
-      })
-    }),
-    user: Map({
+      domains: {
+        whitelist: [],
+      }
+    },
+    user: {
       username: '',
       email: '',
       password: '',
       confirmPassword: ''
-    })
-  }),
-  errors: Map({
+    }
+  },
+  errors: {
     organizationName: '',
     username: '',
     email: '',
     password: '',
     confirmPassword: ''
-  }),
+  },
   showErrors: false,
   hasError: false,
   error: null,
@@ -44,57 +43,91 @@ const initialState = Map({
   installRequest: null,
   installRequestError: null,
   alreadyInstalled: false
-});
+};
 
 export default function install (state = initialState, action) {
   switch (action.type) {
   case actions.NEXT_STEP:
-    return state
-      .set('step', state.get('step') + 1);
+    return {
+      ...state,
+      step: state.step + 1,
+    };
   case actions.PREVIOUS_STEP:
-    return state
-      .set('step', state.get('step') - 1);
+    return {
+      ...state,
+      step: state.step - 1,
+    };
   case actions.GO_TO_STEP:
-    return state
-      .set('step', action.step);
+    return {
+      ...state,
+      step: action.step,
+    };
   case actions.UPDATE_PERMITTED_DOMAINS_SETTINGS:
-    return state
-      .setIn(['data', 'settings', 'domains', 'whitelist'], action.value);
+    return update(state, {
+      data: {
+        settings: {
+          domains: {
+            whitelist: {$set: action.value},
+          },
+        },
+      },
+    });
   case actions.UPDATE_FORMDATA_SETTINGS:
-    return state
-      .setIn(['data', 'settings', action.name], action.value);
+    return update(state, {
+      data: {
+        settings: {
+          [action.name]: {$set: action.value},
+        },
+      },
+    });
   case actions.UPDATE_FORMDATA_USER:
-    return state
-      .setIn(['data', 'user', action.name], action.value);
+    return update(state, {
+      data: {
+        user: {
+          [action.name]: {$set: action.value},
+        },
+      },
+    });
   case actions.HAS_ERROR:
-    return state
-      .merge({
-        hasError: true,
-        showErrors: true
-      });
+    return {
+      ...state,
+      hasError: true,
+      showErrors: true,
+    };
   case actions.ADD_ERROR:
-    return state
-      .setIn(['errors', action.name], action.error);
+    return update(state, {
+      errors: {
+        [action.name]: {$set: action.error},
+      },
+    });
   case actions.CLEAR_ERRORS:
-    return state
-      .set('errors', Map());
+    return {
+      ...state,
+      errors: {},
+    };
   case actions.INSTALL_REQUEST:
-    return state
-      .set('isLoading', true);
+    return {
+      ...state,
+      isLoading: true,
+    };
   case actions.INSTALL_SUCCESS:
-    return state
-      .set('isLoading', false)
-      .set('installRequest', 'SUCCESS');
+    return {
+      ...state,
+      isLoading: false,
+      installRequest: 'SUCCESS',
+    };
   case actions.INSTALL_FAILURE:
-    return state
-      .merge({
-        isLoading: false,
-        installRequest: 'FAILURE',
-        installRequestError: action.error
-      });
+    return {
+      ...state,
+      isLoading: false,
+      installRequest: 'FAILURE',
+      installRequestError: action.error
+    };
   case actions.CHECK_INSTALL_SUCCESS:
-    return state
-      .set('alreadyInstalled', action.installed);
+    return {
+      ...state,
+      alreadyInstalled: action.installed,
+    };
   default :
     return state;
   }

@@ -6,7 +6,6 @@ permalink: /docs/architecture/client
 ## The Stack
  - [React](#react)
  - [Redux](#redux)
- - [ImmutableJS](#immutablejs)
 
 
 ## The Architecture
@@ -95,14 +94,6 @@ We use [Apollo](http://www.apollodata.com/) to handle graph requests and handle 
 
 ## Redux
 We use [Redux](http://redux.js.org/) to handle the auth state.
-
-
-## ImmutableJS
-We use Immutable JS to maintain our state immutable.
-We found some really good tradeoffs while building Talk.
-
-[How to use ImmutableJS and how we use it with Talk](https://facebook.github.io/immutable-js/docs/#/)
-
 
 ## Test
 [How we do testing at Coral with Talk]({{ "/docs/development/tools" | absolute_url }})

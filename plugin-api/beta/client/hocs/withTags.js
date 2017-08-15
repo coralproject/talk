@@ -84,7 +84,7 @@ export default (tag) => (WrappedComponent) => {
   }
 
   const mapStateToProps = (state) => ({
-    user: state.auth.toJS().user,
+    user: state.auth.user,
   });
 
   const mapDispatchToProps = (dispatch) =>

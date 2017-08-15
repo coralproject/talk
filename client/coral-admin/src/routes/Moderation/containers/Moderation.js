@@ -11,7 +11,7 @@ import NotFoundAsset from '../components/NotFoundAsset';
 import {isPremod, getModPath} from '../../../utils';
 
 import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
-import {handleCommentChange} from '../../../graphql/utils';
+import {handleCommentChange} from '../graphql';
 
 import {fetchSettings} from 'actions/settings';
 import {showBanUserDialog} from 'actions/banUserDialog';
@@ -30,23 +30,44 @@ import {
 import {Spinner} from 'coral-ui';
 import Moderation from '../components/Moderation';
 import Comment from './Comment';
+import queueConfig from '../queueConfig';
 
 function prepareNotificationText(text) {
   return truncate(text, {length: 50}).replace('\n', ' ');
 }
 
+function getAssetId(props) {
+  if (props.params.tabOrId && !(props.params.tabOrId in queueConfig)) {
+    return props.params.tabOrId;
+  }
+  return props.params.id || null;
+}
+
+function getTab(props) {
+  if (props.params.tabOrId && props.params.tabOrId in queueConfig) {
+    return props.params.tabOrId;
+  }
+  return props.params.tab || null;
+}
+
 class ModerationContainer extends Component {
   subscriptions = [];
 
+  handleCommentChange = (root, comment, notify) => {
+    return handleCommentChange(root, comment, this.props.data.variables.sort, notify, queueConfig, this.activeTab);
+  };
+
   get activeTab() {
 
-    const {root: {asset, settings}, router, route} = this.props;
+    const {root: {asset, settings}} = this.props;
+    const id = getAssetId(this.props);
+    const tab = getTab(this.props);
 
     // Grab premod from asset or from settings
-    const premod = !router.params.id ? settings.moderation : asset.settings.moderation;
+    const premod = !id ? settings.moderation : asset.settings.moderation;
 
     const queue = isPremod(premod) ? 'premod' : 'new';
-    const activeTab = route.path && route.path !== ':id' ? route.path : queue;
+    const activeTab = tab ? tab : queue;
 
     return activeTab;
   }
@@ -57,15 +78,10 @@ class ModerationContainer extends Component {
       variables,
       updateQuery: (prev, {subscriptionData: {data: {commentAccepted: comment}}}) => {
         const user = comment.status_history[comment.status_history.length - 1].assigned_by;
-        const sort = this.props.moderation.sortOrder;
         const notify = this.props.auth.user.id === user.id
-          ? {}
-          : {
-            activeQueue: this.activeTab,
-            text: t('modqueue.notify_accepted', user.username, prepareNotificationText(comment.body)),
-            anyQueue: false,
-          };
-        return handleCommentChange(prev, comment, sort, notify);
+          ? ''
+          : t('modqueue.notify_accepted', user.username, prepareNotificationText(comment.body));
+        return this.handleCommentChange(prev, comment, notify);
       },
     });
 
@@ -74,15 +90,10 @@ class ModerationContainer extends Component {
       variables,
       updateQuery: (prev, {subscriptionData: {data: {commentRejected: comment}}}) => {
         const user = comment.status_history[comment.status_history.length - 1].assigned_by;
-        const sort = this.props.moderation.sortOrder;
         const notify = this.props.auth.user.id === user.id
-          ? {}
-          : {
-            activeQueue: this.activeTab,
-            text: t('modqueue.notify_rejected', user.username, prepareNotificationText(comment.body)),
-            anyQueue: false,
-          };
-        return handleCommentChange(prev, comment, sort, notify);
+          ? ''
+          : t('modqueue.notify_rejected', user.username, prepareNotificationText(comment.body));
+        return this.handleCommentChange(prev, comment, notify);
       },
     });
 
@@ -90,13 +101,8 @@ class ModerationContainer extends Component {
       document: COMMENT_EDITED_SUBSCRIPTION,
       variables,
       updateQuery: (prev, {subscriptionData: {data: {commentEdited: comment}}}) => {
-        const sort = this.props.moderation.sortOrder;
-        const notify = {
-          activeQueue: this.activeTab,
-          text: t('modqueue.notify_edited', comment.user.username, prepareNotificationText(comment.body)),
-          anyQueue: false,
-        };
-        return handleCommentChange(prev, comment, sort, notify);
+        const notify = t('modqueue.notify_edited', comment.user.username, prepareNotificationText(comment.body));
+        return this.handleCommentChange(prev, comment, notify);
       },
     });
 
@@ -105,13 +111,8 @@ class ModerationContainer extends Component {
       variables,
       updateQuery: (prev, {subscriptionData: {data: {commentFlagged: comment}}}) => {
         const user = comment.actions[comment.actions.length - 1].user;
-        const sort = this.props.moderation.sortOrder;
-        const notify = {
-          activeQueue: this.activeTab,
-          text: t('modqueue.notify_flagged', user.username, prepareNotificationText(comment.body)),
-          anyQueue: true,
-        };
-        return handleCommentChange(prev, comment, sort, notify);
+        const notify = t('modqueue.notify_flagged', user.username, prepareNotificationText(comment.body));
+        return this.handleCommentChange(prev, comment, notify);
       },
     });
 
@@ -160,28 +161,9 @@ class ModerationContainer extends Component {
       cursor: this.props.root[tab].endCursor,
       sort: this.props.data.variables.sort,
       asset_id: this.props.data.variables.asset_id,
+      statuses: queueConfig[tab].statuses,
+      action_type: queueConfig[tab].action_type,
     };
-    switch(tab) {
-    case 'all':
-      variables.statuses = null;
-      break;
-    case 'new':
-      variables.statuses = ['NONE', 'PREMOD'];
-      break;
-    case 'approved':
-      variables.statuses = ['ACCEPTED'];
-      break;
-    case 'premod':
-      variables.statuses = ['PREMOD'];
-      break;
-    case 'reported':
-      variables.statuses = ['NONE', 'PREMOD'];
-      variables.action_type = 'FLAG';
-      break;
-    case 'rejected':
-      variables.statuses = ['REJECTED'];
-      break;
-    }
     return this.props.data.fetchMore({
       query: LOAD_MORE_QUERY,
       variables,
@@ -199,7 +181,8 @@ class ModerationContainer extends Component {
   };
 
   render () {
-    const {root, root: {asset, settings}, data, params: {id: assetId}} = this.props;
+    const {root, root: {asset, settings}, data} = this.props;
+    const assetId = getAssetId(this.props);
 
     if (data.error) {
       return <div>Error</div>;
@@ -222,6 +205,14 @@ class ModerationContainer extends Component {
       return <Spinner />;
     }
 
+    const premodEnabled = assetId ? isPremod(asset.settings.moderation) : isPremod(settings.moderation);
+    const currentQueueConfig = Object.assign({}, queueConfig);
+    if (premodEnabled) {
+      delete currentQueueConfig.new;
+    } else {
+      delete currentQueueConfig.premod;
+    }
+
     return <Moderation
       {...this.props}
       getModPath={getModPath}
@@ -229,7 +220,8 @@ class ModerationContainer extends Component {
       acceptComment={this.acceptComment}
       rejectComment={this.rejectComment}
       activeTab={this.activeTab}
-      premodEnabled={assetId ? isPremod(asset.settings.moderation) : isPremod(settings.moderation)}
+      queueConfig={currentQueueConfig}
+      handleCommentChange={this.handleCommentChange}
     />;
   }
 }
@@ -314,49 +306,25 @@ const commentConnectionFragment = gql`
 
 const withModQueueQuery = withQuery(gql`
   query CoralAdmin_Moderation($asset_id: ID, $sort: SORT_ORDER, $allAssets: Boolean!) {
-    all: comments(query: {
-      statuses: [NONE, PREMOD, ACCEPTED, REJECTED],
-      asset_id: $asset_id,
-      sort: $sort
-    }) {
-      ...CoralAdmin_Moderation_CommentConnection
-    }
-    new: comments(query: {
-      statuses: [NONE, PREMOD],
-      asset_id: $asset_id,
-      sort: $sort
-    }) {
-      ...CoralAdmin_Moderation_CommentConnection
-    }
-    approved: comments(query: {
-      statuses: [ACCEPTED],
-      asset_id: $asset_id,
-      sort: $sort
-    }) {
-      ...CoralAdmin_Moderation_CommentConnection
-    }
-    premod: comments(query: {
-        statuses: [PREMOD],
+    ${Object.keys(queueConfig).map((queue) => `
+      ${queue}: comments(query: {
+        ${queueConfig[queue].statuses ? `statuses: [${queueConfig[queue].statuses.join(', ')}],` : ''}
+        ${queueConfig[queue].tags ? `tags: ["${queueConfig[queue].tags.join('", "')}"],` : ''}
+        ${queueConfig[queue].action_type ? `action_type: ${queueConfig[queue].action_type}` : ''}
         asset_id: $asset_id,
         sort: $sort
-    }) {
-      ...CoralAdmin_Moderation_CommentConnection
-    }
-    reported: comments(query: {
-        action_type: FLAG,
+      }) {
+        ...CoralAdmin_Moderation_CommentConnection
+      }
+    `)}
+    ${Object.keys(queueConfig).map((queue) => `
+      ${queue}Count: commentCount(query: {
+        ${queueConfig[queue].statuses ? `statuses: [${queueConfig[queue].statuses.join(', ')}],` : ''}
+        ${queueConfig[queue].tags ? `tags: ["${queueConfig[queue].tags.join('", "')}"],` : ''}
+        ${queueConfig[queue].action_type ? `action_type: ${queueConfig[queue].action_type}` : ''}
         asset_id: $asset_id,
-        statuses: [NONE, PREMOD],
-        sort: $sort
-    }) {
-      ...CoralAdmin_Moderation_CommentConnection
-    }
-    rejected: comments(query: {
-        statuses: [REJECTED],
-        asset_id: $asset_id,
-        sort: $sort
-    }) {
-      ...CoralAdmin_Moderation_CommentConnection
-    }
+      })
+    `)}
     asset(id: $asset_id) @skip(if: $allAssets) {
       id
       title
@@ -365,30 +333,6 @@ const withModQueueQuery = withQuery(gql`
         moderation
       }
     }
-    allCount: commentCount(query: {
-      asset_id: $asset_id
-    })
-    newCount: commentCount(query: {
-      statuses: [NONE, PREMOD],
-      asset_id: $asset_id
-    })
-    approvedCount: commentCount(query: {
-      statuses: [ACCEPTED],
-      asset_id: $asset_id
-    })
-    premodCount: commentCount(query: {
-      statuses: [PREMOD],
-      asset_id: $asset_id
-    })
-    rejectedCount: commentCount(query: {
-       statuses: [REJECTED],
-       asset_id: $asset_id
-    })
-    reportedCount: commentCount(query: {
-      action_type: FLAG,
-      asset_id: $asset_id,
-      statuses: [NONE, PREMOD]
-    })
     settings {
       organizationName
       moderation
@@ -396,11 +340,12 @@ const withModQueueQuery = withQuery(gql`
   }
   ${commentConnectionFragment}
 `, {
-  options: ({params: {id = null}, moderation: {sortOrder}}) => {
+  options: (props) => {
+    const id = getAssetId(props);
     return {
       variables: {
         asset_id: id,
-        sort: sortOrder,
+        sort: props.moderation.sortOrder,
         allAssets: id === null
       }
     };
@@ -409,33 +354,18 @@ const withModQueueQuery = withQuery(gql`
 
 const withQueueCountPolling = withQuery(gql`
   query CoralAdmin_ModerationCountPoll($asset_id: ID) {
-    allCount: commentCount(query: {
-      asset_id: $asset_id
-    })
-    newCount: commentCount(query: {
-      statuses: [NONE, PREMOD],
-      asset_id: $asset_id
-    })
-    approvedCount: commentCount(query: {
-      statuses: [ACCEPTED],
-      asset_id: $asset_id
-    })
-    premodCount: commentCount(query: {
-      statuses: [PREMOD],
-      asset_id: $asset_id
-    })
-    rejectedCount: commentCount(query: {
-       statuses: [REJECTED],
-       asset_id: $asset_id
-    })
-    reportedCount: commentCount(query: {
-      action_type: FLAG,
-      asset_id: $asset_id,
-      statuses: [NONE, PREMOD]
-    })
+    ${Object.keys(queueConfig).map((queue) => `
+      ${queue}Count: commentCount(query: {
+        ${queueConfig[queue].statuses ? `statuses: [${queueConfig[queue].statuses.join(', ')}],` : ''}
+        ${queueConfig[queue].tags ? `tags: ["${queueConfig[queue].tags.join('", "')}"],` : ''}
+        ${queueConfig[queue].action_type ? `action_type: ${queueConfig[queue].action_type}` : ''}
+        asset_id: $asset_id,
+      })
+    `)}
   }
 `, {
-  options: ({params: {id = null}}) => {
+  options: (props) => {
+    const id = getAssetId(props);
     return {
       pollInterval: 5000,
       variables: {
@@ -446,9 +376,9 @@ const withQueueCountPolling = withQuery(gql`
 });
 
 const mapStateToProps = (state) => ({
-  moderation: state.moderation.toJS(),
-  settings: state.settings.toJS(),
-  auth: state.auth.toJS(),
+  moderation: state.moderation,
+  settings: state.settings,
+  auth: state.auth,
 });
 
 const mapDispatchToProps = (dispatch) => ({

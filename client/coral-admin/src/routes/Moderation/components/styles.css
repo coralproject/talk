@@ -18,7 +18,7 @@
 
 .tab {
   flex: 1;
-  color: #C0C0C0;
+  color: #BDBDBD;
   text-transform: capitalize;
   font-weight: 100;
   font-size: 14px;
@@ -29,7 +29,7 @@
   margin-right: 20px;
   &:hover {
     color: white;
-    border-bottom: solid 2px #F36451;
+    /*border-bottom: solid 2px #F36451;*/
     box-sizing: border-box;
   }
 }
@@ -111,7 +111,7 @@ span {
       color: white;
       text-transform: capitalize;
       font-weight: 400;
-      font-size: 15px;
+      font-size: 20px;
       letter-spacing: 1px;
       transition: background-color 200ms;
       opacity: 1;
@@ -173,7 +173,7 @@ span {
   border-bottom: 1px solid #e0e0e0;
   font-size: 18px;
   width: 100%;
-  max-width: 700px;
+  max-width: 650px;
   min-width: 400px;
   margin: 0 auto;
   position: relative;
@@ -470,7 +470,7 @@ span {
 
 .searchTrigger {
   position: relative;
-  top: .3em;
+  top: .2em;
 }
 
 .adminCommentInfoBar {

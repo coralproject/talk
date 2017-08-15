@@ -9,16 +9,10 @@ import cn from 'classnames';
 import t from 'coral-framework/services/i18n';
 
 const ModerationMenu = ({
-  asset = {}, 
-  allCount,
-  approvedCount,
-  premodCount,
-  newCount,
-  rejectedCount,
-  reportedCount,
+  asset = {},
+  items,
   selectSort,
   sort,
-  premodEnabled,
   getModPath,
   activeTab
 }) => {
@@ -27,49 +21,15 @@ const ModerationMenu = ({
       <div className={`mdl-tabs__tab-bar ${styles.tabBar}`}>
         <div className={styles.tabBarPadding} />
         <div>
-
-          {
-            premodEnabled ? (
-              <Link
-                to={getModPath('premod', asset.id)}
-                className={cn('mdl-tabs__tab', styles.tab, {[styles.active]: activeTab === 'premod'})}
-                activeClassName={styles.active}>
-                <Icon name='access_time' className={styles.tabIcon} /> {t('modqueue.premod')} <CommentCount count={premodCount} />
-              </Link>
-            ) : (
-              <Link
-                to={getModPath('new', asset.id)}
-                className={cn('mdl-tabs__tab', styles.tab, {[styles.active]: activeTab === 'new'})}
-                activeClassName={styles.active}>
-                <Icon name='question_answer' className={styles.tabIcon} /> {t('modqueue.new')} <CommentCount count={newCount} />
-              </Link>
-            )
-          }
-
-          <Link
-            to={getModPath('reported', asset.id)}
-            className={cn('mdl-tabs__tab', styles.tab, {[styles.active]: activeTab === 'reported'})}
-            activeClassName={styles.active}>
-            <Icon name='flag' className={styles.tabIcon} /> {t('modqueue.reported')} <CommentCount count={reportedCount} />
-          </Link>
-          <Link
-            to={getModPath('approved', asset.id)}
-            className={cn('mdl-tabs__tab', styles.tab, {[styles.active]: activeTab === 'approved'})}
-            activeClassName={styles.active}>
-            <Icon name='check' className={styles.tabIcon} /> {t('modqueue.approved')} <CommentCount count={approvedCount} />
-          </Link>
-          <Link
-            to={getModPath('rejected', asset.id)}
-            className={cn('mdl-tabs__tab', styles.tab, {[styles.active]: activeTab === 'rejected'})}
-            activeClassName={styles.active}>
-            <Icon name='close' className={styles.tabIcon} /> {t('modqueue.rejected')} <CommentCount count={rejectedCount} />
-          </Link>
-          <Link
-            to={getModPath('all', asset.id)}
-            className={cn('mdl-tabs__tab', styles.tab, {[styles.active]: activeTab === 'all'})}
-            activeClassName={styles.active}>
-            <Icon name='question_answer' className={styles.tabIcon} /> {t('modqueue.all')} <CommentCount count={allCount} />
-          </Link>
+          {items.map((queue) =>
+            <Link
+              key={queue.key}
+              to={getModPath(queue.key, asset.id)}
+              className={cn('mdl-tabs__tab', styles.tab, {[styles.active]: activeTab === queue.key})}
+              activeClassName={styles.active}>
+              <Icon name={queue.icon} className={styles.tabIcon} /> {queue.name} <CommentCount count={queue.count} />
+            </Link>
+          )}
         </div>
         <SelectField
           className={styles.selectField}
@@ -85,10 +45,7 @@ const ModerationMenu = ({
 };
 
 ModerationMenu.propTypes = {
-  allCount: PropTypes.number.isRequired,
-  premodCount: PropTypes.number.isRequired,
-  rejectedCount: PropTypes.number.isRequired,
-  reportedCount: PropTypes.number.isRequired,
+  items: PropTypes.array.isRequired,
   asset: PropTypes.shape({
     id: PropTypes.string
   })
