@@ -87,8 +87,16 @@ on the contents of those variables.**
 These are advanced settings for fine tuning the auth integration, and
 is not needed in most situations.
 
-- `TALK_JWT_COOKIE_NAME` (_optional_) - the name of the cookie to extract the
-  JWT from (Default `authorization`)
+- `TALK_JWT_COOKIE_NAME` (_optional_) - the default cookie name to check for a
+  valid JWT token to use for verifying a user. (Default `authorization`)
+- `TALK_JWT_SIGNING_COOKIE_NAME` (_optional_) - the default cookie name that is
+  use to set a cookie containing a JWT that was issued by Talk.
+  (Default `process.env.TALK_JWT_COOKIE_NAME`)
+- `TALK_JWT_COOKIE_NAMES` (_optional_) - the different cookie names to check for
+  a JWT token in, seperated by `,`. By default, we always use the
+  `process.env.TALK_JWT_COOKIE_NAME` and `process.env.TALK_JWT_SIGNING_COOKIE_NAME`
+  for this value. Any additional cookie names specified here will be appended to
+  the list of cookie names to inspect.
 - `TALK_JWT_CLEAR_COOKIE_LOGOUT` (_optional_) - when `FALSE`, Talk will not
   clear the cookie with name `TALK_JWT_COOKIE_NAME` when logging out (Default
   `TRUE`)
@@ -114,6 +122,14 @@ will be used:
   // `user.id` would store it like: `{user: {id}}`
 }
 ```
+
+When our passport middleware checks for JWT tokens, it searches in the following
+order:
+
+1. Custom cookies named from the list in `TALK_JWT_COOKIE_NAMES`.
+2. Default cookies named `TALK_JWT_COOKIE_NAME` then `TALK_JWT_SIGNING_COOKIE_NAME`.
+3. Query parameter `?access_token={TOKEN}`.
+4. Header: `Authorization: Bearer {TOKEN}`.
 
 ### Email
 

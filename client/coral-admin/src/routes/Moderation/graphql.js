@@ -1,7 +1,6 @@
 import update from 'immutability-helper';
 import * as notification from 'coral-admin/src/services/notification';
 
-const queues = ['all', 'premod', 'reported', 'approved', 'rejected', 'new'];
 const limit = 10;
 
 const ascending = (a, b) => {
@@ -67,32 +66,24 @@ function addCommentToQueue(root, queue, comment, sort) {
 /**
  * getCommentQueues determines in which queues a comment should be placed.
  */
-function getCommentQueues(comment) {
-  const queues = ['all'];
-  const isFlagged = comment.actions && comment.actions.some((a) => a.__typename === 'FlagAction');
-
-  switch(comment.status) {
-  case 'ACCEPTED':
-    queues.push('approved');
-    break;
-  case 'REJECTED':
-    queues.push('rejected');
-    break;
-  case 'PREMOD':
-    queues.push('premod');
-    queues.push('new');
-    if (isFlagged) {
-      queues.push('reported');
+function getCommentQueues(comment, queueConfig) {
+  const queues = [];
+  Object.keys(queueConfig).forEach((key) => {
+    const {action_type, statuses, tags} = queueConfig[key];
+    let addToQueues = false;
+    if (statuses && statuses.indexOf(comment.status) >= 0) {
+      addToQueues = true;
     }
-    break;
-  case 'NONE':
-    queues.push('new');
-    if (isFlagged) {
-      queues.push('reported');
+    if (tags && comment.tags && comment.tags.some((tagLink) => tags.indexOf(tagLink.tag.name) >= 0)) {
+      addToQueues = true;
     }
-    break;
-  }
-
+    if (action_type && comment.actions && comment.actions.some((a) => a.__typename.toLowerCase() === `${action_type}action`)) {
+      addToQueues = true;
+    }
+    if (addToQueues) {
+      queues.push(key);
+    }
+  });
   return queues;
 }
 
@@ -106,42 +97,42 @@ function getCommentQueues(comment) {
  * @param  {string} notify.text        notification text to show
  * @param  {bool}   notify.anyQueue    if true show the notification when the comment is shown
  *                                     in the current active queue besides the 'all' queue.
+ * @param  {Object} queueConfig        queue configuration
  * @return {Object}                    next state of the store
  */
-export function handleCommentChange(root, comment, sort, notify) {
+export function handleCommentChange(root, comment, sort, notify, queueConfig, activeQueue) {
   let next = root;
 
-  const nextQueues = getCommentQueues(comment);
+  const nextQueues = getCommentQueues(comment, queueConfig);
 
   let notificationShown = false;
   const showNotificationOnce = () => {
     if (notificationShown) {
       return;
     }
-    notification.info(notify.text);
+    notification.info(notify);
     notificationShown = true;
   };
 
-  queues.forEach((queue) => {
+  Object.keys(queueConfig).forEach((queue) => {
     if (nextQueues.indexOf(queue) >= 0) {
       if (!queueHasComment(next, queue, comment.id)) {
         next = addCommentToQueue(next, queue, comment, sort);
-        if (notify && notify.activeQueue === queue && shouldCommentBeAdded(next, queue, comment, sort)) {
+        if (notify && activeQueue === queue && shouldCommentBeAdded(next, queue, comment, sort)) {
           showNotificationOnce(comment);
         }
       }
     } else if(queueHasComment(next, queue, comment.id)){
       next = removeCommentFromQueue(next, queue, comment.id);
-      if (notify && notify.activeQueue === queue) {
+      if (notify && activeQueue === queue) {
         showNotificationOnce(comment);
       }
     }
 
     if (
       notify
-      && (queue === 'all' || notify.anyQueue)
       && queueHasComment(next, queue, comment.id)
-      && notify.activeQueue === queue
+      && activeQueue === queue
     ) {
       showNotificationOnce(comment);
     }
