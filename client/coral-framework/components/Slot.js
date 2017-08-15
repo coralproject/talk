@@ -4,16 +4,15 @@ import styles from './Slot.css';
 import {connect} from 'react-redux';
 import {getSlotElements} from 'coral-framework/helpers/plugins';
 import omit from 'lodash/omit';
-import union from 'lodash/union';
 import isEqual from 'lodash/isEqual';
+import {getShallowChanges} from 'coral-framework/utils';
 
 class Slot extends React.Component {
   shouldComponentUpdate(next) {
 
     // Prevent Slot from rerendering when only reduxState has changed and
     // it does not result in a change of slot children.
-    const keys = union(Object.keys(this.props), Object.keys(next));
-    const changes = keys.filter((key) => this.props[key] !== next[key]);
+    const changes = getShallowChanges(this.props, next);
     if (changes.length === 1 && changes[0] === 'reduxState') {
       const prevChildrenUuid = this.getChildren(this.props).map((child) => child.type.talkUuid);
       const nextChildrenUuid = this.getChildren(next).map((child) => child.type.talkUuid);
@@ -49,7 +48,7 @@ class Slot extends React.Component {
 }
 
 Slot.propTypes = {
-  fill: React.PropTypes.string
+  fill: React.PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
