@@ -128,8 +128,10 @@ export default (document, config = {}) => (WrappedComponent) => {
 
       const reducer = withSkipOnErrors(
         reducerCallbacks.reduce(
-          (a, b) => (prev, ...rest) =>
-            b(a(prev, ...rest), ...rest),
+          (a, b) => (prev, ...rest) => {
+            const next = a(prev, ...rest);
+            return b(next, ...rest) || next;
+          }
         ));
 
       return {
