@@ -152,8 +152,6 @@ const extension = {
             },
             created_at: new Date().toISOString(),
             body,
-            parent_id,
-            asset_id,
             action_summaries: [],
             tags: tags.map((tag) => ({
               tag: {
@@ -169,8 +167,14 @@ const extension = {
             })),
             status: 'NONE',
             replyCount: 0,
+            asset: {
+              __typename: 'Asset',
+              id: asset_id,
+              title: '',
+              url: '',
+            },
             parent: parent_id
-              ? {id: parent_id}
+              ? {__typename: 'Comment', id: parent_id}
               : null,
             replies: {
               __typename: 'CommentConnection',
