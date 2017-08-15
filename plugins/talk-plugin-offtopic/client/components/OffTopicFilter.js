@@ -16,7 +16,6 @@ export default class OffTopicFilter extends React.Component {
       this.props.removeCommentClassName(idx);
       this.props.toggleCheckbox();
     }
-    this.props.closeViewingOptions();
   }
 
   render() {

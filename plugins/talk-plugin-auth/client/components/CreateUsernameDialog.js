@@ -32,7 +32,7 @@ const CreateUsernameDialog = ({
           className={styles.fakeComment}
           username={formData.username}
           created_at={Date.now()}
-          comment={{body:t('createdisplay.fake_comment_body')}}
+          body={t('createdisplay.fake_comment_body')}
         />
         <p className={styles.ifyoudont}>
           {t('createdisplay.if_you_dont_change_your_name')}
