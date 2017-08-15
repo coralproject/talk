@@ -92,13 +92,13 @@ export default (document, config = {}) => (WrappedComponent) => {
                     // Do not run updates when we have mutation errors.
                     return prev;
                   }
-                  return map[key](prev, result);
+                  return map[key](prev, result) || prev;
                 };
               } else {
                 const existing = res[key];
                 res[key] = (prev, result) => {
                   const next = existing(prev, result);
-                  return map[key](next, result);
+                  return map[key](next, result) || next;
                 };
               }
             });

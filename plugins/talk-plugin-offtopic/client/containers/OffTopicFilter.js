@@ -4,9 +4,6 @@ import {toggleCheckbox} from '../actions';
 import {commentClassNamesSelector} from 'plugin-api/alpha/client/selectors';
 import OffTopicFilter from '../components/OffTopicFilter';
 import {
-  closeViewingOptions
-} from 'plugins/talk-plugin-viewing-options/client/actions';
-import {
   addCommentClassName,
   removeCommentClassName
 } from 'plugin-api/alpha/client/actions';
@@ -20,7 +17,6 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       toggleCheckbox,
-      closeViewingOptions,
       addCommentClassName,
       removeCommentClassName
     },
