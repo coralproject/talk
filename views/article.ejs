@@ -17,7 +17,6 @@
       }
     </style>
     <title><%= title %></title>
-    <base href="<%= BASE_URL %>"/>
   </head>
   <body>
   <main>
@@ -25,7 +24,7 @@
     <p><%= body %></p>
     <p><a href="admin">Admin</a> - <a href="assets">All Assets</a></p>
     <div id='coralStreamEmbed'></div>
-    <script src="embed.js" async onload="
+    <script src="<%= BASE_URL %>embed.js" async onload="
       window.TalkEmbed = Coral.Talk.render(document.getElementById('coralStreamEmbed'), {
         talk: '<%= BASE_URL %>',
         asset_url: '<%= asset_url ? asset_url : '' %>',
