@@ -9,6 +9,7 @@ import {loadTranslations} from 'coral-framework/services/i18n';
 import {injectReducers} from 'coral-framework/services/store';
 import camelize from './camelize';
 import plugins from 'pluginsConfig';
+import uuid from 'uuid/v4';
 
 export function getSlotComponents(slot, reduxState, props = {}) {
   const pluginConfig = reduxState.config.plugin_config || {};
@@ -100,7 +101,12 @@ function addMetaDataToSlotComponents() {
     const slots = plugin.module.slots;
     slots && Object.keys(slots).forEach((slot) => {
       slots[slot].forEach((component) => {
+
+        // Attach plugin name to the component
         component.talkPluginName = plugin.name;
+
+        // Attach uuid to the component
+        component.talkUuid = uuid();
       });
     });
   });
