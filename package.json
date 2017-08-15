@@ -116,7 +116,7 @@
     "passport-local": "^1.0.0",
     "prop-types": "^15.5.10",
     "query-strings": "^0.0.1",
-    "react-apollo": "^1.1.0",
+    "react-apollo": "^1.4.12",
     "react-input-autosize": "^1.1.4",
     "react-recaptcha": "^2.2.6",
     "react-toastify": "^1.5.0",
@@ -136,7 +136,7 @@
     "yamljs": "^0.2.10"
   },
   "devDependencies": {
-    "apollo-client": "^1.0.4",
+    "apollo-client": "^1.9.1",
     "autoprefixer": "^6.5.2",
     "babel-cli": "^6.24.0",
     "babel-core": "^6.24.0",
