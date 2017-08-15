@@ -176,7 +176,7 @@ class SignInContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  auth: state.auth.toJS()
+  auth: state.auth
 });
 
 const mapDispatchToProps = (dispatch) =>

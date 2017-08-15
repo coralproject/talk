@@ -74,10 +74,8 @@ class LayoutContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  auth: state.auth.toJS(),
-  TALK_RECAPTCHA_PUBLIC: state.config
-    .get('data')
-    .get('TALK_RECAPTCHA_PUBLIC', null)
+  auth: state.auth,
+  TALK_RECAPTCHA_PUBLIC: state.config.data.TALK_RECAPTCHA_PUBLIC,
 });
 
 const mapDispatchToProps = (dispatch) => ({

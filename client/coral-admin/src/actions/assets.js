@@ -35,7 +35,7 @@ export const fetchAssets = (skip = '', limit = '', search = '', sort = '', filte
 // Update an asset state
 // Get comments to fill each of the three lists on the mod queue
 export const updateAssetState = (id, closedAt) => (dispatch) => {
-  dispatch({type: UPDATE_ASSET_STATE_REQUEST});
+  dispatch({type: UPDATE_ASSET_STATE_REQUEST, id, closedAt});
   return coralApi(`/assets/${id}/status`, {method: 'PUT', body: {closedAt}})
     .then(() => dispatch({type: UPDATE_ASSET_STATE_SUCCESS}))
     .catch((error) => {

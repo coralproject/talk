@@ -376,9 +376,9 @@ const withQueueCountPolling = withQuery(gql`
 });
 
 const mapStateToProps = (state) => ({
-  moderation: state.moderation.toJS(),
-  settings: state.settings.toJS(),
-  auth: state.auth.toJS(),
+  moderation: state.moderation,
+  settings: state.settings,
+  auth: state.auth,
 });
 
 const mapDispatchToProps = (dispatch) => ({

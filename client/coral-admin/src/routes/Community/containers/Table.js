@@ -23,7 +23,7 @@ class TableContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  commenters: state.community.get('accounts'),
+  commenters: state.community.accounts,
 });
 
 const mapDispatchToProps = (dispatch) =>

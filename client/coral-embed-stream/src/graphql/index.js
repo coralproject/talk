@@ -147,8 +147,8 @@ const extension = {
             __typename: 'Comment',
             user: {
               __typename: 'User',
-              id: auth.toJS().user.id,
-              username: auth.toJS().user.username
+              id: auth.user.id,
+              username: auth.user.username
             },
             created_at: new Date().toISOString(),
             body,
@@ -160,7 +160,7 @@ const extension = {
                 __typename: 'Tag'
               },
               assigned_by: {
-                id: auth.toJS().user.id,
+                id: auth.user.id,
                 __typename: 'User'
               },
               __typename: 'TagLink'
