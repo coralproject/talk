@@ -51,7 +51,7 @@ class ProfileContainer extends Component {
   };
 
   render() {
-    const {auth, asset, showSignInDialog, stopIgnoringUser} = this.props;
+    const {auth, auth: {user}, asset, showSignInDialog, stopIgnoringUser} = this.props;
     const {me} = this.props.root;
     const loading = [1, 2, 4].indexOf(this.props.data.networkStatus) >= 0;
 
@@ -63,14 +63,14 @@ class ProfileContainer extends Component {
       return <Spinner />;
     }
 
-    const localProfile = this.props.user.profiles.find(
+    const localProfile = user.profiles.find(
       (p) => p.provider === 'local'
     );
     const emailAddress = localProfile && localProfile.id;
 
     return (
       <div>
-        <h2>{this.props.user.username}</h2>
+        <h2>{user.username}</h2>
         {emailAddress ? <p>{emailAddress}</p> : null}
 
         {me.ignoredUsers && me.ignoredUsers.length
@@ -138,9 +138,8 @@ const withProfileQuery = withQuery(
 `);
 
 const mapStateToProps = (state) => ({
-  user: state.user.toJS(),
-  asset: state.asset.toJS(),
-  auth: state.auth.toJS()
+  asset: state.asset,
+  auth: state.auth
 });
 
 const mapDispatchToProps = (dispatch) =>

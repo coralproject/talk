@@ -67,7 +67,7 @@ for more details.
 
 ## Authentication Types
 
-Talk also supports two methods of providing authenticationd details.
+Talk also supports two methods of providing authentication details.
 
 - Single key: this is used when your secrets do not need to be rotated.
 - Multiple keys: this is used when you expect to rotate your secrets.

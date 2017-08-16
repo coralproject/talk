@@ -13,7 +13,7 @@ const updateAssetSettingsSuccess = (settings) => ({type: actions.UPDATE_ASSET_SE
 const updateAssetSettingsFailure = (error) => ({type: actions.UPDATE_ASSET_SETTINGS_FAILURE, error});
 
 export const updateConfiguration = (newConfig) => (dispatch, getState) => {
-  const assetId = getState().asset.toJS().id;
+  const assetId = getState().asset.id;
   dispatch(updateAssetSettingsRequest());
   coralApi(`/assets/${assetId}/settings`, {method: 'PUT', body: newConfig})
     .then(() => {
@@ -27,7 +27,7 @@ export const updateConfiguration = (newConfig) => (dispatch, getState) => {
 };
 
 export const updateOpenStream = (closedBody) => (dispatch, getState) => {
-  const assetId = getState().asset.toJS().id;
+  const assetId = getState().asset.id;
   dispatch(fetchAssetRequest());
   coralApi(`/assets/${assetId}/status`, {method: 'PUT', body: closedBody})
     .then(() => {

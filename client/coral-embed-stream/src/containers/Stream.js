@@ -10,7 +10,6 @@ import {
 
 import * as authActions from 'coral-framework/actions/auth';
 import * as notificationActions from 'coral-framework/actions/notification';
-import {editName} from 'coral-framework/actions/user';
 import {setActiveReplyBox, setActiveTab, viewAllComments} from '../actions/stream';
 import Stream from '../components/Stream';
 import Comment from './Comment';
@@ -26,7 +25,7 @@ import {
 } from '../graphql/utils';
 import omit from 'lodash/omit';
 
-const {showSignInDialog} = authActions;
+const {showSignInDialog, editName} = authActions;
 const {addNotification} = notificationActions;
 
 class StreamContainer extends React.Component {
@@ -298,7 +297,7 @@ const fragments = {
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth.toJS(),
+  auth: state.auth,
   refetching: state.embed.refetching,
   commentCountCache: state.stream.commentCountCache,
   activeReplyBox: state.stream.activeReplyBox,

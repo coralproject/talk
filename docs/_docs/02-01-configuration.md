@@ -55,10 +55,17 @@ These are only used during the webpack build.
 ### Server
 
 - `TALK_ROOT_URL` (*required*) - root url of the installed application externally
-  available in the format: `<scheme>://<host>` without the path.
+  available in the format: `<scheme>://<host>:<port?>/<pathname>`.
 - `TALK_KEEP_ALIVE` (_optional_) - The keepalive timeout that should be used to
   send keep alive messages through the websocket to keep the socket alive. (Default `30s`)
 - `TALK_INSTALL_LOCK` (_optional for dynamic setup_) - When `TRUE`, disables the dynamic setup endpoint. (Default `FALSE`)
+
+#### Advanced
+
+- `TALK_ROOT_URL_MOUNT_PATH` (_optional_) - when set to `TRUE`, the routes will
+  be mounted onto the `<pathname>` component of the `TALK_ROOT_URL`. You would
+  use this when your upstream proxy cannot strip the prefix from the url.
+  (Default `FALSE`)
 
 ### Word Filter
 
@@ -118,7 +125,7 @@ will be used:
   "iss": TALK_JWT_ISSUER,                    // *optional* if TALK_JWT_DISABLE_ISSUER === 'TRUE', *required* otherwise
 
   [TALK_JWT_USER_ID_CLAIM]: "<the user id>", // *required* the id of the user
-  // Note, if TALK_JWT_USER_ID_CLAIM contains '.', it will be used to deliniate an object, for example
+  // Note, if TALK_JWT_USER_ID_CLAIM contains '.', it will be used to delineate an object, for example
   // `user.id` would store it like: `{user: {id}}`
 }
 ```
@@ -151,8 +158,8 @@ order:
 
 ### Trust
 
-Trust can automoderate comments based on user history. By specifying this
-option, the beheviour can be changed to offer different results.
+Trust can auto-moderate comments based on user history. By specifying this
+option, the behavior can be changed to offer different results.
 
 - `TRUST_THRESHOLDS` (_optional_) - configure the reliability thresholds for
   flagging and commenting. (Default `comment:-1,-1;flag:-1,-1`)
@@ -166,10 +173,10 @@ The form of the environment variable:
 The default could be read as:
 
 - When a commenter has one comment rejected, their next comment must be
-  premoderated once in order to post freely again. If they instead get rejected
+  pre-moderated once in order to post freely again. If they instead get rejected
   again, then they must have two of their comments approved in order to get
   added back to the queue.
-- At the moment of writing, beheviour is not attached to the flagging
+- At the moment of writing, behavior is not attached to the flagging
   reliability, but it is recorded.
 
 ### Cache
