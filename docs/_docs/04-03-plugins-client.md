@@ -218,7 +218,7 @@ Basic settings can be added via json configuration in a plugin.
 * Default value
 * Variable name
 
-#### Advanced Custom Configuration (low prioritiy)
+#### Advanced Custom Configuration (low priority)
 
 Users can inject configuration interfaces that they create into the configuration allowing for more advanced configuration.
 

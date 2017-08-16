@@ -236,6 +236,6 @@ Once you've taken this step, anyone can register your plugin into their Talk ser
 
 ### Publish to version control
 
-This plugin is open source, so I'm also going to [publish it to github](https://github.com/jde/talk-plugin-asset-manager/commit/66b626caa85cb8030b3ddaa7c1a4821bf01e350a) and [cut a release](https://github.com/jde/talk-plugin-asset-manager/releases/tag/v0.1) that mirrors the npm relese.
+This plugin is open source, so I'm also going to [publish it to github](https://github.com/jde/talk-plugin-asset-manager/commit/66b626caa85cb8030b3ddaa7c1a4821bf01e350a) and [cut a release](https://github.com/jde/talk-plugin-asset-manager/releases/tag/v0.1) that mirrors the npm release.
 
 ## Done!

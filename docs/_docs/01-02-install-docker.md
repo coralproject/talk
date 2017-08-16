@@ -11,8 +11,9 @@ Available as [coralproject/talk](https://hub.docker.com/r/coralproject/talk/) on
 
 Images are tagged using the following notation:
 
-- `x` (where `x` is the major version number): any minor or patch updates will be included in this. If you're ok getting
-  new features occasionally and all the bug fixes, this is the tag for you.
+- `x` (where `x` is the major version number): any minor or patch updates will
+  be included in this. If you're ok getting new features occasionally and all
+  the bug fixes, this is the tag for you.
 - `x.y` (where `y` is the minor version number): any patch updates will be
   included with this tag. If you like getting fixes and having features change
   only when you want, this is the tag for you. **(recommended)**
