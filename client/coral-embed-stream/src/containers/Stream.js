@@ -16,6 +16,7 @@ import Comment from './Comment';
 import {withFragments, withEmit} from 'coral-framework/hocs';
 import {getDefinitionName, getSlotFragmentSpreads} from 'coral-framework/utils';
 import {Spinner} from 'coral-ui';
+import {can} from 'coral-framework/services/perms';
 import {
   findCommentInEmbedQuery,
   insertCommentIntoEmbedQuery,
@@ -23,7 +24,6 @@ import {
   insertFetchedCommentsIntoEmbedQuery,
   nest,
 } from '../graphql/utils';
-import omit from 'lodash/omit';
 
 const {showSignInDialog, editName} = authActions;
 const {addNotification} = notificationActions;
@@ -140,6 +140,10 @@ class StreamContainer extends React.Component {
     clearInterval(this.countPoll);
   }
 
+  userIsDegraged({auth: {user}} = this.props) {
+    return !can(user, 'INTERACT_WITH_COMMUNITY');
+  }
+
   render() {
     if (this.props.refetching) {
       return <Spinner />;
@@ -149,6 +153,7 @@ class StreamContainer extends React.Component {
       loadMore={this.loadMore}
       loadMoreComments={this.loadMoreComments}
       loadNewReplies={this.loadNewReplies}
+      userIsDegraged={this.userIsDegraged()}
     />;
   }
 }
@@ -310,7 +315,6 @@ const mapStateToProps = (state) => ({
   previousStreamTab: state.stream.previousTab,
   commentClassNames: state.stream.commentClassNames,
   pluginConfig: state.config.plugin_config,
-  reduxState: omit(state, 'apollo'),
 });
 
 const mapDispatchToProps = (dispatch) =>

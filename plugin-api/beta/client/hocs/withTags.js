@@ -8,8 +8,9 @@ import {withAddTag, withRemoveTag} from 'coral-framework/graphql/mutations';
 import withFragments from 'coral-framework/hocs/withFragments';
 import {addNotification} from 'coral-framework/actions/notification';
 import {forEachError, isTagged} from 'coral-framework/utils';
+import hoistStatics from 'recompose/hoistStatics';
 
-export default (tag) => (WrappedComponent) => {
+export default (tag) => hoistStatics((WrappedComponent) => {
   if (typeof tag !== 'string') {
     console.error('Tag must be a valid string');
     return null;
@@ -109,4 +110,4 @@ export default (tag) => (WrappedComponent) => {
   WithTags.displayName = `WithTags(${getDisplayName(WrappedComponent)})`;
 
   return enhance(WithTags);
-};
+});

@@ -3,6 +3,7 @@ import {graphql} from 'react-apollo';
 import {getQueryOptions, resolveFragments} from 'coral-framework/services/graphqlRegistry';
 import {getDefinitionName, separateDataAndRoot, getResponseErrors} from '../utils';
 import PropTypes from 'prop-types';
+import hoistStatics from 'recompose/hoistStatics';
 
 const withSkipOnErrors = (reducer) => (prev, action, ...rest) => {
   if (action.type === 'APOLLO_MUTATION_RESULT' && getResponseErrors(action.result)) {
@@ -35,7 +36,7 @@ function networkStatusToString(networkStatus) {
  * Exports a HOC with the same signature as `graphql`, that will
  * apply query options registered in the graphRegistry.
  */
-export default (document, config = {}) => (WrappedComponent) => {
+export default (document, config = {}) => hoistStatics((WrappedComponent) => {
   const name = getDefinitionName(document);
 
   return class WithQuery extends React.Component {
@@ -190,4 +191,4 @@ export default (document, config = {}) => (WrappedComponent) => {
       return <Wrapped {...this.props} />;
     }
   };
-};
+});

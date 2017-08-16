@@ -72,7 +72,7 @@ const ActionButton = ({children}) => {
   );
 };
 
-export default class Comment extends React.Component {
+export default class Comment extends React.PureComponent {
 
   constructor(props) {
     super(props);

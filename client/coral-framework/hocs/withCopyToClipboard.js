@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Clipboard from 'clipboard';
+import hoistStatics from 'recompose/hoistStatics';
 
-export default (WrappedComponent) => {
+export default hoistStatics((WrappedComponent) => {
   class WithCopyToClipboard extends React.Component {
     componentDidMount() {
       const clipboard = new Clipboard(ReactDOM.findDOMNode(this));
@@ -26,4 +27,4 @@ export default (WrappedComponent) => {
   }
 
   return WithCopyToClipboard;
-};
+});

@@ -8,6 +8,7 @@ import {getMutationOptions, resolveFragments} from 'coral-framework/services/gra
 import {getDefinitionName, getResponseErrors} from '../utils';
 import PropTypes from 'prop-types';
 import t from 'coral-framework/services/i18n';
+import hoistStatics from 'recompose/hoistStatics';
 
 class ResponseErrors extends Error {
   constructor(errors) {
@@ -30,7 +31,7 @@ class ResponseError {
  * Exports a HOC with the same signature as `graphql`, that will
  * apply mutation options registered in the graphRegistry.
  */
-export default (document, config = {}) => (WrappedComponent) => {
+export default (document, config = {}) => hoistStatics((WrappedComponent) => {
   config = {
     ...config,
     options: config.options || {},
@@ -147,4 +148,4 @@ export default (document, config = {}) => (WrappedComponent) => {
       return <Wrapped {...this.props} />;
     }
   };
-};
+});
