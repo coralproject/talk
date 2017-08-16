@@ -9,6 +9,7 @@ import {getDefinitionName, getResponseErrors} from '../utils';
 import PropTypes from 'prop-types';
 import t from 'coral-framework/services/i18n';
 import hoistStatics from 'recompose/hoistStatics';
+import union from 'lodash/union';
 
 class ResponseErrors extends Error {
   constructor(errors) {
@@ -47,7 +48,13 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
     // Lazily resolve fragments from graphRegistry to support circular dependencies.
     memoized = null;
 
-    wrappedProps = (data) => {
+    // Props as we would pass to the BaseComponent without optimizations.
+    dynamicProps = {};
+
+    // Props that are optimized by keeping the identity of function callbacks.
+    staticProps = {};
+
+    propsWrapper = (data) => {
       const name = getDefinitionName(document);
       const callbacks = getMutationOptions(name);
       const mutate = (base) => {
@@ -133,12 +140,34 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
             throw error;
           });
       };
-      return config.props({...data, mutate});
+
+      // Save current props to `dynamicProps`
+      this.dynamicProps = config.props({...data, mutate});
+
+      // Sync props to `staticProps`.
+      // `staticProps` ultimately contains the same props as `dynamicProps` but all callbacks
+      // keep their identity.
+      union(Object.keys(this.dynamicProps), Object.keys(this.staticProps)).forEach((key) => {
+        if (!(key in this.dynamicProps)) {
+          delete this.staticProps[key];
+          return;
+        }
+        if (typeof this.dynamicProps[key] !== 'function') {
+          this.staticProps[key] = this.dynamicProps[key];
+          return;
+        }
+
+        if (!(key in this.staticProps)) {
+          this.staticProps[key] = (...args) => this.dynamicProps[key](...args);
+          return;
+        }
+      });
+      return this.staticProps;
     };
 
     getWrapped = () => {
       if (!this.memoized) {
-        this.memoized = graphql(resolveFragments(document), {...config, props: this.wrappedProps})(WrappedComponent);
+        this.memoized = graphql(resolveFragments(document), {...config, props: this.propsWrapper})(WrappedComponent);
       }
       return this.memoized;
     };
