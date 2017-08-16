@@ -6,6 +6,7 @@ import {getSlotComponents} from 'coral-framework/helpers/plugins';
 import {Tab, TabPane} from 'coral-ui';
 import {getShallowChanges} from 'coral-framework/utils';
 import isEqual from 'lodash/isEqual';
+import PropTypes from 'prop-types';
 
 class StreamTabPanelContainer extends React.Component {
 
@@ -69,13 +70,34 @@ class StreamTabPanelContainer extends React.Component {
   render() {
     return (
       <StreamTabPanel
-        {...this.props}
-        pluginTabElements={this.getPluginTabElements()}
-        pluginTabPaneElements={this.getPluginTabPaneElements()}
+        className={this.props.className}
+        activeTab={this.props.activeTab}
+        setActiveTab={this.props.setActiveTab}
+        tabs={this.getPluginTabElements().concat(this.props.appendTabs)}
+        tabPanes={this.getPluginTabPaneElements().concat(this.props.appendTabPanes)}
+        sub={this.props.sub}
       />
     );
   }
 }
+
+StreamTabPanelContainer.propTypes = {
+  activeTab: PropTypes.string.isRequired,
+  setActiveTab: PropTypes.func.isRequired,
+  appendTabs: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.arrayOf(PropTypes.element)
+  ]),
+  appendTabPanes: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.arrayOf(PropTypes.element)
+  ]),
+  fallbackTab: PropTypes.string.isRequired,
+  tabSlot: PropTypes.string.isRequired,
+  tabPaneSlot: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  sub: PropTypes.bool,
+};
 
 const mapStateToProps = (state) => ({
   reduxState: omit(state, 'apollo'),

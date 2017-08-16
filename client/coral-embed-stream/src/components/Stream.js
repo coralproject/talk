@@ -220,12 +220,12 @@ class Stream extends React.Component {
                 tabPaneSlot={'streamTabPanes'}
                 slotProps={slotProps}
                 appendTabs={
-                  <Tab tabId={'all'}>
+                  <Tab tabId={'all'} key='all'>
                     All Comments <TabCount active={activeStreamTab === 'all'} sub>{totalCommentCount}</TabCount>
                   </Tab>
                 }
                 appendTabPanes={
-                  <TabPane tabId={'all'}>
+                  <TabPane tabId={'all'} key='all'>
                     <AllCommentsPane
                       data={data}
                       root={root}
