@@ -1,6 +1,30 @@
 const ActionModel = require('../models/action');
 const _ = require('lodash');
 const errors = require('../errors');
+const events = require('./events');
+
+const findOneAndUpdate = async (query, update, options = {}) => new Promise((resolve, reject) => {
+  ActionModel.findOneAndUpdate(query, update, Object.assign({}, options, {
+
+    // Use raw result to get `updatedExisting`.
+    passRawResult: true,
+
+    // Ensure that if it's new, we return the new object created.
+    new: true,
+
+    // Perform an upsert in the event that this doesn't exist.
+    upsert: true,
+
+    // Set the default values if not provided based on the mongoose models.
+    setDefaultsOnInsert: true
+  }), (err, doc, raw) => {
+    if (err) { return reject(err); }
+    if (raw.lastErrorObject.updatedExisting) {
+      return reject(new errors.ErrAlreadyExists(raw.value));
+    }
+    return resolve(raw.value);
+  });
+});
 
 module.exports = class ActionsService {
 
@@ -19,46 +43,26 @@ module.exports = class ActionsService {
    * @param {String} action   the new action to the item
    * @return {Promise}
    */
-  static insertUserAction(action) {
+  static async insertUserAction(action) {
 
     // Actions are made unique by using a query that can be reproducable, i.e.,
     // not containing user inputable values.
-    let query = {
+    let foundAction = await findOneAndUpdate({
       action_type: action.action_type,
       item_type: action.item_type,
       item_id: action.item_id,
       user_id: action.user_id,
-      group_id: action.group_id
-    };
+      group_id: action.group_id,
+    }, {
 
-    // Create/Update the action.
-    return new Promise((resolve, reject) => {
-      ActionModel.findOneAndUpdate(
-        query, {
-
-          // Only set when not existing.
-          $setOnInsert: action,
-        }, {
-
-          // Ensure that if it's new, we return the new object created.
-          new: true,
-
-          // Use raw result to get `updatedExisting`.
-          passRawResult: true,
-
-          // Perform an upsert in the event that this doesn't exist.
-          upsert: true,
-
-          // Set the default values if not provided based on the mongoose models.
-          setDefaultsOnInsert: true
-        }, (err, doc, raw) => {
-          if (err) { return reject(err); }
-          if (raw.lastErrorObject.updatedExisting) {
-            return reject(new errors.ErrAlreadyExists(raw.value));
-          }
-          return resolve(raw.value);
-        });
+      // Only set when not existing.
+      $setOnInsert: action,
     });
+
+    // Emit that there was a new action created.
+    events.emit('actions.new', foundAction);
+
+    return foundAction;
   }
 
   /**
@@ -188,6 +192,21 @@ module.exports = class ActionsService {
       'action_type': action_type,
       'item_type': item_type
     });
+  }
+
+  static async delete({id, user_id}) {
+    let action = await ActionModel.findOneAndRemove({
+      id,
+      user_id,
+    });
+    if (!action) {
+      return;
+    }
+
+    // Emit that the action was deleted.
+    events.emit('actions.delete', action);
+
+    return action;
   }
 
   /**

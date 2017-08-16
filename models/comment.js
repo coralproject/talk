@@ -66,7 +66,15 @@ const CommentSchema = new Schema({
     enum: COMMENT_STATUS,
     default: 'NONE'
   },
+
+  // parent_id is the id of the parent comment (null if there is none).
   parent_id: String,
+
+  // Counts to store related to actions taken on the given comment.
+  action_counts: {
+    default: {},
+    type: Object,
+  },
 
   // Tags are added by the self or by administrators.
   tags: [TagLinkSchema],
@@ -74,7 +82,7 @@ const CommentSchema = new Schema({
   // Additional metadata stored on the field.
   metadata: {
     default: {},
-    type: Object
+    type: Object,
   }
 }, {
   timestamps: {

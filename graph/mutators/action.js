@@ -1,4 +1,3 @@
-const ActionModel = require('../../models/action');
 const ActionsService = require('../../services/actions');
 const UsersService = require('../../services/users');
 const errors = require('../../errors');
@@ -52,10 +51,7 @@ const createAction = async ({user = {}, pubsub, loaders: {Comments}}, {item_id, 
  * @return {Promise}     resolves to the deleted action, or null if not found.
  */
 const deleteAction = ({user}, {id}) => {
-  return ActionModel.findOneAndRemove({
-    id,
-    user_id: user.id
-  });
+  return ActionsService.delete({id, user_id: user.id});
 };
 
 module.exports = (context) => {

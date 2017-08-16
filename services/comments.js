@@ -5,6 +5,49 @@ const ActionsService = require('./actions');
 const SettingsService = require('./settings');
 
 const errors = require('../errors');
+const events = require('./events');
+
+// When a new action is created, modify the comment.
+events.on('actions.new', async (action) => {
+  if (!action || action.item_type !== 'COMMENTS') {
+    return;
+  }
+
+  const ACTION_TYPE = action.action_type.toLowerCase();
+
+  try {
+    await CommentModel.update({
+      id: action.item_id,
+    }, {
+      $inc: {
+        [`action_counts.${ACTION_TYPE}`]: 1,
+      }
+    });
+  } catch (err) {
+    console.error(`Can't increment the action_counts.${ACTION_TYPE}:`, err);
+  }
+});
+
+// When an action is deleted, modify the comment.
+events.on('actions.delete', async (action) => {
+  if (!action || action.item_type !== 'COMMENTS') {
+    return;
+  }
+
+  const ACTION_TYPE = action.action_type.toLowerCase();
+
+  try {
+    await CommentModel.update({
+      id: action.item_id,
+    }, {
+      $inc: {
+        [`action_counts.${ACTION_TYPE}`]: -1,
+      }
+    });
+  } catch (err) {
+    console.error(`Can't decrement the action_counts.${ACTION_TYPE}:`, err);
+  }
+});
 
 module.exports = class CommentsService {
 
