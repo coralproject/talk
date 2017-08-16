@@ -60,7 +60,7 @@ module.exports = class ActionsService {
     });
 
     // Emit that there was a new action created.
-    events.emit('actions.new', foundAction);
+    events.emitAsync('actions.new', foundAction);
 
     return foundAction;
   }
@@ -204,7 +204,7 @@ module.exports = class ActionsService {
     }
 
     // Emit that the action was deleted.
-    events.emit('actions.delete', action);
+    events.emitAsync('actions.delete', action);
 
     return action;
   }
