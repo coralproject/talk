@@ -2,10 +2,12 @@ import React from 'react';
 import cn from 'classnames';
 import styles from './Slot.css';
 import {connect} from 'react-redux';
-import {getSlotElements} from 'coral-framework/helpers/plugins';
+import {getSlotElements, getSlotComponentProps} from 'coral-framework/helpers/plugins';
 import omit from 'lodash/omit';
 import isEqual from 'lodash/isEqual';
 import {getShallowChanges} from 'coral-framework/utils';
+
+const emptyConfig = {};
 
 class Slot extends React.Component {
   shouldComponentUpdate(next) {
@@ -23,20 +25,20 @@ class Slot extends React.Component {
     return changes.length !== 0;
   }
 
-  getSlotProps({fill: _a, inline: _b, className: _c, reduxState: _d, defaultComponent_: _e, ...rest} = this.props) {
+  getSlotProps({fill: _a, inline: _b, className: _c, reduxState: _d, defaultComponent_: _e, queryData: _f, ...rest} = this.props) {
     return rest;
   }
 
   getChildren(props = this.props) {
-    return getSlotElements(props.fill, props.reduxState, this.getSlotProps(props));
+    return getSlotElements(props.fill, props.reduxState, this.getSlotProps(props), props.queryData);
   }
 
   render() {
-    const {inline = false, className, reduxState, defaultComponent: DefaultComponent} = this.props;
+    const {inline = false, className, reduxState, defaultComponent: DefaultComponent, queryData} = this.props;
     let children = this.getChildren();
-    const pluginConfig = reduxState.config.pluginConfig || {};
+    const pluginConfig = reduxState.config.pluginConfig || emptyConfig;
     if (children.length === 0 && DefaultComponent) {
-      children = <DefaultComponent {...this.getSlotProps(this.props)} />;
+      children = <DefaultComponent {...getSlotComponentProps(DefaultComponent, reduxState, this.getSlotProps(this.props), queryData)} />;
     }
 
     return (
@@ -48,7 +50,8 @@ class Slot extends React.Component {
 }
 
 Slot.propTypes = {
-  fill: React.PropTypes.string.isRequired
+  fill: React.PropTypes.string.isRequired,
+  queryData: React.PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({

@@ -2,7 +2,7 @@ import React from 'react';
 import StreamTabPanel from '../components/StreamTabPanel';
 import {connect} from 'react-redux';
 import omit from 'lodash/omit';
-import {getSlotComponents} from 'coral-framework/helpers/plugins';
+import {getSlotComponents, getSlotComponentProps} from 'coral-framework/helpers/plugins';
 import {Tab, TabPane} from 'coral-ui';
 import {getShallowChanges} from 'coral-framework/utils';
 import isEqual from 'lodash/isEqual';
@@ -43,14 +43,14 @@ class StreamTabPanelContainer extends React.Component {
   }
 
   getSlotComponents(slot, props = this.props) {
-    return getSlotComponents(slot, props.reduxState, props.slotProps);
+    return getSlotComponents(slot, props.reduxState, props.slotProps, props.queryData);
   }
 
   getPluginTabElements(props = this.props) {
     return this.getSlotComponents(props.tabSlot).map((PluginComponent) => (
       <Tab tabId={PluginComponent.talkPluginName} key={PluginComponent.talkPluginName}>
         <PluginComponent
-          {...props.slotProps}
+          {...getSlotComponentProps(PluginComponent, props.reduxState, props.slotProps, props.queryData)}
           active={this.props.activeTab === PluginComponent.talkPluginName}
         />
       </Tab>
@@ -61,7 +61,7 @@ class StreamTabPanelContainer extends React.Component {
     return this.getSlotComponents(props.tabPaneSlot).map((PluginComponent) => (
       <TabPane tabId={PluginComponent.talkPluginName} key={PluginComponent.talkPluginName}>
         <PluginComponent
-          {...props.slotProps}
+          {...getSlotComponentProps(PluginComponent, props.reduxState, props.slotProps, props.queryData)}
         />
       </TabPane>
     ));
@@ -95,6 +95,8 @@ StreamTabPanelContainer.propTypes = {
   fallbackTab: PropTypes.string.isRequired,
   tabSlot: PropTypes.string.isRequired,
   tabPaneSlot: PropTypes.string.isRequired,
+  slotProps: PropTypes.object.isRequired,
+  queryData: PropTypes.object,
   className: PropTypes.string,
   sub: PropTypes.bool,
 };

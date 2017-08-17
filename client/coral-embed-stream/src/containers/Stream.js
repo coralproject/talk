@@ -161,19 +161,11 @@ class StreamContainer extends React.Component {
 const commentFragment = gql`
   fragment CoralEmbedStream_Stream_comment on Comment {
     id
+    status
+    user {
+      id
+    }
     ...${getDefinitionName(Comment.fragments.comment)}
-    ${nest(`
-      replies(excludeIgnored: $excludeIgnored) {
-        nodes {
-          id
-          ...${getDefinitionName(Comment.fragments.comment)}
-          ...nest
-        }
-        hasNextPage
-        startCursor
-        endCursor
-      }
-    `, THREADING_LEVEL)}
   }
   ${Comment.fragments.comment}
 `;
@@ -210,27 +202,14 @@ const LOAD_MORE_QUERY = gql`
   query CoralEmbedStream_LoadMoreComments($limit: Int = 5, $cursor: Date, $parent_id: ID, $asset_id: ID, $sort: SORT_ORDER, $excludeIgnored: Boolean) {
     comments(query: {limit: $limit, cursor: $cursor, parent_id: $parent_id, asset_id: $asset_id, sort: $sort, excludeIgnored: $excludeIgnored}) {
       nodes {
-        id
-        ...${getDefinitionName(Comment.fragments.comment)}
-        ${nest(`
-          replies(limit: 3, excludeIgnored: $excludeIgnored) {
-            nodes {
-              id
-              ...${getDefinitionName(Comment.fragments.comment)}
-              ...nest
-            }
-            hasNextPage
-            startCursor
-            endCursor
-          }
-        `, THREADING_LEVEL)}
+        ...CoralEmbedStream_Stream_comment
       }
       hasNextPage
       startCursor
       endCursor
     }
   }
-  ${Comment.fragments.comment}
+  ${commentFragment}
 `;
 
 const slots = [

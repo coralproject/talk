@@ -3,7 +3,9 @@ import React from 'react';
 import Comment from '../components/Comment';
 import {withFragments} from 'coral-framework/hocs';
 import {getSlotFragmentSpreads} from 'coral-framework/utils';
+import {THREADING_LEVEL} from '../constants/stream';
 import hoistStatics from 'recompose/hoistStatics';
+import {nest} from '../graphql/utils';
 
 const slots = [
   'streamQuestionArea',
@@ -48,6 +50,36 @@ const withAnimateEnter = hoistStatics((BaseComponent) => {
   return WithAnimateEnter;
 });
 
+const singleCommentFragment = gql`
+  fragment CoralEmbedStream_Comment_SingleComment on Comment {
+    id
+    body
+    created_at
+    status
+    replyCount
+    tags {
+      tag {
+        name
+      }
+    }
+    user {
+      id
+      username
+    }
+    action_summaries {
+      __typename
+      count
+      current_user {
+        id
+      }
+    }
+    editing {
+      edited
+      editableUntil
+    }
+  }
+`;
+
 const withCommentFragments = withFragments({
   root: gql`
     fragment CoralEmbedStream_Comment_root on RootQuery {
@@ -63,33 +95,21 @@ const withCommentFragments = withFragments({
     `,
   comment: gql`
     fragment CoralEmbedStream_Comment_comment on Comment {
-      id
-      body
-      created_at
-      status
-      replyCount
-      tags {
-        tag {
-          name
+      ...CoralEmbedStream_Comment_SingleComment
+      ${nest(`
+        replies(limit: 3, excludeIgnored: $excludeIgnored) {
+          nodes {
+            ...CoralEmbedStream_Comment_SingleComment
+            ...nest
+          }
+          hasNextPage
+          startCursor
+          endCursor
         }
-      }
-      user {
-        id
-        username
-      }
-      action_summaries {
-        __typename
-        count
-        current_user {
-          id
-        }
-      }
-      editing {
-        edited
-        editableUntil
-      }
+      `, THREADING_LEVEL)}
       ${getSlotFragmentSpreads(slots, 'comment')}
     }
+    ${singleCommentFragment}
   `
 });
 

@@ -93,8 +93,14 @@ export default (tag) => hoistStatics((WrappedComponent) => {
 
   const enhance = compose(
     withFragments({
+      asset: gql`
+        fragment ${Tag}Button_asset on Asset {
+          id
+        }
+      `,
       comment: gql`
         fragment ${Tag}Button_comment on Comment {
+          id
           tags {
             tag {
               name

@@ -176,7 +176,7 @@ export default (reaction) => hoistStatics((WrappedComponent) => {
         createdSubscription = context.client.subscribe({
           query: REACTION_CREATED_SUBSCRIPTION,
           variables: {
-            assetId: this.props.root.asset.id,
+            assetId: this.props.asset.id,
           },
         }).subscribe({
           next: this.onReactionCreated,
@@ -186,7 +186,7 @@ export default (reaction) => hoistStatics((WrappedComponent) => {
         deletedSubscription = context.client.subscribe({
           query: REACTION_DELETED_SUBSCRIPTION,
           variables: {
-            assetId: this.props.root.asset.id,
+            assetId: this.props.asset.id,
           },
         }).subscribe({
           next: this.onReactionDeleted,
@@ -372,9 +372,16 @@ export default (reaction) => hoistStatics((WrappedComponent) => {
 
   const enhance = compose(
     withFragments({
+      asset: gql`
+        fragment ${Reaction}Button_asset on Asset {
+          id
+        }
+      `,
       comment: gql`
         fragment ${Reaction}Button_comment on Comment {
+          id
           action_summaries {
+            __typename
             ... on ${Reaction}ActionSummary {
               count
               current_user {

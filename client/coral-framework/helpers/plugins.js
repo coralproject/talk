@@ -11,8 +11,11 @@ import camelize from './camelize';
 import plugins from 'pluginsConfig';
 import uuid from 'uuid/v4';
 
-export function getSlotComponents(slot, reduxState, props = {}) {
-  const pluginConfig = reduxState.config.plugin_config || {};
+// This is returned for pluginConfig when it is empty.
+const emptyConfig = {};
+
+export function getSlotComponents(slot, reduxState, props = {}, queryData = {}) {
+  const pluginConfig = reduxState.config.plugin_config || emptyConfig;
   return flatten(plugins
 
       // Filter out components that have slots and have been disabled in `plugin_config`
@@ -25,7 +28,7 @@ export function getSlotComponents(slot, reduxState, props = {}) {
       if(!component.isExcluded) {
         return true;
       }
-      let resolvedProps = {...props, config: pluginConfig};
+      let resolvedProps = getSlotComponentProps(component, reduxState, props, queryData);
       if (component.mapStateToProps) {
         resolvedProps = {...resolvedProps, ...component.mapStateToProps(reduxState)};
       }
@@ -33,17 +36,35 @@ export function getSlotComponents(slot, reduxState, props = {}) {
     });
 }
 
-export function isSlotEmpty(slot, reduxState, props) {
-  return getSlotComponents(slot, reduxState, props).length === 0;
+export function isSlotEmpty(slot, reduxState, props = {}, queryData = {}) {
+  return getSlotComponents(slot, reduxState, props, queryData).length === 0;
+}
+
+/**
+ * getSlotComponentProps calculate the props we would pass to the slot component.
+ * query datas are only passed to the component if it is defined in `component.fragments`.
+ */
+export function getSlotComponentProps(component, reduxState, props, queryData) {
+  const pluginConfig = reduxState.config.plugin_config || emptyConfig;
+  return {
+    ...props,
+    config: pluginConfig,
+    ...(
+      component.fragments
+      ? pick(queryData, Object.keys(component.fragments))
+      : queryData // TODO: should be {}
+    )
+  };
 }
 
 /**
  * Returns React Elements for given slot.
  */
-export function getSlotElements(slot, reduxState, props = {}) {
-  const pluginConfig = reduxState.config.plugin_config || {};
-  return getSlotComponents(slot, reduxState, props)
-    .map((component, i) => React.createElement(component, {key: i, ...props, config: pluginConfig}));
+export function getSlotElements(slot, reduxState, props = {}, queryData = {}) {
+  return getSlotComponents(slot, reduxState, props, queryData)
+    .map((component, i) => {
+      return React.createElement(component, {key: i, ...getSlotComponentProps(component, reduxState, props, queryData)});
+    });
 }
 
 export function getSlotFragments(slot, part) {

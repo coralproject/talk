@@ -40,6 +40,15 @@ class Stream extends React.Component {
     }
   }
 
+  commentIsIgnored = (comment) => {
+    const me = this.props.root.me;
+    return (
+      me &&
+      me.ignoredUsers &&
+      me.ignoredUsers.find((u) => u.id === comment.user.id)
+    );
+  };
+
   render() {
     const {
       data,
@@ -48,7 +57,7 @@ class Stream extends React.Component {
       setActiveReplyBox,
       appendItemArray,
       commentClassNames,
-      root: {asset, asset: {comment, comments, totalCommentCount}, me},
+      root: {asset, asset: {comment, comments, totalCommentCount}},
       postComment,
       addNotification,
       editComment,
@@ -89,16 +98,9 @@ class Stream extends React.Component {
       user.suspension.until &&
       new Date(user.suspension.until) > new Date();
 
-    const commentIsIgnored = (comment) => {
-      return (
-        me &&
-        me.ignoredUsers &&
-        me.ignoredUsers.find((u) => u.id === comment.user.id)
-      );
-    };
-
     const showCommentBox = loggedIn && ((!banned && !temporarilySuspended && !highlightedComment) || keepCommentBox);
-    const slotProps = {data, root, asset};
+    const slotProps = {data};
+    const slotQueryData = {root, asset};
 
     if (!comment && !comments) {
       console.error('Talk: No comments came back from the graph given that query. Please, check the query params.');
@@ -160,6 +162,7 @@ class Stream extends React.Component {
 
         <Slot
           fill="stream"
+          queryData={slotQueryData}
           {...slotProps}
         />
 
@@ -194,7 +197,7 @@ class Stream extends React.Component {
                 deleteAction={deleteAction}
                 showSignInDialog={showSignInDialog}
                 key={highlightedComment.id}
-                commentIsIgnored={commentIsIgnored}
+                commentIsIgnored={this.commentIsIgnored}
                 comment={highlightedComment}
                 charCountEnable={asset.settings.charCountEnable}
                 maxCharCount={asset.settings.charCount}
@@ -209,6 +212,7 @@ class Stream extends React.Component {
               >
                 <Slot
                   fill="streamFilter"
+                  queryData={slotQueryData}
                   {...slotProps}
                 />
               </div>
@@ -219,6 +223,7 @@ class Stream extends React.Component {
                 tabSlot={'streamTabs'}
                 tabPaneSlot={'streamTabPanes'}
                 slotProps={slotProps}
+                queryData={slotQueryData}
                 appendTabs={
                   <Tab tabId={'all'} key='all'>
                     All Comments <TabCount active={activeStreamTab === 'all'} sub>{totalCommentCount}</TabCount>
@@ -245,7 +250,7 @@ class Stream extends React.Component {
                       loadNewReplies={loadNewReplies}
                       deleteAction={deleteAction}
                       showSignInDialog={showSignInDialog}
-                      commentIsIgnored={commentIsIgnored}
+                      commentIsIgnored={this.commentIsIgnored}
                       charCountEnable={asset.settings.charCountEnable}
                       maxCharCount={asset.settings.charCount}
                       editComment={editComment}

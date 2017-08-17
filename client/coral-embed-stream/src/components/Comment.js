@@ -224,6 +224,10 @@ export default class Comment extends React.Component {
     return;
   }
 
+  commentPostedHandler = () => {
+    this.props.setActiveReplyBox('');
+  }
+
   // getVisibileReplies returns a list containing comments
   // which were authored by current user or comes before the `idCursor`.
   getVisibileReplies() {
@@ -372,10 +376,13 @@ export default class Comment extends React.Component {
     // props that are passed down the slots.
     const slotProps = {
       data,
+      depth,
+    };
+
+    const queryData = {
       root,
       asset,
       comment,
-      depth,
     };
 
     return (
@@ -389,6 +396,7 @@ export default class Comment extends React.Component {
             className={`${styles.commentAvatar} talk-stream-comment-avatar`}
             fill="commentAvatar"
             {...slotProps}
+            queryData={queryData}
             inline
           />
 
@@ -411,6 +419,7 @@ export default class Comment extends React.Component {
                 className={styles.commentInfoBar}
                 fill="commentInfoBar"
                 {...slotProps}
+                queryData={queryData}
               />
 
               { isActive && (currentUser && (comment.user.id === currentUser.id)) &&
@@ -457,6 +466,7 @@ export default class Comment extends React.Component {
                     fill="commentContent"
                     defaultComponent={CommentContent}
                     {...slotProps}
+                    queryData={queryData}
                   />
                   </div>
               }
@@ -468,6 +478,7 @@ export default class Comment extends React.Component {
                     <Slot
                       fill="commentReactions"
                       {...slotProps}
+                      queryData={queryData}
                       inline
                     />
                     {!disableReply &&
@@ -484,6 +495,7 @@ export default class Comment extends React.Component {
                       fill="commentActions"
                       wrapperComponent={ActionButton}
                       {...slotProps}
+                      queryData={queryData}
                       inline
                     />
                     <ActionButton>
@@ -509,9 +521,7 @@ export default class Comment extends React.Component {
 
         {activeReplyBox === comment.id
           ? <ReplyBox
-              commentPostedHandler={() => {
-                setActiveReplyBox('');
-              }}
+              commentPostedHandler={this.commentPostedHandler}
               charCountEnable={charCountEnable}
               maxCharCount={maxCharCount}
               setActiveReplyBox={setActiveReplyBox}
