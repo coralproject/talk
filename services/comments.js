@@ -4,6 +4,7 @@ const ActionModel = require('../models/action');
 const ActionsService = require('./actions');
 const SettingsService = require('./settings');
 
+const sc = require('snake-case');
 const errors = require('../errors');
 const events = require('./events');
 const {
@@ -300,25 +301,37 @@ module.exports = class CommentsService {
 // Event Hooks
 //==============================================================================
 
+const incrActionCounts = async (action, value) => {
+  const ACTION_TYPE = sc(action.action_type.toLowerCase());
+
+  const update = {
+    [`action_counts.${ACTION_TYPE}`]: value,
+  };
+
+  if (action.group_id !== null && action.group_id.length > 0) {
+    const GROUP_ID = sc(action.group_id.toLowerCase());
+
+    update[`action_counts.${ACTION_TYPE}_${GROUP_ID}`] = value;
+  }
+
+  try {
+    await CommentModel.update({
+      id: action.item_id,
+    }, {
+      $inc: update,
+    });
+  } catch (err) {
+    console.error(`Can't mutate the action_counts.${ACTION_TYPE}:`, err);
+  }
+};
+
 // When a new action is created, modify the comment.
 events.on(ACTIONS_NEW, async (action) => {
   if (!action || action.item_type !== 'COMMENTS') {
     return;
   }
 
-  const ACTION_TYPE = action.action_type.toLowerCase();
-
-  try {
-    await CommentModel.update({
-      id: action.item_id,
-    }, {
-      $inc: {
-        [`action_counts.${ACTION_TYPE}`]: 1,
-      }
-    });
-  } catch (err) {
-    console.error(`Can't increment the action_counts.${ACTION_TYPE}:`, err);
-  }
+  return incrActionCounts(action, 1);
 });
 
 // When an action is deleted, modify the comment.
@@ -327,17 +340,5 @@ events.on(ACTIONS_DELETE, async (action) => {
     return;
   }
 
-  const ACTION_TYPE = action.action_type.toLowerCase();
-
-  try {
-    await CommentModel.update({
-      id: action.item_id,
-    }, {
-      $inc: {
-        [`action_counts.${ACTION_TYPE}`]: -1,
-      }
-    });
-  } catch (err) {
-    console.error(`Can't decrement the action_counts.${ACTION_TYPE}:`, err);
-  }
+  return incrActionCounts(action, -1);
 });
