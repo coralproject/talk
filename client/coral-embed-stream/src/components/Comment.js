@@ -16,13 +16,14 @@ import mapValues from 'lodash/mapValues';
 
 import LoadMore from './LoadMore';
 import {getEditableUntilDate} from './util';
+import {findCommentWithId} from '../graphql/utils';
 import {TopRightMenu} from './TopRightMenu';
 import CommentContent from './CommentContent';
 import Slot from 'coral-framework/components/Slot';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import InactiveCommentLabel from './InactiveCommentLabel';
 import {EditableCommentContent} from './EditableCommentContent';
-import {getActionSummary, iPerformedThisAction, forEachError, isCommentActive} from 'coral-framework/utils';
+import {getActionSummary, iPerformedThisAction, forEachError, isCommentActive, getShallowChanges} from 'coral-framework/utils';
 import t from 'coral-framework/services/i18n';
 import CommentContainer from '../containers/Comment';
 
@@ -73,6 +74,17 @@ const ActionButton = ({children}) => {
   );
 };
 
+// Determine whether the comment with id is in the part of the comments tree.
+function containsCommentId(props, id) {
+  if (props.comment.id === id) {
+    return true;
+  }
+  if (props.comment.replies) {
+    return findCommentWithId(props.comment.replies.nodes, id);
+  }
+  return false;
+}
+
 export default class Comment extends React.Component {
 
   constructor(props) {
@@ -110,6 +122,23 @@ export default class Comment extends React.Component {
         this.setState(invalidateCursor(1, this.state, next));
       }
     }
+  }
+
+  shouldComponentUpdate(next) {
+
+    // Specifically handle `activeReplyBox` if it is the only change.
+    const changes = getShallowChanges(this.props, next);
+    if (changes.length === 1 && changes[0] === 'activeReplyBox') {
+      if (
+        !containsCommentId(next, this.props.activeReplyBox) &&
+        !containsCommentId(next, next.activeReplyBox)
+      ) {
+        return false;
+      }
+    }
+
+    // Prevent Slot from rerendering when no props has shallowly changed.
+    return changes.length !== 0;
   }
 
   static propTypes = {
