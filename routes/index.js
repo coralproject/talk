@@ -39,8 +39,8 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-router.use('/client', express.static(path.join(__dirname, 'dist')));
-router.use('/public', express.static(path.join(__dirname, 'public')));
+router.use('/client', express.static(path.join(__dirname, '../dist')));
+router.use('/public', express.static(path.join(__dirname, '../public')));
 
 /**
  * Serves a file based on a relative path.
