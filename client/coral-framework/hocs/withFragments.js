@@ -63,18 +63,19 @@ export default (fragments) => hoistStatics((BaseComponent) => {
     // Cache variables between lifecycles to speed up render.
     filteredProps = filterProps(this.props, this.fragments)
     queryDataHasChanged = false;
-    lastFilteredProps = null;
     shallowChanges = null;
 
     componentWillReceiveProps(next) {
       this.shallowChanges = getShallowChanges(this.props, next);
-      this.queryDataHasChanged = this.fragmentKeys.some((key) => this.shallowChanges.indexOf(key) >= 0);
 
-      if (this.queryDataHasChanged) {
+      if (this.fragmentKeys.some((key) => this.shallowChanges.indexOf(key) >= 0)) {
+        const nextFilteredProps = filterProps(next, this.fragments);
+        this.queryDataHasChanged = !hasEqualLeaves(this.filteredProps, nextFilteredProps);
+        if (this.queryDataHasChanged) {
 
-        // If query data has changed, we compute the next filtered props.
-        this.lastFilteredProps = this.filteredProps;
-        this.filteredProps = filterProps(next, this.fragments);
+          // Only changed props when query data has changed.
+          this.filteredProps = filterProps(next, this.fragments);
+        }
       }
     }
 
@@ -82,7 +83,7 @@ export default (fragments) => hoistStatics((BaseComponent) => {
 
       // If only query data was changed.
       if (this.queryDataHasChanged && this.shallowChanges.every((key) => this.fragmentKeys.indexOf(key) >= 0)) {
-        return !hasEqualLeaves(this.lastFilteredProps, this.filteredProps);
+        return this.queryDataHasChanged;
       }
 
       return this.shallowChanges.length !== 0;
