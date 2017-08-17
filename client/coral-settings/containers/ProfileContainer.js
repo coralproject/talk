@@ -38,7 +38,7 @@ class ProfileContainer extends Component {
           me: {
             comments: {
               nodes: {
-                $apply: (nodes) => insertCommentsSorted(nodes, comments.nodes, 'REVERSE_CHRONOLOGICAL'),
+                $apply: (nodes) => insertCommentsSorted(nodes, comments.nodes, 'DESC'),
               },
               hasNextPage: {$set: comments.hasNextPage},
               endCursor: {$set: comments.endCursor},
@@ -112,7 +112,7 @@ const CommentFragment = gql`
 `;
 
 const LOAD_MORE_QUERY = gql`
-  query TalkSettings_LoadMoreComments($limit: Int, $cursor: Date) {
+  query TalkSettings_LoadMoreComments($limit: Int, $cursor: Cursor) {
     comments(query: {limit: $limit, cursor: $cursor}) {
       ...TalkSettings_CommentConnectionFragment
     }

@@ -312,7 +312,7 @@ const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, a
   }
 
   if (cursor) {
-    if (sort === 'REVERSE_CHRONOLOGICAL') {
+    if (sort === 'DESC') {
       comments = comments.where({
         created_at: {
           $lt: cursor
@@ -328,7 +328,7 @@ const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, a
   }
 
   let query = comments
-    .sort({created_at: sort === 'REVERSE_CHRONOLOGICAL' ? -1 : 1});
+    .sort({created_at: sort === 'DESC' ? -1 : 1});
   if (limit) {
     query = query.limit(limit + 1);
   }
@@ -363,7 +363,7 @@ const genRecentReplies = (context, ids) => {
       }
     }},
 
-    // sort these by their created at timestamp, CHRONOLOGICAL'y as these are
+    // sort these by their created at timestamp, ASC'y as these are
     // replies
     {$sort: {
       created_at: 1
@@ -413,7 +413,7 @@ const genRecentComments = (_, ids) => {
       }
     }},
 
-    // sort these by their created at timestamp, CHRONOLOGICAL'y as these are
+    // sort these by their created at timestamp, ASC'y as these are
     // replies
     {$sort: {
       created_at: 1

@@ -36,7 +36,7 @@ const getUsersByQuery = ({user}, {ids, limit, cursor, statuses = null, sort}) =>
   }
 
   if (cursor) {
-    if (sort === 'REVERSE_CHRONOLOGICAL') {
+    if (sort === 'DESC') {
       users = users.where({
         created_at: {
           $lt: cursor
@@ -52,7 +52,7 @@ const getUsersByQuery = ({user}, {ids, limit, cursor, statuses = null, sort}) =>
   }
 
   return users
-    .sort({created_at: sort === 'REVERSE_CHRONOLOGICAL' ? -1 : 1})
+    .sort({created_at: sort === 'DESC' ? -1 : 1})
     .limit(limit);
 };
 

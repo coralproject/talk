@@ -279,7 +279,7 @@ const COMMENT_REJECTED_SUBSCRIPTION = gql`
 `;
 
 const LOAD_MORE_QUERY = gql`
-  query CoralAdmin_Moderation_LoadMore($limit: Int = 10, $cursor: Date, $sort: SORT_ORDER, $asset_id: ID, $statuses:[COMMENT_STATUS!], $action_type: ACTION_TYPE) {
+  query CoralAdmin_Moderation_LoadMore($limit: Int = 10, $cursor: Cursor, $sort: SORT_ORDER, $asset_id: ID, $statuses:[COMMENT_STATUS!], $action_type: ACTION_TYPE) {
     comments(query: {limit: $limit, cursor: $cursor, asset_id: $asset_id, statuses: $statuses, sort: $sort, action_type: $action_type}) {
       nodes {
         ...${getDefinitionName(Comment.fragments.comment)}

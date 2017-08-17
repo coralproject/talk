@@ -60,7 +60,7 @@ export default {
             asset: {
               featuredComments: {
                 nodes: {
-                  $apply: (nodes) => insertCommentsSorted(nodes, comment, 'REVERSE_CHRONOLOGICAL')
+                  $apply: (nodes) => insertCommentsSorted(nodes, comment, 'DESC')
                 }
               },
               featuredCommentsCount: {

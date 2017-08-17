@@ -102,7 +102,7 @@ class StreamContainer extends React.Component {
         cursor: comment.replies.endCursor,
         parent_id,
         asset_id: this.props.root.asset.id,
-        sort: 'CHRONOLOGICAL',
+        sort: 'ASC',
         excludeIgnored: this.props.data.variables.excludeIgnored,
       },
       updateQuery: (prev, {fetchMoreResult:{comments}}) => {
@@ -119,7 +119,7 @@ class StreamContainer extends React.Component {
         cursor: this.props.root.asset.comments.endCursor,
         parent_id: null,
         asset_id: this.props.root.asset.id,
-        sort: 'REVERSE_CHRONOLOGICAL',
+        sort: 'DESC',
         excludeIgnored: this.props.data.variables.excludeIgnored,
       },
       updateQuery: (prev, {fetchMoreResult:{comments}}) => {
@@ -202,7 +202,7 @@ const COMMENTS_EDITED_SUBSCRIPTION = gql`
 `;
 
 const LOAD_MORE_QUERY = gql`
-  query CoralEmbedStream_LoadMoreComments($limit: Int = 5, $cursor: Date, $parent_id: ID, $asset_id: ID, $sort: SORT_ORDER, $excludeIgnored: Boolean) {
+  query CoralEmbedStream_LoadMoreComments($limit: Int = 5, $cursor: Cursor, $parent_id: ID, $asset_id: ID, $sort: SORT_ORDER, $excludeIgnored: Boolean) {
     comments(query: {limit: $limit, cursor: $cursor, parent_id: $parent_id, asset_id: $asset_id, sort: $sort, excludeIgnored: $excludeIgnored}) {
       nodes {
         id

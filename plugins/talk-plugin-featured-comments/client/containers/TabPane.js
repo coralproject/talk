@@ -18,7 +18,7 @@ class TabPaneContainer extends React.Component {
         limit: 5,
         cursor: this.props.root.asset.featuredComments.endCursor,
         asset_id: this.props.root.asset.id,
-        sort: 'REVERSE_CHRONOLOGICAL',
+        sort: 'DESC',
         excludeIgnored: this.props.data.variables.excludeIgnored,
       },
       updateQuery: (previous, {fetchMoreResult:{comments}}) => {
@@ -26,7 +26,7 @@ class TabPaneContainer extends React.Component {
           asset: {
             featuredComments: {
               nodes: {
-                $apply: (nodes) => insertCommentsSorted(nodes, comments.nodes, 'REVERSE_CHRONOLOGICAL'),
+                $apply: (nodes) => insertCommentsSorted(nodes, comments.nodes, 'DESC'),
               },
               hasNextPage: {$set: comments.hasNextPage},
               endCursor: {$set: comments.endCursor},
@@ -47,7 +47,7 @@ class TabPaneContainer extends React.Component {
 }
 
 const LOAD_MORE_QUERY = gql`
-  query TalkFeaturedComments_LoadMoreComments($limit: Int = 5, $cursor: Date, $asset_id: ID, $sort: SORT_ORDER, $excludeIgnored: Boolean) {
+  query TalkFeaturedComments_LoadMoreComments($limit: Int = 5, $cursor: String, $asset_id: ID, $sort: SORT_ORDER, $excludeIgnored: Boolean) {
     comments(query: {limit: $limit, cursor: $cursor, tags: ["FEATURED"], asset_id: $asset_id, sort: $sort, excludeIgnored: $excludeIgnored}) {
       nodes {
         ...${getDefinitionName(Comment.fragments.comment)}

@@ -5,6 +5,9 @@
 # Date represented as an ISO8601 string.
 scalar Date
 
+# Cursor represents a paginating cursor.
+scalar Cursor
+
 ################################################################################
 ## Reliability
 ################################################################################
@@ -126,10 +129,10 @@ input UsersQuery {
   limit: Int = 10
 
   # Skip results from the last created_at timestamp.
-  cursor: Date
+  cursor: Cursor
 
   # Sort the results by created_at.
-  sort: SORT_ORDER = REVERSE_CHRONOLOGICAL
+  sort: SORT_ORDER = DESC
 }
 
 # AssetsQuery allows teh ability to query assets by specific fields
@@ -241,10 +244,10 @@ input CommentsQuery {
   limit: Int = 10
 
   # Skip results from the last created_at timestamp.
-  cursor: Date
+  cursor: Cursor
 
   # Sort the results by created_at.
-  sort: SORT_ORDER = REVERSE_CHRONOLOGICAL
+  sort: SORT_ORDER = DESC
 
   # Filter by a specific tag name.
   tags: [String!]
@@ -314,7 +317,7 @@ type Comment {
   recentReplies: [Comment!]
 
   # the replies that were made to the comment.
-  replies(sort: SORT_ORDER = CHRONOLOGICAL, limit: Int = 3, excludeIgnored: Boolean): CommentConnection!
+  replies(sort: SORT_ORDER = ASC, limit: Int = 3, excludeIgnored: Boolean): CommentConnection!
 
   # The count of replies on a comment.
   replyCount(excludeIgnored: Boolean): Int
@@ -348,10 +351,10 @@ type CommentConnection {
   hasNextPage: Boolean!
 
   # Cursor of first comment in subset.
-  startCursor: Date
+  startCursor: Cursor
 
   # Cursor of last comment in subset.
-  endCursor: Date
+  endCursor: Cursor
 
   # Subset of comments.
   nodes: [Comment!]!
@@ -573,7 +576,7 @@ type Asset {
   # If `deep` is true, it will return comments of all depths,
   # otherwise only top-level comments are returned.
   comments(
-    sort: SORT_ORDER = REVERSE_CHRONOLOGICAL,
+    sort: SORT_ORDER = DESC,
     limit: Int = 10,
     excludeIgnored: Boolean,
     tags: [String!]
@@ -652,10 +655,10 @@ type ValidationUserError implements UserError {
 enum SORT_ORDER {
 
   # newest to oldest order.
-  REVERSE_CHRONOLOGICAL
+  DESC
 
   # oldest to newer order.
-  CHRONOLOGICAL
+  ASC
 }
 
 # All queries that can be executed.

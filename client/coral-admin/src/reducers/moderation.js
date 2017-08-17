@@ -6,7 +6,7 @@ const initialState = {
   storySearchVisible: false,
   storySearchString: '',
   shortcutsNoteVisible: window.localStorage.getItem('coral:shortcutsNote') || 'show',
-  sortOrder: 'REVERSE_CHRONOLOGICAL',
+  sortOrder: 'DESC',
 };
 
 export default function moderation (state = initialState, action) {

@@ -36,7 +36,7 @@ function shouldCommentBeAdded(root, queue, comment, sort) {
     return true;
   }
   const cursor = new Date(root[queue].endCursor);
-  return sort === 'CHRONOLOGICAL'
+  return sort === 'ASC'
     ? new Date(comment.created_at) <= cursor
     : new Date(comment.created_at) >= cursor;
 }
@@ -46,7 +46,7 @@ function addCommentToQueue(root, queue, comment, sort) {
     return root;
   }
 
-  const sortAlgo = sort === 'CHRONOLOGICAL' ? ascending : descending;
+  const sortAlgo = sort === 'ASC' ? ascending : descending;
   const changes = {
     [`${queue}Count`]: {$set: root[`${queue}Count`] + 1},
   };

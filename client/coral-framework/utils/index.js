@@ -156,12 +156,12 @@ const ascending = (a, b) => {
 
 const descending = (a, b) => ascending(a, b) * -1;
 
-export function insertCommentsSorted(nodes, comments, sortOrder = 'CHRONOLOGICAL') {
+export function insertCommentsSorted(nodes, comments, sortOrder = 'ASC') {
   const added = nodes.concat(comments);
-  if (sortOrder === 'CHRONOLOGICAL') {
+  if (sortOrder === 'ASC') {
     return added.sort(ascending);
   }
-  if (sortOrder === 'REVERSE_CHRONOLOGICAL') {
+  if (sortOrder === 'DESC') {
     return added.sort(descending);
   }
   throw new Error(`Unknown sort order ${sortOrder}`);
