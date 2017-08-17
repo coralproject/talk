@@ -11,9 +11,10 @@ import {showSignInDialog} from 'coral-framework/actions/auth';
 import {addNotification} from 'coral-framework/actions/notification';
 import {capitalize} from 'coral-framework/helpers/strings';
 import {getMyActionSummary, getTotalActionCount} from 'coral-framework/utils';
+import hoistStatics from 'recompose/hoistStatics';
 import * as PropTypes from 'prop-types';
 
-export default (reaction) => (WrappedComponent) => {
+export default (reaction) => hoistStatics((WrappedComponent) => {
   if (typeof reaction !== 'string') {
     console.error('Reaction must be a valid string');
     return null;
@@ -391,4 +392,4 @@ export default (reaction) => (WrappedComponent) => {
   WithReactions.displayName = `WithReactions(${getDisplayName(WrappedComponent)})`;
 
   return enhance(WithReactions);
-};
+});
