@@ -1,7 +1,9 @@
-import {gql} from 'react-apollo';
+import {gql, compose} from 'react-apollo';
+import React from 'react';
 import Comment from '../components/Comment';
 import {withFragments} from 'coral-framework/hocs';
 import {getSlotFragmentSpreads} from 'coral-framework/utils';
+import hoistStatics from 'recompose/hoistStatics';
 
 const slots = [
   'streamQuestionArea',
@@ -14,7 +16,39 @@ const slots = [
   'commentAvatar'
 ];
 
-export default withFragments({
+const withAnimateEnter = hoistStatics((BaseComponent) => {
+  class WithAnimateEnter extends React.Component {
+    state = {
+      animateEnter: false,
+    };
+
+    componentWillEnter(callback) {
+      callback();
+      const userId = this.props.currentUser ? this.props.currentUser.id : null;
+      if (this.props.comment.id.indexOf('pending') >= 0) {
+        return;
+      }
+      if (userId && this.props.comment.user.id === userId) {
+
+        // This comment was just added by currentUser.
+        if (Date.now() - Number(new Date(this.props.comment.created_at)) < 30 * 1000) {
+          return;
+        }
+      }
+      this.setState({animateEnter: true});
+    }
+
+    render() {
+      return <BaseComponent
+        {...this.props}
+        animateEnter={this.state.animateEnter}
+      />;
+    }
+  }
+  return WithAnimateEnter;
+});
+
+const withCommentFragments = withFragments({
   root: gql`
     fragment CoralEmbedStream_Comment_root on RootQuery {
       __typename
@@ -57,4 +91,11 @@ export default withFragments({
       ${getSlotFragmentSpreads(slots, 'comment')}
     }
   `
-})(Comment);
+});
+
+const enhance = compose(
+  withAnimateEnter,
+  withCommentFragments,
+);
+
+export default enhance(Comment);

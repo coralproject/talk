@@ -24,6 +24,7 @@ import InactiveCommentLabel from './InactiveCommentLabel';
 import {EditableCommentContent} from './EditableCommentContent';
 import {getActionSummary, iPerformedThisAction, forEachError, isCommentActive} from 'coral-framework/utils';
 import t from 'coral-framework/services/i18n';
+import CommentContainer from '../containers/Comment';
 
 const isStaff = (tags) => !tags.every((t) => t.tag.name !== 'STAFF');
 const hasTag = (tags, lookupTag) => !!tags.filter((t) => t.tag.name === lookupTag).length;
@@ -86,7 +87,6 @@ export default class Comment extends React.Component {
       // Whether the comment should be editable (e.g. after a commenter clicking the 'Edit' button on their own comment)
       isEditing: false,
       replyBoxVisible: false,
-      animateEnter: false,
       loadingState: '',
       ...resetCursors({}, props),
     };
@@ -110,22 +110,6 @@ export default class Comment extends React.Component {
         this.setState(invalidateCursor(1, this.state, next));
       }
     }
-  }
-
-  componentWillEnter(callback) {
-    callback();
-    const userId = this.props.currentUser ? this.props.currentUser.id : null;
-    if (this.props.comment.id.indexOf('pending') >= 0) {
-      return;
-    }
-    if (userId && this.props.comment.user.id === userId) {
-
-      // This comment was just added by currentUser.
-      if (Date.now() - Number(new Date(this.props.comment.created_at)) < 30 * 1000) {
-        return;
-      }
-    }
-    this.setState({animateEnter: true});
   }
 
   static propTypes = {
@@ -315,6 +299,7 @@ export default class Comment extends React.Component {
       showSignInDialog,
       liveUpdates,
       commentIsIgnored,
+      animateEnter,
       commentClassNames = []
     } = this.props;
 
@@ -367,7 +352,7 @@ export default class Comment extends React.Component {
       styles[`rootLevel${depth}`],
       {
         ...conditionalClassNames,
-        [styles.enter]: this.state.animateEnter,
+        [styles.enter]: animateEnter,
       },
     );
 
@@ -542,7 +527,7 @@ export default class Comment extends React.Component {
         {view.map((reply) => {
           return commentIsIgnored(reply)
             ? <IgnoredCommentTombstone key={reply.id} />
-            : <Comment
+            : <CommentContainer
                 data={this.props.data}
                 root={this.props.root}
                 setActiveReplyBox={setActiveReplyBox}
