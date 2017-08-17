@@ -14,4 +14,9 @@ if (enabled) {
   });
 }
 
+// The default error handler.
+events.on('error', (err) => {
+  console.error('events error:', err);
+});
+
 module.exports = events;

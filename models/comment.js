@@ -102,6 +102,23 @@ CommentSchema.index({
   background: false
 });
 
+// Add an index that is optimized for sorting based on the action count data.
+CommentSchema.index({
+  'created_at': 1,
+  'action_counts': 1,
+}, {
+  background: true,
+});
+
+// Add an index that is optimized for sorting based on the created_at timestamp
+// but also good at locating comments that have a specific asset id.
+CommentSchema.index({
+  'asset_id': 1,
+  'created_at': 1,
+}, {
+  background: true,
+});
+
 CommentSchema.virtual('edited').get(function() {
   return this.body_history.length > 1;
 });
