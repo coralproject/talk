@@ -130,7 +130,7 @@ export default class Comment extends React.Component {
     const changes = getShallowChanges(this.props, next);
     if (changes.length === 1 && changes[0] === 'activeReplyBox') {
       if (
-        !containsCommentId(next, this.props.activeReplyBox) &&
+        !containsCommentId(this.props, this.props.activeReplyBox) &&
         !containsCommentId(next, next.activeReplyBox)
       ) {
         return false;
