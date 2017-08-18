@@ -9,6 +9,8 @@ import {actionsMap} from '../utils/moderationQueueActionsMap';
 import ClickOutside from 'coral-framework/components/ClickOutside';
 import LoadMore from '../components/LoadMore';
 import cn from 'classnames';
+import capitalize from 'lodash/capitalize';
+import {getReliability} from 'coral-framework/utils/user';
 
 export default class UserDetail extends React.Component {
 
@@ -116,7 +118,9 @@ export default class UserDetail extends React.Component {
               </li>
               <li className={styles.stat}>
                 <spam className={styles.statItem}> Reports </spam>
-                <spam className={cn(styles.statReportResult, styles['reliable'])}>Reliable</spam>
+                <spam className={cn(styles.statReportResult, styles[getReliability(user.reliable.flagger)])}>
+                  {capitalize(getReliability(user.reliable.flagger))}
+                </spam>
               </li>
             </ul>
 
