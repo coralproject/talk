@@ -51,7 +51,7 @@ class ProfileContainer extends Component {
   };
 
   render() {
-    const {auth, auth: {user}, asset, showSignInDialog, stopIgnoringUser} = this.props;
+    const {auth, auth: {user}, showSignInDialog, stopIgnoringUser, root, data} = this.props;
     const {me} = this.props.root;
     const loading = this.props.data.loading;
 
@@ -87,7 +87,7 @@ class ProfileContainer extends Component {
 
         <h3>{t('framework.my_comments')}</h3>
         {me.comments.nodes.length
-          ? <CommentHistory comments={me.comments} asset={asset} link={link} loadMore={this.loadMore}/>
+          ? <CommentHistory data={data} root={root} comments={me.comments} link={link} loadMore={this.loadMore}/>
           : <p>{t('user_no_comment')}</p>}
       </div>
     );
@@ -138,7 +138,6 @@ const withProfileQuery = withQuery(
 `);
 
 const mapStateToProps = (state) => ({
-  asset: state.asset,
   auth: state.auth
 });
 
