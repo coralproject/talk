@@ -53,7 +53,7 @@ class ProfileContainer extends Component {
   render() {
     const {auth, auth: {user}, asset, showSignInDialog, stopIgnoringUser} = this.props;
     const {me} = this.props.root;
-    const loading = [1, 2, 4].indexOf(this.props.data.networkStatus) >= 0;
+    const loading = this.props.data.loading;
 
     if (!auth.loggedIn) {
       return <NotLoggedIn showSignInDialog={showSignInDialog} />;
