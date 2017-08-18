@@ -45,8 +45,10 @@ export function isSlotEmpty(slot, reduxState, props = {}, queryData = {}) {
 // Memoize the warnings so we only show them once.
 const memoizedWarnings = [];
 
+// withWarnings decorates the props of queryData with a proxy that
+// prints a warning when accessing deeper props.
 function withWarnings(component, queryData) {
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV !== 'production' && window.Proxy) {
 
     // Show warnings when accessing queryData only when not in production.
     return mapValues(queryData, (value, key) => {
