@@ -4,6 +4,7 @@ import {resolveFragments} from 'coral-framework/services/graphqlRegistry';
 import mapValues from 'lodash/mapValues';
 import hoistStatics from 'recompose/hoistStatics';
 import {getShallowChanges} from 'coral-framework/utils';
+import union from 'lodash/union';
 
 // TODO: Should not depend on `props.data`
 // Currently necessary because of this https://github.com/apollographql/graphql-anywhere/issues/38
@@ -36,8 +37,11 @@ function filterProps(props, fragments) {
 
 // hasEqualLeaves compares two different apollo query result for equality.
 function hasEqualLeaves(a, b, path = '') {
-  for (const key in a) {
-    if (typeof a[key] === 'object') {
+  for (const key of union(Object.keys(a), Object.keys(b))) {
+    if (!(key in a) || !(key in b)) {
+      return false;
+    }
+    if (typeof a[key] === 'object' && a[key] && b[key]) {
       if (Array.isArray(a[key])) {
         if (a[key].length !== b[key].length) {
           return false;
