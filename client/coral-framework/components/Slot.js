@@ -51,6 +51,8 @@ class Slot extends React.Component {
 
 Slot.propTypes = {
   fill: React.PropTypes.string.isRequired,
+
+  // props coming from graphql must be passed through this property.
   queryData: React.PropTypes.object,
 };
 
