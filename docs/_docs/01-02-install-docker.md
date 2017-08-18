@@ -11,8 +11,9 @@ Available as [coralproject/talk](https://hub.docker.com/r/coralproject/talk/) on
 
 Images are tagged using the following notation:
 
-- `x` (where `x` is the major version number): any minor or patch updates will be included in this. If you're ok getting
-  new features occasionally and all the bug fixes, this is the tag for you.
+- `x` (where `x` is the major version number): any minor or patch updates will
+  be included in this. If you're ok getting new features occasionally and all
+  the bug fixes, this is the tag for you.
 - `x.y` (where `y` is the minor version number): any patch updates will be
   included with this tag. If you like getting fixes and having features change
   only when you want, this is the tag for you. **(recommended)**
@@ -42,7 +43,7 @@ An example docker-compose.yml:
 version: '2'
 services:
   talk:
-    image: coralproject/talk:1.5
+    image: coralproject/talk:latest
     restart: always
     ports:
       - "5000:5000"
@@ -85,7 +86,7 @@ on different machines. You can achieve this easily with docker compose:
 version: '2'
 services:
   talk-api:
-    image: coralproject/talk:1.5
+    image: coralproject/talk:latest
     command: cli serve
     restart: always
     ports:
@@ -97,7 +98,7 @@ services:
       - TALK_MONGO_URL=mongodb://mongo/talk
       - TALK_REDIS_URL=redis://redis
   talk-jobs:
-    image: coralproject/talk:1.5
+    image: coralproject/talk:latest
     command: cli jobs process
     restart: always
     ports:

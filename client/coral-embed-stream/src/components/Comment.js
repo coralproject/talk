@@ -193,6 +193,9 @@ export default class Comment extends React.Component {
 
     // edit a comment, passed (id, asset_id, { body })
     editComment: PropTypes.func,
+
+    // emit custom events
+    emit: PropTypes.func.isRequired,
   }
 
   editComment = (...args) => {
@@ -220,7 +223,7 @@ export default class Comment extends React.Component {
   }
 
   loadNewReplies = () => {
-    const {replies, replyCount, id} = this.props.comment;
+    const {comment: {replies, replyCount, id}, emit} = this.props;
     if (replyCount > replies.nodes.length) {
       this.setState({loadingState: 'loading'});
       this.props.loadMore(id)
@@ -234,10 +237,11 @@ export default class Comment extends React.Component {
           this.setState({loadingState: 'error'});
           forEachError(error, ({msg}) => {this.props.addNotification('error', msg);});
         });
+      emit('ui.Comment.showMoreReplies', {id});
       return;
     }
     this.setState(resetCursors);
-    this.props.emit('ui.Comment.showMoreReplies');
+    emit('ui.Comment.showMoreReplies', {id});
   };
 
   showReplyBox = () => {
@@ -333,6 +337,7 @@ export default class Comment extends React.Component {
       liveUpdates,
       commentIsIgnored,
       animateEnter,
+      emit,
       commentClassNames = []
     } = this.props;
 
@@ -592,6 +597,7 @@ export default class Comment extends React.Component {
                 reactKey={reply.id}
                 key={reply.id}
                 comment={reply}
+                emit={emit}
               />;
         })}
         </TransitionGroup>

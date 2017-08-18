@@ -71,7 +71,7 @@
           $('.error-console').removeClass('active');
 
           $.ajax({
-            url: '/api/v1/account/email/verify',
+            url: '<%= BASE_PATH %>api/v1/account/email/verify',
             contentType: 'application/json',
             method: 'POST',
             data: JSON.stringify({token: location.hash.replace('#', '')})

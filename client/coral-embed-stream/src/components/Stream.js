@@ -74,6 +74,7 @@ class Stream extends React.Component {
       viewAllComments,
       auth: {loggedIn, user},
       editName,
+      emit,
     } = this.props;
     const {keepCommentBox} = this.state;
     const open = !asset.isClosed;
@@ -202,6 +203,7 @@ class Stream extends React.Component {
                 charCountEnable={asset.settings.charCountEnable}
                 maxCharCount={asset.settings.charCount}
                 editComment={editComment}
+                emit={emit}
                 liveUpdates={true}
               />
             </div>
@@ -254,7 +256,7 @@ class Stream extends React.Component {
                       charCountEnable={asset.settings.charCountEnable}
                       maxCharCount={asset.settings.charCount}
                       editComment={editComment}
-                      emit={this.props.emit}
+                      emit={emit}
                     />
                   </TabPane>
                 }
