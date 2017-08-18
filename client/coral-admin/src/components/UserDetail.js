@@ -56,6 +56,7 @@ export default class UserDetail extends React.Component {
 
   renderLoaded() {
     const {
+      root,
       root: {
         user,
         totalComments,
@@ -101,8 +102,7 @@ export default class UserDetail extends React.Component {
           <Slot
             fill="userProfile"
             data={this.props.data}
-            root={this.props.root}
-            user={user}
+            queryData={root, user}
           />
           <p className={styles.memberSince}><strong>Member since</strong> {new Date(user.created_at).toLocaleString()}</p>
           <hr/>

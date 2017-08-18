@@ -19,9 +19,7 @@ class Comment extends React.Component {
             defaultComponent={CommentContent}
             className={`${styles.commentBody} myCommentBody`}
             data={data}
-            root={root}
-            comment={comment}
-            asset={comment.asset}
+            queryData={{root, comment, asset: comment.asset}}
           />
           <p className="myCommentAsset">
             <a

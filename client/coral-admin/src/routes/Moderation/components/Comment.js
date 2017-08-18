@@ -29,7 +29,12 @@ class Comment extends React.Component {
       bannedWords,
       selected,
       className,
-      ...props
+      data,
+      root,
+      currentUserId,
+      currentAsset,
+      acceptComment,
+      rejectComment,
     } = this.props;
 
     const flagActionSummaries = getActionSummary('FlagActionSummary', comment);
@@ -38,19 +43,21 @@ class Comment extends React.Component {
 
     let selectionStateCSS = selected ? 'mdl-shadow--16dp' : 'mdl-shadow--2dp';
 
-    const showSuspenUserDialog = () => props.showSuspendUserDialog({
+    const showSuspenUserDialog = () => this.props.showSuspendUserDialog({
       userId: comment.user.id,
       username: comment.user.username,
       commentId: comment.id,
       commentStatus: comment.status,
     });
 
-    const showBanUserDialog = () => props.showBanUserDialog({
+    const showBanUserDialog = () => this.props.showBanUserDialog({
       userId: comment.user.id,
       username: comment.user.username,
       commentId: comment.id,
       commentStatus: comment.status,
     });
+
+    const queryData = {root, comment, asset: comment.asset};
 
     return (
       <li
@@ -75,7 +82,7 @@ class Comment extends React.Component {
                 ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
                 : null
               }
-              {props.currentUserId !== comment.user.id &&
+              {currentUserId !== comment.user.id &&
                 <ActionsMenu icon="not_interested">
                   <ActionsMenuItem
                     disabled={comment.user.status === 'BANNED'}
@@ -91,11 +98,9 @@ class Comment extends React.Component {
               <div className={styles.adminCommentInfoBar}>
                 <CommentType type={commentType} className={styles.commentType}/>
                 <Slot
-                  data={props.data}
-                  root={props.root}
-                  comment={comment}
-                  asset={comment.asset}
                   fill="adminCommentInfoBar"
+                  data={data}
+                  queryData={queryData}
                 />
               </div>
             </div>
@@ -103,7 +108,7 @@ class Comment extends React.Component {
 
           <div className={styles.moderateArticle}>
             Story: {comment.asset.title}
-            {!props.currentAsset &&
+            {!currentAsset &&
               <Link to={`/admin/moderate/${comment.asset.id}`}>{t('modqueue.moderate')}</Link>}
           </div>
           <CommentAnimatedEdit body={comment.body}>
@@ -124,10 +129,9 @@ class Comment extends React.Component {
                 </a>
               </p>
               <Slot
-                data={props.data}
-                root={props.root}
                 fill="adminCommentContent"
-                comment={comment}
+                data={data}
+                queryData={queryData}
               />
               <div className={styles.sideActions}>
                 <IfHasLink text={comment.body}>
@@ -150,30 +154,28 @@ class Comment extends React.Component {
                         acceptComment={() =>
                           (comment.status === 'ACCEPTED'
                             ? null
-                            : props.acceptComment({commentId: comment.id}))}
+                            : acceptComment({commentId: comment.id}))}
                         rejectComment={() =>
                           (comment.status === 'REJECTED'
                             ? null
-                            : props.rejectComment({commentId: comment.id}))}
+                            : rejectComment({commentId: comment.id}))}
                       />
                     );
                   })}
                 </div>
                 <Slot
-                  data={props.data}
-                  root={props.root}
                   fill="adminSideActions"
-                  comment={comment}
+                  data={data}
+                  queryData={queryData}
                 />
               </div>
             </div>
           </CommentAnimatedEdit>
         </div>
         <Slot
-          data={props.data}
-          root={props.root}
           fill="adminCommentDetailArea"
-          comment={comment}
+          data={data}
+          queryData={queryData}
         />
         {flagActions && flagActions.length
           ? <FlagBox
