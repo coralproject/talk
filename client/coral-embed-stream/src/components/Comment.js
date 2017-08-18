@@ -124,14 +124,14 @@ export default class Comment extends React.Component {
     }
   }
 
-  shouldComponentUpdate(next) {
+  shouldComponentUpdate(nextProps, nextState) {
 
     // Specifically handle `activeReplyBox` if it is the only change.
-    const changes = getShallowChanges(this.props, next);
+    const changes = [...getShallowChanges(this.props, nextProps), ...getShallowChanges(this.state, nextState)];
     if (changes.length === 1 && changes[0] === 'activeReplyBox') {
       if (
         !containsCommentId(this.props, this.props.activeReplyBox) &&
-        !containsCommentId(next, next.activeReplyBox)
+        !containsCommentId(nextProps, nextProps.activeReplyBox)
       ) {
         return false;
       }
