@@ -74,8 +74,10 @@ export default function settings (state = initialState, action) {
     };
   case actions.WORDLIST_UPDATED:
     return update(state, {
-      wordList: {
-        [action.listName]: {$set: action.list},
+      wordlist: {
+        [action.listName]: {
+          $set: action.list
+        }
       }
     });
   case actions.DOMAINLIST_UPDATED:

@@ -43,7 +43,7 @@ An example docker-compose.yml:
 version: '2'
 services:
   talk:
-    image: coralproject/talk:1.5
+    image: coralproject/talk:latest
     restart: always
     ports:
       - "5000:5000"
@@ -86,7 +86,7 @@ on different machines. You can achieve this easily with docker compose:
 version: '2'
 services:
   talk-api:
-    image: coralproject/talk:1.5
+    image: coralproject/talk:latest
     command: cli serve
     restart: always
     ports:
@@ -98,7 +98,7 @@ services:
       - TALK_MONGO_URL=mongodb://mongo/talk
       - TALK_REDIS_URL=redis://redis
   talk-jobs:
-    image: coralproject/talk:1.5
+    image: coralproject/talk:latest
     command: cli jobs process
     restart: always
     ports:
