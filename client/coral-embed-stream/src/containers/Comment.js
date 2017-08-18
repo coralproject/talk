@@ -18,6 +18,12 @@ const slots = [
   'commentAvatar'
 ];
 
+/**
+ * withAnimateEnter is a HOC that passes a property `animateEnter` to the
+ * underlying BaseComponent. It must be a direct child of a `TransitionGroup`
+ * from https://github.com/reactjs/react-transition-group and as such must
+ * be the uppermost HOC applied to the BaseComponent.
+ */
 const withAnimateEnter = hoistStatics((BaseComponent) => {
   class WithAnimateEnter extends React.Component {
     state = {
