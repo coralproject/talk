@@ -86,9 +86,9 @@ export default (fragments) => hoistStatics((BaseComponent) => {
     }
 
     shouldComponentUpdate(next) {
+      const onlyQueryDataChanges = this.shallowChanges.every((key) => this.fragmentKeys.indexOf(key) >= 0);
 
-      // If only query data was changed.
-      if (this.queryDataHasChanged && this.shallowChanges.every((key) => this.fragmentKeys.indexOf(key) >= 0)) {
+      if (onlyQueryDataChanges) {
         return this.queryDataHasChanged;
       }
 
