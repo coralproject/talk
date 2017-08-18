@@ -20,6 +20,31 @@ import t, {timeago} from 'coral-framework/services/i18n';
 
 class Comment extends React.Component {
 
+  showSuspenUserDialog = () => {
+    const {comment, showSuspendUserDialog} = this.props;
+    return showSuspendUserDialog({
+      userId: comment.user.id,
+      username: comment.user.username,
+      commentId: comment.id,
+      commentStatus: comment.status,
+    });
+  };
+
+  showBanUserDialog = () => {
+    const {comment, showBanUserDialog} = this.props;
+    return showBanUserDialog({
+      userId: comment.user.id,
+      username: comment.user.username,
+      commentId: comment.id,
+      commentStatus: comment.status,
+    });
+  };
+
+  viewUserDetail = () => {
+    const {viewUserDetail, comment} = this.props;
+    return viewUserDetail(comment.user.id);
+  };
+
   render() {
     const {
       actions = [],
@@ -43,20 +68,6 @@ class Comment extends React.Component {
 
     let selectionStateCSS = selected ? 'mdl-shadow--16dp' : 'mdl-shadow--2dp';
 
-    const showSuspenUserDialog = () => this.props.showSuspendUserDialog({
-      userId: comment.user.id,
-      username: comment.user.username,
-      commentId: comment.id,
-      commentStatus: comment.status,
-    });
-
-    const showBanUserDialog = () => this.props.showBanUserDialog({
-      userId: comment.user.id,
-      username: comment.user.username,
-      commentId: comment.id,
-      commentStatus: comment.status,
-    });
-
     const queryData = {root, comment, asset: comment.asset};
 
     return (
@@ -69,7 +80,7 @@ class Comment extends React.Component {
             <div className={styles.author}>
               {
                 (
-                  <span className={styles.username} onClick={() => viewUserDetail(comment.user.id)}>
+                  <span className={styles.username} onClick={this.viewUserDetail}>
                     {comment.user.username}
                   </span>
                 )
@@ -86,11 +97,11 @@ class Comment extends React.Component {
                 <ActionsMenu icon="not_interested">
                   <ActionsMenuItem
                     disabled={comment.user.status === 'BANNED'}
-                    onClick={showSuspenUserDialog}>
+                    onClick={this.showSuspenUserDialog}>
                     Suspend User</ActionsMenuItem>
                   <ActionsMenuItem
                     disabled={comment.user.status === 'BANNED'}
-                    onClick={showBanUserDialog}>
+                    onClick={this.showBanUserDialog}>
                     Ban User
                   </ActionsMenuItem>
                 </ActionsMenu>
