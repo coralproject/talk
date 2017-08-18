@@ -5,8 +5,10 @@ import merge from 'lodash/merge';
 import flattenDeep from 'lodash/flattenDeep';
 import isEmpty from 'lodash/isEmpty';
 import flatten from 'lodash/flatten';
+import mapValues from 'lodash/mapValues';
 import {loadTranslations} from 'coral-framework/services/i18n';
 import {injectReducers} from 'coral-framework/services/store';
+import {getDisplayName} from 'coral-framework/helpers/hoc';
 import camelize from './camelize';
 import plugins from 'pluginsConfig';
 import uuid from 'uuid/v4';
@@ -40,6 +42,34 @@ export function isSlotEmpty(slot, reduxState, props = {}, queryData = {}) {
   return getSlotComponents(slot, reduxState, props, queryData).length === 0;
 }
 
+// Memoize the warnings so we only show them once.
+const memoizedWarnings = [];
+
+function withWarnings(component, queryData) {
+  if (process.env.NODE_ENV !== 'production') {
+
+    // Show warnings when accessing queryData only when not in production.
+    return mapValues(queryData, (value, key) => {
+      return new Proxy(queryData[key], {
+        get(target, name) {
+
+          // Only care about the components defined in the plugins.
+          if (component.talkPluginName) {
+            const warning = `'${getDisplayName(component)}' of '${component.talkPluginName}' accessed '${key}.${name}' but did not define fragments using the withFragment HOC`;
+            if (memoizedWarnings.indexOf(warning) === -1) {
+              console.warn(warning);
+              memoizedWarnings.push(warning);
+            }
+          }
+          return queryData[key][name];
+        }
+      });
+    });
+  }
+
+  return queryData;
+}
+
 /**
  * getSlotComponentProps calculate the props we would pass to the slot component.
  * query datas are only passed to the component if it is defined in `component.fragments`.
@@ -52,7 +82,7 @@ export function getSlotComponentProps(component, reduxState, props, queryData) {
     ...(
       component.fragments
       ? pick(queryData, Object.keys(component.fragments))
-      : queryData // TODO: should be {}
+      : withWarnings(component, queryData)
     )
   };
 }
