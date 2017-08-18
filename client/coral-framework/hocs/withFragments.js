@@ -30,7 +30,9 @@ function filterProps(props, fragments) {
     if (!(key in props)) {
       return;
     }
-    filtered[key] = filter(fragments[key], props[key], props.data.variables);
+    filtered[key] = props.data
+      ? filter(fragments[key], props[key], props.data.variables)
+      : props[key];
   });
   return filtered;
 }
