@@ -9,12 +9,16 @@ import withFragments from 'coral-framework/hocs/withFragments';
 import {addNotification} from 'coral-framework/actions/notification';
 import {forEachError, isTagged} from 'coral-framework/utils';
 import hoistStatics from 'recompose/hoistStatics';
+import {getDefinitionName} from '../utils';
 
-export default (tag) => hoistStatics((WrappedComponent) => {
+export default (tag, options = {}) => hoistStatics((WrappedComponent) => {
   if (typeof tag !== 'string') {
     console.error('Tag must be a valid string');
     return null;
   }
+
+  // fragments allow the extension of the fragments defined in this HOC.
+  const {fragments = {}} = options;
 
   const Tag = capitalize(tag);
   const TAG = tag.toUpperCase();
@@ -69,13 +73,15 @@ export default (tag) => hoistStatics((WrappedComponent) => {
     }
 
     render() {
-      const {comment, user, config} = this.props;
+      const {root, asset, comment, user, config} = this.props;
 
       const alreadyTagged = isTagged(comment.tags, TAG);
 
       return <WrappedComponent
-        user={user}
+        root={root}
+        asset={asset}
         comment={comment}
+        user={user}
         alreadyTagged={alreadyTagged}
         postTag={this.postTag}
         deleteTag={this.deleteTag}
@@ -93,10 +99,13 @@ export default (tag) => hoistStatics((WrappedComponent) => {
 
   const enhance = compose(
     withFragments({
+      ...fragments,
       asset: gql`
         fragment ${Tag}Button_asset on Asset {
           id
+          ${fragments.asset ? `...${getDefinitionName(fragments.asset)}` : ''}
         }
+        ${fragments.asset ? fragments.asset : ''}
       `,
       comment: gql`
         fragment ${Tag}Button_comment on Comment {
@@ -106,7 +115,10 @@ export default (tag) => hoistStatics((WrappedComponent) => {
               name
             }
           }
-        }`
+          ${fragments.comment ? `...${getDefinitionName(fragments.comment)}` : ''}
+        }
+        ${fragments.comment ? fragments.comment : ''}
+      `
     }),
     connect(mapStateToProps, mapDispatchToProps),
     withAddTag,

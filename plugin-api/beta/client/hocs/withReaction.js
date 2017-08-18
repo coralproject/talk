@@ -13,12 +13,16 @@ import {capitalize} from 'coral-framework/helpers/strings';
 import {getMyActionSummary, getTotalActionCount} from 'coral-framework/utils';
 import hoistStatics from 'recompose/hoistStatics';
 import * as PropTypes from 'prop-types';
+import {getDefinitionName} from '../utils';
 
-export default (reaction) => hoistStatics((WrappedComponent) => {
+export default (reaction, options = {}) => hoistStatics((WrappedComponent) => {
   if (typeof reaction !== 'string') {
     console.error('Reaction must be a valid string');
     return null;
   }
+
+  // fragments allow the extension of the fragments defined in this HOC.
+  const {fragments = {}} = options;
 
   // Global instance counter for each `reaction` type.
   let instances = 0;
@@ -248,7 +252,7 @@ export default (reaction) => hoistStatics((WrappedComponent) => {
     }
 
     render() {
-      const {comment} = this.props;
+      const {root, asset, comment} = this.props;
 
       const reactionSummary = getMyActionSummary(
         `${Reaction}ActionSummary`,
@@ -263,10 +267,12 @@ export default (reaction) => hoistStatics((WrappedComponent) => {
       const alreadyReacted = !!reactionSummary;
 
       return <WrappedComponent
+        root={root}
+        asset={asset}
+        comment={comment}
         showSignInDialog={this.props.showSignInDialog}
         addNotification={this.props.addNotification}
         user={this.props.user}
-        comment={comment}
         reactionSummary={reactionSummary}
         count={count}
         alreadyReacted={alreadyReacted}
@@ -372,10 +378,13 @@ export default (reaction) => hoistStatics((WrappedComponent) => {
 
   const enhance = compose(
     withFragments({
+      ...fragments,
       asset: gql`
         fragment ${Reaction}Button_asset on Asset {
           id
+          ${fragments.asset ? `...${getDefinitionName(fragments.asset)}` : ''}
         }
+        ${fragments.asset ? fragments.asset : ''}
       `,
       comment: gql`
         fragment ${Reaction}Button_comment on Comment {
@@ -389,7 +398,10 @@ export default (reaction) => hoistStatics((WrappedComponent) => {
               }
             }
           }
-        }`
+          ${fragments.comment ? `...${getDefinitionName(fragments.comment)}` : ''}
+        }
+        ${fragments.comment ? fragments.comment : ''}
+      `
     }),
     connect(mapStateToProps, mapDispatchToProps),
     withDeleteReaction,
