@@ -50,6 +50,11 @@ function withWarnings(component, queryData) {
 
     // Show warnings when accessing queryData only when not in production.
     return mapValues(queryData, (value, key) => {
+
+      // Keep null values..
+      if (!queryData[key]) {
+        return queryData[key];
+      }
       return new Proxy(queryData[key], {
         get(target, name) {
 
