@@ -15,6 +15,16 @@ import hoistStatics from 'recompose/hoistStatics';
 import * as PropTypes from 'prop-types';
 import {getDefinitionName} from '../utils';
 
+/*
+ * Disable false-positive warning below, as it doesn't work well with how we currently
+ * assemble the queries.
+ *
+ * Warning: fragment with name {fragment name} already exists.
+ * graphql-tag enforces all fragment names across your application to be unique; read more about
+ * this in the docs: http://dev.apollodata.com/core/fragments.html#unique-names
+ */
+gql.disableFragmentWarnings();
+
 export default (reaction, options = {}) => hoistStatics((WrappedComponent) => {
   if (typeof reaction !== 'string') {
     console.error('Reaction must be a valid string');
