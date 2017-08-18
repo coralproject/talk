@@ -1,4 +1,4 @@
-import PermalinkButton from './components/PermalinkButton';
+import PermalinkButton from './containers/PermalinkButton';
 
 export default {
   slots: {
