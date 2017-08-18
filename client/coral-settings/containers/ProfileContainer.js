@@ -14,6 +14,7 @@ import CommentHistory from 'talk-plugin-history/CommentHistory';
 import {showSignInDialog, checkLogin} from 'coral-framework/actions/auth';
 import {insertCommentsSorted} from 'plugin-api/beta/client/utils';
 import update from 'immutability-helper';
+import {getSlotFragmentSpreads} from 'coral-framework/utils';
 
 import t from 'coral-framework/services/i18n';
 
@@ -94,6 +95,11 @@ class ProfileContainer extends Component {
   }
 }
 
+// TODO: This Slot should be included in `talk-plugin-history` instead.
+const slots = [
+  'commentContent',
+];
+
 const CommentFragment = gql`
   fragment TalkSettings_CommentConnectionFragment on CommentConnection {
     nodes {
@@ -103,8 +109,10 @@ const CommentFragment = gql`
         id
         title
         url
+        ${getSlotFragmentSpreads(slots, 'asset')}
       }
       created_at
+      ${getSlotFragmentSpreads(slots, 'comment')}
     }
     endCursor
     hasNextPage
@@ -133,6 +141,7 @@ const withProfileQuery = withQuery(
         ...TalkSettings_CommentConnectionFragment
       }
     }
+    ${getSlotFragmentSpreads(slots, 'root')}
   }
   ${CommentFragment}
 `);
