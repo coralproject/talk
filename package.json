@@ -198,6 +198,8 @@
     "mocha-junit-reporter": "^1.12.1",
     "nodemon": "^1.11.0",
     "pre-git": "^3.10.0",
+    "sinon": "^3.2.1",
+    "sinon-chai": "^2.13.0",
     "supertest": "^2.0.1"
   },
   "engines": {

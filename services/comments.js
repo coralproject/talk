@@ -10,6 +10,8 @@ const events = require('./events');
 const {
   ACTIONS_NEW,
   ACTIONS_DELETE,
+  COMMENTS_NEW,
+  COMMENTS_EDIT,
 } = require('./events/constants');
 
 module.exports = class CommentsService {
@@ -19,7 +21,7 @@ module.exports = class CommentsService {
    * @param  {Mixed} comment either a single comment or an array of comments.
    * @return {Promise}
    */
-  static publicCreate(comment) {
+  static async publicCreate(comment) {
 
     // Check to see if this is an array of comments, if so map it out.
     if (Array.isArray(comment)) {
@@ -41,7 +43,12 @@ module.exports = class CommentsService {
       }]
     }, comment));
 
-    return commentModel.save();
+    const savedCommentModel = await commentModel.save();
+
+    // Emit that the comment was created!
+    events.emitAsync(COMMENTS_NEW, savedCommentModel);
+
+    return savedCommentModel;
   }
 
   /**
@@ -54,7 +61,10 @@ module.exports = class CommentsService {
   static async edit(id, author_id, {body, status, ignoreEditWindow = false}) {
     const query = {
       id,
-      author_id
+      author_id,
+      status: {
+        $in: ['NONE', 'PREMOD'],
+      },
     };
 
     // Establish the edit window (if it exists) and add the condition to the
@@ -68,9 +78,7 @@ module.exports = class CommentsService {
       };
     }
 
-    const {
-      value: comment
-    } = await CommentModel.findOneAndUpdate(query, {
+    const originalComment = await CommentModel.findOneAndUpdate(query, {
       $set: {
         body,
         status,
@@ -85,12 +93,9 @@ module.exports = class CommentsService {
           created_at: new Date(),
         }
       },
-    }, {
-      new: true,
-      rawResult: true
     });
 
-    if (comment === null) {
+    if (originalComment === null) {
 
       // Try to get the comment.
       const comment = await CommentsService.findById(id);
@@ -103,6 +108,11 @@ module.exports = class CommentsService {
         throw errors.ErrNotAuthorized;
       }
 
+      // Check to see if the comment had a status that was editable.
+      if (!['NONE', 'PREMOD'].includes(comment.status)) {
+        throw errors.ErrNotAuthorized;
+      }
+
       // Check to see if the edit window expired.
       if (!ignoreEditWindow && comment.created_at <= lastEditableCommentCreatedAt) {
         throw errors.ErrEditWindowHasEnded;
@@ -111,7 +121,22 @@ module.exports = class CommentsService {
       throw new Error('comment edit failed for an unexpected reason');
     }
 
-    return comment;
+    // Mutate the comment like Mongo would have.
+    const editedComment = originalComment;
+    editedComment.status = status;
+    editedComment.body = body;
+    editedComment.body_history.push({
+      body,
+      created_at: new Date(),
+    });
+    editedComment.status_history.push({
+      type: status,
+      created_at: new Date(),
+    });
+
+    events.emitAsync(COMMENTS_EDIT, originalComment, editedComment);
+
+    return editedComment;
   }
 
   /**
@@ -211,21 +236,36 @@ module.exports = class CommentsService {
    *                             moderation action
    * @return {Promise}
    */
-  static pushStatus(id, status, assigned_by = null) {
-    return CommentModel.findOneAndUpdate({id}, {
+  static async pushStatus(id, status, assigned_by = null) {
+    const created_at = new Date();
+    const originalComment = await CommentModel.findOneAndUpdate({id}, {
       $push: {
         status_history: {
           type: status,
-          created_at: new Date(),
-          assigned_by
+          created_at,
+          assigned_by,
         }
       },
       $set: {status}
-    }, {
-
-      // return modified comment.
-      new: true,
     });
+
+    if (originalComment === null) {
+      throw errors.ErrNotFound;
+    }
+
+    const editedComment = new CommentModel(originalComment.toObject());
+    editedComment.status_history.push({
+      type: status,
+      created_at,
+      assigned_by,
+    });
+    editedComment.status = status;
+
+    // Emit that the comment was edited, and pass the original comment and the
+    // edited comment.
+    events.emitAsync(COMMENTS_EDIT, originalComment, editedComment);
+
+    return editedComment;
   }
 
   /**
@@ -243,57 +283,6 @@ module.exports = class CommentsService {
       action_type,
       metadata
     });
-  }
-
-  /**
-   * Change the status of a comment.
-   * @param {String} id  identifier of the comment  (uuid)
-   * @param {String} status the new status of the comment
-   * @return {Promise}
-   */
-  static removeById(id) {
-    return CommentModel.remove({id});
-  }
-
-  /**
-   * Remove an action from the comment.
-   * @param {String} id  identifier of the comment  (uuid)
-   * @param {String} action_type the type of the action to be removed
-   * @param {String} user_id the id of the user performing the action
-   * @return {Promise}
-   */
-  static removeAction(item_id, user_id, action_type) {
-    return ActionModel.remove({
-      action_type,
-      item_type: 'COMMENTS',
-      item_id,
-      user_id
-    });
-  }
-
-  /**
-   * Returns all the comments in the collection.
-   * @return {Promise}
-   */
-  static all() {
-    return CommentModel.find({});
-  }
-
-  /**
-   * Returns all the comments by user
-   * probably to be paginated at some point in the future
-   * @return {Promise} array resolves to an array of comments by that user
-   */
-  static findByUserId(author_id, admin = false) {
-
-    // do not return un-published comments for non-admins
-    let query = {author_id};
-
-    if (!admin) {
-      query.$nor = [{status: 'PREMOD'}, {status: 'REJECTED'}];
-    }
-
-    return CommentModel.find(query);
   }
 };
 
@@ -334,11 +323,60 @@ events.on(ACTIONS_NEW, async (action) => {
   return incrActionCounts(action, 1);
 });
 
-// When an action is deleted, modify the comment.
+// When an action is deleted, remove the action count on the comment.
 events.on(ACTIONS_DELETE, async (action) => {
   if (!action || action.item_type !== 'COMMENTS') {
     return;
   }
 
   return incrActionCounts(action, -1);
+});
+
+const incrReplyCount = async (comment, value) => {
+  try {
+    await CommentModel.update({
+      id: comment.parent_id,
+    }, {
+      $inc: {
+        reply_count: value,
+      },
+    });
+  } catch (err) {
+    console.error('Can\'t mutate the reply count:', err);
+  }
+};
+
+// When a comment is created, if it is a reply, increment the reply count on the
+// parent's document.
+events.on(COMMENTS_NEW, async (comment) => {
+  if (
+    !comment || // Check that the comment is defined.
+    (comment.parent_id === null || comment.parent_id.length === 0) || // Check that the comment has a parent (is a reply).
+    !(comment.status === 'NONE' || comment.status === 'APPROVED') // Check that the comment is visible.
+  ) {
+    return;
+  }
+
+  return incrReplyCount(comment, 1);
+});
+
+// When a comment is edited, if the visability changed publicly, then modify the
+// comment.
+events.on(COMMENTS_EDIT, async (originalComment, editedComment) => {
+  if (
+    !editedComment || // Check that the comment is defined.
+    (editedComment.parent_id === null || editedComment.parent_id.length === 0) // Check that the comment has a parent (is a reply).
+  ) {
+    return;
+  }
+
+  // If the comment was visible before, and now it isn't, decrement the count;
+  if (originalComment.visible && !editedComment.visible) {
+    return incrReplyCount(editedComment, -1);
+  }
+
+  // If the comment was not visible before, and now it is, increment the count.
+  if (!originalComment.visible && editedComment.visible) {
+    return incrReplyCount(editedComment, 1);
+  }
 });

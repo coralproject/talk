@@ -70,6 +70,9 @@ const CommentSchema = new Schema({
   // parent_id is the id of the parent comment (null if there is none).
   parent_id: String,
 
+  // The number of replies to this comment directly.
+  reply_count: Number,
+
   // Counts to store related to actions taken on the given comment.
   action_counts: {
     default: {},
@@ -121,6 +124,11 @@ CommentSchema.index({
 
 CommentSchema.virtual('edited').get(function() {
   return this.body_history.length > 1;
+});
+
+// Visable is true when the comment is visible to the public.
+CommentSchema.virtual('visible').get(function() {
+  return ['ACCEPTED', 'NONE'].includes(this.status);
 });
 
 // Comment model.

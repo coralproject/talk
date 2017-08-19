@@ -1,7 +1,8 @@
 const CommentModel = require('../../../models/comment');
 const ActionModel = require('../../../models/action');
 
-const ActionsService = require('../../../services/actions');
+const events = require('../../../services/events');
+const {COMMENTS_EDIT} = require('../../../services/events/constants');
 const UsersService = require('../../../services/users');
 const SettingsService = require('../../../services/settings');
 const CommentsService = require('../../../services/comments');
@@ -10,7 +11,10 @@ const settings = {id: '1', moderation: 'PRE', wordlist: {banned: ['bad words'], 
 
 const chai = require('chai');
 chai.use(require('chai-as-promised'));
+chai.use(require('sinon-chai'));
 const expect = chai.expect;
+
+const sinon = require('sinon');
 
 describe('services.CommentsService', () => {
   const comments = [{
@@ -188,58 +192,32 @@ describe('services.CommentsService', () => {
 
   });
 
-  describe('#removeAction', () => {
-
-    it('should remove an action', () => {
-      return CommentsService
-        .removeAction('3', '123', 'flag')
-          .then(() => {
-            return ActionsService.findByItemIdArray(['123']);
-          })
-          .then((actions) => {
-            expect(actions.length).to.equal(0);
-          });
-    });
-  });
-
-  describe('#findByUserId', () => {
-    it('should return all comments if admin', () => {
-      return CommentsService
-        .findByUserId('456', true)
-        .then((comments) => {
-          expect(comments).to.have.length(4);
-        });
-    });
-
-    it('should not return premod and rejected comments if not admin', () => {
-      return CommentsService
-        .findByUserId('456')
-        .then((comments) => {
-          expect(comments).to.have.length(1);
-        });
-    });
-
-  });
-
   describe('#changeStatus', () => {
 
-    it('should change the status of a comment from no status', () => {
+    it('should change the status of a comment from no status', async () => {
       let comment_id = comments[0].id;
 
-      return CommentsService.findById(comment_id)
-        .then((c) => {
-          expect(c.status).to.be.equal('NONE');
+      let c = await CommentsService.findById(comment_id);
+      expect(c.status).to.be.equal('NONE');
 
-          return CommentsService.pushStatus(comment_id, 'REJECTED', '123');
-        })
-        .then(() => CommentsService.findById(comment_id))
-        .then((c) => {
-          expect(c).to.have.property('status');
-          expect(c.status).to.equal('REJECTED');
-          expect(c.status_history).to.have.length(1);
-          expect(c.status_history[0]).to.have.property('type', 'REJECTED');
-          expect(c.status_history[0]).to.have.property('assigned_by', '123');
-        });
+      const spy = sinon.spy();
+      events.once(COMMENTS_EDIT, () => spy());
+
+      let c2 = await CommentsService.pushStatus(comment_id, 'REJECTED', '123');
+      expect(c2).to.have.property('status');
+      expect(c2.status).to.equal('REJECTED');
+      expect(c2.status_history).to.have.length(1);
+      expect(c2.status_history[0]).to.have.property('type', 'REJECTED');
+      expect(c2.status_history[0]).to.have.property('assigned_by', '123');
+
+      expect(spy).to.have.been.called;
+
+      let c3 = await CommentsService.findById(comment_id);
+      expect(c3).to.have.property('status');
+      expect(c3.status).to.equal('REJECTED');
+      expect(c3.status_history).to.have.length(1);
+      expect(c3.status_history[0]).to.have.property('type', 'REJECTED');
+      expect(c3.status_history[0]).to.have.property('assigned_by', '123');
     });
 
     it('should change the status of a comment from accepted', () => {
