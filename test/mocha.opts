@@ -1,7 +1,5 @@
 test/helpers/*.js
 test/server
---compilers js:babel-core/register
---require ignore-styles
 --recursive
 --colors
 --sort

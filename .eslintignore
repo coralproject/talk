@@ -1,6 +1,5 @@
 dist
 docs
-client/lib
 **/*.html
 plugins/*
 !plugins/talk-plugin-facebook-auth
