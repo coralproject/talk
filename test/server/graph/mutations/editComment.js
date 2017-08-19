@@ -1,4 +1,3 @@
-const expect = require('chai').expect;
 const {graphql} = require('graphql');
 const timekeeper = require('timekeeper');
 
@@ -8,6 +7,8 @@ const UsersService = require('../../../../services/users');
 const AssetModel = require('../../../../models/asset');
 const SettingsService = require('../../../../services/settings');
 const CommentsService = require('../../../../services/comments');
+
+const {expect} = require('chai');
 
 describe('graph.mutations.editComment', () => {
   let asset;
@@ -133,7 +134,7 @@ describe('graph.mutations.editComment', () => {
     expect(response.errors).to.be.empty;
     expect(response.data.editComment.errors).to.not.be.empty;
     expect(response.data.editComment.errors[0].translation_key).to.equal('NOT_AUTHORIZED');
-    const commentAfterEdit = await CommentsService.findById(comment.id);    
+    const commentAfterEdit = await CommentsService.findById(comment.id);
 
     // it *hasn't* changed from the original
     expect(commentAfterEdit.body).to.equal(comment.body);
@@ -256,7 +257,7 @@ describe('graph.mutations.editComment', () => {
       expect(response.errors).to.be.empty;
       const commentAfterEdit = await CommentsService.findById(comment.id);
       expect(commentAfterEdit.body).to.equal(newBody);
-      expect(commentAfterEdit.status).to.equal(afterEdit.status);      
+      expect(commentAfterEdit.status).to.equal(afterEdit.status);
     });
-  });  
+  });
 });

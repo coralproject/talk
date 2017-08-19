@@ -1,4 +1,3 @@
-const expect = require('chai').expect;
 const {graphql} = require('graphql');
 
 const schema = require('../../../../graph/schema');
@@ -7,6 +6,8 @@ const UsersService = require('../../../../services/users');
 const SettingsService = require('../../../../services/settings');
 const Asset = require('../../../../models/asset');
 const CommentsService = require('../../../../services/comments');
+
+const {expect} = require('chai');
 
 describe('graph.queries.asset', () => {
   let asset, users;

@@ -1,7 +1,9 @@
-const expect = require('chai').expect;
 const Errors = require('../../../errors');
 const Wordlist = require('../../../services/wordlist');
 const SettingsService = require('../../../services/settings');
+
+const chai = require('chai');
+const expect = chai.expect;
 
 describe('services.Wordlist', () => {
 

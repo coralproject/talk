@@ -8,7 +8,9 @@ const CommentsService = require('../../../services/comments');
 
 const settings = {id: '1', moderation: 'PRE', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
 
-const expect = require('chai').use(require('chai-as-promised')).expect;
+const chai = require('chai');
+chai.use(require('chai-as-promised'));
+const expect = chai.expect;
 
 describe('services.CommentsService', () => {
   const comments = [{

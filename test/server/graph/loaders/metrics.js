@@ -1,4 +1,3 @@
-const {expect} = require('chai');
 const {graphql} = require('graphql');
 
 const schema = require('../../../../graph/schema');
@@ -8,6 +7,8 @@ const AssetModel = require('../../../../models/asset');
 const SettingsService = require('../../../../services/settings');
 const ActionModel = require('../../../../models/action');
 const CommentModel = require('../../../../models/comment');
+
+const {expect} = require('chai');
 
 describe('graph.loaders.Metrics', () => {
   beforeEach(() => SettingsService.init());
