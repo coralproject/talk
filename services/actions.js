@@ -58,7 +58,7 @@ module.exports = class ActionsService {
    * @param {String} action   the new action to the item
    * @return {Promise}
    */
-  static async insertUserAction(action) {
+  static async create(action) {
 
     // Actions are made unique by using a query that can be reproducable, i.e.,
     // not containing user inputable values.

@@ -280,7 +280,7 @@ module.exports = class CommentsService {
    * @return {Promise}
    */
   static addAction(item_id, user_id, action_type, metadata = {}) {
-    return ActionsService.insertUserAction({
+    return ActionsService.create({
       item_id,
       item_type: 'COMMENTS',
       user_id,
@@ -301,7 +301,7 @@ const incrActionCounts = async (action, value) => {
     [`action_counts.${ACTION_TYPE}`]: value,
   };
 
-  if (action.group_id !== null && action.group_id.length > 0) {
+  if (action.group_id && action.group_id.length > 0) {
     const GROUP_ID = sc(action.group_id.toLowerCase());
 
     update[`action_counts.${ACTION_TYPE}_${GROUP_ID}`] = value;

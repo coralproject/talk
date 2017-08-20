@@ -309,7 +309,7 @@ const createPublicComment = async (context, commentInput) => {
     // TODO: this is kind of fragile, we should refactor this to resolve
     // all these const's that we're using like 'COMMENTS', 'FLAG' to be
     // defined in a checkable schema.
-    await ActionsService.insertUserAction({
+    await ActionsService.create({
       item_id: comment.id,
       item_type: 'COMMENTS',
       action_type: 'FLAG',

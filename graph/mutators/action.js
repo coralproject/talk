@@ -22,7 +22,7 @@ const createAction = async ({user = {}, pubsub, loaders: {Comments}}, {item_id, 
     }
   }
 
-  let action = await ActionsService.insertUserAction({
+  let action = await ActionsService.create({
     item_id,
     item_type,
     user_id: user.id,
