@@ -201,7 +201,7 @@ describe('services.CommentsService', () => {
       expect(c.status).to.be.equal('NONE');
 
       const spy = sinon.spy();
-      events.once(COMMENTS_EDIT, () => spy());
+      events.once(COMMENTS_EDIT, spy);
 
       let c2 = await CommentsService.pushStatus(comment_id, 'REJECTED', '123');
       expect(c2).to.have.property('status');

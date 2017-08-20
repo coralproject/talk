@@ -11,20 +11,12 @@ const CommentsService = require('../../../../services/comments');
 const {expect} = require('chai');
 
 describe('graph.mutations.editComment', () => {
-  let asset;
-  let user;
-  let settings;
+  let asset, user;
   beforeEach(async () => {
     timekeeper.reset();
-    settings = await SettingsService.init();
+    await SettingsService.init();
     asset = await AssetModel.create({});
-    user = await UsersService.createLocalUser(
-      'usernameA@example.com', 'password', 'usernameA');
-  });
-  afterEach(async () => {
-    await asset.remove();
-    await user.remove();
-    await settings.remove();
+    user = await UsersService.createLocalUser('usernameA@example.com', 'password', 'usernameA');
   });
 
   const editCommentMutation = `
@@ -120,8 +112,7 @@ describe('graph.mutations.editComment', () => {
       body: `hello there! ${String(Math.random()).slice(2)}`,
     });
 
-    const userB = await UsersService.createLocalUser(
-      'usernameB@example.com', 'password', 'usernameB');
+    const userB = await UsersService.createLocalUser('usernameB@example.com', 'password', 'usernameB');
     const newBody = 'This body should never be set';
     const context = new Context({user: userB});
     const response = await graphql(schema, editCommentMutation, {}, context, {
@@ -161,7 +152,7 @@ describe('graph.mutations.editComment', () => {
   const bannedWord = 'BANNED_WORD';
   [
     {
-      description: 'premod: editing a REJECTED comment sets back to PREMOD',
+      description: 'premod: editing a REJECTED comment is rejected',
       settings: {
         moderation: 'PRE',
       },
@@ -172,9 +163,7 @@ describe('graph.mutations.editComment', () => {
       edit: {
         body: 'I have been edited to be less offensive',
       },
-      afterEdit: {
-        status: 'PREMOD',
-      },
+      error: true
     },
     {
       description: 'editing an ACCEPTED comment to add a bad word sets status to REJECTED',
@@ -196,7 +185,7 @@ describe('graph.mutations.editComment', () => {
       },
     },
     {
-      description: 'postmod: editing a REJECTED comment with banned word to remove banned word sets status to NONE',
+      description: 'postmod: editing a REJECTED comment with banned word be rejected',
       settings: {
         moderation: 'POST',
         wordlist: {
@@ -210,9 +199,7 @@ describe('graph.mutations.editComment', () => {
       edit: {
         body: 'I have been edited to remove the bad word'
       },
-      afterEdit: {
-        status: 'NONE',
-      },
+      error: true
     },
     {
       description: 'postmod + premodLinksEnable: editing an ACCEPTED comment to add a link sets status to PREMOD',
@@ -231,9 +218,8 @@ describe('graph.mutations.editComment', () => {
         status: 'PREMOD',
       },
     },
-  ].forEach(({description, settings, beforeEdit, edit, afterEdit, only}) => {
-    const test = only ? it.only : it;
-    test(description, async () => {
+  ].forEach(({description, settings, beforeEdit, edit, afterEdit, error}) => {
+    it(description, async () => {
       await SettingsService.update(settings);
       const context = new Context({user});
       const comment = await CommentsService.publicCreate(Object.assign(
@@ -253,11 +239,18 @@ describe('graph.mutations.editComment', () => {
           body: newBody
         }
       });
-      if (response.errors && response.errors.length) {console.error(response.errors);}
-      expect(response.errors).to.be.empty;
-      const commentAfterEdit = await CommentsService.findById(comment.id);
-      expect(commentAfterEdit.body).to.equal(newBody);
-      expect(commentAfterEdit.status).to.equal(afterEdit.status);
+
+      if (error) {
+        expect(response.data.editComment.errors).to.not.be.empty;
+      } else {
+        if (response.data.editComment.errors && response.data.editComment.errors.length) {
+          console.error(response.data.editComment.errors);
+        }
+        expect(response.data.editComment.errors).to.be.null;
+        const commentAfterEdit = await CommentsService.findById(comment.id);
+        expect(commentAfterEdit.body).to.equal(newBody);
+        expect(commentAfterEdit.status).to.equal(afterEdit.status);
+      }
     });
   });
 });

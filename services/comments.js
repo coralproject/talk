@@ -1,6 +1,6 @@
 const CommentModel = require('../models/comment');
 
-const ActionModel = require('../models/action');
+const debug = require('debug')('talk:services:comments');
 const ActionsService = require('./actions');
 const SettingsService = require('./settings');
 
@@ -63,7 +63,7 @@ module.exports = class CommentsService {
       id,
       author_id,
       status: {
-        $in: ['NONE', 'PREMOD'],
+        $in: ['NONE', 'PREMOD', 'ACCEPTED'],
       },
     };
 
@@ -100,21 +100,25 @@ module.exports = class CommentsService {
       // Try to get the comment.
       const comment = await CommentsService.findById(id);
       if (comment === null) {
+        debug('rejecting comment edit because comment was not found');
         throw errors.ErrNotFound;
       }
 
       // Check to see if the user was't allowed to edit it.
       if (comment.author_id !== author_id) {
+        debug('rejecting comment edit because author id does not match editing user');
         throw errors.ErrNotAuthorized;
       }
 
       // Check to see if the comment had a status that was editable.
-      if (!['NONE', 'PREMOD'].includes(comment.status)) {
+      if (!['NONE', 'PREMOD', 'ACCEPTED'].includes(comment.status)) {
+        debug('rejecting comment edit because original comment has a non-editable status');
         throw errors.ErrNotAuthorized;
       }
 
       // Check to see if the edit window expired.
       if (!ignoreEditWindow && comment.created_at <= lastEditableCommentCreatedAt) {
+        debug('rejecting comment edit because outside edit time window');
         throw errors.ErrEditWindowHasEnded;
       }
 
@@ -351,7 +355,7 @@ const incrReplyCount = async (comment, value) => {
 events.on(COMMENTS_NEW, async (comment) => {
   if (
     !comment || // Check that the comment is defined.
-    (comment.parent_id === null || comment.parent_id.length === 0) || // Check that the comment has a parent (is a reply).
+    (!comment.parent_id || comment.parent_id.length === 0) || // Check that the comment has a parent (is a reply).
     !(comment.status === 'NONE' || comment.status === 'APPROVED') // Check that the comment is visible.
   ) {
     return;
@@ -365,7 +369,7 @@ events.on(COMMENTS_NEW, async (comment) => {
 events.on(COMMENTS_EDIT, async (originalComment, editedComment) => {
   if (
     !editedComment || // Check that the comment is defined.
-    (editedComment.parent_id === null || editedComment.parent_id.length === 0) // Check that the comment has a parent (is a reply).
+    (!editedComment.parent_id || editedComment.parent_id.length === 0) // Check that the comment has a parent (is a reply).
   ) {
     return;
   }
