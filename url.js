@@ -16,4 +16,4 @@ module.exports = {
   BASE_URL: BASE_URL,
   BASE_PATH: BASE_PATH,
   MOUNT_PATH: MOUNT_PATH,
-}
+};

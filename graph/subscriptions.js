@@ -174,7 +174,7 @@ const createSubscriptionManager = (server) => new SubscriptionServer({
   keepAlive: ms(KEEP_ALIVE)
 }, {
   server,
-  path: '${BASE_PATH}api/v1/live'
+  path: `${BASE_PATH}api/v1/live`
 });
 
 module.exports = {
