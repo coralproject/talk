@@ -2,13 +2,14 @@ import React from 'react';
 import t from 'coral-framework/services/i18n';
 import {ReplyButton} from 'talk-plugin-replies';
 import PubDate from 'talk-plugin-pubdate/PubDate';
-import AuthorName from 'talk-plugin-author-name/AuthorName';
 import styles from './FakeComment.css';
 import {Icon} from 'plugin-api/beta/client/components/ui';
 
 export const FakeComment = ({username, created_at, body}) => (
   <div className={styles.root}>
-    <AuthorName author={{username}} />
+    <span className={styles.authorName}>
+      {username}
+    </span>;
     <PubDate created_at={created_at} />
     <div className={styles.body}>
       {body}
