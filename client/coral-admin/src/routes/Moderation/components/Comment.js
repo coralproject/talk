@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 
 import {Icon} from 'coral-ui';
+import ReplyBadge from 'coral-admin/src/components/ReplyBadge';
 import FlagBox from 'coral-admin/src/components/FlagBox';
 import styles from './styles.css';
 import CommentType from 'coral-admin/src/components/CommentType';
@@ -15,7 +16,6 @@ import CommentBodyHighlighter from 'coral-admin/src/components/CommentBodyHighli
 import IfHasLink from 'coral-admin/src/components/IfHasLink';
 import cn from 'classnames';
 import {getCommentType} from 'coral-admin/src/utils/comment';
-import ReplyBadge from './ReplyBadge';
 
 import t, {timeago} from 'coral-framework/services/i18n';
 
