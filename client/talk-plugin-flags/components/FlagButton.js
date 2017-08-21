@@ -133,7 +133,9 @@ export default class FlagButton extends Component {
   }
 
   handleClickOutside = () => {
-    this.closeMenu();
+    if (this.state.showMenu) {
+      this.closeMenu();
+    }
   }
 
   render () {

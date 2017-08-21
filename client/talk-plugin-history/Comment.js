@@ -7,54 +7,55 @@ import CommentContent from '../coral-embed-stream/src/components/CommentContent'
 
 import t from 'coral-framework/services/i18n';
 
-const Comment = (props) => {
-  return (
-    <div className={styles.myComment}>
-      <div>
-        <Slot
-          fill="commentContent"
-          defaultComponent={CommentContent}
-          className={`${styles.commentBody} myCommentBody`}
-          comment={props.comment}
-        />
-        <p className="myCommentAsset">
-          <a
-            className={`${styles.assetURL} myCommentAnchor`}
-            href="#"
-            onClick={props.link(`${props.asset.url}`)}>
-            Story: {props.asset.title ? props.asset.title : props.asset.url}
-          </a>
-        </p>
-      </div>
-      <div className={styles.sidebar}>
-        <ul>
-          <li>
-            <a onClick={props.link(`${props.asset.url}?commentId=${props.comment.id}`)}>
-              <Icon name="open_in_new" className={styles.iconView}/>{t('view_conversation')}
+class Comment extends React.Component {
+
+  render() {
+    const {comment, link, data, root} = this.props;
+    return (
+      <div className={styles.myComment}>
+        <div>
+          <Slot
+            fill="commentContent"
+            defaultComponent={CommentContent}
+            className={`${styles.commentBody} myCommentBody`}
+            data={data}
+            queryData={{root, comment, asset: comment.asset}}
+          />
+          <p className="myCommentAsset">
+            <a
+              className={`${styles.assetURL} myCommentAnchor`}
+              href="#"
+              onClick={link(`${comment.asset.url}`)}>
+              Story: {comment.asset.title ? comment.asset.title : comment.asset.url}
             </a>
-          </li>
-          <li>
-            <Icon name="schedule" className={styles.iconDate}/>
-            <PubDate
-              className={styles.pubdate}
-              created_at={props.comment.created_at}
-            />
-          </li>
-        </ul>
+          </p>
+        </div>
+        <div className={styles.sidebar}>
+          <ul>
+            <li>
+              <a onClick={link(`${comment.asset.url}?commentId=${comment.id}`)}>
+                <Icon name="open_in_new" className={styles.iconView}/>{t('view_conversation')}
+              </a>
+            </li>
+            <li>
+              <Icon name="schedule" className={styles.iconDate}/>
+              <PubDate
+                className={styles.pubdate}
+                created_at={comment.created_at}
+              />
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 Comment.propTypes = {
   comment: PropTypes.shape({
     id: PropTypes.string,
     body: PropTypes.string
   }).isRequired,
-  asset: PropTypes.shape({
-    url: PropTypes.string,
-    title: PropTypes.string
-  }).isRequired
 };
 
 export default Comment;

@@ -1,23 +1,24 @@
 const {RedisPubSub} = require('graphql-redis-subscriptions');
+const {connectionOptions, attachMonitors} = require('./redis');
 
-const {connectionOptions} = require('./redis');
+/**
+ * getClient returns the pubsub singleton for this instance.
+ */
+let pubsub = null;
+const getClient = () => {
+  if (pubsub !== null) {
+    return pubsub;
+  }
 
-const createClient = () => new RedisPubSub({connection: connectionOptions});
+  pubsub = new RedisPubSub({connection: connectionOptions});
 
-const createClientFactory = () => {
-  let ins = null;
-  return () => {
-    if (ins) {
-      return ins;
-    }
+  // Attach the node monitors to the subscriber + publishers.
+  attachMonitors(pubsub.redisPublisher);
+  attachMonitors(pubsub.redisSubscriber);
 
-    ins = createClient();
-
-    return ins;
-  };
+  return pubsub;
 };
 
 module.exports = {
-  createClient,
-  createClientFactory
+  getClient,
 };

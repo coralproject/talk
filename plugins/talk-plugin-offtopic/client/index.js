@@ -1,5 +1,5 @@
 import translations from './translations.json';
-import OffTopicTag from './components/OffTopicTag';
+import OffTopicTag from './containers/OffTopicTag';
 import OffTopicFilter from './containers/OffTopicFilter';
 import OffTopicCheckbox from './containers/OffTopicCheckbox';
 import reducer from './reducer';

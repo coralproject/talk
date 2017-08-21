@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Comment from './UserDetailComment';
+import Comment from '../containers/UserDetailComment';
 import styles from './UserDetail.css';
 import {Icon, Button, Drawer, Spinner} from 'coral-ui';
 import {Slot} from 'coral-framework/components';
@@ -60,6 +60,7 @@ export default class UserDetail extends React.Component {
 
   renderLoaded() {
     const {
+      root,
       root: {
         user,
         totalComments,
@@ -98,7 +99,7 @@ export default class UserDetail extends React.Component {
                 {new Date(user.created_at).toLocaleString()}
               </li>
 
-              {user.profiles.map(({id}) => 
+              {user.profiles.map(({id}) =>
                 <li key={id}>
                   <Icon name="email"/>
                   <span className={styles.userDetailItem}>Email:</span>
@@ -132,8 +133,7 @@ export default class UserDetail extends React.Component {
           <Slot
             fill="userProfile"
             data={this.props.data}
-            root={this.props.root}
-            user={user}
+            queryData={root, user}
           />
 
           <hr/>
