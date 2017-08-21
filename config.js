@@ -8,6 +8,7 @@
 require('env-rewrite').rewrite();
 
 const uniq = require('lodash/uniq');
+const ms = require('ms');
 
 //==============================================================================
 // CONFIG INITIALIZATION
@@ -83,6 +84,23 @@ const CONFIG = {
 
   MONGO_URL: process.env.TALK_MONGO_URL,
   REDIS_URL: process.env.TALK_REDIS_URL,
+
+  // REDIS_RECONNECTION_MAX_ATTEMPTS is the amount of attempts that a redis
+  // connection will attempt to reconnect before aborting with an error.
+  REDIS_RECONNECTION_MAX_ATTEMPTS: parseInt(process.env.TALK_REDIS_RECONNECTION_MAX_ATTEMPTS || '100'),
+
+  // REDIS_RECONNECTION_MAX_RETRY_TIME is the time in string format for the
+  // maximum amount of time that a client can be considered "connecting" before
+  // attempts at reconnection are aborted with an error.
+  REDIS_RECONNECTION_MAX_RETRY_TIME: ms(process.env.TALK_REDIS_RECONNECTION_MAX_RETRY_TIME || '1 min'),
+
+  // REDIS_RECONNECTION_BACKOFF_FACTOR is the factor that will be multiplied
+  // against the current attempt count inbetween attempts to connect to redis.
+  REDIS_RECONNECTION_BACKOFF_FACTOR: ms(process.env.TALK_REDIS_RECONNECTION_BACKOFF_FACTOR || '500 ms'),
+
+  // REDIS_RECONNECTION_BACKOFF_MINIMUM_TIME is the minimum time used to delay
+  // before attempting to reconnect to redis.
+  REDIS_RECONNECTION_BACKOFF_MINIMUM_TIME: ms(process.env.TALK_REDIS_RECONNECTION_BACKOFF_MINIMUM_TIME || '1 sec'),
 
   //------------------------------------------------------------------------------
   // Server Config
