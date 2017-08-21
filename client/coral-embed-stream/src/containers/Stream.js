@@ -8,7 +8,7 @@ import {
   withDeleteAction, withIgnoreUser, withEditComment
 } from 'coral-framework/graphql/mutations';
 
-import * as authActions from 'coral-framework/actions/auth';
+import * as authActions from 'coral-embed-stream/src/actions/auth';
 import * as notificationActions from 'coral-framework/actions/notification';
 import {setActiveReplyBox, setActiveTab, viewAllComments} from '../actions/stream';
 import Stream from '../components/Stream';

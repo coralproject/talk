@@ -1,6 +1,6 @@
 import * as actions from '../constants/asset';
-import coralApi from '../helpers/request';
-import {addNotification} from '../actions/notification';
+import coralApi from 'coral-framework/helpers/request';
+import {addNotification} from 'coral-framework/actions/notification';
 
 import t from 'coral-framework/services/i18n';
 

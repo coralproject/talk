@@ -1,10 +1,10 @@
 import jwtDecode from 'jwt-decode';
 import bowser from 'bowser';
 import * as actions from '../constants/auth';
-import * as Storage from '../helpers/storage';
-import coralApi, {base} from '../helpers/request';
-import pym from '../services/pym';
-import {addNotification} from '../actions/notification';
+import * as Storage from 'coral-framework/helpers/storage';
+import coralApi, {base} from 'coral-framework/helpers/request';
+import pym from 'coral-framework/services/pym';
+import {addNotification} from 'coral-framework/actions/notification';
 
 import {resetWebsocket} from 'coral-framework/services/client';
 import t from 'coral-framework/services/i18n';

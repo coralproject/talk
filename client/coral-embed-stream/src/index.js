@@ -1,7 +1,7 @@
 import React from 'react';
 import {render} from 'react-dom';
 
-import {checkLogin, handleAuthToken, logout} from 'coral-framework/actions/auth';
+import {checkLogin, handleAuthToken, logout} from 'coral-embed-stream/src/actions/auth';
 import './graphql';
 import {addExternalConfig} from 'coral-embed-stream/src/actions/config';
 import {getStore, injectReducers, addListener} from 'coral-framework/services/store';

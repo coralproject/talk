@@ -7,11 +7,13 @@ import {getDisplayName} from 'coral-framework/helpers/hoc';
 import {compose, gql} from 'react-apollo';
 import withFragments from 'coral-framework/hocs/withFragments';
 import withMutation from 'coral-framework/hocs/withMutation';
-import {showSignInDialog} from 'coral-framework/actions/auth';
 import {addNotification} from 'coral-framework/actions/notification';
 import {capitalize} from 'coral-framework/helpers/strings';
 import {getMyActionSummary, getTotalActionCount} from 'coral-framework/utils';
 import * as PropTypes from 'prop-types';
+
+// TODO: Auth logic needs refactoring.
+import {showSignInDialog} from 'coral-embed-stream/src/actions/auth';
 
 export default (reaction) => (WrappedComponent) => {
   if (typeof reaction !== 'string') {

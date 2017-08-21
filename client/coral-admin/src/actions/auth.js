@@ -2,9 +2,9 @@ import bowser from 'bowser';
 import * as actions from '../constants/auth';
 import coralApi from 'coral-framework/helpers/request';
 import * as Storage from 'coral-framework/helpers/storage';
-import {handleAuthToken} from 'coral-framework/actions/auth';
 import {resetWebsocket} from 'coral-framework/services/client';
 import t from 'coral-framework/services/i18n';
+import jwtDecode from 'jwt-decode';
 
 //==============================================================================
 // SIGN IN
@@ -136,3 +136,30 @@ export const checkLogin = () => (dispatch) => {
       dispatch(checkLoginFailure(errorMessage));
     });
 };
+
+//==============================================================================
+// LOGOUT
+//==============================================================================
+
+export const logout = () => (dispatch) => {
+  return coralApi('/auth', {method: 'DELETE'}).then(() => {
+    Storage.removeItem('token');
+
+    // Reset the websocket.
+    resetWebsocket();
+
+    dispatch({type: actions.LOGOUT});
+  });
+};
+
+//==============================================================================
+// AUTH TOKEN
+//==============================================================================
+
+export const handleAuthToken = (token) => (dispatch) => {
+  Storage.setItem('exp', jwtDecode(token).exp);
+  Storage.setItem('token', token);
+
+  dispatch({type: 'HANDLE_AUTH_TOKEN'});
+};
+

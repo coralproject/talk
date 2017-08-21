@@ -8,8 +8,8 @@ import branch from 'recompose/branch';
 import renderComponent from 'recompose/renderComponent';
 
 import {Spinner} from 'coral-ui';
-import * as authActions from 'coral-framework/actions/auth';
-import * as assetActions from 'coral-framework/actions/asset';
+import * as authActions from '../actions/auth';
+import * as assetActions from '../actions/asset';
 import {getDefinitionName} from 'coral-framework/utils';
 import {withQuery} from 'coral-framework/hocs';
 import Embed from '../components/Embed';

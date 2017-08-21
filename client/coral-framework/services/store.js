@@ -1,6 +1,5 @@
 import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
-import mainReducer from '../reducers';
 import {getClient} from './client';
 
 let listeners = [];
@@ -52,7 +51,6 @@ export function getStore() {
   }
 
   const coralReducers = {
-    ...mainReducer,
     apollo: getClient().reducer()
   };
 

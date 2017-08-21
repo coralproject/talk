@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {compose} from 'react-apollo';
 
-import {updateOpenStatus, updateConfiguration} from 'coral-framework/actions/asset';
+import {updateOpenStatus, updateConfiguration} from 'coral-embed-stream/src/actions/asset';
 
 import CloseCommentsInfo from '../components/CloseCommentsInfo';
 import ConfigureCommentStream from '../components/ConfigureCommentStream';
