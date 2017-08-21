@@ -1,12 +1,16 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Comment from './UserDetailComment';
 import styles from './UserDetail.css';
-import {Button, Drawer, Spinner} from 'coral-ui';
+import {Icon, Button, Drawer, Spinner} from 'coral-ui';
 import {Slot} from 'coral-framework/components';
 import ButtonCopyToClipboard from './ButtonCopyToClipboard';
 import {actionsMap} from '../utils/moderationQueueActionsMap';
 import ClickOutside from 'coral-framework/components/ClickOutside';
 import LoadMore from '../components/LoadMore';
+import cn from 'classnames';
+import capitalize from 'lodash/capitalize';
+import {getReliability} from 'coral-framework/utils/user';
 
 export default class UserDetail extends React.Component {
 
@@ -74,13 +78,6 @@ export default class UserDetail extends React.Component {
       loadMore,
     } = this.props;
 
-    const localProfile = user.profiles.find((p) => p.provider === 'local');
-
-    let profile;
-    if (localProfile) {
-      profile = localProfile.id;
-    }
-
     let rejectedPercent = (rejectedComments / totalComments) * 100;
     if (rejectedPercent === Infinity || isNaN(rejectedPercent)) {
 
@@ -94,8 +91,42 @@ export default class UserDetail extends React.Component {
           <h3>{user.username}</h3>
 
           <div>
-            {profile && <input className={styles.profileEmail} readOnly type="text" ref={(ref) => this.profile = ref} value={profile} />}
-            <ButtonCopyToClipboard className={styles.copyButton} copyText={profile} />
+            <ul className={styles.userDetailList}>
+              <li>
+                <Icon name="assignment_ind"/>
+                <span className={styles.userDetailItem}>Member Since:</span>
+                {new Date(user.created_at).toLocaleString()}
+              </li>
+
+              {user.profiles.map(({id}) => 
+                <li key={id}>
+                  <Icon name="email"/>
+                  <span className={styles.userDetailItem}>Email:</span>
+                  {id} <ButtonCopyToClipboard className={styles.copyButton} icon="content_copy" copyText={id} />
+                </li>
+              )}
+            </ul>
+
+            <ul className={styles.stats}>
+              <li className={styles.stat}>
+                <span className={styles.statItem}> Total Comments </span>
+                <spam className={styles.statResult}> {totalComments} </spam>
+              </li>
+              <li className={styles.stat}>
+                <spam className={styles.statItem}> Reject Rate </spam>
+                <spam className={styles.statResult}> {`${(rejectedPercent).toFixed(1)}%`} </spam>
+              </li>
+              <li className={styles.stat}>
+                <spam className={styles.statItem}> Reports </spam>
+                <spam className={cn(styles.statReportResult, styles[getReliability(user.reliable.flagger)])}>
+                  {capitalize(getReliability(user.reliable.flagger))}
+                </spam>
+              </li>
+            </ul>
+
+            <p className={styles.small}>
+              Data represents the last six months of activity
+            </p>
           </div>
 
           <Slot
@@ -104,22 +135,8 @@ export default class UserDetail extends React.Component {
             root={this.props.root}
             user={user}
           />
-          <p className={styles.memberSince}><strong>Member since</strong> {new Date(user.created_at).toLocaleString()}</p>
+
           <hr/>
-          <p>
-            <strong>Account summary</strong>
-            <br/><small className={styles.small}>Data represents the last six months of activity</small>
-          </p>
-          <div className={styles.stats}>
-            <div className={styles.stat}>
-              <p>Total Comments</p>
-              <p>{totalComments}</p>
-            </div>
-            <div className={styles.stat}>
-              <p>Reject Rate</p>
-              <p>{`${(rejectedPercent).toFixed(1)}%`}</p>
-            </div>
-          </div>
           {
             selectedCommentIds.length === 0
             ? (
