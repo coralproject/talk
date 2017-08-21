@@ -10,7 +10,8 @@ import renderComponent from 'recompose/renderComponent';
 import {Spinner} from 'coral-ui';
 import * as authActions from '../actions/auth';
 import * as assetActions from '../actions/asset';
-import {getDefinitionName} from 'coral-framework/utils';
+import pym from 'coral-framework/services/pym';
+import {getDefinitionName, getSlotFragmentSpreads} from 'coral-framework/utils';
 import {withQuery} from 'coral-framework/hocs';
 import Embed from '../components/Embed';
 import Stream from './Stream';
@@ -149,12 +150,17 @@ const USERNAME_REJECTED_SUBSCRIPTION = gql`
   }
 `;
 
+const slots = [
+  'embed',
+];
+
 const EMBED_QUERY = gql`
   query CoralEmbedStream_Embed($assetId: ID, $assetUrl: String, $commentId: ID!, $hasComment: Boolean!, $excludeIgnored: Boolean) {
     me {
       id
       status
     }
+    ${getSlotFragmentSpreads(slots, 'root')}
     ...${getDefinitionName(Stream.fragments.root)}
   }
   ${Stream.fragments.root}

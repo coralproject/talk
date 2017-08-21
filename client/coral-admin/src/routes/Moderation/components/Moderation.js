@@ -168,8 +168,7 @@ export default class Moderation extends Component {
 
         <Slot
           data={data}
-          root={root}
-          assset={asset}
+          queryData={{root, asset}}
           activeTab={activeTab}
           handleCommentChange={handleCommentChange}
           fill='adminModeration'

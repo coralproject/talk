@@ -16,8 +16,8 @@ class TabPaneContainer extends React.Component {
       query: LOAD_MORE_QUERY,
       variables: {
         limit: 5,
-        cursor: this.props.root.asset.featuredComments.endCursor,
-        asset_id: this.props.root.asset.id,
+        cursor: this.props.asset.featuredComments.endCursor,
+        asset_id: this.props.asset.id,
         sort: 'REVERSE_CHRONOLOGICAL',
         excludeIgnored: this.props.data.variables.excludeIgnored,
       },

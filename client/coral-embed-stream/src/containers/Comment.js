@@ -1,7 +1,11 @@
-import {gql} from 'react-apollo';
+import {gql, compose} from 'react-apollo';
+import React from 'react';
 import Comment from '../components/Comment';
 import {withFragments} from 'coral-framework/hocs';
 import {getSlotFragmentSpreads} from 'coral-framework/utils';
+import {THREADING_LEVEL} from '../constants/stream';
+import hoistStatics from 'recompose/hoistStatics';
+import {nest} from '../graphql/utils';
 
 const slots = [
   'streamQuestionArea',
@@ -14,7 +18,75 @@ const slots = [
   'commentAvatar'
 ];
 
-export default withFragments({
+/**
+ * withAnimateEnter is a HOC that passes a property `animateEnter` to the
+ * underlying BaseComponent. It must be a direct child of a `TransitionGroup`
+ * from https://github.com/reactjs/react-transition-group and as such must
+ * be the uppermost HOC applied to the BaseComponent.
+ */
+const withAnimateEnter = hoistStatics((BaseComponent) => {
+  class WithAnimateEnter extends React.Component {
+    state = {
+      animateEnter: false,
+    };
+
+    componentWillEnter(callback) {
+      callback();
+      const userId = this.props.currentUser ? this.props.currentUser.id : null;
+      if (this.props.comment.id.indexOf('pending') >= 0) {
+        return;
+      }
+      if (userId && this.props.comment.user.id === userId) {
+
+        // This comment was just added by currentUser.
+        if (Date.now() - Number(new Date(this.props.comment.created_at)) < 30 * 1000) {
+          return;
+        }
+      }
+      this.setState({animateEnter: true});
+    }
+
+    render() {
+      return <BaseComponent
+        {...this.props}
+        animateEnter={this.state.animateEnter}
+      />;
+    }
+  }
+  return WithAnimateEnter;
+});
+
+const singleCommentFragment = gql`
+  fragment CoralEmbedStream_Comment_SingleComment on Comment {
+    id
+    body
+    created_at
+    status
+    replyCount
+    tags {
+      tag {
+        name
+      }
+    }
+    user {
+      id
+      username
+    }
+    action_summaries {
+      __typename
+      count
+      current_user {
+        id
+      }
+    }
+    editing {
+      edited
+      editableUntil
+    }
+  }
+`;
+
+const withCommentFragments = withFragments({
   root: gql`
     fragment CoralEmbedStream_Comment_root on RootQuery {
       __typename
@@ -29,32 +101,27 @@ export default withFragments({
     `,
   comment: gql`
     fragment CoralEmbedStream_Comment_comment on Comment {
-      id
-      body
-      created_at
-      status
-      replyCount
-      tags {
-        tag {
-          name
+      ...CoralEmbedStream_Comment_SingleComment
+      ${nest(`
+        replies(limit: 3, excludeIgnored: $excludeIgnored) {
+          nodes {
+            ...CoralEmbedStream_Comment_SingleComment
+            ...nest
+          }
+          hasNextPage
+          startCursor
+          endCursor
         }
-      }
-      user {
-        id
-        username
-      }
-      action_summaries {
-        __typename
-        count
-        current_user {
-          id
-        }
-      }
-      editing {
-        edited
-        editableUntil
-      }
+      `, THREADING_LEVEL)}
       ${getSlotFragmentSpreads(slots, 'comment')}
     }
+    ${singleCommentFragment}
   `
-})(Comment);
+});
+
+const enhance = compose(
+  withAnimateEnter,
+  withCommentFragments,
+);
+
+export default enhance(Comment);

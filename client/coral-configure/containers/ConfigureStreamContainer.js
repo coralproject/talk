@@ -15,7 +15,7 @@ class ConfigureStreamContainer extends Component {
 
     this.state = {
       changed: false,
-      dirtySettings: props.asset.settings,
+      dirtySettings: {...props.asset.settings},
       closedAt: !props.asset.isClosed ? 'open' : 'closed'
     };
 
@@ -48,26 +48,28 @@ class ConfigureStreamContainer extends Component {
           changed: false
         });
       }, 300);
-
-      // this.props.loadAsset(this.props.data.asset);
     }
   }
 
   handleChange (e) {
+    const changes = {};
 
-    // TODO: Don’t directly manipulate state and make state change immutable.
     if (e.target && e.target.id === 'qboxenable') {
-      this.state.dirtySettings.questionBoxEnable = e.target.checked;
+      changes.questionBoxEnable = e.target.checked;
     }
     if (e.target && e.target.id === 'qboxcontent') {
-      this.state.dirtySettings.questionBoxContent = e.target.value;
+      changes.questionBoxContent = e.target.value;
     }
     if (e.target && e.target.id === 'plinksenable') {
-      this.state.dirtySettings.premodLinksEnable = e.target.value;
+      changes.premodLinksEnable = e.target.value;
     }
 
     this.setState({
-      changed: true
+      changed: true,
+      dirtySettings: {
+        ...this.state.dirtySettings,
+        ...changes,
+      },
     });
   }
 

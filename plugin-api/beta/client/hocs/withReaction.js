@@ -10,16 +10,31 @@ import withMutation from 'coral-framework/hocs/withMutation';
 import {addNotification} from 'coral-framework/actions/notification';
 import {capitalize} from 'coral-framework/helpers/strings';
 import {getMyActionSummary, getTotalActionCount} from 'coral-framework/utils';
+import hoistStatics from 'recompose/hoistStatics';
 import * as PropTypes from 'prop-types';
+import {getDefinitionName} from '../utils';
 
 // TODO: Auth logic needs refactoring.
 import {showSignInDialog} from 'coral-embed-stream/src/actions/auth';
 
-export default (reaction) => (WrappedComponent) => {
+/*
+ * Disable false-positive warning below, as it doesn't work well with how we currently
+ * assemble the queries.
+ *
+ * Warning: fragment with name {fragment name} already exists.
+ * graphql-tag enforces all fragment names across your application to be unique; read more about
+ * this in the docs: http://dev.apollodata.com/core/fragments.html#unique-names
+ */
+gql.disableFragmentWarnings();
+
+export default (reaction, options = {}) => hoistStatics((WrappedComponent) => {
   if (typeof reaction !== 'string') {
     console.error('Reaction must be a valid string');
     return null;
   }
+
+  // fragments allow the extension of the fragments defined in this HOC.
+  const {fragments = {}} = options;
 
   // Global instance counter for each `reaction` type.
   let instances = 0;
@@ -177,7 +192,7 @@ export default (reaction) => (WrappedComponent) => {
         createdSubscription = context.client.subscribe({
           query: REACTION_CREATED_SUBSCRIPTION,
           variables: {
-            assetId: this.props.root.asset.id,
+            assetId: this.props.asset.id,
           },
         }).subscribe({
           next: this.onReactionCreated,
@@ -187,7 +202,7 @@ export default (reaction) => (WrappedComponent) => {
         deletedSubscription = context.client.subscribe({
           query: REACTION_DELETED_SUBSCRIPTION,
           variables: {
-            assetId: this.props.root.asset.id,
+            assetId: this.props.asset.id,
           },
         }).subscribe({
           next: this.onReactionDeleted,
@@ -249,7 +264,7 @@ export default (reaction) => (WrappedComponent) => {
     }
 
     render() {
-      const {comment} = this.props;
+      const {root, asset, comment} = this.props;
 
       const reactionSummary = getMyActionSummary(
         `${Reaction}ActionSummary`,
@@ -264,10 +279,12 @@ export default (reaction) => (WrappedComponent) => {
       const alreadyReacted = !!reactionSummary;
 
       return <WrappedComponent
+        root={root}
+        asset={asset}
+        comment={comment}
         showSignInDialog={this.props.showSignInDialog}
         addNotification={this.props.addNotification}
         user={this.props.user}
-        comment={comment}
         reactionSummary={reactionSummary}
         count={count}
         alreadyReacted={alreadyReacted}
@@ -373,9 +390,19 @@ export default (reaction) => (WrappedComponent) => {
 
   const enhance = compose(
     withFragments({
+      ...fragments,
+      asset: gql`
+        fragment ${Reaction}Button_asset on Asset {
+          id
+          ${fragments.asset ? `...${getDefinitionName(fragments.asset)}` : ''}
+        }
+        ${fragments.asset ? fragments.asset : ''}
+      `,
       comment: gql`
         fragment ${Reaction}Button_comment on Comment {
+          id
           action_summaries {
+            __typename
             ... on ${Reaction}ActionSummary {
               count
               current_user {
@@ -383,7 +410,10 @@ export default (reaction) => (WrappedComponent) => {
               }
             }
           }
-        }`
+          ${fragments.comment ? `...${getDefinitionName(fragments.comment)}` : ''}
+        }
+        ${fragments.comment ? fragments.comment : ''}
+      `
     }),
     connect(mapStateToProps, mapDispatchToProps),
     withDeleteReaction,
@@ -393,4 +423,4 @@ export default (reaction) => (WrappedComponent) => {
   WithReactions.displayName = `WithReactions(${getDisplayName(WrappedComponent)})`;
 
   return enhance(WithReactions);
-};
+});
