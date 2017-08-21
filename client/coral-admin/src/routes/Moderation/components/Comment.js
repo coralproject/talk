@@ -15,6 +15,7 @@ import CommentBodyHighlighter from 'coral-admin/src/components/CommentBodyHighli
 import IfHasLink from 'coral-admin/src/components/IfHasLink';
 import cn from 'classnames';
 import {getCommentType} from 'coral-admin/src/utils/comment';
+import ReplyBadge from './ReplyBadge';
 
 import t, {timeago} from 'coral-framework/services/i18n';
 
@@ -69,7 +70,7 @@ class Comment extends React.Component {
     let selectionStateCSS = selected ? 'mdl-shadow--16dp' : 'mdl-shadow--2dp';
 
     const queryData = {root, comment, asset: comment.asset};
-    console.log(comment);
+
     return (
       <li
         tabIndex={0}
@@ -107,6 +108,7 @@ class Comment extends React.Component {
                 </ActionsMenu>
               }
               <div className={styles.adminCommentInfoBar}>
+                <ReplyBadge hasParent={comment.hasParent} />
                 <CommentType type={commentType} className={styles.commentType}/>
                 <Slot
                   fill="adminCommentInfoBar"
