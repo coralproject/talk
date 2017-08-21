@@ -1,5 +1,5 @@
 import Tab from './containers/Tab';
-import Tag from './components/Tag';
+import Tag from './containers/Tag';
 import Button from './components/Button';
 import TabPane from './containers/TabPane';
 import translations from './translations.yml';

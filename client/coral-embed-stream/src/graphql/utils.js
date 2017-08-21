@@ -117,7 +117,7 @@ export function getTopLevelParent(comment) {
   return comment;
 }
 
-function findComment(nodes, callback) {
+export function findComment(nodes, callback) {
   for (let i = 0; i < nodes.length; i++) {
     const node = nodes[i];
     if (callback(node)) {
@@ -131,6 +131,10 @@ function findComment(nodes, callback) {
     }
   }
   return false;
+}
+
+export function findCommentWithId(nodes, id) {
+  return findComment(nodes, (node) => node.id === id);
 }
 
 export function findCommentInEmbedQuery(root, callbackOrId) {
