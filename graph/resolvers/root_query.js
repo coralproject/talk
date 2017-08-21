@@ -26,13 +26,7 @@ const RootQuery = {
 
   // This endpoint is used for loading moderation queues, so hide it in the
   // event that we aren't an admin.
-  async comments(_, {query}, {user, loaders: {Comments, Actions}}) {
-    let {action_type} = query;
-
-    if (user != null && user.can(SEARCH_OTHERS_COMMENTS) && action_type) {
-      query.ids = await Actions.getByTypes({action_type, item_type: 'COMMENTS'});
-    }
-
+  async comments(_, {query}, {loaders: {Comments}}) {
     return Comments.getByQuery(query);
   },
 
@@ -40,19 +34,13 @@ const RootQuery = {
     return Comments.get.load(id);
   },
 
-  async commentCount(_, {query}, {user, loaders: {Actions, Comments, Assets}}) {
-
+  async commentCount(_, {query}, {user, loaders: {Comments, Assets}}) {
     if (user == null || !user.can(SEARCH_OTHERS_COMMENTS)) {
       return null;
     }
-    
-    const {action_type, asset_url} = query;
 
-    if (action_type) {
-      query.ids = await Actions.getByTypes({action_type, item_type: 'COMMENTS'});
-    }
-
-    if (asset_url) {
+    const {asset_url} = query;
+    if (asset_url && asset_url.length > 0) {
       let asset = await Assets.findByUrl(asset_url);
       if (asset) {
         query.asset_id = asset.id;

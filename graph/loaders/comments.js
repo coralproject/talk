@@ -119,7 +119,7 @@ const getCountsByParentID = (context, parent_ids) => {
  * @return {Promise}          resolves to the counts of the comments from the
  *                            query
  */
-const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id, author_id, tags}) => {
+const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id, author_id, tags, action_type}) => {
   let query = CommentModel.find();
 
   if (ids) {
@@ -142,6 +142,16 @@ const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id, au
     query = query.where({author_id});
   }
 
+  if (context.user != null && context.user.can(SEARCH_OTHERS_COMMENTS) && action_type) {
+    query = query.where({
+      action_counts: {
+        [action_type.toLowerCase()]: {
+          $gt: 0,
+        }
+      },
+    });
+  }
+
   if (tags) {
     query = query.find({
       'tags.tag.name': {
@@ -161,7 +171,7 @@ const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id, au
  * @param  {Object} context   graph context
  * @param  {Object} query     query terms to apply to the comments query
  */
-const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, author_id, limit, cursor, sort, excludeIgnored, tags}) => {
+const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, author_id, limit, cursor, sort, excludeIgnored, tags, action_type}) => {
   let comments = CommentModel.find();
 
   // Only administrators can search for comments with statuses that are not
@@ -177,6 +187,16 @@ const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, a
       status: {
         $in: ['NONE', 'ACCEPTED']
       }
+    });
+  }
+
+  if (user != null && user.can(SEARCH_OTHERS_COMMENTS) && action_type) {
+    comments = comments.where({
+      action_counts: {
+        [action_type.toLowerCase()]: {
+          $gt: 0,
+        }
+      },
     });
   }
 
