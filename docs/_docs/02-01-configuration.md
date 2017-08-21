@@ -177,7 +177,7 @@ Trust can auto-moderate comments based on user history. By specifying this
 option, the behavior can be changed to offer different results.
 
 - `TRUST_THRESHOLDS` (_optional_) - configure the reliability thresholds for
-  flagging and commenting. (Default `comment:-1,-1;flag:-1,-1`)
+  flagging and commenting. (Default `comment:2,-1;flag:2,-1`)
 
 The form of the environment variable:
 

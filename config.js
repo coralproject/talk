@@ -153,7 +153,7 @@ const CONFIG = {
   DISABLE_AUTOFLAG_SUSPECT_WORDS: process.env.TALK_DISABLE_AUTOFLAG_SUSPECT_WORDS === 'TRUE',
 
   // TRUST_THRESHOLDS defines the thresholds used for automoderation.
-  TRUST_THRESHOLDS: process.env.TRUST_THRESHOLDS || 'comment:-1,-1;flag:-1,-1'
+  TRUST_THRESHOLDS: process.env.TRUST_THRESHOLDS || 'comment:2,-1;flag:2,-1'
 };
 
 //==============================================================================
