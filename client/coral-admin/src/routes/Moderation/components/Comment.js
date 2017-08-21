@@ -20,7 +20,7 @@ import t, {timeago} from 'coral-framework/services/i18n';
 
 class Comment extends React.Component {
 
-  showSuspenUserDialog = () => {
+  showSuspendUserDialog = () => {
     const {comment, showSuspendUserDialog} = this.props;
     return showSuspendUserDialog({
       userId: comment.user.id,
@@ -97,7 +97,7 @@ class Comment extends React.Component {
                 <ActionsMenu icon="not_interested">
                   <ActionsMenuItem
                     disabled={comment.user.status === 'BANNED'}
-                    onClick={this.showSuspenUserDialog}>
+                    onClick={this.showSuspendUserDialog}>
                     Suspend User</ActionsMenuItem>
                   <ActionsMenuItem
                     disabled={comment.user.status === 'BANNED'}
