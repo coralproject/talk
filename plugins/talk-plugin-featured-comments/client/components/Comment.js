@@ -22,9 +22,14 @@ class Comment extends React.Component {
         </blockquote>
 
         <div className={cn(`${pluginName}-comment-username-box`)}>
-          <strong className={cn(styles.username, `${pluginName}-comment-username`)}>
-            {comment.user.username}
-          </strong>
+
+          <Slot
+            className={cn(styles.username, `${pluginName}-comment-username`)}
+            fill="commentAuthorName"
+            comment={comment}
+            inline
+          />
+
           <span className={cn(styles.timeago, `${pluginName}-comment-timeago`)}>
             ,{' '}{timeago(comment.created_at)}
           </span>
