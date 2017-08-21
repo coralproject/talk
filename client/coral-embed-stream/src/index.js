@@ -1,6 +1,5 @@
 import React from 'react';
 import {render} from 'react-dom';
-import {ApolloProvider} from 'react-apollo';
 
 import {checkLogin, handleAuthToken, logout} from 'coral-framework/actions/auth';
 import './graphql';
@@ -13,7 +12,8 @@ import AppRouter from './AppRouter';
 import {loadPluginsTranslations, injectPluginsReducers} from 'coral-framework/helpers/plugins';
 import reducers from './reducers';
 import EventEmitter from 'eventemitter2';
-import EventEmitterProvider from 'coral-framework/components/EventEmitterProvider';
+import TalkProvider from 'coral-framework/components/TalkProvider';
+import plugins from 'pluginsConfig';
 
 const store = getStore();
 const client = getClient();
@@ -68,10 +68,14 @@ if (!window.opener) {
 }
 
 render(
-  <EventEmitterProvider eventEmitter={eventEmitter}>
-    <ApolloProvider client={client} store={store}>
-      <AppRouter />
-    </ApolloProvider>
-  </EventEmitterProvider>
+  <TalkProvider
+    eventEmitter={eventEmitter}
+    client={client}
+    store={store}
+    pym={pym}
+    plugins={plugins}
+  >
+    <AppRouter />
+  </TalkProvider>
   , document.querySelector('#talk-embed-stream-container')
 );
