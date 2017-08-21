@@ -28,9 +28,11 @@ export default class PermalinkButton extends React.Component {
   }
 
   handleClickOutside = () => {
-    this.setState({
-      popoverOpen: false
-    });
+    if (this.state.popoverOpen) {
+      this.setState({
+        popoverOpen: false
+      });
+    }
   }
 
   copyPermalink = () => {

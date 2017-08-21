@@ -1,5 +1,6 @@
 import {gql} from 'react-apollo';
 import t from 'coral-framework/services/i18n';
+import union from 'lodash/union';
 import {capitalize} from 'coral-framework/helpers/strings';
 
 export const getTotalActionCount = (type, comment) => {
@@ -183,4 +184,9 @@ export function getSlotFragmentSpreads(slots, resource) {
 
 export function isCommentActive(commentStatus) {
   return ['NONE', 'ACCEPTED'].indexOf(commentStatus) >= 0;
+}
+
+export function getShallowChanges(a, b) {
+  return union(Object.keys(a), Object.keys(b))
+    .filter((key) => a[key] !== b[key]);
 }

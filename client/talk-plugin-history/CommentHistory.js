@@ -22,16 +22,18 @@ class CommentHistory extends React.Component {
   }
 
   render() {
-    const {link, comments} = this.props;
+    const {link, comments, data, root} = this.props;
     return (
       <div className={`${styles.header} commentHistory`}>
         <div className="commentHistory__list">
           {comments.nodes.map((comment, i) => {
             return <Comment
               key={i}
+              data={data}
+              root={root}
               comment={comment}
               link={link}
-              asset={comment.asset} />;
+            />;
           })}
         </div>
         {comments.hasNextPage &&

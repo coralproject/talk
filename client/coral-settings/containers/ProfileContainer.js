@@ -14,6 +14,7 @@ import CommentHistory from 'talk-plugin-history/CommentHistory';
 import {showSignInDialog, checkLogin} from 'coral-framework/actions/auth';
 import {insertCommentsSorted} from 'plugin-api/beta/client/utils';
 import update from 'immutability-helper';
+import {getSlotFragmentSpreads} from 'coral-framework/utils';
 
 import t from 'coral-framework/services/i18n';
 
@@ -51,9 +52,9 @@ class ProfileContainer extends Component {
   };
 
   render() {
-    const {auth, auth: {user}, asset, showSignInDialog, stopIgnoringUser} = this.props;
+    const {auth, auth: {user}, showSignInDialog, stopIgnoringUser, root, data} = this.props;
     const {me} = this.props.root;
-    const loading = [1, 2, 4].indexOf(this.props.data.networkStatus) >= 0;
+    const loading = this.props.data.loading;
 
     if (!auth.loggedIn) {
       return <NotLoggedIn showSignInDialog={showSignInDialog} />;
@@ -87,12 +88,17 @@ class ProfileContainer extends Component {
 
         <h3>{t('framework.my_comments')}</h3>
         {me.comments.nodes.length
-          ? <CommentHistory comments={me.comments} asset={asset} link={link} loadMore={this.loadMore}/>
+          ? <CommentHistory data={data} root={root} comments={me.comments} link={link} loadMore={this.loadMore}/>
           : <p>{t('user_no_comment')}</p>}
       </div>
     );
   }
 }
+
+// TODO: This Slot should be included in `talk-plugin-history` instead.
+const slots = [
+  'commentContent',
+];
 
 const CommentFragment = gql`
   fragment TalkSettings_CommentConnectionFragment on CommentConnection {
@@ -103,8 +109,10 @@ const CommentFragment = gql`
         id
         title
         url
+        ${getSlotFragmentSpreads(slots, 'asset')}
       }
       created_at
+      ${getSlotFragmentSpreads(slots, 'comment')}
     }
     endCursor
     hasNextPage
@@ -133,12 +141,12 @@ const withProfileQuery = withQuery(
         ...TalkSettings_CommentConnectionFragment
       }
     }
+    ${getSlotFragmentSpreads(slots, 'root')}
   }
   ${CommentFragment}
 `);
 
 const mapStateToProps = (state) => ({
-  asset: state.asset,
   auth: state.auth
 });
 

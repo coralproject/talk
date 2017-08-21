@@ -108,7 +108,7 @@ class UserDetailContainer extends React.Component {
       return null;
     }
 
-    const loading = [1, 2, 4].indexOf(this.props.data.networkStatus) >= 0;
+    const loading = this.props.data.loading;
 
     return <UserDetail
       bulkReject={this.bulkReject}
@@ -141,6 +141,9 @@ export const withUserDetailQuery = withQuery(gql`
       profiles {
         id
         provider
+      }
+      reliable {
+        flagger
       }
       ${getSlotFragmentSpreads(slots, 'user')}
     }

@@ -18,7 +18,7 @@ class TabPaneContainer extends React.Component {
         limit: 5,
         cursor: this.props.root.asset.featuredComments.endCursor,
         asset_id: this.props.root.asset.id,
-        sort: 'DESC',
+        sort: 'REVERSE_CHRONOLOGICAL',
         excludeIgnored: this.props.data.variables.excludeIgnored,
       },
       updateQuery: (previous, {fetchMoreResult:{comments}}) => {

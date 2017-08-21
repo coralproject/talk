@@ -5,7 +5,7 @@ import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import NewCount from './NewCount';
 import {TransitionGroup} from 'react-transition-group';
 import {forEachError} from 'coral-framework/utils';
-import Comment from '../components/Comment';
+import Comment from '../containers/Comment';
 
 const hasComment = (nodes, id) => nodes.some((node) => node.id === id);
 
