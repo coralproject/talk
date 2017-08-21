@@ -25,7 +25,7 @@ import {EditableCommentContent} from './EditableCommentContent';
 import {getActionSummary, iPerformedThisAction, forEachError, isCommentActive, getShallowChanges} from 'coral-framework/utils';
 import t from 'coral-framework/services/i18n';
 import CommentContainer from '../containers/Comment';
-import AuthorName from './AuthorName';
+import {CommentAuthorName} from 'coral-framework/components';
 
 const isStaff = (tags) => !tags.every((t) => t.tag.name !== 'STAFF');
 const hasTag = (tags, lookupTag) => !!tags.filter((t) => t.tag.name === lookupTag).length;
@@ -438,9 +438,9 @@ export default class Comment extends React.Component {
             <div className={cn(styles.header, 'talk-stream-comment-header')}>
 
               <Slot
-                className={'talk-stream-comment-user-name'}
+                className={cn(styles.username, 'talk-stream-comment-user-name')}
                 fill="commentAuthorName"
-                defaultComponent={AuthorName}
+                defaultComponent={CommentAuthorName}
                 queryData={queryData}
                 {...slotProps}
               />
