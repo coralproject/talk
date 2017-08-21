@@ -54,12 +54,8 @@ const findOrCreateAssetByURL = async (context, asset_url) => {
   return asset;
 };
 
-const getAssetsForMetrics = async ({loaders: {Actions, Comments}}) => {
-  let actions = await Actions.getByTypes({action_type: 'FLAG', item_type: 'COMMENT'});
-
-  const ids = actions.map(({item_id}) => item_id);
-
-  return Comments.getByQuery({ids})
+const getAssetsForMetrics = async ({loaders: {Comments}}) => {
+  return Comments.getByQuery({action_type: 'FLAG'})
     .then((connection) => connection.nodes);
 };
 
@@ -86,7 +82,7 @@ module.exports = (context) => ({
     // TODO: decide whether we want to move these to mutators or not, as in fact
     // this operation create a new asset if one isn't found.
     getByURL: (url) => findOrCreateAssetByURL(context, url),
-    
+
     findByUrl: (url) => findByUrl(context, url),
     search: (query) => getAssetsByQuery(context, query),
     getByID: new DataLoader((ids) => genAssetsByID(context, ids)),
