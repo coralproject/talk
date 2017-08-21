@@ -80,38 +80,6 @@ const getParentCountsByAssetID = (context, asset_ids) => {
 };
 
 /**
- * Returns the comment count for all comments that are public based on their
- * parent ids.
- *
- * @param {Array<String>} parent_ids  the ids of parents for which there are
- *                                    comments that we want to get
- */
-const getCountsByParentID = (context, parent_ids) => {
-  return CommentModel.aggregate([
-    {
-      $match: {
-        parent_id: {
-          $in: parent_ids
-        },
-        status: {
-          $in: ['NONE', 'ACCEPTED']
-        }
-      }
-    },
-    {
-      $group: {
-        _id: '$parent_id',
-        count: {
-          $sum: 1
-        }
-      }
-    }
-  ])
-  .then(singleJoinBy(parent_ids, '_id'))
-  .then((results) => results.map((result) => result ? result.count : 0));
-};
-
-/**
  * Retrieves the count of comments based on the passed in query.
  * @param  {Object} context   graph context
  * @param  {Object} query     query to execute against the comments collection
@@ -311,7 +279,6 @@ module.exports = (context) => ({
     getByQuery: (query) => getCommentsByQuery(context, query),
     getCountByQuery: (query) => getCommentCountByQuery(context, query),
     countByAssetID: new SharedCounterDataLoader('Comments.totalCommentCount', ms(CACHE_EXPIRY_COMMENT_COUNT), (ids) => getCountsByAssetID(context, ids)),
-    parentCountByAssetID: new SharedCounterDataLoader('Comments.countByAssetID', ms(CACHE_EXPIRY_COMMENT_COUNT), (ids) => getParentCountsByAssetID(context, ids)),
-    countByParentID: new SharedCounterDataLoader('Comments.countByParentID', ms(CACHE_EXPIRY_COMMENT_COUNT), (ids) => getCountsByParentID(context, ids)),
+    parentCountByAssetID: new SharedCounterDataLoader('Comments.countByAssetID', ms(CACHE_EXPIRY_COMMENT_COUNT), (ids) => getParentCountsByAssetID(context, ids))
   }
 });

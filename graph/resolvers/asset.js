@@ -39,7 +39,7 @@ const Asset = {
       return Comments.getCountByQuery({
         tags,
         asset_id: id,
-        parent_id: id,
+        parent_id: null,
         statuses: ['NONE', 'ACCEPTED'],
       });
     }
@@ -55,7 +55,11 @@ const Asset = {
     if (tags && tags.length > 0) {
 
       // Then count the comments with those tags.
-      return Comments.getCountByQuery({tags, asset_id: id, statuses: ['NONE', 'ACCEPTED']});
+      return Comments.getCountByQuery({
+        tags,
+        asset_id: id,
+        statuses: ['NONE', 'ACCEPTED'],
+      });
     }
 
     return Comments.countByAssetID.load(id);
