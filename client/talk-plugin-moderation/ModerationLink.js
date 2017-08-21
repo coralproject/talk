@@ -2,10 +2,11 @@ import React, {PropTypes} from 'react';
 import styles from './styles.css';
 
 import t from 'coral-framework/services/i18n';
+import {BASE_PATH} from 'coral-framework/constants/url';
 
 const ModerationLink = (props) => props.isAdmin ? (
     <div className={styles.moderationLink}>
-      <a href={`/admin/moderate/${props.assetId}`} target="_blank">
+      <a href={`${BASE_PATH}admin/moderate/${props.assetId}`} target="_blank">
         {t('moderate_this_stream')}
       </a>
     </div>
