@@ -69,7 +69,7 @@ class Comment extends React.Component {
     let selectionStateCSS = selected ? 'mdl-shadow--16dp' : 'mdl-shadow--2dp';
 
     const queryData = {root, comment, asset: comment.asset};
-
+    console.log(comment);
     return (
       <li
         tabIndex={0}

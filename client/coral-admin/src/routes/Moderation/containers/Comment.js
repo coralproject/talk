@@ -53,6 +53,7 @@ export default withFragments({
       editing {
         edited
       }
+      hasParent
       ${getSlotFragmentSpreads(slots, 'comment')}
     }
   `
