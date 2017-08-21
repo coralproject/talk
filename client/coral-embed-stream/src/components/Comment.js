@@ -439,7 +439,7 @@ export default class Comment extends React.Component {
 
               <Slot
                 className={'talk-stream-comment-user-name'}
-                fill="authorName"
+                fill="commentAuthorName"
                 defaultComponent={AuthorName}
                 queryData={queryData}
                 {...slotProps}

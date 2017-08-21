@@ -15,7 +15,8 @@ const slots = [
   'commentActions',
   'commentContent',
   'commentReactions',
-  'commentAvatar'
+  'commentAvatar',
+  'commentAuthorName'
 ];
 
 /**
