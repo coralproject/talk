@@ -52,6 +52,21 @@ These are only used during the webpack build.
 - `TALK_MONGO_URL` (*required*) - the database connection string for the MongoDB database.
 - `TALK_REDIS_URL` (*required*) - the database connection string for the Redis database.
 
+#### Advanced
+
+- `TALK_REDIS_RECONNECTION_MAX_ATTEMPTS` (_optional_) - the amount of attempts
+  that a redis connection will attempt to reconnect before aborting with an
+  error. (Default `100`)
+- `TALK_REDIS_RECONNECTION_MAX_RETRY_TIME` (_optional_) - the time in string
+  format for the maximum amount of time that a client can be considered
+  "connecting" before attempts at reconnection are aborted with an error.
+  (Default `1 min`)
+- `TALK_REDIS_RECONNECTION_BACKOFF_FACTOR` (_optional_) - the time factor that
+  will be multiplied against the current attempt count inbetween attempts to
+  connect to redis. (Default `500 ms`)
+- `TALK_REDIS_RECONNECTION_BACKOFF_MINIMUM_TIME` (_optional_) - the minimum time
+  used to delay before attempting to reconnect to redis. (Default `1 sec`)
+
 ### Server
 
 - `TALK_ROOT_URL` (*required*) - root url of the installed application externally
