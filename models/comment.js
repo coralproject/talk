@@ -71,7 +71,10 @@ const CommentSchema = new Schema({
   parent_id: String,
 
   // The number of replies to this comment directly.
-  reply_count: Number,
+  reply_count: {
+    type: Number,
+    default: 0,
+  },
 
   // Counts to store related to actions taken on the given comment.
   action_counts: {
