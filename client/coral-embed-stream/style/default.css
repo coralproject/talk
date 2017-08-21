@@ -238,14 +238,8 @@ body {
   line-height: 1.3;
 }
 
-.talk-plugin-author-name-text {
-  display: inline-block;
-  margin: 10px 5px 10px 0;
-  font-weight: bold;
-}
-
-.talk-plugin-author-name-bio-flag {
-  float: right;
+.talk-stream-comment-header {
+  margin: 10px 0;
 }
 
 /* Tag Labels */
