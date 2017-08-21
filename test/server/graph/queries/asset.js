@@ -45,7 +45,7 @@ describe('graph.queries.asset', () => {
     const assetCommentsQuery = `
       query assetCommentsQuery($id: ID!) {
         asset(id: $id) {
-          comments(limit: 10) {
+          comments(query: {limit: 10}) {
             nodes {
               id
               body
@@ -59,7 +59,7 @@ describe('graph.queries.asset', () => {
       }
     `;
     const res = await graphql(schema, assetCommentsQuery, {}, context, {id: asset.id});
-    expect(res.erros).is.empty;
+    expect(res.errors).is.empty;
     const {nodes, startCursor, endCursor, hasNextPage} = res.data.asset.comments;
     expect(nodes.length).to.equal(2);
     expect(startCursor).to.equal(nodes[0].created_at);
@@ -82,7 +82,7 @@ describe('graph.queries.asset', () => {
     const query = `
       query assetCommentsQuery($id: ID!, $url: String!, $excludeIgnored: Boolean!) {
         asset(id: $id, url: $url) {
-          comments(limit: 10, excludeIgnored: $excludeIgnored) {
+          comments(query: {limit: 10, excludeIgnored: $excludeIgnored}) {
             nodes {
               id
               body

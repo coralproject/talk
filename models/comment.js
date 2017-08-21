@@ -55,7 +55,7 @@ const CommentSchema = new Schema({
   body: {
     type: String,
     required: [true, 'The body is required.'],
-    minlength: 2
+    minlength: 2,
   },
   body_history: [BodyHistoryItemSchema],
   asset_id: String,

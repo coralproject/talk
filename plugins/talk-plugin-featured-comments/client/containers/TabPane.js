@@ -79,7 +79,7 @@ const enhance = compose(
     asset: gql`
       fragment TalkFeaturedComments_TabPane_asset on Asset {
         id
-        featuredComments: comments(tags: ["FEATURED"], excludeIgnored: $excludeIgnored, deep: true) @skip(if: $hasComment) {
+        featuredComments: comments(query: {tags: ["FEATURED"]}, deep: true) @skip(if: $hasComment) {
           nodes {
             ...${getDefinitionName(Comment.fragments.comment)}
           }

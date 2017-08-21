@@ -1,7 +1,6 @@
 const {
   SharedCounterDataLoader,
   singleJoinBy,
-  arrayJoinBy
 } = require('./util');
 const DataLoader = require('dataloader');
 const {
@@ -14,7 +13,6 @@ const {
 const ms = require('ms');
 
 const CommentModel = require('../../models/comment');
-const UsersService = require('../../services/users');
 
 /**
  * Returns the comment count for all comments that are public based on their
@@ -46,38 +44,6 @@ const getCountsByAssetID = (context, asset_ids) => {
   ])
   .then(singleJoinBy(asset_ids, '_id'))
   .then((results) => results.map((result) => result ? result.count : 0));
-};
-
-/**
- * Returns the count of all public comments on an asset id, also filtering by personalization options.
- *
- * @param {Array<String>} id The ID of the asset
- * @param {Array<String>} excludeIgnored Exclude comments ignored by the requesting user
- */
-const getCountsByAssetIDPersonalized = async (context, {assetId, excludeIgnored, tags}) => {
-  const query = {
-    asset_id: assetId,
-    status: {
-      $in: ['NONE', 'ACCEPTED'],
-    },
-  };
-
-  if (tags) {
-    query['tags.tag.name'] = {
-      $in: tags,
-    };
-  }
-
-  const user = context.user;
-  if (excludeIgnored && user) {
-
-    // load afresh, as `user` may be from cache and not have recent ignores
-    const freshUser = await UsersService.findById(user.id);
-    const ignoredUsers = freshUser.ignoresUsers;
-    query.author_id = {$nin: ignoredUsers};
-  }
-  const count = await CommentModel.where(query).count();
-  return count;
 };
 
 /**
@@ -114,39 +80,6 @@ const getParentCountsByAssetID = (context, asset_ids) => {
 };
 
 /**
- * Returns the count of top-level comments on an asset id, also filtering by personalization options.
- *
- * @param {Array<String>} id The ID of the asset
- * @param {Array<String>} excludeIgnored Exclude comments ignored by the requesting user
- */
-const getParentCountByAssetIDPersonalized = async (context, {assetId, excludeIgnored, tags}) => {
-  const query = {
-    asset_id: assetId,
-    parent_id: null,
-    status: {
-      $in: ['NONE', 'ACCEPTED'],
-    },
-  };
-
-  if (tags) {
-    query['tags.tag.name'] = {
-      $in: tags,
-    };
-  }
-
-  const user = context.user;
-  if (excludeIgnored && user) {
-
-    // load afresh, as `user` may be from cache and not have recent ignores
-    const freshUser = await UsersService.findById(user.id);
-    const ignoredUsers = freshUser.ignoresUsers;
-    query.author_id = {$nin: ignoredUsers};
-  }
-
-  return CommentModel.where(query).count();
-};
-
-/**
  * Returns the comment count for all comments that are public based on their
  * parent ids.
  *
@@ -176,33 +109,6 @@ const getCountsByParentID = (context, parent_ids) => {
   ])
   .then(singleJoinBy(parent_ids, '_id'))
   .then((results) => results.map((result) => result ? result.count : 0));
-};
-
-/**
- * Returns the count of comments for the provided parent_id, also filtering by personalization options.
- *
- * @param {Array<String>} id The ID of the parent comment
- * @param {Array<String>} excludeIgnored Exclude comments ignored by context.user
- */
-const getCountByParentIDPersonalized = async (context, {id, excludeIgnored}) => {
-  const query = {
-    parent_id: {
-      $in: [id]
-    },
-    status: {
-      $in: ['NONE', 'ACCEPTED']
-    }
-  };
-  const user = context.user;
-  if (excludeIgnored && user) {
-
-    // load afresh, as `user` may be from cache and not have recent ignores
-    const freshUser = await UsersService.findById(user.id);
-    const ignoredUsers = freshUser.ignoresUsers;
-    query.author_id = {$nin: ignoredUsers};
-  }
-  const count = await CommentModel.where(query).count();
-  return count;
 };
 
 /**
@@ -260,7 +166,7 @@ const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, a
 
   // Only administrators can search for comments with statuses that are not
   // `null`, or `'ACCEPTED'`.
-  if (user != null && user.can(SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS) && statuses) {
+  if (user != null && user.can(SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS) && statuses && statuses.length > 0) {
     comments = comments.where({
       status: {
         $in: statuses
@@ -305,7 +211,7 @@ const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, a
     comments = comments.where({parent_id});
   }
 
-  if (excludeIgnored && user && user.ignoresUsers) {
+  if (excludeIgnored && user && user.ignoresUsers && user.ignoresUsers.length > 0) {
     comments = comments.where({
       author_id: {$nin: user.ignoresUsers}
     });
@@ -348,107 +254,6 @@ const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, a
 };
 
 /**
- * Gets the recent replies.
- * @param  {Object}        context   graph context
- * @param  {Array<String>} ids       ids of parent ids
- * @return {Promise}                 resolves to recent replies
- */
-const genRecentReplies = (context, ids) => {
-  return CommentModel.aggregate([
-
-    // get all the replies for the comments in question
-    {$match: {
-      parent_id: {
-        $in: ids
-      }
-    }},
-
-    // sort these by their created at timestamp, ASC'y as these are
-    // replies
-    {$sort: {
-      created_at: 1
-    }},
-
-    // group these replies by their parent_id
-    {$group: {
-      _id: '$parent_id',
-      replies: {
-        $push: '$$ROOT'
-      }
-    }},
-
-    // project it so that we only retain the first 3 replies of each parent
-    // comment
-    {$project: {
-      _id: '$_id',
-      replies: {
-        $slice: [
-          '$replies',
-          0,
-          3
-        ]
-      }
-    }},
-
-    {$unwind: '$replies'},
-
-  ])
-  .then((replies) => replies.map((reply) => reply.replies))
-  .then(arrayJoinBy(ids, 'parent_id'));
-};
-
-/**
- * Gets the recent comments.
- * @param  {Object}        context   graph context
- * @param  {Array<String>} ids       ids of asset ids
- * @return {Promise}                 resolves to recent comments from assets
- */
-const genRecentComments = (_, ids) => {
-  return CommentModel.aggregate([
-
-    // get all the replies for the comments in question
-    {$match: {
-      asset_id: {
-        $in: ids
-      }
-    }},
-
-    // sort these by their created at timestamp, ASC'y as these are
-    // replies
-    {$sort: {
-      created_at: 1
-    }},
-
-    // group these replies by their parent_id
-    {$group: {
-      _id: '$asset_id',
-      comments: {
-        $push: '$$ROOT'
-      }
-    }},
-
-    // project it so that we only retain the first 3 replies of each parent
-    // comment
-    {$project: {
-      _id: '$_id',
-      comments: {
-        $slice: [
-          '$comments',
-          0,
-          3
-        ]
-      }
-    }},
-
-    // Unwind these comments.
-    {$unwind: '$comments'},
-
-  ])
-  .then((replies) => replies.map((reply) => reply.comments))
-  .then(arrayJoinBy(ids, 'asset_id'));
-};
-
-/**
  * getComments returns the comments by the id's. Only admins can see non-public comments.
  * @param  {Object}        context graph context
  * @param  {Array<String>} ids     the comment id's to fetch
@@ -486,12 +291,7 @@ module.exports = (context) => ({
     getByQuery: (query) => getCommentsByQuery(context, query),
     getCountByQuery: (query) => getCommentCountByQuery(context, query),
     countByAssetID: new SharedCounterDataLoader('Comments.totalCommentCount', ms(CACHE_EXPIRY_COMMENT_COUNT), (ids) => getCountsByAssetID(context, ids)),
-    countByAssetIDPersonalized: (query) => getCountsByAssetIDPersonalized(context, query),
     parentCountByAssetID: new SharedCounterDataLoader('Comments.countByAssetID', ms(CACHE_EXPIRY_COMMENT_COUNT), (ids) => getParentCountsByAssetID(context, ids)),
-    parentCountByAssetIDPersonalized: (query) => getParentCountByAssetIDPersonalized(context, query),
     countByParentID: new SharedCounterDataLoader('Comments.countByParentID', ms(CACHE_EXPIRY_COMMENT_COUNT), (ids) => getCountsByParentID(context, ids)),
-    countByParentIDPersonalized: (query) => getCountByParentIDPersonalized(context, query),
-    genRecentReplies: new DataLoader((ids) => genRecentReplies(context, ids)),
-    genRecentComments: new DataLoader((ids) => genRecentComments(context, ids))
   }
 });

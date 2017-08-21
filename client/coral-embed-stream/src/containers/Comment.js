@@ -103,7 +103,7 @@ const withCommentFragments = withFragments({
     fragment CoralEmbedStream_Comment_comment on Comment {
       ...CoralEmbedStream_Comment_SingleComment
       ${nest(`
-        replies(limit: 3, excludeIgnored: $excludeIgnored) {
+        replies(query: {limit: 3, excludeIgnored: $excludeIgnored}) {
           nodes {
             ...CoralEmbedStream_Comment_SingleComment
             ...nest

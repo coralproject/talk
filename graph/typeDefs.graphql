@@ -20,7 +20,7 @@ type Reliability {
   # `null` if the reliability cannot be determined.
   flagger: Boolean
 
-  # commenter will be `true` when the commenter is reliable, `false` if not, or
+  # Commenter will be `true` when the commenter is reliable, `false` if not, or
   # `null` if the reliability cannot be determined.
   commenter: Boolean
 }
@@ -211,7 +211,7 @@ enum COMMENT_STATUS {
   PREMOD
 }
 
-# The types of action there are as enum's.
+# The types of action there are as enums.
 enum ACTION_TYPE {
 
   # Represents a FlagAction.
@@ -246,11 +246,23 @@ input CommentsQuery {
   # Skip results from the last created_at timestamp.
   cursor: Cursor
 
-  # Sort the results by created_at.
+  # Sort the results by from largest first.
   sort: SORT_ORDER = DESC
 
   # Filter by a specific tag name.
   tags: [String!]
+
+  # Exclude comments ignored by the requesting user
+  excludeIgnored: Boolean
+}
+
+input RepliesQuery {
+
+  # Sort the results by from smallest first.
+  sort: SORT_ORDER = ASC
+
+  # Limit the number of results to be returned.
+  limit: Int = 3
 
   # Exclude comments ignored by the requesting user
   excludeIgnored: Boolean
@@ -313,14 +325,11 @@ type Comment {
   # the user who authored the comment.
   user: User
 
-  # the recent replies made against this comment.
-  recentReplies: [Comment!]
-
   # the replies that were made to the comment.
-  replies(sort: SORT_ORDER = ASC, limit: Int = 3, excludeIgnored: Boolean): CommentConnection!
+  replies(query: RepliesQuery!): CommentConnection!
 
   # The count of replies on a comment.
-  replyCount(excludeIgnored: Boolean): Int
+  replyCount: Int
 
   # Actions completed on the parent. Requires the `ADMIN` role.
   actions: [Action]
@@ -569,28 +578,18 @@ type Asset {
   # The URL that the asset is located on.
   url: String
 
-  # Returns recent comments
-  recentComments: [Comment!]
-
-  # The comments that are attached to the asset.
-  # If `deep` is true, it will return comments of all depths,
-  # otherwise only top-level comments are returned.
-  comments(
-    sort: SORT_ORDER = DESC,
-    limit: Int = 10,
-    excludeIgnored: Boolean,
-    tags: [String!]
-    deep: Boolean,
-  ): CommentConnection!
+  # The comments that are attached to the asset. When `deep` is true, the
+  # comments returned will be at all depths.
+  comments(query: CommentsQuery!, deep: Boolean = false): CommentConnection!
 
   # A Comment from the Asset by comment's ID
   comment(id: ID!): Comment
 
   # The count of top level comments on the asset.
-  commentCount(excludeIgnored: Boolean, tags: [String!]): Int
+  commentCount(tags: [String!]): Int
 
   # The total count of all comments made on the asset.
-  totalCommentCount(excludeIgnored: Boolean, tags: [String!]): Int
+  totalCommentCount(tags: [String!]): Int
 
   # The settings (rectified with the global settings) that should be applied to
   # this asset.
@@ -921,19 +920,19 @@ input ModifyTagInput {
 # Response to the addTag or removeTag mutations.
 type ModifyTagResponse implements Response {
 
-  # An array of errors relating to the mutation that occured.
+  # An array of errors relating to the mutation that occurred.
   errors: [UserError!]
 }
 
 # Response to ignoreUser mutation
 type IgnoreUserResponse implements Response {
-  # An array of errors relating to the mutation that occured.
+  # An array of errors relating to the mutation that occurred.
   errors: [UserError!]
 }
 
 # Response to stopIgnoringUser mutation
 type StopIgnoringUserResponse implements Response {
-  # An array of errors relating to the mutation that occured.
+  # An array of errors relating to the mutation that occurred.
   errors: [UserError!]
 }
 
@@ -944,13 +943,13 @@ input EditCommentInput {
   body: String!
 }
 
-# EditCommentResponse contains the updated comment and any errors that occured.
+# EditCommentResponse contains the updated comment and any errors that occurred.
 type EditCommentResponse implements Response {
 
   # The edited comment.
   comment: Comment
 
-  # An array of errors relating to the mutation that occured.
+  # An array of errors relating to the mutation that occurred.
   errors: [UserError!]
 }
 
@@ -967,7 +966,7 @@ type CreateTokenResponse implements Response {
   # Token is the Token that was created, or null if it failed.
   token: Token
 
-  # An array of errors relating to the mutation that occured.
+  # An array of errors relating to the mutation that occurred.
   errors: [UserError!]
 }
 
@@ -981,7 +980,7 @@ input RevokeTokenInput {
 # RevokeTokenResponse contains the errors related to revoking a token.
 type RevokeTokenResponse implements Response {
 
-  # An array of errors relating to the mutation that occured.
+  # An array of errors relating to the mutation that occurred.
   errors: [UserError!]
 }
 

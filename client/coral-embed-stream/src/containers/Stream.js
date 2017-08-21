@@ -253,9 +253,9 @@ const fragments = {
           charCount
           requireEmailConfirmation
         }
-        commentCount(excludeIgnored: $excludeIgnored) @skip(if: $hasComment)
-        totalCommentCount(excludeIgnored: $excludeIgnored) @skip(if: $hasComment)
-        comments(limit: 10, excludeIgnored: $excludeIgnored) @skip(if: $hasComment) {
+        commentCount @skip(if: $hasComment)
+        totalCommentCount @skip(if: $hasComment)
+        comments(query: {limit: 10, excludeIgnored: $excludeIgnored}) @skip(if: $hasComment) {
           nodes {
             ...CoralEmbedStream_Stream_comment
           }

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const debug = require('debug')('talk:db');
 const enabled = require('debug').enabled;
-const queryDebuger = require('debug')('talk:db:query');
+const queryDebugger = require('debug')('talk:db:query');
 
 const {
   MONGO_URL,
@@ -27,14 +27,14 @@ function debugQuery(name, i, ...args) {
 
   let params = `(${_args.join(', ')})`;
 
-  queryDebuger(functionCall + params);
+  queryDebugger(functionCall + params);
 }
 
 // Use native promises
 mongoose.Promise = global.Promise;
 
 // Check if debugging is enabled on the talk:db prefix.
-if (enabled('talk:db')) {
+if (enabled('talk:db:query')) {
 
   // Enable the mongoose debugger, here we wrap the similar print function
   // provided by setting the debug parameter.
@@ -53,14 +53,16 @@ if (WEBPACK) {
 } else {
 
   // Connect to the Mongo instance.
-  mongoose.connect(MONGO_URL, (err) => {
-    if (err) {
+  mongoose
+    .connect(MONGO_URL, {
+      useMongoClient: true,
+    })
+    .then(() => {
+      debug('connection established');
+    })
+    .catch((err) => {
       throw err;
-    }
-
-    debug('connection established');
-  });
-
+    });
 }
 
 module.exports = mongoose;
