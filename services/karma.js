@@ -19,7 +19,7 @@ const {
  *
  * The default used is:
  *
- *  comment:-1,-1;flag:-1,-1
+ *  comment:2,-2;flag:2,-2
  */
 const parseThresholds = (thresholds) => thresholds
   .split(';')
