@@ -26,6 +26,8 @@ const {
   SUBSCRIBE_ALL_USERNAME_REJECTED,
 } = require('../perms/constants');
 
+const {BASE_PATH} = require('../url');
+
 /**
  * Plugin support requires that we merge in existing setupFunctions with our new
  * plugin based ones. This allows plugins to extend existing setupFunctions as well
@@ -170,7 +172,7 @@ const createSubscriptionManager = (server) => new SubscriptionServer({
   keepAlive: ms(KEEP_ALIVE)
 }, {
   server,
-  path: '/api/v1/live'
+  path: `${BASE_PATH}api/v1/live`
 });
 
 module.exports = {
