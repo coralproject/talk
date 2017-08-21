@@ -10,7 +10,6 @@ import renderComponent from 'recompose/renderComponent';
 import {Spinner} from 'coral-ui';
 import * as authActions from '../actions/auth';
 import * as assetActions from '../actions/asset';
-import pym from 'coral-framework/services/pym';
 import {getDefinitionName, getSlotFragmentSpreads} from 'coral-framework/utils';
 import {withQuery} from 'coral-framework/hocs';
 import Embed from '../components/Embed';
