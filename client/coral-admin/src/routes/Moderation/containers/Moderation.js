@@ -27,6 +27,7 @@ import {
   clearState
 } from 'actions/moderation';
 import withQueueConfig from '../hoc/withQueueConfig';
+import {notify} from 'coral-framework/actions/notification';
 
 import {Spinner} from 'coral-ui';
 import Moderation from '../components/Moderation';
@@ -54,8 +55,15 @@ function getTab(props) {
 class ModerationContainer extends Component {
   subscriptions = [];
 
-  handleCommentChange = (root, comment, notify) => {
-    return handleCommentChange(root, comment, this.props.data.variables.sort, notify, this.props.queueConfig, this.activeTab);
+  handleCommentChange = (root, comment, notifyText) => {
+    return handleCommentChange(
+      root,
+      comment,
+      this.props.data.variables.sort,
+      () => notifyText && this.props.notify('info', notifyText),
+      this.props.queueConfig,
+      this.activeTab
+    );
   };
 
   get activeTab() {
@@ -79,10 +87,10 @@ class ModerationContainer extends Component {
       variables,
       updateQuery: (prev, {subscriptionData: {data: {commentAccepted: comment}}}) => {
         const user = comment.status_history[comment.status_history.length - 1].assigned_by;
-        const notify = this.props.auth.user.id === user.id
+        const notifyText = this.props.auth.user.id === user.id
           ? ''
           : t('modqueue.notify_accepted', user.username, prepareNotificationText(comment.body));
-        return this.handleCommentChange(prev, comment, notify);
+        return this.handleCommentChange(prev, comment, notifyText);
       },
     });
 
@@ -91,10 +99,10 @@ class ModerationContainer extends Component {
       variables,
       updateQuery: (prev, {subscriptionData: {data: {commentRejected: comment}}}) => {
         const user = comment.status_history[comment.status_history.length - 1].assigned_by;
-        const notify = this.props.auth.user.id === user.id
+        const notifyText = this.props.auth.user.id === user.id
           ? ''
           : t('modqueue.notify_rejected', user.username, prepareNotificationText(comment.body));
-        return this.handleCommentChange(prev, comment, notify);
+        return this.handleCommentChange(prev, comment, notifyText);
       },
     });
 
@@ -102,8 +110,8 @@ class ModerationContainer extends Component {
       document: COMMENT_EDITED_SUBSCRIPTION,
       variables,
       updateQuery: (prev, {subscriptionData: {data: {commentEdited: comment}}}) => {
-        const notify = t('modqueue.notify_edited', comment.user.username, prepareNotificationText(comment.body));
-        return this.handleCommentChange(prev, comment, notify);
+        const notifyText = t('modqueue.notify_edited', comment.user.username, prepareNotificationText(comment.body));
+        return this.handleCommentChange(prev, comment, notifyText);
       },
     });
 
@@ -112,8 +120,8 @@ class ModerationContainer extends Component {
       variables,
       updateQuery: (prev, {subscriptionData: {data: {commentFlagged: comment}}}) => {
         const user = comment.actions[comment.actions.length - 1].user;
-        const notify = t('modqueue.notify_flagged', user.username, prepareNotificationText(comment.body));
-        return this.handleCommentChange(prev, comment, notify);
+        const notifyText = t('modqueue.notify_flagged', user.username, prepareNotificationText(comment.body));
+        return this.handleCommentChange(prev, comment, notifyText);
       },
     });
 
@@ -394,7 +402,8 @@ const mapDispatchToProps = (dispatch) => ({
     viewUserDetail,
     setSortOrder,
     storySearchChange,
-    clearState
+    clearState,
+    notify,
   }, dispatch),
 });
 

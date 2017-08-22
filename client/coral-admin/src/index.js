@@ -8,10 +8,13 @@ import App from './components/App';
 import 'react-mdl/extra/material.js';
 import graphqlExtension from './graphql';
 import pluginsConfig from 'pluginsConfig';
+import {toast} from 'react-toastify';
+import {createNotificationService} from './services/notification';
 
 smoothscroll.polyfill();
 
-const context = createContext({reducers, graphqlExtension, pluginsConfig});
+const notification = createNotificationService(toast);
+const context = createContext({reducers, graphqlExtension, pluginsConfig, notification});
 
 render(
   <TalkProvider {...context}>
