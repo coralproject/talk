@@ -2,7 +2,7 @@ import jwtDecode from 'jwt-decode';
 import bowser from 'bowser';
 import * as actions from '../constants/auth';
 import * as Storage from 'coral-framework/helpers/storage';
-import {addNotification} from 'coral-framework/actions/notification';
+import {notify} from 'coral-framework/actions/notification';
 
 import t from 'coral-framework/services/i18n';
 
@@ -387,7 +387,7 @@ export const editName = (username) => (dispatch, _, {rest}) => {
   return rest('/account/username', {method: 'PUT', body: {username}})
     .then(() => {
       dispatch(editUsernameSuccess());
-      dispatch(addNotification('success', t('framework.success_name_update')));
+      dispatch(notify('success', t('framework.success_name_update')));
     })
     .catch((error) => {
       console.error(error);

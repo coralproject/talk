@@ -14,7 +14,7 @@ import {getDefinitionName, getSlotFragmentSpreads} from 'coral-framework/utils';
 import {withQuery} from 'coral-framework/hocs';
 import Embed from '../components/Embed';
 import Stream from './Stream';
-import {addNotification} from 'coral-framework/actions/notification';
+import {notify} from 'coral-framework/actions/notification';
 import t from 'coral-framework/services/i18n';
 import PropTypes from 'prop-types';
 import {setActiveTab} from '../actions/embed';
@@ -34,19 +34,19 @@ class EmbedContainer extends React.Component {
       const newSubscriptions = [{
         document: USER_BANNED_SUBSCRIPTION,
         updateQuery: () => {
-          addNotification('info', t('your_account_has_been_banned'));
+          notify('info', t('your_account_has_been_banned'));
         },
       },
       {
         document: USER_SUSPENDED_SUBSCRIPTION,
         updateQuery: () => {
-          addNotification('info', t('your_account_has_been_suspended'));
+          notify('info', t('your_account_has_been_suspended'));
         },
       },
       {
         document: USERNAME_REJECTED_SUBSCRIPTION,
         updateQuery: () => {
-          addNotification('info', t('your_username_has_been_rejected'));
+          notify('info', t('your_username_has_been_rejected'));
         },
       }];
 
@@ -193,7 +193,7 @@ const mapDispatchToProps = (dispatch) =>
       checkLogin,
       setActiveTab,
       fetchAssetSuccess,
-      addNotification,
+      notify,
       focusSignInDialog,
       blurSignInDialog,
       hideSignInDialog,

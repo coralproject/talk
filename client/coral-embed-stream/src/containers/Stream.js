@@ -26,7 +26,7 @@ import {
 } from '../graphql/utils';
 
 const {showSignInDialog, editName} = authActions;
-const {addNotification} = notificationActions;
+const {notify} = notificationActions;
 
 class StreamContainer extends React.Component {
   subscriptions = [];
@@ -303,7 +303,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
     showSignInDialog,
-    addNotification,
+    notify,
     setActiveReplyBox,
     editName,
     viewAllComments,

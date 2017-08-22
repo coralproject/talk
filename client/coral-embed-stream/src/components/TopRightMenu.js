@@ -18,7 +18,7 @@ export class TopRightMenu extends React.Component {
     ignoreUser: PropTypes.func,
 
     // show notification to the user (e.g. for errors)
-    addNotification: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
   }
   constructor(props) {
     super(props);
@@ -27,7 +27,7 @@ export class TopRightMenu extends React.Component {
     };
   }
   render() {
-    const {comment, ignoreUser, addNotification} = this.props;
+    const {comment, ignoreUser, notify} = this.props;
 
     // timesReset is used as Toggleable key so it re-renders on reset (closing the toggleable)
     const reset = () => this.setState({timesReset: this.state.timesReset + 1});
@@ -40,7 +40,7 @@ export class TopRightMenu extends React.Component {
       try {
         await ignoreUser({id});
       } catch (error) {
-        addNotification('error', 'Failed to ignore user');
+        notify('error', 'Failed to ignore user');
         throw error;
       }
     };

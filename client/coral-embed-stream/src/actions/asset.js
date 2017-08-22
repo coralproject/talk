@@ -1,5 +1,5 @@
 import * as actions from '../constants/asset';
-import {addNotification} from 'coral-framework/actions/notification';
+import {notify} from 'coral-framework/actions/notification';
 
 import t from 'coral-framework/services/i18n';
 
@@ -16,7 +16,7 @@ export const updateConfiguration = (newConfig) => (dispatch, getState, {rest}) =
   dispatch(updateAssetSettingsRequest());
   rest(`/assets/${assetId}/settings`, {method: 'PUT', body: newConfig})
     .then(() => {
-      dispatch(addNotification('success', t('framework.success_update_settings')));
+      dispatch(notify('success', t('framework.success_update_settings')));
       dispatch(updateAssetSettingsSuccess(newConfig));
     })
     .catch((error) => {
@@ -30,7 +30,7 @@ export const updateOpenStream = (closedBody) => (dispatch, getState, {rest}) => 
   dispatch(fetchAssetRequest());
   rest(`/assets/${assetId}/status`, {method: 'PUT', body: closedBody})
     .then(() => {
-      dispatch(addNotification('success', t('framework.success_update_settings')));
+      dispatch(notify('success', t('framework.success_update_settings')));
       dispatch(fetchAssetSuccess(closedBody));
     })
     .catch((error) => {

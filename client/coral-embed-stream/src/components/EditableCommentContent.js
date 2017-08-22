@@ -17,7 +17,7 @@ export class EditableCommentContent extends React.Component {
   static propTypes = {
 
     // show notification to the user (e.g. for errors)
-    addNotification: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
 
     // comment that is being edited
     comment: PropTypes.shape({
@@ -74,26 +74,26 @@ export class EditableCommentContent extends React.Component {
 
   handleSubmit = async () => {
     if (!can(this.props.currentUser, 'INTERACT_WITH_COMMUNITY')) {
-      this.props.addNotification('error', t('error.NOT_AUTHORIZED'));
+      this.props.notify('error', t('error.NOT_AUTHORIZED'));
       return;
     }
 
     this.setState({loadingState: 'loading'});
 
-    const {editComment, addNotification, stopEditing} = this.props;
+    const {editComment, notify, stopEditing} = this.props;
     if (typeof editComment !== 'function') {return;}
     let response;
     try {
       response = await editComment({body: this.state.body});
       this.setState({loadingState: 'success'});
       const status = response.data.editComment.comment.status;
-      notifyForNewCommentStatus(this.props.addNotification, status);
+      notifyForNewCommentStatus(this.props.notify, status);
       if (typeof stopEditing === 'function') {
         stopEditing();
       }
     } catch (error) {
       this.setState({loadingState: 'error'});
-      forEachError(error, ({msg}) => addNotification('error', msg));
+      forEachError(error, ({msg}) => notify('error', msg));
     }
   }
 
