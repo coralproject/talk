@@ -52,9 +52,7 @@ if (!window.opener) {
 }
 
 render(
-  <TalkProvider
-    {...context}
-  >
+  <TalkProvider {...context}>
     <AppRouter />
   </TalkProvider>
   , document.querySelector('#talk-embed-stream-container')

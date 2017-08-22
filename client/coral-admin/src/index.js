@@ -9,14 +9,12 @@ import 'react-mdl/extra/material.js';
 import graphqlExtension from './graphql';
 import pluginsConfig from 'pluginsConfig';
 
-const context = createContext({reducers, graphqlExtension, pluginsConfig});
-
 smoothscroll.polyfill();
 
+const context = createContext({reducers, graphqlExtension, pluginsConfig});
+
 render(
-  <TalkProvider
-    {...context}
-  >
+  <TalkProvider {...context}>
     <App />
   </TalkProvider>
   , document.querySelector('#root')
