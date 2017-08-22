@@ -10,6 +10,7 @@ import bowser from 'bowser';
 import * as Storage from '../helpers/storage';
 import {BASE_PATH} from 'coral-framework/constants/url';
 import {createPluginsService} from './plugins';
+import {createNotificationService} from './notification';
 import {createGraphQLRegistry} from './graphqlRegistry';
 import globalFragments from 'coral-framework/graphql/fragments';
 
@@ -36,7 +37,7 @@ const getAuthToken = (store) => {
   return null;
 };
 
-export function createContext({reducers = {}, pluginsConfig = [], graphqlExtension = {}}) {
+export function createContext({reducers = {}, pluginsConfig = [], graphqlExtension = {}, notification}) {
   const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
   const eventEmitter = new EventEmitter({wildcard: true});
   let store = null;
@@ -60,6 +61,11 @@ export function createContext({reducers = {}, pluginsConfig = [], graphqlExtensi
   });
   const plugins = createPluginsService(pluginsConfig);
   const graphqlRegistry = createGraphQLRegistry(plugins.getSlotFragments.bind(plugins));
+  if (!notification) {
+
+    // Use default notification service (pym based)
+    notification = createNotificationService(pym);
+  }
   const context = {
     client,
     pym,
@@ -67,6 +73,7 @@ export function createContext({reducers = {}, pluginsConfig = [], graphqlExtensi
     eventEmitter,
     rest,
     graphqlRegistry,
+    notification,
   };
 
   // Load framework fragments.
