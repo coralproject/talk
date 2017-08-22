@@ -59,7 +59,7 @@ class UserDetailComment extends React.Component {
             }
 
             <div className={styles.badgeBar}>
-              <ReplyBadge hasParent={comment.hasParent} />
+              {comment.hasParent && <ReplyBadge/>}
               <CommentType type={commentType}/>
             </div>
           </div>

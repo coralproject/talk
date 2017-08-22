@@ -108,7 +108,7 @@ class Comment extends React.Component {
                 </ActionsMenu>
               }
               <div className={styles.adminCommentInfoBar}>
-                <ReplyBadge hasParent={comment.hasParent} />
+                {comment.hasParent && <ReplyBadge/>}
                 <CommentType type={commentType} className={styles.commentType}/>
                 <Slot
                   fill="adminCommentInfoBar"
