@@ -272,6 +272,7 @@ es:
     prev_comment: "Ir al comentario anterior"
     reject: "Rechazar"
     rejected: "rechazado"
+    reply: "Respuesta"
     select_stream: "Seleccionar hilo de comentarios"
     shift_key: ⇧
     shortcuts: Atajos

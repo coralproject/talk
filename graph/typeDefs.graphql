@@ -359,6 +359,9 @@ type Comment {
 
   # describes how the comment can be edited
   editing: EditInfo
+
+  # Indicates if it has a parent
+  hasParent: Boolean
 }
 
 # CommentConnection represents a paginable subset of a comment list.

@@ -1,6 +1,9 @@
 const {decorateWithTags} = require('./util');
 
 const Comment = {
+  hasParent({parent_id}) {
+    return !!parent_id;
+  },
   parent({parent_id}, _, {loaders: {Comments}}) {
     if (parent_id == null) {
       return null;
