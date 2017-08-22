@@ -3,12 +3,11 @@
   color: white;
   background: grey;
   box-sizing: border-box;
-  padding: 0px 5px;
-  border-radius: 2px;
+  padding: 2px 5px;
   font-size: 12px;
   height: 24px;
   letter-spacing: 0.4px;
-  margin-bottom: 1px;
+  line-height: 22px;
   
   > i {
     font-size: 14px;

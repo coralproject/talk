@@ -3,6 +3,7 @@ import {Link} from 'react-router';
 
 import {Icon} from 'coral-ui';
 import FlagBox from './FlagBox';
+import ReplyBadge from './ReplyBadge';
 import styles from './UserDetailComment.css';
 import CommentType from './CommentType';
 import {getActionSummary} from 'coral-framework/utils';
@@ -56,7 +57,11 @@ class UserDetailComment extends React.Component {
               ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
               : null
             }
-            <CommentType type={commentType} className={styles.commentType}/>
+
+            <div className={styles.badgeBar}>
+              {comment.hasParent && <ReplyBadge/>}
+              <CommentType type={commentType}/>
+            </div>
           </div>
           <div className={styles.story}>
             Story: {comment.asset.title}
