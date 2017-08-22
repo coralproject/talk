@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 
 import {Icon} from 'coral-ui';
+import ReplyBadge from 'coral-admin/src/components/ReplyBadge';
 import FlagBox from 'coral-admin/src/components/FlagBox';
 import styles from './styles.css';
 import CommentType from 'coral-admin/src/components/CommentType';
@@ -107,6 +108,7 @@ class Comment extends React.Component {
                 </ActionsMenu>
               }
               <div className={styles.adminCommentInfoBar}>
+                {comment.hasParent && <ReplyBadge/>}
                 <CommentType type={commentType} className={styles.commentType}/>
                 <Slot
                   fill="adminCommentInfoBar"
