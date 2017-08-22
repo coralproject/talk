@@ -6,7 +6,7 @@ node_modules
 scripts
 !scripts/generateIntrospectionResult.js
 
-# documentation should not be visable in production.
+# documentation should not be visible in production.
 docs
 
 # static assets are rebuild in the docker container.
