@@ -6,10 +6,10 @@ import {createContext} from 'coral-framework/services/bootstrap';
 import reducers from './reducers';
 import App from './components/App';
 import 'react-mdl/extra/material.js';
-import './graphql';
-import plugins from 'pluginsConfig';
+import graphqlExtension from './graphql';
+import pluginsConfig from 'pluginsConfig';
 
-const context = createContext(reducers, plugins);
+const context = createContext({reducers, graphqlExtension, pluginsConfig});
 
 smoothscroll.polyfill();
 

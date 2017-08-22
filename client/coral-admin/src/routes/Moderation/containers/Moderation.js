@@ -26,25 +26,26 @@ import {
   storySearchChange,
   clearState
 } from 'actions/moderation';
+import withQueueConfig from '../hoc/withQueueConfig';
 
 import {Spinner} from 'coral-ui';
 import Moderation from '../components/Moderation';
 import Comment from './Comment';
-import queueConfig from '../queueConfig';
+import baseQueueConfig from '../queueConfig';
 
 function prepareNotificationText(text) {
   return truncate(text, {length: 50}).replace('\n', ' ');
 }
 
 function getAssetId(props) {
-  if (props.params.tabOrId && !(props.params.tabOrId in queueConfig)) {
+  if (props.params.tabOrId && !(props.params.tabOrId in props.queueConfig)) {
     return props.params.tabOrId;
   }
   return props.params.id || null;
 }
 
 function getTab(props) {
-  if (props.params.tabOrId && props.params.tabOrId in queueConfig) {
+  if (props.params.tabOrId && props.params.tabOrId in props.queueConfig) {
     return props.params.tabOrId;
   }
   return props.params.tab || null;
@@ -54,7 +55,7 @@ class ModerationContainer extends Component {
   subscriptions = [];
 
   handleCommentChange = (root, comment, notify) => {
-    return handleCommentChange(root, comment, this.props.data.variables.sort, notify, queueConfig, this.activeTab);
+    return handleCommentChange(root, comment, this.props.data.variables.sort, notify, this.props.queueConfig, this.activeTab);
   };
 
   get activeTab() {
@@ -161,8 +162,8 @@ class ModerationContainer extends Component {
       cursor: this.props.root[tab].endCursor,
       sort: this.props.data.variables.sort,
       asset_id: this.props.data.variables.asset_id,
-      statuses: queueConfig[tab].statuses,
-      action_type: queueConfig[tab].action_type,
+      statuses: this.props.queueConfig[tab].statuses,
+      action_type: this.props.queueConfig[tab].action_type,
     };
     return this.props.data.fetchMore({
       query: LOAD_MORE_QUERY,
@@ -206,7 +207,7 @@ class ModerationContainer extends Component {
     }
 
     const premodEnabled = assetId ? isPremod(asset.settings.moderation) : isPremod(settings.moderation);
-    const currentQueueConfig = Object.assign({}, queueConfig);
+    const currentQueueConfig = Object.assign({}, this.props.queueConfig);
     if (premodEnabled) {
       delete currentQueueConfig.new;
     } else {
@@ -304,7 +305,7 @@ const commentConnectionFragment = gql`
   ${Comment.fragments.comment}
 `;
 
-const withModQueueQuery = withQuery(gql`
+const withModQueueQuery = withQuery(({queueConfig}) => gql`
   query CoralAdmin_Moderation($asset_id: ID, $sort: SORT_ORDER, $allAssets: Boolean!) {
     ${Object.keys(queueConfig).map((queue) => `
       ${queue}: comments(query: {
@@ -352,7 +353,7 @@ const withModQueueQuery = withQuery(gql`
   },
 });
 
-const withQueueCountPolling = withQuery(gql`
+const withQueueCountPolling = withQuery(({queueConfig}) => gql`
   query CoralAdmin_ModerationCountPoll($asset_id: ID) {
     ${Object.keys(queueConfig).map((queue) => `
       ${queue}Count: commentCount(query: {
@@ -398,6 +399,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
+  withQueueConfig(baseQueueConfig),
   connect(mapStateToProps, mapDispatchToProps),
   withSetCommentStatus,
   withQueueCountPolling,

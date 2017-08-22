@@ -2,15 +2,15 @@ import React from 'react';
 import {render} from 'react-dom';
 
 import {checkLogin, handleAuthToken, logout} from 'coral-embed-stream/src/actions/auth';
-import './graphql';
+import graphqlExtension from './graphql';
 import {addExternalConfig} from 'coral-embed-stream/src/actions/config';
 import {createContext} from 'coral-framework/services/bootstrap';
 import AppRouter from './AppRouter';
 import reducers from './reducers';
 import TalkProvider from 'coral-framework/components/TalkProvider';
-import plugins from 'pluginsConfig';
+import pluginsConfig from 'pluginsConfig';
 
-const context = createContext(reducers, plugins);
+const context = createContext({reducers, graphqlExtension, pluginsConfig});
 
 // TODO: move init code into `bootstrap` service after auth has been refactored.
 const {store, pym} = context;

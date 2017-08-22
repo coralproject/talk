@@ -64,11 +64,6 @@ export function createClient(options = {}) {
   });
 
   client.resetWebsocket = () => {
-    if (wsClient === null) {
-
-      // Nothing to reset!
-      return;
-    }
 
     // Close socket connection which will also unregister subscriptions on the server-side.
     wsClient.close();

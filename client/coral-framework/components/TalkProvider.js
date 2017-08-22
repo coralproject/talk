@@ -8,6 +8,8 @@ class TalkProvider extends React.Component {
       eventEmitter: this.props.eventEmitter,
       pym: this.props.pym,
       plugins: this.props.plugins,
+      rest: this.props.rest,
+      graphqlRegistry: this.props.graphqlRegistry,
     };
   }
 
@@ -24,7 +26,9 @@ class TalkProvider extends React.Component {
 TalkProvider.childContextTypes = {
   pym: PropTypes.object,
   eventEmitter: PropTypes.object,
-  plugins: PropTypes.array,
+  plugins: PropTypes.object,
+  rest: PropTypes.func,
+  graphqlRegistry: PropTypes.object,
 };
 
 export default TalkProvider;

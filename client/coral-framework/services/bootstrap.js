@@ -6,10 +6,12 @@ import {createReduxEmitter} from './events';
 import {createRestClient} from './rest';
 import thunk from 'redux-thunk';
 import {loadTranslations} from './i18n';
-import {getTranslations, getReducers} from '../helpers/plugins';
 import bowser from 'bowser';
 import * as Storage from '../helpers/storage';
 import {BASE_PATH} from 'coral-framework/constants/url';
+import {createPluginsService} from './plugins';
+import {createGraphQLRegistry} from './graphqlRegistry';
+import globalFragments from 'coral-framework/graphql/fragments';
 
 /**
  * getAuthToken returns the active auth token or null
@@ -34,7 +36,7 @@ const getAuthToken = (store) => {
   return null;
 };
 
-export function createContext(reducers, plugins) {
+export function createContext({reducers = {}, pluginsConfig = [], graphqlExtension = {}}) {
   const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
   const eventEmitter = new EventEmitter({wildcard: true});
   let store = null;
@@ -56,16 +58,28 @@ export function createContext(reducers, plugins) {
     liveUri: `${protocol}://${location.host}${BASE_PATH}api/v1/live`,
     token,
   });
+  const plugins = createPluginsService(pluginsConfig);
+  const graphqlRegistry = createGraphQLRegistry(plugins.getSlotFragments.bind(plugins));
   const context = {
     client,
     pym,
     plugins,
     eventEmitter,
     rest,
+    graphqlRegistry,
   };
 
+  // Load framework fragments.
+  Object.keys(globalFragments).forEach((key) => graphqlRegistry.addFragment(key, globalFragments[key]));
+
+  // Register graphql extension
+  graphqlRegistry.add(graphqlExtension);
+
+  // Register plugin graphql extensions.
+  plugins.getGraphQLExtensions().forEach((ext) => graphqlRegistry.add(ext));
+
   // Load plugin translations.
-  getTranslations(plugins).forEach((t) => loadTranslations(t));
+  plugins.getTranslations().forEach((t) => loadTranslations(t));
 
   // Pass any events through our parent.
   eventEmitter.onAny((eventName, value) => {
@@ -74,7 +88,7 @@ export function createContext(reducers, plugins) {
 
   const finalReducers = {
     ...reducers,
-    ...getReducers(plugins),
+    ...plugins.getReducers(),
     apollo: client.reducer(),
   };
 
