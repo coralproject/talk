@@ -1,4 +1,3 @@
-import coralApi from 'coral-framework/helpers/request';
 import * as actions from '../constants/install';
 import validate from 'coral-framework/helpers/validate';
 import errorMsj from 'coral-framework/helpers/error';
@@ -106,10 +105,10 @@ export const submitUser = () => (dispatch, getState) => {
   });
 };
 
-export const finishInstall = () => (dispatch, getState) => {
+export const finishInstall = () => (dispatch, getState, {rest}) => {
   const data = getState().install.data;
   dispatch(installRequest());
-  return coralApi('/setup', {method: 'POST', body: data})
+  return rest('/setup', {method: 'POST', body: data})
     .then(() => {
       dispatch(installSuccess());
       dispatch(nextStep());
@@ -129,9 +128,9 @@ const checkInstallRequest = () => ({type: actions.CHECK_INSTALL_REQUEST});
 const checkInstallSuccess = (installed) => ({type: actions.CHECK_INSTALL_SUCCESS, installed});
 const checkInstallFailure = (error) => ({type: actions.CHECK_INSTALL_FAILURE, error});
 
-export const checkInstall = (next) => (dispatch) => {
+export const checkInstall = (next) => (dispatch, _, {rest}) => {
   dispatch(checkInstallRequest());
-  coralApi('/setup')
+  rest('/setup')
     .then(({installed}) => {
       dispatch(checkInstallSuccess(installed));
       if (installed) {

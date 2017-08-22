@@ -1,5 +1,5 @@
 export function createReduxEmitter(eventEmitter) {
-  return (action) => {
+  return () => (next) => (action) => {
 
     // Handle apollo actions.
     if (action.type.startsWith('APOLLO_')) {
@@ -7,8 +7,10 @@ export function createReduxEmitter(eventEmitter) {
         const {operationName, variables, result: {data}} = action;
         eventEmitter.emit(`subscription.${operationName}.data`, {variables, data});
       }
-      return;
+      return next(action);
     }
     eventEmitter.emit(`action.${action.type}`, {action});
+
+    return next(action);
   };
 }

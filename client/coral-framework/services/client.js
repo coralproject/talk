@@ -1,64 +1,55 @@
-import ApolloClient, {addTypename, IntrospectionFragmentMatcher} from 'apollo-client';
-import {networkInterface} from './transport';
+import ApolloClient, {addTypename, IntrospectionFragmentMatcher, createNetworkInterface} from 'apollo-client';
 import {SubscriptionClient, addGraphQLSubscriptions} from 'subscriptions-transport-ws';
 import MessageTypes from 'subscriptions-transport-ws/dist/message-types';
-import {getAuthToken} from '../helpers/request';
 import introspectionQueryResultData from '../graphql/introspection.json';
-import {BASE_PATH} from 'coral-framework/constants/url';
 
-let client, wsClient = null, wsClientToken = null;
-
-export function resetWebsocket() {
-  if (wsClient === null) {
-
-    // Nothing to reset!
-    return;
+// Redux middleware to report any errors to the console.
+export const apolloErrorReporter = () => (next) => (action) => {
+  if (action.type === 'APOLLO_QUERY_ERROR') {
+    console.error(action.error);
   }
+  return next(action);
+};
 
-  // Close socket connection which will also unregister subscriptions on the server-side.
-  wsClient.close();
-
-  // Reconnect to the server.
-  wsClient.connect();
-
-  // Reregister all subscriptions (uses non public api).
-  // See: https://github.com/apollographql/subscriptions-transport-ws/issues/171
-  Object.keys(wsClient.operations).forEach((id) => {
-    wsClient.sendMessage(id, MessageTypes.GQL_START, wsClient.operations[id].options);
-  });
-}
-
-export function getClient(options = {}) {
-  if (client) {
-    return client;
-  }
-
-  const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  wsClient = new SubscriptionClient(`${protocol}://${location.host}${BASE_PATH}api/v1/live`, {
+export function createClient(options = {}) {
+  const {token, uri, liveUri, ...apolloOptions} = options;
+  const wsClient = new SubscriptionClient(liveUri, {
     reconnect: true,
     lazy: true,
     connectionParams: {
-      get token() {
-
-        wsClientToken = getAuthToken();
-
-        // Try to get the token from localStorage. If it isn't here, it may
-        // be passed as a cookie.
-
-        // NOTE: THIS IS ONLY EVER EVALUATED ONCE, IN ORDER TO SEND A DIFFERNT
-        // TOKEN YOU MUST DISCONNECT AND RECONNECT THE WEBSOCKET CLIENT.
-        return wsClientToken;
-      }
+      token,
     }
   });
+
+  const networkInterface = createNetworkInterface({
+    uri,
+    opts: {
+      credentials: 'same-origin'
+    }
+  });
+
+  networkInterface.use([{
+    applyMiddleware(req, next) {
+      if (!req.options.headers) {
+        req.options.headers = {};  // Create the header object if needed.
+      }
+
+      let authToken = typeof token === 'function' ? token() : token;
+      if (authToken) {
+        req.options.headers['authorization'] = `Bearer ${authToken}`;
+      }
+
+      next();
+    }
+  }]);
 
   const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
     networkInterface,
     wsClient,
   );
 
-  client = new ApolloClient({
-    ...options,
+  const client = new ApolloClient({
+    ...apolloOptions,
     connectToDevTools: true,
     addTypename: true,
     fragmentMatcher: new IntrospectionFragmentMatcher({introspectionQueryResultData}),
@@ -71,6 +62,26 @@ export function getClient(options = {}) {
     },
     networkInterface: networkInterfaceWithSubscriptions,
   });
+
+  client.resetWebsocket = () => {
+    if (wsClient === null) {
+
+      // Nothing to reset!
+      return;
+    }
+
+    // Close socket connection which will also unregister subscriptions on the server-side.
+    wsClient.close();
+
+    // Reconnect to the server.
+    wsClient.connect();
+
+    // Reregister all subscriptions (uses non public api).
+    // See: https://github.com/apollographql/subscriptions-transport-ws/issues/171
+    Object.keys(wsClient.operations).forEach((id) => {
+      wsClient.sendMessage(id, MessageTypes.GQL_START, wsClient.operations[id].options);
+    });
+  };
 
   return client;
 }

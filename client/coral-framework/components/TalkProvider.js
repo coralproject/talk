@@ -12,9 +12,9 @@ class TalkProvider extends React.Component {
   }
 
   render() {
-    const {children, client, store, plugins} = this.props;
+    const {children, client, store} = this.props;
     return (
-      <ApolloProvider client={client} store={store} plugins={plugins}>
+      <ApolloProvider client={client} store={store}>
         {children}
       </ApolloProvider>
     );

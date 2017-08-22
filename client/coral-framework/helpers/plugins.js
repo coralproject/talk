@@ -6,8 +6,6 @@ import flattenDeep from 'lodash/flattenDeep';
 import isEmpty from 'lodash/isEmpty';
 import flatten from 'lodash/flatten';
 import mapValues from 'lodash/mapValues';
-import {loadTranslations} from 'coral-framework/services/i18n';
-import {injectReducers} from 'coral-framework/services/store';
 import {getDisplayName} from 'coral-framework/helpers/hoc';
 import camelize from './camelize';
 import plugins from 'pluginsConfig';
@@ -133,23 +131,18 @@ export function getModQueueConfigs() {
     .filter((o) => o));
 }
 
-function getTranslations() {
+export function getTranslations(plugins) {
   return plugins
     .map((o) => o.module.translations)
     .filter((o) => o);
 }
 
-export function loadPluginsTranslations() {
-  getTranslations().forEach((t) => loadTranslations(t));
-}
-
-export function injectPluginsReducers() {
-  const reducers = merge(
+export function getReducers(plugins) {
+  return merge(
     ...plugins
       .filter((o) => o.module.reducer)
       .map((o) => ({[camelize(o.name)] : o.module.reducer}))
   );
-  injectReducers(reducers);
 }
 
 function addMetaDataToSlotComponents() {

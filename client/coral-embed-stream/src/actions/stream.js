@@ -1,11 +1,10 @@
-import pym from 'coral-framework/services/pym';
 import * as actions from '../constants/stream';
 import {buildUrl} from 'coral-framework/utils/url';
 import queryString from 'query-string';
 
 export const setActiveReplyBox = (id) => ({type: actions.SET_ACTIVE_REPLY_BOX, id});
 
-export const viewAllComments = () => {
+export const viewAllComments = () => (dispatch, _, {pym}) => {
 
   const search = queryString.stringify({
     ...queryString.parse(location.search),
@@ -24,10 +23,10 @@ export const viewAllComments = () => {
     pym.sendMessage('coral-view-all-comments');
   } catch (e) { /* not sure if we're worried about old browsers */ }
 
-  return {type: actions.VIEW_ALL_COMMENTS};
+  dispatch({type: actions.VIEW_ALL_COMMENTS});
 };
 
-export const viewComment = (id) => {
+export const viewComment = (id) => (dispatch, _, {pym}) => {
 
   const search = queryString.stringify({
     ...queryString.parse(location.search),
@@ -46,7 +45,7 @@ export const viewComment = (id) => {
     pym.sendMessage('coral-view-comment', id);
   } catch (e) { /* not sure if we're worried about old browsers */ }
 
-  return {type: actions.VIEW_COMMENT, id};
+  dispatch({type: actions.VIEW_COMMENT, id});
 };
 
 export const addCommentClassName = (className) => ({
