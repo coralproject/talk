@@ -11,13 +11,17 @@ export const apolloErrorReporter = () => (next) => (action) => {
   return next(action);
 };
 
+function resolveToken(token) {
+  return typeof token === 'function' ? token() : token;
+}
+
 export function createClient(options = {}) {
   const {token, uri, liveUri, ...apolloOptions} = options;
   const wsClient = new SubscriptionClient(liveUri, {
     reconnect: true,
     lazy: true,
     connectionParams: {
-      token,
+      get token() { return resolveToken(token); },
     }
   });
 
@@ -34,7 +38,7 @@ export function createClient(options = {}) {
         req.options.headers = {};  // Create the header object if needed.
       }
 
-      let authToken = typeof token === 'function' ? token() : token;
+      let authToken = resolveToken(token);
       if (authToken) {
         req.options.headers['authorization'] = `Bearer ${authToken}`;
       }
