@@ -151,11 +151,11 @@ const getStartCursor = (ctx, nodes, {cursor, sortBy}) => {
   }
 
   const SORT_KEY = sortBy.toLowerCase();
-  if (!ctx.plugins || !ctx.plugins.CommentSort || !ctx.plugins.CommentSort[SORT_KEY] || !ctx.plugins.CommentSort[SORT_KEY].startCursor) {
+  if (!ctx.plugins || !ctx.plugins.Sort.Comments || !ctx.plugins.Sort.Comments[SORT_KEY] || !ctx.plugins.Sort.Comments[SORT_KEY].startCursor) {
     throw new Error(`unable to sort by ${sortBy}, no plugin was provided to handle this type`);
   }
 
-  return ctx.plugins.CommentSort[SORT_KEY].startCursor(ctx, nodes, {cursor});
+  return ctx.plugins.Sort.Comments[SORT_KEY].startCursor(ctx, nodes, {cursor});
 };
 
 /**
@@ -174,11 +174,11 @@ const getEndCursor = (ctx, nodes, {cursor, sortBy}) => {
   }
 
   const SORT_KEY = sortBy.toLowerCase();
-  if (!ctx.plugins || !ctx.plugins.CommentSort || !ctx.plugins.CommentSort[SORT_KEY] || !ctx.plugins.CommentSort[SORT_KEY].endCursor) {
+  if (!ctx.plugins || !ctx.plugins.Sort.Comments || !ctx.plugins.Sort.Comments[SORT_KEY] || !ctx.plugins.Sort.Comments[SORT_KEY].endCursor) {
     throw new Error(`unable to sort by ${sortBy}, no plugin was provided to handle this type`);
   }
 
-  return ctx.plugins.CommentSort[SORT_KEY].endCursor(ctx, nodes, {cursor});
+  return ctx.plugins.Sort.Comments[SORT_KEY].endCursor(ctx, nodes, {cursor});
 };
 
 /**
@@ -220,11 +220,11 @@ const applySort = (ctx, query, {cursor, sort, sortBy}) => {
   }
 
   const SORT_KEY = sortBy.toLowerCase();
-  if (!ctx.plugins || !ctx.plugins.CommentSort || !ctx.plugins.CommentSort[SORT_KEY] || !ctx.plugins.CommentSort[SORT_KEY].sort) {
+  if (!ctx.plugins || !ctx.plugins.Sort.Comments || !ctx.plugins.Sort.Comments[SORT_KEY] || !ctx.plugins.Sort.Comments[SORT_KEY].sort) {
     throw new Error(`unable to sort by ${sortBy}, no plugin was provided to handle this type`);
   }
 
-  return ctx.plugins.CommentSort[SORT_KEY].sort(ctx, query, {cursor, sort});
+  return ctx.plugins.Sort.Comments[SORT_KEY].sort(ctx, query, {cursor, sort});
 };
 
 /**

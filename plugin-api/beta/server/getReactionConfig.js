@@ -118,22 +118,24 @@ function getReactionConfig(reaction) {
   return {
     typeDefs,
     context: {
-      CommentSort: () => ({
-        [reactionPlural]: {
-          startCursor(ctx, nodes, {cursor}) {
+      Sort: () => ({
+        Comments: {
+          [reactionPlural]: {
+            startCursor(ctx, nodes, {cursor}) {
 
-            // The cursor is the start! This is using numeric pagination.
-            return cursor != null ? cursor : 0;
-          },
-          endCursor(ctx, nodes, {cursor}) {
-            return nodes.length ? (cursor != null ? cursor : 0) + nodes.length : null;
-          },
-          sort(ctx, query, {cursor, sort}) {
-            if (cursor) {
-              query = query.skip(cursor);
-            }
+              // The cursor is the start! This is using numeric pagination.
+              return cursor != null ? cursor : 0;
+            },
+            endCursor(ctx, nodes, {cursor}) {
+              return nodes.length ? (cursor != null ? cursor : 0) + nodes.length : null;
+            },
+            sort(ctx, query, {cursor, sort}) {
+              if (cursor) {
+                query = query.skip(cursor);
+              }
 
-            return query.sort({[`action_counts.${reaction}`]: sort === 'DESC' ? -1 : 1, created_at: sort === 'DESC' ? -1 : 1});
+              return query.sort({[`action_counts.${reaction}`]: sort === 'DESC' ? -1 : 1, created_at: sort === 'DESC' ? -1 : 1});
+            },
           },
         },
       }),
