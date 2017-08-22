@@ -17,10 +17,11 @@ const Asset = {
 
     return comments.nodes[0];
   },
-  comments({id}, {query: {sort, limit, excludeIgnored, tags}, deep}, {loaders: {Comments}}) {
+  comments({id}, {query: {sort, sortBy, limit, excludeIgnored, tags}, deep}, {loaders: {Comments}}) {
     return Comments.getByQuery({
       asset_id: id,
       sort,
+      sortBy,
       limit,
       parent_id: deep ? undefined : null,
       tags,

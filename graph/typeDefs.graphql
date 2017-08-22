@@ -249,6 +249,10 @@ input CommentsQuery {
   # Sort the results by from largest first.
   sort: SORT_ORDER = DESC
 
+  # The order to sort the comments by, sorting by default the created at
+  # timestamp.
+  sortBy: SORT_COMMENTS_BY = CREATED_AT
+
   # Filter by a specific tag name.
   tags: [String!]
 
@@ -260,6 +264,10 @@ input RepliesQuery {
 
   # Sort the results by from smallest first.
   sort: SORT_ORDER = ASC
+
+  # The order to sort the comments by, sorting by default the created at
+  # timestamp.
+  sortBy: SORT_COMMENTS_BY = CREATED_AT
 
   # Limit the number of results to be returned.
   limit: Int = 3
@@ -658,6 +666,18 @@ enum SORT_ORDER {
 
   # oldest to newer order.
   ASC
+}
+
+# SORT_COMMENTS_BY selects the means for which comments are ordered when
+# sorting.
+enum SORT_COMMENTS_BY {
+
+  # Comments will be sorted by their created at date.
+  CREATED_AT
+
+  # Comments will be sorted by their immediate reply count (replies to the comment
+  # in question only, not including descendants).
+  REPLIES
 }
 
 # All queries that can be executed.

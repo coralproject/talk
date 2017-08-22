@@ -134,17 +134,155 @@ const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id, au
 };
 
 /**
+ * getStartCursor will retrieve the start cursor based on the sortBy field.
+ *
+ * @param {Object} ctx the graph context
+ * @param {Object} nodes the result set of retrieved comments
+ * @param {Object} params the params from the client describing the query
+ */
+const getStartCursor = (ctx, nodes, {cursor, sortBy}) => {
+  switch (sortBy) {
+  case 'CREATED_AT':
+    return nodes.length ? nodes[0].created_at : null;
+  case 'REPLIES':
+
+    // The cursor is the start! This is using numeric pagination.
+    return cursor != null ? cursor : 0;
+  }
+
+  const SORT_KEY = sortBy.toLowerCase();
+  if (!ctx.plugins || !ctx.plugins.CommentSort || !ctx.plugins.CommentSort[SORT_KEY] || !ctx.plugins.CommentSort[SORT_KEY].startCursor) {
+    throw new Error(`unable to sort by ${sortBy}, no plugin was provided to handle this type`);
+  }
+
+  return ctx.plugins.CommentSort[SORT_KEY].startCursor(ctx, nodes, {cursor});
+};
+
+/**
+ * getEndCursor will fetch the end cursor based on the desired sortBy parameter.
+ *
+ * @param {Object} ctx the graph context
+ * @param {Object} nodes the result set of retrieved comments
+ * @param {Object} params the params from the client describing the query
+ */
+const getEndCursor = (ctx, nodes, {cursor, sortBy}) => {
+  switch (sortBy) {
+  case 'CREATED_AT':
+    return nodes.length ? nodes[nodes.length - 1].created_at : null;
+  case 'REPLIES':
+    return nodes.length ? (cursor != null ? cursor : 0) + nodes.length : null;
+  }
+
+  const SORT_KEY = sortBy.toLowerCase();
+  if (!ctx.plugins || !ctx.plugins.CommentSort || !ctx.plugins.CommentSort[SORT_KEY] || !ctx.plugins.CommentSort[SORT_KEY].endCursor) {
+    throw new Error(`unable to sort by ${sortBy}, no plugin was provided to handle this type`);
+  }
+
+  return ctx.plugins.CommentSort[SORT_KEY].endCursor(ctx, nodes, {cursor});
+};
+
+/**
+ * applySort will add the actual `.sort` and `.skip/.where` clauses to the query
+ * to apply the desired sort.
+ *
+ * @param {Object} ctx the graph context
+ * @param {Object} query the current mongoose query object
+ * @param {Object} params the params from the client describing the query
+ */
+const applySort = (ctx, query, {cursor, sort, sortBy}) => {
+  switch (sortBy) {
+  case 'CREATED_AT': {
+    if (cursor) {
+      if (sort === 'DESC') {
+        query = query.where({
+          created_at: {
+            $lt: cursor,
+          },
+        });
+      } else {
+        query = query.where({
+          created_at: {
+            $gt: cursor,
+          },
+        });
+      }
+    }
+
+    return query.sort({created_at: sort === 'DESC' ? -1 : 1});
+  }
+  case 'REPLIES': {
+    if (cursor) {
+      query = query.skip(cursor);
+    }
+
+    return query.sort({reply_count: sort === 'DESC' ? -1 : 1, created_at: sort === 'DESC' ? -1 : 1});
+  }
+  }
+
+  const SORT_KEY = sortBy.toLowerCase();
+  if (!ctx.plugins || !ctx.plugins.CommentSort || !ctx.plugins.CommentSort[SORT_KEY] || !ctx.plugins.CommentSort[SORT_KEY].sort) {
+    throw new Error(`unable to sort by ${sortBy}, no plugin was provided to handle this type`);
+  }
+
+  return ctx.plugins.CommentSort[SORT_KEY].sort(ctx, query, {cursor, sort});
+};
+
+/**
+ * executeWithSort will actually retrieve the comments based on the pre-assembled
+ * query and will compose on top the sort operators necessary to get the desired
+ * result.
+ *
+ * @param {Object} ctx the graph context
+ * @param {Object} query the current mongoose query object
+ * @param {Object} params the params from the client describing the query
+ */
+const executeWithSort = async (ctx, query, {cursor, sort, sortBy, limit}) => {
+
+  // Apply the sort to the query.
+  query = applySort(ctx, query, {cursor, sort, sortBy});
+
+  // Apply the limit (if it exists, as it's applied universally).
+  if (limit) {
+    query = query.limit(limit + 1);
+  }
+
+  // Fetch the nodes based on the source query.
+  const nodes = await query.exec();
+
+  // The hasNextPage is always handled the same (ask for one more than we need,
+  // if there is one more, than there is more).
+  let hasNextPage = false;
+  if (limit && nodes.length > limit) {
+
+    // There was one more than we expected! Set hasNextPage = true and remove
+    // the last item from the array that we requested.
+    hasNextPage = true;
+    nodes.splice(limit, 1);
+  }
+
+  // Use the generator functions below to extract the cursor details based on
+  // the current sortBy parameter.
+  return {
+    startCursor: getStartCursor(ctx, nodes, {cursor, sort, sortBy, limit}),
+    endCursor: getEndCursor(ctx, nodes, {cursor, sort, sortBy, limit}),
+    hasNextPage,
+    nodes,
+  };
+};
+
+/**
  * Retrieves comments based on the passed in query that is filtered by the
  * current used passed in via the context.
+ *
  * @param  {Object} context   graph context
  * @param  {Object} query     query terms to apply to the comments query
  */
-const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, author_id, limit, cursor, sort, excludeIgnored, tags, action_type}) => {
+const getCommentsByQuery = async (ctx, {ids, statuses, asset_id, parent_id, author_id, limit, cursor, sort, sortBy, excludeIgnored, tags, action_type}) => {
   let comments = CommentModel.find();
 
   // Only administrators can search for comments with statuses that are not
   // `null`, or `'ACCEPTED'`.
-  if (user != null && user.can(SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS) && statuses && statuses.length > 0) {
+  if (ctx.user != null && ctx.user.can(SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS) && statuses && statuses.length > 0) {
     comments = comments.where({
       status: {
         $in: statuses
@@ -158,7 +296,7 @@ const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, a
     });
   }
 
-  if (user != null && user.can(SEARCH_OTHERS_COMMENTS) && action_type) {
+  if (ctx.user != null && ctx.user.can(SEARCH_OTHERS_COMMENTS) && action_type) {
     comments = comments.where({
       action_counts: {
         [action_type.toLowerCase()]: {
@@ -185,7 +323,7 @@ const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, a
   }
 
   // Only let an admin request any user or the current user request themself.
-  if (user && (user.can(SEARCH_OTHERS_COMMENTS) || user.id === author_id) && author_id != null) {
+  if (ctx.user && (ctx.user.can(SEARCH_OTHERS_COMMENTS) || ctx.user.id === author_id) && author_id != null) {
     comments = comments.where({author_id});
   }
 
@@ -199,50 +337,19 @@ const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, a
     comments = comments.where({parent_id});
   }
 
-  if (excludeIgnored && user && user.ignoresUsers && user.ignoresUsers.length > 0) {
+  if (excludeIgnored && ctx.user && ctx.user.ignoresUsers && ctx.user.ignoresUsers.length > 0) {
     comments = comments.where({
-      author_id: {$nin: user.ignoresUsers}
+      author_id: {$nin: ctx.user.ignoresUsers}
     });
   }
 
-  if (cursor) {
-    if (sort === 'DESC') {
-      comments = comments.where({
-        created_at: {
-          $lt: cursor
-        }
-      });
-    } else {
-      comments = comments.where({
-        created_at: {
-          $gt: cursor
-        }
-      });
-    }
-  }
-
-  let query = comments
-    .sort({created_at: sort === 'DESC' ? -1 : 1});
-  if (limit) {
-    query = query.limit(limit + 1);
-  }
-  return query.then((nodes) => {
-    let hasNextPage = false;
-    if (limit && nodes.length > limit) {
-      hasNextPage = true;
-      nodes.splice(limit, 1);
-    }
-    return Promise.resolve({
-      startCursor: nodes.length ? nodes[0].created_at : null,
-      endCursor: nodes.length ? nodes[nodes.length - 1].created_at : null,
-      hasNextPage,
-      nodes,
-    });
-  });
+  return executeWithSort(ctx, comments, {cursor, sort, sortBy, limit});
 };
 
 /**
- * getComments returns the comments by the id's. Only admins can see non-public comments.
+ * getComments returns the comments by the id's. Only admins can see non-public
+ * comments.
+ *
  * @param  {Object}        context graph context
  * @param  {Array<String>} ids     the comment id's to fetch
  * @return {Promise}       resolves to the comments
@@ -270,6 +377,7 @@ const getComments = ({user}, ids) => {
 
 /**
  * Creates a set of loaders based on a GraphQL context.
+ *
  * @param  {Object} context the context of the GraphQL request
  * @return {Object}         object of loaders
  */

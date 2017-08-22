@@ -61,7 +61,8 @@ if (WEBPACK) {
       debug('connection established');
     })
     .catch((err) => {
-      throw err;
+      console.error(err);
+      process.exit(1);
     });
 }
 

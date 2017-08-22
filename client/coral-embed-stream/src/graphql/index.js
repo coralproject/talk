@@ -56,7 +56,7 @@ const extension = {
       fragment CoralEmbedStream_CreateCommentResponse on CreateCommentResponse {
         comment {
           ...CoralEmbedStream_CreateCommentResponse_Comment
-          replies {
+          replies(query: {}) {
             nodes {
               ...CoralEmbedStream_CreateCommentResponse_Comment
             }

@@ -1,12 +1,15 @@
 const wrapResponse = require('../../../graph/helpers/response');
 const {SEARCH_OTHER_USERS} = require('../../../perms/constants');
 const errors = require('../../../errors');
+const pluralize = require('pluralize');
 
 function getReactionConfig(reaction) {
   reaction = reaction.toLowerCase();
 
+  const reactionPlural = pluralize(reaction);
   const Reaction = reaction.charAt(0).toUpperCase() + reaction.slice(1);
   const REACTION = reaction.toUpperCase();
+  const REACTION_PLURAL = reactionPlural.toUpperCase();
   const typeDefs = `
     enum ACTION_TYPE {
 
@@ -24,6 +27,13 @@ function getReactionConfig(reaction) {
 
       # The item's id for which we are to create a ${reaction}.
       item_id: ID!
+    }
+
+    enum SORT_COMMENTS_BY {
+
+      # Comments will be sorted by their count of ${reactionPlural}
+      # on the comment.
+      ${REACTION_PLURAL}
     }
 
     input Delete${Reaction}ActionInput {
@@ -107,6 +117,27 @@ function getReactionConfig(reaction) {
 
   return {
     typeDefs,
+    context: {
+      CommentSort: () => ({
+        [reactionPlural]: {
+          startCursor(ctx, nodes, {cursor}) {
+
+            // The cursor is the start! This is using numeric pagination.
+            return cursor != null ? cursor : 0;
+          },
+          endCursor(ctx, nodes, {cursor}) {
+            return nodes.length ? (cursor != null ? cursor : 0) + nodes.length : null;
+          },
+          sort(ctx, query, {cursor, sort}) {
+            if (cursor) {
+              query = query.skip(cursor);
+            }
+
+            return query.sort({[`action_counts.${reaction}`]: sort === 'DESC' ? -1 : 1, created_at: sort === 'DESC' ? -1 : 1});
+          },
+        },
+      }),
+    },
     resolvers: {
       Subscription: {
         [`${reaction}ActionCreated`]: ({action}) => {
