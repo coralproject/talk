@@ -31,8 +31,13 @@ function withWarnings(component, queryData) {
       return new Proxy(queryData[key], {
         get(target, name) {
 
+          // Detect access from React DevTools and ignore those.
+          const error = new Error();
+          const accessFromDevTools = ['backend.js', 'dehydrate']
+            .every((keyword) => error.stack && error.stack.includes(keyword));
+
           // Only care about the components defined in the plugins.
-          if (component.talkPluginName) {
+          if (component.talkPluginName && !accessFromDevTools) {
             const warning = `'${getDisplayName(component)}' of '${component.talkPluginName}' accessed '${key}.${name}' but did not define fragments using the withFragment HOC`;
             if (memoizedWarnings.indexOf(warning) === -1) {
               console.warn(warning);
