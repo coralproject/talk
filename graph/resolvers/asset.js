@@ -1,32 +1,27 @@
 const {decorateWithTags} = require('./util');
-const {
-  SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS,
-} = require('../../perms/constants');
 
 const Asset = {
-  async comment({id}, {id: commentId}, {loaders: {Comments}, user}) {
-    const statuses = user && user.can(SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS)
-      ? ['NONE', 'ACCEPTED', 'PREMOD', 'REJECTED']
-      : ['NONE', 'ACCEPTED'];
+  async comment({id}, {id: commentId}, {loaders: {Comments}}) {
 
-    const comments = await Comments.getByQuery({
-      asset_id: id,
-      ids: commentId,
-      statuses,
-    });
+    // Load the comment from the database.
+    const comment = Comments.get.load(id);
+    if (!comment) {
+      return null;
+    }
 
-    return comments.nodes[0];
+    // If the comment asset mismatches, then don't return it!
+    if (comment.asset_id !== id) {
+      return null;
+    }
+
+    return comment;
   },
-  comments({id}, {query: {sort, sortBy, limit, excludeIgnored, tags}, deep}, {loaders: {Comments}}) {
-    return Comments.getByQuery({
-      asset_id: id,
-      sort,
-      sortBy,
-      limit,
-      parent_id: deep ? undefined : null,
-      tags,
-      excludeIgnored,
-    });
+  comments({id}, {query, deep}, {loaders: {Comments}}) {
+    if (!deep) {
+      query.parent_id = null;
+    }
+
+    return Comments.getByQuery(query);
   },
   commentCount({id, commentCount}, {tags}, {loaders: {Comments}}) {
     if (commentCount != null) {

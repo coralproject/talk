@@ -95,11 +95,11 @@ module.exports = class CommentsService {
       },
     });
 
-    if (originalComment === null) {
+    if (originalComment == null) {
 
       // Try to get the comment.
       const comment = await CommentsService.findById(id);
-      if (comment === null) {
+      if (comment == null) {
         debug('rejecting comment edit because comment was not found');
         throw errors.ErrNotFound;
       }
@@ -253,7 +253,7 @@ module.exports = class CommentsService {
       $set: {status}
     });
 
-    if (originalComment === null) {
+    if (originalComment == null) {
       throw errors.ErrNotFound;
     }
 
