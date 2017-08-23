@@ -97,6 +97,7 @@ const withCommentFragments = withFragments({
   asset: gql`
     fragment CoralEmbedStream_Comment_asset on Asset {
       __typename
+      id
       ${getSlotFragmentSpreads(slots, 'asset')}
     }
     `,
