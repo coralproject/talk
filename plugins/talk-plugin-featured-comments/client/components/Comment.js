@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import styles from './Comment.css';
 import {t, timeago} from 'plugin-api/beta/client/services';
-import {Slot} from 'plugin-api/beta/client/components';
+import {Slot, CommentAuthorName} from 'plugin-api/beta/client/components';
 import {Icon} from 'plugin-api/beta/client/components/ui';
 import {pluginName} from '../../package.json';
 
@@ -22,9 +22,16 @@ class Comment extends React.Component {
         </blockquote>
 
         <div className={cn(`${pluginName}-comment-username-box`)}>
-          <strong className={cn(styles.username, `${pluginName}-comment-username`)}>
-            {comment.user.username}
-          </strong>
+
+          <Slot
+            className={cn(styles.username, `${pluginName}-comment-username`)}
+            fill="commentAuthorName"
+            defaultComponent={CommentAuthorName}
+            queryData={{comment, asset, root}}
+            data={data}
+            inline
+          />
+
           <span className={cn(styles.timeago, `${pluginName}-comment-timeago`)}>
             ,{' '}{timeago(comment.created_at)}
           </span>
