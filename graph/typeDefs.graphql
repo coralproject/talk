@@ -76,7 +76,7 @@ type User {
   username: String!
 
   # creation date of user
-  created_at: String!
+  created_at: Date!
 
   # Action summaries against the user.
   action_summaries: [ActionSummary!]!

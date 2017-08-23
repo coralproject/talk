@@ -6,10 +6,6 @@
   position: relative;
 }
 
-.body {
-
-}
-
 .footer {
   display: flex;
   justify-content: space-between;
@@ -34,4 +30,9 @@
   font-size: 12px;
   padding: 0 2px 0 5px;
   vertical-align: middle;
+}
+
+.authorName {
+  margin-right: 5px;
+  font-weight: bold;
 }
