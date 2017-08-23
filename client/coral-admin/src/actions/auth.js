@@ -1,6 +1,5 @@
 import bowser from 'bowser';
 import * as actions from '../constants/auth';
-import * as Storage from 'coral-framework/helpers/storage';
 import t from 'coral-framework/services/i18n';
 import jwtDecode from 'jwt-decode';
 
@@ -8,7 +7,7 @@ import jwtDecode from 'jwt-decode';
 // SIGN IN
 //==============================================================================
 
-export const handleLogin = (email, password, recaptchaResponse) => (dispatch, _, {rest, client}) => {
+export const handleLogin = (email, password, recaptchaResponse) => (dispatch, _, {rest, client, storage}) => {
   dispatch({type: actions.LOGIN_REQUEST});
 
   const params = {
@@ -29,8 +28,8 @@ export const handleLogin = (email, password, recaptchaResponse) => (dispatch, _,
     .then(({user, token}) => {
 
       if (!user) {
-        if (!bowser.safari && !bowser.ios) {
-          Storage.removeItem('token');
+        if (!bowser.safari && !bowser.ios && storage) {
+          storage.removeItem('token');
         }
         return dispatch(checkLoginFailure('not logged in'));
       }
@@ -114,13 +113,13 @@ const checkLoginFailure = (error) => ({
   error
 });
 
-export const checkLogin = () => (dispatch, _, {rest, client}) => {
+export const checkLogin = () => (dispatch, _, {rest, client, storage}) => {
   dispatch(checkLoginRequest());
   return rest('/auth')
     .then(({user}) => {
       if (!user) {
-        if (!bowser.safari && !bowser.ios) {
-          Storage.removeItem('token');
+        if (!bowser.safari && !bowser.ios && storage) {
+          storage.removeItem('token');
         }
         return dispatch(checkLoginFailure('not logged in'));
       }
@@ -139,9 +138,11 @@ export const checkLogin = () => (dispatch, _, {rest, client}) => {
 // LOGOUT
 //==============================================================================
 
-export const logout = () => (dispatch, _, {rest, client}) => {
+export const logout = () => (dispatch, _, {rest, client, storage}) => {
   return rest('/auth', {method: 'DELETE'}).then(() => {
-    Storage.removeItem('token');
+    if (storage) {
+      storage.removeItem('token');
+    }
 
     // Reset the websocket.
     client.resetWebsocket();
@@ -154,10 +155,11 @@ export const logout = () => (dispatch, _, {rest, client}) => {
 // AUTH TOKEN
 //==============================================================================
 
-export const handleAuthToken = (token) => (dispatch) => {
-  Storage.setItem('exp', jwtDecode(token).exp);
-  Storage.setItem('token', token);
-
+export const handleAuthToken = (token) => (dispatch, _, {storage}) => {
+  if (storage) {
+    storage.setItem('exp', jwtDecode(token).exp);
+    storage.setItem('token', token);
+  }
   dispatch({type: 'HANDLE_AUTH_TOKEN'});
 };
 

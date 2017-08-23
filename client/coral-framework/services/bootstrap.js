@@ -7,12 +7,12 @@ import {createRestClient} from './rest';
 import thunk from 'redux-thunk';
 import {loadTranslations} from './i18n';
 import bowser from 'bowser';
-import * as Storage from '../helpers/storage';
 import {BASE_PATH} from 'coral-framework/constants/url';
 import {createPluginsService} from './plugins';
 import {createNotificationService} from './notification';
 import {createGraphQLRegistry} from './graphqlRegistry';
 import globalFragments from 'coral-framework/graphql/fragments';
+import {createStorage} from 'coral-framework/services/storage';
 
 /**
  * getAuthToken returns the active auth token or null
@@ -20,7 +20,7 @@ import globalFragments from 'coral-framework/graphql/fragments';
  *   browsers that don't allow us to use cross domain iframe local storage.
  * @return {string|null}
  */
-const getAuthToken = (store) => {
+const getAuthToken = (store, storage) => {
   let state = store.getState();
 
   if (state.config.auth_token) {
@@ -28,10 +28,10 @@ const getAuthToken = (store) => {
     // if an auth_token exists in config, use it.
     return state.config.auth_token;
 
-  } else if (!bowser.safari && !bowser.ios) {
+  } else if (!bowser.safari && !bowser.ios && storage) {
 
     // Use local storage auth tokens where there's a stable api.
-    return Storage.getItem('token');
+    return storage.getItem('token');
   }
 
   return null;
@@ -40,6 +40,7 @@ const getAuthToken = (store) => {
 export function createContext({reducers = {}, pluginsConfig = [], graphqlExtension = {}, notification}) {
   const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
   const eventEmitter = new EventEmitter({wildcard: true});
+  const storage = createStorage();
   let store = null;
   const token = () => {
 
@@ -48,7 +49,7 @@ export function createContext({reducers = {}, pluginsConfig = [], graphqlExtensi
 
     // NOTE: THIS IS ONLY EVER EVALUATED ONCE, IN ORDER TO SEND A DIFFERNT
     // TOKEN YOU MUST DISCONNECT AND RECONNECT THE WEBSOCKET CLIENT.
-    return getAuthToken(store);
+    return getAuthToken(store, storage);
   };
   const rest = createRestClient({
     uri: `${BASE_PATH}api/v1`,
@@ -74,6 +75,7 @@ export function createContext({reducers = {}, pluginsConfig = [], graphqlExtensi
     rest,
     graphqlRegistry,
     notification,
+    storage,
   };
 
   // Load framework fragments.

@@ -1,7 +1,6 @@
 import jwtDecode from 'jwt-decode';
 import bowser from 'bowser';
 import * as actions from '../constants/auth';
-import * as Storage from 'coral-framework/helpers/storage';
 import {notify} from 'coral-framework/actions/notification';
 
 import t from 'coral-framework/services/i18n';
@@ -108,9 +107,11 @@ const signInFailure = (error) => ({
 // AUTH TOKEN
 //==============================================================================
 
-export const handleAuthToken = (token) => (dispatch) => {
-  Storage.setItem('exp', jwtDecode(token).exp);
-  Storage.setItem('token', token);
+export const handleAuthToken = (token) => (dispatch, _, {storage}) => {
+  if (storage) {
+    storage.setItem('exp', jwtDecode(token).exp);
+    storage.setItem('token', token);
+  }
 
   dispatch({type: 'HANDLE_AUTH_TOKEN'});
 };
@@ -272,9 +273,12 @@ export const fetchForgotPassword = (email) => (dispatch, getState, {rest}) => {
 // LOGOUT
 //==============================================================================
 
-export const logout = () => async (dispatch, _, {rest, client, pym}) => {
+export const logout = () => async (dispatch, _, {rest, client, pym, storage}) => {
   await rest('/auth', {method: 'DELETE'});
-  Storage.removeItem('token');
+
+  if (storage) {
+    storage.removeItem('token');
+  }
 
   // Reset the websocket.
   client.resetWebsocket();
@@ -296,12 +300,14 @@ const checkLoginSuccess = (user, isAdmin) => ({
   isAdmin
 });
 
-export const checkLogin = () => (dispatch, _, {rest, client, pym}) => {
+export const checkLogin = () => (dispatch, _, {rest, client, pym, storage}) => {
   dispatch(checkLoginRequest());
   rest('/auth')
     .then((result) => {
       if (!result.user) {
-        Storage.removeItem('token');
+        if (storage) {
+          storage.removeItem('token');
+        }
         throw new Error('Not logged in');
       }
 
@@ -318,10 +324,10 @@ export const checkLogin = () => (dispatch, _, {rest, client, pym}) => {
     })
     .catch((error) => {
       console.error(error);
-      if (error.status && error.status === 401) {
+      if (error.status && error.status === 401 && storage) {
 
         // Unauthorized.
-        Storage.removeItem('token');
+        storage.removeItem('token');
       }
       const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
       dispatch(checkLoginFailure(errorMessage));

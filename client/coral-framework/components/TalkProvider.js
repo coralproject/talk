@@ -11,6 +11,7 @@ class TalkProvider extends React.Component {
       rest: this.props.rest,
       graphqlRegistry: this.props.graphqlRegistry,
       notification: this.props.notification,
+      storage: this.props.storage,
     };
   }
 
@@ -31,6 +32,7 @@ TalkProvider.childContextTypes = {
   rest: PropTypes.func,
   graphqlRegistry: PropTypes.object,
   notification: PropTypes.object,
+  storage: PropTypes.object,
 };
 
 export default TalkProvider;
