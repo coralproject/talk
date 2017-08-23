@@ -89,7 +89,7 @@ if (process.env.NODE_ENV !== 'production') {
   // Interactive graphiql interface.
   router.use('/api/v1/graph/iql', (req, res) => {
     res.render('graphiql', {
-      endpointURL: `${req.locals.BASE_URL}api/v1/graph/ql`
+      endpointURL: `${req.app.locals.BASE_URL}api/v1/graph/ql`
     });
   });
 
