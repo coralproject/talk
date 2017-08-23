@@ -13,6 +13,7 @@ import {createNotificationService} from './notification';
 import {createGraphQLRegistry} from './graphqlRegistry';
 import globalFragments from 'coral-framework/graphql/fragments';
 import {createStorage} from 'coral-framework/services/storage';
+import {createHistory} from 'coral-framework/services/history';
 
 /**
  * getAuthToken returns the active auth token or null
@@ -41,6 +42,7 @@ export function createContext({reducers = {}, pluginsConfig = [], graphqlExtensi
   const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
   const eventEmitter = new EventEmitter({wildcard: true});
   const storage = createStorage();
+  const history = createHistory(BASE_PATH);
   let store = null;
   const token = () => {
 
@@ -76,6 +78,7 @@ export function createContext({reducers = {}, pluginsConfig = [], graphqlExtensi
     graphqlRegistry,
     notification,
     storage,
+    history,
   };
 
   // Load framework fragments.

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Router, Route, IndexRedirect, IndexRoute} from 'react-router';
-import {history} from 'coral-framework/helpers/router';
+import PropTypes from 'prop-types';
 
 import Configure from 'routes/Configure';
 import Dashboard from 'routes/Dashboard';
@@ -47,6 +47,14 @@ const routes = (
   </div>
 );
 
-const AppRouter = () => <Router history={history} routes={routes}/>;
+class AppRouter extends React.Component {
+  static contextTypes = {
+    history: PropTypes.object,
+  };
+
+  render() {
+    return <Router history={this.context.history} routes={routes} />;
+  }
+}
 
 export default AppRouter;
