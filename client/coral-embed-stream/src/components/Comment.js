@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import AuthorName from 'talk-plugin-author-name/AuthorName';
 import TagLabel from 'talk-plugin-tag-label/TagLabel';
 import PubDate from 'talk-plugin-pubdate/PubDate';
 import {ReplyBox, ReplyButton} from 'talk-plugin-replies';
@@ -26,6 +25,7 @@ import {EditableCommentContent} from './EditableCommentContent';
 import {getActionSummary, iPerformedThisAction, forEachError, isCommentActive, getShallowChanges} from 'coral-framework/utils';
 import t from 'coral-framework/services/i18n';
 import CommentContainer from '../containers/Comment';
+import {CommentAuthorName} from 'coral-framework/components';
 
 const isStaff = (tags) => !tags.every((t) => t.tag.name !== 'STAFF');
 const hasTag = (tags, lookupTag) => !!tags.filter((t) => t.tag.name === lookupTag).length;
@@ -434,10 +434,17 @@ export default class Comment extends React.Component {
             inline
           />
 
-          <div className={`${styles.commentContainer} talk-stream-comment-container`}>
+          <div className={cn(styles.commentContainer, 'talk-stream-comment-container')}>
+            <div className={cn(styles.header, 'talk-stream-comment-header')}>
 
-            <div className={styles.header}>
-              <AuthorName author={comment.user} className={'talk-stream-comment-user-name'} />
+              <Slot
+                className={cn(styles.username, 'talk-stream-comment-user-name')}
+                fill="commentAuthorName"
+                defaultComponent={CommentAuthorName}
+                queryData={queryData}
+                {...slotProps}
+              />
+
               {isStaff(comment.tags) ? <TagLabel>Staff</TagLabel> : null}
 
               <span className={`${styles.bylineSecondary} talk-stream-comment-user-byline`} >
