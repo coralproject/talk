@@ -5,6 +5,7 @@ import {getSlotFragmentSpreads} from 'plugin-api/beta/client/utils';
 
 const slots = [
   'commentReactions',
+  'commentAuthorName',
 ];
 
 export default withFragments({
