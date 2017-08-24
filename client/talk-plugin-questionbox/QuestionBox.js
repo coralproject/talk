@@ -2,6 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import styles from './QuestionBox.css';
 import {Icon} from 'coral-ui';
+import Markdown from 'coral-framework/components/Markdown';
 
 import Slot from 'coral-framework/components/Slot';
 
@@ -20,7 +21,7 @@ const QuestionBox = ({content, enable, icon = '', className = ''}) => (
       )
     }
     <div className={cn(styles.qbContent, 'questionbox-content')}>
-      {content}
+      <Markdown content={content} />
     </div>
 
     <Slot fill="streamQuestionArea" />

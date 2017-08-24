@@ -1,6 +1,6 @@
 import React from 'react';
 import QuestionBox from 'talk-plugin-questionbox/QuestionBox';
-import {Icon} from 'coral-ui';
+import {Icon, Spinner} from 'coral-ui';
 import DefaultIcon from './DefaultIcon';
 import cn from 'classnames';
 import styles from './QuestionBoxBuilder.css';
@@ -32,7 +32,7 @@ class QuestionBoxBuilder extends React.Component {
     const {loading, MarkdownEditor} = this.state;
 
     if (loading) {
-      return <div> Loading </div>;
+      return <Spinner/>;
     }
 
     return (
