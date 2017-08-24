@@ -10,7 +10,7 @@ const {
 } = require('../../../config');
 
 // get a list of users.
-router.get('/', authorization.needed('ADMIN'), async (req, res, next) => {
+router.get('/', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, next) => {
   const {
     value = '',
     field = 'created_at',
@@ -44,7 +44,7 @@ router.get('/', authorization.needed('ADMIN'), async (req, res, next) => {
 
 });
 
-router.post('/:user_id/role', authorization.needed('ADMIN'), async (req, res, next) => {
+router.post('/:user_id/role', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, next) => {
   try {
     await UsersService.addRoleToUser(req.params.user_id, req.body.role);
     res.status(204).end();
@@ -54,7 +54,7 @@ router.post('/:user_id/role', authorization.needed('ADMIN'), async (req, res, ne
 });
 
 // update the status of a user
-router.post('/:user_id/status', authorization.needed('ADMIN'), async (req, res, next) => {
+router.post('/:user_id/status', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, next) => {
   let {status} = req.body;
 
   try {
@@ -74,7 +74,7 @@ router.post('/:user_id/status', authorization.needed('ADMIN'), async (req, res, 
   }
 });
 
-router.post('/:user_id/username-enable', authorization.needed('ADMIN'), async (req, res, next) => {
+router.post('/:user_id/username-enable', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, next) => {
   try {
     await UsersService.toggleNameEdit(req.params.user_id, true);
     res.status(204).end();
@@ -83,7 +83,7 @@ router.post('/:user_id/username-enable', authorization.needed('ADMIN'), async (r
   }
 });
 
-router.post('/:user_id/email', authorization.needed('ADMIN'), async (req, res, next) => {
+router.post('/:user_id/email', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, next) => {
   try {
     let user = await UsersService.findById(req.params.user_id);
 
@@ -189,7 +189,7 @@ router.post('/resend-verify', async (req, res, next) => {
 });
 
 // trigger an email confirmation re-send from the admin panel
-router.post('/:user_id/email/confirm', authorization.needed('ADMIN'), async (req, res, next) => {
+router.post('/:user_id/email/confirm', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, next) => {
   const {
     user_id
   } = req.params;

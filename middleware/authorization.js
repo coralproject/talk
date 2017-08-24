@@ -10,18 +10,29 @@ const debug = require('debug')('talk:middleware:authorization');
 const ErrNotAuthorized = require('../errors').ErrNotAuthorized;
 
 /**
- * has returns true if the user has all the roles specified, otherwise it will
- * return false.
+ * has returns true if the user has at least one of the roles specified,
+ * otherwise it will return false.
  * @param  {Object} user  the user to check for roles
- * @param  {Array}  roles all the roles that a user must have
- * @return {Boolean}      true if the user has all the roles required, false
+ * @param  {Array}  roles roles to check if the user has
+ * @return {Boolean}      true if the user has some the roles required, false
  *                        otherwise
  */
-authorization.has = (user, ...roles) => roles.every((role) => {
+authorization.has = (user, ...roles) => {
 
-  // TODO: remove toUpperCase once we've migrated over the roles.
-  return user.roles.indexOf(role.toUpperCase()) >= 0;
-});
+  // If no user is specified, then they can't have the roles you want!
+  if (!user || !user.roles) {
+    return false;
+  }
+
+  // If no roles are specified, then any user has the roles you want!
+  if (!roles || roles.length === 0) {
+    return true;
+  }
+
+  // If there's a user, and roles, then check to see that the user has at least
+  // one of those roles.
+  return roles.some((role) => user.roles.includes(role));
+};
 
 /**
  * needed is a connect middleware layer that ensures that all requests coming
