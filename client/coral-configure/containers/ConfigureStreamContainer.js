@@ -53,14 +53,15 @@ class ConfigureStreamContainer extends Component {
     }
   }
 
-  handleChange (e) {
-    const changes = {};
+  handleChange (e, newChanges) {
+    let changes = {};
+
+    if (changes) {
+      changes = {...newChanges};
+    }
 
     if (e.target && e.target.id === 'qboxenable') {
       changes.questionBoxEnable = e.target.checked;
-    }
-    if (e.target && e.target.id === 'qboxcontent') {
-      changes.questionBoxContent = e.target.value;
     }
     if (e.currentTarget && e.currentTarget.id === 'qboxicon') {
       changes.questionBoxIcon = e.currentTarget.dataset.icon;
@@ -68,6 +69,8 @@ class ConfigureStreamContainer extends Component {
     if (e.target && e.target.id === 'plinksenable') {
       changes.premodLinksEnable = e.target.value;
     }
+
+    console.log(changes)
 
     this.setState({
       changed: true,

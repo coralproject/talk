@@ -1,9 +1,10 @@
 import React from 'react';
 import QuestionBox from 'talk-plugin-questionbox/QuestionBox';
-import {Icon, TextField} from 'coral-ui';
+import {Icon} from 'coral-ui';
 import DefaultIcon from './DefaultIcon';
 import cn from 'classnames';
 import styles from './QuestionBoxBuilder.css';
+import MarkdownEditor from 'coral-framework/components/MarkdownEditor';
 
 class QuestionBoxBuilder extends React.Component {
   render() {
@@ -57,14 +58,12 @@ class QuestionBoxBuilder extends React.Component {
           icon={questionBoxIcon}  
           content={questionBoxContent}
         />
-        
-        <TextField
-          id="qboxcontent"
-          onChange={handleChange}
-          rows={3}
+
+        <MarkdownEditor 
           value={questionBoxContent}
-          onChange={handleChange}
+          onChange={(value) => handleChange({}, {questionBoxContent: value})}
         />
+        
       </div>
     );
   }
