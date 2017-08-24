@@ -119,7 +119,8 @@ class StreamContainer extends React.Component {
         cursor: this.props.root.asset.comments.endCursor,
         parent_id: null,
         asset_id: this.props.root.asset.id,
-        sort: 'DESC',
+        sort: this.props.data.variables.sort,
+        sortBy: this.props.data.variables.sortBy,
         excludeIgnored: this.props.data.variables.excludeIgnored,
       },
       updateQuery: (prev, {fetchMoreResult:{comments}}) => {
@@ -203,8 +204,26 @@ const COMMENTS_EDITED_SUBSCRIPTION = gql`
 `;
 
 const LOAD_MORE_QUERY = gql`
-  query CoralEmbedStream_LoadMoreComments($limit: Int = 5, $cursor: Cursor, $parent_id: ID, $asset_id: ID, $sort: SORT_ORDER, $excludeIgnored: Boolean) {
-    comments(query: {limit: $limit, cursor: $cursor, parent_id: $parent_id, asset_id: $asset_id, sort: $sort, excludeIgnored: $excludeIgnored}) {
+  query CoralEmbedStream_LoadMoreComments(
+    $limit: Int = 5
+    $cursor: Cursor
+    $parent_id: ID
+    $asset_id: ID
+    $sort: SORT_ORDER
+    $sortBy: SORT_COMMENTS_BY = CREATED_AT
+    $excludeIgnored: Boolean
+  ) {
+    comments(
+      query: {
+        limit: $limit
+        cursor: $cursor
+        parent_id: $parent_id
+        asset_id: $asset_id
+        sort: $sort
+        sortBy: $sortBy
+        excludeIgnored: $excludeIgnored
+      }
+    ) {
       nodes {
         ...CoralEmbedStream_Stream_comment
       }
@@ -255,7 +274,7 @@ const fragments = {
         }
         commentCount @skip(if: $hasComment)
         totalCommentCount @skip(if: $hasComment)
-        comments(query: {limit: 10, excludeIgnored: $excludeIgnored}) @skip(if: $hasComment) {
+        comments(query: {limit: 10, excludeIgnored: $excludeIgnored, sort: $sort, sortBy: $sortBy}) @skip(if: $hasComment) {
           nodes {
             ...CoralEmbedStream_Stream_comment
           }

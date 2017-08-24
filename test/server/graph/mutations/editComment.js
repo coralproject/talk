@@ -227,7 +227,7 @@ describe('graph.mutations.editComment', () => {
           asset_id: asset.id,
           author_id: user.id,
         },
-        beforeEdit,
+        beforeEdit
       ));
 
       // now edit

@@ -6,7 +6,7 @@ import {withFragments, connect} from 'plugin-api/beta/client/hocs';
 import Comment from '../containers/Comment';
 import {addNotification} from 'plugin-api/beta/client/actions/notification';
 import {viewComment} from 'coral-embed-stream/src/actions/stream';
-import {insertCommentsSorted, getDefinitionName} from 'plugin-api/beta/client/utils';
+import {getDefinitionName} from 'plugin-api/beta/client/utils';
 import update from 'immutability-helper';
 
 class TabPaneContainer extends React.Component {
@@ -18,7 +18,8 @@ class TabPaneContainer extends React.Component {
         limit: 5,
         cursor: this.props.asset.featuredComments.endCursor,
         asset_id: this.props.asset.id,
-        sort: 'DESC',
+        sort: this.props.data.variables.sort,
+        sortBy: this.props.data.variables.sortBy,
         excludeIgnored: this.props.data.variables.excludeIgnored,
       },
       updateQuery: (previous, {fetchMoreResult:{comments}}) => {
@@ -26,7 +27,7 @@ class TabPaneContainer extends React.Component {
           asset: {
             featuredComments: {
               nodes: {
-                $apply: (nodes) => insertCommentsSorted(nodes, comments.nodes, 'DESC'),
+                $push: comments.nodes,
               },
               hasNextPage: {$set: comments.hasNextPage},
               endCursor: {$set: comments.endCursor},
@@ -47,8 +48,25 @@ class TabPaneContainer extends React.Component {
 }
 
 const LOAD_MORE_QUERY = gql`
-  query TalkFeaturedComments_LoadMoreComments($limit: Int = 5, $cursor: Cursor, $asset_id: ID, $sort: SORT_ORDER, $excludeIgnored: Boolean) {
-    comments(query: {limit: $limit, cursor: $cursor, tags: ["FEATURED"], asset_id: $asset_id, sort: $sort, excludeIgnored: $excludeIgnored}) {
+  query TalkFeaturedComments_LoadMoreComments(
+    $limit: Int = 5
+    $cursor: Cursor
+    $asset_id: ID
+    $sort: SORT_ORDER
+    $sortBy: SORT_COMMENTS_BY
+    $excludeIgnored: Boolean
+  ) {
+    comments(
+      query: {
+        limit: $limit
+        cursor: $cursor
+        tags: ["FEATURED"]
+        asset_id: $asset_id,
+        sort: $sort
+        sortBy: $sortBy
+        excludeIgnored: $excludeIgnored
+      }
+    ) {
       nodes {
         ...${getDefinitionName(Comment.fragments.comment)}
       }
@@ -79,7 +97,14 @@ const enhance = compose(
     asset: gql`
       fragment TalkFeaturedComments_TabPane_asset on Asset {
         id
-        featuredComments: comments(query: {tags: ["FEATURED"]}, deep: true) @skip(if: $hasComment) {
+        featuredComments: comments(
+          query: {
+            tags: ["FEATURED"]
+            sort: $sort
+            sortBy: $sortBy
+          }
+          deep: true
+        ) @skip(if: $hasComment) {
           nodes {
             ...${getDefinitionName(Comment.fragments.comment)}
           }
