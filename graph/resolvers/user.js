@@ -42,7 +42,7 @@ const User = {
     return null;
   },
   tokens({id, tokens}, args, {user}) {
-    if (!user ||  ((user.id !== id) && !user.can(LIST_OWN_TOKENS))) {
+    if (!user || ((user.id !== id) && !user.can(LIST_OWN_TOKENS))) {
       return null;
     }
 
