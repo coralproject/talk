@@ -334,7 +334,7 @@ type Comment {
   user: User
 
   # the replies that were made to the comment.
-  replies(query: RepliesQuery!): CommentConnection!
+  replies(query: RepliesQuery = {}): CommentConnection!
 
   # The count of replies on a comment.
   replyCount: Int
@@ -591,7 +591,7 @@ type Asset {
 
   # The comments that are attached to the asset. When `deep` is true, the
   # comments returned will be at all depths.
-  comments(query: CommentsQuery!, deep: Boolean = false): CommentConnection!
+  comments(query: CommentsQuery = {}, deep: Boolean = false): CommentConnection!
 
   # A Comment from the Asset by comment's ID
   comment(id: ID!): Comment
