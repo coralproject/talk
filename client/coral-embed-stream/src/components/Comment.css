@@ -163,6 +163,7 @@
 .header {
   display: flex;
   align-items: center;
+  margin: 10px 0;
 }
 
 .content {
@@ -171,3 +172,7 @@
 .footer {
   min-height: 10px;
 }
+
+.username {
+  margin-right: 5px;
+} 
