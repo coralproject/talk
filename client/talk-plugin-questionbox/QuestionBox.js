@@ -5,13 +5,20 @@ import {Icon} from 'coral-ui';
 
 import Slot from 'coral-framework/components/Slot';
 
-const QuestionBox = ({content, enable}) => (
+const QuestionBox = ({content, enable, icon = ''}) => (
   <div className={cn(styles.qbInfo, {[styles.hidden]: !enable}, 'questionbox-info')}>
-    <div className={cn(styles.qbBox, 'questionbox-box')}>
-      <Icon name="chat_bubble" className={cn(styles.iconBubble)} />
-      <Icon name="person" className={cn(styles.iconPerson)} />
-    </div>
-
+    {
+      icon === 'default' ? (
+        <div className={cn(styles.qbIconContainer)}>
+          <Icon name="chat_bubble" className={cn(styles.iconBubble)} />
+          <Icon name="person" className={cn(styles.iconPerson)} />
+        </div>
+      ) : (
+        <div className={cn(styles.qbIconContainer)}>
+          <Icon name={icon} className={cn(styles.icon)} />
+        </div>
+      )
+    }
     <div className={cn(styles.qbContent, 'questionbox-content')}>
       {content}
     </div>

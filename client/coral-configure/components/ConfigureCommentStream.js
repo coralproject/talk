@@ -1,5 +1,6 @@
 import React from 'react';
-import {Button, Checkbox, TextField} from 'coral-ui';
+import {Button, Checkbox} from 'coral-ui';
+import QuestionBoxBuilder from './QuestionBoxBuilder';
 
 import styles from './ConfigureCommentStream.css';
 
@@ -55,15 +56,13 @@ export default ({handleChange, handleApply, changed, ...props}) => (
               title: t('configure.enable_questionbox'),
               description: t('configure.enable_questionbox_description')
             }} />
-          <div className={`${props.questionBoxEnable ? null : styles.hidden}`} >
-            <TextField
-              id="qboxcontent"
-              onChange={handleChange}
-              rows={3}
-              value={props.questionBoxContent}
-              label={t('configure.include_question_here')}
-            />
-          </div>
+            {
+              props.questionBoxEnable && <QuestionBoxBuilder
+                questionBoxIcon={props.questionBoxIcon}
+                questionBoxContent={props.questionBoxContent}
+                handleChange={handleChange}
+              />
+            }
         </li>
       </ul>
     </div>

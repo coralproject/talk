@@ -35,7 +35,7 @@ const SettingSchema = new Schema({
   },
   questionBoxIcon: {
     type: String,
-    default: ''
+    default: 'default'
   },
   questionBoxContent: {
     type: String,

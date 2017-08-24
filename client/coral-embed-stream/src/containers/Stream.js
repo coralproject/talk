@@ -247,6 +247,7 @@ const fragments = {
           premodLinksEnable
           questionBoxEnable
           questionBoxContent
+          questionBoxIcon
           closeTimeout
           closedMessage
           charCountEnable

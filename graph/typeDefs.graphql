@@ -545,6 +545,7 @@ type Settings {
   premodLinksEnable: Boolean
   questionBoxEnable: Boolean
   questionBoxContent: String
+  questionBoxIcon: String
   closeTimeout: Int
   closedMessage: String
   charCountEnable: Boolean
