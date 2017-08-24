@@ -22,13 +22,6 @@ const User = {
     }
 
   },
-  created_at({roles, created_at}, _, {user}) {
-    if (user && user.can(SEARCH_OTHER_USERS)) {
-      return created_at;
-    }
-
-    return null;
-  },
   comments({id}, {query}, {loaders: {Comments}, user}) {
 
     // If the user is not an admin, only return comment list for the owner of
