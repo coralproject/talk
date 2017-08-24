@@ -13,6 +13,7 @@ describe('services.Wordlist', () => {
       's h i t',
       '$hit',
       'p**ch',
+      'p*ch',
     ],
     suspect: [
       'do bad things',
@@ -36,6 +37,7 @@ describe('services.Wordlist', () => {
         [ 's', 'h', 'i', 't' ],
         [ '$hit' ],
         [ 'p**ch' ],
+        [ 'p*ch' ],
       ]);
       expect(wordlist.lists.suspect).to.deep.equal([
         [ 'do', 'bad', 'things' ],
@@ -84,8 +86,42 @@ describe('services.Wordlist', () => {
         'how to not do really bad things?',
         'i have $100 dollars.',
         'I have bad $ hit lling',
+        'That\'s a p***ch!',
       ].forEach((word) => {
         expect(wordlist.match(bannedList, word)).to.be.false;
+      });
+    });
+
+  });
+
+  describe('#scan', () => {
+
+    it('does match on a bad word', () => {
+      [
+        'how to do really bad things',
+        'what is cookies',
+        'cookies',
+        'COOKIES.',
+        'how to do bad things',
+        'How To do bad things!',
+        'This stuff is $hit!',
+        'That\'s a p**ch!',
+      ].forEach((word) => {
+        expect(wordlist.scan('body', word)).to.not.be.undefined;
+      });
+    });
+
+    it('does not match on a good word', () => {
+      [
+        'how to',
+        'cookie',
+        'how to be a great person?',
+        'how to not do really bad things?',
+        'i have $100 dollars.',
+        'I have bad $ hit lling',
+        'That\'s a p***ch!',
+      ].forEach((word) => {
+        expect(wordlist.scan('body', word)).to.be.undefined;
       });
     });
 
