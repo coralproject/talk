@@ -12,6 +12,7 @@
   overflow: hidden;
   min-height: 50px;
   display: flex;
+  border-radius: 3px;
 }
 
 .icon {
