@@ -54,6 +54,7 @@ class QuestionBoxBuilder extends React.Component {
         </ul>
 
         <QuestionBox
+          className={styles.qb} 
           enable={true}
           icon={questionBoxIcon}  
           content={questionBoxContent}
@@ -63,7 +64,7 @@ class QuestionBoxBuilder extends React.Component {
           value={questionBoxContent}
           onChange={(value) => handleChange({}, {questionBoxContent: value})}
         />
-        
+
       </div>
     );
   }

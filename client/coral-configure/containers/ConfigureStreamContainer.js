@@ -27,11 +27,9 @@ class ConfigureStreamContainer extends Component {
   handleApply (e) {
     e.preventDefault();
     const {elements} = e.target;
-    const {questionBoxIcon} = this.state.dirtySettings;
+    const {questionBoxIcon, questionBoxContent} = this.state.dirtySettings;
     const premod = elements.premod.checked;
     const questionBoxEnable = elements.qboxenable.checked;
-    const questionBoxContent = elements.qboxcontent.value;
-
     const premodLinksEnable = elements.plinksenable.checked;
     const {changed} = this.state;
 
@@ -69,8 +67,6 @@ class ConfigureStreamContainer extends Component {
     if (e.target && e.target.id === 'plinksenable') {
       changes.premodLinksEnable = e.target.value;
     }
-
-    console.log(changes)
 
     this.setState({
       changed: true,

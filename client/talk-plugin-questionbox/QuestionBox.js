@@ -5,8 +5,8 @@ import {Icon} from 'coral-ui';
 
 import Slot from 'coral-framework/components/Slot';
 
-const QuestionBox = ({content, enable, icon = ''}) => (
-  <div className={cn(styles.qbInfo, {[styles.hidden]: !enable}, 'questionbox-info')}>
+const QuestionBox = ({content, enable, icon = '', className = ''}) => (
+  <div className={cn(styles.qbInfo, {[styles.hidden]: !enable}, 'questionbox-info', className)}>
     {
       icon === 'default' ? (
         <div className={cn(styles.qbIconContainer)}>
