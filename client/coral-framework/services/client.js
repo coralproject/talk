@@ -15,8 +15,16 @@ function resolveToken(token) {
   return typeof token === 'function' ? token() : token;
 }
 
+/**
+ * createClient setups and returns an Apollo GraphQL Client
+ * @param  {Object}          [options]          configuration
+ * @param  {string|function} [options.token]    auth token
+ * @param  {string}          [options.uri]      uri of the graphql server
+ * @param  {string}          [options.liveUri]  uri of the graphql subscription server
+ * @return {Object}          apollo client
+ */
 export function createClient(options = {}) {
-  const {token, uri, liveUri, ...apolloOptions} = options;
+  const {token, uri, liveUri} = options;
   const wsClient = new SubscriptionClient(liveUri, {
     reconnect: true,
     lazy: true,
@@ -53,7 +61,6 @@ export function createClient(options = {}) {
   );
 
   const client = new ApolloClient({
-    ...apolloOptions,
     connectToDevTools: true,
     addTypename: true,
     fragmentMatcher: new IntrospectionFragmentMatcher({introspectionQueryResultData}),

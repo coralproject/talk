@@ -174,6 +174,11 @@ class PluginsService {
   }
 }
 
-export function createPluginsService(plugins) {
-  return new PluginsService(plugins);
+/**
+ * createPluginsService returns a plugins service.
+ * @param  {Array}   plugins config as returned from importing `pluginsConfig`
+ * @return {Object}  plugins service
+ */
+export function createPluginsService(pluginsConfig) {
+  return new PluginsService(pluginsConfig);
 }

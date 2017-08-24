@@ -1,3 +1,9 @@
+/**
+ * createReduxEmitter returns a redux middleware proxying redux actions to
+ * the event emitter
+ * @param  {Object}    eventEmitter
+ * @return {function}  redux middleware
+ */
 export function createReduxEmitter(eventEmitter) {
   return () => (next) => (action) => {
 

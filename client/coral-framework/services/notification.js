@@ -1,3 +1,8 @@
+/**
+ * createNotificationService returns a notification services based on pym.
+ * @param  {Object}  pym
+ * @return {Object}  notification service
+ */
 export function createNotificationService(pym) {
   return {
     success(msg) {

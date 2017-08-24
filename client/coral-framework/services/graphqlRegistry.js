@@ -268,6 +268,11 @@ class GraphQLRegistry {
   }
 }
 
+/**
+ * createGraphQLRegistry
+ * @param  {Function}  getSlotFragments  A callback with signature `(slot, part) => [documents]` to retrieve slot fragments.
+ * @return {Object}    graphql registry
+ */
 export function createGraphQLRegistry(getSlotFragments) {
   return new GraphQLRegistry(getSlotFragments);
 }

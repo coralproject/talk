@@ -38,7 +38,17 @@ const getAuthToken = (store, storage) => {
   return null;
 };
 
-export function createContext({reducers = {}, pluginsConfig = [], graphqlExtension = {}, notification}) {
+/**
+ * createContext setups and returns Talk dependencies that should be
+ * passed to `TalkProvider`.
+ * @param  {Object} [config]                    configuration
+ * @param  {Object} [config.reducers]           extra reducers to add to redux
+ * @param  {Array}  [config.pluginsConfig]      plugin configuration as returned by importing pluginsConfig
+ * @param  {Object} [config.graphqlExtensions]  additional extension to the graphql framework
+ * @param  {Object} [config.notification]       replace default notification service
+ * @return {Object}                             context
+ */
+export function createContext({reducers = {}, pluginsConfig = [], graphqlExtension = {}, notification} = {}) {
   const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
   const eventEmitter = new EventEmitter({wildcard: true});
   const storage = createStorage();

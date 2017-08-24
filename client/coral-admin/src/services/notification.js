@@ -1,3 +1,8 @@
+/**
+ * createNotificationService returns a notification services based on toast.
+ * @param  {Object}  toast
+ * @return {Object}  notification service
+ */
 export function createNotificationService(toast) {
   return {
     success(msg) {

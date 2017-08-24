@@ -34,6 +34,10 @@ function getStorage(type) {
   return storage;
 }
 
+/**
+ * createStorage returns a localStorage wrapper if available
+ * @return {Object}  localStorage wrapper
+ */
 export function createStorage() {
   return getStorage('localStorage');
 }

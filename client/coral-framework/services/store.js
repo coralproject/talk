@@ -1,5 +1,11 @@
 import {createStore as reduxCreateStore, combineReducers, applyMiddleware, compose} from 'redux';
 
+/**
+ * createStore creates a Redux Store
+ * @param  {Object}  reducers       addtional reducers
+ * @param  {Array}   [middlewares]  additional middlewares
+ * @return {Object}  redux store
+ */
 export function createStore(reducers, middlewares = []) {
   const enhancers = [
     applyMiddleware(

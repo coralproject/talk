@@ -43,6 +43,13 @@ const handleResp = (res) => {
   }
 };
 
+/**
+ * createRestClient setups and returns a Rest Client
+ * @param  {Object}          options            configuration
+ * @param  {string}          options.uri        uri of the rest server
+ * @param  {string|function} [options.token]    auth token
+ * @return {Object}          rest client
+ */
 export function createRestClient(options) {
   const {token, uri} = options;
   const client = (path, options) => {
