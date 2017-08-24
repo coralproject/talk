@@ -4,11 +4,36 @@ import {Icon} from 'coral-ui';
 import DefaultIcon from './DefaultIcon';
 import cn from 'classnames';
 import styles from './QuestionBoxBuilder.css';
-import MarkdownEditor from 'coral-framework/components/MarkdownEditor';
 
 class QuestionBoxBuilder extends React.Component {
+  constructor() {
+    super();
+    
+    this.state = {
+      loading: true
+    };
+  }
+
+  componentWillMount() {
+    this.loadEditor();
+  }
+  
+  async loadEditor() {
+    const MarkdownEditor = await import('coral-framework/components/MarkdownEditor');
+
+    return this.setState({
+      loading : false,
+      MarkdownEditor
+    });
+  }
+
   render() {
     const {handleChange, questionBoxIcon, questionBoxContent} = this.props;
+    const {loading, MarkdownEditor} = this.state;
+
+    if (loading) {
+      return <div> Loading </div>;
+    }
 
     return (
       <div className={styles.qbBuilder}>
@@ -64,7 +89,7 @@ class QuestionBoxBuilder extends React.Component {
           value={questionBoxContent}
           onChange={(value) => handleChange({}, {questionBoxContent: value})}
         />
-
+      
       </div>
     );
   }
