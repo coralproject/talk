@@ -65,7 +65,6 @@ export default ({handleChange, handleApply, changed, ...props}) => (
             />
           </div>
         </li>
-
       </ul>
     </div>
   </form>

@@ -33,6 +33,10 @@ const SettingSchema = new Schema({
     type: Boolean,
     default: false
   },
+  questionBoxIcon: {
+    type: String,
+    default: ''
+  },
   questionBoxContent: {
     type: String,
     default: ''
