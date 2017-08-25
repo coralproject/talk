@@ -158,7 +158,7 @@ const EMBED_QUERY = gql`
     $hasComment: Boolean!,
     $excludeIgnored: Boolean,
     $sortBy: SORT_COMMENTS_BY!,
-    $sort: SORT_ORDER!,
+    $sortOrder: SORT_ORDER!,
   ) {
     me {
       id
@@ -171,7 +171,7 @@ const EMBED_QUERY = gql`
 `;
 
 export const withEmbedQuery = withQuery(EMBED_QUERY, {
-  options: ({auth, commentId, assetId, assetUrl, sortBy, sort}) => ({
+  options: ({auth, commentId, assetId, assetUrl, sortBy, sortOrder}) => ({
     variables: {
       assetId,
       assetUrl,
@@ -179,7 +179,7 @@ export const withEmbedQuery = withQuery(EMBED_QUERY, {
       hasComment: commentId !== '',
       excludeIgnored: Boolean(auth && auth.user && auth.user.id),
       sortBy,
-      sort,
+      sortOrder,
     },
   }),
 });
@@ -191,7 +191,7 @@ const mapStateToProps = (state) => ({
   assetUrl: state.stream.assetUrl,
   activeTab: state.embed.activeTab,
   config: state.config,
-  sort: state.stream.sort,
+  sortOrder: state.stream.sortOrder,
   sortBy: state.stream.sortBy,
 });
 

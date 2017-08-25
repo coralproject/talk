@@ -1,0 +1,15 @@
+.title {
+  font-weight: bold;
+  padding: 12px 8px 0px 8px;
+}
+
+.list {
+  padding: 0;
+  margin: 0;
+}
+
+.listItem {
+  padding: 10px;
+  list-style: none;
+  white-space: nowrap;
+}

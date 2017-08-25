@@ -18,7 +18,7 @@ class TabPaneContainer extends React.Component {
         limit: 5,
         cursor: this.props.asset.featuredComments.endCursor,
         asset_id: this.props.asset.id,
-        sort: this.props.data.variables.sort,
+        sortOrder: this.props.data.variables.sortOrder,
         sortBy: this.props.data.variables.sortBy,
         excludeIgnored: this.props.data.variables.excludeIgnored,
       },
@@ -52,7 +52,7 @@ const LOAD_MORE_QUERY = gql`
     $limit: Int = 5
     $cursor: Cursor
     $asset_id: ID
-    $sort: SORT_ORDER
+    $sortOrder: SORT_ORDER
     $sortBy: SORT_COMMENTS_BY
     $excludeIgnored: Boolean
   ) {
@@ -62,7 +62,7 @@ const LOAD_MORE_QUERY = gql`
         cursor: $cursor
         tags: ["FEATURED"]
         asset_id: $asset_id,
-        sort: $sort
+        sort: $sortOrder
         sortBy: $sortBy
         excludeIgnored: $excludeIgnored
       }
@@ -100,7 +100,7 @@ const enhance = compose(
         featuredComments: comments(
           query: {
             tags: ["FEATURED"]
-            sort: $sort
+            sort: $sortOrder
             sortBy: $sortBy
           }
           deep: true

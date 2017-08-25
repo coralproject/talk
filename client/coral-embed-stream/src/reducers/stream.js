@@ -24,7 +24,7 @@ const initialState = {
   activeTab: process.env.TALK_DEFAULT_STREAM_TAB,
   previousTab: '',
   sortBy: 'CREATED_AT',
-  sort: 'DESC',
+  sortOrder: 'DESC',
 };
 
 export default function stream(state = initialState, action) {
@@ -67,6 +67,12 @@ export default function stream(state = initialState, action) {
         ...state.commentClassNames.slice(0, action.idx),
         ...state.commentClassNames.slice(action.idx + 1)
       ]
+    };
+  case actions.SET_SORT :
+    return {
+      ...state,
+      sortOrder: action.order ? action.order : state.order,
+      sortBy: action.by ? action.by : state.by,
     };
   default:
     return state;

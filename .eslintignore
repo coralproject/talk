@@ -13,5 +13,6 @@ plugins/*
 !plugins/talk-plugin-comment-content
 !plugins/talk-plugin-permalink
 !plugins/talk-plugin-featured-comments
+!plugins/talk-plugin-sort-oldest
 
 node_modules

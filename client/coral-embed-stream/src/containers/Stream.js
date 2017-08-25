@@ -102,7 +102,7 @@ class StreamContainer extends React.Component {
         cursor: comment.replies.endCursor,
         parent_id,
         asset_id: this.props.root.asset.id,
-        sort: 'ASC',
+        sortOrder: 'ASC',
         excludeIgnored: this.props.data.variables.excludeIgnored,
       },
       updateQuery: (prev, {fetchMoreResult:{comments}}) => {
@@ -119,7 +119,7 @@ class StreamContainer extends React.Component {
         cursor: this.props.root.asset.comments.endCursor,
         parent_id: null,
         asset_id: this.props.root.asset.id,
-        sort: this.props.data.variables.sort,
+        sortOrder: this.props.data.variables.sortOrder,
         sortBy: this.props.data.variables.sortBy,
         excludeIgnored: this.props.data.variables.excludeIgnored,
       },
@@ -141,24 +141,43 @@ class StreamContainer extends React.Component {
     clearInterval(this.countPoll);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.sortBy === 'CREATED_AT' && nextProps.sortOrder === 'DESC') {
+
+      // When switching to 'Newest first' we refetch and subscribe so that we always have the newest comments.
+      if (this.props.sortOrder !== nextProps.sortOrder || this.props.sortBy !== nextProps.sortBy) {
+        nextProps.data.refetch();
+        this.subscribeToUpdates();
+      }
+    } else {
+
+      // TODO: only unsubscribe from posting comments.
+      // We only subscribe to new comments during 'Newest first'.
+      this.unsubscribe();
+    }
+  }
+
   userIsDegraged({auth: {user}} = this.props) {
     return !can(user, 'INTERACT_WITH_COMMUNITY');
   }
 
   render() {
-    if (this.props.refetching
-      || !this.props.root.asset
+    if (!this.props.root.asset
       || !this.props.root.asset.comment
       && !this.props.root.asset.comments
     ) {
       return <Spinner />;
     }
+
+    const streamLoading = this.props.refetching || this.props.data.loading;
+
     return <Stream
       {...this.props}
       loadMore={this.loadMore}
       loadMoreComments={this.loadMoreComments}
       loadNewReplies={this.loadNewReplies}
       userIsDegraged={this.userIsDegraged()}
+      loading={streamLoading}
     />;
   }
 }
@@ -209,7 +228,7 @@ const LOAD_MORE_QUERY = gql`
     $cursor: Cursor
     $parent_id: ID
     $asset_id: ID
-    $sort: SORT_ORDER
+    $sortOrder: SORT_ORDER
     $sortBy: SORT_COMMENTS_BY = CREATED_AT
     $excludeIgnored: Boolean
   ) {
@@ -219,7 +238,7 @@ const LOAD_MORE_QUERY = gql`
         cursor: $cursor
         parent_id: $parent_id
         asset_id: $asset_id
-        sort: $sort
+        sort: $sortOrder
         sortBy: $sortBy
         excludeIgnored: $excludeIgnored
       }
@@ -274,7 +293,7 @@ const fragments = {
         }
         commentCount @skip(if: $hasComment)
         totalCommentCount @skip(if: $hasComment)
-        comments(query: {limit: 10, excludeIgnored: $excludeIgnored, sort: $sort, sortBy: $sortBy}) @skip(if: $hasComment) {
+        comments(query: {limit: 10, excludeIgnored: $excludeIgnored, sort: $sortOrder, sortBy: $sortBy}) @skip(if: $hasComment) {
           nodes {
             ...CoralEmbedStream_Stream_comment
           }
@@ -317,6 +336,8 @@ const mapStateToProps = (state) => ({
   previousStreamTab: state.stream.previousTab,
   commentClassNames: state.stream.commentClassNames,
   pluginConfig: state.config.plugin_config,
+  sortOrder: state.stream.sortOrder,
+  sortBy: state.stream.sortBy,
 });
 
 const mapDispatchToProps = (dispatch) =>
