@@ -272,7 +272,7 @@ const LOAD_MORE_QUERY = gql`
         cursor: $cursor
         parent_id: $parent_id
         asset_id: $asset_id
-        sort: $sortOrder
+        sortOrder: $sortOrder
         sortBy: $sortBy
         excludeIgnored: $excludeIgnored
       }
@@ -328,7 +328,7 @@ const fragments = {
         }
         commentCount @skip(if: $hasComment)
         totalCommentCount @skip(if: $hasComment)
-        comments(query: {limit: 10, excludeIgnored: $excludeIgnored, sort: $sortOrder, sortBy: $sortBy}) @skip(if: $hasComment) {
+        comments(query: {limit: 10, excludeIgnored: $excludeIgnored, sortOrder: $sortOrder, sortBy: $sortBy}) @skip(if: $hasComment) {
           nodes {
             ...CoralEmbedStream_Stream_comment
           }

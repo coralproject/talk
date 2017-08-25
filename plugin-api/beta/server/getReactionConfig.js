@@ -129,12 +129,12 @@ function getReactionConfig(reaction) {
             endCursor(ctx, nodes, {cursor}) {
               return nodes.length ? (cursor != null ? cursor : 0) + nodes.length : null;
             },
-            sort(ctx, query, {cursor, sort}) {
+            sort(ctx, query, {cursor, sortOrder}) {
               if (cursor) {
                 query = query.skip(cursor);
               }
 
-              return query.sort({[`action_counts.${reaction}`]: sort === 'DESC' ? -1 : 1, created_at: sort === 'DESC' ? -1 : 1});
+              return query.sort({[`action_counts.${reaction}`]: sortOrder === 'DESC' ? -1 : 1, created_at: sortOrder === 'DESC' ? -1 : 1});
             },
           },
         },

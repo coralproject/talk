@@ -62,7 +62,7 @@ const LOAD_MORE_QUERY = gql`
         cursor: $cursor
         tags: ["FEATURED"]
         asset_id: $asset_id,
-        sort: $sortOrder
+        sortOrder: $sortOrder
         sortBy: $sortBy
         excludeIgnored: $excludeIgnored
       }
@@ -100,7 +100,7 @@ const enhance = compose(
         featuredComments: comments(
           query: {
             tags: ["FEATURED"]
-            sort: $sortOrder
+            sortOrder: $sortOrder
             sortBy: $sortBy
           }
           deep: true

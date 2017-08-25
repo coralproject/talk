@@ -50,24 +50,25 @@ const RootQuery = {
     return Comments.getCountByQuery(query);
   },
 
-  assetMetrics(_, {from, to, sort, limit = 10}, {user, loaders: {Metrics: {Assets}}}) {
+  assetMetrics(_, query, {user, loaders: {Metrics: {Assets}}}) {
     if (user == null || !user.can(SEARCH_ASSETS)) {
       return null;
     }
 
-    if (sort === 'ACTIVITY') {
-      return Assets.getActivity({from, to, limit});
+    const {sortBy} = query;
+    if (sortBy === 'ACTIVITY') {
+      return Assets.getActivity(query);
     }
 
-    return Assets.get({from, to, sort, limit});
+    return Assets.get(query);
   },
 
-  commentMetrics(_, {from, to, sort, limit = 10}, {user, loaders: {Metrics: {Comments}}}) {
+  commentMetrics(_, query, {user, loaders: {Metrics: {Comments}}}) {
     if (user == null || !user.can(SEARCH_COMMENT_METRICS)) {
       return null;
     }
 
-    return Comments.get({from, to, sort, limit});
+    return Comments.get(query);
   },
 
   // This returns the current user, ensure that if we aren't logged in, we
@@ -97,7 +98,6 @@ const RootQuery = {
     }
 
     const {action_type} = query;
-
     if (action_type) {
       query.ids = await Actions.getByTypes({action_type, item_type: 'USERS'});
       query.statuses = ['PENDING'];

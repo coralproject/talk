@@ -16,7 +16,7 @@ describe('graph.loaders.Metrics', () => {
   describe('#Comments', () => {
     const query = `
       query CommentMetrics($from: Date!, $to: Date!) {
-        flagged: commentMetrics(from: $from, to: $to, sort: FLAG) {
+        flagged: commentMetrics(from: $from, to: $to, sortBy: FLAG) {
           id
         }
       }
@@ -24,11 +24,11 @@ describe('graph.loaders.Metrics', () => {
 
     describe('different comment states', () => {
 
-      beforeEach(() =>[
-        CommentModel.create({id: '1', body: 'a new comment!'}),
-        CommentModel.create({id: '2', body: 'a new comment!'}),
-        CommentModel.create({id: '3', body: 'a new comment!'})
-      ]);
+      beforeEach(() => CommentModel.create([
+        {id: '1', body: 'a new comment!'},
+        {id: '2', body: 'a new comment!'},
+        {id: '3', body: 'a new comment!'}
+      ]));
 
       [
         {flagged: 0, actions: []},
@@ -76,7 +76,7 @@ describe('graph.loaders.Metrics', () => {
       }
 
       query Metrics($from: Date!, $to: Date!) {
-        assetsByFlag: assetMetrics(from: $from, to: $to, sort: FLAG) {
+        assetsByFlag: assetMetrics(from: $from, to: $to, sortBy: FLAG) {
           ...metrics
         }
       }

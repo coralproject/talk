@@ -14,7 +14,7 @@ const Comment = {
   user({author_id}, _, {loaders: {Users}}) {
     return Users.getByID.load(author_id);
   },
-  replies({id, asset_id, reply_count}, {query: {sort, sortBy, limit, excludeIgnored}}, {loaders: {Comments}}) {
+  replies({id, asset_id, reply_count}, {query}, {loaders: {Comments}}) {
 
     // Don't bother looking up replies if there aren't any there!
     if (reply_count === 0) {
@@ -24,14 +24,10 @@ const Comment = {
       };
     }
 
-    return Comments.getByQuery({
-      asset_id,
-      parent_id: id,
-      sort,
-      sortBy,
-      limit,
-      excludeIgnored,
-    });
+    query.asset_id = asset_id;
+    query.parent_id = id;
+
+    return Comments.getByQuery(query);
   },
   replyCount({reply_count}) {
 

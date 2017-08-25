@@ -189,11 +189,11 @@ const getEndCursor = (ctx, nodes, {cursor, sortBy}) => {
  * @param {Object} query the current mongoose query object
  * @param {Object} params the params from the client describing the query
  */
-const applySort = (ctx, query, {cursor, sort, sortBy}) => {
+const applySort = (ctx, query, {cursor, sortOrder, sortBy}) => {
   switch (sortBy) {
   case 'CREATED_AT': {
     if (cursor) {
-      if (sort === 'DESC') {
+      if (sortOrder === 'DESC') {
         query = query.where({
           created_at: {
             $lt: cursor,
@@ -208,14 +208,14 @@ const applySort = (ctx, query, {cursor, sort, sortBy}) => {
       }
     }
 
-    return query.sort({created_at: sort === 'DESC' ? -1 : 1});
+    return query.sort({created_at: sortOrder === 'DESC' ? -1 : 1});
   }
   case 'REPLIES': {
     if (cursor) {
       query = query.skip(cursor);
     }
 
-    return query.sort({reply_count: sort === 'DESC' ? -1 : 1, created_at: sort === 'DESC' ? -1 : 1});
+    return query.sort({reply_count: sortOrder === 'DESC' ? -1 : 1, created_at: sortOrder === 'DESC' ? -1 : 1});
   }
   }
 
@@ -224,7 +224,7 @@ const applySort = (ctx, query, {cursor, sort, sortBy}) => {
     throw new Error(`unable to sort by ${sortBy}, no plugin was provided to handle this type`);
   }
 
-  return ctx.plugins.Sort.Comments[SORT_KEY].sort(ctx, query, {cursor, sort});
+  return ctx.plugins.Sort.Comments[SORT_KEY].sort(ctx, query, {cursor, sortOrder});
 };
 
 /**
@@ -236,10 +236,10 @@ const applySort = (ctx, query, {cursor, sort, sortBy}) => {
  * @param {Object} query the current mongoose query object
  * @param {Object} params the params from the client describing the query
  */
-const executeWithSort = async (ctx, query, {cursor, sort, sortBy, limit}) => {
+const executeWithSort = async (ctx, query, {cursor, sortOrder, sortBy, limit}) => {
 
   // Apply the sort to the query.
-  query = applySort(ctx, query, {cursor, sort, sortBy});
+  query = applySort(ctx, query, {cursor, sortOrder, sortBy});
 
   // Apply the limit (if it exists, as it's applied universally).
   if (limit) {
@@ -263,8 +263,8 @@ const executeWithSort = async (ctx, query, {cursor, sort, sortBy, limit}) => {
   // Use the generator functions below to extract the cursor details based on
   // the current sortBy parameter.
   return {
-    startCursor: getStartCursor(ctx, nodes, {cursor, sort, sortBy, limit}),
-    endCursor: getEndCursor(ctx, nodes, {cursor, sort, sortBy, limit}),
+    startCursor: getStartCursor(ctx, nodes, {cursor, sortOrder, sortBy, limit}),
+    endCursor: getEndCursor(ctx, nodes, {cursor, sortOrder, sortBy, limit}),
     hasNextPage,
     nodes,
   };
@@ -277,7 +277,7 @@ const executeWithSort = async (ctx, query, {cursor, sort, sortBy, limit}) => {
  * @param  {Object} context   graph context
  * @param  {Object} query     query terms to apply to the comments query
  */
-const getCommentsByQuery = async (ctx, {ids, statuses, asset_id, parent_id, author_id, limit, cursor, sort, sortBy, excludeIgnored, tags, action_type}) => {
+const getCommentsByQuery = async (ctx, {ids, statuses, asset_id, parent_id, author_id, limit, cursor, sortOrder, sortBy, excludeIgnored, tags, action_type}) => {
   let comments = CommentModel.find();
 
   // Only administrators can search for comments with statuses that are not
@@ -343,7 +343,7 @@ const getCommentsByQuery = async (ctx, {ids, statuses, asset_id, parent_id, auth
     });
   }
 
-  return executeWithSort(ctx, comments, {cursor, sort, sortBy, limit});
+  return executeWithSort(ctx, comments, {cursor, sortOrder, sortBy, limit});
 };
 
 /**

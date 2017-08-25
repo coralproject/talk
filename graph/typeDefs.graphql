@@ -132,7 +132,7 @@ input UsersQuery {
   cursor: Cursor
 
   # Sort the results by created_at.
-  sort: SORT_ORDER = DESC
+  sortOrder: SORT_ORDER = DESC
 }
 
 # AssetsQuery allows teh ability to query assets by specific fields
@@ -247,7 +247,7 @@ input CommentsQuery {
   cursor: Cursor
 
   # Sort the results by from largest first.
-  sort: SORT_ORDER = DESC
+  sortOrder: SORT_ORDER = DESC
 
   # The order to sort the comments by, sorting by default the created at
   # timestamp.
@@ -263,7 +263,7 @@ input CommentsQuery {
 input RepliesQuery {
 
   # Sort the results by from smallest first.
-  sort: SORT_ORDER = ASC
+  sortOrder: SORT_ORDER = ASC
 
   # The order to sort the comments by, sorting by default the created at
   # timestamp.
@@ -737,11 +737,11 @@ type RootQuery {
 
   # Asset metrics related to user actions are saturated into the assets
   # returned. Parameters `from` and `to` are related to the action created_at field.
-  assetMetrics(from: Date!, to: Date!, sort: ASSET_METRICS_SORT!, limit: Int = 10): [Asset!]
+  assetMetrics(from: Date!, to: Date!, sortBy: ASSET_METRICS_SORT!, limit: Int = 10): [Asset!]
 
   # Comment metrics related to user actions are saturated into the comments
   # returned. Parameters `from` and `to` are related to the action created_at field.
-  commentMetrics(from: Date!, to: Date!, sort: ACTION_TYPE!, limit: Int = 10): [Comment!]
+  commentMetrics(from: Date!, to: Date!, sortBy: ACTION_TYPE!, limit: Int = 10): [Comment!]
 }
 
 ################################################################################
