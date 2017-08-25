@@ -37,6 +37,7 @@ export default withFragments({
         count
         ... on FlagActionSummary {
           reason
+          __typename
         }
       }
       actions {
@@ -48,11 +49,14 @@ export default withFragments({
             id
             username
           }
+          __typename
         }
+        __typename
       }
       editing {
         edited
       }
+      hasParent
       ${getSlotFragmentSpreads(slots, 'comment')}
     }
   `

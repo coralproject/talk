@@ -10,13 +10,13 @@ import {
 
 import * as authActions from 'coral-framework/actions/auth';
 import * as notificationActions from 'coral-framework/actions/notification';
-import {editName} from 'coral-framework/actions/user';
 import {setActiveReplyBox, setActiveTab, viewAllComments} from '../actions/stream';
 import Stream from '../components/Stream';
 import Comment from './Comment';
-import {withFragments} from 'coral-framework/hocs';
+import {withFragments, withEmit} from 'coral-framework/hocs';
 import {getDefinitionName, getSlotFragmentSpreads} from 'coral-framework/utils';
 import {Spinner} from 'coral-ui';
+import {can} from 'coral-framework/services/perms';
 import {
   findCommentInEmbedQuery,
   insertCommentIntoEmbedQuery,
@@ -24,9 +24,8 @@ import {
   insertFetchedCommentsIntoEmbedQuery,
   nest,
 } from '../graphql/utils';
-import omit from 'lodash/omit';
 
-const {showSignInDialog} = authActions;
+const {showSignInDialog, editName} = authActions;
 const {addNotification} = notificationActions;
 
 class StreamContainer extends React.Component {
@@ -141,8 +140,16 @@ class StreamContainer extends React.Component {
     clearInterval(this.countPoll);
   }
 
+  userIsDegraged({auth: {user}} = this.props) {
+    return !can(user, 'INTERACT_WITH_COMMUNITY');
+  }
+
   render() {
-    if (this.props.refetching) {
+    if (this.props.refetching
+      || !this.props.root.asset
+      || !this.props.root.asset.comment
+      && !this.props.root.asset.comments
+    ) {
       return <Spinner />;
     }
     return <Stream
@@ -150,6 +157,7 @@ class StreamContainer extends React.Component {
       loadMore={this.loadMore}
       loadMoreComments={this.loadMoreComments}
       loadNewReplies={this.loadNewReplies}
+      userIsDegraged={this.userIsDegraged()}
     />;
   }
 }
@@ -157,19 +165,11 @@ class StreamContainer extends React.Component {
 const commentFragment = gql`
   fragment CoralEmbedStream_Stream_comment on Comment {
     id
+    status
+    user {
+      id
+    }
     ...${getDefinitionName(Comment.fragments.comment)}
-    ${nest(`
-      replies(excludeIgnored: $excludeIgnored) {
-        nodes {
-          id
-          ...${getDefinitionName(Comment.fragments.comment)}
-          ...nest
-        }
-        hasNextPage
-        startCursor
-        endCursor
-      }
-    `, THREADING_LEVEL)}
   }
   ${Comment.fragments.comment}
 `;
@@ -206,27 +206,14 @@ const LOAD_MORE_QUERY = gql`
   query CoralEmbedStream_LoadMoreComments($limit: Int = 5, $cursor: Date, $parent_id: ID, $asset_id: ID, $sort: SORT_ORDER, $excludeIgnored: Boolean) {
     comments(query: {limit: $limit, cursor: $cursor, parent_id: $parent_id, asset_id: $asset_id, sort: $sort, excludeIgnored: $excludeIgnored}) {
       nodes {
-        id
-        ...${getDefinitionName(Comment.fragments.comment)}
-        ${nest(`
-          replies(limit: 3, excludeIgnored: $excludeIgnored) {
-            nodes {
-              id
-              ...${getDefinitionName(Comment.fragments.comment)}
-              ...nest
-            }
-            hasNextPage
-            startCursor
-            endCursor
-          }
-        `, THREADING_LEVEL)}
+        ...CoralEmbedStream_Stream_comment
       }
       hasNextPage
       startCursor
       endCursor
     }
   }
-  ${Comment.fragments.comment}
+  ${commentFragment}
 `;
 
 const slots = [
@@ -298,7 +285,7 @@ const fragments = {
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth.toJS(),
+  auth: state.auth,
   refetching: state.embed.refetching,
   commentCountCache: state.stream.commentCountCache,
   activeReplyBox: state.stream.activeReplyBox,
@@ -311,7 +298,6 @@ const mapStateToProps = (state) => ({
   previousStreamTab: state.stream.previousTab,
   commentClassNames: state.stream.commentClassNames,
   pluginConfig: state.config.plugin_config,
-  reduxState: omit(state, 'apollo'),
 });
 
 const mapDispatchToProps = (dispatch) =>
@@ -326,6 +312,7 @@ const mapDispatchToProps = (dispatch) =>
 
 export default compose(
   withFragments(fragments),
+  withEmit,
   connect(mapStateToProps, mapDispatchToProps),
   withPostComment,
   withPostFlag,

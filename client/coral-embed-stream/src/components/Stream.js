@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {StreamError} from './StreamError';
-import Comment from '../components/Comment';
+import Comment from '../containers/Comment';
 import SuspendedAccount from './SuspendedAccount';
 import Slot from 'coral-framework/components/Slot';
 import InfoBox from 'talk-plugin-infobox/InfoBox';
@@ -10,16 +10,16 @@ import {ModerationLink} from 'talk-plugin-moderation';
 import RestrictedMessageBox
   from 'coral-framework/components/RestrictedMessageBox';
 import t, {timeago} from 'coral-framework/services/i18n';
-import {getSlotComponents} from 'coral-framework/helpers/plugins';
 import CommentBox from 'talk-plugin-commentbox/CommentBox';
 import QuestionBox from 'talk-plugin-questionbox/QuestionBox';
 import {isCommentActive} from 'coral-framework/utils';
-import {Button, TabBar, Tab, TabCount, TabContent, TabPane} from 'coral-ui';
+import {Button, Tab, TabCount, TabPane} from 'coral-ui';
 import cn from 'classnames';
 
 import {getTopLevelParent, attachCommentToParent} from '../graphql/utils';
 import AllCommentsPane from './AllCommentsPane';
 import AutomaticAssetClosure from '../containers/AutomaticAssetClosure';
+import StreamTabPanel from '../containers/StreamTabPanel';
 
 import styles from './Stream.css';
 
@@ -35,45 +35,19 @@ class Stream extends React.Component {
   componentWillReceiveProps(next) {
 
     // Keep comment box when user was live suspended, banned, ...
-    if (!this.userIsDegraged(this.props) && this.userIsDegraged(next)) {
+    if (!this.props.userIsDegraged && next.userIsDegraged) {
       this.setState({keepCommentBox: true});
     }
-
-    this.fallbackAllTab(next);
   }
 
-  componentDidMount() {
-    this.fallbackAllTab();
-  }
-
-  fallbackAllTab(props = this.props) {
-    if (props.activeStreamTab !== 'all') {
-      const slotPlugins = this.getSlotComponents('streamTabs', props).map((c) => c.talkPluginName);
-      if (slotPlugins.indexOf(props.activeStreamTab) === -1) {
-        props.setActiveStreamTab('all');
-      }
-    }
-  }
-
-  getSlotProps({data, root, root: {asset}} = this.props) {
-    return {data, root, asset};
-  }
-
-  getSlotComponents(slot, props = this.props) {
-    return getSlotComponents(slot, props.reduxState, this.getSlotProps(props));
-  }
-
-  setActiveReplyBox = (id) => {
-    if (!this.props.auth.user) {
-      this.props.showSignInDialog();
-    } else {
-      this.props.setActiveReplyBox(id);
-    }
+  commentIsIgnored = (comment) => {
+    const me = this.props.root.me;
+    return (
+      me &&
+      me.ignoredUsers &&
+      me.ignoredUsers.find((u) => u.id === comment.user.id)
+    );
   };
-
-  userIsDegraged({auth: {user}} = this.props) {
-    return !can(user, 'INTERACT_WITH_COMMUNITY');
-  }
 
   render() {
     const {
@@ -83,7 +57,7 @@ class Stream extends React.Component {
       setActiveReplyBox,
       appendItemArray,
       commentClassNames,
-      root: {asset, asset: {comment, comments, totalCommentCount}, me},
+      root: {asset, asset: {comment, comments, totalCommentCount}},
       postComment,
       addNotification,
       editComment,
@@ -99,7 +73,8 @@ class Stream extends React.Component {
       loadMoreComments,
       viewAllComments,
       auth: {loggedIn, user},
-      editName
+      editName,
+      emit,
     } = this.props;
     const {keepCommentBox} = this.state;
     const open = !asset.isClosed;
@@ -124,16 +99,9 @@ class Stream extends React.Component {
       user.suspension.until &&
       new Date(user.suspension.until) > new Date();
 
-    const commentIsIgnored = (comment) => {
-      return (
-        me &&
-        me.ignoredUsers &&
-        me.ignoredUsers.find((u) => u.id === comment.user.id)
-      );
-    };
-
     const showCommentBox = loggedIn && ((!banned && !temporarilySuspended && !highlightedComment) || keepCommentBox);
-    const slotProps = this.getSlotProps();
+    const slotProps = {data};
+    const slotQueryData = {root, asset};
 
     if (!comment && !comments) {
       console.error('Talk: No comments came back from the graph given that query. Please, check the query params.');
@@ -195,6 +163,7 @@ class Stream extends React.Component {
 
         <Slot
           fill="stream"
+          queryData={slotQueryData}
           {...slotProps}
         />
 
@@ -229,11 +198,12 @@ class Stream extends React.Component {
                 deleteAction={deleteAction}
                 showSignInDialog={showSignInDialog}
                 key={highlightedComment.id}
-                commentIsIgnored={commentIsIgnored}
+                commentIsIgnored={this.commentIsIgnored}
                 comment={highlightedComment}
                 charCountEnable={asset.settings.charCountEnable}
                 maxCharCount={asset.settings.charCount}
                 editComment={editComment}
+                emit={emit}
                 liveUpdates={true}
               />
             </div>
@@ -244,57 +214,54 @@ class Stream extends React.Component {
               >
                 <Slot
                   fill="streamFilter"
+                  queryData={slotQueryData}
                   {...slotProps}
                 />
               </div>
-              <TabBar activeTab={activeStreamTab} onTabClick={setActiveStreamTab} sub>
-                {this.getSlotComponents('streamTabs').map((PluginComponent) => (
-                  <Tab tabId={PluginComponent.talkPluginName} key={PluginComponent.talkPluginName}>
-                    <PluginComponent
-                      {...slotProps}
-                      active={activeStreamTab === PluginComponent.talkPluginName}
-                    />
+              <StreamTabPanel
+                activeTab={activeStreamTab}
+                setActiveTab={setActiveStreamTab}
+                fallbackTab={'all'}
+                tabSlot={'streamTabs'}
+                tabPaneSlot={'streamTabPanes'}
+                slotProps={slotProps}
+                queryData={slotQueryData}
+                appendTabs={
+                  <Tab tabId={'all'} key='all'>
+                    All Comments <TabCount active={activeStreamTab === 'all'} sub>{totalCommentCount}</TabCount>
                   </Tab>
-                ))}
-                <Tab tabId={'all'}>
-                  All Comments <TabCount active={activeStreamTab === 'all'} sub>{totalCommentCount}</TabCount>
-                </Tab>
-              </TabBar>
-              <TabContent activeTab={activeStreamTab} sub>
-                {this.getSlotComponents('streamTabPanes').map((PluginComponent) => (
-                  <TabPane tabId={PluginComponent.talkPluginName} key={PluginComponent.talkPluginName}>
-                    <PluginComponent
-                      {...slotProps}
+                }
+                appendTabPanes={
+                  <TabPane tabId={'all'} key='all'>
+                    <AllCommentsPane
+                      data={data}
+                      root={root}
+                      comments={comments}
+                      commentClassNames={commentClassNames}
+                      ignoreUser={ignoreUser}
+                      setActiveReplyBox={setActiveReplyBox}
+                      activeReplyBox={activeReplyBox}
+                      addNotification={addNotification}
+                      disableReply={!open}
+                      postComment={postComment}
+                      asset={asset}
+                      currentUser={user}
+                      postFlag={postFlag}
+                      postDontAgree={postDontAgree}
+                      loadMore={loadMoreComments}
+                      loadNewReplies={loadNewReplies}
+                      deleteAction={deleteAction}
+                      showSignInDialog={showSignInDialog}
+                      commentIsIgnored={this.commentIsIgnored}
+                      charCountEnable={asset.settings.charCountEnable}
+                      maxCharCount={asset.settings.charCount}
+                      editComment={editComment}
+                      emit={emit}
                     />
                   </TabPane>
-                ))}
-                <TabPane tabId={'all'}>
-                  <AllCommentsPane
-                    data={data}
-                    root={root}
-                    comments={comments}
-                    commentClassNames={commentClassNames}
-                    ignoreUser={ignoreUser}
-                    setActiveReplyBox={setActiveReplyBox}
-                    activeReplyBox={activeReplyBox}
-                    addNotification={addNotification}
-                    disableReply={!open}
-                    postComment={postComment}
-                    asset={asset}
-                    currentUser={user}
-                    postFlag={postFlag}
-                    postDontAgree={postDontAgree}
-                    loadMore={loadMoreComments}
-                    loadNewReplies={loadNewReplies}
-                    deleteAction={deleteAction}
-                    showSignInDialog={showSignInDialog}
-                    commentIsIgnored={commentIsIgnored}
-                    charCountEnable={asset.settings.charCountEnable}
-                    maxCharCount={asset.settings.charCount}
-                    editComment={editComment}
-                  />
-                </TabPane>
-              </TabContent>
+                }
+                sub
+              />
             </div>
           }
       </div>

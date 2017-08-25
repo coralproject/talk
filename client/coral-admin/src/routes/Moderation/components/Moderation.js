@@ -101,33 +101,19 @@ export default class Moderation extends Component {
   }
 
   render () {
-    const {root, data, moderation, settings, viewUserDetail, hideUserDetail, activeTab, getModPath, premodEnabled, ...props} = this.props;
-    const assetId = this.props.params.id;
+    const {root, data, moderation, settings, viewUserDetail, hideUserDetail, activeTab, getModPath, queueConfig, handleCommentChange, ...props} = this.props;
     const {asset} = root;
+    const assetId = asset && asset.id;
 
     const comments = root[activeTab];
 
-    let activeTabCount;
-    switch(activeTab) {
-    case 'all':
-      activeTabCount = root.allCount;
-      break;
-    case 'new':
-      activeTabCount = root.newCount;
-      break;
-    case 'approved':
-      activeTabCount = root.approvedCount;
-      break;
-    case 'premod':
-      activeTabCount = root.premodCount;
-      break;
-    case 'reported':
-      activeTabCount = root.reportedCount;
-      break;
-    case 'rejected':
-      activeTabCount = root.rejectedCount;
-      break;
-    }
+    const activeTabCount = root[`${activeTab}Count`];
+    const menuItems = Object.keys(queueConfig).map((queue) => ({
+      key: queue,
+      name: queueConfig[queue].name,
+      icon: queueConfig[queue].icon,
+      count: root[`${queue}Count`]
+    }));
 
     return (
       <div>
@@ -139,16 +125,10 @@ export default class Moderation extends Component {
         />
         <ModerationMenu
           asset={asset}
-          allCount={root.allCount}
-          newCount={root.newCount}
           getModPath={getModPath}
-          approvedCount={root.approvedCount}
-          premodCount={root.premodCount}
-          rejectedCount={root.rejectedCount}
-          reportedCount={root.reportedCount}
+          items={menuItems}
           selectSort={this.props.setSortOrder}
           sort={this.props.moderation.sortOrder}
-          premodEnabled={premodEnabled}
           activeTab={activeTab}
         />
         <ModerationQueue
@@ -188,9 +168,9 @@ export default class Moderation extends Component {
 
         <Slot
           data={data}
-          root={root}
-          assset={asset}
+          queryData={{root, asset}}
           activeTab={activeTab}
+          handleCommentChange={handleCommentChange}
           fill='adminModeration'
         />
       </div>

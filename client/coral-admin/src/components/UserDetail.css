@@ -1,6 +1,78 @@
 .copyButton {
-  float: right;
-  top: -10px;
+  background-color: white;
+  border: solid 1px;
+  padding: 2px 6px;
+  height: auto;
+  line-height: initial;
+  min-width: auto;
+  letter-spacing: normal;
+  font-size: 0.9em;
+  margin-left: 10px;
+}
+
+.userDetailList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.userDetailItem {
+  margin: 0 5px;
+  font-weight: 500;
+}
+
+.stats {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  margin: 15px 0 5px;
+  color: #595959;
+}
+
+.stat {
+  margin-right: 20px;
+}
+
+.stat:last-child {
+  margin-right: 0px;
+}
+
+.statItem, .statReportResult {
+  padding: 3px 5px;
+  background-color: #D8D8D8;
+  border-radius: 3px;
+  font-weight: 500;
+  display: block;
+  font-size: 0.9em;
+  line-height: normal;
+  letter-spacing: 0.4px;
+  min-width: 60px; 
+}
+
+.statResult {
+  font-size: 1.5em;
+  padding: 5px 0;
+  display: inline-block;
+}
+
+.statReportResult {
+  color: white;
+  margin: 5px 0;
+  font-weight: 400;
+}
+
+.statReportResult.reliable {
+  background-color: #749C48;
+}
+
+.statReportResult.neutral {
+  background-color: #616161;
+}
+
+.statReportResult.unreliable {
+  background-color: #F44336;
 }
 
 .memberSince {
@@ -8,27 +80,9 @@
 }
 
 .small {
-  color: #aaa;
-}
-
-.stats {
-  display: flex;
-
-  .stat {
-    margin: 0 4px 10px 0px;
-  }
-
-  .stat:last-child {
-    margin-right: 0;
-  }
-
-  p {
-    margin: 0;
-  }
-
-  .stat p:first-child {
-    font-weight: bold;
-  }
+  color: #888888;
+  font-size: 0.9em;
+  letter-spacing: 0.4px;
 }
 
 .profileEmail {
@@ -77,5 +131,14 @@
 
   .bulkAction:last-child {
     margin-left: -10px;
+  }
+}
+
+.loadMore > button {
+  background-color: #696969;
+
+  &:hover {
+    background-color: #404040;
+    color: white;
   }
 }

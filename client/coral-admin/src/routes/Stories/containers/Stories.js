@@ -12,7 +12,7 @@ class StoriesContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  assets: state.assets.toJS()
+  assets: state.assets
 });
 
 const mapDispatchToProps = (dispatch) =>

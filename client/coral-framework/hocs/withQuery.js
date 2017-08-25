@@ -3,6 +3,7 @@ import {graphql} from 'react-apollo';
 import {getQueryOptions, resolveFragments} from 'coral-framework/services/graphqlRegistry';
 import {getDefinitionName, separateDataAndRoot, getResponseErrors} from '../utils';
 import PropTypes from 'prop-types';
+import hoistStatics from 'recompose/hoistStatics';
 
 const withSkipOnErrors = (reducer) => (prev, action, ...rest) => {
   if (action.type === 'APOLLO_MUTATION_RESULT' && getResponseErrors(action.result)) {
@@ -35,7 +36,7 @@ function networkStatusToString(networkStatus) {
  * Exports a HOC with the same signature as `graphql`, that will
  * apply query options registered in the graphRegistry.
  */
-export default (document, config = {}) => (WrappedComponent) => {
+export default (document, config = {}) => hoistStatics((WrappedComponent) => {
   const name = getDefinitionName(document);
 
   return class WithQuery extends React.Component {
@@ -46,6 +47,7 @@ export default (document, config = {}) => (WrappedComponent) => {
     // Lazily resolve fragments from graphRegistry to support circular dependencies.
     memoized = null;
     lastNetworkStatus = null;
+    data = null;
 
     emitWhenNeeded(data) {
       const {variables, networkStatus} = data;
@@ -60,59 +62,93 @@ export default (document, config = {}) => (WrappedComponent) => {
       this.context.eventEmitter.emit(`query.${name}.${status}`, {variables, data: root});
     }
 
+    nextData(data) {
+      this.emitWhenNeeded(data);
+
+      // If data was previously set, we update it in a immutable way.
+      if (this.data) {
+        if (this.data.networkStatus !== data.networkStatus ||
+            this.data.loading !== data.loading ||
+            this.data.error !== data.error ||
+            this.data.variables !== data.variables) {
+          this.data = {
+            ...this.data,
+            error: data.error,
+            networkStatus: data.networkStatus,
+            loading: data.loading,
+            variables: data.variables,
+          };
+        }
+      }
+      else {
+
+        // Set data for the first time.
+        this.data = {
+          error: data.error,
+          variables: data.variables,
+          networkStatus: data.networkStatus,
+          loading: data.loading,
+          startPolling: data.startPolling,
+          stopPolling: data.stopPolling,
+          refetch: data.refetch,
+          updateQuery: data.updateQuery,
+          subscribeToMore: (stmArgs) => {
+
+            // Resolve document fragments before passing it to `apollo-client`.
+            return data.subscribeToMore({
+              ...stmArgs,
+              document: resolveFragments(stmArgs.document),
+              onError: (err) => {
+                if (stmArgs.onErr) {
+                  return stmArgs.onErr(err);
+                }
+                throw err;
+              },
+            });
+          },
+          fetchMore: (lmArgs) => {
+            const fetchName = getDefinitionName(lmArgs.query);
+            this.context.eventEmitter.emit(
+              `query.${name}.fetchMore.${fetchName}.begin`,
+              {variables: lmArgs.variables});
+
+            // Resolve document fragments before passing it to `apollo-client`.
+            return data.fetchMore({
+              ...lmArgs,
+              query: resolveFragments(lmArgs.query),
+            })
+            .then((res) => {
+              this.context.eventEmitter.emit(
+                `query.${name}.fetchMore.${fetchName}.success`,
+                {variables: lmArgs.variables, data: res.data});
+              return Promise.resolve(res);
+            })
+            .catch((err) => {
+              this.context.eventEmitter.emit(
+                `query.${name}.fetchMore.${fetchName}.error`,
+                {variables: lmArgs.variables, error: err});
+              throw err;
+            });
+          },
+        };
+      }
+      return this.data;
+    }
+
     wrappedConfig = {
       ...config,
       options: config.options || {},
       props: (args) => {
-        this.emitWhenNeeded(args.data);
+        const nextData = this.nextData(args.data);
+        const {root} = separateDataAndRoot(args.data);
+        if (config.props) {
 
-        const wrappedArgs = {
-          ...args,
-          data: {
-            ...args.data,
-            subscribeToMore: (stmArgs) => {
+          // Custom props, in this case we just pass the wrapped args to it.
+          return config.props({...args, data: {...args.data, ...nextData}});
+        }
 
-              // Resolve document fragments before passing it to `apollo-client`.
-              return args.data.subscribeToMore({
-                ...stmArgs,
-                document: resolveFragments(stmArgs.document),
-                onError: (err) => {
-                  if (stmArgs.onErr) {
-                    return stmArgs.onErr(err);
-                  }
-                  throw err;
-                },
-              });
-            },
-            fetchMore: (lmArgs) => {
-              const fetchName = getDefinitionName(lmArgs.query);
-              this.context.eventEmitter.emit(
-                `query.${name}.fetchMore.${fetchName}.begin`,
-                {variables: lmArgs.variables});
-
-              // Resolve document fragments before passing it to `apollo-client`.
-              return args.data.fetchMore({
-                ...lmArgs,
-                query: resolveFragments(lmArgs.query),
-              })
-              .then((res) => {
-                this.context.eventEmitter.emit(
-                  `query.${name}.fetchMore.${fetchName}.success`,
-                  {variables: lmArgs.variables, data: res.data});
-                return Promise.resolve(res);
-              })
-              .catch((err) => {
-                this.context.eventEmitter.emit(
-                  `query.${name}.fetchMore.${fetchName}.error`,
-                  {variables: lmArgs.variables, error: err});
-                throw err;
-              });
-            },
-          },
-        };
-        return config.props
-          ? config.props(wrappedArgs)
-          : separateDataAndRoot(wrappedArgs.data);
+        // Return our wrapped data with a separated root.
+        return {...args, data: nextData, root};
       },
     };
 
@@ -128,8 +164,10 @@ export default (document, config = {}) => (WrappedComponent) => {
 
       const reducer = withSkipOnErrors(
         reducerCallbacks.reduce(
-          (a, b) => (prev, ...rest) =>
-            b(a(prev, ...rest), ...rest),
+          (a, b) => (prev, ...rest) => {
+            const next = a(prev, ...rest);
+            return b(next, ...rest) || next;
+          }
         ));
 
       return {
@@ -153,4 +191,4 @@ export default (document, config = {}) => (WrappedComponent) => {
       return <Wrapped {...this.props} />;
     }
   };
-};
+});

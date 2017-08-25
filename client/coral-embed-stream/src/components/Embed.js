@@ -28,7 +28,7 @@ export default class Embed extends React.Component {
   };
 
   render() {
-    const {activeTab, commentId, auth: {showSignInDialog, signInDialogFocus}, blurSignInDialog, focusSignInDialog, hideSignInDialog} = this.props;
+    const {activeTab, commentId, root, data, auth: {showSignInDialog, signInDialogFocus}, blurSignInDialog, focusSignInDialog, hideSignInDialog} = this.props;
     const {user} = this.props.auth;
     const hasHighlightedComment = !!commentId;
 
@@ -64,14 +64,18 @@ export default class Embed extends React.Component {
             </Tab>
           }
         </TabBar>
-        <Slot fill="embed" />
+        <Slot
+          data={data}
+          queryData={{root}}
+          fill="embed"
+        />
 
         <TabContent
           activeTab={activeTab}
           id='talk-embed-stream-tab-content'
         >
           <TabPane tabId={'stream'}>
-            <Stream data={this.props.data} root={this.props.root} />
+            <Stream data={data} root={root} />
           </TabPane>
           <TabPane tabId={'profile'}>
             <ProfileContainer />

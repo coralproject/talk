@@ -14,6 +14,7 @@ import {
 } from 'coral-admin/src/actions/userDetail';
 import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
 import UserDetailComment from './UserDetailComment';
+import update from 'immutability-helper';
 
 const commentConnectionFragment = gql`
   fragment CoralAdmin_Moderation_CommentConnection on CommentConnection {
@@ -32,6 +33,7 @@ const slots = [
 ];
 
 class UserDetailContainer extends React.Component {
+  isLoadingMore = false;
 
   // status can be 'ACCEPTED' or 'REJECTED'
   bulkSetCommentStatus = (status) => {
@@ -40,7 +42,6 @@ class UserDetailContainer extends React.Component {
     });
 
     Promise.all(changes).then(() => {
-      this.props.data.refetch(); // some comments may have moved out of this tab
       this.props.clearUserDetailSelections(); // un-select everything
     });
   }
@@ -61,12 +62,53 @@ class UserDetailContainer extends React.Component {
     return this.props.setCommentStatus({commentId, status: 'REJECTED'});
   }
 
+  loadMore = () => {
+    if (this.isLoadingMore) {
+      return;
+    }
+
+    this.isLoadingMore = true;
+    const variables = {
+      limit: 10,
+      cursor: this.props.root.comments.endCursor,
+      author_id: this.props.data.variables.author_id,
+      statuses: this.props.data.variables.statuses,
+    };
+    this.props.data.fetchMore({
+      query: LOAD_MORE_QUERY,
+      variables,
+      updateQuery: (prev, {fetchMoreResult:{comments}}) => {
+        return update(prev, {
+          comments: {
+            nodes: {$push: comments.nodes},
+            hasNextPage: {$set: comments.hasNextPage},
+            startCursor: {$set: comments.startCursor},
+            endCursor: {$set: comments.endCursor},
+          },
+        });
+      }
+    })
+    .then(() => {
+      this.isLoadingMore = false;
+    })
+    .catch((err) => {
+      this.isLoadingMore = false;
+      throw err;
+    });
+  };
+
+  componentWillReceiveProps(next) {
+    if (this.props.userId === null && next.userId) {
+      next.data.refetch();
+    }
+  }
+
   render () {
     if (!this.props.userId) {
       return null;
     }
 
-    const loading = !('user' in this.props.root) || this.props.root.user.id !== this.props.userId;
+    const loading = this.props.data.loading;
 
     return <UserDetail
       bulkReject={this.bulkReject}
@@ -76,9 +118,19 @@ class UserDetailContainer extends React.Component {
       acceptComment={this.acceptComment}
       rejectComment={this.rejectComment}
       loading={loading}
+      loadMore={this.loadMore}
       {...this.props} />;
   }
 }
+
+const LOAD_MORE_QUERY = gql`
+  query CoralAdmin_Moderation_LoadMore($limit: Int = 10, $cursor: Date, $author_id: ID!, $statuses: [COMMENT_STATUS!]) {
+    comments(query: {limit: $limit, cursor: $cursor, author_id: $author_id, statuses: $statuses}) {
+      ...CoralAdmin_Moderation_CommentConnection
+    }
+  }
+  ${commentConnectionFragment}
+`;
 
 export const withUserDetailQuery = withQuery(gql`
   query CoralAdmin_UserDetail($author_id: ID!, $statuses: [COMMENT_STATUS!]) {
@@ -89,6 +141,9 @@ export const withUserDetailQuery = withQuery(gql`
       profiles {
         id
         provider
+      }
+      reliable {
+        flagger
       }
       ${getSlotFragmentSpreads(slots, 'user')}
     }
@@ -117,8 +172,8 @@ const mapStateToProps = (state) => ({
   selectedCommentIds: state.userDetail.selectedCommentIds,
   statuses: state.userDetail.statuses,
   activeTab: state.userDetail.activeTab,
-  bannedWords: state.settings.toJS().wordlist.banned,
-  suspectWords: state.settings.toJS().wordlist.suspect,
+  bannedWords: state.settings.wordlist.banned,
+  suspectWords: state.settings.wordlist.suspect,
 });
 
 const mapDispatchToProps = (dispatch) => ({

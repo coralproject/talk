@@ -3,14 +3,21 @@ import uniq from 'lodash/uniq';
 import pick from 'lodash/pick';
 import merge from 'lodash/merge';
 import flattenDeep from 'lodash/flattenDeep';
+import isEmpty from 'lodash/isEmpty';
 import flatten from 'lodash/flatten';
+import mapValues from 'lodash/mapValues';
 import {loadTranslations} from 'coral-framework/services/i18n';
 import {injectReducers} from 'coral-framework/services/store';
+import {getDisplayName} from 'coral-framework/helpers/hoc';
 import camelize from './camelize';
 import plugins from 'pluginsConfig';
+import uuid from 'uuid/v4';
 
-export function getSlotComponents(slot, reduxState, props = {}) {
-  const pluginConfig = reduxState.config.pluginConfig || {};
+// This is returned for pluginConfig when it is empty.
+const emptyConfig = {};
+
+export function getSlotComponents(slot, reduxState, props = {}, queryData = {}) {
+  const pluginConfig = reduxState.config.plugin_config || emptyConfig;
   return flatten(plugins
 
       // Filter out components that have slots and have been disabled in `plugin_config`
@@ -23,7 +30,7 @@ export function getSlotComponents(slot, reduxState, props = {}) {
       if(!component.isExcluded) {
         return true;
       }
-      let resolvedProps = {...props, config: pluginConfig};
+      let resolvedProps = getSlotComponentProps(component, reduxState, props, queryData);
       if (component.mapStateToProps) {
         resolvedProps = {...resolvedProps, ...component.mapStateToProps(reduxState)};
       }
@@ -31,17 +38,70 @@ export function getSlotComponents(slot, reduxState, props = {}) {
     });
 }
 
-export function isSlotEmpty(slot, reduxState, props) {
-  return getSlotComponents(slot, reduxState, props).length === 0;
+export function isSlotEmpty(slot, reduxState, props = {}, queryData = {}) {
+  return getSlotComponents(slot, reduxState, props, queryData).length === 0;
+}
+
+// Memoize the warnings so we only show them once.
+const memoizedWarnings = [];
+
+// withWarnings decorates the props of queryData with a proxy that
+// prints a warning when accessing deeper props.
+function withWarnings(component, queryData) {
+  if (process.env.NODE_ENV !== 'production' && window.Proxy) {
+
+    // Show warnings when accessing queryData only when not in production.
+    return mapValues(queryData, (value, key) => {
+
+      // Keep null values..
+      if (!queryData[key]) {
+        return queryData[key];
+      }
+      return new Proxy(queryData[key], {
+        get(target, name) {
+
+          // Only care about the components defined in the plugins.
+          if (component.talkPluginName) {
+            const warning = `'${getDisplayName(component)}' of '${component.talkPluginName}' accessed '${key}.${name}' but did not define fragments using the withFragment HOC`;
+            if (memoizedWarnings.indexOf(warning) === -1) {
+              console.warn(warning);
+              memoizedWarnings.push(warning);
+            }
+          }
+          return queryData[key][name];
+        }
+      });
+    });
+  }
+
+  return queryData;
+}
+
+/**
+ * getSlotComponentProps calculate the props we would pass to the slot component.
+ * query datas are only passed to the component if it is defined in `component.fragments`.
+ */
+export function getSlotComponentProps(component, reduxState, props, queryData) {
+  const pluginConfig = reduxState.config.plugin_config || emptyConfig;
+  return {
+    ...props,
+    config: pluginConfig,
+    ...(
+      component.fragments
+      ? pick(queryData, Object.keys(component.fragments))
+      : withWarnings(component, queryData)
+    )
+  };
 }
 
 /**
  * Returns React Elements for given slot.
  */
-export function getSlotElements(slot, reduxState, props = {}) {
-  const pluginConfig = reduxState.config.pluginConfig || {};
-  return getSlotComponents(slot, reduxState, props)
-    .map((component, i) => React.createElement(component, {key: i, ...props, config: pluginConfig}));
+export function getSlotElements(slot, reduxState, props = {}, queryData = {}) {
+  return getSlotComponents(slot, reduxState, props, queryData)
+    .map((component, i) => {
+      return React.createElement(component, {key: i, ...getSlotComponentProps(component, reduxState, props, queryData)});
+    });
 }
 
 export function getSlotFragments(slot, part) {
@@ -64,7 +124,13 @@ export function getSlotFragments(slot, part) {
 export function getGraphQLExtensions() {
   return plugins
     .map((o) => pick(o.module, ['mutations', 'queries', 'fragments']))
-    .filter((o) => o);
+    .filter((o) => !isEmpty(o));
+}
+
+export function getModQueueConfigs() {
+  return merge(...plugins
+    .map((o) => o.module.modQueues)
+    .filter((o) => o));
 }
 
 function getTranslations() {
@@ -93,7 +159,12 @@ function addMetaDataToSlotComponents() {
     const slots = plugin.module.slots;
     slots && Object.keys(slots).forEach((slot) => {
       slots[slot].forEach((component) => {
+
+        // Attach plugin name to the component
         component.talkPluginName = plugin.name;
+
+        // Attach uuid to the component
+        component.talkUuid = uuid();
       });
     });
   });

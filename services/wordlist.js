@@ -1,8 +1,8 @@
 const debug = require('debug')('talk:services:wordlist');
 const _ = require('lodash');
-const natural = require('natural');
-const tokenizer = new natural.WordTokenizer();
-const nameTokenizer = new natural.RegexpTokenizer({pattern: /\_/});
+const {RegexpTokenizer} = require('natural');
+const tokenizer = new RegexpTokenizer({pattern: /[\.\s\'\"\?\!]/});
+const nameTokenizer = new RegexpTokenizer({pattern: /\_/});
 const SettingsService = require('./settings');
 const Errors = require('../errors');
 
@@ -73,7 +73,7 @@ class Wordlist {
       if (word.length === 1) {
         return [word];
       }
-      
+
       return tokenizer.tokenize(word.toLowerCase());
     })
     .filter((tokens) => {

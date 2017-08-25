@@ -70,7 +70,7 @@ independently. Each variety of process can always have just enough resources.
 
 An install that heavily utilizes the jobs queue could see delays in http service
 because of heavy jobs processes and/or delays in the execution of jobs processes
-due to increased server load as a result of Node's single thread infrustructure.
+due to increased server load as a result of Node's single thread infrastructure.
 
 ## Deployment Methodologies
 

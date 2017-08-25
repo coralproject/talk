@@ -1,5 +1,5 @@
 import Tab from './containers/Tab';
-import Tag from './components/Tag';
+import Tag from './containers/Tag';
 import Button from './components/Button';
 import TabPane from './containers/TabPane';
 import translations from './translations.yml';
@@ -26,6 +26,9 @@ export default {
     IgnoreUser: ({variables}) => ({
       updateQueries: {
         CoralEmbedStream_Embed: (previous) => {
+          if (!previous.asset.featuredComments) {
+            return previous;
+          }
           const ignoredUserId = variables.id;
           const newNodes = previous.asset.featuredComments.nodes.filter((n) => n.user.id !== ignoredUserId);
           const removedCount =  previous.asset.featuredComments.nodes.length - newNodes.length;

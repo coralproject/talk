@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 
 import {Icon} from 'coral-ui';
+import ReplyBadge from 'coral-admin/src/components/ReplyBadge';
 import FlagBox from 'coral-admin/src/components/FlagBox';
 import styles from './styles.css';
 import CommentType from 'coral-admin/src/components/CommentType';
@@ -20,6 +21,31 @@ import t, {timeago} from 'coral-framework/services/i18n';
 
 class Comment extends React.Component {
 
+  showSuspendUserDialog = () => {
+    const {comment, showSuspendUserDialog} = this.props;
+    return showSuspendUserDialog({
+      userId: comment.user.id,
+      username: comment.user.username,
+      commentId: comment.id,
+      commentStatus: comment.status,
+    });
+  };
+
+  showBanUserDialog = () => {
+    const {comment, showBanUserDialog} = this.props;
+    return showBanUserDialog({
+      userId: comment.user.id,
+      username: comment.user.username,
+      commentId: comment.id,
+      commentStatus: comment.status,
+    });
+  };
+
+  viewUserDetail = () => {
+    const {viewUserDetail, comment} = this.props;
+    return viewUserDetail(comment.user.id);
+  };
+
   render() {
     const {
       actions = [],
@@ -29,7 +55,12 @@ class Comment extends React.Component {
       bannedWords,
       selected,
       className,
-      ...props
+      data,
+      root,
+      currentUserId,
+      currentAsset,
+      acceptComment,
+      rejectComment,
     } = this.props;
 
     const flagActionSummaries = getActionSummary('FlagActionSummary', comment);
@@ -38,19 +69,7 @@ class Comment extends React.Component {
 
     let selectionStateCSS = selected ? 'mdl-shadow--16dp' : 'mdl-shadow--2dp';
 
-    const showSuspenUserDialog = () => props.showSuspendUserDialog({
-      userId: comment.user.id,
-      username: comment.user.username,
-      commentId: comment.id,
-      commentStatus: comment.status,
-    });
-
-    const showBanUserDialog = () => props.showBanUserDialog({
-      userId: comment.user.id,
-      username: comment.user.username,
-      commentId: comment.id,
-      commentStatus: comment.status,
-    });
+    const queryData = {root, comment, asset: comment.asset};
 
     return (
       <li
@@ -62,7 +81,7 @@ class Comment extends React.Component {
             <div className={styles.author}>
               {
                 (
-                  <span className={styles.username} onClick={() => viewUserDetail(comment.user.id)}>
+                  <span className={styles.username} onClick={this.viewUserDetail}>
                     {comment.user.username}
                   </span>
                 )
@@ -75,27 +94,26 @@ class Comment extends React.Component {
                 ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
                 : null
               }
-              {props.currentUserId !== comment.user.id &&
+              {currentUserId !== comment.user.id &&
                 <ActionsMenu icon="not_interested">
                   <ActionsMenuItem
                     disabled={comment.user.status === 'BANNED'}
-                    onClick={showSuspenUserDialog}>
+                    onClick={this.showSuspendUserDialog}>
                     Suspend User</ActionsMenuItem>
                   <ActionsMenuItem
                     disabled={comment.user.status === 'BANNED'}
-                    onClick={showBanUserDialog}>
+                    onClick={this.showBanUserDialog}>
                     Ban User
                   </ActionsMenuItem>
                 </ActionsMenu>
               }
               <div className={styles.adminCommentInfoBar}>
+                {comment.hasParent && <ReplyBadge/>}
                 <CommentType type={commentType} className={styles.commentType}/>
                 <Slot
-                  data={props.data}
-                  root={props.root}
-                  comment={comment}
-                  asset={comment.asset}
                   fill="adminCommentInfoBar"
+                  data={data}
+                  queryData={queryData}
                 />
               </div>
             </div>
@@ -103,7 +121,7 @@ class Comment extends React.Component {
 
           <div className={styles.moderateArticle}>
             Story: {comment.asset.title}
-            {!props.currentAsset &&
+            {!currentAsset &&
               <Link to={`/admin/moderate/${comment.asset.id}`}>{t('modqueue.moderate')}</Link>}
           </div>
           <CommentAnimatedEdit body={comment.body}>
@@ -124,10 +142,9 @@ class Comment extends React.Component {
                 </a>
               </p>
               <Slot
-                data={props.data}
-                root={props.root}
                 fill="adminCommentContent"
-                comment={comment}
+                data={data}
+                queryData={queryData}
               />
               <div className={styles.sideActions}>
                 <IfHasLink text={comment.body}>
@@ -150,30 +167,28 @@ class Comment extends React.Component {
                         acceptComment={() =>
                           (comment.status === 'ACCEPTED'
                             ? null
-                            : props.acceptComment({commentId: comment.id}))}
+                            : acceptComment({commentId: comment.id}))}
                         rejectComment={() =>
                           (comment.status === 'REJECTED'
                             ? null
-                            : props.rejectComment({commentId: comment.id}))}
+                            : rejectComment({commentId: comment.id}))}
                       />
                     );
                   })}
                 </div>
                 <Slot
-                  data={props.data}
-                  root={props.root}
                   fill="adminSideActions"
-                  comment={comment}
+                  data={data}
+                  queryData={queryData}
                 />
               </div>
             </div>
           </CommentAnimatedEdit>
         </div>
         <Slot
-          data={props.data}
-          root={props.root}
           fill="adminCommentDetailArea"
-          comment={comment}
+          data={data}
+          queryData={queryData}
         />
         {flagActions && flagActions.length
           ? <FlagBox

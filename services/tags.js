@@ -205,8 +205,8 @@ class TagsService {
     return updateModel(item_type, query, {
       $pull: {
         tags: {
-          name: link.tag.name
-        }
+          'tag.name': link.tag.name,
+        },
       }
     });
   }

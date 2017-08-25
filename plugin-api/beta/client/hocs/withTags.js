@@ -8,12 +8,27 @@ import {withAddTag, withRemoveTag} from 'coral-framework/graphql/mutations';
 import withFragments from 'coral-framework/hocs/withFragments';
 import {addNotification} from 'coral-framework/actions/notification';
 import {forEachError, isTagged} from 'coral-framework/utils';
+import hoistStatics from 'recompose/hoistStatics';
+import {getDefinitionName} from '../utils';
 
-export default (tag) => (WrappedComponent) => {
+/*
+ * Disable false-positive warning below, as it doesn't work well with how we currently
+ * assemble the queries.
+ *
+ * Warning: fragment with name {fragment name} already exists.
+ * graphql-tag enforces all fragment names across your application to be unique; read more about
+ * this in the docs: http://dev.apollodata.com/core/fragments.html#unique-names
+ */
+gql.disableFragmentWarnings();
+
+export default (tag, options = {}) => hoistStatics((WrappedComponent) => {
   if (typeof tag !== 'string') {
     console.error('Tag must be a valid string');
     return null;
   }
+
+  // fragments allow the extension of the fragments defined in this HOC.
+  const {fragments = {}} = options;
 
   const Tag = capitalize(tag);
   const TAG = tag.toUpperCase();
@@ -68,22 +83,25 @@ export default (tag) => (WrappedComponent) => {
     }
 
     render() {
-      const {comment} = this.props;
+      const {root, asset, comment, user, config} = this.props;
 
       const alreadyTagged = isTagged(comment.tags, TAG);
 
       return <WrappedComponent
-        user={this.props.user}
+        root={root}
+        asset={asset}
         comment={comment}
+        user={user}
         alreadyTagged={alreadyTagged}
         postTag={this.postTag}
         deleteTag={this.deleteTag}
+        config={config}
       />;
     }
   }
 
   const mapStateToProps = (state) => ({
-    user: state.auth.toJS().user,
+    user: state.auth.user,
   });
 
   const mapDispatchToProps = (dispatch) =>
@@ -91,14 +109,26 @@ export default (tag) => (WrappedComponent) => {
 
   const enhance = compose(
     withFragments({
+      ...fragments,
+      asset: gql`
+        fragment ${Tag}Button_asset on Asset {
+          id
+          ${fragments.asset ? `...${getDefinitionName(fragments.asset)}` : ''}
+        }
+        ${fragments.asset ? fragments.asset : ''}
+      `,
       comment: gql`
         fragment ${Tag}Button_comment on Comment {
+          id
           tags {
             tag {
               name
             }
           }
-        }`
+          ${fragments.comment ? `...${getDefinitionName(fragments.comment)}` : ''}
+        }
+        ${fragments.comment ? fragments.comment : ''}
+      `
     }),
     connect(mapStateToProps, mapDispatchToProps),
     withAddTag,
@@ -108,4 +138,4 @@ export default (tag) => (WrappedComponent) => {
   WithTags.displayName = `WithTags(${getDisplayName(WrappedComponent)})`;
 
   return enhance(WithTags);
-};
+});

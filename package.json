@@ -1,6 +1,6 @@
 {
   "name": "talk",
-  "version": "3.0.0",
+  "version": "3.2.0",
   "description": "A better commenting experience from Mozilla, The New York Times, and the Washington Post. https://coralproject.net",
   "main": "app.js",
   "scripts": {
@@ -93,7 +93,7 @@
     "graphql-tools": "^0.10.1",
     "helmet": "^3.5.0",
     "immutability-helper": "^2.2.0",
-    "inquirer": "^3.0.6",
+    "inquirer": "^3.2.1",
     "joi": "^10.4.1",
     "jsonwebtoken": "^7.3.0",
     "jwt-decode": "^2.2.0",
@@ -116,7 +116,7 @@
     "passport-local": "^1.0.0",
     "prop-types": "^15.5.10",
     "query-strings": "^0.0.1",
-    "react-apollo": "^1.1.0",
+    "react-apollo": "^1.4.12",
     "react-input-autosize": "^1.1.4",
     "react-recaptcha": "^2.2.6",
     "react-toastify": "^1.5.0",
@@ -136,7 +136,7 @@
     "yamljs": "^0.2.10"
   },
   "devDependencies": {
-    "apollo-client": "^1.0.4",
+    "apollo-client": "^1.9.1",
     "autoprefixer": "^6.5.2",
     "babel-cli": "^6.24.0",
     "babel-core": "^6.24.0",
@@ -180,7 +180,6 @@
     "hammerjs": "^2.0.8",
     "history": "^3.0.0",
     "ignore-styles": "^5.0.1",
-    "immutable": "^3.8.1",
     "imports-loader": "^0.7.1",
     "istanbul": "^1.1.0-alpha.1",
     "jsdom": "^9.8.3",

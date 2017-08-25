@@ -5,9 +5,21 @@ Online comments are broken. Our open-source Talk tool rethinks how moderation, c
 Third party licenses are available via the `/client/3rdpartylicenses.txt`
 endpoint when the server is running with built assets.
 
-## Documentation
+## Important Links
 
-See our [Talk Documentation & Guides](https://coralproject.github.io/talk/).
+- Developer Documentation & Setup Guides: https://coralproject.github.io/talk/
+
+- Pivotal Tracker Backlog & Release Schedule: https://www.pivotaltracker.com/n/projects/1863625
+
+## Learn More about Coral
+
+- Community Forums: https://community.coralproject.net/
+
+- Website: https://coralproject.net
+
+- Blog: https://blog.coralproject.net
+
+- Community Guides for Journalism: https://guides.coralproject.net/ 
 
 ## License
 

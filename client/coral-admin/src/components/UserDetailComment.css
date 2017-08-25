@@ -8,6 +8,10 @@
   min-height: 0;
 }
 
+.root:last-child {
+  border: 0;
+}
+
 .rootSelected {
   background-color: #ecf4ff;
 }
@@ -51,7 +55,7 @@
   position: relative;
 }
 
-.commentType {
+.badgeBar {
   position: absolute;
   right: 0px;
 }

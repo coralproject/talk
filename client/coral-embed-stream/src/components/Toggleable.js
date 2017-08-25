@@ -19,7 +19,9 @@ export default class Toggleable extends React.Component {
   }
 
   close = () => {
-    this.setState({isOpen: false});
+    if (this.state.isOpen) {
+      this.setState({isOpen: false});
+    }
   }
 
   render() {

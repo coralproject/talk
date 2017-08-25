@@ -9,6 +9,7 @@ export default withFragments({
       body
       created_at
       status
+      hasParent
       asset {
         id
         title

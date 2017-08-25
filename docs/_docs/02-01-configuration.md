@@ -52,13 +52,35 @@ These are only used during the webpack build.
 - `TALK_MONGO_URL` (*required*) - the database connection string for the MongoDB database.
 - `TALK_REDIS_URL` (*required*) - the database connection string for the Redis database.
 
+#### Advanced
+
+- `TALK_REDIS_RECONNECTION_MAX_ATTEMPTS` (_optional_) - the amount of attempts
+  that a redis connection will attempt to reconnect before aborting with an
+  error. (Default `100`)
+- `TALK_REDIS_RECONNECTION_MAX_RETRY_TIME` (_optional_) - the time in string
+  format for the maximum amount of time that a client can be considered
+  "connecting" before attempts at reconnection are aborted with an error.
+  (Default `1 min`)
+- `TALK_REDIS_RECONNECTION_BACKOFF_FACTOR` (_optional_) - the time factor that
+  will be multiplied against the current attempt count inbetween attempts to
+  connect to redis. (Default `500 ms`)
+- `TALK_REDIS_RECONNECTION_BACKOFF_MINIMUM_TIME` (_optional_) - the minimum time
+  used to delay before attempting to reconnect to redis. (Default `1 sec`)
+
 ### Server
 
 - `TALK_ROOT_URL` (*required*) - root url of the installed application externally
-  available in the format: `<scheme>://<host>` without the path.
+  available in the format: `<scheme>://<host>:<port?>/<pathname>`.
 - `TALK_KEEP_ALIVE` (_optional_) - The keepalive timeout that should be used to
   send keep alive messages through the websocket to keep the socket alive. (Default `30s`)
 - `TALK_INSTALL_LOCK` (_optional for dynamic setup_) - When `TRUE`, disables the dynamic setup endpoint. (Default `FALSE`)
+
+#### Advanced
+
+- `TALK_ROOT_URL_MOUNT_PATH` (_optional_) - when set to `TRUE`, the routes will
+  be mounted onto the `<pathname>` component of the `TALK_ROOT_URL`. You would
+  use this when your upstream proxy cannot strip the prefix from the url.
+  (Default `FALSE`)
 
 ### Word Filter
 
@@ -87,8 +109,16 @@ on the contents of those variables.**
 These are advanced settings for fine tuning the auth integration, and
 is not needed in most situations.
 
-- `TALK_JWT_COOKIE_NAME` (_optional_) - the name of the cookie to extract the
-  JWT from (Default `authorization`)
+- `TALK_JWT_COOKIE_NAME` (_optional_) - the default cookie name to check for a
+  valid JWT token to use for verifying a user. (Default `authorization`)
+- `TALK_JWT_SIGNING_COOKIE_NAME` (_optional_) - the default cookie name that is
+  use to set a cookie containing a JWT that was issued by Talk.
+  (Default `process.env.TALK_JWT_COOKIE_NAME`)
+- `TALK_JWT_COOKIE_NAMES` (_optional_) - the different cookie names to check for
+  a JWT token in, seperated by `,`. By default, we always use the
+  `process.env.TALK_JWT_COOKIE_NAME` and `process.env.TALK_JWT_SIGNING_COOKIE_NAME`
+  for this value. Any additional cookie names specified here will be appended to
+  the list of cookie names to inspect.
 - `TALK_JWT_CLEAR_COOKIE_LOGOUT` (_optional_) - when `FALSE`, Talk will not
   clear the cookie with name `TALK_JWT_COOKIE_NAME` when logging out (Default
   `TRUE`)
@@ -110,10 +140,18 @@ will be used:
   "iss": TALK_JWT_ISSUER,                    // *optional* if TALK_JWT_DISABLE_ISSUER === 'TRUE', *required* otherwise
 
   [TALK_JWT_USER_ID_CLAIM]: "<the user id>", // *required* the id of the user
-  // Note, if TALK_JWT_USER_ID_CLAIM contains '.', it will be used to deliniate an object, for example
+  // Note, if TALK_JWT_USER_ID_CLAIM contains '.', it will be used to delineate an object, for example
   // `user.id` would store it like: `{user: {id}}`
 }
 ```
+
+When our passport middleware checks for JWT tokens, it searches in the following
+order:
+
+1. Custom cookies named from the list in `TALK_JWT_COOKIE_NAMES`.
+2. Default cookies named `TALK_JWT_COOKIE_NAME` then `TALK_JWT_SIGNING_COOKIE_NAME`.
+3. Query parameter `?access_token={TOKEN}`.
+4. Header: `Authorization: Bearer {TOKEN}`.
 
 ### Email
 
@@ -135,11 +173,11 @@ will be used:
 
 ### Trust
 
-Trust can automoderate comments based on user history. By specifying this
-option, the beheviour can be changed to offer different results.
+Trust can auto-moderate comments based on user history. By specifying this
+option, the behavior can be changed to offer different results.
 
 - `TRUST_THRESHOLDS` (_optional_) - configure the reliability thresholds for
-  flagging and commenting. (Default `comment:-1,-1;flag:-1,-1`)
+  flagging and commenting. (Default `comment:2,-1;flag:2,-1`)
 
 The form of the environment variable:
 
@@ -150,10 +188,10 @@ The form of the environment variable:
 The default could be read as:
 
 - When a commenter has one comment rejected, their next comment must be
-  premoderated once in order to post freely again. If they instead get rejected
+  pre-moderated once in order to post freely again. If they instead get rejected
   again, then they must have two of their comments approved in order to get
   added back to the queue.
-- At the moment of writing, beheviour is not attached to the flagging
+- At the moment of writing, behavior is not attached to the flagging
   reliability, but it is recorded.
 
 ### Cache

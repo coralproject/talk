@@ -7,6 +7,9 @@
 // entrypoint for the entire applications configuration.
 require('env-rewrite').rewrite();
 
+const uniq = require('lodash/uniq');
+const ms = require('ms');
+
 //==============================================================================
 // CONFIG INITIALIZATION
 //==============================================================================
@@ -30,6 +33,13 @@ const CONFIG = {
   // JWT_COOKIE_NAME is the name of the cookie optionally containing the JWT
   // token.
   JWT_COOKIE_NAME: process.env.TALK_JWT_COOKIE_NAME || 'authorization',
+
+  // JWT_SIGNING_COOKIE_NAME will be the cookie set when cookies are issued.
+  // This defaults to the TALK_JWT_COOKIE_NAME value.
+  JWT_SIGNING_COOKIE_NAME: process.env.TALK_JWT_SIGNING_COOKIE_NAME || process.env.TALK_JWT_COOKIE_NAME || 'authorization',
+
+  // JWT_COOKIE_NAMES declares the many cookie names used for verification.
+  JWT_COOKIE_NAMES: process.env.TALK_JWT_COOKIE_NAMES || null,
 
   // JWT_CLEAR_COOKIE_LOGOUT specifies whether the named cookie should be
   // cleared when the user is logged out.
@@ -75,6 +85,23 @@ const CONFIG = {
   MONGO_URL: process.env.TALK_MONGO_URL,
   REDIS_URL: process.env.TALK_REDIS_URL,
 
+  // REDIS_RECONNECTION_MAX_ATTEMPTS is the amount of attempts that a redis
+  // connection will attempt to reconnect before aborting with an error.
+  REDIS_RECONNECTION_MAX_ATTEMPTS: parseInt(process.env.TALK_REDIS_RECONNECTION_MAX_ATTEMPTS || '100'),
+
+  // REDIS_RECONNECTION_MAX_RETRY_TIME is the time in string format for the
+  // maximum amount of time that a client can be considered "connecting" before
+  // attempts at reconnection are aborted with an error.
+  REDIS_RECONNECTION_MAX_RETRY_TIME: ms(process.env.TALK_REDIS_RECONNECTION_MAX_RETRY_TIME || '1 min'),
+
+  // REDIS_RECONNECTION_BACKOFF_FACTOR is the factor that will be multiplied
+  // against the current attempt count inbetween attempts to connect to redis.
+  REDIS_RECONNECTION_BACKOFF_FACTOR: ms(process.env.TALK_REDIS_RECONNECTION_BACKOFF_FACTOR || '500 ms'),
+
+  // REDIS_RECONNECTION_BACKOFF_MINIMUM_TIME is the minimum time used to delay
+  // before attempting to reconnect to redis.
+  REDIS_RECONNECTION_BACKOFF_MINIMUM_TIME: ms(process.env.TALK_REDIS_RECONNECTION_BACKOFF_MINIMUM_TIME || '1 sec'),
+
   //------------------------------------------------------------------------------
   // Server Config
   //------------------------------------------------------------------------------
@@ -84,6 +111,10 @@ const CONFIG = {
 
   // The URL for this Talk Instance as viewable from the outside.
   ROOT_URL: process.env.TALK_ROOT_URL || null,
+
+  // ROOT_URL_MOUNT_PATH when TRUE will extract the pathname from the
+  // TALK_ROOT_URL and use it to mount the paths on.
+  ROOT_URL_MOUNT_PATH: process.env.TALK_ROOT_URL_MOUNT_PATH === 'TRUE',
 
   // The keepalive timeout (in ms) that should be used to send keep alive
   // messages through the websocket to keep the socket alive.
@@ -122,12 +153,16 @@ const CONFIG = {
   DISABLE_AUTOFLAG_SUSPECT_WORDS: process.env.TALK_DISABLE_AUTOFLAG_SUSPECT_WORDS === 'TRUE',
 
   // TRUST_THRESHOLDS defines the thresholds used for automoderation.
-  TRUST_THRESHOLDS: process.env.TRUST_THRESHOLDS || 'comment:-1,-1;flag:-1,-1'
+  TRUST_THRESHOLDS: process.env.TRUST_THRESHOLDS || 'comment:2,-1;flag:2,-1'
 };
 
 //==============================================================================
 // CONFIG VALIDATION
 //==============================================================================
+
+if (CONFIG.ROOT_URL_MOUNT_PATH && !CONFIG.ROOT_URL) {
+  throw new Error('TALK_ROOT_URL must be specified if TALK_ROOT_URL_MOUNT_PATH is set to TRUE');
+}
 
 if (process.env.NODE_ENV === 'test' && !CONFIG.ROOT_URL) {
   CONFIG.ROOT_URL = 'http://localhost:3000';
@@ -165,18 +200,28 @@ if (CONFIG.JWT_DISABLE_ISSUER) {
   CONFIG.JWT_ISSUER = undefined;
 }
 
+// Parse and handle cookie names.
+if (CONFIG.JWT_COOKIE_NAMES) {
+  CONFIG.JWT_COOKIE_NAMES = CONFIG.JWT_COOKIE_NAMES.split(',');
+} else {
+  CONFIG.JWT_COOKIE_NAMES = [];
+}
+
+// Add in the default cookie names and strip duplicates.
+CONFIG.JWT_COOKIE_NAMES = uniq(CONFIG.JWT_COOKIE_NAMES.concat([CONFIG.JWT_COOKIE_NAME, CONFIG.JWT_SIGNING_COOKIE_NAME]));
+
 //------------------------------------------------------------------------------
 // External database url's
 //------------------------------------------------------------------------------
 
-// Reset the mongo url in the event it hasn't been overrided and we are in a
+// Reset the mongo url in the event it hasn't been overridden and we are in a
 // testing environment. Every new mongo instance comes with a test database by
 // default, this is consistent with common testing and use case practices.
 if (process.env.NODE_ENV === 'test' && !CONFIG.MONGO_URL) {
   CONFIG.MONGO_URL = 'mongodb://localhost/test';
 }
 
-// Reset the redis url in the event it hasn't been overrided and we are in a
+// Reset the redis url in the event it hasn't been overridden and we are in a
 // testing environment.
 if (process.env.NODE_ENV === 'test' && !CONFIG.REDIS_URL) {
   CONFIG.REDIS_URL = 'redis://localhost/1';
