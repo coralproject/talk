@@ -7,7 +7,7 @@
         },
         "TALK_ROOT_URL": {
             "description": "Please copy the App Name you choose above. If you did not choose one, please do so now and copy it here. Talk on Heroku will not work without this setting.",
-            "value":"https://<APP_NAME>.herokuapp.com",
+            "value":"https://<COPY APP NAME HERE>.herokuapp.com",
             "required": true
         },
         "TALK_FACEBOOK_APP_ID": {
