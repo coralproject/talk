@@ -17,6 +17,7 @@ export default ({suspectWords, bannedWords, body, ...rest}) => {
   return (
     <Highlighter
       {...rest}
+      autoEscape={true}
       searchWords={searchWords}
       textToHighlight={body}
     />
