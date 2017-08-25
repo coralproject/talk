@@ -1,6 +1,14 @@
+.root {
+  padding-bottom: 12px;
+
+  &:not(:first-child) {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+}
+
 .title {
   font-weight: bold;
-  padding: 12px 8px 0px 8px;
+  padding: 12px 8px 4px 8px;
 }
 
 .list {
@@ -9,7 +17,6 @@
 }
 
 .listItem {
-  padding: 10px;
   list-style: none;
   white-space: nowrap;
 }

@@ -9,29 +9,7 @@
   cursor: pointer;
 }
 
-.menu {
-  background: white;
-  position: absolute;
-  box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.15);
-  right: 0px;
-  top: 20px;
-  z-index: 10;
-  min-height: 32px;
-  min-width: 64px;
-}
-
-.list > ul, .list > ul > li {
-  padding: 0;
-  margin: 0;
-}
-
-.list > ul > li {
-  padding: 10px;
-  list-style: none;
-  white-space: nowrap;
-}
-
-.icon {
+.arrowIcon {
   font-size: 14px;
   vertical-align: middle;
 }
@@ -39,20 +17,20 @@
 
 @custom-media --small-viewport (max-width: 425px);
 
-.filterText {
+.label {
   display: inline-block;
 }
 
-.filterIcon {
+.icon {
   vertical-align: middle;
   display: none;
 }
 
 @media (--small-viewport) {
-  .filterText {
+  .label {
     display: none;
   }
-  .filterIcon {
+  .icon {
     display: inline-block;
   }
 }

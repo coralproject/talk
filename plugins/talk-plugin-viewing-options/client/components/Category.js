@@ -6,7 +6,7 @@ const childFactory = (child) => <li className={styles.listItem} key={child.key}>
 
 const ViewingOptions = ({slot, title}) => {
   return (
-    <IfSlotIsNotEmpty slot={slot}>
+    <IfSlotIsNotEmpty slot={slot} className={styles.root}>
       <div className={styles.title}>{title}</div>
       <Slot fill={slot} childFactory={childFactory} className={styles.list} component={'ul'}/>
     </IfSlotIsNotEmpty>

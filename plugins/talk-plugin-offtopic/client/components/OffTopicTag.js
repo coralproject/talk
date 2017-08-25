@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './styles.css';
+import styles from './OffTopicTag.css';
 import {t} from 'plugin-api/beta/client/services';
 import {isTagged} from 'plugin-api/beta/client/utils';
 
