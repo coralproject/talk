@@ -18,7 +18,7 @@ import {
   facebookCallback,
   invalidForm,
   validForm,
-} from 'coral-framework/actions/auth';
+} from 'coral-embed-stream/src/actions/auth';
 
 class SignInContainer extends React.Component {
   constructor(props) {

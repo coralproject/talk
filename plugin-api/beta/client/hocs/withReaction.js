@@ -7,13 +7,15 @@ import {getDisplayName} from 'coral-framework/helpers/hoc';
 import {compose, gql} from 'react-apollo';
 import withFragments from 'coral-framework/hocs/withFragments';
 import withMutation from 'coral-framework/hocs/withMutation';
-import {showSignInDialog} from 'coral-framework/actions/auth';
 import {addNotification} from 'coral-framework/actions/notification';
 import {capitalize} from 'coral-framework/helpers/strings';
 import {getMyActionSummary, getTotalActionCount} from 'coral-framework/utils';
 import hoistStatics from 'recompose/hoistStatics';
 import * as PropTypes from 'prop-types';
 import {getDefinitionName} from '../utils';
+
+// TODO: Auth logic needs refactoring.
+import {showSignInDialog} from 'coral-embed-stream/src/actions/auth';
 
 /*
  * Disable false-positive warning below, as it doesn't work well with how we currently

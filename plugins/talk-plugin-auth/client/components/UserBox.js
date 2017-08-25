@@ -3,7 +3,7 @@ import styles from './styles.css';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import t from 'coral-framework/services/i18n';
-import {logout} from 'coral-framework/actions/auth';
+import {logout} from 'coral-embed-stream/src/actions/auth';
 
 const UserBox = ({loggedIn, user, logout, onShowProfile}) => (
   <div>
