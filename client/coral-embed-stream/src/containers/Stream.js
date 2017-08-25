@@ -29,11 +29,15 @@ const {showSignInDialog, editName} = authActions;
 const {addNotification} = notificationActions;
 
 class StreamContainer extends React.Component {
-  subscriptions = [];
+  commentsAddedSubscription = null;
+  commentsEditedSubscription = null;
 
-  subscribeToUpdates() {
-    const newSubscriptions = [{
+  subscribeToCommentsEdited() {
+    this.commentsEditedSubscription = this.props.data.subscribeToMore({
       document: COMMENTS_EDITED_SUBSCRIPTION,
+      variables: {
+        assetId: this.props.root.asset.id,
+      },
       updateQuery: (prev, {subscriptionData: {data: {commentEdited}}}) => {
 
         // Ignore mutations from me.
@@ -51,9 +55,15 @@ class StreamContainer extends React.Component {
           return removeCommentFromEmbedQuery(prev, commentEdited.id);
         }
       },
-    },
-    {
+    });
+  }
+
+  subscribeToCommentsAdded() {
+    this.commentsAddedSubscription = this.props.data.subscribeToMore({
       document: COMMENTS_ADDED_SUBSCRIPTION,
+      variables: {
+        assetId: this.props.root.asset.id,
+      },
       updateQuery: (prev, {subscriptionData: {data: {commentAdded}}}) => {
 
         // Ignore mutations from me.
@@ -75,21 +85,22 @@ class StreamContainer extends React.Component {
         }
 
         return insertCommentIntoEmbedQuery(prev, commentAdded);
-      }
-    }];
-
-    this.subscriptions = newSubscriptions.map((s) => this.props.data.subscribeToMore({
-      document: s.document,
-      variables: {
-        assetId: this.props.root.asset.id,
       },
-      updateQuery: s.updateQuery,
-    }));
+    });
   }
 
-  unsubscribe() {
-    this.subscriptions.forEach((unsubscribe) => unsubscribe());
-    this.subscriptions = [];
+  unsubscribeCommentsAdded() {
+    if (this.commentsAddedSubscription) {
+      this.commentsAddedSubscription();
+      this.commentsAddedSubscription = null;
+    }
+  }
+
+  unsubscribeCommentsEdited() {
+    if (this.commentsEditedSubscription) {
+      this.commentsEditedSubscription();
+      this.commentsEditedSubscription = null;
+    }
   }
 
   loadNewReplies = (parent_id) => {
@@ -129,32 +140,55 @@ class StreamContainer extends React.Component {
     });
   };
 
+  isSortedByNewestFirst({sortBy, sortOrder} = this.props) {
+    return sortBy === 'CREATED_AT' && sortOrder === 'DESC';
+  }
+
   componentDidMount() {
     if (this.props.previousTab) {
       this.props.data.refetch();
     }
-    this.subscribeToUpdates();
+
+    if (this.isSortedByNewestFirst()) {
+      this.subscribeToCommentsAdded();
+    }
+
+    this.subscribeToCommentsEdited();
   }
 
   componentWillUnmount() {
-    this.unsubscribe();
+    this.unsubscribeCommentsAdded();
+    this.unsubscribeCommentsEdited();
     clearInterval(this.countPoll);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.sortBy === 'CREATED_AT' && nextProps.sortOrder === 'DESC') {
+    const prevSortedNewest = this.isSortedByNewestFirst(this.props);
+    const nextSortedNewest = this.isSortedByNewestFirst(nextProps);
 
-      // When switching to 'Newest first' we refetch and subscribe so that we always have the newest comments.
-      if (this.props.sortOrder !== nextProps.sortOrder || this.props.sortBy !== nextProps.sortBy) {
-        nextProps.data.refetch();
-        this.subscribeToUpdates();
-      }
-    } else {
-
-      // TODO: only unsubscribe from posting comments.
-      // We only subscribe to new comments during 'Newest first'.
-      this.unsubscribe();
+    // When switching to 'Newest first' we refetch and subscribe so that
+    // we always have the newest comments.
+    if (!prevSortedNewest && nextSortedNewest) {
+      nextProps.data.refetch();
+      this.subscribeToCommentsAdded();
     }
+
+    // When switching away from 'Newest first' unsubscribe from newest comments.
+    if (prevSortedNewest && !nextSortedNewest) {
+      this.unsubscribeCommentsAdded();
+    }
+  }
+
+  shouldComponentUpdate(nextProps) {
+    const prevSortedNewest = this.isSortedByNewestFirst(this.props);
+    const nextSortedNewest = this.isSortedByNewestFirst(nextProps);
+    if (!prevSortedNewest && nextSortedNewest) {
+
+      // When switching to 'Newest first' we refetch => skip
+      // rendering this frame and wait for refetch to kick in.
+      return false;
+    }
+    return true;
   }
 
   userIsDegraged({auth: {user}} = this.props) {
