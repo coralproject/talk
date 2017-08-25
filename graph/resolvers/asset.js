@@ -4,7 +4,7 @@ const Asset = {
   async comment({id}, {id: commentId}, {loaders: {Comments}}) {
 
     // Load the comment from the database.
-    const comment = Comments.get.load(id);
+    const comment = await Comments.get.load(commentId);
     if (!comment) {
       return null;
     }
