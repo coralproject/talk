@@ -1,7 +1,7 @@
 {
     "name": "The Coral Project: Talk",
     "env": {
-        "TALK_SESSION_SECRET": {
+        "TALK_JWT_SECRET": {
             "description": "The session secret",
             "generator": "secret"
         },
