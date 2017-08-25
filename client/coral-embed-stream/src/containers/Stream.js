@@ -291,6 +291,7 @@ const LOAD_MORE_QUERY = gql`
 const slots = [
   'streamTabs',
   'streamTabPanes',
+  'streamFilter',
 ];
 
 const fragments = {

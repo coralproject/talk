@@ -25,7 +25,7 @@ class ViewingOptions extends React.Component {
   };
 
   render() {
-    const {open} = this.props;
+    const {open, data, root, asset} = this.props;
     return (
       <ClickOutside onClickOutside={this.handleClickOutside}>
         <div className={cn([styles.root, 'talk-plugin-viewing-options'])}>
@@ -39,7 +39,7 @@ class ViewingOptions extends React.Component {
               }
             </button>
           </div>
-          {open && <Menu />}
+          {open && <Menu data={data} root={root} asset={asset} />}
         </div>
       </ClickOutside>
     );
