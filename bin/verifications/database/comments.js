@@ -21,7 +21,7 @@ module.exports = async ({fix, limit, batch}) => {
   let comments = [];
   let commentIDs = [];
 
-  debug(`Processing ${totalCount} comments...`);
+  console.log(`Processing ${totalCount} comments in batches of ${limit}...`);
 
   // Keep processing documents until there are is none left.
   while (offset < totalCount) {
@@ -166,12 +166,12 @@ module.exports = async ({fix, limit, batch}) => {
   const OPERATIONS_LENGTH = operations.length;
 
   if (limit < Infinity && offset + comments.length < totalCount) {
-    debug(`Processed ${offset + comments.length}/${totalCount} comments because we reached the update limit of ${limit}.`);
-    debug(`Fixing ${OPERATIONS_LENGTH} documents.`);
+    console.log(`Processed ${offset + comments.length}/${totalCount} comments because we reached the update limit of ${limit}.`);
   } else {
-    debug(`Processed all ${totalCount} comments.`);
-    debug(`${OPERATIONS_LENGTH} documents need fixing.`);
+    console.log(`Processed all ${totalCount} comments.`);
   }
+
+  console.log(`${OPERATIONS_LENGTH} documents need fixing.`);
 
   // If fix was enabled, execute the batch writes.
   if (OPERATIONS_LENGTH > 0) {
@@ -185,7 +185,7 @@ module.exports = async ({fix, limit, batch}) => {
         debug(`Fixed batch of ${result.modifiedCount} documents.`);
       }
 
-      debug(`Applied all ${OPERATIONS_LENGTH} fixes.`);
+      console.log(`Applied all ${OPERATIONS_LENGTH} fixes.`);
     } else {
       console.warn('Skipping fixing, --fix was not enabled, pass --fix to fix these errors');
     }
