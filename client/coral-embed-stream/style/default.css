@@ -79,6 +79,12 @@ body {
 }
 
 /* Info Box Styles */
+
+.hidden  {
+  visibility: hidden;
+  display: none;
+}
+
 .talk-plugin-infobox-info {
   top: 0;
   border: 0;
@@ -92,7 +98,6 @@ body {
   box-sizing: border-box;
   border-radius: 2px;
 }
-
 
 .talk-plugin-infobox-info em{
   font-style: italic;
@@ -113,66 +118,6 @@ body {
 }
 
 /* Question Box Styles */
-.talk-plugin-questionbox-info {
-  top: 0;
-  border: 0;
-  background: #F0F0F0;
-  color: black;
-  width: 100%;
-  text-align: left;
-  padding-left: 0px;
-  margin-bottom: 0px;
-  font-weight: bold;
-  font-size: 14px;
-  overflow: hidden;
-  min-height: 50px;
-  display: flex;
-}
-
-.talk-plugin-questionbox-icon.bubble{
-  position: absolute;
-  top: 8px;
-  left: 10px;
-  color: #9E9E9E;
-  font-size: 24px;
-  z-index: 0;
-}
-
-.talk-plugin-questionbox-icon.person{
-  z-index: 2;
-  top: 12px;
-  left: 12px;
-  position: absolute;
-  font-size: 33px;
-  color: #262626;
-}
-
-.talk-plugin-questionbox-box {
-  position: relative;
-  border: 0;
-  color: white;
-  padding: 20px;
-  margin-left: 0px !important;
-  margin-right: 10px;
-  display: inline-block;
-  width: 10px;
-  min-height: 100%;
-  padding: 5px 20px;
-  vertical-align: middle;
-}
-
-.talk-plugin-questionbox-content {
-  padding: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 400;
-}
-
-.hidden  {
-  visibility: hidden;
-  display: none;
-}
 
 .talk-stream-comments-container {
   position: relative;
