@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './SortOption.css';
+import PropTypes from 'prop-types';
 
 export default class SortOption extends React.Component {
   render() {
@@ -16,3 +17,9 @@ export default class SortOption extends React.Component {
     );
   }
 }
+
+SortOption.propTypes = {
+  setSort: PropTypes.func.isRequired,
+  active: PropTypes.bool.isRequired,
+  label: PropTypes.string.isRequired,
+};
