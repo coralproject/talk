@@ -5,7 +5,7 @@ import queryString from 'query-string';
 
 export const setActiveReplyBox = (id) => ({type: actions.SET_ACTIVE_REPLY_BOX, id});
 
-export const setSort = ({order, by}) => ({type: actions.SET_SORT, order, by});
+export const setSort = ({sortOrder, sortBy}) => ({type: actions.SET_SORT, sortOrder, sortBy});
 
 export const viewAllComments = () => {
 

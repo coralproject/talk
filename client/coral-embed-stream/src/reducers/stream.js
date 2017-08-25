@@ -71,8 +71,8 @@ export default function stream(state = initialState, action) {
   case actions.SET_SORT :
     return {
       ...state,
-      sortOrder: action.order ? action.order : state.order,
-      sortBy: action.by ? action.by : state.by,
+      sortOrder: action.sortOrder ? action.sortOrder : state.sortOrder,
+      sortBy: action.sortBy ? action.sortBy : state.sortBy,
     };
   default:
     return state;

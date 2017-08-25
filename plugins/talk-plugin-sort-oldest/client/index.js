@@ -1,15 +1,19 @@
 import translations from './translations.yml';
-import SortOption from './containers/SortOption';
-import SortOptionNewest from './containers/SortOptionNewest';
+import {createSortOption} from 'plugin-api/beta/client/factories';
+import {t} from 'plugin-api/beta/client/services';
+
+const SortOption = createSortOption(
+  () => t('talk-plugin-sort-oldest.label'),
+  {sortBy: 'CREATED_AT', sortOrder: 'ASC'},
+);
 
 /**
- * talk-plugin-sort-oldest depends on talk-plugin-viewing-options
- * in other to display sort option.
+ * talk-plugin-sort-oldest depends on talk-plugin-viewing-options.
  */
 
 export default {
   translations,
   slots: {
-    viewingOptionsSort: [SortOptionNewest, SortOption]
+    viewingOptionsSort: [SortOption]
   }
 };

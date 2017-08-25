@@ -18,14 +18,14 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
-export default ({by = 'created_at', order = 'DESC', label}) => hoistStatics((WrappedComponent) => {
+export default ({sortBy = 'created_at', sortOrder = 'DESC', label}) => hoistStatics((WrappedComponent) => {
   class WithSortOption extends React.Component {
     setSort = () => {
-      this.props.setSort({by, order});
+      this.props.setSort({sortBy, sortOrder});
     }
 
     render() {
-      const active = this.props.sortOrder === order && this.props.sortBy === by;
+      const active = this.props.sortOrder === sortOrder && this.props.sortBy === sortBy;
       const resolvedLabel = typeof label === 'function' ? label() : label;
       return (
         <WrappedComponent
