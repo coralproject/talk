@@ -1,6 +1,4 @@
-import {add} from 'coral-framework/services/graphqlRegistry';
-
-const extension = {
+export default {
   mutations: {
     SetUserStatus: () => ({
       refetchQueries: ['CoralAdmin_Community'],
@@ -11,4 +9,3 @@ const extension = {
   },
 };
 
-add(extension);

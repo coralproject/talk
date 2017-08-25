@@ -5,22 +5,24 @@ import SuspendUserDialog from '../components/SuspendUserDialog';
 import {hideSuspendUserDialog} from '../actions/suspendUserDialog';
 import {withSetCommentStatus, withSuspendUser} from 'coral-framework/graphql/mutations';
 import {compose, gql} from 'react-apollo';
-import * as notification from 'coral-admin/src/services/notification';
 import t, {timeago} from 'coral-framework/services/i18n';
 import withQuery from 'coral-framework/hocs/withQuery';
+import {getErrorMessages} from 'coral-framework/utils';
 import get from 'lodash/get';
+import {notify} from 'coral-framework/actions/notification';
 
 class SuspendUserDialogContainer extends Component {
 
   suspendUser = async ({message, until}) => {
-    const {userId, username, commentStatus, commentId, hideSuspendUserDialog, setCommentStatus, suspendUser} = this.props;
+    const {userId, username, commentStatus, commentId, hideSuspendUserDialog, setCommentStatus, suspendUser, notify} = this.props;
     hideSuspendUserDialog();
     try {
       const result = await suspendUser({id: userId, message, until});
       if (result.data.suspendUser.errors) {
         throw result.data.suspendUser.errors;
       }
-      notification.success(
+      notify(
+        'success',
         t('suspenduser.notify_suspend_until', username, timeago(until)),
       );
       if (commentId && commentStatus && commentStatus !== 'REJECTED') {
@@ -33,7 +35,7 @@ class SuspendUserDialogContainer extends Component {
       }
     }
     catch(err) {
-      notification.showMutationErrors(err);
+      notify('error', getErrorMessages(err));
     }
   };
 
@@ -69,6 +71,7 @@ const mapStateToProps = ({suspendUserDialog: {open, userId, username, commentId,
 const mapDispatchToProps = (dispatch) => ({
   ...bindActionCreators({
     hideSuspendUserDialog,
+    notify,
   }, dispatch),
 });
 

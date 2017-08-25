@@ -26,25 +26,27 @@ import {
   storySearchChange,
   clearState
 } from 'actions/moderation';
+import withQueueConfig from '../hoc/withQueueConfig';
+import {notify} from 'coral-framework/actions/notification';
 
 import {Spinner} from 'coral-ui';
 import Moderation from '../components/Moderation';
 import Comment from './Comment';
-import queueConfig from '../queueConfig';
+import baseQueueConfig from '../queueConfig';
 
 function prepareNotificationText(text) {
   return truncate(text, {length: 50}).replace('\n', ' ');
 }
 
 function getAssetId(props) {
-  if (props.params.tabOrId && !(props.params.tabOrId in queueConfig)) {
+  if (props.params.tabOrId && !(props.params.tabOrId in props.queueConfig)) {
     return props.params.tabOrId;
   }
   return props.params.id || null;
 }
 
 function getTab(props) {
-  if (props.params.tabOrId && props.params.tabOrId in queueConfig) {
+  if (props.params.tabOrId && props.params.tabOrId in props.queueConfig) {
     return props.params.tabOrId;
   }
   return props.params.tab || null;
@@ -53,8 +55,15 @@ function getTab(props) {
 class ModerationContainer extends Component {
   subscriptions = [];
 
-  handleCommentChange = (root, comment, notify) => {
-    return handleCommentChange(root, comment, this.props.data.variables.sort, notify, queueConfig, this.activeTab);
+  handleCommentChange = (root, comment, notifyText) => {
+    return handleCommentChange(
+      root,
+      comment,
+      this.props.data.variables.sort,
+      () => notifyText && this.props.notify('info', notifyText),
+      this.props.queueConfig,
+      this.activeTab
+    );
   };
 
   get activeTab() {
@@ -78,10 +87,10 @@ class ModerationContainer extends Component {
       variables,
       updateQuery: (prev, {subscriptionData: {data: {commentAccepted: comment}}}) => {
         const user = comment.status_history[comment.status_history.length - 1].assigned_by;
-        const notify = this.props.auth.user.id === user.id
+        const notifyText = this.props.auth.user.id === user.id
           ? ''
           : t('modqueue.notify_accepted', user.username, prepareNotificationText(comment.body));
-        return this.handleCommentChange(prev, comment, notify);
+        return this.handleCommentChange(prev, comment, notifyText);
       },
     });
 
@@ -90,10 +99,10 @@ class ModerationContainer extends Component {
       variables,
       updateQuery: (prev, {subscriptionData: {data: {commentRejected: comment}}}) => {
         const user = comment.status_history[comment.status_history.length - 1].assigned_by;
-        const notify = this.props.auth.user.id === user.id
+        const notifyText = this.props.auth.user.id === user.id
           ? ''
           : t('modqueue.notify_rejected', user.username, prepareNotificationText(comment.body));
-        return this.handleCommentChange(prev, comment, notify);
+        return this.handleCommentChange(prev, comment, notifyText);
       },
     });
 
@@ -101,8 +110,8 @@ class ModerationContainer extends Component {
       document: COMMENT_EDITED_SUBSCRIPTION,
       variables,
       updateQuery: (prev, {subscriptionData: {data: {commentEdited: comment}}}) => {
-        const notify = t('modqueue.notify_edited', comment.user.username, prepareNotificationText(comment.body));
-        return this.handleCommentChange(prev, comment, notify);
+        const notifyText = t('modqueue.notify_edited', comment.user.username, prepareNotificationText(comment.body));
+        return this.handleCommentChange(prev, comment, notifyText);
       },
     });
 
@@ -111,8 +120,8 @@ class ModerationContainer extends Component {
       variables,
       updateQuery: (prev, {subscriptionData: {data: {commentFlagged: comment}}}) => {
         const user = comment.actions[comment.actions.length - 1].user;
-        const notify = t('modqueue.notify_flagged', user.username, prepareNotificationText(comment.body));
-        return this.handleCommentChange(prev, comment, notify);
+        const notifyText = t('modqueue.notify_flagged', user.username, prepareNotificationText(comment.body));
+        return this.handleCommentChange(prev, comment, notifyText);
       },
     });
 
@@ -161,8 +170,8 @@ class ModerationContainer extends Component {
       cursor: this.props.root[tab].endCursor,
       sort: this.props.data.variables.sort,
       asset_id: this.props.data.variables.asset_id,
-      statuses: queueConfig[tab].statuses,
-      action_type: queueConfig[tab].action_type,
+      statuses: this.props.queueConfig[tab].statuses,
+      action_type: this.props.queueConfig[tab].action_type,
     };
     return this.props.data.fetchMore({
       query: LOAD_MORE_QUERY,
@@ -206,7 +215,7 @@ class ModerationContainer extends Component {
     }
 
     const premodEnabled = assetId ? isPremod(asset.settings.moderation) : isPremod(settings.moderation);
-    const currentQueueConfig = Object.assign({}, queueConfig);
+    const currentQueueConfig = Object.assign({}, this.props.queueConfig);
     if (premodEnabled) {
       delete currentQueueConfig.new;
     } else {
@@ -304,7 +313,7 @@ const commentConnectionFragment = gql`
   ${Comment.fragments.comment}
 `;
 
-const withModQueueQuery = withQuery(gql`
+const withModQueueQuery = withQuery(({queueConfig}) => gql`
   query CoralAdmin_Moderation($asset_id: ID, $sort: SORT_ORDER, $allAssets: Boolean!) {
     ${Object.keys(queueConfig).map((queue) => `
       ${queue}: comments(query: {
@@ -352,7 +361,7 @@ const withModQueueQuery = withQuery(gql`
   },
 });
 
-const withQueueCountPolling = withQuery(gql`
+const withQueueCountPolling = withQuery(({queueConfig}) => gql`
   query CoralAdmin_ModerationCountPoll($asset_id: ID) {
     ${Object.keys(queueConfig).map((queue) => `
       ${queue}Count: commentCount(query: {
@@ -393,11 +402,13 @@ const mapDispatchToProps = (dispatch) => ({
     viewUserDetail,
     setSortOrder,
     storySearchChange,
-    clearState
+    clearState,
+    notify,
   }, dispatch),
 });
 
 export default compose(
+  withQueueConfig(baseQueueConfig),
   connect(mapStateToProps, mapDispatchToProps),
   withSetCommentStatus,
   withQueueCountPolling,

@@ -60,7 +60,7 @@ class Stream extends React.Component {
       commentClassNames,
       root: {asset, asset: {comment}},
       postComment,
-      addNotification,
+      notify,
       editComment,
       postFlag,
       postDontAgree,
@@ -95,7 +95,7 @@ class Stream extends React.Component {
           ignoreUser={ignoreUser}
           setActiveReplyBox={setActiveReplyBox}
           activeReplyBox={activeReplyBox}
-          addNotification={addNotification}
+          notify={notify}
           depth={0}
           disableReply={!open}
           postComment={postComment}
@@ -129,7 +129,7 @@ class Stream extends React.Component {
       commentClassNames,
       root: {asset, asset: {comments, totalCommentCount}},
       postComment,
-      addNotification,
+      notify,
       editComment,
       postFlag,
       postDontAgree,
@@ -186,7 +186,7 @@ class Stream extends React.Component {
                 ignoreUser={ignoreUser}
                 setActiveReplyBox={setActiveReplyBox}
                 activeReplyBox={activeReplyBox}
-                addNotification={addNotification}
+                notify={notify}
                 disableReply={!open}
                 postComment={postComment}
                 asset={asset}
@@ -218,7 +218,7 @@ class Stream extends React.Component {
       appendItemArray,
       root: {asset, asset: {comment: highlightedComment, comments}},
       postComment,
-      addNotification,
+      notify,
       updateItem,
       viewAllComments,
       auth: {loggedIn, user},
@@ -282,7 +282,7 @@ class Stream extends React.Component {
                 />}
               {showCommentBox &&
                 <CommentBox
-                  addNotification={addNotification}
+                  notify={notify}
                   postComment={postComment}
                   appendItemArray={appendItemArray}
                   updateItem={updateItem}
@@ -321,7 +321,7 @@ class Stream extends React.Component {
 }
 
 Stream.propTypes = {
-  addNotification: PropTypes.func.isRequired,
+  notify: PropTypes.func.isRequired,
   postComment: PropTypes.func.isRequired,
 
   // dispatch action to ignore another user

@@ -5,14 +5,17 @@ const initialState = {
   modalOpen: false,
   storySearchVisible: false,
   storySearchString: '',
-  shortcutsNoteVisible: window.localStorage.getItem('coral:shortcutsNote') || 'show',
+  shortcutsNoteVisible: 'show',
   sortOrder: 'DESC',
 };
 
 export default function moderation (state = initialState, action) {
   switch (action.type) {
   case actions.MODERATION_CLEAR_STATE:
-    return initialState;
+    return {
+      ...initialState,
+      shortcutsNoteVisible: state.shortcutsNoteVisible,
+    };
   case actions.TOGGLE_MODAL:
     return {
       ...state,

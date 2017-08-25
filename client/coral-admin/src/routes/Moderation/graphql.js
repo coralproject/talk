@@ -1,5 +1,4 @@
 import update from 'immutability-helper';
-import * as notification from 'coral-admin/src/services/notification';
 
 const limit = 10;
 
@@ -92,10 +91,7 @@ function getCommentQueues(comment, queueConfig) {
  * @param  {Object} root               current state of the store
  * @param  {Object} comment            comment that was changed
  * @param  {string} sort               current sort order of the queues
- * @param  {Object} [notify]           show know notifications if set
- * @param  {string} notify.activeQueue current active queue
- * @param  {string} notify.text        notification text to show
- * @param  {bool}   notify.anyQueue    if true show the notification when the comment is shown
+ * @param  {string} notify             callback to show notification
  *                                     in the current active queue besides the 'all' queue.
  * @param  {Object} queueConfig        queue configuration
  * @return {Object}                    next state of the store
@@ -110,7 +106,7 @@ export function handleCommentChange(root, comment, sort, notify, queueConfig, ac
     if (notificationShown) {
       return;
     }
-    notification.info(notify);
+    notify();
     notificationShown = true;
   };
 
@@ -119,13 +115,13 @@ export function handleCommentChange(root, comment, sort, notify, queueConfig, ac
       if (!queueHasComment(next, queue, comment.id)) {
         next = addCommentToQueue(next, queue, comment, sort);
         if (notify && activeQueue === queue && shouldCommentBeAdded(next, queue, comment, sort)) {
-          showNotificationOnce(comment);
+          showNotificationOnce();
         }
       }
     } else if(queueHasComment(next, queue, comment.id)){
       next = removeCommentFromQueue(next, queue, comment.id);
       if (notify && activeQueue === queue) {
-        showNotificationOnce(comment);
+        showNotificationOnce();
       }
     }
 
@@ -134,7 +130,7 @@ export function handleCommentChange(root, comment, sort, notify, queueConfig, ac
       && queueHasComment(next, queue, comment.id)
       && activeQueue === queue
     ) {
-      showNotificationOnce(comment);
+      showNotificationOnce();
     }
   });
   return next;

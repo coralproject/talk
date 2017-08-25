@@ -1,6 +1,5 @@
 import * as actions from '../constants/asset';
-import coralApi from '../helpers/request';
-import {addNotification} from '../actions/notification';
+import {notify} from 'coral-framework/actions/notification';
 
 import t from 'coral-framework/services/i18n';
 
@@ -12,12 +11,12 @@ const updateAssetSettingsRequest = () => ({type: actions.UPDATE_ASSET_SETTINGS_R
 const updateAssetSettingsSuccess = (settings) => ({type: actions.UPDATE_ASSET_SETTINGS_SUCCESS, settings});
 const updateAssetSettingsFailure = (error) => ({type: actions.UPDATE_ASSET_SETTINGS_FAILURE, error});
 
-export const updateConfiguration = (newConfig) => (dispatch, getState) => {
+export const updateConfiguration = (newConfig) => (dispatch, getState, {rest}) => {
   const assetId = getState().asset.id;
   dispatch(updateAssetSettingsRequest());
-  coralApi(`/assets/${assetId}/settings`, {method: 'PUT', body: newConfig})
+  rest(`/assets/${assetId}/settings`, {method: 'PUT', body: newConfig})
     .then(() => {
-      dispatch(addNotification('success', t('framework.success_update_settings')));
+      dispatch(notify('success', t('framework.success_update_settings')));
       dispatch(updateAssetSettingsSuccess(newConfig));
     })
     .catch((error) => {
@@ -26,12 +25,12 @@ export const updateConfiguration = (newConfig) => (dispatch, getState) => {
     });
 };
 
-export const updateOpenStream = (closedBody) => (dispatch, getState) => {
+export const updateOpenStream = (closedBody) => (dispatch, getState, {rest}) => {
   const assetId = getState().asset.id;
   dispatch(fetchAssetRequest());
-  coralApi(`/assets/${assetId}/status`, {method: 'PUT', body: closedBody})
+  rest(`/assets/${assetId}/status`, {method: 'PUT', body: closedBody})
     .then(() => {
-      dispatch(addNotification('success', t('framework.success_update_settings')));
+      dispatch(notify('success', t('framework.success_update_settings')));
       dispatch(fetchAssetSuccess(closedBody));
     })
     .catch((error) => {

@@ -1,11 +1,14 @@
 import {Component, cloneElement, Children} from 'react';
 import PropTypes from 'prop-types';
 import {findDOMNode} from 'react-dom';
-import pym from 'coral-framework/services/pym';
 
 export default class ClickOutside extends Component {
   static propTypes = {
     onClickOutside: PropTypes.func.isRequired
+  };
+
+  static contextTypes = {
+    pym: PropTypes.object,
   };
 
   domNode = null;
@@ -18,14 +21,20 @@ export default class ClickOutside extends Component {
   };
 
   componentDidMount() {
+    const {pym} = this.context;
     this.domNode = findDOMNode(this);
     document.addEventListener('click', this.handleClick, true);
-    pym.onMessage('click', this.handleClick);
+    if (pym) {
+      pym.onMessage('click', this.handleClick);
+    }
   }
 
   componentWillUnmount() {
+    const {pym} = this.context;
     document.removeEventListener('click', this.handleClick, true);
-    pym.messageHandlers.click = pym.messageHandlers.click.filter((h) => h !== this.handleClick);
+    if (pym) {
+      pym.messageHandlers.click = pym.messageHandlers.click.filter((h) => h !== this.handleClick);
+    }
   }
 
   render() {

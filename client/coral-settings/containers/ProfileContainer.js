@@ -11,7 +11,10 @@ import NotLoggedIn from '../components/NotLoggedIn';
 import IgnoredUsers from '../components/IgnoredUsers';
 import {Spinner} from 'coral-ui';
 import CommentHistory from 'talk-plugin-history/CommentHistory';
-import {showSignInDialog, checkLogin} from 'coral-framework/actions/auth';
+
+// TODO: Auth logic needs refactoring.
+import {showSignInDialog, checkLogin} from 'coral-embed-stream/src/actions/auth';
+
 import {insertCommentsSorted} from 'plugin-api/beta/client/utils';
 import update from 'immutability-helper';
 import {getSlotFragmentSpreads} from 'coral-framework/utils';
