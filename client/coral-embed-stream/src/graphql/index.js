@@ -1,10 +1,9 @@
 import {gql} from 'react-apollo';
-import {add} from 'coral-framework/services/graphqlRegistry';
 import update from 'immutability-helper';
 import uuid from 'uuid/v4';
 import {insertCommentIntoEmbedQuery, removeCommentFromEmbedQuery} from './utils';
 
-const extension = {
+export default {
   fragments: {
     EditCommentResponse: gql`
       fragment CoralEmbedStream_EditCommentResponse on EditCommentResponse {
@@ -223,4 +222,3 @@ const extension = {
   },
 };
 
-add(extension);

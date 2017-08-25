@@ -1,4 +1,3 @@
-import coralApi from '../../../coral-framework/helpers/request';
 import * as userTypes from '../constants/users';
 import t from 'coral-framework/services/i18n';
 
@@ -7,9 +6,9 @@ import t from 'coral-framework/services/i18n';
  */
 // change status of a user
 export const userStatusUpdate = (status, userId, commentId) => {
-  return (dispatch) => {
+  return (dispatch, _, {rest}) => {
     dispatch({type: userTypes.UPDATE_STATUS_REQUEST});
-    return coralApi(`/users/${userId}/status`, {method: 'POST', body: {status: status, comment_id: commentId}})
+    return rest(`/users/${userId}/status`, {method: 'POST', body: {status: status, comment_id: commentId}})
       .then((res) => dispatch({type: userTypes.UPDATE_STATUS_SUCCESS, res}))
       .catch((error) => {
         console.error(error);
@@ -21,8 +20,8 @@ export const userStatusUpdate = (status, userId, commentId) => {
 
 // change status of a user
 export const sendNotificationEmail = (userId, subject, body) => {
-  return (dispatch) => {
-    return coralApi(`/users/${userId}/email`, {method: 'POST', body: {subject, body}})
+  return (dispatch, _, {rest}) => {
+    return rest(`/users/${userId}/email`, {method: 'POST', body: {subject, body}})
       .catch((error) => {
         console.error(error);
         const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
@@ -33,8 +32,8 @@ export const sendNotificationEmail = (userId, subject, body) => {
 
 // let a user edit their username
 export const enableUsernameEdit = (userId) => {
-  return (dispatch) => {
-    return coralApi(`/users/${userId}/username-enable`, {method: 'POST'})
+  return (dispatch, _, {rest}) => {
+    return rest(`/users/${userId}/username-enable`, {method: 'POST'})
       .catch((error) => {
         console.error(error);
         const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();

@@ -8,7 +8,7 @@ import {
   withDeleteAction, withIgnoreUser, withEditComment
 } from 'coral-framework/graphql/mutations';
 
-import * as authActions from 'coral-framework/actions/auth';
+import * as authActions from 'coral-embed-stream/src/actions/auth';
 import * as notificationActions from 'coral-framework/actions/notification';
 import {setActiveReplyBox, setActiveTab, viewAllComments} from '../actions/stream';
 import Stream from '../components/Stream';
@@ -26,7 +26,7 @@ import {
 } from '../graphql/utils';
 
 const {showSignInDialog, editName} = authActions;
-const {addNotification} = notificationActions;
+const {notify} = notificationActions;
 
 class StreamContainer extends React.Component {
   subscriptions = [];
@@ -304,7 +304,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
     showSignInDialog,
-    addNotification,
+    notify,
     setActiveReplyBox,
     editName,
     viewAllComments,

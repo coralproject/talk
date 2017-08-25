@@ -8,22 +8,25 @@ import branch from 'recompose/branch';
 import renderComponent from 'recompose/renderComponent';
 
 import {Spinner} from 'coral-ui';
-import * as authActions from 'coral-framework/actions/auth';
-import * as assetActions from 'coral-framework/actions/asset';
-import pym from 'coral-framework/services/pym';
+import * as authActions from '../actions/auth';
+import * as assetActions from '../actions/asset';
 import {getDefinitionName, getSlotFragmentSpreads} from 'coral-framework/utils';
 import {withQuery} from 'coral-framework/hocs';
 import Embed from '../components/Embed';
 import Stream from './Stream';
-import {addNotification} from 'coral-framework/actions/notification';
+import {notify} from 'coral-framework/actions/notification';
 import t from 'coral-framework/services/i18n';
-
+import PropTypes from 'prop-types';
 import {setActiveTab} from '../actions/embed';
 
 const {logout, checkLogin, focusSignInDialog, blurSignInDialog, hideSignInDialog} = authActions;
 const {fetchAssetSuccess} = assetActions;
 
 class EmbedContainer extends React.Component {
+  static contextTypes = {
+    pym: PropTypes.object,
+  };
+
   subscriptions = [];
 
   subscribeToUpdates(props = this.props) {
@@ -31,19 +34,19 @@ class EmbedContainer extends React.Component {
       const newSubscriptions = [{
         document: USER_BANNED_SUBSCRIPTION,
         updateQuery: () => {
-          addNotification('info', t('your_account_has_been_banned'));
+          notify('info', t('your_account_has_been_banned'));
         },
       },
       {
         document: USER_SUSPENDED_SUBSCRIPTION,
         updateQuery: () => {
-          addNotification('info', t('your_account_has_been_suspended'));
+          notify('info', t('your_account_has_been_suspended'));
         },
       },
       {
         document: USERNAME_REJECTED_SUBSCRIPTION,
         updateQuery: () => {
-          addNotification('info', t('your_username_has_been_rejected'));
+          notify('info', t('your_username_has_been_rejected'));
         },
       }];
 
@@ -95,7 +98,7 @@ class EmbedContainer extends React.Component {
     if (!get(prevProps, 'root.asset.comment') && get(this.props, 'root.asset.comment')) {
 
       // Scroll to a permalinked comment if one is in the URL once the page is done rendering.
-      setTimeout(() => pym.scrollParentToChildEl('talk-embed-stream-container'), 0);
+      setTimeout(() => this.context.pym.scrollParentToChildEl('talk-embed-stream-container'), 0);
     }
   }
 
@@ -190,7 +193,7 @@ const mapDispatchToProps = (dispatch) =>
       checkLogin,
       setActiveTab,
       fetchAssetSuccess,
-      addNotification,
+      notify,
       focusSignInDialog,
       blurSignInDialog,
       hideSignInDialog,

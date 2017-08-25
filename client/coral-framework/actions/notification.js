@@ -1,12 +1,22 @@
-import pym from '../services/pym';
 import * as actions from '../constants/notification';
 
-export const addNotification = (notifType, text) => {
-  pym.sendMessage('coral-alert', `${notifType}|${text}`);
-  return {type: actions.ADD_NOTIFICATION, notifType, text};
-};
+export const notify = (kind, msg) => (dispatch, _, {notification}) => {
+  const messages = Array.isArray(msg) ? msg : [msg];
 
-export const clearNotification = () => {
-  pym.sendMessage('coral-clear-notification');
-  return {type: actions.CLEAR_NOTIFICATION};
+  messages.forEach((message) => {
+    switch (kind) {
+    case 'error':
+      notification.error(message);
+      break;
+    case 'info':
+      notification.info(message);
+      break;
+    case 'success':
+      notification.success(message);
+      break;
+    default:
+      throw new Error(`Unknown notification kind ${kind}`);
+    }
+    dispatch({type: actions.NOTIFY, kind, message});
+  });
 };

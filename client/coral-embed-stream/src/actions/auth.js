@@ -1,12 +1,8 @@
 import jwtDecode from 'jwt-decode';
 import bowser from 'bowser';
 import * as actions from '../constants/auth';
-import * as Storage from '../helpers/storage';
-import coralApi, {base} from '../helpers/request';
-import pym from '../services/pym';
-import {addNotification} from '../actions/notification';
+import {notify} from 'coral-framework/actions/notification';
 
-import {resetWebsocket} from 'coral-framework/services/client';
 import t from 'coral-framework/services/i18n';
 
 export const showSignInDialog = () => ({
@@ -59,9 +55,9 @@ export const updateUsername = ({username}) => ({
   username
 });
 
-export const createUsername = (userId, formData) => (dispatch) => {
+export const createUsername = (userId, formData) => (dispatch, _, {rest}) => {
   dispatch(createUsernameRequest());
-  coralApi('/account/username', {method: 'PUT', body: formData})
+  rest('/account/username', {method: 'PUT', body: formData})
     .then(() => {
       dispatch(createUsernameSuccess());
       dispatch(hideCreateUsernameDialog());
@@ -111,9 +107,11 @@ const signInFailure = (error) => ({
 // AUTH TOKEN
 //==============================================================================
 
-export const handleAuthToken = (token) => (dispatch) => {
-  Storage.setItem('exp', jwtDecode(token).exp);
-  Storage.setItem('token', token);
+export const handleAuthToken = (token) => (dispatch, _, {storage}) => {
+  if (storage) {
+    storage.setItem('exp', jwtDecode(token).exp);
+    storage.setItem('token', token);
+  }
 
   dispatch({type: 'HANDLE_AUTH_TOKEN'});
 };
@@ -123,10 +121,10 @@ export const handleAuthToken = (token) => (dispatch) => {
 //==============================================================================
 
 export const fetchSignIn = (formData) => {
-  return (dispatch) => {
+  return (dispatch, _, {rest}) => {
     dispatch(signInRequest());
 
-    return coralApi('/auth/local', {method: 'POST', body: formData})
+    return rest('/auth/local', {method: 'POST', body: formData})
       .then(({token}) => {
         if (!bowser.safari && !bowser.ios) {
           dispatch(handleAuthToken(token));
@@ -171,10 +169,10 @@ const signInFacebookFailure = (error) => ({
   error
 });
 
-export const fetchSignInFacebook = () => (dispatch) => {
+export const fetchSignInFacebook = () => (dispatch, _, {rest}) => {
   dispatch(signInFacebookRequest());
   window.open(
-    `${base}/auth/facebook`,
+    `${rest.uri}/auth/facebook`,
     'Continue with Facebook',
     'menubar=0,resizable=0,width=500,height=500,top=200,left=500'
   );
@@ -188,10 +186,10 @@ const signUpFacebookRequest = () => ({
   type: actions.FETCH_SIGNUP_FACEBOOK_REQUEST
 });
 
-export const fetchSignUpFacebook = () => (dispatch) => {
+export const fetchSignUpFacebook = () => (dispatch, _, {rest}) => {
   dispatch(signUpFacebookRequest());
   window.open(
-    `${base}/auth/facebook`,
+    `${rest.uri}/auth/facebook`,
     'Continue with Facebook',
     'menubar=0,resizable=0,width=500,height=500,top=200,left=500'
   );
@@ -220,11 +218,11 @@ const signUpRequest = () => ({type: actions.FETCH_SIGNUP_REQUEST});
 const signUpSuccess = (user) => ({type: actions.FETCH_SIGNUP_SUCCESS, user});
 const signUpFailure = (error) => ({type: actions.FETCH_SIGNUP_FAILURE, error});
 
-export const fetchSignUp = (formData) => (dispatch, getState) => {
+export const fetchSignUp = (formData) => (dispatch, getState, {rest}) => {
   const redirectUri = getState().auth.redirectUri;
   dispatch(signUpRequest());
 
-  coralApi('/users', {
+  rest('/users', {
     method: 'POST',
     body: formData,
     headers: {'X-Pym-Url': redirectUri}
@@ -256,10 +254,10 @@ const forgotPasswordFailure = (error) => ({
   error,
 });
 
-export const fetchForgotPassword = (email) => (dispatch, getState) => {
+export const fetchForgotPassword = (email) => (dispatch, getState, {rest}) => {
   dispatch(forgotPasswordRequest(email));
   const redirectUri = getState().auth.redirectUri;
-  coralApi('/account/password/reset', {
+  rest('/account/password/reset', {
     method: 'POST',
     body: {email, loc: redirectUri}
   })
@@ -275,16 +273,18 @@ export const fetchForgotPassword = (email) => (dispatch, getState) => {
 // LOGOUT
 //==============================================================================
 
-export const logout = () => (dispatch) => {
-  return coralApi('/auth', {method: 'DELETE'}).then(() => {
-    Storage.removeItem('token');
+export const logout = () => async (dispatch, _, {rest, client, pym, storage}) => {
+  await rest('/auth', {method: 'DELETE'});
 
-    // Reset the websocket.
-    resetWebsocket();
+  if (storage) {
+    storage.removeItem('token');
+  }
 
-    dispatch({type: actions.LOGOUT});
-    pym.sendMessage('coral-auth-changed');
-  });
+  // Reset the websocket.
+  client.resetWebsocket();
+
+  dispatch({type: actions.LOGOUT});
+  pym.sendMessage('coral-auth-changed');
 };
 
 //==============================================================================
@@ -300,17 +300,19 @@ const checkLoginSuccess = (user, isAdmin) => ({
   isAdmin
 });
 
-export const checkLogin = () => (dispatch) => {
+export const checkLogin = () => (dispatch, _, {rest, client, pym, storage}) => {
   dispatch(checkLoginRequest());
-  coralApi('/auth')
+  rest('/auth')
     .then((result) => {
       if (!result.user) {
-        Storage.removeItem('token');
+        if (storage) {
+          storage.removeItem('token');
+        }
         throw new Error('Not logged in');
       }
 
       // Reset the websocket.
-      resetWebsocket();
+      client.resetWebsocket();
 
       dispatch(checkLoginSuccess(result.user));
       pym.sendMessage('coral-auth-changed', JSON.stringify(result.user));
@@ -322,10 +324,10 @@ export const checkLogin = () => (dispatch) => {
     })
     .catch((error) => {
       console.error(error);
-      if (error.status && error.status === 401) {
+      if (error.status && error.status === 401 && storage) {
 
         // Unauthorized.
-        Storage.removeItem('token');
+        storage.removeItem('token');
       }
       const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
       dispatch(checkLoginFailure(errorMessage));
@@ -351,10 +353,10 @@ const verifyEmailFailure = () => ({
   type: actions.VERIFY_EMAIL_FAILURE
 });
 
-export const requestConfirmEmail = (email) => (dispatch, getState) => {
+export const requestConfirmEmail = (email) => (dispatch, getState, {rest}) => {
   const redirectUri = getState().auth.redirectUri;
   dispatch(verifyEmailRequest());
-  return coralApi('/users/resend-verify', {
+  return rest('/users/resend-verify', {
     method: 'POST',
     body: {email},
     headers: {'X-Pym-Url': redirectUri}
@@ -387,11 +389,11 @@ export const setRedirectUri = (uri) => ({
 const editUsernameFailure = (error) => ({type: actions.EDIT_USERNAME_FAILURE, error});
 const editUsernameSuccess = () => ({type: actions.EDIT_USERNAME_SUCCESS});
 
-export const editName = (username) => (dispatch) => {
-  return coralApi('/account/username', {method: 'PUT', body: {username}})
+export const editName = (username) => (dispatch, _, {rest}) => {
+  return rest('/account/username', {method: 'PUT', body: {username}})
     .then(() => {
       dispatch(editUsernameSuccess());
-      dispatch(addNotification('success', t('framework.success_name_update')));
+      dispatch(notify('success', t('framework.success_name_update')));
     })
     .catch((error) => {
       console.error(error);

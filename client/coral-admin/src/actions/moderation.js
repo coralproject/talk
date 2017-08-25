@@ -4,15 +4,17 @@ export const toggleModal = (open) => ({type: actions.TOGGLE_MODAL, open});
 export const singleView = () => ({type: actions.SINGLE_VIEW});
 
 // hide shortcuts note
-export const hideShortcutsNote = () => {
+export const hideShortcutsNote = () => (dispatch, _, {storage}) => {
   try {
-    window.localStorage.setItem('coral:shortcutsNote', 'hide');
+    if (storage) {
+      storage.setItem('coral:shortcutsNote', 'hide');
+    }
   } catch (e) {
 
     // above will fail in Safari private mode
   }
 
-  return {type: actions.HIDE_SHORTCUTS_NOTE};
+  dispatch({type: actions.HIDE_SHORTCUTS_NOTE});
 };
 
 export const setSortOrder = (order) => ({

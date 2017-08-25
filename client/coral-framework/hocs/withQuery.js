@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {graphql} from 'react-apollo';
-import {getQueryOptions, resolveFragments} from 'coral-framework/services/graphqlRegistry';
 import {getDefinitionName, separateDataAndRoot, getResponseErrors} from '../utils';
 import PropTypes from 'prop-types';
 import hoistStatics from 'recompose/hoistStatics';
@@ -37,17 +36,28 @@ function networkStatusToString(networkStatus) {
  * apply query options registered in the graphRegistry.
  */
 export default (document, config = {}) => hoistStatics((WrappedComponent) => {
-  const name = getDefinitionName(document);
-
   return class WithQuery extends React.Component {
     static contextTypes = {
       eventEmitter: PropTypes.object,
+      graphqlRegistry: PropTypes.object,
     };
 
     // Lazily resolve fragments from graphRegistry to support circular dependencies.
     memoized = null;
     lastNetworkStatus = null;
     data = null;
+    name = '';
+
+    get graphqlRegistry() {
+      return this.context.graphqlRegistry;
+    }
+
+    resolveDocument(documentOrCallback) {
+      const document = typeof documentOrCallback === 'function'
+        ? documentOrCallback(this.props, this.context)
+        : documentOrCallback;
+      return this.graphqlRegistry.resolveFragments(document);
+    }
 
     emitWhenNeeded(data) {
       const {variables, networkStatus} = data;
@@ -93,11 +103,12 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
           refetch: data.refetch,
           updateQuery: data.updateQuery,
           subscribeToMore: (stmArgs) => {
+            const resolvedDocument = this.resolveDocument(stmArgs.document);
 
             // Resolve document fragments before passing it to `apollo-client`.
             return data.subscribeToMore({
               ...stmArgs,
-              document: resolveFragments(stmArgs.document),
+              document: resolvedDocument,
               onError: (err) => {
                 if (stmArgs.onErr) {
                   return stmArgs.onErr(err);
@@ -107,7 +118,8 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
             });
           },
           fetchMore: (lmArgs) => {
-            const fetchName = getDefinitionName(lmArgs.query);
+            const resolvedDocument = this.resolveDocument(lmArgs.query);
+            const fetchName = getDefinitionName(resolvedDocument);
             this.context.eventEmitter.emit(
               `query.${name}.fetchMore.${fetchName}.begin`,
               {variables: lmArgs.variables});
@@ -115,7 +127,7 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
             // Resolve document fragments before passing it to `apollo-client`.
             return data.fetchMore({
               ...lmArgs,
-              query: resolveFragments(lmArgs.query),
+              query: resolvedDocument,
             })
             .then((res) => {
               this.context.eventEmitter.emit(
@@ -156,7 +168,7 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
       const base = (typeof this.wrappedConfig.options === 'function')
         ? this.wrappedConfig.options(data)
         : this.wrappedConfig.options;
-      const configs = getQueryOptions(name);
+      const configs = this.graphqlRegistry.getQueryOptions(name);
       const reducerCallbacks =
         [base.reducer || ((i) => i)]
         .concat(...configs.map((cfg) => cfg.reducer))
@@ -178,8 +190,10 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
 
     getWrapped = () => {
       if (!this.memoized) {
+        const resolvedDocument = this.resolveDocument(document);
+        this.name = getDefinitionName(resolvedDocument);
         this.memoized = graphql(
-          resolveFragments(document),
+          resolvedDocument,
           {...this.wrappedConfig, options: this.wrappedOptions},
         )(WrappedComponent);
       }
