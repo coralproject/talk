@@ -19,7 +19,13 @@ export default class SortOption extends React.Component {
 }
 
 SortOption.propTypes = {
+
+  // A simple callback to be called when clicking on this sort option.
   setSort: PropTypes.func.isRequired,
+
+  // Whether or not this sort option is active.
   active: PropTypes.bool.isRequired,
+
+  // Label to show next to the input control.
   label: PropTypes.string.isRequired,
 };

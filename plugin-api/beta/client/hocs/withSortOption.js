@@ -18,6 +18,14 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
+/**
+ * A HOC providing props to implement a sort option.
+ * Provides the props `active`, `setSort`, `label`.
+ * @param  {Object} sort
+ * @param  {Object} sort.sortBy
+ * @param  {string} sort.sortOrder
+ * @return {Object} HOC
+ */
 export default ({sortBy = 'created_at', sortOrder = 'DESC', label}) => hoistStatics((WrappedComponent) => {
   class WithSortOption extends React.Component {
     setSort = () => {
