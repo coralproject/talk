@@ -1,5 +1,5 @@
 # Talk [![CircleCI](https://circleci.com/gh/coralproject/talk.svg?style=svg)](https://circleci.com/gh/coralproject/talk)
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/coralproject/talk/tree/feature/heroku-deploy&env[TALK_FACEBOOK_APP_ID]=ignore&env[TALK_FACEBOOK_APP_SECRET]=ignore)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?template=https%3A%2F%2Fgithub.com%2Fcoralproject%2Ftalk%2Ftree%2Ffeature%2Fheroku-deploy&env[TALK_FACEBOOK_APP_ID]=ignore&env[TALK_FACEBOOK_APP_SECRET]=ignore)
 
 Online comments are broken. Our open-source Talk tool rethinks how moderation, comment display, and conversation function, creating the opportunity for safer, smarter discussions around your work. [Read more about Talk here.](https://coralproject.net/products/talk.html)
 
