@@ -115,7 +115,7 @@ class ConfigureStreamContainer extends Component {
         />
         <hr />
         <h3>{closedAt === 'open' ? t('configure.close') : t('configure.open')} {t('configure.comment_stream')}</h3>
-          {(closedAt === 'open' && closedTimeout) ? <p>{t('configure.comment_stream_will_close')} {this.getClosedIn()}.</p> : ''}
+        {(closedAt === 'open' && closedTimeout) ? <p>{t('configure.comment_stream_will_close')} {this.getClosedIn()}.</p> : ''}
         <CloseCommentsInfo
           onClick={this.toggleStatus}
           status={closedAt}

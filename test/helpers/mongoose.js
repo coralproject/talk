@@ -12,8 +12,8 @@ before(function(done) {
   });
 });
 
-beforeEach(function(done) {
-  Promise.all(Object.keys(mongoose.connection.collections).map((collection) => {
+beforeEach(async () => {
+  await Promise.all(Object.keys(mongoose.connection.collections).map((collection) => {
     return new Promise((resolve, reject) => {
       mongoose.connection.collections[collection].remove(function(err) {
         if (err) {
@@ -23,13 +23,7 @@ beforeEach(function(done) {
         return resolve();
       });
     });
-  }))
-  .then(() => {
-    done();
-  })
-  .catch((err) => {
-    done(err);
-  });
+  }));
 });
 
 after(function(done) {

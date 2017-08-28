@@ -26,7 +26,7 @@ export const getMyActionSummary = (type, comment) => {
     .find((a) => a.current_user);
 };
 
- /**
+/**
  * getActionSummary
  * retrieves the action summaries based on the type and the comment
  * array could be length > 1, as in the case of FlagActionSummary

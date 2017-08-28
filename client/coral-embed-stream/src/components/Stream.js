@@ -257,16 +257,16 @@ class Stream extends React.Component {
 
         {open
           ? <div id="commentBox">
-              <InfoBox
-                content={asset.settings.infoBoxContent}
-                enable={asset.settings.infoBoxEnable}
-              />
-              <QuestionBox
-                content={asset.settings.questionBoxContent}
-                enable={asset.settings.questionBoxEnable}
-                icon={asset.settings.questionBoxIcon}
-              />
-              {!banned &&
+            <InfoBox
+              content={asset.settings.infoBoxContent}
+              enable={asset.settings.infoBoxEnable}
+            />
+            <QuestionBox
+              content={asset.settings.questionBoxContent}
+              enable={asset.settings.questionBoxEnable}
+              icon={asset.settings.questionBoxIcon}
+            />
+            {!banned &&
                 temporarilySuspended &&
                 <RestrictedMessageBox>
                   {t(
@@ -275,13 +275,13 @@ class Stream extends React.Component {
                     timeago(user.suspension.until)
                   )}
                 </RestrictedMessageBox>}
-              {banned &&
+            {banned &&
                 <SuspendedAccount
                   canEditName={user && user.canEditName}
                   editName={editName}
                   currentUsername={user.username}
                 />}
-              {showCommentBox &&
+            {showCommentBox &&
                 <CommentBox
                   notify={notify}
                   postComment={postComment}
@@ -294,7 +294,7 @@ class Stream extends React.Component {
                   charCountEnable={asset.settings.charCountEnable}
                   maxCharCount={asset.settings.charCount}
                 />}
-            </div>
+          </div>
           : <p>{asset.settings.closedMessage}</p>}
 
         <Slot

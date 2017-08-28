@@ -97,7 +97,7 @@ class ModerationQueue extends React.Component {
                 rejectComment={props.rejectComment}
                 currentAsset={props.currentAsset}
                 currentUserId={this.props.currentUserId}
-                />;
+              />;
             })
           }
         </CSSTransitionGroup>
@@ -110,7 +110,7 @@ class ModerationQueue extends React.Component {
         <LoadMore
           loadMore={this.loadMore}
           showLoadMore={comments.length < commentCount}
-          />
+        />
       </div>
     );
   }

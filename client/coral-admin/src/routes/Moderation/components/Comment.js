@@ -91,8 +91,8 @@ class Comment extends React.Component {
               </span>
               {
                 (comment.editing && comment.editing.edited)
-                ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
-                : null
+                  ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
+                  : null
               }
               {currentUserId !== comment.user.id &&
                 <ActionsMenu icon="not_interested">
@@ -192,10 +192,10 @@ class Comment extends React.Component {
         />
         {flagActions && flagActions.length
           ? <FlagBox
-              actions={flagActions}
-              actionSummaries={flagActionSummaries}
-              viewUserDetail={viewUserDetail}
-            />
+            actions={flagActions}
+            actionSummaries={flagActionSummaries}
+            viewUserDetail={viewUserDetail}
+          />
           : null}
       </li>
     );

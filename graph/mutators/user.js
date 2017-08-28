@@ -2,7 +2,7 @@ const errors = require('../../errors');
 const UsersService = require('../../services/users');
 const {SET_USER_STATUS, SUSPEND_USER, REJECT_USERNAME} = require('../../perms/constants');
 
-const setUserStatus = async ({user, pubsub}, {id, status}) => {
+const setUserStatus = async ({pubsub}, {id, status}) => {
   const result = await UsersService.setStatus(id, status);
   if (result && result.status === 'BANNED') {
     pubsub.publish('userBanned', result);
@@ -10,7 +10,7 @@ const setUserStatus = async ({user, pubsub}, {id, status}) => {
   return result;
 };
 
-const suspendUser = async ({user, pubsub}, {id, message, until}) => {
+const suspendUser = async ({pubsub}, {id, message, until}) => {
   const result = await UsersService.suspendUser(id, message, until);
   if (result) {
     pubsub.publish('userSuspended', result);
@@ -18,7 +18,7 @@ const suspendUser = async ({user, pubsub}, {id, message, until}) => {
   return result;
 };
 
-const rejectUsername = async ({user, pubsub}, {id, message}) => {
+const rejectUsername = async ({pubsub}, {id, message}) => {
   const result = await UsersService.rejectUsername(id, message);
   if (result) {
     pubsub.publish('usernameRejected', result);

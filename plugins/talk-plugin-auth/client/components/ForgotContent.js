@@ -39,13 +39,13 @@ class ForgotContent extends React.Component {
           </Button>
           {passwordRequestSuccess
             ? <p className={styles.passwordRequestSuccess}>
-                {passwordRequestSuccess}
-              </p>
+              {passwordRequestSuccess}
+            </p>
             : null}
           {passwordRequestFailure
             ? <p className={styles.passwordRequestFailure}>
-                {passwordRequestFailure}
-              </p>
+              {passwordRequestFailure}
+            </p>
             : null}
         </form>
         <div className={styles.footer}>

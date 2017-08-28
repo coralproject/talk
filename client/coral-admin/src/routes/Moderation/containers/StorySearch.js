@@ -98,14 +98,14 @@ export const withAssetSearchQuery = withQuery(gql`
     }
   }
 `, {
-  options: ({moderation: {storySearchString = ''}}) => {
-    return {
-      variables: {
-        value: storySearchString
-      }
-    };
-  }
-});
+    options: ({moderation: {storySearchString = ''}}) => {
+      return {
+        variables: {
+          value: storySearchString
+        }
+      };
+    }
+  });
 
 export default compose(
   withRouter,

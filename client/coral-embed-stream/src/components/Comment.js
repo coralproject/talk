@@ -108,7 +108,7 @@ export default class Comment extends React.Component {
     const {comment: {replies: prevReplies}} = this.props;
     const {comment: {replies: nextReplies}} = next;
     if (
-        prevReplies && nextReplies &&
+      prevReplies && nextReplies &&
         nextReplies.nodes.length < prevReplies.nodes.length
     ) {
 
@@ -343,7 +343,7 @@ export default class Comment extends React.Component {
 
     const view = this.getVisibileReplies();
 
-      // Inactive comments can be viewed by moderators and admins (e.g. using permalinks).
+    // Inactive comments can be viewed by moderators and admins (e.g. using permalinks).
     const isActive = isCommentActive(comment.status);
 
     const {loadingState} = this.state;
@@ -451,8 +451,8 @@ export default class Comment extends React.Component {
                 <PubDate created_at={comment.created_at} className={'talk-stream-comment-published-date'} />
                 {
                   (comment.editing && comment.editing.edited)
-                  ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
-                  : null
+                    ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
+                    : null
                 }
               </span>
 
@@ -492,7 +492,7 @@ export default class Comment extends React.Component {
             <div className={styles.content}>
               {
                 this.state.isEditing
-                ? <EditableCommentContent
+                  ? <EditableCommentContent
                     editComment={this.editComment}
                     notify={notify}
                     comment={comment}
@@ -501,14 +501,14 @@ export default class Comment extends React.Component {
                     maxCharCount={maxCharCount}
                     parentId={parentId}
                     stopEditing={this.stopEditing}
-                    />
-                : <div>
-                  <Slot
-                    fill="commentContent"
-                    defaultComponent={CommentContent}
-                    {...slotProps}
-                    queryData={queryData}
                   />
+                  : <div>
+                    <Slot
+                      fill="commentContent"
+                      defaultComponent={CommentContent}
+                      {...slotProps}
+                      queryData={queryData}
+                    />
                   </div>
               }
             </div>
@@ -562,23 +562,23 @@ export default class Comment extends React.Component {
 
         {activeReplyBox === comment.id
           ? <ReplyBox
-              commentPostedHandler={this.commentPostedHandler}
-              charCountEnable={charCountEnable}
-              maxCharCount={maxCharCount}
-              setActiveReplyBox={setActiveReplyBox}
-              parentId={(depth < THREADING_LEVEL) ? comment.id : parentId}
-              notify={notify}
-              postComment={postComment}
-              currentUser={currentUser}
-              assetId={asset.id}
-            />
+            commentPostedHandler={this.commentPostedHandler}
+            charCountEnable={charCountEnable}
+            maxCharCount={maxCharCount}
+            setActiveReplyBox={setActiveReplyBox}
+            parentId={(depth < THREADING_LEVEL) ? comment.id : parentId}
+            notify={notify}
+            postComment={postComment}
+            currentUser={currentUser}
+            assetId={asset.id}
+          />
           : null}
 
         <TransitionGroup>
-        {view.map((reply) => {
-          return commentIsIgnored(reply)
-            ? <IgnoredCommentTombstone key={reply.id} />
-            : <CommentContainer
+          {view.map((reply) => {
+            return commentIsIgnored(reply)
+              ? <IgnoredCommentTombstone key={reply.id} />
+              : <CommentContainer
                 data={this.props.data}
                 root={this.props.root}
                 setActiveReplyBox={setActiveReplyBox}
@@ -606,7 +606,7 @@ export default class Comment extends React.Component {
                 comment={reply}
                 emit={emit}
               />;
-        })}
+          })}
         </TransitionGroup>
         <div className="talk-load-more-replies">
           <LoadMore
