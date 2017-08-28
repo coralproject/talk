@@ -15,7 +15,7 @@ const genUserByIDs = (context, ids) => UsersService
  * @param  {Object} context   graph context
  * @param  {Object} query     query terms to apply to the users query
  */
-const getUsersByQuery = ({user}, {ids, limit, cursor, statuses = null, sort}) => {
+const getUsersByQuery = ({user}, {ids, limit, cursor, statuses = null, sortOrder}) => {
 
   let users = UserModel.find();
 
@@ -36,7 +36,7 @@ const getUsersByQuery = ({user}, {ids, limit, cursor, statuses = null, sort}) =>
   }
 
   if (cursor) {
-    if (sort === 'REVERSE_CHRONOLOGICAL') {
+    if (sortOrder === 'DESC') {
       users = users.where({
         created_at: {
           $lt: cursor
@@ -52,7 +52,7 @@ const getUsersByQuery = ({user}, {ids, limit, cursor, statuses = null, sort}) =>
   }
 
   return users
-    .sort({created_at: sort === 'REVERSE_CHRONOLOGICAL' ? -1 : 1})
+    .sort({created_at: sortOrder === 'DESC' ? -1 : 1})
     .limit(limit);
 };
 

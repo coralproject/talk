@@ -1,12 +1,11 @@
 const passport = require('../../../passport');
 
 const app = require('../../../../../app');
-const chai = require('chai');
-const expect = chai.expect;
 
-// Setup chai.
+const chai = require('chai');
 chai.should();
 chai.use(require('chai-http'));
+const expect = chai.expect;
 
 const AssetModel = require('../../../../../models/asset');
 const AssetsService = require('../../../../../services/assets');

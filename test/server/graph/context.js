@@ -1,9 +1,10 @@
-const expect = require('chai').expect;
 
 const User = require('../../../models/user');
 const Context = require('../../../graph/context');
 const errors = require('../../../errors');
 const SettingsService = require('../../../services/settings');
+
+const {expect} = require('chai');
 
 describe('graph.Context', () => {
   beforeEach(() => SettingsService.init());

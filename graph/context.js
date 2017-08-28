@@ -1,6 +1,7 @@
 const loaders = require('./loaders');
 const mutators = require('./mutators');
 const uuid = require('uuid');
+const merge = require('lodash/merge');
 
 const plugins = require('../services/plugins');
 const pubsub = require('../services/pubsub');
@@ -17,17 +18,24 @@ const contextPlugins = plugins.get('server', 'context').map(({plugin, context}) 
 });
 
 /**
- * This should itterate over the passed in plugins and load them all with the
+ * This should iterate over the passed in plugins and load them all with the
  * current graph context.
  * @return {Object} the saturated plugins object
  */
-const decorateContextPlugins = (context, contextPlugins) => contextPlugins.reduce((acc, plugin) => {
-  Object.keys(plugin.context).forEach((service) => {
-    acc[service] = plugin.context[service](context);
-  });
+const decorateContextPlugins = (context, contextPlugins) => {
 
-  return acc;
-}, {});
+  // For each of the plugins, we execute with the context to get the context
+  // based plugin. We then merge that into an object for the plugin. Once the
+  // plugin is assembled, we merge that object with all the other objects
+  // provided from the other plugins.
+  return merge(...contextPlugins.map((plugin) => {
+    return Object.keys(plugin.context).reduce((services, serviceName) => {
+      services[serviceName] = plugin.context[serviceName](context);
+
+      return services;
+    }, {});
+  }));
+};
 
 /**
  * Stores the request context.

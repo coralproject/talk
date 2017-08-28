@@ -4,6 +4,8 @@ import queryString from 'query-string';
 
 export const setActiveReplyBox = (id) => ({type: actions.SET_ACTIVE_REPLY_BOX, id});
 
+export const setSort = ({sortOrder, sortBy}) => ({type: actions.SET_SORT, sortOrder, sortBy});
+
 export const viewAllComments = () => (dispatch, _, {pym}) => {
 
   const search = queryString.stringify({

@@ -1,4 +1,3 @@
-const {expect} = require('chai');
 const {graphql} = require('graphql');
 
 const schema = require('../../../../graph/schema');
@@ -9,13 +8,15 @@ const SettingsService = require('../../../../services/settings');
 const ActionModel = require('../../../../models/action');
 const CommentModel = require('../../../../models/comment');
 
+const {expect} = require('chai');
+
 describe('graph.loaders.Metrics', () => {
   beforeEach(() => SettingsService.init());
 
   describe('#Comments', () => {
     const query = `
       query CommentMetrics($from: Date!, $to: Date!) {
-        flagged: commentMetrics(from: $from, to: $to, sort: FLAG) {
+        flagged: commentMetrics(from: $from, to: $to, sortBy: FLAG) {
           id
         }
       }
@@ -23,11 +24,11 @@ describe('graph.loaders.Metrics', () => {
 
     describe('different comment states', () => {
 
-      beforeEach(() =>[
-        CommentModel.create({id: '1', body: 'a new comment!'}),
-        CommentModel.create({id: '2', body: 'a new comment!'}),
-        CommentModel.create({id: '3', body: 'a new comment!'})
-      ]);
+      beforeEach(() => CommentModel.create([
+        {id: '1', body: 'a new comment!'},
+        {id: '2', body: 'a new comment!'},
+        {id: '3', body: 'a new comment!'}
+      ]));
 
       [
         {flagged: 0, actions: []},
@@ -75,7 +76,7 @@ describe('graph.loaders.Metrics', () => {
       }
 
       query Metrics($from: Date!, $to: Date!) {
-        assetsByFlag: assetMetrics(from: $from, to: $to, sort: FLAG) {
+        assetsByFlag: assetMetrics(from: $from, to: $to, sortBy: FLAG) {
           ...metrics
         }
       }

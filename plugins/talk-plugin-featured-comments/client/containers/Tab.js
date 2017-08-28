@@ -17,7 +17,7 @@ const enhance = compose(
   withFragments({
     asset: gql`
       fragment TalkFeaturedComments_Tab_asset on Asset {
-          featuredCommentsCount: totalCommentCount(tags: ["FEATURED"], excludeIgnored: $excludeIgnored) @skip(if: $hasComment)
+          featuredCommentsCount: totalCommentCount(tags: ["FEATURED"]) @skip(if: $hasComment)
       }`,
   }),
   excludeIf((props) => props.asset.featuredCommentsCount === 0),

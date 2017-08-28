@@ -1,55 +1,63 @@
 const {decorateWithTags} = require('./util');
-const {
-  SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS,
-} = require('../../perms/constants');
 
 const Asset = {
-  recentComments({id}, _, {loaders: {Comments}}) {
-    return Comments.genRecentComments.load(id);
-  },
-  async comment({id}, {id: commentId}, {loaders: {Comments}, user}) {
-    const statuses = user && user.can(SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS)
-      ? ['NONE', 'ACCEPTED', 'PREMOD', 'REJECTED']
-      : ['NONE', 'ACCEPTED'];
+  async comment({id}, {id: commentId}, {loaders: {Comments}}) {
 
-    const comments = await Comments.getByQuery({
-      asset_id: id,
-      ids: commentId,
-      statuses,
-    });
-
-    return comments.nodes[0];
-  },
-  comments({id}, {sort, limit, deep, excludeIgnored, tags}, {loaders: {Comments}}) {
-    return Comments.getByQuery({
-      asset_id: id,
-      sort,
-      limit,
-      parent_id: deep ? undefined : null,
-      tags,
-      excludeIgnored,
-    });
-  },
-  commentCount({id, commentCount}, {excludeIgnored, tags}, {user, loaders: {Comments}}) {
-
-    // TODO: remove
-    if ((user && excludeIgnored) || tags) {
-      return Comments.parentCountByAssetIDPersonalized({assetId: id, excludeIgnored, tags});
+    // Load the comment from the database.
+    const comment = await Comments.get.load(commentId);
+    if (!comment) {
+      return null;
     }
+
+    // If the comment asset mismatches, then don't return it!
+    if (comment.asset_id !== id) {
+      return null;
+    }
+
+    return comment;
+  },
+  comments({id}, {query, deep}, {loaders: {Comments}}) {
+    if (!deep) {
+      query.parent_id = null;
+    }
+
+    return Comments.getByQuery(query);
+  },
+  commentCount({id, commentCount}, {tags}, {loaders: {Comments}}) {
     if (commentCount != null) {
       return commentCount;
     }
+
+    // If we are filtering by a tag.
+    if (tags && tags.length > 0) {
+
+      // Then count the comments with those tags.
+      return Comments.getCountByQuery({
+        tags,
+        asset_id: id,
+        parent_id: null,
+        statuses: ['NONE', 'ACCEPTED'],
+      });
+    }
+
     return Comments.parentCountByAssetID.load(id);
   },
-  totalCommentCount({id, totalCommentCount}, {excludeIgnored, tags}, {user, loaders: {Comments}}) {
-
-    // TODO: remove
-    if ((user && excludeIgnored) || tags) {
-      return Comments.countByAssetIDPersonalized({assetId: id, excludeIgnored, tags});
-    }
+  totalCommentCount({id, totalCommentCount}, {tags}, {loaders: {Comments}}) {
     if (totalCommentCount != null) {
       return totalCommentCount;
     }
+
+    // If we are filtering by a tag.
+    if (tags && tags.length > 0) {
+
+      // Then count the comments with those tags.
+      return Comments.getCountByQuery({
+        tags,
+        asset_id: id,
+        statuses: ['NONE', 'ACCEPTED'],
+      });
+    }
+
     return Comments.countByAssetID.load(id);
   },
   async settings({settings = null}, _, {loaders: {Settings}}) {

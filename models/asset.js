@@ -72,7 +72,7 @@ AssetSchema.index({
   subsection: 'text',
   author: 'text'
 }, {
-  background: true
+  background: true,
 });
 
 /**
