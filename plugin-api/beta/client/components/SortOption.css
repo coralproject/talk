@@ -2,8 +2,12 @@
   display: block;
   cursor: pointer;
   width: 100%;
-  padding: 4px 16px 4px 10px;
+  padding: 6px 16px 6px 10px;
   box-sizing: border-box;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
 }
 
 .input {
