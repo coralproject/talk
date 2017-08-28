@@ -154,7 +154,15 @@ const slots = [
 ];
 
 const EMBED_QUERY = gql`
-  query CoralEmbedStream_Embed($assetId: ID, $assetUrl: String, $commentId: ID!, $hasComment: Boolean!, $excludeIgnored: Boolean) {
+  query CoralEmbedStream_Embed(
+    $assetId: ID,
+    $assetUrl: String,
+    $commentId: ID!,
+    $hasComment: Boolean!,
+    $excludeIgnored: Boolean,
+    $sortBy: SORT_COMMENTS_BY!,
+    $sortOrder: SORT_ORDER!,
+  ) {
     me {
       id
       status
@@ -166,13 +174,15 @@ const EMBED_QUERY = gql`
 `;
 
 export const withEmbedQuery = withQuery(EMBED_QUERY, {
-  options: ({auth, commentId, assetId, assetUrl}) => ({
+  options: ({auth, commentId, assetId, assetUrl, sortBy, sortOrder}) => ({
     variables: {
       assetId,
       assetUrl,
       commentId,
       hasComment: commentId !== '',
       excludeIgnored: Boolean(auth && auth.user && auth.user.id),
+      sortBy,
+      sortOrder,
     },
   }),
 });
@@ -183,7 +193,9 @@ const mapStateToProps = (state) => ({
   assetId: state.stream.assetId,
   assetUrl: state.stream.assetUrl,
   activeTab: state.embed.activeTab,
-  config: state.config
+  config: state.config,
+  sortOrder: state.stream.sortOrder,
+  sortBy: state.stream.sortBy,
 });
 
 const mapDispatchToProps = (dispatch) =>

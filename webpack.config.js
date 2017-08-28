@@ -5,7 +5,7 @@ const autoprefixer = require('autoprefixer');
 const precss = require('precss');
 const _ = require('lodash');
 const Copy = require('copy-webpack-plugin');
-const LicenseWebpackPlugin = require('license-webpack-plugin');
+const {LicenseWebpackPlugin} = require('license-webpack-plugin');
 const webpack = require('webpack');
 const debug = require('debug')('talk:webpack');
 
@@ -90,8 +90,7 @@ const config = {
   plugins: [
     new LicenseWebpackPlugin({
       pattern: /^(MIT|ISC|BSD.*)$/,
-      addUrl: true,
-      suppressErrors: true
+      suppressErrors: true,
     }),
     new Copy([
       ...buildEmbeds.map((embed) => ({

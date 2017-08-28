@@ -1,5 +1,5 @@
 import update from 'immutability-helper';
-import {insertCommentsSorted} from 'coral-framework/utils';
+import {appendNewNodes} from 'coral-framework/utils';
 
 function determineCommentDepth(comment) {
   let depth = 0;
@@ -159,14 +159,7 @@ function findAndInsertFetchedComments(parent, comments, parent_id) {
       [connectionField]: {
         hasNextPage: {$set: comments.hasNextPage},
         endCursor: {$set: comments.endCursor},
-        nodes: {$apply: (nodes) => {
-          if (isAsset) {
-            return nodes.concat(comments.nodes);
-          }
-          return insertCommentsSorted(nodes, comments.nodes.filter(
-            (comment) => !nodes.some((node) => node.id === comment.id)
-          ));
-        }},
+        nodes: {$apply: (nodes) => appendNewNodes(nodes, comments.nodes)},
       },
     });
   }
@@ -198,7 +191,7 @@ export function attachCommentToParent(topLevelComment, comment) {
     return update(topLevelComment, {
       replies: {
         nodes: {
-          $apply: (nodes) => insertCommentsSorted(nodes, comment),
+          $apply: (nodes) => appendNewNodes(nodes, [comment]),
         },
       },
       replyCount: {

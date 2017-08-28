@@ -85,6 +85,52 @@ configure the context plugin before it would be mounted at `context.plugins`.
 This plugin above would mount at: `context.plugins.Slack`, or, if you're using
 [object destructuring](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment), `{plugins: {Slack}}`.
 
+##### `Sort`
+
+A special context hook, `Sort` will allow plugin authors to provide new
+methods to sort data. An example is as follows:
+
+```js
+{
+  Sort: () => ({
+    Comments: { // <-- (1)
+      likes: { // <-- (2)
+        startCursor(ctx, nodes, {cursor}) { // <-- (3)
+          return cursor != null ? cursor : 0;
+        },
+        endCursor(ctx, nodes, {cursor}) { // <-- (4)
+          return nodes.length ? (cursor != null ? cursor : 0) + nodes.length : null;
+        },
+        sort(ctx, query, {cursor, sort}) { // <-- (5)
+          if (cursor) {
+            query = query.skip(cursor);
+          }
+
+          return query.sort({
+            'action_counts.like': sort === 'DESC' ? -1 : 1,
+            created_at: sort === 'DESC' ? -1 : 1,
+          });
+        },
+      },
+    },
+  }),
+}
+```
+
+This has a bunch of special features:
+
+1. `Comments` is the name of the type being sorted, this is pluralized and
+    capitalized.
+2. `likes` is the `sortBy` field in lowercase.
+3. `startCursor` will retrieve the start cursor based on the current set of
+    nodes and the current cursor.
+4. `endCursor` will retrieve the end cursor based on the current set of nodes
+    and the current cursor.
+5. `sort` will mutate the `query` to apply the sort operations.
+
+All the `startCursor`, `endCursor`, and `sort` functions must be provided in
+order for the sorting to apply properly.
+
 #### Field: `loaders`
 
 ```js

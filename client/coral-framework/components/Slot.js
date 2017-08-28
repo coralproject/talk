@@ -29,7 +29,18 @@ class Slot extends React.Component {
     return changes.length !== 0;
   }
 
-  getSlotProps({fill: _a, inline: _b, className: _c, reduxState: _d, defaultComponent_: _e, queryData: _f, ...rest} = this.props) {
+  getSlotProps(props = this.props) {
+    const {
+      fill: _a,
+      inline: _b,
+      className: _c,
+      reduxState: _d,
+      defaultComponent_: _e,
+      queryData: _f,
+      childFactory: _g,
+      component: _h,
+      ...rest
+    } = props;
     return rest;
   }
 
@@ -39,8 +50,16 @@ class Slot extends React.Component {
   }
 
   render() {
+    const {
+      inline = false,
+      className,
+      reduxState,
+      component: Component,
+      childFactory,
+      defaultComponent: DefaultComponent,
+      queryData,
+    } = this.props;
     const {plugins} = this.context;
-    const {inline = false, className, reduxState, defaultComponent: DefaultComponent, queryData} = this.props;
     let children = this.getChildren();
     const pluginConfig = reduxState.config.pluginConfig || emptyConfig;
     if (children.length === 0 && DefaultComponent) {
@@ -48,19 +67,45 @@ class Slot extends React.Component {
       children = <DefaultComponent {...props} />;
     }
 
+    if (childFactory) {
+      children = children.map(childFactory);
+    }
+
     return (
-      <div className={cn({[styles.inline]: inline, [styles.debug]: pluginConfig.debug}, className)}>
+      <Component className={cn({[styles.inline]: inline, [styles.debug]: pluginConfig.debug}, className)}>
         {children}
-      </div>
+      </Component>
     );
   }
 }
 
+Slot.defaultProps = {
+  component: 'div',
+};
+
 Slot.propTypes = {
-  fill: React.PropTypes.string.isRequired,
+  fill: PropTypes.string.isRequired,
+
+  /**
+   * You may specify the component to use as the root wrapper.
+   * Defaults to 'div'.
+   */
+  component: PropTypes.any,
 
   // props coming from graphql must be passed through this property.
-  queryData: React.PropTypes.object,
+  queryData: PropTypes.object,
+
+  /**
+   * You may need to apply reactive updates to a child as it is exiting.
+   * This is generally done by using `cloneElement` however in the case of an exiting
+   * child the element has already been removed and not accessible to the consumer.
+   *
+   * If you do need to update a child as it leaves you can provide a `childFactory`
+   * to wrap every child, even the ones that are leaving.
+   *
+   * @type Function(child: ReactElement) -> ReactElement
+   */
+  childFactory: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({

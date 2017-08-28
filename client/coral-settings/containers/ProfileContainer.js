@@ -15,7 +15,7 @@ import CommentHistory from 'talk-plugin-history/CommentHistory';
 // TODO: Auth logic needs refactoring.
 import {showSignInDialog, checkLogin} from 'coral-embed-stream/src/actions/auth';
 
-import {insertCommentsSorted} from 'plugin-api/beta/client/utils';
+import {appendNewNodes} from 'plugin-api/beta/client/utils';
 import update from 'immutability-helper';
 import {getSlotFragmentSpreads} from 'coral-framework/utils';
 
@@ -42,7 +42,7 @@ class ProfileContainer extends Component {
           me: {
             comments: {
               nodes: {
-                $apply: (nodes) => insertCommentsSorted(nodes, comments.nodes, 'REVERSE_CHRONOLOGICAL'),
+                $apply: (nodes) => appendNewNodes(nodes, comments.nodes),
               },
               hasNextPage: {$set: comments.hasNextPage},
               endCursor: {$set: comments.endCursor},
@@ -123,7 +123,7 @@ const CommentFragment = gql`
 `;
 
 const LOAD_MORE_QUERY = gql`
-  query TalkSettings_LoadMoreComments($limit: Int, $cursor: Date) {
+  query TalkSettings_LoadMoreComments($limit: Int, $cursor: Cursor) {
     comments(query: {limit: $limit, cursor: $cursor}) {
       ...TalkSettings_CommentConnectionFragment
     }

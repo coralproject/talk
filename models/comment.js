@@ -55,7 +55,7 @@ const CommentSchema = new Schema({
   body: {
     type: String,
     required: [true, 'The body is required.'],
-    minlength: 2
+    minlength: 2,
   },
   body_history: [BodyHistoryItemSchema],
   asset_id: String,
@@ -66,7 +66,21 @@ const CommentSchema = new Schema({
     enum: COMMENT_STATUS,
     default: 'NONE'
   },
+
+  // parent_id is the id of the parent comment (null if there is none).
   parent_id: String,
+
+  // The number of replies to this comment directly.
+  reply_count: {
+    type: Number,
+    default: 0,
+  },
+
+  // Counts to store related to actions taken on the given comment.
+  action_counts: {
+    default: {},
+    type: Object,
+  },
 
   // Tags are added by the self or by administrators.
   tags: [TagLinkSchema],
@@ -74,7 +88,7 @@ const CommentSchema = new Schema({
   // Additional metadata stored on the field.
   metadata: {
     default: {},
-    type: Object
+    type: Object,
   }
 }, {
   timestamps: {
@@ -94,8 +108,30 @@ CommentSchema.index({
   background: false
 });
 
+// Add an index that is optimized for sorting based on the action count data.
+CommentSchema.index({
+  'created_at': 1,
+  'action_counts': 1,
+}, {
+  background: true,
+});
+
+// Add an index that is optimized for sorting based on the created_at timestamp
+// but also good at locating comments that have a specific asset id.
+CommentSchema.index({
+  'asset_id': 1,
+  'created_at': 1,
+}, {
+  background: true,
+});
+
 CommentSchema.virtual('edited').get(function() {
   return this.body_history.length > 1;
+});
+
+// Visable is true when the comment is visible to the public.
+CommentSchema.virtual('visible').get(function() {
+  return ['ACCEPTED', 'NONE'].includes(this.status);
 });
 
 // Comment model.
