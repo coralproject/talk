@@ -184,3 +184,11 @@ export function getShallowChanges(a, b) {
   return union(Object.keys(a), Object.keys(b))
     .filter((key) => a[key] !== b[key]);
 }
+
+export function getTotalReactionsCount(actionSummaries) {
+  return actionSummaries
+    .filter((s) => s.__typename !== 'FlagActionSummary')
+    .reduce((total, summary) => {
+      return total + summary.count;
+    }, 0);
+}
