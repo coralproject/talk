@@ -36,8 +36,8 @@ const ModerationMenu = ({
           label="Sort"
           value={sort}
           onChange={(sort) => selectSort(sort)}>
-          <Option value={'REVERSE_CHRONOLOGICAL'}>{t('modqueue.newest_first')}</Option>
-          <Option value={'CHRONOLOGICAL'}>{t('modqueue.oldest_first')}</Option>
+          <Option value={'DESC'}>{t('modqueue.newest_first')}</Option>
+          <Option value={'ASC'}>{t('modqueue.oldest_first')}</Option>
         </SelectField>
       </div>
     </div>

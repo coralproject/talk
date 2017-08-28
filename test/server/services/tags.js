@@ -5,7 +5,8 @@ const SettingsService = require('../../../services/settings');
 
 const CommentModel = require('../../../models/comment');
 
-const expect = require('chai').use(require('chai-as-promised')).expect;
+const chai = require('chai');
+const expect = chai.expect;
 
 describe('services.TagsService', () => {
   let comment, user;

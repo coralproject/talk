@@ -1,4 +1,3 @@
-const expect = require('chai').expect;
 const {graphql} = require('graphql');
 
 const schema = require('../../../../graph/schema');
@@ -10,6 +9,8 @@ const AssetModel = require('../../../../models/asset');
 const SettingsService = require('../../../../services/settings');
 const CommentsService = require('../../../../services/comments');
 const TagsService = require('../../../../services/tags');
+
+const {expect} = require('chai');
 
 describe('graph.mutations.removeTag', () => {
   let asset, comment;

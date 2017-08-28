@@ -6,13 +6,11 @@ const SettingsService = require('../../../services/settings');
 
 const url = require('url');
 const chai = require('chai');
-const expect = chai.expect;
-const chaiAsPromised = require('chai-as-promised');
 
-chai.use(chaiAsPromised);
-
-// Use the chai should.
+chai.use(require('chai-as-promised'));
 chai.should();
+
+const expect = chai.expect;
 
 const settings = {id: '1', moderation: 'PRE', domains: {whitelist: ['new.test.com', 'test.com', 'override.test.com']}};
 const defaults = {url:'http://test.com'};

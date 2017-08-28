@@ -2,14 +2,14 @@ const passport = require('../../../passport');
 
 const app = require('../../../../../app');
 
-const chai = require('chai');
-chai.use(require('chai-as-promised'));
-chai.use(require('chai-http'));
-const expect = chai.expect;
-
 const UsersService = require('../../../../../services/users');
 const SettingsService = require('../../../../../services/settings');
 const settings = {id: '1', moderation: 'PRE', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
+
+const chai = require('chai');
+chai.should();
+chai.use(require('chai-http'));
+const expect = chai.expect;
 
 describe('/api/v1/account/username', () => {
   let mockUser;
