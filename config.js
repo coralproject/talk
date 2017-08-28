@@ -108,7 +108,7 @@ const CONFIG = {
   //------------------------------------------------------------------------------
 
   // Port to bind to.
-  PORT: process.env.TALK_PORT || '3000',
+  PORT: process.env.TALK_PORT || process.env.PORT || '3000',
 
   // The URL for this Talk Instance as viewable from the outside.
   ROOT_URL: process.env.TALK_ROOT_URL || null,
