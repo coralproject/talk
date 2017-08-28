@@ -447,6 +447,14 @@ export default class Comment extends React.Component {
 
               {isStaff(comment.tags) ? <TagLabel>Staff</TagLabel> : null}
 
+              <Slot
+                className={cn('talk-stream-comment-author-tags')}
+                fill="commentAuthorTags"
+                queryData={queryData}
+                {...slotProps}
+                inline
+              />
+
               <span className={`${styles.bylineSecondary} talk-stream-comment-user-byline`} >
                 <PubDate created_at={comment.created_at} className={'talk-stream-comment-published-date'} />
                 {
