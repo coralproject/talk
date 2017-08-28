@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {Navigation, Header, IconButton, MenuItem, Menu} from 'react-mdl';
 import {Link, IndexLink} from 'react-router';
 import styles from './Header.css';
@@ -87,8 +88,8 @@ const CoralHeader = ({
                 </Menu>
               </div>
             </li>
-            <li>        
-             {`v${process.env.VERSION}`}        
+            <li>
+             {`v${process.env.VERSION}`}
             </li>
           </ul>
         </div>

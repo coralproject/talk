@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {Dialog} from 'coral-ui';
 import {RadioGroup, Radio} from 'react-mdl';
 import styles from './SuspendUserDialog.css';

@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './Pager.css';
 
 const Rows = (curr, total, onClickHandler) => Array.from(Array(total)).map((e, i) =>

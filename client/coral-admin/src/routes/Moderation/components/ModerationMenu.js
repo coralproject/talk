@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import CommentCount from './CommentCount';
 import styles from './styles.css';
 import {SelectField, Option} from 'react-mdl-selectfield';

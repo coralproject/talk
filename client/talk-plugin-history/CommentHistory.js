@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Comment from './Comment';
 import styles from './CommentHistory.css';
 import LoadMore from './LoadMore';
