@@ -13,7 +13,6 @@ class Comment extends React.Component {
 
   render() {
     const {comment, link, data, root} = this.props;
-    // console.log(comment.action_summaries, getTotalReactionsCount(comment.action_summaries));
 
     return (
       <div className={styles.myComment}>
@@ -27,18 +26,17 @@ class Comment extends React.Component {
           />
           <div className={cn(styles.commentSummary, 'comment_summary')}>
             <span className={cn(styles.commentSummaryReactions, 'comment_summary_reactions')}>
-              <Icon name="thumb_up" /> {getTotalReactionsCount(comment.action_summaries)} reactions
+              <Icon name="thumb_up" /> {getTotalReactionsCount(comment.action_summaries)} {t('common.reactions')}
             </span>
-            
             <span className={cn('comment_summary_replies')}>
-              <Icon name="reply" /> {comment.replyCount} replies
+              <Icon name="reply" /> {comment.replyCount} {t('common.replies')}
             </span>
           </div>
           <div className="my-comment-asset">
             <a className={cn(styles.assetURL, 'my-comment-anchor')}
               href="#"
               onClick={link(`${comment.asset.url}`)}>
-              Story: {comment.asset.title ? comment.asset.title : comment.asset.url}
+              {t('common.story')}: {comment.asset.title ? comment.asset.title : comment.asset.url}
             </a>
           </div>
         </div>
