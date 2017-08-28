@@ -59,7 +59,7 @@ class ModerationContainer extends Component {
     return handleCommentChange(
       root,
       comment,
-      this.props.data.variables.sort,
+      this.props.data.variables.sortOrder,
       () => notifyText && this.props.notify('info', notifyText),
       this.props.queueConfig,
       this.activeTab
@@ -168,7 +168,7 @@ class ModerationContainer extends Component {
     const variables = {
       limit: 10,
       cursor: this.props.root[tab].endCursor,
-      sort: this.props.data.variables.sort,
+      sortOrder: this.props.data.variables.sortOrder,
       asset_id: this.props.data.variables.asset_id,
       statuses: this.props.queueConfig[tab].statuses,
       action_type: this.props.queueConfig[tab].action_type,
@@ -288,8 +288,8 @@ const COMMENT_REJECTED_SUBSCRIPTION = gql`
 `;
 
 const LOAD_MORE_QUERY = gql`
-  query CoralAdmin_Moderation_LoadMore($limit: Int = 10, $cursor: Date, $sort: SORT_ORDER, $asset_id: ID, $statuses:[COMMENT_STATUS!], $action_type: ACTION_TYPE) {
-    comments(query: {limit: $limit, cursor: $cursor, asset_id: $asset_id, statuses: $statuses, sort: $sort, action_type: $action_type}) {
+  query CoralAdmin_Moderation_LoadMore($limit: Int = 10, $cursor: Cursor, $sortOrder: SORT_ORDER, $asset_id: ID, $statuses:[COMMENT_STATUS!], $action_type: ACTION_TYPE) {
+    comments(query: {limit: $limit, cursor: $cursor, asset_id: $asset_id, statuses: $statuses, sortOrder: $sortOrder, action_type: $action_type}) {
       nodes {
         ...${getDefinitionName(Comment.fragments.comment)}
       }
@@ -314,14 +314,14 @@ const commentConnectionFragment = gql`
 `;
 
 const withModQueueQuery = withQuery(({queueConfig}) => gql`
-  query CoralAdmin_Moderation($asset_id: ID, $sort: SORT_ORDER, $allAssets: Boolean!) {
+  query CoralAdmin_Moderation($asset_id: ID, $sortOrder: SORT_ORDER, $allAssets: Boolean!) {
     ${Object.keys(queueConfig).map((queue) => `
       ${queue}: comments(query: {
         ${queueConfig[queue].statuses ? `statuses: [${queueConfig[queue].statuses.join(', ')}],` : ''}
         ${queueConfig[queue].tags ? `tags: ["${queueConfig[queue].tags.join('", "')}"],` : ''}
         ${queueConfig[queue].action_type ? `action_type: ${queueConfig[queue].action_type}` : ''}
         asset_id: $asset_id,
-        sort: $sort
+        sortOrder: $sortOrder
       }) {
         ...CoralAdmin_Moderation_CommentConnection
       }
@@ -354,7 +354,7 @@ const withModQueueQuery = withQuery(({queueConfig}) => gql`
     return {
       variables: {
         asset_id: id,
-        sort: props.moderation.sortOrder,
+        sortOrder: props.moderation.sortOrder,
         allAssets: id === null
       }
     };

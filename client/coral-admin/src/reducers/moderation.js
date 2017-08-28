@@ -6,7 +6,7 @@ const initialState = {
   storySearchVisible: false,
   storySearchString: '',
   shortcutsNoteVisible: 'show',
-  sortOrder: 'REVERSE_CHRONOLOGICAL',
+  sortOrder: 'DESC',
 };
 
 export default function moderation (state = initialState, action) {

@@ -5,8 +5,9 @@ const ActionSummary = require('./action_summary');
 const Action = require('./action');
 const AssetActionSummary = require('./asset_action_summary');
 const Asset = require('./asset');
-const Comment = require('./comment');
 const CommentStatusHistory = require('./comment_status_history');
+const Comment = require('./comment');
+const Cursor = require('./cursor');
 const Date = require('./date');
 const FlagActionSummary = require('./flag_action_summary');
 const FlagAction = require('./flag_action');
@@ -31,8 +32,9 @@ let resolvers = {
   Action,
   AssetActionSummary,
   Asset,
-  Comment,
   CommentStatusHistory,
+  Comment,
+  Cursor,
   Date,
   FlagActionSummary,
   FlagAction,

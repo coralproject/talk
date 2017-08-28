@@ -1,15 +1,14 @@
 const {createClient} = require('../../services/redis');
-
-// Create a redis client to use for clearing the database.
+const cache = require('../../services/cache');
 const client = createClient();
 
-module.exports.clearDB = () =>
-  new Promise((resolve, reject) =>
-    client.flushdb((err) => {
-      if (err) {
-        return reject(err);
-      }
+beforeEach(() => Promise.all([
+  new Promise((resolve, reject) => client.flushdb((err) => {
+    if (err) {
+      return reject(err);
+    }
 
-      return resolve();
-    })
-  );
+    return resolve();
+  })),
+  cache.init(),
+]));

@@ -1,0 +1,22 @@
+.root {
+  padding-bottom: 12px;
+
+  &:not(:first-child) {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+}
+
+.title {
+  font-weight: bold;
+  padding: 12px 8px 4px 8px;
+}
+
+.list {
+  padding: 0;
+  margin: 0;
+}
+
+.listItem {
+  list-style: none;
+  white-space: nowrap;
+}

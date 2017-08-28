@@ -1,11 +1,11 @@
 const passport = require('../../../passport');
 
 const app = require('../../../../../app');
-const chai = require('chai');
-const expect = chai.expect;
 
+const chai = require('chai');
 chai.should();
 chai.use(require('chai-http'));
+const expect = chai.expect;
 
 const SettingsService = require('../../../../../services/settings');
 const defaults = {id: '1', moderation: 'PRE'};
