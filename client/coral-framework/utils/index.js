@@ -2,6 +2,7 @@ import {gql} from 'react-apollo';
 import t from 'coral-framework/services/i18n';
 import union from 'lodash/union';
 import {capitalize} from 'coral-framework/helpers/strings';
+export * from 'coral-framework/helpers/strings';
 
 export const getTotalActionCount = (type, comment) => {
   return comment.action_summaries
@@ -153,25 +154,12 @@ export function getErrorMessages(error) {
   return result;
 }
 
-const ascending = (a, b) => {
-  const dateA = new Date(a.created_at);
-  const dateB = new Date(b.created_at);
-  if (dateA < dateB) { return -1; }
-  if (dateA > dateB) { return 1; }
-  return 0;
-};
+export function appendNewNodes(nodesA, nodesB) {
+  return nodesA.concat(nodesB.filter((nodeB) => !nodesA.some((nodeA) => nodeA.id === nodeB.id)));
+}
 
-const descending = (a, b) => ascending(a, b) * -1;
-
-export function insertCommentsSorted(nodes, comments, sortOrder = 'CHRONOLOGICAL') {
-  const added = nodes.concat(comments);
-  if (sortOrder === 'CHRONOLOGICAL') {
-    return added.sort(ascending);
-  }
-  if (sortOrder === 'REVERSE_CHRONOLOGICAL') {
-    return added.sort(descending);
-  }
-  throw new Error(`Unknown sort order ${sortOrder}`);
+export function prependNewNodes(nodesA, nodesB) {
+  return nodesB.filter((nodeB) => !nodesA.some((nodeA) => nodeA.id === nodeB.id)).concat(nodesA);
 }
 
 export const isTagged = (tags, which) => tags.some((t) => t.tag.name === which);

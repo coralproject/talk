@@ -9,7 +9,7 @@ export const FakeComment = ({username, created_at, body}) => (
   <div className={styles.root}>
     <span className={styles.authorName}>
       {username}
-    </span>;
+    </span>
     <PubDate created_at={created_at} />
     <div className={styles.body}>
       {body}

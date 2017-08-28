@@ -2,15 +2,14 @@ const passport = require('../../../passport');
 
 const app = require('../../../../../app');
 const mailer = require('../../../../../services/mailer');
-const chai = require('chai');
-const expect = chai.expect;
 
 const SettingsService = require('../../../../../services/settings');
 const settings = {id: '1', moderation: 'PRE', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
 
-// Setup chai.
+const chai = require('chai');
 chai.should();
 chai.use(require('chai-http'));
+const expect = chai.expect;
 
 const UsersService = require('../../../../../services/users');
 

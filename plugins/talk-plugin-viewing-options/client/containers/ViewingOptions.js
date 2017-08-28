@@ -1,7 +1,14 @@
-import {connect} from 'plugin-api/beta/client/hocs';
+import {connect, withFragments} from 'plugin-api/beta/client/hocs';
 import {bindActionCreators} from 'redux';
 import ViewingOptions from '../components/ViewingOptions';
 import {openMenu, closeMenu} from '../actions';
+import {compose, gql} from 'react-apollo';
+import {getSlotFragmentSpreads} from 'plugin-api/beta/client/utils';
+
+const slots = [
+  'viewingOptionsSort',
+  'viewingOptionsFilter',
+];
 
 const mapStateToProps = ({talkPluginViewingOptions: state}) => ({
   open: state.open
@@ -10,4 +17,22 @@ const mapStateToProps = ({talkPluginViewingOptions: state}) => ({
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({openMenu, closeMenu}, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(ViewingOptions);
+const withViewingOptionsFragments = withFragments({
+  root: gql`
+    fragment TalkViewingOptions_ViewingOptions_root on RootQuery {
+      __typename
+      ${getSlotFragmentSpreads(slots, 'root')}
+    }`,
+  asset: gql`
+    fragment TalkViewingOptions_ViewingOptions_asset on Asset {
+      __typename
+      ${getSlotFragmentSpreads(slots, 'asset')}
+    }`,
+});
+
+const enhance = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withViewingOptionsFragments,
+);
+
+export default enhance(ViewingOptions);

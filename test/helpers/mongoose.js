@@ -1,8 +1,8 @@
 const mongoose = require('../../services/mongoose');
 
-module.exports = {};
+before(function(done) {
+  this.timeout(30000);
 
-module.exports.waitTillConnect = function(done) {
   mongoose.connection.on('open', function(err) {
     if (err) {
       return done(err);
@@ -10,9 +10,9 @@ module.exports.waitTillConnect = function(done) {
 
     return done();
   });
-};
+});
 
-module.exports.clearDB = function(done) {
+beforeEach(function(done) {
   Promise.all(Object.keys(mongoose.connection.collections).map((collection) => {
     return new Promise((resolve, reject) => {
       mongoose.connection.collections[collection].remove(function(err) {
@@ -30,9 +30,9 @@ module.exports.clearDB = function(done) {
   .catch((err) => {
     done(err);
   });
-};
+});
 
-module.exports.disconnect = function(done) {
+after(function(done) {
   mongoose.disconnect();
-  return done();
-};
+  done();
+});

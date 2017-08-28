@@ -3,10 +3,7 @@ const UsersService = require('../../../services/users');
 const SettingsService = require('../../../services/settings');
 
 const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised');
-
-chai.use(chaiAsPromised);
-
+chai.use(require('chai-as-promised'));
 const expect = chai.expect;
 
 describe('services.TokensService', () => {

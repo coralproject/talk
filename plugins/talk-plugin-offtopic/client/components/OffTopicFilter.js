@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './styles.css';
+import styles from './OffTopicFilter.css';
 
 export default class OffTopicFilter extends React.Component {
 
@@ -20,12 +20,15 @@ export default class OffTopicFilter extends React.Component {
 
   render() {
     return (
-      <div className={styles.viewingOption}>
-        <label>
-          <input type="checkbox" onChange={this.handleChange} checked={this.props.checked} />
-          Hide Off-Topic Comments
-        </label>
-      </div>
+      <label className={styles.label}>
+        <input
+          type="checkbox"
+          onChange={this.handleChange}
+          checked={this.props.checked}
+          className={styles.input}
+        />
+        Hide Off-Topic Comments
+      </label>
     );
   }
 }

@@ -1,4 +1,3 @@
-const expect = require('chai').expect;
 const {graphql} = require('graphql');
 
 const schema = require('../../../../graph/schema');
@@ -7,6 +6,8 @@ const AssetModel = require('../../../../models/asset');
 const UserModel = require('../../../../models/user');
 const SettingsService = require('../../../../services/settings');
 const CommentsService = require('../../../../services/comments');
+
+const {expect} = require('chai');
 
 describe('graph.mutations.addTag', () => {
   let comment, asset;

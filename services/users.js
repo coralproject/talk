@@ -737,7 +737,7 @@ module.exports = class UsersService {
    * @return {Promise}
    */
   static addAction(item_id, user_id, action_type, metadata) {
-    return ActionsService.insertUserAction({
+    return ActionsService.create({
       item_id,
       item_type: 'users',
       user_id,
