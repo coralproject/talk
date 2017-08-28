@@ -36,11 +36,15 @@ function applyToCommentsOrigin(root, callback) {
 }
 
 function findAndInsertComment(parent, comment) {
-  const [connectionField, countField, action] = parent.__typename === 'Asset'
+  const isAsset = parent.__typename === 'Asset';
+  const [connectionField, countField, action] = isAsset
     ? ['comments', 'commentCount', '$unshift']
     : ['replies', 'replyCount', '$push'];
 
-  if (!comment.parent || parent.id === comment.parent.id) {
+  if (
+    !comment.parent && isAsset                            // A top level comment in the asset.
+    || comment.parent && parent.id === comment.parent.id  // A reply at the correct parent.
+  ) {
     return update(parent, {
       [connectionField]: {
         nodes: {[action]: [comment]},
