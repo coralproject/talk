@@ -1,6 +1,7 @@
 export {
   isTagged,
-  insertCommentsSorted,
+  prependNewNodes,
+  appendNewNodes,
   getSlotFragmentSpreads,
   forEachError,
   capitalize,

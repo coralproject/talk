@@ -6,7 +6,7 @@ import {withFragments, connect} from 'plugin-api/beta/client/hocs';
 import Comment from '../containers/Comment';
 import {addNotification} from 'plugin-api/beta/client/actions/notification';
 import {viewComment} from 'coral-embed-stream/src/actions/stream';
-import {getDefinitionName} from 'plugin-api/beta/client/utils';
+import {appendNewNodes, getDefinitionName} from 'plugin-api/beta/client/utils';
 import update from 'immutability-helper';
 
 class TabPaneContainer extends React.Component {
@@ -27,7 +27,7 @@ class TabPaneContainer extends React.Component {
           asset: {
             featuredComments: {
               nodes: {
-                $push: comments.nodes,
+                $apply: (nodes) => appendNewNodes(nodes, comments.nodes),
               },
               hasNextPage: {$set: comments.hasNextPage},
               endCursor: {$set: comments.endCursor},

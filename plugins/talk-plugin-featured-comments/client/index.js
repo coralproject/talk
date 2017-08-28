@@ -9,7 +9,7 @@ import ModTag from './containers/ModTag';
 import ModSubscription from './containers/ModSubscription';
 
 import {findCommentInEmbedQuery} from 'coral-embed-stream/src/graphql/utils';
-import {insertCommentsSorted} from 'plugin-api/beta/client/utils';
+import {prependNewNodes} from 'plugin-api/beta/client/utils';
 
 export default {
   reducer,
@@ -60,7 +60,7 @@ export default {
             asset: {
               featuredComments: {
                 nodes: {
-                  $apply: (nodes) => insertCommentsSorted(nodes, comment, 'DESC')
+                  $apply: (nodes) => prependNewNodes(nodes, [comment]),
                 }
               },
               featuredCommentsCount: {

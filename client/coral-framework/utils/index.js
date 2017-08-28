@@ -154,25 +154,12 @@ export function getErrorMessages(error) {
   return result;
 }
 
-const ascending = (a, b) => {
-  const dateA = new Date(a.created_at);
-  const dateB = new Date(b.created_at);
-  if (dateA < dateB) { return -1; }
-  if (dateA > dateB) { return 1; }
-  return 0;
-};
+export function appendNewNodes(nodesA, nodesB) {
+  return nodesA.concat(nodesB.filter((nodeB) => !nodesA.some((nodeA) => nodeA.id === nodeB.id)));
+}
 
-const descending = (a, b) => ascending(a, b) * -1;
-
-export function insertCommentsSorted(nodes, comments, sortOrder = 'ASC') {
-  const added = nodes.concat(comments);
-  if (sortOrder === 'ASC') {
-    return added.sort(ascending);
-  }
-  if (sortOrder === 'DESC') {
-    return added.sort(descending);
-  }
-  throw new Error(`Unknown sort order ${sortOrder}`);
+export function prependNewNodes(nodesA, nodesB) {
+  return nodesB.filter((nodeB) => !nodesA.some((nodeA) => nodeA.id === nodeB.id)).concat(nodesA);
 }
 
 export const isTagged = (tags, which) => tags.some((t) => t.tag.name === which);

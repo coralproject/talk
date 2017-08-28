@@ -15,7 +15,7 @@ import CommentHistory from 'talk-plugin-history/CommentHistory';
 // TODO: Auth logic needs refactoring.
 import {showSignInDialog, checkLogin} from 'coral-embed-stream/src/actions/auth';
 
-import {insertCommentsSorted} from 'plugin-api/beta/client/utils';
+import {appendNewNodes} from 'plugin-api/beta/client/utils';
 import update from 'immutability-helper';
 import {getSlotFragmentSpreads} from 'coral-framework/utils';
 
@@ -42,7 +42,7 @@ class ProfileContainer extends Component {
           me: {
             comments: {
               nodes: {
-                $apply: (nodes) => insertCommentsSorted(nodes, comments.nodes, 'DESC'),
+                $apply: (nodes) => appendNewNodes(nodes, comments.nodes),
               },
               hasNextPage: {$set: comments.hasNextPage},
               endCursor: {$set: comments.endCursor},
