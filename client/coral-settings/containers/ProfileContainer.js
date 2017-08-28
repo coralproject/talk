@@ -109,7 +109,7 @@ const CommentFragment = gql`
       id
       body
       replyCount
-	    action_summaries {
+      action_summaries {
         count
         __typename
       }
