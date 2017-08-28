@@ -3,8 +3,8 @@ import {createSortOption} from 'plugin-api/beta/client/factories';
 import {t} from 'plugin-api/beta/client/services';
 
 const SortOption = createSortOption(
-  () => t('talk-plugin-sort-most-liked.label'),
-  {sortBy: 'LIKES', sortOrder: 'DESC'},
+  () => t('talk-plugin-sort-most-respected.label'),
+  {sortBy: 'RESPECTS', sortOrder: 'DESC'},
 );
 
 /**

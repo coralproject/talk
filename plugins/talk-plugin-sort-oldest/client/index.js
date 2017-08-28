@@ -8,7 +8,7 @@ const SortOption = createSortOption(
 );
 
 /**
- * talk-plugin-sort-oldest depends on talk-plugin-viewing-options.
+ * This plugin depends on talk-plugin-viewing-options.
  */
 
 export default {
