@@ -37,7 +37,7 @@ class ProfileContainer extends Component {
         limit: 5,
         cursor: this.props.root.me.comments.endCursor,
       },
-      updateQuery: (previous, {fetchMoreResult:{comments}}) => {
+      updateQuery: (previous, {fetchMoreResult:{me: {comments}}}) => {
         const updated = update(previous, {
           me: {
             comments: {
@@ -124,8 +124,10 @@ const CommentFragment = gql`
 
 const LOAD_MORE_QUERY = gql`
   query TalkSettings_LoadMoreComments($limit: Int, $cursor: Cursor) {
-    comments(query: {limit: $limit, cursor: $cursor}) {
-      ...TalkSettings_CommentConnectionFragment
+    me {
+      comments(query: {limit: $limit, cursor: $cursor}) {
+        ...TalkSettings_CommentConnectionFragment
+      }
     }
   }
   ${CommentFragment}
