@@ -21,6 +21,9 @@ const Asset = {
       query.parent_id = null;
     }
 
+    // Include the asset id in the search.
+    query.asset_id = id;
+
     return Comments.getByQuery(query);
   },
   commentCount({id, commentCount}, {tags}, {loaders: {Comments}}) {
