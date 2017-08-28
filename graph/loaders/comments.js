@@ -11,6 +11,7 @@ const {
   CACHE_EXPIRY_COMMENT_COUNT
 } = require('../../config');
 const ms = require('ms');
+const sc = require('snake-case');
 
 const CommentModel = require('../../models/comment');
 
@@ -112,10 +113,8 @@ const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id, au
 
   if (context.user != null && context.user.can(SEARCH_OTHERS_COMMENTS) && action_type) {
     query = query.where({
-      action_counts: {
-        [action_type.toLowerCase()]: {
-          $gt: 0,
-        }
+      [`action_counts.${sc(action_type.toLowerCase())}`]: {
+        $gt: 0,
       },
     });
   }
@@ -298,10 +297,8 @@ const getCommentsByQuery = async (ctx, {ids, statuses, asset_id, parent_id, auth
 
   if (ctx.user != null && ctx.user.can(SEARCH_OTHERS_COMMENTS) && action_type) {
     comments = comments.where({
-      action_counts: {
-        [action_type.toLowerCase()]: {
-          $gt: 0,
-        }
+      [`action_counts.${sc(action_type.toLowerCase())}`]: {
+        $gt: 0,
       },
     });
   }
