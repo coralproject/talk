@@ -1,10 +1,11 @@
-const expect = require('chai').expect;
 const {graphql} = require('graphql');
 
 const schema = require('../../../../graph/schema');
 const Context = require('../../../../graph/context');
 const UsersService = require('../../../../services/users');
 const SettingsService = require('../../../../services/settings');
+
+const {expect} = require('chai');
 
 const ignoreUserMutation = `
   mutation ignoreUser ($id: ID!) {

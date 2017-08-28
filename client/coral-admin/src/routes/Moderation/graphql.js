@@ -1,5 +1,4 @@
 import update from 'immutability-helper';
-import * as notification from 'coral-admin/src/services/notification';
 
 const limit = 10;
 
@@ -29,29 +28,29 @@ function removeCommentFromQueue(root, queue, id) {
   });
 }
 
-function shouldCommentBeAdded(root, queue, comment, sort) {
+function shouldCommentBeAdded(root, queue, comment, sortOrder) {
   if (root[`${queue}Count`] < limit) {
 
     // Adding all comments until first limit has reached.
     return true;
   }
   const cursor = new Date(root[queue].endCursor);
-  return sort === 'CHRONOLOGICAL'
+  return sortOrder === 'ASC'
     ? new Date(comment.created_at) <= cursor
     : new Date(comment.created_at) >= cursor;
 }
 
-function addCommentToQueue(root, queue, comment, sort) {
+function addCommentToQueue(root, queue, comment, sortOrder) {
   if (queueHasComment(root, queue, comment.id)) {
     return root;
   }
 
-  const sortAlgo = sort === 'CHRONOLOGICAL' ? ascending : descending;
+  const sortAlgo = sortOrder === 'ASC' ? ascending : descending;
   const changes = {
     [`${queue}Count`]: {$set: root[`${queue}Count`] + 1},
   };
 
-  if (shouldCommentBeAdded(root, queue, comment, sort)) {
+  if (shouldCommentBeAdded(root, queue, comment, sortOrder)) {
     const nodes = root[queue].nodes.concat(comment).sort(sortAlgo);
     changes[queue] = {
       nodes: {$set: nodes},
@@ -91,16 +90,13 @@ function getCommentQueues(comment, queueConfig) {
  * Assimilate comment changes into current store.
  * @param  {Object} root               current state of the store
  * @param  {Object} comment            comment that was changed
- * @param  {string} sort               current sort order of the queues
- * @param  {Object} [notify]           show know notifications if set
- * @param  {string} notify.activeQueue current active queue
- * @param  {string} notify.text        notification text to show
- * @param  {bool}   notify.anyQueue    if true show the notification when the comment is shown
+ * @param  {string} sortOrder          current sort order of the queues
+ * @param  {string} notify             callback to show notification
  *                                     in the current active queue besides the 'all' queue.
  * @param  {Object} queueConfig        queue configuration
  * @return {Object}                    next state of the store
  */
-export function handleCommentChange(root, comment, sort, notify, queueConfig, activeQueue) {
+export function handleCommentChange(root, comment, sortOrder, notify, queueConfig, activeQueue) {
   let next = root;
 
   const nextQueues = getCommentQueues(comment, queueConfig);
@@ -110,22 +106,22 @@ export function handleCommentChange(root, comment, sort, notify, queueConfig, ac
     if (notificationShown) {
       return;
     }
-    notification.info(notify);
+    notify();
     notificationShown = true;
   };
 
   Object.keys(queueConfig).forEach((queue) => {
     if (nextQueues.indexOf(queue) >= 0) {
       if (!queueHasComment(next, queue, comment.id)) {
-        next = addCommentToQueue(next, queue, comment, sort);
-        if (notify && activeQueue === queue && shouldCommentBeAdded(next, queue, comment, sort)) {
-          showNotificationOnce(comment);
+        next = addCommentToQueue(next, queue, comment, sortOrder);
+        if (notify && activeQueue === queue && shouldCommentBeAdded(next, queue, comment, sortOrder)) {
+          showNotificationOnce();
         }
       }
     } else if(queueHasComment(next, queue, comment.id)){
       next = removeCommentFromQueue(next, queue, comment.id);
       if (notify && activeQueue === queue) {
-        showNotificationOnce(comment);
+        showNotificationOnce();
       }
     }
 
@@ -134,7 +130,7 @@ export function handleCommentChange(root, comment, sort, notify, queueConfig, ac
       && queueHasComment(next, queue, comment.id)
       && activeQueue === queue
     ) {
-      showNotificationOnce(comment);
+      showNotificationOnce();
     }
   });
   return next;

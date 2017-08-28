@@ -54,11 +54,14 @@ const GenerateToken = (user) => {
 const SetTokenForSafari = (req, res, token) => {
   const browser = bowser._detect(req.headers['user-agent']);
   if (browser.ios || browser.safari) {
+    debug('browser was safari/ios, setting a cookie');
     res.cookie(JWT_SIGNING_COOKIE_NAME, token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       expires: new Date(Date.now() + ms(JWT_EXPIRY))
     });
+  } else {
+    debug('browser wasn\'t safari/ios, didn\'t set a cookie');
   }
 };
 
@@ -170,6 +173,7 @@ const HandleLogout = (req, res, next) => {
 
     // Only clear the cookie on logout if enabled.
     if (JWT_CLEAR_COOKIE_LOGOUT) {
+      debug('clearing the login cookie');
       res.clearCookie(JWT_SIGNING_COOKIE_NAME);
     }
 

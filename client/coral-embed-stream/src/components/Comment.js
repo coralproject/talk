@@ -152,7 +152,7 @@ export default class Comment extends React.Component {
     deleteAction: PropTypes.func.isRequired,
     parentId: PropTypes.string,
     highlighted: PropTypes.string,
-    addNotification: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
     postComment: PropTypes.func.isRequired,
     depth: PropTypes.number.isRequired,
     liveUpdates: PropTypes.bool,
@@ -205,7 +205,7 @@ export default class Comment extends React.Component {
   onClickEdit (e) {
     e.preventDefault();
     if (!can(this.props.currentUser, 'INTERACT_WITH_COMMUNITY')) {
-      this.props.addNotification('error', t('error.NOT_AUTHORIZED'));
+      this.props.notify('error', t('error.NOT_AUTHORIZED'));
       return;
     }
     this.setState({isEditing: true});
@@ -235,7 +235,7 @@ export default class Comment extends React.Component {
         })
         .catch((error) => {
           this.setState({loadingState: 'error'});
-          forEachError(error, ({msg}) => {this.props.addNotification('error', msg);});
+          forEachError(error, ({msg}) => {this.props.notify('error', msg);});
         });
       emit('ui.Comment.showMoreReplies', {id});
       return;
@@ -252,7 +252,7 @@ export default class Comment extends React.Component {
     if (can(this.props.currentUser, 'INTERACT_WITH_COMMUNITY')) {
       this.props.setActiveReplyBox(this.props.comment.id);
     } else {
-      this.props.addNotification('error', t('error.NOT_AUTHORIZED'));
+      this.props.notify('error', t('error.NOT_AUTHORIZED'));
     }
     return;
   }
@@ -331,7 +331,7 @@ export default class Comment extends React.Component {
       deleteAction,
       disableReply,
       maxCharCount,
-      addNotification,
+      notify,
       charCountEnable,
       showSignInDialog,
       liveUpdates,
@@ -482,7 +482,7 @@ export default class Comment extends React.Component {
                     <TopRightMenu
                       comment={comment}
                       ignoreUser={ignoreUser}
-                      addNotification={addNotification} />
+                      notify={notify} />
                   </span>
               }
               { !isActive &&
@@ -494,7 +494,7 @@ export default class Comment extends React.Component {
                 this.state.isEditing
                 ? <EditableCommentContent
                     editComment={this.editComment}
-                    addNotification={addNotification}
+                    notify={notify}
                     comment={comment}
                     currentUser={currentUser}
                     charCountEnable={charCountEnable}
@@ -546,7 +546,7 @@ export default class Comment extends React.Component {
                         id={comment.id}
                         author_id={comment.user.id}
                         postFlag={postFlag}
-                        addNotification={addNotification}
+                        notify={notify}
                         postDontAgree={postDontAgree}
                         deleteAction={deleteAction}
                         showSignInDialog={showSignInDialog}
@@ -567,7 +567,7 @@ export default class Comment extends React.Component {
               maxCharCount={maxCharCount}
               setActiveReplyBox={setActiveReplyBox}
               parentId={(depth < THREADING_LEVEL) ? comment.id : parentId}
-              addNotification={addNotification}
+              notify={notify}
               postComment={postComment}
               currentUser={currentUser}
               assetId={asset.id}
@@ -584,7 +584,7 @@ export default class Comment extends React.Component {
                 setActiveReplyBox={setActiveReplyBox}
                 disableReply={disableReply}
                 activeReplyBox={activeReplyBox}
-                addNotification={addNotification}
+                notify={notify}
                 parentId={comment.id}
                 postComment={postComment}
                 editComment={this.props.editComment}

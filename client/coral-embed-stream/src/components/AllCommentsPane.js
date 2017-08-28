@@ -87,7 +87,7 @@ class AllCommentsPane extends React.Component {
       })
       .catch((error) => {
         this.setState({loadingState: 'error'});
-        forEachError(error, ({msg}) => {this.props.addNotification('error', msg);});
+        forEachError(error, ({msg}) => {this.props.notify('error', msg);});
       });
   }
 
@@ -129,7 +129,7 @@ class AllCommentsPane extends React.Component {
       ignoreUser,
       setActiveReplyBox,
       activeReplyBox,
-      addNotification,
+      notify,
       disableReply,
       postComment,
       asset,
@@ -166,7 +166,7 @@ class AllCommentsPane extends React.Component {
                   disableReply={disableReply}
                   setActiveReplyBox={setActiveReplyBox}
                   activeReplyBox={activeReplyBox}
-                  addNotification={addNotification}
+                  notify={notify}
                   depth={0}
                   postComment={postComment}
                   asset={asset}

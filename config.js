@@ -9,6 +9,7 @@ require('env-rewrite').rewrite();
 
 const uniq = require('lodash/uniq');
 const ms = require('ms');
+const debug = require('debug')('talk:config');
 
 //==============================================================================
 // CONFIG INITIALIZATION
@@ -240,33 +241,23 @@ CONFIG.RECAPTCHA_ENABLED =
   CONFIG.RECAPTCHA_SECRET.length > 0 &&
   CONFIG.RECAPTCHA_PUBLIC &&
   CONFIG.RECAPTCHA_PUBLIC.length > 0;
-if (!CONFIG.RECAPTCHA_ENABLED) {
-  console.warn(
-    'Recaptcha is not enabled for login/signup abuse prevention, set TALK_RECAPTCHA_SECRET and TALK_RECAPTCHA_PUBLIC to enable Recaptcha.'
-  );
-}
+
+debug(`reCAPTCHA is ${CONFIG.RECAPTCHA_ENABLED ? 'enabled' : 'disabled, required config is not present'}`);
 
 //------------------------------------------------------------------------------
 // SMTP Server configuration
 //------------------------------------------------------------------------------
 
-{
-  const requiredProps = [
-    'SMTP_FROM_ADDRESS',
-    'SMTP_USERNAME',
-    'SMTP_PASSWORD',
-    'SMTP_HOST'
-  ];
+CONFIG.EMAIL_ENABLED =
+  CONFIG.SMTP_FROM_ADDRESS &&
+  CONFIG.SMTP_FROM_ADDRESS.length > 0 &&
+  CONFIG.SMTP_USERNAME &&
+  CONFIG.SMTP_USERNAME.length > 0 &&
+  CONFIG.SMTP_PASSWORD &&
+  CONFIG.SMTP_PASSWORD.length > 0 &&
+  CONFIG.SMTP_HOST &&
+  CONFIG.SMTP_HOST.length > 0;
 
-  if (requiredProps.some((prop) => !CONFIG[prop])) {
-    console.warn(
-      `${requiredProps
-        .map((v) => `TALK_${v}`)
-        .join(
-          ', '
-        )} should be defined in the environment if you would like to send password reset emails from Talk`
-    );
-  }
-}
+debug(`Email is ${CONFIG.EMAIL_ENABLED ? 'enabled' : 'disabled, required config is not present'}`);
 
 module.exports = CONFIG;

@@ -1,11 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {isSlotEmpty} from 'coral-framework/helpers/plugins';
 import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import {getShallowChanges} from 'coral-framework/utils';
 
 class IfSlotIsNotEmpty extends React.Component {
+  static contextTypes = {
+    plugins: PropTypes.object,
+  };
 
   shouldComponentUpdate(next) {
 
@@ -22,7 +24,7 @@ class IfSlotIsNotEmpty extends React.Component {
 
   isSlotEmpty(props = this.props) {
     const {slot, className: _a, reduxState, component: _b = 'div', children: _c, ...rest} = props;
-    return isSlotEmpty(slot, reduxState, rest);
+    return this.context.plugins.isSlotEmpty(slot, reduxState, rest);
   }
 
   render() {

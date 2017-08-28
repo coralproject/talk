@@ -3,12 +3,11 @@ import {connect} from 'react-redux';
 import Layout from '../components/ui/Layout';
 import {fetchConfig} from '../actions/config';
 import AdminLogin from '../components/AdminLogin';
-import {logout} from 'coral-framework/actions/auth';
 import {FullLoading} from '../components/FullLoading';
 import BanUserDialog from './BanUserDialog';
 import SuspendUserDialog from './SuspendUserDialog';
 import {toggleModal as toggleShortcutModal} from '../actions/moderation';
-import {checkLogin, handleLogin, requestPasswordReset} from '../actions/auth';
+import {checkLogin, handleLogin, requestPasswordReset, logout} from '../actions/auth';
 import {can} from 'coral-framework/services/perms';
 import UserDetail from 'coral-admin/src/containers/UserDetail';
 

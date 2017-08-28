@@ -6,7 +6,7 @@ import reducer from './reducer';
 
 /**
  * talk-plugin-offtopic depends on talk-plugin-viewing-options
- * in other to display filter and use the streamViewingOptions slot
+ * in other to display filter.
  */
 
 export default {
@@ -15,6 +15,6 @@ export default {
   slots: {
     commentInputDetailArea: [OffTopicCheckbox],
     commentInfoBar: [OffTopicTag],
-    viewingOptions: [OffTopicFilter]
+    viewingOptionsFilter: [OffTopicFilter]
   }
 };

@@ -72,7 +72,6 @@ You can see other scripts we've made available by consulting the `package.json`
 file under the `scripts` key including:
 
 - `yarn test` run unit tests
-- `yarn e2e` run end to end tests
 - `yarn build-watch` watch for changes to client files and build static assets
 - `yarn dev-start` watch for changes to server files and reload the server while
   also sourcing a `.env` file in your local directory for configuration

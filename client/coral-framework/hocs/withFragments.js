@@ -1,9 +1,9 @@
 import React from 'react';
 import graphql from 'graphql-anywhere';
-import {resolveFragments} from 'coral-framework/services/graphqlRegistry';
 import mapValues from 'lodash/mapValues';
 import hoistStatics from 'recompose/hoistStatics';
 import {getShallowChanges} from 'coral-framework/utils';
+import PropTypes from 'prop-types';
 import union from 'lodash/union';
 
 // TODO: Should not depend on `props.data`
@@ -63,7 +63,22 @@ function hasEqualLeaves(a, b, path = '') {
 
 export default (fragments) => hoistStatics((BaseComponent) => {
   class WithFragments extends React.Component {
-    fragments = mapValues(fragments, (val) => resolveFragments(val));
+    static contextTypes = {
+      graphqlRegistry: PropTypes.object,
+    };
+
+    get graphqlRegistry() {
+      return this.context.graphqlRegistry;
+    }
+
+    resolveDocument(documentOrCallback) {
+      const document = typeof documentOrCallback === 'function'
+        ? documentOrCallback(this.props, this.context)
+        : documentOrCallback;
+      return this.graphqlRegistry.resolveFragments(document);
+    }
+
+    fragments = mapValues(fragments, (val) => this.resolveDocument(val));
     fragmentKeys = Object.keys(fragments).sort();
 
     // Cache variables between lifecycles to speed up render.

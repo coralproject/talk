@@ -19,7 +19,7 @@ class ReplyBox extends Component {
       postComment,
       assetId,
       currentUser,
-      addNotification,
+      notify,
       parentId,
       commentPostedHandler,
       maxCharCount,
@@ -32,7 +32,7 @@ class ReplyBox extends Component {
         commentPostedHandler={commentPostedHandler}
         parentId={parentId}
         onCancel={this.cancelReply}
-        addNotification={addNotification}
+        notify={notify}
         currentUser={currentUser}
         assetId={assetId}
         postComment={postComment}
@@ -47,7 +47,7 @@ ReplyBox.propTypes = {
   setActiveReplyBox: PropTypes.func.isRequired,
   commentPostedHandler: PropTypes.func,
   parentId: PropTypes.string,
-  addNotification: PropTypes.func.isRequired,
+  notify: PropTypes.func.isRequired,
   postComment: PropTypes.func.isRequired,
   assetId: PropTypes.string.isRequired
 };

@@ -1,16 +1,13 @@
 import bowser from 'bowser';
 import * as actions from '../constants/auth';
-import coralApi from 'coral-framework/helpers/request';
-import * as Storage from 'coral-framework/helpers/storage';
-import {handleAuthToken} from 'coral-framework/actions/auth';
-import {resetWebsocket} from 'coral-framework/services/client';
 import t from 'coral-framework/services/i18n';
+import jwtDecode from 'jwt-decode';
 
 //==============================================================================
 // SIGN IN
 //==============================================================================
 
-export const handleLogin = (email, password, recaptchaResponse) => (dispatch) => {
+export const handleLogin = (email, password, recaptchaResponse) => (dispatch, _, {rest, client, storage}) => {
   dispatch({type: actions.LOGIN_REQUEST});
 
   const params = {
@@ -27,18 +24,18 @@ export const handleLogin = (email, password, recaptchaResponse) => (dispatch) =>
     };
   }
 
-  return coralApi('/auth/local', params)
+  return rest('/auth/local', params)
     .then(({user, token}) => {
 
       if (!user) {
-        if (!bowser.safari && !bowser.ios) {
-          Storage.removeItem('token');
+        if (!bowser.safari && !bowser.ios && storage) {
+          storage.removeItem('token');
         }
         return dispatch(checkLoginFailure('not logged in'));
       }
 
       dispatch(handleAuthToken(token));
-      resetWebsocket();
+      client.resetWebsocket();
       dispatch(checkLoginSuccess(user));
     })
     .catch((error) => {
@@ -84,11 +81,11 @@ const forgotPasswordFailure = (error) => ({
   error,
 });
 
-export const requestPasswordReset = (email) => (dispatch) => {
+export const requestPasswordReset = (email) => (dispatch, _, {rest}) => {
   dispatch(forgotPasswordRequest(email));
   const redirectUri = location.href;
 
-  return coralApi('/account/password/reset', {method: 'POST', body: {email,  loc: redirectUri}})
+  return rest('/account/password/reset', {method: 'POST', body: {email,  loc: redirectUri}})
     .then(() => dispatch(forgotPasswordSuccess()))
     .catch((error) => {
       console.error(error);
@@ -116,18 +113,18 @@ const checkLoginFailure = (error) => ({
   error
 });
 
-export const checkLogin = () => (dispatch) => {
+export const checkLogin = () => (dispatch, _, {rest, client, storage}) => {
   dispatch(checkLoginRequest());
-  return coralApi('/auth')
+  return rest('/auth')
     .then(({user}) => {
       if (!user) {
-        if (!bowser.safari && !bowser.ios) {
-          Storage.removeItem('token');
+        if (!bowser.safari && !bowser.ios && storage) {
+          storage.removeItem('token');
         }
         return dispatch(checkLoginFailure('not logged in'));
       }
 
-      resetWebsocket();
+      client.resetWebsocket();
       dispatch(checkLoginSuccess(user));
     })
     .catch((error) => {
@@ -136,3 +133,33 @@ export const checkLogin = () => (dispatch) => {
       dispatch(checkLoginFailure(errorMessage));
     });
 };
+
+//==============================================================================
+// LOGOUT
+//==============================================================================
+
+export const logout = () => (dispatch, _, {rest, client, storage}) => {
+  return rest('/auth', {method: 'DELETE'}).then(() => {
+    if (storage) {
+      storage.removeItem('token');
+    }
+
+    // Reset the websocket.
+    client.resetWebsocket();
+
+    dispatch({type: actions.LOGOUT});
+  });
+};
+
+//==============================================================================
+// AUTH TOKEN
+//==============================================================================
+
+export const handleAuthToken = (token) => (dispatch, _, {storage}) => {
+  if (storage) {
+    storage.setItem('exp', jwtDecode(token).exp);
+    storage.setItem('token', token);
+  }
+  dispatch({type: 'HANDLE_AUTH_TOKEN'});
+};
+

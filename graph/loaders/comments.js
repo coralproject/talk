@@ -1,7 +1,6 @@
 const {
   SharedCounterDataLoader,
   singleJoinBy,
-  arrayJoinBy
 } = require('./util');
 const DataLoader = require('dataloader');
 const {
@@ -12,9 +11,9 @@ const {
   CACHE_EXPIRY_COMMENT_COUNT
 } = require('../../config');
 const ms = require('ms');
+const sc = require('snake-case');
 
 const CommentModel = require('../../models/comment');
-const UsersService = require('../../services/users');
 
 /**
  * Returns the comment count for all comments that are public based on their
@@ -46,38 +45,6 @@ const getCountsByAssetID = (context, asset_ids) => {
   ])
   .then(singleJoinBy(asset_ids, '_id'))
   .then((results) => results.map((result) => result ? result.count : 0));
-};
-
-/**
- * Returns the count of all public comments on an asset id, also filtering by personalization options.
- *
- * @param {Array<String>} id The ID of the asset
- * @param {Array<String>} excludeIgnored Exclude comments ignored by the requesting user
- */
-const getCountsByAssetIDPersonalized = async (context, {assetId, excludeIgnored, tags}) => {
-  const query = {
-    asset_id: assetId,
-    status: {
-      $in: ['NONE', 'ACCEPTED'],
-    },
-  };
-
-  if (tags) {
-    query['tags.tag.name'] = {
-      $in: tags,
-    };
-  }
-
-  const user = context.user;
-  if (excludeIgnored && user) {
-
-    // load afresh, as `user` may be from cache and not have recent ignores
-    const freshUser = await UsersService.findById(user.id);
-    const ignoredUsers = freshUser.ignoresUsers;
-    query.author_id = {$nin: ignoredUsers};
-  }
-  const count = await CommentModel.where(query).count();
-  return count;
 };
 
 /**
@@ -114,98 +81,6 @@ const getParentCountsByAssetID = (context, asset_ids) => {
 };
 
 /**
- * Returns the count of top-level comments on an asset id, also filtering by personalization options.
- *
- * @param {Array<String>} id The ID of the asset
- * @param {Array<String>} excludeIgnored Exclude comments ignored by the requesting user
- */
-const getParentCountByAssetIDPersonalized = async (context, {assetId, excludeIgnored, tags}) => {
-  const query = {
-    asset_id: assetId,
-    parent_id: null,
-    status: {
-      $in: ['NONE', 'ACCEPTED'],
-    },
-  };
-
-  if (tags) {
-    query['tags.tag.name'] = {
-      $in: tags,
-    };
-  }
-
-  const user = context.user;
-  if (excludeIgnored && user) {
-
-    // load afresh, as `user` may be from cache and not have recent ignores
-    const freshUser = await UsersService.findById(user.id);
-    const ignoredUsers = freshUser.ignoresUsers;
-    query.author_id = {$nin: ignoredUsers};
-  }
-
-  return CommentModel.where(query).count();
-};
-
-/**
- * Returns the comment count for all comments that are public based on their
- * parent ids.
- *
- * @param {Array<String>} parent_ids  the ids of parents for which there are
- *                                    comments that we want to get
- */
-const getCountsByParentID = (context, parent_ids) => {
-  return CommentModel.aggregate([
-    {
-      $match: {
-        parent_id: {
-          $in: parent_ids
-        },
-        status: {
-          $in: ['NONE', 'ACCEPTED']
-        }
-      }
-    },
-    {
-      $group: {
-        _id: '$parent_id',
-        count: {
-          $sum: 1
-        }
-      }
-    }
-  ])
-  .then(singleJoinBy(parent_ids, '_id'))
-  .then((results) => results.map((result) => result ? result.count : 0));
-};
-
-/**
- * Returns the count of comments for the provided parent_id, also filtering by personalization options.
- *
- * @param {Array<String>} id The ID of the parent comment
- * @param {Array<String>} excludeIgnored Exclude comments ignored by context.user
- */
-const getCountByParentIDPersonalized = async (context, {id, excludeIgnored}) => {
-  const query = {
-    parent_id: {
-      $in: [id]
-    },
-    status: {
-      $in: ['NONE', 'ACCEPTED']
-    }
-  };
-  const user = context.user;
-  if (excludeIgnored && user) {
-
-    // load afresh, as `user` may be from cache and not have recent ignores
-    const freshUser = await UsersService.findById(user.id);
-    const ignoredUsers = freshUser.ignoresUsers;
-    query.author_id = {$nin: ignoredUsers};
-  }
-  const count = await CommentModel.where(query).count();
-  return count;
-};
-
-/**
  * Retrieves the count of comments based on the passed in query.
  * @param  {Object} context   graph context
  * @param  {Object} query     query to execute against the comments collection
@@ -213,7 +88,7 @@ const getCountByParentIDPersonalized = async (context, {id, excludeIgnored}) => 
  * @return {Promise}          resolves to the counts of the comments from the
  *                            query
  */
-const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id, author_id, tags}) => {
+const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id, author_id, tags, action_type}) => {
   let query = CommentModel.find();
 
   if (ids) {
@@ -236,6 +111,14 @@ const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id, au
     query = query.where({author_id});
   }
 
+  if (context.user != null && context.user.can(SEARCH_OTHERS_COMMENTS) && action_type) {
+    query = query.where({
+      [`action_counts.${sc(action_type.toLowerCase())}`]: {
+        $gt: 0,
+      },
+    });
+  }
+
   if (tags) {
     query = query.find({
       'tags.tag.name': {
@@ -250,17 +133,155 @@ const getCommentCountByQuery = (context, {ids, statuses, asset_id, parent_id, au
 };
 
 /**
+ * getStartCursor will retrieve the start cursor based on the sortBy field.
+ *
+ * @param {Object} ctx the graph context
+ * @param {Object} nodes the result set of retrieved comments
+ * @param {Object} params the params from the client describing the query
+ */
+const getStartCursor = (ctx, nodes, {cursor, sortBy}) => {
+  switch (sortBy) {
+  case 'CREATED_AT':
+    return nodes.length ? nodes[0].created_at : null;
+  case 'REPLIES':
+
+    // The cursor is the start! This is using numeric pagination.
+    return cursor != null ? cursor : 0;
+  }
+
+  const SORT_KEY = sortBy.toLowerCase();
+  if (!ctx.plugins || !ctx.plugins.Sort.Comments || !ctx.plugins.Sort.Comments[SORT_KEY] || !ctx.plugins.Sort.Comments[SORT_KEY].startCursor) {
+    throw new Error(`unable to sort by ${sortBy}, no plugin was provided to handle this type`);
+  }
+
+  return ctx.plugins.Sort.Comments[SORT_KEY].startCursor(ctx, nodes, {cursor});
+};
+
+/**
+ * getEndCursor will fetch the end cursor based on the desired sortBy parameter.
+ *
+ * @param {Object} ctx the graph context
+ * @param {Object} nodes the result set of retrieved comments
+ * @param {Object} params the params from the client describing the query
+ */
+const getEndCursor = (ctx, nodes, {cursor, sortBy}) => {
+  switch (sortBy) {
+  case 'CREATED_AT':
+    return nodes.length ? nodes[nodes.length - 1].created_at : null;
+  case 'REPLIES':
+    return nodes.length ? (cursor != null ? cursor : 0) + nodes.length : null;
+  }
+
+  const SORT_KEY = sortBy.toLowerCase();
+  if (!ctx.plugins || !ctx.plugins.Sort.Comments || !ctx.plugins.Sort.Comments[SORT_KEY] || !ctx.plugins.Sort.Comments[SORT_KEY].endCursor) {
+    throw new Error(`unable to sort by ${sortBy}, no plugin was provided to handle this type`);
+  }
+
+  return ctx.plugins.Sort.Comments[SORT_KEY].endCursor(ctx, nodes, {cursor});
+};
+
+/**
+ * applySort will add the actual `.sort` and `.skip/.where` clauses to the query
+ * to apply the desired sort.
+ *
+ * @param {Object} ctx the graph context
+ * @param {Object} query the current mongoose query object
+ * @param {Object} params the params from the client describing the query
+ */
+const applySort = (ctx, query, {cursor, sortOrder, sortBy}) => {
+  switch (sortBy) {
+  case 'CREATED_AT': {
+    if (cursor) {
+      if (sortOrder === 'DESC') {
+        query = query.where({
+          created_at: {
+            $lt: cursor,
+          },
+        });
+      } else {
+        query = query.where({
+          created_at: {
+            $gt: cursor,
+          },
+        });
+      }
+    }
+
+    return query.sort({created_at: sortOrder === 'DESC' ? -1 : 1});
+  }
+  case 'REPLIES': {
+    if (cursor) {
+      query = query.skip(cursor);
+    }
+
+    return query.sort({reply_count: sortOrder === 'DESC' ? -1 : 1, created_at: sortOrder === 'DESC' ? -1 : 1});
+  }
+  }
+
+  const SORT_KEY = sortBy.toLowerCase();
+  if (!ctx.plugins || !ctx.plugins.Sort.Comments || !ctx.plugins.Sort.Comments[SORT_KEY] || !ctx.plugins.Sort.Comments[SORT_KEY].sort) {
+    throw new Error(`unable to sort by ${sortBy}, no plugin was provided to handle this type`);
+  }
+
+  return ctx.plugins.Sort.Comments[SORT_KEY].sort(ctx, query, {cursor, sortOrder});
+};
+
+/**
+ * executeWithSort will actually retrieve the comments based on the pre-assembled
+ * query and will compose on top the sort operators necessary to get the desired
+ * result.
+ *
+ * @param {Object} ctx the graph context
+ * @param {Object} query the current mongoose query object
+ * @param {Object} params the params from the client describing the query
+ */
+const executeWithSort = async (ctx, query, {cursor, sortOrder, sortBy, limit}) => {
+
+  // Apply the sort to the query.
+  query = applySort(ctx, query, {cursor, sortOrder, sortBy});
+
+  // Apply the limit (if it exists, as it's applied universally).
+  if (limit) {
+    query = query.limit(limit + 1);
+  }
+
+  // Fetch the nodes based on the source query.
+  const nodes = await query.exec();
+
+  // The hasNextPage is always handled the same (ask for one more than we need,
+  // if there is one more, than there is more).
+  let hasNextPage = false;
+  if (limit && nodes.length > limit) {
+
+    // There was one more than we expected! Set hasNextPage = true and remove
+    // the last item from the array that we requested.
+    hasNextPage = true;
+    nodes.splice(limit, 1);
+  }
+
+  // Use the generator functions below to extract the cursor details based on
+  // the current sortBy parameter.
+  return {
+    startCursor: getStartCursor(ctx, nodes, {cursor, sortOrder, sortBy, limit}),
+    endCursor: getEndCursor(ctx, nodes, {cursor, sortOrder, sortBy, limit}),
+    hasNextPage,
+    nodes,
+  };
+};
+
+/**
  * Retrieves comments based on the passed in query that is filtered by the
  * current used passed in via the context.
+ *
  * @param  {Object} context   graph context
  * @param  {Object} query     query terms to apply to the comments query
  */
-const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, author_id, limit, cursor, sort, excludeIgnored, tags}) => {
+const getCommentsByQuery = async (ctx, {ids, statuses, asset_id, parent_id, author_id, limit, cursor, sortOrder, sortBy, excludeIgnored, tags, action_type}) => {
   let comments = CommentModel.find();
 
   // Only administrators can search for comments with statuses that are not
   // `null`, or `'ACCEPTED'`.
-  if (user != null && user.can(SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS) && statuses) {
+  if (ctx.user != null && ctx.user.can(SEARCH_NON_NULL_OR_ACCEPTED_COMMENTS) && statuses && statuses.length > 0) {
     comments = comments.where({
       status: {
         $in: statuses
@@ -271,6 +292,14 @@ const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, a
       status: {
         $in: ['NONE', 'ACCEPTED']
       }
+    });
+  }
+
+  if (ctx.user != null && ctx.user.can(SEARCH_OTHERS_COMMENTS) && action_type) {
+    comments = comments.where({
+      [`action_counts.${sc(action_type.toLowerCase())}`]: {
+        $gt: 0,
+      },
     });
   }
 
@@ -291,7 +320,7 @@ const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, a
   }
 
   // Only let an admin request any user or the current user request themself.
-  if (user && (user.can(SEARCH_OTHERS_COMMENTS) || user.id === author_id) && author_id != null) {
+  if (ctx.user && (ctx.user.can(SEARCH_OTHERS_COMMENTS) || ctx.user.id === author_id) && author_id != null) {
     comments = comments.where({author_id});
   }
 
@@ -305,151 +334,19 @@ const getCommentsByQuery = async ({user}, {ids, statuses, asset_id, parent_id, a
     comments = comments.where({parent_id});
   }
 
-  if (excludeIgnored && user && user.ignoresUsers) {
+  if (excludeIgnored && ctx.user && ctx.user.ignoresUsers && ctx.user.ignoresUsers.length > 0) {
     comments = comments.where({
-      author_id: {$nin: user.ignoresUsers}
+      author_id: {$nin: ctx.user.ignoresUsers}
     });
   }
 
-  if (cursor) {
-    if (sort === 'REVERSE_CHRONOLOGICAL') {
-      comments = comments.where({
-        created_at: {
-          $lt: cursor
-        }
-      });
-    } else {
-      comments = comments.where({
-        created_at: {
-          $gt: cursor
-        }
-      });
-    }
-  }
-
-  let query = comments
-    .sort({created_at: sort === 'REVERSE_CHRONOLOGICAL' ? -1 : 1});
-  if (limit) {
-    query = query.limit(limit + 1);
-  }
-  return query.then((nodes) => {
-    let hasNextPage = false;
-    if (limit && nodes.length > limit) {
-      hasNextPage = true;
-      nodes.splice(limit, 1);
-    }
-    return Promise.resolve({
-      startCursor: nodes.length ? nodes[0].created_at : null,
-      endCursor: nodes.length ? nodes[nodes.length - 1].created_at : null,
-      hasNextPage,
-      nodes,
-    });
-  });
+  return executeWithSort(ctx, comments, {cursor, sortOrder, sortBy, limit});
 };
 
 /**
- * Gets the recent replies.
- * @param  {Object}        context   graph context
- * @param  {Array<String>} ids       ids of parent ids
- * @return {Promise}                 resolves to recent replies
- */
-const genRecentReplies = (context, ids) => {
-  return CommentModel.aggregate([
-
-    // get all the replies for the comments in question
-    {$match: {
-      parent_id: {
-        $in: ids
-      }
-    }},
-
-    // sort these by their created at timestamp, CHRONOLOGICAL'y as these are
-    // replies
-    {$sort: {
-      created_at: 1
-    }},
-
-    // group these replies by their parent_id
-    {$group: {
-      _id: '$parent_id',
-      replies: {
-        $push: '$$ROOT'
-      }
-    }},
-
-    // project it so that we only retain the first 3 replies of each parent
-    // comment
-    {$project: {
-      _id: '$_id',
-      replies: {
-        $slice: [
-          '$replies',
-          0,
-          3
-        ]
-      }
-    }},
-
-    {$unwind: '$replies'},
-
-  ])
-  .then((replies) => replies.map((reply) => reply.replies))
-  .then(arrayJoinBy(ids, 'parent_id'));
-};
-
-/**
- * Gets the recent comments.
- * @param  {Object}        context   graph context
- * @param  {Array<String>} ids       ids of asset ids
- * @return {Promise}                 resolves to recent comments from assets
- */
-const genRecentComments = (_, ids) => {
-  return CommentModel.aggregate([
-
-    // get all the replies for the comments in question
-    {$match: {
-      asset_id: {
-        $in: ids
-      }
-    }},
-
-    // sort these by their created at timestamp, CHRONOLOGICAL'y as these are
-    // replies
-    {$sort: {
-      created_at: 1
-    }},
-
-    // group these replies by their parent_id
-    {$group: {
-      _id: '$asset_id',
-      comments: {
-        $push: '$$ROOT'
-      }
-    }},
-
-    // project it so that we only retain the first 3 replies of each parent
-    // comment
-    {$project: {
-      _id: '$_id',
-      comments: {
-        $slice: [
-          '$comments',
-          0,
-          3
-        ]
-      }
-    }},
-
-    // Unwind these comments.
-    {$unwind: '$comments'},
-
-  ])
-  .then((replies) => replies.map((reply) => reply.comments))
-  .then(arrayJoinBy(ids, 'asset_id'));
-};
-
-/**
- * getComments returns the comments by the id's. Only admins can see non-public comments.
+ * getComments returns the comments by the id's. Only admins can see non-public
+ * comments.
+ *
  * @param  {Object}        context graph context
  * @param  {Array<String>} ids     the comment id's to fetch
  * @return {Promise}       resolves to the comments
@@ -477,6 +374,7 @@ const getComments = ({user}, ids) => {
 
 /**
  * Creates a set of loaders based on a GraphQL context.
+ *
  * @param  {Object} context the context of the GraphQL request
  * @return {Object}         object of loaders
  */
@@ -486,12 +384,6 @@ module.exports = (context) => ({
     getByQuery: (query) => getCommentsByQuery(context, query),
     getCountByQuery: (query) => getCommentCountByQuery(context, query),
     countByAssetID: new SharedCounterDataLoader('Comments.totalCommentCount', ms(CACHE_EXPIRY_COMMENT_COUNT), (ids) => getCountsByAssetID(context, ids)),
-    countByAssetIDPersonalized: (query) => getCountsByAssetIDPersonalized(context, query),
-    parentCountByAssetID: new SharedCounterDataLoader('Comments.countByAssetID', ms(CACHE_EXPIRY_COMMENT_COUNT), (ids) => getParentCountsByAssetID(context, ids)),
-    parentCountByAssetIDPersonalized: (query) => getParentCountByAssetIDPersonalized(context, query),
-    countByParentID: new SharedCounterDataLoader('Comments.countByParentID', ms(CACHE_EXPIRY_COMMENT_COUNT), (ids) => getCountsByParentID(context, ids)),
-    countByParentIDPersonalized: (query) => getCountByParentIDPersonalized(context, query),
-    genRecentReplies: new DataLoader((ids) => genRecentReplies(context, ids)),
-    genRecentComments: new DataLoader((ids) => genRecentComments(context, ids))
+    parentCountByAssetID: new SharedCounterDataLoader('Comments.countByAssetID', ms(CACHE_EXPIRY_COMMENT_COUNT), (ids) => getParentCountsByAssetID(context, ids))
   }
 });

@@ -1,5 +1,5 @@
 import * as actions from '../constants/stream';
-import * as authActions from 'coral-framework/constants/auth';
+import * as authActions from '../constants/auth';
 
 function getQueryVariable(variable) {
   let query = window.location.search.substring(1);
@@ -23,6 +23,8 @@ const initialState = {
   commentClassNames: [],
   activeTab: process.env.TALK_DEFAULT_STREAM_TAB,
   previousTab: '',
+  sortBy: 'CREATED_AT',
+  sortOrder: 'DESC',
 };
 
 export default function stream(state = initialState, action) {
@@ -65,6 +67,12 @@ export default function stream(state = initialState, action) {
         ...state.commentClassNames.slice(0, action.idx),
         ...state.commentClassNames.slice(action.idx + 1)
       ]
+    };
+  case actions.SET_SORT :
+    return {
+      ...state,
+      sortOrder: action.sortOrder ? action.sortOrder : state.sortOrder,
+      sortBy: action.sortBy ? action.sortBy : state.sortBy,
     };
   default:
     return state;

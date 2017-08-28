@@ -1,5 +1,5 @@
 import React from 'react';
-import Markdown from './Markdown';
+import Markdown from 'coral-framework/components/Markdown';
 
 const packagename = 'talk-plugin-infobox';
 

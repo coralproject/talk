@@ -174,9 +174,7 @@ const createComment = async (context, {tags = [], body, asset_id, parent_id = nu
   // perform these increments in the event that we do have a new comment that
   // is approved or without a comment.
   if (status === 'NONE' || status === 'APPROVED') {
-    if (parent_id != null) {
-      Comments.countByParentID.incr(parent_id);
-    } else {
+    if (parent_id === null) {
       Comments.parentCountByAssetID.incr(asset_id);
     }
     Comments.countByAssetID.incr(asset_id);
@@ -309,7 +307,7 @@ const createPublicComment = async (context, commentInput) => {
     // TODO: this is kind of fragile, we should refactor this to resolve
     // all these const's that we're using like 'COMMENTS', 'FLAG' to be
     // defined in a checkable schema.
-    await ActionsService.insertUserAction({
+    await ActionsService.create({
       item_id: comment.id,
       item_type: 'COMMENTS',
       action_type: 'FLAG',
@@ -338,9 +336,7 @@ const setStatus = async ({user, loaders: {Comments}, pubsub}, {id, status}) => {
   // be nice if we could decrement the counters here, but that would result
   // in us having to know the initial state of the comment, which would
   // require another database query.
-  if (comment.parent_id != null) {
-    Comments.countByParentID.clear(comment.parent_id);
-  } else {
+  if (comment.parent_id === null) {
     Comments.parentCountByAssetID.clear(comment.asset_id);
   }
 

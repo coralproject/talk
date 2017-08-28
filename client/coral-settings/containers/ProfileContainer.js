@@ -11,8 +11,11 @@ import NotLoggedIn from '../components/NotLoggedIn';
 import IgnoredUsers from '../components/IgnoredUsers';
 import {Spinner} from 'coral-ui';
 import CommentHistory from 'talk-plugin-history/CommentHistory';
-import {showSignInDialog, checkLogin} from 'coral-framework/actions/auth';
-import {insertCommentsSorted} from 'plugin-api/beta/client/utils';
+
+// TODO: Auth logic needs refactoring.
+import {showSignInDialog, checkLogin} from 'coral-embed-stream/src/actions/auth';
+
+import {appendNewNodes} from 'plugin-api/beta/client/utils';
 import update from 'immutability-helper';
 import {getSlotFragmentSpreads} from 'coral-framework/utils';
 
@@ -34,12 +37,12 @@ class ProfileContainer extends Component {
         limit: 5,
         cursor: this.props.root.me.comments.endCursor,
       },
-      updateQuery: (previous, {fetchMoreResult:{comments}}) => {
+      updateQuery: (previous, {fetchMoreResult:{me: {comments}}}) => {
         const updated = update(previous, {
           me: {
             comments: {
               nodes: {
-                $apply: (nodes) => insertCommentsSorted(nodes, comments.nodes, 'REVERSE_CHRONOLOGICAL'),
+                $apply: (nodes) => appendNewNodes(nodes, comments.nodes),
               },
               hasNextPage: {$set: comments.hasNextPage},
               endCursor: {$set: comments.endCursor},
@@ -120,9 +123,11 @@ const CommentFragment = gql`
 `;
 
 const LOAD_MORE_QUERY = gql`
-  query TalkSettings_LoadMoreComments($limit: Int, $cursor: Date) {
-    comments(query: {limit: $limit, cursor: $cursor}) {
-      ...TalkSettings_CommentConnectionFragment
+  query TalkSettings_LoadMoreComments($limit: Int, $cursor: Cursor) {
+    me {
+      comments(query: {limit: $limit, cursor: $cursor}) {
+        ...TalkSettings_CommentConnectionFragment
+      }
     }
   }
   ${CommentFragment}

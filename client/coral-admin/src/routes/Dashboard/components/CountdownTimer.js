@@ -5,17 +5,24 @@ import {Icon} from 'coral-ui';
 import t from 'coral-framework/services/i18n';
 const refreshIntervalSeconds = 60 * 5;
 
+// TODO: refactor out storage code into redux.
+
 class CountdownTimer extends React.Component {
+
+  static contextTypes = {
+    storage: PropTypes.object,
+  };
 
   static propTypes = {
     handleTimeout: PropTypes.func.isRequired
   }
 
-  constructor (props) {
-    super(props);
+  constructor (props, context) {
+    super(props, context);
+    const {storage} = context;
     try {
-      if (window.localStorage.getItem('coral:dashboardNote') === null) {
-        window.localStorage.setItem('coral:dashboardNote', 'show');
+      if (storage && storage.getItem('coral:dashboardNote') === null) {
+        storage.setItem('coral:dashboardNote', 'show');
       }
     } catch (e) {
 
@@ -24,7 +31,7 @@ class CountdownTimer extends React.Component {
 
     this.state = {
       secondsUntilRefresh: refreshIntervalSeconds,
-      dashboardNote: window.localStorage.getItem('coral:dashboardNote') || 'show'
+      dashboardNote: (storage && storage.getItem('coral:dashboardNote')) || 'show'
     };
   }
 
@@ -54,8 +61,11 @@ class CountdownTimer extends React.Component {
   }
 
   dismissNote = () => {
+    const {storage} = this.context;
     try {
-      window.localStorage.setItem('coral:dashboardNote', 'hide');
+      if (storage) {
+        storage.setItem('coral:dashboardNote', 'hide');
+      }
     } catch (e) {
 
       // when setItem fails in Safari Private mode
@@ -64,7 +74,8 @@ class CountdownTimer extends React.Component {
   }
 
   render () {
-    const hideReloadNote = window.localStorage.getItem('coral:dashboardNote') === 'hide' ||
+    const {storage} = this.context;
+    const hideReloadNote = (storage && storage.getItem('coral:dashboardNote') === 'hide') ||
       this.state.dashboardNote === 'hide'; // for Safari Incognito
     return (
       <p
