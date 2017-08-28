@@ -5,9 +5,20 @@ const util = require('./util');
 const UsersService = require('../../services/users');
 const UserModel = require('../../models/user');
 
-const genUserByIDs = (context, ids) => UsersService
-  .findByIdArray(ids)
-  .then(util.singleJoinBy(ids, 'id'));
+const genUserByIDs = async (context, ids) => {
+  if (!ids || ids.length === 0) {
+    return [];
+  }
+
+  if (ids.length === 1) {
+    const user = await UsersService.findById(ids[0]);
+    return [user];
+  }
+
+  return UsersService
+    .findByIdArray(ids)
+    .then(util.singleJoinBy(ids, 'id'));
+};
 
 /**
  * Retrieves users based on the passed in query that is filtered by the
