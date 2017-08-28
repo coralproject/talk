@@ -4,7 +4,7 @@ import t from 'coral-framework/services/i18n';
 import styles from './Configure.css';
 import {Checkbox, Textfield} from 'react-mdl';
 import {Card, Icon, TextArea} from 'coral-ui';
-import MarkdownEditor from 'coral-admin/src/components/MarkdownEditor';
+import MarkdownEditor from 'coral-framework/components/MarkdownEditor';
 
 const TIMESTAMPS = {
   weeks: 60 * 60 * 24 * 7,

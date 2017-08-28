@@ -264,6 +264,7 @@ class Stream extends React.Component {
               <QuestionBox
                 content={asset.settings.questionBoxContent}
                 enable={asset.settings.questionBoxEnable}
+                icon={asset.settings.questionBoxIcon}
               />
               {!banned &&
                 temporarilySuspended &&

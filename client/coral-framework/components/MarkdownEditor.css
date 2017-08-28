@@ -467,7 +467,6 @@ $fullscreenZIndex: 10;
       text-align: center;
       text-decoration: none!important;
       color: #2c3e50!important;
-      width: 30px;
       height: 30px;
       margin: 0;
       border: 1px solid transparent;
@@ -475,6 +474,8 @@ $fullscreenZIndex: 10;
       cursor: pointer;
       outline: 0;
       margin-right: 2px;
+      font-size: 1.5em;
+      width: 25px;
       &.active {
         background: #fcfcfc;
         border-color: #95a5a6;
