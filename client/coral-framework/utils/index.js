@@ -185,10 +185,15 @@ export function getShallowChanges(a, b) {
     .filter((key) => a[key] !== b[key]);
 }
 
+// TODO: replace with something less fragile.
+// NOT_REACTION_TYPES are the action summaries that are not reactions.
+const NOT_REACTION_TYPES = [
+  'FlagActionSummary',
+  'DontAgreeActionSummary',
+];
+
 export function getTotalReactionsCount(actionSummaries) {
   return actionSummaries
-    .filter((s) => s.__typename !== 'FlagActionSummary')
-    .reduce((total, summary) => {
-      return total + summary.count;
-    }, 0);
+    .filter(({__typename}) => !NOT_REACTION_TYPES.includes(__typename))
+    .reduce((total, {count}) => total + count, 0);
 }
