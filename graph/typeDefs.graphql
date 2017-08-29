@@ -143,7 +143,19 @@ input AssetsQuery {
 
   # Limit the number of results to be returned
   limit: Int = 10
+
+  # open filters assets that are open/closed/all. Not providing this parameter
+  # will return all the assets, true will return assets that are open, and false
+  # will return assets that are closed.
+  open: Boolean
+
+  # sortOrder specifies the order of the sort for the returned Assets.
+  sortOrder: SORT_ORDER = DESC
+
+  # Skip results from the last created_at timestamp.
+  cursor: Cursor
 }
+
 ################################################################################
 ## Tags
 ################################################################################
@@ -627,6 +639,22 @@ type Asset {
   author: String
 }
 
+# AssetConnection represents a paginable subset of a asset list.
+type AssetConnection {
+
+  # Indicates that there are more assets after this subset.
+  hasNextPage: Boolean!
+
+  # Cursor of first asset in subset.
+  startCursor: Date
+
+  # Cursor of last asset in subset.
+  endCursor: Date
+
+  # Subset of assets.
+  nodes: [Asset!]!
+}
+
 ################################################################################
 ## Errors
 ################################################################################
@@ -714,7 +742,7 @@ type RootQuery {
   comment(id: ID!): Comment
 
   # All assets. Requires the `ADMIN` role.
-  assets(query: AssetsQuery): [Asset]
+  assets(query: AssetsQuery): AssetConnection
 
   # Find or create an asset by url, or just find with the ID.
   asset(id: ID, url: String): Asset
@@ -884,6 +912,54 @@ input RejectUsernameInput {
   message: String!
 }
 
+# Configurable settings that can be overridden for the Asset.
+input AssetSettingsInput {
+
+  # premodLinksEnable will put all comments that contain links into premod.
+  premodLinksEnable: Boolean
+
+  # moderation is the moderation mode for the asset.
+  moderation: MODERATION_MODE!
+
+  # questionBoxEnable will enable the Question Boxs' content to be visable above
+  # the comment box.
+  questionBoxEnable: Boolean
+
+  # questionBoxContent is the content of the Question Box.
+  questionBoxContent: String
+
+  # questionBoxIcon is the icon for the Question Box.
+  questionBoxIcon: String
+}
+
+# UpdateAssetStatusInput contains the input to change the status of a comment as
+# it relates to being open/closed for commenting.
+input UpdateAssetStatusInput {
+
+  # closedAt is the time that the asset will be closed for commenting. If this
+  # is null or in the future, it will be open for commenting.
+  closedAt: Date
+
+  # closedMessage is the message to be set on the asset when it is closed.
+  closedMessage: String
+}
+
+# UpdateAssetStatusResponse is the response returned with possibly some errors
+# relating to the update status attempt.
+type UpdateAssetStatusResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
+# UpdateAssetSettingsResponse is the response returned with possibly some errors
+# relating to the update settings attempt.
+type UpdateAssetSettingsResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
 # DeleteActionResponse is the response returned with possibly some errors
 # relating to the delete action attempt.
 type DeleteActionResponse implements Response {
@@ -1043,6 +1119,13 @@ type RootMutation {
 
   # Removes a tag.
   removeTag(tag: ModifyTagInput!): ModifyTagResponse!
+
+  # Updates settings on a given asset.
+  updateAssetSettings(id: ID!, input: AssetSettingsInput!): UpdateAssetSettingsResponse
+
+  # Updates the status of an asset allowing you to close/reopen an asset for
+  # commenting.
+  updateAssetStatus(id: ID!, input: UpdateAssetStatusInput!): UpdateAssetStatusResponse
 
   # Ignore comments by another user
   ignoreUser(id: ID!): IgnoreUserResponse

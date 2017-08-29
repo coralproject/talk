@@ -108,19 +108,57 @@ module.exports = class AssetsService {
    * @param  {String} value string to search by.
    * @return {Promise}
    */
-  static search({value, skip, limit} = {}) {
-    if (!value) {
-      return AssetsService.all(skip, limit);
-    } else {
-      return AssetModel
-        .find({
-          $text: {
-            $search: value
-          }
-        })
-        .skip(skip)
-        .limit(limit);
+  static search({value, limit, open, sortOrder, cursor} = {}) {
+    let assets = AssetModel.find({});
+
+    if (value) {
+      assets.merge({
+        $text: {
+          $search: value
+        }
+      });
     }
+
+    if (open != null) {
+      if (open) {
+        assets.merge({
+          $or: [
+            {
+              closedAt: null
+            },
+            {
+              closedAt: {
+                $gt: Date.now()
+              }
+            }
+          ]
+        });
+      } else {
+        assets.merge({
+          closedAt: {
+            $lt: Date.now()
+          }
+        });
+      }
+    }
+
+    if (cursor) {
+      if (sortOrder === 'DESC') {
+        assets.merge({
+          created_at: {
+            $lt: cursor,
+          },
+        });
+      } else {
+        assets.merge({
+          created_at: {
+            $gt: cursor,
+          },
+        });
+      }
+    }
+
+    return assets.limit(limit);
   }
 
   /**
@@ -185,10 +223,9 @@ module.exports = class AssetsService {
     // That's it!
   }
 
-  static all(skip = null, limit = null) {
+  static all(limit = undefined) {
     return AssetModel
       .find({})
-      .skip(skip)
       .limit(limit);
   }
 };

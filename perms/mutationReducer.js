@@ -33,6 +33,10 @@ module.exports = (user, perm) => {
     return check(user, ['ADMIN']);
   case types.REVOKE_TOKEN:
     return check(user, ['ADMIN']);
+  case types.UPDATE_ASSET_SETTINGS:
+    return check(user, ['ADMIN', 'MODERATOR']);
+  case types.UPDATE_ASSET_STATUS:
+    return check(user, ['ADMIN', 'MODERATOR']);
   default:
     break;
   }

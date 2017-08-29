@@ -25,6 +25,12 @@ const RootMutation = {
   rejectUsername(_, {input: {id, message}}, {mutators: {User}}) {
     return wrapResponse(null)(User.rejectUsername({id, message}));
   },
+  updateAssetSettings(_, {id, input: settings}, {mutators: {Asset}}) {
+    return wrapResponse(null)(Asset.updateSettings(id, settings));
+  },
+  updateAssetStatus(_, {id, input: status}, {mutators: {Asset}}) {
+    return wrapResponse(null)(Asset.updateStatus(id, status));
+  },
   ignoreUser(_, {id}, {mutators: {User}}) {
     return wrapResponse(null)(User.ignoreUser({id}));
   },
