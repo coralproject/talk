@@ -111,20 +111,20 @@ export default class Configure extends Component {
       (bool, error) => this.state.errors[error] ? false : bool, this.state.changed);
 
     return (
-        <div className={styles.container}>
-          <div className={styles.leftColumn}>
-            <List onChange={this.changeSection} activeItem={activeSection}>
-              <Item itemId='stream' icon='speaker_notes'>
-                {t('configure.stream_settings')}
-              </Item>
-              <Item itemId='moderation' icon='thumbs_up_down'>
-                {t('configure.moderation_settings')}
-              </Item>
-              <Item itemId='tech' icon='code'>
-                {t('configure.tech_settings')}
-              </Item>
-            </List>
-            <div className={styles.saveBox}>
+      <div className={styles.container}>
+        <div className={styles.leftColumn}>
+          <List onChange={this.changeSection} activeItem={activeSection}>
+            <Item itemId='stream' icon='speaker_notes'>
+              {t('configure.stream_settings')}
+            </Item>
+            <Item itemId='moderation' icon='thumbs_up_down'>
+              {t('configure.moderation_settings')}
+            </Item>
+            <Item itemId='tech' icon='code'>
+              {t('configure.tech_settings')}
+            </Item>
+          </List>
+          <div className={styles.saveBox}>
             {
               showSave ?
                 <Button
@@ -136,25 +136,25 @@ export default class Configure extends Component {
                 >
                   {t('configure.save_changes')}
                 </Button>
-              :
+                :
                 <Button
                   raised
                   disabled
                   icon='check'
                   full
                 >
-                {t('configure.save_changes')}
-               </Button>
+                  {t('configure.save_changes')}
+                </Button>
             }
-            </div>
+          </div>
 
-          </div>
-          <div className={styles.mainContent}>
-            { this.props.saveFetchingError }
-            { this.props.fetchSettingsError }
-            { section }
-          </div>
         </div>
+        <div className={styles.mainContent}>
+          { this.props.saveFetchingError }
+          { this.props.fetchSettingsError }
+          { section }
+        </div>
+      </div>
     );
   }
 }

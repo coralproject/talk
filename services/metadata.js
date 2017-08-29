@@ -1,7 +1,7 @@
 /**
  * The key must be composed of alpha characters with periods seperating them.
  */
-const KEY_REGEX = /^(?:[A-Za-z][A-Za-z\.]*[A-Za-z])?(?:[A-Za-z]*)$/;
+const KEY_REGEX = /^(?:[A-Za-z][A-Za-z.]*[A-Za-z])?(?:[A-Za-z]*)$/;
 
 /**
  * Allows metadata properties to be set/unset from specific models. It is the

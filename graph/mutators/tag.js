@@ -5,7 +5,7 @@ const {ADD_COMMENT_TAG, REMOVE_COMMENT_TAG} = require('../../perms/constants');
 /**
  * Modifies the targeted model with the specified operation to add/remove a tag.
  */
-const modify = async ({user, loaders: {Tags}, pubsub}, operation, {name, id, item_type, asset_id}) => {
+const modify = async ({user, loaders: {Tags}}, operation, {name, id, item_type, asset_id}) => {
 
   // Get the global list of tags from the dataloader.
   const tags = await Tags.getAll.load({id, item_type, asset_id});

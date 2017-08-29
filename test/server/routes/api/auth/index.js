@@ -25,14 +25,11 @@ const SettingsService = require('../../../../../services/settings');
 describe('/api/v1/auth/local', () => {
 
   let mockUser;
-  beforeEach(() => {
+  beforeEach(async () => {
     const settings = {requireEmailConfirmation: false, wordlist: {banned: ['bad'], suspect: ['naughty']}};
-    return SettingsService.init(settings).then(() => {
-      return UsersService.createLocalUser('maria@gmail.com', 'password!', 'Maria')
-        .then((user) => {
-          mockUser = user;
-        });
-    });
+    await SettingsService.init(settings);
+
+    mockUser = await UsersService.createLocalUser('maria@gmail.com', 'password!', 'Maria');
   });
 
   describe('email confirmation disabled', () => {
@@ -53,12 +50,12 @@ describe('/api/v1/auth/local', () => {
       it('should not send back the user on a unsuccessful login', () => {
         return chai.request(app)
           .post('/api/v1/auth/local')
-            .send({email: 'maria@gmail.com', password: 'password!3'})
-            .catch((err) => {
-              expect(err).to.not.be.null;
-              expect(err.response).to.have.status(401);
-              expect(err.response.body).to.have.property('message', 'not authorized');
-            });
+          .send({email: 'maria@gmail.com', password: 'password!3'})
+          .catch((err) => {
+            expect(err).to.not.be.null;
+            expect(err.response).to.have.status(401);
+            expect(err.response.body).to.have.property('message', 'not authorized');
+          });
       });
 
     });

@@ -14,21 +14,21 @@ const FlaggedAccounts = (props) => {
       <div className={styles.mainFlaggedContent}>
         {
           hasResults
-          ? commenters.map((commenter, index) => {
-            return <User
-              user={commenter}
-              key={index}
-              index={index}
-              modActionButtons={['APPROVE', 'REJECT']}
-              showBanUserDialog={props.showBanUserDialog}
-              showSuspendUserDialog={props.showSuspendUserDialog}
-              showRejectUsernameDialog={props.showRejectUsernameDialog}
-              approveUser={props.approveUser}
-              currentUser={props.currentUser}
-              viewUserDetail={props.viewUserDetail}
+            ? commenters.map((commenter, index) => {
+              return <User
+                user={commenter}
+                key={index}
+                index={index}
+                modActionButtons={['APPROVE', 'REJECT']}
+                showBanUserDialog={props.showBanUserDialog}
+                showSuspendUserDialog={props.showSuspendUserDialog}
+                showRejectUsernameDialog={props.showRejectUsernameDialog}
+                approveUser={props.approveUser}
+                currentUser={props.currentUser}
+                viewUserDetail={props.viewUserDetail}
               />;
-          })
-          : <EmptyCard>{t('community.no_flagged_accounts')}</EmptyCard>
+            })
+            : <EmptyCard>{t('community.no_flagged_accounts')}</EmptyCard>
         }
       </div>
     </div>

@@ -81,11 +81,11 @@ class PluginsService {
     const pluginConfig = reduxState.config.plugin_config || emptyConfig;
     return flatten(this.plugins
 
-        // Filter out components that have slots and have been disabled in `plugin_config`
-        .filter((o) => o.module.slots && (!pluginConfig || !pluginConfig[o.name] || !pluginConfig[o.name].disable_components))
+      // Filter out components that have slots and have been disabled in `plugin_config`
+      .filter((o) => o.module.slots && (!pluginConfig || !pluginConfig[o.name] || !pluginConfig[o.name].disable_components))
 
-        .filter((o) => o.module.slots[slot])
-        .map((o) => o.module.slots[slot])
+      .filter((o) => o.module.slots[slot])
+      .map((o) => o.module.slots[slot])
     )
       .filter((component) => {
         if(!component.isExcluded) {
@@ -114,8 +114,8 @@ class PluginsService {
       config: pluginConfig,
       ...(
         component.fragments
-        ? pick(queryData, Object.keys(component.fragments))
-        : withWarnings(component, queryData)
+          ? pick(queryData, Object.keys(component.fragments))
+          : withWarnings(component, queryData)
       )
     };
   }

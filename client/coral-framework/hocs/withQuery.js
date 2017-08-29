@@ -129,18 +129,18 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
               ...lmArgs,
               query: resolvedDocument,
             })
-            .then((res) => {
-              this.context.eventEmitter.emit(
-                `query.${name}.fetchMore.${fetchName}.success`,
-                {variables: lmArgs.variables, data: res.data});
-              return Promise.resolve(res);
-            })
-            .catch((err) => {
-              this.context.eventEmitter.emit(
-                `query.${name}.fetchMore.${fetchName}.error`,
-                {variables: lmArgs.variables, error: err});
-              throw err;
-            });
+              .then((res) => {
+                this.context.eventEmitter.emit(
+                  `query.${name}.fetchMore.${fetchName}.success`,
+                  {variables: lmArgs.variables, data: res.data});
+                return Promise.resolve(res);
+              })
+              .catch((err) => {
+                this.context.eventEmitter.emit(
+                  `query.${name}.fetchMore.${fetchName}.error`,
+                  {variables: lmArgs.variables, error: err});
+                throw err;
+              });
           },
         };
       }
@@ -171,8 +171,8 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
       const configs = this.graphqlRegistry.getQueryOptions(name);
       const reducerCallbacks =
         [base.reducer || ((i) => i)]
-        .concat(...configs.map((cfg) => cfg.reducer))
-        .filter((i) => i);
+          .concat(...configs.map((cfg) => cfg.reducer))
+          .filter((i) => i);
 
       const reducer = withSkipOnErrors(
         reducerCallbacks.reduce(

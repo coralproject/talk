@@ -56,13 +56,13 @@ export default ({handleChange, handleApply, changed, ...props}) => (
               title: t('configure.enable_questionbox'),
               description: t('configure.enable_questionbox_description')
             }} />
-            {
-              props.questionBoxEnable && <QuestionBoxBuilder
-                questionBoxIcon={props.questionBoxIcon}
-                questionBoxContent={props.questionBoxContent}
-                handleChange={handleChange}
-              />
-            }
+          {
+            props.questionBoxEnable && <QuestionBoxBuilder
+              questionBoxIcon={props.questionBoxIcon}
+              questionBoxContent={props.questionBoxContent}
+              handleChange={handleChange}
+            />
+          }
         </li>
       </ul>
     </div>

@@ -136,15 +136,15 @@ export class EditableCommentContent extends React.Component {
               <span className={styles.editWindowRemaining}>
                 {
                   this.isEditWindowExpired()
-                  ? <span>
+                    ? <span>
                       {t('edit_comment.edit_window_expired')}
                       {
                         typeof this.props.stopEditing === 'function'
-                        ? <span>&nbsp;<a className={styles.link} onClick={this.props.stopEditing}>{t('edit_comment.edit_window_expired_close')}</a></span>
-                        : null
+                          ? <span>&nbsp;<a className={styles.link} onClick={this.props.stopEditing}>{t('edit_comment.edit_window_expired_close')}</a></span>
+                          : null
                       }
                     </span>
-                  : <span>
+                    : <span>
                       <Icon name="timer" className={styles.timerIcon}/> {t('edit_comment.edit_window_timer_prefix')}
                       <CountdownSeconds
                         until={this.getEditableUntil()}
