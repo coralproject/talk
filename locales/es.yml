@@ -41,7 +41,9 @@ es:
   common:
     copy: 'Copiar'
     error: 'Ha ocurrido un error.'
+    reply: 'respuesta'
     replies: 'respuestas'
+    reaction: 'reacción'
     reactions: 'reacciones'
     story: 'Artículo'
   community:

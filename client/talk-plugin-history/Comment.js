@@ -13,6 +13,7 @@ class Comment extends React.Component {
 
   render() {
     const {comment, link, data, root} = this.props;
+    const reactionCount = getTotalReactionsCount(comment.action_summaries);
 
     return (
       <div className={styles.myComment}>
@@ -26,10 +27,14 @@ class Comment extends React.Component {
           />
           <div className={cn(styles.commentSummary, 'comment_summary')}>
             <span className={cn(styles.commentSummaryReactions, 'comment_summary_reactions')}>
-              <Icon name="thumb_up" /> {getTotalReactionsCount(comment.action_summaries)} {t('common.reactions')}
+              <Icon name="thumb_up" />
+              {reactionCount}
+              {reactionCount === 1 ? t('common.reaction') : t('common.reactions')}
             </span>
             <span className={cn('comment_summary_replies')}>
-              <Icon name="reply" /> {comment.replyCount} {t('common.replies')}
+              <Icon name="reply" />
+              {comment.replyCount}
+              {comment.replyCount === 1 ? t('common.reply') : t('common.replies')}
             </span>
           </div>
           <div className="my-comment-asset">
