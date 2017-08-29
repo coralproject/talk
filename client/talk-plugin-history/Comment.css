@@ -27,8 +27,17 @@
 }
 
 .commentSummaryReactions {
-  margin-right: 5px;
+  margin-right: 10px;
 }
+
+.reactionCount, .replyCount {
+  margin: 0 4px;
+}
+
+.countZero {
+  color: #9E9E9E;
+}
+
 
 .sidebar {
   ul {

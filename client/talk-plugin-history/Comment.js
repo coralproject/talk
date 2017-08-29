@@ -25,15 +25,19 @@ class Comment extends React.Component {
             data={data}
             queryData={{root, comment, asset: comment.asset}}
           />
-          <div className={cn(styles.commentSummary, 'comment_summary')}>
-            <span className={cn(styles.commentSummaryReactions, 'comment_summary_reactions')}>
+          <div className={cn(styles.commentSummary, 'comment-summary')}>
+            <span className={cn(styles.commentSummaryReactions, 'comment-summary-reactions', {[styles.countZero]: reactionCount === 0})}>
               <Icon name="thumb_up" />
-              {reactionCount}
+              <span className={cn(styles.reactionCount, 'comment-summary-reaction-count')}>
+                {reactionCount}
+              </span>
               {reactionCount === 1 ? t('common.reaction') : t('common.reactions')}
             </span>
-            <span className={cn('comment_summary_replies')}>
+            <span className={cn('comment-summary-replies', {[styles.countZero]: comment.replyCount === 0})}>
               <Icon name="reply" />
-              {comment.replyCount}
+              <span className={cn(styles.replyCount, 'comment-summary-reply-count')}>
+                {comment.replyCount} 
+              </span>
               {comment.replyCount === 1 ? t('common.reply') : t('common.replies')}
             </span>
           </div>
