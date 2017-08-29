@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Community.css';
+import styles from './styles.css';
 
 import ActionButton from './ActionButton';
 import {username} from 'talk-plugin-flags/helpers/flagReasons';

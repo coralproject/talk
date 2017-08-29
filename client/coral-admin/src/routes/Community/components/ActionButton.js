@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Community.css';
+import styles from './ActionButton.css';
 import {Button} from 'coral-ui';
 import {menuActionsMap} from '../../../utils/moderationQueueActionsMap';
 

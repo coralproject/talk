@@ -1,7 +1,7 @@
 import React from 'react';
 
 import t from 'coral-framework/services/i18n';
-import styles from './Community.css';
+import styles from './FlaggedAccounts.css';
 import EmptyCard from 'coral-admin/src/components/EmptyCard';
 import LoadMore from '../../../components/LoadMore';
 import FlaggedUser from '../containers/FlaggedUser';

@@ -1,0 +1,11 @@
+.container {
+  padding: 10px;
+  display: flex;
+  padding-bottom: 200px;
+}
+
+.mainFlaggedContent {
+  width: 100%;
+  padding: 34px 14px;
+  box-sizing: border-box;
+}
