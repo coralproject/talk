@@ -45,12 +45,12 @@ const People = ({commenters, searchValue, onSearchChange, ...props}) => {
       <div className={styles.mainContent}>
         {
           hasResults
-          ? <Table
+            ? <Table
               headers={tableHeaders}
               commenters={commenters}
               onHeaderClickHandler={props.onHeaderClickHandler}
             />
-          : <EmptyCard>{t('community.no_results')}</EmptyCard>
+            : <EmptyCard>{t('community.no_results')}</EmptyCard>
         }
         <Pager
           totalPages={props.totalPages}

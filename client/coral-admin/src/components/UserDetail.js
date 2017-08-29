@@ -139,29 +139,29 @@ export default class UserDetail extends React.Component {
           <hr/>
           {
             selectedCommentIds.length === 0
-            ? (
-              <ul className={styles.commentStatuses}>
-                <li className={activeTab === 'all' ? styles.active : ''} onClick={this.showAll}>All</li>
-                <li className={activeTab === 'rejected' ? styles.active : ''} onClick={this.showRejected}>Rejected</li>
-              </ul>
-            )
-            : (
-              <div className={styles.bulkActionGroup}>
-                <Button
-                  onClick={bulkAccept}
-                  className={styles.bulkAction}
-                  cStyle='approve'
-                  icon='done'>
-                </Button>
-                <Button
-                  onClick={bulkReject}
-                  className={styles.bulkAction}
-                  cStyle='reject'
-                  icon='close'>
-                </Button>
-                {`${selectedCommentIds.length} comments selected`}
-              </div>
-            )
+              ? (
+                <ul className={styles.commentStatuses}>
+                  <li className={activeTab === 'all' ? styles.active : ''} onClick={this.showAll}>All</li>
+                  <li className={activeTab === 'rejected' ? styles.active : ''} onClick={this.showRejected}>Rejected</li>
+                </ul>
+              )
+              : (
+                <div className={styles.bulkActionGroup}>
+                  <Button
+                    onClick={bulkAccept}
+                    className={styles.bulkAction}
+                    cStyle='approve'
+                    icon='done'>
+                  </Button>
+                  <Button
+                    onClick={bulkReject}
+                    className={styles.bulkAction}
+                    cStyle='reject'
+                    icon='close'>
+                  </Button>
+                  {`${selectedCommentIds.length} comments selected`}
+                </div>
+              )
           }
 
           <div>
@@ -190,7 +190,7 @@ export default class UserDetail extends React.Component {
             className={styles.loadMore}
             loadMore={loadMore}
             showLoadMore={hasNextPage}
-            />
+          />
         </Drawer>
       </ClickOutside>
     );

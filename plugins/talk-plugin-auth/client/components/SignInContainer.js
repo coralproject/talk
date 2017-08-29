@@ -97,6 +97,9 @@ class SignInContainer extends React.Component {
           // allow success UI to be shown for a second, and then close the modal
           this.props.hideSignInDialog();
         }, 2500);
+      })
+      .catch((err) => {
+        console.error(err);
       });
   };
 

@@ -125,7 +125,7 @@ module.exports = async ({fix, limit, batch}) => {
         // Check that the action summaries match the cached counts.
         if (!comment.action_counts || !(ACTION_COUNT_FIELD in comment.action_counts) || comment.action_counts[ACTION_COUNT_FIELD] !== count) {
 
-            // Batch updates for those changes.
+          // Batch updates for those changes.
           commentOperations.push({
             [`action_counts.${ACTION_COUNT_FIELD}`]: count,
           });

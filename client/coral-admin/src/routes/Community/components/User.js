@@ -59,7 +59,7 @@ const User = (props) => {
           <div className={styles.body}>
             <div className={styles.flaggedByCount}>
               <i className="material-icons">flag</i><span className={styles.flaggedByLabel}>{t('community.flags')}({ user.actions.length })</span>:
-                { user.action_summaries.map(
+              { user.action_summaries.map(
                 (action, i) => {
                   return <span className={styles.flaggedBy} key={i}>
                     {shortReasons[action.reason]} ({action.count})

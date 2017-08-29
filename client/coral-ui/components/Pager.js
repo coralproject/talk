@@ -3,7 +3,7 @@ import styles from './Pager.css';
 
 const Rows = (curr, total, onClickHandler) => Array.from(Array(total)).map((e, i) =>
   <li className={curr === i ? styles.current : ''}
-      key={i} onClick={() => onClickHandler(i + 1)}>
+    key={i} onClick={() => onClickHandler(i + 1)}>
     {i + 1}
   </li>
 );
@@ -17,18 +17,18 @@ const Pager = ({totalPages, page, onNewPageHandler}) => (
             onClick={() => onNewPageHandler(page - 1)}>
             Prev
           </li>
-        :
+          :
           null
       }
       {Rows(page, totalPages, onNewPageHandler)}
       {
         (page < totalPages && totalPages > 1) ?
-        <li
-          onClick={() => onNewPageHandler(page + 1)}>
+          <li
+            onClick={() => onNewPageHandler(page + 1)}>
           Next
-        </li>
-        :
-        null
+          </li>
+          :
+          null
       }
     </ul>
   </div>
