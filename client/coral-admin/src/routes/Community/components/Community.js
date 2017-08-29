@@ -77,7 +77,7 @@ export default class Community extends Component {
     return (
       <div>
         <FlaggedAccounts
-          commenters={users}
+          commenters={users.nodes}
           showBanUserDialog={props.showBanUserDialog}
           showSuspendUserDialog={props.showSuspendUserDialog}
           showRejectUsernameDialog={props.showRejectUsernameDialog}
