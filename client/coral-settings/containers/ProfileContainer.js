@@ -108,6 +108,11 @@ const CommentFragment = gql`
     nodes {
       id
       body
+      replyCount
+      action_summaries {
+        count
+        __typename
+      }
       asset {
         id
         title
