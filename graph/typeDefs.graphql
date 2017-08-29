@@ -612,6 +612,10 @@ type Settings {
   # closed.
   closedMessage: String
 
+  # editCommentWindowLength is the length of time (in milliseconds) after a
+  # comment is posted that it can still be edited by the author.
+  editCommentWindowLength: Int
+
   # charCountEnable is true when the character count restriction is enabled.
   charCountEnable: Boolean
 
@@ -1084,6 +1088,10 @@ input UpdateSettingsInput {
 
   # organizationName is the name of the organization.
   organizationName: String
+
+  # editCommentWindowLength is the length of time (in milliseconds) after a
+  # comment is posted that it can still be edited by the author.
+  editCommentWindowLength: Int
 }
 
 # UpdateSettingsResponse contains any errors that were rendered as a result
