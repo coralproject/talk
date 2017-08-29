@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import CommunityMenu from './CommunityMenu';
 import People from './People';
-import FlaggedAccounts from './FlaggedAccounts';
+import FlaggedAccounts from '../containers/FlaggedAccounts';
 import RejectUsernameDialog from './RejectUsernameDialog';
 
 export default class Community extends Component {
@@ -54,7 +54,7 @@ export default class Community extends Component {
   }
 
   getTabContent(searchValue, props) {
-    const {community, root: {users}, viewUserDetail} = props;
+    const {community} = props;
     const activeTab = props.route.path === ':id' ? 'flagged' : props.route.path;
 
     if (activeTab === 'people') {
@@ -76,16 +76,7 @@ export default class Community extends Component {
 
     return (
       <div>
-        <FlaggedAccounts
-          commenters={users.nodes}
-          showBanUserDialog={props.showBanUserDialog}
-          showSuspendUserDialog={props.showSuspendUserDialog}
-          showRejectUsernameDialog={props.showRejectUsernameDialog}
-          approveUser={props.approveUser}
-          rejectUsername={props.rejectUsername}
-          currentUser={this.props.currentUser}
-          viewUserDetail={viewUserDetail}
-        />
+        <FlaggedAccounts />
         <RejectUsernameDialog
           open={community.rejectUsernameDialog}
           handleClose={props.hideRejectUsernameDialog}

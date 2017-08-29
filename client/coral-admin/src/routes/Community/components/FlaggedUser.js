@@ -39,7 +39,7 @@ const User = (props) => {
         <div className={styles.itemHeader}>
           <div className={styles.author}>
             <button onClick={() => {props.viewUserDetail(user.id);}} className={styles.button}>{user.username}</button>
-            {props.currentUser.id !== user.id &&
+            {props.me.id !== user.id &&
               <ActionsMenu icon="not_interested">
                 <ActionsMenuItem
                   disabled={user.status === 'BANNED'}
