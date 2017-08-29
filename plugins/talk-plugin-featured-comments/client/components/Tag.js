@@ -33,16 +33,16 @@ export default class Tag extends React.Component {
     const {tooltip} = this.state;
     return(
       <div className={styles.noSelect} onMouseEnter={this.showTooltip}
-          onMouseLeave={this.hideTooltip} onTouchStart={this.showTooltip}
-          onTouchEnd={this.hideTooltip}>
-          {
-            isTagged(this.props.comment.tags, 'FEATURED') ? (
-              <span 
-                className={cn(styles.tag, styles.noSelect, {[styles.on]: tooltip})}>
-                {t('talk-plugin-featured-comments.featured')}
-              </span>
-            ) : null
-          }
+        onMouseLeave={this.hideTooltip} onTouchStart={this.showTooltip}
+        onTouchEnd={this.hideTooltip}>
+        {
+          isTagged(this.props.comment.tags, 'FEATURED') ? (
+            <span 
+              className={cn(styles.tag, styles.noSelect, {[styles.on]: tooltip})}>
+              {t('talk-plugin-featured-comments.featured')}
+            </span>
+          ) : null
+        }
         {tooltip && <Tooltip className={styles.tooltip} />}
       </div>
     );

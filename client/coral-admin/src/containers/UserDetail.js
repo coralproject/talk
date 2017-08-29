@@ -88,13 +88,13 @@ class UserDetailContainer extends React.Component {
         });
       }
     })
-    .then(() => {
-      this.isLoadingMore = false;
-    })
-    .catch((err) => {
-      this.isLoadingMore = false;
-      throw err;
-    });
+      .then(() => {
+        this.isLoadingMore = false;
+      })
+      .catch((err) => {
+        this.isLoadingMore = false;
+        throw err;
+      });
   };
 
   componentWillReceiveProps(next) {

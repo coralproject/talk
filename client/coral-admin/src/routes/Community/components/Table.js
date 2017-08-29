@@ -9,9 +9,9 @@ export default ({headers, commenters, onHeaderClickHandler, onRoleChange, onComm
       <tr>
         {headers.map((header, i) =>(
           <th
-          key={i}
-          className="mdl-data-table__cell--non-numeric"
-          onClick={() => onHeaderClickHandler({field: header.field})}>
+            key={i}
+            className="mdl-data-table__cell--non-numeric"
+            onClick={() => onHeaderClickHandler({field: header.field})}>
             {header.title}
           </th>
         ))}

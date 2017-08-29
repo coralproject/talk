@@ -60,7 +60,7 @@ function findAndInsertComment(parent, comment) {
     [connectionField]: {
       nodes: {
         $apply: (nodes) =>
-         nodes.map((node) => findAndInsertComment(node, comment))
+          nodes.map((node) => findAndInsertComment(node, comment))
       },
     },
   });
@@ -176,7 +176,7 @@ function findAndInsertFetchedComments(parent, comments, parent_id) {
     [connectionField]: {
       nodes: {
         $apply: (nodes) =>
-         nodes.map((node) => findAndInsertFetchedComments(node, comments, parent_id))
+          nodes.map((node) => findAndInsertFetchedComments(node, comments, parent_id))
       },
     },
   });

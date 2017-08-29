@@ -51,12 +51,12 @@ describe('graph.Context', () => {
         id: '1',
         name: 'Tag',
       })
-      .then(() => {
-        throw new Error('should not reach this point');
-      })
-      .catch((err) => {
-        expect(err).to.be.equal(errors.ErrNotAuthorized);
-      });
+        .then(() => {
+          throw new Error('should not reach this point');
+        })
+        .catch((err) => {
+          expect(err).to.be.equal(errors.ErrNotAuthorized);
+        });
     });
   });
 });

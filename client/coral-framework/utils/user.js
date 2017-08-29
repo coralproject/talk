@@ -1,4 +1,4 @@
- /**
+/**
  * getReliability
  * retrieves reliability value as string
  */

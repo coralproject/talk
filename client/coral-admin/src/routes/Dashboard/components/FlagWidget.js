@@ -16,24 +16,24 @@ const FlagWidget = ({assets}) => {
       <div className={styles.widgetTable}>
         {
           assets.length
-          ? assets.map((asset) => {
-            let flagSummary = null;
-            if (asset.action_summaries) {
-              flagSummary = asset.action_summaries.find((s) => s.__typename === 'FlagAssetActionSummary');
-            }
+            ? assets.map((asset) => {
+              let flagSummary = null;
+              if (asset.action_summaries) {
+                flagSummary = asset.action_summaries.find((s) => s.__typename === 'FlagAssetActionSummary');
+              }
 
-            return (
-              <div className={styles.rowLinkify} key={asset.id}>
-                <Link className={styles.linkToModerate} to={`/admin/moderate/reported/${asset.id}`}>Moderate</Link>
-                <p className={styles.widgetCount}>{flagSummary ? flagSummary.actionCount : 0}</p>
-                <a className={styles.linkToAsset} href={`${asset.url}`} target="_blank">
-                  <p className={styles.assetTitle}>{asset.title}</p>
-                </a>
-                <p className={styles.lede}>{asset.author} — Published: {new Date(asset.created_at).toLocaleDateString()}</p>
-              </div>
-            );
-          })
-          : <div className={styles.rowLinkify}>{t('dashboard.no_flags')}</div>
+              return (
+                <div className={styles.rowLinkify} key={asset.id}>
+                  <Link className={styles.linkToModerate} to={`/admin/moderate/reported/${asset.id}`}>Moderate</Link>
+                  <p className={styles.widgetCount}>{flagSummary ? flagSummary.actionCount : 0}</p>
+                  <a className={styles.linkToAsset} href={`${asset.url}`} target="_blank">
+                    <p className={styles.assetTitle}>{asset.title}</p>
+                  </a>
+                  <p className={styles.lede}>{asset.author} — Published: {new Date(asset.created_at).toLocaleDateString()}</p>
+                </div>
+              );
+            })
+            : <div className={styles.rowLinkify}>{t('dashboard.no_flags')}</div>
         }
       </div>
     </div>

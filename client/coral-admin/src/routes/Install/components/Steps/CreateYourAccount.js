@@ -19,7 +19,7 @@ const InitialStep = (props) => {
             showErrors={install.showErrors}
             errorMsg={install.errors.email}
             noValidate
-            />
+          />
 
           <TextField
             className={styles.textField}
@@ -29,7 +29,7 @@ const InitialStep = (props) => {
             onChange={handleUserChange}
             showErrors={install.showErrors}
             errorMsg={install.errors.username}
-            />
+          />
 
           <TextField
             className={styles.textField}
@@ -39,7 +39,7 @@ const InitialStep = (props) => {
             onChange={handleUserChange}
             showErrors={install.showErrors}
             errorMsg={install.errors.password}
-            />
+          />
 
           <TextField
             className={styles.textField}
@@ -49,13 +49,13 @@ const InitialStep = (props) => {
             onChange={handleUserChange}
             showErrors={install.showErrors}
             errorMsg={install.errors.confirmPassword}
-            />
+          />
 
           {
             !props.install.isLoading ?
-            <Button cStyle='black' type="submit" full>{t('install.create.save')}</Button>
-            :
-            <Spinner />
+              <Button cStyle='black' type="submit" full>{t('install.create.save')}</Button>
+              :
+              <Spinner />
           }
           {props.install.installRequest === 'FAILURE' && <div className={styles.error}>Error: {props.install.installRequestError}</div>}
         </form>

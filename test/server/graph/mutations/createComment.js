@@ -181,24 +181,24 @@ describe('graph.mutations.createComment', () => {
               body
             }
           })
-          .then(({data, errors}) => {
-            expect(errors).to.be.undefined;
-            expect(data.createComment).to.have.property('comment').not.null;
-            expect(data.createComment.comment).to.have.property('status', status);
-            expect(data.createComment).to.have.property('errors').null;
+            .then(({data, errors}) => {
+              expect(errors).to.be.undefined;
+              expect(data.createComment).to.have.property('comment').not.null;
+              expect(data.createComment.comment).to.have.property('status', status);
+              expect(data.createComment).to.have.property('errors').null;
 
-            return ActionModel.find({
-              item_id: data.createComment.comment.id,
-              action_type: 'FLAG'
+              return ActionModel.find({
+                item_id: data.createComment.comment.id,
+                action_type: 'FLAG'
+              });
+            })
+            .then((actions) => {
+              if (flagged) {
+                expect(actions).to.have.length(1);
+              } else {
+                expect(actions).to.have.length(0);
+              }
             });
-          })
-          .then((actions) => {
-            if (flagged) {
-              expect(actions).to.have.length(1);
-            } else {
-              expect(actions).to.have.length(0);
-            }
-          });
         });
 
       });

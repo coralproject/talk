@@ -77,14 +77,14 @@ export const withCommunityQuery = withQuery(gql`
     }
   }
 `, {
-  options: ({params: {action_type = 'FLAG'}}) => {
-    return {
-      variables: {
-        action_type: action_type
-      }
-    };
-  }
-});
+    options: ({params: {action_type = 'FLAG'}}) => {
+      return {
+        variables: {
+          action_type: action_type
+        }
+      };
+    }
+  });
 
 const mapStateToProps = (state) => ({
   community: state.community,

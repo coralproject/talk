@@ -35,20 +35,20 @@ const getAssetActivityMetrics = ({loaders: {Assets}}, {from, to, limit}) => {
     }},
     {$limit: limit}
   ])
-  .then((results) => {
-    assetMetrics = results;
+    .then((results) => {
+      assetMetrics = results;
 
-    return Assets.getByID.loadMany(results.map((result) => result.asset_id));
-  })
-  .then((assets) => assets.map((asset, i) => {
+      return Assets.getByID.loadMany(results.map((result) => result.asset_id));
+    })
+    .then((assets) => assets.map((asset, i) => {
 
     // We're leveraging the fact that the comments returned by the aggregation
     // query are in the request order that we just made, it's what the
     // Assets.getByID loader does.
-    asset.commentCount = assetMetrics[i].commentCount;
+      asset.commentCount = assetMetrics[i].commentCount;
 
-    return asset;
-  }));
+      return asset;
+    }));
 };
 
 /**
