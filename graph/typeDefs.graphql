@@ -121,6 +121,22 @@ type User {
   suspension: SuspensionInfo
 }
 
+# UserConnection represents a paginable subset of a user list.
+type UserConnection {
+
+  # Indicates that there are more users after this subset.
+  hasNextPage: Boolean!
+
+  # Cursor of first user in subset.
+  startCursor: Cursor
+
+  # Cursor of last user in subset.
+  endCursor: Cursor
+
+  # Subset of users.
+  nodes: [User!]!
+}
+
 # UsersQuery allows the ability to query users by a specific fields.
 input UsersQuery {
   action_type: ACTION_TYPE
@@ -731,7 +747,7 @@ type RootQuery {
   me: User
 
   # Users returned based on a query.
-  users(query: UsersQuery): [User]
+  users(query: UsersQuery!): UserConnection
 
   # a single User by id
   user(id: ID!): User

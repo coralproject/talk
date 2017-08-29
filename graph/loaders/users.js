@@ -26,12 +26,12 @@ const genUserByIDs = async (context, ids) => {
  * @param  {Object} context   graph context
  * @param  {Object} query     query terms to apply to the users query
  */
-const getUsersByQuery = ({user}, {ids, limit, cursor, statuses = null, sortOrder}) => {
+const getUsersByQuery = async ({user}, {ids, limit, cursor, statuses = null, sortOrder}) => {
 
-  let users = UserModel.find();
+  let query = UserModel.find();
 
   if (ids) {
-    users = users.find({
+    query = query.find({
       id: {
         $in: ids
       }
@@ -39,7 +39,7 @@ const getUsersByQuery = ({user}, {ids, limit, cursor, statuses = null, sortOrder
   }
 
   if (statuses != null) {
-    users = users.where({
+    query = query.where({
       status: {
         $in: statuses
       }
@@ -48,13 +48,13 @@ const getUsersByQuery = ({user}, {ids, limit, cursor, statuses = null, sortOrder
 
   if (cursor) {
     if (sortOrder === 'DESC') {
-      users = users.where({
+      query = query.where({
         created_at: {
           $lt: cursor
         }
       });
     } else {
-      users = users.where({
+      query = query.where({
         created_at: {
           $gt: cursor
         }
@@ -62,9 +62,33 @@ const getUsersByQuery = ({user}, {ids, limit, cursor, statuses = null, sortOrder
     }
   }
 
-  return users
-    .sort({created_at: sortOrder === 'DESC' ? -1 : 1})
-    .limit(limit);
+  // Apply the limit.
+  if (limit) {
+    query = query.limit(limit + 1);
+  }
+
+  const nodes = await query.exec();
+
+  // The hasNextPage is always handled the same (ask for one more than we need,
+  // if there is one more, than there is more).
+  let hasNextPage = false;
+  if (limit && nodes.length > limit) {
+
+    // There was one more than we expected! Set hasNextPage = true and remove
+    // the last item from the array that we requested.
+    hasNextPage = true;
+    nodes.splice(limit, 1);
+  }
+
+  const startCursor = nodes.length ? nodes[0].created_at : null;
+  const endCursor = nodes.length ? nodes[nodes.length - 1].created_at : null;
+
+  return {
+    startCursor,
+    endCursor,
+    hasNextPage,
+    nodes,
+  };
 };
 
 /**
