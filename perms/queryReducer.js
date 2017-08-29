@@ -21,6 +21,8 @@ module.exports = (user, perm) => {
     return check(user, ['ADMIN', 'MODERATOR']);
   case types.VIEW_SUSPENSION_INFO:
     return check(user, ['ADMIN', 'MODERATOR']);
+  case types.VIEW_PROTECTED_SETTINGS:
+    return check(user, ['ADMIN', 'MODERATOR']);
   default:
     break;
   }
