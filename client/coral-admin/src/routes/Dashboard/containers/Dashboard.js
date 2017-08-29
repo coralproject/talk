@@ -42,15 +42,15 @@ export const witDashboardQuery = withQuery(gql`
     }
   }
 `, {
-  options: ({settings: {dashboardWindowStart, dashboardWindowEnd}}) => {
-    return {
-      variables: {
-        from: dashboardWindowStart,
-        to: dashboardWindowEnd
-      }
-    };
-  }
-});
+    options: ({settings: {dashboardWindowStart, dashboardWindowEnd}}) => {
+      return {
+        variables: {
+          from: dashboardWindowStart,
+          to: dashboardWindowEnd
+        }
+      };
+    }
+  });
 
 const mapStateToProps = (state) => {
   return {

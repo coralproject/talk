@@ -26,19 +26,19 @@ const validation = (formData, dispatch, next) => {
 
   // Required Validation
   const empty = validKeys
-  .filter((name) => {
-    const cond = !formData[name].length;
+    .filter((name) => {
+      const cond = !formData[name].length;
 
-    if (cond) {
+      if (cond) {
 
-    // Adding Error
-      dispatch(addError(name, 'This field is required.'));
-    } else {
-      dispatch(addError(name, ''));
-    }
+        // Adding Error
+        dispatch(addError(name, 'This field is required.'));
+      } else {
+        dispatch(addError(name, ''));
+      }
 
-    return cond;
-  });
+      return cond;
+    });
 
   if (empty.length) {
     dispatch(hasError());

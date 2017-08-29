@@ -41,39 +41,39 @@ class QuestionBoxBuilder extends React.Component {
 
         <ul className={styles.qbItemIconList}>
           <li className={cn(
-              styles.qbItemIcon,
-              {[styles.qbItemIconActive]: questionBoxIcon === 'default'}
-            )}
-            id="qboxicon"
-            onClick={handleChange}
-            data-icon="default" >
+            styles.qbItemIcon,
+            {[styles.qbItemIconActive]: questionBoxIcon === 'default'}
+          )}
+          id="qboxicon"
+          onClick={handleChange}
+          data-icon="default" >
             <DefaultIcon className={styles.defaultIcon} />
           </li>
           <li className={cn(
-              styles.qbItemIcon,
-              {[styles.qbItemIconActive]: questionBoxIcon === 'forum'}
-            )}
-            id="qboxicon"
-            onClick={handleChange}
-            data-icon="forum" >
+            styles.qbItemIcon,
+            {[styles.qbItemIconActive]: questionBoxIcon === 'forum'}
+          )}
+          id="qboxicon"
+          onClick={handleChange}
+          data-icon="forum" >
             <Icon name="forum" />
           </li>
           <li className={cn(
-              styles.qbItemIcon,
-              {[styles.qbItemIconActive]: questionBoxIcon === 'build'}
-            )}
-            id="qboxicon"
-            onClick={handleChange}
-            data-icon="build" >
+            styles.qbItemIcon,
+            {[styles.qbItemIconActive]: questionBoxIcon === 'build'}
+          )}
+          id="qboxicon"
+          onClick={handleChange}
+          data-icon="build" >
             <Icon name="build" />
           </li>
           <li className={cn(
-              styles.qbItemIcon,
-              {[styles.qbItemIconActive]: questionBoxIcon === 'format_quote'}
-            )}
-            id="qboxicon"
-            onClick={handleChange}
-            data-icon="format_quote" >
+            styles.qbItemIcon,
+            {[styles.qbItemIconActive]: questionBoxIcon === 'format_quote'}
+          )}
+          id="qboxicon"
+          onClick={handleChange}
+          data-icon="format_quote" >
             <Icon name="format_quote" />
           </li>
         </ul>

@@ -51,7 +51,7 @@ export class TopRightMenu extends React.Component {
             user={comment.user}
             cancel={reset}
             ignoreUser={ignoreUserAndCloseMenuAndNotifyOnError}
-            />
+          />
         </div>
       </Toggleable>
     );

@@ -160,48 +160,43 @@ function getReactionConfig(reaction) {
         }
       },
       RootMutation: {
-        [`create${Reaction}Action`]: (_, {input: {item_id}}, {mutators: {Action}, pubsub, loaders: {Comments}}) => {
-          const response = Comments.get.load(item_id).then((comment) => {
-            return Action.create({item_id, item_type: 'COMMENTS', action_type: REACTION})
-              .then((action) => {
+        [`create${Reaction}Action`]: (_, {input: {item_id}}, {mutators: {Action}, pubsub, loaders: {Comments}}) => wrapResponse(reaction)(async () => {
+          const comment = await Comments.get.load(item_id);
 
-                if (pubsub) {
+          let action;
+          try {
+            action = await Action.create({item_id, item_type: 'COMMENTS', action_type: REACTION});
+          } catch (err) {
+            if (err instanceof errors.ErrAlreadyExists) {
+              return err.metadata.existing;
+            }
 
-                  // The comment is needed to allow better filtering e.g. by asset_id.
-                  pubsub.publish(`${reaction}ActionCreated`, {action, comment});
-                }
-                return Promise.resolve(action);
-              })
-            .catch((err) => {
-              if (err instanceof errors.ErrAlreadyExists) {
-                return Promise.resolve(err.metadata.existing);
-              }
-              throw err;
-            });
-          });
-          return wrapResponse(reaction)(response);
-        },
-        [`delete${Reaction}Action`]: (_, {input: {id}}, {mutators: {Action}, pubsub, loaders: {Comments}}) => {
-          const response = Action.delete({id})
-            .then((action) => {
+            throw err;
+          }
 
-              // Action doesn't exist or was already deleted.
-              if (!action) {
-                return Promise.resolve(null);
-              }
-              return Comments.get.load(action.item_id).then((comment) => {
+          if (pubsub) {
 
-                if (pubsub) {
+            // The comment is needed to allow better filtering e.g. by asset_id.
+            pubsub.publish(`${reaction}ActionCreated`, {action, comment});
+          }
 
-                  // The comment is needed to allow better filtering e.g. by asset_id.
-                  pubsub.publish(`${reaction}ActionDeleted`, {action, comment});
-                }
-                return Promise.resolve(action);
-              });
-            });
+          return action;
+        }),
+        [`delete${Reaction}Action`]: (_, {input: {id}}, {mutators: {Action}, pubsub, loaders: {Comments}}) => wrapResponse(reaction)(async () => {
+          const action = await Action.delete({id});
+          if (!action) {
+            return null;
+          }
 
-          return wrapResponse(reaction)(response);
-        }
+          const comment = await Comments.get.load(action.item_id);
+          if (pubsub) {
+
+            // The comment is needed to allow better filtering e.g. by asset_id.
+            pubsub.publish(`${reaction}ActionDeleted`, {action, comment});
+          }
+
+          return action;
+        })
       },
     },
     hooks: {

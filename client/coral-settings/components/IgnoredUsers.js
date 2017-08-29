@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import t from 'coral-framework/services/i18n';
 import styles from './IgnoredUsers.css';
 
-export class IgnoredUsers extends Component {
+class IgnoredUsers extends Component {
   static propTypes = {
     users: PropTypes.arrayOf(PropTypes.shape({
       username: PropTypes.string,

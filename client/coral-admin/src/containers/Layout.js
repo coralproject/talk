@@ -55,10 +55,10 @@ class LayoutContainer extends Component {
           toggleShortcutModal={toggleShortcutModal}
           {...this.props}
         >
-        <BanUserDialog />
-        <SuspendUserDialog />
-        <UserDetail />
-        {this.props.children}
+          <BanUserDialog />
+          <SuspendUserDialog />
+          <UserDetail />
+          {this.props.children}
         </Layout>
       );
     } else if (loggedIn) {

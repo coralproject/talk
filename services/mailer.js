@@ -102,19 +102,19 @@ const mailer = module.exports = {
       // Render the TEXT version of the email.
       templates.render(template, 'txt', locals)
     ])
-    .then(([html, text]) => {
+      .then(([html, text]) => {
 
       // Create the job.
-      return mailer.task.create({
-        title: 'Mail',
-        message: {
-          to,
-          subject,
-          text,
-          html
-        }
+        return mailer.task.create({
+          title: 'Mail',
+          message: {
+            to,
+            subject,
+            text,
+            html
+          }
+        });
       });
-    });
   },
 
   /**

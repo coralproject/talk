@@ -134,20 +134,20 @@ export default class Stories extends Component {
             <Radio value='closed'>{t('streams.closed')}</Radio>
           </RadioGroup>
           <div className={styles.optionHeader}>{t('streams.sort_by')}</div>
-            <RadioGroup
-              name='sort by'
-              value={sort}
-              childContainer='div'
-              onChange={this.onSettingChange('sort')}
-              className={styles.radioGroup}
-            >
-              <Radio value='desc'>{t('streams.newest')}</Radio>
-              <Radio value='asc'>{t('streams.oldest')}</Radio>
-            </RadioGroup>
-          </div>
+          <RadioGroup
+            name='sort by'
+            value={sort}
+            childContainer='div'
+            onChange={this.onSettingChange('sort')}
+            className={styles.radioGroup}
+          >
+            <Radio value='desc'>{t('streams.newest')}</Radio>
+            <Radio value='asc'>{t('streams.oldest')}</Radio>
+          </RadioGroup>
+        </div>
         {
           assetsIds.length
-          ? <div className={styles.mainContent}>
+            ? <div className={styles.mainContent}>
               <DataTable className={styles.streamsTable} rows={assetsIds} onClick={this.goToModeration}>
                 <TableHeader name="title" cellFormatter={this.renderTitle}>{t('streams.article')}</TableHeader>
                 <TableHeader name="publication_date" cellFormatter={this.renderDate}>
@@ -162,7 +162,7 @@ export default class Stories extends Component {
                 page={this.state.page}
                 onNewPageHandler={this.onPageClick} />
             </div>
-          : <EmptyCard>{t('streams.empty_result')}</EmptyCard>
+            : <EmptyCard>{t('streams.empty_result')}</EmptyCard>
         }
       </div>
     );

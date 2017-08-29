@@ -20,9 +20,9 @@ describe('/api/v1/users/:user_id/email/confirm', () => {
   beforeEach(() => SettingsService.init(settings).then(() => {
     return UsersService.createLocalUser('ana@gmail.com', '123321123', 'Ana');
   })
-  .then((user) => {
-    mockUser = user;
-  }));
+    .then((user) => {
+      mockUser = user;
+    }));
 
   describe('#post', () => {
     it('should send an email when we hit the endpoint', () => {
@@ -56,9 +56,9 @@ describe('/api/v1/users/:user_id/actions', () => {
   beforeEach(() => SettingsService.init(settings).then(() => {
     return UsersService.createLocalUser('ana@gmail.com', '123321123', 'Ana');
   })
-  .then((user) => {
-    mockUser = user;
-  }));
+    .then((user) => {
+      mockUser = user;
+    }));
 
   describe('#post', () => {
     it('it should update actions', () => {
@@ -82,9 +82,9 @@ describe('/api/v1/users/:user_id/username-enable', () => {
   beforeEach(() => SettingsService.init(settings).then(() => {
     return UsersService.createLocalUser('ana@gmail.com', '123321123', 'Ana');
   })
-  .then((user) => {
-    mockUser = user;
-  }));
+    .then((user) => {
+      mockUser = user;
+    }));
 
   describe('#post', () => {
     it('it should enable a user to edit their username', () => {

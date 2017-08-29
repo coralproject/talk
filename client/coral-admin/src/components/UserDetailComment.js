@@ -54,8 +54,8 @@ class UserDetailComment extends React.Component {
             </span>
             {
               (comment.editing && comment.editing.edited)
-              ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
-              : null
+                ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
+                : null
             }
 
             <div className={styles.badgeBar}>
@@ -121,10 +121,10 @@ class UserDetailComment extends React.Component {
         </div>
         {flagActions && flagActions.length
           ? <FlagBox
-              actions={flagActions}
-              actionSummaries={flagActionSummaries}
-              viewUserDetail={viewUserDetail}
-            />
+            actions={flagActions}
+            actionSummaries={flagActionSummaries}
+            viewUserDetail={viewUserDetail}
+          />
           : null}
       </li>
     );
