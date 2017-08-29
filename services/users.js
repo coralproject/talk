@@ -69,33 +69,25 @@ module.exports = class UsersService {
    * Indicating that the account should be flagged as "login recaptcha required"
    * where future login attempts must be made with the recaptcha flag.
    */
-  static recordLoginAttempt(email) {
+  static async recordLoginAttempt(email) {
     const rdskey = `la[${email.toLowerCase().trim()}]`;
 
-    return new Promise((resolve, reject) => {
-      client()
-        .multi()
-        .incr(rdskey)
-        .expire(rdskey, RECAPTCHA_WINDOW_SECONDS)
-        .exec((err, replies) => {
-          if (err) {
-            return reject(err);
-          }
+    const replies = await client()
+      .multi()
+      .incr(rdskey)
+      .expire(rdskey, RECAPTCHA_WINDOW_SECONDS)
+      .exec();
 
-          // if this is new or has no expiry
-          if (replies[0] === 1 || replies[1] === -1) {
+    // if this is new or has no expiry
+    if (replies[0] === 1 || replies[1] === -1) {
 
-            // then expire it after the timeout
-            client().expire(rdskey, RECAPTCHA_WINDOW_SECONDS);
-          }
+      // then expire it after the timeout
+      client().expire(rdskey, RECAPTCHA_WINDOW_SECONDS);
+    }
 
-          if (replies[0] >= RECAPTCHA_INCORRECT_TRIGGER) {
-            return reject(errors.ErrLoginAttemptMaximumExceeded);
-          }
-
-          resolve();
-        });
-    });
+    if (replies[0] >= RECAPTCHA_INCORRECT_TRIGGER) {
+      throw errors.ErrLoginAttemptMaximumExceeded;
+    }
   }
 
   /**
@@ -104,27 +96,17 @@ module.exports = class UsersService {
    *
    *  errors.ErrLoginAttemptMaximumExceeded
    */
-  static checkLoginAttempts(email) {
+  static async checkLoginAttempts(email) {
     const rdskey = `la[${email.toLowerCase().trim()}]`;
 
-    return new Promise((resolve, reject) => {
-      client()
-        .get(rdskey, (err, reply) => {
-          if (err) {
-            return reject(err);
-          }
+    const attempts = await client().get(rdskey);
+    if (!attempts) {
+      return;
+    }
 
-          if (!reply) {
-            return resolve();
-          }
-
-          if (reply >= RECAPTCHA_INCORRECT_TRIGGER) {
-            return reject(errors.ErrLoginAttemptMaximumExceeded);
-          }
-
-          resolve();
-        });
-    });
+    if (attempts >= RECAPTCHA_INCORRECT_TRIGGER) {
+      throw errors.ErrLoginAttemptMaximumExceeded;
+    }
   }
 
   /**
@@ -217,24 +199,15 @@ module.exports = class UsersService {
       });
   }
 
-  static changePassword(id, password) {
-    return new Promise((resolve, reject) => {
-      bcrypt.hash(password, SALT_ROUNDS, (err, hashedPassword) => {
-        if (err) {
-          return reject(err);
-        }
+  static async changePassword(id, password) {
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
-        resolve(hashedPassword);
-      });
-    })
-      .then((hashedPassword) => {
-        return UserModel.update({id}, {
-          $inc: {__v: 1},
-          $set: {
-            password: hashedPassword
-          }
-        });
-      });
+    return UserModel.update({id}, {
+      $inc: {__v: 1},
+      $set: {
+        password: hashedPassword
+      }
+    });
   }
 
   /**
@@ -301,54 +274,48 @@ module.exports = class UsersService {
    * @param  {String}   username name of the display user
    * @param  {Function} done        callback
    */
-  static createLocalUser(email, password, username) {
+  static async createLocalUser(email, password, username) {
 
     if (!email) {
-      return Promise.reject(errors.ErrMissingEmail);
+      throw errors.ErrMissingEmail;
     }
 
     email = email.toLowerCase().trim();
     username = username.trim();
 
-    return Promise.all([
+    await Promise.all([
       UsersService.isValidUsername(username),
       UsersService.isValidPassword(password)
-    ])
-      .then(() => { // username is valid
-        return new Promise((resolve, reject) => {
-          bcrypt.hash(password, SALT_ROUNDS, (err, hashedPassword) => {
-            if (err) {
-              return reject(err);
-            }
+    ]);
 
-            let user = new UserModel({
-              username,
-              lowercaseUsername: username.toLowerCase(),
-              password: hashedPassword,
-              roles: [],
-              profiles: [
-                {
-                  id: email,
-                  provider: 'local'
-                }
-              ]
-            });
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
-            user.save((err) => {
-              if (err) {
-                if (err.code === 11000) {
-                  if (err.message.match('Username')) {
-                    return reject(errors.ErrUsernameTaken);
-                  }
-                  return reject(errors.ErrEmailTaken);
-                }
-                return reject(err);
-              }
-              return resolve(user);
-            });
-          });
-        });
-      });
+    let user = new UserModel({
+      username,
+      lowercaseUsername: username.toLowerCase(),
+      password: hashedPassword,
+      roles: [],
+      profiles: [
+        {
+          id: email,
+          provider: 'local'
+        }
+      ]
+    });
+
+    try {
+      user = await user.save();
+    } catch (err) {
+      if (err.code === 11000) {
+        if (err.message.match('Username')) {
+          throw errors.ErrUsernameTaken;
+        }
+        throw errors.ErrEmailTaken;
+      }
+      throw err;
+    }
+
+    return user;
   }
 
   /**
@@ -387,14 +354,14 @@ module.exports = class UsersService {
    * @param  {String}   role role to add
    * @param  {Function} done callback after the operation is complete
    */
-  static addRoleToUser(id, role) {
+  static async addRoleToUser(id, role) {
     const roles = [];
 
     // Check to see if the user role is in the allowable set of roles.
     if (role && USER_ROLES.indexOf(role) === -1) {
 
       // User role is not supported! Error out here.
-      return Promise.reject(new Error(`role ${role} is not supported`));
+      throw new Error(`role ${role} is not supported`);
     } else if(role) {
       roles.push(role);
     }
@@ -408,13 +375,13 @@ module.exports = class UsersService {
    * @param  {String}   role role to remove
    * @param  {Function} done callback after the operation is complete
    */
-  static removeRoleFromUser(id, role) {
+  static async removeRoleFromUser(id, role) {
 
     // Check to see if the user role is in the allowable set of roles.
     if (USER_ROLES.indexOf(role) === -1) {
 
       // User role is not supported! Error out here.
-      return Promise.reject(new Error(`role ${role} is not supported`));
+      throw new Error(`role ${role} is not supported`);
     }
 
     return UserModel.update({id}, {
@@ -430,13 +397,13 @@ module.exports = class UsersService {
    * @param  {String}   status status to set
    * @param  {Function} done callback after the operation is complete
    */
-  static setStatus(id, status) {
+  static async setStatus(id, status) {
 
     // Check to see if the user status is in the allowable set of roles.
     if (USER_STATUS.indexOf(status) === -1) {
 
       // User status is not supported! Error out here.
-      return Promise.reject(new Error(`status ${status} is not supported`));
+      throw new Error(`status ${status} is not supported`);
     }
 
     // TODO: current updating status behavior is weird.
@@ -583,53 +550,52 @@ module.exports = class UsersService {
    * Creates a JWT from a user email. Only works for local accounts.
    * @param {String} email of the local user
    */
-  static createPasswordResetToken(email, loc) {
+  static async createPasswordResetToken(email, loc) {
     if (!email || typeof email !== 'string') {
-      return Promise.reject('email is required when creating a JWT for resetting passord');
+      throw new Error('email is required when creating a JWT for resetting passord');
     }
 
     email = email.toLowerCase();
 
-    return Promise.all([
+    const [user, settings] = await Promise.all([
       UserModel.findOne({profiles: {$elemMatch: {id: email}}}),
-      SettingsService.retrieve()
-    ])
-      .then(([user, settings]) => {
-        if (!user) {
+      SettingsService.retrieve(),
+    ]);
 
-          // Since we don't want to reveal that the email does/doesn't exist
-          // just go ahead and resolve the Promise with null and check in the
-          // endpoint.
-          return;
-        }
-        let redirectDomain;
-        try {
-          const {hostname, port} = url.parse(loc);
-          redirectDomain = hostname;
-          if (port) {
-            redirectDomain += `:${port}`;
-          }
-        } catch (e) {
-          return Promise.reject('redirect location is invalid');
-        }
+    if (!user) {
 
-        if (settings.domains.whitelist.indexOf(redirectDomain) === -1) {
-          return Promise.reject('redirect location is not on the list of acceptable domains');
-        }
+      // Since we don't want to reveal that the email does/doesn't exist
+      // just go ahead and resolve the Promise with null and check in the
+      // endpoint.
+      return;
+    }
+    let redirectDomain;
+    try {
+      const {hostname, port} = url.parse(loc);
+      redirectDomain = hostname;
+      if (port) {
+        redirectDomain += `:${port}`;
+      }
+    } catch (e) {
+      throw new Error('redirect location is invalid');
+    }
 
-        const payload = {
-          jti: uuid.v4(),
-          email,
-          loc,
-          userId: user.id,
-          version: user.__v
-        };
+    if (settings.domains.whitelist.indexOf(redirectDomain) === -1) {
+      throw new Error('redirect location is not on the list of acceptable domains');
+    }
 
-        return JWT_SECRET.sign(payload, {
-          expiresIn: '1d',
-          subject: PASSWORD_RESET_JWT_SUBJECT
-        });
-      });
+    const payload = {
+      jti: uuid.v4(),
+      email,
+      loc,
+      userId: user.id,
+      version: user.__v
+    };
+
+    return JWT_SECRET.sign(payload, {
+      expiresIn: '1d',
+      subject: PASSWORD_RESET_JWT_SUBJECT
+    });
   }
 
   /**
@@ -755,7 +721,7 @@ module.exports = class UsersService {
    */
   static async createEmailConfirmToken(userID = null, email, referer = ROOT_URL) {
     if (!email || typeof email !== 'string') {
-      return Promise.reject('email is required when creating a JWT for resetting passord');
+      throw new Error('email is required when creating a JWT for resetting passord');
     }
 
     // Conform the email to lowercase.

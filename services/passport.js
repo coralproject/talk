@@ -159,40 +159,33 @@ async function ValidateUserLogin(loginProfile, user, done) {
 /**
  * Revoke the token on the request.
  */
-const HandleLogout = (req, res, next) => {
+const HandleLogout = async (req, res, next) => {
   const {jwt} = req;
 
   const now = new Date();
   const expiry = (jwt.exp - now.getTime() / 1000).toFixed(0);
 
-  client().set(`jtir[${jwt.jti}]`, now.toISOString(), 'EX', expiry, (err) => {
-    if (err) {
-      return next(err);
-    }
+  try {
+    await client().set(`jtir[${jwt.jti}]`, now.toISOString(), 'EX', expiry);
+  } catch (err) {
+    return next(err);
+  }
 
-    // Only clear the cookie on logout if enabled.
-    if (JWT_CLEAR_COOKIE_LOGOUT) {
-      debug('clearing the login cookie');
-      res.clearCookie(JWT_SIGNING_COOKIE_NAME);
-    }
+  // Only clear the cookie on logout if enabled.
+  if (JWT_CLEAR_COOKIE_LOGOUT) {
+    debug('clearing the login cookie');
+    res.clearCookie(JWT_SIGNING_COOKIE_NAME);
+  }
 
-    res.status(204).end();
-  });
+  res.status(204).end();
 };
 
-const checkGeneralTokenBlacklist = (jwt) => new Promise((resolve, reject) => {
-  client().get(`jtir[${jwt.jti}]`, (err, expiry) => {
-    if (err) {
-      return reject(err);
-    }
-
+const checkGeneralTokenBlacklist = (jwt) => client().get(`jtir[${jwt.jti}]`)
+  .then((expiry) => {
     if (expiry != null) {
-      return reject(new errors.ErrAuthentication('token was revoked'));
+      throw new errors.ErrAuthentication('token was revoked');
     }
-
-    return resolve();
   });
-});
 
 /**
  * Check if the given token is already blacklisted, throw an error if it is.
