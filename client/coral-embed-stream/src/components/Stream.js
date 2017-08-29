@@ -13,7 +13,7 @@ import t, {timeago} from 'coral-framework/services/i18n';
 import CommentBox from 'talk-plugin-commentbox/CommentBox';
 import QuestionBox from 'talk-plugin-questionbox/QuestionBox';
 import {isCommentActive} from 'coral-framework/utils';
-import {Spinner, Button, Tab, TabCount, TabPane} from 'coral-ui';
+import {Button, Tab, TabCount, TabPane} from 'coral-ui';
 import cn from 'classnames';
 
 import {getTopLevelParent, attachCommentToParent} from '../graphql/utils';
@@ -22,8 +22,6 @@ import AutomaticAssetClosure from '../containers/AutomaticAssetClosure';
 import StreamTabPanel from '../containers/StreamTabPanel';
 
 import styles from './Stream.css';
-
-const SpinnerWhenLoading = ({loading, children}) => loading ? <Spinner /> : <div>{children}</div>;
 
 class Stream extends React.Component {
 
@@ -144,6 +142,7 @@ class Stream extends React.Component {
       emit,
       sortOrder,
       sortBy,
+      loading,
     } = this.props;
 
     const slotProps = {data};
@@ -171,6 +170,7 @@ class Stream extends React.Component {
           tabPaneSlot={'streamTabPanes'}
           slotProps={slotProps}
           queryData={slotQueryData}
+          loading={loading}
           appendTabs={
             <Tab tabId={'all'} key='all'>
               All Comments <TabCount active={activeStreamTab === 'all'} sub>{totalCommentCount}</TabCount>
@@ -223,7 +223,6 @@ class Stream extends React.Component {
       viewAllComments,
       auth: {loggedIn, user},
       editName,
-      loading,
     } = this.props;
     const {keepCommentBox} = this.state;
     const open = !asset.isClosed;
@@ -310,12 +309,10 @@ class Stream extends React.Component {
           />
         )}
 
-        <SpinnerWhenLoading loading={loading}>
-          {highlightedComment
-            ? this.renderHighlightedComment()
-            : this.renderTabPanel()
-          }
-        </SpinnerWhenLoading>
+        {highlightedComment
+          ? this.renderHighlightedComment()
+          : this.renderTabPanel()
+        }
       </div>
     );
   }
