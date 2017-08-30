@@ -27,7 +27,7 @@ class FlaggedAccounts extends React.Component {
         <div className={styles.mainFlaggedContent}>
           {
             hasResults
-            ? <CSSTransitionGroup
+              ? <CSSTransitionGroup
                 component={'ul'}
                 className={styles.list}
                 transitionName={{
@@ -38,8 +38,8 @@ class FlaggedAccounts extends React.Component {
                 }}
                 transitionEnter={true}
                 transitionLeave={true}
-                transitionEnterTimeout={100000}
-                transitionLeaveTimeout={100000}
+                transitionEnterTimeout={1000}
+                transitionLeaveTimeout={1000}
               >
                 {
                   users.nodes.map((user) => {
@@ -59,12 +59,12 @@ class FlaggedAccounts extends React.Component {
                   })
                 }
               </CSSTransitionGroup>
-            : <EmptyCard>{t('community.no_flagged_accounts')}</EmptyCard>
+              : <EmptyCard>{t('community.no_flagged_accounts')}</EmptyCard>
           }
           <LoadMore
             loadMore={loadMore}
             showLoadMore={users.hasNextPage}
-            />
+          />
         </div>
       </div>
     );
