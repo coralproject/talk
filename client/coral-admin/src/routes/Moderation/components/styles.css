@@ -449,20 +449,20 @@ span {
 
 .commentLeave {
   opacity: 1.0;
-  transition: opacity 800ms;
 }
 
 .commentLeaveActive {
   opacity: 0;
+  transition: opacity 800ms;
 }
 
 .commentEnter {
   opacity: 0;
-  transition: opacity 800ms;
 }
 
 .commentEnterActive {
   opacity: 1.0;
+  transition: opacity 800ms;
 }
 
 .editedMarker {
