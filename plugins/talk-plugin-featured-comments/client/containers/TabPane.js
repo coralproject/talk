@@ -102,6 +102,7 @@ const enhance = compose(
             tags: ["FEATURED"]
             sortOrder: $sortOrder
             sortBy: $sortBy
+            excludeIgnored: $excludeIgnored
           }
           deep: true
         ) @skip(if: $hasComment) {
