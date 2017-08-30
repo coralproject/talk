@@ -646,10 +646,10 @@ type AssetConnection {
   hasNextPage: Boolean!
 
   # Cursor of first asset in subset.
-  startCursor: Date
+  startCursor: Cursor
 
   # Cursor of last asset in subset.
-  endCursor: Date
+  endCursor: Cursor
 
   # Subset of assets.
   nodes: [Asset!]!
@@ -912,24 +912,25 @@ input RejectUsernameInput {
   message: String!
 }
 
-# Configurable settings that can be overridden for the Asset.
+# Configurable settings that can be overridden for the Asset. You must specify
+# all fields that should be updated.
 input AssetSettingsInput {
 
   # premodLinksEnable will put all comments that contain links into premod.
-  premodLinksEnable: Boolean
+  premodLinksEnable: Boolean!
 
   # moderation is the moderation mode for the asset.
   moderation: MODERATION_MODE!
 
   # questionBoxEnable will enable the Question Boxs' content to be visable above
   # the comment box.
-  questionBoxEnable: Boolean
+  questionBoxEnable: Boolean!
 
   # questionBoxContent is the content of the Question Box.
-  questionBoxContent: String
+  questionBoxContent: String!
 
   # questionBoxIcon is the icon for the Question Box.
-  questionBoxIcon: String
+  questionBoxIcon: String!
 }
 
 # UpdateAssetStatusInput contains the input to change the status of a comment as
@@ -940,7 +941,8 @@ input UpdateAssetStatusInput {
   # is null or in the future, it will be open for commenting.
   closedAt: Date
 
-  # closedMessage is the message to be set on the asset when it is closed.
+  # closedMessage is the message to be set on the asset when it is closed. If it
+  # is null, then the message will default to the globally set `closedMessage`.
   closedMessage: String
 }
 
@@ -1088,31 +1090,35 @@ type RevokeTokenResponse implements Response {
 type RootMutation {
 
   # Creates a comment on the asset.
-  createComment(comment: CreateCommentInput!): CreateCommentResponse
+  createComment(comment: CreateCommentInput!): CreateCommentResponse!
 
   # Creates a flag on an entity.
-  createFlag(flag: CreateFlagInput!): CreateFlagResponse
+  createFlag(flag: CreateFlagInput!): CreateFlagResponse!
 
   # Creates a don't agree action on an entity.
-  createDontAgree(dontagree: CreateDontAgreeInput!): CreateDontAgreeResponse
+  createDontAgree(dontagree: CreateDontAgreeInput!): CreateDontAgreeResponse!
 
   # Delete an action based on the action id.
   deleteAction(id: ID!): DeleteActionResponse
 
   # Edit a comment
-  editComment(id: ID!, asset_id: ID!, edit: EditCommentInput): EditCommentResponse
+  editComment(id: ID!, asset_id: ID!, edit: EditCommentInput): EditCommentResponse!
 
   # Sets User status. Requires the `ADMIN` role.
-  setUserStatus(id: ID!, status: USER_STATUS!): SetUserStatusResponse
+  # Mutation is restricted.
+  setUserStatus(id: ID!, status: USER_STATUS!): SetUserStatusResponse!
 
   # Suspends a user. Requires the `ADMIN` role.
-  suspendUser(input: SuspendUserInput!): SuspendUserResponse
+  # Mutation is restricted.
+  suspendUser(input: SuspendUserInput!): SuspendUserResponse!
 
   # Reject a username. Requires the `ADMIN` role.
-  rejectUsername(input: RejectUsernameInput!): RejectUsernameResponse
+  # Mutation is restricted.
+  rejectUsername(input: RejectUsernameInput!): RejectUsernameResponse!
 
   # Sets Comment status. Requires the `ADMIN` role.
-  setCommentStatus(id: ID!, status: COMMENT_STATUS!): SetCommentStatusResponse
+  # Mutation is restricted.
+  setCommentStatus(id: ID!, status: COMMENT_STATUS!): SetCommentStatusResponse!
 
   # Add a tag.
   addTag(tag: ModifyTagInput!): ModifyTagResponse!
@@ -1121,23 +1127,27 @@ type RootMutation {
   removeTag(tag: ModifyTagInput!): ModifyTagResponse!
 
   # Updates settings on a given asset.
-  updateAssetSettings(id: ID!, input: AssetSettingsInput!): UpdateAssetSettingsResponse
+  # Mutation is restricted.
+  updateAssetSettings(id: ID!, input: AssetSettingsInput!): UpdateAssetSettingsResponse!
 
   # Updates the status of an asset allowing you to close/reopen an asset for
   # commenting.
-  updateAssetStatus(id: ID!, input: UpdateAssetStatusInput!): UpdateAssetStatusResponse
+    # Mutation is restricted.
+  updateAssetStatus(id: ID!, input: UpdateAssetStatusInput!): UpdateAssetStatusResponse!
 
-  # Ignore comments by another user
-  ignoreUser(id: ID!): IgnoreUserResponse
+  # Ignore comments by another user.
+  ignoreUser(id: ID!): IgnoreUserResponse!
 
   # CreateToken will create a token that is attached to the current user.
+  # Mutation is restricted.
   createToken(input: CreateTokenInput!): CreateTokenResponse!
 
   # RevokeToken will revoke an existing token.
+  # Mutation is restricted.
   revokeToken(input: RevokeTokenInput!): RevokeTokenResponse!
 
-  # Stop Ignoring comments by another user
-  stopIgnoringUser(id: ID!): StopIgnoringUserResponse
+  # Stop Ignoring comments by another user.
+  stopIgnoringUser(id: ID!): StopIgnoringUserResponse!
 }
 
 ################################################################################
