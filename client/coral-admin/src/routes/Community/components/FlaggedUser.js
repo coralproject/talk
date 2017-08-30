@@ -1,11 +1,12 @@
 import React from 'react';
-import styles from './styles.css';
+import styles from './FlaggedUser.css';
 
 import ActionButton from './ActionButton';
 import {username} from 'talk-plugin-flags/helpers/flagReasons';
 import ActionsMenu from 'coral-admin/src/components/ActionsMenu';
 import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
 
+import cn from 'classnames';
 import t from 'coral-framework/services/i18n';
 
 const shortReasons = {
@@ -36,27 +37,33 @@ class User extends React.Component {
       user,
       modActionButtons,
       viewUserDetail,
-      index,
       selected,
-      isActive,
-      hideActive,
       approveUser,
       showRejectUsernameDialog,
       me,
+      className,
     } = this.props;
 
     return (
-      <li tabIndex={index} className={`mdl-card ${selected ? 'mdl-shadow--8dp' : 'mdl-shadow--2dp'} ${styles.listItem} ${isActive && !hideActive ? styles.activeItem : ''}`}>
+      <li
+        tabIndex={0}
+        className={cn(className, styles.root, {[styles.rootSelected]: selected})}
+      >
         <div className={styles.container}>
-          <div className={styles.itemHeader}>
+          <div className={styles.header}>
             <div className={styles.author}>
-              <button onClick={this.viewAuthorDetail} className={styles.button}>{user.username}</button>
+              <button
+                onClick={this.viewAuthorDetail}
+                className={styles.button}>
+                {user.username}
+              </button>
               {me.id !== user.id &&
                 <ActionsMenu icon="not_interested">
                   <ActionsMenuItem
                     disabled={user.status === 'BANNED'}
                     onClick={this.showSuspenUserDialog}>
-                    Suspend User</ActionsMenuItem>
+                    Suspend User
+                  </ActionsMenuItem>
                   <ActionsMenuItem
                     disabled={user.status === 'BANNED'}
                     onClick={this.showBanUserDialog}>
@@ -67,10 +74,13 @@ class User extends React.Component {
             </div>
           </div>
 
-          <div className={styles.itemBody}>
-            <div className={styles.body}>
+          <div className={styles.body}>
+            <div className={styles.flagged}>
               <div className={styles.flaggedByCount}>
-                <i className="material-icons">flag</i><span className={styles.flaggedByLabel}>{t('community.flags')}({ user.actions.length })</span>:
+                <i className={cn('material-icons', styles.flagIcon)}>flag</i>
+                <span className={styles.flaggedByLabel}>
+                  {t('community.flags')}({ user.actions.length })
+                </span>:
                   { user.action_summaries.map(
                   (action, i) => {
                     return <span className={styles.flaggedBy} key={i}>

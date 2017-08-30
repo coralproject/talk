@@ -1,3 +1,8 @@
+/**
+ * deprecated as this file contains styles from multiple components. Please remove this file
+ * when styles have been refactored.
+ */
+
 @custom-media --big-viewport (min-width: 780px);
 
 .container {
@@ -235,44 +240,3 @@
   }
 }
 
-.flaggedByCount {
-  display: block;
-  text-align: left;
-  margin-top: 5px;
-}
-
-.flaggedByCount i {
-  font-size: 14px;
-  margin-right: 10px;
-}
-
-.flaggedBy {
-  display: inline;
-  padding: 3px;
-  font-size: 14px;
-  margin-left: 5px;
-}
-
-.flaggedByLabel {
-  font-weight: 600;
-  font-size: 14px;
-}
-
-.flaggedReasons {
-  margin-left: 24px;
-  margin-top: 10px;
-}
-
-p.flaggedByReason {
-  font-size: 1tpx;
-  margin: 0px;
-  line-height: 1.4;
-}
-
-.button {
-  composes: buttonReset from 'coral-framework/styles/reset.css';
-  vertical-align: text-bottom;
-  &:hover {
-    background-color: #E0E0E0;
-  }
-}
