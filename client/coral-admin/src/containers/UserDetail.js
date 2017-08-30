@@ -88,13 +88,13 @@ class UserDetailContainer extends React.Component {
         });
       }
     })
-    .then(() => {
-      this.isLoadingMore = false;
-    })
-    .catch((err) => {
-      this.isLoadingMore = false;
-      throw err;
-    });
+      .then(() => {
+        this.isLoadingMore = false;
+      })
+      .catch((err) => {
+        this.isLoadingMore = false;
+        throw err;
+      });
   };
 
   componentWillReceiveProps(next) {
@@ -124,7 +124,7 @@ class UserDetailContainer extends React.Component {
 }
 
 const LOAD_MORE_QUERY = gql`
-  query CoralAdmin_Moderation_LoadMore($limit: Int = 10, $cursor: Date, $author_id: ID!, $statuses: [COMMENT_STATUS!]) {
+  query CoralAdmin_Moderation_LoadMore($limit: Int = 10, $cursor: Cursor, $author_id: ID!, $statuses: [COMMENT_STATUS!]) {
     comments(query: {limit: $limit, cursor: $cursor, author_id: $author_id, statuses: $statuses}) {
       ...CoralAdmin_Moderation_CommentConnection
     }

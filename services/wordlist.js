@@ -1,8 +1,8 @@
 const debug = require('debug')('talk:services:wordlist');
 const _ = require('lodash');
-const natural = require('natural');
-const tokenizer = new natural.WordTokenizer();
-const nameTokenizer = new natural.RegexpTokenizer({pattern: /\_/});
+const {RegexpTokenizer} = require('natural');
+const tokenizer = new RegexpTokenizer({pattern: /[.\s'"?!]/});
+const nameTokenizer = new RegexpTokenizer({pattern: /_/});
 const SettingsService = require('./settings');
 const Errors = require('../errors');
 
@@ -69,20 +69,20 @@ class Wordlist {
 
       return true;
     })
-    .map((word) => {
-      if (word.length === 1) {
-        return [word];
-      }
-      
-      return tokenizer.tokenize(word.toLowerCase());
-    })
-    .filter((tokens) => {
-      if (tokens.length === 0) {
-        return false;
-      }
+      .map((word) => {
+        if (word.length === 1) {
+          return [word];
+        }
 
-      return true;
-    }));
+        return tokenizer.tokenize(word.toLowerCase());
+      })
+      .filter((tokens) => {
+        if (tokens.length === 0) {
+          return false;
+        }
+
+        return true;
+      }));
   }
 
   /**
@@ -250,22 +250,25 @@ class Wordlist {
    * @return {Function}     the Connect middleware
    */
   static filter(...fields) {
-    return (req, res, next) => {
+    return async (req, res, next) => {
 
       // Create a new instance of the Wordlist.
       const wl = new Wordlist();
 
-      wl
-        .load()
-        .then(() => {
+      try {
 
-          // Perform a filtering operation using the new instance of the
-          // Wordlist.
-          req.wordlist = wl.filter(req.body, ...fields);
+        await wl.load();
 
-          // Call the next piece of middleware.
-          next();
-        });
+        // Perform a filtering operation using the new instance of the
+        // Wordlist.
+        req.wordlist = wl.filter(req.body, ...fields);
+
+      } catch(err) {
+        return next(err);
+      }
+
+      // Call the next piece of middleware.
+      return next();
     };
   }
 }

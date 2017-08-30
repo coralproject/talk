@@ -1,6 +1,5 @@
 dist
 docs
-client/lib
 **/*.html
 plugins/*
 !plugins/talk-plugin-facebook-auth
@@ -14,5 +13,11 @@ plugins/*
 !plugins/talk-plugin-comment-content
 !plugins/talk-plugin-permalink
 !plugins/talk-plugin-featured-comments
+!plugins/talk-plugin-sort-newest
+!plugins/talk-plugin-sort-oldest
+!plugins/talk-plugin-sort-most-replied
+!plugins/talk-plugin-sort-most-liked
+!plugins/talk-plugin-sort-most-loved
+!plugins/talk-plugin-sort-most-respected
 
 node_modules

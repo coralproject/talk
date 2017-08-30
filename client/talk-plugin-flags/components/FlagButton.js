@@ -42,7 +42,7 @@ export default class FlagButton extends Component {
         this.setState({showMenu: true});
       }
     } else {
-      this.props.addNotification('error', t('error.NOT_AUTHORIZED'));
+      this.props.notify('error', t('error.NOT_AUTHORIZED'));
     }
   }
 
@@ -93,18 +93,24 @@ export default class FlagButton extends Component {
       };
       if (reason === 'COMMENT_NOAGREE') {
         postDontAgree(action)
-        .then(({data}) => {
-          if (itemType === 'COMMENTS') {
-            this.setState({localPost: data.createDontAgree.dontagree.id});
-          }
-        });
+          .then(({data}) => {
+            if (itemType === 'COMMENTS') {
+              this.setState({localPost: data.createDontAgree.dontagree.id});
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          });
       } else {
         postFlag({...action, reason})
-        .then(({data}) => {
-          if (itemType === 'COMMENTS') {
-            this.setState({localPost: data.createFlag.flag.id});
-          }
-        });
+          .then(({data}) => {
+            if (itemType === 'COMMENTS') {
+              this.setState({localPost: data.createFlag.flag.id});
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          });
       }
     }
   }
@@ -153,15 +159,15 @@ export default class FlagButton extends Component {
             className={cn(`${name}-button`, {[`${name}-button-flagged`]: flagged}, styles.button)}>
             {
               flagged
-              ? <span className={`${name}-button-text`}>{t('reported')}</span>
-              : <span className={`${name}-button-text`}>{t('report')}</span>
+                ? <span className={`${name}-button-text`}>{t('reported')}</span>
+                : <span className={`${name}-button-text`}>{t('report')}</span>
             }
             <i className={
               cn(`${name}-icon`, 'material-icons', styles.icon, {
                 flaggedIcon: flagged,
                 [styles.flaggedIcon]: flagged,
               })}
-              aria-hidden={true}>flag</i>
+            aria-hidden={true}>flag</i>
           </button>
           {
             this.state.showMenu &&
@@ -190,10 +196,10 @@ export default class FlagButton extends Component {
                     }
                     {
                       this.state.reason && <div>
-                      <label htmlFor={'message'} className={`${name}-popup-radio-label`}>
-                        {t('flag_reason')}
-                      </label><br/>
-                      <textarea
+                        <label htmlFor={'message'} className={`${name}-popup-radio-label`}>
+                          {t('flag_reason')}
+                        </label><br/>
+                        <textarea
                           className={`${name}-reason-text`}
                           id="message"
                           rows={4}
@@ -208,8 +214,8 @@ export default class FlagButton extends Component {
                 </div>
                 {
                   popupMenu.button && <Button
-                  className={`${name}-popup-button`}
-                  onClick={this.onPopupContinue}>
+                    className={`${name}-popup-button`}
+                    onClick={this.onPopupContinue}>
                     {popupMenu.button}
                   </Button>
                 }

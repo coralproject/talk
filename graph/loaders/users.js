@@ -5,9 +5,20 @@ const util = require('./util');
 const UsersService = require('../../services/users');
 const UserModel = require('../../models/user');
 
-const genUserByIDs = (context, ids) => UsersService
-  .findByIdArray(ids)
-  .then(util.singleJoinBy(ids, 'id'));
+const genUserByIDs = async (context, ids) => {
+  if (!ids || ids.length === 0) {
+    return [];
+  }
+
+  if (ids.length === 1) {
+    const user = await UsersService.findById(ids[0]);
+    return [user];
+  }
+
+  return UsersService
+    .findByIdArray(ids)
+    .then(util.singleJoinBy(ids, 'id'));
+};
 
 /**
  * Retrieves users based on the passed in query that is filtered by the
@@ -15,7 +26,7 @@ const genUserByIDs = (context, ids) => UsersService
  * @param  {Object} context   graph context
  * @param  {Object} query     query terms to apply to the users query
  */
-const getUsersByQuery = ({user}, {ids, limit, cursor, statuses = null, sort}) => {
+const getUsersByQuery = (ctx, {ids, limit, cursor, statuses = null, sortOrder}) => {
 
   let users = UserModel.find();
 
@@ -36,7 +47,7 @@ const getUsersByQuery = ({user}, {ids, limit, cursor, statuses = null, sort}) =>
   }
 
   if (cursor) {
-    if (sort === 'REVERSE_CHRONOLOGICAL') {
+    if (sortOrder === 'DESC') {
       users = users.where({
         created_at: {
           $lt: cursor
@@ -52,7 +63,7 @@ const getUsersByQuery = ({user}, {ids, limit, cursor, statuses = null, sort}) =>
   }
 
   return users
-    .sort({created_at: sort === 'REVERSE_CHRONOLOGICAL' ? -1 : 1})
+    .sort({created_at: sortOrder === 'DESC' ? -1 : 1})
     .limit(limit);
 };
 

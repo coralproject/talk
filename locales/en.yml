@@ -41,6 +41,11 @@ en:
   common:
     copy: 'Copy'
     error: 'An error has occurred.'
+    reply: 'reply'
+    replies: 'replies'
+    reaction: 'reaction'
+    reactions: 'reactions'
+    story: 'Story'
   community:
     account_creation_date: "Account Creation Date"
     active: Active
@@ -281,6 +286,7 @@ en:
     prev_comment: "Go to the previous comment"
     reject: "Reject"
     rejected: "Rejected"
+    reply: "Reply"
     select_stream: "Select Stream"
     shift_key: "⇧"
     shortcuts: "Shortcuts"

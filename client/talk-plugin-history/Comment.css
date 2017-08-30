@@ -6,6 +6,7 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
+  padding-bottom: 20px;
 }
 
 .myComment:last-child {
@@ -16,12 +17,27 @@
   text-decoration: none;
   font-weight: bold;
   font-size: 12px;
-  color: #2c3e50;
+  color: #757575;
 }
 
-.commentBody {
-
+.commentSummary {
+  font-size: 14px;
+  margin: 30px 0 10px;
+  color: #424242;
 }
+
+.commentSummaryReactions {
+  margin-right: 10px;
+}
+
+.reactionCount, .replyCount {
+  margin: 0 4px;
+}
+
+.countZero {
+  color: #9E9E9E;
+}
+
 
 .sidebar {
   ul {

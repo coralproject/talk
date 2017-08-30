@@ -29,34 +29,27 @@ const keyfunc = (key) => {
  *                           resolved as the value to cache.
  * @return {Promise}         Resolves to the value either retrieved from cache
  */
-cache.wrap = (key, expiry, work, kf = keyfunc) => {
-  return cache
-    .get(key, kf)
-    .then((value) => {
-      if (value !== null) {
-        debug('wrap: hit', kf(key));
-        return value;
-      }
+cache.wrap = async (key, expiry, work, kf = keyfunc) => {
+  let value = await cache.get(key, kf);
+  if (value !== null) {
+    debug('wrap: hit', kf(key));
+    return value;
+  }
 
-      debug('wrap: miss', kf(key));
+  debug('wrap: miss', kf(key));
 
-      return work()
-        .then((value) => {
+  value = await work();
 
-          process.nextTick(() => {
-            cache
-              .set(key, value, expiry, kf)
-              .then(() => {
-                debug('wrap: set complete');
-              })
-              .catch((err) => {
-                console.error(err);
-              });
-          });
+  process.nextTick(async () => {
+    try {
+      await cache.set(key, value, expiry, kf);
+      debug('wrap: set complete');
+    } catch (err) {
+      console.error(err);
+    }
+  });
 
-          return value;
-        });
-    });
+  return value;
 };
 
 // This is designed to increment a key and add an expiry iff the key already
@@ -221,52 +214,41 @@ cache.decrMany = (keys, expiry, kf = keyfunc) => {
  *                                      provided key into a string for the cache.
  * @return {Promise}                    resovles to the values for the keys
  */
-cache.wrapMany = (keys, expiry, work, kf = keyfunc) => {
-  return cache
-    .getMany(keys, kf)
-    .then((values) => {
+cache.wrapMany = async (keys, expiry, work, kf = keyfunc) => {
+  let values = await cache.getMany(keys, kf);
 
-      // find any of the null valued items by collecting the work
-      let workRefs = values
-        .map((value, index) => ({value, index, key: keys[index]}))
-        .filter(({value}) => value === null);
+  // find any of the null valued items by collecting the work
+  let workRefs = values
+    .map((value, index) => ({value, index, key: keys[index]}))
+    .filter(({value}) => value === null);
 
-      let workKeys = workRefs.map(({key}) => key);
+  let workKeys = workRefs.map(({key}) => key);
 
-      debug(`wrapMany: hit ratio: ${keys.length - workKeys.length}/${keys.length}`);
+  debug(`wrapMany: hit ratio: ${keys.length - workKeys.length}/${keys.length}`);
 
-      if (workKeys.length > 0) {
-        return work(workKeys)
-          .then((workedValues) => {
+  if (workKeys.length > 0) {
+    const workedValues = await work(workKeys);
 
-            // Set the items in the cache that we needed to retrive after the
-            // next process tick.
-            process.nextTick(() => {
-              cache
-                .setMany(workKeys, workedValues, expiry, kf)
-                .then(() => {
-                  debug('wrapMany: setMany complete');
-                })
-                .catch((err) => {
-                  console.error(err);
-                });
-            });
-
-            return workedValues;
-          })
-          .then((workedValues) => {
-
-            // Walk over the worked keys to merge them with the existing values.
-            for (let i = 0; i < workRefs.length; i++) {
-              values[workRefs[i].index] = workedValues[i];
-            }
-
-            return values;
-          });
-      } else {
-        return values;
-      }
+    // Set the items in the cache that we needed to retrive after the
+    // next process tick.
+    process.nextTick(() => {
+      cache
+        .setMany(workKeys, workedValues, expiry, kf)
+        .then(() => {
+          debug('wrapMany: setMany complete');
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     });
+
+    // Walk over the worked keys to merge them with the existing values.
+    for (let i = 0; i < workRefs.length; i++) {
+      values[workRefs[i].index] = workedValues[i];
+    }
+  }
+
+  return values;
 };
 
 /**

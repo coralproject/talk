@@ -21,14 +21,14 @@ class ModSubscription extends React.Component {
           assetId: this.props.data.variables.asset_id,
         },
         updateQuery: (prev, {subscriptionData: {data: {commentFeatured: {user, comment}}}}) => {
-          const notify = this.props.user.id === user.id
+          const notifyText = this.props.user.id === user.id
             ? ''
             : t(
               'talk-plugin-featured-comments.notify_featured',
               user.username,
               prepareNotificationText(comment.body),
             );
-          return this.props.handleCommentChange(prev, comment, notify);
+          return this.props.handleCommentChange(prev, comment, notifyText);
         },
       },
       {

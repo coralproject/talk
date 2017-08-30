@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 
 import {Icon} from 'coral-ui';
+import ReplyBadge from 'coral-admin/src/components/ReplyBadge';
 import FlagBox from 'coral-admin/src/components/FlagBox';
 import styles from './styles.css';
 import CommentType from 'coral-admin/src/components/CommentType';
@@ -90,8 +91,8 @@ class Comment extends React.Component {
               </span>
               {
                 (comment.editing && comment.editing.edited)
-                ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
-                : null
+                  ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
+                  : null
               }
               {currentUserId !== comment.user.id &&
                 <ActionsMenu icon="not_interested">
@@ -107,6 +108,7 @@ class Comment extends React.Component {
                 </ActionsMenu>
               }
               <div className={styles.adminCommentInfoBar}>
+                {comment.hasParent && <ReplyBadge/>}
                 <CommentType type={commentType} className={styles.commentType}/>
                 <Slot
                   fill="adminCommentInfoBar"
@@ -190,10 +192,10 @@ class Comment extends React.Component {
         />
         {flagActions && flagActions.length
           ? <FlagBox
-              actions={flagActions}
-              actionSummaries={flagActionSummaries}
-              viewUserDetail={viewUserDetail}
-            />
+            actions={flagActions}
+            actionSummaries={flagActionSummaries}
+            viewUserDetail={viewUserDetail}
+          />
           : null}
       </li>
     );

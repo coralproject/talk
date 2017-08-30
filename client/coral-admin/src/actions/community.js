@@ -14,13 +14,12 @@ import {
   HIDE_REJECT_USERNAME_DIALOG
 } from '../constants/community';
 
-import coralApi from '../../../coral-framework/helpers/request';
 import t from 'coral-framework/services/i18n';
 
-export const fetchAccounts = (query = {}) => (dispatch) => {
+export const fetchAccounts = (query = {}) => (dispatch, _, {rest}) => {
 
   dispatch(requestFetchAccounts());
-  coralApi(`/users?${qs.stringify(query)}`)
+  rest(`/users?${qs.stringify(query)}`)
     .then(({result, page, count, limit, totalPages}) =>{
       dispatch({
         type: FETCH_COMMENTERS_SUCCESS,
@@ -51,18 +50,18 @@ export const newPage = () => ({
   type: COMMENTERS_NEW_PAGE
 });
 
-export const setRole = (id, role) => (dispatch) => {
-  return coralApi(`/users/${id}/role`, {method: 'POST', body: {role}})
-  .then(() => {
-    return dispatch({type: SET_ROLE, id, role});
-  });
+export const setRole = (id, role) => (dispatch, _, {rest}) => {
+  return rest(`/users/${id}/role`, {method: 'POST', body: {role}})
+    .then(() => {
+      return dispatch({type: SET_ROLE, id, role});
+    });
 };
 
-export const setCommenterStatus = (id, status) => (dispatch) => {
-  return coralApi(`/users/${id}/status`, {method: 'POST', body: {status}})
-  .then(() => {
-    return dispatch({type: SET_COMMENTER_STATUS, id, status});
-  });
+export const setCommenterStatus = (id, status) => (dispatch, _, {rest}) => {
+  return rest(`/users/${id}/status`, {method: 'POST', body: {status}})
+    .then(() => {
+      return dispatch({type: SET_COMMENTER_STATUS, id, status});
+    });
 };
 
 // Ban User Dialog

@@ -1,64 +1,59 @@
 const UsersService = require('../../../services/users');
 const SettingsService = require('../../../services/settings');
 
-const expect = require('chai').expect;
+const chai = require('chai');
+chai.use(require('chai-as-promised'));
+const expect = chai.expect;
 
 describe('services.UsersService', () => {
 
   let mockUsers;
-  beforeEach(() => {
+  beforeEach(async () => {
     const settings = {id: '1', moderation: 'PRE', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
 
-    return SettingsService.init(settings).then(() => {
-      return UsersService.createLocalUsers([{
-        email: 'stampi@gmail.com',
-        username: 'Stampi',
-        password: '1Coral!-'
-      }, {
-        email: 'sockmonster@gmail.com',
-        username: 'Sockmonster',
-        password: '2Coral!2'
-      }, {
-        email: 'marvel@gmail.com',
-        username: 'Marvel',
-        password: '3Coral!3'
-      }]).then((users) => {
-        mockUsers = users;
-      });
-    });
+    await SettingsService.init(settings);
+    mockUsers = await UsersService.createLocalUsers([{
+      email: 'stampi@gmail.com',
+      username: 'Stampi',
+      password: '1Coral!-'
+    }, {
+      email: 'sockmonster@gmail.com',
+      username: 'Sockmonster',
+      password: '2Coral!2'
+    }, {
+      email: 'marvel@gmail.com',
+      username: 'Marvel',
+      password: '3Coral!3'
+    }]);
   });
 
   describe('#findById()', () => {
-    it('should find a user by id', () => {
-      return UsersService
-        .findById(mockUsers[0].id)
-        .then((user) => {
-          expect(user).to.have.property('username', 'Stampi');
-        });
+    it('should find a user by id', async () => {
+      const user = await UsersService.findById(mockUsers[0].id);
+      expect(user).to.have.property('username', 'Stampi');
     });
   });
 
   describe('#findByIdArray()', () => {
-    it('should find an array of users from an array of ids', () => {
+    it('should find an array of users from an array of ids', async () => {
       const ids = mockUsers.map((user) => user.id);
-      return UsersService.findByIdArray(ids).then((result) => {
-        expect(result).to.have.length(3);
-      });
+      const users = await UsersService.findByIdArray(ids);
+      expect(users).to.have.length(3);
     });
   });
 
   describe('#findPublicByIdArray()', () => {
-    it('should find an array of users from an array of ids', () => {
+    it('should find an array of users from an array of ids', async () => {
       const ids = mockUsers.map((user) => user.id);
-      return UsersService.findPublicByIdArray(ids).then((result) => {
-        expect(result).to.have.length(3);
-        const sorted = result.sort((a, b) =>     {
-          if(a.username < b.username) {return -1;}
-          if(a.username > b.username) {return 1;}
-          return 0;
-        });
-        expect(sorted[0]).to.have.property('username', 'Marvel');
+      const users = await UsersService.findPublicByIdArray(ids);
+      expect(users).to.have.length(3);
+
+      const sorted = users.sort((a, b) =>     {
+        if(a.username < b.username) {return -1;}
+        if(a.username > b.username) {return 1;}
+        return 0;
       });
+      expect(sorted[0]).to.have.property('username', 'Marvel');
     });
   });
 
@@ -81,56 +76,43 @@ describe('services.UsersService', () => {
         username: 'StampiTheSecond',
         password: '1Coralito!'
       }])
-      .then((user) => {
-        expect(user).to.be.null;
-      })
-      .catch((error) => {
-        expect(error).to.not.be.null;
-      });
+        .then((user) => {
+          expect(user).to.be.null;
+        })
+        .catch((error) => {
+          expect(error).to.not.be.null;
+        });
     });
   });
 
   describe('#createEmailConfirmToken', () => {
 
-    it('should create a token for a valid user', () => {
-      return UsersService
-        .createEmailConfirmToken(mockUsers[0].id, mockUsers[0].profiles[0].id)
-        .then((token) => {
-          expect(token).to.not.be.null;
-        });
+    it('should create a token for a valid user', async () => {
+      const token = await UsersService.createEmailConfirmToken(mockUsers[0].id, mockUsers[0].profiles[0].id);
+      expect(token).to.not.be.null;
     });
 
-    it('should not create a token for a user already verified', () => {
-      return UsersService
-        .createEmailConfirmToken(mockUsers[0].id, mockUsers[0].profiles[0].id)
-        .then((token) => {
-          expect(token).to.not.be.null;
+    it('should not create a token for a user already verified', async () => {
+      const token = await UsersService.createEmailConfirmToken(mockUsers[0].id, mockUsers[0].profiles[0].id);
+      expect(token).to.not.be.null;
 
-          return UsersService.verifyEmailConfirmation(token);
-        })
-        .then(() => {
-          return UsersService.createEmailConfirmToken(mockUsers[0].id, mockUsers[0].profiles[0].id);
-        })
-        .catch((err) => {
-          expect(err).to.have.property('message', 'email address already confirmed');
-        });
+      await UsersService.verifyEmailConfirmation(token);
+
+      return expect(UsersService.createEmailConfirmToken(mockUsers[0].id, mockUsers[0].profiles[0].id)).to.eventually.be.rejected;
     });
 
   });
 
   describe('#verifyEmailConfirmation', () => {
 
-    it('should correctly validate a valid token', () => {
-      return UsersService
-        .createEmailConfirmToken(mockUsers[0].id, mockUsers[0].profiles[0].id)
-        .then((token) => {
-          expect(token).to.not.be.null;
+    it('should correctly validate a valid token', async () => {
+      const token = await UsersService.createEmailConfirmToken(mockUsers[0].id, mockUsers[0].profiles[0].id);
+      expect(token).to.not.be.null;
 
-          return UsersService.verifyEmailConfirmation(token);
-        });
+      return expect(UsersService.verifyEmailConfirmation(token)).to.eventually.not.be.rejected;
     });
 
-    it('should correctly reject an invalid token', () => {
+    it('should correctly reject an invalid token', async () => {
       return UsersService
         .verifyEmailConfirmation('cats')
         .catch((err) => {
@@ -264,31 +246,13 @@ describe('services.UsersService', () => {
         });
     });
 
-    it('should return an error if canEditName is false', (done) => {
-      UsersService
-        .editName(mockUsers[0].id, 'Jojo')
-        .then(() => UsersService.findById(mockUsers[0].id))
-        .then(() => {
-          done(new Error('Error expected'));
-        })
-        .catch((err) => {
-          expect(err).to.be.ok;
-          done();
-        });
+    it('should return an error if canEditName is false', async () => {
+      return expect(UsersService.editName(mockUsers[0].id, 'Jojo')).to.eventually.be.rejected;
     });
 
-    it('should return an error if the username is already taken', (done) => {
-      UsersService
-      .toggleNameEdit(mockUsers[0].id, true)
-      .then(() => UsersService.editName(mockUsers[0].id, 'Marvel'))
-      .then(() => UsersService.findById(mockUsers[0].id))
-      .then(() => {
-        done(new Error('Error expected'));
-      })
-      .catch((err) => {
-        expect(err).to.be.ok;
-        done();
-      });
+    it('should return an error if the username is already taken', async () => {
+      await UsersService.toggleNameEdit(mockUsers[0].id, true);
+      return expect(UsersService.editName(mockUsers[0].id, 'Marvel')).to.eventually.be.rejected;
     });
 
     it('should not allow non-alphanumeric characters in usernames', () => {

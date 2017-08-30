@@ -1,5 +1,5 @@
 import update from 'immutability-helper';
-import {insertCommentsSorted} from 'coral-framework/utils';
+import {appendNewNodes} from 'coral-framework/utils';
 
 function determineCommentDepth(comment) {
   let depth = 0;
@@ -36,11 +36,15 @@ function applyToCommentsOrigin(root, callback) {
 }
 
 function findAndInsertComment(parent, comment) {
-  const [connectionField, countField, action] = parent.__typename === 'Asset'
+  const isAsset = parent.__typename === 'Asset';
+  const [connectionField, countField, action] = isAsset
     ? ['comments', 'commentCount', '$unshift']
     : ['replies', 'replyCount', '$push'];
 
-  if (!comment.parent || parent.id === comment.parent.id) {
+  if (
+    !comment.parent && isAsset                            // A top level comment in the asset.
+    || comment.parent && parent.id === comment.parent.id  // A reply at the correct parent.
+  ) {
     return update(parent, {
       [connectionField]: {
         nodes: {[action]: [comment]},
@@ -56,7 +60,7 @@ function findAndInsertComment(parent, comment) {
     [connectionField]: {
       nodes: {
         $apply: (nodes) =>
-         nodes.map((node) => findAndInsertComment(node, comment))
+          nodes.map((node) => findAndInsertComment(node, comment))
       },
     },
   });
@@ -159,14 +163,7 @@ function findAndInsertFetchedComments(parent, comments, parent_id) {
       [connectionField]: {
         hasNextPage: {$set: comments.hasNextPage},
         endCursor: {$set: comments.endCursor},
-        nodes: {$apply: (nodes) => {
-          if (isAsset) {
-            return nodes.concat(comments.nodes);
-          }
-          return insertCommentsSorted(nodes, comments.nodes.filter(
-            (comment) => !nodes.some((node) => node.id === comment.id)
-          ));
-        }},
+        nodes: {$apply: (nodes) => appendNewNodes(nodes, comments.nodes)},
       },
     });
   }
@@ -179,7 +176,7 @@ function findAndInsertFetchedComments(parent, comments, parent_id) {
     [connectionField]: {
       nodes: {
         $apply: (nodes) =>
-         nodes.map((node) => findAndInsertFetchedComments(node, comments, parent_id))
+          nodes.map((node) => findAndInsertFetchedComments(node, comments, parent_id))
       },
     },
   });
@@ -198,7 +195,7 @@ export function attachCommentToParent(topLevelComment, comment) {
     return update(topLevelComment, {
       replies: {
         nodes: {
-          $apply: (nodes) => insertCommentsSorted(nodes, comment),
+          $apply: (nodes) => appendNewNodes(nodes, [comment]),
         },
       },
       replyCount: {

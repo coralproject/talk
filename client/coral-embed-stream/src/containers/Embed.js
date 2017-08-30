@@ -8,22 +8,25 @@ import branch from 'recompose/branch';
 import renderComponent from 'recompose/renderComponent';
 
 import {Spinner} from 'coral-ui';
-import * as authActions from 'coral-framework/actions/auth';
-import * as assetActions from 'coral-framework/actions/asset';
-import pym from 'coral-framework/services/pym';
+import * as authActions from '../actions/auth';
+import * as assetActions from '../actions/asset';
 import {getDefinitionName, getSlotFragmentSpreads} from 'coral-framework/utils';
 import {withQuery} from 'coral-framework/hocs';
 import Embed from '../components/Embed';
 import Stream from './Stream';
-import {addNotification} from 'coral-framework/actions/notification';
+import {notify} from 'coral-framework/actions/notification';
 import t from 'coral-framework/services/i18n';
-
+import PropTypes from 'prop-types';
 import {setActiveTab} from '../actions/embed';
 
 const {logout, checkLogin, focusSignInDialog, blurSignInDialog, hideSignInDialog} = authActions;
 const {fetchAssetSuccess} = assetActions;
 
 class EmbedContainer extends React.Component {
+  static contextTypes = {
+    pym: PropTypes.object,
+  };
+
   subscriptions = [];
 
   subscribeToUpdates(props = this.props) {
@@ -31,19 +34,19 @@ class EmbedContainer extends React.Component {
       const newSubscriptions = [{
         document: USER_BANNED_SUBSCRIPTION,
         updateQuery: () => {
-          addNotification('info', t('your_account_has_been_banned'));
+          notify('info', t('your_account_has_been_banned'));
         },
       },
       {
         document: USER_SUSPENDED_SUBSCRIPTION,
         updateQuery: () => {
-          addNotification('info', t('your_account_has_been_suspended'));
+          notify('info', t('your_account_has_been_suspended'));
         },
       },
       {
         document: USERNAME_REJECTED_SUBSCRIPTION,
         updateQuery: () => {
-          addNotification('info', t('your_username_has_been_rejected'));
+          notify('info', t('your_username_has_been_rejected'));
         },
       }];
 
@@ -95,7 +98,7 @@ class EmbedContainer extends React.Component {
     if (!get(prevProps, 'root.asset.comment') && get(this.props, 'root.asset.comment')) {
 
       // Scroll to a permalinked comment if one is in the URL once the page is done rendering.
-      setTimeout(() => pym.scrollParentToChildEl('talk-embed-stream-container'), 0);
+      setTimeout(() => this.context.pym.scrollParentToChildEl('talk-embed-stream-container'), 0);
     }
   }
 
@@ -151,7 +154,15 @@ const slots = [
 ];
 
 const EMBED_QUERY = gql`
-  query CoralEmbedStream_Embed($assetId: ID, $assetUrl: String, $commentId: ID!, $hasComment: Boolean!, $excludeIgnored: Boolean) {
+  query CoralEmbedStream_Embed(
+    $assetId: ID,
+    $assetUrl: String,
+    $commentId: ID!,
+    $hasComment: Boolean!,
+    $excludeIgnored: Boolean,
+    $sortBy: SORT_COMMENTS_BY!,
+    $sortOrder: SORT_ORDER!,
+  ) {
     me {
       id
       status
@@ -163,13 +174,15 @@ const EMBED_QUERY = gql`
 `;
 
 export const withEmbedQuery = withQuery(EMBED_QUERY, {
-  options: ({auth, commentId, assetId, assetUrl}) => ({
+  options: ({auth, commentId, assetId, assetUrl, sortBy, sortOrder}) => ({
     variables: {
       assetId,
       assetUrl,
       commentId,
       hasComment: commentId !== '',
       excludeIgnored: Boolean(auth && auth.user && auth.user.id),
+      sortBy,
+      sortOrder,
     },
   }),
 });
@@ -180,7 +193,9 @@ const mapStateToProps = (state) => ({
   assetId: state.stream.assetId,
   assetUrl: state.stream.assetUrl,
   activeTab: state.embed.activeTab,
-  config: state.config
+  config: state.config,
+  sortOrder: state.stream.sortOrder,
+  sortBy: state.stream.sortBy,
 });
 
 const mapDispatchToProps = (dispatch) =>
@@ -190,7 +205,7 @@ const mapDispatchToProps = (dispatch) =>
       checkLogin,
       setActiveTab,
       fetchAssetSuccess,
-      addNotification,
+      notify,
       focusSignInDialog,
       blurSignInDialog,
       hideSignInDialog,

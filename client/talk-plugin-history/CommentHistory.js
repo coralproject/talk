@@ -17,7 +17,7 @@ class CommentHistory extends React.Component {
       })
       .catch((error) => {
         this.setState({loadingState: 'error'});
-        forEachError(error, ({msg}) => {this.props.addNotification('error', msg);});
+        forEachError(error, ({msg}) => {this.props.notify('error', msg);});
       });
   }
 

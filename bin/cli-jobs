@@ -78,18 +78,23 @@ function rangeJobsByState(state = 'complete', limit) {
 /**
  * Cleans up the jobs that are in the queue.
  */
-function cleanupJobs(options) {
+async function cleanupJobs(options) {
   const n = 100;
 
-  Promise.all([
-    rangeJobsByState('complete', n),
-    options.stuck ? rangeJobsByState('failed', n) : false
-  ])
-  .then((joblists) => joblists.filter((jobs) => jobs).map(removeJobs))
-  .then(() => {
+  try {
+    const joblists = await Promise.all([
+      rangeJobsByState('complete', n),
+      options.stuck ? rangeJobsByState('failed', n) : false
+    ]);
+
+    await joblists.filter((jobs) => jobs).map(removeJobs);
+
     util.shutdown();
     console.log('Removed old jobs');
-  });
+  } catch (err) {
+    console.error(err);
+    util.shutdown(1);
+  }
 }
 
 //==============================================================================

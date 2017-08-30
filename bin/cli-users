@@ -98,39 +98,32 @@ function getUserCreateAnswers(options) {
 /**
  * Prompts for input and registers a user based on those.
  */
-function createUser(options) {
-  getUserCreateAnswers(options)
-    .then((answers) => {
-      if (answers.password !== answers.confirmPassword) {
-        return Promise.reject(new Error('Passwords do not match'));
-      }
+async function createUser(options) {
+  try {
+    const answers = await getUserCreateAnswers(options);
+    if (answers.password !== answers.confirmPassword) {
+      throw new Error('Passwords do not match');
+    }
 
-      return answers;
-    })
-    .then((answers) => {
-      return UsersService
-        .createLocalUser(answers.email.trim(), answers.password.trim(), answers.username.trim())
-        .then((user) => {
-          console.log(`Created user ${user.id}.`);
+    const user = await UsersService.createLocalUser(answers.email.trim(), answers.password.trim(), answers.username.trim());
+    console.log(`Created user ${user.id}.`);
 
-          if (answers.roles.length > 0) {
-            return Promise.all(answers.roles.map((role) => {
-              return UsersService
-                .addRoleToUser(user.id, role)
-                .then(() => {
-                  console.log(`Added the role ${role} to User ${user.id}.`);
-                });
-            }));
-          }
-        });
-    })
-    .then(() => {
-      util.shutdown();
-    })
-    .catch((err) => {
-      console.error(err);
-      util.shutdown();
-    });
+    if (answers.roles.length > 0) {
+      return Promise.all(answers.roles.map((role) => {
+        return UsersService
+          .addRoleToUser(user.id, role)
+          .then(() => {
+            console.log(`Added the role ${role} to User ${user.id}.`);
+          });
+      }));
+    }
+
+    util.shutdown();
+
+  } catch (err) {
+    console.error(err);
+    util.shutdown();
+  }
 }
 
 /**
@@ -169,21 +162,21 @@ function passwd(userID) {
       validate: validateRequired('Confirm Password is required')
     }
   ])
-  .then((answers) => {
-    if (answers.password !== answers.confirmPassword) {
-      return Promise.reject(new Error('Password mismatch'));
-    }
+    .then((answers) => {
+      if (answers.password !== answers.confirmPassword) {
+        throw new Error('Password mismatch');
+      }
 
-    return UsersService.changePassword(userID, answers.password);
-  })
-  .then(() => {
-    console.log('Password changed.');
-    util.shutdown();
-  })
-  .catch((err) => {
-    console.error(err);
-    util.shutdown(1);
-  });
+      return UsersService.changePassword(userID, answers.password);
+    })
+    .then(() => {
+      console.log('Password changed.');
+      util.shutdown();
+    })
+    .catch((err) => {
+      console.error(err);
+      util.shutdown(1);
+    });
 }
 
 /**

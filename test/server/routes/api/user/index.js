@@ -2,15 +2,14 @@ const passport = require('../../../passport');
 
 const app = require('../../../../../app');
 const mailer = require('../../../../../services/mailer');
-const chai = require('chai');
-const expect = chai.expect;
 
 const SettingsService = require('../../../../../services/settings');
 const settings = {id: '1', moderation: 'PRE', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
 
-// Setup chai.
+const chai = require('chai');
 chai.should();
 chai.use(require('chai-http'));
+const expect = chai.expect;
 
 const UsersService = require('../../../../../services/users');
 
@@ -21,9 +20,9 @@ describe('/api/v1/users/:user_id/email/confirm', () => {
   beforeEach(() => SettingsService.init(settings).then(() => {
     return UsersService.createLocalUser('ana@gmail.com', '123321123', 'Ana');
   })
-  .then((user) => {
-    mockUser = user;
-  }));
+    .then((user) => {
+      mockUser = user;
+    }));
 
   describe('#post', () => {
     it('should send an email when we hit the endpoint', () => {
@@ -57,9 +56,9 @@ describe('/api/v1/users/:user_id/actions', () => {
   beforeEach(() => SettingsService.init(settings).then(() => {
     return UsersService.createLocalUser('ana@gmail.com', '123321123', 'Ana');
   })
-  .then((user) => {
-    mockUser = user;
-  }));
+    .then((user) => {
+      mockUser = user;
+    }));
 
   describe('#post', () => {
     it('it should update actions', () => {
@@ -83,9 +82,9 @@ describe('/api/v1/users/:user_id/username-enable', () => {
   beforeEach(() => SettingsService.init(settings).then(() => {
     return UsersService.createLocalUser('ana@gmail.com', '123321123', 'Ana');
   })
-  .then((user) => {
-    mockUser = user;
-  }));
+    .then((user) => {
+      mockUser = user;
+    }));
 
   describe('#post', () => {
     it('it should enable a user to edit their username', () => {

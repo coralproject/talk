@@ -4,7 +4,6 @@ import merge from 'lodash/merge';
 import uniq from 'lodash/uniq';
 import flatten from 'lodash/flatten';
 import isEmpty from 'lodash/isEmpty';
-import {getMutationOptions, resolveFragments} from 'coral-framework/services/graphqlRegistry';
 import {getDefinitionName, getResponseErrors} from '../utils';
 import PropTypes from 'prop-types';
 import t from 'coral-framework/services/i18n';
@@ -43,7 +42,19 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
     static contextTypes = {
       eventEmitter: PropTypes.object,
       store: PropTypes.object,
+      graphqlRegistry: PropTypes.object,
     };
+
+    get graphqlRegistry() {
+      return this.context.graphqlRegistry;
+    }
+
+    resolveDocument(documentOrCallback) {
+      const document = typeof documentOrCallback === 'function'
+        ? documentOrCallback(this.props, this.context)
+        : documentOrCallback;
+      return this.graphqlRegistry.resolveFragments(document);
+    }
 
     // Lazily resolve fragments from graphRegistry to support circular dependencies.
     memoized = null;
@@ -56,7 +67,7 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
 
     propsWrapper = (data) => {
       const name = getDefinitionName(document);
-      const callbacks = getMutationOptions(name);
+      const callbacks = this.graphqlRegistry.getMutationOptions(name);
       const mutate = (base) => {
         const variables = base.variables || config.options.variables;
         const configs = callbacks.map((cb) => cb({variables, state: this.context.store.getState()}));
@@ -73,8 +84,8 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
 
         const updateCallbacks =
           [base.update || config.options.update]
-          .concat(...configs.map((cfg) => cfg.update))
-          .filter((i) => i);
+            .concat(...configs.map((cfg) => cfg.update))
+            .filter((i) => i);
 
         const update = (proxy, result) => {
           if (getResponseErrors(result)) {
@@ -90,28 +101,28 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
             base.updateQueries || config.options.updateQueries,
             ...configs.map((cfg) => cfg.updateQueries)
           ]
-          .filter((i) => i)
-          .reduce((res, map) => {
-            Object.keys(map).forEach((key) => {
-              if (!(key in res)) {
-                res[key] = (prev, result) => {
-                  if (getResponseErrors(result.mutationResult)) {
+            .filter((i) => i)
+            .reduce((res, map) => {
+              Object.keys(map).forEach((key) => {
+                if (!(key in res)) {
+                  res[key] = (prev, result) => {
+                    if (getResponseErrors(result.mutationResult)) {
 
                     // Do not run updates when we have mutation errors.
-                    return prev;
-                  }
-                  return map[key](prev, result) || prev;
-                };
-              } else {
-                const existing = res[key];
-                res[key] = (prev, result) => {
-                  const next = existing(prev, result);
-                  return map[key](next, result) || next;
-                };
-              }
-            });
-            return res;
-          }, {});
+                      return prev;
+                    }
+                    return map[key](prev, result) || prev;
+                  };
+                } else {
+                  const existing = res[key];
+                  res[key] = (prev, result) => {
+                    const next = existing(prev, result);
+                    return map[key](next, result) || next;
+                  };
+                }
+              });
+              return res;
+            }, {});
 
         const wrappedConfig = {
           variables,
@@ -167,7 +178,7 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
 
     getWrapped = () => {
       if (!this.memoized) {
-        this.memoized = graphql(resolveFragments(document), {...config, props: this.propsWrapper})(WrappedComponent);
+        this.memoized = graphql(this.resolveDocument(document), {...config, props: this.propsWrapper})(WrappedComponent);
       }
       return this.memoized;
     };

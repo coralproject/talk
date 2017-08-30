@@ -22,10 +22,10 @@ class DashboardContainer extends React.Component {
 
 export const witDashboardQuery = withQuery(gql`
   query CoralAdmin_Dashboard($from: Date!, $to: Date!) {
-    assetsByFlag: assetMetrics(from: $from, to: $to, sort: FLAG) {
+    assetsByFlag: assetMetrics(from: $from, to: $to, sortBy: FLAG) {
       ...CoralAdmin_Metrics
     }
-    assetsByActivity: assetMetrics(from: $from, to: $to, sort: ACTIVITY) {
+    assetsByActivity: assetMetrics(from: $from, to: $to, sortBy: ACTIVITY) {
       ...CoralAdmin_Metrics
     }
   }
@@ -42,15 +42,15 @@ export const witDashboardQuery = withQuery(gql`
     }
   }
 `, {
-  options: ({settings: {dashboardWindowStart, dashboardWindowEnd}}) => {
-    return {
-      variables: {
-        from: dashboardWindowStart,
-        to: dashboardWindowEnd
-      }
-    };
-  }
-});
+    options: ({settings: {dashboardWindowStart, dashboardWindowEnd}}) => {
+      return {
+        variables: {
+          from: dashboardWindowStart,
+          to: dashboardWindowEnd
+        }
+      };
+    }
+  });
 
 const mapStateToProps = (state) => {
   return {

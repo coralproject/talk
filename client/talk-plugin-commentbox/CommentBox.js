@@ -12,11 +12,11 @@ export const name = 'talk-plugin-commentbox';
 
 // Given a newly posted comment's status, show a notification to the user
 // if needed
-export const notifyForNewCommentStatus = (addNotification, status) => {
+export const notifyForNewCommentStatus = (notify, status) => {
   if (status === 'REJECTED') {
-    addNotification('error', t('comment_box.comment_post_banned_word'));
+    notify('error', t('comment_box.comment_post_banned_word'));
   } else if (status === 'PREMOD') {
-    addNotification('success', t('comment_box.comment_post_notif_premod'));
+    notify('success', t('comment_box.comment_post_notif_premod'));
   }
 };
 
@@ -45,12 +45,12 @@ class CommentBox extends React.Component {
       postComment,
       assetId,
       parentId,
-      addNotification,
+      notify,
       currentUser,
     } = this.props;
 
     if (!can(currentUser, 'INTERACT_WITH_COMMUNITY')) {
-      addNotification('error', t('error.NOT_AUTHORIZED'));
+      notify('error', t('error.NOT_AUTHORIZED'));
       return;
     }
 
@@ -73,7 +73,7 @@ class CommentBox extends React.Component {
         // Execute postSubmit Hooks
         this.state.hooks.postSubmit.forEach((hook) => hook(data));
 
-        notifyForNewCommentStatus(addNotification, postedComment.status);
+        notifyForNewCommentStatus(notify, postedComment.status);
 
         if (commentPostedHandler) {
           commentPostedHandler();
@@ -81,7 +81,7 @@ class CommentBox extends React.Component {
       })
       .catch((err) => {
         this.setState({loadingState: 'error'});
-        forEachError(err, ({msg}) => addNotification('error', msg));
+        forEachError(err, ({msg}) => notify('error', msg));
       });
   }
 
@@ -186,7 +186,7 @@ CommentBox.propTypes = {
   currentUser: PropTypes.object.isRequired,
   isReply: PropTypes.bool.isRequired,
   canPost: PropTypes.bool,
-  addNotification: PropTypes.func.isRequired,
+  notify: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({commentBox}) => ({commentBox});

@@ -35,32 +35,32 @@ const getAssetActivityMetrics = ({loaders: {Assets}}, {from, to, limit}) => {
     }},
     {$limit: limit}
   ])
-  .then((results) => {
-    assetMetrics = results;
+    .then((results) => {
+      assetMetrics = results;
 
-    return Assets.getByID.loadMany(results.map((result) => result.asset_id));
-  })
-  .then((assets) => assets.map((asset, i) => {
+      return Assets.getByID.loadMany(results.map((result) => result.asset_id));
+    })
+    .then((assets) => assets.map((asset, i) => {
 
     // We're leveraging the fact that the comments returned by the aggregation
     // query are in the request order that we just made, it's what the
     // Assets.getByID loader does.
-    asset.commentCount = assetMetrics[i].commentCount;
+      asset.commentCount = assetMetrics[i].commentCount;
 
-    return asset;
-  }));
+      return asset;
+    }));
 };
 
 /**
  * Returns a list of assets with action metadata included on the models.
  */
-const getAssetMetrics = async ({loaders: {Metrics, Assets, Comments}}, {from, to, sort, limit}) => {
+const getAssetMetrics = async ({loaders: {Metrics, Assets, Comments}}, {from, to, sortBy, limit}) => {
 
   // Get the recent actions.
   let actionSummaries = await Metrics.getRecentActions.load({from, to});
 
   let commentMetrics = actionSummaries.reduce((acc, {item_id, action_type, count}) => {
-    if (action_type !== sort) {
+    if (action_type !== sortBy) {
       return acc;
     }
 
@@ -94,9 +94,9 @@ const getAssetMetrics = async ({loaders: {Metrics, Assets, Comments}}, {from, to
 
       return {action_summaries, id: asset_id};
     })
-  
+
     .filter((asset) => {
-      let contextActionSummary = asset.action_summaries.find((({action_type}) => action_type === sort));
+      let contextActionSummary = asset.action_summaries.find((({action_type}) => action_type === sortBy));
       if (contextActionSummary === null || contextActionSummary.actionCount === 0) {
         return false;
       }
@@ -108,8 +108,8 @@ const getAssetMetrics = async ({loaders: {Metrics, Assets, Comments}}, {from, to
     // if the action summary does not exist on the object, that it is less
     // prefered over the one that does have it.
     .sort((a, b) => {
-      let aActionSummary = a.action_summaries.find((({action_type}) => action_type === sort));
-      let bActionSummary = b.action_summaries.find((({action_type}) => action_type === sort));
+      let aActionSummary = a.action_summaries.find((({action_type}) => action_type === sortBy));
+      let bActionSummary = b.action_summaries.find((({action_type}) => action_type === sortBy));
 
       // Both of them had an actionCount, hence we can determine that we could
       // compare the actual values directly.
@@ -144,15 +144,15 @@ const getAssetMetrics = async ({loaders: {Metrics, Assets, Comments}}, {from, to
  * Returns a list of comments that are retrieved based on most activity within
  * the indicated time range.
  */
-const getCommentMetrics = async ({loaders: {Metrics, Comments}}, {from, to, sort, limit}) => {
+const getCommentMetrics = async ({loaders: {Metrics, Comments}}, {from, to, sortBy, limit}) => {
 
   let commentActionSummaries = {};
 
   let actionSummaries = await Metrics.getRecentActions.load({from, to});
 
   actionSummaries.sort((a, b) => {
-    let aActionSummary = a.action_type === sort ? a : null;
-    let bActionSummary = b.action_type === sort ? b : null;
+    let aActionSummary = a.action_type === sortBy ? a : null;
+    let bActionSummary = b.action_type === sortBy ? b : null;
 
     // If either a or b don't have this action type, then one of them will
     // automatically win.
@@ -178,7 +178,7 @@ const getCommentMetrics = async ({loaders: {Metrics, Comments}}, {from, to, sort
   // Grab the comment id's for comment where they have at least one of the
   // actions being sorted by.
   let commentIDs = Object.keys(commentActionSummaries).filter((item_id) => {
-    let contextActionSummary = commentActionSummaries[item_id].find(({action_type}) => action_type === sort);
+    let contextActionSummary = commentActionSummaries[item_id].find(({action_type}) => action_type === sortBy);
     if (contextActionSummary == null) {
       return false;
     }
@@ -247,11 +247,11 @@ module.exports = (context) => ({
       cacheKeyFn: objectCacheKeyFn('from', 'to')
     }),
     Assets: {
-      get: ({from, to, sort, limit}) => getAssetMetrics(context, {from, to, sort, limit}),
+      get: ({from, to, sortBy, limit}) => getAssetMetrics(context, {from, to, sortBy, limit}),
       getActivity: ({from, to, limit}) => getAssetActivityMetrics(context, {from, to, limit}),
     },
     Comments: {
-      get: ({from, to, sort, limit}) => getCommentMetrics(context, {from, to, sort, limit}),
+      get: ({from, to, sortBy, limit}) => getCommentMetrics(context, {from, to, sortBy, limit}),
     }
   }
 });

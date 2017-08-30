@@ -13,9 +13,9 @@ const CoralHeader = ({
 }) => (
   <Header className={styles.header}>
     <Logo className={styles.logo} />
-      <div>
-        {
-          auth && auth.user && can(auth.user, 'ACCESS_ADMIN') ?
+    <div>
+      {
+        auth && auth.user && can(auth.user, 'ACCESS_ADMIN') ?
           <Navigation className={styles.nav}>
             <IndexLink
               id='dashboardNav'
@@ -63,36 +63,36 @@ const CoralHeader = ({
           </Navigation>
           :
           null
-        }
-        <div className={styles.rightPanel}>
-          <ul>
-            <li className={styles.settings}>
-              <div>
-                <IconButton name="settings" id="menu-settings"/>
-                <Menu target="menu-settings" align="right">
-                  <MenuItem onClick={() => showShortcuts(true)}>{t('configure.shortcuts')}</MenuItem>
-                  <MenuItem>
-                    <a href="https://github.com/coralproject/talk/releases" target="_blank">
+      }
+      <div className={styles.rightPanel}>
+        <ul>
+          <li className={styles.settings}>
+            <div>
+              <IconButton name="settings" id="menu-settings"/>
+              <Menu target="menu-settings" align="right">
+                <MenuItem onClick={() => showShortcuts(true)}>{t('configure.shortcuts')}</MenuItem>
+                <MenuItem>
+                  <a href="https://github.com/coralproject/talk/releases" target="_blank">
                       View latest version
-                    </a>
-                  </MenuItem>
-                  <MenuItem>
-                    <a href="https://coralproject.net/contribute.html#other-ideas-and-bug-reports" target="_blank">
+                  </a>
+                </MenuItem>
+                <MenuItem>
+                  <a href="https://coralproject.net/contribute.html#other-ideas-and-bug-reports" target="_blank">
                       Report a bug or give feedback
-                    </a>
-                  </MenuItem>
-                  <MenuItem onClick={handleLogout}>
-                    {t('configure.sign_out')}
-                  </MenuItem>
-                </Menu>
-              </div>
-            </li>
-            <li>        
-             {`v${process.env.VERSION}`}        
-            </li>
-          </ul>
-        </div>
+                  </a>
+                </MenuItem>
+                <MenuItem onClick={handleLogout}>
+                  {t('configure.sign_out')}
+                </MenuItem>
+              </Menu>
+            </div>
+          </li>
+          <li>        
+            {`v${process.env.VERSION}`}        
+          </li>
+        </ul>
       </div>
+    </div>
   </Header>
 );
 

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {compose} from 'react-apollo';
 
-import {updateOpenStatus, updateConfiguration} from 'coral-framework/actions/asset';
+import {updateOpenStatus, updateConfiguration} from 'coral-embed-stream/src/actions/asset';
 
 import CloseCommentsInfo from '../components/CloseCommentsInfo';
 import ConfigureCommentStream from '../components/ConfigureCommentStream';
@@ -27,10 +27,9 @@ class ConfigureStreamContainer extends Component {
   handleApply (e) {
     e.preventDefault();
     const {elements} = e.target;
+    const {questionBoxIcon, questionBoxContent} = this.state.dirtySettings;
     const premod = elements.premod.checked;
     const questionBoxEnable = elements.qboxenable.checked;
-    const questionBoxContent = elements.qboxcontent.value;
-
     const premodLinksEnable = elements.plinksenable.checked;
     const {changed} = this.state;
 
@@ -38,6 +37,7 @@ class ConfigureStreamContainer extends Component {
       moderation: premod ? 'PRE' : 'POST',
       questionBoxEnable,
       questionBoxContent,
+      questionBoxIcon,
       premodLinksEnable
     };
 
@@ -51,14 +51,18 @@ class ConfigureStreamContainer extends Component {
     }
   }
 
-  handleChange (e) {
-    const changes = {};
+  handleChange (e, newChanges) {
+    let changes = {};
+
+    if (changes) {
+      changes = {...newChanges};
+    }
 
     if (e.target && e.target.id === 'qboxenable') {
       changes.questionBoxEnable = e.target.checked;
     }
-    if (e.target && e.target.id === 'qboxcontent') {
-      changes.questionBoxContent = e.target.value;
+    if (e.currentTarget && e.currentTarget.id === 'qboxicon') {
+      changes.questionBoxIcon = e.currentTarget.dataset.icon;
     }
     if (e.target && e.target.id === 'plinksenable') {
       changes.premodLinksEnable = e.target.value;
@@ -105,12 +109,13 @@ class ConfigureStreamContainer extends Component {
           changed={this.state.changed}
           premodLinksEnable={dirtySettings.premodLinksEnable}
           premod={premod}
+          questionBoxIcon={dirtySettings.questionBoxIcon}
           questionBoxEnable={dirtySettings.questionBoxEnable}
           questionBoxContent={dirtySettings.questionBoxContent}
         />
         <hr />
         <h3>{closedAt === 'open' ? t('configure.close') : t('configure.open')} {t('configure.comment_stream')}</h3>
-          {(closedAt === 'open' && closedTimeout) ? <p>{t('configure.comment_stream_will_close')} {this.getClosedIn()}.</p> : ''}
+        {(closedAt === 'open' && closedTimeout) ? <p>{t('configure.comment_stream_will_close')} {this.getClosedIn()}.</p> : ''}
         <CloseCommentsInfo
           onClick={this.toggleStatus}
           status={closedAt}

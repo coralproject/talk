@@ -1,4 +1,3 @@
-import coralApi from '../../../coral-framework/helpers/request';
 import t from 'coral-framework/services/i18n';
 
 export const SETTINGS_LOADING = 'SETTINGS_LOADING';
@@ -14,9 +13,9 @@ export const SAVE_SETTINGS_FAILED = 'SAVE_SETTINGS_FAILED';
 export const WORDLIST_UPDATED = 'WORDLIST_UPDATED';
 export const DOMAINLIST_UPDATED = 'DOMAINLIST_UPDATED';
 
-export const fetchSettings = () => (dispatch) => {
+export const fetchSettings = () => (dispatch, _, {rest}) => {
   dispatch({type: SETTINGS_LOADING});
-  coralApi('/settings')
+  rest('/settings')
     .then((settings) => {
       dispatch({type: SETTINGS_RECEIVED, settings});
     })
@@ -41,13 +40,13 @@ export const updateDomainlist = (listName, list) => {
   return {type: DOMAINLIST_UPDATED, listName, list};
 };
 
-export const saveSettingsToServer = () => (dispatch, getState) => {
+export const saveSettingsToServer = () => (dispatch, getState, {rest}) => {
   let settings = getState().settings;
   if (settings.charCount) {
     settings.charCount = parseInt(settings.charCount);
   }
   dispatch({type: SAVE_SETTINGS_LOADING});
-  coralApi('/settings', {method: 'PUT', body: settings})
+  rest('/settings', {method: 'PUT', body: settings})
     .then(() => {
       dispatch({type: SAVE_SETTINGS_SUCCESS, settings});
     })

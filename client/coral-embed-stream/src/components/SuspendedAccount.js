@@ -44,40 +44,40 @@ class SuspendedAccount extends Component {
 
     return <RestrictedMessageBox>
       <span>{
-          canEditName ?
+        canEditName ?
           t('framework.edit_name.msg')
           :
           <span>
             <b>{t('framework.banned_account_header')}</b><br/> {t('framework.banned_account_body')}
           </span>
-        }</span>
+      }</span>
       {
         canEditName ?
-        <div>
-          <div className={styles.alert}>
-            {alert}
-          </div>
-          <label
-            htmlFor='username'
-            className="screen-reader-text"
-            aria-hidden={true}>
-            {t('framework.edit_name.label')}
-          </label>
-          <input
-            type='text'
-            className={styles.editNameInput}
-            value={username}
-            placeholder={t('framework.edit_name.label')}
-            id='username'
-            onChange={(e) => this.setState({username: e.target.value})}
-            rows={3}/><br/>
-          <Button
-            onClick={this.onSubmitClick}>
-            {
-              t('framework.edit_name.button')
-            }
-          </Button>
-        </div> : null
+          <div>
+            <div className={styles.alert}>
+              {alert}
+            </div>
+            <label
+              htmlFor='username'
+              className="screen-reader-text"
+              aria-hidden={true}>
+              {t('framework.edit_name.label')}
+            </label>
+            <input
+              type='text'
+              className={styles.editNameInput}
+              value={username}
+              placeholder={t('framework.edit_name.label')}
+              id='username'
+              onChange={(e) => this.setState({username: e.target.value})}
+              rows={3}/><br/>
+            <Button
+              onClick={this.onSubmitClick}>
+              {
+                t('framework.edit_name.button')
+              }
+            </Button>
+          </div> : null
       }
     </RestrictedMessageBox>;
   }

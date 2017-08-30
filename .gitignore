@@ -14,7 +14,6 @@ client/coral-framework/graphql/introspection.json
 *.swp
 *.DS_STORE
 
-test/e2e/reports
 coverage/
 
 plugins.json
@@ -31,5 +30,12 @@ plugins/*
 !plugins/talk-plugin-permalink
 !plugins/talk-plugin-featured-comments
 !plugins/talk-plugin-toxic-comments
+!plugins/talk-plugin-sort-newest
+!plugins/talk-plugin-sort-oldest
+!plugins/talk-plugin-sort-most-replied
+!plugins/talk-plugin-sort-most-liked
+!plugins/talk-plugin-sort-most-loved
+!plugins/talk-plugin-sort-most-respected
+
 **/node_modules/*
 story.html

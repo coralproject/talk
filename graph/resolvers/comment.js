@@ -1,6 +1,9 @@
 const {decorateWithTags} = require('./util');
 
 const Comment = {
+  hasParent({parent_id}) {
+    return !!parent_id;
+  },
   parent({parent_id}, _, {loaders: {Comments}}) {
     if (parent_id == null) {
       return null;
@@ -11,33 +14,32 @@ const Comment = {
   user({author_id}, _, {loaders: {Users}}) {
     return Users.getByID.load(author_id);
   },
-  recentReplies({id}, _, {loaders: {Comments}}) {
-    return Comments.genRecentReplies.load(id);
-  },
-  replies({id, asset_id}, {sort, limit, excludeIgnored}, {loaders: {Comments}}) {
-    return Comments.getByQuery({
-      asset_id,
-      parent_id: id,
-      sort,
-      limit,
-      excludeIgnored,
-    });
-  },
-  replyCount({id}, {excludeIgnored}, {user, loaders: {Comments}}) {
+  replies({id, asset_id, reply_count}, {query}, {loaders: {Comments}}) {
 
-    // TODO: remove
-    if (user && excludeIgnored) {
-      return Comments.countByParentIDPersonalized({id, excludeIgnored});
+    // Don't bother looking up replies if there aren't any there!
+    if (reply_count === 0) {
+      return {
+        nodes: [],
+        hasNextPage: false,
+      };
     }
-    return Comments.countByParentID.load(id);
+
+    query.asset_id = asset_id;
+    query.parent_id = id;
+
+    return Comments.getByQuery(query);
+  },
+  replyCount({reply_count}) {
+
+    // A simple remap from the underlying database model to the graph model.
+    return reply_count;
   },
   actions({id}, _, {user, loaders: {Actions}}) {
-
-    if (user && user.can('SEARCH_ACTIONS')) {
-      return Actions.getByID.load(id);
+    if (!user || !user.can('SEARCH_ACTIONS')) {
+      return null;
     }
 
-    return null;
+    return Actions.getByID.load(id);
   },
   action_summaries({id, action_summaries}, _, {loaders: {Actions}}) {
     if (action_summaries) {

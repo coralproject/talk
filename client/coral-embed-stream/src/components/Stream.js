@@ -49,39 +49,30 @@ class Stream extends React.Component {
     );
   };
 
-  render() {
+  renderHighlightedComment() {
     const {
       data,
       root,
       activeReplyBox,
       setActiveReplyBox,
-      appendItemArray,
       commentClassNames,
-      root: {asset, asset: {comment, comments, totalCommentCount}},
+      root: {asset, asset: {comment}},
       postComment,
-      addNotification,
+      notify,
       editComment,
       postFlag,
       postDontAgree,
       deleteAction,
       showSignInDialog,
-      updateItem,
       ignoreUser,
-      activeStreamTab,
-      setActiveStreamTab,
       loadNewReplies,
-      loadMoreComments,
-      viewAllComments,
-      auth: {loggedIn, user},
-      editName,
+      auth: {user},
       emit,
     } = this.props;
-    const {keepCommentBox} = this.state;
-    const open = !asset.isClosed;
 
     // even though the permalinked comment is the highlighted one, we're displaying its parent + replies
-    let highlightedComment = comment && getTopLevelParent(comment);
-    if (highlightedComment) {
+    let topLevelComment = getTopLevelParent(comment);
+    if (topLevelComment) {
 
       // Inactive comments can be viewed by moderators and admins (e.g. using permalinks).
       const isInactive = !isCommentActive(comment.status);
@@ -89,9 +80,152 @@ class Stream extends React.Component {
 
         // the highlighted comment is not active and as such not in the replies, so we
         // attach it to the right parent.
-        highlightedComment = attachCommentToParent(highlightedComment, comment);
+        topLevelComment = attachCommentToParent(topLevelComment, comment);
       }
     }
+
+    return (
+      <div className={cn('talk-stream-highlighted-container', styles.highlightedContainer)}>
+        <Comment
+          data={data}
+          root={root}
+          commentClassNames={commentClassNames}
+          ignoreUser={ignoreUser}
+          setActiveReplyBox={setActiveReplyBox}
+          activeReplyBox={activeReplyBox}
+          notify={notify}
+          depth={0}
+          disableReply={!open}
+          postComment={postComment}
+          asset={asset}
+          currentUser={user}
+          highlighted={comment.id}
+          postFlag={postFlag}
+          postDontAgree={postDontAgree}
+          loadMore={loadNewReplies}
+          deleteAction={deleteAction}
+          showSignInDialog={showSignInDialog}
+          key={topLevelComment.id}
+          commentIsIgnored={this.commentIsIgnored}
+          comment={topLevelComment}
+          charCountEnable={asset.settings.charCountEnable}
+          maxCharCount={asset.settings.charCount}
+          editComment={editComment}
+          emit={emit}
+          liveUpdates={true}
+        />
+      </div>
+    );
+  }
+
+  renderTabPanel() {
+    const {
+      data,
+      root,
+      activeReplyBox,
+      setActiveReplyBox,
+      commentClassNames,
+      root: {asset, asset: {comments, totalCommentCount}},
+      postComment,
+      notify,
+      editComment,
+      postFlag,
+      postDontAgree,
+      deleteAction,
+      showSignInDialog,
+      ignoreUser,
+      activeStreamTab,
+      setActiveStreamTab,
+      loadNewReplies,
+      loadMoreComments,
+      auth: {user},
+      emit,
+      sortOrder,
+      sortBy,
+      loading,
+    } = this.props;
+
+    const slotProps = {data};
+    const slotQueryData = {root, asset};
+
+    // `key` of `StreamTabPanel` depends on sorting so that we always reset
+    // the state when changing sorting.
+    return (
+      <div className={cn('talk-stream-tab-container', styles.tabContainer)}>
+        <div
+          className={cn('talk-stream-filter-wrapper', styles.filterWrapper)}
+        >
+          <Slot
+            fill="streamFilter"
+            queryData={slotQueryData}
+            {...slotProps}
+          />
+        </div>
+        <StreamTabPanel
+          key={`${sortBy}_${sortOrder}`}
+          activeTab={activeStreamTab}
+          setActiveTab={setActiveStreamTab}
+          fallbackTab={'all'}
+          tabSlot={'streamTabs'}
+          tabPaneSlot={'streamTabPanes'}
+          slotProps={slotProps}
+          queryData={slotQueryData}
+          loading={loading}
+          appendTabs={
+            <Tab tabId={'all'} key='all'>
+              All Comments <TabCount active={activeStreamTab === 'all'} sub>{totalCommentCount}</TabCount>
+            </Tab>
+          }
+          appendTabPanes={
+            <TabPane tabId={'all'} key='all'>
+              <AllCommentsPane
+                data={data}
+                root={root}
+                comments={comments}
+                commentClassNames={commentClassNames}
+                ignoreUser={ignoreUser}
+                setActiveReplyBox={setActiveReplyBox}
+                activeReplyBox={activeReplyBox}
+                notify={notify}
+                disableReply={!open}
+                postComment={postComment}
+                asset={asset}
+                currentUser={user}
+                postFlag={postFlag}
+                postDontAgree={postDontAgree}
+                loadMore={loadMoreComments}
+                loadNewReplies={loadNewReplies}
+                deleteAction={deleteAction}
+                showSignInDialog={showSignInDialog}
+                commentIsIgnored={this.commentIsIgnored}
+                charCountEnable={asset.settings.charCountEnable}
+                maxCharCount={asset.settings.charCount}
+                editComment={editComment}
+                emit={emit}
+              />
+            </TabPane>
+          }
+          sub
+        />
+      </div>
+    );
+  }
+
+  render() {
+    const {
+      data,
+      root,
+      appendItemArray,
+      root: {asset, asset: {comment: highlightedComment, comments}},
+      postComment,
+      notify,
+      updateItem,
+      viewAllComments,
+      auth: {loggedIn, user},
+      editName,
+    } = this.props;
+    const {keepCommentBox} = this.state;
+    const open = !asset.isClosed;
 
     const banned = user && user.status === 'BANNED';
     const temporarilySuspended =
@@ -103,7 +237,7 @@ class Stream extends React.Component {
     const slotProps = {data};
     const slotQueryData = {root, asset};
 
-    if (!comment && !comments) {
+    if (!highlightedComment && !comments) {
       console.error('Talk: No comments came back from the graph given that query. Please, check the query params.');
       return <StreamError />;
     }
@@ -111,7 +245,7 @@ class Stream extends React.Component {
     return (
       <div id="stream" className={styles.root}>
         <AutomaticAssetClosure assetId={asset.id} closedAt={asset.closedAt}/>
-        {comment &&
+        {highlightedComment &&
           <Button
             cStyle="darkGrey"
             className={cn('talk-stream-show-all-comments-button', styles.viewAllButton)}
@@ -122,15 +256,16 @@ class Stream extends React.Component {
 
         {open
           ? <div id="commentBox">
-              <InfoBox
-                content={asset.settings.infoBoxContent}
-                enable={asset.settings.infoBoxEnable}
-              />
-              <QuestionBox
-                content={asset.settings.questionBoxContent}
-                enable={asset.settings.questionBoxEnable}
-              />
-              {!banned &&
+            <InfoBox
+              content={asset.settings.infoBoxContent}
+              enable={asset.settings.infoBoxEnable}
+            />
+            <QuestionBox
+              content={asset.settings.questionBoxContent}
+              enable={asset.settings.questionBoxEnable}
+              icon={asset.settings.questionBoxIcon}
+            />
+            {!banned &&
                 temporarilySuspended &&
                 <RestrictedMessageBox>
                   {t(
@@ -139,15 +274,15 @@ class Stream extends React.Component {
                     timeago(user.suspension.until)
                   )}
                 </RestrictedMessageBox>}
-              {banned &&
+            {banned &&
                 <SuspendedAccount
                   canEditName={user && user.canEditName}
                   editName={editName}
                   currentUsername={user.username}
                 />}
-              {showCommentBox &&
+            {showCommentBox &&
                 <CommentBox
-                  addNotification={addNotification}
+                  notify={notify}
                   postComment={postComment}
                   appendItemArray={appendItemArray}
                   updateItem={updateItem}
@@ -158,7 +293,7 @@ class Stream extends React.Component {
                   charCountEnable={asset.settings.charCountEnable}
                   maxCharCount={asset.settings.charCount}
                 />}
-            </div>
+          </div>
           : <p>{asset.settings.closedMessage}</p>}
 
         <Slot
@@ -174,103 +309,17 @@ class Stream extends React.Component {
           />
         )}
 
-        {/* the highlightedComment is isolated after the user followed a permalink */}
         {highlightedComment
-          ? (
-            <div className={cn('talk-stream-highlighted-container', styles.highlightedContainer)}>
-              <Comment
-                data={data}
-                root={root}
-                commentClassNames={commentClassNames}
-                ignoreUser={ignoreUser}
-                setActiveReplyBox={setActiveReplyBox}
-                activeReplyBox={activeReplyBox}
-                addNotification={addNotification}
-                depth={0}
-                disableReply={!open}
-                postComment={postComment}
-                asset={asset}
-                currentUser={user}
-                highlighted={comment.id}
-                postFlag={postFlag}
-                postDontAgree={postDontAgree}
-                loadMore={loadNewReplies}
-                deleteAction={deleteAction}
-                showSignInDialog={showSignInDialog}
-                key={highlightedComment.id}
-                commentIsIgnored={this.commentIsIgnored}
-                comment={highlightedComment}
-                charCountEnable={asset.settings.charCountEnable}
-                maxCharCount={asset.settings.charCount}
-                editComment={editComment}
-                emit={emit}
-                liveUpdates={true}
-              />
-            </div>
-            )
-          : <div className={cn('talk-stream-tab-container', styles.tabContainer)}>
-              <div
-                className={cn('talk-stream-filter-wrapper', styles.filterWrapper)}
-              >
-                <Slot
-                  fill="streamFilter"
-                  queryData={slotQueryData}
-                  {...slotProps}
-                />
-              </div>
-              <StreamTabPanel
-                activeTab={activeStreamTab}
-                setActiveTab={setActiveStreamTab}
-                fallbackTab={'all'}
-                tabSlot={'streamTabs'}
-                tabPaneSlot={'streamTabPanes'}
-                slotProps={slotProps}
-                queryData={slotQueryData}
-                appendTabs={
-                  <Tab tabId={'all'} key='all'>
-                    All Comments <TabCount active={activeStreamTab === 'all'} sub>{totalCommentCount}</TabCount>
-                  </Tab>
-                }
-                appendTabPanes={
-                  <TabPane tabId={'all'} key='all'>
-                    <AllCommentsPane
-                      data={data}
-                      root={root}
-                      comments={comments}
-                      commentClassNames={commentClassNames}
-                      ignoreUser={ignoreUser}
-                      setActiveReplyBox={setActiveReplyBox}
-                      activeReplyBox={activeReplyBox}
-                      addNotification={addNotification}
-                      disableReply={!open}
-                      postComment={postComment}
-                      asset={asset}
-                      currentUser={user}
-                      postFlag={postFlag}
-                      postDontAgree={postDontAgree}
-                      loadMore={loadMoreComments}
-                      loadNewReplies={loadNewReplies}
-                      deleteAction={deleteAction}
-                      showSignInDialog={showSignInDialog}
-                      commentIsIgnored={this.commentIsIgnored}
-                      charCountEnable={asset.settings.charCountEnable}
-                      maxCharCount={asset.settings.charCount}
-                      editComment={editComment}
-                      emit={emit}
-                    />
-                  </TabPane>
-                }
-                sub
-              />
-            </div>
-          }
+          ? this.renderHighlightedComment()
+          : this.renderTabPanel()
+        }
       </div>
     );
   }
 }
 
 Stream.propTypes = {
-  addNotification: PropTypes.func.isRequired,
+  notify: PropTypes.func.isRequired,
   postComment: PropTypes.func.isRequired,
 
   // dispatch action to ignore another user

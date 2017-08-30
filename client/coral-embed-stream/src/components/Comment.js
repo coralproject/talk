@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import AuthorName from 'talk-plugin-author-name/AuthorName';
 import TagLabel from 'talk-plugin-tag-label/TagLabel';
 import PubDate from 'talk-plugin-pubdate/PubDate';
 import {ReplyBox, ReplyButton} from 'talk-plugin-replies';
@@ -26,6 +25,7 @@ import {EditableCommentContent} from './EditableCommentContent';
 import {getActionSummary, iPerformedThisAction, forEachError, isCommentActive, getShallowChanges} from 'coral-framework/utils';
 import t from 'coral-framework/services/i18n';
 import CommentContainer from '../containers/Comment';
+import {CommentAuthorName} from 'coral-framework/components';
 
 const isStaff = (tags) => !tags.every((t) => t.tag.name !== 'STAFF');
 const hasTag = (tags, lookupTag) => !!tags.filter((t) => t.tag.name === lookupTag).length;
@@ -108,7 +108,7 @@ export default class Comment extends React.Component {
     const {comment: {replies: prevReplies}} = this.props;
     const {comment: {replies: nextReplies}} = next;
     if (
-        prevReplies && nextReplies &&
+      prevReplies && nextReplies &&
         nextReplies.nodes.length < prevReplies.nodes.length
     ) {
 
@@ -152,7 +152,7 @@ export default class Comment extends React.Component {
     deleteAction: PropTypes.func.isRequired,
     parentId: PropTypes.string,
     highlighted: PropTypes.string,
-    addNotification: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
     postComment: PropTypes.func.isRequired,
     depth: PropTypes.number.isRequired,
     liveUpdates: PropTypes.bool,
@@ -205,7 +205,7 @@ export default class Comment extends React.Component {
   onClickEdit (e) {
     e.preventDefault();
     if (!can(this.props.currentUser, 'INTERACT_WITH_COMMUNITY')) {
-      this.props.addNotification('error', t('error.NOT_AUTHORIZED'));
+      this.props.notify('error', t('error.NOT_AUTHORIZED'));
       return;
     }
     this.setState({isEditing: true});
@@ -235,7 +235,7 @@ export default class Comment extends React.Component {
         })
         .catch((error) => {
           this.setState({loadingState: 'error'});
-          forEachError(error, ({msg}) => {this.props.addNotification('error', msg);});
+          forEachError(error, ({msg}) => {this.props.notify('error', msg);});
         });
       emit('ui.Comment.showMoreReplies', {id});
       return;
@@ -252,7 +252,7 @@ export default class Comment extends React.Component {
     if (can(this.props.currentUser, 'INTERACT_WITH_COMMUNITY')) {
       this.props.setActiveReplyBox(this.props.comment.id);
     } else {
-      this.props.addNotification('error', t('error.NOT_AUTHORIZED'));
+      this.props.notify('error', t('error.NOT_AUTHORIZED'));
     }
     return;
   }
@@ -331,7 +331,7 @@ export default class Comment extends React.Component {
       deleteAction,
       disableReply,
       maxCharCount,
-      addNotification,
+      notify,
       charCountEnable,
       showSignInDialog,
       liveUpdates,
@@ -343,7 +343,7 @@ export default class Comment extends React.Component {
 
     const view = this.getVisibileReplies();
 
-      // Inactive comments can be viewed by moderators and admins (e.g. using permalinks).
+    // Inactive comments can be viewed by moderators and admins (e.g. using permalinks).
     const isActive = isCommentActive(comment.status);
 
     const {loadingState} = this.state;
@@ -434,18 +434,33 @@ export default class Comment extends React.Component {
             inline
           />
 
-          <div className={`${styles.commentContainer} talk-stream-comment-container`}>
+          <div className={cn(styles.commentContainer, 'talk-stream-comment-container')}>
+            <div className={cn(styles.header, 'talk-stream-comment-header')}>
 
-            <div className={styles.header}>
-              <AuthorName author={comment.user} className={'talk-stream-comment-user-name'} />
+              <Slot
+                className={cn(styles.username, 'talk-stream-comment-user-name')}
+                fill="commentAuthorName"
+                defaultComponent={CommentAuthorName}
+                queryData={queryData}
+                {...slotProps}
+              />
+
               {isStaff(comment.tags) ? <TagLabel>Staff</TagLabel> : null}
+
+              <Slot
+                className={cn('talk-stream-comment-author-tags')}
+                fill="commentAuthorTags"
+                queryData={queryData}
+                {...slotProps}
+                inline
+              />
 
               <span className={`${styles.bylineSecondary} talk-stream-comment-user-byline`} >
                 <PubDate created_at={comment.created_at} className={'talk-stream-comment-published-date'} />
                 {
                   (comment.editing && comment.editing.edited)
-                  ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
-                  : null
+                    ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
+                    : null
                 }
               </span>
 
@@ -475,7 +490,7 @@ export default class Comment extends React.Component {
                     <TopRightMenu
                       comment={comment}
                       ignoreUser={ignoreUser}
-                      addNotification={addNotification} />
+                      notify={notify} />
                   </span>
               }
               { !isActive &&
@@ -485,23 +500,23 @@ export default class Comment extends React.Component {
             <div className={styles.content}>
               {
                 this.state.isEditing
-                ? <EditableCommentContent
+                  ? <EditableCommentContent
                     editComment={this.editComment}
-                    addNotification={addNotification}
+                    notify={notify}
                     comment={comment}
                     currentUser={currentUser}
                     charCountEnable={charCountEnable}
                     maxCharCount={maxCharCount}
                     parentId={parentId}
                     stopEditing={this.stopEditing}
-                    />
-                : <div>
-                  <Slot
-                    fill="commentContent"
-                    defaultComponent={CommentContent}
-                    {...slotProps}
-                    queryData={queryData}
                   />
+                  : <div>
+                    <Slot
+                      fill="commentContent"
+                      defaultComponent={CommentContent}
+                      {...slotProps}
+                      queryData={queryData}
+                    />
                   </div>
               }
             </div>
@@ -539,7 +554,7 @@ export default class Comment extends React.Component {
                         id={comment.id}
                         author_id={comment.user.id}
                         postFlag={postFlag}
-                        addNotification={addNotification}
+                        notify={notify}
                         postDontAgree={postDontAgree}
                         deleteAction={deleteAction}
                         showSignInDialog={showSignInDialog}
@@ -555,29 +570,29 @@ export default class Comment extends React.Component {
 
         {activeReplyBox === comment.id
           ? <ReplyBox
-              commentPostedHandler={this.commentPostedHandler}
-              charCountEnable={charCountEnable}
-              maxCharCount={maxCharCount}
-              setActiveReplyBox={setActiveReplyBox}
-              parentId={(depth < THREADING_LEVEL) ? comment.id : parentId}
-              addNotification={addNotification}
-              postComment={postComment}
-              currentUser={currentUser}
-              assetId={asset.id}
-            />
+            commentPostedHandler={this.commentPostedHandler}
+            charCountEnable={charCountEnable}
+            maxCharCount={maxCharCount}
+            setActiveReplyBox={setActiveReplyBox}
+            parentId={(depth < THREADING_LEVEL) ? comment.id : parentId}
+            notify={notify}
+            postComment={postComment}
+            currentUser={currentUser}
+            assetId={asset.id}
+          />
           : null}
 
         <TransitionGroup>
-        {view.map((reply) => {
-          return commentIsIgnored(reply)
-            ? <IgnoredCommentTombstone key={reply.id} />
-            : <CommentContainer
+          {view.map((reply) => {
+            return commentIsIgnored(reply)
+              ? <IgnoredCommentTombstone key={reply.id} />
+              : <CommentContainer
                 data={this.props.data}
                 root={this.props.root}
                 setActiveReplyBox={setActiveReplyBox}
                 disableReply={disableReply}
                 activeReplyBox={activeReplyBox}
-                addNotification={addNotification}
+                notify={notify}
                 parentId={comment.id}
                 postComment={postComment}
                 editComment={this.props.editComment}
@@ -599,7 +614,7 @@ export default class Comment extends React.Component {
                 comment={reply}
                 emit={emit}
               />;
-        })}
+          })}
         </TransitionGroup>
         <div className="talk-load-more-replies">
           <LoadMore

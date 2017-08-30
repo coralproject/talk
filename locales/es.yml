@@ -41,6 +41,11 @@ es:
   common:
     copy: 'Copiar'
     error: 'Ha ocurrido un error.'
+    reply: 'respuesta'
+    replies: 'respuestas'
+    reaction: 'reacción'
+    reactions: 'reacciones'
+    story: 'Artículo'
   community:
     account_creation_date: "Fecha de creación de la cuenta"
     active: Activa
@@ -272,6 +277,7 @@ es:
     prev_comment: "Ir al comentario anterior"
     reject: "Rechazar"
     rejected: "rechazado"
+    reply: "Respuesta"
     select_stream: "Seleccionar hilo de comentarios"
     shift_key: ⇧
     shortcuts: Atajos

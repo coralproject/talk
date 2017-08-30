@@ -15,20 +15,20 @@ const LikeWidget = ({assets}) => {
       <div className={styles.widgetTable}>
         {
           assets.length
-          ? assets.map((asset) => {
-            const likeSummary = asset.action_summaries.find((s) => s.type === 'LikeAssetActionSummary');
-            return (
-              <div className={styles.rowLinkify} key={asset.id}>
-                <Link className={styles.linkToModerate} to={`/admin/moderate/${asset.id}`}>Moderate</Link>
-                <p className={styles.widgetCount}>{likeSummary ? likeSummary.actionCount : 0}</p>
-                <a className={styles.linkToAsset} href={`${asset.url}`} target="_blank">
-                  <p className={styles.assetTitle}>{asset.title}</p>
-                </a>
-                <p className={styles.lede}>{asset.author} — Published: {new Date(asset.created_at).toLocaleDateString()}</p>
-              </div>
-            );
-          })
-          : <div className={styles.rowLinkify}>{t('dashboard.no_likes')}</div>
+            ? assets.map((asset) => {
+              const likeSummary = asset.action_summaries.find((s) => s.type === 'LikeAssetActionSummary');
+              return (
+                <div className={styles.rowLinkify} key={asset.id}>
+                  <Link className={styles.linkToModerate} to={`/admin/moderate/${asset.id}`}>Moderate</Link>
+                  <p className={styles.widgetCount}>{likeSummary ? likeSummary.actionCount : 0}</p>
+                  <a className={styles.linkToAsset} href={`${asset.url}`} target="_blank">
+                    <p className={styles.assetTitle}>{asset.title}</p>
+                  </a>
+                  <p className={styles.lede}>{asset.author} — Published: {new Date(asset.created_at).toLocaleDateString()}</p>
+                </div>
+              );
+            })
+            : <div className={styles.rowLinkify}>{t('dashboard.no_likes')}</div>
         }
       </div>
     </div>

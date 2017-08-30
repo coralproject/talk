@@ -22,22 +22,18 @@ const User = {
     }
 
   },
-  created_at({roles, created_at}, _, {user}) {
-    if (user && user.can(SEARCH_OTHER_USERS)) {
-      return created_at;
-    }
-
-    return null;
-  },
   comments({id}, {query}, {loaders: {Comments}, user}) {
 
-    // If the user is not an admin, only return comment list for the owner of
-    // the comments.
-    if (user && (user.can(SEARCH_OTHERS_COMMENTS) || user.id === id)) {
-      return Comments.getByQuery(Object.assign({}, query, {author_id: id}));
+    // If there is no user, or there is a user, but they are requesting someone
+    // else's comments, and they aren't allowed, don't return then anything!
+    if (!user || (user.id !== id && !user.can(SEARCH_OTHERS_COMMENTS))) {
+      return null;
     }
 
-    return null;
+    // Set the author id on the query.
+    query.author_id = id;
+
+    return Comments.getByQuery(query);
   },
   profiles({profiles}, _, {user}) {
 
@@ -49,7 +45,7 @@ const User = {
     return null;
   },
   tokens({id, tokens}, args, {user}) {
-    if (!user ||  ((user.id !== id) && !user.can(LIST_OWN_TOKENS))) {
+    if (!user || ((user.id !== id) && !user.can(LIST_OWN_TOKENS))) {
       return null;
     }
 

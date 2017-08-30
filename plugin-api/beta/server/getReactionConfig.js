@@ -1,12 +1,15 @@
 const wrapResponse = require('../../../graph/helpers/response');
 const {SEARCH_OTHER_USERS} = require('../../../perms/constants');
 const errors = require('../../../errors');
+const pluralize = require('pluralize');
 
 function getReactionConfig(reaction) {
   reaction = reaction.toLowerCase();
 
+  const reactionPlural = pluralize(reaction);
   const Reaction = reaction.charAt(0).toUpperCase() + reaction.slice(1);
   const REACTION = reaction.toUpperCase();
+  const REACTION_PLURAL = reactionPlural.toUpperCase();
   const typeDefs = `
     enum ACTION_TYPE {
 
@@ -24,6 +27,13 @@ function getReactionConfig(reaction) {
 
       # The item's id for which we are to create a ${reaction}.
       item_id: ID!
+    }
+
+    enum SORT_COMMENTS_BY {
+
+      # Comments will be sorted by their count of ${reactionPlural}
+      # on the comment.
+      ${REACTION_PLURAL}
     }
 
     input Delete${Reaction}ActionInput {
@@ -107,6 +117,29 @@ function getReactionConfig(reaction) {
 
   return {
     typeDefs,
+    context: {
+      Sort: () => ({
+        Comments: {
+          [reactionPlural]: {
+            startCursor(ctx, nodes, {cursor}) {
+
+              // The cursor is the start! This is using numeric pagination.
+              return cursor != null ? cursor : 0;
+            },
+            endCursor(ctx, nodes, {cursor}) {
+              return nodes.length ? (cursor != null ? cursor : 0) + nodes.length : null;
+            },
+            sort(ctx, query, {cursor, sortOrder}) {
+              if (cursor) {
+                query = query.skip(cursor);
+              }
+
+              return query.sort({[`action_counts.${reaction}`]: sortOrder === 'DESC' ? -1 : 1, created_at: sortOrder === 'DESC' ? -1 : 1});
+            },
+          },
+        },
+      }),
+    },
     resolvers: {
       Subscription: {
         [`${reaction}ActionCreated`]: ({action}) => {
@@ -127,48 +160,43 @@ function getReactionConfig(reaction) {
         }
       },
       RootMutation: {
-        [`create${Reaction}Action`]: (_, {input: {item_id}}, {mutators: {Action}, pubsub, loaders: {Comments}}) => {
-          const response = Comments.get.load(item_id).then((comment) => {
-            return Action.create({item_id, item_type: 'COMMENTS', action_type: REACTION})
-              .then((action) => {
+        [`create${Reaction}Action`]: (_, {input: {item_id}}, {mutators: {Action}, pubsub, loaders: {Comments}}) => wrapResponse(reaction)(async () => {
+          const comment = await Comments.get.load(item_id);
 
-                if (pubsub) {
+          let action;
+          try {
+            action = await Action.create({item_id, item_type: 'COMMENTS', action_type: REACTION});
+          } catch (err) {
+            if (err instanceof errors.ErrAlreadyExists) {
+              return err.metadata.existing;
+            }
 
-                  // The comment is needed to allow better filtering e.g. by asset_id.
-                  pubsub.publish(`${reaction}ActionCreated`, {action, comment});
-                }
-                return Promise.resolve(action);
-              })
-            .catch((err) => {
-              if (err instanceof errors.ErrAlreadyExists) {
-                return Promise.resolve(err.metadata.existing);
-              }
-              throw err;
-            });
-          });
-          return wrapResponse(reaction)(response);
-        },
-        [`delete${Reaction}Action`]: (_, {input: {id}}, {mutators: {Action}, pubsub, loaders: {Comments}}) => {
-          const response = Action.delete({id})
-            .then((action) => {
+            throw err;
+          }
 
-              // Action doesn't exist or was already deleted.
-              if (!action) {
-                return Promise.resolve(null);
-              }
-              return Comments.get.load(action.item_id).then((comment) => {
+          if (pubsub) {
 
-                if (pubsub) {
+            // The comment is needed to allow better filtering e.g. by asset_id.
+            pubsub.publish(`${reaction}ActionCreated`, {action, comment});
+          }
 
-                  // The comment is needed to allow better filtering e.g. by asset_id.
-                  pubsub.publish(`${reaction}ActionDeleted`, {action, comment});
-                }
-                return Promise.resolve(action);
-              });
-            });
+          return action;
+        }),
+        [`delete${Reaction}Action`]: (_, {input: {id}}, {mutators: {Action}, pubsub, loaders: {Comments}}) => wrapResponse(reaction)(async () => {
+          const action = await Action.delete({id});
+          if (!action) {
+            return null;
+          }
 
-          return wrapResponse(reaction)(response);
-        }
+          const comment = await Comments.get.load(action.item_id);
+          if (pubsub) {
+
+            // The comment is needed to allow better filtering e.g. by asset_id.
+            pubsub.publish(`${reaction}ActionDeleted`, {action, comment});
+          }
+
+          return action;
+        })
       },
     },
     hooks: {
