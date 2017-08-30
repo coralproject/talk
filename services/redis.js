@@ -74,8 +74,6 @@ const createClient = () => {
 };
 
 module.exports = {
-  connectionOptions,
-  attachMonitors,
   createClient,
   createClientFactory: () => {
     let client = null;
