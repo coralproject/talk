@@ -43,8 +43,8 @@ const getCountsByAssetID = (context, asset_ids) => {
       }
     }
   ])
-  .then(singleJoinBy(asset_ids, '_id'))
-  .then((results) => results.map((result) => result ? result.count : 0));
+    .then(singleJoinBy(asset_ids, '_id'))
+    .then((results) => results.map((result) => result ? result.count : 0));
 };
 
 /**
@@ -76,8 +76,8 @@ const getParentCountsByAssetID = (context, asset_ids) => {
       }
     }
   ])
-  .then(singleJoinBy(asset_ids, '_id'))
-  .then((results) => results.map((result) => result ? result.count : 0));
+    .then(singleJoinBy(asset_ids, '_id'))
+    .then((results) => results.map((result) => result ? result.count : 0));
 };
 
 /**

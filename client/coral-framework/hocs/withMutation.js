@@ -84,8 +84,8 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
 
         const updateCallbacks =
           [base.update || config.options.update]
-          .concat(...configs.map((cfg) => cfg.update))
-          .filter((i) => i);
+            .concat(...configs.map((cfg) => cfg.update))
+            .filter((i) => i);
 
         const update = (proxy, result) => {
           if (getResponseErrors(result)) {
@@ -101,28 +101,28 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
             base.updateQueries || config.options.updateQueries,
             ...configs.map((cfg) => cfg.updateQueries)
           ]
-          .filter((i) => i)
-          .reduce((res, map) => {
-            Object.keys(map).forEach((key) => {
-              if (!(key in res)) {
-                res[key] = (prev, result) => {
-                  if (getResponseErrors(result.mutationResult)) {
+            .filter((i) => i)
+            .reduce((res, map) => {
+              Object.keys(map).forEach((key) => {
+                if (!(key in res)) {
+                  res[key] = (prev, result) => {
+                    if (getResponseErrors(result.mutationResult)) {
 
                     // Do not run updates when we have mutation errors.
-                    return prev;
-                  }
-                  return map[key](prev, result) || prev;
-                };
-              } else {
-                const existing = res[key];
-                res[key] = (prev, result) => {
-                  const next = existing(prev, result);
-                  return map[key](next, result) || next;
-                };
-              }
-            });
-            return res;
-          }, {});
+                      return prev;
+                    }
+                    return map[key](prev, result) || prev;
+                  };
+                } else {
+                  const existing = res[key];
+                  res[key] = (prev, result) => {
+                    const next = existing(prev, result);
+                    return map[key](next, result) || next;
+                  };
+                }
+              });
+              return res;
+            }, {});
 
         const wrappedConfig = {
           variables,

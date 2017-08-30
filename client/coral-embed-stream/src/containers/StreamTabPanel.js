@@ -86,6 +86,7 @@ class StreamTabPanelContainer extends React.Component {
         setActiveTab={this.props.setActiveTab}
         tabs={this.getPluginTabElements().concat(this.props.appendTabs)}
         tabPanes={this.getPluginTabPaneElements().concat(this.props.appendTabPanes)}
+        loading={this.props.loading}
         sub={this.props.sub}
       />
     );
@@ -110,6 +111,7 @@ StreamTabPanelContainer.propTypes = {
   queryData: PropTypes.object,
   className: PropTypes.string,
   sub: PropTypes.bool,
+  loading: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({

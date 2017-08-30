@@ -9,8 +9,8 @@ const SignInButton = ({loggedIn, showSignInDialog}) => (
   <div className="talk-stream-auth-sign-in-button">
     {!loggedIn
       ? <Button id="coralSignInButton" onClick={showSignInDialog} full>
-          {t('sign_in.sign_in_to_comment')}
-        </Button>
+        {t('sign_in.sign_in_to_comment')}
+      </Button>
       : null}
   </div>
 );

@@ -41,6 +41,11 @@ en:
   common:
     copy: 'Copy'
     error: 'An error has occurred.'
+    reply: 'reply'
+    replies: 'replies'
+    reaction: 'reaction'
+    reactions: 'reactions'
+    story: 'Story'
   community:
     account_creation_date: "Account Creation Date"
     active: Active

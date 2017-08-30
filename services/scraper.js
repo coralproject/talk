@@ -39,7 +39,7 @@ const scraper = {
   /**
    * Scrapes the given asset for metadata.
    */
-  scrape(asset) {
+  async scrape(asset) {
     return metascraper.scrapeUrl(asset.url, Object.assign({}, metascraper.RULES, {
       section: ($) => $('meta[property="article:section"]').attr('content'),
       modified: ($) => $('meta[property="article:modified"]').attr('content')
@@ -71,45 +71,33 @@ const scraper = {
 
     debug(`Now processing ${scraper.task.name} jobs`);
 
-    scraper.task.process((job, done) => {
+    scraper.task.process(async (job, done) => {
 
       debug(`Starting on Job[${job.id}] for Asset[${job.data.asset_id}]`);
 
-      AssetsService
+      try {
 
         // Find the asset, or complain that it doesn't exist.
-        .findById(job.data.asset_id)
-        .then((asset) => {
-          if (!asset) {
-            throw new Error('asset not found');
-          }
-
-          return asset;
-        })
+        const asset = await AssetsService.findById(job.data.asset_id);
+        if (!asset) {
+          return done(new Error('asset not found'));
+        }
 
         // Scrape the metadata from the asset.
-        .then(scraper.scrape)
+        const meta = await scraper.scrape(asset);
+
+        debug(`Scraped ${JSON.stringify(meta)} on Job[${job.id}] for Asset[${job.data.asset_id}]`);
 
         // Assign the metadata retrieved for the asset to the db.
-        .then((meta) => {
-          debug(`Scraped ${JSON.stringify(meta)} on Job[${job.id}] for Asset[${job.data.asset_id}]`);
+        await scraper.update(job.data.asset_id, meta);
+      } catch (err) {
 
-          return scraper.update(job.data.asset_id, meta);
-        })
+        debug(`Failed to scrape on Job[${job.id}] for Asset[${job.data.asset_id}]:`, err);
+        return done(err);
+      }
 
-        // Finish the job because we just handled our scraping + updating the
-        // asset in the database.
-        .then(() => {
-          debug(`Finished on Job[${job.id}] for Asset[${job.data.asset_id}]`);
-          done();
-        })
-
-        // Handle errors that occur.
-        .catch((err) => {
-          debug(`Failed to scrape on Job[${job.id}] for Asset[${job.data.asset_id}]:`, err);
-
-          done(err);
-        });
+      debug(`Finished on Job[${job.id}] for Asset[${job.data.asset_id}]`);
+      done();
     });
   }
 

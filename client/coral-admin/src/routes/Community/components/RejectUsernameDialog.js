@@ -50,9 +50,9 @@ class RejectUsernameDialog extends Component  {
     const next = () => this.setState({stage: stage + 1});
     const suspend = () => {
       rejectUsername({id: user.user.id, message: this.state.email})
-      .then(() => {
-        this.props.handleClose();
-      });
+        .then(() => {
+          this.props.handleClose();
+        });
     };
 
     const suspendModalActions = [
@@ -71,21 +71,21 @@ class RejectUsernameDialog extends Component  {
     const {stage} = this.state;
 
     return <Dialog
-            className={styles.suspendDialog}
-            id="rejectUsernameDialog"
-            open={open}
-            onClose={handleClose}
-            onCancel={handleClose}
-            title={t('reject_username.suspend_user')}>
-            <div className={styles.title}>
-              {t(stages[stage].title, t('reject_username.username'))}
-            </div>
-            <div className={styles.container}>
-              <div className={styles.description}>
-                {t(stages[stage].description, t('reject_username.username'))}
-              </div>
-              {
-                stage === 1 &&
+      className={styles.suspendDialog}
+      id="rejectUsernameDialog"
+      open={open}
+      onClose={handleClose}
+      onCancel={handleClose}
+      title={t('reject_username.suspend_user')}>
+      <div className={styles.title}>
+        {t(stages[stage].title, t('reject_username.username'))}
+      </div>
+      <div className={styles.container}>
+        <div className={styles.description}>
+          {t(stages[stage].description, t('reject_username.username'))}
+        </div>
+        {
+          stage === 1 &&
                 <div className={styles.writeContainer}>
                   <div className={styles.emailMessage}>{t('reject_username.write_message')}</div>
                   <div className={styles.emailContainer}>
@@ -96,16 +96,16 @@ class RejectUsernameDialog extends Component  {
                       onChange={this.onEmailChange}/>
                   </div>
                 </div>
-              }
-              <div className={styles.modalButtons}>
-                {Object.keys(stages[stage].options).map((key, i) => (
-                  <Button key={i} onClick={this.onActionClick(stage, i)}>
-                    {t(stages[stage].options[key], t('reject_username.username'))}
-                  </Button>
-                ))}
-              </div>
-            </div>
-          </Dialog>;
+        }
+        <div className={styles.modalButtons}>
+          {Object.keys(stages[stage].options).map((key, i) => (
+            <Button key={i} onClick={this.onActionClick(stage, i)}>
+              {t(stages[stage].options[key], t('reject_username.username'))}
+            </Button>
+          ))}
+        </div>
+      </div>
+    </Dialog>;
   }
 }
 

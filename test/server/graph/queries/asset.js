@@ -34,7 +34,7 @@ describe('graph.queries.asset', () => {
         username: 'usernameC'
       }
     ]);
-    comments = await CommentsService.publicCreate([0, 1, 0, 1].map((idx) => ({
+    comments = await CommentsService.publicCreate([0, 0, 1, 1].map((idx) => ({
       author_id: users[idx].id,
       asset_id: assets[idx].id,
       body: `hello there! ${String(Math.random()).slice(2)}`,
@@ -74,12 +74,12 @@ describe('graph.queries.asset', () => {
 
     expect(asset.nodes).to.have.length(2);
     expect(asset.hasNextPage).to.be.false;
-    expect(asset.nodes[0]).to.have.property('id', comments[2].id);
+    expect(asset.nodes[0]).to.have.property('id', comments[1].id);
     expect(asset.nodes[1]).to.have.property('id', comments[0].id);
     expect(otherAsset.nodes).to.have.length(2);
     expect(otherAsset.hasNextPage).to.be.false;
     expect(otherAsset.nodes[0]).to.have.property('id', comments[3].id);
-    expect(otherAsset.nodes[1]).to.have.property('id', comments[1].id);
+    expect(otherAsset.nodes[1]).to.have.property('id', comments[2].id);
 
     for (let node of asset.nodes) {
       for (let otherNode of otherAsset.nodes) {

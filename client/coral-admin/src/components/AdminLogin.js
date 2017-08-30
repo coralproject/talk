@@ -69,23 +69,23 @@ class AdminLogin extends React.Component {
     );
     const requestPasswordForm = (
       this.props.passwordRequestSuccess
-      ? <p className={styles.passwordRequestSuccess} onClick={() => {
-        location.href = location.href;
-      }}>
+        ? <p className={styles.passwordRequestSuccess} onClick={() => {
+          location.href = location.href;
+        }}>
           {this.props.passwordRequestSuccess} <a className={styles.signInLink} href="#">Sign in</a>
           <Success />
         </p>
-      : <form onSubmit={this.handleRequestPassword}>
-        <TextField
-          label='Email Address'
-          value={this.state.email}
-          onChange={(e) => this.setState({email: e.target.value})} />
-        <Button
-          type='submit'
-          cStyle='black'
-          full
-          onClick={this.handleRequestPassword}>Reset Password</Button>
-      </form>
+        : <form onSubmit={this.handleRequestPassword}>
+          <TextField
+            label='Email Address'
+            value={this.state.email}
+            onChange={(e) => this.setState({email: e.target.value})} />
+          <Button
+            type='submit'
+            cStyle='black'
+            full
+            onClick={this.handleRequestPassword}>Reset Password</Button>
+        </form>
     );
     return (
       <Layout fixedDrawer restricted={true}>

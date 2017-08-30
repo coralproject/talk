@@ -79,12 +79,12 @@ class ProfileContainer extends Component {
 
         {me.ignoredUsers && me.ignoredUsers.length
           ? <div>
-              <h3>{t('framework.ignored_users')}</h3>
-              <IgnoredUsers
-                users={me.ignoredUsers}
-                stopIgnoring={stopIgnoringUser}
-              />
-            </div>
+            <h3>{t('framework.ignored_users')}</h3>
+            <IgnoredUsers
+              users={me.ignoredUsers}
+              stopIgnoring={stopIgnoringUser}
+            />
+          </div>
           : null}
 
         <hr />
@@ -108,6 +108,11 @@ const CommentFragment = gql`
     nodes {
       id
       body
+      replyCount
+      action_summaries {
+        count
+        __typename
+      }
       asset {
         id
         title

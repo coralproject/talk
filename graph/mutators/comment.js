@@ -328,7 +328,7 @@ const createPublicComment = async (context, commentInput) => {
  * @param {String} id          identifier of the comment  (uuid)
  * @param {String} status      the new status of the comment
  */
-const setStatus = async ({user, loaders: {Comments}, pubsub}, {id, status}) => {
+const setStatus = async ({user, loaders: {Comments}}, {id, status}) => {
   let comment = await CommentsService.pushStatus(id, status, user ? user.id : null);
 
   // If the loaders are present, clear the caches for these values because we

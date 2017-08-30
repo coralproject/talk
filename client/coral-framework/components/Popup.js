@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 export default class Popup extends Component {
   ref = null;
   detectCloseInterval = null;
+  resetCallbackInterval = null;
 
   constructor(props) {
     super(props);
@@ -41,16 +42,26 @@ export default class Popup extends Component {
     this.ref.onunload = () => {
       this.onUnload();
 
-      const interval = setInterval(() => {
+      if (this.resetCallbackInterval) {
+        clearInterval(this.resetCallbackInterval);
+      }
+
+      this.resetCallbackInterval = setInterval(() => {
         if (this.ref && this.ref.onload === null) {
+          clearInterval(this.resetCallbackInterval);
+          this.resetCallbackInterval = null;
           this.setCallbacks();
-          clearInterval(interval);
         }
       }, 50);
+
+      if (this.detectCloseInterval) {
+        clearInterval(this.detectCloseInterval);
+      }
 
       this.detectCloseInterval = setInterval(() => {
         if (!this.ref || this.ref.closed) {
           clearInterval(this.detectCloseInterval);
+          this.detectCloseInterval = null;
           this.onClose();
         }
       }, 50);

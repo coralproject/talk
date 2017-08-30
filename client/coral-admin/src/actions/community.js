@@ -52,16 +52,16 @@ export const newPage = () => ({
 
 export const setRole = (id, role) => (dispatch, _, {rest}) => {
   return rest(`/users/${id}/role`, {method: 'POST', body: {role}})
-  .then(() => {
-    return dispatch({type: SET_ROLE, id, role});
-  });
+    .then(() => {
+      return dispatch({type: SET_ROLE, id, role});
+    });
 };
 
 export const setCommenterStatus = (id, status) => (dispatch, _, {rest}) => {
   return rest(`/users/${id}/status`, {method: 'POST', body: {status}})
-  .then(() => {
-    return dispatch({type: SET_COMMENTER_STATUS, id, status});
-  });
+    .then(() => {
+      return dispatch({type: SET_COMMENTER_STATUS, id, status});
+    });
 };
 
 // Ban User Dialog

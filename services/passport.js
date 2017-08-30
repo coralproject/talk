@@ -112,7 +112,7 @@ const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
  * @param {User}     user the user to be validated
  * @param {Function} done the callback for the validation
  */
-function ValidateUserLogin(loginProfile, user, done) {
+async function ValidateUserLogin(loginProfile, user, done) {
   if (!user) {
     return done(new Error('user not found'));
   }
@@ -127,30 +127,29 @@ function ValidateUserLogin(loginProfile, user, done) {
   }
 
   // The user is a local user, check if we need email confirmation.
-  return SettingsService.retrieve().then(({requireEmailConfirmation = false}) => {
+  const {requireEmailConfirmation = false} = await SettingsService.retrieve();
 
-    // If we have the requirement of checking that emails for users are
-    // verified, then we need to check the email address to ensure that it has
-    // been verified.
-    if (requireEmailConfirmation) {
+  // If we have the requirement of checking that emails for users are
+  // verified, then we need to check the email address to ensure that it has
+  // been verified.
+  if (requireEmailConfirmation) {
 
-      // Get the profile representing the local account.
-      let profile = user.profiles.find((profile) => profile.id === loginProfile.id);
+    // Get the profile representing the local account.
+    let profile = user.profiles.find((profile) => profile.id === loginProfile.id);
 
-      // This should never get to this point, if it does, don't let this past.
-      if (!profile) {
-        throw new Error('ID indicated by loginProfile is not on user object');
-      }
-
-      // If the profile doesn't have a metadata field, or it does not have a
-      // confirmed_at field, or that field is null, then send them back.
-      if (!profile.metadata || !profile.metadata.confirmed_at || profile.metadata.confirmed_at === null) {
-        return done(new errors.ErrAuthentication(loginProfile.id));
-      }
+    // This should never get to this point, if it does, don't let this past.
+    if (!profile) {
+      throw new Error('ID indicated by loginProfile is not on user object');
     }
 
-    return done(null, user);
-  });
+    // If the profile doesn't have a metadata field, or it does not have a
+    // confirmed_at field, or that field is null, then send them back.
+    if (!profile.metadata || !profile.metadata.confirmed_at || profile.metadata.confirmed_at === null) {
+      return done(new errors.ErrAuthentication(loginProfile.id));
+    }
+  }
+
+  return done(null, user);
 }
 
 //==============================================================================

@@ -4,8 +4,9 @@
  * Module dependencies.
  */
 
-// const util = require('./util');
 const program = require('./commander');
+const {head, map} = require('lodash');
+const Matcher = require('did-you-mean');
 
 program
   .command('serve', 'serve the application')
@@ -23,6 +24,21 @@ program
   )
   .parse(process.argv);
 
+// If the command wasn't found, output help.
+const cmds = map(program.commands, '_name');
+const cmd = head(program.args);
+if (!cmds.includes(cmd)) {
+  const m = new Matcher(cmds);
+  const similarCMDs = m.list(cmd);
+
+  console.error(`cli '${cmd}' is not a talk cli command. See 'cli --help'.`);
+  if (similarCMDs.length > 0) {
+    const sc = similarCMDs.map(({value}) => `\t${value}\n`).join('');
+    console.error(`\nThe most similar commands are\n${sc}`);
+  }
+  process.exit(1);
+}
+
 /**
  * When this provess exists, check to see if we have a running command, if we do
  * check to see if it is still running. If it is, then kill it with a SIGINT
@@ -31,6 +47,8 @@ program
  */
 process.once('exit', () => {
   if (
+
+    // program.runningCommand &&
     program.runningCommand.killed === false &&
     program.runningCommand.exitCode === null
   ) {

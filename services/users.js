@@ -227,14 +227,14 @@ module.exports = class UsersService {
         resolve(hashedPassword);
       });
     })
-    .then((hashedPassword) => {
-      return UserModel.update({id}, {
-        $inc: {__v: 1},
-        $set: {
-          password: hashedPassword
-        }
+      .then((hashedPassword) => {
+        return UserModel.update({id}, {
+          $inc: {__v: 1},
+          $set: {
+            password: hashedPassword
+          }
+        });
       });
-    });
   }
 
   /**
@@ -484,7 +484,7 @@ module.exports = class UsersService {
             },
             subject: 'Your account has been suspended',
             to: localProfile.id  // This only works if the user has registered via e-mail.
-                                 // We may want a standard way to access a user's e-mail address in the future
+            // We may want a standard way to access a user's e-mail address in the future
           };
 
         await MailerService.sendSimple(options);
@@ -520,7 +520,7 @@ module.exports = class UsersService {
           },
           subject: 'Email Suspension',
           to: localProfile.id  // This only works if the user has registered via e-mail.
-                                // We may want a standard way to access a user's e-mail address in the future
+          // We may want a standard way to access a user's e-mail address in the future
         };
 
         await MailerService.sendSimple(options);
