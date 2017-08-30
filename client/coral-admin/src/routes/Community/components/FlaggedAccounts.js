@@ -25,20 +25,26 @@ const FlaggedAccounts = (props) => {
       <div className={styles.mainFlaggedContent}>
         {
           hasResults
-          ? users.nodes.map((user, index) => {
-            return <FlaggedUser
-              user={user}
-              key={index}
-              index={index}
-              modActionButtons={['APPROVE', 'REJECT']}
-              showBanUserDialog={showBanUserDialog}
-              showSuspendUserDialog={showSuspendUserDialog}
-              showRejectUsernameDialog={showRejectUsernameDialog}
-              approveUser={approveUser}
-              me={me}
-              viewUserDetail={viewUserDetail}
-              />;
-          })
+          ? <ul>
+              {
+                users.nodes.map((user, index) => {
+                  return (
+                    <FlaggedUser
+                      user={user}
+                      key={index}
+                      index={index}
+                      modActionButtons={['APPROVE', 'REJECT']}
+                      showBanUserDialog={showBanUserDialog}
+                      showSuspendUserDialog={showSuspendUserDialog}
+                      showRejectUsernameDialog={showRejectUsernameDialog}
+                      approveUser={approveUser}
+                      me={me}
+                      viewUserDetail={viewUserDetail}
+                    />
+                  );
+                })
+              }
+            </ul>
           : <EmptyCard>{t('community.no_flagged_accounts')}</EmptyCard>
         }
         <LoadMore
