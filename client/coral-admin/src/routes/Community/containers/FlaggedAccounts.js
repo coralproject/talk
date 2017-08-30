@@ -19,24 +19,8 @@ import FlaggedUser from '../containers/FlaggedUser';
 
 class FlaggedAccountsContainer extends Component {
 
-  state = {refetching: false};
-
   constructor(props) {
     super(props);
-  }
-
-  componentWillMount() {
-    if (!this.props.data.loading) {
-      this.setState({refetching: true});
-      this.props.data.refetch()
-        .then(() => {
-          this.setState({refetching: false});
-        })
-        .catch((err) => {
-          this.setState({refetching: false});
-          throw err;
-        });
-    }
   }
 
   approveUser = ({userId}) => {
@@ -70,7 +54,7 @@ class FlaggedAccountsContainer extends Component {
       return <div>{this.props.data.error.message}</div>;
     }
 
-    if (this.props.data.loading || this.state.refetching) {
+    if (this.props.data.loading) {
       return <div><Spinner/></div>;
     }
     return (
@@ -123,7 +107,11 @@ export const withFlaggedAccountsyQuery = withQuery(gql`
   ${FlaggedUser.fragments.root}
   ${FlaggedUser.fragments.user}
   ${FlaggedUser.fragments.me}
-`);
+`, {
+  options: {
+    fetchPolicy: 'network-only',
+  },
+});
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
