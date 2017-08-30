@@ -25,7 +25,7 @@ const FlaggedAccounts = (props) => {
       <div className={styles.mainFlaggedContent}>
         {
           hasResults
-          ? <ul>
+          ? <ul className={styles.list}>
               {
                 users.nodes.map((user, index) => {
                   return (

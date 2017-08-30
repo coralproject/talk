@@ -9,3 +9,8 @@
   padding: 34px 14px;
   box-sizing: border-box;
 }
+
+.list {
+  margin: 0;
+  padding: 0;
+}
