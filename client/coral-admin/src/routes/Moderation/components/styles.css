@@ -1,3 +1,8 @@
+/**
+ * @TODO: deprecated as this file contains styles from multiple components. Please remove this file
+ * when styles have been refactored.
+ */
+
 @custom-media --big-viewport (min-width: 780px);
 
 .listContainer {
