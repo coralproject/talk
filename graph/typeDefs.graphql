@@ -139,9 +139,11 @@ type UserConnection {
 
 # UsersQuery allows the ability to query users by a specific fields.
 input UsersQuery {
+
+  # Users returned will only be ones which have at least one action of this.
   action_type: ACTION_TYPE
 
-  # Current status of a user. Requires the `ADMIN` role.
+  # Current status of a user..
   statuses: [USER_STATUS!]
 
   # Limit the number of results to be returned.
@@ -749,7 +751,7 @@ type RootQuery {
   # role.
   me: User
 
-  # Users returned based on a query.
+  # Users returned based on a query. Requires the `ADMIN` role.
   users(query: UsersQuery!): UserConnection
 
   # a single User by id
