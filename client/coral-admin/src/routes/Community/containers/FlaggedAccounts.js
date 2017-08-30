@@ -87,7 +87,7 @@ const LOAD_MORE_QUERY = gql`
 export const withFlaggedAccountsyQuery = withQuery(gql`
   query TalkAdmin_FlaggedAccounts {
     ...${getDefinitionName(FlaggedUser.fragments.root)}
-    users(query:{action_type: FLAG, limit: 10}){
+    users(query:{action_type: FLAG, statuses: [PENDING], limit: 10}){
       hasNextPage
       endCursor
       nodes {

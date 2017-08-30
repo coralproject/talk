@@ -1,6 +1,7 @@
 const DataLoader = require('dataloader');
 
 const util = require('./util');
+const union = require('lodash/union');
 
 const UsersService = require('../../services/users');
 const UserModel = require('../../models/user');
@@ -26,9 +27,14 @@ const genUserByIDs = async (context, ids) => {
  * @param  {Object} context   graph context
  * @param  {Object} query     query terms to apply to the users query
  */
-const getUsersByQuery = async ({user}, {ids, limit, cursor, statuses = null, sortOrder}) => {
+const getUsersByQuery = async ({user, loaders: {Actions}}, {ids, limit, cursor, statuses, action_type, sortOrder}) => {
 
   let query = UserModel.find();
+
+  if (action_type) {
+    const userIds = await Actions.getByTypes({action_type, item_type: 'USERS'});
+    ids = ids ? union(ids, userIds) : userIds;
+  }
 
   if (ids) {
     query = query.find({
@@ -38,7 +44,7 @@ const getUsersByQuery = async ({user}, {ids, limit, cursor, statuses = null, sor
     });
   }
 
-  if (statuses != null) {
+  if (statuses) {
     query = query.where({
       status: {
         $in: statuses

@@ -19,7 +19,6 @@ const shortReasons = {
 // Render a single user for the list
 const User = (props) => {
   const {user, modActionButtons} = props;
-  let userStatus = user.status;
 
   const showSuspenUserDialog = () => props.showSuspendUserDialog({
     userId: user.id,
@@ -31,9 +30,7 @@ const User = (props) => {
     username: user.username,
   });
 
-  // Do not display unless the user status is 'pending' or 'banned'.
-  // This means that they have already been reviewed and approved.
-  return (userStatus === 'PENDING' ||  userStatus === 'BANNED') &&
+  return (
     <li tabIndex={props.index} className={`mdl-card ${props.selected ? 'mdl-shadow--8dp' : 'mdl-shadow--2dp'} ${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
       <div className={styles.container}>
         <div className={styles.itemHeader}>
@@ -111,7 +108,8 @@ const User = (props) => {
           </div>
         </div>
       </div>
-    </li>;
+    </li>
+  );
 };
 
 export default User;

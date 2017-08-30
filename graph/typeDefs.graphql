@@ -141,6 +141,9 @@ type UserConnection {
 input UsersQuery {
   action_type: ACTION_TYPE
 
+  # Current status of a user. Requires the `ADMIN` role.
+  statuses: [USER_STATUS!]
+
   # Limit the number of results to be returned.
   limit: Int = 10
 
