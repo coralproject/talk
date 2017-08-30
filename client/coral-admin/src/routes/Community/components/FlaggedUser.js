@@ -17,99 +17,115 @@ const shortReasons = {
 };
 
 // Render a single user for the list
-const User = (props) => {
-  const {user, modActionButtons} = props;
+class User extends React.Component {
 
-  const showSuspenUserDialog = () => props.showSuspendUserDialog({
-    userId: user.id,
-    username: user.username,
+  showSuspenUserDialog = () => this.props.showSuspendUserDialog({
+    userId: this.props.user.id,
+    username: this.props.user.username,
   });
 
-  const showBanUserDialog = () => props.showBanUserDialog({
-    userId: user.id,
-    username: user.username,
+  showBanUserDialog = () => this.props.showBanUserDialog({
+    userId: this.props.user.id,
+    username: this.props.user.username,
   });
 
-  return (
-    <li tabIndex={props.index} className={`mdl-card ${props.selected ? 'mdl-shadow--8dp' : 'mdl-shadow--2dp'} ${styles.listItem} ${props.isActive && !props.hideActive ? styles.activeItem : ''}`}>
-      <div className={styles.container}>
-        <div className={styles.itemHeader}>
-          <div className={styles.author}>
-            <button onClick={() => {props.viewUserDetail(user.id);}} className={styles.button}>{user.username}</button>
-            {props.me.id !== user.id &&
-              <ActionsMenu icon="not_interested">
-                <ActionsMenuItem
-                  disabled={user.status === 'BANNED'}
-                  onClick={showSuspenUserDialog}>
-                  Suspend User</ActionsMenuItem>
-                <ActionsMenuItem
-                  disabled={user.status === 'BANNED'}
-                  onClick={showBanUserDialog}>
-                  Ban User
-                </ActionsMenuItem>
-              </ActionsMenu>
-            }
+  viewAuthorDetail = () => this.props.viewUserDetail(this.props.user.id);
+
+  render() {
+    const {
+      user,
+      modActionButtons,
+      viewUserDetail,
+      index,
+      selected,
+      isActive,
+      hideActive,
+      approveUser,
+      showRejectUsernameDialog,
+      me,
+    } = this.props;
+
+    return (
+      <li tabIndex={index} className={`mdl-card ${selected ? 'mdl-shadow--8dp' : 'mdl-shadow--2dp'} ${styles.listItem} ${isActive && !hideActive ? styles.activeItem : ''}`}>
+        <div className={styles.container}>
+          <div className={styles.itemHeader}>
+            <div className={styles.author}>
+              <button onClick={this.viewAuthorDetail} className={styles.button}>{user.username}</button>
+              {me.id !== user.id &&
+                <ActionsMenu icon="not_interested">
+                  <ActionsMenuItem
+                    disabled={user.status === 'BANNED'}
+                    onClick={this.showSuspenUserDialog}>
+                    Suspend User</ActionsMenuItem>
+                  <ActionsMenuItem
+                    disabled={user.status === 'BANNED'}
+                    onClick={this.showBanUserDialog}>
+                    Ban User
+                  </ActionsMenuItem>
+                </ActionsMenu>
+              }
+            </div>
           </div>
-        </div>
 
-        <div className={styles.itemBody}>
-          <div className={styles.body}>
-            <div className={styles.flaggedByCount}>
-              <i className="material-icons">flag</i><span className={styles.flaggedByLabel}>{t('community.flags')}({ user.actions.length })</span>:
+          <div className={styles.itemBody}>
+            <div className={styles.body}>
+              <div className={styles.flaggedByCount}>
+                <i className="material-icons">flag</i><span className={styles.flaggedByLabel}>{t('community.flags')}({ user.actions.length })</span>:
+                  { user.action_summaries.map(
+                  (action, i) => {
+                    return <span className={styles.flaggedBy} key={i}>
+                      {shortReasons[action.reason]} ({action.count})
+                    </span>;
+                  }
+                )}
+              </div>
+              <div className={styles.flaggedReasons}>
                 { user.action_summaries.map(
-                (action, i) => {
-                  return <span className={styles.flaggedBy} key={i}>
-                    {shortReasons[action.reason]} ({action.count})
-                  </span>;
-                }
-              )}
-            </div>
-            <div className={styles.flaggedReasons}>
-              { user.action_summaries.map(
-                (action_sum, i) => {
-                  return <div key={i}>
-                    <span className={styles.flaggedByLabel}>
-                      {shortReasons[action_sum.reason]} ({action_sum.count})
-                    </span>
-                    {user.actions.map(
+                  (action_sum, i) => {
+                    return <div key={i}>
+                      <span className={styles.flaggedByLabel}>
+                        {shortReasons[action_sum.reason]} ({action_sum.count})
+                      </span>
+                      {user.actions.map(
 
-                      // find the action by action_sum.reason
-                      (action, j) => {
-                        if (action.reason === action_sum.reason) {
-                          return <p className={styles.flaggedByReason} key={j}>
-                            {action.user &&
-                              <button onClick={() => {props.viewUserDetail(action.user.id);}} className={styles.button}>
-                                {action.user.username}
-                              </button>
-                            }
-                            : {action.message ? action.message : 'n/a'}
-                          </p>;
+                        // find the action by action_sum.reason
+                        (action, j) => {
+                          if (action.reason === action_sum.reason) {
+                            return <p className={styles.flaggedByReason} key={j}>
+                              {action.user &&
+                                <button onClick={() => {viewUserDetail(action.user.id);}} className={styles.button}>
+                                  {action.user.username}
+                                </button>
+                              }
+                              : {action.message ? action.message : 'n/a'}
+                            </p>;
+                          }
+                          return null;
                         }
-                        return null;
-                      }
-                    )}
-                  </div>;
-                }
-              )}
+                      )}
+                    </div>;
+                  }
+                )}
 
+              </div>
             </div>
-          </div>
-          <div className={styles.sideActions}>
-            <div className={`actions ${styles.actions}`}>
-              {modActionButtons.map((action, i) =>
-                <ActionButton key={i}
-                  type={action.toUpperCase()}
-                  user={user}
-                  approveUser={props.approveUser}
-                  showRejectUsernameDialog={props.showRejectUsernameDialog}
-                />
-              )}
+            <div className={styles.sideActions}>
+              <div className={styles.actions}>
+                {modActionButtons.map((action, i) =>
+                  <ActionButton key={i}
+                    type={action.toUpperCase()}
+                    user={user}
+                    approveUser={approveUser}
+                    showRejectUsernameDialog={showRejectUsernameDialog}
+                  />
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </li>
-  );
-};
+      </li>
+    );
+  }
+}
 
 export default User;
