@@ -1,10 +1,10 @@
 export default {
   mutations: {
     SetUserStatus: () => ({
-      refetchQueries: ['CoralAdmin_Community'],
+      refetchQueries: ['TalkAdmin_FlaggedAccounts'],
     }),
     RejectUsername: () => ({
-      refetchQueries: ['CoralAdmin_Community'],
+      refetchQueries: ['TalkAdmin_FlaggedAccounts'],
     }),
   },
 };

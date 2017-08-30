@@ -72,7 +72,7 @@ class FlaggedAccountsContainer extends Component {
 
 const LOAD_MORE_QUERY = gql`
   query TalkAdmin_LoadMoreFlaggedAccounts($limit: Int, $cursor: Cursor) {
-    users(query:{action_type: FLAG, limit: $limit, cursor: $cursor}){
+    users(query:{action_type: FLAG, statuses: [PENDING], limit: $limit, cursor: $cursor}){
       hasNextPage
       endCursor
       nodes {

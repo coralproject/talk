@@ -73,6 +73,9 @@ const getUsersByQuery = async ({user, loaders: {Actions}}, {ids, limit, cursor, 
     query = query.limit(limit + 1);
   }
 
+  // Sort by created_at.
+  query.sort({created_at: sortOrder === 'DESC' ? -1 : 1});
+
   const nodes = await query.exec();
 
   // The hasNextPage is always handled the same (ask for one more than we need,
