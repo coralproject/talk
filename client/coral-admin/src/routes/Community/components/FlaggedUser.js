@@ -2,13 +2,17 @@ import React from 'react';
 import styles from './FlaggedUser.css';
 
 import ActionButton from './ActionButton';
+
+// TODO: Should not rely on plugin.
 import {username} from 'talk-plugin-flags/helpers/flagReasons';
+
 import ActionsMenu from 'coral-admin/src/components/ActionsMenu';
 import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
 
 import cn from 'classnames';
 import t from 'coral-framework/services/i18n';
 
+// TODO: Should work with custom flags too.
 const shortReasons = {
   [username.other]: t('community.other'),
   [username.spam]: t('community.spam_ads'),

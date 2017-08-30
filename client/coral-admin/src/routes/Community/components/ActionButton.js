@@ -5,6 +5,7 @@ import {menuActionsMap} from '../../../utils/moderationQueueActionsMap';
 
 import t from 'coral-framework/services/i18n';
 
+// TODO: Needs refactoring.
 const ActionButton = ({type = '', user, ...props}) => {
   return (
     <Button
