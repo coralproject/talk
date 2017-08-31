@@ -2,7 +2,7 @@ import t from 'coral-framework/services/i18n';
 
 export default {
   new: {
-    statuses: ['NONE', 'PREMOD'],
+    statuses: ['NONE'],
     icon: 'question_answer',
     name: t('modqueue.new'),
   },
