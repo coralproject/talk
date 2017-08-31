@@ -219,7 +219,7 @@ class ModerationContainer extends Component {
 
     const currentQueueConfig = Object.assign({}, this.props.queueConfig);
 
-    if (premodEnabled) {
+    if (premodEnabled && root.newCount === 0) {
       delete currentQueueConfig.new;
     } else if (root.premodCount === 0) {
       delete currentQueueConfig.premod;
