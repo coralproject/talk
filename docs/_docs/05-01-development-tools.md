@@ -23,7 +23,7 @@ Redux Devtool is an amazing debug tool. You can easily see what' happening with 
 
 [Redux Devtool Chrome Extension](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
 
-[Redux Devtool Github Repo](https://github.com/zalmoxisus/redux-devtools-extension)
+[Redux Devtool GitHub Repo](https://github.com/zalmoxisus/redux-devtools-extension)
 
 ### GraphQL
 

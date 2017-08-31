@@ -67,7 +67,7 @@ class Comment extends React.Component {
     const flagActions = comment.actions && comment.actions.filter((a) => a.__typename === 'FlagAction');
     const commentType = getCommentType(comment);
 
-    let selectionStateCSS = selected ? 'mdl-shadow--16dp' : 'mdl-shadow--2dp';
+    const selectionStateCSS = selected ? 'mdl-shadow--16dp' : 'mdl-shadow--2dp';
 
     const queryData = {root, comment, asset: comment.asset};
 
