@@ -221,7 +221,9 @@ class ModerationContainer extends Component {
 
     if (premodEnabled && root.newCount === 0) {
       delete currentQueueConfig.new;
-    } else if (root.premodCount === 0) {
+    }
+
+    if (!premodEnabled && root.premodCount === 0) {
       delete currentQueueConfig.premod;
     }
 
