@@ -1,0 +1,104 @@
+@custom-media --big-viewport (min-width: 780px);
+
+.root {
+  composes: mdl-shadow--2dp mdl-card from global;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 18px;
+  width: 100%;
+  max-width: 660px;
+  min-width: 400px;
+  margin: 0 auto;
+  position: relative;
+  transition: box-shadow 200ms, margin-bottom 200ms;
+  padding: 10px 0 0;
+  min-height: 220px;
+
+  &:hover {
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  }
+}
+
+.rootSelected {
+  composes: mdl-shadow--16dp from global;
+}
+
+.container {
+  display: block;
+  padding: 0 14px;
+  min-height: 180px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.author {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flaggedByCount {
+  display: block;
+  text-align: left;
+  margin-top: 5px;
+}
+
+.flagIcon {
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.flaggedBy {
+  display: inline;
+  padding: 3px;
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+.flaggedByLabel {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.flaggedReasons {
+  margin-left: 24px;
+  margin-top: 10px;
+}
+
+.flaggedByReason {
+  font-size: 1tpx;
+  margin: 0px;
+  line-height: 1.4;
+}
+
+
+@media (--big-viewport) {
+  .root {
+    border: 1px solid #e0e0e0;
+    margin-bottom: 30px;
+
+    &:last-child {
+      border-bottom: 1px solid #e0e0e0;
+    }
+  }
+
+  &.rootSelected {
+    border: 2px solid #333;
+  }
+}
+
+.button {
+  composes: buttonReset from 'coral-framework/styles/reset.css';
+  vertical-align: text-bottom;
+  &:hover {
+    background-color: #E0E0E0;
+  }
+}
