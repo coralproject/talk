@@ -1,3 +1,8 @@
+/**
+ * @TODO: deprecated as this file contains styles from multiple components. Please remove this file
+ * when styles have been refactored.
+ */
+
 @custom-media --big-viewport (min-width: 780px);
 
 .listContainer {
@@ -444,20 +449,20 @@ span {
 
 .commentLeave {
   opacity: 1.0;
-  transition: opacity 800ms;
 }
 
 .commentLeaveActive {
   opacity: 0;
+  transition: opacity 800ms;
 }
 
 .commentEnter {
   opacity: 0;
-  transition: opacity 800ms;
 }
 
 .commentEnterActive {
   opacity: 1.0;
+  transition: opacity 800ms;
 }
 
 .editedMarker {

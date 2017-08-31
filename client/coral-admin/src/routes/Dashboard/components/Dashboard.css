@@ -1,3 +1,7 @@
+/**
+ * @TODO: deprecated as this file contains styles from multiple components. Please refactor.
+ */
+
 .Dashboard {
   display: flex;
 }

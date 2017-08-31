@@ -92,15 +92,9 @@ const RootQuery = {
 
   // This endpoint is used for loading the user moderation queues (users whose username has been flagged),
   // so hide it in the event that we aren't an admin.
-  async users(_, {query}, {user, loaders: {Users, Actions}}) {
+  async users(_, {query}, {user, loaders: {Users}}) {
     if (user == null || !user.can(SEARCH_OTHER_USERS)) {
       return null;
-    }
-
-    const {action_type} = query;
-    if (action_type) {
-      query.ids = await Actions.getByTypes({action_type, item_type: 'USERS'});
-      query.statuses = ['PENDING'];
     }
 
     return Users.getByQuery(query);
