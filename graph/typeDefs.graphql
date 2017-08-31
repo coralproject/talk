@@ -1209,9 +1209,11 @@ type RootMutation {
   removeTag(tag: ModifyTagInput!): ModifyTagResponse!
 
   # updateSettings will update the global settings.
+  # Mutation is restricted.
   updateSettings(input: UpdateSettingsInput!): UpdateSettingsResponse!
 
   # updateWordlist will update the given Wordlist.
+  # Mutation is restricted.
   updateWordlist(input: UpdateWordlistInput!): UpdateWordlistResponse!
 
   # Ignore comments by another user
