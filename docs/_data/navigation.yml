@@ -1,6 +1,6 @@
 # main links
 main:
-  - title: "Github"
+  - title: "GitHub"
     url: https://github.com/coralproject/talk/
   - title: "CircleCI"
     url: https://circleci.com/gh/coralproject/talk/
