@@ -1,3 +1,8 @@
+/**
+ * @TODO: deprecated as default styles should be included in the components.
+ * Please remove this file when styles have been refactored.
+ */
+
 * {
   font-family: inherit;
   font-style: inherit;

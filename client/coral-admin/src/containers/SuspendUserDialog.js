@@ -54,8 +54,9 @@ class SuspendUserDialogContainer extends Component {
 
 const withOrganizationName = withQuery(gql`
   query CoralAdmin_SuspendUserDialog {
+      __typename
      settings {
-      organizationName
+       organizationName
     }
   }
 `);

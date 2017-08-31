@@ -1,0 +1,21 @@
+.tab {
+  flex: 1;
+  color: white;
+  text-transform: capitalize;
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 1px;
+  transition: border-bottom 200ms;
+}
+
+.tabBar {
+  background-color: rgba(44, 44, 44, 0.89);
+  z-index: 5;
+}
+
+.active {
+  color: white;
+  box-sizing: border-box;
+  border-bottom: solid 5px #F36451;
+}
+

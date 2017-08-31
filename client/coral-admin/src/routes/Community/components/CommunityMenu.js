@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from './styles.css';
+import styles from './CommunityMenu.css';
 import t from 'coral-framework/services/i18n';
 import {Link} from 'react-router';
 
