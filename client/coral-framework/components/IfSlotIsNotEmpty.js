@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Children} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
@@ -28,18 +28,13 @@ class IfSlotIsNotEmpty extends React.Component {
   }
 
   render() {
-    const {className, component: Component = 'div', children} = this.props;
-    return (
-      <Component className={className}>
-        {this.isSlotEmpty() ? null : children}
-      </Component>
-    );
+    const {children} = this.props;
+    return this.isSlotEmpty() ? null : Children.only(children);
   }
 }
 
 IfSlotIsNotEmpty.propTypes = {
   slot: PropTypes.string,
-  className: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
