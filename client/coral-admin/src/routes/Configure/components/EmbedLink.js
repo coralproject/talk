@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import t from 'coral-framework/services/i18n';
+import {join} from 'path';
 import styles from './Configure.css';
 import {Button, Card} from 'coral-ui';
 import {BASE_URL} from 'coral-framework/constants/url';
@@ -25,7 +26,7 @@ class EmbedLink extends Component {
   }
 
   render () {
-    const coralJsUrl = [BASE_URL, '/embed.js'].join('');
+    const coralJsUrl = join(BASE_URL, '/embed.js');
     const nonce = String(Math.random()).slice(2);
     const streamElementId = `coral_talk_${nonce}`;
     const embedText = `
