@@ -190,7 +190,7 @@ class ModerationContainer extends Component {
   };
 
   render () {
-    const {root, root: {asset}, data, settings} = this.props;
+    const {root, root: {asset, settings}, data} = this.props;
     const assetId = getAssetId(this.props);
 
     if (data.error) {
@@ -358,8 +358,9 @@ const withModQueueQuery = withQuery(({queueConfig}) => gql`
       variables: {
         asset_id: id,
         sortOrder: props.moderation.sortOrder,
-        allAssets: id === null
-      }
+        allAssets: id === null,
+      },
+      fetchPolicy: 'network-only'
     };
   },
 });
