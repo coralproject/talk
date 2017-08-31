@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import styles from './style.css';
+import styles from './Install.css';
 import {Wizard, WizardNav} from 'coral-ui';
 import Layout from 'coral-admin/src/components/ui/Layout';
 
@@ -37,11 +37,11 @@ export default class Install extends Component {
 
     return (
       <Layout restricted={true}>
-        <div className={styles.Install}>
+        <div className={styles.install}>
           {
             !install.alreadyInstalled ? (
               <div>
-                <h2>Welcome to the Coral Project</h2>
+                <h2 className={styles.header}>Welcome to the Coral Project</h2>
                 { install.step !== 0 ? <WizardNav items={install.navItems} currentStep={install.step} icon='check'/> : null }
                 <Wizard
                   currentStep={install.step}

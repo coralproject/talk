@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from './Community.css';
+import styles from './styles.css';
 import Table from '../containers/Table';
 import {Pager, Icon} from 'coral-ui';
 import EmptyCard from '../../../components/EmptyCard';
