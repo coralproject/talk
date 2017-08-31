@@ -190,7 +190,7 @@ class ModerationContainer extends Component {
   };
 
   render () {
-    const {root, root: {asset, settings}, data} = this.props;
+    const {root, root: {asset}, data, settings} = this.props;
     const assetId = getAssetId(this.props);
 
     if (data.error) {
@@ -208,18 +208,16 @@ class ModerationContainer extends Component {
         // Still loading.
         return <Spinner />;
       }
-    } else if(asset !== undefined || !('premodCount' in root)) {
+    } else if (asset !== undefined || !('premodCount' in root)) {
 
       // loading.
       return <Spinner />;
     }
 
-    const premodEnabled = assetId ? isPremod(asset.settings.moderation) : isPremod(settings.moderation);
+    const premodEnabled = assetId ? isPremod(asset.settings.moderation) : 
+      isPremod(settings.moderation);
 
     const currentQueueConfig = Object.assign({}, this.props.queueConfig);
-
-    console.log('premodEnabled', premodEnabled);
-    console.log('root.premodCount', root.premodCount)
 
     if (premodEnabled) {
       delete currentQueueConfig.new;
