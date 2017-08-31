@@ -95,8 +95,7 @@ export default class Comment extends React.Component {
     this.onClickEdit = this.onClickEdit.bind(this);
     this.stopEditing = this.stopEditing.bind(this);
     this.state = {
-
-      // Whether the comment should be editable (e.g. after a commenter clicking the 'Edit' button on their own comment)
+      isEditable: commentIsStillEditable(props.comment),
       isEditing: false,
       replyBoxVisible: false,
       loadingState: '',
@@ -295,14 +294,12 @@ export default class Comment extends React.Component {
       this.editWindowExpiryTimeout = clearTimeout(this.editWindowExpiryTimeout);
     }
 
-    // if still in the edit window, set a timeout to re-render once it expires
-    const msLeftToEdit = editWindowRemainingMs(this.props.comment);
-    if (msLeftToEdit > 0) {
+    // if still in the edit window, set a timeout to handle expiration.
+    if (this.state.isEditable) {
+      const msLeftToEdit = editWindowRemainingMs(this.props.comment);
       this.editWindowExpiryTimeout = setTimeout(() => {
-
-        // re-render
-        this.setState(this.state);
-      }, msLeftToEdit);
+        this.setState({isEditable: false});
+      }, Math.max(msLeftToEdit, 0));
     }
   }
   componentWillUnmount() {
@@ -476,7 +473,7 @@ export default class Comment extends React.Component {
                 /* User can edit/delete their own comment for a short window after posting */
                 <span className={cn(styles.topRight)}>
                   {
-                    commentIsStillEditable(comment) &&
+                    this.state.isEditable &&
                     <a
                       className={cn(styles.link, {[styles.active]: this.state.isEditing})}
                       onClick={this.onClickEdit}>Edit</a>
