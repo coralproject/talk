@@ -1061,7 +1061,7 @@ type EditCommentResponse implements Response {
 input UpdateSettingsInput {
 
   # moderation is the moderation mode for all Asset's on the site.
-  moderation: MODERATION_MODE!
+  moderation: MODERATION_MODE
 
   # Enables a requirement for email confirmation before a user can login.
   requireEmailConfirmation: Boolean
