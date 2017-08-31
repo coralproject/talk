@@ -215,11 +215,16 @@ class ModerationContainer extends Component {
     }
 
     const premodEnabled = assetId ? isPremod(asset.settings.moderation) : isPremod(settings.moderation);
+
     const currentQueueConfig = Object.assign({}, this.props.queueConfig);
+
+
     if (premodEnabled) {
-      delete currentQueueConfig.new;
-    } else {
-      delete currentQueueConfig.premod;
+      delete currentQueueConfig.new
+    } 
+    
+    if (!root.premodCount || premodEnabled) {
+      delete currentQueueConfig.premod
     }
 
     return <Moderation
