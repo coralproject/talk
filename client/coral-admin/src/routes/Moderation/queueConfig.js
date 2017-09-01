@@ -1,15 +1,15 @@
 import t from 'coral-framework/services/i18n';
 
 export default {
+  new: {
+    statuses: ['NONE'],
+    icon: 'question_answer',
+    name: t('modqueue.new'),
+  },
   premod: {
     statuses: ['PREMOD'],
     icon: 'access_time',
     name: t('modqueue.premod'),
-  },
-  new: {
-    statuses: ['NONE', 'PREMOD'],
-    icon: 'question_answer',
-    name: t('modqueue.new'),
   },
   reported: {
     action_type: 'FLAG',
