@@ -30,7 +30,6 @@ const attachMonitors = (client) => {
 };
 
 const connectionOptions = {
-  url: REDIS_URL,
   retry_strategy: function(options) {
     if (options.error && options.error.code !== 'ECONNREFUSED') {
 
