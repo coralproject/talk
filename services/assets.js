@@ -158,7 +158,7 @@ module.exports = class AssetsService {
       }
     }
 
-    return assets.limit(limit);
+    return assets.sort({created_at: sortOrder === 'DESC' ? -1 : 1}).limit(limit);
   }
 
   /**

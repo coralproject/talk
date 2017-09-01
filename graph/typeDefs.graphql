@@ -938,20 +938,20 @@ input RejectUsernameInput {
 input AssetSettingsInput {
 
   # premodLinksEnable will put all comments that contain links into premod.
-  premodLinksEnable: Boolean!
+  premodLinksEnable: Boolean
 
   # moderation is the moderation mode for the asset.
-  moderation: MODERATION_MODE!
+  moderation: MODERATION_MODE
 
   # questionBoxEnable will enable the Question Boxs' content to be visable above
   # the comment box.
-  questionBoxEnable: Boolean!
+  questionBoxEnable: Boolean
 
   # questionBoxContent is the content of the Question Box.
-  questionBoxContent: String!
+  questionBoxContent: String
 
   # questionBoxIcon is the icon for the Question Box.
-  questionBoxIcon: String!
+  questionBoxIcon: String
 }
 
 # UpdateAssetStatusInput contains the input to change the status of a comment as
