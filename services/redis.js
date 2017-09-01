@@ -30,7 +30,6 @@ const attachMonitors = (client) => {
 };
 
 const connectionOptions = {
-  url: REDIS_URL,
   retry_strategy: function(options) {
     if (options.error && options.error.code !== 'ECONNREFUSED') {
 
@@ -65,7 +64,7 @@ const connectionOptions = {
 };
 
 const createClient = () => {
-  let client = new Redis(connectionOptions);
+  let client = new Redis(REDIS_URL, connectionOptions);
 
   // Attach the monitors that will print debug messages to the console.
   attachMonitors(client);
