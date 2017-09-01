@@ -65,7 +65,7 @@ const connectionOptions = {
 };
 
 const createClient = () => {
-  let client = new Redis(connectionOptions);
+  let client = new Redis(REDIS_URL, connectionOptions);
 
   // Attach the monitors that will print debug messages to the console.
   attachMonitors(client);
