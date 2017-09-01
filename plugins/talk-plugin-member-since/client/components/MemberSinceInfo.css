@@ -1,0 +1,16 @@
+.root {
+  white-space: nowrap;
+}
+
+.memberSince {
+  color: #484747;
+  margin-left: 4px;
+  letter-spacing: 0.2px;
+  font-size: 0.9em;
+  vertical-align: middle;
+}
+
+.icon {
+  font-size: 1.4em;
+  vertical-align: middle;
+}
