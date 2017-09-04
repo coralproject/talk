@@ -4,11 +4,14 @@ import {compose, gql} from 'react-apollo';
 import {connect, withFragments, withIgnoreUser} from 'plugin-api/beta/client/hocs';
 import {bindActionCreators} from 'redux';
 import {closeMenu} from 'plugins/talk-plugin-author-menu/client/actions';
+import {notify} from 'plugin-api/beta/client/actions/notification';
+import {t} from 'plugin-api/beta/client/services';
 
 class IgnoreUserConfirmationContainer extends React.Component {
 
   ignoreUser = () => {
     this.props.ignoreUser(this.props.comment.user.id);
+    this.props.notify('success', t('talk-plugin-ignore-user.notify_success', this.props.comment.user.username));
     this.props.closeMenu();
   };
 
@@ -28,6 +31,7 @@ class IgnoreUserConfirmationContainer extends React.Component {
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
     closeMenu,
+    notify,
   }, dispatch);
 
 const withIgnoreUserConfirmationFragments = withFragments({
