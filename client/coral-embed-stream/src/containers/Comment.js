@@ -92,6 +92,11 @@ const singleCommentFragment = gql`
 const withCommentFragments = withFragments({
   root: gql`
     fragment CoralEmbedStream_Comment_root on RootQuery {
+      me {
+        ignoredUsers {
+          id
+        }
+      }
       __typename
       me {
         ignoredUsers {
