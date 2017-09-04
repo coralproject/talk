@@ -5,6 +5,12 @@ import translations from './translations.yml';
 import update from 'immutability-helper';
 
 export default {
+  slots: {
+    authorMenuActions: [IgnoreUserAction],
+    ignoreUserConfirmation: [IgnoreUserConfirmation],
+    profileSections: [IgnoredUserSection],
+  },
+  translations,
   mutations: {
     IgnoreUser: ({variables}) => ({
       updateQueries: {
@@ -34,10 +40,4 @@ export default {
       }
     }),
   },
-  slots: {
-    authorMenuActions: [IgnoreUserAction],
-    ignoreUserConfirmation: [IgnoreUserConfirmation],
-    profileSections: [IgnoredUserSection],
-  },
-  translations
 };
