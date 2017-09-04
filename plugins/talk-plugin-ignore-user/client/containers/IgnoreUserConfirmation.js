@@ -6,13 +6,20 @@ import {bindActionCreators} from 'redux';
 import {closeMenu} from 'plugins/talk-plugin-author-menu/client/actions';
 import {notify} from 'plugin-api/beta/client/actions/notification';
 import {t} from 'plugin-api/beta/client/services';
+import {getErrorMessages} from 'plugin-api/beta/client/utils';
 
 class IgnoreUserConfirmationContainer extends React.Component {
 
   ignoreUser = () => {
-    this.props.ignoreUser(this.props.comment.user.id);
-    this.props.notify('success', t('talk-plugin-ignore-user.notify_success', this.props.comment.user.username));
-    this.props.closeMenu();
+    const {ignoreUser, notify, comment, closeMenu} = this.props;
+    ignoreUser(comment.user.id)
+      .then(() => {
+        notify('success', t('talk-plugin-ignore-user.notify_success', comment.user.username));
+      })
+      .catch((err) => {
+        notify('error', getErrorMessages(err));
+      });
+    closeMenu();
   };
 
   cancel = () => {
