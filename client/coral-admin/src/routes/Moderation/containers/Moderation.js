@@ -208,17 +208,22 @@ class ModerationContainer extends Component {
         // Still loading.
         return <Spinner />;
       }
-    } else if(asset !== undefined || !('premodCount' in root)) {
+    } else if (asset !== undefined || !('premodCount' in root)) {
 
       // loading.
       return <Spinner />;
     }
 
-    const premodEnabled = assetId ? isPremod(asset.settings.moderation) : isPremod(settings.moderation);
+    const premodEnabled = assetId ? isPremod(asset.settings.moderation) : 
+      isPremod(settings.moderation);
+
     const currentQueueConfig = Object.assign({}, this.props.queueConfig);
-    if (premodEnabled) {
+
+    if (premodEnabled && root.newCount === 0) {
       delete currentQueueConfig.new;
-    } else {
+    }
+
+    if (!premodEnabled && root.premodCount === 0) {
       delete currentQueueConfig.premod;
     }
 
@@ -355,8 +360,9 @@ const withModQueueQuery = withQuery(({queueConfig}) => gql`
       variables: {
         asset_id: id,
         sortOrder: props.moderation.sortOrder,
-        allAssets: id === null
-      }
+        allAssets: id === null,
+      },
+      fetchPolicy: 'network-only'
     };
   },
 });
