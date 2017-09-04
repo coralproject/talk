@@ -5,4 +5,7 @@ export {default as withFragments} from 'coral-framework/hocs/withFragments';
 export {default as excludeIf} from 'coral-framework/hocs/excludeIf';
 export {default as connect} from 'coral-framework/hocs/connect';
 export {default as withEmit} from 'coral-framework/hocs/withEmit';
-export {withIgnoreUser} from 'coral-framework/graphql/mutations';
+export {
+  withIgnoreUser,
+  withStopIgnoringUser,
+} from 'coral-framework/graphql/mutations';

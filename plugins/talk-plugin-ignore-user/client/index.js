@@ -1,5 +1,6 @@
 import IgnoreUserAction from './containers/IgnoreUserAction';
 import IgnoreUserConfirmation from './containers/IgnoreUserConfirmation';
+import IgnoredUserSection from './containers/IgnoredUserSection';
 import translations from './translations.yml';
 import update from 'immutability-helper';
 
@@ -17,10 +18,26 @@ export default {
         }
       }
     }),
+    StopIgnoringUser: ({variables}) => ({
+      updateQueries: {
+        CoralEmbedStream_Profile: (previousData) => {
+          const noLongerIgnoredUserId = variables.id;
+
+          // remove noLongerIgnoredUserId from ignoredUsers
+          const updated = update(previousData, {me: {ignoredUsers: {
+            $apply: (ignoredUsers) => {
+              return ignoredUsers.filter((u) => u.id !== noLongerIgnoredUserId);
+            }
+          }}});
+          return updated;
+        }
+      }
+    }),
   },
   slots: {
     authorMenuActions: [IgnoreUserAction],
-    ignoreUserConfirmation: [IgnoreUserConfirmation]
+    ignoreUserConfirmation: [IgnoreUserConfirmation],
+    profileSections: [IgnoredUserSection],
   },
   translations
 };

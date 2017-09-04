@@ -1,5 +1,8 @@
 en:
   talk-plugin-ignore-user:
+    section_title: Ignored users
+    section_info: Because you ignored the following commenters, their comments are hidden.
+    stop_ignoring: Stop ignoring
     ignore_user: Ignore User
     cancel: Cancel
     confirmation: |
@@ -10,3 +13,13 @@ en:
     confirmation_title: Ignore {0}?
 es:
   talk-plugin-ignore-user:
+    section_title: "Usuarios ignorados"
+    stop_ignoring: "No ignorar más"
+fr:
+  talk-plugin-ignore-user:
+    section_title: "Utilisateurs ignorés"
+pt_Br:
+  talk-plugin-ignore-user:
+    section_title: "Usuários ignorados"
+    section_info: "Porque você ignorou os seguintes comentadores, seus comentários estão ocultos."
+    stop_ignoring: "Pare de ignorar"

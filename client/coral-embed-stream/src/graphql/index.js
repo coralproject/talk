@@ -108,21 +108,6 @@ export default {
     `,
   },
   mutations: {
-    StopIgnoringUser: ({variables}) => ({
-      updateQueries: {
-        CoralEmbedStream_Profile: (previousData) => {
-          const noLongerIgnoredUserId = variables.id;
-
-          // remove noLongerIgnoredUserId from ignoredUsers
-          const updated = update(previousData, {me: {ignoredUsers: {
-            $apply: (ignoredUsers) => {
-              return ignoredUsers.filter((u) => u.id !== noLongerIgnoredUserId);
-            }
-          }}});
-          return updated;
-        }
-      }
-    }),
     PostComment: ({
       variables: {comment: {asset_id, body, parent_id, tags = []}},
       state: {auth},
