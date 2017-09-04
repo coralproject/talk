@@ -1,4 +1,4 @@
-const redis = require('redis');
+const Redis = require('ioredis');
 const debug = require('debug')('talk:services:redis');
 const enabled = require('debug').enabled('talk:services:redis');
 const {
@@ -14,9 +14,10 @@ const attachMonitors = (client) => {
 
   // Debug events.
   if (enabled) {
-    client.on('ready', () => debug('client ready'));
     client.on('connect', () => debug('client connected'));
+    client.on('ready', () => debug('client ready'));
     client.on('reconnecting', () => debug('client connection lost, attempting to reconnect'));
+    client.on('close', () => debug('client closed the connection'));
     client.on('end', () => debug('client ended'));
   }
 
@@ -29,7 +30,6 @@ const attachMonitors = (client) => {
 };
 
 const connectionOptions = {
-  url: REDIS_URL,
   retry_strategy: function(options) {
     if (options.error && options.error.code !== 'ECONNREFUSED') {
 
@@ -64,25 +64,15 @@ const connectionOptions = {
 };
 
 const createClient = () => {
-  let client = redis.createClient(connectionOptions);
+  let client = new Redis(REDIS_URL, connectionOptions);
 
   // Attach the monitors that will print debug messages to the console.
   attachMonitors(client);
-
-  client.ping((err) => {
-    if (err) {
-      console.error('Can\'t ping the redis server!');
-
-      throw err;
-    }
-  });
 
   return client;
 };
 
 module.exports = {
-  connectionOptions,
-  attachMonitors,
   createClient,
   createClientFactory: () => {
     let client = null;
