@@ -7,5 +7,6 @@ en:
       undo this later from My Profile.
     notify_success: |
       You are now ignoring {0}. You can undo this action from My Profile.
+    confirmation_title: Ignore {0}?
 es:
   talk-plugin-ignore-user:

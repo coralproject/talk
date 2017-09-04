@@ -28,7 +28,7 @@ class IgnoreUserConfirmationContainer extends React.Component {
 
   render() {
     return <IgnoreUserConfirmation
-      username={this.props.comment.username}
+      username={this.props.comment.user.username}
       ignoreUser={this.ignoreUser}
       cancel={this.cancel}
     />;
