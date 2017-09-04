@@ -3,17 +3,17 @@ import IgnoreUserConfirmation from '../components/IgnoreUserConfirmation';
 import {compose, gql} from 'react-apollo';
 import {connect, withFragments, withIgnoreUser} from 'plugin-api/beta/client/hocs';
 import {bindActionCreators} from 'redux';
-import {setContentSlot} from 'plugins/talk-plugin-author-menu/client/actions';
+import {closeMenu} from 'plugins/talk-plugin-author-menu/client/actions';
 
 class IgnoreUserConfirmationContainer extends React.Component {
 
   ignoreUser = () => {
     this.props.ignoreUser(this.props.comment.user.id);
-    this.props.setContentSlot(null);
+    this.props.closeMenu();
   };
 
   cancel = () => {
-    this.props.setContentSlot(null);
+    this.props.closeMenu();
   }
 
   render() {
@@ -27,7 +27,7 @@ class IgnoreUserConfirmationContainer extends React.Component {
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
-    setContentSlot,
+    closeMenu,
   }, dispatch);
 
 const withIgnoreUserConfirmationFragments = withFragments({
