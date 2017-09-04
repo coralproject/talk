@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import {ADDTL_COMMENTS_ON_LOAD_MORE, THREADING_LEVEL} from '../constants/stream';
 import {
   withPostComment, withPostFlag, withPostDontAgree,
-  withDeleteAction, withIgnoreUser, withEditComment
+  withDeleteAction, withEditComment
 } from 'coral-framework/graphql/mutations';
 
 import * as authActions from 'coral-embed-stream/src/actions/auth';
@@ -374,7 +374,6 @@ export default compose(
   withPostComment,
   withPostFlag,
   withPostDontAgree,
-  withIgnoreUser,
   withDeleteAction,
   withEditComment,
 )(StreamContainer);

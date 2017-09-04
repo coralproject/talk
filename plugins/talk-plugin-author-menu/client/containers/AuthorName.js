@@ -22,6 +22,9 @@ class AuthorNameContainer extends React.Component {
       this.setState({
         menuVisible: false
       });
+      if (this.props.contentSlot) {
+        this.props.resetContentSlot();
+      }
     }
   }
 
@@ -31,6 +34,7 @@ class AuthorNameContainer extends React.Component {
       root={this.props.root}
       asset={this.props.asset}
       comment={this.props.comment}
+      contentSlot={this.props.contentSlot}
       menuVisible={this.state.menuVisible}
       toggleMenu={this.toggleMenu}
       hideMenu={this.hideMenu}

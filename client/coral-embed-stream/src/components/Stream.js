@@ -64,7 +64,6 @@ class Stream extends React.Component {
       postDontAgree,
       deleteAction,
       showSignInDialog,
-      ignoreUser,
       loadNewReplies,
       auth: {user},
       emit,
@@ -90,7 +89,6 @@ class Stream extends React.Component {
           data={data}
           root={root}
           commentClassNames={commentClassNames}
-          ignoreUser={ignoreUser}
           setActiveReplyBox={setActiveReplyBox}
           activeReplyBox={activeReplyBox}
           notify={notify}
@@ -133,7 +131,6 @@ class Stream extends React.Component {
       postDontAgree,
       deleteAction,
       showSignInDialog,
-      ignoreUser,
       activeStreamTab,
       setActiveStreamTab,
       loadNewReplies,
@@ -183,7 +180,6 @@ class Stream extends React.Component {
                 root={root}
                 comments={comments}
                 commentClassNames={commentClassNames}
-                ignoreUser={ignoreUser}
                 setActiveReplyBox={setActiveReplyBox}
                 activeReplyBox={activeReplyBox}
                 notify={notify}
@@ -321,9 +317,6 @@ class Stream extends React.Component {
 Stream.propTypes = {
   notify: PropTypes.func.isRequired,
   postComment: PropTypes.func.isRequired,
-
-  // dispatch action to ignore another user
-  ignoreUser: React.PropTypes.func,
 
   // edit a comment, passed (id, asset_id, { body })
   editComment: React.PropTypes.func

@@ -1,0 +1,9 @@
+.root {
+  width: 250px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+

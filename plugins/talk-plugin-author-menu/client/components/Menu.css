@@ -35,3 +35,7 @@
   transform: rotate(180deg);
 }
 
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}

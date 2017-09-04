@@ -126,7 +126,6 @@ class AllCommentsPane extends React.Component {
       root,
       comments,
       commentClassNames,
-      ignoreUser,
       setActiveReplyBox,
       activeReplyBox,
       notify,
@@ -173,7 +172,6 @@ class AllCommentsPane extends React.Component {
                 currentUser={currentUser}
                 postFlag={postFlag}
                 postDontAgree={postDontAgree}
-                ignoreUser={ignoreUser}
                 commentIsIgnored={commentIsIgnored}
                 loadMore={loadNewReplies}
                 deleteAction={deleteAction}

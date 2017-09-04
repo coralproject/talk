@@ -5,11 +5,13 @@ import {Slot} from 'plugin-api/beta/client/components';
 export default ({data, root, asset, comment, contentSlot}) => {
   if (contentSlot) {
     return (
-      <Slot
-        fill={contentSlot}
-        data={data}
-        queryData={{asset, root, comment}}
-      />
+      <div className={styles.menu}>
+        <Slot
+          fill={contentSlot}
+          data={data}
+          queryData={{asset, root, comment}}
+        />
+      </div>
     );
   }
 
@@ -21,6 +23,7 @@ export default ({data, root, asset, comment, contentSlot}) => {
         queryData={{asset, root, comment}}
       />
       <Slot
+        className={styles.actions}
         fill={'authorMenuActions'}
         data={data}
         queryData={{asset, root, comment}}

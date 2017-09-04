@@ -16,7 +16,6 @@ import mapValues from 'lodash/mapValues';
 import LoadMore from './LoadMore';
 import {getEditableUntilDate} from './util';
 import {findCommentWithId} from '../graphql/utils';
-import {TopRightMenu} from './TopRightMenu';
 import CommentContent from './CommentContent';
 import Slot from 'coral-framework/components/Slot';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
@@ -187,9 +186,6 @@ export default class Comment extends React.Component {
     // given a comment, return whether it should be rendered as ignored
     commentIsIgnored: PropTypes.func,
 
-    // dispatch action to ignore another user
-    ignoreUser: PropTypes.func,
-
     // edit a comment, passed (id, asset_id, { body })
     editComment: PropTypes.func,
 
@@ -317,7 +313,6 @@ export default class Comment extends React.Component {
       comment,
       postFlag,
       parentId,
-      ignoreUser,
       highlighted,
       postComment,
       currentUser,
@@ -480,16 +475,6 @@ export default class Comment extends React.Component {
                   }
                 </span>
               }
-              { isActive && (currentUser && (comment.user.id !== currentUser.id)) &&
-
-                  /* TopRightMenu allows currentUser to ignore other users' comments */
-                  <span className={cn(styles.topRight, styles.topRightMenu)}>
-                    <TopRightMenu
-                      comment={comment}
-                      ignoreUser={ignoreUser}
-                      notify={notify} />
-                  </span>
-              }
               { !isActive &&
                 <InactiveCommentLabel status={comment.status}/>
               }
@@ -600,7 +585,6 @@ export default class Comment extends React.Component {
                 postFlag={postFlag}
                 deleteAction={deleteAction}
                 loadMore={loadMore}
-                ignoreUser={ignoreUser}
                 charCountEnable={charCountEnable}
                 maxCharCount={maxCharCount}
                 showSignInDialog={showSignInDialog}
