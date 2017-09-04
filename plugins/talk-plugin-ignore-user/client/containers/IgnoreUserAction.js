@@ -47,7 +47,7 @@ const withIgnoreUserActionFragments = withFragments({
 const enhance = compose(
   connect(null, mapDispatchToProps),
   withIgnoreUserActionFragments,
-  excludeIf(({root: {me}, comment}) => me.id === comment.user.id),
+  excludeIf(({root: {me}, comment}) => !me || me.id === comment.user.id),
 );
 
 export default enhance(IgnoreUserActionContainer);
