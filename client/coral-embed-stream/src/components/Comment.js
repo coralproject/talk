@@ -183,9 +183,6 @@ export default class Comment extends React.Component {
       })
     }).isRequired,
 
-    // given a comment, return whether it should be rendered as ignored
-    commentIsIgnored: PropTypes.func,
-
     // edit a comment, passed (id, asset_id, { body })
     editComment: PropTypes.func,
 
@@ -212,9 +209,18 @@ export default class Comment extends React.Component {
     }
   }
 
+  commentIsIgnored(comment) {
+    const me = this.props.root.me;
+    return (
+      me &&
+      me.ignoredUsers &&
+      me.ignoredUsers.find((u) => u.id === comment.user.id)
+    );
+  }
+
   hasIgnoredReplies() {
     return this.props.comment.replies &&
-      this.props.comment.replies.nodes.some((reply) => this.props.commentIsIgnored(reply));
+      this.props.comment.replies.nodes.some((reply) => this.commentIsIgnored(reply));
   }
 
   loadNewReplies = () => {
@@ -327,11 +333,14 @@ export default class Comment extends React.Component {
       charCountEnable,
       showSignInDialog,
       liveUpdates,
-      commentIsIgnored,
       animateEnter,
       emit,
       commentClassNames = []
     } = this.props;
+
+    if (this.commentIsIgnored(comment)) {
+      return <IgnoredCommentTombstone />;
+    }
 
     const view = this.getVisibileReplies();
 
@@ -566,9 +575,8 @@ export default class Comment extends React.Component {
 
         <TransitionGroup>
           {view.map((reply) => {
-            return commentIsIgnored(reply)
-              ? <IgnoredCommentTombstone key={reply.id} />
-              : <CommentContainer
+            return (
+              <CommentContainer
                 data={this.props.data}
                 root={this.props.root}
                 setActiveReplyBox={setActiveReplyBox}
@@ -588,13 +596,13 @@ export default class Comment extends React.Component {
                 charCountEnable={charCountEnable}
                 maxCharCount={maxCharCount}
                 showSignInDialog={showSignInDialog}
-                commentIsIgnored={commentIsIgnored}
                 liveUpdates={liveUpdates}
                 reactKey={reply.id}
                 key={reply.id}
                 comment={reply}
                 emit={emit}
-              />;
+              />
+            );
           })}
         </TransitionGroup>
         <div className="talk-load-more-replies">

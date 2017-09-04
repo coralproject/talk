@@ -40,15 +40,6 @@ class Stream extends React.Component {
     }
   }
 
-  commentIsIgnored = (comment) => {
-    const me = this.props.root.me;
-    return (
-      me &&
-      me.ignoredUsers &&
-      me.ignoredUsers.find((u) => u.id === comment.user.id)
-    );
-  };
-
   renderHighlightedComment() {
     const {
       data,
@@ -104,7 +95,6 @@ class Stream extends React.Component {
           deleteAction={deleteAction}
           showSignInDialog={showSignInDialog}
           key={topLevelComment.id}
-          commentIsIgnored={this.commentIsIgnored}
           comment={topLevelComment}
           charCountEnable={asset.settings.charCountEnable}
           maxCharCount={asset.settings.charCount}
@@ -193,7 +183,6 @@ class Stream extends React.Component {
                 loadNewReplies={loadNewReplies}
                 deleteAction={deleteAction}
                 showSignInDialog={showSignInDialog}
-                commentIsIgnored={this.commentIsIgnored}
                 charCountEnable={asset.settings.charCountEnable}
                 maxCharCount={asset.settings.charCount}
                 editComment={editComment}
