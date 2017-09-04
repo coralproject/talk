@@ -93,12 +93,12 @@ const withCommentFragments = withFragments({
   root: gql`
     fragment CoralEmbedStream_Comment_root on RootQuery {
       __typename
-      ${getSlotFragmentSpreads(slots, 'root')}
       me {
         ignoredUsers {
           id
         }
       }
+      ${getSlotFragmentSpreads(slots, 'root')}
     }
     `,
   asset: gql`
