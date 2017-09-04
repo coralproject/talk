@@ -12,10 +12,15 @@ class IgnoreUserConfirmationContainer extends React.Component {
     this.props.setContentSlot(null);
   };
 
+  cancel = () => {
+    this.props.setContentSlot(null);
+  }
+
   render() {
     return <IgnoreUserConfirmation
       username={this.props.comment.username}
       ignoreUser={this.ignoreUser}
+      cancel={this.cancel}
     />;
   }
 }

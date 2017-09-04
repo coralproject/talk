@@ -4,6 +4,6 @@ import {t} from 'plugin-api/beta/client/services';
 
 export default ({ignoreUser}) => (
   <button className={styles.button} onClick={ignoreUser}>
-    {t('talk-plugin-ignore-user.ignore')}
+    {t('talk-plugin-ignore-user.ignore_user')}
   </button>
 );

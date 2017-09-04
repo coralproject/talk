@@ -12,7 +12,6 @@
   left: 0px;
   min-width: 20px;
   text-align: left;
-  color: #616161;
 }
 
 .menu::before{
@@ -38,4 +37,9 @@
 .actions {
   display: flex;
   justify-content: flex-end;
+  margin-top: 8px;
+
+  &:empty {
+    display: none;
+  }
 }
