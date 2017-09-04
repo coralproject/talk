@@ -3,7 +3,7 @@ import styles from './IgnoredUserSection.css';
 import {t} from 'plugin-api/beta/client/services';
 
 export default ({ignoredUsers, stopIgnoringUser}) => (
-  <section>
+  <section className={'talk-plugin-ignore-user-section'}>
     <h3>{t('talk-plugin-ignore-user.section_title')}</h3>
     <p>{t('talk-plugin-ignore-user.section_info')}</p>
     <ul className={styles.list}>
