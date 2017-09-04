@@ -4,9 +4,27 @@ import {bindActionCreators} from 'redux';
 import AuthorName from '../components/AuthorName';
 import {setContentSlot, resetContentSlot, openMenu, closeMenu} from '../actions';
 import {compose, gql} from 'react-apollo';
-import {getSlotFragmentSpreads} from 'plugin-api/beta/client/utils';
+import {getSlotFragmentSpreads, getShallowChanges} from 'plugin-api/beta/client/utils';
 
 class AuthorNameContainer extends React.Component {
+
+  shouldComponentUpdate(nextProps) {
+
+    // Specifically handle `showMenuForComment` if it is the only change.
+    const changes = getShallowChanges(this.props, nextProps);
+    if (changes.length === 1 && changes[0] === 'showMenuForComment') {
+      const commentId = this.props.comment.id;
+      if (
+        commentId !== this.props.showMenuForComment &&
+        commentId !== nextProps.showMenuForComment
+      ) {
+        return false;
+      }
+    }
+
+    // Prevent Slot from rerendering when no props has shallowly changed.
+    return changes.length !== 0;
+  }
 
   toggleMenu = () => {
     if (this.props.showMenuForComment === this.props.comment.id) {
