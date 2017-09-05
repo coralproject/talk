@@ -1,6 +1,5 @@
 const redis = require('./redis');
 const debug = require('debug')('talk:services:cache');
-const crypto = require('crypto');
 
 const cache = module.exports = {};
 
@@ -52,60 +51,6 @@ cache.wrap = async (key, expiry, work, kf = keyfunc) => {
   return value;
 };
 
-// This is designed to increment a key and add an expiry iff the key already
-// exists.
-const INCR_SCRIPT = `
-if redis.call('GET', KEYS[1]) ~= false then
-  redis.call('INCR', KEYS[1])
-  redis.call('EXPIRE', KEYS[1], ARGV[1])
-end
-`;
-
-// This is designed to decrement a key and add an expiry iff the key already
-// exists.
-const DECR_SCRIPT = `
-if redis.call('GET', KEYS[1]) ~= false then
-  redis.call('DECR', KEYS[1])
-  redis.call('EXPIRE', KEYS[1], ARGV[1])
-end
-`;
-
-// Load the script into redis and track the script hash that we will use to exec
-// increments on.
-const loadScript = (name, script) => new Promise((resolve, reject) => {
-
-  let shasum = crypto.createHash('sha1');
-  shasum.update(script);
-
-  let hash = shasum.digest('hex');
-
-  cache.client
-    .script('EXISTS', hash, (err, [exists]) => {
-      if (err) {
-        return reject(err);
-      }
-
-      if (exists) {
-        debug(`already loaded ${name} as SHA[${hash}], not loading again`);
-
-        return resolve(hash);
-      }
-
-      debug(`${name} not loaded as SHA[${hash}], loading`);
-
-      cache.client
-        .script('load', script, (err, hash) => {
-          if (err) {
-            return reject(err);
-          }
-
-          debug(`loaded ${name} as SHA[${hash}]`);
-
-          resolve(hash);
-        });
-    });
-});
-
 /**
  * Init sets up the scripts used in Redis with the incr/decr commands.
  */
@@ -114,93 +59,77 @@ cache.init = async () => {
   // Create the redis instance.
   cache.client = redis.createClient();
 
-  // Load the INCR_SCRIPT and DECR_SCRIPT into Redis.
-  let [incrScriptHash, decrScriptHash] = await Promise.all([
-    loadScript('INCR_SCRIPT', INCR_SCRIPT),
-    loadScript('DECR_SCRIPT', DECR_SCRIPT)
-  ]);
+  // This is designed to increment a key and add an expiry iff the key already
+  // exists.
+  const INCR_SCRIPT = `
+  if redis.call('GET', KEYS[1]) ~= false then
+    redis.call('INCR', KEYS[1])
+    redis.call('EXPIRE', KEYS[1], ARGV[1])
+  end
+  `;
 
-  // Set the globally scoped cache hashes.
-  cache.INCR_SCRIPT_HASH = incrScriptHash;
-  cache.DECR_SCRIPT_HASH = decrScriptHash;
+  cache.client.defineCommand('increx', {
+    numberOfKeys: 1,
+    lua: INCR_SCRIPT,
+  });
+
+  // This is designed to decrement a key and add an expiry iff the key already
+  // exists.
+  const DECR_SCRIPT = `
+  if redis.call('GET', KEYS[1]) ~= false then
+    redis.call('DECR', KEYS[1])
+    redis.call('EXPIRE', KEYS[1], ARGV[1])
+  end
+  `;
+
+  cache.client.defineCommand('decrex', {
+    numberOfKeys: 1,
+    lua: DECR_SCRIPT,
+  });
 };
 
 /**
  * This will increment a key in redis and update the expiry iff it already
  * exists, otherwise it will do nothing.
  */
-cache.incr = (key, expiry, kf = keyfunc) => new Promise((resolve, reject) => {
-  cache.client
-    .evalsha(cache.INCR_SCRIPT_HASH, 1, kf(key), expiry, (err) => {
-      if (err) {
-        return reject(err);
-      }
-
-      return resolve();
-    });
-});
+cache.incr = async (key, expiry, kf = keyfunc) => cache.client.increx(kf(key), expiry);
 
 /**
  * This will decrement a key in redis and update the expiry iff it already
  * exists, otherwise it will do nothing.
  */
-cache.decr = (key, expiry, kf = keyfunc) => new Promise((resolve, reject) => {
-  cache.client
-    .evalsha(cache.DECR_SCRIPT_HASH, 1, kf(key), expiry, (err) => {
-      if (err) {
-        return reject(err);
-      }
-
-      return resolve();
-    });
-});
+cache.decr = async (key, expiry, kf = keyfunc) => cache.client.decrex(kf(key, expiry));
 
 /**
  * This will increment many keys in redis and update the expiry iff it already
  * exists, otherwise it will do nothing.
  */
-cache.incrMany = (keys, expiry, kf = keyfunc) => {
+cache.incrMany = async (keys, expiry, kf = keyfunc) => {
   let multi = cache.client.multi();
 
-  keys.forEach((key) => {
+  for (const key of keys) {
 
     // Queue up the evalsha command.
-    multi.evalsha(cache.INCR_SCRIPT_HASH, 1, kf(key), expiry);
-  });
+    multi.increx(kf(key), expiry);
+  }
 
-  return new Promise((resolve, reject) => {
-    multi.exec((err) => {
-      if (err) {
-        return reject(err);
-      }
-
-      resolve();
-    });
-  });
+  return multi.exec();
 };
 
 /**
  * This will decrement many keys in redis and update the expiry iff it already
  * exists, otherwise it will do nothing.
  */
-cache.decrMany = (keys, expiry, kf = keyfunc) => {
+cache.decrMany = async (keys, expiry, kf = keyfunc) => {
   let multi = cache.client.multi();
 
-  keys.forEach((key) => {
+  for (const key of keys) {
 
     // Queue up the evalsha command.
-    multi.evalsha(cache.DECR_SCRIPT_HASH, 1, kf(key), expiry);
-  });
+    multi.decrex(kf(key), expiry);
+  }
 
-  return new Promise((resolve, reject) => {
-    multi.exec((err) => {
-      if (err) {
-        return reject(err);
-      }
-
-      resolve();
-    });
-  });
+  return multi.exec();
 };
 
 /**
@@ -257,28 +186,12 @@ cache.wrapMany = async (keys, expiry, work, kf = keyfunc) => {
  * @param  {Mixed} key Either an array of items composing a key or a string
  * @return {Promise}
  */
-cache.get = (key, kf = keyfunc) => new Promise((resolve, reject) => {
-  cache.client.get(kf(key), (err, reply) => {
-    if (err) {
-      return reject(err);
-    }
+cache.get = async (key, kf = keyfunc) => cache.client.get(kf(key)).then((reply) => {
+  if (reply !== null) {
 
-    if (reply !== null) {
-      let value;
-
-      try {
-
-        // Parse the stored cache value from JSON.
-        value = JSON.parse(reply);
-      } catch (e) {
-        return reject(e);
-      }
-
-      return resolve(value);
-    }
-
-    resolve(null);
-  });
+    // Parse the stored cache value from JSON.
+    return JSON.parse(reply);
+  }
 });
 
 /**
@@ -288,31 +201,22 @@ cache.get = (key, kf = keyfunc) => new Promise((resolve, reject) => {
  * @param  {Function}      [kf=keyfunc] optional key function to use to turn the
  *                                      provided key into a string for the cache.
  */
-cache.getMany = (keys, kf = keyfunc) => new Promise((resolve, reject) => {
-  cache.client.mget(keys.map(kf), (err, replies) => {
-    if (err) {
-      return reject(err);
+cache.getMany = async (keys, kf = keyfunc) => cache.client.mget(keys.map(kf)).then((replies) => {
+
+  // Parse the replies.
+  for (let i = 0; i < replies.length; i++) {
+    let value = null;
+
+    if (replies[i] != null) {
+
+      // Parse the stored cache value from JSON.
+      value = JSON.parse(replies[i]);
     }
 
-    // Parse the replies.
-    for (let i = 0; i < replies.length; i++) {
-      let value = null;
+    replies[i] = value;
+  }
 
-      if (replies[i] != null) {
-        try {
-
-          // Parse the stored cache value from JSON.
-          value = JSON.parse(replies[i]);
-        } catch (e) {
-          return reject(e);
-        }
-      }
-
-      replies[i] = value;
-    }
-
-    return resolve(replies);
-  });
+  return replies;
 });
 
 /**
@@ -322,7 +226,7 @@ cache.getMany = (keys, kf = keyfunc) => new Promise((resolve, reject) => {
  * @param  {Function}      [kf=keyfunc] optional key function to use to turn the
  *                                      provided key into a string for the cache.
  */
-cache.setMany = (keys, values, expiry, kf = keyfunc) => {
+cache.setMany = async (keys, values, expiry, kf = keyfunc) => {
   let multi = cache.client.multi();
 
   keys.forEach((key, index) => {
@@ -334,15 +238,7 @@ cache.setMany = (keys, values, expiry, kf = keyfunc) => {
     multi.set(kf(key), reply, 'EX', expiry);
   });
 
-  return new Promise((resolve, reject) => {
-    multi.exec((err) => {
-      if (err) {
-        return reject(err);
-      }
-
-      resolve();
-    });
-  });
+  return multi.exec();
 };
 
 /**
@@ -350,18 +246,12 @@ cache.setMany = (keys, values, expiry, kf = keyfunc) => {
  * @param  {Mixed} key Either an array of items composing a key or a string
  * @return {Promise}
  */
-cache.invalidate = (key, kf = keyfunc) => new Promise((resolve, reject) => {
+cache.invalidate = async (key, kf = keyfunc) => {
 
   debug(`invalidate: ${kf(key)}`);
 
-  cache.client.del(kf(key), (err) => {
-    if (err) {
-      return reject(err);
-    }
-
-    resolve();
-  });
-});
+  return cache.client.del(kf(key));
+};
 
 /**
  * This sets a value on the key with the expiry and then resolves once it is
@@ -371,16 +261,10 @@ cache.invalidate = (key, kf = keyfunc) => new Promise((resolve, reject) => {
  * @param  {Integer} expiry  Time in seconds for the cache entry to live for
  * @return {Promise}
  */
-cache.set = (key, value, expiry, kf = keyfunc) => new Promise((resolve, reject) => {
+cache.set = async (key, value, expiry, kf = keyfunc) => {
 
   // Serialize the value as JSON.
   let reply = JSON.stringify(value);
 
-  cache.client.set(kf(key), reply, 'EX', expiry, (err) => {
-    if (err) {
-      return reject(err);
-    }
-
-    return resolve();
-  });
-});
+  return cache.client.set(kf(key), reply, 'EX', expiry);
+};

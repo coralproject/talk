@@ -40,15 +40,6 @@ class Stream extends React.Component {
     }
   }
 
-  commentIsIgnored = (comment) => {
-    const me = this.props.root.me;
-    return (
-      me &&
-      me.ignoredUsers &&
-      me.ignoredUsers.find((u) => u.id === comment.user.id)
-    );
-  };
-
   renderHighlightedComment() {
     const {
       data,
@@ -64,7 +55,6 @@ class Stream extends React.Component {
       postDontAgree,
       deleteAction,
       showSignInDialog,
-      ignoreUser,
       loadNewReplies,
       auth: {user},
       emit,
@@ -90,7 +80,6 @@ class Stream extends React.Component {
           data={data}
           root={root}
           commentClassNames={commentClassNames}
-          ignoreUser={ignoreUser}
           setActiveReplyBox={setActiveReplyBox}
           activeReplyBox={activeReplyBox}
           notify={notify}
@@ -106,7 +95,6 @@ class Stream extends React.Component {
           deleteAction={deleteAction}
           showSignInDialog={showSignInDialog}
           key={topLevelComment.id}
-          commentIsIgnored={this.commentIsIgnored}
           comment={topLevelComment}
           charCountEnable={asset.settings.charCountEnable}
           maxCharCount={asset.settings.charCount}
@@ -133,7 +121,6 @@ class Stream extends React.Component {
       postDontAgree,
       deleteAction,
       showSignInDialog,
-      ignoreUser,
       activeStreamTab,
       setActiveStreamTab,
       loadNewReplies,
@@ -183,7 +170,6 @@ class Stream extends React.Component {
                 root={root}
                 comments={comments}
                 commentClassNames={commentClassNames}
-                ignoreUser={ignoreUser}
                 setActiveReplyBox={setActiveReplyBox}
                 activeReplyBox={activeReplyBox}
                 notify={notify}
@@ -197,7 +183,6 @@ class Stream extends React.Component {
                 loadNewReplies={loadNewReplies}
                 deleteAction={deleteAction}
                 showSignInDialog={showSignInDialog}
-                commentIsIgnored={this.commentIsIgnored}
                 charCountEnable={asset.settings.charCountEnable}
                 maxCharCount={asset.settings.charCount}
                 editComment={editComment}
@@ -321,9 +306,6 @@ class Stream extends React.Component {
 Stream.propTypes = {
   notify: PropTypes.func.isRequired,
   postComment: PropTypes.func.isRequired,
-
-  // dispatch action to ignore another user
-  ignoreUser: React.PropTypes.func,
 
   // edit a comment, passed (id, asset_id, { body })
   editComment: React.PropTypes.func
