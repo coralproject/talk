@@ -8,6 +8,7 @@ import thunk from 'redux-thunk';
 import {loadTranslations} from './i18n';
 import bowser from 'bowser';
 import {BASE_PATH} from 'coral-framework/constants/url';
+import {CONFIG} from 'coral-framework/constants/config';
 import {createPluginsService} from './plugins';
 import {createNotificationService} from './notification';
 import {createGraphQLRegistry} from './graphqlRegistry';
@@ -69,7 +70,7 @@ export function createContext({reducers = {}, pluginsConfig = [], graphqlExtensi
   });
   const client = createClient({
     uri: `${BASE_PATH}api/v1/graph/ql`,
-    liveUri: `${protocol}://${location.host}${BASE_PATH}api/v1/live`,
+    liveUri: CONFIG.LIVE_URI || `${protocol}://${location.host}${BASE_PATH}api/v1/live`,
     token,
   });
   const plugins = createPluginsService(pluginsConfig);
