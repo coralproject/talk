@@ -11,7 +11,7 @@ const RootQuery = {
       return null;
     }
 
-    return Assets.search(query);
+    return Assets.getByQuery(query);
   },
   asset(_, query, {loaders: {Assets}}) {
     if (query.id) {

@@ -3,6 +3,7 @@ const debug = require('debug')('talk:graph:mutators');
 
 const Comment = require('./comment');
 const Action = require('./action');
+const Asset = require('./asset');
 const Settings = require('./settings');
 const Tag = require('./tag');
 const Token = require('./token');
@@ -15,6 +16,7 @@ let mutators = [
   // Load in the core mutators.
   Comment,
   Action,
+  Asset,
   Settings,
   Tag,
   Token,

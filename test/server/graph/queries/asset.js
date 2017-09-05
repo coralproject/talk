@@ -74,12 +74,10 @@ describe('graph.queries.asset', () => {
 
     expect(asset.nodes).to.have.length(2);
     expect(asset.hasNextPage).to.be.false;
-    expect(asset.nodes[0]).to.have.property('id', comments[1].id);
-    expect(asset.nodes[1]).to.have.property('id', comments[0].id);
+    expect(asset.nodes.map(({id}) => id)).to.have.members(comments.slice(0, 2).map(({id}) => id));
     expect(otherAsset.nodes).to.have.length(2);
     expect(otherAsset.hasNextPage).to.be.false;
-    expect(otherAsset.nodes[0]).to.have.property('id', comments[3].id);
-    expect(otherAsset.nodes[1]).to.have.property('id', comments[2].id);
+    expect(otherAsset.nodes.map(({id}) => id)).to.have.members(comments.slice(2, 4).map(({id}) => id));
 
     for (let node of asset.nodes) {
       for (let otherNode of otherAsset.nodes) {
