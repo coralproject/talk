@@ -24,9 +24,9 @@ module.exports = (user, perm) => {
   case types.SET_COMMENT_STATUS:
     return check(user, ['ADMIN', 'MODERATOR']);
   case types.ADD_COMMENT_TAG:
-    return check(user, ['ADMIN', 'MODERATOR']);
+    return check(user, ['ADMIN', 'MODERATOR', 'STAFF']);
   case types.REMOVE_COMMENT_TAG:
-    return check(user, ['ADMIN', 'MODERATOR']);
+    return check(user, ['ADMIN', 'MODERATOR', 'STAFF']);
   case types.UPDATE_CONFIG:
     return check(user, ['ADMIN', 'MODERATOR']);
   case types.CREATE_TOKEN:
