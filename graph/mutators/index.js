@@ -4,6 +4,7 @@ const debug = require('debug')('talk:graph:mutators');
 const Comment = require('./comment');
 const Action = require('./action');
 const Asset = require('./asset');
+const Settings = require('./settings');
 const Tag = require('./tag');
 const Token = require('./token');
 const User = require('./user');
@@ -16,6 +17,7 @@ let mutators = [
   Comment,
   Action,
   Asset,
+  Settings,
   Tag,
   Token,
   User,
