@@ -7,4 +7,5 @@ export {
   capitalize,
   getErrorMessages,
   getDefinitionName,
+  getShallowChanges,
 } from 'coral-framework/utils';

@@ -5,5 +5,5 @@ export default {
   translations,
   slots: {
     commentReactions: [LikeButton]
-  }
+  },
 };

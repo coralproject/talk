@@ -17,6 +17,9 @@
     "talk-plugin-sort-newest",
     "talk-plugin-sort-oldest",
     "talk-plugin-sort-most-respected",
-    "talk-plugin-sort-most-replied"
+    "talk-plugin-sort-most-replied",
+    "talk-plugin-author-menu",
+    "talk-plugin-member-since",
+    "talk-plugin-ignore-user"
   ]
 }
