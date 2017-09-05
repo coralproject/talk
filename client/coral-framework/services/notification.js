@@ -5,14 +5,14 @@
  */
 export function createNotificationService(pym) {
   return {
-    success(msg) {
-      pym.sendMessage('coral-alert', `success|${msg}`);
+    success(text) {
+      pym.sendMessage('coral-alert', JSON.stringify({kind: 'success', text}));
     },
-    error(msg) {
-      pym.sendMessage('coral-alert', `error|${msg}`);
+    error(text) {
+      pym.sendMessage('coral-alert', JSON.stringify({kind: 'error', text}));
     },
-    info(msg) {
-      pym.sendMessage('coral-alert', `info|${msg}`);
+    info(text) {
+      pym.sendMessage('coral-alert', JSON.stringify({kind: 'info', text}));
     },
   };
 }

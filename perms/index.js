@@ -41,11 +41,8 @@ const findGrant = (user, perms) => {
  */
 module.exports = (user, ...perms) => {
 
-  // make sure all the passed permissions are not typos
-  const missingPerms = perms.filter((perm) => {
-    return allPermissions.indexOf(perm) === -1;
-  });
-
+  // Make sure all the passed permissions are not typos.
+  const missingPerms = perms.filter((perm) => !allPermissions.includes(perm));
   if (missingPerms.length > 0) {
     throw new Error(`${missingPerms.join(' ')} are not valid permissions.`);
   }

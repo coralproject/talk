@@ -1,0 +1,16 @@
+.root {
+  display: inline-block;
+  position: relative;
+}
+
+.button {
+  composes: buttonReset from "coral-framework/styles/reset.css";
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.name {
+  font-weight: bold;
+}
+

@@ -1,0 +1,19 @@
+.root {
+  white-space: nowrap;
+}
+
+.root:not(:last-child) {
+  margin-bottom: 4px;
+}
+
+.memberSince {
+  margin-left: 4px;
+  letter-spacing: 0.2px;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.icon {
+  font-size: 18px;
+  vertical-align: middle;
+}

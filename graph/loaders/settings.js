@@ -1,5 +1,5 @@
 const SettingsService = require('../../services/settings');
-const util = require('./util');
+const {SingletonResolver} = require('./util');
 
 /**
  * Creates a set of loaders based on a GraphQL context.
@@ -7,5 +7,5 @@ const util = require('./util');
  * @return {Object}         object of loaders
  */
 module.exports = () => ({
-  Settings: new util.SingletonResolver(() => SettingsService.retrieve())
+  Settings: new SingletonResolver(() => SettingsService.retrieve())
 });

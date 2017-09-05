@@ -1,0 +1,17 @@
+.root {
+  white-space: nowrap;
+}
+
+.button {
+  composes: buttonReset from "coral-framework/styles/reset.css";
+  border: 1px solid rgba(1, 1, 1, 0.8);
+  border-radius: 1px;
+  padding: 3px 6px;
+  font-size: 12px;
+  transition: color 100ms, background 100ms;
+
+  &:hover {
+    background-color: rgba(1, 1, 1, 0.8);
+    color: white;
+  }
+}

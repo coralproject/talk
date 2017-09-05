@@ -35,5 +35,8 @@ plugins/*
 !plugins/talk-plugin-sort-most-liked
 !plugins/talk-plugin-sort-most-loved
 !plugins/talk-plugin-sort-most-respected
+!plugins/talk-plugin-author-menu
+!plugins/talk-plugin-member-since
+!plugins/talk-plugin-ignore-user
 
 **/node_modules/*

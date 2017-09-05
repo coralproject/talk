@@ -214,7 +214,6 @@ pt_BR:
   framework:
     banned_account_header: "Sua conta está atualmente proibida."
     banned_account_body: "Isso significa que você não pode gostar, informar ou escrever comentários."
-    because_you_ignored: "Porque você ignorou os seguintes comentadores, seus comentários estão ocultos."
     comment: comentário
     comment_is_ignored: "Este comentário está oculto porque você ignorou esse usuário."
     comments: comentários
@@ -225,13 +224,11 @@ pt_BR:
       error: "Nomes de usuários podem conter números de letras e _ somente"
       label: "Novo usuário"
       msg: "Sua conta está suspensa porque seu nome de usuário foi considerado inapropriado. Para restaurar sua conta, insira um novo nome de usuário. Entre em contato conosco se você tiver alguma dúvida."
-    ignored_users: "Usuários ignorados"
     my_comments: "Meus comentários"
     my_profile: "Meu perfil"
     new_count: "Ver {0} {1}"
     profile: Perfil
     show_all_comments: "Exibir todos os comentários"
-    stop_ignoring: "Pare de ignorar"
     success_bio_update: "Sua biografia foi atualizada"
     success_name_update: "Seu nome de usuário foi atualizado"
     success_update_settings: "As alterações que você fez foram aplicadas no hilo de comentários neste artigo"
