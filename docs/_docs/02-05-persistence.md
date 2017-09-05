@@ -41,5 +41,10 @@ for this specific situation for the time being.
 
 ---
 
-It's important to understand that these problems are in fact there to improve
-privacy for end users.
+If you are using a custom auth solution, (Which involves providing the user's
+jwt token via the `auth_token` parameter on the call to
+`Talk.render(... {auth_token})` and creating the
+[tokenUserNotFound]({{ "/docs/plugins/server/" | absolute_url }}) hook to lookup
+that user) then concerns related to cookies/localStorage are moot! As it isn't
+necessary for Talk to maintain any state beyond what is passed to it via the
+pym bridge.
