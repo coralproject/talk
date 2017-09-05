@@ -293,7 +293,7 @@ export const withIgnoreUser = withMutation(
     }
   `, {
     props: ({mutate}) => ({
-      ignoreUser: ({id}) => {
+      ignoreUser: (id) => {
         return mutate({
           variables: {
             id,
