@@ -13,6 +13,31 @@ const decorateWithTags = (typeResolver) => {
   };
 };
 
+/**
+ * decorateWithPermissionCheck will decorate the field resolver with
+ * permission checks.
+ *
+ * @param {Object} typeResolver the type resolver
+ * @param {Object} protect the object with field -> Array<String> of permissions
+ */
+const decorateWithPermissionCheck = (typeResolver, protect) => {
+  for (const [field, permissions] of Object.entries(protect)) {
+    let fieldResolver = (obj) => obj[field];
+    if (field in typeResolver) {
+      fieldResolver = typeResolver[field];
+    }
+
+    typeResolver[field] = (obj, args, ctx, info) => {
+      if (!ctx.user || !ctx.user.can(...permissions)) {
+        return null;
+      }
+
+      return fieldResolver(obj, args, ctx, info);
+    };
+  }
+};
+
 module.exports = {
-  decorateWithTags
+  decorateWithTags,
+  decorateWithPermissionCheck,
 };

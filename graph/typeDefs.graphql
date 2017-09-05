@@ -572,27 +572,85 @@ enum MODERATION_MODE {
   POST
 }
 
-# Site wide global settings.
+# Wordlist describes all the available wordlists.
+type Wordlist {
+
+  # banned words will by default reject the comment if it is found.
+  banned: [String!]!
+
+  # suspect words will simply flag the comment.
+  suspect: [String!]!
+}
+
+# Domains describes all the available lists of domains.
+type Domains {
+
+  # whitelist is the list of domains that the embed is allowed to render on.
+  whitelist: [String!]!
+}
+
+# Settings stores the global settings for a given installation.
 type Settings {
 
-  # Moderation mode for the site.
+  # moderation is the moderation mode for all Asset's on the site.
   moderation: MODERATION_MODE!
 
   # Enables a requirement for email confirmation before a user can login.
   requireEmailConfirmation: Boolean
 
+  # infoBoxEnable will enable the Info Box content visible above the question
+  # box.
   infoBoxEnable: Boolean
+
+  # infoBoxContent is the content of the Info Box.
   infoBoxContent: String
-  premodLinksEnable: Boolean
+
+  # questionBoxEnable will enable the Question Box's content to be visible above
+  # the comment box.
   questionBoxEnable: Boolean
+
+  # questionBoxContent is the content of the Question Box.
   questionBoxContent: String
+
+  # premodLinksEnable will put all comments that contain links into premod.
+  premodLinksEnable: Boolean
+
+  # questionBoxIcon is the icon for the Question Box.
   questionBoxIcon: String
-  closeTimeout: Int
+
+  # autoCloseStream when true will auto close the stream when the `closeTimeout`
+  # amount of seconds have been reached.
+  autoCloseStream: Boolean
+
+  # customCssUrl is the URL of the custom CSS used to display on the frontend.
+  customCssUrl: String
+
+  # closedTimeout is the amount of seconds from the created_at timestamp that a
+  # given asset will be considered closed.
+  closedTimeout: Int
+
+  # closedMessage is the message shown to the user when the given Asset is
+  # closed.
   closedMessage: String
+
+  # editCommentWindowLength is the length of time (in milliseconds) after a
+  # comment is posted that it can still be edited by the author.
+  editCommentWindowLength: Int
+
+  # charCountEnable is true when the character count restriction is enabled.
   charCountEnable: Boolean
+
+  # charCount is the maximum number of characters a comment may be.
   charCount: Int
 
+  # organizationName is the name of the organization.
   organizationName: String
+
+  # wordlist will return a given list of words.
+  wordlist: Wordlist
+
+  # domains will return a given list of domains.
+  domains: Domains
 }
 
 ################################################################################
@@ -998,6 +1056,91 @@ type EditCommentResponse implements Response {
   errors: [UserError!]
 }
 
+# UpdateSettingsInput is the input used to input the global site settings. This
+# will override the existing settings, so all fields must be included.
+input UpdateSettingsInput {
+
+  # moderation is the moderation mode for all Asset's on the site.
+  moderation: MODERATION_MODE
+
+  # Enables a requirement for email confirmation before a user can login.
+  requireEmailConfirmation: Boolean
+
+  # infoBoxEnable will enable the Info Box content visible above the question
+  # box.
+  infoBoxEnable: Boolean
+
+  # infoBoxContent is the content of the Info Box.
+  infoBoxContent: String
+
+  # questionBoxEnable will enable the Question Box's content to be visible above
+  # the comment box.
+  questionBoxEnable: Boolean
+
+  # questionBoxContent is the content of the Question Box.
+  questionBoxContent: String
+
+  # premodLinksEnable will put all comments that contain links into premod.
+  premodLinksEnable: Boolean
+
+  # questionBoxIcon is the icon for the Question Box.
+  questionBoxIcon: String
+
+  # autoCloseStream when true will auto close the stream when the `closeTimeout`
+  # amount of seconds have been reached.
+  autoCloseStream: Boolean
+
+  # customCssUrl is the URL of the custom CSS used to display on the frontend.
+  customCssUrl: String
+
+  # closeTimeout is the amount of seconds from the created_at timestamp that a
+  # given asset will be considered closed.
+  closeTimeout: Int
+
+  # closedMessage is the message shown to the user when the given Asset is
+  # closed.
+  closedMessage: String
+
+  # charCountEnable is true when the character count restriction is enabled.
+  charCountEnable: Boolean
+
+  # charCount is the maximum number of characters a comment may be.
+  charCount: Int
+
+  # organizationName is the name of the organization.
+  organizationName: String
+
+  # editCommentWindowLength is the length of time (in milliseconds) after a
+  # comment is posted that it can still be edited by the author.
+  editCommentWindowLength: Int
+}
+
+# UpdateSettingsResponse contains any errors that were rendered as a result
+# of the mutation.
+type UpdateSettingsResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
+# UpdateWordlistInput is the list of words that composes the Wordlist.
+input UpdateWordlistInput {
+
+  # banned words will by default reject the comment if it is found.
+  banned: [String!]!
+
+  # suspect words will simply flag the comment.
+  suspect: [String!]!
+}
+
+# UpdateWordlistResponse contains any errors that were rendered as a result
+# of the mutation.
+type UpdateWordlistResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
 # CreateTokenInput contains the input to create the token.
 input CreateTokenInput {
 
@@ -1064,6 +1207,14 @@ type RootMutation {
 
   # Removes a tag.
   removeTag(tag: ModifyTagInput!): ModifyTagResponse!
+
+  # updateSettings will update the global settings.
+  # Mutation is restricted.
+  updateSettings(input: UpdateSettingsInput!): UpdateSettingsResponse!
+
+  # updateWordlist will update the given Wordlist.
+  # Mutation is restricted.
+  updateWordlist(input: UpdateWordlistInput!): UpdateWordlistResponse!
 
   # Ignore comments by another user
   ignoreUser(id: ID!): IgnoreUserResponse

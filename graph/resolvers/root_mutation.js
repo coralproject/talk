@@ -50,6 +50,12 @@ const RootMutation = {
   removeTag(_, {tag}, {mutators: {Tag}}) {
     return wrapResponse(null)(Tag.remove(tag));
   },
+  updateSettings(_, {input: settings}, {mutators: {Settings}}) {
+    return wrapResponse(null)(Settings.update(settings));
+  },
+  updateWordlist(_, {input: wordlist}, {mutators: {Settings}}) {
+    return wrapResponse(null)(Settings.updateWordlist(wordlist));
+  },
   createToken(_, {input}, {mutators: {Token}}) {
     return wrapResponse('token')(Token.create(input));
   },
