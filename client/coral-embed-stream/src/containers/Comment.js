@@ -85,6 +85,7 @@ const singleCommentFragment = gql`
       edited
       editableUntil
     }
+    ${getSlotFragmentSpreads(slots, 'comment')}
   }
 `;
 
@@ -97,6 +98,11 @@ const withCommentFragments = withFragments({
         }
       }
       __typename
+      me {
+        ignoredUsers {
+          id
+        }
+      }
       ${getSlotFragmentSpreads(slots, 'root')}
     }
     `,
@@ -121,7 +127,6 @@ const withCommentFragments = withFragments({
           endCursor
         }
       `, THREADING_LEVEL)}
-      ${getSlotFragmentSpreads(slots, 'comment')}
     }
     ${singleCommentFragment}
   `

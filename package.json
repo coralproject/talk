@@ -130,6 +130,7 @@
     "material-design-lite": "^1.2.1",
     "metascraper": "^1.0.7",
     "minimist": "^1.2.0",
+    "moment": "^2.18.1",
     "mongoose": "^4.11.7",
     "morgan": "^1.8.2",
     "ms": "^2.0.0",
