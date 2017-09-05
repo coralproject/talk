@@ -1171,9 +1171,9 @@ input UpdateSettingsInput {
   # customCssUrl is the URL of the custom CSS used to display on the frontend.
   customCssUrl: String
 
-  # closeTimeout is the amount of seconds from the created_at timestamp that a
+  # closedTimeout is the amount of seconds from the created_at timestamp that a
   # given asset will be considered closed.
-  closeTimeout: Int
+  closedTimeout: Int
 
   # closedMessage is the message shown to the user when the given Asset is
   # closed.
