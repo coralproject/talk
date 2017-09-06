@@ -215,7 +215,7 @@ const filterNewComment = (context, {body, asset_id}) => {
  * @param  {Object} [wordlist={}] the results of the wordlist scan
  * @return {Promise}              resolves to the comment's status
  */
-const resolveNewCommentStatus = async (context, {asset_id, body}, wordlist = {}, settings = {}) => {
+const resolveNewCommentStatus = async (context, {asset_id, body, status}, wordlist = {}, settings = {}) => {
   let {user} = context;
 
   // Check to see if the body is too short, if it is, then complain about it!
@@ -270,7 +270,7 @@ const resolveNewCommentStatus = async (context, {asset_id, body}, wordlist = {},
     }
   }
 
-  return moderation === 'PRE' ? 'PREMOD' : 'NONE';
+  return (moderation === 'PRE' || status === 'PREMOD') ? 'PREMOD' : 'NONE';
 };
 
 /**

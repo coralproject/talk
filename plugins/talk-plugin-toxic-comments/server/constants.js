@@ -1,3 +1,3 @@
 module.exports = {
-  TOXICITY_THRESHOLD: 0.8,
+  TOXICITY_THRESHOLD: 0.85,
 };
