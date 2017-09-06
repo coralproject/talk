@@ -54,7 +54,7 @@ class CommentBox extends React.Component {
       return;
     }
 
-    let comment = {
+    let input = {
       asset_id: assetId,
       parent_id: parentId,
       body: this.state.body,
@@ -62,10 +62,10 @@ class CommentBox extends React.Component {
     };
 
     // Execute preSubmit Hooks
-    this.state.hooks.preSubmit.forEach((hook) => hook(comment));
+    this.state.hooks.preSubmit.forEach((hook) => hook(input));
     this.setState({loadingState: 'loading'});
 
-    postComment(comment, 'comments')
+    postComment(input, 'comments')
       .then(({data}) => {
         this.setState({loadingState: 'success', body: ''});
         const postedComment = data.createComment.comment;
