@@ -46,7 +46,7 @@ function getProbability(scores) {
 }
 
 /**
- * isToxics determines if given probabilty or scores meets the toxicity threshold.
+ * isToxic determines if given probabilty or scores meets the toxicity threshold.
  * @param  {object|number} scores or probability
  * @return {boolean}
  */
