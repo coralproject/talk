@@ -1,49 +1,44 @@
-const perspective = require('./perspective');
+const {getScores, isToxic} = require('./perspective');
 const {ErrToxic} = require('./errors');
-const {TOXICITY_THRESHOLD} = require('./constants');
 const ActionsService = require('../../../services/actions');
+
+// We don't add the hooks during _test_ as the perspective API is not available.
+if (process.env.NODE_ENV === 'test') {
+  return null;
+}
 
 module.exports = {
   RootMutation: {
     createComment: {
       async pre(_, {input}, _context, _info) {
 
-        // Don't call out to perspective when running tests.
-        if (process.env.NODE_ENV === 'test') {
-          return;
-        }
-
-        const apiKey = require('./apiKey');
-
         // TODO: handle timeouts.
-        const scores = await perspective.getScores(apiKey, input.body);
+        const scores = await getScores(input.body);
+        const commentIsToxic = isToxic(scores);
 
-        const isToxic = scores.SEVERE_TOXICITY.summaryScore > TOXICITY_THRESHOLD;
-        if (input.checkToxicity && isToxic) {
+        if (input.checkToxicity && commentIsToxic) {
           throw ErrToxic;
         }
+
+        // attach scores to metadata.
         input.metadata = Object.assign({}, input.metadata, {
           perspective: scores,
         });
 
-        if (isToxic) {
+        if (commentIsToxic) {
+
+          // TODO: this should have a different status than Premod.
           input.status = 'PREMOD';
         }
       },
       async post(_, _input, _context, _info, result) {
-
-        // Perspective is not available when running tests.
-        if (process.env.NODE_ENV === 'test') {
-          return result;
-        }
-
-        const score = result.comment.metadata.perspective.SEVERE_TOXICITY.summaryScore;
-        const isToxic = score > TOXICITY_THRESHOLD;
-        if (isToxic) {
+        if (isToxic(result.comment.metadata.perspective)) {
 
           // TODO: this is kind of fragile, we should refactor this to resolve
           // all these const's that we're using like 'COMMENTS', 'FLAG' to be
           // defined in a checkable schema.
+
+          // Add a flag to the comment.
           await ActionsService.create({
             item_id: result.comment.id,
             item_type: 'COMMENTS',
