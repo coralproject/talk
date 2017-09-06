@@ -14,12 +14,18 @@ module.exports = {
 
         const apiKey = require('./apiKey');
         const scores = await perspective.getScores(apiKey, input.body);
-        if (input.checkToxicity && scores.SEVERE_TOXICITY.summaryScore > TOXICITY_THRESHOLD) {
+        const isToxic = scores.SEVERE_TOXICITY.summaryScore > TOXICITY_THRESHOLD;
+        if (input.checkToxicity && isToxic) {
           throw ErrToxic;
         }
         input.metadata = Object.assign({}, input.metadata, {
           perspective: scores,
         });
+
+        if (isToxic) {
+
+          // TODO: Flag comment as toxic and put in ?premod?.
+        }
       },
     },
   },
