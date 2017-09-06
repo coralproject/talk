@@ -1033,7 +1033,7 @@ type RevokeTokenResponse implements Response {
 type RootMutation {
 
   # Creates a comment on the asset.
-  createComment(comment: CreateCommentInput!): CreateCommentResponse
+  createComment(input: CreateCommentInput!): CreateCommentResponse
 
   # Creates a flag on an entity.
   createFlag(flag: CreateFlagInput!): CreateFlagResponse
@@ -1060,10 +1060,10 @@ type RootMutation {
   setCommentStatus(id: ID!, status: COMMENT_STATUS!): SetCommentStatusResponse
 
   # Add a tag.
-  addTag(tag: ModifyTagInput!): ModifyTagResponse!
+  addTag(tag: ModifyTagInput!): ModifyTagResponse
 
   # Removes a tag.
-  removeTag(tag: ModifyTagInput!): ModifyTagResponse!
+  removeTag(tag: ModifyTagInput!): ModifyTagResponse
 
   # Ignore comments by another user
   ignoreUser(id: ID!): IgnoreUserResponse
@@ -1072,7 +1072,7 @@ type RootMutation {
   createToken(input: CreateTokenInput!): CreateTokenResponse!
 
   # RevokeToken will revoke an existing token.
-  revokeToken(input: RevokeTokenInput!): RevokeTokenResponse!
+  revokeToken(input: RevokeTokenInput!): RevokeTokenResponse
 
   # Stop Ignoring comments by another user
   stopIgnoringUser(id: ID!): StopIgnoringUserResponse

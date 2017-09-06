@@ -154,7 +154,7 @@ const adjustKarma = (Comments, id, status) => async () => {
  * @param  {String} [status='NONE'] the status of the new comment
  * @return {Promise}              resolves to the created comment
  */
-const createComment = async (context, {tags = [], body, asset_id, parent_id = null}, status = 'NONE') => {
+const createComment = async (context, {tags = [], body, asset_id, parent_id = null, metadata = {}}, status = 'NONE') => {
   const {user, loaders: {Comments}, pubsub} = context;
 
   // Resolve the tags for the comment.
@@ -166,7 +166,8 @@ const createComment = async (context, {tags = [], body, asset_id, parent_id = nu
     parent_id,
     status,
     tags,
-    author_id: user.id
+    author_id: user.id,
+    metadata,
   });
 
   // If the loaders are present, clear the caches for these values because we

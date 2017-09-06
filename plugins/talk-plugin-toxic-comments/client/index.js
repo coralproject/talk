@@ -1,5 +1,5 @@
 import translations from './translations.yml';
-import ToxicCommentAlert from './components/ToxicCommentAlert';
+import CheckToxicityHook from './components/CheckToxicityHook';
 
 /**
  * coral-plugin-offtopic depends on coral-plugin-viewing-options
@@ -9,6 +9,6 @@ import ToxicCommentAlert from './components/ToxicCommentAlert';
 export default {
   translations,
   slots: {
-    commentInputDetailArea: [ToxicCommentAlert],
-  }
+    commentInputDetailArea: [CheckToxicityHook],
+  },
 };
