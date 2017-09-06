@@ -3,7 +3,7 @@ const passport = require('../../../passport');
 const app = require('../../../../../app');
 
 const chai = require('chai');
-chai.should();
+chai.use(require('chai-as-promised'));
 chai.use(require('chai-http'));
 const expect = chai.expect;
 
@@ -13,139 +13,125 @@ const SettingsService = require('../../../../../services/settings');
 
 describe('/api/v1/assets', () => {
 
-  beforeEach(() => {
+  beforeEach(async () => {
     const settings = {id: '1', moderation: 'PRE', domains: {whitelist: ['test.com']}};
 
-    return SettingsService.init(settings).then(() => {
-      return AssetModel.create([
-        {
-          url: 'https://coralproject.net/news/asset1',
-          title: 'Asset 1',
-          description: 'term1',
-          closedAt: Date.now()
-        },
-        {
-          url: 'https://coralproject.net/news/asset2',
-          title: 'Asset 2',
-          description: 'term2',
-          closedAt: null
-        }
-      ]);
-    });
+    await SettingsService.init(settings);
+
+    await AssetModel.create([
+      {
+        url: 'https://coralproject.net/news/asset1',
+        title: 'Asset 1',
+        description: 'term1',
+        closedAt: Date.now()
+      },
+      {
+        url: 'https://coralproject.net/news/asset2',
+        title: 'Asset 2',
+        description: 'term2',
+        closedAt: null
+      }
+    ]);
   });
 
   describe('#get', () => {
 
-    it('should return all assets without a search query', () => {
-      return chai.request(app)
+    it('should return all assets without a search query', async () => {
+      const res = await chai.request(app)
         .get('/api/v1/assets')
-        .set(passport.inject({roles: ['ADMIN']}))
-        .then((res) => {
-          const body = res.body;
+        .set(passport.inject({roles: ['ADMIN']}));
 
-          expect(body).to.have.property('count', 2);
-          expect(body).to.have.property('result');
+      const body = res.body;
 
-          const assets = body.result;
+      expect(body).to.have.property('count', 2);
+      expect(body).to.have.property('result');
 
-          expect(assets).to.have.length(2);
-        });
+      const assets = body.result;
+
+      expect(assets).to.have.length(2);
     });
 
-    it('should return assets that we search for', () => {
-      return chai.request(app)
+    it('should return assets that we search for', async () => {
+      const res = await chai.request(app)
         .get('/api/v1/assets?search=term2')
-        .set(passport.inject({roles: ['ADMIN']}))
-        .then((res) => {
-          const body = res.body;
+        .set(passport.inject({roles: ['ADMIN']}));
 
-          expect(body).to.have.property('count', 1);
-          expect(body).to.have.property('result');
+      const body = res.body;
 
-          const assets = body.result;
+      expect(body).to.have.property('count', 1);
+      expect(body).to.have.property('result');
 
-          expect(assets).to.have.length(1);
+      const assets = body.result;
 
-          const asset = assets[0];
+      expect(assets).to.have.length(1);
 
-          expect(asset).to.have.property('url', 'https://coralproject.net/news/asset2');
-          expect(asset).to.have.property('title', 'Asset 2');
-        });
+      const asset = assets[0];
+
+      expect(asset).to.have.property('url', 'https://coralproject.net/news/asset2');
+      expect(asset).to.have.property('title', 'Asset 2');
     });
 
-    it('should not return assets that we do not search for', () => {
-      return chai.request(app)
+    it('should not return assets that we do not search for', async () => {
+      const res = await chai.request(app)
         .get('/api/v1/assets?search=term3')
-        .set(passport.inject({roles: ['ADMIN']}))
-        .then((res) => {
-          const body = res.body;
+        .set(passport.inject({roles: ['ADMIN']}));
+      const body = res.body;
 
-          expect(body).to.have.property('count', 0);
-          expect(body).to.have.property('result');
+      expect(body).to.have.property('count', 0);
+      expect(body).to.have.property('result');
 
-          expect(body.result).to.be.empty;
-        });
+      expect(body.result).to.be.empty;
     });
 
-    it('should return only closed assets', () => {
-      return chai.request(app)
+    it('should return only closed assets', async () => {
+      const res = await chai.request(app)
         .get('/api/v1/assets?filter=closed')
-        .set(passport.inject({roles: ['ADMIN']}))
-        .then((res) => {
-          const body = res.body;
+        .set(passport.inject({roles: ['ADMIN']}));
+      const body = res.body;
 
-          expect(body).to.have.property('count', 1);
-          expect(body).to.have.property('result');
+      expect(body).to.have.property('count', 1);
+      expect(body).to.have.property('result');
 
-          const assets = body.result;
+      const assets = body.result;
 
-          expect(assets[0]).to.have.property('title', 'Asset 1');
-        });
+      expect(assets[0]).to.have.property('title', 'Asset 1');
     });
 
-    it('should return only opened assets', () => {
-      return chai.request(app)
+    it('should return only opened assets', async () => {
+      const res = await chai.request(app)
         .get('/api/v1/assets?filter=open')
-        .set(passport.inject({roles: ['ADMIN']}))
-        .then((res) => {
-          const body = res.body;
+        .set(passport.inject({roles: ['ADMIN']}));
+      const body = res.body;
 
-          expect(body).to.have.property('count', 1);
-          expect(body).to.have.property('result');
+      expect(body).to.have.property('count', 1);
+      expect(body).to.have.property('result');
 
-          const assets = body.result;
+      const assets = body.result;
 
-          expect(assets[0]).to.have.property('title', 'Asset 2');
-        });
+      expect(assets[0]).to.have.property('title', 'Asset 2');
     });
 
   });
 
   describe('#put', () => {
-    it('should close the asset', function() {
+    it('should close the asset', async () => {
 
       const today = Date.now();
 
-      return AssetsService.findOrCreateByUrl('http://test.com')
-        .then((asset) => {
-          expect(asset).to.have.property('isClosed', false);
-          expect(asset).to.have.property('closedAt', null);
+      const asset = await AssetsService.findOrCreateByUrl('http://test.com');
+      expect(asset).to.have.property('isClosed', false);
+      expect(asset).to.have.property('closedAt', null);
 
-          return chai.request(app)
-            .put(`/api/v1/assets/${asset.id}/status`)
-            .set(passport.inject({roles: ['ADMIN']}))
-            .send({closedAt: today});
-        })
-        .then((res) => {
+      const res = await chai.request(app)
+        .put(`/api/v1/assets/${asset.id}/status`)
+        .set(passport.inject({roles: ['ADMIN']}))
+        .send({closedAt: today});
 
-          expect(res).to.have.status(204);
+      expect(res).to.have.status(204);
 
-          return AssetsService.findByUrl('http://test.com');
-        })
-        .then((asset) => {
-          expect(asset).to.have.property('isClosed', true);
-          expect(asset).to.have.property('closedAt').and.to.not.equal(null);
-        });
+      const closedAsset = await AssetsService.findByUrl('http://test.com');
+      expect(closedAsset).to.have.property('isClosed', true);
+      expect(closedAsset).to.have.property('closedAt').and.to.not.equal(null);
     });
   });
 
