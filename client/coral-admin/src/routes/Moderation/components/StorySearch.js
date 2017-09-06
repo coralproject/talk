@@ -8,7 +8,7 @@ const StorySearch = (props) => {
 
   const {
     root: {
-      assets = []
+      assets,
     },
     data: {loading}
   } = props;
@@ -62,7 +62,7 @@ const StorySearch = (props) => {
               {
                 loading
                   ? <Spinner />
-                  : assets.map((story, i) => {
+                  : assets.nodes.map((story, i) => {
                     const storyOpen = story.closedAt === null || new Date(story.closedAt) > new Date();
 
                     return <Story
@@ -77,7 +77,7 @@ const StorySearch = (props) => {
                   })
               }
 
-              {assets.length === 0 && <div className={styles.noResults}>No results</div>}
+              {assets.nodes.length === 0 && <div className={styles.noResults}>No results</div>}
             </div>
           </div>
         </div>
