@@ -18,7 +18,7 @@ import {getEditableUntilDate} from './util';
 import {findCommentWithId} from '../graphql/utils';
 import CommentContent from './CommentContent';
 import Slot from 'coral-framework/components/Slot';
-import IgnoredCommentTombstone from './IgnoredCommentTombstone';
+import CommentTombstone from './CommentTombstone';
 import InactiveCommentLabel from './InactiveCommentLabel';
 import {EditableCommentContent} from './EditableCommentContent';
 import {getActionSummary, iPerformedThisAction, forEachError, isCommentActive, getShallowChanges} from 'coral-framework/utils';
@@ -209,6 +209,10 @@ export default class Comment extends React.Component {
     }
   }
 
+  commentIsRejected(comment) {
+    return comment.status === "REJECTED";
+  }
+
   commentIsIgnored(comment) {
     const me = this.props.root.me;
     return (
@@ -338,8 +342,14 @@ export default class Comment extends React.Component {
       commentClassNames = []
     } = this.props;
 
+    console.log('STATUS', comment.status);
+
+    if (this.commentIsRejected(comment)) {
+      return <CommentTombstone action="rejected" />;
+    }
+
     if (this.commentIsIgnored(comment)) {
-      return <IgnoredCommentTombstone />;
+      return <CommentTombstone action="ignored" />;
     }
 
     const view = this.getVisibileReplies();

@@ -4,10 +4,10 @@ import styles from './ModerationActions.css';
 import Tooltip from './Tooltip';
 import {t} from 'plugin-api/beta/client/services';
 import {Icon} from 'plugin-api/beta/client/components/ui';
-import RejectCommentAction from '../containers/RejectCommentAction.js';
+import RejectCommentAction from '../containers/RejectCommentAction';
 import ClickOutside from 'coral-framework/components/ClickOutside';
 
-export default class Tag extends React.Component {
+export default class ModerationActions extends React.Component {
   constructor() {
     super();
 
@@ -31,7 +31,8 @@ export default class Tag extends React.Component {
 
   render() {
     const {tooltip} = this.state;
-    console.log(this.props);
+    const {comment} = this.props;
+
     return(
       <ClickOutside onClickOutside={this.hideTooltip}>
         <div className={cn(styles.moderationActions, 'talk-plugin-moderation-actions')}>
@@ -40,7 +41,7 @@ export default class Tag extends React.Component {
           </span>
           {tooltip && (
             <Tooltip>
-              <RejectCommentAction />
+              <RejectCommentAction comment={comment} />
             </Tooltip>
           )}
         </div>
