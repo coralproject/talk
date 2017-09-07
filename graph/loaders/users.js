@@ -3,6 +3,10 @@ const DataLoader = require('dataloader');
 const util = require('./util');
 const union = require('lodash/union');
 
+const {
+  SEARCH_OTHER_USERS,
+} = require('../../perms/constants');
+
 const UsersService = require('../../services/users');
 const UserModel = require('../../models/user');
 
@@ -27,27 +31,30 @@ const genUserByIDs = async (context, ids) => {
  * @param  {Object} context   graph context
  * @param  {Object} query     query terms to apply to the users query
  */
-const getUsersByQuery = async ({loaders: {Actions}}, {ids, limit, cursor, statuses, action_type, sortOrder}) => {
-
+const getUsersByQuery = async ({user, loaders: {Actions}}, {ids, limit, cursor, statuses, action_type, sortOrder}) => {
   let query = UserModel.find();
 
-  if (action_type) {
-    const userIds = await Actions.getByTypes({action_type, item_type: 'USERS'});
-    ids = ids ? union(ids, userIds) : userIds;
+  if (action_type || statuses) {
+    if (!user || !user.can(SEARCH_OTHER_USERS)) {
+      return null;
+    }
+
+    if (statuses) {
+      query = query.where({
+        status: {
+          $in: statuses
+        }
+      });
+    } else {
+      const userIds = await Actions.getByTypes({action_type, item_type: 'USERS'});
+      ids = ids ? union(ids, userIds) : userIds;
+    }
   }
 
   if (ids) {
     query = query.find({
       id: {
         $in: ids
-      }
-    });
-  }
-
-  if (statuses) {
-    query = query.where({
-      status: {
-        $in: statuses
       }
     });
   }
