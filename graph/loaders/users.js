@@ -27,7 +27,7 @@ const genUserByIDs = async (context, ids) => {
  * @param  {Object} context   graph context
  * @param  {Object} query     query terms to apply to the users query
  */
-const getUsersByQuery = async ({user, loaders: {Actions}}, {ids, limit, cursor, statuses, action_type, sortOrder}) => {
+const getUsersByQuery = async ({loaders: {Actions}}, {ids, limit, cursor, statuses, action_type, sortOrder}) => {
 
   let query = UserModel.find();
 
