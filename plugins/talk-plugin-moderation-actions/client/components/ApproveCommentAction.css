@@ -1,0 +1,23 @@
+.root {
+  white-space: nowrap;
+} 
+  
+.button {
+  composes: buttonReset from "coral-framework/styles/reset.css";
+  padding: 6px;
+  font-size: 14px;
+  transition: color 100ms, background 100ms;
+  border-radius: 3px;
+
+  &:hover {
+    background-color: #efefef;
+  }
+}
+
+.icon {
+  margin-right: 15px;
+}
+
+.approved {
+  color: #519954;
+}

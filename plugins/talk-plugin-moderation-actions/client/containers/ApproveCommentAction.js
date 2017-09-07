@@ -12,7 +12,7 @@ class ApproveCommentActionContainer extends React.Component {
     try {
       const result = await setCommentStatus({
         commentId: comment.id,
-        status: 'APPROVED'
+        status: 'ACCEPTED'
       });
 
       if (result.data.setCommentStatus.errors) {

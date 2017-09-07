@@ -11,8 +11,8 @@ export default {
     SetCommentStatus: ({variables: {status, commentId}}) => ({
       updateQueries: {
         CoralEmbedStream_Embed: (prev) => {
-
-          if (status !== 'REJECTED') {
+          
+          if (status !== 'REJECTED' && status !== "ACCEPTED") {
             return prev;
           }
 
@@ -22,7 +22,7 @@ export default {
                 nodes: {
                   $apply: (nodes) => nodes.map((node) => {
                     if (node.id === commentId) {
-                      node.status = "REJECTED";
+                      node.status = status;
                     }
 
                     return node;
