@@ -1,8 +1,12 @@
 en:
   talk-plugin-moderation-actions:
     reject_comment: "Reject"
+    approve_comment: "Approve"
+    approved_comment: "Approved"
     moderation_actions: "Moderation Actions"
 es:
   talk-plugin-moderation-actions:
     reject_comment: "Rechazar"
+    approve_comment: "Aprobar"
+    approved_comment: "Aprobado"
     moderation_actions: "Acciones de Moderación"

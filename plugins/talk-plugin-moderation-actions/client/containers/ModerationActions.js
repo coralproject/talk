@@ -17,7 +17,7 @@ const enhance = compose(
         status
       }
   `}),
-  excludeIf((props) => !can(props.user, 'MODERATE_COMMENTS'))
+  excludeIf((props) => !can(props.user, 'MODERATE_COMMENTS')),
 );
 
 export default enhance(ModerationActions);

@@ -2,17 +2,17 @@ import React from 'react';
 import {getErrorMessages} from 'plugin-api/beta/client/utils';
 import {withSetCommentStatus} from 'plugin-api/beta/client/hocs';
 import {notify} from 'plugin-api/beta/client/actions/notification';
-import RejectCommentAction from '../components/RejectCommentAction';
+import ApproveCommentAction from '../components/ApproveCommentAction';
 
-class RejectCommentActionContainer extends React.Component {
+class ApproveCommentActionContainer extends React.Component {
 
-  rejectComment = async () => {
+  approveComment = async () => {
     const {setCommentStatus, comment} = this.props;
 
     try {
       const result = await setCommentStatus({
         commentId: comment.id,
-        status: 'REJECTED'
+        status: 'APPROVED'
       });
 
       if (result.data.setCommentStatus.errors) {
@@ -25,8 +25,8 @@ class RejectCommentActionContainer extends React.Component {
   }
 
   render() {
-    return <RejectCommentAction rejectComment={this.rejectComment}/>
+    return <ApproveCommentAction comment={this.props.comment} approveComment={this.approveComment}/>
   }
 }
 
-export default withSetCommentStatus(RejectCommentActionContainer);
+export default withSetCommentStatus(ApproveCommentActionContainer);
