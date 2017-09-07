@@ -1,6 +1,8 @@
 en:
-  talk-plugin-reject-comment:
-    reject_comment: "Reject comment"
+  talk-plugin-moderation-actions:
+    reject_comment: "Reject"
+    moderation_actions: "Moderation Actions"
 es:
-  talk-plugin-reject-user:
-    reject_comment: "Rechazar commentario"
+  talk-plugin-moderation-actions:
+    reject_comment: "Rechazar"
+    moderation_actions: "Acciones de Moderación"

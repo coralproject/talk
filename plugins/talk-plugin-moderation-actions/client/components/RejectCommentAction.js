@@ -6,9 +6,9 @@ import cn from 'classnames';
 
 export default ({rejectComment}) => (
   <button
-    className={cn(styles.button, 'talk-plugin-reject-comment-action')}
+    className={cn(styles.button, 'talk-plugin-moderation-actions-reject')}
     onClick={rejectComment}>
-    <Icon name="clear" />
-    {t('talk-plugin-reject-comment.reject_comment')}
+    <Icon name="clear" className={styles.icon} />
+    {t('talk-plugin-moderation-actions.reject_comment')}
   </button>
 );

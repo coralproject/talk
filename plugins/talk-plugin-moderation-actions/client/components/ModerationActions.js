@@ -31,11 +31,12 @@ export default class Tag extends React.Component {
 
   render() {
     const {tooltip} = this.state;
+    console.log(this.props);
     return(
       <ClickOutside onClickOutside={this.hideTooltip}>
         <div className={cn(styles.moderationActions, 'talk-plugin-moderation-actions')}>
           <span onClick={this.toogleTooltip} className={cn(styles.arrow, 'talk-plugin-moderation-actions-arrow')}>
-            {tooltip ? <Icon name="keyboard_arrow_up" /> : <Icon name="keyboard_arrow_down" />}
+            {tooltip ? <Icon name="keyboard_arrow_up" className={styles.icon} /> : <Icon name="keyboard_arrow_down" className={styles.icon} />}
           </span>
           {tooltip && (
             <Tooltip>

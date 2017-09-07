@@ -1,12 +1,5 @@
 import React from 'react';
-import {compose} from 'react-apollo';
-import {withSetCommentStatus} from 'coral-framework/graphql/mutations';
+import {withSetCommentStatus} from 'plugin-api/beta/client/hocs';
 import RejectCommentAction from '../components/RejectCommentAction';
 
-// change this
-
-const enhance = compose(
-  withSetCommentStatus
-);
-
-export default enhance(RejectCommentAction);
+export default withSetCommentStatus(RejectCommentAction);

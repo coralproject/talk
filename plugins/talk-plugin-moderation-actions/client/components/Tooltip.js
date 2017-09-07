@@ -5,5 +5,10 @@ import {t} from 'plugin-api/beta/client/services';
 import {Icon} from 'plugin-api/beta/client/components/ui';
 
 export default ({className = '', children}) => (
-  <div className={cn(styles.tooltip, className)}>{children}</div>
+  <div className={cn(styles.tooltip, className)}>
+    <h3 className={styles.headline}>
+      {t('talk-plugin-moderation-actions.moderation_actions')}
+    </h3>
+    {children}
+  </div>
 );

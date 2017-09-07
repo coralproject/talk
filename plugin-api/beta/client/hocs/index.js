@@ -8,4 +8,5 @@ export {default as withEmit} from 'coral-framework/hocs/withEmit';
 export {
   withIgnoreUser,
   withStopIgnoringUser,
+  withSetCommentStatus,
 } from 'coral-framework/graphql/mutations';

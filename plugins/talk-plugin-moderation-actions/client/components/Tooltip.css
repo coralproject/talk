@@ -9,7 +9,7 @@
   z-index: 10;
   top: 32px;
   right: 0px;
-  width: 160px;
+  width: 140px;
   text-align: left;
   color: #616161;
 }
@@ -39,26 +39,8 @@
   display: inline-block;
   margin: 0;
   padding: 0;
-  font-size: 1.02em;
-  margin-left: 6px;
-  letter-spacing: 0.2px;
+  font-size: 1em;
   vertical-align: middle;
   margin-bottom: 2px;
   line-height: 22px;
-}
-
-.icon {
-  font-size: 1.4em;
-  vertical-align: middle;
-}
-
-.description {
-  width: 100%;
-  box-sizing: border-box;
-  white-space: pre-wrap;
-  padding: 0;
-  margin: 0;
-  padding-left: 25px;
-  font-weight: 400;
-  font-size: 1em;
 }

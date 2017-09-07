@@ -16,3 +16,7 @@
 .arrow:hover {
   cursor: pointer;
 }
+
+.icon {
+  font-size: 16px;
+}
