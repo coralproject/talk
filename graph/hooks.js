@@ -1,7 +1,4 @@
-const {
-  GraphQLObjectType,
-  GraphQLInterfaceType
-} = require('graphql');
+const {forEachField} = require('./utils');
 const debug = require('debug')('talk:graph:schema');
 const Joi = require('joi');
 
@@ -24,33 +21,6 @@ const defaultResolveFn = (source, args, context, {fieldName}) => {
     }
     return property;
   }
-};
-
-// This function is pretty much copied verbatim from the graphql-tools repo:
-// https://github.com/apollographql/graphql-tools/blob/b12973c86e00be209d04af0184780998056051c4/src/schemaGenerator.ts#L180-L194
-// With the small alteration that we look for the `resolveType` function on the
-// schema so we can wrap post hooks around it to provide additional resolve
-// points.
-const forEachField = (schema, fn) => {
-  const typeMap = schema.getTypeMap();
-  Object.keys(typeMap).forEach((typeName) => {
-    const type = typeMap[typeName];
-
-    if (type instanceof GraphQLObjectType || type instanceof GraphQLInterfaceType) {
-
-      // Here we capture the change to extract the resolve type. We pass this
-      // with the `isResolveType = true` to introduce the specific beheviour.
-      if ('resolveType' in type) {
-        fn(type, typeName, '__resolveType', true);
-      }
-
-      const fields = type.getFields();
-      Object.keys(fields).forEach((fieldName) => {
-        const field = fields[fieldName];
-        fn(field, typeName, fieldName);
-      });
-    }
-  });
 };
 
 /**
@@ -239,6 +209,8 @@ const decorateWithHooks = (schema, hooks) => forEachField(schema, (field, typeNa
       return result;
     }, result);
   };
+}, {
+  includeResolveType: true,
 });
 
 module.exports = {

@@ -42,4 +42,3 @@ plugins/*
 !plugins/talk-plugin-toxic-comments
 
 **/node_modules/*
-story.html

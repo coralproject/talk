@@ -1,27 +1,7 @@
-const {
-  GraphQLObjectType,
-  GraphQLInterfaceType
-} = require('graphql');
+const {forEachField} = require('./utils');
 const {maskErrors} = require('graphql-errors');
 const errors = require('../errors');
 const {Error: {ValidationError}} = require('mongoose');
-
-// This function is pretty much copied verbatim from the graphql-tools repo:
-// https://github.com/apollographql/graphql-tools/blob/b12973c86e00be209d04af0184780998056051c4/src/schemaGenerator.ts#L180-L194
-const forEachField = (schema, fn) => {
-  const typeMap = schema.getTypeMap();
-  Object.keys(typeMap).forEach((typeName) => {
-    const type = typeMap[typeName];
-
-    if (type instanceof GraphQLObjectType || type instanceof GraphQLInterfaceType) {
-      const fields = type.getFields();
-      Object.keys(fields).forEach((fieldName) => {
-        const field = fields[fieldName];
-        fn(field, typeName, fieldName);
-      });
-    }
-  });
-};
 
 // If an APIError happens in a mutation, then respond with `{errors: Array}`
 // according to the schema.
@@ -47,7 +27,11 @@ const decorateWithMutationErrorHandler = (field) => {
   };
 };
 
-// Masks errors during production and handle mutation errors inside the schema.
+/**
+ * Masks errors during production and handle mutation errors inside the schema.
+ * @param  {GraphQLSchema} schema the schema to decorate
+ * @return {void}
+ */
 const decorateWithErrorHandler = (schema) => {
   forEachField(schema, (field, typeName) => {
 
