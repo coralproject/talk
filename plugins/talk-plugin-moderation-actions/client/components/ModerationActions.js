@@ -14,13 +14,10 @@ export default class Tag extends React.Component {
     this.state = {
       tooltip: false
     };
-
   }
 
-  toggleTooltip = (e) => {
-    e.preventDefault();
+  toogleTooltip = (e) => {
     const {tooltip} = this.state;
-
     this.setState({
       tooltip: !tooltip
     });
@@ -36,14 +33,12 @@ export default class Tag extends React.Component {
     const {tooltip} = this.state;
     return(
       <ClickOutside onClickOutside={this.hideTooltip}>
-        <div className={styles.moderationActions}>
-
-          <span className={cn(styles.arrow, 'talk-plugin-moderation-action-arrow')} onClick={this.toggleTooltip}> 
+        <div className={cn(styles.moderationActions, 'talk-plugin-moderation-actions')}>
+          <span onClick={this.toogleTooltip} className={cn(styles.arrow, 'talk-plugin-moderation-actions-arrow')}>
             {tooltip ? <Icon name="keyboard_arrow_up" /> : <Icon name="keyboard_arrow_down" />}
           </span>
-
           {tooltip && (
-            <Tooltip className={styles.tooltip}>
+            <Tooltip>
               <RejectCommentAction />
             </Tooltip>
           )}

@@ -31,9 +31,9 @@ export default class Tag extends React.Component {
   render() {
     const {tooltip} = this.state;
     return(
-      <span className={styles.noSelect} onMouseEnter={this.showTooltip}
+      <span className={cn(styles.tagContainer, styles.noSelect)} onMouseEnter={this.showTooltip}
         onMouseLeave={this.hideTooltip} onTouchStart={this.showTooltip}
-        onTouchEnd={this.hideTooltip}>
+        onTouchEnd={this.hideTooltip} >
         <span className={cn(styles.tag, styles.noSelect, {[styles.on]: tooltip})}>
           {t('talk-plugin-featured-comments.featured')}
         </span>
