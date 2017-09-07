@@ -1,0 +1,8 @@
+.moderationActions {
+  display: inline;
+  padding: 0 4px;
+}
+
+.moderationActions:hover {
+  cursor: pointer;
+}

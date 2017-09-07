@@ -1,0 +1,22 @@
+.list {
+  display: table;
+  list-style-type: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.listItem {
+  display: table-row;
+}
+
+.username {
+  display: table-cell;
+}
+
+.button {
+  composes: buttonReset from "coral-framework/styles/reset.css";
+
+  margin-left: 16px;
+  color: #D0011B;
+  text-decoration: underline;
+}
