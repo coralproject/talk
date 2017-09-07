@@ -164,7 +164,19 @@ input AssetsQuery {
 
   # Limit the number of results to be returned
   limit: Int = 10
+
+  # open filters assets that are open/closed/all. Not providing this parameter
+  # will return all the assets, true will return assets that are open, and false
+  # will return assets that are closed.
+  open: Boolean
+
+  # sortOrder specifies the order of the sort for the returned Assets.
+  sortOrder: SORT_ORDER = DESC
+
+  # Skip results from the last created_at timestamp.
+  cursor: Cursor
 }
+
 ################################################################################
 ## Tags
 ################################################################################
@@ -572,27 +584,85 @@ enum MODERATION_MODE {
   POST
 }
 
-# Site wide global settings.
+# Wordlist describes all the available wordlists.
+type Wordlist {
+
+  # banned words will by default reject the comment if it is found.
+  banned: [String!]!
+
+  # suspect words will simply flag the comment.
+  suspect: [String!]!
+}
+
+# Domains describes all the available lists of domains.
+type Domains {
+
+  # whitelist is the list of domains that the embed is allowed to render on.
+  whitelist: [String!]!
+}
+
+# Settings stores the global settings for a given installation.
 type Settings {
 
-  # Moderation mode for the site.
+  # moderation is the moderation mode for all Asset's on the site.
   moderation: MODERATION_MODE!
 
   # Enables a requirement for email confirmation before a user can login.
   requireEmailConfirmation: Boolean
 
+  # infoBoxEnable will enable the Info Box content visible above the question
+  # box.
   infoBoxEnable: Boolean
+
+  # infoBoxContent is the content of the Info Box.
   infoBoxContent: String
-  premodLinksEnable: Boolean
+
+  # questionBoxEnable will enable the Question Box's content to be visible above
+  # the comment box.
   questionBoxEnable: Boolean
+
+  # questionBoxContent is the content of the Question Box.
   questionBoxContent: String
+
+  # premodLinksEnable will put all comments that contain links into premod.
+  premodLinksEnable: Boolean
+
+  # questionBoxIcon is the icon for the Question Box.
   questionBoxIcon: String
-  closeTimeout: Int
+
+  # autoCloseStream when true will auto close the stream when the `closeTimeout`
+  # amount of seconds have been reached.
+  autoCloseStream: Boolean
+
+  # customCssUrl is the URL of the custom CSS used to display on the frontend.
+  customCssUrl: String
+
+  # closedTimeout is the amount of seconds from the created_at timestamp that a
+  # given asset will be considered closed.
+  closedTimeout: Int
+
+  # closedMessage is the message shown to the user when the given Asset is
+  # closed.
   closedMessage: String
+
+  # editCommentWindowLength is the length of time (in milliseconds) after a
+  # comment is posted that it can still be edited by the author.
+  editCommentWindowLength: Int
+
+  # charCountEnable is true when the character count restriction is enabled.
   charCountEnable: Boolean
+
+  # charCount is the maximum number of characters a comment may be.
   charCount: Int
 
+  # organizationName is the name of the organization.
   organizationName: String
+
+  # wordlist will return a given list of words.
+  wordlist: Wordlist
+
+  # domains will return a given list of domains.
+  domains: Domains
 }
 
 ################################################################################
@@ -646,6 +716,22 @@ type Asset {
 
   # The author(s) of the asset.
   author: String
+}
+
+# AssetConnection represents a paginable subset of a asset list.
+type AssetConnection {
+
+  # Indicates that there are more assets after this subset.
+  hasNextPage: Boolean!
+
+  # Cursor of first asset in subset.
+  startCursor: Cursor
+
+  # Cursor of last asset in subset.
+  endCursor: Cursor
+
+  # Subset of assets.
+  nodes: [Asset!]!
 }
 
 ################################################################################
@@ -735,7 +821,7 @@ type RootQuery {
   comment(id: ID!): Comment
 
   # All assets. Requires the `ADMIN` role.
-  assets(query: AssetsQuery): [Asset]
+  assets(query: AssetsQuery): AssetConnection
 
   # Find or create an asset by url, or just find with the ID.
   asset(id: ID, url: String): Asset
@@ -905,6 +991,56 @@ input RejectUsernameInput {
   message: String!
 }
 
+# Configurable settings that can be overridden for the Asset. You must specify
+# all fields that should be updated.
+input AssetSettingsInput {
+
+  # premodLinksEnable will put all comments that contain links into premod.
+  premodLinksEnable: Boolean
+
+  # moderation is the moderation mode for the asset.
+  moderation: MODERATION_MODE
+
+  # questionBoxEnable will enable the Question Boxs' content to be visable above
+  # the comment box.
+  questionBoxEnable: Boolean
+
+  # questionBoxContent is the content of the Question Box.
+  questionBoxContent: String
+
+  # questionBoxIcon is the icon for the Question Box.
+  questionBoxIcon: String
+}
+
+# UpdateAssetStatusInput contains the input to change the status of a comment as
+# it relates to being open/closed for commenting.
+input UpdateAssetStatusInput {
+
+  # closedAt is the time that the asset will be closed for commenting. If this
+  # is null or in the future, it will be open for commenting.
+  closedAt: Date
+
+  # closedMessage is the message to be set on the asset when it is closed. If it
+  # is null, then the message will default to the globally set `closedMessage`.
+  closedMessage: String
+}
+
+# UpdateAssetStatusResponse is the response returned with possibly some errors
+# relating to the update status attempt.
+type UpdateAssetStatusResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
+# UpdateAssetSettingsResponse is the response returned with possibly some errors
+# relating to the update settings attempt.
+type UpdateAssetSettingsResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
 # DeleteActionResponse is the response returned with possibly some errors
 # relating to the delete action attempt.
 type DeleteActionResponse implements Response {
@@ -998,6 +1134,91 @@ type EditCommentResponse implements Response {
   errors: [UserError!]
 }
 
+# UpdateSettingsInput is the input used to input the global site settings. This
+# will override the existing settings, so all fields must be included.
+input UpdateSettingsInput {
+
+  # moderation is the moderation mode for all Asset's on the site.
+  moderation: MODERATION_MODE
+
+  # Enables a requirement for email confirmation before a user can login.
+  requireEmailConfirmation: Boolean
+
+  # infoBoxEnable will enable the Info Box content visible above the question
+  # box.
+  infoBoxEnable: Boolean
+
+  # infoBoxContent is the content of the Info Box.
+  infoBoxContent: String
+
+  # questionBoxEnable will enable the Question Box's content to be visible above
+  # the comment box.
+  questionBoxEnable: Boolean
+
+  # questionBoxContent is the content of the Question Box.
+  questionBoxContent: String
+
+  # premodLinksEnable will put all comments that contain links into premod.
+  premodLinksEnable: Boolean
+
+  # questionBoxIcon is the icon for the Question Box.
+  questionBoxIcon: String
+
+  # autoCloseStream when true will auto close the stream when the `closeTimeout`
+  # amount of seconds have been reached.
+  autoCloseStream: Boolean
+
+  # customCssUrl is the URL of the custom CSS used to display on the frontend.
+  customCssUrl: String
+
+  # closedTimeout is the amount of seconds from the created_at timestamp that a
+  # given asset will be considered closed.
+  closedTimeout: Int
+
+  # closedMessage is the message shown to the user when the given Asset is
+  # closed.
+  closedMessage: String
+
+  # charCountEnable is true when the character count restriction is enabled.
+  charCountEnable: Boolean
+
+  # charCount is the maximum number of characters a comment may be.
+  charCount: Int
+
+  # organizationName is the name of the organization.
+  organizationName: String
+
+  # editCommentWindowLength is the length of time (in milliseconds) after a
+  # comment is posted that it can still be edited by the author.
+  editCommentWindowLength: Int
+}
+
+# UpdateSettingsResponse contains any errors that were rendered as a result
+# of the mutation.
+type UpdateSettingsResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
+# UpdateWordlistInput is the list of words that composes the Wordlist.
+input UpdateWordlistInput {
+
+  # banned words will by default reject the comment if it is found.
+  banned: [String!]!
+
+  # suspect words will simply flag the comment.
+  suspect: [String!]!
+}
+
+# UpdateWordlistResponse contains any errors that were rendered as a result
+# of the mutation.
+type UpdateWordlistResponse implements Response {
+
+  # An array of errors relating to the mutation that occurred.
+  errors: [UserError!]
+}
+
 # CreateTokenInput contains the input to create the token.
 input CreateTokenInput {
 
@@ -1033,30 +1254,34 @@ type RevokeTokenResponse implements Response {
 type RootMutation {
 
   # Creates a comment on the asset.
-  createComment(input: CreateCommentInput!): CreateCommentResponse
+  createComment(input: CreateCommentInput!): CreateCommentResponse!
 
   # Creates a flag on an entity.
-  createFlag(flag: CreateFlagInput!): CreateFlagResponse
+  createFlag(flag: CreateFlagInput!): CreateFlagResponse!
 
   # Creates a don't agree action on an entity.
-  createDontAgree(dontagree: CreateDontAgreeInput!): CreateDontAgreeResponse
+  createDontAgree(dontagree: CreateDontAgreeInput!): CreateDontAgreeResponse!
 
   # Delete an action based on the action id.
   deleteAction(id: ID!): DeleteActionResponse
 
   # Edit a comment
-  editComment(id: ID!, asset_id: ID!, edit: EditCommentInput): EditCommentResponse
+  editComment(id: ID!, asset_id: ID!, edit: EditCommentInput): EditCommentResponse!
 
   # Sets User status. Requires the `ADMIN` role.
+  # Mutation is restricted.
   setUserStatus(id: ID!, status: USER_STATUS!): SetUserStatusResponse
 
   # Suspends a user. Requires the `ADMIN` role.
+  # Mutation is restricted.
   suspendUser(input: SuspendUserInput!): SuspendUserResponse
 
   # Reject a username. Requires the `ADMIN` role.
+  # Mutation is restricted.
   rejectUsername(input: RejectUsernameInput!): RejectUsernameResponse
 
   # Sets Comment status. Requires the `ADMIN` role.
+  # Mutation is restricted.
   setCommentStatus(id: ID!, status: COMMENT_STATUS!): SetCommentStatusResponse
 
   # Add a tag.
@@ -1065,16 +1290,35 @@ type RootMutation {
   # Removes a tag.
   removeTag(tag: ModifyTagInput!): ModifyTagResponse
 
+  # Updates settings on a given asset.
+  # Mutation is restricted.
+  updateAssetSettings(id: ID!, input: AssetSettingsInput!): UpdateAssetSettingsResponse
+
+  # Updates the status of an asset allowing you to close/reopen an asset for
+  # commenting.
+    # Mutation is restricted.
+  updateAssetStatus(id: ID!, input: UpdateAssetStatusInput!): UpdateAssetStatusResponse
+
+  # updateSettings will update the global settings.
+  # Mutation is restricted.
+  updateSettings(input: UpdateSettingsInput!): UpdateSettingsResponse
+
+  # updateWordlist will update the given Wordlist.
+  # Mutation is restricted.
+  updateWordlist(input: UpdateWordlistInput!): UpdateWordlistResponse
+
   # Ignore comments by another user
   ignoreUser(id: ID!): IgnoreUserResponse
 
   # CreateToken will create a token that is attached to the current user.
+  # Mutation is restricted.
   createToken(input: CreateTokenInput!): CreateTokenResponse!
 
   # RevokeToken will revoke an existing token.
+  # Mutation is restricted.
   revokeToken(input: RevokeTokenInput!): RevokeTokenResponse
 
-  # Stop Ignoring comments by another user
+  # Stop Ignoring comments by another user.
   stopIgnoringUser(id: ID!): StopIgnoringUserResponse
 }
 

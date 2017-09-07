@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-const scraper = require('../../../services/scraper');
 const errors = require('../../../errors');
 const AssetsService = require('../../../services/assets');
 
@@ -83,25 +82,6 @@ router.get('/:asset_id', async (req, res, next) => {
     }
 
     return res.json(asset);
-  } catch (e) {
-    return next(e);
-  }
-});
-
-// Adds the asset id to the queue to be scraped.
-router.post('/:asset_id/scrape', async (req, res, next) => {
-  try {
-
-    // Send back the asset.
-    let asset = await AssetsService.findById(req.params.asset_id);
-    if (!asset) {
-      return next(errors.ErrNotFound);
-    }
-
-    let job = await scraper.create(asset);
-
-    // Send the job back for monitoring.
-    res.status(201).json(job);
   } catch (e) {
     return next(e);
   }

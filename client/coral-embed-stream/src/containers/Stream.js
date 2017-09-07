@@ -302,7 +302,7 @@ const fragments = {
           questionBoxEnable
           questionBoxContent
           questionBoxIcon
-          closeTimeout
+          closedTimeout
           closedMessage
           charCountEnable
           charCount

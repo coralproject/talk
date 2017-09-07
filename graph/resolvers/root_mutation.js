@@ -29,6 +29,12 @@ const RootMutation = {
   stopIgnoringUser: async (_, {id}, {mutators: {User}}) => {
     await User.stopIgnoringUser({id});
   },
+  updateAssetSettings: async (_, {id, input: settings}, {mutators: {Asset}}) => {
+    await Asset.updateSettings(id, settings);
+  },
+  updateAssetStatus: async (_, {id, input: status}, {mutators: {Asset}}) => {
+    await Asset.updateStatus(id, status);
+  },
   setCommentStatus: async (_, {id, status}, {mutators: {Comment}, pubsub}) => {
     const comment = await Comment.setStatus({id, status});
     if (status === 'ACCEPTED') {
@@ -46,6 +52,12 @@ const RootMutation = {
   },
   removeTag: async (_, {tag}, {mutators: {Tag}}) => {
     await Tag.remove(tag);
+  },
+  updateSettings: async (_, {input: settings}, {mutators: {Settings}}) => {
+    await Settings.update(settings);
+  },
+  updateWordlist: async (_, {input: wordlist}, {mutators: {Settings}}) => {
+    await Settings.updateWordlist(wordlist);
   },
   createToken: async (_, {input}, {mutators: {Token}}) => ({
     token: await Token.create(input),

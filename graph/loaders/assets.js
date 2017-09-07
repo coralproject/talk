@@ -25,8 +25,33 @@ const genAssetsByID = (context, ids) => AssetModel.find({
  * @param  {Object} query    the query
  * @return {Promise}         resolves the assets
  */
-const getAssetsByQuery = (context, query) => {
-  return AssetsService.search(query);
+const getAssetsByQuery = async (context, query) => {
+
+  // If we are requesting based on a limit, ask for one more than we want.
+  const limit = query.limit;
+  if (limit) {
+    query.limit += 1;
+  }
+
+  const nodes = await AssetsService.search(query);
+
+  // The hasNextPage is always handled the same (ask for one more than we need,
+  // if there is one more, than there is more).
+  let hasNextPage = false;
+  if (limit && nodes.length > limit) {
+
+    // There was one more than we expected! Set hasNextPage = true and remove
+    // the last item from the array that we requested.
+    hasNextPage = true;
+    nodes.splice(limit, 1);
+  }
+
+  return {
+    startCursor: nodes && nodes.length > 0 ? nodes[0].created_at : null,
+    endCursor: nodes && nodes.length > 0 ? nodes[nodes.length - 1].created_at : null,
+    hasNextPage,
+    nodes,
+  };
 };
 
 /**
@@ -84,7 +109,7 @@ module.exports = (context) => ({
     getByURL: (url) => findOrCreateAssetByURL(context, url),
 
     findByUrl: (url) => findByUrl(context, url),
-    search: (query) => getAssetsByQuery(context, query),
+    getByQuery: (query) => getAssetsByQuery(context, query),
     getByID: new DataLoader((ids) => genAssetsByID(context, ids)),
     getForMetrics: () => getAssetsForMetrics(context),
     getAll: new util.SingletonResolver(() => AssetModel.find({}))

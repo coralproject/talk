@@ -43,6 +43,19 @@ module.exports = class SettingsService {
   }
 
   /**
+   * updateWordlist will update the wordlists.
+   *
+   * @param {Object} wordlist the Wordlist object
+   */
+  static updateWordlist(wordlist) {
+    return SettingModel.findOneAndUpdate(selector, {
+      $set: {
+        wordlist,
+      },
+    });
+  }
+
+  /**
    * This is run once when the app starts to ensure settings are populated.
    */
   static init(defaults = {}) {
