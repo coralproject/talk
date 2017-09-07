@@ -38,6 +38,8 @@ docs:
         url: /docs/running/plugins/
       - title: "Database Migrations"
         url: /docs/running/migrations/
+      - title: "Persistence"
+        url: /docs/running/persistence/
   - title: "Architecture"
     url: /docs/architecture/
     children:

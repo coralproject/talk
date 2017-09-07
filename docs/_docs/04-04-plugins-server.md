@@ -85,7 +85,7 @@ configure the context plugin before it would be mounted at `context.plugins`.
 This plugin above would mount at: `context.plugins.Slack`, or, if you're using
 [object destructuring](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment), `{plugins: {Slack}}`.
 
-##### `Sort`
+##### Field: `Sort`
 
 A special context hook, `Sort` will allow plugin authors to provide new
 methods to sort data. An example is as follows:
@@ -269,22 +269,6 @@ The function is async, and should return the user object that was created in the
 database, or null if the user wasn't found. The `jwt` parameter of the object
 is the unpacked token, while `token` is the original jwt token string.
 
-### Routes
-
-#### Field: `router`
-
-```js
-(router) => {
-  router.get('/api/v1/people', (req, res) => {
-    res.json({people: [{name: 'Bob'}]});
-  });
-}
-```
-
-The Router hook allows you to create a function that accepts the base express
-router where you can mount any amount of middleware/routes to do any form of
-action needed by external applications.
-
 #### Field: `tags`
 
 The tags hook allows a plugin to define tags that are code controlled (added
@@ -308,6 +292,22 @@ on how to create a hook for the `OFF_TOPIC` name:
 
 You can refer to `models/schema/tag.js` for the available schema to match when
 creating models to enable/disable specific features.
+
+### Routes
+
+#### Field: `router`
+
+```js
+(router) => {
+  router.get('/api/v1/people', (req, res) => {
+    res.json({people: [{name: 'Bob'}]});
+  });
+}
+```
+
+The Router hook allows you to create a function that accepts the base express
+router where you can mount any amount of middleware/routes to do any form of
+action needed by external applications.
 
 ### Authorization middleware
 
