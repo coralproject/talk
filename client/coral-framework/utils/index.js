@@ -109,7 +109,7 @@ export function mergeDocuments(documents) {
 export function getResponseErrors(mutationResult) {
   const result = [];
   Object.keys(mutationResult.data).forEach((response) => {
-    const errors = mutationResult.data[response].errors;
+    const errors = mutationResult.data[response] && mutationResult.data[response].errors;
     if (errors && errors.length) {
       result.push(...errors);
     }
