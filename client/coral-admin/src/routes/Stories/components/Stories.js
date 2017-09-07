@@ -50,17 +50,22 @@ export default class Stories extends Component {
     return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
   }
 
-  onStatusClick = (closeStream, id, statusMenuOpen) => () => {
+  onStatusClick = (closeStream, id, statusMenuOpen) => async () => {
     if (statusMenuOpen) {
       this.setState((prev) => {
         prev.statusMenus[id] = false;
         return prev;
       });
-      this.props.updateAssetState(id, closeStream ? Date.now() : null)
-        .then(() => {
-          const {search, sort, filter, page} = this.state;
-          this.props.fetchAssets(page, limit, search, sort, filter);
-        });
+
+      try {
+        await this.props.updateAssetState(id, closeStream ? Date.now() : null);
+        const {search, sort, filter, page} = this.state;
+        this.props.fetchAssets(page, limit, search, sort, filter);
+      } catch (err) {
+
+        // TODO: handle error.
+        console.error(err);
+      }
     } else {
       this.setState((prev) => {
         prev.statusMenus[id] = true;

@@ -3,6 +3,10 @@ const DataLoader = require('dataloader');
 const util = require('./util');
 const union = require('lodash/union');
 
+const {
+  SEARCH_OTHER_USERS,
+} = require('../../perms/constants');
+
 const UsersService = require('../../services/users');
 const UserModel = require('../../models/user');
 
@@ -28,6 +32,9 @@ const genUserByIDs = async (context, ids) => {
  * @param  {Object} query     query terms to apply to the users query
  */
 const getUsersByQuery = async ({user, loaders: {Actions}}, {ids, limit, cursor, statuses, action_type, sortOrder}) => {
+  if (!user || !user.can(SEARCH_OTHER_USERS)) {
+    return null;
+  }
 
   let query = UserModel.find();
 

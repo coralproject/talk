@@ -11,7 +11,7 @@
     "build": "WEBPACK=TRUE NODE_ENV=production webpack -p --config webpack.config.js --bail",
     "prebuild-watch": "yarn generate-introspection",
     "build-watch": "WEBPACK=TRUE NODE_ENV=development webpack --progress --config webpack.config.js --watch",
-    "lint": "eslint --ext .json bin/* .",
+    "lint": "eslint --ext .js,.json bin/* .",
     "lint-fix": "eslint bin/* . --fix",
     "test": "TEST_MODE=unit NODE_ENV=test mocha -R ${MOCHA_REPORTER:-spec}",
     "test-cover": "TEST_MODE=unit NODE_ENV=test istanbul cover _mocha --report text --check-coverage -- -R spec",

@@ -128,18 +128,18 @@ const checkInstallRequest = () => ({type: actions.CHECK_INSTALL_REQUEST});
 const checkInstallSuccess = (installed) => ({type: actions.CHECK_INSTALL_SUCCESS, installed});
 const checkInstallFailure = (error) => ({type: actions.CHECK_INSTALL_FAILURE, error});
 
-export const checkInstall = (next) => (dispatch, _, {rest}) => {
+export const checkInstall = (next) => async (dispatch, _, {rest}) => {
   dispatch(checkInstallRequest());
-  rest('/setup')
-    .then(({installed}) => {
-      dispatch(checkInstallSuccess(installed));
-      if (installed) {
-        next();
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
-      dispatch(checkInstallFailure(errorMessage));
-    });
+
+  try {
+    const {installed} = await rest('/setup');
+    dispatch(checkInstallSuccess(installed));
+    if (installed) {
+      next();
+    }
+  } catch (error) {
+    console.error(error);
+    const errorMessage = error.translation_key ? t(`error.${error.translation_key}`) : error.toString();
+    dispatch(checkInstallFailure(errorMessage));
+  }
 };
