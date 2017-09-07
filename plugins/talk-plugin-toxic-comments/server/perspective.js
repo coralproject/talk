@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const {API_ENDPOINT, API_KEY, TOXICITY_THRESHOLD} = require ('./config');
+const {API_ENDPOINT, API_KEY, THRESHOLD, API_TIMEOUT} = require('./config');
 
 /**
  * Get scores from the perspective api
@@ -12,6 +12,7 @@ async function getScores(text) {
     headers: {
       'Content-Type': 'application/json',
     },
+    timeout: API_TIMEOUT,
     body: JSON.stringify({
       comment: {
         text,
@@ -54,11 +55,31 @@ function isToxic(scoresOrProbability) {
   const probability = typeof scoresOrProbability === 'object'
     ? getProbability(scoresOrProbability)
     : scoresOrProbability;
-  return probability > TOXICITY_THRESHOLD;
+  return probability > THRESHOLD;
+}
+
+/**
+ * maskKeyInError is a decorator that calls fn and masks the
+ * API_KEY in errors before throwing.
+ * @param  {function} fn Function that returns a Promise
+ * @return {function} decorated function
+ */
+function maskKeyInError(fn) {
+  return async (...args) => {
+    try {
+      return await fn(...args);
+    }
+    catch(err) {
+      if (err.message) {
+        err.message = err.message.replace(API_KEY, '***');
+      }
+      throw err;
+    }
+  };
 }
 
 module.exports = {
-  getScores,
+  getScores: maskKeyInError(getScores),
   getProbability,
   isToxic,
 };

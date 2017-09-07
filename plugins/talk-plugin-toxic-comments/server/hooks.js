@@ -12,8 +12,19 @@ module.exports = {
     createComment: {
       async pre(_, {input}, _context, _info) {
 
-        // TODO: handle timeouts.
-        const scores = await getScores(input.body);
+        let scores;
+
+        // Try getting scores.
+        try {
+          scores = await getScores(input.body);
+        }
+        catch(err) {
+
+          // Warn and let mutation pass.
+          console.trace(err);
+          return;
+        }
+
         const commentIsToxic = isToxic(scores);
 
         if (input.checkToxicity && commentIsToxic) {
@@ -32,7 +43,8 @@ module.exports = {
         }
       },
       async post(_, _input, _context, _info, result) {
-        if (isToxic(result.comment.metadata.perspective)) {
+        const metadata = result.comment.metadata;
+        if (metadata.perspective && isToxic(metadata.perspective)) {
 
           // TODO: this is kind of fragile, we should refactor this to resolve
           // all these const's that we're using like 'COMMENTS', 'FLAG' to be
