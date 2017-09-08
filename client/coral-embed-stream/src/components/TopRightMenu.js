@@ -4,7 +4,7 @@ import {IgnoreUserWizard} from './IgnoreUserWizard';
 import Toggleable from './Toggleable';
 
 // TopRightMenu appears as a dropdown in the top right of the comment.
-// when you click the down cehvron, it expands and shows IgnoreUserWizard
+// when you click the down chevron, it expands and shows IgnoreUserWizard
 // when you click 'cancel' in the wizard, it closes the menu
 export class TopRightMenu extends React.Component {
   static propTypes = {
