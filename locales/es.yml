@@ -219,7 +219,7 @@ es:
     banned_account_body: "Esto significa que no puedes gustar, marcar o escribir comentarios."
     comment: "comentario"
     comment_is_ignored: "Este comentario está escondido porque has ignorado al usuario."
-    comment_is_rejected: "Haz rechazado este comentario."
+    comment_is_rejected: "Has rechazado este comentario."
     comment_is_hidden: "Este comentario no está disponible."
     comments: "comentarios"
     configure_stream: "Configurar Hilo de Comentarios"
