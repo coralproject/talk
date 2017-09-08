@@ -1,8 +1,7 @@
-import React from 'react';
 import {gql, compose} from 'react-apollo';
-import {connect, excludeIf, withFragments} from 'plugin-api/beta/client/hocs';
-import ModerationActions from '../components/ModerationActions';
 import {can} from 'plugin-api/beta/client/services';
+import ModerationActions from '../components/ModerationActions';
+import {connect, excludeIf, withFragments} from 'plugin-api/beta/client/hocs';
 
 const mapStateToProps = ({auth}) => ({
   user: auth.user

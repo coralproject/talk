@@ -9,9 +9,9 @@ class CommentTombstone extends React.Component {
 
     switch (action) {
     case 'ignore':
-      return t('framework.comment_is_ignored')
+      return t('framework.comment_is_ignored');
     case 'reject':
-      return t('framework.comment_is_rejected')
+      return t('framework.comment_is_rejected');
     default :
       return t('framework.comment_is_hidden');
     }

@@ -26,7 +26,7 @@ class RejectCommentActionContainer extends React.Component {
   }
 
   render() {
-    return <RejectCommentAction rejectComment={this.rejectComment}/>
+    return <RejectCommentAction rejectComment={this.rejectComment}/>;
   }
 }
 

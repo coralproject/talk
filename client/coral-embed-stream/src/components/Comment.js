@@ -210,7 +210,7 @@ export default class Comment extends React.Component {
   }
 
   commentIsRejected(comment) {
-    return comment.status === "REJECTED";
+    return comment.status === 'REJECTED';
   }
 
   commentIsIgnored(comment) {

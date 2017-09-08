@@ -26,7 +26,7 @@ class ApproveCommentActionContainer extends React.Component {
   }
 
   render() {
-    return <ApproveCommentAction comment={this.props.comment} approveComment={this.approveComment}/>
+    return <ApproveCommentAction comment={this.props.comment} approveComment={this.approveComment}/>;
   }
 }
 
