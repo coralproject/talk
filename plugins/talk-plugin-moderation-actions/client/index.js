@@ -16,6 +16,22 @@ export default {
             return prev;
           }
 
+          // Permalink view will retrieve only one comment.
+          if (prev.asset.comment) {
+            const updated = update(prev, {
+              asset: {
+                comment: {
+                  status: {
+                    $set: status
+                  }
+                }
+              }
+            });
+
+            return updated;
+          }
+
+          // Stream View
           const updated = update(prev, {
             asset: { 
               comments: {
