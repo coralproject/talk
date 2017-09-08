@@ -15,8 +15,8 @@ class StreamTabPanel extends React.Component {
         {loading
           ? <div className={styles.spinnerContainer}><Spinner /></div>
           : <TabContent activeTab={activeTab} sub={sub}>
-              {tabPanes}
-            </TabContent>
+            {tabPanes}
+          </TabContent>
         }
       </div>
     );

@@ -85,7 +85,7 @@ class User extends React.Component {
                 <span className={styles.flaggedByLabel}>
                   {t('community.flags')}({ user.actions.length })
                 </span>:
-                  { user.action_summaries.map(
+                { user.action_summaries.map(
                   (action, i) => {
                     return <span className={styles.flaggedBy} key={i}>
                       {shortReasons[action.reason]} ({action.count})

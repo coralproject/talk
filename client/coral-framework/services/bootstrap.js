@@ -16,6 +16,25 @@ import {createStorage} from 'coral-framework/services/storage';
 import {createHistory} from 'coral-framework/services/history';
 
 /**
+ * getStaticConfiguration will return a singleton of the static configuration
+ * object provided via a JSON DOM element.
+ */
+const getStaticConfiguration = (() => {
+  let staticConfiguration = null;
+  return () => {
+    if (staticConfiguration != null) {
+      return staticConfiguration;
+    }
+
+    const configElement = document.querySelector('#data');
+
+    staticConfiguration = JSON.parse(configElement ? configElement.textContent : '{}');
+
+    return staticConfiguration;
+  };
+})();
+
+/**
  * getAuthToken returns the active auth token or null
  *   Note: this method does not have access to the cookie based token used by
  *   browsers that don't allow us to use cross domain iframe local storage.
@@ -49,7 +68,6 @@ const getAuthToken = (store, storage) => {
  * @return {Object}                             context
  */
 export function createContext({reducers = {}, pluginsConfig = [], graphqlExtension = {}, notification} = {}) {
-  const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
   const eventEmitter = new EventEmitter({wildcard: true});
   const storage = createStorage();
   const history = createHistory(BASE_PATH);
@@ -63,13 +81,28 @@ export function createContext({reducers = {}, pluginsConfig = [], graphqlExtensi
     // TOKEN YOU MUST DISCONNECT AND RECONNECT THE WEBSOCKET CLIENT.
     return getAuthToken(store, storage);
   };
+
   const rest = createRestClient({
     uri: `${BASE_PATH}api/v1`,
     token,
   });
+
+  // Try to get an overrided liveUri from the static config, if none is found,
+  // build it.
+  let {LIVE_URI: liveUri} = getStaticConfiguration();
+  if (liveUri == null) {
+
+    // The protocol must match the origin protocol, secure/insecure.
+    const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+
+    // Compose the live url from this protocol, the current host + base path
+    // with the live path appended to it.
+    liveUri = `${protocol}://${location.host}${BASE_PATH}api/v1/live`;
+  }
+
   const client = createClient({
     uri: `${BASE_PATH}api/v1/graph/ql`,
-    liveUri: `${protocol}://${location.host}${BASE_PATH}api/v1/live`,
+    liveUri,
     token,
   });
   const plugins = createPluginsService(pluginsConfig);
@@ -79,6 +112,7 @@ export function createContext({reducers = {}, pluginsConfig = [], graphqlExtensi
     // Use default notification service (pym based)
     notification = createNotificationService(pym);
   }
+
   const context = {
     client,
     pym,

@@ -135,6 +135,9 @@ const CONFIG = {
   RECAPTCHA_PUBLIC: process.env.TALK_RECAPTCHA_PUBLIC,
   RECAPTCHA_SECRET: process.env.TALK_RECAPTCHA_SECRET,
 
+  // WEBSOCKET_LIVE_URI is the absolute url to the live endpoint.
+  WEBSOCKET_LIVE_URI: process.env.TALK_WEBSOCKET_LIVE_URI || null,
+
   //------------------------------------------------------------------------------
   // SMTP Server configuration
   //------------------------------------------------------------------------------
