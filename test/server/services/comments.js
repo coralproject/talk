@@ -145,7 +145,7 @@ describe('services.CommentsService', () => {
     });
   });
 
-  describe.only('#edit', () => {
+  describe('#edit', () => {
     it('changes the comment status back to premod if it was accepted', async () => {
       const originalComment = await CommentsService.publicCreate({
         body: 'this is a body!',
