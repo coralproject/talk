@@ -5,6 +5,7 @@ const ActionsService = require('./actions');
 const SettingsService = require('./settings');
 
 const sc = require('snake-case');
+const cloneDeep = require('lodash/cloneDeep');
 const errors = require('../errors');
 const events = require('./events');
 const {
@@ -52,13 +53,34 @@ module.exports = class CommentsService {
   }
 
   /**
-   * Edit a Comment
-   * @param {String} id    comment.id you want to edit (or its ID)
-   * @param {String} author_id     user.id of the user trying to edit the comment (will err if not comment author)
+   * lastUnmoderatedStatus will retrieve the last status before this one.
+   *
+   * @param {Object} comment the comment to get the last status of
+   */
+  static lastUnmoderatedStatus(comment) {
+    const UNMODERATED_STATUSES = [
+      'NONE',
+      'PREMOD',
+    ];
+
+    for (let i = comment.status_history.length - 1; i >= 0; i--) {
+      const {type} = comment.status_history[i];
+
+      if (UNMODERATED_STATUSES.includes(type)) {
+        return type;
+      }
+    }
+  }
+
+  /**
+   * Edit a Comment.
+   *
+   * @param {String} id         comment.id you want to edit (or its ID)
+   * @param {String} author_id  user.id of the user trying to edit the comment (will err if not comment author)
    * @param {String} body       the new Comment body
    * @param {String} status     the new Comment status
    */
-  static async edit(id, author_id, {body, status, ignoreEditWindow = false}) {
+  static async edit({id, author_id, body, status}) {
     const query = {
       id,
       author_id,
@@ -69,14 +91,11 @@ module.exports = class CommentsService {
 
     // Establish the edit window (if it exists) and add the condition to the
     // original query.
-    let lastEditableCommentCreatedAt;
-    if (!ignoreEditWindow) {
-      const {editCommentWindowLength: editWindowMs} = await SettingsService.retrieve();
-      lastEditableCommentCreatedAt = new Date((new Date()).getTime() - editWindowMs);
-      query.created_at = {
-        $gt: lastEditableCommentCreatedAt,
-      };
-    }
+    const {editCommentWindowLength: editWindowMs} = await SettingsService.retrieve();
+    const lastEditableCommentCreatedAt = new Date(Date.now() - editWindowMs);
+    query.created_at = {
+      $gt: lastEditableCommentCreatedAt,
+    };
 
     const originalComment = await CommentModel.findOneAndUpdate(query, {
       $set: {
@@ -117,7 +136,7 @@ module.exports = class CommentsService {
       }
 
       // Check to see if the edit window expired.
-      if (!ignoreEditWindow && comment.created_at <= lastEditableCommentCreatedAt) {
+      if (comment.created_at <= lastEditableCommentCreatedAt) {
         debug('rejecting comment edit because outside edit time window');
         throw errors.ErrEditWindowHasEnded;
       }
@@ -126,7 +145,7 @@ module.exports = class CommentsService {
     }
 
     // Mutate the comment like Mongo would have.
-    const editedComment = originalComment;
+    const editedComment = cloneDeep(originalComment);
     editedComment.status = status;
     editedComment.body = body;
     editedComment.body_history.push({
@@ -137,6 +156,43 @@ module.exports = class CommentsService {
       type: status,
       created_at: new Date(),
     });
+
+    // We should adjust the comment's status such that if it was approved
+    // previously, we should mark the comment as 'NONE' or 'PREMOD', which ever
+    // was most recent if the new comment is destined to be `NONE` or `PREMOD`.
+    if (originalComment.status === 'ACCEPTED' && ['NONE', 'PREMOD'].includes(status)) {
+
+      const lastUnmoderatedStatus = CommentsService.lastUnmoderatedStatus(originalComment);
+
+      // If the last moderated status was found and the current comment doesn't
+      // match this already.
+      if (lastUnmoderatedStatus && status !== lastUnmoderatedStatus) {
+
+        // Update the comment model (if at this point, the status is still
+        // accepted) with the previously unmoderated status
+        await CommentModel.update({
+          id,
+          status,
+        }, {
+          $set: {
+            status: lastUnmoderatedStatus,
+          },
+          $push: {
+            status_history: {
+              type: lastUnmoderatedStatus,
+              created_at: new Date(),
+            }
+          },
+        });
+
+        // Update the returned comment.
+        editedComment.status = lastUnmoderatedStatus;
+        editedComment.status_history.push({
+          type: lastUnmoderatedStatus,
+          created_at: new Date(),
+        });
+      }
+    }
 
     await events.emitAsync(COMMENTS_EDIT, originalComment, editedComment);
 
@@ -213,23 +269,6 @@ module.exports = class CommentsService {
    */
   static findByStatus(status = 'NONE') {
     return CommentModel.find({status});
-  }
-
-  /**
-   * Find comments that need to be moderated (aka moderation queue).
-   * @param {String} asset_id
-   * @return {Promise}
-   */
-  static moderationQueue(status = 'NONE', asset_id = null) {
-
-    // Fetch the comments with statuses.
-    let comments = CommentModel.find({status});
-
-    if (asset_id) {
-      comments = comments.where({asset_id});
-    }
-
-    return comments;
   }
 
   /**
@@ -356,7 +395,7 @@ events.on(COMMENTS_NEW, async (comment) => {
   if (
     !comment || // Check that the comment is defined.
     (!comment.parent_id || comment.parent_id.length === 0) || // Check that the comment has a parent (is a reply).
-    !(comment.status === 'NONE' || comment.status === 'APPROVED') // Check that the comment is visible.
+    !(comment.status === 'NONE' || comment.status === 'ACCEPTED') // Check that the comment is visible.
   ) {
     return;
   }

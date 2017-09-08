@@ -3,6 +3,7 @@ const AssetModel = require('../models/asset');
 const SettingsService = require('./settings');
 const domainlist = require('./domainlist');
 const errors = require('../errors');
+const merge = require('lodash/merge');
 
 module.exports = class AssetsService {
 
@@ -28,19 +29,21 @@ module.exports = class AssetsService {
    * @param  {Promise} assetQuery an asset query that returns a single asset.
    * @return {Promise}
    */
-  static rectifySettings(assetQuery) {
-    return Promise.all([
-      SettingsService.retrieve(),
-      assetQuery
-    ]).then(([settings, asset]) => {
+  static async rectifySettings(assetQuery, settings = null) {
+    const [
+      globalSettings,
+      asset,
+    ] = await Promise.all([
+      settings || SettingsService.retrieve(),
+      assetQuery,
+    ]);
 
-      // If the asset exists and has settings then return the merged object.
-      if (asset && asset.settings) {
-        settings.merge(asset.settings);
-      }
+    // If the asset exists and has settings then return the merged object.
+    if (asset && asset.settings) {
+      settings = merge({}, globalSettings, asset.settings);
+    }
 
-      return settings;
-    });
+    return settings;
   }
 
   /**
