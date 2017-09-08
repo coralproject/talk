@@ -11,7 +11,6 @@
   color: #383A43;
   width: 100%;
   text-align: left;
-  font-weight: bold;
   letter-spacing: 0.3px;
 
   &:hover {
@@ -26,4 +25,5 @@
 
 .approved {
   color: #519954;
+  font-weight: bold;
 }

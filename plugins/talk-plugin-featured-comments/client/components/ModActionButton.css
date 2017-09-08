@@ -7,7 +7,6 @@
   color: #383A43;
   width: 100%;
   text-align: left;
-  font-weight: bold;
   letter-spacing: 0.3px;
 
   &:hover {
@@ -23,6 +22,7 @@
 
 .button.featured {
   color: #10589b;
+  font-weight: bold;
   
   &:hover {
     background-color: #D8D8D8;
