@@ -3,6 +3,7 @@ import {getErrorMessages} from 'plugin-api/beta/client/utils';
 import {withSetCommentStatus} from 'plugin-api/beta/client/hocs';
 import {notify} from 'plugin-api/beta/client/actions/notification';
 import ApproveCommentAction from '../components/ApproveCommentAction';
+import isNil from 'lodash/isNil';
 
 class ApproveCommentActionContainer extends React.Component {
 
@@ -15,7 +16,7 @@ class ApproveCommentActionContainer extends React.Component {
         status: 'ACCEPTED'
       });
 
-      if (result.data.setCommentStatus.errors) {
+      if (!isNil(result.data.setCommentStatus)) {
         throw result.data.setCommentStatus.errors;
       }
       

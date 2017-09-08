@@ -341,7 +341,7 @@ export default class Comment extends React.Component {
       emit,
       commentClassNames = []
     } = this.props;
-
+    
     if (this.commentIsRejected(comment)) {
       return <CommentTombstone action="rejected" />;
     }

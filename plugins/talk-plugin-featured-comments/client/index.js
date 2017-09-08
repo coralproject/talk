@@ -49,36 +49,39 @@ export default {
     AddTag: ({variables}) => ({
       updateQueries: {
         CoralEmbedStream_Embed: (previous) => {
+          let updated = previous;
 
           if (variables.name !== 'FEATURED') {
             return;
           }
 
           const comment = findCommentInEmbedQuery(previous, variables.id);
-
-          const updated = update(previous, {
-            asset: {
-              comments: {
-                nodes: {
-                  $apply: (nodes) => nodes.map((node) => {
-                    if (node.id === variables.id) {
-                      node.status = 'ACCEPTED';
-                    }
-  
-                    return node;
-                  })
-                }
-              },
-              featuredComments: {
-                nodes: {
-                  $apply: (nodes) => prependNewNodes(nodes, [comment]),
-                }
-              },
-              featuredCommentsCount: {
-                $apply: (value) => value + 1
+                    
+          if (previous.asset.comments) {
+            updated = update(previous, {
+              asset: {
+                comments: {
+                  nodes: {
+                    $apply: (nodes) => nodes.map((node) => {
+                      if (node.id === variables.id) {
+                        node.status = 'ACCEPTED';
+                      }
+    
+                      return node;
+                    })
+                  }
+                },
+                featuredComments: {
+                  nodes: {
+                    $apply: (nodes) => prependNewNodes(nodes, [comment]),
+                  }
+                },
+                featuredCommentsCount: {
+                  $apply: (value) => value + 1
+                },
               }
-            }
-          });
+            });
+          }
 
           return updated;
         },
@@ -87,24 +90,27 @@ export default {
     RemoveTag: ({variables}) => ({
       updateQueries: {
         CoralEmbedStream_Embed: (previous) => {
-
+          let updated = previous;
+           
           if (variables.name !== 'FEATURED') {
             return;
           }
 
-          const updated = update(previous, {
-            asset: {
-              featuredComments: {
-                nodes: {
-                  $apply: (nodes) =>
-                    nodes.filter((n) => n.id !== variables.id)
+          if (previous.asset.comments) {
+            updated = update(previous, {
+              asset: {
+                featuredComments: {
+                  nodes: {
+                    $apply: (nodes) =>
+                      nodes.filter((n) => n.id !== variables.id)
+                  }
+                },
+                featuredCommentsCount: {
+                  $apply: (value) => value - 1
                 }
-              },
-              featuredCommentsCount: {
-                $apply: (value) => value - 1
               }
-            }
-          });
+            });
+          }
 
           return updated;
         },
