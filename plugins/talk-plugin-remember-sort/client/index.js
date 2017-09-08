@@ -14,7 +14,7 @@ export default {
       return;
     }
 
-    const sort = JSON.parse(storage.getItem(STORAGE_PATH));
+    let sort = JSON.parse(storage.getItem(STORAGE_PATH));
     if (
       sort &&
       introspection.isValidEnumValue('SORT_ORDER', sort.sortOrder) &&
@@ -26,8 +26,11 @@ export default {
       const state = store.getState();
       const sortOrder = sortOrderSelector(state);
       const sortBy = sortBySelector(state);
+
+      // Save sorting choice to storage if it has changed.
       if (!sort || sort.sortOrder !== sortOrder || sort.sortBy !== sortBy) {
-        storage.setItem(STORAGE_PATH, JSON.stringify({sortOrder, sortBy}));
+        sort = {sortOrder, sortBy};
+        storage.setItem(STORAGE_PATH, JSON.stringify(sort));
       }
     });
   }
