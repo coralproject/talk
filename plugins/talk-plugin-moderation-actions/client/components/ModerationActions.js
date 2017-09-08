@@ -2,7 +2,6 @@ import React from 'react';
 import cn from 'classnames';
 import Tooltip from './Tooltip';
 import styles from './ModerationActions.css';
-import {t} from 'plugin-api/beta/client/services';
 import {Icon} from 'plugin-api/beta/client/components/ui';
 import ClickOutside from 'coral-framework/components/ClickOutside';
 import RejectCommentAction from '../containers/RejectCommentAction';
@@ -17,7 +16,7 @@ export default class ModerationActions extends React.Component {
     };
   }
 
-  toogleTooltip = (e) => {
+  toogleTooltip = () => {
     const {tooltip} = this.state;
     this.setState({
       tooltip: !tooltip
