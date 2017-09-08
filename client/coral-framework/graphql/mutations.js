@@ -192,17 +192,17 @@ export const withSetUserStatus = withMutation(
 
 export const withPostComment = withMutation(
   gql`
-    mutation PostComment($comment: CreateCommentInput!) {
-      createComment(comment: $comment) {
+    mutation PostComment($input: CreateCommentInput!) {
+      createComment(input: $input) {
         ...CreateCommentResponse
       }
     }
   `, {
     props: ({mutate}) => ({
-      postComment: (comment) => {
+      postComment: (input) => {
         return mutate({
           variables: {
-            comment
+            input
           },
         });
       }

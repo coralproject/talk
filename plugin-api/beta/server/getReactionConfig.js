@@ -1,4 +1,3 @@
-const wrapResponse = require('../../../graph/helpers/response');
 const {SEARCH_OTHER_USERS} = require('../../../perms/constants');
 const errors = require('../../../errors');
 const pluralize = require('pluralize');
@@ -90,10 +89,6 @@ function getReactionConfig(reaction) {
     }
 
     type Delete${Reaction}ActionResponse implements Response {
-
-      # The ${reaction} that was created.
-      ${reaction}: ${Reaction}Action
-
       # An array of errors relating to the mutation that occurred.
       errors: [UserError!]
     }
@@ -101,7 +96,7 @@ function getReactionConfig(reaction) {
     type RootMutation {
 
       # Creates a ${reaction} on an entity.
-      create${Reaction}Action(input: Create${Reaction}ActionInput!): Create${Reaction}ActionResponse
+      create${Reaction}Action(input: Create${Reaction}ActionInput!): Create${Reaction}ActionResponse!
       delete${Reaction}Action(input: Delete${Reaction}ActionInput!): Delete${Reaction}ActionResponse
     }
 
@@ -160,7 +155,7 @@ function getReactionConfig(reaction) {
         }
       },
       RootMutation: {
-        [`create${Reaction}Action`]: (_, {input: {item_id}}, {mutators: {Action}, pubsub, loaders: {Comments}}) => wrapResponse(reaction)(async () => {
+        [`create${Reaction}Action`]: async (_, {input: {item_id}}, {mutators: {Action}, pubsub, loaders: {Comments}}) => {
           const comment = await Comments.get.load(item_id);
 
           let action;
@@ -180,9 +175,11 @@ function getReactionConfig(reaction) {
             pubsub.publish(`${reaction}ActionCreated`, {action, comment});
           }
 
-          return action;
-        }),
-        [`delete${Reaction}Action`]: (_, {input: {id}}, {mutators: {Action}, pubsub, loaders: {Comments}}) => wrapResponse(reaction)(async () => {
+          return {
+            [reaction]: action,
+          };
+        },
+        [`delete${Reaction}Action`]: async (_, {input: {id}}, {mutators: {Action}, pubsub, loaders: {Comments}})  => {
           const action = await Action.delete({id});
           if (!action) {
             return null;
@@ -194,9 +191,7 @@ function getReactionConfig(reaction) {
             // The comment is needed to allow better filtering e.g. by asset_id.
             pubsub.publish(`${reaction}ActionDeleted`, {action, comment});
           }
-
-          return action;
-        })
+        },
       },
     },
     hooks: {
