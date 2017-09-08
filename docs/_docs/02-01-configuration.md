@@ -53,6 +53,7 @@ These are only used during the webpack build.
 - `TALK_REDIS_URL` (*required*) - the database connection string for the Redis database.
 
 #### Advanced
+{:.no_toc}
 
 - `TALK_REDIS_RECONNECTION_MAX_ATTEMPTS` (_optional_) - the amount of attempts
   that a redis connection will attempt to reconnect before aborting with an
@@ -76,11 +77,19 @@ These are only used during the webpack build.
 - `TALK_INSTALL_LOCK` (_optional for dynamic setup_) - When `TRUE`, disables the dynamic setup endpoint. (Default `FALSE`)
 
 #### Advanced
+{:.no_toc}
 
 - `TALK_ROOT_URL_MOUNT_PATH` (_optional_) - when set to `TRUE`, the routes will
   be mounted onto the `<pathname>` component of the `TALK_ROOT_URL`. You would
   use this when your upstream proxy cannot strip the prefix from the url.
   (Default `FALSE`)
+- `TALK_WEBSOCKET_LIVE_URI` (_optional_) - used to override the location to
+  connect to the websocket endpoint to potentially another host. This should
+  be used when you need to route websocket requests out of your CDN in order to
+  serve traffic more efficiently for websockets. **Warning: if used without
+  managing the auth state manually, auth cannot be persisted, for further
+  information refer to the [Persistence Documentation]({{ "/docs/running/persistence/" | absolute_url }})**
+  (Default `${ssl ? 'ws' : 'wss'}://${location.host}${TALK_ROOT_URL_MOUNT_PATH}api/v1/live`)
 
 ### Word Filter
 
@@ -105,6 +114,7 @@ variable. Refer to the [Secrets Documentation]({{ "/docs/running/secrets/" | abs
 on the contents of those variables.**
 
 #### Advanced
+{:.no_toc}
 
 These are advanced settings for fine tuning the auth integration, and
 is not needed in most situations.

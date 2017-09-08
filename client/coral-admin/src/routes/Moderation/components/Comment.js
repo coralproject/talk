@@ -68,7 +68,7 @@ class Comment extends React.Component {
     const flagActions = comment.actions && comment.actions.filter((a) => a.__typename === 'FlagAction');
     const commentType = getCommentType(comment);
 
-    let selectionStateCSS = selected ? 'mdl-shadow--16dp' : 'mdl-shadow--2dp';
+    const selectionStateCSS = selected ? 'mdl-shadow--16dp' : 'mdl-shadow--2dp';
 
     const queryData = {root, comment, asset: comment.asset};
 
@@ -92,8 +92,8 @@ class Comment extends React.Component {
               </span>
               {
                 (comment.editing && comment.editing.edited)
-                ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
-                : null
+                  ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
+                  : null
               }
               {currentUserId !== comment.user.id &&
                 <ActionsMenu icon="not_interested">
@@ -193,10 +193,10 @@ class Comment extends React.Component {
         />
         {flagActions && flagActions.length
           ? <FlagBox
-              actions={flagActions}
-              actionSummaries={flagActionSummaries}
-              viewUserDetail={viewUserDetail}
-            />
+            actions={flagActions}
+            actionSummaries={flagActionSummaries}
+            viewUserDetail={viewUserDetail}
+          />
           : null}
       </li>
     );

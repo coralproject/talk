@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from './Community.css';
+import styles from './styles.css';
 import Table from '../containers/Table';
 import {Pager, Icon} from 'coral-ui';
 import EmptyCard from '../../../components/EmptyCard';
@@ -45,12 +45,12 @@ const People = ({commenters, searchValue, onSearchChange, ...props}) => {
       <div className={styles.mainContent}>
         {
           hasResults
-          ? <Table
+            ? <Table
               headers={tableHeaders}
               commenters={commenters}
               onHeaderClickHandler={props.onHeaderClickHandler}
             />
-          : <EmptyCard>{t('community.no_results')}</EmptyCard>
+            : <EmptyCard>{t('community.no_results')}</EmptyCard>
         }
         <Pager
           totalPages={props.totalPages}

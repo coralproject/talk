@@ -69,7 +69,7 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
       const status = networkStatusToString(networkStatus);
 
       const {root} = separateDataAndRoot(data);
-      this.context.eventEmitter.emit(`query.${name}.${status}`, {variables, data: root});
+      this.context.eventEmitter.emit(`query.${this.name}.${status}`, {variables, data: root});
     }
 
     nextData(data) {
@@ -121,7 +121,7 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
             const resolvedDocument = this.resolveDocument(lmArgs.query);
             const fetchName = getDefinitionName(resolvedDocument);
             this.context.eventEmitter.emit(
-              `query.${name}.fetchMore.${fetchName}.begin`,
+              `query.${this.name}.fetchMore.${fetchName}.begin`,
               {variables: lmArgs.variables});
 
             // Resolve document fragments before passing it to `apollo-client`.
@@ -129,18 +129,18 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
               ...lmArgs,
               query: resolvedDocument,
             })
-            .then((res) => {
-              this.context.eventEmitter.emit(
-                `query.${name}.fetchMore.${fetchName}.success`,
-                {variables: lmArgs.variables, data: res.data});
-              return Promise.resolve(res);
-            })
-            .catch((err) => {
-              this.context.eventEmitter.emit(
-                `query.${name}.fetchMore.${fetchName}.error`,
-                {variables: lmArgs.variables, error: err});
-              throw err;
-            });
+              .then((res) => {
+                this.context.eventEmitter.emit(
+                  `query.${this.name}.fetchMore.${fetchName}.success`,
+                  {variables: lmArgs.variables, data: res.data});
+                return Promise.resolve(res);
+              })
+              .catch((err) => {
+                this.context.eventEmitter.emit(
+                  `query.${this.name}.fetchMore.${fetchName}.error`,
+                  {variables: lmArgs.variables, error: err});
+                throw err;
+              });
           },
         };
       }
@@ -168,11 +168,11 @@ export default (document, config = {}) => hoistStatics((WrappedComponent) => {
       const base = (typeof this.wrappedConfig.options === 'function')
         ? this.wrappedConfig.options(data)
         : this.wrappedConfig.options;
-      const configs = this.graphqlRegistry.getQueryOptions(name);
+      const configs = this.graphqlRegistry.getQueryOptions(this.name);
       const reducerCallbacks =
         [base.reducer || ((i) => i)]
-        .concat(...configs.map((cfg) => cfg.reducer))
-        .filter((i) => i);
+          .concat(...configs.map((cfg) => cfg.reducer))
+          .filter((i) => i);
 
       const reducer = withSkipOnErrors(
         reducerCallbacks.reduce(

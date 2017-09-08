@@ -26,7 +26,7 @@ export const getMyActionSummary = (type, comment) => {
     .find((a) => a.current_user);
 };
 
- /**
+/**
  * getActionSummary
  * retrieves the action summaries based on the type and the comment
  * array could be length > 1, as in the case of FlagActionSummary
@@ -183,4 +183,17 @@ export function isCommentActive(commentStatus) {
 export function getShallowChanges(a, b) {
   return union(Object.keys(a), Object.keys(b))
     .filter((key) => a[key] !== b[key]);
+}
+
+// TODO: replace with something less fragile.
+// NOT_REACTION_TYPES are the action summaries that are not reactions.
+const NOT_REACTION_TYPES = [
+  'FlagActionSummary',
+  'DontAgreeActionSummary',
+];
+
+export function getTotalReactionsCount(actionSummaries) {
+  return actionSummaries
+    .filter(({__typename}) => !NOT_REACTION_TYPES.includes(__typename))
+    .reduce((total, {count}) => total + count, 0);
 }

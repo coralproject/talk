@@ -1,7 +1,6 @@
 import React from 'react';
 
 import LoadMore from './LoadMore';
-import IgnoredCommentTombstone from './IgnoredCommentTombstone';
 import NewCount from './NewCount';
 import {TransitionGroup} from 'react-transition-group';
 import {forEachError} from 'coral-framework/utils';
@@ -63,7 +62,7 @@ class AllCommentsPane extends React.Component {
     }
 
     if (
-        prevComments && nextComments &&
+      prevComments && nextComments &&
         nextComments.nodes.length < prevComments.nodes.length
     ) {
 
@@ -126,7 +125,6 @@ class AllCommentsPane extends React.Component {
       root,
       comments,
       commentClassNames,
-      ignoreUser,
       setActiveReplyBox,
       activeReplyBox,
       notify,
@@ -139,7 +137,6 @@ class AllCommentsPane extends React.Component {
       loadNewReplies,
       deleteAction,
       showSignInDialog,
-      commentIsIgnored,
       charCountEnable,
       maxCharCount,
       editComment,
@@ -157,34 +154,32 @@ class AllCommentsPane extends React.Component {
         />
         <TransitionGroup component='div' className="embed__stream">
           {view.map((comment) => {
-            return commentIsIgnored(comment)
-              ? <IgnoredCommentTombstone key={comment.id} />
-              : <Comment
-                  commentClassNames={commentClassNames}
-                  data={data}
-                  root={root}
-                  disableReply={disableReply}
-                  setActiveReplyBox={setActiveReplyBox}
-                  activeReplyBox={activeReplyBox}
-                  notify={notify}
-                  depth={0}
-                  postComment={postComment}
-                  asset={asset}
-                  currentUser={currentUser}
-                  postFlag={postFlag}
-                  postDontAgree={postDontAgree}
-                  ignoreUser={ignoreUser}
-                  commentIsIgnored={commentIsIgnored}
-                  loadMore={loadNewReplies}
-                  deleteAction={deleteAction}
-                  showSignInDialog={showSignInDialog}
-                  key={comment.id}
-                  comment={comment}
-                  charCountEnable={charCountEnable}
-                  maxCharCount={maxCharCount}
-                  editComment={editComment}
-                  emit={emit}
-                />;
+            return (
+              <Comment
+                commentClassNames={commentClassNames}
+                data={data}
+                root={root}
+                disableReply={disableReply}
+                setActiveReplyBox={setActiveReplyBox}
+                activeReplyBox={activeReplyBox}
+                notify={notify}
+                depth={0}
+                postComment={postComment}
+                asset={asset}
+                currentUser={currentUser}
+                postFlag={postFlag}
+                postDontAgree={postDontAgree}
+                loadMore={loadNewReplies}
+                deleteAction={deleteAction}
+                showSignInDialog={showSignInDialog}
+                key={comment.id}
+                comment={comment}
+                charCountEnable={charCountEnable}
+                maxCharCount={maxCharCount}
+                editComment={editComment}
+                emit={emit}
+              />
+            );
           })}
         </TransitionGroup>
         <LoadMore

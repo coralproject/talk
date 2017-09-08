@@ -44,15 +44,15 @@ export default class ModTag extends React.Component {
 
     return alreadyTagged ? (
       <span className={cn(styles.tag, styles.featured)}
-            onClick={deleteTag}
-            onMouseEnter={this.handleMouseEnter}
-            onMouseLeave={this.handleMouseLeave} >
+        onClick={deleteTag}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave} >
         <Icon name="star_outline" className={cn(styles.tagIcon)} />
         {!this.state.on ? t('talk-plugin-featured-comments.featured') : t('talk-plugin-featured-comments.un_feature')}
       </span>
     ) : (
       <span className={cn(styles.tag, {[styles.featured]: alreadyTagged})}
-            onClick={this.postTag} >
+        onClick={this.postTag} >
         <Icon name="star_outline" className={cn(styles.tagIcon)} />
         {alreadyTagged ? t('talk-plugin-featured-comments.featured') : t('talk-plugin-featured-comments.feature')}
       </span>

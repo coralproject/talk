@@ -6,12 +6,12 @@ import t from 'coral-framework/services/i18n';
 import {BASE_PATH} from 'coral-framework/constants/url';
 
 const ModerationLink = (props) => props.isAdmin ? (
-    <div className={styles.moderationLink}>
-      <a href={`${BASE_PATH}admin/moderate/${props.assetId}`} target="_blank">
-        {t('moderate_this_stream')}
-      </a>
-    </div>
-  ) : null;
+  <div className={styles.moderationLink}>
+    <a href={`${BASE_PATH}admin/moderate/${props.assetId}`} target="_blank">
+      {t('moderate_this_stream')}
+    </a>
+  </div>
+) : null;
 
 ModerationLink.propTypes = {
   assetId: PropTypes.string.isRequired,

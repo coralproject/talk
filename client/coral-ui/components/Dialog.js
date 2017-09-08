@@ -57,7 +57,7 @@ export default class Dialog extends Component {
         className={`mdl-dialog ${className}`}
         {...rest}
       >
-          {children}
+        {children}
       </dialog>
     );
   }

@@ -29,12 +29,13 @@ export default class OffTopicCheckbox extends React.Component {
   }
 
   render() {
+    const checked = this.props.tags.indexOf(this.label) >= 0;
     return (
       <div className={styles.offTopic}>
         {
           !this.props.isReply ? (
             <label className={styles.offTopicLabel}>
-              <input type="checkbox" onChange={this.handleChange}/>
+              <input type="checkbox" onChange={this.handleChange} checked={checked}/>
               {t('off_topic')}
             </label>
           ) : null

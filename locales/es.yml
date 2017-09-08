@@ -41,6 +41,11 @@ es:
   common:
     copy: 'Copiar'
     error: 'Ha ocurrido un error.'
+    reply: 'respuesta'
+    replies: 'respuestas'
+    reaction: 'reacción'
+    reactions: 'reacciones'
+    story: 'Artículo'
   community:
     account_creation_date: "Fecha de creación de la cuenta"
     active: Activa
@@ -222,13 +227,11 @@ es:
       error: "Nombres de usuarios pueden solamente incluir letras, números y _"
       label: "Nuevo Nombre"
       msg: "Tu cuenta está suspendida porque tu nombre de usuario ha sido considerado no apropiado para el espacio. Para recuperar la cuenta, por favor ingresar un nuevo nombre de usuario. Contáctanos si tienes alguna pregunta."
-    ignored_users: "Usuarios ignorados"
     my_comments: "Mis Comentarios"
     my_profile: "Mi perfil"
     new_count: "Ver {0} {1} nuevo"
     profile: Perfil
     show_all_comments: "Mostrar todos los comentarios"
-    stop_ignoring: "No ignorar más"
     success_bio_update: "Tu biografia fue actualizada"
     success_name_update: "Tu nombre de usuario ha sido actualizado"
     success_update_settings: "La configuración de este articulo fue actualizada"

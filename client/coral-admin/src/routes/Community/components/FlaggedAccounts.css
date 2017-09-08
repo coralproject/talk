@@ -1,0 +1,34 @@
+.container {
+  padding: 10px;
+  display: flex;
+  padding-bottom: 200px;
+}
+
+.mainFlaggedContent {
+  width: 100%;
+  padding: 34px 14px;
+  box-sizing: border-box;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+}
+
+.userLeave {
+  opacity: 1.0;
+}
+
+.userLeaveActive {
+  opacity: 0;
+  transition: opacity 800ms;
+}
+
+.userEnter {
+  opacity: 0;
+}
+
+.userEnterActive {
+  opacity: 1.0;
+  transition: opacity 800ms;
+}

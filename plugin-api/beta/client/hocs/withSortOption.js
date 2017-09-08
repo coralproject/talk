@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import {sortOrderSelector, sortBySelector} from 'plugin-api/beta/client/selectors/stream';
 import {setSort} from 'plugin-api/beta/client/actions/stream';
 import hoistStatics from 'recompose/hoistStatics';
+import {closeMenu} from 'plugins/talk-plugin-viewing-options/client/actions';
 
 const mapStateToProps = (state) => ({
   sortOrder: sortOrderSelector(state),
@@ -13,7 +14,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      setSort
+      setSort,
+      closeMenu,
     },
     dispatch
   );
@@ -29,6 +31,7 @@ const mapDispatchToProps = (dispatch) =>
 export default ({sortBy = 'created_at', sortOrder = 'DESC', label}) => hoistStatics((WrappedComponent) => {
   class WithSortOption extends React.Component {
     setSort = () => {
+      this.props.closeMenu();
       this.props.setSort({sortBy, sortOrder});
     }
 

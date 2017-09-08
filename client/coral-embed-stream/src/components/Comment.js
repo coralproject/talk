@@ -16,7 +16,6 @@ import mapValues from 'lodash/mapValues';
 import LoadMore from './LoadMore';
 import {getEditableUntilDate} from './util';
 import {findCommentWithId} from '../graphql/utils';
-import {TopRightMenu} from './TopRightMenu';
 import CommentContent from './CommentContent';
 import Slot from 'coral-framework/components/Slot';
 import IgnoredCommentTombstone from './IgnoredCommentTombstone';
@@ -95,8 +94,7 @@ export default class Comment extends React.Component {
     this.onClickEdit = this.onClickEdit.bind(this);
     this.stopEditing = this.stopEditing.bind(this);
     this.state = {
-
-      // Whether the comment should be editable (e.g. after a commenter clicking the 'Edit' button on their own comment)
+      isEditable: commentIsStillEditable(props.comment),
       isEditing: false,
       replyBoxVisible: false,
       loadingState: '',
@@ -108,7 +106,7 @@ export default class Comment extends React.Component {
     const {comment: {replies: prevReplies}} = this.props;
     const {comment: {replies: nextReplies}} = next;
     if (
-        prevReplies && nextReplies &&
+      prevReplies && nextReplies &&
         nextReplies.nodes.length < prevReplies.nodes.length
     ) {
 
@@ -185,12 +183,6 @@ export default class Comment extends React.Component {
       })
     }).isRequired,
 
-    // given a comment, return whether it should be rendered as ignored
-    commentIsIgnored: PropTypes.func,
-
-    // dispatch action to ignore another user
-    ignoreUser: PropTypes.func,
-
     // edit a comment, passed (id, asset_id, { body })
     editComment: PropTypes.func,
 
@@ -217,9 +209,18 @@ export default class Comment extends React.Component {
     }
   }
 
+  commentIsIgnored(comment) {
+    const me = this.props.root.me;
+    return (
+      me &&
+      me.ignoredUsers &&
+      me.ignoredUsers.find((u) => u.id === comment.user.id)
+    );
+  }
+
   hasIgnoredReplies() {
     return this.props.comment.replies &&
-      this.props.comment.replies.nodes.some((reply) => this.props.commentIsIgnored(reply));
+      this.props.comment.replies.nodes.some((reply) => this.commentIsIgnored(reply));
   }
 
   loadNewReplies = () => {
@@ -295,14 +296,12 @@ export default class Comment extends React.Component {
       this.editWindowExpiryTimeout = clearTimeout(this.editWindowExpiryTimeout);
     }
 
-    // if still in the edit window, set a timeout to re-render once it expires
-    const msLeftToEdit = editWindowRemainingMs(this.props.comment);
-    if (msLeftToEdit > 0) {
+    // if still in the edit window, set a timeout to handle expiration.
+    if (this.state.isEditable) {
+      const msLeftToEdit = editWindowRemainingMs(this.props.comment);
       this.editWindowExpiryTimeout = setTimeout(() => {
-
-        // re-render
-        this.setState(this.state);
-      }, msLeftToEdit);
+        this.setState({isEditable: false});
+      }, Math.max(msLeftToEdit, 0));
     }
   }
   componentWillUnmount() {
@@ -320,7 +319,6 @@ export default class Comment extends React.Component {
       comment,
       postFlag,
       parentId,
-      ignoreUser,
       highlighted,
       postComment,
       currentUser,
@@ -335,15 +333,18 @@ export default class Comment extends React.Component {
       charCountEnable,
       showSignInDialog,
       liveUpdates,
-      commentIsIgnored,
       animateEnter,
       emit,
       commentClassNames = []
     } = this.props;
 
+    if (this.commentIsIgnored(comment)) {
+      return <IgnoredCommentTombstone />;
+    }
+
     const view = this.getVisibileReplies();
 
-      // Inactive comments can be viewed by moderators and admins (e.g. using permalinks).
+    // Inactive comments can be viewed by moderators and admins (e.g. using permalinks).
     const isActive = isCommentActive(comment.status);
 
     const {loadingState} = this.state;
@@ -447,12 +448,20 @@ export default class Comment extends React.Component {
 
               {isStaff(comment.tags) ? <TagLabel>Staff</TagLabel> : null}
 
+              <Slot
+                className={cn('talk-stream-comment-author-tags')}
+                fill="commentAuthorTags"
+                queryData={queryData}
+                {...slotProps}
+                inline
+              />
+
               <span className={`${styles.bylineSecondary} talk-stream-comment-user-byline`} >
                 <PubDate created_at={comment.created_at} className={'talk-stream-comment-published-date'} />
                 {
                   (comment.editing && comment.editing.edited)
-                  ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
-                  : null
+                    ? <span>&nbsp;<span className={styles.editedMarker}>({t('comment.edited')})</span></span>
+                    : null
                 }
               </span>
 
@@ -468,22 +477,12 @@ export default class Comment extends React.Component {
                 /* User can edit/delete their own comment for a short window after posting */
                 <span className={cn(styles.topRight)}>
                   {
-                    commentIsStillEditable(comment) &&
+                    this.state.isEditable &&
                     <a
                       className={cn(styles.link, {[styles.active]: this.state.isEditing})}
                       onClick={this.onClickEdit}>Edit</a>
                   }
                 </span>
-              }
-              { isActive && (currentUser && (comment.user.id !== currentUser.id)) &&
-
-                  /* TopRightMenu allows currentUser to ignore other users' comments */
-                  <span className={cn(styles.topRight, styles.topRightMenu)}>
-                    <TopRightMenu
-                      comment={comment}
-                      ignoreUser={ignoreUser}
-                      notify={notify} />
-                  </span>
               }
               { !isActive &&
                 <InactiveCommentLabel status={comment.status}/>
@@ -492,7 +491,7 @@ export default class Comment extends React.Component {
             <div className={styles.content}>
               {
                 this.state.isEditing
-                ? <EditableCommentContent
+                  ? <EditableCommentContent
                     editComment={this.editComment}
                     notify={notify}
                     comment={comment}
@@ -501,14 +500,14 @@ export default class Comment extends React.Component {
                     maxCharCount={maxCharCount}
                     parentId={parentId}
                     stopEditing={this.stopEditing}
-                    />
-                : <div>
-                  <Slot
-                    fill="commentContent"
-                    defaultComponent={CommentContent}
-                    {...slotProps}
-                    queryData={queryData}
                   />
+                  : <div>
+                    <Slot
+                      fill="commentContent"
+                      defaultComponent={CommentContent}
+                      {...slotProps}
+                      queryData={queryData}
+                    />
                   </div>
               }
             </div>
@@ -562,23 +561,22 @@ export default class Comment extends React.Component {
 
         {activeReplyBox === comment.id
           ? <ReplyBox
-              commentPostedHandler={this.commentPostedHandler}
-              charCountEnable={charCountEnable}
-              maxCharCount={maxCharCount}
-              setActiveReplyBox={setActiveReplyBox}
-              parentId={(depth < THREADING_LEVEL) ? comment.id : parentId}
-              notify={notify}
-              postComment={postComment}
-              currentUser={currentUser}
-              assetId={asset.id}
-            />
+            commentPostedHandler={this.commentPostedHandler}
+            charCountEnable={charCountEnable}
+            maxCharCount={maxCharCount}
+            setActiveReplyBox={setActiveReplyBox}
+            parentId={(depth < THREADING_LEVEL) ? comment.id : parentId}
+            notify={notify}
+            postComment={postComment}
+            currentUser={currentUser}
+            assetId={asset.id}
+          />
           : null}
 
         <TransitionGroup>
-        {view.map((reply) => {
-          return commentIsIgnored(reply)
-            ? <IgnoredCommentTombstone key={reply.id} />
-            : <CommentContainer
+          {view.map((reply) => {
+            return (
+              <CommentContainer
                 data={this.props.data}
                 root={this.props.root}
                 setActiveReplyBox={setActiveReplyBox}
@@ -595,18 +593,17 @@ export default class Comment extends React.Component {
                 postFlag={postFlag}
                 deleteAction={deleteAction}
                 loadMore={loadMore}
-                ignoreUser={ignoreUser}
                 charCountEnable={charCountEnable}
                 maxCharCount={maxCharCount}
                 showSignInDialog={showSignInDialog}
-                commentIsIgnored={commentIsIgnored}
                 liveUpdates={liveUpdates}
                 reactKey={reply.id}
                 key={reply.id}
                 comment={reply}
                 emit={emit}
-              />;
-        })}
+              />
+            );
+          })}
         </TransitionGroup>
         <div className="talk-load-more-replies">
           <LoadMore

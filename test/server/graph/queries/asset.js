@@ -10,10 +10,13 @@ const CommentsService = require('../../../../services/comments');
 const {expect} = require('chai');
 
 describe('graph.queries.asset', () => {
-  let asset, users;
+  let assets, users, comments;
   beforeEach(async () => {
     await SettingsService.init();
-    asset = await Asset.create({id: '1', url: 'https://example.com'});
+    assets = await Asset.create([
+      {id: '1', url: 'https://example.com/?id=1'},
+      {id: '2', url: 'https://example.com/?id=2'}
+    ]);
     users = await UsersService.createLocalUsers([
       {
         email: 'usernameA@example.com',
@@ -31,16 +34,60 @@ describe('graph.queries.asset', () => {
         username: 'usernameC'
       }
     ]);
+    comments = await CommentsService.publicCreate([0, 0, 1, 1].map((idx) => ({
+      author_id: users[idx].id,
+      asset_id: assets[idx].id,
+      body: `hello there! ${String(Math.random()).slice(2)}`,
+    })));
+  });
+
+  it('will not show the same asset stream across multiple assets', async () => {
+    const context = new Context({user: users[0]});
+
+    const query = `
+      fragment assetFragment on Asset {
+        comments(query: {limit: 2}) {
+          nodes {
+            id
+          }
+          hasNextPage
+        }
+      }
+
+      query assetQuery($id: ID!, $otherID: ID!) {
+        asset(id: $id) {
+          ...assetFragment
+        }
+        otherAsset: asset(id: $otherID) {
+          ...assetFragment
+        }
+      }
+    `;
+
+    let res = await graphql(schema, query, {}, context, {id: assets[0].id, otherID: assets[1].id});
+    if (res.errors) {
+      console.error(res.errors);
+    }
+    expect(res.errors).is.empty;
+
+    let {asset: {comments: asset}, otherAsset: {comments: otherAsset}} = res.data;
+
+    expect(asset.nodes).to.have.length(2);
+    expect(asset.hasNextPage).to.be.false;
+    expect(asset.nodes.map(({id}) => id)).to.have.members(comments.slice(0, 2).map(({id}) => id));
+    expect(otherAsset.nodes).to.have.length(2);
+    expect(otherAsset.hasNextPage).to.be.false;
+    expect(otherAsset.nodes.map(({id}) => id)).to.have.members(comments.slice(2, 4).map(({id}) => id));
+
+    for (let node of asset.nodes) {
+      for (let otherNode of otherAsset.nodes) {
+        expect(node.id).to.not.equal(otherNode.id);
+      }
+    }
   });
 
   it('can get comments edge', async () => {
     const context = new Context({user: users[0]});
-
-    await CommentsService.publicCreate([1, 2].map(() => ({
-      author_id: users[0].id,
-      asset_id: asset.id,
-      body: `hello there! ${String(Math.random()).slice(2)}`,
-    })));
 
     const assetCommentsQuery = `
       query assetCommentsQuery($id: ID!) {
@@ -58,8 +105,7 @@ describe('graph.queries.asset', () => {
         }
       }
     `;
-    const res = await graphql(schema, assetCommentsQuery, {}, context, {id: asset.id});
-    expect(res.errors).is.empty;
+    const res = await graphql(schema, assetCommentsQuery, {}, context, {id: assets[0].id});
     const {nodes, startCursor, endCursor, hasNextPage} = res.data.asset.comments;
     expect(nodes.length).to.equal(2);
     expect(startCursor).to.equal(nodes[0].created_at);
@@ -69,12 +115,6 @@ describe('graph.queries.asset', () => {
 
   it('can query comments edge to exclude comments ignored by user', async () => {
     const context = new Context({user: users[0]});
-
-    await Promise.all(users.slice(1, 3).map((user) => CommentsService.publicCreate({
-      author_id: user.id,
-      asset_id: asset.id,
-      body: `hello there! ${String(Math.random()).slice(2)}`,
-    })));
 
     // Add the second user to the list of ignored users.
     context.user.ignoresUsers.push(users[1].id);
@@ -94,16 +134,13 @@ describe('graph.queries.asset', () => {
 
     {
       const res = await graphql(schema, query, {}, context, {
-        id: asset.id,
-        url: asset.url,
+        id: assets[0].id,
+        url: assets[0].url,
         excludeIgnored: true
       });
-      if (res.errors && res.errors.length) {
-        console.error(res.errors);
-      }
       expect(res.errors).is.empty;
-      const nodes = res.data.asset.comments.nodes;
-      expect(nodes.length).to.equal(1);
+      const {nodes} = res.data.asset.comments;
+      expect(nodes.length).to.equal(2);
     }
   });
 

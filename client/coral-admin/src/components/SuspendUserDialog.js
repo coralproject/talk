@@ -66,7 +66,7 @@ class SuspendUserDialog extends React.Component {
           {t('suspenduser.title_suspend')}
         </h1>
         <p className={styles.description}>
-         {t('suspenduser.description_suspend', username)}
+          {t('suspenduser.description_suspend', username)}
         </p>
         <fieldset>
           <legend className={styles.legend}>{t('suspenduser.select_duration')}</legend>
@@ -104,7 +104,7 @@ class SuspendUserDialog extends React.Component {
           {t('suspenduser.title_notify')}
         </h1>
         <p className={styles.description}>
-         {t('suspenduser.description_notify', username)}
+          {t('suspenduser.description_notify', username)}
         </p>
         <fieldset>
           <legend className={styles.legend}>{t('suspenduser.write_message')}</legend>

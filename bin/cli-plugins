@@ -53,7 +53,7 @@ function versionMatch(name, version) {
   }
 }
 
-const EXTERNAL = /^\w[a-z\-0-9\.]+$/; // Match "react", "path", "fs", "lodash.random", etc.
+const EXTERNAL = /^\w[a-z\-0-9.]+$/; // Match "react", "path", "fs", "lodash.random", etc.
 
 function reconcilePackages({quiet = false, upgradeRemote = false}) {
   const fetchable = [];

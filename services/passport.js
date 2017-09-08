@@ -112,7 +112,7 @@ const HandleAuthPopupCallback = (req, res, next) => (err, user) => {
  * @param {User}     user the user to be validated
  * @param {Function} done the callback for the validation
  */
-function ValidateUserLogin(loginProfile, user, done) {
+async function ValidateUserLogin(loginProfile, user, done) {
   if (!user) {
     return done(new Error('user not found'));
   }
@@ -127,30 +127,29 @@ function ValidateUserLogin(loginProfile, user, done) {
   }
 
   // The user is a local user, check if we need email confirmation.
-  return SettingsService.retrieve().then(({requireEmailConfirmation = false}) => {
+  const {requireEmailConfirmation = false} = await SettingsService.retrieve();
 
-    // If we have the requirement of checking that emails for users are
-    // verified, then we need to check the email address to ensure that it has
-    // been verified.
-    if (requireEmailConfirmation) {
+  // If we have the requirement of checking that emails for users are
+  // verified, then we need to check the email address to ensure that it has
+  // been verified.
+  if (requireEmailConfirmation) {
 
-      // Get the profile representing the local account.
-      let profile = user.profiles.find((profile) => profile.id === loginProfile.id);
+    // Get the profile representing the local account.
+    let profile = user.profiles.find((profile) => profile.id === loginProfile.id);
 
-      // This should never get to this point, if it does, don't let this past.
-      if (!profile) {
-        throw new Error('ID indicated by loginProfile is not on user object');
-      }
-
-      // If the profile doesn't have a metadata field, or it does not have a
-      // confirmed_at field, or that field is null, then send them back.
-      if (!profile.metadata || !profile.metadata.confirmed_at || profile.metadata.confirmed_at === null) {
-        return done(new errors.ErrAuthentication(loginProfile.id));
-      }
+    // This should never get to this point, if it does, don't let this past.
+    if (!profile) {
+      throw new Error('ID indicated by loginProfile is not on user object');
     }
 
-    return done(null, user);
-  });
+    // If the profile doesn't have a metadata field, or it does not have a
+    // confirmed_at field, or that field is null, then send them back.
+    if (!profile.metadata || !profile.metadata.confirmed_at || profile.metadata.confirmed_at === null) {
+      return done(new errors.ErrAuthentication(loginProfile.id));
+    }
+  }
+
+  return done(null, user);
 }
 
 //==============================================================================
@@ -160,40 +159,33 @@ function ValidateUserLogin(loginProfile, user, done) {
 /**
  * Revoke the token on the request.
  */
-const HandleLogout = (req, res, next) => {
+const HandleLogout = async (req, res, next) => {
   const {jwt} = req;
 
   const now = new Date();
   const expiry = (jwt.exp - now.getTime() / 1000).toFixed(0);
 
-  client().set(`jtir[${jwt.jti}]`, now.toISOString(), 'EX', expiry, (err) => {
-    if (err) {
-      return next(err);
-    }
+  try {
+    await client().set(`jtir[${jwt.jti}]`, now.toISOString(), 'EX', expiry);
+  } catch (err) {
+    return next(err);
+  }
 
-    // Only clear the cookie on logout if enabled.
-    if (JWT_CLEAR_COOKIE_LOGOUT) {
-      debug('clearing the login cookie');
-      res.clearCookie(JWT_SIGNING_COOKIE_NAME);
-    }
+  // Only clear the cookie on logout if enabled.
+  if (JWT_CLEAR_COOKIE_LOGOUT) {
+    debug('clearing the login cookie');
+    res.clearCookie(JWT_SIGNING_COOKIE_NAME);
+  }
 
-    res.status(204).end();
-  });
+  res.status(204).end();
 };
 
-const checkGeneralTokenBlacklist = (jwt) => new Promise((resolve, reject) => {
-  client().get(`jtir[${jwt.jti}]`, (err, expiry) => {
-    if (err) {
-      return reject(err);
-    }
-
+const checkGeneralTokenBlacklist = (jwt) => client().get(`jtir[${jwt.jti}]`)
+  .then((expiry) => {
     if (expiry != null) {
-      return reject(new errors.ErrAuthentication('token was revoked'));
+      throw new errors.ErrAuthentication('token was revoked');
     }
-
-    return resolve();
   });
-});
 
 /**
  * Check if the given token is already blacklisted, throw an error if it is.

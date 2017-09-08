@@ -16,7 +16,8 @@ const slots = [
   'commentContent',
   'commentReactions',
   'commentAvatar',
-  'commentAuthorName'
+  'commentAuthorName',
+  'commentAuthorTags'
 ];
 
 /**
@@ -84,13 +85,24 @@ const singleCommentFragment = gql`
       edited
       editableUntil
     }
+    ${getSlotFragmentSpreads(slots, 'comment')}
   }
 `;
 
 const withCommentFragments = withFragments({
   root: gql`
     fragment CoralEmbedStream_Comment_root on RootQuery {
+      me {
+        ignoredUsers {
+          id
+        }
+      }
       __typename
+      me {
+        ignoredUsers {
+          id
+        }
+      }
       ${getSlotFragmentSpreads(slots, 'root')}
     }
     `,
@@ -115,7 +127,6 @@ const withCommentFragments = withFragments({
           endCursor
         }
       `, THREADING_LEVEL)}
-      ${getSlotFragmentSpreads(slots, 'comment')}
     }
     ${singleCommentFragment}
   `

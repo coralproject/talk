@@ -51,13 +51,13 @@ export default (tag, options = {}) => hoistStatics((WrappedComponent) => {
         assetId: asset.id,
         itemType: 'COMMENTS',
       })
-      .then(() => {
-        this.loading = false;
-      })
-      .catch((err) => {
-        this.loading = false;
-        forEachError(err, ({msg}) => addNotification('error', msg));
-      });
+        .then(() => {
+          this.loading = false;
+        })
+        .catch((err) => {
+          this.loading = false;
+          forEachError(err, ({msg}) => addNotification('error', msg));
+        });
     }
 
     deleteTag = () => {
@@ -73,13 +73,13 @@ export default (tag, options = {}) => hoistStatics((WrappedComponent) => {
         assetId: asset.id,
         itemType: 'COMMENTS',
       })
-      .then(() => {
-        this.loading = false;
-      })
-      .catch((err) => {
-        this.loading = false;
-        forEachError(err, ({msg}) => addNotification('error', msg));
-      });
+        .then(() => {
+          this.loading = false;
+        })
+        .catch((err) => {
+          this.loading = false;
+          forEachError(err, ({msg}) => addNotification('error', msg));
+        });
     }
 
     render() {

@@ -29,63 +29,63 @@ const SignInContent = ({
       {auth.error && <Alert>{auth.error}</Alert>}
       {auth.emailVerificationFailure
         ? <form onSubmit={handleResendVerification}>
-            <p>{t('sign_in.request_new_verify_email')}</p>
+          <p>{t('sign_in.request_new_verify_email')}</p>
+          <TextField
+            id="confirm-email"
+            type="email"
+            label={t('sign_in.email')}
+            value={emailToBeResent}
+            onChange={handleChangeEmail}
+          />
+          <Button id="resendConfirmEmail" type="submit" cStyle="black" full>
+              Send Email
+          </Button>
+          {emailVerificationLoading && <Spinner />}
+          {emailVerificationSuccess && <Success />}
+        </form>
+        : <div>
+          <div className={`${styles.socialConnections} social-connections`}>
+            <Button cStyle="facebook" onClick={fetchSignInFacebook} full>
+              {t('sign_in.facebook_sign_in')}
+            </Button>
+          </div>
+          <div className={styles.separator}>
+            <h1>
+              {t('sign_in.or')}
+            </h1>
+          </div>
+          <form onSubmit={handleSignIn}>
             <TextField
-              id="confirm-email"
+              id="email"
               type="email"
               label={t('sign_in.email')}
-              value={emailToBeResent}
-              onChange={handleChangeEmail}
+              value={formData.email}
+              style={{fontSize: 16}}
+              onChange={handleChange}
             />
-            <Button id="resendConfirmEmail" type="submit" cStyle="black" full>
-              Send Email
-            </Button>
-            {emailVerificationLoading && <Spinner />}
-            {emailVerificationSuccess && <Success />}
+            <TextField
+              id="password"
+              type="password"
+              label={t('sign_in.password')}
+              value={formData.password}
+              style={{fontSize: 16}}
+              onChange={handleChange}
+            />
+            <div className={styles.action}>
+              {!auth.isLoading
+                ? <Button
+                  id="coralLogInButton"
+                  type="submit"
+                  cStyle="black"
+                  className={styles.signInButton}
+                  full
+                >
+                  {t('sign_in.sign_in')}
+                </Button>
+                : <Spinner />}
+            </div>
           </form>
-        : <div>
-            <div className={`${styles.socialConnections} social-connections`}>
-              <Button cStyle="facebook" onClick={fetchSignInFacebook} full>
-                {t('sign_in.facebook_sign_in')}
-              </Button>
-            </div>
-            <div className={styles.separator}>
-              <h1>
-                {t('sign_in.or')}
-              </h1>
-            </div>
-            <form onSubmit={handleSignIn}>
-              <TextField
-                id="email"
-                type="email"
-                label={t('sign_in.email')}
-                value={formData.email}
-                style={{fontSize: 16}}
-                onChange={handleChange}
-              />
-              <TextField
-                id="password"
-                type="password"
-                label={t('sign_in.password')}
-                value={formData.password}
-                style={{fontSize: 16}}
-                onChange={handleChange}
-              />
-              <div className={styles.action}>
-                {!auth.isLoading
-                  ? <Button
-                      id="coralLogInButton"
-                      type="submit"
-                      cStyle="black"
-                      className={styles.signInButton}
-                      full
-                    >
-                      {t('sign_in.sign_in')}
-                    </Button>
-                  : <Spinner />}
-              </div>
-            </form>
-          </div>}
+        </div>}
       <div className={`${styles.footer} footer`}>
         <span>
           <a onClick={() => changeView('FORGOT')}>

@@ -4,6 +4,7 @@
         "es6": true,
         "mocha": true
     },
+    "extends": "../.eslintrc.json",
     "parserOptions": {
         "sourceType": "module",
         "ecmaFeatures": {

@@ -41,6 +41,11 @@ en:
   common:
     copy: 'Copy'
     error: 'An error has occurred.'
+    reply: 'reply'
+    replies: 'replies'
+    reaction: 'reaction'
+    reactions: 'reactions'
+    story: 'Story'
   community:
     account_creation_date: "Account Creation Date"
     active: Active
@@ -214,7 +219,6 @@ en:
   framework:
     banned_account_header: "Your account is currently banned."
     banned_account_body: "This means that you cannot Like, Report, or write comments."
-    because_you_ignored: "Because you ignored the following commenters, their comments are hidden."
     comment: comment
     comment_is_ignored: "This comment is hidden because you ignored this user."
     comments: comments
@@ -225,13 +229,11 @@ en:
       error: "Usernames can contain letters numbers and _ only"
       label: "New Username"
       msg: "Your account is currently suspended because your username has been deemed inappropriate. To restore your account please enter a new username. Please contact us if you have any questions."
-    ignored_users: "Ignored users"
     my_comments: "My Comments"
     my_profile: "My profile"
     new_count: "View {0} new {1}"
     profile: Profile
     show_all_comments: "Show all comments"
-    stop_ignoring: "Stop ignoring"
     success_bio_update: "Your biography has been updated"
     success_name_update: "Your username has been updated"
     success_update_settings: "The changes you have made have been applied to the comment stream on this article"

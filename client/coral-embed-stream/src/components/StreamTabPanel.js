@@ -1,19 +1,23 @@
 import React from 'react';
-import {TabBar, TabContent} from 'coral-ui';
+import {Spinner, TabBar, TabContent} from 'coral-ui';
 import PropTypes from 'prop-types';
+import styles from './StreamTabPanel.css';
 
 class StreamTabPanel extends React.Component {
 
   render() {
-    const {activeTab, setActiveTab, tabs, tabPanes, sub} = this.props;
+    const {activeTab, setActiveTab, tabs, tabPanes, sub, loading} = this.props;
     return (
       <div>
         <TabBar activeTab={activeTab} onTabClick={setActiveTab} sub={sub}>
           {tabs}
         </TabBar>
-        <TabContent activeTab={activeTab} sub={sub}>
-          {tabPanes}
-        </TabContent>
+        {loading
+          ? <div className={styles.spinnerContainer}><Spinner /></div>
+          : <TabContent activeTab={activeTab} sub={sub}>
+            {tabPanes}
+          </TabContent>
+        }
       </div>
     );
   }

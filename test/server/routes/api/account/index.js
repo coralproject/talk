@@ -25,9 +25,9 @@ describe('/api/v1/account/username', () => {
         .set(passport.inject({id: '456', roles: ['ADMIN']}));
 
       const res = await chai.request(app)
-          .put('/api/v1/account/username')
-          .set(passport.inject({id: mockUser.id, roles: []}))
-          .send({username: 'MojoJojo'});
+        .put('/api/v1/account/username')
+        .set(passport.inject({id: mockUser.id, roles: []}))
+        .send({username: 'MojoJojo'});
 
       expect(res).to.have.status(204);
     });
@@ -38,9 +38,9 @@ describe('/api/v1/account/username', () => {
         .set(passport.inject({id: '456', roles: ['ADMIN']}));
 
       let res = chai.request(app)
-          .put('/api/v1/account/username')
-          .set(passport.inject({id: 'wrongid', roles: []}))
-          .send({username: 'MojoJojo'});
+        .put('/api/v1/account/username')
+        .set(passport.inject({id: 'wrongid', roles: []}))
+        .send({username: 'MojoJojo'});
 
       return expect(res).to.eventually.be.rejected;
     });

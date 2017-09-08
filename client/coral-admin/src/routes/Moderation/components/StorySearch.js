@@ -8,7 +8,7 @@ const StorySearch = (props) => {
 
   const {
     root: {
-      assets = []
+      assets,
     },
     data: {loading}
   } = props;
@@ -61,23 +61,23 @@ const StorySearch = (props) => {
 
               {
                 loading
-                ? <Spinner />
-                : assets.map((story, i) => {
-                  const storyOpen = story.closedAt === null || new Date(story.closedAt) > new Date();
+                  ? <Spinner />
+                  : assets.nodes.map((story, i) => {
+                    const storyOpen = story.closedAt === null || new Date(story.closedAt) > new Date();
 
-                  return <Story
-                    key={i}
-                    id={story.id}
-                    title={story.title}
-                    createdAt={new Date(story.created_at).toISOString()}
-                    open={storyOpen}
-                    author={story.author}
-                    goToStory={props.goToStory}
-                  />;
-                })
+                    return <Story
+                      key={i}
+                      id={story.id}
+                      title={story.title}
+                      createdAt={new Date(story.created_at).toISOString()}
+                      open={storyOpen}
+                      author={story.author}
+                      goToStory={props.goToStory}
+                    />;
+                  })
               }
 
-              {assets.length === 0 && <div className={styles.noResults}>No results</div>}
+              {assets.nodes.length === 0 && <div className={styles.noResults}>No results</div>}
             </div>
           </div>
         </div>

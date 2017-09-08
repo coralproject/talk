@@ -4,11 +4,7 @@
     "talk-plugin-respect",
     "talk-plugin-offtopic",
     "talk-plugin-facebook-auth",
-    "talk-plugin-featured-comments",
-    "talk-plugin-sort-newest",
-    "talk-plugin-sort-oldest",
-    "talk-plugin-sort-most-liked",
-    "talk-plugin-sort-most-replied"
+    "talk-plugin-featured-comments"
   ],
   "client": [
     "talk-plugin-respect",
@@ -21,6 +17,9 @@
     "talk-plugin-sort-newest",
     "talk-plugin-sort-oldest",
     "talk-plugin-sort-most-respected",
-    "talk-plugin-sort-most-replied"
+    "talk-plugin-sort-most-replied",
+    "talk-plugin-author-menu",
+    "talk-plugin-member-since",
+    "talk-plugin-ignore-user"
   ]
 }

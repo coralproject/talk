@@ -13,7 +13,7 @@ import t, {timeago} from 'coral-framework/services/i18n';
 import CommentBox from 'talk-plugin-commentbox/CommentBox';
 import QuestionBox from 'talk-plugin-questionbox/QuestionBox';
 import {isCommentActive} from 'coral-framework/utils';
-import {Spinner, Button, Tab, TabCount, TabPane} from 'coral-ui';
+import {Button, Tab, TabCount, TabPane} from 'coral-ui';
 import cn from 'classnames';
 
 import {getTopLevelParent, attachCommentToParent} from '../graphql/utils';
@@ -22,8 +22,6 @@ import AutomaticAssetClosure from '../containers/AutomaticAssetClosure';
 import StreamTabPanel from '../containers/StreamTabPanel';
 
 import styles from './Stream.css';
-
-const SpinnerWhenLoading = ({loading, children}) => loading ? <Spinner /> : <div>{children}</div>;
 
 class Stream extends React.Component {
 
@@ -42,15 +40,6 @@ class Stream extends React.Component {
     }
   }
 
-  commentIsIgnored = (comment) => {
-    const me = this.props.root.me;
-    return (
-      me &&
-      me.ignoredUsers &&
-      me.ignoredUsers.find((u) => u.id === comment.user.id)
-    );
-  };
-
   renderHighlightedComment() {
     const {
       data,
@@ -66,7 +55,6 @@ class Stream extends React.Component {
       postDontAgree,
       deleteAction,
       showSignInDialog,
-      ignoreUser,
       loadNewReplies,
       auth: {user},
       emit,
@@ -92,7 +80,6 @@ class Stream extends React.Component {
           data={data}
           root={root}
           commentClassNames={commentClassNames}
-          ignoreUser={ignoreUser}
           setActiveReplyBox={setActiveReplyBox}
           activeReplyBox={activeReplyBox}
           notify={notify}
@@ -108,7 +95,6 @@ class Stream extends React.Component {
           deleteAction={deleteAction}
           showSignInDialog={showSignInDialog}
           key={topLevelComment.id}
-          commentIsIgnored={this.commentIsIgnored}
           comment={topLevelComment}
           charCountEnable={asset.settings.charCountEnable}
           maxCharCount={asset.settings.charCount}
@@ -135,7 +121,6 @@ class Stream extends React.Component {
       postDontAgree,
       deleteAction,
       showSignInDialog,
-      ignoreUser,
       activeStreamTab,
       setActiveStreamTab,
       loadNewReplies,
@@ -144,6 +129,7 @@ class Stream extends React.Component {
       emit,
       sortOrder,
       sortBy,
+      loading,
     } = this.props;
 
     const slotProps = {data};
@@ -171,6 +157,7 @@ class Stream extends React.Component {
           tabPaneSlot={'streamTabPanes'}
           slotProps={slotProps}
           queryData={slotQueryData}
+          loading={loading}
           appendTabs={
             <Tab tabId={'all'} key='all'>
               All Comments <TabCount active={activeStreamTab === 'all'} sub>{totalCommentCount}</TabCount>
@@ -183,7 +170,6 @@ class Stream extends React.Component {
                 root={root}
                 comments={comments}
                 commentClassNames={commentClassNames}
-                ignoreUser={ignoreUser}
                 setActiveReplyBox={setActiveReplyBox}
                 activeReplyBox={activeReplyBox}
                 notify={notify}
@@ -197,7 +183,6 @@ class Stream extends React.Component {
                 loadNewReplies={loadNewReplies}
                 deleteAction={deleteAction}
                 showSignInDialog={showSignInDialog}
-                commentIsIgnored={this.commentIsIgnored}
                 charCountEnable={asset.settings.charCountEnable}
                 maxCharCount={asset.settings.charCount}
                 editComment={editComment}
@@ -223,7 +208,6 @@ class Stream extends React.Component {
       viewAllComments,
       auth: {loggedIn, user},
       editName,
-      loading,
     } = this.props;
     const {keepCommentBox} = this.state;
     const open = !asset.isClosed;
@@ -257,16 +241,16 @@ class Stream extends React.Component {
 
         {open
           ? <div id="commentBox">
-              <InfoBox
-                content={asset.settings.infoBoxContent}
-                enable={asset.settings.infoBoxEnable}
-              />
-              <QuestionBox
-                content={asset.settings.questionBoxContent}
-                enable={asset.settings.questionBoxEnable}
-                icon={asset.settings.questionBoxIcon}
-              />
-              {!banned &&
+            <InfoBox
+              content={asset.settings.infoBoxContent}
+              enable={asset.settings.infoBoxEnable}
+            />
+            <QuestionBox
+              content={asset.settings.questionBoxContent}
+              enable={asset.settings.questionBoxEnable}
+              icon={asset.settings.questionBoxIcon}
+            />
+            {!banned &&
                 temporarilySuspended &&
                 <RestrictedMessageBox>
                   {t(
@@ -275,13 +259,13 @@ class Stream extends React.Component {
                     timeago(user.suspension.until)
                   )}
                 </RestrictedMessageBox>}
-              {banned &&
+            {banned &&
                 <SuspendedAccount
                   canEditName={user && user.canEditName}
                   editName={editName}
                   currentUsername={user.username}
                 />}
-              {showCommentBox &&
+            {showCommentBox &&
                 <CommentBox
                   notify={notify}
                   postComment={postComment}
@@ -294,7 +278,7 @@ class Stream extends React.Component {
                   charCountEnable={asset.settings.charCountEnable}
                   maxCharCount={asset.settings.charCount}
                 />}
-            </div>
+          </div>
           : <p>{asset.settings.closedMessage}</p>}
 
         <Slot
@@ -310,12 +294,10 @@ class Stream extends React.Component {
           />
         )}
 
-        <SpinnerWhenLoading loading={loading}>
-          {highlightedComment
-            ? this.renderHighlightedComment()
-            : this.renderTabPanel()
-          }
-        </SpinnerWhenLoading>
+        {highlightedComment
+          ? this.renderHighlightedComment()
+          : this.renderTabPanel()
+        }
       </div>
     );
   }
@@ -324,9 +306,6 @@ class Stream extends React.Component {
 Stream.propTypes = {
   notify: PropTypes.func.isRequired,
   postComment: PropTypes.func.isRequired,
-
-  // dispatch action to ignore another user
-  ignoreUser: React.PropTypes.func,
 
   // edit a comment, passed (id, asset_id, { body })
   editComment: React.PropTypes.func

@@ -25,6 +25,12 @@ const RootMutation = {
   rejectUsername(_, {input: {id, message}}, {mutators: {User}}) {
     return wrapResponse(null)(User.rejectUsername({id, message}));
   },
+  updateAssetSettings(_, {id, input: settings}, {mutators: {Asset}}) {
+    return wrapResponse(null)(Asset.updateSettings(id, settings));
+  },
+  updateAssetStatus(_, {id, input: status}, {mutators: {Asset}}) {
+    return wrapResponse(null)(Asset.updateStatus(id, status));
+  },
   ignoreUser(_, {id}, {mutators: {User}}) {
     return wrapResponse(null)(User.ignoreUser({id}));
   },
@@ -49,6 +55,12 @@ const RootMutation = {
   },
   removeTag(_, {tag}, {mutators: {Tag}}) {
     return wrapResponse(null)(Tag.remove(tag));
+  },
+  updateSettings(_, {input: settings}, {mutators: {Settings}}) {
+    return wrapResponse(null)(Settings.update(settings));
+  },
+  updateWordlist(_, {input: wordlist}, {mutators: {Settings}}) {
+    return wrapResponse(null)(Settings.updateWordlist(wordlist));
   },
   createToken(_, {input}, {mutators: {Token}}) {
     return wrapResponse('token')(Token.create(input));

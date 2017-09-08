@@ -23,10 +23,10 @@ router.get('/', authorization.needed('ADMIN', 'MODERATOR'), async (req, res, nex
 
     let [result, count] = await Promise.all([
       UsersService
-      .search(value)
-      .sort({[field]: (asc === 'true') ? 1 : -1})
-      .skip((page - 1) * limit)
-      .limit(limit),
+        .search(value)
+        .sort({[field]: (asc === 'true') ? 1 : -1})
+        .skip((page - 1) * limit)
+        .limit(limit),
       UsersService.count()
     ]);
 
@@ -136,8 +136,8 @@ router.post('/', async (req, res, next) => {
   try {
     let user = await UsersService.createLocalUser(email, password, username);
 
-      // Send an email confirmation. The Front end will know about the
-      // requireEmailConfirmation as it's included in the settings get endpoint.
+    // Send an email confirmation. The Front end will know about the
+    // requireEmailConfirmation as it's included in the settings get endpoint.
     await SendEmailConfirmation(req.app, user.id, email, redirectUri);
 
     res.status(201).json(user);

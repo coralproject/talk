@@ -38,7 +38,7 @@ export default class Snackbar {
   }
 
   alert(message) {
-    const [type, text] = message.split('|');
+    const {type, text} = JSON.parse(message);
     this.el.style.transform = 'translate(-50%, 20px)';
     this.el.style.opacity = 0;
     this.el.className = `coral-notif-${type}`;

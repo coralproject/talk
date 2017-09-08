@@ -28,16 +28,26 @@ export default class UserDetail extends React.Component {
     bulkReject: PropTypes.func.isRequired,
   }
 
-  rejectThenReload = (info) => {
-    this.props.rejectComment(info).then(() => {
+  rejectThenReload = async (info) => {
+    try {
+      await this.props.rejectComment(info);
       this.props.data.refetch();
-    });
+    } catch (err) {
+
+      // TODO: handle error.
+      console.error(err);
+    }
   }
 
-  acceptThenReload = (info) => {
-    this.props.acceptComment(info).then(() => {
+  acceptThenReload = async (info) => {
+    try {
+      await this.props.acceptComment(info);
       this.props.data.refetch();
-    });
+    } catch (err) {
+
+      // TODO: handle error.
+      console.error(err);
+    }
   }
 
   showAll = () => {
@@ -133,35 +143,35 @@ export default class UserDetail extends React.Component {
           <Slot
             fill="userProfile"
             data={this.props.data}
-            queryData={root, user}
+            queryData={{root, user}}
           />
 
           <hr/>
           {
             selectedCommentIds.length === 0
-            ? (
-              <ul className={styles.commentStatuses}>
-                <li className={activeTab === 'all' ? styles.active : ''} onClick={this.showAll}>All</li>
-                <li className={activeTab === 'rejected' ? styles.active : ''} onClick={this.showRejected}>Rejected</li>
-              </ul>
-            )
-            : (
-              <div className={styles.bulkActionGroup}>
-                <Button
-                  onClick={bulkAccept}
-                  className={styles.bulkAction}
-                  cStyle='approve'
-                  icon='done'>
-                </Button>
-                <Button
-                  onClick={bulkReject}
-                  className={styles.bulkAction}
-                  cStyle='reject'
-                  icon='close'>
-                </Button>
-                {`${selectedCommentIds.length} comments selected`}
-              </div>
-            )
+              ? (
+                <ul className={styles.commentStatuses}>
+                  <li className={activeTab === 'all' ? styles.active : ''} onClick={this.showAll}>All</li>
+                  <li className={activeTab === 'rejected' ? styles.active : ''} onClick={this.showRejected}>Rejected</li>
+                </ul>
+              )
+              : (
+                <div className={styles.bulkActionGroup}>
+                  <Button
+                    onClick={bulkAccept}
+                    className={styles.bulkAction}
+                    cStyle='approve'
+                    icon='done'>
+                  </Button>
+                  <Button
+                    onClick={bulkReject}
+                    className={styles.bulkAction}
+                    cStyle='reject'
+                    icon='close'>
+                  </Button>
+                  {`${selectedCommentIds.length} comments selected`}
+                </div>
+              )
           }
 
           <div>
@@ -190,7 +200,7 @@ export default class UserDetail extends React.Component {
             className={styles.loadMore}
             loadMore={loadMore}
             showLoadMore={hasNextPage}
-            />
+          />
         </Drawer>
       </ClickOutside>
     );

@@ -3,12 +3,10 @@ import {compose, gql} from 'react-apollo';
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {withQuery} from 'coral-framework/hocs';
-
-import {withStopIgnoringUser} from 'coral-framework/graphql/mutations';
+import Slot from 'coral-framework/components/Slot';
 
 import {link} from 'coral-framework/services/pym';
 import NotLoggedIn from '../components/NotLoggedIn';
-import IgnoredUsers from '../components/IgnoredUsers';
 import {Spinner} from 'coral-ui';
 import CommentHistory from 'talk-plugin-history/CommentHistory';
 
@@ -55,7 +53,7 @@ class ProfileContainer extends Component {
   };
 
   render() {
-    const {auth, auth: {user}, showSignInDialog, stopIgnoringUser, root, data} = this.props;
+    const {auth, auth: {user}, showSignInDialog, root, data} = this.props;
     const {me} = this.props.root;
     const loading = this.props.data.loading;
 
@@ -77,15 +75,11 @@ class ProfileContainer extends Component {
         <h2>{user.username}</h2>
         {emailAddress ? <p>{emailAddress}</p> : null}
 
-        {me.ignoredUsers && me.ignoredUsers.length
-          ? <div>
-              <h3>{t('framework.ignored_users')}</h3>
-              <IgnoredUsers
-                users={me.ignoredUsers}
-                stopIgnoring={stopIgnoringUser}
-              />
-            </div>
-          : null}
+        <Slot
+          fill="profileSections"
+          data={data}
+          queryData={{root}}
+        />
 
         <hr />
 
@@ -98,8 +92,10 @@ class ProfileContainer extends Component {
   }
 }
 
-// TODO: This Slot should be included in `talk-plugin-history` instead.
 const slots = [
+  'profileSections',
+
+  // TODO: This Slot should be included in `talk-plugin-history` instead.
   'commentContent',
 ];
 
@@ -108,6 +104,11 @@ const CommentFragment = gql`
     nodes {
       id
       body
+      replyCount
+      action_summaries {
+        count
+        __typename
+      }
       asset {
         id
         title
@@ -138,10 +139,6 @@ const withProfileQuery = withQuery(
   query CoralEmbedStream_Profile {
     me {
       id
-      ignoredUsers {
-        id,
-        username,
-      }
       comments(query: {limit: 10}) {
         ...TalkSettings_CommentConnectionFragment
       }
@@ -160,6 +157,5 @@ const mapDispatchToProps = (dispatch) =>
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withStopIgnoringUser,
   withProfileQuery
 )(ProfileContainer);

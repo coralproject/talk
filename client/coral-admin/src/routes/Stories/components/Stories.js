@@ -50,17 +50,22 @@ export default class Stories extends Component {
     return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
   }
 
-  onStatusClick = (closeStream, id, statusMenuOpen) => () => {
+  onStatusClick = (closeStream, id, statusMenuOpen) => async () => {
     if (statusMenuOpen) {
       this.setState((prev) => {
         prev.statusMenus[id] = false;
         return prev;
       });
-      this.props.updateAssetState(id, closeStream ? Date.now() : null)
-        .then(() => {
-          const {search, sort, filter, page} = this.state;
-          this.props.fetchAssets(page, limit, search, sort, filter);
-        });
+
+      try {
+        await this.props.updateAssetState(id, closeStream ? Date.now() : null);
+        const {search, sort, filter, page} = this.state;
+        this.props.fetchAssets(page, limit, search, sort, filter);
+      } catch (err) {
+
+        // TODO: handle error.
+        console.error(err);
+      }
     } else {
       this.setState((prev) => {
         prev.statusMenus[id] = true;
@@ -134,20 +139,20 @@ export default class Stories extends Component {
             <Radio value='closed'>{t('streams.closed')}</Radio>
           </RadioGroup>
           <div className={styles.optionHeader}>{t('streams.sort_by')}</div>
-            <RadioGroup
-              name='sort by'
-              value={sort}
-              childContainer='div'
-              onChange={this.onSettingChange('sort')}
-              className={styles.radioGroup}
-            >
-              <Radio value='desc'>{t('streams.newest')}</Radio>
-              <Radio value='asc'>{t('streams.oldest')}</Radio>
-            </RadioGroup>
-          </div>
+          <RadioGroup
+            name='sort by'
+            value={sort}
+            childContainer='div'
+            onChange={this.onSettingChange('sort')}
+            className={styles.radioGroup}
+          >
+            <Radio value='desc'>{t('streams.newest')}</Radio>
+            <Radio value='asc'>{t('streams.oldest')}</Radio>
+          </RadioGroup>
+        </div>
         {
           assetsIds.length
-          ? <div className={styles.mainContent}>
+            ? <div className={styles.mainContent}>
               <DataTable className={styles.streamsTable} rows={assetsIds} onClick={this.goToModeration}>
                 <TableHeader name="title" cellFormatter={this.renderTitle}>{t('streams.article')}</TableHeader>
                 <TableHeader name="publication_date" cellFormatter={this.renderDate}>
@@ -162,7 +167,7 @@ export default class Stories extends Component {
                 page={this.state.page}
                 onNewPageHandler={this.onPageClick} />
             </div>
-          : <EmptyCard>{t('streams.empty_result')}</EmptyCard>
+            : <EmptyCard>{t('streams.empty_result')}</EmptyCard>
         }
       </div>
     );

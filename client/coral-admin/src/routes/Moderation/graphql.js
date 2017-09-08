@@ -69,15 +69,15 @@ function getCommentQueues(comment, queueConfig) {
   const queues = [];
   Object.keys(queueConfig).forEach((key) => {
     const {action_type, statuses, tags} = queueConfig[key];
-    let addToQueues = false;
-    if (statuses && statuses.indexOf(comment.status) >= 0) {
-      addToQueues = true;
+    let addToQueues = true;
+    if (statuses && statuses.indexOf(comment.status) === -1) {
+      addToQueues = false;
     }
-    if (tags && comment.tags && comment.tags.some((tagLink) => tags.indexOf(tagLink.tag.name) >= 0)) {
-      addToQueues = true;
+    if (tags && (!comment.tags || !comment.tags.some((tagLink) => tags.indexOf(tagLink.tag.name) >= 0))) {
+      addToQueues = false;
     }
-    if (action_type && comment.actions && comment.actions.some((a) => a.__typename.toLowerCase() === `${action_type}action`)) {
-      addToQueues = true;
+    if (action_type && (!comment.actions || !comment.actions.some((a) => a.__typename.toLowerCase() === `${action_type.toLowerCase()}action`))) {
+      addToQueues = false;
     }
     if (addToQueues) {
       queues.push(key);

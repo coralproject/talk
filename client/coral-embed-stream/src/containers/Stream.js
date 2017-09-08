@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import {ADDTL_COMMENTS_ON_LOAD_MORE, THREADING_LEVEL} from '../constants/stream';
 import {
   withPostComment, withPostFlag, withPostDontAgree,
-  withDeleteAction, withIgnoreUser, withEditComment
+  withDeleteAction, withEditComment
 } from 'coral-framework/graphql/mutations';
 
 import * as authActions from 'coral-embed-stream/src/actions/auth';
@@ -84,6 +84,10 @@ class StreamContainer extends React.Component {
           return prev;
         }
 
+        // Newest top-level comments are only added when sorting by 'newest first'.
+        if (!commentAdded.parent && !this.isSortedByNewestFirst()) {
+          return prev;
+        }
         return insertCommentIntoEmbedQuery(prev, commentAdded);
       },
     });
@@ -163,32 +167,9 @@ class StreamContainer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const prevSortedNewest = this.isSortedByNewestFirst(this.props);
-    const nextSortedNewest = this.isSortedByNewestFirst(nextProps);
-
-    // When switching to 'Newest first' we refetch and subscribe so that
-    // we always have the newest comments.
-    if (!prevSortedNewest && nextSortedNewest) {
+    if (this.props.sortOrder !== nextProps.sortOrder || this.props.sortBy !== nextProps.sortBy) {
       nextProps.data.refetch();
-      this.subscribeToCommentsAdded();
     }
-
-    // When switching away from 'Newest first' unsubscribe from newest comments.
-    if (prevSortedNewest && !nextSortedNewest) {
-      this.unsubscribeCommentsAdded();
-    }
-  }
-
-  shouldComponentUpdate(nextProps) {
-    const prevSortedNewest = this.isSortedByNewestFirst(this.props);
-    const nextSortedNewest = this.isSortedByNewestFirst(nextProps);
-    if (!prevSortedNewest && nextSortedNewest) {
-
-      // When switching to 'Newest first' we refetch => skip
-      // rendering this frame and wait for refetch to kick in.
-      return false;
-    }
-    return true;
   }
 
   userIsDegraged({auth: {user}} = this.props) {
@@ -321,7 +302,7 @@ const fragments = {
           questionBoxEnable
           questionBoxContent
           questionBoxIcon
-          closeTimeout
+          closedTimeout
           closedMessage
           charCountEnable
           charCount
@@ -393,7 +374,6 @@ export default compose(
   withPostComment,
   withPostFlag,
   withPostDontAgree,
-  withIgnoreUser,
   withDeleteAction,
   withEditComment,
 )(StreamContainer);

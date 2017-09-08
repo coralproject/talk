@@ -93,15 +93,15 @@ const StreamSettings = ({updateSettings, settingsError, settings, errors}) => {
               value={settings.charCount}
               disabled={settings.charCountEnable ? '' : 'disabled'}
             />
-          <span>{t('configure.comment_count_text_post')}</span>
-              {
-                errors.charCount &&
+            <span>{t('configure.comment_count_text_post')}</span>
+            {
+              errors.charCount &&
                 <span className={styles.settingsError}>
                   <br/>
                   <Icon name="error_outline"/>
                   {t('configure.comment_count_error')}
                 </span>
-              }
+            }
           </p>
         </div>
       </Card>
