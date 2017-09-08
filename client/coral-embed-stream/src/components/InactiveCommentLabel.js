@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import t from 'coral-framework/services/i18n';
 import styles from './InactiveCommentLabel.css';
 import {Icon} from 'coral-ui';

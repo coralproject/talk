@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {Icon} from 'coral-ui';
 import styles from './FlagBox.css';
 import t from 'coral-framework/services/i18n';

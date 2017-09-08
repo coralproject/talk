@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Layout from 'coral-admin/src/components/ui/Layout';
 import styles from './NotFound.css';
 import {Button, TextField, Alert, Success} from 'coral-ui';
