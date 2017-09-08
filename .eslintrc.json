@@ -3,7 +3,9 @@
         "es6": true,
         "node": true
     },
-    "extends": "eslint:recommended",
+    "extends": [
+      "eslint:recommended"
+    ],
     "parserOptions": {
         "ecmaVersion": 2017
     },
@@ -12,9 +14,7 @@
       "json"
     ],
     "rules": {
-        "indent": ["error",
-            2
-        ],
+        "indent": ["error", 2],
         "no-console": "off",
         "linebreak-style": ["error", "unix"],
         "quotes": ["error", "single"],
@@ -29,7 +29,7 @@
         "no-global-assign": "error",
         "no-implied-eval": "error",
         "lines-around-comment": ["warn", {"beforeLineComment": true}],
-        "spaced-comment": ["warn", "always", { "line": { "exceptions": ["-", "="] } }],
+        "spaced-comment": ["warn", "always", {"line": {"exceptions": ["-", "="]}}],
         "no-script-url": "error",
         "no-throw-literal": "error",
         "yoda": "warn",
@@ -41,32 +41,20 @@
         "object-curly-spacing": "warn",
         "space-infix-ops": ["error"],
         "space-in-parens": ["error", "never"],
-        "space-unary-ops": ["error", {
-          "words": true,
-          "nonwords": false
-        }],
+        "space-unary-ops": ["error", {"words": true, "nonwords": false}],
         "no-const-assign": "error",
         "no-duplicate-imports": "error",
         "prefer-template": "warn",
-        "comma-spacing": ["error", {
-            "after": true
-        }],
+        "comma-spacing": ["error", {"after": true}],
         "no-var": "error",
         "no-lonely-if": "error",
         "curly": "error",
-        "no-unused-vars": ["error", {
-            "argsIgnorePattern": "^_|next",
-            "varsIgnorePattern": "^_"
-        }],
-        "no-multiple-empty-lines": ["error", {
-            "max": 1
-        }],
-        "newline-per-chained-call": ["error", {
-            "ignoreChainWithDepth": 2
-        }],
+        "no-unused-vars": ["error", {"argsIgnorePattern": "^_|next", "varsIgnorePattern": "^_"}],
+        "no-multiple-empty-lines": ["error", {"max": 1}],
+        "newline-per-chained-call": ["error", {"ignoreChainWithDepth": 2}],
         "promise/no-return-wrap": "error",
         "promise/param-names": "error",
-        "promise/catch-or-return": "error",
+        "promise/catch-or-return": "warn",
         "promise/no-native": "off",
         "promise/no-nesting": "warn",
         "promise/no-promise-in-callback": "warn",
