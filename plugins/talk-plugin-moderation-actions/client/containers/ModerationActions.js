@@ -11,10 +11,20 @@ const mapStateToProps = ({auth}) => ({
 const enhance = compose(
   connect(mapStateToProps),
   withFragments({
+    asset: gql`
+      fragment TalkModerationActions_asset on Asset {
+        id
+      }`
+    ,
     comment: gql`
       fragment TalkModerationActions_comment on Comment {
         id
         status
+        tags {
+          tag {
+            name
+          }
+        }
       }
   `}),
   excludeIf((props) => !can(props.user, 'MODERATE_COMMENTS')),

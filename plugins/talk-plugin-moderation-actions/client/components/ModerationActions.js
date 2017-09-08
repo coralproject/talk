@@ -6,6 +6,7 @@ import {Icon} from 'plugin-api/beta/client/components/ui';
 import ClickOutside from 'coral-framework/components/ClickOutside';
 import RejectCommentAction from '../containers/RejectCommentAction';
 import ApproveCommentAction from '../containers/ApproveCommentAction';
+import {Slot} from 'plugin-api/beta/client/components';
 
 export default class ModerationActions extends React.Component {
   constructor() {
@@ -31,7 +32,7 @@ export default class ModerationActions extends React.Component {
 
   render() {
     const {tooltip} = this.state;
-    const {comment} = this.props;
+    const {comment, asset, data} = this.props;
 
     return(
       <ClickOutside onClickOutside={this.hideTooltip}>
@@ -42,6 +43,14 @@ export default class ModerationActions extends React.Component {
           </span>
           {tooltip && (
             <Tooltip>
+
+              <Slot
+                className="talk-plugin-modetarion-actions-slot"
+                fill="moderationActions"
+                queryData={{comment, asset}}
+                data={data}
+              />
+
               <ApproveCommentAction comment={comment} />
               <RejectCommentAction comment={comment} />
             </Tooltip>

@@ -1,6 +1,6 @@
 import Tab from './containers/Tab';
 import Tag from './containers/Tag';
-import Button from './components/Button';
+import ModActionButton from './components/ModActionButton';
 import TabPane from './containers/TabPane';
 import translations from './translations.yml';
 import update from 'immutability-helper';
@@ -18,7 +18,7 @@ export default {
     streamTabs: [Tab],
     streamTabPanes: [TabPane],
     commentInfoBar: [Tag],
-    commentReactions: [Button],
+    moderationActions: [ModActionButton],
     adminModeration: [ModSubscription],
     adminCommentInfoBar: [ModTag],
   },
