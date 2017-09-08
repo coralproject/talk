@@ -343,11 +343,11 @@ export default class Comment extends React.Component {
     } = this.props;
     
     if (this.commentIsRejected(comment)) {
-      return <CommentTombstone action="rejected" />;
+      return <CommentTombstone action='reject' />;
     }
 
     if (this.commentIsIgnored(comment)) {
-      return <CommentTombstone action="ignored" />;
+      return <CommentTombstone action='ignore' />;
     }
 
     const view = this.getVisibileReplies();
