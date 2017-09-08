@@ -4,7 +4,7 @@ import {sortOrderSelector, sortBySelector} from 'plugin-api/beta/client/selector
 const STORAGE_PATH = 'talkPluginRememberSort';
 
 export default {
-  init: ({store, storage, introspection}) => {
+  init: async ({store, pymStorage, introspection}) => {
 
     // TODO: workaround as this plugin is included in any target and
     // embeds (e.g. admin), but should only be included inside the stream.
@@ -14,7 +14,10 @@ export default {
       return;
     }
 
-    let sort = JSON.parse(storage.getItem(STORAGE_PATH));
+    // We use pymStorage instead to persist the data directly on the parent page,
+    // in order to mitigate strict cross domain security settings.
+
+    let sort = JSON.parse(await pymStorage.getItem(STORAGE_PATH));
     if (
       sort &&
       introspection.isValidEnumValue('SORT_ORDER', sort.sortOrder) &&
@@ -30,7 +33,7 @@ export default {
       // Save sorting choice to storage if it has changed.
       if (!sort || sort.sortOrder !== sortOrder || sort.sortBy !== sortBy) {
         sort = {sortOrder, sortBy};
-        storage.setItem(STORAGE_PATH, JSON.stringify(sort));
+        pymStorage.setItem(STORAGE_PATH, JSON.stringify(sort));
       }
     });
   }

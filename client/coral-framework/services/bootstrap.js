@@ -12,7 +12,7 @@ import {createPluginsService} from './plugins';
 import {createNotificationService} from './notification';
 import {createGraphQLRegistry} from './graphqlRegistry';
 import globalFragments from 'coral-framework/graphql/fragments';
-import {createStorage} from 'coral-framework/services/storage';
+import {createStorage, createPymStorage} from 'coral-framework/services/storage';
 import {createHistory} from 'coral-framework/services/history';
 import {createIntrospection} from 'coral-framework/services/introspection';
 import introspectionData from 'coral-framework/graphql/introspection.json';
@@ -81,6 +81,7 @@ export async function createContext({
 } = {}) {
   const eventEmitter = new EventEmitter({wildcard: true});
   const storage = createStorage();
+  const pymStorage = createPymStorage(pym);
   const history = createHistory(BASE_PATH);
   const introspection = createIntrospection(introspectionData);
   let store = null;
@@ -137,6 +138,7 @@ export async function createContext({
     storage,
     history,
     introspection,
+    pymStorage,
   };
 
   // Load framework fragments.

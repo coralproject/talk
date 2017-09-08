@@ -1,3 +1,4 @@
+import uuid from 'uuid/v4';
 
 function getStorage(type) {
   let storage = window[type], x = '__storage_test__';
@@ -41,3 +42,90 @@ function getStorage(type) {
 export function createStorage() {
   return getStorage('localStorage');
 }
+
+/**
+ * Creates a storage that relay requests over to pym.
+ * This is the counterpart of `connectStorageToPym`.
+ * @param  {string} pym  pym
+ * @return {Object} storage
+ */
+export function createPymStorage(pym) {
+
+  // A Map of requestID => {resolve, reject}
+  const requests = {};
+
+  // Requests method with parameters over pym.
+  const call = (method, parameters) => {
+    const id = uuid();
+    return new Promise((resolve, reject) => {
+      requests[id] = {resolve, reject};
+      pym.sendMessage('pymStorage.request', JSON.stringify({id, method, parameters}));
+    });
+  };
+
+  // Receive successful responses.
+  pym.onMessage('pymStorage.response', (msg) => {
+    const {id, result} = JSON.parse(msg);
+    requests[id].resolve(result);
+    delete requests[id];
+  });
+
+  // Receive error responses.
+  pym.onMessage('pymStorage.error', (msg) => {
+    const {id, error} = JSON.parse(msg);
+    requests[id].reject(error);
+    delete requests[id];
+  });
+
+  return {
+    setItem: (key, value) => call('setItem', {key, value}),
+    getItem: (key, value) => call('getItem', {key, value}),
+    removeItem: (key) => call('removeItem', {key}),
+  };
+}
+
+/**
+ * Listens to `pym` and relay storage requests to `storage`.
+ * This is the counterpart of `createPymStorage`.
+ * @param  {string} pym  pym
+ * @return {Object} storage
+ */
+export function connectStorageToPym(storage, pym) {
+  pym.onMessage('pymStorage.request', (msg) => {
+    const {id, method, parameters} = JSON.parse(msg);
+    const {key, value} = parameters;
+    const prefixedKey = `talkPymStorage:${key}`;
+
+    // Variable for the method return value.
+    let result;
+
+    const sendError = (error) => {
+      console.error(error);
+      pym.sendMessage('pymStorage.error', JSON.stringify({id, error}));
+    };
+
+    try {
+      switch(method) {
+      case 'setItem':
+        result = storage.setItem(prefixedKey, value);
+        break;
+      case 'getItem':
+        result = storage.getItem(prefixedKey);
+        break;
+      case 'removeItem':
+        result = storage.removeItem(prefixedKey);
+        break;
+      default:
+        sendError(`Unknown method ${method}`);
+        return;
+      }
+    }
+    catch(err) {
+      sendError(err.toString());
+      return;
+    }
+
+    pym.sendMessage('pymStorage.response', JSON.stringify({id, result}));
+  });
+}
+
