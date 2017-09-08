@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import dialogPolyfill from 'dialog-polyfill';
 import 'dialog-polyfill/dialog-polyfill.css';
 
@@ -43,7 +44,7 @@ export default class Dialog extends Component {
   componentWillUnmount() {
     const dialog = this.dialog;
     if (dialog) {
-      dialog.removeEventListener('cancel', this.props.onCancel);      
+      dialog.removeEventListener('cancel', this.props.onCancel);
     }
   }
 

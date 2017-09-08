@@ -1,4 +1,6 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import styles from './ModerationList.css';
 import {Button} from 'coral-ui';
 import {menuActionsMap} from '../utils/moderationQueueActionsMap';

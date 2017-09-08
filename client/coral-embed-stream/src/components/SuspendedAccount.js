@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import t from 'coral-framework/services/i18n';
 import styles from './SuspendAccount.css';
 import {Button} from 'coral-ui';

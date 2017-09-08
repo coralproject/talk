@@ -109,7 +109,7 @@ export default {
   },
   mutations: {
     PostComment: ({
-      variables: {comment: {asset_id, body, parent_id, tags = []}},
+      variables: {input: {asset_id, body, parent_id, tags = []}},
       state: {auth},
     }) => ({
       optimisticResponse: {

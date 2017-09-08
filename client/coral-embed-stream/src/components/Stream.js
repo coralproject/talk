@@ -308,7 +308,7 @@ Stream.propTypes = {
   postComment: PropTypes.func.isRequired,
 
   // edit a comment, passed (id, asset_id, { body })
-  editComment: React.PropTypes.func
+  editComment: PropTypes.func
 };
 
 export default Stream;

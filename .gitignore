@@ -29,6 +29,7 @@ plugins/*
 !plugins/talk-plugin-comment-content
 !plugins/talk-plugin-permalink
 !plugins/talk-plugin-featured-comments
+!plugins/talk-plugin-toxic-comments
 !plugins/talk-plugin-sort-newest
 !plugins/talk-plugin-sort-oldest
 !plugins/talk-plugin-sort-most-replied
@@ -39,5 +40,6 @@ plugins/*
 !plugins/talk-plugin-member-since
 !plugins/talk-plugin-ignore-user
 !plugins/talk-plugin-moderation-actions
+!plugins/talk-plugin-toxic-comments
 
 **/node_modules/*

@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {Layout as LayoutMDL} from 'react-mdl';
 import Header from './Header';
 import Drawer from './Drawer';

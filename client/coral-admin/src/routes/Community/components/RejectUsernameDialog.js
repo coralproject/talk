@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import {Dialog, Button} from 'coral-ui';
 import styles from './RejectUsernameDialog.css';
@@ -48,11 +49,15 @@ class RejectUsernameDialog extends Component  {
 
     const cancel = this.props.handleClose;
     const next = () => this.setState({stage: stage + 1});
-    const suspend = () => {
-      rejectUsername({id: user.user.id, message: this.state.email})
-        .then(() => {
-          this.props.handleClose();
-        });
+    const suspend = async () => {
+      try {
+        await rejectUsername({id: user.user.id, message: this.state.email});
+        this.props.handleClose();
+      } catch (err) {
+
+        // TODO: handle error.
+        console.error(err);
+      }
     };
 
     const suspendModalActions = [

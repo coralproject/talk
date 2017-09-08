@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import t from 'coral-framework/services/i18n';
 import {can} from 'coral-framework/services/perms';
@@ -54,7 +55,7 @@ class CommentBox extends React.Component {
       return;
     }
 
-    let comment = {
+    let input = {
       asset_id: assetId,
       parent_id: parentId,
       body: this.state.body,
@@ -62,10 +63,10 @@ class CommentBox extends React.Component {
     };
 
     // Execute preSubmit Hooks
-    this.state.hooks.preSubmit.forEach((hook) => hook());
+    this.state.hooks.preSubmit.forEach((hook) => hook(input));
     this.setState({loadingState: 'loading'});
 
-    postComment(comment, 'comments')
+    postComment(input, 'comments')
       .then(({data}) => {
         this.setState({loadingState: 'success', body: ''});
         const postedComment = data.createComment.comment;

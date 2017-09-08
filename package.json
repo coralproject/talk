@@ -1,8 +1,9 @@
 {
   "name": "talk",
-  "version": "3.4.0",
+  "version": "3.5.0",
   "description": "A better commenting experience from Mozilla, The New York Times, and the Washington Post. https://coralproject.net",
   "main": "app.js",
+  "private": true,
   "scripts": {
     "postinstall": "./bin/cli plugins reconcile --skip-remote",
     "start": "./bin/cli serve -j -w",
@@ -11,8 +12,8 @@
     "build": "WEBPACK=TRUE NODE_ENV=production webpack -p --config webpack.config.js --bail",
     "prebuild-watch": "yarn generate-introspection",
     "build-watch": "WEBPACK=TRUE NODE_ENV=development webpack --progress --config webpack.config.js --watch",
-    "lint": "eslint --ext .json bin/* .",
-    "lint-fix": "eslint bin/* . --fix",
+    "lint": "eslint --ext=.js --ext=.json bin/* .",
+    "lint-fix": "yarn lint --fix",
     "test": "TEST_MODE=unit NODE_ENV=test mocha -R ${MOCHA_REPORTER:-spec}",
     "test-cover": "TEST_MODE=unit NODE_ENV=test istanbul cover _mocha --report text --check-coverage -- -R spec",
     "heroku-postbuild": "./bin/cli plugins reconcile && yarn build",
