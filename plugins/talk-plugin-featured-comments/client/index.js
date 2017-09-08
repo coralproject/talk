@@ -58,6 +58,17 @@ export default {
 
           const updated = update(previous, {
             asset: {
+              comments: {
+                nodes: {
+                  $apply: (nodes) => nodes.map((node) => {
+                    if (node.id === variables.id) {
+                      node.status = 'ACCEPTED';
+                    }
+  
+                    return node;
+                  })
+                }
+              },
               featuredComments: {
                 nodes: {
                   $apply: (nodes) => prependNewNodes(nodes, [comment]),
