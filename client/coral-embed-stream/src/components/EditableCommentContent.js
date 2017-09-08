@@ -39,10 +39,10 @@ export class EditableCommentContent extends React.Component {
     maxCharCount: PropTypes.number,
 
     // edit a comment, passed {{ body }}
-    editComment: React.PropTypes.func,
+    editComment: PropTypes.func,
 
     // called when editing should be stopped
-    stopEditing: React.PropTypes.func,
+    stopEditing: PropTypes.func,
   }
 
   constructor(props) {
