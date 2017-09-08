@@ -14,6 +14,8 @@ import {createGraphQLRegistry} from './graphqlRegistry';
 import globalFragments from 'coral-framework/graphql/fragments';
 import {createStorage} from 'coral-framework/services/storage';
 import {createHistory} from 'coral-framework/services/history';
+import {createIntrospection} from 'coral-framework/services/introspection';
+import introspectionData from 'coral-framework/graphql/introspection.json';
 
 /**
  * getStaticConfiguration will return a singleton of the static configuration
@@ -60,17 +62,27 @@ const getAuthToken = (store, storage) => {
 /**
  * createContext setups and returns Talk dependencies that should be
  * passed to `TalkProvider`.
- * @param  {Object} [config]                    configuration
- * @param  {Object} [config.reducers]           extra reducers to add to redux
- * @param  {Array}  [config.pluginsConfig]      plugin configuration as returned by importing pluginsConfig
- * @param  {Object} [config.graphqlExtensions]  additional extension to the graphql framework
- * @param  {Object} [config.notification]       replace default notification service
- * @return {Object}                             context
+ * @param  {Object}   [config]                    configuration
+ * @param  {Object}   [config.reducers]           extra reducers to add to redux
+ * @param  {Array}    [config.pluginsConfig]      plugin configuration as returned by importing pluginsConfig
+ * @param  {Object}   [config.graphqlExtensions]  additional extension to the graphql framework
+ * @param  {Object}   [config.notification]       replace default notification service
+ * @param  {Function} [config.init]               run initialization e.g. to hydrate redux store
+ * @param  {Function} [config.preInit]            same as init but run and resolve before init and plugins init
+ * @return {Object}                               context
  */
-export function createContext({reducers = {}, pluginsConfig = [], graphqlExtension = {}, notification} = {}) {
+export async function createContext({
+  reducers = {},
+  pluginsConfig = [],
+  graphqlExtension = {},
+  notification,
+  preInit,
+  init,
+} = {}) {
   const eventEmitter = new EventEmitter({wildcard: true});
   const storage = createStorage();
   const history = createHistory(BASE_PATH);
+  const introspection = createIntrospection(introspectionData);
   let store = null;
   const token = () => {
 
@@ -104,6 +116,7 @@ export function createContext({reducers = {}, pluginsConfig = [], graphqlExtensi
     uri: `${BASE_PATH}api/v1/graph/ql`,
     liveUri,
     token,
+    introspectionData,
   });
   const plugins = createPluginsService(pluginsConfig);
   const graphqlRegistry = createGraphQLRegistry(plugins.getSlotFragments.bind(plugins));
@@ -123,6 +136,7 @@ export function createContext({reducers = {}, pluginsConfig = [], graphqlExtensi
     notification,
     storage,
     history,
+    introspection,
   };
 
   // Load framework fragments.
@@ -155,8 +169,14 @@ export function createContext({reducers = {}, pluginsConfig = [], graphqlExtensi
     createReduxEmitter(eventEmitter),
   ]);
 
-  return {
-    ...context,
-    store,
-  };
+  context.store = store;
+
+  // Run pre initialization.
+  if (preInit) {
+    await preInit(context);
+  }
+
+  // Run initialization.
+  await Promise.all([init, plugins.executeInit(context)]);
+  return context;
 }

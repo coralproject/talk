@@ -12,23 +12,23 @@ import {toast} from 'react-toastify';
 import {createNotificationService} from './services/notification';
 import {hideShortcutsNote} from './actions/moderation';
 
-function hidrateStore({store, storage}) {
+smoothscroll.polyfill();
+
+function init({store, storage}) {
   if (storage && storage.getItem('coral:shortcutsNote') === 'hide') {
     store.dispatch(hideShortcutsNote());
   }
 }
 
-smoothscroll.polyfill();
+async function main() {
+  const notification = createNotificationService(toast);
+  const context = await createContext({reducers, graphqlExtension, pluginsConfig, notification, init});
+  render(
+    <TalkProvider {...context}>
+      <App />
+    </TalkProvider>
+    , document.querySelector('#root')
+  );
+}
 
-const notification = createNotificationService(toast);
-const context = createContext({reducers, graphqlExtension, pluginsConfig, notification});
-
-// hidrate Store with external data.
-hidrateStore(context);
-
-render(
-  <TalkProvider {...context}>
-    <App />
-  </TalkProvider>
-  , document.querySelector('#root')
-);
+main();

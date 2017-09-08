@@ -1,7 +1,6 @@
 import ApolloClient, {addTypename, IntrospectionFragmentMatcher, createNetworkInterface} from 'apollo-client';
 import {SubscriptionClient, addGraphQLSubscriptions} from 'subscriptions-transport-ws';
 import MessageTypes from 'subscriptions-transport-ws/dist/message-types';
-import introspectionQueryResultData from '../graphql/introspection.json';
 
 // Redux middleware to report any errors to the console.
 export const apolloErrorReporter = () => (next) => (action) => {
@@ -21,10 +20,11 @@ function resolveToken(token) {
  * @param  {string|function} [options.token]    auth token
  * @param  {string}          [options.uri]      uri of the graphql server
  * @param  {string}          [options.liveUri]  uri of the graphql subscription server
+ * @param  {Object}          [options.introspectionData] introspection query result data
  * @return {Object}          apollo client
  */
 export function createClient(options = {}) {
-  const {token, uri, liveUri} = options;
+  const {token, uri, liveUri, introspectionData} = options;
   const wsClient = new SubscriptionClient(liveUri, {
     reconnect: true,
     lazy: true,
@@ -63,7 +63,7 @@ export function createClient(options = {}) {
   const client = new ApolloClient({
     connectToDevTools: true,
     addTypename: true,
-    fragmentMatcher: new IntrospectionFragmentMatcher({introspectionQueryResultData}),
+    fragmentMatcher: new IntrospectionFragmentMatcher({introspectionQueryResultData: introspectionData}),
     queryTransformer: addTypename,
     dataIdFromObject: (result) => {
       if (result.id && result.__typename) { // eslint-disable-line no-underscore-dangle
