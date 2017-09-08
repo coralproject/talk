@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Stream from '../containers/Stream';
 import Slot from 'coral-framework/components/Slot';
 import {can} from 'coral-framework/services/perms';
@@ -90,8 +91,8 @@ export default class Embed extends React.Component {
 }
 
 Embed.propTypes = {
-  data: React.PropTypes.shape({
-    loading: React.PropTypes.bool,
-    error: React.PropTypes.object
+  data: PropTypes.shape({
+    loading: PropTypes.bool,
+    error: PropTypes.object
   }).isRequired
 };

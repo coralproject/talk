@@ -1,6 +1,6 @@
 import React from 'react';
-import {Router, Route, IndexRedirect, IndexRoute} from 'react-router';
 import PropTypes from 'prop-types';
+import {Router, Route, IndexRedirect, IndexRoute} from 'react-router';
 
 import Configure from 'routes/Configure';
 import Dashboard from 'routes/Dashboard';

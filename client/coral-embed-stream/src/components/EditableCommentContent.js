@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {notifyForNewCommentStatus} from 'talk-plugin-commentbox/CommentBox';
 import {CommentForm} from 'talk-plugin-commentbox/CommentForm';
 import styles from './Comment.css';
@@ -38,10 +39,10 @@ export class EditableCommentContent extends React.Component {
     maxCharCount: PropTypes.number,
 
     // edit a comment, passed {{ body }}
-    editComment: React.PropTypes.func,
+    editComment: PropTypes.func,
 
     // called when editing should be stopped
-    stopEditing: React.PropTypes.func,
+    stopEditing: PropTypes.func,
   }
 
   constructor(props) {

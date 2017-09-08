@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {Button, Icon} from 'coral-ui';
 import {Menu} from 'react-mdl';
 import cn from 'classnames';
