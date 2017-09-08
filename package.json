@@ -3,6 +3,7 @@
   "version": "3.5.0",
   "description": "A better commenting experience from Mozilla, The New York Times, and the Washington Post. https://coralproject.net",
   "main": "app.js",
+  "private": true,
   "scripts": {
     "postinstall": "./bin/cli plugins reconcile --skip-remote",
     "start": "./bin/cli serve -j -w",
