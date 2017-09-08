@@ -6,6 +6,7 @@ export default {
     'SetCommentStatusResponse',
     'SuspendUserResponse',
     'RejectUsernameResponse',
+    'CreateCommentResponse',
     'SetUserStatusResponse',
     'CreateFlagResponse',
     'EditCommentResponse',

@@ -58,10 +58,10 @@ describe('graph.mutations.updateSettings', () => {
           expect(res.data.updateSettings.errors).to.not.be.empty;
           expect(res.data.updateSettings.errors[0]).to.have.property('translation_key', error);
         } else {
-          if (res.data.updateSettings.errors) {
+          if (res.data.updateSettings && res.data.updateSettings.errors) {
             console.error(res.data.updateSettings.errors);
           }
-          expect(res.data.updateSettings.errors).to.be.null;
+          expect(res.data.updateSettings).to.be.null;
 
           const retrievedSettings = await SettingsService.retrieve();
           Object.keys(newSettings).forEach((key) => {

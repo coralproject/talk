@@ -1254,7 +1254,7 @@ type RevokeTokenResponse implements Response {
 type RootMutation {
 
   # Creates a comment on the asset.
-  createComment(comment: CreateCommentInput!): CreateCommentResponse!
+  createComment(input: CreateCommentInput!): CreateCommentResponse!
 
   # Creates a flag on an entity.
   createFlag(flag: CreateFlagInput!): CreateFlagResponse!
@@ -1270,42 +1270,42 @@ type RootMutation {
 
   # Sets User status. Requires the `ADMIN` role.
   # Mutation is restricted.
-  setUserStatus(id: ID!, status: USER_STATUS!): SetUserStatusResponse!
+  setUserStatus(id: ID!, status: USER_STATUS!): SetUserStatusResponse
 
   # Suspends a user. Requires the `ADMIN` role.
   # Mutation is restricted.
-  suspendUser(input: SuspendUserInput!): SuspendUserResponse!
+  suspendUser(input: SuspendUserInput!): SuspendUserResponse
 
   # Reject a username. Requires the `ADMIN` role.
   # Mutation is restricted.
-  rejectUsername(input: RejectUsernameInput!): RejectUsernameResponse!
+  rejectUsername(input: RejectUsernameInput!): RejectUsernameResponse
 
   # Sets Comment status. Requires the `ADMIN` role.
   # Mutation is restricted.
-  setCommentStatus(id: ID!, status: COMMENT_STATUS!): SetCommentStatusResponse!
+  setCommentStatus(id: ID!, status: COMMENT_STATUS!): SetCommentStatusResponse
 
   # Add a tag.
-  addTag(tag: ModifyTagInput!): ModifyTagResponse!
+  addTag(tag: ModifyTagInput!): ModifyTagResponse
 
   # Removes a tag.
-  removeTag(tag: ModifyTagInput!): ModifyTagResponse!
+  removeTag(tag: ModifyTagInput!): ModifyTagResponse
 
   # Updates settings on a given asset.
   # Mutation is restricted.
-  updateAssetSettings(id: ID!, input: AssetSettingsInput!): UpdateAssetSettingsResponse!
+  updateAssetSettings(id: ID!, input: AssetSettingsInput!): UpdateAssetSettingsResponse
 
   # Updates the status of an asset allowing you to close/reopen an asset for
   # commenting.
     # Mutation is restricted.
-  updateAssetStatus(id: ID!, input: UpdateAssetStatusInput!): UpdateAssetStatusResponse!
+  updateAssetStatus(id: ID!, input: UpdateAssetStatusInput!): UpdateAssetStatusResponse
 
   # updateSettings will update the global settings.
   # Mutation is restricted.
-  updateSettings(input: UpdateSettingsInput!): UpdateSettingsResponse!
+  updateSettings(input: UpdateSettingsInput!): UpdateSettingsResponse
 
   # updateWordlist will update the given Wordlist.
   # Mutation is restricted.
-  updateWordlist(input: UpdateWordlistInput!): UpdateWordlistResponse!
+  updateWordlist(input: UpdateWordlistInput!): UpdateWordlistResponse
 
   # Ignore comments by another user
   ignoreUser(id: ID!): IgnoreUserResponse
@@ -1316,10 +1316,10 @@ type RootMutation {
 
   # RevokeToken will revoke an existing token.
   # Mutation is restricted.
-  revokeToken(input: RevokeTokenInput!): RevokeTokenResponse!
+  revokeToken(input: RevokeTokenInput!): RevokeTokenResponse
 
   # Stop Ignoring comments by another user.
-  stopIgnoringUser(id: ID!): StopIgnoringUserResponse!
+  stopIgnoringUser(id: ID!): StopIgnoringUserResponse
 }
 
 ################################################################################
