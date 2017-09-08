@@ -45,7 +45,7 @@ describe('graph.mutations.removeTag', () => {
       console.error(response.errors);
     }
     expect(response.errors).to.be.empty;
-    expect(response.data.removeTag.errors).to.be.null;
+    expect(response.data.removeTag).to.be.null;
 
     let retrievedComment = await CommentsService.findById(comment.id);
 

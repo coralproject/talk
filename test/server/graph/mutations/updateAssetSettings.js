@@ -57,7 +57,10 @@ describe('graph.mutations.updateAssetSettings', () => {
           expect(res.data.updateAssetSettings.errors).to.not.be.empty;
           expect(res.data.updateAssetSettings.errors[0]).to.have.property('translation_key', error);
         } else {
-          expect(res.data.updateAssetSettings.errors).to.be.null;
+          if (res.data.updateAssetSettings && res.data.updateAssetSettings.errors) {
+            console.error(res.data.updateAssetSettings.errors);
+          }
+          expect(res.data.updateAssetSettings).to.be.null;
 
           const retrievedAsset = await AssetModel.findOne({id: asset.id});
           Object.keys(settings).forEach((key) => {

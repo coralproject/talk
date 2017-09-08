@@ -1,0 +1,7 @@
+input CreateCommentInput {
+
+  # If true, the mutation will fail when the
+  # body contains toxic language.
+  checkToxicity: Boolean
+}
+

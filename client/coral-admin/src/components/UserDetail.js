@@ -28,16 +28,26 @@ export default class UserDetail extends React.Component {
     bulkReject: PropTypes.func.isRequired,
   }
 
-  rejectThenReload = (info) => {
-    this.props.rejectComment(info).then(() => {
+  rejectThenReload = async (info) => {
+    try {
+      await this.props.rejectComment(info);
       this.props.data.refetch();
-    });
+    } catch (err) {
+
+      // TODO: handle error.
+      console.error(err);
+    }
   }
 
-  acceptThenReload = (info) => {
-    this.props.acceptComment(info).then(() => {
+  acceptThenReload = async (info) => {
+    try {
+      await this.props.acceptComment(info);
       this.props.data.refetch();
-    });
+    } catch (err) {
+
+      // TODO: handle error.
+      console.error(err);
+    }
   }
 
   showAll = () => {
@@ -133,7 +143,7 @@ export default class UserDetail extends React.Component {
           <Slot
             fill="userProfile"
             data={this.props.data}
-            queryData={root, user}
+            queryData={{root, user}}
           />
 
           <hr/>

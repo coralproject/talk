@@ -22,6 +22,7 @@ plugins/*
 !plugins/talk-plugin-author-menu
 !plugins/talk-plugin-member-since
 !plugins/talk-plugin-ignore-user
+!plugins/talk-plugin-toxic-comments
 !plugins/talk-plugin-remember-sort
 
 node_modules

@@ -55,7 +55,10 @@ describe('graph.mutations.updateAssetStatus', () => {
           expect(res.data.updateAssetStatus.errors).to.not.be.empty;
           expect(res.data.updateAssetStatus.errors[0]).to.have.property('translation_key', error);
         } else {
-          expect(res.data.updateAssetStatus.errors).to.be.null;
+          if (res.data.updateAssetStatus && res.data.updateAssetStatus.errors) {
+            console.error(res.data.updateAssetStatus.errors);
+          }
+          expect(res.data.updateAssetStatus).to.be.null;
 
           const retrievedAsset = await AssetModel.findOne({id: asset.id});
           expect(retrievedAsset.closedAt).to.not.be.null;

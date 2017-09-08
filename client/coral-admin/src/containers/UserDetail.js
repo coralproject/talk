@@ -36,14 +36,19 @@ class UserDetailContainer extends React.Component {
   isLoadingMore = false;
 
   // status can be 'ACCEPTED' or 'REJECTED'
-  bulkSetCommentStatus = (status) => {
+  bulkSetCommentStatus = async (status) => {
     const changes = this.props.selectedCommentIds.map((commentId) => {
       return this.props.setCommentStatus({commentId, status});
     });
 
-    Promise.all(changes).then(() => {
+    try {
+      await Promise.all(changes);
       this.props.clearUserDetailSelections(); // un-select everything
-    });
+    } catch (err) {
+
+      // TODO: handle error.
+      console.error(err);
+    }
   }
 
   bulkReject = () => {

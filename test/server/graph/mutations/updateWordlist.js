@@ -65,10 +65,10 @@ describe('graph.mutations.updateWordlist', () => {
           expect(retrievedWordlist).to.have.property('suspect');
           expect(retrievedWordlist.suspect).to.have.members([]);
         } else {
-          if (res.data.updateWordlist.errors) {
+          if (res.data.updateWordlist && res.data.updateWordlist.errors) {
             console.error(res.data.updateWordlist.errors);
           }
-          expect(res.data.updateWordlist.errors).to.be.null;
+          expect(res.data.updateWordlist).to.be.null;
 
           const {wordlist: retrievedWordlist} = await SettingsService.retrieve();
           expect(retrievedWordlist).to.have.property('banned');
