@@ -1,0 +1,6 @@
+en:
+  error:
+    COMMENT_IS_TOXIC: |
+      Are you sure? The language in this comment might violate our community guidelines.
+      You can edit the comment or submit it for moderator review.
+es:

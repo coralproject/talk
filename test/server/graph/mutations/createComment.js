@@ -16,8 +16,8 @@ describe('graph.mutations.createComment', () => {
   beforeEach(() => SettingsService.init());
 
   const query = `
-    mutation CreateComment($comment: CreateCommentInput = {asset_id: 123, body: "Here's my comment!"}) {
-      createComment(comment: $comment) {
+    mutation CreateComment($input: CreateCommentInput = {asset_id: 123, body: "Here's my comment!"}) {
+      createComment(input: $input) {
         comment {
           id
           status
@@ -176,7 +176,7 @@ describe('graph.mutations.createComment', () => {
           const context = new Context({user: new UserModel({status: 'ACTIVE'})});
 
           return graphql(schema, query, {}, context, {
-            comment: {
+            input: {
               asset_id: '123',
               body
             }

@@ -1,0 +1,9 @@
+{
+  "name": "@coralproject/talk-plugin-toxicity",
+  "pluginName": "talk-plugin-toxicity",
+  "version": "0.0.1",
+  "description": "Provides support for measuring the toxicity of user comments using the Perspectives API",
+  "main": "index.js",
+  "author": "The Coral Project Team <coral@mozillafoundation.org>",
+  "license": "Apache-2.0"
+}
