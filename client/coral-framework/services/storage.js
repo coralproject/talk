@@ -87,14 +87,15 @@ export function createPymStorage(pym) {
 /**
  * Listens to `pym` and relay storage requests to `storage`.
  * This is the counterpart of `createPymStorage`.
- * @param  {string} pym  pym
- * @return {Object} storage
+ * @param  {Object} storage  storage to perform requests on
+ * @param  {Object} pym      pym to listen to storage requests
+ * @param  {string} prefix   namespace requests by prepending a prefix to the keys
  */
-export function connectStorageToPym(storage, pym) {
+export function connectStorageToPym(storage, pym, prefix = 'talkPymStorage:') {
   pym.onMessage('pymStorage.request', (msg) => {
     const {id, method, parameters} = JSON.parse(msg);
     const {key, value} = parameters;
-    const prefixedKey = `talkPymStorage:${key}`;
+    const prefixedKey = `${prefix}${key}`;
 
     // Variable for the method return value.
     let result;
