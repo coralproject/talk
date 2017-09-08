@@ -34,13 +34,15 @@ module.exports = class AssetsService {
       globalSettings,
       asset,
     ] = await Promise.all([
-      settings || SettingsService.retrieve(),
+      settings !== null ? settings : SettingsService.retrieve(),
       assetQuery,
     ]);
 
     // If the asset exists and has settings then return the merged object.
     if (asset && asset.settings) {
       settings = merge({}, globalSettings, asset.settings);
+    } else {
+      settings = globalSettings;
     }
 
     return settings;

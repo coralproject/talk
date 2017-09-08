@@ -160,7 +160,7 @@ module.exports = class CommentsService {
     // We should adjust the comment's status such that if it was approved
     // previously, we should mark the comment as 'NONE' or 'PREMOD', which ever
     // was most recent if the new comment is destined to be `NONE` or `PREMOD`.
-    if (originalComment.status === 'ACCEPTED' && ['NONE', 'PREMOD'].includes(status)) {
+    if (originalComment.status === 'ACCEPTED' && status === 'NONE') {
 
       const lastUnmoderatedStatus = CommentsService.lastUnmoderatedStatus(originalComment);
 

@@ -218,7 +218,7 @@ const filterNewComment = async (context, {body, asset_id}) => {
     wl.scan('body', body),
 
     // Return the asset's settings.
-    AssetsService.rectifySettings(asset, settings)
+    await AssetsService.rectifySettings(asset, settings)
   ];
 };
 
