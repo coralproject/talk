@@ -77,7 +77,7 @@ class PluginsService {
     addMetaDataToSlotComponents(plugins);
   }
 
-  getSlotComponents(slot, reduxState, props = {}, queryData = {}) {
+  _getSlotComponents(slot, reduxState, props = {}, queryData = {}) {
     const pluginConfig = reduxState.config.plugin_config || emptyConfig;
     return flatten(this.plugins
 
@@ -100,7 +100,7 @@ class PluginsService {
   }
 
   isSlotEmpty(slot, reduxState, props = {}, queryData = {}) {
-    return this.getSlotComponents(slot, reduxState, props, queryData).length === 0;
+    return this._getSlotComponents(slot, reduxState, props, queryData).length === 0;
   }
 
   /**
@@ -124,10 +124,42 @@ class PluginsService {
    * Returns React Elements for given slot.
    */
   getSlotElements(slot, reduxState, props = {}, queryData = {}) {
-    return this.getSlotComponents(slot, reduxState, props, queryData)
-      .map((component, i) => {
-        return React.createElement(component, {key: i, ...this.getSlotComponentProps(component, reduxState, props, queryData)});
-      });
+    const pluginConfig = reduxState.config.plugin_config || emptyConfig;
+
+    const isDisabled = (component) => {
+      if (
+        pluginConfig &&
+        pluginConfig[component.talkPluginName] &&
+        pluginConfig[component.talkPluginName].disable_components
+      ) {
+        return true;
+      }
+
+      // Check if component is excluded.
+      if(component.isExcluded) {
+        let resolvedProps = this.getSlotComponentProps(component, reduxState, props, queryData);
+        if (component.mapStateToProps) {
+          resolvedProps = {...resolvedProps, ...component.mapStateToProps(reduxState)};
+        }
+        return component.isExcluded(resolvedProps);
+      }
+
+      return false;
+    };
+
+    return flatten(this.plugins
+      .filter((o) => o.module.slots && o.module.slots[slot])
+      .map((o) => o.module.slots[slot])
+    )
+      .map((component, i) => ({
+        component,
+        disabled: isDisabled(component),
+        key: i,
+      }))
+      .filter((o) => !o.disabled)
+      .map(({component, key}) =>
+        React.createElement(component, {key, ...this.getSlotComponentProps(component, reduxState, props, queryData)})
+      );
   }
 
   getSlotFragments(slot, part) {

@@ -26,8 +26,8 @@ class StreamTabPanelContainer extends React.Component {
     // it does not result in a change of slot children.
     const changes = getShallowChanges(this.props, next);
     if (changes.length === 1 && changes[0] === 'reduxState') {
-      const prevUuid = this.getSlotComponents(this.props.tabSlot, this.props).map((cmp) => cmp.talkUuid);
-      const nextUuid = this.getSlotComponents(next.tabSlot, next).map((cmp) => cmp.talkUuid);
+      const prevUuid = this.getSlotElements(this.props.tabSlot, this.props).map((el) => el.type.talkUuid);
+      const nextUuid = this.getSlotElements(next.tabSlot, next).map((el) => el.type.talkUuid);
       return !isEqual(prevUuid, nextUuid);
     }
 
@@ -37,42 +37,33 @@ class StreamTabPanelContainer extends React.Component {
 
   fallbackAllTab(props = this.props) {
     if (props.activeTab !== props.fallbackTab) {
-      const slotPlugins = this.getSlotComponents(props.tabSlot, props).map((c) => c.talkPluginName);
+      const slotPlugins = this.getSlotElements(props.tabSlot, props).map((el) => el.type.talkPluginName);
       if (slotPlugins.indexOf(props.activeTab) === -1) {
         props.setActiveTab(props.fallbackTab);
       }
     }
   }
 
-  getSlotComponents(slot, props = this.props) {
+  getSlotElements(slot, props = this.props) {
     const {plugins} = this.context;
-    return plugins.getSlotComponents(slot, props.reduxState, props.slotProps, props.queryData);
+    return plugins.getSlotElements(slot, props.reduxState, props.slotProps, props.queryData);
   }
 
   getPluginTabElements(props = this.props) {
-    const {plugins} = this.context;
-    return this.getSlotComponents(props.tabSlot).map((PluginComponent) => {
-      const pluginProps = plugins.getSlotComponentProps(PluginComponent, props.reduxState, props.slotProps, props.queryData);
+    return this.getSlotElements(props.tabSlot).map((el) => {
       return (
-        <Tab tabId={PluginComponent.talkPluginName} key={PluginComponent.talkPluginName}>
-          <PluginComponent
-            {...pluginProps}
-            active={this.props.activeTab === PluginComponent.talkPluginName}
-          />
+        <Tab tabId={el.type.talkPluginName} key={el.type.talkPluginName}>
+          {React.cloneElement(el, {active: this.props.activeTab === el.type.talkPluginName})}
         </Tab>
       );
     });
   }
 
   getPluginTabPaneElements(props = this.props) {
-    const {plugins} = this.context;
-    return this.getSlotComponents(props.tabPaneSlot).map((PluginComponent) => {
-      const pluginProps = plugins.getSlotComponentProps(PluginComponent, props.reduxState, props.slotProps, props.queryData);
+    return this.getSlotElements(props.tabPaneSlot).map((el) => {
       return (
-        <TabPane tabId={PluginComponent.talkPluginName} key={PluginComponent.talkPluginName}>
-          <PluginComponent
-            {...pluginProps}
-          />
+        <TabPane tabId={el.type.talkPluginName} key={el.type.talkPluginName}>
+          {el}
         </TabPane>
       );
     });
