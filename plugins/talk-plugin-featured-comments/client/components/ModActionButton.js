@@ -3,10 +3,9 @@ import cn from 'classnames';
 import styles from './ModActionButton.css';
 import {pluginName} from '../../package.json';
 import {t} from 'plugin-api/beta/client/services';
-import {withTags} from 'plugin-api/beta/client/hocs';
 import {Icon} from 'plugin-api/beta/client/components/ui';
 
-export class Button extends React.Component {
+export class ModActionButton extends React.Component {
   constructor() {
     super();
 
@@ -56,5 +55,5 @@ export class Button extends React.Component {
   }
 }
 
-export default withTags('featured')(Button);
+export default ModActionButton;
 

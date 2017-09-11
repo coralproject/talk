@@ -5,7 +5,7 @@ import {t, timeago} from 'plugin-api/beta/client/services';
 import {Slot, CommentAuthorName} from 'plugin-api/beta/client/components';
 import {Icon} from 'plugin-api/beta/client/components/ui';
 import {pluginName} from '../../package.json';
-import Button from './Button';
+import FeaturedButton from '../containers/FeaturedButton';
 
 class Comment extends React.Component {
 
@@ -50,7 +50,7 @@ class Comment extends React.Component {
               inline
             />
 
-            <Button
+            <FeaturedButton
               root={root}
               data={data}
               comment={comment}
