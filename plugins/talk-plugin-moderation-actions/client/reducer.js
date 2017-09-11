@@ -1,21 +1,20 @@
-import {OPEN_TOOLTIP, CLOSE_TOOLTIP} from './constants';
+import {OPEN_MENU, CLOSE_MENU} from './constants';
 
 const initialState = {
-  showTooltipForComment: null,
+  showMenuForComment: null,
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-  case OPEN_TOOLTIP:
+  case OPEN_MENU:
     return {
       ...state,
-      showTooltipForComment: action.id,
+      showMenuForComment: action.id
     };
-  case CLOSE_TOOLTIP:
+  case CLOSE_MENU:
     return {
       ...state,
-      showTooltipForComment: null,
-      contentSlot: null,
+      showMenuForComment: null
     };
   default :
     return state;

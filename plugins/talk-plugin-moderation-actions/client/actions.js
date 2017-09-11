@@ -1,10 +1,10 @@
-import {OPEN_TOOLTIP, CLOSE_TOOLTIP} from './constants';
+import {OPEN_MENU, CLOSE_MENU} from './constants';
 
-export const openTooltip = (id) => ({
-  type: OPEN_TOOLTIP,
+export const openMenu = (id) => ({
+  type: OPEN_MENU,
   id,
 });
 
-export const closeTooltip = () => ({
-  type: CLOSE_TOOLTIP,
+export const closeMenu = () => ({
+  type: CLOSE_MENU,
 });

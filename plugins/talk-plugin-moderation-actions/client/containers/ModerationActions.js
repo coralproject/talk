@@ -1,7 +1,7 @@
 import React from 'react';
 import {bindActionCreators} from 'redux';
 import {gql, compose} from 'react-apollo';
-import {openTooltip, closeTooltip} from '../actions';
+import {openMenu, closeMenu} from '../actions';
 import {can} from 'plugin-api/beta/client/services';
 import {getShallowChanges} from 'plugin-api/beta/client/utils';
 import ModerationActions from '../components/ModerationActions';
@@ -11,13 +11,13 @@ class ModerationActionsContainer extends React.Component {
 
   shouldComponentUpdate(nextProps) {
     
-    // Specifically handle `showTooltipForComment` if it is the only change.
+    // Specifically handle `showMenuForComment` if it is the only change.
     const changes = getShallowChanges(this.props, nextProps);
-    if (changes.length === 1 && changes[0] === 'showTooltipForComment') {
+    if (changes.length === 1 && changes[0] === 'showMenuForComment') {
       const commentId = this.props.comment.id;
       if (
-        commentId !== this.props.showTooltipForComment &&
-        commentId !== nextProps.showTooltipForComment
+        commentId !== this.props.showMenuForComment &&
+        commentId !== nextProps.showMenuForComment
       ) {
         return false;
       }
@@ -27,17 +27,17 @@ class ModerationActionsContainer extends React.Component {
     return changes.length !== 0;
   }
 
-  toogleTooltip = () => {
-    if (this.props.showTooltipForComment === this.props.comment.id) {
-      this.props.closeTooltip();
+  toogleMenu = () => {
+    if (this.props.showMenuForComment === this.props.comment.id) {
+      this.props.closeMenu();
     } else {
-      this.props.openTooltip(this.props.comment.id);
+      this.props.openMenu(this.props.comment.id);
     }
   }
 
-  hideTooltip = () => {
-    if (this.props.showTooltipForComment === this.props.comment.id) {
-      this.props.closeTooltip();
+  hideMenu = () => {
+    if (this.props.showMenuForComment === this.props.comment.id) {
+      this.props.closeMenu();
     }
   }
 
@@ -47,22 +47,22 @@ class ModerationActionsContainer extends React.Component {
       root={this.props.root}
       asset={this.props.asset}
       comment={this.props.comment}
-      tooltipVisible={this.props.showTooltipForComment === this.props.comment.id}
-      toogleTooltip={this.toogleTooltip}
-      hideTooltip={this.hideTooltip}
+      menuVisible={this.props.showMenuForComment === this.props.comment.id}
+      toogleMenu={this.toogleMenu}
+      hideMenu={this.hideMenu}
     />;
   }
 }
 
 const mapStateToProps = ({auth, talkPluginModerationActions: state}) => ({
   user: auth.user,
-  showTooltipForComment: state.showTooltipForComment,
+  showMenuForComment: state.showMenuForComment,
 });
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
-    openTooltip,
-    closeTooltip,
+    openMenu,
+    closeMenu,
   }, dispatch);
 
 const enhance = compose(
