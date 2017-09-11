@@ -10,7 +10,7 @@ sidebar:
     nav: "docs"
 ---
 
-Online comments are broken. Mozilla's open-source, plugin-based tool Talk rethinks how moderation, comment display, and conversation function online, creating the opportunity for better, smarter discussions designed to fit your needs. [Read more about Talk here.](https://coralproject.net/products/talk)
+Online comments are broken. Mozilla's open-source, plugin-based tool Talk rethinks how moderation, comment display, and conversation function online, creating the opportunity for better, smarter discussions designed to fit your needs. [Read more about Talk here.](https://coralproject.net/products/talk.html)
 
 Third party licenses are available via the `/client/3rdpartylicenses.txt`
 endpoint when the server is running with built assets.
@@ -32,11 +32,7 @@ See our [Contribution Guide]({{ "/docs/development/contributing" | absolute_url 
 
 - iPad
 - iPad Pro
-- iPhone 7 Plus
-- iPhone 7
-- iPhone 6 Plus
-- iPhone 6
-- iPhone 5
+- iPhone 5 and later
 
 ### iOS Browsers
 
@@ -46,9 +42,8 @@ See our [Contribution Guide]({{ "/docs/development/contributing" | absolute_url 
 
 ### Android Devices
 
-- Galaxy S5
-- Nexus 5X
-- Nexus 6P
+- Galaxy S5 and later
+- Nexus 5X and later
 
 ### Android Browsers
 

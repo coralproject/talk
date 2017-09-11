@@ -194,16 +194,32 @@ const createComment = async (context, {tags = [], body, asset_id, parent_id = nu
  * @param  {String} [asset_id]  id of asset comment is posted on
  * @return {Object}         resolves to the wordlist results
  */
-const filterNewComment = (context, {body, asset_id}) => {
+const filterNewComment = async (context, {body, asset_id}) => {
+
+  // Load the settings.
+  const [
+    settings,
+    asset,
+  ] = await Promise.all([
+    context.loaders.Settings.load(),
+    context.loaders.Assets.getByID.load(asset_id),
+  ]);
 
   // Create a new instance of the Wordlist.
   const wl = new Wordlist();
 
+  // Load the wordlist.
+  wl.upsert(settings.wordlist);
+
   // Load the wordlist and filter the comment content.
-  return Promise.all([
-    wl.load().then(() => wl.scan('body', body)),
-    asset_id && AssetsService.rectifySettings(AssetsService.findById(asset_id))
-  ]);
+  return [
+
+    // Scan the word.
+    wl.scan('body', body),
+
+    // Return the asset's settings.
+    await AssetsService.rectifySettings(asset, settings)
+  ];
 };
 
 /**
@@ -247,7 +263,7 @@ const resolveNewCommentStatus = async (context, {asset_id, body, status}, wordli
 
   // Return `premod` if pre-moderation is enabled and an empty "new" status
   // in the event that it is not in pre-moderation mode.
-  let {moderation, charCountEnable, charCount} = await AssetsService.rectifySettings(asset);
+  let {moderation, charCountEnable, charCount} = await AssetsService.rectifySettings(asset, settings);
 
   // Reject if the comment is too long
   if (charCountEnable && body.length > charCount) {
@@ -365,7 +381,7 @@ const edit = async (context, {id, asset_id, edit: {body}}) => {
   const status = await resolveNewCommentStatus(context, {asset_id, body}, wordlist, settings);
 
   // Execute the edit.
-  const comment = await CommentsService.edit(id, context.user.id, {body, status});
+  const comment = await CommentsService.edit({id, author_id: context.user.id, body, status});
 
   // Publish the edited comment via the subscription.
   context.pubsub.publish('commentEdited', comment);

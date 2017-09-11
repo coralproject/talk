@@ -24,4 +24,3 @@ const Button = (props) => {
 };
 
 export default withTags('featured')(Button);
-
