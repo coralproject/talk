@@ -77,30 +77,8 @@ class PluginsService {
     addMetaDataToSlotComponents(plugins);
   }
 
-  _getSlotComponents(slot, reduxState, props = {}, queryData = {}) {
-    const pluginConfig = reduxState.config.plugin_config || emptyConfig;
-    return flatten(this.plugins
-
-      // Filter out components that have slots and have been disabled in `plugin_config`
-      .filter((o) => o.module.slots && (!pluginConfig || !pluginConfig[o.name] || !pluginConfig[o.name].disable_components))
-
-      .filter((o) => o.module.slots[slot])
-      .map((o) => o.module.slots[slot])
-    )
-      .filter((component) => {
-        if(!component.isExcluded) {
-          return true;
-        }
-        let resolvedProps = this.getSlotComponentProps(component, reduxState, props, queryData);
-        if (component.mapStateToProps) {
-          resolvedProps = {...resolvedProps, ...component.mapStateToProps(reduxState)};
-        }
-        return !component.isExcluded(resolvedProps);
-      });
-  }
-
   isSlotEmpty(slot, reduxState, props = {}, queryData = {}) {
-    return this._getSlotComponents(slot, reduxState, props, queryData).length === 0;
+    return this.getSlotElements(slot, reduxState, props, queryData).length === 0;
   }
 
   /**
