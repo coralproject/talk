@@ -1,11 +1,11 @@
 import Tab from './containers/Tab';
 import Tag from './containers/Tag';
-import ModActionButton from './components/ModActionButton';
 import TabPane from './containers/TabPane';
 import translations from './translations.yml';
 import update from 'immutability-helper';
 import reducer from './reducer';
 import ModTag from './containers/ModTag';
+import ModActionButton from './containers/ModActionButton';
 import ModSubscription from './containers/ModSubscription';
 
 import {findCommentInEmbedQuery} from 'coral-embed-stream/src/graphql/utils';
