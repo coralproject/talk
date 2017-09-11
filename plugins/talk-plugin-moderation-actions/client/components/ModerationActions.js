@@ -9,39 +9,19 @@ import ApproveCommentAction from '../containers/ApproveCommentAction';
 import {Slot} from 'plugin-api/beta/client/components';
 
 export default class ModerationActions extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      tooltip: false
-    };
-  }
-
-  toogleTooltip = () => {
-    const {tooltip} = this.state;
-    this.setState({
-      tooltip: !tooltip
-    });
-  }
-
-  hideTooltip = () => {
-    this.setState({
-      tooltip: false
-    });
-  }
 
   render() {
-    const {tooltip} = this.state;
-    const {comment, asset, data} = this.props;
+    const {comment, asset, data, tooltipVisible, toogleTooltip, hideTooltip} = this.props;
 
     return(
-      <ClickOutside onClickOutside={this.hideTooltip}>
+      <ClickOutside onClickOutside={hideTooltip}>
         <div className={cn(styles.moderationActions, 'talk-plugin-moderation-actions')}>
-          <span onClick={this.toogleTooltip} className={cn(styles.arrow, 'talk-plugin-moderation-actions-arrow')}>
-            {tooltip ? <Icon name="keyboard_arrow_up" className={styles.icon} /> : 
+          <span onClick={toogleTooltip} className={cn(styles.arrow, 'talk-plugin-moderation-actions-arrow')}>
+            {tooltipVisible ? <Icon name="keyboard_arrow_up" className={styles.icon} /> : 
               <Icon name="keyboard_arrow_down" className={styles.icon} />}
           </span>
-          {tooltip && (
+
+          {tooltipVisible && (
             <Tooltip>
 
               <Slot
