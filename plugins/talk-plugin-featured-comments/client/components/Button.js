@@ -3,7 +3,6 @@ import cn from 'classnames';
 import styles from './Button.css';
 import {pluginName} from '../../package.json';
 import {can} from 'plugin-api/beta/client/services';
-import {withTags} from 'plugin-api/beta/client/hocs';
 import {Icon} from 'plugin-api/beta/client/components/ui';
 
 const Button = (props) => {
@@ -23,4 +22,4 @@ const Button = (props) => {
   ) : null ;
 };
 
-export default withTags('featured')(Button);
+export default Button;
