@@ -34,9 +34,9 @@
 }
 
 .tooltip {
-  top: 36px;
+  top: 33px;
   left: auto;
-  right: 10px;
+  right: 5px;
 }
 
 .tooltip::before{
@@ -48,4 +48,8 @@
   left: auto;
   right: 16px;
   top: -20px;
+}
+
+.tagContainer {
+  position: relative;
 }

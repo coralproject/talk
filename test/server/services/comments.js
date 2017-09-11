@@ -10,7 +10,6 @@ const CommentsService = require('../../../services/comments');
 const settings = {id: '1', moderation: 'PRE', wordlist: {banned: ['bad words'], suspect: ['suspect words']}};
 
 const chai = require('chai');
-chai.use(require('chai-as-promised'));
 chai.use(require('sinon-chai'));
 const expect = chai.expect;
 
@@ -96,100 +95,116 @@ describe('services.CommentsService', () => {
     user_id: '456'
   }];
 
-  beforeEach(() => {
-    return SettingsService.init(settings).then(() => {
-      return Promise.all([
-        CommentModel.create(comments),
-        UsersService.createLocalUsers(users),
-        ActionModel.create(actions)
-      ]);
-    });
+  beforeEach(async () => {
+    await SettingsService.init(settings);
+
+    await Promise.all([
+      CommentModel.create(comments),
+      UsersService.createLocalUsers(users),
+      ActionModel.create(actions)
+    ]);
   });
 
   describe('#publicCreate()', () => {
 
-    it('creates a new comment', () => {
-      return CommentsService
-        .publicCreate({
-          body: 'This is a comment!',
-          status: 'ACCEPTED'
-        }).then((c) => {
-          expect(c).to.not.be.null;
-          expect(c.id).to.not.be.null;
-          expect(c.id).to.be.uuid;
-          expect(c.status).to.be.equal('ACCEPTED');
-        });
+    it('creates a new comment', async () => {
+      const c = await CommentsService.publicCreate({
+        body: 'This is a comment!',
+        status: 'ACCEPTED'
+      });
+
+      expect(c).to.not.be.null;
+      expect(c.id).to.not.be.null;
+      expect(c.id).to.be.uuid;
+      expect(c.status).to.be.equal('ACCEPTED');
     });
 
-    it('creates many new comments', () => {
-      return CommentsService
-        .publicCreate([{
-          body: 'This is a comment!',
-          status: 'ACCEPTED'
-        }, {
-          body: 'This is another comment!'
-        }, {
-          body: 'This is a rejected comment!',
-          status: 'REJECTED'
-        }]).then(([c1, c2, c3]) => {
-          expect(c1).to.not.be.null;
-          expect(c1.id).to.be.uuid;
-          expect(c1.status).to.be.equal('ACCEPTED');
+    it('creates many new comments', async () => {
+      const [
+        c1,
+        c2,
+        c3,
+      ] = await CommentsService.publicCreate([{
+        body: 'This is a comment!',
+        status: 'ACCEPTED'
+      }, {
+        body: 'This is another comment!'
+      }, {
+        body: 'This is a rejected comment!',
+        status: 'REJECTED'
+      }]);
 
-          expect(c2).to.not.be.null;
-          expect(c2.id).to.be.uuid;
-          expect(c2.status).to.be.equal('NONE');
+      expect(c1).to.not.be.null;
+      expect(c1.status).to.be.equal('ACCEPTED');
 
-          expect(c3).to.not.be.null;
-          expect(c3.id).to.be.uuid;
-          expect(c3.status).to.be.equal('REJECTED');
-        });
+      expect(c2).to.not.be.null;
+      expect(c2.status).to.be.equal('NONE');
+
+      expect(c3).to.not.be.null;
+      expect(c3.status).to.be.equal('REJECTED');
     });
+  });
 
+  describe('#edit', () => {
+    it('changes the comment status back to premod if it was accepted', async () => {
+      const originalComment = await CommentsService.publicCreate({
+        body: 'this is a body!',
+        status: 'PREMOD',
+        author_id: '123',
+      });
+
+      expect(originalComment.status_history).to.have.length(1);
+
+      await CommentsService.pushStatus(originalComment.id, 'ACCEPTED');
+
+      let retrivedComment = await CommentsService.findById(originalComment.id);
+
+      expect(retrivedComment).to.have.property('status', 'ACCEPTED');
+      expect(retrivedComment.status_history).to.have.length(2);
+      expect(retrivedComment.status_history[1]).to.have.property('type', 'ACCEPTED');
+
+      const editedComment = await CommentsService.edit({
+        id: originalComment.id,
+        author_id: '123',
+        body: 'This is a body!',
+        status: 'NONE',
+      });
+
+      expect(editedComment).to.have.property('status', 'PREMOD');
+      expect(editedComment.status_history).to.have.length(4);
+      expect(editedComment.status_history[3]).to.have.property('type', 'PREMOD');
+
+      retrivedComment = await CommentsService.findById(originalComment.id);
+
+      expect(retrivedComment).to.have.property('status', 'PREMOD');
+      expect(retrivedComment.status_history).to.have.length(4);
+      expect(retrivedComment.status_history[3]).to.have.property('type', 'PREMOD');
+    });
   });
 
   describe('#findById()', () => {
 
-    it('should find a comment by id', () => {
-      return CommentsService
-        .findById('1')
-        .then((result) => {
-          expect(result).to.not.be.null;
-          expect(result).to.have.property('body', 'comment 10');
-        });
+    it('should find a comment by id', async () => {
+      const comment = await CommentsService.findById('1');
+      expect(comment).to.not.be.null;
+      expect(comment).to.have.property('body', 'comment 10');
     });
 
   });
 
   describe('#findByAssetId()', () => {
 
-    it('should find an array of all comments by asset id', () => {
-      return CommentsService
-        .findByAssetId('123')
-        .then((result) => {
-          expect(result).to.have.length(3);
-          result.sort((a, b) => {
-            if (a.body < b.body) {return -1;}
-            else {return 1;}
-          });
-          expect(result[0]).to.have.property('body', 'comment 10');
-          expect(result[1]).to.have.property('body', 'comment 20');
-          expect(result[2]).to.have.property('body', 'comment 40');
-        });
+    it('should find an array of all comments by asset id', async () => {
+      const comments = await CommentsService.findByAssetId('123');
+      expect(comments).to.have.length(3);
+      comments.sort((a, b) => {
+        if (a.body < b.body) {return -1;}
+        else {return 1;}
+      });
+      expect(comments[0]).to.have.property('body', 'comment 10');
+      expect(comments[1]).to.have.property('body', 'comment 20');
+      expect(comments[2]).to.have.property('body', 'comment 40');
     });
-  });
-
-  describe('#moderationQueue()', () => {
-
-    it('should find an array of new comments to moderate when pre-moderation', () => {
-      return CommentsService
-        .moderationQueue('PREMOD')
-        .then((result) => {
-          expect(result).to.not.be.null;
-          expect(result).to.have.lengthOf(2);
-        });
-    });
-
   });
 
   describe('#changeStatus', () => {
@@ -220,20 +235,18 @@ describe('services.CommentsService', () => {
       expect(c3.status_history[0]).to.have.property('assigned_by', '123');
     });
 
-    it('should change the status of a comment from accepted', () => {
-      return CommentsService.pushStatus(comments[1].id, 'REJECTED', '123')
-        .then(() => CommentsService.findById(comments[1].id))
-        .then((c) => {
-          expect(c).to.have.property('status_history');
-          expect(c).to.have.property('status');
-          expect(c.status).to.equal('REJECTED');
-          expect(c.status_history).to.have.length(2);
-          expect(c.status_history[0]).to.have.property('type', 'ACCEPTED');
-          expect(c.status_history[0]).to.have.property('assigned_by', null);
+    it('should change the status of a comment from accepted', async () => {
+      await CommentsService.pushStatus(comments[1].id, 'REJECTED', '123');
+      const c = await CommentsService.findById(comments[1].id);
+      expect(c).to.have.property('status_history');
+      expect(c).to.have.property('status');
+      expect(c.status).to.equal('REJECTED');
+      expect(c.status_history).to.have.length(2);
+      expect(c.status_history[0]).to.have.property('type', 'ACCEPTED');
+      expect(c.status_history[0]).to.have.property('assigned_by', null);
 
-          expect(c.status_history[1]).to.have.property('type', 'REJECTED');
-          expect(c.status_history[1]).to.have.property('assigned_by', '123');
-        });
+      expect(c.status_history[1]).to.have.property('type', 'REJECTED');
+      expect(c.status_history[1]).to.have.property('assigned_by', '123');
     });
   });
 });
