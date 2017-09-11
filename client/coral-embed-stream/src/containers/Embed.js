@@ -215,6 +215,6 @@ const mapDispatchToProps = (dispatch) =>
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  branch((props) => !props.auth.checkedInitialLogin && props.config, renderComponent(Spinner)),
+  branch((props) => !props.auth.checkedInitialLogin, renderComponent(Spinner)),
   withEmbedQuery,
 )(EmbedContainer);

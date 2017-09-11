@@ -10,11 +10,6 @@ import reducers from './reducers';
 import TalkProvider from 'coral-framework/components/TalkProvider';
 import pluginsConfig from 'pluginsConfig';
 
-const context = createContext({reducers, graphqlExtension, pluginsConfig});
-
-// TODO: move init code into `bootstrap` service after auth has been refactored.
-const {store, pym} = context;
-
 function inIframe() {
   try {
     return window.self !== window.top;
@@ -23,37 +18,45 @@ function inIframe() {
   }
 }
 
-function init(config = {}) {
-  store.dispatch(addExternalConfig(config));
-  store.dispatch(checkLogin());
-}
+// TODO: move init code into `bootstrap` service after auth has been refactored.
+function preInit({store, pym}) {
 
-// Don't run this in the popup.
-if (!window.opener) {
-  if (inIframe()) {
+  // TODO: This is popup specific code and needs to be refactored.
+  if (!inIframe()) {
+    store.dispatch(addExternalConfig({}));
+    store.dispatch(checkLogin());
+    return;
+  }
+
+  pym.onMessage('login', (token) => {
+    if (token) {
+      store.dispatch(handleAuthToken(token));
+    }
+    store.dispatch(checkLogin());
+  });
+
+  pym.onMessage('logout', () => {
+    store.dispatch(logout());
+  });
+
+  return new Promise((resolve) => {
     pym.sendMessage('getConfig');
     pym.onMessage('config', (config) => {
-      init(JSON.parse(config));
-    });
-
-    pym.onMessage('login', (token) => {
-      if (token) {
-        store.dispatch(handleAuthToken(token));
-      }
+      store.dispatch(addExternalConfig(config));
       store.dispatch(checkLogin());
+      resolve();
     });
-
-    pym.onMessage('logout', () => {
-      store.dispatch(logout());
-    });
-  } else {
-    init();
-  }
+  });
 }
 
-render(
-  <TalkProvider {...context}>
-    <AppRouter />
-  </TalkProvider>
-  , document.querySelector('#talk-embed-stream-container')
-);
+async function main() {
+  const context = await createContext({reducers, graphqlExtension, pluginsConfig, preInit});
+  render(
+    <TalkProvider {...context}>
+      <AppRouter />
+    </TalkProvider>
+    , document.querySelector('#talk-embed-stream-container')
+  );
+}
+
+main();
