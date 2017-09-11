@@ -3,6 +3,7 @@ import pym from 'pym.js';
 import EventEmitter from 'eventemitter2';
 import {buildUrl} from 'coral-framework/utils/url';
 import Snackbar from './Snackbar';
+import {createStorage, connectStorageToPym} from 'coral-framework/services/storage';
 
 const NOTIFICATION_OFFSET = 200;
 
@@ -134,6 +135,9 @@ export default class Stream {
 
     // If the user clicks outside the embed, then tell the embed.
     document.addEventListener('click', this.handleClick.bind(this), true);
+
+    // Listens to storage requests on pym and relay it to local storage.
+    connectStorageToPym(createStorage(), this.pym);
   }
 
   login(token) {
