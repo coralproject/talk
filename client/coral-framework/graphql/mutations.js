@@ -127,6 +127,27 @@ export const withSetCommentStatus = withMutation(
             commentId,
             status,
           },
+          optimisticResponse: {
+            setCommentStatus: {
+              __typename: 'SetCommentStatusResponse',
+              errors: null,
+            }
+          },
+          update: (proxy) => {
+
+            const fragment = gql`
+              fragment Talk_SetCommentStatus on Comment {
+                status
+              }`;
+
+            const fragmentId = `Comment_${commentId}`;
+
+            const data = proxy.readFragment({fragment, id: fragmentId});
+
+            data.status = status;
+
+            proxy.writeFragment({fragment, id: fragmentId, data});
+          }
         });
       }
     })
