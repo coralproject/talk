@@ -97,12 +97,6 @@ const withCommentFragments = withFragments({
           id
         }
       }
-      __typename
-      me {
-        ignoredUsers {
-          id
-        }
-      }
       ${getSlotFragmentSpreads(slots, 'root')}
     }
     `,

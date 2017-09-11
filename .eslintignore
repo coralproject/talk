@@ -24,5 +24,6 @@ plugins/*
 !plugins/talk-plugin-ignore-user
 !plugins/talk-plugin-moderation-actions
 !plugins/talk-plugin-toxic-comments
+!plugins/talk-plugin-remember-sort
 
 node_modules
