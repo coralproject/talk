@@ -1,15 +1,18 @@
-import {gql} from 'react-apollo';
+import {compose, gql} from 'react-apollo';
 import Tag from '../components/Tag';
-import {withFragments} from 'plugin-api/beta/client/hocs';
+import {isTagged} from 'plugin-api/beta/client/utils';
+import {withFragments, excludeIf} from 'plugin-api/beta/client/hocs';
 
-export default withFragments({
-  comment: gql`
-    fragment TalkFeaturedComments_Tag_comment on Comment {
-      tags {
-        tag {
-          name
+export default compose(
+  withFragments({
+    comment: gql`
+      fragment TalkFeaturedComments_Tag_comment on Comment {
+        tags {
+          tag {
+            name
+          }
         }
       }
-    }
-  `
-})(Tag);
+  `}),
+  excludeIf((props) => !isTagged(props.comment.tags, 'FEATURED'))
+)(Tag);

@@ -1,0 +1,31 @@
+.button {
+  composes: buttonReset from "coral-framework/styles/reset.css";
+  padding: 6px;
+  font-size: 14px;
+  transition: color 100ms, background-color 100ms;
+  border-radius: 3px;
+  color: #383A43;
+  width: 100%;
+  text-align: left;
+  letter-spacing: 0.3px;
+
+  &:hover {
+    background-color: #D8D8D8;
+    color: #383a43;
+  }
+}
+
+.icon {
+  margin-right: 15px;
+  font-size: 16px;
+}
+
+.button.featured {
+  color: #10589b;
+  font-weight: bold;
+  
+  &:hover {
+    background-color: #D8D8D8;
+    color: #383a43;
+  }
+}
