@@ -7,6 +7,7 @@ import reducer from './reducer';
 import ModTag from './containers/ModTag';
 import ModActionButton from './containers/ModActionButton';
 import ModSubscription from './containers/ModSubscription';
+import {gql} from 'react-apollo';
 
 import {findCommentInEmbedQuery} from 'coral-embed-stream/src/graphql/utils';
 import {prependNewNodes} from 'plugin-api/beta/client/utils';
@@ -84,8 +85,28 @@ export default {
           }
 
           return updated;
-        },
-      }
+        }
+      },
+      update: (proxy) => {
+
+        if (name !== 'FEATURED') {
+          return;
+        }
+
+        const fragmentId = `Comment_${variables.id}`;
+
+        const fragment = gql`
+          fragment Talk_ModerationActions_addTag on Comment {
+            status
+          }
+        `;
+
+        const data = proxy.readFragment({fragment, id: fragmentId});
+
+        data.status = 'ACCEPTED';
+
+        proxy.writeFragment({fragment, id: fragmentId, data});
+      },
     }),
     RemoveTag: ({variables}) => ({
       updateQueries: {
