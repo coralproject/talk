@@ -172,6 +172,14 @@ class PluginsService {
         .map((o) => ({[camelize(o.name)] : o.module.reducer}))
     );
   }
+
+  async executeInit(context) {
+    const results = this.plugins
+      .map((o) => o.module.init)
+      .filter((fn) => fn)
+      .map((fn) => fn(context));
+    await Promise.all(results);
+  }
 }
 
 /**

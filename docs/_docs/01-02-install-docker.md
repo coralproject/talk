@@ -53,6 +53,10 @@ services:
     environment:
       - TALK_MONGO_URL=mongodb://mongo/talk
       - TALK_REDIS_URL=redis://redis
+      - TALK_ROOT_URL=http://localhost:5000
+      - TALK_JWT_SECRET=password
+      - TALK_FACEBOOK_APP_ID=12345
+      - TALK_FACEBOOK_APP_SECRET=123abc
   mongo:
     image: mongo:3.2
     restart: always
@@ -70,10 +74,10 @@ volumes:
     external: false
 ```
 
-At this stage, you should refer to the `README.md` for configuration variables
-that are specific to your installation. Some pre-defined fields have been filled
-in the above example which are consistent with Docker Compose naming conventions
-for [Docker Links](https://docs.docker.com/compose/networking/#links).
+At this stage, you should refer to the [configuration](https://coralproject.github.io/talk/docs/running/configuration/)
+for configuration variables that are specific to your installation. Some
+pre-defined fields have been filled in the above example which are consistent
+with Docker Compose naming conventions for [Docker Links](https://docs.docker.com/compose/networking/#links).
 
 ### Scaling
 
