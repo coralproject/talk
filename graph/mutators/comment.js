@@ -239,6 +239,12 @@ const resolveNewCommentStatus = async (context, {asset_id, body, status}, wordli
     throw errors.ErrCommentTooShort;
   }
 
+  // If the status was already defined, don't redefine it. It's only defined
+  // when specific external conditions exist, we don't want to override that.
+  if (status && status.length > 0) {
+    return status;
+  }
+
   // Decide the status based on whether or not the current asset/settings
   // has pre-mod enabled or not. If the comment was rejected based on the
   // wordlist, then reject it, otherwise if the moderation setting is
@@ -248,7 +254,7 @@ const resolveNewCommentStatus = async (context, {asset_id, body, status}, wordli
   }
 
   if (settings.premodLinksEnable && linkify.test(body)) {
-    return 'PREMOD';
+    return 'SYSTEM_WITHHELD';
   }
 
   let asset = await AssetsService.findById(asset_id);
@@ -282,11 +288,11 @@ const resolveNewCommentStatus = async (context, {asset_id, body, status}, wordli
 
       // Update the response from the comment creation to add the PREMOD so that
       // that user's UI will reflect the fact that their comment is in pre-mod.
-      return 'PREMOD';
+      return 'SYSTEM_WITHHELD';
     }
   }
 
-  return (moderation === 'PRE' || status === 'PREMOD') ? 'PREMOD' : 'NONE';
+  return moderation === 'PRE' ? 'PREMOD' : 'NONE';
 };
 
 /**

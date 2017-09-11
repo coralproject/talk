@@ -16,7 +16,7 @@ export const name = 'talk-plugin-commentbox';
 export const notifyForNewCommentStatus = (notify, status) => {
   if (status === 'REJECTED') {
     notify('error', t('comment_box.comment_post_banned_word'));
-  } else if (status === 'PREMOD') {
+  } else if (status === 'PREMOD' || status === 'SYSTEM_WITHHELD') {
     notify('success', t('comment_box.comment_post_notif_premod'));
   }
 };

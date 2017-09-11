@@ -166,7 +166,7 @@ export default {
       },
       updateQueries: {
         CoralEmbedStream_Embed: (prev, {mutationResult: {data: {createComment: {comment}}}}) => {
-          if (prev.asset.settings.moderation === 'PRE' || comment.status === 'PREMOD' || comment.status === 'REJECTED') {
+          if (prev.asset.settings.moderation === 'PRE' || comment.status === 'PREMOD' || comment.status === 'REJECTED' || comment.status === 'SYSTEM_WITHHELD') {
             return prev;
           }
           return insertCommentIntoEmbedQuery(prev, comment);
@@ -185,7 +185,7 @@ export default {
     EditComment: () => ({
       updateQueries: {
         CoralEmbedStream_Embed: (prev, {mutationResult: {data: {editComment: {comment}}}}) => {
-          if (!['PREMOD', 'REJECTED'].includes(comment.status)) {
+          if (!['PREMOD', 'REJECTED', 'SYSTEM_WITHHELD'].includes(comment.status)) {
             return null;
           }
           return removeCommentFromEmbedQuery(prev, comment.id);

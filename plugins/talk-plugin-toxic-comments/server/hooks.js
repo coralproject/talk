@@ -37,9 +37,7 @@ module.exports = {
         });
 
         if (commentIsToxic) {
-
-          // TODO: this should have a different status than Premod.
-          input.status = 'PREMOD';
+          input.status = 'SYSTEM_WITHHELD';
         }
       },
       async post(_, _input, _context, _info, result) {
