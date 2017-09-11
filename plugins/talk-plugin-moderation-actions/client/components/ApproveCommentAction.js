@@ -7,9 +7,9 @@ import cn from 'classnames';
 const isApproved = (status) => (status === 'ACCEPTED');
 
 export default ({approveComment, comment: {status}}) => (
-  <button className={cn(styles.button, 'talk-plugin-moderation-actions-reject')} onClick={approveComment}>
+  <button className={cn(styles.button, {[styles.approved]: isApproved(status)}, 'talk-plugin-moderation-actions-reject')} onClick={approveComment}>
     {isApproved(status) ? (
-      <span className={styles.approved}>
+      <span>
         <Icon name="check_circle" className={styles.icon} />
         {t('talk-plugin-moderation-actions.approved_comment')}
       </span>

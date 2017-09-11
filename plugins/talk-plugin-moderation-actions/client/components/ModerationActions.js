@@ -26,6 +26,7 @@ export default class ModerationActions extends React.Component {
                 fill="moderationActions"
                 queryData={{comment, asset}}
                 data={data}
+                hideMenu={hideMenu}
               />
               <ApproveCommentAction comment={comment} />
               <RejectCommentAction comment={comment} />
