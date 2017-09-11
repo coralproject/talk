@@ -5,6 +5,7 @@ import {t, timeago} from 'plugin-api/beta/client/services';
 import {Slot, CommentAuthorName} from 'plugin-api/beta/client/components';
 import {Icon} from 'plugin-api/beta/client/components/ui';
 import {pluginName} from '../../package.json';
+import Button from './Button';
 
 class Comment extends React.Component {
 
@@ -47,6 +48,13 @@ class Comment extends React.Component {
               comment={comment}
               asset={asset}
               inline
+            />
+
+            <Button
+              root={root}
+              data={data}
+              comment={comment}
+              asset={asset}
             />
           </div>
           <div className={cn(styles.actionsContainer, `${pluginName}-comment-actions`)}>
