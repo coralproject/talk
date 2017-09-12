@@ -1,4 +1,4 @@
-import CommentContent from './components/CommentContent';
+import CommentContent from './containers/CommentContent';
 
 export default {
   slots: {

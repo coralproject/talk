@@ -13,7 +13,7 @@ class MemberSinceInfoContainer extends React.Component {
 
 const withMemberSinceInfoFragments = withFragments({
   comment: gql`
-    fragment TalkAuthorMenu_MemberSinceInfo_comment on Comment {
+    fragment TalkMemberSince_MemberSinceInfo_comment on Comment {
       user {
         username
         created_at
