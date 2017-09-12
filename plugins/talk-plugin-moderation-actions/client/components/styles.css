@@ -24,6 +24,8 @@
 }
 
 .approved {
+  display: inline-block;
   color: #519954;
   font-weight: bold;
+  padding: 6px;
 }
