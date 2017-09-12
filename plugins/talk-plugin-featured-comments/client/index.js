@@ -89,14 +89,14 @@ export default {
       },
       update: (proxy) => {
 
-        if (name !== 'FEATURED') {
+        if (variables.name !== 'FEATURED') {
           return;
         }
 
         const fragmentId = `Comment_${variables.id}`;
 
         const fragment = gql`
-          fragment Talk_ModerationActions_addTag on Comment {
+          fragment Talk_FeaturedComments_addTag on Comment {
             status
           }
         `;
