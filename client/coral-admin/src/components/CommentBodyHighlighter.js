@@ -22,7 +22,7 @@ function markWords(body, words, keyPrefix) {
   return content;
 }
 
-// markWords looks for links inside `body` and highlights them by returning
+// markLinks looks for links inside `body` and highlights them by returning
 // an array of React Elements.
 function markLinks(body) {
   const tokens = body.split(linkRegexp);
