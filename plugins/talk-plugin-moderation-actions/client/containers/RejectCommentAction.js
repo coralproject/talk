@@ -5,13 +5,13 @@ import RejectCommentAction from '../components/RejectCommentAction';
 class RejectCommentActionContainer extends React.Component {
 
   rejectComment = () => {
-    const {setCommentStatus, comment} = this.props;
+    const {setCommentStatus, comment, hideTooltip} = this.props;
 
     setCommentStatus({
       commentId: comment.id,
       status: 'REJECTED'
     });
-    
+
     hideTooltip();
   }
 
