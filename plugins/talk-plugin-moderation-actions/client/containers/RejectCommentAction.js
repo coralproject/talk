@@ -1,7 +1,7 @@
 import React from 'react';
 import {compose} from 'react-apollo';
 import {bindActionCreators} from 'redux';
-import {getErrorMessages} from 'plugin-api/beta/client/utils'
+import {getErrorMessages} from 'plugin-api/beta/client/utils';
 import {notify} from 'plugin-api/beta/client/actions/notification';
 import RejectCommentAction from '../components/RejectCommentAction';
 import {connect, withSetCommentStatus} from 'plugin-api/beta/client/hocs';
