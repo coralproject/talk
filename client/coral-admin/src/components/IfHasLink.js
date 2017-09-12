@@ -1,8 +1,8 @@
 import React from 'react';
-import {linkRegexp} from '../utils/regexp';
+import {matchLinks} from '../utils';
 
 export default ({text, children}) => {
-  const hasLinks = text.match(linkRegexp);
+  const hasLinks = !!matchLinks(text);
 
   if (!hasLinks) {
     return null;

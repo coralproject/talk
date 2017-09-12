@@ -7431,6 +7431,10 @@ title-case-minors@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/title-case-minors/-/title-case-minors-1.0.0.tgz#51f17037c294747a1d1cda424b5004c86d8eb115"
 
+tlds@^1.196.0:
+  version "1.196.0"
+  resolved "https://registry.yarnpkg.com/tlds/-/tlds-1.196.0.tgz#49d74ddbd1f9df30238b3bfef4df82862b5bbb48"
+
 tmp@^0.0.31:
   version "0.0.31"
   resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.0.31.tgz#8f38ab9438e17315e5dbd8b3657e8bfb277ae4a7"

@@ -1,5 +1,5 @@
 import React from 'react';
-import {linkRegexp} from '../utils/regexp';
+import {matchLinks} from '../utils';
 
 const wordSeperator = /([.\s'"?!])/;
 
@@ -25,21 +25,18 @@ function markWords(body, words, keyPrefix) {
 // markLinks looks for links inside `body` and highlights them by returning
 // an array of React Elements.
 function markLinks(body) {
-  const tokens = body.split(linkRegexp);
+  const matches = matchLinks(body);
   const content = [];
-  let tmp = [];
-  tokens
-    .filter((token) => token)
-    .forEach((token, i) => {
-      if (token.match(linkRegexp)) {
-        content.push(...tmp);
-        tmp = [];
-        content.push(<mark key={i}>{token}</mark>);
-        return;
-      }
-      tmp.push(token);
-    });
-  content.push(...tmp);
+  let index = 0;
+  if (matches) {
+    matches
+      .forEach((match, i) => {
+        content.push(body.substring(index, match.index));
+        content.push(<mark key={i}>{match.text}</mark>);
+        index = match.lastIndex;
+      });
+  }
+  content.push(body.substring(index));
   return content;
 }
 
