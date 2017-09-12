@@ -369,7 +369,8 @@ type Comment {
   # the replies that were made to the comment.
   replies(query: RepliesQuery = {}): CommentConnection!
 
-  # The count of replies on a comment.
+  # replyCount is the number of replies with a depth of 1. Only direct replies
+  # to this comment are counted.
   replyCount: Int
 
   # Actions completed on the parent. Requires the `ADMIN` role.
