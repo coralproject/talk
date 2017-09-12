@@ -2,11 +2,11 @@ import {compose} from 'react-apollo';
 import {bindActionCreators} from 'redux';
 import ModActionButton from '../components/ModActionButton';
 import {withTags, connect} from 'plugin-api/beta/client/hocs';
-import {closeTooltip} from 'plugins/talk-plugin-moderation-actions/client/actions';
+import {closeMenu} from 'plugins/talk-plugin-moderation-actions/client/actions';
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators({
-    closeTooltip,
+    closeMenu,
   }, dispatch);
 
 const enhance = compose(

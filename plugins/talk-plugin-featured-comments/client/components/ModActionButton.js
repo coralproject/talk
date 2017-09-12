@@ -31,12 +31,12 @@ export class ModActionButton extends React.Component {
 
   handleDeleteTag = () => {
     this.props.deleteTag();
-    this.props.closeTooltip();
+    this.props.closeMenu();
   }
 
   handlePostTag = () => {
     this.props.postTag();
-    this.props.closeTooltip();
+    this.props.closeMenu();
   }
 
   render() {
