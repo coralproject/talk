@@ -3,7 +3,9 @@ import {linkRegexp} from '../utils/regexp';
 
 const wordSeperator = /([.\s'"?!])/;
 
-function markWords(body, words, index) {
+// markWords looks for `words` inside `body` and highlights them by returning
+// an array of React Elements.
+function markWords(body, words, keyPrefix) {
   const tokens = body.split(wordSeperator);
   const content = [];
   let tmp = [];
@@ -11,7 +13,7 @@ function markWords(body, words, index) {
     if (words.indexOf(token.toLowerCase()) >= 0) {
       content.push(...tmp);
       tmp = [];
-      content.push(<mark key={`${index}_${i}`}>{token}</mark>);
+      content.push(<mark key={`${keyPrefix}_${i}`}>{token}</mark>);
       return;
     }
     tmp.push(token);
@@ -20,6 +22,8 @@ function markWords(body, words, index) {
   return content;
 }
 
+// markWords looks for links inside `body` and highlights them by returning
+// an array of React Elements.
 function markLinks(body) {
   const tokens = body.split(linkRegexp);
   const content = [];
@@ -41,11 +45,17 @@ function markLinks(body) {
 
 export default ({suspectWords, bannedWords, body, ...rest}) => {
   const words = [...suspectWords, ...bannedWords].map((word) => word.toLowerCase());
+
+  // First highlight links.
   const content = markLinks(body)
     .map((element, index) => {
+
+      // Keep highlighted links.
       if (typeof element !== 'string') {
         return element;
       }
+
+      // Highlight suspect and banned words inside this part of text.
       return markWords(element, words, index);
     });
   return (
